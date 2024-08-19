@@ -1,125 +1,175 @@
-Return-Path: <linux-kbuild+bounces-3096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF7F95700C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:17:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CB3957323
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 20:25:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1CBFFB290AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:08:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EEF2C1F2230D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:25:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABE93171E43;
-	Mon, 19 Aug 2024 16:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881D81891C3;
+	Mon, 19 Aug 2024 18:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="B5+Ydgci"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="khTGhjIE"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5BE17BED0;
-	Mon, 19 Aug 2024 16:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A00184535;
+	Mon, 19 Aug 2024 18:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724083492; cv=none; b=qHb61V+u0gL7gEjkvJap9Lf5V0LCD6hHAt7ujxQC8BYgGQbmNuqmV0grCdfzpiRZ/+51CDzT4yt3AP38rmUS1VqGoOAzQfiZ9oN8kCP5auzoF5UjxDY+xMDi26nkCkq0jEubJrqkUKUjInStNTA10DnZyK61Or4B1QiwEAi5UDM=
+	t=1724091927; cv=none; b=K6tG/+3rBJzbL86Lhjuj18tXJZJWBGdK49NkbiSAWbBHfdEBp5eqrcHFbaE1sv1OANdbDWoyQ7h+HuZvLNGMmQbmQBns48SYSfPT4BgA4G4jaY+JX32NFfULmcKTaI5ngPjqoeqkONWVGbbyJGklkUiey+eS61MfqtUWQyIaraw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724083492; c=relaxed/simple;
-	bh=UROqIgc9Nq6hwnGbMe5qpcJ5S3JpUgYDfQ3zqb/R2lU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LFkU65Vp68yDSXgQbJr6d0CUcCxkbi6bVi7VgBVyDDlt77QWXvnomRXm7jq/yJfoOJ7nVkF5dUigO9fqhgL2/cC1e7w2LCgJeVafVb8XQ+lkMlcaNUremupF+xn+UsM4geGhi0Pe2URhquDBPFmS9Nc6N1JyOa3vQsgk3N9YIa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=B5+Ydgci; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6vqf018670;
-	Mon, 19 Aug 2024 16:04:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=o
-	UGJoOzcNlu4e1Btzz6EDrdKUE5D/s09/B09A0jdYhQ=; b=B5+Ydgcil8DBJ/7SE
-	4AQIQxYvzEfOq+aIQmzbr9p9JsbOq+mnF4dsxBIy9o9aLm7OlwMsJMSbu3oNUhZN
-	jgAqAUsE2jdWVUhwwbuAdQN8PSemZuEF8Oao9qFxKpsTBLChgr3DFKeAOns1q6ox
-	u+wFp9vqyF+PVNC5w6l8HpikOC0MZjYi5jUgT+q8r7aBqhxFNmWpviU9vt09VnH3
-	dSn5Edgdod7u9fihxuAXB4aszrXlBs0qC5+z/zAuTEpJuGccHFEDCDwNoHraOSl7
-	rpzI2yja+J5invp1N6VmK1JXkoB/u7l9pXKMbEg9tBtyYhTEFkL09dFELqQSUA6J
-	LQcyw==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m3hjxw4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:32 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbJJQ008119;
-	Mon, 19 Aug 2024 16:04:31 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbbcx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:31 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fex014254;
-	Mon, 19 Aug 2024 16:04:30 GMT
-Received: from localhost.localdomain (dhcp-10-175-39-147.vpn.oracle.com [10.175.39.147])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-12;
-	Mon, 19 Aug 2024 16:04:30 +0000
-From: Vegard Nossum <vegard.nossum@oracle.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Morten Linderud <morten@linderud.pw>,
-        Haelwenn Monnier <contact@lanodan.eu>, Jann Horn <jannh@google.com>,
-        Kees Cook <kees@kernel.org>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Theodore Ts'o <tytso@mit.edu>, linux-hardening@vger.kernel.org,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [RFC PATCH 11/11] kbuild: suppress echoing of commands in --dry-run mode
-Date: Mon, 19 Aug 2024 18:03:08 +0200
-Message-Id: <20240819160309.2218114-12-vegard.nossum@oracle.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240819160309.2218114-1-vegard.nossum@oracle.com>
-References: <20240819160309.2218114-1-vegard.nossum@oracle.com>
+	s=arc-20240116; t=1724091927; c=relaxed/simple;
+	bh=yALXwTSmv4+UWSMtBlDSLjJMgKa3P7yXVK4NJJPbVuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n+RG4JGpoHLp50FiGqtSsfRecRAoVcNsr2M5p0aM/Xamp4O/n88YnMY0VQdsqUmgXQlX7VxI6SZIa0kqaa3iGCAkbQXQM+EiTk7MzaqC+FgfkAavZVesjUOH7utPtD56tq3fs0WKxti1ogUWGaCS50g7ppqL+XCDgu1PtymxHRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=khTGhjIE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1ADC32782;
+	Mon, 19 Aug 2024 18:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1724091926;
+	bh=yALXwTSmv4+UWSMtBlDSLjJMgKa3P7yXVK4NJJPbVuk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=khTGhjIEDs49GsU7Lni6hfu2hOgb9DN8IIC1iHGCgjowaDD/BBgdZqJLfwKDBcf4X
+	 3+JGjsjbI8oChg72BHP6NxsvypU8TEGyxYKSAN/6WxncMvIj5hiYcANg6AXqGHX3Kn
+	 mTbXr6frDV162Gs5cp4VUw7+XzQZUxmkZqkTRXtA=
+Date: Mon, 19 Aug 2024 20:25:23 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Sami Tolvanen <samitolvanen@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Matthew Maurer <mmaurer@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
+	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
+	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
+ structure fields
+Message-ID: <2024081938-lyricist-estimator-c4eb@gregkh>
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-37-samitolvanen@google.com>
+ <2024081600-grub-deskwork-4bae@gregkh>
+ <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com>
+ <2024081705-overarch-deceptive-6689@gregkh>
+ <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-19_13,2024-08-19_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 suspectscore=0
- adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2407110000 definitions=main-2408190107
-X-Proofpoint-ORIG-GUID: 0NvHgeI2o8y5pGCXm_gQktbN_3koB2c4
-X-Proofpoint-GUID: 0NvHgeI2o8y5pGCXm_gQktbN_3koB2c4
+In-Reply-To: <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
 
-If the user ran 'make -n' then we will already print all commands.
+On Sat, Aug 17, 2024 at 01:19:55PM +0000, Benno Lossin wrote:
+> On 17.08.24 09:41, Greg Kroah-Hartman wrote:
+> > On Fri, Aug 16, 2024 at 08:50:53AM -0700, Sami Tolvanen wrote:
+> >> On Fri, Aug 16, 2024 at 12:20 AM Greg Kroah-Hartman
+> >> <gregkh@linuxfoundation.org> wrote:
+> >>> On Thu, Aug 15, 2024 at 05:39:20PM +0000, Sami Tolvanen wrote:
+> >>> Especially as I have no idea how you are going to do
+> >>> this with the rust side of things, this all will work for any structures
+> >>> defined in .rs code, right?
+> >>
+> >> Yes, Rust structures can use the same scheme. Accessing union members
+> >> might be less convenient than in C, but can presumably be wrapped in
+> >> helper macros if needed.
+> > 
+> > That feels ripe for problems for any rust code as forcing a helper macro
+> > for a "normal" access to a structure field is going to be a lot of churn
+> > over time.  Is the need for a macro due to the fact that accessing a
+> > union is always considered "unsafe" in rust?  If that's the case, ick,
+> > this is going to get even messier even faster as the need for sprinkling
+> > unsafe accesses everywhere for what used to be a normal/safe one will
+> > cause people to get nervous...
+> 
+> The reason for union field access being unsafe in Rust is that you can
+> easily shoot yourself in the foot. For example:
+> 
+>     union Foo {
+>         a: bool,
+>         b: i32,
+>     }
+> 
+>     let foo = Foo { b: 3 };
+>     println!("{}", unsafe { foo.a });
+> 
+> This is UB, since `3` is of course not a valid value for `bool`. With
+> unions the compiler doesn't know which variant is active.
 
-Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
----
- Makefile | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Understood, then why attempt to use a union for this type of "abi safe
+padding"?
 
-diff --git a/Makefile b/Makefile
-index d08ade5791c2e..a1a3e96a10ea2 100644
---- a/Makefile
-+++ b/Makefile
-@@ -96,9 +96,10 @@ ifneq ($(findstring 1, $(KBUILD_VERBOSE)),)
-   Q =
- endif
- 
--# If the user is running make -s (silent mode), suppress echoing of
--# commands
--ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
-+# If the user is running make -s (silent mode) or -n (dry run mode),
-+# suppress echoing of commands
-+ifneq (,$(or $(findstring s,$(firstword -$(MAKEFLAGS))), \
-+	$(findstring n,$(firstword -$(MAKEFLAGS)))))
- quiet=silent_
- override KBUILD_VERBOSE :=
- endif
--- 
-2.34.1
+> Since unions are unsafe in Rust, we don't really use them directly (in
+> the `kernel` crate, we have 0 union definitions). Instead we use certain
+> unions from the stdlib such as `MaybeUninit`. But the fields of that
+> union are private and never accessed.
+> 
+> In general, unions in Rust are very important primitive types, but they
+> are seldomly used directly. Instead enums are used a lot more, since you
+> don't need to roll your own tagged unions.
+> 
+> For this use-case (the one in the patch), I don't really know if we want
+> to copy the approach from C. Do we even support exporting kABI from
+> Rust?
 
+That's the goal here, you want to create an abi that can change over
+time without "breaking" the abi.  Usually this is just adding additional
+padding in structures to have room for new additions.
+
+> If yes, then we I would recommend we tag it in the source code
+> instead of using a union. Here the example from the patch adapted:
+> 
+>     #[repr(C)] // needed for layout stability
+>     pub struct Struct1 {
+>         a: u64,
+>         #[kabi_reserved(u64)] // this marker is new
+>         _reserved: u64,
+>     }
+> 
+> And then to use the reserved field, you would do this:
+>     
+>     #[repr(C)]
+>     pub struct Struct1 {
+>         a: u64,
+>         #[kabi_reserved(u64)]
+>         b: Struct2,
+>     }
+> 
+>     #[repr(C)]
+>     pub struct Struct2 {
+>         b: i32,
+>         v: i32,
+>     }
+> 
+> The attribute would check that the size of the two types match and
+> gendwarfksyms would use the type given in "()" instead of the actual
+> type.
+
+Remember the "goal" here is to NOT have to modify the places in the
+kernel that use the new field in the structure, but for that to "just
+work".  Your change here wouldn't allow that as any use of the new "b"
+field would have to be through something in "Struct2", not directly in
+Struct1, right?
+
+We can mess with the structure definitions but we should not have to
+touch the places where the structure fields are used at all.  If that's
+going to be a requirement (as it sounds like it would with the use of
+unsafe in the union), then this is not going to be a solution at all.
+
+thanks,
+
+greg k-h
 
