@@ -1,227 +1,235 @@
-Return-Path: <linux-kbuild+bounces-3100-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3101-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6169576A7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 23:36:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40AE59576CA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 23:47:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 979DF2841AD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 21:36:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6C691F23B4F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 21:47:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98FE81DC48B;
-	Mon, 19 Aug 2024 21:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB10D15C14B;
+	Mon, 19 Aug 2024 21:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fO4mlgJu"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="fVsVX64h"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E576E1D6191
-	for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 21:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BBC159596;
+	Mon, 19 Aug 2024 21:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724103348; cv=none; b=SUWGuKWpkJICfUgwjdNdSUwpHHL0rJ5WuKuaecAHb+5Eu/LNHJyzP3BHchWVHUNihxKxH7q3+FQhgGPOFyYRvf6PZmU8ZtwBrGTvkiXddsO5qW+CozL8zDJD7XMf/vaelfvjCJXS6LcLYP0Ag7IXkUZWhI1dWNydsdlA9bv0fSg=
+	t=1724104028; cv=none; b=KSTgHkExWZhN4bmJoXxPp7GsVJHDudvQ48aBDFL549IGWfspPAazvt1AicsglVJqjXJHNlzza1MkDN0JMXUbue0X06Kkrs7Ixqq/gl5M0iZTBt6MvwCiIQGrR0HZCMoHD7WKA/jBBo7cPGgiuo6laZkhs40cjOIM6v+1x1VtukM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724103348; c=relaxed/simple;
-	bh=atblaYVjzmd5nzvgdp3enhMJfBjfEELlRe2/Ce0zq2I=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Qh09C8M1bU/gzBQh/07btoykxGby8v8NYSA7j0SMXS1fABXAFQD9t7GyLlJbNEB4NJCNAcJa+24tKyi6FIRK2DmItbDDWsr8imbKvlSvl9cqlt+VqS4mRNHK9jDYPBb1quUKk5XhBLy8CuISK2oplr/LyWE04qxR/8uzmk4UjK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fO4mlgJu; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e0353b731b8so7763960276.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 14:35:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724103346; x=1724708146; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aFJ5TYFEs+yR5IdjkZAHXbLg1gl48k9ppZEG1vmVjrs=;
-        b=fO4mlgJu2Z/3PdShaIiTxgqsgJJLOH+2uOEJMBAxxZ1WII6F3paiRooxJ6TpuBF0zX
-         iUBRSCYna76QuspQ+Cz8/QB91ykg28C3iNoEvLcQVXdPAozFGuOqUD2Mk/p8EK4/bir0
-         qa25fj2EvYluKjsLZdEVVpPjC+ZIdHOMofXby4DMBiKQCxEwQNBKtDw2mxAdGXpx/8Ly
-         c2sER4RNAhhbOSPAd++dYYNk1tCfL01Ruu8rgj8mMzXkeDbbfjSoNcevpGSSYiXzFk92
-         FP/xTArReem/j/rcASjaAdBWqWXAxB3ebYIH1wnfJsUULCGOR90qZJ6z1riEWekt2IyA
-         rI+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724103346; x=1724708146;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aFJ5TYFEs+yR5IdjkZAHXbLg1gl48k9ppZEG1vmVjrs=;
-        b=keIiKsfwHWTEPPL9YM4gbnRJW2Xljc8kDSGi7yZSaJ8YfqRUug1L7vmd29TIM6CKcQ
-         pne9SUCEJCKABQVChjPSE/GEySURX3Wd53BYQEKClVPNPVW1VWRpjbDp3B/tg0JGWX+B
-         Gs+iQMRVuumGiQqc6vNWIEMhJ27N1K3+uPM4Id3LlOd/qJ6IHsb0sW2f+IqJYEJylMjw
-         vfLb12aD3FmORAHKbrT8JLaginbVS/Jby4rzPfsoEHkXcVHPqiaVwij65KjG0aYwWFRe
-         wJIe1oh2juRPLBb9QNaPZC3yWMWdaGI3RPvX2D1eC+ui1oobnISmmA7TYJZYNLDP0rFk
-         LEeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXH4zHacqv+1PJ0cyl6g6Fdw6xenbP1dfi2VRiuKkTgpH7jDLGR/mjNUx9InhFZT6jQdoERfKWfXAFA5x8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+MMnwrk6W9tLAcT2AIXZ49lt1YnfkAH12Ac7LNdERmF0lvUT2
-	A961qrcVEqOp+82YKTGAEW7RUMmtc1EWLdkAH6ZedDyCeGEJ0SJWOQWBCmKa0BiK1Tz52a+GBJy
-	Y7c57lQ==
-X-Google-Smtp-Source: AGHT+IG2tKNbtNYlkOTrRuz31J4vbeiBAaW0c0yUYXPPm8A2joe/19hudxJlIbHojlpceaLwmhCZjbn/6/KR
-X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a5b:4cb:0:b0:e11:7a38:8883 with SMTP id
- 3f1490d57ef6-e1180f71f9dmr21204276.7.1724103345780; Mon, 19 Aug 2024 14:35:45
- -0700 (PDT)
-Date: Mon, 19 Aug 2024 21:35:20 +0000
-In-Reply-To: <20240819213534.4080408-1-mmaurer@google.com>
+	s=arc-20240116; t=1724104028; c=relaxed/simple;
+	bh=AqBGAszCSVup5cRsbpUK+shfas2i3V74A+XqrfqZbYE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=etOWXBcqjjHoIiBhekoyGcSWcIflr9LYILMuhq2W1607ROusz+UP84tG7RdPg+HeJhFrFMUGLcPA72f8a0o0IlEBI4Wa6OdRPLH6hmanl5+AFQBZGL4wnON3BTTAgiNecmvdEYlXFMDCytt/aqOsbFdqM6KCkg/r25DzT/8m4j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=fVsVX64h; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=ef44djauundynimsjiha2kgace.protonmail; t=1724104024; x=1724363224;
+	bh=WRbQ2Vxut3xD1rDT5Yul21lEXIN5vTcl/BdFvsvRIkY=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=fVsVX64hH1Bwngp7AwdSOd9PkcHVyR5JDcVLcRM0xmpPQ/BJ7Ltwz6elBbbZvBw6K
+	 zfZ4Mq5b6Nfc9sCrMo6/r7UiT5Jf2WjHB+hLJdgsSw7tYib9q4qfFjVQ5Fz9lbV2ju
+	 QtOfoNbQa2/uzvndCYXjOj2I2gmVeBVT8LsDa9nwd1nJII4c9FE+79wmESnd0hmQD8
+	 WeXa9X25hS/2iOUGpgF/1eFjVR+i0jTmj/WbJJdu1x/76viYL0j4HJlmaKQwoqEGy9
+	 cDWaTU5L5ZKIUChJapo4yXD0CSWbSk0XyZSetgu//oDAiVAFL3waXDUSZDWFu2Z3QL
+	 HkHGhK+X232jg==
+Date: Mon, 19 Aug 2024 21:46:59 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved structure fields
+Message-ID: <386fae1c-befc-4ce6-bddb-b560f0c36f02@proton.me>
+In-Reply-To: <2024081938-lyricist-estimator-c4eb@gregkh>
+References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh> <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com> <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me> <2024081938-lyricist-estimator-c4eb@gregkh>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 649a7d8f05cde4683cae948f94f9ce7634db556b
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240819213534.4080408-1-mmaurer@google.com>
-X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
-Message-ID: <20240819213534.4080408-3-mmaurer@google.com>
-Subject: [PATCH v3 2/4] kbuild: rust: Enable KASAN support
-From: Matthew Maurer <mmaurer@google.com>
-To: dvyukov@google.com, ojeda@kernel.org, andreyknvl@gmail.com, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>
-Cc: aliceryhl@google.com, samitolvanen@google.com, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, glider@google.com, Matthew Maurer <mmaurer@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@samsung.com>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Rust supports KASAN via LLVM, but prior to this patch, the flags aren't
-set properly.
+On 19.08.24 20:25, Greg Kroah-Hartman wrote:
+> On Sat, Aug 17, 2024 at 01:19:55PM +0000, Benno Lossin wrote:
+>> On 17.08.24 09:41, Greg Kroah-Hartman wrote:
+>>> On Fri, Aug 16, 2024 at 08:50:53AM -0700, Sami Tolvanen wrote:
+>>>> On Fri, Aug 16, 2024 at 12:20=E2=80=AFAM Greg Kroah-Hartman
+>>>> <gregkh@linuxfoundation.org> wrote:
+>>>>> On Thu, Aug 15, 2024 at 05:39:20PM +0000, Sami Tolvanen wrote:
+>>>>> Especially as I have no idea how you are going to do
+>>>>> this with the rust side of things, this all will work for any structu=
+res
+>>>>> defined in .rs code, right?
+>>>>
+>>>> Yes, Rust structures can use the same scheme. Accessing union members
+>>>> might be less convenient than in C, but can presumably be wrapped in
+>>>> helper macros if needed.
+>>>
+>>> That feels ripe for problems for any rust code as forcing a helper macr=
+o
+>>> for a "normal" access to a structure field is going to be a lot of chur=
+n
+>>> over time.  Is the need for a macro due to the fact that accessing a
+>>> union is always considered "unsafe" in rust?  If that's the case, ick,
+>>> this is going to get even messier even faster as the need for sprinklin=
+g
+>>> unsafe accesses everywhere for what used to be a normal/safe one will
+>>> cause people to get nervous...
+>>
+>> The reason for union field access being unsafe in Rust is that you can
+>> easily shoot yourself in the foot. For example:
+>>
+>>     union Foo {
+>>         a: bool,
+>>         b: i32,
+>>     }
+>>
+>>     let foo =3D Foo { b: 3 };
+>>     println!("{}", unsafe { foo.a });
+>>
+>> This is UB, since `3` is of course not a valid value for `bool`. With
+>> unions the compiler doesn't know which variant is active.
+>=20
+> Understood, then why attempt to use a union for this type of "abi safe
+> padding"?
 
-Rust hasn't yet enabled software-tagged KWHASAN (only regular HWASAN),
-so explicitly prevent Rust from being selected when it is enabled.
+I don't follow, I thought this was the idea from the thread above. (ie
+just do what C does)
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Matthew Maurer <mmaurer@google.com>
+>> Since unions are unsafe in Rust, we don't really use them directly (in
+>> the `kernel` crate, we have 0 union definitions). Instead we use certain
+>> unions from the stdlib such as `MaybeUninit`. But the fields of that
+>> union are private and never accessed.
+>>
+>> In general, unions in Rust are very important primitive types, but they
+>> are seldomly used directly. Instead enums are used a lot more, since you
+>> don't need to roll your own tagged unions.
+>>
+>> For this use-case (the one in the patch), I don't really know if we want
+>> to copy the approach from C. Do we even support exporting kABI from
+>> Rust?
+>=20
+> That's the goal here, you want to create an abi that can change over
+> time without "breaking" the abi.  Usually this is just adding additional
+> padding in structures to have room for new additions.
+>=20
+>> If yes, then we I would recommend we tag it in the source code
+>> instead of using a union. Here the example from the patch adapted:
+>>
+>>     #[repr(C)] // needed for layout stability
+>>     pub struct Struct1 {
+>>         a: u64,
+>>         #[kabi_reserved(u64)] // this marker is new
+>>         _reserved: u64,
+>>     }
+>>
+>> And then to use the reserved field, you would do this:
+>>
+>>     #[repr(C)]
+>>     pub struct Struct1 {
+>>         a: u64,
+>>         #[kabi_reserved(u64)]
+>>         b: Struct2,
+>>     }
+>>
+>>     #[repr(C)]
+>>     pub struct Struct2 {
+>>         b: i32,
+>>         v: i32,
+>>     }
+>>
+>> The attribute would check that the size of the two types match and
+>> gendwarfksyms would use the type given in "()" instead of the actual
+>> type.
+>=20
+> Remember the "goal" here is to NOT have to modify the places in the
+> kernel that use the new field in the structure, but for that to "just
+> work".  Your change here wouldn't allow that as any use of the new "b"
+> field would have to be through something in "Struct2", not directly in
+> Struct1, right?
+
+This confuses me, since I thought that in C you would need to use the
+new fields. So for example we have
+
+    void increment(struct struct1 *x)
+    {
+        x->a +=3D 1;
+    }
+
+and then we do the extension and also want to increment `b`, then we
+have to do this:
+
+    void increment(struct struct1 *x)
+    {
+        x->a +=3D 1;
+        x->b +=3D 1;
+    }
+
+I am not 100% sure if you meant the following problem: if a user uses
+the `increment` function like this:
+
+    struct struct1 x =3D { .a =3D 0, .__kabi_reserved_0 =3D 0 };
+    increment(&x);
+
+Then in the C example they don't need to change their usage. In Rust,
+they would, but we shouldn't make the struct fields public, then they
+can't create the struct using the initializer syntax, but instead we
+would provide stable initialization functions. Translating the entire
+example to Rust:
+
+    impl Struct1 {
+        pub fn new(a: u64) -> Self {
+            Self { a, _reserved: 0 }
+        }
+
+        pub fn increment(&mut self) {
+            self.a +=3D 1;
+        }
+    }
+
+Then after adding the new field, this becomes:
+
+    impl Struct1 {
+        pub fn new(a: u64) -> Self {
+            Self { a, b: Struct2 { b: 0, v: 0 } }
+        }
+
+        pub fn increment(&mut self) {
+            self.a +=3D 1;
+            self.b.b +=3D 1;
+        }
+    }
+
+So the following user would also not have to change the code:
+
+    let mut x =3D Struct1::new(0);
+    x.increment();
+
+> We can mess with the structure definitions but we should not have to
+> touch the places where the structure fields are used at all.  If that's
+> going to be a requirement (as it sounds like it would with the use of
+> unsafe in the union), then this is not going to be a solution at all.
+
+So the union approach *could* work and the users of the API would not
+have to use `unsafe`. But doing it the way I suggest above is going to
+be cleaner, as the people who use the API won't ever need to know of the
+internals.
+
 ---
- scripts/Makefile.kasan          | 54 +++++++++++++++++++++++----------
- scripts/Makefile.lib            |  3 ++
- scripts/generate_rust_target.rs |  1 +
- 3 files changed, 42 insertions(+), 16 deletions(-)
-
-diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-index aab4154af00a..163640fdefa0 100644
---- a/scripts/Makefile.kasan
-+++ b/scripts/Makefile.kasan
-@@ -12,6 +12,11 @@ endif
- KASAN_SHADOW_OFFSET ?= $(CONFIG_KASAN_SHADOW_OFFSET)
- 
- cc-param = $(call cc-option, -mllvm -$(1), $(call cc-option, --param $(1)))
-+rustc-param = $(call rustc-option, -Cllvm-args=-$(1),)
-+
-+check-args = $(foreach arg,$(2),$(call $(1),$(arg)))
-+
-+kasan_params :=
- 
- ifdef CONFIG_KASAN_STACK
- 	stack_enable := 1
-@@ -41,39 +46,56 @@ CFLAGS_KASAN := $(call cc-option, -fsanitize=kernel-address \
- 		$(call cc-option, -fsanitize=kernel-address \
- 		-mllvm -asan-mapping-offset=$(KASAN_SHADOW_OFFSET)))
- 
--# Now, add other parameters enabled similarly in both GCC and Clang.
--# As some of them are not supported by older compilers, use cc-param.
--CFLAGS_KASAN += $(call cc-param,asan-instrumentation-with-call-threshold=$(call_threshold)) \
--		$(call cc-param,asan-stack=$(stack_enable)) \
--		$(call cc-param,asan-instrument-allocas=1) \
--		$(call cc-param,asan-globals=1)
-+# The minimum supported `rustc` version has a minimum supported LLVM
-+# version late enough that we can assume support for -asan-mapping-offset
-+RUSTFLAGS_KASAN := -Zsanitizer=kernel-address \
-+		   -Zsanitizer-recover=kernel-address \
-+		   -Cllvm-args=-asan-mapping-offset=$(KASAN_SHADOW_OFFSET)
-+
-+# Now, add other parameters enabled similarly in GCC, Clang, and rustc.
-+# As some of them are not supported by older compilers, these will be filtered
-+# through `cc-param` or `rust-param` as applicable.
-+kasan_params += asan-instrumentation-with-call-threshold=$(call_threshold) \
-+		asan-stack=$(stack_enable) \
-+		asan-instrument-allocas=1 \
-+		asan-globals=1
- 
- # Instrument memcpy/memset/memmove calls by using instrumented __asan_mem*()
- # instead. With compilers that don't support this option, compiler-inserted
- # memintrinsics won't be checked by KASAN on GENERIC_ENTRY architectures.
--CFLAGS_KASAN += $(call cc-param,asan-kernel-mem-intrinsic-prefix=1)
-+kasan_params += asan-kernel-mem-intrinsic-prefix=1
- 
- endif # CONFIG_KASAN_GENERIC
- 
- ifdef CONFIG_KASAN_SW_TAGS
- 
- ifdef CONFIG_KASAN_INLINE
--	instrumentation_flags := $(call cc-param,hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET))
-+	kasan_params += hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
- else
--	instrumentation_flags := $(call cc-param,hwasan-instrument-with-calls=1)
-+	kasan_params += hwasan-instrument-with-calls=1
- endif
- 
--CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
--		$(call cc-param,hwasan-instrument-stack=$(stack_enable)) \
--		$(call cc-param,hwasan-use-short-granules=0) \
--		$(call cc-param,hwasan-inline-all-checks=0) \
--		$(instrumentation_flags)
-+kasan_params += hwasan-instrument-stack=$(stack_enable) \
-+		hwasan-use-short-granules=0 \
-+		hwasan-inline-all-checks=0
-+
-+CFLAGS_KASAN := -fsanitize=kernel-hwaddress
-+RUSTFLAGS_KASAN := -Zsanitizer=kernel-hwaddress \
-+		   -Zsanitizer-recover=kernel-hwaddress
- 
- # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
- ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y)
--	CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
-+	kasan_params += hwasan-kernel-mem-intrinsic-prefix=1
- endif
- 
- endif # CONFIG_KASAN_SW_TAGS
- 
--export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
-+# Add all as-supported KASAN LLVM parameters requested by the configuration
-+CFLAGS_KASAN += $(call check-args, cc-param, $(kasan_params))
-+
-+ifdef CONFIG_RUST
-+	# Avoid calling `rustc-param` unless Rust is enabled.
-+	RUSTFLAGS_KASAN += $(call check-args, rustc-param, $(kasan_params))
-+endif # CONFIG_RUST
-+
-+export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE RUSTFLAGS_KASAN
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 9f06f6aaf7fc..4a58636705e0 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -167,6 +167,9 @@ ifneq ($(CONFIG_KASAN_HW_TAGS),y)
- _c_flags += $(if $(patsubst n%,, \
- 		$(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)$(is-kernel-object)), \
- 		$(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
-+_rust_flags += $(if $(patsubst n%,, \
-+		$(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)$(is-kernel-object)), \
-+		$(RUSTFLAGS_KASAN))
- endif
- endif
- 
-diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
-index ced405d35c5d..c24c2abd67db 100644
---- a/scripts/generate_rust_target.rs
-+++ b/scripts/generate_rust_target.rs
-@@ -192,6 +192,7 @@ fn main() {
-         }
-         ts.push("features", features);
-         ts.push("llvm-target", "x86_64-linux-gnu");
-+        ts.push("supported-sanitizers", ["kernel-address"]);
-         ts.push("target-pointer-width", "64");
-     } else if cfg.has("LOONGARCH") {
-         panic!("loongarch uses the builtin rustc loongarch64-unknown-none-softfloat target");
--- 
-2.46.0.184.g6999bdac58-goog
+Cheers,
+Benno
 
 
