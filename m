@@ -1,47 +1,75 @@
-Return-Path: <linux-kbuild+bounces-3097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3098-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44CB3957323
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 20:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF59957494
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 21:39:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EEF2C1F2230D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:25:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 428071F21A42
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 19:39:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881D81891C3;
-	Mon, 19 Aug 2024 18:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF33D1DC478;
+	Mon, 19 Aug 2024 19:38:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="khTGhjIE"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Jqy44aHK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A00184535;
-	Mon, 19 Aug 2024 18:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B2B1DB45F
+	for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 19:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724091927; cv=none; b=K6tG/+3rBJzbL86Lhjuj18tXJZJWBGdK49NkbiSAWbBHfdEBp5eqrcHFbaE1sv1OANdbDWoyQ7h+HuZvLNGMmQbmQBns48SYSfPT4BgA4G4jaY+JX32NFfULmcKTaI5ngPjqoeqkONWVGbbyJGklkUiey+eS61MfqtUWQyIaraw=
+	t=1724096337; cv=none; b=LCE0zXwCM401mPw3xWrPP5olKYLLLoHw4uKJhc2/7+I0haMp6qoyxsH1sNpsxl6l/HHmwxq4oWJr3K1ZqPBtbmAbggewvFgiFhuiufIWxl4axzfzBq7e0GZA4Q/FXvmr4QMaKTFB0jY2AKSs/MirX4G26iR80dmoGUnvBFs261c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724091927; c=relaxed/simple;
-	bh=yALXwTSmv4+UWSMtBlDSLjJMgKa3P7yXVK4NJJPbVuk=;
+	s=arc-20240116; t=1724096337; c=relaxed/simple;
+	bh=F7wkcHJPXIPuDfH/klr4thKavbEnJmwxdbEiZYRhu1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n+RG4JGpoHLp50FiGqtSsfRecRAoVcNsr2M5p0aM/Xamp4O/n88YnMY0VQdsqUmgXQlX7VxI6SZIa0kqaa3iGCAkbQXQM+EiTk7MzaqC+FgfkAavZVesjUOH7utPtD56tq3fs0WKxti1ogUWGaCS50g7ppqL+XCDgu1PtymxHRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=khTGhjIE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1ADC32782;
-	Mon, 19 Aug 2024 18:25:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724091926;
-	bh=yALXwTSmv4+UWSMtBlDSLjJMgKa3P7yXVK4NJJPbVuk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=khTGhjIEDs49GsU7Lni6hfu2hOgb9DN8IIC1iHGCgjowaDD/BBgdZqJLfwKDBcf4X
-	 3+JGjsjbI8oChg72BHP6NxsvypU8TEGyxYKSAN/6WxncMvIj5hiYcANg6AXqGHX3Kn
-	 mTbXr6frDV162Gs5cp4VUw7+XzQZUxmkZqkTRXtA=
-Date: Mon, 19 Aug 2024 20:25:23 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cKJqq1MmwYfwIn7L9Q7w28yXKfEtpjxWE3CLNCeEA8wRYJGZ+iDBYSpiWHwJpqIOy/n4LNv+LhztCh9wY6meyON3doZj+iLxNJEQy9s6XSms5ZDdqz3Q2mlwZFpZ/h7lfO0DoqUJzA9P12sb8BZvZoRcQNKTUUpB6IR2nE30Heo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Jqy44aHK; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-201fae21398so26461915ad.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 12:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724096335; x=1724701135; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YeS++fCKemkXhDJMjat3ElWefP5AW5Wy1oKzA28CFNw=;
+        b=Jqy44aHKfCucjW6dSdgDbzaqx2bnXrzPEbfetshLmrEaw/8xyi0TxC5h7b8LHg8N/t
+         kouRMUJCIINWGrPLvd4Sca5u2B86Qpu1OApbkfFi9jPE4QPO7YgUqf48/pp/avbE7M1F
+         lXJKrVlyu8na4SVtkpsonw//DihGztrsDcWO8orF6NQltKwhUgETN4S6mzahBatvl4yK
+         UMKc7DJodi8BjCyDHN1sSBeQM4hD1rgsoVbAMCZPZst7QDHwCBS9MNExih6UbG4Uzp3E
+         K7W7VpffRMkE0tER85oamhTkLH2AFLpW0FSWfqnMxWZ7uyCW3dVhQkwozOJ+vYV/wb0k
+         fn4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724096335; x=1724701135;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YeS++fCKemkXhDJMjat3ElWefP5AW5Wy1oKzA28CFNw=;
+        b=gnUSAS8lCFN/L181/hwJKUwVUvu95lqRcIcSkpOFELhwqh6ORhmK63qZOptvfj35yp
+         CPcOkt3MtuEyCjAWp9IaFCUHuybFbE4rvyp1nt4oDGUmhTNKNbNc1EJPenvwCh+jDOfP
+         Stw2txZAzrlQ0vxPpiQPf+Ove7jvIfOPZk2aqDVLboAB6qQE+Z7Mb7PbZuOxSzHIqucJ
+         Tdjq82Jxb4d9xtj/w2SjMNJmQFm5bH5UjUwmqmn2SYpAaOCFN4D24lJchPI+deqc7RWS
+         sk4CUoPs3/I3uD8TQibG3ZxQvPfRYf1PqdRP/PF8eoby84BojvJpjzza/YjOribLxLcD
+         8mDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUzP0LVEkjhaniELToHXfJ/qYmYEJGp3dLrbZcHqnoQ+uHXw0EgPICzFprn6KnMAY8ovzpVlYReo9IZmU0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz69GNSFJJ6vWZuPcsMQwKr4R68XxVopEA9NmBzYJ0t/vPALvx4
+	PLKTxwiBUxHaxY1/VezKOKDnkIgSVZ3SB/RartTS0nJJ4WrO6pQEklhsQWm5oQ==
+X-Google-Smtp-Source: AGHT+IG8oRBHqBpvRvU+j9ijDv76wPfUzxrx1g+I09GD1WWcWllKaTLicpQtA41S0/MWaq3kkTtGZA==
+X-Received: by 2002:a17:903:188:b0:202:4d05:a24a with SMTP id d9443c01a7336-2024d05a587mr34136775ad.16.1724096334977;
+        Mon, 19 Aug 2024 12:38:54 -0700 (PDT)
+Received: from google.com (226.75.127.34.bc.googleusercontent.com. [34.127.75.226])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f03197b6sm65427305ad.69.2024.08.19.12.38.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 12:38:54 -0700 (PDT)
+Date: Mon, 19 Aug 2024 19:38:51 +0000
+From: Sami Tolvanen <samitolvanen@google.com>
 To: Benno Lossin <benno.lossin@proton.me>
-Cc: Sami Tolvanen <samitolvanen@google.com>,
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
@@ -55,7 +83,7 @@ Cc: Sami Tolvanen <samitolvanen@google.com>,
 	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
  structure fields
-Message-ID: <2024081938-lyricist-estimator-c4eb@gregkh>
+Message-ID: <20240819193851.GA4809@google.com>
 References: <20240815173903.4172139-21-samitolvanen@google.com>
  <20240815173903.4172139-37-samitolvanen@google.com>
  <2024081600-grub-deskwork-4bae@gregkh>
@@ -68,68 +96,17 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
 
+Hi Benno,
+
 On Sat, Aug 17, 2024 at 01:19:55PM +0000, Benno Lossin wrote:
-> On 17.08.24 09:41, Greg Kroah-Hartman wrote:
-> > On Fri, Aug 16, 2024 at 08:50:53AM -0700, Sami Tolvanen wrote:
-> >> On Fri, Aug 16, 2024 at 12:20 AM Greg Kroah-Hartman
-> >> <gregkh@linuxfoundation.org> wrote:
-> >>> On Thu, Aug 15, 2024 at 05:39:20PM +0000, Sami Tolvanen wrote:
-> >>> Especially as I have no idea how you are going to do
-> >>> this with the rust side of things, this all will work for any structures
-> >>> defined in .rs code, right?
-> >>
-> >> Yes, Rust structures can use the same scheme. Accessing union members
-> >> might be less convenient than in C, but can presumably be wrapped in
-> >> helper macros if needed.
-> > 
-> > That feels ripe for problems for any rust code as forcing a helper macro
-> > for a "normal" access to a structure field is going to be a lot of churn
-> > over time.  Is the need for a macro due to the fact that accessing a
-> > union is always considered "unsafe" in rust?  If that's the case, ick,
-> > this is going to get even messier even faster as the need for sprinkling
-> > unsafe accesses everywhere for what used to be a normal/safe one will
-> > cause people to get nervous...
-> 
-> The reason for union field access being unsafe in Rust is that you can
-> easily shoot yourself in the foot. For example:
-> 
->     union Foo {
->         a: bool,
->         b: i32,
->     }
-> 
->     let foo = Foo { b: 3 };
->     println!("{}", unsafe { foo.a });
-> 
-> This is UB, since `3` is of course not a valid value for `bool`. With
-> unions the compiler doesn't know which variant is active.
-
-Understood, then why attempt to use a union for this type of "abi safe
-padding"?
-
-> Since unions are unsafe in Rust, we don't really use them directly (in
-> the `kernel` crate, we have 0 union definitions). Instead we use certain
-> unions from the stdlib such as `MaybeUninit`. But the fields of that
-> union are private and never accessed.
-> 
-> In general, unions in Rust are very important primitive types, but they
-> are seldomly used directly. Instead enums are used a lot more, since you
-> don't need to roll your own tagged unions.
 > 
 > For this use-case (the one in the patch), I don't really know if we want
 > to copy the approach from C. Do we even support exporting kABI from
-> Rust?
-
-That's the goal here, you want to create an abi that can change over
-time without "breaking" the abi.  Usually this is just adding additional
-padding in structures to have room for new additions.
-
-> If yes, then we I would recommend we tag it in the source code
+> Rust? If yes, then we I would recommend we tag it in the source code
 > instead of using a union. Here the example from the patch adapted:
 > 
 >     #[repr(C)] // needed for layout stability
@@ -158,18 +135,10 @@ padding in structures to have room for new additions.
 > gendwarfksyms would use the type given in "()" instead of the actual
 > type.
 
-Remember the "goal" here is to NOT have to modify the places in the
-kernel that use the new field in the structure, but for that to "just
-work".  Your change here wouldn't allow that as any use of the new "b"
-field would have to be through something in "Struct2", not directly in
-Struct1, right?
+This definitely looks cleaner than unions in Rust, but how would this
+scheme be visible in DWARF? You might also need to expand the annotation
+to allow replacing one reserved field with multiple smaller ones without
+using structs.
 
-We can mess with the structure definitions but we should not have to
-touch the places where the structure fields are used at all.  If that's
-going to be a requirement (as it sounds like it would with the use of
-unsafe in the union), then this is not going to be a solution at all.
-
-thanks,
-
-greg k-h
+Sami
 
