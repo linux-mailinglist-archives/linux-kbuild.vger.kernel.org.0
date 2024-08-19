@@ -1,66 +1,66 @@
-Return-Path: <linux-kbuild+bounces-3094-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3093-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A256956FE2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:12:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9D8956FD7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:10:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 36CC2B29E20
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:07:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC66AB28F08
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:07:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97964187850;
-	Mon, 19 Aug 2024 16:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7846A187560;
+	Mon, 19 Aug 2024 16:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JZxwyD7t"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IAJMv4XE"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E72171E40;
-	Mon, 19 Aug 2024 16:04:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98BA16D4EA;
+	Mon, 19 Aug 2024 16:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724083485; cv=none; b=u0xJrMRQm+G3jJ38kAReOE/ypgPPkKTMIQUYuXuCZhynViIkbtL6jD3arGb62xt96ih9+WW1hjSV2udjWA3B7WYrA58sMk/8EpGur1lfl1o8Mg9ZglaiXjcLr33x3zkH6LGmC7AOX0h9bS4K1O3in2CTX4OuOWO5hOybooc1P3s=
+	t=1724083484; cv=none; b=d1niIX1F+AWhpw/RAwjWyOBPuP4sEJscraTOuXR5ScM31qwaGGNl/Roh3XyCyGRfSdmJLmhSbcX8UrhaQ38o7nNCL4SxPQ6i+kyf74oYCa2HvCNwII0mWD2HbLVB1nMKjSdXLkedfG9NJYFwPMu3VRA7I4jEGcn/ZpM6uLlAAc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724083485; c=relaxed/simple;
-	bh=0xkrW+vuKDfRMFvlsJ+hmSwlR+hITyNXGV5ox6DCigc=;
+	s=arc-20240116; t=1724083484; c=relaxed/simple;
+	bh=j4nvRQqupybs8zsQ97VkdPp8rl05S+bMUkwomglK+gs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dAKa1j4rrm00MwQlbBDn31U6hO7huXvq/sAiP4XDZJvQ0uLvUQAvN5YsfdfpqeH1rNKSY3wc4+glkMcIY6iRpt0Mus3resz6IBZ3yVyi2ZNZInjagudB4sATldKDEQXgvIlRO9VNOu4szeU5bWGZB781aZl4sc4lYI+ZOLdVKUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JZxwyD7t; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=VZWCJr7uNCPcjJAgyoVZ3AWDhf69aWSlXP45Kr1XXWqt3s4i2wd/vMzhcKYNGEm7D0OJe7rbcrWU3gefy/y2P7GJOZ+2OehWZr947krWfeoZN76O9cfTs5hHPblFxi2MthfVJSYc4jjOUn0iQM7sxZ3AhA1pZIg7MWzaVU3Hmug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=IAJMv4XE; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6vqe018670;
-	Mon, 19 Aug 2024 16:04:21 GMT
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6vLe022408;
+	Mon, 19 Aug 2024 16:04:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=5
-	HCW0PQEz/mpn2E4tb1qNVdeD1lQfcMuieQszFL2LbI=; b=JZxwyD7tdf7xCS4Ne
-	uUPIhMK8VoVo64FgRT0vd0lL+vR3dXU/4GdGoa2MJi4HcpjoTKcojP7uJ8hifji9
-	vYYk3xORMwHGgnXBon95UYIJAsW+tkPh/B/8Avsf+yyg7sQZMBbqkybnh888g3WU
-	9qUAQdreAvmKNGLjsv8kq0S7btMU3j86LEyb4glteqIAsiCO+jLz8PWoAGkgH4J6
-	hm0RqymfsZ6j0xreNAJ3oD8eMh5VsMmfUi7/HYOiDzAhwZqKrbX+0J6Gs9lI081a
-	K1n2dKSaim9+1/Diol2/XUqcMzLJpX6xhpxupXC1Zddo+GupvKCJI7d0eapy73cR
-	aI9gQ==
+	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=Q
+	FptFzk97EtGYovpo4SLZYT+QuG65DqlTOQxoV011pE=; b=IAJMv4XEMdI88g3ij
+	71Oa6Go2x3swu55ml2VkBbTlLGMXsh8AFMAQpimicFDeKZxQr9HpYH5vyMu7dVuQ
+	xBYYpIrtaOqccPuyfBQY4LPg9wcG6Jw/Vec+u70U/U2QTWPYck8J9VzqLMP+2aPJ
+	UrHCzuFeLe4jbeWT33P7zjX/ER9knQiHhH0/QWN75LM7jzgc0eDJhbkoH+p6XR7t
+	qKZnd0f/Lq8gPHYtBPDbkYTbX1y52gt66qhU4in40C1Z45KhwE7YV51LYXHzStpR
+	xMWIH3CxGNp4fX4ZS1FEY5Gmp248+Hb9mOsDcc4RfiVKAoexupKKvoLGN4czG3ta
+	4yMJg==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m3hjxvr-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m3dk14x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:20 +0000 (GMT)
+	Mon, 19 Aug 2024 16:04:24 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbI2v007879;
-	Mon, 19 Aug 2024 16:04:19 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbHhO007843;
+	Mon, 19 Aug 2024 16:04:23 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbb4a-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbb7h-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:19 +0000
+	Mon, 19 Aug 2024 16:04:23 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fer014254;
-	Mon, 19 Aug 2024 16:04:19 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fet014254;
+	Mon, 19 Aug 2024 16:04:22 GMT
 Received: from localhost.localdomain (dhcp-10-175-39-147.vpn.oracle.com [10.175.39.147])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-9;
-	Mon, 19 Aug 2024 16:04:18 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-10;
+	Mon, 19 Aug 2024 16:04:22 +0000
 From: Vegard Nossum <vegard.nossum@oracle.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
@@ -71,9 +71,9 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         Theodore Ts'o <tytso@mit.edu>, linux-hardening@vger.kernel.org,
         Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [RFC PATCH 08/11] kbuild: make link-vmlinux.sh respect $dry_run
-Date: Mon, 19 Aug 2024 18:03:05 +0200
-Message-Id: <20240819160309.2218114-9-vegard.nossum@oracle.com>
+Subject: [RFC PATCH 09/11] kbuild: simplify commands in --dry-run mode
+Date: Mon, 19 Aug 2024 18:03:06 +0200
+Message-Id: <20240819160309.2218114-10-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240819160309.2218114-1-vegard.nossum@oracle.com>
 References: <20240819160309.2218114-1-vegard.nossum@oracle.com>
@@ -91,183 +91,100 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 susp
  adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2407110000 definitions=main-2408190107
-X-Proofpoint-ORIG-GUID: KhSvNXLr-St7C3eJBbCoTqLhZ412VHt8
-X-Proofpoint-GUID: KhSvNXLr-St7C3eJBbCoTqLhZ412VHt8
+X-Proofpoint-ORIG-GUID: 2S5DyqFBWt4B_J4K_yjFpmQjqe900A57
+X-Proofpoint-GUID: 2S5DyqFBWt4B_J4K_yjFpmQjqe900A57
 
-Make link-vmlinux.sh print the commands it wants to run instead of
-actually running them when $dry_run is defined.
+- $filechk is used to check if a file is up to date.
 
-This is needed in order for make -n/--dry-run to output a complete
-build script.
+- $cmd includes logic for echoing commands and deleting intermediate
+  files on interrupt. Skip all of that in --dry-run mode and just execute
+  the command.
+
+- $cmd_and_savecmd executes the command and echoes it into .<target>.cmd.
+
+- $if_changed_dep executes the command if any dependencies have changed.
+
+- $cmd_and_fixdep executes the command and updates .<target>.cmd.
+
+Skip all of that in --dry-run mode and just execute the command.
 
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- scripts/Makefile.vmlinux | 15 ++++++++++++--
- scripts/link-vmlinux.sh  | 44 ++++++++++++++++++++++++++--------------
- 2 files changed, 42 insertions(+), 17 deletions(-)
+ scripts/Kbuild.include | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 10d80e07f945c..1fe0faab52889 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -1,5 +1,12 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+# there doesn't seem to be a straightforward way for 'make -n' to output
-+# one command while actually executing another, so we resort to this hack
-+# where we set an environment variable differently depending on whether
-+# we are executing from 'make' or executing from the 'make -n' log.
-+LINK_VMLINUX=scripts/link-vmlinux.sh
-+export LINK_VMLINUX
-+
- PHONY := __default
- __default: vmlinux
- 
-@@ -29,7 +36,8 @@ ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
- 
- # Final link of vmlinux with optional arch pass after final link
- cmd_link_vmlinux =							\
--	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)";		\
-+	"$${LINK_VMLINUX}"						\
-+	"$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)";		\
- 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
- 
- # We don't know how to build these
-@@ -37,7 +45,10 @@ PHONY += vmlinux.o
- PHONY += $(KBUILD_LDS)
- 
- targets += vmlinux
--vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
-+vmlinux: $(LINK_VMLINUX) vmlinux.o $(KBUILD_LDS) FORCE
-+ifdef dry_run
-+	@LINK_VMLINUX=/bin/true
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index ed8a7493524b2..a1ef3b1828bb3 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -94,6 +94,7 @@ kecho := $($(quiet)kecho)
+ # - If no file exist it is created
+ # - If the content differ the new file is used
+ # - If they are equal no change, and no timestamp update
++ifndef dry_run
+ define filechk
+ 	$(check-FORCE)
+ 	$(Q)set -e;						\
+@@ -105,6 +106,14 @@ define filechk
+ 		mv -f $(tmp-target) $@;				\
+ 	fi
+ endef
++else
++# simplify and write the output directly if we're just printing
++# the commands
++define filechk
++	mkdir -p $(dir $@)
++	{ $(filechk_$(1)); } > $@
++endef
 +endif
- 	+$(call if_changed_dep,link_vmlinux)
  
- # Add FORCE to the prequisites of a target to force it to be always rebuilt.
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index f7b2503cdba95..fd32e48a8a455 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -32,6 +32,17 @@ LD="$1"
- KBUILD_LDFLAGS="$2"
- LDFLAGS_vmlinux="$3"
+ ###
+ # Shorthand for $(Q)$(MAKE) -f scripts/Makefile.build obj=
+@@ -149,8 +158,13 @@ delete-on-interrupt = \
+ 		$(foreach sig, HUP INT QUIT TERM PIPE, \
+ 			trap 'rm -f $@; trap - $(sig); kill -s $(sig) $$$$' $(sig);))
  
-+# If $dry_run is set, just echo the command instead of executing it.
-+run()
-+{
-+	if [ ! -v dry_run ]
-+	then
-+		eval "$1"
-+	else
-+		echo "$1"
-+	fi
-+}
-+
- is_enabled() {
- 	grep -q "^$1=y" include/config/auto.conf
- }
-@@ -40,7 +51,10 @@ is_enabled() {
- # Will be supressed by "make -s"
- info()
- {
--	printf "  %-7s %s\n" "${1}" "${2}"
-+	if [ ! -v dry_run ]
-+	then
-+		printf "  %-7s %s\n" "${1}" "${2}"
-+	fi
- }
++ifndef dry_run
+ # print and execute commands
+ cmd = @$(if $(cmd_$(1)),set -e; $($(quiet)log_print) $(delete-on-interrupt) $(cmd_$(1)),:)
++else
++# just execute (...which will actually "just print" with make -n)
++cmd = @$(if $(cmd_$(1)),$(cmd_$(1)),)
++endif
  
- # Link of vmlinux
-@@ -97,10 +111,10 @@ vmlinux_link()
- 		ldflags="${ldflags} ${wl}-Map=${output}.map"
- 	fi
+ ###
+ # if_changed      - execute command if any prerequisite is newer than
+@@ -196,17 +210,30 @@ if-changed-cond = $(newer-prereqs)$(cmd-check)$(check-FORCE)
+ # Execute command if command has changed or prerequisite(s) are updated.
+ if_changed = $(if $(if-changed-cond),$(cmd_and_savecmd),@:)
  
--	${ld} ${ldflags} -o ${output}					\
-+	run "${ld} ${ldflags} -o ${output}				\
- 		${wl}--whole-archive ${objs} ${wl}--no-whole-archive	\
- 		${wl}--start-group ${libs} ${wl}--end-group		\
--		${kallsymso} ${btf_vmlinux_bin_o} ${ldlibs}
-+		${kallsymso} ${btf_vmlinux_bin_o} ${ldlibs}"
- }
++ifndef dry_run
+ cmd_and_savecmd =                                                            \
+ 	$(cmd);                                                              \
+ 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd
++else
++cmd_and_savecmd = $(cmd)
++endif
  
- # generate .BTF typeinfo from DWARF debuginfo
-@@ -129,8 +143,8 @@ gen_btf()
- 	# deletes all symbols including __start_BTF and __stop_BTF, which will
- 	# be redefined in the linker script. Add 2>/dev/null to suppress GNU
- 	# objcopy warnings: "empty loadable segment detected at ..."
--	${OBJCOPY} --only-section=.BTF --set-section-flags .BTF=alloc,readonly \
--		--strip-all ${1} "${btf_data}" 2>/dev/null
-+	run "${OBJCOPY} --only-section=.BTF --set-section-flags .BTF=alloc,readonly \
-+		--strip-all ${1} "${btf_data}" 2>/dev/null"
- 	# Change e_type to ET_REL so that it can be used to link final vmlinux.
- 	# GNU ld 2.35+ and lld do not allow an ET_EXEC input.
- 	if is_enabled CONFIG_CPU_BIG_ENDIAN; then
-@@ -161,11 +175,11 @@ kallsyms()
- 	fi
++ifndef dry_run
+ # Execute the command and also postprocess generated .d dependencies file.
+ if_changed_dep = $(if $(if-changed-cond),$(cmd_and_fixdep),@:)
++else
++# Just execute the command directly
++if_changed_dep = $(cmd)
++endif
  
- 	info KSYMS "${2}.S"
--	scripts/kallsyms ${kallsymopt} "${1}" > "${2}.S"
-+	run "scripts/kallsyms ${kallsymopt} \"${1}\" > \"${2}.S\""
++ifndef dry_run
+ cmd_and_fixdep =                                                             \
+ 	$(cmd);                                                              \
+ 	scripts/basic/fixdep $(depfile) $@ '$(make-cmd)' > $(dot-target).cmd;\
+ 	rm -f $(depfile)
++else
++cmd_and_fixdep = $(cmd)
++endif
  
- 	info AS "${2}.o"
--	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
--	      ${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL} -c -o "${2}.o" "${2}.S"
-+	run "${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
-+	      ${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL} -c -o \"${2}.o\" \"${2}.S\""
- 
- 	kallsymso=${2}.o
- }
-@@ -184,12 +198,12 @@ sysmap_and_kallsyms()
- mksysmap()
- {
- 	info NM ${2}
--	${NM} -n "${1}" | sed -f "${srctree}/scripts/mksysmap" > "${2}"
-+	run "${NM} -n \"${1}\" | sed -f \"${srctree}/scripts/mksysmap\" > \"${2}\""
- }
- 
- sorttable()
- {
--	${objtree}/scripts/sorttable ${1}
-+	run "${objtree}/scripts/sorttable ${1}"
- }
- 
- cleanup()
-@@ -270,13 +284,13 @@ if is_enabled CONFIG_KALLSYMS; then
- 	strip_debug=1
- 
- 	sysmap_and_kallsyms .tmp_vmlinux1
--	size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
-+	[ -v dry_run ] || size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
- 
- 	vmlinux_link .tmp_vmlinux2
- 	sysmap_and_kallsyms .tmp_vmlinux2
--	size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
-+	[ -v dry_run ] || size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
- 
--	if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
-+	if [ ! -v dry_run ] || [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
- 		vmlinux_link .tmp_vmlinux3
- 		sysmap_and_kallsyms .tmp_vmlinux3
- 	fi
-@@ -289,7 +303,7 @@ vmlinux_link vmlinux
- # fill in BTF IDs
- if is_enabled CONFIG_DEBUG_INFO_BTF && is_enabled CONFIG_BPF; then
- 	info BTFIDS vmlinux
--	${RESOLVE_BTFIDS} vmlinux
-+	run ${RESOLVE_BTFIDS} vmlinux
- fi
- 
- mksysmap vmlinux System.map
-@@ -303,7 +317,7 @@ if is_enabled CONFIG_BUILDTIME_TABLE_SORT; then
- fi
- 
- # step a (see comment above)
--if is_enabled CONFIG_KALLSYMS; then
-+if [ ! -v dry_run ] && is_enabled CONFIG_KALLSYMS; then
- 	if ! cmp -s System.map "${kallsyms_sysmap}"; then
- 		echo >&2 Inconsistent kallsyms data
- 		echo >&2 'Try "make KALLSYMS_EXTRA_PASS=1" as a workaround'
+ # Usage: $(call if_changed_rule,foo)
+ # Will check if $(cmd_foo) or any of the prerequisites changed,
 -- 
 2.34.1
 
