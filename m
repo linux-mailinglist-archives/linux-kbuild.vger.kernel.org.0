@@ -1,66 +1,66 @@
-Return-Path: <linux-kbuild+bounces-3087-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3088-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C335956FBF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:07:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 297D4956FC0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:07:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06A111C21D64
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:07:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6E261F219C4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:07:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBEFC185E6A;
-	Mon, 19 Aug 2024 16:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF068287D;
+	Mon, 19 Aug 2024 16:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LbeiPn3D"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HJbMfpW+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D56C8287D;
-	Mon, 19 Aug 2024 16:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9828A185628;
+	Mon, 19 Aug 2024 16:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724083462; cv=none; b=SCfdRwH9FNTZL0R2gGKuKGummfmIjYW/kgq1EwdFR7TTCEKXGu2JeyrI8Qbr5+v0cocVuI6v8za1y0cVmX1QzS9V/00lWWCwh502ENgNXWAQfAEiEck8vWLBXP/xWeELFYrpCna7kTy/lcMDiA76/z6nbi35K4xmze2wWbDAM8A=
+	t=1724083464; cv=none; b=ZbSkgTgMlqddTxj/otio6Oau+pdLFKC8U/OHwTwH87h2fi6KFwKXzHgUHg4vEdUwPYlM1fUa7VN7D12mJK+JYRpkvQgO7eBIun/O2nnFR8krsOlRHKcSbEyWwKkLTF9W2ZwXvsCDKImC9lN2MyvykLMFOmzcxeVabl65XiX1ddc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724083462; c=relaxed/simple;
-	bh=J57vH6+xb3CLqbGuaNDOp1pArYBV6p/7PeEANvE7wQ0=;
+	s=arc-20240116; t=1724083464; c=relaxed/simple;
+	bh=3w4Y2J/fOiqJ3huhO+LscgxZqE488ZLUMBysFo7u4+8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=aoN2mm3+3cszNM7OGkuuMgtQTFaZ1VoBQlTAvcgSvrT2mhgwD3dDOLVMC8D86Pv9Bj+omVavrBKjUQTz6puhMxzG34jY6zmDCQkoyKEEiCoAQl5PV41rPUwNNpYgkcp9ELwHPlNQwHn+h5gakkKX+6YeNsL85YfSYi3I/KfecbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=LbeiPn3D; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=eCa6e1LjEINfDcpl8JrKPhE/hWw94t9TKMOwsdQ83vAKhP4ZoxDmKo9Gyc3RBdXvcXzLNuAIXvirYzDRBPPzeJBwsmVHbtmmLLcNqeddO0wJaRiIgMJPoku1RUWjU/GfiX2pnWt99rBU999enXX13W/ZmRLyj0zCSzNU24gMQk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=HJbMfpW+; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6qVh004652;
-	Mon, 19 Aug 2024 16:04:01 GMT
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD7f3E003174;
+	Mon, 19 Aug 2024 16:04:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=l
-	ZBL59Au43pCklhhwPVB73vcLhjp+oPHjVQAId5X/PY=; b=LbeiPn3Dz0jei06Ur
-	b8SWlRThDgg9vDj+cRLvTU0+pGMdyz92p+zyb5J6gcjGVv5i/9vr29pmKILcotyg
-	QsENXwvO0xSZpYt4+m0Rwi/YdeCgJXx+QBP8rLn12hGW0FukwZxu1W0VCxTt7emK
-	0/YOb9/yaJMHsnFHkN6/6BsvbNsQgGpX8l0XZD6DVBupFB4TG7bVDdoRbakaUcmx
-	ZAZOz++DB31YzlLrP47OJ0BUzin4KHfEPFzRL5ChcPml++sG8a9dmvTHAL2H1XgD
-	oQtUFJIelPTeT2Ds0Pp6CKbOUG7YdNFiPmZoc42OK+ZB6ODzM4/MJutmgSSHVdKq
-	omyLw==
+	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=5
+	BgnP9uUFC04LGUJy6VfpUMDDksg1vYxSNcRrVpSIGA=; b=HJbMfpW+mP5KmfIHX
+	7dBg7zklEmemCobcXsOg9xHajhRtjBRBrAmmn5pCNB2DarN6SXS2qup6XrafLUPK
+	jk7+VvNzynDa9qH+FJ6y17AzPFGwtCBkHMKADjfoJID0verOy8/PVTVCYfwwR/3H
+	wTVgDQwyYAm8WX63yWVrxaqXs792AlFgpnpLM7wy1edIHhJ6JRamMBXwKfnpGSZN
+	/CRwwh6A5WGbcVXeIVo5H2+Pqws3Yedr3M1TfdGUYQQhzH9xzknvqUtJ9mKTilg/
+	b0qDRUfDQx7ef6zwQ+6NewG33B40A+fhixKwjGKhhncbnuTACQqjFnoVJl5CSR3W
+	HP2qQ==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m2dayru-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m6gaync-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:00 +0000 (GMT)
+	Mon, 19 Aug 2024 16:04:05 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbHVc007830;
-	Mon, 19 Aug 2024 16:03:59 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbHh4007843;
+	Mon, 19 Aug 2024 16:04:04 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbadx-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbamp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:03:59 +0000
+	Mon, 19 Aug 2024 16:04:04 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Feh014254;
-	Mon, 19 Aug 2024 16:03:59 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fej014254;
+	Mon, 19 Aug 2024 16:04:03 GMT
 Received: from localhost.localdomain (dhcp-10-175-39-147.vpn.oracle.com [10.175.39.147])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-4;
-	Mon, 19 Aug 2024 16:03:58 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-5;
+	Mon, 19 Aug 2024 16:04:03 +0000
 From: Vegard Nossum <vegard.nossum@oracle.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
@@ -70,10 +70,12 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
         Kees Cook <kees@kernel.org>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         Theodore Ts'o <tytso@mit.edu>, linux-hardening@vger.kernel.org,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [RFC PATCH 03/11] kbuild: pass KERNELVERSION and LOCALVERSION explicitly to setlocalversion
-Date: Mon, 19 Aug 2024 18:03:00 +0200
-Message-Id: <20240819160309.2218114-4-vegard.nossum@oracle.com>
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>
+Subject: [RFC PATCH 04/11] kbuild: don't execute .ko recipe in --dry-run mode
+Date: Mon, 19 Aug 2024 18:03:01 +0200
+Message-Id: <20240819160309.2218114-5-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240819160309.2218114-1-vegard.nossum@oracle.com>
 References: <20240819160309.2218114-1-vegard.nossum@oracle.com>
@@ -91,34 +93,36 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 susp
  adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2407110000 definitions=main-2408190107
-X-Proofpoint-GUID: Ll0YTOBB0zw4SHfn5qMjkKr9bxP_O2jr
-X-Proofpoint-ORIG-GUID: Ll0YTOBB0zw4SHfn5qMjkKr9bxP_O2jr
+X-Proofpoint-ORIG-GUID: hqNG9Y67zETK8DzDVPDoy6kdoPkrmStE
+X-Proofpoint-GUID: hqNG9Y67zETK8DzDVPDoy6kdoPkrmStE
 
-These environment variables are passed when invoking 'make', but if
-running 'make -n' we need to pass them explicitly so they become part
-of the printed command.
+Prefixing a line in a make recipe with + makes that command execute even
+in --dry-run mode. We don't need that here; remove it.
 
+Fixes: 5f9ae91f7c0d ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Alexei Starovoitov <ast@kernel.org>
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- Makefile | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/Makefile.modfinal | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index f09c036daf2f5..58f3843ccfac6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1165,7 +1165,10 @@ vmlinux: vmlinux.o $(KBUILD_LDS) modpost
- $(sort $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)): . ;
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 696888f0a0bde..2679304f158ad 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -60,9 +60,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
  
- ifeq ($(origin KERNELRELEASE),file)
--filechk_kernel.release = $(srctree)/scripts/setlocalversion $(srctree)
-+filechk_kernel.release = \
-+	KERNELVERSION="$(KERNELVERSION)" \
-+	LOCALVERSION="$(LOCALVERSION)" \
-+	$(srctree)/scripts/setlocalversion $(srctree)
- else
- filechk_kernel.release = echo $(KERNELRELEASE)
+ # Re-generate module BTFs if either module's .ko or vmlinux changed
+ %.ko: %.o %.mod.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
+-	+$(call if_changed_except,ld_ko_o,vmlinux)
++	$(call if_changed_except,ld_ko_o,vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+-	+$(if $(newer-prereqs),$(call cmd,btf_ko))
++	$(if $(newer-prereqs),$(call cmd,btf_ko))
  endif
+ 
+ targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
 -- 
 2.34.1
 
