@@ -1,261 +1,137 @@
-Return-Path: <linux-kbuild+bounces-3125-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3126-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B685D958EF5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 21:57:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5421A958F02
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 22:04:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 23513B2225B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 19:57:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1E331F235BF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 20:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6EC166F06;
-	Tue, 20 Aug 2024 19:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5912165EE8;
+	Tue, 20 Aug 2024 20:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iiB18pgW"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m0mFQfRG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE731649C6;
-	Tue, 20 Aug 2024 19:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF1E154C15
+	for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 20:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724183857; cv=none; b=m0PnH7ZNOuYWYzqclTodQYLQv0GO6T8f2oD8YvJ5eL7/Zl5cfyI6vjiK9h0qs4Qs3+YGq052pwUYmiTkTV8I008dvQfoLRxXc4oppqPaQBPQbhRdVEukjVcCU9TMBy8iab/Emz3+1ZaW37vNtYqwal72nFmkuJEVAB6uIVO3T5g=
+	t=1724184249; cv=none; b=fr6/BRDOTiV0GeOply20W5OEQ+SKTvideISrdxyzDn0dynrXgsYbBwkYIErMfMl1cGmMYmvSDMWHe3X2sd4Px50kkKoEILjE2cg7ZulPUIHW8TWwvGq0f6Z0gRu4vjWhEWS9MJ/2wnxsTTV1IFrgIou66KLYKGzs+nxzIDKTN3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724183857; c=relaxed/simple;
-	bh=Fjjw2CgEsurcrKo3JNn8c7eUsm3n3ohfbBDcr3XIKWU=;
+	s=arc-20240116; t=1724184249; c=relaxed/simple;
+	bh=yIsSyfviDurZmXmSYbUpZGkU3uUIQIszSbu7SpzwhjM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m7uxiwPe49BH9opjtnJ8bea+u0kHOs50r+dNRRadaM90ve40U6+DYtEi4y+anVv9lJNtv/msFQohUAbQcH5n+zReIi21+L0AzXASMjyrR4wpWvnP2vY0xTWt+PhS/dxvZPLIkBfR/uUhSQT2Hw2eFzmIyBwtGM/IngwnYwdHALo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iiB18pgW; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-37193ef72a4so3051384f8f.1;
-        Tue, 20 Aug 2024 12:57:35 -0700 (PDT)
+	 To:Cc:Content-Type; b=VQ+fLVn0XCSqw5IB8bSMq/9U1Fhv3bRZLYyIBRiyHQwCjng49byqvIOv/nQ/26oNqf27gXQSx04IWX267V4f2Q74Ly5aYu2xyNC4li+GBoErV7FevqaITZAc1Opnlibkd1Koyx3oY8EiVNXPaU979TaQ9/GkkrhH5I/X6tEuNhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m0mFQfRG; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5bec7c5af2aso823a12.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 13:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724183854; x=1724788654; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/KPBbBX5wpC6PVE5IR8WFqGQpyvLg+k2OvzqLlHMens=;
-        b=iiB18pgWdlZ2BUglg2ACy7OnQ7GIruXruqgXXJf1iYTeKxNx6FMDZiX84MTGZBx52c
-         aeAGHAFOVDRg5cu17op+CUwtKgrqZtPT4MOKoxWgSlxYB+CPee23juc3v4WIhvePb99e
-         yN/v8VXe+qRNDY5EV4AVZ5tEJezGeYcNh/hKeDSqPBbb0WY4+xX69BJW+6xpL8XaGfXW
-         WiRbwE084rZVOp/R/MzANAwqv1yBXCFeeHLSqU7SoHZpcPA121Dk5eLu9KnfpMXnB82C
-         TixXpfgZXEe5AE45Hg2qXdpIKwE968Xba7CMNiEFF+Z7IEMw9Xe20moiitPwI/1APnmg
-         SQew==
+        d=google.com; s=20230601; t=1724184246; x=1724789046; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zBGLTWPAaobHWpK0PLexiPFsVPJzHgwXjGqO2pdg9Uo=;
+        b=m0mFQfRGozTQOzmyIfA0Gq8CDwSF18Y6k1PKM4NhyYJz9MxBM4P94BLJVnEb0U61vs
+         AXC5iyWrSch2Bz0jrfWPXNJzseDT8BLgeBDnoCD81eL3OLyclH5QvbLigDQ9Q2lbRtG8
+         rh/fV+hK8JoV1Runs2P9gqYZMR+wVfR8KwaiUAoESyrRWlQXiyWFB7lc9jvLNg5A+xQ9
+         Lyn6QJpM5WGqR+o8ukDAhK7fPSge4ToJykPlcjf1eIS9fusJhgRjm1Xe+p7FSBBhrxmw
+         9ohSgMKYxE0F0oWBIHVVfKJwCCgmQ2bxIfIQR1ZEOfKGhfnzgXK6O/YFPiEPbF4M3c/h
+         +OQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724183854; x=1724788654;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/KPBbBX5wpC6PVE5IR8WFqGQpyvLg+k2OvzqLlHMens=;
-        b=mm/4frpsV2NcNxW9IzBhdH7QNyclwUQAZBBU/92RNXhURFM3wBwLKhp+RQ3DkralIl
-         od01lecTbmim5lOz+Q711FNdaW0ulNms9rxQlqn/v9cqTdPz4nNP7CtQHNWinl++5RkB
-         QMlaqtEfQwxa03paLfWH/N+PGnBnf4NODXYt3aM17izWG5jtXbuG1BFqYwov0ht/TYc6
-         IOXxrGv4jTI/UbJ32IDZvuuzUC4OTsnsy5MkBs/2FOZMZDmFq9WKur5NT45PUsvKjuvx
-         lsBjNc4bT80wzIBjjKK6cJjVOwXvbo8RM2QLscEXdB/QDJqNHPdJuyJdVQZgKjOB8Nqp
-         sU6A==
-X-Forwarded-Encrypted: i=1; AJvYcCU09QSpMHi71J1Vem0AHD66s/kcB8Dg7AK+QCX9O49alB5/O9niS5VSJQcKBDoK9f6WGPn+5REM0pKVheDg@vger.kernel.org, AJvYcCVcaipgiGPYsucB8NyYE8J3eU+SOkY0IBjgHZYDNSyLcR0l6YTasVD7Q9Rxjb90/XFW9rBrcMseeKDhI2w=@vger.kernel.org, AJvYcCXp2LP3/aQdXg4F4aPW69Am9n+/6kLp93s9hwDOPvWb5RgixX25wwmwoGcZ/P8JHqf/qwq3ffxmJgLDdldAato=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywycr3IqCeCKupAgJKU4MoxV8hCcBVHLQroFWw8keDyqdqcSvd/
-	zBbnjzEiSiRAjeay5oA/2LFwkIRbVGC796IjZltLqmYJcQEJMAjEghD+vdpcosigpWToEoOPkbD
-	fFZaJL4bfZ61hj/tztH90JBmnhWM=
-X-Google-Smtp-Source: AGHT+IEmI/5xREA0tOZZ0ojHWyI/EcTZ0nmrmzoxXvgsOqpOoMTrvfJTZWqSFTXL3ayPxhTH3zkbifWhhrYtUHcQ8Oo=
-X-Received: by 2002:a5d:408f:0:b0:367:958e:9821 with SMTP id
- ffacd0b85a97d-372fd5b8d37mr64604f8f.29.1724183853281; Tue, 20 Aug 2024
- 12:57:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724184246; x=1724789046;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zBGLTWPAaobHWpK0PLexiPFsVPJzHgwXjGqO2pdg9Uo=;
+        b=EJmXO4QctMzpM/jwk/1MKc//K7FOQNe3rUjMUsWXoeCBQhaLjSqNB06+X/dGxf67SO
+         UqMPVokTaiBu3dQvnUXiPqXOS08v+F5VSPXPdnAlTcJMaT2jZWXhw44gfb4ZAFlK1xpj
+         cJAAe/1U2MzHjvfbxCE3T6v1w0bh3j4ct5p6be3rE5gPTpUb2F6z9NWcUUsbNluE2QaU
+         bZAlIlYpFXJ4KYB5Y1E+djgZI2BxEMITnIgAmNj4qdmYVj6gjMqU+9o2nPTl+0JDwx15
+         drJflXgnZHIN4R2yU9f/U41mjsvnPI2je48M5nMZctVjNyMuBTGl9KLFC1v9amiXzF8J
+         FwbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8K7gvnGAi7CjBBwVJWrO+zH7nzaWlQbzl4qix20D8oP6U1s/fpqY5WcRW1A5RlYRWg/aRyn2QrJENdhA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC/N5gHpeiv7KXXuwC7PO6HhrApfrL5kJOKCcJfESZd6JUDO/t
+	su4vlkzDgmCTbdFTh9SZ4u6SlG+pQ0Qu3ouS5AgaBmV69ws/TkXAKo/wCbw1W1QLDjEAkjqPFqd
+	MxCwQwgfgDHz+WDSikovSIBjlT/RgyyJo1mBp
+X-Google-Smtp-Source: AGHT+IHBOlxTMezCxNobnsUoiZeYOd0qoLxq7X7TniTea0TiWM+nj9FCIhtHSOc2++3F/63SSSPXEzlYu0HBLCkngtQ=
+X-Received: by 2002:a05:6402:524d:b0:5b8:ccae:a8b8 with SMTP id
+ 4fb4d7f45d1cf-5bf0e590ea8mr155516a12.3.1724184245967; Tue, 20 Aug 2024
+ 13:04:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240820194910.187826-1-mmaurer@google.com> <20240820194910.187826-4-mmaurer@google.com>
-In-Reply-To: <20240820194910.187826-4-mmaurer@google.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Tue, 20 Aug 2024 21:57:22 +0200
-Message-ID: <CA+fCnZeQ1d3chWWCxYwPY=WPfPs12kXTBDgbfE9c1t=HADGYRw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] kbuild: rust: Enable KASAN support
-To: Matthew Maurer <mmaurer@google.com>
-Cc: ojeda@kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Nathan Chancellor <nathan@kernel.org>, dvyukov@google.com, 
-	aliceryhl@google.com, samitolvanen@google.com, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, glider@google.com, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh>
+ <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com>
+ <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
+ <20240819193851.GA4809@google.com> <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
+ <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com>
+In-Reply-To: <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com>
+From: Matthew Maurer <mmaurer@google.com>
+Date: Tue, 20 Aug 2024 13:03:53 -0700
+Message-ID: <CAGSQo01kCUd64nB7C7Ssy1N=UBpOP3bORsRDcHJ1k2CqkbKsfQ@mail.gmail.com>
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
+ structure fields
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Benno Lossin <benno.lossin@proton.me>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 20, 2024 at 9:49=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
- wrote:
+> > The way `KAbiReserved` is implemented is via a `union` (maybe a bit
+> > ironic, considering what I said in my other replies, but in this case,
+> > we would provide a safe abstraction over this `union`, thus avoiding
+> > exposing users of this type to `unsafe`):
+> >
+> >     #[repr(C)]
+> >     pub union KAbiReserved<T, R> {
+> >         value: T,
+> >         _reserved: R,
+> >     }
 >
-> Rust supports KASAN via LLVM, but prior to this patch, the flags aren't
-> set properly.
+> I like this approach even better, assuming any remaining issues with
+> ownership etc. can be sorted out. This would also look identical to
+> the C version in DWARF if you rename _reserved in the union to
+> __kabi_reserved. Of course, we can always change gendwarfksyms to
+> support a different scheme for Rust code if a better solution comes
+> along later.
 >
-> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
->  scripts/Makefile.kasan          | 57 ++++++++++++++++++++++++---------
->  scripts/Makefile.lib            |  3 ++
->  scripts/generate_rust_target.rs |  1 +
->  3 files changed, 45 insertions(+), 16 deletions(-)
->
-> diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-> index aab4154af00a..97570df40a98 100644
-> --- a/scripts/Makefile.kasan
-> +++ b/scripts/Makefile.kasan
-> @@ -12,6 +12,11 @@ endif
->  KASAN_SHADOW_OFFSET ?=3D $(CONFIG_KASAN_SHADOW_OFFSET)
->
->  cc-param =3D $(call cc-option, -mllvm -$(1), $(call cc-option, --param $=
-(1)))
-> +rustc-param =3D $(call rustc-option, -Cllvm-args=3D-$(1),)
-> +
-> +check-args =3D $(foreach arg,$(2),$(call $(1),$(arg)))
-> +
-> +kasan_params :=3D
->
->  ifdef CONFIG_KASAN_STACK
->         stack_enable :=3D 1
-> @@ -41,39 +46,59 @@ CFLAGS_KASAN :=3D $(call cc-option, -fsanitize=3Dkern=
-el-address \
->                 $(call cc-option, -fsanitize=3Dkernel-address \
->                 -mllvm -asan-mapping-offset=3D$(KASAN_SHADOW_OFFSET)))
->
-> -# Now, add other parameters enabled similarly in both GCC and Clang.
-> -# As some of them are not supported by older compilers, use cc-param.
-> -CFLAGS_KASAN +=3D $(call cc-param,asan-instrumentation-with-call-thresho=
-ld=3D$(call_threshold)) \
-> -               $(call cc-param,asan-stack=3D$(stack_enable)) \
-> -               $(call cc-param,asan-instrument-allocas=3D1) \
-> -               $(call cc-param,asan-globals=3D1)
-> +# The minimum supported `rustc` version has a minimum supported LLVM
-> +# version late enough that we can assume support for -asan-mapping-offse=
-t.
-> +RUSTFLAGS_KASAN :=3D -Zsanitizer=3Dkernel-address \
-> +                  -Zsanitizer-recover=3Dkernel-address \
-> +                  -Cllvm-args=3D-asan-mapping-offset=3D$(KASAN_SHADOW_OF=
-FSET)
-> +
-> +# Now, add other parameters enabled similarly in GCC, Clang, and rustc.
-> +# As some of them are not supported by older compilers, these will be fi=
-ltered
-> +# through `cc-param` or `rust-param` as applicable.
-> +kasan_params +=3D asan-instrumentation-with-call-threshold=3D$(call_thre=
-shold) \
-> +               asan-stack=3D$(stack_enable) \
-> +               asan-instrument-allocas=3D1 \
-> +               asan-globals=3D1
->
->  # Instrument memcpy/memset/memmove calls by using instrumented __asan_me=
-m*()
->  # instead. With compilers that don't support this option, compiler-inser=
-ted
->  # memintrinsics won't be checked by KASAN on GENERIC_ENTRY architectures=
-.
-> -CFLAGS_KASAN +=3D $(call cc-param,asan-kernel-mem-intrinsic-prefix=3D1)
-> +kasan_params +=3D asan-kernel-mem-intrinsic-prefix=3D1
->
->  endif # CONFIG_KASAN_GENERIC
->
->  ifdef CONFIG_KASAN_SW_TAGS
->
-> +CFLAGS_KASAN :=3D -fsanitize=3Dkernel-hwaddress
-> +
-> +# This sets flags that will enable KHWASAN once enabled in Rust. These w=
-ill
+> Sami
 
-Nit: the kernel doesn't use the term KHWASAN, it's SW_TAGS KASAN or
-Software Tag-Based KASAN.
+Agreement here - this seems like a good approach to representing
+reserved in Rust code. A few minor adjustments we discussed off-list
+which aren't required for gendwarfksyms to know about:
+1. Types being added to reserved fields have to be `Copy`, e.g. they
+must be `!Drop`.
+2. Types being added to reserved fields must be legal to be
+represented by all zeroes.
+3. Reserved fields need to be initialized to zero before having their
+union set to the provided value when constructing them.
+4. It may be helpful to have delegating trait implementations to avoid
+the couple places where autoderef won't handle the conversion.
 
-
-> +# not work today, and is guarded against in dependencies for CONFIG_RUST=
-.
-> +RUSTFLAGS_KASAN :=3D -Zsanitizer=3Dkernel-hwaddress \
-> +                  -Zsanitizer-recover=3Dkernel-hwaddress
-> +
->  ifdef CONFIG_KASAN_INLINE
-> -       instrumentation_flags :=3D $(call cc-param,hwasan-mapping-offset=
-=3D$(KASAN_SHADOW_OFFSET))
-> +       kasan_params +=3D hwasan-mapping-offset=3D$(KASAN_SHADOW_OFFSET)
->  else
-> -       instrumentation_flags :=3D $(call cc-param,hwasan-instrument-with=
--calls=3D1)
-> +       kasan_params +=3D hwasan-instrument-with-calls=3D1
->  endif
->
-> -CFLAGS_KASAN :=3D -fsanitize=3Dkernel-hwaddress \
-> -               $(call cc-param,hwasan-instrument-stack=3D$(stack_enable)=
-) \
-> -               $(call cc-param,hwasan-use-short-granules=3D0) \
-> -               $(call cc-param,hwasan-inline-all-checks=3D0) \
-> -               $(instrumentation_flags)
-> +kasan_params +=3D hwasan-instrument-stack=3D$(stack_enable) \
-> +               hwasan-use-short-granules=3D0 \
-> +               hwasan-inline-all-checks=3D0
->
->  # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_=
-mem*().
->  ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y=
-)
-> -       CFLAGS_KASAN +=3D $(call cc-param,hwasan-kernel-mem-intrinsic-pre=
-fix=3D1)
-> +       kasan_params +=3D hwasan-kernel-mem-intrinsic-prefix=3D1
->  endif
->
->  endif # CONFIG_KASAN_SW_TAGS
->
-> -export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
-> +# Add all as-supported KASAN LLVM parameters requested by the configurat=
-ion.
-> +CFLAGS_KASAN +=3D $(call check-args, cc-param, $(kasan_params))
-> +
-> +ifdef CONFIG_RUST
-> +       # Avoid calling `rustc-param` unless Rust is enabled.
-> +       RUSTFLAGS_KASAN +=3D $(call check-args, rustc-param, $(kasan_para=
-ms))
-> +endif # CONFIG_RUST
-> +
-> +export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE RUSTFLAGS_KASAN
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 9f06f6aaf7fc..4a58636705e0 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -167,6 +167,9 @@ ifneq ($(CONFIG_KASAN_HW_TAGS),y)
->  _c_flags +=3D $(if $(patsubst n%,, \
->                 $(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)$(is-k=
-ernel-object)), \
->                 $(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
-> +_rust_flags +=3D $(if $(patsubst n%,, \
-> +               $(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)$(is-k=
-ernel-object)), \
-> +               $(RUSTFLAGS_KASAN))
->  endif
->  endif
->
-> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_targ=
-et.rs
-> index ced405d35c5d..c24c2abd67db 100644
-> --- a/scripts/generate_rust_target.rs
-> +++ b/scripts/generate_rust_target.rs
-> @@ -192,6 +192,7 @@ fn main() {
->          }
->          ts.push("features", features);
->          ts.push("llvm-target", "x86_64-linux-gnu");
-> +        ts.push("supported-sanitizers", ["kernel-address"]);
->          ts.push("target-pointer-width", "64");
->      } else if cfg.has("LOONGARCH") {
->          panic!("loongarch uses the builtin rustc loongarch64-unknown-non=
-e-softfloat target");
-> --
-> 2.46.0.184.g6999bdac58-goog
->
+While I think this is the right solution, esp. since it can share a
+representation with C, I wanted to call out one minor shortfall - a
+reserved field can only be replaced by one type. We could still
+indicate a replacement by two fields the same as in C, by using a
+tuple which will look like an anonymous struct. The limitation will be
+that if two or more new fields were introduced, we'd need to edit the
+patches accessing them to do foo.x.y and foo.x.z for their accesses
+instead of simply foo.y and foo.z - the autoref trick only works for a
+single type.
 
