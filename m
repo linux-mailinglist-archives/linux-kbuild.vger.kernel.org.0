@@ -1,133 +1,155 @@
-Return-Path: <linux-kbuild+bounces-3121-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE557958DAE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 19:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9E3958E41
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 20:49:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AA1728216C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 17:57:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 182642866CD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 18:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A9A4192B66;
-	Tue, 20 Aug 2024 17:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A901C5793;
+	Tue, 20 Aug 2024 18:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rv99k3kz"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HA08n9ZI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60BF482FF;
-	Tue, 20 Aug 2024 17:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B41D1C4638
+	for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 18:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724176669; cv=none; b=BVQSkTjNLfG9QforR8BRo6n9T0iQVSPJqNVWQQ7jnRD5iCYVNvmsLtmutEgrd0jBhzR5GBmsHhkvrAD2VxNGz80YBlFs2lw7wicYnDsFJ26IPVa4NmHIgUvA0rvj/5TOIx7SY3KacOTM8t/j+5xP2ET7gd1M3G+hyrokpu0lZ54=
+	t=1724179692; cv=none; b=ZnNFSYJizS4F+Uot+97yMJe6YHScIY0hd26mi/lPxywfC8eFz8JQq5gyau86+il7Q77LD5kPgUEbxMNgVoJ8ihUTfps2HdFzTSRKFdDIDpaKcPFGIJrYhJUIyMXLNcXZ7KvpqGsvZIHtV6fMxiqWKaATEoSk/AZtqMFo4tbv8go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724176669; c=relaxed/simple;
-	bh=/snmJz0/53y57+k2K0s7WgCOZoqAqvhpoUcgRgDZwuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DtYA/rCXxspiDJQxG98S8vpQaiW1bl30x5qC0Y7cSvPMbSV5MdG/hBdDoSShSDfoejIvvkaLgntKjfvz97H4kkmeGhbV/q7WXJM2bfWizJWpP/Sc7XlwxuAjmUWryq2rQ68uKSj1Y32N7ZEDCcP+Dgsc51/ClRppqXzIeC5VSgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rv99k3kz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC507C4AF10;
-	Tue, 20 Aug 2024 17:57:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724176669;
-	bh=/snmJz0/53y57+k2K0s7WgCOZoqAqvhpoUcgRgDZwuM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rv99k3kzvTnrVzoXtNLwDl+o+N3KTPkBhR0YnAilKuJZ5gVDtRWBZfbn9NoSL4dPH
-	 5+puw0LKOaoAb4n3WhF+W5Z+XHSsqGgwmkfiCO5v8juEJcCzifgp/959wvbN1SD+WS
-	 3/IjsUMcCyvp4yY1W8RBfWE1hfOilZpZr21QC8IEySzYHNulBzJQWvuVCTbh4gmcBu
-	 FRLwX/m13mCCEjVAIpc6u5DPyURzlnxdRfKsdQlAsRkbSI2oB45vG33lOOSBAEzBxc
-	 vhsvYi0ir0x85FXWktV1yKqKdLiURBoEU2D2bdlYoDymW7qUJ4i6OxuCnIXwdNMxVm
-	 troSv+cB28B6A==
-Date: Tue, 20 Aug 2024 10:57:47 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: David Lechner <dlechner@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts/get_abi.pl: more strict matching of [XYZ]
-Message-ID: <20240820175747.GA1741066@thelio-3990X>
-References: <20240820-scripts-fix-get_abi-xyz-v1-1-6f6aea9b638b@baylibre.com>
+	s=arc-20240116; t=1724179692; c=relaxed/simple;
+	bh=9IntjtaXg9k+kUVEV9axZKmA4rC298YdyXwRG+HAIh4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E8zTMffSjn8zJI4F0ppoOspleNSn8O+kDzYly42vTHevHyQJDQIREzvg3rZ1A4I6wCrb2M4yndrqNEtaCLOLStceDnzKyuAvc59XwwwkmvMjSXr8LETXRpBYlvnX0ZcN9mVnRHlZx4liEMBO26nwZCzZ5ngkASBvLQbvY3ay7fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HA08n9ZI; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-454b1e08393so63721cf.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 11:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724179690; x=1724784490; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kqyu9H3Z/7xJHVyMUShvAD4YuvpcJRXIyTBe+BDA0AQ=;
+        b=HA08n9ZIQJLmCrRV8+Ce1gYw50AGfpOYxhfwP9BbcEhjGr8MXkoEHvQekbQb39cN1l
+         CpNpq1aufeU/9WDCyZn8VJtQ6YLSB3ny5c2b/Us/q50dO877oJSjH3Ub4dHcnq7PCMtZ
+         vPX3vGcPYzrsgbDNPqcTrtFYhNiNK1xIjV9P7b6WfYGqiuDgmbT0Bwcs25Xh3s2KvMIU
+         ppsee8V2rjFSrT6FUWEFvfx1glD/WMJesNP+YDHRBWNlakvr5TEpMLhtjIYbBu2m2gmf
+         BP0UQuYe67hxjenYfi2AusZuE0SLIKgBI3c5WyPsk3fzNyfJYksvAl8mETg9x1gtFRls
+         RZVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724179690; x=1724784490;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Kqyu9H3Z/7xJHVyMUShvAD4YuvpcJRXIyTBe+BDA0AQ=;
+        b=AMybTyFcYuMQ7zWHsliduzY1PzmjST2OQ25o/M0trojzzVRpu02FEFEIFwhmegOdrE
+         j7yHWf6YoZvl8H4NPEy83H3cfpWHqNXvdd6eT9ufcsh7qcbObInuxNauKsBmE8bvpSib
+         ZPJjgqc7weRmuFZznTQGvRGB7oPFYFgc3YQN/2toiX4EIOXuGY+xx7dmQ5vVpTMJd/dt
+         wGYwCeFtROfQbVadOXU3Q/kgLX2RVvMtEPlnKSqa6jo4sQsBkbc8kOH2uwhKrzwx13xb
+         x5sBD4ooc9QbK3d8Gee8To6xD22JzlX3HLxb1OkYx5Q0W1WR9UisDNV1jixTnFsW9qQM
+         DAAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVwSTGdILT4BiXLCAEwaHLeOrspv/6LqOisEFrPn8Uej6MFz9CGSBJt4A+Q2KTLZ8BtP67EiAYPSWQ6AFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxva3idJUpt/wTa5aGsQDzek1DqWsoGvm66HXHaDzTcIQvJ0z2D
+	FFDVcNmseHJrSxo4dUCRSDraJu07H/JHvcWnUASMbGILLUuE9emjbCHTins62GwI5zyRPry+0dg
+	Dj2GRmYwj4VdPshov9P+r06bKTPtlYbCHuW1s
+X-Google-Smtp-Source: AGHT+IEaaaVbWTiloHDIiXOmckXCXgvScfO2Sv9V70rY2jP8blHGtm/LE4cy6bWAnQvIHakKwQ31ZmSJ833RTPp+SXA=
+X-Received: by 2002:ac8:7dc5:0:b0:447:d97f:9765 with SMTP id
+ d75a77b69052e-454e642e2ccmr3218081cf.16.1724179690110; Tue, 20 Aug 2024
+ 11:48:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240820-scripts-fix-get_abi-xyz-v1-1-6f6aea9b638b@baylibre.com>
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh>
+ <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com>
+ <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
+ <20240819193851.GA4809@google.com> <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
+In-Reply-To: <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Tue, 20 Aug 2024 18:47:31 +0000
+Message-ID: <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com>
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
+ structure fields
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi David,
+On Mon, Aug 19, 2024 at 10:17=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
+me> wrote:
+>
+> On 19.08.24 21:38, Sami Tolvanen wrote:
+> >
+> > This definitely looks cleaner than unions in Rust, but how would this
+> > scheme be visible in DWARF? You might also need to expand the annotatio=
+n
+> > to allow replacing one reserved field with multiple smaller ones withou=
+t
+> > using structs.
+>
+> Hmm that's a good question, I have no idea how DWARF works. The way you
+> do it in this patch is just by the name of the field, right?
 
-On Tue, Aug 20, 2024 at 11:40:18AM -0500, David Lechner wrote:
-> When using `scripts/get_abi.pl undefined --search-string=iio` to try to
-> find undocumented ABI's in the IIO subsystem, no matches were found.
-> 
-> This was due to the fact that we have documented a directory naming
-> pattern:
-> 
-> 	What: /sys/bus/iio/devices/iio:deviceX
-> 
-> which gets translated to the regex
-> 
-> 	/sys/.*/iio\:device.*
-> 
-> which matches everything under every iio:device directory, causing any
-> attributes below this directory to incorrectly be filtered out as
-> already documented.
-> 
-> This patch makes the matching more strict by changing the replacement
-> for [XYZ] from .* to [^/]* so that we don't match the directory
-> separator. This way documenting directories won't filter out everything
-> contained in the directory as already being documented.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
-> get_maintainers.pl didn't pick up any matches for this patch, so I guess
-> this would go through the kbuild tree? (Since MAINTAINERS says:
-> "KERNEL BUILD + files below scripts/ (unless maintained elsewhere)")
+Correct, it just looks at the name of the union fields.
 
-I don't have any comments on the patch itself since I am unfamiliar with
-this script and its purpose but looking at the git history, it seems
-like Greg has merged the vast majority of the patches to this script in
-the past:
+> If Rust's DWARF output contains exact types names (I just checked this,
+> I *think* that this is the case, but I have never used/seen DWARF
+> before), we might be able to just create a `KAbiReserved<T, R>` type
+> that you search for instead of the attribute. The usage would then be
+> like this:
+>
+>     #[repr(C)]
+>     pub struct Struct1 {
+>         a: u64,
+>         _reserved: KAbiReserved<(), u64>,
+>     }
+>
+> And then when adding a new field, you would do this:
+>
+>     #[repr(C)]
+>     pub struct Struct1 {
+>         a: u64,
+>         b: KAbiReserved<Struct2, u64>,
+>     }
+>
+>     /* Struct2 as above */
+>
+> The way `KAbiReserved` is implemented is via a `union` (maybe a bit
+> ironic, considering what I said in my other replies, but in this case,
+> we would provide a safe abstraction over this `union`, thus avoiding
+> exposing users of this type to `unsafe`):
+>
+>     #[repr(C)]
+>     pub union KAbiReserved<T, R> {
+>         value: T,
+>         _reserved: R,
+>     }
 
-$ git log --format='%cn' --no-merges scripts/get_abi.pl | sort | uniq -c
-     53 Greg Kroah-Hartman
-      9 Jonathan Corbet
-      1 Masahiro Yamada
+I like this approach even better, assuming any remaining issues with
+ownership etc. can be sorted out. This would also look identical to
+the C version in DWARF if you rename _reserved in the union to
+__kabi_reserved. Of course, we can always change gendwarfksyms to
+support a different scheme for Rust code if a better solution comes
+along later.
 
-So adding him to take a look.
-
-> ---
->  scripts/get_abi.pl | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-> index de1c0354b50c..f65158694852 100755
-> --- a/scripts/get_abi.pl
-> +++ b/scripts/get_abi.pl
-> @@ -867,7 +867,7 @@ sub undefined_symbols {
->  			$what =~ s/\{[^\}]+\}/.*/g;
->  			$what =~ s/\[[^\]]+\]/.*/g;
->  
-> -			$what =~ s/[XYZ]/.*/g;
-> +			$what =~ s/[XYZ]/[^\/]*/g;
->  
->  			# Recover [0-9] type of patterns
->  			$what =~ s/\xf4/[/g;
-> 
-> ---
-> base-commit: 521b1e7f4cf0b05a47995b103596978224b380a8
-> change-id: 20240820-scripts-fix-get_abi-xyz-0ab0b9b62719
-> 
-> Best regards,
-> -- 
-> David Lechner <dlechner@baylibre.com>
-> 
+Sami
 
