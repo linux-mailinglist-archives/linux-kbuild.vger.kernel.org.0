@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-3123-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3124-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C744D958EC7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 21:49:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB71958ECB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 21:49:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 249D5B22263
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 19:49:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7B371F230DC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 19:49:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C05915CD7D;
-	Tue, 20 Aug 2024 19:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6732616A925;
+	Tue, 20 Aug 2024 19:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WUnDI9z0"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GGb0Hkqm"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED9915B57B
-	for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 19:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2637166F05
+	for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 19:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724183359; cv=none; b=Au4FzE0sxrCGh8iQge4+Jh1kigkn1m5nBc7QpNRJPtIJPDGY+a0YKjG7ddKICd7FKRpBVQpEiJdlmn6anTXMERlyUiLyyAFw/Eie6THbRyXzm1oVZxYP2DLUSh/6uliGLFRjobRowB4kvTrSr43WR5nzyzDBMaUbH+HdeNsVS88=
+	t=1724183367; cv=none; b=kMfZPyzLtyGeMfkbmLIPhQeEH3TeLp5RSQrJwcdsdU+sclwMil2jhw2F07Oj6bPui9oTAv6JK+wtMmUhMdxR36yPMUZcqLxd2u1g3e+q2FM92UrKKJYVfW2v1VfldaTAcmTd1eID4CPfl5Yvee0zgT4P/2U8pUIvZWoGtOdlzmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724183359; c=relaxed/simple;
-	bh=GgcZBZ3py3YLrVIfBlwdZnVS+QKge2hV/IBQXET6NX0=;
+	s=arc-20240116; t=1724183367; c=relaxed/simple;
+	bh=loHNQjiKZWgc0j8bk3IVjHK0khQghAWR4+gS4550mSc=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=LNycFX/LTzGPQk4ixpGiq1x0uNy0tUPkEpInHGtEsg7REkboYAU6HvICMmyw4bldDmzCkDOzeBFxrsGk8cGRCMYRHL5/HKrxorsljVqYiQJTi9VB+dXZZF78wYM+E2ceFjsAPl1S1Wu8TxW8sKI7wWEY51t/V+6Yfqn0lmXOXww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WUnDI9z0; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=BA7aZE+RUicgUvI6RxP5wOSvI0aeAtkPoLxW+ae3L4VjvC5tdUHzp3qbqSpu5VdqAvbvq87ZNf4gawV34d58hAKN7OUoeLd8JvQg0+VEzpvwaS9bKk2kH0sa/inZBbGN28GBYMJCh/+WADQSmEalV1DpEP4exWuDAPSa3yRVt0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GGb0Hkqm; arc=none smtp.client-ip=209.85.128.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6643016423fso117183787b3.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 12:49:17 -0700 (PDT)
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6b1adbdbec9so89171927b3.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 20 Aug 2024 12:49:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724183356; x=1724788156; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1724183365; x=1724788165; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iaH1ZLIse1MjjuwT90Rd2NUzJfAssHJQQ3PmJWNR6mE=;
-        b=WUnDI9z0DCX+J3E8ux89AKMCbEfDCK8YVwJyS7jHDIWOAmRqEkhtRaV52ibqvlS5Uy
-         cgHpEPQ/jDJvXH3iCmux3iRyxddJy9iICHLXwjUXjNF0oHJ3RC6Jmy6dl08ARRiGLV53
-         UJJ95sr7bFpGdI9aLdStYuZbpoMX9QWm3PB83/1lMwbUdA42gS4gG7lQ2Je9Vq6BTzez
-         1LRqY/SPzT+M+y1MnvWYBTF34Am5DexXkdV3sgo7cbudZjEzjKzZPBWg8um7FN64pwN7
-         VAi9B3bYeoqnLqGCIZYBgbx7fSYLr88pwhWiceEqBULLX3kOUVAOKDvzu02e5LGdEzhS
-         M+zw==
+        bh=jYOQ4ic50oYuK2FpEcKGnGi9zqTDnUtCD7+2BoOkpco=;
+        b=GGb0Hkqm5MVKEDXwMXwAhvXwLcxjBEN8l7uRcZRbAI1B2I7qefBTa6IaHaR3Mwq8K5
+         xI3DuFH7H+OmHVCBlhdGXNG5n8QPsEkIcfvFB4SXOMYTcQkR2+mD4YB5lphDzM5DlX0Z
+         pC6Nix2fmFFNJZYGD4jv4/Y0uho870FKLyHp4BzhzlLM8YLxJWvOAyO0Ryp00tsy7B4c
+         MhfCBt73rESqzpjAZRbzQUQGIYt5lZmtrxiIoqY92Uh5Kpa8r6O8aMHRaCoiSyyC2hw8
+         rfT4v1XfL+O30/l8ceEyADvPKT3aEF0JNjXu5eCUFb6H6xEcJkEyGdnjh/J722oX+urE
+         Rz1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724183356; x=1724788156;
+        d=1e100.net; s=20230601; t=1724183365; x=1724788165;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iaH1ZLIse1MjjuwT90Rd2NUzJfAssHJQQ3PmJWNR6mE=;
-        b=WVI6OoNWDmOdb3ccx9bZs0np15/A1+LPsERnMMWBEUQmufmdtAf/KxFJ9iRwFcK1k4
-         ZOcNSzr04q45IFo96Xi8UCmwl19suVZRIzjeD1dCkwNaO/M2JBl0Gt2Cdwa6CyRr0QRT
-         00Uupr9SaHVsJoV8aqE87ChiuLGlY8Y09JB/tfl0A1uV63BtPOFghhd3OlSkgEvRl3gk
-         oUKdtfn6J9q8hUit1Vg63rI+Q3AtK6JwaFjnNJWrtGFSnXFu0YWYcWTBNuqAEAfwI71k
-         vflZtI0edOoWTcdi/T3c03v7shzJowQbt0YSwgkCRQU2YLWf+m3aoButdqBKGv3uzoJo
-         6IhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWv352455+ZJ8NgpVStz4V7JmVFEzsrg/PQSNxBRkc6U2R0E5SCWiUnq3nFiCjpAlsP1X8XmpK6T5tbU4k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoFxD1kAhF97xLCCndbVRamJSec8+dA7RaWwU/1yXJB9fulPJu
-	uyB4tgjQjw+vSQML6SI9C89OEgtF3X/pPa6WDTzSPYyTYkw4tZo3EZBGoGXDBdHB4iQz2fyExSz
-	vjguRVA==
-X-Google-Smtp-Source: AGHT+IF8OgALjQtKTTwFni7Lx7ggfIQZWs8ZGeUB4Cj9Y3JpdH2/tw6PpjEDsZeBYcnnz1TYn5eZQOxDFr9J
+        bh=jYOQ4ic50oYuK2FpEcKGnGi9zqTDnUtCD7+2BoOkpco=;
+        b=ixDHdOVaDUpYyF1ADEdUF3YkznjcN3BpA5qEuCXUhESEc5BGBSt1d7eu07XoUiKy2i
+         3q4Mq6HZUkTFCLWxP01AwPMRituPnWvgg1j2yTCPkbpj1XZIWIdIPB8WYY8GBMYKtE/D
+         kbj5S6pYDkZ5HuWzYjy05ARH6AmFDa3AsJMNw7eXsq9Jif2+btJ3n7atdo+mHB675/w0
+         52tUvPNEB/oFErnnd3DbOLBWALSj69tOqg9u3zgQL9y+t4a5cJflmXDA3+rs6m/COt7V
+         XOIMmHlUAsaWgsQoks7nRJTG2XKsCgBG+5x2DiXThbUjLHC9aRcYTG36txed8ZmTSBME
+         /3Ew==
+X-Forwarded-Encrypted: i=1; AJvYcCUpBzh+HAhg7uOUsCBBvVbHB4Mf+BrGYoDWEa0mMdJAhOnTpzrnz7ht2HFO1bCCY7pEfrshjeDXjBvV+WI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxk6JQvLIy84P6jbrs52DqXMxskcaIWOgEhsq3mlfEqtl2NgofA
+	zyGPBiKJlAF3VsHtW97aRwRlqd6LMENpTNjW1BcfEk59chiI5CIsYUYrHhiAsgGYa00C3drdCB8
+	Ycs0PIw==
+X-Google-Smtp-Source: AGHT+IE7sGIPkJ+edoqGJ+fIEw1QkDsz00XLJirRhxEYq6ET/0uf39KsW1PUXkwOfVWsCP5G1VWLg50n5WDX
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a05:690c:4813:b0:6be:9d4a:f097 with SMTP
- id 00721157ae682-6c0a0236c74mr8387b3.7.1724183356156; Tue, 20 Aug 2024
- 12:49:16 -0700 (PDT)
-Date: Tue, 20 Aug 2024 19:48:56 +0000
+ (user=mmaurer job=sendgmr) by 2002:a05:690c:340a:b0:6ad:351e:a9d0 with SMTP
+ id 00721157ae682-6c09c5982aamr6117b3.3.1724183364571; Tue, 20 Aug 2024
+ 12:49:24 -0700 (PDT)
+Date: Tue, 20 Aug 2024 19:48:58 +0000
 In-Reply-To: <20240820194910.187826-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,15 +74,16 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240820194910.187826-1-mmaurer@google.com>
 X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
-Message-ID: <20240820194910.187826-2-mmaurer@google.com>
-Subject: [PATCH v4 1/4] kbuild: rust: Define probing macros for rustc
+Message-ID: <20240820194910.187826-4-mmaurer@google.com>
+Subject: [PATCH v4 3/4] kbuild: rust: Enable KASAN support
 From: Matthew Maurer <mmaurer@google.com>
 To: andreyknvl@gmail.com, ojeda@kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Nathan Chancellor <nathan@kernel.org>
+	Masahiro Yamada <masahiroy@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>
 Cc: dvyukov@google.com, aliceryhl@google.com, samitolvanen@google.com, 
 	kasan-dev@googlegroups.com, linux-mm@kvack.org, glider@google.com, 
-	ryabinin.a.a@gmail.com, Matthew Maurer <mmaurer@google.com>, 
+	Matthew Maurer <mmaurer@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
 	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
 	Andreas Hindborg <a.hindborg@samsung.com>, Nick Desaulniers <ndesaulniers@google.com>, 
@@ -91,61 +92,135 @@ Cc: dvyukov@google.com, aliceryhl@google.com, samitolvanen@google.com,
 	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Creates flag probe macro variants for `rustc`. These are helpful
-because:
+Rust supports KASAN via LLVM, but prior to this patch, the flags aren't
+set properly.
 
-1. The kernel now supports a minimum `rustc` version rather than a
-   single version.
-2. `rustc` links against a range of LLVM revisions, occasionally even
-   ones without an official release number. Since the availability of
-   some Rust flags depends on which LLVM it has been linked against,
-   probing is necessary.
-
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- scripts/Kconfig.include   |  8 ++++++++
- scripts/Makefile.compiler | 15 +++++++++++++++
- 2 files changed, 23 insertions(+)
+ scripts/Makefile.kasan          | 57 ++++++++++++++++++++++++---------
+ scripts/Makefile.lib            |  3 ++
+ scripts/generate_rust_target.rs |  1 +
+ 3 files changed, 45 insertions(+), 16 deletions(-)
 
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index 3ee8ecfb8c04..bdb187af45fd 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -63,3 +63,11 @@ ld-version := $(shell,set -- $(ld-info) && echo $2)
- cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
- m32-flag := $(cc-option-bit,-m32)
- m64-flag := $(cc-option-bit,-m64)
+diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+index aab4154af00a..97570df40a98 100644
+--- a/scripts/Makefile.kasan
++++ b/scripts/Makefile.kasan
+@@ -12,6 +12,11 @@ endif
+ KASAN_SHADOW_OFFSET ?= $(CONFIG_KASAN_SHADOW_OFFSET)
+ 
+ cc-param = $(call cc-option, -mllvm -$(1), $(call cc-option, --param $(1)))
++rustc-param = $(call rustc-option, -Cllvm-args=-$(1),)
 +
-+# $(rustc-option,<flag>)
-+# Return y if the Rust compiler supports <flag>, n otherwise
-+# Calls to this should be guarded so that they are not evaluated if
-+# CONFIG_RUST_IS_AVAILABLE is not set.
-+# If you are testing for unstable features, consider testing RUSTC_VERSION
-+# instead, as features may have different completeness while available.
-+rustc-option = $(success,trap "rm -rf .tmp_$$" EXIT; mkdir .tmp_$$; $(RUSTC) $(1) --crate-type=rlib /dev/null --out-dir=.tmp_$$ -o .tmp_$$/tmp.rlib)
-diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index 92be0c9a13ee..057305eae85c 100644
---- a/scripts/Makefile.compiler
-+++ b/scripts/Makefile.compiler
-@@ -72,3 +72,18 @@ clang-min-version = $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
- # ld-option
- # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
- ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
++check-args = $(foreach arg,$(2),$(call $(1),$(arg)))
 +
-+# __rustc-option
-+# Usage: MY_RUSTFLAGS += $(call __rustc-option,$(RUSTC),$(MY_RUSTFLAGS),-Cinstrument-coverage,-Zinstrument-coverage)
-+__rustc-option = $(call try-run,\
-+	$(1) $(2) $(3) --crate-type=rlib /dev/null --out-dir=$$TMPOUT -o "$$TMP",$(3),$(4))
++kasan_params :=
+ 
+ ifdef CONFIG_KASAN_STACK
+ 	stack_enable := 1
+@@ -41,39 +46,59 @@ CFLAGS_KASAN := $(call cc-option, -fsanitize=kernel-address \
+ 		$(call cc-option, -fsanitize=kernel-address \
+ 		-mllvm -asan-mapping-offset=$(KASAN_SHADOW_OFFSET)))
+ 
+-# Now, add other parameters enabled similarly in both GCC and Clang.
+-# As some of them are not supported by older compilers, use cc-param.
+-CFLAGS_KASAN += $(call cc-param,asan-instrumentation-with-call-threshold=$(call_threshold)) \
+-		$(call cc-param,asan-stack=$(stack_enable)) \
+-		$(call cc-param,asan-instrument-allocas=1) \
+-		$(call cc-param,asan-globals=1)
++# The minimum supported `rustc` version has a minimum supported LLVM
++# version late enough that we can assume support for -asan-mapping-offset.
++RUSTFLAGS_KASAN := -Zsanitizer=kernel-address \
++		   -Zsanitizer-recover=kernel-address \
++		   -Cllvm-args=-asan-mapping-offset=$(KASAN_SHADOW_OFFSET)
 +
-+# rustc-option
-+# Usage: rustflags-y += $(call rustc-option,-Cinstrument-coverage,-Zinstrument-coverage)
-+rustc-option = $(call __rustc-option, $(RUSTC),\
-+	$(KBUILD_RUSTFLAGS),$(1),$(2))
++# Now, add other parameters enabled similarly in GCC, Clang, and rustc.
++# As some of them are not supported by older compilers, these will be filtered
++# through `cc-param` or `rust-param` as applicable.
++kasan_params += asan-instrumentation-with-call-threshold=$(call_threshold) \
++		asan-stack=$(stack_enable) \
++		asan-instrument-allocas=1 \
++		asan-globals=1
+ 
+ # Instrument memcpy/memset/memmove calls by using instrumented __asan_mem*()
+ # instead. With compilers that don't support this option, compiler-inserted
+ # memintrinsics won't be checked by KASAN on GENERIC_ENTRY architectures.
+-CFLAGS_KASAN += $(call cc-param,asan-kernel-mem-intrinsic-prefix=1)
++kasan_params += asan-kernel-mem-intrinsic-prefix=1
+ 
+ endif # CONFIG_KASAN_GENERIC
+ 
+ ifdef CONFIG_KASAN_SW_TAGS
+ 
++CFLAGS_KASAN := -fsanitize=kernel-hwaddress
 +
-+# rustc-option-yn
-+# Usage: flag := $(call rustc-option-yn,-Cinstrument-coverage)
-+rustc-option-yn = $(call try-run,\
-+	$(RUSTC) $(KBUILD_RUSTFLAGS) $(1) --crate-type=rlib /dev/null --out-dir=$$TMPOUT -o "$$TMP",y,n)
++# This sets flags that will enable KHWASAN once enabled in Rust. These will
++# not work today, and is guarded against in dependencies for CONFIG_RUST.
++RUSTFLAGS_KASAN := -Zsanitizer=kernel-hwaddress \
++		   -Zsanitizer-recover=kernel-hwaddress
++
+ ifdef CONFIG_KASAN_INLINE
+-	instrumentation_flags := $(call cc-param,hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET))
++	kasan_params += hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
+ else
+-	instrumentation_flags := $(call cc-param,hwasan-instrument-with-calls=1)
++	kasan_params += hwasan-instrument-with-calls=1
+ endif
+ 
+-CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+-		$(call cc-param,hwasan-instrument-stack=$(stack_enable)) \
+-		$(call cc-param,hwasan-use-short-granules=0) \
+-		$(call cc-param,hwasan-inline-all-checks=0) \
+-		$(instrumentation_flags)
++kasan_params += hwasan-instrument-stack=$(stack_enable) \
++		hwasan-use-short-granules=0 \
++		hwasan-inline-all-checks=0
+ 
+ # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
+ ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y)
+-	CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
++	kasan_params += hwasan-kernel-mem-intrinsic-prefix=1
+ endif
+ 
+ endif # CONFIG_KASAN_SW_TAGS
+ 
+-export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
++# Add all as-supported KASAN LLVM parameters requested by the configuration.
++CFLAGS_KASAN += $(call check-args, cc-param, $(kasan_params))
++
++ifdef CONFIG_RUST
++	# Avoid calling `rustc-param` unless Rust is enabled.
++	RUSTFLAGS_KASAN += $(call check-args, rustc-param, $(kasan_params))
++endif # CONFIG_RUST
++
++export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE RUSTFLAGS_KASAN
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 9f06f6aaf7fc..4a58636705e0 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -167,6 +167,9 @@ ifneq ($(CONFIG_KASAN_HW_TAGS),y)
+ _c_flags += $(if $(patsubst n%,, \
+ 		$(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)$(is-kernel-object)), \
+ 		$(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
++_rust_flags += $(if $(patsubst n%,, \
++		$(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)$(is-kernel-object)), \
++		$(RUSTFLAGS_KASAN))
+ endif
+ endif
+ 
+diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
+index ced405d35c5d..c24c2abd67db 100644
+--- a/scripts/generate_rust_target.rs
++++ b/scripts/generate_rust_target.rs
+@@ -192,6 +192,7 @@ fn main() {
+         }
+         ts.push("features", features);
+         ts.push("llvm-target", "x86_64-linux-gnu");
++        ts.push("supported-sanitizers", ["kernel-address"]);
+         ts.push("target-pointer-width", "64");
+     } else if cfg.has("LOONGARCH") {
+         panic!("loongarch uses the builtin rustc loongarch64-unknown-none-softfloat target");
 -- 
 2.46.0.184.g6999bdac58-goog
 
