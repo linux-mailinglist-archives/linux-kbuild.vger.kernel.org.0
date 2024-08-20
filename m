@@ -1,54 +1,58 @@
-Return-Path: <linux-kbuild+bounces-3129-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3130-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F59959003
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 23:56:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A351295905A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2024 00:15:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D240FB2196A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 21:56:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 332162814F1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 22:15:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7A301C4624;
-	Tue, 20 Aug 2024 21:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F444176252;
+	Tue, 20 Aug 2024 22:15:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ntjmWcX/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+t6rd8t"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E35014B097;
-	Tue, 20 Aug 2024 21:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D896929D19;
+	Tue, 20 Aug 2024 22:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724190957; cv=none; b=FbQYFxq3SMI70X6KMrL4+6SMI4NyYTm+AkiM0f3BZljekuTYJ5lKUQP7rqLDdMZzMG/Q9Cm9GfpifFr6SpUWK1PkvYqHOt9Q4rVBrT0n+eD2VOCddi50nKkpqFUy58rkVEKi2XQGwlOiLeOk7t/p9B7L4T9q0v3xAhNytWv3la0=
+	t=1724192132; cv=none; b=pKQBLL2YWg/yTVxgvigoaGDG34rYcrdKeawfuhXZGwWPyGLltGCvZzjCqy1laALlYZwcMoAmFlGLWllbe5EBY8cAbKAJdwfTI6jtiLJ+u6pJR8YchWEJ1IBFM7jENe1yoF2L/lotEOCz2gxkOh1vq2/fgui94NW4ArmzeTfvRZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724190957; c=relaxed/simple;
-	bh=e4jEwACfR4RmVBcPlf/bwbLa0l+qu6FhgvbqbwhMsac=;
+	s=arc-20240116; t=1724192132; c=relaxed/simple;
+	bh=goPlmJcLq9q5J/ImjfipoY5mwvvKZvMhSe5xf5G422M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X6jz5CFGEtU49n8famCtSat3Fy0R83CJaaV1wDbqIu5AkTx0kQHRlRKzgTyeECXb5gcR7MD4dPg8rhHr3RLWgkVzjtLslEZOr9OtpC2wPhsQqzplhM6HbH5vwDDZXuqNBp+y/hcIL630wnN14/DEyBV2mT/c5UdtJCjyNCAGhbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ntjmWcX/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC477C4AF09;
-	Tue, 20 Aug 2024 21:55:56 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=KGL/ijcurcjVbq4BWb2HFn8UH0mtGDUsk8anuI4wbJbNka1wMWMw/9kiv6EC2vJBgxKbhuwoJe+OECe3I1KiwRJ3dXuZMMKWmCw4zQwTncoBqp5zR0CyAndrCFjz5ifrA7f60yTFnCL2yyUnXcqphlf+jv1+bjI8bwrkXMBIt2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+t6rd8t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A1C9C4AF09;
+	Tue, 20 Aug 2024 22:15:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724190957;
-	bh=e4jEwACfR4RmVBcPlf/bwbLa0l+qu6FhgvbqbwhMsac=;
+	s=k20201202; t=1724192130;
+	bh=goPlmJcLq9q5J/ImjfipoY5mwvvKZvMhSe5xf5G422M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ntjmWcX/4q0xzoSsIrAF2AcwmY3Af0LHWx2anga1Te/8B9Q8MCctopFJmvAdcLHEn
-	 v03JPFlRzUpBUS5d6De4fJ53ZyAoZNcFKhqfZtxS7uiqKWhZQYdREIdNjQJzYrZK11
-	 2BviiKHdkWLsD646I2AsXFPuvTMsdc3BUK8t10SjDVBAmt/Vx8BbsqyC5qKWE05Vnn
-	 raI9H5fTlrFcga9e9Y1JUOlCp4s4ueHb1pmcxv+j61SUqM9gSuW7C7DS7x5llyJ306
-	 qzZBXKdJH5CK8DkoWGYXG/7r3FFev03hVwKQDCaD/5x+UOFQWhk0VDbk0jvnQLB2UZ
-	 T+RvIhd8qSE/Q==
-Date: Tue, 20 Aug 2024 14:55:55 -0700
+	b=p+t6rd8tAM5N9tkBqJCe3hG9rdTUZjXZX0jjEintBG7xQfasHV4kQAaLYeEOY8s4d
+	 hGCLyZt1vJYtQQ/+/vj5iM0UmU82f5L5MMnjv6iJsS40wru/iXD/eziUz9yv6mxiaF
+	 AHOteuZnkKeO9dUOOOsKjszZTHGhLo9Ym4VvnB1FZVsjKLbR7Ae5xlIl0KOuvDiG9r
+	 ThlWGZ1G1EpwP6wGrfVADr/GXc1GE8xDLfha5cnqKMegLcklIuqiUk7IMX2VWQzrne
+	 M1Aj8ouK1XgDsynU0mWDzUdxpFy0LnD2tMtMrPU6OrRnS1AWkG0QtENndG6LcDxcVF
+	 OZT5MGdgcToWA==
+Date: Tue, 20 Aug 2024 15:15:28 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Stephen Brennan <stephen.s.brennan@oracle.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: remove *.symversions left-over
-Message-ID: <20240820215555.GB2335251@thelio-3990X>
-References: <20240818083806.90631-1-masahiroy@kernel.org>
+Subject: Re: [PATCH 1/1] Documentation: kbuild: explicitly document missing
+ prompt
+Message-ID: <20240820221528.GC2335251@thelio-3990X>
+References: <20240820171000.1656021-1-stephen.s.brennan@oracle.com>
+ <20240820171000.1656021-2-stephen.s.brennan@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -57,50 +61,91 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240818083806.90631-1-masahiroy@kernel.org>
+In-Reply-To: <20240820171000.1656021-2-stephen.s.brennan@oracle.com>
 
-On Sun, Aug 18, 2024 at 05:37:29PM +0900, Masahiro Yamada wrote:
-> Commit 5ce2176b81f7 ("genksyms: adjust the output format to modpost")
-> stopped generating *.symversions files.
-> 
-> Remove the left-over from the .gitignore file and the 'clean' rule.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Hi Stephen,
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+On Tue, Aug 20, 2024 at 10:09:46AM -0700, Stephen Brennan wrote:
+> There are a few lines in the kbuild-language.rst document which
+> obliquely reference the behavior of config options without prompts.
+> But there is nothing in the obvious location that explicitly calls
+> out that users cannot edit config options unless they have a prompt.
 
+Sure, I think the mention of "non-visible symbols" plus "no prompts
+anywhere" in the select section is both a little cryptic to people who
+are not pretty familiar with Kconfig and slightly disjoint from the
+prompt section, so some clarification and expansion would not be a bad
+idea! I do have some suggestions for the wording below.
+
+> Signed-off-by: Stephen Brennan <stephen.s.brennan@oracle.com>
 > ---
+>  Documentation/kbuild/kconfig-language.rst | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
->  .gitignore | 1 -
->  Makefile   | 2 +-
->  2 files changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/.gitignore b/.gitignore
-> index 7902adf4f7f1..ac8c667c0df6 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -46,7 +46,6 @@
->  *.so.dbg
->  *.su
->  *.symtypes
-> -*.symversions
->  *.tab.[ch]
->  *.tar
->  *.xz
-> diff --git a/Makefile b/Makefile
-> index 0a364e34f50b..c8d651a30397 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1946,7 +1946,7 @@ clean: $(clean-dirs)
->  		-o -name '*.c.[012]*.*' \
->  		-o -name '*.ll' \
->  		-o -name '*.gcno' \
-> -		-o -name '*.*.symversions' \) -type f -print \
-> +		\) -type f -print \
->  		-o -name '.tmp_*' -print \
->  		| xargs rm -rf
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index 1fb3f5e6193c3..8e9306b599cd3 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -54,40 +54,43 @@ applicable everywhere (see syntax).
+>  
+>  - type definition: "bool"/"tristate"/"string"/"hex"/"int"
+>  
+>    Every config option must have a type. There are only two basic types:
+>    tristate and string; the other types are based on these two. The type
+>    definition optionally accepts an input prompt, so these two examples
+>    are equivalent::
+>  
+>  	bool "Networking support"
+>  
+>    and::
+>  
+>  	bool
+>  	prompt "Networking support"
+>  
+>  - input prompt: "prompt" <prompt> ["if" <expr>]
+>  
+>    Every menu entry can have at most one prompt, which is used to display
+>    to the user. Optionally dependencies only for this prompt can be added
+>    with "if".
+> +  If a prompt is not set, then the config option cannot be changed by the user.
+
+Would "not present" be cleared than "not set"? It might also be worth
+calling out here no prompt means a "non-visible" symbol since you
+brought up the document brings that term up and does not really tell you
+what it means.
+
+Perhaps something like this might be just as clear while being
+consistent with the terminology? Feel free to disagree though!
+
+  If a prompt is not present, the config option is a non-visible symbol,
+  meaning its value cannot be directly changed by the user (such as
+  altering the value in ``.config``) and the option will not appear in
+  any config menus. Its value can only be set via "default" and "select"
+  (see below).
+
+> +  It will not appear in any menu, and even edits to ``.config`` cannot alter it.
+> +  It can still be set via "default" and "select" (see below).
+>  
+>  - default value: "default" <expr> ["if" <expr>]
+>  
+>    A config option can have any number of default values. If multiple
+>    default values are visible, only the first defined one is active.
+>    Default values are not limited to the menu entry where they are
+>    defined. This means the default can be defined somewhere else or be
+>    overridden by an earlier definition.
+>    The default value is only assigned to the config symbol if no other
+>    value was set by the user (via the input prompt above). If an input
+>    prompt is visible the default value is presented to the user and can
+>    be overridden by him.
+>    Optionally, dependencies only for this default value can be added with
+>    "if".
+>  
+>   The default value deliberately defaults to 'n' in order to avoid bloating the
+>   build. With few exceptions, new config options should not change this. The
+>   intent is for "make oldconfig" to add as little as possible to the config from
+>   release to release.
 >  
 > -- 
-> 2.43.0
+> 2.43.5
 > 
 
