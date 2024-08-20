@@ -1,105 +1,190 @@
-Return-Path: <linux-kbuild+bounces-3106-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3107-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DDF957B96
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 04:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6BF95818C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 11:00:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 717DCB214E3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 02:46:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5795B20E30
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 09:00:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE003381A4;
-	Tue, 20 Aug 2024 02:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E2EB18A944;
+	Tue, 20 Aug 2024 08:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="E2yfneeX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZthiMqGW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6811C6B4;
-	Tue, 20 Aug 2024 02:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E4118A6D1;
+	Tue, 20 Aug 2024 08:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724121990; cv=none; b=PoPESEdJt+LiwTQlGpDKdqnWIO2/SV2evdrKxcQiI7TFX3qzT7qidTBWdEcdQ4VcaEKtjJFK/uldiUJWe23LUYT94GrDn2Y8o7Ao+WCzLMOKCzfk5a7mGXk3QppXvClbGi1lNRzoA7TDbh/ERkAuD5HP7JqzPaE3zi5QPEUeqeM=
+	t=1724144397; cv=none; b=K4EBRKR3zHbCkbCGmfU4xqM/Dk5t1S/OgVLwtp5gMWdMDj/WwW6ybPLw5GEDfd6QwIE/ZtYDIBKXIA/djYmznm5YOeuWQMZLkEr/N7TaErOB9zepvJELm0FnuCU2GVCJ23EwD5pd2Uf1/x+rPXG/KbomAibxhRZ25SMyWOBg6S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724121990; c=relaxed/simple;
-	bh=8TS0uracIC8varmqf+MaZ6AfHrQ8Ib61Fw/7CChwcgA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r5P9XRx30iF3c/be/9aHbmO4qYzclUcMKvdHtozDzWWtsDqpn3W1514DZSaqKzI/AZdtemwIPTGKqHGwCd5D1nb6hxayh6sn/OiVruMhEQTdv4/Hexh5AtYQcRpvL1qDN3b0dmwnHcN9iOWaq2ExprqLJaERSPakY/65WkHAdG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=E2yfneeX; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1724121987;
-	bh=8TS0uracIC8varmqf+MaZ6AfHrQ8Ib61Fw/7CChwcgA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=E2yfneeXxrvfHg8GYHkTYxBdI76bEnuGlExoEN4PVHAvgR6CMMkbvD7QCW8Po51Ab
-	 W2y5WB7Hqk1J6y93pfiVYUUB16NzeGSbyX0B2lNaDJftTWeX1H0uBgqoJCQpuivsQ2
-	 1EMGYI3kVXsYz2ZoFL0SxPdjAzSrSrUgwT6B/zsBbVOQspL0vsMdZieYZhX9xkssfI
-	 tzlZ0aFoDfJMfxtLp0ef9W1B6iWrZHv/6N7PxpLzbqSERKQ0swCeAwcdszFVWSXSOi
-	 HNSvpapaGOjuGLer4braR93wtId1Y0g4ZRs4E9E/aX9q63XS2iNDYLk2xyzPCdq4lt
-	 BbAGROjV/nmwQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Wnv410TKjz4w2F;
-	Tue, 20 Aug 2024 12:46:24 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
- gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st,
- j@jannau.net, asahi@lists.linux.dev, Nicholas Piggin <npiggin@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
- Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>,
- linuxppc-dev@lists.ozlabs.org, linux-modules@vger.kernel.org
-Subject: Re: [PATCH v3 14/16] modules: Support extended MODVERSIONS info
-In-Reply-To: <CAGSQo02r3NhWnpBF--5nB2RJ=1Hh97VshtiZmasDfknnL+UjmA@mail.gmail.com>
-References: <20240806212106.617164-1-mmaurer@google.com>
- <20240806212106.617164-15-mmaurer@google.com> <87le0w2hop.fsf@mail.lhotse>
- <CAGSQo02r3NhWnpBF--5nB2RJ=1Hh97VshtiZmasDfknnL+UjmA@mail.gmail.com>
-Date: Tue, 20 Aug 2024 12:46:24 +1000
-Message-ID: <878qwrud1b.fsf@mail.lhotse>
+	s=arc-20240116; t=1724144397; c=relaxed/simple;
+	bh=wSNdF+SjzZ7RV153zgojfhRsAmxbLbtfAarPoswiZxY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P3ggugxrlvzJmHbmj0PnfrdHqm18FeHKBkIssHExmIVPD6651J76o7VJtYmhvKLgeNDtQQQs6Zw26rMEoNrGDq7quHAvOxEK5pEFp6PW34zw2b3KnqDrqG4iggPLJIwAUELjCsj62ZBrad2nbiieNDrR1wT+glSXqOTBLtCVe+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZthiMqGW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 803FBC4AF0B;
+	Tue, 20 Aug 2024 08:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724144396;
+	bh=wSNdF+SjzZ7RV153zgojfhRsAmxbLbtfAarPoswiZxY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZthiMqGWeomRokKjYa9g7I+/4p64moE3ehEnPKD6XyzdPYu8ZGlRKcnf4Ej0jgOO1
+	 pxBoAg9ONjHJ0btQGq4vkIJAcwtxqWGZukTXGk5TsSZoi7IUZm8+LxVJ65qHcjgi4G
+	 UkeKADXIrBqYHiSCprSQ8b35qiiacAPASW2A/Rd7dAQASTr3OANeZBtWGSIG3zjRji
+	 fq4qJLakgXGpjATuvRSZSucFQFrNPoMDPPs8HizfkBCp0226r4tKELvQkbTiO8QiyX
+	 JbEOlFP96pRZ3Mtc6QOVd57xw2ouXPfqCedLT/762g+rFGj6oCNI0i/C7x0Is+USw+
+	 zd++0VAYpOGJg==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: masahiroy@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jiri Slaby <jslaby@suse.cz>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	bpf@vger.kernel.org,
+	shung-hsi.yu@suse.com,
+	msuchanek@suse.com
+Subject: [RFC] kbuild: bpf: Do not run pahole with -j on 32bit userspace
+Date: Tue, 20 Aug 2024 10:59:50 +0200
+Message-ID: <20240820085950.200358-1-jirislaby@kernel.org>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Matthew Maurer <mmaurer@google.com> writes:
-> On Fri, Aug 16, 2024 at 4:04=E2=80=AFPM Michael Ellerman <mpe@ellerman.id=
-.au> wrote:
->> Matthew Maurer <mmaurer@google.com> writes:
->> > Adds a new format for MODVERSIONS which stores each field in a separate
->> > ELF section. This initially adds support for variable length names, but
->> > could later be used to add additional fields to MODVERSIONS in a
->> > backwards compatible way if needed. Any new fields will be ignored by
->> > old user tooling, unlike the current format where user tooling cannot
->> > tolerate adjustments to the format (for example making the name field
->> > longer).
->> >
->> > Since PPC munges its version records to strip leading dots, we reprodu=
-ce
->> > the munging for the new format.
->>
->> AFAICS the existing code only strips a single leading dot, not all
->> leading dots?
->
-> You appear to be correct, I'll update that in the next version, but
-> want to wait for more feedback on the rest of the patchset before
-> sending up another full series.
+From: Jiri Slaby <jslaby@suse.cz>
 
-Yep, no worries.
+== WARNING ==
+This is only a PoC. There are deficiencies like CROSS_COMPILE or LLVM
+are completely unhandled.
 
-cheers
+The simple version is just do there:
+  ifeq ($(CONFIG_64BIT,y)
+but it has its own deficiencies, of course.
+
+So any ideas, inputs?
+== WARNING ==
+
+When pahole is run with -j on 32bit userspace (32bit pahole in
+particular), it randomly fails with OOM:
+> btf_encoder__tag_kfuncs: Failed to get ELF section(62) data: out of memory.
+> btf_encoder__encode: failed to tag kfuncs!
+
+or simply SIGSEGV (failed to allocate the btf encoder).
+
+It very depends on how many threads are created.
+
+So do not invoke pahole with -j on 32bit.
+
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and generate BTF with multithreading.")
+Closes: https://bugzilla.suse.com/show_bug.cgi?id=1229450
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Eduard Zingerman <eddyz87@gmail.com>
+Cc: Song Liu <song@kernel.org>
+Cc: Yonghong Song <yonghong.song@linux.dev>
+Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: Hao Luo <haoluo@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Cc: bpf@vger.kernel.org
+Cc: shung-hsi.yu@suse.com
+Cc: msuchanek@suse.com
+---
+ init/Kconfig            |  4 ++++
+ scripts/Makefile.btf    |  2 ++
+ scripts/pahole-class.sh | 21 +++++++++++++++++++++
+ 3 files changed, 27 insertions(+)
+ create mode 100644 scripts/pahole-class.sh
+
+diff --git a/init/Kconfig b/init/Kconfig
+index f36ca8a0e209..f5e80497eef0 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -113,6 +113,10 @@ config PAHOLE_VERSION
+ 	int
+ 	default $(shell,$(srctree)/scripts/pahole-version.sh $(PAHOLE))
+ 
++config PAHOLE_CLASS
++	string
++	default $(shell,$(srctree)/scripts/pahole-class.sh $(PAHOLE))
++
+ config CONSTRUCTORS
+ 	bool
+ 
+diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+index b75f09f3f424..f7de8e922bce 100644
+--- a/scripts/Makefile.btf
++++ b/scripts/Makefile.btf
+@@ -12,7 +12,9 @@ endif
+ 
+ pahole-flags-$(call test-ge, $(pahole-ver), 121)	+= --btf_gen_floats
+ 
++ifeq ($(CONFIG_PAHOLE_CLASS),ELF64)
+ pahole-flags-$(call test-ge, $(pahole-ver), 122)	+= -j
++endif
+ 
+ pahole-flags-$(call test-ge, $(pahole-ver), 125)	+= --skip_encoding_btf_inconsistent_proto --btf_gen_optimized
+ 
+diff --git a/scripts/pahole-class.sh b/scripts/pahole-class.sh
+new file mode 100644
+index 000000000000..d15a92077f76
+--- /dev/null
++++ b/scripts/pahole-class.sh
+@@ -0,0 +1,21 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Usage: $ ./pahole-class.sh pahole
++#
++# Prints pahole's ELF class, such as ELF64
++
++if [ ! -x "$(command -v "$@")" ]; then
++	echo 0
++	exit 1
++fi
++
++PAHOLE="$(which "$@")"
++CLASS="$(readelf -h "$PAHOLE" 2>/dev/null | sed -n 's/.*Class: *// p')"
++
++# Scripts like scripts/dummy-tools/pahole
++if [ -n "$CLASS" ]; then
++	echo "$CLASS"
++else
++	echo ELF64
++fi
+-- 
+2.46.0
+
 
