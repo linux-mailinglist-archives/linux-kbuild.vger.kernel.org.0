@@ -1,91 +1,74 @@
-Return-Path: <linux-kbuild+bounces-3111-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3112-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8151958962
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 16:34:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A86695897A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 16:35:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 271141F22DC5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 14:34:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0C38B214D7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2024 14:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C62FE190058;
-	Tue, 20 Aug 2024 14:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 640AE1917F4;
+	Tue, 20 Aug 2024 14:35:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZuly/OC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qg+7baI9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B1012E5B;
-	Tue, 20 Aug 2024 14:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382601917F0;
+	Tue, 20 Aug 2024 14:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724164443; cv=none; b=DSHy9NiZxHDow/5Iwg/SOIJDH2JP1Y/MvGwtslX+n3XC+F8H947di+3x6xe0ks9mgLt+zxk6Zq0zDSAMYRzeF603baICppp66QQd2Zj2tSDv9AiEIyxCOHsDTxo288M5T5E2GMuMVQcOOT4eRpw/B8LNOVpqfFT5xMV2lukRth8=
+	t=1724164513; cv=none; b=LZSzFN1TLMbmALLN29Z+bjsjRBWxKxdkkmLsXhK66/zUwq2veZz1L7xgQkEFMTsT/cYIvr0MFQC1kQCnLLFYsuFv1tFSzEpMgzN++kx/ADPcnxf9Nsl9uYhEYqejCDxyZE4hUSMevCbTIieI1D05f1x1FPxLf2x0IquE6BxFwXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724164443; c=relaxed/simple;
-	bh=QKWYUjgkdySkXi1BPr281uIlpu0P55qZTipA7vFzcDs=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e05lQM6lXHUqmlplxLZahN4Lwpp8l30n55DGX+FVIECd5Ca6PmNDrvPqdk5bWtMK46MhDR/rzlAdZijuXCdJt6yFrUJLoVUo0XCiOf18TCGs968LfMJgm0l2Quj5yFkQUBt3fztvx70BwlKLn8DCjjHL5zMNXXg3k3b4n4JmtCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZuly/OC; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a7ac469e4c4so961294666b.0;
-        Tue, 20 Aug 2024 07:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724164438; x=1724769238; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JFEf+YZTsp2U0MqW9b++unhQczVRgDZLMKo2QlWpPZw=;
-        b=RZuly/OCH0f6sDX0KiG0Cis3aJYSJUqV/ZQcu4o1Xrjd5dBMztS+VE/Zk9FSxLLjiZ
-         B9Ee4V3FOx6TUXCh4lbqnzwEboJizlmBfvWPAros8NcgHgUmaNGwYDQlEmI/Z4Cumlrl
-         Wr0LR73VLwq+S3cugpEpAmfqedXUx88QwxKrpe2vC4GoLahRfGSN5O2HsxOzarLceYgU
-         8fbX5a18nhwoJ4UmTafyy49iNuEhu/Jq0ebzx2aa5He5P9jAHsg1TXxEjZK6+6S6g+Zj
-         V4Sa9AIzrXeDPVbmIzvwMnwt2ol2hmj/jAnU41+qE2Q6UFNbQUGfZKcVe7cJN+fqdhBm
-         USew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724164438; x=1724769238;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JFEf+YZTsp2U0MqW9b++unhQczVRgDZLMKo2QlWpPZw=;
-        b=FQ/vEPNCzb34FCLxXyYzv/YZVjEQztslvFp05ZCYtifXi2+RH6346bPN4kWKzLqHIn
-         4qIxPmRw6WlJdn0zUqCVNQ4LfZ0QOT2ZpmgWNT8CKDcAkQzzoU7NpA+PQEvUl4dQFk/7
-         LlLKugGmHrbhpUsawb1rbfco4g+FkxSKduhfx2dV3N7Q1VlsuGBW64n+0/LkECISwvoA
-         al9HgpSaGPi5oSWodj01NWQukp0hn15WBvxAAjY0FS+OnWkmxVCeq5WGtRdo6DWTBhWV
-         smkxRi7i8Ys5dyRnlH3lmOGwuDWN/s21TKZo8I39yFnsnwDbpYYdRtJp8ELzL0PHlTCr
-         Z9mg==
-X-Forwarded-Encrypted: i=1; AJvYcCUsEn4g5cGOTlcvahxH3f499CnUczKk+70v480F2q5jGtC3gdKlcqBrqmLRW+vy3gr5hnjvIiUkIWQK3bNw6G3zEK0qMdOTdcZryvXvfM5mGnNy1K1VNfELlTp6Mvo2EVY+bwKKSKbKZTAUFwU+GqrzdLXewwW0Aa8/kGgxyNYb
-X-Gm-Message-State: AOJu0YzQdA8/AudnMG/4Wkp4SCZl3FgZiyymaQ+Axo+LV5sWY8WACJ14
-	X72htxPvxx/RNEskwsm8Oh5f/aIsZBG9Jq39wXqhy+KLeCgqLrjS
-X-Google-Smtp-Source: AGHT+IEi63bHrvyONMU7Ex8SzkeDjhpiTNyFyFSg0cNe1CO72132FRtReCABy9+Q7+5KVmdQCOL7Jw==
-X-Received: by 2002:a17:906:dc95:b0:a7a:81ba:8eb3 with SMTP id a640c23a62f3a-a8643ffb8d7mr283495066b.27.1724164438004;
-        Tue, 20 Aug 2024 07:33:58 -0700 (PDT)
-Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838eef05sm767986666b.96.2024.08.20.07.33.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 07:33:57 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Tue, 20 Aug 2024 16:33:55 +0200
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: masahiroy@kernel.org, linux-kernel@vger.kernel.org,
-	Jiri Slaby <jslaby@suse.cz>, Nathan Chancellor <nathan@kernel.org>,
+	s=arc-20240116; t=1724164513; c=relaxed/simple;
+	bh=r5UcAyWfcjLB0PGZ0XNrk1RX83pspyrEnY6LgqT8Dx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ldc2u4nBHZVR/bJwWOMrt/8ehzasfuVnbYvMsFMi6jCI6iQld8fwy0+SpDVR/amC2cwBiG+BpWVPaKHllzzNVAJFzmFrNpOg3ro1Zuq5Tfph6dDQsNNDkLrGiKknPOm2k4GtvEWSE/CnDLkWNFedIiZm2XjuXoOokc3sKZ2IvpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qg+7baI9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E152BC4AF17;
+	Tue, 20 Aug 2024 14:35:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724164512;
+	bh=r5UcAyWfcjLB0PGZ0XNrk1RX83pspyrEnY6LgqT8Dx4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qg+7baI9EQhBFuxIyiOJ/ikRP9AiBmAKZad91cEPtSXOohqzvBbdl8OXYLPJO2cY7
+	 LoqitX+EZMRNKqWciz4Eia3c1cCMtibWWQEF1egcwQV8EJ/9y/MDsb6KNBXEKNvPbw
+	 ZFDVRoBeAN1AGsVmdeG5LLFN2nE7XI7jU+ltAPUGHeXSgvE94/o8WRU7pnyljllNa6
+	 e1fB9EWgNbffKjreANu34SDkkLWIhlRBXaNEyThRqeDKNUlW7PqGXvNsrCI8K/3iu2
+	 7JfoSCBsJjzta2V0pmHNs8KjDwf70GmduHkpHjfv7MPgbfmCx/nlZojA5ZMPZ7I4lR
+	 /4XOYBgr0cTRQ==
+Date: Tue, 20 Aug 2024 15:35:04 +0100
+From: Will Deacon <will@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Conor Dooley <conor@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, linux-kbuild@vger.kernel.org,
-	bpf@vger.kernel.org, shung-hsi.yu@suse.com, msuchanek@suse.com
-Subject: Re: [RFC] kbuild: bpf: Do not run pahole with -j on 32bit userspace
-Message-ID: <ZsSpU5DqT3sRDzZy@krava>
-References: <20240820085950.200358-1-jirislaby@kernel.org>
+	Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org, Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH v5] rust: support for shadow call stack sanitizer
+Message-ID: <20240820143503.GD28338@willie-the-truck>
+References: <20240806-shadow-call-stack-v5-1-26dccb829154@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -94,133 +77,84 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240820085950.200358-1-jirislaby@kernel.org>
+In-Reply-To: <20240806-shadow-call-stack-v5-1-26dccb829154@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, Aug 20, 2024 at 10:59:50AM +0200, Jiri Slaby (SUSE) wrote:
-> From: Jiri Slaby <jslaby@suse.cz>
-> 
-> == WARNING ==
-> This is only a PoC. There are deficiencies like CROSS_COMPILE or LLVM
-> are completely unhandled.
-> 
-> The simple version is just do there:
->   ifeq ($(CONFIG_64BIT,y)
-> but it has its own deficiencies, of course.
-> 
-> So any ideas, inputs?
-> == WARNING ==
-> 
-> When pahole is run with -j on 32bit userspace (32bit pahole in
-> particular), it randomly fails with OOM:
-> > btf_encoder__tag_kfuncs: Failed to get ELF section(62) data: out of memory.
-> > btf_encoder__encode: failed to tag kfuncs!
-> 
-> or simply SIGSEGV (failed to allocate the btf encoder).
-> 
-> It very depends on how many threads are created.
-> 
-> So do not invoke pahole with -j on 32bit.
+On Tue, Aug 06, 2024 at 10:01:44AM +0000, Alice Ryhl wrote:
+> This patch adds all of the flags that are needed to support the shadow
+> call stack (SCS) sanitizer with Rust, and updates Kconfig to allow
+> configurations that work.
 
-could you share more details about your setup?
+Minor nit, but some folks have allergic reactions to "This patch".
+See:
 
-does it need to run on pure 32bit to reproduce? I can't reproduce when
-doing cross build and running 32 bit pahole on x86_64.. I do see some
-errors though
+https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
 
-  [667939] STRUCT bpf_prog_aux Error emitting BTF type
-  Encountered error while encoding BTF.
+I think the commit message is much better now, though, so thank you for
+adding so much more detail for v5. If you end up respinning anyway, you
+could move this all to the imperative.
 
-thanks,
-jirka
-
+>  Makefile            | 1 +
+>  arch/arm64/Makefile | 3 +++
+>  init/Kconfig        | 2 +-
+>  3 files changed, 5 insertions(+), 1 deletion(-)
 > 
-> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
-> Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and generate BTF with multithreading.")
-> Closes: https://bugzilla.suse.com/show_bug.cgi?id=1229450
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nicolas@fjasle.eu>
-> Cc: Alexei Starovoitov <ast@kernel.org>
-> Cc: Daniel Borkmann <daniel@iogearbox.net>
-> Cc: Andrii Nakryiko <andrii@kernel.org>
-> Cc: Martin KaFai Lau <martin.lau@linux.dev>
-> Cc: Eduard Zingerman <eddyz87@gmail.com>
-> Cc: Song Liu <song@kernel.org>
-> Cc: Yonghong Song <yonghong.song@linux.dev>
-> Cc: John Fastabend <john.fastabend@gmail.com>
-> Cc: KP Singh <kpsingh@kernel.org>
-> Cc: Stanislav Fomichev <sdf@fomichev.me>
-> Cc: Hao Luo <haoluo@google.com>
-> Cc: Jiri Olsa <jolsa@kernel.org>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: bpf@vger.kernel.org
-> Cc: shung-hsi.yu@suse.com
-> Cc: msuchanek@suse.com
-> ---
->  init/Kconfig            |  4 ++++
->  scripts/Makefile.btf    |  2 ++
->  scripts/pahole-class.sh | 21 +++++++++++++++++++++
->  3 files changed, 27 insertions(+)
->  create mode 100644 scripts/pahole-class.sh
-> 
+> diff --git a/Makefile b/Makefile
+> index 44c02a6f60a1..eb01a26d8354 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -927,6 +927,7 @@ ifdef CONFIG_SHADOW_CALL_STACK
+>  ifndef CONFIG_DYNAMIC_SCS
+>  CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+>  KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+> +KBUILD_RUSTFLAGS += -Zsanitizer=shadow-call-stack
+>  endif
+>  export CC_FLAGS_SCS
+>  endif
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index f6bc3da1ef11..b058c4803efb 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -57,9 +57,11 @@ KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
+>  ifneq ($(CONFIG_UNWIND_TABLES),y)
+>  KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+>  KBUILD_AFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=n
+>  else
+>  KBUILD_CFLAGS	+= -fasynchronous-unwind-tables
+>  KBUILD_AFLAGS	+= -fasynchronous-unwind-tables
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=y -Zuse-sync-unwind=n
+>  endif
+>  
+>  ifeq ($(CONFIG_STACKPROTECTOR_PER_TASK),y)
+> @@ -114,6 +116,7 @@ endif
+>  
+>  ifeq ($(CONFIG_SHADOW_CALL_STACK), y)
+>  KBUILD_CFLAGS	+= -ffixed-x18
+> +KBUILD_RUSTFLAGS += -Zfixed-x18
+>  endif
+>  
+>  ifeq ($(CONFIG_CPU_BIG_ENDIAN), y)
 > diff --git a/init/Kconfig b/init/Kconfig
-> index f36ca8a0e209..f5e80497eef0 100644
+> index fe76c5d0a72e..d857f6f90885 100644
 > --- a/init/Kconfig
 > +++ b/init/Kconfig
-> @@ -113,6 +113,10 @@ config PAHOLE_VERSION
->  	int
->  	default $(shell,$(srctree)/scripts/pahole-version.sh $(PAHOLE))
->  
-> +config PAHOLE_CLASS
-> +	string
-> +	default $(shell,$(srctree)/scripts/pahole-class.sh $(PAHOLE))
-> +
->  config CONSTRUCTORS
->  	bool
->  
-> diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
-> index b75f09f3f424..f7de8e922bce 100644
-> --- a/scripts/Makefile.btf
-> +++ b/scripts/Makefile.btf
-> @@ -12,7 +12,9 @@ endif
->  
->  pahole-flags-$(call test-ge, $(pahole-ver), 121)	+= --btf_gen_floats
->  
-> +ifeq ($(CONFIG_PAHOLE_CLASS),ELF64)
->  pahole-flags-$(call test-ge, $(pahole-ver), 122)	+= -j
-> +endif
->  
->  pahole-flags-$(call test-ge, $(pahole-ver), 125)	+= --skip_encoding_btf_inconsistent_proto --btf_gen_optimized
->  
-> diff --git a/scripts/pahole-class.sh b/scripts/pahole-class.sh
-> new file mode 100644
-> index 000000000000..d15a92077f76
-> --- /dev/null
-> +++ b/scripts/pahole-class.sh
-> @@ -0,0 +1,21 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Usage: $ ./pahole-class.sh pahole
-> +#
-> +# Prints pahole's ELF class, such as ELF64
-> +
-> +if [ ! -x "$(command -v "$@")" ]; then
-> +	echo 0
-> +	exit 1
-> +fi
-> +
-> +PAHOLE="$(which "$@")"
-> +CLASS="$(readelf -h "$PAHOLE" 2>/dev/null | sed -n 's/.*Class: *// p')"
-> +
-> +# Scripts like scripts/dummy-tools/pahole
-> +if [ -n "$CLASS" ]; then
-> +	echo "$CLASS"
-> +else
-> +	echo ELF64
-> +fi
-> -- 
-> 2.46.0
-> 
+> @@ -1909,7 +1909,7 @@ config RUST
+>  	depends on !MODVERSIONS
+>  	depends on !GCC_PLUGINS
+>  	depends on !RANDSTRUCT
+> -	depends on !SHADOW_CALL_STACK
+> +	depends on !SHADOW_CALL_STACK || RUSTC_VERSION >= 108000 && UNWIND_PATCH_PAC_INTO_SCS
+
+Sorry, I didn't spot this in v4, but since UNWIND_PATCH_PAC_INTO_SCS is
+specific to arm64 and the only other architecture selecting
+ARCH_SUPPORTS_SHADOW_CALL_STACK is riscv, I can't help but feel it would
+be cleaner to move this logic into the arch code selecting HAVE_RUST.
+
+That is, it's up to the architecture to make sure that it has whatever
+it needs for SCS to work with Rust if it claims to support Rust.
+
+What do you think?
+
+Will
 
