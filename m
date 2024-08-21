@@ -1,61 +1,61 @@
-Return-Path: <linux-kbuild+bounces-3138-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3139-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10309594DB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2024 08:41:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BED0959623
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2024 09:34:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A67782874CA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2024 06:41:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F8091F22E39
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2024 07:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B13D916DC3A;
-	Wed, 21 Aug 2024 06:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 404FD192D98;
+	Wed, 21 Aug 2024 07:30:03 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE79716DC2D;
-	Wed, 21 Aug 2024 06:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711311B81A8;
+	Wed, 21 Aug 2024 07:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724222433; cv=none; b=j9Dg6gan5yDfQ1v0nAyzWfBpplwoK08JRQvMpgeMT05gHKtzvpz+3IJhaZiv+Hh4VO8VAwY91NAO9qbYnx/SPqlgYSwiqT8BvEy8mgRnsDyFivURmhCZ+i2SRR+cmeY4m3gA6WOi6mLOb87hNOiFtG37O3dyDnEShXZscj3GM/s=
+	t=1724225403; cv=none; b=iev+wxcdIopGImwkIqNEtSN1+URbEpwL/uk74rkMAKEXUv6IJ75U03LuUSs4F7s4e3i9msjiYTf9zwqOaxqFiwqlxyR4ycHkaAvbPjpw3fRX+mOob0Pwi8UnP1R7ZDA4hdzrom/dj+FR2NSor+klEO7e3vVeZjxllAjGnZhAt7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724222433; c=relaxed/simple;
-	bh=TMWcWDIi6SZnoKAu3hrDuGB/O1amJpxMgn7ZZuJ+/Q0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RBRwuINajZPizXVnkQk11SBSm6kCMxNP/a3AdF0mBt90YhDKdKnW5YgmxAFgr96egB8B099tSgelu/CFNgoivUooTsAP+of0R0QhNA6jpvCU3bvVUtfU+tqhPS4ANL+t3mrbbXA2NvqitQOkC8imh5yvhoQoj+Q9r2rPkj3f4Yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1724225403; c=relaxed/simple;
+	bh=JGUM4145ARScO0xL+jaBGQ6uCMV6mJhbzI2XvXOpn1c=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=uZVTtoICfuHpspWag4JMqvi1uhkfu8c7YitE5YSWeguEjdwY5fL03YAvDhPnZmxkzlbqe9SkiTobAXRPqpWiMRAGKuePpYEXzTXPaeRLbdaI9kpRu0IYSzI3qyMGAy5p8k3mkOAb4juMmdwM2DIA1CZTBF2rBbUSSTnEA8bS3yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37182eee02dso242213f8f.1;
-        Tue, 20 Aug 2024 23:40:31 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4281d812d3eso69291455e9.3;
+        Wed, 21 Aug 2024 00:30:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724222430; x=1724827230;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nnIWY5NKrbXOX6RV9OSDR6ywjrbW+j/o7WIsnEBQrm8=;
-        b=Qz40fLZPIL+kI+eTW+VjNcQZYXAAezU4Bdc47rKBFXV5SMahCGsefcUUgshlcYfuo6
-         AThXQnAFCiAh3RJmjKvyLZmRICM6EyFcKuU8sB0aqRTsUS7wmv4QMitM0S/r7KerDkHJ
-         uPAe9FG3UY8fzPpMZi6DHe966wwpHzpjmiJJ9BQCCR+MzGo/6s8EWKjnTDunh3St29WC
-         3HAB95it939Bp4iqZoaWHwKcXhu/yQYY3BCsnRAhqHbJQ9aXbBvUa6N05nnRADGQJVVK
-         mePGt8BtWajsdzQxDPCuUnw04qw40C4qGf/H9GPBALpiPqPT+cj620TSbwLoxQCjX71x
-         IjRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUlC9Ba1YjKS6cZE4WIg1CRzM3uKaViPvhHVEbFo4q6i5eNsF1hxYVduA8F4yKPyt43NrhV7SRBiIshT9X8@vger.kernel.org, AJvYcCVycQPHQz+FT7ZdK975rqvWcuLqm9SGG29xN/YVZ5h+w42mlx6zKvyMl7FCzHPx2jvj3hY=@vger.kernel.org, AJvYcCWPf6BiWgJc+QsmKjwc140wND0viMhLDdK7jbqleDCX/WmPdTSkyk5kJjhQI/FRuBuypEHMUBVewhdt9I+8@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVSZMJ8V4MMBv4drfRC/XcTV3KN1Y57Lzk1xZR0nbTHnMz/0N0
-	7ykeyyWrce3KxNNohJho7HmzhYEKeD5kk4orNCdP15xniE3Mw+E/
-X-Google-Smtp-Source: AGHT+IFQCuvIqlVi8bED/FOCjl15UVf4VXeOgbUyw19f1ZN/hCRmuC6aawUkvPknOKBzvv2UUeETTw==
-X-Received: by 2002:a5d:64c1:0:b0:371:8685:84c with SMTP id ffacd0b85a97d-372fdd9281fmr688527f8f.15.1724222429872;
-        Tue, 20 Aug 2024 23:40:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724225399; x=1724830199;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=90i4sWyCp/PnJY2UL3m3pOl5kV4vrpiZ3HrEW1i1ZWY=;
+        b=Ntu6KEfSC7+h7KgW9cPKN5bUQxjZP1CKvBNGFG42AGBIaDJ9pWK0zQbzio5zT/eIGK
+         GqblK11+VPuvlxx8epSbEA8CTrYC46KUIgp/zYjtfsKmdund9D5O8YcUNfqV4WG1ZLZB
+         +L9F6nHVlcqnK6I6zZNecrgFHbLgNaYdkil/zz6rvvs0FOxbd8fKVCm0ctv26cuhtxjh
+         KLXN+FT3yNquqT/QQRFSBupH7JuWP97voObdF4/2bKvmIa5TOVBNSZaOIDgGtw0Ot61y
+         HASz7RQ5SFiO6BM/895ES5lVsaYYxvDdbg8q3beTkW+IuxcPMpB6MF7/KnwmcE549geC
+         ZIJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUGZPNF7VUhAsvsP/w5BJstb/pjFrz0OkftKLgm+u9qZrn9+kYuLWtDMYnm5EVqFQVSHw=@vger.kernel.org, AJvYcCV7yg7qvG5jUmDqZ1UfmCNMSzDyaepOGdE/gTL6b/+DkF00a0iy671bSLFOT4YIxwWnQLKbY53VFo3hYKCb@vger.kernel.org, AJvYcCVuEPqsoOCJBBGEcrGN1Vi88+XJMyW2Qz2xCQYkoyg1Za0Pj7Lhog/foNdouyyGgXp431POR6Ji08R0mYcg@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyl+FkMOqehOylFwMqpvxCvvrrKDqENvhffy4UFumJot1o5wBIX
+	xUqOaTCo8Sl2cJRCft0NykAXXlXre/2X4v0iFIse2v11S5O9hMLn
+X-Google-Smtp-Source: AGHT+IGgWEz+bEae0ZVWNthQV+b1VnXipmXRMoH/laa8l+l8w1wJOU2B21wf6na5hjv4uCDRxVagLg==
+X-Received: by 2002:a05:600c:4f06:b0:429:a3e:c786 with SMTP id 5b1f17b1804b1-42abd246792mr15009235e9.24.1724225399083;
+        Wed, 21 Aug 2024 00:29:59 -0700 (PDT)
 Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:69? ([2a0b:e7c0:0:107::aaaa:69])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37189859d4esm14817919f8f.49.2024.08.20.23.40.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42abef9847asm15240975e9.24.2024.08.21.00.29.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 23:40:29 -0700 (PDT)
-Message-ID: <c2086083-4378-4503-b3e2-08fb14f8ff37@kernel.org>
-Date: Wed, 21 Aug 2024 08:40:27 +0200
+        Wed, 21 Aug 2024 00:29:58 -0700 (PDT)
+Message-ID: <7ebee21d-058f-4f83-8959-bd7aaa4e7719@kernel.org>
+Date: Wed, 21 Aug 2024 09:29:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -64,6 +64,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC] kbuild: bpf: Do not run pahole with -j on 32bit userspace
+From: Jiri Slaby <jirislaby@kernel.org>
 To: Jiri Olsa <olsajiri@gmail.com>
 Cc: masahiroy@kernel.org, linux-kernel@vger.kernel.org,
  Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
@@ -77,8 +78,8 @@ Cc: masahiroy@kernel.org, linux-kernel@vger.kernel.org,
  msuchanek@suse.com
 References: <20240820085950.200358-1-jirislaby@kernel.org>
  <ZsSpU5DqT3sRDzZy@krava> <523c1afa-ed9d-4c76-baea-1c43b1b0c682@kernel.org>
+ <c2086083-4378-4503-b3e2-08fb14f8ff37@kernel.org>
 Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
 Autocrypt: addr=jirislaby@kernel.org; keydata=
  xsFNBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
  rrcDwGs6tFVrAHvdHeIdI07s1iIx5R/ndcHwt4fvI8CL5PzPmn5J+h0WERR5rFprRh6axhOk
@@ -121,81 +122,75 @@ Autocrypt: addr=jirislaby@kernel.org; keydata=
  f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
  DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
  S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
-In-Reply-To: <523c1afa-ed9d-4c76-baea-1c43b1b0c682@kernel.org>
+In-Reply-To: <c2086083-4378-4503-b3e2-08fb14f8ff37@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 21. 08. 24, 7:32, Jiri Slaby wrote:
-> On 20. 08. 24, 16:33, Jiri Olsa wrote:
->> On Tue, Aug 20, 2024 at 10:59:50AM +0200, Jiri Slaby (SUSE) wrote:
->>> From: Jiri Slaby <jslaby@suse.cz>
->>>
->>> == WARNING ==
->>> This is only a PoC. There are deficiencies like CROSS_COMPILE or LLVM
->>> are completely unhandled.
->>>
->>> The simple version is just do there:
->>>    ifeq ($(CONFIG_64BIT,y)
->>> but it has its own deficiencies, of course.
->>>
->>> So any ideas, inputs?
->>> == WARNING ==
->>>
->>> When pahole is run with -j on 32bit userspace (32bit pahole in
->>> particular), it randomly fails with OOM:
->>>> btf_encoder__tag_kfuncs: Failed to get ELF section(62) data: out of 
->>>> memory.
->>>> btf_encoder__encode: failed to tag kfuncs!
->>>
->>> or simply SIGSEGV (failed to allocate the btf encoder).
->>>
->>> It very depends on how many threads are created.
->>>
->>> So do not invoke pahole with -j on 32bit.
->>
->> could you share more details about your setup?
->>
->> does it need to run on pure 32bit to reproduce?
+On 21. 08. 24, 8:40, Jiri Slaby wrote:
+>  From https://bugzilla.suse.com/show_bug.cgi?id=1229450#c20:
+> Run on 64bit:
+> pahole -j32 -> 4.102 GB
+> pahole -j16 -> 3.895 GB
+> pahole -j1 -> 3.706 GB
 > 
-> armv7l builds are 32bit only.
+> On 32bit (the same vmlinux):
+> pahole -j32 -> 2.870 GB (crash)
+> pahole -j16 -> 2.810 GB
+> pahole -j1 -> 2.444 GB
 > 
->> I can't reproduce when
->> doing cross build and running 32 bit pahole on x86_64..
-> 
-> i586 is built using 64bit kernel. It is enough to have 32bit userspace.
-> As written in the linked bug:
-> https://bugzilla.suse.com/show_bug.cgi?id=1229450#c6
-> 
-> FWIW, steps to reproduce locally:
-> docker pull jirislaby/pahole_crash
-> docker run -it jirislaby/pahole_crash
-> 
-> The VM space of pahole is exhausted:
-> process map: https://bugzilla.suse.com/attachment.cgi?id=876821
-> strace of mmaps: https://bugzilla.suse.com/attachment.cgi?id=876822
-> 
-> You need to run with large enough -j on a fast machine. Note that this 
-> happens on build hosts even with -j4, but they are under heavy load, so 
-> parallelism of held memory is high.
+> Look there for full massif report.
 
- From https://bugzilla.suse.com/show_bug.cgi?id=1229450#c20:
-Run on 64bit:
-pahole -j32 -> 4.102 GB
-pahole -j16 -> 3.895 GB
-pahole -j1 -> 3.706 GB
+ From https://bugzilla.suse.com/show_bug.cgi?id=1229450#c21:
+(In reply to Jiri Slaby from comment #20)
+ > | |   |   ->24.01% (954,816,480B) 0x489B4AB: UnknownInlinedFun 
+(dwarf_loader.c:959)
 
-On 32bit (the same vmlinux):
-pahole -j32 -> 2.870 GB (crash)
-pahole -j16 -> 2.810 GB
-pahole -j1 -> 2.444 GB
+So given this struct class_member is the largest consumer, running 
+pahole on pahole. The below results in 4.102 GB -> 3.585 GB savings.
 
-Look there for full massif report.
+--- a/dwarves.h
++++ b/dwarves.h
+@@ -487,14 +487,14 @@ int cu__for_all_tags(struct cu *cu,
+   */
+  struct tag {
+         struct list_head node;
++       const char       *attribute;
++       void             *priv;
+         type_id_t        type;
+         uint16_t         tag;
++       uint16_t         recursivity_level;
+         bool             visited;
+         bool             top_level;
+         bool             has_btf_type_tag;
+-       uint16_t         recursivity_level;
+-       const char       *attribute;
+-       void             *priv;
+  };
 
-So now I think we should disable BTF generation with 32bit pahole 
-completely. Or someone debugs it and improves debug info loading to not 
-eat that much.
+  // To use with things like type->type_enum == 
+perf_event_type+perf_user_event_type
+@@ -1086,17 +1086,17 @@ static inline int function__inlined(const struct 
+function *func)
+  struct class_member {
+         struct tag       tag;
+         const char       *name;
++       uint64_t         const_value;
+         uint32_t         bit_offset;
+         uint32_t         bit_size;
+         uint32_t         byte_offset;
+         int              hole;
+         size_t           byte_size;
++       uint32_t         alignment;
+         int8_t           bitfield_offset;
+         uint8_t          bitfield_size;
+         uint8_t          bit_hole;
+         uint8_t          bitfield_end:1;
+-       uint64_t         const_value;
+-       uint32_t         alignment;
+         uint8_t          visited:1;
+         uint8_t          is_static:1;
+         uint8_t          has_bit_offset:1;
 
-thanks,
 -- 
 js
 suse labs
