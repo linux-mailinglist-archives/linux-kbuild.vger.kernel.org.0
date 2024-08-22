@@ -1,117 +1,138 @@
-Return-Path: <linux-kbuild+bounces-3158-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3159-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921E895BDD2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 19:58:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF8C95BE11
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 20:16:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 138ACB23C83
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 17:58:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17E401C235C0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 18:16:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E17F91CFEBC;
-	Thu, 22 Aug 2024 17:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE84D12FB1B;
+	Thu, 22 Aug 2024 18:16:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A0TnMeyY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXhk7Rhh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8BC1CF286
-	for <linux-kbuild@vger.kernel.org>; Thu, 22 Aug 2024 17:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A8973514;
+	Thu, 22 Aug 2024 18:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724349483; cv=none; b=ExLFmQTYKEtJx+vYDkYoUpUCNYrkPOOhso7MWw2buRO/lUL/oVWiLKvag2qAzX2pW3zhSojtmuxpzYTZMG3OBIzq9T9sBY5z4e6OXpWszcmaCxlTKn/RCW4UzBXm9wI2zVZ/bi5pGRgA+/muzo8ppC6ST7jPTGKPNuVCTXtUTzA=
+	t=1724350606; cv=none; b=KT3P6fUkQo0ZxQVHA6vSZRC+NvmMAXOoWK+6HLifRi849ayu++MtdWajBJyE9R4yVz5WFCE3cEEeFDFJwcREFGZt766+aUPEcq0K0ePFtBsjHq5gZ86o7JorQCVagiW1kQOQAnqlnHx6EBjN1udc8wMf7JuM0miaNPuoNSJUDXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724349483; c=relaxed/simple;
-	bh=AyQnYoPe6sf/wSyLAOYvZiLsLlNC/z1c6uDn8wvCjt4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PtjGvAtWnprtAlitjI2MzxJw+B80wtuBeKTHCbLG/kSAtM6PoGeP39AOZyGdIilMzUx9C0oBjC6ys1Ebf615wa7IQDL+D4z5QvNzuLBw8f6n6ZzJH5BOFrFGoXt0mmYzW+oYoBx4r32+VsrT1PSjK6YUlTSEerFZMKeTWgaYIsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A0TnMeyY; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-44fee2bfd28so27501cf.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Aug 2024 10:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724349479; x=1724954279; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TOajGVKCmpE5kmdw/T7Qp/wNBvNSdZEW8S+OXk3bvwo=;
-        b=A0TnMeyYdHzSVj/b2HPYdhkBusch8SVI34fBwCpGSZbzyKirr+eshjNsd/eyeq1DmH
-         oEr82q5XOSGB1/Nx1BGV2zQLPQlIgtgpFR1pZc/iXchTci7b68j1vVkIGq1uzemWAQw7
-         hekHQKnm1CFInFEdfnZ5IOA/Z+sChhxSlyDv5rT/jTdD8P+xRkRAlrAlRJwEa2FFSirN
-         vHVDlAcwUKdM3bd3GXaNoSv1CHgBKVmFyLN2QsL7RX7KF1f2EBLwd0bh8hMWDwuK3UUP
-         xR3QqYAs+OYTHkxpYBIniCYr0vKfRzi3DFiIBdFhkOnhrr2vDJKE9fFiYcdeIBUaUajI
-         nnzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724349479; x=1724954279;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TOajGVKCmpE5kmdw/T7Qp/wNBvNSdZEW8S+OXk3bvwo=;
-        b=alW+eMNbvkqYPt+Buc074HgxEn0c2wrvzP7IZJc7pY5ispZPC9HqEx1dPtE0S4b8fy
-         70ujKlHnoW9mof2bHQCyaOa8Hfdw5HPlZsREb27AT3fTr0MJgRCz3j9x7iVhoeyKtO/p
-         8MWptMqrKvdwIihaQopqAYaon4tYlDweIWv4Nfw3+q3NNDH/bOyea89oHt36IW1rG3oE
-         XEL1CF+f+R6gLfDmrESlMTBTNf8a6vgAShpNqTWvAUzB6mW4pkqxnFakeBD/5ZYAsg2g
-         rKc4O9QXoZSyzmoBUWkzbOMhbO38Fj8asKSDeaa0aryvbbAN0x8Hdguvo6ki3dE7xv35
-         bNcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWBoLUU0vQ+ESQYjzY1rX2bJQRYwcU8JieK7BY4fbcKki2fNzmDTXaiQoKDMMXv9CfEamtY3ARaEg8aW4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycH0b5VvDPNEvr/izmWDwujs7sLRu6EGylmqPaZohDoAKWVsGV
-	tcKKs16ZVojBzBhguf8/9ZrQXfYO+2MGSlXMQg6DF8WAgpZ+b8nUcdHayNZyeQtgZ7yf0B3lwIj
-	Zc0LRhAlCnMHbH6AXK+ORCXLa2MP5TpiaRGJ6
-X-Google-Smtp-Source: AGHT+IHpOQGA1+Xvu8VfAIHeP2jPYfCEPVVyYq8ryHdwZRdhtAaz9lpYz6WE5A47PoBLoqFMm3zfFnuZRf1AcYxhCf8=
-X-Received: by 2002:a05:622a:1b91:b0:447:e3e3:77c1 with SMTP id
- d75a77b69052e-4550859549emr27021cf.29.1724349479217; Thu, 22 Aug 2024
- 10:57:59 -0700 (PDT)
+	s=arc-20240116; t=1724350606; c=relaxed/simple;
+	bh=sOfxd46WO7U7N9DBUnZ4f41t5HJqpb3HZtZgn4ugtUU=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=hhcV2R1CbnDl62zgmAg6EAObizCc1NL5fkRn7VscFK/0w/S3lSYsk0nJt1zpE/FAny8YIzflWAY1CsWvaAS2CFrMTqj7PinzuRiq/QbrLC7bYeLgM+U8TD3DpZllB1TqPnLLkzpPIciCqumD/Sqo/TfPYQ8VRFXu1ouE6/McWLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXhk7Rhh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58829C32782;
+	Thu, 22 Aug 2024 18:16:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724350606;
+	bh=sOfxd46WO7U7N9DBUnZ4f41t5HJqpb3HZtZgn4ugtUU=;
+	h=From:Date:Subject:To:Cc:From;
+	b=bXhk7Rhh3TukDnqjfC73MKlquG4k87ProjOj5FUMkKMn0N2Dv/8URHldrFlhkylGF
+	 syqIGkQoi6xAxYqpOLKRh/rLkXo3tyKuYB80PlPMd7flKIS3zIL8RFVr88Dj9paARf
+	 QWSgnNsFtbEptSf9D8UGZw1mPsV569UDdm80Mqvwj2HgDp29XJYGKvjUcZjsXgAWle
+	 M5HJY77Kwq9y+lsEL+5xuCYuUqRV9Zqx1L5AusYA5ur/UI9E3mOghg1lhqBjFyr05y
+	 8wMjcsRiexJNwroe46HTWMJBBMQde8bXKg5ToHL2cJwL9Ts30qzbbfoc5IGCuth+BH
+	 JKZtNJggN+GWA==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f3b8eb3df5so11228931fa.1;
+        Thu, 22 Aug 2024 11:16:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUjOOvoUfPemJf/XdIGCuSK/QrJF+mVv0/2fORte0Bn1i9kO34Sfj4pPxx5bRqrwlWPvJvyXfBb46VYnr4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3wYlwvyIKIdfRcbBnmNIJunWTjyRQkYAvsWKB4qx1gxFcGDc+
+	c+tB+SXIf/DJlxJNFNcpxHUM/oEhGta1QeKl+YcN8uadGPOO7dTU8Nqe2UXW88z8Fbyz7icNzBC
+	BUewK0rSVJZ2yQRBnaq0vJ1mCDwU=
+X-Google-Smtp-Source: AGHT+IGrONMzhlvwK93Qtis27nBm4jkOhhg+q1m/50JAP/hDM4TkX/iuamwIapHAD5oLjUP+IAQGld+nvPoeL6z1Mk0=
+X-Received: by 2002:a2e:4a11:0:b0:2f3:f828:efe7 with SMTP id
+ 38308e7fff4ca-2f405d9161emr17898791fa.16.1724350605042; Thu, 22 Aug 2024
+ 11:16:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com> <874j7ccxtz.fsf@trenco.lwn.net>
-In-Reply-To: <874j7ccxtz.fsf@trenco.lwn.net>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 22 Aug 2024 10:57:21 -0700
-Message-ID: <CABCJKud=YO=fxF_tmX1N2ec66Rzqh8RsaQu0qrbC5WB529wgWg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/19] Implement DWARF modversions
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
-	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 23 Aug 2024 03:16:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQX2tTZNnUD519Y1Kx5YxtnHy8WHPUB+L9K7ji_8nT89Q@mail.gmail.com>
+Message-ID: <CAK7LNAQX2tTZNnUD519Y1Kx5YxtnHy8WHPUB+L9K7ji_8nT89Q@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.11-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jon,
+Hello Linus,
 
-On Thu, Aug 22, 2024 at 9:43=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Sami Tolvanen <samitolvanen@google.com> writes:
->
-> > The first 16 patches of this series add a small tool for computing
-> > symbol versions from DWARF, called gendwarfksyms. When passed a
-> > list of exported symbols and an object file, the tool generates
-> > an expanded type string for each symbol, and computes symbol CRCs
-> > similarly to genksyms.
->
-> Potentially silly question but: how similarly?  Specifically, do the two
-> tools generate the same CRCs for the same symbols?  It seems that might
-> be important for users transitioning to the new DWARF world order.
 
-Reconstructing the source-based type strings genksyms uses from DWARF
-wouldn't really be feasible, so the CRCs will be different. The
-similar part is just that we build a human-readable string from the
-debugging information and compute a CRC from it. If anyone is
-interested in switching to gendwarfksyms, they'll have to rebuild all
-their modules too.
+Please pull Kbuild fixes for v6.11-rc5.
+Thanks.
 
-Sami
+
+
+The following changes since commit de9c2c66ad8e787abec7c9d7eff4f8c3cdd28aed:
+
+  Linux 6.11-rc2 (2024-08-04 13:50:53 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.11-2
+
+for you to fetch changes up to 8fb4ac1cee88a57e7a56faba49b408a41a4af4db:
+
+  kbuild: fix typos "prequisites" to "prerequisites" (2024-08-23 02:41:02 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.11 (2nd)
+
+ - Eliminate the fdtoverlay command duplication in scripts/Makefile.lib
+
+ - Fix 'make compile_commands.json' for external modules
+
+ - Ensure scripts/kconfig/merge_config.sh handles missing newlines
+
+ - Fix some build errors on macOS
+
+----------------------------------------------------------------
+Alexandre Courbot (1):
+      Makefile: add $(srctree) to dependency of compile_commands.json target
+
+Anders Roxell (1):
+      scripts: kconfig: merge_config: config files: add a trailing newline
+
+Javier Carrasco (1):
+      Documentation/llvm: turn make command for ccache into code block
+
+Masahiro Yamada (4):
+      kbuild: clean up code duplication in cmd_fdtoverlay
+      treewide: remove unnecessary <linux/version.h> inclusion
+      kbuild: avoid scripts/kallsyms parsing /dev/null
+      kbuild: fix typos "prequisites" to "prerequisites"
+
+ Documentation/kbuild/llvm.rst                         |  2 +-
+ Makefile                                              |  2 +-
+ drivers/accessibility/speakup/genmap.c                |  1 -
+ drivers/accessibility/speakup/makemapdata.c           |  1 -
+ drivers/staging/media/atomisp/include/linux/atomisp.h |  1 -
+ samples/trace_events/trace_custom_sched.c             |  1 -
+ scripts/Makefile.build                                |  2 +-
+ scripts/Makefile.lib                                  | 28
+++++++++++------------------
+ scripts/Makefile.modfinal                             |  2 +-
+ scripts/Makefile.vmlinux                              |  2 +-
+ scripts/Makefile.vmlinux_o                            |  2 +-
+ scripts/kconfig/merge_config.sh                       |  2 ++
+ scripts/link-vmlinux.sh                               |  3 ++-
+ sound/soc/codecs/cs42l42.c                            |  1 -
+ 14 files changed, 20 insertions(+), 30 deletions(-)
+
+
+-- 
+Best Regards
+Masahiro Yamada
 
