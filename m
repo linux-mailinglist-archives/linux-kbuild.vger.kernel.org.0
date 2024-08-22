@@ -1,200 +1,147 @@
-Return-Path: <linux-kbuild+bounces-3146-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3147-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BC595ACBA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 07:05:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE42295AD18
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 07:55:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE2371F22818
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 05:05:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76DB828268F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 05:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9990B39FF2;
-	Thu, 22 Aug 2024 05:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526CF69DFF;
+	Thu, 22 Aug 2024 05:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPXSStFC"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="iaJQv0Kq"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8811D12E5;
-	Thu, 22 Aug 2024 05:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724303134; cv=fail; b=RPZylL5fr3lmTQ2Nt3g3xNVLUTnK+efeH8pOguU1eks/4RZe7wnnb1BAFquaXiROTcLuJ3s2k4sn6wcP6gZWw4cIwWOlk0z0ZawtRdHOaJk5MEDUNJEpLYiPdij3C4FZ3foxr7GfWskrf0trLlxtJ5eFx2+xXtxYUeIYiIpY4Rw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724303134; c=relaxed/simple;
-	bh=6l7eu1gAPBe4O/Q3Clks5XJKjAAzbBoZNgKVcw6gGUw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=gLQSIfEha8OKYYbf0oc9+LASl3QfcMG6joVvvJ8AcDLJ6BkrogWYXNQaJtTvb+nvOUA/ItxVLyUsvl3pdeF85sNvaOCEyTWQ9eCQUTv/BH0jP8pxBrvt9cNboxa5aD/2JuOIgNqMD6Oa6bEeUNi0OvYX3lyKBzKVm31Dq2RTCfM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iPXSStFC; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724303133; x=1755839133;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=6l7eu1gAPBe4O/Q3Clks5XJKjAAzbBoZNgKVcw6gGUw=;
-  b=iPXSStFCe+E7fSGfszVkZYCC7a0euM+KR7tJcplGq6qZnvRghevEwkh7
-   FkcYR/gjs4jAFYabUMFKBnImSblkJEhq+cETDluiorytLFBoQWYzTZxuu
-   WPOdm4a1+vLKqCsUww/DaNYzTiMd5Wm+cX0zXn/dv0M0I6k2YQHW6AsZD
-   td287lkSx4CCZFAI0N2I5vsYoU6hybdaAslKAl/8vcP25/ig2TO8dytuo
-   jNcu/t+ut8+crNLGrEp1rikt4t28dTr/kjGsGW8OkXYQEBF0VHIf/cEao
-   77Fn1WgQotF2MxlrJAcCRt3Hj5sfx4tvPhC6GGD8ghja7hmBVBRnLvTWX
-   w==;
-X-CSE-ConnectionGUID: 2qR1c1O6Qu+dmeXnCqMY7w==
-X-CSE-MsgGUID: dzENqQBOTICRxoRKfTUdfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="34080160"
-X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="34080160"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 22:05:32 -0700
-X-CSE-ConnectionGUID: kMGUaXjARguAK5Qgx4hS6g==
-X-CSE-MsgGUID: 9xtq4eyFRk+oksSwBIdnGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,166,1719903600"; 
-   d="scan'208";a="92058414"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Aug 2024 22:05:32 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 21 Aug 2024 22:05:30 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 21 Aug 2024 22:05:30 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 21 Aug 2024 22:05:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MijJyqWamMYxVFhfrk3ZdAeUxL4sn+/JbgBZdFEHA4qHo1eY4FLRHIJcCLiVakq6yoj7OKG/Mf356QdzAd9kJUG6kGPi3IjOUWfsai5PmvEnvh0pN+auqsw347m+m2fzD2HVu8m69PuO4fQcPnFQKo/3F/bTvuYDJvjrZcpqrxe/APZ2z2d6Vv56X+CYWC0mRqkFrTehrdiPsnjASsziByioP6F5JPGKytfuzfImyKpGC5O5ZvV4BwHDUxsYiYigX4WQEpqHkRiwKPbkKwrNTR+VH9dYvQnCVVzxdHxu23geA/0HEwZ5/TIIVm4qJgYrWImqxdSaxaNYK8uPhKDp2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hjpsnYV6ecl0c0x8FbTcxbNSn7Sly5/qwL04zg4QNuY=;
- b=YkUCb0QtVTwDckI27Pgy6Iqw54pHCN6gDN799IylBuYWdtLvWrO5wi8/Elshu6eeDSnaF5racxVwTXFblHU8J2u0c8ld6aCqRYuVsU2yL/FzZH/Fmap4DlXvGzg9hr2bQvkR4i8iZVwpXDCqAAkuVSGo44flLA90p6osI3Z3WzNgc6bHi4P4244J0n2zlKlrudyXX2MjMy4/jwG7gl23C/iLoerEfbgpvWOyfvKhjJR91FXux7coBiSoTOwgIJT8sTG9JzNR/daUJlXEunBVFdTQlz6N841CHWPgZrKOif4s2yJ9BMlCzK8sAs7UgAWGHqOoZedLMyeRGQNz5/VJVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by BN9PR11MB5258.namprd11.prod.outlook.com (2603:10b6:408:133::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Thu, 22 Aug
- 2024 05:05:28 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7875.023; Thu, 22 Aug 2024
- 05:05:28 +0000
-Date: Thu, 22 Aug 2024 00:05:25 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-CC: Masahiro Yamada <masahiroy@kernel.org>, Michal Suchanek
-	<msuchanek@suse.de>, <linux-modules@vger.kernel.org>, Takashi Iwai
-	<tiwai@suse.com>, Lucas De Marchi <lucas.de.marchi@gmail.com>, Michal
- =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jiri Slaby <jslaby@suse.com>,
-	"Jan Engelhardt" <jengelh@inai.de>, Nick Desaulniers
-	<ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>,
-	<linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] kmod /usr support
-Message-ID: <yvwczlqf4sgfsde26iwwrywscpaianh2pnhtr6pasobt2seco7@ahtu42or7i2l>
-References: <e3yow7ih6af2hxzkmjay2oan3jypmo4hda64vxvpfco66ajcew@i3zewn4nbklf>
- <cover.1699618135.git.msuchanek@suse.de>
- <xbgto5tttcah4mrtyjih72ubod3qb375ww6e2fd4pi342rg4eg@wipwd57q43cc>
- <CAK7LNARYK-xjBS8puEM9xFtmjBNW6KJ2Qd6f7diZkdEEbUgVHA@mail.gmail.com>
- <20240821175843.GA2531464@thelio-3990X>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240821175843.GA2531464@thelio-3990X>
-X-ClientProxiedBy: MW4PR03CA0079.namprd03.prod.outlook.com
- (2603:10b6:303:b6::24) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E887614F98;
+	Thu, 22 Aug 2024 05:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724306150; cv=none; b=QHXuysyasXvIY0nX7PWa8e6wiM6OORsCeBcpMd4mGOg6YqU9wdWj9W2GWhw1MwjUnSfrtnU+QACkhX3qbqtb5S3jZii4pq3Xrk/DiPu8g2rCWSE97UnL7T3NQjjUIZQYweCJrvqqfC8qibcBdkn1m4olRKYOaaKVBfO60NwRcRg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724306150; c=relaxed/simple;
+	bh=m/sO5FPgcCf9G3nqnkG+KKrMuIS3HQHWKVpYTi+rluM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZbVgoFdX4WlOavrcWLw+vMhYbV2SxxvUk1aWS68bN8jlTO8ZY7eijthmq9i7YKwQVpM+QPPYYC8ab3CxN1uvypzGRqhqzrgFOw8+m4QDL2GUWoXVuROfout36mVEEvaXnmQBI6jmIJkp9iQHGYDvM9BEkj7ZXV23m6VkSYwj0+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=iaJQv0Kq; arc=none smtp.client-ip=185.70.40.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=2ii4ater2fgzrn6kgtbqfxyb3u.protonmail; t=1724306138; x=1724565338;
+	bh=sJAoDFrW8OINZyvtQYnpCwQ6z339HrEgCnaAsc27+J4=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=iaJQv0KqfPxemqkFKJRbQFh6nmZ2gvxxaQd6xFGcNwZY8DTmcU8ETuWUYx6Asrz7m
+	 4e5hxSjmTTtW4QriHhS/GwU9j5Kib5xw5WIox9NLeXK7wvdNn3HKDNABTnZmmClnlk
+	 b+xfEBCNZMaqmV2/cOJUdcBly4vZg8T2q5JkWOw2EOmjD2WpN/sIJSMhSNak/NznCW
+	 iCzpDzyx3rOkTWNzqCccT7xcqEa4br4LcEzd7ibYZ8aSJpxMMsmoGhX0aj0blq8QZE
+	 hLtFsS5Pn6hLf3DHDBnhzYxyna0WGAYHjxYd6FHYS7A+a4jsr4ZpzixF7X9NymydUJ
+	 mn4eQ3ckovJeA==
+Date: Thu, 22 Aug 2024 05:55:32 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Matthew Maurer <mmaurer@google.com>, Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved structure fields
+Message-ID: <bc2e02d7-d4a7-4f0f-852c-e26ad6a8688f@proton.me>
+In-Reply-To: <2024082229-elevation-emporium-8118@gregkh>
+References: <20240815173903.4172139-37-samitolvanen@google.com> <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me> <20240819193851.GA4809@google.com> <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me> <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com> <CAGSQo01kCUd64nB7C7Ssy1N=UBpOP3bORsRDcHJ1k2CqkbKsfQ@mail.gmail.com> <c6c1e84a-40f3-41a5-a732-f1cf06521691@proton.me> <2024082229-elevation-emporium-8118@gregkh>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: ecef86a32da28f909a9c19f91fbf2ed95b01f8b1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|BN9PR11MB5258:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a99c8d3-8537-4e4c-14ee-08dcc2680a55
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9H4Wg4lyiAKzaMyoNL8JQX8WsGqp0tAakm/j+f5UGtNUMmACDpNk8g5DXRXa?=
- =?us-ascii?Q?Ke55Bl7RMinkA3Pv0m0iMSgRFFtZpdHorVwKL32RtN+gYiCGFLMOIq6cULa7?=
- =?us-ascii?Q?Sa5Kk4X8qSG1cXjqRVZU77qOLUok7tnw71Z0Z70ULqwy2a5s9vJTFS1BaM5A?=
- =?us-ascii?Q?guurDaDgEQzo07Nje6Zt1VedG8T43sUTllyf32DbVQXgiK/rzUWBvcUWeVFM?=
- =?us-ascii?Q?V1bc+qpRuUJDuEHUaHOZEVprEsQDJ9lL48ZY/ETzrnTg4rzrVQ/sgqknr4A8?=
- =?us-ascii?Q?ERjxAVk56fvJEwF118LoE6JnxbkjMm7eokCPB2GhJ9J2SLKIuiL+tSJtfKkg?=
- =?us-ascii?Q?XvJWGa1iBZBQKn2D2hojAIHjP5lVn8CbmGJLdagiAYmNqRkBWYftRlFAtklX?=
- =?us-ascii?Q?6bFOxDq9n3yvp7Swh6OouYuUBgMm5TmD5Lg5vZKW3J+dtz69dmGdzDqWkqe0?=
- =?us-ascii?Q?Jm1IcaqjD9ws8OcPkL/1TaTHwaVwgerlLxg3VrzB1/hGahxBktA98Nnlx2E9?=
- =?us-ascii?Q?v7joX71GMeZX7wubf5ypsrsf72ANMY9Qe+r+oEmsM77cvoUdR5MNUUrq55T/?=
- =?us-ascii?Q?pPMt++j5vzwjZqbqhfwjoz57hIQAGBIkbLkq/cKvukG4DgGtHOdU6wUM2Raw?=
- =?us-ascii?Q?OHTJV4Bu0qsHth6xIBmGB65T3PdGIQ5RRljbcj+JO79Ior77/NZnuifWDtxf?=
- =?us-ascii?Q?LUdWjUFzqZ4SxjwAqYMJkcuhLQFLI+YkfP2zSEQEIR8cnzBg/PCfnfHoZBjk?=
- =?us-ascii?Q?wbNNMa5w48/cP79B2IQYUVsh0MqRchcbaWwRwEcPkImvkBDmh6alHu2MvrSz?=
- =?us-ascii?Q?kvwDJj5l/RJjuvyBIyCGc4vCCms1y2XAj67J0IqixEJiacIzIMdKMJ5Wgyqw?=
- =?us-ascii?Q?FkZi50WqCAZTcf4NpO5bP/MNcO9ANTQnDzOfdDN/UT2DWcMFULpr6XRWhtWY?=
- =?us-ascii?Q?IqwwzezM8UKA8gjOu4HBe2U+VFcUc/MUvCDA0uB+RtlqDySRhd9sHqQTaquJ?=
- =?us-ascii?Q?YbGWvvz4ruoXzNwV8/ABUp6Z/eaRewtdm21RPGxzspMJ+QevaLOXr2eWNZBv?=
- =?us-ascii?Q?iyAsQYPYvGf4lzC/GUOf+7p8cOVLdGPa3Yfmd7BdVx675iM8ZMOriHTCyLby?=
- =?us-ascii?Q?s2nAugZmqs+1VTG+Iu8W7B2qCAcFr5tc2qkSzV4LDUfCiN14J1QDCAK2bR/m?=
- =?us-ascii?Q?+2lqrIobdtT13yK/5VielKQs4hXx4uDfXn0i/+NmDjsUCBTEXTI1RuH53yXo?=
- =?us-ascii?Q?EuYbqaFMGJueMJnuAuwkv1LqzevqCbh9ZgsMTt8LMhJ+pxQALPgoZDSbMkAk?=
- =?us-ascii?Q?gleiSX6f5oGf+Rdy6gRlvmo1XmcJ5ag1MFi8L5IZxvb6/w=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uCMZJDNarP0ZKczfen8jWASug8ggsm+pNKfgcJ3dMadGG9KcLCiSgqWBObGH?=
- =?us-ascii?Q?ZlEE7sfhdILFxw5cidsUfJb4VahO0f2+9J9A0JkXDEwrzKu/lmsIcPsQUos2?=
- =?us-ascii?Q?tZ844ZIJXY9m9aZpwuaZK2bZr4yMt+EDH40/8KvW8YSYvJ2x/svfCCEnK9+S?=
- =?us-ascii?Q?CL6ouL7gqTnnWJ3YE0avE/0XkCQ6puQuylrhKdXxm+mXHeVwRmQIH9BKmgrW?=
- =?us-ascii?Q?Yxc9BGry2yMaCGyiUrj7QppXHUY5PjomXEtFT2ecS2TOEKVKe84g4tPVrjhC?=
- =?us-ascii?Q?W0Lmt7qPY98g1vLu+8is3XF6na5CRvF5URJp9MMSB0YDuP1MxVG66Uo+ctqz?=
- =?us-ascii?Q?7NOWMuwxX/W6pDYg9ohBE2EfLXrl6l/1/FKF5jRVYvknsIVPYdffa8pK0/fG?=
- =?us-ascii?Q?lOt5mgIA4sHd2EC+PpVjR6TKJhQqO8SPAN5BdG8tdmjdBLMJqz5N5KigRv47?=
- =?us-ascii?Q?4qJ6UaG7TKFVTpj9Q0aFnDOLSbF5jxWx6+yZI3ifJ9nxw4sKLL7Ti4rNHWaB?=
- =?us-ascii?Q?ZKHch6b83VRvwF5PeujH0OUeN9B2QEdO/XJ/EiZcIezfAjqz8WatCQIlV04m?=
- =?us-ascii?Q?XKg/jVVhgsanJzSvy82yVkaHv4axhgHvP5P3i4yKYvv/s+wvbvarA6ToqZ0X?=
- =?us-ascii?Q?NCWhjxiUGvQ5G6WWomIVwaxm2IoBCkahP7bkdHIA0KWVQJZZGP2fKP9AO/TG?=
- =?us-ascii?Q?/r2wO1ykYGrfHuhVhGvrHnOX2vugkt+GMSlbClqxqkv02F/Uzn2ADK0+KtZT?=
- =?us-ascii?Q?TXIo+xjmCTDnxZ97uSY+X1ipYOa4smgGn3iHsX+eDNtnv+GYHIWu9mDybMzE?=
- =?us-ascii?Q?oPPQVfnP0TW9UTy3z1qD06GH8MghknMWzXNbAM7JNRdAzifyso1gxPAnuDAz?=
- =?us-ascii?Q?PhlPww9Cib17H8qv0Cob1+JmvyLbEROTW3yL/88IZDieu4UFmnNpsiApGGWs?=
- =?us-ascii?Q?BwGqRw9524bi2SviaVvqomr47Pm8qWbQ+Nfp9tyC7RE+2AiSbYo4fLJdKknN?=
- =?us-ascii?Q?mbrOJ/2NMOD8TBglHKw/vKxtHAiAYJqM9G/cwXA77rCXPptM9bOFJjFBKR55?=
- =?us-ascii?Q?VXDoVJhuXcQS5nRSU556PnIF+cvXLGT9atohPxSWqtDjOru6qpmBmW3xqhow?=
- =?us-ascii?Q?kSRxQG9bNw7ZtGoZV3s3U+uOWySCAsqZjAsE2Uuu97TwAmD7dv9wflToHsDz?=
- =?us-ascii?Q?fWA4h+a1KvHFFZy7yAJ85mmIswbbJhpBCgpJDPqsZ6fweCbAoUNOSobZ6BLw?=
- =?us-ascii?Q?Ax57/B/L0g9Xp1dpkMXpKz66J6/+OqM2MjVuLdbgoR0eXaahemKnPp/tVKDb?=
- =?us-ascii?Q?HrDOy0xLTzCK8LjLojHaAnV+mOElp+i2NNpr0uIzJovCwoW3P/VyzRhX3uJ7?=
- =?us-ascii?Q?mIBtPEikNsgFh5ePXw32X3eM1RwdaZogotKv3iMjGdzJO0fqaMv/UYqXD9lU?=
- =?us-ascii?Q?U+cT/XCt/SxPosXy7ZYJEg1iDSlWNmhGnyP5DZSla4J2jYq2Wz0P23ocS2GD?=
- =?us-ascii?Q?4Dso8QzE0CHy0v7LudTaPGJUC/HnKnnDHORXz8HjSR1gcpx41wBZpoQOpzcl?=
- =?us-ascii?Q?ARshWaUirOARWbjDSzL+T82+U8sOasH/LxsyJJ6ldUKeZK0K4QE+PYZX7SfO?=
- =?us-ascii?Q?tA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a99c8d3-8537-4e4c-14ee-08dcc2680a55
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2024 05:05:28.6513
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YjO7e6ePnj8p91fsuJH1Sk/PH6zgN4Uk/7gE7Zye14u9SA9FJwETURNTlPou2L2jgalUv+Yq3P4ioqFES2F0CsRUR0DV6+Tp2X7J6etdcPw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5258
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 21, 2024 at 10:58:43AM GMT, Nathan Chancellor wrote:
->Did this conversation go anywhere? After the upgrade to kmod 33 in Arch
+On 22.08.24 01:29, Greg Kroah-Hartman wrote:
+> On Wed, Aug 21, 2024 at 11:31:25AM +0000, Benno Lossin wrote:
+>> On 20.08.24 22:03, Matthew Maurer wrote:
+>>>>> The way `KAbiReserved` is implemented is via a `union` (maybe a bit
+>>>>> ironic, considering what I said in my other replies, but in this case=
+,
+>>>>> we would provide a safe abstraction over this `union`, thus avoiding
+>>>>> exposing users of this type to `unsafe`):
+>>>>>
+>>>>>     #[repr(C)]
+>>>>>     pub union KAbiReserved<T, R> {
+>>>>>         value: T,
+>>>>>         _reserved: R,
+>>>>>     }
+>>>>
+>>>> I like this approach even better, assuming any remaining issues with
+>>>> ownership etc. can be sorted out. This would also look identical to
+>>>> the C version in DWARF if you rename _reserved in the union to
+>>>> __kabi_reserved. Of course, we can always change gendwarfksyms to
+>>>> support a different scheme for Rust code if a better solution comes
+>>>> along later.
+>>
+>> Yeah sure, that should also then work directly with this patch, right?
+>>
+>>>> Sami
+>>>
+>>> Agreement here - this seems like a good approach to representing
+>>> reserved in Rust code. A few minor adjustments we discussed off-list
+>>> which aren't required for gendwarfksyms to know about:
+>>> 1. Types being added to reserved fields have to be `Copy`, e.g. they
+>>> must be `!Drop`.
+>>> 2. Types being added to reserved fields must be legal to be
+>>> represented by all zeroes.
+>>> 3. Reserved fields need to be initialized to zero before having their
+>>> union set to the provided value when constructing them.
+>>> 4. It may be helpful to have delegating trait implementations to avoid
+>>> the couple places where autoderef won't handle the conversion.
+>>>
+>>> While I think this is the right solution, esp. since it can share a
+>>> representation with C, I wanted to call out one minor shortfall - a
+>>> reserved field can only be replaced by one type. We could still
+>>> indicate a replacement by two fields the same as in C, by using a
+>>> tuple which will look like an anonymous struct. The limitation will be
+>>> that if two or more new fields were introduced, we'd need to edit the
+>>> patches accessing them to do foo.x.y and foo.x.z for their accesses
+>>> instead of simply foo.y and foo.z - the autoref trick only works for a
+>>> single type.
+>>
+>> We will have to see how often multiple fields are added to a struct. If
+>> they are infrequent and it's fine for those patches to then touch the
+>> field accesses, then I think we can just stick with this approach.
+>> If there are problems with that, we can also try the following:
+>> all fields of kABI structs must be private and must only be accessed
+>> through setters/getters. We can then modify the body the setters/getters
+>> to handle the additional indirection.
+>=20
+> That's just not going to work, sorry.  Remember, the goal here is to
+> keep the code that comes from kernel.org identical to what you have in
+> your "enterprise" kernel tree, with the exception of the few extra
+> "padding" fields you have added to allow for changes in the future in
+> the kernel.org versions.
 
-no, it stalled,  thanks for reminding me. I will follow up on it.
+Yeah, that's what I thought.
 
-Lucas De Marchi
+> Requiring all kernel.org changes that add a new field to a structure to
+> only do so with a settter/getter is going to just not fly at all as they
+> will not care one bit.
+>=20
+> Or, we can just forget about "abi stability" for rust code entirely,
+> which I am totally fine with.  It's something that managers seem to like
+> for a "check box" but in reality, no one really needs it (hint, vendors
+> rebuild their code anyway.)
+
+The approach already works for a adding a single field and I got from
+the discussions with Matthew and Sami that that is the most common case.
+We will reach out to the Rust folks and see what we can do about the
+multiple field case.
+
+---
+Cheers,
+Benno
+
 
