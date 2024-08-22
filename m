@@ -1,69 +1,70 @@
-Return-Path: <linux-kbuild+bounces-3156-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3157-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E929595BD60
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 19:34:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D361895BD67
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 19:36:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8C83286169
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 17:34:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8CA63284E44
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2024 17:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF2431CEAC5;
-	Thu, 22 Aug 2024 17:34:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22EC61CEADA;
+	Thu, 22 Aug 2024 17:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzEyf6uQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZD8erRH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC93F1CCB36;
-	Thu, 22 Aug 2024 17:34:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53ED487AE;
+	Thu, 22 Aug 2024 17:36:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724348082; cv=none; b=FDMpBzj+fBYbzdL08v2otEqYT3BUazKL9k0Q6YJyFkMT8VSnYxzoO0BF1kSjixSlzX8hFberp5H+3d0vAC6NyW5vcR27CTDSrngCJMujPx5csjhHrsh4oRUgkmZLbkLsLC8LFDK3/leKH5yEE9MkX1o8sArkA+aK2Vag4l1gxq4=
+	t=1724348189; cv=none; b=Qgk1V4aO+sjQza8N6nkrBpD7mDQi4/jEjf2n/IGoyH+C3CNeWMQV2QPym6qaagARBYPDFRRh8F8Y6iOM04B/C+jjQBhHB4pVvmKNRwkXNVM1s+gw9gRV4l2VTtMsdHoRtthy5PAkhvkXYYnIrb9dL6aRAo2mut5THZQAdbWIjCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724348082; c=relaxed/simple;
-	bh=rahWFJeMcvXEHyx7jNcZStpXPA3pa18p17UBFBk8xtA=;
+	s=arc-20240116; t=1724348189; c=relaxed/simple;
+	bh=ALLrNEBz2lBvoCSYyf3SnpzNRa2dr0JSZGzm5i/Z76k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=taMNqVrSugesyGvrCrmbZjvB7pjWUo0ATnzByLLH+9YlScbjvz5dQnAyw4vbop85CnFlA7hauUNh8f+4ki94/tkru0TNUywbiM7SofKXfGcMGQyfdsYqMq5iRadc+p56LOBr7hVUU+U5PHCz7yEBDmkvWZ+fmYPQ+wUqSR/HTww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzEyf6uQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D122C4AF0C;
-	Thu, 22 Aug 2024 17:34:42 +0000 (UTC)
+	 To:Cc:Content-Type; b=GyLsT2Q/k/JpcoVb6kH2O1b3flT89P25vGL7m26AQxHXPG/PqCd97TDS1rUWRkSm0gVksYhzylNboOt9SFOycPIUANgapdvqASbv/0Zlh8klo+bCSbmoFyemcqoS+m3X2rpehL2/b4z0cZKUecuZE6N+5TovJ/rtsNeDZJCM0RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZD8erRH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733C7C4AF12;
+	Thu, 22 Aug 2024 17:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724348082;
-	bh=rahWFJeMcvXEHyx7jNcZStpXPA3pa18p17UBFBk8xtA=;
+	s=k20201202; t=1724348188;
+	bh=ALLrNEBz2lBvoCSYyf3SnpzNRa2dr0JSZGzm5i/Z76k=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=VzEyf6uQ1Mr3OOQF+Jc5klfYyY7YGp2pKAIz522AEjbgffHyjHTHl9kzx0aWLGStv
-	 q3ajF0yh41us8dyT5XeAyA7Oznuy88fLxOMD55ghzW3Et8XMQ3N5ebRA58QPahR1Pb
-	 vkZRSUSsKnMbHvda1m0IBqYKXf973eOnUCXH/rdPn4eRW7GSKyfzSxGzqp8Qdm7azL
-	 31AQoNig9nl68RxGwkmKTMh4cwpocj/PFiUOCZXurtviC8kxRROE0je9/2QiaJXGrR
-	 ASFGO7Z2SgXQQRJZwwhyyh0Nt5jRk4RtLI4odOfVorMJXHpV1aTZGYOIvO1gWGqeQa
-	 u4DD+D4l/k+wQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f3f163e379so17505171fa.3;
-        Thu, 22 Aug 2024 10:34:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU18RlR3X7OH2wjOAH096o4R+AdulA0ZWzbsQ7ITdq8HzPaffI8COJfnEBEI2jpeoACxOYBuSeC+mn+Af0=@vger.kernel.org, AJvYcCW1Plg0aZMElq4Q7n9GkqPIQD0msGAijONYsOfCzAusbnrUK5qQEM0L8sEkSoxesApG0U0aqpqfrwfirDjegdjK+XC3@vger.kernel.org, AJvYcCXXdxUJHR2t+rsNB1pQfK/Lm7a2QF3105H86+ELtD5iNqNP+LPNJ1M46UPHpXMHZrJ6zjpnIwjR/iwakTddVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmQwwBQqlMH7rmZgzrVGxE+TxYESr9BFN4/w6Hiq+xFAAQr/1B
-	w3X5TOKznFvP1nyfOurIW0hoCNh7QwGyyQnpJfFDsh4/i0CJRhzHkP06Xy0OEqcrUfuOae59sf/
-	3EzatVmtfjdVw33xkDTsoD+7zRi4=
-X-Google-Smtp-Source: AGHT+IG0yd7j8ZcYnzo/5J5k1u9eHExoy9aGS6E79ggApFILT1GWudOVvzvPeOA5qyV9BShxLqQIin21+j/yT70RQ7Q=
-X-Received: by 2002:a2e:b3d4:0:b0:2f3:c384:71ee with SMTP id
- 38308e7fff4ca-2f405eef820mr22347761fa.33.1724348080675; Thu, 22 Aug 2024
- 10:34:40 -0700 (PDT)
+	b=aZD8erRHGDh2nsjbCAbpiKFU4MOXC9oNfSIo6ZKseA4+ou0A+f0ZtcCH1INMc43ZT
+	 Wr1HW9ygEpnPX0pOoRH3XQVWzWxnJSrH5ibPiWBwBFs9j25kp9PdrNVOyFVyzcTYew
+	 Pzafe7Nq8MN8kacxxBd3bTf8uhgyxKqfoE3+pY661X2C2QhIqyEHsbIyHBv77TADip
+	 1BFyTIQudGsdtaJuIfQdc4+3Ugr8mAseZ9VKvKlLai6wNi7ZJ1ZYvK0QCJcSczIsrC
+	 f8xHPce9Xc+zn7IMXX0Fi3NlyrFNKLUbaCj4ndWDdvo4EH+hOS2fzl/+dygXG0K7ER
+	 Q6WsBD9aQXEDg==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5343617fdddso769391e87.0;
+        Thu, 22 Aug 2024 10:36:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVQ7mAN2XA50aKSW4GTF6YnkvrcdwA1Ta5lqsq4BUlbVTs8OOFnFqMvmLi0Bg5XP9mQGPP5BB/ewDRHEi4FGyh/swsZ@vger.kernel.org, AJvYcCVqzYKI2tx1luqGb4n0Ab80Bnh3r6Gsx4pa45o9f7GIk+SH4V0ItaUuOkBUv7eENAyz/fjqkZlauiHBPxs=@vger.kernel.org, AJvYcCVwnkpBANgRRAVm79xNL6WWLLKVgHLW0MZmluWn6hd0hHut6/CKwonLrC5TMCINhsE5n+ITOWeGDObRIA9OEA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI2mZlipsXQCH/TQ+T40xfEbjQWYK7OoT8XQ0q4Tt+0KYAVHPL
+	kwUBj2boe1A/F17ukumVMoPf/MsRsZNaUtg4Yj3ESc5u1JRES0uMjebQKpEk7zd0qE8GF2QBUu3
+	3lX+SY+npwRBWj/oKXRN+iYjeS2w=
+X-Google-Smtp-Source: AGHT+IHjEo7S6pVlNBC7rLTzZt9ouBtvu4VbscK/zAkryHKCVDTjtRFouTb6icvjUG0NC9wW6KL1KWWdDDUarh5FSRg=
+X-Received: by 2002:a05:6512:1111:b0:52f:cd03:a84a with SMTP id
+ 2adb3069b0e04-5334fd4cdd0mr2460609e87.39.1724348187091; Thu, 22 Aug 2024
+ 10:36:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240821040700.1919317-1-kris.van.hees@oracle.com> <20240821040700.1919317-2-kris.van.hees@oracle.com>
-In-Reply-To: <20240821040700.1919317-2-kris.van.hees@oracle.com>
+References: <20240821040700.1919317-1-kris.van.hees@oracle.com> <20240821040700.1919317-3-kris.van.hees@oracle.com>
+In-Reply-To: <20240821040700.1919317-3-kris.van.hees@oracle.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 23 Aug 2024 02:34:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARsq1aT5jJnKRYscAMsp3aO5euykSU_yPF6ZLMaDoeHJw@mail.gmail.com>
-Message-ID: <CAK7LNARsq1aT5jJnKRYscAMsp3aO5euykSU_yPF6ZLMaDoeHJw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/4] kbuild: generate offset range data for builtin modules
+Date: Fri, 23 Aug 2024 02:35:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR3Vkubuv7Rb2eeRE45Yycs9DJLRUatBb=9--VPT80aQw@mail.gmail.com>
+Message-ID: <CAK7LNAR3Vkubuv7Rb2eeRE45Yycs9DJLRUatBb=9--VPT80aQw@mail.gmail.com>
+Subject: Re: [PATCH v7 3/4] scripts: add verifier script for builtin module
+ range data
 To: Kris Van Hees <kris.van.hees@oracle.com>
 Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
 	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
@@ -77,228 +78,65 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Aug 21, 2024 at 1:11=E2=80=AFPM Kris Van Hees <kris.van.hees@oracle=
 .com> wrote:
 >
-> Create file module.builtin.ranges that can be used to find where
-> built-in modules are located by their addresses. This will be useful for
-> tracing tools to find what functions are for various built-in modules.
+> The modules.builtin.ranges offset range data for builtin modules is
+> generated at compile time based on the list of built-in modules and
+> the vmlinux.map and vmlinux.o.map linker maps.  This data can be used
+> to determine whether a symbol at a particular address belongs to
+> module code that was configured to be compiled into the kernel proper
+> as a built-in module (rather than as a standalone module).
 >
-> The offset range data for builtin modules is generated using:
->  - modules.builtin: associates object files with module names
->  - vmlinux.map: provides load order of sections and offset of first membe=
-r
->     per section
->  - vmlinux.o.map: provides offset of object file content per section
->  - .*.cmd: build cmd file with KBUILD_MODFILE
+> This patch adds a script that uses the generated modules.builtin.ranges
+> data to annotate the symbols in the System.map with module names if
+> their address falls within a range that belongs to one or more built-in
+> modules.
 >
-> The generated data will look like:
+> It then processes the vmlinux.map (and if needed, vmlinux.o.map) to
+> verify the annotation:
 >
-> .text 00000000-00000000 =3D _text
-> .text 0000baf0-0000cb10 amd_uncore
-> .text 0009bd10-0009c8e0 iosf_mbi
-> ...
-> .text 00b9f080-00ba011a intel_skl_int3472_discrete
-> .text 00ba0120-00ba03c0 intel_skl_int3472_discrete intel_skl_int3472_tps6=
-8470
-> .text 00ba03c0-00ba08d6 intel_skl_int3472_tps68470
-> ...
-> .data 00000000-00000000 =3D _sdata
-> .data 0000f020-0000f680 amd_uncore
->
-> For each ELF section, it lists the offset of the first symbol.  This can
-> be used to determine the base address of the section at runtime.
->
-> Next, it lists (in strict ascending order) offset ranges in that section
-> that cover the symbols of one or more builtin modules.  Multiple ranges
-> can apply to a single module, and ranges can be shared between modules.
->
-> The CONFIG_BUILTIN_MODULE_RANGES option controls whether offset range dat=
-a
-> is generated for kernel modules that are built into the kernel image.
->
-> How it works:
->
->   1. The modules.builtin file is parsed to obtain a list of built-in
->      module names and their associated object names (the .ko file that
->      the module would be in if it were a loadable module, hereafter
->      referred to as <kmodfile>).  This object name can be used to
->      identify objects in the kernel compile because any C or assembler
->      code that ends up into a built-in module will have the option
->      -DKBUILD_MODFILE=3D<kmodfile> present in its build command, and thos=
-e
->      can be found in the .<obj>.cmd file in the kernel build tree.
->
->      If an object is part of multiple modules, they will all be listed
->      in the KBUILD_MODFILE option argument.
->
->      This allows us to conclusively determine whether an object in the
->      kernel build belong to any modules, and which.
->
->  2. The vmlinux.map is parsed next to determine the base address of each
->     top level section so that all addresses into the section can be
->     turned into offsets.  This makes it possible to handle sections
->     getting loaded at different addresses at system boot.
->
->     We also determine an 'anchor' symbol at the beginning of each
->     section to make it possible to calculate the true base address of
->     a section at runtime (i.e. symbol address - symbol offset).
->
->     We collect start addresses of sections that are included in the top
->     level section.  This is used when vmlinux is linked using vmlinux.o,
->     because in that case, we need to look at the vmlinux.o linker map to
->     know what object a symbol is found in.
->
->     And finally, we process each symbol that is listed in vmlinux.map
->     (or vmlinux.o.map) based on the following structure:
->
->     vmlinux linked from vmlinux.a:
->
->       vmlinux.map:
->         <top level section>
->           <included section>  -- might be same as top level section)
->             <object>          -- built-in association known
->               <symbol>        -- belongs to module(s) object belongs to
->               ...
->
->     vmlinux linked from vmlinux.o:
->
->       vmlinux.map:
->         <top level section>
->           <included section>  -- might be same as top level section)
->             vmlinux.o         -- need to use vmlinux.o.map
->               <symbol>        -- ignored
->               ...
->
->       vmlinux.o.map:
->         <section>
->             <object>          -- built-in association known
->               <symbol>        -- belongs to module(s) object belongs to
->               ...
->
->  3. As sections, objects, and symbols are processed, offset ranges are
->     constructed in a striaght-forward way:
->
->       - If the symbol belongs to one or more built-in modules:
->           - If we were working on the same module(s), extend the range
->             to include this object
->           - If we were working on another module(s), close that range,
->             and start the new one
->       - If the symbol does not belong to any built-in modules:
->           - If we were working on a module(s) range, close that range
+>   - For each top-level section:
+>      - For each object in the section:
+>         - Determine whether the object is part of a built-in module
+>           (using modules.builtin and the .*.cmd file used to compile
+>            the object as suggested in [0])
+>         - For each symbol in that object, verify that the built-in
+>           module association (or lack thereof) matches the annotation
+>           given to the symbol.
 >
 > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 > Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 > Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
-> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 > ---
 >     Changes since v6:
->      - Applied Masahiro Yamada's suggestions (Kconfig, makefile, script).
+>      - Applied Masahiro Yamada's suggestions to the AWK script.
 >
 >     Changes since v5:
->      - Removed unnecessary compatibility info from option description.
+>      - Added optional 6th argument to specify kernel build directory.
+>      - Report error and exit if .*.o.cmd files cannot be read.
 >
 >     Changes since v4:
->      - Improved commit description to explain the why and how.
->      - Documented dependency on GNU AWK for CONFIG_BUILTIN_MODULE_RANGES.
->      - Improved comments in generate_builtin_ranges.awk
->      - Improved logic in generate_builtin_ranges.awk to handle incorrect
->        object size information in linker maps
->
->     Changes since v3:
->      - Consolidated patches 2 through 5 into a single patch
->      - Move CONFIG_BUILTIN_MODULE_RANGES to Kconfig.debug
->      - Make CONFIG_BUILTIN_MODULE_RANGES select CONFIG_VMLINUX_MAP
->      - Disable CONFIG_BUILTIN_MODULE_RANGES if CONFIG_LTO_CLANG_(FULL|THI=
-N)=3Dy
->      - Support LLVM (lld) compiles in generate_builtin_ranges.awk
->      - Support CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=3Dy
->
->     Changes since v2:
->      - Add explicit dependency on FTRACE for CONFIG_BUILTIN_MODULE_RANGES
->      - 1st arg to generate_builtin_ranges.awk is now modules.builtin.modi=
-nfo
->      - Switched from using modules.builtin.objs to parsing .*.cmd files
->      - Parse data from .*.cmd in generate_builtin_ranges.awk
->      - Use $(real-prereqs) rather than $(filter-out ...)
+>      - New patch in the series
 > ---
->  Documentation/process/changes.rst   |   7 +
->  lib/Kconfig.debug                   |  16 +
->  scripts/Makefile.vmlinux            |  18 +
->  scripts/Makefile.vmlinux_o          |   3 +
->  scripts/generate_builtin_ranges.awk | 506 ++++++++++++++++++++++++++++
->  5 files changed, 550 insertions(+)
->  create mode 100755 scripts/generate_builtin_ranges.awk
+>  scripts/verify_builtin_ranges.awk | 356 ++++++++++++++++++++++++++++++
+>  1 file changed, 356 insertions(+)
+>  create mode 100755 scripts/verify_builtin_ranges.awk
 >
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/ch=
-anges.rst
-> index 3fc63f27c226..00f1ed7c59c3 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -64,6 +64,7 @@ GNU tar                1.28             tar --version
->  gtags (optional)       6.6.5            gtags --version
->  mkimage (optional)     2017.01          mkimage --version
->  Python (optional)      3.5.x            python3 --version
-> +GNU AWK (optional)     5.1.0            gawk --version
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->
->  .. [#f1] Sphinx is needed only to build the Kernel documentation
-> @@ -192,6 +193,12 @@ platforms. The tool is available via the ``u-boot-to=
-ols`` package or can be
->  built from the U-Boot source code. See the instructions at
->  https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-li=
-nux
->
-> +GNU AWK
-> +-------
-> +
-> +GNU AWK is needed if you want kernel builds to generate address range da=
-ta for
-> +builtin modules (CONFIG_BUILTIN_MODULE_RANGES).
-> +
->  System utilities
->  ****************
->
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index a30c03a66172..f087dc3da321 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -571,6 +571,22 @@ config VMLINUX_MAP
->           pieces of code get eliminated with
->           CONFIG_LD_DEAD_CODE_DATA_ELIMINATION.
->
-> +config BUILTIN_MODULE_RANGES
-> +       bool "Generate address range information for builtin modules"
-> +       depends on !LTO_CLANG_FULL
-> +       depends on !LTO_CLANG_THIN
-
-
-Forgot to mention this.
-
-These two lines can be replaced with
-
-         depends on !LTO
-
-
-
-
-
-
-> diff --git a/scripts/generate_builtin_ranges.awk b/scripts/generate_built=
-in_ranges.awk
+> diff --git a/scripts/verify_builtin_ranges.awk b/scripts/verify_builtin_r=
+anges.awk
 > new file mode 100755
-> index 000000000000..865cb7ac4970
+> index 000000000000..93f66e9a8802
 > --- /dev/null
-> +++ b/scripts/generate_builtin_ranges.awk
-> @@ -0,0 +1,506 @@
+> +++ b/scripts/verify_builtin_ranges.awk
+> @@ -0,0 +1,356 @@
 > +#!/usr/bin/gawk -f
 > +# SPDX-License-Identifier: GPL-2.0
-> +# generate_builtin_ranges.awk: Generate address range data for builtin m=
-odules
+> +# verify_builtin_ranges.awk: Verify address range data for builtin modul=
+es
 > +# Written by Kris Van Hees <kris.van.hees@oracle.com>
 > +#
-> +# Usage: generate_builtin_ranges.awk modules.builtin vmlinux.map \
-> +#              vmlinux.o.map > modules.builtin.ranges
+> +# Usage: verify_builtin_ranges.awk modules.builtin.ranges System.map \
+> +#                                 modules.builtin vmlinux.map vmlinux.o.=
+map \
+> +#                                 [ <build-dir> ]
 > +#
 > +
 > +# Return the module name(s) (if any) associated with the given object.
@@ -315,12 +153,21 @@ odules
 > +
 > +       obj =3D fn;
 > +       mod =3D "";
-> +       fn =3D substr(fn, 1, RSTART) "." substr(fn, RSTART + 1) ".cmd";
+> +       fn =3D kdir "/" substr(fn, 1, RSTART) "." substr(fn, RSTART + 1) =
+".cmd";
 > +       if (getline s <fn =3D=3D 1) {
 > +               if (match(s, /DKBUILD_MODFILE=3D['"]+[^'"]+/) > 0) {
 > +                       mod =3D substr(s, RSTART + 16, RLENGTH - 16);
 > +                       gsub(/['"]/, "", mod);
 > +               }
+> +       } else {
+> +               print "ERROR: Failed to read: " fn "\n\n" \
+> +                     "  Invalid kernel build directory (" kdir ")\n" \
+> +                     "  or its content does not match " ARGV[1] >"/dev/s=
+tderr";
+> +               close(fn);
+> +               total =3D 0;
+> +               exit(1);
 > +       }
 > +       close(fn);
 > +
@@ -346,17 +193,13 @@ f
 > +       close(fn);
 
 
-I still see the second close(fn).
+Same as 2/4.
 
 
 
 
 
-
-
-
-
---=20
+--
 Best Regards
 Masahiro Yamada
 
