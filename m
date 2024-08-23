@@ -1,176 +1,139 @@
-Return-Path: <linux-kbuild+bounces-3174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5D595CDAB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 15:21:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C80F495CDE8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 15:31:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FC091C214E2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 13:21:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8444C2875CC
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 13:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4928F186607;
-	Fri, 23 Aug 2024 13:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D02D4187FEA;
+	Fri, 23 Aug 2024 13:31:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+U/ybQ3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B52D5KWb"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0BC18562A;
-	Fri, 23 Aug 2024 13:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87A617E01F;
+	Fri, 23 Aug 2024 13:31:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724419303; cv=none; b=fLgSRmF92QtnQxSKKgJyElq0iA2OA112ee5SJjyDMuhsiJF1g0ErawUs3T/xDLfHmXHXIjpirLDcwWW4Lq1QJ5QV46KTSJHap1kU8C5X8XrmbLXi+avswHvGuiLtHKx0/IgPxHByY0Fe0rX4rWOwXsl5FHHfT9eE5PQ6XrMvTco=
+	t=1724419863; cv=none; b=nck20fACqrt5Dc7v+8G2UQ3HU/fh5mDmiXFGhSGLyz2+6a2quM+Ll1MrIuRLJJjduygrC5dWVGvGvhsBmUrSqEQIqAOudegGwp6IorACHl2IcQ/gineZjNuBYDQtpfrwwmqHjMJE6ySKa+HdWIJRCDYIOWmmOF0l/Cyid00C9BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724419303; c=relaxed/simple;
-	bh=raWe8OEdcYkXh26uvYEiz8FdGz1HJ2MMltZJKs0Gaww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NhHb8Rq8uD1yo4JIbZDhGaCYzrNx7yeeDO7J5T+qYocxzs9ii0nPCXvUivZIKchi07Cr4VvhixTqySDxvCxW9EtkjPLuJRcKijvIy5Mcntlsaebjz9dDe93WQv9z5KutpMlnTlvXmqID28xwzY3SlxoZB4X7dGx5rXtlQSGDvLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+U/ybQ3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAD3AC4AF09;
-	Fri, 23 Aug 2024 13:21:37 +0000 (UTC)
+	s=arc-20240116; t=1724419863; c=relaxed/simple;
+	bh=uWBy1QXUy4iSiVTL09UZnq8++MioabbaOMC8Ky3CKY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hGZ2uDBgpfHqqJMIKAZOJaOVDgUk3INWvpTHc5VQe8DXgfjxwAcRxOR1FBHxbbzSoqHkEwu3kvMlL8qA3SSHaboaGksvk70GeTBEybbQsVsXOb8HOwRVUeLRWPrrDVQEu6+7H/9LkasQrNuTMMaa9pMrA9L/AMzInL+JJlCwPYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B52D5KWb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4825CC32786;
+	Fri, 23 Aug 2024 13:31:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724419302;
-	bh=raWe8OEdcYkXh26uvYEiz8FdGz1HJ2MMltZJKs0Gaww=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p+U/ybQ3ztl5F8my+cKpaMq9Y+qRNgf/cLka6IAj2rJJSIayX/8tep7azsrb8Sje3
-	 /ztHADGvfdGrGTh2eVgIyhuJK+7yY3tN6dJNseP4NWoap3xWdmOjLmVYPWH8Sir387
-	 c9Pi2NskdVfWihBAta/4gODNKf19bA29PdYmrfYGLc/SUmg95XzzK0HZb+r//MPskh
-	 h8c/3Ft3qDK5j6AJZxyTDji9Yv3FYaIhrbVDYQxZhPgP3zXYC2TWWO3SSaCDZbQmEp
-	 tkYiQBN1gyhai6h9M6AA3HyP2Bl5yLbKJ0BG7KWVxXFQ1qBa9sLnaqKTuZPa6WM5hc
-	 urpLD4esjJgDw==
-Date: Fri, 23 Aug 2024 14:21:34 +0100
-From: Will Deacon <will@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Conor Dooley <conor@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Valentin Obst <kernel@valentinobst.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	rust-for-linux@vger.kernel.org, Kees Cook <kees@kernel.org>
-Subject: Re: [PATCH v5] rust: support for shadow call stack sanitizer
-Message-ID: <20240823132133.GC32156@willie-the-truck>
-References: <20240806-shadow-call-stack-v5-1-26dccb829154@google.com>
- <20240820143503.GD28338@willie-the-truck>
- <CAH5fLggN+A2RawC-cpmSUHxYm=xz=1EDpMUv5C803hj37re1qA@mail.gmail.com>
- <20240823122423.GB32110@willie-the-truck>
- <CAH5fLgh6ywHeFSwbnaOu-QYrt_Jytv_y3zb1QbJzK-w4kQ617w@mail.gmail.com>
- <20240823125739.GA32156@willie-the-truck>
- <CAH5fLgiCr3hOEX1yaqy66OMsbPTtEhA4FCmRiw20zY64vYKHPw@mail.gmail.com>
+	s=k20201202; t=1724419863;
+	bh=uWBy1QXUy4iSiVTL09UZnq8++MioabbaOMC8Ky3CKY4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=B52D5KWb8VQA473MR6SkTQG23rYJLzvRAGAKj/0OLNcjgqVP5H+OMXqMZVduZLzTz
+	 DGUTrm7P2GlmlLAZPA9XTPKZ4+vsQRcBD0A1VJa/PW6mDBtbCuIn0RK/pH5TfoJTOb
+	 Um82C70SbzYsqG/A7/CX6zkz3ZghB0TUIbijiu4EhXZBhlxMWAhwgSEEi3EKHuNkiS
+	 HXKHoGTRp3kBZnpM/kJMZfMoJaM4UfenyEYmmEudDSWO0XLSyqRvOWlB5FGMxc3ORy
+	 Zb7J//jRhdpLXWFC3p926/80PFEF5dNHmYidsloiCbHWU1BKdLidaH8vPy1p2UPVYV
+	 7d7D5b9xl72zg==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5334b0e1a8eso2516278e87.0;
+        Fri, 23 Aug 2024 06:31:03 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzOhZK1+Dxa1HvrnMGX3RTWtGME/GDcme00FI5AUxQsTBsjOfhR
+	mzZN7Se/v435/j/Jud7nRf4SM7DaO0699y9WtXZ1bBAVlZzhHvPcROFz9kTk+mtxocIBkgOgaGB
+	lkZEvempDgVGHY1rhtn2LgNkrfTE=
+X-Google-Smtp-Source: AGHT+IHiqkn3rVsHKa1Gn4nut2WgU+hPTrhqC7o8iCR4PsJgl7fr6Rzh5I9fu4AGZeGH0n7mND0YJ9S/fRR6SmZLafM=
+X-Received: by 2002:a05:6512:118d:b0:533:3268:b959 with SMTP id
+ 2adb3069b0e04-534387c1770mr1552178e87.53.1724419861958; Fri, 23 Aug 2024
+ 06:31:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH5fLgiCr3hOEX1yaqy66OMsbPTtEhA4FCmRiw20zY64vYKHPw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20240816141844.1217356-1-masahiroy@kernel.org> <20240816141844.1217356-2-masahiroy@kernel.org>
+In-Reply-To: <20240816141844.1217356-2-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 23 Aug 2024 22:30:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASoPTc+=BkqLKzt-JazgNYuM-b4Fk54yj3n10zJ8hXTYw@mail.gmail.com>
+Message-ID: <CAK7LNASoPTc+=BkqLKzt-JazgNYuM-b4Fk54yj3n10zJ8hXTYw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: pacman-pkg: do not override objtree
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Christian Heusel <christian@heusel.eu>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 23, 2024 at 03:09:40PM +0200, Alice Ryhl wrote:
-> On Fri, Aug 23, 2024 at 2:57 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Fri, Aug 23, 2024 at 02:38:20PM +0200, Alice Ryhl wrote:
-> > > On Fri, Aug 23, 2024 at 2:24 PM Will Deacon <will@kernel.org> wrote:
-> > > >
-> > > > On Tue, Aug 20, 2024 at 05:13:58PM +0200, Alice Ryhl wrote:
-> > > > > On Tue, Aug 20, 2024 at 4:35 PM Will Deacon <will@kernel.org> wrote:
-> > > > > > On Tue, Aug 06, 2024 at 10:01:44AM +0000, Alice Ryhl wrote:
-> > > > > > > diff --git a/init/Kconfig b/init/Kconfig
-> > > > > > > index fe76c5d0a72e..d857f6f90885 100644
-> > > > > > > --- a/init/Kconfig
-> > > > > > > +++ b/init/Kconfig
-> > > > > > > @@ -1909,7 +1909,7 @@ config RUST
-> > > > > > >       depends on !MODVERSIONS
-> > > > > > >       depends on !GCC_PLUGINS
-> > > > > > >       depends on !RANDSTRUCT
-> > > > > > > -     depends on !SHADOW_CALL_STACK
-> > > > > > > +     depends on !SHADOW_CALL_STACK || RUSTC_VERSION >= 108000 && UNWIND_PATCH_PAC_INTO_SCS
-> > > > > >
-> > > > > > Sorry, I didn't spot this in v4, but since UNWIND_PATCH_PAC_INTO_SCS is
-> > > > > > specific to arm64 and the only other architecture selecting
-> > > > > > ARCH_SUPPORTS_SHADOW_CALL_STACK is riscv, I can't help but feel it would
-> > > > > > be cleaner to move this logic into the arch code selecting HAVE_RUST.
-> > > > > >
-> > > > > > That is, it's up to the architecture to make sure that it has whatever
-> > > > > > it needs for SCS to work with Rust if it claims to support Rust.
-> > > > > >
-> > > > > > What do you think?
-> > > > >
-> > > > > The `select RUST if ...` is going to get really complicated if we
-> > > > > apply that rule in general. Having options here allows us to split
-> > > > > them across several `depends on` clauses. I'm not sure it will even
-> > > > > work, I had issues with cyclic Kconfig errors previously. I also don't
-> > > > > think it's unreasonable for the architecture to say it supports both
-> > > > > options when it really does support both; they are just mutually
-> > > > > exclusive. I also think there is value in having all of the options
-> > > > > that Rust doesn't work with in one place.
-> > > >
-> > > > I'm not sure I follow why this will get really complicated. Isn't it as
-> > > > straightforward as the diff below, or did I miss something?
-> > >
-> > > Hmm. I tried this but I wasn't able to enable Rust with this setup.
-> > > Even though the deps of RUSTC_SUPPORTS_ARM64 are ok, it doesn't seem
-> > > to be enabled and I can't find it in menuconfig. I think we need to
-> > > have a `select RUSTC_SUPPORTS_ARM64` somewhere.
-> >
-> > Sorry, yes, my diff was a little half-arsed:
-> >
-> > > > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > > > index a2f8ff354ca6..2f5702cb9dac 100644
-> > > > --- a/arch/arm64/Kconfig
-> > > > +++ b/arch/arm64/Kconfig
-> > > > @@ -231,7 +231,7 @@ config ARM64
-> > > >         select HAVE_FUNCTION_ARG_ACCESS_API
-> > > >         select MMU_GATHER_RCU_TABLE_FREE
-> > > >         select HAVE_RSEQ
-> > > > -       select HAVE_RUST if CPU_LITTLE_ENDIAN
-> > > > +       select HAVE_RUST if RUSTC_SUPPORTS_ARM64
-> > > >         select HAVE_STACKPROTECTOR
-> > > >         select HAVE_SYSCALL_TRACEPOINTS
-> > > >         select HAVE_KPROBES
-> > > > @@ -265,6 +265,11 @@ config ARM64
-> > > >         help
-> > > >           ARM 64-bit (AArch64) Linux support.
-> > > >
-> > > > +config RUSTC_SUPPORTS_ARM64
-> > > > +       bool
-> >
-> > This line ^^^ should be 'def_bool y'.
-> 
-> Ah, I see, I guess I learned something today. It also seems to work if
-> I add `default y`.
-> 
-> I can change it if you think this is better. I still think there's
-> some value in having everything in one place, but it's not a big deal.
-> Either way, it should be temporary for a few kernel releases as we'll
-> eventually only support compiler versions where this works.
+On Fri, Aug 16, 2024 at 11:18=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> objtree is defined and exported by the top-level Makefile. I prefer
+> not to override it.
+>
+> There is no need to pass the absolute pass of objtree. PKGBUILD can
+> detect it by itself.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/Makefile.package | 3 +--
+>  scripts/package/PKGBUILD | 4 +++-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 4a80584ec771..2c261a0d42b0 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -147,8 +147,7 @@ snap-pkg:
+>  PHONY +=3D pacman-pkg
+>  pacman-pkg:
+>         @ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
+> -       +objtree=3D"$(realpath $(objtree))" \
+> -               BUILDDIR=3D"$(realpath $(objtree))/pacman" \
+> +       BUILDDIR=3D"$(realpath $(objtree))/pacman" \
 
-I do like moving the reference to UNWIND_PATCH_PAC_INTO_SCS into the
-arch code, so if you could respin along these lines then that would be
-great.
 
-Thanks,
+I restored the '+' prefix
+when I applied this.
 
-Will
+
+
+
+
+
+>                 CARCH=3D"$(UTS_MACHINE)" \
+>                 KBUILD_MAKEFLAGS=3D"$(MAKEFLAGS)" \
+>                 KBUILD_REVISION=3D"$(shell $(srctree)/scripts/build-versi=
+on)" \
+> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+> index e2d9c2601ca9..839cd5e634d2 100644
+> --- a/scripts/package/PKGBUILD
+> +++ b/scripts/package/PKGBUILD
+> @@ -40,7 +40,9 @@ _prologue() {
+>         # MAKEFLAGS from makepkg.conf override the ones inherited from kb=
+uild.
+>         # Bypass this override with a custom variable.
+>         export MAKEFLAGS=3D"${KBUILD_MAKEFLAGS}"
+> -       cd "${objtree}"
+> +
+> +       # Kbuild works in the output directory, where this PKGBUILD is lo=
+cated.
+> +       cd "$(dirname "${BASH_SOURCE[0]}")"
+>  }
+>
+>  build() {
+> --
+> 2.43.0
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
