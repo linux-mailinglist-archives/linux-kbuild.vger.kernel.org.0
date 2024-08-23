@@ -1,196 +1,324 @@
-Return-Path: <linux-kbuild+bounces-3176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9FF95CEE5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 16:08:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C6F95D02B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 16:40:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 210171F27F34
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 14:08:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1ED8EB2A913
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 14:37:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74B40188CDA;
-	Fri, 23 Aug 2024 14:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D2D918890F;
+	Fri, 23 Aug 2024 14:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="jlaDrOju"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G2ZmqA3j";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DsqwgGk/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G2ZmqA3j";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DsqwgGk/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3FA194125;
-	Fri, 23 Aug 2024 14:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588C118893E;
+	Fri, 23 Aug 2024 14:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724421766; cv=none; b=oZwlgX/hUL86LTfG+ihJ5+h2toyurHJA4Bw25Cu1cwWkamrAPXDDUf76CC3stE1KqJF8B7k0BTogJc99AmRt0EjR1+nrRZNP2fGlbKftmatg9Y4L+qEOVJ4jfQ5VWRMZE4FqOL5qhYBmNhqub8Wq2/mNf777wTQ2jv93aMgikXE=
+	t=1724423381; cv=none; b=XRBbN32uFZBlssJzUiiOdU+XMX6CJ3kPJfuUl1lYiVW7ABpQw4Hfzwh9WONHAP73woiN3qmooNwiq/58DkcqCqf62SDQGy1MdmxI0cEcfWqcpQ9aQNoK+RXWk3mLp34XKMuYN2CQ0ntDgoIBYh+UbIoP/YsIzG31I2U5UHeSdEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724421766; c=relaxed/simple;
-	bh=M/+JW3B4fr1FmeAODEX3e/e8p10B2hMp1V9Fr4Rz+m8=;
+	s=arc-20240116; t=1724423381; c=relaxed/simple;
+	bh=lp10Mqw6LXG/DjpZXEPfNmKQcCCj50TX0zJgtwnyKNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gEkKThaWTeQXAxKhrEkn97f3g+gOlXTHUSHQ6ILz9FaFqVqFQvBhZgtqL4wYgNCHEgONhpj1gk6mVhSIumt/xeHx9M/Fo6Cqfp6tjGbfRxqGBgv3gB3Z7A+jbahve2vIu2atD45UJH1OWgTCy8tAy7OHFFVAEOKNySPs1I5SzPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=jlaDrOju; arc=none smtp.client-ip=194.63.252.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GxF+gOMi88g9BBo9JOx0m3wME02pBHhU7ugsa7eOpAg=; b=jlaDrOjuTijwmuVnD8iWgRrncU
-	6yxUlbz5CLacwjZ/oDiZadhRopTWse3LShl6LJNsxsgLSFr0zGrM3Hkq5Zk0hjA4XzEqXkWjWGBHU
-	StiWyIjZnctjVoag7pCR5VuNRVG6gN7Z1nLNe1lakLkpkNfawtrRzvOvFJW6EOJBhzCQDoqM+T6jn
-	DDRX/xlE56lRGtQrcKP/M23Ce9q1hLSNiCoAU8GMrtSw3AQ5pVgNSH//3CrYKjfQqRviXTr972oQA
-	qtclx9AEU/BInPyQEzE88xiZ3RMPMpD2mGWgavURamvAV9llfwL87qE4uXgFx1QlPs79MMA2AsAtY
-	feutIWwQ==;
-Received: from [2001:9e8:9f5:ff01:6f0:21ff:fe91:394] (port=45454 helo=bergen)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1shUpT-000BrH-4G;
-	Fri, 23 Aug 2024 15:59:51 +0200
-Date: Fri, 23 Aug 2024 15:59:46 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pUoyL1yOdOCFbnCsMOQW1gqJ7WqZ6T9o3WDNoLAuCbVDg91QWBh1oqGKN+2YsYBSH24MKcZRmYFtALj++xwv9vicZbtN75fyFWm0KqTcOvNlWThb5cIOroHtLOYzQsF6W8O1Eop5Bx6rPssk9Edp2aw1J5gg7AWCN89uODAQ+Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G2ZmqA3j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DsqwgGk/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G2ZmqA3j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DsqwgGk/; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from kitsune.suse.cz (unknown [10.100.12.127])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 67D412032B;
+	Fri, 23 Aug 2024 14:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724423377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR+Ulun1hXojDzAHAkNNJtbRl8AgUv4JNDHaEMqhYOo=;
+	b=G2ZmqA3jupyUI0AEdPJVcxxkwSMAD7CNDtl4KzQplpZ0QJkA2FpIjuNwBUmYsrboUu9bgG
+	Vdz1BVDAeUa07NBunxrekClO/HRLvW1HkiKxypD64ckyeWunoVmmxJ/p9EZXPNPM+nUu8g
+	t7FwVzuyBkMRdGTYB0iZ2W/5qFq6mK8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724423377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR+Ulun1hXojDzAHAkNNJtbRl8AgUv4JNDHaEMqhYOo=;
+	b=DsqwgGk/OpeATe6KFZOanOZ4G+INUhYuOyybxzmRTm6n/rB+2hsYPMvJ6Q2ACLT5vfsX2v
+	GTJAXdeBxMiVeIBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1724423377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR+Ulun1hXojDzAHAkNNJtbRl8AgUv4JNDHaEMqhYOo=;
+	b=G2ZmqA3jupyUI0AEdPJVcxxkwSMAD7CNDtl4KzQplpZ0QJkA2FpIjuNwBUmYsrboUu9bgG
+	Vdz1BVDAeUa07NBunxrekClO/HRLvW1HkiKxypD64ckyeWunoVmmxJ/p9EZXPNPM+nUu8g
+	t7FwVzuyBkMRdGTYB0iZ2W/5qFq6mK8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1724423377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eR+Ulun1hXojDzAHAkNNJtbRl8AgUv4JNDHaEMqhYOo=;
+	b=DsqwgGk/OpeATe6KFZOanOZ4G+INUhYuOyybxzmRTm6n/rB+2hsYPMvJ6Q2ACLT5vfsX2v
+	GTJAXdeBxMiVeIBg==
+Date: Fri, 23 Aug 2024 16:29:36 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	bpf@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH] kbuild: pahole-version: avoid errors if executing fails
-Message-ID: <ZsiV0V5-UYFGkxPE@bergen>
-References: <20240728125527.690726-1-ojeda@kernel.org>
- <CAK7LNARhR=GGZ2Vr-SSog1yjnjh6iT7cCEe4mpYg889GhJnO9g@mail.gmail.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+	linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	Lucas De Marchi <lucas.de.marchi@gmail.com>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] kmod /usr support
+Message-ID: <20240823142936.GK26466@kitsune.suse.cz>
+References: <e3yow7ih6af2hxzkmjay2oan3jypmo4hda64vxvpfco66ajcew@i3zewn4nbklf>
+ <cover.1699618135.git.msuchanek@suse.de>
+ <xbgto5tttcah4mrtyjih72ubod3qb375ww6e2fd4pi342rg4eg@wipwd57q43cc>
+ <CAK7LNARYK-xjBS8puEM9xFtmjBNW6KJ2Qd6f7diZkdEEbUgVHA@mail.gmail.com>
+ <5gx6vt4tzgk4zvboxrrahexr4ja6zm6fisjshdvnlfihsysqzb@quhp42ydtvh2>
+ <20240822083600.GF26466@kitsune.suse.cz>
+ <CAK7LNASEdXPiP0_i5=1uLW-W0kZ9LiMt9r5aq0Gu5nK2yP5wDA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="yO3YVrUfbWxrxaQH"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARhR=GGZ2Vr-SSog1yjnjh6iT7cCEe4mpYg889GhJnO9g@mail.gmail.com>
-X-Operating-System: Debian GNU/Linux 12.6
-Jabber-ID: nicolas@jabber.no
-
-
---yO3YVrUfbWxrxaQH
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNASEdXPiP0_i5=1uLW-W0kZ9LiMt9r5aq0Gu5nK2yP5wDA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[intel.com,vger.kernel.org,suse.com,gmail.com,inai.de,kernel.org,google.com,fjasle.eu];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_COUNT_ZERO(0.00)[0];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:email]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-On Fri 23 Aug 2024 02:28:28 GMT, Masahiro Yamada wrote:
-> Date: Fri, 23 Aug 2024 02:28:28 +0900
-> From: Masahiro Yamada <masahiroy@kernel.org>
-> To: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
->  <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
->  Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song L=
-iu
->  <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabe=
-nd
->  <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
->  Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
->  <jolsa@kernel.org>, bpf@vger.kernel.org, Nathan Chancellor
->  <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
->  linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
->  patches@lists.linux.dev
-> Subject: Re: [PATCH] kbuild: pahole-version: avoid errors if executing fa=
-ils
-> X-Mailing-List: linux-kbuild@vger.kernel.org
-> Message-ID: <CAK7LNARhR=3DGGZ2Vr-SSog1yjnjh6iT7cCEe4mpYg889GhJnO9g@mail.g=
-mail.com>
->=20
-> On Sun, Jul 28, 2024 at 9:55=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> w=
-rote:
+On Fri, Aug 23, 2024 at 10:03:05PM +0900, Masahiro Yamada wrote:
+> On Thu, Aug 22, 2024 at 5:36 PM Michal Suchánek <msuchanek@suse.de> wrote:
 > >
-> > Like patch "rust: suppress error messages from
-> > CONFIG_{RUSTC,BINDGEN}_VERSION_TEXT" [1], do not assume the file existi=
-ng
-> > and being executable implies executing it will succeed. Instead, bail
-> > out if executing it fails for any reason.
+> > Hello,
 > >
-> > For instance, `pahole` may be built for another architecture, may be a
-> > program we do not expect or may be completely broken:
+> > On Thu, Aug 22, 2024 at 01:05:11AM -0500, Lucas De Marchi wrote:
+> > > On Tue, Dec 19, 2023 at 05:37:31PM GMT, Masahiro Yamada wrote:
+> > > > On Thu, Dec 7, 2023 at 3:37 AM Lucas De Marchi <lucas.demarchi@intel.com> wrote:
+> > > > >
+> > > > > On Fri, Nov 10, 2023 at 01:13:53PM +0100, Michal Suchanek wrote:
+> > > > > >Hello,
+> > > > > >
+> > > > > >This is resend of the last patch in the series that adds prefix support
+> > > > > >to kernel module location together with additional patch for validating
+> > > > > >the user supplied input to options that are interpreted as directories.
+> > > > > >
+> > > > > >Thanks
+> > > > >
+> > > > > applied, thanks
+> > > > >
+> > > > > Lucas De Marchi
+> > > >
+> > > >
+> > > >
+> > > > If I understood this correctly, MODULE_DIRECTORY is determined
+> > > > by "configure --with-module-directory=...", and there is no
+> > > > way to change it after that.
+> > > >
+> > > >
+> > > > If so, how to work with cross-building?
+> > > >
+> > > > Cross-building is typical when building embedded Linux systems.
+> > >
+> > > I was thinking the `pkg-config --variable=module_directory`
+> > > from the target would be sufficient, but...
+> > >
+> > > >
+> > > >
+> > > > Consider this scenario:
+> > > >
+> > > > - Your build machine adopts
+> > > >    MODULE_DIRECTORY=/usr/lib/modules
+> > > > - The target embedded system adopts
+> > > >    MODULE_DIRECTORY=/lib/modules
+> > > >
+> > > > (or vice a versa)
+> > > > depmod is used also for cross-building because
+> > > > it is executed as a part of "make module_install".
+> > > >
+> > > >
+> > > > The counterpart patch set for Kbuild provides
+> > > > KERNEL_MODULE_DIRECTORY, which only changes
+> > > > the destination directory to which *.ko are copied.
+> > > >
+> > > > You cannot change the directory where the
+> > > > depmod searches for modules, as it is fixed
+> > > > at the compile-time of kmod.
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > In this case, what we can do is to build another
+> > > > instance of kmod configured for the target system,
+> > >
+> > > the target system may not even have depmod actually, so using just the
+> > > host one seems more appropriate. But target should have the kmod.pc for
+> > > the pkg-config call to work.
+> > >
+> > > > and use it for modules_install:
+> > > >
+> > > > 1. In the kmod source directory
+> > > >    ./configure --with=module-directory=/lib/modules
+> > > >    make
+> > > >
+> > > > 2. make modules_install INSTALL_MOD_PATH=<staging-dir>
+> > > >     KERNEL_MODULE_DIRECTORY=/lib/modules
+> > > >     DEPMOD=<new-depmod-you-has-just-built>
+> > > >
+> > > >
+> > > >
+> > > > If you use OpenEmbedded etc., this is what you do
+> > > > because host tools are built from sources.
+> > > >
+> > > > But, should it be required all the time?
+> > > > Even when the target embedded system uses
+> > > > busybox-based modprobe instead of kmod?
+> > >
+> > > no, I don't think we can rely on depmod from the target.
+> > >
+> > > >
+> > > >
+> > > >
+> > > > depmod provides --basedir option, which changes
+> > > > the prefix part, but there is no way to override
+> > > > the stem part, MODULE_DIRECTRY.
+> > > >
+> > > > In the review of the counter patch set,
+> > > > I am suggesting an option to override MODULE_DIRECTRY
+> > > > (let's say --moduledir) at least for depmod.
+> > >
+> > > ok
+> > >
+> > > >
+> > > > (Perhaps modinfo too, as it also supports --basedir)
+> > > >
+> > > >
+> > > >
+> > > > Then, we can change scripts/depmod.sh so that
+> > > > Kbuild can propagate KERNEL_MODULE_DIRECTORY
+> > > > to depmod.
+> > > >
+> > > >
+> > > > if  <depmod supports --moduledir>; then
+> > > >    set -- "$@"  --moduledir "${KERNEL_MODULE_DIRECTORY}"
+> > > > fi
+> > > >
+> > > >
+> > > >
+> > > > Does it make sense?
 > >
-> >     $ echo 'bad' > bad-pahole
-> >     $ chmod u+x bad-pahole
-> >     $ make PAHOLE=3D./bad-pahole defconfig
-> >     ...
-> >     ./bad-pahole: 1: bad: not found
-> >     init/Kconfig:112: syntax error
-> >     init/Kconfig:112: invalid statement
->=20
->=20
->=20
-> Even with this patch applied, a syntax error can happen.
->=20
-> $ git log --oneline -1
-> dd1c54d77f11 kbuild: pahole-version: avoid errors if executing fails
-> $ echo 'echo' > bad-pahole
-> $ chmod u+x bad-pahole
-> $ make PAHOLE=3D./bad-pahole defconfig
-> *** Default configuration is based on 'x86_64_defconfig'
-> init/Kconfig:114: syntax error
-> init/Kconfig:114: invalid statement
-> make[2]: *** [scripts/kconfig/Makefile:95: defconfig] Error 1
-> make[1]: *** [/home/masahiro/workspace/linux-kbuild/Makefile:680:
-> defconfig] Error 2
-> make: *** [Makefile:224: __sub-make] Error 2
->=20
+> > It does not make sense for the common case: building kernel for the host
+> > system.
+> >
+> > Then overriding the directory is wrong, and using what kmod was compiled
+> > with is needed to get correct module directory layout.
+> 
+> 
+> NACK.
+> 
+> scripts/Makefile.modinst and depmod must agree about
+> the install destination.
+> 
+> Both must refer to the same ${KERNEL_MODULE_DIRECTORY}.
 
-Do we have to catch all possibilities?  Then, what about this:
+Nack to what, exactly?
 
+And what needs to agree here, exactly?
 
-#!/bin/sh
-trap "echo 0; exit 1" EXIT
-set -e
+If the kmod was compiled with a non-default kernel module directory then
+for depmod and scripts/Makefile.modinst to agree the kernel makefile
+should extract the directory it was compile with from kmod kmod, and
+that is the change that was not merged.
 
-output=3D$("$@" --version 2>/dev/null)
+Overriding the directory with an option only for the kernel build will
+make modules_install install the modules in the wrong directory.
 
-output=3D$(echo "${output}" |  sed -nE 's/^v([0-9]+)\.([0-9][0-9])$/\1\2/p')
-if [ -z "${output}" ]; then
-	echo "warning: pahole binary '$1' outputs incompatible version number, pah=
-ole will not be used." >&2
-	exit 1
-fi
+Of course, the user is free to move them elsewhere afterwards but I
+would say they should not need to do that.
 
-echo "${output}"
-trap EXIT
+Then there is the possibility that the build is for a different target
+system, and the host kmod and scripts/Makefile.modinst agreeing is not
+enough.
 
+Then either a 'cross' kmod can be built, and this will again work so
+long as both path and pkgconfig path point to this modified kmod.
 
+Or kmod can grow an option to set the kernel module directory
+dynamically. However, setting it to the current hardcoded value will
+again break the case when building for the current system with
+non-default kernel module directory location.
 
-Kind regards,
-Nicolas
+Unless both is done - that is the default is read from kmod, user is
+provided with an option to override the default, and whatever ends up
+being used by scripts/Makefile.modinst is then passed back to depmod.
 
---yO3YVrUfbWxrxaQH
-Content-Type: application/pgp-signature; name="signature.asc"
+Or do you envision some other solution?
 
------BEGIN PGP SIGNATURE-----
+Thanks
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmbIlcYACgkQB1IKcBYm
-EmlIXhAAw5al6h44X2UnA31bKgo8H+OA3wzHIF1UTZOMe02NkAtVFidcpkKqxLih
-n5bOp6VjVr5KRcp7O45TAIWJ4Bm3G4PHX52MrohtW5GXABeoVRQTsCTdS1BB1PTh
-9nZZIvKF3ONqHGDSfYXHP72bfW1bVn1pzgMj/FA6GhRkv1n4AQVfO1Ohyacrn4go
-AT+6hu3gWwtj0CqeYJVBJ66GNDBCC9eoc++79WB0BQipZRNr3sHHznb7pOA+3M57
-iRhDdiVDIwmUcQTfj7oS/H/hlTLW5BeYhmXUyLDQaq3yAgcnKyQPCfdftVNmlmyN
-hI+jPJKnhYLGvB8UPj63GJudRqW/RNqE7ewZF2aOvC7+IaZwdRhaduOrCkBU+pNY
-/YYDOkEElGNRKHW9J5zFDuPQwlFDaLfCZ4hezgXYpiZTN7NggYKHa/ba32BgGPjr
-DR7OPk+lR2FArLTbzJa9I0KYmPdrKi6KNE0loghDcnLXySLHCStwahKwg7BZ+/US
-o5hgWMaeeNw9NuuscNYmHryKzKMAhGjtEE5wWJfdpyyOsqyiohCI/Mx0jKSOysGW
-mhgOynT2Tnq8sOPYg3vbIjYECabONecL1Q79TeJGVV5e879B3nTkZVAgV6cX5xP5
-6rZK7XWdqSaR/RxNulPl3wy+eJIEWI1D4j4ogbGfm0xWNmqr1TI=
-=aokD
------END PGP SIGNATURE-----
+Michal
 
---yO3YVrUfbWxrxaQH--
+> > Or it would make sense if both was done:
+> >
+> > Default KERNEL_MODULE_DIRECTORY to what kmod was compiled with, and
+> > then pass the actual value to depmod so that depmod uses the compiled-in
+> > value by default, and the user-provided value when
+> > KERNEL_MODULE_DIRECTORY was overridden by the user.
+> >
+> > Thanks
+> >
+> > Michal
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
 
