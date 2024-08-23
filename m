@@ -1,79 +1,79 @@
-Return-Path: <linux-kbuild+bounces-3188-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3189-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942FE95D950
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 00:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3258695D95E
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 00:55:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF042B2252C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 22:37:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66B1AB20B64
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 22:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6461A1C8717;
-	Fri, 23 Aug 2024 22:37:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7EED1C870C;
+	Fri, 23 Aug 2024 22:54:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="euEpsW/R"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Ux/qa2If"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2E31C825C;
-	Fri, 23 Aug 2024 22:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AFA1C825C;
+	Fri, 23 Aug 2024 22:54:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724452671; cv=none; b=DIQblYY/lm8xNjtQcUGEQv7ShvxKJvXZ2i1Nb7cBIyDk5baNDFcNuoLXrS322TcblkhpsGVkIvPP1atkX9HJ19oI9N3n2T+2L/9ygzLWOKbfZ4UC1enieYZb4wXfOfq4XosOFeveCHyGrAJ+8nmLDnrluM6oSPgartTosff5/iM=
+	t=1724453699; cv=none; b=Nvg5Y0GPVy/HP7csg2KbymN+GtlhwD9GFFV/2PBEklI/nLub3Pmb2pJlS65Ze6ziyM/7iSTWTHC2T/KZPBdKWC1p7pH/jBdTZ0jJhigPBUXmtrC56JFMHP1JgoRP4HihrTDr/A/cryFKY618iBJUCNo/lzlTBiVQPUHshQBUJ8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724452671; c=relaxed/simple;
-	bh=5lJMjkVy2tm5qnlzq9NMC4tzlBZKbVFvZMcYoZY640g=;
+	s=arc-20240116; t=1724453699; c=relaxed/simple;
+	bh=Rnj+dk2XHjizn5i53H8f9IyUV6MwSkaqFicjA03ZnqI=;
 	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:References; b=Lr4l6+kayPJSymXNERsArksHsG9M8aiboXq22YXU8gZ9XSGeg8JFXMuoVtG6hFcMlm3YTbjh1Xh5c2NKOCsznuWkcnHi7o2xwvv4eTwZHRQCUy+4Fg8i4Yi3h5qZwj9D4tSBaOS2AgffaukSiM3yknwjisB8RfTh9usOO5sgFR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=euEpsW/R; arc=none smtp.client-ip=210.118.77.12
+	 Content-Disposition:In-Reply-To:References; b=MJypA8HNcM5F8U/d2YKUGYdIdZz7qNalfKtxWmO/NTMaU6ap3c5B1Nfs+36MrbWBFvYUGES6dtnxHIGikpJXA+6rs54/6Dqn1OXElkRC3sFvwM/+Wrl7L/Bv/AqeedPyIqV5w7aF+5ojAqjYiMt4FXF4Oxj/ERg44LYSTr7rZuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Ux/qa2If; arc=none smtp.client-ip=210.118.77.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240823223740euoutp02f94f307961b576faf3625d7f885e0bef~ufI7mAKbF2371223712euoutp02a;
-	Fri, 23 Aug 2024 22:37:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240823223740euoutp02f94f307961b576faf3625d7f885e0bef~ufI7mAKbF2371223712euoutp02a
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240823225453euoutp026a4c1e9d554dbce0fba5d82bb33e8c10~ufX940N8x0994209942euoutp02M;
+	Fri, 23 Aug 2024 22:54:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240823225453euoutp026a4c1e9d554dbce0fba5d82bb33e8c10~ufX940N8x0994209942euoutp02M
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1724452660;
-	bh=la+dmPvqL+EWy5obzmiWKZwg6xJbELHXa4/+KgHJQwI=;
+	s=mail20170921; t=1724453693;
+	bh=WZywpxZk213zxxUl31497eHvW1dsZ+KqGEl5j8Wx7YI=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=euEpsW/Rvuc6d+ZRYsoU9kpXOZqIO++KiBbHwjcWs7/27Epw182ChL8xMtFKb95fM
-	 TQHtpAcTSWP2lKpO4EGch0IhOeIey6GRhieK5D8Sg0YzyRPcbkwQs7IbGBtdSyoIw9
-	 vuLKEyuiOhE1azL29fu+Is0jX1o9WBP/kZSc662U=
+	b=Ux/qa2IftSlmEfjUkiRYodMEceK94MePWDuHOrGKbBtBLxgI5Xzqk77nhgNloL46K
+	 4+sUO+BwP8os6IGpz/lpGM5WxluxoZ9UYHpSgPe7uiHOcxDJMH1i5OtWRbrto9ahX5
+	 NpOlMgQBAsUcxMoKWU8vqIQWCN6/r/YH03F77MtE=
 Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
 	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20240823223739eucas1p1d2e2fdb71acba6555e61a19e652330fd~ufI6vhsU00738507385eucas1p1H;
-	Fri, 23 Aug 2024 22:37:39 +0000 (GMT)
+	20240823225453eucas1p1eb9974f802f13dbd765f97f84c89c7e5~ufX9WRNYf1031110311eucas1p1k;
+	Fri, 23 Aug 2024 22:54:53 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id E1.39.09875.33F09C66; Fri, 23
-	Aug 2024 23:37:39 +0100 (BST)
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id AC.99.09875.C3319C66; Fri, 23
+	Aug 2024 23:54:53 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240823223738eucas1p267239cadb138dd98aca9726a2730f898~ufI51jkkR2704127041eucas1p2c;
-	Fri, 23 Aug 2024 22:37:38 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240823225452eucas1p16c2a886d94d236a72889bbaccef65274~ufX8PS9uX1030710307eucas1p1U;
+	Fri, 23 Aug 2024 22:54:51 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
 	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240823223738eusmtrp19f8d1b50dbf15807756173e179310203~ufI50aIvc0353703537eusmtrp1W;
-	Fri, 23 Aug 2024 22:37:38 +0000 (GMT)
-X-AuditID: cbfec7f4-11bff70000002693-5f-66c90f334884
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id C3.02.09010.23F09C66; Fri, 23
-	Aug 2024 23:37:38 +0100 (BST)
+	20240823225451eusmtrp140cbc81b3a594842dbec333e3f0c13be~ufX8LeoJo2368423684eusmtrp1g;
+	Fri, 23 Aug 2024 22:54:51 +0000 (GMT)
+X-AuditID: cbfec7f4-11bff70000002693-21-66c9133c0156
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id CA.86.08810.B3319C66; Fri, 23
+	Aug 2024 23:54:51 +0100 (BST)
 Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240823223738eusmtip2280dc31c1420e8cf3bd6b408a3157d73~ufI5guU1S2640326403eusmtip2Q;
-	Fri, 23 Aug 2024 22:37:38 +0000 (GMT)
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240823225451eusmtip13ade4e62403833e6c850d99cd91c7f36~ufX77yOEz1404214042eusmtip1L;
+	Fri, 23 Aug 2024 22:54:51 +0000 (GMT)
 Received: from localhost (106.110.32.87) by CAMSVWEXC02.scsc.local
 	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 23 Aug 2024 23:37:38 +0100
-Date: Sat, 24 Aug 2024 00:37:36 +0200
+	Fri, 23 Aug 2024 23:54:51 +0100
+Date: Sat, 24 Aug 2024 00:54:50 +0200
 From: Daniel Gomez <da.gomez@samsung.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
-	<nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi
-	<lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+To: Nicolas Schier <nicolas@fjasle.eu>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada
+	<masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, "Lucas De
+ Marchi" <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
 	<thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
 	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
@@ -99,9 +99,9 @@ CC: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
 	<linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
 	<llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
  (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com"
-	<gost.dev@samsung.com>, Nick Desaulniers <nick.desaulniers@gmail.com>
-Subject: Re: [PATCH 00/12] Enable build system on macOS hosts
-Message-ID: <20240823223736.mosqrdcwqanvdpmd@AALNPWDAGOMEZ1.aal.scsc.local>
+	<gost.dev@samsung.com>
+Subject: Re: [PATCH 08/12] include: add elf.h support
+Message-ID: <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -110,94 +110,97 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <2024080758-dedicator-smoky-44be@gregkh>
+In-Reply-To: <20240807-mottled-stoic-degu-d1e4cb@lindesnes>
 X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
 	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0ybZRTG9363FkbZRyHjDQwd6DCTjbkB+i4iilv0S6bgosaoiVrHR0e4
-	NS0IU4lMkNtg497RjVKKtFyHKwVLudQh0FXGiMFsMCybGbchdxgXR1YpZbr/fuc5zzk5z5u8
-	XJy/QrlxI2LiWHGMIMqLsieae9b7D/rtMoW/tHoOouu3lRiaU2UD1FMziaNWixlHluY8HP3x
-	cI5CKRUNFFprnMTQ3Q41hmZL96Di2goKyX83EWhK+yuBNPdvkWhDr8PQgP4yhW5U5HDQaKGB
-	QmP3VRQqX2gi0F/3BknUctlEovaGAQppBpZIlJapIlF69RiF5nMtGNIb1gk03n6dREXr0xSa
-	ye3moOF8KYEMslscVLUmBajf2MNBzbo+gCb6CwAqGR4G6G/d5mbtdB6JlGmvoNQ/A9BQ5U+c
-	N3yYOnkdYNp6+iimfUVBMPrORoppkZk5jEITz6R2zZBMRdsDjNHUZFKMPFOOMZaceyTTZVFy
-	mPLkIpyRm04yhtI6DnP3nBF7D35iHxjGRkV8xYoPBX1hf7rYLBKtOiQOjv2AJ4Nq+yzA5ULa
-	HyoLhVnAjsunqwBs1T2TBew3eRnA9DtNmK1YAvDqL3LM6rIOlFy4BGwNNYANRaOc/1zm6lLS
-	VjQC2GvoJ60jBL0Pds1Lt5ii98MOk4ZjZRfaD17ok21N4/TNXVAlndsyOdOvwUl1G2VlHn0C
-	muVl2+wETSWjhJVx+gBUtC5S1hA47Q7Vj7lW2Y4OgBlT2YTtVE94Ma96m5Pgb9o7W3kgXbsT
-	PjQ1k7bGcajQDnFs7AynjNpt3gN7C54sEsIfr8i2WQTbhmWk7fFehedvRNnkYDittOayyo5w
-	cMbJdqUjzG+W4jaZBzPS+Da3N6wdmSZywXOyp3LJnsol+z+XAuA1wJWNl0QLWcmRGDbBVyKI
-	lsTHCH1PxUZrwObX6H1sXNYB9dSCbyfAuKATQC7u5cL7cqQ7nM8LE5z5mhXHfi6Oj2IlncCd
-	S3i58vaFPcvyaaEgjo1kWRErftLFuHZuyVjG2XEdC/K/l8jU1MTk1fp5mX71Y8ek4haqcsRf
-	4Hl0h2Xc4+VDq94NL7ydcD4lOCMgZKn+/Y7ZgLqI7H8+Gkq4krT4YdCRWvNgXBlv7gOfadeg
-	R/z67zx2pKhCVHuzNhZ3xpXnOCRqXPTjmXo/V/9jvsszIcVVUZ8tB35z8Xb7NZfG4LV3Z5YX
-	HaoHnfannyp4/dHs2QCT4Zq7QrI7sm7kuE/Z4pnynyVpR59X8ss7tSsHdn8L8Xfy2rGmhZS2
-	roORiVme3VWfJiHlVKv3xoTfA4XnpVDpzbHKbudYcXxKodBdYtmbXSwykr6TxsOpG6GNHoEb
-	4aYTuW+edAvNZ3vXat/yIiSnBYdfxMUSwb8QAe+siQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e29hdNwVFl8+lkCNW0QtFCi8bAjO6XYJy7It2bLgDFa4
-	ghEoa6mbc1vqVEYRQnETRoWKMMAyEC0fKQgSO2hphBFF0AX5GtQB5UOEoTCka8Vl/vdLnvM8
-	5+Tk4eL8AtKbezgtg5WlSVIEpCtxc908vCPY3XIoaHnZC3XdLcPQfGUOQKbqSRxdsw/hyN6U
-	j6M7f8+T6GR5HYme1E9iaOR6FYbmSnxRwa/lJNLeshBouuE3AunHBzhorcWAob6WYhJ1l+dS
-	aOKndhJZxytJdHGhkUBjo/c4qLnYwkFtdX0k0vctclCmqpKDftBZSfRQbcdQS/sKgR60dXHQ
-	uZUZEs2qOyk0eLaQQO2aAQpdelIIUK/ZRKEmQw9Af/X+CFDR4CBANoMjuWEmn4PKMsPRqfti
-	9EfFFWrXNqZGWwOYVlMPybQtlxJMi7GeZJo1QxRTqlcwpzpmOUx56xTG6KtVJKNVaTHGnjvK
-	YTrsZRRzUXkOZ7SWj5j2khqKGTljxj6EccJImVSRwfolS+UZOwX7RChYKIpAwuDQCKEoJHz/
-	m8FiQWBUZCKbcvgoKwuMOiBMLhhKT3/s9tU962lcCXSu2cCFC+lQWJR3HmQDVy6frgDw+74b
-	YEPwhVeX+jkb7AHXBrLJjaEFANutq5hT4NP1ABad5DqZoLfAjoeFzwwkvRVet+gpJ3vSITCv
-	R0M5zTj9uzssWe3HnYIHvRNOVrWSTubRsXBIe+H5hkYM3skaABvCK9BSNEE4Gae3w9JrjxxD
-	XAf7wKr1Z4tdaDHMms4hNi71hz/n657zt3Dx6QOgBh6aF5I0LyRp/k8qBXg18GQV8tSkVHmw
-	UC5JlSvSkoQJ0lQ9cBS0ybTSYAC66QWhEWBcYASQiws8eQeHOw/xeYmSY1+zMmm8TJHCyo1A
-	7PhFPu79aoLU0fC0jHhRWJBYFBoWESSOCAsRbOLFpGdJ+HSSJIM9wrLprOw/H8Z18VZiKYb3
-	x6h3s+bss9rFHM8xYmq04gOf1yv9extd8+QJzae73jprEH53w91avv1qa0fivi+83Ibf89nN
-	+PIeKXcdBwdG1v+piP445LMTl+t180dVNrPSVhKUu5moxZsUMdLxy8baz93QiCRaGRXuV2OP
-	nou/sPU19Z7GhaR3bq8YOKvdZ9jdzXsks0vjv2BeR3h8lfmTgxSjjvx0aXSLyG43ztxsi/Gb
-	zTPF3SquIsbd9sCqx6rN5223bZENWlOdJDt2Ymr/peU4c+2oba//1HDA2v2XYt7I1xUdf0pu
-	utKssL58TG8Q9Qb9mf2ldEdgf+zdbQSZ0s2P6DwxrM58+5vlALGAkCdLRAG4TC75F3l4CCUp
-	BAAA
-X-CMS-MailID: 20240823223738eucas1p267239cadb138dd98aca9726a2730f898
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0yTZxTG837XAhY/ignvxM2JkWxkIC66vcsYg2RkX6IZ3maWbZnr5AMc
+	BbEFRI2GiFRA2nERKh0ybnIpFbRgB5RLVuRSLmFbJ/ciE/CCIHKRgDA6auvmf7/znOd5zzl/
+	vDxcsEBt5h2PiOLEEUKRG2VPaFuXezw/cTYEe99+AVB7XwGGZopTAGpVPcKRzmzCkVmbhqO/
+	ns9QKL6wkkJLVY8wdK+xBENPr21BWeWFFMr9w0CgyepmAmnGekm0WleDIWNdDoW6CmU0Gr/S
+	RKGJsWIK5c/eJtDfo/0kqs0xkKih0kghjXGeRNKkYhJdKpug0LNUM4YeNLSTKHN5ikLTqS00
+	GkpXEKhJ2Uuj0iUFQD1trTTS1nQD9LAnA6DsoSGAntSsP1o9lUaiAumH6OLwHjRw/Sbt58Gq
+	c9WArW/tptiGxTyCrdNXUWyt0kSzeZpo9uKdaZItrH+MsRpVEsXmJuVirFk2SrJ3zAU0mx+X
+	ibO5hgNs0zU1zd673Ibth1/b+wRxouMxnHin7/f2oYvlpVjkCD+2tVSLxYEV+2Rgx4PMbjgg
+	f4AnA3uegCkFUP4wg7AWCwCONv9DWot5ABflg9irSGbWE8zaKAGwsrCI/s+VV7RgK6oAXGt8
+	RlkiBLMDJijjgYUp5l3YaNDQFt7EuMPV2QuUJYAzFRthf1cnYWk4M3vgY+UCbmE+sxcW9UlJ
+	KztBQ/b4Sw/OvAfzdHPrYd46u8KSNZ5FtmM+hsN6GW1ddRu8mlZGWPkc7KgefLk2ZHIcYLui
+	xGb6DC5l5dhMznCyrdqmb4GdGSk2PQQWVShtHAnrh5SkZS5cHybvElllf9ibr8OtsiPsn3ay
+	bukI07UKm8yHiVKB1e0Oy0emiFSwXfnaXcrX7lL+f1cewFXAhYuWhIdwkvcjuFNeEmG4JDoi
+	xOvYiXANWP8YnWttCzWgZHLWSw8wHtADyMPdNvF/GGkJFvCDhKfPcOITR8XRIk6iB648ws2F
+	vyNoKydgQoRRXBjHRXLiV12MZ7c5DjsZpMzfu73btzTA87Br2NjyhMktpezHwJ8H7C50TF76
+	RnLw+daBDcx5Vh6zWzp8bGXbV/ohodOg9yp5P8aobk58Q3M98wU2HyhqWJMtKcdUkSrPU4RJ
+	w5IDrmnGihtnw9w/8JkJn9vodaNGXUz4pHn+OaLfL1d8JBt0+emAuvvsaYerX4Sa0rS/ZHso
+	vL5NqdqnG5Gedwp4+ptOlvpOYuwE74pDER18JOzNy9/5OXsfHp+eCcgMePsW76R/26HyL+Od
+	98X63YrqdUxf6TDWklUbRE2mt7T07y1HDqqjBH1B2Z86+d49Yz50LmExPlDkEb0rzD+Z0h11
+	vy/69fObc3cTduar3AhJqHCXBy6WCP8FA997SIcEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0yTVxiHc76v/VowZJ8F5gm4BLooG7JKgcLLRWKyf75lYU6zxWzOQQcV
+	yICSXggumTKtIGjlsgFaSoOtIJdGthZIRS6ultZGmTEIuHGRBXDIRexwChnYFbpl/vec9/ze
+	5z05ebkkr4oK4mbnKSSyPHEOn/Jl3XnlmHgv0d95LLJ7Sgi3R/UELDedR2BvnSPhhnuCBHdX
+	JQkP/lqm4LShnYJV8xwBj/quEvC0fifUtBko0N13smC+4xYLTNMjbFjvthAw1K2l4K5BzYGZ
+	H/opmJ1uouCyq5MFv089ZMN1rZMNve1DFJiGVthQXNrEhpKWWQqeVbgJeNx7mw3Va4sULFUM
+	cGCsqpYF/ZoRDjSv1iK457BzoMsyiOCPe98juDQ2hmDB4pF2LFayQV8cB6pxEfza+CNnfzhj
+	1BkR02MfpJjeFw0spttqppjrmgkO02BSMirbEpsx9DwhGFNrKcXoSnUE41ZPsRmbW89hLhdV
+	k4zOeZDprzdymEfnHMTH+HNBkkyqVEhCsqRyxT7+ESFECYTxIIiKiRcIo+OOJkSJ+HuTkzIk
+	OdkFEtne5DRB1ou2ZiJ/0q/Q3txFFKG/fcuQDxfTMbi6ZoEoQ75cHt2IsGXUwPFe7MQ/PR9m
+	e9kfr4+UUd6QyxOabSe9BzPC03OTxGaKRe/CZzSn0SZT9Lu4z2naMgXQu/G669RWN0lfewMv
+	v3RsNfjTIvxE85zcZD/6Q3xltHhrHI9uIrFW/aa3vh07L82wNpmkI3DDjT89Iq6Hg/HVV9zN
+	sg+diMet6n9fHYovVrawvPwtXtl4jCqQv+Y1k+Y1k+Z/UwMiW1GARCnPzcyVCwVyca5cmZcp
+	SJfmmpBnObvsa2YL0s27BFZEcJEVYS7JD/D7anLgGM8vQ3z8G4lMmipT5kjkViTyfEUlGRSY
+	LvVsd54iVRgbKRLGxMZHiuJjo/k7/D7IPyvm0ZliheRriSRfIvuvj+D6BBURZ5rf/iXhztS6
+	tjbMOLa/92LcDD4VuLJds0+xO0Qv4C+d8LE8XaspmB12RRruBxmhx1aWkpQqj7KnZ4x/VOib
+	G279Leydmp8zSpyUg/8gvDUtNGGgfs9wnn+danDbAelw2+HvDqX2ZlMBY89CN1hpI+dDVK6w
+	sBJl7EKBWRWREnlwOSexPDT41qGoVbY29OZw8MPglpvdnx1NUd/F8yMqfVCpyl41flbeeWS6
+	1PJpXN2OL/Y4qPKkTmOXbVeWLeLLjsHy91NOXNPXFWmZ6WjbckHdW2q18JMLJwXurI11+0lq
+	sXEJoXP9yZxt87yXdRd8nLLj5FwyKq4vhFpzYB+fJc8SC8NJmVz8D+zmgCYlBAAA
+X-CMS-MailID: 20240823225452eucas1p16c2a886d94d236a72889bbaccef65274
 X-Msg-Generator: CA
-X-RootMTR: 20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4
+X-RootMTR: 20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4
+X-CMS-RootMailID: 20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
-	<CGME20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4@eucas1p2.samsung.com>
-	<2024080753-debug-roulette-8cb1@gregkh>
-	<3jnp6tnkjpvnisefomxagazu2u3uzzt7rcon3r5jssraxzwegb@gsxc7c5sfh7v>
-	<2024080758-dedicator-smoky-44be@gregkh>
+	<20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
+	<CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
+	<2024080717-cross-retiree-862e@gregkh>
+	<dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
+	<2024080720-skyline-recapture-d80d@gregkh>
+	<20240807-mottled-stoic-degu-d1e4cb@lindesnes>
 
-On Wed, Aug 07, 2024 at 04:19:42PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Aug 07, 2024 at 01:56:38PM +0000, Daniel Gomez wrote:
-> > On Wed, Aug 07, 2024 at 01:01:08PM GMT, Greg Kroah-Hartman wrote:
-> > > On Wed, Aug 07, 2024 at 01:09:14AM +0200, Daniel Gomez via B4 Relay wrote:
-> > > > This patch set allows for building the Linux kernel for arm64 in macOS with
-> > > > LLVM.
+On Wed, Aug 07, 2024 at 05:46:03PM +0200, Nicolas Schier wrote:
+> On Wed, Aug 07, 2024 at 04:18:54PM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
+> > > > Also, as this is not internal for the kernel, but rather for userspace
+> > > > builds, shouldn't the include/ path be different?
 > > > 
-> > > Is this a requirement somewhere that this must work?  It seems like an
-> > > odd request, what workflows require cross-operating-system builds like
-> > > this?
+> > > Can you suggest an alternative path or provide documentation that could help
+> > > identify the correct location? Perhaps usr/include?
 > > 
-> > This isn't a requirement, but it would, for example, support workflows for QEMU
-> > users and developers on macOS. They could build/compile the kernel natively and
-> > use it to launch QEMU instances, simplifying their process.
+> > That is better than the generic include path as you are attempting to
+> > mix userspace and kernel headers in the same directory :(
 > 
-> But that's not a real workload of anyone?  How often does this ever come
-> up?  Who is going to maintain this cross-build functionality over time?
+> Please keep in mind, that usr/include/ currently does not hold a single
+> header file but is used for dynamically composing the UAPI header tree.
+> 
+> In general, I do not like the idea of keeping a elf.h file here that
+> possibly is out-of-sync with the actual system's version (even though
+> elf.h should not see that much changes).  Might it be more helpful to
+> provide a "development kit" for Linux devs that need to build on MacOS
+> that provides necessary missing system header files, instead of merging
+> those into upstream?
 
-The delta is becoming very small thanks to the latest patches from Masahiro.
-Earlier this week (next-20240820) [1] I rebased the work with all the feedback
-and the patch series has been reduced to 7.
+I took this suggestion and tried pushing a Homebrew formula/package here [1].
+I think I chose a wrong name and maybe something like "development kit" would
+have been better. However, would it be possible instead to include the *.rb file
+in the scripts/ directory? So users of this can generate the development kit in
+their environments. I would maintain the script to keep it in sync with the
+required glibc version for the latest kernel version.
 
-For the maintenance part, I suggest keeping a CI to build and boot the lastest
-linux-next tag available. I can set this up here [2] and take the responsability
-for maintaining that. But I would be convenient to add documentation for it in
-the LLVM section and mark this as 'experimental'. If that's okay, I will prepare
-a v2 with this.
-
-[1] https://github.com/SamsungDS/linux/commits/b4/macos-build-support/
-[2] https://github.com/SamsungDS/linux
+[1] https://github.com/Homebrew/homebrew-core/pull/181885
 
 > 
-> thanks,
+> Kind regards,
+> Nicolas
 > 
-> greg k-h
+> -- 
+> Nicolas
 
