@@ -1,174 +1,144 @@
-Return-Path: <linux-kbuild+bounces-3178-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3179-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9680D95D2EF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 18:17:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 376C395D3C4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 18:54:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBBAF1C21038
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 16:17:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8D4028522F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 16:54:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91389194C8F;
-	Fri, 23 Aug 2024 16:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACE69188597;
+	Fri, 23 Aug 2024 16:53:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gf+WMIRu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GIQRBdnK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6227C194C6E;
-	Fri, 23 Aug 2024 16:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BA8189B93
+	for <linux-kbuild@vger.kernel.org>; Fri, 23 Aug 2024 16:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724429586; cv=none; b=Ejc70EMbfX9OM291CzZ4MfusIMPnAKuVHIewWX/Ks+kH2EFvYCqubenuikew5i37XJcbhaBVf5sWHo4Z3kagaIoyv4/AvMJ7VdA81TgAr9xpG9oUtbikzBkkExZivKjg8xV6rvzb7yQo0Xh8eBBbih7elaOc+OnZ7NfVjEi6Q7U=
+	t=1724432018; cv=none; b=D7dg86mG1LnVuOoTWsjFadtq4sZ6fFrFv6cvn9rI0SLJbd5fSpE7Bt8F/44j/PZ8Hm5OoZZxyZgIZPY4/X4DvMfIl7yDLVDIYWwmSIiBypcLuNpIMie8g0YOYNhm5qnm8THiYMDJSZFEhA2r1rOL8QEwRU3mci0h2aUju9bLpHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724429586; c=relaxed/simple;
-	bh=302mPfppIzV0eIiBLegANXAiB+NF/JryI6zwyAqPKeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oOocNxTBYVq7Th/YAtRJdhTz5eRCGFBMJzNj+HqdfbCHQNi7g9oX7FhjYV4HwQgfXPJnjAAdd0TeM9sxnX/yLYfQ81g+dE+nWJvjoOAQx18yg3yfzSX36DMXhFF0B9Zo8AOqmXdX1d5H8fy6RNKdPCuEsBXLxLAKT4Q4H88plRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gf+WMIRu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECAE1C4AF4D;
-	Fri, 23 Aug 2024 16:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724429586;
-	bh=302mPfppIzV0eIiBLegANXAiB+NF/JryI6zwyAqPKeI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=gf+WMIRurTbcCUp5XG/SJqSuNJlC/5jTbjfrtjz9Bke6unn38fmcRN+YM+/H/43FY
-	 lbsc3h6ZC8f35iYEa6UeUssIiTd08RvXwBi0MjdL4zAyp5kjx1JxZ/jC1iaIgqVRiC
-	 ur7OZG2hFz/jXs+MMeV/l8lH7W26g2wD/QYWC2kZo7w7gmoo9/4AMNkWWYGV3JSqVU
-	 VYLEbcUT4YrL0R0e4pLlZFcUYiVRRx3QTP0KTf1NhMoH/d4g/aTw9/BbDf/isvQzr/
-	 EiLGa0gp/ERZgq1t2tqvHzgTKwOtnypPYBaPN7Is/mZCf7pHacg835+FQlJc3L0cNq
-	 yW2ydpGu7UQUg==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f4f2868710so14781871fa.1;
-        Fri, 23 Aug 2024 09:13:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4dtKyYllwF4ECh/AEz/nv6RBn3AfXe5jdt7DnwHsEn3hZ7TU7zlRRcpANGS4oMEWM8k57w8l+L+s7cgrg@vger.kernel.org, AJvYcCUB3KLjEX7KA+dYVScl6b9AepdhGtS9gTERvm7GlwcE5mUovMIz6uz51CLguTk3r1chX1OjbeqFGB46PxM5@vger.kernel.org, AJvYcCUf5ApO14XWXf/zYprqgsSiv7+/6XpNea+Qm8e1BQf8AlMJmRu7Egu/Q2BAPNcYGDRHITolJaOKtKJqNeo=@vger.kernel.org, AJvYcCXG5fgHC3NepXiHhjK4wxKPDne+jMK8XXViuXobwQ5RBvYAsU7NZLjpitPl8h1Oj8FrBEkUXcIFIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLMmPFwTvL7kwvsydF6wh5gWVCJ+NQXuntP22DbnOxFp4vfLNT
-	TZHqHR+hDKfj9bY0mHCPjNvU1KPwVB60MZwSk5uF76qlH+hNt55xLc5JapAj1jXPmtET0UZR8HI
-	NhGUSxOfjzeU8Hd87f+4lnvpI/vk=
-X-Google-Smtp-Source: AGHT+IGLQePVn5RhKmrGdV43WiO6IyDdZ4P8M+JxvZmPPDeIiajBOGYYWmzAWjRdCByIm/YmPmOehjlJ0SdmJRob6wc=
-X-Received: by 2002:a05:651c:1505:b0:2ef:2dfd:15dc with SMTP id
- 38308e7fff4ca-2f4f48ef636mr23768021fa.9.1724429584330; Fri, 23 Aug 2024
- 09:13:04 -0700 (PDT)
+	s=arc-20240116; t=1724432018; c=relaxed/simple;
+	bh=aDkpA7sHahzJz4O9pRbiLPc1/ZZRyODcWl1oN47eeaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XFMriHoE2rdcQsze6bPoqHTGI4UAmocmYX6FFYn8Z98ky5nK7Woi3pBbaw7cSEfCJJNLSlZ31pJ021dNogWYrJ3cdjeSWRqA/qwfYZfGBOFcNIXu4mgL/RGVGsuK1Kx3crsjyJLe4DUrvPicrwWYB/zalRGdNF/WgwFSV9unyCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GIQRBdnK; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-201fed75b38so3255ad.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Aug 2024 09:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1724432015; x=1725036815; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P9vuB8hri5qT5waMZfq5Z57S5cjCFURsSroxNeC6uFQ=;
+        b=GIQRBdnKjWLO8NZRXd4rPBJAyQlTM03PH68eiSIHsTjzD+G5iGqRsC2n4p8wUzHrJk
+         6Kft7nS6zjObwTLPotD9xGN3Ui3WOT0wNAw+Lc0V/JIonTqF1DcR7qyuY8cqKVnXuQKx
+         T2bPuVdDkLUWKn2KSLGUrhgp1m3ZEauSNGx5n0cz2qVRhOIvuL7FxRL75jooefqYrITO
+         iusgdNojqs8tYVM4owqLhCaw4d4CJl2mCF51uEIiFRfXQtRbfTEeW0HecQvFPKqfrIsj
+         B5pwddchk8Ha/PoFLoMuvhzJ2c/HUZpo0PThI2E6NdVlk0pZ/ePP9RApvUqiXWd1cicZ
+         fJ3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724432015; x=1725036815;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P9vuB8hri5qT5waMZfq5Z57S5cjCFURsSroxNeC6uFQ=;
+        b=uklaVg9TfuojpAVe09tXC6kQBXoR9S2tTtPpai4Xc5kQaAry+Q9n3nDU9PCXXhkYNO
+         uEzac5IXfvzuER38hfAb/rG7IsIPeXGEEcc5oDRh0lYBxBkwC8CdTEWCdQo/EMoTZNit
+         96A67NQNIOOok8pj0OMaeOg2xeE/yZuPyTjS06tmAQy8uT28I94/TyC8d3Zd8tzdkXn/
+         +BTfvVzrvbc5yureNm0SlYAd2BcknB/wbkG1EkicCUg+6al2hmm9hR2mpfIJkFW/bfqX
+         eY5R3//3vGfCKXT6KlkXeH+LcYSXIACO/PGes1zMPDUkgJypouL/U9L3mboLpYwQofWq
+         /YDg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1ScAqGnRvcmq2V19lUJmjleeQsVnGT+4Jcm+bpQd18cjIpzXYPbdL7ZAFnD7ZaZ2av/xS1uBpoVh3g4E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQifx7XDsD/Kmh18ZNFCzEoCfGDXiXcB6PPOMxU87HqfXQHM5r
+	BvP0pnsdiCi2W3j2UBEdGiF67CZ1nbsTCNGEUcLt1tNchQ4+4wTnaEt8NfkIdQ==
+X-Google-Smtp-Source: AGHT+IFANpB3IAM/PQyhB7gp4T27UHfGZDu+u0nU1K65J/w+iVbYyN/ffreaJCEYq84wnORw5ooKPQ==
+X-Received: by 2002:a17:902:e84f:b0:201:cdd1:b65d with SMTP id d9443c01a7336-2039a253467mr3509205ad.28.1724432015199;
+        Fri, 23 Aug 2024 09:53:35 -0700 (PDT)
+Received: from google.com (83.92.168.34.bc.googleusercontent.com. [34.168.92.83])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d613b2048fsm4349250a91.54.2024.08.23.09.53.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 09:53:34 -0700 (PDT)
+Date: Fri, 23 Aug 2024 16:53:29 +0000
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Kris Van Hees <kris.van.hees@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Nick Alcock <nick.alcock@oracle.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Jiri Olsa <olsajiri@gmail.com>,
+	Elena Zannoni <elena.zannoni@oracle.com>
+Subject: Re: [PATCH v8 2/4] kbuild: generate offset range data for builtin
+ modules
+Message-ID: <20240823165329.GA3911831@google.com>
+References: <20240821040700.1919317-1-kris.van.hees@oracle.com>
+ <20240822181942.2626536-1-kris.van.hees@oracle.com>
+ <20240822181942.2626536-3-kris.van.hees@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com> <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
-In-Reply-To: <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 24 Aug 2024 01:12:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARmy=N+6O87BJGZbodssDw21sHgMf36TXdcxD4=5A_OBA@mail.gmail.com>
-Message-ID: <CAK7LNARmy=N+6O87BJGZbodssDw21sHgMf36TXdcxD4=5A_OBA@mail.gmail.com>
-Subject: Re: [PATCH 01/12] scripts: subarch.include: fix SUBARCH on MacOS hosts
-To: da.gomez@samsung.com
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
-	Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
-	selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
-	Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com, 
-	Nick Desaulniers <nick.desaulniers@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240822181942.2626536-3-kris.van.hees@oracle.com>
 
-On Wed, Aug 7, 2024 at 8:10=E2=80=AFAM Daniel Gomez via B4 Relay
-<devnull+da.gomez.samsung.com@kernel.org> wrote:
->
-> From: Nick Desaulniers <nick.desaulniers@gmail.com>
->
-> When building the Linux kernel on an aarch64 MacOS based host, if we don'=
-t
-> specify a value for ARCH when invoking make, we default to arm and thus
-> multi_v7_defconfig rather than the expected arm64 and arm64's defconfig.
->
-> This is because subarch.include invokes `uname -m` which on MacOS hosts
-> evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
->
-> This allows us to build ARCH=3Darm64 natively on MacOS (as in ARCH need
-> not be specified on an aarch64-based system).
->
-> Utilize a negative lookahead regular expression to avoid matching arm64.
+Hi Kris,
 
+On Thu, Aug 22, 2024 at 02:19:39PM -0400, Kris Van Hees wrote:
+> diff --git a/scripts/generate_builtin_ranges.awk b/scripts/generate_builtin_ranges.awk
+> new file mode 100755
+> index 000000000000..68df05fd3036
+> --- /dev/null
+> +++ b/scripts/generate_builtin_ranges.awk
+> @@ -0,0 +1,505 @@
+> +#!/usr/bin/gawk -f
+> +# SPDX-License-Identifier: GPL-2.0
+> +# generate_builtin_ranges.awk: Generate address range data for builtin modules
+> +# Written by Kris Van Hees <kris.van.hees@oracle.com>
+> +#
+> +# Usage: generate_builtin_ranges.awk modules.builtin vmlinux.map \
+> +#		vmlinux.o.map > modules.builtin.ranges
+> +#
+> +
+> +# Return the module name(s) (if any) associated with the given object.
+> +#
+> +# If we have seen this object before, return information from the cache.
+> +# Otherwise, retrieve it from the corresponding .cmd file.
+> +#
+> +function get_module_info(fn, mod, obj, s) {
+> +	if (fn in omod)
+> +		return omod[fn];
+> +
+> +	if (match(fn, /\/[^/]+$/) == 0)
+> +		return "";
+> +
+> +	obj = fn;
+> +	mod = "";
+> +	fn = substr(fn, 1, RSTART) "." substr(fn, RSTART + 1) ".cmd";
+> +	if (getline s <fn == 1) {
+> +		if (match(s, /DKBUILD_MODFILE=['"]+[^'"]+/) > 0) {
+> +			mod = substr(s, RSTART + 16, RLENGTH - 16);
+> +			gsub(/['"]/, "", mod);
+> +		}
+> +	}
 
-Does sed support "negative lookahead regular expression"?
+This doesn't work with built-in Rust modules because there's no
+-DKBUILD_MODFILE flag passed to the compiler. The .cmd files do have
+RUST_MODFILE set though, so presumably you could match that too?
 
->
-> Add a separate expression to support for armv.* as per error reported by
-> Nicolas Schier [1].
->
-> [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
->
-> Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-> ---
->  scripts/subarch.include | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/subarch.include b/scripts/subarch.include
-> index 4bd327d0ae42..5d84ad8c0dee 100644
-> --- a/scripts/subarch.include
-> +++ b/scripts/subarch.include
-> @@ -6,7 +6,8 @@
->
->  SUBARCH :=3D $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
->                                   -e s/sun4u/sparc64/ \
-> -                                 -e s/arm.*/arm/ -e s/sa110/arm/ \
-> +                                 -e s/armv.*/arm/ \
-> +                                 -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa11=
-0/arm/ \
-
-
-s/arm\(?:\(?!64\).*\)/arm/
-
-In sed, this expression does not seem to match anything.
-
-(or please give me some matching examples if I miss something)
-
-
-
-
-
-Nocolas already provided correct code:
-
-> [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
-
-
-
-
-
-
->                                   -e s/s390x/s390/ \
->                                   -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
->                                   -e s/sh[234].*/sh/ -e s/aarch64.*/arm64=
-/ \
->
-> --
-> Git-146)
->
->
-
-
---
-Best Regards
-
-
-Masahiro Yamada
+Sami
 
