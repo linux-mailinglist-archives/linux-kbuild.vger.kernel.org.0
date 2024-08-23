@@ -1,326 +1,203 @@
-Return-Path: <linux-kbuild+bounces-3187-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3188-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2691795D921
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 00:14:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 942FE95D950
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 00:37:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 472271C223A6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 22:14:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF042B2252C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 22:37:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0EB41C825C;
-	Fri, 23 Aug 2024 22:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6461A1C8717;
+	Fri, 23 Aug 2024 22:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kruces-com.20230601.gappssmtp.com header.i=@kruces-com.20230601.gappssmtp.com header.b="YQxriK00"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="euEpsW/R"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7911C86F6
-	for <linux-kbuild@vger.kernel.org>; Fri, 23 Aug 2024 22:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2E31C825C;
+	Fri, 23 Aug 2024 22:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724451282; cv=none; b=G+hWyq5+D+HqKW/T0ibpAoPdyicpwOdm8Fj7H/tVFjbMInDjdQkHC+9ASa3U6UmdCmXq6TTPXQAWVh9d92eoch3damd1FwgD26m3MTEWK3m28lsLUNLSNrxOuKc8fnmi5HoDVeVIiH/MFsVL+PenucvEvETZvo1+ERcnv8Pq4z4=
+	t=1724452671; cv=none; b=DIQblYY/lm8xNjtQcUGEQv7ShvxKJvXZ2i1Nb7cBIyDk5baNDFcNuoLXrS322TcblkhpsGVkIvPP1atkX9HJ19oI9N3n2T+2L/9ygzLWOKbfZ4UC1enieYZb4wXfOfq4XosOFeveCHyGrAJ+8nmLDnrluM6oSPgartTosff5/iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724451282; c=relaxed/simple;
-	bh=ef9BdM7Ru4+vKo57Z5rftWEmSePRQLxRRzy/17lBdrQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ESMp78L/6oDOH+kBv/QoqySucwObTfT7TGPHdeyaIB5S5qMOJOU4SzL/4WIt9B251X2kYHnkPw0dogsEC8Fi6pspggBeGE2kMzI2LLHlseR6VgaND+XgTzgXPmSgSwC6tg/RW1pHWcezL4VxBOXuoR7mG9bFNHZIFbezhy9sCyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kruces.com; spf=pass smtp.mailfrom=kruces.com; dkim=pass (2048-bit key) header.d=kruces-com.20230601.gappssmtp.com header.i=@kruces-com.20230601.gappssmtp.com header.b=YQxriK00; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kruces.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kruces.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-533488ffaddso3207996e87.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 23 Aug 2024 15:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kruces-com.20230601.gappssmtp.com; s=20230601; t=1724451278; x=1725056078; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mVn7bhcqAuWH/Gc+rMZ1Xor11/SH0tAXV77Rde16lJc=;
-        b=YQxriK00oFhBPi+odLWARkTI3F8J+tsuz4Xq8yfpkBuet2dOyB5zupZfUzSTOtUpbc
-         0y+Tgk86diTl0Dj86S1a0Lg+oKexzTz8WKLldwpnO0Ufli7AJgKxaq1FKoEx7AJskc9/
-         JsUvXTHpANfu5fXTb37iN7G2KcttoU/MtONuTlmMElx+eiDzAtFWKkxF3CGDTgev6JsS
-         r/RkrIA4yuRHgo0U/l7UStFMiyTrDM8REseH89Z5vpoqbOkqa1bxS906VW7rycgXpUkJ
-         2gszazmO3JXeuAI7COHQlfIFgRQJM3wXbJ7zio16niIVyoJjIWVzfYPMXaypFYizTYjJ
-         nwnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724451278; x=1725056078;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mVn7bhcqAuWH/Gc+rMZ1Xor11/SH0tAXV77Rde16lJc=;
-        b=i08Ye3bb6QIe6nkDHtDXJZKIwCLItq+iCaqfcSpkLiKEdT6+CpSpY3F1XU1d3aX8OV
-         WOw3kNCsUg52JWFGj8G7XS38EGR/vtDn0ktvkix3nTYxGmG/gDiCJ1RglP9oGp/2Tzo2
-         FbZN8uyuJVqzf0bCideTauKVsPfi75a0wZh4ou2Vi/qIwX5cLdSzun+ntvAQXfgUdPnd
-         N67pLRwN/9YdldY1rXQka8/amhe8RVsugPCXQ/7Gs2pFyfrSt73uoKba7BJ45rW65wMx
-         FaDrgmuO9ZEv+M0nkXXxEFtzHsPFfYfhqmRjcaHy4I+M4i2C1PhtkNXf4jnRQ6Meverv
-         RjkA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlwh0nmgZO12My97bGyP/gUUXrnhvw7Sh1X8GS0Q+GzZwdVFVcp9QidTcEdnS9AqiKChBTOFw6DQ2S0rI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJ8rjIZqXc9jjEKI+4arCu1Y+seMZZshtWuEDFiYlw5BvLEp54
-	79pmEF15+YEBcwO0xkbaULglSRjTKj3XAsJfEMHwQntHubyVR+Sn6eDsGu1JKek6LqMUNU3pUOY
-	h2+Bv1pIWWUUoSO4mvzpIJWbyCZexyzKzMip3qQ==
-X-Google-Smtp-Source: AGHT+IGDhJMFPFDslCxnxri8S951sJjg3aSvVif7lXNqXGz7kFGS4rZgZs1ZBpw6GOJM88hNjR9zGKziEIDdKGLwVUE=
-X-Received: by 2002:a05:6512:2244:b0:533:4327:b4cc with SMTP id
- 2adb3069b0e04-534387c175cmr2666989e87.52.1724451277886; Fri, 23 Aug 2024
- 15:14:37 -0700 (PDT)
+	s=arc-20240116; t=1724452671; c=relaxed/simple;
+	bh=5lJMjkVy2tm5qnlzq9NMC4tzlBZKbVFvZMcYoZY640g=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:References; b=Lr4l6+kayPJSymXNERsArksHsG9M8aiboXq22YXU8gZ9XSGeg8JFXMuoVtG6hFcMlm3YTbjh1Xh5c2NKOCsznuWkcnHi7o2xwvv4eTwZHRQCUy+4Fg8i4Yi3h5qZwj9D4tSBaOS2AgffaukSiM3yknwjisB8RfTh9usOO5sgFR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=euEpsW/R; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240823223740euoutp02f94f307961b576faf3625d7f885e0bef~ufI7mAKbF2371223712euoutp02a;
+	Fri, 23 Aug 2024 22:37:40 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240823223740euoutp02f94f307961b576faf3625d7f885e0bef~ufI7mAKbF2371223712euoutp02a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1724452660;
+	bh=la+dmPvqL+EWy5obzmiWKZwg6xJbELHXa4/+KgHJQwI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=euEpsW/Rvuc6d+ZRYsoU9kpXOZqIO++KiBbHwjcWs7/27Epw182ChL8xMtFKb95fM
+	 TQHtpAcTSWP2lKpO4EGch0IhOeIey6GRhieK5D8Sg0YzyRPcbkwQs7IbGBtdSyoIw9
+	 vuLKEyuiOhE1azL29fu+Is0jX1o9WBP/kZSc662U=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20240823223739eucas1p1d2e2fdb71acba6555e61a19e652330fd~ufI6vhsU00738507385eucas1p1H;
+	Fri, 23 Aug 2024 22:37:39 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id E1.39.09875.33F09C66; Fri, 23
+	Aug 2024 23:37:39 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20240823223738eucas1p267239cadb138dd98aca9726a2730f898~ufI51jkkR2704127041eucas1p2c;
+	Fri, 23 Aug 2024 22:37:38 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240823223738eusmtrp19f8d1b50dbf15807756173e179310203~ufI50aIvc0353703537eusmtrp1W;
+	Fri, 23 Aug 2024 22:37:38 +0000 (GMT)
+X-AuditID: cbfec7f4-11bff70000002693-5f-66c90f334884
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id C3.02.09010.23F09C66; Fri, 23
+	Aug 2024 23:37:38 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240823223738eusmtip2280dc31c1420e8cf3bd6b408a3157d73~ufI5guU1S2640326403eusmtip2Q;
+	Fri, 23 Aug 2024 22:37:38 +0000 (GMT)
+Received: from localhost (106.110.32.87) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Fri, 23 Aug 2024 23:37:38 +0100
+Date: Sat, 24 Aug 2024 00:37:36 +0200
+From: Daniel Gomez <da.gomez@samsung.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+	<nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi
+	<lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+	<thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, William Hubbs
+	<w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, Kirk Reiser
+	<kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, Paul
+	Moore <paul@paul-moore.com>, Stephen Smalley
+	<stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James
+	Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>, Nick
+	Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
+	<linux-kbuild@vger.kernel.org>, "intel-xe@lists.freedesktop.org"
+	<intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "speakup@linux-speakup.org"
+	<speakup@linux-speakup.org>, "selinux@vger.kernel.org"
+	<selinux@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-serial@vger.kernel.org"
+	<linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
+	<llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
+ (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com"
+	<gost.dev@samsung.com>, Nick Desaulniers <nick.desaulniers@gmail.com>
+Subject: Re: [PATCH 00/12] Enable build system on macOS hosts
+Message-ID: <20240823223736.mosqrdcwqanvdpmd@AALNPWDAGOMEZ1.aal.scsc.local>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <2024080758-dedicator-smoky-44be@gregkh>
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0ybZRTG9363FkbZRyHjDQwd6DCTjbkB+i4iilv0S6bgosaoiVrHR0e4
+	NS0IU4lMkNtg497RjVKKtFyHKwVLudQh0FXGiMFsMCybGbchdxgXR1YpZbr/fuc5zzk5z5u8
+	XJy/QrlxI2LiWHGMIMqLsieae9b7D/rtMoW/tHoOouu3lRiaU2UD1FMziaNWixlHluY8HP3x
+	cI5CKRUNFFprnMTQ3Q41hmZL96Di2goKyX83EWhK+yuBNPdvkWhDr8PQgP4yhW5U5HDQaKGB
+	QmP3VRQqX2gi0F/3BknUctlEovaGAQppBpZIlJapIlF69RiF5nMtGNIb1gk03n6dREXr0xSa
+	ye3moOF8KYEMslscVLUmBajf2MNBzbo+gCb6CwAqGR4G6G/d5mbtdB6JlGmvoNQ/A9BQ5U+c
+	N3yYOnkdYNp6+iimfUVBMPrORoppkZk5jEITz6R2zZBMRdsDjNHUZFKMPFOOMZaceyTTZVFy
+	mPLkIpyRm04yhtI6DnP3nBF7D35iHxjGRkV8xYoPBX1hf7rYLBKtOiQOjv2AJ4Nq+yzA5ULa
+	HyoLhVnAjsunqwBs1T2TBew3eRnA9DtNmK1YAvDqL3LM6rIOlFy4BGwNNYANRaOc/1zm6lLS
+	VjQC2GvoJ60jBL0Pds1Lt5ii98MOk4ZjZRfaD17ok21N4/TNXVAlndsyOdOvwUl1G2VlHn0C
+	muVl2+wETSWjhJVx+gBUtC5S1hA47Q7Vj7lW2Y4OgBlT2YTtVE94Ma96m5Pgb9o7W3kgXbsT
+	PjQ1k7bGcajQDnFs7AynjNpt3gN7C54sEsIfr8i2WQTbhmWk7fFehedvRNnkYDittOayyo5w
+	cMbJdqUjzG+W4jaZBzPS+Da3N6wdmSZywXOyp3LJnsol+z+XAuA1wJWNl0QLWcmRGDbBVyKI
+	lsTHCH1PxUZrwObX6H1sXNYB9dSCbyfAuKATQC7u5cL7cqQ7nM8LE5z5mhXHfi6Oj2IlncCd
+	S3i58vaFPcvyaaEgjo1kWRErftLFuHZuyVjG2XEdC/K/l8jU1MTk1fp5mX71Y8ek4haqcsRf
+	4Hl0h2Xc4+VDq94NL7ydcD4lOCMgZKn+/Y7ZgLqI7H8+Gkq4krT4YdCRWvNgXBlv7gOfadeg
+	R/z67zx2pKhCVHuzNhZ3xpXnOCRqXPTjmXo/V/9jvsszIcVVUZ8tB35z8Xb7NZfG4LV3Z5YX
+	HaoHnfannyp4/dHs2QCT4Zq7QrI7sm7kuE/Z4pnynyVpR59X8ss7tSsHdn8L8Xfy2rGmhZS2
+	roORiVme3VWfJiHlVKv3xoTfA4XnpVDpzbHKbudYcXxKodBdYtmbXSwykr6TxsOpG6GNHoEb
+	4aYTuW+edAvNZ3vXat/yIiSnBYdfxMUSwb8QAe+siQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e29hdNwVFl8+lkCNW0QtFCi8bAjO6XYJy7It2bLgDFa4
+	ghEoa6mbc1vqVEYRQnETRoWKMMAyEC0fKQgSO2hphBFF0AX5GtQB5UOEoTCka8Vl/vdLnvM8
+	5+Tk4eL8AtKbezgtg5WlSVIEpCtxc908vCPY3XIoaHnZC3XdLcPQfGUOQKbqSRxdsw/hyN6U
+	j6M7f8+T6GR5HYme1E9iaOR6FYbmSnxRwa/lJNLeshBouuE3AunHBzhorcWAob6WYhJ1l+dS
+	aOKndhJZxytJdHGhkUBjo/c4qLnYwkFtdX0k0vctclCmqpKDftBZSfRQbcdQS/sKgR60dXHQ
+	uZUZEs2qOyk0eLaQQO2aAQpdelIIUK/ZRKEmQw9Af/X+CFDR4CBANoMjuWEmn4PKMsPRqfti
+	9EfFFWrXNqZGWwOYVlMPybQtlxJMi7GeZJo1QxRTqlcwpzpmOUx56xTG6KtVJKNVaTHGnjvK
+	YTrsZRRzUXkOZ7SWj5j2khqKGTljxj6EccJImVSRwfolS+UZOwX7RChYKIpAwuDQCKEoJHz/
+	m8FiQWBUZCKbcvgoKwuMOiBMLhhKT3/s9tU962lcCXSu2cCFC+lQWJR3HmQDVy6frgDw+74b
+	YEPwhVeX+jkb7AHXBrLJjaEFANutq5hT4NP1ABad5DqZoLfAjoeFzwwkvRVet+gpJ3vSITCv
+	R0M5zTj9uzssWe3HnYIHvRNOVrWSTubRsXBIe+H5hkYM3skaABvCK9BSNEE4Gae3w9JrjxxD
+	XAf7wKr1Z4tdaDHMms4hNi71hz/n657zt3Dx6QOgBh6aF5I0LyRp/k8qBXg18GQV8tSkVHmw
+	UC5JlSvSkoQJ0lQ9cBS0ybTSYAC66QWhEWBcYASQiws8eQeHOw/xeYmSY1+zMmm8TJHCyo1A
+	7PhFPu79aoLU0fC0jHhRWJBYFBoWESSOCAsRbOLFpGdJ+HSSJIM9wrLprOw/H8Z18VZiKYb3
+	x6h3s+bss9rFHM8xYmq04gOf1yv9extd8+QJzae73jprEH53w91avv1qa0fivi+83Ibf89nN
+	+PIeKXcdBwdG1v+piP445LMTl+t180dVNrPSVhKUu5moxZsUMdLxy8baz93QiCRaGRXuV2OP
+	nou/sPU19Z7GhaR3bq8YOKvdZ9jdzXsks0vjv2BeR3h8lfmTgxSjjvx0aXSLyG43ztxsi/Gb
+	zTPF3SquIsbd9sCqx6rN5223bZENWlOdJDt2Ymr/peU4c+2oba//1HDA2v2XYt7I1xUdf0pu
+	utKssL58TG8Q9Qb9mf2ldEdgf+zdbQSZ0s2P6DwxrM58+5vlALGAkCdLRAG4TC75F3l4CCUp
+	BAAA
+X-CMS-MailID: 20240823223738eucas1p267239cadb138dd98aca9726a2730f898
+X-Msg-Generator: CA
+X-RootMTR: 20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com> <CAK7LNARmy=N+6O87BJGZbodssDw21sHgMf36TXdcxD4=5A_OBA@mail.gmail.com>
-In-Reply-To: <CAK7LNARmy=N+6O87BJGZbodssDw21sHgMf36TXdcxD4=5A_OBA@mail.gmail.com>
-From: "Daniel Gomez (Samsung)" <d+samsung@kruces.com>
-Date: Sat, 24 Aug 2024 00:14:11 +0200
-Message-ID: <CABj0suC1atc=iPX4uOL5FYkzYBRtZC1J3Lhruo7hejd-fe9Yuw@mail.gmail.com>
-Subject: Re: [PATCH 01/12] scripts: subarch.include: fix SUBARCH on MacOS hosts
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: da.gomez@samsung.com, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
-	Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
-	selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
-	Finn Behrens <me@kloenk.dev>, gost.dev@samsung.com, 
-	Nick Desaulniers <nick.desaulniers@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	<CGME20240807110114eucas1p2e1ca4cbd352c6cd9d60688b1570df8d4@eucas1p2.samsung.com>
+	<2024080753-debug-roulette-8cb1@gregkh>
+	<3jnp6tnkjpvnisefomxagazu2u3uzzt7rcon3r5jssraxzwegb@gsxc7c5sfh7v>
+	<2024080758-dedicator-smoky-44be@gregkh>
 
-On Fri, Aug 23, 2024 at 6:13=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Wed, Aug 7, 2024 at 8:10=E2=80=AFAM Daniel Gomez via B4 Relay
-> <devnull+da.gomez.samsung.com@kernel.org> wrote:
-> >
-> > From: Nick Desaulniers <nick.desaulniers@gmail.com>
-> >
-> > When building the Linux kernel on an aarch64 MacOS based host, if we do=
-n't
-> > specify a value for ARCH when invoking make, we default to arm and thus
-> > multi_v7_defconfig rather than the expected arm64 and arm64's defconfig=
-.
-> >
-> > This is because subarch.include invokes `uname -m` which on MacOS hosts
-> > evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
-> >
-> > This allows us to build ARCH=3Darm64 natively on MacOS (as in ARCH need
-> > not be specified on an aarch64-based system).
-> >
-> > Utilize a negative lookahead regular expression to avoid matching arm64=
-.
->
->
-> Does sed support "negative lookahead regular expression"?
+On Wed, Aug 07, 2024 at 04:19:42PM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Aug 07, 2024 at 01:56:38PM +0000, Daniel Gomez wrote:
+> > On Wed, Aug 07, 2024 at 01:01:08PM GMT, Greg Kroah-Hartman wrote:
+> > > On Wed, Aug 07, 2024 at 01:09:14AM +0200, Daniel Gomez via B4 Relay wrote:
+> > > > This patch set allows for building the Linux kernel for arm64 in macOS with
+> > > > LLVM.
+> > > 
+> > > Is this a requirement somewhere that this must work?  It seems like an
+> > > odd request, what workflows require cross-operating-system builds like
+> > > this?
+> > 
+> > This isn't a requirement, but it would, for example, support workflows for QEMU
+> > users and developers on macOS. They could build/compile the kernel natively and
+> > use it to launch QEMU instances, simplifying their process.
+> 
+> But that's not a real workload of anyone?  How often does this ever come
+> up?  Who is going to maintain this cross-build functionality over time?
 
-I think they removed support for PCRE. I've found this:
+The delta is becoming very small thanks to the latest patches from Masahiro.
+Earlier this week (next-20240820) [1] I rebased the work with all the feedback
+and the patch series has been reduced to 7.
 
-commit 261c7f145d015d9acb79dc650d27e4a23b839c23
-Author: Assaf Gordon <assafgordon@gmail.com>
-Date:   Tue Aug 21 14:25:57 2018 -0600
+For the maintenance part, I suggest keeping a CI to build and boot the lastest
+linux-next tag available. I can set this up here [2] and take the responsability
+for maintaining that. But I would be convenient to add documentation for it in
+the LLVM section and mark this as 'experimental'. If that's okay, I will prepare
+a v2 with this.
 
-    maint: remove REG_PERL code
+[1] https://github.com/SamsungDS/linux/commits/b4/macos-build-support/
+[2] https://github.com/SamsungDS/linux
 
-    Perl-regexp syntax (PCRE) in GNU Sed is shelved indefinitely.
-    See https://bugs.gnu.org/22801 , https://bugs.gnu.org/22647 .
-    Remove all (unused) REG_PERL related code.
-
-    * sed/sed.c, sed/sed.h, sed/regexp.c, sed/compile.c: Remove REG_PERL co=
-de.
-
-git tag --contains 261c7f145d015d9acb79dc650d27e4a23b839c23
-v4.6
-v4.7
-v4.8
-v4.9
-
-And my sed version is (Debian):
-
-sed --version
-sed (GNU sed) 4.9
-Packaged by Debian
-Copyright (C) 2022 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.ht=
-ml>.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-Written by Jay Fenlason, Tom Lord, Ken Pizzini,
-Paolo Bonzini, Jim Meyering, and Assaf Gordon.
-
-This sed program was built with SELinux support.
-SELinux is disabled on this system.
-
-GNU sed home page: <https://www.gnu.org/software/sed/>.
-General help using GNU software: <https://www.gnu.org/gethelp/>.
-E-mail bug reports to: <bug-sed@gnu.org>.
-
-sed version (Homebrew):
-sed --version
-sed (GNU sed) 4.9
-Copyright (C) 2022 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.ht=
-ml>.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-Written by Jay Fenlason, Tom Lord, Ken Pizzini,
-Paolo Bonzini, Jim Meyering, and Assaf Gordon.
-
-This sed program was built without SELinux support.
-
-GNU sed home page: <https://www.gnu.org/software/sed/>.
-General help using GNU software: <https://www.gnu.org/gethelp/>.
-E-mail bug reports to: <bug-sed@gnu.org>.
-
->
-> >
-> > Add a separate expression to support for armv.* as per error reported b=
-y
-> > Nicolas Schier [1].
-> >
-> > [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
-> >
-> > Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
-> > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-> > ---
-> >  scripts/subarch.include | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/subarch.include b/scripts/subarch.include
-> > index 4bd327d0ae42..5d84ad8c0dee 100644
-> > --- a/scripts/subarch.include
-> > +++ b/scripts/subarch.include
-> > @@ -6,7 +6,8 @@
-> >
-> >  SUBARCH :=3D $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
-> >                                   -e s/sun4u/sparc64/ \
-> > -                                 -e s/arm.*/arm/ -e s/sa110/arm/ \
-> > +                                 -e s/armv.*/arm/ \
-> > +                                 -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa=
-110/arm/ \
->
->
-> s/arm\(?:\(?!64\).*\)/arm/
->
-> In sed, this expression does not seem to match anything.
-
-You are correct. I've removed the expression and saw no difference.
-See below with my test case:
->
-> (or please give me some matching examples if I miss something)
-
-cat Makefile
-MACHINE ?=3D "aarch64"
-SUBARCH0 :=3D $(shell echo $(MACHINE) | sed \
-                                  -e s/arm.*/arm/ \
-                                  -e s/aarch64.*/arm64/)
-
-SUBARCH1 :=3D $(shell echo $(MACHINE) | sed \
-                                  -e s/armv.*/arm/ \
-                                  -e s/aarch64.*/arm64/)
-
-SUBARCH2 :=3D $(shell echo $(MACHINE) | sed \
-                                  -e /^arm64$/!s/arm.*/arm/ \
-                                  -e s/aarch64.*/arm64/)
-
-test:
-        @echo "MACHINE=3D$(MACHINE)"
-        @echo "SUBARCH0=3D$(SUBARCH0)"
-        @echo "SUBARCH1=3D$(SUBARCH1)"
-        @echo "SUBARCH2=3D$(SUBARCH2)"
-        @echo "---"
-
-SUBARCH0 represents the current upstream expressions for arm/arm64.
-SUBARCH1 is my proposal in case we need to cover only armv* for 32-bit
-arm (I think that is incomplete?) and SUBARCH2 is Nicolas' proposal
-(which I can't make it work in the test Makefile).
-
-Running the above Makefile, I get:
-
-make test MACHINE=3Darmv4 && make test MACHINE=3Darm7 && make test
-MACHINE=3Darmhf && make test MACHINE=3Daarch64 && make test MACHINE=3Darm64
-MACHINE=3Darmv4
-SUBARCH0=3Darm
-SUBARCH1=3Darm
-SUBARCH2=3Darmv4
----
-MACHINE=3Darm7
-SUBARCH0=3Darm
-SUBARCH1=3Darm7
-SUBARCH2=3Darm7
----
-MACHINE=3Darmhf
-SUBARCH0=3Darm
-SUBARCH1=3Darmhf
-SUBARCH2=3Darmhf
----
-MACHINE=3Daarch64
-SUBARCH0=3Darm64
-SUBARCH1=3Darm64
-SUBARCH2=3Darm64
----
-MACHINE=3Darm64
-SUBARCH0=3Darm
-SUBARCH1=3Darm64
-SUBARCH2=3Darm64
----
->
->
->
->
->
-> Nocolas already provided correct code:
->
-> > [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
-
-I think it is even more simple if we just make this change:
-
--                                 -e s/arm.*/arm/ -e s/sa110/arm/ \
-+                                 -e s/armv.*/arm/ \
-
-Does armv.* cover all arm32 machines? I see armhf, arm7, arm8 and
-armv*, is it correct?
-
-And thanks for checking!
-
->
->
->
->
->
->
-> >                                   -e s/s390x/s390/ \
-> >                                   -e s/ppc.*/powerpc/ -e s/mips.*/mips/=
- \
-> >                                   -e s/sh[234].*/sh/ -e s/aarch64.*/arm=
-64/ \
-> >
-> > --
-> > Git-146)
-> >
-> >
->
->
-> --
-> Best Regards
->
->
-> Masahiro Yamada
+> 
+> thanks,
+> 
+> greg k-h
 
