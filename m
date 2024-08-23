@@ -1,109 +1,152 @@
-Return-Path: <linux-kbuild+bounces-3184-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3185-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A07C95D579
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 20:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD8D95D5F8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 21:17:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D0191C21B02
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 18:48:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E0261C21B2B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Aug 2024 19:17:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A9D13634A;
-	Fri, 23 Aug 2024 18:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89CFD191499;
+	Fri, 23 Aug 2024 19:17:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="clVQMXmV"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nQjFtDUY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCD18F6B;
-	Fri, 23 Aug 2024 18:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A5113A265
+	for <linux-kbuild@vger.kernel.org>; Fri, 23 Aug 2024 19:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724438888; cv=none; b=PumeXJISjSAtByOt1CpSQ3o5My/N7BqXn8HciZMSwrhzCM20ePF0K9s+ASLW2wDwkScww48+/wlPfX4XWGIQR6ZajHxyJE6ANW+e4BJ/G7eUDJDTV3cqzflhyK0BlQAtRy3TPvLkVKBs4x6Xe+5B/si7/FFFCe0SGlHpu6F4Rio=
+	t=1724440663; cv=none; b=d0r31DlHuopQkXMYGj5urboSc33Pq4k84h77NWlZnsyK2vIsZEvbgFRXDDE/xaYBOdEy0viwZfaO8SjDL1fDRATktPEouvanZ2q2fNB8CdIB6HikJfnq8fW/kCunc9MSXmjV/vp0wEok1F/0gayOT5ywl1UlFYdOJWEusB87+iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724438888; c=relaxed/simple;
-	bh=POw5n4uPK+5Wgj6bZ8E7UNaTIEwC7nnmx+EmsVvH934=;
+	s=arc-20240116; t=1724440663; c=relaxed/simple;
+	bh=JIaW/apNWCzAmV/n0G/RjvJeXSQThNu/IWRYC/nMlBQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qj75PVCELCyH1/9f3JOqLIqIIH+cZF+uurkY+e96absUUNcCnckdFgM78Kz7u7Bi1SSoWFQVxkffuppUhv95VVUnoJ9sOiHUcWGw6FlkEOo1kd2sPfL0UM44jemdhI1jHjr7LA5tXz8qKY4tr8XeYGiLpRJL4HDVB9TiOZOXuZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=clVQMXmV; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7143c9e68a3so112039b3a.0;
-        Fri, 23 Aug 2024 11:48:06 -0700 (PDT)
+	 To:Cc:Content-Type; b=GjdmlFf4csEf31jOU6EoLhwqu3PbGnoZVLoPDY608+wWPstKn9slhTsyY8LmDFg8LGaCT9uZLmy+dZb+5PsgwWNEtQ6qhKMvFI+WIIZYXZoBjLbUGvd2P7MpzyrON75XX3weh5bP/4z5Q9PTx1CA7IbcZdQA9vL1LW8FZDTSDn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nQjFtDUY; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4518d9fa2f4so52491cf.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 23 Aug 2024 12:17:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724438885; x=1725043685; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1724440661; x=1725045461; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uk0/C1AkOx81lEeJcP/sdwvaYycc+SWwymWZxuohJG4=;
-        b=clVQMXmV5vVjU+NC2+gMp76TTA3xN3S2+dCJhnfgBJAqtjdreG0od8yayRxFNBXZfD
-         kvON9+HlfxUuaO34sYDEwlBBRZOofA01VKt9aHbywNGfUdeItjhUObzylYxOQeRIRecI
-         MjVsrHrVpTHsUO5f6wbTqS0JwdU8C3PPjIMHh4Ea+IMPqocFFWN9gVRcMhvLMF7a9Y0h
-         RcH++ovff7XWtxDHjiH6Y5QM58aKF51I8ex0Xi2pZo7MDFjfLQspFpwEtSt0wWGOalsC
-         crzd31/rtXjdIam8XoVOfsXzQx7nUeD2gEAapmSZ7AUEDUJDsAYAq+EymCPioq1F7N8A
-         LOHA==
+        bh=HK1Wvsdu8rfQ7lMKZWs3qCjFTpM3O30wRJ41e4mXEQM=;
+        b=nQjFtDUYePQmYnE9EQJwWAQiHgusjrHR7wzqtda3MIHccSeQSWS/pM/mAuvbwrSEon
+         kQk5hJQNheGOF9eavi8D0shnYnrqKUTWe54HFLyjzo0A7R8WWFT6HOcec0hqJ5hTI8Te
+         +aZnp8HOB6SPgQotqWrW6Vyn2E/mTCWnqdktR+bkTYysQV5LSlAZtdg01Od20tSEOuEG
+         WkvL2LbZ2yPT55q+MpFC/FgcnML37II0zSjgiX2bJGeS7G5oek4cmUKxb4Lw0wrhjNOm
+         L0OaDHq64eYS7NuFHAnd07dzM9ONAdvli4LYP/QaEDHm3+TPRxCBd/5uWckpRX99lsr+
+         ejUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724438885; x=1725043685;
+        d=1e100.net; s=20230601; t=1724440661; x=1725045461;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uk0/C1AkOx81lEeJcP/sdwvaYycc+SWwymWZxuohJG4=;
-        b=EfVj6PA007KAB4u2hJudTYTjPCj/f6p61IEDmFtoNQ5Nfuvof5v46uFqJdjv2w64BX
-         i45agn3n4VJldXNykpUDUk/svUnqsapaflXytxsgqBGmN+bh3s8DlTs5ox0I6dcJoCoV
-         WJYgktch/XhlSbp7dRtYO1n8xnoHSRCiBTxYLXrug9XrKYOF54m4MiRTICfQJ53Bg5ym
-         U6nYblZr74nIkKCXGzPCB6vkRLeIO67a7LOJ/sy0FozXhlc75RoNAArSjfdhGg5uNeY2
-         kJvj65kLCFxbDn1L9iXU2eXtTP9Fo1Rs0Z3eSk8gCdNEuSQrdCoHoiKNCkCWEn/j1CRY
-         tkDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVO1IF4MK0/7C2C7mcPzc2wmmQIgM2XraJRXpIXy8jos9cj5IPKnienBtlArvoQGo8Yzh1YImwMyOiuAgj3@vger.kernel.org, AJvYcCVPpsOsuhu2yevFIdKrhTc4H/QQdHG8p+4GZMqULw4vhG+zW2BW4Nqqm8LDtrKExXWaNl1JZGsu3uWFrlux@vger.kernel.org, AJvYcCVpiVvYZXmUpoDMpQCS9cl1p0ttOtVELKHYod+S5ilpbIwvxbbwp6R1lGcTbPRiAPFfrho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKRsblVJmbKbPq4dBFv9+PT9UDlVXLSZHBO+9Tp03J6iO9XQ0L
-	vL3Q1qZdbClSV2rll/4E1QriFmUhLVUf0PrtQb4z+Fyun8pvg88Ju/Q5d2E77CMPFg3XNZoL6qh
-	0TbMkcOvOx4V3MJnIYI2qzygmqVQ=
-X-Google-Smtp-Source: AGHT+IHU1bqef0K7taMb7NU7AZLtkpaTLnqF/hx5h78WBNReGSNhGIsYsg5UQYCcuDeEKg1DlAP70nhcV8uXO1TKuAc=
-X-Received: by 2002:a05:6a20:1589:b0:1c6:ecf5:4418 with SMTP id
- adf61e73a8af0-1cc8a01c07bmr2328000637.4.1724438885555; Fri, 23 Aug 2024
- 11:48:05 -0700 (PDT)
+        bh=HK1Wvsdu8rfQ7lMKZWs3qCjFTpM3O30wRJ41e4mXEQM=;
+        b=abygt7uur/UymMSXNszEdg2yrWwDr6yZ+3BsgxakscprRO76+cp+P1yA4G9saY9Ozi
+         CRy6OU9gDonN4riqDe18jLfcGXFvwcwxX93oKKMHicQP+6JZyPaDlOjFTA5K9sR0Aicj
+         WaBRT/b6KaGXj1XGD44KSBXk14oIX6cRARX7HBp2hVXXeBlCZd+54u27l2ZgEcGXcKqY
+         vUE7p4j/PHwTVtcktfaU6KoPC/dWKgprpg+/gV0ZwaAzfLA7mGA4sTSM1Q6IU/ezcisc
+         G+GRIQSMoxdbWRuZMYU41XQFtLWnY1701THZd2clUEyZ0ccPQ0IAyPM55JkoOuXyPdPd
+         Abxg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8nL1Q+oa7aivwQqW2QPYQUTr3biie/kDPL8Cv4WZLmQWLgamngxvfv6HRyXWLN2SuMA211VFXWPl2s6U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAPUvGdRQvawzpF4svV2hS9D8ckYaNtn+mhnZbf9Wiih2mMpTf
+	N6+e/vPu890KSNSG8ojBiwO/gH+CdaaURiBnuzTCF+SKIgbyVs9iCxveniYno1McFTC1wRsLj5U
+	1POic2vWrhVN/4E7yZCbr6n8ndo30qieANNWJ
+X-Google-Smtp-Source: AGHT+IF5LomZc7hzqJKmq6FHV/NPspoQklrwD6w75B8q4/YSMNHk+tcBlzWN1zsXKbub6U63GbI50CTIDeaWmmKUtbY=
+X-Received: by 2002:a05:622a:30a:b0:44f:ea7a:2119 with SMTP id
+ d75a77b69052e-456420b7fa6mr478581cf.18.1724440660708; Fri, 23 Aug 2024
+ 12:17:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240728125527.690726-1-ojeda@kernel.org> <CAK7LNARhR=GGZ2Vr-SSog1yjnjh6iT7cCEe4mpYg889GhJnO9g@mail.gmail.com>
- <ZsiV0V5-UYFGkxPE@bergen>
-In-Reply-To: <ZsiV0V5-UYFGkxPE@bergen>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 23 Aug 2024 20:47:53 +0200
-Message-ID: <CANiq72khCDjCVbU=t+vpR+EfJucNBpYhZkW2VVjnXbD9S77C0A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: pahole-version: avoid errors if executing fails
-To: Nicolas Schier <nicolas@fjasle.eu>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, bpf@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+References: <20240815173903.4172139-37-samitolvanen@google.com>
+ <20240819193851.GA4809@google.com> <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
+ <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com>
+ <CAGSQo01kCUd64nB7C7Ssy1N=UBpOP3bORsRDcHJ1k2CqkbKsfQ@mail.gmail.com>
+ <c6c1e84a-40f3-41a5-a732-f1cf06521691@proton.me> <2024082229-elevation-emporium-8118@gregkh>
+ <bc2e02d7-d4a7-4f0f-852c-e26ad6a8688f@proton.me> <2024082257-refrain-subsector-b6c4@gregkh>
+ <77e8e20c-8ca1-4df7-a4d7-ed77454f1754@proton.me> <2024082356-stowing-endowment-555b@gregkh>
+In-Reply-To: <2024082356-stowing-endowment-555b@gregkh>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Fri, 23 Aug 2024 19:17:01 +0000
+Message-ID: <CABCJKud--imREq8E6uuk4XwatLsKC7ikmyoLKJStqr3Azz0Hdw@mail.gmail.com>
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
+ structure fields
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Benno Lossin <benno.lossin@proton.me>, Matthew Maurer <mmaurer@google.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 23, 2024 at 4:00=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu> =
-wrote:
+On Thu, Aug 22, 2024 at 11:53=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> Do we have to catch all possibilities?  Then, what about this:
+> On Thu, Aug 22, 2024 at 12:00:15PM +0000, Benno Lossin wrote:
+> > > Here's one example in the android tree where 4 64bit fields are reser=
+ved
+> > > for future abi changes:
+> > >     https://android.googlesource.com/kernel/common/+/refs/heads/andro=
+id12-5.10/include/linux/fs.h#421
+> > >
+> > > And here's a different place where a field is being used with many
+> > > remaining for future use:
+> > >     https://android.googlesource.com/kernel/common/+/refs/heads/andro=
+id12-5.10/include/linux/sched.h#1379
+> > >
+> > > And also, we want/need lots of other space reservation at times, look=
+ at
+> > > how "Others" can get access to reserved areas in structures that need=
+ to
+> > > be done in an abi-safe way:
+> > >     https://android.googlesource.com/kernel/common/+/refs/heads/andro=
+id12-5.10/include/linux/sched.h#1375
+> >
+> > Let me correct myself, it's only possible to replace one `KAbiReserved`
+> > by one new field. You can have as many fields of type `KAbiReserved` as
+> > you want. The thing that you can't do is replace a single `KAbiReserved=
+`
+> > field by multiple (well you can, but then you have to change the sites
+> > that use it).
+>
+> That's odd/foolish, why would that be the case?  Isn't that exactly what
+> a union is for?  How are you going to know ahead of time what size types
+> to save space for?
 
-Something like that sounds good to me too -- we do something similar
-in `rust_is_available.sh`. We also have a `1` in the beginning of
-(most of) the `sed` commands there to check only the first line.
+I believe Benno is referring to the lack of anonymous structures in
+Rust. While you can replace a reserved field with a struct that
+contains multiple smaller fields, you can't access the fields
+transparently from the parent struct like you can in C:
 
-I guess it depends on whether Masahiro thinks the extra
-checks/complexity is worth it. Here I was aiming to catch the case he
-reported, i.e. non-successful programs.
+    struct s { struct { u32 a; u32 b; }; };
+    struct s s;
+    s.a =3D 0;
+    ...
 
-Cheers,
-Miguel
+It looks like nightly Rust does have some level of support for unnamed
+fields in unions, but the implementation is not yet complete:
+
+https://play.rust-lang.org/?version=3Dnightly&mode=3Ddebug&edition=3D2021&g=
+ist=3D4f268d308fe6aa7a47566c7080c6e604
+
+Benno, Matt, are you familiar with this feature?
+
+Sami
 
