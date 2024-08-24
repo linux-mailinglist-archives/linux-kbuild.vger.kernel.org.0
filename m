@@ -1,229 +1,354 @@
-Return-Path: <linux-kbuild+bounces-3204-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3205-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E526995DF42
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 19:44:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51AA95DFD2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 21:35:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51E31B219B2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 17:44:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE5E71C20F4F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 19:35:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B784AEE0;
-	Sat, 24 Aug 2024 17:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 617747DA68;
+	Sat, 24 Aug 2024 19:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jH+uXp3F"
+	dkim=pass (2048-bit key) header.d=kruces-com.20230601.gappssmtp.com header.i=@kruces-com.20230601.gappssmtp.com header.b="0dtm/Kvf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2334CB5B;
-	Sat, 24 Aug 2024 17:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37A92AF15
+	for <linux-kbuild@vger.kernel.org>; Sat, 24 Aug 2024 19:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724521468; cv=none; b=YqUByIktpw1UGpn8Wych819DrBHIhbW/PLyv8PZtkRec38MuXJWZdE9U5iNfYx8aah89Yno9CjJh6/Pyv+2JuOZa8REV04EmwWJjkHORFFsTsS2wR9rKvYs99DtYL1rFQRtH9NBjqBJs+9U9b55ZlbpeVt+w2uJMZ1TRQh4YRH4=
+	t=1724528130; cv=none; b=U2I6aOechTKLbXsC/KzCp9Xyqbh9oVsryqwt4Ku+obN4/rUE0k1thBT48Y+GxzZVPeBWr+msSWlSQYr/wEm+RYYYvqPTsgS0ys4zzl25nyD1OBtKXa7kHWU5FfC7hp+NneKlew/RVKp7veMcNtMYZ/D+6i8ZrevowelroJ21gso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724521468; c=relaxed/simple;
-	bh=IUmNRQEtWfRqPXvD++QujEJNnvCeXoDLdw9P2RX7x/c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=R5NSoyFtBIEx1gn6fBiVyHoagyb1kHUxqmQA9P5PsZHv4wIVPWfxBdCfA4Uaj0PZ/N4xI8vPu8ZMHKHHQ+6h2gD7GrjCJ8YGBNTUxIgq02U3ZrSF9FC8zZhdfynhXAIIc7/WJJUug+qmgo09B/wxKB9hklcUUvgrG07CKMs0/8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jH+uXp3F; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1724521455;
-	bh=IUmNRQEtWfRqPXvD++QujEJNnvCeXoDLdw9P2RX7x/c=;
-	h=From:Date:Subject:To:Cc:From;
-	b=jH+uXp3FvXmePuA9GLa0qkVROdUDt1jcmcwC58WudEwjdr96v2EPuqVA2qtjSJDQU
-	 +mVlRvkngsBTtWvroNdRAn0Jy2se/oo/bSQaNvw9fsBmsZWjxsXJKkzwqAV0rOszA/
-	 nCki+qLrZUyzXoUzAB9hXScgz4KQOQWxXwuH22Lk=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sat, 24 Aug 2024 19:44:11 +0200
-Subject: [PATCH RFC] modpost: compile constant module information only once
+	s=arc-20240116; t=1724528130; c=relaxed/simple;
+	bh=bytNnuowzmtyhvFR4SOrAtgSwC0Npg1muBqZ82NtqaQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oWz/iBDCVopjRoEt4Qhv5kcyNJzdzePQ6hhcGdvxuR2XlJEGvqN0aJ0a5QzhCLVKKNO9ojVKp+bvAYa55HxP17N/RM3a3TxExIOHGznBLYr+Gw208vSNRMmoJqdgrcGeow9dh0ZsHJ+W/zHio3fSOvKQUzBbZy+ZvaJcEQvuvQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kruces.com; spf=pass smtp.mailfrom=kruces.com; dkim=pass (2048-bit key) header.d=kruces-com.20230601.gappssmtp.com header.i=@kruces-com.20230601.gappssmtp.com header.b=0dtm/Kvf; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kruces.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kruces.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53345604960so3168701e87.3
+        for <linux-kbuild@vger.kernel.org>; Sat, 24 Aug 2024 12:35:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kruces-com.20230601.gappssmtp.com; s=20230601; t=1724528125; x=1725132925; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rqUQEx0JW9sRldU4OvC73NB0gIVSnxsis8NsIR8izBY=;
+        b=0dtm/KvfHtwatHw3jl6TB605gCEkbHbsYzf/jvwq+JSzQGaU7RPPQZE52HNRgfDhZe
+         G4yMCeOLznZj/SGesCWeryjjD1rR2509TRguT3/kBfu9XP+aZzELBQC4DoI/jBnMMwZH
+         9zcUK+J0gFLGCjkHYgj4RCubZzK+PcCOY78XQUz2ofv3LWSadb1VxrYYtuX7szUgfrwM
+         wYtJphnH2mgXWjKFpJ95vAGnMbsmjoSBF1gG1n1aqwkTmnClymw2DeeimFHI76Xbr6ba
+         T2XW1ntpk8s3rVBbyN5GwgXTQPt3txvo/UVScV8jHoKp+ys1UVKObU4mYBjWW2YV9vWm
+         KmXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724528125; x=1725132925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rqUQEx0JW9sRldU4OvC73NB0gIVSnxsis8NsIR8izBY=;
+        b=hi4PU/Tol5DteEkhVdtWuWBraIHgMXk0wYF5DMV6C1b19OT9uXD2WXGMBSTSI/7YoQ
+         7Q9sXBF84BOpRaIiS9T0VGUvFTnPqyAaVt4vXZneDSWhk5CrqfER83bxOUwqjj5qPFzP
+         Je+RoLc+USI+qgN6CSX95j9gUo7RndsLt6yxGfmNSL2jMoVzplSOqEd4pz5KCIjxja/N
+         NQfOmOL/ChzF/jMtOG/djE3mynQuFxOzSVZs77QgT4KnWc9MGUcFWGbGWxQSoBK14n8v
+         wj/I5XytMCQWFhD4/DDdYCOp2fkVepvOTk3FxKzwO7tZNhjwgRiRU724lb2aBMCloar8
+         uNAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUb2siIq0Ng9oL2dkWkGKlxuRWV4puWrNEiEUQjbhMUMXXcq0ammdIYgyVwHuzJDf7aOw1b1kwiPvbdtRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yys77sSJ6+huaHe64lYcce/neZ2alxRs06EN+dkojjJsBZgTym0
+	qp4b0kAZL3B2BR5PQwNT7o5paWkUVEo3/z/cm62RbvYOFJMLKTQfvppTZNMQdExAuicrw4FQITH
+	dapBlA/w501KQWHUELkqjHRD6RTyFSG56nN8VNQ==
+X-Google-Smtp-Source: AGHT+IGPd8NNVY8iNQlItVputHqv0A9NBxIa2qpJxJ9QIyvsMaWXLridmTyEMYCVXko8QGT/5mpgBtUGbv8rSnzMtM4=
+X-Received: by 2002:a05:6512:3195:b0:52e:9f17:841a with SMTP id
+ 2adb3069b0e04-534387558bdmr3980885e87.6.1724528124835; Sat, 24 Aug 2024
+ 12:35:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240824-modinfo-const-v1-1-485f9c64b868@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAOobymYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDCyMT3dz8lMy8tHzd5Py84hJdszSDFDPzVKMkYwNDJaCegqLUtMwKsHn
- RSkFuzkqxtbUAGY7by2QAAAA=
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1724521455; l=5978;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=IUmNRQEtWfRqPXvD++QujEJNnvCeXoDLdw9P2RX7x/c=;
- b=S1c1kqezDqisSkB9v3/fhM1O0/dI+eUUJtP46u5zwlzT4CqkvgZHNd12ynOZwpyWqvpKw5gWn
- bThGefa7hJ/CyE915Da+VavXHswwkrHRVz7Hrvvu58eCnCn4mxCbv/n
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
+ <CAK7LNARmy=N+6O87BJGZbodssDw21sHgMf36TXdcxD4=5A_OBA@mail.gmail.com> <CABj0suC1atc=iPX4uOL5FYkzYBRtZC1J3Lhruo7hejd-fe9Yuw@mail.gmail.com>
+In-Reply-To: <CABj0suC1atc=iPX4uOL5FYkzYBRtZC1J3Lhruo7hejd-fe9Yuw@mail.gmail.com>
+From: "Daniel Gomez (Samsung)" <d+samsung@kruces.com>
+Date: Sat, 24 Aug 2024 21:34:58 +0200
+Message-ID: <CABj0suDu1XPi7mPdqQWm2J3=XbTMHKGbz85ixM=gMr5VRkU78g@mail.gmail.com>
+Subject: Re: [PATCH 01/12] scripts: subarch.include: fix SUBARCH on MacOS hosts
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: da.gomez@samsung.com, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
+	Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
+	selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
+	Finn Behrens <me@kloenk.dev>, gost.dev@samsung.com, 
+	Nick Desaulniers <nick.desaulniers@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Various information about modules is compiled into the info sections.
-For that a dedicated .mod.c file is generated by modpost for each module
-and then linked into the module.
-However most of the information in the .mod.c is the same for all
-modules, internal and external.
-Split the shared information into a dedicated source file that is
-compiled once and then linked into all modules.
+On Sat, Aug 24, 2024 at 12:14=E2=80=AFAM Daniel Gomez (Samsung)
+<d+samsung@kruces.com> wrote:
+>
+> On Fri, Aug 23, 2024 at 6:13=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Wed, Aug 7, 2024 at 8:10=E2=80=AFAM Daniel Gomez via B4 Relay
+> > <devnull+da.gomez.samsung.com@kernel.org> wrote:
+> > >
+> > > From: Nick Desaulniers <nick.desaulniers@gmail.com>
+> > >
+> > > When building the Linux kernel on an aarch64 MacOS based host, if we =
+don't
+> > > specify a value for ARCH when invoking make, we default to arm and th=
+us
+> > > multi_v7_defconfig rather than the expected arm64 and arm64's defconf=
+ig.
+> > >
+> > > This is because subarch.include invokes `uname -m` which on MacOS hos=
+ts
+> > > evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
+> > >
+> > > This allows us to build ARCH=3Darm64 natively on MacOS (as in ARCH ne=
+ed
+> > > not be specified on an aarch64-based system).
+> > >
+> > > Utilize a negative lookahead regular expression to avoid matching arm=
+64.
+> >
+> >
+> > Does sed support "negative lookahead regular expression"?
+>
+> I think they removed support for PCRE. I've found this:
+>
+> commit 261c7f145d015d9acb79dc650d27e4a23b839c23
+> Author: Assaf Gordon <assafgordon@gmail.com>
+> Date:   Tue Aug 21 14:25:57 2018 -0600
+>
+>     maint: remove REG_PERL code
+>
+>     Perl-regexp syntax (PCRE) in GNU Sed is shelved indefinitely.
+>     See https://bugs.gnu.org/22801 , https://bugs.gnu.org/22647 .
+>     Remove all (unused) REG_PERL related code.
+>
+>     * sed/sed.c, sed/sed.h, sed/regexp.c, sed/compile.c: Remove REG_PERL =
+code.
+>
+> git tag --contains 261c7f145d015d9acb79dc650d27e4a23b839c23
+> v4.6
+> v4.7
+> v4.8
+> v4.9
+>
+> And my sed version is (Debian):
+>
+> sed --version
+> sed (GNU sed) 4.9
+> Packaged by Debian
+> Copyright (C) 2022 Free Software Foundation, Inc.
+> License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.=
+html>.
+> This is free software: you are free to change and redistribute it.
+> There is NO WARRANTY, to the extent permitted by law.
+>
+> Written by Jay Fenlason, Tom Lord, Ken Pizzini,
+> Paolo Bonzini, Jim Meyering, and Assaf Gordon.
+>
+> This sed program was built with SELinux support.
+> SELinux is disabled on this system.
+>
+> GNU sed home page: <https://www.gnu.org/software/sed/>.
+> General help using GNU software: <https://www.gnu.org/gethelp/>.
+> E-mail bug reports to: <bug-sed@gnu.org>.
+>
+> sed version (Homebrew):
+> sed --version
+> sed (GNU sed) 4.9
+> Copyright (C) 2022 Free Software Foundation, Inc.
+> License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.=
+html>.
+> This is free software: you are free to change and redistribute it.
+> There is NO WARRANTY, to the extent permitted by law.
+>
+> Written by Jay Fenlason, Tom Lord, Ken Pizzini,
+> Paolo Bonzini, Jim Meyering, and Assaf Gordon.
+>
+> This sed program was built without SELinux support.
+>
+> GNU sed home page: <https://www.gnu.org/software/sed/>.
+> General help using GNU software: <https://www.gnu.org/gethelp/>.
+> E-mail bug reports to: <bug-sed@gnu.org>.
+>
+> >
+> > >
+> > > Add a separate expression to support for armv.* as per error reported=
+ by
+> > > Nicolas Schier [1].
+> > >
+> > > [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
+> > >
+> > > Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
+> > > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+> > > ---
+> > >  scripts/subarch.include | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/subarch.include b/scripts/subarch.include
+> > > index 4bd327d0ae42..5d84ad8c0dee 100644
+> > > --- a/scripts/subarch.include
+> > > +++ b/scripts/subarch.include
+> > > @@ -6,7 +6,8 @@
+> > >
+> > >  SUBARCH :=3D $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ =
+\
+> > >                                   -e s/sun4u/sparc64/ \
+> > > -                                 -e s/arm.*/arm/ -e s/sa110/arm/ \
+> > > +                                 -e s/armv.*/arm/ \
+> > > +                                 -e s/arm\(?:\(?!64\).*\)/arm/ -e s/=
+sa110/arm/ \
+> >
+> >
+> > s/arm\(?:\(?!64\).*\)/arm/
+> >
+> > In sed, this expression does not seem to match anything.
+>
+> You are correct. I've removed the expression and saw no difference.
+> See below with my test case:
+> >
+> > (or please give me some matching examples if I miss something)
+>
+> cat Makefile
+> MACHINE ?=3D "aarch64"
+> SUBARCH0 :=3D $(shell echo $(MACHINE) | sed \
+>                                   -e s/arm.*/arm/ \
+>                                   -e s/aarch64.*/arm64/)
+>
+> SUBARCH1 :=3D $(shell echo $(MACHINE) | sed \
+>                                   -e s/armv.*/arm/ \
+>                                   -e s/aarch64.*/arm64/)
+>
+> SUBARCH2 :=3D $(shell echo $(MACHINE) | sed \
+>                                   -e /^arm64$/!s/arm.*/arm/ \
+>                                   -e s/aarch64.*/arm64/)
+>
+> test:
+>         @echo "MACHINE=3D$(MACHINE)"
+>         @echo "SUBARCH0=3D$(SUBARCH0)"
+>         @echo "SUBARCH1=3D$(SUBARCH1)"
+>         @echo "SUBARCH2=3D$(SUBARCH2)"
+>         @echo "---"
+>
+> SUBARCH0 represents the current upstream expressions for arm/arm64.
+> SUBARCH1 is my proposal in case we need to cover only armv* for 32-bit
+> arm (I think that is incomplete?) and SUBARCH2 is Nicolas' proposal
+> (which I can't make it work in the test Makefile).
 
-This avoids frequent rebuilds for all .mod.c files when using
-CONFIG_LOCALVERSION_AUTO because the local version ends up in .mod.c
-through UTS_RELEASE and VERMAGIC_STRING.
-The modules are still relinked in this case.
+To make Nicolas's expression work in Makefile I just need to pass 2 $ like =
+this:
 
-The code is also easier to maintain as it's now in a proper source file
-instead of an inline string literal.
+diff -u Makefile.old Makefile
+--- Makefile.old  2024-08-24 21:25:28.525267566 +0200
++++ Makefile    2024-08-24 21:28:32.640477991 +0200
+@@ -8,7 +8,7 @@
+                                  -e s/aarch64.*/arm64/)
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
-I came up with this while investigating something different.
-Not sure it's worth the effort.
----
- scripts/Makefile.modfinal            |  9 +++++++--
- scripts/mod/modinfo.c                | 25 +++++++++++++++++++++++++
- scripts/mod/modpost.c                | 23 -----------------------
- scripts/package/install-extmod-build |  3 ++-
- 4 files changed, 34 insertions(+), 26 deletions(-)
+ SUBARCH2 :=3D $(shell echo $(MACHINE) | sed \
+-                                 -e /^arm64$/!s/arm.*/arm/ \
++                                 -e /^arm64$$/!s/arm.*/arm/ \
+                                  -e s/aarch64.*/arm64/)
 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 306a6bb86e4d..dde09dc4ba11 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -30,6 +30,11 @@ quiet_cmd_cc_o_c = CC [M]  $@
- %.mod.o: %.mod.c FORCE
- 	$(call if_changed_dep,cc_o_c)
- 
-+ifeq ($(KBUILD_EXTMOD),)
-+scripts/mod/modinfo.o: scripts/mod/modinfo.c FORCE
-+	$(call if_changed_dep,cc_o_c)
-+endif
-+
- quiet_cmd_ld_ko_o = LD [M]  $@
-       cmd_ld_ko_o +=							\
- 	$(LD) -r $(KBUILD_LDFLAGS)					\
-@@ -54,13 +59,13 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
- 
- # Re-generate module BTFs if either module's .ko or vmlinux changed
--%.ko: %.o %.mod.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
-+%.ko: %.o %.mod.o scripts/module.lds scripts/mod/modinfo.o $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
- 	+$(call if_changed_except,ld_ko_o,vmlinux)
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- endif
- 
--targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
-+targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) scripts/mod/modinfo.o
- 
- # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
- # ---------------------------------------------------------------------------
-diff --git a/scripts/mod/modinfo.c b/scripts/mod/modinfo.c
-new file mode 100644
-index 000000000000..12fbc6d3aae8
---- /dev/null
-+++ b/scripts/mod/modinfo.c
-@@ -0,0 +1,25 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/module.h>
-+/*
-+ * Include build-salt.h after module.h in order to
-+ * inherit the definitions.
-+ */
-+#define INCLUDE_VERMAGIC
-+#include <linux/build-salt.h>
-+#include <linux/elfnote-lto.h>
-+#include <linux/vermagic.h>
-+
-+#ifdef CONFIG_UNWINDER_ORC
-+#include <asm/orc_header.h>
-+ORC_HEADER;
-+#endif
-+
-+BUILD_SALT;
-+BUILD_LTO_INFO;
-+
-+MODULE_INFO(vermagic, VERMAGIC_STRING);
-+
-+#ifdef CONFIG_MITIGATION_RETPOLINE
-+MODULE_INFO(retpoline, "Y");
-+#endif
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index c8cd5d822bb6..107393a8c48a 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1755,26 +1755,9 @@ static void check_modname_len(struct module *mod)
- static void add_header(struct buffer *b, struct module *mod)
- {
- 	buf_printf(b, "#include <linux/module.h>\n");
--	/*
--	 * Include build-salt.h after module.h in order to
--	 * inherit the definitions.
--	 */
--	buf_printf(b, "#define INCLUDE_VERMAGIC\n");
--	buf_printf(b, "#include <linux/build-salt.h>\n");
--	buf_printf(b, "#include <linux/elfnote-lto.h>\n");
- 	buf_printf(b, "#include <linux/export-internal.h>\n");
--	buf_printf(b, "#include <linux/vermagic.h>\n");
- 	buf_printf(b, "#include <linux/compiler.h>\n");
- 	buf_printf(b, "\n");
--	buf_printf(b, "#ifdef CONFIG_UNWINDER_ORC\n");
--	buf_printf(b, "#include <asm/orc_header.h>\n");
--	buf_printf(b, "ORC_HEADER;\n");
--	buf_printf(b, "#endif\n");
--	buf_printf(b, "\n");
--	buf_printf(b, "BUILD_SALT;\n");
--	buf_printf(b, "BUILD_LTO_INFO;\n");
--	buf_printf(b, "\n");
--	buf_printf(b, "MODULE_INFO(vermagic, VERMAGIC_STRING);\n");
- 	buf_printf(b, "MODULE_INFO(name, KBUILD_MODNAME);\n");
- 	buf_printf(b, "\n");
- 	buf_printf(b, "__visible struct module __this_module\n");
-@@ -1792,12 +1775,6 @@ static void add_header(struct buffer *b, struct module *mod)
- 	if (!external_module)
- 		buf_printf(b, "\nMODULE_INFO(intree, \"Y\");\n");
- 
--	buf_printf(b,
--		   "\n"
--		   "#ifdef CONFIG_MITIGATION_RETPOLINE\n"
--		   "MODULE_INFO(retpoline, \"Y\");\n"
--		   "#endif\n");
--
- 	if (strstarts(mod->name, "drivers/staging"))
- 		buf_printf(b, "\nMODULE_INFO(staging, \"Y\");\n");
- 
-diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
-index d2c9cacecc0c..15fab6d5dd56 100755
---- a/scripts/package/install-extmod-build
-+++ b/scripts/package/install-extmod-build
-@@ -37,6 +37,7 @@ mkdir -p "${destdir}"
- 	echo include/config/auto.conf
- 	echo include/config/kernel.release
- 	echo include/generated
-+	echo scripts/mod/modinfo.o
- 	find_in_scripts
- 
- 	if is_enabled CONFIG_GCC_PLUGINS; then
-@@ -78,4 +79,4 @@ if [ "${CC}" != "${HOSTCC}" ] && is_enabled CONFIG_CC_CAN_LINK; then
- 	rm -f "${destdir}/Kbuild" "${destdir}/scripts/Kbuild"
- fi
- 
--find "${destdir}" \( -name '.*.cmd' -o -name '*.o' \) -delete
-+find "${destdir}" \( -name '.*.cmd' -o \( -name '*.o' -a -! -path '*/scripts/mod/modinfo.o' \) \) -delete
+ test:
 
----
-base-commit: 184a282d540c3da03f6a229f4792a5f72d3dfc2a
-change-id: 20240824-modinfo-const-6f0d67e2b301
+And all test cases passed. So, I will include this change for v2.
 
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+>
+> Running the above Makefile, I get:
+>
+> make test MACHINE=3Darmv4 && make test MACHINE=3Darm7 && make test
+> MACHINE=3Darmhf && make test MACHINE=3Daarch64 && make test MACHINE=3Darm=
+64
+> MACHINE=3Darmv4
+> SUBARCH0=3Darm
+> SUBARCH1=3Darm
+> SUBARCH2=3Darmv4
+> ---
+> MACHINE=3Darm7
+> SUBARCH0=3Darm
+> SUBARCH1=3Darm7
+> SUBARCH2=3Darm7
+> ---
+> MACHINE=3Darmhf
+> SUBARCH0=3Darm
+> SUBARCH1=3Darmhf
+> SUBARCH2=3Darmhf
+> ---
+> MACHINE=3Daarch64
+> SUBARCH0=3Darm64
+> SUBARCH1=3Darm64
+> SUBARCH2=3Darm64
+> ---
+> MACHINE=3Darm64
+> SUBARCH0=3Darm
+> SUBARCH1=3Darm64
+> SUBARCH2=3Darm64
+> ---
+> >
+> >
+> >
+> >
+> >
+> > Nocolas already provided correct code:
+> >
+> > > [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
+>
+> I think it is even more simple if we just make this change:
+>
+> -                                 -e s/arm.*/arm/ -e s/sa110/arm/ \
+> +                                 -e s/armv.*/arm/ \
+>
+> Does armv.* cover all arm32 machines? I see armhf, arm7, arm8 and
+> armv*, is it correct?
+>
+> And thanks for checking!
+>
+> >
+> >
+> >
+> >
+> >
+> >
+> > >                                   -e s/s390x/s390/ \
+> > >                                   -e s/ppc.*/powerpc/ -e s/mips.*/mip=
+s/ \
+> > >                                   -e s/sh[234].*/sh/ -e s/aarch64.*/a=
+rm64/ \
+> > >
+> > > --
+> > > Git-146)
+> > >
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> >
+> >
+> > Masahiro Yamada
 
