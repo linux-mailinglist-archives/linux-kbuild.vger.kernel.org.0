@@ -1,110 +1,169 @@
-Return-Path: <linux-kbuild+bounces-3202-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3203-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814F795DF14
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 18:45:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 874B295DF1F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 18:59:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F21B9B21D45
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 16:45:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F1331F219B0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 16:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A46FE17C9B7;
-	Sat, 24 Aug 2024 16:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7DF3A1CD;
+	Sat, 24 Aug 2024 16:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TL7Ic8nc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/PRsv9n"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDA02BAE5;
-	Sat, 24 Aug 2024 16:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158661EA80;
+	Sat, 24 Aug 2024 16:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724517879; cv=none; b=i0Mm7WYPXvf/GUvSNiEW5keypEg70miRYw7eWuOl1S3NJ356IdLp5tFddU0niJESEOwhF+HHRrsD+ciHaUszzTudAlOUSo+XRQ0EpPOSy5Z0ASrJGXJbG4hp2ISOL3OyZ5D7NioY/SbAfJATcnjh09XkWBoWN3vlF8wBB0MMiNI=
+	t=1724518765; cv=none; b=kiRPJ0iXUodAdAhSf2jGlK14EHo6z+z7HsSyfOtQofYtmsANdIW0dK9GsoxbJo/LUdUvhu0EOYN2zUhBNyf57/qnD52g2wrveAphqiLUijkATSrRyppAYQQQi2bjZ/0D7nErw4PzWGrzo5a1M06UbD04mwdUavLvggPGA8+X9ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724517879; c=relaxed/simple;
-	bh=5VckT6C4lSjjpO3URAl6WTLJOhszXgeGfBoagM2Mtus=;
+	s=arc-20240116; t=1724518765; c=relaxed/simple;
+	bh=jwegCDTZVCjQdaGUg6fJJD3nD5S+19kGsP4tzr5MXLI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BCouxsxcXFx4p4QR4vjz+JoTbHpL63JUUL8uZoaXpgq5BvDPIdQYypeXhYfbpFhSCB+vAYYjzMzHpCc/yYoM5WDFCUMs3Bn5YaEIoGjpvQK7JbOFrt2J1M/nrvv/maYvA3vu3Am5/tJ3SWqom2Alz8LJS2MCSxX5QJVi2zc7Nyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TL7Ic8nc; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2d445c87788so542105a91.2;
-        Sat, 24 Aug 2024 09:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724517877; x=1725122677; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5VckT6C4lSjjpO3URAl6WTLJOhszXgeGfBoagM2Mtus=;
-        b=TL7Ic8nc60QnJOIKki9uhMUBFaTdLR1rSqTFU5I3JZEM9z67BmAPAcNMDRFDAwPoHs
-         RhrVS/8mKXVCrQ+Z9IQ9wnUk7Xad/XIe/dIfKwIlp4R4dUXkSHpASjwLiD01LUmQXIOe
-         oDIF58oQpMl+riS48V3emQtaSY6A/Ky9vXe6XWKt6ww0P50m7UJ6JHHdG9NN0INvxEnG
-         Lz/XQ9mCi1xlpgy5Gn9tAWs2bjUeN/bRZr9V2UJMvFaSbiEiWInC/+Kk+DDeXSUlKhl5
-         bDhOm5SwmvmmUrJtXVn8OSzKV46MvZh/ne5SKo0zXxNFESvjEWnIBfkSlnMWbx4wXC6V
-         GgKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724517877; x=1725122677;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5VckT6C4lSjjpO3URAl6WTLJOhszXgeGfBoagM2Mtus=;
-        b=w+A4BGwzo1mHuH06m5kKrQjNDTtEd8tNHfpAULu6EF5i2VfRrCw1sdM1Q4o/PD9XWD
-         +V+9t3b+41S2TH3KTF8OJpPzklhj/uOK34UIQtjxqoj6/5ifkvLnrfG74PgwksE72t9o
-         8GCF6W6D/1hibr3WVdx98xdkNMgX7bkHRBq/YNfd6kOAID4B77T+mIuRLGpzUPIsPkdi
-         gEvPMaHHSY4qdJF1EkNE+a1I9CnyNmG7NudOM14qhw6ktiKa/SZrMDyUO7woEcimFbIf
-         GWS6E5r8ewFmWBOfaHOdHz3JzBr6hY3hR3ktGtuKK+vfrtklcMF20CEDx75LASb1qgN6
-         5nPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUbp/a11Lt6z6pBIkDeMFuKCmVexztDBXgB2iVH+ySwdWvRi9FjKYf+kGn3sUWJIiFmIF8bRlAYzS6T2IUQ@vger.kernel.org, AJvYcCWMPr7SL65ywSAKjlIQLKN5cLobQB5s9H8F7y0PgmCXiLIYzS1KRtafjy8FaTZDJVKuRD0oDUY2NcMeJd4NAA==@vger.kernel.org, AJvYcCXAd9FsuzHY7qEYY9+56Mm0P3aOlcQbuUmwyUep+NYTQyOp43SMhq4ufZH0LWtTbGzoVb0iAmngEJVmAN62i49lhxc3@vger.kernel.org, AJvYcCXoI2sKgvBLvDlY4AduQ5rlxLLh2bb/TGOGmH1ZH4GopU63Vum2yJ1SrB+AlL/6bKFZHDuVtHAWEGTRjp0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9pS6jJ9++57gSX4IGKdwDpHb5TwtmcuU5V3LjeSkw9I+alKLY
-	C87s/lRcYzZH0ygli+aZ0f1AuzmK1i1u3c9hCilGeMfH6zak4lSqt5M2J7+DTD0y1J3UPD7OLSz
-	2QeS5I4byjVzdjyeP9Of70GOIYk0=
-X-Google-Smtp-Source: AGHT+IEl7BAFxfHi+EpkQ9x8ZnTnRaIB9YCOcUQ4mLNHiby9rEr662m+9/mPWrhYU+1Uom3efmCrMPDR6ERV54CtnQg=
-X-Received: by 2002:a17:90b:1b12:b0:2c4:cd15:3e4b with SMTP id
- 98e67ed59e1d1-2d646d73d60mr3927811a91.4.1724517877442; Sat, 24 Aug 2024
- 09:44:37 -0700 (PDT)
+	 To:Cc:Content-Type; b=PJa9OkfBn5LJwmXVERwikVwEdYAdG3K+131/bYxrM+tW527xUorH9Tz2dm7YdnUrKcYc3LcF3yNTor0346niI9PFrKAH2JcmBWJm74x4D2SqirVmoSbRubL+6wB+A3s90Fs0OrbRY4beu74tN5q78o+dLUz5yxTncH9cHInMX4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/PRsv9n; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76F55C4AF09;
+	Sat, 24 Aug 2024 16:59:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724518763;
+	bh=jwegCDTZVCjQdaGUg6fJJD3nD5S+19kGsP4tzr5MXLI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=m/PRsv9nS0g+/jm1ufn3ixFeryfg9TWem1D2QmZRWFZcd4jMHiKAI44MMWNd7La4y
+	 xQLq3Zc0ZOU0nfgTef1jRs4kbkQehlMCeLKBZ2zH2AZPL4wWhzgHjChcNg0aPwJEqm
+	 /41Zxkv+aIgZXGT8J3hQ6T9/sQSA1eBl1t5peulUdRC5eRArk1plxn64Ejisn5vfEF
+	 Wa6G789GQRZnYN//Ap8Oc9UmtXNokZYpXgbJ/r7XM2Bp0SbvCrv4YHE7wB8D4Y9NCn
+	 /gBKM6xGTzCVm8BIer+oo1cBq3Z++0etKveuVv0hdOLGit2W8wG2jgfIiiVBNIIhrZ
+	 /FkVGTP00D0zg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f401c20b56so26283591fa.0;
+        Sat, 24 Aug 2024 09:59:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUYl0AXEAXBAACIiVdjHbi8vOsFpwtGL3Meu0pu1ENXX021vdM7JtunFVrBz7oXtaVc6DZpFeXQPCKfs1o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzL8fI1w+0tuUs6HJCubEy6/jHf65jANwW2pYdX+KwhHtW0xAxe
+	wMn0A23fZqSlABdEjn7a3o6IXseD0qQWvFNUo+TRkgufXJPDbE55RiO0wBBtSI8jQQWPxxRSuuV
+	gZk635LvuKu+bpexwx/9c/ne8EHk=
+X-Google-Smtp-Source: AGHT+IEDaLkR5ToCrthU5GKtqg0fh2wrcBAuTEUsj1XtQmVbRHm96LfawKtwLb37GnUxRyYr7eMjZwu/qph+UojRNPU=
+X-Received: by 2002:a05:6512:3e1a:b0:533:4322:d03e with SMTP id
+ 2adb3069b0e04-5334cbaf0c2mr3482836e87.25.1724518762122; Sat, 24 Aug 2024
+ 09:59:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240821040700.1919317-1-kris.van.hees@oracle.com>
- <20240822181942.2626536-1-kris.van.hees@oracle.com> <20240822181942.2626536-3-kris.van.hees@oracle.com>
- <20240823165329.GA3911831@google.com> <ZsjBfjAuC5t/2Cex@oracle.com> <CABCJKucamgTpEhU5E=dL3tNc84yzwzFh7uNW-arhN-qDm-3nMw@mail.gmail.com>
-In-Reply-To: <CABCJKucamgTpEhU5E=dL3tNc84yzwzFh7uNW-arhN-qDm-3nMw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 24 Aug 2024 18:44:24 +0200
-Message-ID: <CANiq72=PNDOYo8kwscy0Sup6g3qfffFsSJMssJh_jGb3D4JzcA@mail.gmail.com>
-Subject: Re: [PATCH v8 2/4] kbuild: generate offset range data for builtin modules
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Kris Van Hees <kris.van.hees@oracle.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	Nick Alcock <nick.alcock@oracle.com>, Alan Maguire <alan.maguire@oracle.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Jiri Olsa <olsajiri@gmail.com>, 
-	Elena Zannoni <elena.zannoni@oracle.com>
+References: <20240727074526.1771247-1-masahiroy@kernel.org>
+ <20240727074526.1771247-4-masahiroy@kernel.org> <7186b180-6b1f-4b64-9bab-78068822024b@t-8ch.de>
+In-Reply-To: <7186b180-6b1f-4b64-9bab-78068822024b@t-8ch.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 25 Aug 2024 01:58:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ46gagVdjYSYGCkFNfdHYnr-qCUfbDq-cUtHWvCGfmnA@mail.gmail.com>
+Message-ID: <CAK7LNAQ46gagVdjYSYGCkFNfdHYnr-qCUfbDq-cUtHWvCGfmnA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] kbuild: slim down package for building external modules
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Ben Hutchings <ben@decadent.org.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 23, 2024 at 7:24=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
+On Sat, Aug 24, 2024 at 9:27=E2=80=AFPM Thomas Wei=C3=9Fschuh <thomas@t-8ch=
+.de> wrote:
 >
-> I assume they wanted to avoid conflicts between Rust-specific
-> environment variables and existing Kbuild variables. Note that
-> KBUILD_MODFILE is also double quoted for the C preprocessor, which
-> isn't needed for Rust. Miguel, do you remember if there's another
-> reason for the different variable name?
+> Hi Masahiro,
+>
+> On 2024-07-27 16:42:03+0000, Masahiro Yamada wrote:
+> > Exclude directories and files unnecessary for building external modules=
+:
+> >
+> >  - include/config/  (except include/config/auto.conf)
+> >  - scripts/atomic/
+> >  - scripts/dtc/
+> >  - scripts/kconfig/
+> >  - scripts/mod/mk_elfconfig
+> >  - scripts/package/
+> >  - scripts/unifdef
+> >  - .config
+> >  - *.o
+> >  - .*.cmd
+> >
+> > Avoid copying files twice for the following directories:
+> >
+> >  - include/generated/
+> >  - arch/*/include/generated/
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/package/install-extmod-build | 20 +++++++++++++++-----
+> >  1 file changed, 15 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/scripts/package/install-extmod-build b/scripts/package/ins=
+tall-extmod-build
+> > index 8cc9e13403ae..cc335945dfbc 100755
+> > --- a/scripts/package/install-extmod-build
+> > +++ b/scripts/package/install-extmod-build
+> > @@ -9,15 +9,22 @@ is_enabled() {
+> >       grep -q "^$1=3Dy" include/config/auto.conf
+> >  }
+> >
+> > +find_in_scripts() {
+> > +     find scripts \
+> > +             \( -name atomic -o -name dtc -o -name kconfig -o -name pa=
+ckage \) -prune -o \
+> > +             ! -name unifdef -a ! -name mk_elfconfig -a \( -type f -o =
+-type l \) -print
+> > +}
+> > +
+> >  mkdir -p "${destdir}"
+> >
+> >  (
+> >       cd "${srctree}"
+> >       echo Makefile
+> >       find "arch/${SRCARCH}" -maxdepth 1 -name 'Makefile*'
+> > -     find include scripts -type f -o -type l
+> > +     find "arch/${SRCARCH}" -name generated -prune -o -name include -t=
+ype d -print
+> >       find "arch/${SRCARCH}" -name Kbuild.platforms -o -name Platform
+> > -     find "arch/${SRCARCH}" -name include -type d
+> > +     find include \( -name config -o -name generated \) -prune -o \( -=
+type f -o -type l \) -print
+> > +     find_in_scripts
+> >  ) | tar -c -f - -C "${srctree}" -T - | tar -xf - -C "${destdir}"
+> >
+> >  {
+> > @@ -25,12 +32,15 @@ mkdir -p "${destdir}"
+> >               echo tools/objtool/objtool
+> >       fi
+> >
+> > -     find "arch/${SRCARCH}/include" Module.symvers include scripts -ty=
+pe f
+> > +     echo Module.symvers
+> > +     echo "arch/${SRCARCH}/include/generated"
+> > +     echo include/config/auto.conf
+> > +     echo include/generated
+> > +     find_in_scripts
+>
+> This now excludes include/config/kernel.release which is used to set
+> KERNELRELEASE, which is commonly used by Makefiles.
+> See Documentation/kbuild/modules.txt, other users also seem not unlikely.
+>
+> IMO this specific file should be added back.
 
-No, I don't recall another reason -- I think you are right, they did
-not carry (exactly) the same contents, and thus the different name.
 
-So I think it can be merged/changed into something else if needed.
+Agree.
 
-Cheers,
-Miguel
+I fixed it up locally. Thanks for the report.
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
