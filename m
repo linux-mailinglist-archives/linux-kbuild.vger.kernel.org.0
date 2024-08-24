@@ -1,169 +1,229 @@
-Return-Path: <linux-kbuild+bounces-3203-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3204-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874B295DF1F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 18:59:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E526995DF42
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 19:44:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F1331F219B0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 16:59:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 51E31B219B2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2024 17:44:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7DF3A1CD;
-	Sat, 24 Aug 2024 16:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B784AEE0;
+	Sat, 24 Aug 2024 17:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/PRsv9n"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jH+uXp3F"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158661EA80;
-	Sat, 24 Aug 2024 16:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2334CB5B;
+	Sat, 24 Aug 2024 17:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724518765; cv=none; b=kiRPJ0iXUodAdAhSf2jGlK14EHo6z+z7HsSyfOtQofYtmsANdIW0dK9GsoxbJo/LUdUvhu0EOYN2zUhBNyf57/qnD52g2wrveAphqiLUijkATSrRyppAYQQQi2bjZ/0D7nErw4PzWGrzo5a1M06UbD04mwdUavLvggPGA8+X9ys=
+	t=1724521468; cv=none; b=YqUByIktpw1UGpn8Wych819DrBHIhbW/PLyv8PZtkRec38MuXJWZdE9U5iNfYx8aah89Yno9CjJh6/Pyv+2JuOZa8REV04EmwWJjkHORFFsTsS2wR9rKvYs99DtYL1rFQRtH9NBjqBJs+9U9b55ZlbpeVt+w2uJMZ1TRQh4YRH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724518765; c=relaxed/simple;
-	bh=jwegCDTZVCjQdaGUg6fJJD3nD5S+19kGsP4tzr5MXLI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PJa9OkfBn5LJwmXVERwikVwEdYAdG3K+131/bYxrM+tW527xUorH9Tz2dm7YdnUrKcYc3LcF3yNTor0346niI9PFrKAH2JcmBWJm74x4D2SqirVmoSbRubL+6wB+A3s90Fs0OrbRY4beu74tN5q78o+dLUz5yxTncH9cHInMX4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/PRsv9n; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76F55C4AF09;
-	Sat, 24 Aug 2024 16:59:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724518763;
-	bh=jwegCDTZVCjQdaGUg6fJJD3nD5S+19kGsP4tzr5MXLI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=m/PRsv9nS0g+/jm1ufn3ixFeryfg9TWem1D2QmZRWFZcd4jMHiKAI44MMWNd7La4y
-	 xQLq3Zc0ZOU0nfgTef1jRs4kbkQehlMCeLKBZ2zH2AZPL4wWhzgHjChcNg0aPwJEqm
-	 /41Zxkv+aIgZXGT8J3hQ6T9/sQSA1eBl1t5peulUdRC5eRArk1plxn64Ejisn5vfEF
-	 Wa6G789GQRZnYN//Ap8Oc9UmtXNokZYpXgbJ/r7XM2Bp0SbvCrv4YHE7wB8D4Y9NCn
-	 /gBKM6xGTzCVm8BIer+oo1cBq3Z++0etKveuVv0hdOLGit2W8wG2jgfIiiVBNIIhrZ
-	 /FkVGTP00D0zg==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f401c20b56so26283591fa.0;
-        Sat, 24 Aug 2024 09:59:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUYl0AXEAXBAACIiVdjHbi8vOsFpwtGL3Meu0pu1ENXX021vdM7JtunFVrBz7oXtaVc6DZpFeXQPCKfs1o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL8fI1w+0tuUs6HJCubEy6/jHf65jANwW2pYdX+KwhHtW0xAxe
-	wMn0A23fZqSlABdEjn7a3o6IXseD0qQWvFNUo+TRkgufXJPDbE55RiO0wBBtSI8jQQWPxxRSuuV
-	gZk635LvuKu+bpexwx/9c/ne8EHk=
-X-Google-Smtp-Source: AGHT+IEDaLkR5ToCrthU5GKtqg0fh2wrcBAuTEUsj1XtQmVbRHm96LfawKtwLb37GnUxRyYr7eMjZwu/qph+UojRNPU=
-X-Received: by 2002:a05:6512:3e1a:b0:533:4322:d03e with SMTP id
- 2adb3069b0e04-5334cbaf0c2mr3482836e87.25.1724518762122; Sat, 24 Aug 2024
- 09:59:22 -0700 (PDT)
+	s=arc-20240116; t=1724521468; c=relaxed/simple;
+	bh=IUmNRQEtWfRqPXvD++QujEJNnvCeXoDLdw9P2RX7x/c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=R5NSoyFtBIEx1gn6fBiVyHoagyb1kHUxqmQA9P5PsZHv4wIVPWfxBdCfA4Uaj0PZ/N4xI8vPu8ZMHKHHQ+6h2gD7GrjCJ8YGBNTUxIgq02U3ZrSF9FC8zZhdfynhXAIIc7/WJJUug+qmgo09B/wxKB9hklcUUvgrG07CKMs0/8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jH+uXp3F; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1724521455;
+	bh=IUmNRQEtWfRqPXvD++QujEJNnvCeXoDLdw9P2RX7x/c=;
+	h=From:Date:Subject:To:Cc:From;
+	b=jH+uXp3FvXmePuA9GLa0qkVROdUDt1jcmcwC58WudEwjdr96v2EPuqVA2qtjSJDQU
+	 +mVlRvkngsBTtWvroNdRAn0Jy2se/oo/bSQaNvw9fsBmsZWjxsXJKkzwqAV0rOszA/
+	 nCki+qLrZUyzXoUzAB9hXScgz4KQOQWxXwuH22Lk=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sat, 24 Aug 2024 19:44:11 +0200
+Subject: [PATCH RFC] modpost: compile constant module information only once
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240727074526.1771247-1-masahiroy@kernel.org>
- <20240727074526.1771247-4-masahiroy@kernel.org> <7186b180-6b1f-4b64-9bab-78068822024b@t-8ch.de>
-In-Reply-To: <7186b180-6b1f-4b64-9bab-78068822024b@t-8ch.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 25 Aug 2024 01:58:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ46gagVdjYSYGCkFNfdHYnr-qCUfbDq-cUtHWvCGfmnA@mail.gmail.com>
-Message-ID: <CAK7LNAQ46gagVdjYSYGCkFNfdHYnr-qCUfbDq-cUtHWvCGfmnA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] kbuild: slim down package for building external modules
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Ben Hutchings <ben@decadent.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240824-modinfo-const-v1-1-485f9c64b868@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAOobymYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDCyMT3dz8lMy8tHzd5Py84hJdszSDFDPzVKMkYwNDJaCegqLUtMwKsHn
+ RSkFuzkqxtbUAGY7by2QAAAA=
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1724521455; l=5978;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=IUmNRQEtWfRqPXvD++QujEJNnvCeXoDLdw9P2RX7x/c=;
+ b=S1c1kqezDqisSkB9v3/fhM1O0/dI+eUUJtP46u5zwlzT4CqkvgZHNd12ynOZwpyWqvpKw5gWn
+ bThGefa7hJ/CyE915Da+VavXHswwkrHRVz7Hrvvu58eCnCn4mxCbv/n
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Sat, Aug 24, 2024 at 9:27=E2=80=AFPM Thomas Wei=C3=9Fschuh <thomas@t-8ch=
-.de> wrote:
->
-> Hi Masahiro,
->
-> On 2024-07-27 16:42:03+0000, Masahiro Yamada wrote:
-> > Exclude directories and files unnecessary for building external modules=
-:
-> >
-> >  - include/config/  (except include/config/auto.conf)
-> >  - scripts/atomic/
-> >  - scripts/dtc/
-> >  - scripts/kconfig/
-> >  - scripts/mod/mk_elfconfig
-> >  - scripts/package/
-> >  - scripts/unifdef
-> >  - .config
-> >  - *.o
-> >  - .*.cmd
-> >
-> > Avoid copying files twice for the following directories:
-> >
-> >  - include/generated/
-> >  - arch/*/include/generated/
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/package/install-extmod-build | 20 +++++++++++++++-----
-> >  1 file changed, 15 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/scripts/package/install-extmod-build b/scripts/package/ins=
-tall-extmod-build
-> > index 8cc9e13403ae..cc335945dfbc 100755
-> > --- a/scripts/package/install-extmod-build
-> > +++ b/scripts/package/install-extmod-build
-> > @@ -9,15 +9,22 @@ is_enabled() {
-> >       grep -q "^$1=3Dy" include/config/auto.conf
-> >  }
-> >
-> > +find_in_scripts() {
-> > +     find scripts \
-> > +             \( -name atomic -o -name dtc -o -name kconfig -o -name pa=
-ckage \) -prune -o \
-> > +             ! -name unifdef -a ! -name mk_elfconfig -a \( -type f -o =
--type l \) -print
-> > +}
-> > +
-> >  mkdir -p "${destdir}"
-> >
-> >  (
-> >       cd "${srctree}"
-> >       echo Makefile
-> >       find "arch/${SRCARCH}" -maxdepth 1 -name 'Makefile*'
-> > -     find include scripts -type f -o -type l
-> > +     find "arch/${SRCARCH}" -name generated -prune -o -name include -t=
-ype d -print
-> >       find "arch/${SRCARCH}" -name Kbuild.platforms -o -name Platform
-> > -     find "arch/${SRCARCH}" -name include -type d
-> > +     find include \( -name config -o -name generated \) -prune -o \( -=
-type f -o -type l \) -print
-> > +     find_in_scripts
-> >  ) | tar -c -f - -C "${srctree}" -T - | tar -xf - -C "${destdir}"
-> >
-> >  {
-> > @@ -25,12 +32,15 @@ mkdir -p "${destdir}"
-> >               echo tools/objtool/objtool
-> >       fi
-> >
-> > -     find "arch/${SRCARCH}/include" Module.symvers include scripts -ty=
-pe f
-> > +     echo Module.symvers
-> > +     echo "arch/${SRCARCH}/include/generated"
-> > +     echo include/config/auto.conf
-> > +     echo include/generated
-> > +     find_in_scripts
->
-> This now excludes include/config/kernel.release which is used to set
-> KERNELRELEASE, which is commonly used by Makefiles.
-> See Documentation/kbuild/modules.txt, other users also seem not unlikely.
->
-> IMO this specific file should be added back.
+Various information about modules is compiled into the info sections.
+For that a dedicated .mod.c file is generated by modpost for each module
+and then linked into the module.
+However most of the information in the .mod.c is the same for all
+modules, internal and external.
+Split the shared information into a dedicated source file that is
+compiled once and then linked into all modules.
 
+This avoids frequent rebuilds for all .mod.c files when using
+CONFIG_LOCALVERSION_AUTO because the local version ends up in .mod.c
+through UTS_RELEASE and VERMAGIC_STRING.
+The modules are still relinked in this case.
 
-Agree.
+The code is also easier to maintain as it's now in a proper source file
+instead of an inline string literal.
 
-I fixed it up locally. Thanks for the report.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+I came up with this while investigating something different.
+Not sure it's worth the effort.
+---
+ scripts/Makefile.modfinal            |  9 +++++++--
+ scripts/mod/modinfo.c                | 25 +++++++++++++++++++++++++
+ scripts/mod/modpost.c                | 23 -----------------------
+ scripts/package/install-extmod-build |  3 ++-
+ 4 files changed, 34 insertions(+), 26 deletions(-)
 
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 306a6bb86e4d..dde09dc4ba11 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -30,6 +30,11 @@ quiet_cmd_cc_o_c = CC [M]  $@
+ %.mod.o: %.mod.c FORCE
+ 	$(call if_changed_dep,cc_o_c)
+ 
++ifeq ($(KBUILD_EXTMOD),)
++scripts/mod/modinfo.o: scripts/mod/modinfo.c FORCE
++	$(call if_changed_dep,cc_o_c)
++endif
++
+ quiet_cmd_ld_ko_o = LD [M]  $@
+       cmd_ld_ko_o +=							\
+ 	$(LD) -r $(KBUILD_LDFLAGS)					\
+@@ -54,13 +59,13 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+ 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+ 
+ # Re-generate module BTFs if either module's .ko or vmlinux changed
+-%.ko: %.o %.mod.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
++%.ko: %.o %.mod.o scripts/module.lds scripts/mod/modinfo.o $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
+ 	+$(call if_changed_except,ld_ko_o,vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+ 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+ endif
+ 
+-targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
++targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) scripts/mod/modinfo.o
+ 
+ # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
+ # ---------------------------------------------------------------------------
+diff --git a/scripts/mod/modinfo.c b/scripts/mod/modinfo.c
+new file mode 100644
+index 000000000000..12fbc6d3aae8
+--- /dev/null
++++ b/scripts/mod/modinfo.c
+@@ -0,0 +1,25 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/module.h>
++/*
++ * Include build-salt.h after module.h in order to
++ * inherit the definitions.
++ */
++#define INCLUDE_VERMAGIC
++#include <linux/build-salt.h>
++#include <linux/elfnote-lto.h>
++#include <linux/vermagic.h>
++
++#ifdef CONFIG_UNWINDER_ORC
++#include <asm/orc_header.h>
++ORC_HEADER;
++#endif
++
++BUILD_SALT;
++BUILD_LTO_INFO;
++
++MODULE_INFO(vermagic, VERMAGIC_STRING);
++
++#ifdef CONFIG_MITIGATION_RETPOLINE
++MODULE_INFO(retpoline, "Y");
++#endif
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index c8cd5d822bb6..107393a8c48a 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1755,26 +1755,9 @@ static void check_modname_len(struct module *mod)
+ static void add_header(struct buffer *b, struct module *mod)
+ {
+ 	buf_printf(b, "#include <linux/module.h>\n");
+-	/*
+-	 * Include build-salt.h after module.h in order to
+-	 * inherit the definitions.
+-	 */
+-	buf_printf(b, "#define INCLUDE_VERMAGIC\n");
+-	buf_printf(b, "#include <linux/build-salt.h>\n");
+-	buf_printf(b, "#include <linux/elfnote-lto.h>\n");
+ 	buf_printf(b, "#include <linux/export-internal.h>\n");
+-	buf_printf(b, "#include <linux/vermagic.h>\n");
+ 	buf_printf(b, "#include <linux/compiler.h>\n");
+ 	buf_printf(b, "\n");
+-	buf_printf(b, "#ifdef CONFIG_UNWINDER_ORC\n");
+-	buf_printf(b, "#include <asm/orc_header.h>\n");
+-	buf_printf(b, "ORC_HEADER;\n");
+-	buf_printf(b, "#endif\n");
+-	buf_printf(b, "\n");
+-	buf_printf(b, "BUILD_SALT;\n");
+-	buf_printf(b, "BUILD_LTO_INFO;\n");
+-	buf_printf(b, "\n");
+-	buf_printf(b, "MODULE_INFO(vermagic, VERMAGIC_STRING);\n");
+ 	buf_printf(b, "MODULE_INFO(name, KBUILD_MODNAME);\n");
+ 	buf_printf(b, "\n");
+ 	buf_printf(b, "__visible struct module __this_module\n");
+@@ -1792,12 +1775,6 @@ static void add_header(struct buffer *b, struct module *mod)
+ 	if (!external_module)
+ 		buf_printf(b, "\nMODULE_INFO(intree, \"Y\");\n");
+ 
+-	buf_printf(b,
+-		   "\n"
+-		   "#ifdef CONFIG_MITIGATION_RETPOLINE\n"
+-		   "MODULE_INFO(retpoline, \"Y\");\n"
+-		   "#endif\n");
+-
+ 	if (strstarts(mod->name, "drivers/staging"))
+ 		buf_printf(b, "\nMODULE_INFO(staging, \"Y\");\n");
+ 
+diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
+index d2c9cacecc0c..15fab6d5dd56 100755
+--- a/scripts/package/install-extmod-build
++++ b/scripts/package/install-extmod-build
+@@ -37,6 +37,7 @@ mkdir -p "${destdir}"
+ 	echo include/config/auto.conf
+ 	echo include/config/kernel.release
+ 	echo include/generated
++	echo scripts/mod/modinfo.o
+ 	find_in_scripts
+ 
+ 	if is_enabled CONFIG_GCC_PLUGINS; then
+@@ -78,4 +79,4 @@ if [ "${CC}" != "${HOSTCC}" ] && is_enabled CONFIG_CC_CAN_LINK; then
+ 	rm -f "${destdir}/Kbuild" "${destdir}/scripts/Kbuild"
+ fi
+ 
+-find "${destdir}" \( -name '.*.cmd' -o -name '*.o' \) -delete
++find "${destdir}" \( -name '.*.cmd' -o \( -name '*.o' -a -! -path '*/scripts/mod/modinfo.o' \) \) -delete
 
+---
+base-commit: 184a282d540c3da03f6a229f4792a5f72d3dfc2a
+change-id: 20240824-modinfo-const-6f0d67e2b301
 
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
---=20
-Best Regards
-Masahiro Yamada
 
