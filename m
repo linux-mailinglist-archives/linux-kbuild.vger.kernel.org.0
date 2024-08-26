@@ -1,193 +1,181 @@
-Return-Path: <linux-kbuild+bounces-3220-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3221-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3CB95F92E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 20:48:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FD195F932
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 20:48:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8ADA2283BE9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 18:48:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C901B221FD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 18:48:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E1671990CD;
-	Mon, 26 Aug 2024 18:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB5A19922A;
+	Mon, 26 Aug 2024 18:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xrTdxsMZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QBr8MdRD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B475881AB4
-	for <linux-kbuild@vger.kernel.org>; Mon, 26 Aug 2024 18:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC423194A48
+	for <linux-kbuild@vger.kernel.org>; Mon, 26 Aug 2024 18:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724698108; cv=none; b=G7ld42HesbiaQyPs1mCIykgDtqvpuHwKkqo5oykapIvJfKwnEOuGAJBD92ZQgrhMUtkMoNzp9/OKiMcRWoLsTCUkMtRGOBcu/uMbL7aA44A0vu83l7jaeJH3o2LZhnoMYxe0yR8HqU6BcQw0Q1Z+7qcdyMoe3VMvGVsDNv7uFgU=
+	t=1724698117; cv=none; b=d8GpF3xSKwGApq9kMKPnM4445EOynN3blsY8iVxgYOvmjXTwZ5isZ0Lmo0+pLLo4wfUsXCF6tBW+6p6GYwhnb/bXDx2lh3HwBmD0x0ReOmFC/YJATHm0NevJ9/ke11sHSATBdvve0m4xZKP3HoGvagZg4GVmMuZbnHpJaI/ERc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724698108; c=relaxed/simple;
-	bh=4KHZDbHVvybJrrJRf2shJpi55zrBot//rPnU6diq1ys=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mTcTGMJHKXfwU5y9laQcCm25N1/OyaeWKhwXAUdz9dhtH9ryPpkJ2eFjGqyjsemmzkUubMlOX01vEagU/jzOff6eBeafcTYtO/kqRZz7x0Ok3G/sluE0StJGyJfKGEZQEM/i0oIF7AD4fQNofFFXWrQ/aY31+pTVqnbGaicVCGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xrTdxsMZ; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-45029af1408so46931cf.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 26 Aug 2024 11:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724698103; x=1725302903; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sxRNBk+sXtrzsGJLBtG2+5zrhZWxSczLlI1FbuSfc9s=;
-        b=xrTdxsMZ/ZoWTn8P16GU5E4J1mHm0VP4YeofyKM2u9vaRNVYB7q9y7YOYo3MZ+GV7q
-         O9lymsCe6g3z7mtLoPmCODjXQOrGxRSyoF7lHXdlvSbFcebdfKtt2GmHABJbkVE5fKtr
-         dCDh2zF7DcUrWjcHZJo5bwNJGYont2PfBVu2YpMqlGGNwZm4giJizv35p5cTsaMdRZRL
-         FzAGXbHxpArambyRMV+83qFv69fmAyRNYRjGmYtTYhABSSXEFDnjoQ+9/hKx8LlNGmxC
-         QMgJjdOVuUVHQl00nZK/LBgfyxRRShY2Dii7x7fMwN3Rhtg7CAmIOgG/acESZyRtF7PD
-         vb9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724698103; x=1725302903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sxRNBk+sXtrzsGJLBtG2+5zrhZWxSczLlI1FbuSfc9s=;
-        b=VJWldk1hP/NgMHVZk695YF9mW4RHa/mOaOJmBrRExw75ldN/v2KnjpuDA1WJxyOXBl
-         b14m26DHNfo30rFt1VsoihkimKp6MCDsEIFEsmyaGHDPgkncq9iNyUTcyG7T/iZQC4Po
-         UG+xF06AqaTZPMV0vPobYvCqgmLqvuJzyeJnubxiwgtYkrqgj64iheOSjPBmnp4s+EVW
-         7s8jdWljAFoOvlp3Js7bKTket0jBLe2eXpecv4nyEHEbTN8HxeiySW0udhLbES4j2Ot5
-         +V1l5+GIM3nkbQOMybJwlCP3VwB6teppNtcYEo5hDREp9I88FWCXvk1E+PL/CpqojqoH
-         fhlA==
-X-Forwarded-Encrypted: i=1; AJvYcCW4zH1Q/JOSMcwz3/U2Gep9KpvhrZQSVfD4nwRaGWyAbwwBosXjRf5R0zD3GCxvq1vTb9iQeFu9hWABD0s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyD6gwaz9UV1yFnhisLEyHwSLPYnoTx9+88wYKrFdihlAV6zO8e
-	8NxqyVEFlyrDcb7yu8ubc4u2f8LoKRZZMZaqGdQztLPN+G+YklM3fw+v4eqca4N3/snF151WC+F
-	HvDSwNVMbC7CuLD/Hf0wnC8guZG19VA459N7v
-X-Google-Smtp-Source: AGHT+IGkpKvYNDu7BE8rDmRjRl0GYKrGuST0mK1D3Ze+fn0oUWdVXS11q+PYcRrRvwRXWWrWWCo3LPcNpB2zFsfmlAc=
-X-Received: by 2002:a05:622a:130b:b0:447:d7fd:63f with SMTP id
- d75a77b69052e-45661e2b315mr247951cf.19.1724698103340; Mon, 26 Aug 2024
- 11:48:23 -0700 (PDT)
+	s=arc-20240116; t=1724698117; c=relaxed/simple;
+	bh=EiEe1+ONZhy0DMtBG+AiOFsgeB681Pwsf2p93wZ1cQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p4UPdazXbOt+tC67r8JZ4Hs3VMBg+5wm74bYNpw/s8bNhddDkQhaCy81kmJvQXo3OUITRraaGsbj8XKO/AGkCbnYhmnoNiyJXwZCVTcaBh8Vttxj3ktsNxuF07x3F8fUYeqaP8Quy2IQH0+BnmvbDuWjbo7auwtlqCF0UQUAcGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QBr8MdRD; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1724698114;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KBwWIF15moftoUIZC46ahJXVO1ZjxBGUC6YpiTLQ/4o=;
+	b=QBr8MdRDwN6yTeNnnztgQ0Uyfw24OpbwFMs5yJ1CoOxw2z+pPwXd6qip2XOwkBQ/qgy+9g
+	Fjwv9Z82SmBTrlywIV1AIGYIOIRddBU19M169MkBOODfhxZvkCYEQ3C9/pkjHaETUynaxM
+	kVKxPgrrlEcT3FbmtRRevZ7pUMLmwRg=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-298-BjvKq1OjMXu6cLLofMO5VQ-1; Mon,
+ 26 Aug 2024 14:48:31 -0400
+X-MC-Unique: BjvKq1OjMXu6cLLofMO5VQ-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 30CF21955D48;
+	Mon, 26 Aug 2024 18:48:27 +0000 (UTC)
+Received: from pauld.westford.csb (unknown [10.22.65.61])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B768F30001A1;
+	Mon, 26 Aug 2024 18:48:20 +0000 (UTC)
+Date: Mon, 26 Aug 2024 14:48:18 -0400
+From: Phil Auld <pauld@redhat.com>
+To: Sedat Dilek <sedat.dilek@gmail.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Shung-Hsi Yu <shung-hsi.yu@suse.com>, dwarves@vger.kernel.org,
+	Jiri Olsa <olsajiri@gmail.com>, masahiroy@kernel.org,
+	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, linux-kbuild@vger.kernel.org,
+	bpf@vger.kernel.org, msuchanek@suse.com
+Subject: Re: [RFC] kbuild: bpf: Do not run pahole with -j on 32bit userspace
+Message-ID: <20240826184818.GC117125@pauld.westford.csb>
+References: <20240820085950.200358-1-jirislaby@kernel.org>
+ <ZsSpU5DqT3sRDzZy@krava>
+ <523c1afa-ed9d-4c76-baea-1c43b1b0c682@kernel.org>
+ <c2086083-4378-4503-b3e2-08fb14f8ff37@kernel.org>
+ <7ebee21d-058f-4f83-8959-bd7aaa4e7719@kernel.org>
+ <a45nq7wustxrztjxmkqzevv3mkki5oizfik7b24gqiyldhlkhv@4rpy4tzwi52l>
+ <ZsdYGOS7Yg9pS2BJ@x1>
+ <f170d7c2-2056-4f47-8847-af15b9a78b81@kernel.org>
+ <Zsy1blxRL9VV9DRg@x1>
+ <CA+icZUWMxzAFtr8vsUUQ9OCR68K=F6d6MANx8HMTQntq494roA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-22-samitolvanen@google.com> <71505c05-b651-4740-b14a-a53084a16a61@suse.com>
-In-Reply-To: <71505c05-b651-4740-b14a-a53084a16a61@suse.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Mon, 26 Aug 2024 11:47:44 -0700
-Message-ID: <CABCJKufveknkc_ribOBamC_MXRGounFkYBeRkKhppPSHijxtZg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+icZUWMxzAFtr8vsUUQ9OCR68K=F6d6MANx8HMTQntq494roA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Hi Petr,
-
-On Mon, Aug 26, 2024 at 10:42=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> w=
-rote:
+On Mon, Aug 26, 2024 at 08:42:10PM +0200 Sedat Dilek wrote:
+> On Mon, Aug 26, 2024 at 7:03 PM Arnaldo Carvalho de Melo
+> <acme@kernel.org> wrote:
+> >
+> > On Mon, Aug 26, 2024 at 10:57:22AM +0200, Jiri Slaby wrote:
+> > > On 22. 08. 24, 17:24, Arnaldo Carvalho de Melo wrote:
+> > > > On Thu, Aug 22, 2024 at 11:55:05AM +0800, Shung-Hsi Yu wrote:
+> > > > I stumbled on this limitation as well when trying to build the kernel on
+> > > > a Libre Computer rk3399-pc board with only 4GiB of RAM, there I just
+> > > > created a swapfile and it managed to proceed, a bit slowly, but worked
+> > > > as well.
+> > >
+> > > Here, it hits the VM space limit (3 G).
+> >
+> > right, in my case it was on a 64-bit system, so just not enough memory,
+> > not address space.
+> >
+> > > > Please let me know if what is in the 'next' branch of:
+> >
+> > > > https://git.kernel.org/pub/scm/devel/pahole/pahole.git
+> >
+> > > > Works for you, that will be extra motivation to move it to the master
+> > > > branch and cut 1.28.
+> >
+> > > on 64bit (-j1):
+> > > * master: 3.706 GB
+> > > (* master + my changes: 3.559 GB)
+> > > * next: 3.157 GB
+> >
+> > > on 32bit:
+> > >  * master-j1: 2.445 GB
+> > >  * master-j16: 2.608 GB
+> > >  * master-j32: 2.811 GB
+> > >  * next-j1: 2.256 GB
+> > >  * next-j16: 2.401 GB
+> > >  * next-j32: 2.613 GB
+> > >
+> > > It's definitely better. So I think it could work now, if the thread count
+> > > was limited to 1 on 32bit. As building with -j10, -j20 randomly fails on
+> > > random machines (32bit processes only of course). Unlike -j1.
+> >
+> > Cool, I just merged a patch from Alan Maguire that should help with the
+> > parallel case, would be able to test it? It is in the 'next' branch:
+> >
+> > ⬢[acme@toolbox pahole]$ git log --oneline -5
+> > f37212d1611673a2 (HEAD -> master) pahole: Teduce memory usage by smarter deleting of CUs
+> >
+> 
+> *R*edzce? memory usage ...
 >
-> On 8/15/24 19:39, Sami Tolvanen wrote:
-> > +static int parse_options(int argc, const char **argv)
-> > +{
-> > +     for (int i =3D 1; i < argc; i++) {
-> > +             bool flag =3D false;
-> > +
-> > +             for (int j =3D 0; j < ARRAY_SIZE(options); j++) {
-> > +                     if (strcmp(argv[i], options[j].arg))
-> > +                             continue;
-> > +
-> > +                     *options[j].flag =3D true;
-> > +
-> > +                     if (options[j].param) {
-> > +                             if (++i >=3D argc) {
-> > +                                     error("%s needs an argument",
-> > +                                           options[j].arg);
-> > +                                     return -1;
-> > +                             }
-> > +
-> > +                             *options[j].param =3D argv[i];
-> > +                     }
-> > +
-> > +                     flag =3D true;
-> > +                     break;
-> > +             }
-> > +
-> > +             if (!flag)
-> > +                     object_files[object_count++] =3D argv[i];
->
-> I would rather add a check that this doesn't produce an out-of-bounds
-> access.
 
-True, this could overflow object_files with a sufficient number of
-arguments. I'll add a check.
+If you meant that further typo it's golden, and if not the irony is rich :)
 
-> > [...]
-> > +int main(int argc, const char **argv)
-> > +{
-> > +     unsigned int n;
-> > +
-> > +     if (parse_options(argc, argv) < 0)
-> > +             return usage();
-> > +
-> > +     for (n =3D 0; n < object_count; n++) {
-> > +             Dwfl *dwfl;
-> > +             int fd;
-> > +
-> > +             fd =3D open(object_files[n], O_RDONLY);
-> > +             if (fd =3D=3D -1) {
-> > +                     error("open failed for '%s': %s", object_files[n]=
-,
-> > +                           strerror(errno));
-> > +                     return -1;
-> > +             }
-> > +
-> > +             dwfl =3D dwfl_begin(&callbacks);
-> > +             if (!dwfl) {
-> > +                     error("dwfl_begin failed for '%s': %s", object_fi=
-les[n],
-> > +                           dwarf_errmsg(-1));
-> > +                     return -1;
-> > +             }
-> > +
-> > +             if (!dwfl_report_offline(dwfl, object_files[n], object_fi=
-les[n],
-> > +                                      fd)) {
-> > +                     error("dwfl_report_offline failed for '%s': %s",
-> > +                           object_files[n], dwarf_errmsg(-1));
-> > +                     return -1;
-> > +             }
-> > +
-> > +             dwfl_report_end(dwfl, NULL, NULL);
-> > +
-> > +             if (dwfl_getmodules(dwfl, &process_modules, NULL, 0)) {
-> > +                     error("dwfl_getmodules failed for '%s'",
-> > +                           object_files[n]);
-> > +                     return -1;
-> > +             }
->
-> I see that libdwfl has also directly function dwfl_nextcu(). Would it
-> make sense to use it to simplify the code?
+Either way this is my favorite email of the day!
 
-How do you propose using the function? This loop goes through multiple
-input files, should we need them, and we iterate through all the CUs
-in process_modules.
 
-> > +
-> > +             dwfl_end(dwfl);
-> > +             close(fd);
->
-> Isn't fd consumed by dwfl_report_offline() on success? I'm seeing EBADF
-> from this close() call.
+Cheers,
+Phil
 
-Good catch! I'll drop this in v3.
 
-Sami
+> -Sedat-
+> 
+> > Excerpt of the above:
+> >
+> >     This leads to deleting ~90 CUs during parallel vmlinux BTF generation
+> >     versus deleting just 1 prior to this change.
+> >
+> > c7ec9200caa7d485 btf_encoder: Add "distilled_base" BTF feature to split BTF generation
+> > bc4e6a9adfc72758 pahole: Sync with libbpf-1.5
+> > 5e3ed3ec2947c69f pahole: Do --lang_exclude CU filtering earlier
+> > c46455bb0379fa38 dwarf_loader: Allow filtering CUs early in loading
+> > ⬢[acme@toolbox pahole]$
+> >
+> > - Arnaldo
+> >
+> 
+
+-- 
+
 
