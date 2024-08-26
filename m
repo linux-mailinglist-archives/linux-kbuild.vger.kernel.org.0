@@ -1,147 +1,124 @@
-Return-Path: <linux-kbuild+bounces-3223-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3224-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BD295FA57
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 22:04:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7E695FA6A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 22:12:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9EBA01F22262
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 20:04:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B40DAB2203A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Aug 2024 20:12:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19EB1199E8B;
-	Mon, 26 Aug 2024 20:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39B70199E9C;
+	Mon, 26 Aug 2024 20:12:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7rny3nI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j623cd1/"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43A0811E2;
-	Mon, 26 Aug 2024 20:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AEED811E2;
+	Mon, 26 Aug 2024 20:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724702679; cv=none; b=qb4AhDJnvo+4sP0Bf8MweamYvIZZ9i91T8XYgDv8+2rsME/rBtDLuDauXdLr8ey9s9nPydhcHPngQjRVWtXWFsZmZWV9Pz1IUm0vqt7lkv807Uu/EUm1U3T9fo58RbqIluQj3tPUdV5tV00g89uP/y9Y0XmYln1Z/0c48kxlavs=
+	t=1724703139; cv=none; b=g1Ai43ZDEUx5gAHFBYYMY3btbNmdGcbcGexuJgc3s7FnaMzmQUtUM29aK+IQqyywmWgw4XHN7AbOLN2ol1DXGMzWurK22EoMjjnags1NkcXr3rIOmuFTb0v8jKBikfTTOLWartNz7Rqh19guWMEK/8qVMLESPgRbtwtSVMCBqzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724702679; c=relaxed/simple;
-	bh=AkihPQS8bQoOGzU1lf5ytFhEOS/7IsKOwAe50NQNpj4=;
+	s=arc-20240116; t=1724703139; c=relaxed/simple;
+	bh=rbSh8CmH7ijmLi8lho/8tDPvmVlxo2BscRK2x9bo/Fw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ayuUPZS0ujzhq5QZDo5g43OUaNBeX1cPAzvLG5f48zabT47+8krkn6AI66zEmcXiS28J009PFjD44hq1AQ/iOqIV7ZwcSB0OsImvQohUwByW3kTgRD0wr/MSP9hWfl6EOkriMdDMGC9yEIvfVBv622KcG6SnKjOPZdIKfpnQlAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7rny3nI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19A7C4FF0E;
-	Mon, 26 Aug 2024 20:04:37 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y0tw8OHKehygAvlMDpzzpSFG4KaOsIc/5Ddm81S9O51q3wbAgUI3HIwnBan4kK2styPbQPCJV9+qL+ya2dp1QEIQ7qsEGWkMbHG2L394ZRP9/56xneDzMdhPoDeNfV7jHaYJGxIydfP/8ntFWn37Z0XoCos5rokLGIb+1U3LDLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j623cd1/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CCB9C8B7AA;
+	Mon, 26 Aug 2024 20:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724702678;
-	bh=AkihPQS8bQoOGzU1lf5ytFhEOS/7IsKOwAe50NQNpj4=;
+	s=k20201202; t=1724703138;
+	bh=rbSh8CmH7ijmLi8lho/8tDPvmVlxo2BscRK2x9bo/Fw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7rny3nIJQ9zu5civdgfC7uSj83r3D2A6ZU5dsdSkoHtSyQ2WIm1B1tOKOP5OXK63
-	 QKddcND3JDfmYIxjGfoz5dNx3kHim9VQ5J0NXEJ8/BMW3PNg3WdfgUZQtgdnlFM875
-	 r3p9xyKeDGuvkHt6iCusYk1Db8VV6X7CFdWsae4t6hFjSrVNcroFCWoDYrfHPfCxnr
-	 kzbKKujvkvGXrgWgye1Bb3+9fXnEzLTamvFjwatBmAgTYvQoAxMrA1Xt9qaXdcRuTj
-	 H6g+KNuMKQRlo6utDjOIgGCgoKjfLTG654GBsxvHbxEXQ7q6mA858969MUP+HzW8sI
-	 g4X1tUbV0EzTQ==
-Date: Mon, 26 Aug 2024 17:04:35 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: Phil Auld <pauld@redhat.com>
-Cc: Sedat Dilek <sedat.dilek@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
-	Shung-Hsi Yu <shung-hsi.yu@suse.com>, dwarves@vger.kernel.org,
-	Jiri Olsa <olsajiri@gmail.com>, masahiroy@kernel.org,
-	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, linux-kbuild@vger.kernel.org,
-	bpf@vger.kernel.org, msuchanek@suse.com
-Subject: Re: [RFC] kbuild: bpf: Do not run pahole with -j on 32bit userspace
-Message-ID: <Zszf0_5DKuscmDWi@x1>
-References: <ZsSpU5DqT3sRDzZy@krava>
- <523c1afa-ed9d-4c76-baea-1c43b1b0c682@kernel.org>
- <c2086083-4378-4503-b3e2-08fb14f8ff37@kernel.org>
- <7ebee21d-058f-4f83-8959-bd7aaa4e7719@kernel.org>
- <a45nq7wustxrztjxmkqzevv3mkki5oizfik7b24gqiyldhlkhv@4rpy4tzwi52l>
- <ZsdYGOS7Yg9pS2BJ@x1>
- <f170d7c2-2056-4f47-8847-af15b9a78b81@kernel.org>
- <Zsy1blxRL9VV9DRg@x1>
- <CA+icZUWMxzAFtr8vsUUQ9OCR68K=F6d6MANx8HMTQntq494roA@mail.gmail.com>
- <20240826184818.GC117125@pauld.westford.csb>
+	b=j623cd1/U+2g5Dgk9F6SU74+/4hy9tkDdQijiKKVQX7xKpQBNo4w8X3i97Zf7AH8F
+	 MAKj58+DtCiZHysZnZEx2lzG5YffQiYv0rF4QKSblwO48L9HfCtNUJc0Sdma1dAAsZ
+	 uLvB0jqLlFH0/+HMVcyrpNgZRa9N9ECKg7CkzqZDBno2E68wM8nR00nmjey4zEwgN2
+	 CcBz8SBJz7Id8HQwf/u5R/2caJ3aJ0SqTJPohbSxZ1IoFsoTuI1yayYYJUDCdRKiVP
+	 Dozcyqa6rOiFOK/+MYs6H5qwnxeg104wP4JMhxlMYxFuHwJi1JXdgVxKKaTGhqbJUW
+	 B08nfstphiQaA==
+Date: Mon, 26 Aug 2024 13:12:18 -0700
+From: Kees Cook <kees@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Conor Dooley <conor@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v6] rust: support for shadow call stack sanitizer
+Message-ID: <202408261311.3C191659@keescook>
+References: <20240826-shadow-call-stack-v6-1-495a7e3eb0ef@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240826184818.GC117125@pauld.westford.csb>
+In-Reply-To: <20240826-shadow-call-stack-v6-1-495a7e3eb0ef@google.com>
 
-On Mon, Aug 26, 2024 at 02:48:18PM -0400, Phil Auld wrote:
-> On Mon, Aug 26, 2024 at 08:42:10PM +0200 Sedat Dilek wrote:
-> > On Mon, Aug 26, 2024 at 7:03 PM Arnaldo Carvalho de Melo
-> > <acme@kernel.org> wrote:
-> > >
-> > > On Mon, Aug 26, 2024 at 10:57:22AM +0200, Jiri Slaby wrote:
-> > > > On 22. 08. 24, 17:24, Arnaldo Carvalho de Melo wrote:
-> > > > > On Thu, Aug 22, 2024 at 11:55:05AM +0800, Shung-Hsi Yu wrote:
-> > > > > I stumbled on this limitation as well when trying to build the kernel on
-> > > > > a Libre Computer rk3399-pc board with only 4GiB of RAM, there I just
-> > > > > created a swapfile and it managed to proceed, a bit slowly, but worked
-> > > > > as well.
-> > > >
-> > > > Here, it hits the VM space limit (3 G).
-> > >
-> > > right, in my case it was on a 64-bit system, so just not enough memory,
-> > > not address space.
-> > >
-> > > > > Please let me know if what is in the 'next' branch of:
-> > >
-> > > > > https://git.kernel.org/pub/scm/devel/pahole/pahole.git
-> > >
-> > > > > Works for you, that will be extra motivation to move it to the master
-> > > > > branch and cut 1.28.
-> > >
-> > > > on 64bit (-j1):
-> > > > * master: 3.706 GB
-> > > > (* master + my changes: 3.559 GB)
-> > > > * next: 3.157 GB
-> > >
-> > > > on 32bit:
-> > > >  * master-j1: 2.445 GB
-> > > >  * master-j16: 2.608 GB
-> > > >  * master-j32: 2.811 GB
-> > > >  * next-j1: 2.256 GB
-> > > >  * next-j16: 2.401 GB
-> > > >  * next-j32: 2.613 GB
-> > > >
-> > > > It's definitely better. So I think it could work now, if the thread count
-> > > > was limited to 1 on 32bit. As building with -j10, -j20 randomly fails on
-> > > > random machines (32bit processes only of course). Unlike -j1.
-> > >
-> > > Cool, I just merged a patch from Alan Maguire that should help with the
-> > > parallel case, would be able to test it? It is in the 'next' branch:
-> > >
-> > > ⬢[acme@toolbox pahole]$ git log --oneline -5
-> > > f37212d1611673a2 (HEAD -> master) pahole: Teduce memory usage by smarter deleting of CUs
-> > >
-> > 
-> > *R*edzce? memory usage ...
-> >
+On Mon, Aug 26, 2024 at 02:22:52PM +0000, Alice Ryhl wrote:
+> This patch adds all of the flags that are needed to support the shadow
+> call stack (SCS) sanitizer with Rust, and updates Kconfig to allow only
+> configurations that work.
 > 
-> If you meant that further typo it's golden, and if not the irony is rich :)
+> The -Zfixed-x18 flag is required to use SCS on arm64, and requires rustc
+> version 1.80.0 or greater. This restriction is reflected in Kconfig.
 > 
-> Either way this is my favorite email of the day!
+> When CONFIG_DYNAMIC_SCS is enabled, the build will be configured to
+> include unwind tables in the build artifacts. Dynamic SCS uses the
+> unwind tables at boot to find all places that need to be patched. The
+> -Cforce-unwind-tables=y flag ensures that unwind tables are available
+> for Rust code.
+> 
+> In non-dynamic mode, the -Zsanitizer=shadow-call-stack flag is what
+> enables the SCS sanitizer. Using this flag requires rustc version 1.82.0
+> or greater on the targets used by Rust in the kernel. This restriction
+> is reflected in Kconfig.
+> 
+> It is possible to avoid the requirement of rustc 1.80.0 by using
+> -Ctarget-feature=+reserve-x18 instead of -Zfixed-x18. However, this flag
+> emits a warning during the build, so this patch does not add support for
+> using it and instead requires 1.80.0 or greater.
+> 
+> The dependency is placed on `select HAVE_RUST` to avoid a situation
+> where enabling Rust silently turns off the sanitizer. Instead, turning
+> on the sanitizer results in Rust being disabled. We generally do not
+> want changes to CONFIG_RUST to result in any mitigations being changed
+> or turned off.
+> 
+> At the time of writing, rustc 1.82.0 only exists via the nightly release
+> channel. There is a chance that the -Zsanitizer=shadow-call-stack flag
+> will end up needing 1.83.0 instead, but I think it is small.
+> 
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-Hahaha, I went to uppercase what comes after the colon and introduced
-that typo ;-)
+Thanks for continuing to chase this down.
 
-Faxing it....
+Reviewed-by: Kees Cook <kees@kernel.org>
 
-- Arnaldo
+-- 
+Kees Cook
 
