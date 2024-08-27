@@ -1,339 +1,389 @@
-Return-Path: <linux-kbuild+bounces-3240-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3242-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9385F960A67
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 14:32:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6868F960AAD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 14:40:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A945283B60
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 12:32:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CEA93B23AC7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 12:40:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADB031BCA18;
-	Tue, 27 Aug 2024 12:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A0871BB6A9;
+	Tue, 27 Aug 2024 12:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="I0g1aGK0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HVFdO4IA";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="I0g1aGK0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HVFdO4IA"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Q4nVfgRA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0891BC9E9;
-	Tue, 27 Aug 2024 12:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA9F1BB687
+	for <linux-kbuild@vger.kernel.org>; Tue, 27 Aug 2024 12:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724761870; cv=none; b=qUAn02emdi7HnA9TCEOKlInhJlzTUOQXlWJzYJvoPbI6sNZ/yOMW6c26yBy2fmLtwXIQ2CsurMxEpa9NLWviOkf1ZnNG2wR3IeJ9v6MZcgGxIQKFwC37vwSVckZZlxLWpKLKE5ehbYl+DCEr5NICvAdOUSiVznUxhIj+u3FRlzU=
+	t=1724762436; cv=none; b=c1tJsxqzWuypLzgH02r1KggkTtjU80XxfhbPdvf/FNwbyylF2Q/TImbnQlKC/cac5ULUMoHuAK5iuYoVKRVsDzAdkLPyLinw2yRS5W6oIm3SCM2yXEuaiGETkBWLdJv2cvv3OItMBqTsrhMTOagXjNRSjthUXRwIKRaAYGd8y7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724761870; c=relaxed/simple;
-	bh=CiDc3AlGeKOrysrp/CgBganzjOryXmBiKhxPXuepiqk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o6SJEFF9I2UGqj4+dJljMBYhbVVFZ3WgvE5fxSbp4J+d7QH+LLj1hWyGKI9O+9dSZsdHXr5mNGrDGzCJYhINpl3/udr18MwA8/DOpHiFXuFFaxA1WCHMCTaa1lfjBO55sy/YtVzcKsHW9fodLm1BT1Kf1pdZjNcTs3pbPfZQjtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=I0g1aGK0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HVFdO4IA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=I0g1aGK0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HVFdO4IA; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0AD6D1FB73;
-	Tue, 27 Aug 2024 12:31:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1724761867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r5AnqN2FneO8Qgbj2+/+ZJF0wdzB6eYns1Tk7nxauVE=;
-	b=I0g1aGK0F190P2PsNBcVgPLAOoSD0aonJE2vDUq6kDkQ5ShZV9x3BWKUgIqkzEw5lUjOhM
-	zlCFhWAldpuAVNK0KaMvuFoSbpyk56As3lduT87dbBKOXIWUETtXLb0tYghAYyTLH6YpYH
-	Vns5NY0+LOjZ0vSqu1v8lp/p4K5wF0c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1724761867;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r5AnqN2FneO8Qgbj2+/+ZJF0wdzB6eYns1Tk7nxauVE=;
-	b=HVFdO4IA2nAQtO2qw/J8XbPnt1j3Sw+0YM3bkC1xQozeosMb6VpFVXkzVo0AHdpoEHzG08
-	keivXZrxKa5xuVCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1724761867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r5AnqN2FneO8Qgbj2+/+ZJF0wdzB6eYns1Tk7nxauVE=;
-	b=I0g1aGK0F190P2PsNBcVgPLAOoSD0aonJE2vDUq6kDkQ5ShZV9x3BWKUgIqkzEw5lUjOhM
-	zlCFhWAldpuAVNK0KaMvuFoSbpyk56As3lduT87dbBKOXIWUETtXLb0tYghAYyTLH6YpYH
-	Vns5NY0+LOjZ0vSqu1v8lp/p4K5wF0c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1724761867;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r5AnqN2FneO8Qgbj2+/+ZJF0wdzB6eYns1Tk7nxauVE=;
-	b=HVFdO4IA2nAQtO2qw/J8XbPnt1j3Sw+0YM3bkC1xQozeosMb6VpFVXkzVo0AHdpoEHzG08
-	keivXZrxKa5xuVCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0466313724;
-	Tue, 27 Aug 2024 12:31:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1/EQAQvHzWbLYwAAD6G6ig
-	(envelope-from <lhruska@suse.cz>); Tue, 27 Aug 2024 12:31:07 +0000
-From: Lukas Hruska <lhruska@suse.cz>
-To: pmladek@suse.com,
-	mbenes@suse.cz,
-	jpoimboe@kernel.org
-Cc: joe.lawrence@redhat.com,
-	live-patching@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	mpdesouza@suse.com,
-	lhruska@suse.cz
-Subject: [PATCH v3 7/6 DONT_MERGE] selftests: livepatch: Test failing IBT checks crashing the module
-Date: Tue, 27 Aug 2024 14:30:52 +0200
-Message-ID: <20240827123052.9002-8-lhruska@suse.cz>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240827123052.9002-1-lhruska@suse.cz>
-References: <20240827123052.9002-1-lhruska@suse.cz>
+	s=arc-20240116; t=1724762436; c=relaxed/simple;
+	bh=/PsGYidPx6+ERZmAziEKQOOY4l7eHfRbQ5ZJvgTJFS0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FmhpWsJMiOs8CZQhAKYPAqKLStNoRQWYYPP2qDle1qMLxvEhLbRXVW1jh5qYgh4EgToTMcFRpgB8F9VQ1zcYFgzBh19nyOA+th2i6oOxQF9NSnMa8kvZzquFmsmkW65EIvPA1UJSKpbxfkUuvngNGVwYUEeKXbJnEeBE17xlQi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Q4nVfgRA; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5bf009cf4c0so5747531a12.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Aug 2024 05:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1724762432; x=1725367232; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9zVOTmoRZ3AzmWugvFPF8grdlifA6e7LOITutJp+jd0=;
+        b=Q4nVfgRAzI55Zy4CWaZEH1tCNburNPMn/l0ptbE6nVoq8Gfwo8fUB4q0S8oWiXJNew
+         YYucGJNaw9MeM/ZlWaYFKVts+wQXhngvCGvIzn58Jsd5i+DkHEtUcd1EK1GCOugy9+JC
+         28WZLvs8RCWw7gMOz5z3QooxwE/7HTXTiN6ZZ7Vby57s3CSc2/HoHmyPEnY8xp97ly0e
+         vW/1X6nKPy6+dasu2fLULz5FK3aW+TyNJciUd1t1b22RsVoUErAYS8fBXatDlUQP+Bhj
+         9IRKVnN7AAwx2omv6j9tbv58TV/ul4c6uneKzTo1Rff6fKmqhJ4HjuMuAOBEuYK8S6nN
+         wh8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724762432; x=1725367232;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9zVOTmoRZ3AzmWugvFPF8grdlifA6e7LOITutJp+jd0=;
+        b=k2DKjQD+tF2r9Q+51TM98vsdm6zP7Y9iIyvcWQrDlAO86m/mcH9yqpm5cqnbo/HhCo
+         tt0gkKwEgmctuLwpc11SnEJpCy9XkZ2z2akTaq0QP6dLAC7SJYVTkAR8wgPy2lTVPwW9
+         3iphDHV3iFp+NyTlRNR0q3BVeJO8Y8Y0ytG6KFets6z99QVu9vi91JYB1M2MExHZnzdi
+         qG4llwfoe21Lh/daVRzadcGjQpSHKnCzlQVYvepvCAwy3KMQ9hZD7WlSi2QTTHHlEb9m
+         oNAyPporqgzxc+4GATU9B3qRqNf5+gKjajSEka6TJNID4ZjOmK16XJMhu2ZWeQqmqxAa
+         549A==
+X-Forwarded-Encrypted: i=1; AJvYcCX80+XaOel8XbP2ciFz6Nb52K4iH3KlKYIX1N4JTSETikeO+T27n04Cibjge+Hp8ip0oVpZhTGhaPg//0M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTNXskuBDVjdeII3DlyFCF3zLwHHKkKK1Xv8ajrooaHRuYlAgK
+	vRQES0u6pXJbT6Sf37YMuO6+IGCNoxkS7rWWytr6Q+pGyjfJ9cGKlHudLUoFM2A=
+X-Google-Smtp-Source: AGHT+IH6McW6hyGl6MR/gJhPXCODeA+z498UhPFdaJ7K9nt2nnEpjKiqvYziIFRATCpbd9fKRid2WA==
+X-Received: by 2002:a17:906:6a23:b0:a7a:8e98:890d with SMTP id a640c23a62f3a-a86e39c9e11mr232226966b.16.1724762431563;
+        Tue, 27 Aug 2024 05:40:31 -0700 (PDT)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e549cf94sm105628966b.80.2024.08.27.05.40.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Aug 2024 05:40:31 -0700 (PDT)
+Message-ID: <d63ddefe-a6f6-4a5b-9330-11438fca8f9f@suse.com>
+Date: Tue, 27 Aug 2024 14:40:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:mid,imap1.dmz-prg2.suse.org:helo];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	R_RATELIMIT(0.00)[to_ip_from(RLwfjdgm737utdgph7keiopinp)];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -6.80
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/19] gendwarfksyms: Add address matching
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>,
+ Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+ Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-24-samitolvanen@google.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20240815173903.4172139-24-samitolvanen@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This patch is only an example of how to generate #GP by IBT.
-It serves only as an example for those wondering how the Linux behaves
-in this case.
-Don't merge this patch, because it causes a refcount underflow of the test
-module, so it's not possible to unload it.
+On 8/15/24 19:39, Sami Tolvanen wrote:
+> The compiler may choose not to emit type information in DWARF for all
+> aliases, but it's possible for each alias to be exported separately.
+> To ensure we find type information for the aliases as well, read
+> {section, address} tuples from the symbol table and match symbols also
+> by address.
+> 
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> ---
+>  scripts/gendwarfksyms/gendwarfksyms.c |   2 +
+>  scripts/gendwarfksyms/gendwarfksyms.h |   7 ++
+>  scripts/gendwarfksyms/symbols.c       | 161 +++++++++++++++++++++++++-
+>  3 files changed, 165 insertions(+), 5 deletions(-)
+> 
+> diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksyms/gendwarfksyms.c
+> index d209b237766b..e2f8ee5a4bf3 100644
+> --- a/scripts/gendwarfksyms/gendwarfksyms.c
+> +++ b/scripts/gendwarfksyms/gendwarfksyms.c
+> @@ -118,6 +118,8 @@ int main(int argc, const char **argv)
+>  			return -1;
+>  		}
+>  
+> +		check(symbol_read_symtab(fd));
+> +
+>  		dwfl = dwfl_begin(&callbacks);
+>  		if (!dwfl) {
+>  			error("dwfl_begin failed for '%s': %s", object_files[n],
+> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
+> index 03f3e408a839..cb9106dfddb9 100644
+> --- a/scripts/gendwarfksyms/gendwarfksyms.h
+> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
+> @@ -61,6 +61,10 @@ extern bool debug;
+>  /*
+>   * symbols.c
+>   */
+> +struct symbol_addr {
+> +	uint32_t section;
+> +	Elf64_Addr address;
+> +};
+>  
+>  static inline u32 name_hash(const char *name)
+>  {
+> @@ -69,10 +73,13 @@ static inline u32 name_hash(const char *name)
+>  
+>  struct symbol {
+>  	const char *name;
+> +	struct symbol_addr addr;
+> +	struct hlist_node addr_hash;
+>  	struct hlist_node name_hash;
+>  };
+>  
+>  extern int symbol_read_exports(FILE *file);
+> +extern int symbol_read_symtab(int fd);
+>  extern struct symbol *symbol_get(const char *name);
+>  
+>  /*
+> diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symbols.c
+> index 673ad9cf9e77..f96acb941196 100644
+> --- a/scripts/gendwarfksyms/symbols.c
+> +++ b/scripts/gendwarfksyms/symbols.c
+> @@ -6,11 +6,43 @@
+>  #include "gendwarfksyms.h"
+>  
+>  #define SYMBOL_HASH_BITS 15
+> +
+> +/* struct symbol_addr -> struct symbol */
+> +static DEFINE_HASHTABLE(symbol_addrs, SYMBOL_HASH_BITS);
+> +/* name -> struct symbol */
+>  static DEFINE_HASHTABLE(symbol_names, SYMBOL_HASH_BITS);
+>  
+> +static inline u32 symbol_addr_hash(const struct symbol_addr *addr)
+> +{
+> +	return jhash(addr, sizeof(struct symbol_addr), 0);
 
-Signed-off-by: Lukas Hruska <lhruska@suse.cz>
----
- tools/testing/selftests/livepatch/Makefile    |  4 ++
- tools/testing/selftests/livepatch/test-ibt.sh | 57 +++++++++++++++++++
- .../selftests/livepatch/test_modules/Makefile |  2 +
- .../test_modules/test_klp_extern_hello.c      | 20 +++++++
- .../livepatch/test_modules/test_klp_ibt.c     | 51 +++++++++++++++++
- 5 files changed, 134 insertions(+)
- create mode 100644 tools/testing/selftests/livepatch/test-ibt.sh
- create mode 100644 tools/testing/selftests/livepatch/test_modules/test_klp_ibt.c
+I would be careful and avoid including the padding between
+symbol_addr.section and symbol_addr.address in the hash calculation.
 
-diff --git a/tools/testing/selftests/livepatch/Makefile b/tools/testing/selftests/livepatch/Makefile
-index 611ee16bef56..3ef2040e4c50 100644
---- a/tools/testing/selftests/livepatch/Makefile
-+++ b/tools/testing/selftests/livepatch/Makefile
-@@ -13,6 +13,10 @@ TEST_PROGS := \
- 	test-syscall.sh \
- 	test-extern.sh
- 
-+ifdef CONFIG_X86_KERNEL_IBT
-+	TEST_PROGS += test-ibt.sh
-+endif
-+
- TEST_FILES := settings
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/livepatch/test-ibt.sh b/tools/testing/selftests/livepatch/test-ibt.sh
-new file mode 100644
-index 000000000000..c5f49fb7af4d
---- /dev/null
-+++ b/tools/testing/selftests/livepatch/test-ibt.sh
-@@ -0,0 +1,57 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2024 Lukas Hruska <lhruska@suse.cz>
-+
-+. $(dirname $0)/functions.sh
-+
-+MOD_LIVEPATCH=test_klp_ibt
-+MOD_HELLO=test_klp_extern_hello
-+PARAM_HELLO=hello
-+
-+setup_config
-+
-+# - load a module to be livepatched
-+# - load a livepatch that calls the unused function which does not have endbr64
-+#   as its first instruction
-+# - unload the livepatch and make sure the patch was removed
-+# - unload the module that was livepatched
-+
-+start_test "livepatch with external symbol"
-+
-+load_mod $MOD_HELLO
-+
-+read_module_param $MOD_HELLO $PARAM_HELLO
-+
-+load_lp $MOD_LIVEPATCH
-+
-+read_module_param $MOD_HELLO $PARAM_HELLO
-+
-+disable_lp $MOD_LIVEPATCH
-+unload_lp $MOD_LIVEPATCH
-+
-+read_module_param $MOD_HELLO $PARAM_HELLO
-+
-+unload_mod $MOD_HELLO
-+
-+check_result "% insmod test_modules/$MOD_HELLO.ko
-+% echo \"$MOD_HELLO/parameters/$PARAM_HELLO: \$(cat /sys/module/$MOD_HELLO/parameters/$PARAM_HELLO)\"
-+$MOD_HELLO/parameters/$PARAM_HELLO: Hello from kernel module.
-+% insmod test_modules/$MOD_LIVEPATCH.ko
-+livepatch: enabling patch '$MOD_LIVEPATCH'
-+livepatch: '$MOD_LIVEPATCH': initializing patching transition
-+livepatch: '$MOD_LIVEPATCH': starting patching transition
-+livepatch: '$MOD_LIVEPATCH': completing patching transition
-+livepatch: '$MOD_LIVEPATCH': patching complete
-+% echo \"$MOD_HELLO/parameters/$PARAM_HELLO: \$(cat /sys/module/$MOD_HELLO/parameters/$PARAM_HELLO)\"
-+$MOD_HELLO/parameters/$PARAM_HELLO: Hello from livepatched module.
-+% echo 0 > /sys/kernel/livepatch/$MOD_LIVEPATCH/enabled
-+livepatch: '$MOD_LIVEPATCH': initializing unpatching transition
-+livepatch: '$MOD_LIVEPATCH': starting unpatching transition
-+livepatch: '$MOD_LIVEPATCH': completing unpatching transition
-+livepatch: '$MOD_LIVEPATCH': unpatching complete
-+% rmmod $MOD_LIVEPATCH
-+% echo \"$MOD_HELLO/parameters/$PARAM_HELLO: \$(cat /sys/module/$MOD_HELLO/parameters/$PARAM_HELLO)\"
-+$MOD_HELLO/parameters/$PARAM_HELLO: Hello from kernel module.
-+% rmmod $MOD_HELLO"
-+
-+exit 0
-diff --git a/tools/testing/selftests/livepatch/test_modules/Makefile b/tools/testing/selftests/livepatch/test_modules/Makefile
-index 0d6df14787da..49a22ea90f3a 100644
---- a/tools/testing/selftests/livepatch/test_modules/Makefile
-+++ b/tools/testing/selftests/livepatch/test_modules/Makefile
-@@ -15,6 +15,8 @@ obj-m += test_klp_atomic_replace.o \
- 	test_klp_shadow_vars.o \
- 	test_klp_syscall.o
- 
-+obj-$(CONFIG_X86_KERNEL_IBT) += test_klp_ibt.o
-+
- # Ensure that KDIR exists, otherwise skip the compilation
- modules:
- ifneq ("$(wildcard $(KDIR))", "")
-diff --git a/tools/testing/selftests/livepatch/test_modules/test_klp_extern_hello.c b/tools/testing/selftests/livepatch/test_modules/test_klp_extern_hello.c
-index 431c55b5849a..37e1cd2cecdb 100644
---- a/tools/testing/selftests/livepatch/test_modules/test_klp_extern_hello.c
-+++ b/tools/testing/selftests/livepatch/test_modules/test_klp_extern_hello.c
-@@ -13,6 +13,26 @@ static int hello_get(char *buffer, const struct kernel_param *kp)
- 	return sysfs_emit(buffer, "%s kernel module.\n", hello_msg);
- }
- 
-+#ifdef CONFIG_X86_KERNEL_IBT
-+static __attribute__((nocf_check)) int hello_get_alt(char *buffer, const struct kernel_param *kp)
-+{
-+	return sysfs_emit(buffer, "%s unused function.\n", hello_msg);
-+}
-+
-+static int fail_get(char *buffer, const struct kernel_param *kp)
-+{
-+	int __attribute__((nocf_check)) (* volatile klpe_hello_get_alt)(char *, const struct kernel_param *) = hello_get_alt;
-+	return (*klpe_hello_get_alt)(buffer, kp);
-+}
-+
-+static const struct kernel_param_ops fail_ops = {
-+	.get	= fail_get,
-+};
-+
-+module_param_cb(fail, &fail_ops, NULL, 0400);
-+MODULE_PARM_DESC(fail, "Read only parameter failing the reader.");
-+#endif
-+
- static const struct kernel_param_ops hello_ops = {
- 	.get	= hello_get,
- };
-diff --git a/tools/testing/selftests/livepatch/test_modules/test_klp_ibt.c b/tools/testing/selftests/livepatch/test_modules/test_klp_ibt.c
-new file mode 100644
-index 000000000000..3b76d175d398
---- /dev/null
-+++ b/tools/testing/selftests/livepatch/test_modules/test_klp_ibt.c
-@@ -0,0 +1,51 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (C) 2024 Lukas Hruska <lhruska@suse.cz>
-+
-+#define pr_fmt(fmt) "test_klp_extern_hello: " fmt
-+
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-+#include <linux/livepatch.h>
-+
-+extern int hello_get_alt(char *buffer, const struct kernel_param *kp)
-+			KLP_RELOC_SYMBOL(test_klp_extern_hello, test_klp_extern_hello, hello_get_alt);
-+
-+static int hello_get(char *buffer, const struct kernel_param *kp)
-+{
-+	return hello_get_alt(buffer, kp);
-+}
-+
-+static struct klp_func funcs[] = {
-+	{
-+		.old_name = "hello_get",
-+		.new_func = hello_get,
-+	}, { }
-+};
-+
-+static struct klp_object objs[] = {
-+	{
-+		.name = "test_klp_extern_hello",
-+		.funcs = funcs,
-+	}, { }
-+};
-+
-+static struct klp_patch patch = {
-+	.mod = THIS_MODULE,
-+	.objs = objs,
-+};
-+
-+static int test_klp_extern_init(void)
-+{
-+	return klp_enable_patch(&patch);
-+}
-+
-+static void test_klp_extern_exit(void)
-+{
-+}
-+
-+module_init(test_klp_extern_init);
-+module_exit(test_klp_extern_exit);
-+MODULE_LICENSE("GPL");
-+MODULE_INFO(livepatch, "Y");
-+MODULE_AUTHOR("Lukas Hruska <lhruska@suse.cz>");
-+MODULE_DESCRIPTION("Livepatch test: external function call with IBT enabled");
+> +}
+> +
+>  typedef int (*symbol_callback_t)(struct symbol *, void *arg);
+>  
+> -static int for_each(const char *name, symbol_callback_t func, void *data)
+> +static int __for_each_addr(struct symbol *sym, symbol_callback_t func,
+> +			   void *data)
+> +{
+> +	struct hlist_node *tmp;
+> +	struct symbol *match = NULL;
+> +	int processed = 0;
+> +
+> +	hash_for_each_possible_safe(symbol_addrs, match, tmp, addr_hash,
+> +				    symbol_addr_hash(&sym->addr)) {
+> +		if (match == sym)
+> +			continue; /* Already processed */
+> +
+> +		if (match->addr.section == sym->addr.section &&
+> +		    match->addr.address == sym->addr.address) {
+> +			check(func(match, data));
+> +			++processed;
+> +		}
+> +	}
+> +
+> +	return processed;
+> +}
+> +
+> +static int for_each(const char *name, bool name_only, symbol_callback_t func,
+> +		    void *data)
+>  {
+>  	struct hlist_node *tmp;
+>  	struct symbol *match;
+> @@ -23,9 +55,13 @@ static int for_each(const char *name, symbol_callback_t func, void *data)
+>  		if (strcmp(match->name, name))
+>  			continue;
+>  
+> +		/* Call func for the match, and all address matches */
+>  		if (func)
+>  			check(func(match, data));
+>  
+> +		if (!name_only && match->addr.section != SHN_UNDEF)
+> +			return checkp(__for_each_addr(match, func, data)) + 1;
+> +
+>  		return 1;
+>  	}
+>  
+> @@ -34,7 +70,7 @@ static int for_each(const char *name, symbol_callback_t func, void *data)
+>  
+>  static bool is_exported(const char *name)
+>  {
+> -	return checkp(for_each(name, NULL, NULL)) > 0;
+> +	return checkp(for_each(name, true, NULL, NULL)) > 0;
+>  }
+>  
+>  int symbol_read_exports(FILE *file)
+> @@ -57,13 +93,14 @@ int symbol_read_exports(FILE *file)
+>  		if (is_exported(name))
+>  			continue; /* Ignore duplicates */
+>  
+> -		sym = malloc(sizeof(struct symbol));
+> +		sym = calloc(1, sizeof(struct symbol));
+>  		if (!sym) {
+> -			error("malloc failed");
+> +			error("calloc failed");
+>  			return -1;
+>  		}
+>  
+>  		sym->name = name;
+> +		sym->addr.section = SHN_UNDEF;
+>  		name = NULL;
+>  
+>  		hash_add(symbol_names, &sym->name_hash, name_hash(sym->name));
+> @@ -91,6 +128,120 @@ struct symbol *symbol_get(const char *name)
+>  {
+>  	struct symbol *sym = NULL;
+>  
+> -	for_each(name, get_symbol, &sym);
+> +	for_each(name, false, get_symbol, &sym);
+>  	return sym;
+>  }
+> +
+> +typedef int (*elf_symbol_callback_t)(const char *name, GElf_Sym *sym,
+> +				     Elf32_Word xndx, void *arg);
+> +
+> +static int elf_for_each_symbol(int fd, elf_symbol_callback_t func, void *arg)
+> +{
+> +	size_t sym_size;
+> +	GElf_Shdr shdr_mem;
+> +	GElf_Shdr *shdr;
+> +	Elf_Data *xndx_data = NULL;
+> +	Elf_Scn *scn;
+> +	Elf *elf;
+> +
+> +	if (elf_version(EV_CURRENT) != EV_CURRENT) {
+> +		error("elf_version failed: %s", elf_errmsg(-1));
+> +		return -1;
+> +	}
+> +
+> +	elf = elf_begin(fd, ELF_C_READ_MMAP, NULL);
+> +	if (!elf) {
+> +		error("elf_begin failed: %s", elf_errmsg(-1));
+> +		return -1;
+> +	}
+> +
+> +	sym_size = gelf_getclass(elf) == ELFCLASS32 ? sizeof(Elf32_Sym) :
+> +						      sizeof(Elf64_Sym);
+> +
+> +	scn = elf_nextscn(elf, NULL);
+> +
+> +	while (scn) {
+> +		shdr = gelf_getshdr(scn, &shdr_mem);
+> +
+> +		if (shdr && shdr->sh_type == SHT_SYMTAB_SHNDX) {
+> +			xndx_data = elf_getdata(scn, NULL);
+> +			break;
+> +		}
+> +
+> +		scn = elf_nextscn(elf, scn);
+> +	}
+> +
+> +	scn = elf_nextscn(elf, NULL);
+> +
+> +	while (scn) {
+> +		shdr = gelf_getshdr(scn, &shdr_mem);
+> +
+> +		if (shdr && shdr->sh_type == SHT_SYMTAB) {
+> +			Elf_Data *data = elf_getdata(scn, NULL);
+> +			unsigned int nsyms = data->d_size / sym_size;
+
+I think strictly speaking this should be:
+size_t nsyms = shdr->sh_size / shdr->sh_entsize;
+.. and the code could check that shdr->sh_entsize is same as what
+gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT) returns.
+
+> +			unsigned int n;
+> +
+> +			for (n = 0; n < nsyms; ++n) {
+
+The first symbol in the symbol table is always undefined, the loop can
+start from 1.
+
+Alternatively, since elf_for_each_symbol() ends up in the entire series
+being used only with process_symbol() which skips symbols with the local
+binding, the function could be renamed to elf_for_each_global_symbol()
+and start the loop from shdr->sh_info.
+
+> +				const char *name = NULL;
+> +				Elf32_Word xndx = 0;
+> +				GElf_Sym sym_mem;
+> +				GElf_Sym *sym;
+> +
+> +				sym = gelf_getsymshndx(data, xndx_data, n,
+> +						       &sym_mem, &xndx);
+> +
+> +				if (sym->st_shndx != SHN_XINDEX)
+> +					xndx = sym->st_shndx;
+> +
+> +				name = elf_strptr(elf, shdr->sh_link,
+> +						  sym->st_name);
+> +
+> +				/* Skip empty symbol names */
+> +				if (name && *name &&
+> +				    checkp(func(name, sym, xndx, arg)) > 0)
+> +					break;
+> +			}
+> +		}
+> +
+> +		scn = elf_nextscn(elf, scn);
+> +	}
+> +
+> +	return check(elf_end(elf));
+> +}
+> +
+> +static int set_symbol_addr(struct symbol *sym, void *arg)
+> +{
+> +	struct symbol_addr *addr = arg;
+> +
+> +	if (sym->addr.section == SHN_UNDEF) {
+> +		sym->addr.section = addr->section;
+> +		sym->addr.address = addr->address;
+> +		hash_add(symbol_addrs, &sym->addr_hash,
+> +			 symbol_addr_hash(&sym->addr));
+> +
+> +		debug("%s -> { %u, %lx }", sym->name, sym->addr.section,
+> +		      sym->addr.address);
+> +	} else {
+> +		warn("multiple addresses for symbol %s?", sym->name);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int process_symbol(const char *name, GElf_Sym *sym, Elf32_Word xndx,
+> +			  void *arg)
+> +{
+> +	struct symbol_addr addr = { .section = xndx, .address = sym->st_value };
+> +
+> +	/* Set addresses for exported symbols */
+> +	if (GELF_ST_BIND(sym->st_info) != STB_LOCAL &&
+> +	    addr.section != SHN_UNDEF)
+> +		checkp(for_each(name, true, set_symbol_addr, &addr));
+> +
+> +	return 0;
+> +}
+> +
+> +int symbol_read_symtab(int fd)
+> +{
+> +	return elf_for_each_symbol(fd, process_symbol, NULL);
+> +}
+
 -- 
-2.46.0
-
+Thanks,
+Petr
 
