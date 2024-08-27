@@ -1,213 +1,216 @@
-Return-Path: <linux-kbuild+bounces-3233-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3234-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD37B9608D9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 13:37:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2827960A52
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 14:31:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 690021F23CA1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 11:37:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7AE51C22BD2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2024 12:31:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AABF119FA96;
-	Tue, 27 Aug 2024 11:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6AF61BA863;
+	Tue, 27 Aug 2024 12:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S0tZRJpa"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IUbRiB2R";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V1J/ng/u";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IUbRiB2R";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="V1J/ng/u"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D081E19DF82
-	for <linux-kbuild@vger.kernel.org>; Tue, 27 Aug 2024 11:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40E31B8E8D;
+	Tue, 27 Aug 2024 12:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724758617; cv=none; b=jnJd9f96RiPwsJdR/64JifUm9qOAlhowYDVZIF0OMbr41pTV1C7UoR5qsnFTNd1428/mQ/ypSfLOzzZzTOPKrVFMvaFpGwhdmJBJI7PCCyxNUWPH7N/U2y+KZfoA4bFP4WGCqvEoiPrT6CGSNXx/UCeE9fk1o5bWu34rBhCulig=
+	t=1724761857; cv=none; b=pdpNF7spsUuL1PwNphuB/0elcwSjZkjhKbR8Bg6vAaKM5N37xtSwOc6Wddj8fjpYfvkNzJemMU//R7S8VjyfMHc5CBrUxzonAisUJDhdhuEm9zsW4WcZS5/ZdUXzpRF29Hz2m0m7ej5OSDHsWy8qNw8jPFRRmheOVASjDYOx6H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724758617; c=relaxed/simple;
-	bh=IRbk4XlXS9AL1SVPnwuRZB64g4tDHR/DIdnqSuKhoPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Mj5wJnppYmrxaKzqHil9CtnmWiw55EYw3/TpWc6qF+YNtWX0aSaj3VomNCOHO4tw2zy12ZUPMcV1EiNGQvf9u+Vu4eJwRbLPwY5AVLk67d0zRFakhey5dFZl9UUwdif7P92Ax0Zr7Dgc5SDSJH/kwK22JZM8kA7p6z4ws+w9fL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S0tZRJpa; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-371aa511609so2706016f8f.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Aug 2024 04:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724758614; x=1725363414; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OiKQkX9JXAm55mwNI4zYxY4asKveYVGU+Q+n1G5Ueug=;
-        b=S0tZRJpad7dacAWNhk7IbSgkKrz9I4QXzh1O1oAAdI/kj3Kz9hRbuLHPCG7QNa+OL3
-         PnXJNxUYcyaVcGw95CrNrDQD6G6LyQtWtlUL6sf1zUqYLGVT5G8MPZSfsPAdnaibigm4
-         tR3BaiyvSRxhDPQ+dDpJR4I/pOzOHrUrFRZjKZJWPdGg7A3JI7DsoYXP0IJKTfC5DMp1
-         vHzlGcWLcNauHr5GG7OUIH82r5+0vLRLmVM9oKNF/kuq2Ii89KNRBy+4CEKDprLMY4R6
-         8NUFgIO1STeIHZ9QAR7NDBBB2o+rIJoDDjk1+kU0C2XY3IQ6o7pMjtnvBaOtS1hTajl8
-         RClg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724758614; x=1725363414;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OiKQkX9JXAm55mwNI4zYxY4asKveYVGU+Q+n1G5Ueug=;
-        b=sxbFXFq7tyJ2vsrlpT9EFhNnMrBnCrJc6/ALypnwrhEMgGc2VPer4DQf8FGl7doJnB
-         CnFgA9lT/liv7UXDkBiyilV5i3UYDWN7yMfDEgayOIawF5k79h2b7amXCl+CZnn87ZD+
-         fHF0WvAIAf5qNPWrMgmYrlU9BuGPHtB+nlJ8aGMXmfElx/upS1XbDGGSwqBfj+6XlEgk
-         qOVlWSYSBH4GRPsFlOZpQoN8UO+NbyMI4FSrjhly433HpfN8nwiV29StMPnDkk9iFRhl
-         ZhGHVDSBzAiWW0zZsyCLzu5z7mhLl006ft53yXCS7VviK0FlZaX+D3VDqe5SkI5Ec9qh
-         dqEg==
-X-Forwarded-Encrypted: i=1; AJvYcCW0OS1ekfw3pz/vu8AKlHlEu0JBCEcb/t6dBGJQ4rTpTGKoWyvvzTdUeUD2iJoCiHZrKzOs87zJ7Yo3RmI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywPT9Ty8s3eWiiLN4I/AMXFHcTZM0q2+h15XHTfvhf/yzyv4dk
-	m7vTvROA50cpCEAXpIZwLfNlBIAJbi8TRbAsm8+mEZP/AJ5VnYC34BOcApJqpcFSW66gY4TYchU
-	IH7e2QY9HFgMjXFRA8/52u0gml2WYQ/VZ0N46
-X-Google-Smtp-Source: AGHT+IHLB2RvAn3JqickjtZcl5YzVN33cRXUCK4PAl1Gfw449IAMUegRjNOP1+0UnRKyCCQgoiHkiFDo9yZOJt1ijW8=
-X-Received: by 2002:adf:fe86:0:b0:371:7c68:32e6 with SMTP id
- ffacd0b85a97d-3748c7c78demr1625380f8f.4.1724758613879; Tue, 27 Aug 2024
- 04:36:53 -0700 (PDT)
+	s=arc-20240116; t=1724761857; c=relaxed/simple;
+	bh=f78axjmUclun1wfP7kwMZNcG2d9SoMClxopFFWHREJ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sz+FdTWTKYNc2DsYMxAJTizxh+IToLsKgHU1Ad26h7vr3piyLRz9iy8V95D0v4cqf2xL99yciWsikXLDg3NOFLQ6v/jnocBJYzvpXeMenfJ768er36OsDzocgBYviNW31bFfRd2QInC12jtccNXPBUcmM97wi36yEfBlu+BJ70o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IUbRiB2R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V1J/ng/u; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IUbRiB2R; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=V1J/ng/u; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CD37421B13;
+	Tue, 27 Aug 2024 12:30:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1724761853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7xeRe7MAoinPXOehDj1oDor3joTDsLsD5OEV3LKTtL4=;
+	b=IUbRiB2R60ah/B9UNr9nTUvkDQ/MlMufXyZaCKowZgzJ9MBLfDbJHxhHNeppzOeHXqDSoI
+	BuEVSP2h3P/WhzggxO0MCN/rw+RAMCsheNaiWP/CuFx0AbuiS07wQdzqaigb292YsSznDT
+	D7E0EG5fJnlQfXXhkFJuxchmD82xSZ4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1724761853;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7xeRe7MAoinPXOehDj1oDor3joTDsLsD5OEV3LKTtL4=;
+	b=V1J/ng/uHiY+L9OJlOAHtbTCJy4Q4vcv47NUJA4Ax4dXuXz+HmEMg4ZapBpQVPbNzZFKIV
+	IVFkGpDBAAUUbzBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1724761853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7xeRe7MAoinPXOehDj1oDor3joTDsLsD5OEV3LKTtL4=;
+	b=IUbRiB2R60ah/B9UNr9nTUvkDQ/MlMufXyZaCKowZgzJ9MBLfDbJHxhHNeppzOeHXqDSoI
+	BuEVSP2h3P/WhzggxO0MCN/rw+RAMCsheNaiWP/CuFx0AbuiS07wQdzqaigb292YsSznDT
+	D7E0EG5fJnlQfXXhkFJuxchmD82xSZ4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1724761853;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7xeRe7MAoinPXOehDj1oDor3joTDsLsD5OEV3LKTtL4=;
+	b=V1J/ng/uHiY+L9OJlOAHtbTCJy4Q4vcv47NUJA4Ax4dXuXz+HmEMg4ZapBpQVPbNzZFKIV
+	IVFkGpDBAAUUbzBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C556F13724;
+	Tue, 27 Aug 2024 12:30:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id blURMP3GzWauYwAAD6G6ig
+	(envelope-from <lhruska@suse.cz>); Tue, 27 Aug 2024 12:30:53 +0000
+From: Lukas Hruska <lhruska@suse.cz>
+To: pmladek@suse.com,
+	mbenes@suse.cz,
+	jpoimboe@kernel.org
+Cc: joe.lawrence@redhat.com,
+	live-patching@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	mpdesouza@suse.com,
+	lhruska@suse.cz
+Subject: [PATCH v3 0/6] livepatch: klp-convert tool - Minimal version
+Date: Tue, 27 Aug 2024 14:30:45 +0200
+Message-ID: <20240827123052.9002-1-lhruska@suse.cz>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240806-shadow-call-stack-v5-1-26dccb829154@google.com>
- <20240820143503.GD28338@willie-the-truck> <CAH5fLggN+A2RawC-cpmSUHxYm=xz=1EDpMUv5C803hj37re1qA@mail.gmail.com>
- <20240823122423.GB32110@willie-the-truck> <CAH5fLgh6ywHeFSwbnaOu-QYrt_Jytv_y3zb1QbJzK-w4kQ617w@mail.gmail.com>
- <20240823125739.GA32156@willie-the-truck> <CAH5fLgiCr3hOEX1yaqy66OMsbPTtEhA4FCmRiw20zY64vYKHPw@mail.gmail.com>
- <20240823132133.GC32156@willie-the-truck>
-In-Reply-To: <20240823132133.GC32156@willie-the-truck>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 27 Aug 2024 13:36:41 +0200
-Message-ID: <CAH5fLgjjnDZG2BBApmiss43+gOs85xjJM9DP8RLO+y+UXm1cOg@mail.gmail.com>
-Subject: Re: [PATCH v5] rust: support for shadow call stack sanitizer
-To: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Jamie Cunliffe <Jamie.Cunliffe@arm.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Conor Dooley <conor@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Mark Brown <broonie@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Valentin Obst <kernel@valentinobst.de>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	rust-for-linux@vger.kernel.org, Kees Cook <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Fri, Aug 23, 2024 at 3:21=E2=80=AFPM Will Deacon <will@kernel.org> wrote=
-:
->
-> On Fri, Aug 23, 2024 at 03:09:40PM +0200, Alice Ryhl wrote:
-> > On Fri, Aug 23, 2024 at 2:57=E2=80=AFPM Will Deacon <will@kernel.org> w=
-rote:
-> > >
-> > > On Fri, Aug 23, 2024 at 02:38:20PM +0200, Alice Ryhl wrote:
-> > > > On Fri, Aug 23, 2024 at 2:24=E2=80=AFPM Will Deacon <will@kernel.or=
-g> wrote:
-> > > > >
-> > > > > On Tue, Aug 20, 2024 at 05:13:58PM +0200, Alice Ryhl wrote:
-> > > > > > On Tue, Aug 20, 2024 at 4:35=E2=80=AFPM Will Deacon <will@kerne=
-l.org> wrote:
-> > > > > > > On Tue, Aug 06, 2024 at 10:01:44AM +0000, Alice Ryhl wrote:
-> > > > > > > > diff --git a/init/Kconfig b/init/Kconfig
-> > > > > > > > index fe76c5d0a72e..d857f6f90885 100644
-> > > > > > > > --- a/init/Kconfig
-> > > > > > > > +++ b/init/Kconfig
-> > > > > > > > @@ -1909,7 +1909,7 @@ config RUST
-> > > > > > > >       depends on !MODVERSIONS
-> > > > > > > >       depends on !GCC_PLUGINS
-> > > > > > > >       depends on !RANDSTRUCT
-> > > > > > > > -     depends on !SHADOW_CALL_STACK
-> > > > > > > > +     depends on !SHADOW_CALL_STACK || RUSTC_VERSION >=3D 1=
-08000 && UNWIND_PATCH_PAC_INTO_SCS
-> > > > > > >
-> > > > > > > Sorry, I didn't spot this in v4, but since UNWIND_PATCH_PAC_I=
-NTO_SCS is
-> > > > > > > specific to arm64 and the only other architecture selecting
-> > > > > > > ARCH_SUPPORTS_SHADOW_CALL_STACK is riscv, I can't help but fe=
-el it would
-> > > > > > > be cleaner to move this logic into the arch code selecting HA=
-VE_RUST.
-> > > > > > >
-> > > > > > > That is, it's up to the architecture to make sure that it has=
- whatever
-> > > > > > > it needs for SCS to work with Rust if it claims to support Ru=
-st.
-> > > > > > >
-> > > > > > > What do you think?
-> > > > > >
-> > > > > > The `select RUST if ...` is going to get really complicated if =
-we
-> > > > > > apply that rule in general. Having options here allows us to sp=
-lit
-> > > > > > them across several `depends on` clauses. I'm not sure it will =
-even
-> > > > > > work, I had issues with cyclic Kconfig errors previously. I als=
-o don't
-> > > > > > think it's unreasonable for the architecture to say it supports=
- both
-> > > > > > options when it really does support both; they are just mutuall=
-y
-> > > > > > exclusive. I also think there is value in having all of the opt=
-ions
-> > > > > > that Rust doesn't work with in one place.
-> > > > >
-> > > > > I'm not sure I follow why this will get really complicated. Isn't=
- it as
-> > > > > straightforward as the diff below, or did I miss something?
-> > > >
-> > > > Hmm. I tried this but I wasn't able to enable Rust with this setup.
-> > > > Even though the deps of RUSTC_SUPPORTS_ARM64 are ok, it doesn't see=
-m
-> > > > to be enabled and I can't find it in menuconfig. I think we need to
-> > > > have a `select RUSTC_SUPPORTS_ARM64` somewhere.
-> > >
-> > > Sorry, yes, my diff was a little half-arsed:
-> > >
-> > > > > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > > > > index a2f8ff354ca6..2f5702cb9dac 100644
-> > > > > --- a/arch/arm64/Kconfig
-> > > > > +++ b/arch/arm64/Kconfig
-> > > > > @@ -231,7 +231,7 @@ config ARM64
-> > > > >         select HAVE_FUNCTION_ARG_ACCESS_API
-> > > > >         select MMU_GATHER_RCU_TABLE_FREE
-> > > > >         select HAVE_RSEQ
-> > > > > -       select HAVE_RUST if CPU_LITTLE_ENDIAN
-> > > > > +       select HAVE_RUST if RUSTC_SUPPORTS_ARM64
-> > > > >         select HAVE_STACKPROTECTOR
-> > > > >         select HAVE_SYSCALL_TRACEPOINTS
-> > > > >         select HAVE_KPROBES
-> > > > > @@ -265,6 +265,11 @@ config ARM64
-> > > > >         help
-> > > > >           ARM 64-bit (AArch64) Linux support.
-> > > > >
-> > > > > +config RUSTC_SUPPORTS_ARM64
-> > > > > +       bool
-> > >
-> > > This line ^^^ should be 'def_bool y'.
-> >
-> > Ah, I see, I guess I learned something today. It also seems to work if
-> > I add `default y`.
-> >
-> > I can change it if you think this is better. I still think there's
-> > some value in having everything in one place, but it's not a big deal.
-> > Either way, it should be temporary for a few kernel releases as we'll
-> > eventually only support compiler versions where this works.
->
-> I do like moving the reference to UNWIND_PATCH_PAC_INTO_SCS into the
-> arch code, so if you could respin along these lines then that would be
-> great.
+Summary
+-------
 
-Done, see:
-https://lore.kernel.org/all/20240826-shadow-call-stack-v6-1-495a7e3eb0ef@go=
-ogle.com/
+This is a significantly simplified version of the original klp-convert tool.
+The klp-convert code has never got a proper review and also clean ups
+were not easy. The last version was v7, see
+https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com
 
-I took the opportunity to incorporate new developments in rustc
-changes into the Kconfig rules.
+The main change is that the tool does not longer search for the
+symbols which would need the livepatch specific relocation entry.
+Also klp.symbols file is not longer needed.
 
-Alice
+Instead, the needed information is appended to the symbol declaration
+via a new macro KLP_RELOC_SYMBOL(). It creates symbol with all needed
+metadata. For example:
+
+  extern char *saved_command_line \
+                 KLP_RELOC_SYMBOL(vmlinux, vmlinux, saved_command_line, 0);
+
+would create symbol
+
+$>readelf -r -W <compiled livepatch module>:
+Relocation section '.rela.text' at offset 0x32e60 contains 10 entries:
+    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+[...]
+0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 - 4
+[...]
+
+
+The simplified klp-convert tool just transforms symbols
+created by KLP_RELOC_SYMBOL() to object specific rela sections
+and rela entries which would later be proceed when the livepatch
+or the livepatched object is loaded.
+
+For example, klp-convert would replace the above symbols with:
+
+$> readelf -r -W <livepatch_module_proceed_by_klp_convert>
+Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60 contains 1 entry:
+    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4
+
+
+Note that similar macro was needed also in the original version
+to handle more symbols of the same name (sympos).
+
+Given the above, add klp-convert tool; integrate klp-convert tool into
+kbuild; add data-structure and macros to enable users to annotate
+livepatch source code; make modpost stage compatible with livepatches;
+update livepatch-sample and update documentation.
+
+
+Testing
+-------
+
+The patchset selftests build and execute on x86_64, s390x, and ppc64le
+for both default config (with added livepatch dependencies) and a larger
+SLE-15-ish config.
+
+
+Summary of changes in this minimal version v3
+------------------------
+
+- klp-convert: symbol format changes (suggested by jlawrence)
+- samples: fixed name of added sample in Makefile (suggested by pmladek)
+- selftests: added ibt test case as an example (DON'T MERGE)
+- fixed all suggested small changes in v2
+
+Previous versions
+-----------------
+
+RFC:
+  https://lore.kernel.org/r/cover.1477578530.git.jpoimboe@redhat.com/
+v2:
+  https://lore.kernel.org/r/f52d29f7-7d1b-ad3d-050b-a9fa8878faf2@redhat.com/
+v3:
+  https://lore.kernel.org/r/20190410155058.9437-1-joe.lawrence@redhat.com/
+v4:
+  https://lore.kernel.org/r/20190509143859.9050-1-joe.lawrence@redhat.com/
+v5:
+  (not posted)
+  https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v5-devel
+v6:
+  https://lore.kernel.org/r/20220216163940.228309-1-joe.lawrence@redhat.com/
+v7:
+  https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com/
+v1 minimal:
+  https://lore.kernel.org/r/20231106162513.17556-1-lhruska@suse.cz/
+v2 minimal:
+  https://lore.kernel.org/r/20240516133009.20224-1-lhruska@suse.cz/
 
