@@ -1,146 +1,145 @@
-Return-Path: <linux-kbuild+bounces-3273-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3274-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7749633D5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 23:29:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 585439633EE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 23:33:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78BEC2859A5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 21:29:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B69DBB2375F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 21:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A30A41AD401;
-	Wed, 28 Aug 2024 21:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FFDB1AD3F9;
+	Wed, 28 Aug 2024 21:33:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WQWWbr8C"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wDRWooRX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A291ACE0D
-	for <linux-kbuild@vger.kernel.org>; Wed, 28 Aug 2024 21:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A67115B137
+	for <linux-kbuild@vger.kernel.org>; Wed, 28 Aug 2024 21:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724880537; cv=none; b=ShdHg9te8mZnd6/wQGDM1ZSq5HMLoOD8/UKdrTplV6tTT23uC4mReTNDc2t14vHBx8X72TpjOrmQS1dLTwEEnO+TzOxn3Omyo7ItvxmHie3f8F1XyLz+6h8Gz/+OEdP6kKpLx3d21Ej7/H76IyavjNVsW92uz3sUysfLl8H8WDQ=
+	t=1724880782; cv=none; b=GGzt25I0MkpDtxZMod2TbGFOvpGJikXYa6zuGygrVQmq55QQ/gPkopW80e5zDqZVPc+05AsNCnQK3eUro866thiJdngBg831/y7iULtW6oZ4a3iCQCzTTOfLWano0b9bCbgFbSdz0GMWToyohvZi7wuylmKNPtOddB0FMk1cuEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724880537; c=relaxed/simple;
-	bh=Z0RTE2liLWBqiPCB9noGezQt18J5+g8y4LpW/JuykkM=;
+	s=arc-20240116; t=1724880782; c=relaxed/simple;
+	bh=cEpCS+awESzibz2fx1rBVxzmh/G9/OK1eGkd1D1LRF4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tmmg8udIUiJsMI8zwDrRtJ113FqqmdEnqpOyG5uWWpL3zPSRpdjw/ZmAj2O+Cq4gkGAY601k/D17lyNoNP2KZgsl5v5PxdRALZm0eC1iJzDe3dmXyxt2Aeu69XJaF+CZHImOM5/AfsAcAWowceDBk4tMnd12P31CitcKslQONi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WQWWbr8C; arc=none smtp.client-ip=209.85.214.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=G8EfUucNZeJ4g/atHYXtRFCwVtwfOP11jVwoegYFu0w63/DvDswEsmdfv/D4BVYWcva9SnIvaiy5+HxOWUO+XsXcoB22qx/TGWDxhxRIi1I1YywwvH8hPfIBAJ7Hi+YX2ApyF8TVvz8xfqKidZ5MrzVp88qgCIjZlcnDLS8hxbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wDRWooRX; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20353e5de9cso58045ad.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Aug 2024 14:28:55 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-201fed75b38so24615ad.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Aug 2024 14:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724880535; x=1725485335; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MvCelnyORp38Fj//fQhDAaDLLqzQaXh3WxOWjiSyKsE=;
-        b=WQWWbr8CnOA+QSiiYyVX45MRQAajH6YZcgNknImYFBmnpImxvD8H8S6UvnCFDirYgn
-         J/zvB2FCdsrf+hg+lj2bEgFcy9P2FtkJWGmlZ0gmh6jI9NRJ8Q7fUUzdLt/hWtBVf+iZ
-         nBpD6JD6HzXRoZopPb65mDiJ/z/IxELsLcgQaQ35CmiK9fp78I508l5ZgG7281Y4NzL3
-         i5z0ZEX6mUE+0+QAAqKMgrZ3F4JXV7BBnA/O1othgxRHiOgTyQvMnJx+0xpBMuPiNMHN
-         uKib7AVj8GyMABYJuBqlrhanFO2muSmXFNEyTGS1/O1fRGEWo6/DRdZqQWS3KeUehl05
-         QyWg==
+        d=google.com; s=20230601; t=1724880779; x=1725485579; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6OiNe2YeQCUna2f4UjRdeOC+WErdfdXGa82/r6tUnVw=;
+        b=wDRWooRXfR4puGYCZll52GXUhb38BKO9LpLdLgtDfRlLUaTpg+uHT00gYpMkGnKc0g
+         BMfbF7+kIhUGkJoKFiPfJtX2tzCHP2jAlCBt9Gfrp5/643Ez3Qg9VDZ2B1aoQUpZdCvl
+         AeJMhWKUgeo98hid76CWbpnlckir78xJKXKuI/Y3QsJUDae5kFCHANVnOJEbtA+MoeoZ
+         hgz2eXG6e93P+/bfXDRniuVDXo/mCDv3dOUSDYgICmS9Yu+fr15/Bx2vwiU9TEL1bu2m
+         bsKpqhz53dQ4NwPjSsJRhAZJNKwxCVviacI2eb2F01HPL3BCn2JCztv4VOrWLvYIkHsg
+         hKMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724880535; x=1725485335;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MvCelnyORp38Fj//fQhDAaDLLqzQaXh3WxOWjiSyKsE=;
-        b=nJWkS3tI5PpSLOqfLTcIA03tOpnAFiHC0/jh048VoznH817JSPsauAkzPkezr8rU5Y
-         6/mXsjoNk/mo16g2dU15orM5uppFUUopKcrCZO1PlE5O8GdA0yvzQWpLK82ioDkRqpwh
-         VvwdYJCft9OmOcRWjRB/yF7wdwW51eSYWSDgf9sb1upEFxt4KEMNg4J8z0EFLLHvdBB5
-         qjIPgJ2p7fkBRz6lfmc8wQ79xUJ6JTp8oFjxw1eXxswfAKXQDa+wFBiu6DUJaqpJd3nO
-         l8mITUnXn3h/jYfuxZKLcv3Mwk3FT3y8bjH/Ty3vGZ+gCuY4Rm+JsTp5A1DulSEZNfQh
-         pUvA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+HSeFMOmZsfK4jOGSP+kduvvVdFxyBu9u89HVRKwD/v6vbD4F39Q8obJYPu8uAD3b6XkOcyRbXlJD2Qo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV9HYuXuieiSVqBrHJL/0pZZwwpio6M70htDX0R1PmmkXduB6w
-	kxhYy2XUKw3yxWuTpRuRImXM47IKme36O7hqlZitfS6o0VBbwtpnoYQWXPUU9vcbCAqKz50+oCg
-	Wfw==
-X-Google-Smtp-Source: AGHT+IGjAs0BZE3JhQUS2OaJDCYVlg0EV/R1OKIfMRFLb6EzIbnQK3Px/0wJ3JAypIISh5NpUzlhfQ==
-X-Received: by 2002:a17:902:cec7:b0:1fa:191c:fe4e with SMTP id d9443c01a7336-20510b518admr220295ad.21.1724880534966;
-        Wed, 28 Aug 2024 14:28:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724880779; x=1725485579;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6OiNe2YeQCUna2f4UjRdeOC+WErdfdXGa82/r6tUnVw=;
+        b=gzMcMRy1laIfUjmjRa8rhDz1Xk+r2LYdjsiWgMK266vWHhAxL9byjzhGNVDWo50Y6m
+         AR5aBqwtk75rnhUde7PtnVkAQUPWkENhe6hO3TqcJia8nXSSSYom5DRZRg1sH50Zujct
+         mR2a/JkVqc27+tzN5L6dojtxekPLmhG77o98TZNgjoxJ2SB1zHsGfc/UTsfT6i91GSIe
+         qYA0eELxE22M1cVZoyunQk8vx62ROmxcWx2a7nWYfJMHppXYEXR1HYLtn8VnxxU7MPmZ
+         gAjOhZNOsvnprLPs5Yq+DM6uJ9zSeLcqsgb1Utmh1c6U1sL2zq6g28lB661c0nE+ibmO
+         EHSw==
+X-Forwarded-Encrypted: i=1; AJvYcCXi8FyU7X6NMz8twZnfjEzlW7Kzik50GoKBEXOhZfhePxJ0i9LrxXeTb6oXloNnkBFTz1AY3Tx2vLPmVRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/zyQW8chjHnrPZ4+JGNC4E7332GHtTKXOO5fnIhPapD7LRgGw
+	/BHke5jGmu01hDo7inz+7Ls5G1BPD3gb9JS1+Ua6SmVSKlKnd5SniPzoHnq1Ew==
+X-Google-Smtp-Source: AGHT+IHHf+VlJrFFBJgPYVRNtck/f/imxXiwO9YAgJOrmaeUNIYbTt/FhYzSs4jbx7giAS/mraakLQ==
+X-Received: by 2002:a17:902:e5ca:b0:200:8e1e:9940 with SMTP id d9443c01a7336-20510d58e83mr210625ad.23.1724880778385;
+        Wed, 28 Aug 2024 14:32:58 -0700 (PDT)
 Received: from google.com (226.75.127.34.bc.googleusercontent.com. [34.127.75.226])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2038560a301sm102665825ad.217.2024.08.28.14.28.52
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855dbf41sm102647885ad.134.2024.08.28.14.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 14:28:54 -0700 (PDT)
-Date: Wed, 28 Aug 2024 21:28:49 +0000
+        Wed, 28 Aug 2024 14:32:57 -0700 (PDT)
+Date: Wed, 28 Aug 2024 21:32:51 +0000
 From: Sami Tolvanen <samitolvanen@google.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Matthew Maurer <mmaurer@google.com>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
 	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>,
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
-	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
+	Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
+	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
+	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
-Message-ID: <20240828212849.GA2130480@google.com>
+Message-ID: <20240828213251.GB2130480@google.com>
 References: <20240815173903.4172139-21-samitolvanen@google.com>
  <20240815173903.4172139-22-samitolvanen@google.com>
- <71505c05-b651-4740-b14a-a53084a16a61@suse.com>
- <CABCJKufveknkc_ribOBamC_MXRGounFkYBeRkKhppPSHijxtZg@mail.gmail.com>
- <80e7994d-f82e-4f2a-b233-d4f9d6900698@suse.com>
+ <CAK7LNATKWnkdmxvPBaBLYThLk0Voh7UVh5V4_eKHs9g-40qUTQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <80e7994d-f82e-4f2a-b233-d4f9d6900698@suse.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATKWnkdmxvPBaBLYThLk0Voh7UVh5V4_eKHs9g-40qUTQ@mail.gmail.com>
 
-On Wed, Aug 28, 2024 at 02:31:05PM +0200, Petr Pavlu wrote:
-> On 8/26/24 20:47, Sami Tolvanen wrote:
-> > How do you propose using the function? This loop goes through multiple
-> > input files, should we need them, and we iterate through all the CUs
-> > in process_modules.
-> 
-> I was thinking it could be possible to replace the code to traverse
-> modules and their their CUs, that is functions process_modules() and
-> process_module(), with dwfl_nextcu(). However, I now notice that more
-> work is added in subsequent patches to process_modules() so this
-> wouldn't quite work.
-> 
-> I would then only suggest to change some function names in the current
-> code. Function process_modules() is a callback to process a single
-> module and so it would be better to name it process_module(). The
-> present function process_module() actually processes a compilation unit
-> DIE so I would rename it to something like process_cu().
+Hi Masahiro,
 
-Sure, sounds reasonable. I'll rename these.
-
-> On 8/15/24 19:39, Sami Tolvanen wrote:
-> > +int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie)
+On Thu, Aug 29, 2024 at 02:45:03AM +0900, Masahiro Yamada wrote:
+> On Fri, Aug 16, 2024 at 2:39 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+> > +static int usage(void)
 > > +{
-> > +	struct state state = { .mod = mod, .dbg = dbg };
-> > +
-> > +	return check(process_die_container(
-> > +		&state, cudie, process_exported_symbols, match_all));
-> > +}
+> > +       error("usage: gendwarfksyms [options] elf-object-file ...");
 > 
-> Mostly a minor suggestion too.. Looking at the entire series, state.mod
-> ends up unused and state.dbg is only used in process_cached() where it
-> could be possibly replaced by doing dwarf_cu_getdwarf(die->cu)?
+> 
+> 
+> Description for each option, please.
 
-Ah yes, mod was was leftover from previous refactoring. I'll clean this
-up.
+Sure, will add.
 
-> Removing these two members from the state struct would then allow to
-> instantiate a new state in process_exported_symbols() for each processed
-> symbol. That looks cleaner than changing state.sym and resetting some
-> parts of the state as the function walks over the exported symbols.
+> > +static int parse_options(int argc, const char **argv)
+> 
+> 
+> 
+> Why not getopt_long()?
 
-Agreed, that makes sense.
+Good point, I'll switch to getopt.
+
+> > +int main(int argc, const char **argv)
+> > +{
+> > +       unsigned int n;
+> > +
+> > +       if (parse_options(argc, argv) < 0)
+> > +               return usage();
+> > +
+> > +       for (n = 0; n < object_count; n++) {
+> 
+> 
+> When does  "object_count >= 2" happen ?
+
+Right now it doesn't, but if we want to support LTO, we'll need to also
+process the temporary object files we build for stand-alone assembly to
+find types for the symbols exported there.
+
+> > +extern int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie);
+> 
+> 
+> No 'extern' for function declarations.
+
+Ack, I'll drop these. Thanks for the review!
 
 Sami
 
