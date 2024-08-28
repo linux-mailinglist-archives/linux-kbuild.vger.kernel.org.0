@@ -1,190 +1,141 @@
-Return-Path: <linux-kbuild+bounces-3265-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3266-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31AE962EE8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 19:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21F1962F6B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 20:11:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73F57285F05
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 17:50:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F3D9285758
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2024 18:11:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE471A76DA;
-	Wed, 28 Aug 2024 17:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 832181A7ADE;
+	Wed, 28 Aug 2024 18:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqmZBbRV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4wHN4AK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96356166302;
-	Wed, 28 Aug 2024 17:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5235F1A76B9;
+	Wed, 28 Aug 2024 18:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724867397; cv=none; b=DTNBytlYZdZUZzRxBNBYxlEZnMbHZuumOxQW9E1QO6PCxUO5gyE5w9Foxe8TbQblmrxURpMye7jeoMvuoZj0bdNqd6DZeXP6wZF6eeghw3niPyqyl/dyOsOlpQFYBqGHuaj/85Hz/KpO68MqlM5i+ux41ZaFbz74Z+co0hFuUno=
+	t=1724868670; cv=none; b=q7ArbcL9yhefYjPY28xr1Ag5EByyqmZXiPCvG5ikiSN+KNmLt6QJcmT3q7nOqg4CaSUwl2CM0tvwD/VRudVJYDPUJsM0Av4FHcJE+2AFrEcx/IKG+OWpPlpFVy6Q1HLJOBc1vhRi8FP/xhL+WiXkI5yzsvTKI1LLJsr/ylX8zUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724867397; c=relaxed/simple;
-	bh=WLVw/MzwZZYc+FLwv4AVDjwEdiq3qFjmZrfxJuaPQi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O8iHK4bRAEz8AI97Wqrx8eRi6hzkJn9CJTONGj753nX8UcdwJnaCgRitpNM8MT25njdrxiwgZ6M6jprf83vHF+QWpSKBvRyTNosM3yrrsxgEQPWmwMb0m5TeebdgLyqJ0bP0VZ22qE7aN3BMMABxL9xN9Fx0D7m+CeAPfZddbcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqmZBbRV; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a86910caf9cso176535166b.1;
-        Wed, 28 Aug 2024 10:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724867394; x=1725472194; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LbtgMIebzvLQcLsMDmLEedziYElh6r9r50MOFoD98VM=;
-        b=AqmZBbRVI7m+7Ag83WI0MVmLzVLNzhIIHD0Pg7H3/DTb6R1nzr3hKDDFtXPt/kENir
-         df7R9dQh7OoxAsIqgudG8/ZlT5LZjBKZxfo4697JklsQpL2aP4TY6T1PNx23qbTKNb9q
-         ChNRH10YbsuK2k5nzyvK5703pDz0Mjl/SKOep9gq4pltipWTzsZMEHCMrP0iWK9BZfQk
-         g4QFm1BhOrE3jdk9RdunCZVuDPJzN3V0HI2LiESH6xq5oHRDg/qCICbnj+Pgte+E7QSv
-         4TZWbqzci/jdUVOhb4vy1Mb0kgZfFYpgw+Sq0K42vtJV06rVkBv5B7e3wgdMwFdUkI8z
-         mziw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724867394; x=1725472194;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LbtgMIebzvLQcLsMDmLEedziYElh6r9r50MOFoD98VM=;
-        b=ttu20UHvY0CVBUV9DOQqSs1KnbdzD/W0rnQXqRW/lQLh27i8vgR3pOT17Kd1S+jVMJ
-         QOTNE+USghyk0GfbodiC8VdiGxN6p7tuPU+P80G1Qui62E42f+rcXjon4Knxh5vFLT5N
-         lua0qUki7SzH3pwVqaFChxms48wFX9zL23Mr5fvO7WPbS7M50J7mlokh6N5QAh2SAgv6
-         fX3RnUrsA7iIp/akwQcrzUe9KRYPW80M6fQDAmEeE8cPnAghbRlA7Ihdmt589qZXd1gM
-         hCYQkRl3EyGmajUSxhL0BzkKhY8m3x7tTxubpOqbz38qfWjP7jUL5TxShh5Uuiu3Sfkb
-         s5iA==
-X-Forwarded-Encrypted: i=1; AJvYcCWA0xyCUha7rQ+qm8eESjmYoLYfZ6DyVvrOCikz2R3hC5/ucdnYd9syfRwOGRuiArNRIfmKA1MgsDLPHPpf@vger.kernel.org, AJvYcCWflPN4QNcb2o6cLI3rlbkKo5hyqpEZ+C5Itq9FXcjIy54FYy0Y9xZ908Pbb76fbsjjEDk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRA+4SSWekLKib4BMKASezA98kvMieL+GwjQyby94Sdb2klUfE
-	XB0Txa4QiRfs6F02KujtMQU4W0eCedSLqQv+UD5oAidCkwRBOmWZ
-X-Google-Smtp-Source: AGHT+IE4vBfeRFM4byIab76yDsQOJRX37Xos2G/MiQVHkE5Zzsz0kSeJfotFwXN4CHSqHQaZrkWSJQ==
-X-Received: by 2002:a17:907:3f8a:b0:a7a:a4cf:4f93 with SMTP id a640c23a62f3a-a897ead4b78mr36893766b.32.1724867393562;
-        Wed, 28 Aug 2024 10:49:53 -0700 (PDT)
-Received: from example.org (ip-94-112-152-157.bb.vodafone.cz. [94.112.152.157])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e588b39asm271462166b.159.2024.08.28.10.49.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 10:49:52 -0700 (PDT)
-Date: Wed, 28 Aug 2024 19:49:50 +0200
-From: Alexey Gladkov <gladkov.alexey@gmail.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+	s=arc-20240116; t=1724868670; c=relaxed/simple;
+	bh=Qjd/jE02GSJBrIcD1FBndJ80GXP0jSSiOA7x0tSVfdA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EvHn+Fq0qnvcOcTczjT2E7ITNYOrJDyJvWSfux5cE7M0YdhTyPDEW/hlKlFYwOej0sR1mMZcVehM5Qryh3++hpI/A+IIOCYFH+0LP6R4jEqrN0TfQ1UrU5+reIXYo8+swWxyKAZXBPVllF0TZVEgYBu0rwSjzWLY1d8w5BI5ImM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4wHN4AK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F73C4CEC0;
+	Wed, 28 Aug 2024 18:11:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724868669;
+	bh=Qjd/jE02GSJBrIcD1FBndJ80GXP0jSSiOA7x0tSVfdA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=q4wHN4AKTDICgw860xxO7ntbo38wyAh3TRzL1R2nX0c4bcfBlLoNeVKRZGghn1QAE
+	 ZQCba7sWpgU5dl8kUZFGiNXZ1GaUe84zk4TA3kZpSvSFIDyxvTSv3XSF8g+PEvDtui
+	 UOEl52rHMZTYw6Al0XJkLqCng4P/acyyEo7f+dmIID3CuIgQMsQzblPJftixufa2XJ
+	 GuIkTjJjlLGB+eI3vl9uZmtgFOAbuJUq2otbnC+224Gd3KU3aa4/otSG1GC7Fw0X+X
+	 XT/yh+b+toPV1lPfHJ4nzvPVctz51g3/XciDKBRir4kSMeBhGJebJe1TwfBFTXq2MC
+	 l9FPGP44iDIGQ==
+From: Alexey Gladkov <legion@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
 	Andrii Nakryiko <andrii@kernel.org>,
 	Daniel Borkmann <daniel@iogearbox.net>,
 	Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [PATCH v2] bpf: Remove custom build rule
-Message-ID: <Zs9jPsBY_SNuuB3d@example.org>
-References: <CAK7LNAQju8OeqW_8JtNXAQWow8Ho8778Rq-Y_v22PSrbB39L0g@mail.gmail.com>
- <20240828170635.4112907-1-legion@kernel.org>
- <CAK7LNATb8dbhvdSgiNEMkdsgg93q4ZUGUxReZYNjOV3fDPnfyQ@mail.gmail.com>
+Subject: [PATCH v3] bpf: Remove custom build rule
+Date: Wed, 28 Aug 2024 20:10:28 +0200
+Message-ID: <20240828181028.4166334-1-legion@kernel.org>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <CAK7LNATb8dbhvdSgiNEMkdsgg93q4ZUGUxReZYNjOV3fDPnfyQ@mail.gmail.com>
+References: <CAK7LNATb8dbhvdSgiNEMkdsgg93q4ZUGUxReZYNjOV3fDPnfyQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATb8dbhvdSgiNEMkdsgg93q4ZUGUxReZYNjOV3fDPnfyQ@mail.gmail.com>
 
-On Thu, Aug 29, 2024 at 02:22:33AM +0900, Masahiro Yamada wrote:
-> On Thu, Aug 29, 2024 at 2:07 AM Alexey Gladkov <legion@kernel.org> wrote:
-> >
-> > According to the documentation, when building a kernel with the C=2
-> > parameter, all source files should be checked. But this does not happen
-> > for the kernel/bpf/ directory.
-> >
-> > $ touch kernel/bpf/core.o
-> > $ make C=2 CHECK=true kernel/bpf/core.o
-> >
-> > Outputs:
-> >
-> >   CHECK   scripts/mod/empty.c
-> >   CALL    scripts/checksyscalls.sh
-> >   DESCEND objtool
-> >   INSTALL libsubcmd_headers
-> >   CC      kernel/bpf/core.o
-> >
-> > As can be seen the compilation is done, but CHECK is not executed. This
-> > happens because kernel/bpf/Makefile has defined its own rule for
-> > compilation and forgotten the macro that does the check.
-> >
-> > There is no need to duplicate the build code, and this rule can be
-> > removed to use generic rules.
-> >
-> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> 
-> 
-> Did you compile-test this?
-
-Yes. I repeated my steps for reproduce:
+According to the documentation, when building a kernel with the C=2
+parameter, all source files should be checked. But this does not happen
+for the kernel/bpf/ directory.
 
 $ touch kernel/bpf/core.c
-$ make C=2 CHECK=true |grep kernel/bpf/core
+$ make C=2 CHECK=true kernel/bpf/core.o
+
+Outputs:
+
+  CHECK   scripts/mod/empty.c
+  CALL    scripts/checksyscalls.sh
+  DESCEND objtool
+  INSTALL libsubcmd_headers
   CC      kernel/bpf/core.o
-  CHECK   kernel/bpf/core.c
 
-but maybe my config is too small.
+As can be seen the compilation is done, but CHECK is not executed. This
+happens because kernel/bpf/Makefile has defined its own rule for
+compilation and forgotten the macro that does the check.
 
-> 
-> See my previous email.
-> 
-> 
-> 
-> 
-> I said this:
-> 
-> $ cat kernel/bpf/btf_iter.c
-> #include "../../tools/lib/bpf/btf_iter.c"
-> 
-> 
-> Same for
-> kernel/bpf/btf_relocate.c
-> kernel/bpf/relo_core.c
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> > ---
-> >  kernel/bpf/Makefile | 6 ------
-> >  1 file changed, 6 deletions(-)
-> >
-> > diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-> > index 0291eef9ce92..9b9c151b5c82 100644
-> > --- a/kernel/bpf/Makefile
-> > +++ b/kernel/bpf/Makefile
-> > @@ -52,9 +52,3 @@ obj-$(CONFIG_BPF_PRELOAD) += preload/
-> >  obj-$(CONFIG_BPF_SYSCALL) += relo_core.o
-> >  obj-$(CONFIG_BPF_SYSCALL) += btf_iter.o
-> >  obj-$(CONFIG_BPF_SYSCALL) += btf_relocate.o
-> > -
-> > -# Some source files are common to libbpf.
-> > -vpath %.c $(srctree)/kernel/bpf:$(srctree)/tools/lib/bpf
-> > -
-> > -$(obj)/%.o: %.c FORCE
-> > -       $(call if_changed_rule,cc_o_c)
-> > --
-> > 2.46.0
-> >
-> 
-> 
-> --
-> Best Regards
-> Masahiro Yamada
-> 
+There is no need to duplicate the build code, and this rule can be
+removed to use generic rules.
 
+Signed-off-by: Alexey Gladkov <legion@kernel.org>
+---
+ kernel/bpf/Makefile       | 6 ------
+ kernel/bpf/btf_iter.c     | 2 ++
+ kernel/bpf/btf_relocate.c | 2 ++
+ kernel/bpf/relo_core.c    | 2 ++
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+ create mode 100644 kernel/bpf/btf_iter.c
+ create mode 100644 kernel/bpf/btf_relocate.c
+ create mode 100644 kernel/bpf/relo_core.c
+
+diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
+index 0291eef9ce92..9b9c151b5c82 100644
+--- a/kernel/bpf/Makefile
++++ b/kernel/bpf/Makefile
+@@ -52,9 +52,3 @@ obj-$(CONFIG_BPF_PRELOAD) += preload/
+ obj-$(CONFIG_BPF_SYSCALL) += relo_core.o
+ obj-$(CONFIG_BPF_SYSCALL) += btf_iter.o
+ obj-$(CONFIG_BPF_SYSCALL) += btf_relocate.o
+-
+-# Some source files are common to libbpf.
+-vpath %.c $(srctree)/kernel/bpf:$(srctree)/tools/lib/bpf
+-
+-$(obj)/%.o: %.c FORCE
+-	$(call if_changed_rule,cc_o_c)
+diff --git a/kernel/bpf/btf_iter.c b/kernel/bpf/btf_iter.c
+new file mode 100644
+index 000000000000..eab8493a1669
+--- /dev/null
++++ b/kernel/bpf/btf_iter.c
+@@ -0,0 +1,2 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include "../../tools/lib/bpf/btf_iter.c"
+diff --git a/kernel/bpf/btf_relocate.c b/kernel/bpf/btf_relocate.c
+new file mode 100644
+index 000000000000..8c89c7b59ef8
+--- /dev/null
++++ b/kernel/bpf/btf_relocate.c
+@@ -0,0 +1,2 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include "../../tools/lib/bpf/btf_relocate.c"
+diff --git a/kernel/bpf/relo_core.c b/kernel/bpf/relo_core.c
+new file mode 100644
+index 000000000000..6a36fbc0e5ab
+--- /dev/null
++++ b/kernel/bpf/relo_core.c
+@@ -0,0 +1,2 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include "../../tools/lib/bpf/relo_core.c"
 -- 
-Rgrds, legion
+2.46.0
 
 
