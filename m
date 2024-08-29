@@ -1,202 +1,162 @@
-Return-Path: <linux-kbuild+bounces-3290-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3291-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3A99650D0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 22:38:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D62C9651D9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 23:24:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F7681C23A83
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 20:38:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D2181F24F3C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 21:24:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51471BA274;
-	Thu, 29 Aug 2024 20:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BAD618950B;
+	Thu, 29 Aug 2024 21:24:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anW59re8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CnxzfGpD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836E9189F5A;
-	Thu, 29 Aug 2024 20:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A601537C7;
+	Thu, 29 Aug 2024 21:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724963898; cv=none; b=BjlzDdA/WKx+LXldThH8q4blG3tZX3TGZ5+V1DdIsFozNrKtcHev/PlEn09x+bWf9BPncjjA7XjhXJLmAn1PZKMiSMval2trr7FS6hURZxfNbtXyBYDSqWjUcG7abGzEDgWyYz3zSwFjazqHrfdSyGIdveFaqFqgYTyjV4waMq8=
+	t=1724966688; cv=none; b=PUItBXgGEc6n6zFIYgKQV/oRBejtrgIcak579DncPuhpr29fZHfeGFpYq+rZvR6l9tmexl2uFToLuMnvODI4jdJ3526b5CUr1ltMuw5Br+1aIVpWhscdd+v2fLvHz2LpeM/lEH+U4xj24TZVjFKoy4yv1HUbp7ONSC3I/3GPu1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724963898; c=relaxed/simple;
-	bh=tscwRgI2saPDR7x1unDsFBI0xOp0fMmY1QDhyt+9PHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ss3sJVP4SYqLwK/aO06zGgpYIXDBCRWJUcU3tts3v05dtuccu3W6lTIpsrch2enAl6mrU9UtMpENgGxBD6dV8OKwCI9J1K4Li6P1ejHAk6A2FqmyCrkjXlPJkRi8wCSod51A5CUO7i2d4ChCx7uet/5Cf+TAP4lvEAe7OJqstHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anW59re8; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724963897; x=1756499897;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tscwRgI2saPDR7x1unDsFBI0xOp0fMmY1QDhyt+9PHk=;
-  b=anW59re8g7E9kAelpNk+BBP1JV1PEOrPDKd7lZU3vM+SOIaCuXobj0e7
-   uP8jDX1W910+zN1waibuYTbWL94NJXYfhUx2AC9ZLDFiUSrgdhMxcwleh
-   OUEOtML7MWvmxWzN/kTUyo65swMO2bpGzo61/drgiQ/kPWsVZjOSyz2jV
-   RIylGzGYX7dHLL5pkZqeCHM9cIzq4NMLT1Lq1EiwtFMExxfQwx/P2Bse4
-   i3a5xxZANsNKbKJtTLaOEFDOOKEf1GGNI6f/lyXCoFIQCUAf4iwRPCoW8
-   GfNpg9+UU3sctCg7zK6YcjZCv0EM+Dipba01RU1n3VXzfgtzA+iajeMPQ
-   w==;
-X-CSE-ConnectionGUID: uMfpJ0muT5O3mIJDIuxDYw==
-X-CSE-MsgGUID: lbXaaTgCQVukWM3SIXoUVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34200571"
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="34200571"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 13:37:41 -0700
-X-CSE-ConnectionGUID: +2I+PKpfTEWO7ZhOV/mdjw==
-X-CSE-MsgGUID: 9jFLsk+2R9icUo/uf7t0Ig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="63325399"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Aug 2024 13:37:38 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sjltg-0000iM-02;
-	Thu, 29 Aug 2024 20:37:36 +0000
-Date: Fri, 30 Aug 2024 04:37:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-omap@vger.kernel.org, kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org, linux-um@lists.infradead.org,
-	bpf@vger.kernel.org, llvm@lists.linux.dev,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH] kbuild: use objcopy to generate asm-offsets
-Message-ID: <202408300438.xObK98m5-lkp@intel.com>
-References: <20240828083605.3093701-1-vegard.nossum@oracle.com>
+	s=arc-20240116; t=1724966688; c=relaxed/simple;
+	bh=z+4jBoXyb7GpCwFmDwG/CygV3VoxdoyGDPLoxqPAf1w=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ZwnafFn9mrSvqOcS4k8wg61nZk5KAsHF72rOuD2vhVAOOCSeaKRJHQY1v3nrw/1JNy16UjXJ5xC/fxdmyIrbMqaKRyVU8qDPUUst7qrG+eNIRKGY6uUQfpG3BMCcIsL6KZNGAA2k36PE/BIdQ+VSWS/AYJJfZhaRnMHYW/At7XU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CnxzfGpD; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5343617fdddso2027783e87.0;
+        Thu, 29 Aug 2024 14:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724966685; x=1725571485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vP+mLG75kQvykNeaAY9FeVWlg2fTEFPrZRsJaqyVvRM=;
+        b=CnxzfGpDgVkRWl3/FJlnWFfhY4e1b89ropwzOFtS8LiIiJjhMPX9OehuoczDTMh8wT
+         eWGMaKbCmumFoxB0aGznm4lcMNk3nocAvPD+JY0XQGrNHL4ujpJ7Q4cca9p/c/MvlMLJ
+         kmnaZZzVdWiUtQYgmJtJU57d0bjw1P3AId7HLxASTQipaMdI52/wz6v2Nju7eGD5qgl0
+         BB4RX8CgESFgHphr4gpt6MJqUUwtqsYCxnud5nfr5IF0W47ZSHwVMtb5jSvFqVamNFX8
+         HrUWv7P6RD1H6jYA+lfrHw1OgJxz01CFugN7MDUePYdoxTKgUK3wu5PeeiMQdfkCzgXg
+         rlmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724966685; x=1725571485;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vP+mLG75kQvykNeaAY9FeVWlg2fTEFPrZRsJaqyVvRM=;
+        b=GReDYsWtExr+pANHfTiiyZQ383zwRteP2s/GdFl0aQaZE23r4g1AzYRgbyvOlY882h
+         nPYBB011V1EBncZoPEzm2HmjOL831JVZAZrVdbOpdfgvxmBXrRovPXAGdaewb65XLCNM
+         +R5xjEhwaZneFT9tsul8Tuh0D4McnXDWjeAiO3UIqlfyP7w+sC+PZ/YXgxr1owgDA0QL
+         /LHb88w8Uc6MrNpZ9EAxWKCCzpYmUrjsKGGFlw4UGdn7QcC92VX1QWOjtB03N80Am+rZ
+         7TxWfnlh60rXVtbdBN7zt+sgx+jb1Ab5jaU+7v7Je3DHj2leQ2LooyH3clqyImy9hmEb
+         5WTA==
+X-Forwarded-Encrypted: i=1; AJvYcCUr+Z5LpOysPN5Nntd7KVpIpDrDdH/FGiXTQct6EYLvx+vYREO0iGPIIElIZXEltRuQuhX987jt7u5s/vbv@vger.kernel.org, AJvYcCWm10QUKeeJ96zfdn02mxYUe4/4WTK2v4p5LohCdKBkkZYTrVz/V7VzdQtrluzNBgjGWgXCE7yAXYFl7mk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQ8VarAvuHGV0Cdq6QVnlLAQP86X4k3kbXfSnb35lSaXzGkd9d
+	rC+HBxaj7yY3fwsAqnzjulR6H9uyN6NelE3U1HO5zx2YBUAkq+iS
+X-Google-Smtp-Source: AGHT+IELEp6eOWH3jL2ZFBge+3ovMFzJryukeo1dXEFbbn7O8NenKy7KsbVOfHm2BHrbKl1q6Co0aQ==
+X-Received: by 2002:a05:6512:4003:b0:533:4620:ebec with SMTP id 2adb3069b0e04-5353e543459mr4254272e87.3.1724966684556;
+        Thu, 29 Aug 2024 14:24:44 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:908:e842:bf20:ec7e:b531:2c95:d981])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989223268sm122151566b.218.2024.08.29.14.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2024 14:24:44 -0700 (PDT)
+From: Ole Schuerks <ole0811sch@gmail.com>
+To: mcgrof@kernel.org
+Cc: deltaone@debian.org,
+	jan.sollmann@rub.de,
+	jude.gyimah@rub.de,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	masahiroy@kernel.org,
+	ole0811sch@gmail.com,
+	thorsten.berger@rub.de
+Subject: Re: [PATCH v4 02/12] kconfig: Add picosat.c (1/3)
+Date: Thu, 29 Aug 2024 23:23:52 +0200
+Message-Id: <20240829212352.38083-1-ole0811sch@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZsPBfBQXNZmbNfpE@bombadil.infradead.org>
+References: <ZsPBfBQXNZmbNfpE@bombadil.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240828083605.3093701-1-vegard.nossum@oracle.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vegard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes soc/for-next kvmarm/next kvm/queue uml/next krzk-mem-ctrl/for-next bpf-next/master bpf/master linus/master v6.11-rc5 next-20240829]
-[cannot apply to tmlind-omap/for-next kvm/linux-next uml/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vegard-Nossum/kbuild-use-objcopy-to-generate-asm-offsets/20240828-163854
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20240828083605.3093701-1-vegard.nossum%40oracle.com
-patch subject: [PATCH] kbuild: use objcopy to generate asm-offsets
-config: mips-loongson3_defconfig (https://download.01.org/0day-ci/archive/20240830/202408300438.xObK98m5-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300438.xObK98m5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408300438.xObK98m5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   mips64el-linux-objcopy: /dev/stdout[.data.kbuild]: Illegal seek
-   In file included from include/linux/mm_types.h:18,
-                    from include/linux/uio.h:10,
-                    from include/linux/socket.h:8,
-                    from include/linux/compat.h:15,
-                    from arch/mips/kernel/asm-offsets.c:12:
-   include/linux/page-flags-layout.h:15:5: warning: "MAX_NR_ZONES" is not defined, evaluates to 0 [-Wundef]
-      15 | #if MAX_NR_ZONES < 2
-         |     ^~~~~~~~~~~~
-   include/linux/page-flags-layout.h:58:19: warning: "LRU_GEN_WIDTH" is not defined, evaluates to 0 [-Wundef]
-      58 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_SHIFT \
-         |                   ^~~~~~~~~~~~~
-   include/linux/page-flags-layout.h:59:28: warning: "NR_PAGEFLAGS" is not defined, evaluates to 0 [-Wundef]
-      59 |         <= BITS_PER_LONG - NR_PAGEFLAGS
-         |                            ^~~~~~~~~~~~
-   include/linux/page-flags-layout.h:93:19: warning: "LRU_GEN_WIDTH" is not defined, evaluates to 0 [-Wundef]
-      93 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
-         |                   ^~~~~~~~~~~~~
-   include/linux/page-flags-layout.h:94:64: warning: "NR_PAGEFLAGS" is not defined, evaluates to 0 [-Wundef]
-      94 |         KASAN_TAG_WIDTH + LAST_CPUPID_SHIFT <= BITS_PER_LONG - NR_PAGEFLAGS
-         |                                                                ^~~~~~~~~~~~
-   include/linux/page-flags-layout.h:104:19: warning: "LRU_GEN_WIDTH" is not defined, evaluates to 0 [-Wundef]
-     104 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
-         |                   ^~~~~~~~~~~~~
-   include/linux/page-flags-layout.h:105:63: warning: "NR_PAGEFLAGS" is not defined, evaluates to 0 [-Wundef]
-     105 |         KASAN_TAG_WIDTH + LAST_CPUPID_WIDTH > BITS_PER_LONG - NR_PAGEFLAGS
-         |                                                               ^~~~~~~~~~~~
-   In file included from include/linux/mm_types.h:5:
-   include/linux/mm_types_task.h:22:34: warning: "SPINLOCK_SIZE" is not defined, evaluates to 0 [-Wundef]
-      22 | #define ALLOC_SPLIT_PTLOCKS     (SPINLOCK_SIZE > BITS_PER_LONG/8)
-         |                                  ^~~~~~~~~~~~~
-   include/linux/mm_types.h:478:5: note: in expansion of macro 'ALLOC_SPLIT_PTLOCKS'
-     478 | #if ALLOC_SPLIT_PTLOCKS
-         |     ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/dcache.h:14,
-                    from include/linux/fs.h:8,
-                    from include/linux/compat.h:17:
->> include/linux/lockref.h:23:36: warning: "SPINLOCK_SIZE" is not defined, evaluates to 0 [-Wundef]
-      23 |          IS_ENABLED(CONFIG_SMP) && SPINLOCK_SIZE <= 4)
-         |                                    ^~~~~~~~~~~~~
-   include/linux/lockref.h:27:5: note: in expansion of macro 'USE_CMPXCHG_LOCKREF'
-      27 | #if USE_CMPXCHG_LOCKREF
-         |     ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:16,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13:
-   include/linux/mmzone.h:842:29: error: 'MAX_NR_ZONES' undeclared here (not in a function); did you mean 'MAX_NR_GENS'?
-     842 |         long lowmem_reserve[MAX_NR_ZONES];
-         |                             ^~~~~~~~~~~~
-         |                             MAX_NR_GENS
-   include/linux/mm_types_task.h:22:34: warning: "SPINLOCK_SIZE" is not defined, evaluates to 0 [-Wundef]
-      22 | #define ALLOC_SPLIT_PTLOCKS     (SPINLOCK_SIZE > BITS_PER_LONG/8)
-         |                                  ^~~~~~~~~~~~~
-   include/linux/mm.h:2889:5: note: in expansion of macro 'ALLOC_SPLIT_PTLOCKS'
-    2889 | #if ALLOC_SPLIT_PTLOCKS
-         |     ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/mips/kernel/asm-offsets.c:17:
-   include/linux/memcontrol.h: In function 'mem_cgroup_get_zone_lru_size':
->> include/linux/memcontrol.h:914:31: warning: parameter 'lru' set but not used [-Wunused-but-set-parameter]
-     914 |                 enum lru_list lru, int zone_idx)
-         |                 ~~~~~~~~~~~~~~^~~
->> include/linux/memcontrol.h:914:40: warning: parameter 'zone_idx' set but not used [-Wunused-but-set-parameter]
-     914 |                 enum lru_list lru, int zone_idx)
-         |                                    ~~~~^~~~~~~~
-   make[3]: *** [scripts/Makefile.build:244: arch/mips/kernel/asm-offsets.o] Error 1
-   make[3]: Target 'missing-syscalls' not remade because of errors.
-   make[2]: *** [arch/mips/Makefile:432: archprepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/SPINLOCK_SIZE +23 include/linux/lockref.h
-
-57f4257eae33e0 Peter Zijlstra     2013-11-14  20  
-57f4257eae33e0 Peter Zijlstra     2013-11-14  21  #define USE_CMPXCHG_LOCKREF \
-57f4257eae33e0 Peter Zijlstra     2013-11-14  22  	(IS_ENABLED(CONFIG_ARCH_USE_CMPXCHG_LOCKREF) && \
-597d795a2a786d Kirill A. Shutemov 2013-12-20 @23  	 IS_ENABLED(CONFIG_SMP) && SPINLOCK_SIZE <= 4)
-0f8f2aaaab0b0f Waiman Long        2013-08-28  24  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 8/20/24 00:04, Luis Chamberlain wrote:=0D
+> On Fri, Aug 16, 2024 at 12:20:01PM +0200, Ole Schuerks wrote:=0D
+>> What's the best way of letting the user know that they need to =0D
+>> install PicoSAT if they want to use the conflict resolver?=0D
+>> My idea would =0D
+>> be to notify the user via the GUI when they try to use the interface of =
+=0D
+>> the conflict resolver without having PicoSAT installed. Do you see any =
+=0D
+>> issues with that/do you prefer some alternative approach?=0D
+>=0D
+> Conflicts don't happen often and we already have a printf which happens w=
+hen=0D
+> one does, my recommendation would be that we simply opt-in for the=0D
+> resolver if the user has the requirements installed. Otherwise we only=0D
+> inform the user to install it if a conflict comes up. Documentation can=0D
+> also be enhanced to describe this functionality / support.=0D
+>=0D
+>   Luis=0D
+=0D
+There's perhaps a misunderstanding here. I think you are talking about the=
+=0D
+rare scenario where a symbol is selected despite the dependencies not being=
+=0D
+met (where the printf tells you that). But ConfigFix isn't only useful in=0D
+this case. We believe that the most common use will be to enable or disable=
+=0D
+symbols with missing dependencies that prevent directly setting the=0D
+symbols' values via the GUI.=0D
+=0D
+For example, when one symbol depends on a second symbol, and the second=0D
+symbol is set to N, then the first symbol cannot directly be set to M or Y=
+=0D
+(assuming it isn't already selected by some symbol). One case of such a=0D
+constellation is DEBUG_MISC, which depends on DEBUG_KERNEL. ConfigFix can=0D
+identify that DEBUG_KERNEL must be set to Y in order to set DEBUG_MISC to=0D
+Y. Conflicts can also occur when trying to lower the value of a symbol: If=
+=0D
+a symbol is selected by a second symbol, and the second symbol is set to Y,=
+=0D
+then the first symbol can't directly be set to N or M. One such case is=0D
+EXPERT, which selects DEBUG_KERNEL.=0D
+=0D
+So, the conflict resolution is useful when users want to quickly enable=0D
+some grayed out symbols. If one has to install some external package first,=
+=0D
+then that might diminish the usefulness. While there are extreme cases=0D
+where it can take hours to manually identify all the dependencies, first=0D
+having to build PicoSAT might take longer than manually resolving the=0D
+conflict. Many users might then never install PicoSAT to try out the=0D
+conflict resolver, even if they would benefit from it.=0D
+=0D
+So the question is whether using PicoSAT as an external library is worth=0D
+the portability issues and effort, and whether it wouldn't make more sense=
+=0D
+to directly include the PicoSAT source file.=0D
+=0D
+Otherwise, if we go with not including the PicoSAT source, then one could=0D
+inform users about the missing package in the GUI, like this:=0D
+When PicoSAT is installed:=0D
+https://drive.google.com/file/d/1asBfLp1qfOq94a69ZLz2bf3VsUv4IYwL/view?usp=
+=3Dsharing=0D
+When PicoSAT is not installed:=0D
+https://drive.google.com/file/d/1ytUppyFPtH_G8Gr22X0JAf5wIne-FiJD/view?usp=
+=3Dsharing=0D
+=0D
+Let us know what you think. Include PicoSAT directly as a source or not,=0D
+and then inform the user via the GUI?=0D
 
