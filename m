@@ -1,108 +1,202 @@
-Return-Path: <linux-kbuild+bounces-3289-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3290-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7D3964EC0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 21:24:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3A99650D0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 22:38:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AEFD280E7B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 19:24:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F7681C23A83
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 20:38:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590DA1B9B32;
-	Thu, 29 Aug 2024 19:24:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51471BA274;
+	Thu, 29 Aug 2024 20:38:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RUYdJCwt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="anW59re8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B144D1B9B33;
-	Thu, 29 Aug 2024 19:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836E9189F5A;
+	Thu, 29 Aug 2024 20:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724959473; cv=none; b=iw4zYkp6nVGAvpEqsldUIAgmLnHjAb6ARrm5ueWxABfhn8r0lQ4dJzBfD2azk1iVryWFsWcUKqryt9vwrMqAeXI7hbSB4lFAs+DyYrxEscCZi9y2IeOQYlBNpG/y4YqVN03d0S1f+RWUyhudalPonCaRVyKs7idwPB+E4jfLbog=
+	t=1724963898; cv=none; b=BjlzDdA/WKx+LXldThH8q4blG3tZX3TGZ5+V1DdIsFozNrKtcHev/PlEn09x+bWf9BPncjjA7XjhXJLmAn1PZKMiSMval2trr7FS6hURZxfNbtXyBYDSqWjUcG7abGzEDgWyYz3zSwFjazqHrfdSyGIdveFaqFqgYTyjV4waMq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724959473; c=relaxed/simple;
-	bh=BmFEeWRoTKmrRXWSutrOaYv0xbNIQ74TxBbzWKgjmLw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ep+7vnNpwNtIQaWevT80bkVqre4gF5b+csJgB3YVJdOzXg+5I9A7nhkmop/t3Z9Q9khAqc/Fm6tmw2OEAeNW8kCteMVHV2it1IfRnOK2vhHm+G9IpG/o6veQSYb4jbC/cQzJGORm9OoEnJda8Mi7RjpXE8wmthS8UmkQQWkYgLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RUYdJCwt; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37196229343so706819f8f.0;
-        Thu, 29 Aug 2024 12:24:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724959469; x=1725564269; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BmFEeWRoTKmrRXWSutrOaYv0xbNIQ74TxBbzWKgjmLw=;
-        b=RUYdJCwt/u956eZU3V1cyhuwOI8iM6HWc0eFdqosBAHZl/6eMFdGSI6lvVvV2pZDiP
-         eLolEyMaC2uauRt5JEEdn0eQwEdxjMT+hMMh/czKb7RPCD6Oy3rjDbg9v/eKDd4yhC2d
-         EEySCsy0LaU6GdQ648sIzAPy3lvkq+ioahkxITd3k6xCPHJBlUwDDa/DzLUm92Npkw6j
-         1BRECUJUiAIzJy8LYuYq1KAEIAJUSanFRbZpltLFQNjK72hxNi4g7KAWlD7FbeVks0Df
-         nDTaxJc+rWlG9ns0Dspob1xO/a8T3MC9gKuX0qtyw5fISphhfBjgXTcPgZXhxIcpVQbJ
-         eMvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724959469; x=1725564269;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BmFEeWRoTKmrRXWSutrOaYv0xbNIQ74TxBbzWKgjmLw=;
-        b=Jx2TRsruJlXOxssPrlkRIbHFVoQneWij1vtNiwjS8FR2GuqDUqWGfAp9dIFqy2CgnJ
-         zSex2wLQopPirgHsPsiuDEjOs5HqFgMeHW2XcIpXjIVQjM4KN4bl+EG5yhjMfdVTARyl
-         M3qmLIyCzdvaigMaL4jhTgimde8/BqtzrTUEuZ0WMkl8xTNKvBegUoa2KMPMarChFeWj
-         qfaPSiNSXQod2vl7zOiiXV+u+ifVn8HAdIGvNfggicDAhv0T7uyKqpsXdRJURyJ0JNJe
-         MKq0jzhHU9CxNWnuZ4ZgVB4IRv0/38CRmmcSdTFtxDITcmCuYWJIjmy8kXwI78UbtSxW
-         tnUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJog4NtmwPTDhczeY3iZwpYP80Dga08njHtjPEcjbx6kdVOfccIRvwOylka/nVcnzre8CQzxbTf0ZPty1c@vger.kernel.org, AJvYcCXhp1XU/2PwSWBqojp0nta7NRLQoVr7+uoRPQN8uUojXQpI2Y8T9jH7ZMmGzdVCwZizn8U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoXcxIV7r+I9ILGorQdh1qFhlm+B/o877/zIiNXFlmh0qXXhmY
-	XVjvsitvov+MkOEd0CUIJin0hShqwZWelpmp+qYzWmgqUkJ9v6ITvsrxG3tVpOZkuYjYjNF1LEN
-	sohqU2FbRq5u/sfk9hFwOki/qgsU=
-X-Google-Smtp-Source: AGHT+IHOkEO16tIXxM5kBfCPn575boZ5jVxseMjoaohbBQ6j6UJ1g0BXSfTd5JZCM80of12ANtAKGQEsyphT9T8sK4k=
-X-Received: by 2002:adf:f691:0:b0:371:8dbf:8c1b with SMTP id
- ffacd0b85a97d-3749b56154fmr2842662f8f.34.1724959468964; Thu, 29 Aug 2024
- 12:24:28 -0700 (PDT)
+	s=arc-20240116; t=1724963898; c=relaxed/simple;
+	bh=tscwRgI2saPDR7x1unDsFBI0xOp0fMmY1QDhyt+9PHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ss3sJVP4SYqLwK/aO06zGgpYIXDBCRWJUcU3tts3v05dtuccu3W6lTIpsrch2enAl6mrU9UtMpENgGxBD6dV8OKwCI9J1K4Li6P1ejHAk6A2FqmyCrkjXlPJkRi8wCSod51A5CUO7i2d4ChCx7uet/5Cf+TAP4lvEAe7OJqstHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=anW59re8; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724963897; x=1756499897;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tscwRgI2saPDR7x1unDsFBI0xOp0fMmY1QDhyt+9PHk=;
+  b=anW59re8g7E9kAelpNk+BBP1JV1PEOrPDKd7lZU3vM+SOIaCuXobj0e7
+   uP8jDX1W910+zN1waibuYTbWL94NJXYfhUx2AC9ZLDFiUSrgdhMxcwleh
+   OUEOtML7MWvmxWzN/kTUyo65swMO2bpGzo61/drgiQ/kPWsVZjOSyz2jV
+   RIylGzGYX7dHLL5pkZqeCHM9cIzq4NMLT1Lq1EiwtFMExxfQwx/P2Bse4
+   i3a5xxZANsNKbKJtTLaOEFDOOKEf1GGNI6f/lyXCoFIQCUAf4iwRPCoW8
+   GfNpg9+UU3sctCg7zK6YcjZCv0EM+Dipba01RU1n3VXzfgtzA+iajeMPQ
+   w==;
+X-CSE-ConnectionGUID: uMfpJ0muT5O3mIJDIuxDYw==
+X-CSE-MsgGUID: lbXaaTgCQVukWM3SIXoUVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34200571"
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
+   d="scan'208";a="34200571"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 13:37:41 -0700
+X-CSE-ConnectionGUID: +2I+PKpfTEWO7ZhOV/mdjw==
+X-CSE-MsgGUID: 9jFLsk+2R9icUo/uf7t0Ig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
+   d="scan'208";a="63325399"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 29 Aug 2024 13:37:38 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sjltg-0000iM-02;
+	Thu, 29 Aug 2024 20:37:36 +0000
+Date: Fri, 30 Aug 2024 04:37:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-omap@vger.kernel.org, kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org, linux-um@lists.infradead.org,
+	bpf@vger.kernel.org, llvm@lists.linux.dev,
+	Vegard Nossum <vegard.nossum@oracle.com>
+Subject: Re: [PATCH] kbuild: use objcopy to generate asm-offsets
+Message-ID: <202408300438.xObK98m5-lkp@intel.com>
+References: <20240828083605.3093701-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNATb8dbhvdSgiNEMkdsgg93q4ZUGUxReZYNjOV3fDPnfyQ@mail.gmail.com>
- <20240828181028.4166334-1-legion@kernel.org>
-In-Reply-To: <20240828181028.4166334-1-legion@kernel.org>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Thu, 29 Aug 2024 12:24:17 -0700
-Message-ID: <CAADnVQL4Cy-F_=RJy_=3v97mfaMRWGp54xN-t9QzOqY3+hoghg@mail.gmail.com>
-Subject: Re: [PATCH v3] bpf: Remove custom build rule
-To: Alexey Gladkov <legion@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Oleg Nesterov <oleg@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240828083605.3093701-1-vegard.nossum@oracle.com>
 
-On Wed, Aug 28, 2024 at 11:11=E2=80=AFAM Alexey Gladkov <legion@kernel.org>=
- wrote:
->
-> --- /dev/null
-> +++ b/kernel/bpf/btf_iter.c
-> @@ -0,0 +1,2 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +#include "../../tools/lib/bpf/btf_iter.c"
+Hi Vegard,
 
-These files are licensed as
-// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-in libbpf directory.
-Pls use that.
+kernel test robot noticed the following build warnings:
 
-Pls keep acks/reviews-bys/tested-by when you respin.
+[auto build test WARNING on masahiroy-kbuild/for-next]
+[also build test WARNING on masahiroy-kbuild/fixes soc/for-next kvmarm/next kvm/queue uml/next krzk-mem-ctrl/for-next bpf-next/master bpf/master linus/master v6.11-rc5 next-20240829]
+[cannot apply to tmlind-omap/for-next kvm/linux-next uml/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks
+url:    https://github.com/intel-lab-lkp/linux/commits/Vegard-Nossum/kbuild-use-objcopy-to-generate-asm-offsets/20240828-163854
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+patch link:    https://lore.kernel.org/r/20240828083605.3093701-1-vegard.nossum%40oracle.com
+patch subject: [PATCH] kbuild: use objcopy to generate asm-offsets
+config: mips-loongson3_defconfig (https://download.01.org/0day-ci/archive/20240830/202408300438.xObK98m5-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300438.xObK98m5-lkp@intel.com/reproduce)
 
-pw-bot: cr
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408300438.xObK98m5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   mips64el-linux-objcopy: /dev/stdout[.data.kbuild]: Illegal seek
+   In file included from include/linux/mm_types.h:18,
+                    from include/linux/uio.h:10,
+                    from include/linux/socket.h:8,
+                    from include/linux/compat.h:15,
+                    from arch/mips/kernel/asm-offsets.c:12:
+   include/linux/page-flags-layout.h:15:5: warning: "MAX_NR_ZONES" is not defined, evaluates to 0 [-Wundef]
+      15 | #if MAX_NR_ZONES < 2
+         |     ^~~~~~~~~~~~
+   include/linux/page-flags-layout.h:58:19: warning: "LRU_GEN_WIDTH" is not defined, evaluates to 0 [-Wundef]
+      58 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_SHIFT \
+         |                   ^~~~~~~~~~~~~
+   include/linux/page-flags-layout.h:59:28: warning: "NR_PAGEFLAGS" is not defined, evaluates to 0 [-Wundef]
+      59 |         <= BITS_PER_LONG - NR_PAGEFLAGS
+         |                            ^~~~~~~~~~~~
+   include/linux/page-flags-layout.h:93:19: warning: "LRU_GEN_WIDTH" is not defined, evaluates to 0 [-Wundef]
+      93 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
+         |                   ^~~~~~~~~~~~~
+   include/linux/page-flags-layout.h:94:64: warning: "NR_PAGEFLAGS" is not defined, evaluates to 0 [-Wundef]
+      94 |         KASAN_TAG_WIDTH + LAST_CPUPID_SHIFT <= BITS_PER_LONG - NR_PAGEFLAGS
+         |                                                                ^~~~~~~~~~~~
+   include/linux/page-flags-layout.h:104:19: warning: "LRU_GEN_WIDTH" is not defined, evaluates to 0 [-Wundef]
+     104 | #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
+         |                   ^~~~~~~~~~~~~
+   include/linux/page-flags-layout.h:105:63: warning: "NR_PAGEFLAGS" is not defined, evaluates to 0 [-Wundef]
+     105 |         KASAN_TAG_WIDTH + LAST_CPUPID_WIDTH > BITS_PER_LONG - NR_PAGEFLAGS
+         |                                                               ^~~~~~~~~~~~
+   In file included from include/linux/mm_types.h:5:
+   include/linux/mm_types_task.h:22:34: warning: "SPINLOCK_SIZE" is not defined, evaluates to 0 [-Wundef]
+      22 | #define ALLOC_SPLIT_PTLOCKS     (SPINLOCK_SIZE > BITS_PER_LONG/8)
+         |                                  ^~~~~~~~~~~~~
+   include/linux/mm_types.h:478:5: note: in expansion of macro 'ALLOC_SPLIT_PTLOCKS'
+     478 | #if ALLOC_SPLIT_PTLOCKS
+         |     ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/dcache.h:14,
+                    from include/linux/fs.h:8,
+                    from include/linux/compat.h:17:
+>> include/linux/lockref.h:23:36: warning: "SPINLOCK_SIZE" is not defined, evaluates to 0 [-Wundef]
+      23 |          IS_ENABLED(CONFIG_SMP) && SPINLOCK_SIZE <= 4)
+         |                                    ^~~~~~~~~~~~~
+   include/linux/lockref.h:27:5: note: in expansion of macro 'USE_CMPXCHG_LOCKREF'
+      27 | #if USE_CMPXCHG_LOCKREF
+         |     ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13:
+   include/linux/mmzone.h:842:29: error: 'MAX_NR_ZONES' undeclared here (not in a function); did you mean 'MAX_NR_GENS'?
+     842 |         long lowmem_reserve[MAX_NR_ZONES];
+         |                             ^~~~~~~~~~~~
+         |                             MAX_NR_GENS
+   include/linux/mm_types_task.h:22:34: warning: "SPINLOCK_SIZE" is not defined, evaluates to 0 [-Wundef]
+      22 | #define ALLOC_SPLIT_PTLOCKS     (SPINLOCK_SIZE > BITS_PER_LONG/8)
+         |                                  ^~~~~~~~~~~~~
+   include/linux/mm.h:2889:5: note: in expansion of macro 'ALLOC_SPLIT_PTLOCKS'
+    2889 | #if ALLOC_SPLIT_PTLOCKS
+         |     ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/mips/kernel/asm-offsets.c:17:
+   include/linux/memcontrol.h: In function 'mem_cgroup_get_zone_lru_size':
+>> include/linux/memcontrol.h:914:31: warning: parameter 'lru' set but not used [-Wunused-but-set-parameter]
+     914 |                 enum lru_list lru, int zone_idx)
+         |                 ~~~~~~~~~~~~~~^~~
+>> include/linux/memcontrol.h:914:40: warning: parameter 'zone_idx' set but not used [-Wunused-but-set-parameter]
+     914 |                 enum lru_list lru, int zone_idx)
+         |                                    ~~~~^~~~~~~~
+   make[3]: *** [scripts/Makefile.build:244: arch/mips/kernel/asm-offsets.o] Error 1
+   make[3]: Target 'missing-syscalls' not remade because of errors.
+   make[2]: *** [arch/mips/Makefile:432: archprepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/SPINLOCK_SIZE +23 include/linux/lockref.h
+
+57f4257eae33e0 Peter Zijlstra     2013-11-14  20  
+57f4257eae33e0 Peter Zijlstra     2013-11-14  21  #define USE_CMPXCHG_LOCKREF \
+57f4257eae33e0 Peter Zijlstra     2013-11-14  22  	(IS_ENABLED(CONFIG_ARCH_USE_CMPXCHG_LOCKREF) && \
+597d795a2a786d Kirill A. Shutemov 2013-12-20 @23  	 IS_ENABLED(CONFIG_SMP) && SPINLOCK_SIZE <= 4)
+0f8f2aaaab0b0f Waiman Long        2013-08-28  24  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
