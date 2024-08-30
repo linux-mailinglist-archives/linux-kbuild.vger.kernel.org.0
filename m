@@ -1,162 +1,145 @@
-Return-Path: <linux-kbuild+bounces-3291-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3292-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D62C9651D9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 23:24:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 101B79658F2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Aug 2024 09:45:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D2181F24F3C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Aug 2024 21:24:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFB951F26754
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Aug 2024 07:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BAD618950B;
-	Thu, 29 Aug 2024 21:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED2815DBB7;
+	Fri, 30 Aug 2024 07:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CnxzfGpD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XZQ7phyN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A601537C7;
-	Thu, 29 Aug 2024 21:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3EB15C154;
+	Fri, 30 Aug 2024 07:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724966688; cv=none; b=PUItBXgGEc6n6zFIYgKQV/oRBejtrgIcak579DncPuhpr29fZHfeGFpYq+rZvR6l9tmexl2uFToLuMnvODI4jdJ3526b5CUr1ltMuw5Br+1aIVpWhscdd+v2fLvHz2LpeM/lEH+U4xj24TZVjFKoy4yv1HUbp7ONSC3I/3GPu1Q=
+	t=1725003869; cv=none; b=FsFe1pnU9rX8lRzNPceyVlgX78/nkgn7N8bcQR+uO12aFp8Ncoajw/L/kafwuLqC7pcbj4YiAKDqpgeujTqE9YJQkU1CXh1aqUIJu0pc9a8WTyt8SAXqXiBW8dfMsUYXZXYuIBSZEVqnii9julfKcryKRROXd4bcv9kMBOnmiZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724966688; c=relaxed/simple;
-	bh=z+4jBoXyb7GpCwFmDwG/CygV3VoxdoyGDPLoxqPAf1w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZwnafFn9mrSvqOcS4k8wg61nZk5KAsHF72rOuD2vhVAOOCSeaKRJHQY1v3nrw/1JNy16UjXJ5xC/fxdmyIrbMqaKRyVU8qDPUUst7qrG+eNIRKGY6uUQfpG3BMCcIsL6KZNGAA2k36PE/BIdQ+VSWS/AYJJfZhaRnMHYW/At7XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CnxzfGpD; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5343617fdddso2027783e87.0;
-        Thu, 29 Aug 2024 14:24:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724966685; x=1725571485; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vP+mLG75kQvykNeaAY9FeVWlg2fTEFPrZRsJaqyVvRM=;
-        b=CnxzfGpDgVkRWl3/FJlnWFfhY4e1b89ropwzOFtS8LiIiJjhMPX9OehuoczDTMh8wT
-         eWGMaKbCmumFoxB0aGznm4lcMNk3nocAvPD+JY0XQGrNHL4ujpJ7Q4cca9p/c/MvlMLJ
-         kmnaZZzVdWiUtQYgmJtJU57d0bjw1P3AId7HLxASTQipaMdI52/wz6v2Nju7eGD5qgl0
-         BB4RX8CgESFgHphr4gpt6MJqUUwtqsYCxnud5nfr5IF0W47ZSHwVMtb5jSvFqVamNFX8
-         HrUWv7P6RD1H6jYA+lfrHw1OgJxz01CFugN7MDUePYdoxTKgUK3wu5PeeiMQdfkCzgXg
-         rlmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724966685; x=1725571485;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vP+mLG75kQvykNeaAY9FeVWlg2fTEFPrZRsJaqyVvRM=;
-        b=GReDYsWtExr+pANHfTiiyZQ383zwRteP2s/GdFl0aQaZE23r4g1AzYRgbyvOlY882h
-         nPYBB011V1EBncZoPEzm2HmjOL831JVZAZrVdbOpdfgvxmBXrRovPXAGdaewb65XLCNM
-         +R5xjEhwaZneFT9tsul8Tuh0D4McnXDWjeAiO3UIqlfyP7w+sC+PZ/YXgxr1owgDA0QL
-         /LHb88w8Uc6MrNpZ9EAxWKCCzpYmUrjsKGGFlw4UGdn7QcC92VX1QWOjtB03N80Am+rZ
-         7TxWfnlh60rXVtbdBN7zt+sgx+jb1Ab5jaU+7v7Je3DHj2leQ2LooyH3clqyImy9hmEb
-         5WTA==
-X-Forwarded-Encrypted: i=1; AJvYcCUr+Z5LpOysPN5Nntd7KVpIpDrDdH/FGiXTQct6EYLvx+vYREO0iGPIIElIZXEltRuQuhX987jt7u5s/vbv@vger.kernel.org, AJvYcCWm10QUKeeJ96zfdn02mxYUe4/4WTK2v4p5LohCdKBkkZYTrVz/V7VzdQtrluzNBgjGWgXCE7yAXYFl7mk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ8VarAvuHGV0Cdq6QVnlLAQP86X4k3kbXfSnb35lSaXzGkd9d
-	rC+HBxaj7yY3fwsAqnzjulR6H9uyN6NelE3U1HO5zx2YBUAkq+iS
-X-Google-Smtp-Source: AGHT+IELEp6eOWH3jL2ZFBge+3ovMFzJryukeo1dXEFbbn7O8NenKy7KsbVOfHm2BHrbKl1q6Co0aQ==
-X-Received: by 2002:a05:6512:4003:b0:533:4620:ebec with SMTP id 2adb3069b0e04-5353e543459mr4254272e87.3.1724966684556;
-        Thu, 29 Aug 2024 14:24:44 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:908:e842:bf20:ec7e:b531:2c95:d981])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8989223268sm122151566b.218.2024.08.29.14.24.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 14:24:44 -0700 (PDT)
-From: Ole Schuerks <ole0811sch@gmail.com>
-To: mcgrof@kernel.org
-Cc: deltaone@debian.org,
-	jan.sollmann@rub.de,
-	jude.gyimah@rub.de,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	masahiroy@kernel.org,
-	ole0811sch@gmail.com,
-	thorsten.berger@rub.de
-Subject: Re: [PATCH v4 02/12] kconfig: Add picosat.c (1/3)
-Date: Thu, 29 Aug 2024 23:23:52 +0200
-Message-Id: <20240829212352.38083-1-ole0811sch@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <ZsPBfBQXNZmbNfpE@bombadil.infradead.org>
-References: <ZsPBfBQXNZmbNfpE@bombadil.infradead.org>
+	s=arc-20240116; t=1725003869; c=relaxed/simple;
+	bh=ab9E8yRsVsHNSM1VcLw6wnCuw/OKKKTdW168xZIgIJ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RW/Ur0TXMGZeinaiRxtKJ6z9jBXLrwl4Zx6SHX0P77ck2bBinXPDLjj4tM0xbXHroyo/mIQz3RimRbB+tuh96QyPyqcRNLkv2y8i2K5idnWzAS0C+4nVrihC3nierTpS+cx4S7L8QbUeaGkm0pOgCkcu1iHeeRyCaNlTPQVpxH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XZQ7phyN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 242F5C4CEC2;
+	Fri, 30 Aug 2024 07:44:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725003869;
+	bh=ab9E8yRsVsHNSM1VcLw6wnCuw/OKKKTdW168xZIgIJ4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XZQ7phyNKtZDX4or/EXnonJV+IXRySCOITTQgFC3nAfJkGcwv5cBgyOgzkghlE4T/
+	 OPVQVey6bW+y090lIzs3/L1XoZpsapLBMxQRlC8SqQppy3WB2OvE8gOsFqvq0eC9xr
+	 VarKorz25elSSfFj73qUjYePvecRFUhdsdbdcIcjFNkby7Kc6QK0ZPxvXZyf6gtjxe
+	 ob/f7E6TV+hw536dhN5WAc8tEU+BV/AOu0mf26wOXSEGHRa+N23KIh1wFha6iYgWxQ
+	 scs4aVkAs+GB8TsO9IaAx4sEdw8CiA43jc+qvehsIXhWdBbdqEWD6OS9U58ojgQAul
+	 W6e8YActPrU7A==
+From: Alexey Gladkov <legion@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Alan Maguire <alan.maguire@oracle.com>
+Subject: [PATCH v4] bpf: Remove custom build rule
+Date: Fri, 30 Aug 2024 09:43:50 +0200
+Message-ID: <20240830074350.211308-1-legion@kernel.org>
+X-Mailer: git-send-email 2.46.0
+In-Reply-To: <CAADnVQL4Cy-F_=RJy_=3v97mfaMRWGp54xN-t9QzOqY3+hoghg@mail.gmail.com>
+References: <CAADnVQL4Cy-F_=RJy_=3v97mfaMRWGp54xN-t9QzOqY3+hoghg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 8/20/24 00:04, Luis Chamberlain wrote:=0D
-> On Fri, Aug 16, 2024 at 12:20:01PM +0200, Ole Schuerks wrote:=0D
->> What's the best way of letting the user know that they need to =0D
->> install PicoSAT if they want to use the conflict resolver?=0D
->> My idea would =0D
->> be to notify the user via the GUI when they try to use the interface of =
-=0D
->> the conflict resolver without having PicoSAT installed. Do you see any =
-=0D
->> issues with that/do you prefer some alternative approach?=0D
->=0D
-> Conflicts don't happen often and we already have a printf which happens w=
-hen=0D
-> one does, my recommendation would be that we simply opt-in for the=0D
-> resolver if the user has the requirements installed. Otherwise we only=0D
-> inform the user to install it if a conflict comes up. Documentation can=0D
-> also be enhanced to describe this functionality / support.=0D
->=0D
->   Luis=0D
-=0D
-There's perhaps a misunderstanding here. I think you are talking about the=
-=0D
-rare scenario where a symbol is selected despite the dependencies not being=
-=0D
-met (where the printf tells you that). But ConfigFix isn't only useful in=0D
-this case. We believe that the most common use will be to enable or disable=
-=0D
-symbols with missing dependencies that prevent directly setting the=0D
-symbols' values via the GUI.=0D
-=0D
-For example, when one symbol depends on a second symbol, and the second=0D
-symbol is set to N, then the first symbol cannot directly be set to M or Y=
-=0D
-(assuming it isn't already selected by some symbol). One case of such a=0D
-constellation is DEBUG_MISC, which depends on DEBUG_KERNEL. ConfigFix can=0D
-identify that DEBUG_KERNEL must be set to Y in order to set DEBUG_MISC to=0D
-Y. Conflicts can also occur when trying to lower the value of a symbol: If=
-=0D
-a symbol is selected by a second symbol, and the second symbol is set to Y,=
-=0D
-then the first symbol can't directly be set to N or M. One such case is=0D
-EXPERT, which selects DEBUG_KERNEL.=0D
-=0D
-So, the conflict resolution is useful when users want to quickly enable=0D
-some grayed out symbols. If one has to install some external package first,=
-=0D
-then that might diminish the usefulness. While there are extreme cases=0D
-where it can take hours to manually identify all the dependencies, first=0D
-having to build PicoSAT might take longer than manually resolving the=0D
-conflict. Many users might then never install PicoSAT to try out the=0D
-conflict resolver, even if they would benefit from it.=0D
-=0D
-So the question is whether using PicoSAT as an external library is worth=0D
-the portability issues and effort, and whether it wouldn't make more sense=
-=0D
-to directly include the PicoSAT source file.=0D
-=0D
-Otherwise, if we go with not including the PicoSAT source, then one could=0D
-inform users about the missing package in the GUI, like this:=0D
-When PicoSAT is installed:=0D
-https://drive.google.com/file/d/1asBfLp1qfOq94a69ZLz2bf3VsUv4IYwL/view?usp=
-=3Dsharing=0D
-When PicoSAT is not installed:=0D
-https://drive.google.com/file/d/1ytUppyFPtH_G8Gr22X0JAf5wIne-FiJD/view?usp=
-=3Dsharing=0D
-=0D
-Let us know what you think. Include PicoSAT directly as a source or not,=0D
-and then inform the user via the GUI?=0D
+According to the documentation, when building a kernel with the C=2
+parameter, all source files should be checked. But this does not happen
+for the kernel/bpf/ directory.
+
+$ touch kernel/bpf/core.o
+$ make C=2 CHECK=true kernel/bpf/core.o
+
+Outputs:
+
+  CHECK   scripts/mod/empty.c
+  CALL    scripts/checksyscalls.sh
+  DESCEND objtool
+  INSTALL libsubcmd_headers
+  CC      kernel/bpf/core.o
+
+As can be seen the compilation is done, but CHECK is not executed. This
+happens because kernel/bpf/Makefile has defined its own rule for
+compilation and forgotten the macro that does the check.
+
+There is no need to duplicate the build code, and this rule can be
+removed to use generic rules.
+
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+Tested-by: Oleg Nesterov <oleg@redhat.com>
+Tested-by: Alan Maguire <alan.maguire@oracle.com>
+Signed-off-by: Alexey Gladkov <legion@kernel.org>
+---
+ kernel/bpf/Makefile       | 6 ------
+ kernel/bpf/btf_iter.c     | 2 ++
+ kernel/bpf/btf_relocate.c | 2 ++
+ kernel/bpf/relo_core.c    | 2 ++
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+ create mode 100644 kernel/bpf/btf_iter.c
+ create mode 100644 kernel/bpf/btf_relocate.c
+ create mode 100644 kernel/bpf/relo_core.c
+
+diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
+index 0291eef9ce92..9b9c151b5c82 100644
+--- a/kernel/bpf/Makefile
++++ b/kernel/bpf/Makefile
+@@ -52,9 +52,3 @@ obj-$(CONFIG_BPF_PRELOAD) += preload/
+ obj-$(CONFIG_BPF_SYSCALL) += relo_core.o
+ obj-$(CONFIG_BPF_SYSCALL) += btf_iter.o
+ obj-$(CONFIG_BPF_SYSCALL) += btf_relocate.o
+-
+-# Some source files are common to libbpf.
+-vpath %.c $(srctree)/kernel/bpf:$(srctree)/tools/lib/bpf
+-
+-$(obj)/%.o: %.c FORCE
+-	$(call if_changed_rule,cc_o_c)
+diff --git a/kernel/bpf/btf_iter.c b/kernel/bpf/btf_iter.c
+new file mode 100644
+index 000000000000..0e2c66a52df9
+--- /dev/null
++++ b/kernel/bpf/btf_iter.c
+@@ -0,0 +1,2 @@
++// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
++#include "../../tools/lib/bpf/btf_iter.c"
+diff --git a/kernel/bpf/btf_relocate.c b/kernel/bpf/btf_relocate.c
+new file mode 100644
+index 000000000000..c12ccbf66507
+--- /dev/null
++++ b/kernel/bpf/btf_relocate.c
+@@ -0,0 +1,2 @@
++// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
++#include "../../tools/lib/bpf/btf_relocate.c"
+diff --git a/kernel/bpf/relo_core.c b/kernel/bpf/relo_core.c
+new file mode 100644
+index 000000000000..aa822c9fcfde
+--- /dev/null
++++ b/kernel/bpf/relo_core.c
+@@ -0,0 +1,2 @@
++// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
++#include "../../tools/lib/bpf/relo_core.c"
+-- 
+2.46.0
+
 
