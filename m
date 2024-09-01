@@ -1,170 +1,217 @@
-Return-Path: <linux-kbuild+bounces-3309-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3310-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F304967763
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Sep 2024 18:15:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75ECE967B95
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Sep 2024 19:56:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 640831C20A10
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Sep 2024 16:15:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EAE8281C98
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Sep 2024 17:56:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B59181B88;
-	Sun,  1 Sep 2024 16:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63D29181B80;
+	Sun,  1 Sep 2024 17:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5h1/eNL"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="WH2ct45R"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AE817F394;
-	Sun,  1 Sep 2024 16:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590EF17E8EA;
+	Sun,  1 Sep 2024 17:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725207339; cv=none; b=n4wiyz/xPKN6DQqTSVBxy2Cyd1vYzdgS4CI42c77xQezcVmjeYf7LsS9E169qtGH8aXi5O5uSJX+35i9MIeSrSe6UvFAbnKp6J7teOAMZCa+Zr4cyPH8/V3Wd9lTe3ynYW+9mI2HHitdFcgQx8pjnNRG68kKE0DDYVL/5ADDdXo=
+	t=1725213370; cv=none; b=IezBUoJnWhV1yJ87S4YxwyvubPn3OeggXss30nctPqP1jxkX7m8VpMBztViwR0Q7HuuXENYV6LwWj6pAsADdXtGR3HjNe2MgOn/BE/QMwjp6ZkZUiD9JLlNbGs/nKGAttjeQiCpN2fYN7YjmZvWOx+6ga4FaycLZ+I2MR1mfYeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725207339; c=relaxed/simple;
-	bh=gYIgZOi4sdR4hTdNE3LJJ3LeXGN5BLGNfkofNqnsRBc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N6qqo20wIkhFTpJlW43OidiwknW60YVmFQQ/2ZN47qOO+nTSh5IRp0EOHOg84KyhTVjQjPaOymrBVRws8KlIDKDO6Vm3N3zddDoosP9lVeOiofyw+Dt9eSr9Fdm4Qsa5IISgmuAnBSVlhDRsc7CLa7QvhG0zjjqvXDQl0NRe1uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5h1/eNL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC4C0C4AF09;
-	Sun,  1 Sep 2024 16:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725207338;
-	bh=gYIgZOi4sdR4hTdNE3LJJ3LeXGN5BLGNfkofNqnsRBc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=F5h1/eNLAut+K9xbInA8o1Vqa2sZpvVnt33i+mDoFpaubGehtbFtkTdZKWa1mvOQU
-	 CSsiRwCvOWvZvMvEO8L0Dsxwyr89B9qMvVFfrWbzq6Z8wKms7E7vADuGZJavaJ+Yq9
-	 ddCRkatwMBI2yP8xVSOJokY6nLAtiaa47fyw12UjAMSKYqFuQqVvxjY3Vk9ZgQzRoc
-	 6bOCtTkFHWjSazc04tEnJCsudAEBR8Pcv/himZ9VWJRdbe++qCe48wzQKqTx7uOX07
-	 J7ewjUPy7qvCfaKAR8hR3puGLgD0egOP9gXsf94jOOO8lGHC7jbxrL/PZ8tNivTSUu
-	 C2srQRHZ3LE7g==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53346132348so4320896e87.2;
-        Sun, 01 Sep 2024 09:15:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUvUcCBe16O8XgY8+8oc+TCjVfgPmpihcSlmXZ2eWIJh3yJSz+FvODvY0t4JxspluH66Zvq5ZQXc/CFfco=@vger.kernel.org, AJvYcCV7ukIK4vcYbvG2qG4F4imGNNoK9b4A4ddvdiF8EMydJ7YPdUHrLT9thOXhIN6rcEXIBEZ9/2gdp17uafY+@vger.kernel.org, AJvYcCVOwvPO53lZozh/S5b7mDMUMdtFB7K/qdU2xG2U0a1ldYfhVQcJGZX37sHXmJ/CtWVPrqEHOFROyA==@vger.kernel.org, AJvYcCVa5cuMyLQb7TuyfbhcTVlVT+iixhGXmJxDK4y8fjqPc+e0tacHps85X4NcVWLmuksZX5znAAyMa1xsUA15@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZla+F39OjMQMjryPzXjQP8oR07FA+yRoQ9uwkEkOy+8X+/3mw
-	NYe1C6xYS3MYTr25Su77PZMeDSQiqv23MDR4WTsOymFpxecb4s+how8H1wArvGpHPZpl/CFay3b
-	EjBPS+7WEU/+Bm6JKYqL28J8H6iM=
-X-Google-Smtp-Source: AGHT+IEvW4vK5zxx451a7ZmsPELGu2ASm3u0aIbHJUwKBVb/P5sQhkJtI91jLzLi0FROvKEcgj/L3zpZL4SS+3Wibx0=
-X-Received: by 2002:a05:6512:282b:b0:533:d3e:16e9 with SMTP id
- 2adb3069b0e04-53546bb4402mr4892938e87.57.1725207337206; Sun, 01 Sep 2024
- 09:15:37 -0700 (PDT)
+	s=arc-20240116; t=1725213370; c=relaxed/simple;
+	bh=O9dzc+VELQ3LEZwolVQrUazLNfmSz68verP/WHp0L2c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ch4ky6xaVRGOVgcHla+z6RcTirsKU+nNMc8D5e7xCVdM5eGtbNFitI7ytgks4CGsFE7bDR+t4HJxkoPZHCDTHT1wWQet+bI/qwrlMszLKiCGFztR/76Oo6WPE3A/0MQFgOMbAO9yJTipCaWwMEemCE1E5sb2dXhC/L3pXQWLDJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=WH2ct45R; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1725213352;
+	bh=O9dzc+VELQ3LEZwolVQrUazLNfmSz68verP/WHp0L2c=;
+	h=From:Date:Subject:To:Cc:From;
+	b=WH2ct45R1uZBqqeuI0pCM6lKa2A+Ty2b1ShIF71LNcCgUXWMOsPqiYnTgpLbZ8SBw
+	 jCdr/l+5ttz8YswSKox3o266iKp4iyx+lEY7swzh+LIuWcBS8XIZpUTzv1mF+XnR/6
+	 E9C77ZIZZuC0dldnYXLIiSsW17uj1ExqZl4Vsfrg=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sun, 01 Sep 2024 19:55:21 +0200
+Subject: [PATCH v2] modpost: compile constant module information only once
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-8-4cd1ded85694@samsung.com>
- <CGME20240807110435eucas1p2eca071b0a0122b8686d43c57bd94dc8c@eucas1p2.samsung.com>
- <2024080717-cross-retiree-862e@gregkh> <dxkmmrlhlhsrjulnyabfgcr37ojway2dxaypelf3uchkmhw4jn@z54e33jdpxmr>
- <2024080720-skyline-recapture-d80d@gregkh> <20240807-mottled-stoic-degu-d1e4cb@lindesnes>
- <20240823225450.spuvjs5b5ruujim4@AALNPWDAGOMEZ1.aal.scsc.local> <ZtIjNBhqdxmMBxfM@fjasle.eu>
-In-Reply-To: <ZtIjNBhqdxmMBxfM@fjasle.eu>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 2 Sep 2024 01:15:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQhHBi7nSG5SAbqD3HFO3uMR6GHckZHcQXgWao7G8i9gw@mail.gmail.com>
-Message-ID: <CAK7LNAQhHBi7nSG5SAbqD3HFO3uMR6GHckZHcQXgWao7G8i9gw@mail.gmail.com>
-Subject: Re: [PATCH 08/12] include: add elf.h support
-To: Nicolas Schier <nicolas@fjasle.eu>
-Cc: Daniel Gomez <da.gomez@samsung.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
-	Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, 
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"speakup@linux-speakup.org" <speakup@linux-speakup.org>, 
-	"selinux@vger.kernel.org" <selinux@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>, 
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, 
-	"Daniel Gomez (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com" <gost.dev@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240901-modinfo-const-v2-1-ece53ca15075@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAIiq1GYC/3XMQQ7CIBCF4as0sxYDiIiuvIfpwtJBZiEYBqum6
+ d3F7l3+L3nfDIyFkOHUzVBwIqacWuhNBz5e0w0Fja1BS22k00bc80gpZOFz4ipskKM9oB52UkH
+ 7PAoGeq/epW8diWsun5Wf1G/9J01KKGHcPhy9NYOz7vxCYmYfn3GbsEK/LMsX2Yhiyq8AAAA=
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-modules@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1725213352; l=5432;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=O9dzc+VELQ3LEZwolVQrUazLNfmSz68verP/WHp0L2c=;
+ b=boIb0wtZpGky+i8ThnaUuOgnkp1qlvtOsIgeWlaWmths9YcHRz2A5QVK6hd/GKXdt5TjK997p
+ OXp1EiN0IyPCf1zoQ80ot6rc8yJVxjofxcv0laR58J6cpwRNQVC41Q+
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Sat, Aug 31, 2024 at 4:54=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu> =
-wrote:
->
-> On Sat, Aug 24, 2024 at 12:54:50AM +0200 Daniel Gomez wrote:
-> > On Wed, Aug 07, 2024 at 05:46:03PM +0200, Nicolas Schier wrote:
-> > > On Wed, Aug 07, 2024 at 04:18:54PM +0200, Greg Kroah-Hartman wrote:
-> > > > On Wed, Aug 07, 2024 at 02:13:57PM +0000, Daniel Gomez wrote:
-> > > > > > Also, as this is not internal for the kernel, but rather for us=
-erspace
-> > > > > > builds, shouldn't the include/ path be different?
-> > > > >
-> > > > > Can you suggest an alternative path or provide documentation that=
- could help
-> > > > > identify the correct location? Perhaps usr/include?
-> > > >
-> > > > That is better than the generic include path as you are attempting =
-to
-> > > > mix userspace and kernel headers in the same directory :(
-> > >
-> > > Please keep in mind, that usr/include/ currently does not hold a sing=
-le
-> > > header file but is used for dynamically composing the UAPI header tre=
-e.
-> > >
-> > > In general, I do not like the idea of keeping a elf.h file here that
-> > > possibly is out-of-sync with the actual system's version (even though
-> > > elf.h should not see that much changes).  Might it be more helpful to
-> > > provide a "development kit" for Linux devs that need to build on MacO=
-S
-> > > that provides necessary missing system header files, instead of mergi=
-ng
-> > > those into upstream?
-> >
-> > I took this suggestion and tried pushing a Homebrew formula/package her=
-e [1].
-> > I think I chose a wrong name and maybe something like "development kit"=
- would
-> > have been better. However, would it be possible instead to include the =
-*.rb file
-> > in the scripts/ directory? So users of this can generate the developmen=
-t kit in
-> > their environments. I would maintain the script to keep it in sync with=
- the
-> > required glibc version for the latest kernel version.
-> >
-> > [1] https://github.com/Homebrew/homebrew-core/pull/181885
->
-> I think it sounds sensible to hold that formula file in the upstream tree=
-.  But
-> I am not sure if scripts/ is the best location.
->
-> Masahiro, what do you think?
+Various information about modules is compiled into the info sections.
+For that a dedicated .mod.c file is generated by modpost for each module
+and then linked into the module.
+However most of the information in the .mod.c is the same for all
+modules, internal and external.
+Split the shared information into a dedicated source file that is
+compiled once and then linked into all modules.
 
+This avoids frequent rebuilds for all .mod.c files when using
+CONFIG_LOCALVERSION_AUTO because the local version ends up in .mod.c
+through UTS_RELEASE and VERMAGIC_STRING.
+The modules are still relinked in this case.
 
-I do not know much about the homebrew, but why does the upstream
-kernel need to merge such masOS stuff?
+The code is also easier to maintain as it's now in a proper source file
+instead of an inline string literal.
 
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- Remove RFC status
+- Incorporate Masahiro's proposals
+  - Rename modinfo.o to .module-common.o
+  - Build a dedicated .module-common.o for external modules
+- Link to v1: https://lore.kernel.org/r/20240824-modinfo-const-v1-1-485f9c64b868@weissschuh.net
+---
+Masahiro, feel free to add some attribution for yourself when applying.
+The new appraoch is pleasantly simpler.
+---
+ scripts/Makefile.modfinal |  7 +++++--
+ scripts/mod/modpost.c     | 23 -----------------------
+ scripts/module-common.c   | 25 +++++++++++++++++++++++++
+ 3 files changed, 30 insertions(+), 25 deletions(-)
 
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 306a6bb86e4d..6b1b72257b29 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -30,6 +30,9 @@ quiet_cmd_cc_o_c = CC [M]  $@
+ %.mod.o: %.mod.c FORCE
+ 	$(call if_changed_dep,cc_o_c)
+ 
++$(extmod_prefix).module-common.o: $(srctree)/scripts/module-common.c FORCE
++	$(call if_changed_dep,cc_o_c)
++
+ quiet_cmd_ld_ko_o = LD [M]  $@
+       cmd_ld_ko_o +=							\
+ 	$(LD) -r $(KBUILD_LDFLAGS)					\
+@@ -54,13 +57,13 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+ 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+ 
+ # Re-generate module BTFs if either module's .ko or vmlinux changed
+-%.ko: %.o %.mod.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
++%.ko: %.o %.mod.o $(extmod_prefix).module-common.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
+ 	+$(call if_changed_except,ld_ko_o,vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+ 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+ endif
+ 
+-targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
++targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) $(extmod_prefix).module-common.o
+ 
+ # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
+ # ---------------------------------------------------------------------------
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index c8cd5d822bb6..107393a8c48a 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1755,26 +1755,9 @@ static void check_modname_len(struct module *mod)
+ static void add_header(struct buffer *b, struct module *mod)
+ {
+ 	buf_printf(b, "#include <linux/module.h>\n");
+-	/*
+-	 * Include build-salt.h after module.h in order to
+-	 * inherit the definitions.
+-	 */
+-	buf_printf(b, "#define INCLUDE_VERMAGIC\n");
+-	buf_printf(b, "#include <linux/build-salt.h>\n");
+-	buf_printf(b, "#include <linux/elfnote-lto.h>\n");
+ 	buf_printf(b, "#include <linux/export-internal.h>\n");
+-	buf_printf(b, "#include <linux/vermagic.h>\n");
+ 	buf_printf(b, "#include <linux/compiler.h>\n");
+ 	buf_printf(b, "\n");
+-	buf_printf(b, "#ifdef CONFIG_UNWINDER_ORC\n");
+-	buf_printf(b, "#include <asm/orc_header.h>\n");
+-	buf_printf(b, "ORC_HEADER;\n");
+-	buf_printf(b, "#endif\n");
+-	buf_printf(b, "\n");
+-	buf_printf(b, "BUILD_SALT;\n");
+-	buf_printf(b, "BUILD_LTO_INFO;\n");
+-	buf_printf(b, "\n");
+-	buf_printf(b, "MODULE_INFO(vermagic, VERMAGIC_STRING);\n");
+ 	buf_printf(b, "MODULE_INFO(name, KBUILD_MODNAME);\n");
+ 	buf_printf(b, "\n");
+ 	buf_printf(b, "__visible struct module __this_module\n");
+@@ -1792,12 +1775,6 @@ static void add_header(struct buffer *b, struct module *mod)
+ 	if (!external_module)
+ 		buf_printf(b, "\nMODULE_INFO(intree, \"Y\");\n");
+ 
+-	buf_printf(b,
+-		   "\n"
+-		   "#ifdef CONFIG_MITIGATION_RETPOLINE\n"
+-		   "MODULE_INFO(retpoline, \"Y\");\n"
+-		   "#endif\n");
+-
+ 	if (strstarts(mod->name, "drivers/staging"))
+ 		buf_printf(b, "\nMODULE_INFO(staging, \"Y\");\n");
+ 
+diff --git a/scripts/module-common.c b/scripts/module-common.c
+new file mode 100644
+index 000000000000..12fbc6d3aae8
+--- /dev/null
++++ b/scripts/module-common.c
+@@ -0,0 +1,25 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/module.h>
++/*
++ * Include build-salt.h after module.h in order to
++ * inherit the definitions.
++ */
++#define INCLUDE_VERMAGIC
++#include <linux/build-salt.h>
++#include <linux/elfnote-lto.h>
++#include <linux/vermagic.h>
++
++#ifdef CONFIG_UNWINDER_ORC
++#include <asm/orc_header.h>
++ORC_HEADER;
++#endif
++
++BUILD_SALT;
++BUILD_LTO_INFO;
++
++MODULE_INFO(vermagic, VERMAGIC_STRING);
++
++#ifdef CONFIG_MITIGATION_RETPOLINE
++MODULE_INFO(retpoline, "Y");
++#endif
 
->
-> Kind regards,
-> Nicolas
+---
+base-commit: 9f18baf3dd656e7ca166038d51e0b54a892d87db
+change-id: 20240824-modinfo-const-6f0d67e2b301
 
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
 
-
---=20
-Best Regards
-Masahiro Yamada
 
