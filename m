@@ -1,111 +1,149 @@
-Return-Path: <linux-kbuild+bounces-3329-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3330-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5972C968CE6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 19:40:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4E0969080
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 01:45:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BFC92850CD
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 17:40:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 815E21C21D34
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 23:45:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B93211C62A4;
-	Mon,  2 Sep 2024 17:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A45EB7347B;
+	Mon,  2 Sep 2024 23:45:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gYMMXsH6"
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="SVJPlBNP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E86F1A263D;
-	Mon,  2 Sep 2024 17:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F25F13C684;
+	Mon,  2 Sep 2024 23:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725298831; cv=none; b=jAaTvjIwkznVfDiYhrJdutSEfwBWx2o7AJ+tRQKDR/uE9s6u9n06MuK/n8phZFmAWTqX8gqLhb9ELnomd5WtwPuMORRdK/ca9pn0LzZSRAiuGUpY4oGdR7gZDj0gT22KNXlRhnK++bM1PV2kvmTnmZoBIydSYyMB/6urLqtYGmQ=
+	t=1725320716; cv=none; b=meqJWsiRTTY2aILDHte2oZkZ8UCEFcouU4Sez8igCf2i089SqDsc0JjiILmGPGttrymoS7HjK/6N0tsW0ezxaWAQpD8RfbMmTWgnVLhW6lgUDz+sZeBPG1uaMVytVtbEcTxIIHe9igDeGw4nev1R4a09u0r/M15TrK3I2Au+zSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725298831; c=relaxed/simple;
-	bh=qP1BNYF9CvG8P4XyqvF82TLJHMnRmeyjZtDrqbypFNI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gL/0ivHw9M/HtZpblT6EigFYpJg0b2De/wpPff8M/a6Ra/823pNIL+ADh0FwEecAOc5626NgYIIW3Eb1YFgcqxGQ3fBfv9cZHA5bzq395EeO1XsFuEllnbQSqM/+QcQ6OOE5q3mBkFT5VCNs6HEasy2LJaxokj6qDBKhXWMsVPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gYMMXsH6; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7c3d8105646so244247a12.2;
-        Mon, 02 Sep 2024 10:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725298830; x=1725903630; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qP1BNYF9CvG8P4XyqvF82TLJHMnRmeyjZtDrqbypFNI=;
-        b=gYMMXsH6mc9yGXaVF/G3yTqWsosoHwVvD6u2LK53/fJG1cYO6DgzcNpGw1NFZuuHpi
-         VPRwvIOJpq+3dBzN+xvgdJ7tFyFpaxC/p1XUeM2bt3WbI6KRJmL2vKTXFjRwkIdXr17x
-         /T4S+hNn1GPv9cXOb8JAbzBpP22/gBjtclPrWbWbQNB/UGLgWpxAyZ3bO3jlUZrXnXiR
-         RcuqGaUcjMcPdTxBLpvAoUumxYuMCeLJp6NUWF3+CwHllBTFBw/MWY0oFgMfYXzbuZ8t
-         PVwAuDiHhVjLMB8tfdnvpx3AU7eyvp/rpTVzaDJNgkOxMFTtP99IKEty3VqV9yqMrfCI
-         SW+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725298830; x=1725903630;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qP1BNYF9CvG8P4XyqvF82TLJHMnRmeyjZtDrqbypFNI=;
-        b=TRQc9MPNb2auVTj0R5653EnWvuy33qG98k3reKLNdTdLfqvZlZpt3UmvibtcOcxSTZ
-         duQj9YSpjxIekwwJQ6np3c3TUszPHWToYxx5llFD6DtA1dpjDm/8IffS0Yu58hEoG6NO
-         W9QYyn3EgmPcCbwRZS2njioW3ViDEeZ8Xk1iKqf72vdJsEWrHPIcuYQxIjBrPqzYMN1C
-         pNN9dqrB8wawCE28Zub2GKn/rTWjhngzWS/AUK0YJG6eusptVk4jQiMdE5oaoY0i3/ep
-         sm/6z5M6sh6nDLnwdj5vLPNwhvgyhEO/n7eimAoPDXYp/dowgxK3NSksFVc0pstt2uok
-         zxIg==
-X-Forwarded-Encrypted: i=1; AJvYcCUsau0s29XGTJqk+gKmJROp6v3D3mSwHWW9FuyflEV+wDavM7bggDTzr+ItSINPTs4MBylj3eBzQKcl22o=@vger.kernel.org, AJvYcCX++yUlpfo5tKYmZ7Jl3uz+XBciShT7qdb5WBEX+D11ivlHiwHIl+daQxPA9WdY7yZ44XmHPkSkrWBNbglVvYY=@vger.kernel.org, AJvYcCXjb2prDkZHlaH3dv3t9vdbPbMkgarNYB5xuKTBeY+x/tSyE/rpDHtVQLdrebrxM0TKeP0U99OAPhzFWJ38@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzfdH/2kjf+MswMZD2ihboRvNeyYTIDySyF/PUtcTPeoi3XQQ1
-	czVDXqSUBNbJIzOOyyel/BlsHmNH8Qs8Hq5GHRFdXVtuG3xyewmpqkYPakrVCaNFek4CKL9O+4i
-	q+QMYTFvjx80bTY8RT4SF41fxDVs=
-X-Google-Smtp-Source: AGHT+IEHmqyO7GwRfTbpbFxNAgQ9K9y6/sEieLEBCsDTgql9k346ENF2eMrSw94HNq1V76QYQC+WBYGkoNzAHSYD8YE=
-X-Received: by 2002:a17:90b:33c6:b0:2d3:cab7:f1dd with SMTP id
- 98e67ed59e1d1-2d86b741b9bmr6540512a91.1.1725298829667; Mon, 02 Sep 2024
- 10:40:29 -0700 (PDT)
+	s=arc-20240116; t=1725320716; c=relaxed/simple;
+	bh=Q+f+B1Jwe/vmxiVTW7NQhx5vIjICvDdunj5m6k0q6ok=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ucMyzrqDaE6GMsYbMyvmuE7CxeTTIQ5sOWHdyayiTdO6VarCTHyGIGwS5t6fzD/15vOj0UdOMcbkAk6h/AdYLMESW4peZdTnimMlk40TaemzdXRgGhu+7Jo24BjqSbJYdKXXa1twGQzez2fnen8qU0+6zek1jE1bOfbQvN4l/9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=SVJPlBNP; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1725320712;
+	bh=UaJezUaY19zxJWqob2w1cOAk5qiAPl5VHmtR3xKChPw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=SVJPlBNP8APfuR/jBD4BjKXOasjSRZ3dbEv80YacUUHbcdDw+XM6x2QOEMOi1xx0G
+	 2YI84S67i5/r6XZ2EhcaDv98rdhCTGlEoi1jECCm64pD3ZPLG9/H5Q/8B0fDuEFnn0
+	 ODaujSs7E9rewRWin3OvP+Wi7kVFPTMXmkAtlOVngxeC9c92hxF0K9sD5LWYyiAqz9
+	 XX/5QjfzVMkzcIC5jr62Zzp+L4JnzRecg6m4Zt5sMtEE1k/SNxRAfgO7Uhbr4eH27d
+	 TDyAw6f/mrTclwB3jDJ3y1IQnfoXHfFk61zd0A7zo2gIuket9WZa/x4aJ3zVCrY44b
+	 JAHuQDXFAf6gQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4WyQNR6tgxz4x1V;
+	Tue,  3 Sep 2024 09:45:11 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Masahiro Yamada
+ <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+ kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-um@lists.infradead.org,
+ bpf@vger.kernel.org, llvm@lists.linux.dev, Vegard Nossum
+ <vegard.nossum@oracle.com>
+Subject: Re: [PATCH] kbuild: use objcopy to generate asm-offsets
+In-Reply-To: <20240828083605.3093701-1-vegard.nossum@oracle.com>
+References: <20240828083605.3093701-1-vegard.nossum@oracle.com>
+Date: Tue, 03 Sep 2024 09:45:11 +1000
+Message-ID: <875xrd7h88.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240808221138.873750-1-ojeda@kernel.org> <CAH5fLgh9Moq_9M+zMu300ohK=mPqkLyS6cpQ6An2Q3THCPFjaA@mail.gmail.com>
-In-Reply-To: <CAH5fLgh9Moq_9M+zMu300ohK=mPqkLyS6cpQ6An2Q3THCPFjaA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 2 Sep 2024 19:40:16 +0200
-Message-ID: <CANiq72kUBPnua1Pob++-6SJ8MeGxQMfrePY9SQVd0DZp5VU-2A@mail.gmail.com>
-Subject: Re: [PATCH 0/6] kbuild: rust: add `RUSTC_VERSION` and
- reconfig/rebuild support
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	rust-for-linux@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, Aug 19, 2024 at 9:29=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> w=
-rote:
+Vegard Nossum <vegard.nossum@oracle.com> writes:
+> In order to give assembly code access to C structs without having to
+> hardcore member offsets, the kernel compiles a C source file listing all
+> the structs and offsets that are needed in assembly code. Using some
+> C preprocessor trickery and a sed script, the compiled assembly code is
+> turned back into C preprocessor code that in turn can be used by the
+> asssembly code.
 >
-> I tested this together with Rust Binder. I also ran this patchset
-> through Android's CI setup to verify that it works in builds with
-> CONFIG_RUST disabled. It passes both with and without a Rust compiler
-> available to the build system.
+> This sed script is very hard to read and understand.
 >
-> Tested-by: Alice Ryhl <aliceryhl@google.com>
+> Remove the sed script and compile the C source listing structs and
+> offsets to an object file (instead of assembly code) that embeds C source
+> directly. Then extract the C source using objcopy.
 >
-> I'm happy to rerun these tests for new versions.
 
-Thanks a lot Alice, that is very useful.
+I threw some builders at this and hit a few errors:
 
-I sent v2, in case you have time to give it another go.
+parisc:
+  # make -s -j 160 ARCH=parisc64 O=/kisskb/build/mpe_generic-64bit_defconfig_parisc64-gcc13 CROSS_COMPILE=/opt/cross/kisskb/korg/gcc-13.1.0-nolibc/hppa-linux/bin/hppa64-linux-  
+  {standard input}: Assembler messages:
+  {standard input}: Error: .size expression for main does not evaluate to a constant
+  make[3]: *** [/kisskb/src/scripts/Makefile.build:244: scripts/mod/devicetable-offsets.o] Error 1
 
-Cheers,
-Miguel
+s390:
+  # make -s -j 32 ARCH=s390 O=/kisskb/build/mpe_defconfig_s390x-gcc13 CROSS_COMPILE=/opt/cross/kisskb/korg/gcc-13.1.0-nolibc/s390-linux/bin/s390-linux-  
+  In file included from /kisskb/src/arch/s390/include/asm/ptrace.h:11,
+                   from /kisskb/src/arch/s390/kernel/vdso64/vdso_user_wrapper.S:7:
+  /kisskb/src/arch/s390/include/uapi/asm/ptrace.h:167: warning: "STACK_FRAME_OVERHEAD" redefined
+    167 | #define STACK_FRAME_OVERHEAD    160      /* size of minimum stack frame */
+        | 
+  In file included from /kisskb/src/include/asm-generic/asm-offsets.h:1,
+                   from ./arch/s390/include/generated/asm/asm-offsets.h:1,
+                   from /kisskb/src/arch/s390/kernel/vdso64/vdso_user_wrapper.S:5:
+  ./include/generated/asm-offsets.h:51: note: this is the location of the previous definition
+     51 | #define STACK_FRAME_OVERHEAD -96 /* sizeof(struct stack_frame) */
+
+mips:
+  # make -s -j 32 ARCH=mips O=/kisskb/build/mpe_defconfig_mips-gcc13 CROSS_COMPILE=/opt/cross/kisskb/korg/gcc-13.1.0-nolibc/mips-linux/bin/mips-linux-  
+  {standard input}: Assembler messages:
+  {standard input}:27: Error: junk at end of line, first unrecognized character is `M'
+  {standard input}:212: Error: junk at end of line, first unrecognized character is `M'
+  {standard input}:265: Error: junk at end of line, first unrecognized character is `M'
+  {standard input}:338: Error: junk at end of line, first unrecognized character is `M'
+  {standard input}:596: Error: junk at end of line, first unrecognized character is `S'
+  {standard input}:608: Error: junk at end of line, first unrecognized character is `L'
+  {standard input}:721: Error: junk at end of line, first unrecognized character is `L'
+  {standard input}:806: Error: junk at end of line, first unrecognized character is `L'
+  {standard input}:963: Error: junk at end of line, first unrecognized character is `P'
+  {standard input}:996: Error: junk at end of line, first unrecognized character is `K'
+  {standard input}:1161: Error: junk at end of line, first unrecognized character is `M'
+  make[3]: *** [/kisskb/src/scripts/Makefile.build:244: arch/mips/kernel/asm-offsets.o] Error 1
+
+riscv:
+  # make -s -j 160 ARCH=riscv O=/kisskb/build/mpe_defconfig_riscv-gcc13 CROSS_COMPILE=/opt/cross/kisskb/korg/gcc-13.1.0-nolibc/riscv64-linux/bin/riscv64-linux-  
+  In file included from /kisskb/src/arch/riscv/kernel/asm-offsets.c:9:
+  /kisskb/src/arch/riscv/kernel/asm-offsets.c: In function 'asm_offsets':
+  /kisskb/src/include/linux/kbuild.h:6:9: error: invalid 'asm': invalid use of '%c'
+      6 |         asm volatile( \
+        |         ^~~
+  /kisskb/src/include/linux/kbuild.h:12:9: note: in expansion of macro '_LINE'
+     12 |         _LINE("#define " #sym " %c0 /* " #val " */", "i" (val))
+        |         ^~~~~
+  /kisskb/src/include/linux/kbuild.h:15:9: note: in expansion of macro 'DEFINE'
+     15 |         DEFINE(sym, offsetof(struct str, mem))
+        |         ^~~~~~
+  /kisskb/src/arch/riscv/kernel/asm-offsets.c:25:9: note: in expansion of macro 'OFFSET'
+     25 |         OFFSET(TASK_THREAD_RA, task_struct, thread.ra);
+        |         ^~~~~~
+  /kisskb/src/include/linux/kbuild.h:6:9: error: invalid 'asm': invalid use of '%c'
+      6 |         asm volatile( \
+        |         ^~~
+
+
+Full list here, but note there are some unrelated pre-existing failures:
+  http://kisskb.ellerman.id.au/kisskb/head/259bba3447faaf5e5b12ae41a26a62978d4c1965/
+
+
+cheers
 
