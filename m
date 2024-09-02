@@ -1,776 +1,330 @@
-Return-Path: <linux-kbuild+bounces-3315-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3316-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A71968413
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 12:05:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CC596896D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 16:06:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E88131C227CD
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 10:05:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BE8E1C21A2A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 14:06:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE78213CF8E;
-	Mon,  2 Sep 2024 10:05:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4CC210186;
+	Mon,  2 Sep 2024 14:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ajnmYcVV"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="KGJgZwAv";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="XqNX+/Fi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90852C6AF
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Sep 2024 10:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725271549; cv=none; b=rFXHYGljnF1FR0zvZCG89IrgcbuBlFYjgdwvf0jlsnbnUN1u2vrvZ0livWPrKJIQ1bdTn1rEPFHQYw4jUM77/JeY2qxh5Sjvo4IgqlhXUtHRCTtuUu7bb9IsIAzEvR5J+8EzFnR0G1Ut6nr06Fnbv5XM8BiONlxaAB41sEkQBxE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725271549; c=relaxed/simple;
-	bh=sMDZ484R7nQFo7p7r21PwlEwA/PIorGcQ+R5cFkmMvo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e3EroiPQfwPPRVBNKJwhhLjaC3IS6cs/FIYIdG8OVIvc2FSsO6710jS/Hc4H9ji30U7xZ+zFaVdzNkuOhXpVJfxRVkk51lT2m3kBEp/ie2fiJuzIhAfsyfDF5cMkieLQLRvKtqpHYNixPEYGwiKOYos/bCjokM481B1y+3PwfvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ajnmYcVV; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f3edb2d908so41358531fa.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Sep 2024 03:05:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D0D19E992;
+	Mon,  2 Sep 2024 14:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725286006; cv=fail; b=b55fsM+rgUnSlqsI//XcHDLk6JvqFm/u9KLbHHmMnp2dnnwBb15jk8cJZf66mhzHZ//EyRsfjEbyf1308nuZyD4RQQfTuSnNMaq5Ut+Zs5tzKbm+QlZ4EEXIL4Fgs3DmBB/npwINmqKmL/OLkBBlTceGtfk+tWms+SzQtToEZxk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725286006; c=relaxed/simple;
+	bh=7OoUV9w4BWDIUNTmbS8RfyjXmedGMe4QtGxsbO3UBQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KOdwLGweDnmmenyBmQioWQ3bZcEIFv0JFifHiRTwXRmeZdf/4r2s6zWOsr951Sh6hk7KXvbDYSwWn7vrsqlAjdXizASweAOw3G1LkAHl+5MVxTsqKRQzI/ZJu4ng7CvL1yQX9n+OSaUm/n35V/HAZUKaoKfDM0GjhxgKioGjcJI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=KGJgZwAv; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=XqNX+/Fi; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 482DhEQl014238;
+	Mon, 2 Sep 2024 14:06:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	date:from:to:cc:subject:message-id:references:content-type
+	:in-reply-to:mime-version; s=corp-2023-11-20; bh=zxirni2OyqutSj6
+	6R+UXz2H4XNCn82jxr6pbUYSb1yI=; b=KGJgZwAv+EFneZ9ccLTXR39aighFPtb
+	PRckShCI0amUvtcOiSHN9Y2f8iUbEZMtSUV3S1cZrFLB83nzoeq1O0xJiUVJ/L56
+	TRtRMDJbDUovGVvOfGaLNPjjUhuDGYSgu/cQuwYj7Pc/W9S4ciCfyZ+hoLigJUHI
+	xi0CuYK4SrgJT7AtW3hUwINnFvxP9KV5lmmFrqebWceBORrExT7m0lLHlL0JqX9g
+	v5aghpMQaxtt7lOxQ23GVVo+1a+GYGwRdKEEK7SZqx4q04xyHNGsaCwxesW4tZyL
+	BIMJR7ZdSnmRuqlfbBn8UiJYE1aLSDyk5HE7+g4t2+jlQM38cRDn+Sw==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41deg5g1nb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Sep 2024 14:06:35 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 482Dq3fY016380;
+	Mon, 2 Sep 2024 14:06:34 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2045.outbound.protection.outlook.com [104.47.55.45])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 41bsmdqt03-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Sep 2024 14:06:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s3/g64KHU5FQ9MmZW26RZIv50dpPlWZSq/oy907aWyF93xGL+sAQhfBw1YXyUPcEd1sheFQnbxsbI/WsKMg2NFMdRFZF/EUPQEwzDRPwaQcRP2vG2WduNCkKcRBBQcahD7uuTKbGuwGv8DbRnJcUIM+qPRixFU47Ue5zmIxKei0W9EchBgLhOaObaWttEP1qmTwrNi3Adsw56PgtcLinI1eGvQ3nOgEu9azxziyzK+5dYmOCk1Mi6PsIDYbqWhQ/PymwzdSyyxR8hAFLAA9Lo7yUVq3HJx2hIGdNiNc8k5VEsxwNw2sk251TZ7K5xyy0LVH4aybqx+V/eUzi/KpUFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zxirni2OyqutSj66R+UXz2H4XNCn82jxr6pbUYSb1yI=;
+ b=OfI2MOZDhVwYlVhGfzRv16rcLVsJlHQ7wg3p6gnVJjXXUawcTDbiF7pq8FewXtmOmT9BLRD3mzGU/HRmUOP+Dtlc1wQeMguHKXCTtn5fdHc5/31UlmXnsG8yJNNHlvNd4+J9HNNiCLv7yyKRtnUpfF2ZFBtuJqRSzo4BjAVSFXt7HbwYI28909N/tF8n0h2suYWXaxFOE+x6fOO7f50LgpBKr2v8Z/SNaf1xZDAHxATKi3RYy5PwWBhY5FDjcjJcvUXjf4C61vEwWx7rsmtmz0BDNfRjbEf2vjdblSO7FotfOIgkxNI3jKiub4mcbrufIxgYLcLMJvZcf0Fl6L2R6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1725271544; x=1725876344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DH3biX+SZ0myEJyVNtPopZ8rBBdR/Xj3W7VU/LlSK/8=;
-        b=ajnmYcVVs4y9Z5f2PhUM5fp+0CDXBLhiiOQt67Q7CCS7KoOcQpStzHPrwvkW4wPHRw
-         F7ap5tpoTQX97Fy0kvjNCmSMxfx/axIh6PvIzQE6a37tlXIv/fhS4SqDI9Yr7aMZAUro
-         qwG8nEQA6VQkOfnBS5KmaDQA2hzONyPTfKpVDltA9UTXpMSJXdzPqoHp6+FI03vJI/VM
-         wWAXHOmNzaKfbEYndR20g2uuc8Skg+QTwNoQvPt4BKMRxnPFOgKJiZk+H760k4+ptpM1
-         o+bBWI1F+k9cFwhhS17iw/gNM3Z3qK9XiX+07u0SCD88v+8wD1buM65fz3UH/FE+vBf+
-         NYYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725271544; x=1725876344;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DH3biX+SZ0myEJyVNtPopZ8rBBdR/Xj3W7VU/LlSK/8=;
-        b=BLr4e2sWrgbMmlBpTha4FsK94n+t7a1dAI1I2xjmvTinBUUpzPE3X/otckBsx1tO+B
-         HJ/a7Cc1qT7VLI3OiOhRmqs5PLdHcGmNYcm9eQ8RH0rQYHso8yYaJ5rPiA8amY3oK6bP
-         /UogytrbU+4GWdtOx645V+I+xacPwHrBYnpI+mPSoh/POAtVsxn1bm1BM3wgRsTvuNo4
-         3sc0sVLiUM+/mga3ZRpuEZgy9sj6mx8ycU6ww4lsfZ/cPM1K8RkvLp4J1841HvxAkMFX
-         dTgB3JuPRVcNMJSvVWaGz8lzp9201aJla77wjYPRFAwTRfW8tNJ1iL3OkTU7TobkKEez
-         qmSA==
-X-Forwarded-Encrypted: i=1; AJvYcCXkJ1m81puncyc8vRSNtgAKp3EN/rU5lZrp0ahcizfjUPoUp6MCd78yCXmq1ROWFVWlutkSKbcE3cZPl7g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrWBagEEdHKUOicBmJ/re5TYzHSQ4ZLf0YYdzrsj+TT3Iri91j
-	7vJjmOyfKiJlaHQtHNSYR+dsEeitW6cxHDfaCY063+wh5WG32KIvr33xyhXcePg=
-X-Google-Smtp-Source: AGHT+IF9Wt05QaUduXeEWLjxWbyGd8ETPS0+tfQA6pTajFeh/OViUU510sEDdUjK2B1+/4dFHTes4w==
-X-Received: by 2002:a05:6512:39d4:b0:530:e228:7799 with SMTP id 2adb3069b0e04-53546bab2e9mr7273945e87.58.1725271543734;
-        Mon, 02 Sep 2024 03:05:43 -0700 (PDT)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c24435fcacsm2896355a12.53.2024.09.02.03.05.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2024 03:05:43 -0700 (PDT)
-Message-ID: <1e6cd0ad-48bb-4dd7-8cd7-4e94d0cd7cf5@suse.com>
-Date: Mon, 2 Sep 2024 12:05:42 +0200
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zxirni2OyqutSj66R+UXz2H4XNCn82jxr6pbUYSb1yI=;
+ b=XqNX+/Fi19l9jfC2ooSIu3md6n5SBUQt1L2P4qZ4jtmAXsp+CP1ibSXKZSwHDWf+fFGRBJID5Vg3veX10qaoQdKoxNounRHU8ar6iA6tvAu8eZivoC8Tjm+QOOHOmr59yzMShyQb5eEELZH0Ws9L1D9EPZlKro2uJ5iI1XnwlGo=
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
+ by SJ0PR10MB4445.namprd10.prod.outlook.com (2603:10b6:a03:2ae::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Mon, 2 Sep
+ 2024 14:06:31 +0000
+Received: from SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
+ ([fe80::5a47:2d75:eef9:1d29%5]) with mapi id 15.20.7918.020; Mon, 2 Sep 2024
+ 14:06:30 +0000
+Date: Mon, 2 Sep 2024 10:06:26 -0400
+From: Kris Van Hees <kris.van.hees@oracle.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Kris Van Hees <kris.van.hees@oracle.com>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org,
+        Nick Alcock <nick.alcock@oracle.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jiri Olsa <olsajiri@gmail.com>,
+        Elena Zannoni <elena.zannoni@oracle.com>
+Subject: Re: [PATCH v9 2/4] kbuild: generate offset range data for builtin
+ modules
+Message-ID: <ZtXGYoexkGO7AwbA@oracle.com>
+References: <20240824033757.52005-1-kris.van.hees@oracle.com>
+ <20240824033757.52005-3-kris.van.hees@oracle.com>
+ <CAK7LNASKaCcmyTJPV+PhNyNu2ogFMU4OzgM0UncLRSoZa64ejA@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASKaCcmyTJPV+PhNyNu2ogFMU4OzgM0UncLRSoZa64ejA@mail.gmail.com>
+X-ClientProxiedBy: BL0PR1501CA0021.namprd15.prod.outlook.com
+ (2603:10b6:207:17::34) To SN7PR10MB6287.namprd10.prod.outlook.com
+ (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/19] gendwarfksyms: Add a cache for processed DIEs
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
- Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-27-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20240815173903.4172139-27-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|SJ0PR10MB4445:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73e51668-6f04-430c-3004-08dccb587150
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cc9sj8mfiT+Kp0YgfKdqypaI7w24CzHyL9LoxtqPqUWq9oBQeks7082rCvJa?=
+ =?us-ascii?Q?s5uGeMaPrq+xuHAX3swVZzkJTJ9p8yKTDkmF4+i6ZwvgPqcuwcYlUDmoeyFb?=
+ =?us-ascii?Q?ImhwlEgfiii/dDOxJx1x/s8mjVszu5m+Qwn6J2HPg/UH5eYJ0lcAkJA0hEEr?=
+ =?us-ascii?Q?15ggKpaM6k2MwvL/u0QyNdU9psm2t/c6XXwqHaYf9BYWRFwW+IF58BQ2ur2M?=
+ =?us-ascii?Q?lQLYtohCnRKlYnxKSqqgBWpg6B2McKfb/EJZdXIOTiHpkD/OuqcOrhFBS67+?=
+ =?us-ascii?Q?X0tepKpczAzYvfuiBsJ6AQn+5d+7aI3bRzo5NXfAvyZ1q/5K95M12RIda2C9?=
+ =?us-ascii?Q?lZT4QX1sNglZ/O1dvHXHPtpiiZ4pSYlY/aP7g2nYryK4uOKF2vxkXFwtB+E7?=
+ =?us-ascii?Q?T3UeaP0QULn3HywxRljJ+9h29c87KYMQAEqUSXAfVxn+EKAwebJz6DUz33vl?=
+ =?us-ascii?Q?hT0gmKInUanoEdsKmeksQ40e9CZWbIdfW7X6gJRf5rBYbBXTSu5yzNyHA3Sb?=
+ =?us-ascii?Q?YaNZh/8ZYvXy04l+q3u6U78GwHv/HW38jQk24MD/LWjGw7rqeTq+SKlre44F?=
+ =?us-ascii?Q?RWpvU88o/16iysird1OgapueyoQ6lUx2Vcus1pEjV1g7Q0tbm/kj/xHACGhw?=
+ =?us-ascii?Q?4mqj8DxbaorUGY77VNw0BQ+Lh3rpQww5J2RSO7KX0T/OFYeeZcAYqy35uRJ3?=
+ =?us-ascii?Q?Rb11dlTxEFvwoLAxbd1/5N2Qif2dqDDWxgJ+3EQGtiuvzIrkDaxnVRjLoh7K?=
+ =?us-ascii?Q?oSf+QdGTr4zUYjRutvgp7JF4+LSNzFV6TJ4QRdU0ghexPRCYZkNPrQEjHxX2?=
+ =?us-ascii?Q?F+4EHP0lb3M6Yzo8zB29VrmgMerjPwMOJVEVBD50mWXSIs8/FHUsfr1uplGA?=
+ =?us-ascii?Q?aBZEwy13LW+PTo8nofs6BvYNnAsA116puybnBX/VsgpUkHxgcN1sO6H7D+JB?=
+ =?us-ascii?Q?XD8Qh6r6grQ+BbZBJZ8UsgxMcbLL9E+uhWOBlp8eiPzWbNutjT4N4FdcaMVl?=
+ =?us-ascii?Q?MFx69g/+HrJUPUu7ME4a/6aihORzPbbtiTsMFRMV/7Q5C7Z7WhqnNoZxWbsm?=
+ =?us-ascii?Q?iIPVeoc4pS+g904H7IvpXJuA7RR3Jeq6/fPO7EYoQyhzcSNb4Bth90782VJP?=
+ =?us-ascii?Q?j8p4FzLTyDlFnojIhxlFGxBEHe3KFOtfu/CVpMAGf4gJw+UPPRHStBHKbdQ5?=
+ =?us-ascii?Q?lCV5VeWDZAs2nqdufQ6LSvmt5pkf6EZFY1eLuglvYzaMACJ/oRK0rHyfw7Qe?=
+ =?us-ascii?Q?YAO9SYIVq7d2ScnvhOQNSsrkgFoUzz1g28xeTsFbToOQlviOSzVU/hJEqlIE?=
+ =?us-ascii?Q?S7VQXoEJJzXXmj7TPDbibYZuRA8Rq95GSOj8DbwyHQk+jg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?UIqQjFJaXFnVRtK33DYBKHVUXATbwA+PagF/KCgtoGC5dOgat5RQ8ceTjeT+?=
+ =?us-ascii?Q?2qVfKDK+ICVT9nNsX0Msag57+5dQfJClCtM2bt+9Ia/smqfp2bT0CthTIYkH?=
+ =?us-ascii?Q?hHkSdUjM8qVXejYyxhmTTiiuSCXfQu4HqbxWrH7pOHW2/96URXiNGujTTrOA?=
+ =?us-ascii?Q?k/ExUTFDiar7FCjAlcte40gC6/1PWirTQUdNT0lu/U1JT3YhPpZWLAAPWnq/?=
+ =?us-ascii?Q?d6qMVYQH58j4nNnkmMKrPs32f+Ty3x7Alg+lHy0GJuvZbGwNYzTeRon0HNjP?=
+ =?us-ascii?Q?PmG/mHFMOccsuXec/AxUC2Hh7tf0DB2d8zkS6fJn6R+3Th9U9P6ir/EZO4QA?=
+ =?us-ascii?Q?LKkPfJds7OqecBcew9QNSg2zFfWRyeUNbSkcOkqcD8gmtdmEMwOZ4LmP9B0I?=
+ =?us-ascii?Q?PV88urqqUGqItfXTQdi/VcJ14B8I0ypQgUZkFe7ncIXFdOLWauscCnfC804G?=
+ =?us-ascii?Q?n+8bALDcv0DeAIW86BhdVlNl0gxH1z8aKP4QicqRSr/MvR7MLB7itrnPn6f1?=
+ =?us-ascii?Q?9yz99GTEYD9LvR4U3Plw7ov5fZk7LFl9hTRxUTjcbJjg/vTDC4jeszyARrMi?=
+ =?us-ascii?Q?pwEw3+S+uxCW1OLzfCmFZiLX8ATw6wqN5tKpffcYkk8zwmAEZgITA9wf1TuE?=
+ =?us-ascii?Q?OKpM62NQrIWPCGheOFV1i5BZluvl2wi3MXatIHPj3yoTveLoRvUDhP5fHWur?=
+ =?us-ascii?Q?8LzvxQKRugXq/zZn+I31hlKDJbEd4+/Bgww+Yy7PVpz1BCNjszxNuI0UkK5M?=
+ =?us-ascii?Q?VJBHp+IOsN7AKljQlvaeWKTGjpaNLGTshMQiMaPzsHzmquIOv9kIvMmsDFPj?=
+ =?us-ascii?Q?8DGCID86Ti7PxQfa0xquWKWgolY45aTidBtqaY+CZT4VxIfggAOFBroXayTt?=
+ =?us-ascii?Q?7t4K45/uBxvRaG8zaggo/PyaJS/zSnRet3eoOBuFT10Gh2wvnsGm6HALBW66?=
+ =?us-ascii?Q?yR79Y4cOFr59ko5NA2bOBtKbIi5kw9VMvn5F4B8MxKxSn3PhLwyxwkMF+TCb?=
+ =?us-ascii?Q?BAAA7QpIM2Sbhec1qvwiLP6B1lobwyaHRyrY/tzxuqVVg1jWRg1qJnQBXxqc?=
+ =?us-ascii?Q?AixPUaS1A5m5teRHELBuU1FQSLg8buZwdQdxQZBCtejVFF1Awcv7efCwIN1l?=
+ =?us-ascii?Q?oQNZuowJ4MDJmPPDfmsyWx+NoPX8bbu9stgLJJ2iBxmjzbhFL7rqTOZ0qRol?=
+ =?us-ascii?Q?T+XmytfkMbWtreYjR4pMKMfYJw23/5mgpi0T6GIc7SjTNljMb67TSd94dTuN?=
+ =?us-ascii?Q?R02m8ETTeABifB4I9K8F5cHq2kuLvyPLHW3f3M8LUM18fuOcfPaeYLTp/vac?=
+ =?us-ascii?Q?XoJyrT0UvVa9bE2A+bd12tyY51sNyk/KHzTJPXoaU4cpPx4QET0grUJXzsFA?=
+ =?us-ascii?Q?dEQP7Sxo/P+CvFol66WwYw/nR2tLxKl2FlmBlOyQUuxR1CXnUz/O6hUz9KCn?=
+ =?us-ascii?Q?AUI7MFRaufBOkYDjDUOBbEK2XXS+P9Tld+UfsSdTASIHeg+ZZmadjBu1UwHs?=
+ =?us-ascii?Q?122OHJXhTdgHF8X0Oj3XcBRB8V1b7Vs1wG7qHz/Qadk3Fn8EH5zKZCvLGHUy?=
+ =?us-ascii?Q?Og6D+tVBfod07/tg0N6N9jgkvCoCK0RUbbaSXeSv+UVU8lRYBwAV+a2T08AF?=
+ =?us-ascii?Q?1A=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	VVLFiPoa6j6eRVDW7frwzoDqse7XWvnuhVo7Y97XDXkBRc2ABlsuCHSYC/ygOJyG9H8cbpU5mp0LWcRheV6C/q+8Fc3sX12gmjWG1jgvqmmB4EmRdgkNkNU89VI7xy3uoWG0BynAWBXavKpWpMMhPrvcLxPG6rMb6ZRkyzKUobu+0txSvXTFkSdkccdlOXgh3W4BASbVVTImPgueCnF9TjMj4GtSdZIdPdc0N/EIjFRwXuxBQPJZKclvRUTtw1KzdosDSdH7qjfLBmhDdGv5uBr1DKnRxIOkzBc2rBhewMHvt349a5rRnqd4gSZYmaBk61670OWHKJ83j8RIJ7hyGU9vgPQMbY9ATCpTjaJbgWbHO72TFRgmQQVhZBc3P9sEVxGGW+0rOUaDKnB3QBgrmT5h9mC4qJWdIfhLCLLLrv8ysdv/asEYUJuVup7yX62n3U2cJULOJTP/efJdklsA8h+M9xdo9TvOfAqDyAkXVw0CCXdf0H1RZs2igConrznMh9AFx2mMtkrJ7ksDs6Y9T33bxDGeeeWK220W7dsQpasf5AW7j/QvcQGjZ0p1tPYwsj/e/cn37vrwhUUq09j4fZupFFAKQgkZ04YaXzK1+/0=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73e51668-6f04-430c-3004-08dccb587150
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2024 14:06:29.9840
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lrhsI/TzifV8OduNAgRRErDoTA5uaEtz2c6ATM1dDhx51RasxttBwaoJIzVyF+t35w5zQndlUsRoHsxXNGT295DabV1iZk9TmMrCtUlHkeo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4445
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-02_04,2024-09-02_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxscore=0
+ mlxlogscore=999 suspectscore=0 malwarescore=0 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2407110000
+ definitions=main-2409020112
+X-Proofpoint-ORIG-GUID: 2oza22HZnxxnBoOUO8v_M-HKNharK0Sd
+X-Proofpoint-GUID: 2oza22HZnxxnBoOUO8v_M-HKNharK0Sd
 
-On 8/15/24 19:39, Sami Tolvanen wrote:
-> Basic types in DWARF repeat frequently and traversing the DIEs using
-> libdw is relatively slow. Add a simple hashtable based cache for the
-> processed DIEs.
+On Mon, Sep 02, 2024 at 04:26:48PM +0900, Masahiro Yamada wrote:
+> On Sat, Aug 24, 2024 at 12:38???PM Kris Van Hees <kris.van.hees@oracle.com> wrote:
+> >
+> > Create file module.builtin.ranges that can be used to find where
+> > built-in modules are located by their addresses. This will be useful for
+> > tracing tools to find what functions are for various built-in modules.
+> >
+> > The offset range data for builtin modules is generated using:
+> >  - modules.builtin: associates object files with module names
+> >  - vmlinux.map: provides load order of sections and offset of first member
+> >     per section
+> >  - vmlinux.o.map: provides offset of object file content per section
+> >  - .*.cmd: build cmd file with KBUILD_MODFILE
+> >
+> > The generated data will look like:
+> >
+> > .text 00000000-00000000 = _text
+> > .text 0000baf0-0000cb10 amd_uncore
+> > .text 0009bd10-0009c8e0 iosf_mbi
+> > ...
+> > .text 00b9f080-00ba011a intel_skl_int3472_discrete
+> > .text 00ba0120-00ba03c0 intel_skl_int3472_discrete intel_skl_int3472_tps68470
+> > .text 00ba03c0-00ba08d6 intel_skl_int3472_tps68470
+> > ...
+> > .data 00000000-00000000 = _sdata
+> > .data 0000f020-0000f680 amd_uncore
+> >
+> > For each ELF section, it lists the offset of the first symbol.  This can
+> > be used to determine the base address of the section at runtime.
+> >
+> > Next, it lists (in strict ascending order) offset ranges in that section
+> > that cover the symbols of one or more builtin modules.  Multiple ranges
+> > can apply to a single module, and ranges can be shared between modules.
+> >
+> > The CONFIG_BUILTIN_MODULE_RANGES option controls whether offset range data
+> > is generated for kernel modules that are built into the kernel image.
+> >
+> > How it works:
+> >
+> >  1. The modules.builtin file is parsed to obtain a list of built-in
+> >     module names and their associated object names (the .ko file that
+> >     the module would be in if it were a loadable module, hereafter
+> >     referred to as <kmodfile>).  This object name can be used to
+> >     identify objects in the kernel compile because any C or assembler
+> >     code that ends up into a built-in module will have the option
+> >     -DKBUILD_MODFILE=<kmodfile> present in its build command, and those
+> >     can be found in the .<obj>.cmd file in the kernel build tree.
+> >
+> >     If an object is part of multiple modules, they will all be listed
+> >     in the KBUILD_MODFILE option argument.
+> >
+> >     This allows us to conclusively determine whether an object in the
+> >     kernel build belong to any modules, and which.
+> >
+> >  2. The vmlinux.map is parsed next to determine the base address of each
+> >     top level section so that all addresses into the section can be
+> >     turned into offsets.  This makes it possible to handle sections
+> >     getting loaded at different addresses at system boot.
+> >
+> >     We also determine an 'anchor' symbol at the beginning of each
+> >     section to make it possible to calculate the true base address of
+> >     a section at runtime (i.e. symbol address - symbol offset).
+> >
+> >     We collect start addresses of sections that are included in the top
+> >     level section.  This is used when vmlinux is linked using vmlinux.o,
+> >     because in that case, we need to look at the vmlinux.o linker map to
+> >     know what object a symbol is found in.
+> >
+> >     And finally, we process each symbol that is listed in vmlinux.map
+> >     (or vmlinux.o.map) based on the following structure:
+> >
+> >     vmlinux linked from vmlinux.a:
+> >
+> >       vmlinux.map:
+> >         <top level section>
+> >           <included section>  -- might be same as top level section)
+> >             <object>          -- built-in association known
+> >               <symbol>        -- belongs to module(s) object belongs to
+> >               ...
+> >
+> >     vmlinux linked from vmlinux.o:
+> >
+> >       vmlinux.map:
+> >         <top level section>
+> >           <included section>  -- might be same as top level section)
+> >             vmlinux.o         -- need to use vmlinux.o.map
+> >               <symbol>        -- ignored
+> >               ...
+> >
+> >       vmlinux.o.map:
+> >         <section>
+> >             <object>          -- built-in association known
+> >               <symbol>        -- belongs to module(s) object belongs to
+> >               ...
+> >
+> >  3. As sections, objects, and symbols are processed, offset ranges are
+> >     constructed in a straight-forward way:
+> >
+> >       - If the symbol belongs to one or more built-in modules:
+> >           - If we were working on the same module(s), extend the range
+> >             to include this object
+> >           - If we were working on another module(s), close that range,
+> >             and start the new one
+> >       - If the symbol does not belong to any built-in modules:
+> >           - If we were working on a module(s) range, close that range
+> >
+> > Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+> > Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
+> > Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
+> > Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> > ---
+> >     Changes since v8:
+> >      - Added support for built-in Rust modules.
+> >      - Added optional 4th argument to specify kernel build directory.
 > 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> ---
->  scripts/gendwarfksyms/Makefile        |   1 +
->  scripts/gendwarfksyms/die.c           | 170 +++++++++++++++++++++++
->  scripts/gendwarfksyms/dwarf.c         | 192 ++++++++++++++++++++------
->  scripts/gendwarfksyms/gendwarfksyms.c |   6 +
->  scripts/gendwarfksyms/gendwarfksyms.h |  58 +++++++-
->  5 files changed, 382 insertions(+), 45 deletions(-)
->  create mode 100644 scripts/gendwarfksyms/die.c
 > 
-> diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Makefile
-> index 623f8fc975ea..fcbac52ca00a 100644
-> --- a/scripts/gendwarfksyms/Makefile
-> +++ b/scripts/gendwarfksyms/Makefile
-> @@ -1,6 +1,7 @@
->  hostprogs-always-y += gendwarfksyms
->  
->  gendwarfksyms-objs += gendwarfksyms.o
-> +gendwarfksyms-objs += die.o
->  gendwarfksyms-objs += dwarf.o
->  gendwarfksyms-objs += symbols.o
->  
-> diff --git a/scripts/gendwarfksyms/die.c b/scripts/gendwarfksyms/die.c
-> new file mode 100644
-> index 000000000000..ad6ba435d9dd
-> --- /dev/null
-> +++ b/scripts/gendwarfksyms/die.c
-> @@ -0,0 +1,170 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2024 Google LLC
-> + */
-> +
-> +#include <string.h>
-> +#include "gendwarfksyms.h"
-> +
-> +#define DIE_HASH_BITS 20
-> +
-> +/* uintptr_t die->addr -> struct die * */
-> +static DEFINE_HASHTABLE(die_map, DIE_HASH_BITS);
-> +
-> +static unsigned int map_hits;
-> +static unsigned int map_misses;
-> +
-> +static int create_die(Dwarf_Die *die, struct die **res)
-> +{
-> +	struct die *cd;
-> +
-> +	cd = malloc(sizeof(struct die));
-> +	if (!cd) {
-> +		error("malloc failed");
-> +		return -1;
-> +	}
-> +
-> +	cd->state = INCOMPLETE;
-> +	cd->mapped = false;
-> +	cd->fqn = NULL;
-> +	cd->tag = -1;
-> +	cd->addr = (uintptr_t)die->addr;
-> +	cd->list = NULL;
-> +
-> +	hash_add(die_map, &cd->hash, addr_hash(cd->addr));
-> +	*res = cd;
-> +	return 0;
-> +}
-> +
-> +int __die_map_get(uintptr_t addr, enum die_state state, struct die **res)
-> +{
-> +	struct die *cd;
-> +
-> +	hash_for_each_possible(die_map, cd, hash, addr_hash(addr)) {
-> +		if (cd->addr == addr && cd->state == state) {
-> +			*res = cd;
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	return -1;
-> +}
-> +
-> +int die_map_get(Dwarf_Die *die, enum die_state state, struct die **res)
-> +{
-> +	if (__die_map_get((uintptr_t)die->addr, state, res) == 0) {
-> +		map_hits++;
-> +		return 0;
-> +	}
-> +
-> +	map_misses++;
-> +	return check(create_die(die, res));
-> +}
-> +
-> +static void reset_die(struct die *cd)
-> +{
-> +	struct die_fragment *tmp;
-> +	struct die_fragment *df = cd->list;
-> +
-> +	while (df) {
-> +		if (df->type == STRING)
-> +			free(df->data.str);
-> +
-> +		tmp = df->next;
-> +		free(df);
-> +		df = tmp;
-> +	}
-> +
-> +	cd->state = INCOMPLETE;
-> +	cd->mapped = false;
-> +	if (cd->fqn)
-> +		free(cd->fqn);
-> +	cd->fqn = NULL;
-> +	cd->tag = -1;
-> +	cd->addr = 0;
-> +	cd->list = NULL;
-> +}
-> +
-> +void die_map_free(void)
-> +{
-> +	struct hlist_node *tmp;
-> +	unsigned int stats[LAST + 1];
-> +	struct die *cd;
-> +	int i;
-> +
-> +	memset(stats, 0, sizeof(stats));
-> +
-> +	hash_for_each_safe(die_map, i, tmp, cd, hash) {
-> +		stats[cd->state]++;
-> +		reset_die(cd);
-> +		free(cd);
-> +	}
-> +	hash_init(die_map);
-> +
-> +	if ((map_hits + map_misses > 0))
+> When is the 4th parameter useful?
+> 
+> The map file knows all object paths.
+> 
+> The object file and its .*.cmd file exist in the same directory.
+> 
+> I did not find a use-case where the kdir prefix plays a role.
+> 
+> Did I miss something?
 
-Nit: Extra parentheses can be dropped.
+I added it as an optional parameter in case there is a reason to run the
+script manually and the kernel was built using O=<objdir>.
 
-> +		debug("hits %u, misses %u (hit rate %.02f%%)", map_hits,
-> +		      map_misses,
-> +		      (100.0f * map_hits) / (map_hits + map_misses));
-> +
-> +	for (i = 0; i <= LAST; i++)
-> +		debug("%s: %u entries", die_state_name(i), stats[i]);
-> +}
-> +
-> +static int append_item(struct die *cd, struct die_fragment **res)
-> +{
-> +	struct die_fragment *prev;
-> +	struct die_fragment *df;
-> +
-> +	df = malloc(sizeof(struct die_fragment));
-> +	if (!df) {
-> +		error("malloc failed");
-> +		return -1;
-> +	}
-> +
-> +	df->type = EMPTY;
-> +	df->next = NULL;
-> +
-> +	prev = cd->list;
-> +	while (prev && prev->next)
-> +		prev = prev->next;
-> +
-> +	if (prev)
-> +		prev->next = df;
-> +	else
-> +		cd->list = df;
-> +
-> +	*res = df;
-> +	return 0;
-> +}
-> +
-> +int die_map_add_string(struct die *cd, const char *str)
-> +{
-> +	struct die_fragment *df;
-> +
-> +	if (!cd)
-> +		return 0;
-> +
-> +	check(append_item(cd, &df));
-> +
-> +	df->data.str = strdup(str);
-> +	if (!df->data.str) {
-> +		error("strdup failed");
-> +		return -1;
-> +	}
-> +
-> +	df->type = STRING;
-> +	return 0;
-> +}
-> +
-> +int die_map_add_die(struct die *cd, struct die *child)
-> +{
-> +	struct die_fragment *df;
-> +
-> +	if (!cd)
-> +		return 0;
-> +
-> +	check(append_item(cd, &df));
-> +	df->data.addr = child->addr;
-> +	df->type = DIE;
-> +	return 0;
-> +}
-> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-> index a37c9049d18e..82b966269acd 100644
-> --- a/scripts/gendwarfksyms/dwarf.c
-> +++ b/scripts/gendwarfksyms/dwarf.c
-> @@ -61,19 +61,20 @@ static bool is_export_symbol(struct state *state, Dwarf_Die *die)
->  /*
->   * Type string processing
->   */
-> -static int process(struct state *state, const char *s)
-> +static int process(struct state *state, struct die *cache, const char *s)
->  {
->  	s = s ?: "<null>";
->  
->  	if (debug)
->  		fputs(s, stderr);
->  
-> -	return 0;
-> +	return check(die_map_add_string(cache, s));
->  }
->  
->  #define MAX_FMT_BUFFER_SIZE 128
->  
-> -static int process_fmt(struct state *state, const char *fmt, ...)
-> +static int process_fmt(struct state *state, struct die *cache, const char *fmt,
-> +		       ...)
->  {
->  	char buf[MAX_FMT_BUFFER_SIZE];
->  	va_list args;
-> @@ -86,50 +87,103 @@ static int process_fmt(struct state *state, const char *fmt, ...)
->  		error("vsnprintf overflow: increase MAX_FMT_BUFFER_SIZE");
->  		res = -1;
->  	} else {
-> -		res = check(process(state, buf));
-> +		res = check(process(state, cache, buf));
->  	}
->  
->  	va_end(args);
->  	return res;
->  }
->  
-> -/* Process a fully qualified name from DWARF scopes */
-> -static int process_fqn(struct state *state, Dwarf_Die *die)
-> +#define MAX_FQN_SIZE 64
-> +
-> +/* Get a fully qualified name from DWARF scopes */
-> +static int get_fqn(struct state *state, Dwarf_Die *die, char **fqn)
->  {
-> +	const char *list[MAX_FQN_SIZE];
->  	Dwarf_Die *scopes = NULL;
-> -	const char *name;
-> +	int count = 0;
-> +	int len = 0;
->  	int res;
->  	int i;
->  
-> +	*fqn = NULL;
-> +
->  	res = checkp(dwarf_getscopes_die(die, &scopes));
->  	if (!res) {
-> -		name = get_name(die);
-> -		name = name ?: "<unnamed>";
-> -		return check(process(state, name));
-> +		list[count] = get_name(die);
-> +
-> +		if (!list[count])
-> +			return 0;
-> +
-> +		len += strlen(list[count]);
-> +		count++;
-> +
-> +		goto done;
->  	}
->  
-> -	for (i = res - 1; i >= 0; i--) {
-> +	for (i = res - 1; i >= 0 && count < MAX_FQN_SIZE; i--) {
->  		if (dwarf_tag(&scopes[i]) == DW_TAG_compile_unit)
->  			continue;
->  
-> -		name = get_name(&scopes[i]);
-> -		name = name ?: "<unnamed>";
-> -		check(process(state, name));
-> -		if (i > 0)
-> -			check(process(state, "::"));
-> +		/*
-> +		 * If any of the DIEs in the scope is missing a name, consider
-> +		 * the DIE to be unnamed.
-> +		 */
-> +		list[count] = get_name(&scopes[i]);
-> +
-> +		if (!list[count]) {
-> +			free(scopes);
-> +			return 0;
-> +		}
-
-This slightly changes how scopes with no name are processed which is
-unrelated to the added caching. The previous logic used "<unnamed>" for
-individual unnamed scopes. The new code in such a case returns an empty
-FQN which is turned in process_fqn() into "<unnamed>".
-
-This is likely ok in practice for this particular tool. In general,
-I think "<unnamed>" should be returned when the initial DIE is missing
-a name and something like "<anonymous>::foo" when an outer scope has no
-name.
-
-More importantly, using "<unnamed>" when a type has no name looks to me
-overly verbose, in particular, when it comes to the symtypes output. For
-instance, the current output for a 'const char *' parameter is:
-formal_parameter pointer_type <unnamed> { const_type <unnamed> { base_type char byte_size(1) encoding(8) } } byte_size(8)
-
-.. while the following should be sufficient and easier to grasp:
-formal_parameter pointer_type { const_type { base_type char byte_size(1) encoding(8) } } byte_size(8)
-
-> +
-> +		len += strlen(list[count]);
-> +		count++;
-> +
-> +		if (i > 0) {
-> +			list[count++] = "::";
-> +			len += 2;
-> +		}
->  	}
->  
-> +	if (count == MAX_FQN_SIZE)
-> +		warn("increase MAX_FQN_SIZE: reached the maximum");
-> +
->  	free(scopes);
-> +
-> +done:
-> +	*fqn = malloc(len + 1);
-> +	if (!*fqn) {
-> +		error("malloc failed");
-> +		return -1;
-> +	}
-> +
-> +	**fqn = '\0';
-> +
-> +	for (i = 0; i < count; i++)
-> +		strcat(*fqn, list[i]);
-
-Small optimization: This loop could be written as follows to avoid
-repeatedly searching the end of fqn:
-
-char *p = *fqn;
-for (i = 0; i < count; i++)
-	p = stpcpy(p, list[i]);
-
-> +
->  	return 0;
->  }
->  
-> +static int process_fqn(struct state *state, struct die *cache, Dwarf_Die *die)
-> +{
-> +	const char *fqn;
-> +
-> +	if (!cache->fqn)
-> +		check(get_fqn(state, die, &cache->fqn));
-> +
-> +	fqn = cache->fqn;
-> +	fqn = fqn ?: "<unnamed>";
-
-As a small optimization and for consistency, I would recommended to also
-cache the "<unnamed>" name to avoid repeatedly calling get_fqn() for
-such DIEs.
-
-> +	return check(process(state, cache, fqn));
-> +}
-> +
->  #define DEFINE_PROCESS_UDATA_ATTRIBUTE(attribute)                         \
-> -	static int process_##attribute##_attr(struct state *state,        \
-> -					      Dwarf_Die *die)             \
-> +	static int process_##attribute##_attr(                            \
-> +		struct state *state, struct die *cache, Dwarf_Die *die)   \
->  	{                                                                 \
->  		Dwarf_Word value;                                         \
->  		if (get_udata_attr(die, DW_AT_##attribute, &value))       \
-> -			check(process_fmt(state,                          \
-> +			check(process_fmt(state, cache,                   \
->  					  " " #attribute "(%" PRIu64 ")", \
->  					  value));                        \
->  		return 0;                                                 \
-> @@ -144,8 +198,9 @@ bool match_all(Dwarf_Die *die)
->  	return true;
->  }
->  
-> -int process_die_container(struct state *state, Dwarf_Die *die,
-> -			  die_callback_t func, die_match_callback_t match)
-> +int process_die_container(struct state *state, struct die *cache,
-> +			  Dwarf_Die *die, die_callback_t func,
-> +			  die_match_callback_t match)
->  {
->  	Dwarf_Die current;
->  	int res;
-> @@ -153,48 +208,99 @@ int process_die_container(struct state *state, Dwarf_Die *die,
->  	res = checkp(dwarf_child(die, &current));
->  	while (!res) {
->  		if (match(&current))
-> -			check(func(state, &current));
-> +			check(func(state, cache, &current));
->  		res = checkp(dwarf_siblingof(&current, &current));
->  	}
->  
->  	return 0;
->  }
->  
-> -static int process_type(struct state *state, Dwarf_Die *die);
-> +static int process_type(struct state *state, struct die *parent,
-> +			Dwarf_Die *die);
->  
-> -static int process_type_attr(struct state *state, Dwarf_Die *die)
-> +static int process_type_attr(struct state *state, struct die *cache,
-> +			     Dwarf_Die *die)
->  {
->  	Dwarf_Die type;
->  
->  	if (get_ref_die_attr(die, DW_AT_type, &type))
-> -		return check(process_type(state, &type));
-> +		return check(process_type(state, cache, &type));
->  
->  	/* Compilers can omit DW_AT_type -- print out 'void' to clarify */
-> -	return check(process(state, "base_type void"));
-> +	return check(process(state, cache, "base_type void"));
->  }
->  
-> -static int process_base_type(struct state *state, Dwarf_Die *die)
-> +static int process_base_type(struct state *state, struct die *cache,
-> +			     Dwarf_Die *die)
->  {
-> -	check(process(state, "base_type "));
-> -	check(process_fqn(state, die));
-> -	check(process_byte_size_attr(state, die));
-> -	check(process_encoding_attr(state, die));
-> -	return check(process_alignment_attr(state, die));
-> +	check(process(state, cache, "base_type "));
-> +	check(process_fqn(state, cache, die));
-> +	check(process_byte_size_attr(state, cache, die));
-> +	check(process_encoding_attr(state, cache, die));
-> +	return check(process_alignment_attr(state, cache, die));
->  }
->  
-> -static int process_type(struct state *state, Dwarf_Die *die)
-> +static int process_cached(struct state *state, struct die *cache,
-> +			  Dwarf_Die *die)
->  {
-> +	struct die_fragment *df = cache->list;
-> +	Dwarf_Die child;
-> +
-> +	while (df) {
-> +		switch (df->type) {
-> +		case STRING:
-> +			check(process(state, NULL, df->data.str));
-> +			break;
-> +		case DIE:
-> +			if (!dwarf_die_addr_die(state->dbg,
-> +						(void *)df->data.addr,
-> +						&child)) {
-> +				error("dwarf_die_addr_die failed");
-> +				return -1;
-> +			}
-> +			check(process_type(state, NULL, &child));
-> +			break;
-> +		default:
-> +			error("empty die_fragment");
-> +			return -1;
-> +		}
-> +		df = df->next;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
-> +{
-> +	struct die *cache = NULL;
->  	int tag = dwarf_tag(die);
->  
-> +	/*
-> +	 * If we have the DIE already cached, use it instead of walking
-> +	 * through DWARF.
-> +	 */
-> +	check(die_map_get(die, COMPLETE, &cache));
-> +
-> +	if (cache->state == COMPLETE) {
-> +		check(process_cached(state, cache, die));
-> +		check(die_map_add_die(parent, cache));
-> +		return 0;
-> +	}
-> +
->  	switch (tag) {
->  	case DW_TAG_base_type:
-> -		check(process_base_type(state, die));
-> +		check(process_base_type(state, cache, die));
->  		break;
->  	default:
->  		debug("unimplemented type: %x", tag);
->  		break;
->  	}
->  
-> +	/* Update cache state and append to the parent (if any) */
-> +	cache->tag = tag;
-> +	cache->state = COMPLETE;
-> +	check(die_map_add_die(parent, cache));
-> +
->  	return 0;
->  }
->  
-> @@ -203,14 +309,14 @@ static int process_type(struct state *state, Dwarf_Die *die)
->   */
->  static int process_subprogram(struct state *state, Dwarf_Die *die)
->  {
-> -	return check(process(state, "subprogram;\n"));
-> +	return check(process(state, NULL, "subprogram;\n"));
->  }
->  
->  static int process_variable(struct state *state, Dwarf_Die *die)
->  {
-> -	check(process(state, "variable "));
-> -	check(process_type_attr(state, die));
-> -	return check(process(state, ";\n"));
-> +	check(process(state, NULL, "variable "));
-> +	check(process_type_attr(state, NULL, die));
-> +	return check(process(state, NULL, ";\n"));
->  }
->  
->  static int process_symbol_ptr(struct state *state, Dwarf_Die *die)
-> @@ -235,7 +341,8 @@ static int process_symbol_ptr(struct state *state, Dwarf_Die *die)
->  		return check(process_variable(state, &ptr_type));
->  }
->  
-> -static int process_exported_symbols(struct state *state, Dwarf_Die *die)
-> +static int process_exported_symbols(struct state *state, struct die *cache,
-> +				    Dwarf_Die *die)
->  {
->  	int tag = dwarf_tag(die);
->  
-> @@ -244,8 +351,9 @@ static int process_exported_symbols(struct state *state, Dwarf_Die *die)
->  	case DW_TAG_namespace:
->  	case DW_TAG_class_type:
->  	case DW_TAG_structure_type:
-> -		return check(process_die_container(
-> -			state, die, process_exported_symbols, match_all));
-> +		return check(process_die_container(state, cache, die,
-> +						   process_exported_symbols,
-> +						   match_all));
->  
->  	/* Possible exported symbols */
->  	case DW_TAG_subprogram:
-> @@ -273,5 +381,5 @@ int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie)
->  	struct state state = { .mod = mod, .dbg = dbg };
->  
->  	return check(process_die_container(
-> -		&state, cudie, process_exported_symbols, match_all));
-> +		&state, NULL, cudie, process_exported_symbols, match_all));
->  }
-> diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksyms/gendwarfksyms.c
-> index e2f8ee5a4bf3..55a7fc902bf4 100644
-> --- a/scripts/gendwarfksyms/gendwarfksyms.c
-> +++ b/scripts/gendwarfksyms/gendwarfksyms.c
-> @@ -78,6 +78,10 @@ static int process_modules(Dwfl_Module *mod, void **userdata, const char *name,
->  	debug("%s", name);
->  	dbg = dwfl_module_getdwarf(mod, &dwbias);
->  
-> +	/*
-> +	 * Look for exported symbols in each CU, follow the DIE tree, and add
-> +	 * the entries to die_map.
-> +	 */
->  	do {
->  		res = dwarf_get_units(dbg, cu, &cu, NULL, NULL, &cudie, NULL);
->  		if (res < 0) {
-> @@ -90,6 +94,8 @@ static int process_modules(Dwfl_Module *mod, void **userdata, const char *name,
->  		check(process_module(mod, dbg, &cudie));
->  	} while (cu);
->  
-> +	die_map_free();
-> +
->  	return DWARF_CB_OK;
->  }
->  
-> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
-> index 8f6acd1b8f8f..b280acceb114 100644
-> --- a/scripts/gendwarfksyms/gendwarfksyms.h
-> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
-> @@ -76,6 +76,11 @@ static inline u32 name_hash(const char *name)
->  	return jhash(name, strlen(name), 0);
->  }
->  
-> +static inline u32 addr_hash(uintptr_t addr)
-> +{
-> +	return jhash(&addr, sizeof(addr), 0);
-> +}
-> +
->  struct symbol {
->  	const char *name;
->  	struct symbol_addr addr;
-> @@ -88,6 +93,52 @@ extern int symbol_read_exports(FILE *file);
->  extern int symbol_read_symtab(int fd);
->  extern struct symbol *symbol_get(const char *name);
->  
-> +/*
-> + * die.c
-> + */
-> +
-> +enum die_state { INCOMPLETE, COMPLETE, LAST = COMPLETE };
-> +enum die_fragment_type { EMPTY, STRING, DIE };
-
-Nit: I would suggest to prefix the enum values, for example,
-STATE_INCOMPLETE, ... and FRAGMENT_EMPTY, ...
-
-> +
-> +struct die_fragment {
-> +	enum die_fragment_type type;
-> +	union {
-> +		char *str;
-> +		uintptr_t addr;
-> +	} data;
-> +	struct die_fragment *next;
-> +};
-> +
-> +#define CASE_CONST_TO_STR(name) \
-> +	case name:              \
-> +		return #name;
-> +
-> +static inline const char *die_state_name(enum die_state state)
-> +{
-> +	switch (state) {
-> +	default:
-> +	CASE_CONST_TO_STR(INCOMPLETE)
-> +	CASE_CONST_TO_STR(COMPLETE)
-> +	}
-> +}
-> +
-> +struct die {
-> +	enum die_state state;
-> +	bool mapped;
-> +	char *fqn;
-> +	int tag;
-> +	uintptr_t addr;
-> +	struct die_fragment *list;
-> +	struct hlist_node hash;
-> +};
-> +
-> +extern int __die_map_get(uintptr_t addr, enum die_state state,
-> +			 struct die **res);
-> +extern int die_map_get(Dwarf_Die *die, enum die_state state, struct die **res);
-> +extern int die_map_add_string(struct die *pd, const char *str);
-> +extern int die_map_add_die(struct die *pd, struct die *child);
-> +extern void die_map_free(void);
-> +
->  /*
->   * dwarf.c
->   */
-> @@ -99,12 +150,13 @@ struct state {
->  	Dwarf_Die die;
->  };
->  
-> -typedef int (*die_callback_t)(struct state *state, Dwarf_Die *die);
-> +typedef int (*die_callback_t)(struct state *state, struct die *cache,
-> +			      Dwarf_Die *die);
->  typedef bool (*die_match_callback_t)(Dwarf_Die *die);
->  extern bool match_all(Dwarf_Die *die);
->  
-> -extern int process_die_container(struct state *state, Dwarf_Die *die,
-> -				 die_callback_t func,
-> +extern int process_die_container(struct state *state, struct die *cache,
-> +				 Dwarf_Die *die, die_callback_t func,
->  				 die_match_callback_t match);
->  
->  extern int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie);
-
--- 
-Thanks,
-Petr
+	Kris
 
