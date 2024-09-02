@@ -1,107 +1,103 @@
-Return-Path: <linux-kbuild+bounces-3319-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3320-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E97968BB0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 18:11:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32218968BB3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 18:13:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D67E1F23392
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 16:11:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA8F61F22BE3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 16:13:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B7D41A3049;
-	Mon,  2 Sep 2024 16:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C001A3049;
+	Mon,  2 Sep 2024 16:13:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bsA1r4U9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBINCg2U"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBA71A3029;
-	Mon,  2 Sep 2024 16:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF0B1A3041;
+	Mon,  2 Sep 2024 16:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725293478; cv=none; b=HRIdSp4gvkzSaPvtFj4NrIgVP8kBrepG8R36u/UH+u218imF6Im4TYRrimFfwWBso8gF5gEZnLZBdwGxF9dY4tRxhA9fb1r6JQ746s+eZt0kDccsziJuytMsUALbb66SxL6F0R1dVaIxSj8FmIelaQep1Bo4BaQx38pa/zz05Ew=
+	t=1725293586; cv=none; b=NOakPXjyJ52OPdF1zFWVdarFpzJf/6ikB9S24+t0rFYQXSyWAwBzACh9zcQEB+3+0bdWR4jDQOkzRgDKZ5KjG0wTuKTNKwmKcTV6vXxomwpRDZQBuXZ+1w5lXmr1bB1Msp3l00NQuAA/SXM62oDGiVljelO2Sxp2BGg/PzPZQVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725293478; c=relaxed/simple;
-	bh=wk7mJjx0Xs0Q7CfUTyDNU+Eh3I4XTXvSQzWkhmeVDwY=;
+	s=arc-20240116; t=1725293586; c=relaxed/simple;
+	bh=PkLOxCkNizd+ybNJD8OQZ9G2dup++KSG86ccKsgVnhg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y6QCZwnT/Tz0TapfWSE9foHPxImbE63lv8ws+URsj7JmmLpEnreaZTD7QiHvJdycY3kDw1Lfr+n58NYiGa+q71tV/wKUx6zcZkz7b6KDG1WKL8Ze/jHDh2CMEcTuPWj8M1egPk+Vb4plfxoh8cqh2kJ855lqzWbou5U9zbwYYOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bsA1r4U9; arc=none smtp.client-ip=209.85.216.43
+	 To:Cc:Content-Type; b=egt9b3ZskcagVPTHVIxJfJoUosABdM2ydhb7oLgId740DU/KTd6q00jJJP9qLHO6L0DlCJbksKr87EG5S3jjTsPqe2mgw6iilc/dF6KI4Y6lSjvtrMjc9VaXEKrLdlSxFhaYwxeMkdCetTsYXHhALEOnD7dGR99M7itsTSYRBIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBINCg2U; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2d42c59df79so723053a91.1;
-        Mon, 02 Sep 2024 09:11:16 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-205557f9699so2692415ad.2;
+        Mon, 02 Sep 2024 09:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725293476; x=1725898276; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725293584; x=1725898384; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wk7mJjx0Xs0Q7CfUTyDNU+Eh3I4XTXvSQzWkhmeVDwY=;
-        b=bsA1r4U9bkRj2ayNmnFpAm1V99ya6TFLF6NRGlB2a0zEUorcR/cwEfJmEQVsbSDxHb
-         uA8h3G7KLfi8C+jL9ROyMRSceaqsNJZ54qJLqJxgaLFcYQQQSFA6LJ9WDaRsjLFR/ZXr
-         LBRAZHILeZ/va75y7efmZRGuewtfGh66ibuuMOxI0bUtqEGgomGUAQ9PTXcMM/tHAjND
-         tiQyJUHW5IvT8HuDCmqx1a3DsCu3/sPfTHJaO+0mNL9gMlzltA7M7ZfuCMUIVLaadAlV
-         LHYHJZczAwhBH73S2nbokZ0k2pGCME/PUB9K0MvE2E1OrtllXwvyyfVO8PgZeOGVg9da
-         xT2A==
+        bh=yr9ly3s1ev80tCY18uK4VK3dnJNlLG79YNi6DNJ7ijE=;
+        b=VBINCg2UPoD6T6Unhr6Raylsh+5zG4ufRf2QG1IT4QTA7mLkGzhcGtpYsOOtOCNPjy
+         ywDxs9njSvoW5uWz6D9J74//gU+hCi+cpQ7NOiEIXZBUWiyrawqTU7sXUZCCBm4tHH03
+         FY6t+/lW/QY2Kl++9kesSyEs6kDlqxqiLNhEv/TfFWdelszf+T+wJmFJvVvlpkon4CX0
+         qNBaOcJvZtScxR72HET8u2gdp3Q3Dn8PlFmwAI9iVzCkpeh5gdktMmOXfZ7H8H/PB6OP
+         FVmDsYsONBENrPOHfBTm3L/ETZIXDCQ+Nj5yHVWjKxMlwrR7Vog6qmI6GAha3yj75OfU
+         +jSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725293476; x=1725898276;
+        d=1e100.net; s=20230601; t=1725293584; x=1725898384;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wk7mJjx0Xs0Q7CfUTyDNU+Eh3I4XTXvSQzWkhmeVDwY=;
-        b=YqavNTCkHB+yW3Jk48yI6Z5AIjk8aP1Y9Lu0i97Z3VQrdOzWaSPf5dSAgIJHyghlS8
-         aLMfzJ7umrHkuNz/nVi5NbSBFdaU5UCZ8Cl89QhUmxOuKaFUmLuemU5tdl5gpdyg3rQb
-         /W5WnqHfF5oV9h3KA0fS6Rxt9k4D4hhq9L4lj7+XQcCa/LOhyNTH9Su35xcXrlYPBzRc
-         86bIskU+WueoUL87LhErZz3/irGT2QGD71p+FukpWWw7ppRIwbzajCpiyCna1+GlS1r3
-         Uk+GvHUjPv/H+meXByVH4nKkd2VBswP8UBOCl0Ztpz1Y8ZclMOz1DWf2vGqqF/X2p/Ck
-         Oh7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUTFwGahhsmqmSk4Mq8/3SMZyVH/XMH0+RWLRL6aj4BmH+Q5nE103ooYNU4jhuBSFGEqnNNvd3Uf/qJNj/Z@vger.kernel.org, AJvYcCUxtVo88ntOe/T3lB2BAcMGuZRIXTmZd0D0y7R2m+kBrsat9Er1DLyXsuav0OFFcgMXJM1vPpkVJB2OeUei@vger.kernel.org, AJvYcCWB2ay0K/JCz6xf7hkd2Jxila6L+ZWrgOZPoG6UwEf6U1b+Bff0xM4Q0n0n9HOzC9CvfsU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxq3wrxI4k2NwQZ+XGSFuxBbQsLC8i/vw8EkxlEN9H5KnZz3m6P
-	lVnHQzX84weVtumsjmLmHlCaC8P4KTUiu2PmjUJ+oVw+YwEs2aKX+FBab/cOy/1haBmBifLUphw
-	bC3xDauszHD462tnDPzSn1/5yELQ=
-X-Google-Smtp-Source: AGHT+IHuwEJDhCc4s+mmfVcupdQTMg6prAW9eGXQCrQq50fzIiiapvtm80hin/j+dLtZBzIECbJiloot8yiAcR4eJR0=
-X-Received: by 2002:a17:902:e303:b0:205:40f5:d1a with SMTP id
- d9443c01a7336-20540f50db1mr48362355ad.6.1725293476345; Mon, 02 Sep 2024
- 09:11:16 -0700 (PDT)
+        bh=yr9ly3s1ev80tCY18uK4VK3dnJNlLG79YNi6DNJ7ijE=;
+        b=HNdrCKBnO8hIZA59XQC1sFHu+CZbITtfxXKTymfIvKpFWRXC2R+qHmKgSoofnfxkM/
+         wUZkR6F2oMb6ly6L09hfXCZy0lXKQrhlcDP38GEJhyRldueDHkdgddre+nnz738kba7v
+         ESGQd5VFwngaJnDQyGo9GO2zvWmSIGtb55tAA3t/XGwG9xz9Oy265EbxgFYvciutDxPg
+         pm7SkX773K7+vh3Z6LSqgBM2KgVyGvE+DZ8sTBpoK2iv580hGKj8Qrj7CGQhTuVvAbkN
+         iaYuY9Vj/l3SPS+FWWp0a7kOXP53HofCW06R1446CmrenusE18+kbLiZtlWFdNfus/Jk
+         89Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2zBqgQdKCee0dEvBsuCx+TPKj2CJRS7JVJxb/nS1twDFkX++dBPnbVqL7kZfGwJpbyLYgA8ax/XI2ZcYx@vger.kernel.org, AJvYcCXFbOyHJzJQRMmSN7SLNXVxofYIrrjriuCnORIF1VOyZcS8ZFaNcv6D0wUGBI+h0r3/rhE10yFtJdhRBQ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTa/oTX15BI6FVvMsk7x3AQGERCg4gNqStCP27FbI6whGHrmHr
+	6aSTFoUOYUuAcvndsfws6nG3EZigk7JdSSvAQFU6nSVkGKKdmLKTTCnh+7UmWjRzeNK75Kc+caH
+	MDCkD/LdWHO3fQcc3se66P8bws0E=
+X-Google-Smtp-Source: AGHT+IG5OODsTRRpis5CT4TCncYMiLySZFpswVaAEd9Nxpgz+7EyIi7uVv+lu/Q8Iy7I+QK6/OvqoMocd9JvdSQvX4s=
+X-Received: by 2002:a17:902:f2c9:b0:205:5410:8f54 with SMTP id
+ d9443c01a7336-20554108f91mr38988105ad.11.1725293584259; Mon, 02 Sep 2024
+ 09:13:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240728125527.690726-1-ojeda@kernel.org> <CAK7LNARhR=GGZ2Vr-SSog1yjnjh6iT7cCEe4mpYg889GhJnO9g@mail.gmail.com>
- <ZsiV0V5-UYFGkxPE@bergen> <CANiq72khCDjCVbU=t+vpR+EfJucNBpYhZkW2VVjnXbD9S77C0A@mail.gmail.com>
- <CAK7LNARJjM2t_sqE-MePzEEF3D3SznNYh99F5bM003N_xGFpug@mail.gmail.com>
-In-Reply-To: <CAK7LNARJjM2t_sqE-MePzEEF3D3SznNYh99F5bM003N_xGFpug@mail.gmail.com>
+References: <20240902160828.1092891-1-ojeda@kernel.org>
+In-Reply-To: <20240902160828.1092891-1-ojeda@kernel.org>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 2 Sep 2024 18:11:04 +0200
-Message-ID: <CANiq72=3V2XYgmFME3kab9VMrT1yBi9nr99X6CMrqUjvTVMTtA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: pahole-version: avoid errors if executing fails
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, bpf@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
+Date: Mon, 2 Sep 2024 18:12:52 +0200
+Message-ID: <CANiq72kV90EjHGitEVO4GQFYtQJZ_3-1rkXJnOwez7u7Ph+Z3g@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: pahole-version: improve overall checking and
+ error messages
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 2, 2024 at 4:15=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
+On Mon, Sep 2, 2024 at 6:09=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wrot=
+e:
 >
-> Ensuring this should be easy.
-> Why don't we fix it properly while we are here?
+> +if ! command -v "$@" >/dev/null; then
+> +       echo >&2 "***"
+> +       echo >&2 "*** pahole '$@' could not be found. pahole will not be =
+used."
+> +       echo >&2 "***"
+> +       exit 1
+> +fi
 
-That is great, I would prefer that.
-
-Sent v2: https://lore.kernel.org/all/20240902160828.1092891-1-ojeda@kernel.=
-org/
+We may not want to print a warning in this case if this case/setup is
+too common, though.
 
 Cheers,
 Miguel
