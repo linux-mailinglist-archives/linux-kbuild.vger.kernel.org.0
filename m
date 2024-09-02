@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-3323-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3324-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C69968C7B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 18:56:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67955968C7D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 18:56:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB06E1F23028
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 16:56:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B8261C21690
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 16:56:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7E351AB6ED;
-	Mon,  2 Sep 2024 16:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98154200116;
+	Mon,  2 Sep 2024 16:56:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpMpWZ3a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKxBx91f"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A868E1AB6E8;
-	Mon,  2 Sep 2024 16:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638951AB6E8;
+	Mon,  2 Sep 2024 16:56:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725296167; cv=none; b=Wz+eo7g/1rLgWJ6XyL3z33oRPHjWR5xueSFpjY7Q5Jz4iTdq6wBS9x9deXeVD8prh7mwnepPPmZMz6b71KhXXmNVf6Xd8mX+r5U1yCS6umLZolcY8al0VYEXRGY/eLpSJYKHLPKNpBRtpKWuyje3k1MkcgMcWAe+U25oJeyFKTg=
+	t=1725296172; cv=none; b=NERD7RQ48gEfXigxdrJiuDA7s63RzEIzEUtStl7rcHkyVRiVFn5yJnIKPdGEGKfZuVrqgrNpRixthfVMrPbHlFfxG7ldwOn1A3cJj0TrXD4G2GpNCnF2VmZ0uiijrw8uq6L3/io2sDGx34UNH6PcMQD6VKuIgCURsWDvze25vjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725296167; c=relaxed/simple;
-	bh=6+P3G2uD3pU9h/ana8iXMMrjSzmZVYjkyTEYm9ga1t8=;
+	s=arc-20240116; t=1725296172; c=relaxed/simple;
+	bh=Py8aXDwihPSg2fJ40DevYcamcRTgb64eTsUQY/xmr6Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IVPMkktFzz0MIYNmSV3Lei25eVtFYzesM1ehDZVqWswSJ7L8tGiLh1CPbfGZWe2Ethdm/HWlScLZnLDdW5ig//LUgrkdhk/mq5qenuSyVO+1jrSN+M5hclJ1zqs4P6GsEqGZfq0/t1JN6VWKHPpJChSzTpDCzbo4md/srUdxWfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpMpWZ3a; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 092E3C4CEC2;
-	Mon,  2 Sep 2024 16:56:02 +0000 (UTC)
+	 MIME-Version; b=WdF/f/xxBeWvGKFD0cM8vs1dGGXxJlLKMiG/LOsuaOBCx0zdYrltVv8c80Kk55lJ/9lNnchixKHJGRzCn0HamGLK3JIJ10XjMoQAWPrgy3sr2jaBe8mEwe+qq7toXWMjH88hbq1kPU9VX9Q9lZ+ZTsgFGkfOzdK5msDZrFdwOAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKxBx91f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4ADC4CEC7;
+	Mon,  2 Sep 2024 16:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725296167;
-	bh=6+P3G2uD3pU9h/ana8iXMMrjSzmZVYjkyTEYm9ga1t8=;
+	s=k20201202; t=1725296171;
+	bh=Py8aXDwihPSg2fJ40DevYcamcRTgb64eTsUQY/xmr6Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fpMpWZ3amZnsYF+/Hq6C7vvIZQcT6puXcP8Z4IH6bOZg+GfiQM0RI/NyhIbaZ0TVm
-	 BXP44wKSXyHA02RSHnbkBY8qxHtpK1s9LxkFERwZZXejzv6cY17ZGlqDJYH5xWe5Ly
-	 fQMr1rVU349JahUPvZIbUbS7HgyEWysYKtk2Vr7Jf6Pt9FallMDQQD3IN5f4jxuS9L
-	 lEdb2eHS5L/mOQyJObzjJtbBwEKEDinc1xAb5Ks8i5scDCTha3j7O/rDkyzXBCsME9
-	 O0mGaEBT1s9f149N0ktdfGv+2gJh4Yr9bbLl6ijHBVTRT4QKw6c9sdUSquNyxzvd+Z
-	 XaRVP8nifz6zQ==
+	b=kKxBx91flDChNZo/qI/zDXN+iFkvr4fJ38taaQ0lsNqxzBu4XVZh/Fscl59ttHewm
+	 Tb99CuciXKvLjFLFjQuDjJ7urgDIlPJYItr9sEFCysJbqTSnbYnS+CNWpOZCK4NTlS
+	 u0Z5ez9jvwULsDfIfkQjiJ2M7AwdQMeskeX+bWsO8o6FeoRQKdDAdSq/81r4V9g4vT
+	 nkm4yZg5xw/kRJEpgp+pnvW4GMLRHft4mBl5SWHrxm8Xth5kD7Pw0IcaPchRW1MpQA
+	 obNDnaxA6nrAfhWRgH4ydA6gAF93FsgLRLDer1Cz2TChwanGYmqvk1C+mYajtnEC9Q
+	 B5o5CgfO64iZQ==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -58,9 +58,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev
-Subject: [PATCH v2 2/6] kbuild: rust: re-run Kconfig if the version text changes
-Date: Mon,  2 Sep 2024 18:55:29 +0200
-Message-ID: <20240902165535.1101978-3-ojeda@kernel.org>
+Subject: [PATCH v2 3/6] kbuild: rust: rebuild if the version text changes
+Date: Mon,  2 Sep 2024 18:55:30 +0200
+Message-ID: <20240902165535.1101978-4-ojeda@kernel.org>
 In-Reply-To: <20240902165535.1101978-1-ojeda@kernel.org>
 References: <20240902165535.1101978-1-ojeda@kernel.org>
 Precedence: bulk
@@ -71,61 +71,42 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Re-run Kconfig if we detect the Rust compiler has changed via the version
-text, like it is done for C.
+Now that `RUSTC_VERSION_TEXT` exists, use it to rebuild `core` when the
+version text changes (which in turn will trigger a rebuild of all the
+kernel Rust code).
 
-Unlike C, and unlike `RUSTC_VERSION`, the `RUSTC_VERSION_TEXT` is kept
-under `depends on RUST`, since it should not be needed unless `RUST`
-is enabled.
+This also applies to proc macros (which only work with the `rustc` that
+compiled them), via the already existing dependency on `core.o`. That
+is cleaned up in the next commit.
 
+However, this does not cover host programs written in Rust, which is
+the same case in the C side.
+
+This is accomplished by referencing directly the generated file, instead
+of using the `fixdep` header trick, since we cannot change the Rust
+standard library sources. This is not too much of a burden, since it
+only needs to be done for `core`.
+
+Tested-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- Makefile     | 8 +++++---
- init/Kconfig | 4 +++-
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ rust/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 68ebd6d6b444..1883aeb919a4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -648,9 +648,11 @@ endif
- 
- # The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
- # Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
--# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
--# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-+# CC_VERSION_TEXT and RUSTC_VERSION_TEXT are referenced from Kconfig (so they
-+# need export), and from include/config/auto.conf.cmd to detect the compiler
-+# upgrade.
- CC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(CC) --version 2>/dev/null | head -n 1))
-+RUSTC_VERSION_TEXT = $(subst $(pound),,$(shell $(RUSTC) --version 2>/dev/null))
- 
- ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
- include $(srctree)/scripts/Makefile.clang
-@@ -671,7 +673,7 @@ ifdef config-build
- # KBUILD_DEFCONFIG may point out an alternative default configuration
- # used for 'make defconfig'
- include $(srctree)/arch/$(SRCARCH)/Makefile
--export KBUILD_DEFCONFIG KBUILD_KCONFIG CC_VERSION_TEXT
-+export KBUILD_DEFCONFIG KBUILD_KCONFIG CC_VERSION_TEXT RUSTC_VERSION_TEXT
- 
- config: outputmakefile scripts_basic FORCE
- 	$(Q)$(MAKE) $(build)=scripts/kconfig $@
-diff --git a/init/Kconfig b/init/Kconfig
-index 38c1cfcce821..c6b744a48dcc 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1927,7 +1927,9 @@ config RUST
- config RUSTC_VERSION_TEXT
- 	string
- 	depends on RUST
--	default "$(shell,$(RUSTC) --version 2>/dev/null)"
-+	default "$(RUSTC_VERSION_TEXT)"
-+	help
-+	  See `CC_VERSION_TEXT`.
- 
- config BINDGEN_VERSION_TEXT
- 	string
+diff --git a/rust/Makefile b/rust/Makefile
+index e13d14ec5fe7..bb57a7c30f1a 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -389,7 +389,8 @@ $(obj)/core.o: private skip_clippy = 1
+ $(obj)/core.o: private skip_flags = -Wunreachable_pub
+ $(obj)/core.o: private rustc_objcopy = $(foreach sym,$(redirect-intrinsics),--redefine-sym $(sym)=__rust$(sym))
+ $(obj)/core.o: private rustc_target_flags = $(core-cfgs)
+-$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs FORCE
++$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs \
++    $(wildcard $(objtree)/include/config/RUSTC_VERSION_TEXT) FORCE
+ 	+$(call if_changed_rule,rustc_library)
+ ifneq ($(or $(CONFIG_X86_64),$(CONFIG_X86_32)),)
+ $(obj)/core.o: scripts/target.json
 -- 
 2.46.0
 
