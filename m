@@ -1,217 +1,123 @@
-Return-Path: <linux-kbuild+bounces-3310-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3311-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75ECE967B95
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Sep 2024 19:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705E7967DB6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 04:16:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EAE8281C98
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Sep 2024 17:56:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 093122814AE
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Sep 2024 02:16:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63D29181B80;
-	Sun,  1 Sep 2024 17:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FCB25745;
+	Mon,  2 Sep 2024 02:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="WH2ct45R"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dl7DhFY7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590EF17E8EA;
-	Sun,  1 Sep 2024 17:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75F6125DB;
+	Mon,  2 Sep 2024 02:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725213370; cv=none; b=IezBUoJnWhV1yJ87S4YxwyvubPn3OeggXss30nctPqP1jxkX7m8VpMBztViwR0Q7HuuXENYV6LwWj6pAsADdXtGR3HjNe2MgOn/BE/QMwjp6ZkZUiD9JLlNbGs/nKGAttjeQiCpN2fYN7YjmZvWOx+6ga4FaycLZ+I2MR1mfYeU=
+	t=1725243356; cv=none; b=lCQ4zORbBweGm6tw6YvetHmubBjLfJn3C7wav3AW2DaWiM2HudU8XPbPcy8TW+WwE37wfZhnF8xrUZAqzXsPiT1C+3pPwtODceEBG5D0a+8TAQ/NZOD1C1l0SU+HXhhGJp8vjSarm0123inXEfbl1S88SQwTQNg9my5UaVDCRQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725213370; c=relaxed/simple;
-	bh=O9dzc+VELQ3LEZwolVQrUazLNfmSz68verP/WHp0L2c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ch4ky6xaVRGOVgcHla+z6RcTirsKU+nNMc8D5e7xCVdM5eGtbNFitI7ytgks4CGsFE7bDR+t4HJxkoPZHCDTHT1wWQet+bI/qwrlMszLKiCGFztR/76Oo6WPE3A/0MQFgOMbAO9yJTipCaWwMEemCE1E5sb2dXhC/L3pXQWLDJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=WH2ct45R; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1725213352;
-	bh=O9dzc+VELQ3LEZwolVQrUazLNfmSz68verP/WHp0L2c=;
-	h=From:Date:Subject:To:Cc:From;
-	b=WH2ct45R1uZBqqeuI0pCM6lKa2A+Ty2b1ShIF71LNcCgUXWMOsPqiYnTgpLbZ8SBw
-	 jCdr/l+5ttz8YswSKox3o266iKp4iyx+lEY7swzh+LIuWcBS8XIZpUTzv1mF+XnR/6
-	 E9C77ZIZZuC0dldnYXLIiSsW17uj1ExqZl4Vsfrg=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 01 Sep 2024 19:55:21 +0200
-Subject: [PATCH v2] modpost: compile constant module information only once
+	s=arc-20240116; t=1725243356; c=relaxed/simple;
+	bh=6z77a/tm64j1l7gPWIFt1gWOncRUJVxSyOL6jV/krSY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bMppnSuR3Y76mFxpN7f6DVx7r3RVW39xSfx5JWJg8KPVwlzd7eNFbFzco2qUWZAOSdHr1LpS8JQ5g1qRW3tIpec0OLUEJHBrMADqoqADRVBCnHCeWhooaxs/McDo8W7+gODffTa5Gx6U4YGG9NhxslkPrbwcv6wJXYQAoRK2ZhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dl7DhFY7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85EF5C4CEC3;
+	Mon,  2 Sep 2024 02:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725243355;
+	bh=6z77a/tm64j1l7gPWIFt1gWOncRUJVxSyOL6jV/krSY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dl7DhFY7EF0KTN0YUauxSwwDq5ak/HCu+Ecnss5k4OqtQYe/KD/0q+8zen9RBKsBC
+	 u72KqeJOAjiCBk3FOhHbBT0kggqD9AeJuzqiLuI1n3sa8vC3pWzosdJ38B9Ag6JTsO
+	 6CvS9Y7VuoJS3i4xFqc6Il1hHFb9HCdhpm5SapoULTNAFhDl/oAR+TfEqJ9VCw1rnT
+	 3xayK0GYc93AH0pJmm/1G703GLvieSeWwN46CFjxVSR46OqQzYttx2DME8iFM/tQMB
+	 YKy9QDi8bVdEsRUXOoIXiYKNvL4FIHCPQZPDbMP+R9ehsBBTm2XIF92IEzEA9uAjJR
+	 TQYkYT7Yu3Nxg==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2f50f1d864fso41922031fa.1;
+        Sun, 01 Sep 2024 19:15:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUyBNtVjPFVZS/RbdUbf9JdBBc+WI0FSW9jTxIHJzd8j5mDXYq0vd/30oa3ifppecp9E8K0B1asDp4SDY6F@vger.kernel.org, AJvYcCVKGwX6hdyDhsv3RpQpNY72EpabtFkqmTHxMmdutJe0rBJWe4TPiCXzBRy6b/8b5570QCqCr5p5AXSZK+Sj@vger.kernel.org, AJvYcCXpJcrNp7kgv0yvCyqle3dKx95JRNw0bSwUkefyESq2Jtpn39s+CRkGnsm0BoVH2tGmCoA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqXqQqhDCw8YNFVsZO/BI3bCzesmCAYKLOs5yUy1I/cZAIDZKP
+	PuXnERxxXnhqsiPKcfMtcyGI9ZIOnhEyn1g+UOEv9WoYmUoYA+3QcjCQbtG0D5WVmYtTiAmRLrW
+	jJiFzI7IsqWcG92H2sEZ2bRbQb80=
+X-Google-Smtp-Source: AGHT+IERe6EqEnhkGMu2Dri3rExqJpscPFLnCvRKWhFr1SjF2sXzajyZ8dl2BetccFcd+pZ8aH8cVyPRoEBeJlZyJBA=
+X-Received: by 2002:a2e:b88b:0:b0:2f0:1fd5:2f29 with SMTP id
+ 38308e7fff4ca-2f6290445femr32966531fa.19.1725243354204; Sun, 01 Sep 2024
+ 19:15:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240901-modinfo-const-v2-1-ece53ca15075@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAIiq1GYC/3XMQQ7CIBCF4as0sxYDiIiuvIfpwtJBZiEYBqum6
- d3F7l3+L3nfDIyFkOHUzVBwIqacWuhNBz5e0w0Fja1BS22k00bc80gpZOFz4ipskKM9oB52UkH
- 7PAoGeq/epW8diWsun5Wf1G/9J01KKGHcPhy9NYOz7vxCYmYfn3GbsEK/LMsX2Yhiyq8AAAA=
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Luis Chamberlain <mcgrof@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- linux-modules@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1725213352; l=5432;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=O9dzc+VELQ3LEZwolVQrUazLNfmSz68verP/WHp0L2c=;
- b=boIb0wtZpGky+i8ThnaUuOgnkp1qlvtOsIgeWlaWmths9YcHRz2A5QVK6hd/GKXdt5TjK997p
- OXp1EiN0IyPCf1zoQ80ot6rc8yJVxjofxcv0laR58J6cpwRNQVC41Q+
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+References: <20240728125527.690726-1-ojeda@kernel.org> <CAK7LNARhR=GGZ2Vr-SSog1yjnjh6iT7cCEe4mpYg889GhJnO9g@mail.gmail.com>
+ <ZsiV0V5-UYFGkxPE@bergen> <CANiq72khCDjCVbU=t+vpR+EfJucNBpYhZkW2VVjnXbD9S77C0A@mail.gmail.com>
+In-Reply-To: <CANiq72khCDjCVbU=t+vpR+EfJucNBpYhZkW2VVjnXbD9S77C0A@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 2 Sep 2024 11:15:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARJjM2t_sqE-MePzEEF3D3SznNYh99F5bM003N_xGFpug@mail.gmail.com>
+Message-ID: <CAK7LNARJjM2t_sqE-MePzEEF3D3SznNYh99F5bM003N_xGFpug@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: pahole-version: avoid errors if executing fails
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, bpf@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Various information about modules is compiled into the info sections.
-For that a dedicated .mod.c file is generated by modpost for each module
-and then linked into the module.
-However most of the information in the .mod.c is the same for all
-modules, internal and external.
-Split the shared information into a dedicated source file that is
-compiled once and then linked into all modules.
+On Sat, Aug 24, 2024 at 3:48=E2=80=AFAM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Fri, Aug 23, 2024 at 4:00=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu=
+> wrote:
+> >
+> > Do we have to catch all possibilities?  Then, what about this:
+>
+> Something like that sounds good to me too -- we do something similar
+> in `rust_is_available.sh`. We also have a `1` in the beginning of
+> (most of) the `sed` commands there to check only the first line.
+>
+> I guess it depends on whether Masahiro thinks the extra
+> checks/complexity is worth it. Here I was aiming to catch the case he
+> reported, i.e. non-successful programs.
 
-This avoids frequent rebuilds for all .mod.c files when using
-CONFIG_LOCALVERSION_AUTO because the local version ends up in .mod.c
-through UTS_RELEASE and VERMAGIC_STRING.
-The modules are still relinked in this case.
 
-The code is also easier to maintain as it's now in a proper source file
-instead of an inline string literal.
+My previous report was slightly different.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
-Changes in v2:
-- Remove RFC status
-- Incorporate Masahiro's proposals
-  - Rename modinfo.o to .module-common.o
-  - Build a dedicated .module-common.o for external modules
-- Link to v1: https://lore.kernel.org/r/20240824-modinfo-const-v1-1-485f9c64b868@weissschuh.net
----
-Masahiro, feel free to add some attribution for yourself when applying.
-The new appraoch is pleasantly simpler.
----
- scripts/Makefile.modfinal |  7 +++++--
- scripts/mod/modpost.c     | 23 -----------------------
- scripts/module-common.c   | 25 +++++++++++++++++++++++++
- 3 files changed, 30 insertions(+), 25 deletions(-)
+CONFIG_{RUSTC,BINDGEN}_VERSION_TEXT are string type symbols.
+The shell command is allowed to return any string, including an empty strin=
+g,
+as long as the value is enclosed by double quotes.
 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 306a6bb86e4d..6b1b72257b29 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -30,6 +30,9 @@ quiet_cmd_cc_o_c = CC [M]  $@
- %.mod.o: %.mod.c FORCE
- 	$(call if_changed_dep,cc_o_c)
- 
-+$(extmod_prefix).module-common.o: $(srctree)/scripts/module-common.c FORCE
-+	$(call if_changed_dep,cc_o_c)
-+
- quiet_cmd_ld_ko_o = LD [M]  $@
-       cmd_ld_ko_o +=							\
- 	$(LD) -r $(KBUILD_LDFLAGS)					\
-@@ -54,13 +57,13 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
- 
- # Re-generate module BTFs if either module's .ko or vmlinux changed
--%.ko: %.o %.mod.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
-+%.ko: %.o %.mod.o $(extmod_prefix).module-common.o scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),vmlinux) FORCE
- 	+$(call if_changed_except,ld_ko_o,vmlinux)
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- endif
- 
--targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
-+targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) $(extmod_prefix).module-common.o
- 
- # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
- # ---------------------------------------------------------------------------
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index c8cd5d822bb6..107393a8c48a 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1755,26 +1755,9 @@ static void check_modname_len(struct module *mod)
- static void add_header(struct buffer *b, struct module *mod)
- {
- 	buf_printf(b, "#include <linux/module.h>\n");
--	/*
--	 * Include build-salt.h after module.h in order to
--	 * inherit the definitions.
--	 */
--	buf_printf(b, "#define INCLUDE_VERMAGIC\n");
--	buf_printf(b, "#include <linux/build-salt.h>\n");
--	buf_printf(b, "#include <linux/elfnote-lto.h>\n");
- 	buf_printf(b, "#include <linux/export-internal.h>\n");
--	buf_printf(b, "#include <linux/vermagic.h>\n");
- 	buf_printf(b, "#include <linux/compiler.h>\n");
- 	buf_printf(b, "\n");
--	buf_printf(b, "#ifdef CONFIG_UNWINDER_ORC\n");
--	buf_printf(b, "#include <asm/orc_header.h>\n");
--	buf_printf(b, "ORC_HEADER;\n");
--	buf_printf(b, "#endif\n");
--	buf_printf(b, "\n");
--	buf_printf(b, "BUILD_SALT;\n");
--	buf_printf(b, "BUILD_LTO_INFO;\n");
--	buf_printf(b, "\n");
--	buf_printf(b, "MODULE_INFO(vermagic, VERMAGIC_STRING);\n");
- 	buf_printf(b, "MODULE_INFO(name, KBUILD_MODNAME);\n");
- 	buf_printf(b, "\n");
- 	buf_printf(b, "__visible struct module __this_module\n");
-@@ -1792,12 +1775,6 @@ static void add_header(struct buffer *b, struct module *mod)
- 	if (!external_module)
- 		buf_printf(b, "\nMODULE_INFO(intree, \"Y\");\n");
- 
--	buf_printf(b,
--		   "\n"
--		   "#ifdef CONFIG_MITIGATION_RETPOLINE\n"
--		   "MODULE_INFO(retpoline, \"Y\");\n"
--		   "#endif\n");
--
- 	if (strstarts(mod->name, "drivers/staging"))
- 		buf_printf(b, "\nMODULE_INFO(staging, \"Y\");\n");
- 
-diff --git a/scripts/module-common.c b/scripts/module-common.c
-new file mode 100644
-index 000000000000..12fbc6d3aae8
---- /dev/null
-+++ b/scripts/module-common.c
-@@ -0,0 +1,25 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/module.h>
-+/*
-+ * Include build-salt.h after module.h in order to
-+ * inherit the definitions.
-+ */
-+#define INCLUDE_VERMAGIC
-+#include <linux/build-salt.h>
-+#include <linux/elfnote-lto.h>
-+#include <linux/vermagic.h>
-+
-+#ifdef CONFIG_UNWINDER_ORC
-+#include <asm/orc_header.h>
-+ORC_HEADER;
-+#endif
-+
-+BUILD_SALT;
-+BUILD_LTO_INFO;
-+
-+MODULE_INFO(vermagic, VERMAGIC_STRING);
-+
-+#ifdef CONFIG_MITIGATION_RETPOLINE
-+MODULE_INFO(retpoline, "Y");
-+#endif
+In this case, CONFIG_PAHOLE_VERSION is an int type symbol,
+hence the shell command must not return an empty string.
 
----
-base-commit: 9f18baf3dd656e7ca166038d51e0b54a892d87db
-change-id: 20240824-modinfo-const-6f0d67e2b301
+Ensuring this should be easy.
+Why don't we fix it properly while we are here?
 
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
 
+
+
+>
+> Cheers,
+> Miguel
+>
+
+
+--
+Best Regards
+Masahiro Yamada
 
