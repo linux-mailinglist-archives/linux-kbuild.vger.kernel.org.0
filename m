@@ -1,155 +1,191 @@
-Return-Path: <linux-kbuild+bounces-3337-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3338-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8303796A1EF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 17:17:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD9796A528
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 19:15:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 265DE1F26DB7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 15:17:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4027CB24808
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 17:15:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2265518C92D;
-	Tue,  3 Sep 2024 15:15:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D267B18DF85;
+	Tue,  3 Sep 2024 17:14:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WULXNsMF"
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="12VGiL+F";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="giyy0SpS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pfout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824A518891A
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Sep 2024 15:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F3C6F315;
+	Tue,  3 Sep 2024 17:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725376542; cv=none; b=r52ICSgZowHnRHYB4n+if/6QrfLZKkntUyLU8aDzIFPEablO1/qoul7JGlsYXVt0ofajRa0LuqOwpucXiFEPcRJaO9Y9FQF9kXLUGdjXXBqrmkxDlNFCJ9ZdGClyFeaP/lwA2/bIbQ/CUm0vQ0E9gYd4Itr6x98KTHaAJu3klCk=
+	t=1725383695; cv=none; b=qPNjzXMcMrYJPFWvt3GQD7OAOIze9iWIRESuoA/CxWFYm33suusx+KwdbS85bdxOpDlCmTF1YflLsdhhA399bbYkseI5jVCmNEF6d6+EqrSMM8t3QV+Ijk15fySLkcOAe/iElcpsNfuZjUCDkKK4hkOmG/pOfyL4lh3f80oR4Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725376542; c=relaxed/simple;
-	bh=VQoch2Jnk1OtZ5AtE+c96J0cQy86KkHUvIBG+sr4F1s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MSOpf558YEP7wA7+xQ1T8xeAEHkxHS6a2TvBcWiUK5eFravtYjBJsET6nOY/a4NJewHHjjdwNIb0V1iLzTOeOhLsS9nQMbU/Waisy5Tskm/FBu1EgYE49TbGwszp6ZBvywUqBWHsH0jIUZdgm4fD6bi7CdfWqt7fG8iDtJs3Tx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WULXNsMF; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53438aa64a4so6641253e87.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 Sep 2024 08:15:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1725376538; x=1725981338; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/+e0U/aRCvU8DuFYoeV8O/KmFptz8b7Txjch+YXTIjA=;
-        b=WULXNsMFwBairxyGwUrNlaDT+LuyCLt4ia6PJNtRKhbDZfTcfO8L3m2HiHfk3cDrX7
-         +DjCPhtyfHVECGC0+DkgAMq75e6ZgJXAlNykaS7KVzBehf/tZG5cxmGlLA30bq4eSUgF
-         MgHMXRUKF8QNAzHAtaLKW1/qrv8VJqnzzzGalq8BxhYWfHG+ESNn7ZnYme/vPuZJ6VQr
-         f6ALrlWHrQa9RXeo/Rm6s771mFMl0Q9y/rO9Y59ZJ6JgQ3KU8Lu6UwBjZzr/C2NF9nbR
-         jEDJxh/RVmMCTO1Y8hYk6mqebkmxZ5q5LHveKKI9pTBo+MkrefIpG2WH7AGnZWnkcDv/
-         bZEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725376538; x=1725981338;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/+e0U/aRCvU8DuFYoeV8O/KmFptz8b7Txjch+YXTIjA=;
-        b=UE5cULKE0eRp2jM84b9RqTibb/z9yvzQ5PEaozDJg9n+ONpbNFIeiWJ/tmpG6jbSPE
-         GAFF5whjBYbRyr9WOU9RX5UrM0jLQsHp6Yne8SUJ3u+cBgJguKRQ+mTic7VQnctr4lnQ
-         k5Ulk0/qSQ+0LYhTv7XvPMvIejBJkEC5PFpNrGT+7KTb/U9bh+SMjFBpMk6cR3Lh+eAu
-         enr2Y7oIYvAamerbhQA3SKGvSJUPU8+6Gu5BInt2nqZ597VqSQAlBCXxYv8KaDMjOAsX
-         XI0kfLER3gu6L37KSFM7B7+fWk2SBXIFafxSJv9nb2KcoX10QD3Yj4zi2ORx19N3SHU8
-         saRw==
-X-Forwarded-Encrypted: i=1; AJvYcCV96RUG5KXyQVB8nenQAk2sVuabS5KTiY3zF0ekMSEyaWotxzYG9dGEzzZMBDOOwB3X/CH2j6RPmYTjs7s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV3IGMfiV/nu4XtrSAAh1jC1pJmqcY4rfqwxA6fymvzs0P3UQn
-	rCMZw4X3O9etzebjstY2UJ+iB7kfcjAtog7O49xnAAq5bRcAdhP2qQSEHcWlciI=
-X-Google-Smtp-Source: AGHT+IGdZTw/KUyMiDlZSkuc9mANPu7vBYcf24gYwin1fZw518o/l8XDosnXT/1xrZtFfnHMtfr7sg==
-X-Received: by 2002:a05:6512:2383:b0:52c:9468:c991 with SMTP id 2adb3069b0e04-53546b03ffamr9361946e87.14.1725376537413;
-        Tue, 03 Sep 2024 08:15:37 -0700 (PDT)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c226c6a2fdsm6520881a12.13.2024.09.03.08.15.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Sep 2024 08:15:37 -0700 (PDT)
-Message-ID: <47bc562d-b9c7-464b-a2e2-dbb8c14d146b@suse.com>
-Date: Tue, 3 Sep 2024 17:15:36 +0200
+	s=arc-20240116; t=1725383695; c=relaxed/simple;
+	bh=yHsKOiUFp2MiVqGWwQV43VcJHwo6PG/N8EqTaf5dnE8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gqFF6jnowDTkKQkeKDCBoth+UccuD7tW8FjtJlE9n5soKeIbwTIaw/idycrVgOE35+0ILhbQ4GRhnjc7L/h2goAsF7a4LgRk+7N6vwnB3dDY2svxLbqbE3ARRZUzyGFB0cjEdlpWwLRc7RyMLZjDsmTv1CQsE9tnVAoixghg96s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=12VGiL+F; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=giyy0SpS; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 006EB13803CF;
+	Tue,  3 Sep 2024 13:14:53 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 03 Sep 2024 13:14:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1725383692; x=1725470092; bh=dB
+	UfKeVf2UEZTsAZiC5iNPpiBQ1B2GtTe75No1Oz86U=; b=12VGiL+FFCka10zW+c
+	kC5wRGUWUt4NWGeHJMbTeZD9/TRhy5/yPewvphUFUcEiWQS4kfqku1he0miBKhOz
+	72dtoYzShDiQs5s49LyxDG6uE1+9oRHfvuqGHKL6SpoEmmYy3GCG62rZQRWJdGkl
+	oVImBnC3pkpvR4bBwaU1qd0B3r37CTWJN1aqAPzFgXtAaiuROGw2Kjnozppbi5L3
+	EEzfEmQLpEjA64RxMrL0DQmYkeXnnNrxfl9NCjO4gAfa6uG787+ZZlSboQjkUC0/
+	yRDgX+GP6tFcpJ9sSl7BXWYsTe8ymfGw7Y1UY5LHrW/NAIibMb7+tuAqZN/fVz0W
+	bUUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1725383692; x=1725470092; bh=dBUfKeVf2UEZT
+	sAZiC5iNPpiBQ1B2GtTe75No1Oz86U=; b=giyy0SpStln1MvyZnmrs0i5R9QIjv
+	mML5XtoWlbAot5P3sn5ZMXPppVE2LMSvIu2nTd1pXP/3v31HIhJ664/i8pSo3leS
+	9QUtimSyggthryclPp+9mbFZnP82ifmN15IPbu5J7NdvGJRHJUAAhwDK+EIqb7wz
+	wf8TAhgvHo/bfQBeNSPP6NCYcG7w7WJcnYBZNCNuAorxLhHjq+wUZkA1WgLcnsCx
+	BnGE4Bh7RgglN1jJjxy/pAZS6pgtjH/UGtO4bJdJ9g3f97A0oX/bQKpknBE3iGJB
+	S7lR4VgnhqWuDuhtyXmSRzQIyfeY+ARGz3fOeXcGoRV1SSHDr47mL45hg==
+X-ME-Sender: <xms:CkTXZo5SqroS1sTNLgmrJDDHbG62xfu399l__B3wSSQGJ2Ef_eB_Hw>
+    <xme:CkTXZp7WjgcUnau8yyob-H9QOhAg5ZUzsfNJ08YiYpjyYnOG7mqh8o3Z77MtbYtPX
+    2X3blepGamfy7-5lK8>
+X-ME-Received: <xmr:CkTXZnetq2EXvHxxzk55tZ1D6ikuj7lK4hVAxF16JX2kvGLcDX96PeJ1PEA-i9ZEAyU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehhedguddutdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeen
+    ucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihgh
+    horghtrdgtohhmqeenucggtffrrghtthgvrhhnpedufffffffhueehvefhgfelveekueeg
+    teefgeeiieejheefkeehkeevudevieegueenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgt
+    ohhmpdhnsggprhgtphhtthhopeegtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
+    epsggvnhhnohdrlhhoshhsihhnsehprhhothhonhdrmhgvpdhrtghpthhtohepthhssgho
+    ghgvnhgusegrlhhphhgrrdhfrhgrnhhkvghnrdguvgdprhgtphhtthhopehjohhhrghnnh
+    gvshesshhiphhsohhluhhtihhonhhsrdhnvghtpdhrtghpthhtoheplhhlvhhmsehlihhs
+    thhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvg
+    htpdhrtghpthhtoheprhhitghhrghrugesnhhougdrrghtpdhrtghpthhtohepthhglhig
+    sehlihhnuhhtrhhonhhigidruggvpdhrtghpthhtohepsghjohhrnhefpghghhesphhroh
+    htohhnmhgrihhlrdgtohhmpdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhr
+    gh
+X-ME-Proxy: <xmx:CkTXZtIxiTQESdo22N2eGnQfM_DMR0BEH7Ch8icyR6wnbcBN5EKewA>
+    <xmx:CkTXZsKmCOdFuq5CENNbP-OeT0jqudA2kT3sgSiiKfmmQUrNVVcbRA>
+    <xmx:CkTXZuzoP5yjEJ56bl-Ofj_XUo4ysmA4W5UUu-RnvIOWA88K2k0QSA>
+    <xmx:CkTXZgLGp8ZVxkCkb25EOMe2XEZrIqFs8koY2WqRhcDbHJ3ezgQfcQ>
+    <xmx:DETXZseSggvY7dvJI0wBC6GSv6tWlR2lQ4COPW1xAhYH2piybbcKdMyE>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Sep 2024 13:14:46 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH 0/3] rust: Initial MIPS support
+Date: Tue, 03 Sep 2024 18:14:33 +0100
+Message-Id: <20240903-mips-rust-v1-0-0fdf0b2fd58f@flygoat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/19] gendwarfksyms: Limit structure expansion
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
- Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-32-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20240815173903.4172139-32-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPlD12YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDSwNj3dzMgmLdotLiEt20RIvUtBQLY7PkVEsloPqCotS0zAqwWdGxtbU
+ AkM9ljVsAAAA=
+To: Masahiro Yamada <masahiroy@kernel.org>,
+  Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>,  Richard Weinberger <richard@nod.at>,
+  Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+  Johannes Berg <johannes@sipsolutions.net>,
+  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+  Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,  x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,  Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+  Wedson Almeida Filho <wedsonaf@gmail.com>,
+  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+  Benno Lossin <benno.lossin@proton.me>,
+  Andreas Hindborg <a.hindborg@samsung.com>,
+  Alice Ryhl <aliceryhl@google.com>,
+  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+  Steven Rostedt <rostedt@goodmis.org>,
+  Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,  Jonathan Corbet <corbet@lwn.net>,
+ Alex Shi <alexs@kernel.org>,  Yanteng Si <siyanteng@loongson.cn>,
+  Nick Desaulniers <ndesaulniers@google.com>,
+  Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-um@lists.infradead.org, rust-for-linux@vger.kernel.org, 
+ linux-mips@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, llvm@lists.linux.dev, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1758;
+ i=jiaxun.yang@flygoat.com; h=from:subject:message-id;
+ bh=yHsKOiUFp2MiVqGWwQV43VcJHwo6PG/N8EqTaf5dnE8=;
+ b=owGbwMvMwCXmXMhTe71c8zDjabUkhrTrLmwX27bfZTp0Rqz9StjDHXtX9Dek3XgaOfPK4zubX
+ Q9oa/t97ChlYRDjYpAVU2QJEVDq29B4ccH1B1l/YOawMoEMYeDiFICLHGdkWFu0bHI876v+lp2J
+ xaYTQ7OLJ7xm4rsn/PhAL2v0rcwHYgz/TKWfeb5fNut3m9/qe0WS2/tSW6vUtjrMn1hxc/WOBPN
+ uDgA=
+X-Developer-Key: i=jiaxun.yang@flygoat.com; a=openpgp;
+ fpr=980379BEFEBFBF477EA04EF9C111949073FC0F67
 
-On 8/15/24 19:39, Sami Tolvanen wrote:
-> Expand each structure type only once per exported symbol. This
-> is necessary to support self-referential structures, which would
-> otherwise result in infinite recursion, but is still sufficient for
-> catching ABI changes.
-> 
-> For pointers to structure types, limit type expansion inside the
-> pointer to two levels. This should be plenty for detecting ABI
-> differences, but it stops us from pulling in half the kernel for
-> types that contain pointers to large kernel data structures, like
-> task_struct, for example.
+Hi Folks,
 
-I'm quite worried about this optimization for pointer types. It could
-result in some kABI changes not being recognized.
+This series added MIPS arch support to rust for linux,
+hopefully MIPS is not too late to the party :-)
 
-I assume the goal of the optimization is to speed up the tool's runtime.
-How much does it improve the processing time and is there any other way
-how it could be done?
+Sample rust module tested on R4000(el),mips32,mips32r2el,mips64,
+mips64r2el,mips64r6el.
 
-> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-> index 92b6ca4c5c91..2f1601015c4e 100644
-> --- a/scripts/gendwarfksyms/dwarf.c
-> +++ b/scripts/gendwarfksyms/dwarf.c
-> [...]
-> @@ -651,6 +742,7 @@ static int process_exported_symbols(struct state *state, struct die *cache,
->  		else
->  			check(process_variable(state, &state->die));
->  
-> +		cache_clear_expanded(&state->expansion_cache);
->  		return 0;
->  	default:
->  		return 0;
+Please review.
 
-I wonder if it would make sense to share the cache between processing
-individual exported symbols.
+Thanks
 
-The hard case looks to be the following:
-s#A struct A { int ; }
-s#B struct B { s#A ; }
-foo void foo ( s#B )
-bar void bar ( s#A , s#B )
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+Jiaxun Yang (3):
+      rust: Introduce HAVE_GENERATE_RUST_TARGET config option
+      MIPS: Rename mips_instruction type to workaround bindgen issue
+      rust: Enable for MIPS
 
-When processing foo, the code would cache s#B with expanded s#A.
-However, when processing bar and reaching s#B, the cache should report
-a miss because s#B with unexpanded s#A is required.
+ Documentation/rust/arch-support.rst                |  1 +
+ .../translations/zh_CN/rust/arch-support.rst       |  1 +
+ Makefile                                           |  4 ++
+ arch/Kconfig                                       |  8 +++
+ arch/mips/Kconfig                                  |  2 +
+ arch/mips/include/asm/dsemul.h                     |  2 +-
+ arch/mips/include/asm/inst.h                       |  6 +-
+ arch/mips/kernel/ftrace.c                          |  2 +-
+ arch/mips/kernel/kprobes.c                         |  2 +-
+ arch/mips/math-emu/cp1emu.c                        | 18 +++---
+ arch/mips/math-emu/dsemul.c                        |  8 +--
+ arch/um/Kconfig                                    |  1 +
+ arch/x86/Makefile                                  |  1 -
+ arch/x86/Makefile.um                               |  1 -
+ rust/Makefile                                      |  2 +-
+ scripts/Makefile                                   |  4 +-
+ scripts/generate_rust_target.rs                    | 64 ++++++++++++++++++++++
+ 17 files changed, 102 insertions(+), 25 deletions(-)
+---
+base-commit: 469f1bad3c1c6e268059f78c0eec7e9552b3894c
+change-id: 20240903-mips-rust-fa8efd836ce9
 
-So the code would need to track which types were already expanded and
-have each cache entry accordingly tagged with similar data.
-
-Hm, it might be that doing all this additional tracking would then be
-actually slower than processing the types repeatedly for each symbol.
-I'm not sure.
-
+Best regards,
 -- 
-Thanks,
-Petr
+Jiaxun Yang <jiaxun.yang@flygoat.com>
+
 
