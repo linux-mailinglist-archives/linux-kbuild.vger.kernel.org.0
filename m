@@ -1,122 +1,152 @@
-Return-Path: <linux-kbuild+bounces-3332-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3333-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E34996990A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 11:32:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45382969BFE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 13:36:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 819C71C2477B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 09:32:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B2F80B22EA8
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2024 11:36:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A2C1A0BF8;
-	Tue,  3 Sep 2024 09:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 379331C768A;
+	Tue,  3 Sep 2024 11:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2+DIvPM"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TOHqjb7E"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2171A0BC9;
-	Tue,  3 Sep 2024 09:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC981AD26D
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Sep 2024 11:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725355776; cv=none; b=YmMrn3B89npQS3P6ZylJ0v6ufzgxucSaiffm7R7BjFIadOOX27cKn8on/F6gm97nWgymLQvsUyP1kvdsfPAwkPwEHYn2QX+GCisEN6gcDA5+VxQfrD0CalyjTzDLlkl1RhY/Iw5gSNhMZGzWkxqlbfssE4TDfStGZkO7tfpZ5lA=
+	t=1725363357; cv=none; b=X3GRMkyOZaDJdXhK14dhqgq1SMaWEHlnU9EqmV4uMas0wpk8u1Iq1fjj/AvljEmWBsC5huX07mmY8gsbJN6aMjaxlxJWaZjSbZE94Oy4utFrlR2MivUPAIuPCG0iKbY6PQ5CP1+p2l6P4uNV2qQ0xyaQC4eXbESqHTkqNJ9LGqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725355776; c=relaxed/simple;
-	bh=V6Ts8UeyZzyhtsfr4GKAWGTzPe6MoHhPae1lOHa7ehM=;
+	s=arc-20240116; t=1725363357; c=relaxed/simple;
+	bh=bT4RGC2/CI90zsMbK3CXEI/uSpQdMQIiJJS3i73fW+Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wd3MxDaD5NUEtZDyWZ/5ZVuX+ly24+1oYAlSbhyKjJOx1OFU2SwrjjljBS3M8vCfCbzaliXvOaq00xOy+Yz7S5iNHIiiesN5EKK2c11+OHo4tDJ+A/ZcLrDa16KKZ4e5BnvyRIy1OqIfIng0hnpb+x6YP2Et/2Rcj+a3ahCVzSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2+DIvPM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78215C4CECA;
-	Tue,  3 Sep 2024 09:29:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725355775;
-	bh=V6Ts8UeyZzyhtsfr4GKAWGTzPe6MoHhPae1lOHa7ehM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=B2+DIvPMxoKjhFD7wiF+7h0l/cf/7MYT3BR0Zhx9vp7HBRO4mfIxwB9KqYB/sTeeC
-	 1G81qhU92qnFCiE/jliReBCBu6b2qHvBBHBVRrSMDGFA+JwuXas7widUz6aFtvxdkF
-	 4tjHzOkHd6/ex/78UYqR6cDfYnFj/Pq5XqY4K3a0iXYisf626Hp7/acc1DOSY/a6cg
-	 a2POT1sITjmIyfszLS/XUbkntiO3MqghfOGuiOpgHz9jatyaXxIOGO9cYBAqqbwA/B
-	 15wIL94JzUdR+NZ65E3bnzn2/+w0/WyZpdfxs3YRDoguIILWF4YT/rse1cCgfc4OyQ
-	 fg09k/DSfw2nw==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-533521cd1c3so5884505e87.1;
-        Tue, 03 Sep 2024 02:29:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURPe1GiCI1KlAHjuWacnN2AggN9fD1gyk1bD+ZwUYG64AxnGRywNGWag5Cn9StVlXS9OnTwbyRVOZAm4jm@vger.kernel.org, AJvYcCUe+kbF+z39BXoQTd00/AVIRb0G9WWgtpHnW+pYMXSePI7rTTfxGkh2z4JVLEKF5AXFYbA=@vger.kernel.org, AJvYcCVJtQsPA9bxFAJhxs7Wqu97RRR1Jd3NMzZhyeH2aMYTYXKFQQSrChZsfPIg0X+2myz/O95kimIAIDVhKrBU@vger.kernel.org, AJvYcCWm8dH+2mGgU1m28iGBHLiPuEDNIMKFLrowQBrxLQDyZpXS89eNlJr39QfhHIua/3u9tXIsOnbovCOfpQ==@vger.kernel.org, AJvYcCXoGibKNA6WBO2Uwc1lWZn0mYCDzk4JoZ/Mq7SW5TZJXyTrJkJq+/jhE3YWkQfhL6WSLXZB@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzs1XRcEroX/5U8GXO/VojN2TXwmV2w5zlTNAnY+4OzOIRMtVHJ
-	nKotLfvTGm9eLVMTAI+hKwNk0vRQ1SlzpXwAK5klZc51/krXyQqiEtKPF6iYICPoNLPyeZwFdwM
-	swD73640W5AAvul2H5uC7GILBnM0=
-X-Google-Smtp-Source: AGHT+IHCtdlG38E/0l7FYyhNp/Eh+agXUP/x4m9X1sDISAuGOfE6COrF1RVXR4n+XrSU6Tf+eKwYmtlidm1SXvGzdlM=
-X-Received: by 2002:a05:6512:108f:b0:533:4785:82ab with SMTP id
- 2adb3069b0e04-53546b223d3mr10683476e87.1.1725355774159; Tue, 03 Sep 2024
- 02:29:34 -0700 (PDT)
+	 To:Cc:Content-Type; b=IFz9VbDk8xwVgiQFv9QfzN+1k7QC8U2Odx1bfAYhlis3XmL4BFthMIBQZAfKFbtRXqxIJXbDo2hEyovK6lRcW6Dr+/2dThDS3BXK/7hyOYcqFxaxRLHgAmHSQQxpSD8Wp1P3biAa8zPfFmIR2eU/+y7kJdaQpc43kx8ASwo5KBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TOHqjb7E; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-374c180d123so1563245f8f.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Sep 2024 04:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725363354; x=1725968154; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IEfBb5av8BFTOtupO7uTtvSgIG4RHj+5V1mUmY2oDqg=;
+        b=TOHqjb7EGUzXr7ryAcjsxPmAL7Tb7uKEpUJb7qJA/tgZn/URRKaUzFyDKpRkRNXEhi
+         mqNsESbDFPgObUo/6ZmflEIkgdBXpMeMowOISK6iukvTNclTskdv8Ygcrs6vrbJ0XhAX
+         ExuRrS0fYQXB7nxwBjXyXvA+4Z6yVDf5nz4yuYx6rrF9H4rwvjXzOcsT73nqs7pMgXQ3
+         u2IKfk42qVvwdncaOoGlHRcWtTWjUIuxQ1s+qod4elBVOvWgpGIuNBwEQDWqso4XGS61
+         QDmqC0a4dcpPeEWLcq9H/qAIXMynKvsQ/zGPlur/yxow2TNMtzC8FCO6oohvUZa3etaD
+         +8Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725363354; x=1725968154;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IEfBb5av8BFTOtupO7uTtvSgIG4RHj+5V1mUmY2oDqg=;
+        b=TPdSjJuxaqI23ucaHtcamfDpiHy4QGCdoYEqwIJ3n1SSyO/T+pdETpYifsLQ9MIeDb
+         ZqxYaR1996Sea2ZgVIsYxRe2vCxXrn2ZCvprSCqAlTxV5WosgAlvnrqU4SvG5Jc6xzVX
+         cPK2uVKQQc7rX5ksgYfGdoBXipaF2ot52KMzgeh/H8pY50pTKFYQfHJsEbtEdzMRmb/1
+         l4gCmMr2MIIt402jReaEbyO0yN9EnUc3BaR81ik13FI81gQzgBvS4OsPyeAyHOZ85cSE
+         ciyaPhLu/20ZHHBuYma6/DpRw2+er5eJjv1xFONTb1qAIozlX97qGVSjTfl9jG3tFFJb
+         uthg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9A8NWlRX1wvYINI2Q9oSfmAnvW/+kzMk65mcrY1YE/t29lez2juvSx1QCgt9M7+AAuXrOYgChLJZ9uFs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6vtKzW9wdfscThykFu2WHvG7iIb5WRCp4r2HTDWtN/lvMxu8k
+	sSFU/iJ9fc/Q6qnRhORIrZoS/sinB0ddFvrzTih7v7Ive2rwviKpT9DWoLLmoXqerUoGieEySnx
+	HAGeCItu/0iXtaqr9tlu6iR3pQRnM5SjF8W2J
+X-Google-Smtp-Source: AGHT+IF9EQsoYXne6eLFgLTZXI3J+dUe2SLFltUotHmh01fE8kD9sVslO84tO3FvbvFkH2w8hwfuP0jI+0CAeaHMDUg=
+X-Received: by 2002:adf:9bde:0:b0:374:bd05:a074 with SMTP id
+ ffacd0b85a97d-374bd05a0cemr5743763f8f.12.1725363353295; Tue, 03 Sep 2024
+ 04:35:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240828083605.3093701-1-vegard.nossum@oracle.com>
- <875xrd7h88.fsf@mail.lhotse> <d1bb2638-2e0e-44ef-b8da-9746ed532ed1@oracle.com>
-In-Reply-To: <d1bb2638-2e0e-44ef-b8da-9746ed532ed1@oracle.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 3 Sep 2024 18:28:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT84K0RgDfLoOOLjtyCqsS19bASXRv43HF8P=C9obJPVA@mail.gmail.com>
-Message-ID: <CAK7LNAT84K0RgDfLoOOLjtyCqsS19bASXRv43HF8P=C9obJPVA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use objcopy to generate asm-offsets
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-omap@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-um@lists.infradead.org, bpf@vger.kernel.org, llvm@lists.linux.dev
+References: <20240902165535.1101978-1-ojeda@kernel.org>
+In-Reply-To: <20240902165535.1101978-1-ojeda@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Tue, 3 Sep 2024 13:35:41 +0200
+Message-ID: <CAH5fLghEz-6HtcpD5N8qXHZt8AK-8DUXHKXbHgs0YQ-pTJrTtg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] `RUSTC_VERSION` and re-config/re-build support on
+ compiler change
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	rust-for-linux@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 3, 2024 at 4:21=E2=80=AFPM Vegard Nossum <vegard.nossum@oracle.=
-com> wrote:
+On Mon, Sep 2, 2024 at 6:55=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wrot=
+e:
 >
+> This series mainly adds support for `CONFIG_RUSTC_VERSION` (which is need=
+ed for
+> other upcoming series) as well as support for rebuilding the kernel when =
+the
+> Rust compiler version text changes, plus other secondary improvements.
 >
-> On 03/09/2024 01:45, Michael Ellerman wrote:
-> > Vegard Nossum <vegard.nossum@oracle.com> writes:
-> >> Remove the sed script and compile the C source listing structs and
-> >> offsets to an object file (instead of assembly code) that embeds C sou=
-rce
-> >> directly. Then extract the C source using objcopy.
-> >>
-> >
-> > I threw some builders at this and hit a few errors:
+> v1: https://lore.kernel.org/rust-for-linux/20240808221138.873750-1-ojeda@=
+kernel.org/
+> v2:
 >
-> Thanks, I also got the ones from kernel test robot and figured something
-> was going a bit wrong.
+>   - Dropped patch #2 "kbuild: rust: make command for `RUSTC_VERSION_TEXT`=
+ closer
+>     to the `CC` one" (Masahiro, Bj=C3=B6rn).
 >
-> There are several issues: clang wants - instead of /dev/stdout as an
-> argument to objcopy, and then gcc has some bugs that prevent the numbers
-> from appearing correctly on some architectures, also I had an extra # in
-> the COMMENT() macro which only resulted in an error on some
-> architectures. I've attached a tentative v2 that fixes these issues, but
-> I'm still trying to figure out why m68k is giving me slightly different
-> output for include/generated/asm-offsets.h and why the arc assembler
-> fails.
+>     In other words, now the `RUSTC_VERSION_TEXT` command is kept as it
+>     was, without `LC_ALL=3D1` nor `| head -n1`.
 >
-> In the end I'm wondering if this patch is really worth it, given all the
-> failures and little workarounds :-| If I can sort out the last few
-> failures I'll submit it as an RFC.
+>   - Replaced `macros` crate dependency with a comment in the code that `f=
+ixdep`
+>     will find, since we can do it for that one, unlike `core` (Masahiro,
+>     Nicolas).
+>
+>   - Added patch (here #5) to add a warning when the Rust compiler used to=
+ build
+>     the kernel differs from the one used to build an out-of-tree module, =
+like
+>     the C side does (Nicolas).
+>
+>     If the patch is not wanted, then it can be skipped without much loss,=
+ since
+>     anyway Rust will fail to compile in that case. However, it would be n=
+ice to
+>     have to prevent potentially unexpected situations and to clarify the =
+errors
+>     that `rustc` would emit later. See the commit message for more detail=
+s.
+>
+>   - Rewrapped comment to stay under 80 lines (Nicolas).
+>
+>   - Picked up a couple tags that could more or less be reasonably taken g=
+iven
+>     the changes to v2. Re-runs of tests welcome!
+>
+> Miguel Ojeda (6):
+>   kbuild: rust: add `CONFIG_RUSTC_VERSION`
+>   kbuild: rust: re-run Kconfig if the version text changes
+>   kbuild: rust: rebuild if the version text changes
+>   kbuild: rust: replace proc macros dependency on `core.o` with the
+>     version text
+>   kbuild: rust: warn if the out-of-tree compiler differs from the kernel
+>     one
+>   docs: rust: include other expressions in conditional compilation
+>     section
 
-This patch has zero benefit.
+I re-ran the same tests as for v1.
 
-The current way (preprocess + sed) is faster than
-your way (preprocess + compile + objcopy) and works
-independently of tool quirks.
-
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Tested-by: Alice Ryhl <aliceryhl@google.com>
 
