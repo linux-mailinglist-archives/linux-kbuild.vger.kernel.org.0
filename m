@@ -1,112 +1,132 @@
-Return-Path: <linux-kbuild+bounces-3356-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3357-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD0D96AE7A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 04:16:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5703C96AE85
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 04:24:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3A181F25B4C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 02:16:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A6426B2321A
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 02:23:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32351DDE9;
-	Wed,  4 Sep 2024 02:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAC512D60C;
+	Wed,  4 Sep 2024 02:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tffmEZe7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I+QROyqm"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABA9BE49;
-	Wed,  4 Sep 2024 02:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF46BE49;
+	Wed,  4 Sep 2024 02:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725416181; cv=none; b=DMHLUMY9sfUAXMfVF80bwESx6CZ/U+ttOA3q2qZp8D3H4aoIGf+vBsMwk6CwuQugyAZzyC8TEUWkTM/KtIrjXGsSoHLa7AZpzVIK1ZggOG/fKOExuKicB7Z5yWqbp+oskApQX2v1MqgQCQmgJgGZia5VPUmKgIwImJAXsZaP8M8=
+	t=1725416632; cv=none; b=Bn4PM02pyDh7iJc09Jb8CKbol3H7LEncNU2XL1FClH/WhJRKYhLHAlFMj1+jfZG+O52ZedIy7VB3N+PN+LU4LjJae89reNUcu05BnyTUxcoHpaHhZIasKpbMOHm2+exQIuc8zlRQK3sveJpwP9b9uMQxtiRd6+7X9AcSAXNpyJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725416181; c=relaxed/simple;
-	bh=+6e/KTyy6zvpoxC1aqlcDjymL6VtOVD5DqVq1y8ne+g=;
+	s=arc-20240116; t=1725416632; c=relaxed/simple;
+	bh=oJFukLmjhHmgCvwx9cAiQ94whPhUJuGQuGXCVz7NOaA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O418wCyzhsUbyxhtrdQXJX1488QCQOnnKf5gq1BFy8SyQXum/JYHlyF+LiOkkZp6TsNqF/L0dCkHs0BZEq73AaM4lH34DdPUnWp2vPK0eKnQCYXTdW363ik/2Vk8UgX8x68RhxX/99zogvhAHAeQ9g8ofveixMdDNGAWZkT2LNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tffmEZe7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56C7CC4CEC4;
-	Wed,  4 Sep 2024 02:16:21 +0000 (UTC)
+	 To:Cc:Content-Type; b=SVV1a/Guv1ztFqcuoQZbcwTAevgQOGh1eBMEWTjItGhI5PyZpVPNUwwxkz+bW7fhohW8/WAfvW84gtLaRWdfQDIeObMG/VRtB9iZ6ku/vBsK5QGxpW1q9WDRGIm18ORrLn66ZO2W7NluxVDOEmc+X0rc0DzkZDbIcK3I0bPLfmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I+QROyqm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51076C4AF09;
+	Wed,  4 Sep 2024 02:23:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725416181;
-	bh=+6e/KTyy6zvpoxC1aqlcDjymL6VtOVD5DqVq1y8ne+g=;
+	s=k20201202; t=1725416632;
+	bh=oJFukLmjhHmgCvwx9cAiQ94whPhUJuGQuGXCVz7NOaA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tffmEZe7VL80ppP0Lmdf6pO0GauGuExvIuantmhPyjwzs3ZkBkIQe6dSS7JFm4bSC
-	 5o8wzC+Q1G6ttVSZ3sl4zRnaB4KKLxogclm4+JQ+vmH5DlqpimYDpLD5KbRwZdDniw
-	 jd402h9YlF/kR7k/DH9vmmvexQ3czSQT3FfmuQPznPnXEF4dSgh+T/PFRTHm2S5Zzs
-	 9qIB9XiTWSGq//Az0VUcXS42ULf2Tr1I2e0VxR3Vh5zdmWNqoX/hdd7A9SVL1kT55S
-	 N+hzYpbf9+UDkxnNaWJqfWVuiSa9mCNlRkitDlKWTMDdx6HSfPvPXNfTnueiBuo26H
-	 9mYC8SD6SilTw==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5343eeb4973so9393357e87.2;
-        Tue, 03 Sep 2024 19:16:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUruEks/nTaoPKcLuR4KXF/d9vYQOC5VLdieJ+4nEQj6nllZZYaPQ3NM004mi285ZDIZuLN5nsYRyAO+7Wm@vger.kernel.org, AJvYcCV5qA0rKgMcLgxsJl+ywMUujadBoef1A3Gkf1/S6rQzApGFzq7niFlfoDi6fXS82gzrMQYz96gzfwCBBH8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yydaf0ExWTmhNPPuMNGYqN7rH37jxpiEjYdDt2WFtgXS6Baf00Q
-	ZZntyiaMdXWyQxgEh/N7WaguN8XF5ebOr5VU/qv8EkauQfyA7eIehZvpPSvCTs4rso+9wDxu83e
-	BoDOaFl7pH4GCvMU1o3QleGtn0vc=
-X-Google-Smtp-Source: AGHT+IErXPCTv6mUA7KQqm65PP55vlNSUJ0CbdcUIwEdpHVzOsM1+jrOcXUkKEh0TYLL0WzgXOqBH1NP9eIIfTeL+kI=
-X-Received: by 2002:a05:6512:3da4:b0:530:e0fd:4a97 with SMTP id
- 2adb3069b0e04-53546a55137mr12111329e87.0.1725416180049; Tue, 03 Sep 2024
- 19:16:20 -0700 (PDT)
+	b=I+QROyqmR8U+5YQXIJOiplFq4e91z+xTZpqfrpXE/cNG5u/Q7EMB0N1Ky/mM+vmZv
+	 sbEwdVot9J6Y+MbYn18wHjTPyGw+d2HmYIh3MUI8qJs0kCSHrV7VlRX6U1YLm9RdM7
+	 0CRbnVJ1GSqrB+vaLKMIR2hiEbM39Jx27HDgf9Hsc52nWTW7j2Q+jc3q56v+PsCn9c
+	 1sCKYJ6+Akh9/umz3wGVGdgEFtFnWEE+CuMHub+OJrrzElQFKTHWNUd1TVY3lZIJoV
+	 e8uriDT/aqnRF1aH1vbu2t8a0q5FFl7zGYj9HnyanvWZaovsfEyU9LQ1dYRNHqwPmJ
+	 pBdxX6+DFY1GA==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f502086419so12685131fa.3;
+        Tue, 03 Sep 2024 19:23:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW7uvKZ8M/a22tRyMcfg2H/6NeqrA4AJyu2M83ZfAzVxFqqKk4LhMnpyJtP+gExsTjQ6CPVvGx2ZJmnmica@vger.kernel.org, AJvYcCXSStGQLkUlhGqa9RTeKI2GPRi0KMFvlMYx7uylhgePfWXE//Yk66IK82W/7XWRkKhMotC60ozyM6HsAdE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi3tgGLvqXPg+Q88DGiXJW5HSwt9Bup0cmRyaDOvObjIFnL8pc
+	9LfOEWrrV158WSOxAZ4lzFUptmHP8vpHtH33MbGuTjZ/hi7mtV0GlMIp12KAfLJEWEP6W+kudhM
+	rf58JX+K9+dGqmUFqyc29ngmN4lc=
+X-Google-Smtp-Source: AGHT+IFIVM3Dvzbxo6N+w/K63knyYQ+g/ShDi4w4Mhp0J6NipTdeKN/hyEV/Y7ZPGtgYDgcpCmm1am5D/S02V+kKHH0=
+X-Received: by 2002:a05:6512:3188:b0:52e:f58b:65ee with SMTP id
+ 2adb3069b0e04-53546bab08amr12201178e87.57.1725416630985; Tue, 03 Sep 2024
+ 19:23:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240902160828.1092891-1-ojeda@kernel.org> <CANiq72kV90EjHGitEVO4GQFYtQJZ_3-1rkXJnOwez7u7Ph+Z3g@mail.gmail.com>
-In-Reply-To: <CANiq72kV90EjHGitEVO4GQFYtQJZ_3-1rkXJnOwez7u7Ph+Z3g@mail.gmail.com>
+References: <20240902160828.1092891-1-ojeda@kernel.org> <20240903-super-elk-of-bliss-eaed2c@lindesnes>
+ <CANiq72=KrOnx1utXaM17x07B=V-6zmW5nA+zYKS0AU8Rd+2v9A@mail.gmail.com>
+In-Reply-To: <CANiq72=KrOnx1utXaM17x07B=V-6zmW5nA+zYKS0AU8Rd+2v9A@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 4 Sep 2024 11:15:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATf7A1z38rQP5tHKb0Zp-UouW=UfqyaEd+3A3giXxRh8Q@mail.gmail.com>
-Message-ID: <CAK7LNATf7A1z38rQP5tHKb0Zp-UouW=UfqyaEd+3A3giXxRh8Q@mail.gmail.com>
+Date: Wed, 4 Sep 2024 11:23:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ5Y-FDUasJ9OJ50T3h=EUDPcnEmP1_QhDTSheViQiLrw@mail.gmail.com>
+Message-ID: <CAK7LNAQ5Y-FDUasJ9OJ50T3h=EUDPcnEmP1_QhDTSheViQiLrw@mail.gmail.com>
 Subject: Re: [PATCH v2] kbuild: pahole-version: improve overall checking and
  error messages
 To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+Cc: Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 3, 2024 at 1:13=E2=80=AFAM Miguel Ojeda
+On Wed, Sep 4, 2024 at 9:15=E2=80=AFAM Miguel Ojeda
 <miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> On Mon, Sep 2, 2024 at 6:09=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wr=
-ote:
+> On Tue, Sep 3, 2024 at 9:49=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu>=
+ wrote:
 > >
-> > +if ! command -v "$@" >/dev/null; then
-> > +       echo >&2 "***"
-> > +       echo >&2 "*** pahole '$@' could not be found. pahole will not b=
-e used."
-> > +       echo >&2 "***"
-> > +       exit 1
-> > +fi
+> > thanks, no objections.
 >
-> We may not want to print a warning in this case if this case/setup is
-> too common, though.
+> Thanks for taking a look!
+>
+> > I'd rather like to have
+> >
+> >     output=3D$(echo "$output" | sed -nE 's/v([0-9]+)\.([0-9][0-9])/\1\2=
+/p')
+> >
+> > here (thus, explicitly check against a two number subversion), so that
+> > we can detect also versions like 1.100 or 2.1 and bail out.
+>
+> So I didn't change that here to avoid more changes in the same commit,
+> but happy to do that if preferred.
+>
+> However, do we want to make it too strict? i.e. I don't think it is
+> very unexpected to get v1.100 or v2.1 -- it may not be what current
+> `pahole` does or ever do, but I am not sure we gain much by being so
+> strict.
+
+
+I am not sure whether pahole never releases v2.0
+
+
+$ echo v2.0 | sed -nE 's/v([0-9]+)\.([0-9]+)/\1\2/p'
+20
+
+
+Not a syntax error, but the version comparison will not work correctly.
 
 
 
 
-I am fine with your color (in case someone wants
-to run it manually?) as long as stderr is suppressed
-in Kconfig.
-
-default $(shell,$(srctree)/scripts/pahole-version.sh $(PAHOLE) 2>/dev/null)
 
 
 
 
-scripts/rust_is_available.sh is very verbose, but
-we are not annoyed while running Kconfig because the
-$(success ) macro suppressed stderr.
-
-
-
+>
+> (Similarly, for the ^..$ suggestion, it could be that `pahole` decides
+> to to something like `pahole v1.25`, i.e. `name version`, like other
+> programs).
+>
+> Either way, I am happy -- I doubt `pahole` changes too much, and if it
+> does, we can change this too.
+>
+> Cheers,
+> Miguel
+>
 
 
 --=20
