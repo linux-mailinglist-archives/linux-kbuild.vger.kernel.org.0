@@ -1,191 +1,133 @@
-Return-Path: <linux-kbuild+bounces-3359-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3360-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6689C96B305
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 09:38:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C68F596B3EF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 10:12:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DBDDB1F21957
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 07:38:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76CBF284942
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Sep 2024 08:12:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98D5A13B295;
-	Wed,  4 Sep 2024 07:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="rfNHq06S";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BiFOEq1s"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40F7117BECD;
+	Wed,  4 Sep 2024 08:12:53 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90CA14659C;
-	Wed,  4 Sep 2024 07:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA1783CC8;
+	Wed,  4 Sep 2024 08:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725435509; cv=none; b=FDYdh3eSf3QPKKhzAruijVNNtB8cc5d0aiAYg8BcpNWLmo6DYLy1J5HsQCiWDs76dyoL8vpKDcvUCBxu3nJcCb30IpGF5ltHYZ3xvDotm5SDPBLhT/1tV5PoegGseJm7nR/LNk5Y8cMOFc1nZUhPiYrppC7Y/FBE/Dg4uw+k6LU=
+	t=1725437573; cv=none; b=D75olnDBRhfcPYsmkfPuhnZxXA1IYZ3ULdYugy7VQpiZcKpPYRXQ70qXxu8VSD1tK4Xw/B0Af8qNnyVO6w5noX4rOD5zI6m+qF1bZm1Ymf5TV3Pkex4aQhi2E8DM7sk6H93JRp3zn7Vm7GkZzSP64TFtS8pWoKVahG2/dXGhfSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725435509; c=relaxed/simple;
-	bh=sz6ZXnptgCPAXnQbA/qYwtmPVRCJO0RfwwN0oTEtnVE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=MyFLEMH8RJc7DVnProzw3BT7FSOGNuGXAa+vAPgUKSKPNU3YqXyzxnccFpBIsCtyHjt1xlNC29MyfzhOXBzcVNUsoF7rVkyLgV8um0hDafb+O4A28oN3SgtVS3jEM4+AKYViMON1vqGZSdmXiuEM/yfhwYJfl+u9/jCY8zfQFZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=rfNHq06S; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BiFOEq1s; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id CA46F138017F;
-	Wed,  4 Sep 2024 03:38:26 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-05.internal (MEProxy); Wed, 04 Sep 2024 03:38:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1725435506;
-	 x=1725521906; bh=sz6ZXnptgCPAXnQbA/qYwtmPVRCJO0RfwwN0oTEtnVE=; b=
-	rfNHq06S+/FbiJrjcoOAISVrJY1dv8k4g+acB71qeIe0yoy8tEYuiuX6duhHot0X
-	pnl4Iv+jSo1NbgXY27Sm6bOV4qZGIbsxcYq1KA6O7qp3Gv/QXwLbfO8thQJHWS3Q
-	4cLKRt7uqNAaIKrt2TBz5bcums1IZHW3zWq2AysZvWT1FXBRMTYO6Ug7R8MAVuoB
-	3rWV9jPuGkruOmjZMEU/e+2OAMc/GE9oK8kvjNfq6TMiuw5V9pqid8KdfeXQEG0s
-	Y1tdgKvxCvK0hle8lBgZUObKDBQqSNtQDQJN6p+CK2QxAVMDWch6RSMqs0CL2BEM
-	99k/hnes1guZnUoy8uSlpw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725435506; x=
-	1725521906; bh=sz6ZXnptgCPAXnQbA/qYwtmPVRCJO0RfwwN0oTEtnVE=; b=B
-	iFOEq1sVqpbBj1w9LMAEZgDjMzrAxYO5IHVpeDFFhntFPf128oUA/18aSRhUV9lt
-	SjTwO1VpWlAVLcHFnIK53Uh65HRATfjliGXh4mjrwEVBt7ypXoKoq7z6ztq4VmKS
-	j9oWFRgn4sfUWeeZbX7j/P4W3nU0xEzcO4z3m0NAdClE47/ikZ0WlI1KHqSqrgiy
-	STUHs83TLL2fjm39nos9JCPme3s5LawmO/KM9/Q2AQZakvZ67FNHsfftPHcObHoz
-	MmaLCMTA2TfvqKjTLC+pmp68EZbbIoTFXuDQWfGlk09BUpDTn4jOwgURKst5b4IF
-	p5c/y86CfrkJwoV8fqdTg==
-X-ME-Sender: <xms:cA7YZpsfXod5rMH1QTlm0kTIPWxJqwPiszVY5eBC46ewJFhh3iw5CQ>
-    <xme:cA7YZifTUghUpf-WKUM0pFh-ulBKmpAalims9KaeyULKphrFiIFxxqcDgax3OHQUi
-    ywmBY4QNB45dm8KCc0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehiedguddvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
-    jeenucfhrhhomhepfdflihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdrhigrnhhgse
-    hflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeevueffteefkeehhfdthfel
-    feffjedvffekgfeiuedugeekgeejvedtffeiledtueenucffohhmrghinhepghhithhhuh
-    gsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomhdpnhgspghrtghpthhtoh
-    epgedtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdgu
-    vgdprhgtphhtthhopehtshgsohhgvghnugesrghlphhhrgdrfhhrrghnkhgvnhdruggvpd
-    hrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtghpthhtohep
-    rghnthhonhdrihhvrghnohhvsegtrghmsghrihgughgvghhrvgihshdrtghomhdprhgtph
-    htthhopehnihgtohhlrghssehfjhgrshhlvgdrvghupdhrtghpthhtohepghgrrhihsehg
-    rghrhihguhhordhnvghtpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilh
-    drtghomhdprhgtphhtthhopegsohhquhhnrdhfvghnghesghhmrghilhdrtghomhdprhgt
-    phhtthhopehmihhguhgvlhdrohhjvggurgdrshgrnhguohhnihhssehgmhgrihhlrdgtoh
-    hm
-X-ME-Proxy: <xmx:cA7YZsxJTWa516B1amj6UWURaphYpQG7A_CZANJjeHUVSV9pyNfcWg>
-    <xmx:cA7YZgMgKTSMs2eNfwkAsPGl3QfC0ElKD-WFY0SQxWw9BMzetozcJQ>
-    <xmx:cA7YZp8XTYFkwebvCNZsdfsBNO62gvaU4g82IG_p09N7BGZtG4pzAA>
-    <xmx:cA7YZgWFhnrDB95x5DNuYD5ky5Bo6vtbXwU8siGEdfpJ0b4-IAyzCQ>
-    <xmx:cg7YZu8KItrX9IUQjFOMUxdHGLKL6ymyzV556PeKCfMCW0g4shDq4p8v>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 680AD1C207BB; Wed,  4 Sep 2024 03:38:24 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1725437573; c=relaxed/simple;
+	bh=65cQQU+M2UnU5X6Ms72kWMCyjT6kucVE8wcCMX9suS4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bhmWsOhhMVKaKp7QEsKm4tTg9dwxKIk2u3vxQpf4uIosAfaA6JhIHa2OAwKh6GGsdFIzAe66WZ4Zeky3+VukYIkcVrnV5s5V9YYbrZOhgJoi77F9smFczaP0dGJ8nKaLd/WidHjV2jTRIZwRuYOuB2CATTTEn2pJAut2MeU5JZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e17c1881a52so331758276.0;
+        Wed, 04 Sep 2024 01:12:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725437569; x=1726042369;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mclf5cWZ7doo82bxSJ1tInXWyUxki/hxkifyVYswtWM=;
+        b=F4mpiC22ZpflfuiiM4/lXrLRY7OTfbMPuyK0m02iXhQ12pQ09GBA2LOn/QR7SiD2tM
+         v9WzaavnTELgxXj8HS0or7kb9dDQoPKlTSTs6R0GpPGFqsi89HrQepYPvvhieCuQBySq
+         pwwRN3iLShnrbvKJ6RX4KNNP387/6QfKB/0k+OEO0nFn+rrBMaRd4/SFzCW1pLSjrA/N
+         OfS1vOWLNN2F8taVa4oKLequnpBVAV1y3FboDpE3vj2q1fkJ/YNqqcRk8FIuSw1zSIxU
+         gSFgi7997Z3YR4L9zNaOAEITd7OBG93mTD/ClYPUtRzIRlm1oeZk0vEP4sB7/OXDR7JW
+         6PPg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNxlvzZLvtMI4bLAO4xhamq08x3Bjy/r4N/DeulADzx5+JcgeqzLhD/+0WGT++62PTP3rFSoJKF9XXlg==@vger.kernel.org, AJvYcCWDE65JwsnppsfM4k3wi5gvzxl8wtGPy6zkNXUmIO863pWx1QO/P8ORvdCkwNHANDoEMs+Foc9w37w10Drk@vger.kernel.org, AJvYcCWgylu+nNOq02xF+2JTjgImOeTuiFzX2kWbMLFMg40P131T+/PBjjaavvOO71PEb4tJyXWMEvqxpuCrDQnm@vger.kernel.org, AJvYcCXh6mf9foRHjZUC+DUDvg9YDZGOj7aApDL/pxwKmYpcgI9jwWb4qVPTO4nvFiR+xFLJtazQ/cwLiOQvh+496PU=@vger.kernel.org, AJvYcCXkFkvc+fMzuGhZfWVKjOTHuo8ab+gQJLKVcBS9arUbL/hwlonUwO5sopuAFU0ZKyZxVU+SEMZli8wvlmy2S7v8/Ejk@vger.kernel.org, AJvYcCXsb3RVq/rBMfBpJ8b3Zmdb9Nv3Hg+T8UJhGmy6l2a8snoyyrOPIrNrlrGcIW/ecntlskFSv4qac2c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztjeZBgIp1axkogJpgPacomNq9zUREAnHhHDLd4sbZwPPwcb8J
+	bgWe2fEPWfavTxiXfpXyo7r+sVNjjjiOmcSeeL7LX7kBMbm5YuCeQ0q4PKNu
+X-Google-Smtp-Source: AGHT+IGRFCsdqQLGpdas9pt7jPkVnbSeR+ActkhCb/ltZa/ps8gT/D14Xk053ij4LbbTQow/uahxRQ==
+X-Received: by 2002:a05:6902:2d02:b0:e1a:7333:d63a with SMTP id 3f1490d57ef6-e1d10553609mr888235276.5.1725437569256;
+        Wed, 04 Sep 2024 01:12:49 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1a62361829sm2600860276.0.2024.09.04.01.12.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Sep 2024 01:12:47 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6cdae28014dso3826967b3.1;
+        Wed, 04 Sep 2024 01:12:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUwL81FgK9JRh5pGD2eupah9vvwSMLkHqUB7WGFq0O2XSAXp538ew5KXLLW1aqsTqrcEH3lRAzN2YNIIV7u@vger.kernel.org, AJvYcCW66kLPAwy2Rmhr5/0YhI2bG91A/CKCp1kj/tRUjIPp3r3U+zyjuqQhfwW8nYmS+OMb1cNfpAJMW9QPWw==@vger.kernel.org, AJvYcCWDIaxAZtHjy8TPJRNZEwuzAredARe01SEguBiy4AcPmxiMDPjrNGIcfbq2LswyTsnraxEDrMJTmD4ovOsi@vger.kernel.org, AJvYcCWpnwnRTKnPDhGt1ESxmxfhXCPVAd88MFLKqXW1K7/F6Pqqe7LKbRxjqOYO6U9uevQYTUau10iAgOQ=@vger.kernel.org, AJvYcCWqi9RGEnR1cwWYA5mVB9aLjD+YRRxGrmO1jsYQkA1Dt6iCQi5r5DaPAl+Z/XcI301hOYR4mMFKmZqHuDBavSY=@vger.kernel.org, AJvYcCXwmOUKuPi7uTUBiV3kNhozGqG07S/DIEPCHCvdz2Kv+/ckAh2w47HjEeBKZArXR9LsvR+lmK7A5p4B5ylfvSjHE9m/@vger.kernel.org
+X-Received: by 2002:a05:690c:680b:b0:664:74cd:5548 with SMTP id
+ 00721157ae682-6db25f47819mr8680237b3.1.1725437566641; Wed, 04 Sep 2024
+ 01:12:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 04 Sep 2024 08:38:04 +0100
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>,
- "Richard Weinberger" <richard@nod.at>,
- "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Wedson Almeida Filho" <wedsonaf@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@samsung.com>,
- "Alice Ryhl" <aliceryhl@google.com>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Alex Shi" <alexs@kernel.org>,
- "Yanteng Si" <siyanteng@loongson.cn>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- rust-for-linux@vger.kernel.org,
- "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- llvm@lists.linux.dev
-Message-Id: <a6959bc0-f0bb-425b-b3b1-3123d3b809b5@app.fastmail.com>
-In-Reply-To: 
- <CANiq72mvTTgyTjDCWBz_kOdY1f4gopAtWxyC4P4c+Lr0YVkzLA@mail.gmail.com>
-References: <20240903-mips-rust-v1-0-0fdf0b2fd58f@flygoat.com>
- <20240903-mips-rust-v1-3-0fdf0b2fd58f@flygoat.com>
- <CANiq72=z1yJm-B_ie=GfueOF1qksaSD9txgFU1YQo2tZx0qQPg@mail.gmail.com>
- <d9591a84-9a0f-4046-9b2a-437061f6882b@app.fastmail.com>
- <CANiq72m5iFcqRU_qdUCZkoV8ayPhtQQq3TTEDRUYfMEsnNqTDg@mail.gmail.com>
- <6f6f04d7-55b3-4714-9bcd-cb4e1ae6c86a@app.fastmail.com>
- <CANiq72mvTTgyTjDCWBz_kOdY1f4gopAtWxyC4P4c+Lr0YVkzLA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] rust: Enable for MIPS
-Content-Type: text/plain; charset=utf-8
+References: <20240903-mips-rust-v1-0-0fdf0b2fd58f@flygoat.com> <20240903-mips-rust-v1-2-0fdf0b2fd58f@flygoat.com>
+In-Reply-To: <20240903-mips-rust-v1-2-0fdf0b2fd58f@flygoat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 4 Sep 2024 10:12:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXC0ZBJibi=60VVG5mW1rwz=VgWxduph7SUxA4uyL5Mvw@mail.gmail.com>
+Message-ID: <CAMuHMdXC0ZBJibi=60VVG5mW1rwz=VgWxduph7SUxA4uyL5Mvw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] MIPS: Rename mips_instruction type to workaround
+ bindgen issue
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
+	rust-for-linux@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Hi Jiaxun,
 
+Thanks for your patch!
 
-=E5=9C=A82024=E5=B9=B49=E6=9C=883=E6=97=A5=E4=B9=9D=E6=9C=88 =E4=B8=8B=E5=
-=8D=888:01=EF=BC=8CMiguel Ojeda=E5=86=99=E9=81=93=EF=BC=9A
-> On Tue, Sep 3, 2024 at 8:32=E2=80=AFPM Jiaxun Yang <jiaxun.yang@flygoa=
-t.com> wrote:
->>
->> Ahh thanks for the elaboration.
+On Tue, Sep 3, 2024 at 7:15=E2=80=AFPM Jiaxun Yang <jiaxun.yang@flygoat.com=
+> wrote:
+> We have a union and a type both named after mips_instruction,
+> rust bindgen is not happy with this kind of naming alias.
 >
-> You're welcome!
+> Given that union mips_instruction is a part of UAPI, the only
+> thing we can do is to rename mips_instruction type.
 >
->> However, kernel supports many ISA variants that are not defined by an=
-y rust target
->> triple, I'm not really sure if it's appropriate to define them all in=
- upstream.
->
-> They need to be in upstream Rust somehow, because upstream Rust does
-> not want to stabilize `target.json` since it is too tied to LLVM (as
-> far as we have been told). Whether that is via `-Ctarget-feature`, or a
-> new `-Cglobal-target-feature`, or specific flags like `-Zfixed-x18`
-> (originally `-Ctarget-feature=3D+reserve-x18`), or (many) new target
-> triples for different combinations, or something else, it depends on
-> the case and what upstream Rust wants to do.
->
-> That is why we should tell them what is needed, ideally in a new issue
-> in upstream Rust, and link it in
-> https://github.com/Rust-for-Linux/linux/issues/355 (please see that
-> list for similar examples).
+> Rename it as mips_insn, which is not conflicting with anything
+> and fits the name of header.
 
-Seems like this topic is covered by an existing issue
+Nit: the header is called inst.h, not insn.h.
 
-Reported at:
-https://github.com/rust-embedded/wg/issues/792#issuecomment-2328133517
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  arch/mips/include/asm/dsemul.h |  2 +-
+>  arch/mips/include/asm/inst.h   |  6 +++---
 
-Thanks!
->
-> I hope that explains a bit more the context.
->
-> Cheers,
-> Miguel
+Gr{oetje,eeting}s,
+
+                        Geert
 
 --=20
-- Jiaxun
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
