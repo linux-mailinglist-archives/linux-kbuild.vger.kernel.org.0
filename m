@@ -1,161 +1,103 @@
-Return-Path: <linux-kbuild+bounces-3409-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3410-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D170D96E1B9
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 20:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8002596E454
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 22:47:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0185E1C23AE3
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 18:16:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB6A81C23A97
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 20:47:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A742117ADF7;
-	Thu,  5 Sep 2024 18:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7BEE193400;
+	Thu,  5 Sep 2024 20:47:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2MH0RSR+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8BZMmUB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE2C157468
-	for <linux-kbuild@vger.kernel.org>; Thu,  5 Sep 2024 18:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8094C17839C;
+	Thu,  5 Sep 2024 20:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725560176; cv=none; b=fmqe6oT4TraN4uONWz2PnMDOdDR0alJ3+qGXuUuVBdoFZMwqgMi+qZqdPN+B2MZvZLPpAVx2Se2vS43+s9rTVdKWzsDcc5+yU5eGOQPCk9SpPPxDv8YoQ9RWYrks4Ej1Q7JUeFGzgRAnr3YuBesEKKXCloCc7Wtazo9EwSFth/M=
+	t=1725569221; cv=none; b=Y+PUn/O22EgD1gwkdPZ15Jhhoq46jSP8eS+1ydkMh5TWgyFgNpNeyFfBQ1NYQMRC4wnu8ox1PxzJylS34Dejmc+pwYkCCzqirZIt2RZ7ryK3kpLFxl18QHNESYN8kD9Qk/2noyF75+/QbdRkseCUvd0+CszKUlI+oftPQG4avFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725560176; c=relaxed/simple;
-	bh=VDG73B3i8Fkx0gtYg22krryRHLAdvGRMSQ2YE6B/GM8=;
+	s=arc-20240116; t=1725569221; c=relaxed/simple;
+	bh=DKH0xshsIJo/ETksdiaF50SA60u4xZglDzBF5StYyLk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n28lhZsC/O7QClmyXGp/Z7tAcTUN4I33I6JoJjPqTeQEPgnansmCueq1eMa+yBgKrnsDkGS4wCBvBaH6dIMcDn25F/RhRq9i5P4lLAaDWdGrkrAc2PrJF4uVxvfwnI2BtyzzxR56pugXwEvGNXjXWTHfjWhNIbQ65yhQs+HYd94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2MH0RSR+; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4567fe32141so39001cf.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 05 Sep 2024 11:16:14 -0700 (PDT)
+	 To:Cc:Content-Type; b=f/Er9iRc6anZhW1JC2PR5SpQgWmVNiYJJQtmyG2bkveldfn190oRxYBa/YWjXD9Luikveww8Up7RcaLJT6+NS03P31fvfpSUeEl9dlLGIA28Z/L3fZZa8S0Q57hNf0/J3R5VaQP+KH6pAhVfQgXXjbzusUpQnd4p+lnYtPRDDWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8BZMmUB; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71423533ebbso136571b3a.2;
+        Thu, 05 Sep 2024 13:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725560174; x=1726164974; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1725569220; x=1726174020; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZdUTGl7VQBs4B0vEjvie8Mtu3hSlR654PMQj+t2RiC8=;
-        b=2MH0RSR+vBTqzWcGR82xVle83Co3iKi8k0SOVZRgYdM6YUfUT0t/U+S05hqjqfYBMm
-         E8OxUZIxYGAy8bwOBDXGlD2IQsfOBPHR7VEFkCRUshU5JbHckkVWjpqnPtS9aUiCWF33
-         1CZv7V6HZ/LV2WiS0XqDEl4BK+JvtdXsYEwTkY6RaB5zLyp76qofq4DG9MkgWSKfHLlg
-         fr91AnP3EqFQWrvWmffIljiYcBXYJQJmwN/wE2IQBmC5vEayfhplZ/IdJFHVODSc+bEB
-         5rH5K+gmEVmF3GSmsUPXdCP3nF3RgARM5frtEd9VgoFMAnIHTWHfTqwBcSZPjxF6u3VG
-         h+2A==
+        bh=DKH0xshsIJo/ETksdiaF50SA60u4xZglDzBF5StYyLk=;
+        b=g8BZMmUBAvPdpXre2u74ba4/mNq1IAhsQhc0kOHjzKa65xlEZsAX096FCqywPzPD/a
+         T88Y5XIiMAO4ELeEn8sRcDVodoKTSfyXw1Zn0kb0rmOzsVyj7DNWcxoPfymtvYnff0e7
+         WH42naMmNu3mdQkBY7T7UNaAhHRivQQEp0JRK4NbMIy1OTtznrw46mvYhevFJhL6FWKZ
+         y+rdH8+jh8z5rZ7Z5LVa3b3OIkgB92Khp6U0MPiZD8j9tdM3P7JwexPV8GDBgTq4ACxA
+         kA4U6KOcLpjb02ONiL9PfGMSALVyZ0WlZPgdgU26KiY7mIYRPfzn3OlietUB9MsG4Jb6
+         puZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725560174; x=1726164974;
+        d=1e100.net; s=20230601; t=1725569220; x=1726174020;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZdUTGl7VQBs4B0vEjvie8Mtu3hSlR654PMQj+t2RiC8=;
-        b=AoqzwP6HIitHSGrI+bGfNy6k3XXLppnns+rEyCWUs64xkHGDSCDXIuXX28fejBY3+G
-         bfN+5C+8T9CjaEIDrdt9+4s4zPuIl0dBYbvUAdOaFrzjl1u0J8XWvnsHDziPdhdodnAK
-         26/8jglfzeQra4XIcTFaq26RuvI4ejndhiJ7JUc+PTAQLUMmTD1RwbZgr43eHSwm3oTg
-         GADxgK0A059x5I9LPH2ho3YD1IeganNqW3JeKa2KaSowsH8myMasuGJ2r99bsxWTQX64
-         nytZaZYYcHOxwZ5Pw5q7D4rCUl+ArsRUxdhyh/ORC1S4CfpLE1al26AQNIZFslAO7ms7
-         9QYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnLsVaybgUa61R/6atZe9HRExKPosCpYdhOKqvy0coBo+Wy9k6VtMZ7R9eDAZUz2zHf4gtnV443iEPT+8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnqnKdfoUVfpofGxG1RI+NOnCrtnBQc0RecxexgKR9Y6nuZ/W4
-	elBBKtGN8xlVL1mbtHclqHA4Ghsc6RJkmZ92hMazHPtypbKCkZ44ZWrfTfTEqXsg5HLuMLwmffu
-	IXKsJx26+78LNuWD+N6FNOfYc9v4idAMi4Vzb
-X-Google-Smtp-Source: AGHT+IHplDe4MMiBWOY5cVCCpgg/EB/UGBgSHmgVn9Z/Jd71Qt02BDSa8paxdOMnp8DalfNq+r7OJlfFE4bJP3BtPdQ=
-X-Received: by 2002:ac8:5891:0:b0:453:55b5:ecfb with SMTP id
- d75a77b69052e-4580c434242mr323391cf.2.1725560173715; Thu, 05 Sep 2024
- 11:16:13 -0700 (PDT)
+        bh=DKH0xshsIJo/ETksdiaF50SA60u4xZglDzBF5StYyLk=;
+        b=IS57yLCWmtiCVd/p3hkSGv7dcWo4IQdFkg7NHzlDf+uBkrPZlcnEUCfFlnwcXjk1t4
+         Qj1u7VrcEsFe7vuf+yQ75gt+rpP6JkxuvJJvfBCLBOH9XT1TOnABR6kMV/0WwRCYoR1A
+         YS7RcvlQ0Ek6aOCttz9KR33Ma5ogtrC5j9Nv78AgPsDOXkhpNwvEBJhQ8zmS6d2kcw5Y
+         ljNXTwiffHpb2Y9StA/0gyXK3cGQDcjlBKIbRyR4I7gti+ui8FbD0f5iqOZboik6aqnR
+         IDMC1+gQ+wkvj+7mHKMe5LHFzXq4NmfxOYF8YChMSBl911ZCKYn8sdF+1IQmKz/bnCpb
+         mFdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ+SIFyLtJ0HCWdsohlJ8wOO88WGNtbPrIybjvDwSciTn7d/xzSDL4k3w5xzjlaor3cl6HKVhafp/t8Wi+@vger.kernel.org, AJvYcCUabjO0EyTu/0INq5zSZKGQatlgeiR/xWzrwU0EihkeOUTibWcAlmX8AhGcuC66queGWhVB3cfVkU0WKdBKkBA=@vger.kernel.org, AJvYcCV7cXF/Ey8Cs/sO+efhOySO/8egnY9tq1gK6b4EmFcSXoRC25Cd2DoY1jaC+zuyfFERkJNKSH0AQlNTMCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlYZFA4QEvptEXIRqT7gsVszeoqozVMr24jktq2vV1rB2Ux36r
+	AlBjsTj3p2kBT42fYQsvEP3vbOuzbMPjd+C+kd+8r8DPH2MqgIKnkqmwKKMpjAwi1oozAuoq9k/
+	9m61mfwdUFlkjM38vs3yUHsNdsfg=
+X-Google-Smtp-Source: AGHT+IFzXHgm+VyemU3aVNcQp6kBBtTnENwAdJ1aQ2Sebf5JxvLGKKgceH6BhhcJazgo2Ph4JaNZbZod5wjwomF4Arc=
+X-Received: by 2002:a05:6a21:33aa:b0:1c0:f5fa:db13 with SMTP id
+ adf61e73a8af0-1cf1d055c8dmr140864637.2.1725569219732; Thu, 05 Sep 2024
+ 13:46:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-32-samitolvanen@google.com> <47bc562d-b9c7-464b-a2e2-dbb8c14d146b@suse.com>
-In-Reply-To: <47bc562d-b9c7-464b-a2e2-dbb8c14d146b@suse.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 5 Sep 2024 11:15:36 -0700
-Message-ID: <CABCJKucxDtCeq5NgwU9+8Fb1yGbrcV_91NbzM=6YquPLL48Jxg@mail.gmail.com>
-Subject: Re: [PATCH v2 11/19] gendwarfksyms: Limit structure expansion
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20240902165535.1101978-1-ojeda@kernel.org> <20240902165535.1101978-2-ojeda@kernel.org>
+ <CAK7LNAR5Fz=qf1Srf=RJhGANQZDmiKkuHPeTbqyT+SEwjtDZWQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAR5Fz=qf1Srf=RJhGANQZDmiKkuHPeTbqyT+SEwjtDZWQ@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 5 Sep 2024 22:46:47 +0200
+Message-ID: <CANiq72m5EqCO7i5=fXpsETpHjexknvPVBWYcURZquQ12N_om7g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] kbuild: rust: add `CONFIG_RUSTC_VERSION`
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 3, 2024 at 8:15=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wro=
-te:
+On Thu, Sep 5, 2024 at 3:08=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
 >
-> On 8/15/24 19:39, Sami Tolvanen wrote:
-> > Expand each structure type only once per exported symbol. This
-> > is necessary to support self-referential structures, which would
-> > otherwise result in infinite recursion, but is still sufficient for
-> > catching ABI changes.
-> >
-> > For pointers to structure types, limit type expansion inside the
-> > pointer to two levels. This should be plenty for detecting ABI
-> > differences, but it stops us from pulling in half the kernel for
-> > types that contain pointers to large kernel data structures, like
-> > task_struct, for example.
+> This script does not print the name.
 >
-> I'm quite worried about this optimization for pointer types. It could
-> result in some kABI changes not being recognized.
->
-> I assume the goal of the optimization is to speed up the tool's runtime.
-> How much does it improve the processing time and is there any other way
-> how it could be done?
+> Only the version.
 
-It=E2=80=99s mostly a matter of how deep it makes sense to go. For example,
-queue_delayed_work_on accepts a pointer to s#workqueue_struct, which
-points to s#worker, which points to s#task_struct, which points to
-s#mm_struct etc. Does a change to an internal kernel data structure
-several references deep change the ABI of the function?
+Good catch -- fixed!
 
-If we traverse through the DWARF without limits, during a defconfig
-build the highest pointer expansion depth I see is 70 levels (!), with
-~5k symbols going 30+ levels deep. We would end up pulling in a lot of
-major internal data structures at that point, and a change to any of
-them would change thousands of symbol versions, which feels
-undesirable.
-
-I'm fine with increasing the limit to something more reasonable
-though, the impact on performance doesn't seem to be significant in
-parallel builds. Of course, this might impact vmlinux.o processing
-more, if we end up doing that, since the DWARF at that point contains
-information about all the data structures.
-
-I do wonder if there's a better way to figure out where to stop than a
-hard limit. Any thoughts?
-
-> > diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwar=
-f.c
-> > index 92b6ca4c5c91..2f1601015c4e 100644
-> > --- a/scripts/gendwarfksyms/dwarf.c
-> > +++ b/scripts/gendwarfksyms/dwarf.c
-> > [...]
-> > @@ -651,6 +742,7 @@ static int process_exported_symbols(struct state *s=
-tate, struct die *cache,
-> >               else
-> >                       check(process_variable(state, &state->die));
-> >
-> > +             cache_clear_expanded(&state->expansion_cache);
-> >               return 0;
-> >       default:
-> >               return 0;
->
-> I wonder if it would make sense to share the cache between processing
-> individual exported symbols.
-
-The actual DIE caching happens in die_map, which is already shared
-between symbols. The expansion cache keeps track of which DIEs we have
-processed per symbol, so we don't process the same thing twice and end
-up in a loop, for example.
-
-Sami
+Cheers,
+Miguel
 
