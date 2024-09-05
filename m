@@ -1,72 +1,72 @@
-Return-Path: <linux-kbuild+bounces-3392-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3393-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0B896CE14
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 06:34:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D3D96CE1B
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 06:35:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0B8F283636
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 04:34:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C38A1F21C26
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2024 04:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6571494B5;
-	Thu,  5 Sep 2024 04:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D237D20E6;
+	Thu,  5 Sep 2024 04:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=illinois-edu.20230601.gappssmtp.com header.i=@illinois-edu.20230601.gappssmtp.com header.b="Gnbn8lh2"
+	dkim=pass (2048-bit key) header.d=illinois-edu.20230601.gappssmtp.com header.i=@illinois-edu.20230601.gappssmtp.com header.b="ggJtWKRe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1C814A0B7
-	for <linux-kbuild@vger.kernel.org>; Thu,  5 Sep 2024 04:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D05152166
+	for <linux-kbuild@vger.kernel.org>; Thu,  5 Sep 2024 04:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725510884; cv=none; b=teYf6CE/s4tw32BhJhL6aMORYOJRJYf3dSeAV/lg3LvRUWg0Dt1OjBShMZzSctFoo3+E/WRMBu7QC6nAxbnyzvVPHV1hZz3reDUWZrE/vVH0UDpYQod559sHBodNyfbwaNHdT0bfeVatj61TFC86AYh7eJ2cVFAzCIu6Li9om6I=
+	t=1725510903; cv=none; b=aK3r/Cj3Brp+oXrnaUP52rU+XkMemIt4w315X+4OcRc6mrPZNVYJeNuoi33dYsZk2ASWNnuE2daSYGZBZbB7nVdsHmwt6hZYl4k4mIdVEtq7XL2YiQzbzCaIyhQI8bVG3FJWWYA1IgBQmiEkNTZFsFvvNPSTXaTZbS0zLvUhyMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725510884; c=relaxed/simple;
-	bh=8IWvP1Qy4mBHGbKYw9Ffftawr3e2vV2Wls3M4VinXRk=;
+	s=arc-20240116; t=1725510903; c=relaxed/simple;
+	bh=ZpcEvvudV3zwcYeNP62knioScPXoayjlokROh8sA/AQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iwAt5YryDvTdIgplqhhqx1o1l05m6MoovhQId1hT6QTaOBo+uFKbx+a7BZc3r/y7gUus1kS03RLUF9zUEMIxjFymO3SGpTHTzSQkP1T+p+OyVCUyP3i5y1Df22LVPwdYGsaxlSYRAxqR5a0kkT9YR8p2l5wb82+SM1Y9BUJJkgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=illinois.edu; spf=pass smtp.mailfrom=illinois.edu; dkim=pass (2048-bit key) header.d=illinois-edu.20230601.gappssmtp.com header.i=@illinois-edu.20230601.gappssmtp.com header.b=Gnbn8lh2; arc=none smtp.client-ip=209.85.160.170
+	 MIME-Version; b=C/dB7v4hONH45Gl6zmWwpad+JsMCWC/max46BlbATTw5xAoOsE59k9DtdCcknhjSOxeo21IhucQfFo1O3OV7vIc+BN/FFG0m/Bgs7aZJTdTXX28zVLhiVAB9JJwdua7enXmZ8LVe0gSSqmwF1wMtdT0ZRHzVDMfCRu8QXvHQvfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=illinois.edu; spf=pass smtp.mailfrom=illinois.edu; dkim=pass (2048-bit key) header.d=illinois-edu.20230601.gappssmtp.com header.i=@illinois-edu.20230601.gappssmtp.com header.b=ggJtWKRe; arc=none smtp.client-ip=209.85.222.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=illinois.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=illinois.edu
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4568acc1ca8so2157751cf.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 04 Sep 2024 21:34:42 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7a81309072dso25907685a.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 04 Sep 2024 21:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=illinois-edu.20230601.gappssmtp.com; s=20230601; t=1725510881; x=1726115681; darn=vger.kernel.org;
+        d=illinois-edu.20230601.gappssmtp.com; s=20230601; t=1725510901; x=1726115701; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GJxcrlRpA7xjaDp1f7t4aVNh8eR9s342zQrnnOBKUEg=;
-        b=Gnbn8lh2kuya9hMRYu87gr4Nv/2BiVveUixbwkiPBbQKMGPEAGHLItMUWSZadTIUp4
-         qcOsFK5zuyTnISjiCXXxNL3KeI8C3+iaCEJbiYp/2hsoesRQgiykTB27vjzdT04A+Ad5
-         T5Y9XHK4jmGf5emChyikukyjPgD+DD3rOx0tZACVPi1ajrvQfbsbZTVQDo7BBxYiBCtC
-         +wZzRtyX8i4hnX8boxBShinjiuLAj5blbdmwdC+TpScXDet3/z51GyAm0Nb2xT/jwOVn
-         ywEG2SwppiHDuZNQvpcCIrsjzLnizXOGkeorMlu3y15I8n+NRkgpN4jsAp8YISpAZhFp
-         Ao0A==
+        bh=mA8QNkfTPcJhmIVKfWV2EgXocZ+TYN3IbgT82p4dkrQ=;
+        b=ggJtWKReyeYUJwzk9EutrB3PRzJYAwLSUUoX6hxshD15mKMMFRkOO85+t+FaW6pBF3
+         fbV6dxEMfnZqja3GCEnuU6vlY+7gPcXH4vluOUmW7thQGUmAhmSoSe6KVcDIdCtuwv+e
+         3suRz2eT/QodGjuv37Jt2TH4lbR1ZAuds66a5vARgTktZSojCuogk+W+AD04wt+Co3Ak
+         um+XCcrbn5ZRoW6JaXd+DPjj++Nbsthm2QBYSgQ/Sc+wcqIQ+/ZvDXFSDXW977DuQJZa
+         Lnhd7V93metJ3zlamcGHwubiLvf9GtMOUA0bTO81gMz5d+Wl8Pcian8AjBCxagpKbTsM
+         WJhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725510881; x=1726115681;
+        d=1e100.net; s=20230601; t=1725510901; x=1726115701;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GJxcrlRpA7xjaDp1f7t4aVNh8eR9s342zQrnnOBKUEg=;
-        b=sKB/WaqTapC1dsH+M1xI1uXAzrmEpc3aQTJY8RnNwVLJR9Z3AtJeORgqpUajrMM4aq
-         8Hvnv+HGMvnS9NcgweY75XmxhcHQhQfQ194wWDA4UaIJXF4ZumMSq5rhdg+1J0PycfS3
-         VwaBlk+PYsfuo0ALr5lo0fTs4M4ijBKszMG9bxxNRHc+CjLrtE8g4IhqO58tHXua6tgt
-         sYSjHM1ZsJqYipqr9KI8ZeZACc823AIev1wG1DNfTbrPWf8LYCfYj80YPYR+oinP2pif
-         4zKaOybKW1nroZIUyxgT+FbduhDNaLretD2oXbP4Kt/z5W4GnKqfc/N0vSZX2IpfZUet
-         oUng==
-X-Forwarded-Encrypted: i=1; AJvYcCUELxnVFidUeTZIqKHCQhZjtKd5WFasH2xToz9jdWTZlbqjdPspOzXuefxvh3GRfNs/iCnkjrW09Dhs4iA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZa5rOOSqMdEN6WJ76t2sfwtgBKQMMXnf2sP/rIf/wV6oI8o5j
-	OXLLNNs5CbtR3PCUoaoQVwol2na0VpaZZYzAu+7jaomWXXul6Gpo0Y43/CQGNQ==
-X-Google-Smtp-Source: AGHT+IFj3a9cchP0/vieZqbkqznpCBKGRkfgZYOb8Jn2LlQ3lfAJzRpY8vMS81DOZGJeiUwzkUU8QQ==
-X-Received: by 2002:a05:622a:993:b0:456:847d:47a5 with SMTP id d75a77b69052e-456fd7da328mr225326911cf.38.1725510881546;
-        Wed, 04 Sep 2024 21:34:41 -0700 (PDT)
+        bh=mA8QNkfTPcJhmIVKfWV2EgXocZ+TYN3IbgT82p4dkrQ=;
+        b=E0wqAGe1yH80GFhYo0CzrqppzFlz/NmzPCUkgErrHpHWa3LNtNQMx3RCPqdUAZOOAL
+         nbym1mE6Rffufz8euCBVWN5Bs/Wg+hmIrxvsp/CBAB0BlmGhG8rv4M4yI9MOnyCq8o90
+         jxd26Lu1cw1vUPs1Rgn6mtQutaAnObWV6yJPNeJVR83rElkzTuT7klwflYHD95V/COLd
+         OYg1B5TyaRGw93fsqQVxiCOpUucMpoeU++8CyTv0tzNWaSOFatEsnjdrJOue+niuzK4y
+         uH8cV52dYcEtrTYRrtxyxL8cK1QwkDs8aoZnpXnVyBwx1zkpKsmf99ampe/wr6l5aKZ+
+         /LNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKZ4dKlv17k7N+KJeTynu+uo8S2G1QjGyUHMZyFOzOMX5sCYwpF/uhVd+GTePIPArcoPjokNFMsfedhQM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDbdiKy/bf60zxGuRVz5FgPm1CiiJND0O83lYV7913q41JBtLP
+	EsH7IFon7QxNt6seE5jPgMqmSX929Jqn51kVZmSiYuHoc/QBHaIoWRUsksAN6A==
+X-Google-Smtp-Source: AGHT+IFRf1D5vt1QAYst2+47RlHDBe/oTQ0pdJOm5kim3EC+oveF5BzPVYhrOWbWoMHiQ4QFDP6QZA==
+X-Received: by 2002:a05:620a:2a08:b0:79d:55ab:3867 with SMTP id af79cd13be357-7a902f29ac7mr2154420785a.46.1725510900949;
+        Wed, 04 Sep 2024 21:35:00 -0700 (PDT)
 Received: from node0.kernel3.linux-mcdc-pg0.utah.cloudlab.us ([128.110.218.246])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45801b4cf4csm4182341cf.48.2024.09.04.21.34.37
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45801b4cf4csm4182341cf.48.2024.09.04.21.34.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 21:34:41 -0700 (PDT)
+        Wed, 04 Sep 2024 21:35:00 -0700 (PDT)
 From: Wentao Zhang <wentaoz5@illinois.edu>
 To: wentaoz5@illinois.edu
 Cc: Matt.Kelly2@boeing.com,
@@ -117,9 +117,9 @@ Cc: Matt.Kelly2@boeing.com,
 	tingxur@illinois.edu,
 	tyxu@illinois.edu,
 	x86@kernel.org
-Subject: [PATCH v2 3/4] x86: disable llvm-cov instrumentation
-Date: Wed,  4 Sep 2024 23:32:44 -0500
-Message-ID: <20240905043245.1389509-4-wentaoz5@illinois.edu>
+Subject: [PATCH v2 4/4] x86: enable llvm-cov support
+Date: Wed,  4 Sep 2024 23:32:45 -0500
+Message-ID: <20240905043245.1389509-5-wentaoz5@illinois.edu>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240905043245.1389509-1-wentaoz5@illinois.edu>
 References: <20240824230641.385839-1-wentaoz5@illinois.edu>
@@ -132,32 +132,43 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Disable instrumentation for arch/x86/crypto/curve25519-x86_64.c. Otherwise
-compilation would fail with "error: inline assembly requires more registers
-than available".
-
-Similar behavior was reported with gcov as well. See c390c452ebeb ("crypto:
-x86/curve25519 - disable gcov").
+Set ARCH_HAS_* options to "y" in kconfig and include section description in
+linker script.
 
 Signed-off-by: Wentao Zhang <wentaoz5@illinois.edu>
 Reviewed-by: Chuck Wolber <chuck.wolber@boeing.com>
 Tested-by: Chuck Wolber <chuck.wolber@boeing.com>
 ---
- arch/x86/crypto/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/x86/Kconfig              | 2 ++
+ arch/x86/kernel/vmlinux.lds.S | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/arch/x86/crypto/Makefile b/arch/x86/crypto/Makefile
-index 53b4a2778..57f3d4921 100644
---- a/arch/x86/crypto/Makefile
-+++ b/arch/x86/crypto/Makefile
-@@ -119,5 +119,6 @@ quiet_cmd_perlasm = PERLASM $@
- $(obj)/%.S: $(src)/%.pl FORCE
- 	$(call if_changed,perlasm)
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 007bab9f2..e0a8f7b42 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -85,6 +85,8 @@ config X86
+ 	select ARCH_HAS_FORTIFY_SOURCE
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_HAS_KCOV			if X86_64
++	select ARCH_HAS_LLVM_COV		if X86_64
++	select ARCH_HAS_LLVM_COV_PROFILE_ALL	if X86_64
+ 	select ARCH_HAS_KERNEL_FPU_SUPPORT
+ 	select ARCH_HAS_MEM_ENCRYPT
+ 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
+diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
+index 6e73403e8..904337722 100644
+--- a/arch/x86/kernel/vmlinux.lds.S
++++ b/arch/x86/kernel/vmlinux.lds.S
+@@ -191,6 +191,8 @@ SECTIONS
  
--# Disable GCOV in odd or sensitive code
-+# Disable GCOV and llvm-cov in odd or sensitive code
- GCOV_PROFILE_curve25519-x86_64.o := n
-+LLVM_COV_PROFILE_curve25519-x86_64.o := n
+ 	BUG_TABLE
+ 
++	LLVM_COV_DATA
++
+ 	ORC_UNWIND_TABLE
+ 
+ 	. = ALIGN(PAGE_SIZE);
 -- 
 2.45.2
 
