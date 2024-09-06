@@ -1,154 +1,176 @@
-Return-Path: <linux-kbuild+bounces-3447-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3448-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDB596F899
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 17:48:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9586F96F903
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 18:07:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA22B2870FC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 15:48:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11873280F91
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 16:06:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA3131D31A1;
-	Fri,  6 Sep 2024 15:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A26801D31B4;
+	Fri,  6 Sep 2024 16:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="BforSi7k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OE6rhNI8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06BE1CEAB1
-	for <linux-kbuild@vger.kernel.org>; Fri,  6 Sep 2024 15:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72996156880;
+	Fri,  6 Sep 2024 16:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725637677; cv=none; b=d/gsqcHUfclbxl8aweCQ6ZMEk0WZNtVsJ6HUvYTw1/p3QpQ8+ddtos3+YZeVsRSidmbBgzaCpZMoV3rkTuZ/aoDyORfjn3r2LIfeLhpQHJO1OJa/rJky/5xiv5+Ko7bKsQ1uNwU120gOHep9HmuN33WIMzKTdhMmIaw1T8uzJJU=
+	t=1725638811; cv=none; b=bxvyq9Yt2EvSRkzhRCFOFKgyrnJCDba7mc7AlAZypLYLmVpYzKdS1IpTqvNYpKdHFxTrYvyN3U/dkvf8TRMXnImQIGOBbiALllCfsf1R0IXxjZYPhqqS4Ouw34uncmbTorxXG8KYn8LR7+Uetplt1c0oD1CrHNo7BkkU9aKbfwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725637677; c=relaxed/simple;
-	bh=zp+DRchAoSH6nEhGn8NigH/AGNYz0sJ/vBoXvNGXq6s=;
+	s=arc-20240116; t=1725638811; c=relaxed/simple;
+	bh=i/OkE91URyTzY90ECCfSngBaJoQ8kM7EZjVwKU/nibM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MwZCr/l6hkvghEO6XSm2EFFz6+pNFL8EMelL2cu54cH1tjIYcdJc7vAXH7cOLVlClKYvri47Iwl7Cv6RRMLX3lEz1nVb3cwIv+wOmF4RFSLq5s93Ppq1HDB4F11lILGk6DmqAzTS73vYIjOAhOfTqBwyU+QKvXpG9Q4YMXsrKH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=BforSi7k; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-846c59979efso589246241.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 06 Sep 2024 08:47:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1725637674; x=1726242474; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bhSj9nfZOKGx2oI8Vgr1Z2YFtbWDQo0OdEcOMXGBUVQ=;
-        b=BforSi7k9socR64Te/cpapTn6yC0bYcbN3Sfzw/xTTMSFDrrNJOrW3NKVtJDXi3VfC
-         Zdp4DusPrRw4KlUACysbWt/CCNZ6TjMUPnYa1x12BMyTMm/M0e7Im6erF9YMbIO2IA13
-         +zBR3l7GHLCtnPQ/ySbCofJUlFWf9djWDIELjC4emJTJq+2ihklhinrQF+lYuRyQ11sl
-         yBfVTnMQ5ffdww5Gf1sAL1NXeKHUZwBkFNHQg6jHXO0kXNNeiOko2Faw6mBoao3LXvWZ
-         PaPWPN8fzjtffqPymGsZ2aanuDpdSkR2i+aF9dkP0WrJVt6qKJUDEWwAzBO/1bBgtT7N
-         Nl/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725637674; x=1726242474;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bhSj9nfZOKGx2oI8Vgr1Z2YFtbWDQo0OdEcOMXGBUVQ=;
-        b=gEnLa/0DoiexIznB5aiW/kLiNsDM853j79jT4N5Si+AEfrZ/V84spZp+/5+HtdSCXW
-         kChk55dAoq6UwYrrQaEJr56VghEVU98hTlJmteTlDm5ST5XLIAGORunUMjGzrz+SVKHO
-         drzRMvStK/jVn2GWgmTbP39jCeFNVI/c5VP3I27ItRt0EgDMdD9AWxHxctUfFPcRgU16
-         fPXC1bCfu5E6QqrQCS1dT2XWynBrVzvPZ0llFLkgzFO0LDi6n4xOvQuZpoy0cmoDI40A
-         BLidgm9pgSyl0bJoJMwXhJM1eWPm5MlrKVQEkp1R0Nu8Dn+L4h5wdVsMZVSL5xFJIaiv
-         mTQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxxQz6RJaAU3iuGxR8J77Y6O6MU2vIlIx292MboDo3kY/n58C0Sy64UsdZpJaiSHgb5CKMHyonup9NZm8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKB1qA4JOSSiUOzL24GYLKbzfYBhHUQBNZgaQ6Yzun7AkbejVh
-	aqQyFeNakYhdfOxLEK47foFbO9wCA8z6z5F+1dYe+v+B1XH+Sm7dmDkLjCypM2/twZg8yRBI/z2
-	mMHoEPGPbr8xrUZJw35zjvDdkphcFo1ajWQ4M
-X-Google-Smtp-Source: AGHT+IF7X3uC600GKPCYXtrk3rXSJ/jRYK/ecUEv0Py5v9ieqTUOC1FYqsUcW+C1Bf7xEBaWosXwVByWGbyAX14C8rg=
-X-Received: by 2002:a05:6122:1e16:b0:501:2a26:8ccf with SMTP id
- 71dfb90a1353d-502141df589mr3197102e0c.6.1725637673925; Fri, 06 Sep 2024
- 08:47:53 -0700 (PDT)
+	 To:Cc:Content-Type; b=Ix+9AqfV1/Zoy/QjcZ4ZFtg80xfx6ORRDcuknGHrPs7Apc9jx3hs6/hBvSGl/5o9TMTbOhs8hPdVjWQC732HWeiv67G6BDftiMV5s5lo252/N6NJ0as99Bxm15Yps4sGulaAh3fQ30nw1E+I1nErdl9rpVvy/UeD3eOpyiUhMcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OE6rhNI8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F0AC4CEC4;
+	Fri,  6 Sep 2024 16:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725638810;
+	bh=i/OkE91URyTzY90ECCfSngBaJoQ8kM7EZjVwKU/nibM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OE6rhNI8cJ2OXKEni6bcRwpT6jSCCLxqIy8xHnpKkfhoth0UUNGVfEAH7mZJNv8bX
+	 mPuRtc40C90SZk0+bIQ3ckpMrvmU8G96N6b5r2O74i3/Ag/3pjpo2/kxbv2pZl7m8Y
+	 N0lsnYpoGi3wlPNkCTNszDVOSG4dLTtKHFfcxKVuQ8LuIBsLhXNWsq/kC/0Bo8wPGB
+	 ilYCJCJ7et6HnjM1GRM3m/bLs+C00ACZR9ajyTCXb7OaFHHign/wY2ikwv67bWbGUy
+	 zpi1zPk1Ut0y4oztiOYaguN1CeA7B4p2al7zD7sgSvYDVP7GKQ6X93BkNj7KJuf4/c
+	 qmYwcqlW69ziA==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f4f2868783so24508641fa.2;
+        Fri, 06 Sep 2024 09:06:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVhUSzzCAVDlelFe37FKZOirgsOwEPmTB0EsooCUs28pVB31UlKxJS0/TvvzqgAQh8KhvMfFiNiq/zTEIU=@vger.kernel.org, AJvYcCWIQQN5sPpsoEiQDsXwMdDXW1ZpCEhM95VzYBQq9TGviAZncyfnmWG29iPr2ETDazxNtXmO/JwW1A==@vger.kernel.org, AJvYcCWoN2w8uCMTps4y8OciW+36Q6Xu9r8Ik69sytsJrVuVgcFdN97RYd+VHgAOR9aODQNvJ962FlFVW4BSiiRf@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUwm75dVu/u+G9EVzSM4eoNmC2TzuHnsbFXSTTtMTtBHYfZ+Xz
+	gkvPPHhppSHlHxvALb9BhPbzPlwTPDom9OekzyCklioTUdq5v0xecb6hlXFkExwBWbeCzP4J6yp
+	oSFJSA32jZUPahfZGP2K55MsN8Oo=
+X-Google-Smtp-Source: AGHT+IEDx2MBYfSAMZc9/iSOJYGNK9wJwMGiIy4jTSeZNrkUYrYuCYOsVH8obdUVZIByAwCUoQoZ1LhcYSGwXCX1fyg=
+X-Received: by 2002:a2e:b8c7:0:b0:2f5:c13:bd11 with SMTP id
+ 38308e7fff4ca-2f751ee3bfcmr26016901fa.17.1725638809571; Fri, 06 Sep 2024
+ 09:06:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
- <20240906-macos-build-support-v2-7-06beff418848@samsung.com>
- <CAHC9VhQkstJ8Ox-T+FLU34s9U0gezRba6bMA-tUPs80u6sVh2g@mail.gmail.com> <CAK7LNAQytsDzaJfAJA0nL=KPjxj3DBCRLeuHUwgGDt8fTJ0fTQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAQytsDzaJfAJA0nL=KPjxj3DBCRLeuHUwgGDt8fTJ0fTQ@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 6 Sep 2024 11:47:43 -0400
-Message-ID: <CAHC9VhS19s9+F2LhagbpxTR6DZPu_A8FADmBw7+BdaFQ6vx=LQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] selinux: move genheaders to security/selinux/
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: da.gomez@samsung.com, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
-	Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	speakup@linux-speakup.org, selinux@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
-	Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com
+References: <20240809122007.1220219-3-masahiroy@kernel.org>
+ <3447459d08dd7ebb58972129cddf1c44@paul-moore.com> <CAK7LNAS4Q1_4T2vafu6wTYsmFsY1h+TA8irqDAqwfoSyw7X=Rw@mail.gmail.com>
+ <CAHC9VhSz+kwYOnkfWPHOmoKCRfOjm3_L5xMLeSGVNxq5g=ikww@mail.gmail.com>
+In-Reply-To: <CAHC9VhSz+kwYOnkfWPHOmoKCRfOjm3_L5xMLeSGVNxq5g=ikww@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 7 Sep 2024 01:06:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARj7mx9ZkucABBKujEmwggqZvn+8PZ1e-_ofaa43pfz0Q@mail.gmail.com>
+Message-ID: <CAK7LNARj7mx9ZkucABBKujEmwggqZvn+8PZ1e-_ofaa43pfz0Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] selinux: move genheaders to security/selinux/
+To: Paul Moore <paul@paul-moore.com>
+Cc: linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Daniel Gomez <da.gomez@samsung.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	selinux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 6, 2024 at 11:37=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Sat, Sep 7, 2024 at 12:37=E2=80=AFAM Paul Moore <paul@paul-moore.com> wr=
+ote:
 >
-> On Fri, Sep 6, 2024 at 11:54=E2=80=AFPM Paul Moore <paul@paul-moore.com> =
-wrote:
-> >
-> > On Fri, Sep 6, 2024 at 7:01=E2=80=AFAM Daniel Gomez via B4 Relay
-> > <devnull+da.gomez.samsung.com@kernel.org> wrote:
+> On Fri, Sep 6, 2024 at 11:19=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> > On Tue, Aug 27, 2024 at 6:22=E2=80=AFAM Paul Moore <paul@paul-moore.com=
+> wrote:
+> > > On Aug  9, 2024 Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > >
+> > > > This tool is only used in security/selinux/Makefile.
+> > > >
+> > > > There is no reason to keep it under scripts/.
+> > > >
+> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > > ---
+> > > >  scripts/remove-stale-files                                 | 3 +++
+> > > >  scripts/selinux/Makefile                                   | 2 +-
+> > > >  scripts/selinux/genheaders/.gitignore                      | 2 --
+> > > >  scripts/selinux/genheaders/Makefile                        | 3 ---
+> > > >  security/selinux/.gitignore                                | 1 +
+> > > >  security/selinux/Makefile                                  | 7 +++=
+++--
+> > > >  .../selinux/genheaders =3D> security/selinux}/genheaders.c   | 0
+> > > >  7 files changed, 10 insertions(+), 8 deletions(-)
+> > > >  delete mode 100644 scripts/selinux/genheaders/.gitignore
+> > > >  delete mode 100644 scripts/selinux/genheaders/Makefile
+> > > >  rename {scripts/selinux/genheaders =3D> security/selinux}/genheade=
+rs.c (100%)
 > > >
-> > > From: Masahiro Yamada <masahiroy@kernel.org>
-> > >
-> > > This tool is only used in security/selinux/Makefile.
-> > >
-> > > There is no reason to keep it under scripts/.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >  scripts/remove-stale-files                                    | 3 ++=
-+
-> > >  scripts/selinux/Makefile                                      | 2 +-
-> > >  scripts/selinux/genheaders/.gitignore                         | 2 --
-> > >  scripts/selinux/genheaders/Makefile                           | 3 --=
--
-> > >  security/selinux/.gitignore                                   | 1 +
-> > >  security/selinux/Makefile                                     | 7 ++=
-+++--
-> > >  {scripts/selinux/genheaders =3D> security/selinux}/genheaders.c | 0
-> > >  7 files changed, 10 insertions(+), 8 deletions(-)
+> > > As long as there is no harm in keeping genheaders under scripts/selin=
+ux,
+> > > and based on your cover letter it would appear that there is no probl=
+em
+> > > with the current location, I would prefer to keep it where it current=
+ly
+> > > lives.
 > >
-> > Did you read my comments on your previous posting of this patch?  Here
-> > is a lore link in case you missed it or it was swallowed by your
-> > inbox:
+> > 'make clean' is meant to clean up the tree, but keep
+> > build artifacts necessary for building external modules.
 > >
-> > https://lore.kernel.org/selinux/3447459d08dd7ebb58972129cddf1c44@paul-m=
-oore.com
+> > See the help message:
 > >
-> > Unless there is an serious need for this relocation, and I don't see
-> > one explicitly documented either in this patchset or the previous, I
-> > don't want to see this patch go upstream.
+> >   clean           - Remove most generated files but keep the config and
+> >                     enough build support to build external modules
+> >
+> > 'make clean' does not clean up under scripts/
+> > because tools located scripts/ are used in tree-wide
+> > and often used for external modules as well.
+> >
+> > So, scripts/selinux/genheaders/genheaders is left over.
+> >
+> > genheaders is locally used in security/selinux/.
+> >
+> > 'make clean' will properly clean up security/selinux/genheaders.
 >
->
-> I commented on the previous thread.
+> Your last sentence is confusing and doesn't align with the rest of
+> your email, please clarify.
 
-I already responded there.
+
+I do not understand what was unclear.
+
+
+
+'make clean' cannot clean the current path,
+scripts/selinux/genheaders/genheaders.
+
+'make clean' can clean the proposed path,
+security/selinux/genheaders.
+
+
+
+genheaders is only used during the kernel build.
+When you run 'make clean', there is no reason to keep it
+for external modules.
+Thus, it should move to the directory path that
+'make clean' can handle.
+
+
+Clearer?
+
+
+
+
+
+
+>
+> Regardless, this sort of explanation is what one needs to put in the
+> commit description, a simple "There is no reason to keep it under
+> scripts/" isn't sufficient.  Patches like this need to provide a well
+> defined reason to justify the code churn.
+>
+> --
+> paul-moore.com
+
+
 
 --=20
-paul-moore.com
+Best Regards
+Masahiro Yamada
 
