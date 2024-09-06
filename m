@@ -1,108 +1,108 @@
-Return-Path: <linux-kbuild+bounces-3435-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3434-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205F696F73B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 16:46:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1CF96F73A
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 16:45:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DC931C21908
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 14:46:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3BCE1F23874
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2024 14:45:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 449821D27A0;
-	Fri,  6 Sep 2024 14:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC7F91D2786;
+	Fri,  6 Sep 2024 14:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="F0+LE6RY";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="IwcoTgwM"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="oLkB337h";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="PmGV60zN"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B846A1D1F7B;
-	Fri,  6 Sep 2024 14:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D9A1D1F73;
+	Fri,  6 Sep 2024 14:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725633940; cv=fail; b=JPJo/3dKBd21UIWNkIV7hbMg3Nxa1qslbXo/znUKj3tN0C9teyhH2BHkyGB8z3c56xwh+YvDZFAA+mcDUeYaUknZ5G3FHg4UVcl4uXCUTxJ/jb+n2MtqT2MUd5Bzl0gryYR2cVbtY7dEc12pndw1Fu0eO9sdClSbIOm29Vb22QA=
+	t=1725633938; cv=fail; b=i/JbH7VQP/ws05qOlfs/YGjOt803SksME2lerZ0QbJutBesIQSQ9Krrrm93PncVR1J7BQ57Hjujloyr/X5fs+j1mJkUf7J/rjyTGYbsltwwlMILqoyHLqNoXMJSVDKNYbI/uQnl+mjUeoSwY/bvR/h6iQLjK3DtZpeRbthl2eOw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725633940; c=relaxed/simple;
-	bh=JRR+V4qxxc1FpFA3A5o+QYdDno99qSuyXPmLZydPMLM=;
+	s=arc-20240116; t=1725633938; c=relaxed/simple;
+	bh=4keTUewJapTO1hiSSZeuY1Wotchhqw9piHLcrakZDh8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VIu4Lzl3niTlaoqg5ZnJaj7m3SfSrVdzwVLW0GxAtfc+QtcXvcBb/pW8RwchlSoaR9ZjeT/7CIyIK9gZ4/cguRyKCf3S+ZY1SHBg2UeG6gUUA8tHLbf86m8o98YdcxTyMnBxRLyvxt0uQvAc9JL/BoJa3Ds/SR5dP07uGDwSK0A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=F0+LE6RY; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=IwcoTgwM; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=o5zk87nyBuuoWeyT90xsljHK9pnmQUBWYAofMjb27HerhmfnGJnkBqPGZ2+qu7lXhiXZWw3epXh+J12If3jmjtfOKEGxtv2YLafFVMiYRfxUmVUq7Xcbj3aygb6WGAej8S+q0Q6QeKfB8AtyOReXq8N60nuyfUNSaWf9uwhl7LY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=oLkB337h; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=PmGV60zN; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 486DaR5A005599;
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 486DMGpI029257;
 	Fri, 6 Sep 2024 14:45:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	corp-2023-11-20; bh=BviyqaGhgktQKLjlwlyU3KC2MpS/mOoGtcPHUO4FW2I=; b=
-	F0+LE6RYaQ20xfAvgAEenPQzKrlVsod0I43z2Lc0ImFazVdnYC7AjmHzpBH2ZbRD
-	BL3dJTtMxQhmFZLOfN/LQAawo0A/Au/28/JvjU6WuN9xWOhW8RKf5w8YEAZYMHKw
-	7Oj9zY67XMhfLfSvhkqTX+0DViCLgCSRSUveQivhjndijxf45HuNanFhiTYB8XgS
-	oo5RucS0dSiTJYtJ4tqusnl4W7Tg/i2tKA4+HUhHkWTY6cnLwRnx98zT0PBBTmId
-	FHfQ1ZthbkPRxSuLjDB0+VoNdb6TnWaYWSG3QF898R/4ygKzWC4gRWF13RN4HfWw
-	QJtj+edU5PSW5ll9AAF6FA==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41fhwjhthg-1
+	corp-2023-11-20; bh=vCV6jYxgOVsdkWy7GS3x9lfzdB9N0ixHt+72Ty+qzcY=; b=
+	oLkB337hzkEhRX9otc+yiI5aFqluhlVRzZCJnxluMvc5uzEcSgirpvfkK/62nvla
+	MugTml58jfzUHA5DxU4JCDBu4iggwRHbL0m4pleT2FHXh2ga+it/p03V+mdObYT5
+	xsOAgMx95EtM+xm0MdyAQcltz3hnxUVUr5y0Y5q+P+iC1scajL+5pyzqGflEZjrL
+	SeIWXk+RjS71IV24gqpknzue9QMAGWP5DORc23hQ83E4G2dRT9UfaWQgN+4fEzaZ
+	2B26metbTOKRubVpjds2qeeZ7m0ALSXMiruLuPD3HR6M5zYxUHL+tFkbMfbnWvo9
+	VR0Src80hCxN0ush1zapYw==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 41fhwjhtgk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
 	Fri, 06 Sep 2024 14:45:25 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 486EUDxh016421;
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 486DbpQj018335;
 	Fri, 6 Sep 2024 14:45:23 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 41fhyj1t9w-1
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 41fhyh1w8s-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
 	Fri, 06 Sep 2024 14:45:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LsdIhXdTpK9qcQsU9TTkYIdSlFmPlBItO6SxrKKg4htfXr0y0ydby3gXW4HUICgD2OYLGLgjzknk4wwIqXR2YkowY6UcaVza7gq3U2Me02fDPA2LMukC1ssb26voA7MJks9mHfufOSbTgcxnFMvnfDe2r0swcijjK/iS2gBwy1VkgPpC/SVo6QMiupPwkU5eIx/Idy9+HaSJF1cw9f9Z7n39TipX6GCjwVIR4d7JmmoTn5rUMki7vTDRKwj+qPuOl16VoVhWibCYCIf1u6VzoAFnG9xA43f5E8lQoqhADFsIMJo7Zw+RHwWd9Z3xdq26Ik2bRRaaS+iy2c1sy6Ipeg==
+ b=ugYc+DGcj5LV2wyxN8LhBymfIe/GlXOgm6xGt839JX2kX83VuoQvREnMrO/lQ6XnoTxdi1BswOnspUBWGnkJUD/2EJqhh3Q/ESFu62Fz6GUlYSyl4gbd0mu2J6j1nFcXoKy0d9jT45pL7DE8BV+Tm0Wtgb5iUvj3r0mMoZDF5PsvKWgmtj2cmD52KXsSCsCq1jmi6RxsHpMreX3Kj1QtPxfaH8JwSUZ83qMn9t0idtBy1kVcIzDaXlgVk5Lw+jjDbz63vnZ/0TikFqqhujGKlwEljVx7/y0YnwJYD5Wx6JXPcmr7MFqKmhJgLKxqnxBI49NtB+nxruwRjBCt+bsIjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BviyqaGhgktQKLjlwlyU3KC2MpS/mOoGtcPHUO4FW2I=;
- b=WSRfKqdnL6imX0lL58lXYtmWZD0zF8I/jqbt1EKYyx5xaHe4QaStrNSbOaBUdQCawstwEgmzSzfuZCWCnOPDuqOmYukhMpwFQqx2JuE0kSI5Y6lwZUCUxMLZRmEaMMC3M/p+d8nCRTBKZFwb4FmLXmzMc0kocnyRPDTfj8oI00EIIibOJyJLK++ztTCDxsQ5dibH38Cj154o+UlEfjf0fc4iuJ5RkT4P1Zpb3B7i2+4S8q+eBptqxTti60GTuPvQEgvRBampPgAGb0exFNMYOkuCQixWzYOdMKo89d//syLO4fQ4BZ0VjROCAOCwkLXENpTs2hUB7uSdpFYlbt/8gQ==
+ bh=vCV6jYxgOVsdkWy7GS3x9lfzdB9N0ixHt+72Ty+qzcY=;
+ b=m7BfZMvkQR/tFmosaLzl04uuV0seGw6NgmDgzLXTDxDL6QVsQq0l4u1Sj/7pkow7OtsqfAY502IgDoH7tzLdDUuVVUSumkqM3mBnVmGl1yWPrZl5hTvyoudwmGByDr52yqXKsUrtULMEG8Vx308+LhlIeHHNddwnHuH2IxFsSoZdvT0VIH8fuRCJwCgJuICrrPfXCLY5blhwF6V+acwxAV01Ys43QwgZUXtj4n0uvWTR3EuTMw+lNf7RSsZv4nwZeLJ2b+RcDmX41O00O2IlSMm4cuK1kVmlEv6lA2bj16W0bqaqzyFgie4t8DbH8eGR3WDEhvjzjOYLOKPexfo5og==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BviyqaGhgktQKLjlwlyU3KC2MpS/mOoGtcPHUO4FW2I=;
- b=IwcoTgwM3bLPyXAnHYAzeNcxS+2fTreiMtp5mE+ibeVfrIvCEy/pEPKFLzYO0TxuK5hcWdMljgKKyWFx3wbMl1OBEcYhYApf/hTBVr8hgaOoc4mxgBWL5IeHwDPPNkf25soJMmgpkoE+yKA5xwGy0zsN8vJRTGofWxkm8g3oZEQ=
+ bh=vCV6jYxgOVsdkWy7GS3x9lfzdB9N0ixHt+72Ty+qzcY=;
+ b=PmGV60zN6/1QY2WpEMuFDtxSsNI5i6UEhX0oODDUtuD/vzAPT2P+HuESTJZBk2Ib8a9YOPb2+jXP8FGoMhcXpmdLVoCjYIj1ux33VqJnV7o5LnxHk28ZkzegW73Zj6AN18JM4apF6FRxcIJ4Gaw2YoMYsE2Ad5DMd6vR3GCBZpw=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by DS0PR10MB6752.namprd10.prod.outlook.com (2603:10b6:8:13a::19) with
+ by PH0PR10MB4791.namprd10.prod.outlook.com (2603:10b6:510:3a::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.12; Fri, 6 Sep
- 2024 14:45:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.24; Fri, 6 Sep
+ 2024 14:45:21 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%6]) with mapi id 15.20.7939.010; Fri, 6 Sep 2024
- 14:45:19 +0000
+ 14:45:21 +0000
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 Cc: Kris Van Hees <kris.van.hees@oracle.com>,
         Nick Alcock <nick.alcock@oracle.com>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Steven Rostedt <rostedt@goodmis.org>, Sam James <sam@gentoo.org>,
+        Alan Maguire <alan.maguire@oracle.com>, Sam James <sam@gentoo.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
         Luis Chamberlain <mcgrof@kernel.org>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Jiri Olsa <olsajiri@gmail.com>,
         Elena Zannoni <elena.zannoni@oracle.com>
-Subject: [PATCH v10 2/4] kbuild: generate offset range data for builtin modules
-Date: Fri,  6 Sep 2024 10:45:03 -0400
-Message-ID: <20240906144506.1151789-3-kris.van.hees@oracle.com>
+Subject: [PATCH v10 3/4] scripts: add verifier script for builtin module range data
+Date: Fri,  6 Sep 2024 10:45:04 -0400
+Message-ID: <20240906144506.1151789-4-kris.van.hees@oracle.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240906144506.1151789-1-kris.van.hees@oracle.com>
 References: <20240906144506.1151789-1-kris.van.hees@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0101.namprd03.prod.outlook.com
- (2603:10b6:a03:333::16) To SN7PR10MB6287.namprd10.prod.outlook.com
+X-ClientProxiedBy: BYAPR08CA0043.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::20) To SN7PR10MB6287.namprd10.prod.outlook.com
  (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -111,375 +111,162 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|DS0PR10MB6752:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c69f8d7-ae52-4ec2-231c-08dcce8287b3
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|PH0PR10MB4791:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39b75181-4e01-44d8-f43e-08dcce8288ac
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kjN1qAEjOuU6dDcIbgNz816HrgUYqDCz93lALB+qKumeZNm9O1v+MSTKRyr7?=
- =?us-ascii?Q?RFahccrXNYL9ockisHM3jjMMifsxyRHgZiFVjLk66WXYaia+yl6IPiaFbYNK?=
- =?us-ascii?Q?OJuEuL/qmFVs/eeIV0CY26+RtvYbqhSqxpVcJ9fO/BovWVW7RhHrBjb3QVcD?=
- =?us-ascii?Q?aIhPam/NUVJ/eRDhR7gthzzd382Hv/4XRAeECN27Aa20rsNXLVcaJIcLyvXc?=
- =?us-ascii?Q?bBmw3Up5zPikSo9iAKsvTFh7cV3hQtDBbPOtNelB41w5yEf8SiNeeqjd49N6?=
- =?us-ascii?Q?2rcDBa5I1Qps8V9rsC4MGnOA1/yLRrFMOafwql77V4IgTjAztgzgdsFgwrdo?=
- =?us-ascii?Q?JJ9OVd5R5e6gSCkNukXRLxh4WWVF3WxB7qeHZGRipRQ7hmndPJmZkbwqj0zg?=
- =?us-ascii?Q?8NJePG4uv0ikH2YOeP1gYKIE0W66h/x3idVfA7fHJyvzRVhcS1HZ7FbnymfT?=
- =?us-ascii?Q?69Iaiw1O9FnX7b9Vkk08SIw3C9SABOsKa9g3kuWqXH35lH5zUuoqtBSZW+Sw?=
- =?us-ascii?Q?RfmEq34lcJv7o2wH5lhE+zh1Ir2G6TwD2yji4IsHWkDef9O0JGHJOMTWBfNj?=
- =?us-ascii?Q?tneBoupB8SaXvjO6ci/L+EREbxenmFx2BQ5UmrDE/oIoZSDHg79Rh//NVgBS?=
- =?us-ascii?Q?YNexCu9a3gF0K5lG9y3d8lbz2xEOTuZF/UwgNH1VsoF0TVBWOQbMyyfTptcD?=
- =?us-ascii?Q?2Q8FBIAQyc5WJInViBs40NxvHhVRKMaY2ULXjNP6LryD9pmnNCaLCqnjpggi?=
- =?us-ascii?Q?63/A6/Z95Lo9pIh9F+JoC+O3KAPkAyNEr9gzmw0K//T7xmnGmlx3OlcwjFhl?=
- =?us-ascii?Q?A1Vpdh4lBw9rvFjal/MpiDxvgwt6hNyAoReANnimX2IEFGcxWhoiriFNt7n1?=
- =?us-ascii?Q?2AopDp79uNxlpFix8m/Iob36afhT4EnV6XBSHqx92Cann0dbgbk9vlKQe8X/?=
- =?us-ascii?Q?UanCP8huGSWrGvq9mxmAf5AmuJbL1RJdliaXn2M2R5DbAPYAEJVhsltf46mQ?=
- =?us-ascii?Q?G/hv2qAktq4XC2IULK9Sc6Jb5oQa3m03wF0HtzYeKRqpHXp5+prNWQ/12lE6?=
- =?us-ascii?Q?PmSI92uC6GbOPrdwCUtyW5xYA4lH4r890cPmrXubKCkiW73zxUpUhWE9qU5R?=
- =?us-ascii?Q?cb/rJ6uOy1DTWsNGpjbhdtvYRRO2tDJGCm3g5TdqhFZ0oEhR47lewb1DWF5H?=
- =?us-ascii?Q?3Gm412fB7zRsy2mrwLHTe/GAya7kdhYOWCh8ZB6usIgRZ5FRpvVcjcX5gRN7?=
- =?us-ascii?Q?/ekjwg9NkTzuILeZDfbTBfFutXAeS3MJrl0ZGh/OOuHCG2PZu1Hwf5CshDo9?=
- =?us-ascii?Q?JCM=3D?=
+	=?us-ascii?Q?qZM3wqrBai733mIe7w1eJyFygqw/ASgAsBc5RqtX2USeSqPje1wN5+88uuKo?=
+ =?us-ascii?Q?NVCJjJBs7NuUjr40O8qvHueMMi0Bfae2Oi8xbiw1pgMuSDbku6Xd2gXPXugT?=
+ =?us-ascii?Q?BnrijgxiQbhJwY/ihwwNSH0idwrXJ0whVTq9c7Zp8CXFYefs5ye8dGQSpeo0?=
+ =?us-ascii?Q?hcc4pedmI0OaXR3Q4zSIL5M4ZPWB88xwl0bzOawpQcf04DWov1avVgmSrx7e?=
+ =?us-ascii?Q?UKWQRWbi1o1r3PMa3YAPkycCDNEY2XA0fxV5gLa4aoBfdWOtlRsrFSzWKTXT?=
+ =?us-ascii?Q?WC96ZRHOLp0/4OiRj0xP2nMvA+SiDdFE2L/xirTILhh6+yIp7WVDEVLt2PWR?=
+ =?us-ascii?Q?JBPVauzHLuk1gifJvr972uw/R/rejJzc2DH3rzIg97z7zLng8UhNG39dTgvg?=
+ =?us-ascii?Q?8MexaaMdM4Z86AOgucAiDrEkkPW5ICGsg0bEJnjV5mOmi8bYG4AuHeHFQy0n?=
+ =?us-ascii?Q?6E+w+B6H5WEUAnl6dObgCGH1+zM6LBp+Hz7AMt9Lyn2R98FxiJfs4nGQlqhZ?=
+ =?us-ascii?Q?PT6wQrJM3m/X4VusZRNBSaxSnxnQBOHv9iD6/+pnjUiLY1Q/VJmJwoIG8Mna?=
+ =?us-ascii?Q?C8voBQRydbufXZ7jXXSXUih+pHZPxr0xef5y0qWXIYlPeb03vn1kkZNGQmt2?=
+ =?us-ascii?Q?NuQJkyJ5GkrbWMrWzUQdEN9bXqx0nQCU6IJ5VeUVPBm4rs59m7WvwhI4w9UK?=
+ =?us-ascii?Q?gZ0+mnEkAEuRfvAN6fQ5wFu7KEjo2Jsf5qtv+Qdh3SExU4c79CifHcpl4Fth?=
+ =?us-ascii?Q?gl7seNlaPwokclAYoTImnpG6h09qDzuXqJwHlDc50VVuj2IgUoPTgrjOdVqE?=
+ =?us-ascii?Q?nKJYBPDa7V0OISNMHrAMrMcGs1gPdY0WQZf1JY2rB/7c+BBdjPHKNGQ2qqpD?=
+ =?us-ascii?Q?zvs0ld+FVi+HYBfiFGkMb6PHFUHXm//D9SA6GJrKwLPOPOw58l8Rrqpx2aRa?=
+ =?us-ascii?Q?Qik/AK4KS0c39XyjZ5VR5F9/Qkzqcb9OYveAxqIMFaqLSX5x9/cEzPSfymV0?=
+ =?us-ascii?Q?uolzTfndCjcekXiSKQ41E5epabuvqOJUYfA0B53dR26PIHkmXgm32osiYvnS?=
+ =?us-ascii?Q?T3bhXlgE0xk88YeIndhZfgUYDymVodm4vfQKwXFasvtYtyUbqb+SUqEBoyWj?=
+ =?us-ascii?Q?gA6mhQQ9OMkSlTt/aHYuZRRCJkvXXSYvfW43eHcO28ZwD3aXkEzrNC8RIQ1+?=
+ =?us-ascii?Q?JX2EPP1+DYOQpcsJXzi2H11bs/C0EjEV+OXyO9xeDtusTW8N3VhALy5LSzT9?=
+ =?us-ascii?Q?zb2rEXy+SzmKB6H735OjIoYSJBsSpi9fT960azkGANkye28tMJVOUuxpBJhx?=
+ =?us-ascii?Q?FHfZQ7bxZvMIgFSHRhf2PM/nQaRO89owIj0UC2GG+Rc8lw=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?B4XVc/pLzIQZ8Kt+pqQAdy/63RfJepBFWq9YDb3HRlOkljpyRwku9lsJMIP8?=
- =?us-ascii?Q?fB5BGMJq0p44xX/8PLyUV2nQxpetr9ZZL+kNFbbq/F+LqntTkbMS4lbCAAyY?=
- =?us-ascii?Q?+Gp5Eo7E5L73z0enlhaPMx7pXYXi8xjPQA0ympbTs6PhHqKsNaKyvsXZ/Yy3?=
- =?us-ascii?Q?wSurUdADSIsjGr3xhTWa0NVzCroWsJSR7S/SDzRLbszwCg88UxLSW9+X/2Au?=
- =?us-ascii?Q?njDm4dDmCYdomn3FArUSL61akWSoBHIRwZpS677F2fnI8r+3MjnA4Zk2AYRH?=
- =?us-ascii?Q?Fwjt9ckiiuen3M3MnBQxO2oywJzB7h/H6Q3hHmrTfi/N2XmYMYIpiSbsv4IS?=
- =?us-ascii?Q?BfCXKuc6COuMh6NO2ktyYkx9SNCB76IlmHKvIbDReHwyaaLPGwgbJd7eTjdC?=
- =?us-ascii?Q?7nawbDrZeP2UetokzSLUt2WbCu0w34vhqJTGX44IusmVJeJk4XG6DbJ+DXLF?=
- =?us-ascii?Q?ssV1h+/hkk1pxfAg3q4MokGIZ3gQvCfyEyKltdCyVSvCo+73phdFUdyKp0MS?=
- =?us-ascii?Q?fnzf/N/7jSB1ABb7RnFIPKU8aknBUS/g6iUD75W0YGTT0hTcTAM++tUtXY73?=
- =?us-ascii?Q?HI8rvwwxHCm+Q2/5UEm62bbK1SuUFFROEIAR/o7rpNRa4X5S2QQwyVHftUb6?=
- =?us-ascii?Q?hHFv4FuJWn8FKG+OECKFKJS4wDhcX7pCCIsRCXIa2S7ri8YzjKfyVrS0wmAu?=
- =?us-ascii?Q?iawI9bn7w0OsrhZx66fkzQ3dIoBo9IF5I5x5rRfGpa2Du7qfuJPCZ46twGrF?=
- =?us-ascii?Q?ND8BtiArS76Iv00virbdt+BL1bJjdixRDojSAYAeELRsc/hMB6jCScnPyyp1?=
- =?us-ascii?Q?r/dOWD4v822jygnC84sjKu6fL3HdBjof0rYEdUuIoLYwAtBCNvDDAWoCKl6q?=
- =?us-ascii?Q?1jER2TYbXu1egUwtIr5KT7EczkAnHst4RTGU2gf+Ww8k7sFCLHtKmSgfhJ9d?=
- =?us-ascii?Q?hzx8oAiSTF5I6JfQ52mjGW1fc4808LeGCK4cWGy7OSf5HQcOZ39ddFDh8ZJg?=
- =?us-ascii?Q?HiQW9etrBw0f86L8XtZl/J/lPZ6zpDQ/iyBhi8DU3H3oRvJGARXhjZ3/yJVm?=
- =?us-ascii?Q?ZUHDHQMQ4OsS7s0GviOhtGTLfQjAZFaB3eRrglHo9J6ZdQcnkqFLPgyZA9io?=
- =?us-ascii?Q?PGk2ewwtS9OLmBwxK+gDrWOTqL7GFrwNcESGWHCAi/GAfgvMtgimf8pL8dPn?=
- =?us-ascii?Q?J1wbQtBrsK4TXyS/cGodHjfOxt+O0aCZQuq70gtURGEoTBBN70hMm1DVWcfe?=
- =?us-ascii?Q?HhJ5Guxtfuo4/h2Ayp98ENaTwygoFy3HYnijzF+s8vyQbKfIg4KQC37WUfyo?=
- =?us-ascii?Q?f7dqrN4x2trTfQO1W6hpJfgV7dsItRkrmpP7dQEzI/nJwIafs+QHmndecZI7?=
- =?us-ascii?Q?u8Bip2ParawC3FrngsytME0Npmd1Y5mbRkX7/3MCSJBp+bM42cTQuoAXTQfQ?=
- =?us-ascii?Q?zKDpFnaQCXg8zGsBrPkcOvS4JcyfRLWFpkBquHIQ56+Vb/T0jzqyR3KwIHm2?=
- =?us-ascii?Q?t7J4anCPcyjGtFwSJl7phzc+mEPvDV3HI/2pPwepZ3M7P2zeTUjQiMe/9/46?=
- =?us-ascii?Q?hCFs1RlmK+Qu3FNfVouMLubdzsghMyKkr3hFSpmUsWyAmkJGRsdzXWsXvI34?=
- =?us-ascii?Q?PEMarzajyhGmQPCxtYzCZx4=3D?=
+	=?us-ascii?Q?e9L6r/qKLJDu+G1GRgXfzOs3jcGiYt4HVnnl1vWTB8OpFssUWeig031Jt8jm?=
+ =?us-ascii?Q?0uyglnNM6BuG4X0KMHybjLwqQNsXFFVXGWG+ZWJB/0YyednKNTPbB0j5GM2O?=
+ =?us-ascii?Q?ANimAkSbARtQDddIkSgiaYv6+M6h2lzhHWPRLlApBP8SoA5bCk1fRnhzJKmo?=
+ =?us-ascii?Q?2YEEvwblc3T9tJmoM9G3OZ1DzeywsUevuGbekZsqwOHZwA0J+2erFpR3i9en?=
+ =?us-ascii?Q?z3RRem33LqbMvFv3+MbNJE6IrrDZLg1VcXIeN4R/dU+l8D0sadD+uV9BZ1oi?=
+ =?us-ascii?Q?ifoAbBygK2le/81RRMSSIDcng7hry2pZ3THCjy0ZWLyVRvXtz4edryRuiOZ1?=
+ =?us-ascii?Q?6zvqG6Q4vIllzgkGcvSVKv9urq2ogw5OkQ2aT7kqrN5yYE72uR2zXH9hAUgO?=
+ =?us-ascii?Q?RzpSgYfetCIKZx6wEm7LJPb18rHxQeH+sk/Siul8euJgbvP88GRKHnmgw/oS?=
+ =?us-ascii?Q?T2afSoDHz0mW8N+bCHwGQbAB2DtezgjD7iPl8IllgBW1PxhlqrWxbusP0oWC?=
+ =?us-ascii?Q?kbcD2KQvp4jAd8JzLkOguuvi7ofNd2U4c1za4HgjJffUtKXOoFSqYH1KsyFb?=
+ =?us-ascii?Q?2WT9PfTUnqXQM1fUKWgXkaYRDMx+D3KohuulNnWm/uU0yDccUZJ/bLY5eoOa?=
+ =?us-ascii?Q?ocfT/9dL0Wqqp26NPhzhTeKo9RDMgI4Rpy8994L52U6Rj4oak3fzZY9Wp/ss?=
+ =?us-ascii?Q?9UURJqzcBift3qfEbR5XfKenkkX0QzQpvTuaT/ELG91dLnOEJtzckjc7ms3f?=
+ =?us-ascii?Q?S6FTkloX8/DAzvAQR7GHUYIxtawKBzKI2wkZWaBcHtjPVwSuXFLHhxG9opxC?=
+ =?us-ascii?Q?5vwllNY9mEco8wCObLsFlFCahMTTDv4n9B9WALWUCabxzRa00A0Xe4Mn19PX?=
+ =?us-ascii?Q?plKFOV3qd/xEp0IPC9FlK07sZ0rV2NIIIx2OYU5V+1/aC9AiWmS5mBv0pK8n?=
+ =?us-ascii?Q?kKtCAu7M+Zjh9KZE0GKN7YLKbTu8ehS+vwYpNs6Ulud/O0ZPN8T/Yd/j2Xd1?=
+ =?us-ascii?Q?zWyCMUo3NLE0FhpWNib9S2OoefBGL5GL1LnRSUyhacQKA4AYXfCnpfDs0qWu?=
+ =?us-ascii?Q?LlFIz0Td3ed8PDTijKucRUp/eX5mPL1LyWo0HavngnToFf3dVS6lV4I0wGfi?=
+ =?us-ascii?Q?IBijMKH21dfS0cGKL3T3VNgXIwBRT4/Vdgqsi2rnozlQIp2FATpglBnJFP5+?=
+ =?us-ascii?Q?q+8KhigN9j/pPNiQR+pkPXojeey2tsy6gJ7d6HuMgzAc6V1QTk7X1eXWOIEe?=
+ =?us-ascii?Q?YFiHTLkwry0COcYmi2zDcwnCd93CuNv6D2YGVgoRMICD2axnJBc+lmf9ldSB?=
+ =?us-ascii?Q?DDooG8KlPcLKz5jQFI83t/sepSsmy3/dtTNxlocnADaR1gvO+k97yhldImZW?=
+ =?us-ascii?Q?Kl6mKZtjyBnEH509iK4G1D+2pn7VWvVbFiv/oiZWmAVXvsrT1y9Zj42IHLzx?=
+ =?us-ascii?Q?fTuO0FT2H0CgJCjx18FJxnGEzjvV+Z3XCOEew8YI3H+sByRnRexOykzqq5LM?=
+ =?us-ascii?Q?Zxqf+rwOgRIMAH3ZbCOWr8i0+Nz4imFVROtPk45nTDLMNcQJji8DDZcOIyjb?=
+ =?us-ascii?Q?d30qs3Xag7xubIyGcKAmAB/irxMp2IyiOEBUj6Mlu2x2sq2Idc80cR0jsTpL?=
+ =?us-ascii?Q?VAar3GzoZMkn3pyLitfwpv4=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	bozdMbhG4Gxth9XlyIB/64oKXWLz2KYwSPGNKzjv9jF70DXU+YMLodnhd+bLG6fOK6jDO8S8oi/AcS7VRa8pP6tL8wjgiLNoBpN/vgxXoRhNKsEEBxU3cWM20Yfd8QZdPeSWe29mS8u08rzdv4Or6PA+W+EdQjOYIVlR7A8eeRWkPaEHDNVDXq823wQ5MX+9SnHT2bkqzXANgQMgMI5BcQEduO8xtldG8c5OKTZ0DtEofXf+LvDij2QHQbdyj9u/933f50LYSbWMIBJaMRn4TPvjWCRlT/RtJyzz7C64HOjbORvsZuXJOnFkQ41gp3WAMn2uONHOziSCV1x3MgTZy4DIq47rH6aihth9905aoZKrOrXLWr31DJx+LfkZaAS0KKIfJj9uo23SHtB4zasNFrg2MRZr7mGdN4cFJdMygtHrXz9oKlGFZfYdjKeQxmwUQcuMWW33N9zL+pL/tthINY7zflvJuR2/pYwLSfmp8aWRhJblUQhk50N/oAi4uH0TaRAQUqxuwlPgNFUL8lCk5lZfCRhBLRIMgrmS1YhxukMyjnHsYxnX2qP8wxQCL7/uf9SGtqolf7mxTLAY/Osz9BLGmQELgJ38SrIFEXMDI2c=
+	cfuO7lJuiULNWlZwfVxfaOoJdF/9VprV94ZHUDRe+nCZVlWfmnEU/TeHFxzsM0O0aYAF4gGCZRQLSpuTxVquGIBdsXNpfoPQ+mZvtOScShOhsNoML9I87jbrc3LSOqkYoWQyMC/KKJselyVA9Hu2nN0M849ntyFjxPYZSn1ESmXj34M7HJBJ7o+yl5daBPMlWKAQhVEP8m8jmZ92He/1oqkEUJONJsvznp7JiqdH4gy9t8Vl+ssiqYzxHc/5uw6T3l5q4pn7/0kGn4VmNPnilHwy0GXDVCnrjEj8jQZodV+Pr8pIYrKZtBfKZSaFTbp1ws39wxceUTCfd9xEzBjJNprxjsVBOefnD2hmKgZIZtZI18nZkue7X/ag1yo601YR2bb4nuG20ueVQg9xyBeuMh0yk1KWbSnsbUiz549RzgkGulauKeAak7fbKIr/nxSYcqgCETD/SRMbhIXB2ZtnysRsVTN1a67kw2C8uaNwBZmqA/30bYDSYDIp79kBkg1tX3zpcJmufs9tVdge7toBTwcLiNGUpkoqnuRsWrGNtoPFrdYhJ+vp6BWRXVvBuMqKFOIEc/g0bbWSxE4IrW4iZmnrUAyhe6vMPmIR3iIWUAw=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c69f8d7-ae52-4ec2-231c-08dcce8287b3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39b75181-4e01-44d8-f43e-08dcce8288ac
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 14:45:19.9427
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2024 14:45:21.5300
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uuzyeDY1stoI2sowVQS6Km+sNGIDb+neR+xg7MFr0G7F8Ue5a9NNxg8ZsVqfS3mQxLxtLvhPWRTqGa5qSaK/wQCtb7fggaqAQXHQ7OFMQuc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6752
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZW3w2vJWRl2c7bQRc1BZ2NxpRJRrUK3hIJMOU5PXCko+WijEMCchx92wa4WqApRDtwm9/hnAFqi4Bv+gFuQpGPmM43xAWyUT7V9v2bkvBG0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4791
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_03,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0
- suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=999 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2408220000 definitions=main-2409060108
-X-Proofpoint-ORIG-GUID: n4lHjrkEJ-eTdoHD0qA2ysumih_fTwK5
-X-Proofpoint-GUID: n4lHjrkEJ-eTdoHD0qA2ysumih_fTwK5
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 mlxscore=0
+ phishscore=0 spamscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2408220000
+ definitions=main-2409060108
+X-Proofpoint-ORIG-GUID: kEcWjBXFw8AjDp9H08DFCGDfBFfrskix
+X-Proofpoint-GUID: kEcWjBXFw8AjDp9H08DFCGDfBFfrskix
 
-Create file module.builtin.ranges that can be used to find where
-built-in modules are located by their addresses. This will be useful for
-tracing tools to find what functions are for various built-in modules.
+The modules.builtin.ranges offset range data for builtin modules is
+generated at compile time based on the list of built-in modules and
+the vmlinux.map and vmlinux.o.map linker maps.  This data can be used
+to determine whether a symbol at a particular address belongs to
+module code that was configured to be compiled into the kernel proper
+as a built-in module (rather than as a standalone module).
 
-The offset range data for builtin modules is generated using:
- - modules.builtin: associates object files with module names
- - vmlinux.map: provides load order of sections and offset of first member
-    per section
- - vmlinux.o.map: provides offset of object file content per section
- - .*.cmd: build cmd file with KBUILD_MODFILE
+This patch adds a script that uses the generated modules.builtin.ranges
+data to annotate the symbols in the System.map with module names if
+their address falls within a range that belongs to one or more built-in
+modules.
 
-The generated data will look like:
+It then processes the vmlinux.map (and if needed, vmlinux.o.map) to
+verify the annotation:
 
-.text 00000000-00000000 = _text
-.text 0000baf0-0000cb10 amd_uncore
-.text 0009bd10-0009c8e0 iosf_mbi
-...
-.text 00b9f080-00ba011a intel_skl_int3472_discrete
-.text 00ba0120-00ba03c0 intel_skl_int3472_discrete intel_skl_int3472_tps68470
-.text 00ba03c0-00ba08d6 intel_skl_int3472_tps68470
-...
-.data 00000000-00000000 = _sdata
-.data 0000f020-0000f680 amd_uncore
-
-For each ELF section, it lists the offset of the first symbol.  This can
-be used to determine the base address of the section at runtime.
-
-Next, it lists (in strict ascending order) offset ranges in that section
-that cover the symbols of one or more builtin modules.  Multiple ranges
-can apply to a single module, and ranges can be shared between modules.
-
-The CONFIG_BUILTIN_MODULE_RANGES option controls whether offset range data
-is generated for kernel modules that are built into the kernel image.
-
-How it works:
-
- 1. The modules.builtin file is parsed to obtain a list of built-in
-    module names and their associated object names (the .ko file that
-    the module would be in if it were a loadable module, hereafter
-    referred to as <kmodfile>).  This object name can be used to
-    identify objects in the kernel compile because any C or assembler
-    code that ends up into a built-in module will have the option
-    -DKBUILD_MODFILE=<kmodfile> present in its build command, and those
-    can be found in the .<obj>.cmd file in the kernel build tree.
-
-    If an object is part of multiple modules, they will all be listed
-    in the KBUILD_MODFILE option argument.
-
-    This allows us to conclusively determine whether an object in the
-    kernel build belong to any modules, and which.
-
- 2. The vmlinux.map is parsed next to determine the base address of each
-    top level section so that all addresses into the section can be
-    turned into offsets.  This makes it possible to handle sections
-    getting loaded at different addresses at system boot.
-
-    We also determine an 'anchor' symbol at the beginning of each
-    section to make it possible to calculate the true base address of
-    a section at runtime (i.e. symbol address - symbol offset).
-
-    We collect start addresses of sections that are included in the top
-    level section.  This is used when vmlinux is linked using vmlinux.o,
-    because in that case, we need to look at the vmlinux.o linker map to
-    know what object a symbol is found in.
-
-    And finally, we process each symbol that is listed in vmlinux.map
-    (or vmlinux.o.map) based on the following structure:
-
-    vmlinux linked from vmlinux.a:
-
-      vmlinux.map:
-        <top level section>
-          <included section>  -- might be same as top level section)
-            <object>          -- built-in association known
-              <symbol>        -- belongs to module(s) object belongs to
-              ...
-
-    vmlinux linked from vmlinux.o:
-
-      vmlinux.map:
-        <top level section>
-          <included section>  -- might be same as top level section)
-            vmlinux.o         -- need to use vmlinux.o.map
-              <symbol>        -- ignored
-              ...
-
-      vmlinux.o.map:
-        <section>
-            <object>          -- built-in association known
-              <symbol>        -- belongs to module(s) object belongs to
-              ...
-
- 3. As sections, objects, and symbols are processed, offset ranges are
-    constructed in a straight-forward way:
-
-      - If the symbol belongs to one or more built-in modules:
-          - If we were working on the same module(s), extend the range
-            to include this object
-          - If we were working on another module(s), close that range,
-            and start the new one
-      - If the symbol does not belong to any built-in modules:
-          - If we were working on a module(s) range, close that range
+  - For each top-level section:
+     - For each object in the section:
+        - Determine whether the object is part of a built-in module
+          (using modules.builtin and the .*.cmd file used to compile
+           the object as suggested in [0])
+        - For each symbol in that object, verify that the built-in
+          module association (or lack thereof) matches the annotation
+          given to the symbol.
 
 Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
 Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
 Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 Tested-by: Sam James <sam@gentoo.org>
 ---
 
 Notes:
     Changes since v9:
-     - Reverted support for build directory as optional 4th argument.
-     - Added modules.builtin.ranges and vmlinux.o.map to CLEAN_FILES.
-     - Fixed support for sparc64.
+     - Fixed support for LLVM's lld linker map format.
+     - Reverted additional of build directory as optional 6th argument.
+     - Updated error message when .*.cmd.o cannot be read.
+     - Added syntax output when insufficient arguments are supplied.
+     - Return 1 if verification failed.
     
     Changes since v8:
      - Added support for built-in Rust modules.
-     - Added optional 4th argument to specify kernel build directory.
     
     Changes since v7:
-     - Removed extra close(fn).
-     - Make CONFIG_BUILTIN_MODULE_RANGES depend on !lTO.
+     - Removed extra close(fn)
     
     Changes since v6:
-     - Applied Masahiro Yamada's suggestions (Kconfig, makefile, script).
+     - Applied Masahiro Yamada's suggestions to the AWK script.
     
     Changes since v5:
-     - Removed unnecessary compatibility info from option description.
+     - Added optional 6th argument to specify kernel build directory.
+     - Report error and exit if .*.o.cmd files cannot be read.
     
     Changes since v4:
-     - Improved commit description to explain the why and how.
-     - Documented dependency on GNU AWK for CONFIG_BUILTIN_MODULE_RANGES.
-     - Improved comments in generate_builtin_ranges.awk
-     - Improved logic in generate_builtin_ranges.awk to handle incorrect
-       object size information in linker maps
-    
-    Changes since v3:
-     - Consolidated patches 2 through 5 into a single patch
-     - Move CONFIG_BUILTIN_MODULE_RANGES to Kconfig.debug
-     - Make CONFIG_BUILTIN_MODULE_RANGES select CONFIG_VMLINUX_MAP
-     - Disable CONFIG_BUILTIN_MODULE_RANGES if CONFIG_LTO_CLANG_(FULL|THIN)=y
-     - Support LLVM (lld) compiles in generate_builtin_ranges.awk
-     - Support CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=y
-    
-    Changes since v2:
-     - Add explicit dependency on FTRACE for CONFIG_BUILTIN_MODULE_RANGES
-     - 1st arg to generate_builtin_ranges.awk is now modules.builtin.modinfo
-     - Switched from using modules.builtin.objs to parsing .*.cmd files
-     - Parse data from .*.cmd in generate_builtin_ranges.awk
-     - Use $(real-prereqs) rather than $(filter-out ...)
-    ---
+     - New patch in the series
 
- Documentation/process/changes.rst   |   7 +
- Makefile                            |   1 +
- lib/Kconfig.debug                   |  15 +
- scripts/Makefile.vmlinux            |  18 +
- scripts/Makefile.vmlinux_o          |   3 +
- scripts/generate_builtin_ranges.awk | 508 ++++++++++++++++++++++++++++
- 6 files changed, 552 insertions(+)
- create mode 100755 scripts/generate_builtin_ranges.awk
+ scripts/verify_builtin_ranges.awk | 370 ++++++++++++++++++++++++++++++
+ 1 file changed, 370 insertions(+)
+ create mode 100755 scripts/verify_builtin_ranges.awk
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 3fc63f27c226..00f1ed7c59c3 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -64,6 +64,7 @@ GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
- mkimage (optional)     2017.01          mkimage --version
- Python (optional)      3.5.x            python3 --version
-+GNU AWK (optional)     5.1.0            gawk --version
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-@@ -192,6 +193,12 @@ platforms. The tool is available via the ``u-boot-tools`` package or can be
- built from the U-Boot source code. See the instructions at
- https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
- 
-+GNU AWK
-+-------
-+
-+GNU AWK is needed if you want kernel builds to generate address range data for
-+builtin modules (CONFIG_BUILTIN_MODULE_RANGES).
-+
- System utilities
- ****************
- 
-diff --git a/Makefile b/Makefile
-index d57cfc6896b8..ec98a1e5b257 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1482,6 +1482,7 @@ endif # CONFIG_MODULES
- # Directories & files removed with 'make clean'
- CLEAN_FILES += vmlinux.symvers modules-only.symvers \
- 	       modules.builtin modules.builtin.modinfo modules.nsdeps \
-+	       modules.builtin.ranges vmlinux.o.map \
- 	       compile_commands.json rust/test \
- 	       rust-project.json .vmlinux.objs .vmlinux.export.c
- 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index a30c03a66172..5e2f30921cb2 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -571,6 +571,21 @@ config VMLINUX_MAP
- 	  pieces of code get eliminated with
- 	  CONFIG_LD_DEAD_CODE_DATA_ELIMINATION.
- 
-+config BUILTIN_MODULE_RANGES
-+	bool "Generate address range information for builtin modules"
-+	depends on !LTO
-+	depends on VMLINUX_MAP
-+	help
-+	 When modules are built into the kernel, there will be no module name
-+	 associated with its symbols in /proc/kallsyms.  Tracers may want to
-+	 identify symbols by module name and symbol name regardless of whether
-+	 the module is configured as loadable or not.
-+
-+	 This option generates modules.builtin.ranges in the build tree with
-+	 offset ranges (per ELF section) for the module(s) they belong to.
-+	 It also records an anchor symbol to determine the load address of the
-+	 section.
-+
- config DEBUG_FORCE_WEAK_PER_CPU
- 	bool "Force weak per-cpu definitions"
- 	depends on DEBUG_KERNEL
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 5ceecbed31eb..dfb408aa19c6 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -33,6 +33,24 @@ targets += vmlinux
- vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
- 	+$(call if_changed_dep,link_vmlinux)
- 
-+# module.builtin.ranges
-+# ---------------------------------------------------------------------------
-+ifdef CONFIG_BUILTIN_MODULE_RANGES
-+__default: modules.builtin.ranges
-+
-+quiet_cmd_modules_builtin_ranges = GEN     $@
-+      cmd_modules_builtin_ranges = $(real-prereqs) > $@
-+
-+targets += modules.builtin.ranges
-+modules.builtin.ranges: $(srctree)/scripts/generate_builtin_ranges.awk \
-+			modules.builtin vmlinux.map vmlinux.o.map FORCE
-+	$(call if_changed,modules_builtin_ranges)
-+
-+vmlinux.map: vmlinux
-+	@:
-+
-+endif
-+
- # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
- # ---------------------------------------------------------------------------
- 
-diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-index d64070b6b4bc..0b6e2ebf60dc 100644
---- a/scripts/Makefile.vmlinux_o
-+++ b/scripts/Makefile.vmlinux_o
-@@ -45,9 +45,12 @@ objtool-args = $(vmlinux-objtool-args-y) --link
- # Link of vmlinux.o used for section mismatch analysis
- # ---------------------------------------------------------------------------
- 
-+vmlinux-o-ld-args-$(CONFIG_BUILTIN_MODULE_RANGES)	+= -Map=$@.map
-+
- quiet_cmd_ld_vmlinux.o = LD      $@
-       cmd_ld_vmlinux.o = \
- 	$(LD) ${KBUILD_LDFLAGS} -r -o $@ \
-+	$(vmlinux-o-ld-args-y) \
- 	$(addprefix -T , $(initcalls-lds)) \
- 	--whole-archive vmlinux.a --no-whole-archive \
- 	--start-group $(KBUILD_VMLINUX_LIBS) --end-group \
-diff --git a/scripts/generate_builtin_ranges.awk b/scripts/generate_builtin_ranges.awk
+diff --git a/scripts/verify_builtin_ranges.awk b/scripts/verify_builtin_ranges.awk
 new file mode 100755
-index 000000000000..b9ec761b3bef
+index 000000000000..0de7ed521601
 --- /dev/null
-+++ b/scripts/generate_builtin_ranges.awk
-@@ -0,0 +1,508 @@
++++ b/scripts/verify_builtin_ranges.awk
+@@ -0,0 +1,370 @@
 +#!/usr/bin/gawk -f
 +# SPDX-License-Identifier: GPL-2.0
-+# generate_builtin_ranges.awk: Generate address range data for builtin modules
++# verify_builtin_ranges.awk: Verify address range data for builtin modules
 +# Written by Kris Van Hees <kris.van.hees@oracle.com>
 +#
-+# Usage: generate_builtin_ranges.awk modules.builtin vmlinux.map \
-+#		vmlinux.o.map > modules.builtin.ranges
++# Usage: verify_builtin_ranges.awk modules.builtin.ranges System.map \
++#				   modules.builtin vmlinux.map vmlinux.o.map
 +#
 +
 +# Return the module name(s) (if any) associated with the given object.
@@ -503,6 +290,14 @@ index 000000000000..b9ec761b3bef
 +			gsub(/['"]/, "", mod);
 +		} else if (match(s, /RUST_MODFILE=[^ ]+/) > 0)
 +			mod = substr(s, RSTART + 13, RLENGTH - 13);
++	} else {
++		print "ERROR: Failed to read: " fn "\n\n" \
++		      "  For kernels built with O=<objdir>, cd to <objdir>\n" \
++		      "  and execute this script as ./source/scripts/..." \
++		      >"/dev/stderr";
++		close(fn);
++		total = 0;
++		exit(1);
 +	}
 +	close(fn);
 +
@@ -525,31 +320,98 @@ index 000000000000..b9ec761b3bef
 +	return mod;
 +}
 +
-+# Update the ranges entry for the given module 'mod' in section 'osect'.
++# Return a representative integer value for a given hexadecimal address.
 +#
-+# We use a modified absolute start address (soff + base) as index because we
-+# may need to insert an anchor record later that must be at the start of the
-+# section data, and the first module may very well start at the same address.
-+# So, we use (addr << 1) + 1 to allow a possible anchor record to be placed at
-+# (addr << 1).  This is safe because the index is only used to sort the entries
-+# before writing them out.
++# Since all kernel addresses fall within the same memory region, we can safely
++# strip off the first 6 hex digits before performing the hex-to-dec conversion,
++# thereby avoiding integer overflows.
 +#
-+function update_entry(osect, mod, soff, eoff, sect, idx) {
-+	sect = sect_in[osect];
-+	idx = sprintf("%016x", (soff + sect_base[osect]) * 2 + 1);
-+	entries[idx] = sprintf("%s %08x-%08x %s", sect, soff, eoff, mod);
-+	count[sect]++;
++function addr2val(val) {
++	sub(/^0x/, "", val);
++	if (length(val) == 16)
++		val = substr(val, 5);
++	return strtonum("0x" val);
 +}
 +
-+# (1) Build a lookup map of built-in module names.
++# Determine the kernel build directory to use (default is .).
 +#
-+# The first file argument is used as input (modules.builtin).
++BEGIN {
++	if (ARGC < 6) {
++		print "Syntax: verify_builtin_ranges.awk <ranges-file> <system-map>\n" \
++		      "          <builtin-file> <vmlinux-map> <vmlinux-o-map>\n" \
++		      >"/dev/stderr";
++		total = 0;
++		exit(1);
++	}
++}
++
++# (1) Load the built-in module address range data.
 +#
-+# Lines will be like:
++ARGIND == 1 {
++	ranges[FNR] = $0;
++	rcnt++;
++	next;
++}
++
++# (2) Annotate System.map symbols with module names.
++#
++ARGIND == 2 {
++	addr = addr2val($1);
++	name = $3;
++
++	while (addr >= mod_eaddr) {
++		if (sect_symb) {
++			if (sect_symb != name)
++				next;
++
++			sect_base = addr - sect_off;
++			if (dbg)
++				printf "[%s] BASE (%s) %016x - %016x = %016x\n", sect_name, sect_symb, addr, sect_off, sect_base >"/dev/stderr";
++			sect_symb = 0;
++		}
++
++		if (++ridx > rcnt)
++			break;
++
++		$0 = ranges[ridx];
++		sub(/-/, " ");
++		if ($4 != "=") {
++			sub(/-/, " ");
++			mod_saddr = strtonum("0x" $2) + sect_base;
++			mod_eaddr = strtonum("0x" $3) + sect_base;
++			$1 = $2 = $3 = "";
++			sub(/^ +/, "");
++			mod_name = $0;
++
++			if (dbg)
++				printf "[%s] %s from %016x to %016x\n", sect_name, mod_name, mod_saddr, mod_eaddr >"/dev/stderr";
++		} else {
++			sect_name = $1;
++			sect_off = strtonum("0x" $2);
++			sect_symb = $5;
++		}
++	}
++
++	idx = addr"-"name;
++	if (addr >= mod_saddr && addr < mod_eaddr)
++		sym2mod[idx] = mod_name;
++
++	next;
++}
++
++# Once we are done annotating the System.map, we no longer need the ranges data.
++#
++FNR == 1 && ARGIND == 3 {
++	delete ranges;
++}
++
++# (3) Build a lookup map of built-in module names.
++#
++# Lines from modules.builtin will be like:
 +#	kernel/crypto/lzo-rle.ko
 +# and we record the object name "crypto/lzo-rle".
 +#
-+ARGIND == 1 {
++ARGIND == 3 {
 +	sub(/kernel\//, "");			# strip off "kernel/" prefix
 +	sub(/\.ko$/, "");			# strip off .ko suffix
 +
@@ -557,429 +419,216 @@ index 000000000000..b9ec761b3bef
 +	next;
 +}
 +
-+# (2) Collect address information for each section.
++# (4) Get a list of symbols (per object).
 +#
-+# The second file argument is used as input (vmlinux.map).
-+#
-+# We collect the base address of the section in order to convert all addresses
-+# in the section into offset values.
-+#
-+# We collect the address of the anchor (or first symbol in the section if there
-+# is no explicit anchor) to allow users of the range data to calculate address
-+# ranges based on the actual load address of the section in the running kernel.
-+#
-+# We collect the start address of any sub-section (section included in the top
-+# level section being processed).  This is needed when the final linking was
-+# done using vmlinux.a because then the list of objects contained in each
-+# section is to be obtained from vmlinux.o.map.  The offset of the sub-section
-+# is recorded here, to be used as an addend when processing vmlinux.o.map
-+# later.
++# Symbols by object are read from vmlinux.map, with fallback to vmlinux.o.map
++# if vmlinux is found to have inked in vmlinux.o.
 +#
 +
-+# Both GNU ld and LLVM lld linker map format are supported by converting LLVM
-+# lld linker map records into equivalent GNU ld linker map records.
++# If we were able to get the data we need from vmlinux.map, there is no need to
++# process vmlinux.o.map.
 +#
-+# The first record of the vmlinux.map file provides enough information to know
-+# which format we are dealing with.
-+#
-+ARGIND == 2 && FNR == 1 && NF == 7 && $1 == "VMA" && $7 == "Symbol" {
-+	map_is_lld = 1;
-+	if (dbg)
-+		printf "NOTE: %s uses LLVM lld linker map format\n", FILENAME >"/dev/stderr";
-+	next;
-+}
-+
-+# (LLD) Convert a section record fronm lld format to ld format.
-+#
-+# lld: ffffffff82c00000          2c00000   2493c0  8192 .data
-+#  ->
-+# ld:  .data           0xffffffff82c00000   0x2493c0 load address 0x0000000002c00000
-+#
-+ARGIND == 2 && map_is_lld && NF == 5 && /[0-9] [^ ]+$/ {
-+	$0 = $5 " 0x"$1 " 0x"$3 " load address 0x"$2;
-+}
-+
-+# (LLD) Convert an anchor record from lld format to ld format.
-+#
-+# lld: ffffffff81000000          1000000        0     1         _text = .
-+#  ->
-+# ld:                  0xffffffff81000000                _text = .
-+#
-+ARGIND == 2 && map_is_lld && !anchor && NF == 7 && raw_addr == "0x"$1 && $6 == "=" && $7 == "." {
-+	$0 = "  0x"$1 " " $5 " = .";
-+}
-+
-+# (LLD) Convert an object record from lld format to ld format.
-+#
-+# lld:            11480            11480     1f07    16         vmlinux.a(arch/x86/events/amd/uncore.o):(.text)
-+#  ->
-+# ld:   .text          0x0000000000011480     0x1f07 arch/x86/events/amd/uncore.o
-+#
-+ARGIND == 2 && map_is_lld && NF == 5 && $5 ~ /:\(/ {
-+	gsub(/\)/, "");
-+	sub(/ vmlinux\.a\(/, " ");
-+	sub(/:\(/, " ");
-+	$0 = " "$6 " 0x"$1 " 0x"$3 " " $5;
-+}
-+
-+# (LLD) Convert a symbol record from lld format to ld format.
-+#
-+# We only care about these while processing a section for which no anchor has
-+# been determined yet.
-+#
-+# lld: ffffffff82a859a4          2a859a4        0     1                 btf_ksym_iter_id
-+#  ->
-+# ld:                  0xffffffff82a859a4                btf_ksym_iter_id
-+#
-+ARGIND == 2 && map_is_lld && sect && !anchor && NF == 5 && $5 ~ /^[_A-Za-z][_A-Za-z0-9]*$/ {
-+	$0 = "  0x"$1 " " $5;
-+}
-+
-+# (LLD) We do not need any other ldd linker map records.
-+#
-+ARGIND == 2 && map_is_lld && /^[0-9a-f]{16} / {
-+	next;
-+}
-+
-+# (LD) Section records with just the section name at the start of the line
-+#      need to have the next line pulled in to determine whether it is a
-+#      loadable section.  If it is, the next line will contains a hex value
-+#      as first and second items.
-+#
-+ARGIND == 2 && !map_is_lld && NF == 1 && /^[^ ]/ {
-+	s = $0;
-+	getline;
-+	if ($1 !~ /^0x/ || $2 !~ /^0x/)
-+		next;
-+
-+	$0 = s " " $0;
-+}
-+
-+# (LD) Object records with just the section name denote records with a long
-+#      section name for which the remainder of the record can be found on the
-+#      next line.
-+#
-+# (This is also needed for vmlinux.o.map, when used.)
-+#
-+ARGIND >= 2 && !map_is_lld && NF == 1 && /^ [^ \*]/ {
-+	s = $0;
-+	getline;
-+	$0 = s " " $0;
-+}
-+
-+# Beginning a new section - done with the previous one (if any).
-+#
-+ARGIND == 2 && /^[^ ]/ {
-+	sect = 0;
-+}
-+
-+# Process a loadable section (we only care about .-sections).
-+#
-+# Record the section name and its base address.
-+# We also record the raw (non-stripped) address of the section because it can
-+# be used to identify an anchor record.
-+#
-+# Note:
-+# Since some AWK implementations cannot handle large integers, we strip off the
-+# first 4 hex digits from the address.  This is safe because the kernel space
-+# is not large enough for addresses to extend into those digits.  The portion
-+# to strip off is stored in addr_prefix as a regexp, so further clauses can
-+# perform a simple substitution to do the address stripping.
-+#
-+ARGIND == 2 && /^\./ {
-+	# Explicitly ignore a few sections that are not relevant here.
-+	if ($1 ~ /^\.orc_/ || $1 ~ /_sites$/ || $1 ~ /\.percpu/)
-+		next;
-+
-+	# Sections with a 0-address can be ignored as well.
-+	if ($2 ~ /^0x0+$/)
-+		next;
-+
-+	raw_addr = $2;
-+	addr_prefix = "^" substr($2, 1, 6);
-+	base = $2;
-+	sub(addr_prefix, "0x", base);
-+	base = strtonum(base);
-+	sect = $1;
-+	anchor = 0;
-+	sect_base[sect] = base;
-+	sect_size[sect] = strtonum($3);
-+
-+	if (dbg)
-+		printf "[%s] BASE   %016x\n", sect, base >"/dev/stderr";
-+
-+	next;
-+}
-+
-+# If we are not in a section we care about, we ignore the record.
-+#
-+ARGIND == 2 && !sect {
-+	next;
-+}
-+
-+# Record the first anchor symbol for the current section.
-+#
-+# An anchor record for the section bears the same raw address as the section
-+# record.
-+#
-+ARGIND == 2 && !anchor && NF == 4 && raw_addr == $1 && $3 == "=" && $4 == "." {
-+	anchor = sprintf("%s %08x-%08x = %s", sect, 0, 0, $2);
-+	sect_anchor[sect] = anchor;
-+
-+	if (dbg)
-+		printf "[%s] ANCHOR %016x = %s (.)\n", sect, 0, $2 >"/dev/stderr";
-+
-+	next;
-+}
-+
-+# If no anchor record was found for the current section, use the first symbol
-+# in the section as anchor.
-+#
-+ARGIND == 2 && !anchor && NF == 2 && $1 ~ /^0x/ && $2 !~ /^0x/ {
-+	addr = $1;
-+	sub(addr_prefix, "0x", addr);
-+	addr = strtonum(addr) - base;
-+	anchor = sprintf("%s %08x-%08x = %s", sect, addr, addr, $2);
-+	sect_anchor[sect] = anchor;
-+
-+	if (dbg)
-+		printf "[%s] ANCHOR %016x = %s\n", sect, addr, $2 >"/dev/stderr";
-+
-+	next;
-+}
-+
-+# The first occurrence of a section name in an object record establishes the
-+# addend (often 0) for that section.  This information is needed to handle
-+# sections that get combined in the final linking of vmlinux (e.g. .head.text
-+# getting included at the start of .text).
-+#
-+# If the section does not have a base yet, use the base of the encapsulating
-+# section.
-+#
-+ARGIND == 2 && sect && NF == 4 && /^ [^ \*]/ && !($1 in sect_addend) {
-+	if (!($1 in sect_base)) {
-+		sect_base[$1] = base;
-+
-+		if (dbg)
-+			printf "[%s] BASE   %016x\n", $1, base >"/dev/stderr";
-+	}
-+
-+	addr = $2;
-+	sub(addr_prefix, "0x", addr);
-+	addr = strtonum(addr);
-+	sect_addend[$1] = addr - sect_base[$1];
-+	sect_in[$1] = sect;
-+
-+	if (dbg)
-+		printf "[%s] ADDEND %016x - %016x = %016x\n",  $1, addr, base, sect_addend[$1] >"/dev/stderr";
-+
-+	# If the object is vmlinux.o then we will need vmlinux.o.map to get the
-+	# actual offsets of objects.
-+	if ($4 == "vmlinux.o")
-+		need_o_map = 1;
-+}
-+
-+# (3) Collect offset ranges (relative to the section base address) for built-in
-+# modules.
-+#
-+# If the final link was done using the actual objects, vmlinux.map contains all
-+# the information we need (see section (3a)).
-+# If linking was done using vmlinux.a as intermediary, we will need to process
-+# vmlinux.o.map (see section (3b)).
-+
-+# (3a) Determine offset range info using vmlinux.map.
-+#
-+# Since we are already processing vmlinux.map, the top level section that is
-+# being processed is already known.  If we do not have a base address for it,
-+# we do not need to process records for it.
-+#
-+# Given the object name, we determine the module(s) (if any) that the current
-+# object is associated with.
-+#
-+# If we were already processing objects for a (list of) module(s):
-+#  - If the current object belongs to the same module(s), update the range data
-+#    to include the current object.
-+#  - Otherwise, ensure that the end offset of the range is valid.
-+#
-+# If the current object does not belong to a built-in module, ignore it.
-+#
-+# If it does, we add a new built-in module offset range record.
-+#
-+ARGIND == 2 && !need_o_map && /^ [^ ]/ && NF == 4 && $3 != "0x0" {
-+	if (!(sect in sect_base))
-+		next;
-+
-+	# Turn the address into an offset from the section base.
-+	soff = $2;
-+	sub(addr_prefix, "0x", soff);
-+	soff = strtonum(soff) - sect_base[sect];
-+	eoff = soff + strtonum($3);
-+
-+	# Determine which (if any) built-in modules the object belongs to.
-+	mod = get_module_info($4);
-+
-+	# If we are processing a built-in module:
-+	#   - If the current object is within the same module, we update its
-+	#     entry by extending the range and move on
-+	#   - Otherwise:
-+	#       + If we are still processing within the same main section, we
-+	#         validate the end offset against the start offset of the
-+	#         current object (e.g. .rodata.str1.[18] objects are often
-+	#         listed with an incorrect size in the linker map)
-+	#       + Otherwise, we validate the end offset against the section
-+	#         size
-+	if (mod_name) {
-+		if (mod == mod_name) {
-+			mod_eoff = eoff;
-+			update_entry(mod_sect, mod_name, mod_soff, eoff);
-+
-+			next;
-+		} else if (sect == sect_in[mod_sect]) {
-+			if (mod_eoff > soff)
-+				update_entry(mod_sect, mod_name, mod_soff, soff);
-+		} else {
-+			v = sect_size[sect_in[mod_sect]];
-+			if (mod_eoff > v)
-+				update_entry(mod_sect, mod_name, mod_soff, v);
-+		}
-+	}
-+
-+	mod_name = mod;
-+
-+	# If we encountered an object that is not part of a built-in module, we
-+	# do not need to record any data.
-+	if (!mod)
-+		next;
-+
-+	# At this point, we encountered the start of a new built-in module.
-+	mod_name = mod;
-+	mod_soff = soff;
-+	mod_eoff = eoff;
-+	mod_sect = $1;
-+	update_entry($1, mod, soff, mod_eoff);
-+
-+	next;
-+}
-+
-+# If we do not need to parse the vmlinux.o.map file, we are done.
-+#
-+ARGIND == 3 && !need_o_map {
++FNR == 1 && ARGIND == 5 && total > 0 {
 +	if (dbg)
 +		printf "Note: %s is not needed.\n", FILENAME >"/dev/stderr";
 +	exit;
 +}
 +
-+# (3) Collect offset ranges (relative to the section base address) for built-in
-+# modules.
++# First determine whether we are dealing with a GNU ld or LLVM lld linker map.
 +#
++ARGIND >= 4 && FNR == 1 && NF == 7 && $1 == "VMA" && $7 == "Symbol" {
++	map_is_lld = 1;
++	next;
++}
++
++# (LLD) Convert a section record fronm lld format to ld format.
++#
++ARGIND >= 4 && map_is_lld && NF == 5 && /[0-9] [^ ]+$/ {
++	$0 = $5 " 0x"$1 " 0x"$3 " load address 0x"$2;
++}
 +
 +# (LLD) Convert an object record from lld format to ld format.
 +#
-+ARGIND == 3 && map_is_lld && NF == 5 && $5 ~ /:\(/ {
++ARGIND >= 4 && map_is_lld && NF == 5 && $5 ~ /:\(/ {
++	if (/\.a\(/ && !/ vmlinux\.a\(/)
++		next;
++
 +	gsub(/\)/, "");
 +	sub(/:\(/, " ");
-+
-+	sect = $6;
-+	if (!(sect in sect_addend))
-+		next;
-+
 +	sub(/ vmlinux\.a\(/, " ");
-+	$0 = " "sect " 0x"$1 " 0x"$3 " " $5;
++	$0 = " "$6 " 0x"$1 " 0x"$3 " " $5;
 +}
 +
-+# (3b) Determine offset range info using vmlinux.o.map.
++# (LLD) Convert a symbol record from lld format to ld format.
 +#
-+# If we do not know an addend for the object's section, we are interested in
-+# anything within that section.
++ARGIND >= 4 && map_is_lld && NF == 5 && $5 ~ /^[A-Za-z_][A-Za-z0-9_]*$/ {
++	$0 = "  0x" $1 " " $5;
++}
++
++# (LLD) We do not need any other ldd linker map records.
 +#
-+# Determine the top-level section that the object's section was included in
-+# during the final link.  This is the section name offset range data will be
-+# associated with for this object.
++ARGIND >= 4 && map_is_lld && /^[0-9a-f]{16} / {
++	next;
++}
++
++# Handle section records with long section names (spilling onto a 2nd line).
 +#
-+# The remainder of the processing of the current object record follows the
-+# procedure outlined in (3a).
++ARGIND >= 4 && !map_is_lld && NF == 1 && /^[^ ]/ {
++	s = $0;
++	getline;
++	$0 = s " " $0;
++}
++
++# Next section - previous one is done.
 +#
-+ARGIND == 3 && /^ [^ ]/ && NF == 4 && $3 != "0x0" {
-+	osect = $1;
-+	if (!(osect in sect_addend))
++ARGIND >= 4 && /^[^ ]/ {
++	sect = 0;
++}
++
++# Get the (top level) section name.
++#
++ARGIND >= 4 && /^\./ {
++	# Explicitly ignore a few sections that are not relevant here.
++	if ($1 ~ /^\.orc_/ || $1 ~ /_sites$/ || $1 ~ /\.percpu/)
 +		next;
 +
-+	# We need to work with the main section.
-+	sect = sect_in[osect];
-+
-+	# Turn the address into an offset from the section base.
-+	soff = $2;
-+	sub(addr_prefix, "0x", soff);
-+	soff = strtonum(soff) + sect_addend[osect];
-+	eoff = soff + strtonum($3);
-+
-+	# Determine which (if any) built-in modules the object belongs to.
-+	mod = get_module_info($4);
-+
-+	# If we are processing a built-in module:
-+	#   - If the current object is within the same module, we update its
-+	#     entry by extending the range and move on
-+	#   - Otherwise:
-+	#       + If we are still processing within the same main section, we
-+	#         validate the end offset against the start offset of the
-+	#         current object (e.g. .rodata.str1.[18] objects are often
-+	#         listed with an incorrect size in the linker map)
-+	#       + Otherwise, we validate the end offset against the section
-+	#         size
-+	if (mod_name) {
-+		if (mod == mod_name) {
-+			mod_eoff = eoff;
-+			update_entry(mod_sect, mod_name, mod_soff, eoff);
-+
-+			next;
-+		} else if (sect == sect_in[mod_sect]) {
-+			if (mod_eoff > soff)
-+				update_entry(mod_sect, mod_name, mod_soff, soff);
-+		} else {
-+			v = sect_size[sect_in[mod_sect]];
-+			if (mod_eoff > v)
-+				update_entry(mod_sect, mod_name, mod_soff, v);
-+		}
-+	}
-+
-+	mod_name = mod;
-+
-+	# If we encountered an object that is not part of a built-in module, we
-+	# do not need to record any data.
-+	if (!mod)
++	# Sections with a 0-address can be ignored as well (in vmlinux.map).
++	if (ARGIND == 4 && $2 ~ /^0x0+$/)
 +		next;
 +
-+	# At this point, we encountered the start of a new built-in module.
-+	mod_name = mod;
-+	mod_soff = soff;
-+	mod_eoff = eoff;
-+	mod_sect = osect;
-+	update_entry(osect, mod, soff, mod_eoff);
++	sect = $1;
 +
 +	next;
 +}
 +
-+# (4) Generate the output.
++# If we are not currently in a section we care about, ignore records.
 +#
-+# Anchor records are added for each section that contains offset range data
-+# records.  They are added at an adjusted section base address (base << 1) to
-+# ensure they come first in the second records (see update_entry() above for
-+# more information).
++!sect {
++	next;
++}
++
++# Handle object records with long section names (spilling onto a 2nd line).
 +#
-+# All entries are sorted by (adjusted) address to ensure that the output can be
-+# parsed in strict ascending address order.
++ARGIND >= 4 && /^ [^ \*]/ && NF == 1 {
++	# If the section name is long, the remainder of the entry is found on
++	# the next line.
++	s = $0;
++	getline;
++	$0 = s " " $0;
++}
++
++# Objects linked in from static libraries are ignored.
++# If the object is vmlinux.o, we need to consult vmlinux.o.map for per-object
++# symbol information
++#
++ARGIND == 4 && /^ [^ ]/ && NF == 4 {
++	if ($4 ~ /\.a\(/)
++		next;
++
++	idx = sect":"$1;
++	if (!(idx in sect_addend)) {
++		sect_addend[idx] = addr2val($2);
++		if (dbg)
++			printf "ADDEND %s = %016x\n", idx, sect_addend[idx] >"/dev/stderr";
++	}
++	if ($4 == "vmlinux.o") {
++		need_o_map = 1;
++		next;
++	}
++}
++
++# If data from vmlinux.o.map is needed, we only process section and object
++# records from vmlinux.map to determine which section we need to pay attention
++# to in vmlinux.o.map.  So skip everything else from vmlinux.map.
++#
++ARGIND == 4 && need_o_map {
++	next;
++}
++
++# Get module information for the current object.
++#
++ARGIND >= 4 && /^ [^ ]/ && NF == 4 {
++	msect = $1;
++	mod_name = get_module_info($4);
++	mod_eaddr = addr2val($2) + addr2val($3);
++
++	next;
++}
++
++# Process a symbol record.
++#
++# Evaluate the module information obtained from vmlinux.map (or vmlinux.o.map)
++# as follows:
++#  - For all symbols in a given object:
++#     - If the symbol is annotated with the same module name(s) that the object
++#       belongs to, count it as a match.
++#     - Otherwise:
++#        - If the symbol is known to have duplicates of which at least one is
++#          in a built-in module, disregard it.
++#        - If the symbol us not annotated with any module name(s) AND the
++#          object belongs to built-in modules, count it as missing.
++#        - Otherwise, count it as a mismatch.
++#
++ARGIND >= 4 && /^ / && NF == 2 && $1 ~ /^0x/ {
++	idx = sect":"msect;
++	if (!(idx in sect_addend))
++		next;
++
++	addr = addr2val($1);
++
++	# Handle the rare but annoying case where a 0-size symbol is placed at
++	# the byte *after* the module range.  Based on vmlinux.map it will be
++	# considered part of the current object, but it falls just beyond the
++	# module address range.  Unfortunately, its address could be at the
++	# start of another built-in module, so the only safe thing to do is to
++	# ignore it.
++	if (mod_name && addr == mod_eaddr)
++		next;
++
++	# If we are processing vmlinux.o.map, we need to apply the base address
++	# of the section to the relative address on the record.
++	#
++	if (ARGIND == 5)
++		addr += sect_addend[idx];
++
++	idx = addr"-"$2;
++	mod = "";
++	if (idx in sym2mod) {
++		mod = sym2mod[idx];
++		if (sym2mod[idx] == mod_name) {
++			mod_matches++;
++			matches++;
++		} else if (mod_name == "") {
++			print $2 " in " mod " (should NOT be)";
++			mismatches++;
++		} else {
++			print $2 " in " mod " (should be " mod_name ")";
++			mismatches++;
++		}
++	} else if (mod_name != "") {
++		print $2 " should be in " mod_name;
++		missing++;
++	} else
++		matches++;
++
++	total++;
++
++	next;
++}
++
++# Issue the comparison report.
 +#
 +END {
-+	for (sect in count) {
-+		if (sect in sect_anchor) {
-+			idx = sprintf("%016x", sect_base[sect] * 2);
-+			entries[idx] = sect_anchor[sect];
-+		}
-+	}
++	if (total) {
++		printf "Verification of %s:\n", ARGV[1];
++		printf "  Correct matches:  %6d (%d%% of total)\n", matches, 100 * matches / total;
++		printf "    Module matches: %6d (%d%% of matches)\n", mod_matches, 100 * mod_matches / matches;
++		printf "  Mismatches:       %6d (%d%% of total)\n", mismatches, 100 * mismatches / total;
++		printf "  Missing:          %6d (%d%% of total)\n", missing, 100 * missing / total;
 +
-+	n = asorti(entries, indices);
-+	for (i = 1; i <= n; i++)
-+		print entries[indices[i]];
++		if (mismatches || missing)
++			exit(1);
++	}
 +}
 -- 
 2.45.2
