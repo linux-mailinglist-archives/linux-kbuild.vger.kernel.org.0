@@ -1,127 +1,314 @@
-Return-Path: <linux-kbuild+bounces-3484-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3485-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A1D971D27
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Sep 2024 16:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B065971E0A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Sep 2024 17:29:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E95781F23F6F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Sep 2024 14:51:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B91C91F23399
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Sep 2024 15:29:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EFA91BAECD;
-	Mon,  9 Sep 2024 14:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA351CFBE;
+	Mon,  9 Sep 2024 15:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXAP1CS8"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="0IMDUgzJ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021089.outbound.protection.outlook.com [52.101.100.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E7D1BB6A4;
-	Mon,  9 Sep 2024 14:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725893489; cv=none; b=Wba4F5HZ2BksMblDDbUZWw8DE3zDL/NwUgwJHTVaYtP7PhHeiwkBMp9xijxKMbhqiM0XSDHHJUUfg+fz6GxA/zYI+zP/lT5Y+j+H8hosbhF13soGmofeSRjE8Iycz7kj6VKxUpgBswvw+VRFG3OJ1ROlu+HwmkaXQn7U46I4hFc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725893489; c=relaxed/simple;
-	bh=DF7l0ZAodAlVQRFR8W+bqjUxs6Y6CmKuJNvvpqpBklY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s/gNFz1wSute69utHL8BtyOvvTrJPx1BNeKKF7fE1ay92HBrl/NZKLvG2uUFVKRE9GmP9BkNQhK7qay8edTQCvyXvLmcKBBUblb8nMQaA/hcQyzz+rCd0e+vQMylAbw3ZxBU7Z2eB91JF6xNb4BUpSvpuGZXyzP1xm/skgztEQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXAP1CS8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD55C4CECA;
-	Mon,  9 Sep 2024 14:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725893488;
-	bh=DF7l0ZAodAlVQRFR8W+bqjUxs6Y6CmKuJNvvpqpBklY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nXAP1CS8qXc4kPy8tX5zb9bA6R2SmBxDE7kO1rVUB+3AnY/NNGz6WQYvCYi2vNu6f
-	 1lR29sipFNwB5zcg3ButLgvBmlinpbox08xV5D4coHCSyq7TyMB1GiWL5mkoZsCQHd
-	 vwdrjss+qpbLUWBSQEKyrQiFQ3N9GxNfqL5XkGDDpyVWEm40YFcKcwi6h94vYh+4t0
-	 ICf6TKk8Ba97qWhwwD5iiyLfplfLcGDHddNsZnPTOdnZoU1Fj7Mwn3t2/xkmlvbYNQ
-	 rp+7qc5anI3xVlLdtTS7J5trSp89hMflltseyaUYuJq7HmdmCqXW4j/hLvN7DMTVjT
-	 U+1sLYHm5Ishg==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f75c56f16aso28994331fa.0;
-        Mon, 09 Sep 2024 07:51:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUC9Dx9BGoQbGK9AOVe497TC6dgdw8PFZ7mhbxAc7gzmPEf6bQiOfIvWXINTGhw/SLI7wpCR6yfYBWrGMc=@vger.kernel.org, AJvYcCX4Lfaj5b/aP8mtPlh6PGIM3YNZdLAJO3RE0XTJjp4ugUHscTouzATyXVasY3a2kpFgCxbflzBlkSUyB3V/@vger.kernel.org
-X-Gm-Message-State: AOJu0YxI1BMbhBVgFL9MlyoA5eX9vp1/A+3wAsUlchTf+cuHW5mDnRbn
-	Y0T7+/3lqECZPpVU8V4Zke+CX1bhBmNtcm+6Uuxw+AlhJNEFhuf099W0OCnC/cpmJjC07ccEpuA
-	WCS/8AgEnc/z1aY/odLz88mIuyRE=
-X-Google-Smtp-Source: AGHT+IE8pINKv0/+6etqVWidVRKRETE7Mb9FU22ejdEQDy/MtDTOc5W4qZYxq+IQbv5et6y/4g6QZY6In2LHNnu4uoU=
-X-Received: by 2002:a2e:be0e:0:b0:2f7:5d53:7198 with SMTP id
- 38308e7fff4ca-2f75d5375cfmr55585491fa.7.1725893487246; Mon, 09 Sep 2024
- 07:51:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C2639FF2;
+	Mon,  9 Sep 2024 15:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725895738; cv=fail; b=Zw/RiHqEFiPqB9whrJwSLwCLLxswlocTyVHi2u1YSbzkRmRYjQKrj4W1NLGbt8w33r7Vqyi1VwEB93sjqBDDNCxtXj8G5U5+yA8U4VFDYwox17YwwMIDEybTkkfJLHNFCe0KAb1FuMnti8F5eRE0q6xenRKDDEVbM3NVtiUw4H4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725895738; c=relaxed/simple;
+	bh=brCNTxvqLlO6luwBXnvBPT5/5xRBfWUFWym/D+Dx/zU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RMMR8sCjDxcBujqMsk4xATZX85aLfIg9FLc4Qwe4qt5R2rlWNvugajMWiA4ldGEkZkS3rm9o6cXNz9UjFly+bPdYzdgymoBGVbz9z48wTYVYfdJZE14MPCuJGkSEBmeQ9H0dbwg4b9P1b2U0EmvW50KMz5f9kBhh9Og1puIvUg4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=0IMDUgzJ; arc=fail smtp.client-ip=52.101.100.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nmOU8m0E6MepFaR1nvddEaO1W62tNyUrcCehSWm1XVGSgt79kH/Jch8OknUC4lDAt70NfXNrkT8jcdlwGt7KLsdI0aRrHxmUpcd/mL4y6q/N/7xx0Yeouk7AimPFx5j6izOFU8EiDT0vsfmkiqAwYTs6Ts0HgYWq5RPOgGaZb8ncFk8P2zOIsfrV4tBicTG5jizHnxmzB/2pzkwJJ0DYhygfRdmQTNjNhrwSrP3YbGcoxDrKZ5dDlOk3jlKjlxIsk+Bciie91xzXrzEymAKERDYeIcApJx5iCv9MLDlpnotFEHIrmqjwNkfJwPxaPCWdayvBMwMw+0GL4Y14GqOsKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xMH1pKuRS8n4PBZF2+aNiOnrmrPbmT6df2+gZlZwwGg=;
+ b=f7dqFRSe03uJnmjkle28F63jjsDwxiCSIirpFBzOcEoU3doY9sZ6A/ZC+RfiEJy242yZJVD5o979HirhAxZ1PzirBqZhe0gQj9sELKybgIuBf6TlSoQzG4JhQIShMJaBF377spJPuJinQFsqWI+h4PtipyEtKcFMCJ/lYIvo/jcoBeOiNUbqR8c0Iq3DG2W9d1WbNI2UcLb8WkxQQCpn/7APF0vGYInfVyFqSVL4dzjUX6JF9jpEigOIGn3LCwfsh2jH+DACs92qMXS49ZlElsN4Gq+Swc1m6kxPfW81dAHFKJscVwsZrV+s+BlYURe/u84JG88vIiMoCk7rV6sFUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xMH1pKuRS8n4PBZF2+aNiOnrmrPbmT6df2+gZlZwwGg=;
+ b=0IMDUgzJYxo5srcFgAdp6YuroFieJG494Lkw2T++yT2awXCs/TeliaKUWkx4B2QOuIMWzhVpjwXXFO8aOKAX4xrro4uBk154jbCyjfKPDQlRM/f3M9bqOPcxxXKkjxqDM4Nkp3hlbIfSyUCZCBBYsx/5/6Zf5CzB6j4Rj1Y7OxE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
+ by LO4P265MB6715.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2f2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.23; Mon, 9 Sep
+ 2024 15:28:49 +0000
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1818:a2bf:38a7:a1e7]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1818:a2bf:38a7:a1e7%7]) with mapi id 15.20.7939.022; Mon, 9 Sep 2024
+ 15:28:47 +0000
+Date: Mon, 9 Sep 2024 16:28:42 +0100
+From: Gary Guo <gary@garyguo.net>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Richard Weinberger
+ <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes
+ Berg <johannes@sipsolutions.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor
+ <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun
+ Feng <boqun.feng@gmail.com>, =?UTF-8?B?QmrDtnJu?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
+ Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Steven Rostedt
+ <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mark Rutland
+ <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, Nick Desaulniers
+ <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt
+ <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+ rust-for-linux@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] rust: Introduce HAVE_GENERATE_RUST_TARGET config
+ option
+Message-ID: <20240909162842.10df3409@eugeo>
+In-Reply-To: <20240905-mips-rust-v2-1-409d66819418@flygoat.com>
+References: <20240905-mips-rust-v2-0-409d66819418@flygoat.com>
+	<20240905-mips-rust-v2-1-409d66819418@flygoat.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CWLP265CA0368.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:401:5e::20) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:253::10)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240908-kbuild-cmd_ld_ko_o-v1-1-a4afc3c2d47a@weissschuh.net>
-In-Reply-To: <20240908-kbuild-cmd_ld_ko_o-v1-1-a4afc3c2d47a@weissschuh.net>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 9 Sep 2024 23:50:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS98Jy9mHm5yXaZuvJLFn9W2Nz4uEo0q0Z55tcC4=S-Zg@mail.gmail.com>
-Message-ID: <CAK7LNAS98Jy9mHm5yXaZuvJLFn9W2Nz4uEo0q0Z55tcC4=S-Zg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: remove append operation on cmd_ld_ko_o
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO4P265MB6715:EE_
+X-MS-Office365-Filtering-Correlation-Id: 374cc072-dd63-4f2a-85f5-08dcd0e41966
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?N6+4NGXOWWxnmVctld3kqCJLvnEjgQSQP13aqYmIMbKbHJ79I7OspgS+xcix?=
+ =?us-ascii?Q?dSHK3a2TylcG66SZ/dTTvXBwkZ2DBmw9w9o+7IbcCo6faPm0VJ0q36X+ZzeT?=
+ =?us-ascii?Q?PfcfzVv/8mzgNpsKW2OUNumLdRlUTwgq+6aEbotG5mxfxCQ+eOM52mqrXsh3?=
+ =?us-ascii?Q?+ih+1NToucFIOXnAZsTJ4M4gnE5mfb21chdXKqym1g0Y8FSykAymXZvStk9j?=
+ =?us-ascii?Q?+9OW00GGpidJjtgtneM28tdy7nnxWW77sZ3ZUy/ZPlgOmQhpsXD8jUsckjSA?=
+ =?us-ascii?Q?zpImnrh2BHbA0ipkeEYB9qEsoMpTE1Y4nJWaOHpJBe69XC9VaK/JGTZlC5+0?=
+ =?us-ascii?Q?88swCvbb80+38Ced2kSyUwt1A+MvP6djHqDJT8df1S6MW8Yn6DnEkBO7eCjQ?=
+ =?us-ascii?Q?fJy7B9xApNYUVkoRCNcQPlc6A/hl6M2yhvBAGNyBie3ekF5MOqLRe24vpQmT?=
+ =?us-ascii?Q?RWBcQYREd2XIdCd5h/gsovs6sKlu3QruWA+ES2aPvCoVJoE8GQhoC3G7cpWt?=
+ =?us-ascii?Q?luJH4eJKYvQ3lGx34tKxeEK1lL3AbD+MZMhfjLN1DZRVZPKr1mHnCbzFFU6Q?=
+ =?us-ascii?Q?JhecVWkfGcn7/4cHGe4i+D0l4tRxrYt5Z7Z9NQLf6D/UL4JFlJGFX6KRrswS?=
+ =?us-ascii?Q?xi+/4RadvpdsiylxgEviG3DiSZsYv0pMxfMKDBgj4/6y+MSwuW6MOMNVDqN6?=
+ =?us-ascii?Q?ezal3Fg6ufBW33Z92YZ2h31ulOlFqatU4GwJ5dCqIPhHFyuoz3xcMCBHVnCU?=
+ =?us-ascii?Q?M42aSbJWcmSQONwpA+BPwYN9NgPC9Itr0LPjxvKLfvkxE9Znudn6JLU/qRE5?=
+ =?us-ascii?Q?5WG5549X3JNrHeUZvmEFJ7wf5MWn+t9AOdFObVy5Kf6T0b7pMj+TxgbX619x?=
+ =?us-ascii?Q?2pM81joEgEnpt78p0PgJTuYOWTNSJeW5mDM+KccuZ+y+7q1hpPwACX5qIuGF?=
+ =?us-ascii?Q?cj2DBXSEKZVOyaIuBooKKbTa/hOmFFRnwBz93ilg0cyb9LXsaPVDKIPMBb7j?=
+ =?us-ascii?Q?0v5gZhuzaOogwmJY3r6Js/MJdNKHu4xbecqNQBYXzoLkFpDpBju4TC4jgIb2?=
+ =?us-ascii?Q?SphiRA0nUSl+ybwAl2i1PuePVyN+AWwgBfwg5b+Rstw8g3ycKaoEFIVZdKJi?=
+ =?us-ascii?Q?6OFZy/hq1aifodL2RYMgNTZpopF/zvNVMMEufb1MA/6KAGIAfBtKKWMaiSKG?=
+ =?us-ascii?Q?FM2l6A0GHxIM0TOexvQQ18W/QDU+gwbVa9KJkDwy51tZalgRGAcJutZM8Yh3?=
+ =?us-ascii?Q?0dOtgGgQ5iPmNZYXEM5xKBdnVuXqEBTvxHEeA9zOoKVl05xx1mKyJpeOLItE?=
+ =?us-ascii?Q?h3fvHmRmA9YGCgwna8LHukz/lnPp9k54EA+JD804IWjkZqEzWs6fwxwjBxxB?=
+ =?us-ascii?Q?dPA63DQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ePtxfMiCHcHZXg8DsnA/APm+H1k1pv50ubX9txvd49/QLCLaX8mIedkm52Jf?=
+ =?us-ascii?Q?7G80bCW3D+MRNkT6gt8mg1S2YmL3rJSWN0DD0xqtSm/Vm2Gs8wBiDYt4Esr3?=
+ =?us-ascii?Q?6lOXy/RkhOJV7S9iF2fd7z7hVVYBoqDo5Ga0FYXRi4FLyc8z4ENBdRUqaiWc?=
+ =?us-ascii?Q?zS1LxD7w70OWZhxNJy0kAfygsZFv7ei2vuCU1AA3ztIbZF7xo/hG+lBJBQV/?=
+ =?us-ascii?Q?Z2qvdgSORg/q+jD6hVoHBkIrzvr/BkzRMkK/j/3LBTSYvPuEnFiMB/zbqrql?=
+ =?us-ascii?Q?meNfgXBTeLY0jqMwqGwCjFBnypcRGAzzK/TBPw/AZgLOVF+MOJKhkOaiKnlW?=
+ =?us-ascii?Q?zODKwvix+W3XoNaAVmj1S6subA77UvfTzRrGLwnWW4hXS7LhzzDrzNcu8X9h?=
+ =?us-ascii?Q?us1TrN46sLy+cWnl1WP5pAHGn0D5gTixA2dZvLAHfiSPltj89cEjpitJC/BW?=
+ =?us-ascii?Q?djCpAscfjxav+slM3U/ONr/6imLvIGy1XUI3Pd1WOmbm2tjnTvP9uBGvGRyl?=
+ =?us-ascii?Q?IPY+PlcSJlyYA5j5QJjz3P4deXX2G0LwDyXJJDyo/0cLMdldAed/vTFjPk/4?=
+ =?us-ascii?Q?gLjJUDi8Mczumvu+Guo0ICHAp1JSsS6XONF91+T7/K8lX4ZPiFveSAduJqck?=
+ =?us-ascii?Q?W1UyH58HNQJ2kIF5XLCSfYCLWdqs27uud3loldZI6fJsqWgBrlq+4fSOrS52?=
+ =?us-ascii?Q?svmZtbH+85ldxKPsLkoWKpsfnpGiSQWqiFy6PUIX57+qjibYkNvq/0yMYgOj?=
+ =?us-ascii?Q?6gD2e3ie8Xu6UtEBMp1jsx84ZAgkUIPlQZOlHskgvrQ5UqEUVqG8dS/FkEZD?=
+ =?us-ascii?Q?+gNA8WdyXYvXJORbcNa5eC/GUiV7gJef2w44G/MZSHhCNGIVWI7iYN/PtLhF?=
+ =?us-ascii?Q?ej0KJFJ2nvcz/kGJ8c08Hmv9Qo8d59bfqXkzyHyNvtn8KxEZGCp52hxusLF6?=
+ =?us-ascii?Q?pXzqzPVigO6dguDVvhVdIMhHDNjefwM5Y9qqDY2zDGwk6KSRs9Rt2letojts?=
+ =?us-ascii?Q?3NnXEB+At2aCIrg6yv+LgkHETVU0P9D1bm7IT1mspga/9yog6LFqtGDWesIq?=
+ =?us-ascii?Q?HhxjqHYu4v1av7oA3G8x4rO0uMGGId98hlotxb820WQd4r3rUdcMJEw6nadh?=
+ =?us-ascii?Q?ZVqVu280BXhKusjZOHnPEND2DCcionEJXU0EJ36rSQ/bAsrzx549XhbNbm8W?=
+ =?us-ascii?Q?H3XIo9byaOds7Z4LR67Gn15lMu9wcULpjdmCThsEmbq8sUDNR8wBmcxjDg/D?=
+ =?us-ascii?Q?rWJszLslCEtMbF3+LFTF50lcp6u4oNWebeoRi+UdLiMVOOoL1orAXDSV+qKn?=
+ =?us-ascii?Q?dVvyPY6hMLmkvtzXeFpVYldr2FVy9qxPzDjFy0VleJuQ7xFArbbzot9z89fI?=
+ =?us-ascii?Q?1x1CqV7Z3mG19sH5NI1pv4AfIBOzqJ6c9p9yw3VFtl638mqkqTJ5cAPNQQB3?=
+ =?us-ascii?Q?CT2yBlOGQWoV+ZPg6C3VQSLIUzeA5yF3ySL+wFm0nw7ZXEbgC9pjmGZKlUeW?=
+ =?us-ascii?Q?G4iQxoe78ck6pbtxq/BzL6JySQjYuy2IJ5Q1GIctbCfSAfoUO7r+JSfUm6eA?=
+ =?us-ascii?Q?DmYjD5WU/ZYQGwU+7HFC+k7nd1ynvFpcMpGRvPsF?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 374cc072-dd63-4f2a-85f5-08dcd0e41966
+X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2024 15:28:47.8653
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x59Tysi1EgMgwyQC6KmtYP8RwtOCICSpfOCn9jH5QndMlIrU4DWQqVf+Jpx1GHWL70v/wkTsDaoJHe/YMKZk9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6715
 
-On Sun, Sep 8, 2024 at 10:26=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisss=
-chuh.net> wrote:
->
-> The append operation was introduced in
-> commit b1a1a1a09b46 ("kbuild: lto: postpone objtool")
-> when the command was created from two parts.
-> In commit 850ded46c642 ("kbuild: Fix TRIM_UNUSED_KSYMS with LTO_CLANG")
-> however the first part was removed again, making the append operation
-> unnecessary.
->
-> To keep this command definition aligned with all other command
-> definitions, remove the append again.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+On Thu, 05 Sep 2024 14:33:05 +0100
+Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
 
-Applied to linux-kbuild.
-Thanks!
-
-
-
+> scripts/generate_rust_target.rs is used by several architectures
+> to generate target.json target spec file.
+> 
+> However the enablement of this feature was controlled by target
+> specific Makefile pieces spreading everywhere.
+> 
+> Introduce HAVE_GENERATE_RUST_TARGET config option as a centralized
+> switch to control the per-arch usage of generate_rust_target.rs.
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  scripts/Makefile.modfinal | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 6b1b72257b29..1482884ec3ca 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -34,7 +34,7 @@ $(extmod_prefix).module-common.o: $(srctree)/scripts/mo=
-dule-common.c FORCE
->         $(call if_changed_dep,cc_o_c)
->
->  quiet_cmd_ld_ko_o =3D LD [M]  $@
-> -      cmd_ld_ko_o +=3D                                                  =
- \
-> +      cmd_ld_ko_o =3D                                                   =
- \
->         $(LD) -r $(KBUILD_LDFLAGS)                                      \
->                 $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)              \
->                 -T scripts/module.lds -o $@ $(filter %.o, $^)
->
+> v2:
+> 	- Reword Kconfig help
+> 	- Remove x86 specific condition for UM
 > ---
-> base-commit: 4dda2081d84398248af60da1d519840a5d6e3390
-> change-id: 20240908-kbuild-cmd_ld_ko_o-25bd49b384e8
->
-> Best regards,
-> --
-> Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->
+>  Makefile             | 3 +++
+>  arch/Kconfig         | 8 ++++++++
+>  arch/um/Kconfig      | 1 +
+>  arch/x86/Makefile    | 1 -
+>  arch/x86/Makefile.um | 1 -
+>  rust/Makefile        | 2 +-
+>  scripts/Makefile     | 4 +---
+>  7 files changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 2c1db7a6f793..b183855c34ea 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -807,6 +807,9 @@ KBUILD_CFLAGS += -Os
+>  KBUILD_RUSTFLAGS += -Copt-level=s
+>  endif
+>  
+> +ifdef CONFIG_HAVE_GENERATE_RUST_TARGET
+> +KBUILD_RUSTFLAGS += --target=$(objtree)/scripts/target.json
+> +endif
+>  # Always set `debug-assertions` and `overflow-checks` because their default
+>  # depends on `opt-level` and `debug-assertions`, respectively.
+>  KBUILD_RUSTFLAGS += -Cdebug-assertions=$(if $(CONFIG_RUST_DEBUG_ASSERTIONS),y,n)
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index 4e2eaba9e305..0865ff4796e7 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -377,6 +377,14 @@ config HAVE_RUST
+>  	  This symbol should be selected by an architecture if it
+>  	  supports Rust.
+>  
+> +config HAVE_GENERATE_RUST_TARGET
+> +	bool
+> +	depends on HAVE_RUST
+> +	help
+> +	  This symbol should be selected by an architecture if it
+> +	  needs generating Rust target.json file with
+> +	  scripts/generate_rust_target.rs.
+> +
+>  config HAVE_FUNCTION_ARG_ACCESS_API
+>  	bool
+>  	help
+> diff --git a/arch/um/Kconfig b/arch/um/Kconfig
+> index dca84fd6d00a..6b1c8ae2422d 100644
+> --- a/arch/um/Kconfig
+> +++ b/arch/um/Kconfig
+> @@ -32,6 +32,7 @@ config UML
+>  	select TTY # Needed for line.c
+>  	select HAVE_ARCH_VMAP_STACK
+>  	select HAVE_RUST
+> +	select HAVE_GENERATE_RUST_TARGET
+>  	select ARCH_HAS_UBSAN
+>  
+>  config MMU
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index a1883a30a5d8..cbd707f88a63 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -75,7 +75,6 @@ export BITS
+>  #    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53383
+>  #
+>  KBUILD_CFLAGS += -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx
+> -KBUILD_RUSTFLAGS += --target=$(objtree)/scripts/target.json
+>  KBUILD_RUSTFLAGS += -Ctarget-feature=-sse,-sse2,-sse3,-ssse3,-sse4.1,-sse4.2,-avx,-avx2
+>  
+>  #
+> diff --git a/arch/x86/Makefile.um b/arch/x86/Makefile.um
+> index a46b1397ad01..2106a2bd152b 100644
+> --- a/arch/x86/Makefile.um
+> +++ b/arch/x86/Makefile.um
+> @@ -9,7 +9,6 @@ core-y += arch/x86/crypto/
+>  #
+>  ifeq ($(CONFIG_CC_IS_CLANG),y)
+>  KBUILD_CFLAGS += -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx
+> -KBUILD_RUSTFLAGS += --target=$(objtree)/scripts/target.json
+>  KBUILD_RUSTFLAGS += -Ctarget-feature=-sse,-sse2,-sse3,-ssse3,-sse4.1,-sse4.2,-avx,-avx2
+>  endif
+>  
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 99204e33f1dd..fe3640b98011 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -378,7 +378,7 @@ $(obj)/core.o: private rustc_objcopy = $(foreach sym,$(redirect-intrinsics),--re
+>  $(obj)/core.o: private rustc_target_flags = $(core-cfgs)
+>  $(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs FORCE
+>  	+$(call if_changed_rule,rustc_library)
+> -ifneq ($(or $(CONFIG_X86_64),$(CONFIG_X86_32)),)
+> +ifdef CONFIG_HAVE_GENERATE_RUST_TARGET
+>  $(obj)/core.o: scripts/target.json
+>  endif
+>  
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index dccef663ca82..33258a856a1a 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -12,13 +12,11 @@ hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
+>  hostprogs-always-$(CONFIG_RUST_KERNEL_DOCTESTS)		+= rustdoc_test_builder
+>  hostprogs-always-$(CONFIG_RUST_KERNEL_DOCTESTS)		+= rustdoc_test_gen
+>  
+> -ifneq ($(or $(CONFIG_X86_64),$(CONFIG_X86_32)),)
+> -always-$(CONFIG_RUST)					+= target.json
+> +always-$(CONFIG_HAVE_GENERATE_RUST_TARGET)		+= target.json
+>  filechk_rust_target = $< < include/config/auto.conf
+>  
+>  $(obj)/target.json: scripts/generate_rust_target include/config/auto.conf FORCE
+>  	$(call filechk,rust_target)
+> -endif
 
+Wouldn't this change cause target.json to be built when
+CONFIG_HAVE_GENERATE_RUST_TARGET is selected by arch but CONFIG_RUST is
+disabled?
 
---=20
-Best Regards
-Masahiro Yamada
+Best,
+Gary
+
+>  
+>  hostprogs += generate_rust_target
+>  generate_rust_target-rust := y
+> 
+
 
