@@ -1,163 +1,146 @@
-Return-Path: <linux-kbuild+bounces-3493-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3494-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFF8972EAC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Sep 2024 11:45:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4F9972EC4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Sep 2024 11:46:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 585D7B22C61
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Sep 2024 09:45:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A26F9287EB0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Sep 2024 09:46:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F8B118B487;
-	Tue, 10 Sep 2024 09:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 694BA18C343;
+	Tue, 10 Sep 2024 09:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V0JpD3e7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+K9Ya0e"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E5E18A6B9;
-	Tue, 10 Sep 2024 09:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385ED18661A;
+	Tue, 10 Sep 2024 09:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725961455; cv=none; b=gIFAGXIOPF0NVQGkd31vSElNXJHorOSDUoUvbEwUr5moa1qDNqxRKa+HEJIDZOj9nY2lRKoR8TA3zumsxXiDg4FRH5nKFIsgrJGqqkMVOk/y9OzWiYBmWh4dv4KT+ZIyupd4lt3HDca5DPAeaGfn3xJWexRQlBH4TAGq+6n8zsU=
+	t=1725961512; cv=none; b=Kxkkl4Ia4KMzo6jmI10SdNS8XOMTLINgB45h2idjzHY4d5OnQfHRqxsWWRGt5lY8cjnjMy4ERRiF+CB1EdbX/9F7BIIRGZUFR/4Pibrp6yPPO731dWrU6CHRLHida9PrJHL5R/Gui17nMk5VdUv30HE/BPrpLtdwL/KdPR8ogWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725961455; c=relaxed/simple;
-	bh=D3N04FmIzvqggt9C4bVYVfpcu/iBmJ0tG8QKUZ/Wex4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y21Cv+LYEVxByj7AUUO8O5g2rY3H42Y2c46mEPXLNyKgwQlorWpGWa/MbE0xWNtaTmKks37kVlNL+m8eP8tGxLoBPLVf+FdJD61WanquqjJp5WVAA4DMvm6JD6a9MOK5JKzjzOTTXDV6gVKVhhSHQdafTE7bZ9jjiK4JauwXDX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V0JpD3e7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4C6FC4CECC;
-	Tue, 10 Sep 2024 09:44:14 +0000 (UTC)
+	s=arc-20240116; t=1725961512; c=relaxed/simple;
+	bh=lCWVRWkkjMOZnP3OsnMxYh+cKOVH3q4vcAD89l0t4O0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j2v5MBXp+rN1UWEfzTBd7AK1PP6R3KsudYCm7xijKluU2FAd9rYGUWWeZsP4kFmrbz8I+vFveHq7Sq/kfBYRTWZ7Lnw1FGVgGGSBqb1v3u2kVGCoF5nUngaYYF2zX2LRuremczQq9D6DOAOj8PDoMKKzgwwBWMBt8u0LpahCuG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+K9Ya0e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D35FC4CEC3;
+	Tue, 10 Sep 2024 09:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725961454;
-	bh=D3N04FmIzvqggt9C4bVYVfpcu/iBmJ0tG8QKUZ/Wex4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=V0JpD3e7sKruPeep6Cxyq2dpx6qjdL0MIrRHp5Yy29lynGweoxEznoPIH4IkTuXjZ
-	 p6YtutpNth7tSupJtqjbJ5I55XrfUiAn+/Ou6IAaYynWlmub14PpBZynEnOQ4VpSrU
-	 8x7WrCqIIRZIsecKpg5WILTWBtyowS6vulX3djzTkkF7KMCY0qqytTGQHwIGioYbAY
-	 ZnQ0tjEcEQYZm7eYeXkrTtSIhmLiOiukzLA+ou9YHVkOJBQEewhhJLw9C2LhqojNxY
-	 ttiZW1TvZZVf7EvQIbAHAYhvhZ3ySIZdPfcQ4XrlGYyPyr8OwcGMiS0Fuk+GdHx3p+
-	 lQdhAqe53HHMg==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f6580c2bbfso53433041fa.1;
-        Tue, 10 Sep 2024 02:44:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU5Rae+h2LeHvTrk+v9CnT6V/3ie3Rr3WJz2muI+qHWOs+jbUPWUQhnOVvoEknzDFkIv4Yg0k74rntoMozK@vger.kernel.org, AJvYcCVcbpzoDp0lAZY5sjtL8rzLn/b7NvQ+XuAXof956CNdIzcnsOZg0AQkt03m/+6VNwn1O3J2yq7D3fdz+aOv6sI=@vger.kernel.org, AJvYcCW9Yk0ySK7ovmbKmwAs5m/idN+nYXmBV06i3rrGyfpdEM5PIREmJVuO8ym6iFl0Zaws7HQcIO+kQNxkxsKvYg==@vger.kernel.org, AJvYcCWvEsBojM/dkcf5n9643/4MI/PxL7lU8Yp32JaYJ9JkW9kZ22M8oJzSmlhDrkpqmpsAxMkgV9I0M7YH5jk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZ2fHgzMYSCSBSgfnthvjgKfI/MWXTuIsjrzGMsvL//3EZur07
-	aVcuWriWRN0LGIhrAiycWil5awupod5AOIvhfz8nsfTRJtQGGCF1ywRWCy/pI0YMY3QQM1ogJyX
-	yVhNY47fV0qlDfBfzSqy7gRfka6I=
-X-Google-Smtp-Source: AGHT+IHdShnxBBjUPptQ41/ldZfk223s5R8ozEYJtzbMZjFzw1UM2NBN4Nfeh9oGsEZBQBVytVHnTCzwafdOaAGxUc8=
-X-Received: by 2002:a2e:bea5:0:b0:2f7:54fb:e68c with SMTP id
- 38308e7fff4ca-2f772603a20mr9852201fa.4.1725961453356; Tue, 10 Sep 2024
- 02:44:13 -0700 (PDT)
+	s=k20201202; t=1725961512;
+	bh=lCWVRWkkjMOZnP3OsnMxYh+cKOVH3q4vcAD89l0t4O0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=g+K9Ya0eBYvNvorGbNvMSgOCgI9RztICd4kTxaZMzKNx1rZNlOanrC0vBiyZb1bQp
+	 T2c+gCnDSx+/GjKYp9TQVXg/YO1lWBCtIF33jvWLyxIGsZa4EKjDLZrbO3A9LnzNLZ
+	 h29TNGafNPNXZHXIHK0Q/3eJ2p5a+Lz1Fg/WopGHt7VH3KOPv+C2U7qRXJ2F/OBfRF
+	 FTVNfKIrnql5Ep+yMax+5j3DLOfmjbqGKGa7CmLwmTDWS57M/LYBGti8XoiWx7yRXx
+	 VxRtPHkIdnYKmUNSV1XAGA84DDMt7FXsRbIhODL2ZO30TeK9BKHQQ4osNHzaEHk2JY
+	 491RbUJ2v2G3Q==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2 1/3] modpost: check section mismatch in reference to .dtb.init.rodata
+Date: Tue, 10 Sep 2024 18:44:52 +0900
+Message-ID: <20240910094459.352572-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-22-samitolvanen@google.com> <CAK7LNAQdutCiBkWtA6MbVLpfhB-MQXnszQm8eEiBZpeX++5eLA@mail.gmail.com>
- <CABCJKucott2g8mZyJ0uaG+PdPTMsniR7eNCR9GwHpT_kQ+GFvg@mail.gmail.com>
-In-Reply-To: <CABCJKucott2g8mZyJ0uaG+PdPTMsniR7eNCR9GwHpT_kQ+GFvg@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 10 Sep 2024 18:43:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATyv+zfSwyykKQrSjxR84ST0xTyEarnAudF2VuLPVxqnQ@mail.gmail.com>
-Message-ID: <CAK7LNATyv+zfSwyykKQrSjxR84ST0xTyEarnAudF2VuLPVxqnQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
-	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 6, 2024 at 5:53=E2=80=AFAM Sami Tolvanen <samitolvanen@google.c=
-om> wrote:
->
-> Hi,
->
-> On Thu, Sep 5, 2024 at 2:30=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> >
-> > On Fri, Aug 16, 2024 at 2:39=E2=80=AFAM Sami Tolvanen <samitolvanen@goo=
-gle.com> wrote:
-> > >
-> > > +++ b/scripts/gendwarfksyms/gendwarfksyms.h
-> > > @@ -0,0 +1,78 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> > > +/*
-> > > + * Copyright (C) 2024 Google LLC
-> > > + */
-> > > +
-> > > +#include <dwarf.h>
-> > > +#include <elfutils/libdw.h>
-> > > +#include <elfutils/libdwfl.h>
-> > > +#include <linux/hashtable.h>
-> > > +#include <inttypes.h>
-> > > +#include <stdlib.h>
-> > > +#include <stdio.h>
-> >
-> >
-> > Could you include external headers first,
-> > then in-tree headers?
-> > (and one blank line in-between).
->
-> Sure, I'll reorder this.
->
-> > Also, please consider using scripts/include/hashtable.h
-> >
-> >
-> >
-> > How about this?
-> >
-> >
-> > #include <dwarf.h>
-> > #include <elfutils/libdw.h>
-> > #include <elfutils/libdwfl.h>
-> > #include <inttypes.h>
-> > #include <stdlib.h>
-> > #include <stdio.h>
-> >
-> > #include <hashtable.h>
-> >
-> >
-> >
-> >
-> >
-> >
-> > If necessary, you can use this patch too:
-> > https://lore.kernel.org/linux-kbuild/20240904235500.700432-1-masahiroy@=
-kernel.org/T/#u
->
-> Thanks for the patch! I think this would otherwise work, but I also
-> need jhash (or a similar hash function), and I can't combine the
-> tools/include version with this, because it ends up pulling in a
-> duplicate definition of struct list_head. Would you consider adding a
-> hash function as well?
+Built-in DTB files are discarded because KERNEL_DTB() is a part of
+INIT_DATA, as defined in include/asm-generic/vmlinux.lds.h.
 
+Currently, modpost warns about mismatched section references to init
+data only when the destination section is prefixed with ".init.".
+However, ".dtb.init.rodata" is also discarded.
 
-I did it as a part of my kconfig works.
+This commit has revealed some missing annotations.
 
-Check scripts/include/hash.h added by the following patches.
+overlays[] references builtin DTBs, which become dangling pointers
+after early boot.
 
-https://lore.kernel.org/linux-kbuild/20240908124352.1828890-1-masahiroy@ker=
-nel.org/T/#mea41ff4c5b6c77aaaae1ed9dac6723bc2f705107
-https://lore.kernel.org/linux-kbuild/20240908124352.1828890-1-masahiroy@ker=
-nel.org/T/#m9050a270fedb7df9a54e843674bc9ad8fd068f57
+testdrv_probe() is not an __init function, yet it holds a reference to
+overlays[]. The assumption is that this function is executed only at
+the boot time even though it remains in memory. I annotated it as __ref
+because otherwise I do not know how to suppress the modpost warning.
 
+I marked the dtb_start as __initdata in the Xtensa boot code, although
+modpost does not warn about it because __dtb_start is not yet defined
+at the time of modpost.
 
-I think simple helpers are enough for name_hash and addr_hash,
-but please let me know if you encounter a problem.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+Changes in v2:
+  - New patch
 
+ arch/xtensa/kernel/setup.c | 2 +-
+ drivers/of/unittest.c      | 5 +++--
+ scripts/mod/modpost.c      | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
---=20
-Best Regards
-Masahiro Yamada
+diff --git a/arch/xtensa/kernel/setup.c b/arch/xtensa/kernel/setup.c
+index bdec4a773af0..d9f290cf726e 100644
+--- a/arch/xtensa/kernel/setup.c
++++ b/arch/xtensa/kernel/setup.c
+@@ -55,7 +55,7 @@ extern int initrd_below_start_ok;
+ #endif
+ 
+ #ifdef CONFIG_USE_OF
+-void *dtb_start = __dtb_start;
++static __initdata void *dtb_start = __dtb_start;
+ #endif
+ 
+ extern unsigned long loops_per_jiffy;
+diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+index fd8cb931b1cc..56516bf4171d 100644
+--- a/drivers/of/unittest.c
++++ b/drivers/of/unittest.c
+@@ -3585,7 +3585,7 @@ OVERLAY_INFO_EXTERN(overlay_bad_symbol);
+ OVERLAY_INFO_EXTERN(overlay_bad_unresolved);
+ 
+ /* entries found by name */
+-static struct overlay_info overlays[] = {
++static __initdata struct overlay_info overlays[] = {
+ 	OVERLAY_INFO(overlay_base, -9999, 0),
+ 	OVERLAY_INFO(overlay, 0, 0),
+ 	OVERLAY_INFO(overlay_0, 0, 0),
+@@ -4054,7 +4054,8 @@ static const struct pci_device_id testdrv_pci_ids[] = {
+ 	{ 0, }
+ };
+ 
+-static int testdrv_probe(struct pci_dev *pdev, const struct pci_device_id *id)
++/* testdrv_probe() references overlays[], which is discarded data  */
++static int __ref testdrv_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	struct overlay_info *info;
+ 	struct device_node *dn;
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 107393a8c48a..2e4b0816fdc1 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -776,7 +776,7 @@ static void check_section(const char *modname, struct elf_info *elf,
+ 	".pci_fixup_enable", ".pci_fixup_resume", \
+ 	".pci_fixup_resume_early", ".pci_fixup_suspend"
+ 
+-#define ALL_INIT_SECTIONS ".init.*"
++#define ALL_INIT_SECTIONS ".init.*", ".dtb.init.rodata"
+ #define ALL_EXIT_SECTIONS ".exit.*"
+ 
+ #define DATA_SECTIONS ".data", ".data.rel"
+-- 
+2.43.0
+
 
