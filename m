@@ -1,140 +1,300 @@
-Return-Path: <linux-kbuild+bounces-3506-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2C09747A4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 03:12:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B02F974844
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 04:43:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD757B24DF6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 01:12:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B0981F2176C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 02:43:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8785720B0F;
-	Wed, 11 Sep 2024 01:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84FFB29CEB;
+	Wed, 11 Sep 2024 02:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CV8rOyn+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6986B1863E;
-	Wed, 11 Sep 2024 01:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726017116; cv=none; b=uSSFBydprmnPtStWxA2hhwALE+d1sTtY6nOnlHTiW09EMWMkXtvj3PH4ynHvhgDA1qaabqklUsbB5an3QVP92tyD7eYG1XxsGS1qmLsmWx0z1VMFct+r+4XkhI/Ex5L99ufE3Svg+oirzDnYefB2ckH7bMLu0qQwsMuqpevSlQQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726017116; c=relaxed/simple;
-	bh=4UkBtnv9a/TGy0y71S+5dvnPht/Z/AzRZEcT5PGhZFA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=LAHkXEnqDeD9l3qQdmRIjQ68iA85lIA8w4Bz5pTqDaOF2N+fX7TfcaWRixbBTa4vzwg+i2JWFgG3UBtxn/giJq9WkY4VFYPg5w1YK6VSsuOTgGR/XWGEXOcuIw3++5XH9KKGABE6phIRCBy5VDDjy97pLr9Uto8GR+Ygfyc/2IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.237.72.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from 3090101217$zju.edu.cn ( [119.131.118.192] ) by
- ajax-webmail-mail-app2 (Coremail) ; Wed, 11 Sep 2024 09:10:09 +0800
- (GMT+08:00)
-Date: Wed, 11 Sep 2024 09:10:09 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Jing Leng" <3090101217@zju.edu.cn>
-To: "Lucas De Marchi" <lucas.demarchi@intel.com>
-Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
-	"Michal Marek" <michal.lkml@markovi.net>,
-	"Nick Desaulniers" <ndesaulniers@google.com>,
-	"Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>,
-	"Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-	"Jing Leng" <jleng@ambarella.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCA6225D7;
+	Wed, 11 Sep 2024 02:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726022604; cv=fail; b=kNpbCyHn8Lk4C4sRriVkvuMN6dgItpGM+Q4jkKk86MZvuPnaIqko3qsELz+eYLz6Z7V81wOXzm9FhV7IhD4v3aihu1CqlgncdJ6gAUgsqn3M3EyEytAATVXSvi6nrekRK/sXsQpjX6/lBjobyf53kzfktFuB44ApgMliciJw1DE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726022604; c=relaxed/simple;
+	bh=BcOM9brcQUNjdFLo5Q5sbZCEGoS6I+tcyVfg0sLHHH8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=cMskpktxh4sk5+X5z2Fs6msECh+DBmI5+kS4fGFRFRKMWTgtQW0/tcdZBj6uL+h8c3W2ZabfI9nD6KAXYbV+AwF0x3X7W3wJd9KMwfusMoNE0gLi0dwl9jH/CanJ4NxK0yMcZ82yZgcpYELHmiuRrSx8S11Ft7NEmhQyFLMnA8I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CV8rOyn+; arc=fail smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726022602; x=1757558602;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=BcOM9brcQUNjdFLo5Q5sbZCEGoS6I+tcyVfg0sLHHH8=;
+  b=CV8rOyn+JrzH87fd6ZBeM0NAZvCNs89j9q/3Wyt0TeCIhu7s22i3HIL5
+   CWjWB7yhF/3TwzWGJl4GCxmxPUiZQMmQPAr4XJ+mAHkADhx6Zeqqp4cIc
+   qHMyv5qHQJFA3BIf01uq4ZScqSVsppbSycZ1MLnXkz3NapQnESY7XTDnJ
+   qNMD5/2Lcjzfb6nUyDgaAJZGf0JTSmZtFNXiQO9GARDVxE7S0JiHEbXpK
+   0kcYzqSVn3pT/UjqL4TbfqZsOfrKybh1DtXSoP4dl//W6b6P9Gayn4Vvm
+   jXy54DlCiC3qS6jGtgE5ug4ERo8bpO6zfgappwnooX0+f9etq4Ar/EcTw
+   A==;
+X-CSE-ConnectionGUID: pbBl7NnMRoqx36vzba8+Yg==
+X-CSE-MsgGUID: VoMimVc+S4uhq85q/rEcDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="42279541"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="42279541"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 19:43:21 -0700
+X-CSE-ConnectionGUID: peqMnoBSQGmTl2/wXwJ64Q==
+X-CSE-MsgGUID: cYnJo0r9S7WPNklD6TFGsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="71829546"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Sep 2024 19:43:21 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 10 Sep 2024 19:43:21 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 10 Sep 2024 19:43:21 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.42) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 10 Sep 2024 19:43:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FwEKVXR20D0G46XRjvQ/zNdZWlHyc6a0zyWBNKPSFX3NEp1pZb18GOxWT6B+kz3qDPUf/aDBZDlI0hxzqWmMmgyrVTIcUTycw6uq+pbeZFiRaGt1nNPaUB/d/PnvEGdrpJr3WmmN7d5YMvRhwcZ2Bu/WVOigjo3zcojuC3qBTYyKmfkKgr3ezH0ec0/aiHou0doA85aN02mZDp4hlkfxTA1BEQCT14NVifX5gHMdppgcmkQ5TQaHV5mv77vk1v29qA+Q5Uxwj3XQGLIv78wwkafY84oI8gckkhJmnBKuIQJC6ozTdrY98eO0io1WFtdwtxl0WFfOuGUxxnmXBUD2uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xhEpsqgxVOTWkEvBhCiKh/Yad/7ZxcKik4kCG2t205w=;
+ b=ljBK87w+9dk9l60RZc2y9UeJzXiTPPnx+0da18puijZeogZO1tmUYcpnlSrjNFGJ0o7MP0dDJTknCdJ7MEWTdt7KvYJa03hscmHWHP/9GDRAGpcOSBqAPmk45Qr2jV8JVG9RSeQyA7svDi9I21vFD/r+9IiCSq1HCf3EN8/6PdvFsQhHcYyoKnZ+oxGf0YedtaZhNA5SSKYA7pHsPOyAgCQa0NE0x97dkUBlHow4YyPuKuUX+6dycS4J6qSas/oh3690dCsoYQ+ZlKlqErZ57YTW6oI22H6To2/NWccaE698HM6kal4YnnyZ/W2YWi7uiqYlddC78szmfg3KVv7EcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by SA1PR11MB6568.namprd11.prod.outlook.com (2603:10b6:806:253::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.20; Wed, 11 Sep
+ 2024 02:43:19 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7918.024; Wed, 11 Sep 2024
+ 02:43:19 +0000
+Date: Tue, 10 Sep 2024 21:43:14 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Jing Leng <3090101217@zju.edu.cn>
+CC: Masahiro Yamada <masahiroy@kernel.org>, Michal Marek
+	<michal.lkml@markovi.net>, Nick Desaulniers <ndesaulniers@google.com>, "Linux
+ Kbuild mailing list" <linux-kbuild@vger.kernel.org>, Linux Kernel Mailing
+ List <linux-kernel@vger.kernel.org>, Jing Leng <jleng@ambarella.com>
 Subject: Re: External modules with O=... (was: Re: [PATCH] kbuild: Fix
  include path in scripts/Makefile.modpost)
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.1-cmXT5 build
- 20240625(a75f206e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
-In-Reply-To: <aowpzz4rbedjkwkl7b4a2f5pf2p5cgsu6knsgxnayckhbumxf3@aznrm7oliydb>
+Message-ID: <lnizw6jklneisxkhah7ezy4tcrn2wpm52ibh5euz7ipyfansde@kc4onuvrrmxr>
 References: <aowpzz4rbedjkwkl7b4a2f5pf2p5cgsu6knsgxnayckhbumxf3@aznrm7oliydb>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <442e8058.43a4.191dea175d7.Coremail.3090101217@zju.edu.cn>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <442e8058.43a4.191dea175d7.Coremail.3090101217@zju.edu.cn>
+X-ClientProxiedBy: MW4PR03CA0077.namprd03.prod.outlook.com
+ (2603:10b6:303:b6::22) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <442e8058.43a4.191dea175d7.Coremail.3090101217@zju.edu.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID:by_KCgCXGovy7eBmPkg2AA--.5785W
-X-CM-SenderInfo: qtqziiyqrsilo62m3hxhgxhubq/1tbiAwQRBWbCCEQBMAAgsq
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SA1PR11MB6568:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9ea5a36-5aea-4785-35ae-08dcd20b7e7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?R8j/GsQYoThcUgDO3UikAGPOGq2inYjElCuZHSDQEMol+bDy3B2vgQSg6F6r?=
+ =?us-ascii?Q?669KlgUQVnfPiO/kH5nuc03V2S1BEDPa5XLcX8wnjq+LBsRd6N/pZZ8nHf4Z?=
+ =?us-ascii?Q?hde2BZ2qkfVF40Fnyfg/xy/GKYHnFdXglA37iLInpB73S+IOCXPW4KTIGD3s?=
+ =?us-ascii?Q?/vh9wrZ2wBBc//Im3WEUgVQgconD3EtYPftBjVun3lFl9lQLfz8fqpRTINYQ?=
+ =?us-ascii?Q?EyFRvtPicMLjuhDp2JLYyIzp7mOdCjDXYxUTDQZocBikIwlrxtUAvEB9De/O?=
+ =?us-ascii?Q?KhFYbwU58yHkKuNlgg+yDaHMDbOujv3DC4K1V1VMh1wPHBtuphgpox9J6mYC?=
+ =?us-ascii?Q?L34EFdGvnX9rv7+SzQxxmdhELNxWLoVkzvuH+FrUGH+mY0AnAgCSPox/V+IR?=
+ =?us-ascii?Q?5YxPlJoPpaufWMP6FXsAS9thfkRlfS371eAhnv8rWIsyMPLd7xrpc4nvQcj1?=
+ =?us-ascii?Q?hav3e59IlntUJRylFQi59SoiQ0YlM4rOXEPae4P9kDD4wpZy8h1nwjlr6Giw?=
+ =?us-ascii?Q?iX9OWXvLNSRP7UQI0T6b44CEWPThKjNk+wSvTGj1Efvz0f4wJwDl8BHBLJ70?=
+ =?us-ascii?Q?6N08m1DQfRZf/MnZ3UjWpa5bWGqr3QNiuT3tp0XEzl32xR6x1B4EptaAoYf0?=
+ =?us-ascii?Q?mv76u6P/bocYr96vN1Osbawyscmxmuwlx9I/WdwuuCNcmhQ/W9XkrBtrM76o?=
+ =?us-ascii?Q?ijlVTADHSIBQWydeCVzDUX5ktqs8qMyXk9KqchA3OKWauAA5DPZBfvMSzdf6?=
+ =?us-ascii?Q?dTq994HjpdwVpDVdUc1SBmKTN2/eUPqdnDs0owJ3XA/q/ldp8uuIbuypvZLu?=
+ =?us-ascii?Q?OKVXM+mUCi8CprpdkBf3ieeYJtKiUprGTkgrRxcY6wxbTt/+ZR4oH9dBhRdz?=
+ =?us-ascii?Q?k6P3HuayEpkIKn914X1+NBKspW1JLn7wafvtAqEArx+NzUjOC8u6XXCNuCX9?=
+ =?us-ascii?Q?WAXlu+gdWxhUUBd4AFgI3Fynz3HKuAOUSPGTrZA0DdeJ30HUjMAD8BwlOIJP?=
+ =?us-ascii?Q?9m+lGn5SljP1qz/KvKeo61lRI13v+MH2czNaas3hgpDVuASLjwdK+dJg/9+A?=
+ =?us-ascii?Q?JN3OiyQY06i/8DOABGx6pi4be3Sm4ox22wgKMPFuEqwhcUMECZOugd+phK5n?=
+ =?us-ascii?Q?4e5FZ8UjjLXJ0iMHcr6jEtoimYjG1h8aD9z46HMXewL/a0m418AeBPwNWCSx?=
+ =?us-ascii?Q?iVHKUS9KLomMFAROOT7peV4uBQcR6XCuxdR4i6f+Bwqog2rm7fTb1Mq+VOy/?=
+ =?us-ascii?Q?i4qbsTk04S6GC+2jpCzqJz+QgcFWY64p37zgzItMPFERGL9rNJaXTAp7rg9W?=
+ =?us-ascii?Q?hivShB+AX3eUIYuzr6iIUyVK?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FYXC/9lnNXx2tr2GfoZbJv6gQ7T6gouuN38yv64YRrURX+oLvZKlJtDv7PSP?=
+ =?us-ascii?Q?yeyWuPoNGtoHWwGH1ZRtR4sEhmmNW1e1yJCR26Y3ayN+SnZ9jA3T9MwMdOYV?=
+ =?us-ascii?Q?Hyw2QuaIEQ5FTii+h4MyoOeYvPjYTpl5eirGtuWRTUL4FJc3cAtj4uzWKSma?=
+ =?us-ascii?Q?GGtAo6eN+YO75OvBW8N6fQ2UPEePynvoDnT+KcSAxUKLmyAhNQzGSTWXnTAJ?=
+ =?us-ascii?Q?0KV7DkRwi4dkAlVrzRuwGwj8q5etigzR5cQA/aa6DPSPY8cvKXyodu7mhw0Z?=
+ =?us-ascii?Q?sSFB1OerRO6Jh32jl9TbCvPDnurffueUBjDGZfktulZlTZj1vPxh+pDwIb8N?=
+ =?us-ascii?Q?ZBrl/XHDVgKs03/jqp8t7YAtxyfmhnP5ycn0fbgOlIMUoKp04iW9wURSadqo?=
+ =?us-ascii?Q?eJ0vs5acAg69ZJhFi/hMLNPx3FTFk7cxoW4qBbcRDib2ZKh96zFlL3Kd9OuE?=
+ =?us-ascii?Q?v/esZQuBh3iocpmCG5zKgEUw3VHKHlK3FzcwyMobAdkZt9MHQMwD/MmP23sP?=
+ =?us-ascii?Q?mCvjnXWuFHUHOw5fjc95q+d0wO6EzMTdB8BJeGNY4QB0zUYh9Ppm8MQIBQvE?=
+ =?us-ascii?Q?h1jvB7RRe8UB/3FsioSTxH9h10U6VzGzavcc1+hpHh5aYd0yYZ1gAxQw5f6q?=
+ =?us-ascii?Q?jT3q8u4wfGzqspVlHLevFzmw5RO7wvvgZ3rz+XtWS6jSDSa/QkKWqZ4LH7fF?=
+ =?us-ascii?Q?+hlFG3lw00yp1yQtktn1xBQoaTI1B4t0Z2VzHCq361jH5HWz9lMoJ5WrT/3A?=
+ =?us-ascii?Q?fcXOqdi0gKw3Ml/xgeFrHiRTo8eTIoAHYqX6zUaxv4zwdYvOg20gxFenUspY?=
+ =?us-ascii?Q?AM54u7dCvT/PIORkHCAbRNkkWaVL7C6LjMtvZSCB44vK+0FiTwTzSkLRuBhF?=
+ =?us-ascii?Q?seNPEDp6icWscgmqm8RqKOc98Q1kGqH9pkvcTIUSljfolQT8z3Q1QSxY/EPO?=
+ =?us-ascii?Q?XZuZRnofDVQFcgPUHfC4rnHwaDGXcTHn0TnohY1YogWflPeu7Jxw0NWDnZQK?=
+ =?us-ascii?Q?Lu0DXso4wLvkRCuEdgqdXaVUIqFG2/gjL7dykzYua1Apje2VaolILGqLj2eX?=
+ =?us-ascii?Q?EdkCcMG5TZMp4X857wNnECBXcN7aXsbVg8zlfUOamzNnSUjE8jEHCElAJkiU?=
+ =?us-ascii?Q?l0wl+g8/6sqKqRZipgddb8aZIv+5YN5wj/vjGoOH3D0l/oGJg2HouxaLPjcm?=
+ =?us-ascii?Q?ByH6Rm4zQ/InWmbDaGLgUiGdESmAS6JdYWTmFxcFcdymnNYtjWAK9ZNF+kmw?=
+ =?us-ascii?Q?8NCjRC+RG2ByMsb/K+gdafcAE/zwDnVawNyqOQkyB9FMOUpK6Rm7fEgZDaqA?=
+ =?us-ascii?Q?heMpGZaZRZGtJAwV33SsYOjFljznsuOdPX9t/dYh3Y0B+JTgY/d/xxNhKSLu?=
+ =?us-ascii?Q?rfgViShQK3EGnlflsJt1qFaWIIff7H2MDJvOk6Sm6WBsHOVAk2nazzoUScuX?=
+ =?us-ascii?Q?eil9yHaDcYg/rHdoHfYxtEBIbnTB+RyZ+h2S4j8X2+5sifea8jbewb9M/WA2?=
+ =?us-ascii?Q?0EKshj90XuGjMp+uSOZbyjWdiNjFewQzYPjcXlmj76aXfuArQO4tbDK98wnk?=
+ =?us-ascii?Q?th6jrLnrw7VAQuG+EhcDI4naSMYEcYNutW/Fl08qOLWRVHlJnlxUTF/BSrmA?=
+ =?us-ascii?Q?gw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9ea5a36-5aea-4785-35ae-08dcd20b7e7b
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2024 02:43:18.9663
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2BdrePoJnpKPIkXjFvmxXsIgTM1+/WWivnAoV4ItEA2EjLF+MPznLkFTEYRwFYbr0qwBwexLquhg4qOWI4iFl7YZRI1HjYzNORl9L251TWQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6568
+X-OriginatorOrg: intel.com
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0tLS0KPiBGcm9tOiAiTHVjYXMgRGUgTWFyY2hpIiA8
-bHVjYXMuZGVtYXJjaGlAaW50ZWwuY29tPgo+IFNlbmQgdGltZTpUdWVzZGF5LCAwOS8xMC8yMDI0
-IDIyOjAwOjI5Cj4gVG86ICJNYXNhaGlybyBZYW1hZGEiIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4K
-PiBDYzogMzA5MDEwMTIxN0B6anUuZWR1LmNuLCAiTWljaGFsIE1hcmVrIiA8bWljaGFsLmxrbWxA
-bWFya292aS5uZXQ+LCAiTmljawo+ICBEZXNhdWxuaWVycyIgPG5kZXNhdWxuaWVyc0Bnb29nbGUu
-Y29tPiwgIkxpbnV4IEtidWlsZCBtYWlsaW5nIGxpc3QiIDxsaW51eC1rYnVpbGRAdmdlci5rZXJu
-ZWwub3JnPiwgIkxpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QiIDxsaW51eC1rZXJuZWxAdmdlci5r
-ZXJuZWwub3JnPiwgIkppbmcgTGVuZyIgPGpsZW5nQGFtYmFyZWxsYS5jb20+Cj4gU3ViamVjdDog
-RXh0ZXJuYWwgbW9kdWxlcyB3aXRoIE89Li4uICh3YXM6IFJlOiBbUEFUQ0hdIGtidWlsZDogRml4
-IGluY2x1ZGUgcGF0aCBpbiBzY3JpcHRzL01ha2VmaWxlLm1vZHBvc3QpCj4gCj4gSGksIEkgd2Fz
-IHBvaW50ZWQgdG8gdGhpcyB0aHJlYWQgc2luY2UgSSdtIHRyeWluZyBzb21ldGhpbmcgc2ltaWxh
-cgo+IGluIGttb2QncyB0ZXN0c3VpdGUuIFNlZSBiZWxvdy4KPiAKPiBPbiBUdWUsIE1heSAyNCwg
-MjAyMiBhdCAwMjo1Mjo0NUFNIEdNVCwgTWFzYWhpcm8gWWFtYWRhIHdyb3RlOgo+ID5PbiBUdWUs
-IE1heSAxNywgMjAyMiBhdCA3OjUxIFBNIDwzMDkwMTAxMjE3QHpqdS5lZHUuY24+IHdyb3RlOgo+
-ID4+Cj4gPj4gRnJvbTogSmluZyBMZW5nIDxqbGVuZ0BhbWJhcmVsbGEuY29tPgo+ID4+Cj4gPj4g
-V2hlbiBidWlsZGluZyBhbiBleHRlcm5hbCBtb2R1bGUsIGlmIHVzZXJzIGRvbid0IG5lZWQgdG8g
-c2VwYXJhdGUgdGhlCj4gPj4gY29tcGlsYXRpb24gb3V0cHV0IGFuZCBzb3VyY2UgY29kZSwgdGhl
-eSBydW4gdGhlIGZvbGxvd2luZyBjb21tYW5kOgo+ID4+ICJtYWtlIC1DICQoTElOVVhfU1JDX0RJ
-UikgTT0kKFBXRCkiLiBBdCB0aGlzIHBvaW50LCAiJChLQlVJTERfRVhUTU9EKSIKPiA+PiBhbmQg
-IiQoc3JjKSIgYXJlIHRoZSBzYW1lLgo+ID4+Cj4gPj4gSWYgdGhleSBuZWVkIHRvIHNlcGFyYXRl
-IHRoZW0sIHRoZXkgcnVuICJtYWtlIC1DICQoS0VSTkVMX1NSQ19ESVIpCj4gPj4gTz0kKEtFUk5F
-TF9PVVRfRElSKSBNPSQoT1VUX0RJUikgc3JjPSQoUFdEKSIuIEJlZm9yZSBydW5uaW5nIHRoZQo+
-ID4+IGNvbW1hbmQsIHRoZXkgbmVlZCB0byBjb3B5ICJLYnVpbGQiIG9yICJNYWtlZmlsZSIgdG8g
-IiQoT1VUX0RJUikiIHRvCj4gPj4gcHJldmVudCBjb21waWxhdGlvbiBmYWlsdXJlLgo+ID4+Cj4g
-Pj4gU28gdGhlIGtlcm5lbCBzaG91bGQgY2hhbmdlIHRoZSBpbmNsdWRlZCBwYXRoIHRvIGF2b2lk
-IHRoZSBjb3B5IG9wZXJhdGlvbi4KPiA+Pgo+ID4+IFNpZ25lZC1vZmYtYnk6IEppbmcgTGVuZyA8
-amxlbmdAYW1iYXJlbGxhLmNvbT4KPiA+PiAtLS0KPiA+PiAgc2NyaXB0cy9NYWtlZmlsZS5tb2Rw
-b3N0IHwgMyArLS0KPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0
-aW9ucygtKQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdCBi
-L3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdAo+ID4+IGluZGV4IDQ4NTg1YzRkMDRhZC4uMDI3M2Jm
-NzM3NWUyIDEwMDY0NAo+ID4+IC0tLSBhL3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdAo+ID4+ICsr
-KyBiL3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdAo+ID4+IEBAIC04Nyw4ICs4Nyw3IEBAIG9iaiA6
-PSAkKEtCVUlMRF9FWFRNT0QpCj4gPj4gIHNyYyA6PSAkKG9iaikKPiA+Pgo+ID4+ICAjIEluY2x1
-ZGUgdGhlIG1vZHVsZSdzIE1ha2VmaWxlIHRvIGZpbmQgS0JVSUxEX0VYVFJBX1NZTUJPTFMKPiA+
-PiAtaW5jbHVkZSAkKGlmICQod2lsZGNhcmQgJChLQlVJTERfRVhUTU9EKS9LYnVpbGQpLCBcCj4g
-Pj4gLSAgICAgICAgICAgICAkKEtCVUlMRF9FWFRNT0QpL0tidWlsZCwgJChLQlVJTERfRVhUTU9E
-KS9NYWtlZmlsZSkKPiA+PiAraW5jbHVkZSAkKGlmICQod2lsZGNhcmQgJChzcmMpL0tidWlsZCks
-ICQoc3JjKS9LYnVpbGQsICQoc3JjKS9NYWtlZmlsZSkKPiA+Pgo+ID4+ICAjIG1vZHBvc3Qgb3B0
-aW9uIGZvciBleHRlcm5hbCBtb2R1bGVzCj4gPj4gIE1PRFBPU1QgKz0gLWUKPiA+PiAtLQo+ID4+
-IDIuMTcuMQo+ID4+Cj4gPgo+ID4KPiA+SSBkbyBub3QgdGhpbmsgIk09JChPVVRfRElSKSBzcmM9
-JChQV0QpIiBpcyB0aGUgb2ZmaWNpYWwgd2F5LAo+ID5idXQgdGhpcyBwYXRjaCBpcyBhIGNsZWFu
-IHVwLgo+IAo+IEkgdHJpZWQgd2hhdCBpcyBpbiB0aGlzIHBhdGNoIGFuZCBhbHNvIHRyaWVkIHRv
-IGZpbmQgYW4gb2ZmaWNpYWwgd2F5IGluCj4gdGhlIGRvY3MuCj4gCj4gSW4ga21vZCdzIHRlc3Rz
-dWl0ZSB3ZSBidWlsZCBkdW1teSBrZXJuZWwgbW9kdWxlcyB0byBleGVyY2lzZSB0aGUgQVBJLgo+
-IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS91dGlscy9rZXJuZWwva21vZC9rbW9kLmdp
-dC90cmVlL3Rlc3RzdWl0ZS9tb2R1bGUtcGxheWdyb3VuZAo+IAo+IFRoaXMgd29ya3M6Cj4gCW1h
-a2UgLUMgL2xpYi9tb2R1bGVzLyQodW5hbWUgLXIpL2J1aWxkIE09JFBXRAo+IAo+IFRoaXMgZG9l
-c24ndDoKPiAJbWFrZSAtQyAvbGliL21vZHVsZXMvJCh1bmFtZSAtcikvYnVpbGQgTT0kUFdEIE89
-L3RtcC9rbW9kX3Rlc3RfbW9kdWxlcwo+IAo+IEkgYWxzbyB0cmllZCB0aGUgdmFyaWFudHMgYWJv
-dmUgd2l0aCBzZXR0aW5nIHNyYywgYnV0IGFsbCBvZiB0aGVtIGdpdmUKPiBtZSBlcnJvcnMgLSBJ
-IHVzZWQgNi4xMCBhbmQgNi4xMS1yYzcgZm9yIHRoZXNlIHRlc3RzLgo+IAo+IElzIHRoZXJlIGEg
-d2F5IHRvIGRvIHRoaXM/Cj4gCj4gdGhhbmtzCj4gTHVjYXMgRGUgTWFyY2hpCj4gCj4gPgo+ID5B
-cHBsaWVkIHRvIGxpbnV4LWtidWlsZC4gVGhhbmtzLgo+ID4KPiA+Cj4gPi0tIAo+ID5CZXN0IFJl
-Z2FyZHMKPiA+TWFzYWhpcm8gWWFtYWRhCgpIaSBNYXNhaGlybywKCkkgdGhpbmsgeW91ciBpbnRl
-bnRpb24gaXMgdG8gc2VwYXJhdGUgdGhlIHNvdXJjZSBjb2RlIGZyb20gdGhlIGNvbXBpbGVkIG91
-dHB1dC4KVGhlIGNvcnJlY3QgY29tbWFuZCBzaG91bGQgYmU6IAogICAgbWFrZSAtQyAvbGliL21v
-ZHVsZXMvJCh1bmFtZSAtcikvYnVpbGQgc3JjPSRQV0QgTT0vdG1wL2ttb2RfdGVzdF9tb2R1bGVz
-CgpZb3UgYWxzbyBjYW4gcmVmZXIgdG86CiAgICBodHRwczovL2dpdGh1Yi5jb20vbGVuZ2ppbmd6
-anUvY2J1aWxkLW5nL2Jsb2IvbWFpbi9zY3JpcHRzL2NvcmUvaW5jLm1vZC5tayAKMS4gVGhlIGNv
-bXBsZXRlIGNvbW1hbmQgaXMgYXMgZm9sbG93czoKICAgIG1ha2UgLUMgPExpbnV4IGtlcm5lbCBz
-b3VyY2UgY29kZSBkaXJlY3Rvcnk+IE89PExpbnV4IGtlcm5lbCBjb21waWxhdGlvbiBvdXRwdXQg
-ZGlyZWN0b3J5PiBzcmM9PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBzb3VyY2UgY29kZSBkaXJlY3Rv
-cnk+IE09PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBjb21waWxhdGlvbiBvdXRwdXQgZGlyZWN0b3J5
-PgoyLiBJZiB0aGUgPExpbnV4IGtlcm5lbCBzb3VyY2UgY29kZSBkaXJlY3Rvcnk+IGFuZCB0aGUg
-PExpbnV4IGtlcm5lbCBjb21waWxhdGlvbiBvdXRwdXQgZGlyZWN0b3J5PiBhcmUgdGhlIHNhbWUs
-IDxPPXh4eD4gY2FuIGJlIG9taXR0ZWQ6CiAgICBtYWtlIC1DIDxMaW51eCBrZXJuZWwgc291cmNl
-IGNvZGUgZGlyZWN0b3J5PiBzcmM9PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBzb3VyY2UgY29kZSBk
-aXJlY3Rvcnk+IE09PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBjb21waWxhdGlvbiBvdXRwdXQgZGly
-ZWN0b3J5PgoyLiBJZiB0aGUgPEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBzb3VyY2UgY29kZSBkaXJl
-Y3Rvcnk+IGFuZCB0aGUgPEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBjb21waWxhdGlvbiBvdXRwdXQg
-ZGlyZWN0b3J5PiBhcmUgdGhlIHNhbWUsIDxzcmM9eHh4PiBjYW4gYmUgb21pdHRlZDoKICAgIG1h
-a2UgLUMgPExpbnV4IGtlcm5lbCBzb3VyY2UgY29kZSBkaXJlY3Rvcnk+IE89PExpbnV4IGtlcm5l
-bCBjb21waWxhdGlvbiBvdXRwdXQgZGlyZWN0b3J5PiBNPTxDdXJyZW50IGRyaXZlciBtb2R1bGUg
-c291cmNlIGNvZGUgZGlyZWN0b3J5PgoKQmVzdCBSZWdhcmRzIQpKaW5nIExlbmc=
+On Wed, Sep 11, 2024 at 09:10:09AM GMT, Jing Leng wrote:
+>> -----Original Messages-----
+>> From: "Lucas De Marchi" <lucas.demarchi@intel.com>
+>> Send time:Tuesday, 09/10/2024 22:00:29
+>> To: "Masahiro Yamada" <masahiroy@kernel.org>
+>> Cc: 3090101217@zju.edu.cn, "Michal Marek" <michal.lkml@markovi.net>, "Nick
+>>  Desaulniers" <ndesaulniers@google.com>, "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>, "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>, "Jing Leng" <jleng@ambarella.com>
+>> Subject: External modules with O=... (was: Re: [PATCH] kbuild: Fix include path in scripts/Makefile.modpost)
+>>
+>> Hi, I was pointed to this thread since I'm trying something similar
+>> in kmod's testsuite. See below.
+>>
+>> On Tue, May 24, 2022 at 02:52:45AM GMT, Masahiro Yamada wrote:
+>> >On Tue, May 17, 2022 at 7:51 PM <3090101217@zju.edu.cn> wrote:
+>> >>
+>> >> From: Jing Leng <jleng@ambarella.com>
+>> >>
+>> >> When building an external module, if users don't need to separate the
+>> >> compilation output and source code, they run the following command:
+>> >> "make -C $(LINUX_SRC_DIR) M=$(PWD)". At this point, "$(KBUILD_EXTMOD)"
+>> >> and "$(src)" are the same.
+>> >>
+>> >> If they need to separate them, they run "make -C $(KERNEL_SRC_DIR)
+>> >> O=$(KERNEL_OUT_DIR) M=$(OUT_DIR) src=$(PWD)". Before running the
+>> >> command, they need to copy "Kbuild" or "Makefile" to "$(OUT_DIR)" to
+>> >> prevent compilation failure.
+>> >>
+>> >> So the kernel should change the included path to avoid the copy operation.
+>> >>
+>> >> Signed-off-by: Jing Leng <jleng@ambarella.com>
+>> >> ---
+>> >>  scripts/Makefile.modpost | 3 +--
+>> >>  1 file changed, 1 insertion(+), 2 deletions(-)
+>> >>
+>> >> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+>> >> index 48585c4d04ad..0273bf7375e2 100644
+>> >> --- a/scripts/Makefile.modpost
+>> >> +++ b/scripts/Makefile.modpost
+>> >> @@ -87,8 +87,7 @@ obj := $(KBUILD_EXTMOD)
+>> >>  src := $(obj)
+>> >>
+>> >>  # Include the module's Makefile to find KBUILD_EXTRA_SYMBOLS
+>> >> -include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
+>> >> -             $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
+>> >> +include $(if $(wildcard $(src)/Kbuild), $(src)/Kbuild, $(src)/Makefile)
+>> >>
+>> >>  # modpost option for external modules
+>> >>  MODPOST += -e
+>> >> --
+>> >> 2.17.1
+>> >>
+>> >
+>> >
+>> >I do not think "M=$(OUT_DIR) src=$(PWD)" is the official way,
+>> >but this patch is a clean up.
+>>
+>> I tried what is in this patch and also tried to find an official way in
+>> the docs.
+>>
+>> In kmod's testsuite we build dummy kernel modules to exercise the API.
+>> https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git/tree/testsuite/module-playground
+>>
+>> This works:
+>> 	make -C /lib/modules/$(uname -r)/build M=$PWD
+>>
+>> This doesn't:
+>> 	make -C /lib/modules/$(uname -r)/build M=$PWD O=/tmp/kmod_test_modules
+>>
+>> I also tried the variants above with setting src, but all of them give
+>> me errors - I used 6.10 and 6.11-rc7 for these tests.
+>>
+>> Is there a way to do this?
+>>
+>> thanks
+>> Lucas De Marchi
+>>
+>> >
+>> >Applied to linux-kbuild. Thanks.
+>> >
+>> >
+>> >--
+>> >Best Regards
+>> >Masahiro Yamada
+>
+>Hi Masahiro,
+
+I guess you meant Lucas :)
+
+>
+>I think your intention is to separate the source code from the compiled output.
+>The correct command should be:
+>    make -C /lib/modules/$(uname -r)/build src=$PWD M=/tmp/kmod_test_modules
+
+oh, looks like this works. Apparently my mistake was trying to set O=
+like I normally do for in-tree modules.
+
+Thanks
+Lucas De Marchi
+
+>
+>You also can refer to:
+>    https://github.com/lengjingzju/cbuild-ng/blob/main/scripts/core/inc.mod.mk
+>1. The complete command is as follows:
+>    make -C <Linux kernel source code directory> O=<Linux kernel compilation output directory> src=<Current driver module source code directory> M=<Current driver module compilation output directory>
+>2. If the <Linux kernel source code directory> and the <Linux kernel compilation output directory> are the same, <O=xxx> can be omitted:
+>    make -C <Linux kernel source code directory> src=<Current driver module source code directory> M=<Current driver module compilation output directory>
+>2. If the <Current driver module source code directory> and the <Current driver module compilation output directory> are the same, <src=xxx> can be omitted:
+>    make -C <Linux kernel source code directory> O=<Linux kernel compilation output directory> M=<Current driver module source code directory>
+>
+>Best Regards!
+>Jing Leng
 
