@@ -1,114 +1,140 @@
-Return-Path: <linux-kbuild+bounces-3505-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3506-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A3B9745F9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 00:28:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2C09747A4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 03:12:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1444B287AEE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Sep 2024 22:28:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD757B24DF6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 01:12:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA201ABED2;
-	Tue, 10 Sep 2024 22:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8785720B0F;
+	Wed, 11 Sep 2024 01:11:56 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EBD1A3BAF;
-	Tue, 10 Sep 2024 22:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6986B1863E;
+	Wed, 11 Sep 2024 01:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726007308; cv=none; b=Uch7/nWFycpWVMVMqaJ8ip+W/pImMRHmbV1nO/90GV1fpt0gopDfRKR8FTfLREkl77B46XQ+yudgpRMVMLXKAl4MN3P2qxtlHGdSj5H0Z8hO3smJmmr3XOzOBcYkP77iZ9tBWzGlNOHBIb8643EfUfmfTrze2Oi/BhT0Hg67gZ8=
+	t=1726017116; cv=none; b=uSSFBydprmnPtStWxA2hhwALE+d1sTtY6nOnlHTiW09EMWMkXtvj3PH4ynHvhgDA1qaabqklUsbB5an3QVP92tyD7eYG1XxsGS1qmLsmWx0z1VMFct+r+4XkhI/Ex5L99ufE3Svg+oirzDnYefB2ckH7bMLu0qQwsMuqpevSlQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726007308; c=relaxed/simple;
-	bh=m6bZTfRafhQeKF0FHn4HDoue1BzzxhJP3n0bqBSUuiY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=hUnQvMMADoHdedtl5lvRg8jWRdfmgUPTPNljPCPaQEypZO2U5sZJjjUPhoRSIBzHzB5bOt0EkBk0t0+KJQb0cVn14cCiu3UxquraNB8oeawsTRnkLszK+/Z0ZaH9EAwJgYOT1wmjLY5gZHZT354UNhjYeMBlEiRBV36TETzJzGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 24E6892009C; Wed, 11 Sep 2024 00:28:18 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 1E05C92009B;
-	Tue, 10 Sep 2024 23:28:18 +0100 (BST)
-Date: Tue, 10 Sep 2024 23:28:18 +0100 (BST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-cc: Masahiro Yamada <masahiroy@kernel.org>, 
-    Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-    Richard Weinberger <richard@nod.at>, 
-    Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-    Johannes Berg <johannes@sipsolutions.net>, 
-    Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-    Wedson Almeida Filho <wedsonaf@gmail.com>, 
-    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-    =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-    Benno Lossin <benno.lossin@proton.me>, 
-    Andreas Hindborg <a.hindborg@samsung.com>, 
-    Alice Ryhl <aliceryhl@google.com>, 
-    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-    Steven Rostedt <rostedt@goodmis.org>, 
-    Masami Hiramatsu <mhiramat@kernel.org>, 
-    Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-    Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>, 
-    Nick Desaulniers <ndesaulniers@google.com>, 
-    Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-    linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-um@lists.infradead.org, rust-for-linux@vger.kernel.org, 
-    "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, 
-    linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-    llvm@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] rust: Enable for MIPS
-In-Reply-To: <54ce7574-43fd-40ee-9ae9-dd72283d1040@app.fastmail.com>
-Message-ID: <alpine.DEB.2.21.2409102318270.60835@angie.orcam.me.uk>
-References: <20240905-mips-rust-v2-0-409d66819418@flygoat.com> <20240905-mips-rust-v2-3-409d66819418@flygoat.com> <alpine.DEB.2.21.2409082138160.60835@angie.orcam.me.uk> <035ccfe5-c368-4cd9-8e0d-34e0e355cb05@app.fastmail.com> <alpine.DEB.2.21.2409101643210.60835@angie.orcam.me.uk>
- <54ce7574-43fd-40ee-9ae9-dd72283d1040@app.fastmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1726017116; c=relaxed/simple;
+	bh=4UkBtnv9a/TGy0y71S+5dvnPht/Z/AzRZEcT5PGhZFA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=LAHkXEnqDeD9l3qQdmRIjQ68iA85lIA8w4Bz5pTqDaOF2N+fX7TfcaWRixbBTa4vzwg+i2JWFgG3UBtxn/giJq9WkY4VFYPg5w1YK6VSsuOTgGR/XWGEXOcuIw3++5XH9KKGABE6phIRCBy5VDDjy97pLr9Uto8GR+Ygfyc/2IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.237.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from 3090101217$zju.edu.cn ( [119.131.118.192] ) by
+ ajax-webmail-mail-app2 (Coremail) ; Wed, 11 Sep 2024 09:10:09 +0800
+ (GMT+08:00)
+Date: Wed, 11 Sep 2024 09:10:09 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "Jing Leng" <3090101217@zju.edu.cn>
+To: "Lucas De Marchi" <lucas.demarchi@intel.com>
+Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
+	"Michal Marek" <michal.lkml@markovi.net>,
+	"Nick Desaulniers" <ndesaulniers@google.com>,
+	"Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>,
+	"Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+	"Jing Leng" <jleng@ambarella.com>
+Subject: Re: External modules with O=... (was: Re: [PATCH] kbuild: Fix
+ include path in scripts/Makefile.modpost)
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.1-cmXT5 build
+ 20240625(a75f206e) Copyright (c) 2002-2024 www.mailtech.cn zju.edu.cn
+In-Reply-To: <aowpzz4rbedjkwkl7b4a2f5pf2p5cgsu6knsgxnayckhbumxf3@aznrm7oliydb>
+References: <aowpzz4rbedjkwkl7b4a2f5pf2p5cgsu6knsgxnayckhbumxf3@aznrm7oliydb>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Message-ID: <442e8058.43a4.191dea175d7.Coremail.3090101217@zju.edu.cn>
+X-Coremail-Locale: en_US
+X-CM-TRANSID:by_KCgCXGovy7eBmPkg2AA--.5785W
+X-CM-SenderInfo: qtqziiyqrsilo62m3hxhgxhubq/1tbiAwQRBWbCCEQBMAAgsq
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Tue, 10 Sep 2024, Jiaxun Yang wrote:
-
-> >> We have no good way to tell ISA reversion prior to R1 just from Kconfig TARGET_ISA_REV,
-> >> valid numbers for TARGET_ISA_REV are only 1, 2, 5, 6 from Kconfig.
-> >
-> >  This approach doesn't work for some MIPS architecture processor configs 
-> > anyway, e.g. what ISA revision will CPU_P5600 imply here?
-> 
-> TARGET_ISA_REV will be set to 5 for CPU_P5600 (CPU_MIPSR5 will default to y
-> on CPU_P5600, and CPU_MIPSR5 sets TARGET_ISA_REV to 5). 
-> >
-> >  However if there's a need (and previously there wasn't), then I think it 
-> > can be sorted in a straightforward way.  We have just a bunch of CPU_* 
-> > settings and we can define corresponding ISA_* settings to select, e.g. 
-> > ISA_MIPS1, ISA_MIPS3, ISA_MIPS32_R1, ISA_MIPS64_R6, and so on, based on 
-> > information extracted from per-CPU_* `-march=' compilation flags from 
-> > arch/mips/Makefile (possibly combined with ISA data obtained from 
-> > GCC/binutils for said flags).
-> >
-> >  It could be a bit tedious to write, but not a big challenge really, just 
-> > mechanical work.
-> 
-> TARGET_ISA_REV is guaranteed to be aligned with CPU's supported ISA for now,
-> so I see no reason to invent another set of symbols....
-
- Ah, OK then, I missed these bits, thanks for pointing them out.
-
- So we only need to define CPU_MIPS1, CPU_MIPS3, and CPU_MIPS4 settings
-(we have no support for any MIPS II CPU; there was the R6000 only at that 
-ISA level, exeedingly rare and unreliable) analogously to and along with 
-the existing CPU_MIPSR1, CPU_MIPSR2, etc., which is even simpler.  They 
-can then be used accordingly for TARGET_ISA_REV == 0, either directly or 
-perhaps via an additional TARGET_LEGACY_ISA_REV setting.
-
-  Maciej
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0tLS0KPiBGcm9tOiAiTHVjYXMgRGUgTWFyY2hpIiA8
+bHVjYXMuZGVtYXJjaGlAaW50ZWwuY29tPgo+IFNlbmQgdGltZTpUdWVzZGF5LCAwOS8xMC8yMDI0
+IDIyOjAwOjI5Cj4gVG86ICJNYXNhaGlybyBZYW1hZGEiIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4K
+PiBDYzogMzA5MDEwMTIxN0B6anUuZWR1LmNuLCAiTWljaGFsIE1hcmVrIiA8bWljaGFsLmxrbWxA
+bWFya292aS5uZXQ+LCAiTmljawo+ICBEZXNhdWxuaWVycyIgPG5kZXNhdWxuaWVyc0Bnb29nbGUu
+Y29tPiwgIkxpbnV4IEtidWlsZCBtYWlsaW5nIGxpc3QiIDxsaW51eC1rYnVpbGRAdmdlci5rZXJu
+ZWwub3JnPiwgIkxpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QiIDxsaW51eC1rZXJuZWxAdmdlci5r
+ZXJuZWwub3JnPiwgIkppbmcgTGVuZyIgPGpsZW5nQGFtYmFyZWxsYS5jb20+Cj4gU3ViamVjdDog
+RXh0ZXJuYWwgbW9kdWxlcyB3aXRoIE89Li4uICh3YXM6IFJlOiBbUEFUQ0hdIGtidWlsZDogRml4
+IGluY2x1ZGUgcGF0aCBpbiBzY3JpcHRzL01ha2VmaWxlLm1vZHBvc3QpCj4gCj4gSGksIEkgd2Fz
+IHBvaW50ZWQgdG8gdGhpcyB0aHJlYWQgc2luY2UgSSdtIHRyeWluZyBzb21ldGhpbmcgc2ltaWxh
+cgo+IGluIGttb2QncyB0ZXN0c3VpdGUuIFNlZSBiZWxvdy4KPiAKPiBPbiBUdWUsIE1heSAyNCwg
+MjAyMiBhdCAwMjo1Mjo0NUFNIEdNVCwgTWFzYWhpcm8gWWFtYWRhIHdyb3RlOgo+ID5PbiBUdWUs
+IE1heSAxNywgMjAyMiBhdCA3OjUxIFBNIDwzMDkwMTAxMjE3QHpqdS5lZHUuY24+IHdyb3RlOgo+
+ID4+Cj4gPj4gRnJvbTogSmluZyBMZW5nIDxqbGVuZ0BhbWJhcmVsbGEuY29tPgo+ID4+Cj4gPj4g
+V2hlbiBidWlsZGluZyBhbiBleHRlcm5hbCBtb2R1bGUsIGlmIHVzZXJzIGRvbid0IG5lZWQgdG8g
+c2VwYXJhdGUgdGhlCj4gPj4gY29tcGlsYXRpb24gb3V0cHV0IGFuZCBzb3VyY2UgY29kZSwgdGhl
+eSBydW4gdGhlIGZvbGxvd2luZyBjb21tYW5kOgo+ID4+ICJtYWtlIC1DICQoTElOVVhfU1JDX0RJ
+UikgTT0kKFBXRCkiLiBBdCB0aGlzIHBvaW50LCAiJChLQlVJTERfRVhUTU9EKSIKPiA+PiBhbmQg
+IiQoc3JjKSIgYXJlIHRoZSBzYW1lLgo+ID4+Cj4gPj4gSWYgdGhleSBuZWVkIHRvIHNlcGFyYXRl
+IHRoZW0sIHRoZXkgcnVuICJtYWtlIC1DICQoS0VSTkVMX1NSQ19ESVIpCj4gPj4gTz0kKEtFUk5F
+TF9PVVRfRElSKSBNPSQoT1VUX0RJUikgc3JjPSQoUFdEKSIuIEJlZm9yZSBydW5uaW5nIHRoZQo+
+ID4+IGNvbW1hbmQsIHRoZXkgbmVlZCB0byBjb3B5ICJLYnVpbGQiIG9yICJNYWtlZmlsZSIgdG8g
+IiQoT1VUX0RJUikiIHRvCj4gPj4gcHJldmVudCBjb21waWxhdGlvbiBmYWlsdXJlLgo+ID4+Cj4g
+Pj4gU28gdGhlIGtlcm5lbCBzaG91bGQgY2hhbmdlIHRoZSBpbmNsdWRlZCBwYXRoIHRvIGF2b2lk
+IHRoZSBjb3B5IG9wZXJhdGlvbi4KPiA+Pgo+ID4+IFNpZ25lZC1vZmYtYnk6IEppbmcgTGVuZyA8
+amxlbmdAYW1iYXJlbGxhLmNvbT4KPiA+PiAtLS0KPiA+PiAgc2NyaXB0cy9NYWtlZmlsZS5tb2Rw
+b3N0IHwgMyArLS0KPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0
+aW9ucygtKQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdCBi
+L3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdAo+ID4+IGluZGV4IDQ4NTg1YzRkMDRhZC4uMDI3M2Jm
+NzM3NWUyIDEwMDY0NAo+ID4+IC0tLSBhL3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdAo+ID4+ICsr
+KyBiL3NjcmlwdHMvTWFrZWZpbGUubW9kcG9zdAo+ID4+IEBAIC04Nyw4ICs4Nyw3IEBAIG9iaiA6
+PSAkKEtCVUlMRF9FWFRNT0QpCj4gPj4gIHNyYyA6PSAkKG9iaikKPiA+Pgo+ID4+ICAjIEluY2x1
+ZGUgdGhlIG1vZHVsZSdzIE1ha2VmaWxlIHRvIGZpbmQgS0JVSUxEX0VYVFJBX1NZTUJPTFMKPiA+
+PiAtaW5jbHVkZSAkKGlmICQod2lsZGNhcmQgJChLQlVJTERfRVhUTU9EKS9LYnVpbGQpLCBcCj4g
+Pj4gLSAgICAgICAgICAgICAkKEtCVUlMRF9FWFRNT0QpL0tidWlsZCwgJChLQlVJTERfRVhUTU9E
+KS9NYWtlZmlsZSkKPiA+PiAraW5jbHVkZSAkKGlmICQod2lsZGNhcmQgJChzcmMpL0tidWlsZCks
+ICQoc3JjKS9LYnVpbGQsICQoc3JjKS9NYWtlZmlsZSkKPiA+Pgo+ID4+ICAjIG1vZHBvc3Qgb3B0
+aW9uIGZvciBleHRlcm5hbCBtb2R1bGVzCj4gPj4gIE1PRFBPU1QgKz0gLWUKPiA+PiAtLQo+ID4+
+IDIuMTcuMQo+ID4+Cj4gPgo+ID4KPiA+SSBkbyBub3QgdGhpbmsgIk09JChPVVRfRElSKSBzcmM9
+JChQV0QpIiBpcyB0aGUgb2ZmaWNpYWwgd2F5LAo+ID5idXQgdGhpcyBwYXRjaCBpcyBhIGNsZWFu
+IHVwLgo+IAo+IEkgdHJpZWQgd2hhdCBpcyBpbiB0aGlzIHBhdGNoIGFuZCBhbHNvIHRyaWVkIHRv
+IGZpbmQgYW4gb2ZmaWNpYWwgd2F5IGluCj4gdGhlIGRvY3MuCj4gCj4gSW4ga21vZCdzIHRlc3Rz
+dWl0ZSB3ZSBidWlsZCBkdW1teSBrZXJuZWwgbW9kdWxlcyB0byBleGVyY2lzZSB0aGUgQVBJLgo+
+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS91dGlscy9rZXJuZWwva21vZC9rbW9kLmdp
+dC90cmVlL3Rlc3RzdWl0ZS9tb2R1bGUtcGxheWdyb3VuZAo+IAo+IFRoaXMgd29ya3M6Cj4gCW1h
+a2UgLUMgL2xpYi9tb2R1bGVzLyQodW5hbWUgLXIpL2J1aWxkIE09JFBXRAo+IAo+IFRoaXMgZG9l
+c24ndDoKPiAJbWFrZSAtQyAvbGliL21vZHVsZXMvJCh1bmFtZSAtcikvYnVpbGQgTT0kUFdEIE89
+L3RtcC9rbW9kX3Rlc3RfbW9kdWxlcwo+IAo+IEkgYWxzbyB0cmllZCB0aGUgdmFyaWFudHMgYWJv
+dmUgd2l0aCBzZXR0aW5nIHNyYywgYnV0IGFsbCBvZiB0aGVtIGdpdmUKPiBtZSBlcnJvcnMgLSBJ
+IHVzZWQgNi4xMCBhbmQgNi4xMS1yYzcgZm9yIHRoZXNlIHRlc3RzLgo+IAo+IElzIHRoZXJlIGEg
+d2F5IHRvIGRvIHRoaXM/Cj4gCj4gdGhhbmtzCj4gTHVjYXMgRGUgTWFyY2hpCj4gCj4gPgo+ID5B
+cHBsaWVkIHRvIGxpbnV4LWtidWlsZC4gVGhhbmtzLgo+ID4KPiA+Cj4gPi0tIAo+ID5CZXN0IFJl
+Z2FyZHMKPiA+TWFzYWhpcm8gWWFtYWRhCgpIaSBNYXNhaGlybywKCkkgdGhpbmsgeW91ciBpbnRl
+bnRpb24gaXMgdG8gc2VwYXJhdGUgdGhlIHNvdXJjZSBjb2RlIGZyb20gdGhlIGNvbXBpbGVkIG91
+dHB1dC4KVGhlIGNvcnJlY3QgY29tbWFuZCBzaG91bGQgYmU6IAogICAgbWFrZSAtQyAvbGliL21v
+ZHVsZXMvJCh1bmFtZSAtcikvYnVpbGQgc3JjPSRQV0QgTT0vdG1wL2ttb2RfdGVzdF9tb2R1bGVz
+CgpZb3UgYWxzbyBjYW4gcmVmZXIgdG86CiAgICBodHRwczovL2dpdGh1Yi5jb20vbGVuZ2ppbmd6
+anUvY2J1aWxkLW5nL2Jsb2IvbWFpbi9zY3JpcHRzL2NvcmUvaW5jLm1vZC5tayAKMS4gVGhlIGNv
+bXBsZXRlIGNvbW1hbmQgaXMgYXMgZm9sbG93czoKICAgIG1ha2UgLUMgPExpbnV4IGtlcm5lbCBz
+b3VyY2UgY29kZSBkaXJlY3Rvcnk+IE89PExpbnV4IGtlcm5lbCBjb21waWxhdGlvbiBvdXRwdXQg
+ZGlyZWN0b3J5PiBzcmM9PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBzb3VyY2UgY29kZSBkaXJlY3Rv
+cnk+IE09PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBjb21waWxhdGlvbiBvdXRwdXQgZGlyZWN0b3J5
+PgoyLiBJZiB0aGUgPExpbnV4IGtlcm5lbCBzb3VyY2UgY29kZSBkaXJlY3Rvcnk+IGFuZCB0aGUg
+PExpbnV4IGtlcm5lbCBjb21waWxhdGlvbiBvdXRwdXQgZGlyZWN0b3J5PiBhcmUgdGhlIHNhbWUs
+IDxPPXh4eD4gY2FuIGJlIG9taXR0ZWQ6CiAgICBtYWtlIC1DIDxMaW51eCBrZXJuZWwgc291cmNl
+IGNvZGUgZGlyZWN0b3J5PiBzcmM9PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBzb3VyY2UgY29kZSBk
+aXJlY3Rvcnk+IE09PEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBjb21waWxhdGlvbiBvdXRwdXQgZGly
+ZWN0b3J5PgoyLiBJZiB0aGUgPEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBzb3VyY2UgY29kZSBkaXJl
+Y3Rvcnk+IGFuZCB0aGUgPEN1cnJlbnQgZHJpdmVyIG1vZHVsZSBjb21waWxhdGlvbiBvdXRwdXQg
+ZGlyZWN0b3J5PiBhcmUgdGhlIHNhbWUsIDxzcmM9eHh4PiBjYW4gYmUgb21pdHRlZDoKICAgIG1h
+a2UgLUMgPExpbnV4IGtlcm5lbCBzb3VyY2UgY29kZSBkaXJlY3Rvcnk+IE89PExpbnV4IGtlcm5l
+bCBjb21waWxhdGlvbiBvdXRwdXQgZGlyZWN0b3J5PiBNPTxDdXJyZW50IGRyaXZlciBtb2R1bGUg
+c291cmNlIGNvZGUgZGlyZWN0b3J5PgoKQmVzdCBSZWdhcmRzIQpKaW5nIExlbmc=
 
