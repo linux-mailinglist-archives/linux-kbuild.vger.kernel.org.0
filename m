@@ -1,56 +1,57 @@
-Return-Path: <linux-kbuild+bounces-3519-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3520-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0862D975972
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 19:32:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1229C975C23
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 23:02:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB4F02827BD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 17:32:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9406CB21F9F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2024 21:02:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AFB01B1D53;
-	Wed, 11 Sep 2024 17:32:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AE2E13E023;
+	Wed, 11 Sep 2024 21:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6xM18AY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gwSaH4z5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D2D19CC15;
-	Wed, 11 Sep 2024 17:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BBA5337F;
+	Wed, 11 Sep 2024 21:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726075957; cv=none; b=tp/Qze/QXwlD/8Y7hzX0xAn3rW7OnmWKo4NRJ1R5pS0LVzJ22TsvoMvzcPOWCHIPU7an/otJAlF+PgtexP9lhovGFrD/jBcEpfP73rGV5byyQJ71m5x/LCBvQ5Mhx07AqqrMLByxUm0wfqjQEVNAkTsx67vluF88KQg1CrMV6Xk=
+	t=1726088564; cv=none; b=oOwFIaRHN1DVc10237TtdmCe0e5h9W2VhqwxZMJ1o2kcYf5/Gr165sgGHSIgjD7KbENVqMPMUUTCI6pO4amGPKFh3WWRNeEZpnUXpwjpUygnYlvI1qVPSwD9BqH+J0GW6mPmFCKD0GUkXwFb4ZxAklimROpvb9TvVMz7Be89imU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726075957; c=relaxed/simple;
-	bh=AeymH7bKoVkE1jmGAzP5lh7i5xW8xjMn5ZzGFH3XoRQ=;
+	s=arc-20240116; t=1726088564; c=relaxed/simple;
+	bh=JvlZjDzoLcyEYkVOzAptDUtLhc4EYmZCUaQ/PncJGJo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ia837cQvtPXy+PVr0xW4iqLLRgTJTJqeEqPXFyem+H5halI/6ETvw56kh0nZgRxR6ZvXu2C1C1Z7RtZri9vXbVfx84KQIr5e342umMUs57O8xJVVLDTX8jDlzPzSkis9Dc6O1yFWMAGs8C9vh6/vxwh5HOl6/Mfr0/uNjV21G4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q6xM18AY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4F1C4CEC0;
-	Wed, 11 Sep 2024 17:32:36 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=GTY5JLEG/FUZrZavkvbxgEJMOzFhGiD0bKrfwLMij/kdKkYw5j10k0JYcvkBuNHSTmaYRVV+KpJdK5LlI45XVffzukTXVOqqo7E9Drk9i/xsc1XomarNnjV1tQiTx6PtWv+Lnylzy2akcXplCTb7RF67Xboau4oPyhSSeWzDhxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gwSaH4z5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A30C4CEC0;
+	Wed, 11 Sep 2024 21:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726075956;
-	bh=AeymH7bKoVkE1jmGAzP5lh7i5xW8xjMn5ZzGFH3XoRQ=;
+	s=k20201202; t=1726088563;
+	bh=JvlZjDzoLcyEYkVOzAptDUtLhc4EYmZCUaQ/PncJGJo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q6xM18AYJsqIusmQ4//hH1DKwzNsNgN9j+z+iYQHr0yER/Wb3sWIaPZr6hn8XcfqJ
-	 57/+avnS0r+WtcXmbgKJN4Im55SwLzvewVSqwWREC4FHngSS6pSBqxz2n1PYhJEjkP
-	 RQGwD+jGHBv4pmlUQYk3Yukjsuque/beaEqH6zUVleujzJj4Z6IQ9Hn1SAAiNwsAcv
-	 5Lpd5Bu0kBwNZ3IakBXnFqjaw642cc/5lKr5V2u2xawlRkWoWvsUbqeh/Lk4C8Yz2b
-	 U1rSoSsI78Nf/0vcR02Iu8XVMjRHdsrRv90srnaDVONtlWnbv90qBDCXIFCP23SGbG
-	 8Q6D2l6XEYOmQ==
-Date: Wed, 11 Sep 2024 12:32:35 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
+	b=gwSaH4z5zQEe0oLzCpZz0q0QWeFI7jwJjv+MruU+YxtT0v4LHdiU+6aZ1seFWDc/S
+	 VCopgRY0OoilssTwQgXqyEwESGU69mjiUQeH+WLTXI8ryVtz70SORvZDxUEPKqe8+D
+	 mCt2jjoHhR+gS1gPfk9R3rJa1A7SP0LhZOpy7tVwX9puN6Xmu/gStYzPzpzZGV75yZ
+	 aqI8Qd4bjSLcYTUXPCIH6twbGTqYYuOIvF4WGTwvew7OTcmv7m4waxt72kOOHl5EzP
+	 o+mbjlGOSSI9m0ngdPdNWVm0ibkjwnBqi9lJcap141oNjTUCRba8pKQCIq5i/7APBw
+	 is9UUBVzPXB2w==
+Date: Wed, 11 Sep 2024 14:02:41 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] modpost: check section mismatch in reference to
- .dtb.init.rodata
-Message-ID: <172607595481.1006814.4998124247259811209.robh@kernel.org>
-References: <20240910094459.352572-1-masahiroy@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>, bpf@vger.kernel.org,
+	linux-arch@vger.kernel.org, Andrii Nakryiko <andrii@kernel.org>,
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 1/3] btf: remove redundant CONFIG_BPF test in
+ scripts/link-vmlinux.sh
+Message-ID: <20240911210241.GA2305132@thelio-3990X>
+References: <20240911110401.598586-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -59,43 +60,37 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240910094459.352572-1-masahiroy@kernel.org>
+In-Reply-To: <20240911110401.598586-1-masahiroy@kernel.org>
 
-
-On Tue, 10 Sep 2024 18:44:52 +0900, Masahiro Yamada wrote:
-> Built-in DTB files are discarded because KERNEL_DTB() is a part of
-> INIT_DATA, as defined in include/asm-generic/vmlinux.lds.h.
+On Wed, Sep 11, 2024 at 08:03:56PM +0900, Masahiro Yamada wrote:
+> CONFIG_DEBUG_INFO_BTF depends on CONFIG_BPF_SYSCALL, which in turn
+> selects CONFIG_BPF.
 > 
-> Currently, modpost warns about mismatched section references to init
-> data only when the destination section is prefixed with ".init.".
-> However, ".dtb.init.rodata" is also discarded.
-> 
-> This commit has revealed some missing annotations.
-> 
-> overlays[] references builtin DTBs, which become dangling pointers
-> after early boot.
-> 
-> testdrv_probe() is not an __init function, yet it holds a reference to
-> overlays[]. The assumption is that this function is executed only at
-> the boot time even though it remains in memory. I annotated it as __ref
-> because otherwise I do not know how to suppress the modpost warning.
-> 
-> I marked the dtb_start as __initdata in the Xtensa boot code, although
-> modpost does not warn about it because __dtb_start is not yet defined
-> at the time of modpost.
+> When CONFIG_DEBUG_INFO_BTF=y, CONFIG_BPF=y is always met.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
 > ---
 > 
-> Changes in v2:
->   - New patch
+>  scripts/link-vmlinux.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  arch/xtensa/kernel/setup.c | 2 +-
->  drivers/of/unittest.c      | 5 +++--
->  scripts/mod/modpost.c      | 2 +-
->  3 files changed, 5 insertions(+), 4 deletions(-)
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index bd196944e350..cfffc41e20ed 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -288,7 +288,7 @@ strip_debug=
+>  vmlinux_link vmlinux
+>  
+>  # fill in BTF IDs
+> -if is_enabled CONFIG_DEBUG_INFO_BTF && is_enabled CONFIG_BPF; then
+> +if is_enabled CONFIG_DEBUG_INFO_BTF; then
+>  	info BTFIDS vmlinux
+>  	${RESOLVE_BTFIDS} vmlinux
+>  fi
+> -- 
+> 2.43.0
 > 
-
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
 
