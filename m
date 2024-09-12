@@ -1,291 +1,194 @@
-Return-Path: <linux-kbuild+bounces-3527-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3528-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5903E97688D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 14:02:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0648E976D84
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 17:18:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4B291F2366E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 12:02:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B2A61C23DF8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 15:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D9C1A0BE7;
-	Thu, 12 Sep 2024 12:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91D6B1B9829;
+	Thu, 12 Sep 2024 15:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJEX2Zjo"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bdppqrwP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E7919CC33;
-	Thu, 12 Sep 2024 12:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDDA1AD245
+	for <linux-kbuild@vger.kernel.org>; Thu, 12 Sep 2024 15:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726142539; cv=none; b=IlMR6FO1nAV2nYDPdDUdxmu7V4CTRzN/Wa7zzPsH7CMsLhiD0xYFCtVaBSXiEjt5ANB1TmY83xFTJOupgC2lF54aBjcDTp6ajHg+O7lcPO3woBujoYWXvYtHY+PwdvzvuD+k6f2/KqOz6mL/be3V5yEdIANSy5lBHLjWL5R2XhY=
+	t=1726154124; cv=none; b=EegEhzaK66Ro1KIvIbpgXAAZfWJs24CsxpvlX1Q0gWaqipkQWruoJ7yLytf1hIu/BWqeHDWDkUvELLpOET58Zg2KIxgBBU1SOqxSC3uh5eWlcWq0T9cqvjXHNtTjsJk2cSgX6nOfxsjIKiZFALOT7eJMD0UCyScWNwM2zS/mFh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726142539; c=relaxed/simple;
-	bh=NisE6b5jBkIYG8cahohTY3odH/OlkvvqfpDW2Y9e3CU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sae3zmXWZDUxDC2wiToT6C+YMs2oyzjTTi8pdhc8zg08KIgFvgCqxeAci0pLkttcyTmLx1Q0diVoecQNDefZUuAYKAE8IdPO718+Ta1GxnBYFEjWu7m9nl5f+eFbH+6VSooK4yw3Jd3rtn6jtpWxniWj/76wplIRIRzOXkyjfEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJEX2Zjo; arc=none smtp.client-ip=209.85.167.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3e039f22274so383795b6e.2;
-        Thu, 12 Sep 2024 05:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726142535; x=1726747335; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RhlE/sT3sXQgkwTWsPGrGAWEL/QnHXai566ohH4s0z0=;
-        b=MJEX2ZjoHKoBCKakJ/9n6J+vM6l96Wpod4d8ZKivU2M8uKtRUbK+9L6Z19bSsrTfRD
-         ACKkT6dYU/iLAEpQkP6t1iR/LmkHL7NdTDuI23UWe+xIO7a9/cB601a7FWbAY1c1w88H
-         aQU7kj1QiGb+ywpZZUvOsl3u09J68HNabWlt3/v47gwJNQQ86zetXzIAzSDxxVC3Dv6l
-         eVu5Xlwqzr/V7LqHrYJrJRPARles/cP0q5bVBAO1ou2JdWJ8OfXPGXmmXKj2yNcgKKUm
-         ET+K1UApTmk987qxPj4AGv1BrW7CiJFBZdWpVkL8jsI05N6Tv9T6mGDyEXzQQ6YjTV/V
-         pIVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726142535; x=1726747335;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RhlE/sT3sXQgkwTWsPGrGAWEL/QnHXai566ohH4s0z0=;
-        b=RHhEevm1J48Nt446TICPKtju/QMxBCHRS73Y3LzZPwCziT/dd06lC7+eCRzwmwcCma
-         Knjh7GG38ruepJnzuuAmRiYlDrhc9m4ThfrxzCSHaa7ub+H1mb2LA2EsqCbe3I9aEbg3
-         VvddTYmtibUEnAiM2/tVdzYWXF+RMlfnOmq+LycOXGKyfzw7MDv/pji5/pElbIEqLjmV
-         u3Xl9yQOeset6R/3Euz92Pt+ALaZUqYt3+kZzlbYTHUez2NMqUdXQjf/FothX89M1zfJ
-         LPltaKhMT1ndTusMAIAMBaUPaqBvCwwMrQ1KL5KUNpnz/RzImkNElcQSBwXrU/eaNaZ8
-         40Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCVtNr0oFwyTBWQcnbJwF0sjegjD3o7kFcc2HXuTTn3k5W2m/+UDn9K16y8pzSEVPZdME3wDcCWOED5sxsvl@vger.kernel.org, AJvYcCWGco7YptuhB/7WrseEoeNwe+OBvtPmLjRlb0Eu9SiTNKob5oP26PSUwmjkmp6MXzJHX3/cBoH/w6aelFU=@vger.kernel.org, AJvYcCXJCVo8U5VhRM722fLB0IkD85Zq1wcxywa0wHaYwBW5c7iEX3pnirG9KkzSIdEkcIM7TB752GdieFMSaoXJ@vger.kernel.org, AJvYcCXeG5DLbD5FzINOUkRz2gC6caS9ZE58bqMJHGfL67KqY44aEeuoPSJH8F+2po1D7a8/AZ9BCJGf6g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjwAS31EMvQXhCP5Vg2zzDGrHqFIbypAvKKsmmZxDnh2nmtXDB
-	VUCEOBQqVR0h4HgRxsm/heK1HmtUFBhMeqaEaEzbEbXmgqIn//+8PBTvzLgIB7DTgypQDrPeZsv
-	qKfADE0RRelzyZ90ZOFp36uSp+sA=
-X-Google-Smtp-Source: AGHT+IFDEn0YDYeD/9jctAipL6iMdSyGrxKEkVhZltDVHssnsNZVCgDM2BbSFzNex8/uLR3y/m0Zd6KEYQB/81KqoJU=
-X-Received: by 2002:a05:6808:1897:b0:3e0:422e:f05b with SMTP id
- 5614622812f47-3e071ae3bdamr1684193b6e.29.1726142534514; Thu, 12 Sep 2024
- 05:02:14 -0700 (PDT)
+	s=arc-20240116; t=1726154124; c=relaxed/simple;
+	bh=fKlbVxrRCiEwCFvfv1wJmQCFWNefqs0T4sbP1rJqPIY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q7BdIX/z1Noz2sIWz9w9J6PTb06TcSUW755KloGCsSZ/EDeekk2lwAqvQT7szGriNgLkupimTCxW0r0GST454Ln3VhKHMDh/3VaiKloBgZqwMSkUzUiA5IYci1ai4UfcSpVqAtIIpPfwuy6bQLQO46gRxDA2rYlVgvzfso2Zo9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bdppqrwP; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1726154121;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4ycrK4MsOQKe0pFFMEcK7ih1jRYPQRfevGKgVDDTft8=;
+	b=bdppqrwPJ6k0KoSPqP8JbsKwtV1w/OhezoyD9mXNLmHcQkzID85T0rLuQIR9Q4rgdQEWyr
+	3HWNXEW07RVWgwhy+Ie/LScerqGcfvTrd9BZYKLeNOPY9btPLbdgwAYcyp+TIsZM/NNjiY
+	3IbwktOGzc3yizcld79cAXs1MaGO0lw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-401-HLLsmy-TNwqlEkpMsV7FXA-1; Thu,
+ 12 Sep 2024 11:15:14 -0400
+X-MC-Unique: HLLsmy-TNwqlEkpMsV7FXA-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 192D41956083;
+	Thu, 12 Sep 2024 15:15:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.8.105])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5B0841956053;
+	Thu, 12 Sep 2024 15:15:11 +0000 (UTC)
+Date: Thu, 12 Sep 2024 11:15:08 -0400
+From: Joe Lawrence <joe.lawrence@redhat.com>
+To: Lukas Hruska <lhruska@suse.cz>
+Cc: pmladek@suse.com, mbenes@suse.cz, jpoimboe@kernel.org,
+	live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, mpdesouza@suse.com
+Subject: Re: [PATCH v3 0/6] livepatch: klp-convert tool - Minimal version
+Message-ID: <ZuMFfJkCkZ4+9505@redhat.com>
+References: <20240827123052.9002-1-lhruska@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-In-Reply-To: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
-From: Jeff Xie <xiehuan09@gmail.com>
-Date: Thu, 12 Sep 2024 20:02:03 +0800
-Message-ID: <CAEr6+EAcwq5n7R8BmsKg8B46TkrSvEL9hDmjZeD3ek_1rKg_hQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] Enable build system on macOS hosts
-To: da.gomez@samsung.com
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon <chris@the-brannons.com>, 
-	Kirk Reiser <kirk@reisers.ca>, Samuel Thibault <samuel.thibault@ens-lyon.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, speakup@linux-speakup.org, 
-	selinux@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-serial@vger.kernel.org, llvm@lists.linux.dev, 
-	Finn Behrens <me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com, 
-	Nick Desaulniers <nick.desaulniers@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240827123052.9002-1-lhruska@suse.cz>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Thank you for submitting this patchset. This problem has troubled me
-for two years.
-I have always built the kernel in the docker container. I have tested
-this patchset and it is very good.
-Tested-by: Jeff Xie <xiehuan09@gmail.com>
+On Tue, Aug 27, 2024 at 02:30:45PM +0200, Lukas Hruska wrote:
+> Summary
+> -------
+> 
+> This is a significantly simplified version of the original klp-convert tool.
+> The klp-convert code has never got a proper review and also clean ups
+> were not easy. The last version was v7, see
+> https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com
+> 
+> The main change is that the tool does not longer search for the
+> symbols which would need the livepatch specific relocation entry.
+> Also klp.symbols file is not longer needed.
+> 
+> Instead, the needed information is appended to the symbol declaration
+> via a new macro KLP_RELOC_SYMBOL(). It creates symbol with all needed
+> metadata. For example:
+> 
+>   extern char *saved_command_line \
+>                  KLP_RELOC_SYMBOL(vmlinux, vmlinux, saved_command_line, 0);
+> 
+> would create symbol
+> 
+> $>readelf -r -W <compiled livepatch module>:
+> Relocation section '.rela.text' at offset 0x32e60 contains 10 entries:
+>     Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+> [...]
+> 0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 - 4
+> [...]
+> 
+> 
+> The simplified klp-convert tool just transforms symbols
+> created by KLP_RELOC_SYMBOL() to object specific rela sections
+> and rela entries which would later be proceed when the livepatch
+> or the livepatched object is loaded.
+> 
+> For example, klp-convert would replace the above symbols with:
+> 
+> $> readelf -r -W <livepatch_module_proceed_by_klp_convert>
+> Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60 contains 1 entry:
+>     Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+> 0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4
+> 
+> 
+> Note that similar macro was needed also in the original version
+> to handle more symbols of the same name (sympos).
+> 
+> Given the above, add klp-convert tool; integrate klp-convert tool into
+> kbuild; add data-structure and macros to enable users to annotate
+> livepatch source code; make modpost stage compatible with livepatches;
+> update livepatch-sample and update documentation.
+> 
+> 
+> Testing
+> -------
+> 
+> The patchset selftests build and execute on x86_64, s390x, and ppc64le
+> for both default config (with added livepatch dependencies) and a larger
+> SLE-15-ish config.
+> 
+> 
+> Summary of changes in this minimal version v3
+> ------------------------
+> 
+> - klp-convert: symbol format changes (suggested by jlawrence)
+> - samples: fixed name of added sample in Makefile (suggested by pmladek)
+> - selftests: added ibt test case as an example (DON'T MERGE)
+> - fixed all suggested small changes in v2
+> 
+> Previous versions
+> -----------------
+> 
+> RFC:
+>   https://lore.kernel.org/r/cover.1477578530.git.jpoimboe@redhat.com/
+> v2:
+>   https://lore.kernel.org/r/f52d29f7-7d1b-ad3d-050b-a9fa8878faf2@redhat.com/
+> v3:
+>   https://lore.kernel.org/r/20190410155058.9437-1-joe.lawrence@redhat.com/
+> v4:
+>   https://lore.kernel.org/r/20190509143859.9050-1-joe.lawrence@redhat.com/
+> v5:
+>   (not posted)
+>   https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v5-devel
+> v6:
+>   https://lore.kernel.org/r/20220216163940.228309-1-joe.lawrence@redhat.com/
+> v7:
+>   https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com/
+> v1 minimal:
+>   https://lore.kernel.org/r/20231106162513.17556-1-lhruska@suse.cz/
+> v2 minimal:
+>   https://lore.kernel.org/r/20240516133009.20224-1-lhruska@suse.cz/
+> 
 
-On Fri, Sep 6, 2024 at 7:04=E2=80=AFPM Daniel Gomez via B4 Relay
-<devnull+da.gomez.samsung.com@kernel.org> wrote:
->
-> This patch set allows for building the Linux kernel for arm64 in macOS
-> with LLVM.
->
-> Patches are based on previous Nick's work and suggestions [1][2][3] to
-> enable the Linux kernel build system on macOS hosts.
->
-> macOS does not provide certain headers that are available in a GNU/Linux
-> distribution with development headers installed, usually provided by
-> the GNU C Library (glibc) and/or other projects. These missing headers
-> are needed as build dependencies. To address this, the patches depend
-> on a new Bee Headers Homebrew Tap formula [6][7][8] that provides them
-> together with a pkg-config file to locate the include directory.
->
-> To locate them, Makefiles include something like:
->         $(shell $(HOSTPKG_CONFIG) --cflags bee-headers 2> /dev/null)
->
-> [6] Project:
-> https://github.com/bee-headers
-> [7] Headers repository:
-> https://github.com/bee-headers/headers.git
-> [8] Homebrew Tap formula:
-> https://github.com/bee-headers/homebrew-bee-headers.git
->
-> To set up the environment, documentation is provided via last patch in
-> this series.
->
-> More configurations and architectures as well as support for Rust
-> (from Finn Behrens [4] [5]) can be added in the future to extend build
-> support.
->
-> [1]: WIP: build Linux on MacOS
-> https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340=
-355f471c1dfe95a
->
-> [2] Subject: [PATCH] scripts: subarch.include: fix SUBARCH on MacOS hosts
-> https://lore.kernel.org/all/20221113233812.36784-1-nick.desaulniers@gmail=
-.com/
->
-> [3] Subject: Any interest in building the Linux kernel from a MacOS host?
-> https://lore.kernel.org/all/CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=3DTv5Z9zGyn=
-5SS+gsUw@mail.gmail.com/
->
-> [4] https://github.com/kloenk/linux/commits/rust-project_macos-dylib/
->
-> [5] https://kloenk.eu/posts/build-linux-on-m1-macos/
->
-> To: Masahiro Yamada <masahiroy@kernel.org>
-> To: Nathan Chancellor <nathan@kernel.org>
-> To: Nicolas Schier <nicolas@fjasle.eu>
-> To: Lucas De Marchi <lucas.demarchi@intel.com>
-> To: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: William Hubbs <w.d.hubbs@gmail.com>
-> To: Chris Brannon <chris@the-brannons.com>
-> To: Kirk Reiser <kirk@reisers.ca>
-> To: Samuel Thibault <samuel.thibault@ens-lyon.org>
-> To: Paul Moore <paul@paul-moore.com>
-> To: Stephen Smalley <stephen.smalley.work@gmail.com>
-> To: Ondrej Mosnacek <omosnace@redhat.com>
-> To: Catalin Marinas <catalin.marinas@arm.com>
-> To: Will Deacon <will@kernel.org>
-> To: Marc Zyngier <maz@kernel.org>
-> To: Oliver Upton <oliver.upton@linux.dev>
-> To: James Morse <james.morse@arm.com>
-> To: Suzuki K Poulose <suzuki.poulose@arm.com>
-> To: Zenghui Yu <yuzenghui@huawei.com>
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> To: Jiri Slaby <jirislaby@kernel.org>
-> To: Nick Desaulniers <ndesaulniers@google.com>
-> To: Bill Wendling <morbo@google.com>
-> To: Justin Stitt <justinstitt@google.com>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: speakup@linux-speakup.org
-> Cc: selinux@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: kvmarm@lists.linux.dev
-> Cc: linux-serial@vger.kernel.org
-> Cc: llvm@lists.linux.dev
-> Cc: Finn Behrens <me@kloenk.dev>
-> Cc: Daniel Gomez (Samsung) <d+samsung@kruces.com>
-> Cc: gost.dev@samsung.com
->
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-> ---
-> Changes in v2:
-> - Add documentation and set this 'feature' as experimental.
-> - Update cover letter.
-> - Drop unnecessary changes. Patches removed:
->         - kbuild: add header_install dependency to scripts
->         - include: add endian.h support
->         - include: add elf.h support
-> - Update Makefiles to find Bee Headers with pkg-config.
-> - Update file2alias to solve uuid_t conflicts inside Makefile as
-> suggested by Nicolas Schier.
-> - Adapt xe_gen_wa_oob to solve getprogname()/
-> program_invocation_short_name in runtime. as suggested by Lucas De
-> Marchi.
-> - Remove linux/version.h in accessibility/speakup as suggested by
-> Masahiro Yamada.
-> - Replace selinux patches with new Masahiro Yamada's patches:
->         Message-id: 20240809122007.1220219-1-masahiroy@kernel.org
->         Link: https://lore.kernel.org/all/20240809122007.1220219-1-masahi=
-roy@kernel.org/
-> - Replace tty/vt with new Masahiro Yamada's patch:
->         Message-id: 20240809160853.1269466-1-masahiroy@kernel.org
->         Link: https://lore.kernel.org/all/20240809160853.1269466-1-masahi=
-roy@kernel.org/
->         (Already merged in the linux-next tag used)
-> - Replace scripts/kallsyms patch with Masahiro Yamada's patch:
->         Message-id: 20240807181148.660157-1-masahiroy@kernel.org
->         Link: https://lore.kernel.org/all/20240807181148.660157-1-masahir=
-oy@kernel.org/
->         (Already merged in the linux-next tag used)
-> - Link to v1: https://lore.kernel.org/r/20240807-macos-build-support-v1-0=
--4cd1ded85694@samsung.com
->
-> ---
-> Daniel Gomez (5):
->       file2alias: fix uuid_t definitions for macos
->       drm/xe: xe_gen_wa_oob: fix program_invocation_short_name for macos
->       arm64: nvhe: add bee-headers support
->       scripts: add bee-headers support
->       Documentation: add howto build in macos
->
-> Masahiro Yamada (2):
->       selinux: do not include <linux/*.h> headers from host programs
->       selinux: move genheaders to security/selinux/
->
-> Nick Desaulniers (1):
->       scripts: subarch.include: fix SUBARCH on macOS hosts
->
->  Documentation/kbuild/llvm.rst                      | 78 ++++++++++++++++=
-++++++
->  arch/arm64/kernel/pi/Makefile                      |  1 +
->  arch/arm64/kernel/vdso32/Makefile                  |  1 +
->  arch/arm64/kvm/hyp/nvhe/Makefile                   |  3 +-
->  drivers/gpu/drm/xe/xe_gen_wa_oob.c                 |  4 ++
->  scripts/Makefile                                   |  4 +-
->  scripts/mod/Makefile                               |  7 ++
->  scripts/mod/file2alias.c                           |  3 +
->  scripts/remove-stale-files                         |  3 +
->  scripts/selinux/Makefile                           |  2 +-
->  scripts/selinux/genheaders/.gitignore              |  2 -
->  scripts/selinux/genheaders/Makefile                |  5 --
->  scripts/selinux/mdp/Makefile                       |  2 +-
->  scripts/selinux/mdp/mdp.c                          |  4 --
->  scripts/subarch.include                            |  2 +-
->  security/selinux/.gitignore                        |  1 +
->  security/selinux/Makefile                          |  7 +-
->  .../genheaders =3D> security/selinux}/genheaders.c   |  3 -
->  security/selinux/include/classmap.h                | 19 ++++--
->  security/selinux/include/initial_sid_to_string.h   |  2 -
->  20 files changed, 123 insertions(+), 30 deletions(-)
-> ---
-> base-commit: ad40aff1edffeccc412cde93894196dca7bc739e
-> change-id: 20240807-macos-build-support-9ca0d77adb17
->
-> Best regards,
-> --
-> Daniel Gomez <da.gomez@samsung.com>
->
->
->
+Hi Lukas,
 
+Thanks again for posting the patchset and trying a simpler approach.
 
---=20
-Thanks,
-JeffXie
+I tested with latest kpatch-build tree with no ill effects --
+essentially klp-convert is safe to run against .ko files that already
+contain klp-relocations.
+
+I would prefer more extensive selftests for various klp-relocation types
+(as well as symbol position), however I believe wasn't the point of the
+minimal version of this patchset.  We can add more tests later.
+
+Anyway, now we have two RFC / patchsets supporting in-tree creation of
+klp-relocations (klp-convert and Josh's objtool patchset).  I think we
+need to figure out whether one precludes the other, can they co-exist,
+or does that even make sense.
+
+Since LPC is right around the corner, does it make sense for folks to
+sync up at some point and talk pros/cons to various approaches?  We
+don't have a microconference this year, but perhaps over lunch or beers?
+
+--
+Joe
+
 
