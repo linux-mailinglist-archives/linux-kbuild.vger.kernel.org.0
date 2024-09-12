@@ -1,132 +1,133 @@
-Return-Path: <linux-kbuild+bounces-3525-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3526-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC959766B1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 12:28:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2776D97685C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 13:54:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A24CEB223E1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 10:28:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A4651C23375
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2024 11:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6CF719F414;
-	Thu, 12 Sep 2024 10:28:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA561A42A2;
+	Thu, 12 Sep 2024 11:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GoU7zJiT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U02Iawe7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB27E19258D
-	for <linux-kbuild@vger.kernel.org>; Thu, 12 Sep 2024 10:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CBF1A3AB2;
+	Thu, 12 Sep 2024 11:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726136904; cv=none; b=H7nuHhfexT+JyaehyRxv6VHrynyjkIhonZFkmFm0uPiSD5acR2WGnyJRCY613EC1Sb61Z8MHuZm4ZRBvScbDATgqQSWDN9YLB0tsN4w5FmZ/AeV3dkFe5/ssETm69VV7PyptX4xnAvdfeuCzgfmnW10Cjz+Sa1D4en9iz0ZABw0=
+	t=1726141978; cv=none; b=YhGuM1hW5PkHRzwAb78OcssTnwOrhpjBPPOTg3NAc8q31619gZ7C5pu8MTUS+MRkbTEaFpN5MsSf/zpBNYPeFxKJ43h6Z5msnFQZ4CjPbiBDy7O+009S7nTzxAGS6QT5GPSWJuiQV1i68tRzz7cFVpXhUNi2gtdlppd4gIjl7DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726136904; c=relaxed/simple;
-	bh=PAV4FkicyGirycpFelMM9rAtqpx8O1P09tyQ5d3LSJ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wu9Gvt+TtoMGw9LnqXcLyMbNh5cLpYu8GKVL8Ytr+GvJK/o5Dtw/6O5u5ZLCLyYFioJW2XTlZtNskMo28DkEdX9igfxblxXeEX5iGYWuojjeuGu0zcOC4T6MSAvuiNAHonWxDrfa7ybxH8UES3B7+5qsXpRwAxeyy6GqCoNJhcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GoU7zJiT; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a8a789c4fc5so317844666b.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 12 Sep 2024 03:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1726136901; x=1726741701; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4hMMIAeIq6ngig/u7/oyMUwjRb0NTBFMbk8f4JUhPjk=;
-        b=GoU7zJiTkURHDqOs9GOycv0scs5DDKa/Tf7MkI15PEx2W6aqqZflWOZtpfaU3lfk4e
-         N8hPnbjKGwJXLHOcpHO7xNYKnsfLeMJkKIVyO8nqDMzM05JyK9tP7pDYZXzAvcDN6wfq
-         dlfPGNC3neO0fx0DwDPnqm1+FISI0VNuDzPX4My8fzXgljIn5vmJyVXLpPT36HrN/YNN
-         sTXtQuSm3LGbu68eBzFTcn4aCBbD9c3kzMpYEJFEy17rrCJr7oKSxDBEiWXRvwnMomKi
-         re0MyVBpwrx1N1P4RpJZe2E9OIIuB4p04faHL5Z53z9TJ4oueM31+59WycQYKgrWxhFQ
-         ImfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726136901; x=1726741701;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4hMMIAeIq6ngig/u7/oyMUwjRb0NTBFMbk8f4JUhPjk=;
-        b=YTAYmeyqxat7r6GD2vuRJ4D6Kbzjn85PoA+BkByDI39tGq1mO1Yl4pu1xYpyDBUfhq
-         w+qhynEoO/WdiXJW3iHYGFl6p22mCajqkLHbxy3zhLO9hbdtdSOi7mPOWAzGuFss5KJz
-         OgmEP9XaJA2eln+A6sVDukd/usv7wIyN5jd24YqL4S8U972PEnCbrVqFXJIx3W4pZt3F
-         XGNs7UGQ/T8VDTw6Id8AfpanHRl5SyPKjZXARRyDskQG7Gu/YG3KTei8mSh0oMjguorl
-         iGosgDOx0pq6iT1pL7ktW5zB5n3tOTOadGJjSSZxMrtjfM4xF2TcP6B25c3Qu+ja0Xdj
-         T0EA==
-X-Forwarded-Encrypted: i=1; AJvYcCWV87QeiJmB/Pp6qjt+sFxWyMgKb6bbJFdeQer+LAvud7wmqzQnaraY4R3gVa0O1E1F75YgN8drDcJZwFE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzrUIuL6SxRpKnN6aZHHspK+lSKEfXkK2b7NQB+op+AjMnCmrg
-	ov6YdOvlINaXnoUIU9cAz6EBxIPd45Tl2FzKrw/2VhYDUGeYRQxgrSA2+q1UKnY=
-X-Google-Smtp-Source: AGHT+IEewD5Ol7roADv6Jj0UYR3y7brfrq1xLM2ZFdqn9+fQwDXCvDx/TUxbpqTHHJAxgNiQXUxpWw==
-X-Received: by 2002:a17:907:7ea7:b0:a8a:cc5a:7f30 with SMTP id a640c23a62f3a-a902a8c26ffmr254441166b.25.1726136900343;
-        Thu, 12 Sep 2024 03:28:20 -0700 (PDT)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8d25835d87sm729255566b.6.2024.09.12.03.28.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2024 03:28:20 -0700 (PDT)
-Message-ID: <5625ef4f-324d-4bc9-ac5f-2374d29a0543@suse.com>
-Date: Thu, 12 Sep 2024 12:28:19 +0200
+	s=arc-20240116; t=1726141978; c=relaxed/simple;
+	bh=RYDm5Sxu5zrgBnEy4z/i2TH7rbJhd7Gc8K8TI0achpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tia7MuyD/1cUCbm1W35jvfxwXAX+XW6FyTHOog22nUgntM8ixDS3Y6LAxNLQjcxdV8wK78rpwVZga5SP3fc6veLi4quIR7KVnwbLRtdmOClnnQ3mwyktO4DZS6xsKe/OJasmE70CmfSiGI6qqgEcIAbrGKoDOFtsGmRmd7siCZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U02Iawe7; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726141977; x=1757677977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RYDm5Sxu5zrgBnEy4z/i2TH7rbJhd7Gc8K8TI0achpU=;
+  b=U02Iawe7zR01roilk1f1SA/Bz2vDzdYnKhidnvc4Z3tWkFZRPsoDG6vn
+   ao3P81VeiqayZAx37do1YtNiiJ1usypZukr0MBvDIrY+5Dmq50bkAF+zd
+   VYIGub245ZsbBSL88lsBWxnRiu5FU9wCs7rj0kB15EZPdQ6gXZjb1bz8M
+   fvAVxOg2VvzYN05RRM+tSniI8tREEzFUOaQHozxarEuN6JOC3E8uBCIPo
+   d1DiP0jWQfNHxeJirTe0uftqxrKZlV+UJbzw47STmFKNehmAPQkVgpZcm
+   WMuHYjkvOr/rG7Ie3vPDWUfwhp2GByVrmrPCciL8awvLltjBjKdq3DIgd
+   Q==;
+X-CSE-ConnectionGUID: erIEs4MoR3es7P/DR9NAnA==
+X-CSE-MsgGUID: CV6Mk4dqSc+BhusUHLU0xQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="25137408"
+X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
+   d="scan'208";a="25137408"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 04:52:56 -0700
+X-CSE-ConnectionGUID: LM0uj5UlSAOM/vqLMa5gwA==
+X-CSE-MsgGUID: fCvNLip+TeO4cLZkcPnhTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,222,1719903600"; 
+   d="scan'208";a="67751446"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 12 Sep 2024 04:52:54 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1soiNX-000564-1w;
+	Thu, 12 Sep 2024 11:52:51 +0000
+Date: Thu, 12 Sep 2024 19:52:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jing Leng <3090101217@zju.edu.cn>, masahiroy@kernel.org,
+	nathan@kernel.org, nicolas@fjasle.eu, corbet@lwn.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jing Leng <3090101217@zju.edu.cn>
+Subject: Re: [PATCH] kbuild: Support separating source and output of the
+ external module
+Message-ID: <202409121947.7NkNsyuC-lkp@intel.com>
+References: <20240911112017.14427-1-3090101217@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/19] gendwarfksyms: Add symbol versioning
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
- Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
- Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-35-samitolvanen@google.com>
- <286b1cc5-1757-4f0a-bb66-0875f4608c7e@suse.com>
- <CABCJKudJR13PJgjr9-5Ff9Dzmb7=pSx7JWM5qTyR8oYRdtSDDA@mail.gmail.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <CABCJKudJR13PJgjr9-5Ff9Dzmb7=pSx7JWM5qTyR8oYRdtSDDA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240911112017.14427-1-3090101217@zju.edu.cn>
 
-On 9/11/24 18:03, Sami Tolvanen wrote:
-> On Wed, Sep 11, 2024 at 3:08 AM Petr Pavlu <petr.pavlu@suse.com> wrote:
->> On 8/15/24 19:39, Sami Tolvanen wrote:
->> More importantly, it made me think which names are included in the CRC
->> calculation and which ones are omitted.
->>
->> If I'm looking correctly, names of structs, enums and enumerators make
->> it into the calculation. On the other hand, names of struct members,
->> function parameters and exports (functions/variables) are missing.
->>
->> I think the names of struct members and function parameters should be
->> added as well. If the code changes 'struct A { int cols; int rows; }' to
->> 'struct A { int rows; int cols; }' then that should be recognized as
->> a different API/ABI. The same applies to function parameters.
-> 
-> I did leave out member names because typically renaming a member
-> doesn't change the ABI, but you're right, it might help capture these
-> types of changes where fields with identical types are reordered for
-> some reason. I'll add names.
-> 
->> I'm not sure about export names. I would probably include them as well,
->> if only for consistency.
-> 
-> I would rather leave out the symbol names to have consistent CRCs
-> between symbols that have identical types. Or is there an actual
-> benefit in including the symbol name in the CRC? The names are already
-> rather explicitly involved when symbol versions are checked.
+Hi Jing,
 
-Ok with me. I can't think of a strong argument to do it one way or the
-other.
+kernel test robot noticed the following build errors:
 
--- Petr
+[auto build test ERROR on masahiroy-kbuild/fixes]
+[also build test ERROR on linus/master v6.11-rc7]
+[cannot apply to masahiroy-kbuild/for-next next-20240912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jing-Leng/kbuild-Support-separating-source-and-output-of-the-external-module/20240911-192242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git fixes
+patch link:    https://lore.kernel.org/r/20240911112017.14427-1-3090101217%40zju.edu.cn
+patch subject: [PATCH] kbuild: Support separating source and output of the external module
+config: x86_64-kexec (attached as .config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240912/202409121947.7NkNsyuC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409121947.7NkNsyuC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> make[3]: *** No rule to make target 'scripts/kconfig/lexer.lex.c', needed by 'scripts/kconfig/lexer.lex.o'.
+>> make[3]: *** No rule to make target 'scripts/kconfig/parser.tab.c', needed by 'scripts/kconfig/parser.tab.o'.
+   make[3]: Target 'oldconfig' not remade because of errors.
+   make[2]: *** [Makefile:680: oldconfig] Error 2
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'oldconfig' not remade because of errors.
+--
+>> make[3]: *** No rule to make target 'scripts/kconfig/lexer.lex.c', needed by 'scripts/kconfig/lexer.lex.o'.
+>> make[3]: *** No rule to make target 'scripts/kconfig/parser.tab.c', needed by 'scripts/kconfig/parser.tab.o'.
+   make[3]: Target 'olddefconfig' not remade because of errors.
+   make[2]: *** [Makefile:680: olddefconfig] Error 2
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
