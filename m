@@ -1,160 +1,179 @@
-Return-Path: <linux-kbuild+bounces-3545-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3546-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3B4978A15
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 22:40:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD6B978A7D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 23:18:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B01F28542F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 20:40:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D42971C21152
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 21:18:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DADA514EC6E;
-	Fri, 13 Sep 2024 20:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3036C149C52;
+	Fri, 13 Sep 2024 21:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ce1C7qGC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1x1OZ2i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE3D2F860
-	for <linux-kbuild@vger.kernel.org>; Fri, 13 Sep 2024 20:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF716E61B;
+	Fri, 13 Sep 2024 21:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726259995; cv=none; b=Agou7Gj0NuIF1WKi+zfMGQZr4iXTxcodzh2E6KveN9jQXlh8LXSHGKUbN1aTWGGahvkV8h0m1aFEbfxbT0xXAugSFaAPixrgNpLgk/aoojQtZgA0DgBUN6BuzjeyI5sd82s7vnBAR+Qi/FLjrlJhEYoYlEPTvbsTHQhibcGT9js=
+	t=1726262285; cv=none; b=F6BIeHnEZlipCKHIT9qgjlyEdmIOvc8BjGz1WigwG3Njgc6qt+NsGA3gurtLyfol/l+Q5z7qoA7346cTzl4WCDrnSOnopBAqGuCxj1SBOs/LV9jtGgvkTKGge8Wg2wGtHoHfxV4Ybiw8/GBae8wdALBZDc6epo9UoAetoUJfnK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726259995; c=relaxed/simple;
-	bh=a8njrOTyZnMxD4gOMQBRN2AsNq9RJbj4q5h2B0eOlN4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QOxi/diW1vy2sFOuSvEJxPyvdA3S+RyzjbchmptZt50tjRj0C34FFmTVOqpnrZalsu9VTrD5XBQuPM+YNo87zBPo5vfU07cBu5/5obtGmrfPtKPV8p4h/Dhw0QVZiKzbx9Y3aJ/IpJdDlhttbdanRxwZsrHZqjxOPkz6LaHNlq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ce1C7qGC; arc=none smtp.client-ip=209.85.166.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-82ade877fbeso68945839f.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Sep 2024 13:39:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1726259992; x=1726864792; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gzwULVxBpNCzh/Z3BSecHD8j1E6FKJZ9DzWkvDKTx/g=;
-        b=ce1C7qGCCrhX1PCrquablvW1B2i6jKGvf2XUsCQhCvmrh1c/oTOpUvWuqPVjWBIOm4
-         8TTJMPQDucyEnCYHveFWqgWYV1+f4AAnEf/ZR/1o9KtHeetZT1GhVMUUaxriXeA9NYBu
-         bc1GnFMArzU7PKNAkE95LHK/CGIhGjO1cYuOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726259992; x=1726864792;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gzwULVxBpNCzh/Z3BSecHD8j1E6FKJZ9DzWkvDKTx/g=;
-        b=NT2vaeZKiZIO32JOJJoDinlsumqRzMEcQeOpfFRjdppG4ay8HHignNA2hrvfw4Xp8J
-         XmOpKpzOPHDLZT9I9rKHOfBuvxHGLkoF3r9zatErqaas9wR+bB0eLq5d7FxeF+sfBFeM
-         sOvn3mWexvKXANJehx59d7IYHmL2JBnQhbiMqk2/A1ztQDRrg1r9pI3/K9xjygScCT6u
-         iOBO8LsCB1+kUvrVI6Cx6UomRe7ZvbAiA4QDkmEWOUSQPh66ekcl6weBWr+8tE674p/I
-         /LOK+H44EAmwY1itoVwhgRNy18WadcoScLHkJ4oPunRMt2YSDn4xKlbc4N7RUTVF/Wc7
-         IVAQ==
-X-Gm-Message-State: AOJu0YwD0mrvkE3ZbDv2TUkciADBeDvSDGoxacWohDgOMiSEU19vfgW+
-	tiItn+dPzqavesDTgeQ/3iHKobk5y4202p3/hQuxgdQaREx8vXl9vUBIEappKmh3X3P57Ozu8Xk
-	7
-X-Google-Smtp-Source: AGHT+IFQQbBxapaLVHCmXINHtpFP3T2z47bsvw1jiUlO1syu+QqWGPBVi/d9cR6128ME1x3V00OJCA==
-X-Received: by 2002:a05:6602:29aa:b0:82a:31d4:1aab with SMTP id ca18e2360f4ac-82d3783745amr489644839f.14.1726259992002;
-        Fri, 13 Sep 2024 13:39:52 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-82d492694b0sm1568639f.10.2024.09.13.13.39.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Sep 2024 13:39:51 -0700 (PDT)
-Message-ID: <f9df2197-0a1e-4ecd-b605-ecbf9a839fdb@linuxfoundation.org>
-Date: Fri, 13 Sep 2024 14:39:50 -0600
+	s=arc-20240116; t=1726262285; c=relaxed/simple;
+	bh=RuPrAU4bZnhY3Wyzxzt/JEXLr9Rmcb4tQI/BYwh/mJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SF/+HwGvQ5PLGKxIiqEnSFL3s68B7yrtUwaUv6ejeLywl/uO6MM+fkPnIXznDDl5dbaD9cwNkVBayFX4It2vKCJLeaIMV1otphjirKfVt8JA81IUf5G4lVhCXaOks+b7yyp3v/+uFctrZXVjtoABaTkUxasDkGSiMpZHG/xOX84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1x1OZ2i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 800D0C4CEC0;
+	Fri, 13 Sep 2024 21:17:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726262284;
+	bh=RuPrAU4bZnhY3Wyzxzt/JEXLr9Rmcb4tQI/BYwh/mJA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V1x1OZ2igt/94pR3CkGpZoH7RhxZeNP8Ey1dji1IgNIfzG1CC73ZPIRv4uTASM8rM
+	 kzghfznvxXVxL1XkSVoltFpae+bcXMI9lvek3/t5e+2UdJdOeSuvPhkQJUT/Uz6o6p
+	 QnvkjlHW+hmpnobRgPLzv4mc5HjQoCwayWSL8SOfvn3p+9Dwm0E/t9PQkrrfM0KW/h
+	 5yuWA2NEisDw2aV1WbSmG325zyZfwGFSub4lwaf2ELbQETYQTLiM1MjN5k54+gE7Yc
+	 aat2e6Yb6MD6OphnFuduZwc4UaNK9kEKSCb2DLIIGOC5p8/y4r+aPIRm52hBj/eG3n
+	 ICMvmnD9e3aBQ==
+Date: Fri, 13 Sep 2024 22:17:56 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Alice Ryhl <aliceryhl@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org,
+	linux-riscv <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH v7] rust: support for shadow call stack sanitizer
+Message-ID: <20240913-shack-estate-b376a65921b1@spud>
+References: <20240829-shadow-call-stack-v7-1-2f62a4432abf@google.com>
+ <CANiq72kNmvFOXhhAcQJQdMC872908=CWW15_bzyyt9ht2q=twQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re:
-To: David Hunter <david.hunter.linux@gmail.com>,
- Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- shuah@kernel.org, javier.carrasco.cruz@gmail.com,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240913171205.22126-1-david.hunter.linux@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240913171205.22126-1-david.hunter.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="/xsIueD3ju/hMl6p"
+Content-Disposition: inline
+In-Reply-To: <CANiq72kNmvFOXhhAcQJQdMC872908=CWW15_bzyyt9ht2q=twQ@mail.gmail.com>
 
-On 9/13/24 11:11, David Hunter wrote:
 
-Missing subject line for the cover-letter?
-> 	
-> Date: Fri, 13 Sep 2024 11:52:16 -0400
-> Subject: [PATCH 0/7] linux-kbuild: fix: process configs set to "y"
-> 
-> An assumption made in this script is that the config options do not need
-> to be processed because they will simply be in the new config file. This
-> assumption is incorrect.
-> 
-> Process the config entries set to "y" because those config entries might
-> have dependencies set to "m". If a config entry is set to "m" and is not
-> loaded directly into the machine, the script will currently turn off
-> that config entry; however, if that turned off config entry is a
-> dependency for a "y" option. that means the config entry set to "y"
-> will also be turned off later when the conf executive file is called.
-> 
-> Here is a model of the problem (arrows show dependency):
-> 
-> Original config file
-> Config_1 (m) <-- Config_2 (y)
-> 
-> Config_1 is not loaded in this example, so it is turned off.
-> After scripts/kconfig/streamline_config.pl, but before scripts/kconfig/conf
-> Config_1 (n) <-- Config_2 (y)
-> 
-> After  scripts/kconfig/conf
-> Config_1 (n) <-- Config_2 (n)
-> 
-> 
-> It should also be noted that any module in the dependency chain will
-> also be turned off, even if that module is loaded directly onto the
-> computer. Here is an example:
-> 
-> Original config file
-> Config_1 (m) <-- Config_2 (y) <-- Config_3 (m)
-> 
-> Config_3 will be loaded in this example.
-> After scripts/kconfig/streamline_config.pl, but before scripts/kconfig/conf
-> Config_1 (n) <-- Config_2 (y) <-- Config_3 (m)
-> 
-> After scripts/kconfig/conf
-> Config_1 (n) <-- Config_2 (n) <-- Config_3 (n)
-> 
-> 
-> I discovered this problem when I ran "make localmodconfig" on a generic
-> Ubuntu config file. Many hardware devices were not recognized once the
-> kernel was installed and booted. Another way to reproduced the error I
-> had is to run "make localmodconfig" twice. The standard error might display
-> warnings that certain modules should be selected but no config files are
-> turned on that select that module.
-> 
-> With the changes in this series patch, all modules are loaded properly
-> and all of the hardware is loaded when the kernel is installed and
-> booted.
-> 
-> 
-> David Hunter (7):
->    linux-kbuild: fix: config option can be bool
->    linux-kbuild: fix: missing variable operator
->    linux-kbuild: fix: ensure all defaults are tracked
->    linux-kbuild: fix: ensure selected configs were turned on in original
->    linux-kbuild: fix: implement choice for kconfigs
->    linux-kbuild: fix: configs with defaults do not need a prompt
->    linux-kbuild: fix: process config options set to "y"
-> 
->   scripts/kconfig/streamline_config.pl | 77 ++++++++++++++++++++++++----
->   1 file changed, 66 insertions(+), 11 deletions(-)
-> 
+--/xsIueD3ju/hMl6p
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Sep 13, 2024 at 12:08:20AM +0200, Miguel Ojeda wrote:
+> On Thu, Aug 29, 2024 at 10:23=E2=80=AFAM Alice Ryhl <aliceryhl@google.com=
+> wrote:
+> >
+> > Add all of the flags that are needed to support the shadow call stack
+> > (SCS) sanitizer with Rust, and updates Kconfig to allow only
+> > configurations that work.
+>=20
+> Applied to `rust-next` -- thanks everyone!
+>=20
+> Paul/Palmer/Albert/RISC-V: I think you were not Cc'd (at least in this
+> version?), so please shout if you have a problem with this.
+
+For some reason I deleted the series from my mailbox, must've been in
+dt-binding review mode and hit ctrl + d. I've been away and busy, so my
+apologies Alice for not trying this out sooner.
+It's sorta annoying to test rust + scs on riscv, cos you need (unless I
+am mistaken) llvm-19. llvm-18 + rust built fine, but has no SCS.
+
+llvm-19 + rust failed to build for me riscv, producing:
+
+In file included from /stuff/linux/rust/helpers/helpers.c:22:
+/stuff/linux/rust/helpers/spinlock.c:10:23: error: call to undeclared funct=
+ion 'spinlock_check'; ISO C99 and later do not support implicit function de=
+clarations [-Wimplicit-function-declaration]
+__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
+^
+/stuff/linux/rust/helpers/spinlock.c:10:23: error: incompatible integer to =
+pointer conversion passing 'int' to parameter of type 'raw_spinlock_t *' (a=
+ka 'struct raw_spinlock *') [-Wint-conversion]
+__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
+^~~~~~~~~~~~~~~~~~~~
+/stuff/linux/include/linux/spinlock.h:101:52: note: passing argument to par=
+ameter 'lock' here
+extern void __raw_spin_lock_init(raw_spinlock_t *lock, const char *name,
+^
+2 errors generated.
+
+This occurs because I have DEBUG_SPINLOCK enabled. I didn't check why,
+but Andreas seems to have introduced that code - luckily he's already on
+CC here :)
+
+With that disabled, there are dozens of warnings along the lines of:
+/stuff/linux/rust/helpers/err.c:6:14: warning: symbol 'rust_helper_ERR_PTR'=
+ was not declared. Should it be static?
+If those are okay for rust code, it would be rather helpful if the
+warnings could be disabled - otherwise they should really be fixed.
+
+Following that, I got a build error:
+
+error[E0425]: cannot find function `__mutex_init` in crate `bindings`
+--> /stuff/linux/rust/kernel/sync/lock/mutex.rs:104:28
+|
+104   |           unsafe { bindings::__mutex_init(ptr, name, key) }
+|                              ^^^^^^^^^^^^ help: a function with a similar=
+ name exists: `__mutex_rt_init`
+|
+::: /stuff/brsdk/work/linux/rust/bindings/bindings_generated.rs:12907:5
+|
+12907 | /     pub fn __mutex_rt_init(
+12908 | |         lock: *mut mutex,
+12909 | |         name: *const core::ffi::c_char,
+12910 | |         key: *mut lock_class_key,
+12911 | |     );
+| |_____- similarly named function `__mutex_rt_init` defined here
+
+error: aborting due to 1 previous error
+
+I stopped there, Space Marine 2 awaits.
+
+Hopefully I'll get to say hello next week,
+Conor.
+
+--/xsIueD3ju/hMl6p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuSsBAAKCRB4tDGHoIJi
+0vtiAQCY+OLWcVZf0fpqur8tYsRgYAJPjNJ2P0PCVhfZCICfegD/QuzWgPhDgx3e
+FEKT34MNfaoZAH0lOGq4JmHedMgOqQs=
+=5XHB
+-----END PGP SIGNATURE-----
+
+--/xsIueD3ju/hMl6p--
 
