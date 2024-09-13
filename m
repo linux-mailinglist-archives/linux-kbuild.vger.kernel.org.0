@@ -1,72 +1,72 @@
-Return-Path: <linux-kbuild+bounces-3538-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3539-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A93A978676
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 19:12:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1F5978678
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 19:13:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAF641F25925
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 17:12:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 237311C23149
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Sep 2024 17:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8668A81AD7;
-	Fri, 13 Sep 2024 17:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02EC984FA0;
+	Fri, 13 Sep 2024 17:12:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZlS1ZC5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M+uvKpst"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F3984A57;
-	Fri, 13 Sep 2024 17:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7443584E14;
+	Fri, 13 Sep 2024 17:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726247558; cv=none; b=ixn5k1gruI5EKDmJM4a9CRmeFUQuld8B4NjQswyx1bXK1B9YAvxU+Tlawfs9ckomtuoqC7Hqe+COpmmRtZW2eZcCftvz1Ypzwwfs7dnXuaphi18ESkm7fO7DV+JH2ektj/oZHeUKFZb9l2azDypHJfB69cs0gPNmV0D2Mq5Ftkc=
+	t=1726247562; cv=none; b=ggY4D43ET6HP+H3v1+Jlj35Asks7/8qDH0eDb6VbfBXByhGqtiJafDx++zghu90jPaUUDDl6Vl6jhcbpEoPWrUWLd3QAYe348xWkqOJSkogg+nnacPDSrLqIJSGqpD5s7zLqXEb8kbGvG1zews4+g0xrseld9CNn6b3a5F62n1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726247558; c=relaxed/simple;
-	bh=gfIBBX5HQovdeZCeeMgLJiHeNO4lHGit5OFph2ZVRA0=;
+	s=arc-20240116; t=1726247562; c=relaxed/simple;
+	bh=2PuKDWXgJpjBk9CDwbD0GM6AxbKOkBxN66BpmL4XKBY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cEKXHXSOSbUhyT7nRT7ZvGkhPVJ2HkD430pLZ3bxP5R0BXhb+Yfx/KqF0FFuIp0w+VJN+gC0SD2ZNlniSE06xjvy7W6KAAR/AOz8yNK9OOq9vPyh2Z3PXa5+uMZxzVBY84YcpO0t94bW6EfzxjwIBx2nVjRZuzpSmzGBrl9OdHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZZlS1ZC5; arc=none smtp.client-ip=209.85.128.180
+	 MIME-Version; b=mCyGFtZDuwA3HsSW37Cg+YWrdXyHTRE84fB6ZNF+y57YPNt2kGe6qVWUp8geVLekiYwXRbpzwme2zidqt7rqVWBDq3XOvYRyHNQQ5zyLsmTHPmiLoRJgugdRGXfjYzxVlX8gD03XOS6Eg0dda4DM5wHL9LWHHeMVLWDwl6X+i+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M+uvKpst; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6b5b65b1b9fso19247557b3.2;
-        Fri, 13 Sep 2024 10:12:36 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6db9f7969fdso19961977b3.0;
+        Fri, 13 Sep 2024 10:12:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726247556; x=1726852356; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1726247560; x=1726852360; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6M7ObXrMB4UkFb/Zj7afK7ol0HldwVxv8ot4KGpGZhM=;
-        b=ZZlS1ZC58jAg3iM9yQUDhMreMZVAiRti345WMa4zJ3mfifIEl7r0qnWQI3AOlMfG2v
-         KqyVAcFLj4K4fWUi5RN/De/gzWoBWxw+W5PXUW/clNrw2aZ7k+u59FQLTMwa6Eebj/nS
-         HG6qIQ22holflTpCAXkjTvIFkXI1oMU1JfCRmW0/Hf8U9wh6Y090rf28w3K9FnbIFmFD
-         F0shPkBkAsq/QjvdKXlhhQEcnWzSLPDFq/auPlZ/dc893gYnHnhTLKz60dFxk1pqBmXp
-         ltMUSjPMYiz3fCQISA9f/2lrVuJIyE5NFqPMnbP6Wyyi7tuGfuH8AJXYlEh1V8cJWVEO
-         8cLw==
+        bh=7Z1VhSdcP9ko/rAeK53mf5eEs2n8E25Al2LdRBjlHms=;
+        b=M+uvKpstk/Xrxp0sgPKmwiu0WrWBZUj2+w+SGd5eVeFfXGmj+6gxHeZnOAxwwsIiW1
+         PkOg6KDelYw+I2FIZza1pzR8AcIcFbtmC1PnFavczA7Hth7jU3u3FQkipknZrMcEr0ec
+         R1/rnB110vNbw1OY9Rx8rrtWBXLEP8faiQVicccgICcbsbnvSTdXxGCLfzKmx8OiWDGG
+         5/UJLm5UN42oh8I6kjOUtV9EijD6uj/T2gqu5kVQ0LrMs256LWiq7ZC6X3tQ1j47t96U
+         MaRbZnNMyTy4M0VeS8Gq3bRh6bNYCnVneZaRMPRzmK3YGwA0MqjXLo5qPlOV6d9J+iZZ
+         UzOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726247556; x=1726852356;
+        d=1e100.net; s=20230601; t=1726247560; x=1726852360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6M7ObXrMB4UkFb/Zj7afK7ol0HldwVxv8ot4KGpGZhM=;
-        b=kNxiUHnlPnhjl+JywkVHUfixU5f2KUU8evLca6ELVNIc6N+bPb6ioCA/lQ4EVmR8Ji
-         r47lbswzy1pfpohFZqPmb0mV5CvpTqfmY1OcF9qfA9zfCxdvHrpZeSeQbGfPdG7qcQ3C
-         rxEdmG1nalp7xMhiOq1E5q2I3Q7UQNcd8POFFKv9ORs5zlBO4dNxjdvPR+VTfsAW7iDV
-         uradqKN+vp4ipwznDKEeLkPv2H/f0qQRQ9BU/8BxUNee/xS3mJUx/QpHbczFg2eMnOMf
-         O4fmraeVQfE34TSkM2JMg/IIlwYPvMxPO225BQJUgMqFoNbvDegBkIFdVS2XJIGMSLqq
-         KUaw==
-X-Forwarded-Encrypted: i=1; AJvYcCVA2G3hGAThS39cli8tfM85R2hqvumkFAKvIqy+2fBsPFgw74+dQBSLVRydljse547HzxouNTpxamq9G84=@vger.kernel.org, AJvYcCVoX5vKjONPoRBJFy/4T0rfP7Gx677yHSG2w3M0LTXSpJiBaHupjkvWql50+4x5nKbpYVpV2zTzZSHPVl4J@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9YoAXt1cNbAYOx3hMP98rKcWdhMtGmzUITIiLjNUyb+G87fTN
-	6HiRfWDNUnrTz4HeGpOF477+f95NzcciOSuSraF3pVE6hEbtNAtJSBfmiA==
-X-Google-Smtp-Source: AGHT+IFtOACW0/KpsabaZnrciDKM1vzyAvGZ9qu/Rw6QnhquvvPkXsqmZ+RfKX9+dtugQX6DPuEspw==
-X-Received: by 2002:a05:690c:6a87:b0:6db:d776:5e29 with SMTP id 00721157ae682-6dbd7765ec8mr18053087b3.17.1726247555904;
-        Fri, 13 Sep 2024 10:12:35 -0700 (PDT)
+        bh=7Z1VhSdcP9ko/rAeK53mf5eEs2n8E25Al2LdRBjlHms=;
+        b=ogjhNKwTMlVeWfstKjdbUreHXPT70PMEV86i/19bnG9jz+7cxb3ANIwKG6RzBe/P3g
+         AAphBecSh3dTPf8FsGdSX2DONA9Smup83fAzowxoH70itVWQPrwLzaOKf+9K//TuLoR2
+         XMBXP+uTie9cc6KWUMrVd+KYWRyC7sFhg/VH+DQVcvSC90ee9eRhzyBAGSazhx0G6LsA
+         il0S/iNR3X8LmeYtkq8jDV2U6dhXzEGxYnjVAFJbtpoCOVXgjz6oKQE7WJIh08gSWdKT
+         jkhg5gPKhGdswrquFfzr10Jf1x/6LMwpmSfPcYlKsylRL4tpuAwga/2LG/AU+iORiltb
+         B0Ag==
+X-Forwarded-Encrypted: i=1; AJvYcCUUaqvXvU+k3t1O7FUYiwBzyIBY57fQVN6HWaO5KPYD5YQUkt/t0Xf2WycdITcVgoSyOTQp4j32OxPQUecl@vger.kernel.org, AJvYcCV0DZ1urt617/ofZYUOeis9E08863RXdLyyTfS9EIZaEcQklGBgKsGNDS0L8trmHan5sI3yGShwOSe/qbo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKZ8m/HEF0bGbghljkmxy8CNeYbdmp92VRBHxNkpUtQ1u0Dm/0
+	kK5fkHf6EgJWypfZgNSNmKKfMPJkrGN9yzMdC9No+X1/W87nn5D6CJFsow==
+X-Google-Smtp-Source: AGHT+IF8ddnaLbOh/Kr2qZrSb3wZkZO7UXfAKc0RSIDuFTMgS6ShbK7fvXxYkPiGhxpUJJ8cyzZAqg==
+X-Received: by 2002:a05:690c:480a:b0:652:e900:550a with SMTP id 00721157ae682-6dbb715b1bfmr60094077b3.19.1726247560268;
+        Fri, 13 Sep 2024 10:12:40 -0700 (PDT)
 Received: from localhost (57-135-107-183.static4.bluestreamfiber.net. [57.135.107.183])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6dbcd85f5d2sm3215067b3.60.2024.09.13.10.12.35
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6dbbf1f38fbsm5779237b3.22.2024.09.13.10.12.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2024 10:12:35 -0700 (PDT)
+        Fri, 13 Sep 2024 10:12:39 -0700 (PDT)
 From: David Hunter <david.hunter.linux@gmail.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: David Hunter <david.hunter.linux@gmail.com>,
@@ -74,9 +74,9 @@ Cc: David Hunter <david.hunter.linux@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	shuah@kernel.org,
 	javier.carrasco.cruz@gmail.com
-Subject: [PATCH 2/7] linux-kbuild: fix: missing variable operator
-Date: Fri, 13 Sep 2024 13:11:57 -0400
-Message-ID: <20240913171205.22126-3-david.hunter.linux@gmail.com>
+Subject: [PATCH 3/7] linux-kbuild: fix: ensure all defaults are tracked
+Date: Fri, 13 Sep 2024 13:11:58 -0400
+Message-ID: <20240913171205.22126-4-david.hunter.linux@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240913171205.22126-1-david.hunter.linux@gmail.com>
 References: <20240913171205.22126-1-david.hunter.linux@gmail.com>
@@ -88,8 +88,9 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Put in the dollar sign for the variable '$config'. That way, the debug
-message has more meaning.
+Track default options on the second line. On the second line of some
+config entries, default and depndency options sometimes appear. In those
+instances, the state will be "NEW" and not "DEP".
 
 Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
 ---
@@ -97,18 +98,18 @@ Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-index a828d7ab7e26..ddc630f2264a 100755
+index ddc630f2264a..bb1f19a1ab5e 100755
 --- a/scripts/kconfig/streamline_config.pl
 +++ b/scripts/kconfig/streamline_config.pl
-@@ -503,7 +503,7 @@ sub parse_config_selects
- 
- 	    # Check if something other than a module selects this config
- 	    if (defined($orig_configs{$conf}) && $orig_configs{$conf} ne "m") {
--		dprint "$conf (non module) selects config, we are good\n";
-+		dprint "$conf (non module) selects $config, we are good\n";
- 		# we are good with this
- 		return;
- 	    }
+@@ -220,7 +220,7 @@ sub read_kconfig {
+ 	    $depends{$config} = $1;
+ 	} elsif ($state eq "DEP" && /^\s*depends\s+on\s+(.*)$/) {
+ 	    $depends{$config} .= " " . $1;
+-	} elsif ($state eq "DEP" && /^\s*def(_(bool|tristate)|ault)\s+(\S.*)$/) {
++	} elsif (($state eq "DEP" || $state eq "NEW") && /^\s*def(_(bool|tristate)|ault)\s+(\S.*)$/) {
+ 	    my $dep = $3;
+ 	    if ($dep !~ /^\s*(y|m|n)\s*$/) {
+ 		$dep =~ s/.*\sif\s+//;
 -- 
 2.43.0
 
