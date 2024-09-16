@@ -1,159 +1,106 @@
-Return-Path: <linux-kbuild+bounces-3580-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3581-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FAF97A424
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Sep 2024 16:31:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E7997A5C7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Sep 2024 18:14:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1EE4286461
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Sep 2024 14:31:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4F831F29046
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Sep 2024 16:14:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABF1315575B;
-	Mon, 16 Sep 2024 14:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6579E158A1F;
+	Mon, 16 Sep 2024 16:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3KRdDHS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kZuwtuZX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E94145341;
-	Mon, 16 Sep 2024 14:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0457C17BBE;
+	Mon, 16 Sep 2024 16:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726497060; cv=none; b=KPPbfES6qfq904vHMB668hoC1fvgPhOAPmYx01/fDFdu0aPE8DaMdhUN8Y04RNZmyuHyOXVZ7SZvgrLMEd1XOOBylK4k0eQgSV6b0udR73Xh3eQvDBNULVVU6QlD74OMuhWuvKU5K08Dn/g6VMeiGbNQSRCRBXwrT4dXmQFu5dw=
+	t=1726503284; cv=none; b=oCygWCn5kk26KTmk9DejMbaZcvsYB363VYiWzS3SCgFRrwEWXCD00FxJ+/3cCHwMjFrRflarIpj473prJP3bH7/a7K/jwiLcSz3X73U9p1No5JfCHxetk/twDZNJzNJlok1g4OenvhCAylaWdiGvofUiv+s0HBJXIS8zeOaDeIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726497060; c=relaxed/simple;
-	bh=HCrmuW3dR9M02oUBEsakxjUb6fYvC4XD7LtHBzobUfE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B3QBZnkZYIe+wQL/VY5olTI96a9Ws5iXbg2Cw4E8phZAkVerDlW+Z+FW2s194czdJDbkHi8BJefygr94zvsLNoqc6dIxk5mZMRoYYG1WSrm0l7gCZjSHmbK6MlNtGlt9riFRo0v7HrwjQMTyT40B9Yc+NeTOloQx9etEbt0IhIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3KRdDHS; arc=none smtp.client-ip=209.85.219.179
+	s=arc-20240116; t=1726503284; c=relaxed/simple;
+	bh=3qUEcfaK4/ka9sFDUJuHN+W1k5GDQiQOOzJa4BmEGh0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aAzRG+/YDVL2fSqndEN0EDfupQ481LbVdL0uwHXR3V+xSW5wOpfHnvaCKYs5pIYfXBl+kDSndYLBBC+poVrJqiCoX5YwelTaiAE08/X0RocWnxedETekb05su1CqMLwE1dK2u8fzTaBYC3kXep2OZX129+UEVV2F6n3RWFKi4I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kZuwtuZX; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e0b7efa1c1bso4349397276.3;
-        Mon, 16 Sep 2024 07:30:58 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-717839f9eb6so894168b3a.3;
+        Mon, 16 Sep 2024 09:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726497058; x=1727101858; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JPqv6Sz3zjpMesSKmef2fhFRmwMP8B3HlSiukgAgFqw=;
-        b=I3KRdDHSspdiCmHN5cs2dMihA2YlSkQr/gLF36ej4odyaFIxBAaQSMW1//vpdxRswm
-         x2hO0BfN/7cBHVhQWgBHgBxK68xEihgApstZWXlwd528Tb3O6tqrrt+iIJbJdkJ4Xz3s
-         7Agt42NAfstajnJSz9X/tFdiYHLxU+E7ewrksYfO1na2wntT7NXWPn3J2q92pzbtBvC2
-         7qmuv4i+AWc7piJk/NQSg4O73ZeSFhNA593hkEFDAsiBhNuOEQgqX6WlumNj2II2alz/
-         8CrjTVo1kLkGRgQWfINdtYHCLm8FIoSiWSOG4suJezDepLQHpZUZIVVXQ3ppv0xLBfme
-         KR8g==
+        d=gmail.com; s=20230601; t=1726503282; x=1727108082; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aiIXMBq5XTutSIjV4NConN4WgPc3djgc12b0ziG7diY=;
+        b=kZuwtuZXmqfiVGiPwSiWR2FBkaNvDTwzFuoogdFujuVHnZvvL9lJulvG0z4EvN5I7d
+         6MoYi4UFBKj7tuGoL5+LYvLhfBoM6Ry5QbfIyHOQHskZZVwY8Kbhr6jOmcXtP4bOMPKk
+         qFMxUmgcG6CqddddPeIWTvSG6+rCEzgB6rjzJ3PlLoKsVA5RPmLOGruEQY6nhKMGYX1+
+         y1eLab669Tk64YPWaxwOrs40EfDCbCXO1x/Lxd91093NhQN+9EZqOSLYP+PVQ+LlR8qf
+         2RHxEsZyYDsadVMxb6ZgoP0p7hwJQOYRe0CWXEqNvv3DZyuROAXpLyF26UimqwkdT8h7
+         /n0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726497058; x=1727101858;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JPqv6Sz3zjpMesSKmef2fhFRmwMP8B3HlSiukgAgFqw=;
-        b=Rya7wbvEA/z2Ar2xhbLiwpQnDqIRuguvtBfpG24PABIEl9qD7hHTQOXCcoyYu0zUp3
-         y/KSSTrivwk2X4pshIOpnLPcC5xnVUVkzyqreU7WKrrWJRJ3Tj4NeXJkE51UiWpot7Dn
-         DHL0M/a7E0YeuF3rzFIHEQZa2e9hsrRU900705MUbdp4Kra8cOclrGZiT/p469KBMGE7
-         PgWF6F26MNThlR+1JD96y/fialegOr9TCfc737ZT+30mrZzzVz4SFYkjy9Kb5tCJgtFa
-         RVTBBXDBgqwuxk1NYcNXFNm7lXiMWr1h/t6Bwg/9dhDOZx1LVefm+nUagRSoaXaKt/E4
-         8zrA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDqC03DIHNmoM9S9KYk1qM3p9Lw0FP35dlEISCFyeavlgLGABwtl/toncDupKI/j674KSe0ytoisOwcT4=@vger.kernel.org, AJvYcCWpVKilkCh6hR+7jhNkq9qvXp2H2GjamwBBLxB+iF0QFXDyAxt7Ubj+9FOeEfSsphwzl69esNKKEmnN50SP@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw84iB6HP8VwymsKJN4cOw0LcXyJqmkJ8T3D1NvBAlQEP/+WgiN
-	4J9x4Z8TfELmpCd2ag7yJWK0KIrGfU9z21v95n2H16kUiTWu23/yGPBWvw==
-X-Google-Smtp-Source: AGHT+IFWqgB/T7rpaUcfqLhHRzirRihOVgXtwiGm08nFHbjF+jQJmLL6l3AQoC2D4ZzcuuGuNMuthA==
-X-Received: by 2002:a05:6902:1502:b0:e1f:a30:2f59 with SMTP id 3f1490d57ef6-e1f0a3030d9mr6050510276.32.1726497055281;
-        Mon, 16 Sep 2024 07:30:55 -0700 (PDT)
-Received: from localhost (57-135-107-183.static4.bluestreamfiber.net. [57.135.107.183])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1dc139f8afsm984101276.64.2024.09.16.07.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2024 07:30:54 -0700 (PDT)
-From: David Hunter <david.hunter.linux@gmail.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: David Hunter <david.hunter.linux@gmail.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	shuah@kernel.org,
-	javier.carrasco.cruz@gmail.com
-Subject: [PATCH v2 0/7] linux-kbuild: fix: process configs set to "y"
-Date: Mon, 16 Sep 2024 10:29:37 -0400
-Message-ID: <20240916142939.754911-1-david.hunter.linux@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1726503282; x=1727108082;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aiIXMBq5XTutSIjV4NConN4WgPc3djgc12b0ziG7diY=;
+        b=a0YtSOhUjnmff5X8NEZbU1hzup0iBRK7gDfxht1drjt52Jy5VOKSGgwOCcyZkN26gk
+         2h7aEvx38neyo6HitC2WvO4tfJ5FEigxa1Uq5ddYuAhOfm36RkjEwQxKBBtmWd263loB
+         AoPIoWTZZimef2d1VaHP+6oFA5DXO5ZjIW9H3nQjKx27Iiff8QLoSo6sVDAG9bRzaM+T
+         PrzubtMqnE42K2Nzgilsceq/+N3CIpyBS7SEXCI0SrqwTkb7gw9yx6VlFih+sjAE83XM
+         pmjNSkrIHehSL3+KjzmHYgACpq4LyqUXoUZB0UMoFgjvjgWKnlzuHPerrLqYhu+LYGH7
+         Dihw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHGW3943ZxCVygAx1Pf2Ynf83SpwNooQqAyPMqThV6i1MePMzcbzAYTMzfBrb6eplFNkzJM90zi7aYXtyneBw=@vger.kernel.org, AJvYcCVSvRwmbPEWfplIBK7UDAnlGFJ2mhX0rbc+r4UZSsHAoCj7qQf/WsEtBMfP3DWVujicV/NwGsTFwF5dNqc=@vger.kernel.org, AJvYcCW28kVyaReRWjhThy2AHtWrjws/fUpI/q7yw4UzYGKSrCHYY0mX7EKV8ckR8nymZAzVcUFFomzcihN1+V7d@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywr1tcNG/BNly71pt7Wzbh18ELZNyC0+klOLmhKBxhLMO3S3JMN
+	6dQ3HFE7cI92zX8RXZhyJKG+Ih3TAIjwnZTxs+oKNpcPCc+NUrDx0UOb7muKOnE767qBo1xdZlz
+	e6tQAVZFcDzG4TD7rIlLO+EydBxI=
+X-Google-Smtp-Source: AGHT+IHNBDz7/fdjLPwJLc6uvykq4pFaJyTiJPPGBGRYb3y/6qXG+SIzr/7QALlDqgIS3UAoxwL7IvBnhervlWoySYY=
+X-Received: by 2002:a05:6a00:ccb:b0:718:e49f:246e with SMTP id
+ d2e1a72fcca58-7192620091cmr9723769b3a.6.1726503282171; Mon, 16 Sep 2024
+ 09:14:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240801-kcfi-v2-2-c93caed3d121@google.com> <20240801-kcfi-v2b-2-c93caed3d121@google.com>
+ <CANiq72=B9NmC=1eSaOrg7XutjueQsSXGcBQb7dQFPuL0SFjPsA@mail.gmail.com>
+In-Reply-To: <CANiq72=B9NmC=1eSaOrg7XutjueQsSXGcBQb7dQFPuL0SFjPsA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 16 Sep 2024 18:14:29 +0200
+Message-ID: <CANiq72miDK-Z3v46QX9MQTT_raJTz+ja-Qx5j1qBmptHXkhY+A@mail.gmail.com>
+Subject: Re: [PATCH v2b] rust: cfi: add support for CFI_CLANG with Rust
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: a.hindborg@samsung.com, alex.gaynor@gmail.com, benno.lossin@proton.me, 
+	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	kees@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	masahiroy@kernel.org, mmaurer@google.com, nathan@kernel.org, 
+	nicolas@fjasle.eu, ojeda@kernel.org, peterz@infradead.org, 
+	rust-for-linux@vger.kernel.org, samitolvanen@google.com, wedsonaf@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-An assumption made in this script is that the config options do not need
-to be processed because they will simply be in the new config file. This
-assumption is incorrect. 
+On Mon, Sep 16, 2024 at 4:07=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> It is possible to have CALL_PADDING && !FINEIBT, which means one can
+> trigger a build error if the compiler is not recent enough. Should we
+> test for CALL_PADDING here?
 
-Process the config entries set to "y" because those config entries might
-have dependencies set to "m". If a config entry is set to "m" and is not
-loaded directly into the machine, the script will currently turn off
-that config entry; however, if that turned off config entry is a
-dependency for a "y" option. that means the config entry set to "y"
-will also be turned off later when the conf executive file is called. 
+Alice confirmed offline that she agrees, so I just changed the
+requirement in `rust-next`.
 
-Here is a model of the problem (arrows show dependency): 
+    [ Replaced `!FINEIBT` requirement with `!CALL_PADDING` to prevent
+      a build error on older Rust compilers. Fixed typo. - Miguel ]
 
-Original config file
-Config_1 (m) <-- Config_2 (y) 
-
-Config_1 is not loaded in this example, so it is turned off. 
-After scripts/kconfig/streamline_config.pl, but before scripts/kconfig/conf
-Config_1 (n) <-- Config_2 (y) 
-
-After  scripts/kconfig/conf
-Config_1 (n) <-- Config_2 (n) 
-
-
-It should also be noted that any module in the dependency chain will
-also be turned off, even if that module is loaded directly onto the
-computer. Here is an example: 
-
-Original config file
-Config_1 (m) <-- Config_2 (y) <-- Config_3 (m)
-
-Config_3 will be loaded in this example.
-After scripts/kconfig/streamline_config.pl, but before scripts/kconfig/conf
-Config_1 (n) <-- Config_2 (y) <-- Config_3 (m)
-
-After scripts/kconfig/conf
-Config_1 (n) <-- Config_2 (n) <-- Config_3 (n)
-
-
-I discovered this problem when I ran "make localmodconfig" on a generic
-Ubuntu config file. Many hardware devices were not recognized once the
-kernel was installed and booted. Another way to reproduced the error I
-had is to run "make localmodconfig" twice. The standard error might display
-warnings that certain modules should be selected but no config files are
-turned on that select that module. 
-
-With the changes in this series patch, all modules are loaded properly
-and all of the hardware is loaded when the kernel is installed and
-booted.  
-
-
-David Hunter (7):
-  linux-kbuild: fix: config option can be bool
-  linux-kbuild: fix: missing variable operator
-  linux-kbuild: fix: ensure all defaults are tracked
-  linux-kbuild: fix: ensure selected configs were turned on in original
-  linux-kbuild: fix: implement choice for kconfigs
-  linux-kbuild: fix: configs with defaults do not need a prompt
-  linux-kbuild: fix: process config options set to "y"
-
---- 
-V2: 
-	- Put in subject. 
-V1:
-	- https://lore.kernel.org/all/20240913171205.22126-1-david.hunter.linux@gmail.com/
-
---- 
- scripts/kconfig/streamline_config.pl | 77 ++++++++++++++++++++++++----
- 1 file changed, 66 insertions(+), 11 deletions(-)
-
- 
-
+Cheers,
+Miguel
 
