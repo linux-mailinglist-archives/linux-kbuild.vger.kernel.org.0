@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-3591-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3592-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1B797B134
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:18:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1CE97B136
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:18:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1980C1C20DF7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:18:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E332A2837C3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:18:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63D5F18786A;
-	Tue, 17 Sep 2024 14:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29802188A02;
+	Tue, 17 Sep 2024 14:17:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWc/OAQJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRkSmNbJ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396DA18757D;
-	Tue, 17 Sep 2024 14:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F74178397;
+	Tue, 17 Sep 2024 14:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726582660; cv=none; b=fuyzplkj8YNFMZbxix20w+b47oc8u0h3f9FskL8T4/Bu1ePIRY/rOBPzzZinR+PlBExQXilJ/JADQJY4gG5M0o2A7hVV54eUTaoxlS/G3cBICDkF4s3molCUBLE5tF5zt+q9NaCq/DvwqgXd+S5sZV/00tEgUaBflWlBJmgE3x0=
+	t=1726582662; cv=none; b=QviSODDb49UyiLyL52Ta7oNwrnhoqTnWcotWTJ1eu4EvDCF7IBqYfkcRaVNqao7kFXIyeiv0RpD32eqhnRGGlo4oSav7T7OrVRMNzMFdLSj07iOX4yf4QzyDgw8xeevHw1ayMpcwfsFypU89cjIxAdnPXFD1pEywsPm/g58UKi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726582660; c=relaxed/simple;
-	bh=M5hwbxGmb3kFIwBUjhm/vKr9Jp1vcsNIkcx9cZ1dz/U=;
+	s=arc-20240116; t=1726582662; c=relaxed/simple;
+	bh=zOKWLWOiEYUwJiA94nx2gJuvgncyH0kFTF0myUNTP9U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P1FTPIcdYxrhSnK/f9YC8sgAWubMADudVJvLFXxkYFCsz5BhDXaYJW6WXeOL6c9AGBTOEe87Agiwq/2KlcnIjwhbLNci7LrpK+lOLouBYmc7+67YZhMdJFLNPJHENyuVhjnkM8Kxx8A0Zz+b8KhOtduB5RWimuaZl595VdLmU40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWc/OAQJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F4BEC4CECF;
-	Tue, 17 Sep 2024 14:17:38 +0000 (UTC)
+	 MIME-Version; b=gNRuaQRCq3ivusGiFEBE0RyGN9GXJY8P02EGGmw2HKdQ3tKXliAqa+OzWW9yoDOTO/EwkuFRRDlisTCN4hKkUsXfT+RTXGU0MzCcwBXKfK9xxo1hIWa1EmPvsSXbl6qUscr4qFdZTk9YoT2o7pvR24cpsmB4WXwlg/vm4jxot0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRkSmNbJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E3BFC4CECE;
+	Tue, 17 Sep 2024 14:17:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726582659;
-	bh=M5hwbxGmb3kFIwBUjhm/vKr9Jp1vcsNIkcx9cZ1dz/U=;
+	s=k20201202; t=1726582661;
+	bh=zOKWLWOiEYUwJiA94nx2gJuvgncyH0kFTF0myUNTP9U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MWc/OAQJOTgPjXBC/zSjUa4v5+Mr++4m5gzJFVPj/+Z1TxHe9TfkRecHrs3e0f7Le
-	 ++eq01SBf39lsPA5zraelQ1Q2NGhtMEm9OZYIL9/JWpMFg22Bv1S5KhF34flw3TIEt
-	 eY8YMhAa3+YEl555Fh67Oza/yuOGH1jKbwAEP1/JVSFcK8Pk876xxFxJbr5SCfvncG
-	 dS9ib/pTO/wkUQ889CJyYMIl5s4NO090BckwTlHLZE/DMQPDKlm4TBXeRC4UZTi13C
-	 Q3wn0S1VZhNh2vGQzoZeLpMjNEYqmIxyQRlKrWaSC3AVhiVs/LV5H8lQlT7j4DYrbZ
-	 B4OPqFAnY/QYg==
+	b=NRkSmNbJuo3Hq9ZTl320PZn/MO+WmCugD2N6q31nRrCb16Ne1BdOLsPzdPaBrjphn
+	 +cTQcD48Ad5XjpNwkIQn3PtgNL5CHssJnHoy23ym60aEu1MgoNDhjftZ29YvHQNlIs
+	 yKLR6yrLc3Yi53Ls7yQwNkW1FZZGzFxr3/Deb05iUmDd2Bqh9qZHcVjNlEn6otEQNj
+	 dxonGv/z9mJyZDSZK/jnCgc6rbTMB0TWZhR8iZOnCImU13KK2ujhWWkGxzHN2cbz+w
+	 kzdhqjbvLN0jODN0E6VJreNegwxvPr8tYsUdgCHvwfHwKWQhi0/ceJrVi/4OpZSnvE
+	 L4E9DcPKIhayg==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Miguel Ojeda <ojeda@kernel.org>,
@@ -49,9 +49,9 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 04/23] kbuild: doc: remove the description about shipped files
-Date: Tue, 17 Sep 2024 23:16:32 +0900
-Message-ID: <20240917141725.466514-5-masahiroy@kernel.org>
+Subject: [PATCH 05/23] kbuild: doc: describe the -C option precisely for external module builds
+Date: Tue, 17 Sep 2024 23:16:33 +0900
+Message-ID: <20240917141725.466514-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240917141725.466514-1-masahiroy@kernel.org>
 References: <20240917141725.466514-1-masahiroy@kernel.org>
@@ -63,107 +63,88 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The use of shipped files is discouraged in the upstream kernel these
-days. [1]
+Building external modules is typically done using this command:
 
-Downstream Makefiles have the freedom to use shipped files or other
-options to handle binaries, but this is not what should be advertised
-in the upstream document.
+  $ make -C <KERNEL_DIR> M=<EXTMOD_DIR>
 
-[1]: https://lore.kernel.org/all/CAHk-=wgSEi_ZrHdqr=20xv+d6dr5G895CbOAi8ok+7-CQUN=fQ@mail.gmail.com/
+Here, <KERNEL_DIR> refers to the output directory where the kernel was
+built, not the kernel source directory.
+
+When the kernel is built in-tree, there is no ambiguity, as the output
+directory and the source directory are the same.
+
+If the kernel was built in a separate build directory, <KERNEL_DIR>
+should be the kernel output directory. Otherwise, Kbuild cannot locate
+necessary build artifacts such as the .config file, etc. This has been
+the method for building external modules based on the kernel compiled in
+a separate directory for over 20 years. [1]
+
+If you pass the kernel source directory to the -C option, you must also
+specify the kernel build directory using the O= option. This approach
+works as well, though it results in a slightly longer command:
+
+  $ make -C <KERNEL_SOURCE_DIR> O=<KERNEL_BUILD_DIR> M=<EXTMOD_DIR>
+
+Some people mistakenly believe that O= should point to a separate output
+directory for external modules when used together with M=. This commit
+adds more clarification to Documentation/kbuild/kbuild.rst.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=e321b2ec2eb2993b3d0116e5163c78ad923e3c54
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Documentation/kbuild/modules.rst | 35 +++-----------------------------
- 1 file changed, 3 insertions(+), 32 deletions(-)
+ Documentation/kbuild/kbuild.rst  | 5 +++++
+ Documentation/kbuild/modules.rst | 9 ++++++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 9c8d1d046ea5..716f6fb70829 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -129,6 +129,11 @@ KBUILD_OUTPUT
+ -------------
+ Specify the output directory when building the kernel.
+ 
++This variable can also be used to point to the kernel output directory when
++building external modules using kernel build artifacts in a separate build
++directory. Please note that this does NOT specify the output directory for the
++external modules themselves.
++
+ The output directory can also be specified using "O=...".
+ 
+ Setting "O=..." takes precedence over KBUILD_OUTPUT.
 diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-index 7eceb9a65e9c..1afa6b1b4090 100644
+index 1afa6b1b4090..a80bff699e77 100644
 --- a/Documentation/kbuild/modules.rst
 +++ b/Documentation/kbuild/modules.rst
-@@ -180,7 +180,6 @@ module 8123.ko, which is built from the following files::
- 	8123_if.c
- 	8123_if.h
- 	8123_pci.c
--	8123_bin.o_shipped	<= Binary blob
+@@ -74,7 +74,7 @@ executed to make module versioning work.
  
- 3.1 Shared Makefile
- -------------------
-@@ -198,7 +197,7 @@ module 8123.ko, which is built from the following files::
- 		ifneq ($(KERNELRELEASE),)
- 		# kbuild part of makefile
- 		obj-m  := 8123.o
--		8123-y := 8123_if.o 8123_pci.o 8123_bin.o
-+		8123-y := 8123_if.o 8123_pci.o
+ 	The command to build an external module is::
  
- 		else
- 		# normal makefile
-@@ -207,10 +206,6 @@ module 8123.ko, which is built from the following files::
- 		default:
- 			$(MAKE) -C $(KDIR) M=$$PWD
+-		$ make -C <path_to_kernel_src> M=$PWD
++		$ make -C <path_to_kernel_dir> M=$PWD
  
--		# Module specific targets
--		genbin:
--			echo "X" > 8123_bin.o_shipped
--
- 		endif
+ 	The kbuild system knows that an external module is being built
+ 	due to the "M=<dir>" option given in the command.
+@@ -91,12 +91,15 @@ executed to make module versioning work.
+ 2.2 Options
+ ===========
  
- 	The check for KERNELRELEASE is used to separate the two parts
-@@ -232,7 +227,7 @@ module 8123.ko, which is built from the following files::
+-	($KDIR refers to the path of the kernel source directory.)
++	($KDIR refers to the path of the kernel source directory, or the path
++	of the kernel output directory if the kernel was built in a separate
++	build directory.)
  
- 		--> filename: Kbuild
- 		obj-m  := 8123.o
--		8123-y := 8123_if.o 8123_pci.o 8123_bin.o
-+		8123-y := 8123_if.o 8123_pci.o
+ 	make -C $KDIR M=$PWD
  
- 		--> filename: Makefile
- 		KDIR ?= /lib/modules/`uname -r`/build
-@@ -240,35 +235,11 @@ module 8123.ko, which is built from the following files::
- 		default:
- 			$(MAKE) -C $(KDIR) M=$$PWD
+ 	-C $KDIR
+-		The directory where the kernel source is located.
++		The directory that contains the kernel and relevant build
++		artifacts used for building an external module.
+ 		"make" will actually change to the specified directory
+ 		when executing and will change back when finished.
  
--		# Module specific targets
--		genbin:
--			echo "X" > 8123_bin.o_shipped
--
- 	The split in example 2 is questionable due to the simplicity of
- 	each file; however, some external modules use makefiles
- 	consisting of several hundred lines, and here it really pays
- 	off to separate the kbuild part from the rest.
- 
--3.3 Binary Blobs
------------------
--
--	Some external modules need to include an object file as a blob.
--	kbuild has support for this, but requires the blob file to be
--	named <filename>_shipped. When the kbuild rules kick in, a copy
--	of <filename>_shipped is created with _shipped stripped off,
--	giving us <filename>. This shortened filename can be used in
--	the assignment to the module.
--
--	Throughout this section, 8123_bin.o_shipped has been used to
--	build the kernel module 8123.ko; it has been included as
--	8123_bin.o::
--
--		8123-y := 8123_if.o 8123_pci.o 8123_bin.o
--
--	Although there is no distinction between the ordinary source
--	files and the binary file, kbuild will pick up different rules
--	when creating the object file for the module.
--
- 3.4 Building Multiple Modules
- =============================
- 
-@@ -329,7 +300,7 @@ according to the following rule:
- 		obj-m := 8123.o
- 
- 		ccflags-y := -I $(src)/include
--		8123-y := 8123_if.o 8123_pci.o 8123_bin.o
-+		8123-y := 8123_if.o 8123_pci.o
- 
- 4.3 Several Subdirectories
- --------------------------
 -- 
 2.43.0
 
