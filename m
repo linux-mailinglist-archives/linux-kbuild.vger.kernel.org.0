@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-3595-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3596-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4E397B13D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:19:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA4397B140
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:19:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 435661F231DE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:19:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50B7D1C21179
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:19:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D59AB18D624;
-	Tue, 17 Sep 2024 14:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EE0318E038;
+	Tue, 17 Sep 2024 14:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tbWqWCsX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzXSvH7r"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC34917AE11;
-	Tue, 17 Sep 2024 14:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA01E18E02B;
+	Tue, 17 Sep 2024 14:17:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726582668; cv=none; b=khsyr2voekBkXaHxW0IwbRKEdC8Jzo5UgHG21HaJf1q1Vk1Lg96SCa82LDnMhgnLRO94ymYutFwYLLBuUN8w/KCwSotENSGQBJxHjx35w8dYVZoydeJrUdsP1MySSrnWV1OnGapP/DidCzXj/Lfjlx8059lJ1T+iWS6vW+Myj0U=
+	t=1726582671; cv=none; b=esbi+WBjPqkSi8XZiFVbc5FCsX7v1moCDgoS7IdXDzVTNVk+OF9OXTvM4oTFrQ89mU8VwHNid3kGtlvYV6sX97RNSlEkREMzJ7KQV1Q/p6OykqconY2N4lL3vvqH5nB3S9KhYHwOx63PzUdGv/2tsiS20I/fQFFvcj9LLD7DP5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726582668; c=relaxed/simple;
-	bh=n8IL6UM3AlOmJPnvqYyhhURelp40V5xK3Ka0wCaa2Q8=;
+	s=arc-20240116; t=1726582671; c=relaxed/simple;
+	bh=v1w8q5fANzCuOIlI91VhLyPWmXzboTXSVo9AD3A2I0k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fUxUkpRhnMRWfoynG+WtYJk/1Hp8pCXfL0wYuGvXRRYFTvTH1IwnpEoSKcm2Vm4u7xmbiBqYCtkN+7ZAdo2z3syg3hhTZn6LGs5mvsftasOLzso6iFzbiWM6cz0MXOgQbF8v5aJDJN90r3tZcDVJhJZdYlFbvYnXZ3y+/3X+wug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tbWqWCsX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B188FC4CECD;
-	Tue, 17 Sep 2024 14:17:46 +0000 (UTC)
+	 MIME-Version; b=gWL9+SmtmiSR4o4aMNUnH6wMx0p91RvxN5cMX3RIV2jw3lPtw3OubdR3+sssKLAafRlUU2IZeS58NYorTP+o6dF3oipB6tZ/jplNPbOCyLvxjTG0Fwf2+de+AXf8q9PmYBakga0niVJ12ZvjEyiQlp60/a6UhxIyvuLB+zt0jmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzXSvH7r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF7B6C4CECF;
+	Tue, 17 Sep 2024 14:17:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726582668;
-	bh=n8IL6UM3AlOmJPnvqYyhhURelp40V5xK3Ka0wCaa2Q8=;
+	s=k20201202; t=1726582670;
+	bh=v1w8q5fANzCuOIlI91VhLyPWmXzboTXSVo9AD3A2I0k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tbWqWCsXC+BMGDSCr1VxGr9145xEILy0CqXIockESg7e+uDliCAdp6aWgKYYtTPXa
-	 jRw1khQ8xp3jkiUDjqi01iIBmDhQx8vBChhrcNMuve/BqYQzKwCXQ5yKLGNsOu8zdk
-	 mcZx7mqV4e1H4TAHWwfXai+ILxNk4EQJD30nOI/twKx8/gBCiUlfKm6npi/Uffr1Cd
-	 SP41JPqy3gjab5DlV24aPr7ogjc6dyJntjG63bDJcZe9fThoJCIu0I5zHRIwBl7PZW
-	 leoUd2dHWyvsvsC6iQzDjWNaUwVGCtGiyeATybuSpqIa/cQeTwlli0WGqv/zA1Tb6v
-	 0JyFgAzA+ZUmw==
+	b=OzXSvH7r9H0jhAg4LT7kVq5RXbI35nkRhJGKkXRly5yEfNWsBdbvPgUHU7IlyGhAO
+	 QVBBVtiHOOx3uHXcDtzFx3XxQG/45Evv+0lyk/+jFkC1+o7JEIl/2XSTqIUMKB/CFc
+	 U+RtU0nExBesrp01FEjrF11s8NcAxd0KRj23l+YjQXZz9ZZlIc2f32FMkxBX7uy7fC
+	 4JdlA8K2Yi9DXKdZ/64iXxtenQ8JW8IQgOAS7Ez5v7TQxUk1nnYdlyoWhjqEtHyNN4
+	 JUnlkMxB24d6ZImIqqBdHU0xeFLcwiFYjVpD7go804uAUgGg1r9R+iZMHIiJ7TPT2f
+	 69PyiXzsHlKCg==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Miguel Ojeda <ojeda@kernel.org>,
@@ -49,9 +49,9 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 08/23] kbuild: simplify find command for rustfmt
-Date: Tue, 17 Sep 2024 23:16:36 +0900
-Message-ID: <20240917141725.466514-9-masahiroy@kernel.org>
+Subject: [PATCH 09/23] speakup: use SPKDIR=$(src) to specify the source directory
+Date: Tue, 17 Sep 2024 23:16:37 +0900
+Message-ID: <20240917141725.466514-10-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240917141725.466514-1-masahiroy@kernel.org>
 References: <20240917141725.466514-1-masahiroy@kernel.org>
@@ -63,57 +63,32 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current 'find' command does not prune the rust/test directory
-itself, requiring an additional 'grep -Fv' command to exclude it.
-This is cumbersome.
-
-The correct use of the -prune option can be seen in the 'make clean'
-rule.
-
-[Current command]
-
-  $ find . -type f -name '*.rs' -o -path ./rust/test -prune | wc
-       70      70    1939
-  $ find . -type f -name '*.rs' -o -path ./rust/test -prune | grep rust/test
-  ./rust/test
-
-[Improved command]
-
-  $ find . -path ./rust/test -prune -o -type f -name '*.rs' -print | wc
-       69      69    1927
-  $ find . -path ./rust/test -prune -o -type f -name '*.rs' -print | grep rust/test
-
-With the improved 'find' command, the grep command is no longer needed.
-
-There is also no need to use the absolute path, so $(abs_srctree) can be
-replaced with $(srctree).
-
-The pruned directory rust/test must be prefixed with $(srctree) instead
-of $(objtree). Otherwise, 'make O=... rustfmt' would visit the stale
-rust/test directory remaining in the source tree.
+Since commit b1992c3772e6 ("kbuild: use $(src) instead of
+$(srctree)/$(src) for source directory"), $(src) consistently points
+to the source directory whether this is compiled an as external module
+or not.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Makefile | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/accessibility/speakup/Makefile | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 5b16e0605a77..4992b2895dd5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1740,9 +1740,8 @@ PHONY += rustfmt rustfmtcheck
- # when matching, which is a problem when e.g. `srctree` is `..`.
- # We `grep` afterwards in order to remove the directory entry itself.
- rustfmt:
--	$(Q)find $(abs_srctree) -type f -name '*.rs' \
--		-o -path $(abs_objtree)/rust/test -prune \
--		| grep -Fv $(abs_objtree)/rust/test \
-+	$(Q)find $(srctree) -path $(srctree)/rust/test -prune \
-+		-o -type f -name '*.rs' -print \
- 		| grep -Fv generated \
- 		| xargs $(RUSTFMT) $(rustfmt_flags)
+diff --git a/drivers/accessibility/speakup/Makefile b/drivers/accessibility/speakup/Makefile
+index 6f6a83565c0d..14ba1cca87f4 100644
+--- a/drivers/accessibility/speakup/Makefile
++++ b/drivers/accessibility/speakup/Makefile
+@@ -40,9 +40,7 @@ hostprogs += makemapdata
+ makemapdata-objs := makemapdata.o
  
+ quiet_cmd_mkmap = MKMAP   $@
+-      cmd_mkmap = TOPDIR=$(srctree) \
+-		  SPKDIR=$(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD),$(srctree)/drivers/accessibility/speakup) \
+-		  $(obj)/makemapdata > $@
++      cmd_mkmap = TOPDIR=$(srctree) SPKDIR=$(src) $(obj)/makemapdata > $@
+ 
+ $(obj)/mapdata.h: $(obj)/makemapdata
+ 	$(call cmd,mkmap)
 -- 
 2.43.0
 
