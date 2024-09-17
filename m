@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-3605-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3606-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1012B97B152
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:21:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4493997B154
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:22:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7E80282E20
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:21:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA5931F21F15
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:22:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6165A194147;
-	Tue, 17 Sep 2024 14:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 669E7194A53;
+	Tue, 17 Sep 2024 14:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sg+Cbsfg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJdjwRDY"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C6D1940AB;
-	Tue, 17 Sep 2024 14:18:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308B9194A4B;
+	Tue, 17 Sep 2024 14:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726582691; cv=none; b=c0zCsz8fV8ByVHzsVmISyRHxOfnMXfrijYxLUUA0UBzYkbBLOfazy5ON8kdpp6OUGx07LHgqzLfGsxraybgqXGcpaC4YlgCciZOrKXpEJsJGs8x3PMOER7IdGBE5ChXE9hRqTkhDiWHskEHiBy4ed2xsiHozBOw15VE9ZttBiWI=
+	t=1726582693; cv=none; b=gXzTizwG+7W1iB07M3jennmgt0Q9Ns1DBi/Ohdk2khCqsj2IBLVQQTkRcxJ323c2b5ZGgydGfmlfV9UMkZaNnFt5miwAE6nE4bwi97EI/ZRQEcIAccuSbnE1EMq/m4BSoUI6XOorhCGlBvyHlA633a6nJbwYty8HsRYIszsNMo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726582691; c=relaxed/simple;
-	bh=v3F59l//1EQnAHqTp5K6zCSernv13ZDiW1k6H5qe7cg=;
+	s=arc-20240116; t=1726582693; c=relaxed/simple;
+	bh=FI3kBAdkWmeCKCnshcw4HjVMuzXsQc84gzzbOu4ug78=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iOltvXPiFHGUY42sCf2+icpJY8EsfvzR5inQ9GFG1StBDNVqTQZDIOD6rGTLOlGCLaXNj2Tb3cmUMu0A3AtIdxU1CLpc9t31q72+nuQ2BlfJXsjskwRUKbP9W8ZgUTPUoarfsH+nX/A+ysVutVdpIoaNMuIKuOEf6LqkGwT17qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sg+Cbsfg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240A4C4CECF;
-	Tue, 17 Sep 2024 14:18:08 +0000 (UTC)
+	 MIME-Version; b=NF507QhGFtfLEw+9xoSmtE476SYIteTEvu1xk6NgPCjX1Wr9cBDcV8zo7Vc5JP0L68x/ZZDP0Vth6G4DjEPzb5nVpEC3wv3pMlEIDf+C+YTmY5iMRNfnjSJ7FEl+KuP2SGdw2w0s8P7IguG6EtiTlMbxuoLqqx8X+JKfYbFoEaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJdjwRDY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A21C4CECD;
+	Tue, 17 Sep 2024 14:18:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726582690;
-	bh=v3F59l//1EQnAHqTp5K6zCSernv13ZDiW1k6H5qe7cg=;
+	s=k20201202; t=1726582693;
+	bh=FI3kBAdkWmeCKCnshcw4HjVMuzXsQc84gzzbOu4ug78=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Sg+CbsfggQ1DwMg5dmajZbso8K5l8nvl3ZItaOU6Z/GnNbKX3B1OGxrhm2zG5P+Rv
-	 LdbUYnWXbqCgz4yCJ9D5cChgx6Eml8/vTG4FDf2Ls5cCzWGL9WlJ1GdqODA1cfrdWl
-	 X9WtC97VOAsg0qfZaV+ypgo2nzHcLZ1qmOIyow7gSjUkHuo7hGEuzF0wJKxtE3iyvw
-	 YoNiE9+mOqDhtatkb3OP5ar8TbcsGvnpSYHMMqTtBWzQqIvA7xUTwskROG6KynkZbe
-	 m1bm4eZN/hvPTMEInvxhx3jYdbluKV39HnRIHMMWBTsjG8XtYMiqRbGgUjuiZbl4rp
-	 yypdw+vYWigMQ==
+	b=KJdjwRDYVqIaBYqJlmBD1QiMZBvwzt8Y03mjrrThgG1wa4NmXiSaI1c6ZazZ9AOcN
+	 bKKUWRAID9yfu2nltrNlxbFBoLLU35FGEXOUMhmlkykUXWvBYWmR/C3BiAIKnSRJGh
+	 Z35xx6zpvPycfYktWKWHDGVRBLQEifxRAd/xZd0HyOnMx1Sz69T3iRdH9KmYDGJ6ck
+	 +nX6Dvck8jhQEN/k8MMEouFICumxRFMlc2zLOTLxQ0oOWu5mWaMAFyhQ3N8eLBiwwg
+	 k5+heFtOIy6Y63S1bjDPpr1KsTW0E04AOepjB2t+ZntAQr/Z2vsx4RKv8ZSKrxc3TU
+	 Wa12r9NLkNXDA==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Miguel Ojeda <ojeda@kernel.org>,
@@ -49,9 +49,9 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 18/23] kbuild: remove extmod_prefix, MODORDER, MODULES_NSDEPS variables
-Date: Tue, 17 Sep 2024 23:16:46 +0900
-Message-ID: <20240917141725.466514-19-masahiroy@kernel.org>
+Subject: [PATCH 19/23] kbuild: support building external modules in a separate build directory
+Date: Tue, 17 Sep 2024 23:16:47 +0900
+Message-ID: <20240917141725.466514-20-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240917141725.466514-1-masahiroy@kernel.org>
 References: <20240917141725.466514-1-masahiroy@kernel.org>
@@ -63,159 +63,183 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-With the previous changes, $(extmod_prefix), $(MODORDER), and
-$(MODULES_NSDEPS) are constant. (empty, modules.order, and
-modules.nsdeps, respectively).
+There has been a long-standing request to support building external
+modules in a separate build directory.
 
-Remove these variables and hard-code their values.
+This commit introduces a new environment variable, KBUILD_EXTMOD_OUTPUT,
+and its shorthand Make variable, MO.
+
+A simple usage:
+
+ $ make -C <kernel-dir> M=<module-src-dir> MO=<module-build-dir>
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Makefile                  | 22 +++++++++-------------
- scripts/Makefile.modfinal |  2 +-
- scripts/Makefile.modinst  |  2 +-
- scripts/Makefile.modpost  |  6 +++---
- scripts/nsdeps            |  2 +-
- 5 files changed, 15 insertions(+), 19 deletions(-)
+ Documentation/kbuild/kbuild.rst  |  8 +++++-
+ Documentation/kbuild/modules.rst |  5 +++-
+ Makefile                         | 44 +++++++++++++++++++++++---------
+ 3 files changed, 43 insertions(+), 14 deletions(-)
 
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 716f6fb70829..66a9dc44ea28 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -132,12 +132,18 @@ Specify the output directory when building the kernel.
+ This variable can also be used to point to the kernel output directory when
+ building external modules using kernel build artifacts in a separate build
+ directory. Please note that this does NOT specify the output directory for the
+-external modules themselves.
++external modules themselves. (Use KBUILD_EXTMOD_OUTPUT for that purpose.)
+ 
+ The output directory can also be specified using "O=...".
+ 
+ Setting "O=..." takes precedence over KBUILD_OUTPUT.
+ 
++KBUILD_EXTMOD_OUTPUT
++--------------------
++Specify the output directory for external modules.
++
++Setting "MO=..." takes precedence over KBUILD_EXTMOD_OUTPUT.
++
+ KBUILD_EXTRA_WARN
+ -----------------
+ Specify the extra build checks. The same value can be assigned by passing
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index 3a6e7bdc0889..03347e13eeb5 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -95,7 +95,7 @@ executed to make module versioning work.
+ 	of the kernel output directory if the kernel was built in a separate
+ 	build directory.)
+ 
+-	make -C $KDIR M=$PWD
++	make -C $KDIR M=$PWD [MO=$BUILD_DIR]
+ 
+ 	-C $KDIR
+ 		The directory that contains the kernel and relevant build
+@@ -109,6 +109,9 @@ executed to make module versioning work.
+ 		directory where the external module (kbuild file) is
+ 		located.
+ 
++	MO=$BUILD_DIR
++		Speficies a separate output directory for the external module.
++
+ 2.3 Targets
+ ===========
+ 
 diff --git a/Makefile b/Makefile
-index 4db22c3a8555..9fbf7ef6e394 100644
+index 9fbf7ef6e394..b654baa0763a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1102,10 +1102,6 @@ export MODLIB
- 
- PHONY += prepare0
- 
--export extmod_prefix =
--export MODORDER := $(extmod_prefix)modules.order
--export MODULES_NSDEPS := $(extmod_prefix)modules.nsdeps
--
- ifeq ($(KBUILD_EXTMOD),)
- 
- build-dir	:= .
-@@ -1862,7 +1858,7 @@ endif
- 
- ifdef CONFIG_MODULES
- 
--$(MODORDER): $(build-dir)
-+modules.order: $(build-dir)
- 	@:
- 
- # KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
-@@ -1873,7 +1869,7 @@ ifneq ($(KBUILD_MODPOST_NOFINAL),1)
+@@ -134,6 +134,10 @@ ifeq ("$(origin M)", "command line")
+   KBUILD_EXTMOD := $(M)
  endif
  
- PHONY += modules_check
--modules_check: $(MODORDER)
-+modules_check: modules.order
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh $<
++ifeq ("$(origin MO)", "command line")
++  KBUILD_EXTMOD_OUTPUT := $(MO)
++endif
++
+ $(if $(word 2, $(KBUILD_EXTMOD)), \
+ 	$(error building multiple external modules is not supported))
  
- else # CONFIG_MODULES
-@@ -1914,15 +1910,15 @@ $(single-ko): single_modules
- $(single-no-ko): $(build-dir)
- 	@:
- 
--# Remove MODORDER when done because it is not the real one.
-+# Remove modules.order when done because it is not the real one.
- PHONY += single_modules
- single_modules: $(single-no-ko) modules_prepare
--	$(Q){ $(foreach m, $(single-ko), echo $(extmod_prefix)$(m:%.ko=%.o);) } > $(MODORDER)
-+	$(Q){ $(foreach m, $(single-ko), echo $(extmod_prefix)$(m:%.ko=%.o);) } > modules.order
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
- ifneq ($(KBUILD_MODPOST_NOFINAL),1)
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
- endif
--	$(Q)rm -f $(MODORDER)
-+	$(Q)rm -f modules.order
- 
- single-goals := $(addprefix $(build-dir)/, $(single-no-ko))
- 
-@@ -1999,12 +1995,12 @@ nsdeps: modules
- quiet_cmd_gen_compile_commands = GEN     $@
-       cmd_gen_compile_commands = $(PYTHON3) $< -a $(AR) -o $@ $(filter-out $<, $(real-prereqs))
- 
--$(extmod_prefix)compile_commands.json: $(srctree)/scripts/clang-tools/gen_compile_commands.py \
-+compile_commands.json: $(srctree)/scripts/clang-tools/gen_compile_commands.py \
- 	$(if $(KBUILD_EXTMOD),, vmlinux.a $(KBUILD_VMLINUX_LIBS)) \
--	$(if $(CONFIG_MODULES), $(MODORDER)) FORCE
-+	$(if $(CONFIG_MODULES), modules.order) FORCE
- 	$(call if_changed,gen_compile_commands)
- 
--targets += $(extmod_prefix)compile_commands.json
-+targets += compile_commands.json
- 
- PHONY += clang-tidy clang-analyzer
- 
-@@ -2012,7 +2008,7 @@ ifdef CONFIG_CC_IS_CLANG
- quiet_cmd_clang_tools = CHECK   $<
-       cmd_clang_tools = $(PYTHON3) $(srctree)/scripts/clang-tools/run-clang-tools.py $@ $<
- 
--clang-tidy clang-analyzer: $(extmod_prefix)compile_commands.json
-+clang-tidy clang-analyzer: compile_commands.json
- 	$(call cmd,clang_tools)
+@@ -187,7 +191,11 @@ ifdef KBUILD_EXTMOD
+     else
+         objtree := $(CURDIR)
+     endif
+-    output := $(KBUILD_EXTMOD)
++    output := $(or $(KBUILD_EXTMOD_OUTPUT),$(KBUILD_EXTMOD))
++    # KBUILD_EXTMOD might be a relative path. Remember its absolute path before
++    # Make changes the working directory.
++    export abs_extmodtree := $(realpath $(KBUILD_EXTMOD))
++    $(if $(abs_extmodtree),,$(error specified external module directory "$(KBUILD_EXTMOD)" does not exist))
  else
- clang-tidy clang-analyzer:
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 6d8aa3059ee2..1d787b867c6d 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -13,7 +13,7 @@ include $(srctree)/scripts/Kbuild.include
- include $(srctree)/scripts/Makefile.lib
+     objtree := .
+     output := $(KBUILD_OUTPUT)
+@@ -246,7 +254,6 @@ else # need-sub-make
+ ifeq ($(abs_srctree),$(CURDIR))
+         # building in the source tree
+         srctree := .
+-	building_out_of_srctree :=
+ else
+         ifeq ($(abs_srctree)/,$(dir $(CURDIR)))
+                 # building in a subdirectory of the source tree
+@@ -254,22 +261,23 @@ else
+         else
+                 srctree := $(abs_srctree)
+         endif
+-	building_out_of_srctree := 1
+ endif
  
- # find all modules listed in modules.order
--modules := $(call read-file, $(MODORDER))
-+modules := $(call read-file, modules.order)
+ ifneq ($(KBUILD_ABS_SRCTREE),)
+ srctree := $(abs_srctree)
+ endif
  
- __modfinal: $(modules:%.o=%.ko)
- 	@:
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index 2d39d452c49e..1ec739d138b3 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -40,7 +40,7 @@ $(addprefix $(MODLIB)/, modules.builtin modules.builtin.modinfo modules.builtin.
+-VPATH		:=
++export srctree
+ 
+-ifeq ($(KBUILD_EXTMOD),)
+-ifdef building_out_of_srctree
+-VPATH		:= $(srctree)
+-endif
+-endif
++_vpath = $(or $(abs_extmodtree),$(srctree))
+ 
+-export building_out_of_srctree srctree VPATH
++ifeq ($(realpath $(_vpath)),$(CURDIR))
++building_out_of_srctree :=
++VPATH :=
++else
++export building_out_of_srctree := 1
++export VPATH := $(_vpath)
++endif
+ 
+ # To make sure we do not include .config for any of the *config targets
+ # catch them early, and hand them over to scripts/kconfig/Makefile
+@@ -550,7 +558,7 @@ USERINCLUDE    := \
+ LINUXINCLUDE    := \
+ 		-I$(srctree)/arch/$(SRCARCH)/include \
+ 		-I$(objtree)/arch/$(SRCARCH)/include/generated \
+-		$(if $(building_out_of_srctree),-I$(srctree)/include) \
++		-I$(srctree)/include \
+ 		-I$(objtree)/include \
+ 		$(USERINCLUDE)
+ 
+@@ -640,6 +648,7 @@ quiet_cmd_makefile = GEN     Makefile
+ 	} > Makefile
+ 
+ outputmakefile:
++ifeq ($(KBUILD_EXTMOD),)
+ 	@if [ -f $(srctree)/.config -o \
+ 		 -d $(srctree)/include/config -o \
+ 		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
+@@ -649,7 +658,16 @@ outputmakefile:
+ 		echo >&2 "***"; \
+ 		false; \
+ 	fi
+-	$(Q)ln -fsn $(srctree) source
++else
++	@if [ -f $(KBUILD_EXTMOD)/modules.order ]; then \
++		echo >&2 "***"; \
++		echo >&2 "*** The external module source tree is not clean."; \
++		echo >&2 "*** Please run 'make -C $(abs_srctree) M=$(realpath $(KBUILD_EXTMOD)) clean'"; \
++		echo >&2 "***"; \
++		false; \
++	fi
++endif
++	$(Q)ln -fsn $(_vpath) source
+ 	$(call cmd,makefile)
+ 	$(Q)test -e .gitignore || \
+ 	{ echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
+@@ -1926,6 +1944,8 @@ KBUILD_MODULES := 1
  
  endif
  
--modules := $(call read-file, $(MODORDER))
-+modules := $(call read-file, modules.order)
- 
- ifeq ($(KBUILD_EXTMOD),)
- dst := $(MODLIB)/kernel
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index ccca705bc389..586456c72e6d 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -46,7 +46,7 @@ modpost-args =										\
- 	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
- 	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)					\
- 	$(if $(KBUILD_MODPOST_WARN),-w)							\
--	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))					\
-+	$(if $(KBUILD_NSDEPS),-d modules.nsdeps)					\
- 	$(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD_NSDEPS),-N)	\
- 	$(if $(findstring 1, $(KBUILD_EXTRA_WARN)),-W)					\
- 	-o $@
-@@ -61,8 +61,8 @@ endif
- # Read out modules.order to pass in modpost.
- # Otherwise, allmodconfig would fail with "Argument list too long".
- ifdef KBUILD_MODULES
--modpost-args += -T $(MODORDER)
--modpost-deps += $(MODORDER)
-+modpost-args += -T modules.order
-+modpost-deps += modules.order
- endif
- 
- ifeq ($(KBUILD_EXTMOD),)
-diff --git a/scripts/nsdeps b/scripts/nsdeps
-index 8b4db63838ce..3192a3945871 100644
---- a/scripts/nsdeps
-+++ b/scripts/nsdeps
-@@ -57,4 +57,4 @@ generate_deps() {
- while read line
- do
- 	generate_deps $line
--done < $MODULES_NSDEPS
-+done < modules.nsdeps
++prepare: outputmakefile
++
+ # Preset locale variables to speed up the build process. Limit locale
+ # tweaks to this spot to avoid wrong language settings when running
+ # make menuconfig etc.
 -- 
 2.43.0
 
