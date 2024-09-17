@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-3599-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3600-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A9E97B146
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:20:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78AC97B148
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 16:20:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C007F1F23B76
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:20:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84F3D285D1C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Sep 2024 14:20:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5F371925B7;
-	Tue, 17 Sep 2024 14:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E054192B94;
+	Tue, 17 Sep 2024 14:18:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxsxDyhz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AIVlRwM2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3A91925B1;
-	Tue, 17 Sep 2024 14:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2275917C99B;
+	Tue, 17 Sep 2024 14:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726582677; cv=none; b=T205+eUOt70ocOTel9K6FbzcwunRp7RdJUqD6smukABTl8/+0uSNUgtfi87fiKelWXaPoofzdjOjyNv9+t5y4rZCY1g78KiUeEzmnh7z7QrF5pihjP+0GXFqj2jlJSVOlvWo29q8sY3O4YyfHbGdKHBqehkMLJhxDtvWZEVhK/Q=
+	t=1726582680; cv=none; b=jrdMsy947iGx17PtAK3yg2qzI/Xk5lnOiGezxICS1aNrjwnsCobzSoKtoL0V0PiDnA2fGvakarQHBwIe/zMH/+gg4QS6ZNly6WEaq0cpYU0e1nlIGCaLZFG6f4SP+5D44+yH7T4gIa5exLMKmCInJY/WGuJ2oLhCC4S1GbDlQTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726582677; c=relaxed/simple;
-	bh=CPGuVVmP9nfnoF+wMfgzB9DaNE/+HVqfHgpUsGHpkck=;
+	s=arc-20240116; t=1726582680; c=relaxed/simple;
+	bh=dwKSfpuXEb7k3eYZ4e5Rn0Sa6XU7qYIELYeSbbtc8lc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ioY400YZboTnuE5kEdBdh05bIrlAuxQ4WLTQ7r8CEGo6Hhdn1HoIon07+EHiFvcYenydkP8DMihnThofVFoZYBcc/zOZS6GMYXfxYxLyrdGYb5IlLh/Y7G8za1k2JTMtq3AtG2HnmhC+cP2EFwhyWIy3j2hoAJH44Y+KDUvyRZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxsxDyhz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94298C4CEC5;
-	Tue, 17 Sep 2024 14:17:55 +0000 (UTC)
+	 MIME-Version; b=WkTHrq4HtNc4IpYpuHhsFOtLH2QNWMqRibwt2ua79fKPUHS1aDFdNIZ5ydr/0Uw6tW99kwOY76HsBoubLiIf+I/y8l/7S45Rj/q0f4R04cBSE9elFvqWs9V+AJ2vWKbUufwTV8q61kFmJhSOBH2cRqNkbmStyd+vUwLAwhjtTr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AIVlRwM2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE01C4CEC5;
+	Tue, 17 Sep 2024 14:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726582677;
-	bh=CPGuVVmP9nfnoF+wMfgzB9DaNE/+HVqfHgpUsGHpkck=;
+	s=k20201202; t=1726582679;
+	bh=dwKSfpuXEb7k3eYZ4e5Rn0Sa6XU7qYIELYeSbbtc8lc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HxsxDyhz/AwuzXACq66np4u4XrLpfHNQqs5Bm6tWzlHQ+885AdHOzSiSN1ztMyrAD
-	 8ZoaJW7oQZwvS4D3qOdA1SKcRue4DSLjJnZfQP9j3kRDcP9Xac9kxgkbeDYIPE6VeB
-	 UJOzimE6zu47d+4fAMPldduXCNxV/+Z/9QEQOL2CVsgV+DiZOX6D4kVmtIpwT+8vHB
-	 YQSGUQy15KElY6hGYPmxtM6Qb6ghabXxVDXNS52dXQSCuf79b4HJpSeQsERmOu8YMo
-	 jjImF+uCPm8IumSRyvo+Pfmmw1JPYIVEppeKTKGExZiwihShQ0V2fld1xU2UnsOBsJ
-	 tF1mdozZZts0w==
+	b=AIVlRwM2FUewwZKUrJJdl5EsCeHBQBPtX6OhxpHOFEIK9AraokHsrtNY/xSxE5tgl
+	 AaAdfZlGy2I7l63r2Kp/Z0qOIujYa/cqQESKw6LrxicB64QqxhRSZRUkpjSgPLFsys
+	 g7tWOtUzFpp0KNu0UqbxJzCcH3ySNuiSAbYa7TfkxEA+Y17UlrboAtE74i/DlrM6lt
+	 OUhVqIu2xJHr6LZp/X0OKIpEiHK7P0VDI6O+bSI6tg9aVJ8jSWzvu0i+If0JxmKz5g
+	 frqA1qk29/VpKAja8loJv7t4rqDDuLlMny6TFTIpUyYLgyvbIMIw3AO+EmiFQF178d
+	 Gr1AUE1Pkcr3g==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Miguel Ojeda <ojeda@kernel.org>,
@@ -49,9 +49,9 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 12/23] scripts/nsdeps: use VPATH as src_prefix
-Date: Tue, 17 Sep 2024 23:16:40 +0900
-Message-ID: <20240917141725.466514-13-masahiroy@kernel.org>
+Subject: [PATCH 13/23] kbuild: replace two $(abs_objtree) with $(CURDIR) in top Makefile
+Date: Tue, 17 Sep 2024 23:16:41 +0900
+Message-ID: <20240917141725.466514-14-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240917141725.466514-1-masahiroy@kernel.org>
 References: <20240917141725.466514-1-masahiroy@kernel.org>
@@ -63,32 +63,35 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This change allows it to work not only for in-tree modules but also for
-external modules, even if they are built in a separate build directory.
+Kbuild changes the working directory until it matches $(abs_objtree).
+
+When $(need-sub-make) is empty, $(abs_objtree) is the same as $(CURDIR).
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/nsdeps | 4 ++--
+ Makefile | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/nsdeps b/scripts/nsdeps
-index f1718cc0d700..8b4db63838ce 100644
---- a/scripts/nsdeps
-+++ b/scripts/nsdeps
-@@ -19,10 +19,10 @@ if ! { echo "$SPATCH_REQ_VERSION"; echo "$SPATCH_VERSION"; } | sort -CV ; then
- 	exit 1
- fi
+diff --git a/Makefile b/Makefile
+index 5700d08c9b57..ee9ad0f0960f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -228,12 +228,12 @@ else # need-sub-make
  
--if [ "$KBUILD_EXTMOD" ]; then
-+if [ "${VPATH+set}" ]; then
- 	src_prefix=
+ # We process the rest of the Makefile if this is the final invocation of make
+ 
+-ifeq ($(abs_srctree),$(abs_objtree))
++ifeq ($(abs_srctree),$(CURDIR))
+         # building in the source tree
+         srctree := .
+ 	building_out_of_srctree :=
  else
--	src_prefix=$srctree/
-+	src_prefix=$VPATH/
- fi
- 
- generate_deps_for_ns() {
+-        ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))
++        ifeq ($(abs_srctree)/,$(dir $(CURDIR)))
+                 # building in a subdirectory of the source tree
+                 srctree := ..
+         else
 -- 
 2.43.0
 
