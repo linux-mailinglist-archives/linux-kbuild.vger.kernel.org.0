@@ -1,70 +1,72 @@
-Return-Path: <linux-kbuild+bounces-3641-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3642-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9EE97D30E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 10:56:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 005F997D310
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 10:56:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EAE7283229
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 08:56:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BEF91F21904
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 08:56:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3AD17DA6E;
-	Fri, 20 Sep 2024 08:56:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F8D3137750;
+	Fri, 20 Sep 2024 08:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NZZ084ew"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EGAkg7VV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2143A22EEF;
-	Fri, 20 Sep 2024 08:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D89F34CF5;
+	Fri, 20 Sep 2024 08:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726822605; cv=none; b=NmG6lm5Tm2ybdxYBfOPbttOAjNWS8q5SrV8GEIH2Ua8ZsEO78FBq1eEiEqqck01iVEF8UMca/3BUPnk5p4sMJRbT5vXfKwEh/Ufmm1BonV0HX1hv0AMyUf3NeIwsQzEai+gNByjkfHSom4yKMJkOFT6gIItUDEaPIVWgXOyDLCA=
+	t=1726822607; cv=none; b=eBHv+Q6LHx0xMYAP8j6J7eyMZJaHerATYiT3s9/R5CgApl3MWerP0ICvqV4rLWIGIlyNgWdL1LRGFLpqh8xye70Q6uf9ipjiqFATN1mwEPbS3RvN6I9l0THJwnc6KfCyyNIiYA3Z374LEiCsEfWvzjgsebGzPULxb8Gehjhbx58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726822605; c=relaxed/simple;
-	bh=/aNzG0VvDQiJBoENuzXT9mrjGoM/WraE9mg2UaXs5lA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GPuf/3JmlMm3virae3fgLW3AdtM5kbA6qBkd/rTitMcmhO/QivqaqHa2wyAKwuhAul4B8qKF58jnkCh/1oYfBbwRHmjPAG/PVM340XX/yLgXUpMccoSff/h/xs4wD03OIDKf3nksilpPgUezAd76r04Wk0wsoOh4ku52SvvD+9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NZZ084ew; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1726822607; c=relaxed/simple;
+	bh=Irg2GzBKQZUEkCk4UB0i5rJX3bypgVmO3Uz93YVGkOw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=k7G71cR19NrnJSikOQHvQGLmAPuiJxflRRqYSlaZc05rXl3yV/n9L97W1QuUuF2E0O4oIjDHmibPCc9UYAGXN3iDVbG623QgwZnBHEF3ss/Vf4hsEVxjaQNJBoqk0DHDY3awPLyq214FHIp8wzNfpChYJl3Pl8UOAvnG0y9LKR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EGAkg7VV; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a83562f9be9so200862466b.0;
-        Fri, 20 Sep 2024 01:56:41 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c46680a71bso437447a12.2;
+        Fri, 20 Sep 2024 01:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726822600; x=1727427400; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iRaxuEQlfKW2g/XHgBJt6Xs+eFFiMWGCan6Za5aU4eI=;
-        b=NZZ084ewfwnyAB2Qr9/OLPhEUDuFKILbsUHliyHwf1WCoi8CTcVHcIVSHHFowLFDWY
-         3emnr8xr2BbUX2lI+l9Pdf4zOpWEQO5niuXF4FwGRzwu7vhE6bTiGGbtjJXf6r/Ziqjb
-         bpSpuva2haD/RQBPxdlpt8ZvcBtuGOjhRtIhQq/Nm/Kfo3uYSFkSG5fwt3euRyaqODc8
-         tNGa7dU1CdU58BzPqE15yH60CG4ujyRSd4dHMXdLfG5gyhZu8RzNN5lGTglsBALus2Vd
-         952Dm1fQSsNz/vh8A6crRVw6n2+nLuM9h6I34OSsSNZDSnjtEo4MurDBRpE+AKc7D6+F
-         JYNw==
+        d=gmail.com; s=20230601; t=1726822604; x=1727427404; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zuBVbFf1k61tFrHxuv3u3r5EVuVStgJFdmZAOMLjXg4=;
+        b=EGAkg7VVfVwjYiUTLmRfvbsz5raDXSELcdlpqLmps1tfxvhUxK66qxwl8LCQFGuOUR
+         xVSbHeNdg1x4jiwYEow04UiaZ1f/S90noxBkqGeOQ5zCl8TXtZr1NVEoUEYcZfxJeeyu
+         VD01sxuRjtZPX994y2Poi4ImCcXiBXTY2S9A600AJr2r3CIa9+tjuAcuNx3fEGwB2OQp
+         GeANDoEnogkm/AafWat5ZYbLHlV2u8FPwNBpbNEmKDU88hp2/hIGCOCGfkW9wHsZV0VK
+         AjgZqe9IyutFZA74oNcV34DRt5XNZYxzybNhD+DvGHc91E+c+BKN8u1sKMzxL+KCNBxr
+         cd/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726822600; x=1727427400;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iRaxuEQlfKW2g/XHgBJt6Xs+eFFiMWGCan6Za5aU4eI=;
-        b=JJhwerSu2dUeu/FiN0NkyGMCWAy/Jby98yIsYbG1oJWGlK8CpakJ9gFN7bJjBkTR/V
-         sfVJSN7pHVO5oHLzRXIcOXVigMWIYtm0msHpTpy/025luinjH+NnUlHHZzYfnnRonhK+
-         /33CdhoPEs33IUZHSomFDApPxRvkff2XbJar5wDxPBfKLUS8JPXr0aIn1O72Fee9VBo6
-         jrGVDNPd47Wv6DKy/7QYIer6x309Ski7ELcanzf97zUASjzmo41C2um72nIrWQAyg29J
-         AHnrBoG+5IV/AA+XVUX97YiocceunHnAhY8q3ExQxSY5LcThOV00ZCV7ka8dTaki37UO
-         z29A==
-X-Forwarded-Encrypted: i=1; AJvYcCUjmN4xt+xKIJZl4qMUqdnA8vUr7den7Jjz2pPhXiCdMOFSeVlrnRIFIlZq9QHQhMOcdEZws2i+loddNH8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWOvJSDbL/Sc+AhHESvOinyQg2IaRWOMc49u6wrLQWjtdota2z
-	RtM+MWT54B/UV/u0jvnPqhlTk3DFuqUsMKg7LuHk1c+nYOOyUFtAaqkTWA==
-X-Google-Smtp-Source: AGHT+IGyNG9aT1ZJpCKkfu8YApBJQZiv5Pwkbbn+pOreJas768yk8cg0P+fItatkHUOlmi5MRsVXBw==
-X-Received: by 2002:a17:907:3f9f:b0:a86:a41c:29e with SMTP id a640c23a62f3a-a90d4fc84dcmr171406166b.2.1726822599852;
-        Fri, 20 Sep 2024 01:56:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726822604; x=1727427404;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zuBVbFf1k61tFrHxuv3u3r5EVuVStgJFdmZAOMLjXg4=;
+        b=sPe7UAfpe0m3Vd/w3JK+GFiwgDl46n5un6o+C0O+JH7gXrLHB6W37pdrNxMFAdXx+E
+         1xIKD1M0NZud2dcMxDDGhMdlRbYYZ+PcSqiDC8/dubNKGVaXn7kVg1l9SRv9u4VyDmB6
+         Q18zG3fxEJ7mFfCN8JuUATVfHGKzh5KPXbwzRH9J5/DUT6rQ9Cy+h6+5+o5GO3s/07/H
+         wY584sy55R3W1fnHXp52YcG1TxX9poPr7kbakCjTzxp2CuIW7HqPJQUn5/Nx2YB1MT1X
+         N8SehPLc0Y+vrGKqO7J4hD6mdqzfXWC9GejVVhqs3GHipSZtAGrUniMhRMleInv9Ud1N
+         c9sA==
+X-Forwarded-Encrypted: i=1; AJvYcCXFCMqYY8YeyjnOepHUl0ZXA7aW4mer7JW0bSDUHCrrZhw3AAc6EQgcWa5UCCODRd2+bouQUUDLMLUfntA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzu/6N35DFJwNzpVcKdGND68nzNxkqYSiIWEE+frisJjUJ4/0s3
+	PkoAeNdopibUJmA8x25cl9MpueRqwcMms6V2nMjZzGLAayYDklvsyNE7Ng==
+X-Google-Smtp-Source: AGHT+IEui0lGllXaB2nDV3EznWZIkawQfwzGCJbAWqlQMYGwpy+N24PXX+4D/QRvLLkzBiedPaU4/A==
+X-Received: by 2002:a17:907:e647:b0:a88:b93b:cdcb with SMTP id a640c23a62f3a-a90d510a264mr158134366b.47.1726822603671;
+        Fri, 20 Sep 2024 01:56:43 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:908:e842:bf20:422c:48db:9094:2fa9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a906109637esm817861866b.40.2024.09.20.01.56.37
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a906109637esm817861866b.40.2024.09.20.01.56.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 01:56:39 -0700 (PDT)
+        Fri, 20 Sep 2024 01:56:43 -0700 (PDT)
 From: Ole Schuerks <ole0811sch@gmail.com>
 To: linux-kbuild@vger.kernel.org
 Cc: ole0811sch@gmail.com,
@@ -77,10 +79,12 @@ Cc: ole0811sch@gmail.com,
 	linux-kernel@vger.kernel.org,
 	nathan@kernel.org,
 	nicolas@fjasle.eu
-Subject: [PATCH v5 00/11] kbuild, kconfig: Add support for conflict resolution
-Date: Fri, 20 Sep 2024 10:56:17 +0200
-Message-Id: <20240920085628.51863-1-ole0811sch@gmail.com>
+Subject: [PATCH v5 01/11] kconfig: Add PicoSAT interface
+Date: Fri, 20 Sep 2024 10:56:18 +0200
+Message-Id: <20240920085628.51863-2-ole0811sch@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240920085628.51863-1-ole0811sch@gmail.com>
+References: <20240920085628.51863-1-ole0811sch@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -89,139 +93,181 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+PicoSAT (https://fmv.jku.at/picosat/) is the SAT solver used in this
+project. It is used as a dynamically loaded library. This commit contains a
+script that installs PicoSAT as a library on the host system, a source file
+that provides a function for loading a subset of functions from the
+library, and a header file that declares these functions.
 
-Configuring a kernel requires a forward enabling approach where one enables
-each option one needs at a time. If one enables an option that selects
-other options, these options are no longer de-selectable by design.
-Likewise, if one has enabled an option which creates a conflict with a
-secondary option one wishes to enable, one cannot easily enable that
-secondary option, unless one is willing to spend time analyzing the
-dependencies that led to this conflict. Sometimes, these conflicts are not
-easy to understand [0,1].
-
-This patch series (for linux-next) provides support to enable users to
-express their desired target configuration and display possible resolutions
-to their conflicts. This support is provided within xconfig.
-
-Conflict resolution is provided by translating kconfig's configuration
-option tree to a propositional formula, and then allowing our resolution
-algorithm, which uses a SAT solver (picosat, implemented in C) calculate
-the possible fixes for an expressed target kernel configuration.
-
-New UI extensions are made to xconfig with panes and buttons to allow users
-to express new desired target options, calculate fixes, and apply any of
-found solutions.
-
-We created a separate test infrastructure that we used to validate the
-correctness of the suggestions made. It shows that our resolution algorithm
-resolves around 95% of the conflicts. We plan to incorporate this with a
-later patch series.
-
-We envision that our translation of the kconfig option tree into a
-propositional formula could potentially also later be repurposed to address
-other problems. An example is checking the consistency between the use of
-ifdefs and logic expressed in kconfig files. We suspect that this could,
-for example, help avoid invalid kconfig configurations and help with ifdef
-maintenance.
-
-You can see a YouTube video demonstrating this work [2]. This effort is
-part of the kernelnewbies Kconfig-SAT project [3], the approach and effort
-is also explained in detail in our paper [4]. The results from the
-evaluation have significantly improved since then: Around 80 % of the
-conflicts could be resolved, and 99.9 % of the generated fixes resolved the
-conflict. It is also our attempt at contributing back to the kernel
-community, whose configurator researchers studied a lot.
-
-Patches applicable to next-20240917.
-
-[0] https://gsd.uwaterloo.ca/sites/default/files/vamos12-survey.pdf
-[1] https://www.linux-magazine.com/Issues/2021/244/Kconfig-Deep-Dive
-[2] https://www.youtube.com/watch?v=vn2JgK_PTbc
-[3] https://kernelnewbies.org/KernelProjects/kconfig-sat
-[4] http://www.cse.chalmers.se/~bergert/paper/2021-icseseip-configfix.pdf
-
-Thanks from the team! (and thanks to Luis Chamberlain for guiding us here)
-
-Co-developed-by: Patrick Franz <deltaone@debian.org>
 Signed-off-by: Patrick Franz <deltaone@debian.org>
-Co-developed-by: Ibrahim Fayaz <phayax@gmail.com>
 Signed-off-by: Ibrahim Fayaz <phayax@gmail.com>
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-Tested-by: Evgeny Groshev <eugene.groshev@gmail.com>
-Suggested-by: Sarah Nadi <nadi@ualberta.ca>
-Suggested-by: Thorsten Berger <thorsten.berger@rub.de>
 Signed-off-by: Thorsten Berger <thorsten.berger@rub.de>
 Signed-off-by: Ole Schuerks <ole0811sch@gmail.com>
-
-Changelog v5:
-* use lists from scripts/include/list.h
-* use PicoSAT as a dynamically loaded library
-* Fix GUI bug that made the displayed tables editable
-* Allow cycling through the desired values of a symbol in the conflict view
-  in the GUI by clicking on the cell
-* Fix usage of "NO" instead of "N" etc. in some places in the GUI
-* Improve function naming
-* Add documentation
-* Simlify xcalloc to xmalloc in some places
-* Fix allocation bug in fexpr_add_to_satmap() and init_data()
-* Remove functions pexpr_eliminate_dups() and print_expr()
-
-Ole Schuerks (11):
-  kconfig: Add PicoSAT interface
-  kbuild: Add list_is_{first,last}, list_size, list_at_index,
-    list_for_each_from
-  kconfig: Add definitions
-  kconfig: Add files for building constraints
-  kconfig: Add files for handling expressions
-  kconfig: Add files for RangeFix
-  kconfig: Add files with utility functions
-  kconfig: Add tools
-  kconfig: Add xconfig-modifications
-  kconfig: Add loader.gif
-  kconfig: Add documentation for the conflict resolver
-
- Documentation/kbuild/kconfig.rst    |   53 +
- scripts/include/list.h              |   71 +
- scripts/kconfig/.gitignore          |    1 +
- scripts/kconfig/Makefile            |   11 +-
- scripts/kconfig/cf_constraints.c    | 1789 ++++++++++++++++++++++++
- scripts/kconfig/cf_constraints.h    |   24 +
- scripts/kconfig/cf_defs.h           |  391 ++++++
- scripts/kconfig/cf_expr.c           | 2003 +++++++++++++++++++++++++++
- scripts/kconfig/cf_expr.h           |  181 +++
- scripts/kconfig/cf_rangefix.c       | 1136 +++++++++++++++
- scripts/kconfig/cf_rangefix.h       |   21 +
- scripts/kconfig/cf_utils.c          |  980 +++++++++++++
- scripts/kconfig/cf_utils.h          |  112 ++
- scripts/kconfig/cfoutconfig.c       |  149 ++
- scripts/kconfig/configfix.c         |  351 +++++
- scripts/kconfig/configfix.h         |   31 +
- scripts/kconfig/expr.h              |   17 +
- scripts/kconfig/install-picosat.sh  |   29 +
- scripts/kconfig/loader.gif          |  Bin 0 -> 4177 bytes
- scripts/kconfig/picosat_functions.c |   74 +
- scripts/kconfig/picosat_functions.h |   35 +
- scripts/kconfig/qconf.cc            |  623 ++++++++-
- scripts/kconfig/qconf.h             |  111 ++
- 23 files changed, 8189 insertions(+), 4 deletions(-)
- create mode 100644 scripts/kconfig/cf_constraints.c
- create mode 100644 scripts/kconfig/cf_constraints.h
- create mode 100644 scripts/kconfig/cf_defs.h
- create mode 100644 scripts/kconfig/cf_expr.c
- create mode 100644 scripts/kconfig/cf_expr.h
- create mode 100644 scripts/kconfig/cf_rangefix.c
- create mode 100644 scripts/kconfig/cf_rangefix.h
- create mode 100644 scripts/kconfig/cf_utils.c
- create mode 100644 scripts/kconfig/cf_utils.h
- create mode 100644 scripts/kconfig/cfoutconfig.c
- create mode 100644 scripts/kconfig/configfix.c
- create mode 100644 scripts/kconfig/configfix.h
+---
+ scripts/kconfig/install-picosat.sh  | 29 +++++++++++
+ scripts/kconfig/picosat_functions.c | 74 +++++++++++++++++++++++++++++
+ scripts/kconfig/picosat_functions.h | 35 ++++++++++++++
+ 3 files changed, 138 insertions(+)
  create mode 100755 scripts/kconfig/install-picosat.sh
- create mode 100644 scripts/kconfig/loader.gif
  create mode 100644 scripts/kconfig/picosat_functions.c
  create mode 100644 scripts/kconfig/picosat_functions.h
 
+diff --git a/scripts/kconfig/install-picosat.sh b/scripts/kconfig/install-picosat.sh
+new file mode 100755
+index 000000000000..aadfa9582ecb
+--- /dev/null
++++ b/scripts/kconfig/install-picosat.sh
+@@ -0,0 +1,29 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++psinstdir=$(mktemp -d)
++if [ $? -ne 0 ]; then
++	echo "mktemp failed"
++	exit 1
++fi
++cd $psinstdir
++wget "https://fmv.jku.at/picosat/picosat-965.tar.gz"
++tar -xf picosat-965.tar.gz
++cd picosat-965
++cp makefile.in makefile.in2
++# change soname to conform with packages for Debian and Fedora
++sed -e "s,-soname -Xlinker libpicosat.so,-soname -Xlinker	\
++	libpicosat-trace.so.0," makefile.in2 > makefile.in
++./configure.sh -O -t --shared
++make libpicosat.so
++install -m 0755 -p libpicosat.so /usr/local/lib/libpicosat-trace.so.0.0.965	\
++&& ln -s -f libpicosat-trace.so.0.0.965 /usr/local/lib/libpicosat-trace.so.0	\
++&& ln -s -f libpicosat-trace.so.0 /usr/local/lib/libpicosat-trace.so \
++&& ldconfig
++echo
++if [ $? -ne 0 ]; then
++	echo "Installation of PicoSAT failed, make sure you are running with root privileges."
++	exit 1
++else
++	echo "Installation of PicoSAT succeeded."
++fi
+diff --git a/scripts/kconfig/picosat_functions.c b/scripts/kconfig/picosat_functions.c
+new file mode 100644
+index 000000000000..ada42abbc22b
+--- /dev/null
++++ b/scripts/kconfig/picosat_functions.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <dlfcn.h>
++#include <unistd.h>
++
++#include "array_size.h"
++
++#include "cf_defs.h"
++#include "picosat_functions.h"
++
++const char *picosat_lib_names[] = { "libpicosat-trace.so",
++				    "libpicosat-trace.so.0",
++				    "libpicosat-trace.so.1" };
++
++PicoSAT *(*picosat_init)(void);
++int (*picosat_add)(PicoSAT *pico, int lit);
++int (*picosat_deref)(PicoSAT *pico, int lit);
++void (*picosat_assume)(PicoSAT *pico, int lit);
++int (*picosat_sat)(PicoSAT *pico, int decision_limit);
++const int *(*picosat_failed_assumptions)(PicoSAT *pico);
++int (*picosat_added_original_clauses)(PicoSAT *pico);
++int (*picosat_enable_trace_generation)(PicoSAT *pico);
++void (*picosat_print)(PicoSAT *pico, FILE *file);
++
++#define PICOSAT_FUNCTION_LIST             \
++	X(picosat_init)                   \
++	X(picosat_add)                    \
++	X(picosat_deref)                  \
++	X(picosat_assume)                 \
++	X(picosat_sat)                    \
++	X(picosat_failed_assumptions)     \
++	X(picosat_added_original_clauses) \
++	X(picosat_enable_trace_generation)\
++	X(picosat_print)
++
++static void load_function(const char *name, void **ptr, void *handle, bool *failed)
++{
++	if (*failed)
++		return;
++
++	*ptr = dlsym(handle, name);
++	if (!*ptr) {
++		printd("While loading %s: %s\n", name, dlerror());
++		*failed = true;
++	}
++}
++
++bool load_picosat(void)
++{
++	void *handle = NULL;
++	bool failed = false;
++
++	/*
++	 * Try different names for the .so library. This is necessary since
++	 * all packages don't use the same versioning.
++	 */
++	for (int i = 0; i < ARRAY_SIZE(picosat_lib_names) && !handle; ++i)
++		handle = dlopen(picosat_lib_names[i], RTLD_LAZY);
++	if (!handle) {
++		printd("%s\n", dlerror());
++		return false;
++	}
++
++#define X(name) load_function(#name, (void **) &name, handle, &failed);
++
++	PICOSAT_FUNCTION_LIST
++#undef X
++
++	if (failed) {
++		dlclose(handle);
++		return false;
++	} else
++		return true;
++}
+diff --git a/scripts/kconfig/picosat_functions.h b/scripts/kconfig/picosat_functions.h
+new file mode 100644
+index 000000000000..5d8524afa844
+--- /dev/null
++++ b/scripts/kconfig/picosat_functions.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef PICOSAT_FUNCTIONS_H
++#define PICOSAT_FUNCTIONS_H
++
++#include <stdbool.h>
++#include <stdio.h>
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++#define PICOSAT_UNKNOWN         0
++#define PICOSAT_SATISFIABLE     10
++#define PICOSAT_UNSATISFIABLE   20
++
++typedef struct PicoSAT PicoSAT;
++
++extern PicoSAT *(*picosat_init)(void);
++extern int (*picosat_add)(PicoSAT *pico, int lit);
++extern int (*picosat_deref)(PicoSAT *pico, int lit);
++extern void (*picosat_assume)(PicoSAT *pico, int lit);
++extern int (*picosat_sat)(PicoSAT *pico, int decision_limit);
++extern const int *(*picosat_failed_assumptions)(PicoSAT *pico);
++extern int (*picosat_added_original_clauses)(PicoSAT *pico);
++extern int (*picosat_enable_trace_generation)(PicoSAT *pico);
++extern void (*picosat_print)(PicoSAT *pico, FILE *file);
++
++bool load_picosat(void);
++
++#ifdef __cplusplus
++}
++#endif
++
++#endif // PICOSAT_FUNCTIONS_H
 -- 
 2.39.2
 
