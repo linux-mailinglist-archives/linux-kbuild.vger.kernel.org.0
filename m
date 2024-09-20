@@ -1,144 +1,158 @@
-Return-Path: <linux-kbuild+bounces-3653-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3654-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C293C97D35E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 11:07:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047BE97D45D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 12:40:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E58461C213C8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 09:07:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 360E21C22093
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2024 10:40:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B8A1135A69;
-	Fri, 20 Sep 2024 09:07:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC5F513D524;
+	Fri, 20 Sep 2024 10:39:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RcAStUtZ"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="rgzwXYcZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829091311B6;
-	Fri, 20 Sep 2024 09:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F0713D260;
+	Fri, 20 Sep 2024 10:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726823247; cv=none; b=hf41eIG2UTGmMZROZI4YebgBNoO12BYb3R66U8gk0nMLjzApc7eQroZCsSObXA+/H2GpYoYwDLaXHPpd/BoQYAH4U7en+Upaeu5R6uQyxxJkJrhfwUbXkn9TDQQxTJSWIOYJyD/zXgVQtqGx+QUAEH0aZwM6rm4+LH6ENO8AN1E=
+	t=1726828772; cv=none; b=o7L9iIUvYklUhJFoKGxEovOL9+TeWTemueD+a3d/gMY97KirYwqn6dBsM4/RiOc1AiLbMnf3I0j3S3NeNPmttmJNB5yPDL1hEh+rx9NPkZ2+Gb8I5DeN8LI7iviVOxye+gw6J5DZFn29P8ripg3YB7Q5ZfL0ysonOCYrMNKB5GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726823247; c=relaxed/simple;
-	bh=1W/vNg24ijyt+ohmdhboKpOvG4M/E1Kjs0Nio0YiFuM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WiiRgCt7niJv/e+P6I84SIDX3SR793K11XkSey1WNvcaFd2aZtae2CPhK823b2FGnxMeZtpt+2JMVjKiGR5xO7RIRHflLdPTYwf8TC/wPcByapVtZEXJLu9F0KCr4XVy6Xjlaz0kMtZQa1s7mHhwNiXY0xaD/0jdkPSFPz2gaJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RcAStUtZ; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso312393866b.0;
-        Fri, 20 Sep 2024 02:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726823244; x=1727428044; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qw+m0q1r4IxYHWGNLkcr5AmxGd10neIFyiXitrVL5Fc=;
-        b=RcAStUtZGp0G0pv4ltWZYTF1ktCqbLWmkOB74oQyRE8ZNGqh8xy1mG7WFstCm6q/vw
-         siB0yjoJx1qho7emIf8yYnx4fuUDWcdiZHGQIt5uqg2sGU1twL3N7oTCnhJTUeH+CI/U
-         kib7lmPGqVvvuqAlfned6Ug1Wb7PEmhMxUogsSvYxVj0hev+fR898RynpUwY7YkyP0TT
-         4vM7wsc6qjrZ/V3/0n76Pu2bhmXQR3X/nRQBqfBgFkQXJYbxgYrHE8NG3suKLlTgIEJS
-         eRxNjDe22V/V+9o2VCpWRR6xbUlVLJnpixPzs/P6VJu0GwJTVZdvSLQzq/FG+nrMbwC3
-         fypA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726823244; x=1727428044;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qw+m0q1r4IxYHWGNLkcr5AmxGd10neIFyiXitrVL5Fc=;
-        b=IKSswtoSx7OQlUdskNwdvdjkaJRyALTPSILj/TzZozOFyoGq5Td0hM/nVhdXGkesiM
-         3pnBkLfe+Y3PS341GE0ZnZ+dix3BxHn1XjaYQRvcxebFR9zFTvMyXL38eBjddRn8/AtN
-         I6MN/WR/QboqmbD4mp+cXW3szb6Yje4XqGiSN+a07onIZb6nYWkhN2kP+ACC6y5QolFw
-         61BSuXoZbq6TomjYVX4riwndY0IOpgVp5Ajymva4QSTb9rkzz6yw/TjX8BQr8Yu67wcT
-         VnKEQ82YR3bunhgGZB0ynOPDadUoqihL7bi8CuC4oTRNmAL5OMl2g3JGbGeX/1+3a++X
-         MwXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfFa+DUNaOoXRLKohWPIfJVoNh4UG3PzfMAgw3q/oQGAat8hIwyowfL99iUpSX1dOzKVA280jHvwO2qTU=@vger.kernel.org, AJvYcCXBrZwtnRxG35NFH2OK56BNWzCpos46eBh701jT0phZoAJe1V0Z6N9cf/n6YhBq4bC/UmOYyWIuPk5JNdBd@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvSja+Gzni8g83cSWYJxlEFk1Xj60TfZinAlNTHagtvtng4Ie9
-	kHEURyMxt/Kvkh4rjEMjwhFdtcTNqlKfFPl1f64kYpbP549W5qOR
-X-Google-Smtp-Source: AGHT+IGURv5RK6sAdlYpRfsfsm5WwxturaKTgVMCFOMqyn+9eXO0aSm8vLfDdA+3aK8GBMM91F8Tcg==
-X-Received: by 2002:a17:907:980b:b0:a8d:29b7:ece3 with SMTP id a640c23a62f3a-a90d3645713mr245422066b.33.1726823243633;
-        Fri, 20 Sep 2024 02:07:23 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:908:e842:bf20:422c:48db:9094:2fa9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90c39cbceesm203669766b.132.2024.09.20.02.07.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 02:07:22 -0700 (PDT)
-From: Ole Schuerks <ole0811sch@gmail.com>
-To: mcgrof@kernel.org
-Cc: deltaone@debian.org,
-	jan.sollmann@rub.de,
-	jude.gyimah@rub.de,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	masahiroy@kernel.org,
-	ole0811sch@gmail.com,
-	thorsten.berger@rub.de
-Subject: Re: [PATCH v4 02/12] kconfig: Add picosat.c (1/3)
-Date: Fri, 20 Sep 2024 11:07:12 +0200
-Message-Id: <20240920090712.52825-1-ole0811sch@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <ZtlyCR4EloWbeWG7@bombadil.infradead.org>
-References: <ZtlyCR4EloWbeWG7@bombadil.infradead.org>
+	s=arc-20240116; t=1726828772; c=relaxed/simple;
+	bh=OIe2GSv2Nfd/MQZ2AtqPDcSJ3q3aTvXHIIeHRnCJNLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oA0JPFVNGW6tsFS+755m/bQ16pi2wlbKPiivWn5DC9fJMfGXd7sAeWkqYycOeofKeXi4DJXcVBcJSMvm8MNyrf918c9kQt0zwt9SGRidp5CC/xCqrS90xU7C1YvKVAul2kJ4Zyj8NPaR0oL5jxm9CRmlq0Ekb/2e+it5ObcvsrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=rgzwXYcZ; arc=none smtp.client-ip=212.42.244.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1726828760; bh=OIe2GSv2Nfd/MQZ2AtqPDcSJ3q3aTvXHIIeHRnCJNLU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rgzwXYcZ0AJ0Sp+jvqhjpKR69G2bNSNs4Qd+ONgqbgV/TsCxtGayBMf12oUfAwVZn
+	 E4k+bJSrMa3mGI15Hn/WSh2/WqDEpIgVhgnypQECW37vaVrIh6RURlzrB1fzk2h843
+	 /v0sZU1MObxQmuQ03v09Ybp+VYoVWPPbGNerJtlw=
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Fri, 20 Sep 2024 12:39:20 +0200 (CEST)
+Received: from l-nschier-nb (unknown [83.68.141.146])
+	by mail-auth.avm.de (Postfix) with ESMTPSA id 5F3AE80885;
+	Fri, 20 Sep 2024 12:39:20 +0200 (CEST)
+Date: Fri, 20 Sep 2024 12:39:19 +0200
+From: Nicolas Schier <n.schier@avm.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH 00/23] kbuild: support building external modules in a
+ separate build directory
+Message-ID: <Zu1Q1yi4bs2plCxl@l-nschier-nb>
+References: <20240917141725.466514-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240917141725.466514-1-masahiroy@kernel.org>
+X-purgate-ID: 149429::1726828760-D2D3900A-31840275/0/0
+X-purgate-type: clean
+X-purgate-size: 3366
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On 9/5/24 10:55, Luis Chamberlain wrote:
-> On Thu, Aug 29, 2024 at 11:23:52PM +0200, Ole Schuerks wrote:
->> If one has to install some external package first,
->> then that might diminish the usefulness. While there are extreme cases
->> where it can take hours to manually identify all the dependencies, first
->> having to build PicoSAT might take longer than manually resolving the
->> conflict. Many users might then never install PicoSAT to try out the
->> conflict resolver, even if they would benefit from it.
->
-> That's a package dependency problem, ie, a distro thing to consider
-> which packages users should have installed. But isn't the bigger issue
-> the fact that you want some C library not the picosat binary tool? Or
-> would it suffice to just have picosat as a binary installed? I see at
-> least debian has python3 bindings now too python3-pycosat. So what type
-> of picosat integration really is best for the task at hand?
->
->> So the question is whether using PicoSAT as an external library is worth
->> the portability issues and effort, and whether it wouldn't make more sense
->> to directly include the PicoSAT source file.
->
-> The pros of an external library are less burden on maintenance, and
-> otherwise we'd be forking PicoSAT, but as I mentioned, I don't see a c
-> library but instead just the picosat binary. An alternative is to use PicoSAT as
-> a git subtree inside Linux on a dedicated directory, this way PicoSAT
-> can evolve and we can update it when we need to. Note a git subtree is
-> not the same thing as a git submodule, those are terrible.
->
->> Otherwise, if we go with not including the PicoSAT source, then one could
->> inform users about the missing package in the GUI, like this:
->> When PicoSAT is installed:
->> https://drive.google.com/file/d/1asBfLp1qfOq94a69ZLz2bf3VsUv4IYwL/view?usp=sharing
->> When PicoSAT is not installed:
->> https://drive.google.com/file/d/1ytUppyFPtH_G8Gr22X0JAf5wIne-FiJD/view?usp=sharing
->>
->> Let us know what you think. Include PicoSAT directly as a source or not,
->> and then inform the user via the GUI?
->
-> Do you need the picosat binary or the actual c code for helpers /
-> library?  I don't think we have anything in Linux yet using git
-> subtrees, but I don't see why we wouldn't for generic tooling and
-> this might be a good example use case.
->
->   Luis
+On Tue, Sep 17, 2024 at 11:16:28PM +0900, Masahiro Yamada wrote:
+> 
+> There has been a long-standing request to support building external
+> modules in a separate build directory.
 
-The packages mentioned in
-https://lore.kernel.org/all/20240710065255.10338-1-ole0811sch@gmail.com/T/#m34fdf309ecd545d72d898655d8c1a2653d1cdb81
-include the necessary libraries. The Python bindings aren't useful for our
-purposes, unfortunately, since many important features are missing, in
-particular the tracing of which assumptions failed. Using PicoSAT as a
-library seems to be the best solution.
+Thanks a lot, you are making several of my colleages very happy with
+your patch set!
+
+> The first half is cleanups of documents and Makefiles.
+> 
+> The last part adds KBUILD_EXTMOD_OUTPUT (MO=).
+> This is too big changes, and too late for the current MW.
+> (I did not test kselftest at all.)
+> I hope people test this and may uncover some issues.
+
+I'm not through all the patches in detail yet, just one observation beforehand:
+
+    $ make KBUILD_OUTPUT=build allnoconfig
+    $ ./scripts/config --file build/.config --enable modules --enable accessibility
+    $ make KBUILD_OUTPUT=build olddefconfig
+    $ make KBUILD_OUTPUT=build
+    $ make KBUILD_OUTPUT=build CONFIG_SPEAKUP=m MO=/tmp/build M=~+/drivers/accessibility/speakup modules
+    /home/nschier/src/kbuild-review/drivers/accessibility/speakup/genmap.c:23:10: fatal error: mapdata.h: No such file or directory
+       23 | #include "mapdata.h"
+          |          ^~~~~~~~~~~
+    compilation terminated.
+    make[3]: *** [/home/nschier/src/kbuild-review/scripts/Makefile.host:133: genmap.o] Error 1
+    make[3]: *** Waiting for unfinished jobs....
+    make[2]: *** [/home/nschier/src/kbuild-review/Makefile:1971: .] Error 2
+    make[1]: *** [/home/nschier/src/kbuild-review/Makefile:251: __sub-make] Error 2
+    make: *** [Makefile:251: __sub-make] Error 2
+    [exit code 2]
+
+If I add "EXTRA_CFLAGS=-I${MO} and EXTRA_HOSTCFLAGS=-I${MO}" to the module
+build command, it works as expected.
+
+Patching this into kbuild works for me, too, but I haven't checked whether it
+breaks some other scenarios:
+
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index e01c13a588dd..056c7da2776f 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -97,10 +97,13 @@ hostrust_flags = --out-dir $(dir $@) --emit=dep-info=$(depfile) \
+                  $(HOSTRUSTFLAGS_$(target-stem))
+ 
+ # $(objtree)/$(obj) for including generated headers from checkin source files
+-ifeq ($(KBUILD_EXTMOD),)
+ ifdef building_out_of_srctree
++ifeq ($(KBUILD_EXTMOD),)
+ hostc_flags   += -I $(objtree)/$(obj)
+ hostcxx_flags += -I $(objtree)/$(obj)
++else
++hostc_flags   += -I $(CURDIR)
++hostcxx_flags   += -I $(CURDIR)
+ endif
+ endif
+ 
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 1bdd77f42289..428a9eb74381 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -190,11 +190,15 @@ endif
+ 
+ # $(src) for including checkin headers from generated source files
+ # $(obj) for including generated headers from checkin source files
+-ifeq ($(KBUILD_EXTMOD),)
+ ifdef building_out_of_srctree
++ifeq ($(KBUILD_EXTMOD),)
+ _c_flags   += $(addprefix -I, $(src) $(obj))
+ _a_flags   += $(addprefix -I, $(src) $(obj))
+ _cpp_flags += $(addprefix -I, $(src) $(obj))
++else
++_c_flags   += $(addprefix -I, $(src) $(obj) $(CURDIR))
++_a_flags   += $(addprefix -I, $(src) $(obj) $(CURDIR))
++_cpp_flags += $(addprefix -I, $(src) $(obj) $(CURDIR))
+ endif
+ endif
+ 
+Is '-I$(MO)' in CFLAGS/HOSTCFLAGS is something we should support by
+default, or should this be added to the external module's Makefile by
+the respective developers themselves?
+
+Kind regards,
+Nicolas
 
