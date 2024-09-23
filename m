@@ -1,121 +1,86 @@
-Return-Path: <linux-kbuild+bounces-3666-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F1E97EB41
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 14:05:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D60B97F039
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 20:13:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A3E8F1C20FE3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 12:05:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E6F41C21741
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 18:13:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02AB823AC;
-	Mon, 23 Sep 2024 12:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC58B19F430;
+	Mon, 23 Sep 2024 18:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="HKll8kdr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4/ZLxs9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899AA433D6;
-	Mon, 23 Sep 2024 12:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903AA8C1A;
+	Mon, 23 Sep 2024 18:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727093127; cv=none; b=CegKhKXz4oky9u7u+peMs5uZC/X7kXHxWyYgnLv80jmeKCdluA6ci7iPe/0hTOHx7it9ROEZKzKhcfbV3yRbIPlTU+F2aRlq0iubu5bE1gk7LNlSBaXAmrqhTGN/aftuIoYKTjHyoybgH/XC1Ex6UmXRBIqfwZdHKjHCX98KPrA=
+	t=1727115230; cv=none; b=V6NZzzDzaI0kqBBdSnq6pPGfTnnt4hNoUUEy5f/fCjthnvuPVHSoacw3P35sLATCHBQ0z4aGcjWLVbb52I7QsM3jvBlYofby66Q59kPGjLLOvhR6IabB1+UUZjI8yIEsj5g5EmJK+RbaxqWyd0lYmQM0HR9YKnm8MtyeHkEidkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727093127; c=relaxed/simple;
-	bh=e6/cCkl9xt+sSAhW7MJqEIlIIHBhlH0yspIFy+Cgd60=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=lyhTE4uEqnWFz3wUCm9xNuZelggL/x4aD0RJrO9DfdeDaD+H49pVkO3IGPrT52sYie3RpBj6SMbaAL5jLg4SfEjRnqOyNn6ahm5WoZ32X6YjoCQ7h/ZN3TA4Q75RMuSyqKSvxLX8z3BDTCOBWgGsPlYUcKv0lrXv58W93M3gy2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=HKll8kdr; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1727093111;
-	bh=e6/cCkl9xt+sSAhW7MJqEIlIIHBhlH0yspIFy+Cgd60=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=HKll8kdr8JeTpP9+fAjO87d06BuPszrfmhYVBj6izpnVsQPqW22ZmZPCY3b0hlbFM
-	 KvpvuzmefTt86A7azqp1KKx1RYdPguV+Q5fFkkOmZmfEYgXdfgiUKUyAx2SuAVsa8R
-	 hCLQ+sTGr0Pul8TQhI52Piq6vf2H/5DhsPgyV0as=
-Date: Mon, 23 Sep 2024 14:05:08 +0200 (GMT+02:00)
-From: linux@weissschuh.net
-To: 1127955419@qq.com
-Cc: christian@heusel.eu, nathan@kernel.org, masahiroy@kernel.org,
-	nicolas@fjasle.eu, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, zachwade.k@gmail.com
-Message-ID: <13565319-6dc6-4f15-ae02-3b3e760efa01@weissschuh.net>
-In-Reply-To: <tencent_7DE03EC9AEAFF374BDAB9CCCF4C047EF2305@qq.com>
-References: <tencent_7DE03EC9AEAFF374BDAB9CCCF4C047EF2305@qq.com>
-Subject: Re: [PATCH] kbuild: add package-dbg to pacman packages
+	s=arc-20240116; t=1727115230; c=relaxed/simple;
+	bh=1WyhULVRVV/rtdeWwTQ2M9+nk7WPwcxLgUiEtp966xs=;
+	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
+	 Subject:From:Cc:To:Date; b=CyT7WovSano8luJSnKcMFl/ShOd7t2IRz0+H4xK2jI0SK4cnvwIIDj5r+lXitUty+QCoMc+dEWri4qJy8wDpNGpWtJpghI7EIUszQzlr3eeItMzSrKhzUUGNLxTWVXfH1Dh+RzNAdfUuEdo83exrKoF+iNpMS166TaI+gsqbYno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4/ZLxs9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028FBC4CEC4;
+	Mon, 23 Sep 2024 18:13:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727115230;
+	bh=1WyhULVRVV/rtdeWwTQ2M9+nk7WPwcxLgUiEtp966xs=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=G4/ZLxs9Q4D9kEnETKRLoXRmkGqSdWz+iEY0I8D29Y4fabg07BpYqGOhriher+Mng
+	 U+fIDfjEsaZayJijn1WSK8tqgfLBt4AmkijpC7CBOoOxRd3b0KeDpSTafSii3pPPDZ
+	 QuUDEXmpBiY7A+Admls8DVdsTim1Xhf0318L5l2f1bv+lPtBzrseo385Y5DguGwap/
+	 dGUePuLxl8uU02UjtfmXxS51GXMAPXuNEHtATnFMc2CWvn+YFDhD3xr2VpopC8VV9B
+	 csiSC1riXKdxRUJ2pAdITGNdUMp4KPSi4qBhVNOPw53swFV9itIbBINfHLcUgQ0XHE
+	 ouCDS8uDHFRhA==
+Message-ID: <146d3866ec57e963713cd07b9eaf5a71.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <13565319-6dc6-4f15-ae02-3b3e760efa01@weissschuh.net>
+In-Reply-To: <CAK7LNAQEx52BYMYfNu+xj8sNmdtH9XfPapdhJDrsbDo43aD3Dg@mail.gmail.com>
+References: <cover.1724159867.git.andrea.porta@suse.com> <12d0909b1612fb6d2caa42b4fda5e5ae63d623a3.1724159867.git.andrea.porta@suse.com> <2113b8df52164733a0ee3860bb793d6e.sboyd@kernel.org> <ZtcBHvI9JxgH9iFT@apocalypse> <d87530b846d0dc9e78789234cfcb602a.sboyd@kernel.org> <CAK7LNAQEx52BYMYfNu+xj8sNmdtH9XfPapdhJDrsbDo43aD3Dg@mail.gmail.com>
+Subject: Re: [PATCH 05/11] vmlinux.lds.h: Preserve DTB sections from being discarded after init
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Andrea della Porta <andrea.porta@suse.com>, Andrew Lunn <andrew@lunn.ch>, Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Catalin Marinas <catalin.marinas@arm.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Conor Dooley <conor+dt@kernel.org>, David S. Miller <davem@davemloft.net>, Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic <dragan.cvetic@amd.com>, Eric Dumazet <edumazet@google.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jakub Kicinski <kuba@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Michael Turquette <mturquette@baylibre.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, Stefan Wahren <wahrenst@gmx.net>, Will Deacon <will@kernel.o
+ rg>, devicetree@vger.kernel.org, linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
+To: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 23 Sep 2024 11:13:47 -0700
+User-Agent: alot/0.10
 
-Hi,
+Quoting Masahiro Yamada (2024-09-22 01:14:12)
+>=20
+> Rather, I'd modify my patch as follows:
+>=20
+> --- a/scripts/Makefile.dtbs
+> +++ b/scripts/Makefile.dtbs
+> @@ -34,12 +34,14 @@ $(obj)/dtbs-list: $(dtb-y) FORCE
+>  # Assembly file to wrap dtb(o)
+>  # ----------------------------------------------------------------------=
+-----
+>=20
+> +builtin-dtb-section =3D $(if $(filter arch/%, $(obj)),.dtb.init.rodata,.=
+rodata)
 
-Sep 23, 2024 13:58:06 1127955419@qq.com:
+I think we want to free the empty root dtb that's always builtin. That
+is in drivers/of/ right? And I worry that an overlay could be in arch/
+and then this breaks again. That's why it feels more correct to treat
+dtbo.o vs. dtb.o differently. Perhaps we can check $(obj) for dtbo vs
+dtb?
 
-> From: Li XingYang <1127955419@qq.com>
->
-> The current pacman package does not include the debuginfo package
-> add debuginfo package that include vmlinux
-> vmlinux is very useful when debugging the kernel using crash
-
-This is already implemented in
-"kbuild: add debug package to pacman PKGBUILD"
-which is in the kbuild tree.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/=
-commit/?h=3Dkbuild&id=3D4929f5b95f6b20ae10f2c409fb2ca58253e73706
-
->
-> Signed-off-by: Li XingYang <1127955419@qq.com>
-> ---
-> scripts/package/PKGBUILD | 14 +++++++++++++-
-> 1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> index 663ce300dd06..4b5c435e5eaa 100644
-> --- a/scripts/package/PKGBUILD
-> +++ b/scripts/package/PKGBUILD
-> @@ -5,7 +5,7 @@
-> pkgbase=3D${PACMAN_PKGBASE:-linux-upstream}
-> pkgname=3D("${pkgbase}" "${pkgbase}-api-headers")
-> if grep -q CONFIG_MODULES=3Dy include/config/auto.conf; then
-> -=C2=A0=C2=A0 pkgname+=3D("${pkgbase}-headers")
-> +=C2=A0=C2=A0 pkgname+=3D("${pkgbase}-headers" "${pkgbase}-dbg")
-> fi
-> pkgver=3D"${KERNELRELEASE//-/_}"
-> # The PKGBUILD is evaluated multiple times.
-> @@ -100,6 +100,18 @@ _package-api-headers() {
-> =C2=A0=C2=A0=C2=A0 ${MAKE} headers_install INSTALL_HDR_PATH=3D"${pkgdir}/=
-usr"
-> }
->
-> +_package-dbg() {
-> +=C2=A0=C2=A0 pkgdesc=3D"debuginfo for the ${pkgdesc} kernel"
-> +
-> +=C2=A0=C2=A0 export MAKEFLAGS=3D"${KBUILD_MAKEFLAGS}"
-> +=C2=A0=C2=A0 cd "${objtree}"
-> +=C2=A0=C2=A0 local builddir=3D"${pkgdir}/usr/${MODLIB}/build"
-> +=C2=A0=C2=A0 mkdir -p "${builddir}"
-> +
-> +=C2=A0=C2=A0 echo "Installing vmlinux..."
-> +=C2=A0=C2=A0 cp vmlinux "${builddir}/vmlinux"
-> +}
-> +
-> for _p in "${pkgname[@]}"; do
-> =C2=A0=C2=A0=C2=A0 eval "package_$_p() {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(declare -f "_package${_p#$pk=
-gbase}")
-> --
-> 2.46.1
-
+Also, modpost code looks for .init* named sections and treats them as
+initdata already. Can we rename .dtb.init.rodata to .init.dtb.rodata so
+that modpost can find that?
 
