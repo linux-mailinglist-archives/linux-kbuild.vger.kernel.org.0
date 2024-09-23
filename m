@@ -1,111 +1,142 @@
-Return-Path: <linux-kbuild+bounces-3661-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3662-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9035D97E6EE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 09:55:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 080F997E6F7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 09:57:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C13651C21136
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 07:55:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B472D1F21776
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Sep 2024 07:57:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A194D8C3;
-	Mon, 23 Sep 2024 07:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 784D84EB45;
+	Mon, 23 Sep 2024 07:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J+8qrgSl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ru76ufvX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295EF3FE55
-	for <linux-kbuild@vger.kernel.org>; Mon, 23 Sep 2024 07:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C2E47772;
+	Mon, 23 Sep 2024 07:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727078094; cv=none; b=jIrODh/lR5bfLyCY3pSaSVROXYw8CiGLF1hgaZ/fljIBUxSeInMwSh3f7hIrEx+yQx0o/55IEOvBABYRmZHi2M1jQe3FXlCDr87zLnGpMR0vTF5wnL8AS8Luscyxn87hdI68xUN4fflLfMI+jLwSpix4aewxyuQ3ru4WcqN5nqA=
+	t=1727078235; cv=none; b=d+gJAHjm0vB4UWmrqsbRvtUmE1MMNTRwFq7FIrZpFETFf8knSp+l7pqYfRM78KEbbYjgTZJpXb3ZQW562tpzMvAR0M39uyXjNDOHfw4ml6Gf8XQAZGCKmupyWydln3m6vk0BuLlWQYSh9M9ImmV7e3a/beeckpkrB4ux2PalpSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727078094; c=relaxed/simple;
-	bh=kQLqvXxfar13/dE2X992gYRg93pcxmdGvjFLCvO3qSA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GaZ0v1n9N69+rQnXCavz4M/LJ+QzM8RoKLWQF10G+4f8O0h33QY6AmAez0SOVNmlnb9NDPSQDKw4TvAzsXM3K5SdaQUMrA1JOpc7efSfBt1JBRbSfi+wkJeSHQi64vti2OJVCdCK3j4t+PivgvVFz6uXBwRm8LxKgYEf4Qn0rEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J+8qrgSl; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37a413085cbso1902441f8f.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 Sep 2024 00:54:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727078091; x=1727682891; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kQLqvXxfar13/dE2X992gYRg93pcxmdGvjFLCvO3qSA=;
-        b=J+8qrgSlCdnZ4ON6b/M+pDJ+Z2Km7lltvqYuZrlSyvlHh85zG2ysh42zwXadhBNQZP
-         wJ1W8JSzDOrx2BSqJq2o4WBXM61uy7xLqUSmTztl4phkrBw/MIG2/wnifPIuibClvu8+
-         /NBOx65FoWAbvyS4bbrGpvgb27s9lP7yAXnhhimv+y0Khr2q7isJlyhn58cDZv1sQFx+
-         6fgQ+lSU8m5q9mOfK1PWaGY/i9sWVzMdXyHmyv3YZ4P/TheWvorUUDoDCpqAkdHbJ1Rp
-         6LCPjehFaaeeWtcPZFTmWHj/nRAUzEA7KI4xi4IqDaZ94bMta/sg2QAjffjMoHD86rLf
-         fRTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727078091; x=1727682891;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kQLqvXxfar13/dE2X992gYRg93pcxmdGvjFLCvO3qSA=;
-        b=sRfnQ1JLWu1+bnIbzaC2C7zLwmPczBjQlOPzs2ru4b/JhYmT5AJoePsFb/hIHms+GL
-         fNzw5WNoGh+cyoQgvByCdZILF+5o/Vjf0Y9QPW8J12v1m1q6qZMpcLJh3FpZEG0dQ58w
-         HdmLtrnsH2NDqmg9kt1/bIZkagpyLYTn4UR3Uxg7/xK0Cc4RHNexWDOMit+9N80iBanZ
-         1+ILnwOPzqV4G1Mj+qiOQpVWoeFTMA6K8fIiqEmPdLxqQAED7581B8K6skuqJ17hKgpV
-         3felFzB3y2+sI+V1qyGswRbJ/HXaMFsfuftZt99/qVl4t1PtQj9HP0NcIBC0LgYOnAWF
-         U6sw==
-X-Forwarded-Encrypted: i=1; AJvYcCWqbDbmcg3y2A9GrIDe69/VFtJhXXEdEebAuxq5/63UdzF7go7h58KtWAz1XKSIt20J5I4CMPTTZxdrwx8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzcGeyHxjmorq1up7M0/V8ZeUL6RMnwqnqAIdB7V6CMDv69jf2
-	BsvKyuxenRcM/2JOJt4FgVdvDCyYz2DpSGzvZoSnUGd3jR4k1fEz/HC0lEOVIF9uJRu1OD3Qv+b
-	a2uiln1+XmeLugq3UAipIyCw4A6x4GE2q2s28
-X-Google-Smtp-Source: AGHT+IGcu1iI3RhvLnQNs/RGwGpVv2dlXLHZmLTZXX5UKuX8D+yStN7YFyEeRfi9inoJZgWZ2+Vu6eGAVRkYgMRGeTE=
-X-Received: by 2002:a5d:4f05:0:b0:374:d006:ffae with SMTP id
- ffacd0b85a97d-37a41497226mr6751368f8f.6.1727078091332; Mon, 23 Sep 2024
- 00:54:51 -0700 (PDT)
+	s=arc-20240116; t=1727078235; c=relaxed/simple;
+	bh=/67wU+xu3DRRRzxut6ybxR6VskXWX3/R07CWLjzgkcg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d/Mxquwi73RSj9+vGKNIvDcmkVeScI5Ytr/WbGKu8dlp+gFStxrmPug9C4WyH1IxM5Ma9yXxRpSTNOAw7m6B/cIu1x/mcyeFoavN9DoN6wq97qo8xFGJFm5Se31vr5HicYYm7sKHrUddnoTWXhrn/SAsgnwMLTT5c+Hy9nLgFSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ru76ufvX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2EEC4CEC4;
+	Mon, 23 Sep 2024 07:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727078234;
+	bh=/67wU+xu3DRRRzxut6ybxR6VskXWX3/R07CWLjzgkcg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ru76ufvX2yyZa4cxQbZARKV6kv+IPZvCz+FKw4j7EdLS/TkMhGh7gqHwYGAph3ree
+	 oBmOuXwf8RdlpcXWrixZDcJMxwZi0unAnef9huV8RG0DJlMekWGXZ5c6iRvhTra8s7
+	 AGSlDInfPbp/saAMisCU4wQrv7puSpEX/U3JKyXEecoy2XoAcsQB1Xde5d+M0/znFc
+	 KVvfRpwBuizmL7hTnnQjRjI5X/pIWLjy2O61WyBl6VSYAuR05r7XGIHm9wlN5lacYg
+	 T+icvrqkf4tbzMvn91PtD3cK63Yb6NC1PXI8z05k6vY/lW/Uv94a9qV1F2CKfQR1zV
+	 lNqmT0qaYpWMw==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Andrea della Porta <andrea.porta@suse.com>,
+	linux-clk@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brendan Higgins <brendanhiggins@google.com>,
+	Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH v3 1/2] kbuild: move non-boot built-in DTBs to .rodata section
+Date: Mon, 23 Sep 2024 16:56:02 +0900
+Message-ID: <20240923075704.3567313-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202409231044.4f064459-oliver.sang@intel.com>
-In-Reply-To: <202409231044.4f064459-oliver.sang@intel.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 23 Sep 2024 09:54:38 +0200
-Message-ID: <CAH5fLghbP3KZjkBbQe_MMJrnRpk4M0Hn0nu=uRtKWKqmKz6OeQ@mail.gmail.com>
-Subject: Re: [linux-next:master] [cfi] ce4a262098: CFI_failure_at_do_basic_setup
-To: kernel test robot <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, 
-	Linux Memory Management List <linux-mm@kvack.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Gatlin Newhouse <gatlin.newhouse@gmail.com>, 
-	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 23, 2024 at 4:35=E2=80=AFAM kernel test robot <oliver.sang@inte=
-l.com> wrote:
->
-> Hello,
->
-> kernel test robot noticed "CFI_failure_at_do_basic_setup" on:
->
-> commit: ce4a2620985cdf06c200ec0b6dce80374237697c ("cfi: add CONFIG_CFI_IC=
-ALL_NORMALIZE_INTEGERS")
-> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
->
-> [test failed on linux-next/master 62f92d634458a1e308bb699986b9147a6d67045=
-7]
+Commit aab94339cd85 ("of: Add support for linking device tree blobs
+into vmlinux") introduced a mechanism to embed DTBs into vmlinux.
 
-This failure is due to an LLVM bug that causes
-CFI_ICALL_NORMALIZE_INTEGERS to be incompatible with KASAN and GCOV.
-It has already been fixed upstream:
-https://github.com/llvm/llvm-project/pull/104826 (thanks Sami!)
+Initially, it was used for wrapping boot DTBs in arch/*/boot/dts/, but
+it is now reused for more generic purposes, such as testing.
 
-However, we may want to look into having Kconfig detect this case.
+Built-in DTBs are discarded because KERNEL_DTB() is part of INIT_DATA,
+as defined in include/asm-generic/vmlinux.lds.h.
 
-Alice
+This has not been an issue so far because OF unittests are triggered
+during boot, as defined by late_initcall(of_unittest).
+
+However, the recent clk KUnit test additions have caused problems
+because KUnit can execute test suites after boot.
+
+For example:
+
+  # echo > /sys/kernel/debug/kunit/clk_register_clk_parent_data_device/run
+
+This command triggers a stack trace because built-in DTBs have already
+been freed.
+
+While it is possible to move such test suites from kunit_test_suites to
+kunit_test_init_section_suites, it would be preferable to avoid usage
+limitations.
+
+This commit moves non-boot built-in DTBs to the .rodata section. Since
+these generic DTBs are looked up by name, they do not need to be placed
+in the special .dtb.init.rodata section.
+
+Boot DTBs should remain in .dtb.init.rodata because the arch boot code
+generally does not know the DT name, thus it uses the __dtb_start symbol
+to locate it.
+
+This separation also ensures that the __dtb_start symbol references the
+boot DTB. Currently, the .dtb.init.rodata is a mixture of both boot and
+non-boot DTBs. The __dtb_start symbol must be followed by the boot DTB,
+but we currently rely on the link order (i.e., the order in Makefiles),
+which is very fragile.
+
+Fixes: 5c9dd72d8385 ("of: Add a KUnit test for overlays and test managed APIs")
+Fixes: 5776526beb95 ("clk: Add KUnit tests for clk fixed rate basic type")
+Fixes: 274aff8711b2 ("clk: Add KUnit tests for clks registered with struct clk_parent_data")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+Changes in v3:
+  - Move to .rodata section instead of .init.rodata
+
+ scripts/Makefile.dtbs | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.dtbs b/scripts/Makefile.dtbs
+index 46009d5f1486..3e81cca6f68a 100644
+--- a/scripts/Makefile.dtbs
++++ b/scripts/Makefile.dtbs
+@@ -34,12 +34,14 @@ $(obj)/dtbs-list: $(dtb-y) FORCE
+ # Assembly file to wrap dtb(o)
+ # ---------------------------------------------------------------------------
+ 
++builtin-dtb-section = $(if $(filter arch/%, $(obj)),.dtb.init.rodata,.rodata)
++
+ # Generate an assembly file to wrap the output of the device tree compiler
+ quiet_cmd_wrap_S_dtb = WRAP    $@
+       cmd_wrap_S_dtb = {								\
+ 		symbase=__$(patsubst .%,%,$(suffix $<))_$(subst -,_,$(notdir $*));	\
+ 		echo '\#include <asm-generic/vmlinux.lds.h>';				\
+-		echo '.section .dtb.init.rodata,"a"';					\
++		echo '.section $(builtin-dtb-section),"a"';				\
+ 		echo '.balign STRUCT_ALIGNMENT';					\
+ 		echo ".global $${symbase}_begin";					\
+ 		echo "$${symbase}_begin:";						\
+-- 
+2.43.0
+
 
