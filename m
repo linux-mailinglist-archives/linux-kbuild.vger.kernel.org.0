@@ -1,81 +1,75 @@
-Return-Path: <linux-kbuild+bounces-3698-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3699-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EA5983FB6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 09:52:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F67E984119
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 10:52:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21D7E282DD5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 07:52:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76CB9B208A3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 08:52:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA88E7F48C;
-	Tue, 24 Sep 2024 07:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDE0F1531E1;
+	Tue, 24 Sep 2024 08:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LzGyz53U"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="FTyRjvbe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08EB61487DD
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Sep 2024 07:52:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3B5150994;
+	Tue, 24 Sep 2024 08:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727164370; cv=none; b=rSBYOq/knQ0Y4dDpN4NQpAIOpKxbSe4/vcHID/MUUOzSyv4vY/4tKKYg1o+lMgl47tnR+ZY9pn+U8ysTXtM+GwxhiRYJpNVSf0AM8uDuFz8Q3QUqWeZrStxAvIUPDvwmfGE7way1kPkbpofWrf0rq1mCmNeDGfoWBasmV6RasQU=
+	t=1727167918; cv=none; b=o2mbqsKXj0JZQPxYIiQizYqfBVU4CrwHalN26E1ptHZUR8ROUl4rNnbnau4gexu97YzvNJRYQucdL6jsmPgM2AbO2aPxjsshdL3u7hCiSAngT01l0HJCjEQX6DnKWUNAbvLM0i5/uBA6P2HiKANv3BDtutkaMK/em/T6L/B17+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727164370; c=relaxed/simple;
-	bh=jmxCdwBMGJfRiTBkGEvh+OIgwE2BlqH9TH/yhYHzDLw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IXrJoeFq3YbV/Q+PIv2HokPKSGBLHJcJu7+wyzOQmyCsGKbiCCgMJm4RM+Idolxu7QnjkQk9JnwZqFcF8WmtP4kGjV34nw3Iwu+u9V2qBMd8aiuCbnzQGpyqfIg+DBsA6P29AS2MY2Xz7Zek3Xtkw3T3cvqbb+9PcIcj8YSOil4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LzGyz53U; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1727164367;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ObXE9vIRh5fRALLQD7xR1O0F8ZoBqYvtbEm80vH4934=;
-	b=LzGyz53UKSPb+EdC94/ibhEmqbmwxH/LEkQUQafNzYvEPoxKsgvARFmHynW6dVw+7IpsrH
-	azuv12nk5MJJM+4rU7FADT7QUOUlrR4aRvMgV/hxvulNkDt8dGez6o2ttG2eoLs/ZpmxzF
-	2rpwMk7Jmq7HFEuBxHKw9KYiC1uYpEI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-137-pigBTcInNueqHuFk3NGdow-1; Tue, 24 Sep 2024 03:52:46 -0400
-X-MC-Unique: pigBTcInNueqHuFk3NGdow-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-42ac185e26cso40540085e9.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Sep 2024 00:52:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727164365; x=1727769165;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ObXE9vIRh5fRALLQD7xR1O0F8ZoBqYvtbEm80vH4934=;
-        b=nIacRQ70g2+njkGC1rtKzp6AYi6I+BE4Yrpo7MfwoVhxHh7+UGMd+Md+ZqOq9IAR/A
-         BD2WX3csRASnIUfFJzZtVNUgNywJTIP3V/i/TOx41BhXdPia/9YAyWd+Pr72r1P1Kq/S
-         za1bHKjYDIa/H0hTPca6gOeFOjXpGapo36oAoEaXsK0mtBsScXQnJUGO9zBsgTswZT/S
-         1reSizaEl2sNCYoth4dpmFyx9pxpNQtCY8FfSfjfeMXzGLD8eOarqtxK8ZkD7Twf4xlr
-         A+4RNAkLDy4O2lUUs4VVby9v+1LSGCO0Akfl5wNIvrXNqe8AXY2Xf1VINU+6lV3dok1k
-         FXzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTGsrQ/7EC7KZj/A5A/TOwCX+0jYzEWjZ1/89IJktcGiDH0w60v0WdykVlU6v8bIrnSKxu/17l8dYTDUI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFOrZQidtsqQVWA0a8njY3rsn/KuUjWiGjSCnjCSjf0IETwHHl
-	54NHg2y71ErprKOuVWB5JUUj9ALnQb44SGU+7jWQ/VyWY13RvJT+7xPXVAEvbAzvEVULpjEanyo
-	ZwH7kKb2h20UGfk4gDyz1Tyc/m3aqGGi5vRRs1H5h5J0WNDqDwTaKBPLzlbGz7A==
-X-Received: by 2002:a5d:47a8:0:b0:374:c6ad:a7c6 with SMTP id ffacd0b85a97d-37a431583e1mr9188492f8f.20.1727164364814;
-        Tue, 24 Sep 2024 00:52:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGGi61AR7ZQd735ap15hTXbAosrgZ53xoTwmw7kaKYs0un5FWhvEzu7+ZbaquyAzWoh4P/H3A==
-X-Received: by 2002:a5d:47a8:0:b0:374:c6ad:a7c6 with SMTP id ffacd0b85a97d-37a431583e1mr9188471f8f.20.1727164364325;
-        Tue, 24 Sep 2024 00:52:44 -0700 (PDT)
-Received: from [10.202.151.204] (nat-pool-brq-u.redhat.com. [213.175.37.12])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc2a8c2csm858559f8f.20.2024.09.24.00.52.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Sep 2024 00:52:43 -0700 (PDT)
-Message-ID: <c10d3f92-e4ec-4a56-b78e-acb68865a11c@redhat.com>
-Date: Tue, 24 Sep 2024 09:52:42 +0200
+	s=arc-20240116; t=1727167918; c=relaxed/simple;
+	bh=OGJsRxm/aSvp0aTvmxcwKCi2GclZN3honIQF+YDTsPs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:From:In-Reply-To:
+	 Content-Type:References; b=GtJruUwp8VcYzKb/qRoTo3ZoMBOLQrJSAUL5ZdEadg2Y78YpRX5apJSHMg0H1TmSqXr8XEDdBWGavvSPvIoAnFeKBWpVgC3+jHpyIQUlu5OLk4S0cYM3sfdomyQul5e73Y0/0zW8XaYUhPKoWNg832wP1cdD+0P3uNwDFVCN2YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=FTyRjvbe; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20240924085148euoutp014d81d8b6306e607e4bf3f5cba5893293~4Ig-EUA_-1855518555euoutp013;
+	Tue, 24 Sep 2024 08:51:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20240924085148euoutp014d81d8b6306e607e4bf3f5cba5893293~4Ig-EUA_-1855518555euoutp013
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1727167908;
+	bh=+OENs58HAqzqyrRb3PODk/cmg326VKfftT83cloY8MU=;
+	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
+	b=FTyRjvbeE8EmsNK62SMrSA+7VgKYquSRnqZ8sf0a/9Musfv8e59SiytOejz1XTuAF
+	 ZpB/Gv7ZqjLHR2EMfyY6JnPfWgaV4W8+nzvH7mc2A1VNNathWqbn/2Ho5N4Q/wVepu
+	 7ptaX/HQSCvyxEcLlm+wPp3PsblRfCKylcQi6+gI=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20240924085147eucas1p14ec5d74b01509ae2d000edd5e6bfff9c~4Ig_1XQHX0782607826eucas1p1R;
+	Tue, 24 Sep 2024 08:51:47 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id D3.BE.09620.3AD72F66; Tue, 24
+	Sep 2024 09:51:47 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240924085147eucas1p166c893c894c86bb9c9f1a4a588f00c0f~4Ig_M8NsH1841818418eucas1p1T;
+	Tue, 24 Sep 2024 08:51:47 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240924085147eusmtrp15fcc19f3a3d28b3166e599dba1351bbd~4Ig_KNUiJ2571425714eusmtrp1h;
+	Tue, 24 Sep 2024 08:51:47 +0000 (GMT)
+X-AuditID: cbfec7f5-d1bff70000002594-30-66f27da3d6f1
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id 7B.88.19096.3AD72F66; Tue, 24
+	Sep 2024 09:51:47 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240924085146eusmtip2621f4dfeadc8cf4bdb0ef250758c5e04~4Ig92tMVK1318013180eusmtip28;
+	Tue, 24 Sep 2024 08:51:46 +0000 (GMT)
+Received: from [106.110.32.87] (106.110.32.87) by CAMSVWEXC02.scsc.local
+	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+	Tue, 24 Sep 2024 09:51:44 +0100
+Message-ID: <33953236-138f-4141-a5af-9ea60d148ed3@samsung.com>
+Date: Tue, 24 Sep 2024 10:51:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -83,149 +77,196 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: Make SPLIT_PTE_PTLOCKS depend on the existence of
- NR_CPUS
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Guenter Roeck <linux@roeck-us.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- linux-kbuild <linux-kbuild@vger.kernel.org>
-References: <20240923142533.1197982-1-linux@roeck-us.net>
- <f15ff981-e725-40f0-8d2f-856b4b6a65b3@redhat.com>
- <4c2cdf84-9794-4722-8417-cf924f890797@roeck-us.net>
- <203f0d01-d25e-4436-b769-b89edb1b57d9@roeck-us.net>
- <CAMuHMdWfsgnCRLhCkvJBn8Prdd4M=HvwtsPT0BeRPtA-nFHzYQ@mail.gmail.com>
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <CAMuHMdWfsgnCRLhCkvJBn8Prdd4M=HvwtsPT0BeRPtA-nFHzYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2 8/8] Documentation: add howto build in macos
+Content-Language: en-GB
+To: Marc Zyngier <maz@kernel.org>
+CC: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+	<nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Lucas De Marchi
+	<lucas.demarchi@intel.com>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+	<thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, William Hubbs <w.d.hubbs@gmail.com>, Chris Brannon
+	<chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>, Samuel Thibault
+	<samuel.thibault@ens-lyon.org>, Paul Moore <paul@paul-moore.com>, "Stephen
+ Smalley" <stephen.smalley.work@gmail.com>, Ondrej Mosnacek
+	<omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+	Deacon <will@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James Morse
+	<james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+	<yuzenghui@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Jiri Slaby" <jirislaby@kernel.org>, Nick Desaulniers
+	<ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt
+	<justinstitt@google.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"speakup@linux-speakup.org" <speakup@linux-speakup.org>,
+	"selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-serial@vger.kernel.org"
+	<linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
+	<llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "gost.dev@samsung.com"
+	<gost.dev@samsung.com>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>
+From: Daniel Gomez <da.gomez@samsung.com>
+In-Reply-To: <86cylev7o7.wl-maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxTVxjOuW1vC1vxiiycIAFhkAXYmIqMEzDOyTDX/XGLGUY3szVwi4TP
+	tCC6AKmATEAmoPJRBaGVTxmwAl1BSmPFQoEKBMMKHVBTQGBFRGTAxuygFyP/nvd5n+d53/ck
+	h8Owf4M7cSJjEyhBLC/aHbdlyjXrTz6Rprzi75d3+aGePyQYWqy6BpCmbpaBHljGGejpyiKO
+	0qWNOFprnsXQZGc1hl6UOqPC+1IclQ1pmWi+5RETyUwjLLTRrsDQcPsdHPVLc9lo6qYKR9Om
+	KhxVLLUy0TOjnoXa7mhZSNk4jCPZ8DILZWZVsdDPtdM4eplnwdCMsoeFbq2bcbSQ95iNDAVF
+	TKQSj7BRzVoRQAPdGjayqFyQXKED6PnADYBKDAaA/lJsBreY81lIkhmAMv70R6OVTeyj3mR9
+	WT0gOzQ6nFT+Xc4k29XNONkmHmeT5bJEMqNrgUVKO+YwUlaXhZNlWWUYack1ssgui4RNVohu
+	Mcgy7TekqrSeTU7mdGNfw7O2h8Op6MgLlODTIz/anu9/RMXr912cmTPgIjDmlA1sOJA4BCfV
+	KyAb2HLsiRoAh7t/Y9LFawB7V6+w6GIZQJ3kKfOt5d8cNU43qgHMKb75TmVSmrbD2gA0DCyB
+	LQuXOAKNjWLGFmYSnnC8IYdF87uhtmTKGvsB4Qonx4rZW3gPEQwVfb9b9QzCEaa9rrXqHQg3
+	+GpQax3AIDp2waapPusAnPCCnVqZ1WxD+EDtpHST52yKAmFRzwk6xxWmt95m0Ce4weL82u1z
+	UmBvyxhG4wfvQfmcLY2/hPLh0W1+D5zvbmHT2Bn23bi27Y2A9xrE2zgedhjErK2xkAiCv/RH
+	0/QX0NCwzqZpO6hf2E1vYwcL5EWMPOAp3vEQ4h0Hi9/tL96xfzlg1gFHKlEYE0EJ/WKpJF8h
+	L0aYGBvhGxYXIwObX6TvTfeKAtTML/mqAcYBagA5DHcHbsHoEt+eG8679BMliPtBkBhNCdVg
+	L4fp7sj1DHel7IkIXgIVRVHxlOBtF+PYOIkw6X/P0tIveR2fWLUb4pf7mPcfL4lZ4B/tvdBX
+	qLlbKgnWzlBhj59/VpLAnTW62PgcG1WFVn77UibS6Zr8e8OI7z9Ub5xM9FIpyYD3q5pXI8+G
+	3tWHSo0O5wb511f+cU1ejovXBdpcHgG3Y4MmuCHOSQkeAQczr6tChqKGhAc0+uj706dOv3ji
+	LOIHJacVHLxX8bndsdTKPAV4WH1a4dg+uBEcJTmXupDyVWay6DuzQ3mLW0i+weLXcWafrtCs
+	73QzJjp4pH5UetXOqcrsfdUL9A4euuKRffKhMmkkeeLXw12hucLMy4H+GWcG+S5rxMh4yIpJ
+	FuV3cXH5VKur0669H5vcmcLzvAPeDIGQ9z9+jZ1mkQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ta1BTRxiGu+fknBNoMz0glzW1KulVWwIJt4Uqvc20x1pnan/YInUwowdQ
+	gTi5OK0jHTSUQpQRgqikkAECCJQpEoEE5FITCwRhqA1ELkVALoKFKqitFGoKiZ3h37P7ve/7
+	fbuzy8U9jSSfeyhJwcqSJAkC0p1z42n7bX998kJsYMnPJOq4VYyh+2VnAGqrnMbRVccwjnof
+	3yeRSl9NoidXpjE00nIJQ38WbEDnf9STSHfTykH3ai0cZBi3E2i50YQhW2M+ibr0mRSaONdK
+	osnxMhIVzddx0NhoP4Ea8q0Eaq62kchge0igtIwyAn1fMUmiB1kODE01dxAod3GWRHNZv1Bo
+	SHOBg1q1dgqVP7kAUE97G4UcrRtRvakboLs9OQDlDQ0B9IdpJbh2NptAxWlhKPX3EDRQepl6
+	bytTpasCTFNbN8k0/1XIYRrNV0imQTtMMYUGJZN6fY5g9E0zGGOozCAZXYYOYxyZowRz3VFM
+	MUUpuTijs+5mWguqKGbkdDv2Gdwr3CaTKhXs5nipXLFdEC1CYqEoHAnFweFCUVDYvghxiCAg
+	cttBNuHQMVYWELlfGN9lYY/2b/56amaITAGDfDVw40I6GC6dNpNq4M71pEsBtJTV4a7CBljz
+	qI9w8Tq4bFc/E80DuHhZg7sWDQDeXurnrKp4dCQcrdY63Rz6NTj802nCte8BrXkTTo03vQmO
+	DF6kVnkd/SE03TA69TjtC089qnDqvWg/uPCrFaw2wOmmF+H4bA3h6qbGYfbJTqebpLfAFqvB
+	yW70W9A6ogeuJAT1s9coF2+Cqrofnp3HD17MruC4OBk+/HcKZAFv7ZoBtWsG0a6J0q6JKgSc
+	SuDFKuWJcYlysVAuSZQrk+KEB6SJBrDyguvbFmtNoOLevNAMMC4wA8jFBV48zcB8rCfvoOSb
+	46xMGiNTJrByMwhZuaVsnO99QLryBZIUMaLQwBBRcGh4YEh4aJDAl0f29sR60nESBXuEZY+y
+	sv99GNeNn4Ltjce6f7Otr/1qqEAq1u4BldEdph0lZOwXhuSxSPuJXRpjSYOqUxpcn+5j1+Z8
+	nOufPve37fVvd9DmVj61K/eF59YnqV8ZOxbZeesjxkf3NG1qd579Zl/L2LlhVR1yV76/MSe/
+	r/TUdO/oJftjSbmC3B4xMRzA8KI+5apHwvLufODn/nJTm0XGvup2bVT8/CQ3Jn9f8uEH/Uci
+	cN+oN2qM3prjhp3kO5+8G9V5xsw97PhHlf6l5eyy154ZXHWVr/DQfNf9UnLH0n57UaZSd/LO
+	2wM7PWhvS7PRNrElp8V9wL+jPCuPN2P7PPG8JsanYCG0882uQTwnOpU4YQwS1t01ewg48niJ
+	aCsuk0v+A+CoJCNKBAAA
+X-CMS-MailID: 20240924085147eucas1p166c893c894c86bb9c9f1a4a588f00c0f
+X-Msg-Generator: CA
+X-RootMTR: 20240908090349eucas1p2a9561859c83a19a8bad4ea2eef184e35
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240908090349eucas1p2a9561859c83a19a8bad4ea2eef184e35
+References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
+	<20240906-macos-build-support-v2-8-06beff418848@samsung.com>
+	<CAK7LNASpWSXbjF_7n0MhosNism=BpvHOnKsa344RPM_wmC9dGA@mail.gmail.com>
+	<CABj0suBQCc8=0tLng=OWW=K1hjFuLFZWhbjsqHtz2FzZt4i0sw@mail.gmail.com>
+	<CGME20240908090349eucas1p2a9561859c83a19a8bad4ea2eef184e35@eucas1p2.samsung.com>
+	<86cylev7o7.wl-maz@kernel.org>
 
-On 24.09.24 09:45, Geert Uytterhoeven wrote:
-> Hi Günter,
-> 
-> CC kbuild
-> 
-> I have two comments...
-> 
-> On Tue, Sep 24, 2024 at 1:52 AM Guenter Roeck <linux@roeck-us.net> wrote:
->> On 9/23/24 15:08, Guenter Roeck wrote:
->>> On 9/23/24 08:23, David Hildenbrand wrote:
->>>> On 23.09.24 16:25, Guenter Roeck wrote:
->>>>> SPLIT_PTE_PTLOCKS already depends on "NR_CPUS >= 4", but that evaluates
->>>>> to true if there is no NR_CPUS configuration option (such as for m68k).
->>>>> This results in CONFIG_SPLIT_PTE_PTLOCKS=y for mac_defconfig.
->>>>> This in turn causes the m68k "q800" machine to crash in qemu.
-> 
-> Should this be fixed in Kconfig (too)?
-> 
->>>> Oh, that's why my compile tests still worked ... I even removed the additional NR_CPUS check, assuming it's not required ...
->>>>
->>>> Thanks for debugging and fixing!
->>>>
->>>> Acked-by: David Hildenbrand <david@redhat.com>
->>>>
->>>
->>> Apparently it wasn't that simple :-(. 0-day reports a build failure
->>> with s390 builds.
->>>
->>> arch/s390/mm/gmap.c:357:16: error: implicit declaration of function 'pmd_pgtable_page'.
->>>
->>> Turns out that
->>>       depends on NR_CPUS && NR_CPUS >= 4
->>>
->>> doesn't work and disables SPLIT_PTE_PTLOCKS even if NR_CPUS _is_ defined.
->>> I have no idea how to declare the dependency correctly.
->>> Sorry, I did not expect that.
+On 9/8/2024 11:03 AM, Marc Zyngier wrote:
+> On Sat, 07 Sep 2024 10:32:20 +0100,
+> "Daniel Gomez (Samsung)" <d+samsung@kruces.com> wrote:
 >>
->> The only solution I found was to define NR_CPUS for m68k. That seems to be
->> the only architecture not defining it, so hopefully that is an acceptable
->> solution. I'll send v2 of the patch shortly.
+>> On Sat, Sep 7, 2024 at 10:33 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>>
+>>> On Fri, Sep 6, 2024 at 8:01 PM Daniel Gomez via B4 Relay
+>>> <devnull+da.gomez.samsung.com@kernel.org> wrote:
+>>>>
+>>>> From: Daniel Gomez <da.gomez@samsung.com>
+>>>>
+>>>> Add documentation under kbuild/llvm to inform about the experimental
+>>>> support for building the Linux kernel in macOS hosts environments.
+>>>>
+>>>> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+>>>
+>>>
+>>> Instead, you can add this instruction to:
+>>>
+>>> https://protect2.fireeye.com/v1/url?k=f33af8a2-92b1ed94-f33b73ed-74fe485cbff1-7d382b34bfd617fc&q=1&e=c7a3e869-d48e-4168-88a9-03cd717797f0&u=https%3A%2F%2Fgithub.com%2Fbee-headers%2Fhomebrew-bee-headers%2Fblob%2Fmain%2FREADME.md
+>>
+>> Sure, that can be done as well. But the effort here is to have this
+>> integrated. So, I think documentation should be in-tree.
 > 
-> My first thought was to agree, as m68k is indeed the only architecture
-> that does not define NR_CPUS. Upon closer look, most architectures
-> have NR_CPUS depend on SMP, hence I assume the issue could happen for
-> those too (although I didn't manage to create such a config on anything
+> I think this ship sailed the moment you ended-up with an external
+> dependency.
 
-I recall that I played the same thing, convincing me that having no
-CONFIG_NR_CPUS on !SMP would actually do the right thing. Apparently it doesn't
-for m68k at least.
+The external dependency is not different in Linux hosts. We depend on 
+byteswap.h, elf.h and endian.h headers. However, these are provided by 
+glibc and musl, and macOS (at least in arm64/Homebrew) does not provide 
+any of these.
 
-> but m68k)?  So the simple solution would be to add a dependency on
-> SMP to SPLIT_PTE_PTLOCKS.
+To fix the dependency with these missing headers, it was suggested in v1 
+[1][2] to create a "development kit" for this hosts. And that is what 
+Bee Headers [3][4] aims to provide.
 
-That will probably work for now. CONFIG_NR_CPUS should be cleaned up at some point
-to sort out the FIXME I commented in v2. Having kconfig set CONFIG_NR_CPUS=1 without
-SMP would be easiest, but it's probably not that easy.
+[1]https://lore.kernel.org/all/20240807-mottled-stoic-degu-d1e4cb@lindesnes/
+[2]https://lore.kernel.org/all/ZrSoOM9z4VnqhOf2@fjasle.eu/
+
+[3] https://github.com/bee-headers/headers
+[4] https://github.com/bee-headers/homebrew-bee-headers
+
+I don't see any other alternative to provide the missing headers other 
+than the suggested. Please let me know if you think other paths can be 
+explored and tested.
 
 > 
-> BTW, the list of excluded architectures looks fragile to me:
+> Having looked at this series (and in particular patch #4 which falls
+> under my remit), I can't help but think that the whole thing should
+> simply live as a wrapper around the pristine build system instead of
+> hacking things inside of it. You already pull external dependencies
+> (the include files). Just add a script that sets things up
+> (environment variables that already exist) and calls 'make' in the
+> kernel tree.
+
+Agree. This aligns very well with other feedback.
+
+I've added a script to the Bee Headers [5] to help users init their 
+shell/Makefile environment.
+
+[5] 
+https://github.com/bee-headers/homebrew-bee-headers/blob/main/bee-headers.rb#L28
+
 > 
->      config SPLIT_PTE_PTLOCKS
->              def_bool y
->              depends on MMU
->              depends on NR_CPUS >= 4
->              depends on !ARM || CPU_CACHE_VIPT
->              depends on !PARISC || PA20
->              depends on !SPARC32
+> I also dislike that this is forcing "native" developers to cater for
+> an operating system they are unlikely to have access to. If I break
+> this hack tomorrow by adding a new dependency that MacOS doesn't
+> provide, how do I fix it? Should I drop my changes on the floor?
 > 
-> If this can't be handled in a generic way, perhaps this should be
-> changed from opt-out to opt-in (i.e. select gate symbol in arch-specific
-> Kconfig)?
+> As an alternative, and since you already have to create a special
+> file-system to contain your kernel tree, you may as well run Linux in
+> a VM, which I am told works pretty well (QEMU supports HVF, and there
+> are plenty of corporate-friendly alternatives). This would solve your
+> problem once and for all.
 
-Yes, as stated in my commit:
+This is a use case I'm trying to avoid with this series. QEMU HVF works 
+very well indeed but extracting the built objects/vmlinux/*.ko etc is 
+tedious and slow. Building natively allows users to boot a VM with QEMU 
+and -kernel argument directly. This is way faster than the suggested 
+alternative. In addition, lldb can be used to debug the kernel from the 
+host.
 
-     More cleanups would be reasonable (like the arch-specific "depends on" for
-     CONFIG_SPLIT_PTE_PTLOCKS), but we'll leave that for another day.
+> 
+> Please don't take the above the wrong way. I'm sympathetic to what you
+> are trying to do. But this is IMO going in the wrong direction.
 
--- 
-Cheers,
+First patch has been merged already and after some fixes in the build 
+system from Masahiro, this series only requires a small change in 
+xe_gen_wa_oob to make this work if users of this provide the missing 
+headers and set up the build environment properly.
 
-David / dhildenb
+I will send a v3 later today with the remaining patch.
+
+Thanks Marc for sharing your views!
+
+> 
+> Thanks,
+> 
+> 	M.
+> 
 
 
