@@ -1,144 +1,143 @@
-Return-Path: <linux-kbuild+bounces-3694-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3695-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EFF983BA3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 05:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153D9983BFF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 06:09:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 344C01F21C6F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 03:46:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC6421F229E7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 04:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABA3C152;
-	Tue, 24 Sep 2024 03:46:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D38128F3;
+	Tue, 24 Sep 2024 04:09:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r1+jksQX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9ILyjp5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A301218D;
-	Tue, 24 Sep 2024 03:46:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EEE40879;
+	Tue, 24 Sep 2024 04:09:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727149610; cv=none; b=MRMJ+2QzO78VoBP9/SF0eWoVxOMa8l+5XhZVkPkblnBXmYOi1gjTVDXqf2S2keLu+3PlYf2ambNVAxozZwP463GXqySn3KCKVov9yoEUIh1kLrqzA417yztSQepfcbNNsdz6LHjB2pUq0UT7/bXcN2V44JrDEgfxyr3D4hHEZu8=
+	t=1727150941; cv=none; b=AdW699mVBuBq9ZwtuAlFD1D1aIOovfsPOoVdCYSaOFoTS2xVGpqr7Pn12aKTDvjX9pAp4n47FvkDLTd1DX3o5HHMNbT+MV4/zyjSDRVs+K3JCD4Pqlglw5uV4cdmSXaF9qqs3fn7GEYMMfyFOMove/N1DnfMgM6vhrLdf875GLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727149610; c=relaxed/simple;
-	bh=0iiuYDlYpssZtIgwrPIrBH6EgwbPgwP/TNZ1USii7m0=;
+	s=arc-20240116; t=1727150941; c=relaxed/simple;
+	bh=VSg+xYwh7vuATm3RgZoGtJJQ6JPcfXKhzrjI28R9qDo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dfy824biEBDY44KD4H6G6eGS+PMYFK64/t/lAz2u7nJgvKqVtIULdJGGxHAXJSNDb6LaCpRXV3VJM5sUwqOXXgetlmvkP3g+LrJ3P6/dZQcmzpTPA9jVg0P2mQrzHBMNjS0SOlnD21nqnBdcFAFt95CczNQfR7Sjq8hsydPjl/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r1+jksQX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7012FC4CEC6;
-	Tue, 24 Sep 2024 03:46:50 +0000 (UTC)
+	 To:Cc:Content-Type; b=iPZk8enqtn6ENucz0M4Im1U2UhZFvKsDOWiLspb3pB4SLnDf539kRbqzyWAt2JvvjKPExVyOWunvozgfbUPRiUauvg/0pPPeXVNl+m3QV0yaC4RIZIn4ZqRElbZWyCdSf7ya8tUN1QjhaFqwCABG8Cg9mtOWek0RPn7bYQvnelQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9ILyjp5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 866B7C4CECD;
+	Tue, 24 Sep 2024 04:09:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727149610;
-	bh=0iiuYDlYpssZtIgwrPIrBH6EgwbPgwP/TNZ1USii7m0=;
+	s=k20201202; t=1727150940;
+	bh=VSg+xYwh7vuATm3RgZoGtJJQ6JPcfXKhzrjI28R9qDo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=r1+jksQXOlnApEsqETqAMKM/42YCBu8+YRm6/vTxPlc86IL1i1bdH70sFI9ky1AF4
-	 w+8Is5p25yHloHEwmIMR7KW///4LI7VBPUzmMblXaKOWMSxkrV2kCvp3VdRo6qL/PY
-	 3z4pmEPf3X1zHZkOWCrLMoOGglE7Pfph3O8NTuzATu98fDpjuCRYQ3v+34n41hQyu0
-	 KUmvYvh2kkCZsDgfZRDc2dLGMBjUHInOkr0JvOO5uWDEOb0VWJRai4qyt/lt+k3p2q
-	 oShlvhkvfDCfuiP9+Zy9NKSt/4KU08SantKGOHHvT1PccShKwjBmgq3l/3lcql3/Gn
-	 qjHecn+RDtGVQ==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5365392cfafso5259780e87.0;
-        Mon, 23 Sep 2024 20:46:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWOXfdVlgXpppwQrJckwNaUvhWdhBedKCANAITXeNqnZWtWupnSRjzh1Ydzq8m9tdPnwTDCwPUgaPMekgo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUgoyWpH3xZELbH1eskCyXOEdf1BKsU0mxVF+Rg/cDFL4g0lec
-	5p5VFauCBYB6y1kI8UwZtcQORcunzCum6gmqMqKu3x6js7ojW1BKtuvm+b7wiA9xgHlH+nedOqL
-	qYbY33jToR57+zGOpy3k5QAuTccA=
-X-Google-Smtp-Source: AGHT+IFzAWQi/wkGLTue6dEeK+Bm/THJ7ebXgxziTtEQ9wYkByG+wl68RGBFf+XY2GXVw1VeWL1bhI1Vq6+7yUiFhYI=
-X-Received: by 2002:a05:6512:2254:b0:533:448f:7632 with SMTP id
- 2adb3069b0e04-536ac2d6626mr7425702e87.1.1727149609152; Mon, 23 Sep 2024
- 20:46:49 -0700 (PDT)
+	b=S9ILyjp52jT29UAWwXRwCEMcX7NnP2Agxzt2AzxxofsGzDLVoAYebWFa22QkX01OZ
+	 6pv3YaBq3z0NrXYU+9eNOqDVRXJmz81BpjtkHJXlPQ6OLP2r1rLGFR70Xy2uJAKJeu
+	 kMsjEPRjtEIH7yzfAVpe/wy8Fe3YmJpwXiSDyc0buy9sukC6n93xHFQfKWD0+qUBgi
+	 rRh5TfFU21UmPvGyMshHKS5J9gF0hfxakrfnNPWSy4TqVrD39ruxW3IPFWdFGFW94m
+	 a9mKYGHwcCQ2ER6jydE10cdhaG4MXaUvEbNXCGmVZp3tf17DnGdkOd0K6n4OF24eik
+	 lczv2kySANTIw==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5369f1c7cb8so6345298e87.1;
+        Mon, 23 Sep 2024 21:09:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU6nyHbQ6yhXnrGBZwXhIdz5iexi3/vmjpS9EIUSas6+iqqniIwlkt7o382iQqDyMLNfD1gGf7XhnsHv0s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpKICyC0ZYssY3+NoCAn6tmBUwPlNZv/invPMASsxdg9gFW5HN
+	OU80WiBNS3tAv/Anrtfzui22tB4bc7TXlJYBlYfetqteZFhU0KVrs1QoCZod9Yy39N0KOES4KiF
+	5gx5TgU2TDww+Kss6X4P3sLh183w=
+X-Google-Smtp-Source: AGHT+IGQSFHEKGlRq3xI5Rkg/U68fHFp7vBIKsPDQpCfNHVhossCvHjHYghMtOgzUeeJYnXSPYaI58qsAWhv8jDBP0s=
+X-Received: by 2002:a05:6512:3d86:b0:536:54c2:fb83 with SMTP id
+ 2adb3069b0e04-536ac2e0ecbmr7141665e87.23.1727150939223; Mon, 23 Sep 2024
+ 21:08:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240913171205.22126-1-david.hunter.linux@gmail.com> <20240913171205.22126-6-david.hunter.linux@gmail.com>
-In-Reply-To: <20240913171205.22126-6-david.hunter.linux@gmail.com>
+References: <20240913171205.22126-1-david.hunter.linux@gmail.com> <20240913171205.22126-7-david.hunter.linux@gmail.com>
+In-Reply-To: <20240913171205.22126-7-david.hunter.linux@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 24 Sep 2024 12:46:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ8D4OVT81iTVs8jjrBXX6Zgwc+VJ_vb7hb4J-vCZZN=g@mail.gmail.com>
-Message-ID: <CAK7LNAQ8D4OVT81iTVs8jjrBXX6Zgwc+VJ_vb7hb4J-vCZZN=g@mail.gmail.com>
-Subject: Re: [PATCH 5/7] linux-kbuild: fix: implement choice for kconfigs
+Date: Tue, 24 Sep 2024 13:08:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARNteNvrbTeNTz71XTFjjL4XjLC-CT2UjVsGRpP_ToPKg@mail.gmail.com>
+Message-ID: <CAK7LNARNteNvrbTeNTz71XTFjjL4XjLC-CT2UjVsGRpP_ToPKg@mail.gmail.com>
+Subject: Re: [PATCH 6/7] linux-kbuild: fix: configs with defaults do not need
+ a prompt
 To: David Hunter <david.hunter.linux@gmail.com>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	shuah@kernel.org, javier.carrasco.cruz@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+Seems fine if you fix the subject prefix
+and reword it in imperative mood.
+
+
+
 On Sat, Sep 14, 2024 at 2:12=E2=80=AFAM David Hunter
 <david.hunter.linux@gmail.com> wrote:
 >
-> Properly implement the config entries that are within the choice keyword
-> for kconfig. Currently, the script only stops the previous config entry
-> when a choice keyword is encountered.
->
-> When the keyword "choice" is encountered, do the following:
->         - distribute the lines immediately following the "choice"
->           keyword to each config entry inside the "choice" section.
->         - process the config entries with the distributed lines.
+> Ignore process select warnings for config entries that have a default
+> option. Some config entries have no prompt and nothing selects them, but
+> these config options are okay because they have a default option.
 >
 > Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
 > ---
->  scripts/kconfig/streamline_config.pl | 40 ++++++++++++++++++++++++++--
->  1 file changed, 38 insertions(+), 2 deletions(-)
+>  scripts/kconfig/streamline_config.pl | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 >
 > diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/strea=
 mline_config.pl
-> index 26e544744579..593df824ead7 100755
+> index 593df824ead7..948437aac535 100755
 > --- a/scripts/kconfig/streamline_config.pl
 > +++ b/scripts/kconfig/streamline_config.pl
-> @@ -162,6 +162,10 @@ sub read_kconfig {
+> @@ -144,6 +144,7 @@ my %selects;
+>  my %prompts;
+>  my %objects;
+>  my %config2kfile;
+> +my %defaults;
+>  my $var;
+>  my $iflevel =3D 0;
+>  my @ifdeps;
+> @@ -239,6 +240,7 @@ sub read_kconfig {
+>             $depends{$config} .=3D " " . $1;
+>         } elsif (($state eq "DEP" || $state eq "NEW") && /^\s*def(_(bool|=
+tristate)|ault)\s+(\S.*)$/) {
+>             my $dep =3D $3;
+> +            $defaults{$config} =3D 1 ;
+>             if ($dep !~ /^\s*(y|m|n)\s*$/) {
+>                 $dep =3D~ s/.*\sif\s+//;
+>                 $depends{$config} .=3D " " . $dep;
+> @@ -561,8 +563,16 @@ sub parse_config_selects
 >
->      my $source =3D "$ksource/$kconfig";
->      my $last_source =3D "";
-> +    my $choice_activated =3D 0;
-> +    my $distribute =3D 0;
-> +    my $dist_string;
-> +
->
->      # Check for any environment variables used
->      while ($source =3D~ /\$\((\w+)\)/ && $last_source ne $source) {
-> @@ -214,6 +218,19 @@ sub read_kconfig {
->                 $state =3D "DEP";
->             }
->
-> +           if($choice_activated) {
-> +               $distribute =3D 0;
-> +               my $config_lines =3D "$_\n" . "$dist_string";
-> +               my $tmpconfig =3D ".choice.kconfig";
-> +               open (my $FH, '>', $tmpconfig);
-> +               print $FH $config_lines;
-> +               close($FH);
-> +
-> +               read_kconfig($tmpconfig);
-> +               unlink($tmpconfig) or die "Can't delete $tmpconfig: $!\n"=
+>      # If no possible config selected this, then something happened.
+>      if (!defined($next_config)) {
+> -       print STDERR "WARNING: $config is required, but nothing in the\n"=
 ;
+> -       print STDERR "  current config selects it.\n";
+> +
+> +       # Some config options have no prompt, and nothing selects them, b=
+ut
+> +       # they stay turned on once the final checks for the configs
+> +       # are done. These configs have a default option, so turn off the
+> +       # warnings for configs with default options.
+> +       if(!defined($defaults{$config})) {
+> +           print STDERR "WARNING: $config is required, but nothing in th=
+e\n";
+> +           print STDERR "  current config selects it.\n";
+> +       }
+> +
+>         return;
+>      }
+>
+> --
+> 2.43.0
+>
 
 
-This is ugly.
-Please do not use the temp file.
-
-I believe the only benefit to parse 'choice' block
-is to propagate its 'depends on' down to member configs.
-
-See how the 'if' statement is handled.
-
-
-
-
-
-
-
-
-
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
 
