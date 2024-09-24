@@ -1,200 +1,257 @@
-Return-Path: <linux-kbuild+bounces-3700-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3701-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62ED984775
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 16:16:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F21C79848D5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 17:45:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 247821F266AB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 14:16:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0AAB283BA5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 15:45:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4597E1A706F;
-	Tue, 24 Sep 2024 14:16:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6026256E;
+	Tue, 24 Sep 2024 15:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dm+P8U3Y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mOB2TOXZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF05F13342F;
-	Tue, 24 Sep 2024 14:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0521B85D5;
+	Tue, 24 Sep 2024 15:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727187387; cv=none; b=CcOPPIJzIN/TEHKN5MPFFppL9WwGUbLIfCsv/ou6V++qNIX4RjkkoFuLJfSu+Aic5QrpiyAfgec5cpJb81aOpWICLeRBfl9gurQyOFx8gl1dB7mmiC0fjsO3f6hrghhJ+54BkWCKlDsTjmo5JLUplwEiFITHYKyl1I3InOAjjfE=
+	t=1727192732; cv=none; b=gAf7wZIE9VE4cPvb266H4wJBDFfqcG/HJf5OPWGNgnBa7TyXagu7+nrTnr1i5KdABAiTcWx3tfXqTk+Aj5ECXH0pwgWZ4dmtarCgJQ40SrxvlDl0rDQG6+lY5+AfudlX5QkCXPQ6mQeW5OW9bo7oraispkX80MEoo5kdPRsap7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727187387; c=relaxed/simple;
-	bh=+gUBpIrb2T1hUf3TsCKqyC6OOOcVQGFGOFFDC51kVGI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hdXcGhAy1aUKTpYD8QDSDGDGR2NvqdnQ7D3XserDwOXMyYp+l71OX/HOwG7tU9C8nSalkIJ+GiodMW3Cnu0dDjwhTVbpyg/g+MAdEsLAVbDQ6IcbzViqF0s6uZDBs0ieDZnL/OT049dg81MBfWzVGzy+CKdKxAG2OXwVidSapyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dm+P8U3Y; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7cf5e179b68so4607088a12.1;
-        Tue, 24 Sep 2024 07:16:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727187385; x=1727792185; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=1GgB+hTZpTml0qKRANWfPlHVjU+0Wqbyo4s8XQzdZho=;
-        b=dm+P8U3YmOEsfk7v/y4tr2uiCjoNfvUSL3p8VHXp1wwJ5+khg+mEUcUszrYPylwmgU
-         PiIbdm/s8/bsmYTyQ/uEdjPGLoQo8cq5wo04mwckadeI3gb6qpGjRxCPfA6FnS58madU
-         onsxggKqu2PSI+TmzizgcCRhLxFST6Kn4CDBfOr/wgJ1BxozuPb2hCSPIRZ1goItIL+f
-         IC//5QIEiOCragmhzUR/HmS79TKZlbDTvHLGldXCS599Mt99gK4pV+1uB6C8kOjTrRRo
-         mKdANqsHeGETp6ouF0m72rjQKBWFlaJLxteNIdTCjJSsDu+XLTcX2U/jeJRMd4PG58bd
-         dC2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727187385; x=1727792185;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1GgB+hTZpTml0qKRANWfPlHVjU+0Wqbyo4s8XQzdZho=;
-        b=F6dS9Tfx9dqBcEiEcRdh4oYaWiHUtqsMqajPiVMwU0KDuMDeKL9xGRh+Zz4WkDkUYY
-         iTPCu7bhzudlAaEVQaOJdja1ixAe8twR0j/1ms7jpc3ICB6bq5bpvB6fXF0AiVtJyv6U
-         EE52GuN75933Wpz09abo6PK62UC64/cxxswtVJXcEn1nMmfHKHHN4NPB2Zwrl+nUDH0q
-         juZDW45od9ftmbcYjiEBLTvssIR2gnt7/IMzzfsRqg1lRiw6BQvGe3LZU04kBMA726yM
-         gZzBFPqwFXiOU+n+N5qrHTRzN6oXQfc3TIQWBV/5Ovv1eXg5+VG3rIHh28Pu7HxDNFDw
-         tjRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJOC2uEzo232d/k/qSo2AXKR0VibY96h/LVpp+DUN/s2Z8ex9T5C5yahINpyeMWt2QwpoAAzqU4XeA62D+@vger.kernel.org, AJvYcCViDur7RGJYrOgIRS9eUmrKjE74KfaRoRmXZM0nRe4paBEFRkUR5i3bP7MPHmLJ9BhnDIQ95SOVdHNV5aY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxm/+XY+llS7dhfb37cyq6Mv9HDRFcaYiIhyfRwVyQyoWcCfpnh
-	/96hhkT4gUTkhf/rt1CZwgxPy5b55xu+sKluN1IWt+fcQQYkCKyqFSL0wg==
-X-Google-Smtp-Source: AGHT+IGq1CKWT/TJzAVM3mHN2JVIpOfn5RlMWqMypCAOXz7pPMKpwFQ5Hpr7sz8VVE1ZSn5aa2aKpw==
-X-Received: by 2002:a05:6300:668b:b0:1d2:e793:cc0 with SMTP id adf61e73a8af0-1d343c19cbdmr5082360637.7.1727187384932;
-        Tue, 24 Sep 2024 07:16:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71afc835402sm1251416b3a.44.2024.09.24.07.16.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Sep 2024 07:16:24 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a5095b37-ab61-4789-973a-aee3a748fe12@roeck-us.net>
-Date: Tue, 24 Sep 2024 07:16:22 -0700
+	s=arc-20240116; t=1727192732; c=relaxed/simple;
+	bh=a6WuSN+R0QTe0iMpSaI1lp+B3upYERKrAgsFzECh1Ng=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=hjihDpsoztTQtjSk9iBfDuGGIopbMghciMUK54kVfi23bWbOHPTKx1VaPn7Dj4VuPgfp38mu4qoMgVc+skSr3t8gt8SHNSQb3J5DYvGawnkDsISYG0+Uj/2xAtkcQr8FUPMyUL+GPfmT/G2MyC3yiKiNEITwM6e1LtnSqs3lJD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mOB2TOXZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27C17C4CEC4;
+	Tue, 24 Sep 2024 15:45:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727192731;
+	bh=a6WuSN+R0QTe0iMpSaI1lp+B3upYERKrAgsFzECh1Ng=;
+	h=From:Date:Subject:To:Cc:From;
+	b=mOB2TOXZK5XuBGTiCz8fNqCsJmskv6TT18TnKUsFm3d5kBeZrI7hZng3314E/tkeH
+	 ouStywAlnkox0kyi9vWR6l8uhrbt//L3MCp4LxJjn3xi5+Hh6cAyQR4RAvCz4UDIOa
+	 NwE4LR9p3p08dMp/4sg1kkZePYjDPls7CifMdchzDa+Y9CzwfQoMW6TDIZP0io4K5s
+	 qvtUZTlATye0ZQVi3lcWDvteRWSafMK3XXlazvWqgDFUj9y0pp3gNsjv9/x1gUbBFR
+	 l61y8om0JlRDb/ViuT11Fx5CH5RIQAdWdRZpdT/ayp2T8jrrPb25iPNmFG/rxl1EkQ
+	 mHFfjqYYRsYEA==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f761461150so68673821fa.0;
+        Tue, 24 Sep 2024 08:45:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWF12NSWcRKvz02HHpSHbVhJsHnN2WrTlZKVtmDS0RR5rTYoIbzlZbCiHp6TnF/7AvWMvtiUhS0Qt90saM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeFn6ypsLEOyfd6ZcdwXxTkCm6lCz4GF1+iONV+jHcwrqMi7ed
+	tehMhBHM4gtpTjbaJzoRMbNiHfFdYUk//eimVb84jLR8Ir3Hfue9BajoYGn//DxLk6EsfvNVSNt
+	6hpxjZvvpoiUpl42u07g9CuD4CYo=
+X-Google-Smtp-Source: AGHT+IEqAXFBJFaI0TrfQuPpbCY1CkM/T9IvSZG/f+Xt2XiUIzPi59D1aDmiiSVTZzhxADtYg8V8PZn2LL74UueRjmM=
+X-Received: by 2002:a05:6512:3048:b0:533:4785:82ab with SMTP id
+ 2adb3069b0e04-536ac2d6a6bmr10141777e87.1.1727192729764; Tue, 24 Sep 2024
+ 08:45:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: Make SPLIT_PTE_PTLOCKS depend on the existence of
- NR_CPUS
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: David Hildenbrand <david@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- linux-kbuild <linux-kbuild@vger.kernel.org>
-References: <20240923142533.1197982-1-linux@roeck-us.net>
- <f15ff981-e725-40f0-8d2f-856b4b6a65b3@redhat.com>
- <4c2cdf84-9794-4722-8417-cf924f890797@roeck-us.net>
- <203f0d01-d25e-4436-b769-b89edb1b57d9@roeck-us.net>
- <CAMuHMdWfsgnCRLhCkvJBn8Prdd4M=HvwtsPT0BeRPtA-nFHzYQ@mail.gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <CAMuHMdWfsgnCRLhCkvJBn8Prdd4M=HvwtsPT0BeRPtA-nFHzYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 25 Sep 2024 00:44:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR=QwD=c1kN_VxQ-NoNoZqQWU3VPc+Xy88BDTjG8s_v8A@mail.gmail.com>
+Message-ID: <CAK7LNAR=QwD=c1kN_VxQ-NoNoZqQWU3VPc+Xy88BDTjG8s_v8A@mail.gmail.com>
+Subject: [GIT PULL] Kbuild updates for v6.12-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/24/24 00:45, Geert Uytterhoeven wrote:
-> Hi Günter,
-> 
-> CC kbuild
-> 
-> I have two comments...
-> 
-> On Tue, Sep 24, 2024 at 1:52 AM Guenter Roeck <linux@roeck-us.net> wrote:
->> On 9/23/24 15:08, Guenter Roeck wrote:
->>> On 9/23/24 08:23, David Hildenbrand wrote:
->>>> On 23.09.24 16:25, Guenter Roeck wrote:
->>>>> SPLIT_PTE_PTLOCKS already depends on "NR_CPUS >= 4", but that evaluates
->>>>> to true if there is no NR_CPUS configuration option (such as for m68k).
->>>>> This results in CONFIG_SPLIT_PTE_PTLOCKS=y for mac_defconfig.
->>>>> This in turn causes the m68k "q800" machine to crash in qemu.
-> 
-> Should this be fixed in Kconfig (too)?
-> 
+Hello Linus,
 
-I don't know. I thought that was intentional, though I don't understand
-the logic. I didn't find a documentation that would explain how boolean
-dependencies of integer objects are supposed to be handled. My expectation
-that it would be similar to C was obviously wrong.
 
->>>> Oh, that's why my compile tests still worked ... I even removed the additional NR_CPUS check, assuming it's not required ...
->>>>
->>>> Thanks for debugging and fixing!
->>>>
->>>> Acked-by: David Hildenbrand <david@redhat.com>
->>>>
->>>
->>> Apparently it wasn't that simple :-(. 0-day reports a build failure
->>> with s390 builds.
->>>
->>> arch/s390/mm/gmap.c:357:16: error: implicit declaration of function 'pmd_pgtable_page'.
->>>
->>> Turns out that
->>>       depends on NR_CPUS && NR_CPUS >= 4
->>>
->>> doesn't work and disables SPLIT_PTE_PTLOCKS even if NR_CPUS _is_ defined.
->>> I have no idea how to declare the dependency correctly.
->>> Sorry, I did not expect that.
->>
->> The only solution I found was to define NR_CPUS for m68k. That seems to be
->> the only architecture not defining it, so hopefully that is an acceptable
->> solution. I'll send v2 of the patch shortly.
-> 
-> My first thought was to agree, as m68k is indeed the only architecture
-> that does not define NR_CPUS. Upon closer look, most architectures
-> have NR_CPUS depend on SMP, hence I assume the issue could happen for
-> those too (although I didn't manage to create such a config on anything
-> but m68k)?  So the simple solution would be to add a dependency on
-> SMP to SPLIT_PTE_PTLOCKS.
-> 
-Makes sense. I'll send v3.
+Please pull Kbuild updates for v6.12-rc1.
 
-Guenter
+Thank you.
 
+
+The following changes since commit 431c1646e1f86b949fa3685efc50b660a364c2b6=
+:
+
+  Linux 6.11-rc6 (2024-09-01 19:46:02 +1200)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-v6.12
+
+for you to fetch changes up to fa911d1f377bbe4cc47e58afbd8fff7750b7ac62:
+
+  kbuild: doc: replace "gcc" in external module description
+(2024-09-24 03:07:21 +0900)
+
+----------------------------------------------------------------
+Kbuild updates for v6.12
+
+ - Support cross-compiling linux-headers Debian package and kernel-devel
+   RPM package
+
+ - Add support for the linux-debug Pacman package
+
+ - Improve module rebuilding speed by factoring out the common code to
+   scripts/module-common.c
+
+ - Separate device tree build rules into scripts/Makefile.dtbs
+
+ - Add a new script to generate modules.builtin.ranges, which is useful
+   for tracing tools to find symbols in built-in modules
+
+ - Refactor Kconfig and misc tools
+
+ - Update Kbuild and Kconfig documentation
+
+----------------------------------------------------------------
+Jose Fernandez (2):
+      kbuild: control extra pacman packages with PACMAN_EXTRAPACKAGES
+      kbuild: add debug package to pacman PKGBUILD
+
+Kris Van Hees (4):
+      kbuild: add mod(name,file)_flags to assembler flags for module object=
+s
+      kbuild: generate offset range data for builtin modules
+      scripts: add verifier script for builtin module range data
+      kbuild: add install target for modules.builtin.ranges
+
+Laurent Pinchart (1):
+      Remove *.orig pattern from .gitignore
+
+Masahiro Yamada (39):
+      modpost: remove unused HOST_ELFCLASS
+      modpost: detect endianness on run-time
+      kbuild: slim down package for building external modules
+      kbuild: cross-compile linux-headers package when possible
+      kbuild: modinst: remove the multithread option from zstd compression
+      tinyconfig: remove unnecessary 'is not set' for choice blocks
+      kconfig: remove dummy assignments to cur_{filename,lineno}
+      kconfig: stop adding P_SYMBOL property to symbols
+      kconfig: remove P_SYMBOL property
+      kbuild: split x*alloc() functions in kconfig to scripts/include/xallo=
+c.h
+      modpost: replace the use of NOFAIL() with xmalloc() etc.
+      kallsyms: use xmalloc() and xrealloc()
+      fixdep: use xmalloc()
+      modpost: improve the section mismatch warning format
+      kbuild: pacman-pkg: move common commands to a separate function
+      kbuild: pacman-pkg: do not override objtree
+      modpost: simplify modpost_log()
+      kbuild: remove *.symversions left-over
+      ARC: update the help message for CONFIG_ARC_BUILTIN_DTB_NAME
+      kbuild: add intermediate targets for Flex/Bison in scripts/Makefile.h=
+ost
+      kbuild: split device tree build rules into scripts/Makefile.dtbs
+      scripts: import more hash table macros
+      kallsyms: squash output_address()
+      kallsyms: change overflow variable to bool type
+      scripts: move hash function from scripts/kconfig/ to scripts/include/
+      kconfig: change some expr_*() functions to bool
+      kconfig: add comments to expression transformations
+      kconfig: refactor expr_eliminate_dups()
+      kconfig: use hash table to reuse expressions
+      kconfig: cache expression values
+      kbuild: remove unnecessary export of RUST_LIB_SRC
+      kbuild: doc: update the description about Kbuild/Makefile split
+      kbuild: doc: remove description about grepping CONFIG options
+      kbuild: doc: remove outdated description of the limitation on -I usag=
+e
+      kbuild: doc: throw out the local table of contents in modules.rst
+      kbuild: doc: drop section numbering, use references in modules.rst
+      kbuild: doc: remove the description about shipped files
+      kbuild: doc: describe the -C option precisely for external module bui=
+lds
+      kbuild: doc: replace "gcc" in external module description
+
+Nick Desaulniers (1):
+      scripts: subarch.include: fix SUBARCH on macOS hosts
+
+Stephen Brennan (1):
+      Documentation: kconfig: explicitly document missing prompt
+
+Thomas Wei=C3=9Fschuh (2):
+      kbuild: compile constant module information only once
+      kbuild: remove append operation on cmd_ld_ko_o
+
+Tony Battersby (1):
+      kbuild: remove recent dependency on "truncate" program
+
+ .gitignore                                |   3 +-
+ Documentation/dontdiff                    |   1 +
+ Documentation/kbuild/kbuild.rst           |  10 +
+ Documentation/kbuild/kconfig-language.rst |   6 +-
+ Documentation/kbuild/makefiles.rst        |   1 -
+ Documentation/kbuild/modules.rst          | 224 ++++++--------------
+ Documentation/process/changes.rst         |   7 +
+ Makefile                                  |   7 +-
+ arch/arc/Kconfig                          |   2 +-
+ arch/x86/configs/tiny.config              |   4 -
+ drivers/of/fdt.c                          |   2 +-
+ drivers/of/unittest.c                     |   4 +-
+ kernel/configs/tiny.config                |   6 -
+ lib/Kconfig.debug                         |  15 ++
+ scripts/Makefile.build                    |  58 +++---
+ scripts/Makefile.dtbs                     | 142 +++++++++++++
+ scripts/Makefile.host                     |   5 +
+ scripts/Makefile.lib                      | 119 +----------
+ scripts/Makefile.modfinal                 |   9 +-
+ scripts/Makefile.modinst                  |   8 +-
+ scripts/Makefile.package                  |   3 +-
+ scripts/Makefile.vmlinux                  |  18 ++
+ scripts/Makefile.vmlinux_o                |   3 +
+ scripts/basic/fixdep.c                    |  15 +-
+ scripts/generate_builtin_ranges.awk       | 508
+++++++++++++++++++++++++++++++++++++++++++++++
+ scripts/include/hash.h                    |  28 +++
+ scripts/include/hashtable.h               |  50 +++++
+ scripts/include/list.h                    |  69 +++++++
+ scripts/include/xalloc.h                  |  53 +++++
+ scripts/kallsyms.c                        |  46 ++---
+ scripts/kconfig/confdata.c                |   3 +
+ scripts/kconfig/expr.c                    | 482
++++++++++++++++++++------------------------
+ scripts/kconfig/expr.h                    |  27 ++-
+ scripts/kconfig/internal.h                |   6 +
+ scripts/kconfig/lexer.l                   |   1 +
+ scripts/kconfig/lkc.h                     |   6 -
+ scripts/kconfig/mconf.c                   |   1 +
+ scripts/kconfig/menu.c                    |  38 ++--
+ scripts/kconfig/nconf.c                   |   1 +
+ scripts/kconfig/nconf.gui.c               |   1 +
+ scripts/kconfig/parser.y                  |  13 +-
+ scripts/kconfig/preprocess.c              |   1 +
+ scripts/kconfig/qconf.cc                  |   2 +-
+ scripts/kconfig/symbol.c                  |   9 +-
+ scripts/kconfig/util.c                    |  63 +-----
+ scripts/link-vmlinux.sh                   |   2 +-
+ scripts/mod/mk_elfconfig.c                |  25 ---
+ scripts/mod/modpost.c                     | 125 ++++++------
+ scripts/mod/modpost.h                     |  28 +--
+ scripts/mod/sumversion.c                  |   6 +-
+ scripts/mod/symsearch.c                   |   6 +-
+ scripts/module-common.c                   |  25 +++
+ scripts/package/PKGBUILD                  |  52 +++--
+ scripts/package/install-extmod-build      |  55 ++++-
+ scripts/subarch.include                   |   2 +-
+ scripts/verify_builtin_ranges.awk         | 370
++++++++++++++++++++++++++++++++++
+ 56 files changed, 1867 insertions(+), 909 deletions(-)
+ create mode 100644 scripts/Makefile.dtbs
+ create mode 100755 scripts/generate_builtin_ranges.awk
+ create mode 100644 scripts/include/hash.h
+ create mode 100644 scripts/include/xalloc.h
+ create mode 100644 scripts/module-common.c
+ create mode 100755 scripts/verify_builtin_ranges.awk
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
