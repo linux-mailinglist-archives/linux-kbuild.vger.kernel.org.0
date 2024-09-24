@@ -1,176 +1,164 @@
-Return-Path: <linux-kbuild+bounces-3696-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3697-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E98983C0A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 06:22:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B5E983F99
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 09:46:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB42B1C2211E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 04:22:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 19D5DB228BF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Sep 2024 07:46:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A851920309;
-	Tue, 24 Sep 2024 04:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMgGYpa+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2558811CBD;
+	Tue, 24 Sep 2024 07:45:53 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715961B85D1;
-	Tue, 24 Sep 2024 04:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050371803A;
+	Tue, 24 Sep 2024 07:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727151753; cv=none; b=lwTUcwE3W+jjgvhrwzp4u3w2PQ57iVdzpuLK5N3f0t9YAJr+iu4fWdcYXBxpVbhWttjB9u9RFEsCFJZQiY/JQPchIfkT4uoyZd9MU8NdzLoL1/CtfJnzI24bUVk9nuuCxPc4HrpZ3kRifbhnQeoKCC7zmRDuLYkDlCG1gmQGqgo=
+	t=1727163953; cv=none; b=ZZ8FRZUzkHdjifrpoEr5QLcakyO2EgtIkiSD7BTtS6LiX06mGEbVliiiGJD7spprWzwoVWGs2R+rfX+9sg4eHaFGgPaVsTb7+qbMJDtbcYvImaG88dM2Z+pcFU22lNxlj45hBvSWXbNzgh5Qzr+SlY7PjttDEimsUPBApx7suuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727151753; c=relaxed/simple;
-	bh=NFx60XX8NBv159teKpcUwSkTlRNFNCD1wiTHXWYg3u8=;
+	s=arc-20240116; t=1727163953; c=relaxed/simple;
+	bh=2c9qY0zOKSHy6fPePBLlrhvns/MQJha4cFe8EOydcRE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WB9HR8NYM0pxlhM+AcF8EbqGoF1zMoTFkxOxGj6ew8iivYos46TMLY/5lIqRrVwRiJI6+/IjcS36ZI5EsIus9QLfST63cwiAjMkS5RCmTGiCWiXc2TJuWLKHRaExA0W9wf0e3dOUiUJ4iK/HT0RoK5rCNdGg84xWwtG8RtBdWEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMgGYpa+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF958C4CEC6;
-	Tue, 24 Sep 2024 04:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727151753;
-	bh=NFx60XX8NBv159teKpcUwSkTlRNFNCD1wiTHXWYg3u8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fMgGYpa+C3DQMfmr6XV4NDCUJBZTDbyqwQ9dV8rvIRQuNR6UEJsSUCAvqRMRhg0qG
-	 0oYzhYlmoUeaZ0UqSAt7Hq48a/tSdlS/OgPNO2eoF1NUQAUciKYT4f0QqNogcPdbJf
-	 dKvdA76AO5Q9rAGU7NtLfCM2E3xUFk0kgd8n4rXlou8c4F5/gMwMB7fpag6chOMw6L
-	 L3kh8o1cbGqsh3XDimCkdWTBV6Hl6x9JUjucrBn4HXciirpdKJ3xU/dJeTXUFURH89
-	 W83ph+C5PoE4NFB/f0+O9+29+xy6tPRC01hnaHsI1FZ87JzaUDFMVFBHGfNw85eU+m
-	 KHuCvb6g1XuAA==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2f761cfa5e6so52651411fa.0;
-        Mon, 23 Sep 2024 21:22:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURGy1ERQL3im3NHY3SLRDSEr2WPggaWlhJpjfoyup4qH7Lunm5eLaDH7tBEfToSYgaLWhgDYVWOb+35V4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNM3jfND5Ut1jEduRKH8PIAiIw1l5fyXekT4UThU3QcfCc9/F/
-	odmuUNZ2s+oPeldaapp27hOYnngNlbY5FpdcmSMWqDaitn8kwi2LVYnDVgrg9aWl5t8HC8Q+MQR
-	qyQk46SnscYxalTOlOC0sQev3FdA=
-X-Google-Smtp-Source: AGHT+IEn6g4s4PqwyvshrMIsJjV/BDPEuA0y797xrRKRCwIt5g5OsvVPz9ezeocKUv2ZTVQYC5Qj3D/4+rGbNnbh4VE=
-X-Received: by 2002:a2e:a985:0:b0:2f5:1ec5:f4fb with SMTP id
- 38308e7fff4ca-2f7cb2eda48mr76019131fa.13.1727151751613; Mon, 23 Sep 2024
- 21:22:31 -0700 (PDT)
+	 To:Cc:Content-Type; b=NI1UeUQk4hpbVudWOrFhMkS/90vqpYDniQOSEWiYuo0hrMSKxAUP/qZ3eFLOwWvjTjGGh0UoQTr5Qp7J2ppqL54MBbVZKiHmDc3KY4t1iJzeQiPihkDbMCc+0Mjk3F3MpDVkTiQuNWbmzNJtYTGiW5bCSSpypB2j94AvNyR+p9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e1d4368ad91so4792976276.0;
+        Tue, 24 Sep 2024 00:45:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727163948; x=1727768748;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HF4eApvG4Dr17TRVbWAn/oqbrhes5tsWNdoiUFvIyHk=;
+        b=QDggGpWBR1npF8lxRv8uupebeDZgjdND7cKthQoFl3Z4OI7cx1qjKSc8vyAM8m7KRs
+         rnmtiIaoyNVSLj21CswZXP5Y68B/m6P8EW30BJeKdBaBLzpM7KhbjzF2n0/vKoShjFUA
+         qZdh1kUwXgCEnxsZ8EmEN9L8pjuelJtnqwcFp4nLK9j37x0oiT3QR52Tak/y9VwHHsHK
+         q8iwvEyLHY3Lf0Z7OYXZRS6C/VVeAEVhHpxu9LZ9JW2Q8pFtWx173C8K1CmFetlInEug
+         uKUjyJz04uNqrIVG/Rhtncnm1hV/NquFLvBc9BBs4IsGnG3LUiMOsKLHjsAFRsMzs7dB
+         0Rww==
+X-Forwarded-Encrypted: i=1; AJvYcCWsq5l9sQf9my9GBXbwRyV+TW6UhpIN2eHpDKvf6a7RnU/ISTp5UsZrAQ553EV810U1yZEQjze967FrzUXb@vger.kernel.org, AJvYcCXV8XrvXJMHWTclm22UTVWsWIHh6vOsoWZOWX5apz3WpTXSWQb6LpMgkXxzUjV3Jp6/XE2P9itgB+3gYQg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPoH94xBS2rT6E47n6AlWUdnDEmOVOy0moYLszCULZjIaqCfdY
+	7Cbgsugu5yr4YzfmbwxxDB8AiYjpFBNuPdecLLVbpdfBZH5xoacRmK1FgS6P
+X-Google-Smtp-Source: AGHT+IGYTXkx4veSbuiLQWrePPtz4BomdwGszxruZmZrd0xO1U8j5vRoq4WsevDexee0JbIjGnZLiw==
+X-Received: by 2002:a05:6902:2e89:b0:e1a:b0a1:3406 with SMTP id 3f1490d57ef6-e24978657b8mr1721415276.4.1727163948309;
+        Tue, 24 Sep 2024 00:45:48 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e2499c77eb2sm167923276.60.2024.09.24.00.45.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Sep 2024 00:45:47 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6ddca648c26so42056527b3.1;
+        Tue, 24 Sep 2024 00:45:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVBZoooPeqCfQTYfId+D55/gjjVikypsquz1x4SdtW9PddfdqewLh2T8ACAdlAj+K8CEv3OhI6WsO9ZmfE=@vger.kernel.org, AJvYcCXvIs2aiZcy+etDMTJWe7eRGfUV6WlSNpuilPTiyPqVyNifRqe8bd4Q4mDJ+9t/KoNRmtTKGhsG7P9N/7p+@vger.kernel.org
+X-Received: by 2002:a05:690c:94:b0:6dd:ddf6:90aa with SMTP id
+ 00721157ae682-6e2085653fbmr16769677b3.5.1727163946854; Tue, 24 Sep 2024
+ 00:45:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240913171205.22126-1-david.hunter.linux@gmail.com> <20240913171205.22126-8-david.hunter.linux@gmail.com>
-In-Reply-To: <20240913171205.22126-8-david.hunter.linux@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 24 Sep 2024 13:21:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATf=1WD5a8azGZGJ73-irm8uvBZujvuW3CUncXbix+10w@mail.gmail.com>
-Message-ID: <CAK7LNATf=1WD5a8azGZGJ73-irm8uvBZujvuW3CUncXbix+10w@mail.gmail.com>
-Subject: Re: [PATCH 7/7] linux-kbuild: fix: process config options set to "y"
-To: David Hunter <david.hunter.linux@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	shuah@kernel.org, javier.carrasco.cruz@gmail.com
+References: <20240923142533.1197982-1-linux@roeck-us.net> <f15ff981-e725-40f0-8d2f-856b4b6a65b3@redhat.com>
+ <4c2cdf84-9794-4722-8417-cf924f890797@roeck-us.net> <203f0d01-d25e-4436-b769-b89edb1b57d9@roeck-us.net>
+In-Reply-To: <203f0d01-d25e-4436-b769-b89edb1b57d9@roeck-us.net>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 24 Sep 2024 09:45:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWfsgnCRLhCkvJBn8Prdd4M=HvwtsPT0BeRPtA-nFHzYQ@mail.gmail.com>
+Message-ID: <CAMuHMdWfsgnCRLhCkvJBn8Prdd4M=HvwtsPT0BeRPtA-nFHzYQ@mail.gmail.com>
+Subject: Re: [PATCH] mm: Make SPLIT_PTE_PTLOCKS depend on the existence of NR_CPUS
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: David Hildenbrand <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 14, 2024 at 2:13=E2=80=AFAM David Hunter
-<david.hunter.linux@gmail.com> wrote:
+Hi G=C3=BCnter,
+
+CC kbuild
+
+I have two comments...
+
+On Tue, Sep 24, 2024 at 1:52=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+> On 9/23/24 15:08, Guenter Roeck wrote:
+> > On 9/23/24 08:23, David Hildenbrand wrote:
+> >> On 23.09.24 16:25, Guenter Roeck wrote:
+> >>> SPLIT_PTE_PTLOCKS already depends on "NR_CPUS >=3D 4", but that evalu=
+ates
+> >>> to true if there is no NR_CPUS configuration option (such as for m68k=
+).
+> >>> This results in CONFIG_SPLIT_PTE_PTLOCKS=3Dy for mac_defconfig.
+> >>> This in turn causes the m68k "q800" machine to crash in qemu.
+
+Should this be fixed in Kconfig (too)?
+
+> >> Oh, that's why my compile tests still worked ... I even removed the ad=
+ditional NR_CPUS check, assuming it's not required ...
+> >>
+> >> Thanks for debugging and fixing!
+> >>
+> >> Acked-by: David Hildenbrand <david@redhat.com>
+> >>
+> >
+> > Apparently it wasn't that simple :-(. 0-day reports a build failure
+> > with s390 builds.
+> >
+> > arch/s390/mm/gmap.c:357:16: error: implicit declaration of function 'pm=
+d_pgtable_page'.
+> >
+> > Turns out that
+> >      depends on NR_CPUS && NR_CPUS >=3D 4
+> >
+> > doesn't work and disables SPLIT_PTE_PTLOCKS even if NR_CPUS _is_ define=
+d.
+> > I have no idea how to declare the dependency correctly.
+> > Sorry, I did not expect that.
 >
-> The goal of "make localmodconfig" is to turn off modules that are not
-> necessary. Some modules are necessary because they are depended on by
-> config options set with a "y."
->
-> Process configs set to "y" so that the modules that are depended on
-> will not be turned off later.
+> The only solution I found was to define NR_CPUS for m68k. That seems to b=
+e
+> the only architecture not defining it, so hopefully that is an acceptable
+> solution. I'll send v2 of the patch shortly.
 
+My first thought was to agree, as m68k is indeed the only architecture
+that does not define NR_CPUS. Upon closer look, most architectures
+have NR_CPUS depend on SMP, hence I assume the issue could happen for
+those too (although I didn't manage to create such a config on anything
+but m68k)?  So the simple solution would be to add a dependency on
+SMP to SPLIT_PTE_PTLOCKS.
 
-You need to put the explanation in the cover letter.
+BTW, the list of excluded architectures looks fragile to me:
 
-Without reading the cover-letter, I do not understand
-why this change is needed.
+    config SPLIT_PTE_PTLOCKS
+            def_bool y
+            depends on MMU
+            depends on NR_CPUS >=3D 4
+            depends on !ARM || CPU_CACHE_VIPT
+            depends on !PARISC || PA20
+            depends on !SPARC32
 
+If this can't be handled in a generic way, perhaps this should be
+changed from opt-out to opt-in (i.e. select gate symbol in arch-specific
+Kconfig)?
 
+Gr{oetje,eeting}s,
 
-
-
-> Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
-> ---
->  scripts/kconfig/streamline_config.pl | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/strea=
-mline_config.pl
-> index 948437aac535..762bf80408c7 100755
-> --- a/scripts/kconfig/streamline_config.pl
-> +++ b/scripts/kconfig/streamline_config.pl
-> @@ -466,6 +466,11 @@ foreach my $line (@config_file) {
->
->      if (/(CONFIG_[$valid]*)=3D(m|y)/) {
->         $orig_configs{$1} =3D $2;
-> +       # all configs options set to 'y' need to be processed
-> +       if($2 eq "y") {
-> +            $configs{$1}=3D $2;
-> +        }
-> +
-
-
-You are breaking the indentation style.
-
-Check how the current code is indented.
-(tab and spaces).
-
-
-A space is needed after 'if'
-for coding style consistency.
-
-
-
-
->      }
->  }
->
-> @@ -596,9 +601,11 @@ sub loop_depend {
->        forloop:
->         foreach my $config (keys %configs) {
->
-> -           # If this config is not a module, we do not need to process i=
-t
-> -           if (defined($orig_configs{$config}) && $orig_configs{$config}=
- ne "m") {
-> -               next forloop;
-> +           # If this config is not set in the original config,
-> +           # we do not need to process it
-> +           if (defined($orig_configs{$config}) && $orig_configs{$config}=
- ne "m"
-> +                       && $orig_configs{$config} ne "y")  {
-> +                   next forloop;
->             }
-
-
-
-I do not understand the condition:
-
-
-defined($orig_configs{$config}) && $orig_configs{$config} ne "m"
-      && $orig_configs{$config} ne "y"
-
-
-Is there any case when this condition is met?
-
-
-
-
-
-
-
-
-
-
-
->             $config =3D~ s/^CONFIG_//;
-> --
-> 2.43.0
->
-
+                        Geert
 
 --=20
-Best Regards
-Masahiro Yamada
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
