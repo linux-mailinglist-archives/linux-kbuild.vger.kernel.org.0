@@ -1,229 +1,191 @@
-Return-Path: <linux-kbuild+bounces-3726-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3727-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC14D9850FC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 04:39:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEDD98526D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 07:31:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32A962847A7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 02:39:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EFCEF1C22BDF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 05:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0334213B783;
-	Wed, 25 Sep 2024 02:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C35149C4F;
+	Wed, 25 Sep 2024 05:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=midstall.com header.i=tristan.ross@midstall.com header.b="DZHVQJN3"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="GcX+J38I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2062.outbound.protection.outlook.com [40.107.104.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2960BA55;
-	Wed, 25 Sep 2024 02:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB861B85D1;
+	Wed, 25 Sep 2024 05:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.62
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727231984; cv=pass; b=egqQwlPu1hh8tDEIe6SPA2c68D6GKkEZKap1LNG+fhvIZW5jWCnJHGBNAs4GKsiCGGrrzQz1NWCacu9mVjH7AGrjHBAaA/ULMtTQ0iTR8021mLeN3ZOckrbPW7CNJbaUSH9H1JR1LrAu7cfk437v6v4G79hy+x3X2XzdgPr2/k8=
+	t=1727242301; cv=fail; b=bA/FQiYeMBPnLThp6DC+Psp5QdiMC+mmlikrOvPOUVKJXnEp2MmjNpyVJXvowg5rIwqO3pD9kqeVaYmOSU+HWsEg8nAfqG80185lTbnrLZXa8g+Raiq6xR0dI0X1+oySyFeukKl8z6Nfo4MJHv9N5Ah8poD/w4/gswOsFZ3igKU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727231984; c=relaxed/simple;
-	bh=KBq3L/tgBOQo38ht7Jo8RF5vs4fSLBlXE86WnspFstY=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=Yj40xQCful4KOzGZwLt3XT97cfJgSzfMiQna31EfEmL0y0YUnbSrhsAEMaFb8CXUncw6hUv30shGbvf+hugXr1x+G8urqZ0exvwAdGzmhtdN/T0zbNk8/7wkvmYjm2q03x23TLbKml2rzJK2JxcCweVTYx1HAly7wzUWlaiqwd8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=midstall.com; spf=pass smtp.mailfrom=midstall.com; dkim=pass (1024-bit key) header.d=midstall.com header.i=tristan.ross@midstall.com header.b=DZHVQJN3; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=midstall.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=midstall.com
-ARC-Seal: i=1; a=rsa-sha256; t=1727231943; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EnJgzRANJfEpR8HlUzJciEC5ENNQKdocB90lU56ZTElvpuBaM2HxvqsABJgC412A80ga/1X1Lv5qWmCMSlUSTVJ7yr//i/f8UHFzziercTEBZiR4kj1CF7cPiKiQjhuef3QWGDa26K+sRqohCJBORK1wLIpS36mUVDTlTUyu0AY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1727231943; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=zfP6tk72gDTaS0kfkEVIpmWor1jmd723y6OtaVebG7I=; 
-	b=BmRfhOkA84LWvevM5HD8t89vgeXoevX7HcI9wo7MxT0yMFAVkUPRSE+I9DkKBT5qvKBNltFRHkLlIbkYAaQ0+PxegqfQMMUYKtGVMpg936nGKBUBri4AK/1CqkG/GwLc+TkZpSL4pCPKG3SxU+PHnwQ8qasBq/s40vzO3QRGegQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=midstall.com;
-	spf=pass  smtp.mailfrom=tristan.ross@midstall.com;
-	dmarc=pass header.from=<tristan.ross@midstall.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1727231943;
-	s=zmail; d=midstall.com; i=tristan.ross@midstall.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=zfP6tk72gDTaS0kfkEVIpmWor1jmd723y6OtaVebG7I=;
-	b=DZHVQJN3+gEh6YrB1ik+MPrVyPNEBJKUdBVt+3S/6StvCo0Z5QIPhEzwuqsla/iu
-	VkAf0+e5De0xaSgIDDokavtQ6ODBDz25TtC9E9ZZtnZRmeSEPBbkekVPXsz6+lD/PLl
-	YNIbMKZ0nwsRRBcNqUcEN57VCl0rNLiYWJT+sU60=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1727231940772585.4316937211197; Tue, 24 Sep 2024 19:39:00 -0700 (PDT)
-Date: Tue, 24 Sep 2024 19:39:00 -0700
-From: Tristan ross <tristan.ross@midstall.com>
-To: "Fangrui Song" <maskray@google.com>
-Cc: "Yuxuan Shui" <yshuiv7@gmail.com>,
-	"Masahiro Yamada" <masahiroy@kernel.org>,
-	"llvm" <llvm@lists.linux.dev>, "nathan" <nathan@kernel.org>,
-	"nicolas" <nicolas@fjasle.eu>,
-	"linux-kbuild" <linux-kbuild@vger.kernel.org>,
-	"tglx" <tglx@linutronix.de>, "mingo" <mingo@redhat.com>,
-	"bp" <bp@alien8.de>, "dave.hansen" <dave.hansen@linux.intel.com>,
-	"x86" <x86@kernel.org>, "hpa" <hpa@zytor.com>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <192270bd88d.f4dae43a112354.5469673441409436657@midstall.com>
-In-Reply-To: <CAFP8O3Kqx-gdTBFn_hesWzd-6NCpGEz1=fMoJXuX+n4c7sp0Bw@mail.gmail.com>
-References: <20240208012057.2754421-2-yshuiv7@gmail.com> <CAK7LNAT0KT7sbZJZNXtq5waM-UjUm4zHyf9xHZc3uHLvZ_eAfA@mail.gmail.com> <CAFP8O3Kqx-gdTBFn_hesWzd-6NCpGEz1=fMoJXuX+n4c7sp0Bw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Fix building with LLVM on NixOS
+	s=arc-20240116; t=1727242301; c=relaxed/simple;
+	bh=qysoJd3rAnWclS/KjarlF1U93CxxnLFhjZ0vV3cGOmo=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=SqZQm9FQXxLNS9T51fQ1Lmffmy0cSZup6jO4w3jmkxdUZSS4xaUyE/3a8s8esGmd8BS5FWgmapRfASggQnedDbSelV1c/w8J3XHA7vlbO9TY8OqKF0LggSYDWuJqLoBZXknFzwl6elpDDuGQ6579DrVa+gPk1crecnVhpVX6yUU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=GcX+J38I; arc=fail smtp.client-ip=40.107.104.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EykfWCQ4YAL2GHpdeHsQt8upXhSHcQZxO9RKWkTJqfNTriR/ukTK/KcTOdR7SkpBJClJTfsKf6moMEOSUXn6JpbU12hz6545wbBQ5GItHDVwom7lWernqlGzVlLVgCyDMLUBUhWx+l11uSS6z53JW7+LDaQPfOxR/kySvGN+LlJH4FzpjHNMcZhX/SF6zgCzyOmISXxexBp7uVdIIIavZbsovVqDRpZJo6ulfcBrTJTqlaUaLplAwu8AcSwmZZVjuSqFFMN4VUXyHB7LkznDKTMuOWHTrl05F0O10CKewprMLhIuWux7Vrc/wiqE1+KDj+gNzU1l31WQWH4b97wuNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=egIpIvmOsO36KeEUs3TyAUP2VZfxGnnNyqI7x7hyLOM=;
+ b=tT/+sbiuLmeFde9KHHSTWSmzCpze0L3Wt1s0DqYHqY8lpLwfMxKNis6J10exTWXb1pPXVT2VG8rQyHW8rgxJMk+4NXkXSVwDrLyH3FPvrFc27qrlpaOF2arkhCffZoA2inFWbVlv59h3ZhgtNs+pMcbWfoWqHEbW3PD984TOyyK2vqz9LbLt+ndWlO/9sC1UF4G23U83Li2ip1zaxPBdxziBHKHXJMOls5A3UD6KBu7W74CDYsnsQzkQsU8djdwJ61cwTxGoQQUNPi7k7oqrhNYIkXq5wuBD7l/cNEJS5B3GbeqzKNZ6p/6P+szf6sn+U2JuSkC4R5DAFp4V4YTjWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=egIpIvmOsO36KeEUs3TyAUP2VZfxGnnNyqI7x7hyLOM=;
+ b=GcX+J38I6bg/n2hwTvDMScsplzQjV502m957YCPtk6dqI78GV8r+0aFGNja+L18nw04r6dKruuCqv2LOcWZvh+I0syeVb4tugBv5wBrx1TWZkUpNb2rU4JAvkrAriUEEaDXocty3BfseOQFAQXtFWLA49+oQ4HtT9AjnuOESrk36NbXSqs/js7I13BdI7V7AF8lxRNO2z1HrS4DNuPWd8xTQABcWP5WL6LP9Fx+6NEzl/oRg33V6GRgFfab2h5XhaC7gT8Lobkr9Xu6ZMsYBHYijO+3PvP1U+liJBKZubB4z/vzeTjb/GyE11jy6JigtS0hj1B0kEmFwes7RMc3XYw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
+ by DBBPR04MB7548.eurprd04.prod.outlook.com (2603:10a6:10:20c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.23; Wed, 25 Sep
+ 2024 05:31:30 +0000
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7]) by DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::4e24:c2c7:bd58:c5c7%4]) with mapi id 15.20.7918.024; Wed, 25 Sep 2024
+ 05:31:30 +0000
+From: Xu Yang <xu.yang_2@nxp.com>
+To: robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu
+Cc: devicetree@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev
+Subject: [PATCH] kbuild: fix a typo dt_binding_schema -> dt_binding_schemas
+Date: Wed, 25 Sep 2024 13:32:30 +0800
+Message-Id: <20240925053230.45606-1-xu.yang_2@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0026.apcprd02.prod.outlook.com
+ (2603:1096:4:195::19) To DU2PR04MB8822.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e1::11)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|DBBPR04MB7548:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0202c9d8-6934-48cb-d33f-08dcdd234f2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Oz3XMdbcT1t3w894U6BWwy0NTLe1K7qm3hOiyxS+OYfauJ+0HV1WmFiQ94W+?=
+ =?us-ascii?Q?dr8teYyF69f63MCWkVaQlji7zUwDDxZnSIZgYL9nsE8F8VSUE4R0cbKBxVQu?=
+ =?us-ascii?Q?AaZwRHgBGPATTOqnIGhzFuMfJQflr1k30hTW+HtAWLf+eJi8GN3Z9FVgYxmR?=
+ =?us-ascii?Q?jVwTOvqrpBDetOuNYp4PB60BBXquvSSx2b733qkKsKY/qZHs2VuqDQEE350G?=
+ =?us-ascii?Q?FJNVinYYSWpIrTgzdnIDGqun23iL3O9Er2aabuZ1cH2Q+sIaDOP4S75+fAIp?=
+ =?us-ascii?Q?dQ4OQBbfiF0ETduUmL8OYtcmZPexpyaHX2qmVKq2eq6nLA5QROTBZ5ufg0eD?=
+ =?us-ascii?Q?xRIDsO3XGvQaHElB5cXaL9JfW4H5qvMqZV1nBKZ0GGoNjxZo7HIWwJF7n6G6?=
+ =?us-ascii?Q?ZArop/LYnlxB/KqCDqskaLlWNH2v6H/zV6aoiT5hvq2yfEAlclTq4kHmPXkJ?=
+ =?us-ascii?Q?oThWetw0/aVeVnM2f+2O1Fp3IBYKz0XgV8H6/5iKdtGMM16VrcLuIsaGeHo2?=
+ =?us-ascii?Q?pxs9t7fYcJWmZQ+GJawlHeF7c5NBCkUHg+tOu9KOGaVmfi7A7F1ABgBpdFU8?=
+ =?us-ascii?Q?+PkdTSA8wsF8m85hZvBjWTlWy2QH1VerDPoXhZf7fqp24Z4apVlmZKQKJ1Ik?=
+ =?us-ascii?Q?BN1xNKGiYykHIWFAbteOSjMwnhUyiLGB6vTFWLr4wFNVAvl3owzNUcdiBmvD?=
+ =?us-ascii?Q?HkO1XzvffwSKjcEQz6NKm6djqUMLue4ChyIKA8yuLx8JSsSMDjREWUTKgGsl?=
+ =?us-ascii?Q?iEpimqJsmqxQQxBBW7qFPJVq4aby8f12McdhobIDNDR5QTLBStCZxHZsCxJA?=
+ =?us-ascii?Q?zEi2RMlHK0HrD0cZ9GeSkkOsP9ABsX05nZIw2d2CD3//F1xUE4ij1V1N7DVV?=
+ =?us-ascii?Q?6sb3hqzdzOSjmqvipsPmXcrFDaQJUd9AHzrPYGDSZ7oTRYcMw0qx59mpdLVS?=
+ =?us-ascii?Q?hhaNLRNEWDqpe5/BglBF/o3fYJ0A4n+6KxGV4kfWutpVM1NEndciaOg9Plth?=
+ =?us-ascii?Q?pqsziHGwatlmgU28lsq/05Vei+PQK6RclC+/TSxSxctnfv7+mEJBMjtv43Lw?=
+ =?us-ascii?Q?+8Gaw+MFCdvZhfZ6qXu1lLQh9Dglqb32sJLgqKLd0jeR4zLEwF1ridZwbLo2?=
+ =?us-ascii?Q?JxDAb16FcKC7FPlVLRd+SW3MckIzUyH4xc2wYC2HbE3Hz+iOdEtzmeT1KOMB?=
+ =?us-ascii?Q?rd+kUPdOROw/pYotXAjZUVVQznqEd2H67OBNymCPTAfERs/L0y9QOeO+gRY3?=
+ =?us-ascii?Q?pwfo4MkvzXvJR6GoncGLeN3L3F7TXxUM+ld7d3tRhl3aLFbCq9K7kSlDhlc2?=
+ =?us-ascii?Q?791jy+xjZXasvyGHVcYojgMfZNYihSQUSa/lJEhrv+p1TTEBsizKKGGC4JyD?=
+ =?us-ascii?Q?/ED1zUpv0Mo4oFW7E9Lkd19D/g1YlscG/DzqljR8h+7PDB6nXQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?X98qM+9B1WfpdEf6LAbBO91uxgNQosoQaukv6e/YWW2hbD1tFtCzl7SjsbCK?=
+ =?us-ascii?Q?MiDMyNVoG/m9hzJr0Xzj4LdnR1GBy4g4/QVGm2a6Nz22Py8YUTApQPOOgbfH?=
+ =?us-ascii?Q?BOwn7mGraVa1h7/G/QXl2fx4IdZq1GxdXh+fg4yvYPB3oWv5v5kWFjt6aHuE?=
+ =?us-ascii?Q?bRLJtrImspa0fDBK80FcnH+CbhY1i4DY75/P1NGwluoLerS1wW6epZ+YfMvV?=
+ =?us-ascii?Q?k79fPB3K5SKeItaJthVA4lqMvZekzHrc+90mSOQ58gmKrl5kIaY0Rpm8S77Z?=
+ =?us-ascii?Q?Fh7IH0pk31Z1+LDYoQJt1UA1siVFnPVtLf4DPHRUVU5s3K7nGsh94b5o2Uef?=
+ =?us-ascii?Q?bwKFvJqRe8Kegv/wCrXJM89bTeA+ticV3LTBJfcz71ND3dTvwgsRokgPP/ZX?=
+ =?us-ascii?Q?td5f/rJg0+F0d3JiS2j+SQJeV05Bd+kGQMPjUjm22HUjhijFi2Af4Ggd2vDH?=
+ =?us-ascii?Q?83DyxP/VKN8+6zHDGpZOVS75ix3HylRQ1acMn7Yz2mgAbWS76UXWuFBMoL53?=
+ =?us-ascii?Q?b8eQnB/XGGHFBNeQAup9+Vo1finkjT3Fy44ZgivhR9iDwmHuaMiE4mX1Mox0?=
+ =?us-ascii?Q?/a0yqxoIbIJfLG6/n9wZpIxUtFDHTR3UvX8Tvfijuk4BVg3CVRwq/PuqPkJl?=
+ =?us-ascii?Q?XNXlYr+nFcwkrbEhGXCfio3fuuRJnuvqgLrNQg7AOJf0ceSYPbJaVmBFWAlP?=
+ =?us-ascii?Q?r3BNQSbZaaE5tIVHifYu6EckJhdevf9KCl0wXduuIkvzxF9TnS7f22mGRlVU?=
+ =?us-ascii?Q?8hgVZn6dHqshp5W4lWxqiIatmds/ans/PmLjS2lR5jItApfDIAmDN0+8eGiL?=
+ =?us-ascii?Q?/USqUDNL/U8Ka4P2itsxWwWXqc+10Kq9Ixe+ozBgLA06s93uw3jMQRzMSs9y?=
+ =?us-ascii?Q?mu6ZmZhuJaqqtYwusC4r3JOCcGruKdI7d9IX3akBgdYCKg5MlRWJcrIOOTKS?=
+ =?us-ascii?Q?BtA+MDKeUQhJbGg19Np0TF5AObRisKG/k+6mhKGhLtTmKyO7HBMLWuC4/syS?=
+ =?us-ascii?Q?9t/2ypcL4sXAMzGqaxEO7vluX+xF8FjXsLyaQWo3P9ZRoBNUQaNeOTjvFKND?=
+ =?us-ascii?Q?SYXTdGZ/dJY4lwvEwCeZO653fTS6sdbVtSlVymeFaX/u6ye/08mN/RR9mr/m?=
+ =?us-ascii?Q?gDgmBPH1g1oX1DZjXtOoup1w9TNHfWTkH5OVYxvDxlAOsPe2xmB2Q3ZZ5sws?=
+ =?us-ascii?Q?V7mu1Z0imnpVMgfXeJE2DbT3//z59vaZdwjvQZk2sAdYjUMSY3Bjk9tPA78z?=
+ =?us-ascii?Q?iwUDffZZy3y01lkjGX6KPfJXyX0nb8Vxviz9tHAAgJ/bv1w5Tz4/wM6kC5Lg?=
+ =?us-ascii?Q?zqoXSgcZCRDkCvJbhDSt3VWRD3krk7Yrh9NyGMILs0NwEOnJ3jmoaoAvC47Y?=
+ =?us-ascii?Q?vOGhivIXWUiLMqkZAus5fhtaclVwKW/rE8uI3IT2GbSa6Y6pVHtM3Uqa5KDY?=
+ =?us-ascii?Q?AYO5sbgyUcZvEuM9xeK8xXSPo5XyK979zKiFh4SgnCyfjTdblgIxlOVtkasF?=
+ =?us-ascii?Q?u5LDhtmQbj0G67FOT52KzMSyXQEAxh4r5Ev3YmaxWxkWhVbIrt0wFyOS0mlI?=
+ =?us-ascii?Q?NffpgUQXFR6uc2fiQ4NqrwA4DDHTw5zogF/MXgxZ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0202c9d8-6934-48cb-d33f-08dcdd234f2e
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 05:31:30.5169
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i4ZNkPL+n2KTL1Kef+WR30+ZLfJ3ftHIE/KiFVS+6XC5sdpfmLWp6n68oBSu6Z7m+ORrT9g2SvZEjmTbz20fvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7548
 
-LLVM maintainer for Nix here, I do agree that our wrapper is causing issues=
- here. However, we're looking to fix this by mimicking GNU ld's behavior fo=
-r checking --dynamic-linker. We're also going to look into getting LLVM lld=
- to support the same behavior in case others have this issue. We might not =
-be the only ones who could be affected so adding this behavior into LLVM de=
-finitely will be useful. I tested aarch64 building of the kernel and it wor=
-ks after we fixed our handling of hardening options. However, aside from aa=
-rch64 and x86_64, I am not sure what other things could be failing. I hope =
-this clarifies things.
+If we follow "make help" to "make dt_binding_schema", we will see
+below error:
 
-Thank you,
-Tristan Ross
+$ make dt_binding_schema
+make[1]: *** No rule to make target 'dt_binding_schema'.  Stop.
+make: *** [Makefile:224: __sub-make] Error 2
 
-(Sorry if I sent two emails, I forgot to reply all last time. First time us=
-ing the LKML)
+It should be a typo. So this will fix it.
 
+Fixes: 604a57ba9781 ("dt-bindings: kbuild: Add separate target/dependency for processed-schema.json")
+Cc: stable@vger.kernel.org
+Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- ---- On Mon, 12 Feb 2024 13:59:13 -0800  Fangrui Song  wrote ---=20
- > On Mon, Feb 12, 2024 at 1:30=E2=80=AFPM Masahiro Yamada masahiroy@kernel=
-.org> wrote:
- > >
- > > +Cc: Fangrui Song maskray@google.com>
- > >
- > >
- > >
- > > On Thu, Feb 8, 2024 at 10:22=E2=80=AFAM Yuxuan Shui yshuiv7@gmail.com>=
- wrote:
- > > >
- > > > NixOS is designed to have immutable packages, and explicit dependenc=
-ies.
- > > > It allows multiple different versions of the same shared library to
- > > > co-exist in its file system.
- > > >
- > > > Each application built with Nix, the NixOS package manager, will hav=
-e
- > > > paths to its dependency shared libraries hardcoded into its executab=
-le,
- > > > this includes the dynamic linker. To achieve this, Nix adds a
- > > > --dynamic-linker linker flag when building any application.
- > > >
- > > > This isn't a problem if the kernel is built with ld.bfd, because ld.=
-bfd
- > > > ignores the --dynamic-linker flag when the resulting binary doesn't =
-have
- > > > a DT_NEEDED entry. However, ld.lld respects --dynamic-linker
- > > > unconditionally, which breaks linking in several cases.
- > > >
- > > > This commit adds an explicit --no-dynamic-linker flag which override=
-s
- > > > the flag added by Nix.
- > >
- > >
- > >
- > > I expect some Acks from LLVM folks (especially, from Frangrui)
- > > if this is the right thing to do.
- >=20
- > GNU ld seems to ignore --dynamic-linker for a position-dependent
- > executable (ET_EXEC) when there is no DT_NEEDED entry.
- > ld.lld respects --dynamic-linker in this case. Before this kernel
- > report, I do not know any user inconvenienced by this difference.
- > (mold respects --dynamic-linker as well.)
- > This could be helpful to test an executable with PT_INTERP but no DT_NEE=
-DED.
- >=20
- > I think this patch does not fix non-x86 builds.
- > It feels to me that NixOS should provide a linker wrapper that does
- > not force --dynamic-linker=3D.
- > While it's extremely uncommon (and generally not recommended), certain
- > programs invoke the linker directly (instead of using a compiler
- > driver).
- > Such programs would run into a problem when they make a
- > position-dependent executable with no dependency as well.
- > I don't feel that NixOS forcing --dynamic-linker=3D is enough
- > justification to change linkers.
- >=20
- > > > Signed-off-by: Yuxuan Shui yshuiv7@gmail.com>
- > > > ---
- > > >  Makefile                      | 3 +++
- > > >  arch/x86/boot/Makefile        | 2 +-
- > > >  arch/x86/realmode/rm/Makefile | 2 +-
- > > >  3 files changed, 5 insertions(+), 2 deletions(-)
- > > >
- > > > diff --git a/Makefile b/Makefile
- > > > index a171eafce2a3b..10ed19caecb1b 100644
- > > > --- a/Makefile
- > > > +++ b/Makefile
- > > > @@ -531,6 +531,9 @@ RUSTFLAGS_KERNEL =3D
- > > >  AFLAGS_KERNEL  =3D
- > > >  LDFLAGS_vmlinux =3D
- > > >
- > > > +LDFLAGS_MODULE +=3D --no-dynamic-linker
- > > > +LDFLAGS_vmlinux +=3D --no-dynamic-linker
- > > > +
- > > >  # Use USERINCLUDE when you must reference the UAPI directories only=
-.
- > > >  USERINCLUDE    :=3D \
- > > >                 -I$(srctree)/arch/$(SRCARCH)/include/uapi \
- > > > diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
- > > > index 3cece19b74732..390a4604166eb 100644
- > > > --- a/arch/x86/boot/Makefile
- > > > +++ b/arch/x86/boot/Makefile
- > > > @@ -102,7 +102,7 @@ $(obj)/zoffset.h: $(obj)/compressed/vmlinux FORC=
-E
- > > >  AFLAGS_header.o +=3D -I$(objtree)/$(obj)
- > > >  $(obj)/header.o: $(obj)/zoffset.h
- > > >
- > > > -LDFLAGS_setup.elf      :=3D -m elf_i386 -z noexecstack -T
- > > > +LDFLAGS_setup.elf      :=3D --no-dynamic-linker -m elf_i386 -z noex=
-ecstack -T
- > > >  $(obj)/setup.elf: $(src)/setup.ld $(SETUP_OBJS) FORCE
- > > >         $(call if_changed,ld)
- > > >
- > > > diff --git a/arch/x86/realmode/rm/Makefile b/arch/x86/realmode/rm/Ma=
-kefile
- > > > index f614009d3e4e2..4b42006d9ce02 100644
- > > > --- a/arch/x86/realmode/rm/Makefile
- > > > +++ b/arch/x86/realmode/rm/Makefile
- > > > @@ -50,7 +50,7 @@ $(obj)/pasyms.h: $(REALMODE_OBJS) FORCE
- > > >  targets +=3D realmode.lds
- > > >  $(obj)/realmode.lds: $(obj)/pasyms.h
- > > >
- > > > -LDFLAGS_realmode.elf :=3D -m elf_i386 --emit-relocs -T
- > > > +LDFLAGS_realmode.elf :=3D --no-dynamic-linker -m elf_i386 --emit-re=
-locs -T
- > > >  CPPFLAGS_realmode.lds +=3D -P -C -I$(objtree)/$(obj)
- > > >
- > > >  targets +=3D realmode.elf
- > > > --
- > > > 2.43.0
- > > >
- > >
- > >
- > > --
- > > Best Regards
- > > Masahiro Yamada
- > >
- >=20
- >=20
- > --=20
- > =E5=AE=8B=E6=96=B9=E7=9D=BF
- >=20
- >=20
- >=20
-Tristan ross
-CEO & Founder of Midstall Software
-
+diff --git a/Makefile b/Makefile
+index 265dd990a9b6..7aa71c70305e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1645,7 +1645,7 @@ help:
+ 		echo '* dtbs               - Build device tree blobs for enabled boards'; \
+ 		echo '  dtbs_install       - Install dtbs to $(INSTALL_DTBS_PATH)'; \
+ 		echo '  dt_binding_check   - Validate device tree binding documents and examples'; \
+-		echo '  dt_binding_schema  - Build processed device tree binding schemas'; \
++		echo '  dt_binding_schemas - Build processed device tree binding schemas'; \
+ 		echo '  dtbs_check         - Validate device tree source files';\
+ 		echo '')
+ 
+-- 
+2.34.1
 
 
