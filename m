@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-3755-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3756-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D3B69862D9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 17:17:06 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0701D986366
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 17:25:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C4A128DEE6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 15:17:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04C43B30132
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Sep 2024 15:17:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98BED191F8E;
-	Wed, 25 Sep 2024 15:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 918D51922FD;
+	Wed, 25 Sep 2024 15:02:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A6rF0mzg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QheHwjD5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2506C1917F8
-	for <linux-kbuild@vger.kernel.org>; Wed, 25 Sep 2024 15:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E427B1922D9
+	for <linux-kbuild@vger.kernel.org>; Wed, 25 Sep 2024 15:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727276554; cv=none; b=rZ93EI341QSXcnua283Z2XY4p8/xkfQyVAVPaee21fWKL49y+9ZrYdMjSLK95YB+Ih2SUMqJbqWQMK/6P54fQwjiXmw0s4P5+m9A0+g+1l5ocshZnvn8soQUX9O//mRlQ0/w9mpJuIwdjyxPeK9mdE6kjTSp7dHhFieUyUbb7nE=
+	t=1727276557; cv=none; b=DGj6he+9PvQQf8Fw3ZYX7Lo75UaCrY6LgWBKRofklXlVNt22jg4HFX4DQUrg4tE8c4KjB34ZHd2/kwVbzwFvZIJCidx+XYYmHShWRz/dRooCHqEqtyoab4ZmgpJFI2rtjXGC2ZkH7oGh9w4AzzZwG6kXPaec6BuST3gKr8XUZmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727276554; c=relaxed/simple;
-	bh=w/P+2/7/i0/j2dzTpIfGv0L554wt2D6+DkL221lAYlA=;
+	s=arc-20240116; t=1727276557; c=relaxed/simple;
+	bh=CMurddgdDXZCJtwTh7sicisjqXrlKeRuIZ1TFq/8oX8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hlde/89UvJ2hiV3qalgr7ILnWEzejlIFVrT0wgjx0vfpG3mjM43YGJS/lVE0PqOMfbpOFw6gszuPNGD1wmEj5gRfJheWCci0xIEEJX5jl17JNvLMseIHx4saDYBjUlo27FlxzPQnrm2qOqjuOKQbuuRMqdobkUu7ys/rzc4ALCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A6rF0mzg; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=Nf/DjyxgkouOy2beuJA6g3MbzDfUp5mRw1XhsevSnc48eaxqlxoMo2EEWpiCaL5bep/8bRxYafpG2O/NIjWrwkaZlAtqc+YAIe2TsZmIJZcsliA0eSNnIdc0RpqmZH4BKqzhntR/fgHvdgbJxo0Dca6OUaw+vmZ3nrMs2hIb9k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QheHwjD5; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-42cb374f0cdso5460615e9.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Sep 2024 08:02:32 -0700 (PDT)
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-37ccc21ceb1so214360f8f.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Sep 2024 08:02:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727276550; x=1727881350; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1727276553; x=1727881353; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vAC8l3Y8WvFUyajZb+pirsZCUpFvZ3r8+BwrpQuj/SE=;
-        b=A6rF0mzgNO5k5xH80dgQj186dPnQGeeVqRHb+orNsMAT0mKVCvVjECgFsIle1N6xP2
-         ypjnsxssWW1e1kjkRgMWJak2mtDJty2lviQC2542ZJvNFLmZuTN+xmpbQhsO9uWHv1Ta
-         +sZDu12TEmKoQRiRvIDyUWMuIGN0jpUGTprTdMQIO35g6lOi6uf4r34B3eiyp6Z8uZpz
-         0+mPvBXp+mo5wvs+AUIkM7xqZEmT7UfsE+ahovCiwiFefAM4l+bvzewa8OpTczEzKWTJ
-         hQrVFsMw/dqKBz74Ih7+kqUMo30V7mIQzQOjeobfgXu+xeUrqiQbh2vm8j4jdZbHykud
-         dGJQ==
+        bh=GQ1cTLWN/qm1UuyAwDsDiC37ecAWh5CqzUoGN/3jT3Q=;
+        b=QheHwjD5gcp3pQg1btz606WQxjCEVHcr1ocQck8aZdG3CSc99pWkXkDgo0M34zSU0I
+         dtwwyONfaMKeysdhicSDnH3SgJC/XbwybTtvx43xSJPonNlHzlXLd01XPNTmd8BGYbJG
+         1kE6Nv5tPc/5Z0Y+DESalkSnexq3RW330glSb5cKl38X9bGlfHo7gzPgOoyTLbmLCj4/
+         zFo4liVFFN1L0oEl2QIwtVmZNdsZn5WijD/a20yAXU8VO4mg9O8c3GMQc6OVRtfiYf3v
+         niyirVOUBznJP8RSQBAHP8REttly+HIqe6ErgmXiFM4hq27L91W2t8t6hxUkCVEAs23F
+         JjrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727276550; x=1727881350;
+        d=1e100.net; s=20230601; t=1727276553; x=1727881353;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vAC8l3Y8WvFUyajZb+pirsZCUpFvZ3r8+BwrpQuj/SE=;
-        b=azQspdpXLqz+dyzdXGQC7KoFexLtoV4ydz/pV7/eJpjN9LD5sCYNonpoo1JapiYu7g
-         w4MkPU0b/LxAHUDlu6HX8LO9HJRq3ZcaVZuOFHb2SQot9qAe/roZqd/k5RXKd9R5ZzPE
-         hr4quApsoIcwGO+oYFni7kDIS/E9uonwAPYvMjhTH4nLOb+5viLGNz1KUx8BkssYW1e+
-         BE7i9KWwazDF/cAmBWZY3bX1PTTe/bHgjU753v4GVfUZK0L9TrWiH0fn34mmJ1727zdc
-         ysJ5X9PtVGS52Izf1kd6tFkHGNBZ7GtxvSdMSraCbv8DuO4tfqo0VtqrHRbdyZxBvNb3
-         jcug==
-X-Forwarded-Encrypted: i=1; AJvYcCUhxGh4jnULtFK2mFDGtRr1TQWe70XhbBB0NW+4lDtaEZK8v/gINJoJRbfU9w2KYMo71nYF1ratsiENkmM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQZnbp+Td//FFwAxi6RiLt+x5W5fKeJcQtihIgccofC3UKGspo
-	BjzfuNf3SqRK0vpn6PUotkBJwB7ozIYXly9rZYi3ebxK0xRnLTouBiiO8+wPK7uSS7uWzA==
-X-Google-Smtp-Source: AGHT+IGsHQZbBz7v7rjB2VogUNbzT3V2zpNGtAWZsXzYUPDihu4mWF0GF+yn2VIMs1ZNTkRqyJuf4PXN
+        bh=GQ1cTLWN/qm1UuyAwDsDiC37ecAWh5CqzUoGN/3jT3Q=;
+        b=XL3pQt0UPaltVPETavmg5T9F2AlpJf7BmZXwYh2/0jLnfJBXPWsUu+JGL+XtWX1fu7
+         PA++J4Uq2NA5kew0b8+egQOQ5Lj1WNJqe6qFjQG2JIEppDhGCzgc1C68VUhvH2cXn5QS
+         nOd9ReaITFUxmv6UAC7Z5pkTzjp7fSc5Dms5c4A5kKea/9HCGaIrSIEzWvVAc0kiQjk5
+         jkQmRELL2LdUAF3CyOOmFyHY5apnA5waiwi/QQamUYnQEgJ7yQdTaeqTiBFaCIkXXI3i
+         c6bQ4j7hfu83Z9aV/8yOG4b2BWtHJSqYlJkQszGn5Be2qWoybqJvcn4o6PK7n13VyZV8
+         5KtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWlLFDfbVCLD4YiueC3U8G+GE/pPt7YszIwU5Hv0ENnpvYMAnlxeacVKEDKi9LQuS15JXXyGnnBHZpXqI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhtpvCO1GNrBwN8OggvksbXrtrs8aDsrrbsVL4j0zSg3Ah8SBY
+	pqd4R6Ek661YgsfNN/O7NCACayM+NBKzvp0Y4XZvqRT5Un/fzE12POC7sPaovCVfIuydsw==
+X-Google-Smtp-Source: AGHT+IEbuxsanqyADq8Deat2AYN/hrx0yHWhBh+K99NJ5NNzbtyXWGf28ibYOumK1/7kTAhssaq/BKmU
 X-Received: from palermo.c.googlers.com ([fda3:e722:ac3:cc00:7b:198d:ac11:8138])
- (user=ardb job=sendgmr) by 2002:a05:600c:4ca2:b0:42c:acd5:c641 with SMTP id
- 5b1f17b1804b1-42e96037975mr279665e9.2.1727276550412; Wed, 25 Sep 2024
- 08:02:30 -0700 (PDT)
-Date: Wed, 25 Sep 2024 17:01:16 +0200
+ (user=ardb job=sendgmr) by 2002:a05:6000:1948:b0:371:8d08:6302 with SMTP id
+ ffacd0b85a97d-37cc2466282mr1755f8f.2.1727276552813; Wed, 25 Sep 2024 08:02:32
+ -0700 (PDT)
+Date: Wed, 25 Sep 2024 17:01:17 +0200
 In-Reply-To: <20240925150059.3955569-30-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -73,14 +73,14 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240925150059.3955569-30-ardb+git@google.com>
 X-Developer-Key: i=ardb@kernel.org; a=openpgp; fpr=F43D03328115A198C90016883D200E9CA6329909
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2723; i=ardb@kernel.org;
- h=from:subject; bh=tMElkct6gfSM6gp7MMWL/mRF1vGpc7RrYvn7ljZWXyE=;
- b=owGbwMvMwCFmkMcZplerG8N4Wi2JIe2L6iGZPaJMr8LDnd//b/RW8SszXOfdmXXq3NuftZV75
- oQv+lfaUcrCIMbBICumyCIw+++7nacnStU6z5KFmcPKBDKEgYtTACZy4w/DHw7GS21Or9/PeKL6
- 7ZX8zCMs6WX7p7QFXu6zKz6oZDhn3S9GhnkFPcEfOSfJKv9IYrKOXfBu+/X/Xl4zqlnSnqz7v02 4kwsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1089; i=ardb@kernel.org;
+ h=from:subject; bh=Gk3vl5lcNVlUG5WaXx6+kW7e4vi5Wc78FqbNjCEkOO8=;
+ b=owGbwMvMwCFmkMcZplerG8N4Wi2JIe2L6pHFHOXq05/1nFnPcudQmJ7wpr7dLDufJIa/O8C5x
+ Txd0oW5o5SFQYyDQVZMkUVg9t93O09PlKp1niULM4eVCWQIAxenAExENobhf+k7pXk1KeYh8xfa
+ vazOipusdTSTNTQtS+jqxsxgKQvlywz/y0srlXSWbHHluXU+4voFET+GHMONjSy3U2vjQqX5RWI YAQ==
 X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
-Message-ID: <20240925150059.3955569-46-ardb+git@google.com>
-Subject: [RFC PATCH 16/28] x86/entry_64: Use RIP-relative addressing
+Message-ID: <20240925150059.3955569-47-ardb+git@google.com>
+Subject: [RFC PATCH 17/28] x86/hibernate: Prefer RIP-relative accesses
 From: Ard Biesheuvel <ardb+git@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
@@ -105,97 +105,36 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Ard Biesheuvel <ardb@kernel.org>
 
-Fix up a couple of occurrences in the x86_64 entry code where we take
-the absolute address of a symbol while we could use RIP-relative
-addressing just the same. This avoids relocation fixups at boot for
-these quantities.
+Replace some absolute symbol references with RIP-relative ones, so we
+don't need to fix them up at boot.
 
 Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 ---
- arch/x86/entry/calling.h  |  9 +++++----
- arch/x86/entry/entry_64.S | 12 +++++++-----
- 2 files changed, 12 insertions(+), 9 deletions(-)
+ arch/x86/power/hibernate_asm_64.S | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/entry/calling.h b/arch/x86/entry/calling.h
-index ea81770629ee..099da5aaf929 100644
---- a/arch/x86/entry/calling.h
-+++ b/arch/x86/entry/calling.h
-@@ -375,8 +375,8 @@ For 32-bit we have the following conventions - kernel is built with
- .endm
+diff --git a/arch/x86/power/hibernate_asm_64.S b/arch/x86/power/hibernate_asm_64.S
+index 0a0539e1cc81..1d96a119d29d 100644
+--- a/arch/x86/power/hibernate_asm_64.S
++++ b/arch/x86/power/hibernate_asm_64.S
+@@ -39,7 +39,7 @@ SYM_FUNC_START(restore_registers)
+ 	movq	%rax, %cr4;  # turn PGE back on
  
- .macro SAVE_AND_SET_GSBASE scratch_reg:req save_reg:req
-+	GET_PERCPU_BASE \scratch_reg \save_reg
- 	rdgsbase \save_reg
--	GET_PERCPU_BASE \scratch_reg
- 	wrgsbase \scratch_reg
- .endm
+ 	/* We don't restore %rax, it must be 0 anyway */
+-	movq	$saved_context, %rax
++	leaq	saved_context(%rip), %rax
+ 	movq	pt_regs_sp(%rax), %rsp
+ 	movq	pt_regs_bp(%rax), %rbp
+ 	movq	pt_regs_si(%rax), %rsi
+@@ -70,7 +70,7 @@ SYM_FUNC_START(restore_registers)
+ SYM_FUNC_END(restore_registers)
  
-@@ -412,15 +412,16 @@ For 32-bit we have the following conventions - kernel is built with
-  * Thus the kernel would consume a guest's TSC_AUX if an NMI arrives
-  * while running KVM's run loop.
-  */
--.macro GET_PERCPU_BASE reg:req
-+.macro GET_PERCPU_BASE reg:req scratch:req
- 	LOAD_CPU_AND_NODE_SEG_LIMIT \reg
- 	andq	$VDSO_CPUNODE_MASK, \reg
--	movq	__per_cpu_offset(, \reg, 8), \reg
-+	leaq	__per_cpu_offset(%rip), \scratch
-+	movq	(\scratch, \reg, 8), \reg
- .endm
- 
- #else
- 
--.macro GET_PERCPU_BASE reg:req
-+.macro GET_PERCPU_BASE reg:req scratch:req
- 	movq	pcpu_unit_offsets(%rip), \reg
- .endm
- 
-diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index 1b5be07f8669..6509e12b6329 100644
---- a/arch/x86/entry/entry_64.S
-+++ b/arch/x86/entry/entry_64.S
-@@ -1038,7 +1038,8 @@ SYM_CODE_START(error_entry)
- 	movl	%ecx, %eax			/* zero extend */
- 	cmpq	%rax, RIP+8(%rsp)
- 	je	.Lbstep_iret
--	cmpq	$.Lgs_change, RIP+8(%rsp)
-+	leaq	.Lgs_change(%rip), %rcx
-+	cmpq	%rcx, RIP+8(%rsp)
- 	jne	.Lerror_entry_done_lfence
- 
- 	/*
-@@ -1250,10 +1251,10 @@ SYM_CODE_START(asm_exc_nmi)
- 	 * the outer NMI.
- 	 */
- 
--	movq	$repeat_nmi, %rdx
-+	leaq	repeat_nmi(%rip), %rdx
- 	cmpq	8(%rsp), %rdx
- 	ja	1f
--	movq	$end_repeat_nmi, %rdx
-+	leaq	end_repeat_nmi(%rip), %rdx
- 	cmpq	8(%rsp), %rdx
- 	ja	nested_nmi_out
- 1:
-@@ -1307,7 +1308,8 @@ nested_nmi:
- 	pushq	%rdx
- 	pushfq
- 	pushq	$__KERNEL_CS
--	pushq	$repeat_nmi
-+	leaq	repeat_nmi(%rip), %rdx
-+	pushq	%rdx
- 
- 	/* Put stack back */
- 	addq	$(6*8), %rsp
-@@ -1346,7 +1348,7 @@ first_nmi:
- 	addq	$8, (%rsp)	/* Fix up RSP */
- 	pushfq			/* RFLAGS */
- 	pushq	$__KERNEL_CS	/* CS */
--	pushq	$1f		/* RIP */
-+	pushq	1f@GOTPCREL(%rip) /* RIP */
- 	iretq			/* continues at repeat_nmi below */
- 	UNWIND_HINT_IRET_REGS
- 1:
+ SYM_FUNC_START(swsusp_arch_suspend)
+-	movq	$saved_context, %rax
++	leaq	saved_context(%rip), %rax
+ 	movq	%rsp, pt_regs_sp(%rax)
+ 	movq	%rbp, pt_regs_bp(%rax)
+ 	movq	%rsi, pt_regs_si(%rax)
 -- 
 2.46.0.792.g87dc391469-goog
 
