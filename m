@@ -1,172 +1,116 @@
-Return-Path: <linux-kbuild+bounces-3814-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3815-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9E6987927
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2024 20:37:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53B7987AB5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2024 23:35:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4EC4E1C22916
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2024 18:37:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3A521C22559
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2024 21:35:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C6DB172BD5;
-	Thu, 26 Sep 2024 18:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C31D18871F;
+	Thu, 26 Sep 2024 21:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DK/5vjrI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntYvYQ3V"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE06F16B38B
-	for <linux-kbuild@vger.kernel.org>; Thu, 26 Sep 2024 18:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CC418870F;
+	Thu, 26 Sep 2024 21:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727375854; cv=none; b=sn4mTnVrkfWBhNYkq8CXJoHiJuNJjb34DSdw2I8tdN1xsJWou7pM6K59/5iU+IODKAKWOhT94ja0uD2ukbIUCYkf+q800xzSOwZldKQS/sJD59HsYTvgQLMZZZ+FmVCC/zC+JegFK4qWOAc93wZWttNZu1bUIc+oBjwTwZfiDPU=
+	t=1727386525; cv=none; b=goQJBRrRmkqgtyjkuhqlNcfmLj145m638QfMynP66R43xq6hJqSxjzhA8mNlnbjBMWTuMILU4IVk3/QPtjSrXfnqFiq2HMebgSRVsQUs3mGhHBrNS4jgvbvo/xy4oBf2W2O2Td1+LceQFE4HnFVUeN2lwoBYmSqXToaT/Dy9xvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727375854; c=relaxed/simple;
-	bh=qge/ypv3jnq9WkpUdpRE7x8QIIC6GXWB3609FUVVm8A=;
+	s=arc-20240116; t=1727386525; c=relaxed/simple;
+	bh=1/AF0ye1aEDqbRIMOiqu2UP5rEYyIqLBgduhnkT/Gq8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Shqhxa5flmNrqOcD0/ptLV44995lV6sqUQ93VS5fn79tHaWPBqQMPxfQx3cdSeMl7ZD/mjSUd3cA8kQ4LWH4c3qzjyP0X7WfJW3k/+SQL2wYVB8xTThX64CFE5Lm29fNfPbG64FuCqHowMSYRn0ltez7Qs1rXXJSwv/NSmWmFNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DK/5vjrI; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4581cec6079so44451cf.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Sep 2024 11:37:31 -0700 (PDT)
+	 To:Cc:Content-Type; b=HBJfh/5Z7VEQxAgZ34fM/Fcum9KV9uRA4YIPjdwVhv1SKHj5FlBKtaFrY9UklpOXb6tj9a24Ppj0UNskaOvLs1phEpW4M0T3GA05X3E3GzoES+ZHys+EPON/W5TX4FRw1SnZ4EYkHV1ZwW9wX5nfulw3klh0rZgUbhtG3nAQFJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ntYvYQ3V; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e0b467da03so91493a91.2;
+        Thu, 26 Sep 2024 14:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727375851; x=1727980651; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727386523; x=1727991323; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ajD7HYLuvBx8/17wWfxPAMem46iIj42I6Vl0LQ86WrE=;
-        b=DK/5vjrINJRnrkXe3JMVA2ku6szcsEliriK+KN8cQY3FpVMsbmkmycPY56xGBQItSL
-         ibQ8Z4uWK2pii2zWS0HA9AvCc3tUU6f55c8CJsAUyr2P+V24XWfOk5qxTuNr8gTdVeAG
-         x5iBsYiAvvRILVTxnokzS5OItpWcLnvsXYagWT4afcqtVcjguOGRzwv9xWM9TpJQtw/g
-         R7GAGqOMJ0L1BhaNT8Zd6JCryyMjnjiurgWIZ3DNj5Ou4wRTBxpWcVhZct60XRUdUHUd
-         snIJaR8UJpEE6aNpdTRZQytK0yRCi+AlJrLfGWVwDi/JdZMdmluvcKTnmRWBDcGpDn6P
-         c6sw==
+        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
+        b=ntYvYQ3VzjrPQRjO0RTjOTbXP7/4NP5rjwPgNkr9vH/XeTJuyjkJQ6j8P1Q5+uxnST
+         F3wPdxptRRuXH4IYlyP+1oLBMPEpsloYKCpFimcgj0k4lN/GD1KdZTGRrH/xAwUoC1V3
+         rJPs6Qhurc32eEX7Nw6W0yg9ypx4H8Kn2SL2FF0rDnTsbAewQk6cqpJ0OzCNZ9fG7s2K
+         jkChH3VAIV2ScpQ7p6vD/ekIMTj99jeg/1W8R/4uC1LACZ3XKgZEkEjh99yXfdBqpnAL
+         uIKAImU9QAzLmdcHL1trZc/BPKjgl7Z0W/ek20wLJnfUeFDbJ/kOre9Cpwh2jgN/OLHt
+         egVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727375851; x=1727980651;
+        d=1e100.net; s=20230601; t=1727386523; x=1727991323;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ajD7HYLuvBx8/17wWfxPAMem46iIj42I6Vl0LQ86WrE=;
-        b=PBxw2OezSlFfR4Ma6fI1jes7uXj8NigL6EAdCZhf5wHJMmf0nq9MBXVbZnrheMefYx
-         OjXbbSYJrOVXKuR8KKQt8p3kJ5e3u7rMpMiooXSvoy3fvPkw+MSaLTsYWO1c0RDhf8KU
-         /fk9wqZu11f3CT1NsN6MsQcR1792GfUNhCIDy2bCYJEWgtQzt3hRkFMYsyMRBi9yRHdl
-         AfIATj6apVJivn0jMgDpLyIj4Ztd76+yNCJqrV2W/IoyQ6QzeJLzNdcfpOSq+N//gHS0
-         00w9BoJLMatjUbAeSr7U5j5SiDQFZvvIYOY0OG3RxZJQdSkF8JM/1y6XHXCd3cfPPcGD
-         iy2w==
-X-Forwarded-Encrypted: i=1; AJvYcCU28kcNAK2E39byBKRfhFhNu6N+0kwyikSViekoyJhmC6qm2qpYMYrNDHEL51O+Q6bBNLLI56ECw9pYJYQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV9nRy11rIqFX0wKFNG1TUprehvmHyMfjKaYBiP4Osow6bB/va
-	QA8sPX0Y8YRjMe2GvmP6MBwlENSt18afnni+/yAF0KF9RFubh8XicSyRtTk/4wf1DU+SF+6/3De
-	IhXd2nDfSPUUuoXZKTHHneKJC5CUYz37vaxPR
-X-Google-Smtp-Source: AGHT+IE5luy5UBQ185BJWoPqDDM1TnLd4PCqV2DLnc+LIC9QgkGZbzUPxUEZLm0+v/dLWn/IHMzUNmnXBY+ab/kjVpA=
-X-Received: by 2002:ac8:4904:0:b0:456:7d9f:2af8 with SMTP id
- d75a77b69052e-45ca03bd89bmr245591cf.7.1727375850392; Thu, 26 Sep 2024
- 11:37:30 -0700 (PDT)
+        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
+        b=nnmJKkgcACozVDSpFBzUMkQb5Y3qgChkkOHFmpcaO+WyoEmG2yQ/DJaaT+0E6OKhbL
+         4edl7pBfS0KSuCN4J17TXsxaCijX0wFOl1McewxcYnkjHlppDaDtIlmk7BeLqo9spMzd
+         GvQfWJWmckzL3ysFqmQAywMzd6OfMCvStz6XrMLPgqsx9qF7zAWvuUCxyMl7I4LO5asF
+         tY2iqMCX1KyOtyQXSAx70zzQ3QgQ3QFPJnt3mvVfTYp7DTTgIKuR5JjAdUGM1vIhG5rn
+         wAdcVhSIglqIO2ATJ+gekoA6j5ux3+Xp6qrTXWyeWX5Hr9kk6/60rCGS1ehKqpiZANFI
+         G0JA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDJ8RvVdvqtHN3lX1txbKSEmzjS+sQLqz6QZbKSBcpkEsBUAeUwf4nTqbN03vw4GXyiD9iQZArXil9IuPBiXw=@vger.kernel.org, AJvYcCUh1EnD+hD2C3vzqWv60QHnERNsPDZPvtTXZIO5sRiraXir9igXESaPEYdxkZd9i9XAYroDQMEZrC9cLvE6@vger.kernel.org, AJvYcCUidN0lHrF9iOqSPJ8IctwwAfwAs07OQfJTDdO/ZULHyFNBpvg0hyVrQCV6KMoggxOswxI=@vger.kernel.org, AJvYcCV5D5TsQSXjcHuycgk/6XXYltPQlUyoOj0RhDcW5nuV2PC/tj/Q2JUE4o2CUQJvBvD97N7k7sFVZCk9WEHGDPyghQ==@vger.kernel.org, AJvYcCVOLC6+65mOqcNjHRp1+tV/XssjpTX8h+9F4YBiY8/h9aWXzBKFdg2eK7772upIEAdFSiQJEmnzVgkk6g==@vger.kernel.org, AJvYcCVsqpEA1X34JgSSy+zWUs7+fSAIlED2wx+FoF0zXBxfBa0ReVabMdfI1p7J84be8lizTJ6y/uqbQToD@vger.kernel.org, AJvYcCVyOHlVKllui6A90Q42IfKbLrvLtdZnjC+4kVdVZSOG4aRB5tquRkPsdIouUdZ5cjLcKniIJa85fW8=@vger.kernel.org, AJvYcCWIeHXSn79E1pba2uaZgabrN6egSq3hKQJvvQyqA0ncZ3poR1endScJFmYMlQD9tOmBDQRNsnt7bGe0@vger.kernel.org, AJvYcCXTmNdlSb1QBFTlgk2/mbOW9A2NT3p8kXvs3x58YZP4/N+DnfQhUq/gJiG6xW7mj8KHqe8jHlQq55VTo3hn@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCTZ3zsxEiGOsdmhyvylg0pTMM/FgSGOmCyMfxDfM9CSVwTjhW
+	AAPO1FdxgZ+AUbsMCKMSJLJBPk64IXPEa9Zxwq805/7NayLOfWOsl5gSodJeflPB/OilgtRCS/O
+	Gj38jwHBTYzU7aYb/AVVUkzDXAIw=
+X-Google-Smtp-Source: AGHT+IFP+qclc+DwNk0VcbiLZGtyseD1sfEmeyqBVla3e/ZDfuly9waYm3g7wRqfrKuy03nGqriwsOXLp8FvWSa4ibk=
+X-Received: by 2002:a17:90b:3698:b0:2db:60b:eee with SMTP id
+ 98e67ed59e1d1-2e0b8ed348emr498104a91.9.1727386523117; Thu, 26 Sep 2024
+ 14:35:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925233854.90072-1-mmaurer@google.com> <20240925233854.90072-15-mmaurer@google.com>
- <b31c74c1-0c19-4bc4-b1af-db817977748d@csgroup.eu>
-In-Reply-To: <b31c74c1-0c19-4bc4-b1af-db817977748d@csgroup.eu>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 26 Sep 2024 11:36:51 -0700
-Message-ID: <CABCJKudyC_EzRTtkJSSQqQhLdUk_9tYBtoq62tjmghFyi8omWg@mail.gmail.com>
-Subject: Re: [PATCH v5 14/16] modules: Support extended MODVERSIONS info
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Matthew Maurer <mmaurer@google.com>, masahiroy@kernel.org, ndesaulniers@google.com, 
-	ojeda@kernel.org, gary@garyguo.net, mcgrof@kernel.org, 
-	Michael Ellerman <mpe@ellerman.id.au>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Benjamin Gray <bgray@linux.ibm.com>, Naveen N Rao <naveen@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev, 
-	marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev, 
-	linux-modules@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linuxppc-dev@lists.ozlabs.org
+References: <20240925150059.3955569-30-ardb+git@google.com> <20240925150059.3955569-32-ardb+git@google.com>
+In-Reply-To: <20240925150059.3955569-32-ardb+git@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 26 Sep 2024 23:35:10 +0200
+Message-ID: <CANiq72=z6A=50QO3V0S3Kgx6XQT93GxbB_LN6PFAQCmNgy370A@mail.gmail.com>
+Subject: Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 26, 2024 at 5:22=E2=80=AFAM Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
+On Wed, Sep 25, 2024 at 5:10=E2=80=AFPM Ard Biesheuvel <ardb+git@google.com=
+> wrote:
 >
->
->
-> Le 26/09/2024 =C3=A0 01:38, Matthew Maurer a =C3=A9crit :
-> > Adds a new format for MODVERSIONS which stores each field in a separate
-> > ELF section. This initially adds support for variable length names, but
-> > could later be used to add additional fields to MODVERSIONS in a
-> > backwards compatible way if needed. Any new fields will be ignored by
-> > old user tooling, unlike the current format where user tooling cannot
-> > tolerate adjustments to the format (for example making the name field
-> > longer).
-> >
-> > Since PPC munges its version records to strip leading dots, we reproduc=
-e
-> > the munging for the new format. Other architectures do not appear to
-> > have architecture-specific usage of this information.
-> >
-> > Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> > ---
-> >   arch/powerpc/kernel/module_64.c | 23 ++++++++-
-> >   kernel/module/internal.h        | 11 ++++
-> >   kernel/module/main.c            | 92 ++++++++++++++++++++++++++++++--=
--
-> >   kernel/module/version.c         | 45 ++++++++++++++++
-> >   4 files changed, 161 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/arch/powerpc/kernel/module_64.c b/arch/powerpc/kernel/modu=
-le_64.c
-> > index e9bab599d0c2..4e7b156dd8b2 100644
-> > --- a/arch/powerpc/kernel/module_64.c
-> > +++ b/arch/powerpc/kernel/module_64.c
-> > @@ -355,6 +355,23 @@ static void dedotify_versions(struct modversion_in=
-fo *vers,
-> >               }
-> >   }
-> >
-> > +static void dedotify_ext_version_names(char *str_seq, unsigned long si=
-ze)
-> > +{
-> > +     unsigned long out =3D 0;
-> > +     unsigned long in;
-> > +     char last =3D '\0';
-> > +
-> > +     for (in =3D 0; in < size; in++) {
-> > +             /* Skip one leading dot */
-> > +             if (last =3D=3D '\0' && str_seq[in] =3D=3D '.')
-> > +                     in++;
-> > +             last =3D str_seq[in];
-> > +             str_seq[out++] =3D last;
-> > +     }
->
-> Why do you need a loop here ?
->
-> Can't you just do something like:
->
->         if (str_seq[0] =3D=3D '.')
->                 memmove(str_seq, str_seq + 1, size);
+>  Documentation/admin-guide/README.rst | 2 +-
+>  Documentation/process/changes.rst    | 2 +-
 
-I initially had the same thought, but it's because this is is a
-sequence of multiple null-terminated strings, and we need to dedotify
-all of them, not just the first one. Here's an example:
+This should update scripts/min-tool-version.sh too. With that:
 
-https://godbolt.org/z/avMGnd48M
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-> > +     /* Zero the trailing portion of the names table for robustness */
-> > +     memset(&str_seq[out], 0, size - out);
->
-> This seems unneeded.
+As Arnd says, the cleanups can be done afterwards.
 
-Strictly speaking it shouldn't be needed, but I think it's still good
-hygiene to not leave another null-terminated fragment at the end.
-
-Sami
+Cheers,
+Miguel
 
