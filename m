@@ -1,116 +1,156 @@
-Return-Path: <linux-kbuild+bounces-3815-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3816-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53B7987AB5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2024 23:35:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E41987B64
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2024 00:55:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3A521C22559
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2024 21:35:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 236AB1F261CA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2024 22:55:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C31D18871F;
-	Thu, 26 Sep 2024 21:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AF431B0112;
+	Thu, 26 Sep 2024 22:54:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntYvYQ3V"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bc6cYDys"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CC418870F;
-	Thu, 26 Sep 2024 21:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C00D1B0105
+	for <linux-kbuild@vger.kernel.org>; Thu, 26 Sep 2024 22:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727386525; cv=none; b=goQJBRrRmkqgtyjkuhqlNcfmLj145m638QfMynP66R43xq6hJqSxjzhA8mNlnbjBMWTuMILU4IVk3/QPtjSrXfnqFiq2HMebgSRVsQUs3mGhHBrNS4jgvbvo/xy4oBf2W2O2Td1+LceQFE4HnFVUeN2lwoBYmSqXToaT/Dy9xvI=
+	t=1727391270; cv=none; b=UyveVnMrcVDOV9CP01Bw8tB1zVrpng3IIlCNjKn/eK6p9+6REliOH6ExGGjkX8hb37zS+gQ17k+VmTSmDFmIJYozd6K7qU4s9qd+06tlKdFN/rAUPFeoIWuMS+EOFTuqWtnfVu/LqCNUQAgMXP+AjP6bxBvPiIxw4XpUj986uQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727386525; c=relaxed/simple;
-	bh=1/AF0ye1aEDqbRIMOiqu2UP5rEYyIqLBgduhnkT/Gq8=;
+	s=arc-20240116; t=1727391270; c=relaxed/simple;
+	bh=YuvKxWBIf7PNXBTj+RM1pbAN0oV60CL2MBBZiDs+evU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HBJfh/5Z7VEQxAgZ34fM/Fcum9KV9uRA4YIPjdwVhv1SKHj5FlBKtaFrY9UklpOXb6tj9a24Ppj0UNskaOvLs1phEpW4M0T3GA05X3E3GzoES+ZHys+EPON/W5TX4FRw1SnZ4EYkHV1ZwW9wX5nfulw3klh0rZgUbhtG3nAQFJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ntYvYQ3V; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e0b467da03so91493a91.2;
-        Thu, 26 Sep 2024 14:35:23 -0700 (PDT)
+	 To:Cc:Content-Type; b=Z8hNL7rLaHurN4uNVL5g0Qd03D3029fbPw+4WQOni2rl2A5EYTexYg4pTCX7gB0z5StQVZa/PFwEXOKW7F4YvzELnVdaVhtOeuSRYBe5NWx0AIauuIbHbJGLD6kBMNHWKv8SU7+OsFU9Txi9McBtmw4vZ33/5RWKWutZHVfeoAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bc6cYDys; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4581cec6079so108731cf.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Sep 2024 15:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727386523; x=1727991323; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1727391266; x=1727996066; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
-        b=ntYvYQ3VzjrPQRjO0RTjOTbXP7/4NP5rjwPgNkr9vH/XeTJuyjkJQ6j8P1Q5+uxnST
-         F3wPdxptRRuXH4IYlyP+1oLBMPEpsloYKCpFimcgj0k4lN/GD1KdZTGRrH/xAwUoC1V3
-         rJPs6Qhurc32eEX7Nw6W0yg9ypx4H8Kn2SL2FF0rDnTsbAewQk6cqpJ0OzCNZ9fG7s2K
-         jkChH3VAIV2ScpQ7p6vD/ekIMTj99jeg/1W8R/4uC1LACZ3XKgZEkEjh99yXfdBqpnAL
-         uIKAImU9QAzLmdcHL1trZc/BPKjgl7Z0W/ek20wLJnfUeFDbJ/kOre9Cpwh2jgN/OLHt
-         egVg==
+        bh=tl35wLMOPE0pkWqTWWx9ZXc6WTLidbwzi9Ei5sRpi+0=;
+        b=bc6cYDys6zAG1+ILi2ilodlVaOpgELYU/EGY0zqehDIsl8BL2XRWNTfGVBuSCmfyAb
+         fJ8H17IUerhohL6ZneXhDZF05P/16ovxaDSSA/fUKpsPFwDJGUziWMtvnI9OBvoUMBpn
+         OGjSuxdztE0TV23wz/hVm7EZGGUDksTd+mS6os9uLOB5gJGusMQhQnUHm5OVI5zzaiMt
+         qO7gSQfSuUdRstpjgBtHbQoB9sPxPAH1ztWfTy6Sdky/G0rO2ja4reVQQ+vA3urCPqJp
+         nYduI+5W46GbLN+LNoksEWIxwc5H30wbHHyk50shQmTPK5+vW/XSdL3HMVSUTCPUCfUH
+         JVgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727386523; x=1727991323;
+        d=1e100.net; s=20230601; t=1727391266; x=1727996066;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YN3ZIl0AHdW2Pc3ccHhFRbQ1ihSm5IEdT9WChsNSY6k=;
-        b=nnmJKkgcACozVDSpFBzUMkQb5Y3qgChkkOHFmpcaO+WyoEmG2yQ/DJaaT+0E6OKhbL
-         4edl7pBfS0KSuCN4J17TXsxaCijX0wFOl1McewxcYnkjHlppDaDtIlmk7BeLqo9spMzd
-         GvQfWJWmckzL3ysFqmQAywMzd6OfMCvStz6XrMLPgqsx9qF7zAWvuUCxyMl7I4LO5asF
-         tY2iqMCX1KyOtyQXSAx70zzQ3QgQ3QFPJnt3mvVfTYp7DTTgIKuR5JjAdUGM1vIhG5rn
-         wAdcVhSIglqIO2ATJ+gekoA6j5ux3+Xp6qrTXWyeWX5Hr9kk6/60rCGS1ehKqpiZANFI
-         G0JA==
-X-Forwarded-Encrypted: i=1; AJvYcCUDJ8RvVdvqtHN3lX1txbKSEmzjS+sQLqz6QZbKSBcpkEsBUAeUwf4nTqbN03vw4GXyiD9iQZArXil9IuPBiXw=@vger.kernel.org, AJvYcCUh1EnD+hD2C3vzqWv60QHnERNsPDZPvtTXZIO5sRiraXir9igXESaPEYdxkZd9i9XAYroDQMEZrC9cLvE6@vger.kernel.org, AJvYcCUidN0lHrF9iOqSPJ8IctwwAfwAs07OQfJTDdO/ZULHyFNBpvg0hyVrQCV6KMoggxOswxI=@vger.kernel.org, AJvYcCV5D5TsQSXjcHuycgk/6XXYltPQlUyoOj0RhDcW5nuV2PC/tj/Q2JUE4o2CUQJvBvD97N7k7sFVZCk9WEHGDPyghQ==@vger.kernel.org, AJvYcCVOLC6+65mOqcNjHRp1+tV/XssjpTX8h+9F4YBiY8/h9aWXzBKFdg2eK7772upIEAdFSiQJEmnzVgkk6g==@vger.kernel.org, AJvYcCVsqpEA1X34JgSSy+zWUs7+fSAIlED2wx+FoF0zXBxfBa0ReVabMdfI1p7J84be8lizTJ6y/uqbQToD@vger.kernel.org, AJvYcCVyOHlVKllui6A90Q42IfKbLrvLtdZnjC+4kVdVZSOG4aRB5tquRkPsdIouUdZ5cjLcKniIJa85fW8=@vger.kernel.org, AJvYcCWIeHXSn79E1pba2uaZgabrN6egSq3hKQJvvQyqA0ncZ3poR1endScJFmYMlQD9tOmBDQRNsnt7bGe0@vger.kernel.org, AJvYcCXTmNdlSb1QBFTlgk2/mbOW9A2NT3p8kXvs3x58YZP4/N+DnfQhUq/gJiG6xW7mj8KHqe8jHlQq55VTo3hn@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCTZ3zsxEiGOsdmhyvylg0pTMM/FgSGOmCyMfxDfM9CSVwTjhW
-	AAPO1FdxgZ+AUbsMCKMSJLJBPk64IXPEa9Zxwq805/7NayLOfWOsl5gSodJeflPB/OilgtRCS/O
-	Gj38jwHBTYzU7aYb/AVVUkzDXAIw=
-X-Google-Smtp-Source: AGHT+IFP+qclc+DwNk0VcbiLZGtyseD1sfEmeyqBVla3e/ZDfuly9waYm3g7wRqfrKuy03nGqriwsOXLp8FvWSa4ibk=
-X-Received: by 2002:a17:90b:3698:b0:2db:60b:eee with SMTP id
- 98e67ed59e1d1-2e0b8ed348emr498104a91.9.1727386523117; Thu, 26 Sep 2024
- 14:35:23 -0700 (PDT)
+        bh=tl35wLMOPE0pkWqTWWx9ZXc6WTLidbwzi9Ei5sRpi+0=;
+        b=I33twyOUa8+3PjDPFTp7qR90D1fPicR4XeOF+5G0az+o5tY0mZ7gIWFVCQkWdgoizC
+         mLKGl2ciRPKYL1QPqo1UAcqIsygEcnUwYrzia9iOsqHEZOrHW6vTUi0wDdX2NWcHViVw
+         N492MlxRk5kQfg/3Z/5RvsCCg2EpZJSBm88hrNG9xKbancHRJomArRdV/ZqfxTn8o3So
+         3pKq2rV5y5pCMJBr6eGurXICOwpd8Ct1My7NudoIIQy96h8gg6cAAlYre2R41GF2pbpK
+         s+JYfepJf0lX4GTgKevmIlrqyoOyT2yPcxp6piCod7FKyOlwSjk1kHz8E72nIgn0dWGP
+         /jrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPhxFVw35NbPp2Ws//6VWtJB5syOOFGgUi5264z1LIVnwz8/OqOjw0GZDgC1t9oZYaTgsI1jfXG1keUuo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjvX1OPQ+rbkVMF2/dHSH5XcKQsZuimShiu3bmjMJsfz0SOO+n
+	ho2e/+weX1nOIuCqWOgcMFf4leFe5H+oATbxeB//3Sr0I6N+BDRuGGUY2gNiWFHgMkLmCn5K+dG
+	DBDQN7zNm2+sWbbMS3k9KSD5+tThznvScX3h3
+X-Google-Smtp-Source: AGHT+IEUgS0ctjnhwyGFehblCt5Cuf6U9AZbfKffDPTgdSnQTEOj8Qmniu9tARJUyM5u8ykfq5FPxoUB/AlQ+bM4WgI=
+X-Received: by 2002:a05:622a:a78d:b0:45c:9e26:ae3 with SMTP id
+ d75a77b69052e-45ca1b03e0amr517501cf.27.1727391265943; Thu, 26 Sep 2024
+ 15:54:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com> <20240925150059.3955569-32-ardb+git@google.com>
-In-Reply-To: <20240925150059.3955569-32-ardb+git@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 26 Sep 2024 23:35:10 +0200
-Message-ID: <CANiq72=z6A=50QO3V0S3Kgx6XQT93GxbB_LN6PFAQCmNgy370A@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
-	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
+References: <20240925233854.90072-1-mmaurer@google.com>
+In-Reply-To: <20240925233854.90072-1-mmaurer@google.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Thu, 26 Sep 2024 22:53:46 +0000
+Message-ID: <CABCJKudA=EvCE7vv44VDMqHjFv+5vyJ1ZfqG+TSPc49vtmT9RA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/16] Extended MODVERSIONS Support
+To: Matthew Maurer <mmaurer@google.com>
+Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
+	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st, j@jannau.net, 
+	asahi@lists.linux.dev, linux-modules@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 25, 2024 at 5:10=E2=80=AFPM Ard Biesheuvel <ardb+git@google.com=
+Hi Matt,
+
+On Wed, Sep 25, 2024 at 11:39=E2=80=AFPM Matthew Maurer <mmaurer@google.com=
 > wrote:
 >
->  Documentation/admin-guide/README.rst | 2 +-
->  Documentation/process/changes.rst    | 2 +-
+> This patch series is intended for use alongside the Implement
+> MODVERSIONS for RUST [1] series as a replacement for the symbol name
+> hashing approach used there to enable RUST and MODVERSIONS at the same
+> time.
+>
+> Elsewhere, we've seen a desire for long symbol name support for LTO
+> symbol names [2], and the previous series came up [3] as a possible
+> solution rather than hashing, which some have objected [4] to.
+>
+> This series adds a MODVERSIONS format which uses a section per column.
+> This avoids userspace tools breaking if we need to make a similar change
+> to the format in the future - we would do so by adding a new section,
+> rather than editing the struct definition. In the new format, the name
+> section is formatted as a concatenated sequence of NUL-terminated
+> strings, which allows for arbitrary length names.
+>
+> Currently, this series emits both the extended format and the current
+> format on all modules, and prefers the extended format when checking if
+> present. I'm open to various other policies via Kconfig knobs, but this
+> seemed like a good initial default.
+>
+> The refactor to MODVERSIONS is prefixed to this series as result of an
+> explicit request [5] by Luis in response to the original patchset.
+>
+> If you are testing this patch alongside RUST by manually removing the
+> !MODVERSIONS restriction (this series doesn't remove it, because the
+> CRCs don't mean what we'd want them to yet, we need the DWARF patch for
+> that) and have kernel hardening enabled, you may need the CPU
+> Mitigations [6] series. Without it, the foo.mod.o file produced by the
+> C compiler will reference __x86_return_thunk, but foo.o will not.
+> This means that the version table will not contain a version for
+> __x86_return_thunk, but foo.ko will reference it, which will result
+> in a version check failure.
+>
+> [1] https://lore.kernel.org/all/20240617175818.58219-17-samitolvanen@goog=
+le.com/
+> [2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org=
+/
+> [3] https://lore.kernel.org/lkml/ZoxbEEsK40ASi1cY@bombadil.infradead.org/
+> [4] https://lore.kernel.org/lkml/0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@sus=
+e.com/
+> [5] https://lore.kernel.org/lkml/ZVZNh%2FPA5HiVRkeb@bombadil.infradead.or=
+g/
+> [6] https://lore.kernel.org/all/20240725183325.122827-1-ojeda@kernel.org/
+>
+> Changes in v5:
+> - Addresses Sami's comments from v3 that I missed in v4 (missing early
+>   return, extra parens)
 
-This should update scripts/min-tool-version.sh too. With that:
+v5 looks good to me, thank you for fixing these issues. I tested this
+with my latest Rust modversions patches [1] and everything seems to
+work for me (on x86_64, arm64, and riscv64 w/ clang).  For the series:
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+Tested-by: Sami Tolvanen <samitolvanen@google.com>
 
-As Arnd says, the cleanups can be done afterwards.
+[1] https://github.com/samitolvanen/linux/commits/rustmodversions-v3
 
-Cheers,
-Miguel
+Sami
 
