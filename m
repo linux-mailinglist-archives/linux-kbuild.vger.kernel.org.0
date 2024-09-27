@@ -1,137 +1,120 @@
-Return-Path: <linux-kbuild+bounces-3818-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3819-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C353A988901
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2024 18:22:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1D4988A77
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2024 20:54:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3AA0A1F21A1F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2024 16:22:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A6E31C22F5A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2024 18:54:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E04B1741C9;
-	Fri, 27 Sep 2024 16:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E8B1C2325;
+	Fri, 27 Sep 2024 18:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=m3y3r.de header.i=@m3y3r.de header.b="M+4Wid5+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC995142621;
-	Fri, 27 Sep 2024 16:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from www17.your-server.de (www17.your-server.de [213.133.104.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EED518872D
+	for <linux-kbuild@vger.kernel.org>; Fri, 27 Sep 2024 18:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727454144; cv=none; b=VzxlLmgElqTwORlXStcA69cPuMGtwaPmcdfCP2M0l7xWnXenFBsq5lBXZetdtGG8NdfrR3gDPWB4CsJNlekuBknKsJUcpyC2u0+Edn/TPKduJ5IqZhUk2S8sunIIVm5h5mb5mOGzhiHBBNetfzq6NZ2/p0Fveemn0szMvKeJUaA=
+	t=1727463220; cv=none; b=UUGY9sVOGFjymrB3tjIQhNgYoCAHsoImGXWr2IRYANkitHPhqC8+mzLgM3C9Ssx8DRNOlP34S4Mko85W2nOqwjwavQE+zhsnjn8Xy8c80x5+Fm3mge0mtBWKSyuuFIteOegtGeJ9JL2xSnLsF+72BlqVd8Dn6or3/Nhc+yfbjqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727454144; c=relaxed/simple;
-	bh=MwxSYUQfpQZ8Dt7MR3StqGkeSe7twZkuP4tcbwLCnKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QeS2eFB1r9OQ9O31gn7wzBt5Xi2JttLHUzr5ubeIDu/BPHYye3+igHHZcNvdfc9hxwbzc4gLRZL3z3PoOwjuoqlzd/qvJ65L9lJhDFtqlfoxO0kLG2797z+uFTxKOApkJE0/yEMiMgBwYPsEQDyNDaW33sjsxxOmklGKfv6PosM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EDBA14BF;
-	Fri, 27 Sep 2024 09:22:44 -0700 (PDT)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B650E3F6A8;
-	Fri, 27 Sep 2024 09:22:08 -0700 (PDT)
-Date: Fri, 27 Sep 2024 17:22:03 +0100
-From: Mark Rutland <mark.rutland@arm.com>
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Keith Packard <keithp@keithp.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org,
-	linux-pm@vger.kernel.org, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1
-Message-ID: <ZvbbqzrfkgjM1VZ3@J2N7QTR9R3>
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-32-ardb+git@google.com>
+	s=arc-20240116; t=1727463220; c=relaxed/simple;
+	bh=U7emJ0K7vBdwKckW0zMyDHn6W+PxcfNaks0/ouOaR3A=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=cag5JbTvMWr7WeLaitlFxyJoIuQzgvtI2no2aiy1FRDFMYUMc24l6i7WcElWdICkKfKG/AUyxvhNpAEVDCt01O7ofG8j6YmUtP0/UOVHR4wycPQk+YA7ktxEFLHSxijZX6tCDlk5yLDAiFD+J2qPuoFE3EK3GVChUKocqHSo4Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m3y3r.de; spf=pass smtp.mailfrom=m3y3r.de; dkim=pass (2048-bit key) header.d=m3y3r.de header.i=@m3y3r.de header.b=M+4Wid5+; arc=none smtp.client-ip=213.133.104.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m3y3r.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m3y3r.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=m3y3r.de;
+	s=default2402; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=U7emJ0K7vBdwKckW0zMyDHn6W+PxcfNaks0/ouOaR3A=; b=M+4Wid5+iKCcae3kegRkdlZ5xP
+	D9rP23EldJjO2/KrYcthKw4Qd6Y90sUFa6N1S3+G9to18ycsSyLu7+rqzeqD0Xw0TTIs1jYH9Z/Sw
+	lpJ9Ec/QMb6rdR43I/8TdRXlilFo1hKl6v+uhQW8T7cyG3MobNPKZvaq2rYQkKJ/7bLvdd/SQ9uj1
+	UR13/V5Bal53Dmmjws0RxivoDaoJYEwikcpXS46Ng/JwrmpniRGb42nZ+3lv4+RhZXPaUNommg1O5
+	Xy7mnp5zllvwnoD79thmxuIhgs5FG83fxYHBrPUDefVpU0cI/a8WQy6vz+fujN7lkREUFZcCRna0a
+	a6aSCE6Q==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+	by www17.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <thomas@m3y3r.de>)
+	id 1suG5o-000Gnl-17;
+	Fri, 27 Sep 2024 20:53:28 +0200
+Received: from [2a00:6020:509f:6000:1bb7:409c:ce4:4e01] (helo=[IPv6:::1])
+	by sslproxy03.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <thomas@m3y3r.de>)
+	id 1suG5n-0001Cj-2H;
+	Fri, 27 Sep 2024 20:53:28 +0200
+Date: Fri, 27 Sep 2024 20:53:28 +0200
+From: Thomas Meyer <thomas@m3y3r.de>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] kconfig: use memcmp instead of deprecated bcmp
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAK7LNASX-BDHeTeuEnQwJct5wcqmMGbBQo1EeughfKe83pYZ7w@mail.gmail.com>
+References: <rxsikukdh39.fsf@localhost.mail-host-address-is-not-set> <CANiq72nwcAAC8eGCzHZ_sOwccCqbg3KD6CraXj2r+hDwhYqqig@mail.gmail.com> <CAK7LNASX-BDHeTeuEnQwJct5wcqmMGbBQo1EeughfKe83pYZ7w@mail.gmail.com>
+Message-ID: <F2FD0DED-84DD-4E30-809A-7BFE5FE1A769@m3y3r.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240925150059.3955569-32-ardb+git@google.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Authenticated-Sender: thomas@m3y3r.de
+X-Virus-Scanned: Clear (ClamAV 1.0.5/27410/Thu Sep 26 11:30:46 2024)
 
-On Wed, Sep 25, 2024 at 05:01:02PM +0200, Ard Biesheuvel wrote:
-> From: Ard Biesheuvel <ardb@kernel.org>
-> 
-> Bump the minimum GCC version to 8.1 to gain unconditional support for
-> referring to the per-task stack cookie using a symbol rather than
-> relying on the fixed offset of 40 bytes from %GS, which requires
-> elaborate hacks to support.
-> 
-> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> ---
->  Documentation/admin-guide/README.rst | 2 +-
->  Documentation/process/changes.rst    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
 
-I'd like this for arm64 and others too (for unconditional support for
--fpatchable-function-entry), so FWIW:
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+Am 26=2E September 2024 17:33:20 MESZ schrieb Masahiro Yamada <masahiroy@k=
+ernel=2Eorg>:
+>On Wed, Sep 25, 2024 at 5:50=E2=80=AFAM Miguel Ojeda
+><miguel=2Eojeda=2Esandonis@gmail=2Ecom> wrote:
+>>
+>> On Tue, Sep 24, 2024 at 9:26=E2=80=AFPM Thomas Meyer <thomas@m3y3r=2Ede=
+> wrote:
+>> >
+>> > Make build succeed on systems whose c library doesn't provided the de=
+precated bcmp function=2E
+>>
+>> It would be good to mention which systems are those=2E Other than that,
+>> it looks good to me:
+>>
+>> Reviewed-by: Miguel Ojeda <ojeda@kernel=2Eorg>
+>>
+>> Cheers,
+>> Miguel
+>
+>
+>Agree=2E
+>
+>If there is a known system that does not provide bcmp,
+>that information is appreciated=2E
 
-I think you'll want to update scripts/min-tool-version.sh too; judging
-by the diff in the cover letter that's not handled elsehere in the
-series.
+This fix is needed when I try to build Linux kernel on my Android phone un=
+der Termux with bionic libc, which only seems to implement memcmp=2E
 
-Mark.
+>
+>It might be useful to add a link that mentions that this function is LEGA=
+CY=2E
+>
+>https://pubs=2Eopengroup=2Eorg/onlinepubs/007904875/functions/bcmp=2Ehtml
+>
+>
 
-> 
-> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-> index f2bebff6a733..3dda41923ed6 100644
-> --- a/Documentation/admin-guide/README.rst
-> +++ b/Documentation/admin-guide/README.rst
-> @@ -259,7 +259,7 @@ Configuring the kernel
->  Compiling the kernel
->  --------------------
->  
-> - - Make sure you have at least gcc 5.1 available.
-> + - Make sure you have at least gcc 8.1 available.
->     For more information, refer to :ref:`Documentation/process/changes.rst <changes>`.
->  
->   - Do a ``make`` to create a compressed kernel image. It is also possible to do
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 00f1ed7c59c3..59b7d3d8a577 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -29,7 +29,7 @@ you probably needn't concern yourself with pcmciautils.
->  ====================== ===============  ========================================
->          Program        Minimal version       Command to check the version
->  ====================== ===============  ========================================
-> -GNU C                  5.1              gcc --version
-> +GNU C                  8.1              gcc --version
->  Clang/LLVM (optional)  13.0.1           clang --version
->  Rust (optional)        1.78.0           rustc --version
->  bindgen (optional)     0.65.1           bindgen --version
-> -- 
-> 2.46.0.792.g87dc391469-goog
-> 
-> 
+--=20
+Diese Nachricht wurde von meinem Android-Ger=C3=A4t mit K-9 Mail gesendet=
+=2E
 
