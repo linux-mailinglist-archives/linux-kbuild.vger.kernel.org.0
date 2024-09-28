@@ -1,136 +1,140 @@
-Return-Path: <linux-kbuild+bounces-3821-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3822-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F035988E0C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 08:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9CB988F71
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 15:41:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FA361C20E4E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 06:50:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DAFB1C20ED4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 13:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BC618BB97;
-	Sat, 28 Sep 2024 06:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 705E4188714;
+	Sat, 28 Sep 2024 13:41:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C54qUm3m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lyaRxQfR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C21A800;
-	Sat, 28 Sep 2024 06:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A122C187FF4;
+	Sat, 28 Sep 2024 13:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727506242; cv=none; b=L2v7yV7dXxdYx03wHsMMbnWMpCphG9LuzaLUok+DdbC/z2eABzXnj4Lp1vk/r9J3/yrY4tvOd2bw6XYz3iS4WctnseiPgwhxHhUGkd4/Md/n+DJyEEwVAZDXJaogG2vaKDNuTY3w5iptHX1j+vhP649U5t3JbJQJd+iHzdWhoG8=
+	t=1727530883; cv=none; b=mGNCDUcDJQOi31t4sUEa6CCl7Zp+QYyxZ+ihqZ3jhhwBalaUrJJOJv6CYqp3yajxL81zEiba7SHZXuOFASv88ovXM3ulUQ2ph4RXqSNlpyX9m3meFocaEvwfbxR9D67XG+46zSjIdI4tiJVMxalx8Kk3+yZEgt30e+DbkFarqOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727506242; c=relaxed/simple;
-	bh=QH+t3MerDvmzRG9sFgWzJ77drNpMYqtI1XrfxZrhfdE=;
+	s=arc-20240116; t=1727530883; c=relaxed/simple;
+	bh=orpQEHYHyBoCCUjzbaUktQopXRvr5Ek6mitfHI0agMI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HzwuGnBji14C5ma0MrBH2ap2TA8BOlSknxbhokJuWJaGelidfljYa+mzpsv6VCR+PVU4cooufiR93KKh8T5mlBg9J+agELEr3OqxEzYu8Hu0zmykbKn74ICrD2xxfLygQN3WjIwbqBBLrN9/QFcSpdi9SXg2D+ujz7r+q6b2p/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C54qUm3m; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1965DC4CECE;
-	Sat, 28 Sep 2024 06:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727506242;
-	bh=QH+t3MerDvmzRG9sFgWzJ77drNpMYqtI1XrfxZrhfdE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=C54qUm3m/aDnZl834J/2oJNu57OB3jvn/HwaMmwJ0YYYAj9mVaKGHWqxoCL2CrlWM
-	 XlBd8TiSCDZ8/Bylh5wOlQgCY36eKUtISwEJJPjRTazWfXPT1K8sqNZzE9i3pZ+qV9
-	 OZytqDFQ1monWfG8rNFQ3psIHxI8mMpDmwWLhSZ4YV+k/TUMw1v0puZnaIiHZQ4Ksu
-	 aBN+rD0fxp7kCVdVDF18KASkfc+wibKCw53Liwyq3O/fb7hR48fiE7s6QLjm7iZQfC
-	 md30uiJvghTecU/ev0dIB/TVODnx66RYhX+SEFN6EedUjXHrObS9J6U18jKdD4rIBc
-	 IAhkxTp8zEQGQ==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2fac49b17ebso142081fa.0;
-        Fri, 27 Sep 2024 23:50:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0o0C+tb2W17f5Ky8AafGd8SjkHZQ+rqGVHqKubokTWl7clsbj+RwDMtZ7ND12JnpjMPlxin8xqh+N3Y79qA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxw8NbrAlBT/UwSX7T5t2lJfyO6KAPzHrEHGSrwTn6khryfBL7z
-	Hqr08QA7XN120gid6UA9zhBknJVgO0bWBYSjd3++aF7BzPGG0PkEV9B4+dk3d1+g6KQWNUD1MFy
-	ExuMJIglgrCdSFnSLDeL0Q0qzMMY=
-X-Google-Smtp-Source: AGHT+IEqwnWCLVXEtWkbCpAIZlYYF51Xp5KoGIX4UzbwFFf7LVvcN3x7ZoySdwlJuaa4FJhpiilvPkNk491jcPrfpXU=
-X-Received: by 2002:a2e:b88b:0:b0:2f7:7f76:994b with SMTP id
- 38308e7fff4ca-2f9d3e6bee1mr33536181fa.24.1727506240671; Fri, 27 Sep 2024
- 23:50:40 -0700 (PDT)
+	 To:Cc:Content-Type; b=tV750czipMfwqyxI75cqmgBddBjWfznr0tE1Bvm/1Fb1gmutKMsOLkDSKMxUj5Qs5itjros78zMXWGSpnHbPG0ZjYbeX0TSkFwUOqV0/5QIwEXKR9E/mil4mLiWWMDWPz9cOfXyBAidGZA6KqcS4z9DeFt5/oqqPCa+Ft8WJwKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lyaRxQfR; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539885dd4bcso1707618e87.0;
+        Sat, 28 Sep 2024 06:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727530879; x=1728135679; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iNmBSpA2BmR/JT9QNG5130+zMmw0zS2R0933ikB5pGY=;
+        b=lyaRxQfR6pDvFtPh03QSIMr42veT9U6yGFpmRrP2MqX05526bN+lCWEpN4RksEXhL1
+         PyIKlP1CUMimgQ4B3Bu4d2uyXb2TFIEkoTrGo31BUqnTpBubkJkw85hKAGiaz7mzW/fA
+         E5cL7sHVDLP//aPpeMtUrTKdjCApIq9atVmqx413w1pu6vcVoS3BOQShVvsqiwxunwyr
+         KfZIvN+kSXjdFqwDqyMRoHxKTMPXFnVmtn+bWMKl/eyV0cYoFIYTf/gLOuDFq1s2I346
+         rK+A4iPQBSwBHtHKaLhU/hXB/y3DymiiboXLbNIFiF3m1nOYbAU1Fjyu/RDepQqdkfe1
+         f5tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727530879; x=1728135679;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iNmBSpA2BmR/JT9QNG5130+zMmw0zS2R0933ikB5pGY=;
+        b=qv+bxZ61UZX5FJbxPnWH/E89lb6JClLFkHCnCybA6m4c40uk/NdEuUvfP3X6P2ZM7T
+         kQDRKBgHicqUFf1AkuU3u7Pvqvc9mPmbBf+aOV7wp1DSO3VHwWScNQEZNZN/r0yr2/U+
+         TdmuFk2yZB1Wj9rISExG9f1h4+6qC3nB8+WFmIH1xLHmjVomyUfJ1h3rK4xE4pQc1qWC
+         ixa9Z2cy1QQkALUq51KmywtK+fVTgpETWH4s3XG+OS+lNKbJ4BbU6i8+02sfG9bLdSPS
+         ZqjDbrfGQQilsK9HpcBTkJkdNAVzV2jHgMg0iPHrz3uMzM+4WQEdp+PAuNtRDA5VHnHD
+         gvVg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5Qv90kM8IomWDDyyJcoh5pkluZydfD7eGC46sjT1E8ggpn2PBWnIiP8H564rs2966O5a6qwd6z9dnTO6CJNYLkw==@vger.kernel.org, AJvYcCUUvMQ7ieLv3ItQbpk029ELJzVtz1GHhFKbePsVDvZJRe40wYq9kWFsTyywoSxDeAmViTTEB7wAhhRN/Ypk@vger.kernel.org, AJvYcCV7QMX6j5hd7MCsjdDPxRzYgoV96eHt9/wcqgJfRFTdXDHOBPFQuhI7OSYEexVjmiWzJwEDWqdMSjYmdWXHIOM=@vger.kernel.org, AJvYcCVbLMpQQq0VrWrMmtY3EyavYc86XFtL+SjBOkn1h2EaBF5fmTDRETBg7PPVwx8+6DkSBngli8buW4EDeRT/@vger.kernel.org, AJvYcCVcOUk2z2+u5YMEXT28utuV4AercTvvvUoEhOFoyEux3VVPSsMeZaDUF7v+gCR+eP6VbLo=@vger.kernel.org, AJvYcCW6TONWCmlUtfcd585Zlhu7RkQMs+4g84q9Q9PNx7jnf4ytG92XBczqpY6Vu+BiGP1lrkRtDRmDmKVH@vger.kernel.org, AJvYcCXD6FE9bEQoupm0uzweMZ/FMx9Dqu3EFRbdgwMsKNUjhe2MnKbSK7fCtJCmyP61/mTatJr29EGl6Z8=@vger.kernel.org, AJvYcCXW3wJthV5+gSOj1UYTR3ZnD09rlBis3FvdpwGFNMzfrcX50vkKtc0QCkXMX9zqn61Mpq4ZUKqIjdb41A==@vger.kernel.org, AJvYcCXXt9c5hfXjZgQHacqSgG+kJrMTmKKi1p6/YViKVDImvTOJ859XS6oGvJOnTxtNSvJdaGPtZKx5GHjS@vger.kernel.org, AJvYcCXcNyM/0euV3FTAD3HeNmnv
+ lADhPSmhNZSKMYQEkH1k02/LvGYntmcxXahuEQkssflYG29R3O6FITC9hzTV@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzQEn6O5hmABLlJpJ4aLSs6mBId9uRGGXF7cHMxjt/n1WeGqtk
+	IN8sl3idKTj2+tS2AMqqWNtY3mO+VryadkAw+0FU1ptax2m1Pxhj2ofBEDUkpZDD7azBWQI9eyH
+	xRPheeLAXzrdb6hS45kj/+zOwtA==
+X-Google-Smtp-Source: AGHT+IHmvDJivNH43Y01ucMKJYFoc8AFcX6hzmgU+8XoeSSFhpvEaQoSvahoajb/ht++NQ+MH1stDT2FsmHiW/GwHn4=
+X-Received: by 2002:a05:6512:3f07:b0:536:54df:bffa with SMTP id
+ 2adb3069b0e04-5389fc7fefemr3962432e87.45.1727530879148; Sat, 28 Sep 2024
+ 06:41:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240917141725.466514-1-masahiroy@kernel.org>
-In-Reply-To: <20240917141725.466514-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 28 Sep 2024 15:50:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASDcpk3k+SKZ61dPW_D=pqfekEcnu2c+00MynpomE2RNw@mail.gmail.com>
-Message-ID: <CAK7LNASDcpk3k+SKZ61dPW_D=pqfekEcnu2c+00MynpomE2RNw@mail.gmail.com>
-Subject: Re: [PATCH 00/23] kbuild: support building external modules in a
- separate build directory
-To: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-35-ardb+git@google.com> <CAFULd4ZNwfPZO-yDjrtT2ANV509HeeYgR80b9AFachaVW5zqrg@mail.gmail.com>
+In-Reply-To: <CAFULd4ZNwfPZO-yDjrtT2ANV509HeeYgR80b9AFachaVW5zqrg@mail.gmail.com>
+From: Brian Gerst <brgerst@gmail.com>
+Date: Sat, 28 Sep 2024 09:41:07 -0400
+Message-ID: <CAMzpN2j4uj=mhdi7QHaA7y_NLtaHuRpnit38quK6RjvxdUYQew@mail.gmail.com>
+Subject: Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, 
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>, 
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-sparse@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 17, 2024 at 11:17=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
+On Wed, Sep 25, 2024 at 2:33=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wro=
+te:
 >
+> On Wed, Sep 25, 2024 at 5:02=E2=80=AFPM Ard Biesheuvel <ardb+git@google.c=
+om> wrote:
+> >
+> > From: Ard Biesheuvel <ardb@kernel.org>
+> >
+> > Specify the guard symbol for the stack cookie explicitly, rather than
+> > positioning it exactly 40 bytes into the per-CPU area. Doing so removes
+> > the need for the per-CPU region to be absolute rather than relative to
+> > the placement of the per-CPU template region in the kernel image, and
+> > this allows the special handling for absolute per-CPU symbols to be
+> > removed entirely.
+> >
+> > This is a worthwhile cleanup in itself, but it is also a prerequisite
+> > for PIE codegen and PIE linking, which can replace our bespoke and
+> > rather clunky runtime relocation handling.
 >
-> There has been a long-standing request to support building external
-> modules in a separate build directory.
+> I would like to point out a series that converted the stack protector
+> guard symbol to a normal percpu variable [1], so there was no need to
+> assume anything about the location of the guard symbol.
 >
-> The first half is cleanups of documents and Makefiles.
+> [1] "[PATCH v4 00/16] x86-64: Stack protector and percpu improvements"
+> https://lore.kernel.org/lkml/20240322165233.71698-1-brgerst@gmail.com/
 >
-> The last part adds KBUILD_EXTMOD_OUTPUT (MO=3D).
-> This is too big changes, and too late for the current MW.
-> (I did not test kselftest at all.)
-> I hope people test this and may uncover some issues.
->
->
->
-> Masahiro Yamada (23):
->   kbuild: doc: update the description about Kbuild/Makefile split
->   kbuild: doc: remove description about grepping CONFIG options
->   kbuild: doc: remove outdated description of the limitation on -I usage
->   kbuild: doc: remove the description about shipped files
->   kbuild: doc: describe the -C option precisely for external module
->     builds
->   kbuild: doc: replace "gcc" in external module description
->   kbuild: remove unnecessary prune of rust/alloc for rustfmt
->   kbuild: simplify find command for rustfmt
->   speakup: use SPKDIR=3D$(src) to specify the source directory
->   kbuild: refactor the check for missing config files
->   kbuild: check the presence of include/generated/rustc_cfg
->   scripts/nsdeps: use VPATH as src_prefix
->   kbuild: replace two $(abs_objtree) with $(CURDIR) in top Makefile
->   kbuild: add $(objtree)/ prefix to some in-kernel build artifacts
->   kbuild: rename abs_objtree to abs_output
->   kbuild: use 'output' variable to create the output directory
->   kbuild: build external modules in their directory
->   kbuild: remove extmod_prefix, MODORDER, MODULES_NSDEPS variables
->   kbuild: support building external modules in a separate build
->     directory
->   kbuild: support -fmacro-prefix-map for external modules
->   kbuild: use absolute path in the generated wrapper Makefile
->   kbuild: make wrapper Makefile more convenient for external modules
->   kbuild: allow to start building external module in any directory
+> Uros.
 
+I plan on resubmitting that series sometime after the 6.12 merge
+window closes.  As I recall from the last version, it was decided to
+wait until after the next LTS release to raise the minimum GCC version
+to 8.1 and avoid the need to be compatible with the old stack
+protector layout.
 
-
-I CC'ed rust ML because Ack for the following patches are appreciated.
-
-
-[07/23] kbuild: remove unnecessary prune of rust/alloc for rustfmt
-[08/23] kbuild: simplify find command for rustfmt
-[11/23] kbuild: check the presence of include/generated/rustc_cfg
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Brian Gerst
 
