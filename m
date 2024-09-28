@@ -1,162 +1,194 @@
-Return-Path: <linux-kbuild+bounces-3823-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3824-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BD89890DE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 19:35:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3675D989194
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 23:36:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D3141F215EE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 17:35:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1F201F22839
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 21:36:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2E3B143880;
-	Sat, 28 Sep 2024 17:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tJ4Msfby"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94EA517B4E5;
+	Sat, 28 Sep 2024 21:35:57 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B391F4A1B;
-	Sat, 28 Sep 2024 17:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EEC2CA8;
+	Sat, 28 Sep 2024 21:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727544935; cv=none; b=hVpk/FsRBtvLbqsLpEWeIRgMpjmihpuMB7JrMXfvl5xCw55eYmVF6vMY8hKwSNxn2ETWPkQMPXOaJJEP+RiNyoYDWz9yvfOsGpfY1Wu3uuG+gIZQieSf4MNjeo0nWspru32TwrUDEjye920wc51lZ+p7rL0Yg7cIieCI4PCi+sk=
+	t=1727559357; cv=none; b=DnU0CG0Xq278GVdyZ3Rdtx9+b8GVI9rkZqFwl6bLqW3Us2fC6O84adzcvDoeiDBNsDpf6a5YXBkw7EEpHcM5rIqOtkOVfgPOzlVKuzqENvyq54uCkDDsdIcEJORq6hFpm+kQtjVsfLpUkb1hReULvV/qAtzjx5lf0AVVFkW+MUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727544935; c=relaxed/simple;
-	bh=bB2TppACa73qNvdpxzZBOI5mAq3cV8/IE4AHhZY4SiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dDsElIhp0Vg6VnXhmMoQ9VHGPbfXJD2mzVpnU3+P92ETBkB70R6mJHOZIj0XhEOVzOY2sV87+aNeuKzolJWeLa/50nnVBISEsjZhcorEo3gAlucppiv6FWmmPH7l2swt9YynTtniXeEXy3Bow4TbglNE+nrC1+Kws2Y8/mxExlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tJ4Msfby; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50CA8C4CEC3;
-	Sat, 28 Sep 2024 17:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727544935;
-	bh=bB2TppACa73qNvdpxzZBOI5mAq3cV8/IE4AHhZY4SiY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tJ4MsfbyKpA8Esh+QS3uAmaX1WGDmewgqfgYwVwy7C+UjMvu2+vUCvfK3vH3KMSR/
-	 ZNsVAKu9T1nJjVhLY7IsxlBe87yjC3ieL7BYmwiokaxCzLA6o5co5P32q4hEwvqE+N
-	 9aZr8yG+i38uIB6k0sU8RCPd80yhRw5X37G6jkQu+taG6EQP/oTL1QNlSzMl/XH/Mr
-	 awJ2kDI/4d8uMekYOWPzfOIlRmhqfv5LeMrrE1KxmL87cb614xDwcFMENyJFZ0ngXA
-	 aGR/AoQ2TP8GuFgSj1VSlATiM6nqScq/svAuS2jKKS+9h/AeE34k5FLpGq6rAwpq8f
-	 uIgIZQvGTAliw==
-Date: Sat, 28 Sep 2024 10:35:30 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Maksim Panchenko <max4bolt@gmail.com>, Rong Xu <xur@google.com>,
-	Han Shen <shenhan@google.com>,
-	Sriraman Tallam <tmsriram@google.com>,
-	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	John Moon <john@jmoon.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>,
-	Eric DeVolder <eric.devolder@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Benjamin Segall <bsegall@google.com>,
-	Breno Leitao <leitao@debian.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Brian Gerst <brgerst@gmail.com>, Juergen Gross <jgross@suse.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Kees Cook <kees@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
-	llvm@lists.linux.dev, Krzysztof Pszeniczny <kpszeniczny@google.com>,
-	Stephane Eranian <eranian@google.com>,
-	Maksim Panchenko <maks@meta.com>
-Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
-Message-ID: <20240928173530.GC430964@thelio-3990X>
-References: <20240728203001.2551083-1-xur@google.com>
- <20240728203001.2551083-7-xur@google.com>
- <c65a07ef-6436-4e04-a263-7cad9758e9be@gmail.com>
- <CAKwvOdm0iZspjpuueBV1=eFt+Bf4edWBZsDsj10kEvTGZRye2w@mail.gmail.com>
+	s=arc-20240116; t=1727559357; c=relaxed/simple;
+	bh=B/t4kD1AbCwCB5SiSo/l3YPD0B1hK+/d8IJSyqvZb3Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V804fSzgsur1ZqF8uBWMO4G6xHF7PN0qTf8i3C5lphR1jBHQoj2cHM4lP2/iYMz7soptnhaOyT4wv/jVgUYa2TE+ux11QtG4Rz6axSRYRi3baLujVIesHrjXV6Q8yXWDxceAPO9hLqTUYsE0eO/duBNC8ndohePEm6qlPYfLsO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c88c9e45c2so791297a12.0;
+        Sat, 28 Sep 2024 14:35:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727559353; x=1728164153;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fCiSAL0ORgtaaM2vvj2AlsQZedO1Wu1yaFUL2A/eH3Y=;
+        b=SWojcYocp5bZkUF1tOZi2z/CRjei8IegJpbStvTFkoR2Vh23HMpDkDIhcMEQmCcAi/
+         ftdWfEAx5o2Yri8ExP0wVeT+zaubXuQIJSL+CyjA7l0L5fh9HVyklgsHYAMaavfYbwUb
+         FKD+w5eFeuUdhiPcLr2H3G4I6PE9z7gsh2AtlFfYGU8hFyGyD6yggZVqw2GPzhKH96nm
+         VRHWctqL2d+vfPNeEMAib5Aoth3cS6VKSkIPfhY9k7jUuUtDEY7SLmWWj4U/hwWD8/XQ
+         tso1SRa/ZuVJLAiI7L4xqwQXxxYrr8DnfBWzzYoqa0OT3Pev83zOkuiHqvY0AMRj4ASL
+         Jg9w==
+X-Forwarded-Encrypted: i=1; AJvYcCVhuE0L4kP0t073vkHwUAiABbdyNsUWlq1XSATsQIy1usbMWy6t9CKKTKCBaVPcry/83N+ELeacuoSQZM81NA==@vger.kernel.org, AJvYcCWoce2EykGiS2GmepFTYWPzMtOCEkMGe9MueDfMn85z+7BYV7ktBtbRb50mt++ASwFpx/q+9NYnPDKAK2UE@vger.kernel.org, AJvYcCXFLjLCdOjSCn93gR9xvNPcekUFsjMWao0rlRRJBUnQ1Zo8W1011ffsu1pl6BK5bEMmGqXWE2JQmLov7Tw=@vger.kernel.org, AJvYcCXxDwZe3n1WuvUYMCU41w+XcD5dAaxsLL/MLOgc8s/90kOu6OAh/I/YUuwZIq6tt9tFAVfddCvX0w3C4Wgs8tI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywji+ihVnAuOQ+0N0RIDYVV6YJaS69rnXzYCGi1hCY42ohcYztl
+	/OvY6k/VsknSsuE7qmawomWCWQfqGOufoV8+R2E6C6yu6WIcGEaPxTRytVL+TPM=
+X-Google-Smtp-Source: AGHT+IHopE8QQbgWQ66GJxR/KcUsDRhQfoStktAjeqmedpgcNwenn/dMp70mUhApsfR+RJC5MOw6Cw==
+X-Received: by 2002:a17:907:98d:b0:a80:9c1b:554f with SMTP id a640c23a62f3a-a93c318c9b4mr985265666b.27.1727559353397;
+        Sat, 28 Sep 2024 14:35:53 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2776debsm290853066b.34.2024.09.28.14.35.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Sep 2024 14:35:53 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a8a7596b7dfso360490766b.0;
+        Sat, 28 Sep 2024 14:35:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU2P6+gvv6KJ+VycXkM0yKRSH5LUTaapctIa+N+XABanp1hMlDhbgC/A9pZwRxMo3QIIkec8RNJiLP+0m8=@vger.kernel.org, AJvYcCVjNtcAhNyy4v37HwISxZvY6nLScGDjXOBtGR+pl7QDwmaIqSQKgO7LZsK3sN2xWdoSirDksAG5FrdQQH21V3o=@vger.kernel.org, AJvYcCW0ZTSx0JkqTaBMjWvT7gLSxqoNhs7BYv8buqmodRuKwr/ZTmUVAlK0KstytXH//X2N5e0U4qJIRI59yJFb@vger.kernel.org, AJvYcCWRxSiuZghRE7g2LnvI3IKrpNODwRgKlbR2oDdu4zx2vqAG1/8pXSbUWlqq1Sbt8R4yw/kniM/SD0NOQdgKIQ==@vger.kernel.org
+X-Received: by 2002:a17:907:7fab:b0:a8a:8dd3:f135 with SMTP id
+ a640c23a62f3a-a93b15d446bmr1325772666b.14.1727559352571; Sat, 28 Sep 2024
+ 14:35:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKwvOdm0iZspjpuueBV1=eFt+Bf4edWBZsDsj10kEvTGZRye2w@mail.gmail.com>
+References: <20240925233854.90072-1-mmaurer@google.com>
+In-Reply-To: <20240925233854.90072-1-mmaurer@google.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Sat, 28 Sep 2024 17:35:15 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je_Fn=OWdhJn0xnNd4dT5wZNKz6XkOAHvDu-pkkhirEwgg@mail.gmail.com>
+Message-ID: <CAEg-Je_Fn=OWdhJn0xnNd4dT5wZNKz6XkOAHvDu-pkkhirEwgg@mail.gmail.com>
+Subject: Re: [PATCH v5 00/16] Extended MODVERSIONS Support
+To: Matthew Maurer <mmaurer@google.com>
+Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
+	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, marcan@marcan.st, j@jannau.net, 
+	asahi@lists.linux.dev, linux-modules@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 27, 2024 at 03:45:39PM -0700, Nick Desaulniers wrote:
-> On Thu, Sep 19, 2024 at 4:52 AM Maksim Panchenko <max4bolt@gmail.com> wrote:
-> >
-> > On Sun, Jul 28, 2024 at 01:29:56PM -0700, Rong Xu wrote:
-> > > Add the build support for using Clang's Propeller optimizer. Like
-> > > AutoFDO, Propeller uses hardware sampling to gather information
-> > > about the frequency of execution of different code paths within a
-> > > binary. This information is then used to guide the compiler's
-> > > optimization decisions, resulting in a more efficient binary.
-> >
-> > Thank you for submitting the patches with the latest compiler features.
-> >
-> > Regarding Propeller, I want to quickly mention that I plan to send a
-> > patch to include BOLT as a profile-based post-link optimizer for the
-> > kernel. I'd like it to be considered an alternative that is selectable
-> > at build time.
-> >
-> > BOLT also uses sampling, and the profile can be collected on virtually
-> > any kernel (with some caveats).  There are no constraints on the
-> > compiler (i.e., any version of GCC or Clang is acceptable), while Linux
-> > perf is the only external dependency used for profile collection and
-> > conversion. BOLT works on top of AutoFDO and LTO but can be used without
-> > them if the user desires. The build overhead is a few seconds.
-> >
-> > As you've heard from the LLVM discussion
-> > (https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autofdo-including-thinlto-and-propeller)
-> > and LPC talk (https://lpc.events/event/18/contributions/1921/), at Meta,
-> > we've also successfully optimized the kernel and got similar results.
-> >
-> > Again, this is a heads-up before the patch, and I would like to hear
-> > what people think about having a binary optimizer as a user-selectable
-> > alternative to Propeller.
-> 
-> I'd imagine that folks would be interested in running Propeller, or
-> BOLT, but perhaps not both.
-> 
-> In that sense, Kconfig has the means to express mutual exclusion.
-> It's perhaps worth working together to get the kconfig selection
-> working such that folks can play with enabling these newer toolchain
-> related technologies.
+On Wed, Sep 25, 2024 at 7:39=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
+ wrote:
+>
+> This patch series is intended for use alongside the Implement
+> MODVERSIONS for RUST [1] series as a replacement for the symbol name
+> hashing approach used there to enable RUST and MODVERSIONS at the same
+> time.
+>
+> Elsewhere, we've seen a desire for long symbol name support for LTO
+> symbol names [2], and the previous series came up [3] as a possible
+> solution rather than hashing, which some have objected [4] to.
+>
+> This series adds a MODVERSIONS format which uses a section per column.
+> This avoids userspace tools breaking if we need to make a similar change
+> to the format in the future - we would do so by adding a new section,
+> rather than editing the struct definition. In the new format, the name
+> section is formatted as a concatenated sequence of NUL-terminated
+> strings, which allows for arbitrary length names.
+>
+> Currently, this series emits both the extended format and the current
+> format on all modules, and prefers the extended format when checking if
+> present. I'm open to various other policies via Kconfig knobs, but this
+> seemed like a good initial default.
+>
+> The refactor to MODVERSIONS is prefixed to this series as result of an
+> explicit request [5] by Luis in response to the original patchset.
+>
+> If you are testing this patch alongside RUST by manually removing the
+> !MODVERSIONS restriction (this series doesn't remove it, because the
+> CRCs don't mean what we'd want them to yet, we need the DWARF patch for
+> that) and have kernel hardening enabled, you may need the CPU
+> Mitigations [6] series. Without it, the foo.mod.o file produced by the
+> C compiler will reference __x86_return_thunk, but foo.o will not.
+> This means that the version table will not contain a version for
+> __x86_return_thunk, but foo.ko will reference it, which will result
+> in a version check failure.
+>
+> [1] https://lore.kernel.org/all/20240617175818.58219-17-samitolvanen@goog=
+le.com/
+> [2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org=
+/
+> [3] https://lore.kernel.org/lkml/ZoxbEEsK40ASi1cY@bombadil.infradead.org/
+> [4] https://lore.kernel.org/lkml/0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@sus=
+e.com/
+> [5] https://lore.kernel.org/lkml/ZVZNh%2FPA5HiVRkeb@bombadil.infradead.or=
+g/
+> [6] https://lore.kernel.org/all/20240725183325.122827-1-ojeda@kernel.org/
+>
+> Changes in v5:
+> - Addresses Sami's comments from v3 that I missed in v4 (missing early
+>   return, extra parens)
+>
+> v4: https://lore.kernel.org/asahi/20240924212024.540574-1-mmaurer@google.=
+com/
+> - Fix incorrect dot munging in PPC
+>
+> v3: https://lore.kernel.org/lkml/87le0w2hop.fsf@mail.lhotse/T/
+> - Split up the module verification refactor into smaller patches, per
+>   Greg K-H's suggestion.
+>
+> v2: https://lore.kernel.org/all/20231118025748.2778044-1-mmaurer@google.c=
+om/
+> - Add loading/verification refactor before modifying, per Luis's request
+>
+> v1: https://lore.kernel.org/rust-for-linux/20231115185858.2110875-1-mmaur=
+er@google.com/
+>
+> Matthew Maurer (16):
+>   module: Take const arg in validate_section_offset
+>   module: Factor out elf_validity_ehdr
+>   module: Factor out elf_validity_cache_sechdrs
+>   module: Factor out elf_validity_cache_secstrings
+>   module: Factor out elf_validity_cache_index_info
+>   module: Factor out elf_validity_cache_index_mod
+>   module: Factor out elf_validity_cache_index_sym
+>   module: Factor out elf_validity_cache_index_str
+>   module: Group section index calculations together
+>   module: Factor out elf_validity_cache_strtab
+>   module: Additional validation in elf_validity_cache_strtab
+>   module: Reformat struct for code style
+>   export_report: Rehabilitate script
+>   modules: Support extended MODVERSIONS info
+>   modpost: Produce extended modversion information
+>   export_report: Use new version info format
+>
+>  arch/powerpc/kernel/module_64.c |  23 +-
+>  kernel/module/internal.h        |  18 +-
+>  kernel/module/main.c            | 647 ++++++++++++++++++++++++--------
+>  kernel/module/version.c         |  45 +++
+>  scripts/export_report.pl        |  17 +-
+>  scripts/mod/modpost.c           |  39 +-
+>  6 files changed, 628 insertions(+), 161 deletions(-)
+>
+> --
+> 2.46.1.824.gd892dcdcdd-goog
+>
+>
 
-Right, I would expect this to just be a Kconfig choice with a
-description like "Post link optimization" or something of the sort, like
-the RANDSTRUCT or DEBUG_INFO ones. If it does make sense to do them at
-the same time, they can obviously be separate.
+The series looks straightforward and reasonable to me.
 
-> The next instance of the bi-weekly public Clang Built Linux meeting is
-> next Wednesday. (Links from https://clangbuiltlinux.github.io/)
-> 
-> Perhaps it's worth Rong (and Sriraman and Han) and Maksim to stop by and chat?
+Acked-by: Neal Gompa <neal@gompa.dev>
 
-I would certainly be open to discussing the plans for upstreaming these
-in the meeting. I think the sessions went well in the Toolchains Track.
-There were no major objections from what I could tell.
 
-Cheers,
-Nathan
+
+--
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
 
