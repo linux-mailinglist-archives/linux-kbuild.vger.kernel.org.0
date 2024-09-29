@@ -1,317 +1,248 @@
-Return-Path: <linux-kbuild+bounces-3825-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3826-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AF198919C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 23:47:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E04069894FD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2024 13:09:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B30842855A0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2024 21:47:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 57F441F21481
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2024 11:09:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66C4F17C20F;
-	Sat, 28 Sep 2024 21:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98AEF15F41B;
+	Sun, 29 Sep 2024 11:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R8G/Jpqc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB2015C150;
-	Sat, 28 Sep 2024 21:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F44D157465;
+	Sun, 29 Sep 2024 11:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727560025; cv=none; b=K+jLQkpGIbLo6v5c/6AaWWoMluRgSaUNBy1hCVotXKaTeyqqsHeH161PLV4wFc7LNCZs+XRuBAbBBkW9g0W6pqvut1N3kBZL9AM+NctktokmBlmLXU6g7dVuZvWVQSBNNNTLVip8+4b+pm1oJge/bnv12GZxtNazf2Jqwgr6WqE=
+	t=1727608162; cv=none; b=u9lF0U+SgEc6JizfpvWGfmQOEHuknYaa0ilp/KAsQMYktS7+/idwXxjZ9yLJWFPpSK0b70iEeRIYdI4sC4ZZxGDtrifjDzuJLjm0Kb0wKeatIHAo8hb06ZHlkoT2Y9+aFS/QFbMGZzVL1E6A7mAi+WUuB7VXmwYNANqiFvNgGK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727560025; c=relaxed/simple;
-	bh=pJHKnKu4CRgq7XSoKuoYWzkMNgMNKiayIqSJm078TxQ=;
+	s=arc-20240116; t=1727608162; c=relaxed/simple;
+	bh=srwdaNmK8u2bJg6ywpOtDUlEv34NsoQ/aP2RQHtowvo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CIudskI72l8faG6TI6fzvRxwYk3lfoZGzc02B7DzAUnIEWKpf5hEnODLR7Jrw1FbtNK1Ju9Dwsbe0klhxPpO7YjnDaccnQYkXKccbXYW2Pb7PMgIVP3EEUEqHew4wAR4h4p7ImnjSaj8mFCPdF4qYfL4FroHgwJ/L2rfbZWdEIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a90188ae58eso401589266b.1;
-        Sat, 28 Sep 2024 14:47:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727560021; x=1728164821;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W7GkSo7eHSvwAWlmQ2pcRrIW5iwdwKQe1ajDCIDdclc=;
-        b=wzq8zna2yQ0unWsd/eBCF6oCqoNMUwipGOB1g8sqdj57EVt+dUp9pEjFIFDs4Kzh3k
-         K7KrYy8BNnHT8x5DuepiCsmBCk4+58zf/12L+DWo2CtU3kmIQW0H4QQRvSW4UoiUrkKn
-         EQGDaoL2oZ0ZQ+R8JihacRtTJIr1mZqS2wivZ/GbWG931kDobfu0y6iXPry2jADAbsiZ
-         rndw+NYTqQ5W4YpoVBXVsHfBkciJoJ6UbB5L8iwsJkc9S+tWKUY/URlVmuQ8FVu62qAm
-         cKByrTg9MWgNcakZ/hN4ZADt+frVkMTifRvwhFeHCO7Ugj0oKRkxEH1rfiez9RUgg9S/
-         UWew==
-X-Forwarded-Encrypted: i=1; AJvYcCV2/anNwNe58Ku9rFiLcxv4G3uiFSCdB2nU/PCj7I2hOmkCaU3it+MhBeUOp06ATt/9odw7Mu+HaM8SJQ17B8E=@vger.kernel.org, AJvYcCVq2O5WmJ8QHEp5ORObjReWafkQFmN4vL7gqdGRUxqlpwIyDY5YlYMVflx8z2xgf9pZ+nGhdEA8goVOU1RZzQ==@vger.kernel.org, AJvYcCWI03nJErcwHzZnvmMCCoZ+rJIIhvcC0qC0mAG1KJb7wgVJIh3tgHnt7W22agDuggsARhfMNUtAmrgSgkKS@vger.kernel.org, AJvYcCXlpWXiPYHre7kRyUzgti9aLTHzMRCgAPzcPE9bBmYgg8YhnvJ+488wyFL2pS+X/Lkf1VwBrswt9pQtPEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4ghFKTsM8u9YmzQ76akyQWgneUki2nKfyddACO95uZLv4lJNm
-	gDvEbrJqXiQn5DAp3kgXynMhp4acQU+UAD3p9UHTA/+/MWGCREoyp3HdAbrwWh8=
-X-Google-Smtp-Source: AGHT+IHFD9xhZFNTDWvsYXRldOMc959jTbs86LVDXza5Nu4/vNAGdbGeE0RpmvRVj6bJ3ehVeuu+ew==
-X-Received: by 2002:a17:907:7ea4:b0:a8d:5133:c426 with SMTP id a640c23a62f3a-a93c4ac92edmr727407866b.45.1727560021264;
-        Sat, 28 Sep 2024 14:47:01 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27d2a84sm292366766b.87.2024.09.28.14.47.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Sep 2024 14:47:01 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a90188ae58eso401588366b.1;
-        Sat, 28 Sep 2024 14:47:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV54nb095ikTZlbdIfRpR5f8zS/zPCNzIxEbd0L0voMpCd/lDmIfe4kqjGai4WMuEOdF4hrNXsrr3ENfHw=@vger.kernel.org, AJvYcCVK21mb4tfEwYX1EdxfKZitjcTzotxGffK9dVny5/DZFxzvnbJngwO27ddwFMePfBfb+XAQZDRh2F+LTr152j0=@vger.kernel.org, AJvYcCWD6rgQGDUIEFbiCw4uihl8Sq9jxrvWPAlqxfO9Lm+vAkvwiUyuIIOGnRAJeYvpb5koGTvMp9u6NdwFrWSc@vger.kernel.org, AJvYcCWWu1gvZW1i45839dQx6OEy5+olLlOd8wrPV1Ay3QiEWDBdK8qqS+oiSs09KFKa8OfQOIFXGt5VPg8KzEbEwg==@vger.kernel.org
-X-Received: by 2002:a17:907:3e21:b0:a8d:7b7d:8c39 with SMTP id
- a640c23a62f3a-a93c4ac9362mr864360066b.43.1727560020553; Sat, 28 Sep 2024
- 14:47:00 -0700 (PDT)
+	 To:Cc:Content-Type; b=jzZAdph/qZsZNxQFdcrOUdTSb9O77m/qIjG6JlPW72ZLI+fwkfU4jmyvYm74f7/9d6g3iJTu5FF1yHvvvMeN0FH+/b2vsWOMCXtF9bwzjROQ4Es67ydMIypT1zHrBuXxMxF37NlyrFa5YKflofnuxSMqYSEsWKBhoXzNPROiq5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R8G/Jpqc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1523C4CED5;
+	Sun, 29 Sep 2024 11:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727608162;
+	bh=srwdaNmK8u2bJg6ywpOtDUlEv34NsoQ/aP2RQHtowvo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=R8G/JpqcJcVQ5t45jYU222P4qlac/DozuVI68tmhgAYoW+VNOA49ZEpvmy2pOIvgZ
+	 G2Zq5km1N/AhcHPO5C8pw9I9SpxpUALwM4ZpB+JZw4rC7zXK9lC5BgL6wcJ7vv3E4s
+	 JqpcsHkNSYAFjO5x1DMIlHZR2DsjeO01BKM/WFyTR90xuWhvCMgtyScLA+M1OJUeG3
+	 b8BfJuMtrGp68qLeGnDmBiySq64KLReYQCTk3JSRaBnS7LHVlkEiZuN5WDYYvRcaxl
+	 or3s4E6aOfIy8N1B67ShauI/1nvjmUDgxOjICzWTuHpMM2NI+21VaOHWgi9o9JFpvs
+	 835meCM6cDE4w==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5366fd6fdf1so4157050e87.0;
+        Sun, 29 Sep 2024 04:09:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURXOvzhwZhKwKHL/r/D+TY+NDk+jjy4D1k5tsaGXAklEKdVuLHl8UyhQym2XD+w2lIMtpZfcxQgHjoVeZP@vger.kernel.org, AJvYcCUl8VShWl80uppB4byPmNSI3Rqbg1HlyeEpa8+Kjri2Sil/ns3o+4Xbc5eONgXlHX39UV8LGRoOPls9@vger.kernel.org, AJvYcCWa9zNG33kdFVAuBom6OgAVTKa3SJ+4OwyYwPZdXB/iLHNy5GYcynrJE/mAH7ZyFwYduzyrV/hEueNO@vger.kernel.org, AJvYcCWgInj0wOLR/bVPqrwUWgIpHfLfGBO32aK84O1/+IvV1tBoV1eZohGO8BvkK5kuIYg2q29V6GNxK9oK@vger.kernel.org, AJvYcCWzGgYKqMWi+1VegJ60tVjG/fCfD7KA81xkUpwGfUsPpfeaFa/ZYyvkU9A4zW7DgqtDsMG6QGON8fibMoVl@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFMgzyXeTm8LV5xPKv8Pay9KFHfkL50tx24pWXfzfMGy//uw+U
+	5Mju3ZHuVAqx1YHyAuHIF1km6rG2VWvX2WagtmnOZ+cp5FRrWjiykbZ/j8ERUt+HwZQVOAA9xlh
+	aJmdXysdkvIg8K7wUzPURkLAKk0c=
+X-Google-Smtp-Source: AGHT+IEsBxQobNp7YOwhlu12U4LHK6MZ7qbVwvDOh9lalkDk33YZH+hUz+o835ZL3w50z+1yplsg5PQvJbebLBR4ngE=
+X-Received: by 2002:ac2:4e12:0:b0:52e:9f6b:64 with SMTP id 2adb3069b0e04-5389fc49f41mr3634136e87.34.1727608160167;
+ Sun, 29 Sep 2024 04:09:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240923181846.549877-22-samitolvanen@google.com>
-In-Reply-To: <20240923181846.549877-22-samitolvanen@google.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Sat, 28 Sep 2024 17:46:24 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je_wRvSiDLMXRpL+xaun3FjmfSmaYhZZbDn-nsEHg_A=dQ@mail.gmail.com>
-Message-ID: <CAEg-Je_wRvSiDLMXRpL+xaun3FjmfSmaYhZZbDn-nsEHg_A=dQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/20] Implement DWARF modversions
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
+References: <20240728203001.2551083-1-xur@google.com> <20240728203001.2551083-7-xur@google.com>
+In-Reply-To: <20240728203001.2551083-7-xur@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 29 Sep 2024 20:08:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ0Z38a1Nt=_XKT3i-UpauiO9RaZAye6LXGCFzvg2R8Bg@mail.gmail.com>
+Message-ID: <CAK7LNAQ0Z38a1Nt=_XKT3i-UpauiO9RaZAye6LXGCFzvg2R8Bg@mail.gmail.com>
+Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
+To: Rong Xu <xur@google.com>
+Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
+	John Moon <john@jmoon.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Heiko Carstens <hca@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Mike Rapoport <rppt@kernel.org>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Eric DeVolder <eric.devolder@oracle.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Benjamin Segall <bsegall@google.com>, 
+	Breno Leitao <leitao@debian.org>, Wei Yang <richard.weiyang@gmail.com>, 
+	Brian Gerst <brgerst@gmail.com>, Juergen Gross <jgross@suse.com>, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Alexandre Ghiti <alexghiti@rivosinc.com>, 
+	Kees Cook <kees@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Xiao Wang <xiao.w.wang@intel.com>, Jan Kiszka <jan.kiszka@siemens.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-arch@vger.kernel.org, llvm@lists.linux.dev, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Stephane Eranian <eranian@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 23, 2024 at 2:19=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
+On Mon, Jul 29, 2024 at 5:31=E2=80=AFAM Rong Xu <xur@google.com> wrote:
 >
-> Hi,
+> Add the build support for using Clang's Propeller optimizer. Like
+> AutoFDO, Propeller uses hardware sampling to gather information
+> about the frequency of execution of different code paths within a
+> binary. This information is then used to guide the compiler's
+> optimization decisions, resulting in a more efficient binary.
 >
-> Here's v3 of the DWARF modversions series [1][2]. The main
-> motivation remains modversions support for Rust, which is important
-> for distributions like Android that are eager to ship Rust kernel
-> modules. Per Luis' request [3], v2 dropped the Rust specific bits
-> from the series and instead added the feature as an option for
-> the entire kernel. Matt is still addressing Rust modversion_info
-> compatibility issues in a separate series [4], and we'll follow up
-> with a patch to actually allow CONFIG_MODVERSIONS with Rust once
-> everything else has been sorted out.
+> The support requires a Clang compiler LLVM 19 or later, and the
+> create_llvm_prof tool
+> (https://github.com/google/autofdo/releases/tag/v0.30.1). This
+> submission is limited to x86 platforms that support PMU features
+> like LBR on Intel machines and AMD Zen3 BRS.
 >
-> A short background recap: Unlike C, Rust source code doesn't
-> have sufficient information about the final ABI, as the compiler
-> has considerable freedom in adjusting structure layout, for
-> example, which makes using a source code parser like genksyms a
-> non-starter. Based on Matt's suggestion and previous feedback from
-> maintainers, this series uses DWARF debugging information for
-> computing versions. DWARF is an established and a relatively stable
-> format, which includes all the necessary ABI details, and adding a
-> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> reasonable trade-off.
+> For Arm, we plan to send patches for SPE-based Propeller when
+> AutoFDO for Arm is ready.
 >
-> The first two patches add more list macros to scripts/include and
-> move the genksyms CRC32 implementation to a shared header file. The
-> next 15 patches add gendwarfksyms, a tool for computing symbol
-> versions from DWARF. When passed a list of exported symbols and
-> object files, the tool generates an expanded type string for each
-> symbol and computes symbol CRCs similarly to genksyms. gendwarfksyms
-> is written in C and uses libdw to process DWARF. Patch 18 ensures
-> that debugging information is present where we need it, patch 19
-> adds gendwarfksyms as an alternative to genksyms, and the last patch
-> adds documentation.
+> Here is an example workflow for building an AutoFDO+Propeller
+> optimized kernel:
 >
-> Note that v3 is based on next-20240923 as it depends on Masahiro's
-> scripts/include changes. For x86, we also need a separate small
-> patch to include asm/ptrace.h in asm/ftrace.h. [5] For your
-> convenience, you can find this series with all the prerequisites
-> here:
+> 1) Build the kernel on the HOST machine, with AutoFDO and Propeller
+>    build config
+>       CONFIG_AUTOFDO_CLANG=3Dy
+>       CONFIG_PROPELLER_CLANG=3Dy
+>    then
+>       $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<autofdo_profile>
 >
-> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v3
+> =E2=80=9C<autofdo_profile>=E2=80=9D is the profile collected when doing a=
+ non-Propeller
+> AutoFDO build. This step builds a kernel that has the same optimization
+> level as AutoFDO, plus a metadata section that records basic block
+> information. This kernel image runs as fast as an AutoFDO optimized
+> kernel.
 >
-> If you also want to test the series with Rust modules, this branch
-> adds Matt's modversion_info series and a small patch to enable Rust
-> modversions:
+> 2) Install the kernel on test/production machines.
 >
-> https://github.com/samitolvanen/linux/commits/rustmodversions-v3
+> 3) Run the load tests. The '-c' option in perf specifies the sample
+>    event period. We suggest using a suitable prime number,
+>    like 500009, for this purpose.
+>    For Intel platforms:
+>       $ perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c <count> \
+>         -o <perf_file> -- <loadtest>
+>    For AMD platforms:
+>       The supported system are: Zen3 with BRS, or Zen4 with amd_lbr_v2
+>       # To see if Zen3 support LBR:
+>       $ cat proc/cpuinfo | grep " brs"
+>       # To see if Zen4 support LBR:
+>       $ cat proc/cpuinfo | grep amd_lbr_v2
+>       # If the result is yes, then collect the profile using:
+>       $ perf record --pfm-events RETIRED_TAKEN_BRANCH_INSTRUCTIONS:k -a \
+>         -N -b -c <count> -o <perf_file> -- <loadtest>
 >
-> Looking forward to hearing your thoughts!
+> 4) (Optional) Download the raw perf file to the HOST machine.
 >
-> Sami
+> 5) Generate Propeller profile:
+>    $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file> \
+>      --format=3Dpropeller --propeller_output_module_name \
+>      --out=3D<propeller_profile_prefix>_cc_profile.txt \
+>      --propeller_symorder=3D<propeller_profile_prefix>_ld_profile.txt
 >
+>    =E2=80=9Ccreate_llvm_prof=E2=80=9D is the profile conversion tool, and=
+ a prebuilt
+>    binary for linux can be found on
+>    https://github.com/google/autofdo/releases/tag/v0.30.1 (can also build
+>    from source).
 >
-> [1] v1: https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen=
-@google.com/
-> [2] v2: https://lore.kernel.org/lkml/20240815173903.4172139-21-samitolvan=
-en@google.com/
-> [3] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
-> [4] https://lore.kernel.org/lkml/20240806212106.617164-1-mmaurer@google.c=
-om/
-> [5] https://lore.kernel.org/lkml/20240916221557.846853-2-samitolvanen@goo=
-gle.com/
+>    "<propeller_profile_prefix>" can be something like
+>    "/home/user/dir/any_string".
 >
+>    This command generates a pair of Propeller profiles:
+>    "<propeller_profile_prefix>_cc_profile.txt" and
+>    "<propeller_profile_prefix>_ld_profile.txt".
+>
+> 6) Rebuild the kernel using the AutoFDO and Propeller profile files.
+>       CONFIG_AUTOFDO_CLANG=3Dy
+>       CONFIG_PROPELLER_CLANG=3Dy
+>    and
+>       $ make LLVM=3D1 CLANG_AUTOFDO_PROFILE=3D<autofdo_profile> \
+>         CLANG_PROPELLER_PROFILE_PREFIX=3D<propeller_profile_prefix>
+>
+> Co-developed-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Rong Xu <xur@google.com>
+> Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Suggested-by: Stephane Eranian <eranian@google.com>
 > ---
->
-> Changes in v3:
-> - Updated SPX license headers.
->
-> - Squashed the first two patches in v2 and tried to reduce churn as
->   much as reasonable.
->
-> - Dropped patch 18 from v2 ("x86/asm-prototypes: Include
->   <asm/ptrace.h>") as it's addressed by a separate patch. [5]
->
-> - Changed the error handling code to immediately terminate instead
->   of propagating the errors back to main, which cleaned up the code
->   quite a bit.
->
-> - Switched to the list and hashtable implementations in scripts and
->   dropped the remaining tools/include dependencies. Added a couple
->   missing list macros. (patch 1)
->
-> - Moved the genksyms CRC32 implementation to scripts/include and
->   dropped the duplicate code. (patches 2 and 14)
->
-> - Switched from ad-hoc command line parsing to getopt_long (patch 3).
->
-> - Added structure member and function parameter names to the DIE
->   output to match genksyms behavior, and tweaked the symtypes format
->   to be more parser-friendly in general based on Petr's suggestions.
->
-> - Replaced the declaration-only struct annotations with more generic
->   kABI stability rules that allow source code annotations to be used
->   where #ifndef __GENKSYMS__ was previously used.  Added support for
->   rules that can be used to exclude enumerators from versioning.
->   (patch 16)
->
-> - Per Miroslav's suggestion, added an option to hide structure
->   members from versioning when they're added to existing alignment
->   holes, for example. (patch 16)
->
-> - Per Greg's request, added documentation and example macros for the
->   --stable features, and a couple of test cases. (patches 15, 16, and
->   20)
->
-> - Fixed making symtypes files, which need to depend on .o files with
->   gendwarfksyms. (patch 19)
->
-> - Addressed several other smaller issues that Petr and Masahiro
->   kindly pointed out during the v2 review.
->
-> Changes in v2:
-> - Per Luis' request, dropped Rust-specific patches and added
->   gendwarfksyms as an alternative to genksyms for the entire
->   kernel.
->
-> - Added support for missing DWARF features needed to handle
->   also non-Rust code.
->
-> - Changed symbol address matching to use the symbol table
->   information instead of relying on addresses in DWARF.
->
-> - Added __gendwarfksyms_ptr patches to ensure the compiler emits
->   the necessary type information in DWARF even for symbols that
->   are defined in other TUs.
->
-> - Refactored debugging output and moved the more verbose output
->   behind --dump* flags.
->
-> - Added a --symtypes flag for generating a genksyms-style
->   symtypes output based on Petr's feedback, and refactored
->   symbol version calculations to be based on symtypes instead
->   of raw --dump-dies output.
->
-> - Based on feedback from Greg and Petr, added --stable flag and
->   support for reserved data structure fields and declaration-onl
->   structures. Also added examples for using these features.
->
-> - Added a GENDWARFKSYMS option and hooked up kbuild support
->   for both C and assembly code. Note that with gendwarfksyms,
->   we have to actually build a temporary .o file for calculating
->   assembly modversions.
->
-> ---
->
-> Sami Tolvanen (20):
->   scripts: import more list macros
->   scripts: move genksyms crc32 implementation to a common include
->   tools: Add gendwarfksyms
->   gendwarfksyms: Add address matching
->   gendwarfksyms: Expand base_type
->   gendwarfksyms: Add a cache for processed DIEs
->   gendwarfksyms: Expand type modifiers and typedefs
->   gendwarfksyms: Expand subroutine_type
->   gendwarfksyms: Expand array_type
->   gendwarfksyms: Expand structure types
->   gendwarfksyms: Limit structure expansion
->   gendwarfksyms: Add die_map debugging
->   gendwarfksyms: Add symtypes output
->   gendwarfksyms: Add symbol versioning
->   gendwarfksyms: Add support for kABI rules
->   gendwarfksyms: Add support for reserved and ignored fields
->   gendwarfksyms: Add support for symbol type pointers
->   export: Add __gendwarfksyms_ptr_ references to exported symbols
->   kbuild: Add gendwarfksyms as an alternative to genksyms
->   Documentation/kbuild: Add DWARF module versioning
->
->  Documentation/kbuild/gendwarfksyms.rst      |  274 +++++
->  Documentation/kbuild/index.rst              |    1 +
->  include/linux/export.h                      |   15 +
->  kernel/module/Kconfig                       |   31 +
->  scripts/Makefile                            |    3 +-
->  scripts/Makefile.build                      |   39 +-
->  scripts/gendwarfksyms/.gitignore            |    2 +
->  scripts/gendwarfksyms/Makefile              |   12 +
->  scripts/gendwarfksyms/cache.c               |   44 +
->  scripts/gendwarfksyms/die.c                 |  166 +++
->  scripts/gendwarfksyms/dwarf.c               | 1085 +++++++++++++++++++
->  scripts/gendwarfksyms/examples/kabi.h       |  141 +++
->  scripts/gendwarfksyms/examples/kabi_ex0.c   |   86 ++
->  scripts/gendwarfksyms/examples/kabi_ex1.c   |   89 ++
->  scripts/gendwarfksyms/examples/kabi_ex2.c   |   98 ++
->  scripts/gendwarfksyms/examples/kabi_rules.c |   56 +
->  scripts/gendwarfksyms/examples/symbolptr.c  |   29 +
->  scripts/gendwarfksyms/gendwarfksyms.c       |  195 ++++
->  scripts/gendwarfksyms/gendwarfksyms.h       |  351 ++++++
->  scripts/gendwarfksyms/kabi.c                |  214 ++++
->  scripts/gendwarfksyms/symbols.c             |  317 ++++++
->  scripts/gendwarfksyms/types.c               |  477 ++++++++
->  scripts/genksyms/genksyms.c                 |   77 +-
->  scripts/include/crc32.h                     |   93 ++
->  scripts/include/list.h                      |   50 +
->  25 files changed, 3860 insertions(+), 85 deletions(-)
->  create mode 100644 Documentation/kbuild/gendwarfksyms.rst
->  create mode 100644 scripts/gendwarfksyms/.gitignore
->  create mode 100644 scripts/gendwarfksyms/Makefile
->  create mode 100644 scripts/gendwarfksyms/cache.c
->  create mode 100644 scripts/gendwarfksyms/die.c
->  create mode 100644 scripts/gendwarfksyms/dwarf.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi.h
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex0.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex1.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex2.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_rules.c
->  create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
->  create mode 100644 scripts/gendwarfksyms/kabi.c
->  create mode 100644 scripts/gendwarfksyms/symbols.c
->  create mode 100644 scripts/gendwarfksyms/types.c
->  create mode 100644 scripts/include/crc32.h
->
->
-> base-commit: ef545bc03a65438cabe87beb1b9a15b0ffcb6ace
-> --
-> 2.46.0.792.g87dc391469-goog
->
 
-This patch set looks fairly reasonable.
 
-Acked-by: Neal Gompa <neal@gompa.dev>
+
+
+
+> diff --git a/Makefile b/Makefile
+> index 5ae30cc94a26..85a96d973f20 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1025,6 +1025,7 @@ include-$(CONFIG_KCOV)            +=3D scripts/Make=
+file.kcov
+>  include-$(CONFIG_RANDSTRUCT)   +=3D scripts/Makefile.randstruct
+>  include-$(CONFIG_GCC_PLUGINS)  +=3D scripts/Makefile.gcc-plugins
+>  include-$(CONFIG_AUTOFDO_CLANG)        +=3D scripts/Makefile.autofdo
+> +include-$(CONFIG_PROPELLER_CLANG)      +=3D scripts/Makefile.propeller
+
+
+
+Please do not ignore this comment:
+
+https://github.com/torvalds/linux/blob/v6.11/Makefile#L1016
+
+
+
+
+
+
+
+> +ifdef CONFIG_LTO_CLANG
+> +ifdef CONFIG_LTO_CLANG_THIN
+> +ifdef CLANG_PROPELLER_PROFILE_PREFIX
+> +KBUILD_LDFLAGS +=3D --lto-basic-block-sections=3D$(CLANG_PROPELLER_PROFI=
+LE_PREFIX)_cc_profile.txt
+> +else
+> +KBUILD_LDFLAGS +=3D --lto-basic-block-sections=3Dlabels
+> +endif
+> +endif
+> +else
+> +endif
+
+
+Unreadable and redundant.
+
+
+ifdef CONFIG_LTO_CLANG_THIN
+  ifdef CLANG_PROPELLER_PROFILE_PREFIX
+    KBUILD_LDFLAGS +=3D
+--lto-basic-block-sections=3D$(CLANG_PROPELLER_PROFILE_PREFIX)_cc_profile.t=
+xt
+  else
+    KBUILD_LDFLAGS +=3D --lto-basic-block-sections=3Dlabels
+  endif
+endif
+
+
+
+
+
+
+
 
 
 
 --=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Best Regards
+Masahiro Yamada
 
