@@ -1,108 +1,137 @@
-Return-Path: <linux-kbuild+bounces-3833-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3834-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE87C98A554
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 15:32:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 827A198A6FE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 16:29:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 806CE283CE3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 13:32:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A72451C21C7E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 14:29:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319661922DB;
-	Mon, 30 Sep 2024 13:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA89B191484;
+	Mon, 30 Sep 2024 14:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xr/sw+JN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uifwhi6P"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0A1191494;
-	Mon, 30 Sep 2024 13:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BF518E758;
+	Mon, 30 Sep 2024 14:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727703046; cv=none; b=cmVfvTrn1qvBEIvBl0F8fFLpXoJAeI+g4y3TGMQ/p7o+KdlTRuNiUudkdTLb8nWmfsJbiiMF/ORIvb9x0bKWNmnvJmIQ4iOYzzStN3GAUynF2nU1jNdees+MxQb4Tg93Emn6YgCpVkvDlQHjeyg7k3y/u8GQFlDLEulNOpMn8G0=
+	t=1727706554; cv=none; b=NsN8k4D/R9bl/3TT84DPRnd+X3Ph0LZDaY0eaZNaa2cDaBtaRLdC3EGUNp6j/+JRBJX+lrNkfsW2aPP0QReC4PwbLZODMgdmK6c9KP4yeMkHZ048MAmbL3Y7U8qNJ+lIlRIzZcBJBVKTnBBlHId9Jv9Jjm0gyzwyyfPxIrxpblI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727703046; c=relaxed/simple;
-	bh=mHCLJZuQDvHuS2wwdMp5CACpzX0Rh9JxHm12ZYCrQlI=;
+	s=arc-20240116; t=1727706554; c=relaxed/simple;
+	bh=dZXin4+GRSMludy5RtFwIifr3KWtFLMopND6FYwycBw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WmDLrRHM521QNeA82RBFOjawx4XoMfCPQ81zyX3sH829YP5lvZOyquQgJQL6MYjbLX2eazHcBk+Jq2V8KVP8NhRbSC1phsmvAU8MkfStvN6CRQQpLx32fxAauRw2DoNw4b3Blnb6a+9IgOd4JR8VkVxwQu4nuTeznZNGjHMSmWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xr/sw+JN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A506DC4CEC7;
-	Mon, 30 Sep 2024 13:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727703045;
-	bh=mHCLJZuQDvHuS2wwdMp5CACpzX0Rh9JxHm12ZYCrQlI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Xr/sw+JNjEC67WrWc8eXWLm9psV1BcibX/Npv1PIp2qXiG5IpYZqH+Z4iJZaSE8kO
-	 UQBR4ZXNnrLzwqXkEM/jSp91n6Q8F9oD84Ww67eW5i3dfoaXNGaZ+GJ7wjuRPi8IrZ
-	 65+tGiTncnI2yebQImlVWLG1SG5oBfu6guIYyMxUk70YJqZJJk9Pw3vaFFeh/YRmCI
-	 pK4+UW+gXVxnJfGtsKQT7f4V8Wo8HCyP9doSd3UXORnC77DdcNAc8KQZVn3z72fm1f
-	 nNPaTm/oeMAgxjmc46Ov8Y1zDLbf9jQ2SQvos/bg5WLw9emYmGEzU13MHVs58oAEn+
-	 9q5aXc3pPph/Q==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fac49b17ebso11482691fa.0;
-        Mon, 30 Sep 2024 06:30:45 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwS4LcZ6DdNhHzjWolcKJmikOaxeI1+sz8Cpel45pH8OIG9KqEF
-	07ttuHrwgJtrsdj+R1o3rou0qNS4krpR5/Ooa6vSL+m6Ze1pOJ6VnBP4cyt3ubX27G6qHgpLOVB
-	TBqvxmDtVOsXhQ9P5PqpQ3VceulE=
-X-Google-Smtp-Source: AGHT+IEtkBFDQ3qUH/Bv5bPbTBZmeMcaKnEcv0KbRiz1yYwhnPcQNxACDhENh0ZMox9x5+HIiz+n3xV9R5H7OTU+m9o=
-X-Received: by 2002:a05:651c:2127:b0:2fa:cdac:8723 with SMTP id
- 38308e7fff4ca-2facdac8a5emr18408991fa.29.1727703044291; Mon, 30 Sep 2024
- 06:30:44 -0700 (PDT)
+	 To:Cc:Content-Type; b=ViVQojUeYzZMBBuBvk5Os9je6NqhyNYbzjKAeyzDZZ4u5UWtdsKtGjZp2wiTW4W66ddYNmyuKvLMQGmMEPrXOqstr86MrNDpXEgAiR4OkkA4ipAEQSgM0sjxlZqsBzTV/jcl0Wk+nvqibkm6oTevLeokU81YMGi3DO+96NTIevY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uifwhi6P; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71793afc07bso152023b3a.0;
+        Mon, 30 Sep 2024 07:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727706552; x=1728311352; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TDNE1FkKcdfZWcYc+nVbhJ6ewjvhhPypgqB+D8tWaPo=;
+        b=Uifwhi6PV6XkezyYw8agswVWgVcKThtgbdXVzUzl6vYJPkQdpcx1D6afd97fE/g8cA
+         NHOlNr6aY/lMYeXQuTxPzyzLAW4yW+Kr4ziFy1otsa3dueMIbfmo8yY78IbzfBIjG739
+         3L0VHCO6//1TzuNM7MwWdGd4/zADR0sLoaDEz+8tSXsLuTh8R2EWbixlhWAuEkdU+XCQ
+         Jpyv8qgbfL8+zCyQC9PYbNXB9ixT8da8dV+S5h0RVTn/0tqSbYb6sjlq5uGc/PJ8V3Hk
+         gslbdUG/PbfN24X+HyUcY+g1qUomwE57jI3NX5OkPnoIDiSqw3yZ0J1KYGRCf100UTKx
+         r7WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727706552; x=1728311352;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TDNE1FkKcdfZWcYc+nVbhJ6ewjvhhPypgqB+D8tWaPo=;
+        b=fnz/HnQXvx4S4xRYclwUSr6GaRrzZwjhQ7hLj3oGZHHPVdUrYNpRVKi985Onmqg4+V
+         uHeJtksZpsC6WJAr98TKbDtdGlSuCdZ7dAJ94TFJ1h1p5+xb4oa+3gk1NYViLwC2gGZd
+         TvzxDFg04JGAd631vJXdWTPnOD/n8xnFeZsSV+w7n/ChUbcA8d7A1vVAECXb3/rXRv4q
+         mM4lysMmZ/8wHFVUjIVso+ipfS0I1E9GW7qHmCTsNqhPl3aN0+3CSpYozBaTnVLDy3W1
+         dk75iiytdqBR9BaXL5mqxJeLLZoNmyShZebm+v3PcAKIEmq+d9MNAb041sxfTqJori8b
+         D1Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+XQHq+Ld6J6bXw4QdKZJYQFIWx9b/L6xD3qNOxHMlDwYzeetn753AJqZPaC1GizqTgZPt7Hm+hm0T/eIZsvc=@vger.kernel.org, AJvYcCUWJF1sZUDnCpG8GirXkZkFRSTzv6S7yP85jlAHLq92/mtvbSsU3vCOJ77PGR9wNbbtYpFhhHNzvJD5vzM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHCrMHx8M9EqT1cRYsvze0Q4kwzPpZUTjw0XwrQLH5cBiDGUJT
+	p3CvxS7vOGqB/UqiW890j4vdpIFlG340mB7CtzQrHmuYX/5dMhWpwt6TBWESpUpJEt6SkyLdx1o
+	o+MDIqYaKp6zNQo62TZwOVLinAFOVbGzH
+X-Google-Smtp-Source: AGHT+IH0H65JVjk/DdPd3VkcZSOZq/CcyaO2lcFUbYvdGpJhoWh9uyu/2BNWxeYzLp9Sd78yFqanHsqKG9UdRb95yYk=
+X-Received: by 2002:a05:6a20:8420:b0:1cf:2be2:6525 with SMTP id
+ adf61e73a8af0-1d509ba8450mr5385056637.11.1727706551787; Mon, 30 Sep 2024
+ 07:29:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240908124352.1828890-1-masahiroy@kernel.org> <20240908124352.1828890-6-masahiroy@kernel.org>
-In-Reply-To: <20240908124352.1828890-6-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 30 Sep 2024 22:30:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASah++doJCqM=5+Y5YruZ6iUkGOhPFLtQY2VTxkOYNV1A@mail.gmail.com>
-Message-ID: <CAK7LNASah++doJCqM=5+Y5YruZ6iUkGOhPFLtQY2VTxkOYNV1A@mail.gmail.com>
-Subject: Re: [PATCH 6/6] kconfig: cache expression values
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+References: <20240917141725.466514-1-masahiroy@kernel.org> <CAK7LNASDcpk3k+SKZ61dPW_D=pqfekEcnu2c+00MynpomE2RNw@mail.gmail.com>
+In-Reply-To: <CAK7LNASDcpk3k+SKZ61dPW_D=pqfekEcnu2c+00MynpomE2RNw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 30 Sep 2024 16:28:58 +0200
+Message-ID: <CANiq72mWvnnJqFKU_YYUmtbG0oQAB7AyEMRCk7w0mC6T9kEoGg@mail.gmail.com>
+Subject: Re: [PATCH 00/23] kbuild: support building external modules in a
+ separate build directory
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+	rust-for-linux <rust-for-linux@vger.kernel.org>, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 8, 2024 at 9:44=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
+On Sat, Sep 28, 2024 at 8:50=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> Cache expression values to avoid recalculating them repeatedly.
+> I CC'ed rust ML because Ack for the following patches are appreciated.
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> [07/23] kbuild: remove unnecessary prune of rust/alloc for rustfmt
+> [08/23] kbuild: simplify find command for rustfmt
+> [11/23] kbuild: check the presence of include/generated/rustc_cfg
 
+Sorry, it was in my backlog after the conferences.
 
-I noticed a bunch of "unmet direct dependencies" for xconfig.
+I am not sure what the base of the series was, but ran my usual tests
+on top of v6.11 and then on top of `rust-fixes` after some manual
+adjustment in both cases, and things appear to still work fine (i.e.
+what I usually build, without taking advantage of the separate build
+directory support).
 
+Moreover, I tested the separate build directory support (`MO=3D`), for a
+trivial Rust out-of-tree module, with a subdir as well as with a
+directory outside the out-of-tree source code.
 
-I will fix as follows:
+I also tested the new approach suggested for the out-of-tree
+`Makefile` (i.e. `export KBUILD_EXTMOD` and `include
+$(KDIR)/Makefile`), and it all worked as expected, so:
 
+Tested-by: Miguel Ojeda <ojeda@kernel.org>
 
+...except for arm64, where I found that I needed this bit:
 
+diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+index b058c4803efb..4cd9a1f2ec3d 100644
+--- a/arch/arm64/Makefile
++++ b/arch/arm64/Makefile
+@@ -71,7 +71,7 @@ stack_protector_prepare: prepare0
+                                -mstack-protector-guard-reg=3Dsp_el0       =
+ \
+                                -mstack-protector-guard-offset=3D$(shell   =
+ \
+                        awk '{if ($$2 =3D=3D "TSK_STACK_CANARY") print $$3;=
+}' \
+-                                       include/generated/asm-offsets.h))
++
+$(objtree)/include/generated/asm-offsets.h))
+ endif
 
-diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
-index 78738ef412de..16f92c4a775a 100644
---- a/scripts/kconfig/expr.c
-+++ b/scripts/kconfig/expr.c
-@@ -47,6 +47,7 @@ static struct expr *expr_lookup(enum expr_type type,
-void *l, void *r)
-        e->type =3D type;
-        e->left._initdata =3D l;
-        e->right._initdata =3D r;
-+       e->val_is_valid =3D false;
+ ifeq ($(CONFIG_ARM64_BTI_KERNEL),y)
 
-        hash_add(expr_hashtable, &e->node, hash);
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Cheers,
+Miguel
 
