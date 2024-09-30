@@ -1,149 +1,108 @@
-Return-Path: <linux-kbuild+bounces-3832-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3833-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0901F98A3B5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 14:57:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE87C98A554
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 15:32:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E22B1F26833
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 12:57:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 806CE283CE3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 13:32:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9407D1917E9;
-	Mon, 30 Sep 2024 12:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319661922DB;
+	Mon, 30 Sep 2024 13:30:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+hSkP2Q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xr/sw+JN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C221719047C;
-	Mon, 30 Sep 2024 12:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0A1191494;
+	Mon, 30 Sep 2024 13:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727700927; cv=none; b=PM4t7lP6/URyfy7Fj57ETLIfwFtrHHSItDOrOyKlOUcyxUgvDf92yc58pp+/JoV3D0Cn8o2zSEabksmZSf4Dtwf/azKsTddPzL/Tl208rFj3H8Fi0edEP3w8B81lypdYuJxXOcMlke6PU1iktK9xcdjjvzTfQuPjwlOb84Ahmys=
+	t=1727703046; cv=none; b=cmVfvTrn1qvBEIvBl0F8fFLpXoJAeI+g4y3TGMQ/p7o+KdlTRuNiUudkdTLb8nWmfsJbiiMF/ORIvb9x0bKWNmnvJmIQ4iOYzzStN3GAUynF2nU1jNdees+MxQb4Tg93Emn6YgCpVkvDlQHjeyg7k3y/u8GQFlDLEulNOpMn8G0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727700927; c=relaxed/simple;
-	bh=Gk/MlzXPGsQXnrgmA5gATxDRF2Y8DhE2qfDS+aaSIqQ=;
+	s=arc-20240116; t=1727703046; c=relaxed/simple;
+	bh=mHCLJZuQDvHuS2wwdMp5CACpzX0Rh9JxHm12ZYCrQlI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i37ZfXoIC6ldSkAIPSYKWhPl6qQx5jJrMBQVdw5zKkr5k+UOht/udNqEoriI/M4ub+eL2vuja4Uk/4/JZehVS+/vRRb2CUeX32k4mjzC7PqcVTAS2PRqxrgGRZmwgDUyulVjCXJOkwpH2qWxxiIUbbxZ6or3P18b+um82uvHwjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+hSkP2Q; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37cdb6ebc1cso1352067f8f.1;
-        Mon, 30 Sep 2024 05:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727700924; x=1728305724; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cOdgvaXJUr2scM3z+ssnO26BlcF10nfkej0+ZEZfU68=;
-        b=U+hSkP2Qmahy6GFsgxkeD+/nyK1hTICLYaLibCoPtJIXK8XGukfJk90je8GhJgbjDn
-         yvVlFTaqc53TevtfX4usa/q38HnJZXfDAMmDzyv+/uUrTJjF/vJvqkt1IaJRFi/zh/db
-         c6ZBsOnhI9rqPrALivCtwzCK1Q3zfXEgiOcSG30x3OrK+cEUjkk+Lu/rSaPwk5DsNpoB
-         RfOriUFlVFeWww0Ri843EBn1LxxhW+GMerxWxpM43rC3CP/3JhRkF1pr7h3BtdWIy7Qf
-         jKrze91ZEEeUFo6R11UYauqTk5GVe5wntYYrRcOVc3kEy/pBYI+ZNi0CIfIIt5Y9dO7l
-         f75Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727700924; x=1728305724;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cOdgvaXJUr2scM3z+ssnO26BlcF10nfkej0+ZEZfU68=;
-        b=AjNypndEOW15my9bVISc5yXJXqJenA4G4hZDUgZc+GNe+Qp5TxNGQnVOld+VKZR41R
-         nyxUQs9v4EZ+TmQXyCn4CclKv/SZJzxcLFlbJeQVdUWXsbwyzc+YjeTuXVFiYo2CZ3KY
-         1DNsVwH5pkKCzhKbu9rC+8P4sZIMsQfXMp6Sjeue8fvJ3zUepkKrxKMTwWNEY195CKu6
-         PLIqKPMFCfNG5JVcXY9T+K9ydGErM3CEgrghipJza69+lTQVxsw3CHSOvwuD+EgswoSg
-         S2ioITMsUgvm73I3XPfdxCNhmTEbjCSLUkrpcN1BGGW5QY5sVXaRIYWpiDDYoeOulBwd
-         iXEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVaOeJu89RyEC5FDhuLUkYvrzC5Hs4M6N5DJGVikpqs0aE2JyodqDx+j18yYMpxBXxD1tE5cijBcptteVbo@vger.kernel.org, AJvYcCWIhaJ+2QoCqKkZQafkLn1ntkiVFU4mIquHH4M02TwjoyuszN1SQBG5REgyIQ3jL+ULxMMULIK1H0UnQv8OEQXPcUIz@vger.kernel.org, AJvYcCX5Av0DYrTZ51bmMs2yIucbrqorh/TmmcOZf23s7pu+xEbdckHkW89OSbwyKKmYH+h/vy4=@vger.kernel.org, AJvYcCXmrijLJz55PYrRM52Dt8cUqOPFUQvJGjilPkQR2ZjNBbSbOKjwmMoJfxMxsfIUEzV+KWll2CLhMbpkU9rs@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwRwmf68o+NFvGZ41q6yrBFK4JT0NxMjAX0uMavBRtbD6yPO9n
-	ruY612/tmfXA/htJFcNWqNhYbQnpR3VkGJKNh3KZW4uxWby7lFDcwQAX6orymcGJJzoaOm1OKUb
-	n0/hk7UUI3G5veneEldWRBj7iZgs=
-X-Google-Smtp-Source: AGHT+IHymJjkPXI8wOmPdK0T7Ia8AkydMnY3GRDEvq8x/rrmB/r7QHqVuIQcCxZGJgE+W0IpzTVVD77B8tn93lNQMW8=
-X-Received: by 2002:adf:e881:0:b0:37c:ce26:95eb with SMTP id
- ffacd0b85a97d-37cd5aaf848mr5807426f8f.2.1727700923809; Mon, 30 Sep 2024
- 05:55:23 -0700 (PDT)
+	 To:Cc:Content-Type; b=WmDLrRHM521QNeA82RBFOjawx4XoMfCPQ81zyX3sH829YP5lvZOyquQgJQL6MYjbLX2eazHcBk+Jq2V8KVP8NhRbSC1phsmvAU8MkfStvN6CRQQpLx32fxAauRw2DoNw4b3Blnb6a+9IgOd4JR8VkVxwQu4nuTeznZNGjHMSmWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xr/sw+JN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A506DC4CEC7;
+	Mon, 30 Sep 2024 13:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727703045;
+	bh=mHCLJZuQDvHuS2wwdMp5CACpzX0Rh9JxHm12ZYCrQlI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Xr/sw+JNjEC67WrWc8eXWLm9psV1BcibX/Npv1PIp2qXiG5IpYZqH+Z4iJZaSE8kO
+	 UQBR4ZXNnrLzwqXkEM/jSp91n6Q8F9oD84Ww67eW5i3dfoaXNGaZ+GJ7wjuRPi8IrZ
+	 65+tGiTncnI2yebQImlVWLG1SG5oBfu6guIYyMxUk70YJqZJJk9Pw3vaFFeh/YRmCI
+	 pK4+UW+gXVxnJfGtsKQT7f4V8Wo8HCyP9doSd3UXORnC77DdcNAc8KQZVn3z72fm1f
+	 nNPaTm/oeMAgxjmc46Ov8Y1zDLbf9jQ2SQvos/bg5WLw9emYmGEzU13MHVs58oAEn+
+	 9q5aXc3pPph/Q==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fac49b17ebso11482691fa.0;
+        Mon, 30 Sep 2024 06:30:45 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwS4LcZ6DdNhHzjWolcKJmikOaxeI1+sz8Cpel45pH8OIG9KqEF
+	07ttuHrwgJtrsdj+R1o3rou0qNS4krpR5/Ooa6vSL+m6Ze1pOJ6VnBP4cyt3ubX27G6qHgpLOVB
+	TBqvxmDtVOsXhQ9P5PqpQ3VceulE=
+X-Google-Smtp-Source: AGHT+IEtkBFDQ3qUH/Bv5bPbTBZmeMcaKnEcv0KbRiz1yYwhnPcQNxACDhENh0ZMox9x5+HIiz+n3xV9R5H7OTU+m9o=
+X-Received: by 2002:a05:651c:2127:b0:2fa:cdac:8723 with SMTP id
+ 38308e7fff4ca-2facdac8a5emr18408991fa.29.1727703044291; Mon, 30 Sep 2024
+ 06:30:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240915205648.830121-1-hbathini@linux.ibm.com>
- <20240915205648.830121-18-hbathini@linux.ibm.com> <CAADnVQL60XXW95tgwKn3kVgSQAN7gr1STy=APuO1xQD7mz-aXA@mail.gmail.com>
- <32249e74-633d-4757-8931-742b682a63d3@linux.ibm.com>
-In-Reply-To: <32249e74-633d-4757-8931-742b682a63d3@linux.ibm.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 30 Sep 2024 05:55:12 -0700
-Message-ID: <CAADnVQKfSH_zkP0-TwOB_BLxCBH9efot9mk03uRuooCTMmWnWA@mail.gmail.com>
-Subject: Re: [PATCH v5 17/17] powerpc64/bpf: Add support for bpf trampolines
-To: Hari Bathini <hbathini@linux.ibm.com>
-Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, bpf <bpf@vger.kernel.org>, 
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"Naveen N. Rao" <naveen@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicholas Piggin <npiggin@gmail.com>, Alexei Starovoitov <ast@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Andrii Nakryiko <andrii@kernel.org>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Vishal Chourasia <vishalc@linux.ibm.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>
+References: <20240908124352.1828890-1-masahiroy@kernel.org> <20240908124352.1828890-6-masahiroy@kernel.org>
+In-Reply-To: <20240908124352.1828890-6-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 30 Sep 2024 22:30:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASah++doJCqM=5+Y5YruZ6iUkGOhPFLtQY2VTxkOYNV1A@mail.gmail.com>
+Message-ID: <CAK7LNASah++doJCqM=5+Y5YruZ6iUkGOhPFLtQY2VTxkOYNV1A@mail.gmail.com>
+Subject: Re: [PATCH 6/6] kconfig: cache expression values
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 29, 2024 at 10:33=E2=80=AFPM Hari Bathini <hbathini@linux.ibm.c=
-om> wrote:
+On Sun, Sep 8, 2024 at 9:44=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
 >
+> Cache expression values to avoid recalculating them repeatedly.
 >
->
-> On 17/09/24 1:20 pm, Alexei Starovoitov wrote:
-> > On Sun, Sep 15, 2024 at 10:58=E2=80=AFPM Hari Bathini <hbathini@linux.i=
-bm.com> wrote:
-> >>
-> >> +
-> >> +       /*
-> >> +        * Generated stack layout:
-> >> +        *
-> >> +        * func prev back chain         [ back chain        ]
-> >> +        *                              [                   ]
-> >> +        * bpf prog redzone/tailcallcnt [ ...               ] 64 bytes=
- (64-bit powerpc)
-> >> +        *                              [                   ] --
-> > ...
-> >> +
-> >> +       /* Dummy frame size for proper unwind - includes 64-bytes red =
-zone for 64-bit powerpc */
-> >> +       bpf_dummy_frame_size =3D STACK_FRAME_MIN_SIZE + 64;
-> >
-> > What is the goal of such a large "red zone" ?
-> > The kernel stack is a limited resource.
-> > Why reserve 64 bytes ?
-> > tail call cnt can probably be optional as well.
->
-> Hi Alexei, thanks for reviewing.
-> FWIW, the redzone on ppc64 is 288 bytes. BPF JIT for ppc64 was using
-> a redzone of 80 bytes since tailcall support was introduced [1].
-> It came down to 64 bytes thanks to [2]. The red zone is being used
-> to save NVRs and tail call count when a stack is not setup. I do
-> agree that we should look at optimizing it further. Do you think
-> the optimization should go as part of PPC64 trampoline enablement
-> being done here or should that be taken up as a separate item, maybe?
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-The follow up is fine.
-It just odd to me that we currently have:
 
-[   unused red zone ] 208 bytes protected
+I noticed a bunch of "unmet direct dependencies" for xconfig.
 
-I simply don't understand why we need to waste this much stack space.
-Why can't it be zero today ?
 
-> [1]
-> https://lore.kernel.org/all/40b65ab2bb3a48837ab047a70887de3ccd70c56b.1474=
-661927.git.naveen.n.rao@linux.vnet.ibm.com/
-> [2] https://lore.kernel.org/all/20180503230824.3462-11-daniel@iogearbox.n=
-et/
->
-> Thanks
-> Hari
+I will fix as follows:
+
+
+
+
+diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
+index 78738ef412de..16f92c4a775a 100644
+--- a/scripts/kconfig/expr.c
++++ b/scripts/kconfig/expr.c
+@@ -47,6 +47,7 @@ static struct expr *expr_lookup(enum expr_type type,
+void *l, void *r)
+        e->type =3D type;
+        e->left._initdata =3D l;
+        e->right._initdata =3D r;
++       e->val_is_valid =3D false;
+
+        hash_add(expr_hashtable, &e->node, hash);
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
