@@ -1,131 +1,164 @@
-Return-Path: <linux-kbuild+bounces-3830-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3831-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA5C98969B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2024 19:33:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 809B8989A2B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 07:34:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 055EB2846C0
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2024 17:33:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15DDFB2130E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 05:34:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B9EA433C4;
-	Sun, 29 Sep 2024 17:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 932E47DA6D;
+	Mon, 30 Sep 2024 05:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1LZYHep"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="lAtGeCiL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E559042ABE;
-	Sun, 29 Sep 2024 17:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4901026AD9;
+	Mon, 30 Sep 2024 05:34:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727631191; cv=none; b=WzJ3WnhClMF9g+bwUM6u1otbEZOwmVDg3CklxlzMLgzZQmiVEXHsy+VuNR2FbOKcyV8/6vE029+KWC1OEBSBgXr1Bo0syKE9+AGeLW/TSikDt5uraZn1JjnUiTa3gsQ+uKqv+anPmVkcTMoJwCb5OWPfp6fd5edghqw0IcNWnNc=
+	t=1727674482; cv=none; b=eAbVImR6TMCLKJ7gJCYXgywle0ebUfHZDsH0uaa22/xMazIMAJn+pWOlabOu7dyZsL5FqJpDPRZQp5e+njOtty4HNsZ8FZhQG+cXkbHQ7v5OHNP/bgYO4fJPdyiSdPuXzZQ1BN07t/lcflJHx0oyPEEAPAYM+3xTknthUJ1a20k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727631191; c=relaxed/simple;
-	bh=dpgEsZGae4ivMo/aeUVDr+TCQSBfCccOgJX3t1cmjD0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nU8SLVFSpY5/w3521vN8bRyO4NjRFDIzyx0g5rwkizmxpFkgcDrJj73Wl8EzB5Ix1qlVd3gRP75mUW50RBSKlPtzgNNYO6bhnDXxSS9//ltx5aTNLzUmmsTFv8X8Up3FtuhMibRnd0tsKopFht5FXnmEGrJpkhWBXIRRAc1RKdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1LZYHep; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A7BC4CECD;
-	Sun, 29 Sep 2024 17:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727631190;
-	bh=dpgEsZGae4ivMo/aeUVDr+TCQSBfCccOgJX3t1cmjD0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=h1LZYHepd4OPUjfNGBOqwnF4Ccmb37weZ4QfQ1Odc35tYfPUtLxvZ99jmGRCwrHax
-	 yb8JVY/yMH4P7y8KkGrNdczF/LUPe70MSz25r0zEyB/JlNAkkztT7LK0NnNYHQIEUM
-	 neVEK3yZPI2GWJ4nNrRVbeHY2wp5+gGYh/5xKsgJ8qi05PNvQ6p2LgWM5UFj4hmqU6
-	 F+4imWjEVLROGCdx3q96ObKZNhhGNC3+fWrUKRNo4okTNUZfVF1rg26aJ5yn1Kas6c
-	 6OuBmpt76qQCB6kxON5H7B36yzJx1QE65LnEyOTmg+22EMOoRsPZtgvmDSSnkIs/cs
-	 gK1v+BxOjV57A==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 3/3] kconfig: remove zconfprint()
-Date: Mon, 30 Sep 2024 02:32:38 +0900
-Message-ID: <20240929173302.203827-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240929173302.203827-1-masahiroy@kernel.org>
-References: <20240929173302.203827-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1727674482; c=relaxed/simple;
+	bh=QNgJ2471DAo5PBH4araXSREbTuPnfC1NKgUDngutpvw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dWrXxYiNzg9CsUicXvdhRGUmhSYH3AXiYzZklkdKKG8xLOhlQ5fvqNiATxt18LqoVApx2Xe0h3rNGTaqahsMIPKkSe7oNXJnBFKETQcCp9ZfFhxFpE0vlveUeanF7HxeqTNM1/MQSYSQYfk9eJuSb9/it1MCc+UDPq83orn2Bys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=lAtGeCiL; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48T9wpCw010857;
+	Mon, 30 Sep 2024 05:33:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	message-id:date:subject:to:cc:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
+	cgkgCdD8MJY3Rd/1F//mH53/BFW4BMvD0+YrzQ8BWS8=; b=lAtGeCiLfDF5ICoA
+	W/mu48Lb0LwwBNe1SEUwx+ycS2Sln7JFrWdAEvMWcIBZfe8VVSCb5NxFDff5Ki29
+	46vTBKPxNg2OTEv0kjS/JG5MBcqoJnnhGIoplKIiGRGjIreCL7gn9H2l+9VdFJcU
+	mh/0+j6mfJjQPmU3VlZbmxaK+DGFiL3ZZcpy9sdmg6zdnQLxUC2YH/YoTvnRZlu7
+	4cmDSioTImUy6N4nfiFFI4NHpmw8dCdHLjZcjpyZUks1cm1YpAIAD+KUHd03r8Iq
+	axtFCJQyMLrDNqGGQ868hFDMJvw5TjlK85eFGNXzHHOTbKs2rTtbATHwUWAwhbTq
+	XTw5Aw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41x9f7ydhd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Sep 2024 05:33:48 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 48U5Xl2g008425;
+	Mon, 30 Sep 2024 05:33:47 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 41x9f7ydha-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Sep 2024 05:33:47 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 48U5ALJC002386;
+	Mon, 30 Sep 2024 05:33:46 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 41xxu0vekq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Sep 2024 05:33:46 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 48U5XhcJ47644978
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 30 Sep 2024 05:33:43 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 34AF920043;
+	Mon, 30 Sep 2024 05:33:43 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9959D20040;
+	Mon, 30 Sep 2024 05:33:39 +0000 (GMT)
+Received: from [9.203.115.143] (unknown [9.203.115.143])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 30 Sep 2024 05:33:39 +0000 (GMT)
+Message-ID: <32249e74-633d-4757-8931-742b682a63d3@linux.ibm.com>
+Date: Mon, 30 Sep 2024 11:03:38 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 17/17] powerpc64/bpf: Add support for bpf trampolines
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, bpf <bpf@vger.kernel.org>,
+        linux-trace-kernel <linux-trace-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Naveen N. Rao" <naveen@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Vishal Chourasia <vishalc@linux.ibm.com>,
+        Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+References: <20240915205648.830121-1-hbathini@linux.ibm.com>
+ <20240915205648.830121-18-hbathini@linux.ibm.com>
+ <CAADnVQL60XXW95tgwKn3kVgSQAN7gr1STy=APuO1xQD7mz-aXA@mail.gmail.com>
+Content-Language: en-US
+From: Hari Bathini <hbathini@linux.ibm.com>
+In-Reply-To: <CAADnVQL60XXW95tgwKn3kVgSQAN7gr1STy=APuO1xQD7mz-aXA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: wetF4buMaLPTrBakXdZ-howbEduaj1dN
+X-Proofpoint-ORIG-GUID: qkAqFR7ZS0h1tu3GBp6zr4aPrEqa9AXK
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-30_04,2024-09-27_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 clxscore=1011 adultscore=0 mlxscore=0 impostorscore=0
+ bulkscore=0 suspectscore=0 mlxlogscore=910 malwarescore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2408220000 definitions=main-2409300035
 
-Turn all warnings during parsing into hard errors.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/kconfig/parser.y | 22 +++++-----------------
- 1 file changed, 5 insertions(+), 17 deletions(-)
+On 17/09/24 1:20 pm, Alexei Starovoitov wrote:
+> On Sun, Sep 15, 2024 at 10:58 PM Hari Bathini <hbathini@linux.ibm.com> wrote:
+>>
+>> +
+>> +       /*
+>> +        * Generated stack layout:
+>> +        *
+>> +        * func prev back chain         [ back chain        ]
+>> +        *                              [                   ]
+>> +        * bpf prog redzone/tailcallcnt [ ...               ] 64 bytes (64-bit powerpc)
+>> +        *                              [                   ] --
+> ...
+>> +
+>> +       /* Dummy frame size for proper unwind - includes 64-bytes red zone for 64-bit powerpc */
+>> +       bpf_dummy_frame_size = STACK_FRAME_MIN_SIZE + 64;
+> 
+> What is the goal of such a large "red zone" ?
+> The kernel stack is a limited resource.
+> Why reserve 64 bytes ?
+> tail call cnt can probably be optional as well.
 
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index 4b9eaee20eaf..aef1fad13671 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -24,7 +24,6 @@
- int cdebug = PRINTD;
- 
- static void yyerror(const char *err);
--static void zconfprint(const char *err, ...);
- static void zconf_error(const char *err, ...);
- static bool zconf_endtoken(const char *tokenname,
- 			   const char *expected_tokenname);
-@@ -177,7 +176,7 @@ menuconfig_stmt: menuconfig_entry_start config_option_list
- 	if (current_entry->prompt)
- 		current_entry->prompt->type = P_MENU;
- 	else
--		zconfprint("warning: menuconfig statement without prompt");
-+		zconf_error("menuconfig statement without prompt");
- 	printd(DEBUG_PARSE, "%s:%d:endconfig\n", cur_filename, cur_lineno);
- };
- 
-@@ -396,14 +395,14 @@ help: help_start T_HELPTEXT
- {
- 	if (current_entry->help) {
- 		free(current_entry->help);
--		zconfprint("warning: '%s' defined with more than one help text -- only the last one will be used",
--			   current_entry->sym->name ?: "<choice>");
-+		zconf_error("'%s' defined with more than one help text",
-+			    current_entry->sym->name ?: "<choice>");
- 	}
- 
- 	/* Is the help text empty or all whitespace? */
- 	if ($2[strspn($2, " \f\n\r\t\v")] == '\0')
--		zconfprint("warning: '%s' defined with blank help text",
--			   current_entry->sym->name ?: "<choice>");
-+		zconf_error("'%s' defined with blank help text",
-+			    current_entry->sym->name ?: "<choice>");
- 
- 	current_entry->help = $2;
- };
-@@ -586,17 +585,6 @@ static bool zconf_endtoken(const char *tokenname,
- 	return true;
- }
- 
--static void zconfprint(const char *err, ...)
--{
--	va_list ap;
--
--	fprintf(stderr, "%s:%d: ", cur_filename, cur_lineno);
--	va_start(ap, err);
--	vfprintf(stderr, err, ap);
--	va_end(ap);
--	fprintf(stderr, "\n");
--}
--
- static void zconf_error(const char *err, ...)
- {
- 	va_list ap;
--- 
-2.43.0
+Hi Alexei, thanks for reviewing.
+FWIW, the redzone on ppc64 is 288 bytes. BPF JIT for ppc64 was using
+a redzone of 80 bytes since tailcall support was introduced [1].
+It came down to 64 bytes thanks to [2]. The red zone is being used
+to save NVRs and tail call count when a stack is not setup. I do
+agree that we should look at optimizing it further. Do you think
+the optimization should go as part of PPC64 trampoline enablement
+being done here or should that be taken up as a separate item, maybe?
 
+[1] 
+https://lore.kernel.org/all/40b65ab2bb3a48837ab047a70887de3ccd70c56b.1474661927.git.naveen.n.rao@linux.vnet.ibm.com/
+[2] https://lore.kernel.org/all/20180503230824.3462-11-daniel@iogearbox.net/
+
+Thanks
+Hari
 
