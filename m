@@ -1,146 +1,89 @@
-Return-Path: <linux-kbuild+bounces-3837-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3838-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC17798A870
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 17:30:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0A698AA74
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 19:02:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5660A1F215F4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 15:30:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BB3F286945
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 17:02:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9159E194091;
-	Mon, 30 Sep 2024 15:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72BC218E02D;
+	Mon, 30 Sep 2024 17:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ME/RCJp/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TYIRsQPQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC401922FA
-	for <linux-kbuild@vger.kernel.org>; Mon, 30 Sep 2024 15:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4875103F;
+	Mon, 30 Sep 2024 17:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727710012; cv=none; b=Ho/aiTCqRLZLbbz5Ltb9AywQYC9r+HmBP8tCz0gwoxDGCpQ9wPxbJZzsZYl6gpfEEiwORTKhB6wcWuvBVJq/WctsQkm/nxRj5dB9b3QOVLIh30MMq4QbrekspXpkmh/KEgywtB407lSGlM6uBTprqmPXNjoH4PQhV2D+JnJK8bw=
+	t=1727715752; cv=none; b=Kci8KuNWNp9/Kjv0Xi9/z9qaMK2ZL9YMoidssI3rCs757/zkD4VE2m4yRP/ywOhmvoQVdGohHqW3w0/tuODKxwBYIRzE1cj5ZyCzmVoZFz6NRGY6X3Lo1hDlgzDXWxGukyAiPrGyt8p6vkxmY/6IltppsZ8PuTRBQaccLvhNsDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727710012; c=relaxed/simple;
-	bh=E464STp9DLS2lWJoal3WN4CJa3O0/5932kN2qc+FeGo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=obq1f93Vzpm4sJpBqqCNlxUxmEHBK9PjcJ7w9wNZeIq8o/NLiNx6gVG5tkHzA1WP30M2cHmwPr3FTPGqLxTGSc8qctZQOduusmL/tAfG0TbSntLmShSq5Wv7fxufN0PS9dhJ/V2w6lfONSI7bCd6Og0zkwGqsL+HyYIVt0lKS1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME/RCJp/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02334C4CED0
-	for <linux-kbuild@vger.kernel.org>; Mon, 30 Sep 2024 15:26:51 +0000 (UTC)
+	s=arc-20240116; t=1727715752; c=relaxed/simple;
+	bh=IdNUBN643bDwmAr2G+H5eoxHgPvXm4p8NntU3HAHOvY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sGRLLmjXGNYTt8fzbu18zzucXuFeswsRFgXC8pXEwwsPpXGC5eSphv8cCDcPABo9A2CDt5PqU6jDD5iFDE3QGzRQdkn6BD8IYB56s9xZp9yeRxmnf0jXSDtmhMwlHmyBSlzOsfKDXNONNPpR1+hZ/JAN+ToWk0THeNm+epjDVjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TYIRsQPQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F54AC4CEC7;
+	Mon, 30 Sep 2024 17:02:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727710012;
-	bh=E464STp9DLS2lWJoal3WN4CJa3O0/5932kN2qc+FeGo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ME/RCJp/AZWYH8wqnosZiP04COZSI4nCQy9ugZOfqggBZVWwsXHgUM7XqJ/ogUAqQ
-	 w+VLczoWujg2f0DHimc1yNwwEHqSi2ApzovEJgBuYN04vADJdJHQmZMIClagpTe+aF
-	 E5eKQXUMG89s+ZasBzWZxhkatbIvWEqM2b/7vFW54rgHiR1t+FALzNfBgP5UJqYrd5
-	 dimPSMbhFjpxitLU6uHBsdhyALRE1O4ZKVclVv36Hyr4HnPcAfPCbwnIG3vPZNBrrM
-	 OV9I//VcB2kgv8Su+np7jqvP1b+v7d281X9LaQ3NNlvsOAQPlPipxeEbQhoftlhBoB
-	 cxUtzfCstXbQA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fac9eaeafcso15153021fa.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Sep 2024 08:26:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW2YJ2qdXNICAOCHOJJ+MZ5UBl7NzsOw+S5WsSuMMvv7JGAcvOpLGlUP4f/3ed+KxKQhVZ9p7aDxBC5qag=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUzII03sChcojVLR3V7eo0cqfuLhGt6KefftLiCGjc32OmsIMG
-	GIhavRFeapqOOAiAXv01kbJRPFE/lyowCqvfnP6pm36aTscmzAULOW5NbGVG1HVvbi6yUrecWtP
-	Azt4h+jDhA39Ypq4aHSvtw8tOroQ=
-X-Google-Smtp-Source: AGHT+IEIm2PT/LBdZT2at9t4PX755NscKS9GfM+KVMYPv68E47ZEaxLX5WsdkoKzM/sgDCsjc6yQ6zJ/F4bTXoJqveY=
-X-Received: by 2002:a2e:a54b:0:b0:2fa:c6b3:bf1c with SMTP id
- 38308e7fff4ca-2fac6b3c289mr22099671fa.8.1727710010643; Mon, 30 Sep 2024
- 08:26:50 -0700 (PDT)
+	s=k20201202; t=1727715750;
+	bh=IdNUBN643bDwmAr2G+H5eoxHgPvXm4p8NntU3HAHOvY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TYIRsQPQBn0HQoh0mmTABJkxss6AEjyxwa8WRTBxxaVNYCD9OWkRdlR3zLEdmY2Cn
+	 vXyM2vcUONEnGfyxAY5hKQIpiFfAchiSPnWieApi/U5VQ8LNWhPryQAzhMdej2wyrb
+	 xf9A0D2CEoIJAjGpPxGCYW3FCycDY+CwitYaMyHnCjucYHFN9NBf897Ihac7S6q/Ox
+	 aqSA4xbkj3pICiFVH97Vk9puBgNtAiHaDvIIMHQVF5u7u2rL7OpJx4NC5YgNsrPp4V
+	 Mq8lfFQEeg4CP5I5taDKlxngNnAjTf2WSBzGmBAtF021fn2PUmxAVmXAduBnYlEqvI
+	 fvZKjctpLnk6g==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 1/2] kconfig: clear expr::val_is_valid when allocated
+Date: Tue,  1 Oct 2024 02:02:22 +0900
+Message-ID: <20240930170226.475324-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <rxsikukdh39.fsf@localhost.mail-host-address-is-not-set>
- <CANiq72nwcAAC8eGCzHZ_sOwccCqbg3KD6CraXj2r+hDwhYqqig@mail.gmail.com>
- <CAK7LNASX-BDHeTeuEnQwJct5wcqmMGbBQo1EeughfKe83pYZ7w@mail.gmail.com> <F2FD0DED-84DD-4E30-809A-7BFE5FE1A769@m3y3r.de>
-In-Reply-To: <F2FD0DED-84DD-4E30-809A-7BFE5FE1A769@m3y3r.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 1 Oct 2024 00:26:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASFmf5OS+iPSjmu-UMXU1A0Vwia=FPAGnnuuyCTivXfMA@mail.gmail.com>
-Message-ID: <CAK7LNASFmf5OS+iPSjmu-UMXU1A0Vwia=FPAGnnuuyCTivXfMA@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: use memcmp instead of deprecated bcmp
-To: Thomas Meyer <thomas@m3y3r.de>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 28, 2024 at 3:53=E2=80=AFAM Thomas Meyer <thomas@m3y3r.de> wrot=
-e:
->
->
->
-> Am 26. September 2024 17:33:20 MESZ schrieb Masahiro Yamada <masahiroy@ke=
-rnel.org>:
-> >On Wed, Sep 25, 2024 at 5:50=E2=80=AFAM Miguel Ojeda
-> ><miguel.ojeda.sandonis@gmail.com> wrote:
-> >>
-> >> On Tue, Sep 24, 2024 at 9:26=E2=80=AFPM Thomas Meyer <thomas@m3y3r.de>=
- wrote:
-> >> >
-> >> > Make build succeed on systems whose c library doesn't provided the d=
-eprecated bcmp function.
-> >>
-> >> It would be good to mention which systems are those. Other than that,
-> >> it looks good to me:
-> >>
-> >> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-> >>
-> >> Cheers,
-> >> Miguel
-> >
-> >
-> >Agree.
-> >
-> >If there is a known system that does not provide bcmp,
-> >that information is appreciated.
->
-> This fix is needed when I try to build Linux kernel on my Android phone u=
-nder Termux with bionic libc, which only seems to implement memcmp.
+Since commit 95573cac25c6 ("kconfig: cache expression values"), xconfig
+emits a lot of false-positive "unmet direct dependencies" warnings.
 
+While conf_read() clears val_is_valid flags, 'make xconfig' calculates
+symbol values even before the conf_read() call. This is another issue
+that should be addressed separately, but it has revealed that the
+val_is_valid field is not initialized.
 
+Fixes: 95573cac25c6 ("kconfig: cache expression values")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-OK, thanks.
+ scripts/kconfig/expr.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Please add a little more description in v2.
+diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
+index 78738ef412de..16f92c4a775a 100644
+--- a/scripts/kconfig/expr.c
++++ b/scripts/kconfig/expr.c
+@@ -47,6 +47,7 @@ static struct expr *expr_lookup(enum expr_type type, void *l, void *r)
+ 	e->type = type;
+ 	e->left._initdata = l;
+ 	e->right._initdata = r;
++	e->val_is_valid = false;
+ 
+ 	hash_add(expr_hashtable, &e->node, hash);
+ 
+-- 
+2.43.0
 
-For example,
-
-
-
-bcmp() was removed in POSIX.1-2008.
-
-This commit replaces bcmp() with memcmp(). This allows Kconfig to link
-with C libraries that do not provide bcmp(), such as Android bionic
-libc.
-
-
-
-
-
-
-
-
-> >
-> >It might be useful to add a link that mentions that this function is LEG=
-ACY.
-> >
-> >https://pubs.opengroup.org/onlinepubs/007904875/functions/bcmp.html
-> >
-> >
->
-> --
-> Diese Nachricht wurde von meinem Android-Ger=C3=A4t mit K-9 Mail gesendet=
-.
->
-
---
-Best Regards
-Masahiro Yamada
 
