@@ -1,195 +1,125 @@
-Return-Path: <linux-kbuild+bounces-3850-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3849-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB0E98B555
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 09:19:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD0E98B54C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 09:18:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7AF1CB203AD
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 07:19:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D10EC1C22A37
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 07:18:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 419A11BD018;
-	Tue,  1 Oct 2024 07:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51F31BD009;
+	Tue,  1 Oct 2024 07:18:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="UhhulmnP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h6hjsjhG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921323307B;
-	Tue,  1 Oct 2024 07:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8283307B;
+	Tue,  1 Oct 2024 07:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727767180; cv=none; b=Cz6i5mqJlV4dIb1nouU7Maf6dM6VbruBA27XclqZ4lY6T4VZTbGSPMVv9TV0t1IDoHnl+2RpbSKGABxbOUS2udU5ZggKArgdVFlNcfVM1cJhKVR27601E5D7QFSQKxB/q7KM4bwL/O+H4LVD1KJJnLBqcs1YA/TIqECXARBMdU8=
+	t=1727767125; cv=none; b=Lo2W+3u7En5m/sn4chyYMfFY2HghHmKDNfnjYanPAACJoycQgIE9EnubOe+UPJZduk8co5LaS8BDEybbrXLjn4qqBDGAzzjaBdv450pP6XzibSHxFldjFPGVLipAfwk7eQpO6YO1POsc7Slf1c6YORPk69vtEYgXidYLP3AMyaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727767180; c=relaxed/simple;
-	bh=n01BNZbF9ejiB2KdEN2OeP8SsSt6kV6tDAX9IasD2yo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=fB61RRR9GnXvwlI9sE5PIHfDssw1m/xE3ZVWRXxW+CCgnZMIrwEfsZ2alj1EiGSpq7SrTwlq0J4ZYV3zEKr9rsbBAlDiO0XI57Vqk4GlrjZFi6z9Tnh4o3XqLzWgI7qj2oW9/MMdVQ+ojFaKiNXYLtxXQvpEY/TCz2kDRoAxZQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=UhhulmnP; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4916L9ex011324;
-	Tue, 1 Oct 2024 07:18:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	message-id:date:subject:to:cc:references:from:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=pp1; bh=
-	nVeO7YF2qI6ks2gsAqC/25H4gdCxGkd3m/X2UTY0ILY=; b=UhhulmnPyVi7zDDc
-	MiYTsb4EjCA9S5khRljvKZZFH+E7fNMDN/hsqh3bppnsfIWUAQWeIQoheidbuzTC
-	C9587f7+VgsgnppBNvYrGnbRho16NiNMkAKA0n6LyMqRB4vc0khuf3l5NxfaZfXg
-	WuUMnEPcuRphLF0t7r/yv+NXtuXgsGJkF9AQYHAgmlJxBNJ+zbjRp+UBpaVakpBQ
-	phraW1hlwDGw57HpLVSjA1zTEeYKNHpJn/WsiAQbqakshqgizGwfNKnMCdR/g5Gz
-	lBgL1rYbPDmJGd50Mw+lqiJXd8WkqOqPSNBlnbW6uQIWdMLcV/HqDCoxQAGB2VLP
-	I7sPig==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 420bqs08jd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Oct 2024 07:18:42 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4917IgPY005898;
-	Tue, 1 Oct 2024 07:18:42 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 420bqs08jb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Oct 2024 07:18:42 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4915MFix007994;
-	Tue, 1 Oct 2024 07:18:41 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 41xvgxu0xv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Oct 2024 07:18:41 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4917IbaV50332034
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 1 Oct 2024 07:18:37 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 88C8820040;
-	Tue,  1 Oct 2024 07:18:37 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6E6E320043;
-	Tue,  1 Oct 2024 07:18:33 +0000 (GMT)
-Received: from [9.203.115.143] (unknown [9.203.115.143])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue,  1 Oct 2024 07:18:33 +0000 (GMT)
-Message-ID: <7afc9cc7-95cd-45c7-b748-28040206d9a0@linux.ibm.com>
-Date: Tue, 1 Oct 2024 12:48:32 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 17/17] powerpc64/bpf: Add support for bpf trampolines
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, bpf <bpf@vger.kernel.org>,
-        linux-trace-kernel <linux-trace-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Naveen N. Rao" <naveen@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Vishal Chourasia <vishalc@linux.ibm.com>,
-        Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-References: <20240915205648.830121-1-hbathini@linux.ibm.com>
- <20240915205648.830121-18-hbathini@linux.ibm.com>
- <CAADnVQL60XXW95tgwKn3kVgSQAN7gr1STy=APuO1xQD7mz-aXA@mail.gmail.com>
- <32249e74-633d-4757-8931-742b682a63d3@linux.ibm.com>
- <CAADnVQKfSH_zkP0-TwOB_BLxCBH9efot9mk03uRuooCTMmWnWA@mail.gmail.com>
-Content-Language: en-US
-From: Hari Bathini <hbathini@linux.ibm.com>
-In-Reply-To: <CAADnVQKfSH_zkP0-TwOB_BLxCBH9efot9mk03uRuooCTMmWnWA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SM-pZFexbR8K0U23khEKm2Gk2BFix6Vn
-X-Proofpoint-ORIG-GUID: o8_9c23Vj1cySEYDs0mB8nQmYzb-zRAw
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	s=arc-20240116; t=1727767125; c=relaxed/simple;
+	bh=THnBpzHxCYIjdDtD+X6PsiIrzTiH+/AUT0R8bh8DnZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oZMlH4fznJZ1biBvFqxiNtk18Gsr1J5RV9do/wcFKfpgzUs5SFcMtcoddkse2Pmtw1w9BFb7ec4msaG2nHaKAfRU1ufz/J4mBbCrER4W8UkGS84jXYPxuUPlVv3GfyqmBbjWJXxR60PJNbSFXtfpfOKq0MJupjHql2hNbjE8VoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h6hjsjhG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A764C4CEC6;
+	Tue,  1 Oct 2024 07:18:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727767124;
+	bh=THnBpzHxCYIjdDtD+X6PsiIrzTiH+/AUT0R8bh8DnZw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h6hjsjhGiADhlEEyGcXO6Vn/U+HfO58lVjBiMdO8Rh1hG0Kwr+B3a+z+ZWeM46Nd2
+	 cItPv6ENWSWMQ0EAZ+mfPykG1Z/dv4OqNqcdt+yMlbCd69OnjWC/b5VcZrbXCaSBxH
+	 guR9eCirZTNct+9JbfDvcpeauWqAWJTLcWWKP93JPyHhe3mPaNzJCsmRSftnLrhzXA
+	 NHzqwCqh/jeM5MxuBxi9N0MWlSF0ed2poDEBcOWpsi8qnrt1reKFuPIVx0Ck0B2F2W
+	 JKPrHaJBDmNfjgf6moEX5kDawn6X99emoE1WKhyjmo6Jyj+hnfFNqmQLJMNScwlgJ+
+	 v0Sdps/sNMDIA==
+Date: Tue, 1 Oct 2024 00:18:41 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Keith Packard <keithp@keithp.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [RFC PATCH 24/28] tools/objtool: Treat indirect ftrace calls as
+ direct calls
+Message-ID: <20241001071841.yrc7cxdp2unnzju7@treble>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-54-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-01_04,2024-09-30_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
- clxscore=1015 lowpriorityscore=0 suspectscore=0 mlxlogscore=950
- bulkscore=0 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2410010048
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240925150059.3955569-54-ardb+git@google.com>
 
+On Wed, Sep 25, 2024 at 05:01:24PM +0200, Ard Biesheuvel wrote:
+> +		if (insn->type == INSN_CALL_DYNAMIC) {
+> +			if (!reloc)
+> +				continue;
+> +
+> +			/*
+> +			 * GCC 13 and older on x86 will always emit the call to
+> +			 * __fentry__ using a relaxable GOT-based symbol
+> +			 * reference when operating in PIC mode, i.e.,
+> +			 *
+> +			 *   call   *0x0(%rip)
+> +			 *             R_X86_64_GOTPCRELX  __fentry__-0x4
+> +			 *
+> +			 * where it is left up to the linker to relax this into
+> +			 *
+> +			 *   call   __fentry__
+> +			 *   nop
+> +			 *
+> +			 * if __fentry__ turns out to be DSO local, which is
+> +			 * always the case for vmlinux. Given that this
+> +			 * relaxation is mandatory per the x86_64 psABI, these
+> +			 * calls can simply be treated as direct calls.
+> +			 */
+> +			if (arch_ftrace_match(reloc->sym->name)) {
+> +				insn->type = INSN_CALL;
+> +				add_call_dest(file, insn, reloc->sym, false);
+> +			}
 
+Can the compiler also do this for non-fentry direct calls?  If so would
+it make sense to generalize this by converting all
+INSN_CALL_DYNAMIC+reloc to INSN_CALL?
 
-On 30/09/24 6:25 pm, Alexei Starovoitov wrote:
-> On Sun, Sep 29, 2024 at 10:33 PM Hari Bathini <hbathini@linux.ibm.com> wrote:
->>
->>
->>
->> On 17/09/24 1:20 pm, Alexei Starovoitov wrote:
->>> On Sun, Sep 15, 2024 at 10:58 PM Hari Bathini <hbathini@linux.ibm.com> wrote:
->>>>
->>>> +
->>>> +       /*
->>>> +        * Generated stack layout:
->>>> +        *
->>>> +        * func prev back chain         [ back chain        ]
->>>> +        *                              [                   ]
->>>> +        * bpf prog redzone/tailcallcnt [ ...               ] 64 bytes (64-bit powerpc)
->>>> +        *                              [                   ] --
->>> ...
->>>> +
->>>> +       /* Dummy frame size for proper unwind - includes 64-bytes red zone for 64-bit powerpc */
->>>> +       bpf_dummy_frame_size = STACK_FRAME_MIN_SIZE + 64;
->>>
->>> What is the goal of such a large "red zone" ?
->>> The kernel stack is a limited resource.
->>> Why reserve 64 bytes ?
->>> tail call cnt can probably be optional as well.
->>
->> Hi Alexei, thanks for reviewing.
->> FWIW, the redzone on ppc64 is 288 bytes. BPF JIT for ppc64 was using
->> a redzone of 80 bytes since tailcall support was introduced [1].
->> It came down to 64 bytes thanks to [2]. The red zone is being used
->> to save NVRs and tail call count when a stack is not setup. I do
->> agree that we should look at optimizing it further. Do you think
->> the optimization should go as part of PPC64 trampoline enablement
->> being done here or should that be taken up as a separate item, maybe?
-> 
-> The follow up is fine.
-> It just odd to me that we currently have:
-> 
-> [   unused red zone ] 208 bytes protected
-> 
-> I simply don't understand why we need to waste this much stack space.
-> Why can't it be zero today ?
-> 
+And maybe something similar for add_jump_destinations().
 
-The ABI for ppc64 has a redzone of 288 bytes below the current
-stack pointer that can be used as a scratch area until a new
-stack frame is created. So, no wastage of stack space as such.
-It is just red zone that can be used before a new stack frame
-is created. The comment there is only to show how redzone is
-being used in ppc64 BPF JIT. I think the confusion is with the
-mention of "208 bytes" as protected. As not all of that scratch
-area is used, it mentions the remaining as unused. Essentially
-288 bytes below current stack pointer is protected from debuggers
-and interrupt code (red zone). Note that it should be 224 bytes
-of unused red zone instead of 208 bytes as red zone usage in
-ppc64 BPF JIT come down from 80 bytes to 64 bytes since [2].
-Hope that clears the misunderstanding..
-
->> [1]
->> https://lore.kernel.org/all/40b65ab2bb3a48837ab047a70887de3ccd70c56b.1474661927.git.naveen.n.rao@linux.vnet.ibm.com/
->> [2] https://lore.kernel.org/all/20180503230824.3462-11-daniel@iogearbox.net/
->>
-
-Thanks
-Hari
+-- 
+Josh
 
