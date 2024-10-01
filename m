@@ -1,74 +1,74 @@
-Return-Path: <linux-kbuild+bounces-3859-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3860-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E1298BF76
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 16:15:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A5898BF8F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 16:17:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A80D41C23D62
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 14:15:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26319B21D91
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 14:17:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6F0D1C9DF7;
-	Tue,  1 Oct 2024 14:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C7F1CBEA5;
+	Tue,  1 Oct 2024 14:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QWgh4C2D"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="K7L6oZi8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78E01C9DF3
-	for <linux-kbuild@vger.kernel.org>; Tue,  1 Oct 2024 14:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AEE1CBE93
+	for <linux-kbuild@vger.kernel.org>; Tue,  1 Oct 2024 14:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727791967; cv=none; b=hB1eCH5dJV8t81v49Lj9DlsHuviUN8vYP9iZKztz/Ly9wMLKS3bVeZqNwM94hHdMtMFNnslvOpCNjjXyxP2t2jE95Fl0du4ze5+zQE3sWvH9orGdY12ly+QqM87Y3M0xkP/QHqCrtnBy3k1oGxgm6Un2wjQgEJ4HiH5TG7Lp6rg=
+	t=1727792030; cv=none; b=aVhwRd7wmYLX6G7sWYuEGRCqAtKxeUYi7XcqLMuxhPV9FIvdxzHEKm6fkk0EQIHFzc7ax7KuumCoy1iwRrn54hHySobVkEuqd9DrQDlH23LxjCWqvlXsTQ9qBkbKYaAkURCiOHKrubwY1Pk6r201BgzF1k8jxopAnirLnRoUk2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727791967; c=relaxed/simple;
-	bh=zANKrDNHHPw85OVvoKNOqJRMnnY/7KTHaVV++XWrNQg=;
+	s=arc-20240116; t=1727792030; c=relaxed/simple;
+	bh=XY8ZzKIJln9Dg1OjlPScukFH2zoKtdG7bx31O314oeA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZVW0zAtdnTxPi+Di2pddfhfqUcUYFhgIu6Xw/XqHzg/rYVfYOmCH4eYhSOV6ApMZpIgqTNPys+CanVC3vLwvcDh/gYgnscz0hcanY+GCjENftrAhb2XYIklREPzhT0DD49upWWxboNKo4UMVcZYlkrI/Sfbzvnh8cKUwuP74WRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QWgh4C2D; arc=none smtp.client-ip=209.85.218.44
+	 In-Reply-To:Content-Type; b=s30mnGYR8qG5lX95f7obzh2pmtUeS+ajd09yjgTRTSY8LGhnAvIYTIT1bHNSy/+pBTxYUacdbcew3q423cr/w4Osw/4VpX87xTGqi7+7jk48X3nJmk5wJS23CFiPOKGs2UfkY5i/hbMOFiHWlTTL/cC2Pl6/4N1TB+GTXs9xR9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=K7L6oZi8; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a8d6d0fe021so968306366b.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Oct 2024 07:12:44 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a90349aa7e5so823176366b.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Oct 2024 07:13:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1727791963; x=1728396763; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1727792027; x=1728396827; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=DeoJTd250N86AwxT75TCft/ULiYvSUL27Dnc1hyjfJ8=;
-        b=QWgh4C2DrgxG8VEkHG3EXtLpEVkP/ikONr6tZRKUxt38gI32nCdElG+xv/7OksKHVa
-         jZHaw4WF7d0GXOJSP38L4e68jy5aqzHBX/r6BLSOYLKmlQhFfXe25Ko94c9EF9BcwWGh
-         lXk94Tg59hzUdyee2pNLbYRSTA+5378t3VnFZP+Aap2jpuyXmZCrO10nVXiEoBLaTG+w
-         Y+zSsgtXt5vihZiBpH95aXtUH0FUxiTVl1psEPBQ56Sl4ERo45HpDPp+z7fk5c2qOkug
-         NqJGpyS4FkEgtQdZ6fpojR8qEqJ5dKMhUcKhyXOk/DcsTt80K/gPAiMmXwTZZ+2JYEI0
-         nDpQ==
+        bh=n+AC5fWKlNBJp4jGjiPsZYEshdzlIiLPjFPjK9CcGHI=;
+        b=K7L6oZi8YcQaPPad6xbRrBDnQMa/yKSNzLRIcvvbA6oihyQUml/SZtnb/JYcVn42ci
+         eTKcWXPIXY1lh1OAGEIz0ufJRyXjNMIBrJERtcVEgjvZk5RxJf7OEnnrSxbf0UeySJtW
+         8sdk/Rtrayr8C4I/NGu/houIg5F+GFQBvTF4xFgVqEY96y3iWyP9bklrYRflo4ER1mDx
+         xDQN12nbWlyLK/yVklRb9XliU8UERQ/cNstNz7jaidGEVYBPw1cHP6bZ2onYWTC2lowB
+         WzVPtkNWwUQX+ZF1rLy6K2d8S/opJea0U/jcRF11mQmsNzkYSCAQ0gQ48sGqtgnN2NRx
+         MW9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727791963; x=1728396763;
+        d=1e100.net; s=20230601; t=1727792027; x=1728396827;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DeoJTd250N86AwxT75TCft/ULiYvSUL27Dnc1hyjfJ8=;
-        b=ZRiwyn0nt3AlKygpu8E36ZngzthXlALAv73CdEkq8l2MnRl8S+KSXVpCck5ZXo7PJK
-         z/31D9aOkdz4d1pr/abC4o3UdTle+7dtsznacA3MSsN69BczQmYDQc9vIrvgTRqRiuLw
-         n7jPkvqxHIw8S7PLisvWYSjfwtRfCPtM0gbEtnLTbCw29y6jQqFElsUIpL/WF9jnXAjg
-         OC3tMuMEq32qGOFiNo/n0d2E0wHaGOYUl3Rf/MviLyagBVSXkBqSlX1oieJ9SGiZ6Lyt
-         xYWdcML41MEKaMTTRzspdISPzWPqp31R+Wcor4kr2pJufPUKtnfcDz5OG5KUybOje9jH
-         uzNg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1Tj3fWuTu+wyOKA5Pg8BOK9NEeSotICsb+AsJo56qsYi/Id9R+FyCi32G9CGOWm2ZQGKxISy7TGnNqvI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhbcR1bYyd2TEJERpYGGv0iUkxvJsxloYBCy76dNErCGQnH0oO
-	qPN/xwscwfQ2CHYFZYxuJKWO4fCqystKG8deVHdX7RMbir4FJuxmeM2OPy1EUUg=
-X-Google-Smtp-Source: AGHT+IFkBtWi40iUpXvMtDXyvuH4imak9CnOFIL9Jv+C/N0N1k9h3hOedmoIkMwXqfp0vxX1k3WfwA==
-X-Received: by 2002:a17:907:d20:b0:a86:82e2:8c6d with SMTP id a640c23a62f3a-a93c4aefc0cmr1881927566b.62.1727791962932;
-        Tue, 01 Oct 2024 07:12:42 -0700 (PDT)
+        bh=n+AC5fWKlNBJp4jGjiPsZYEshdzlIiLPjFPjK9CcGHI=;
+        b=xO59DxtcJNagoTOW/RjT+Uprco2dKXDqskYkz8K6nDJtxBR72ykr8rkbE3QnfdZ3x3
+         uQdrtdPL99sP6cXrQQGsvtAWn7NZpMfuZiqNEQnPi/cn/1QmvTomT+6eu8IzVk6e+sqj
+         EzBiFBlTJtoQ7Zn3wJlvbcQfWbLVsjInmW/aq+wGUVlIUCR0aGCQCZoMKQGOvrAbrB7z
+         UvczWpYWwm0X/orzYd8NSMAByQrt288Z+K54pKBE3PmYyqSfH0peVJmmaMr9c0gK90RR
+         iDZpqqypP0olYZ+vlKvQgdZjlwfeZ3toySCRDfmpCAnUd7kptk101oiynv89xxYh6V65
+         QHlA==
+X-Forwarded-Encrypted: i=1; AJvYcCVmdVI4QaCM0CpE88XVBLvUbpCORIcDesBhf9g+9anGwgELAfUxsp85n5LBp8EteokfDQqdUM6FO3KOLgk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnNm+CWIAYBA7I+oxX3UIWxaXOLffhfuu4pDj6KJbQ0lHiM3Uo
+	DrK6Q6J6ouWwGyYftDCmFyxgFEA/h3HNNSwE7XZ3lYkCXtk2EdzUwhRxjNoSvag=
+X-Google-Smtp-Source: AGHT+IEMZmc8txKJvmq0HUIkU/EyEg0oAsdYMXagzUOgzgVDeHf+VoEn9MCuGw/Fb5bAjra+vroY0Q==
+X-Received: by 2002:a17:907:6e92:b0:a93:c2b0:f965 with SMTP id a640c23a62f3a-a93c4ab2afamr1666487066b.41.1727792026569;
+        Tue, 01 Oct 2024 07:13:46 -0700 (PDT)
 Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c5af5sm717179766b.70.2024.10.01.07.12.42
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27776a1sm721237366b.8.2024.10.01.07.13.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2024 07:12:42 -0700 (PDT)
-Message-ID: <105dd859-f018-4b24-96f0-f395d53db9b9@suse.com>
-Date: Tue, 1 Oct 2024 16:12:41 +0200
+        Tue, 01 Oct 2024 07:13:46 -0700 (PDT)
+Message-ID: <e39f5979-50a4-4897-8199-1672ae7b8c06@suse.com>
+Date: Tue, 1 Oct 2024 16:13:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -76,7 +76,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/20] gendwarfksyms: Expand subroutine_type
+Subject: Re: [PATCH v3 09/20] gendwarfksyms: Expand array_type
 To: Sami Tolvanen <samitolvanen@google.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
  Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
@@ -89,27 +89,30 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
  linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
 References: <20240923181846.549877-22-samitolvanen@google.com>
- <20240923181846.549877-30-samitolvanen@google.com>
+ <20240923181846.549877-31-samitolvanen@google.com>
 Content-Language: en-US
 From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20240923181846.549877-30-samitolvanen@google.com>
+In-Reply-To: <20240923181846.549877-31-samitolvanen@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/23/24 20:18, Sami Tolvanen wrote:
-> Add support for expanding DW_TAG_subroutine_type and the parameters
-> in DW_TAG_formal_parameter. Use this to also expand subprograms.
+> Add support for expanding DW_TAG_array_type, and the subrange type
+> indicating array size.
 > 
-> Example output with --dump-dies:
+> Example source code:
 > 
->   subprogram (
->     formal_parameter pointer_type {
+>   const char *s[34];
+> 
+> Output with --dump-dies:
+> 
+>   variable array_type[34] {
+>     pointer_type {
 >       const_type {
 >         base_type char byte_size(1) encoding(6)
 >       }
->     }
->   )
->   -> base_type unsigned long byte_size(8) encoding(7)
+>     } byte_size(8)
+>   }
 > 
 > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 > [...]
