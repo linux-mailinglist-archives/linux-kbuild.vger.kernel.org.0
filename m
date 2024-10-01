@@ -1,121 +1,128 @@
-Return-Path: <linux-kbuild+bounces-3843-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3844-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D5698B083
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 00:50:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4085198B20A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 04:18:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A00F1F210A3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Sep 2024 22:50:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E283D2827C5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 02:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97439188CCF;
-	Mon, 30 Sep 2024 22:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8082263A;
+	Tue,  1 Oct 2024 02:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pvm5oWhw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvoZZmFO"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E18C188A3E;
-	Mon, 30 Sep 2024 22:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D872B29AF;
+	Tue,  1 Oct 2024 02:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727736586; cv=none; b=hPdWOYDbEytJYC8OE7E2imyUyu/13Cwen0aZBik2N8C48JTiXWcNDiWPStJBLEY/1i4w2DgQSBzY4U51HPfuTuYY1RSPD2glYvnDBLkHXFV/z9fOq0BY1iut60kY3qgrozcdkXaN9txxJJWzLm/YJZ/E9dz9VOpAbnq/EwLJv7o=
+	t=1727749122; cv=none; b=QT3vyoGsBbqdKwQQMEZm6Y1Y+21Da8fEyhIwPNtMH8A4+TJ1D2D57P4isR4dV+5sJ90Lu1rhf0VWuJtNJOQ/LDoB1LZLFo2K2SUXtA+wc+M8tvdkJ28Wmws4UFMRMnh+DX+/1sFOJPDUwWDBRylv26Zi1HQNj31A8oMaqWVBQEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727736586; c=relaxed/simple;
-	bh=zPoLRt30bJVlKVAVXOnZ6LB2fb7tqlZvHqVSPN3qN5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BxcN8NUfF4HW+d/t1h+wOpXHeLclB1V6gz6+qJ3D4dqDbWtVAy5CJFhHTrbhX/jK59tjefeWMOIIPeUDwuWCz1sqsbhdBCIHXndbc1L/dXmdjc0NvE1ru7HPe4Z9qiXg57vaChSzpUjTKWEmITCrj+rGvwP76N2at0VESWCdImI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pvm5oWhw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35696C4CEC7;
-	Mon, 30 Sep 2024 22:49:44 +0000 (UTC)
+	s=arc-20240116; t=1727749122; c=relaxed/simple;
+	bh=KOaQyMG5fYSdjd4lDguia+QYC24mecDLvJWr1M4adII=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L93kJ52e3XohN2EKMyR58Q4pcuLOOpknpdRVnmcve4FjkVytahqbIlRCn/g4gi/k4OGv2oSxUl/JX1bGWQMR+k4ZtRNKqS1JtrvYxA212v5mSXcQ4/CAdHvKe/Xdeko6LtqTawsZGT3LhJli/dpt3n+aDLLD86PhS85mKBY5xTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BvoZZmFO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF42C4AF09;
+	Tue,  1 Oct 2024 02:18:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727736585;
-	bh=zPoLRt30bJVlKVAVXOnZ6LB2fb7tqlZvHqVSPN3qN5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pvm5oWhwhPBJ9hBKrGu8RZermgl7Exe0AntaSLL131DwlrBb+LoCYsW4wBuq93RlJ
-	 0TtbJ1S/I4hXSV6nbGAZFv2/48JahA/DaAiiDqJ33FTurG8DBtXzqk70f/i1MBh0f8
-	 AGB4oiTjRxI6kS/t4czj++14/PuAdB5wPyQzkbw1lV0GZ7dUvmN/S2X2rv3QgC1JUb
-	 jEmXRQAk+kCDu5/pIp+mUuXjdX1rNGk7hElIHm85aConWIF0bZuLY5RYedv855xwer
-	 bJO44JjAvsLFTCnBYXiIewsDpU/AHDmbJ4LkNyMKSwu/2+EeF9GIwhx9w3+zaV84Kb
-	 txw4AP6ZMD4pw==
-Date: Mon, 30 Sep 2024 15:49:42 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
-	Sriraman Tallam <tmsriram@google.com>,
-	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	John Moon <john@jmoon.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>,
-	Eric DeVolder <eric.devolder@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Benjamin Segall <bsegall@google.com>,
-	Breno Leitao <leitao@debian.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Brian Gerst <brgerst@gmail.com>, Juergen Gross <jgross@suse.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Kees Cook <kees@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
-	llvm@lists.linux.dev, Krzysztof Pszeniczny <kpszeniczny@google.com>,
-	Stephane Eranian <eranian@google.com>
-Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
-Message-ID: <20240930224942.puecrr63o6q2pe3o@treble>
-References: <20240728203001.2551083-1-xur@google.com>
- <20240728203001.2551083-7-xur@google.com>
- <CAK7LNAQ0Z38a1Nt=_XKT3i-UpauiO9RaZAye6LXGCFzvg2R8Bg@mail.gmail.com>
+	s=k20201202; t=1727749122;
+	bh=KOaQyMG5fYSdjd4lDguia+QYC24mecDLvJWr1M4adII=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BvoZZmFOAt0Bo7NfNxzCeS4fPwJN0o2wZ4IRhDBEYGalAZ5nLHs6xDSVjRANdyHEn
+	 07cNJ+uE8TbHREIcNRASfC9vyjRoKaXpZeFPhMjihhLHsFiLnByfrmmSwQmdqqi1Kb
+	 iiOlp32AnqRlh5YRvXCcAg03YpjBRyQKfMVpXUFvELYmCBVK9AprgOB4EnvPKOQiTh
+	 mdkY4CwnNZAp6rNc2ZabMXPghYEfIDT6owRhEjPoXAW4UxTz1ubFItw6TRhYdeX1Bt
+	 MKp23f2p+lYMivSmp63jsorM/exsqbTYQM4Dg15oeyRMwGwPeJvt/k8aPYFvXsDRxH
+	 LDzaeHkX0J+Bw==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5398df2c871so2575985e87.1;
+        Mon, 30 Sep 2024 19:18:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVDgI1QuCOODP667OAGw8vv5iM1NihUndRM1IMnmPZdDAZzvHI8a3oQLyctlzsXRVr1PeldInmN0RisbepRq5A=@vger.kernel.org, AJvYcCWj7mng//1rqUQrRbcooz3IgxoA/C7QBhOjbP52ZSb5J4gxmUEA1r06Ex11Na5ubNyMS5HttDjpdG7Yzdw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/04JLkPotWk0uPvF7fw6E53C2lVZpYXvjWs5UB9VevHCK/NKr
+	8IC6qxBJY01zXCWbtV+ejV/VjubdMVCP1E7yJH5FyWYxHfhfy7quWDYuSI3G+l6IHknatcZ8w/k
+	zlubvj0cTZdDWdxteLaQVuUIjAeQ=
+X-Google-Smtp-Source: AGHT+IHKUMRfJMcCkuzQ3rM1zymbJ6TaiRKZSh06SYICjQsVsDpmcrazQLIZG+Ait4Gjb+oLNTWbjFs0hmot0DM/hQ8=
+X-Received: by 2002:a05:6512:1113:b0:536:55ae:7458 with SMTP id
+ 2adb3069b0e04-5389fc6c0bdmr7696475e87.40.1727749120988; Mon, 30 Sep 2024
+ 19:18:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQ0Z38a1Nt=_XKT3i-UpauiO9RaZAye6LXGCFzvg2R8Bg@mail.gmail.com>
+References: <20240917141725.466514-1-masahiroy@kernel.org> <20240917141725.466514-9-masahiroy@kernel.org>
+ <CANiq72nPAn1HWwHBL9qFw=V-BY1F3ckgmkb7c23vfKuH-oB9Qg@mail.gmail.com>
+In-Reply-To: <CANiq72nPAn1HWwHBL9qFw=V-BY1F3ckgmkb7c23vfKuH-oB9Qg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 1 Oct 2024 11:18:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQCbJNnTtWtLPYz=5Y-5Tk9UaoU4EVDp_dayzhekT055A@mail.gmail.com>
+Message-ID: <CAK7LNAQCbJNnTtWtLPYz=5Y-5Tk9UaoU4EVDp_dayzhekT055A@mail.gmail.com>
+Subject: Re: [PATCH 08/23] kbuild: simplify find command for rustfmt
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 29, 2024 at 08:08:43PM +0900, Masahiro Yamada wrote:
-> > +++ b/Makefile
-> > @@ -1025,6 +1025,7 @@ include-$(CONFIG_KCOV)            += scripts/Makefile.kcov
-> >  include-$(CONFIG_RANDSTRUCT)   += scripts/Makefile.randstruct
-> >  include-$(CONFIG_GCC_PLUGINS)  += scripts/Makefile.gcc-plugins
-> >  include-$(CONFIG_AUTOFDO_CLANG)        += scripts/Makefile.autofdo
-> > +include-$(CONFIG_PROPELLER_CLANG)      += scripts/Makefile.propeller
-> 
-> 
-> 
-> Please do not ignore this comment:
-> 
-> https://github.com/torvalds/linux/blob/v6.11/Makefile#L1016
+On Tue, Oct 1, 2024 at 3:38=E2=80=AFAM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Tue, Sep 17, 2024 at 4:17=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > The correct use of the -prune option can be seen in the 'make clean'
+> > rule.
+>
+> Yeah, this `-prune` should not have been like that -- sorry about that.
+>
+> The comment above this recipe should be updated.
+>
+> I am not sure I understand the part of the commit message about the
+> rust/test change. Do you mean that we should use `srctree` in case
+> there is a stale one in the source tree from a previous
+> non-completely-clean in-source-tree build?
 
-That comment is well hidden, it really belongs right before the
-gcc-plugins line.
+Correct.
 
--- 
-Josh
+
+> I think the original
+> intention was to skip the objtree one if it were a subdir of srctree
+> (and that is why the use of absolute paths).
+
+
+OK, understood.
+
+If you insist on the current logic, I will keep it as-is,
+but I need to replace $(abs_objtree) with $(CURDIR)
+because $(abs_objtree) will be removed by this series.
+
+
+
+
+> Although I think we can simplify further by just removing the logic
+> about `rust/test`, since we don't generate `*.rs` files there anyway
+> at the moment.
+
+
+OK, then we can remove -prune entirely.
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
