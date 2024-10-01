@@ -1,128 +1,128 @@
-Return-Path: <linux-kbuild+bounces-3844-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3845-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4085198B20A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 04:18:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8E798B3AA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 07:33:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E283D2827C5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 02:18:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3AF51C226DE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 05:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8082263A;
-	Tue,  1 Oct 2024 02:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0AE21B9B50;
+	Tue,  1 Oct 2024 05:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvoZZmFO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kaVQMaga"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D872B29AF;
-	Tue,  1 Oct 2024 02:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691306F31E;
+	Tue,  1 Oct 2024 05:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727749122; cv=none; b=QT3vyoGsBbqdKwQQMEZm6Y1Y+21Da8fEyhIwPNtMH8A4+TJ1D2D57P4isR4dV+5sJ90Lu1rhf0VWuJtNJOQ/LDoB1LZLFo2K2SUXtA+wc+M8tvdkJ28Wmws4UFMRMnh+DX+/1sFOJPDUwWDBRylv26Zi1HQNj31A8oMaqWVBQEw=
+	t=1727760802; cv=none; b=BL0VLi9yFXEC5LMZEsmumzNjHu0V55RlXFdHr2IEgAJU7qnpMHA5s8xQVbBig/kn0GwrAmY+F6cHJeddpLjqLMb1Ip4RMz1zXPaoKRj5eOwslvNFRuZeFCWKcmD0/Mz0JJGKglRezcuKtp0uRwJiwfLq+OIat/NJXUHOjcZal0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727749122; c=relaxed/simple;
-	bh=KOaQyMG5fYSdjd4lDguia+QYC24mecDLvJWr1M4adII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L93kJ52e3XohN2EKMyR58Q4pcuLOOpknpdRVnmcve4FjkVytahqbIlRCn/g4gi/k4OGv2oSxUl/JX1bGWQMR+k4ZtRNKqS1JtrvYxA212v5mSXcQ4/CAdHvKe/Xdeko6LtqTawsZGT3LhJli/dpt3n+aDLLD86PhS85mKBY5xTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BvoZZmFO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF42C4AF09;
-	Tue,  1 Oct 2024 02:18:42 +0000 (UTC)
+	s=arc-20240116; t=1727760802; c=relaxed/simple;
+	bh=ALkA67D2rrKVC3yq6JegYHLnnbAgFq9HD2IAj9UHyx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7BxmBmhO7/ZglhuShcpiCvqTm/qmT5EU2gtNYLAG8zRfhJn+eRBEXrXg/MsualD1XPpv3tC4XhF2XvkvAl5QjOZb+mcSTQpZ8d6Xd2UxzL/g592Z+j5j3/1ml2tNMNn7WYIn3rD6tUWVKKvmJKMTS/WvuM3+wpFaHsz7jmMDqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kaVQMaga; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746B3C4CEC6;
+	Tue,  1 Oct 2024 05:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727749122;
-	bh=KOaQyMG5fYSdjd4lDguia+QYC24mecDLvJWr1M4adII=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=BvoZZmFOAt0Bo7NfNxzCeS4fPwJN0o2wZ4IRhDBEYGalAZ5nLHs6xDSVjRANdyHEn
-	 07cNJ+uE8TbHREIcNRASfC9vyjRoKaXpZeFPhMjihhLHsFiLnByfrmmSwQmdqqi1Kb
-	 iiOlp32AnqRlh5YRvXCcAg03YpjBRyQKfMVpXUFvELYmCBVK9AprgOB4EnvPKOQiTh
-	 mdkY4CwnNZAp6rNc2ZabMXPghYEfIDT6owRhEjPoXAW4UxTz1ubFItw6TRhYdeX1Bt
-	 MKp23f2p+lYMivSmp63jsorM/exsqbTYQM4Dg15oeyRMwGwPeJvt/k8aPYFvXsDRxH
-	 LDzaeHkX0J+Bw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5398df2c871so2575985e87.1;
-        Mon, 30 Sep 2024 19:18:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVDgI1QuCOODP667OAGw8vv5iM1NihUndRM1IMnmPZdDAZzvHI8a3oQLyctlzsXRVr1PeldInmN0RisbepRq5A=@vger.kernel.org, AJvYcCWj7mng//1rqUQrRbcooz3IgxoA/C7QBhOjbP52ZSb5J4gxmUEA1r06Ex11Na5ubNyMS5HttDjpdG7Yzdw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/04JLkPotWk0uPvF7fw6E53C2lVZpYXvjWs5UB9VevHCK/NKr
-	8IC6qxBJY01zXCWbtV+ejV/VjubdMVCP1E7yJH5FyWYxHfhfy7quWDYuSI3G+l6IHknatcZ8w/k
-	zlubvj0cTZdDWdxteLaQVuUIjAeQ=
-X-Google-Smtp-Source: AGHT+IHKUMRfJMcCkuzQ3rM1zymbJ6TaiRKZSh06SYICjQsVsDpmcrazQLIZG+Ait4Gjb+oLNTWbjFs0hmot0DM/hQ8=
-X-Received: by 2002:a05:6512:1113:b0:536:55ae:7458 with SMTP id
- 2adb3069b0e04-5389fc6c0bdmr7696475e87.40.1727749120988; Mon, 30 Sep 2024
- 19:18:40 -0700 (PDT)
+	s=k20201202; t=1727760801;
+	bh=ALkA67D2rrKVC3yq6JegYHLnnbAgFq9HD2IAj9UHyx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kaVQMaga3ThzkwWDWuQk6rDB3RSXwRBcTwVGj8nhKaCxd8DGvY0nFCd3IYRsTljub
+	 AZKP4ayTicXJrMtWGj3619WfldHuCsfWcGmrgx6E5KyTalkkIaPvDa79j8IX7+KCf9
+	 tyL1xiG/I6r77qcfTBBo8IHr09HTVxQ5ElVlGqCP6PER85aneiWgpkfNVBK7/pOc2d
+	 0IB7OJr+GBkkTfq3dlA5pz5ppoFJHfbV+YEe6fDprG8RfaDEijzbt4+Mc2WLN9Cu7U
+	 G+M9qW3AxZz15VbiWMQ7LPrCzm4ijKVB3gpMkuSL/R/mT8sVLa15UwdAicPRjd0T7A
+	 AapjojwaZZpvA==
+Date: Mon, 30 Sep 2024 22:33:18 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Keith Packard <keithp@keithp.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [RFC PATCH 04/28] x86/boot: Permit GOTPCREL relocations for
+ x86_64 builds
+Message-ID: <20241001053318.elfwwiyluw6rlynz@treble>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-34-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240917141725.466514-1-masahiroy@kernel.org> <20240917141725.466514-9-masahiroy@kernel.org>
- <CANiq72nPAn1HWwHBL9qFw=V-BY1F3ckgmkb7c23vfKuH-oB9Qg@mail.gmail.com>
-In-Reply-To: <CANiq72nPAn1HWwHBL9qFw=V-BY1F3ckgmkb7c23vfKuH-oB9Qg@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 1 Oct 2024 11:18:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQCbJNnTtWtLPYz=5Y-5Tk9UaoU4EVDp_dayzhekT055A@mail.gmail.com>
-Message-ID: <CAK7LNAQCbJNnTtWtLPYz=5Y-5Tk9UaoU4EVDp_dayzhekT055A@mail.gmail.com>
-Subject: Re: [PATCH 08/23] kbuild: simplify find command for rustfmt
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240925150059.3955569-34-ardb+git@google.com>
 
-On Tue, Oct 1, 2024 at 3:38=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Tue, Sep 17, 2024 at 4:17=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > The correct use of the -prune option can be seen in the 'make clean'
-> > rule.
->
-> Yeah, this `-prune` should not have been like that -- sorry about that.
->
-> The comment above this recipe should be updated.
->
-> I am not sure I understand the part of the commit message about the
-> rust/test change. Do you mean that we should use `srctree` in case
-> there is a stale one in the source tree from a previous
-> non-completely-clean in-source-tree build?
+On Wed, Sep 25, 2024 at 05:01:04PM +0200, Ard Biesheuvel wrote:
+> +		if (r_type == R_X86_64_GOTPCREL) {
+> +			Elf_Shdr *s = &secs[sec->shdr.sh_info].shdr;
+> +			unsigned file_off = offset - s->sh_addr + s->sh_offset;
+> +
+> +			/*
+> +			 * GOTPCREL relocations refer to instructions that load
+> +			 * a 64-bit address via a 32-bit relative reference to
+> +			 * the GOT.  In this case, it is the GOT entry that
+> +			 * needs to be fixed up, not the immediate offset in
+> +			 * the opcode. Note that the linker will have applied an
+> +			 * addend of -4 to compensate for the delta between the
+> +			 * relocation offset and the value of RIP when the
+> +			 * instruction executes, and this needs to be backed out
+> +			 * again. (Addends other than -4 are permitted in
+> +			 * principle, but make no sense in practice so they are
+> +			 * not supported.)
+> +                         */
+> +			if (rel->r_addend != -4) {
+> +				die("invalid addend (%ld) for %s relocation: %s\n",
+> +				    rel->r_addend, rel_type(r_type), symname);
+> +				break;
+> +			}
 
-Correct.
+For x86 PC-relative addressing, the addend is <reloc offset> -
+<subsequent insn offset>.  So a PC-relative addend can be something
+other than -4 when the relocation applies to the middle of an
+instruction, e.g.:
 
+   5b381:	66 81 3d 00 00 00 00 01 06 	cmpw   $0x601,0x0(%rip)        # 5b38a <generic_validate_add_page+0x4a>	5b384: R_X86_64_PC32	boot_cpu_data-0x6
 
-> I think the original
-> intention was to skip the objtree one if it were a subdir of srctree
-> (and that is why the use of absolute paths).
+   5f283:	81 3d 00 00 00 00 ff ff ff 00 	cmpl   $0xffffff,0x0(%rip)        # 5f28d <x86_acpi_suspend_lowlevel+0x9d>	5f285: R_X86_64_PC32	smpboot_control-0x8
 
+   72f67:       c6 05 00 00 00 00 01    movb   $0x1,0x0(%rip)        # 72f6e <sched_itmt_update_handler+0x6e>   72f69: R_X86_64_PC32    x86_topology_update-0x5
 
-OK, understood.
+Presumably that could also happen with R_X86_64_GOTPCREL?
 
-If you insist on the current logic, I will keep it as-is,
-but I need to replace $(abs_objtree) with $(CURDIR)
-because $(abs_objtree) will be removed by this series.
-
-
-
-
-> Although I think we can simplify further by just removing the logic
-> about `rust/test`, since we don't generate `*.rs` files there anyway
-> at the moment.
-
-
-OK, then we can remove -prune entirely.
-
-
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+-- 
+Josh
 
