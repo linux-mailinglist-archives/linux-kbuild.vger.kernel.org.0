@@ -1,100 +1,144 @@
-Return-Path: <linux-kbuild+bounces-3847-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3848-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7985198B3E9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 07:51:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE0B98B4F7
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 08:56:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB8591C2292C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 05:51:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4E5E281701
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 06:56:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E7FD1B9B50;
-	Tue,  1 Oct 2024 05:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D533B1BC084;
+	Tue,  1 Oct 2024 06:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E1lxhyFx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XwBYHQaz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4ED1A4F2B;
-	Tue,  1 Oct 2024 05:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8905C27468;
+	Tue,  1 Oct 2024 06:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727761908; cv=none; b=u7V/2ss4SSkwHu90rgYVNk162fsj6Oha/MYA+x0exyGHbJw9Oq7o8EVrAXngv8qIZrB+Lpc64jMWQMQWF3QsbtGcV+tDDNBA9hzGQIt7d7naSZT8TUtRFds4Y5pdf4tGWLz6Byr+w+LEx8LUIr1io+UR/XB+IhZ4G01yn5Fp2Ds=
+	t=1727765786; cv=none; b=WwI9bai10R1XdL5LvCdb60Ruj9EB4kX1IGGN+h9nI5NZ9qPbYpIkMeyT5OTlNhgLB+lgqIZpgiIEI0WnXPUoCP9QKPi8W28/awQxt9RFTUXWQc3Uys3Q+YAeHh9ufhWGPMP/5ka6xxDme+P+dyWtvbW0YkkoKpNk9j85/RXHcq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727761908; c=relaxed/simple;
-	bh=3/wRht5chjIqgH1ON7u8+YBRhM3p+Px11yM4Lw3cLa0=;
+	s=arc-20240116; t=1727765786; c=relaxed/simple;
+	bh=D6cq+9W5AquN6Xivssj0gJ1Jk4JQ0mfYEn2CA9+npXI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pHxcohCbi/ytSh2fWuVOZriG8iDjZwqlEKmUiSn55zMXo5vyZr6FkOK6+bE0VSPANprzNkkkjdL2sfLgfZ0fL+nKsX2hd9n9s7xXCmEVtKjHdx3XnS8i8bG7IkM3NBCYl+B3domTU9uOogqTQ5SUOBsg/Fp+Gxk2b/800MEaMKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E1lxhyFx; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7cd85502a34so215656a12.2;
-        Mon, 30 Sep 2024 22:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727761906; x=1728366706; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3/wRht5chjIqgH1ON7u8+YBRhM3p+Px11yM4Lw3cLa0=;
-        b=E1lxhyFxPOVNOtj/kuH1htbMrnl1BPuXKwB19aBsxmErkBkW8kY6s67Sh4NViokIdP
-         tmdFoNoTov9hP8E4AEFvvfZxc26WWxN3TG/HjquwuEe/49nKrA25QpmNmPXgva/rpmue
-         cuO2QqvEQBNDEj24LMaWY0Quw4adAP2x/1gckJMg1eWheoyHCNSST3SLjWS9Ig39a3wb
-         FIX5xPn8UdDNbGi0wiA8zBzkqPRvlyY5a4NB6BbhC57Fbr+fvWOmaof/fedyIALVBP6+
-         9nQ56biryKQOiGI2/n9HoWt6M6Z4KqLcaaY8SbddX4O6XJ+3+05J/BV/739tLpFRqHpt
-         BBrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727761906; x=1728366706;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3/wRht5chjIqgH1ON7u8+YBRhM3p+Px11yM4Lw3cLa0=;
-        b=p5gXMu66xFjBa07o+CWm9PCExSjPOmDUPZVwHol5nSdISetmm1KeFJ8P3w5g9RJYGo
-         sjmCWm9ejB7xWTMdcjKqLHsgpYZK3jeVFO52r36FB7cxANN9YfBZuvrsXwACp0zEQukC
-         5rReCWP0wmaEt1khPTMTzzCj8taT9EJeVqjuN+5xNMSdF2EE9MavJ4RifHsCWueJDfPc
-         QgFrp3on0yw6uuk2iPt0J6PX0dwet6e+fKZdqIJHa6qlPjcVIY6CjyLNOpG0UtHiVI7R
-         2JujpHjjWTNirrzNB1NMlRZ722hv7mH0uFvzn4ZtPPjnIaoD4AIh8RyCsmpSuf8vH95F
-         Ie6w==
-X-Forwarded-Encrypted: i=1; AJvYcCVcevRX+IY1Ggww0niZwOerzrnR4Px/3kONq6M226VZ4KJBaoq5FUpxR+hNLCk46zDMXhzOgRAzjkYEvYg=@vger.kernel.org, AJvYcCWepX1A4rlxZdfIUPm4XMCZcjU0uv8XmL524FkrBkC+nzWqPz95XNDHDyOTthATOvagbu+HX/6M2ipEOmAU@vger.kernel.org, AJvYcCXt9+QaFD2xG1v8Oe20i2fmZuWEcagZ0U/7mf2p4bGxFx4U7kXYXGigdIrjqKmdrFvOmUBEfhJHyH0MIuQZ4fg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm6lczoVBfJArA+5h81sCqq9fRpLF5zEM+EntecXDbZtm5BBxi
-	tuENDH9UqZqAeS0OVGNSWmbH61i7b+f5DExgk+h48RRL57TLS8JGct+aJeI6B96NaJ/q+fEZ00Q
-	rF6CdGnKVTnBUgQEWhRed9U2yJpxUCc2w
-X-Google-Smtp-Source: AGHT+IEIwfs2ae50IxJcrYEx+9x6jDhkTa4h8dXquDWIxEFs1VpueqZk22iLQZsgbP1/FJwllipH1R6cUki2Wf6ve+w=
-X-Received: by 2002:a05:6a00:b85:b0:718:e49f:4185 with SMTP id
- d2e1a72fcca58-71c6371432cmr6551145b3a.7.1727761906110; Mon, 30 Sep 2024
- 22:51:46 -0700 (PDT)
+	 To:Cc:Content-Type; b=CxADuRegO1vz5uNQcUlg99joUnxiXrQXHSTRxJYot8Pq1tCJjYCwa80x7P2k0gSL8iyvT71njphVgQkQUFvITGEgs2P6ZWUjgyIwZPPyDMOwVBXwoCR7wRBBsr2qb39kovT9ncNHFtza4nqLDn4umvNMnEPrpBLKwFThMo5Yxtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XwBYHQaz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6F4C4CED6;
+	Tue,  1 Oct 2024 06:56:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727765786;
+	bh=D6cq+9W5AquN6Xivssj0gJ1Jk4JQ0mfYEn2CA9+npXI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XwBYHQazazbTC4OwId3vnrFAgc6CpLItRV3CT+Z8Gu23wph58CKcedFo7OLdarXFj
+	 CfBr/fhizt+I319h5X05aQeNiGEwLpOlTkxFwdMvZp5tn26hL9grIrgluiUanZgVrj
+	 0ryllcIGgHjRky7zD5Cq7OsKZqK4RkRI4/CJstCL2fYk+KBEVoQob6cme8zRgaORsv
+	 8IC6faZd2aGl4jfIjpTmpGu86/o4/aahDo/ckVnRLhdwe1cSJTcyxtGmwBVe5kWta6
+	 zAbfWFj5Dzv5UH3KDkLJ7Igmws7XQ8kbnjqJSF3yJWaphRu3BKFYLpSFA19jzUWCHz
+	 4bi5hwVR6eikg==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f75c56f16aso60880411fa.0;
+        Mon, 30 Sep 2024 23:56:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUb5hyErHg8L+nlaYnCMwManPT29OgGG75N5SMSKloatCgBuklXXMSx2eV4yimmif3wUk8ctXjcp+vHOMVG@vger.kernel.org, AJvYcCUiBBqDH1Rk5CQ8vLslCmC/Xi7qfEu1NX1BRQKP+EkyP2E2Nxqt67MaUQJC2NBcMlkyWJ7BNb4szZUvsAtmjdo=@vger.kernel.org, AJvYcCUm6kZGpEHb76YAe/a1ZfTGVchBQlyX4EUgpNQJijcgQRPxvVg0m69emcfJL0xlA1ObScZoM0+UmgWo9PMd@vger.kernel.org, AJvYcCVR23sffSw7+s8WHHsh/QRWZqSUnBSfBzFlHy3NdQaSePyRp27+SUuWpX3dUSA+s7btKv4KtlpfYmsc@vger.kernel.org, AJvYcCVk7EvOcGbNafkzEELiaW0XX4/dAMKhzeaP9myUqJqYPUW+CaA72tq2XrwVjJcbalYY0KIWAQ2Ox6I9qrCtHBjbWQ==@vger.kernel.org, AJvYcCVkqg2FaRqXxkztdXl6Qg2ZLbyRAxc2++5Icc2R0fpNfIdY7w/OUH2F5t1fyxYuXRrjA9F6fJvJhWjB@vger.kernel.org, AJvYcCWJUthhIvNr4CBi7JTh00/Xf1hcUNTTMWspSCRlOgkq8BnBYIUFIahac9hC/CIWpK4L8K4=@vger.kernel.org, AJvYcCWMyKtbai3/+CMUxxUAWRaUoxT63Z6NiQHeXfwlK375Wkv/AXfBxKIUq9xOBgn0rLyBsG1TO3IKXQUHNQ==@vger.kernel.org, AJvYcCWazTJ/MRGwc1ZpLlQfAWrTj54guFFdiwwwZU2AwyRDc04z+N9tCqfvuKOXEKqEthvzJvjNPjXmmw8=@vger.kernel.org, AJvYcCWk4JcjjEkIQZslMHYb9A45
+ qkunEL5rjByj2wasO2nknJYRCQbyly1eTO7stb84m02o0HvxOYqZAK3wIjIp@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqCf21TVLxRAj0tdVi4muVfet14Czx+Po9K0dRbSUE3e13C7ZA
+	FwfRn3JNAuGYoPW7FQfz3unhiD5XPLAeSVO+cjc6yjjLmGndQpraItuRkPFrv5+hLyJ1eBVfCej
+	WbVPyB8lHYF9xlgLA6eI+GQreT8I=
+X-Google-Smtp-Source: AGHT+IGjtx2HGlRUUxfHLsgxZrMc5HOLfFzS5jvtirjyIPXJpZcKEYpq6gBAXQaDQEq6eyp0Tbbah6SY1D/EzYnBAjs=
+X-Received: by 2002:a05:6512:3b8d:b0:52b:bf8e:ffea with SMTP id
+ 2adb3069b0e04-5389fc6429dmr8367147e87.40.1727765784329; Mon, 30 Sep 2024
+ 23:56:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925-cfi-norm-kasan-fix-v1-1-0328985cdf33@google.com>
-In-Reply-To: <20240925-cfi-norm-kasan-fix-v1-1-0328985cdf33@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 1 Oct 2024 07:51:34 +0200
-Message-ID: <CANiq72kMHp=F8Vyu5t2nPk86FB=PwcaxZQKRs9Sdj8FrvpQv=A@mail.gmail.com>
-Subject: Re: [PATCH] cfi: encode cfi normalized integers + kasan/gcov bug in Kconfig
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Gatlin Newhouse <gatlin.newhouse@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, kernel test robot <oliver.sang@intel.com>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-34-ardb+git@google.com> <20241001053318.elfwwiyluw6rlynz@treble>
+In-Reply-To: <20241001053318.elfwwiyluw6rlynz@treble>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 1 Oct 2024 08:56:12 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXFyd7zDqnFzHTZmcR+ktxRVdOnuF-VOW+E0PYPNaQGXzQ@mail.gmail.com>
+Message-ID: <CAMj1kXFyd7zDqnFzHTZmcR+ktxRVdOnuF-VOW+E0PYPNaQGXzQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 04/28] x86/boot: Permit GOTPCREL relocations for
+ x86_64 builds
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
+	Justin Stitt <justinstitt@google.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>, 
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, kvm@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 25, 2024 at 10:10=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> =
-wrote:
+On Tue, 1 Oct 2024 at 07:33, Josh Poimboeuf <jpoimboe@kernel.org> wrote:
 >
-> There is a bug in the LLVM implementation of KASAN and GCOV that makes
-> these options incompatible with the CFI_ICALL_NORMALIZE_INTEGERS option.
+> On Wed, Sep 25, 2024 at 05:01:04PM +0200, Ard Biesheuvel wrote:
+> > +             if (r_type == R_X86_64_GOTPCREL) {
+> > +                     Elf_Shdr *s = &secs[sec->shdr.sh_info].shdr;
+> > +                     unsigned file_off = offset - s->sh_addr + s->sh_offset;
+> > +
+> > +                     /*
+> > +                      * GOTPCREL relocations refer to instructions that load
+> > +                      * a 64-bit address via a 32-bit relative reference to
+> > +                      * the GOT.  In this case, it is the GOT entry that
+> > +                      * needs to be fixed up, not the immediate offset in
+> > +                      * the opcode. Note that the linker will have applied an
+> > +                      * addend of -4 to compensate for the delta between the
+> > +                      * relocation offset and the value of RIP when the
+> > +                      * instruction executes, and this needs to be backed out
+> > +                      * again. (Addends other than -4 are permitted in
+> > +                      * principle, but make no sense in practice so they are
+> > +                      * not supported.)
+> > +                         */
+> > +                     if (rel->r_addend != -4) {
+> > +                             die("invalid addend (%ld) for %s relocation: %s\n",
+> > +                                 rel->r_addend, rel_type(r_type), symname);
+> > +                             break;
+> > +                     }
+>
+> For x86 PC-relative addressing, the addend is <reloc offset> -
+> <subsequent insn offset>.  So a PC-relative addend can be something
+> other than -4 when the relocation applies to the middle of an
+> instruction, e.g.:
+>
+>    5b381:       66 81 3d 00 00 00 00 01 06      cmpw   $0x601,0x0(%rip)        # 5b38a <generic_validate_add_page+0x4a> 5b384: R_X86_64_PC32    boot_cpu_data-0x6
+>
+>    5f283:       81 3d 00 00 00 00 ff ff ff 00   cmpl   $0xffffff,0x0(%rip)        # 5f28d <x86_acpi_suspend_lowlevel+0x9d>      5f285: R_X86_64_PC32    smpboot_control-0x8
+>
+>    72f67:       c6 05 00 00 00 00 01    movb   $0x1,0x0(%rip)        # 72f6e <sched_itmt_update_handler+0x6e>   72f69: R_X86_64_PC32    x86_topology_update-0x5
+>
+> Presumably that could also happen with R_X86_64_GOTPCREL?
+>
 
-Applied to `rust-fixes` -- thanks everyone!
+In theory, yes.
 
-Cheers,
-Miguel
+But for the class of GOTPCREL relaxable instructions listed in the
+psABI, the addend is always -4, and these are the only ones we might
+expect from the compiler when using -fpic with 'hidden' visibility
+and/or -mdirect-extern-access. Note that the memory operand
+foo@GOTPCREL(%rip) produces the *address* of foo, and so it is always
+the source operand, appearing at the end of the encoding.
+
+Alternatively, we might simply subtract the addend from 'offset'
+before applying the displacement from the opcode.
+
+Note that this code gets removed again in the last patch, after
+switching to PIE linking.
 
