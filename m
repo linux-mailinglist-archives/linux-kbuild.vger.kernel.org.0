@@ -1,155 +1,94 @@
-Return-Path: <linux-kbuild+bounces-3851-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3852-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865AB98B5E4
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 09:40:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6AB98B7D3
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 11:02:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0727AB20A82
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 07:40:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90F9B1C21E63
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2024 09:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A68E21BD4FC;
-	Tue,  1 Oct 2024 07:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1613419CC01;
+	Tue,  1 Oct 2024 09:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aDEbkzH3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A4ubeKcR"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C521BCA1E;
-	Tue,  1 Oct 2024 07:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E354519ABCB;
+	Tue,  1 Oct 2024 09:02:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727768399; cv=none; b=FHlkAm/AgEWHMQiUW0g6KjUHD3HMVjZVKPnv0z+0mv8/1wElV0xDqYs/NU46utlIhUewOJ6Sh+cKntx0HfEaDxkNteiBFcs2wKFfa5I6k2mlYNawb/G091wpiZztc18RZZ8wYcBi0eZMl+3SiRhg6v2rybJUxn7z5AnDDJSLwno=
+	t=1727773354; cv=none; b=rPgNNCKj8Y2c3m3Snm/VpPVafVpZ697XY8gqoesxg+gRTxtq8IyOIgQPRADIn9bipaD2My+UT4U8Epe/ZiGm1Mq1AsAgjJ2G5SF74kN1+dCJfoi2kKbvTBuq5njJng9xClrk58/gzqkC/Gh9Mjjic/IBAE289gnKZyF6vdwL/6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727768399; c=relaxed/simple;
-	bh=za16NxIQDUGjjHP2c29sw6PI8ZU3lXszSx4jSWmr5Jk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gs1Vlb39N+XmFyhOeSWV4HH9lzSLiE41NhmnxX/eJOYaPkrQukle5QKp6eexE760VeACnvemTTg6q4R2woDbDQ4SYtmLCljnKwuIRo26inm4taTB+AwKKdD8HDrvig05ViTX9WH7/7r/ALZGLDecw2+p7SyXoYJu8vH9a16f76I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aDEbkzH3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09567C4CECE;
-	Tue,  1 Oct 2024 07:39:59 +0000 (UTC)
+	s=arc-20240116; t=1727773354; c=relaxed/simple;
+	bh=6bf5fSHj60t3k4yhPDUaRPovE0nur9YRMmZw68ogcyU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tAXLh4feRMgB6K67YHAdCE23CxBIJTYKqRaYbexMyf+v30DDTwZHDryhv56rUeWr5YRhCgbXuoRn8uQL0Vb2pMibbhiKE4J42e/RK+H95BtylMuExV99OYUMqeBnGNdnS2r6EvyFl1q/WA8vu27RPFQfZ7Zt7vYkowTo2SktBmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A4ubeKcR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F075C4CEC6;
+	Tue,  1 Oct 2024 09:02:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727768399;
-	bh=za16NxIQDUGjjHP2c29sw6PI8ZU3lXszSx4jSWmr5Jk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=aDEbkzH31TMYxyPZ0U4IqFDz2ggAiyQ93AuGH6DFWD852wq66X3Juctv++qrVnY1E
-	 6ZxaDC6+h3KE0C3l6NuZeDDiDBRF3EQr23e6H7GtHVX072wWjX7iI/+gFopMi4XBCn
-	 BQre8YouOhT4yPxzR2ekUT/nh48OGc3LLs9GaU55B4BLhQp30yz1hZOr+kIXvYG3ih
-	 OZ3IX+Rt7jhZPHye/HmzQ++7Vy95pRJ5j3zgDMATlOYnW26kd2Y9d5yDOCNbt7sReu
-	 G4umcThdYU5KCIUGRK/jsPgHtwnY8ozG6RFsniIyYbjsaaJ8GQzJdc9VLHuOINxJqx
-	 dhb3f3MUsJE9A==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5398d171fa2so2783454e87.0;
-        Tue, 01 Oct 2024 00:39:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU/4nIGRrbGh3fKfqUG5lBSWj4sLs7BomAA5/iJNOngPTrRwE2j9edU1IW53QqIB/XvPxm2/p5+bYtMMTjBXD+imw==@vger.kernel.org, AJvYcCVHBvlJPF69wQJrLI29PPI5avcaApjG9AlqhTLFEPzHipbItjFqkgeMwOKf52H3ExcZXO4rwwadaEs8@vger.kernel.org, AJvYcCVgQgKOxio5O6CEGiiFsPbIMX8HHp0rwpUPgHFECYWRHZJlsrunalwFkzpr/RqUkG8k6enjVaAneQqxu6rZ@vger.kernel.org, AJvYcCVpj2nxLH2Ocx3TJVYA3WxBMLn6Zyjn5nVORL82cXS2VqcsSjOcK17rv+W3EpQOtE/DUIQH73pjJxGo@vger.kernel.org, AJvYcCW7r+HxAZ94V7SnxSOZuF25B5VS/qgMYUYYZkw3l+h9hAcYspPtmbKdf5QIM5ZTjU+K6PYKIWxLNbGO1WC8@vger.kernel.org, AJvYcCWnj89cLq4UDpSVTsnQc0CeSQU6avwkubSZ6Fq02ILdogiS85IaE0+b8Y+31C7euDIXsSE=@vger.kernel.org, AJvYcCWnx1dX2weYGF3LZ2hgZ4LfD0EmZlGluFwMZm43Fnywg32fiqqiVMns604gn0hfr40HXhYtAPtTp5QJIw==@vger.kernel.org, AJvYcCWupMnXRcWfp77XHQviOgHVVj6sZCHyGs8GzsyFreayGMY1d2SqNzeQnBkCJF1hbzYvl25h6qWfFJw=@vger.kernel.org, AJvYcCXVR91nchlBpGtG38m1ufl3kVJoZSiCAKwTPPQpH09dl/hLTMbs78rJ5e/ovgq24kqkpqOn69j1SV7OlnAb2Y0=@vger.kernel.org, AJvYcCXnYcweb4CyvmNYsZQgBSFW
- tATkU1HvWQoID6SRBDGbgxp7topIHiOONqv5sQnhu87iBTnMG3HYWzOyAPRh@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxzc8oZ1zlQFg/X12ociZ3RcFG7M3WM4l/p9iaTi8/3BitDc1Ut
-	mjGrNFR4ZS5vRzDNfBYiDBFts4PfyJJH85g5A554V5lRplMTDLTbeFFnOHG50guQmOFoOAsz/bd
-	Pg6KoOwt/dD4RwOq4UBP8VJSdMOQ=
-X-Google-Smtp-Source: AGHT+IGSGW+uzmUjxyeIFaLft3PnZ2kaCaMuKqb2T+GLgytq3+U5XTQLxKYTu05fD4+Ir4Uuwo1LuIK4EgJ7mk97UG4=
-X-Received: by 2002:a05:6512:b9e:b0:539:8e20:105 with SMTP id
- 2adb3069b0e04-5398e200266mr5005657e87.28.1727768396993; Tue, 01 Oct 2024
- 00:39:56 -0700 (PDT)
+	s=k20201202; t=1727773353;
+	bh=6bf5fSHj60t3k4yhPDUaRPovE0nur9YRMmZw68ogcyU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=A4ubeKcRZU2j6ThTxZUlFYodHpwGp/gsahSoDaeouA+16K8/I2wTIg+cdviIb7Z2a
+	 SG4EMlY16FMVnjykuSHWX48SRKAsZ4Q7ApQmYYJO/yiLkvlRnLDki5C9mBc8XY/BWT
+	 Mb95xqE0JdZ8PanrSeDIAtCWUM+rzRjTVmr+D5eBn2b5ARiuREzP/K5I6zjbiwnhnB
+	 XKb3FsHbP4fDuL7oItv1PIchypmY44Jgc/TZkkSt4ZWkX3vK5LFHdgLIkrbFHTR+Vk
+	 h67HQyOOtXo8g6wjlGVr25Ty7tNdXUZXLRZ7OLj3knXPtBpjaj1CthioUJRl8m7CMF
+	 1dVzvjqUMW2XQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH] kconfig: qconf: fix buffer overflow in debug links
+Date: Tue,  1 Oct 2024 18:02:22 +0900
+Message-ID: <20241001090226.2784447-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-54-ardb+git@google.com> <20241001071841.yrc7cxdp2unnzju7@treble>
-In-Reply-To: <20241001071841.yrc7cxdp2unnzju7@treble>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 1 Oct 2024 09:39:45 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGA785Z2_AWuTTXPkvH9Mis=28rn_paOZe=gdaXjpu-=A@mail.gmail.com>
-Message-ID: <CAMj1kXGA785Z2_AWuTTXPkvH9Mis=28rn_paOZe=gdaXjpu-=A@mail.gmail.com>
-Subject: Re: [RFC PATCH 24/28] tools/objtool: Treat indirect ftrace calls as
- direct calls
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Uros Bizjak <ubizjak@gmail.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@linux.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Keith Packard <keithp@keithp.com>, 
-	Justin Stitt <justinstitt@google.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>, 
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, kvm@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 1 Oct 2024 at 09:18, Josh Poimboeuf <jpoimboe@kernel.org> wrote:
->
-> On Wed, Sep 25, 2024 at 05:01:24PM +0200, Ard Biesheuvel wrote:
-> > +             if (insn->type == INSN_CALL_DYNAMIC) {
-> > +                     if (!reloc)
-> > +                             continue;
-> > +
-> > +                     /*
-> > +                      * GCC 13 and older on x86 will always emit the call to
-> > +                      * __fentry__ using a relaxable GOT-based symbol
-> > +                      * reference when operating in PIC mode, i.e.,
-> > +                      *
-> > +                      *   call   *0x0(%rip)
-> > +                      *             R_X86_64_GOTPCRELX  __fentry__-0x4
-> > +                      *
-> > +                      * where it is left up to the linker to relax this into
-> > +                      *
-> > +                      *   call   __fentry__
-> > +                      *   nop
-> > +                      *
-> > +                      * if __fentry__ turns out to be DSO local, which is
-> > +                      * always the case for vmlinux. Given that this
-> > +                      * relaxation is mandatory per the x86_64 psABI, these
-> > +                      * calls can simply be treated as direct calls.
-> > +                      */
-> > +                     if (arch_ftrace_match(reloc->sym->name)) {
-> > +                             insn->type = INSN_CALL;
-> > +                             add_call_dest(file, insn, reloc->sym, false);
-> > +                     }
->
-> Can the compiler also do this for non-fentry direct calls?
+If you enable the "Option -> Show Debug Info" and click a click, the
+program terminates with the following error:
 
-No, it is essentially an oversight in GCC that this happens at all,
-and I fixed it [0] for GCC 14, i.e., to honour -mdirect-extern-access
-when emitting these calls.
+    *** buffer overflow detected ***: terminated
 
-But even without that, it is peculiar at the very least that the
-compiler would emit GOT based indirect calls at all.
+The buffer overflow is caused by the following line:
 
-Instead of
+    strcat(data, "$");
 
-  call *__fentry__@GOTPCREL(%rip)
+The buffer needs one more byte to accommodate the additional character.
 
-it should simply emit
+Fixes: c4f7398bee9c ("kconfig: qconf: make debug links work again")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-  call __fentry__@PLT
+ scripts/kconfig/qconf.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-and leave it up to the linker to resolve this directly or
-lazily/eagerly via a PLT jump (assuming -fno-plt is not being used)
+diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
+index 7dba8014ead4..e260cab1c2af 100644
+--- a/scripts/kconfig/qconf.cc
++++ b/scripts/kconfig/qconf.cc
+@@ -1166,7 +1166,7 @@ void ConfigInfoView::clicked(const QUrl &url)
+ {
+ 	QByteArray str = url.toEncoded();
+ 	const std::size_t count = str.size();
+-	char *data = new char[count + 1];
++	char *data = new char[count + 2];  // '$' + '\0'
+ 	struct symbol **result;
+ 	struct menu *m = NULL;
+ 
+-- 
+2.43.0
 
-> If so would
-> it make sense to generalize this by converting all
-> INSN_CALL_DYNAMIC+reloc to INSN_CALL?
->
-> And maybe something similar for add_jump_destinations().
->
-
-I suppose that the pattern INSN_CALL_DYNAMIC+reloc is unambiguous, and
-can therefore always be treated as INSN_CALL. But I don't anticipate
-any other occurrences here, and if they do exist, they indicate some
-other weirdness in the compiler, so perhaps it is better not to add
-general support for these.
-
-
-[0] https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=bde21de1205c0456f6df68c950fb7ee631fcfa93
 
