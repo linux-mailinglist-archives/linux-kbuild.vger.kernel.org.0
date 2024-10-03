@@ -1,270 +1,149 @@
-Return-Path: <linux-kbuild+bounces-3899-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3900-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A9E98F72B
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 21:47:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A398F81C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 22:30:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B2821C221BD
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 19:47:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1695FB21FB0
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 20:30:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4CA1ABEAD;
-	Thu,  3 Oct 2024 19:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B11541B85C7;
+	Thu,  3 Oct 2024 20:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="sS4RVpN8"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="eyYSzBsr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF9117BA3;
-	Thu,  3 Oct 2024 19:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A141ABEDF
+	for <linux-kbuild@vger.kernel.org>; Thu,  3 Oct 2024 20:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727984869; cv=none; b=RlQXo4dEtfKP5rnDfGcj/RELz0+XFSFlVs2AnIATTUgF6dN2eInM55VyRiY04uRr5rpNbg3ddXOCNpq2jbzRJfLCHXCbG8OhTCzgUIrp7G9SBKTY5I2uWSpN96W0lv5jl3PsnofGyVtbunShlEa3+00Br926IsTTtv++yLtVaKE=
+	t=1727987405; cv=none; b=EGYCfildQRZsPFsMZhBk7QsRjQ0X2FHUh5qn3jiLajyf3+YjjLtgmXF4OVuhvXcLCj4m0QuuxHXcX28fNXQLmgYTSf/rVhBlwfI26FdPUmCIHTHW4VJoZ1/QDzmaQITOJUucFZNeJbKCzI43FDFPB4ZNjV2AQ6T62pQKC04f7Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727984869; c=relaxed/simple;
-	bh=ECX2osAucF1DI41a6MvGMyLMTaGY29CgaDloDAvU74o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qqlGK/MoB48RPIlduvawSdsXJlBWVCq9XEMV4uMADwz8vm/iDQnsS8wYucm/CWmV9nqXIWXdliu+SC21cjz3/YrY/jNTKGGNIPTw5eD+Xg10I6qvhuJ1u8aEA0GYOtIuAWXftNgrlO4gEW+7BO/pau0wVXCG8XI+/aWj0OY4syQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=sS4RVpN8; arc=none smtp.client-ip=194.63.252.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+4njKVjUvi14Ni/PwnTui2B7LerRN8Vt08crTKoltGI=; b=sS4RVpN8BpXjUZmmmqCM80sauj
-	JCugc5ILuauFWQHaPRwnEk2TdD7W+O2cNRejjezw7clNLBy68O6AKNcYlnDhJTrPUp1PiTLwNjMhs
-	VWQ+iIu2Pnc0GPT0QOGaY08N5ApwvYfzNMxwX1etC9Ir/ePEa4TJsN2LgIsZ1NjrsvPvx/iC8+HMh
-	JxyWL0YISDvmNaCu3zinzab9zMhkE5ruKEBLa5aeOuNjykUfkZKG4NRDo/011GBFphqPydRpTxbQV
-	Hpb7RzJyDgxGZHn+yR6pgK+by/e3RWdshNKFiTTItxf62hEGxlEm6DjGDOUkfFUztfzwffyUe08tM
-	4VpbpcCA==;
-Received: from [2001:9e8:9d1:b101:3235:adff:fed0:37e6] (port=39730 helo=lindesnes.fjasle.eu)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1swRnV-006Rdl-N1;
-	Thu, 03 Oct 2024 21:47:37 +0200
-Date: Thu, 3 Oct 2024 21:47:35 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 19/23] kbuild: support building external modules in a
- separate build directory
-Message-ID: <20241003-mustard-marmot-of-storm-af36a2@lindesnes>
-References: <20240917141725.466514-1-masahiroy@kernel.org>
- <20240917141725.466514-20-masahiroy@kernel.org>
+	s=arc-20240116; t=1727987405; c=relaxed/simple;
+	bh=SwGtc2Xda+ni7sn2/rxr5H2HBb82wmmYGATvDJbQMV8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IKMgUSzlWpyDHMAfBsKOutdFstoI+o85L5kmmYP46hLpXUoDPTkxeyBsf+fB2zBLgcxds+sOhmsqkWR36OVlScHoVxjRZGmgcSbQ/eOC4SVHLhNL4PsJMikOkCgQ5cpJC6jSICSU0DTIM8dIv+NYa/IKmfvo9EYB5L++zlQLXZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=eyYSzBsr; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6e23aa29408so23342127b3.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Oct 2024 13:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1727987403; x=1728592203; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jb4MBypfKjTl+k0Kb3ThenrsifvOPVM8YBQVfXJ85Jk=;
+        b=eyYSzBsr94ipfVs+YorWrg3C5zzVcm+4gTguyo1Rv03b7wAMwDJV5mz3C1VKSNDdLt
+         H8dUO0Omj8wV0iEFewykJhqmLISffNsslDO8Zkh3uiCqzyX/S7iP0KGOKqfsZCCbs10O
+         tFhpODaKnFcW39rYPmzCHqc5IR2o1sXWu1+OWPFRDkhOHyRsJu87Dxyp5vzvEuD1NF/5
+         Vf0sL5eRiRvJ+qnoAAZn1OJaA7p2KBQys/MEzkoosY5tPbNBvDiGa/7MKhHBdcGrUQrw
+         ke4Ygrr5wf1SHZr4aoLgAXPuBmDOEHzleJOcUEu/VRwdilunuKyqt82KCKb+wh+IXG/B
+         1n+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727987403; x=1728592203;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Jb4MBypfKjTl+k0Kb3ThenrsifvOPVM8YBQVfXJ85Jk=;
+        b=RHNP4rxbqe5X/MGpj2THwLMImX7oWQIGqoEeW+Liq3nxMe2RdrZU8EmhMZA3WSqwqs
+         7Pe8Fgcbeb2E8OnPkChHc/crGHBrbFTwccEVLoLZ1fIv46qIqol6M96sukLLtEZzoSeE
+         b/ilYaQmuKdEoPr79Xk2tw+qMbdSOsGkxrHqjqazivBUkHZax3GOagh0F2obMBO4Ayv7
+         O1fmWUMQp7dPOe9tdPFiEXbeSMceTSX5IUbFr6Ut6unyIu7O5m07sM4GudWHBFfUBsWE
+         AQRX9mO2P6dAw6BRwLPOugXsedeNw8PnW3aFjt4TRa8MMqTzqVLzPRIgcZmwmzj73wjZ
+         U1PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWi4A+6/YsZirk6zow2XJV3IgfCUoDMpdArUpIUiY+6mJMb38hgr5y+Wnm4sbeX6lBcl8TlOSngawPD2M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXj0W7zn4kvvU0gDnU+mAUYuXyhVqMuA+mSCMCjO8vRRc/zmPO
+	Gf91IA/ZgVW4wYLl5c3DBQJT5DbcLlJk3/WtGrfNectCgUlCQCqjru0v7RC1ldC/D/mn245IwAK
+	Cu7hWtwyrZPrUrN4uz6pxjGyJYJnBQpHF94gn
+X-Google-Smtp-Source: AGHT+IF236ZlsWjXinwnGBmUpr4ToS/9qMFMURISOyD71bvORHgRCXLSxeA2JJ/YfKI3o++dhjRkbTIBz2+RcKvZ9a4=
+X-Received: by 2002:a05:690c:6889:b0:6d6:c5cd:bde0 with SMTP id
+ 00721157ae682-6e2b53e65afmr36758307b3.15.1727987402869; Thu, 03 Oct 2024
+ 13:30:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240917141725.466514-20-masahiroy@kernel.org>
+References: <20240906172934.1317830-1-masahiroy@kernel.org> <CAHC9VhS=5ohpS18kkXUKaE4QR5HfGZ-ADbR14WPQPor3jeFSuw@mail.gmail.com>
+In-Reply-To: <CAHC9VhS=5ohpS18kkXUKaE4QR5HfGZ-ADbR14WPQPor3jeFSuw@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 3 Oct 2024 16:29:51 -0400
+Message-ID: <CAHC9VhQ6teo2OQTRZp_a8wVr-WsiiYGn_3c2fx862i2xaZK5ew@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] selinux: do not include <linux/*.h> headers from
+ host programs
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	selinux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 17, 2024 at 11:16:47PM +0900, Masahiro Yamada wrote:
-> There has been a long-standing request to support building external
-> modules in a separate build directory.
-> 
-> This commit introduces a new environment variable, KBUILD_EXTMOD_OUTPUT,
-> and its shorthand Make variable, MO.
-> 
-> A simple usage:
-> 
->  $ make -C <kernel-dir> M=<module-src-dir> MO=<module-build-dir>
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  Documentation/kbuild/kbuild.rst  |  8 +++++-
->  Documentation/kbuild/modules.rst |  5 +++-
->  Makefile                         | 44 +++++++++++++++++++++++---------
->  3 files changed, 43 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index 716f6fb70829..66a9dc44ea28 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -132,12 +132,18 @@ Specify the output directory when building the kernel.
->  This variable can also be used to point to the kernel output directory when
->  building external modules using kernel build artifacts in a separate build
->  directory. Please note that this does NOT specify the output directory for the
-> -external modules themselves.
-> +external modules themselves. (Use KBUILD_EXTMOD_OUTPUT for that purpose.)
->  
->  The output directory can also be specified using "O=...".
->  
->  Setting "O=..." takes precedence over KBUILD_OUTPUT.
->  
-> +KBUILD_EXTMOD_OUTPUT
-> +--------------------
-> +Specify the output directory for external modules.
-> +
-> +Setting "MO=..." takes precedence over KBUILD_EXTMOD_OUTPUT.
-> +
->  KBUILD_EXTRA_WARN
->  -----------------
->  Specify the extra build checks. The same value can be assigned by passing
-> diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-> index 3a6e7bdc0889..03347e13eeb5 100644
-> --- a/Documentation/kbuild/modules.rst
-> +++ b/Documentation/kbuild/modules.rst
-> @@ -95,7 +95,7 @@ executed to make module versioning work.
->  	of the kernel output directory if the kernel was built in a separate
->  	build directory.)
->  
-> -	make -C $KDIR M=$PWD
-> +	make -C $KDIR M=$PWD [MO=$BUILD_DIR]
->  
->  	-C $KDIR
->  		The directory that contains the kernel and relevant build
-> @@ -109,6 +109,9 @@ executed to make module versioning work.
->  		directory where the external module (kbuild file) is
->  		located.
->  
-> +	MO=$BUILD_DIR
-> +		Speficies a separate output directory for the external module.
+On Fri, Sep 6, 2024 at 2:37=E2=80=AFPM Paul Moore <paul@paul-moore.com> wro=
+te:
+> On Fri, Sep 6, 2024 at 1:29=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+> >
+> > The header, security/selinux/include/classmap.h, is included not only
+> > from kernel space but also from host programs.
+> >
+> > It includes <linux/capability.h> and <linux/socket.h>, which pull in
+> > more <linux/*.h> headers. This makes the host programs less portable,
+> > specifically causing build errors on macOS.
+> >
+> > Those headers are included for the following purposes:
+> >
+> >  - <linux/capability.h> for checking CAP_LAST_CAP
+> >  - <linux/socket.h> for checking PF_MAX
+> >
+> > These checks can be guarded by __KERNEL__ so they are skipped when
+> > building host programs. Testing them when building the kernel should
+> > be sufficient.
+> >
+> > The header, security/selinux/include/initial_sid_to_string.h, includes
+> > <linux/stddef.h> for the NULL definition, but this is not portable
+> > either. Instead, <stddef.h> should be included for host programs.
+> >
+> > Reported-by: Daniel Gomez <da.gomez@samsung.com>
+> > Closes: https://lore.kernel.org/lkml/20240807-macos-build-support-v1-6-=
+4cd1ded85694@samsung.com/
+> > Closes: https://lore.kernel.org/lkml/20240807-macos-build-support-v1-7-=
+4cd1ded85694@samsung.com/
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2:
+> >   - Reword the commit description
+> >   - Keep the location of CAP_LAST_CAP
+> >   - Include <stddef.h> for host programs
+> >
+> >  scripts/selinux/genheaders/Makefile              |  4 +---
+> >  scripts/selinux/genheaders/genheaders.c          |  3 ---
+> >  scripts/selinux/mdp/Makefile                     |  2 +-
+> >  scripts/selinux/mdp/mdp.c                        |  4 ----
+> >  security/selinux/include/classmap.h              | 11 ++++++++---
+> >  security/selinux/include/initial_sid_to_string.h |  4 ++++
+> >  6 files changed, 14 insertions(+), 14 deletions(-)
+>
+> This looks much better, thank you.  We're currently at -rc6 which is
+> later than I would like to merge patches like this (I try to stick to
+> bug fixes or trivial changes at this point in the development cycle),
+> so I'm going to hold on to this until after the upcoming merge window
+> where I'll merge it into selinux/dev.  See the below doc for more
+> information on how the SELinux tree is managed:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git/tree/=
+README.md
 
-s/Speficies/Specifies/
+I just merged this into selinux/dev, you should see it reflected in
+the kernel.org shortly.
 
-> +
->  2.3 Targets
->  ===========
->  
-> diff --git a/Makefile b/Makefile
-> index 9fbf7ef6e394..b654baa0763a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -134,6 +134,10 @@ ifeq ("$(origin M)", "command line")
->    KBUILD_EXTMOD := $(M)
->  endif
->  
-> +ifeq ("$(origin MO)", "command line")
-> +  KBUILD_EXTMOD_OUTPUT := $(MO)
-> +endif
-> +
->  $(if $(word 2, $(KBUILD_EXTMOD)), \
->  	$(error building multiple external modules is not supported))
-
-Should we also check against multiple output directories?
-
->  
-> @@ -187,7 +191,11 @@ ifdef KBUILD_EXTMOD
->      else
->          objtree := $(CURDIR)
->      endif
-> -    output := $(KBUILD_EXTMOD)
-> +    output := $(or $(KBUILD_EXTMOD_OUTPUT),$(KBUILD_EXTMOD))
-> +    # KBUILD_EXTMOD might be a relative path. Remember its absolute path before
-> +    # Make changes the working directory.
-> +    export abs_extmodtree := $(realpath $(KBUILD_EXTMOD))
-> +    $(if $(abs_extmodtree),,$(error specified external module directory "$(KBUILD_EXTMOD)" does not exist))
->  else
->      objtree := .
->      output := $(KBUILD_OUTPUT)
-> @@ -246,7 +254,6 @@ else # need-sub-make
->  ifeq ($(abs_srctree),$(CURDIR))
->          # building in the source tree
->          srctree := .
-> -	building_out_of_srctree :=
->  else
->          ifeq ($(abs_srctree)/,$(dir $(CURDIR)))
->                  # building in a subdirectory of the source tree
-> @@ -254,22 +261,23 @@ else
->          else
->                  srctree := $(abs_srctree)
->          endif
-> -	building_out_of_srctree := 1
->  endif
->  
->  ifneq ($(KBUILD_ABS_SRCTREE),)
->  srctree := $(abs_srctree)
->  endif
->  
-> -VPATH		:=
-> +export srctree
->  
-> -ifeq ($(KBUILD_EXTMOD),)
-> -ifdef building_out_of_srctree
-> -VPATH		:= $(srctree)
-> -endif
-> -endif
-> +_vpath = $(or $(abs_extmodtree),$(srctree))
->  
-> -export building_out_of_srctree srctree VPATH
-> +ifeq ($(realpath $(_vpath)),$(CURDIR))
-
-Just a style consistency question: 'ifeq (,)' with a space after ',' (as a few
-lines above) or without as used here?
-
-> +building_out_of_srctree :=
-> +VPATH :=
-> +else
-> +export building_out_of_srctree := 1
-> +export VPATH := $(_vpath)
-> +endif
->  
->  # To make sure we do not include .config for any of the *config targets
->  # catch them early, and hand them over to scripts/kconfig/Makefile
-> @@ -550,7 +558,7 @@ USERINCLUDE    := \
->  LINUXINCLUDE    := \
->  		-I$(srctree)/arch/$(SRCARCH)/include \
->  		-I$(objtree)/arch/$(SRCARCH)/include/generated \
-> -		$(if $(building_out_of_srctree),-I$(srctree)/include) \
-> +		-I$(srctree)/include \
->  		-I$(objtree)/include \
->  		$(USERINCLUDE)
->  
-> @@ -640,6 +648,7 @@ quiet_cmd_makefile = GEN     Makefile
->  	} > Makefile
->  
->  outputmakefile:
-> +ifeq ($(KBUILD_EXTMOD),)
->  	@if [ -f $(srctree)/.config -o \
->  		 -d $(srctree)/include/config -o \
->  		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
-> @@ -649,7 +658,16 @@ outputmakefile:
->  		echo >&2 "***"; \
->  		false; \
->  	fi
-> -	$(Q)ln -fsn $(srctree) source
-> +else
-> +	@if [ -f $(KBUILD_EXTMOD)/modules.order ]; then \
-> +		echo >&2 "***"; \
-> +		echo >&2 "*** The external module source tree is not clean."; \
-> +		echo >&2 "*** Please run 'make -C $(abs_srctree) M=$(realpath $(KBUILD_EXTMOD)) clean'"; \
-> +		echo >&2 "***"; \
-> +		false; \
-> +	fi
-> +endif
-> +	$(Q)ln -fsn $(_vpath) source
->  	$(call cmd,makefile)
->  	$(Q)test -e .gitignore || \
->  	{ echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
-> @@ -1926,6 +1944,8 @@ KBUILD_MODULES := 1
->  
->  endif
->  
-> +prepare: outputmakefile
-> +
->  # Preset locale variables to speed up the build process. Limit locale
->  # tweaks to this spot to avoid wrong language settings when running
->  # make menuconfig etc.
-> -- 
-> 2.43.0
-> 
-
-Thanks, this feature is really appreciated by a lot of my colleagues, and I think you found quite a nice solution!
-I'm a bit surprised, that there are not some more testers ...
-
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+--=20
+paul-moore.com
 
