@@ -1,34 +1,34 @@
-Return-Path: <linux-kbuild+bounces-3897-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3898-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B665498F659
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 20:41:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B881098F673
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 20:47:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D704A1C20DC4
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 18:41:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 781552826FA
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 18:47:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CD461A7AF7;
-	Thu,  3 Oct 2024 18:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04E7119F412;
+	Thu,  3 Oct 2024 18:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="QsLMFyDQ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="CAPZk2HS"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB7519F134;
-	Thu,  3 Oct 2024 18:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0059B6EB4A;
+	Thu,  3 Oct 2024 18:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727980912; cv=none; b=uZGoIeRIZZQwM/YyflUoEJ9eQnsfgywJxlKbvkwglrmQBs+/UgWHj1zwqpuuqklSMk5SiayS6ssp5798xu8IitHZl5OQW246lCbBlT3HdBQoTebgIqCNzsQEmo5rdhmlhFrkeR90zhXtj9qWrb6wHBoQIrPtMVmFqDLMOFsm3Zc=
+	t=1727981241; cv=none; b=cOo78t7QwzlTl7DquRPB6JOFvhwBAYNmlSnTy7libH070PjeL2rYgsNprNjG1NKpZIjgaJOvkKIwj7VJk7hcN7idqExOh0AgWJWayjq/6RNMRs4D8/fOqpA7jpI7O/IBRCBBuGDR/hRxsAjB5Vbub6vkqj4WGdAdIqodcHko5So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727980912; c=relaxed/simple;
-	bh=wTgNM06RbmTuSe1vk73CLMKZwqSjGjo1Lahr17D1ilk=;
+	s=arc-20240116; t=1727981241; c=relaxed/simple;
+	bh=T9wz+87C74AUS9/08GqPgihpGyhIpa2SD6GazW5n10E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XZRYPuAGgEha7xrubQ/WPDn5Ph1w2ELR+onijlZ21Oa278cpGmKE8iIN/S+h8X8o59CeTYEG2/di6/71oQrIiosf/+4Xxuk4s2q52GM6Am8apDl5wYeAnwigG4utUNnAjlknN89exUqPIvWv2MQCFbPPq0PXZWj6edV4Gkh+1d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=QsLMFyDQ; arc=none smtp.client-ip=194.63.252.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=khAtCaDisoqpuQnCe1eM91+M1eY255yW/TPZ8+qH7UFMed/CVliQO+F899dIXE0KEbBbxUu8num4tYjv8SCJzIKUwXHOrOqb3aTyK4TWMaypVpO2WfwVB3aPt6RfaE9be4hAu/jEhaNFYRtphs0SM7UtIAI2Bey/ubxAxgLAMus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=CAPZk2HS; arc=none smtp.client-ip=194.63.252.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
@@ -38,28 +38,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=P7zwmdrkiHaLrmgYV+BJvjxojpHU/ouZnB9HE3vhhog=; b=QsLMFyDQkyKJu8wulgL2JTVJ1H
-	5COe66dzvUgnTCRfJGYf9MMiG0Zlu1GWFzbgYwhaFW5CnEYop7WbVwl9mBJ1ye1tVQzE5ouadqDHU
-	iZMrqs58s/c5foO4HCwjc1eQRrWue5lYpB4WvO0Y9t+1NjPu83jT0gw3FYkCwvZ0aBerwM9HEjIof
-	6qZkwladnuKmghVmRjRNjNw1U+xtuVIO0VuqDx8e+sVfVOPAZEh2k2uNVmYmwqNWuFF4eQS+/Y4wo
-	eSBrTBWaBPMv0hDkggyDb/x3EBegWMqKetY/tSt7+AK9C0HVg7U4UwzqgxIgznYMA3Ap3WWAu78Kf
-	S+KjIamw==;
-Received: from [2001:9e8:9d1:b101:3235:adff:fed0:37e6] (port=47996 helo=lindesnes.fjasle.eu)
+	bh=wegEXTDeqNu8qldzY9Q7ByoUaury9EFaSn0q1zTVDkw=; b=CAPZk2HSkzdnnvBYch7tMWy8z+
+	hpJxtcs8dLaHzf4LOULwkPNVJCsPI63tpWGwprGiRH+IDlS1jU5OnCe3OhY8xrItcM2Y297T1MUHR
+	0toiPW31MsRHqEL3kMQyfXipGBSTYjM3E/hUp3+szyQseqNtygy/FWIeHNf4VIznTb1tvyL8Ouo8A
+	ViS3y8oi2Bx2NZ2lKC0/wnc9GYsWj4Evzs5ymqx8M+2BySS8F8tUqQi0lWixo5NSnBd6VS2VTUMvK
+	/50nMBYJ9HRXKpyu6rBFVORwoutCJyxrjuzjY42WmhbIPI+o2X4/iixqqyJ1V5rTJ945apm7AZEEm
+	Tp6wUuXg==;
+Received: from [2001:9e8:9d1:b101:3235:adff:fed0:37e6] (port=58058 helo=lindesnes.fjasle.eu)
 	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.95)
 	(envelope-from <nicolas@fjasle.eu>)
-	id 1swQlb-006Aih-Qs;
-	Thu, 03 Oct 2024 20:41:35 +0200
-Date: Thu, 3 Oct 2024 20:41:33 +0200
+	id 1swQqy-006CD5-Dh;
+	Thu, 03 Oct 2024 20:47:08 +0200
+Date: Thu, 3 Oct 2024 20:47:06 +0200
 From: Nicolas Schier <nicolas@fjasle.eu>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 17/23] kbuild: build external modules in their directory
-Message-ID: <20241003-amazing-mandrill-of-mastery-865a3a@lindesnes>
+Subject: Re: [PATCH 18/23] kbuild: remove extmod_prefix, MODORDER,
+ MODULES_NSDEPS variables
+Message-ID: <20241003-petite-mamba-of-champagne-d9e0ac@lindesnes>
 References: <20240917141725.466514-1-masahiroy@kernel.org>
- <20240917141725.466514-18-masahiroy@kernel.org>
+ <20240917141725.466514-19-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -68,161 +69,37 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240917141725.466514-18-masahiroy@kernel.org>
+In-Reply-To: <20240917141725.466514-19-masahiroy@kernel.org>
 
-On Tue, Sep 17, 2024 at 11:16:45PM +0900, Masahiro Yamada wrote:
-> Currently, Kbuild always operates in the output directory of the kernel,
-> even when building external modules. This increases the risk of external
-> module Makefiles attempting to write to the kernel directory.
+On Tue, Sep 17, 2024 at 11:16:46PM +0900, Masahiro Yamada wrote:
+> With the previous changes, $(extmod_prefix), $(MODORDER), and
+> $(MODULES_NSDEPS) are constant. (empty, modules.order, and
+> modules.nsdeps, respectively).
 > 
-> This commit switches the working directory to the external module
-> directory, allowing the removal of the $(KBUILD_EXTMOD)/ prefix from
-> some build artifacts.
-> 
-> The command for building external modules maintains backward
-> compatibility, but Makefiles that rely on working in the kernel
-> directory may break. In such cases, $(objtree) and $(srctree) should
-> be used to refer to the output and source directories of the kernel.
-> 
-> The appearance of the build log will change as follows:
-> 
-> [Before]
-> 
->   $ make -C /path/to/my/linux M=/path/to/my/externel/module
->   make: Entering directory '/path/to/my/linux'
->     CC [M]  /path/to/my/externel/module/helloworld.o
->     MODPOST /path/to/my/externel/module/Module.symvers
->     CC [M]  /path/to/my/externel/module/helloworld.mod.o
->     CC [M]  /path/to/my/externel/module/.module-common.o
->     LD [M]  /path/to/my/externel/module/helloworld.ko
->   make: Leaving directory '/path/to/my/linux'
-> 
-> [After]
-> 
->   $ make -C /path/to/my/linux M=/path/to/my/externel/module
->   make: Entering directory '/path/to/my/linux'
->   make[1]: Entering directory '/path/to/my/externel/module'
->     CC [M]  helloworld.o
->     MODPOST Module.symvers
->     CC [M]  helloworld.mod.o
->     CC [M]  .module-common.o
->     LD [M]  helloworld.ko
->   make[1]: Leaving directory '/path/to/my/externel/module'
->   make: Leaving directory '/path/to/my/linux'
-> 
-> Printing "Entering directory" twice is cumbersome. This will be
-> addressed later.
+> Remove these variables and hard-code their values.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 > 
->  Documentation/dev-tools/coccinelle.rst | 19 +++++-------
->  Makefile                               | 40 +++++++++++++++++---------
->  rust/Makefile                          |  4 +--
->  scripts/Makefile.compiler              |  2 +-
->  scripts/Makefile.modpost               |  6 ++--
->  scripts/coccicheck                     |  6 ++--
->  scripts/package/install-extmod-build   |  7 +++++
->  7 files changed, 49 insertions(+), 35 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
-> index 535ce126fb4f..80c83ce0babc 100644
-> --- a/Documentation/dev-tools/coccinelle.rst
-> +++ b/Documentation/dev-tools/coccinelle.rst
-> @@ -250,25 +250,20 @@ variables for .cocciconfig is as follows:
->  - Your directory from which spatch is called is processed next
->  - The directory provided with the ``--dir`` option is processed last, if used
->  
-> -Since coccicheck runs through make, it naturally runs from the kernel
-> -proper dir; as such the second rule above would be implied for picking up a
-> -.cocciconfig when using ``make coccicheck``.
-> -
->  ``make coccicheck`` also supports using M= targets. If you do not supply
->  any M= target, it is assumed you want to target the entire kernel.
->  The kernel coccicheck script has::
->  
-> -    if [ "$KBUILD_EXTMOD" = "" ] ; then
-> -        OPTIONS="--dir $srctree $COCCIINCLUDE"
-> +    if [ "$VPATH" ] ; then
-> +        OPTIONS="--dir $VPATH $COCCIINCLUDE"
->      else
-> -        OPTIONS="--dir $KBUILD_EXTMOD $COCCIINCLUDE"
-> +        OPTIONS="--dir . $COCCIINCLUDE"
->      fi
->  
-> -KBUILD_EXTMOD is set when an explicit target with M= is used. For both cases
-> -the spatch ``--dir`` argument is used, as such third rule applies when whether
-> -M= is used or not, and when M= is used the target directory can have its own
-> -.cocciconfig file. When M= is not passed as an argument to coccicheck the
-> -target directory is the same as the directory from where spatch was called.
-> +When an explicit target is executed with a separate output directory, VPATH is
-> +set to the target source directory. The third rule ensures the spatch reads the
+>  Makefile                  | 22 +++++++++-------------
+>  scripts/Makefile.modfinal |  2 +-
+>  scripts/Makefile.modinst  |  2 +-
+>  scripts/Makefile.modpost  |  6 +++---
+>  scripts/nsdeps            |  2 +-
+>  5 files changed, 15 insertions(+), 19 deletions(-)
 
-My limited English with German background likes to have "the target's
-source directory" here, but I am not sure if this is more correct.
+Do you want to remove these also?  I can't think of a reason to keep these
+around:
 
-> +.cocciconfig from the target directory. When M= is used, the external module
-> +directory can have its own.cocciconfig file.
+$ git grep -Hrnwe extmod_prefix -e MODORDER -e MODULES_NSDEP
+Makefile:1912:  $(Q){ $(foreach m, $(single-ko), echo $(extmod_prefix)$(m:%.ko=%.o);) } > modules.order
+scripts/Makefile.modfinal:33:$(extmod_prefix).module-common.o: $(srctree)/scripts/module-common.c FORCE
+scripts/Makefile.modfinal:60:%.ko: %.o %.mod.o $(extmod_prefix).module-common.o $(objtree)/scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),$(objtree)/vmlinux) FORCE
+scripts/Makefile.modfinal:66:targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) $(extmod_prefix).module-common.o
+scripts/Makefile.modinst:60:modules := $(patsubst $(extmod_prefix)%.o, $(dst)/%.ko$(suffix-y), $(modules))
+scripts/Makefile.modinst:120:$(dst)/%.ko: $(extmod_prefix)%.ko FORCE
 
-A space is missing after 'own'.
-
->  
->  If not using the kernel's coccicheck target, keep the above precedence
->  order logic of .cocciconfig reading. If using the kernel's coccicheck target,
-> diff --git a/Makefile b/Makefile
-> index 7a76452049ea..4db22c3a8555 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -180,7 +180,20 @@ ifeq ("$(origin O)", "command line")
->    KBUILD_OUTPUT := $(O)
->  endif
->  
-> -output := $(KBUILD_OUTPUT)
-> +ifdef KBUILD_EXTMOD
-> +    ifdef KBUILD_OUTPUT
-> +        objtree := $(realpath $(KBUILD_OUTPUT))
-> +        $(if $(objtree),,$(error specified kernel directory "$(KBUILD_OUTPUT)" does not exist))
-> +    else
-> +        objtree := $(CURDIR)
-> +    endif
-> +    output := $(KBUILD_EXTMOD)
-> +else
-> +    objtree := .
-> +    output := $(KBUILD_OUTPUT)
-> +endif
-> +
-> +export objtree
->  
->  # Do we want to change the working directory?
->  ifneq ($(output),)
-> @@ -248,8 +261,6 @@ ifneq ($(KBUILD_ABS_SRCTREE),)
->  srctree := $(abs_srctree)
->  endif
->  
-> -objtree		:= .
-> -
->  VPATH		:=
->  
->  ifeq ($(KBUILD_EXTMOD),)
-> @@ -258,7 +269,7 @@ VPATH		:= $(srctree)
->  endif
->  endif
->  
-> -export building_out_of_srctree srctree objtree VPATH
-> +export building_out_of_srctree srctree VPATH
->  
->  # To make sure we do not include .config for any of the *config targets
->  # catch them early, and hand them over to scripts/kconfig/Makefile
-> @@ -708,7 +719,7 @@ endif
->  # in addition to whatever we do anyway.
->  # Just "make" or "make all" shall build modules as well
->  
-> -ifneq ($(filter all modules nsdeps %compile_commands.json clang-%,$(MAKECMDGOALS)),)
-> +ifneq ($(filter all modules nsdeps compile_commands.json clang-%,$(MAKECMDGOALS)),)
-
-Nit: I think this would better match to patch "kbuild: remove
-extmod_prefix, MODORDER, MODULES_NSDEPS variables", but probably nobody
-else will care.
+W/ or w/o:
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
