@@ -1,149 +1,132 @@
-Return-Path: <linux-kbuild+bounces-3900-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3901-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A398F81C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 22:30:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0417998F933
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 23:50:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1695FB21FB0
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 20:30:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A39FF1F219C9
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 21:50:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B11541B85C7;
-	Thu,  3 Oct 2024 20:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF941A0BCC;
+	Thu,  3 Oct 2024 21:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="eyYSzBsr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jN3Mz37u"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A141ABEDF
-	for <linux-kbuild@vger.kernel.org>; Thu,  3 Oct 2024 20:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8BC6F06A;
+	Thu,  3 Oct 2024 21:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727987405; cv=none; b=EGYCfildQRZsPFsMZhBk7QsRjQ0X2FHUh5qn3jiLajyf3+YjjLtgmXF4OVuhvXcLCj4m0QuuxHXcX28fNXQLmgYTSf/rVhBlwfI26FdPUmCIHTHW4VJoZ1/QDzmaQITOJUucFZNeJbKCzI43FDFPB4ZNjV2AQ6T62pQKC04f7Ow=
+	t=1727992196; cv=none; b=YWNee4g2CCBzFL+WFALedLijCLr/bm0402KP9qlX9rp9Pcqz8hSVlSYibbgSS40uzuCZ6ydZ5KauXLzugdgBV1lKi6IAiZFrh9N8ui6f86pkZm1rOGehARQFUwaPU3dnY8Q3z9IykfUHyftCVaYiQcyMjx4CwBQMudbpA9PvCqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727987405; c=relaxed/simple;
-	bh=SwGtc2Xda+ni7sn2/rxr5H2HBb82wmmYGATvDJbQMV8=;
+	s=arc-20240116; t=1727992196; c=relaxed/simple;
+	bh=YWSWyBMvb2BqcQtPmYtbpV7rQQkcRKcqy5ijg1PX33o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IKMgUSzlWpyDHMAfBsKOutdFstoI+o85L5kmmYP46hLpXUoDPTkxeyBsf+fB2zBLgcxds+sOhmsqkWR36OVlScHoVxjRZGmgcSbQ/eOC4SVHLhNL4PsJMikOkCgQ5cpJC6jSICSU0DTIM8dIv+NYa/IKmfvo9EYB5L++zlQLXZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=eyYSzBsr; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6e23aa29408so23342127b3.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Oct 2024 13:30:03 -0700 (PDT)
+	 To:Cc:Content-Type; b=LWcB7icUp4iFBktVIInQgy1bpSUqxXg2YOF+VbrgXyjNfmpPN2CvVV+SomxnmzBqQs6vCaVHqs9uLa+ACAjAHg8MKlYz4ivcdG8Olt2VseJ0IATobnhprGuL1k4nIC5YMkqnC9ss/4XnAMdW1X8q88tME6d61mlhz08D59jPoYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jN3Mz37u; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7e9b2d75d92so205407a12.0;
+        Thu, 03 Oct 2024 14:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1727987403; x=1728592203; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1727992195; x=1728596995; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jb4MBypfKjTl+k0Kb3ThenrsifvOPVM8YBQVfXJ85Jk=;
-        b=eyYSzBsr94ipfVs+YorWrg3C5zzVcm+4gTguyo1Rv03b7wAMwDJV5mz3C1VKSNDdLt
-         H8dUO0Omj8wV0iEFewykJhqmLISffNsslDO8Zkh3uiCqzyX/S7iP0KGOKqfsZCCbs10O
-         tFhpODaKnFcW39rYPmzCHqc5IR2o1sXWu1+OWPFRDkhOHyRsJu87Dxyp5vzvEuD1NF/5
-         Vf0sL5eRiRvJ+qnoAAZn1OJaA7p2KBQys/MEzkoosY5tPbNBvDiGa/7MKhHBdcGrUQrw
-         ke4Ygrr5wf1SHZr4aoLgAXPuBmDOEHzleJOcUEu/VRwdilunuKyqt82KCKb+wh+IXG/B
-         1n+g==
+        bh=YWSWyBMvb2BqcQtPmYtbpV7rQQkcRKcqy5ijg1PX33o=;
+        b=jN3Mz37u2wOqm7KvXRdlnPkFLF7nsRhcfqTdxCyo5nNbP8m66VGPkRhFhjyz8f/H2S
+         dHpqP3j9MbmDdzYTJHPHgYgIg0X3OBcr80Fh4kElnLM0EmEUpnENL6oCAFGgdIdRrpHh
+         fvSRHnAtoyifDHyYaTOuCyQyikU90IA5GKG8qiM37mTIoamhPIgxj3RnvI5DHu1+10IS
+         7KLkO1wDEi6Gfed/mMtKU9V1jW4I3ng/rR1+vAJerevII2dzUcxRTWCTmjIyXVrEdVCT
+         +7OvT574y+d5l2Q5+k86cScw6LLLQVSui9hjKw7sawi1DUvyuDPxoUHcD7pHBQBoirZA
+         wXcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727987403; x=1728592203;
+        d=1e100.net; s=20230601; t=1727992195; x=1728596995;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Jb4MBypfKjTl+k0Kb3ThenrsifvOPVM8YBQVfXJ85Jk=;
-        b=RHNP4rxbqe5X/MGpj2THwLMImX7oWQIGqoEeW+Liq3nxMe2RdrZU8EmhMZA3WSqwqs
-         7Pe8Fgcbeb2E8OnPkChHc/crGHBrbFTwccEVLoLZ1fIv46qIqol6M96sukLLtEZzoSeE
-         b/ilYaQmuKdEoPr79Xk2tw+qMbdSOsGkxrHqjqazivBUkHZax3GOagh0F2obMBO4Ayv7
-         O1fmWUMQp7dPOe9tdPFiEXbeSMceTSX5IUbFr6Ut6unyIu7O5m07sM4GudWHBFfUBsWE
-         AQRX9mO2P6dAw6BRwLPOugXsedeNw8PnW3aFjt4TRa8MMqTzqVLzPRIgcZmwmzj73wjZ
-         U1PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWi4A+6/YsZirk6zow2XJV3IgfCUoDMpdArUpIUiY+6mJMb38hgr5y+Wnm4sbeX6lBcl8TlOSngawPD2M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXj0W7zn4kvvU0gDnU+mAUYuXyhVqMuA+mSCMCjO8vRRc/zmPO
-	Gf91IA/ZgVW4wYLl5c3DBQJT5DbcLlJk3/WtGrfNectCgUlCQCqjru0v7RC1ldC/D/mn245IwAK
-	Cu7hWtwyrZPrUrN4uz6pxjGyJYJnBQpHF94gn
-X-Google-Smtp-Source: AGHT+IF236ZlsWjXinwnGBmUpr4ToS/9qMFMURISOyD71bvORHgRCXLSxeA2JJ/YfKI3o++dhjRkbTIBz2+RcKvZ9a4=
-X-Received: by 2002:a05:690c:6889:b0:6d6:c5cd:bde0 with SMTP id
- 00721157ae682-6e2b53e65afmr36758307b3.15.1727987402869; Thu, 03 Oct 2024
- 13:30:02 -0700 (PDT)
+        bh=YWSWyBMvb2BqcQtPmYtbpV7rQQkcRKcqy5ijg1PX33o=;
+        b=XPFBxQgMIhLNF+Vnrx08p/7Ctlf/roBfbYjQJxdrWqJExxlYNqlM6CKBgfAbQLKtdN
+         GuS7ukCXR6IFxcIGkVPnmkcXrn0eTxJ0gU2ZILZDZY7VjP3Y97ErJNp/m/zObyJf1qUm
+         /+9j62B7PBlfhAgO3dBpiwtvGm5owtVNjWcLzFoexFTBiIVgSy0a0pILDLKZtB2mlwYr
+         dqr6e0nEgBhAiqFPSw8E9GLWRmQBWh6IO3C1gHcf3cZNAqeoE0tieFsxTfC7Q7/95TQn
+         E9B0l8Kg9Vn+AL58EHD9TAgympD7yXjNzDgZl6m1GJUmF2Ej9VPLVSn3cekWJdM56Rf7
+         HiIA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+hDBOEPjOP8hHWm76rkn/QqJYQ04dP72vBV+g/AmgH6cuA/Z+6qOtJLsfqxLPOnFxq7kyztwa16kZAgtnOxA=@vger.kernel.org, AJvYcCU+t2Gxt4DvG3KMPzkiUG+Oj13noKkKfMLzdguFjKP4QwzC2tNJTQJDVS9uF657yDpluUM44YDv0XmghLrf@vger.kernel.org, AJvYcCVKMzRP5lgM17iKMKIbcyh5MfqOHttQGy+pGg97Ur+psNodG2c+/V7xY1Jkku+rpsElRFuytV5lwZll7E4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJ5CiSvT+qM3BB9JIARWIXmOEYzeuBJ3TKT+1mryDn68cDYByp
+	2ClYLVIuq/BRZuKPAcIeU2UN4wcA8SHOvOkTaW+5yCumHOGoTqi/eyqGhBqzJYVKWd32PPz4O1p
+	TQvAOBIVSFcbWRgCeYx6q+zAS9V8=
+X-Google-Smtp-Source: AGHT+IGyVrKTLv/6R4p9C4+lzDTKS+g4BKYcB6NEFd08fKt94IaBLorNVuAB40syGlRO/PPbVfEnCv0roeJaI2nbnEc=
+X-Received: by 2002:a05:6a00:3a28:b0:71b:64c:813f with SMTP id
+ d2e1a72fcca58-71de2479d53mr321221b3a.6.1727992194577; Thu, 03 Oct 2024
+ 14:49:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240906172934.1317830-1-masahiroy@kernel.org> <CAHC9VhS=5ohpS18kkXUKaE4QR5HfGZ-ADbR14WPQPor3jeFSuw@mail.gmail.com>
-In-Reply-To: <CAHC9VhS=5ohpS18kkXUKaE4QR5HfGZ-ADbR14WPQPor3jeFSuw@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 3 Oct 2024 16:29:51 -0400
-Message-ID: <CAHC9VhQ6teo2OQTRZp_a8wVr-WsiiYGn_3c2fx862i2xaZK5ew@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] selinux: do not include <linux/*.h> headers from
- host programs
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	selinux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org
+References: <20240915132734.1653004-1-gary@garyguo.net>
+In-Reply-To: <20240915132734.1653004-1-gary@garyguo.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 3 Oct 2024 23:49:41 +0200
+Message-ID: <CANiq72kkN2T4NeesDwsrVkk=JcDA-8iPHFys2Cg9M7MobzTEoA@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: enable arbitrary_self_types and remove `Receiver`
+To: Gary Guo <gary@garyguo.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Danilo Krummrich <dakr@redhat.com>, 
+	FUJITA Tomonori <fujita.tomonori@gmail.com>, Valentin Obst <kernel@valentinobst.de>, 
+	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, Alex Mantel <alexmantel93@mailbox.org>, 
+	Adrian Taylor <ade@hohum.me.uk>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 6, 2024 at 2:37=E2=80=AFPM Paul Moore <paul@paul-moore.com> wro=
-te:
-> On Fri, Sep 6, 2024 at 1:29=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> >
-> > The header, security/selinux/include/classmap.h, is included not only
-> > from kernel space but also from host programs.
-> >
-> > It includes <linux/capability.h> and <linux/socket.h>, which pull in
-> > more <linux/*.h> headers. This makes the host programs less portable,
-> > specifically causing build errors on macOS.
-> >
-> > Those headers are included for the following purposes:
-> >
-> >  - <linux/capability.h> for checking CAP_LAST_CAP
-> >  - <linux/socket.h> for checking PF_MAX
-> >
-> > These checks can be guarded by __KERNEL__ so they are skipped when
-> > building host programs. Testing them when building the kernel should
-> > be sufficient.
-> >
-> > The header, security/selinux/include/initial_sid_to_string.h, includes
-> > <linux/stddef.h> for the NULL definition, but this is not portable
-> > either. Instead, <stddef.h> should be included for host programs.
-> >
-> > Reported-by: Daniel Gomez <da.gomez@samsung.com>
-> > Closes: https://lore.kernel.org/lkml/20240807-macos-build-support-v1-6-=
-4cd1ded85694@samsung.com/
-> > Closes: https://lore.kernel.org/lkml/20240807-macos-build-support-v1-7-=
-4cd1ded85694@samsung.com/
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > Changes in v2:
-> >   - Reword the commit description
-> >   - Keep the location of CAP_LAST_CAP
-> >   - Include <stddef.h> for host programs
-> >
-> >  scripts/selinux/genheaders/Makefile              |  4 +---
-> >  scripts/selinux/genheaders/genheaders.c          |  3 ---
-> >  scripts/selinux/mdp/Makefile                     |  2 +-
-> >  scripts/selinux/mdp/mdp.c                        |  4 ----
-> >  security/selinux/include/classmap.h              | 11 ++++++++---
-> >  security/selinux/include/initial_sid_to_string.h |  4 ++++
-> >  6 files changed, 14 insertions(+), 14 deletions(-)
+On Sun, Sep 15, 2024 at 3:29=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
 >
-> This looks much better, thank you.  We're currently at -rc6 which is
-> later than I would like to merge patches like this (I try to stick to
-> bug fixes or trivial changes at this point in the development cycle),
-> so I'm going to hold on to this until after the upcoming merge window
-> where I'll merge it into selinux/dev.  See the below doc for more
-> information on how the SELinux tree is managed:
+> The term "receiver" means that a type can be used as the type of `self`,
+> and thus enables method call syntax `foo.bar()` instead of
+> `Foo::bar(foo)`. Stable Rust as of today (1.81) enables a limited
+> selection of types (primitives and types in std, e.g. `Box` and `Arc`)
+> to be used as receivers, while custom types cannot.
 >
-> https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git/tree/=
-README.md
+> We want the kernel `Arc` type to have the same functionality as the Rust
+> std `Arc`, so we use the `Receiver` trait (gated behind `receiver_trait`
+> unstable feature) to gain the functionality.
+>
+> The `arbitrary_self_types` RFC [1] (tracking issue [2]) is accepted and
+> it will allow all types that implement a new `Receiver` trait (different
+> from today's unstable trait) to be used as receivers. This trait will be
+> automatically implemented for all `Deref` types, which include our `Arc`
+> type, so we no longer have to opt-in to be used as receiver. To prepare
+> us for the change, remove the `Receiver` implementation and the
+> associated feature. To still allow `Arc` and others to be used as method
+> receivers, turn on `arbitrary_self_types` feature instead.
+>
+> This feature gate is introduced in 1.23.0. It used to enable both
+> `Deref` types and raw pointer types to be used as receivers, but the
+> latter is now split into a different feature gate in Rust 1.83 nightly.
+> We do not need receivers on raw pointers so this change would not affect
+> us and usage of `arbitrary_self_types` feature would work for all Rust
+> versions that we support (>=3D1.78).
+>
+> Cc: Adrian Taylor <ade@hohum.me.uk>
+> Link: https://github.com/rust-lang/rfcs/pull/3519 [1]
+> Link: https://github.com/rust-lang/rust/issues/44874 [2]
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 
-I just merged this into selinux/dev, you should see it reflected in
-the kernel.org shortly.
+Applied to `rust-next` -- thanks everyone!
 
---=20
-paul-moore.com
+Cheers,
+Miguel
 
