@@ -1,132 +1,131 @@
-Return-Path: <linux-kbuild+bounces-3901-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3902-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0417998F933
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 23:50:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3067398F9E8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 00:33:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A39FF1F219C9
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 21:50:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 335231C2164F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2024 22:33:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF941A0BCC;
-	Thu,  3 Oct 2024 21:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jN3Mz37u"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BDA1147C96;
+	Thu,  3 Oct 2024 22:33:19 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fgw22-7.mail.saunalahti.fi (fgw22-7.mail.saunalahti.fi [62.142.5.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8BC6F06A;
-	Thu,  3 Oct 2024 21:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275C11AC89A
+	for <linux-kbuild@vger.kernel.org>; Thu,  3 Oct 2024 22:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727992196; cv=none; b=YWNee4g2CCBzFL+WFALedLijCLr/bm0402KP9qlX9rp9Pcqz8hSVlSYibbgSS40uzuCZ6ydZ5KauXLzugdgBV1lKi6IAiZFrh9N8ui6f86pkZm1rOGehARQFUwaPU3dnY8Q3z9IykfUHyftCVaYiQcyMjx4CwBQMudbpA9PvCqM=
+	t=1727994798; cv=none; b=Y3ULXJ0BUomQiBaS7IG81GCENvsLqOt+IEevEOly45Q96oGtLsZ0NtAJzg9WheHr7XAQsfjJsMblGgTnKbvAKL02CkUqmYAa2SZ9UjBc+PuTkbHLgBiSjCknPOxF68nNqCQ540kgwG9VAMWMANXZ0+VqUAnIUYLUQCi6K4Ccdfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727992196; c=relaxed/simple;
-	bh=YWSWyBMvb2BqcQtPmYtbpV7rQQkcRKcqy5ijg1PX33o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LWcB7icUp4iFBktVIInQgy1bpSUqxXg2YOF+VbrgXyjNfmpPN2CvVV+SomxnmzBqQs6vCaVHqs9uLa+ACAjAHg8MKlYz4ivcdG8Olt2VseJ0IATobnhprGuL1k4nIC5YMkqnC9ss/4XnAMdW1X8q88tME6d61mlhz08D59jPoYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jN3Mz37u; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7e9b2d75d92so205407a12.0;
-        Thu, 03 Oct 2024 14:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727992195; x=1728596995; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YWSWyBMvb2BqcQtPmYtbpV7rQQkcRKcqy5ijg1PX33o=;
-        b=jN3Mz37u2wOqm7KvXRdlnPkFLF7nsRhcfqTdxCyo5nNbP8m66VGPkRhFhjyz8f/H2S
-         dHpqP3j9MbmDdzYTJHPHgYgIg0X3OBcr80Fh4kElnLM0EmEUpnENL6oCAFGgdIdRrpHh
-         fvSRHnAtoyifDHyYaTOuCyQyikU90IA5GKG8qiM37mTIoamhPIgxj3RnvI5DHu1+10IS
-         7KLkO1wDEi6Gfed/mMtKU9V1jW4I3ng/rR1+vAJerevII2dzUcxRTWCTmjIyXVrEdVCT
-         +7OvT574y+d5l2Q5+k86cScw6LLLQVSui9hjKw7sawi1DUvyuDPxoUHcD7pHBQBoirZA
-         wXcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727992195; x=1728596995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YWSWyBMvb2BqcQtPmYtbpV7rQQkcRKcqy5ijg1PX33o=;
-        b=XPFBxQgMIhLNF+Vnrx08p/7Ctlf/roBfbYjQJxdrWqJExxlYNqlM6CKBgfAbQLKtdN
-         GuS7ukCXR6IFxcIGkVPnmkcXrn0eTxJ0gU2ZILZDZY7VjP3Y97ErJNp/m/zObyJf1qUm
-         /+9j62B7PBlfhAgO3dBpiwtvGm5owtVNjWcLzFoexFTBiIVgSy0a0pILDLKZtB2mlwYr
-         dqr6e0nEgBhAiqFPSw8E9GLWRmQBWh6IO3C1gHcf3cZNAqeoE0tieFsxTfC7Q7/95TQn
-         E9B0l8Kg9Vn+AL58EHD9TAgympD7yXjNzDgZl6m1GJUmF2Ej9VPLVSn3cekWJdM56Rf7
-         HiIA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+hDBOEPjOP8hHWm76rkn/QqJYQ04dP72vBV+g/AmgH6cuA/Z+6qOtJLsfqxLPOnFxq7kyztwa16kZAgtnOxA=@vger.kernel.org, AJvYcCU+t2Gxt4DvG3KMPzkiUG+Oj13noKkKfMLzdguFjKP4QwzC2tNJTQJDVS9uF657yDpluUM44YDv0XmghLrf@vger.kernel.org, AJvYcCVKMzRP5lgM17iKMKIbcyh5MfqOHttQGy+pGg97Ur+psNodG2c+/V7xY1Jkku+rpsElRFuytV5lwZll7E4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJ5CiSvT+qM3BB9JIARWIXmOEYzeuBJ3TKT+1mryDn68cDYByp
-	2ClYLVIuq/BRZuKPAcIeU2UN4wcA8SHOvOkTaW+5yCumHOGoTqi/eyqGhBqzJYVKWd32PPz4O1p
-	TQvAOBIVSFcbWRgCeYx6q+zAS9V8=
-X-Google-Smtp-Source: AGHT+IGyVrKTLv/6R4p9C4+lzDTKS+g4BKYcB6NEFd08fKt94IaBLorNVuAB40syGlRO/PPbVfEnCv0roeJaI2nbnEc=
-X-Received: by 2002:a05:6a00:3a28:b0:71b:64c:813f with SMTP id
- d2e1a72fcca58-71de2479d53mr321221b3a.6.1727992194577; Thu, 03 Oct 2024
- 14:49:54 -0700 (PDT)
+	s=arc-20240116; t=1727994798; c=relaxed/simple;
+	bh=9pOyjIY2Fu8sZWJ+h9Hhks0ngUMcydTiz+NvzoER/+Y=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l0/bGmwQzFmwXhUvqbp+1s7/H5q3uSgAZIutuCFxkv2/vjalGiDwnC/OT1LS/AYa2VVCJ62LCAajC/ZToKMeXa1aK61FTF2suzpnQCeMIZWWt8q3vDIZ7bg3vOInonAcgZ1YpKYD9NJceqa/qDRh8dISPgeEHsrNVUtGS6R8+y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (88-113-25-87.elisa-laajakaista.fi [88.113.25.87])
+	by fgw20.mail.saunalahti.fi (Halon) with ESMTP
+	id 6ccef329-81d7-11ef-995b-005056bd6ce9;
+	Fri, 04 Oct 2024 01:32:55 +0300 (EEST)
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 4 Oct 2024 01:32:50 +0300
+To: Daniel Gomez <da.gomez@samsung.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	William Hubbs <w.d.hubbs@gmail.com>,
+	Chris Brannon <chris@the-brannons.com>,
+	Kirk Reiser <kirk@reisers.ca>,
+	Samuel Thibault <samuel.thibault@ens-lyon.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	speakup@linux-speakup.org, selinux@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-serial@vger.kernel.org, llvm@lists.linux.dev,
+	Finn Behrens <me@kloenk.dev>,
+	"Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
+	gost.dev@samsung.com
+Subject: Re: [PATCH v2 2/8] file2alias: fix uuid_t definitions for macos
+Message-ID: <Zv8bkoJA5oDIe6If@surfacebook.localdomain>
+References: <20240906-macos-build-support-v2-0-06beff418848@samsung.com>
+ <20240906-macos-build-support-v2-2-06beff418848@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240915132734.1653004-1-gary@garyguo.net>
-In-Reply-To: <20240915132734.1653004-1-gary@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 3 Oct 2024 23:49:41 +0200
-Message-ID: <CANiq72kkN2T4NeesDwsrVkk=JcDA-8iPHFys2Cg9M7MobzTEoA@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: enable arbitrary_self_types and remove `Receiver`
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Danilo Krummrich <dakr@redhat.com>, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>, Valentin Obst <kernel@valentinobst.de>, 
-	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, Alex Mantel <alexmantel93@mailbox.org>, 
-	Adrian Taylor <ade@hohum.me.uk>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240906-macos-build-support-v2-2-06beff418848@samsung.com>
 
-On Sun, Sep 15, 2024 at 3:29=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> The term "receiver" means that a type can be used as the type of `self`,
-> and thus enables method call syntax `foo.bar()` instead of
-> `Foo::bar(foo)`. Stable Rust as of today (1.81) enables a limited
-> selection of types (primitives and types in std, e.g. `Box` and `Arc`)
-> to be used as receivers, while custom types cannot.
->
-> We want the kernel `Arc` type to have the same functionality as the Rust
-> std `Arc`, so we use the `Receiver` trait (gated behind `receiver_trait`
-> unstable feature) to gain the functionality.
->
-> The `arbitrary_self_types` RFC [1] (tracking issue [2]) is accepted and
-> it will allow all types that implement a new `Receiver` trait (different
-> from today's unstable trait) to be used as receivers. This trait will be
-> automatically implemented for all `Deref` types, which include our `Arc`
-> type, so we no longer have to opt-in to be used as receiver. To prepare
-> us for the change, remove the `Receiver` implementation and the
-> associated feature. To still allow `Arc` and others to be used as method
-> receivers, turn on `arbitrary_self_types` feature instead.
->
-> This feature gate is introduced in 1.23.0. It used to enable both
-> `Deref` types and raw pointer types to be used as receivers, but the
-> latter is now split into a different feature gate in Rust 1.83 nightly.
-> We do not need receivers on raw pointers so this change would not affect
-> us and usage of `arbitrary_self_types` feature would work for all Rust
-> versions that we support (>=3D1.78).
->
-> Cc: Adrian Taylor <ade@hohum.me.uk>
-> Link: https://github.com/rust-lang/rfcs/pull/3519 [1]
-> Link: https://github.com/rust-lang/rust/issues/44874 [2]
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+Fri, Sep 06, 2024 at 01:01:29PM +0200, Daniel Gomez kirjoitti:
+> The uuid_t struct defined in sys/types.h on macOS hosts conflicts with
+> the one defined in file2alias, resulting in the typedef redefinition
+> error below. To resolve this conflict, define the _UUID_T and
+> __GETHOSTUUID_ in file2alias HOSTCFLAGS.
+> 
+> Error:
+>   HOSTCC  scripts/mod/file2alias.o scripts/mod/file2alias.c:45:3:
+> error: typedef redefinition with different types ('struct uuid_t' vs
+> '__darwin_uuid_t' (aka 'unsigned char[16]'))    45 | } uuid_t;       |
+> ^
+> /Library/Developer/CommandLineTools/SDKs/MacOSX14.sdk/usr/include/
+>    sys/_types/_uuid_t.h:31:25: note: previous definition is here 31 |
+>    typedef __darwin_uuid_t uuid_t;    |                         ^
+> scripts/mod/file2alias.c:1354:7: error: member reference base
+>  type 'typeof (((struct tee_client_device_id *)0)->uuid)' (aka
+>  'unsigned char[16]') is not a structure or union 1354 |
+>  uuid->b[0], uuid->b[1], uuid->b[2], uuid->b[3], uuid->b[4],      |
+>  ~~~~^ ~
+> /Library/Developer/CommandLineTools/SDKs/MacOSX14.sdk/usr/include/
+>    secure/_stdio.h:47:56: note: expanded from macro 'sprintf' 47 |
+>    __builtin___sprintf_chk (str, 0, __darwin_obsz(str), __VA_ARGS__)
+>    |                                                        ^~~~~~~~~~~
+> scripts/mod/file2alias.c:1354:19: error: member reference base
+>  type 'typeof (((struct tee_client_device_id *)0)->uuid)' (aka
+>  'unsigned char[16]') is not a structure or union 1354 |
+>  uuid->b[0], uuid->b[1], uuid->b[2], uuid->b[3], uuid->b[4],      |
+>  ~~~~^ ~
+> /Library/Developer/CommandLineTools/SDKs/MacOSX14.sdk/usr/include/
+>    secure/_stdio.h:47:56: note: expanded from macro 'sprintf' 47 |
+>    __builtin___sprintf_chk (str, 0, __darwin_obsz(str), __VA_ARGS__)
+>    |                                                        ^~~~~~~~~~~
 
-Applied to `rust-next` -- thanks everyone!
+Please, shrink this to the valuable ~3-5 lines. No need to repeat the same for
+each case!
 
-Cheers,
-Miguel
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
