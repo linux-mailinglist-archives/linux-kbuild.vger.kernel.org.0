@@ -1,52 +1,59 @@
-Return-Path: <linux-kbuild+bounces-3912-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3913-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26692990AC5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 20:15:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC95990E1D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 21:27:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF0691F244D9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 18:15:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D8A428507F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 19:27:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BDEF1E32CD;
-	Fri,  4 Oct 2024 18:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 324C321D17F;
+	Fri,  4 Oct 2024 18:29:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dqNXB/lO"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cnnSoO+x"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B3347F5F;
-	Fri,  4 Oct 2024 18:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF1B21CAD5;
+	Fri,  4 Oct 2024 18:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728065408; cv=none; b=E6ZlvYmkSZcWqx+yp8jbhnz9x0VzXbnaraC/g/ROBgcrSWYuiqyggdEBW55+WCzacPOWmX9J2hFWlka5wBwmzDl193fyF1q1As20FyVQKJY2nHCGrknYgaMnlOi/WMIGIbvJLU4wpzGG0LI08LxozB0ZmAQUBNFGbSvSpcheTnM=
+	t=1728066555; cv=none; b=CYFT8xnSAm9fSN7QATCLrzOm04oKsxFjGcXLKX3+QkHA2iEdTrPvYrdEz67KR1vSl2Kz48nzzxwQhh4EdN+bC2Mxw9YZEPgqQaRBWQoj84cvEGA2AH/HQFc9iAQhmaUojMW6NYK1pWVIaZRUXFs/ZX5cCngREw5n3b8X5mGg9XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728065408; c=relaxed/simple;
-	bh=6D0M6NhojlShPMbBJLqf1wXJNIY9zP3vx504RxRB9sA=;
+	s=arc-20240116; t=1728066555; c=relaxed/simple;
+	bh=6lBCjiRF4B46nhbZCs3k/e4Z0301LBosumkSAIOX6LI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KkWqC5i/B5CfnhnkBf81i9pJBJIYmgSEXBzpEFfecZav9h1i6w104M7Exx6+jHUXa6mR3f0arwQAuinbJ04TQSzYuMrzAFZFJdgO6te2AYFzpfDsFltSq+1vglVueNDAAi/2aTi3RsFP35JTA4tgF5ThEPMAHDCQLJDh4YbAjd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dqNXB/lO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA92C4CEC6;
-	Fri,  4 Oct 2024 18:10:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728065407;
-	bh=6D0M6NhojlShPMbBJLqf1wXJNIY9zP3vx504RxRB9sA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dqNXB/lODPEFSxQXd7qtZRUef9oRXGv+8YQZJkKGC6MMGh6S9N5fClU6CcWfTekn1
-	 ubYLyo9c3f/HPE/b18eAWO2bDerUbgwA9e6nArDudBzooJ7I5oVDNfOqxq5Q/AIq5s
-	 d3WLbEbvsmtw+xkQKiT+1BXkzkd6V3K6uLRMGrrZ+BzqZufVfPGzaYTtx8pUToj1Em
-	 Yy2E0I+FKZX9E5H4up8mQavhax2iVvPl5xhUYzC2JlgTv8iDp1/DVMJasHElultN0Z
-	 JPj5YXVzaw7boFF2+js7pqHirg6I7ztczt2wQs1arNZKEpKiCG7sFcCZjcVMbqnunY
-	 S7mDL7OA4hADQ==
-Date: Fri, 4 Oct 2024 11:10:04 -0700
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=EarPHt+fL0R3x/3UtggcW6zIqjMSUdXaClxx94kkrF1a1iwsjZdt9+4rbYX5D7eRMt/BxIjpHqe0/6uzhDKgOaBPjY8Hcll5eQSHDzFau3YXV9K6UfPzKH6VFRk9jYcuEJkX5PMhNmcJIBXOGvW9ASzW0ABfM+hUxttyyE617sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cnnSoO+x; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=fOb9M6ZRjRfvVCqDlasosWrUHjFjp7Hur2fhf3PBfgg=; b=cnnSoO+x6ifbk2XZl8GRTZm8Kf
+	Co4+zcisD6SR3lxix0PIP9Jh4m4Pv+xHhyh7i2N1aWvSENqf735ZdKFu3jV/Op1hKu+/Amc1ebVpQ
+	jzzYwasH3PDPVdgZCCQih6N9/3qgQOsoEPOyQUPkwg8MBeG3NG6FoWaZg7GOEnzU8ASije6iYVn0g
+	QKj1o/K7Cbv1VL5d4ApJkG4PMbtD+Br/8f2CgUZJMzqUnkSSngEuptT7K4ADE3JVoUFSkEUADU0bB
+	++C4Mvx4vGExNnCMtNMO2zc0LYl7AMLUxTHioVqT8B7lqCBpqBrLdFdRgsXe7z6FX7Sp7Wav/lN3c
+	mMDTiZbA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1swn2l-0000000B26f-1O0A;
+	Fri, 04 Oct 2024 18:28:48 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 94FA230083E; Fri,  4 Oct 2024 20:28:47 +0200 (CEST)
+Date: Fri, 4 Oct 2024 20:28:47 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	Rong Xu <xur@google.com>
-Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
+	Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
 	David Li <davidxl@google.com>,
 	Krzysztof Pszeniczny <kpszeniczny@google.com>,
 	Alice Ryhl <aliceryhl@google.com>,
@@ -73,10 +80,11 @@ Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
 	x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>,
 	Stephane Eranian <eranian@google.com>
 Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
-Message-ID: <202410041106.6C1BC9BDA@keescook>
+Message-ID: <20241004182847.GU18071@noisy.programming.kicks-ass.net>
 References: <20241002233409.2857999-1-xur@google.com>
  <20241002233409.2857999-2-xur@google.com>
  <20241003154143.GW5594@noisy.programming.kicks-ass.net>
+ <202410041106.6C1BC9BDA@keescook>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -85,46 +93,17 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241003154143.GW5594@noisy.programming.kicks-ass.net>
+In-Reply-To: <202410041106.6C1BC9BDA@keescook>
 
-On Thu, Oct 03, 2024 at 05:41:43PM +0200, Peter Zijlstra wrote:
-> On Wed, Oct 02, 2024 at 04:34:00PM -0700, Rong Xu wrote:
-> > +Preparation
-> > +===========
-> > +
-> > +Configure the kernel with:
-> > +
-> > +   .. code-block:: make
-> > +
-> > +      CONFIG_AUTOFDO_CLANG=y
-> > +
-> > +
-> [...]
-> > +    With a configuration that with LLVM enabled, use the following command:
-> > +
-> > +      .. code-block:: sh
-> > +
-> > +         $ scripts/config -e AUTOFDO_CLANG
-> [...]
+On Fri, Oct 04, 2024 at 11:10:04AM -0700, Kees Cook wrote:
+
+> +Configure the kernel with::(make)
+> +
+> +     CONFIG_AUTOFDO_CLANG=y
 > 
-> Can this be done without the endless ... code-block nonsense?
+> Then we could avoid the extra 2 lines but still gain the rendered language
+> highlights?
 
-The tradition in kernel .rst is to do this with the trailing "::", e.g.:
-
-+Configure the kernel with::
-+
-+     CONFIG_AUTOFDO_CLANG=y
-
-This loses the language-specific highlighting when rendered. Perhaps the
-"::" extension can be further extended?
-
-+Configure the kernel with::(make)
-+
-+     CONFIG_AUTOFDO_CLANG=y
-
-Then we could avoid the extra 2 lines but still gain the rendered language
-highlights?
-
--- 
-Kees Cook
+The whole double-colon thing is already a pain to read; you're making it
+worse again.
 
