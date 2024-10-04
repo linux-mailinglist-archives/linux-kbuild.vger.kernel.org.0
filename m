@@ -1,139 +1,138 @@
-Return-Path: <linux-kbuild+bounces-3921-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3922-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7309A991121
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 23:07:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB834991148
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 23:24:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BCAF1C23105
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 21:07:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 583C4B21A06
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Oct 2024 21:24:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC5821ADFFA;
-	Fri,  4 Oct 2024 21:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4481AA7BA;
+	Fri,  4 Oct 2024 21:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="RHbE3DVW"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gDsYUpBO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B0D15A856;
-	Fri,  4 Oct 2024 21:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75ACD1448C1
+	for <linux-kbuild@vger.kernel.org>; Fri,  4 Oct 2024 21:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728076028; cv=none; b=HX3tiEHE3g3E+iv4vFbwD56WbToiow0pXr+fdqncIB/p7KXy1hQvfmdDiQlCqG954E/lLntHKbJVlcXcB5ZZRnQFZJbgFSQP26DIgofB5qNdaE8t7PhqFXo15rPrtJHZ/A/RSGfGM/vCDH6qymExHz1Rg6oI0nTlvXhcpSBjIvs=
+	t=1728077040; cv=none; b=R4/6d+4IjBcU5m+86KBArHmd4YBj1nQvqQPXj5yWx/N2iq+LMr34qMKWqSXcIKAJeXNvTILSfHx8XfORujmUboTx/HKm+p/1i0oiAB2y3QxyDOL8CVr3uio+b+WIESwmdTIeW62aSNfW0ZHps6jOUYOF/RnL068onP4wzrh+0cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728076028; c=relaxed/simple;
-	bh=35IOoHe/X7gnxDSJ+PKxFRsGFeTWY6fFlRdddCjRNEQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tdtkxW6MbI+05i9d38gtjKiz5qeF6Gk04sACgPAQYTGrvyyozgy4S/lYhS6fr8KGi4SRfZ9/4Yg1t2iOdrD9item5bYAWKorJ775LgCjdUhOYnhxRfACoQ+ntz9I+KmnOdkS7fd6tBE5Q2LDEBf+1UzaC0XxeEdr7ZSPhkIsIr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=RHbE3DVW; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [172.27.3.244] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 494L65GU1102942
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 4 Oct 2024 14:06:05 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 494L65GU1102942
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024091601; t=1728075968;
-	bh=XsIxGCLuwc7oDprSmGh/r3HcUoLTGC5y0f+hwyxMfwo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RHbE3DVWEQje/BMw0MYaccvz1CZHwlX6EAgZGBVxHM2N6A8Bs+1jWvQpqHAmpUzya
-	 B92rCcmXrNdl6GfJQOI48PxiDK98iUmhievUBaOuzvKW3PAg7k45+MO2DgOhre9Bqd
-	 MrXnCq+SHnBPZaEqYPEh1ZZWpqzvtfcpjsowsK7ZSQpJE3n6P52zeuoQxt6YTsZKnI
-	 eOmpzoP5V4jl/5Ek7xSXJuKz/8Ygm8jcSxEYWiVLw5Mr50hkZ5MwtV2JsKhIo4+1yl
-	 R0hI44pjMEjCP35l4UByBpjxQS3xPtcQR5w0P8PyQOSjLhz1QZW4Zg4KVQGx8RJEXl
-	 n08E+BHxsQUWw==
-Message-ID: <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com>
-Date: Fri, 4 Oct 2024 14:06:05 -0700
+	s=arc-20240116; t=1728077040; c=relaxed/simple;
+	bh=1OR4Ve0G8ozTpeMWZS3Lij1bBkuy08uUBWlqH40INcA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pUGQApFKxtuVX11jtHA9yAfH3QhvTRLyFIl92OO+5cmHfmplhFd+K6QEH9yvuP+wwn6Dfl+GJF6oQM6C7l/r+uViCmd+TwReUo85i4YmGDIftAGQooreUfQayk/1q/NNeisGOWe6G0SJmfMkpdjGznBp2DQAsMk9wbndpPG38wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gDsYUpBO; arc=none smtp.client-ip=209.85.222.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-84eb2f32097so791969241.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 04 Oct 2024 14:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728077038; x=1728681838; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AS2Tt07mNVpSQvOxW3B3xdNnuSdtzeSrYZ225ecdgxI=;
+        b=gDsYUpBOUyOIK/chD/NhLydvOrzS2gaKMidbSVxMQN9DT1PUbO6eAhnqArl7rVoKGG
+         +tV7a2xc9axU7/VlOs+isSemXOM93zY89NKJlE5wmgY0l4KLI6ENuPIf/lXbmmiRIamA
+         hkqPmMC4Qbab33wThEfwnEz8UmH99GDDtpvqvU4x9zsP/5nQuXTiIoJMG+UWHA1wUhhM
+         VvREyW8nFq2whOVYifvVD6sc3nX9x3O7aR98wjfGV/xuU920polsh6Hav/okronQITL1
+         zIWf4oLNxzgVyUMckRphL/Jstlusc1zIQ4+W2rHRTapfQzqMpeWteNWCp7/CmP6eKLHS
+         5J2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728077038; x=1728681838;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AS2Tt07mNVpSQvOxW3B3xdNnuSdtzeSrYZ225ecdgxI=;
+        b=TWAMF1j2Pjwkuwi95kTpKmOhC5Lui9oPM21JgGTPGaI9mbQ/35VIXSasxmk2dW24z2
+         pxh2CzMglshwYUlupaJCy1tAiA78DIIdwh0JKPw+/SX/SBbX3PxtJqzt99alcTGVizAA
+         h5X8rbJ8P6oHoVX8mcACvUwKWdX9ffJ/lcMEqi0rFANTjb41J0ZERdG28qgBk9G5jJsD
+         wwA4xM3hvRE+iTxx8x8PhxPyS8s6mU3a4Fu/tbJd9UzWWOFNnC4wyYaaHlL1OW/GNs33
+         9AJ4vZu4Xg+vvWOEeoFsZcC4vR9PB0pa9w9Tm05o2+JCPULb/4jFbA8ofcDVCcYPXB4V
+         n1wg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZzQbiOhLEH5GNgdOU4Y7WWQBiTklXt2Ye3ozssRtP8SdTXl1pFVqLa2ekg+1Dya8a9fXuo7t0Vsb82eM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvhyVu5ehiJQVvt+X/MZvnGVIqQSZQbEuG5aCH/nATLpownCYv
+	tda2WAbydijy1yfzewbF2dSsaPmJBOiTntKYv0pvGDCGVaTxFf1VAQSCYFiE7IPXx4vnSfoIvn7
+	6bdQhHzOTsyyemHwqW98ReZDQx8IXnTyMUuXr
+X-Google-Smtp-Source: AGHT+IHirBWZiJ7avVL8zp5O8TKnny8LN6+S0bUCwVjwrwc/DYRkrAgQjSc8Xmqms5tSFJGQ8crQgjb9ejhVAZBSMZc=
+X-Received: by 2002:a67:fbcd:0:b0:4a3:ac2b:bffb with SMTP id
+ ada2fe7eead31-4a4058e1360mr4377858137.22.1728077038261; Fri, 04 Oct 2024
+ 14:23:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
-To: Ard Biesheuvel <ardb@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org,
-        x86@kernel.org, Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, Uros Bizjak <ubizjak@gmail.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Juergen Gross <jgross@suse.com>,
-        Boris Ostrovsky
- <boris.ostrovsky@oracle.com>,
-        Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
-        Keith Packard <keithp@keithp.com>,
-        Justin Stitt <justinstitt@google.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-        Ian Rogers <irogers@google.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Kan Liang <kan.liang@linux.intel.com>, linux-doc@vger.kernel.org,
-        linux-pm@vger.kernel.org, kvm@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-sparse@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-References: <20240925150059.3955569-30-ardb+git@google.com>
- <20240925150059.3955569-55-ardb+git@google.com>
- <99446363-152f-43a8-8b74-26f0d883a364@zytor.com>
- <CAMj1kXG7ZELM8D7Ft3H+dD5BHqENjY9eQ9kzsq2FzTgP5+2W3A@mail.gmail.com>
- <CAHk-=wj0HG2M1JgoN-zdCwFSW=N7j5iMB0RR90aftTS3oqwKTg@mail.gmail.com>
- <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
-Content-Language: en-US
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241002233409.2857999-1-xur@google.com> <20241002233409.2857999-2-xur@google.com>
+ <20241003154143.GW5594@noisy.programming.kicks-ass.net> <202410041106.6C1BC9BDA@keescook>
+ <20241004182847.GU18071@noisy.programming.kicks-ass.net>
+In-Reply-To: <20241004182847.GU18071@noisy.programming.kicks-ass.net>
+From: Justin Stitt <justinstitt@google.com>
+Date: Fri, 4 Oct 2024 14:23:45 -0700
+Message-ID: <CAFhGd8rPLoufNx4BMV993c+S_6psLGU6Ow49Frc9s88cStcuCQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] Add AutoFDO support for Clang build
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, 
+	Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
+	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
+	Jann Horn <jannh@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
+	workflows@vger.kernel.org, x86@kernel.org, "Xin Li (Intel)" <xin@zytor.com>, 
+	Stephane Eranian <eranian@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/3/24 04:13, Ard Biesheuvel wrote:
-> 
->> That said, doing changes like changing "mov $sym" to "lea sym(%rip)" I
->> feel are a complete no-brainer and should be done regardless of any
->> other code generation issues.
-> 
-> Yes, this is the primary reason I ended up looking into this in the
-> first place. Earlier this year, we ended up having to introduce
-> RIP_REL_REF() to emit those RIP-relative references explicitly, in
-> order to prevent the C code that is called via the early 1:1 mapping
-> from exploding. The amount of C code called in that manner has been
-> growing steadily over time with the introduction of 5-level paging and
-> SEV-SNP and TDX support, which need to play all kinds of tricks before
-> the normal kernel mappings are created.
-> 
+On Fri, Oct 4, 2024 at 11:29=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+>
+> On Fri, Oct 04, 2024 at 11:10:04AM -0700, Kees Cook wrote:
+>
+> > +Configure the kernel with::(make)
+> > +
+> > +     CONFIG_AUTOFDO_CLANG=3Dy
+> >
+> > Then we could avoid the extra 2 lines but still gain the rendered langu=
+age
+> > highlights?
+>
+> The whole double-colon thing is already a pain to read; you're making it
+> worse again.
 
-movq $sym to leaq sym(%rip) which you said ought to be smaller (and in 
-reality appears to be the same size, 7 bytes) seems like a no-brainer 
-and can be treated as a code quality issue -- in other words, file bug 
-reports against gcc and clang.
+Lots of people read docs on the web and having code blocks with
+monospaced fonts (+syntax highlighting) makes them easier to read
+there.
 
-> Compiling with -fpie and linking with --pie -z text produces an
-> executable that is guaranteed to have only RIP-relative references in
-> the .text segment, removing the need for RIP_REL_REF entirely (it
-> already does nothing when __pic__ is #define'd).
+Configure the kernel with:
 
-But -fpie has a considerable cost; specifically when we have indexed 
-references, as in that case the base pointer needs to be manifest in a 
-register, *and* it takes up a register slot in the EA, which may end 
-converting one instruction into three.
+     CONFIG_AUTOFDO_CLANG=3Dy
 
-Now, the "kernel" memory model is defined in the ABI document, but there 
-is nothing that prevents us from making updates to it if we need to; 
-e.g. the statement that movq $sym can be used is undesirable, of course.
+--versus--
 
-	-hpa
+Configure the kernel with::
 
+     CONFIG_AUTOFDO_CLANG=3Dy
+
+This renders better for html through Sphinx and really can't be that
+bad to read in vim, can it?
+
+two cents and such,
+Justin
 
