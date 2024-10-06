@@ -1,134 +1,127 @@
-Return-Path: <linux-kbuild+bounces-3933-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3934-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6276799201A
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Oct 2024 19:47:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D4399202D
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Oct 2024 20:01:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CFED1C20C8F
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Oct 2024 17:47:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAD5F1F21B21
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Oct 2024 18:01:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2184F82890;
-	Sun,  6 Oct 2024 17:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LSfULbqS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 157F418A6AC;
+	Sun,  6 Oct 2024 18:01:15 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE39A2D;
-	Sun,  6 Oct 2024 17:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C3D189BA9
+	for <linux-kbuild@vger.kernel.org>; Sun,  6 Oct 2024 18:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728236870; cv=none; b=V5bJZfrNqFPbsoOgCUj9EqMRRb78a7zGd9WWoVyH12HeCjsncCXTPsCZlfCy2ObVyOWM3dDs8UAEAURNvx42dc/q3MHjjlJXjvZ+Sx1Mfeo8G+Hh4wywZDEDZyPxS9crEZ0dW3E7/d7J5IPzKvYYVi8JRghf325fZuRRkFxs6HA=
+	t=1728237674; cv=none; b=Xd4AUy3BVTGEHhfkozdL4fqWI6KXYcV/kXqTXMGpqUMNhIH6b9k9fytLhP3qeI0YfRQgzOpMod3M2GbvxmHbc3kqGXxveKoRgTbsba1IFwZaVs0bw/ikbJIFWaHzcxn90KRWh3rmwJMIXrdqxBNH/HlaIyeDQreIRZVbU3+Hrgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728236870; c=relaxed/simple;
-	bh=drHEypleCqEveJNreAEpqzz3LhgB0f4Lux0g9ViIwEc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=b5IQmXuwqSXQzF8XGqAEzW3/+5mHktC2lgtJgGwgCgNxhaWODQywwken68qmQJ4EazoDb8UgVtAnEQy5Up7yFtqBoCVlEboiVzWbhRwnzsT4efMnMGhEEEgif82UDAg57vDGOIPpQXCeJn596EhlzFcWngOSd7vNHMeOMn/b7Ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LSfULbqS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72248C4CEC5;
-	Sun,  6 Oct 2024 17:47:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728236869;
-	bh=drHEypleCqEveJNreAEpqzz3LhgB0f4Lux0g9ViIwEc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=LSfULbqSrxEhwRTEK7zq1mDkephiBnvvmV9D9e082zeeMjBiJr0rSbFkwadhBBLU3
-	 Vc0tL2jHdtqfO/+sxugSGaseCXb+lJbjvTb7pDaQoVPOz/gqNdx3+FlgfSlvGtOyOr
-	 J0MqYY+YQtvHeQyW/ctlIBXsNnDnEs6TSr1g8WX7n988nTvxhYlT3uXZHxsA1OQhgl
-	 6rd58vrzjYi5qb/lcgYMRDHCTKPt8nRgSIm0hs/jLps1giak8zwPbhrkCIJYjqklbz
-	 6Uz80Zyy4ZZQmeVwmP0LgeHwl2e2uaXuaXw28DAZFEvDJgFLIM/PP2n+toy/e3j1Pw
-	 DZIhDoA+mmdqw==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2faccccbca7so30078811fa.2;
-        Sun, 06 Oct 2024 10:47:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX3od2Ndzc1UHqveDGHX8eL+B7rg/YRAkQJ4hv8QoamVklfZe0EwkGn3yo3qwtTzyrBxd5h5O1JQdlGeg4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoMDBAOqR3/q65IvCrJEAjPvisZoitlGRzBYe/mWfQj4aXxfPF
-	Y4U0xzSqFNUiOXhb7IPob+8hAlV2RMuWPSTYA4PFiq+pcWhVfsq43rbqK6COQyzDTpLoQqFFE8f
-	1Yaf3CEsLMTZupr7Rcgx7PgQgvsw=
-X-Google-Smtp-Source: AGHT+IHx4bRLBv0A4S8LH8PAbP4fRYgU93R7N3u6QiKv6yAeu20z1kx7fx0XYGz4TQV/lvJbQiQ6NOG+FCTlrth9hF0=
-X-Received: by 2002:a05:6512:1387:b0:530:daeb:c1d4 with SMTP id
- 2adb3069b0e04-539ab85c0fcmr4562258e87.12.1728236868152; Sun, 06 Oct 2024
- 10:47:48 -0700 (PDT)
+	s=arc-20240116; t=1728237674; c=relaxed/simple;
+	bh=FkhNFIIFvw1W8y+fSpzP+oy4ku0OcIzn7m22e7sZu8I=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=lwIkmB8vtKlp9sos7lJfuCNMcX/dwnfrHws1cbaygIS1wxiA4Y8oOwBrMzyd3Iya29/MaLjfJB9MJmKWNsNUMsX8t9f+Y3NnKC4qF6X0p2dsNw8fXfLvztE+yTjTV4a3ymstMP6iQ9sUUZ3nVXVMqrgFuq2UU6j14/KhSImMhZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-241-ir4EC8PtM6i_SZDW15CpKA-1; Sun, 06 Oct 2024 19:01:03 +0100
+X-MC-Unique: ir4EC8PtM6i_SZDW15CpKA-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 6 Oct
+ 2024 19:00:09 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Sun, 6 Oct 2024 19:00:09 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Uros Bizjak' <ubizjak@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>
+CC: Ard Biesheuvel <ardb@kernel.org>, Linus Torvalds
+	<torvalds@linux-foundation.org>, Ard Biesheuvel <ardb+git@google.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>, Andy Lutomirski <luto@kernel.org>, "Peter
+ Zijlstra" <peterz@infradead.org>, Dennis Zhou <dennis@kernel.org>, Tejun Heo
+	<tj@kernel.org>, Christoph Lameter <cl@linux.com>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	"Vitaly Kuznetsov" <vkuznets@redhat.com>, Juergen Gross <jgross@suse.com>,
+	"Boris Ostrovsky" <boris.ostrovsky@oracle.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada
+	<masahiroy@kernel.org>, Kees Cook <kees@kernel.org>, Nathan Chancellor
+	<nathan@kernel.org>, Keith Packard <keithp@keithp.com>, Justin Stitt
+	<justinstitt@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>, "Arnaldo
+ Carvalho de Melo" <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	"Jiri Olsa" <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian
+ Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "xen-devel@lists.xenproject.org"
+	<xen-devel@lists.xenproject.org>, "linux-efi@vger.kernel.org"
+	<linux-efi@vger.kernel.org>, "linux-arch@vger.kernel.org"
+	<linux-arch@vger.kernel.org>, "linux-sparse@vger.kernel.org"
+	<linux-sparse@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
+	<linux-kbuild@vger.kernel.org>, "linux-perf-users@vger.kernel.org"
+	<linux-perf-users@vger.kernel.org>, "rust-for-linux@vger.kernel.org"
+	<rust-for-linux@vger.kernel.org>, "llvm@lists.linux.dev"
+	<llvm@lists.linux.dev>
+Subject: RE: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
+Thread-Topic: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel
+Thread-Index: AQHbF8Wqw+hKPqg6T0aWZJZtJXxJh7J5/LJw
+Date: Sun, 6 Oct 2024 18:00:09 +0000
+Message-ID: <bfa1a86c3e4348159049e8277e9859dd@AcuMS.aculab.com>
+References: <20240925150059.3955569-30-ardb+git@google.com>
+ <20240925150059.3955569-55-ardb+git@google.com>
+ <99446363-152f-43a8-8b74-26f0d883a364@zytor.com>
+ <CAMj1kXG7ZELM8D7Ft3H+dD5BHqENjY9eQ9kzsq2FzTgP5+2W3A@mail.gmail.com>
+ <CAHk-=wj0HG2M1JgoN-zdCwFSW=N7j5iMB0RR90aftTS3oqwKTg@mail.gmail.com>
+ <CAMj1kXEU5RU0i11zqD0433_LMMyNQH2gCoSkU7GeXmaRXGF1Yw@mail.gmail.com>
+ <5c7490bb-aa74-427b-849e-c28c343b7409@zytor.com>
+ <CAFULd4Yj9LfTnWFu=c1M7Eh44+XFk0ibwL57r5H7wZjvKZ8yaA@mail.gmail.com>
+ <3bbb85ae-8ba5-4777-999f-d20705c386e7@zytor.com>
+ <CAFULd4b==a7H0zdGVfABntL0efrS-F3eeHGu-63oyz1eh1DwXQ@mail.gmail.com>
+In-Reply-To: <CAFULd4b==a7H0zdGVfABntL0efrS-F3eeHGu-63oyz1eh1DwXQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 7 Oct 2024 02:47:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATWKzHUxHofwZx9NvcR5hTvxyBSxJLW8GMsZNQgXUQcwA@mail.gmail.com>
-Message-ID: <CAK7LNATWKzHUxHofwZx9NvcR5hTvxyBSxJLW8GMsZNQgXUQcwA@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v6.12-rc2
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Hello Linus,
+Li4uDQo+IER1ZSB0byB0aGUgbm9uLW5lZ2xpZ2libGUgaW1wYWN0IG9mIFBJRSwgcGVyaGFwcyBz
+b21lIGtpbmQgb2YNCj4gQ09ORklHX1BJRSBjb25maWcgZGVmaW5pdGlvbiBzaG91bGQgYmUgaW50
+cm9kdWNlZCwgc28gdGhlIGFzc2VtYmx5DQo+IGNvZGUgd291bGQgYmUgYWJsZSB0byBjaG9vc2Ug
+b3B0aW1hbCBhc20gc2VxdWVuY2Ugd2hlbiBQSUUgYW5kIG5vbi1QSUUNCj4gaXMgcmVxdWVzdGVk
+Pw0KDQpJIHdvdWxkbid0IGhhdmUgdGhvdWdodCB0aGF0IHBlcmZvcm1hbmNlIG1hdHRlcmVkIGlu
+IHRoZSBhc20gY29kZQ0KdGhhdCBydW5zIGR1cmluZyBzdGFydHVwPw0KDQpXaGlsZSB4ODYtODQg
+Y29kZSAoaWdub3JpbmcgZGF0YSByZWZlcmVuY2VzKSBpcyBwcmV0dHkgbXVjaCBhbHdheXMNCnBv
+c2l0aW9uIGluZGVwZW5kZW50LCB0aGUgc2FtZSBpc24ndCB0cnVlIG9mIGFsbCBhcmNoaXRlY3R1
+cmVzLg0KU29tZSAoYXQgbGVhc3QgTmlvcy1JSSkgb25seSBoYXZlIGFic29sdXRlIGNhbGwgaW5z
+dHJ1Y3Rpb25zLg0KU28geW91IGNhbid0IHJlYWxseSBtb3ZlIHRvIHBpYyBjb2RlIGdsb2JhbGx5
+Lg0KDQpZb3UnZCBhbHNvIHdhbnQgJ2JhZCcgcGljIGNvZGUgdGhhdCBjb250YWluZWQgc29tZSBm
+aXh1cHMgdGhhdA0KbmVlZGVkIHRoZSBjb2RlIHBhdGNoaW5nLg0KKFdoaWNoIHlvdSByZWFsbHkg
+ZG9uJ3Qgd2FudCBmb3IgYSBzaGFyZWQgbGlicmFyeS4pDQpPdGhlcndpc2UgeW91IGdldCBhbiBl
+eHRyYSBpbnN0cnVjdGlvbiBmb3Igbm9uLXRyaXZpYWwgZGF0YQ0KYWNjZXNzZXMuDQoNClRoaW5r
+aW5nLi4uLg0KRG9lc24ndCB0aGUgY29kZSBnZW5lcmF0ZWQgZm9yIC1mcGljIGFzc3VtZSB0aGF0
+IHRoZSBkeW5hbWljIGxvYWRlcg0KaGFzIHByb2Nlc3NlZCB0aGUgcmVsb2NhdGlvbnMgYmVmb3Jl
+IGl0IGlzIHJ1bj8NCkJ1dCB0aGUga2VybmVsIHN0YXJ0dXAgY29kZSBpcyBydW5uaW5nIGJlZm9y
+ZSB0aGV5IGNhbiBoYXZlIGJlZW4gZG9uZT8NClNvIGV2ZW4gaWYgdGhhdCBDIGNvZGUgd2VyZSAn
+cGljJyBpdCBjb3VsZCBzdGlsbCBjb250YWluIHRoaW5ncyB0aGF0DQphcmUgaW52YWxpZCAocHJv
+YmFibHkgYXJyYXlzIG9mIHBvaW50ZXJzPykuDQpTbyB5b3UgbG9zZSBvbmUgc2V0IG9mIGJ1Z3Mg
+YW5kIGdhaW4gYW5vdGhlci4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtl
+c2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBV
+Sw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-Please pull Kbuild fixes for v6.12-rc2.
-Thanks.
-
-
-
-
-The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
-
-  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v6.12
-
-for you to fetch changes up to 82cb44308951ad4ce7a8500b9e025d27d7fb3526:
-
-  kbuild: deb-pkg: Remove blank first line from maint scripts
-(2024-10-07 02:36:38 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v6.12
-
- - Move non-boot built-in DTBs to the .rodata section
-
- - Fix Kconfig bugs
-
- - Fix maint scripts in the linux-image Debian package
-
- - Import some list macros to scripts/include/
-
-----------------------------------------------------------------
-Aaron Thompson (1):
-      kbuild: deb-pkg: Remove blank first line from maint scripts
-
-Masahiro Yamada (5):
-      kbuild: move non-boot built-in DTBs to .rodata section
-      kconfig: fix infinite loop in sym_calc_choice()
-      kconfig: clear expr::val_is_valid when allocated
-      kconfig: qconf: move conf_read() before drawing tree pain
-      kconfig: qconf: fix buffer overflow in debug links
-
-Sami Tolvanen (1):
-      scripts: import more list macros
-
-Xu Yang (1):
-      kbuild: fix a typo dt_binding_schema -> dt_binding_schemas
-
- Makefile                 |  2 +-
- scripts/Makefile.dtbs    |  4 +++-
- scripts/include/list.h   | 50
-++++++++++++++++++++++++++++++++++++++++++++++++++
- scripts/kconfig/expr.c   |  1 +
- scripts/kconfig/parser.y | 10 ++++++++--
- scripts/kconfig/qconf.cc |  6 +++---
- scripts/package/builddeb |  1 -
- 7 files changed, 66 insertions(+), 8 deletions(-)
-
-
-
--- 
-Best Regards
-Masahiro Yamada
 
