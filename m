@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-3957-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3958-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDB69956CD
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 20:39:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F09639956D1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 20:39:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7BB4B21A4C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 18:39:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 721F81F210E1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 18:39:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F76E213EFF;
-	Tue,  8 Oct 2024 18:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16BEB215032;
+	Tue,  8 Oct 2024 18:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gl0dWXs/"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uXWk762Y"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1920E212D3A
-	for <linux-kbuild@vger.kernel.org>; Tue,  8 Oct 2024 18:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D6F213EF4
+	for <linux-kbuild@vger.kernel.org>; Tue,  8 Oct 2024 18:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728412724; cv=none; b=raVcPkLtxiqmsCIRbPPMbbbuGu/Yb2mTkKO4sQrS/4SpWJ918I7wCPEuvFGOWMcKOMft0RIMRQMBjrXqvFjV0BdRXofU93Z0jmfjwJcV+WVwc4H6LIA4lT+Ny/dGtxK8ECuGMCWDnOA2EQTf/E5DxXBaCFBH1QfHLi7dBE6mAog=
+	t=1728412727; cv=none; b=SmpzDU+suN611TufTBq97WfE2wCFGzM8pR67D1hpKQXfTRSygs/W3RMXXq9KNYgR3y8b/muEPsBMkMXhCgyd6VBqjY6c48Ai8ZfaDpUkSpQ11zsa89wd6O0tQomCFGmWJEGRO3YIYQIdZsHKRcA14prDm3lQem+PBq1LIwvBY0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728412724; c=relaxed/simple;
-	bh=0lGBHoCLiG9Acxs3AlKgo1tCJjq8TaMCY9M43AccgSk=;
+	s=arc-20240116; t=1728412727; c=relaxed/simple;
+	bh=L8gZOiNafqMVcV01G0lHB854teeObYaONcRZ1bZVn3Y=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=I2RLTpKropQq2zxfASX4t/9n8EUdquO82Ev4owQkXF69TPI4lZsg07MoqZ2rtWoQJKsOuG44sStG/6mvwBaaj4GZLshScYv/T4L3RSHkhxpnaeiIm4ZkIlURZ6N781mAx737UWGNfsdpXTIvzaQuXcW4Z29a2SZV/0IusQIevxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gl0dWXs/; arc=none smtp.client-ip=209.85.214.202
+	 To:Cc:Content-Type; b=pLa8tcpjbz+FcZATcff+RhO5Cbs4vQIIhW+aqoq57DaxvIWqCIoHp+xOXB4/sIxFgLwQf0FNsSsz0q+jh1xW+/atBHnAK2PEdwkFUOQUO2ROPrt+Ov1Cg2qUK7KDSN3DCB1cFxyNu7n+v0SIMlp7TW+JKghDxx6RG1eIDbEdWJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uXWk762Y; arc=none smtp.client-ip=209.85.215.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-20b921fa133so1012815ad.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Oct 2024 11:38:43 -0700 (PDT)
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-7ea0d46d1f0so3196138a12.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Oct 2024 11:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728412722; x=1729017522; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1728412724; x=1729017524; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=++q9xYQNjqMI7NCqb6FQjA9b6KXYKSoI9fCqXlx+keI=;
-        b=gl0dWXs/3aauN9UMH5AvMq33tgPWj+QKWenzFJLVPDN0QVu4kV0d8aB4qW6JnU3htz
-         mpcSqvM16yn0pp0Ol+NyJp0FxUuwfQ52Wmbj9kNndJK8ki6UVjFa+o3WH0LHTBoy7lRf
-         /R8tEzITFUuAuzpvf0BKdmBxmilxtE5Pc+EJ8YCsyT6OsNlxivglGUXq708w7Cd6uIT1
-         RgaZXC8Hm2pomWEYEqc/eozrPVnqii6OE4G3oGQ6NKc2fN29XkYHQB40irV8rsOEHXPS
-         LpYcNqul8QFN4PxARxIyszLYWVQrp0LQ/SmEfeU4iyk7yH5D6/ZlVrczihau5S9Hq2pu
-         SG5A==
+        bh=MkH5Ih0xNj3RgiCeSysh2t3eMUNLsppdxz7owK02bHI=;
+        b=uXWk762YSg4lcvdVkuzlgrGPC5GlWv8rBj4h77aGjQ0q+v+Q3Xnhu6aSQu5P5covQ9
+         Gs7aBvo42FE5AdlzwfahL+SKvNhy4iKccBdDpq8K8Uos5DqbytuGc9SGSXHgvIgfmJzf
+         M5520n1VR28Q9amiMPEV+JyadIDuqmjoXbEi3SqmjgNr7cnpP/IgkY0V4kNMFXlbITRR
+         HQvG3+E6mZlrPR5NbKih6aEDcz/eT2zrNOa1zYSlOFOuV4VKwzu0Fg8ymOO7QAORX/vw
+         LNKu4lo2pNW0KHLkM8gY+CRMa/BIq1rQKq94eFPQHiprNd8GTpz6xjT3GhZ1LkX+aVzE
+         +tZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728412722; x=1729017522;
+        d=1e100.net; s=20230601; t=1728412724; x=1729017524;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=++q9xYQNjqMI7NCqb6FQjA9b6KXYKSoI9fCqXlx+keI=;
-        b=dSAMmPf7TVfd80Xy+fM9h2/rbTu1aXEfzXflGXTKrqkfOXJyT+R0tOTfDMuTlVXXgI
-         1XA6XFpET8n/zquqA9VNYr5TshgYhDbUDx9+pgVJj/fadf4xP8OtGBTd2InqygqzB7ia
-         AqNBSQVmedVQyZ62Toq2gpzahLZy1WgQ0t30dqSqfuI/eygUpDR0uF51D2XlynK9FmAv
-         I4wvy9UK/nfbO0pBW8h4uDv5dOdP2NkhFjfTcT+Qw6IuoHhZgEw7ijHfD7ajsKMEYU+h
-         6knrD28+hzlPL0dWLFM6oBGvWtEkVB6gfdhbDFiHYP8wCfqBiP7XAnseVppAkcxzy3we
-         XCzg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4DsBjsGnA4NDn1Z1j8Gz0k8GQxbrDZTFhOpEYfbKH7jSTxMcdV+M28/V6fN0iVFl048V1mwmRFkL5U3A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjqwbHf58h6MYDF0hV4zHESViZw5JYguXKiPMvNbtaFiVOpOsQ
-	s5YKUx+JNy2pXSWmED74ni6XVT1WLYQmPS+uO7wO+e2F9HwHgBXIgWMA/y0Z4bV+lNM2itFTlu/
-	P1UC2Uv7hKmwSP8RufzVhXEMhLQ==
-X-Google-Smtp-Source: AGHT+IHgBcTNp6rWi0Ni7hSopmcFbaWgQhJOHl/IF8aJ1tnShtxifRPktwBmOod2lusXthZJBtQICU4F3TBg9cRCiKU=
+        bh=MkH5Ih0xNj3RgiCeSysh2t3eMUNLsppdxz7owK02bHI=;
+        b=mH3kpaXhJfWcB2/Z4rfgfd+bGCrnvBnvp0jvJip/uIeKfIWTB6hr2n+QwrOb5RN6Qf
+         VIqpbYGSU/JPSwFlxFBOXT6WKDHuvGFlYpPrqZYVU2q/pxFw4qALLTnIYDGB6Gq3+0L/
+         YLiXrXTL2OjD5+g3DTotyEtgH4gfKEeeOme/mQcBaqFN0bKQns3geSQQW+jzyZA2frnH
+         Q7y3YhL0Koi7NULOcV4+wi/eHr00UYEqhcovrO8BEIom0BrlzGfshPiXfXaEep/RYE+r
+         X+xD5tEi7YTbJLDioP78DaK2bMDHEiU1KN3JX5XUNiRGLNFEJfZ118cAJCClYcPcNmnp
+         BuZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4ksJU0g50cjalKtH9R6QDvX1/Xup0FQjPdEibaa1gzllXRWchfuoD3FFi/sQVRxooS716VnWxOJ8JCw4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbauFnqHZr2jatmw5MbNwp4FbmennPAf4LHXPrrWHu5VCc9Ii7
+	i7nN+EFS4EoPIOmZ8aPZECN8BlTZQtxCgg98YbRDNtgdjW/xuTFisYIUWnwY0KffqaTeFBRSqhY
+	0YCp6t4SE6fhW3H0E1UBTUkxhlw==
+X-Google-Smtp-Source: AGHT+IFmEULt/jO3vqjILkmVX45b4prHh+Y47lGGy6+F3tp14h2lmNPgyIt35LgeXNCkncMExOSiIlEpJkHiZLFfzWc=
 X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a17:903:2343:b0:20b:6a57:bf36 with
- SMTP id d9443c01a7336-20c63183cd8mr1145ad.2.1728412722170; Tue, 08 Oct 2024
- 11:38:42 -0700 (PDT)
-Date: Tue,  8 Oct 2024 18:38:27 +0000
+ (user=samitolvanen job=sendgmr) by 2002:a17:902:c404:b0:20b:b7b2:b6ef with
+ SMTP id d9443c01a7336-20bfe0628c0mr4719855ad.4.1728412724086; Tue, 08 Oct
+ 2024 11:38:44 -0700 (PDT)
+Date: Tue,  8 Oct 2024 18:38:28 +0000
 In-Reply-To: <20241008183823.36676-21-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,14 +74,14 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241008183823.36676-21-samitolvanen@google.com>
 X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6809; i=samitolvanen@google.com;
- h=from:subject; bh=0lGBHoCLiG9Acxs3AlKgo1tCJjq8TaMCY9M43AccgSk=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDOmsNYp7m6wiFleV8NwQ3t/xhCHs8l7JB38F+NaEpOVNN
- f73b3ZbRykLgxgHg6yYIkvL19Vbd393Sn31uUgCZg4rE8gQBi5OAZgIw15GhjX3d7zcMIFR0PCh
- TR5bq9ybRx0XrTQW/Ht+bdVNrscJIk4M/yzsDz1y71Xslft6pOX9Iu98W+aNLf4n1dOqBJ5rzOO IYAcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5424; i=samitolvanen@google.com;
+ h=from:subject; bh=L8gZOiNafqMVcV01G0lHB854teeObYaONcRZ1bZVn3Y=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDOmsNUprA7ZfPDfpwdpNx/Mfb/FK6tu1cJ+r7LQ5lt2HY
+ h/fO1ad21HKwiDGwSArpsjS8nX11t3fnVJffS6SgJnDygQyhIGLUwAm0vOO4Z/x1+Z1mozzFI9G
+ c/IVlXFm31H9zN7MPeNG+q3H5pn7Fm1kZLj64GhzhfvR7mQFIxbuoL/6Hh+3VfxN/XJh88WuZ3P tmVkA
 X-Mailer: git-send-email 2.47.0.rc0.187.ge670bccf7e-goog
-Message-ID: <20241008183823.36676-24-samitolvanen@google.com>
-Subject: [PATCH v4 03/19] gendwarfksyms: Add address matching
+Message-ID: <20241008183823.36676-25-samitolvanen@google.com>
+Subject: [PATCH v4 04/19] gendwarfksyms: Expand base_type
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -94,247 +94,219 @@ Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
 	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-The compiler may choose not to emit type information in DWARF for all
-aliases, but it's possible for each alias to be exported separately.
-To ensure we find type information for the aliases as well, read
-{section, address} tuples from the symbol table and match symbols also
-by address.
+Start making gendwarfksyms more useful by adding support for
+expanding DW_TAG_base_type types and basic DWARF attributes.
+
+Example:
+
+  $ echo loops_per_jiffy | \
+      scripts/gendwarfksyms/gendwarfksyms \
+        --debug --dump-dies vmlinux.o
+  ...
+  gendwarfksyms: process_symbol: loops_per_jiffy
+  variable base_type unsigned long byte_size(8) encoding(7)
+  ...
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Acked-by: Neal Gompa <neal@gompa.dev>
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 ---
- scripts/gendwarfksyms/gendwarfksyms.c |   2 +
- scripts/gendwarfksyms/gendwarfksyms.h |  13 +++
- scripts/gendwarfksyms/symbols.c       | 148 ++++++++++++++++++++++++++
- 3 files changed, 163 insertions(+)
+ scripts/gendwarfksyms/dwarf.c | 159 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 159 insertions(+)
 
-diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksyms/gendwarfksyms.c
-index 1a9be8fa18c8..6fb12f9f6023 100644
---- a/scripts/gendwarfksyms/gendwarfksyms.c
-+++ b/scripts/gendwarfksyms/gendwarfksyms.c
-@@ -103,6 +103,8 @@ int main(int argc, char **argv)
- 			error("open failed for '%s': %s", argv[n],
- 			      strerror(errno));
- 
-+		symbol_read_symtab(fd);
-+
- 		dwfl = dwfl_begin(&callbacks);
- 		if (!dwfl)
- 			error("dwfl_begin failed for '%s': %s", argv[n],
-diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
-index 1a10d18f178e..a058647e2361 100644
---- a/scripts/gendwarfksyms/gendwarfksyms.h
-+++ b/scripts/gendwarfksyms/gendwarfksyms.h
-@@ -66,14 +66,27 @@ extern int dump_dies;
-  * symbols.c
+diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
+index 81df3e2ad3ae..35fd1dfeeadc 100644
+--- a/scripts/gendwarfksyms/dwarf.c
++++ b/scripts/gendwarfksyms/dwarf.c
+@@ -3,8 +3,20 @@
+  * Copyright (C) 2024 Google LLC
   */
  
-+static inline unsigned int addr_hash(uintptr_t addr)
-+{
-+	return hash_ptr((const void *)addr);
-+}
-+
-+struct symbol_addr {
-+	uint32_t section;
-+	Elf64_Addr address;
-+};
-+
- struct symbol {
- 	const char *name;
-+	struct symbol_addr addr;
-+	struct hlist_node addr_hash;
- 	struct hlist_node name_hash;
- };
- 
- typedef void (*symbol_callback_t)(struct symbol *, void *arg);
- 
- void symbol_read_exports(FILE *file);
-+void symbol_read_symtab(int fd);
- struct symbol *symbol_get(const char *name);
- 
- /*
-diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symbols.c
-index 4df685deb9e0..6cb99b8769ea 100644
---- a/scripts/gendwarfksyms/symbols.c
-+++ b/scripts/gendwarfksyms/symbols.c
-@@ -6,8 +6,39 @@
++#include <stdarg.h>
  #include "gendwarfksyms.h"
  
- #define SYMBOL_HASH_BITS 15
-+
-+/* struct symbol_addr -> struct symbol */
-+static HASHTABLE_DEFINE(symbol_addrs, 1 << SYMBOL_HASH_BITS);
-+/* name -> struct symbol */
- static HASHTABLE_DEFINE(symbol_names, 1 << SYMBOL_HASH_BITS);
- 
-+static inline unsigned int symbol_addr_hash(const struct symbol_addr *addr)
-+{
-+	return hash_32(addr->section ^ addr_hash(addr->address));
-+}
-+
-+static unsigned int __for_each_addr(struct symbol *sym, symbol_callback_t func,
-+				    void *data)
-+{
-+	struct hlist_node *tmp;
-+	struct symbol *match = NULL;
-+	unsigned int processed = 0;
-+
-+	hash_for_each_possible_safe(symbol_addrs, match, tmp, addr_hash,
-+				    symbol_addr_hash(&sym->addr)) {
-+		if (match == sym)
-+			continue; /* Already processed */
-+
-+		if (match->addr.section == sym->addr.section &&
-+		    match->addr.address == sym->addr.address) {
-+			func(match, data);
-+			++processed;
-+		}
++#define DEFINE_GET_ATTR(attr, type)                                    \
++	static bool get_##attr##_attr(Dwarf_Die *die, unsigned int id, \
++				      type *value)                     \
++	{                                                              \
++		Dwarf_Attribute da;                                    \
++		return dwarf_attr(die, id, &da) &&                     \
++		       !dwarf_form##attr(&da, value);                  \
 +	}
 +
-+	return processed;
-+}
++DEFINE_GET_ATTR(udata, Dwarf_Word)
 +
- static unsigned int for_each(const char *name, symbol_callback_t func,
- 			     void *data)
+ static bool get_ref_die_attr(Dwarf_Die *die, unsigned int id, Dwarf_Die *value)
  {
-@@ -22,9 +53,13 @@ static unsigned int for_each(const char *name, symbol_callback_t func,
- 		if (strcmp(match->name, name))
- 			continue;
- 
-+		/* Call func for the match, and all address matches */
- 		if (func)
- 			func(match, data);
- 
-+		if (match->addr.section != SHN_UNDEF)
-+			return __for_each_addr(match, func, data) + 1;
-+
- 		return 1;
- 	}
- 
-@@ -56,6 +91,7 @@ void symbol_read_exports(FILE *file)
- 
- 		sym = xcalloc(1, sizeof(struct symbol));
- 		sym->name = name;
-+		sym->addr.section = SHN_UNDEF;
- 
- 		hash_add(symbol_names, &sym->name_hash, hash_str(sym->name));
- 		++nsym;
-@@ -81,3 +117,115 @@ struct symbol *symbol_get(const char *name)
- 	for_each(name, get_symbol, &sym);
- 	return sym;
+ 	Dwarf_Attribute da;
+@@ -67,6 +79,109 @@ static void process(const char *s)
+ 		fputs(s, stderr);
  }
+ 
++#define MAX_FMT_BUFFER_SIZE 128
 +
-+typedef void (*elf_symbol_callback_t)(const char *name, GElf_Sym *sym,
-+				      Elf32_Word xndx, void *arg);
-+
-+static void elf_for_each_global(int fd, elf_symbol_callback_t func, void *arg)
++static void process_fmt(const char *fmt, ...)
 +{
-+	size_t sym_size;
-+	GElf_Shdr shdr_mem;
-+	GElf_Shdr *shdr;
-+	Elf_Data *xndx_data = NULL;
-+	Elf_Scn *scn;
-+	Elf *elf;
++	char buf[MAX_FMT_BUFFER_SIZE];
++	va_list args;
 +
-+	if (elf_version(EV_CURRENT) != EV_CURRENT)
-+		error("elf_version failed: %s", elf_errmsg(-1));
++	va_start(args, fmt);
 +
-+	elf = elf_begin(fd, ELF_C_READ_MMAP, NULL);
-+	if (!elf)
-+		error("elf_begin failed: %s", elf_errmsg(-1));
++	if (checkp(vsnprintf(buf, sizeof(buf), fmt, args)) >= sizeof(buf))
++		error("vsnprintf overflow: increase MAX_FMT_BUFFER_SIZE");
 +
-+	scn = elf_nextscn(elf, NULL);
++	process(buf);
++	va_end(args);
++}
 +
-+	while (scn) {
-+		shdr = gelf_getshdr(scn, &shdr_mem);
++#define MAX_FQN_SIZE 64
 +
-+		if (shdr && shdr->sh_type == SHT_SYMTAB_SHNDX) {
-+			xndx_data = elf_getdata(scn, NULL);
-+			break;
++/* Get a fully qualified name from DWARF scopes */
++static char *get_fqn(Dwarf_Die *die)
++{
++	const char *list[MAX_FQN_SIZE];
++	Dwarf_Die *scopes = NULL;
++	bool has_name = false;
++	char *fqn = NULL;
++	char *p;
++	int count = 0;
++	int len = 0;
++	int res;
++	int i;
++
++	res = checkp(dwarf_getscopes_die(die, &scopes));
++	if (!res) {
++		list[count] = get_name_attr(die);
++
++		if (!list[count])
++			return NULL;
++
++		len += strlen(list[count]);
++		count++;
++
++		goto done;
++	}
++
++	for (i = res - 1; i >= 0 && count < MAX_FQN_SIZE; i--) {
++		if (dwarf_tag(&scopes[i]) == DW_TAG_compile_unit)
++			continue;
++
++		list[count] = get_name_attr(&scopes[i]);
++
++		if (list[count]) {
++			has_name = true;
++		} else {
++			list[count] = "<anonymous>";
++			has_name = false;
 +		}
 +
-+		scn = elf_nextscn(elf, scn);
-+	}
++		len += strlen(list[count]);
++		count++;
 +
-+	sym_size = gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT);
-+	scn = elf_nextscn(elf, NULL);
-+
-+	while (scn) {
-+		shdr = gelf_getshdr(scn, &shdr_mem);
-+
-+		if (shdr && shdr->sh_type == SHT_SYMTAB) {
-+			Elf_Data *data = elf_getdata(scn, NULL);
-+			unsigned int nsyms;
-+			unsigned int n;
-+
-+			if (shdr->sh_entsize != sym_size)
-+				error("expected sh_entsize (%lu) to be %zu",
-+				      shdr->sh_entsize, sym_size);
-+
-+			nsyms = shdr->sh_size / shdr->sh_entsize;
-+
-+			for (n = 1; n < nsyms; ++n) {
-+				const char *name = NULL;
-+				Elf32_Word xndx = 0;
-+				GElf_Sym sym_mem;
-+				GElf_Sym *sym;
-+
-+				sym = gelf_getsymshndx(data, xndx_data, n,
-+						       &sym_mem, &xndx);
-+
-+				if (!sym ||
-+				    GELF_ST_BIND(sym->st_info) == STB_LOCAL)
-+					continue;
-+
-+				if (sym->st_shndx != SHN_XINDEX)
-+					xndx = sym->st_shndx;
-+
-+				name = elf_strptr(elf, shdr->sh_link,
-+						  sym->st_name);
-+
-+				/* Skip empty symbol names */
-+				if (name && *name)
-+					func(name, sym, xndx, arg);
-+			}
++		if (i > 0) {
++			list[count++] = "::";
++			len += 2;
 +		}
-+
-+		scn = elf_nextscn(elf, scn);
 +	}
 +
-+	check(elf_end(elf));
++	free(scopes);
++
++	if (count == MAX_FQN_SIZE)
++		warn("increase MAX_FQN_SIZE: reached the maximum");
++
++	/* Consider the DIE unnamed if the last scope doesn't have a name */
++	if (!has_name)
++		return NULL;
++done:
++	fqn = xmalloc(len + 1);
++	*fqn = '\0';
++
++	p = fqn;
++	for (i = 0; i < count; i++)
++		p = stpcpy(p, list[i]);
++
++	return fqn;
 +}
 +
-+static void set_symbol_addr(struct symbol *sym, void *arg)
++static void process_fqn(Dwarf_Die *die)
 +{
-+	struct symbol_addr *addr = arg;
++	process(" ");
++	process(get_fqn(die) ?: "");
++}
 +
-+	if (sym->addr.section == SHN_UNDEF) {
-+		sym->addr = *addr;
-+		hash_add(symbol_addrs, &sym->addr_hash,
-+			 symbol_addr_hash(&sym->addr));
-+
-+		debug("%s -> { %u, %lx }", sym->name, sym->addr.section,
-+		      sym->addr.address);
-+	} else if (sym->addr.section != addr->section ||
-+		   sym->addr.address != addr->address) {
-+		warn("multiple addresses for symbol %s?", sym->name);
++#define DEFINE_PROCESS_UDATA_ATTRIBUTE(attribute)                           \
++	static void process_##attribute##_attr(Dwarf_Die *die)              \
++	{                                                                   \
++		Dwarf_Word value;                                           \
++		if (get_udata_attr(die, DW_AT_##attribute, &value))         \
++			process_fmt(" " #attribute "(%" PRIu64 ")", value); \
 +	}
-+}
 +
-+static void elf_set_symbol_addr(const char *name, GElf_Sym *sym,
-+				Elf32_Word xndx, void *arg)
++DEFINE_PROCESS_UDATA_ATTRIBUTE(alignment)
++DEFINE_PROCESS_UDATA_ATTRIBUTE(byte_size)
++DEFINE_PROCESS_UDATA_ATTRIBUTE(encoding)
++
+ bool match_all(Dwarf_Die *die)
+ {
+ 	return true;
+@@ -93,6 +208,49 @@ int process_die_container(struct state *state, Dwarf_Die *die,
+ 	return 0;
+ }
+ 
++static int process_type(struct state *state, Dwarf_Die *die);
++
++static void process_type_attr(struct state *state, Dwarf_Die *die)
 +{
-+	struct symbol_addr addr = { .section = xndx, .address = sym->st_value };
++	Dwarf_Die type;
 +
-+	/* Set addresses for exported symbols */
-+	if (addr.section != SHN_UNDEF)
-+		for_each(name, set_symbol_addr, &addr);
++	if (get_ref_die_attr(die, DW_AT_type, &type)) {
++		check(process_type(state, &type));
++		return;
++	}
++
++	/* Compilers can omit DW_AT_type -- print out 'void' to clarify */
++	process("base_type void");
 +}
 +
-+void symbol_read_symtab(int fd)
++static void process_base_type(struct state *state, Dwarf_Die *die)
 +{
-+	elf_for_each_global(fd, elf_set_symbol_addr, NULL);
++	process("base_type");
++	process_fqn(die);
++	process_byte_size_attr(die);
++	process_encoding_attr(die);
++	process_alignment_attr(die);
 +}
++
++#define PROCESS_TYPE(type)                         \
++	case DW_TAG_##type##_type:                 \
++		process_##type##_type(state, die); \
++		break;
++
++static int process_type(struct state *state, Dwarf_Die *die)
++{
++	int tag = dwarf_tag(die);
++
++	switch (tag) {
++	PROCESS_TYPE(base)
++	default:
++		debug("unimplemented type: %x", tag);
++		break;
++	}
++
++	return 0;
++}
++
+ /*
+  * Exported symbol processing
+  */
+@@ -119,6 +277,7 @@ static void process_subprogram(struct state *state, Dwarf_Die *die)
+ static int __process_variable(struct state *state, Dwarf_Die *die)
+ {
+ 	process("variable ");
++	process_type_attr(state, die);
+ 	return 0;
+ }
+ 
 -- 
 2.47.0.rc0.187.ge670bccf7e-goog
 
