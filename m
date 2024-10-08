@@ -1,132 +1,121 @@
-Return-Path: <linux-kbuild+bounces-3980-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3981-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2D9995843
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 22:18:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8CA99584C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 22:22:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E1DE288784
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 20:18:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC3721C213AE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 20:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9745B1DF99B;
-	Tue,  8 Oct 2024 20:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B7D0213ED6;
+	Tue,  8 Oct 2024 20:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F1W//qBN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PUgqDT2z"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A91D2905;
-	Tue,  8 Oct 2024 20:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C271E104B;
+	Tue,  8 Oct 2024 20:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728418698; cv=none; b=BVfd4sv52rVBywF8l8IcsE9BNfLzfbs73oxtBOkI3BR+026SizbAEc0s6ADln5d++N05W/pu4h4pUZjBwGtDNMVZ1qlm3yJ94P0TBBG0ivPU52nrtf33epeL2sqYsn4GNn+QR6pc8ePn8XS6voGWOMB9Ujrd/vPLKT9C7AK0O/w=
+	t=1728418916; cv=none; b=cnrpMHkrqzlPW9B1XqxPafawO52dNnRcX27PMBNFklkv3Bu8G/10hL2FU1cs/ojv3Q/07S8wwVepfkF25dwbmkKjBVn+PVGxxfzHrDs9YSIv8LbriqsKWMk4TvQ5zSmrE/z7LShlFAAv36lqehYe3+hKPcj5TlLvN98cxvBpaAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728418698; c=relaxed/simple;
-	bh=pORIhZtegzimHlEuxnl0uRW3ZkQC+8hI3a4/aUi1e+I=;
+	s=arc-20240116; t=1728418916; c=relaxed/simple;
+	bh=2DsQ7SQOH3j7P3k9UFZPQ7BRKfN2aKs3Cae77opK1d4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aVFT4CFsbyJnjoWI1r+afiMX/0KMCI+1mZsc6hCwrKkrVdD4ycHMYTHnHBIyzL1doY5JdwD5d6EN8lfqh3Y2Yle0szNW2ohc3onseCps0zeS7Fzr74dYkyVrAigAsmAmhyhz/AX2sw4oQk9faK6wluKLkqjBDCR4WiBepCFo0zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1W//qBN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46ADEC4CED0;
-	Tue,  8 Oct 2024 20:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728418698;
-	bh=pORIhZtegzimHlEuxnl0uRW3ZkQC+8hI3a4/aUi1e+I=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=F1W//qBNBIrozvKcwamd10uy5xeBE9DihBlvVjIGxTWVx8eTWbJW3oD+2hE89MFxL
-	 DeQ9TqzP4HRSkBn55i4GogtWUfN83VvnLJVNG2W5DddnmlR0lMDA61dpvTYuxYjVPv
-	 lIbBnST43dhBTYQFUqH+GmToWENEsE8FMiddbb5sx+mzMKjJEnmFQU6R6JDf9pekYy
-	 UlspadWmf0qYgcMODsGfWxPlRul+77QWtMcbdRV9etdCJksiBqUSSoL7z143bwA1Q2
-	 gK+2FtREQTe3BC4AEf3mxekvVlhS4DwSNxY/S06dtp39CR6FA3oXFKzWNAB5aPWBhq
-	 mQtF4FAAO3V1w==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2facf40737eso67181681fa.0;
-        Tue, 08 Oct 2024 13:18:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUUBMuFQef/HCx5LWsPeUXVGNTO+xWzq22bibNiA84Sfrbb+u1wyc2tcXgrs0JKrgy+E3abWiXZ72yNy5nW@vger.kernel.org, AJvYcCVStrmCDxLFNNybQu8j7ptYeuGmaiZXpQ6ys1CWdYTpFdGDbMFrI/L+wBACGmmt9bZarjFNozixaM0HFT4=@vger.kernel.org, AJvYcCXK34vWHDsnfD5NwwkCdkDEnrjriL4UJ1oWsA63lI6w1PHaWbneru5gSXXATwjHtt4xEM5LsUGoVh0yNv5N0/A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEWcVQ7WPVbGCqtZnrVc8qQNWjAUh/yKdalYmU6kaIp/0IUESp
-	/yXggcJ6+5wZrr+Y6nYZaaTCCiOzguuV4SK5a4PE+N2r6jpQ4wm/T1nF+u8yYrBioufL1TD9i4i
-	8yfawIkCvDjc+LsTQhg4d23yO4fs=
-X-Google-Smtp-Source: AGHT+IEFzyJtTh4Uv5EdRNZ24nxcmGNTs6sECg8IKzBtxMaY8Mv15BVzVq5hGDvYovu/lPrqA1w9XtBZWRjWK11CQl4=
-X-Received: by 2002:a2e:4a19:0:b0:2f3:eeab:7f17 with SMTP id
- 38308e7fff4ca-2fb18801681mr1303771fa.41.1728418696915; Tue, 08 Oct 2024
- 13:18:16 -0700 (PDT)
+	 To:Cc:Content-Type; b=L7wjTvmgCZWiDSzPICibj5klyA9zlNXzziGqoIXlFufysSl7evkiKCFhv8kRTz8/rEjppAjGfrM/UXAk8lLByuYThZUGCCn+yCLcEeGkdcmD1FVorrrG//qm+dpyMY3XoOo+HUgA6MXqPsgQkV44DhtuJGN8ivVWg/2svZNdcKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PUgqDT2z; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-71e18b65fbeso66730b3a.1;
+        Tue, 08 Oct 2024 13:21:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728418914; x=1729023714; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Ypgle67Ewfjbh+G8tSPNEpIJi18q3EcYQ2MRF3FEmk=;
+        b=PUgqDT2z82IL5fn8U82KvrnTOsdNQADZkxl70WhroXQkeBHS33YR8I9oIOExMiHPcr
+         KRgeLlkz+k80gsBT6oD3CekjyKU0kYW/u9HWeulirtOA/ee2efKaRWFcOtTmGQOCkyQP
+         X7Ce9ywb6Gfl7p6gyTMJnpmT8oFaLV5POFEHdOd9Fy6BB9Or5QtJPKs6zd0jfzsN2FP2
+         uQnxBDmHyikSuDZ9RN3AJRewQe9z/hGXqLBdtN0LbmhGBy2u7G9FIvPkzpGp6Wovs1dg
+         B93nB51Tr6kt2LGGeQivLyIP9U8qLDlOEBdTT2X8HuHszcVj+90b4p3RFJ1JHtapZumM
+         VTdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728418914; x=1729023714;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4Ypgle67Ewfjbh+G8tSPNEpIJi18q3EcYQ2MRF3FEmk=;
+        b=O9iwf7Z7kIQZDY4OO6CUrylhyLG95l9NmXP+v9un2ftbaHgjxSkqsjmTzcO1NUYzB6
+         xa1FPYt/2JS78k6MQvlAkNwdG6okTuhVukpc6ThIAnkPiSZjAtY73Bcri9T1Z+N2cQjh
+         8kbthQURfloFaH8NFo/lWRoBOOKjjuv6TVzXpMzUoZtC8ouZWMGffgjasyQ69PyUvPlP
+         XIoO2okKGg5b069KivQf0QYvdxk3bEq6AJXbadyDaCHhCyJI1hOYu2SIxeNeucR0gCAK
+         YDdHGtRW4qS8UM1ryLO74ZS+dF4jGMhKol34RzUrDILc6o41o5ASkNyR1+6NmMLjCanW
+         dH2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVFLirwsjbwYMWqz37uVbSK2qDDidSJnogaS0eKgU4xkXu9RHf/6XNYoLFpyzawx7rbFT+AfGetUl4wFl9qal4=@vger.kernel.org, AJvYcCVZiE6N9+Vp8/A5/yv2BAiA+SWkA2iXmwycVlFNWM4S+YCqu23d83/qRTGvNB9dwtmp/dCTkijBkDFyANkX@vger.kernel.org, AJvYcCWzY9RH9F5D8kZp6cbK98wFJA/rlVMPK5yItCGpSqAqrHg7Q0fcqmJ7H6hC1pgHjaZg6GsP/iWA6Le7kQs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzv+xMRNWRAhZp7R92znlK7C0ZKcIf0jEUlg8aT4qgMAIE8/RY4
+	d7NEm5F5heGrKXX7cQStUEs53sj9qlqUa47vEq2Z2uUWeMx+xh0RyLm/j3PShiOMm0MBQbglPC4
+	e9kHjvY0RSVLeFJ9V7tVa75ALdyA=
+X-Google-Smtp-Source: AGHT+IEFqEwsaHBUgMDUat7yLxNvezUcYRV4sVB9JZ+K4uqVqMW2kzbQYUpI6x+5pJzErmbbR1OdDajIOk/dxqAC2E0=
+X-Received: by 2002:a05:6a20:9186:b0:1cf:37d4:c4f6 with SMTP id
+ adf61e73a8af0-1d8a3c0d92dmr115464637.4.1728418913836; Tue, 08 Oct 2024
+ 13:21:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241008-rustc-option-bootstrap-v1-1-9eb06261d4f7@google.com>
- <CANiq72k-Z88A+Bk6q4M5dnVW74L7u85Bqdo0ptSdvVaD6BR3_A@mail.gmail.com>
- <CAK7LNAQU8m=QrEXS2h_0Q8UNqqTmkud18zc8RM6LVPsKYM5z3w@mail.gmail.com> <CANiq72mCuqCE3fA2jgaaA4fyj1kNzYm61C2600vAf0CT5=JP0A@mail.gmail.com>
-In-Reply-To: <CANiq72mCuqCE3fA2jgaaA4fyj1kNzYm61C2600vAf0CT5=JP0A@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 9 Oct 2024 05:17:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARDkS6uAHcdyZatc2SB7A66TWGfKZWNkYOoa7i3jo3QqA@mail.gmail.com>
-Message-ID: <CAK7LNARDkS6uAHcdyZatc2SB7A66TWGfKZWNkYOoa7i3jo3QqA@mail.gmail.com>
-Subject: Re: [PATCH] Kbuild: add RUSTC_BOOTSTRAP to rustc-option
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Nathan Chancellor <nathan@kernel.org>, 
+References: <20241008-rustc-option-bootstrap-v2-1-e6e155b8f9f3@google.com>
+In-Reply-To: <20241008-rustc-option-bootstrap-v2-1-e6e155b8f9f3@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 8 Oct 2024 22:21:41 +0200
+Message-ID: <CANiq72=1SfOrpO4VnUK90-Or8POJdPotYbN322DihgU=BHgXhQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Kbuild: fix issues with rustc-option
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
 	Trevor Gross <tmgross@umich.edu>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 9, 2024 at 5:06=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Tue, Oct 8, 2024 at 7:32=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> wr=
+ote:
 >
-> On Tue, Oct 8, 2024 at 8:45=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> >
-> > Really?
-> >
-> > $(shell ...) inherits env variables in my understanding.
->
-> I mean the Make-exported variables (not the external environment),
-> i.e. `RUSTC_BOOTSTRAP=3D1` that we export in the main `Makefile`. Those
-> are not exported into the `shell` function.
->
-> However, it turns out this changes in GNU Make 4.4 in commit
-> 98da874c4303 ("[SV 10593] Export variables to $(shell ...) commands"):
->
->     * WARNING: Backward-incompatibility!
->       Previously makefile variables marked as export were not exported
-> to commands
->       started by the $(shell ...) function.  Now, all exported variables =
-are
->       exported to $(shell ...).  If this leads to recursion during
-> expansion, then
->       for backward-compatibility the value from the original
-> environment is used.
->       To detect this change search for 'shell-export' in the .FEATURES va=
-riable.
->
-> And indeed:
->
->     export A :=3D .PHONY: a
->     $(shell echo $$A)
->     a: ; @echo exported
->
-> Gives:
->
->     $ make-4.3
->     make: 'a' is up to date.
->
->     $ make-4.4.1
->     exported
+> diff --git a/rust/probe.rs b/rust/probe.rs
+> new file mode 100644
+> index 000000000000..bf024e394408
+> --- /dev/null
+> +++ b/rust/probe.rs
+> @@ -0,0 +1,7 @@
+> +//! Nearly empty file passed to rustc-option by Make.
+> +//!
+> +//! The no_core attribute is needed because rustc-option otherwise fails=
+ due to
+> +//! not being able to find the core part of the standard library.
+> +
+> +#![feature(no_core)]
+> +#![no_core]
 
+What I did in the GitHub issue was:
 
-OK, I reached the same understanding now.
+    echo '#![feature(no_core)]#![no_core]' | rustc ... -
 
+to avoid a file just for this and so that things were closer (i.e. the
+comment would be then in the `Makefile`).
 
+Not sure what Masahiro prefers.
 
-
---
-Best Regards
-Masahiro Yamada
+Cheers,
+Miguel
 
