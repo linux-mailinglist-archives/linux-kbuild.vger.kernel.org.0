@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-3944-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3945-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8AB995196
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 16:27:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055CD9951A6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 16:29:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAAA528208B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 14:27:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A23C71F25E1B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2024 14:29:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C05B81E0DF1;
-	Tue,  8 Oct 2024 14:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D9B71E1C2E;
+	Tue,  8 Oct 2024 14:25:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KhNtMd+9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4PR7V1s"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DF61DFE00
-	for <linux-kbuild@vger.kernel.org>; Tue,  8 Oct 2024 14:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E89F1E00A6;
+	Tue,  8 Oct 2024 14:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728397475; cv=none; b=lgG4uir0dOlHGHiwGuI3BCu26edLIziA5rkv64ebk9+w1qwdnhT0Ugf0Sxu3LMqbpKDWFQPJJkraL/UVhvpSpMCG5q0O9Mwmxz527oNSuIW0CMxfu6gpo19eJMpMpSglS9cFrhPQvxbDZ3oPkPg/9zl6/EYxuE9pourakhS1gQE=
+	t=1728397516; cv=none; b=NA51tdlHjh8UbsfoPpGD9n6qoNOgqE5jMewn+I3xwmMew1qtDf187iKS1W8Fciu7ORdy9OQd2J+No/Jnl0Zwunt/qvCp/MQ6JgpUKTsqril8Qxlf2Vf2rYFl6ta2+XDqkXUtj4YHHMdXaygZ79moUHK0tZvw5TuVf3+zYOmWhAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728397475; c=relaxed/simple;
-	bh=ie53Rqu0p0p5Q7qB7cRsGyaHkBLuhapsKf0BBTl/N2Y=;
+	s=arc-20240116; t=1728397516; c=relaxed/simple;
+	bh=4STEqdYYHzlOOzlquJynpCruAUk64g6t2knQIGSZXm0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WkCNFi0XDKMmCfsnI+45e22GGCjA7Jy97mHuEzGvTbs/o36baqd7OoOJlVKqvqJz0m0QzSJxdlX9C06tA/S/L/oI6lLoidUEsoI5YcGcLZwChq7vqKILrWPB08vMIfx1hjmrJzEbAyeIV6XUOAI7H7k5Ol+T7KlEO2y24WnQgWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KhNtMd+9; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37d372c1942so227355f8f.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Oct 2024 07:24:32 -0700 (PDT)
+	 To:Cc:Content-Type; b=KhoY89hSpHAKgNW1fK/+7eMI2+PK3qg95OelPhTn4uUlfeBGzN4qStnrt+8tp+fL1sXHd0jKEmtjDhCWSSBY8gD2gKyqUu5BPjx/zXdzXUrTsJ6tLs1ZacA0lvMTmgR/o8RdTwxa42JHr/oD7ZmUb9ZYXC6q8Jr8nTUHih1X7v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4PR7V1s; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-71df23e0ffaso458893b3a.3;
+        Tue, 08 Oct 2024 07:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728397471; x=1729002271; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728397514; x=1729002314; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iI48V9hbHM/hfCZ0F7BwPhazsI3Vlms6ZGs7WY+S/2s=;
-        b=KhNtMd+9Yqh0tSHcc0yq5KFnrokoVtHlO6bH7/xDP3/N5h0gZ5Gjqn7FDmQOYnZQdm
-         zmqGeP0nnfINcFNb44yTVcss4Cr3LCAnotrEYEoG+YjWpzXhNfnjLDAs/GKgh+SLbwD5
-         nvh/ko2+MabdCylLp29D22iLMyuLVNjzHLBgR5Z/x0g10rx5jxK8nOUSOgzuXVD+6voy
-         6HJE2tQ71tOk0jLqwoTQExI1qyQGJIeP5HVkFxJKqtZFLsorR8wMsrEzxd6HioThRWFk
-         iOKNMKlgvHtlg4X9PAtyZWDoQeXwpfPHP2c1tKDhffcT/8KwGyGlfn08HFgG30awkTaj
-         uZxw==
+        bh=xc5hto251I8BGlFglrpuO2SzJcbAncIqP7pSZlWjuY4=;
+        b=i4PR7V1sY0gFa5hBfkBXJ2kLqyOvbkVs6dV74GNNrDkXYMWMYxHjoz7EMSHEdNco+z
+         x2B3ateoNv7m8qn2e/vBL3YFE/Tr0tIA8K6x46i1XAjGETE8w4uHxHpc0vqDtkPk5mo6
+         uVqouYW7F7oaAC6Q9AlKDpP1IJqQyP3N1n3j5yYRrM78vT/z/FL2Y8H4XioZVJkx7/TM
+         WRrTOratx8iPuLqwnIZg4nc4g4UpOo+19tH4XG2gEWnX+AgydyM0llyeklh+90GP+hzA
+         PSInXyXn7j7st84F1kSFwcpt8RBu+rS3cLhE4e9mWQudTTuxyrIyNKJ3uVw83F9PEjJg
+         U6ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728397471; x=1729002271;
+        d=1e100.net; s=20230601; t=1728397514; x=1729002314;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iI48V9hbHM/hfCZ0F7BwPhazsI3Vlms6ZGs7WY+S/2s=;
-        b=VuSQQc8OSO5p7PwCUawbuEHUDKJT8Zm6jwHH2QqI8b34p8/sJ7Nv/qBkVfAWfYlbcp
-         fwVNbLgo3a4vG9/vdVizCTOv85OaFWKfX6xWXbhDeSGfIT15wQgguJhabWWhlkcO+I1N
-         KyWJLgm8+fC55hX9C++NgmNAwZaDyVUY7yWwNJhCrSTCnswq7zhnJifbQccgfeRVYBR6
-         ed0TmYNFcG5CdQyrnZH7rZhCOaAZjBFDa9YniiAnsUHcWblI72ifkykGMz+RHtYEHR4o
-         Tztw8elJRB3PWTmyFTiOPP5Ct5wH6iVfoyvXEZN/af3OGI6Qa8tFQyttWEY32dReA56f
-         +qmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXoVLFp47snBj+hEVJDYWubOadUJhO6so42QldwH1CA2cz1bCmdUv1xavjRy/EtvjdKlH8EZrsS73IXwHA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFPYhNygUFuQBQjU9Guqc3QlKFzi9j8qSGEcx1DVTijgkyqOGX
-	sQU4KqELXxxauwoMc7FX3TIppL0SxvHBcwHE5s68x4JS9NmtfthClPJvwT5yZHqGVHAoMNeJjnk
-	Gvc5G7S/p1CIgxtb4DDHBveHqd+Tnq7zZ3Tdl
-X-Google-Smtp-Source: AGHT+IFqb8vzJcF3MljPcuDJmH7CI/WUdIuIbv0HGGdZgod4f5Iy4iGbgYewcH5OpIoFQ0Hz/dOI8gyf2RkTC2m7ljU=
-X-Received: by 2002:a5d:40cc:0:b0:37c:cf84:4d9e with SMTP id
- ffacd0b85a97d-37d0e8df41cmr7926081f8f.38.1728397471099; Tue, 08 Oct 2024
- 07:24:31 -0700 (PDT)
+        bh=xc5hto251I8BGlFglrpuO2SzJcbAncIqP7pSZlWjuY4=;
+        b=JkPZyzWWTGSxElEAMgdDmSD/Cumnh4RhLKxos9XnybrfhpRXtEQ0LKXV8FjwJR0DOH
+         RFYQnHxShLpyjjxFUURI9vTyZbG4zWV0XQ+hRx2MEo6xZpPD6/Qcz/eQA+b/CV0mekzG
+         eN5AhNHRo0JmNpq9zIUvdJCRuuUA2mF2qsOx6geKjhxxPj1AvEeeWCtDR+BPNYLz69gi
+         T3TdKSiaSqmLEabLGp8ek6xlj6Qm2mRpRydudHkONPqJEHLCiQw1TfiSzqaZiE9L3RP6
+         gzsQw7o6NQyfATJn+3+ETedSkdlTVzShMPKrTUAp7vIkm+vvKKOR2LxI4BUarZeUTWd+
+         8nBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUOjx1KC+ObnkpbLVcklaa3ovBwYBc85+fW7mGPeAzsJqYpQiM/ArC0iKU3AUwCGtIEUVxGM+nEL9PLGyH86y8=@vger.kernel.org, AJvYcCUSoLs4u2BuncdqS8d7AGrp2BsT8jI4k/F/BpVEpSViQpBx8CmFdCt5SkQdgXAWOqf0xXVd/mWwdq3TjyMN@vger.kernel.org, AJvYcCUVASQpVO8jWPhg16pR+zIpi6xGn0UKOUPTblpTHDD2OcwiN+7oYeCbNW7ck5YUDGzirstKHKWVr/3Yxuk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysAI5xSXUHU9e2GaZLr8dFoZZ5Ys73urrllvosu8o5oqUUIERE
+	pBqYtttDcCpi/my00Zw8pMxa4kMNo+0BHYwXfANTGOgHvH2umQsjQLcWoGd6c12ux5Vzb4OgkCz
+	HrjHM5aSgjl+gPwSzW0JSHo0Zp/8=
+X-Google-Smtp-Source: AGHT+IHTlD2Pu5eTgPDKY+KvivoG2mvhEF6kV+SK5/ToNQFdOPshkDI+mD7vyG5fQLDOdDDdQ3TOxs4evy3VxU6tGAw=
+X-Received: by 2002:a05:6a00:ace:b0:70b:705f:dda7 with SMTP id
+ d2e1a72fcca58-71de243f079mr9999986b3a.4.1728397514070; Tue, 08 Oct 2024
+ 07:25:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -73,13 +73,14 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241008-rustc-option-bootstrap-v1-1-9eb06261d4f7@google.com>
 In-Reply-To: <20241008-rustc-option-bootstrap-v1-1-9eb06261d4f7@google.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 8 Oct 2024 16:24:17 +0200
-Message-ID: <CAH5fLgieyO79OnLbFik5awASQub0VDErZmbrcQECDr-e41_ohg@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 8 Oct 2024 16:25:00 +0200
+Message-ID: <CANiq72k-Z88A+Bk6q4M5dnVW74L7u85Bqdo0ptSdvVaD6BR3_A@mail.gmail.com>
 Subject: Re: [PATCH] Kbuild: add RUSTC_BOOTSTRAP to rustc-option
-To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
 	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
 	Trevor Gross <tmgross@umich.edu>, linux-kbuild@vger.kernel.org, 
@@ -95,7 +96,9 @@ ote:
 > variable. Otherwise, the compiler will emit a compiler error. This
 > environment variable is missing when rustc-option is executed, so add
 > the environment variable.
->
+
+Yeah, `$(shell ...` does not pass the environment, so we need it.
+
 > This change is necessary to avoid two kinds of problems:
 >
 > 1. When using rustc-option to test whether a -Z flag is available, the
@@ -115,26 +118,18 @@ ote:
 >
 > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-It should be "export". Also, this doesn't seem to be sufficient at
-all. Now I'm running into this error:
+I think we need an `export` there.
 
-make[1]: Entering directory '/home/aliceryhl/lout'
-warning: ignoring --out-dir flag due to -o flag
+I am also rechecking this, and I didn't get a reply from:
 
-error[E0463]: can't find crate for `std`
-  |
-  =3D note: the `aarch64-unknown-none` target may not be installed
-  =3D help: consider downloading the target with `rustup target add
-aarch64-unknown-none`
-  =3D help: consider building the standard library from source with
-`cargo build -Zbuild-std`
+    https://lore.kernel.org/rust-for-linux/CANiq72mv5E0PvZRW5eAEvqvqj74PH01=
+hcRhLWTouB4z32jTeSA@mail.gmail.com/
 
-error: aborting due to 1 previous error; 1 warning emitted
+And I forgot about it, which is my mistake too -- I still think we
+need it (and we should not use `-o` either together with it, I think).
 
-For more information about this error, try `rustc --explain E0463`.
+I can take a look...
 
-I think this patch is going to need more work. Sorry for sending it prematu=
-rely.
-
-Alice
+Cheers,
+Miguel
 
