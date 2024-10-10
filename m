@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-4034-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4035-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE43998443
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 12:58:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 258B2998459
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 13:02:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 125531C21B41
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 10:58:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB1CE2851AB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 11:02:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBB3A1BF324;
-	Thu, 10 Oct 2024 10:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77801C2308;
+	Thu, 10 Oct 2024 11:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oyriwGmb"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xXGpw50n"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3534B1C1723
-	for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2024 10:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F0D1BF322
+	for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2024 11:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728557903; cv=none; b=CHK9+oXQx0aRaSdLEHNq9uTznobir+n2DU/SZBoOVYOYDW+ldOwKlEiCuORS8FlGQL0TmdaborrGhSoqLRNHzx2EOG71/rGNLCciAc2UIJ9sOL3RO3S/ZJ2tNkncEjOCr+4YeixdFeeGyNyfQ/iGDsJrlx1zNQEh8s2XdycwQp0=
+	t=1728558152; cv=none; b=ey482epiAOW9IS2v/dxqx6bSaI8VnT/Ssxe0rlS5zGgdMYTYWxo1wZSo7tVOUOTCQa8KfgP5iRd1b7/enBWmQuTG62dpo2fKLlGFIM/Isx5LWWeRm5GgHZ9q3hLr6pivCcrzLMK2uaVysL8wqtH00iX/dzHPyQzTPDG3GvzJZ8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728557903; c=relaxed/simple;
-	bh=StoaWEIYCCwjnd/+Bfx66/ND8mpJjgF5frrP6tUdr44=;
+	s=arc-20240116; t=1728558152; c=relaxed/simple;
+	bh=VUZtMlFmU9aktV9oOImu+gMtJQ/WQw06C2hUBzcUsec=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SE3+O0q2dhudRDRPvcKqppLTluwU7er3BUmH8jNH7ycfy5la55U5D2191w+RX/KzGVYdKWczUzG48YGQi4kDQbfaKe3QA0c9zkXB50DFzEboEz6qDEgpGMpncsv5GO3DTlGZk2ydH3ulS1mUPfSfOwSpLXuWSFAXPhjdBNWPVU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oyriwGmb; arc=none smtp.client-ip=209.85.128.50
+	 To:Cc:Content-Type; b=a129R5mtyzTVi8kr2OotlB3ozp9C34J3stlYoShfuyP6FD17d6Dhi3VsOpweX5+E7e+IjdfxzWMwcBtp5AXFvjLKJ2216J5anvejamBSTW13cY9FPLC4l0CmysnZnrbNd5zcVvmPAediqFTIYmgu7PDNKMTt7dyRdVX7zTn9Nio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xXGpw50n; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-431160cdbd0so4556415e9.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2024 03:58:21 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cae6bb895so6667705e9.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2024 04:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728557900; x=1729162700; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1728558149; x=1729162949; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=StoaWEIYCCwjnd/+Bfx66/ND8mpJjgF5frrP6tUdr44=;
-        b=oyriwGmb0SYdoNYaKJKK0DV/Nsq8B6E5ts/qZXwUjE+eYIRG9iHrBHSm2NuOvEJLT0
-         W4vMmx3v0ZAO2pWTMuFsWpnIw7oRzJddO0KaSk03bZ2oEE4/ug8uOQg6ySQL9qWhgnNz
-         bi51pKldd10Dr6knemch1BJcSkzRF91IAn/t+nJf28tNTz3PLL39XI1dEodlCTHGxMfE
-         i/Od99sw/meHoiux+1nme7YH7cTfuCPa0XXOta1VuO4ivTzBX9aMll/fhALyHLZSQtCE
-         rVCO3hGowiG23KJk01F3LlgAsvBAzpR8uuTnEgAVKRjGZpgzNqBMSSFmpSFfLlxnhy6n
-         Uf8Q==
+        bh=vm7iH+80LuUknHyKz8yii4nAbEM+GkBJz008+GYeeIk=;
+        b=xXGpw50nYPqYjJGKlt5ujy9bErxHFfb0RfiiQ1ddSt5Mxq9ojHQDP/+EadvCjKZN2K
+         Tl6Pk1ynAt+e8HMWzWyqgTKPMV8ScGo62n3eLxthupIWtTKMtGZHEMb7pcYuZU8aFQ2D
+         Eswwa+opBSUFKw6Pn3iN2j0VYDVG/7M2znvxYYBF3R76MWJ44QnkQgxirhtLomIhqmxg
+         37Q+8j8v8i+Wpi7u71qrt9AU5ULs611HZH7Vu2mPh5hci5SMHpbrmaRTqHzZJbEJENO0
+         aaJBMbh7WcSTyC09ROFAMg5g3NPrgmq7oTyRpfN2Uklz7cgkNwnl1BHi5vaZ3bqENznq
+         uvKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728557900; x=1729162700;
+        d=1e100.net; s=20230601; t=1728558149; x=1729162949;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=StoaWEIYCCwjnd/+Bfx66/ND8mpJjgF5frrP6tUdr44=;
-        b=aapI4hz3BAfV/LN1ph9CodUltUokbLerm72jeQ2i8mZ/C+9omlTWqBiB7zXbHLljUC
-         PGWPzoanQokI8ymLvsnpGxTmqVcL/f+nxiaN0nYeAslgnAC5uLvex8NfAEsbYsqiGVyK
-         RVPYkCdS9+joZfI12P97rEzdYpFi2MUR0Acv7f8sog+oi7LWXKvNhzZP9Uw53MwbhFKb
-         OgF7b9iPucR7QCZH429dpTAy82phk94STvcwpEA+HnJRP+7DEQH0/wVJUZbzmO2J1d7E
-         EOBM2P4HpTpuxXMmJjXX/KkgETM6Hv/rnotkLuwQ4fJe6aM1pqVRvTDiKkGS5eBZ/2Gx
-         6PLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXmFi3o1T9qWPB6oTLKGQVvzAOYffPK/JTZKhXOuF2AxIg2sMdiqlgvMZv6WW/MtE+XJmxdCUKQhXV01z4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4E3sg0ikvVAQS3fhZ7VpkG16Hfc8sUn3oJsGcYOAT/2biPJ5R
-	+x789SvWto2KKQPdNx81F720rxFcS9WM+LAGnIOLnUIMlbrqSVKehjtxwQOCAYoQmUG2Pf4o7jK
-	Ss16996nilxP+FKAM9x2svw72K/aaJAYSg6fZ
-X-Google-Smtp-Source: AGHT+IG6zteYy0eiXshByN3a31ubFooYapYA71mK/l2zbvcpHK0YoSgYWnV/kyVCloGT0HPQCGElonWjcU/HzmR4ZZE=
-X-Received: by 2002:a5d:4092:0:b0:374:c613:7c58 with SMTP id
- ffacd0b85a97d-37d481d300dmr2263009f8f.29.1728557900384; Thu, 10 Oct 2024
- 03:58:20 -0700 (PDT)
+        bh=vm7iH+80LuUknHyKz8yii4nAbEM+GkBJz008+GYeeIk=;
+        b=oQtf7lNONoBdZqlQ9MUsb1oFh1YCMsFy4qQEGmhirCyUd/L1W/u+t+ltLAZg9JKHJV
+         eHtcya+o+gE+0LP+TUv+QqL8NhpcOguoaxjlOsMsTGAaKaC+2Zc5Ax7Z+aF2gMmch4Zv
+         7KbdqKA7Y/vfeJshV1D6sBJAhs+jAtGaH23bu+bx1xbV3LVlcZb9s/HNBDoyzYjIIYxa
+         vcNlTE8f50lMnKp8gkM4jXLasDbyvPjSA0qzWV1u4sf2MC3F8N8RYpyYvC948mV1dl/A
+         +LAJvhGdLeuFAtICu1CIlZunI+79N/PxRBJyAIPGDa9w0bgXplxVOKxqg84uziV0vmex
+         SP+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUptxZkLP11bPLTx78pUVLdcrrS03IasN8XDnYTNR2AUI1q/WOf9Kc+S444FeCnvJxFT+uSzWuOOWxdiNY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4vA5wrj8a+T23pqg8mgPLG12gWxYEsV25yQFsuIoLa+hdKlmw
+	o7XmK4iHLOm6R9iRTIpPRtlehmt34MDa2CoiJcJFHabHHIr2BUT7OXLrbCtIKrscCoqm7ux9h2e
+	bfosRD3Xqhd60rm/iI4Iff6AT47kh7tmeRhyR
+X-Google-Smtp-Source: AGHT+IEhkXYyqV/bhuHZm74JThr/Q/zz0AYwVohM06m/aYfA2ou2oQr9f16G0HxUpPy5+6rG27v0LxANOflRiXXU8PU=
+X-Received: by 2002:a05:600c:45c6:b0:42c:b1ee:4b04 with SMTP id
+ 5b1f17b1804b1-430d70b3d24mr51844575e9.28.1728558149119; Thu, 10 Oct 2024
+ 04:02:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -75,8 +75,8 @@ References: <20241010-icall-detect-vers-v1-0-8f114956aa88@google.com>
  <20241010-icall-detect-vers-v1-1-8f114956aa88@google.com> <CANiq72ndoSmGVzuPR6ikq0HG1kbMp6ADOY8BonD9=ij9tyU=EQ@mail.gmail.com>
 In-Reply-To: <CANiq72ndoSmGVzuPR6ikq0HG1kbMp6ADOY8BonD9=ij9tyU=EQ@mail.gmail.com>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 10 Oct 2024 12:58:07 +0200
-Message-ID: <CAH5fLgiqwdKgEux9A-SFAWmhbosW15Ey8j8deKtQa9r336vXZA@mail.gmail.com>
+Date: Thu, 10 Oct 2024 13:02:17 +0200
+Message-ID: <CAH5fLgj5rPgV1wBbYJy=T0kjCdECYnDvbim0pEk5y6fp7BVx3Q@mail.gmail.com>
 Subject: Re: [PATCH 1/2] kbuild: rust: add `CONFIG_RUSTC_LLVM_VERSION`
 To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -122,8 +122,26 @@ r
 > Alice: when I apply this, I will need to add your Signed-off-by here
 > (i.e. when handling patches from others, you need to add your SoB
 > too).
+>
+> > +if output=3D$("$@" --version --verbose 2>/dev/null | grep LLVM); then
+> > +       set -- $output
+> > +       rustc_llvm_version=3D$(get_llvm_canonical_version $3)
+> > +else
+> > +       echo 0 0
+> > +       exit 1
+> > +fi
+>
+> I guess if we don't find "LLVM" in the output, something weird is
+> going on, so I guess it is reasonable not printing either here.
+> Although, in principle, we could preserve information and print at
+> least the `$rustc` one.
+>
+> Anyway, we may need to rethink this when we start supporting e.g. the
+> GCC backend, so I think it is fine as it is.
 
-Oh, sorry I forgot about this.
+I guess we can just do
 
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+rustc_llvm_version=3D0
+
+in that case?
 
