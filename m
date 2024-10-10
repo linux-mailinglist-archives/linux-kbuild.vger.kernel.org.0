@@ -1,127 +1,124 @@
-Return-Path: <linux-kbuild+bounces-4048-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4049-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB951999395
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 22:21:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 737399993AC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 22:30:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C5FCB24648
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 20:21:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0FD21C22F46
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 20:30:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 829EE1D0E10;
-	Thu, 10 Oct 2024 20:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EB141E1027;
+	Thu, 10 Oct 2024 20:30:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dsUf9BuF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N1CjSC7M"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1821CF2B3
-	for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2024 20:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D813419CD1D;
+	Thu, 10 Oct 2024 20:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728591663; cv=none; b=PcCnO76Kf2uYQm7hv2kLmhrn/CEn20Zq4nFpzjnvGe1uEJ9UHl3/SvytTTsed3pgyVsAQAYjgDM8sirlXsmeZYjfJQtohwT0Zi5JgU4zb6xuOTuVPz0D2gdawmUA0S1lfWuWM/xKfwiJhdEKXAKTsz9Eej7xx33GH/Q5IeqkY58=
+	t=1728592202; cv=none; b=tdCzDaLneKE5g5Ua7oOC/38kUC01oemhghi0NxNpwPsDpu1rDjWxxNwxMoQb+/6ho4sfqr2V5x1Q6doI9x2guIdSJWX/CvS2qgCWCkOlE6C7BEeabrtNRH6gaYw1PyVmSGHALx8fOLXWWAIdsLB0S0MueubiGKUBBeWG7vRmg84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728591663; c=relaxed/simple;
-	bh=9WfALPVOfJZ/mFKzAYvK//SVHWXbd2ywhl9rOI2AlWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JYt4eYyK2YhqRvr/w4dDZvWxWBgTAwtwPVSq+3PmjgyUv7WjqNH8u70yX3bjhy7X1uS8RvEUVNJA/GHDVeFiAIQS5ZvvUOibWjJZM93f0koBfYT5aNpA9lpjpOL2L2TeHGvX0kGX43Sxrjnzsh2ZWXiCkJPC9wCfXiG049lerBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dsUf9BuF; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20b061b7299so14645ad.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2024 13:21:01 -0700 (PDT)
+	s=arc-20240116; t=1728592202; c=relaxed/simple;
+	bh=2aFl6PalEYBTRKRln337Jg4gYLlMo78moiZwjzbIvcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s6nkl96IdQkObJ+a213JRo++/+8VED62L/LkOy2fJ8YpXfccmAKafo4SBTAK2IdkJTSFUoU4KsFGHUc0VqNaVfJpsJQq99UF7hqr6kMC3Xzaa+SHBnP5BgQNJfHVWB84MxtIhGg8TL6HGFxlnM3BcSB2NAkUZfZ+ti90xFEe+Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N1CjSC7M; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e28fa2807eeso1408996276.1;
+        Thu, 10 Oct 2024 13:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728591661; x=1729196461; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bsUUagQLMxpsg1s3OtRahk2ocs42xsdekbZ732TOaq8=;
-        b=dsUf9BuFcSsYeos/nki1nnFVFdR8of4ZjQmbpGgLnCBnfmwVGSriyI6MTPR2avwDye
-         P4tPgjL+sxPxy7ea++gkmnvI1LlJXJ19s/4T5zUuGs99C/NAHQzjH/RfZ8MFSVcmmxSW
-         OEvpWweyW4++6D/VRmcLJg7ZXw9jqPX1mbx5n7kptOZd6yWGJbF/A5sTDgEqSMVbmrf0
-         uy3Q3MHgEvPuV/Q01N3ZX3Y3AwhoRpOlfM65DIiXo5aqb+DoEUz6e1IOnudd0EpiAC1Y
-         CdmjeXS6SYQ3dGpcsm+uzWGV3DaiF+A0UAb1BK78IrnnD9FQAMPL3098iy1NQ8jV8A+M
-         cubQ==
+        d=gmail.com; s=20230601; t=1728592200; x=1729197000; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lnH5frAV3FKYG7CNJZqqZgrdIikXi7xYzgy+7t1l7jc=;
+        b=N1CjSC7MUj6Z15tBxJi0kRFVSz/x8aQeXeinilsbePwy9NS5x3pOBnFVbKKUIFKK4X
+         kqa0TATf3STMPi6uY4MYeoW7LmPCOlokN0RVp+RwURWT/20jvumq2H8TauvT533/soSk
+         fhV6QnpINZcwGLryUcjmIoyKlwkGoP3cMinkaRIMqZOTmzHXn9QGaHaUFW2VvUtUmm3g
+         /cp//lt1f+IZ19+MAvhGHadGAN6TOcl7GlYS4qiSmpEp/EeuMBeWrOhyzyANqBab5Gnm
+         jOlgRkItMC92YU0aMWb4ehHTlMxBgAD4dY5p314RupLBaB9r5z5V1jQaG3C66U0AyDDG
+         wZJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728591661; x=1729196461;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bsUUagQLMxpsg1s3OtRahk2ocs42xsdekbZ732TOaq8=;
-        b=EC1LhUZZp96l7TunZrFjbncNZn0ua5FdjB+AL8O5uY/wsmru5Gxm0ql/8zdLK++eJ5
-         ICzFDhWOI7C0HvSXUSKNJAu0H7TFgcmIN/6NDwJbAFmSOTiE1Z8/4fmyvApiUEInsN1E
-         o31+ZYhFknB0d0AI+Dsvjam85Wm6J11JQWqSQJMkBLTCgQJJoRbAE8lXL0VrF6D+7xds
-         H0Qkm8jsFKLdMCxVd121TfazpTyNVIr4J0lxPh70I/nQjy0J9i85Q4UFvyPOV0vwk1Pz
-         15VcmeAyiFJiNRM4LUlun69S8C5CnMqoucVglwUz70H/cjs7p84GH5I/Hy75dSblodvg
-         5Sbw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjdKqKcZzxWsQkdQ+d0wySlvTNefl4wbpZkp7RWukFtkdvZ1p3deF6CsyZNzwjwCCOn0VeFL63qVXjg9w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOQYzlNwdW7hDkrMth8gZy1vKQ3syrnWbERENV0CzRcy+EtTuz
-	1nBmtdKRQvXDCSOCQ/eC4TKTY4g/ptvCaS/f+U00cg7lbaaVkFLkYKpBjPF01g==
-X-Google-Smtp-Source: AGHT+IGX1gGCNGtPua6Jc81nhJD2bm6jRchIK8UyVGA97X9p4VXx4bjHZm0n+42YHrQKT4AF6r5IpQ==
-X-Received: by 2002:a17:903:248:b0:20c:7409:bcda with SMTP id d9443c01a7336-20c9ee81b5emr668245ad.14.1728591660965;
-        Thu, 10 Oct 2024 13:21:00 -0700 (PDT)
-Received: from google.com (254.80.82.34.bc.googleusercontent.com. [34.82.80.254])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2d5f0a3f4sm1779389a91.29.2024.10.10.13.21.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 13:21:00 -0700 (PDT)
-Date: Thu, 10 Oct 2024 20:20:56 +0000
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 2/2] cfi: fix conditions for
- HAVE_CFI_ICALL_NORMALIZE_INTEGERS
-Message-ID: <20241010202056.GA845212@google.com>
-References: <20241010-icall-detect-vers-v1-0-8f114956aa88@google.com>
- <20241010-icall-detect-vers-v1-2-8f114956aa88@google.com>
+        d=1e100.net; s=20230601; t=1728592200; x=1729197000;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lnH5frAV3FKYG7CNJZqqZgrdIikXi7xYzgy+7t1l7jc=;
+        b=Lmye6k5SMUSb71cYsIle3AvHuL3mchL+pWWRtfwdZU9p/asnxsSnHAs3HQ75nmrFHc
+         Lc7WBvuA4A8PtIJ4w4PQfYJx+XgjDpPNIIXoASxwZlIEmih/cDKdXsjKW1du6ldx0dxW
+         jVSTZPgApv07u9AAtMzPrdAV4fCWFI2r2ClxCmtGPNXvTuALFp+hMDG/nDAQWUIlJ0Aa
+         6m6LaEvM3hjTwm+CzLnE+msepnjy3ppQY/0g1v2FZ0xQtQUwuJ9c3WZ8aaXrOuseO4UK
+         74XrTT1aUj8lDdMhe2/399F0CG4yFbGzoC78EQYECtZp4MZk+zIeW8WGF9L7M8vMFvZt
+         MxHg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8CSV8RQClhdbLUbxBy2cGi9ymToEZQgS7Ld7V9N9Kh1nBab91v3NrTzHpHeuUcNYa81tzOqzUXxqpL9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLN8JhjWa9T0VDLSobwyySAqcDC4Y54oZlb2TnPUCOpDLTuzA9
+	NvTnuLF0FBMeHl3fDF+sHvq1nz5nL2X0HaYWOjmnubKrzMRw/m4RC7KSKQ==
+X-Google-Smtp-Source: AGHT+IENhI2Z+FU39xY0x0mHnDu1KOS5WsmDfABLMBlia9+dLeTnJ881c6JtjwpFa08d1wHus79iXA==
+X-Received: by 2002:a05:690c:3185:b0:6dd:bcce:7cd7 with SMTP id 00721157ae682-6e347c55068mr1135747b3.42.1728592199574;
+        Thu, 10 Oct 2024 13:29:59 -0700 (PDT)
+Received: from ?IPV6:2600:1700:6165:1c10:b99e:4710:9fa7:9721? ([2600:1700:6165:1c10:b99e:4710:9fa7:9721])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332b612a0sm3384067b3.25.2024.10.10.13.29.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2024 13:29:59 -0700 (PDT)
+Message-ID: <994efba2-2829-4874-b5fa-9f5317f6ea6b@gmail.com>
+Date: Thu, 10 Oct 2024 16:29:56 -0400
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241010-icall-detect-vers-v1-2-8f114956aa88@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] linux-kbuild: fix: implement choice for kconfigs
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ shuah@kernel.org, javier.carrasco.cruz@gmail.com
+References: <20240913171205.22126-1-david.hunter.linux@gmail.com>
+ <20240913171205.22126-6-david.hunter.linux@gmail.com>
+ <CAK7LNAQ8D4OVT81iTVs8jjrBXX6Zgwc+VJ_vb7hb4J-vCZZN=g@mail.gmail.com>
+Content-Language: en-US
+From: David Hunter <david.hunter.linux@gmail.com>
+In-Reply-To: <CAK7LNAQ8D4OVT81iTVs8jjrBXX6Zgwc+VJ_vb7hb4J-vCZZN=g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 10, 2024 at 09:38:27AM +0000, Alice Ryhl wrote:
-> The HAVE_CFI_ICALL_NORMALIZE_INTEGERS option has some tricky conditions
-> when KASAN or GCOV are turned on, as in that case we need some clang and
-> rustc fixes [1][2] to avoid boot failures. The intent with the current
-> setup is that you should be able to override the check and turn on the
-> option if your clang/rustc has the fix. However, this override does not
-> work in practice. Thus, use the new RUSTC_LLVM_VERSION to correctly
-> implement the check for whether the fix is available.
-> 
-> Additionally, remove KASAN_HW_TAGS from the list of incompatible
-> options. The CFI_ICALL_NORMALIZE_INTEGERS option is incompatible with
-> KASAN because LLVM will emit some constructors when using KASAN that are
-> assigned incorrect CFI tags. These constructors are emitted due to use
-> of -fsanitize=kernel-address or -fsanitize=kernel-hwaddress that are
-> respectively passed when KASAN_GENERIC or KASAN_SW_TAGS are enabled.
-> However, the KASAN_HW_TAGS option relies on hardware support for MTE
-> instead and does not pass either flag. (Note also that KASAN_HW_TAGS
-> does not `select CONSTRUCTORS`.)
-> 
-> Link: https://github.com/llvm/llvm-project/pull/104826 [1]
-> Link: https://github.com/rust-lang/rust/pull/129373 [2]
-> Fixes: 4c66f8307ac0 ("cfi: encode cfi normalized integers + kasan/gcov bug in Kconfig")
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+Apologies, I was a little too quick with the send button on my previous 
+email. I forgot that I also wanted to respond to this part as well.
 
-This looks correct to me. Checking the LLVM version is definitely a
-better option. Thanks!
+On 9/23/24 23:46, Masahiro Yamada wrote:
 
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+> I believe the only benefit to parse 'choice' block
+> is to propagate its 'depends on' down to member configs.
 
-Sami
+I am not quite sure this statement is correct. I definitely agree that 
+the main reason to parse the "choice" block is to propagate the 
+"depends"; however, I believe that there is also information for 
+defaults as well as for prompts inside the "choice" blocks.
+
+
+I made a shell script that reads all of the choice blocks in the various 
+Kconfig files. I wanted to know how many of each type of information is 
+in there. Here are the results:
+
+  - select: 0
+  - prompts: 152
+  - defaults: 156
+  - depends: 72
+
+Also, I should note that while there are no selects inside of a choice, 
+I am unaware if this will always be the case in the future.
+
+Here is a link to the shell script that I made:
+
+https://github.com/dshunter107/linux-tools/blob/main/check_propagation.sh
+
+Thanks,
+David Hunter
 
