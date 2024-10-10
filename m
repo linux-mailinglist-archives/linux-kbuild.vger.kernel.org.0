@@ -1,74 +1,74 @@
-Return-Path: <linux-kbuild+bounces-4046-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4047-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7741999307
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 21:48:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C471599934E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 22:06:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C9C81F29C65
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 19:48:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D97A281769
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 20:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF0BA1DF971;
-	Thu, 10 Oct 2024 19:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A28531CDFD1;
+	Thu, 10 Oct 2024 20:06:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQfsImR2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CVkI+1A4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E66D1D0F52;
-	Thu, 10 Oct 2024 19:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325731B6539;
+	Thu, 10 Oct 2024 20:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728589571; cv=none; b=bOhThPzLDvqkhJpi7EWE0nGUmNf4jNYobAhu7mA1rncbqsxfjIynHfEOzgZQY5aTdusFcghMLJJf6k4bevAaPO72RVFc7FgFkS/Chy4NMJl+LzZwfRf5EpIvKn9N4Dl9DBGUz+CQI297uBZg/0PhUXW1twVw/urXc49u3qmuqTM=
+	t=1728590777; cv=none; b=Xk1LRHSgrDUfqmz5xUu1tNyHS/RJ7U2V32uBPoLzqyPWnm2UX2srAb2zE59U9pExmm4Jeup/qN4b46ZE7V2aLRp9afztpNGODUJdMvr5TrYy2e9xRpPOZvm12xUFGP+gq+8zXyOS9mAwljeHBnj/X0FNAd1vNdJ6q8Z7nkxRExw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728589571; c=relaxed/simple;
-	bh=cx1f9NXqVUl9a4H+a3hZwWW33V++ZZRJYZrepU+A8sI=;
+	s=arc-20240116; t=1728590777; c=relaxed/simple;
+	bh=NzCpZm8/mEuC6Rq3qXHG9eoMATiEF1drnN/nAnqXnv8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UVmkMLLUGcsb2BVbpskwiQ2OmBdNG5D5plsuTeqdaZR9BZYFmolIwW8E+NdCE+IkJ+XNTkVCiZuIInMvD65kRAgiL1w/CxGJk/vrx7CvJ7fgB9cdRuMspHNEBL2g+ljF3IWvOwkBvMdeNKTcmRY1rrQQhSgyD/wB+7bGmK7YvrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eQfsImR2; arc=none smtp.client-ip=209.85.219.172
+	 In-Reply-To:Content-Type; b=uZT8xIVDhXdr+ZI+rdRlOOMAutEAB1YpyNzLaz1+Jgq2XV5G6VogBsgnraETD9WCmAJylEtxzlpshgzpjgSLnwngkWo32t2aPf65H1gW4GCKq95nJNkaFQfgxdWBfP9dne7f5ySEHRAYiVTHMqFm1WKVM41jCWuu7TEFv/8iRpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CVkI+1A4; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e290d5f83bcso1057444276.0;
-        Thu, 10 Oct 2024 12:46:10 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e2e41bd08bso16180907b3.2;
+        Thu, 10 Oct 2024 13:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728589569; x=1729194369; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728590775; x=1729195575; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=v8ceetd9EHB2ozXPX4nSAT2IgLXTt5wasr5869UPauE=;
-        b=eQfsImR2QlZpNWGdB3AgoaUwU/ZfBaZvFscJcMNc0lVrNi3IQ69zBtQVY0iN5VkToS
-         vAkayMvY31M5Ep33GIu1BKDyjpmooAdn8CjjMy5ZoFQcbaf/b1mBwQ/PHOXrpLoBYHz5
-         Lgkk1SMfdqwpY7sLGFtM6viLPJGMRZGjJPnA3Ab/H4rjTmsT6n/7b6enuqntbBp+3oJF
-         m4Qzxj20phmQED357IyNr9QDcw/EnE3ye/CWktKSUhg18SDhq1my7ljONyjVAve65WyC
-         6T6iNTP7hCUf8Z7EIVnG8Q3DY8E1VZRYk8XdCD3C1WO/3qWcP5X/D/r78ngDseIVnChe
-         DdeQ==
+        bh=QCJw2Q36leTBqr9TQNzAFnVCjMfNwHV5BxGjqHBBZ+g=;
+        b=CVkI+1A49yC8IyZVo+BOJlvBBxP2Adcfy9qcU2gzPyp2mnkr015cYXorVsEI1Uz0+R
+         p7oBKHPJepd9sK3EYu4ueFO1g9Dp7n3iDV+9sloCMMYCrCdOIJ0+eP8Et+AkPuFwJNKO
+         I7EOQhDpTFERvnsCoWIop4KmqvOir7dkPuiIjDq3KqpSqZA8D0edc7jVBPFA46AfUZm8
+         9XOnqy8awVHi9/Ep78QMWKaO6RGs0cd5txM/izCJaORa34nZ+ALw0SRssA9V9pcRjQrk
+         Tozsk2NUhpJRlxbYLapU/ig2fakQJlVt0+ggyg0umhjRSWDWDYXUaZhB8CG1msU1IY7b
+         uohA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728589569; x=1729194369;
+        d=1e100.net; s=20230601; t=1728590775; x=1729195575;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v8ceetd9EHB2ozXPX4nSAT2IgLXTt5wasr5869UPauE=;
-        b=tPE5CuQA3UuiTDS6iW418/uzOlVbFW6+RDwA8W+yIZwZ8Tp9/8J012sFx8PmjY82oH
-         UF82wh1cMTKHiMb+I3UxNH7vWv+lGHnQoIN+Psk1zBUIAt688shv1jV+sXA3bsh/6SPE
-         1pJUdmQ/Dag+Vvd9Fo+r7vBQFI/F8jfPInhY2nNuPiAluaugpBfvR9qkrB4y51SgkBvE
-         Me2aDofDd8EdKsHS2DTPmfVosVvhnAo21ARxvtfxUky8fq13oS40QZQf3EsYPQQBIRY6
-         0o3VjM0MeR89xpLyMI2EvkBNYTAtRCGKDhZd9SdDTXNl9/b/rIfsFveOGkPmzZ6F5Cwb
-         esaA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBmm7efi7pTIUqNzh3POJAVTlJCq6Z/VLxfWg2vCmE6JQp7B9QGXyz/ZcVCTWxp+J/YZFaeouoYW5M6kI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuHhulMuZLpuQs45zANoTWSHUpDCHv1CUh8TP4M9Fopwbz6wuF
-	FxKg/ASOI6lEFccR/NDz2vAZ+bvV15wEMJY7xHYjLiBAPH0JEs46
-X-Google-Smtp-Source: AGHT+IGYWaIP/yEuiZZIEKVmI//Ve7Q1BZFf5S/eJRmjNH8tbH0V/MHZQAdPvOrRhV3y0mU2olu5gw==
-X-Received: by 2002:a05:6902:248c:b0:e28:e9bf:797c with SMTP id 3f1490d57ef6-e2919d5e33dmr101274276.3.1728589569155;
-        Thu, 10 Oct 2024 12:46:09 -0700 (PDT)
+        bh=QCJw2Q36leTBqr9TQNzAFnVCjMfNwHV5BxGjqHBBZ+g=;
+        b=N46j4eZ+HuKhiO/aWr7YYfx6K2KGnkEv2yiJXWtnhzFs6ZTLdPNeKKbAZRgLufEVi/
+         k//A6HjDx0hpxrPjJRMDz0JPyWjSZ4UxGhfHlplAycQ+KEPFNX7L6Gyw6Wk55ttC+NaI
+         xTvtt8U13jnz+2+CwV62Tc/pRPS0VqcbIxq8GptjFym7Z1Nc3gzgaUe3O2XmzhgknGRP
+         iDNwIr6jWkYq1a/NtO9wJ5HqorCOeT5dZQnQsnP5OSdGB4bfyvotLLArNs8+/BlMi8MM
+         IBm3e8gjC8X9Mf9uNlGlO6HwfOh3H0u5KTX+8pJ+41EVEy86aNF1GMIqDu8Y7LGJS3w0
+         zkLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWMYHPFF/B5Ijn8FqUEYh8DuiZ5bTxuMsGx77tmCkaAjS09MrQLC28htLIlLl7+/thteCSLC8dZ0Weg5Zw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywxwhZJFMSheVdjRiJG7xNKOhXcsfhRmyf4T/Dyyn39sflSI98
+	QIXhBpm9nKT4zTO8w68zlFPGcnhpKOOc/hO9y1fdIOj0OdeekpPjYnCEUg==
+X-Google-Smtp-Source: AGHT+IF0whqmEoxPIlb0uKeib7Itmz63HnvLzOTnokKadAu7f0WJBQ6tWnjmptJ3gvmvS7hZ3UrB+g==
+X-Received: by 2002:a05:690c:250e:b0:6e2:12e5:35b4 with SMTP id 00721157ae682-6e3471e8d16mr1444227b3.0.1728590775127;
+        Thu, 10 Oct 2024 13:06:15 -0700 (PDT)
 Received: from ?IPV6:2600:1700:6165:1c10:b99e:4710:9fa7:9721? ([2600:1700:6165:1c10:b99e:4710:9fa7:9721])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e290ef19cacsm433006276.38.2024.10.10.12.46.08
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332c27a49sm3310677b3.88.2024.10.10.13.06.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2024 12:46:08 -0700 (PDT)
-Message-ID: <709f5217-b04a-45de-b9a1-373196e5a47d@gmail.com>
-Date: Thu, 10 Oct 2024 15:46:05 -0400
+        Thu, 10 Oct 2024 13:06:14 -0700 (PDT)
+Message-ID: <dd2d6338-b763-48ad-be9c-aed7107b201d@gmail.com>
+Date: Thu, 10 Oct 2024 16:06:11 -0400
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -76,53 +76,35 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] linux-kbuild: fix: config option can be bool
+Subject: Re: [PATCH 5/7] linux-kbuild: fix: implement choice for kconfigs
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  shuah@kernel.org, javier.carrasco.cruz@gmail.com
 References: <20240913171205.22126-1-david.hunter.linux@gmail.com>
- <20240913171205.22126-2-david.hunter.linux@gmail.com>
- <CAK7LNATkjh8LR58+SZPw44ezbRj6-aisQ9nsUoTY_6yVf+t3Mg@mail.gmail.com>
+ <20240913171205.22126-6-david.hunter.linux@gmail.com>
+ <CAK7LNAQ8D4OVT81iTVs8jjrBXX6Zgwc+VJ_vb7hb4J-vCZZN=g@mail.gmail.com>
 Content-Language: en-US
 From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <CAK7LNATkjh8LR58+SZPw44ezbRj6-aisQ9nsUoTY_6yVf+t3Mg@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ8D4OVT81iTVs8jjrBXX6Zgwc+VJ_vb7hb4J-vCZZN=g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/23/24 22:55, Masahiro Yamada wrote:
+On 9/23/24 23:46, Masahiro Yamada wrote:
 > 
-> I do not see an immediate benefit from this patch.
-> 
-> 
-> 
-> Boolean CONFIG options are skipped due to the following code:
-> 
-> if (defined($orig_configs{$config}) && $orig_configs{$config} ne "m") {
->      next forloop;
-> }
-> 
-> 
-> So, I do not understand why this patch is necessary
-> until I see 7/7.
+> This is ugly.
+> Please do not use the temp file.
 > 
 
-Thank you for the feedback. I have been working on the second version 
-for all of the patches, and I will resend the series patch soon. In the 
-meantime, I have a few things I need cleared up, so I will reply to each 
-email where appropriate.
 
-For this email, I was a bit unsure of what my takeaway should be from 
-this message. Are you saying one of the following:
+Understood. I found a way to do it that is much more in line with the 
+style of the script and it avoids using the temp file. Oddly enough it 
+involves changing less lines of code as well. I will be submitting the 
+changes soon. Right now, I am just finishing up the change logs for all 
+the patches.
 
-1) The patch should be resent, but resent after the patch that is 
-currently 7/7
-2) The patch should be combined with the patch that is currently 7/7
-3) The patch message should be improved so that people can see the need 
-for the patch
-
-As of now, my version 2 will be made with option 1, the patch will be 
-after the current 7/7. If you had something different in mind, let me 
-know. I would be happy to change it as needed.
+My question here is "Is there a general rule as to why the first version 
+was bad?" For example, is it considered bad practice to make temporary 
+files?
 
 Thanks,
 David Hunter
