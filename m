@@ -1,121 +1,172 @@
-Return-Path: <linux-kbuild+bounces-4016-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4017-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4014D9974E0
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Oct 2024 20:27:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF77699798C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 02:18:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5CB3282A48
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Oct 2024 18:27:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3074C1F229F5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2024 00:18:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 252FA1A704B;
-	Wed,  9 Oct 2024 18:27:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91287645;
+	Thu, 10 Oct 2024 00:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="siINcN6C"
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="CyV8pAek"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE101922EA;
-	Wed,  9 Oct 2024 18:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC4163D;
+	Thu, 10 Oct 2024 00:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728498432; cv=none; b=EKo6Y5/99LSfHzjjoIhVe68FBhsdbTT+7xnUsC436FmNlLiWzLCArfnI2Y7JxcH2xKsbCNveyCoAtH2ZGV4AadKZs0zng3LwBSPpW06IaoazKlDuz+jDTU/C9HeRfa6gbDD2UknZYBz+eHFHylqUBc8LQxFyx4CKg4D7tfmivbY=
+	t=1728519491; cv=none; b=jQ49PleyGREsUhEMnprUDhNhTp7pIwH0Ca6CVpMgD+HrnMQSAvawpqmVFq1OohHWam1kZ/1ioEEL9yXfERKsd3ODmcvOuqjFu/ZvEg32RX+lPGgMARiLwHmmUMFpXsSLflfjjqtyG9yVRWog5IhPYer44/O2Z4RzOarDf6iYt6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728498432; c=relaxed/simple;
-	bh=jhZwgy0s6PYh0bkEsa00DYSgW/ye/7lPeDLBcIHBAcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9MH1UitRWx+TLMM6pDJaClyMSTkFGrKreFqjMDFKgtBTWdm7f/O1ExXesbA3DEf4BQEbOsBGnAhdEzbnXxjTfUnnKGXxiJ3gmTs4prlopKkLVS/TKWvIdU5VWgc7S4S/yXcUw0B8uTd+6LDFuoQ4kDR766LSw8zeyUjM+Yxmw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=siINcN6C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA5D0C4CEC3;
-	Wed,  9 Oct 2024 18:27:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728498431;
-	bh=jhZwgy0s6PYh0bkEsa00DYSgW/ye/7lPeDLBcIHBAcU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=siINcN6C3vE7ciZFy936DdBHm9bzuDl0gQkUqevFy0SKNyNt3TFUwNQyiTt6NpAAz
-	 1sYQ79TQHwwWQfKoeUT8H9AEP2bEYRg5v5iJ8S2rxjGfGaV8ebZ9mquqM6azvQfe8b
-	 UIPgjpsXQYD3lzUAfL8+3HuIrEIdE1Kczsebpl+DHWOzXH5GuHZy24SUVtze51clQw
-	 573PYTDoSdjSMdvzNyc1a8ZE0oacqmN0ROp79ujWAuu1V/zNz1Q5W10nMsiNva4dVs
-	 3Y/KVl6pKONfcjaQpPbdPhUzWvuYqK62eRmPrsAlEHEulyovNEJQz4JPjOexP1YOGV
-	 jVhHxAmZhlO4A==
-Date: Wed, 9 Oct 2024 11:27:09 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-	Matthew Maurer <mmaurer@google.com>,
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Benno Lossin <benno.lossin@proton.me>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: refactor cc-option-yn, cc-disable-warning,
- rust-option-yn macros
-Message-ID: <20241009182709.GA3274931@thelio-3990X>
-References: <20241009102821.2675718-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1728519491; c=relaxed/simple;
+	bh=O9xG58odvWsucqMWWVo7YHR3ZrvcTUfms9diIUAGq/w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Ftq4gSHAytbaTnKWfmZKfd/yHVQyN6LUxGN7kF+zBhXzxGQUpDqVsSMSYDbWUKEfwNs7clhpA1Ex4txSBfkw4D1o50Z4wOezQsjr9pgpRUyWiB1RZ25ZTDz2xXa6VZ+a4lJqkKljPaEWJH9RJKeS5eKIqZRUV9V2qgmXw1TiRyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=CyV8pAek; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1728519486;
+	bh=JCKWnvIHgN7NeIxYtThHAhakmq8YAiBt/o4wQGaz8/w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=CyV8pAekV/TOve0+yV3IEThJzCD8ee59ddQlBIzCCvWemKc/ImFTYPHIm8jTvew0E
+	 2RDGh4pbUM9m9Jzk1MkSVWzDUKNAGDraYErd4MKcPTf3w8FQhfsKQgv0LWZqH3dPKo
+	 2q+ccE1Ic0uxYQmUxGLyQjXJb9JhGNC9Dc4D/BDfGj7yEuPzFZ7oCUBMNUYklrervk
+	 0rsMC99cZxcDUj+/f+cIqfFiu9qKdmuQGB3SO3eu6awPx3tiAQUhtP+Zq6bQ9xbrH+
+	 Yk3vNRNh4aceCVyFBzMhabgs3VMdOh1hhQtkbXYZ3SxHW966Il1rAHeSFno4GT2GT/
+	 g4EPuh3btN2Mw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4XP9MK39qRz4wnw;
+	Thu, 10 Oct 2024 11:18:05 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Hari Bathini
+ <hbathini@linux.ibm.com>
+Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, bpf <bpf@vger.kernel.org>,
+ linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, Linux Kbuild
+ mailing list <linux-kbuild@vger.kernel.org>, LKML
+ <linux-kernel@vger.kernel.org>, "Naveen N. Rao" <naveen@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, Daniel Borkmann <daniel@iogearbox.net>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nicholas Piggin
+ <npiggin@gmail.com>, Alexei Starovoitov <ast@kernel.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Andrii Nakryiko <andrii@kernel.org>, Christophe
+ Leroy <christophe.leroy@csgroup.eu>, Vishal Chourasia
+ <vishalc@linux.ibm.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v5 17/17] powerpc64/bpf: Add support for bpf trampolines
+In-Reply-To: <CAADnVQJjqnSVqq2n70-uqfrYRHH3n=5s9=t3D2AMooxxAHYfJQ@mail.gmail.com>
+References: <20240915205648.830121-1-hbathini@linux.ibm.com>
+ <20240915205648.830121-18-hbathini@linux.ibm.com>
+ <CAADnVQL60XXW95tgwKn3kVgSQAN7gr1STy=APuO1xQD7mz-aXA@mail.gmail.com>
+ <32249e74-633d-4757-8931-742b682a63d3@linux.ibm.com>
+ <CAADnVQKfSH_zkP0-TwOB_BLxCBH9efot9mk03uRuooCTMmWnWA@mail.gmail.com>
+ <7afc9cc7-95cd-45c7-b748-28040206d9a0@linux.ibm.com>
+ <CAADnVQJjqnSVqq2n70-uqfrYRHH3n=5s9=t3D2AMooxxAHYfJQ@mail.gmail.com>
+Date: Thu, 10 Oct 2024 11:18:05 +1100
+Message-ID: <875xq07qv6.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241009102821.2675718-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 09, 2024 at 07:27:37PM +0900, Masahiro Yamada wrote:
-> cc-option-yn and cc-disable-warning duplicate the compile command seen
-> a few lines above. These can be defined based on cc-option.
-> 
-> I also refactored rustc-option-yn in the same way, although there are
-> currently no users of it.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+> On Tue, Oct 1, 2024 at 12:18=E2=80=AFAM Hari Bathini <hbathini@linux.ibm.=
+com> wrote:
+>> On 30/09/24 6:25 pm, Alexei Starovoitov wrote:
+>> > On Sun, Sep 29, 2024 at 10:33=E2=80=AFPM Hari Bathini <hbathini@linux.=
+ibm.com> wrote:
+>> >> On 17/09/24 1:20 pm, Alexei Starovoitov wrote:
+>> >>> On Sun, Sep 15, 2024 at 10:58=E2=80=AFPM Hari Bathini <hbathini@linu=
+x.ibm.com> wrote:
+>> >>>>
+>> >>>> +
+>> >>>> +       /*
+>> >>>> +        * Generated stack layout:
+>> >>>> +        *
+>> >>>> +        * func prev back chain         [ back chain        ]
+>> >>>> +        *                              [                   ]
+>> >>>> +        * bpf prog redzone/tailcallcnt [ ...               ] 64 by=
+tes (64-bit powerpc)
+>> >>>> +        *                              [                   ] --
+>> >>> ...
+>> >>>> +
+>> >>>> +       /* Dummy frame size for proper unwind - includes 64-bytes r=
+ed zone for 64-bit powerpc */
+>> >>>> +       bpf_dummy_frame_size =3D STACK_FRAME_MIN_SIZE + 64;
+>> >>>
+>> >>> What is the goal of such a large "red zone" ?
+>> >>> The kernel stack is a limited resource.
+>> >>> Why reserve 64 bytes ?
+>> >>> tail call cnt can probably be optional as well.
+>> >>
+>> >> Hi Alexei, thanks for reviewing.
+>> >> FWIW, the redzone on ppc64 is 288 bytes. BPF JIT for ppc64 was using
+>> >> a redzone of 80 bytes since tailcall support was introduced [1].
+>> >> It came down to 64 bytes thanks to [2]. The red zone is being used
+>> >> to save NVRs and tail call count when a stack is not setup. I do
+>> >> agree that we should look at optimizing it further. Do you think
+>> >> the optimization should go as part of PPC64 trampoline enablement
+>> >> being done here or should that be taken up as a separate item, maybe?
+>> >
+>> > The follow up is fine.
+>> > It just odd to me that we currently have:
+>> >
+>> > [   unused red zone ] 208 bytes protected
+>> >
+>> > I simply don't understand why we need to waste this much stack space.
+>> > Why can't it be zero today ?
+>>
+>> The ABI for ppc64 has a redzone of 288 bytes below the current
+>> stack pointer that can be used as a scratch area until a new
+>> stack frame is created. So, no wastage of stack space as such.
+>> It is just red zone that can be used before a new stack frame
+>> is created. The comment there is only to show how redzone is
+>> being used in ppc64 BPF JIT. I think the confusion is with the
+>> mention of "208 bytes" as protected. As not all of that scratch
+>> area is used, it mentions the remaining as unused. Essentially
+>> 288 bytes below current stack pointer is protected from debuggers
+>> and interrupt code (red zone). Note that it should be 224 bytes
+>> of unused red zone instead of 208 bytes as red zone usage in
+>> ppc64 BPF JIT come down from 80 bytes to 64 bytes since [2].
+>> Hope that clears the misunderstanding..
+>
+> I see. That makes sense. So it's similar to amd64 red zone,
+> but there we have an issue with irqs, hence the kernel is
+> compiled with -mno-red-zone.
 
-Neat!
+I assume that issue is that the interrupt entry unconditionally writes
+some data below the stack pointer, disregarding the red zone?
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> I guess ppc always has a different interrupt stack and
+> it's not an issue?
 
-> ---
-> 
-> This avoids applying similar fixes to rustc-option and rustc-option-yn.
-> 
->  scripts/Makefile.compiler | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index 057305eae85c..73d611d383b2 100644
-> --- a/scripts/Makefile.compiler
-> +++ b/scripts/Makefile.compiler
-> @@ -53,13 +53,11 @@ cc-option = $(call __cc-option, $(CC),\
->  
->  # cc-option-yn
->  # Usage: flag := $(call cc-option-yn,-march=winchip-c6)
-> -cc-option-yn = $(call try-run,\
-> -	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) $(1) -c -x c /dev/null -o "$$TMP",y,n)
-> +cc-option-yn = $(if $(call cc-option,$1),y,n)
->  
->  # cc-disable-warning
->  # Usage: cflags-y += $(call cc-disable-warning,unused-but-set-variable)
-> -cc-disable-warning = $(call try-run,\
-> -	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
-> +cc-disable-warning = $(if $(call cc-option,-W$(strip $1)),-Wno-$(strip $1))
->  
->  # gcc-min-version
->  # Usage: cflags-$(call gcc-min-version, 70100) += -foo
-> @@ -85,5 +83,4 @@ rustc-option = $(call __rustc-option, $(RUSTC),\
->  
->  # rustc-option-yn
->  # Usage: flag := $(call rustc-option-yn,-Cinstrument-coverage)
-> -rustc-option-yn = $(call try-run,\
-> -	$(RUSTC) $(KBUILD_RUSTFLAGS) $(1) --crate-type=rlib /dev/null --out-dir=$$TMPOUT -o "$$TMP",y,n)
-> +rustc-option-yn = $(if $(call rustc-option,$1),y,n)
-> -- 
-> 2.43.0
-> 
+No, the interrupt entry allocates a frame that is big enough to cover
+the red zone as well as the space it needs to save registers.
+
+See STACK_INT_FRAME_SIZE which includes KERNEL_REDZONE_SIZE:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/a=
+rch/powerpc/include/asm/ptrace.h?commit=3D8cf0b93919e13d1e8d4466eb4080a4c4d=
+9d66d7b#n165
+
+Which is renamed to INT_FRAME_SIZE in asm-offsets.c and then is used in
+the interrupt entry here:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/a=
+rch/powerpc/kernel/exceptions-64s.S?commit=3D8cf0b93919e13d1e8d4466eb4080a4=
+c4d9d66d7b#n497
+
+cheers
 
