@@ -1,166 +1,268 @@
-Return-Path: <linux-kbuild+bounces-4055-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4056-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD2299A14E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2024 12:28:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4694299A2E3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2024 13:41:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5DC11B21F5D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2024 10:28:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C39961F2274E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2024 11:41:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB9B5210C2C;
-	Fri, 11 Oct 2024 10:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D75D2141BA;
+	Fri, 11 Oct 2024 11:41:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="Fr5pdSLU"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="NMnumxg4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021108.outbound.protection.outlook.com [52.101.95.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C547B20C496;
-	Fri, 11 Oct 2024 10:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728642485; cv=none; b=sDqxGNqJTW27VInODumUbSh1MHV3vv5nCREOiM9XGLhVoE/yw5z6eJk2NO9f0b9bWrexCCPB79GVA8J7TTQiJILnDLTM/Yf7M8f/C2suKE42uWIo0ci7pkaxl7SqW3/V50y3JBp+kez9DTQ13ykfpV5cz8c9akWcTXDsnzdMR8o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728642485; c=relaxed/simple;
-	bh=JAWxdb2054N4vnmVoEksQzgMI3keyHTm3oH2Hvh2fMk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zcobt1qu8lq+DVNjmvlYzhtJrkjEW+EScJXD8y2NJ7ow72XP/YbMgryuhtFY8Ld1HB6nKZwTWjMIxUOtSL7nJkaES8i0645Pp8SKoSiqnDMDPpCQokCU4w8wLTJYv8GpD5R2I0aIwb3NUlR5Kd2qLjoJWfThvnKCEoGi694Gwyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=Fr5pdSLU; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=yhMkYAxISXGsvtgkvT6WmQHNSFavUtNH55oNonTLR+s=; t=1728642483;
-	x=1729074483; b=Fr5pdSLUQtoehp+HsHwjisbMYE/iaJnPxKmv9Qsu4iMcy6Bo0uQtHeuwXbBa/
-	0dMgW8K06Cg/1Avx7FTG1q+b1eup1rkqyceCg3zOv7RPbXmemDFVIg8PbAaSPzAe4VgdAf0eD2N/d
-	snIfV+YPHtFhB4a3X6oo9Hi39A+SRfM+4js06u5TXvUAXeSz/tAt5H+lkcZVFp+Bijl3xUTqHq0tV
-	U1UKkwrAVWc9Xo7bG6TWlm6LOOn3FszxGzU1ez3niFQijMF7AdGcdhfKQA6LwOThAj9eHTfWPML22
-	h2lBVM6XLgrF0lBKpq5icAe+UkrkxOa3a5uzTo6VD4l+NvyMEw==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1szCsE-0004hg-Vr; Fri, 11 Oct 2024 12:27:55 +0200
-Message-ID: <c94590a5-4121-497b-8529-cbab2b01fe51@leemhuis.info>
-Date: Fri, 11 Oct 2024 12:27:54 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59882141C6;
+	Fri, 11 Oct 2024 11:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.108
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728646865; cv=fail; b=BuZeYNP/AfvaCKE0DuVt49sR+un2lTcq7y50OFZ1CsnhbmPlF0j7RbcajBZNvXXb5AgAHWyhtl83ztxTcHQpoMrS8b/Uy0si2sdVYHJQ0JzxvD/M0kVbGTYHRv7Ab4oImwlMnMwT9hUhApZicw4J6Hw7vnX0JpVBSnM2gJcwHrI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728646865; c=relaxed/simple;
+	bh=JcccRRsPniAGLkqMnQiqfz5bSm7USb+wXGcqWUMU1jo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nr+HIho5EQouOeaLWn5f3pRvgx9azBVUMxsZQ9tKknw7N68OB1L/7HpTrokYRaUoJHX37iBEV6T9VfH8FRvRv/SqSNd1ash5kGdHDPyMdNHQpb5AtejfeMxQeNsdzVWaOYB3hz8gP8NPQo28gEBtBUW3LkKIxUolljRNytJOEqc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=NMnumxg4; arc=fail smtp.client-ip=52.101.95.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J2a4mh8ikrTgoSsMS8Ncod8DH3VysJaJKpTWi2DVMjRevMCS9Muu7vXV/s+J4/ct+kPIo/3KSVimVUBVpAeJDSDSXnYOrxpTxPNDuvDQdlCMb9+I6hMKrIycvCNm4yfxQ5eE/tFmSOwZ0RwpcmSpzlCvQfV25zDJLRieT6Yh309WXl0V+tRCa5yXXoHEngn0rM/vU7IDp0QHdq3xQzK0hxfMvPcffJX+P4Kq6L3j3nd9Xw0TLiWUL4msn0tAP4R+ixwwwVTQFI82yV+63dj77bXC00xo/KX3hmsPG87Wv8adbejCkGYIWTtRc4VY4mtm/veySKIdMbpae+qxZ0+7Hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ckjQRWwDT/eRcydao40iiwrZxOFMUcFU8yVTIXP/b7E=;
+ b=hAP0wKRQdyfhYpCHzKU1XGLajp5ha9W+GBmrOzaekiajpRc17ZuXiD9C3DsBsrRDJgkqVDzxMTy22OS+6q8rY7ZBEGa93sjLSpLc+bIIdluonUtcs1Y0eEJeitexL0l4RJwAfpBkifjFym0x2mvrKpuNR3RB4PedOO12WXWzJy+Xf+EGTC3bYenbNEEiXjQ7VkzatLoKNWZbMd1eglhju2NYlGYqRRXxnq4/HN0fI9xH5t/ARXJQmIE4kZj8ukhWz10922VyD0bBCQjNrmbxHbmntGGRyt5qzIwx3WPemXf+q8RVCiItj6gvNWm3ujTRO66XS9ulbogh4AEEzfvKhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ckjQRWwDT/eRcydao40iiwrZxOFMUcFU8yVTIXP/b7E=;
+ b=NMnumxg4J6QlO+803oTJdLNq34JzqzXrZ2wZLwzPRI/sWg2REV/H/Eqw8U6ldJxu7AqBzAnCGcibFURcm8Ix98B5uPhR7y4liIsJEzBaK/B2XMf5C6LuD8R5Z4rOdBbjw5mjf+3vOmHfgoDQJAM0LsOnFYK4lkE7zkWPBmpgHGI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
+ by CW1P265MB7424.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:217::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.20; Fri, 11 Oct
+ 2024 11:40:59 +0000
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1818:a2bf:38a7:a1e7]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1818:a2bf:38a7:a1e7%3]) with mapi id 15.20.8048.013; Fri, 11 Oct 2024
+ 11:40:59 +0000
+From: Gary Guo <gary@garyguo.net>
+To: masahiroy@kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Tejun Heo <tj@kernel.org>,
+	Yoann Congal <yoann.congal@smile.fr>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Jens Axboe <axboe@kernel.dk>,
+	Jann Horn <jannh@google.com>,
+	Mark Rutland <mark.rutland@arm.com>
+Cc: kees@kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	samitolvanen@google.com
+Subject: [PATCH] kbuild: rust: add `CONFIG_RUSTC_LLVM_VERSION`
+Date: Fri, 11 Oct 2024 12:40:33 +0100
+Message-ID: <20241011114040.3900487-1-gary@garyguo.net>
+X-Mailer: git-send-email 2.44.1
+In-Reply-To: <CAK7LNARBXt=CWy5CgtHqdePw5L6EtD15emS2Fvre4QWfm_LjUg@mail.gmail.com>
+References: <CAK7LNARBXt=CWy5CgtHqdePw5L6EtD15emS2Fvre4QWfm_LjUg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0548.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:319::11) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:253::10)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1] module: sign with sha512 by default to avoid build
- errors
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: sedat.dilek@gmail.com, Luis Chamberlain <mcgrof@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>,
- linux-modules@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <42aa307d7ffae1851b4a8787f5c276dd0b3beece.1728543368.git.linux@leemhuis.info>
- <b32f1e42-d775-4538-ba36-9e9b906a34e3@leemhuis.info>
- <CA+icZUUgwJWY=PWO5fQPZbUc-q=LkdHXVe4+g-LnXmQfCA3N7Q@mail.gmail.com>
- <CA+icZUX9hrwFXA-6KVT+yZ=-NqyPB=LOKKWSf77-xb32totgHA@mail.gmail.com>
- <a5b3c47e-5f0f-4c0f-8ad9-4fb34d150548@leemhuis.info>
- <CABCJKudayCsPuowkUW7_JV_2HPNp5tf_py6jjDe6Ld7oMai9jg@mail.gmail.com>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: en-US, de-DE
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <CABCJKudayCsPuowkUW7_JV_2HPNp5tf_py6jjDe6Ld7oMai9jg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1728642483;a17e4649;
-X-HE-SMSGID: 1szCsE-0004hg-Vr
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|CW1P265MB7424:EE_
+X-MS-Office365-Filtering-Correlation-Id: dbb6152f-24c8-49e7-a1d9-08dce9e99397
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sZxygTeTy5E1tufDO/YH3B/EMT893w5t3QGPu0uOoIWM496+EMyVYofuQ5tG?=
+ =?us-ascii?Q?rLa8qSBcTk+UosQJG48Yeox98paeotySXhUgOl764Tj826mEKcevZPdJcwlu?=
+ =?us-ascii?Q?5eXEHc7l0nOTc7M12kYtRyR0h2Z/nr1s4gTepRcZTbe/tKbVbY3ZyK7QBFDO?=
+ =?us-ascii?Q?7B4RGPg6q2CzNQSyLRwChmXK2FDXaEPu6XU4Hc2EO+y81anTVqTUxKixSgSD?=
+ =?us-ascii?Q?w1YB9I+avJQwMEq3uC3fb8tcr4UmznAj1mYB6KE+37sopGgTr3A63AnVh6i7?=
+ =?us-ascii?Q?alzzBTIhCwlf+ea4dgZHe0SB7iPKG6GNX8r1BqghQ8RuUP/K0oxjUAtJ7xr7?=
+ =?us-ascii?Q?2FNBFNNx8UUKpeTW1CkRq+JspK8N4GIWIZi3eBoa7g0ar/L+0iZhuWwt0UG/?=
+ =?us-ascii?Q?7G3BVeVNklczn4aV9sSSm+JVuLlmgpMQ3d/RQfW51N6pPly008YRmY8JIaJB?=
+ =?us-ascii?Q?ljg/TB19IQkx4Qh+3dlTuSJNz1Fsp7qy/VRHxaUPTnxWIwae9yjMVtwLxGh7?=
+ =?us-ascii?Q?k4bnANietEQKQqvRAsLBn7Nr4CMXsy04w/4F367jVccELDB/am2BOhQ/UW/s?=
+ =?us-ascii?Q?wWMi2Zj8nwpQ4O7eCR1kFYzen1pAb/t8EhMMnZXplNxW7aH+RmqJ56PIX3MP?=
+ =?us-ascii?Q?GKZN8A5zCy3axhjl4KGzFzdjlkK90oanHa+O6foTJNGic5A/9s2eUskdZyoT?=
+ =?us-ascii?Q?k1Gq7wL1pFqeb7jLmTDVg1zXuPKY8OZyPbuBDXP2nT/lOX668J/C9w3iWctj?=
+ =?us-ascii?Q?Pu7Ci7DsXLEY6TY34DAJvU3js2z1W7YhUyIGC8EJIs0JXUL0jbf0t8d1Hz3I?=
+ =?us-ascii?Q?kgve8Xf4nQjoUbI9TkKB8DtGqGR68NsaGu4K4gZ+qfOlSijts8YlvjyMLE4N?=
+ =?us-ascii?Q?zODiA8vsEWx4BdkpvXJ2S1F2th0Ot6yqEoTUBc0+6jYBKGZF4jpMiCDDINol?=
+ =?us-ascii?Q?OyEJ9pEfKMovrOu6qB9OG/4lOrHQK5N2NOIqnyeNmSQHOJo1cpEba3UVsSzS?=
+ =?us-ascii?Q?LqS/YztUAS17FRqisey5jOZEkw31OBsQIlgXuyN4kb285JKcM3JvcHEXeR/o?=
+ =?us-ascii?Q?2KU5THXPLlxOGBF9Uz7CLKcFqkn9sDXGawRpSHtQqdcEP/5ngOPTsUUzhoI1?=
+ =?us-ascii?Q?CnxDmnPvcj2mecO1AFF4X3k56c4i2qARXTRX5Idaa+CrYB/OA6m3iFT/Nu6R?=
+ =?us-ascii?Q?47aD0QK0M0aW5l7yUxB5HUe7VmbagPPMgHz9InbI6rL0oNqefJ0w2lW+yB0K?=
+ =?us-ascii?Q?nlhVxZFLnkozeKWRaXMmls5cZi1SWDpbidE+AeHTf+PNC9dseymfCuJGwjEB?=
+ =?us-ascii?Q?oUagcklAZl0cdElzV33TmPO0?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?uGg1tmJn72KCynIwO3RuuILZbwCNWlmDELgnsWiopu8R+y/Z//fsV3hDwQk3?=
+ =?us-ascii?Q?C2zF64I/XROm4aTYiCC0AUmQdcKKYtvWmRNAnQ4QKa+lCIzD5hT5irhIQQ1v?=
+ =?us-ascii?Q?nj53rN34oGEiS0F0Km9FWXuJH46CzwUxHOAi3o7A6olMXIRZwed3jmV+/gpE?=
+ =?us-ascii?Q?MQqBPcdT+KZT7rVkCf9paSiwcBk4UWT4nzrJFgdlpWX1A8A6fmalgiK8WDCt?=
+ =?us-ascii?Q?8myZodUbvt8ze+cZdj9B1JOgaRLaDSOUozmboEcF37RD13rNQGg1HeXMMd9F?=
+ =?us-ascii?Q?/IpKybWsVDtWsn9RzJcaEGoF6r4mAHnm5If4fnEH6xH6y+lw4WGPt2+se0l6?=
+ =?us-ascii?Q?KNgG0VlCctIwlBUDb0Cw9pN9c1zWMlRexYyAW0LgmJoYNM8tblvw1RaAaHrX?=
+ =?us-ascii?Q?Sosw/siKzbp9PQj4nLbfFFWX0F3lKrWUYVCIIt/atXQgYYruoQNQVQLl4NkQ?=
+ =?us-ascii?Q?FBcrx0qhreYUdvw8k7MNa2D1DFqP8MYPL+i+yUZHTJZZRP+SZKcmgKhjzYyI?=
+ =?us-ascii?Q?AtTSvW0TqJJXTcwzWmj+BJQnZLKg2Vjie9bqDyVaxCkWShwMoBmOki5D3ciN?=
+ =?us-ascii?Q?rzXuqzNHu4QRToxodW5IFne585Z1bHC69tXDZX69fC2OMM3l9kfW3kpDJGR0?=
+ =?us-ascii?Q?t064xuWNQnaUbIpRWWg5lznP12XkFvtnMyuyY8DVhKltWy3AbhwYUXhnk1FT?=
+ =?us-ascii?Q?RZ2RHVIURCNQajQKh+X2y/LxdkmB+7yiDqxV2xDy8+ci4YenMoKjO/2q/LJ8?=
+ =?us-ascii?Q?NXObuPzSayLXJdpICzJ6h5jx2gW4gpRHRNf+3SWAyAjuW8QXxr1sUB8P8BzF?=
+ =?us-ascii?Q?e5VPkVlKHXcSQMsbLzcaZH7n6JEMen8cFU0H2+Cnc2D2yvmn+zg3UEl1kEDJ?=
+ =?us-ascii?Q?IMT0zUofk5fukWqUu7c6vucn2SfQx7yrDbnyKTnHfU4iSDOWK7Q+miACmcmw?=
+ =?us-ascii?Q?GvC9YLYufoCARWU3D53qThT9M8g3AZHXn4YSQifSd3qUNASXWT8WGNBGYpIH?=
+ =?us-ascii?Q?bhACTJ10/i6iXaTOcGVcDeNlwouQhlf3zImz8WFrIb4/fqmYNZo4yTiu6bXc?=
+ =?us-ascii?Q?ajHbvM1Gg3Nq0gX0jWlNdDOoy/3b/Bh4u6NUDHzfsboeHIq5sTQr1dwCXAaS?=
+ =?us-ascii?Q?ML4TsGP6VR+TqpGmWXEph039J6AScImcKCgz+GTIPv9jgcGa/k9ULt6e6HBy?=
+ =?us-ascii?Q?KZqHpdhTOPpZay/6E9lYNSJftTo4ZxKAp8MeVKwUlIw6w1/zWBnvJluajyXB?=
+ =?us-ascii?Q?38SQG3SC6yYN/qaXprbZ6jVHEU2s3rs3Hx0wPzcMDAC+eclcDJ4cFlTAP9Z+?=
+ =?us-ascii?Q?VPLSwyidOGVEK8FotwE+m74a2m3f18poEQmub7dR6L1olRiyuPhyx56Q1+MA?=
+ =?us-ascii?Q?kBjaNdru0wK/F8sb/yzfADGm9L9SiJnA8o8Yr8BuzHcZO++yKIZF8uBZOqCK?=
+ =?us-ascii?Q?gVfLyDVaCiaJrb8CyOvKgUAYPuMa1N7fc8FmVyhOgCfCaWoFI/HB+FvwMj7y?=
+ =?us-ascii?Q?/PK9YeNXlRDYQFj8stn8u0FvqTdhr+4JNOxOjhofQw9OWBOpQYBCpP8GlP+5?=
+ =?us-ascii?Q?UgOU51QlYEGDdKEhzuYQ1whABlUW0mrPiExjYKe8?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbb6152f-24c8-49e7-a1d9-08dce9e99397
+X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2024 11:40:59.4227
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0oxEZqg8jiXjBQMngJ3CfkhGovWiatj3gmTyiERAz/PzDjcULEYBMklupGv+qaV5P37PtN+hEtWAgYTjVU6bQA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7424
 
-On 10.10.24 17:52, Sami Tolvanen wrote:
+Each version of Rust supports a range of LLVM versions. There are cases where
+we want to gate a config on the LLVM version instead of the Rust version.
+Normalized cfi integer tags are one example [1].
 
-Thx for your feedback!
+The invocation of rustc-version is being moved from init/Kconfig to
+scripts/Kconfig.include for consistency with cc-version.
 
-> On Thu, Oct 10, 2024 at 1:57 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
->> On 10.10.24 10:42, Sedat Dilek wrote:
->>> On Thu, Oct 10, 2024 at 10:29 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->>>> On Thu, Oct 10, 2024 at 10:19 AM Thorsten Leemhuis <linux@leemhuis.info> wrote:
->>>>> On 10.10.24 09:00, Thorsten Leemhuis wrote:
->
->> P.S.: Vegard Nossum mentioned in the fediverse that I could also solve
->> the problem the patch is about by adding "default MODULE_SIG_SHA512" to
->> the "choice" section; haven't tried that, but that sounds like a better
->> solution. Will likely give it a try, unless someone brings up unwanted
->> side effects this might cause.
-> 
-> Yes, that would be a much better way to change the default. Overall,
-> moving away from SHA-1 seems like a good idea and SHA-512 feels like a
-> reasonable choice. Luis, do you see any issues with changing the
-> default here?
+Link: https://lore.kernel.org/all/20240925-cfi-norm-kasan-fix-v1-1-0328985cdf33@google.com/ [1]
+Signed-off-by: Gary Guo <gary@garyguo.net>
+---
+ init/Kconfig                  |  6 +++++-
+ scripts/Kconfig.include       |  3 +++
+ scripts/rustc-llvm-version.sh | 22 ++++++++++++++++++++++
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100755 scripts/rustc-llvm-version.sh
 
-So, how do I make such a default choice work without breaking the
-current magic, which looks like this:
+diff --git a/init/Kconfig b/init/Kconfig
+index fbd0cb06a50a..304e2bd32bfd 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -62,7 +62,7 @@ config LLD_VERSION
+ 
+ config RUSTC_VERSION
+ 	int
+-	default $(shell,$(srctree)/scripts/rustc-version.sh $(RUSTC))
++	default $(rustc-version)
+ 	help
+ 	  It does not depend on `RUST` since that one may need to use the version
+ 	  in a `depends on`.
+@@ -78,6 +78,10 @@ config RUST_IS_AVAILABLE
+ 	  In particular, the Makefile target 'rustavailable' is useful to check
+ 	  why the Rust toolchain is not being detected.
+ 
++config RUSTC_LLVM_VERSION
++	int
++	default $(rustc-llvm-version)
++
+ config CC_CAN_LINK
+ 	bool
+ 	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag)) if 64BIT
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 785a491e5996..33193ca6e803 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -65,6 +65,9 @@ cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$
+ m32-flag := $(cc-option-bit,-m32)
+ m64-flag := $(cc-option-bit,-m64)
+ 
++rustc-version := $(shell,$(srctree)/scripts/rustc-version.sh $(RUSTC))
++rustc-llvm-version := $(shell,$(srctree)/scripts/rustc-llvm-version.sh $(RUSTC))
++
+ # $(rustc-option,<flag>)
+ # Return y if the Rust compiler supports <flag>, n otherwise
+ # Calls to this should be guarded so that they are not evaluated if
+diff --git a/scripts/rustc-llvm-version.sh b/scripts/rustc-llvm-version.sh
+new file mode 100755
+index 000000000000..b8ffa24afea8
+--- /dev/null
++++ b/scripts/rustc-llvm-version.sh
+@@ -0,0 +1,22 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Usage: $ ./rustc-version.sh rustc
++#
++# Print the LLVM version that the Rust compiler uses in a 6 digit form.
++
++# Convert the version string x.y.z to a canonical up-to-6-digits form.
++get_canonical_version()
++{
++	IFS=.
++	set -- $1
++	echo $((10000 * $1 + 100 * $2 + $3))
++}
++
++if output=$("$@" --version --verbose 2>/dev/null | grep LLVM); then
++	set -- $output
++	get_canonical_version $3
++else
++	echo 0
++	exit 1
++fi
 
-"""
-config MODULE_SIG_HASH
-	string
-	depends on MODULE_SIG || IMA_APPRAISE_MODSIG
-	default "sha1" if MODULE_SIG_SHA1
-	default "sha256" if MODULE_SIG_SHA256
-	default "sha384" if MODULE_SIG_SHA384
-	default "sha512" if MODULE_SIG_SHA512
-	default "sha3-256" if MODULE_SIG_SHA3_256
-	default "sha3-384" if MODULE_SIG_SHA3_384
-	default "sha3-512" if MODULE_SIG_SHA3_512
-"""
+base-commit: f5e50614e39e74401b492a2fa125f2e2b6458bab
+-- 
+2.44.1
 
-Reordering those did not do the trick. And I suspect adding a
-
-  default "sha512"
-
-would break the magic. Would dropping sha1, sha256 and sha384 from the
-list be a middle ground that could work for everyone?
-
-Ciao, Thorsten
 
