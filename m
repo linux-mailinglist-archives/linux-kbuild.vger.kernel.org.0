@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-4074-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2FA99B7B5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Oct 2024 01:38:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5543C99B7BD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 13 Oct 2024 01:53:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5BADB20CE2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 23:37:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CD911F21D0F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 23:53:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 370C5126C15;
-	Sat, 12 Oct 2024 23:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28225149C4A;
+	Sat, 12 Oct 2024 23:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPmNqT+E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjbjiRke"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5E479B8E;
-	Sat, 12 Oct 2024 23:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7F04F8BB;
+	Sat, 12 Oct 2024 23:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728776270; cv=none; b=QGwXTqCEuOOuO1z/8lngXHBT+ySorKSrhpTjr5MuIq0i9vPpCZDn1O4pwOSoGSG0Z5vFGcS9nkdxQlyA7AGkKB1pxn6dYwxGIYCUq7QMqz8zEG+QklPWfSZzOPovdl+MHbcBQlvKxuXG6SJgUcObH24cpLp6w0iBjqad73NKQEs=
+	t=1728777193; cv=none; b=RsetXex4MyU3nT79oVGDvDXHPmKdOQP0jj5IjHGv395C956wW2pM2Ycr/iaZ5AEHKJJfP197l17ysZX+Zm/GMgKSZmRcYhopHiwZxljO4BG/OgG4Dw48IM4v0S6eArLXUNtqSSAIaxBTa+Vx2N0aDVvdtdvarVQFcZ+NbEPp5kQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728776270; c=relaxed/simple;
-	bh=5w7n5i8kdPmFGjMhidcIe4cdNLqiRbV10cl9HtqaYcA=;
+	s=arc-20240116; t=1728777193; c=relaxed/simple;
+	bh=KuNzdB0cvqLJdx9Zw7fwlvH3UCIdWMu+L7CAvZ6YIXg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l2Ajgyq3y0grU/XPaQ1HySEVIsZ3lWidfNr1SZaBpdMrZDXQMmcEsKvs84cmEyWMIVSDtkIHi1Me9IkDTcZ7yIeF2zGDjnXa+NexmMQeE2MZNstDiW2T4Tsou0+uXf0EWcjnAmW4E8wqiLMNTSwFutmEWFAKmhMZmAxOUlblRAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPmNqT+E; arc=none smtp.client-ip=209.85.210.169
+	 To:Cc:Content-Type; b=CTgyK5nMAe2cURk68r4iMJ/9xmH+AcaW5rqulu2l2wL9xEja+BNSml5v8oF+qz1/h6ghtfqoAglbSObOw0W4VhADNBA7ouOToUI2htSRxAGqLulBBzOpuTmWhRV8YPdWiGiXmr22FQgMp8DnigoC4ZIliFmdyGao5mx4xPx6HJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjbjiRke; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71dec222033so356746b3a.0;
-        Sat, 12 Oct 2024 16:37:48 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fad100dd9eso30063641fa.3;
+        Sat, 12 Oct 2024 16:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728776268; x=1729381068; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728777189; x=1729381989; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5w7n5i8kdPmFGjMhidcIe4cdNLqiRbV10cl9HtqaYcA=;
-        b=YPmNqT+EZ0tKeYVCLvMLLjbhQa0k3u+DDkvMtDin2ZyMOXvLvzx/iDrAXCcfk0unBo
-         O8DijXsqG1y5tSGgq4EHBjaN3+2FD8H6OD9505IBAZ+HsD08JuFSrs3BPan35XpC8Svl
-         blOP/Fd9apFFYjGEIZuzgPtTPm4uc+u7KfOVIVlvR/wfme+q7RcNZGeVCcBsleN5sx9e
-         u7psYsPW1p7G4womztxrY3yXZmR2ccwolrr0OlNrhlLp8gFXFyO4U6PVqrIic52F3brX
-         Tw/qvw3VgL9qX2y44H6Tku0HERxO3DN9F5GpVuPEVKdSHL8UXNUu0eTc3BHzB4CJJRy/
-         MTdw==
+        bh=KuNzdB0cvqLJdx9Zw7fwlvH3UCIdWMu+L7CAvZ6YIXg=;
+        b=BjbjiRkeXXIgg4aOA8FmU+nO61ovl6XvmQFIK4IJyc/TDtsxAikDKKtllvsj8aOuA0
+         fHOJijrRCVOex9dx+t+s/5mtQmvSGsTFmunapJv/YlYgJwEi/GRHkjMPJ/IHBysiKOYx
+         wnaWYfkTmk27X/P0B1Zuuix8enT/Os0x3wDyu7o+NBt5cB9Unx0sOLKUGmQD73qC85Yz
+         WOFdpDP9Y/A7b4CUt3cWDGyPJArV3GjgCoySGK0fr7UHI0WDqhNKn6NNF1gNslnyDfgy
+         nT5u/LoGZbbB/OQN0dtGp6ai4/3dXp+Ae/0Jerm+QWmm0yyOiZjbjvRAyALtbOUt5+bH
+         UegQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728776268; x=1729381068;
+        d=1e100.net; s=20230601; t=1728777189; x=1729381989;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5w7n5i8kdPmFGjMhidcIe4cdNLqiRbV10cl9HtqaYcA=;
-        b=XCRIAdU6jd5tiYuKfucajHcRbQV9klzaRNcEhpJ3VWiJAYaDnqH2NHxgNF3GukWVb+
-         EslcF8KyBaNCbSW+pu1m1kOfi5t8Q7uQcY8zO50giq0o1wWksnXyrHNRMIUP+vXUNByZ
-         9InoaEKKqnyUv+vGiEICPOdGEJeF27+GJVNbDEbqeujAdX/QdvxdsJ9C3dHsZ4+vVT66
-         e1casYSnfGTCjphNhRkvodHHqoUL4LkwKznIA5MWFQPSBZ70jpHpZzREcyGZljVFqXdU
-         F0yELlk7HiwZuLbQvqEc8Kkb9sML9GH7QHPRg05Ppy0Tp/zD9DuDEAZ7ug4VfEkjSVjD
-         CyRg==
-X-Forwarded-Encrypted: i=1; AJvYcCWn5oy8KmlrBqmDobz2dwW4ICHcQzJ2x7yHPwqmWyAinjA/L9N+9tvNgNf12SazoCtDh9bRdSZiY5iL1Wun@vger.kernel.org, AJvYcCX9umRnOHo/dUf+skzZ0Ee3S4NeWfjW/hZafaWY0PUFTV29gzLwTlR53LTWqlkai46YsiQIktCGKjxwsTc=@vger.kernel.org, AJvYcCXMYrzzd8ioRqZLzXdPEl0ZUw/5fKyYgNyRPBE+3d9gMoKy70qSCgBFBk5gUuPTEn98A6Laq9Ser62V0L+f9Ks=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypXKcG+p+hVgDRIfOBqkJFgZvPakMzF9VTY566dJISE9dk2Eti
-	KqKAObKYiZYaO37JLAt4aHfKrT1bo+6TdIbnHb3CHMhmepgKDZ43sFJqW0kxVaj3Ib8gZ+QI4Bm
-	HCCQtsbfkzNMyZV/TSGd28yDdwQM=
-X-Google-Smtp-Source: AGHT+IHVaqqLABZ8U1dA0Wj2kgbXRNh2oWknrS6iBj2uTd0lN/mg27x6VrojgZ9e7SuJIEF1ePjneDBw780te2uFDik=
-X-Received: by 2002:a05:6a00:3cc8:b0:71e:5e9a:2db with SMTP id
- d2e1a72fcca58-71e5e9a06e7mr65888b3a.6.1728776267911; Sat, 12 Oct 2024
- 16:37:47 -0700 (PDT)
+        bh=KuNzdB0cvqLJdx9Zw7fwlvH3UCIdWMu+L7CAvZ6YIXg=;
+        b=jOfHlctU0N6dr3E0hoBNPvIIl2b37jZ2amAqU2iTB2BnnmdY77OsxQo7qteuruNiDD
+         BSrA/6v3EGGdLzl2ZKK3Hz5rdZTEXFZ1bL9+mo4tLth+oW5iw97wCJe3a4FYiPthsFJM
+         dBTSGKR2jampYluxSajUrE4s5Q4eLR1Xt9EnUdJHBuGKJDNnTXiLtaw+xaB+prFrBpQD
+         yo5TRPhKVRWKkLyxY3E4OmFfam48ALXZ/NDaj6NTSBuvxenXfIlfoivvMQbqPa0qW9DQ
+         S3EOgAqa6Wkqna3P0h6/QMo7pO+dyd4rekXwAbLSnIowvCLN/5jfoIgMUE41pGHOTmFn
+         WW/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUVZ+Ldb8SFMgz8PW/NlWPGLiZquUU5oBKzLW8s0GhLXOnbVNLrLwo31M5jXB+varbgTYUSV3nNzyi078MY@vger.kernel.org, AJvYcCVJVyLjKLjDredAhX8kpKJmEKvqn6Q/FcS98G64yryp+aAFUl2hB0fz160qnZz+FP7E/iRgOaLTQ6M+7Va2I6Y=@vger.kernel.org, AJvYcCVoHYtOhNQ1Jl4OnKitH3thKvBIhB6G+dqwEjmiuuDiRtnlQRXcD4QoSnr9/n186pJXqVgPAZfUzeGm0/0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyh0iqRW0ayv5h3l2I1ubTLOH9AuilWUViQBhWscqhi5GLXw4H/
+	Th4rCSCD7oNuGxTZpSguYpSZSOaqcgPnviqaTM7mUqLc7fVNhzIGgDkFhImhu+6Ls7nkwXJb585
+	V8gdn/FcpdO2sSB2m8SdQVxi6PGY=
+X-Google-Smtp-Source: AGHT+IHn+C2ySu0U+5Q9KLhAJr4VqYfajR30A2uza06CpeKNKIapyrDVzmOOJwKx+G9vzz9EEtbqQpyfHsBrj67Sn84=
+X-Received: by 2002:a05:651c:2120:b0:2f6:5f7b:e5cf with SMTP id
+ 38308e7fff4ca-2fb32727e42mr29641551fa.14.1728777189113; Sat, 12 Oct 2024
+ 16:53:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -76,13 +76,13 @@ References: <20241008224810.84024-1-tamird@gmail.com> <CANiq72=QimAkV0_n2nDiPSXT
  <CGME20241010083123eucas1p2432a0bbbf37e85599b477d92965d9514@eucas1p2.samsung.com>
  <CANiq72=geQY8f1J4rEfb-2UP+MOTY031tc=t1wuPNTVzS6tiSQ@mail.gmail.com>
  <D4RZIDTJFVX5.16Z4XSB5IW6D1@samsung.com> <CANiq72n+mWOP3xNUU4Mep-n5QtJ8zQiwP9JZ-KX68+fOC0GMmw@mail.gmail.com>
- <CAJ-ks9mrY0eWjagq7hnHzY9jMRzV_4NS1cBfg4ad0v9Q3aV38A@mail.gmail.com>
-In-Reply-To: <CAJ-ks9mrY0eWjagq7hnHzY9jMRzV_4NS1cBfg4ad0v9Q3aV38A@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 13 Oct 2024 01:37:35 +0200
-Message-ID: <CANiq72kzEdyQYhsw10h7qVaT2d=0z1qKsOUo-NzZw5xYrn1nuw@mail.gmail.com>
+ <CAJ-ks9mrY0eWjagq7hnHzY9jMRzV_4NS1cBfg4ad0v9Q3aV38A@mail.gmail.com> <CANiq72kzEdyQYhsw10h7qVaT2d=0z1qKsOUo-NzZw5xYrn1nuw@mail.gmail.com>
+In-Reply-To: <CANiq72kzEdyQYhsw10h7qVaT2d=0z1qKsOUo-NzZw5xYrn1nuw@mail.gmail.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Sat, 12 Oct 2024 19:52:32 -0400
+Message-ID: <CAJ-ks9myRR1PgER6UtkFBE_mmgA7YGFjU11+JZXbjKVcra-sfg@mail.gmail.com>
 Subject: Re: [PATCH] rust: query the compiler for dylib path
-To: Tamir Duberstein <tamird@gmail.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc: Daniel Gomez <da.gomez@samsung.com>, rust-for-linux@vger.kernel.org, 
 	Fiona Behrens <me@kloenk.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -99,27 +99,20 @@ Cc: Daniel Gomez <da.gomez@samsung.com>, rust-for-linux@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 12, 2024 at 4:25=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> In order for this to be reasonably maintainable we'd want the variable
-> to be something like DYLIB_SUFFIX so that we don't have to revisit this
-> if macros are ever provided by more than one crate (or worse, have to
-> provide N variables).
+On Sat, Oct 12, 2024 at 7:37=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+> But before we do that, is there a way to force `rustc` to load current
+> name (or trick it to do so, say, with a symlink)? i.e. can it be
+> reasonably done out-of-tree without changes to the filename?
 
-That is reasonable, and in this it is probably the right approach
-since the complexity is similar, but I wanted to clarify that, in the
-kernel, revisiting is fine and expected (features are generally not
-added if they are not used or expected to be used very soon, so
-revisiting to add a more complex feature later is the normal
-approach).
+I think the problem is that rustc produces .dylib on macOS rather than
+it _looking_ for .dylib; the path to the .so is fully specified in the
+rustc invocation of the targets that depend on it. I don't know of a way
+to control the file suffix externally.
 
-But before we do that, is there a way to force `rustc` to load current
-name (or trick it to do so, say, with a symlink)? i.e. can it be
-reasonably done out-of-tree without changes to the filename?
-
-Thanks!
-
-Cheers,
-Miguel
+A symlink would possibly work (unless rustc refuses to load anything
+other than .dylib on macOS for whatever reason), but wouldn't be very
+ergonomic; you'd have to create the symlink blind or else run the build
+system until it fails, then create the symlink, and then run the build
+again.
 
