@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-4071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4072-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0719F99B508
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 15:17:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C9B99B51A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 15:41:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0D121F21FC4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 13:17:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB7C21C211D0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 13:41:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59653154BEA;
-	Sat, 12 Oct 2024 13:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CFFE17838C;
+	Sat, 12 Oct 2024 13:41:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QumAgF0i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NeRvLYmQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E338D1E495;
-	Sat, 12 Oct 2024 13:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA3C1E511;
+	Sat, 12 Oct 2024 13:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728739055; cv=none; b=XHNL6soUQwmz5D2K8+ZZlwA8D9AjGsTAp4j0rJnxhszlSS4Zpb6iplfCouiweIPcDrYFS5VfVPozIkx+RrvmJeFj5sLvaDcKeIw57weDGHC6khJ07v5oPaiJE2QsatnjjovhHhvouBlhk8GhlZB/HGKzaVxIIj7OvUGRouGOVJU=
+	t=1728740478; cv=none; b=H+QHFm2cD+OfMniE94FOKmev+dGiCmyIHlbWnhDPmzVJbcO2JObDmBVQctSaQBXtoW3vwY65uqN9WGZpgWaiGPj9u82UbrRrr4BGwr+j7ILGBEzbDsAls4RaqN62oN5Jj/DC8k+7v8Bb2iiQdovF9X6mrOwlK6KbMx79zacoQX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728739055; c=relaxed/simple;
-	bh=xgZfJNYdhhPDhtjfhoXI7CrZCDHbecxJyWC/998fJZI=;
+	s=arc-20240116; t=1728740478; c=relaxed/simple;
+	bh=2aWYQO59JYR3v1loKuAiJ8kxWXzcVGteodP2hiIRfec=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZMNgzYKlFt7/vf8ZL+0MhQTRu3A2jhvqhBSTD/A9DC/dSEmW/uSOKicJVICVsRJFV7P+bJwzoacx+M5IzP6oQN0cz+cK1qL0m5BLeilktrC9+U+3gEdoCmLrgYGfVnSgH9gvBb/CvjzYQoR/gAK5P/O7P1uHINuwWVIwPEw/jJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QumAgF0i; arc=none smtp.client-ip=209.85.216.53
+	 To:Cc:Content-Type; b=WK9Q+SJBc4Q2qZsI3eVAFXwWiFc0ZMx/WdxGIWHL9NwT2fpOLKOmamA3PcqfzyGkD3aLNqQwPpX3DDdneb+cT6KdVJfiRvqTKDr45ZPzyeE9dhfsXb/yqAvcFmf8AzED3HdiPxw/8LolrduyAUARcY8GUbj6Yl/Hq2RIw8+ZbbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NeRvLYmQ; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e2a96b242cso500338a91.3;
-        Sat, 12 Oct 2024 06:17:33 -0700 (PDT)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2c2a17aa4so518835a91.0;
+        Sat, 12 Oct 2024 06:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728739053; x=1729343853; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728740476; x=1729345276; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xgZfJNYdhhPDhtjfhoXI7CrZCDHbecxJyWC/998fJZI=;
-        b=QumAgF0ihMEXu10ADJ6faM/YjZjJq3LcHXtG/fdxnHzOAQsdPJQI0iPdfmCIZ9YICT
-         RUebArL6tTj/Gckjg7dSgvWSYNfkVdJFG3oXV8wZGD1iKb52aymM5hxr/hWRh2VyRSGE
-         VOXFG09/8KijyCPGPdf5wjb5xl4qfAxD3V08d2eFptKboomasb6ZAjCrvy34farAmv7d
-         FeKneJEZS6l4u9hc1anC4fWIEOCwiy25tPfDOL7sdfFK0lji8qH12sgid7MLrTMRKShz
-         GudO2LrQuyTdXf265mpG0uw6/L0N3uh7nPpeNrti4WLQqySKLZt2hRdiiOVnyfGTzhDh
-         wfSA==
+        bh=2aWYQO59JYR3v1loKuAiJ8kxWXzcVGteodP2hiIRfec=;
+        b=NeRvLYmQ74gTdl4dL/n3P8R0GjsYMOZ7PuADtoZwH2Gobl7X+IviCe1CdGqgWCQVYH
+         +TTbjdiVKC160i6hosHw1hGlCoCII4DFsqFCFUZODsdn/U/v+yYEta6VT7Z6pqMGfjj/
+         BBj4sufH0eMFs6xZ+wHtcPsnvsfmV4G2NKY+4ErtUf6gWfqFMPoWgCBBXBHroJ0sfRhO
+         Ip4cS2Jd+imqD6Vv8RM7Oa9NMI6NpP1Mmd7pGbc9dZkr8aieqL5+cLpI3qriX+h2CFjv
+         /otCYyxXIpY11wlZnZGjuMcLd6KaJDOrrKe5p1zweiVCEOTtMeqXlU9k1/QNj0teS4DO
+         9iTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728739053; x=1729343853;
+        d=1e100.net; s=20230601; t=1728740476; x=1729345276;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xgZfJNYdhhPDhtjfhoXI7CrZCDHbecxJyWC/998fJZI=;
-        b=Kk/X8cqh//K7oC6p8Xjwt83J5gEs61eKI8pfYVimJkojNrRO+UW2VbhFA1/EcwX/1u
-         atbFDloQKDoTycAVPDBDA883aqu8+xbns+7Tr6/RuoG7qCFhYbJgJw0MTkreNmR7qywU
-         cp3V83WG5Yob/rvC7V6lbQC9dgnGDUyhEdVl7SAeDby6CYvzclN1FvVh0SwARArhcwvY
-         JsVNUu63npZJpGLgKgKSVkLH3XXg38riXUBut0pysGD5Zaxy+oI8z9NXeQ1enYb2MZuT
-         uEUQQ9KWr0UEjW5mhZS+JngqrMxZ8AqbjB0vBreNAW/SRqjLLBl7atzziUdnF5IWR1Js
-         oY1g==
-X-Forwarded-Encrypted: i=1; AJvYcCWurJJynmuxaE36Bb+SEhxKAQrltgPfnh3hXm0HRw2c0GewfMHhMnC9Vni7lsVhoUK8dZv4FffT/v59oRGq@vger.kernel.org, AJvYcCXY1DduSc/EDoKtHRHfVrRVaghx3tOzzTE1atKN/TAB4pACv1l30wo3FQDVmz9PnX0gZMz5/UHTE6dKx+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKuBMXsgCwuNY50Zrty6RCYreyVwulc0eLdRmAfVf6KQ83N52M
-	8XmPK8XhKqY/2uvsnhC0WoCEDcc3teh6hLTarfQWUINOMlX9g/j6S6QQ/iZ1PTXagnL6MBxey9y
-	NTo0kBkf/7dRmRq9tAu9Mg8Pp6f4=
-X-Google-Smtp-Source: AGHT+IEZd/cwSvOoIv+mfTP+GVRyAoSKqDG7m1LDad5T0V+zDZwqhRqb8F4Mdz9mMMcSLh37aodT3DoPys/rDZM8OH0=
-X-Received: by 2002:a05:6a20:3946:b0:1cf:3130:9966 with SMTP id
- adf61e73a8af0-1d8bcefaecdmr4034221637.3.1728739053004; Sat, 12 Oct 2024
- 06:17:33 -0700 (PDT)
+        bh=2aWYQO59JYR3v1loKuAiJ8kxWXzcVGteodP2hiIRfec=;
+        b=VFWK5WkXSdv9LpYWgrEkcFNmvxd7gp6G943obOlSMxUzqsQuJuV9ZQvnWLGqSS/W6V
+         QSk/kpfnzGeoU7luHY8oPBQl0yQM3DYBh500JgEsXlLT0Hxzj6BS0NHL1YwhtffuqiSz
+         xQid+rpCKABWRRx/x1oRraleuhXaSjwXtrjwnL07ok5RH9VetpS2CXwBtFGpmUAJzqBP
+         SKeRhruzW7zz5Snjfc71+dR/Cb2f0F5kmY8zBViAEFCj1UyNyyCTON/g7jGmVi4Z0PVq
+         hmDmcjz1no+xJGsYqtJzHIHWGfJkuGuun97eFmk50c0H4yLiAq03t+ZZmB6R3Nw/9G9d
+         dDFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUwuQcoxrbNod1+LVEsuPoCuE+E5UehSrS+w//OYgZmnZXhX6Si5YclLfUZXI8onZYBMhuf224lsYFgha2S@vger.kernel.org, AJvYcCVvAn3slKZ0hXZjULPOBvDo6JIt9XHDEAt3iC70+yOAYVAI2JYzmgfFkSqyDUPSzKLT3OzAa0ibnZwPnpVs6z0=@vger.kernel.org, AJvYcCWtyA2P8dVggHElANC/PtsRr/HJ4I0kRflNe8lonIZRGuroZ9sFCHCWD2U/c1wkkpQLEEzn2MklUwZ67wI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAvNYgnUPrHvYdU3g3zhUp8fBNV8oJWIAVklPQfkNJLsjcjgAA
+	wr+j5565zwx7zSfETCE4z14AJAy9nQy+5UwYk4n8Lr+cQdQAlB0wjb9EOEaaw/xZsSb99HeDuS8
+	4hPpD7dUfBjqkZXZElyG8lgFMOzuLPsyNRk5Jqg==
+X-Google-Smtp-Source: AGHT+IHsmJh7ueqiBUWjK5lig6GdIb9+wOLWvc272MJnMoB1e1yrmtmLuIQ6GWnRG4x1mj7dqWaanJMNxfqoPH5vrSY=
+X-Received: by 2002:a05:6a20:2450:b0:1cf:2be2:8dd2 with SMTP id
+ adf61e73a8af0-1d8bd04067emr3932318637.11.1728740476268; Sat, 12 Oct 2024
+ 06:41:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -73,16 +73,15 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241008224810.84024-1-tamird@gmail.com> <CANiq72=QimAkV0_n2nDiPSXT0N3sWxVeapze9FPPhirmoagbug@mail.gmail.com>
  <CAJ-ks9=sxVfjmbE+MuZg=7atpKFj-LJ4i7pk1ex+ZfvrUnvKqQ@mail.gmail.com>
- <CANiq72=geQY8f1J4rEfb-2UP+MOTY031tc=t1wuPNTVzS6tiSQ@mail.gmail.com>
- <CAJ-ks9neMso9pL_LPOeOwLGZG7Wy9RxV-ixKsDv=Wfzy7yKVBA@mail.gmail.com>
- <CANiq72kM+29COB6vPQPotXqT3acdbrEgdjU2K6FG8gZC0EEhNg@mail.gmail.com> <CAJ-ks9n=Y_FAdRb=YAaCEGT-y8RP=ssOgBiQtb8T7s+LRBBBhg@mail.gmail.com>
-In-Reply-To: <CAJ-ks9n=Y_FAdRb=YAaCEGT-y8RP=ssOgBiQtb8T7s+LRBBBhg@mail.gmail.com>
+ <CGME20241010083123eucas1p2432a0bbbf37e85599b477d92965d9514@eucas1p2.samsung.com>
+ <CANiq72=geQY8f1J4rEfb-2UP+MOTY031tc=t1wuPNTVzS6tiSQ@mail.gmail.com> <D4RZIDTJFVX5.16Z4XSB5IW6D1@samsung.com>
+In-Reply-To: <D4RZIDTJFVX5.16Z4XSB5IW6D1@samsung.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 12 Oct 2024 15:17:20 +0200
-Message-ID: <CANiq72k=+iUEESsiv8JUYehEFjoK=hUae3kbddyb3+qaJofpAQ@mail.gmail.com>
+Date: Sat, 12 Oct 2024 15:41:03 +0200
+Message-ID: <CANiq72n+mWOP3xNUU4Mep-n5QtJ8zQiwP9JZ-KX68+fOC0GMmw@mail.gmail.com>
 Subject: Re: [PATCH] rust: query the compiler for dylib path
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: rust-for-linux@vger.kernel.org, Daniel Gomez <da.gomez@samsung.com>, 
+To: Daniel Gomez <da.gomez@samsung.com>
+Cc: Tamir Duberstein <tamird@gmail.com>, rust-for-linux@vger.kernel.org, 
 	Fiona Behrens <me@kloenk.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
 	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -98,37 +97,34 @@ Cc: rust-for-linux@vger.kernel.org, Daniel Gomez <da.gomez@samsung.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 9, 2024 at 4:48=E2=80=AFPM Tamir Duberstein <tamird@gmail.com> =
-wrote:
+On Thu, Oct 10, 2024 at 10:31=E2=80=AFAM Daniel Gomez <da.gomez@samsung.com=
+> wrote:
 >
-> Understood. My guess is nobody will care about the process spawn in
-> scripts/generate_rust_analyzer.py. Someone might care about the one in
-> rust/Makefile, but there are already 4 others. By the way, I notice those=
- are
+> Building Linux in macOS is now supported for arm64 (targets tested: allye=
+sconfig
+> and defconfig). The upstream policy is to use the build system variables =
+to
+> configure the necessary tweaks to support building in macOS. However, thi=
+s
+> will not always be possible then, patches are welcome from the build syst=
+em
+> maintainer to support "portability" across OSes. But not full integration=
+.
+> Please, let me know if this is not clear.
 
-Yeah, I was referring to the `Makefile` one (the other one, indeed,
-does not matter, as you say).
+Thanks for writing this -- it seems similar to the summary you wrote
+elsewhere, but it does confirm we should probably be using build
+variables instead (i.e. I don't think the overall macOS support
+questions are answered, but we don't need to answer them here).
 
-> using $(shell ...) - should I be using that form as well?
+In other words, it sounds to me like the solution here is to simply
+provide a variable with the current name as the default, and let
+out-of-tree override that if they need, rather than query `rustc`.
 
-Hmm... I assume you tested the patch, but how would the patch work
-without it? Or am I confused?
+Thus upstream can keep the variable working very easily, and
+out-of-tree can maintain/test the overall macOS support.
 
-> I guess that's not for me to say. It would be great to have basic automat=
-ion.
-
-Generally, when submitting a new feature for upstream, especially one
-that requires new testing, it is common that the submitter is asked to
-take care of it or help doing so. I guess, in this case, Daniel is the
-one handling the macOS support out-of-tree.
-
-Anyway, we may need to use variables for this, so I think it is fine
--- upstream can keep the variable working easily, and out-of-tree can
-test the overall macOS support.
-
-> My apologies for the oversight.
-
-No worries, thanks!
+Does that sound reasonable for everyone?
 
 Cheers,
 Miguel
