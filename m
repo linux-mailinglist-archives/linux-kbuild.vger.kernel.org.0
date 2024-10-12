@@ -1,99 +1,201 @@
-Return-Path: <linux-kbuild+bounces-4069-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4070-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F068599AF8A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 01:46:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B1D99AFAD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 02:31:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 28894B2385A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2024 23:46:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BB721C21355
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2024 00:31:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78CE81E2000;
-	Fri, 11 Oct 2024 23:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 002518BFF;
+	Sat, 12 Oct 2024 00:31:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4HK9HCuW"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YswAkNgY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F7E1D3562;
-	Fri, 11 Oct 2024 23:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1251FDD
+	for <linux-kbuild@vger.kernel.org>; Sat, 12 Oct 2024 00:31:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728690372; cv=none; b=SCK6DcS/7TU7WAN5hpbkc9itCHIwPP2slA2/NP97XjN3ZB5nKkIHu1LbjmTOo/s/i/ZEZLWP+Vy3j7JjnJnJGEULNgqkBW0vn0QB810/F5oy7o83mttenLz8twAvzmfeL4eIM5oj397Yb2+GnuLjNg+9UGlEzskqL2SXulWaTck=
+	t=1728693064; cv=none; b=hAZmWLvbq6aEyHp7jWMdMNsdjDkHE2U+BMqmUUlZ78OiOFsPWRw3C9j8zbjFazfJtvN3tgzw12RT+FYd3tR96ckoDqgqskHvSDtvRHa9fZTQCow8G+xGmaPIvPYf6lpNcrnjKv0utSNWxHWIS2jdj00ISMaTBC5e5gTzA8OZcfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728690372; c=relaxed/simple;
-	bh=8nrcBnAzx5ZMgu8ee2QdENddvQaLsPb9ijW5IT8anZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTroAv4HJkALBsWJevsgUi384f/DXdZ5LGwhDkbPXd0PA1J5u7ivYfIf9YibiYvgKskQoSqbummAnlF4imZll0A3FLNaULuyo1lSAZqZuZKqFZcnz/OLKJfBlulfkJJtitPBJDNosjxuiXFU1GxZ/FSkjMhfnjwBd2R6VkgZZ2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4HK9HCuW; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=+bkr9LORWRx0O7dGlBaGEyKOrPTlNXCc6U0HgL4an08=; b=4HK9HCuWKP6MdEO6ryZMn88miZ
-	EYOw/m2Fqgbn9N79t+rMb9j+QxnOL8ofNLufXsrPwR1ofvX8u5dTs8tBAYRi5ynQtmhSNMlR8P1pO
-	wNldDHPYRMV06ZHnGI0Ack9ipfb57khEd+KK7YtJ7RsBanGMYp8HxZAfUFcahL+MO+Z3ZJgMl+/uU
-	gCHoBUxX6bKS/okAD52BR5so3L1alT99vRxpFa64DerntZVJiqNinNxK+5EINhl5qyDCblb1Sc3Pg
-	FK/W1NUqiEA76uYmJ7ik3ybWMUQQlrqutXFfRQwoS4ju6kQkC9/9f8K19WnIR7TTfzH/u1vWUeF4m
-	wZJT/fAg==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1szPKh-00000000Elc-0TUG;
-	Fri, 11 Oct 2024 23:46:07 +0000
-Date: Fri, 11 Oct 2024 16:46:07 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
-	gary@garyguo.net, Michael Ellerman <mpe@ellerman.id.au>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Benjamin Gray <bgray@linux.ibm.com>,
-	Naveen N Rao <naveen@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	neal@gompa.dev, marcan@marcan.st, j@jannau.net,
-	asahi@lists.linux.dev, linux-modules@vger.kernel.org,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v5 14/16] modules: Support extended MODVERSIONS info
-Message-ID: <Zwm4v_1wh5RwuHxF@bombadil.infradead.org>
-References: <20240925233854.90072-1-mmaurer@google.com>
- <20240925233854.90072-15-mmaurer@google.com>
- <ZwmlEYdS0aPVF32k@bombadil.infradead.org>
- <CAGSQo01o4fWYwSzZHX5dyTUKcaCSZ7z-hPQ8w63tgBPGbM_UCA@mail.gmail.com>
- <ZwmnnMmqVWLaelvQ@bombadil.infradead.org>
- <Zwm4lXdKB9RfPQ5M@bombadil.infradead.org>
+	s=arc-20240116; t=1728693064; c=relaxed/simple;
+	bh=abPuDlGAZOCwFmBDPYtgCz/VJjFeLYN9OPEzocR2J2U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ISJpN3qOKMXdwoiILvGAlHugVhWAjO/AbWWx5t06/EqvZqwEadtl89e1LYVEEuteQi+tUxzCsUHGkmH81nWpMtyw5JM+p0jdxtxEd1uLynXFZZy2+1tbz9xqHFst/ijFwIfXXf315vydtkjxeTUc7Ve/yM8vwBp4o0Uj1dRZ1mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YswAkNgY; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-460395fb1acso97401cf.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Oct 2024 17:31:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728693062; x=1729297862; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sJGsN3O4dmgvmvJTfWN1EB6FV9LDR+z6vamKRwbxBD4=;
+        b=YswAkNgYieE8OEj9AlpoJDlAd1WZADTgINunYX+EU9l4tutxUw6J5f2j0GaFTk7NaO
+         PbDYAmHjZ0/5zwmJT6/pwJd6iYwpGrw5J9gCVmcqwTBveegO6ind2BzHzWNcZBqkKsae
+         7gbJSkB3q7TQRRGUOWePfPTy0vz6SLD4HSY8e8MwWvFkEggValZfo1mqhEWJOrdGgL79
+         B41o2dg9CoK5oj87/k7KSs8ziWh0kicsfee32BlNx7AxDY9fg27XFYQPjmDMulYsXqs/
+         Se0rHKhlNJkgv2TanUJ1CQQ74Fmmuf6KReuAszNVn8nLZqPmrebod/Fc+QToGIiJXjkN
+         buWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728693062; x=1729297862;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sJGsN3O4dmgvmvJTfWN1EB6FV9LDR+z6vamKRwbxBD4=;
+        b=u28y7Mf4dFSAC0YeHTjjCxYbvxuZHMFUmiHUUapRT9N59T1n2WaN4fV9r1UQjqV1ZH
+         2OrbxH/iwm63IvlgkAFylvsjcQ4yJDMXhfGI0fk34DDiNjlx+Co2gfxeE8cUmEWP8264
+         MZe6To9GYSRJLK/PnxJUHQnbU823UZBheL3fRUeDvY+pKLgic26dVml+xZCei61D30+V
+         5ozIBqM5F/wQMcTmUCtdNH61eXZEt+ttONHRpUPjNSqJ9SZ6QQ43mIjxMbO+olzuulk6
+         YhosTrlXr2MqVZ8qJ/kpwhAgwc7JKqBUg+lbWFmRlT24eHUIT3eaa1ySDpn5oGpY47Sr
+         6jLw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXSUku3ETrAoPql7BSeTeWYjs7zgCbjEwvr1RoqSIF7QRmR/6gDn3qoXppNR6gENfhP628LzP0QpbklvQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzD6MHbFrw+cUj/tLwSMjoK7MAar2PqibC6QxZFqVU1SK/n/6JN
+	wJhg94YaCr3r0z2BgF9ipkQGaldqdQiBgtcGFNtphRqN4PpwwaX++XjcSzFB4duiKy7l0x6o8mA
+	Dkm00pSYM81my6tNv8Jpr0EYyfV06NV/uGcwm
+X-Google-Smtp-Source: AGHT+IF62uzsrTbog5umzZidYkR3ujw904388lXiegQU7aUwsewaU31QThGqPwmYjMh9iiWNwOimm89BXflxS19eetw=
+X-Received: by 2002:a05:622a:768e:b0:458:14dd:108b with SMTP id
+ d75a77b69052e-46059c44444mr506521cf.13.1728693061828; Fri, 11 Oct 2024
+ 17:31:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zwm4lXdKB9RfPQ5M@bombadil.infradead.org>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+References: <20241008183823.36676-21-samitolvanen@google.com> <Zwm3ykuiyI3ugr44@bombadil.infradead.org>
+In-Reply-To: <Zwm3ykuiyI3ugr44@bombadil.infradead.org>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Fri, 11 Oct 2024 17:30:22 -0700
+Message-ID: <CABCJKuc6w0bYRmWMk49_KRAiB0ZaHFOPRSP=sEQAbz0ArN1ORA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/19] Implement DWARF modversions
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Konstantin Ryabitsev <mricon@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 11, 2024 at 04:45:25PM -0700, Luis Chamberlain wrote:
-> 
-> Also, just as I asked Sami, coould you split this up into patch sets?
-> One with all the cleanups and elf validation code shifts. And then the
-> other code. That will let me pick up quickly the first patch set.
+Hi Luis,
 
-Oh and if you can think of ways to enhance our test covereage on all
-this as I noted to Sami, it would be greatly appreciated.
+On Fri, Oct 11, 2024 at 4:42=E2=80=AFPM Luis Chamberlain <mcgrof@kernel.org=
+> wrote:
+>
+> On Tue, Oct 08, 2024 at 06:38:24PM +0000, Sami Tolvanen wrote:
+> > Hi,
+> >
+> > Here's v4 of the DWARF modversions series. The main motivation is
+> > modversions support for Rust, which is important for distributions
+> > like Android that are about to ship Rust kernel modules. Per Luis'
+> > request [1], v2 dropped the Rust specific bits from the series and
+> > instead added the feature as an option for the entire kernel.
+>
+> I think its important to mention *rationale* why I recommended it, it
+> let's you more broadly test coverage / support with tooling so that its
+> not just Rust modules which tooling will have to support. It gives the
+> option to have *one* unified way to do things. Not "rust is special",
+> oh no, do this instead. This also allows us to empirically evaluate
+> if this new solution also has benefits. If so what should we look out
+> for, metrics, etc. If there are proven benefits, then by all means
+> why not make the the default.
 
-  Luis
+Sure, I can expand the cover letter in the next version to include
+this. I linked to your original request, which gives the reader some
+more background, but you're right, it doesn't hurt to mention it here
+as well.
+
+> > Matt is
+> > addressing Rust modversion_info compatibility issues in a separate
+> > series [2], and we'll follow up with a patch to actually allow
+> > CONFIG_MODVERSIONS with Rust once everything else has been sorted
+> > out.
+>
+> So this depends on that work? What's the ordering of things? That work
+> seems to be aimed at addressing long symbols, and that is also
+> generically useful, and there were odd old hacks for that for LTO.
+> Bring the patch reviewer with you, as they may not have all the
+> background.
+
+These patch sets are fully independent, but they are both needed
+before we can support Rust. I'll clarify this too.
+
+> > Short background: Unlike C, Rust source code doesn't have sufficient
+> > information about the final ABI, as the compiler has considerable
+> > freedom in adjusting structure layout, for example, which makes
+> > using a source code parser like genksyms a non-starter. Based on
+> > earlier feedback, this series uses DWARF debugging information for
+> > computing versions. DWARF is an established and a relatively stable
+> > format, which includes all the necessary ABI details, and adding a
+> > CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
+> > reasonable trade-off.
+>
+> I think its important to state that most distributions enable CONFIG_DEBU=
+G_INFO
+> already, so this means Rust modules won't be asking much more from
+> distributions.
+
+Ack.
+
+> > The first patch moves the genksyms CRC32 implementation to a shared
+> > header file and the next 15 patches add gendwarfksyms, a tool for
+> > computing symbol versions from DWARF.
+>
+> In case I find issues with this patch series, let's split up the patches
+> in the next iteration by two sets, one which is the cleanups,  moves,
+> and non functional changes, and then a seprate set with the actual
+> changes needed. This let's us carry on faster so I can apply the first
+> set.
+
+I think the first patch is the only one that matches your description,
+but it's only needed for the gendwarfksyms tool we're adding, so I'm
+not sure it makes sense to merge it separately. I did have a couple of
+other patches in previous versions that would qualify, but they've
+been merged to -rc2 already.
+
+> > When passed a list of exported
+> > symbols and object files, the tool generates an expanded type string
+> > for each symbol and computes symbol CRCs similarly to genksyms.
+> > gendwarfksyms is written in C and uses libdw to process DWARF.
+>
+> OK so a new lib dependency at build time. What if that's not present?
+
+Then the build fails. We used to check for libelf (part of elfutils
+like libdw) in Makefile before, but Masahiro explained in commit
+0d989ac2c90b ("kbuild: remove libelf checks from top Makefile") why
+it's not necessary to have separate checks for the library
+dependencies:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3D0d989ac2c90b5f51fe12102d3cddf54b959f2014
+
+> > Patch
+> > 17 ensures that debugging information is present where we need it,
+> > patch 18 adds gendwarfksyms as an alternative to genksyms, and the
+> > last patch adds documentation.
+> >
+> > v4 is based on v6.12-rc2 and for your convenience the series is also
+> > available here:
+> >
+> > https://github.com/samitolvanen/linux/commits/gendwarfksyms-v4
+>
+> Thanks! OK so I'd like to see next test coverage.
+
+Thanks for the links, I'll take a look and see what tests it makes sense to=
+ add.
+
+Sami
 
