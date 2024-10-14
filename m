@@ -1,132 +1,182 @@
-Return-Path: <linux-kbuild+bounces-4104-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4105-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EBD99D706
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 21:09:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD93B99D8E5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 23:17:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DE7C2838DB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 19:09:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2400B1F222B4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 21:17:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFD2E1CB336;
-	Mon, 14 Oct 2024 19:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81A7B1D12FE;
+	Mon, 14 Oct 2024 21:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCZDFyLO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VNDBMS6n"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C5D20323;
-	Mon, 14 Oct 2024 19:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADAE156661
+	for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 21:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728932952; cv=none; b=Eicf+gYu5/siiaaPPZ/B7yK+TRmBjWh/sXS5BwKEx2UN2lcWzvIa0wOX66HiA/Fu/olITqelz95KJCSJL1II39IkSQpDUEZfgxsemDRVqixJ6FXh+0baAeP3SA0AJOpk4sVU0a+mHtZ9fB3jAAARvrbjYK5ypSLbiBeX4D22gAY=
+	t=1728940627; cv=none; b=iCGPyEuiAsEZEN3jzgRpiCAOBf23cZcC69MByct4OvwSfASOjxnWVNWO3liLq5EHK2e30KO7zLiCjQ5kDDMMYIJa7JY5187OCclCnxXxkGWPZNOOkvD2DS55F+bhjviNcthUvEJwWmEJ0iZ1XgkAkCSZOuGVXZWdbre6M2PuagY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728932952; c=relaxed/simple;
-	bh=3pvO1LZVU1YaxMovJ4az+6Y16JrWH/5UT3MSdDpJ4dk=;
+	s=arc-20240116; t=1728940627; c=relaxed/simple;
+	bh=ZI3U8sCOJ726YZ30gGwRvvoQ5UXBS01WMq3brNnRKuk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ioXSRcBmcxtgJ5jTssUSnopJ5GswIb/lNN5YObLKeVF4qE8XTGldO7lSJMiNtqTs7yqCAJsvi3jISVJQ+LiUtlu0YuZMIMFzEpjJmGyj6LViIgX0CEeRm13jRh2TAu7XC/bAcu7VjRXkw3olQRpLurbO87YQx1f09Uso24t8TK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fCZDFyLO; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7dafb321dbcso202064a12.1;
-        Mon, 14 Oct 2024 12:09:11 -0700 (PDT)
+	 To:Cc:Content-Type; b=mSvugY5ej4pquHSOk4MIwLvQzU153J77tQoLdrL2o3Kdde3ZskCGedtokqigwRQaZTDN3fQvW1Knyd+t01uU2Iqxl0E7rhcSP4N1jq5KCvB8EFVaQI+WUqMDxSiergYP55MIYnBYDNtSZW42XZTSGuyJW0HJKMtx6DnofuUgC28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VNDBMS6n; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4603d3e0547so493551cf.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 14:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728932951; x=1729537751; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1728940623; x=1729545423; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q60RaXz2nFoV/SB0SpsusqvRdIF4ug3FUDcLDSRiYN4=;
-        b=fCZDFyLOKvXHhcXY8mT/ZCgec8o45oyHz/WMDTnwuIih1YNgjNIxh+OJcVY+wHlgxu
-         02dMYdVm32jio9GVrlNRK1oxqukPS/D4PWWi6MOFF4TxgPsfsu0UbTAqpAFyWDozE6Ja
-         lp5F44nCxVKL7E5FxVkw3VT7Wz9GeNnQ3flMa0t7ThRJFjkaDaEFWZiM8cfXpPr6NpNX
-         0PR3pz+WkOgGxpRN8Vv6+m9sIpwb6kEVBi5rGdYbw6qm+LeI2fxy3zRKfd/a7H3Qy6Le
-         hS1e/IJ531aqYUMn9XJZqy5GCLIMEuPFNabYw7kfF91wzdIIuEw4AMSzhtagSVWlhhnw
-         8Dsg==
+        bh=rHb7NtoAh9gjfT6eZG97rGp2AF3tFOHSjIj6ouJz5Jk=;
+        b=VNDBMS6nJtQsXHg1tmol9WWSGlyG+8HKOyLI3+5ffjrN0BuVhvNyw8W57qRjsgDuie
+         8W6vjW23IftYn7I8a8LzjOa/akFZTBugmgNeGM1Jn6lEoxG1Fe9ATRBiVF1nOQgYIuzw
+         3Dea06z1BLeZFjjMzm2ie1veuhaCx1tvfweUzK0Ww6auubTgSDYvE28zjfsZod/8WeWh
+         2i0KOk8cm9ov3KEJlsTEgIWJHhXJ7ev35dB1HQZpNUx6ixf4ZCLQKpm9m9v2CEGQEyYK
+         VgFD70ezaM4HV5lFjJ6mZtdeU47CQZ+ZG3AzdlL2Qtp3x/WSZJXQtkwwE/3Z9aZI6GNu
+         +7eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728932951; x=1729537751;
+        d=1e100.net; s=20230601; t=1728940623; x=1729545423;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q60RaXz2nFoV/SB0SpsusqvRdIF4ug3FUDcLDSRiYN4=;
-        b=pGW4ks+46i80cUQM6s/yLgN3QaH/eOaDFO3YUhu1grRGS6HdBydlntMykNQS3JhjmQ
-         BOKt+1brlSV4veKKjFpKA0IcOaMi82JgDZGrU9DyMwmnilH7rVU7ba8H8T7tAS5nSYI1
-         xfdIaYXNcweYV9llr/LgykLZMnSN/v1XRSlSaRc8L7AL4Y0w2nQjiIx/8df3ZPrbCCRg
-         tpbSQ0PC4yX0x6CWQnYRH5xmnJASfEWru0mYkRU02EBGgJuN+2Ns9Cp7d2XXuUG9mk0t
-         d6VDyrGIPKtciOkILoktuD51i4BPEZHf+J+bP0J3XlVllC/CJVS3JRl2ing8QkHX8lD8
-         W+hg==
-X-Forwarded-Encrypted: i=1; AJvYcCVKfA+EessCto913gAOcD/CwT+tasBQ+2fzBJXzNVGLUFbYgVXyDyeGqG5n21xHwmI7ohVZ5kHpcf4VzZKS@vger.kernel.org, AJvYcCVlFT1iOMPtLI5FUaLzHX8coD5rXTIPK4vfaiGtc0q+ITcrk1e879Ls0E8Vf/ePX8HbqINDPvzKb6+kn+Epvp8=@vger.kernel.org, AJvYcCW7JMasGDiXsUSRWDKByrI8qihE9STkF/gFWfV+IJSvYWFeGtuGIr4hfs000MdFMMBiidDGV5y+tESRCbg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxqZdT17Tp6qkTGL7rVzpa4X4oyAOfVrJe6vMlbM9AgGUjxuQv
-	cdSl7GGU+9FF4h0J84hxGm/Jkw6iijBTeL1aett70rEZBX1aw2m9Xe0YBE3NJq1Ztnves1IunLl
-	um9OGo8R75e3gJqch6ZMlgR5r+SQ=
-X-Google-Smtp-Source: AGHT+IFcs1hnOVWkbU7W7pL3lVTs1S62xOh5BV54q3Qfo2wQlCQL+HMQFd4NIwesXuvcVpHMey4ivxNCGKyR+LbguDU=
-X-Received: by 2002:a17:902:ce89:b0:20c:da9a:d5b9 with SMTP id
- d9443c01a7336-20cda9ad822mr34560025ad.5.1728932950545; Mon, 14 Oct 2024
- 12:09:10 -0700 (PDT)
+        bh=rHb7NtoAh9gjfT6eZG97rGp2AF3tFOHSjIj6ouJz5Jk=;
+        b=BdKJP7zbSIkmxBTtq3WHpXyJa/7rmdVsnF1WlyMxs+Khoiw0WAOha4VhRL+/wZ6HDI
+         orB7R+aUV7DtPjOODdojk1YSBBCOYTbNa7pAF5t5/TZezbxRt22v3wbzkngvNfT+Xha9
+         s3bbx4Q2k7CMZry+uwUuQu/MrMuPokado6eYRMxncovMiVhii3hJbdP9ZkEwyr0kpgJt
+         E+Ii0/ier9Xkh4Vg6SZbVPfQmR7J7U59UCvkbnCXFv+941gPSmkuo3GoGnrw9w9HDrUx
+         hJyBXwZKNNGjg+3xDzUl0ST+0ysQXbCrLU0WcvG20lzNvaabCVL45iWAuqWLiAHyD9Dt
+         kroQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7CblKZWe/26qAvK1gzRL9kAcclaydKTzpcUBHKP1rnaSW56rzqlBIeodvWY6IEIjQ3vzBbvfFv7aR4BA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVYOYwb5LWhNRDU93tyqT9tFosRjcM2x2nsZ2K3Reo1V8J7p9c
+	HlcRaSAZ6Yu62uNePCPb4+TLqCIAWqn5me4voBYP5klcyyJT2sUPhrwEKFz8ZCNoQb0I3s1U2Ef
+	4GirFeBF/fm4pllO8GbWDU2F/TH3fNn99tJV3
+X-Google-Smtp-Source: AGHT+IG1b7oU0kZLAEWD5hgOJFQGchfVhmH4qbX+aT93IIjRDuRwkmmDWWwjoBxrsP4yYyMAPebwXvZWRqMK+tLF+yE=
+X-Received: by 2002:a05:622a:7d0b:b0:45e:fea6:a3b1 with SMTP id
+ d75a77b69052e-46059c78199mr5347011cf.19.1728940623190; Mon, 14 Oct 2024
+ 14:17:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241008224810.84024-1-tamird@gmail.com> <CANiq72=QimAkV0_n2nDiPSXT0N3sWxVeapze9FPPhirmoagbug@mail.gmail.com>
- <CAJ-ks9=sxVfjmbE+MuZg=7atpKFj-LJ4i7pk1ex+ZfvrUnvKqQ@mail.gmail.com>
- <CGME20241010083123eucas1p2432a0bbbf37e85599b477d92965d9514@eucas1p2.samsung.com>
- <CANiq72=geQY8f1J4rEfb-2UP+MOTY031tc=t1wuPNTVzS6tiSQ@mail.gmail.com>
- <D4RZIDTJFVX5.16Z4XSB5IW6D1@samsung.com> <CANiq72n+mWOP3xNUU4Mep-n5QtJ8zQiwP9JZ-KX68+fOC0GMmw@mail.gmail.com>
- <CAJ-ks9mrY0eWjagq7hnHzY9jMRzV_4NS1cBfg4ad0v9Q3aV38A@mail.gmail.com>
- <CANiq72kzEdyQYhsw10h7qVaT2d=0z1qKsOUo-NzZw5xYrn1nuw@mail.gmail.com>
- <CAJ-ks9myRR1PgER6UtkFBE_mmgA7YGFjU11+JZXbjKVcra-sfg@mail.gmail.com> <CAK7LNARg=ZvD14ARKw40uk0XNfE5qgWqsrM6H4jBJu0m5XYCWQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARg=ZvD14ARKw40uk0XNfE5qgWqsrM6H4jBJu0m5XYCWQ@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 14 Oct 2024 21:08:58 +0200
-Message-ID: <CANiq72n6zkCZdUJ0A8enLW3BgmA_=eJKgDKwNCfs-q3dfeR2BA@mail.gmail.com>
-Subject: Re: [PATCH] rust: query the compiler for dylib path
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Tamir Duberstein <tamird@gmail.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	rust-for-linux@vger.kernel.org, Fiona Behrens <me@kloenk.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	"David S. Miller" <davem@davemloft.net>, Kris Van Hees <kris.van.hees@oracle.com>, 
-	=?UTF-8?B?w43DsWlnbyBIdWd1ZXQ=?= <ihuguet@redhat.com>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, 
+References: <20241014125703.2287936-4-ardb+git@google.com> <20241014125703.2287936-5-ardb+git@google.com>
+In-Reply-To: <20241014125703.2287936-5-ardb+git@google.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 14 Oct 2024 14:16:52 -0700
+Message-ID: <CAJuCfpGXBH0FQppLppSkCLeRwCJsAGUMWL6F+G1TdqU4d=q4og@mail.gmail.com>
+Subject: Re: [PATCH 1/2] codetag: Use dot prefix for section name
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
 	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 14, 2024 at 8:46=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Mon, Oct 14, 2024 at 5:57=E2=80=AFAM Ard Biesheuvel <ardb+git@google.com=
+> wrote:
 >
-> rustc ignores --emit=3Dlink=3Drust/libmacro.so
-> and produces rust/libmacro.dylib.
+> From: Ard Biesheuvel <ardb@kernel.org>
 >
-> Is this a bug in rustc?
+> Sections typically use leading dots in their names, and deviating from
+> this breaks some assumptions in the existing code, e.g., in strip_relocs
+> on x86, which filters out .rela.* and .rela__* sections.
+>
+>   [65] alloc_tags        PROGBITS         0000000000000000  03a57958
+>        0000000000026340  0000000000000000  WA       0     0     8
+>   [66] .relaalloc_tags   RELA             0000000000000000  08dbb868
+>        0000000000044c40  0000000000000018   I      280    65     8
+>
+> So use a leading dot for the alloc_tags sections.
 
-Hmm... From a quick test in Linux and macOS (in a GitHub runner):
+No issues with renaming the section but please note that I posted a
+patch [1] today that will have conflicts with this renaming.
 
-    uname
-    echo | rustc --crate-type=3Dproc-macro --emit=3Dlink=3Da.so -
-    echo | rustc --crate-type=3Dproc-macro --emit=3Dlink=3Db.dylib -
-    file a.so
-    file b.dylib
+[1] https://lore.kernel.org/all/20241014203646.1952505-3-surenb@google.com/
 
-gives:
+>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+>  include/asm-generic/codetag.lds.h | 2 +-
+>  include/linux/alloc_tag.h         | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/asm-generic/codetag.lds.h b/include/asm-generic/code=
+tag.lds.h
+> index 64f536b80380..dcd18351ba2f 100644
+> --- a/include/asm-generic/codetag.lds.h
+> +++ b/include/asm-generic/codetag.lds.h
+> @@ -5,7 +5,7 @@
+>  #define SECTION_WITH_BOUNDARIES(_name) \
+>         . =3D ALIGN(8);                   \
+>         __start_##_name =3D .;            \
+> -       KEEP(*(_name))                  \
+> +       KEEP(*(. ## _name))             \
+>         __stop_##_name =3D .;
 
-    Darwin
-    a.so: Mach-O 64-bit dynamically linked shared library arm64
-    b.dylib: Mach-O 64-bit dynamically linked shared library arm64
+I think leaving the SECTION_WITH_BOUNDARIES() definition as is and
+changing its users to pass the name with the dot would be more
+explicit and more flexible.
+The only user today is CODETAG_SECTIONS() at [2], so I would add the
+dot in there instead.
 
-    Linux
-    a.so: ELF 64-bit LSB shared object, x86-64, version 1...
-    b.dylib: ELF 64-bit LSB shared object, x86-64, version 1...
+[2] https://elixir.bootlin.com/linux/v6.12-rc2/source/include/asm-generic/c=
+odetag.lds.h#L12
 
-Cheers,
-Miguel
+Thanks,
+Suren.
+
+>
+>  #define CODETAG_SECTIONS()             \
+> diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
+> index 1f0a9ff23a2c..d45a8a582970 100644
+> --- a/include/linux/alloc_tag.h
+> +++ b/include/linux/alloc_tag.h
+> @@ -76,7 +76,7 @@ DECLARE_PER_CPU(struct alloc_tag_counters, _shared_allo=
+c_tag);
+>
+>  #define DEFINE_ALLOC_TAG(_alloc_tag)                                    =
+       \
+>         static struct alloc_tag _alloc_tag __used __aligned(8)           =
+       \
+> -       __section("alloc_tags") =3D {                                    =
+         \
+> +       __section(".alloc_tags") =3D {                                   =
+         \
+>                 .ct =3D CODE_TAG_INIT,                                   =
+         \
+>                 .counters =3D &_shared_alloc_tag };
+>
+> @@ -85,7 +85,7 @@ DECLARE_PER_CPU(struct alloc_tag_counters, _shared_allo=
+c_tag);
+>  #define DEFINE_ALLOC_TAG(_alloc_tag)                                    =
+       \
+>         static DEFINE_PER_CPU(struct alloc_tag_counters, _alloc_tag_cntr)=
+;      \
+>         static struct alloc_tag _alloc_tag __used __aligned(8)           =
+       \
+> -       __section("alloc_tags") =3D {                                    =
+         \
+> +       __section(".alloc_tags") =3D {                                   =
+         \
+>                 .ct =3D CODE_TAG_INIT,                                   =
+         \
+>                 .counters =3D &_alloc_tag_cntr };
+>
+> --
+> 2.47.0.rc1.288.g06298d1525-goog
+>
 
