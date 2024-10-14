@@ -1,72 +1,72 @@
-Return-Path: <linux-kbuild+bounces-4086-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4087-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7996B99CC80
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 16:14:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3210399CC82
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 16:15:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07A281F23228
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 14:14:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9FF57B23E79
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 14:15:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A1FA1AD41F;
-	Mon, 14 Oct 2024 14:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C061AE017;
+	Mon, 14 Oct 2024 14:14:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ERBR5poT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MpSmbDVC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF38C1AC420;
-	Mon, 14 Oct 2024 14:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFF01ACDE8;
+	Mon, 14 Oct 2024 14:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728915246; cv=none; b=hMWKYMeX1YnfN0CVovxhipVp57mMkYxd90Y059Kua7m9+iMrGKmwe1oz7zQYRDjcqnAI3kZhEmhs636R6XHGsva0FpwDiBroahwqGEGrHRortgFhIWa+IZbSbVy6KItujCyCrtcypDMcUI2gASKI4QBBCibbUW00h4HNoHmkTn8=
+	t=1728915247; cv=none; b=AaPoE16WVygmBQ03wiiq/oAclUiAmdk2PRj6bsJk4hhTqe1Z36Qekpd/SycF2Io6xOiqxDuXJtSpckTipwUpFKAtU18dn16BUgalpAfPyrVTt6VQHzusxPod4JrFoM4Z8MR2bCHc1Hd7L9D4cHxbnJR6gIDvpGQh5Vyg9UqUPAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728915246; c=relaxed/simple;
-	bh=Oy+ZjNKZJycKHYpmUUCO9ZqpSRZty69I59ZUzaivuis=;
+	s=arc-20240116; t=1728915247; c=relaxed/simple;
+	bh=7EsehB4TQIQznK/fwIRTcRdgmqehKGCyrgydthidHvM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lYFge/sogfQq5H3d6YgG9aCfIWt1eNYEkpkCHGD0Rj9B3GWfgJuzf81eDXb1+quNBtNjIG135wlJOO6m4cERWl4uZTrc3myUri8y4z+TWaBzpxyz4oKJfqVjjYXYOfTa8NmFCbmrPkz6+YIz4fZWtbAOXRTi3ou6UQ1hp77/TbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ERBR5poT; arc=none smtp.client-ip=209.85.128.180
+	 MIME-Version; b=YOpc5l/7fyURytVJjULplxfjaaif+26ApQaVbcyslxiNh8BTzJ3a8NnIweOyH82eNLFhFKUG8UCSnF3qhJfYZBS6WPOGY+WM6A2ONE7+/+sgjHeNndAgh8PSKxPqLyeMFzfVKK/dXgNFCFFcrzABA+e87cgyZSIBrkfUJ6XyN5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MpSmbDVC; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6e20a8141c7so35005057b3.0;
-        Mon, 14 Oct 2024 07:14:04 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6dbb24ee2ebso44594537b3.1;
+        Mon, 14 Oct 2024 07:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728915244; x=1729520044; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1728915245; x=1729520045; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HbJLZsdjvPc/i2T92zlmC+SINaRjPA8nN1oxgEAP1UA=;
-        b=ERBR5poTu0SyD/KtEDze+AyfQaiR4PAo+8FV/AIRyQgOc6USfyqZ4kJ7aaUnJlfV2H
-         z9PhBFaLJbGJlWzwdt2pWpT5yNuKPZmACfObJSwaB6GDoDN81qHI14GWBAa0YXLEK6VC
-         9lZCymny9RCBc04Dzz7n2cQD3q9j7JlceqTbNZZWyxdNQZTG9pcL1DSo7tEueuprds/4
-         FCwqX1VaARlibonAq6/jqC1d8Xdn5OJZrfxV8FajxJEVuL0EDJJ+18R9QB5Zhf1qNCns
-         4nPhg6FluQNcM2Gc89kjyMoJDTPFfOaSi9Aeqtl14JiXSnt1Lt1vDEQe3lrWcPU7VRzO
-         xzbQ==
+        bh=MM8ijJVXVu9oJKfrm/n4jAf4cvVmRxwxcsbBzjaYOyQ=;
+        b=MpSmbDVCcQQsx2Fo9sbCOMwn3oD1cIcha22k4MtBup/ZIcEQonufVVeSHnHSHvKvqN
+         iyBLSAiIupzuZia4OsuyPiF3J7fNd6NdQAwoZrlmytinJHI3zVKP9fGzUM5PPSZ1qji9
+         hr3/ZxplumYG+wnEfX1CFTxm6A7E5bEkbJ35Asm7AmI/3LwqdGU4dppdmvMEjbpvdE4j
+         F9/oN3lAadGoBqCefo1n4F5x2t89TF36LDhnjcV0AYOKmyiHtPdMnA9ClZgIAb0F70UZ
+         zpI6KjKAspkobEYBI9nQdO285dK6BCYBJHtX8ee3mDzaX7QVMQy3PsDQ97vo4yHglkZm
+         yzDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728915244; x=1729520044;
+        d=1e100.net; s=20230601; t=1728915245; x=1729520045;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HbJLZsdjvPc/i2T92zlmC+SINaRjPA8nN1oxgEAP1UA=;
-        b=MkChk2fuqv6kSYPz96EsYmUvO6OITpgvxZNTaj3TDkha9AvVGgFTxH7xEx2gsA0hCj
-         jqEUiU9leZXtCQnLhryu0AEz3zndizFWklbe/cXqM9S1YpBv6DrIe86Mgo7/jWHyAli8
-         8chsG/P9Lf2WWYRwp3wcVvLDSBTf2Oz00CP2ldOaU+Nm4z/OuBDUXTYW83D7Mp+96OYM
-         yBOsDCv/AzECkYWjslT4Lw+cx/Q8KM5meTGFQ+4ZTJBYyNMleE943PofRCuqNlUr118z
-         6wQPF+ab9FX2Jbae+Y7ce5DL7n0xLXm9M9B1zDNAbosE23N5cKthPA2vIulFN+/FQ3Zy
-         mIbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVpMeNKDvKQvqB152rmBaSW+E3PuSkgz6ubFsdAFiTZ/0vy9S90WD9NJqFjJvc1o8UqxDFGDbBC4NRlntGz@vger.kernel.org, AJvYcCXL4R/prO0Gcyqqncq7Whppe/W0//c3/fdL2CNQysFM9IDwC6t5wZmNHCY/fY598VQCYTkTGBLfGdmHeZI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxiV/zxIyuXMNx1BXmpx38Jd5DgL9LQMiDBtPPNGE1AE/HTyDh
-	T0tfhyE5XtKVM1Nyy8OCTyohtyUOfZQ1yuCWL8XB/yqJ/e1HXoke
-X-Google-Smtp-Source: AGHT+IGKaHHjmKk1Lns9ucqPxOGx3HlXakTkzd3CdDzuCn1AV5H+0euu8q3mS4N/MCqdnKg8V/a/qA==
-X-Received: by 2002:a05:690c:56ca:b0:6e3:2aba:3503 with SMTP id 00721157ae682-6e3479c2b10mr59098257b3.21.1728915243686;
-        Mon, 14 Oct 2024 07:14:03 -0700 (PDT)
+        bh=MM8ijJVXVu9oJKfrm/n4jAf4cvVmRxwxcsbBzjaYOyQ=;
+        b=va1PNFKvEKKBC7z2tGvVvvnJow1gM4ksBCAZyHL4W0+znvEjxJNcHbI7fscM3j+5QZ
+         qjGfT1HOcu8EIgt0U1ZlxAhxaKUdxta8m97h0EDqwy5MTYydJZSifzCLDBaTxDH0wnNZ
+         0QytXYQnDfpHu0rjCK9SE+SMvYvpPR5J7jbEdP2EQdWu6DgKzEaOOkstLwalxDlW8vB9
+         oa91PlvKRgiquIMUwNwbFJ9pnF6mtCnelMxntU/gZ9/acgcuzS2LqasZKfShwBd+1mgG
+         8iMIBksWD0GZH5M3G2d1IIQZhggqljOrgpQjSOjxFI1Fj4FtWilzQ7ZbB5Gwz+Oi2O+F
+         c2SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVJqBD1n95nt0M9FXqXTfZ1BPIryta/oYyl6AoQy2a2xCHmFsY2T4TzeeWa2F/ln+EXaD8Lhx0nqEyxzP8=@vger.kernel.org, AJvYcCWFu48quC2rwc6tL7GfhOTJIW7970xU0n/OJ4JOFa3IEWSu68pAvyQ+QjTkhdlyAZ/ZvOmc6GaSOq7RI7hF@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFtCePICGwkPvj5kjPca0BY5HEdux8eCmubnrT+/v0u/JNsk+7
+	jI/ZEaLv2zJmufrVCjr+mN/SdHrYJEKkn2Zxu99oQi7IjlTtdkXM8IN1Sw==
+X-Google-Smtp-Source: AGHT+IECkPu3D+s7ADbBKpqE8Om8rDwhCKAn/xhD3/pGA/gnSbaoQgwKeI10mXPkhw1YYzigpCvePQ==
+X-Received: by 2002:a05:690c:ed2:b0:6e2:1842:c2b1 with SMTP id 00721157ae682-6e3471e8cf2mr90783327b3.0.1728915244819;
+        Mon, 14 Oct 2024 07:14:04 -0700 (PDT)
 Received: from localhost (57-135-107-183.static4.bluestreamfiber.net. [57.135.107.183])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332cabf37sm15553787b3.129.2024.10.14.07.14.03
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332c27cd5sm15160497b3.102.2024.10.14.07.14.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 07:14:03 -0700 (PDT)
+        Mon, 14 Oct 2024 07:14:04 -0700 (PDT)
 From: David Hunter <david.hunter.linux@gmail.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: David Hunter <david.hunter.linux@gmail.com>,
@@ -75,9 +75,9 @@ Cc: David Hunter <david.hunter.linux@gmail.com>,
 	shuah@kernel.org,
 	javier.carrasco.cruz@gmail.com,
 	Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH v2 5/7] streamline_config.pl: fix: implement choice for kconfigs
-Date: Mon, 14 Oct 2024 10:13:35 -0400
-Message-ID: <20241014141345.5680-6-david.hunter.linux@gmail.com>
+Subject: [PATCH v2 6/7] streamline_config.pl: process config options set to "y"
+Date: Mon, 14 Oct 2024 10:13:36 -0400
+Message-ID: <20241014141345.5680-7-david.hunter.linux@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241014141345.5680-1-david.hunter.linux@gmail.com>
 References: <20241014141345.5680-1-david.hunter.linux@gmail.com>
@@ -89,109 +89,98 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Properly implement the config entries that are within the choice keyword
-for kconfig. Currently, the script only stops the previous config entry
-when a choice keyword is encountered.
+An assumption made in this script is that the config options do not need
+to be processed because they will simply be in the new config file. This
+assumption is incorrect.
 
-When the keyword "choice" is encountered, do the following:
-        - distribute the lines immediately following the "choice"
-          keyword to each config entry inside the "choice" section.
-        - process the config entries with the distributed lines.
+Process the config entries set to "y" because those config entries might
+have dependencies set to "m". If a config entry is set to "m" and is not
+loaded directly into the machine, the script will currently turn off
+that config entry; however, if that turned off config entry is a
+dependency for a "y" option. that means the config entry set to "y"
+will also be turned off later when the conf executive file is called.
+
+Here is a model of the problem (arrows show dependency):
+
+Original config file
+Config_1 (m) <-- Config_2 (y)
+
+Config_1 is not loaded in this example, so it is turned off.
+After scripts/kconfig/streamline_config.pl, but before scripts/kconfig/conf
+Config_1 (n) <-- Config_2 (y)
+
+After  scripts/kconfig/conf
+Config_1 (n) <-- Config_2 (n)
+
+It should also be noted that any module in the dependency chain will
+also be turned off, even if that module is loaded directly onto the
+computer. Here is an example:
+
+Original config file
+Config_1 (m) <-- Config_2 (y) <-- Config_3 (m)
+
+Config_3 will be loaded in this example.
+After scripts/kconfig/streamline_config.pl, but before scripts/kconfig/conf
+Config_1 (n) <-- Config_2 (y) <-- Config_3 (m)
+
+After scripts/kconfig/conf
+Config_1 (n) <-- Config_2 (n) <-- Config_3 (n)
 
 Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
 ---
-V1 https://lore.kernel.org/all/20240913171205.22126-6-david.hunter.linux@gmail.com/
+V1 https://lore.kernel.org/all/20240913171205.22126-8-david.hunter.linux@gmail.com/
 
-V2 
-	- changed the subject prefix
-	- changed the method for storing and distributing the choice
-	  block. No longer using temp file. 
+V2
+        - change subject
+        - changed part of the code that only processed config options 
+          set to "m" so that config options set to "y" are processed. I
+          forgot to put this in v1 when making the series patch.
+        - removed an unneccessary condition that would have skipped a
+          dependency loop.
 ---
- scripts/kconfig/streamline_config.pl | 47 ++++++++++++++++++++++++++--
- 1 file changed, 45 insertions(+), 2 deletions(-)
+ scripts/kconfig/streamline_config.pl | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-index b7ed79c5e070..4149c4b344db 100755
+index 4149c4b344db..c3b434220c9f 100755
 --- a/scripts/kconfig/streamline_config.pl
 +++ b/scripts/kconfig/streamline_config.pl
-@@ -149,6 +149,34 @@ my $var;
- my $iflevel = 0;
- my @ifdeps;
+@@ -473,6 +473,11 @@ foreach my $line (@config_file) {
  
-+# distributes choice entries to different config options
-+sub set_hash_value {
-+    my %htable = %{$_[0]};
-+    my $tmp_config = $_[1];
-+    my $current_config = $_[2];
-+    if (defined($htable{$tmp_config})) {
-+	${$_[0]}{$current_config} = $htable{$tmp_config};
-+    }
-+}
+     if (/(CONFIG_[$valid]*)=(m|y)/) {
+ 	$orig_configs{$1} = $2;
++	# all configs options set to 'y' need to be processed
++	if ($2 eq "y") {
++            $configs{$1}= $2;
++        }
 +
-+# distribute choice config entries
-+sub copy_configs {
-+    my $tmp_config = "TMP_CONFIG";
-+    my $choice_config = $_[0];
-+    set_hash_value (\%depends, $tmp_config, $choice_config);
-+    set_hash_value (\%selects, $tmp_config, $choice_config);
-+    set_hash_value (\%prompts, $tmp_config, $choice_config);
-+    set_hash_value (\%defaults, $tmp_config, $choice_config);
-+}
-+
-+sub delete_temp_config {
-+    my $tmp_config = "TMP_CONFIG";
-+    $depends{$tmp_config} = undef;
-+    $selects{$tmp_config} = undef;
-+    $prompts{$tmp_config} = undef;
-+    $defaults{$tmp_config} = undef;
-+}
-+
- # prevent recursion
- my %read_kconfigs;
- 
-@@ -163,6 +191,7 @@ sub read_kconfig {
- 
-     my $source = "$ksource/$kconfig";
-     my $last_source = "";
-+    my $choice_activated = 0;
- 
-     # Check for any environment variables used
-     while ($source =~ /\$\((\w+)\)/ && $last_source ne $source) {
-@@ -205,9 +234,13 @@ sub read_kconfig {
- 	    $config = $2;
- 	    $config2kfile{"CONFIG_$config"} = $kconfig;
- 
-+	    if ($choice_activated) {
-+		copy_configs $config;
-+	    }
-+
- 	    # Add depends for 'if' nesting
- 	    for (my $i = 0; $i < $iflevel; $i++) {
--		if ($i) {
-+		if (defined($depends{$config})) {
- 		    $depends{$config} .= " " . $ifdeps[$i];
- 		} else {
- 		    $depends{$config} = $ifdeps[$i];
-@@ -260,8 +293,18 @@ sub read_kconfig {
- 	    $iflevel-- if ($iflevel);
- 
- 	# stop on "help" and keywords that end a menu entry
--	} elsif (/^\s*(---)?help(---)?\s*$/ || /^(comment|choice|menu)\b/) {
-+	} elsif (/^\s*(---)?help(---)?\s*$/ || /^(comment|menu)\b/) {
- 	    $state = "NONE";
-+
-+	# for choice, distribute the lines before each config entry to
-+	# each config entry
-+	} elsif (/^\s*choice\b/) {
-+	    $choice_activated = 1;
-+	    $config = "TMP_CONFIG";
-+	    $state = "NEW";
-+	} elsif (/^\s*endchoice/) {
-+	    delete_temp_config;
-+	    $choice_activated = 0;
- 	}
      }
-     close($kinfile);
+ }
+ 
+@@ -499,8 +504,8 @@ sub parse_config_depends
+ 
+ 	    $p =~ s/^[^$valid]*[$valid]+//;
+ 
+-	    # We only need to process if the depend config is a module
+-	    if (!defined($orig_configs{$conf}) || $orig_configs{$conf} eq "y") {
++	    # Make sure that this config exists in the current .config file
++	    if (!defined($orig_configs{$conf})) {
+ 		next;
+ 	    }
+ 
+@@ -600,12 +605,6 @@ sub loop_depend {
+ 
+       forloop:
+ 	foreach my $config (keys %configs) {
+-
+-	    # If this config is not a module, we do not need to process it
+-	    if (defined($orig_configs{$config}) && $orig_configs{$config} ne "m") {
+-		next forloop;
+-	    }
+-
+ 	    $config =~ s/^CONFIG_//;
+ 	    $depconfig = $config;
+ 
 -- 
 2.43.0
 
