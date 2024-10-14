@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-4079-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4080-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A7B99CACF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 14:57:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B23799CAD3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 14:57:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F35A281F99
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 12:57:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D32191F214CF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 12:57:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3803C1A08A9;
-	Mon, 14 Oct 2024 12:57:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D061AA79E;
+	Mon, 14 Oct 2024 12:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EGaQfK9n"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fOQVT/Yj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774C41A76DD
-	for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 12:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE221AA78B
+	for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 12:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728910635; cv=none; b=KiqA3bxqpe+Caww5HP7nDV3bdIGSZSrlM5HLJj8926yzUO8/utNcEV0EqLL6AEUQOK9VVUpxEGhoTa2jV15Bz5mRHjiHWX5KSreuwx+n3OY2fSENr6KvOVqHmeFeHfs9siq5fIUy9xYjeBg9FtbDiXyvBWQQMwKTVpNlZqxSGZQ=
+	t=1728910636; cv=none; b=cKGdV9O0LCEvtoE7acM5IAwWJT4Drx3NrVKrFUqHZ2UGStybYpniAeERbLcG4L9Eyq8OVkD6k9leNcL05ljJVcYf3iRL/f46XXq2hH5JYz21IVb8tTYiaQPxAZb+n0Dx4+kVaFuagOWigSVp3RN88pqonIsZoS+mNr4SOsZDlNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728910635; c=relaxed/simple;
-	bh=n5hy9Z+L7ZRxP7bOPjIZ23jooU15sCOaLLYdguPKWZU=;
+	s=arc-20240116; t=1728910636; c=relaxed/simple;
+	bh=Y9/b/wtZYRsm/vDiOxMweK3dyx0nHcdUNMyHEeTnqgA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Zg/CdzneUHkbpH8LUIiDhjS0/XdH8JyZiw1UgqdhVLOaX52c4Q0hAQ8m0GylfD5uIZ3ZuJL5QoYk6vQgKfZ3VHvELEuNjMyXySZcFuLH9WUL/TSy8mRkrvmqUUTcekK3cIh7GwvobaRzn9dqD0vM9rUIK/XsHtnNR6agQcFvUSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EGaQfK9n; arc=none smtp.client-ip=209.85.221.74
+	 To:Cc:Content-Type; b=C6h7B1WZcXTBpPyQb+bB+uWROUvOuVtOW1D0x1ydMk2+yL6RMJPSdC2bJe3bERMxdEDGf5wWBd9rURHXn+79URmkmAPmtQoHFd/+4R/9CT5OYnj2ms28q7dgrR2EvlMEWQOlUawANH7f4PiiSC6DhBZJTu0wNF/RucEUXEoDmjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fOQVT/Yj; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-37d60f3e458so1219457f8f.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 05:57:13 -0700 (PDT)
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e28edea9af6so5579387276.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 05:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728910632; x=1729515432; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1728910634; x=1729515434; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/4+Id/JvDOWrciOX+Pt0gw96Ii3oR3apf9+eeU2SPu0=;
-        b=EGaQfK9nVC4bpG8BfsLCRohU2e+V1bVMBjuwHuojBlrK87sdXYiitzVRZnlwTqtHWx
-         h3Roo76a1qLaplZa81WqrTp6i0DSBA83CR2gTeZ1iw1UX9JK7TutQ5Lh6UPFgy5uKNLA
-         1xXPbqdbJL52TvAKPwosHyj1/EcaIPFr1UoN3gr1Z/ObNxi4L9LPYoeBjHk8ZbWM1Q3t
-         GbMboLgSRcyRZ/vvLrnjdy528xr4sxb80m+fKUrnhtRUjNkKORyn+bgE4UJOz1EhzHBE
-         sJkP2ND6zGKgPiAqbhXxUnCJSKmZgRQcw1IfVG+Ar2m63cSmO3O64S7SLR6trvyCWa4z
-         rIYw==
+        bh=jr6gvJaG1W/UpmtkFcAoLuQg+5nDfK5k6tZ9Bo4jz64=;
+        b=fOQVT/Yj2m8ZDbm8A9xDrla4EFkrvwhweWhTNoM6HrdHAcWjzpWFrzDW6px742NUO9
+         eps5av5l7U7FZqae4z1hD5KZNlRfbJ8WYH2woCnvUCJdPSrIKfzqurV71HXqaOnUMZhQ
+         PydtwXLA9TYp+Or/TqXCgSL14IzfZGq+0G4yiR66swdYiQJTJxldkL2yt19UoZZO6hz0
+         0sy/MWysl1zt4Mo3ODaLgMSksleCw5PMV5hBLbByh48b9cvbHElpXDka5nqDPXTW3QnW
+         sMMiWVL536JlPbk6AaGwttNtaIlI7NKEF/s7KUxcvGUQmrNxnoCo13XhbrfS8tAzAbU3
+         zENQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728910632; x=1729515432;
+        d=1e100.net; s=20230601; t=1728910634; x=1729515434;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/4+Id/JvDOWrciOX+Pt0gw96Ii3oR3apf9+eeU2SPu0=;
-        b=VObKtB1TitpTqriMWVWTTJwdR9gNdy6+pbHcc5sXb/A2Jb4U80m5nam/LMAH+p6vaP
-         /Gpigg8qZbx63BlM076iIydeUUa7HD9R7h2hEbweqWDU5/o0BmrbRYZYzIZrP9bt7ajH
-         8cTShGGiiOMBo0KM648b37zGeM92rJpk75RIpEWgo9oVFqb2Kss1n4x7cM1IWlxAADHj
-         yMu7TX/SLg+iiaWEehXKZ0KAqc4iOqshPyAnxdTUFd9Pk6hi43klA/cJNjVha78AWtBb
-         QKo92mmmSRwdDSxGOoC11K0c0c52ZNPDNPT9hBcxjCL3uz/tW/QN988SV+ankcKy6Ztp
-         4Z9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVfpCNdtpL43yPg+CJp/jWlTd/6MZ/csX/hYoGJUYuGj1xhJmnYf2t382J+LkLgQRALshCQpTbcxhk4eBM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxwb6a3Kgrr9JcHFbZ7k9CDfXnYOSuDJPcd/hKcHWKMMJYwwzbF
-	X2MFfGr6C61FmCfaQ+JmuU0ga8KQXo7EUi4X/IY+Vua/VCPa8rT9xcL1ST+rk+pnRaInBQ==
-X-Google-Smtp-Source: AGHT+IGCETarcWcQqRIFRqqHH6KuqwoHb8bPYOCS/I0QvqDwtXW1Y79wZek7+MHKLcfDyEgkZpc9XL2l
+        bh=jr6gvJaG1W/UpmtkFcAoLuQg+5nDfK5k6tZ9Bo4jz64=;
+        b=kq3skFs24OqIwTytARyP03mC1iHmLyRl23RS+P9oftCVUKwTw2NKSiaIhNy6w6d8Lu
+         gbgz3Ns3acI2E3xYy2/JDFxrPoDMa5nTfpNyBGZOo7VHo12NtVB22PEWKO1Mi8C6XeMM
+         3C58XhmdR2+Z24vUwPlnGc1LBwnD3A9CW/AQ3113z6qZR2S6qBZ3NG+wfkFOrWM7U0ro
+         BHcV5CjKnVLmsToSHaahJHcF0Kqmp4ddwjOQtcOnhaSMeTA3nAiDGrHdPxN/zRy2z0gU
+         sDZYEiJWWWcDsG+HHxyJlIi0nL3oqgku1bDJ3yF9ieEHzuVGqroyaZjn+ygaWufJlENA
+         G+nA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQNo4EbWPGyG/fvThTt+9sJvztxw209J11WeFaxT/+ajaPOdQAhchpQOY9bF9SfknGDyWUPQcz50Ye0xw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAGRmRClAPK2LJpbpZv/pptj3tO5ziJz614L845JQiNB/Y/+in
+	5p76tTUBm9TVlMLJdOP3960rQ+edTti+0kcBxl2q+IpBgpQ3a9NZMd9KqBhDZj6n0ejk9w==
+X-Google-Smtp-Source: AGHT+IEqZs2ag5HAsjw3w4ECPuvmKzmJ37fRfQ+HNG7wdnrxnT87LnWCSThnt7WZIiUCd09hr/MntVqv
 X-Received: from palermo.c.googlers.com ([fda3:e722:ac3:cc00:7b:198d:ac11:8138])
- (user=ardb job=sendgmr) by 2002:a5d:6349:0:b0:37d:496a:af40 with SMTP id
- ffacd0b85a97d-37d5519e9f7mr14077f8f.1.1728910631360; Mon, 14 Oct 2024
- 05:57:11 -0700 (PDT)
-Date: Mon, 14 Oct 2024 14:57:05 +0200
+ (user=ardb job=sendgmr) by 2002:a25:9cc3:0:b0:e28:f1e8:6596 with SMTP id
+ 3f1490d57ef6-e2919d523eemr60405276.1.1728910634152; Mon, 14 Oct 2024 05:57:14
+ -0700 (PDT)
+Date: Mon, 14 Oct 2024 14:57:06 +0200
 In-Reply-To: <20241014125703.2287936-4-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -73,14 +73,14 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241014125703.2287936-4-ardb+git@google.com>
 X-Developer-Key: i=ardb@kernel.org; a=openpgp; fpr=F43D03328115A198C90016883D200E9CA6329909
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2118; i=ardb@kernel.org;
- h=from:subject; bh=MtWmIu/XLANHMVww4WyPFLDlQ8/l/C/DRmC5uEQQzio=;
- b=owGbwMvMwCFmkMcZplerG8N4Wi2JIZ1XVNHwoeS37nPZH8+9jH/hl7bp0+2HPxo3Wze3X9irp
- 3O/lOVgRykLgxgHg6yYIovA7L/vdp6eKFXrPEsWZg4rE8gQBi5OAZhIpzgjw6WCzw7LSvZtXxIe
- Jldyg2+rqsRr3031i5gOXjDVZ539rZ+R4Uxopky14DObzLN7jl2QsN2SvWKJyyaVFNYcxV2fhRn P8gEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3929; i=ardb@kernel.org;
+ h=from:subject; bh=XLQa+AmTzeuAR0O/nY3+iU4kWyjdOKPiaa9Oa0UT+Zo=;
+ b=owGbwMvMwCFmkMcZplerG8N4Wi2JIZ1XVPHlsnWbD98/su/dP/0/+j+yM89MPCgYbRZx6Vlc3
+ Kze4Ev/OkpZGMQ4GGTFFFkEZv99t/P0RKla51myMHNYmUCGMHBxCsBEzOoYGX6YbYn+c8Bj/zI+
+ 9SddFwx59numHtmzpUlw8Y7dAceS/+xm+O/4RWHR6eO8juWFT38urWL+2Hi7LvHC398yx8w6NZf uNuUGAA==
 X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
-Message-ID: <20241014125703.2287936-5-ardb+git@google.com>
-Subject: [PATCH 1/2] codetag: Use dot prefix for section name
+Message-ID: <20241014125703.2287936-6-ardb+git@google.com>
+Subject: [PATCH 2/2] runtime-const: Use dot prefix for section names
 From: Ard Biesheuvel <ardb+git@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: Ard Biesheuvel <ardb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
@@ -94,55 +94,102 @@ From: Ard Biesheuvel <ardb@kernel.org>
 
 Sections typically use leading dots in their names, and deviating from
 this breaks some assumptions in the existing code, e.g., in strip_relocs
-on x86, which filters out .rela.* and .rela__* sections.
+on x86, as the linker prepends .rela to the section names when emitting
+static relocations.
 
-  [65] alloc_tags        PROGBITS         0000000000000000  03a57958
-       0000000000026340  0000000000000000  WA       0     0     8
-  [66] .relaalloc_tags   RELA             0000000000000000  08dbb868
-       0000000000044c40  0000000000000018   I      280    65     8
+  [59] .relaruntime_ptr_dentry_hashtable RELA            0000000000000000 792c758 000078 18   I 56  38  8
+  [60] .relaruntime_shift_d_hash_shift RELA            0000000000000000 792c7d0 000078 18   I 56  37  8
 
-So use a leading dot for the alloc_tags sections.
+So use a leading dot for the runtime const sections.
 
 Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 ---
- include/asm-generic/codetag.lds.h | 2 +-
- include/linux/alloc_tag.h         | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/include/asm/runtime-const.h | 4 ++--
+ arch/s390/include/asm/runtime-const.h  | 4 ++--
+ arch/x86/include/asm/runtime-const.h   | 4 ++--
+ include/asm-generic/vmlinux.lds.h      | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/asm-generic/codetag.lds.h b/include/asm-generic/codetag.lds.h
-index 64f536b80380..dcd18351ba2f 100644
---- a/include/asm-generic/codetag.lds.h
-+++ b/include/asm-generic/codetag.lds.h
+diff --git a/arch/arm64/include/asm/runtime-const.h b/arch/arm64/include/asm/runtime-const.h
+index be5915669d23..2c3521765cfe 100644
+--- a/arch/arm64/include/asm/runtime-const.h
++++ b/arch/arm64/include/asm/runtime-const.h
+@@ -14,7 +14,7 @@
+ 		"movk %0, #0x89ab, lsl #16\n\t"			\
+ 		"movk %0, #0x4567, lsl #32\n\t"			\
+ 		"movk %0, #0x0123, lsl #48\n\t"			\
+-		".pushsection runtime_ptr_" #sym ",\"a\"\n\t"	\
++		".pushsection .runtime_ptr_" #sym ",\"a\"\n\t"	\
+ 		".long 1b - .\n\t"				\
+ 		".popsection"					\
+ 		:"=r" (__ret));					\
+@@ -24,7 +24,7 @@
+ 	unsigned long __ret;					\
+ 	asm_inline("1:\t"					\
+ 		"lsr %w0,%w1,#12\n\t"				\
+-		".pushsection runtime_shift_" #sym ",\"a\"\n\t"	\
++		".pushsection .runtime_shift_" #sym ",\"a\"\n\t"\
+ 		".long 1b - .\n\t"				\
+ 		".popsection"					\
+ 		:"=r" (__ret)					\
+diff --git a/arch/s390/include/asm/runtime-const.h b/arch/s390/include/asm/runtime-const.h
+index 17878b1d048c..d19f54567d48 100644
+--- a/arch/s390/include/asm/runtime-const.h
++++ b/arch/s390/include/asm/runtime-const.h
+@@ -11,7 +11,7 @@
+ 	asm_inline(						\
+ 		"0:	iihf	%[__ret],%[c1]\n"		\
+ 		"	iilf	%[__ret],%[c2]\n"		\
+-		".pushsection runtime_ptr_" #sym ",\"a\"\n"	\
++		".pushsection .runtime_ptr_" #sym ",\"a\"\n"	\
+ 		".long 0b - .\n"				\
+ 		".popsection"					\
+ 		: [__ret] "=d" (__ret)				\
+@@ -26,7 +26,7 @@
+ 								\
+ 	asm_inline(						\
+ 		"0:	srl	%[__ret],12\n"			\
+-		".pushsection runtime_shift_" #sym ",\"a\"\n"	\
++		".pushsection .runtime_shift_" #sym ",\"a\"\n"	\
+ 		".long 0b - .\n"				\
+ 		".popsection"					\
+ 		: [__ret] "+d" (__ret));			\
+diff --git a/arch/x86/include/asm/runtime-const.h b/arch/x86/include/asm/runtime-const.h
+index 24e3a53ca255..0de5a40ee6d0 100644
+--- a/arch/x86/include/asm/runtime-const.h
++++ b/arch/x86/include/asm/runtime-const.h
 @@ -5,7 +5,7 @@
- #define SECTION_WITH_BOUNDARIES(_name)	\
- 	. = ALIGN(8);			\
- 	__start_##_name = .;		\
--	KEEP(*(_name))			\
-+	KEEP(*(. ## _name))		\
- 	__stop_##_name = .;
+ #define runtime_const_ptr(sym) ({				\
+ 	typeof(sym) __ret;					\
+ 	asm_inline("mov %1,%0\n1:\n"				\
+-		".pushsection runtime_ptr_" #sym ",\"a\"\n\t"	\
++		".pushsection .runtime_ptr_" #sym ",\"a\"\n\t"	\
+ 		".long 1b - %c2 - .\n\t"			\
+ 		".popsection"					\
+ 		:"=r" (__ret)					\
+@@ -19,7 +19,7 @@
+ #define runtime_const_shift_right_32(val, sym) ({		\
+ 	typeof(0u+(val)) __ret = (val);				\
+ 	asm_inline("shrl $12,%k0\n1:\n"				\
+-		".pushsection runtime_shift_" #sym ",\"a\"\n\t"	\
++		".pushsection .runtime_shift_" #sym ",\"a\"\n\t"\
+ 		".long 1b - 1 - .\n\t"				\
+ 		".popsection"					\
+ 		:"+r" (__ret));					\
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index eeadbaeccf88..da097ba2d4d8 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -914,8 +914,8 @@
  
- #define CODETAG_SECTIONS()		\
-diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-index 1f0a9ff23a2c..d45a8a582970 100644
---- a/include/linux/alloc_tag.h
-+++ b/include/linux/alloc_tag.h
-@@ -76,7 +76,7 @@ DECLARE_PER_CPU(struct alloc_tag_counters, _shared_alloc_tag);
+ #define NAMED_SECTION(name) \
+ 	. = ALIGN(8); \
+-	name : AT(ADDR(name) - LOAD_OFFSET) \
+-	{ BOUNDED_SECTION_PRE_LABEL(name, name, __start_, __stop_) }
++	. ## name : AT(ADDR(. ## name) - LOAD_OFFSET) \
++	{ BOUNDED_SECTION_PRE_LABEL(. ## name, name, __start_, __stop_) }
  
- #define DEFINE_ALLOC_TAG(_alloc_tag)						\
- 	static struct alloc_tag _alloc_tag __used __aligned(8)			\
--	__section("alloc_tags") = {						\
-+	__section(".alloc_tags") = {						\
- 		.ct = CODE_TAG_INIT,						\
- 		.counters = &_shared_alloc_tag };
- 
-@@ -85,7 +85,7 @@ DECLARE_PER_CPU(struct alloc_tag_counters, _shared_alloc_tag);
- #define DEFINE_ALLOC_TAG(_alloc_tag)						\
- 	static DEFINE_PER_CPU(struct alloc_tag_counters, _alloc_tag_cntr);	\
- 	static struct alloc_tag _alloc_tag __used __aligned(8)			\
--	__section("alloc_tags") = {						\
-+	__section(".alloc_tags") = {						\
- 		.ct = CODE_TAG_INIT,						\
- 		.counters = &_alloc_tag_cntr };
+ #define RUNTIME_CONST(t,x) NAMED_SECTION(runtime_##t##_##x)
  
 -- 
 2.47.0.rc1.288.g06298d1525-goog
