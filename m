@@ -1,150 +1,120 @@
-Return-Path: <linux-kbuild+bounces-4097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4098-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3813399D49F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 18:27:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE94299D599
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 19:30:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDB81288077
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 16:27:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D251A1C231CF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Oct 2024 17:30:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B20F01AF4EE;
-	Mon, 14 Oct 2024 16:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DBD01C2DB2;
+	Mon, 14 Oct 2024 17:29:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUg9pbJF"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="S+rmVU81"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BC41AC887;
-	Mon, 14 Oct 2024 16:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84351C2327
+	for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 17:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728923273; cv=none; b=Fve7T2/9VTJZjKlFc3+mUr0F6Ix1KvGF7PSbOvUlyKyiTzPTQ25Kt/iKMGouvDIRAT2cunzL5BNengb8sG/d3tJSPkUbPsl840KpEBJ0BWrf8WFpGAA+zXpuES9vg1R3ritcx28KTZsIhMG7KK4QGj2/2yZy0QsofuGKWPEBCSA=
+	t=1728926997; cv=none; b=B4lfz8fln70DthhSxHU6Su96QCLUabVEgAlJPmeQ//bmy08w8HIpOTsdw5WsvnMQSgq9D/eO51FCFMIw3+wyeT1xINUhtyZ9IiEwcVSNRZQLzIiiNvPKVxsTEAGsfF7TLeDYmnVYzYpfXcVlnslkLGaDg3qAjOJsnz+u8FxlIwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728923273; c=relaxed/simple;
-	bh=jwGpfimwWzt6q1jU1lTtwpABN94Ujy5vGGuJ89kzZ9o=;
+	s=arc-20240116; t=1728926997; c=relaxed/simple;
+	bh=CSNMcFDDijo4DbM019qkbO66k2XIx9LLGy8ogcn3trE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VeSaFXrS9QrTnz5BvsKcq2nAimL/amEkKqtsRFJNcILglba73UgFwcIQYXusuhHuLvVhFEzeeCGKDtidFHUiBHOljx/KX82k1DTXgkYirdLzoWQumZdsRXkfXcmWubxf4ALCGDlQKPUvwHXoVY7NiV1C4YBbdxsaKsw+ISqeGXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUg9pbJF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28929C4CED4;
-	Mon, 14 Oct 2024 16:27:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728923273;
-	bh=jwGpfimwWzt6q1jU1lTtwpABN94Ujy5vGGuJ89kzZ9o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=lUg9pbJFApuU7+cKFC8TJT9PLCMcC+2YmqTCXR7o2JFwZ+6haPcSJ9hof8c2ABbZo
-	 WrlYJpivucRzEXUrEvMn4NBP49o02nz4n53H0Vc0RfNGssziXNwAwrZ/xzuXQ54a2j
-	 w2FYV9RdYIyBqKjTIFHVEoQHKlrMWGTUhLVg1hetaEFhhjaMIEnepgfJInNaSnqIh0
-	 LhGTOUF0sR9vF5t+bIwSERkTh1n2U0dRpKja0+zDgs37STpHF1KY/UuJju2bERkyxV
-	 H0IxvTKDoPrvqRxm6NvUcUlDinzxtM9OZJq328syP7OpBePv6hFb/YPXYsaz1ExDJH
-	 mHja8eGE0PM+w==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e4b7409fso2260155e87.0;
-        Mon, 14 Oct 2024 09:27:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWSqKBDBH0lsBiAZcrC0t4Y3Vlj4i5Ekif78BnkjqXGwxXvFT2JY0fUYfY8oQ48Mj7dmAg/vYVq/ItYgeQY@vger.kernel.org, AJvYcCWZYOuNl8nOHuglBgmKcZBbcWXmYhxcSHddnUYwZnxu4mmOwGNvA+6q1NP+m2q1uamoJ4+UPVpXk9i73m0=@vger.kernel.org, AJvYcCXEVsugB+sj+vdGs6izRNhQcM5Hgy2hQTWU7LmLpujJRuxAhziWTSMoBZXJhyb1kDfb+cH/KW+98uARYwClTDU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK5+jZBeNwCPtoJlf/bEi0xWJ1zB2g7XkEUYGnt02WZuaGgrEl
-	T1iYwZgw2P6cQo5TxEiCb+s6dDzwBw8R7OmibLF9L9mKcw/myv5zbAFuqRES0NFSYkjIjhzIGF2
-	dfVNhkTijrEvy2QIgnKxKXN/5obg=
-X-Google-Smtp-Source: AGHT+IHRF2uisuPIUJzp50NFyDqu/2E1pwV8KKK4/ZYkn1oh1Xf8Ul+foIxD0JDMpFxbu8Fe1rebinaBenD5NcvRsMQ=
-X-Received: by 2002:a05:6512:32c3:b0:536:7a79:b4df with SMTP id
- 2adb3069b0e04-539d6e6063amr3853452e87.14.1728923271760; Mon, 14 Oct 2024
- 09:27:51 -0700 (PDT)
+	 To:Cc:Content-Type; b=lvBk4zKkHBCS09Hrc2nmYDzzDXgWbhjs+AyLWnqt4LuiwZdRnf2Fwo5sUROXlhxQuxTd52SMBtH/9Mh8/xvB5rRI9NNhQt47V5Ldg6JTQmwJZM5kBL4j8gxRcvjWmk62cB0EavFP4Q+sMDu4yb5GkeGWsg7DspQQzcJsM7NybB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=S+rmVU81; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a99650da839so792398566b.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 10:29:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1728926994; x=1729531794; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jvsjTSFhK62MPvXHA5L9zbPkhQe3PYzLzcOgzWx9lrk=;
+        b=S+rmVU819F5HE6uIl+W3PJCCUqtgpCb7BVC2QPpk1rT9mr+e3oGzHQiHFekmdolY0e
+         h8sTtUVyDO4XSjinq2aQmmRHcX/XMdirHdmDiL5Ex9q8l9arqrGvbXVPTffC5gQT+AvZ
+         9v7oP8ec+xS/6pj8NsqUNMU1MfnQ5kOK6dxRU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728926994; x=1729531794;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jvsjTSFhK62MPvXHA5L9zbPkhQe3PYzLzcOgzWx9lrk=;
+        b=gqAkchS69hDbz8p2o4SX6oazLHe2JF8NCiE4kAYk4pgsF/LH5A22f6KuShZB5nCXql
+         L1iD8+aSM4HYG+rx9wqpOiMe1prMGcOC56OhD2J6l7Z0zQE15VIW7BVhP+pi6E4WBHXD
+         3p/fiS6NPSOToLaljOjnDqWCtbrIHNO3HBQW27lUzTBfc8BuQNZjAeHEbwxav8mrPqTf
+         YmIEdDjPClY896Vvz0BI9tmXemhQhIUiOYSYrcpaWqv9PxD+AtqL94J4dCmRV981mvEh
+         u6A2zOJKJFqr/RnE2VVu78Zf5dHHX5Y8ZNn/qvhbCmK1t2fuRxbhKQjPcmeWRUlF+VP7
+         tCig==
+X-Forwarded-Encrypted: i=1; AJvYcCUZMfKgRwL2F1OMH0iQYk/N2ANWhrdoTdrOYTebfMSjypWWY8qOhT97L8BA9HhyM9UzQu0ifk9XbllIypA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvPFKBd+wQgVFyH/yNgLVtMCnOF3Rj8HLO0OEL4P9DZUAJH7RX
+	MvumA3GnKccDlnMgtCWc7ckVADfcJuhQJ1gIYp3lClMoPQVRh6eaVQ5hEoVj201MzadpgTfCIzk
+	0lwqS8A==
+X-Google-Smtp-Source: AGHT+IFqZU7VUkwMvT3RTae+X2y3HIfkoU3FNiPx2DyO/MVB9Kja+3MJoPt2rznUKhn07d8utT5/Mg==
+X-Received: by 2002:a17:907:3e05:b0:a99:5773:3612 with SMTP id a640c23a62f3a-a99e3cb6675mr807673966b.36.1728926993623;
+        Mon, 14 Oct 2024 10:29:53 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a09b56332sm221840366b.191.2024.10.14.10.29.52
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Oct 2024 10:29:52 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c96df52c52so1978172a12.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Oct 2024 10:29:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCULieDFvJ3BPZti/f+Awssq8H33StPv9IAqfd/Iurn+fMXw2C4GtiCGCIh9juh/nFFiP3oCy1ONK75HaKs=@vger.kernel.org
+X-Received: by 2002:a17:907:3f23:b0:a9a:a32:bbe4 with SMTP id
+ a640c23a62f3a-a9a0a32bcb5mr437123266b.12.1728926991727; Mon, 14 Oct 2024
+ 10:29:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNARBXt=CWy5CgtHqdePw5L6EtD15emS2Fvre4QWfm_LjUg@mail.gmail.com>
- <20241011114040.3900487-1-gary@garyguo.net> <CANiq72ne6F1HpoA5gLYu9K0CcNB13JUFK5QgF_Cf4tAyvOm4qQ@mail.gmail.com>
- <20241011130641.4a8419c1@eugeo>
-In-Reply-To: <20241011130641.4a8419c1@eugeo>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 15 Oct 2024 01:27:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT99FbYh5nvUoEh9OHoPODYPEhyhaKAkELpi+3K0P8L-A@mail.gmail.com>
-Message-ID: <CAK7LNAT99FbYh5nvUoEh9OHoPODYPEhyhaKAkELpi+3K0P8L-A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: add `CONFIG_RUSTC_LLVM_VERSION`
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Tejun Heo <tj@kernel.org>, 
-	Yoann Congal <yoann.congal@smile.fr>, Randy Dunlap <rdunlap@infradead.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Jens Axboe <axboe@kernel.dk>, Jann Horn <jannh@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, kees@kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, samitolvanen@google.com
+References: <20241014125703.2287936-4-ardb+git@google.com>
+In-Reply-To: <20241014125703.2287936-4-ardb+git@google.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 14 Oct 2024 10:29:35 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wit+BLbbLPYOdoODvUYcZX_Gv8o-H7_usyEoAVO1YSJdg@mail.gmail.com>
+Message-ID: <CAHk-=wit+BLbbLPYOdoODvUYcZX_Gv8o-H7_usyEoAVO1YSJdg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Use dot prefixes for section names
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 11, 2024 at 9:06=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+On Mon, 14 Oct 2024 at 05:57, Ard Biesheuvel <ardb+git@google.com> wrote:
 >
-> On Fri, 11 Oct 2024 13:53:47 +0200
-> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+> Pre-existing code uses a dot prefix or double underscore to prefix ELF
+> section names. strip_relocs on x86 relies on this, and other out of tree
+> tools that mangle vmlinux (kexec or live patching) may rely on this as
+> well.
 >
-> > On Fri, Oct 11, 2024 at 1:41=E2=80=AFPM Gary Guo <gary@garyguo.net> wro=
-te:
-> > >
-> > > The invocation of rustc-version is being moved from init/Kconfig to
-> > > scripts/Kconfig.include for consistency with cc-version.
-> >
-> > Yeah, I am ambivalent. Dropping them would minimize changes and avoid
-> > introducing something only used once, which would be nice too. Happy
-> > either way.
->
-> Another motivation is that in my helper inline series, I need to do
-> arithmetic on LLVM version (divide it by 10000 to get major verison),
-> which isn't possible for config options, but will work for variables
-> defiend in Kconfig.include.
->
-> I didn't mention it in the commit message for this patch because this
-> is not my patch series :)
+> So let's not deviate from this and use a dot prefix for runtime-const
+> and alloc_tags sections.
 
+I'm not following what the actual problem is. Yes, I see that you
+report that it results in section names like ".relaalloc_tags", but
+what's the actual _issue_ with that? It seems entirely harmless.
 
-I tend to agree with Muguel.
-The motivation of having cc-version in scripts/Kconfig.include
-is to check the presence of the supported C compiler, as C compiler
-is mandatory (in contrast, Rust compiler is optional).
+In fact, when I was going the runtime sections, I was thinking how
+convenient it was for the linker to generate the start/stop symbols
+for us, and that we should perhaps *expand* on that pattern.
 
-If you have a reason to have it in scripts/Kconfig.include
-for your future works, it is OK with me, but I cannot judge it.
+So this seems a step backwards to me, with no real explanation of what
+the actual problem is.
 
+Yes, we have (two different) pre-existing patterns, but neither
+pattern seems to be an actual improvement.
 
-
-
-
-
->
-> Best,
-> Gary
->
-> > > +if output=3D$("$@" --version --verbose 2>/dev/null | grep LLVM); the=
-n
-> >
-> > Similarly, I wonder if we should use '^LLVM version: ' here or similar
-> > to minimize the chances the "LLVM" string appears elsewhere in the
-> > future (perhaps in a custom string a vendor adds, though I would
-> > expect them to add it lowercase). We are relying on having a $3 when
-> > splitting anyway.
-> >
-> > Depending on what Masahiro prefers, I will take this one or the
-> > one-invocation-only one.
-> >
-> > Thanks Gary!
-> >
-> > Cheers,
-> > Miguel
->
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+           Linus
 
