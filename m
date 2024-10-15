@@ -1,121 +1,110 @@
-Return-Path: <linux-kbuild+bounces-4129-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4130-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4962999F915
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Oct 2024 23:29:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1810D99FB4D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 00:23:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E873B1F23C68
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Oct 2024 21:29:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D3E01C22C8D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Oct 2024 22:23:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6D11FC7E6;
-	Tue, 15 Oct 2024 21:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="eNKXq7Zy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D4B51CACDB;
+	Tue, 15 Oct 2024 22:22:57 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6A61FBF7F
-	for <linux-kbuild@vger.kernel.org>; Tue, 15 Oct 2024 21:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09F721E3A7;
+	Tue, 15 Oct 2024 22:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729027730; cv=none; b=qbxcOXBuZ2beVkKCC/zLBFQaQH+XtA06RstRRZw9VaX6o+mc/B286IFmLauB8jH7rUL/Juu1TyBLZxiDb7VN7RWDfEr/niUJZcgz3uq0IxFnfMz/NQ3QS/DSFtY6PsFKYtJyWRqc7rRtJFq0nkjW5ynn76YIP3BTTLHGH1bd80s=
+	t=1729030976; cv=none; b=o5yMXfhyh03nSr2lnD+Mg9i5YDljdBQLdGRiu0eZGqSFGuedBtl1YAItD9EKTSD2y+Vv/LP+xB5bKEzP1en0VyWEgXH9ot0teLRERLyqU1zpbYDUQcJIwQGqVBcZQo5s782hRciTV72TIVoHOoV8Cugj+Q56TplPKiv0QDUYvSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729027730; c=relaxed/simple;
-	bh=Vd1iYPpSaUCZZBcD82WQIm4f4w9pYvDa1bH9TYatyDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NrCOLC0v9bPufZ/tzbKzXVQ5DzcEKVzHLY825mRW9uVCeK4vD7Ajgv3ySrbNnFoK6DmyPBd4gnMyujht/C0+QFW9HIMG77fH01dixbQXYhgp0s3yo8CVmkSBgL62/YMlWU0rlxJswaDTGpWjWEMZJ3MgHkRooJMtKb6P4Fk2hp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=eNKXq7Zy; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 03FA32C03CB;
-	Wed, 16 Oct 2024 10:28:46 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1729027726;
-	bh=r4UwTF4syoyNr34v7/r4SVZPY7KUBI9UYEBiHEXWL2M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eNKXq7Zy4xIHVyINCYC+/mjntuadAs5je5S+9jYpmx8OmcnOHRyE6azyY8YnuCDbR
-	 1gZ3qtOJlRFEpBmSzLQarzzUXXM3gVTmFIQfrZavwPxXCIWoBRzPen9EckST2c9okC
-	 /8M07EnRclprhr53jqeUCLIp84LuiuM0xM6ZhKOzNeDIY8lflxJkMC58IpPzAdj38A
-	 p6ajMZWPobEMz896MAnAH0N2yPvJKxzOJVJ5/B1d18dpM/gr+o+0QE7fnoFCIXKkZ2
-	 sYlZH1XzKwSqbpcckIURl8h3+hOhM5sX1Mb81sgwmqYPMDLAf8bSeUeqjBsjMSIJ8H
-	 1pBRvQFWajl5w==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B670ede8d0000>; Wed, 16 Oct 2024 10:28:45 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id D34E113ED7B;
-	Wed, 16 Oct 2024 10:28:45 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id CF3542807F0; Wed, 16 Oct 2024 10:28:45 +1300 (NZDT)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH] kbuild: Restore the ability to build out of tree dtbs
-Date: Wed, 16 Oct 2024 10:28:30 +1300
-Message-ID: <20241015212830.3899891-1-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <2a2be28c-fd5e-45b0-8834-611d35c5e6a6@alliedtelesis.co.nz>
-References: <2a2be28c-fd5e-45b0-8834-611d35c5e6a6@alliedtelesis.co.nz>
+	s=arc-20240116; t=1729030976; c=relaxed/simple;
+	bh=ChJp3FkdlrjyBMH8e4YX8Xck6vININFbQO4OvSITy5E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ejhJ8tiJ6EZxf3SkjgoGekEDFqdx2ZSml58sHVz9RdkfUsHpRPnXAwHvvgNljaPgkzUU6PKkI4iWj4OHzAoMpYgkN0L3x7nG015OPBfcJ1QUWnvnoovcitvfmr3whTNm2CqlnwnK1168ciKfOG2gTW//w2Ue8I6NCf6tf9aF5Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E91ADDA7;
+	Tue, 15 Oct 2024 15:23:22 -0700 (PDT)
+Received: from u200865.usa.arm.com (U203867.austin.arm.com [10.118.30.35])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 030F23F71E;
+	Tue, 15 Oct 2024 15:22:53 -0700 (PDT)
+From: Jeremy Linton <jeremy.linton@arm.com>
+To: linux-kernel@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	hch@lst.de,
+	gregkh@linuxfoundation.org,
+	graf@amazon.com,
+	lukas@wunner.de,
+	wufan@linux.microsoft.com,
+	brauner@kernel.org,
+	jsperbeck@google.com,
+	ardb@kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	Jeremy Linton <jeremy.linton@arm.com>
+Subject: [RFC 0/5] Another initramfs signature checking set
+Date: Tue, 15 Oct 2024 17:22:30 -0500
+Message-ID: <20241015222235.71040-1-jeremy.linton@arm.com>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=ca1xrWDM c=1 sm=1 tr=0 ts=670ede8d a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=nLVBVlUmovVwbiQ-:21 a=DAUX931o1VcA:10 a=BIAS_OXL9HNCHBaA7CgA:9 a=3ZKOabzyN94A:10
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
+Content-Transfer-Encoding: 8bit
 
-A build pattern to handle out of tree dtbs is to copy the .dts file into
-the kernel source tree and run `make myboard.dtb`. This is supported by
-the wildcard %.dtb rule in the Makefile but recent changes to split the
-dtb handling out of scripts/Makefile.build stopped this from working.
-Restore this functionality by looking for the relevant file extensions
-in $(MAKECMDGOALS) instead of $(targets).
+With the advent of UKI's wrapping kernel and cpio archives up into
+single UEFI PE executables it seems like its probably time to
+reconsider whether the core idea of signing the initrd and verifying
+it in its entirely is a useful function of the core kernel.
 
-Fixes: e7e2941300d2 ("kbuild: split device tree build rules into scripts/=
-Makefile.dtbs")
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
+Moving this functionality in the kernel should provide a similar
+security statement to the UKIs with a more traditional kernel + initrd
+boot flow and the ability to have a single kernel image that
+selects between multiple signed initrd images. Say a normal boot
+image, and a recovery image.
 
-Notes:
-    This seems to address the problem building out of tree dtbs. I think =
-it
-    is correct because as far as I can tell nothing will pull .dtb and
-    friends into $(targets) and we explicity check for a non-empty $(dtb-=
-y).
+This set is a very basic implementation of that concept using the kernel
+built in trusted keyring, and a signature format that is similar to the
+existing module signature. The core change is quite trivial with the larger
+questions around the policy for enforcing or simply checking
+for a valid signature. I've considered various policies, tying it to
+lockdown/etc but this set simply enforces it by default with an kernel
+parameter to override the behavior.
 
- scripts/Makefile.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Outside of the core patch the largest change revolves around making
+sure that the asymmetric key and built in cert/keyring/blacklist logic
+is started much earlier in the boot process than normal. This means
+that beyond the hacky _initcall changes in patch 2 there are a bit of
+additional Kconfig changes necessary.
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 8f423a1faf50..58404c1c5eda 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -449,7 +449,7 @@ ifneq ($(userprogs),)
- include $(srctree)/scripts/Makefile.userprogs
- endif
-=20
--ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
-targets)),)
-+ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
-MAKECMDGOALS)),)
- include $(srctree)/scripts/Makefile.dtbs
- endif
-=20
---=20
-2.47.0
+Finally, before the RFC is dropped there are a number of
+/Documentation changes that will be completed as needed.
+
+Jeremy Linton (5):
+  initramfs: Add initramfs signature checking
+  KEYS/certs: Start the builtin key and cert system earlier
+  initramfs: Use existing module signing infrastructure
+  sign-file: Add -i option to sign initramfs images
+  initramfs: Enforce initramfs signature
+
+ certs/blacklist.c                        |  2 +-
+ certs/system_keyring.c                   |  4 +-
+ crypto/asymmetric_keys/asymmetric_type.c |  2 +-
+ crypto/asymmetric_keys/x509_public_key.c |  2 +-
+ include/linux/initrd.h                   |  3 +
+ init/initramfs.c                         | 84 +++++++++++++++++++++++-
+ scripts/sign-file.c                      | 11 +++-
+ usr/Kconfig                              |  9 +++
+ 8 files changed, 109 insertions(+), 8 deletions(-)
+
+-- 
+2.46.0
 
 
