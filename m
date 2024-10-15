@@ -1,109 +1,121 @@
-Return-Path: <linux-kbuild+bounces-4128-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4129-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC9399F87F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Oct 2024 23:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4962999F915
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Oct 2024 23:29:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3806B1F22B54
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Oct 2024 21:02:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E873B1F23C68
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Oct 2024 21:29:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9C581CBE8A;
-	Tue, 15 Oct 2024 21:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6D11FC7E6;
+	Tue, 15 Oct 2024 21:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="LR3EeD3j"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="eNKXq7Zy"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C839C1B6D04
-	for <linux-kbuild@vger.kernel.org>; Tue, 15 Oct 2024 21:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6A61FBF7F
+	for <linux-kbuild@vger.kernel.org>; Tue, 15 Oct 2024 21:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729026114; cv=none; b=gL+OeUdBkw8F4+gnzd/9OFLe/S+nu9deaMAfWPAHGn18tpbPEgKKZWsCAtokFmTf97pIrbsk9OUzGPDfgz6vI0S3aokWg13angqmm3oH9rjyJb3Z8NoOgpQ7aIFnAAFbXDH0UhBZXT0FjxdQbMdhqz5CWy2eiwGoLb16rQHBz1M=
+	t=1729027730; cv=none; b=qbxcOXBuZ2beVkKCC/zLBFQaQH+XtA06RstRRZw9VaX6o+mc/B286IFmLauB8jH7rUL/Juu1TyBLZxiDb7VN7RWDfEr/niUJZcgz3uq0IxFnfMz/NQ3QS/DSFtY6PsFKYtJyWRqc7rRtJFq0nkjW5ynn76YIP3BTTLHGH1bd80s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729026114; c=relaxed/simple;
-	bh=MZpiEl9+p1+8tohkeplA7FfFnOl9tmF6blXh1D3ylwc=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=KWZzthdxLOZJNONIMJDdt7f1rWFHXV8L+eQRmsENgruB2cVsA9sCfFaYzaUKSTeJw7w9ccabB/1V8lB5gyTBXR97C+99Qq3R1nSD8e9U859C9gYf8OZ1frlUx+OMp2NArM67Ogq65A9Z1Z/pUIX68GnQGek1TgvJy/j1HzrWkio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=LR3EeD3j; arc=none smtp.client-ip=202.36.163.20
+	s=arc-20240116; t=1729027730; c=relaxed/simple;
+	bh=Vd1iYPpSaUCZZBcD82WQIm4f4w9pYvDa1bH9TYatyDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NrCOLC0v9bPufZ/tzbKzXVQ5DzcEKVzHLY825mRW9uVCeK4vD7Ajgv3ySrbNnFoK6DmyPBd4gnMyujht/C0+QFW9HIMG77fH01dixbQXYhgp0s3yo8CVmkSBgL62/YMlWU0rlxJswaDTGpWjWEMZJ3MgHkRooJMtKb6P4Fk2hp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=eNKXq7Zy; arc=none smtp.client-ip=202.36.163.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
 Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 8145B2C03CB;
-	Wed, 16 Oct 2024 10:01:43 +1300 (NZDT)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 03FA32C03CB;
+	Wed, 16 Oct 2024 10:28:46 +1300 (NZDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1729026103;
-	bh=MZpiEl9+p1+8tohkeplA7FfFnOl9tmF6blXh1D3ylwc=;
-	h=From:To:Subject:Date:References:In-Reply-To:From;
-	b=LR3EeD3jVJUbtC74r8VOEEBDYDwzAbh0lmQmczn5c5D69dfzReB8inCvJ/QXTJ7RD
-	 fbPxNNcM8lT/bd8oBSZc03YU5BEHB1WQ4fkAbJmfMeEIt81hI19NDtxyAztwQsE2yh
-	 El35bTKx+EK0CArIwY8DlQpkVe2W+BPI/nYdMsTqvPf3Ugc1RzF6oQkVHE6gSYAzst
-	 kavvSKh4Ea6AOIHVDg2vKGlURvaowHOr+rDQmAa2Geh5yXGP60etRaXn3WPd9cV8CW
-	 YKlfd/YV7mL57oDO9OIH+fez8Wr+FvHkMyaZAAratLPkLcuc3MuqIqzitK1RRlXMwc
-	 RVvBBeEx43URQ==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B670ed8370000>; Wed, 16 Oct 2024 10:01:43 +1300
-Received: from svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8::77) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1544.11; Wed, 16 Oct 2024 10:01:43 +1300
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8::76) by
- svr-chch-ex1.atlnz.lc (2001:df5:b000:bc8:409d:36f5:8899:92e8) with Microsoft
- SMTP Server (TLS) id 15.0.1497.48; Wed, 16 Oct 2024 10:01:43 +1300
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1544.011; Wed, 16 Oct 2024 10:01:43 +1300
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, "Masahiro
- Yamada" <masahiroy@kernel.org>
-Subject: Re: Building out of tree dtbs
-Thread-Topic: Building out of tree dtbs
-Thread-Index: AQHbHz8ShM93kB+1lU6CdSd0a3sZxrKHcnIA
-Date: Tue, 15 Oct 2024 21:01:42 +0000
-Message-ID: <2a2be28c-fd5e-45b0-8834-611d35c5e6a6@alliedtelesis.co.nz>
-References: <269854a8-1041-4ba6-b022-ba8ec15c6b78@alliedtelesis.co.nz>
-In-Reply-To: <269854a8-1041-4ba6-b022-ba8ec15c6b78@alliedtelesis.co.nz>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <29306E9582879B409922E33C57C3D3CA@atlnz.lc>
-Content-Transfer-Encoding: base64
+	s=mail181024; t=1729027726;
+	bh=r4UwTF4syoyNr34v7/r4SVZPY7KUBI9UYEBiHEXWL2M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=eNKXq7Zy4xIHVyINCYC+/mjntuadAs5je5S+9jYpmx8OmcnOHRyE6azyY8YnuCDbR
+	 1gZ3qtOJlRFEpBmSzLQarzzUXXM3gVTmFIQfrZavwPxXCIWoBRzPen9EckST2c9okC
+	 /8M07EnRclprhr53jqeUCLIp84LuiuM0xM6ZhKOzNeDIY8lflxJkMC58IpPzAdj38A
+	 p6ajMZWPobEMz896MAnAH0N2yPvJKxzOJVJ5/B1d18dpM/gr+o+0QE7fnoFCIXKkZ2
+	 sYlZH1XzKwSqbpcckIURl8h3+hOhM5sX1Mb81sgwmqYPMDLAf8bSeUeqjBsjMSIJ8H
+	 1pBRvQFWajl5w==
+Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B670ede8d0000>; Wed, 16 Oct 2024 10:28:45 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
+	by pat.atlnz.lc (Postfix) with ESMTP id D34E113ED7B;
+	Wed, 16 Oct 2024 10:28:45 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+	id CF3542807F0; Wed, 16 Oct 2024 10:28:45 +1300 (NZDT)
+From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH] kbuild: Restore the ability to build out of tree dtbs
+Date: Wed, 16 Oct 2024 10:28:30 +1300
+Message-ID: <20241015212830.3899891-1-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <2a2be28c-fd5e-45b0-8834-611d35c5e6a6@alliedtelesis.co.nz>
+References: <2a2be28c-fd5e-45b0-8834-611d35c5e6a6@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=ca1xrWDM c=1 sm=1 tr=0 ts=670ed837 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=p0WdMEafAAAA:8 a=YRHvXXt1AAAA:8 a=cBH9McE8t2GGkYx7cgcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=9bw_jnHfPby8klRCszyn:22
+Content-Transfer-Encoding: quoted-printable
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=ca1xrWDM c=1 sm=1 tr=0 ts=670ede8d a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=nLVBVlUmovVwbiQ-:21 a=DAUX931o1VcA:10 a=BIAS_OXL9HNCHBaA7CgA:9 a=3ZKOabzyN94A:10
 X-SEG-SpamProfiler-Score: 0
+x-atlnz-ls: pat
 
-DQpPbiAxNi8xMC8yNCAwOToxNiwgQ2hyaXMgUGFja2hhbSB3cm90ZToNCj4gKHJlc2VuZCB3aXRo
-b3V0IEhUTUwgcGFydCkNCj4NCj4gSGksDQo+DQo+IEkganVzdCBub3RpY2VkIHdpdGggdGhlIGxh
-dGVzdCA2LjEyLXJjIEknbSBubyBsb25nZXIgYWJsZSB0byBidWlsZCBhbiANCj4gb3V0IG9mIHRy
-ZWUgZHRiIGJ5IGp1c3QgY29weWluZyBpdCBpbnRvIGFyY2gvJEFSQ0gvYm9vdC9kdHMgKGF0IGxl
-YXN0IA0KPiBmb3IgQVJDSD1taXBzIGFuZCBBUkNIPWFybTY0KSBhbmQgcnVubmluZyBgbWFrZSBt
-eS1ib2FyZC5kdGJgLiBJIA0KPiBiZWxpZXZlIGJ1aWxkcm9vdCByZWxpZXMgb24gdGhpcyBhcyB3
-ZWxsWzFdLg0KDQpBIHNpbXBsZSByZXBybyBpcw0KDQptYWtlIEFSQ0g9YXJtIG12ZWJ1X3Y3X2Rl
-ZmNvbmZpZw0KY3AgYXJjaC9hcm0vYm9vdC9kdHMvbWFydmVsbC9hcm1hZGEtMzg1LWRiLWFwLmR0
-cyANCmFyY2gvYXJtL2Jvb3QvZHRzL215Ym9hcmQuZHRzDQptYWtlIEFSQ0g9YXJtIG15Ym9hcmQu
-ZHRiDQoNCj4NCj4gSXMgdGhpcyBhbiBpbnRlbnRpb25hbCBjaGFuZ2U/IElzIGl0IHRvbyBsYXRl
-IHRvIHVuZG8gaXQgKG9yIHByb3ZpZGUgDQo+IGFuIGFsdGVybmF0aXZlIHdheSBvZiBoYXZpbmcg
-b3V0IG9mIHRyZWUgZHRzIHRoYXQgbWFrZSB1c2Ugb2YgaW4tdHJlZSANCj4gZHRzaSkuDQpMb29r
-cyBsaWtlIHRoaXMgaXMgY2F1c2VkIGJ5IGNvbW1pdCBlN2UyOTQxMzAwZDIgKCJrYnVpbGQ6IHNw
-bGl0IGRldmljZSANCnRyZWUgYnVpbGQgcnVsZXMgaW50byBzY3JpcHRzL01ha2VmaWxlLmR0YnMi
-KS4gVGhlIGNvbmRpdGlvbmFsIGluY2x1ZGUgDQpvZiBNYWtlZmlsZS5kdGJzIGlzbid0IHNhdGlz
-ZmllZCB3aGVuIGJ1aWxkaW5nIGFuIG91dCBvZiB0cmVlIGR0Yi4NCj4NCj4gVGhhbmtzLA0KPiBD
-aHJpcw0KPg0KPiAtLSANCj4NCj4gWzFdIC0gDQo+IGh0dHBzOi8vZ2l0bGFiLmNvbS9idWlsZHJv
-b3Qub3JnL2J1aWxkcm9vdC8tL2Jsb2IvbWFzdGVyL2xpbnV4L2xpbnV4Lm1rP3JlZl90eXBlPWhl
-YWRzI0w1MTYNCj4=
+A build pattern to handle out of tree dtbs is to copy the .dts file into
+the kernel source tree and run `make myboard.dtb`. This is supported by
+the wildcard %.dtb rule in the Makefile but recent changes to split the
+dtb handling out of scripts/Makefile.build stopped this from working.
+Restore this functionality by looking for the relevant file extensions
+in $(MAKECMDGOALS) instead of $(targets).
+
+Fixes: e7e2941300d2 ("kbuild: split device tree build rules into scripts/=
+Makefile.dtbs")
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+---
+
+Notes:
+    This seems to address the problem building out of tree dtbs. I think =
+it
+    is correct because as far as I can tell nothing will pull .dtb and
+    friends into $(targets) and we explicity check for a non-empty $(dtb-=
+y).
+
+ scripts/Makefile.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 8f423a1faf50..58404c1c5eda 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -449,7 +449,7 @@ ifneq ($(userprogs),)
+ include $(srctree)/scripts/Makefile.userprogs
+ endif
+=20
+-ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
+targets)),)
++ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
+MAKECMDGOALS)),)
+ include $(srctree)/scripts/Makefile.dtbs
+ endif
+=20
+--=20
+2.47.0
+
 
