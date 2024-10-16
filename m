@@ -1,115 +1,132 @@
-Return-Path: <linux-kbuild+bounces-4154-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4155-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A63F9A12C3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 21:42:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E51D49A14B6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 23:22:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D548D1F23424
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 19:42:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0746A1C221A0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 21:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A28A8212EF9;
-	Wed, 16 Oct 2024 19:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 574721CB9F0;
+	Wed, 16 Oct 2024 21:22:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="uSxMnabM"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="b06pHtOM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031812144A9
-	for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 19:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4A01D175F
+	for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 21:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729107720; cv=none; b=Jci1GHUDFm/bLBNixGLXA5aEOLCMoBj9tRksrzDJ6A04Wi+H5HuQKQtTy4tNMDmgp18kfDyPxbAgB0LXpJGVjjr0ENlPqKPQUcgCIiHi5cccZ5UFVrVbeQa1DkABQeN5SSGi7GkZR6IrfZJQzgauwbEtx67wD5OTHo46FkRXZD8=
+	t=1729113745; cv=none; b=YHSpNSSGuafaVqFwvPbWGCkeB6zdyF+m8YgnFbVQPDN2PYC2fAGd+TrVLns5un0j8NCP4AphJBAn/8/7xBc1Nw+/jnyB2o0oiRJnTaGys+K8g20lEZrizQYClFj5wgJd/syz8csTL1ADTnUXz2pc0Ku6W/wNXOrbAIZLtlPsePc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729107720; c=relaxed/simple;
-	bh=F2Suugf57GPw3RqJq7bRvLar9lCs5cHH4M9EOSt6p1k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hxRNf9a9wLIPpOmG2BSOiESON0F1/ta0vFixUVi+RwkVWEjoepeCYGjn6/lozhvwDQ2HeD5rUQjNvvss/W7L42iPPRu+Bi3L71WFfxDJDEXL4EdmZ7O3vOIhSZBjHHgD86IP6ZPwIPApUv7DeedfF1nTWaOwyi/daBvoz8e68eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=uSxMnabM; arc=none smtp.client-ip=202.36.163.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 73A1D2C0436;
-	Thu, 17 Oct 2024 08:41:55 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1729107715;
-	bh=zuhAErChXmTZvMoGaqhA8T5c9vvGGKPoIeF7VyoGiNY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=uSxMnabM8svO3VExiUHPh8uF7M5CWm7RNSVRPg1XEufT1e6lqYQ3z4NYUOzEdK5IW
-	 JnNwse1GJSORonBPvsLK+F+uyFQWDqUKDvd5bOTVL3D3mBEQW1MmEZPtDEbaD/Hy3H
-	 u0CTsJk7dkLhNriWfn1Q/uqAEt6n7H6lBOu3+biHFoh84+pMpcfNXH9XFFpeSwEXd2
-	 fdNfWyOnSKhEvONv2EnBqyXh5lAdUfE0JI7pClO1RMOarzU5A9uaGjI08ykxq8E7Dv
-	 L3EWpLo6+/rtKaX5A8sqBqWS/MPLCxK3q9KvWLll3YbHfX3g0qQeXkSoapnlm3NC8Z
-	 S4Vbn6U/LtrMQ==
-Received: from pat.atlnz.lc (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B671017030000>; Thu, 17 Oct 2024 08:41:55 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-	by pat.atlnz.lc (Postfix) with ESMTP id 2CA2713EE32;
-	Thu, 17 Oct 2024 08:41:55 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-	id 28DC6280482; Thu, 17 Oct 2024 08:41:55 +1300 (NZDT)
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v2] kbuild: Restore the ability to build out of tree dtbs
-Date: Thu, 17 Oct 2024 08:41:49 +1300
-Message-ID: <20241016194149.4178898-1-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1729113745; c=relaxed/simple;
+	bh=OyDiTCgIIBa/GkRKvyHzzrkbUA9z+By1KG3O7d5eMiY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BrGPsqnki9FbfIPSC5vWXHX8ZXJso81kVqrfsCNrvNrWswogNnQmEWc3T4t8laRMci9BfR/RjI12qop96P5E9IzDA4gckrnqFVyinlYB3QikYaKtC4UU2ztjoGBuXsi2fni7HMFWou67u0wvAvjv02A6RPmdEtIbJCfjZRfFLs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=b06pHtOM; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4608dddaa35so92481cf.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 14:22:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729113742; x=1729718542; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5wkZ4sufrMCkWvTY6u4q4CXshqu7FtbhJxCZflIH3KQ=;
+        b=b06pHtOMQM8P0UDfGnbnPHLh/dFOZOtZJ5Rp8PgVMzVVpfaP35TcK2FXHjWREUJ7tA
+         mBnYhP6+XneIQn9jgvNcmGgBe/eN+FvJlnq+J9iWxtNqppWugnxot7VIoNwSVyrSk4dr
+         JHkx+Je7gfhvxiOX6eKL2cgd4+/3n0oaDKF7iZfYAtjZPx+f7Yy2AH1leyPB2MgNL9W4
+         QpsEAe/lDNtPCCte8RxJ+ILNCJFUrPKl9DmMdDdh1+4cm5cyaHRmsf6Lmrxyh1qygr1E
+         nftIBXiksh1K1SXiDDH+cQDi4D2khFfUxvRMsdlUGX4Gr1R9kCyruCFeme5KSdcvCPyT
+         X93Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729113742; x=1729718542;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5wkZ4sufrMCkWvTY6u4q4CXshqu7FtbhJxCZflIH3KQ=;
+        b=QdTmkHWLDIidNOi/GLp0+67ONyoO4C26NXQpzEy2YDG7F1TyZJ53+ZcZ9JJx29MAy+
+         AmEFWbS5VtwWD+cCCi5+RJc98Zfgfwy5QaFUbClegdGcgmC2epf80Q8SVNWk32+HMGPJ
+         k3KtD2f4IT6iU60Ar8T9u+wdQOdhHt/y4FI8smCJe3jiXkYIFIKS0iuAu3tQlfNACeC2
+         XgSzLn0oBHIaKMIko5XGCGY4+mQz8Jgxo8TINJ4ZRetj9ILbipfT3rJXy+DRSj5irt2E
+         pG0hmyuiecZYrYzGNX67NjmULpTQ8gxdRIVexl452+/cH5YzTTTYyWQYBMcl8q57QN1b
+         WUbA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVioMYEi8huq8Z02pMLhs9sCLzjeqMlmtynFJT2C7d3GlhxHDhIZJHUGADOxIFKqB3OFW5vau1EpiVmgw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK71+xUy1pjmv1WO8rC2QoArNSQtShkAOqACdj4IcXHqc0EgdI
+	c0xh6ufe+ZAw0U4GC2WzKesB7BXhFGFIlwuKwUDpk1QjytvRSqaMPvALnqX1iLvPAwZnh1ZjUhi
+	PKPhL6WEsyxGfb3DjoDuWBSAXc7PyQeMpa67b
+X-Google-Smtp-Source: AGHT+IErDmtBkSM4h9tKCOEanhS8tMEL2BUmPka/EOw8X38eJd4BfzXBdA4cVWCS8SklYFIBG5mDLRG4jlKSB1gVUX4=
+X-Received: by 2002:a05:622a:5f08:b0:460:4a62:4ff3 with SMTP id
+ d75a77b69052e-4609f6b45fdmr324641cf.23.1729113742418; Wed, 16 Oct 2024
+ 14:22:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20241008183823.36676-21-samitolvanen@google.com>
+ <20241008183823.36676-31-samitolvanen@google.com> <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
+In-Reply-To: <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Wed, 16 Oct 2024 21:21:43 +0000
+Message-ID: <CABCJKue-APgjaWf8pGnYVe3uSBjzApX0FpMUCAHsm56wNSyRVA@mail.gmail.com>
+Subject: Re: [PATCH v4 10/19] gendwarfksyms: Limit structure expansion
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>, 
+	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.4 cv=ca1xrWDM c=1 sm=1 tr=0 ts=67101703 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=nLVBVlUmovVwbiQ-:21 a=DAUX931o1VcA:10 a=N9YJ-UhC3puMJLZ-EMAA:9 a=3ZKOabzyN94A:10
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
 
-A build pattern to handle out of tree dtbs is to copy the .dts file into
-the kernel source tree and run `make myboard.dtb`. This is supported by
-the wildcard %.dtb rule in the Makefile but recent changes to split the
-dtb handling out of scripts/Makefile.build stopped this from working.
-Restore this functionality by looking for .dtb in $(MAKECMDGOALS) as
-well as $(targets).
+Hi Petr,
 
-Fixes: e7e2941300d2 ("kbuild: split device tree build rules into scripts/=
-Makefile.dtbs")
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
+On Wed, Oct 16, 2024 at 2:16=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
+ote:
+>
+> On 10/8/24 20:38, Sami Tolvanen wrote:
+> >       /*
+> > -      * These can be emitted for stand-elone assembly code, which mean=
+s we
+> > +      * These can be emitted for stand-alone assembly code, which mean=
+s we
+> >        * might run into them in vmlinux.o.
+> >        */
+> >       process(cache, "unspecified_type");
+>
+> Nit: This hunk should be folded into patch #9 ("gendwarfksyms: Expand
+> structure types").
 
-Notes:
-    Changes in v2:
-    - keep $(target) and search for .dtb in $(MAKECMDGOALS)
+Oops, I'll fix this in the next version.
 
- scripts/Makefile.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The commit message and the comment in process_type() describe that each
+> structure type should be expanded only once per symbol, but that doesn't
+> seem to be the case?
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 8f423a1faf50..78763a4bc58a 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -449,7 +449,7 @@ ifneq ($(userprogs),)
- include $(srctree)/scripts/Makefile.userprogs
- endif
-=20
--ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
-targets)),)
-+ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
-targets))$(filter %.dtb,$(MAKECMDGOALS)),)
- include $(srctree)/scripts/Makefile.dtbs
- endif
-=20
---=20
-2.47.0
+Yup, it looks like I messed up the logic here. The ptr_depth check
+should be later.
 
+> If I follow correctly, the type_expand() logic on the output eventually
+> performs only the first expansion for the CRC calculation. However, it
+> looks this process_type() code should do the same, if only to be a bit
+> faster. Or did I misunderstand anything how this should work?
+>
+> I played with the following (applies on the top of the series), which
+> matches my understanding of what should happen:
+
+This looks correct to me, and do I like the way you cleaned this up.
+I'll apply this to v5. Thanks!
+
+Sami
 
