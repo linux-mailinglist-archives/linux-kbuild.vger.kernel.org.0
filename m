@@ -1,132 +1,120 @@
-Return-Path: <linux-kbuild+bounces-4155-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4156-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51D49A14B6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 23:22:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BD89A14B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 23:24:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0746A1C221A0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 21:22:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D8E7286A3F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 21:24:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 574721CB9F0;
-	Wed, 16 Oct 2024 21:22:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035CF1B0F36;
+	Wed, 16 Oct 2024 21:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="b06pHtOM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7/6Prv0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4A01D175F
-	for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 21:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FD013B298;
+	Wed, 16 Oct 2024 21:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729113745; cv=none; b=YHSpNSSGuafaVqFwvPbWGCkeB6zdyF+m8YgnFbVQPDN2PYC2fAGd+TrVLns5un0j8NCP4AphJBAn/8/7xBc1Nw+/jnyB2o0oiRJnTaGys+K8g20lEZrizQYClFj5wgJd/syz8csTL1ADTnUXz2pc0Ku6W/wNXOrbAIZLtlPsePc=
+	t=1729113869; cv=none; b=AgJxa+ipRFXg1h5J2uweyQqY2LXr43aOZDukBk598I9sThsyHL5PZK3MwOWeWBnrI7F6L6KtOAFokVmFSXePWmrqt8B5Cp2jILofQAdni19k2wfefUZ56W/JCqk96seK5GT4C5BseIuzMQtEw5HqPMWOZpOUbJaTUJFHC0AYJUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729113745; c=relaxed/simple;
-	bh=OyDiTCgIIBa/GkRKvyHzzrkbUA9z+By1KG3O7d5eMiY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BrGPsqnki9FbfIPSC5vWXHX8ZXJso81kVqrfsCNrvNrWswogNnQmEWc3T4t8laRMci9BfR/RjI12qop96P5E9IzDA4gckrnqFVyinlYB3QikYaKtC4UU2ztjoGBuXsi2fni7HMFWou67u0wvAvjv02A6RPmdEtIbJCfjZRfFLs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=b06pHtOM; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4608dddaa35so92481cf.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 14:22:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729113742; x=1729718542; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5wkZ4sufrMCkWvTY6u4q4CXshqu7FtbhJxCZflIH3KQ=;
-        b=b06pHtOMQM8P0UDfGnbnPHLh/dFOZOtZJ5Rp8PgVMzVVpfaP35TcK2FXHjWREUJ7tA
-         mBnYhP6+XneIQn9jgvNcmGgBe/eN+FvJlnq+J9iWxtNqppWugnxot7VIoNwSVyrSk4dr
-         JHkx+Je7gfhvxiOX6eKL2cgd4+/3n0oaDKF7iZfYAtjZPx+f7Yy2AH1leyPB2MgNL9W4
-         QpsEAe/lDNtPCCte8RxJ+ILNCJFUrPKl9DmMdDdh1+4cm5cyaHRmsf6Lmrxyh1qygr1E
-         nftIBXiksh1K1SXiDDH+cQDi4D2khFfUxvRMsdlUGX4Gr1R9kCyruCFeme5KSdcvCPyT
-         X93Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729113742; x=1729718542;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5wkZ4sufrMCkWvTY6u4q4CXshqu7FtbhJxCZflIH3KQ=;
-        b=QdTmkHWLDIidNOi/GLp0+67ONyoO4C26NXQpzEy2YDG7F1TyZJ53+ZcZ9JJx29MAy+
-         AmEFWbS5VtwWD+cCCi5+RJc98Zfgfwy5QaFUbClegdGcgmC2epf80Q8SVNWk32+HMGPJ
-         k3KtD2f4IT6iU60Ar8T9u+wdQOdhHt/y4FI8smCJe3jiXkYIFIKS0iuAu3tQlfNACeC2
-         XgSzLn0oBHIaKMIko5XGCGY4+mQz8Jgxo8TINJ4ZRetj9ILbipfT3rJXy+DRSj5irt2E
-         pG0hmyuiecZYrYzGNX67NjmULpTQ8gxdRIVexl452+/cH5YzTTTYyWQYBMcl8q57QN1b
-         WUbA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVioMYEi8huq8Z02pMLhs9sCLzjeqMlmtynFJT2C7d3GlhxHDhIZJHUGADOxIFKqB3OFW5vau1EpiVmgw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyK71+xUy1pjmv1WO8rC2QoArNSQtShkAOqACdj4IcXHqc0EgdI
-	c0xh6ufe+ZAw0U4GC2WzKesB7BXhFGFIlwuKwUDpk1QjytvRSqaMPvALnqX1iLvPAwZnh1ZjUhi
-	PKPhL6WEsyxGfb3DjoDuWBSAXc7PyQeMpa67b
-X-Google-Smtp-Source: AGHT+IErDmtBkSM4h9tKCOEanhS8tMEL2BUmPka/EOw8X38eJd4BfzXBdA4cVWCS8SklYFIBG5mDLRG4jlKSB1gVUX4=
-X-Received: by 2002:a05:622a:5f08:b0:460:4a62:4ff3 with SMTP id
- d75a77b69052e-4609f6b45fdmr324641cf.23.1729113742418; Wed, 16 Oct 2024
- 14:22:22 -0700 (PDT)
+	s=arc-20240116; t=1729113869; c=relaxed/simple;
+	bh=WmRyooRpNUPsrOSIwLEuGtI5tETK3P7F58Xs9VK/nqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UbrZUyKlISAXdX69mhNKd8lEvtJPJr7HO4BuQfUHbXsJGEX0fZ2bWKXLEm4lCBZAHDl1Xuo0WXFEH56q/U1RTy8FQynKXynKWShL5T1vkMqF1d9YqjObNDV6ay9o0emPcFrrM0uWVsn+7Wxm/xgbmoj9EjFtZlPDfzrEeNab1FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7/6Prv0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D230C4CECD;
+	Wed, 16 Oct 2024 21:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729113869;
+	bh=WmRyooRpNUPsrOSIwLEuGtI5tETK3P7F58Xs9VK/nqU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c7/6Prv0V/3uEKt5DQtqrnxyPW+061zPoW9DD2m5SSMpeREYxcAQtl3ic6CvySKSN
+	 e50H621ALjxb7Te6UYMKh3m6wM5StaKEuuqc8NRN/zN8Zamof45GxR2lZx6lc1OuD7
+	 2waucJwnFs8bNs+Nfwzs9+WbTiSK4saf+HJRmnWkdDYfcK5zzR63me4hK3IzJmlP2K
+	 CsBg0dTzFDLeEyEKVCZc889Lju7SQOZCGpIkE579Kds6XwFCXUVqiFAFTXygSjB5GS
+	 bYqIUtBFrUhuynUF6pos3ukihM0+vjR1XMURbBndqor8amdckbZFcuY7QFixWHNEQI
+	 +RP/ffKudQJCw==
+Date: Wed, 16 Oct 2024 14:24:27 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Aleksei Vetrov <vvvvvv@google.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	patches@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Fully disable
+ -Wenum-{compare-conditional,enum-conversion}
+Message-ID: <20241016212427.GA695927@thelio-3990X>
+References: <20241016-disable-two-clang-enum-warnings-v1-1-ae886d7a0269@kernel.org>
+ <a22ab6cb-6eb6-44df-9e82-b6e95b9ae08e@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241008183823.36676-21-samitolvanen@google.com>
- <20241008183823.36676-31-samitolvanen@google.com> <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
-In-Reply-To: <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 16 Oct 2024 21:21:43 +0000
-Message-ID: <CABCJKue-APgjaWf8pGnYVe3uSBjzApX0FpMUCAHsm56wNSyRVA@mail.gmail.com>
-Subject: Re: [PATCH v4 10/19] gendwarfksyms: Limit structure expansion
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
-	Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>, 
-	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a22ab6cb-6eb6-44df-9e82-b6e95b9ae08e@app.fastmail.com>
 
-Hi Petr,
+On Wed, Oct 16, 2024 at 06:31:27PM +0000, Arnd Bergmann wrote:
+> On Wed, Oct 16, 2024, at 18:01, Nathan Chancellor wrote:
+> > -Wenum-enum-conversion and -Wenum-compare-conditional were strengthened
+> > in clang-19 to warn in C mode, which caused the kernel to move them to
+> > W=1 in commit 75b5ab134bb5 ("kbuild: Move
+> > -Wenum-{compare-conditional,enum-conversion} into W=1") because there
+> > were numerous instances of each that would break builds with -Werror.
+> > Unfortunately, this is not a full solution, as more and more developers,
+> > subsystems, and distributors are building with W=1 as well, so they
+> > continue to see the numerous instances of these warnings.
+> >
+> > Since the move to W=1, there have not been many new instances that have
+> > appeared through various build reports and the ones that have appeared
+> > seem to be following similar existing patterns, suggesting that most
+> > instances of these warnings will not be real issues. The only
+> > alternatives for silencing these warnings are adding casts (which is
+> > generally seen as an ugly practice) or refactoring the enums to macro
+> > defines or a unified enum (which may be undesirable because of type
+> > safety in other parts of the code).
+> >
+> > Disable the warnings altogether so that W=1 users do not see them.
+> 
+> I don't think we have to go all the way of completely disabling
+> the warnings here, they are still potentially useful. I can see
+> three ways of being less aggressive with them:
+> 
+> - keep -Wno-enum-compare-conditional in W=1 and fix up the
+>   remaining warnings for that, iirc the Wno-enum-enum-conversion
+>   is the one that causes the problems.
+> 
+> - Move them to W=2 instead of always disabled
+> 
+> - Leave the warnings enabled for clang-18 and older.
 
-On Wed, Oct 16, 2024 at 2:16=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
-ote:
->
-> On 10/8/24 20:38, Sami Tolvanen wrote:
-> >       /*
-> > -      * These can be emitted for stand-elone assembly code, which mean=
-s we
-> > +      * These can be emitted for stand-alone assembly code, which mean=
-s we
-> >        * might run into them in vmlinux.o.
-> >        */
-> >       process(cache, "unspecified_type");
->
-> Nit: This hunk should be folded into patch #9 ("gendwarfksyms: Expand
-> structure types").
+Arnd and I talked about this offline in the ClangBuiltLinux meeting
+today. I am going to run my usual test matrix against a tree with
+-Wenum-compare-conditional turned on to see how many instances of these
+warnings are in the tree and how difficult it would be to silence them
+to address the first point above. I will move -Wenum-enum-conversion to
+W=2 and send that as v2 soon to satisfy point two, which should clear up
+the blockage for the Android folks.
 
-Oops, I'll fix this in the next version.
+While disabling the warnings for clang-19 and newer and leaving them on
+for clang-18 and older would technically address the issue at hand, it
+won't result in increased coverage because the whole point of the change
+that caused this in clang-19 is enabling the warning for C code, so
+clang-18 and older won't ever emit these warnings.
 
-> The commit message and the comment in process_type() describe that each
-> structure type should be expanded only once per symbol, but that doesn't
-> seem to be the case?
-
-Yup, it looks like I messed up the logic here. The ptr_depth check
-should be later.
-
-> If I follow correctly, the type_expand() logic on the output eventually
-> performs only the first expansion for the CRC calculation. However, it
-> looks this process_type() code should do the same, if only to be a bit
-> faster. Or did I misunderstand anything how this should work?
->
-> I played with the following (applies on the top of the series), which
-> matches my understanding of what should happen:
-
-This looks correct to me, and do I like the way you cleaned this up.
-I'll apply this to v5. Thanks!
-
-Sami
+Cheers,
+Nathan
 
