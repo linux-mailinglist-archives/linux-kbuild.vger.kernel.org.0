@@ -1,287 +1,565 @@
-Return-Path: <linux-kbuild+bounces-4148-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4149-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4059A0BF1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 15:53:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8630F9A0C5C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 16:17:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A21F41F2430E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 13:53:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1552F1F244AB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2024 14:17:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 002B920C003;
-	Wed, 16 Oct 2024 13:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9739820E007;
+	Wed, 16 Oct 2024 14:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0wsLRcl"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="eeDkXWjJ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F474208218;
-	Wed, 16 Oct 2024 13:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C7120C492
+	for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 14:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729086776; cv=none; b=CB/YY+sAv+PEAy7NtSRcdINM0EHScegKuVl+y5ALvFV7mfBcvmO8XMl+BTXUGnHf7YDooRyd/gUKDzMLqiTUqPGsJ+0wRIoSiVSVWJ2hLJsku96W10DOViVU9vG8RwUOGhfZpGPJDahO/uOME2Kn5QUfkly1HdGIG79L7GDzum0=
+	t=1729088189; cv=none; b=aWnvopwY5noZQ4gv0ZoFnAbSHDqUd8A1UPd/6k+5blW0l6Gzn/vd5a9lUBDFebdQHmadLj9dya8Zfhw0x1Kky3o3RenBrrFmJUfQSRicrwHCxWSFNsunCRlB8ewC5XQ9I4i4Cx+cLcRGQaDoqPP4PvpgFcQSPyAFw1I1LIJlxD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729086776; c=relaxed/simple;
-	bh=iVe6daXBjf0FGiLXnlPk68UAkWUxewdyKA6tLNmKIKo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=P9nfmV0gVJS5FsvlTog3Rptluq89S3O26TQUp77Lmw1dd6Mu9nBRA4fnQldrmH8IJh+eyH38uNglkdXAD+6UzE4p9y7O00ffUDfKohOVr8UpzTN+Yfkp3NTt/45v0OCxIyzScCkasBTK+p/IO9eTTyzTEv753Ba7DU7JfEzKiEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0wsLRcl; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4608e389407so11126051cf.2;
-        Wed, 16 Oct 2024 06:52:54 -0700 (PDT)
+	s=arc-20240116; t=1729088189; c=relaxed/simple;
+	bh=QxI//qy6SRimH6DFsKj/5JqUXhaavgW4VHaRE77rsA8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AxBBJEERf9zEuhF3u/RQvWQ57u/IEg7+STyVwwreOO8xbZqRdS0vtA45Pc9CN9eXJqrXC7cor8KK3/XcyCPU2NBppxo/PPghywTXY4VTmN8Bj/noiDNzmBPBfrYB/BBPxPKaHqWnIvy/f4jZrv6GR7rwC89N6CyzgsQnTTWb7MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=eeDkXWjJ; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c9709c9b0cso5453913a12.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 07:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729086774; x=1729691574; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3VyiHnDKcK8FI5+FMxl4L18f3GHTxZZjF4Owll8YQ/M=;
-        b=h0wsLRclH6YU4cDHhCOhHdP/MXBXSEnS+lkDXyGqyFL1qnf4YfQPFIq3ik8YQUj2Gs
-         cL/ZuEN7IWGoPkU6JpaaJr0q7L2Gneq+xBQfH1QvyS4k9AdNN/hxim6Yh8LsSekFQ2jG
-         XSh+dnzZjBXgCSZ4sxQORH2a2okiODhoqObroBDR72NkeYyD2Cn3j8jug3povoDyO/DY
-         KoYbfVYWvrzVDR081wtA7IpDhMlvdX9vEsUZ5wjjdRjt219d5BScUz1wYTxjfq5MNrHZ
-         zXQH2LopVYRqFA153iv3uAyWjYyID9tUaCR5me1SpgqdEDeqT1R82TCl/IMkIoHGU/2z
-         +dKQ==
+        d=suse.com; s=google; t=1729088184; x=1729692984; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nkitLVdUIfBswSecoH4/yMlvF1d7Jl0pwk3xAI1xCeg=;
+        b=eeDkXWjJXKFdSKZrd6IVNRdk/aaN/Qw138wR8N7hdI3DAXo9x6I+fK2kMiSCcEL2w1
+         yLXe+yiITwnUHYOSkdpb5rrcUqCEW4cKpSlpK3ymeJJGZiX/kob7ojFAJe8AjB/9S2ja
+         xvnWbZ160GVuffaMjdMQkc2IBRw9p+lCTdh7Ye25l9RKyyjZgIzpKafL+mYLf/sNelPy
+         U4TMWuvTNhZCJqOIYaiwlzfJnVDSxkGltrc+BEYyWUNh1lE6jlf3/lxFouTxx1Tb7gXP
+         t2zwtgHREztv0k/JivwHGS5pjQQTJScHpebBUBCshAtQ7/oSyj7eIb7iEUYQmstqGsqU
+         rv0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729086774; x=1729691574;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3VyiHnDKcK8FI5+FMxl4L18f3GHTxZZjF4Owll8YQ/M=;
-        b=i3bxpbUaPcMJMvsvdz2ew45G6+tfJk/2lv/L2dEq8FDhLOcBIL/HJj1GDG2HN3UmNm
-         dVTKNyUl5L+N11Pu8laNjAitSZpAcFfKUqNHhpL3Nm2rr2Q5Omxx3w02TLuWBCUWVIwI
-         vV6CmPivQffpomCmG7S1uGyT79qum1eevaIVg596L9iSu5WMSPe/RVNOtLA2ZKlGz3b7
-         0zVXZCVa3cfyUCbJqA4Ihq1jZEuSmhZrbcutGY3bIlzfN2Xug4n63rEj2vvmCNn66FcH
-         cldvoH9ifvDlNMERhcR8JuTab3VqUw37e+xHSTvt49M9A/2KAdNXNKWI7SCaX4wgYIHQ
-         4tBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWInJ0GvnjoermAhB4QgPRUyXBBsEqQ7eoss+VWxizXahshz2eCPATivCP3AXZLkQzepg6FM/IZKXC+k2Jk7rk=@vger.kernel.org, AJvYcCXxrZJXE+x0CqkvWhSJhdEbEK0WcuyIKGeUlfGN11x26fV8jxoSFiERJdFCzGvwAiNo9OXazBPSDFvg+FM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWE42qmQV+5a1gBE1IqWhamKSDUNjRy5YyZKWV9t1fbrlJNO18
-	eZs6sCfjncs5VR+BRc5G4ijElAvdxypH8OcBQpRmBfdzOT6uN8O6
-X-Google-Smtp-Source: AGHT+IFzoMUCSj95XrQ3tZCSPHNsQFDpMYkK5gKXJ1TOxMmbQ9xytImxkbswPPfby2sYZaboWD6lEw==
-X-Received: by 2002:ac8:58c2:0:b0:460:4e67:d67f with SMTP id d75a77b69052e-4608a430077mr61697731cf.2.1729086773881;
-        Wed, 16 Oct 2024 06:52:53 -0700 (PDT)
-Received: from 156.1.168.192.in-addr.arpa (pool-100-37-170-231.nycmny.fios.verizon.net. [100.37.170.231])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4607b122260sm18157271cf.50.2024.10.16.06.52.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 06:52:53 -0700 (PDT)
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 16 Oct 2024 09:52:51 -0400
-Subject: [PATCH v6] rust: use host dylib naming convention
+        d=1e100.net; s=20230601; t=1729088184; x=1729692984;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nkitLVdUIfBswSecoH4/yMlvF1d7Jl0pwk3xAI1xCeg=;
+        b=No7z3ijCSOuAtVEw5LqS2EdJpsLoz2zWf48fB6WHaluEv777RpSrLRp8qGKYujXAde
+         2Nlu8l/vuwX6JCLRrzSHVQbMuidOzcZN7fXPGaDfYwdirVRRSSGYAGTiC5tAQo/AXRXD
+         9Tcq4OUoVhQnSUiEfFSqx59xL6O76Iu6IV0DrTsBKPHzUW7m9qE1nq6D57xcqGBMPG6A
+         HLRarkgubxWgWbXW9j9ShnXnBO0zRrO4P1JzF61Y39J3im/+BF7Y35WmJG4O2VCe+nEY
+         n2XTM3yWuzpe6I5lkwmPAcdUTYbeLqNPBE4icB1hO2uXX/WtFSS15xPv2pqvtsx9BGkb
+         Zwlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHznqq6HcYEfg0PJKZf1tctgzGLLoiBKGI32HG9/4103Vu4Ectj23dQH1vT7grrbji08i7ba/ExQrPUdU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRd6u/3uX6j/JS4npcY5KWjmro9CXtVYMmH8DfaCSfu2iJ/k1W
+	XDSICal97GNL7SCw2i3HbxRWtqd6NcfWv4+r89vbp9diug99cFh7pVuon+Ds+GU=
+X-Google-Smtp-Source: AGHT+IF/jHLtlOnJ03hZGYKyu2uazu1k6TC8QznAT+IJJPrAXp2dr5BVCStw4SXjYZcJ93PZUijGyw==
+X-Received: by 2002:a17:907:3ea0:b0:a9a:2a56:91e with SMTP id a640c23a62f3a-a9a2a560a3emr471017466b.6.1729088183771;
+        Wed, 16 Oct 2024 07:16:23 -0700 (PDT)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a29844cc9sm186696466b.182.2024.10.16.07.16.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Oct 2024 07:16:23 -0700 (PDT)
+Message-ID: <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
+Date: Wed, 16 Oct 2024 16:16:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 10/19] gendwarfksyms: Limit structure expansion
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
+ Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+ Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
+ Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <20241008183823.36676-21-samitolvanen@google.com>
+ <20241008183823.36676-31-samitolvanen@google.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20241008183823.36676-31-samitolvanen@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241016-b4-dylib-host-macos-v6-1-bbeab5029199@gmail.com>
-X-B4-Tracking: v=1; b=H4sIADLFD2cC/03MTQ7CIBBA4as0s3YaQErRlfcwLvhrmaQUA43RN
- L27xJXLb/HeDjUUChWu3Q4lvKhSXhvUqQMXzToHJN8MggnJGVdoJfrPQhZjrhsm43JFrsZhdOe
- BWXmBVj5LmOj9u94fzVPJCbdYgvl7MS2E1Jz1WjYjx80kKv42J0NL73KC4/gCyNorfp8AAAA=
-X-Change-ID: 20241016-b4-dylib-host-macos-16757c350b49
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Fiona Behrens <me@kloenk.dev>, 
- Tamir Duberstein <tamird@gmail.com>
-X-Mailer: b4 0.14.2
 
-Because the `macros` crate exposes procedural macros, it must be
-compiled as a dynamic library (so it can be loaded by the compiler at
-compile-time).
+On 10/8/24 20:38, Sami Tolvanen wrote:
+> Expand each structure type only once per exported symbol. This
+> is necessary to support self-referential structures, which would
+> otherwise result in infinite recursion, but is still sufficient for
+> catching ABI changes.
+> 
+> For pointers, limit structure expansion after the first pointer
+> in the symbol type. This should be plenty for detecting ABI
+> differences, but it stops us from pulling in half the kernel for
+> types that contain pointers to large kernel data structures, like
+> task_struct, for example.
+> 
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Acked-by: Neal Gompa <neal@gompa.dev>
+> ---
+>  scripts/gendwarfksyms/Makefile        |   1 +
+>  scripts/gendwarfksyms/cache.c         |  44 +++++++++++
+>  scripts/gendwarfksyms/dwarf.c         | 109 +++++++++++++++++++++++---
+>  scripts/gendwarfksyms/gendwarfksyms.h |  37 +++++++++
+>  4 files changed, 182 insertions(+), 9 deletions(-)
+>  create mode 100644 scripts/gendwarfksyms/cache.c
+> 
+> diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Makefile
+> index c0d4ce50fc27..c06145d84df8 100644
+> --- a/scripts/gendwarfksyms/Makefile
+> +++ b/scripts/gendwarfksyms/Makefile
+> @@ -2,6 +2,7 @@
+>  hostprogs-always-y += gendwarfksyms
+>  
+>  gendwarfksyms-objs += gendwarfksyms.o
+> +gendwarfksyms-objs += cache.o
+>  gendwarfksyms-objs += die.o
+>  gendwarfksyms-objs += dwarf.o
+>  gendwarfksyms-objs += symbols.o
+> diff --git a/scripts/gendwarfksyms/cache.c b/scripts/gendwarfksyms/cache.c
+> new file mode 100644
+> index 000000000000..2f1517133a20
+> --- /dev/null
+> +++ b/scripts/gendwarfksyms/cache.c
+> @@ -0,0 +1,44 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2024 Google LLC
+> + */
+> +
+> +#include "gendwarfksyms.h"
+> +
+> +struct expanded {
+> +	uintptr_t addr;
+> +	struct hlist_node hash;
+> +};
+> +
+> +void __cache_mark_expanded(struct expansion_cache *ec, uintptr_t addr)
+> +{
+> +	struct expanded *es;
+> +
+> +	es = xmalloc(sizeof(struct expanded));
+> +	es->addr = addr;
+> +	hash_add(ec->cache, &es->hash, addr_hash(addr));
+> +}
+> +
+> +bool __cache_was_expanded(struct expansion_cache *ec, uintptr_t addr)
+> +{
+> +	struct expanded *es;
+> +
+> +	hash_for_each_possible(ec->cache, es, hash, addr_hash(addr)) {
+> +		if (es->addr == addr)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +void cache_clear_expanded(struct expansion_cache *ec)
+> +{
+> +	struct hlist_node *tmp;
+> +	struct expanded *es;
+> +
+> +	hash_for_each_safe(ec->cache, es, tmp, hash) {
+> +		free(es);
+> +	}
+> +
+> +	hash_init(ec->cache);
+> +}
+> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
+> index f5cebbdcc212..51dd8e82f9e7 100644
+> --- a/scripts/gendwarfksyms/dwarf.c
+> +++ b/scripts/gendwarfksyms/dwarf.c
+> @@ -26,6 +26,7 @@ static void process_linebreak(struct die *cache, int n)
+>  		       !dwarf_form##attr(&da, value);                  \
+>  	}
+>  
+> +DEFINE_GET_ATTR(flag, bool)
+>  DEFINE_GET_ATTR(udata, Dwarf_Word)
+>  
+>  static bool get_ref_die_attr(Dwarf_Die *die, unsigned int id, Dwarf_Die *value)
+> @@ -79,6 +80,13 @@ static bool match_export_symbol(struct state *state, Dwarf_Die *die)
+>  	return !!state->sym;
+>  }
+>  
+> +static bool is_declaration(Dwarf_Die *die)
+> +{
+> +	bool value;
+> +
+> +	return get_flag_attr(die, DW_AT_declaration, &value) && value;
+> +}
+> +
+>  /*
+>   * Type string processing
+>   */
+> @@ -455,19 +463,28 @@ static void __process_structure_type(struct state *state, struct die *cache,
+>  				     die_callback_t process_func,
+>  				     die_match_callback_t match_func)
+>  {
+> +	bool is_decl;
+> +
+>  	process(cache, type);
+>  	process_fqn(cache, die);
+>  	process(cache, " {");
+>  	process_linebreak(cache, 1);
+>  
+> -	check(process_die_container(state, cache, die, process_func,
+> -				    match_func));
+> +	is_decl = is_declaration(die);
+> +
+> +	if (!is_decl && state->expand.expand) {
+> +		cache_mark_expanded(&state->expansion_cache, die->addr);
+> +		check(process_die_container(state, cache, die, process_func,
+> +					    match_func));
+> +	}
+>  
+>  	process_linebreak(cache, -1);
+>  	process(cache, "}");
+>  
+> -	process_byte_size_attr(cache, die);
+> -	process_alignment_attr(cache, die);
+> +	if (!is_decl && state->expand.expand) {
+> +		process_byte_size_attr(cache, die);
+> +		process_alignment_attr(cache, die);
+> +	}
+>  }
+>  
+>  #define DEFINE_PROCESS_STRUCTURE_TYPE(structure)                        \
+> @@ -520,7 +537,7 @@ static void process_unspecified_type(struct state *state, struct die *cache,
+>  				     Dwarf_Die *die)
+>  {
+>  	/*
+> -	 * These can be emitted for stand-elone assembly code, which means we
+> +	 * These can be emitted for stand-alone assembly code, which means we
+>  	 * might run into them in vmlinux.o.
+>  	 */
+>  	process(cache, "unspecified_type");
 
-Before this change the resulting artifact was always named
-`libmacros.so`, which works on hosts where this matches the naming
-convention for dynamic libraries. However the proper name on macOS would
-be `libmacros.dylib`.
+Nit: This hunk should be folded into patch #9 ("gendwarfksyms: Expand
+structure types").
 
-This turns out to matter even when the dependency is passed with a path
-(`--extern macros=path/to/libmacros.so` rather than `--extern macros`)
-because rustc uses the file name to infer the type of the library (see
-link). This is because there's no way to specify both the path to and
-the type of the external library via CLI flags. The compiler could
-speculatively parse the file to determine its type, but it does not do
-so today.
+> @@ -552,6 +569,42 @@ static void process_cached(struct state *state, struct die *cache,
+>  	}
+>  }
+>  
+> +static void state_init(struct state *state)
+> +{
+> +	state->expand.expand = true;
+> +	state->expand.ptr_depth = 0;
+> +	state->expand.ptr_expansion_depth = 0;
+> +	hash_init(state->expansion_cache.cache);
+> +}
+> +
+> +static void expansion_state_restore(struct expansion_state *state,
+> +				    struct expansion_state *saved)
+> +{
+> +	state->expand = saved->expand;
+> +	state->ptr_depth = saved->ptr_depth;
+> +	state->ptr_expansion_depth = saved->ptr_expansion_depth;
+> +}
+> +
+> +static void expansion_state_save(struct expansion_state *state,
+> +				 struct expansion_state *saved)
+> +{
+> +	expansion_state_restore(saved, state);
+> +}
+> +
+> +static bool is_pointer_type(int tag)
+> +{
+> +	return tag == DW_TAG_pointer_type || tag == DW_TAG_reference_type;
+> +}
+> +
+> +static bool is_expanded_type(int tag)
+> +{
+> +	return tag == DW_TAG_class_type || tag == DW_TAG_structure_type ||
+> +	       tag == DW_TAG_union_type || tag == DW_TAG_enumeration_type;
+> +}
+> +
+> +/* The maximum depth for expanding structures in pointers */
+> +#define MAX_POINTER_EXPANSION_DEPTH 2
+> +
+>  #define PROCESS_TYPE(type)                                \
+>  	case DW_TAG_##type##_type:                        \
+>  		process_##type##_type(state, cache, die); \
+> @@ -559,18 +612,52 @@ static void process_cached(struct state *state, struct die *cache,
+>  
+>  static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
+>  {
+> +	enum die_state want_state = DIE_COMPLETE;
+>  	struct die *cache;
+> +	struct expansion_state saved;
+>  	int tag = dwarf_tag(die);
+>  
+> +	expansion_state_save(&state->expand, &saved);
+> +
+> +	/*
+> +	 * Structures and enumeration types are expanded only once per
+> +	 * exported symbol. This is sufficient for detecting ABI changes
+> +	 * within the structure.
+> +	 *
+> +	 * We fully expand the first pointer reference in the exported
+> +	 * symbol, but limit the expansion of further pointer references
+> +	 * to at most MAX_POINTER_EXPANSION_DEPTH levels.
+> +	 */
+> +	if (is_pointer_type(tag))
+> +		state->expand.ptr_depth++;
+> +
+> +	if (state->expand.ptr_depth > 0 && is_expanded_type(tag)) {
+> +		if (state->expand.ptr_expansion_depth >=
+> +			    MAX_POINTER_EXPANSION_DEPTH ||
+> +		    cache_was_expanded(&state->expansion_cache, die->addr))
+> +			state->expand.expand = false;
+> +
+> +		if (state->expand.expand)
+> +			state->expand.ptr_expansion_depth++;
+> +	}
+> +
+>  	/*
+> -	 * If we have the DIE already cached, use it instead of walking
+> +	 * If we have want_state already cached, use it instead of walking
+>  	 * through DWARF.
+>  	 */
+> -	cache = die_map_get(die, DIE_COMPLETE);
+> +	if (!state->expand.expand && is_expanded_type(tag))
+> +		want_state = DIE_UNEXPANDED;
+> +
+> +	cache = die_map_get(die, want_state);
+> +
+> +	if (cache->state == want_state) {
+> +		if (want_state == DIE_COMPLETE && is_expanded_type(tag))
+> +			cache_mark_expanded(&state->expansion_cache, die->addr);
+>  
+> -	if (cache->state == DIE_COMPLETE) {
+>  		process_cached(state, cache, die);
+>  		die_map_add_die(parent, cache);
+> +
+> +		expansion_state_restore(&state->expand, &saved);
+>  		return 0;
+>  	}
+>  
 
-This means that libraries that match neither rustc's naming convention
-for static libraries nor the platform's naming convention for dynamic
-libraries are *rejected*.
+The commit message and the comment in process_type() describe that each
+structure type should be expanded only once per symbol, but that doesn't
+seem to be the case?
 
-The only solution I've found is to follow the host platform's naming
-convention. This patch does that by querying the compiler to determine
-the appropriate name for the artifact. This allows the kernel to build
-with CONFIG_RUST=y on macOS.
+Consider the following example:
 
-Link: https://github.com/rust-lang/rust/blob/d829780/compiler/rustc_metadata/src/locator.rs#L728-L752
-Co-developed-by: Fiona Behrens <me@kloenk.dev>
-Signed-off-by: Fiona Behrens <me@kloenk.dev>
-Signed-off-by: Tamir Duberstein <tamird@gmail.com>
----
-V5 -> V6: Removed setting `no-clean-files`. Rewrote description.
-e4 -> V5: Added missing `shell` in rust/Makefile.
-V3 -> V4: Added motivation. Added missing Signed-off-by.
-V2 -> V3: Added .strip() to rustc output to remove errant newline.
-V1 -> V2: De-duplicated and sorted imports. Changed Signed-off-by to
-Co-developed-by.
----
- .gitignore                        |  1 +
- Makefile                          |  2 +-
- rust/Makefile                     | 20 +++++++++++---------
- scripts/generate_rust_analyzer.py | 15 +++++++++++----
- 4 files changed, 24 insertions(+), 14 deletions(-)
+struct A { int m; };
+void foo(struct A a1, struct A a2) {}
 
-diff --git a/.gitignore b/.gitignore
-index a61e4778d011cf706e6784818a1357f392f3a669..088696a6a46a12fdb77eb9ccab5b6b7b11ef4707 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -22,6 +22,7 @@
- *.dtb.S
- *.dtbo.S
- *.dwo
-+*.dylib
- *.elf
- *.gcno
- *.gcda
-diff --git a/Makefile b/Makefile
-index a9e723cb05961877d5e6b50920dcabc78cf4988f..470e6f20c513bf0f90a42c586aa92dd7a8b16fb0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1513,7 +1513,7 @@ MRPROPER_FILES += include/config include/generated          \
- 		  certs/x509.genkey \
- 		  vmlinux-gdb.py \
- 		  rpmbuild \
--		  rust/libmacros.so
-+		  rust/libmacros.so rust/libmacros.dylib
+Running gendwarfksyms on the compiled file shows the following debug
+output:
+
+$ echo foo | ./build/scripts/gendwarfksyms/gendwarfksyms --debug --dump-types --dump-versions --dump-dies test.o
+[...]
+gendwarfksyms: process_symbol: foo
+subprogram (
+  formal_parameter structure_type A {
+    member base_type int byte_size(4) encoding(5) m data_member_location(0)
+  } byte_size(4) a1 ,
+  formal_parameter structure_type A {
+    member base_type int byte_size(4) encoding(5) m data_member_location(0)
+  } byte_size(4) a2
+)
+-> base_type void
+
+I think it indicates that struct A was expanded twice. My expectation
+would be to see:
+
+gendwarfksyms: process_symbol: foo
+subprogram (
+  formal_parameter structure_type A {
+    member base_type int byte_size(4) encoding(5) m data_member_location(0)
+  } byte_size(4) a1 ,
+  formal_parameter structure_type A {
+  } a2
+)
+-> base_type void
+
+If I follow correctly, the type_expand() logic on the output eventually
+performs only the first expansion for the CRC calculation. However, it
+looks this process_type() code should do the same, if only to be a bit
+faster. Or did I misunderstand anything how this should work?
+
+I played with the following (applies on the top of the series), which
+matches my understanding of what should happen:
+
+diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
+index 0112b5e8fbf5..1cc39be02b80 100644
+--- a/scripts/gendwarfksyms/dwarf.c
++++ b/scripts/gendwarfksyms/dwarf.c
+@@ -661,7 +661,6 @@ static void __process_structure_type(struct state *state, struct die *cache,
+ 	is_decl = is_declaration(cache, die);
  
- # clean - Delete most, but leave enough to build external modules
- #
-diff --git a/rust/Makefile b/rust/Makefile
-index 3678e79317f12d7116ad0c2ac1ca416ee5b969aa..0d882103375aa45be78e22f59c64739c8722fd98 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -11,9 +11,6 @@ always-$(CONFIG_RUST) += exports_core_generated.h
- obj-$(CONFIG_RUST) += helpers/helpers.o
- CFLAGS_REMOVE_helpers/helpers.o = -Wmissing-prototypes -Wmissing-declarations
+ 	if (!is_decl && state->expand.expand) {
+-		cache_mark_expanded(&state->expansion_cache, die->addr);
+ 		state->expand.current_fqn = cache->fqn;
+ 		check(process_die_container(state, cache, die, process_func,
+ 					    match_func));
+@@ -850,32 +849,35 @@ static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
+ 	if (is_pointer_type(tag))
+ 		state->expand.ptr_depth++;
  
--always-$(CONFIG_RUST) += libmacros.so
--no-clean-files += libmacros.so
+-	if (state->expand.ptr_depth > 0 && is_expanded_type(tag)) {
+-		if (state->expand.ptr_expansion_depth >=
+-			    MAX_POINTER_EXPANSION_DEPTH ||
+-		    cache_was_expanded(&state->expansion_cache, die->addr))
++	if (is_expanded_type(tag)) {
++		if (cache_was_expanded(&state->expansion_cache, die->addr))
+ 			state->expand.expand = false;
+ 
++		if (state->expand.ptr_depth > 0) {
++			if (state->expand.ptr_expansion_depth >=
++			    MAX_POINTER_EXPANSION_DEPTH)
++				state->expand.expand = false;
++
++			if (state->expand.expand)
++				state->expand.ptr_expansion_depth++;
++		}
++
+ 		if (state->expand.expand)
+-			state->expand.ptr_expansion_depth++;
++			cache_mark_expanded(&state->expansion_cache, die->addr);
++		else
++			want_state = DIE_UNEXPANDED;
+ 	}
+ 
+ 	/*
+ 	 * If we have want_state already cached, use it instead of walking
+ 	 * through DWARF.
+ 	 */
+-	if (!state->expand.expand && is_expanded_type(tag))
+-		want_state = DIE_UNEXPANDED;
 -
- always-$(CONFIG_RUST) += bindings/bindings_generated.rs bindings/bindings_helpers_generated.rs
- obj-$(CONFIG_RUST) += bindings.o kernel.o
- always-$(CONFIG_RUST) += exports_helpers_generated.h \
-@@ -36,9 +33,14 @@ always-$(CONFIG_RUST_KERNEL_DOCTESTS) += doctests_kernel_generated_kunit.c
- obj-$(CONFIG_RUST_KERNEL_DOCTESTS) += doctests_kernel_generated.o
- obj-$(CONFIG_RUST_KERNEL_DOCTESTS) += doctests_kernel_generated_kunit.o
+ 	cache = die_map_get(die, want_state);
  
--# Avoids running `$(RUSTC)` for the sysroot when it may not be available.
-+# Avoids running `$(RUSTC)` when it may not be available.
- ifdef CONFIG_RUST
+ 	if (cache->state == want_state) {
+ 		die_debug_g("cached addr %p tag %x -- %s", die->addr, tag,
+ 			    die_state_name(cache->state));
  
-+libmacros_name := $(shell $(RUSTC) --print file-names --crate-name macros --crate-type proc-macro - < /dev/null)
-+libmacros_extension := $(patsubst libmacros.%,%,$(libmacros_name))
-+
-+always-$(CONFIG_RUST) += $(libmacros_name)
-+
- # `$(rust_flags)` is passed in case the user added `--sysroot`.
- rustc_sysroot := $(shell MAKEFLAGS= $(RUSTC) $(rust_flags) --print sysroot)
- rustc_host_target := $(shell $(RUSTC) --version --verbose | grep -F 'host: ' | cut -d' ' -f2)
-@@ -104,10 +106,10 @@ rustdoc-compiler_builtins: $(src)/compiler_builtins.rs rustdoc-core FORCE
- 	+$(call if_changed,rustdoc)
+-		if (want_state == DIE_COMPLETE && is_expanded_type(tag))
+-			cache_mark_expanded(&state->expansion_cache, die->addr);
+-
+ 		process_cached(state, cache, die);
+ 		die_map_add_die(parent, cache);
  
- rustdoc-kernel: private rustc_target_flags = \
--    --extern build_error --extern macros=$(objtree)/$(obj)/libmacros.so \
-+    --extern build_error --extern macros \
-     --extern bindings --extern uapi
- rustdoc-kernel: $(src)/kernel/lib.rs rustdoc-core rustdoc-macros \
--    rustdoc-compiler_builtins $(obj)/libmacros.so \
-+    rustdoc-compiler_builtins $(obj)/$(libmacros_name) \
-     $(obj)/bindings.o FORCE
- 	+$(call if_changed,rustdoc)
- 
-@@ -325,10 +327,10 @@ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
- 		-Clink-args='$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
- 		--emit=dep-info=$(depfile) --emit=link=$@ --extern proc_macro \
- 		--crate-type proc-macro \
--		--crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
-+		--crate-name $(patsubst lib%.$(libmacros_extension),%,$(notdir $@)) $<
- 
- # Procedural macros can only be used with the `rustc` that compiled it.
--$(obj)/libmacros.so: $(src)/macros/lib.rs FORCE
-+$(obj)/$(libmacros_name): $(src)/macros/lib.rs FORCE
- 	+$(call if_changed_dep,rustc_procmacro)
- 
- quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L $@
-@@ -401,7 +403,7 @@ $(obj)/uapi.o: $(src)/uapi/lib.rs \
- $(obj)/kernel.o: private rustc_target_flags = \
-     --extern build_error --extern macros --extern bindings --extern uapi
- $(obj)/kernel.o: $(src)/kernel/lib.rs $(obj)/build_error.o \
--    $(obj)/libmacros.so $(obj)/bindings.o $(obj)/uapi.o FORCE
-+    $(obj)/$(libmacros_name) $(obj)/bindings.o $(obj)/uapi.o FORCE
- 	+$(call if_changed_rule,rustc_library)
- 
- endif # CONFIG_RUST
-diff --git a/scripts/generate_rust_analyzer.py b/scripts/generate_rust_analyzer.py
-index 09e1d166d8d236fcf8c2b2375624b243ebf6e7f7..aa8ea1a4dbe5f9037c8c231d87ddc8d95c297f12 100755
---- a/scripts/generate_rust_analyzer.py
-+++ b/scripts/generate_rust_analyzer.py
-@@ -8,6 +8,7 @@ import json
- import logging
- import os
- import pathlib
-+import subprocess
- import sys
- 
- def args_crates_cfgs(cfgs):
-@@ -35,8 +36,7 @@ def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs):
-     crates_cfgs = args_crates_cfgs(cfgs)
- 
-     def append_crate(display_name, root_module, deps, cfg=[], is_workspace_member=True, is_proc_macro=False):
--        crates_indexes[display_name] = len(crates)
--        crates.append({
-+        crate = {
-             "display_name": display_name,
-             "root_module": str(root_module),
-             "is_workspace_member": is_workspace_member,
-@@ -47,7 +47,15 @@ def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs):
-             "env": {
-                 "RUST_MODFILE": "This is only for rust-analyzer"
-             }
--        })
-+        }
-+        if is_proc_macro:
-+            proc_macro_dylib_name = subprocess.check_output(
-+                [os.environ["RUSTC"], "--print", "file-names", "--crate-name", display_name, "--crate-type", "proc-macro", "-"],
-+                stdin=subprocess.DEVNULL,
-+            ).decode('utf-8').strip()
-+            crate["proc_macro_dylib_path"] = f"{objtree}/rust/{proc_macro_dylib_name}"
-+        crates_indexes[display_name] = len(crates)
-+        crates.append(crate)
- 
-     # First, the ones in `rust/` since they are a bit special.
-     append_crate(
-@@ -70,7 +78,6 @@ def generate_crates(srctree, objtree, sysroot_src, external_src, cfgs):
-         [],
-         is_proc_macro=True,
-     )
--    crates[-1]["proc_macro_dylib_path"] = f"{objtree}/rust/libmacros.so"
- 
-     append_crate(
-         "build_error",
 
----
-base-commit: 6ce162a002657910104c7a07fb50017681bc476c
-change-id: 20241016-b4-dylib-host-macos-16757c350b49
+> @@ -611,9 +698,10 @@ static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
+>  
+>  	/* Update cache state and append to the parent (if any) */
+>  	cache->tag = tag;
+> -	cache->state = DIE_COMPLETE;
+> +	cache->state = want_state;
+>  	die_map_add_die(parent, cache);
+>  
+> +	expansion_state_restore(&state->expand, &saved);
+>  	return 0;
+>  }
+>  
+> @@ -675,11 +763,14 @@ static int process_exported_symbols(struct state *unused, struct die *cache,
+>  		if (!match_export_symbol(&state, die))
+>  			return 0;
+>  
+> +		state_init(&state);
+> +
+>  		if (tag == DW_TAG_subprogram)
+>  			process_subprogram(&state, &state.die);
+>  		else
+>  			process_variable(&state, &state.die);
+>  
+> +		cache_clear_expanded(&state.expansion_cache);
+>  		return 0;
+>  	}
+>  	default:
+> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
+> index f317de5b0653..6147859ae2af 100644
+> --- a/scripts/gendwarfksyms/gendwarfksyms.h
+> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
+> @@ -104,6 +104,7 @@ struct symbol *symbol_get(const char *name);
+>  
+>  enum die_state {
+>  	DIE_INCOMPLETE,
+> +	DIE_UNEXPANDED,
+>  	DIE_COMPLETE,
+>  	DIE_LAST = DIE_COMPLETE
+>  };
+> @@ -133,6 +134,7 @@ static inline const char *die_state_name(enum die_state state)
+>  {
+>  	switch (state) {
+>  	CASE_CONST_TO_STR(DIE_INCOMPLETE)
+> +	CASE_CONST_TO_STR(DIE_UNEXPANDED)
+>  	CASE_CONST_TO_STR(DIE_COMPLETE)
+>  	}
+>  
+> @@ -155,9 +157,40 @@ void die_map_add_linebreak(struct die *pd, int linebreak);
+>  void die_map_add_die(struct die *pd, struct die *child);
+>  void die_map_free(void);
+>  
+> +/*
+> + * cache.c
+> + */
+> +
+> +#define EXPANSION_CACHE_HASH_BITS 11
+> +
+> +/* A cache for addresses we've already seen. */
+> +struct expansion_cache {
+> +	HASHTABLE_DECLARE(cache, 1 << EXPANSION_CACHE_HASH_BITS);
+> +};
+> +
+> +void __cache_mark_expanded(struct expansion_cache *ec, uintptr_t addr);
+> +bool __cache_was_expanded(struct expansion_cache *ec, uintptr_t addr);
+> +
+> +static inline void cache_mark_expanded(struct expansion_cache *ec, void *addr)
+> +{
+> +	__cache_mark_expanded(ec, (uintptr_t)addr);
+> +}
+> +
+> +static inline bool cache_was_expanded(struct expansion_cache *ec, void *addr)
+> +{
+> +	return __cache_was_expanded(ec, (uintptr_t)addr);
+> +}
+> +
+> +void cache_clear_expanded(struct expansion_cache *ec);
+> +
+>  /*
+>   * dwarf.c
+>   */
+> +struct expansion_state {
+> +	bool expand;
+> +	unsigned int ptr_depth;
+> +	unsigned int ptr_expansion_depth;
+> +};
+>  
+>  struct state {
+>  	struct symbol *sym;
+> @@ -165,6 +198,10 @@ struct state {
+>  
+>  	/* List expansion */
+>  	bool first_list_item;
+> +
+> +	/* Structure expansion */
+> +	struct expansion_state expand;
+> +	struct expansion_cache expansion_cache;
+>  };
+>  
+>  typedef int (*die_callback_t)(struct state *state, struct die *cache,
 
-Best regards,
 -- 
-Tamir Duberstein <tamird@gmail.com>
-
+Thanks,
+Petr
 
