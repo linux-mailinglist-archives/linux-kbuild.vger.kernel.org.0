@@ -1,154 +1,189 @@
-Return-Path: <linux-kbuild+bounces-4174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE989A2F2D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 23:05:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9081F9A30C1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Oct 2024 00:32:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4005FB230B8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 21:05:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15A6EB227A4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 22:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5821B2281D2;
-	Thu, 17 Oct 2024 21:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Pk+tRM2a"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9E11D7E4A;
+	Thu, 17 Oct 2024 22:32:13 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1350227B91
-	for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2024 21:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D411D79A4;
+	Thu, 17 Oct 2024 22:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729199149; cv=none; b=MGXDejrzELRFlguwsmFBZGe0nso10TK9qOghtVuq17EEHWqDvQP5FnIqFGFtNR1P/tMUrEUEetpVrrcFKz3/13JTsBVEnm0hC8VXRCRBwmObHCY8NoBPqGtQn13Dlci+AhPn0x0EBAnIX46LOh1cUbrRCeL8TYejexzFA4DKiBk=
+	t=1729204333; cv=none; b=DOguORw0Tj7mnysYV0XbS66CZCIPbZYn3bz9J79XImqFOpEZpw38+ND8vH01wQ3c/wEdoZwqhCaVg6JVTB/qopXduOctH968dZj46EHLEHLpg9xNK0Qg1bxcNhbwp91mnRLzy/IZPdAGwoZSmyeKZs2Xu9J2V7kc92S0AMNa+cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729199149; c=relaxed/simple;
-	bh=Y6AaG+nGQ6EPi9z2NWnfbHckcElRhYBDsn4OiQDTt30=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qbyhDUETGJVfBHkJNDC6N3Y46QmpaJB06kyy1JRZAtm+LgJ1z30AeXNmKMxhfcYpg+9Eml6VaPiuTwP34wRpbiqzoKFAepUBw4VruQGPv555creB9ppfewCiTUdaqrXLtJ3J/vbRi5RCbQoAJvlfuGvX2/vVtfiASMrcgxUCOBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Pk+tRM2a; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-7e6e98892e1so1544509a12.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2024 14:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729199144; x=1729803944; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ajtp5myrnkoafKCm3p/bequs3OqbdzUjrecmuAy/Zlo=;
-        b=Pk+tRM2aooRmzrldjfhk6GvkncY9P1E5vMvnTm1kuBbxYsyAk6aeSpKpysSPapRcUE
-         ya6fGWwP0cJH5LPd75piQSGF6ufbW6UtsIDOASyfZ74F1T7xK1lnflDjwTLEbPq8MfsZ
-         hhts9i509i/EVL370mg6bO20mxHXNMzjqJ1VGsy+p2KC29XgLev6OD4zv9rm/Ghs42cp
-         tW5c/kVaLciOaG3d+GdMNZZjViLHw07eDSA05VUSIi7hSwWWppYGLfWTykV4SLcWQMjS
-         v/O5Fd6u92rz1zik1vgHRLY0pIJBKx+kAZ01hv1QHpNuHtL43hujP559J5fxOY3Ai9B/
-         ObsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729199144; x=1729803944;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ajtp5myrnkoafKCm3p/bequs3OqbdzUjrecmuAy/Zlo=;
-        b=Dlioq8eSEGXy8QLlrgqc7hG0QlR6etTTv8d3SduahHFt+OpTCQK9t+MRi25U5k7tRu
-         hfNw85KNUZUU/i9CDwfl82ovTBYl/gkM+RpxsUimU1QSgvsFwMF532o5NFys9+SAtuco
-         ub2mC4K4g7QRpnN9AkMXVJqg2FCM1y1E9Q1r5wCDGoY+69xOZhJcQTYIPzcgGaR9hmvs
-         BIxzYzFcwuiN60a/pwVkcO+70xG30BpxFeuYRV4GYBndBeFYJwKhGpXZyafoURbRvo5J
-         jrDgPc5QSuOfxOeIBCPxXWL3dHbNFnQyxEKLvo3C0cuir9nM2fQBkjDw0jMm2QNYPjYk
-         A+5g==
-X-Forwarded-Encrypted: i=1; AJvYcCXzZgf6puYE9TlzJyrdA1HYuWit8zawUtyXuJxQFAhxz2FGcWICYrhNwoz5WDG77dazfMvaK180vax3OUs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzafbZKDOSQ+YPmb8rls5+6nMlb9H3ilnNKq0MCAeogw7OMy1n6
-	W4NsESt5SGnL5z6jpP1WDORB52IEwwBFk+DWWPFbQqrNYyLlj6OWmYd5hZIULhQZtWoJpA==
-X-Google-Smtp-Source: AGHT+IGjRDkVYgyQpZQg7El4xAj5c7QPfMnfmckS6Cih/V7A/YDepan/bVLgyEeMrR3BgWArbVoNd8Ro
-X-Received: from elsk.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:dbd])
- (user=elsk job=sendgmr) by 2002:a63:7d58:0:b0:7ea:8cd7:5e67 with SMTP id
- 41be03b00d2f7-7eaa6cb9933mr13002a12.10.1729199143828; Thu, 17 Oct 2024
- 14:05:43 -0700 (PDT)
-Date: Thu, 17 Oct 2024 21:04:30 +0000
-In-Reply-To: <CAH5fLgh3JyY9L6Fg+LXVguyx8iPRbHVHqTyXSfM9gq6jdWRdtw@mail.gmail.com>
+	s=arc-20240116; t=1729204333; c=relaxed/simple;
+	bh=0V9XjGqGrActrQeGh4qLOjUJHPwX1XSu/VYcTb4uuu8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AsrQyXYtHAuLYyPe4pHR7vVMEyk9UhkRUybyc/YeG/1bNzPvTgKaiMdwkjorS5zkJvqLaEYloeoTtZqCOcc9jnqLUwsyBSMhZPQrsOWgC3nuJ2BwhtyVluMW61yQEdY5ph4PeJxKk3DDxsOiAydz8TMe/lC6NYHyviWYQ24UJjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB663C4CED0;
+	Thu, 17 Oct 2024 22:32:11 +0000 (UTC)
+Date: Thu, 17 Oct 2024 18:32:35 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: David Hunter <david.hunter.linux@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shuah@kernel.org,
+ javier.carrasco.cruz@gmail.com
+Subject: Re: [PATCH v2 5/7] streamline_config.pl: fix: implement choice for
+ kconfigs
+Message-ID: <20241017183235.2d8930a2@gandalf.local.home>
+In-Reply-To: <20241014141345.5680-6-david.hunter.linux@gmail.com>
+References: <20241014141345.5680-1-david.hunter.linux@gmail.com>
+	<20241014141345.5680-6-david.hunter.linux@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <CAH5fLgh3JyY9L6Fg+LXVguyx8iPRbHVHqTyXSfM9gq6jdWRdtw@mail.gmail.com>
-X-Mailer: git-send-email 2.47.0.105.g07ac214952-goog
-Message-ID: <20241017210430.2401398-2-elsk@google.com>
-Subject: [PATCH v2] rust: add PROCMACROLDFLAGS
-From: HONG Yifan <elsk@google.com>
-To: aliceryhl@google.com, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@kernel.org>
-Cc: elsk@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mmaurer@google.com, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-These are additional flags to be passed when linking proc macros for the
-Rust toolchain. If unset, it defaults to $(HOSTLDFLAGS).
+On Mon, 14 Oct 2024 10:13:35 -0400
+David Hunter <david.hunter.linux@gmail.com> wrote:
 
-This is needed because the list of flags to link hostprogs is not
-necessarily the same as the list of flags used to link libmacros.so.
-When we build proc macros, we need the latter, not the
-former. To distinguish between the two, introduce this new variable
-to stand out from HOSTLDFLAGS used to link other host progs.
+> Properly implement the config entries that are within the choice keyword
+> for kconfig. Currently, the script only stops the previous config entry
+> when a choice keyword is encountered.
+> 
+> When the keyword "choice" is encountered, do the following:
+>         - distribute the lines immediately following the "choice"
+>           keyword to each config entry inside the "choice" section.
+>         - process the config entries with the distributed lines.
+> 
+> Signed-off-by: David Hunter <david.hunter.linux@gmail.com>
+> ---
+> V1 https://lore.kernel.org/all/20240913171205.22126-6-david.hunter.linux@gmail.com/
+> 
+> V2 
+> 	- changed the subject prefix
+> 	- changed the method for storing and distributing the choice
+> 	  block. No longer using temp file. 
+> ---
+>  scripts/kconfig/streamline_config.pl | 47 ++++++++++++++++++++++++++--
+>  1 file changed, 45 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> index b7ed79c5e070..4149c4b344db 100755
+> --- a/scripts/kconfig/streamline_config.pl
+> +++ b/scripts/kconfig/streamline_config.pl
+> @@ -149,6 +149,34 @@ my $var;
+>  my $iflevel = 0;
+>  my @ifdeps;
+>  
+> +# distributes choice entries to different config options
+> +sub set_hash_value {
+> +    my %htable = %{$_[0]};
+> +    my $tmp_config = $_[1];
+> +    my $current_config = $_[2];
 
-Signed-off-by: HONG Yifan <elsk@google.com>
----
-v1 -> v2: Updated text in kbuild.rst as suggested by aliceryhl@google.com.
+The other functions usually make this a single line. Also, we should give
+names for all parameters.
 
- Documentation/kbuild/kbuild.rst | 7 +++++++
- Makefile                        | 1 +
- rust/Makefile                   | 2 +-
- 3 files changed, 9 insertions(+), 1 deletion(-)
+  sub set_hash_value {
+      my ($phtable, $tmp_config, $current_config) = @_;
+      my %htable = %{$phtable};
+      if (defined($htable{$tmp_config})) {
+          ${$phtable}{$current_config} = $htable{$tmp_config};
+      }
+  }
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 1796b3eba37b..5ba8c4afd44b 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -91,6 +91,13 @@ HOSTRUSTFLAGS
- -------------
- Additional flags to be passed to $(HOSTRUSTC) when building host programs.
+Names make it a bit easier to read. Perl is already know as being very
+cryptic, we don't need to make it worse.
 
-+PROCMACROLDFLAGS
-+-------------
-+Additional flags to be passed when linking Rust proc macros. Since proc macros
-+are loaded by rustc at build time, they must be linked in a way that is
-+compatible with the rustc toolchain being used. If unset, it defaults to
-+$(HOSTLDFLAGS).
-+
- HOSTLDFLAGS
- -----------
- Additional flags to be passed when linking host programs.
-diff --git a/Makefile b/Makefile
-index b77ac70f8be4..89cdf0eca7de 100644
---- a/Makefile
-+++ b/Makefile
-@@ -469,6 +469,7 @@ KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS) \
- 		       -I $(srctree)/scripts/include
- KBUILD_HOSTRUSTFLAGS := $(rust_common_flags) -O -Cstrip=debuginfo \
- 			-Zallow-features= $(HOSTRUSTFLAGS)
-+KBUILD_PROCMACROLDFLAGS := $(or $(PROCMACROLDFLAGS),$(HOSTLDFLAGS))
- KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
- KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+> +    if (defined($htable{$tmp_config})) {
+> +	${$_[0]}{$current_config} = $htable{$tmp_config};
+> +    }
+> +}
+> +
+> +# distribute choice config entries
+> +sub copy_configs {
+> +    my $tmp_config = "TMP_CONFIG";
+> +    my $choice_config = $_[0];
 
-diff --git a/rust/Makefile b/rust/Makefile
-index 3678e79317f1..95ceaba35975 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -322,7 +322,7 @@ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
-       cmd_rustc_procmacro = \
- 	$(RUSTC_OR_CLIPPY) $(rust_common_flags) \
- 		-Clinker-flavor=gcc -Clinker=$(HOSTCC) \
--		-Clink-args='$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
-+		-Clink-args='$(call escsq,$(KBUILD_PROCMACROLDFLAGS))' \
- 		--emit=dep-info=$(depfile) --emit=link=$@ --extern proc_macro \
- 		--crate-type proc-macro \
- 		--crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
---
-2.47.0.rc1.288.g06298d1525-goog
+And this as:
+
+  sub copy_configs {
+     my ($choice_config) = $@;
+     my $tmp_config = "TMP_CONFIG"
+
+As parameters should always be first, which is how the rest of the file
+does it. Consistency would be good.
+
+-- Steve
+
+> +    set_hash_value (\%depends, $tmp_config, $choice_config);
+> +    set_hash_value (\%selects, $tmp_config, $choice_config);
+> +    set_hash_value (\%prompts, $tmp_config, $choice_config);
+> +    set_hash_value (\%defaults, $tmp_config, $choice_config);
+> +}
+> +
+> +sub delete_temp_config {
+> +    my $tmp_config = "TMP_CONFIG";
+> +    $depends{$tmp_config} = undef;
+> +    $selects{$tmp_config} = undef;
+> +    $prompts{$tmp_config} = undef;
+> +    $defaults{$tmp_config} = undef;
+> +}
+> +
+>  # prevent recursion
+>  my %read_kconfigs;
+>  
+> @@ -163,6 +191,7 @@ sub read_kconfig {
+>  
+>      my $source = "$ksource/$kconfig";
+>      my $last_source = "";
+> +    my $choice_activated = 0;
+>  
+>      # Check for any environment variables used
+>      while ($source =~ /\$\((\w+)\)/ && $last_source ne $source) {
+> @@ -205,9 +234,13 @@ sub read_kconfig {
+>  	    $config = $2;
+>  	    $config2kfile{"CONFIG_$config"} = $kconfig;
+>  
+> +	    if ($choice_activated) {
+> +		copy_configs $config;
+> +	    }
+> +
+>  	    # Add depends for 'if' nesting
+>  	    for (my $i = 0; $i < $iflevel; $i++) {
+> -		if ($i) {
+> +		if (defined($depends{$config})) {
+>  		    $depends{$config} .= " " . $ifdeps[$i];
+>  		} else {
+>  		    $depends{$config} = $ifdeps[$i];
+> @@ -260,8 +293,18 @@ sub read_kconfig {
+>  	    $iflevel-- if ($iflevel);
+>  
+>  	# stop on "help" and keywords that end a menu entry
+> -	} elsif (/^\s*(---)?help(---)?\s*$/ ||
+> /^(comment|choice|menu)\b/) {
+> +	} elsif (/^\s*(---)?help(---)?\s*$/ || /^(comment|menu)\b/) {
+>  	    $state = "NONE";
+> +
+> +	# for choice, distribute the lines before each config entry to
+> +	# each config entry
+> +	} elsif (/^\s*choice\b/) {
+> +	    $choice_activated = 1;
+> +	    $config = "TMP_CONFIG";
+> +	    $state = "NEW";
+> +	} elsif (/^\s*endchoice/) {
+> +	    delete_temp_config;
+> +	    $choice_activated = 0;
+>  	}
+>      }
+>      close($kinfile);
 
 
