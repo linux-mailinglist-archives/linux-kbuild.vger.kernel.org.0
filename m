@@ -1,56 +1,56 @@
-Return-Path: <linux-kbuild+bounces-4160-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4161-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18A89A19C9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 06:41:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ACD9A21DE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 14:09:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74549284AB0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 04:41:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FC371F23E56
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 12:09:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1B313A41F;
-	Thu, 17 Oct 2024 04:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 530191DCB36;
+	Thu, 17 Oct 2024 12:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="XFkC8cCs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E5C224CC;
-	Thu, 17 Oct 2024 04:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CF61DC18B;
+	Thu, 17 Oct 2024 12:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729140105; cv=none; b=cXEGWJeHkGJw72ckPLa1raAFK5DtXQ8hTWXxDmR0SxWrIOUnAWXd/WrQmLAvGT06ImmCHZRjJeBhhyXZU9iysJbTjLu2jpvBieEML47fEkDuRC8cQbC8dByynzyT80EsC/AaxC9Amf3QZ0IivKBscfVX9gkYhg+y6LsHY4rifkU=
+	t=1729166961; cv=none; b=QOBaWQnasedRTwmZvQdqNqUCByxwr3rDrq4Mr+wra2zPzIryLsZ7faq2lSmyUs22CTmbHxw+aU4LNFea9hiJ/2/woHNU+/xFw8eNPl3dyStwm/uk52Bx1LIuF+O0ocHRGcEINjQG7i26mXRG0Y+DmklZWFhg9KGs2Dfd77yawXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729140105; c=relaxed/simple;
-	bh=ao336pkzJ1vCCnqcKARdbwKuHQux4BznZ203PT2NfU8=;
+	s=arc-20240116; t=1729166961; c=relaxed/simple;
+	bh=hjBpea8/wMQQI3d0ZRKaAtolWXcziTvVFZ9oxhaMpZA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sVXj5mU+ZYSPZZn4xPlnPKFE6tL2+a4r+GlS0HmbPllbNsnytXED+TaNwLPE2iMlqul3bNGdTehpBL01hN2rsJk2N41k7TvLH4aDdLB4ZQfrdduI/QwMqNF7Ix8RToPAhPeqNxr8jMuqclbZRQR5y6a1mPkVDE9FhtDISxPa2yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4XTZt75P4mz9sPd;
-	Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6MMm0su871D5; Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4XTZt74G4dz9rvV;
-	Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 7DC5D8B770;
-	Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id fWKN7eEXBxpc; Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
-Received: from [192.168.233.183] (unknown [192.168.233.183])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 45AE88B764;
-	Thu, 17 Oct 2024 06:41:34 +0200 (CEST)
-Message-ID: <526fe185-7077-4b51-8ce1-9ef994aa7025@csgroup.eu>
-Date: Thu, 17 Oct 2024 06:41:32 +0200
+	 In-Reply-To:Content-Type; b=hh56ljn6PgqxfG18SlYiWG2gEmOll/DFK/yTaHd/ncKnyzsR2atHAYcdvJTGW1/AvfOGSVkepZ4LniCnGeyqDwLIIiQax4Ka9Hs/v4U5fg/uRLT2V+F86y2YPsos9JIxDk+N+Iske3+1w0/iYLBoNYsE2EXUjykWVxEGOnhIq24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=XFkC8cCs; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1729166905; x=1729771705; i=deller@gmx.de;
+	bh=vNH0O5JPq8gnedYAMITdB6u2Uzcfqi5XJHyWv5Rb8m0=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=XFkC8cCsl7rxWhwyCFeIaiRDZA8p0uH9RX2Mn4jI/w2uPsQgSyLYhz/MQ9MpE4Q/
+	 V0au5wJ1sKhim9E2tKjKkKhTLifv9ppV9TXWl6rycxLlwX5x+963EkKnosaCu6DH6
+	 BbuqO5b2Oj/DHvBxuuYx8v7l3mNm4PA4ul5vA2QCxFH9+cfj9RKFlNNubny9pDObf
+	 3QQ+YCQVZPfaETezBUOq/i2QJX4x8+u1XoDBQoeUwG//UhAMxmXMJoGzbrJW6sYQE
+	 AVBVPn6Bq5R1GldlPtpN/2NXP43lxSNgi8FozWHWxPpAPGD5ONk5aDNGTxfiwJQTD
+	 SHUQwjBw4wNpOh0H2A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N1wq3-1u3ELw0gwr-00rxI1; Thu, 17
+ Oct 2024 14:08:25 +0200
+Message-ID: <9f3f6bd9-47d1-45fa-aa6b-9e0a80a5ebc6@gmx.de>
+Date: Thu, 17 Oct 2024 14:08:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -62,7 +62,7 @@ Subject: Re: [PATCH v5 14/16] modules: Support extended MODVERSIONS info
 To: Luis Chamberlain <mcgrof@kernel.org>, Matthew Maurer
  <mmaurer@google.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
  Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
- Daniel Gomez <da.gomez@samsung.com>, Helge Deller <deller@gmx.de>
+ Daniel Gomez <da.gomez@samsung.com>
 Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
  gary@garyguo.net, Michael Ellerman <mpe@ellerman.id.au>,
  Alex Gaynor <alex.gaynor@gmail.com>, Benjamin Gray <bgray@linux.ibm.com>,
@@ -70,6 +70,7 @@ Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
  linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev,
  marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev,
  linux-modules@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
  Madhavan Srinivasan <maddy@linux.ibm.com>, Boqun Feng
  <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
  <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
@@ -84,47 +85,109 @@ References: <20240925233854.90072-1-mmaurer@google.com>
  <Zwm4v_1wh5RwuHxF@bombadil.infradead.org>
  <CAGSQo03df-tnmwcz4nh3qtuQPKQ2zLHW0juQyKUXGsdeS7QkLA@mail.gmail.com>
  <ZxBKkJu-XPOGs-NG@bombadil.infradead.org>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
 In-Reply-To: <ZxBKkJu-XPOGs-NG@bombadil.infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:1p/e1F7ttuQMGYqopn2AVUGUZu0cSHvDj1je+893fZhbGOowbgG
+ 5i2/oeoXvkVZFcqxeeGVcshUV+bPEyKpwh/R6+lxFTVQes/H2q6d24GRNoUfC/qEWdq5AmX
+ Y+VU1Qomtnmmtoi7cDYJKzqkC/+JaZaDZ6mcWbB1B4Vf7/vsZfnrBL0/fWx8fbpCjz5OYfE
+ BWGNMEPcCvO/TVqU6Q1PA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:WsAm6YIyu1Y=;TVmdySOtqVVUrEvY6gGeOBWy5Zv
+ 55RIC3BP1W2gS4gwBWDOK8xth0SuXrw9Uar0o92Dq+5eHtWhGn1HR+QFA8x/uN67qj9Re9HLv
+ Q19ks49VUOMD5Em4MqbiPVDpnn+anlED9LEU2LP+x5plzDKtP5I5A23H5wHZHBrdDH1xpG9mn
+ EMngh5UUDO3EHodIT+u8oNj15qECfhTVqLF4Jj2rjpCaR8IofLuRbXF0RVhVgoA60Di/oMM9x
+ Ag344rqbGSNRQu29oZTT3xS/KaiFiybZXyrFfPoZ4/EDs5vdK2+8SZ1g8zmqH+6+jlqQYBsWp
+ KvW6iZ+uNVr7AlOvGMvFG6SPXL4fZVdHfUwF5vmfMFwbvLVPYmx1nJ7pw4NpVuymOpT+THjLS
+ BPw5U3UTv8AlCuaMl2XaVtENIapcW2lyFHLr9Btc8XEdhDUpff0dLEicdeHsdxepuvgww2Qco
+ FVAiefJsW3lQo7nNZMyVjiLHbTtbpVV3CkbzxlcqwAQjR9wBR6AtCUq2XoCBD7I5d5/WMFDbr
+ JUPLaUjrLsFEvX8u6+RNTtI8OcUJPS6mpuTeGtN4NCv2VlyJqqn+WykH2h35Vk5tOTn2Qwdov
+ iP1Ln8WR6asIZq1Kki6mLimqId3av5Q61R0IRoHBO2+yaESS3TkyRTiR0LF2z0CuD+yhi2kkG
+ mri5zTQNT2NzUeNzZzmcleV9GaFRjdmBWOg9PEbuHA5h50m4kHBHN4A8CeBuBtShtzWU1TMMg
+ GHz8KTEq5eXzWgfek79kXFnZLa9LhphcXG2sq/eMj0kDg7IUnsy/0c5LO+5qTYIs69JhAEr9u
+ qmbQ4fqYyIFEbjMUF6zVjV6+ybV623Tvj6Q8fo751+YdU=
 
+Hi Luis,
 
-
-Le 17/10/2024 à 01:21, Luis Chamberlain a écrit :
-> On Tue, Oct 15, 2024 at 04:22:22PM -0700, Matthew Maurer wrote:
->> So, the basic things I can think of to test here are:
->>
->> 1. The kernel can still load the previous MODVERSIONS format
->> 2. The kernel can load the new MODVERSIONS format
->> 3. If we artificially tweak a CRC in the previous format, it will fail to load.
->> 4. If we artificially tweak a CRC in the new format, it will fail to load.
->> 5. With CONFIG_EXTENDED_MODVERSIONS enabled, the kernel will build and
->> load modules with long symbol names, with MODVERSIONS enabled.
->>
->> Is there anything else you were thinking of here, or are those the
->> kinds of checks you were envisioning?
-> 
+On 10/17/24 01:21, Luis Chamberlain wrote:
 > That sounds great. Yeah, the above would be great to test. A while ago
 > I wrote a new modules selftests in order to test possible improvements
 > on find_symbol() but I also did this due to push the limits of the
 > numbers of symbols we could support. I wrote all this to also test the
 > possible 64-bit alignment benefits of __ksymtab_ sections on
 > architectures without CONFIG_HAVE_ARCH_PREL32_RELOCATIONS (e.g. ppc64,
-> ppc64le, parisc, s390x,...). But come to think of it, you might be
-> able to easily leverage this to also just test long symbols by self
-> generated symbols as another test case. In case its useful to you I've
-> put this in a rebased branch 20241016-modules-symtab branch. Feel free
-> to use as you see fit.
+> ppc64le, parisc, s390x,...). [....]
+>
+> I forget what we concluded on Helge Deller's alignement patches, I think
+> there was an idea on how to address the alignment through other means.
+>
+> [0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/log=
+/?h=3D20241016-modules-symtab
 
-By reading this, I discovered that was initially added to powerpc by 
-commit 271ca788774a ("arch: enable relative relocations for arm64, power 
-and x86") and then removed due to problem with modules, see commit 
-ff69279a44e9 ("powerpc: disable support for relative ksymtab references")
+I stumbled upon the unaligned-memory-access.rst document [1].
+Please read it, as it is a really good document, and the section
+"Why unaligned access is bad" states:
+It should be obvious from the above that if your code causes unaligned
+memory accesses to happen, your code will not work correctly on certain
+platforms and will cause performance problems on others.
 
-Wouldn't it be better to try and fix modules and activate again 
-CONFIG_HAVE_ARCH_PREL32_RELOCATIONS on powerpc ?
+With this in mind, you really should apply both of my alignment
+patches which you currently carry in [0].
 
-Christophe
+For parisc I partly solved the issue by fixing the arch-specific kernel un=
+alignment
+handler, but every time module sections are stored unaligned, it triggers
+performance degregation on parisc (and other sensitive platforms).
+
+I suggest you apply them unconditionally.
+
+Helge
+
+[1]  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/Documentation/core-api/unaligned-memory-access.rst
 
