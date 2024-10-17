@@ -1,267 +1,145 @@
-Return-Path: <linux-kbuild+bounces-4165-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4166-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479599A256B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 16:46:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 856069A2A6A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 19:11:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7E08B292FC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 14:46:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AC8E28772F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 17:11:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E74771DE4EE;
-	Thu, 17 Oct 2024 14:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB7CD1DFE11;
+	Thu, 17 Oct 2024 17:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=w6rz.net header.i=@w6rz.net header.b="YifJpcnw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pua+mYqJ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D635B1DE4E2
-	for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2024 14:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981291DFE06;
+	Thu, 17 Oct 2024 17:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729176370; cv=none; b=o4cx+swiFD8LK61fQ4ddiemhA4SEx7vNchrU+AaKTEdsK3k6c80AVNaKK//H9pHzrTM4yZy8vPMANaSx89LJzdEpbx0ngWwLQYPNd2W5Fa+zfiH29IqKQ+8DazjvVnAEGZpF7ATpv/Hl83icDB+X67UD6iU7AUD5VhOq3AjVkic=
+	t=1729184968; cv=none; b=Gv66/nZNxWxAlDQtyywZ3g/c45JrSB64AK/ZO/njOvaryNZVvcYtjXKMFOx6IqzyxS1TXWnzoumQqZfe3QCdrlcz1Veu7ZRESs0BR+htl44tX4yYzs6FS6XoMjO9TbeK/XBx0pOpCcuRZMj2W65OSJ1JNE1jY0kFH/FAR0a2pGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729176370; c=relaxed/simple;
-	bh=zBUk8Hw8SyNAc2VUWUi81hwo1SPdeKm0rPSCksO/rN4=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Q4VQPUSSXCqMNk+kiv/koGbCH5YFJAm1U2ZXyyapmLsgMQgs7ygdDTSDRUWCpvgMjM9GkrFP/v6hrG7nblvfSTrraRhR6vgqgTdvt7NpHAiThYB+HKrE4zMqbpq3GdkjxnKtLQG/trUQ3MexeJjRNKVh6axzCm26Jkm5bJS4FUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=w6rz.net; spf=pass smtp.mailfrom=w6rz.net; dkim=pass (2048-bit key) header.d=w6rz.net header.i=@w6rz.net header.b=YifJpcnw; arc=none smtp.client-ip=35.89.44.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=w6rz.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=w6rz.net
-Received: from eig-obgw-6008a.ext.cloudfilter.net ([10.0.30.227])
-	by cmsmtp with ESMTPS
-	id 1OFst53bhqvuo1RlItjHdb; Thu, 17 Oct 2024 14:46:00 +0000
-Received: from box5620.bluehost.com ([162.241.219.59])
-	by cmsmtp with ESMTPS
-	id 1RlHtJp5BTVml1RlHtEshA; Thu, 17 Oct 2024 14:45:59 +0000
-X-Authority-Analysis: v=2.4 cv=X8hUKnTe c=1 sm=1 tr=0 ts=67112327
- a=30941lsx5skRcbJ0JMGu9A==:117 a=30941lsx5skRcbJ0JMGu9A==:17
- a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=7vwVE5O1G3EA:10 a=xNf9USuDAAAA:8
- a=VwQbUJbxAAAA:8 a=NEAV23lmAAAA:8 a=rw3-Be7tuW_GFFp2FDUA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=hTR6fmoedSdf3N0JiVF8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=w6rz.net;
-	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
-	Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=iFpSl1G44UPHE3qQYXRjpX1spknstwijqa/2wGbs2ms=; b=YifJpcnwNz+vs7z8DHrb63fcz9
-	q3988F779kQ5Lv6Ioh6YNFUBgxGKbXVDS+XcB3WtZqrNy2VTBXbKwvo/1bEkEp7nYw6QD1XiBMzt9
-	10CtwHVLY7qfWnP1fcfKeqQeGde3AUHAJo09PEe3CEiTB0yb/HuS58KUeNqpEKNFsg3NK7RKBoI8p
-	QAWvGW6KN6yYYzpCZ1UXadjG2cIAbTjF4ljrRFqHKqxZVdAm21iPBiLcQWp+4fLrgsli2RWra1b3s
-	FXWsGjFE4t2iQ6V28mjhNVi0OSbGbU0deO331dGg5avJfhyj8B68WLXBwDVkU9xTBsDjUWk+zyIBV
-	fSej4spA==;
-Received: from c-73-223-253-157.hsd1.ca.comcast.net ([73.223.253.157]:48408 helo=[10.0.1.47])
-	by box5620.bluehost.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <re@w6rz.net>)
-	id 1t1RlG-001TYH-2L;
-	Thu, 17 Oct 2024 08:45:58 -0600
-Subject: Re: [PATCH 4/4] kbuild: cross-compile linux-headers package when
- possible
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Ben Hutchings <ben@decadent.org.uk>
-References: <20240727074526.1771247-1-masahiroy@kernel.org>
- <20240727074526.1771247-5-masahiroy@kernel.org>
-From: Ron Economos <re@w6rz.net>
-Message-ID: <b3d4f49e-7ddb-29ba-0967-689232329b53@w6rz.net>
-Date: Thu, 17 Oct 2024 07:45:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux armv7l; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	s=arc-20240116; t=1729184968; c=relaxed/simple;
+	bh=m/EkYw2s59ro8v1uZNnuDskZpSm80+cYs5IMSQ2weqM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YYY77m22uRjJRwfPrCkrxe/Vuks2Z6euMSBYimQotuqqiMVULX2n9D+5ziQnXbs5JSHsBYmemVSiic++RJFyjsVFXuOOw2Xp2KuGuOidDawk1XiIPQ7NfhgV8QKc2Dw6dPSe4gkqbpBoKfk0cQsXnhHPjTAt/IvLiUxXkFfkhd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pua+mYqJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E892C4CECD;
+	Thu, 17 Oct 2024 17:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729184968;
+	bh=m/EkYw2s59ro8v1uZNnuDskZpSm80+cYs5IMSQ2weqM=;
+	h=From:Date:Subject:To:Cc:From;
+	b=Pua+mYqJLoNh+RDMls9nHh47VkCBtx0Z6qNwUxJRFavT/4z3wW4udsyzim87WtxR0
+	 MopPUu+rsQ5I5h35/UoD4GFtg/WD7DNLDW0UP2UKAV3ZM4PLFZD5nMWJtcIFGXSbKi
+	 g6X+oxFN/JyehtYm8rymAZ7kGjw5FyHbQcbQqVbXEcDt+JUxykg+9YgMHsl25yqoXo
+	 mWM3aj5QR0E92SuuHd1s/Hqbg2mAEUSf60uxU+30dAWduGtq0gnNss1oJnz1N1n/sd
+	 jCdoxThuJaEEpJWq90GMP12T5jEoy5/TcH0CKj/0gUuFQJHIykEPRIpOufxe7hWKHC
+	 /ucwMxjONORZQ==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Thu, 17 Oct 2024 10:09:22 -0700
+Subject: [PATCH v2] kbuild: Move -Wenum-enum-conversion to W=2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240727074526.1771247-5-masahiroy@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - box5620.bluehost.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - w6rz.net
-X-BWhitelist: no
-X-Source-IP: 73.223.253.157
-X-Source-L: No
-X-Exim-ID: 1t1RlG-001TYH-2L
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: c-73-223-253-157.hsd1.ca.comcast.net ([10.0.1.47]) [73.223.253.157]:48408
-X-Source-Auth: re@w6rz.net
-X-Email-Count: 2
-X-Org: HG=bhshared;ORG=bluehost;
-X-Source-Cap: d3NpeHJ6bmU7d3NpeHJ6bmU7Ym94NTYyMC5ibHVlaG9zdC5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfJ/tAyZEdPnLDhXVWXvarEQ61ek5foSoJhiukXroa3rxgvMo4vw590e4YYkYmtdKtsJ7NgnCFLwB+K/JwmbsYhZbA7vfRHxTnssCFQgJH0EQubiRphHd
- dE81ZNJRYKios4+NXpOF4i4s+FZ6h2KAlbticJpMBLA01JwrKJykcvgLZKWZRhtZ3iJlMmvTu9XKsk9+C3+W87q6jjqdSI7SbFk=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241017-disable-two-clang-enum-warnings-v2-1-163ac04346ae@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAMFEEWcC/42NQQ6CMBBFr0Jm7RjaNEBdeQ/DotIRJmJrpggaw
+ t2tnMDl+/l5b4VEwpTgVKwgNHPiGDLoQwHd4EJPyD4z6FIbVaoKPSd3HQmnJWI35gdSeD1wcRI
+ 49AmpttZ4Y27WNJAtT6Ebv/fCpc08cJqifPbgrH7r/+5ZoUJHTVP52pW6suc7SaDxGKWHdtu2L
+ 5iU4GXPAAAA
+X-Change-ID: 20241016-disable-two-clang-enum-warnings-e7994d44f948
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Aleksei Vetrov <vvvvvv@google.com>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2857; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=m/EkYw2s59ro8v1uZNnuDskZpSm80+cYs5IMSQ2weqM=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDOmCLsc1Q+du8D5w+Vl7NoeOedrz8lO6juJzsu9rfNU/5
+ WoWdqaho5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAExkvgYjw9eT/9m+/1nAdpSn
+ +WzLtTdvdNSm/CiftlahejmbF+/BB6oMfzi7ZT3WLpuYGXzqSvS/LIVzmooRLvnS/oz/H+8MDA0
+ S5gMA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On 7/27/24 12:42 AM, Masahiro Yamada wrote:
-> A long standing issue in the upstream kernel packaging is that the
-> linux-headers package is not cross-compiled.
->
-> For example, you can cross-build Debian packages for arm64 by running
-> the following command:
->
->    $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg
->
-> However, the generated linux-headers-*_arm64.deb is useless because the
-> host programs in it were built for your build machine architecture
-> (likely x86), not arm64.
->
-> The Debian kernel maintains its own Makefiles to cross-compile host
-> tools without relying on Kbuild. [1]
->
-> Instead of adding such full custom Makefiles, this commit adds a small
-> piece of code to cross-compile host programs located under the scripts/
-> directory.
->
-> A straightforward solution is to pass HOSTCC=${CROSS_COMPILE}gcc, but it
-> would also cross-compile scripts/basic/fixdep, which needs to be native
-> to process the if_changed_dep macro. (This approach may work under some
-> circumstances; you can execute foreign architecture programs with the
-> help of binfmt_misc because Debian systems enable CONFIG_BINFMT_MISC,
-> but it would require installing QEMU and libc for that architecture.)
->
-> A trick is to use the external module build (KBUILD_EXTMOD=), which
-> does not rebuild scripts/basic/fixdep. ${CC} needs to be able to link
-> userspace programs (CONFIG_CC_CAN_LINK=y).
->
-> There are known limitations:
->
->   - GCC plugins
->
->     It would possible to rebuild GCC plugins for the target architecture
->     by passing HOSTCXX=${CROSS_COMPILE}g++ with necessary packages
->     installed, but gcc on the installed system emits
->     "cc1: error: incompatible gcc/plugin versions". I did not find a
->     solution for this because 'gcc' on a foreign architecture is a
->     different compiler after all.
->
->   - objtool and resolve_btfids
->
->     These are built by the tools build system. They are not covered by
->     the current solution.
->
-> I only tested this with Debian, but it should work for other package
-> systems as well.
->
-> [1]: https://salsa.debian.org/kernel-team/linux/-/blob/debian/6.9.9-1/debian/rules.real#L586
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->   scripts/package/install-extmod-build | 34 ++++++++++++++++++++++++++++
->   1 file changed, 34 insertions(+)
->
-> diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
-> index cc335945dfbc..0b56d3d7b48f 100755
-> --- a/scripts/package/install-extmod-build
-> +++ b/scripts/package/install-extmod-build
-> @@ -43,4 +43,38 @@ mkdir -p "${destdir}"
->   	fi
->   } | tar -c -f - -T - | tar -xf - -C "${destdir}"
->   
-> +# When ${CC} and ${HOSTCC} differ, we are likely cross-compiling. Rebuild host
-> +# programs using ${CC}. This assumes CC=${CROSS_COMPILE}gcc, which is usually
-> +# the case for package building. It does not cross-compile when CC=clang.
-> +#
-> +# This caters to host programs that participate in Kbuild. objtool and
-> +# resolve_btfids are out of scope.
-> +if [ "${CC}" != "${HOSTCC}" ] && is_enabled CONFIG_CC_CAN_LINK; then
-> +	echo "Rebuilding host programs with ${CC}..."
-> +
-> +	cat <<-'EOF' >  "${destdir}/Kbuild"
-> +	subdir-y := scripts
-> +	EOF
-> +
-> +	# HOSTCXX is not overridden. The C++ compiler is used to build:
-> +	# - scripts/kconfig/qconf, which is unneeded for external module builds
-> +	# - GCC plugins, which will not work on the installed system even with
-> +	#   being rebuilt.
-> +	#
-> +	# Use the single-target build to avoid the modpost invocation, which
-> +	# would overwrite Module.symvers.
-> +	"${MAKE}" HOSTCC="${CC}" KBUILD_EXTMOD="${destdir}" scripts/
-> +
-> +	cat <<-'EOF' >  "${destdir}/scripts/Kbuild"
-> +	subdir-y := basic
-> +	hostprogs-always-y := mod/modpost
-> +	mod/modpost-objs := $(addprefix mod/, modpost.o file2alias.o sumversion.o symsearch.o)
-> +	EOF
-> +
-> +	# Run once again to rebuild scripts/basic/ and scripts/mod/modpost.
-> +	"${MAKE}" HOSTCC="${CC}" KBUILD_EXTMOD="${destdir}" scripts/
-> +
-> +	rm -f "${destdir}/Kbuild" "${destdir}/scripts/Kbuild"
-> +fi
-> +
->   find "${destdir}" \( -name '.*.cmd' -o -name '*.o' \) -delete
+-Wenum-enum-conversion was strengthened in clang-19 to warn for C, which
+caused the kernel to move it to W=1 in commit 75b5ab134bb5 ("kbuild:
+Move -Wenum-{compare-conditional,enum-conversion} into W=1") because
+there were numerous instances that would break builds with -Werror.
+Unfortunately, this is not a full solution, as more and more developers,
+subsystems, and distributors are building with W=1 as well, so they
+continue to see the numerous instances of this warning.
 
-This patch causes a build error when cross-compiling for RISC-V. I'm 
-using the cross-compiler from 
-https://github.com/riscv-collab/riscv-gnu-toolchain. When trying to 
-build .debs with:
+Since the move to W=1, there have not been many new instances that have
+appeared through various build reports and the ones that have appeared
+seem to be following similar existing patterns, suggesting that most
+instances of this warning will not be real issues. The only alternatives
+for silencing this warning are adding casts (which is generally seen as
+an ugly practice) or refactoring the enums to macro defines or a unified
+enum (which may be undesirable because of type safety in other parts of
+the code).
 
-make CROSS_COMPILE=riscv64-unknown-linux-gnu- ARCH=riscv 
-INSTALL_MOD_STRIP=1 "KCFLAGS=-mtune=sifive-7-series" LOCALVERSION= 
-bindeb-pkg
+Move the warning to W=2, where warnings that occur frequently but may be
+relevant should reside.
 
-I get the following error:
+Cc: stable@vger.kernel.org
+Fixes: 75b5ab134bb5 ("kbuild: Move -Wenum-{compare-conditional,enum-conversion} into W=1")
+Link: https://lore.kernel.org/ZwRA9SOcOjjLJcpi@google.com/
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+Changes in v2:
+- Move -Wenum-enum-conversion to W=2, instead of disabling it
+  outright (Arnd)
+- Leave -Wenum-compare-conditional in W=1, as there are not that
+  many instances, so it can be turned on fully at some point (Arnd)
+- Link to v1: https://lore.kernel.org/r/20241016-disable-two-clang-enum-warnings-v1-1-ae886d7a0269@kernel.org
+---
+ scripts/Makefile.extrawarn | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Rebuilding host programs with riscv64-unknown-linux-gnu-gcc...
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/genksyms/genksyms.o
-   YACC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/genksyms/parse.tab.[ch]
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/genksyms/parse.tab.o
-   LEX 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/genksyms/lex.lex.c
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/genksyms/lex.lex.o
-   HOSTLD 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/genksyms/genksyms
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/selinux/genheaders/genheaders
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/selinux/mdp/mdp
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/kallsyms
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/sorttable
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/asn1_compiler
-   HOSTCC 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/sign-file
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 1d13cecc7cc7808610e635ddc03476cf92b3a8c1..04faf15ed316a9c291dc952b6cc40fb6c8c330cf 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -130,7 +130,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+ KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
+ KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
+ KBUILD_CFLAGS += -Wno-enum-compare-conditional
+-KBUILD_CFLAGS += -Wno-enum-enum-conversion
+ endif
+ 
+ endif
+@@ -154,6 +153,10 @@ KBUILD_CFLAGS += -Wno-missing-field-initializers
+ KBUILD_CFLAGS += -Wno-type-limits
+ KBUILD_CFLAGS += -Wno-shift-negative-value
+ 
++ifdef CONFIG_CC_IS_CLANG
++KBUILD_CFLAGS += -Wno-enum-enum-conversion
++endif
++
+ ifdef CONFIG_CC_IS_GCC
+ KBUILD_CFLAGS += -Wno-maybe-uninitialized
+ endif
 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/sign-file.c:25:10: 
-fatal error: openssl/opensslv.h: No such file or directory
-    25 | #include <openssl/opensslv.h>
-       |          ^~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[7]: *** [scripts/Makefile.host:116: 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts/sign-file] 
-Error 1
-make[6]: *** [scripts/Makefile.build:478: 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3/scripts] 
-Error 2
-make[5]: *** [Makefile:1936: 
-debian/linux-headers-6.12.0-rc3/usr/src/linux-headers-6.12.0-rc3] Error 2
-make[4]: *** [Makefile:2063: run-command] Error 2
-make[3]: *** [debian/rules:61: binary-headers] Error 2
-dpkg-buildpackage: error: make -f debian/rules binary subprocess 
-returned exit status 2
-make[2]: *** [scripts/Makefile.package:121: bindeb-pkg] Error 2
-make[1]: *** [/home/re/xfer/linux/Makefile:1557: bindeb-pkg] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
+---
+base-commit: 8e929cb546ee42c9a61d24fae60605e9e3192354
+change-id: 20241016-disable-two-clang-enum-warnings-e7994d44f948
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
 
