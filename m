@@ -1,126 +1,130 @@
-Return-Path: <linux-kbuild+bounces-4159-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4160-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B9C9A172C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 02:33:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18A89A19C9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 06:41:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBFB71C257D9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 00:33:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74549284AB0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2024 04:41:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9203E13B286;
-	Thu, 17 Oct 2024 00:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="knlKz6cQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1B313A41F;
+	Thu, 17 Oct 2024 04:41:45 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72C013B29B
-	for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2024 00:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E5C224CC;
+	Thu, 17 Oct 2024 04:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729125001; cv=none; b=sMPEI2QUI8eXfSssSlJaBwzjnNsonwAB8AXRylaGQXBTOHg2VyzSymBjp/kO9edAj6lFMLcDrm+9x7dRcl13nGarYBMhdBDpoSk75PNXdEGd+lA3H2A3UO2/tiXunKbHMX5gAxhV4dSfCYnx69Ljccg2Sf2yQ+Qocuofn0Dfza0=
+	t=1729140105; cv=none; b=cXEGWJeHkGJw72ckPLa1raAFK5DtXQ8hTWXxDmR0SxWrIOUnAWXd/WrQmLAvGT06ImmCHZRjJeBhhyXZU9iysJbTjLu2jpvBieEML47fEkDuRC8cQbC8dByynzyT80EsC/AaxC9Amf3QZ0IivKBscfVX9gkYhg+y6LsHY4rifkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729125001; c=relaxed/simple;
-	bh=QQ3yPlmHif47DLR/Zn5xQDSKv4ALd+gwooeN/Tt/rWU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KJ1N2O7gjHHpeC51YelAKDY20+UZndlA/GiMRtCRA5sqNdIs4ElKDZ+c/pU5H31SlT5b8QjuEtdlLWmresJIF5M3DOVUYgfXqBVHrdFv+Eox6pdgjgbBQbdnF3DODwAh4tv6OhNoNheSGSHvRpI9CzxD7+s8U4zCzUcvoaoH8MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=knlKz6cQ; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4608dddaa35so132921cf.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2024 17:29:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729124999; x=1729729799; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LH0Z2Dabr0v6/YTuA2hPIezpeV5Gwf0kakguPcEDLYw=;
-        b=knlKz6cQ9l8OXoh5ZK9yrXf8FmMKeX+eYOwo9Zvz7UY/o0CHJH2+BbM042VPovmCRa
-         PC+4/bAMZ8Q8giLj2+ORXmqOqEzNoVDTEvYXeyLJrkW8VVyky7yqLEynyxDcxOqQX3X5
-         O9e4Gj7whQ/lsd4riUTn28IvpLB/ioC1qO+V3uUWgi//o8QFA2CwEYCpmGjKUzg/ulML
-         7ChVRA1wlM/GwhR3jEXiqSoGCreX/JCb/xC87C5b4v50TSWWs8dvecomGtyKW4KSZ8dS
-         rlsA+VI8V9CC65d2o8n0uuJnAg7HUFuiI/sSBHqzzqY3lhqCrqpNjVs92pnzAtx1ufGr
-         wRuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729124999; x=1729729799;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LH0Z2Dabr0v6/YTuA2hPIezpeV5Gwf0kakguPcEDLYw=;
-        b=c2x+UVkDhkZYtIlFGPTdDDO5R8PKDkQ0xjLYkrpD3jZaS0TtkbivWl2HMiyEUg49wj
-         uWJpL4AtijWi27ML7CLalzEwJWH09qTjbclpmeCfXUQpDmRlcuny8UwXLFDgROfrexN2
-         DL62TxyGlAyfJCYe39ay5nT1DRMah2etoi1wb6lnLAKt+J3GVh2gdHZmQPCPsFdNSuqk
-         +mr8gBJ5YtHUoy4D+LK/YDFvYNmwMyIqudTWAvjqKUU+XiO9mINxoCchTR99gE9kMh0U
-         nGYj2eqWKd5r47uXyuXD/7Iv2k9E2mFG+A793aMdS6MJ4tUZvTaOCKFDYN3bXMLSMjQg
-         LtwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUitxntMkOjgmQymRGkPVs/wLiyXVTghoqR2QPV7r87KnIBdMZzt6P+JoOLlv3PX81/pSyEZfbRPKstfwc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2zA2Egv1i0dWUa4RyBT93h9GxA91Zaeic1/cfLZacC2gDnFuP
-	qJUEp7V/AUInr1ZMDd9K7XjrAq//1VJGViJPEvBFIDlkQa0rIOzWmxiTvr/F68bSCo/hsAo7Q7g
-	xWAXnkNKv8IaFjF/cO/HbBfpuoDWquGI61KXu
-X-Google-Smtp-Source: AGHT+IEkiqlXHuKYOU8SwBMR0dV+VSeKX1cEYOa+jnRE7HTVIAIwDiHxxERyXoPvpzA18MmYhkLujQjjhoStViWu6eQ=
-X-Received: by 2002:a05:622a:a313:b0:453:5b5a:e77c with SMTP id
- d75a77b69052e-4609c7856e5mr1655011cf.10.1729124998247; Wed, 16 Oct 2024
- 17:29:58 -0700 (PDT)
+	s=arc-20240116; t=1729140105; c=relaxed/simple;
+	bh=ao336pkzJ1vCCnqcKARdbwKuHQux4BznZ203PT2NfU8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sVXj5mU+ZYSPZZn4xPlnPKFE6tL2+a4r+GlS0HmbPllbNsnytXED+TaNwLPE2iMlqul3bNGdTehpBL01hN2rsJk2N41k7TvLH4aDdLB4ZQfrdduI/QwMqNF7Ix8RToPAhPeqNxr8jMuqclbZRQR5y6a1mPkVDE9FhtDISxPa2yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4XTZt75P4mz9sPd;
+	Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6MMm0su871D5; Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4XTZt74G4dz9rvV;
+	Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 7DC5D8B770;
+	Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id fWKN7eEXBxpc; Thu, 17 Oct 2024 06:41:35 +0200 (CEST)
+Received: from [192.168.233.183] (unknown [192.168.233.183])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 45AE88B764;
+	Thu, 17 Oct 2024 06:41:34 +0200 (CEST)
+Message-ID: <526fe185-7077-4b51-8ce1-9ef994aa7025@csgroup.eu>
+Date: Thu, 17 Oct 2024 06:41:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015231925.3854230-1-mmaurer@google.com> <20241015231925.3854230-2-mmaurer@google.com>
-In-Reply-To: <20241015231925.3854230-2-mmaurer@google.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 16 Oct 2024 17:29:21 -0700
-Message-ID: <CABCJKudqG+8-MdxXRfdu7pYe=UniiiAV1P4QnbP2c1R3Q8DC=Q@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] export_report: Rehabilitate script
-To: Matthew Maurer <mmaurer@google.com>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
-	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st, j@jannau.net, 
-	asahi@lists.linux.dev, linux-modules@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 14/16] modules: Support extended MODVERSIONS info
+To: Luis Chamberlain <mcgrof@kernel.org>, Matthew Maurer
+ <mmaurer@google.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Helge Deller <deller@gmx.de>
+Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
+ gary@garyguo.net, Michael Ellerman <mpe@ellerman.id.au>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Benjamin Gray <bgray@linux.ibm.com>,
+ Naveen N Rao <naveen@kernel.org>, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev,
+ marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev,
+ linux-modules@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Boqun Feng
+ <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, linuxppc-dev@lists.ozlabs.org
+References: <20240925233854.90072-1-mmaurer@google.com>
+ <20240925233854.90072-15-mmaurer@google.com>
+ <ZwmlEYdS0aPVF32k@bombadil.infradead.org>
+ <CAGSQo01o4fWYwSzZHX5dyTUKcaCSZ7z-hPQ8w63tgBPGbM_UCA@mail.gmail.com>
+ <ZwmnnMmqVWLaelvQ@bombadil.infradead.org>
+ <Zwm4lXdKB9RfPQ5M@bombadil.infradead.org>
+ <Zwm4v_1wh5RwuHxF@bombadil.infradead.org>
+ <CAGSQo03df-tnmwcz4nh3qtuQPKQ2zLHW0juQyKUXGsdeS7QkLA@mail.gmail.com>
+ <ZxBKkJu-XPOGs-NG@bombadil.infradead.org>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <ZxBKkJu-XPOGs-NG@bombadil.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
 
-On Tue, Oct 15, 2024 at 4:19=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
- wrote:
->
-> The `export_report.pl` script was broken [1] a while back due to a code
-> cleanup causing the regex to no longer match. Additionally, it assumes a
-> `modules.order` file containing `.ko` in a build directory with `.mod.c`
-> files. I cannot find when this would have been the case in the history,
-> as normally `.ko` files only appear in `modules.order` in installed
-> modules directories, and those do not contain `.mod.c` files.
-> This patch makes it able to report symbol usage counts for a build tree
-> with modules and MODVERSIONS.
->
-> Since the rest of this series will change the format of `.mod.c`, this
-> change fixes the script to work correctly against a current build tree.
-> Given that the regex no longer matches the format used in `.mod.c`, it
-> cannot have worked since 2019, so updating this script is purely out of
-> an abundance of caution. I am unsure who uses this script or for what
-> purpose.
->
-> * modules.order in a build directory uses .o, not .ko files. Allow .o
->   files when parsing modules.order.
-> * The .mod.c format changed [1] how it expressed the section attribute,
->   leading to a regex mismatch. Update it to match modpost.c
->
-> [1]: https://lore.kernel.org/all/20190909113423.2289-2-yamada.masahiro@so=
-cionext.com/
 
-If this script has been broken for half a decade and nobody noticed,
-does anyone actually use it? If this is dead code, I would prefer to
-just delete it.
+Le 17/10/2024 à 01:21, Luis Chamberlain a écrit :
+> On Tue, Oct 15, 2024 at 04:22:22PM -0700, Matthew Maurer wrote:
+>> So, the basic things I can think of to test here are:
+>>
+>> 1. The kernel can still load the previous MODVERSIONS format
+>> 2. The kernel can load the new MODVERSIONS format
+>> 3. If we artificially tweak a CRC in the previous format, it will fail to load.
+>> 4. If we artificially tweak a CRC in the new format, it will fail to load.
+>> 5. With CONFIG_EXTENDED_MODVERSIONS enabled, the kernel will build and
+>> load modules with long symbol names, with MODVERSIONS enabled.
+>>
+>> Is there anything else you were thinking of here, or are those the
+>> kinds of checks you were envisioning?
+> 
+> That sounds great. Yeah, the above would be great to test. A while ago
+> I wrote a new modules selftests in order to test possible improvements
+> on find_symbol() but I also did this due to push the limits of the
+> numbers of symbols we could support. I wrote all this to also test the
+> possible 64-bit alignment benefits of __ksymtab_ sections on
+> architectures without CONFIG_HAVE_ARCH_PREL32_RELOCATIONS (e.g. ppc64,
+> ppc64le, parisc, s390x,...). But come to think of it, you might be
+> able to easily leverage this to also just test long symbols by self
+> generated symbols as another test case. In case its useful to you I've
+> put this in a rebased branch 20241016-modules-symtab branch. Feel free
+> to use as you see fit.
 
-Sami
+By reading this, I discovered that was initially added to powerpc by 
+commit 271ca788774a ("arch: enable relative relocations for arm64, power 
+and x86") and then removed due to problem with modules, see commit 
+ff69279a44e9 ("powerpc: disable support for relative ksymtab references")
+
+Wouldn't it be better to try and fix modules and activate again 
+CONFIG_HAVE_ARCH_PREL32_RELOCATIONS on powerpc ?
+
+Christophe
 
