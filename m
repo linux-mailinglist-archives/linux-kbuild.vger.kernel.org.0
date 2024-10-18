@@ -1,108 +1,129 @@
-Return-Path: <linux-kbuild+bounces-4177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4178-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E504D9A38B1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Oct 2024 10:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787609A3D30
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Oct 2024 13:19:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12D851C239A6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Oct 2024 08:38:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A72F01C210E2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Oct 2024 11:19:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 632BC18E374;
-	Fri, 18 Oct 2024 08:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF30B18EFD4;
+	Fri, 18 Oct 2024 11:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o+dt1qMx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOSoCDnr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AD01865EF
-	for <linux-kbuild@vger.kernel.org>; Fri, 18 Oct 2024 08:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E5F200BBC;
+	Fri, 18 Oct 2024 11:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729240715; cv=none; b=DX+kxkpBp9+IprP70J4o3UdWNIYobfpXYnCyiZqFJ7qb5sxEXR6l8LBi+AN6dpFSlkLjiA3zaDvImCN1jJ7RnmXJPb/+JvCLFO2YP+OpFMxW16YNvwDAYpmY53Wu7n/+X0KHSmaGKTUBU3gH7khnz//QcjwLkKFp7h6jvKNqKDQ=
+	t=1729250378; cv=none; b=g9YOFN1nikTMusAdn4TyrzRRSGZsuk6pJWX0Tg77dDjtFNor7d4VHuo61d8ggHh2Q7AtM1g0zsB2JlirhDfq+tI3KEjF5Hn9MpZ0zRZTYidcDBSw2ylH65NZ6YkQwzn1qEXV0bOyESHVXuQahvK5SV+64ypPZ6iBVQj1/xBYvjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729240715; c=relaxed/simple;
-	bh=5rsysGuJqIPx87mh5cgfnJY0IcxVmSN/yeZOhX991mg=;
+	s=arc-20240116; t=1729250378; c=relaxed/simple;
+	bh=cZQZyFhV6odFwcw9cSqGUp+HOV68fnDoIk0m8gHESu4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fFydXA2IwB0IWn7W6Wo7cf+Bjo6Sihskzg1osicXhmvdQF3wf7bRFRGAYFgSFFEHBDUA1pv2as24UF7GmuI9T66F4lHshG4Zngxtf/5d1zNwlW3ieT1R2KDQ9RUDYoa2Piu9xtvAvTe1Jczw2f279hzQu4yaMPeBi4/uyf7u1q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o+dt1qMx; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d58377339so1957577f8f.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 18 Oct 2024 01:38:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729240712; x=1729845512; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5rsysGuJqIPx87mh5cgfnJY0IcxVmSN/yeZOhX991mg=;
-        b=o+dt1qMx8alKUWaR9VakV/MIw7IqgtEZQNYyIqk+HPKZ24rNOPweKxuJuK3nmFjyhH
-         1AZaMAsMsPh3fNNkvI4MN5luMANYGXpvPYxnZ67kXMJBzzAh6aOm90+yQSSKj/BC4dO2
-         ugaHK892g3p0g6coQX0TUqjtsIv2QA1iH3FwIkdExC3vgXh03l1QtliVc9gVI98w2xHw
-         2Rz+edEUyHeGKV6Vi+c/y1//u/3H+vHxzz6+ybynReWNh8Ydr0msGEtfafWIPuW7uTe+
-         u0cZsCZ/rXlUYvJ94Rf4mGVXaUrEFFy98SOql9180/fRftxCylxx5RivE6HYBalJq3oV
-         c4xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729240712; x=1729845512;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5rsysGuJqIPx87mh5cgfnJY0IcxVmSN/yeZOhX991mg=;
-        b=pz2kT7RsEYStiVWHnAESJnaILFBUm5P6NpMzDhjSOVskiso6Brt184GW5YI/phPU/p
-         kc4xupiIDkBJC5Ge72h3X0IzcdmF4Xe2acj3BU30Z3bsmGzeYIaxUnN1f6x9rCweArG4
-         ip9OmbpSUv0meCEj88cCrLxKunmDDk8xepk1+DA2mnWHdgbfkecK3z4vRYNWwBEDVpIz
-         34miWN5FuHW+CIngZpXjNvmI5ggP99XbnZO22bER0C4EA03TKGDcqE97/ZW6by8sPEIK
-         cJtXAzmQ1K2SjwngtHbitDd4s3qi9fDKQVKbOk0R1XPvne5x9dhmI9WbDxHOgNiWRamv
-         BkiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXefdpK7iTOjw+PbMRzrNQqvNXY5gmVZjMmSgmmH6VvhYturBVaZeWW2eZ0QVs0PgG+37kge1SGz+eAaQ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/nwMXiSGfAY8aPHJFr+l3mfnq8TbWrH9ReeTNjXmkZErsH5u7
-	rjAWWoPGdr4J9O+HHyMdrK86VY2T+kdKgRoNIb8FqJrh2DZ6jG7+1kutp+6ZhuTlze5cwf87iPF
-	2Ueo+ZR00ESW9IM4Z1gEEP9LfUkV9wSLJIPiV
-X-Google-Smtp-Source: AGHT+IEMpABvANAQwaiBdpAUNXgOV+TAluVstbFQL613PUpCigYL4zr3qY0/T+iv7zpvIq0gQsB6fiqggsI3J2pJwcw=
-X-Received: by 2002:a05:6000:124a:b0:37d:9508:1947 with SMTP id
- ffacd0b85a97d-37eb476876amr1372031f8f.51.1729240711872; Fri, 18 Oct 2024
- 01:38:31 -0700 (PDT)
+	 To:Cc:Content-Type; b=XvVIcTSBZmyj/fKjNRHpFZnWKglPvHivdvx6SfmUYkPgtcnNsLZX8Ly5BovdS6gGBVMgOqe0SkjGo5Uou5JMjSRnpzDZlPhK3c24gmEewL5c/24sHH+92SyhPFwh0iYcRbpEyqTOYMJcl7hFj3ZEgcjk90NziLcQezsih1+pzyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOSoCDnr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A264C4CECF;
+	Fri, 18 Oct 2024 11:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729250378;
+	bh=cZQZyFhV6odFwcw9cSqGUp+HOV68fnDoIk0m8gHESu4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=iOSoCDnrKHv9F3qbdIvsWcPxVm+kRdE2eXyjpD1P41J4Gl2vNRboPgd/f6fOniMkZ
+	 +hOyy8o4SKmg9ucMMhkTE/rj1oDK2evXQmxvHChOuYG58CcNHzjGPNQDc11Y9S3bkT
+	 8IEBdpuZ2TI/cGL2MlCBQCrZk8Mk0z6M2VdkjIImMgXSiTz8YmfP8f4Yz+XjPJcuhg
+	 Bjom38p4aYxSOBkwtKr0X+hxr0+hBp+EftFXv9FoFPziqQq/LsuCAGjzOAjHi8Sjzj
+	 OnOqbWCpDLsWuJLrqPM7G4M+K5pw5qyAA0P/N+rDLckLqlAXckbOTBG963yx9zWQhi
+	 Q5Wz6A92nBwCg==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539983beb19so2276301e87.3;
+        Fri, 18 Oct 2024 04:19:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWJgQnUIqBZtXmoLfLdYvGi0nsb81ZIzkjU+b4SaS9dvhxegbqAZi7VWuV0W52dR+1AK7IkedWi4M9+cQE=@vger.kernel.org, AJvYcCXLCw+HJ4nUnl248W/qc11Oq0bi6coVCjKH57SuBb7XE795cu0+dZOZ3lB6K6oCrh7Bxby21oCLS9Q8mDzw@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOMwRQ1axBgJuFNT5snPQpUW5BhwGhbRzqX47/V9pKOBxpnvk4
+	ZCkXlb+IiOKosEF1iuCoHdv5krtzRa/vqHTIVTJ8hOsO37UtIwi9QREvmtCjHdLYxAFTnVoEW0c
+	VDS6wAHd8Obh2hCXxSv4dq1bwXlU=
+X-Google-Smtp-Source: AGHT+IEU88aZtXtf9yQ9ikU7FiDgZ3r01jLQvmdVnpJB8djfFtTyO8sx2VEgMvKXQYJdS/pw86TTFXGJzhu8ilMTXPw=
+X-Received: by 2002:a05:6512:104c:b0:539:e85f:ba98 with SMTP id
+ 2adb3069b0e04-53a154fa46bmr1195071e87.56.1729250376855; Fri, 18 Oct 2024
+ 04:19:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAH5fLgh3JyY9L6Fg+LXVguyx8iPRbHVHqTyXSfM9gq6jdWRdtw@mail.gmail.com>
- <20241017210430.2401398-2-elsk@google.com>
-In-Reply-To: <20241017210430.2401398-2-elsk@google.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 18 Oct 2024 10:38:19 +0200
-Message-ID: <CAH5fLgjv1AcSspv=-owxrsKaJcAGpxdG3g6r10imcOR1Yarr6Q@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: add PROCMACROLDFLAGS
-To: HONG Yifan <elsk@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mmaurer@google.com, 
-	rust-for-linux@vger.kernel.org
+References: <20241016194149.4178898-1-chris.packham@alliedtelesis.co.nz>
+In-Reply-To: <20241016194149.4178898-1-chris.packham@alliedtelesis.co.nz>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 18 Oct 2024 20:19:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR4h6NZ+D0BK+q4VQBeHWpjzRBQFQ9ovBrftM=6dHRcUg@mail.gmail.com>
+Message-ID: <CAK7LNAR4h6NZ+D0BK+q4VQBeHWpjzRBQFQ9ovBrftM=6dHRcUg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Restore the ability to build out of tree dtbs
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: nathan@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 17, 2024 at 11:05=E2=80=AFPM HONG Yifan <elsk@google.com> wrote=
-:
+On Thu, Oct 17, 2024 at 4:59=E2=80=AFAM Chris Packham
+<chris.packham@alliedtelesis.co.nz> wrote:
 >
-> These are additional flags to be passed when linking proc macros for the
-> Rust toolchain. If unset, it defaults to $(HOSTLDFLAGS).
+> A build pattern to handle out of tree dtbs is to copy the .dts file into
+> the kernel source tree and run `make myboard.dtb`. This is supported by
+> the wildcard %.dtb rule in the Makefile but recent changes to split the
+> dtb handling out of scripts/Makefile.build stopped this from working.
+> Restore this functionality by looking for .dtb in $(MAKECMDGOALS) as
+> well as $(targets).
 >
-> This is needed because the list of flags to link hostprogs is not
-> necessarily the same as the list of flags used to link libmacros.so.
-> When we build proc macros, we need the latter, not the
-> former. To distinguish between the two, introduce this new variable
-> to stand out from HOSTLDFLAGS used to link other host progs.
->
-> Signed-off-by: HONG Yifan <elsk@google.com>
+> Fixes: e7e2941300d2 ("kbuild: split device tree build rules into scripts/=
+Makefile.dtbs")
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+> ---
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+This is not a use-case in upstream.
+
+If you drop-in your downstream DT to the kernel tree,
+you need to associate it with Makefile.
+
+
+
+
+
+>
+> Notes:
+>     Changes in v2:
+>     - keep $(target) and search for .dtb in $(MAKECMDGOALS)
+>
+>  scripts/Makefile.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 8f423a1faf50..78763a4bc58a 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -449,7 +449,7 @@ ifneq ($(userprogs),)
+>  include $(srctree)/scripts/Makefile.userprogs
+>  endif
+>
+> -ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
+targets)),)
+> +ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(=
+targets))$(filter %.dtb,$(MAKECMDGOALS)),)
+>  include $(srctree)/scripts/Makefile.dtbs
+>  endif
+>
+> --
+> 2.47.0
+>
+>
+
+
+--
+Best Regards
+Masahiro Yamada
 
