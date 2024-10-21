@@ -1,117 +1,113 @@
-Return-Path: <linux-kbuild+bounces-4220-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4221-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878A49A90D1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 22:17:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADF19A9194
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 22:49:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48382281449
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 20:17:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8FC31F233DF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 20:49:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 308931E1A08;
-	Mon, 21 Oct 2024 20:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 672641D3578;
+	Mon, 21 Oct 2024 20:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQABDWUT"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="pQiAMAQS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBCA19EEC4;
-	Mon, 21 Oct 2024 20:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004871FE115;
+	Mon, 21 Oct 2024 20:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729541820; cv=none; b=ZR3z1Djtcd3bxLCWxfiIuMv8QUumKdfteo2gRCnNamKXTeN9rMvHp1KCfnc58GvrXq3FRTC4Uqck6RKMflrfC9aEDdURQPTRb749+RqtoizxMDWUT8bvN0VmjPAjcb9i1Tw/j+LNvMa9bpels/hvZ9Vmam2VBg9zx7zMgtNnZNY=
+	t=1729543762; cv=none; b=XK/R0ocmWmTF8jMzD1Qj9uFuFCj5+XFAcl6iFYgSNVkw2p/eqjUsFZcaoq04pT/aDH3ldgX6FlBxNOT3GBLs63VC6a5KftKZWKEXNS4m7Byr4L378HZCkLrZti9vbZ6sqV+/CLMoiHtKEtx5yJqzMa5EYk2sKPqypJmnec239Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729541820; c=relaxed/simple;
-	bh=Xs2L5ZgSVhp2dlD4X4qyRPseQcUOQyGjn2RAcJbqRNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XXMDvMYzWF5Do++oi17taxhaol1TpIPPEDsnHmpEt+FdMDALEpA1Ux0jeGXZTCAbrCTmz1grDEqkTfYb38+h8yU37h/KDrPQcQAIbZ1iMRbBlMLfuAiQ5ztshorYrEA80hC2CbRgf/lMbl0NI7sOB07aS8elMpqMWPes3iSuGxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQABDWUT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2BDAC4CEC3;
-	Mon, 21 Oct 2024 20:16:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729541819;
-	bh=Xs2L5ZgSVhp2dlD4X4qyRPseQcUOQyGjn2RAcJbqRNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OQABDWUTo6RgQOUin+YTSpYEyVh4rDqzUuYx6RTY95pBym+vWvnNbSztgx2OllHNE
-	 xB8sV5xmT7+Igi7vyHlEu4sMC09kJBhDLUHHY0foAWJrdPWt7JyZk8HPwI+E+nxt/+
-	 vpKsYlUOOWM+TZqL2GXEi8yFpK8eS7MqEsXe1K5tXDGmCA5hwFVPZJZHuUNR/sijne
-	 hrJSp+GtVT4qvVDAjawFAhEoOEjhmXIXYn87H5h8jVWDsaSujdyNCMBAMzrSPthZ5e
-	 IMjn/5jFb65nTQSbryw3a48Socga+UhWWEGv2DOeXC5G3wc3OalLn8BA7bmj2QZAsw
-	 aJcOcpF0MBQNw==
-Date: Mon, 21 Oct 2024 13:16:57 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Koakuma <koachan@protonmail.com>, Andreas Larsson <andreas@gaisler.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
+	s=arc-20240116; t=1729543762; c=relaxed/simple;
+	bh=Hd8sheoscKiXx8SxQ20/NJB/49Kl35Hx2hL2FSV3Y0c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HEKlsPZ582K+1zVFDAo5xQfptXgIW3eqTOgstr5bZ8V7fMaeVZEXfyhTwRHu6zpqSe7ndjAVwTkvLEOi1SVmJkbOXhyy4u24x8N35tJOKzV6v8wqKjetUog8wVAPQDCVJjSwJiwbAhG2U3n+5CnWT2872VblMedrUyPAm3BULDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=pQiAMAQS; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Received: from localhost.localdomain (unknown [109.252.171.178])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 2E0844076720;
+	Mon, 21 Oct 2024 20:39:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 2E0844076720
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1729543153;
+	bh=30p/HelcAi/TS+HoLBcHtGbCS61mwp3guEiaVTQg9vk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pQiAMAQSdCjuUaMfzpFAHJPZhSbvGyH4C3O+57MUw0kYZzgpoQsiGkhUICAakvZcm
+	 FWtW53slfmtpwGKbJ1Ol0MOq31gJ0kJ/DUVAg1/2O/qSwdjFy9QkTa6p5AYVrNzSHQ
+	 lVD0TJA31DznS4v0MMkjk1St1YUhb8lji6y3ehcE=
+From: Elena Salomatkina <esalomatkina@ispras.ru>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Elena Salomatkina <esalomatkina@ispras.ru>,
+	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de,
-	Nicolas Schier <nicolas@fjasle.eu>, sparclinux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] sparc/build: Rework CFLAGS for clang compatibility
-Message-ID: <20241021201657.GA898643@thelio-3990X>
-References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: [PATCH v2] sumversion: Fix a memory leak in get_src_version()
+Date: Mon, 21 Oct 2024 23:38:46 +0300
+Message-Id: <20241021203846.930-1-esalomatkina@ispras.ru>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Andreas,
+strsep() modifies its first argument - buf.
+If an error occurs in the parsing loop, an invalid pointer
+will be passed to the free() function.
+Make the pointer passed to free() match the return value of
+read_text_file().
 
-On Wed, Jul 17, 2024 at 11:10:14PM +0700, Koakuma wrote:
-> This changes the CFLAGS for building the SPARC kernel so that it can be
-> built with clang, as a follow up from the discussion in this thread:
-> 
-> https://lore.kernel.org/lkml/JAYB7uS-EdLABTR4iWZdtFOVa5MvlKosIrD_cKTzgeozCOGRM7lhxeLigFB1g3exX445I_W5VKB-tAzl2_G1zCVJRQjp67ODfsSqiZWOZ9o=@protonmail.com/T/#u
-...
-> Building with these changes still result in a working kernel,
-> at least for Sun T5120, Oracle T4-1, and qemu virtual machines.
-> 
-> On the LLVM side, the effort for building Linux/SPARC is tracked here:
-> https://github.com/llvm/llvm-project/issues/40792
-> 
-> Signed-off-by: Koakuma <koachan@protonmail.com>
-> ---
-> Changes in v2:
-> - Remove the -mv8plus change; it will be handled on clang side:
->   https://github.com/llvm/llvm-project/pull/98713
-> - Add CLANG_TARGET_FLAGS as suggested in v1 review.
-> - Link to v1: https://lore.kernel.org/r/20240620-sparc-cflags-v1-1-bba7d0ff7d42@protonmail.com
-> 
-> ---
-> Koakuma (2):
->       sparc/build: Remove all usage of -fcall-used* flags
->       sparc/build: Add SPARC target flags for compiling with clang
-> 
->  arch/sparc/Makefile      | 4 ++--
->  arch/sparc/vdso/Makefile | 2 +-
->  scripts/Makefile.clang   | 1 +
->  3 files changed, 4 insertions(+), 3 deletions(-)
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Would you be able to help move this series [1] and its companion patch
-for the vDSO [2] along to Linus for 6.13? If you are not able to for
-whatever reason but the changes look reasonable to you, would you be
-able to provide an Ack so it can be chauffeured by someone else, such as
-Masahiro/Kbuild or Andrew/-mm?
+Fixes: 9413e7640564 ("kbuild: split the second line of *.mod into *.usyms")
+Signed-off-by: Elena Salomatkina <esalomatkina@ispras.ru>
+---
+v2: Rename 'orig' to 'pos'
 
-For the record, I retested these three changes on top of 6.12-rc4, where
-they still apply cleanly. Now that the LLVM PR linked above (98713) has
-been merged into LLVM main, a clang built straight from llvm-project.git
-can build the kernel with this series (I tested at dca43a1c82f1).
+ scripts/mod/sumversion.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-[1]: https://lore.kernel.org/all/20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com/
-[2]: https://lore.kernel.org/all/20240808-sparc-shr64-v2-1-fd18f1b2cea9@protonmail.com/
+diff --git a/scripts/mod/sumversion.c b/scripts/mod/sumversion.c
+index 6bf9caca0968..03774957d8b9 100644
+--- a/scripts/mod/sumversion.c
++++ b/scripts/mod/sumversion.c
+@@ -385,7 +385,7 @@ static int parse_source_files(const char *objfile, struct md4_ctx *md)
+ /* Calc and record src checksum. */
+ void get_src_version(const char *modname, char sum[], unsigned sumlen)
+ {
+-	char *buf;
++	char *buf, *pos;
+ 	struct md4_ctx md;
+ 	char *fname;
+ 	char filelist[PATH_MAX + 1];
+@@ -393,7 +393,7 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen)
+ 	/* objects for a module are listed in the first line of *.mod file. */
+ 	snprintf(filelist, sizeof(filelist), "%s.mod", modname);
+ 
+-	buf = read_text_file(filelist);
++	pos = buf = read_text_file(filelist);
+ 
+ 	md4_init(&md);
+ 	while ((fname = strsep(&buf, "\n"))) {
+@@ -406,5 +406,5 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen)
+ 
+ 	md4_final_ascii(&md, sum, sumlen);
+ free:
+-	free(buf);
++	free(pos);
+ }
+-- 
+2.33.0
 
-Cheers,
-Nathan
 
