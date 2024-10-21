@@ -1,182 +1,200 @@
-Return-Path: <linux-kbuild+bounces-4210-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4211-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0B49A587E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 03:22:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3782F9A58CC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 04:15:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1A2A28208D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 01:22:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5788A1C21163
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Oct 2024 02:15:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEEDC8BE5;
-	Mon, 21 Oct 2024 01:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22D7B13FEE;
+	Mon, 21 Oct 2024 02:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CG7+E6Vz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d08KNrR0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A622C4C70;
-	Mon, 21 Oct 2024 01:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8AD10940;
+	Mon, 21 Oct 2024 02:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729473763; cv=none; b=KIeUKa6JFmTBEA83JXYRHC8ch5d8wJ3fzZNnJXWd2Nj/195nY3g6MR6ibXLZbX+VVYEtb+oi+ep50OBa/xkU9ghx30XqZ3skqAtYf6Oy3OB2jkvr6VwMGMlyT946WTUXBI/M/hAjVvsl42U1yUWekL2xFVkPbZE+8C1u6KeFDLw=
+	t=1729476946; cv=none; b=hNGs3T4Pxc/hvghaKtXSDwPOloX/IWlhhd6YRY2DRWa7tiUfxuxpC6ipQUucbTVZ+8CRad7vOiW6wkp6lvKZ5MrW/BKunA62x7JHK4DNy4o42DmodJn2btaUBiZ6p7Ogf/iMZO3YhAllUxyye7CijeEHqPJYxcJaJGV9ZVNe9vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729473763; c=relaxed/simple;
-	bh=jlCzg7egAixbWdgUefAl7xo5OOX4XAUpPQw4CNFUOIo=;
+	s=arc-20240116; t=1729476946; c=relaxed/simple;
+	bh=7yCrAsbcPnUs8QLX4xme6O9ayrQJh78Qk/A7EGSgZtY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wt1MS4iyIs+rgn5UIu4vbyf0J7svmy8sEORztD6YTGBe+XyPRyw2WVtyIFeqnHqIRrJMi/apitrn8IyPX1urKfvDg2r8iKgWuXn8V/09mNAd7XLIiMmcI17A2L6HtsrUf7txebrACCspt8EKabH3U4DaC3v4ax5sm14LCAVGQG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CG7+E6Vz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35EC7C4CEC7;
-	Mon, 21 Oct 2024 01:22:43 +0000 (UTC)
+	 To:Cc:Content-Type; b=L7YjSVoMCEGaid7EBmjEKk2T1qMPul2XzFjwVsUahns1l3xyxsRXVIcvJWDb5kJHXxeMRzDRC3lRZdoAVsRc3Ns+NZQvCn4ilNkXUT0FfrQbURF0RwwMK7ZlODU4N5Hx3T58l2xzTit3emp2+rwucyhnX7mV5cDxa78ppKnO7j0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d08KNrR0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8E0C4CEE7;
+	Mon, 21 Oct 2024 02:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729473763;
-	bh=jlCzg7egAixbWdgUefAl7xo5OOX4XAUpPQw4CNFUOIo=;
+	s=k20201202; t=1729476945;
+	bh=7yCrAsbcPnUs8QLX4xme6O9ayrQJh78Qk/A7EGSgZtY=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CG7+E6VzrSrwBrhwvoSrkmrlXQtOW8B22B8eFwlRO9GrJyrW/jHD8SztOSd3JNflR
-	 u5tSATP4Y+I3hP1gVAZgTGFSgBvyuM7B2FmO5q0ERSf70fo3evLrEkNvnvE+dAbkZ5
-	 iYywmNzmXytC9xC6MVv0xBjEt3pe4I7RbTbf8icw+v+rs1WWDC0GLu5hbQjddHG1MN
-	 DTrXnwFr0phT/a3dLgu18+KxUKJBzf4ZMuNCNl95zX5lhXqa0tYPmZ+CjZQHkvZFP6
-	 UsyjpeCtvHyyrT5bCMb1CclRstx7xmcCConnRVyGlH0IgcfD9Khw9YcW1yvYwXonYU
-	 46UlX9NtYR2Hg==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb3ce15172so45328601fa.0;
-        Sun, 20 Oct 2024 18:22:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVCbXIf2qw2SY/7XOrA6jkBBQJLAC0U9cdJNctCRc52clgiOJRp46vffVNKq6lOxoosmoSaLQyM5+Ac4xM9@vger.kernel.org, AJvYcCVDb950Q7ilKE1hnJAc0FJztdTIptRLQyNITIdDtnWPFKSmn8tVvRT4bxousrbXWuwsP2zJwovAVNDzTHKp@vger.kernel.org, AJvYcCXP05sKMD8O5prAwSiCC0NAuwblXAjc6qBbBtb1F2o1HkFKeod/doFS8TI6aouPXrfN05m0aXLWmNDX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUvp4778UxTgp1pgky7sbBaSn5C1RoBu6k+xGnbRIS9qxmAEh9
-	WHFmmvLhjzkqbQapfsYQNVH1ZMEWGiTpTAhS4dghQ6Rlf+Xva5aXSt+MUQl64qH2aDx8xM8NJuW
-	AbVbJSwER/B7SKc0NJ4t03bACpfE=
-X-Google-Smtp-Source: AGHT+IHKEipf35MYVwH+nk6bWLaxQ2XVrgwntLhq6reCsCyEjeQfuvEfGfKQ2g8ZLOkWK0d/FcaxQkfXbS6HX1Iz10k=
-X-Received: by 2002:a2e:a545:0:b0:2fb:50e9:34cc with SMTP id
- 38308e7fff4ca-2fb6dc74e7bmr44845751fa.17.1729473761693; Sun, 20 Oct 2024
- 18:22:41 -0700 (PDT)
+	b=d08KNrR0EDdB5cZL1479IaZ60BD1V2vtCsS7R0jtnBAV4w+rISPncIzkr2lYtP761
+	 e/FVBP8Z+3v6ba4VnJsf1PJTUWvJj8Ryh5j08KR1o5WRLn0sjwqC3z6Nc8v67wdKiW
+	 9ZHjL0fdEqOOY1cxGZvwJsxl4z457YuI9setNk1QaTLQnXJ3/cYwiSVT3JDYH0eXS1
+	 VNLqNODc7A8HrsjvJpGj6GFyM6fynPTjAjymsLSGFxLRK4RoI//h915vj/B/gg0R18
+	 ptcqdj2UlOJZb0jv0rSGEiKkDqoe7VlU7B2Hb4lrNT+/1nxHN5ljadfMzfV7aC5sGb
+	 +WitOv0l8ullQ==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539f8490856so4101222e87.2;
+        Sun, 20 Oct 2024 19:15:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU7MQDaD0/hTUZIr+oEGIMY3o0TqN8j6F8NQrJneFjU61h6TB2/9VSREEt7pYr/cZ2XOBZvnOCn9kPwSLR5@vger.kernel.org, AJvYcCU8rdPOB9F9pulikWHKdAaWw1+Zmu8BCoY9P/y012q4MdK4agQ6n/Fvl2j6Bnn/XSN/QbWKm2NQvW2n@vger.kernel.org, AJvYcCUMusVIX44d+bttljTgjpNtm3twZSxXpUrlsnC0M9EYlD3aN40ziwPEQeONmEPGSSHyCJTPwzlSuz68@vger.kernel.org, AJvYcCW2I2FL/Iyw9Z/srMwme5SzLefuOScbPPLgtBHQPPSoKKOypN4noKwDZ9xqJqVMk5qOM8vbMY28oiCaczxi@vger.kernel.org, AJvYcCWRm7IzOlccbfoczrvw31gp0d4DQ9bCm6rLkBcM7O+xuObGBMmSfSSsHaTawKsDwUSZcHZ5NDTc7VmY@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+D/OL+sg7rKTD7RvZS3qnlaXtWQKgzIdnwNMiUYdBzIumAMOY
+	xpCKVpxRSCH3HnP6dvrQxyxN2mfyrU933q7fyO5fbuyue4KKt3KSMfr2JeDgxDFpV+ugdopirKI
+	AKQ27ULJoLvPozGbYqWSRjbWoYhY=
+X-Google-Smtp-Source: AGHT+IH3ESdsYc+/+wUsglq6HOvcvexZoZqe+c/NsP73ESbFMnBfgYbBsi4+2Lp8sphgSZWamBJV5g/oTZN9ldIl0yc=
+X-Received: by 2002:a05:6512:280d:b0:53a:d8b:95c0 with SMTP id
+ 2adb3069b0e04-53a154a26ecmr4500158e87.30.1729476943821; Sun, 20 Oct 2024
+ 19:15:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241016194149.4178898-1-chris.packham@alliedtelesis.co.nz>
- <CAK7LNAR4h6NZ+D0BK+q4VQBeHWpjzRBQFQ9ovBrftM=6dHRcUg@mail.gmail.com> <bca44b71-d002-4dac-8c53-6b7dd90ffce1@alliedtelesis.co.nz>
-In-Reply-To: <bca44b71-d002-4dac-8c53-6b7dd90ffce1@alliedtelesis.co.nz>
+References: <20241014213342.1480681-1-xur@google.com> <20241014213342.1480681-4-xur@google.com>
+In-Reply-To: <20241014213342.1480681-4-xur@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 21 Oct 2024 10:22:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASZSSkUOTGeCB-JsSyX8a7EbKOD5UdQPqN4pVnG5rXeKg@mail.gmail.com>
-Message-ID: <CAK7LNASZSSkUOTGeCB-JsSyX8a7EbKOD5UdQPqN4pVnG5rXeKg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Restore the ability to build out of tree dtbs
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: nathan@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Date: Mon, 21 Oct 2024 11:15:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARqnhZuDf75_juBtdK0GV8jL_aDjnuyU=-8zjdCZetF1g@mail.gmail.com>
+Message-ID: <CAK7LNARqnhZuDf75_juBtdK0GV8jL_aDjnuyU=-8zjdCZetF1g@mail.gmail.com>
+Subject: Re: [PATCH v4 3/6] Change the symbols order when --ffuntion-sections
+ is enabled
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Sriraman Tallam <tmsriram@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2024 at 7:57=E2=80=AFAM Chris Packham
-<chris.packham@alliedtelesis.co.nz> wrote:
+On Tue, Oct 15, 2024 at 6:33=E2=80=AFAM Rong Xu <xur@google.com> wrote:
 >
-> +cc devicetree
+> When the -ffunction-sections compiler option is enabled, each function
+> is placed in a separate section named .text.function_name rather than
+> putting all functions in a single .text section.
 >
-> Hi Masahiro,
+> However, using -function-sections can cause problems with the
+> linker script. The comments included in include/asm-generic/vmlinux.lds.h
+> note these issues.:
+>   =E2=80=9CTEXT_MAIN here will match .text.fixup and .text.unlikely if de=
+ad
+>    code elimination is enabled, so these sections should be converted
+>    to use ".." first.=E2=80=9D
 >
-> On 19/10/24 00:19, Masahiro Yamada wrote:
-> > On Thu, Oct 17, 2024 at 4:59=E2=80=AFAM Chris Packham
-> > <chris.packham@alliedtelesis.co.nz> wrote:
-> >> A build pattern to handle out of tree dtbs is to copy the .dts file in=
-to
-> >> the kernel source tree and run `make myboard.dtb`. This is supported b=
-y
-> >> the wildcard %.dtb rule in the Makefile but recent changes to split th=
-e
-> >> dtb handling out of scripts/Makefile.build stopped this from working.
-> >> Restore this functionality by looking for .dtb in $(MAKECMDGOALS) as
-> >> well as $(targets).
-> >>
-> >> Fixes: e7e2941300d2 ("kbuild: split device tree build rules into scrip=
-ts/Makefile.dtbs")
-> >> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-> >> ---
-> > This is not a use-case in upstream.
-> >
-> > If you drop-in your downstream DT to the kernel tree,
-> > you need to associate it with Makefile.
+> It is unclear whether there is a straightforward method for converting
+> a suffix to "..".
+
+
+
+Why not for ".text.fixup"?
+
+$ git grep --name-only '\.text\.fixup' | xargs sed -i
+'s/\.text\.fixup/.text..fixup/g'
+
+
+
+I do not know how to rename other sections that are generated by compilers.
+
+
+
+
+> This patch modifies the order of subsections within the
+> text output section when the -ffunction-sections flag is enabled.
+> Specifically, it repositions sections with certain fixed patterns (for
+> example .text.unlikely) before TEXT_MAIN, ensuring that they are grouped
+> and matched together.
 >
-> I agree that this is Hyrum's Law at work.  I still feel that handling
-> out-of-tree dtbs is something that would be in the best interest of the
-> Linux kernel. It doesn't necessarily need to be done by allowing copying
-> arbitrary .dts files into the tree, a mechanism like the way out of tree
-> kernel modules are handled would be workable.
+> Note that the limitation arises because the linker script employs glob
+> patterns instead of regular expressions for string matching. While there
+> is a method to maintain the current order using complex patterns, this
+> significantly complicates the pattern and increases the likelihood of
+> errors.
 >
-> Often supporting a new hardware platform is just a matter of writing a
-> dts that describes the board. Particularly when that board is based on
-> an existing one. The way most dts/dtsi files are arranged in-tree
-> requires a non trivial amount of handling by the C processor. So while
-> one could produce a dtb file by invoking cc -E and dtc with the right
-> options pointing at the right paths, having the kernel build system
-> provide something that abstracts that would be beneficial for developers
-> and even end users.
+> Co-developed-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Rong Xu <xur@google.com>
+> Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> ---
+>  include/asm-generic/vmlinux.lds.h | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmli=
+nux.lds.h
+> index eeadbaeccf88..5df589c60401 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -554,9 +554,21 @@
+>   * during second ld run in second ld pass when generating System.map
+>   *
+>   * TEXT_MAIN here will match .text.fixup and .text.unlikely if dead
+> - * code elimination is enabled, so these sections should be converted
+> - * to use ".." first.
+> + * code elimination or function-section is enabled. Match these symbols
+> + * first when in these builds.
+>   */
+> +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_=
+CLANG)
+> +#define TEXT_TEXT                                                      \
+
+
+Why did you do this conditionally?
+
+You are making this even more unmaintainable.
 
 
 
-I also handle a bunch of yet-to-upstream device tree files.
 
 
-I have them in the proper directory location, and add
-
-  dtb-$(CONFIG_ARCH_FOO)  +=3D foo-downstream-custom1.dtb
-  dtb-$(CONFIG_ARCH_FOO)  +=3D foo-downstream-custom2.dtb
-    ...
-
-jutt like how they would look when they were upstreamed.
-
-
-
-I do not understand why the drop-in way is supported.
-
-
-
-
-
-
-
-
-
-
-
-> >> Notes:
-> >>      Changes in v2:
-> >>      - keep $(target) and search for .dtb in $(MAKECMDGOALS)
-> >>
-> >>   scripts/Makefile.build | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> >> index 8f423a1faf50..78763a4bc58a 100644
-> >> --- a/scripts/Makefile.build
-> >> +++ b/scripts/Makefile.build
-> >> @@ -449,7 +449,7 @@ ifneq ($(userprogs),)
-> >>   include $(srctree)/scripts/Makefile.userprogs
-> >>   endif
-> >>
-> >> -ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o=
-,$(targets)),)
-> >> +ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o=
-,$(targets))$(filter %.dtb,$(MAKECMDGOALS)),)
-> >>   include $(srctree)/scripts/Makefile.dtbs
-> >>   endif
-> >>
-> >> --
-> >> 2.47.0
-> >>
-> >>
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
+> +               ALIGN_FUNCTION();                                       \
+> +               *(.text.asan.* .text.tsan.*)                            \
+> +               *(.text.unknown .text.unknown.*)                        \
+> +               *(.text.unlikely .text.unlikely.*)                      \
+> +               . =3D ALIGN(PAGE_SIZE);                                  =
+ \
+> +               *(.text.hot .text.hot.*)                                \
+> +               *(TEXT_MAIN .text.fixup)                                \
+> +               NOINSTR_TEXT                                            \
+> +               *(.ref.text)
+> +#else
+>  #define TEXT_TEXT                                                      \
+>                 ALIGN_FUNCTION();                                       \
+>                 *(.text.hot .text.hot.*)                                \
+> @@ -566,6 +578,7 @@
+>                 NOINSTR_TEXT                                            \
+>                 *(.ref.text)                                            \
+>                 *(.text.asan.* .text.tsan.*)
+> +#endif
+>
+>
+>  /* sched.text is aling to function alignment to secure we have same
+> --
+> 2.47.0.rc1.288.g06298d1525-goog
+>
 >
 
 
---=20
+--
 Best Regards
 Masahiro Yamada
 
