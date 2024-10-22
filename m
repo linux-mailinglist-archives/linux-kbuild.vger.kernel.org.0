@@ -1,56 +1,56 @@
-Return-Path: <linux-kbuild+bounces-4236-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4237-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD129AB677
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Oct 2024 21:10:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CDC9AB68B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Oct 2024 21:14:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B82321F21BD3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Oct 2024 19:10:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1F7DB21E08
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Oct 2024 19:14:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B23441C9ED4;
-	Tue, 22 Oct 2024 19:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492C31CB30C;
+	Tue, 22 Oct 2024 19:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nJ5OJg/r"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NsUgvTTC"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D391C9DC5;
-	Tue, 22 Oct 2024 19:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192591CB309;
+	Tue, 22 Oct 2024 19:14:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729624239; cv=none; b=NYEy8t0jx2IwiFf9KwK4mrsrBbb3mHdrduRbQ3Ci/z4EmZ1aCtSl7oFdS9vUxsn46aP/GQNaBkrKdAHN6db1zWbey2mdc5aJSCMPZqxUWl/+PP+HpvC7dFZM4p0ScToODkssAuuX0AoL2jGfV7/oHPt26biLAfJARouAN5NmvzM=
+	t=1729624464; cv=none; b=cE+xGAtnYf1depKaFrF5WEfxYPQO860WT9AUQdf9jbPFe8NT8UAHdLR+q0OqmguOveW6R9PUgOH2BblcYUF8pt0DqjkcgEUOnrX3w5lY+OxsWANstrGTlwh1i3ZV7mkUXmPZc3/FN3AFglDICIXUkgqdRNm6FxORUitQwbT6IUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729624239; c=relaxed/simple;
-	bh=6XvCVv0uG2NVfFeDidBGqbH6w9dTgYaGqeAeiqAp/dU=;
+	s=arc-20240116; t=1729624464; c=relaxed/simple;
+	bh=uHUamMLNZya/Dg5wH7xYKJbw/Ck5LzicPdJXaoU8low=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o+lbLXTEfXKXA6xqBfFPHGI6H5sSSYBcFmKD7cNViBdPFfTIndr0/770D/EhkNVqjZu+9roWawec/Z6bniPdc8SDCvdJ5Jk1Nq9swSFuWhIohD/Tu+YpamotAg6NRRi4IFrxJlmzVtHB21zDo1mSpJSuPSADDSbcMSjceHG91XQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nJ5OJg/r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27013C4CECD;
-	Tue, 22 Oct 2024 19:10:39 +0000 (UTC)
+	 To:Cc:Content-Type; b=GUcmblApth9uv/twETTEVL9lKuc8l7q/x5TMfVBn+llHOGPca4IzJdB/3EzSIEGqfillaVi1R33lrQsS+KB4opwcjNDz+n/7ybINRt1mQemoRht5qq7O+qmSBfQqu7/zOHQjlUL/lviM/G8F+vWsve5aj2LkOqggXxA+0DUUmxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NsUgvTTC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9D0CC4CEE8;
+	Tue, 22 Oct 2024 19:14:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729624239;
-	bh=6XvCVv0uG2NVfFeDidBGqbH6w9dTgYaGqeAeiqAp/dU=;
+	s=k20201202; t=1729624463;
+	bh=uHUamMLNZya/Dg5wH7xYKJbw/Ck5LzicPdJXaoU8low=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nJ5OJg/rdZ+NSs7ncjh76j2SDsjlNWQfumW0IlzihN+ynKFcchMeH72Yr6ERd0XqG
-	 KmC2G5KCrPSJ+ygaFkSaMjdhe+B3Dv4VIybWT2fOly9eRbng8yXVeJm5IouJVYHQpk
-	 odQx1I9dnwHTM1zUXxBYk/WJbR+MQQcbDWjr22c2nQVlIWIIO53p7MTxREX05ALQTh
-	 vXApxHGtCYsRhzwn+OcSUm9U29JRxceOIITDxxpOrszUOoykY9M4d4FH1cNRe0FP/w
-	 CqTHF4zwV5ptMeGuvfctqMelt754umtf5Yuc6ydYpdAOQ7LSgbuRqlgKy5uyzHwq5S
-	 ejwUA5m1hQgDg==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f2b95775so7137142e87.1;
-        Tue, 22 Oct 2024 12:10:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWStip2N/TtU09RCgWaIdbY9twUpWFKHShqQoLTnBM886iOa3TocveDxy8FLZYm190/FLj7zh0ZBYFPfA==@vger.kernel.org, AJvYcCXDxSwqc3gGzaBOmgV9zJOUb0QEFjP0khXwM0AsO7/9lRtOwb9RlvdRvfhLJ87W6zik6mHXLaH1lBMstAM=@vger.kernel.org, AJvYcCXNdKr8kVDBhlYtD7KJjOlxAxmm1R1ADyLUwf/GFNZgGzu3pFnUYdFoT66kOJV46+jPhtoQnd7aNrbFqW/e@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTJjS2fenW//wjZxx7e7b5+5YY5fTTPHJP0V3JwBelN4Q3myK9
-	eREDHjveCIGN1iVCyPFzN0aaJWZokUHsl2KBdP4byKye8eKAC35E5fjbkQm2A/quyTC1YuQGFii
-	zNU/1GMo0ld7xN5XMgZWHRWwgM3w=
-X-Google-Smtp-Source: AGHT+IER06zDgUZG4vPBSu4dZIhTWtnwFKfYPfQNgO8CtaPukvwoerTkeUmIp/TdVEGEYDAEfZjZvE5RJaAaR2Ej2Yc=
-X-Received: by 2002:a05:6512:a8e:b0:535:6baa:8c5d with SMTP id
- 2adb3069b0e04-53b19206823mr497129e87.20.1729624237788; Tue, 22 Oct 2024
- 12:10:37 -0700 (PDT)
+	b=NsUgvTTCHLbANbl+TT5iIgdKG1GIHJkja5034hLOhbs6BXQKCfY/rkBc+xptGU/MK
+	 C/NCk1PuS4BpO7eBg8rYxB/IcDNwqtSDqVXahGUt50HRalpkqpQe1MoRnfcxFQneVI
+	 lBbBQetDgbaj30vDd9qphqVKUh/3/zTHl9mvo2RBic121oo+L2Ut4B/CVc40Fud/nJ
+	 rvMud6q7Z/93qBBGogO6OTb+I+pZamDY9/6Qnt9C4ZrjIlbTPHFnUIYYZ99Xdm+boI
+	 Lh8gUVLBPXHXB9bhJ40Uied6K4mrNoXSMVMhWYF1iVDnJjsAwZG1vr4UCLbaf+ed1f
+	 c3qed+BxQJshA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539fbbadf83so7936555e87.0;
+        Tue, 22 Oct 2024 12:14:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1prG18t+Jz+9cJSXBAvph3q8+moSFMq0ujpABWUZjQ3e2ArVoY1r9mO7p+mY192n+IVFERFAkh4ACnDvp@vger.kernel.org, AJvYcCVUqvqS0bysBAPNPAaUupPPRki/hmBvNPWzuSIB49JbysIe2pmfOoSgkoIXcBjBmjfxOYg5xtH3M0hp3bA=@vger.kernel.org, AJvYcCWzI281aukvP37KjEkhtIoOOg4rSsVuC/YysvoVPAbvQyxcbHFHidudZgp0RqabMitg4XbNTAgpecSoVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEoF7KQsR+ldFDVkeIZCyd3t3+sbdVRfispSNJ15qCrUyx+MUt
+	Ewgw8hfIE4KTWi78EBGW4KJr8km0n9kujZFzKEfy5HNAxLTsQ+ppRidgvrL/x5w3dymuTM+NYAX
+	uz8rALyiG/0rD2VDT2HRzwoLtGwM=
+X-Google-Smtp-Source: AGHT+IG8GFGPMnQ0zL12TLGQaMyKF6buZv4x4/vPq9J6jmYsFg+ueGY9PqEVyfuEQIGDLomCDJcErvFiJY70CZ1EL6E=
+X-Received: by 2002:a05:6512:b8f:b0:539:f4c1:71d3 with SMTP id
+ 2adb3069b0e04-53b13a04029mr2197034e87.29.1729624462430; Tue, 22 Oct 2024
+ 12:14:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,9 +60,9 @@ MIME-Version: 1.0
 References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com> <20241021201657.GA898643@thelio-3990X>
 In-Reply-To: <20241021201657.GA898643@thelio-3990X>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 23 Oct 2024 04:10:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASTkUTK8JZCzySNh3BVKxauusVKRhjnchy6iZz4qLbq8w@mail.gmail.com>
-Message-ID: <CAK7LNASTkUTK8JZCzySNh3BVKxauusVKRhjnchy6iZz4qLbq8w@mail.gmail.com>
+Date: Wed, 23 Oct 2024 04:13:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASaCqbOXaw2AhEuXCwt8M9dwbX=GthHL8XzbenOhGpe8g@mail.gmail.com>
+Message-ID: <CAK7LNASaCqbOXaw2AhEuXCwt8M9dwbX=GthHL8XzbenOhGpe8g@mail.gmail.com>
 Subject: Re: [PATCH v2 0/2] sparc/build: Rework CFLAGS for clang compatibility
 To: Nathan Chancellor <nathan@kernel.org>
 Cc: Koakuma <koachan@protonmail.com>, Andreas Larsson <andreas@gaisler.com>, 
@@ -133,52 +133,14 @@ rotonmail.com/
 > Nathan
 
 
-
-I applied this patch set, but I still observe a build error.
-
-
-masahiro@zoe:~/workspace/linux-kbuild(kbuild)$
-~/tools/llvm-latest/bin/clang --version
-ClangBuiltLinux clang version 20.0.0git
-(https://github.com/llvm/llvm-project.git
-d1401822e2d2753bed3ac597a42cc0b261de40a4)
-Target: x86_64-pc-linux-gnu
-Thread model: posix
-InstalledDir: /home/masahiro/tools/llvm-latest/bin
-masahiro@zoe:~/workspace/linux-kbuild(kbuild)$ make
-LLVM=3D~/tools/llvm-latest/bin/  ARCH=3Dsparc sparc64_defconfig all
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  HOSTCC  scripts/kconfig/menu.o
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTCC  scripts/kconfig/util.o
-  HOSTLD  scripts/kconfig/conf
-#
-# configuration written to .config
-#
-  SYNC    include/config/auto.conf.cmd
-  HOSTCC  scripts/genksyms/genksyms.o
-  HOSTCC  scripts/genksyms/parse.tab.o
-  HOSTCC  scripts/genksyms/lex.lex.o
-  HOSTLD  scripts/genksyms/genksyms
-  HOSTCC  scripts/kallsyms
-  UPD     include/generated/compile.h
-  CC      scripts/mod/empty.o
-clang: error: unsupported argument '--undeclared-regs' to option '-Wa,'
-make[3]: *** [scripts/Makefile.build:229: scripts/mod/empty.o] Error 1
-make[2]: *** [Makefile:1208: prepare0] Error 2
-make[1]: *** [/home/masahiro/workspace/linux-kbuild/Makefile:347:
-__build_one_by_one] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
+2/2 should update the "Supported Architectures"
+of Documentation/kbuild/llvm.rst if this is adding a new architecture suppo=
+rt.
 
 
 
---=20
+
+--
 Best Regards
 Masahiro Yamada
 
