@@ -1,108 +1,119 @@
-Return-Path: <linux-kbuild+bounces-4262-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4263-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AF19AC0C3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 09:55:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1F99AC25C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 10:56:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C41C71C2339B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 07:55:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F024B243B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 08:56:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65868155CB3;
-	Wed, 23 Oct 2024 07:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uea3mEX+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE48215B122;
+	Wed, 23 Oct 2024 08:56:12 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6F214D6ED;
-	Wed, 23 Oct 2024 07:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212CA165F0C;
+	Wed, 23 Oct 2024 08:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.209.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729670108; cv=none; b=pqjUyuurR2O/Dh+RAa32ReQiKoagJya1UZHq+1/rfpt5LyEhx3ZeRoHl+mFWkjrk0HPayLOh+67YKwbit0zcEpqhMmtSA24nEsiHR9F3MNREDWtZ71phpD+qxja2wKQbyQIVqA4GlNyeSLAoQTWLEjac6ySzAlr9Gu1chqKPMgs=
+	t=1729673772; cv=none; b=FcaS9J5xQJl9g8bUb2eYMmtnFbLB0QSh7TX2Von1TTiZKxNf61KYVGji/4B+Uz+sKZ23rUaFhIEl81cw1s9Dj0p8iS5B1HTSd/MrpxTpHP3VWa+ezNOPiiXbtr6qOC7f5D9EJEwQTjA0P8XY1h41FAbMFkTUBARH5meWamXYyG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729670108; c=relaxed/simple;
-	bh=2Kg9iUKuBhL9bX8ryhWk+KZ5/JzJOJougL+xzNkViVk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=icN/wHoldh4wY/rMC9JJiwdps6g/2vq9eE+w0R5XKU9hKWJau5EAruoSKPtKtk1C0biAe7nYt4qNZnzaYeuGKUpcLwS4MGdrPhyop/KORwpacAjdTFeOmMcUTzDxo+ELpGP6sUIkyM+C4KMk6rjIf4u/pPjFkHMwGKUWkPd5FJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uea3mEX+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D883CC4CEC6;
-	Wed, 23 Oct 2024 07:55:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729670107;
-	bh=2Kg9iUKuBhL9bX8ryhWk+KZ5/JzJOJougL+xzNkViVk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=uea3mEX+DbH0OZNebA/c6e+h7DdXK+O7+Ol39/WAmPxRNIhqk0HuhhI4wCXCK92Qn
-	 PGyZlwGHJ8wAnKHctzG7wK/hEYtNtLeY1UgHJIp7WUrgsRzkiKZDF7pHfVILZerAgk
-	 oW8ni0fu8bjpz7npOsYH8hzyjyaBn5FpxrJ5Toiq6cqgCb6uJdUnGhZX4yvCfgsQXL
-	 vk7mj0W547s7gh5YxK4XQaw8VvSUewOYZwoZ+Fo5tbLnyf6FbssRj4qcEXo2h1X1tP
-	 GM1TdGNDCl3HBcrd9irOTK+I9qQeTOtOd4Ye2UFH4x0V/240ZJ3BfUNjKsyFSgttmt
-	 i83uZnpGOvRQw==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f4d8ef84so7025529e87.0;
-        Wed, 23 Oct 2024 00:55:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX5Bg+z1ZnMgO+PQ2/IcsVzGQGXZMc+kesuN8Sy7kcGKwq+PPNJfPxWU7lHCcibFXyV27KHnX493X3yN10=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwESS/irCUHqK5dZt7Efi7MkYLC6NHkqpDQY9R599mc61sp7fAl
-	E8CeoIY+0TyLK3ZzXRiLb7q/A/BonUUDkBpK+98JZP4M30voRnZExMvVrce6KgwUFIR5S79vy31
-	y0KYBzD0w7A+4pZyUuwQfVqEi2o0=
-X-Google-Smtp-Source: AGHT+IFfPmDY7Koc2/OcWiik9XcDY3ld8fp/MwVzRDQ2iHpEUi9gApsKoED/ytr+qTzB9oHCCFOqMfR5gs23iCSGbis=
-X-Received: by 2002:a05:6512:3c98:b0:539:ee04:2321 with SMTP id
- 2adb3069b0e04-53b1a34901amr659248e87.33.1729670106581; Wed, 23 Oct 2024
- 00:55:06 -0700 (PDT)
+	s=arc-20240116; t=1729673772; c=relaxed/simple;
+	bh=LtUuF4KAjrjmqUd8QvWj0hAG1Z8HkwAdOYmGjMckmC0=;
+	h=From:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:To; b=hGCUBAgoXivhcn80rXcOjmPBGT411/4ElsIGRClZX1pHAkCAm9wMa98HTsFIQpM6mN/SoDWlQRROctoMXbh1vBoOBpqs5PRRGD6A0VoDNwIIebFST2PlpD2Nxqm6U/NMyxO+Cfdq/HATunzDHT9uAh+Z7eUz3D9qlL4IU1Wo8f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emlix.com; spf=pass smtp.mailfrom=emlix.com; arc=none smtp.client-ip=178.63.209.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emlix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emlix.com
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.emlix.com (Postfix) with ESMTPS id E18F45F8A7;
+	Wed, 23 Oct 2024 10:56:07 +0200 (CEST)
+From: Rolf Eike Beer <eb@emlix.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] improve qconfig C++ code
+Date: Wed, 23 Oct 2024 08:26:51 +0200
+Message-ID: <4960180.31r3eYUQgx@devpool47.emlix.com>
+Organization: emlix GmbH
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241019211747.110140-2-thorsten.blum@linux.dev>
-In-Reply-To: <20241019211747.110140-2-thorsten.blum@linux.dev>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 23 Oct 2024 16:54:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATYqJqOs7QAX8BL7RgAuMb61jL3rE5=L2AOeDjPC1HhXQ@mail.gmail.com>
-Message-ID: <CAK7LNATYqJqOs7QAX8BL7RgAuMb61jL3rE5=L2AOeDjPC1HhXQ@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: nconf: Fix typo in function comment
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="nextPart4604293.LvFx2qVVIh";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+Resent-Message-ID: <202410231056.07265.>
+Resent-Date: Wed, 23 Oct 2024 10:56:07 +0200
+Resent-From: Rolf Eike Beer <eb@emlix.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Resent-To: Masahiro Yamada <masahiroy@kernel.org>
+Resent-Cc: 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+
+--nextPart4604293.LvFx2qVVIh
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Rolf Eike Beer <eb@emlix.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] improve qconfig C++ code
+Date: Wed, 23 Oct 2024 08:26:51 +0200
+Message-ID: <4960180.31r3eYUQgx@devpool47.emlix.com>
+Organization: emlix GmbH
+MIME-Version: 1.0
 
-On Sun, Oct 20, 2024 at 6:18=E2=80=AFAM Thorsten Blum <thorsten.blum@linux.=
-dev> wrote:
->
-> s/handles/handled/
->
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
+While playing around with qconfig I made some cleanups that I seemed to for=
+got=20
+to send out. This uses more of the Qt API that is already present to make t=
+he=20
+code a bit nicer (YMMV). Especially it adds some keyboard shortcuts for the=
+=20
+default actions (Save, Save as and the like).
 
-Applied to linux-kbuild. Thanks.
+Rolf Eike Beer (7):
+  kconfig: qconf: simplify character replacement
+  kconfig: qconf: use default platform shortcuts
+  kconfig: qconf: use nullptr in C++11 code
+  kconfig: qconf: use QCommandLineParser
+  kconfig: qconf: use preferred form of QString API
+  kconfig: qconf: use QString to store path to configuration file
+  kconfig: qconf: use QByteArray API instead of manually constructing a str=
+ing
+
+=2D-=20
+Rolf Eike Beer
+
+emlix GmbH
+Headquarters: Berliner Str. 12, 37073 G=C3=B6ttingen, Germany
+Phone +49 (0)551 30664-0, e-mail info@emlix.com
+District Court of G=C3=B6ttingen, Registry Number HR B 3160
+Managing Directors: Heike Jordan, Dr. Uwe Kracke
+VAT ID No. DE 205 198 055
+Office Berlin: Panoramastr. 1, 10178 Berlin, Germany
+Office Bonn: Bachstr. 6, 53115 Bonn, Germany
+http://www.emlix.com
+
+emlix - your embedded Linux partner
+--nextPart4604293.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iLMEAAEIAB0WIQQ/Uctzh31xzAxFCLur5FH7Xu2t/AUCZxiXKwAKCRCr5FH7Xu2t
+/N5cBACtC1Fc2SR1w0/aM4UeW7CwXWsoWaVa12qUSipP/vNA4bb8uDkgdQooJIu0
+X6qm2oWfdakgkq4iqxWOezhKVG+9PRd4Wr86C8UO3psHC0x9wVRZB2HI/OT1LHmu
+kp//+al3k0lr7kECHDD432nmJ7Ry9OkVhPYmba64EDjwcH37Xw==
+=+d6X
+-----END PGP SIGNATURE-----
+
+--nextPart4604293.LvFx2qVVIh--
 
 
->  scripts/kconfig/nconf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-> index 063b4f7ccbdb..c0b2dabf6c89 100644
-> --- a/scripts/kconfig/nconf.c
-> +++ b/scripts/kconfig/nconf.c
-> @@ -467,7 +467,7 @@ static void handle_f9(int *key, struct menu *current_=
-item)
->         return;
->  }
->
-> -/* return !=3D 0 to indicate the key was handles */
-> +/* return !=3D 0 to indicate the key was handled */
->  static int process_special_keys(int *key, struct menu *menu)
->  {
->         int i;
-> --
-> 2.47.0
->
 
-
---=20
-Best Regards
-Masahiro Yamada
 
