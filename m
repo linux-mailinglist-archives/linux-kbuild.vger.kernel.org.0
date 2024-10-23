@@ -1,97 +1,101 @@
-Return-Path: <linux-kbuild+bounces-4278-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4279-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46789AD13D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 18:41:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC179AD144
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 18:45:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 659CD281D82
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 16:41:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D0D761F21FA6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 16:45:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 926E11CACF8;
-	Wed, 23 Oct 2024 16:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD4D81C9DFE;
+	Wed, 23 Oct 2024 16:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OTTqd34u"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hV/r9/Yi"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EC71C3306;
-	Wed, 23 Oct 2024 16:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8E562171;
+	Wed, 23 Oct 2024 16:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729701707; cv=none; b=pOqyDGSyNjglo71qycUqDUHaMoi0KuLWaHBArhvdJWdWyXWQRj+F14zNt9GgWG7RdaI9HDCsco41vbBAKdSnsd3dhBrO2IPeDgw188ZEJ6PC7MpJqusRQx5Z2HhvEjkuGLTQZSHnx+gJ0iRFgFJ23KOQ4JfyslakL383hGBjQ8U=
+	t=1729701938; cv=none; b=t2RFNRJtPXokReZSPT1rDMPGnWKFANfbSefBxXHnuncOgm+g0xNIVS75SvItKtYrSMnEkjCOLTT3LSuwKSVcldAU08IfM3+jOSdEFpdzGgKGdUr7o4SKncktcZkmuIqPBgUmgizRwRbpEf+8VAXjo4mEksKtVrGrDWiudXTlKBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729701707; c=relaxed/simple;
-	bh=n3qCqyTy10lex7laz7NuPmEFiXmD12CtOmobdC5n7e8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EdVVOK2xsOVqfzbFe+oHN5uCzsXlBXRnqM0lqh9MuEXPtqToZuQC2sqejifLf5f+d8kaOv7z62eG/7hDp348mriOYgBsTyAxlOFngKZ48geOnjcfExJG9QQoZXuq+FnuhN9C22qFa28m0/Sa55NHqImW+5AfsGIJ9y8+tdXhWdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OTTqd34u; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B20C4CECD;
-	Wed, 23 Oct 2024 16:41:46 +0000 (UTC)
+	s=arc-20240116; t=1729701938; c=relaxed/simple;
+	bh=h2JGt3X85RKRDd+2EPZCOOa0tCWEzPOqh4KtmSrD0FQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K8uV8Qrm2VlDLxCSgywq7JPJD36s9sSN7qO0iINCEXGt6XLu+4EZMPECTfSfr8hxbDc5bWvZev7dKpewfUzNhVrPvco2xRRbvljbqxezGSJReg0bPKHxwhW0vLldq5s1B6jqNYwJhHv2fKCg8hXiFwTcnHuMyfcRAGdBQkKU8Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hV/r9/Yi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A7E1C4CEC6;
+	Wed, 23 Oct 2024 16:45:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729701706;
-	bh=n3qCqyTy10lex7laz7NuPmEFiXmD12CtOmobdC5n7e8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OTTqd34uVSRGvqbo1mQyC4Xt49FbO5U3gytqewaO5cscXOsDmBFOLH0jMEWcynC/f
-	 +t6c4VmBXAmpZWvolZi7wURKdgQHrdD04aMnY+FbvPQV9tmW5GTdTwT3bBlJu9tCYP
-	 3eTFPG4fJIF3RQvZC9cExCohqIO1IJKAgyyxKtvom4Ka/aSvck3LKVhc0XHj88ep1i
-	 vwHpU7+OVtKCmjshk8JxJt9oS9vda2yBZMKtUeOIpVOGn38+NrenYXH6txNBKilC6D
-	 bAQUDgpiZ1KQoA8mnfoVTSqYleoOqoxfiISGdJVyWT04U01Rngbzqc6/6qc4cnBE2h
-	 8RwE33YuE7AnA==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53b13ea6b78so3716422e87.2;
-        Wed, 23 Oct 2024 09:41:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVaaX+ommd0pjTOCGONJ0fLtdMpFhBiT7/m+7NzBMLbLrBla5vJAuvAvkjEsmaWjINRx0jOMjZELtO0j/Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSSEpZjh4zNU5ReEdd8zMVC8f1hiIz42CWlXqAkpaW2dMDrMV1
-	UVenPtXMqqRoVTTSM/4G6VnqhpHt0hH4HVdUOYsPF4cwupVasu83VwcLa8DOQP1m5uY1iFLMamd
-	DLolA05X5AZasvGaaYgXkOxA9SGI=
-X-Google-Smtp-Source: AGHT+IHeVNVyeSqNM9Enb81lKkpNG3MzAyhLkMAss2895o/XFW4MQKZ82Tm+9lv4haZt/XdModeqeMe5dLzgyJ0h5J4=
-X-Received: by 2002:a05:6512:ea4:b0:539:8f68:e036 with SMTP id
- 2adb3069b0e04-53b1a354088mr2745050e87.34.1729701705628; Wed, 23 Oct 2024
- 09:41:45 -0700 (PDT)
+	s=k20201202; t=1729701938;
+	bh=h2JGt3X85RKRDd+2EPZCOOa0tCWEzPOqh4KtmSrD0FQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hV/r9/YiiI4qTILfEQ+C08Cj9/4fYvKdSDzs0Hdc5fBqdXA1XzQLSFQtrEpCi1u9m
+	 eewab48qnqN5DGhARrtUISJA728PQNwZeRqW3F0kTrWrpx945i3+1rDXcjl45HzPjE
+	 gQ+fP73bFIo/8qj9INjBnc3P+NrY1RNT8H2FKgYJy3/xOdPZe2C31JluXCpyP3vHac
+	 9UFJef1m41k+07dFmkZh+39JDW0T/W8F1Gh/TDb9LIQ/p01FSMnOSTZJ8xSnnNFpon
+	 zlN3SkTlc4QIzRSooNY/LQ7BHZKyiNBxkCw17l6J4kQ9cZhYVEeSjDFokl8zvTNjv0
+	 R0BNcitvJd1jA==
+Date: Wed, 23 Oct 2024 09:45:35 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Koakuma <koachan@protonmail.com>, Andreas Larsson <andreas@gaisler.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de,
+	Nicolas Schier <nicolas@fjasle.eu>, sparclinux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] sparc/build: Rework CFLAGS for clang compatibility
+Message-ID: <20241023164535.GB4081497@thelio-3990X>
+References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
+ <20241021201657.GA898643@thelio-3990X>
+ <CAK7LNASTkUTK8JZCzySNh3BVKxauusVKRhjnchy6iZz4qLbq8w@mail.gmail.com>
+ <20241022200732.GA487584@thelio-3990X>
+ <etezvjy_HnDpgOTBrzap29if1ChFBhl1RawcNJK3UAsFk6i_g_cyHoz7hlqfYqASgJZ97W4HxnGA-nbCXL73pIRN9tUKUttAp1JefMRp8rs=@protonmail.com>
+ <CAK7LNASbFeJc9Y=BFY85SwESUKNNDTRDunyLGveDusC--NVkCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <4960180.31r3eYUQgx@devpool47.emlix.com> <2286001.iZASKD2KPV@devpool47.emlix.com>
-In-Reply-To: <2286001.iZASKD2KPV@devpool47.emlix.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 24 Oct 2024 01:41:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARSM=EDgHN9=j1-BXoeZ5aq8O+nCZeBUeGrvhq2+1fQvQ@mail.gmail.com>
-Message-ID: <CAK7LNARSM=EDgHN9=j1-BXoeZ5aq8O+nCZeBUeGrvhq2+1fQvQ@mail.gmail.com>
-Subject: Re: [PATCH 5/7] kconfig: qconf: use nullptr in C++11 code
-To: Rolf Eike Beer <eb@emlix.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNASbFeJc9Y=BFY85SwESUKNNDTRDunyLGveDusC--NVkCw@mail.gmail.com>
 
-On Wed, Oct 23, 2024 at 3:35=E2=80=AFPM Rolf Eike Beer <eb@emlix.com> wrote=
-:
->
-> This is type safe as it can't be accidentially assigned to something not =
-a
-> pointer.
+On Wed, Oct 23, 2024 at 12:38:59PM +0900, Masahiro Yamada wrote:
+> On Wed, Oct 23, 2024 at 9:44 AM Koakuma <koachan@protonmail.com> wrote:
+> > I'm not sure if I should update the documentation now given that LLVM support
+> > is nowhere near as complete as other architectures, but I'll do it if needed...
+> 
+> Nathan said he was able to build the kernel.
+> 
+> If so, I think this should be documented (required LLVM version and
+> the supported build command),
+> otherwise people cannot test this patch.
 
-This is incomplete because there are more call sites that use
-0 instead of nullptr.
+I am not sure that there is a super concise way to describe for
+Documentation/kbuild/llvm.rst that sparc currently requires 'CC=clang
+LLVM_IAS=0' along with a build of clang from the main branch of
+llvm-project to work properly. I worry that adding any sort of mention
+of sparc in there will have people flooding to try older versions of
+clang like you did or LLVM=1 when there are obviously known issues that
+the upstream LLVM folks have not had a chance to tackle (but maybe it
+will be good to get issues on file for those).
 
-For example, you can replace nextItem(0) with nextItem(nullptr)
+If it would be useful, I could send a separate email documenting exactly
+what was tested and how it was tested as a reference in the face of
+future changes, until better support for the LLVM tools is enacted.
 
-Anyway, I do not need this patch for now because qconf is
-under refactoring, and I will remove a lot of code.
-
-Please come back with a more comprehensive patch
-some months later if you are still interested.
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Cheers,
+Nathan
 
