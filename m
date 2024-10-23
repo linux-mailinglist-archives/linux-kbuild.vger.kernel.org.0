@@ -1,200 +1,160 @@
-Return-Path: <linux-kbuild+bounces-4268-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4269-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43CE9ACE1B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 17:07:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A00D9ACF00
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 17:39:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C54E71C2195C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 15:07:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 195DB1F22168
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 15:39:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BBED1D150C;
-	Wed, 23 Oct 2024 14:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 088CF1CACEF;
+	Wed, 23 Oct 2024 15:39:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IjJHcUG7"
+	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="sAPYhX9i";
+	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="DKkM0ch8";
+	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="gEcH7T0T"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from e2i55.smtp2go.com (e2i55.smtp2go.com [103.2.140.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA5D1D14EA
-	for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2024 14:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9411C9EB0
+	for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2024 15:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.140.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729695546; cv=none; b=hcDkRr4kfrAy3+XjM60YLR8Dtv9/NFG0HEOzS/F7dzXQsxwlIR8vOBVFyYBZFgVFVRgU01twxoZ0ZqWqW3EQpWD4UWgyGlHFwUwaHbvhhzIKIwXoO5Hc0H8XXlL8tbNIUnBv55bcHy6VXE5MtWG5JPslSWkIGkXFxeo7bPmOS4k=
+	t=1729697948; cv=none; b=RZH/tHKVDB9uN9bTUcj/pPlZYJGJxKvGddVTVZWJbxjEvg7X/1SXykeNltmqq5+RJeaPgso2LRnKlkhzC4CF+aSoU5rKs8slIJrRKSBXXqDBQaJl+X/dXPDL9lUclYWPvYUOLCD7Owl5nAX8xAycv7xjoVthmKILWIU/PytxpkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729695546; c=relaxed/simple;
-	bh=qVcZMLHwHyQhq7MBDvAiHcGYCqm+ZH0H3VY5fyTsc+Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oFcqHB5abIthEu0kZF+UZoEnEMs9kdnkmG6rf/LckP7f1u86j0qi2PkD04LBOz3nMNQKZrOkykz8m3bTsTPLV0ci7w9X3KfnCLJAMzaAYx0OtPeaSfu788ZmmECLxZzTcdvT7r2ko0fw1tMbtDpMW74xhE1f8tNXkv7gRt9vleM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IjJHcUG7; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5c9428152c0so8833734a12.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2024 07:59:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1729695542; x=1730300342; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QdfhAg7XOG6KB9fpE58iZth2jLApIcWYhDgoIBS8gtw=;
-        b=IjJHcUG7cnM+rwPbkfTo+GNQQhH3RCA9s/I9xBEuu+1Ttq8VN4p8jfdaX1fYK9HipZ
-         xEB+NgfdClVy1oc4btYQNynlMTUWWBlS1Wuxkn3Y868WX1lWom/g8Lq3LcNdu95BrugC
-         6ZAgFLiR5VQf7aEnrZNRV1+nBNAB1Ryq/7zcPllZjCCb/VFwWGODEzVKVXvXNLPrsoQ5
-         n3VZ5T0AFKcMMly/TU0iQSd6qi+9s4S27Un6PJiu8WMcH6ej1yqY66LrhzUo8jy5ZHuS
-         D0Y5VNehGTcZI/p5E+TVUKgKODIT7d1MPHEehCvxwTX0NdkkP0+sr50aWAzZRWdbXQLr
-         hSVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729695542; x=1730300342;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QdfhAg7XOG6KB9fpE58iZth2jLApIcWYhDgoIBS8gtw=;
-        b=uN0o+HYwm+eT4sI+P0iaEQuuvLHCIHT57Miy4KMUtCCHiOt9Nm1ZoSM/SiE914Jc9f
-         +VWviY5yvv0NrHjv1ED3Gf8lEaZ0FVh9t3rCiU85AarfHedtOKG1K9aNuXuqJTJnoN6e
-         xF43sarn54fMhiduzUklv3kiP5sy31BJyRYmJKlqznn8BTlXYfLBq6T/28016ytURQPF
-         dJ+a7OSqYcWnWMD0QAnj4pPo+GvRjxzXqaoxBUDJLM8T/DMatJcY6vXFPBK4mTzL8fqw
-         aCrRAyad7f54RXwHQqC4uv8OWU+h8yc7MbIzse5y6eeMWjeEF9tC0cCj4gm9QRFbtF0p
-         Qk/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUwRY23vuscLMuV0x2DpXpjn1CEH8FutjMkjCO5Ok5yPcasZJMmm19HOFj5QqDJRhB9o+yQRI00LAdwre8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQyT6UUEUcA0tuS9eOUUgd/1mxRlb8lN0GvZth0XfXkkEaOv2r
-	TcJkntLk2sRCQo0fxlcP33oeNOAo4Rbkzf1K3+FQ1HY2LKD64qMBXHi/A7RJOE4=
-X-Google-Smtp-Source: AGHT+IFC1aic+ZWmPBAnotFGoZ7s0fl8OisT/L75WyZvmDcXyVbJaWz0S1S/NSTReRarLlppasFQew==
-X-Received: by 2002:a17:906:794c:b0:a9a:4a:284a with SMTP id a640c23a62f3a-a9abf8792bbmr287818566b.26.1729695542525;
-        Wed, 23 Oct 2024 07:59:02 -0700 (PDT)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912d6234sm486571666b.24.2024.10.23.07.59.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 07:59:02 -0700 (PDT)
-Message-ID: <8017c328-f039-46c3-b472-f203cd6e2cfe@suse.com>
-Date: Wed, 23 Oct 2024 16:59:00 +0200
+	s=arc-20240116; t=1729697948; c=relaxed/simple;
+	bh=TArXztQb+MkM8RiEqijx7IT5RomzWnTWUWB7pS0l0KU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hFVx43wWGDqmtHrut9G5+dcT8KJ2WSBrCYJcYiJ0EhfoAugthk943tgSe5NyQ4cNqMbrXXOtK0TicpK/NqKuvJ1TzeZXiezk1r3d6vmYNoVA4eg/OUGOki8M9+eKXkdcccju+hIDSqm1xIXnr6qaHel1BooNE0XDLtS1Hr2dD4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=sAPYhX9i reason="unknown key version"; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=DKkM0ch8; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=gEcH7T0T; arc=none smtp.client-ip=103.2.140.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1729698842; h=Feedback-ID:
+	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
+	List-Unsubscribe:List-Unsubscribe-Post;
+	bh=PGordEIR45jrNlNrTNYlWgRJv5GwdV7ZsRzwl31sT1s=; b=sAPYhX9iJHfF7Cc4BWf0UCUB2u
+	qEgScQbO4TtZn6RqfmcoanqWxCE9M2GSg/BKBOYTxiJ9S2FNH+NNACi8wjfNUrtCBUqJD8m7OvdNK
+	ovKAniRMb/25xui44cYEPa46kDuIrJ/HL7NJNUZcvrT52JowQpMJUZNgWJV8/6HOWqWSpNG6kdkfR
+	r+1Bkoy9F/QYT1lBWnw3H1wW1Zn50Ag+mLCE4K6KfvwEGAwj1WMjse8+hk6/Aeo9pCkcyO5rq4pBW
+	ZJ9hY8x1NZPM5Ly34VSQmpNdI6SVflkSpslsmFpAfM2hOs07ZFzWmOx/VofMTxrMw8fFT5orx1Xvn
+	fHdiRYcw==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
+ i=@fjasle.eu; q=dns/txt; s=s1174286; t=1729697942; h=from : subject :
+ to : message-id : date;
+ bh=PGordEIR45jrNlNrTNYlWgRJv5GwdV7ZsRzwl31sT1s=;
+ b=DKkM0ch8sz4A7MQhsYsq/fUkJdG4J1BHksdqldG9YwQeng+tKul6UwoNy1pr7tExtJFS9
+ 3mUCU7bPBOfLP8qBKk+RYKML8Y7PRv6tgca8D+3JIAdE0hOEEXB2I/CjvRy+qjwyv9LFoen
+ tTNnrf1WFy8w79vOEh/w1l/H2SSYSkLdLT/cxQprIQWOT/ilwFHJ7HMPu1CZq2iSGeYr8ul
+ 6A1qDhEk2w+FTaaUDKRnzGyihRjvqFF5DV5h7aJihWz6/RRtereXutwble3NHh9hBS5zYzP
+ vWSe/MyEisDcrwLwfNBq/oQvyhy14J7gEI7IidjvMy3uvPgD4C93D9Rmxbiw==
+Received: from [10.176.58.103] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1t3dR5-cp4XYB-N4; Wed, 23 Oct 2024 15:38:12 +0000
+Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
+ by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.97.1-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1t3dR4-4o5NDgrnm55-q8BV; Wed, 23 Oct 2024 15:38:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+ t=1729697888; bh=TArXztQb+MkM8RiEqijx7IT5RomzWnTWUWB7pS0l0KU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gEcH7T0TYi7Qysti88+ZUXIfIOMyb9BHFoq5nSXCUOKYI0uVGFhK2z48N8Pfy31W9
+ QhIE/JrdSelmEz4hXq5mbBUvIziHeAzoKiXB8GqSEMdlKSW85YZnX17oZXxwHciQqY
+ JCXEsIrtvGdCMGRG1Yq/uEn3ModBzfiSSV294JxQ=
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+ id 2EC8C3D2A2; Wed, 23 Oct 2024 17:38:08 +0200 (CEST)
+Date: Wed, 23 Oct 2024 17:38:08 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <benh@debian.org>,
+ Ron Economos <re@w6rz.net>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 2/3] kbuild: deb-pkg: add
+ pkg.linux-upstream.nokernelheaders build profile
+Message-ID: <ZxkYYLbiXZ3p59iu@fjasle.eu>
+References: <20241022181703.1710116-1-masahiroy@kernel.org>
+ <20241022181703.1710116-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 18/19] kbuild: Add gendwarfksyms as an alternative to
- genksyms
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
- Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20241008183823.36676-21-samitolvanen@google.com>
- <20241008183823.36676-39-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20241008183823.36676-39-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241022181703.1710116-2-masahiroy@kernel.org>
+X-Smtpcorp-Track: CUGQAJ8WMfc5.1korG4rogHqO.9jBznQ9T09n
+Feedback-ID: 1174286m:1174286a9YXZ7r:1174286sX19qKHJLT
+X-Report-Abuse: Please forward a copy of this message, including all headers,
+ to <abuse-report@smtp2go.com>
 
-On 10/8/24 20:38, Sami Tolvanen wrote:
-> When MODVERSIONS is enabled, allow selecting gendwarfksyms as the
-> implementation, but default to genksyms.
+On Wed, Oct 23, 2024 at 03:16:58AM +0900 Masahiro Yamada wrote:
+> Since commit f1d87664b82a ("kbuild: cross-compile linux-headers package
+> when possible"), 'make bindeb-pkg' may attempt to cross-compile the
+> linux-headers package, but it fails under certain circumstances.
 > 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Acked-by: Neal Gompa <neal@gompa.dev>
+> For example, when CONFIG_MODULE_SIG_FORMAT is enabled on Debian, the
+> following command fails:
+> 
+>   $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg
+>       [ snip ]
+>   Rebuilding host programs with aarch64-linux-gnu-gcc...
+>     HOSTCC  debian/linux-headers-6.12.0-rc4/usr/src/linux-headers-6.12.0-rc4/scripts/kallsyms
+>     HOSTCC  debian/linux-headers-6.12.0-rc4/usr/src/linux-headers-6.12.0-rc4/scripts/sorttable
+>     HOSTCC  debian/linux-headers-6.12.0-rc4/usr/src/linux-headers-6.12.0-rc4/scripts/asn1_compiler
+>     HOSTCC  debian/linux-headers-6.12.0-rc4/usr/src/linux-headers-6.12.0-rc4/scripts/sign-file
+>   In file included from /usr/include/openssl/opensslv.h:109,
+>                    from debian/linux-headers-6.12.0-rc4/usr/src/linux-headers-6.12.0-rc4/scripts/sign-file.c:25:
+>   /usr/include/openssl/macros.h:14:10: fatal error: openssl/opensslconf.h: No such file or directory
+>      14 | #include <openssl/opensslconf.h>
+>         |          ^~~~~~~~~~~~~~~~~~~~~~~
+>   compilation terminated.
+> 
+> This commit adds a new profile, pkg.linux-upstream.nokernelheaders, to
+> guard the linux-headers package.
+> 
+> There are two options to fix the above issue.
+> 
+> [option 1] Set the pkg.linux-upstream.nokernelheaders build profile
+> 
+>   $ DEB_BUILD_PROFILES=pkg.linux-upstream.nokernelheaders \
+>     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg
+> 
+> This skips the building of the linux-headers package.
+> 
+> [option 2] Install the necessary build dependencies
+> 
+> If you want to cross-compile the linux-headers package, you need to
+> install additional packages. This is a one-time installation step.
+> 
+> For example, on Debian, the packages necessary for cross-compiling it
+> to arm64 can be installed with the following commands:
+> 
+>   # dpkg --add-architecture arm64
+>   # apt update
+>   # apt install gcc-aarch64-linux-gnu libssl-dev:arm64
+> 
+> Fixes: f1d87664b82a ("kbuild: cross-compile linux-headers package when possible")
+> Reported-by: Ron Economos <re@w6rz.net>
+> Closes: https://lore.kernel.org/all/b3d4f49e-7ddb-29ba-0967-689232329b53@w6rz.net/
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  kernel/module/Kconfig  | 25 ++++++++++++++++++++++++-
->  scripts/Makefile       |  2 +-
->  scripts/Makefile.build | 39 +++++++++++++++++++++++++++++++--------
->  3 files changed, 56 insertions(+), 10 deletions(-)
 > 
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index f9e5f82fa88b..e6b2427e5c19 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -169,13 +169,36 @@ config MODVERSIONS
->  	  make them incompatible with the kernel you are running.  If
->  	  unsure, say N.
->  
-> +choice
-> +	prompt "Module versioning implementation"
-> +	depends on MODVERSIONS
-> +	default GENKSYMS
-> +	help
-> +	  Select the tool used to calculate symbol versions for modules.
-> +
-> +	  If unsure, select GENKSYMS.
-> +
-> +config GENKSYMS
-> +	bool "genksyms (from source code)"
-> +	help
-> +	  Calculate symbol versions from pre-processed source code using
-> +	  genksyms.
-> +
-> +	  If unsure, say Y.
-> +
->  config GENDWARFKSYMS
-> -	bool
-> +	bool "gendwarfksyms (from debugging information)"
->  	depends on DEBUG_INFO
->  	# Requires full debugging information, split DWARF not supported.
->  	depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
->  	# Requires ELF object files.
->  	depends on !LTO
-> +	help
-> +	  Calculate symbol versions from DWARF debugging information using
-> +	  gendwarfksyms. Requires DEBUG_INFO to be enabled.
-> +
-> +	  If unsure, say N.
-> +endchoice
->  
->  config ASM_MODVERSIONS
->  	bool
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index d7fec46d38c0..8533f4498885 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -53,7 +53,7 @@ hostprogs += unifdef
->  targets += module.lds
->  
->  subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
-> -subdir-$(CONFIG_MODVERSIONS) += genksyms
-> +subdir-$(CONFIG_GENKSYMS) += genksyms
->  subdir-$(CONFIG_GENDWARFKSYMS) += gendwarfksyms
->  subdir-$(CONFIG_SECURITY_SELINUX) += selinux
->  subdir-$(CONFIG_SECURITY_IPE) += ipe
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 8f423a1faf50..ae13afb71123 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -107,18 +107,28 @@ cmd_cpp_i_c       = $(CPP) $(c_flags) -o $@ $<
->  $(obj)/%.i: $(obj)/%.c FORCE
->  	$(call if_changed_dep,cpp_i_c)
->  
-> +gendwarfksyms := scripts/gendwarfksyms/gendwarfksyms
-> +getexportsymbols = $(NM) $(1) | sed -n 's/.* __export_symbol_\(.*\)/$(2)/p'
-> +
->  genksyms = scripts/genksyms/genksyms		\
->  	$(if $(1), -T $(2))			\
->  	$(if $(KBUILD_PRESERVE), -p)		\
->  	-r $(or $(wildcard $(2:.symtypes=.symref)), /dev/null)
->  
->  # These mirror gensymtypes_S and co below, keep them in synch.
-> +ifdef CONFIG_GENDWARFKSYMS
-> +symtypes_dep_c = $(obj)/%.o
-> +cmd_gensymtypes_c = $(if $(skip_gendwarfksyms),,			\
-> +	$(call getexportsymbols,$(2:.symtypes=.o),\1) |			\
-> +	$(gendwarfksyms) $(2:.symtypes=.o) $(if $(1), --symtypes $(2)))
+>  scripts/package/builddeb             | 2 +-
+>  scripts/package/install-extmod-build | 6 ++----
+>  scripts/package/mkdebian             | 9 ++++++++-
+>  3 files changed, 11 insertions(+), 6 deletions(-)
 
-Is it possible to pass options to gendwarfksyms that apply to the entire
-build, specifically, how can one say to use the --stable option? If not
-then I think it would be good to add something as
-KBUILD_GENDWARFKSYMS_STABLE (similar to KBUILD_PRESERVE), or maybe
-a generic GENDWARFKSYMSFLAGS?
+Nice solution and thanks for also documenting option 2.
 
--- 
-Thanks,
-Petr
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
