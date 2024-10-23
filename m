@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-4291-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4292-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED7B9AD3DF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 20:19:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4269AD3E2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 20:20:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA4951F237A7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 18:19:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B65ACB23CA5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 18:20:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C1BD1E8829;
-	Wed, 23 Oct 2024 18:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61C521F9439;
+	Wed, 23 Oct 2024 18:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1rb2+rR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rg0J4DB6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0520B1E8822;
-	Wed, 23 Oct 2024 18:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EF71E8822;
+	Wed, 23 Oct 2024 18:18:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729707516; cv=none; b=ATh1zu2cleGlzD5m1VC6/+ZwNl8vzYOkPNtFGlXMTpXDVfLkpDsjvmFNS+kuItv4RoKPjNkidI3civ0og0kqZ53TrqRF8GdsfgbU+FD7VzjK3Dun+/1mrzmMfF+UkKpTI9Gvh+ow7c25rtM8vhuJ+EArVISoa0LAwSv3fs6hAKM=
+	t=1729707519; cv=none; b=tfel8KjcWjMYqnrgHMjGd0EEpoR5BDjo2mSrg52SlsQ9DumiFjYBV84I8uRRm7qfLf2WA+p6MJYLW7ztynVIUjh8mDPyHS7YoqZi2zHc8qhB6qymxZjkK6g9t81ybFcvmVvOVFr+RYB+BFPpIEhqjLLTwS4hR/ffs3MX1aq+qDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729707516; c=relaxed/simple;
-	bh=GBdvS28YS75rH62yiPtB0hM0b5IeDi5QhyAWFnPK+hg=;
+	s=arc-20240116; t=1729707519; c=relaxed/simple;
+	bh=6jH1pGp9KLXa8qr/56f45ENyIc/rPq0yIj5+AxK0D1I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qi8sfT7Ho6/5YYSV7pVZ3ALnzRl8Ft/XtyKB7zrteadXuGDnNWU2RkfCwXKJMxrQNf8L9KnxyzMxrf+bsiQC0IF7ymWXERYIfygP0hxw1cTNhr8Jlco4Q40MYpN5NNn5xPhcmTHJlquUXlV4ci2hJWQRUNv6GickfHbkYXKQYNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1rb2+rR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D249C4CEE6;
-	Wed, 23 Oct 2024 18:18:35 +0000 (UTC)
+	 MIME-Version; b=Q3Oc8ZD9wQuQ+K6+k2/1LWvI14XcXvlhTb46YOo/Vzq2qrEk+IsSSN97Q2gKRsX+5xgsMveuu+6czll30vejDUedAxLTuBO2sNtH+uu/mpuSVIBIlq9iAMJZymu5cE8+eU17x0xHZenENnirYWw1jQI8QGShrBZjbuWSeIBgm2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rg0J4DB6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5BEC4CEC6;
+	Wed, 23 Oct 2024 18:18:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729707515;
-	bh=GBdvS28YS75rH62yiPtB0hM0b5IeDi5QhyAWFnPK+hg=;
+	s=k20201202; t=1729707519;
+	bh=6jH1pGp9KLXa8qr/56f45ENyIc/rPq0yIj5+AxK0D1I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p1rb2+rR36ss36eKMN+EeqvgOVIPOoPtVslS1LWDBkkyzd/1aPvl7kcbZyAoT5rKH
-	 vv3l2Z1Q93kFJWCgK9za9F6ZyIQU41tBoSX+kuA1ozwzTnGE9oTsZFvyjxIyZW4vgV
-	 lgkYRKEvaaqvh2kd2aS07zVUqYRQQmEhGAE+l6VCd8IJsuJqVGjbTNosB+zCyq6LW/
-	 sHjipJXjcv4DeSDB6v4n5THq36zI02/9L/L3I+M1WYFKcfk3e+CqIXR+6NX6akaQwl
-	 6BacoJuEtTIdr+PF7pzXiZzTqWXiI8/fVUSLSjaXuAHna4VhxR8DNa7siwuXkP7B5q
-	 ASedA/ZgcKM6A==
+	b=Rg0J4DB6oADSAKAb8nEUz14U//mb/GWfkkFGoCD3/NkQRc0CfW0t5Spk5bRVsvr7U
+	 TkMAnimUKry0b98wekLK45vm74X/OLPWEFZbl2R9h6Rr8R8DLzuZ3yN8/dAaUD3EWh
+	 yX3SBH/a8KepDpvtxlq1UK8qsnk2h5XCg5mt814YXXla9zB3IebnWWmGh6uVIM1RMB
+	 RHznZhvZUZiB2Xm7yWwuWX4Ir0tL3MnymOmhPdm65p2dbDrDwpzJmPmGxW8AEK/URa
+	 JjWfFCuNqc8RKF3iJvUDfuVPCnikko50gLbv5CDyzKN8QO1gRi94LZpAwx/tA0y7w8
+	 WYBBXQyUAnW1A==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 08/13] kconfig: qconf: avoid unnecessary parentSelected() when ESC is pressed
-Date: Thu, 24 Oct 2024 03:17:58 +0900
-Message-ID: <20241023181823.138524-8-masahiroy@kernel.org>
+Subject: [PATCH 09/13] kconfig: qconf: remove redundant check in goBack()
+Date: Thu, 24 Oct 2024 03:17:59 +0900
+Message-ID: <20241023181823.138524-9-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241023181823.138524-1-masahiroy@kernel.org>
 References: <20241023181823.138524-1-masahiroy@kernel.org>
@@ -59,39 +59,28 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the ESC key is pressed, the parentSelected() signal is currently
-emitted for singleMode, menuMode, and symbolMode.
-
-However, parentSelected() signal is functional only for singleMode.
-
-In menuMode, the signal is connected to the goBack() slot, but nothing
-occurs because configList->rootEntry is always &rootmenu.
-
-In symbolMode (in the right pane), the parentSelected() signal is not
-connected to any slot.
-
-This commit prevents the unnecessary emission of the parentSelected()
-signal.
+The same check is performed in the configList->setParentMenu() call.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/qconf.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/kconfig/qconf.cc | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 5b1237bf085a..1948cda048d2 100644
+index 1948cda048d2..acbc4331ebc5 100644
 --- a/scripts/kconfig/qconf.cc
 +++ b/scripts/kconfig/qconf.cc
-@@ -724,7 +724,7 @@ void ConfigList::keyPressEvent(QKeyEvent* ev)
- 	struct menu *menu;
- 	enum prop_type type;
+@@ -1616,9 +1616,6 @@ void ConfigMainWindow::listFocusChanged(void)
  
--	if (ev->key() == Qt::Key_Escape && mode != fullMode && mode != listMode) {
-+	if (ev->key() == Qt::Key_Escape && mode == singleMode) {
- 		emit parentSelected();
- 		ev->accept();
- 		return;
+ void ConfigMainWindow::goBack(void)
+ {
+-	if (configList->rootEntry == &rootmenu)
+-		return;
+-
+ 	configList->setParentMenu();
+ }
+ 
 -- 
 2.43.0
 
