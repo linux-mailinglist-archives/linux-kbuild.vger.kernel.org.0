@@ -1,47 +1,46 @@
-Return-Path: <linux-kbuild+bounces-4252-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4247-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90A99ABEFD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 08:39:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E95B9ABEC3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 08:31:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 868D21F24B39
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 06:39:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E20F1285228
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 06:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7154814AD3A;
-	Wed, 23 Oct 2024 06:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AECD913DB9F;
+	Wed, 23 Oct 2024 06:31:52 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AF013BC11;
-	Wed, 23 Oct 2024 06:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EAC13A3F3;
+	Wed, 23 Oct 2024 06:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.209.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729665525; cv=none; b=I3MV+JZcMLObcL4mwgavcx0IQFOKFs8kgHCTyso8Ec/DJvnBMMwA/F+uezUKD1N6mNMrEyvGQmoWqOuTOObVpaxgfVvdCMV9MK5Oo0b/rZMD7lGX/1dLpkbc6GNzyBpq5+ADQDCpybCnC2+9o3r50CKLBT06VmZOb1QIuEdoZ2U=
+	t=1729665112; cv=none; b=S87WenzR86HESvNZZ+zC9WOYjGoAuEbKTljiJbBvG0PH7V7dVtBYtmZaz7Uw0VroDAEFfvu6M236IOVSGXnBUlI3+2CnbzTs895E60uol0hmcrhcu8aWfxxhnpMBzV5XvKAtamBnZK/Ti9xei9GLKN3oxbdQTR86snks36ht55A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729665525; c=relaxed/simple;
-	bh=FkbXTX6/laHtcxuSP/YuZ0C5lTynxiJsq6LDdjhZNnQ=;
+	s=arc-20240116; t=1729665112; c=relaxed/simple;
+	bh=us+grQV/jXWmtQNBUfunsLR1+H2Rv7P8p/uyZMzN51U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c0vlWydoFa+MWuMqPRsPfMtp4KIASEYXYjmKnZtIviz/GiVISRssPG8zVURk2cJjr8+WPk4KiN6JDzmQXVE1ksLvU20MlQORASVXDFYonAPYfXv4f+AIdwfeP5QbHz25UTcOPhViJ5VfRkQGzdYV0IThBNiBL+N7NhSTZwg0poU=
+	 MIME-Version:Content-Type; b=bUzZDAnF9bJ1pTsS9sDo51fsNeIJtKZhi5P10zq3f09tWgq2kSovF4mrlxUYcxpt7GySBM9AM4yDly6CcL0hMiM7SlzqbLU8nclU/kV+MnnCxoR1n9WFfWx+2KRQffkQ+ocsWQfkV4InrYVFs+2Cluiptn5/yZWItjrx7xdh/eI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emlix.com; spf=pass smtp.mailfrom=emlix.com; arc=none smtp.client-ip=178.63.209.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emlix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emlix.com
 Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id 2BDA25F8A7;
-	Wed, 23 Oct 2024 08:29:32 +0200 (CEST)
+	by mx1.emlix.com (Postfix) with ESMTPS id 2A52D5FAFA;
+	Wed, 23 Oct 2024 08:31:47 +0200 (CEST)
 From: Rolf Eike Beer <eb@emlix.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject:
- [PATCH 1/7] kconfig: qconf: use QByteArray API instead of manually
- constructing a string
-Date: Wed, 23 Oct 2024 08:29:31 +0200
-Message-ID: <4931941.GXAFRqVoOG@devpool47.emlix.com>
+ [PATCH 2/7] kconfig: qconf: use QString to store path to configuration file
+Date: Wed, 23 Oct 2024 08:31:46 +0200
+Message-ID: <13623531.uLZWGnKmhe@devpool47.emlix.com>
 Organization: emlix GmbH
 In-Reply-To: <4960180.31r3eYUQgx@devpool47.emlix.com>
 References: <4960180.31r3eYUQgx@devpool47.emlix.com>
@@ -54,62 +53,99 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Using a naked char[] here isn't necessary as QByteArray has a nice API for =
-all
-of this. Calling constData() will also always return a 0-terminated string =
-so no
-further handling is required. And then the whole manual memory handling can=
- go
-away as QByteArray will care for this when it goes out of scope.
+This is the native type used by the file dialogs and avoids any hassle with
+filename encoding when converting this back and forth to a character array.
 
 Signed-off-by: Rolf Eike Beer <eb@emlix.com>
 =2D--
- scripts/kconfig/qconf.cc | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ scripts/kconfig/qconf.cc | 24 ++++++------------------
+ scripts/kconfig/qconf.h  |  2 +-
+ 2 files changed, 7 insertions(+), 19 deletions(-)
 
 diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index e260cab1c2af..742ca6ed289b 100644
+index 742ca6ed289b..54640f6b29e2 100644
 =2D-- a/scripts/kconfig/qconf.cc
 +++ b/scripts/kconfig/qconf.cc
-@@ -1165,25 +1165,17 @@ void ConfigInfoView::expr_print_help(void *data, st=
-ruct symbol *sym, const char
- void ConfigInfoView::clicked(const QUrl &url)
+@@ -1380,7 +1380,7 @@ ConfigMainWindow::ConfigMainWindow(void)
+=20
+ 	conf_set_changed_callback(conf_changed);
+=20
+=2D	configname =3D xstrdup(conf_get_configname());
++	configname =3D conf_get_configname();
+=20
+ 	QAction *saveAsAction =3D new QAction("Save &As...", this);
+ 	connect(saveAsAction, &QAction::triggered,
+@@ -1519,28 +1519,22 @@ ConfigMainWindow::ConfigMainWindow(void)
+ void ConfigMainWindow::loadConfig(void)
  {
- 	QByteArray str =3D url.toEncoded();
-=2D	const std::size_t count =3D str.size();
-=2D	char *data =3D new char[count + 2];  // '$' + '\0'
- 	struct symbol **result;
- 	struct menu *m =3D NULL;
+ 	QString str;
+=2D	QByteArray ba;
+=2D	const char *name;
 =20
-=2D	if (count < 1) {
-=2D		delete[] data;
-+	if (str.isEmpty())
+ 	str =3D QFileDialog::getOpenFileName(this, "", configname);
+ 	if (str.isNull())
  		return;
-=2D	}
+=20
+=2D	ba =3D str.toLocal8Bit();
+=2D	name =3D ba.data();
 =2D
-=2D	memcpy(data, str.constData(), count);
-=2D	data[count] =3D '\0';
+=2D	if (conf_read(name))
++	if (conf_read(str.toLocal8Bit().constData()))
+ 		QMessageBox::information(this, "qconf", "Unable to load configuration!");
 =20
- 	/* Seek for exact match */
-=2D	data[0] =3D '^';
-=2D	strcat(data, "$");
-=2D	result =3D sym_re_search(data);
-+	str[0] =3D '^';
-+	str.append('$');
-+	result =3D sym_re_search(str.constData());
- 	if (!result) {
-=2D		delete[] data;
- 		return;
- 	}
+=2D	free(configname);
+=2D	configname =3D xstrdup(name);
++	configname =3D str;
 =20
-@@ -1206,7 +1198,6 @@ void ConfigInfoView::clicked(const QUrl &url)
- 	}
-=20
- 	free(result);
-=2D	delete[] data;
+ 	ConfigList::updateListAllForAll();
  }
 =20
- void ConfigInfoView::contextMenuEvent(QContextMenuEvent *event)
+ bool ConfigMainWindow::saveConfig(void)
+ {
+=2D	if (conf_write(configname)) {
++	if (conf_write(configname.toLocal8Bit().constData())) {
+ 		QMessageBox::information(this, "qconf", "Unable to save configuration!");
+ 		return false;
+ 	}
+@@ -1552,23 +1546,17 @@ bool ConfigMainWindow::saveConfig(void)
+ void ConfigMainWindow::saveConfigAs(void)
+ {
+ 	QString str;
+=2D	QByteArray ba;
+=2D	const char *name;
+=20
+ 	str =3D QFileDialog::getSaveFileName(this, "", configname);
+ 	if (str.isNull())
+ 		return;
+=20
+=2D	ba =3D str.toLocal8Bit();
+=2D	name =3D ba.data();
+=2D
+=2D	if (conf_write(name)) {
++	if (conf_write(str.toLocal8Bit().constData())) {
+ 		QMessageBox::information(this, "qconf", "Unable to save configuration!");
+ 	}
+ 	conf_write_autoconf(0);
+=20
+=2D	free(configname);
+=2D	configname =3D xstrdup(name);
++	configname =3D str;
+ }
+=20
+ void ConfigMainWindow::searchConfig(void)
+diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
+index 53373064d90a..aab25ece95c6 100644
+=2D-- a/scripts/kconfig/qconf.h
++++ b/scripts/kconfig/qconf.h
+@@ -237,7 +237,7 @@ public slots:
+ class ConfigMainWindow : public QMainWindow {
+ 	Q_OBJECT
+=20
+=2D	char *configname;
++	QString configname;
+ 	static QAction *saveAction;
+ 	static void conf_changed(bool);
+ public:
 =2D-=20
 2.47.0
 
