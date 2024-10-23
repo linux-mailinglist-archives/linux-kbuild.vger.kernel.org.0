@@ -1,90 +1,112 @@
-Return-Path: <linux-kbuild+bounces-4281-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4282-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A685A9AD1F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 18:59:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F7F9AD331
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 19:47:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C277288CB9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 16:59:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CDDBDB21E0D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2024 17:47:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4E541D0483;
-	Wed, 23 Oct 2024 16:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 186261D0153;
+	Wed, 23 Oct 2024 17:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dM7O36Pt"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MohkiKZc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B967D1CF5C9;
-	Wed, 23 Oct 2024 16:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C291D0175
+	for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2024 17:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729702312; cv=none; b=CFulgkmViC8E/HuxB5uvGcg9I+t9oVpacrcTkyqR0xkpxU1THLNygFltbyEedKuZ6XD2gSD5JByN2TFYXxqlgHcnQu4VkU263PtosNMDAUJvRoL9d648qtPDoPIqNnizJgeVowRwWA+q3Z0+HgZ5p520dHvOL6QhqfBDFsPhY8E=
+	t=1729705615; cv=none; b=Q5RAK9gwW5QLh8N1yNd41gXo0Q9Ly+gGrjvU1LISKL4uS/SThhkPZY5jHDWQy+TJICkgrMJ70RTtN728v+Ve7jFseqqJExUkDEN0NFHJX6AVA29kZD0Ivq8VYlGdYs/Kl2Ia5imLeLZ+bXgEwC75N1IPa02fHfAmrsgjIeHu75Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729702312; c=relaxed/simple;
-	bh=esYxzWHZfczmmBYy5i8nzTkBzAx/4wwloNxA4P7+EXM=;
+	s=arc-20240116; t=1729705615; c=relaxed/simple;
+	bh=i+7ZAlfoQfuCxLYaegZtLOps7LaYlV1n5wy00nEl8Ng=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E5D0AEts5JcZbBgHIdI+d3/bj5ryTy7xSDR5G10tAisE6G0DjRxPVu/RaRWXm/Gouyh/HZKoUazetW9LYSGE47HIB7wIuw9SLntLylZIZGyQ+/tWw1wYIR5nmQCtCjTt/vSJmy9CqXAAdir0qz9I4euNEiq6d69hfjTyQBEBZn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dM7O36Pt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42C0EC4CEC6;
-	Wed, 23 Oct 2024 16:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729702312;
-	bh=esYxzWHZfczmmBYy5i8nzTkBzAx/4wwloNxA4P7+EXM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dM7O36PtRo09sWkvc2ow6OuLnIaTJkCdTCDXsqmpG6ZLkMxpDFNugKGSRklfWfLmT
-	 XJCtAvmJDGSJq/Tft190tSWT+odHU89RIcT1vCbaEkopGhuldwVYjYF51SWMTsvNXt
-	 vlR/KFDAT+8qK0puqMkjIf5G3JdR/zHLSPCMmsB8rf1cPO1rQpYS5WRpIRrHo3ifJC
-	 VwovfcsKMOj8Gvei51sC6/Bd2XKHj0OTGlLhPVFgiotnYlVMUCKWpu05AeFGoYbUFQ
-	 6Q+/srqxp0ocNYKfDeRMWboGzd2T7LeYQEukSLcHR2ZCxlp2/wsBN+aLQkpKx/zo5P
-	 0ZUaz5N3aH01g==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539fe76e802so8149737e87.1;
-        Wed, 23 Oct 2024 09:51:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU07g0q62nzBJlDbEBSkRoY6bxWmDfgrdeJsGBFzHY0vjQgZz8JVY2lpgvWTa+Q6SeonLyF/26xYb0Cc2s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpHMC0F6ATwAendh3d1NQgjv7xj7iPCA3VyuLN4P78MoCiEV2k
-	sXXmwo6rlnXrisN6AimtyZ/Hwh2UOy+KCqCspvProKTSB5EcyFmoN7h8gDpLJiZMpGSBJ4ZqqGj
-	1LZ3/3xOfVvEe5gfLFd85DxX/vSY=
-X-Google-Smtp-Source: AGHT+IExaEg1MkxfPeCVBCY3VFdkujiXY7FIOzJD78B79Nwzh3cKlreBu/qzTE3sBGQzbw/Uo4CRstQges9g6E/oLG0=
-X-Received: by 2002:a05:6512:334e:b0:536:a695:9429 with SMTP id
- 2adb3069b0e04-53b1a2f4ec8mr1484438e87.10.1729702310984; Wed, 23 Oct 2024
- 09:51:50 -0700 (PDT)
+	 To:Cc:Content-Type; b=uArKW9b+GuorUL7DD+GfVeTBFWpbALo2Q+VowJ1rPG0WaLcHwJRvUhuNUoorxZWB0Uzsx3srueLivCXBfoH/L4/bmnd5NcYRFkfTK+GRsAPK5bpfm8+www8DFWnBp79EMIdBVgfR8jqn5WuLTLLaJv0InyJzOZ89TJcuMrMDMwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MohkiKZc; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43153c6f70aso264215e9.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2024 10:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729705611; x=1730310411; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i+7ZAlfoQfuCxLYaegZtLOps7LaYlV1n5wy00nEl8Ng=;
+        b=MohkiKZcZfLdETBGeL3NBfyNfaFWtugAsSQZDFk0g9qYeWCAR3g3QFyTJgazYqggu7
+         yeKUpefqUeuBCao0j63DH/Usnp8U6h7a4AAz20bcy9Wc+P6H5WhLi6ie2ai30c0Z2za6
+         lsvEcgxBqzpW3QKTP7qAobHDGHocks8rYbhL6IWDqzMhnIt72GZSZTYhBSlzdYcaLxaW
+         T26p+j+oPfBZjM+XGeaUN6ALEsUE68zIKsg8QzOnaO6voaU+TaeHn7zn7yhqy0cn5joX
+         DdHtSgDTrWuRFhzeUXBILpXEn1/WIktJNWxzr+4QaYzWXc19cvlvEF3jGsH7emKj6DUF
+         6dJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729705611; x=1730310411;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i+7ZAlfoQfuCxLYaegZtLOps7LaYlV1n5wy00nEl8Ng=;
+        b=NnBuYFLa1UxZ49AWbnG2JrnSZTK8FsxIQDWCt2r2zTW5IgOmvk37USVpVZSoJOeRQO
+         3pT6bbrvF4eGGPEtFPPkgDZIOsosOZrsZ25LQ+8vBdX4L7hzoxEJe5dzdAcK8dFeY7k2
+         8bUuj3lqyMqonGtyJmIs+ms+v+yGtsZdmHkJEkweJVxhjmHdf7IKRlAa4Q5tBLTKrkL8
+         aaNWjU0wvLJTmHuVkh5Ae/G6V/TQqXjuZoVmTyBXEPjMSmPM/6pgoZan2Hb8qnx/qJ1y
+         MAXMrzHmpqPSM8NjtJIzk4AQI576TRc3RoqxouKTU5QHf+sz2w87PctgkTXjcN793RbY
+         ldNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWsYVuz2QHVBh9p8N7VfZalT+0jxmesd51ouETzNumyUEyEmI35w5p/cu8759QcHNERuBwA/x9/SAyklC4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxZFJ3EN6HbRuWNVwbZCb9k8FK6Tsoj7lrgQssf1etemvI4Q7R
+	e2C1kv0fRBrfWJHrFqLbZ/ezWpQAFpmKRpFkEgCICChg2hhkuo7PGBLVjKifvgQ3eGrgbJXQE7t
+	rBtyYqqZOw+0JJYN2yFGNh/ZI9CkgK2mc0VFw
+X-Google-Smtp-Source: AGHT+IGczg9abDGpX4ppjcVsgb3ui7YwoWlv9yFaws8RHe1ZuuGKPzBA2axsxRP2DJ+N1UUksoNEjs6hJSoRSIvhZtM=
+X-Received: by 2002:a05:600c:3d0c:b0:431:416b:9ecf with SMTP id
+ 5b1f17b1804b1-4318a55bcccmr78525e9.6.1729705611429; Wed, 23 Oct 2024 10:46:51
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <4960180.31r3eYUQgx@devpool47.emlix.com> <3592638.iIbC2pHGDl@devpool47.emlix.com>
-In-Reply-To: <3592638.iIbC2pHGDl@devpool47.emlix.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 24 Oct 2024 01:51:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQMLZK5jG8zKty17AFJWSDwq-ihEVBYVRpnXN0X_MFUbw@mail.gmail.com>
-Message-ID: <CAK7LNAQMLZK5jG8zKty17AFJWSDwq-ihEVBYVRpnXN0X_MFUbw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] kconfig: qconf: simplify character replacement
-To: Rolf Eike Beer <eb@emlix.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241008183823.36676-21-samitolvanen@google.com>
+ <20241008183823.36676-34-samitolvanen@google.com> <8fa10131-fae2-4052-b541-e4a6ef570d63@suse.com>
+In-Reply-To: <8fa10131-fae2-4052-b541-e4a6ef570d63@suse.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Wed, 23 Oct 2024 10:46:14 -0700
+Message-ID: <CABCJKufGTitE6bWwoY-5Pr6MfHnPu2m+RVk4UcZMik=Nri-=kQ@mail.gmail.com>
+Subject: Re: [PATCH v4 13/19] gendwarfksyms: Add symbol versioning
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>, 
+	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 23, 2024 at 3:39=E2=80=AFPM Rolf Eike Beer <eb@emlix.com> wrote=
-:
+Hi Petr,
+
+On Tue, Oct 22, 2024 at 4:48=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
+ote:
 >
-> Replace the hand crafted lookup table with a QHash. This has the nice ben=
-efit
-> that the added offsets can not get out of sync with the length of the
-> replacement strings.
->
-> Signed-off-by: Rolf Eike Beer <eb@emlix.com>
-> ---
+> I had some minor comment about adjusting the name of function
+> symbol_print_versions() and possibly changing sym->name to 'char *' on
+> the v2 of the patch:
+> https://lore.kernel.org/all/286b1cc5-1757-4f0a-bb66-0875f4608c7e@suse.com=
+/
+> Please have a look, it seems it felt through the cracks.
 
-Applied to linux-kbuild. Thanks!
+Sorry, I missed that somehow. I can split this into two functions to
+avoid confusion. Also I'm using const char * to make it obvious that
+the name shouldn't be modified by users of struct symbol. This does
+require a cast when freeing the string, which isn't ideal, but I feel
+it's overall not a terrible trade-off.
 
-
-
---=20
-Best Regards
-Masahiro Yamada
+Sami
 
