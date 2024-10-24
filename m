@@ -1,154 +1,137 @@
-Return-Path: <linux-kbuild+bounces-4312-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4313-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E2F9AEC50
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2024 18:37:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 045E09AED34
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2024 19:09:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71F822809DB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2024 16:37:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A43401F20FF2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2024 17:09:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53BBB1F76AD;
-	Thu, 24 Oct 2024 16:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21ABE1F9EDE;
+	Thu, 24 Oct 2024 17:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gaisler.com header.i=@gaisler.com header.b="Gm7bb1a3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WHu2/k0V"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out3.simply.com (smtp-out3.simply.com [94.231.106.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40B51EF085;
-	Thu, 24 Oct 2024 16:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.231.106.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A471F9EC8;
+	Thu, 24 Oct 2024 17:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729787873; cv=none; b=TW3kHvmBMqRxMUuGOQdJ6cWUG2nlOotM+liykc0TQmtYAtel9JfRLCH3/4o9vn/Qp+PAvVrQ333N2cl0iCA+ve3o0t9wzaQyp9fUnQfeaWVF08vhn8y+NxVRCMeSbn0MVQAFO6qaQQHAWWToqXXb7n89m7p5j1oOJqLImW8tEV8=
+	t=1729789789; cv=none; b=RcAosLdo5Q4jcc3kjJIdeSiDDgLoClJPqUAQG6xnyxWFQ5Uv40aEN4R/0lXC5JAO+eKULKCq0oLWyym3nVRvbatH2puJy0p2PxS1PecQZoZJSkOyqO+IUEDKXlEsd+y695Tf4pr+/G13mFjlhx3UQxLqH0z9I3WDEXG7+b9XKtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729787873; c=relaxed/simple;
-	bh=U3+AJJRqnhAn1ZIVOL5JxwmHhXrHc7bQMUH+2Obn0uk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IaDSbeCx9AbkBRp47BedllDsRrLXxaL5W7MfLZSwJ+XYAfhiAUJWt9zBGknfvZd6pjOWRDsv8+Pc/vG7kHE1s4zssIFz5CE4Q5eZf4kMbl5c/T4p+X4+lqDcQMNn28mvHUetKsvARsFX+kDN3i3rDjkqZj6ppopR0xUxrbeqxgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com; spf=pass smtp.mailfrom=gaisler.com; dkim=pass (1024-bit key) header.d=gaisler.com header.i=@gaisler.com header.b=Gm7bb1a3; arc=none smtp.client-ip=94.231.106.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gaisler.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gaisler.com
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.simply.com (Simply.com) with ESMTP id 4XZBFL4KyYz1FRly;
-	Thu, 24 Oct 2024 18:29:10 +0200 (CEST)
-Received: from [192.168.0.25] (h-98-128-223-123.NA.cust.bahnhof.se [98.128.223.123])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by smtp.simply.com (Simply.com) with ESMTPSA id 4XZBFL0y8Rz1DR3Q;
-	Thu, 24 Oct 2024 18:29:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gaisler.com;
-	s=unoeuro; t=1729787350;
-	bh=pDtvgPgWUCdH0VwQTmdoMe1VEKVzRXoaSz6c++MgQfE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Gm7bb1a3BiFp5OXGxXJaKSMiRIwGTTfyTUugeyyTubGRtrlBP9AsDdB3oY5uGHGqI
-	 pjFqRq7VO2ftubkmWSL0lJKSjE5t8Re0rLF2WFIPGz3BOOysDl2JnY6+aeJbXldY65
-	 SHtv6qvMryoK4HXA8Mxp/gVKfkSj+ZiPbcc52n9A=
-Message-ID: <93d038de-3ba8-4d1e-9660-4c5e26ac055c@gaisler.com>
-Date: Thu, 24 Oct 2024 18:29:08 +0200
+	s=arc-20240116; t=1729789789; c=relaxed/simple;
+	bh=CyuZyMSHUH950XnFjZcDtRSS16p129Q/WANbny7txC8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UUnimS4eQWUWzcFNQWdso9e9yWywmZipor++7eCA/nh1KIu7qxGpgbaptT79w/x83WzUrGpBKLgy0a0xPbA53N8V7MRg0crE2ltUBhpk6y934lhpyxxEm4Pe4jPo/BJbBuiJ43uOhEpYU5/fncHzHK16hdY2DNtDC6d+QGC5K0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WHu2/k0V; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B580CC4CEC7;
+	Thu, 24 Oct 2024 17:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729789788;
+	bh=CyuZyMSHUH950XnFjZcDtRSS16p129Q/WANbny7txC8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WHu2/k0VbBXjIUAEXv5TZexZsoN2dEl21z9T8Wxro4RE2L01jjIdw+PWh/Q1sc/RR
+	 7ZtdvqkiUHN8StnCaAffXi1aaybMNzzDbxqOEiT99ape5ABC1lieWiOUgzCB2BkQfx
+	 a+74UlHJAEaPJDOIVcUBmMXqSUB+X5UIZ4iSJGpP4be4EEcX0tuMIRZ5a9GGh3/ihw
+	 bus+JJp7656weG0d71j+Q+gOwsUqhnVRj2PynHpKxGBVdkecBUf0XmWoegvOKHr+6X
+	 L5xBBKPMK1El7Z5Ml9yRyAFgoaoFfH4yV5nJ6BvdKcB2Y/MGpWkb+kZiuoBHJKfLzE
+	 rD0QEopub78sg==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	rust-for-linux@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <n.schier@avm.de>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Benno Lossin <benno.lossin@proton.me>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Trevor Gross <tmgross@umich.edu>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] kbuild: simplify rustfmt target
+Date: Fri, 25 Oct 2024 02:09:22 +0900
+Message-ID: <20241024170936.1922548-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] sparc/build: Remove all usage of -fcall-used*
- flags
-To: koachan@protonmail.com, "David S. Miller" <davem@davemloft.net>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>
-Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
-References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
- <20240717-sparc-cflags-v2-1-259407e6eb5f@protonmail.com>
-Content-Language: en-US
-From: Andreas Larsson <andreas@gaisler.com>
-In-Reply-To: <20240717-sparc-cflags-v2-1-259407e6eb5f@protonmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+There is no need to prune the rust/alloc directory because it was
+removed by commit 9d0441bab775 ("rust: alloc: remove our fork of the
+`alloc` crate").
 
-Sorry for being silent on your two patch sets. I did not have time to
-look into them for 6.12.
+Pruning the rust/test directory is unneeded because no '*.rs' files are
+generated within it.
 
-On 2024-07-17 18:10, Koakuma via B4 Relay wrote:
-> From: Koakuma <koachan@protonmail.com>
-> 
-> Remove all usage of -fcall-used* flags so that all flags used are
-> portable between GCC and clang.
-> 
-> The reasoning is as follows:
-> 
-> In the (normal) 32-bit ABI, %g5 and %g7 is normally reserved, and in
-> the 64-bit ABI, %g7 is the reserved one.
-> Linux turns them into volatile registers by the way of -fcall-used-*,
-> but on the other hand, omitting the flags shouldn't be harmful;
-> compilers will now simply refuse to touch them, and any assembly
-> code that happens to touch them would still work like usual (because
-> Linux' conventions already treats them as volatile anyway).
-> 
-> Signed-off-by: Koakuma <koachan@protonmail.com>
-> ---
->  arch/sparc/Makefile      | 4 ++--
->  arch/sparc/vdso/Makefile | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
-> index 757451c3ea1d..7318a8b452c3 100644
-> --- a/arch/sparc/Makefile
-> +++ b/arch/sparc/Makefile
-> @@ -29,7 +29,7 @@ UTS_MACHINE    := sparc
->  # versions of gcc.  Some gcc versions won't pass -Av8 to binutils when you
->  # give -mcpu=v8.  This silently worked with older bintutils versions but
->  # does not any more.
-> -KBUILD_CFLAGS  += -m32 -mcpu=v8 -pipe -mno-fpu -fcall-used-g5 -fcall-used-g7
-> +KBUILD_CFLAGS  += -m32 -mcpu=v8 -pipe -mno-fpu
+To avoid forking the 'grep' process, filter out generated files using
+the option, ! -name '*generated*'.
 
-Couldn't you use ifndef CONFIG_CC_IS_CLANG or perhaps better, use 
-$(call cc-option,-fcall-used-g5) and $(call cc-option,-fcall-used-g7) to
-not remove the possibility for gcc to make use of these registers?
+Now that the '-path ... -prune' option is no longer used, there is no
+need to use the absolute path. Searching in $(srctree) is sufficient.
 
->  KBUILD_CFLAGS  += -Wa,-Av8
->  
->  KBUILD_AFLAGS  += -m32 -Wa,-Av8
-> @@ -45,7 +45,7 @@ export BITS   := 64
->  UTS_MACHINE   := sparc64
->  
->  KBUILD_CFLAGS += -m64 -pipe -mno-fpu -mcpu=ultrasparc -mcmodel=medlow
-> -KBUILD_CFLAGS += -ffixed-g4 -ffixed-g5 -fcall-used-g7 -Wno-sign-compare
-> +KBUILD_CFLAGS += -ffixed-g4 -ffixed-g5 -Wno-sign-compare
+The comment mentions the use case where $(srctree) is '..', that is,
+$(objtree) is a sub-directory of $(srctree). In this scenario, all
+'*.rs' files under $(objtree) are generated files and filters out by
+the '*generated*' pattern.
 
-Similarly here
+Add $(RCS_FIND_IGNORE) as a shortcut. Although I do not believe '*.rs'
+files would exist under the .git directory, there is no need to traverse
+it.
 
->  KBUILD_CFLAGS += -Wa,--undeclared-regs
->  KBUILD_CFLAGS += $(call cc-option,-mtune=ultrasparc3)
->  KBUILD_AFLAGS += -m64 -mcpu=ultrasparc -Wa,--undeclared-regs
-> diff --git a/arch/sparc/vdso/Makefile b/arch/sparc/vdso/Makefile
-> index 243dbfc4609d..e009443145af 100644
-> --- a/arch/sparc/vdso/Makefile
-> +++ b/arch/sparc/vdso/Makefile
-> @@ -46,7 +46,7 @@ CFL := $(PROFILING) -mcmodel=medlow -fPIC -O2 -fasynchronous-unwind-tables -m64
->         -fno-omit-frame-pointer -foptimize-sibling-calls \
->         -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
->  
-> -SPARC_REG_CFLAGS = -ffixed-g4 -ffixed-g5 -fcall-used-g5 -fcall-used-g7
-> +SPARC_REG_CFLAGS = -ffixed-g4 -ffixed-g5
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+---
 
-and here.
+Changes in v2:
+  - Merge the previous two patches
+  - Remove -prune completely
+  - Filter out 'generated' files by the find option
+  - Remove the unnecessary comment
+  - Add $(RCS_FIND_IGNORE)
 
->  
->  $(vobjs): KBUILD_CFLAGS := $(filter-out $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(SPARC_REG_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
->  
-> 
+ Makefile | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-Thanks,
-Andreas
+diff --git a/Makefile b/Makefile
+index eaa8511dc4bf..9f251f528504 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1754,18 +1754,9 @@ rusttest: prepare
+ # Formatting targets
+ PHONY += rustfmt rustfmtcheck
+ 
+-# We skip `rust/alloc` since we want to minimize the diff w.r.t. upstream.
+-#
+-# We match using absolute paths since `find` does not resolve them
+-# when matching, which is a problem when e.g. `srctree` is `..`.
+-# We `grep` afterwards in order to remove the directory entry itself.
+ rustfmt:
+-	$(Q)find $(abs_srctree) -type f -name '*.rs' \
+-		-o -path $(abs_srctree)/rust/alloc -prune \
+-		-o -path $(abs_objtree)/rust/test -prune \
+-		| grep -Fv $(abs_srctree)/rust/alloc \
+-		| grep -Fv $(abs_objtree)/rust/test \
+-		| grep -Fv generated \
++	$(Q)find $(srctree) $(RCS_FIND_IGNORE) \
++		-type f -a -name '*.rs' -a ! -name '*generated*' -print \
+ 		| xargs $(RUSTFMT) $(rustfmt_flags)
+ 
+ rustfmtcheck: rustfmt_flags = --check
+-- 
+2.43.0
+
 
