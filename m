@@ -1,72 +1,72 @@
-Return-Path: <linux-kbuild+bounces-4317-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4318-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD629AF5B0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Oct 2024 01:06:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4FD9AF5B7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Oct 2024 01:08:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F932B21979
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2024 23:06:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C7081F22709
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2024 23:08:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A20D3218328;
-	Thu, 24 Oct 2024 23:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC21219486;
+	Thu, 24 Oct 2024 23:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1x5Q9jgc"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vG2rNyOd"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4EFD217902
-	for <linux-kbuild@vger.kernel.org>; Thu, 24 Oct 2024 23:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE13B2185BC
+	for <linux-kbuild@vger.kernel.org>; Thu, 24 Oct 2024 23:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729811190; cv=none; b=L4H+m70JX2OuUnEGn33P+H/CVaWk7ml5XS/2oR9H3dWOTcsrFndxFDpsd4SZzFPLomSNKXg4BPX6sU7BczMXzJN/CQf686yRRA2mthGkRkvQ7ue3WTdZzFMFzI0xBGf1Q7kqKNckFIh5zq7B/RqZFfctqvwXWkxI+/cIw7xFCaw=
+	t=1729811284; cv=none; b=ViU5qXbyxu1DyHj5CdfndYdFveanlTilJyK+D9XplYdJFsr6wyOegFTTxPLJxRM9YaJVja/841mG40iN9M/hlezsEyvFroVgrw6814VrXdH4BHRtkOUPNMQMJ3/gKIZ2xYlmitQlt40QTv9kY+tpUdWdRml3FxpaZV+dtTTz8gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729811190; c=relaxed/simple;
-	bh=HMpKxgYPxHCa/w+TdKwcqFScgohp/4MHekk0zNJ9O7w=;
+	s=arc-20240116; t=1729811284; c=relaxed/simple;
+	bh=FIweofO8swal8FliqNKy5jgFXKhTKwfKXelv1+xVPns=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C5WVsMFg+VfDHzZTkCUI1QQPaffUE/lFxez5ujlsMzCIUG2HwDMsJDUt5ijivHVw2NJwaR7zcSywmwbYvqWAy5VASoQhJjPZdRmQA14wZQQNjnoLGEdcePmhoMqKgCszvASuXQBfJZdLCVaZPQGBiIa+uuC9mbJkN+4trxUrta4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1x5Q9jgc; arc=none smtp.client-ip=209.85.214.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=bIx7drcz9zltHD2KTYCgdAPKocW7jLs+QJM/sM9qWnNyTGdffKXnhmLJUWpjhLAEz1VwWcEZTCovvtLZfaJSObubR6i2UgznWxjYWrm+utC8fUZkI0CAtbEkSnSx1dwDswAbifCwhmyx1deGqvZVvKSddxSHoDA5Xoej9IpHWCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vG2rNyOd; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20ca03687fdso41885ad.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Oct 2024 16:06:27 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20ca4877690so35995ad.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Oct 2024 16:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729811187; x=1730415987; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1729811282; x=1730416082; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ETJZ+z0riIyNZ07U3QSTstx4QvvpQHVTh5tLw1Ae2tI=;
-        b=1x5Q9jgcwOMSJz/4OFTSBP4Pg8oGKC0g8ODCGs9jjFHxDx/E7xdi7f7b7LLFXrRrfd
-         MXC/RI2Fuhovdgj9PCCcTZ/QXfTIlZvUaZXP8ysFXpVMOobD1MHfzZ31LtiZa6ar6CNv
-         CPJoyRYkkXx+iKnkGcH6wCHkv0jwc8jcRgBsIKK6QWdhdbKFvo42PFB/xb/kocizpaO1
-         64FgBPpIqBs8NDqrB5cKYD7zuytmtvRlDXDHvq7NVAi9ihURD/Xx9FQVpJNW86MC3CiV
-         HwCpFmS6rKAB8A4I73WQUX44pENSlyCl6Is+x3lpSGXCG4eYM1qbNEB7zP8riyqUaR8J
-         wfnA==
+        bh=LwjW5mBSAuFOFhEIlf3utQozI9vTmaDM4dHrZQJtjd0=;
+        b=vG2rNyOdCyiQeuq3KkVpfzNrI7ydLQfSUrb86Z8xnqMOXDoV+eUlHD14fImKUIHadv
+         7MptuOOCScPUVP7FCiJUGA+7iYyKUbuSwSfP3pIHraT0xjfzvLKLjUrt8oznwdy0YviP
+         aQYEmQimqMUGfyjTbE+3J4EtMhVkGWjvjxpi3hmexPJ4N/oaumFeqrPyWtUayL81A/sj
+         WovH4w1n5Bld0wywds/uPTptA1O4NmsPIhWXVLjxssOn99TfC97hTX/Z3HbfyfUICPiI
+         uBhyUIOlEl8WbGy+NWnZEKFzxdceTVkPyeClNajiXv889lUIWiFQZEc0x0NLIZYK0TND
+         lEkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729811187; x=1730415987;
+        d=1e100.net; s=20230601; t=1729811282; x=1730416082;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ETJZ+z0riIyNZ07U3QSTstx4QvvpQHVTh5tLw1Ae2tI=;
-        b=mQOks0OtIxJFiibWonTc0csXd1ZiGLizwABL3qj9BAVOM5Cmw61cvzioBIsAOeP3Ck
-         dElRg27T9FzdTfj4Z031UzvYDEYOmyZVyXZhPgswALsSX2rYFT/hSP+7HYoRiPS8Z0Y1
-         2+WxUN6shnfRHdn8kNWsSFzbDvlJ55PLMlP943tQc7MW2rRwm4+9KV86D5sCdGxgrOAj
-         vSGHB6Bil1Bunafb2ZsSMaNzEs8AoI2hDsgipQyxNiaRGvtSLcNVrNdDsAZY8eCP4TD+
-         5LPM6mgWBKKUuDvicvT8wKZNF0sMi2MH7qbUZcBnmrUE8AKtWjs1ARbfSRDA1OodVhC5
-         DbxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVP1+1RMEzNACpUrzsYVyh2EtOXB0ZhQePNK+0M53473i+MDvWl43L2GVJshGWbbfDCoUXfYrbIMVh6fAU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTuI+ZP+x89Om9U4KjHSadLZqu5vQ2cSdo3ecAyu3fL88VqShI
-	6+gKBRtwloKktq1aosbtMrwXiCBUPA5EDBrZHjCiIgrgGD4+Y1z6XEO5JckfJw==
-X-Google-Smtp-Source: AGHT+IFJuHdwPAvfIIk6Cjv1uHcC4bkvVJ4gTYWWjL2dM+mbjxBVmFxEzO9xnCcZL8zQeDD9a34Ovw==
-X-Received: by 2002:a17:903:2445:b0:20b:a2b8:1850 with SMTP id d9443c01a7336-2105b1d0744mr482185ad.15.1729811186359;
-        Thu, 24 Oct 2024 16:06:26 -0700 (PDT)
-Received: from google.com (254.80.82.34.bc.googleusercontent.com. [34.82.80.254])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7ef0cc7csm76651665ad.101.2024.10.24.16.06.25
+        bh=LwjW5mBSAuFOFhEIlf3utQozI9vTmaDM4dHrZQJtjd0=;
+        b=F8/d2hEpbvegtZ+5djXPNvzL8bn2fK1/iWAYb+KKOzKvK/lZig1ojnC9ddIKuEiYOv
+         U8W+jRHvD79ZFIyWtkrQX2EKi9WvtsGpbd4AhS9IdwHl42kwdrTGuuREJLyd2zuCeuQV
+         cpenfubvzM/oy3PzMmicmjaZGyaGaAaSjAnXX5/uF+bVAqkhuYsngU/9CJYN/KJm/Bdw
+         ktc6Wz4iJ5Q8y/vMHp47EVGr1jdLJOfAH8RA4+2GnCSOJSEHKyQ0Wzl7kTVJTM5u3bG7
+         iCw38s4kOX2yhYRCNE7U3pyEzGP0q9ipA6w8X9K4B6uYV/fewOlw6LHy/35z6LHmmhH7
+         Vwkw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfS6T4yLxjgqdDEaJitdIq/zlDPSgWC0zrzWKSKbt1E4tFHEKmsAaYyEIGhV/XwoWHx8QmlP1hqg/ju/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEeJq9tMZxstsu7h4zCQas8bmear2AXPbDlar+dyExRCYUAqFe
+	0A1yYp/mwmaniZdQ19n/yD2p6oQVkmIkKLFR8s+gYklCxSrZ3ayUdi2TAgtC9g==
+X-Google-Smtp-Source: AGHT+IGPM0ZptJIpwnMZ9CfEcrh9lVIEAKuBohD9dLT7W11XHiulVCeuXJZu5S3Q/78EfDc25LTScg==
+X-Received: by 2002:a17:902:daca:b0:20c:a659:deba with SMTP id d9443c01a7336-20fc212d688mr1257735ad.4.1729811281798;
+        Thu, 24 Oct 2024 16:08:01 -0700 (PDT)
+Received: from google.com (164.135.233.35.bc.googleusercontent.com. [35.233.135.164])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e77e48ad66sm2087361a91.4.2024.10.24.16.08.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 16:06:25 -0700 (PDT)
-Date: Thu, 24 Oct 2024 23:06:22 +0000
+        Thu, 24 Oct 2024 16:08:01 -0700 (PDT)
+Date: Thu, 24 Oct 2024 23:07:57 +0000
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Matthew Maurer <mmaurer@google.com>
 Cc: Michael Ellerman <mpe@ellerman.id.au>,
@@ -89,11 +89,9 @@ Cc: Michael Ellerman <mpe@ellerman.id.au>,
 	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v7 3/3] rust: Use gendwarfksyms + extended modversions
- for CONFIG_MODVERSIONS
-Message-ID: <20241024230622.GC1382412@google.com>
+Subject: Re: [PATCH v7 0/3] Extended MODVERSIONS Support
+Message-ID: <20241024230757.GD1382412@google.com>
 References: <20241023-extended-modversions-v7-0-339787b43373@google.com>
- <20241023-extended-modversions-v7-3-339787b43373@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -102,59 +100,50 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023-extended-modversions-v7-3-339787b43373@google.com>
+In-Reply-To: <20241023-extended-modversions-v7-0-339787b43373@google.com>
 
-On Wed, Oct 23, 2024 at 02:31:30AM +0000, Matthew Maurer wrote:
-> From: Sami Tolvanen <samitolvanen@google.com>
+On Wed, Oct 23, 2024 at 02:31:27AM +0000, Matthew Maurer wrote:
+> This patch series is intended for use alongside the Implement DWARF
+> modversions series [1] to enable RUST and MODVERSIONS at the same
+> time.
 > 
-> Previously, two things stopped Rust from using MODVERSIONS:
-> 1. Rust symbols are occasionally too long to be represented in the
->    original versions table
-> 2. Rust types cannot be properly hashed by the existing genksyms
->    approach because:
-> 	* Looking up type definitions in Rust is more complex than C
-> 	* Type layout is potentially dependent on the compiler in Rust,
-> 	  not just the source type declaration.
+> Elsewhere, we've seen a desire for long symbol name support for LTO
+> symbol names [2], and the previous series came up [3] as a possible
+> solution rather than hashing, which some have objected [4] to.
 > 
-> CONFIG_EXTENDED_MODVERSIONS addresses the first point, and
-> CONFIG_GENDWARFKSYMS the second. If Rust wants to use MODVERSIONS, allow
-> it to do so by selecting both features.
+> This series adds a MODVERSIONS format which uses a section per column.
+> This avoids userspace tools breaking if we need to make a similar change
+> to the format in the future - we would do so by adding a new section,
+> rather than editing the struct definition. In the new format, the name
+> section is formatted as a concatenated sequence of NUL-terminated
+> strings, which allows for arbitrary length names.
 > 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Co-developed-by: Matthew Maurer <mmaurer@google.com>
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
->  init/Kconfig  |  3 ++-
->  rust/Makefile | 32 ++++++++++++++++++++++++++++++--
->  2 files changed, 32 insertions(+), 3 deletions(-)
+> Emitting the extended format is guarded by CONFIG_EXTENDED_MODVERSIONS,
+> but the kernel always knows how to validate both the original and
+> extended formats.
 > 
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 530a382ee0feb391b4717abdba3672e584a462d0..f5cce579f29b2ed89e97f8075a3bf70e32e71ad0 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -1942,7 +1942,8 @@ config RUST
->  	bool "Rust support"
->  	depends on HAVE_RUST
->  	depends on RUST_IS_AVAILABLE
-> -	depends on !MODVERSIONS
-> +	select EXTENDED_MODVERSIONS if MODVERSIONS
-> +	depends on (GENDWARFKSYMS || !MODVERSIONS)
+> Selecting RUST and MODVERSIONS is now possible if GENDWARFKSYMS is
+> selected, and will implicitly select EXTENDED_MODVERSIONS.
+> 
+> This series depends upon the module verification refactor patches [5]
+> that were split off of v5, and DWARF-based versions [1].
+> 
+> linuxppc-dev is requested to look at the ppc-specific munging,
+> as Luis would like some eyes on there [6].
+> 
+> [1] https://lore.kernel.org/lkml/20241008183823.36676-21-samitolvanen@google.com/
+> [2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org/
+> [3] https://lore.kernel.org/lkml/ZoxbEEsK40ASi1cY@bombadil.infradead.org/
+> [4] https://lore.kernel.org/lkml/0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@suse.com/
+> [5] https://lore.kernel.org/linux-modules/20241015231651.3851138-1-mmaurer@google.com/T/#t
+> [6] https://lore.kernel.org/lkml/ZxahDv5ZKdM__0sZ@bombadil.infradead.org/
+> 
+> Changes in v7:
+> - Fix modpost to detect EXTENDED_MODVERSIONS based on a flag
+> - Drop patches to fix export_report.pl
 
-Nit: `depends on !MODVERSIONS || GENDWARFKSYMS` would match the
-convention used below.
-
-> +cmd_gendwarfksyms = $(if $(skip_gendwarfksyms),, \
-> +	$(call rust_exports,$@,"%s\n",$$3) | \
-> +	scripts/gendwarfksyms/gendwarfksyms \
-> +		$(if $(KBUILD_SYMTYPES), --symtypes $(@:.o=.symtypes),) \
-> +		$@ >> $(dot-target).cmd)
-
-Note that Petr suggested adding a KBUILD_ flag for passing the
---stable parameter to gendwarfksyms, which I think would be useful,
-so once I send out v5 of that series, we'll have to update this to
-also use the parameter when processing Rust objects:
-
-https://lore.kernel.org/linux-modules/8017c328-f039-46c3-b472-f203cd6e2cfe@suse.com/
+Unless Luis prefers to deal with this separately, perhaps you can
+just include a patch to delete export_report.pl in this series?
 
 Sami
 
