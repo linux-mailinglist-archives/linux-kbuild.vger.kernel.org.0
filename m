@@ -1,147 +1,106 @@
-Return-Path: <linux-kbuild+bounces-4347-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4348-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350209B210A
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 23:25:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 442A59B215D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 00:28:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D01E51F21290
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 22:25:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1D211B20C2D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 23:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3DD614BF86;
-	Sun, 27 Oct 2024 22:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 321C7187862;
+	Sun, 27 Oct 2024 23:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdvPjBRS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DN7TMRxO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E3818EBF;
-	Sun, 27 Oct 2024 22:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6329B17C219;
+	Sun, 27 Oct 2024 23:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730067908; cv=none; b=KJeZZoBwJ3LN32yiIAu23CEXSVfO+4RRdKoe3cTuaCnOl2zV/v+pLjFOdxccrLV2Wsz3uN4jthZYK3SXLr4kUy81my5mcO3ZlybxvtjoW6g73cZ4eRPwu+T7LeawdvYUfptDC9QkeIMhfrO0XLt1X1O2IhqR1M6YaQn0+JWeuXo=
+	t=1730071723; cv=none; b=LRuLkOdkDnAtCTIT6kYHYRYeVl7hj/kyef9cVs2Pn5fxkY1ptikpC+3Yr+apnIawGgswQ8jcc6Zx8hUTO2e1FRLBbHnKXPLGohJhbUElYrmS5G3AoLOpv4PL6xftpLaZ0PryDW7vL+dcSbRWErd3hMieRllLGWRVefnyCOv1AiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730067908; c=relaxed/simple;
-	bh=Oaq3n6Gzx6um57cBqNlIEN/f+doqASBTkxLUrEN1T90=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F4WXNdXqqPS2dli2gemOHIBFnVcdnNolLkp6c1KpDKlMslElbIXz54x2ByqySTqUTs5QzdRan/TW2qsucc0N+FC7RAg7cY57Olxj+xaRGOqMWOJxbHwwopnr0pqYMZ5g9r4NOAIW47pYL6DG5EWYVU1y1P+K3Lr26DR6L8A6tbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdvPjBRS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42A1EC4CEC3;
-	Sun, 27 Oct 2024 22:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730067908;
-	bh=Oaq3n6Gzx6um57cBqNlIEN/f+doqASBTkxLUrEN1T90=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WdvPjBRS3Voup2Ze5EOavrRAWlWmhsZY9g5H8HHU0PrM1CdP0UhQtmK6NXjKpwBfN
-	 lvkiuHbM9d9BRbmdIoAib83X03jK3xgjpcgaYfPUNukYqd10MyqBj7FqGrc8Vgo2o+
-	 cyhhTqHMpNIX4UCW2umr0LhR3UEIfshiCTXO5dqjcDDYcCaDLWzs7zR8hSumstSYvk
-	 wzQGSH1js2OrHI+oLS8s8LXAYjl3cVjgwmoCoOTq51+10+R8umMx0krPbRfQcfZnE4
-	 a2nVTXoLlqLC81XtNgEMLJOnVYGZjBHcm9vdgKz9KNiUN73GPrHhE+jZjzddRLD0w/
-	 oqzzL+2GUMZJA==
-Date: Sun, 27 Oct 2024 15:25:05 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	rust-for-linux@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	Cameron MacPherson <cameron.macpherson@gmail.com>
-Subject: Re: [PATCH] kbuild: rust: avoid errors with old `rustc`s without
- LLVM patch version
-Message-ID: <20241027222505.GA2882707@thelio-3990X>
-References: <20241027145636.416030-1-ojeda@kernel.org>
+	s=arc-20240116; t=1730071723; c=relaxed/simple;
+	bh=CYK5sksRp+HHK6ke3ltM89SdmUKYCjXGNd/ci7rSmkI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LrQvM+qzHnX6QG/ObXO+ijuNRSeHm5AgAq8TTT9EQ8w6O/S2ObpQKg3kZi6Wm2PxhHnnKhs7+HZlbZgMTgBYkTQ9SpDYBVzakE5vrJwuwCTYXRTQON//MVcKPOWUoVtUcEa5dH9ncHwkPsj0VED70pxHHnpvPoziar/oEAzsqM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DN7TMRxO; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e31977c653so588256a91.0;
+        Sun, 27 Oct 2024 16:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730071721; x=1730676521; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CYK5sksRp+HHK6ke3ltM89SdmUKYCjXGNd/ci7rSmkI=;
+        b=DN7TMRxOkfiU/Rt5+9UyIAWcW2QimeXJtztz97csRUA3PyTKNfUmAuB3YZCbN+/etB
+         k4OHdmnFC8kwz3kSn/ZATzeypYNMehipj9iV7vRGyS9Ztk9hUbLiRwHRO/Cz4VqJyUBN
+         v6PnLyrhhD21ZGiWmTIAYqXn6IphKoxU/xMkhiEpNW+REZvF5WOadfI2IDzbvAGm4o50
+         0IsXOj50l1l0XURAe+JGXEUKKfQWglVYSS5iak40OlAXE8c5uljqz6vynpiVKi8WByBs
+         Ev+LjOp9ciGjZFF44JZ6SgP83onb3Z9c13lkEiWQSSHRZt/91iXNhdVgKSrfEikGlpKp
+         BwGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730071721; x=1730676521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CYK5sksRp+HHK6ke3ltM89SdmUKYCjXGNd/ci7rSmkI=;
+        b=Fx7XibrQa5VknO0pzObVlbtLPadnHUSql1GyB9nnjr6UEcxstztgxOivws6mf71cuC
+         LbsevgwXBDzjCZAL2m4SY+8Qtz4lXELP9TFISCA7mOr+CFNmZ+DBPnpopa/mnK+YEMs7
+         FHC13ulbXWwrllMQWL2l3ZzxEPuA18kM7yVNo9LxKQH1tEReTtjE96wZQFYILVSdEX8T
+         tN9WqJaOV6ngjNEc2Qn1tFwGmujGvvn9vBpGk/ZntPM9B52mWH/s901ttppfokr13AeY
+         RwNDxqCRPJuMmzr8WeF4Vc7UeTJ0wpR9mY947oRodZ0wvAJICFrwSy4ES0Z6trLR0mwc
+         k2ug==
+X-Forwarded-Encrypted: i=1; AJvYcCURPvHzDO9I9j3ecMT0tiYkhIPcZQ/FoKX6tbg75Ca07F2ohbdsiXhFquvs0705JhcLcU8VV3xJIXqLyp8=@vger.kernel.org, AJvYcCV8D30umIiubxuoz9u5Dp/kFYO7tbzj5qp+S5tATc9YLAofj52pqn107XxlTzSzyMA5iRp0yiR7cTNHL+6AZ9g=@vger.kernel.org, AJvYcCXXc3of2SHBWw7/sBpaLmSLZ5gceKAdsuxTrcmLx9VzPlEG3KdF6WIEq9P4nYNVB6La/qEGcfvpn+H0bLTg@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQkXxzvam/uEJzON4NNaHMzNfw4itQciLYTiDytwENL2qkO85c
+	TrPIpixpy7FX9OFfFdIxTKrEQfqLuSSTSbMg9qTRu0BSUa60vlZWpzMm9X2ZnmwYte8LXO1MrMV
+	zznoK6Qkxy27cR5W1h/oh3evaOGQ=
+X-Google-Smtp-Source: AGHT+IHq8rw6W8p4S0W/aeuhnIgrpHXtsRtdd+z1XCCrOBHUp853lIr5u8gfY2RgCHl2JwvNYEokrNqMnwuiiLIT1kU=
+X-Received: by 2002:a17:90a:718c:b0:2e2:abab:c456 with SMTP id
+ 98e67ed59e1d1-2e8f1051e49mr3244664a91.1.1730071720605; Sun, 27 Oct 2024
+ 16:28:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241027145636.416030-1-ojeda@kernel.org>
+References: <20241027145636.416030-1-ojeda@kernel.org> <20241027222505.GA2882707@thelio-3990X>
+In-Reply-To: <20241027222505.GA2882707@thelio-3990X>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 28 Oct 2024 00:28:28 +0100
+Message-ID: <CANiq72my=xgeu=TZZAZKEvRq_wKm=tr=Juv1Mxdf50MEVxi53Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rust: avoid errors with old `rustc`s without LLVM
+ patch version
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Thorsten Leemhuis <regressions@leemhuis.info>, 
+	Cameron MacPherson <cameron.macpherson@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 27, 2024 at 03:56:36PM +0100, Miguel Ojeda wrote:
-> Some old versions of `rustc` did not report the LLVM version without
-> the patch version, e.g.:
-> 
->     $ rustc --version --verbose
->     rustc 1.48.0 (7eac88abb 2020-11-16)
->     binary: rustc
->     commit-hash: 7eac88abb2e57e752f3302f02be5f3ce3d7adfb4
->     commit-date: 2020-11-16
->     host: x86_64-unknown-linux-gnu
->     release: 1.48.0
->     LLVM version: 11.0
-> 
-> Which would make the new `scripts/rustc-llvm-version.sh` fail and,
-> in turn, the build:
-> 
->     $ make LLVM=1
->       SYNC    include/config/auto.conf.cmd
->     ./scripts/rustc-llvm-version.sh: 13: arithmetic expression: expecting primary: "10000 * 10 + 100 * 0 + "
->     init/Kconfig:83: syntax error
->     init/Kconfig:83: invalid statement
->     make[3]: *** [scripts/kconfig/Makefile:85: syncconfig] Error 1
->     make[2]: *** [Makefile:679: syncconfig] Error 2
->     make[1]: *** [/home/cam/linux/Makefile:780: include/config/auto.conf.cmd] Error 2
->     make: *** [Makefile:224: __sub-make] Error 2
-> 
-> Since we do not need to support such binaries, we can avoid adding logic
-> for computing `rustc`'s LLVM version for those old binaries.
-> 
-> Thus, instead, just make the match stricter.
-> 
-> Other `rustc` binaries (even newer) did not report the LLVM version at
-> all, but that was fine, since it would not match "LLVM", e.g.:
-> 
->     $ rustc --version --verbose
->     rustc 1.49.0 (e1884a8e3 2020-12-29)
->     binary: rustc
->     commit-hash: e1884a8e3c3e813aada8254edfa120e85bf5ffca
->     commit-date: 2020-12-29
->     host: x86_64-unknown-linux-gnu
->     release: 1.49.0
-> 
-> Cc: Thorsten Leemhuis <regressions@leemhuis.info>
-> Cc: Gary Guo <gary@garyguo.net>
-> Reported-by: Cameron MacPherson <cameron.macpherson@gmail.com>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219423
-> Fixes: af0121c2d303 ("kbuild: rust: add `CONFIG_RUSTC_LLVM_VERSION`")
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+On Sun, Oct 27, 2024 at 11:25=E2=80=AFPM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> and it still works for me with rustc 1.82.0:
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-and it still works for me with rustc 1.82.0:
+Thanks for checking! I took the tags.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
-> ---
->  scripts/rustc-llvm-version.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/rustc-llvm-version.sh b/scripts/rustc-llvm-version.sh
-> index b6063cbe5bdc..a500d1ae3101 100755
-> --- a/scripts/rustc-llvm-version.sh
-> +++ b/scripts/rustc-llvm-version.sh
-> @@ -13,7 +13,7 @@ get_canonical_version()
->  	echo $((10000 * $1 + 100 * $2 + $3))
->  }
->  
-> -if output=$("$@" --version --verbose 2>/dev/null | grep LLVM); then
-> +if output=$("$@" --version --verbose 2>/dev/null | grep -E 'LLVM.*[0-9]+\.[0-9]+\.[0-9]+'); then
->  	set -- $output
->  	get_canonical_version $3
->  else
-> -- 
-> 2.47.0
-> 
+Cheers,
+Miguel
 
