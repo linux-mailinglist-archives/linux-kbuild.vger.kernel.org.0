@@ -1,104 +1,102 @@
-Return-Path: <linux-kbuild+bounces-4343-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4344-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F52F9B1F84
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 18:59:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D489B1FB7
+	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 19:34:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 951D1B21136
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 17:59:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 011E91F21433
+	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 18:34:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA9817AE1C;
-	Sun, 27 Oct 2024 17:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D67A139D0A;
+	Sun, 27 Oct 2024 18:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S8+jptRD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwIh+t+N"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCA217A5BD;
-	Sun, 27 Oct 2024 17:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0E874059;
+	Sun, 27 Oct 2024 18:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730051967; cv=none; b=KlYVvAh6aMfY3lRjzdTzixX3kfh9WEAUUVnyxUEZPs79fiTegWsrYfTP7h8/MCrQdpsnbwhdmNYXKyPFA21fUUMF10VKa5v8WfOqAp1a7oxqt4Nz72a0MZhygiGdDCmqDPocG2W/xtw8Nb0NQw7ukvCpnyaCFbanjtVLCOTHenc=
+	t=1730054083; cv=none; b=VV+PPSoP71iOAvUPSnycCVJ4fgHdZ0KkAfl/5bUi4jGUKALI2bSsteqZIdMtWfs9SQS1NcJMmu4EAnYhIIeNTtO+/ZWu5ZzEfMZRjYfMyw6vTeGzlGEJVBhlTmGxptVSCs4SfsHhNfxoW1wk7zXkzysdFBRAlXpbrqZYhoVZQTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730051967; c=relaxed/simple;
-	bh=0UbSjGcSDB+S7wUx4CXOcRobJQ1oRD4vD2zOYuX2Kew=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=njEbJBonSvOj57oLvRw2ZzXUSU3oDJ/gsWbBPN3PvESr79m5p81/lPPMQDiVcVH8wHpJpOQ2BdO1rdOlMZD9ywedjgKIU5kdoRtwA1djp4INmiX60G0I4/6qE+541OQboujuTaZviJH4sNgSEPVMwGNJ6eXQznggRVcrmJwORGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S8+jptRD; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e2b4110341so546704a91.1;
-        Sun, 27 Oct 2024 10:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730051965; x=1730656765; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0UbSjGcSDB+S7wUx4CXOcRobJQ1oRD4vD2zOYuX2Kew=;
-        b=S8+jptRDxdQvS48G/xhm56EIul+yW3Ynq5k33sKpguJisZetTPh3fuqZ4vyB7qOHM+
-         VKIAGEXsMI9kBlrj9pnWRibAoHFMPXF+A1I+/CkqxfUtbk5REr5D+nBIGpZpxiEG3Axr
-         NJ2DHBNDROvXqPyaW4BwMFbcsqPA+BKOSH+eLwsFuHlpAuPUdr9q59sZK8gH6H3cZVw4
-         f9TLUBzB6GHtBx4bTXeFdD1ba9UMqtHXeO9b5EzWJiMiYV5I4wiwKXKiocHvIrzd9+92
-         k1Ej+6NLPmUZuTordMqpqKAauTkGvHBkeIZrvq9oyK8cJUHqA+anLKMwiifkMZ5TCGkl
-         LTUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730051965; x=1730656765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0UbSjGcSDB+S7wUx4CXOcRobJQ1oRD4vD2zOYuX2Kew=;
-        b=QrrkKcGNf3Dvpa0QcdTIRTvAbxznxGGM2+XMHeCqvD4KWQD7XXFI4DYNS7hsDoE4R8
-         qx+aDSNjNed+YUHBcqI1HigvfaYAF15xpMoololm0hzuWhdaLyRL3cKswVW5c1dvXUEh
-         AamfRK4UozBCgAKo4qFcqmtXD3Fox5agfIA7GGexuHyH/4O3UxlP6QyJP9AnKiEU9/ty
-         MeMBlOWK7T7nBcsygqP8KqF4cnZmQc0jcSrBYX5naCaESzDeq7QCpbP3wh4yjxEBo2Qx
-         GCqS9mkCmNWIjJ32T5/JYDcCzUOimOd8kTRNZDELycHwANz0jOL/eZrUtj40CaLERmtc
-         3VHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVDtx7dY0a4D0CpR/x40XeARrsfpNotOY2eCzMiHhNb5qOVpNrVj491hxSSame57YoSUJ/Dl3JJL3R15jLAmU8=@vger.kernel.org, AJvYcCVxTco1xncuW1P95kObHEA0j5iuOWAjFLtYur5Q2HrwGqsK+YXpTQLBaM4mXqcbPiHzZg/2bEGW4pm53TM=@vger.kernel.org, AJvYcCXM3shwESCzC2ZBSxRFJU7DfQ7Wi9ZiSn0GszQPg55cZFvRWqCLvQzenQgXnozE25W+sL3I337xYH5oxSCZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDhdLJe4Q4CnwbTq60tVk+eXM18zhRaBwl0TVlRgnE9A4oFrsm
-	Nw/jNp2uOdzGMEIC9xWtunkMti54UtSVTEWaEubui1A2gwTD46qv7oM8/Gx3esvRKLIiHDzrOk9
-	53C7GcUwTLYAaKvH7jJjG+6/X64E=
-X-Google-Smtp-Source: AGHT+IEeZnnHbXtBp8iqrs4W8ijIFAmvZkYu6WsDP0Rj0vVPVd5O/4PVkQIVuOKO+4nppet5edWf+GUBkU6bai5spq4=
-X-Received: by 2002:a17:90b:3cce:b0:2e2:c414:80a4 with SMTP id
- 98e67ed59e1d1-2e8f12e1014mr3006581a91.9.1730051964867; Sun, 27 Oct 2024
- 10:59:24 -0700 (PDT)
+	s=arc-20240116; t=1730054083; c=relaxed/simple;
+	bh=Ab1LD0YPRiCsaMpw6QmeIUY4TM1fzamI5B5sMH/HSGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fy2nRwBSpElHaklIAuH8sF8dilzJsD1KkROaKkBwn4LEnWBlEb5pjvfC10sKSIfQa1gPs/o2PGKo9n/SyajeodUPffg4O7HXaHoCOIceUlP0SkiPID+1qdq79yTRMWnRrv8v1UdWf3mD3ckVx7349q54VXpbQcwVyi0ARo/UZx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwIh+t+N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6DD3C4CEC3;
+	Sun, 27 Oct 2024 18:34:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730054082;
+	bh=Ab1LD0YPRiCsaMpw6QmeIUY4TM1fzamI5B5sMH/HSGw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IwIh+t+NmDWdzDo9uy+/UuRmYcIx6PygiXzpCNabpiNcsultp+7hqhXDxOLYFwPY3
+	 8LHcfYKNzx6EjyWPHp6mo2LQy57BSv85SwP1Y/pqzbOEJ1/WZ6chL88GjThxZJaWLi
+	 R2sqFZH1qHkuS3eHjSYJ9Efj4kSNY3q+vFww2BHTzw4JY0t7L4P8qIXXA3xC+ZrAyh
+	 DSfc1DOe50EvHstnoL5VU6AqZd0Lfn2ss7yMteMLrdWwbuTL7/FnfajNnmXM6GXgx8
+	 NpJSsDPbzlY8RvydVNLNwww3pYOOuEw1/pJQIGffaKrLub4zqp6vsQNBJELX89plf8
+	 n+GbgE3XGrWvA==
+Date: Sun, 27 Oct 2024 11:34:40 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Koakuma <koachan@protonmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de,
+	Nicolas Schier <nicolas@fjasle.eu>, sparclinux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] sparc/build: Rework CFLAGS for clang compatibility
+Message-ID: <20241027183440.GA2755311@thelio-3990X>
+References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
+ <20241021201657.GA898643@thelio-3990X>
+ <CAK7LNASTkUTK8JZCzySNh3BVKxauusVKRhjnchy6iZz4qLbq8w@mail.gmail.com>
+ <20241022200732.GA487584@thelio-3990X>
+ <etezvjy_HnDpgOTBrzap29if1ChFBhl1RawcNJK3UAsFk6i_g_cyHoz7hlqfYqASgJZ97W4HxnGA-nbCXL73pIRN9tUKUttAp1JefMRp8rs=@protonmail.com>
+ <CAK7LNASbFeJc9Y=BFY85SwESUKNNDTRDunyLGveDusC--NVkCw@mail.gmail.com>
+ <20241023164535.GB4081497@thelio-3990X>
+ <InqlMfqWWeNw8Mh6y1y5oNb3EotVpA26gkX70xcVxt9ygCtb7DYfTB3Amg3SzZfs78q3osSW2BIEpgyhmOjSqBW7neH0Se2sQEpmdClVV3M=@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241027145636.416030-1-ojeda@kernel.org>
-In-Reply-To: <20241027145636.416030-1-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 27 Oct 2024 18:59:12 +0100
-Message-ID: <CANiq72n3mFKeErzp-OVk=+yZD_sZurR-6u7mEn_QunfMTKD-Fw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: avoid errors with old `rustc`s without LLVM
- patch version
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Thorsten Leemhuis <regressions@leemhuis.info>, 
-	Cameron MacPherson <cameron.macpherson@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <InqlMfqWWeNw8Mh6y1y5oNb3EotVpA26gkX70xcVxt9ygCtb7DYfTB3Amg3SzZfs78q3osSW2BIEpgyhmOjSqBW7neH0Se2sQEpmdClVV3M=@protonmail.com>
 
-On Sun, Oct 27, 2024 at 3:56=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Thus, instead, just make the match stricter.
+On Sat, Oct 26, 2024 at 02:52:52PM +0000, Koakuma wrote:
+> Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > I think this should be documented (required LLVM version and
+> > the supported build command),
+> > otherwise people cannot test this patch.
+> 
+> Nathan Chancellor <nathan@kernel.org> wrote:
+> > I am not sure that there is a super concise way to describe for
+> > Documentation/kbuild/llvm.rst that sparc currently requires 'CC=clang
+> > LLVM_IAS=0' along with a build of clang from the main branch of
+> > llvm-project to work properly.
+> 
+> So about this, as a middle ground, would it be okay if I put
+> 
+> ``CC=clang LLVM_IAS=0`` (LLVM >= 20)
+> 
+> In the documentation, in a similar manner to the s390x entry?
+> I know that LLVM 20 is still a couple months away but those commits will
+> likely be released with that version, and since it also tells people
+> to not use a version that is too old, I think it should be okay (?)
 
-Applied to `rust-fixes` early to start getting it in tomorrow's -next -- th=
-anks!
+Yes, I think that would be reasonable.
 
 Cheers,
-Miguel
+Nathan
 
