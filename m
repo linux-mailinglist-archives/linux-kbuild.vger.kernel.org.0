@@ -1,109 +1,112 @@
-Return-Path: <linux-kbuild+bounces-4366-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4367-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612899B316B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 14:14:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7A69B3EBC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 00:56:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92BF61C2187F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 13:14:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ECE5A1F23456
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 23:56:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0DF41DB37A;
-	Mon, 28 Oct 2024 13:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08B141EF92F;
+	Mon, 28 Oct 2024 23:56:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYZdU+03"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9X2dsx/"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5321E48A;
-	Mon, 28 Oct 2024 13:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A1A1DFDB9;
+	Mon, 28 Oct 2024 23:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730121254; cv=none; b=AO3nEaTQggxwmovnwP+/qLr1bMNcjGkafnO4SqeDW/E1d2OV6gb96S61tbTNAXfCd7Fd6K8oqbn+6gBG2ZcnZLMJomvYYKP3LFz4C70PPjtkgv+P/lmlgIkpWlG35/x06QG5MUX67DD8GDFg/BRzR5LiPg0u6n0seKrtvdJHASw=
+	t=1730159813; cv=none; b=hIb30apFFglWuxvmQXjsNvNETUxrOe7blNfQh6kapAq/UO58A9JLciKLyQxtcxqa2I65zOkcY5FR1xdiTvzsW75+wYzShRW0xTX1u4SwqxmY6Fyf9YbS2kxW6+1eYKokQ4O9uWBs7oFfpnHbmMcYovtteZINvM1WylmnoVatzwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730121254; c=relaxed/simple;
-	bh=umXgkxvsn6pDDf/HDvjTuNRj/50/wdrGHMkq15iPbhc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DYWv5X/plFQO/7QXiuhujgs/vnCYB9qF+zO30AqakjmSOBdrgiwOTz9D90uWMRYZWIlFBO1G0dUgNUhhBWGrxC1g1MlOTOjySECkNzNn3YyfyfQgQlF0F5qJTbjUKVCqUdTFDgo+1ClXMa0TvJ5mO0Dj6GgURHLSn52s49oCGt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYZdU+03; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CEA1C4CEEC;
-	Mon, 28 Oct 2024 13:14:14 +0000 (UTC)
+	s=arc-20240116; t=1730159813; c=relaxed/simple;
+	bh=JUHufYIdqmKXSfDlteSW20zJ1BG7mrAiwl8Jxg4y7ik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H7oZeA0oemjaiQZqZhDmDJ/RScwRyXjQfd/XOW+D5YGxpyDB2qwsydp8BoaAdzFEHZtjj6TmUwbQwZknvbkTyU+bqTMEfKhd508RF8pri7bZlG1+dGkbGnvNddF2TdSm0kK8nXRU3zuEqCYb/MbuzHL/PTtyrgmnyEAbVp5qeYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9X2dsx/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D64CC4CEC3;
+	Mon, 28 Oct 2024 23:56:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730121254;
-	bh=umXgkxvsn6pDDf/HDvjTuNRj/50/wdrGHMkq15iPbhc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DYZdU+03iEdFhVk6XAp+TgXryYadk927GCLCnF/cjY1oEcuv1ykc2UbVIA35FN92j
-	 oTbxzoRmr7/iyleb+67SXJQk/AWyK9bUhn4Z0eJ/8nRaKnz51vyMi5mhhsdLSWHF1d
-	 Lb38yEAt7DwS89iHYA7KCK5vhLWRnv0c0mN1L4F2Me8JrPL0Ac1JaH5CFtTsrby4as
-	 MM/1qIY5BNOQ26XP78kKBUzGGfrbYdUGgtZg1wFeizzEYp/H4r8tgjb2EgOjUIL35Y
-	 AcBteTQDzJOWcUPavb2SMWIbP5LpY6zP/uWn9xkv0krN7WMQGN1xySJ+0g4pgZD5x+
-	 IB4sMXh3eStUw==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb3da341c9so40504411fa.2;
-        Mon, 28 Oct 2024 06:14:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV7tWww33e2GWEwVlyVM3mhul2iST+6ypTS/4czmG23j5P9tu03TDS0ll2FqMmwFx1Nz9dVY6AsYE/EpwkP@vger.kernel.org, AJvYcCVAd/PYGPqSbRMp4oXYtcX15IeINEW8IudXmVbtmQ0gubIk1YPPI1GVlRBsIEAk1ZK+yo0Dp+SZJZ5Q8QQ=@vger.kernel.org, AJvYcCWC6rKGFQwt70l2sdOlHm/W396yYGAvKCIRfHXV/+g5X0s+pjkvqWaw9AdkjIqbMxRBAU0RskqedJmqjTrz0A==@vger.kernel.org, AJvYcCX39l6soPmMvWJNyTwj5P7XPcfvyTxOJGj7lvsl24jLWiGm+TSZq+Ivys8zXFvdwX3sRYw02cYJI/aJKf+jIyU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywsB1RgtquwRh9Oh9PcDQTmo+Xfu29cQMWt3CCprc9YS58z1Hn
-	z76nGKqqI/5AOvaZZYhl40A+x6xKjFoFagQmz1vHnxaPZMh4moZh5UPi3yNYs5/4Gfd5GfFPOxS
-	yUOsdRS2MgDd3tY7cwHaqyeuoyLg=
-X-Google-Smtp-Source: AGHT+IG9gyko7VXssgM2SznITKHdLjhPfPryjecLgn1FTNeKz7JFR7J+mcsrozK/vjiUGUaUbgu6OiWUprCs1uMwqR8=
-X-Received: by 2002:a05:651c:1504:b0:2fb:5014:c998 with SMTP id
- 38308e7fff4ca-2fcbe08cf24mr28249331fa.28.1730121252616; Mon, 28 Oct 2024
- 06:14:12 -0700 (PDT)
+	s=k20201202; t=1730159813;
+	bh=JUHufYIdqmKXSfDlteSW20zJ1BG7mrAiwl8Jxg4y7ik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G9X2dsx/WYpU0XxlJqeLzjw0zCr9QzJRK5HuFPJyM7dSk5hyi7aawTA4vbgZaNv0F
+	 AsyBMVdxeXcdUsTNSnjUxHXjhAqkVrOvkUOuUku3uS1aI2ubXKvNfF8o9ALjmi7G7S
+	 WFOswp6TSosWO5exTTVSL05V2sCYUj3Xgk2hdXoet7p+5R5oHmLwTvmkyttUXzlaRU
+	 V3gjgFqybd0njHSVHNtHTHTVqMajCw7LWVWt3In/sE8G8Yuf6dcQStPNIIT41lWVSS
+	 +dk3sMa1oXSufeFef45CJwSDzJLHsCvwToSMNlk+5RGO5EHZykpYsHA4ARnzD+jMQi
+	 K0F5FD1ai5N7Q==
+Date: Mon, 28 Oct 2024 16:56:50 -0700
+From: Kees Cook <kees@kernel.org>
+To: Rong Xu <xur@google.com>
+Cc: Alice Ryhl <aliceryhl@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
+	Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>,
+	Brian Gerst <brgerst@gmail.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Maksim Panchenko <max4bolt@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Yabin Cui <yabinc@google.com>,
+	Krzysztof Pszeniczny <kpszeniczny@google.com>,
+	Sriraman Tallam <tmsriram@google.com>,
+	Stephane Eranian <eranian@google.com>, x86@kernel.org,
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v6 4/7] Add markers for text_unlikely and text_hot
+ sections
+Message-ID: <202410281656.6A598E64@keescook>
+References: <20241026051410.2819338-1-xur@google.com>
+ <20241026051410.2819338-5-xur@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015231925.3854230-1-mmaurer@google.com> <20241015231925.3854230-2-mmaurer@google.com>
-In-Reply-To: <20241015231925.3854230-2-mmaurer@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 28 Oct 2024 14:13:36 +0100
-X-Gmail-Original-Message-ID: <CAK7LNASAbDNZYcSZ+F+4JrbGFWiV4qO-W=HfaBEieKhcg+=jCw@mail.gmail.com>
-Message-ID: <CAK7LNASAbDNZYcSZ+F+4JrbGFWiV4qO-W=HfaBEieKhcg+=jCw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] export_report: Rehabilitate script
-To: Matthew Maurer <mmaurer@google.com>
-Cc: ndesaulniers@google.com, ojeda@kernel.org, gary@garyguo.net, 
-	mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev, 
-	marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev, 
-	linux-modules@vger.kernel.org, samitolvanen@google.com, 
-	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241026051410.2819338-5-xur@google.com>
 
-On Wed, Oct 16, 2024 at 1:19=E2=80=AFAM Matthew Maurer <mmaurer@google.com>=
- wrote:
->
-> The `export_report.pl` script was broken [1] a while back due to a code
-> cleanup causing the regex to no longer match.
+On Fri, Oct 25, 2024 at 10:14:06PM -0700, Rong Xu wrote:
+> Add markers like __hot_text_start, __hot_text_end, __unlikely_text_start,
+> and __unlikely_text_end which will be included in System.map. These markers
+> indicate how the compiler groups functions, providing valuable information
+> to developers about the layout and optimization of the code.
+> 
+> Co-developed-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Han Shen <shenhan@google.com>
 
-Instead of the link to lore, you can refer to
-commit a3d0cb04f7df ("modpost: use __section in the output to *.mod.c")
+Yup, this is good.
 
+Reviewed-by: Kees Cook <kees@kernel.org>
 
-
-> Additionally, it assumes a
-> `modules.order` file containing `.ko` in a build directory with `.mod.c`
-> files. I cannot find when this would have been the case in the history,
-> as normally `.ko` files only appear in `modules.order` in installed
-> modules directories, and those do not contain `.mod.c` files.
-
-If necessary, you can refer to
-commit f65a486821cf ("kbuild: change module.order to list *.o instead of *.=
-ko")
-
-
-As suggested, I vote for the removal since it has been broken for 5 years
-since a3d0cb04f7df.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Kees Cook
 
