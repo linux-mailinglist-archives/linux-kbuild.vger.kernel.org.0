@@ -1,130 +1,109 @@
-Return-Path: <linux-kbuild+bounces-4365-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4366-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F839B314A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 14:06:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 612899B316B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 14:14:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C1CB1C212AE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 13:06:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92BF61C2187F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 13:14:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9CCE1DA10B;
-	Mon, 28 Oct 2024 13:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0DF41DB37A;
+	Mon, 28 Oct 2024 13:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="np3PLJB0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYZdU+03"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297ED1D5CC5;
-	Mon, 28 Oct 2024 13:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5321E48A;
+	Mon, 28 Oct 2024 13:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730120756; cv=none; b=PWZHkmVuvvMZPBKX1QEqE3a/4R/RSnYQf//aQqtvS/fwFLkms6815B7VV7EwDLSV4rMNV68xtdRDZiVU9ZnYov0QzUFk5ohdoaE+Uvy4tvxZjScC2VDh8zFY+v+oP06nEg79hiU+ElCI1y1smb3FfSCprIZWrwDK7rXdbgpmH20=
+	t=1730121254; cv=none; b=AO3nEaTQggxwmovnwP+/qLr1bMNcjGkafnO4SqeDW/E1d2OV6gb96S61tbTNAXfCd7Fd6K8oqbn+6gBG2ZcnZLMJomvYYKP3LFz4C70PPjtkgv+P/lmlgIkpWlG35/x06QG5MUX67DD8GDFg/BRzR5LiPg0u6n0seKrtvdJHASw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730120756; c=relaxed/simple;
-	bh=xVkha/3t0CkcBj2lIfJGChfeJqTY6+JJHEsmaAXn9uI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N93jZN7IXaqOsA3jItWmPfvt8qL4V92a3hB3uf2ijktW+C73mRHtu0xCVpLmCpjIs8iV8Hne4DtZFiA5BX8uAccpJdEvjjl7w9w414++UnYi/84APq9DtY0/+B0SIg7bRypE6ONEH6hjdz0jd+3Cjnh+xNO/lJXE/+WHqjcC1Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=np3PLJB0; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730120755; x=1761656755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=xVkha/3t0CkcBj2lIfJGChfeJqTY6+JJHEsmaAXn9uI=;
-  b=np3PLJB0Q7K0qJWxmC5Q02Dw7sLiyLCUUpnP1hp1JGDrRnZ/lcQ+ABp1
-   gdSDhDu5Y+yo6pQFQV8wi/x7kmtklHdDiuJzbGiW74TrPLjQMR9qpp1Oi
-   3JFealuZ1ACuYuCwCikEhgNQfr5xJKF1wcaJLie2lQTbCdQgibsZuaiDh
-   qdFfxMCfI0J3Q0l4JCkxfSIDo2No1jtsS6YgrCkSOD2SjV5cXBmEzv8mY
-   +GZ3xLt2Q791mhkB3cCHX3lhEHjr+/YLFq0gcBlJekZT0ITXikvMH9Dya
-   0ASxHjZlWQtS9Sux1wd40NGuJh+gydYiX3eP0kfyVO9s3juCEPyTygdM9
-   w==;
-X-CSE-ConnectionGUID: VzSNiVy8SqKK24x9AwhTmg==
-X-CSE-MsgGUID: 4ljupiUzQaiHo6fJTmYjUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="29145771"
-X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="29145771"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 06:05:53 -0700
-X-CSE-ConnectionGUID: E9YSedCRSEa3dYJ9VhBk4A==
-X-CSE-MsgGUID: DTV+ALmAShSCLDWBO2c6VQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="81711772"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 06:05:51 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t5PRM-00000008427-2A8k;
-	Mon, 28 Oct 2024 15:05:48 +0200
-Date: Mon, 28 Oct 2024 15:05:48 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Tero Kristo <tero.kristo@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	David Gow <davidgow@google.com>
-Subject: Re: [PATCH v2 1/1] platform/x86: intel: Add 'intel' prefix to the
- modules automatically
-Message-ID: <Zx-MLAyyNWiQg-sq@smile.fi.intel.com>
-References: <20241016105950.785820-2-andriy.shevchenko@linux.intel.com>
- <Zx9uSIWOwTgclmBF@smile.fi.intel.com>
- <CAK7LNAS1xg2CLvTB-9dwGikAGNZRFOhknE_sbkxqyw=f6BNNog@mail.gmail.com>
+	s=arc-20240116; t=1730121254; c=relaxed/simple;
+	bh=umXgkxvsn6pDDf/HDvjTuNRj/50/wdrGHMkq15iPbhc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DYWv5X/plFQO/7QXiuhujgs/vnCYB9qF+zO30AqakjmSOBdrgiwOTz9D90uWMRYZWIlFBO1G0dUgNUhhBWGrxC1g1MlOTOjySECkNzNn3YyfyfQgQlF0F5qJTbjUKVCqUdTFDgo+1ClXMa0TvJ5mO0Dj6GgURHLSn52s49oCGt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYZdU+03; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CEA1C4CEEC;
+	Mon, 28 Oct 2024 13:14:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730121254;
+	bh=umXgkxvsn6pDDf/HDvjTuNRj/50/wdrGHMkq15iPbhc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DYZdU+03iEdFhVk6XAp+TgXryYadk927GCLCnF/cjY1oEcuv1ykc2UbVIA35FN92j
+	 oTbxzoRmr7/iyleb+67SXJQk/AWyK9bUhn4Z0eJ/8nRaKnz51vyMi5mhhsdLSWHF1d
+	 Lb38yEAt7DwS89iHYA7KCK5vhLWRnv0c0mN1L4F2Me8JrPL0Ac1JaH5CFtTsrby4as
+	 MM/1qIY5BNOQ26XP78kKBUzGGfrbYdUGgtZg1wFeizzEYp/H4r8tgjb2EgOjUIL35Y
+	 AcBteTQDzJOWcUPavb2SMWIbP5LpY6zP/uWn9xkv0krN7WMQGN1xySJ+0g4pgZD5x+
+	 IB4sMXh3eStUw==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb3da341c9so40504411fa.2;
+        Mon, 28 Oct 2024 06:14:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV7tWww33e2GWEwVlyVM3mhul2iST+6ypTS/4czmG23j5P9tu03TDS0ll2FqMmwFx1Nz9dVY6AsYE/EpwkP@vger.kernel.org, AJvYcCVAd/PYGPqSbRMp4oXYtcX15IeINEW8IudXmVbtmQ0gubIk1YPPI1GVlRBsIEAk1ZK+yo0Dp+SZJZ5Q8QQ=@vger.kernel.org, AJvYcCWC6rKGFQwt70l2sdOlHm/W396yYGAvKCIRfHXV/+g5X0s+pjkvqWaw9AdkjIqbMxRBAU0RskqedJmqjTrz0A==@vger.kernel.org, AJvYcCX39l6soPmMvWJNyTwj5P7XPcfvyTxOJGj7lvsl24jLWiGm+TSZq+Ivys8zXFvdwX3sRYw02cYJI/aJKf+jIyU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywsB1RgtquwRh9Oh9PcDQTmo+Xfu29cQMWt3CCprc9YS58z1Hn
+	z76nGKqqI/5AOvaZZYhl40A+x6xKjFoFagQmz1vHnxaPZMh4moZh5UPi3yNYs5/4Gfd5GfFPOxS
+	yUOsdRS2MgDd3tY7cwHaqyeuoyLg=
+X-Google-Smtp-Source: AGHT+IG9gyko7VXssgM2SznITKHdLjhPfPryjecLgn1FTNeKz7JFR7J+mcsrozK/vjiUGUaUbgu6OiWUprCs1uMwqR8=
+X-Received: by 2002:a05:651c:1504:b0:2fb:5014:c998 with SMTP id
+ 38308e7fff4ca-2fcbe08cf24mr28249331fa.28.1730121252616; Mon, 28 Oct 2024
+ 06:14:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAS1xg2CLvTB-9dwGikAGNZRFOhknE_sbkxqyw=f6BNNog@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241015231925.3854230-1-mmaurer@google.com> <20241015231925.3854230-2-mmaurer@google.com>
+In-Reply-To: <20241015231925.3854230-2-mmaurer@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 28 Oct 2024 14:13:36 +0100
+X-Gmail-Original-Message-ID: <CAK7LNASAbDNZYcSZ+F+4JrbGFWiV4qO-W=HfaBEieKhcg+=jCw@mail.gmail.com>
+Message-ID: <CAK7LNASAbDNZYcSZ+F+4JrbGFWiV4qO-W=HfaBEieKhcg+=jCw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] export_report: Rehabilitate script
+To: Matthew Maurer <mmaurer@google.com>
+Cc: ndesaulniers@google.com, ojeda@kernel.org, gary@garyguo.net, 
+	mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev, 
+	marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev, 
+	linux-modules@vger.kernel.org, samitolvanen@google.com, 
+	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 28, 2024 at 01:49:52PM +0100, Masahiro Yamada wrote:
-> On Mon, Oct 28, 2024 at 11:58 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Wed, Oct 16, 2024 at 01:59:51PM +0300, Andy Shevchenko wrote:
-> > > Rework Makefile to add 'intel' prefix to the modules automatically.
-> > > This removes a lot of boilerplate code in it and also makes robust
-> > > against mistypos in the prefix.
-> >
-> > > ---
-> > >
-> > > v2: fixed obvious typos (LKP), Cc'ed to Kbuild ML (Ilpo), dropped RFC marker
-> > >
-> > > Note to Kbuild people: TBH I rather want to have something like this
-> > > to be available on the level of Kbuild for any of the subdirectories
-> > > in question.
-> >
-> > Anyone, any comments on this?
-> > This already passed a CI tests without failure so far. Perhaps it's good
-> > to apply to show the demand of such a feature in Kbuild in the future?
-> > Because I want to do the same for various */tests/ folders where we have
-> > tons of test*, *kunit modules effectively duplicating the folder name.
-> 
-> I do not like what you are doing here,
+On Wed, Oct 16, 2024 at 1:19=E2=80=AFAM Matthew Maurer <mmaurer@google.com>=
+ wrote:
+>
+> The `export_report.pl` script was broken [1] a while back due to a code
+> cleanup causing the regex to no longer match.
 
-That's why the question is to Kbuild if it's possible to have this feature
-available treewide for users in a form that you like?
-
-> but it is up to you whatever you do in Makefiles you maintain.
-
-Thanks! Ilpo, what do you think about applying this in its current form?
-
--- 
-With Best Regards,
-Andy Shevchenko
+Instead of the link to lore, you can refer to
+commit a3d0cb04f7df ("modpost: use __section in the output to *.mod.c")
 
 
+
+> Additionally, it assumes a
+> `modules.order` file containing `.ko` in a build directory with `.mod.c`
+> files. I cannot find when this would have been the case in the history,
+> as normally `.ko` files only appear in `modules.order` in installed
+> modules directories, and those do not contain `.mod.c` files.
+
+If necessary, you can refer to
+commit f65a486821cf ("kbuild: change module.order to list *.o instead of *.=
+ko")
+
+
+As suggested, I vote for the removal since it has been broken for 5 years
+since a3d0cb04f7df.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
