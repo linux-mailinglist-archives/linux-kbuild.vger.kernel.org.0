@@ -1,158 +1,230 @@
-Return-Path: <linux-kbuild+bounces-4349-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4350-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7728C9B22AB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 03:23:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F01049B23A0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 04:50:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F0DD1B21327
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 02:23:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AED70282055
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 03:50:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E57015383B;
-	Mon, 28 Oct 2024 02:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD26C189902;
+	Mon, 28 Oct 2024 03:50:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="OZIawUAV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LHmN3rU9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF7C14A088;
-	Mon, 28 Oct 2024 02:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EDDA47;
+	Mon, 28 Oct 2024 03:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730082212; cv=none; b=golnDRuYpIR52SqMwQwxbz8Pxqar1HnMS4Yyu21EQm9hlqZs46dPkyzHfnSQYv8GcuXkda9a9MMURSjmdcEw8rludFyIvVEq06Md4BkMzDqB3VRWXTt3m+4dasVDKo695w2cKWscIwPmf1VpIXUCiH7K0b75n34Z+BSQO6PE0vY=
+	t=1730087406; cv=none; b=paDYWmYa9lrX2E9u+ORBTkDmfi2yV+j34o4JQiDDuUCvoeqxAes8gV7BzHw7wqgVcsGNIrrbEk81hDrZSQ2dIDwJsni1v0aq5LEKicjAx77h7hLVSY7oCetQpPgCIOk8MhZG9k5GOxqVcouOWyzVWXFtFd3DssuNNCecBJiL7/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730082212; c=relaxed/simple;
-	bh=u/xTtnizdqRxZA7D0F1Ev2yUBsm0p/OFai4PrZAtDDg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Rxf7gLGvF7LrYNuxlV/bcyeA+11Zmtv7WgcOYFj3ueztQe/nc49zAQq4MqUMdiIcCltaKvIDg/7Q0hOOOwmBoQWkcK0e3HKdt2YJXuRJ1scyVZZzeE5MGYxU5ShlM9UPtmCoK2rl/cRC9Wbq+3JizAK2FFxBWgf1g1KGjWiCZEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=OZIawUAV; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1730082202;
-	bh=wVzoc2YabnIij5HP3bkYWkQB3e64c7slt7BMmOIG3vk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OZIawUAVvihaiXSwIbUZzcTz/tSg3C1U5LEaVYgOz4QoVISgtL6WviXd3+smevP7j
-	 R/hVpxpqQA2czH0OgbOsdZ/XN9oOlY7sbOzvWwnvGYYyYJsAuLhD8D2cGXk3zQ3Qcf
-	 Xlmo8LCM81g3VdyYneWeZi52VsFp2ozQKki9ZSVwqAf7xk8cYqaSwqlX4Mipqjed6a
-	 eYbw3SKM3H8Y7R3CxIjshRL1I3sLTmewm9KYFwOuMGXWKXrkByPLjplT3Ne2Vy4WLv
-	 oS3+EntGWYqofeVy/dSgM+jb9ZxRrfbS0RYyedkF7axBWtyZppZ+q42fJGbmWcXti8
-	 0jDbtveRkr5HQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4XcHHX4W29z4x89;
-	Mon, 28 Oct 2024 13:23:20 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Hari Bathini <hbathini@linux.ibm.com>, linuxppc-dev
- <linuxppc-dev@lists.ozlabs.org>, bpf@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: "Naveen N. Rao" <naveen@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Daniel Borkmann <daniel@iogearbox.net>, Masahiro
- Yamada <masahiroy@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, Alexei
- Starovoitov <ast@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Vishal Chourasia
- <vishalc@linux.ibm.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>
-Subject: Re: [PATCH v6 17/17] powerpc64/bpf: Add support for bpf trampolines
-In-Reply-To: <20241018173632.277333-18-hbathini@linux.ibm.com>
-References: <20241018173632.277333-1-hbathini@linux.ibm.com>
- <20241018173632.277333-18-hbathini@linux.ibm.com>
-Date: Mon, 28 Oct 2024 13:23:13 +1100
-Message-ID: <87wmhtrmni.fsf@mpe.ellerman.id.au>
+	s=arc-20240116; t=1730087406; c=relaxed/simple;
+	bh=a+/bVA5OPYt/0wbHRkGbWkPFzQrCsldC3LcQYmjyB7s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NSdm9OhVd2bqs6/5hqXwWIJWckfyRY5uagM/WJ5FbLDHY5kcJqimNF9u/mdgOxrzUCvKm8Pc3j+686GZa8TocJn2hfu2nJLAkr23wS5zgiJ0Ge1oUgxmDEKGF2lkFMk7hK05o65ubcA+XBsADjJ5da/UNn15TmMwNUKtmGLRHKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LHmN3rU9; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c99be0a4bbso5319659a12.2;
+        Sun, 27 Oct 2024 20:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730087402; x=1730692202; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P88KmjjfirRRqMU62x0HFd0NEJRjwzIqasHJqPnJnuA=;
+        b=LHmN3rU9DCWtvzYsL4350dV7KdyQhMngYqhzPOuKBdb4uR49lnpNardojhYH30bgmG
+         ymHoY3oPSJGiRVvNxVXy2bA78cMS7F5PYTduWyqKO60WOWjZvNP1IhIOWg2a0rPmv2ok
+         YTNKF5uRRh9kTWRjl0y/koLxPI2HRsL8pvVrbc4AdJJgccIGT0I+eXdwLTYVyHpu3/W5
+         8jXbTHxjn5uXWbz9bMaPU/H5tdl1A7esn/aVjcsDhaewBjDqKjKS+KWAY/rUW96LsdeH
+         ymvQeFBu3riDZPm0NAivqBcMDBxTnt2XszD29hMNGan6DU/kz+PWmpXiFnJCXSlUwhPq
+         qRIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730087402; x=1730692202;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P88KmjjfirRRqMU62x0HFd0NEJRjwzIqasHJqPnJnuA=;
+        b=SD99LApltlkwj4vDhaeVeiKxRbeWtumtxUriJMdwupy9TZ1Pm/Kw0SYMOwZ6RdKl3P
+         fiLDREusrpUNLlMvNEUeIENt8bqPPzGl7tq7/9y17whG5KxdTsICsIqE0u/qCkuD4haj
+         ZUL71AFmvCSjvL4EgMoLHtVZu3M/ShMnRNetJRxun7zwz6WLVFzGeysK7l33xhte3YLU
+         eKfPI6+0vqsIEKPIpIlODZNKnUZhBCavyo/p9XomvVbW6Y9rtD9Cg9Ze2nZsb6VW2weR
+         6/taFDeMkkN8deiBbfrSHVW4VmBBybk7VytWsgqYVC+ofqrqPaFNGtRycA5gDga+JgDi
+         iFbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMsE73zzQew5DOMwF61EBonCattr+hPdgEKjQIciLGHVpI/LC0FUW3r3GPJ2lKwWOSnOPh/3st0pIhsmk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjYjqOJJm+uSYYq9zbWV+KYbqP4/7x772xRmPRISNyC+cPGjXs
+	0yqBtVqO9VZtI08Vp3sq/rLGgCnq7+XQnK0mG/O6YOXKr+QMx9fOj1YC/g==
+X-Google-Smtp-Source: AGHT+IH8cSac3dGhbsbyvNR59sGWP45jCIIRoKUxzNlqleakm5YV+Y0SAC/bQhwKVy53663DAlPTTg==
+X-Received: by 2002:a17:907:9449:b0:a99:f92a:7a66 with SMTP id a640c23a62f3a-a9de5d783e5mr641603966b.30.1730087402156;
+        Sun, 27 Oct 2024 20:50:02 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:908:e842:bf20:78b:e59b:2b0:d2e9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b30f5932fsm334599366b.168.2024.10.27.20.50.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2024 20:50:01 -0700 (PDT)
+From: Ole Schuerks <ole0811sch@gmail.com>
+To: linux-kbuild@vger.kernel.org
+Cc: ole0811sch@gmail.com,
+	jude.gyimah@rub.de,
+	thorsten.berger@rub.de,
+	deltaone@debian.org,
+	jan.sollmann@rub.de,
+	mcgrof@kernel.org,
+	masahiroy@kernel.org,
+	linux-kernel@vger.kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu
+Subject: [PATCH v6 00/11] kbuild, kconfig: Add support for conflict resolution
+Date: Mon, 28 Oct 2024 04:49:38 +0100
+Message-Id: <20241028034949.95322-1-ole0811sch@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Hari Bathini <hbathini@linux.ibm.com> writes:
-> From: Naveen N Rao <naveen@kernel.org>
->
-> Add support for bpf_arch_text_poke() and arch_prepare_bpf_trampoline()
-> for 64-bit powerpc. While the code is generic, BPF trampolines are only
-> enabled on 64-bit powerpc. 32-bit powerpc will need testing and some
-> updates.
+Hi,
 
-Hi Hari,
+Configuring a kernel requires a forward enabling approach where one enables
+each option one needs at a time. If one enables an option that selects
+other options, these options are no longer de-selectable by design.
+Likewise, if one has enabled an option which creates a conflict with a
+secondary option one wishes to enable, one cannot easily enable that
+secondary option, unless one is willing to spend time analyzing the
+dependencies that led to this conflict. Sometimes, these conflicts are not
+easy to understand [0,1].
 
-This is breaking the PCREL build for me:
+This patch series (for linux-next) provides support to enable users to
+express their desired target configuration and display possible resolutions
+to their conflicts. This support is provided within xconfig.
 
-  ERROR: 11:49:18: Failed building ppc64le_defconfig+pcrel@fedora
-  INFO: 11:49:18: (skipped 41 lines) ...
-  INFO: 11:49:18: /linux/arch/powerpc/net/bpf_jit.h:90:9: note: in expansion of macro 'EMIT'
-     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
-        |         ^~~~
-  /linux/arch/powerpc/include/asm/ppc-opcode.h:473:88: note: in expansion of macro 'IMM_DS'
-    473 | #define PPC_RAW_LD(r, base, i)          (0xe8000000 | ___PPC_RT(r) | ___PPC_RA(base) | IMM_DS(i))
-        |                                                                                        ^~~~~~
-  /linux/arch/powerpc/net/bpf_jit.h:90:14: note: in expansion of macro 'PPC_RAW_LD'
-     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
-        |              ^~~~~~~~~~
-  /linux/arch/powerpc/net/bpf_jit.h:90:36: note: in expansion of macro 'offsetof'
-     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
-        |                                    ^~~~~~~~
-  /linux/arch/powerpc/net/bpf_jit_comp.c:791:17: note: in expansion of macro 'PPC64_LOAD_PACA'
-    791 |                 PPC64_LOAD_PACA();
-        |                 ^~~~~~~~~~~~~~~
-  /linux/arch/powerpc/net/bpf_jit.h:90:65: error: 'struct paca_struct' has no member named 'kernel_toc'; did you mean 'kernel_msr'?
-     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
-        |                                                                 ^~~~~~~~~~
-  /linux/arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
-     29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
-        |                                  ^~~~~
-  /linux/arch/powerpc/net/bpf_jit.h:90:9: note: in expansion of macro 'EMIT'
-     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
-        |         ^~~~
-  /linux/arch/powerpc/include/asm/ppc-opcode.h:473:88: note: in expansion of macro 'IMM_DS'
-    473 | #define PPC_RAW_LD(r, base, i)          (0xe8000000 | ___PPC_RT(r) | ___PPC_RA(base) | IMM_DS(i))
-        |                                                                                        ^~~~~~
-  /linux/arch/powerpc/net/bpf_jit.h:90:14: note: in expansion of macro 'PPC_RAW_LD'
-     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
-        |              ^~~~~~~~~~
-  /linux/arch/powerpc/net/bpf_jit.h:90:36: note: in expansion of macro 'offsetof'
-     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
-        |                                    ^~~~~~~~
-  /linux/arch/powerpc/net/bpf_jit_comp.c:882:25: note: in expansion of macro 'PPC64_LOAD_PACA'
-    882 |                         PPC64_LOAD_PACA();
-        |                         ^~~~~~~~~~~~~~~
-  make[5]: *** [/linux/scripts/Makefile.build:229: arch/powerpc/net/bpf_jit_comp.o] Error 1
+Conflict resolution is provided by translating kconfig's configuration
+option tree to a propositional formula, and then allowing our resolution
+algorithm, which uses a SAT solver (picosat, implemented in C) calculate
+the possible fixes for an expressed target kernel configuration.
 
+New UI extensions are made to xconfig with panes and buttons to allow users
+to express new desired target options, calculate fixes, and apply any of
+found solutions.
 
-To test it you need to enable CONFIG_POWER10_CPU, eg:
+We created a separate test infrastructure that we used to validate the
+correctness of the suggestions made. It shows that our resolution algorithm
+resolves around 95% of the conflicts. We plan to incorporate this with a
+later patch series.
 
-  CONFIG_POWERPC64_CPU=n
-  CONFIG_POWER10_CPU=y
-  CONFIG_PPC_KERNEL_PCREL=y
+We envision that our translation of the kconfig option tree into a
+propositional formula could potentially also later be repurposed to address
+other problems. An example is checking the consistency between the use of
+ifdefs and logic expressed in kconfig files. We suspect that this could,
+for example, help avoid invalid kconfig configurations and help with ifdef
+maintenance.
 
-This diff gets it building, but I haven't tested it actually works:
+You can see a YouTube video demonstrating this work [2]. This effort is
+part of the kernelnewbies Kconfig-SAT project [3], the approach and effort
+is also explained in detail in our paper [4]. The results from the
+evaluation have significantly improved since then: Around 80 % of the
+conflicts could be resolved, and 99.9 % of the generated fixes resolved the
+conflict. It is also our attempt at contributing back to the kernel
+community, whose configurator researchers studied a lot.
 
-diff --git a/arch/powerpc/net/bpf_jit.h b/arch/powerpc/net/bpf_jit.h
-index 2d04ce5a23da..af6ff3eb621a 100644
---- a/arch/powerpc/net/bpf_jit.h
-+++ b/arch/powerpc/net/bpf_jit.h
-@@ -86,9 +86,14 @@
-                                                        0xffff));             \
-                } } while (0)
- #define PPC_LI_ADDR    PPC_LI64
-+
-+#ifndef CONFIG_PPC_KERNEL_PCREL
- #define PPC64_LOAD_PACA()                                                    \
-        EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
- #else
-+#define PPC64_LOAD_PACA() do {} while (0)
-+#endif
-+#else
- #define PPC_LI64(d, i) BUILD_BUG()
- #define PPC_LI_ADDR    PPC_LI32
- #define PPC64_LOAD_PACA() BUILD_BUG()
+Patches applicable to next-20241025.
 
-cheers
+[0] https://gsd.uwaterloo.ca/sites/default/files/vamos12-survey.pdf
+[1] https://www.linux-magazine.com/Issues/2021/244/Kconfig-Deep-Dive
+[2] https://www.youtube.com/watch?v=vn2JgK_PTbc
+[3] https://kernelnewbies.org/KernelProjects/kconfig-sat
+[4] http://www.cse.chalmers.se/~bergert/paper/2021-icseseip-configfix.pdf
+
+Thanks from the team! (and thanks to Luis Chamberlain for guiding us here)
+
+Co-developed-by: Patrick Franz <deltaone@debian.org>
+Signed-off-by: Patrick Franz <deltaone@debian.org>
+Co-developed-by: Ibrahim Fayaz <phayax@gmail.com>
+Signed-off-by: Ibrahim Fayaz <phayax@gmail.com>
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Tested-by: Evgeny Groshev <eugene.groshev@gmail.com>
+Suggested-by: Sarah Nadi <nadi@ualberta.ca>
+Suggested-by: Thorsten Berger <thorsten.berger@rub.de>
+Signed-off-by: Thorsten Berger <thorsten.berger@rub.de>
+Signed-off-by: Ole Schuerks <ole0811sch@gmail.com>
+
+Changelog v6:
+* remove script for manually installing PicoSAT
+* adapt documentation and help text in the GUI accordingly
+* convert Qt signal/slot connects to new style
+
+Changelog v5:
+* use lists from scripts/include/list.h
+* use PicoSAT as a dynamically loaded library
+* Fix GUI bug that made the displayed tables editable
+* Allow cycling through the desired values of a symbol in the conflict view
+  in the GUI by clicking on the cell
+* Fix usage of "NO" instead of "N" etc. in some places in the GUI
+* Improve function naming
+* Add documentation
+* Simlify xcalloc to xmalloc in some places
+* Fix allocation bug in fexpr_add_to_satmap() and init_data()
+* Remove functions pexpr_eliminate_dups() and print_expr()
+
+Ole Schuerks (11):
+  kconfig: Add PicoSAT interface
+  kbuild: Add list_size, list_at_index, list_for_each_from
+  kconfig: Add definitions
+  kconfig: Add files for building constraints
+  kconfig: Add files for handling expressions
+  kconfig: Add files for RangeFix
+  kconfig: Add files with utility functions
+  kconfig: Add tools
+  kconfig: Add xconfig-modifications
+  kconfig: Add loader.gif
+  kconfig: Add documentation for the conflict resolver
+
+ Documentation/kbuild/kconfig.rst    |   56 +
+ scripts/include/list.h              |   49 +
+ scripts/kconfig/.gitignore          |    1 +
+ scripts/kconfig/Makefile            |   11 +-
+ scripts/kconfig/cf_constraints.c    | 1779 ++++++++++++++++++++++++
+ scripts/kconfig/cf_constraints.h    |   24 +
+ scripts/kconfig/cf_defs.h           |  391 ++++++
+ scripts/kconfig/cf_expr.c           | 2003 +++++++++++++++++++++++++++
+ scripts/kconfig/cf_expr.h           |  181 +++
+ scripts/kconfig/cf_rangefix.c       | 1136 +++++++++++++++
+ scripts/kconfig/cf_rangefix.h       |   21 +
+ scripts/kconfig/cf_utils.c          |  980 +++++++++++++
+ scripts/kconfig/cf_utils.h          |  112 ++
+ scripts/kconfig/cfoutconfig.c       |  149 ++
+ scripts/kconfig/configfix.c         |  351 +++++
+ scripts/kconfig/configfix.h         |   31 +
+ scripts/kconfig/expr.h              |   17 +
+ scripts/kconfig/loader.gif          |  Bin 0 -> 4177 bytes
+ scripts/kconfig/picosat_functions.c |   74 +
+ scripts/kconfig/picosat_functions.h |   35 +
+ scripts/kconfig/qconf.cc            |  676 ++++++++-
+ scripts/kconfig/qconf.h             |  111 ++
+ 22 files changed, 8184 insertions(+), 4 deletions(-)
+ create mode 100644 scripts/kconfig/cf_constraints.c
+ create mode 100644 scripts/kconfig/cf_constraints.h
+ create mode 100644 scripts/kconfig/cf_defs.h
+ create mode 100644 scripts/kconfig/cf_expr.c
+ create mode 100644 scripts/kconfig/cf_expr.h
+ create mode 100644 scripts/kconfig/cf_rangefix.c
+ create mode 100644 scripts/kconfig/cf_rangefix.h
+ create mode 100644 scripts/kconfig/cf_utils.c
+ create mode 100644 scripts/kconfig/cf_utils.h
+ create mode 100644 scripts/kconfig/cfoutconfig.c
+ create mode 100644 scripts/kconfig/configfix.c
+ create mode 100644 scripts/kconfig/configfix.h
+ create mode 100644 scripts/kconfig/loader.gif
+ create mode 100644 scripts/kconfig/picosat_functions.c
+ create mode 100644 scripts/kconfig/picosat_functions.h
+
+-- 
+2.39.5
+
 
