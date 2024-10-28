@@ -1,178 +1,114 @@
-Return-Path: <linux-kbuild+bounces-4362-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4363-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72669B248F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 06:47:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E01359B2E45
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 12:12:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A60DB21F96
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 05:47:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D94E1C21FD2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 11:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F99618C92D;
-	Mon, 28 Oct 2024 05:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB6E01DD88F;
+	Mon, 28 Oct 2024 10:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="hu8ku3x0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dbvh8JFn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF75188012;
-	Mon, 28 Oct 2024 05:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEC91D5CD3;
+	Mon, 28 Oct 2024 10:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730094419; cv=none; b=COxE/COPS10geHOSypV8gB5IYhGElGQSW8rJpB8zHdsk+B2Ec2pH3eHUMKXNHfidtivPYeaXHWg+juOB7IKILxJmtW2c6jJx6yvLTGTYtgeQFTLOVtCjzapy116p/cjRqfZBg2fq9Wy7cJEFHSyUHFgB10/4HdIjks4fSHz5Tp8=
+	t=1730113104; cv=none; b=O0XcW48XNQ10gtiuTcWctGXUz1y8QiEJswBg6EfQJgqy0BMHH5km2gkXPMNf2HIX+O6Shf0ShhNjMT6/qQiwvUenwD5TKzGMEkN2GAZejBaKl3LbnzMXWkZbyIYaw03i84MoHHYqpKjzLzGs+H4m41qUfcnPo3DrOUrNslEDR+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730094419; c=relaxed/simple;
-	bh=OMDUt1JiIM60tJUhcbGeIusKB8rIA6ft0n0PF1UfVyE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ei9PKDD1JLIMK47uZ6h99f6FjF0QmVe+OMKWG3gKuy05JEgE1vb8lNBGka3ZGk0Gs4EUctxIq7P/S1e8QBnXSBZaqmFXbN5jM5YNC+JQD/w907VAVptUAEX2ADuhTzuqatpCMe4+SIidpubKa+vtzDyd7OJ+RcOX7DHwTuBsU9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=hu8ku3x0; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1730094411;
-	bh=OMDUt1JiIM60tJUhcbGeIusKB8rIA6ft0n0PF1UfVyE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hu8ku3x09JE6p7y7v7trn5lIhE4uz+agLI0UYSa1bU/zp+ThOALYVhMxPwrnpLjDa
-	 VxnyNnMyeobW4bT6UPlNhR49HcUcXRCjahiOVVAFfrVZkQDF9GTpr0VF44VJfUXpue
-	 H0h4nwwHMh9m2CqFwdu9zoQ0EsQ+oBQNTzP15qgIoEMh18Ckm0ely29JAZrK/9fyZh
-	 lS5CGxQtQJOgDFGkZwdOsHyT8BPjXIVMaMpovWqwnWLrzpfVIQaCMVDucRqL/eGsL/
-	 11olKF/2J3u0KwtipWgl2mVLRvKW1x5nJNLC2ti8gELad/8gziU37xEtdnNEtUqowl
-	 F1wvCaFKCzarA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4XcMpL4SL7z4x6k;
-	Mon, 28 Oct 2024 16:46:50 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Hari Bathini <hbathini@linux.ibm.com>, Alexei Starovoitov
- <alexei.starovoitov@gmail.com>
-Cc: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, bpf <bpf@vger.kernel.org>,
- linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, Linux Kbuild
- mailing list <linux-kbuild@vger.kernel.org>, LKML
- <linux-kernel@vger.kernel.org>, "Naveen N. Rao" <naveen@kernel.org>, Mark
- Rutland <mark.rutland@arm.com>, Daniel Borkmann <daniel@iogearbox.net>,
- Masahiro Yamada <masahiroy@kernel.org>, Nicholas Piggin
- <npiggin@gmail.com>, Alexei Starovoitov <ast@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Andrii Nakryiko <andrii@kernel.org>, Christophe
- Leroy <christophe.leroy@csgroup.eu>, Vishal Chourasia
- <vishalc@linux.ibm.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v5 17/17] powerpc64/bpf: Add support for bpf trampolines
-In-Reply-To: <a00df08a-605f-41c9-ba0d-2060e0d1e8b4@linux.ibm.com>
-References: <20240915205648.830121-1-hbathini@linux.ibm.com>
- <20240915205648.830121-18-hbathini@linux.ibm.com>
- <CAADnVQL60XXW95tgwKn3kVgSQAN7gr1STy=APuO1xQD7mz-aXA@mail.gmail.com>
- <32249e74-633d-4757-8931-742b682a63d3@linux.ibm.com>
- <CAADnVQKfSH_zkP0-TwOB_BLxCBH9efot9mk03uRuooCTMmWnWA@mail.gmail.com>
- <7afc9cc7-95cd-45c7-b748-28040206d9a0@linux.ibm.com>
- <CAADnVQJjqnSVqq2n70-uqfrYRHH3n=5s9=t3D2AMooxxAHYfJQ@mail.gmail.com>
- <875xq07qv6.fsf@mail.lhotse>
- <28d39117-c512-4165-b082-4ca54da7ba6c@linux.ibm.com>
- <a00df08a-605f-41c9-ba0d-2060e0d1e8b4@linux.ibm.com>
-Date: Mon, 28 Oct 2024 16:46:40 +1100
-Message-ID: <87r080srsv.fsf@mpe.ellerman.id.au>
+	s=arc-20240116; t=1730113104; c=relaxed/simple;
+	bh=B+KjeCsXxwZWAdYZAfeBkrJopsMVECXbceBduFTZdBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sFup0qeaUZgnTNwb4asumUM24ttYmomuM9E1HT+nvC7K9dVK3DaIgvldB+ggDuvawf3oUpwfuXq8CDjLL4H4A/xmpCdSygEzFcIKWmVt8Z14xCYZPcI3H01+zSx/IDw3O6f7LdXGJT0gaD/Jn2xXyK6nZ8j3LFs62O4U+8tMDUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbvh8JFn; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730113103; x=1761649103;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B+KjeCsXxwZWAdYZAfeBkrJopsMVECXbceBduFTZdBk=;
+  b=dbvh8JFnS2TeVGGFcYfZfzq868arHq2i0XyflNtZMSbyy5nFABgeilV1
+   W2lG5h1xXzdG9eSbc3v6Y1sRaMwbnq7quTRTpdEcuoqUlhbVbzO+yH6+M
+   IjK+y5cf6HzVbGGAsLSZ6ridJfvKW7dCRTOA+OGYU3bSnShIDIhzg7GIG
+   FtcDmMXxA3XfHsIeJKdtPAomuprnrFJY2j6VQ7D7w1Ti9y1gNafp3bTWf
+   Yl+5Cxc8LY9LC36RyuhliHf2J8y0sGkjfpAiDqX9pYY+tryrSTzQ3zhqk
+   /4hM+XLrOnGWUQM4zsSFIlcTos6qaUWeJOuxa1KC9f6YEAmLxAyW6zJqY
+   w==;
+X-CSE-ConnectionGUID: ne4ExaFKST+6AABoprM5xw==
+X-CSE-MsgGUID: jVgCX6UeR+aPpd4RrjVNtA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52256479"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52256479"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 03:58:22 -0700
+X-CSE-ConnectionGUID: D8J/N7OAS3WvSVWALB/CTw==
+X-CSE-MsgGUID: /Q08lrUJQWOtM1NvI4edKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
+   d="scan'208";a="86158696"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 03:58:20 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1t5NRw-00000007v9B-3Yr3;
+	Mon, 28 Oct 2024 12:58:16 +0200
+Date: Mon, 28 Oct 2024 12:58:16 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Tero Kristo <tero.kristo@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	David Gow <davidgow@google.com>
+Subject: Re: [PATCH v2 1/1] platform/x86: intel: Add 'intel' prefix to the
+ modules automatically
+Message-ID: <Zx9uSIWOwTgclmBF@smile.fi.intel.com>
+References: <20241016105950.785820-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241016105950.785820-2-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-SGFyaSBCYXRoaW5pIDxoYmF0aGluaUBsaW51eC5pYm0uY29tPiB3cml0ZXM6DQo+IE9uIDEwLzEw
-LzI0IDM6MDkgcG0sIEhhcmkgQmF0aGluaSB3cm90ZToNCj4+IE9uIDEwLzEwLzI0IDU6NDggYW0s
-IE1pY2hhZWwgRWxsZXJtYW4gd3JvdGU6DQo+Pj4gQWxleGVpIFN0YXJvdm9pdG92IDxhbGV4ZWku
-c3Rhcm92b2l0b3ZAZ21haWwuY29tPiB3cml0ZXM6DQo+Pj4+IE9uIFR1ZSwgT2N0IDEsIDIwMjQg
-YXQgMTI6MTjigK9BTSBIYXJpIEJhdGhpbmkgPGhiYXRoaW5pQGxpbnV4LmlibS5jb20+IA0KPj4+
-PiB3cm90ZToNCj4+Pj4+IE9uIDMwLzA5LzI0IDY6MjUgcG0sIEFsZXhlaSBTdGFyb3ZvaXRvdiB3
-cm90ZToNCj4+Pj4+PiBPbiBTdW4sIFNlcCAyOSwgMjAyNCBhdCAxMDozM+KAr1BNIEhhcmkgQmF0
-aGluaSANCj4+Pj4+PiA8aGJhdGhpbmlAbGludXguaWJtLmNvbT4gd3JvdGU6DQo+Pj4+Pj4+IE9u
-IDE3LzA5LzI0IDE6MjAgcG0sIEFsZXhlaSBTdGFyb3ZvaXRvdiB3cm90ZToNCj4+Pj4+Pj4+IE9u
-IFN1biwgU2VwIDE1LCAyMDI0IGF0IDEwOjU44oCvUE0gSGFyaSBCYXRoaW5pIA0KPj4+Pj4+Pj4g
-PGhiYXRoaW5pQGxpbnV4LmlibS5jb20+IHdyb3RlOg0KPj4+Pj4+Pj4+DQo+Pj4+Pj4+Pj4gKw0K
-Pj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqAgLyoNCj4+Pj4+Pj4+PiArwqDCoMKgwqDCoMKgwqAgKiBH
-ZW5lcmF0ZWQgc3RhY2sgbGF5b3V0Og0KPj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCAqDQo+Pj4+
-Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgICogZnVuYyBwcmV2IGJhY2sgY2hhaW7CoMKgwqDCoMKgwqDC
-oMKgIFsgYmFjayBjaGFpbsKgwqDCoMKgwqDCoMKgIF0NCj4+Pj4+Pj4+PiArwqDCoMKgwqDCoMKg
-wqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgW8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBdDQo+Pj4+Pj4+Pj4g
-K8KgwqDCoMKgwqDCoMKgICogYnBmIHByb2cgcmVkem9uZS90YWlsY2FsbGNudCBbIC4uLsKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXSA2NCANCj4+Pj4+Pj4+PiBieXRlcyAoNjQtYml0IHBv
-d2VycGMpDQo+Pj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgXSAtLQ0KPj4+Pj4+Pj4gLi4uDQo+Pj4+Pj4+Pj4gKw0KPj4+Pj4+
-Pj4+ICvCoMKgwqDCoMKgwqAgLyogRHVtbXkgZnJhbWUgc2l6ZSBmb3IgcHJvcGVyIHVud2luZCAt
-IGluY2x1ZGVzIDY0LSANCj4+Pj4+Pj4+PiBieXRlcyByZWQgem9uZSBmb3IgNjQtYml0IHBvd2Vy
-cGMgKi8NCj4+Pj4+Pj4+PiArwqDCoMKgwqDCoMKgIGJwZl9kdW1teV9mcmFtZV9zaXplID0gU1RB
-Q0tfRlJBTUVfTUlOX1NJWkUgKyA2NDsNCj4+Pj4+Pj4+DQo+Pj4+Pj4+PiBXaGF0IGlzIHRoZSBn
-b2FsIG9mIHN1Y2ggYSBsYXJnZSAicmVkIHpvbmUiID8NCj4+Pj4+Pj4+IFRoZSBrZXJuZWwgc3Rh
-Y2sgaXMgYSBsaW1pdGVkIHJlc291cmNlLg0KPj4+Pj4+Pj4gV2h5IHJlc2VydmUgNjQgYnl0ZXMg
-Pw0KPj4+Pj4+Pj4gdGFpbCBjYWxsIGNudCBjYW4gcHJvYmFibHkgYmUgb3B0aW9uYWwgYXMgd2Vs
-bC4NCj4+Pj4+Pj4NCj4+Pj4+Pj4gSGkgQWxleGVpLCB0aGFua3MgZm9yIHJldmlld2luZy4NCj4+
-Pj4+Pj4gRldJVywgdGhlIHJlZHpvbmUgb24gcHBjNjQgaXMgMjg4IGJ5dGVzLiBCUEYgSklUIGZv
-ciBwcGM2NCB3YXMgdXNpbmcNCj4+Pj4+Pj4gYSByZWR6b25lIG9mIDgwIGJ5dGVzIHNpbmNlIHRh
-aWxjYWxsIHN1cHBvcnQgd2FzIGludHJvZHVjZWQgWzFdLg0KPj4+Pj4+PiBJdCBjYW1lIGRvd24g
-dG8gNjQgYnl0ZXMgdGhhbmtzIHRvIFsyXS4gVGhlIHJlZCB6b25lIGlzIGJlaW5nIHVzZWQNCj4+
-Pj4+Pj4gdG8gc2F2ZSBOVlJzIGFuZCB0YWlsIGNhbGwgY291bnQgd2hlbiBhIHN0YWNrIGlzIG5v
-dCBzZXR1cC4gSSBkbw0KPj4+Pj4+PiBhZ3JlZSB0aGF0IHdlIHNob3VsZCBsb29rIGF0IG9wdGlt
-aXppbmcgaXQgZnVydGhlci4gRG8geW91IHRoaW5rDQo+Pj4+Pj4+IHRoZSBvcHRpbWl6YXRpb24g
-c2hvdWxkIGdvIGFzIHBhcnQgb2YgUFBDNjQgdHJhbXBvbGluZSBlbmFibGVtZW50DQo+Pj4+Pj4+
-IGJlaW5nIGRvbmUgaGVyZSBvciBzaG91bGQgdGhhdCBiZSB0YWtlbiB1cCBhcyBhIHNlcGFyYXRl
-IGl0ZW0sIG1heWJlPw0KPj4+Pj4+DQo+Pj4+Pj4gVGhlIGZvbGxvdyB1cCBpcyBmaW5lLg0KPj4+
-Pj4+IEl0IGp1c3Qgb2RkIHRvIG1lIHRoYXQgd2UgY3VycmVudGx5IGhhdmU6DQo+Pj4+Pj4NCj4+
-Pj4+PiBbwqDCoCB1bnVzZWQgcmVkIHpvbmUgXSAyMDggYnl0ZXMgcHJvdGVjdGVkDQo+Pj4+Pj4N
-Cj4+Pj4+PiBJIHNpbXBseSBkb24ndCB1bmRlcnN0YW5kIHdoeSB3ZSBuZWVkIHRvIHdhc3RlIHRo
-aXMgbXVjaCBzdGFjayBzcGFjZS4NCj4+Pj4+PiBXaHkgY2FuJ3QgaXQgYmUgemVybyB0b2RheSA/
-DQo+Pj4+Pg0KPj4+Pj4gVGhlIEFCSSBmb3IgcHBjNjQgaGFzIGEgcmVkem9uZSBvZiAyODggYnl0
-ZXMgYmVsb3cgdGhlIGN1cnJlbnQNCj4+Pj4+IHN0YWNrIHBvaW50ZXIgdGhhdCBjYW4gYmUgdXNl
-ZCBhcyBhIHNjcmF0Y2ggYXJlYSB1bnRpbCBhIG5ldw0KPj4+Pj4gc3RhY2sgZnJhbWUgaXMgY3Jl
-YXRlZC4gU28sIG5vIHdhc3RhZ2Ugb2Ygc3RhY2sgc3BhY2UgYXMgc3VjaC4NCj4+Pj4+IEl0IGlz
-IGp1c3QgcmVkIHpvbmUgdGhhdCBjYW4gYmUgdXNlZCBiZWZvcmUgYSBuZXcgc3RhY2sgZnJhbWUN
-Cj4+Pj4+IGlzIGNyZWF0ZWQuIFRoZSBjb21tZW50IHRoZXJlIGlzIG9ubHkgdG8gc2hvdyBob3cg
-cmVkem9uZSBpcw0KPj4+Pj4gYmVpbmcgdXNlZCBpbiBwcGM2NCBCUEYgSklULiBJIHRoaW5rIHRo
-ZSBjb25mdXNpb24gaXMgd2l0aCB0aGUNCj4+Pj4+IG1lbnRpb24gb2YgIjIwOCBieXRlcyIgYXMg
-cHJvdGVjdGVkLiBBcyBub3QgYWxsIG9mIHRoYXQgc2NyYXRjaA0KPj4+Pj4gYXJlYSBpcyB1c2Vk
-LCBpdCBtZW50aW9ucyB0aGUgcmVtYWluaW5nIGFzIHVudXNlZC4gRXNzZW50aWFsbHkNCj4+Pj4+
-IDI4OCBieXRlcyBiZWxvdyBjdXJyZW50IHN0YWNrIHBvaW50ZXIgaXMgcHJvdGVjdGVkIGZyb20g
-ZGVidWdnZXJzDQo+Pj4+PiBhbmQgaW50ZXJydXB0IGNvZGUgKHJlZCB6b25lKS4gTm90ZSB0aGF0
-IGl0IHNob3VsZCBiZSAyMjQgYnl0ZXMNCj4+Pj4+IG9mIHVudXNlZCByZWQgem9uZSBpbnN0ZWFk
-IG9mIDIwOCBieXRlcyBhcyByZWQgem9uZSB1c2FnZSBpbg0KPj4+Pj4gcHBjNjQgQlBGIEpJVCBj
-b21lIGRvd24gZnJvbSA4MCBieXRlcyB0byA2NCBieXRlcyBzaW5jZSBbMl0uDQo+Pj4+PiBIb3Bl
-IHRoYXQgY2xlYXJzIHRoZSBtaXN1bmRlcnN0YW5kaW5nLi4NCj4+Pj4NCj4+Pj4gSSBzZWUuIFRo
-YXQgbWFrZXMgc2Vuc2UuIFNvIGl0J3Mgc2ltaWxhciB0byBhbWQ2NCByZWQgem9uZSwNCj4+Pj4g
-YnV0IHRoZXJlIHdlIGhhdmUgYW4gaXNzdWUgd2l0aCBpcnFzLCBoZW5jZSB0aGUga2VybmVsIGlz
-DQo+Pj4+IGNvbXBpbGVkIHdpdGggLW1uby1yZWQtem9uZS4NCj4+Pg0KPj4+IEkgYXNzdW1lIHRo
-YXQgaXNzdWUgaXMgdGhhdCB0aGUgaW50ZXJydXB0IGVudHJ5IHVuY29uZGl0aW9uYWxseSB3cml0
-ZXMNCj4+PiBzb21lIGRhdGEgYmVsb3cgdGhlIHN0YWNrIHBvaW50ZXIsIGRpc3JlZ2FyZGluZyB0
-aGUgcmVkIHpvbmU/DQo+Pj4NCj4+Pj4gSSBndWVzcyBwcGMgYWx3YXlzIGhhcyBhIGRpZmZlcmVu
-dCBpbnRlcnJ1cHQgc3RhY2sgYW5kDQo+Pj4+IGl0J3Mgbm90IGFuIGlzc3VlPw0KPj4+DQo+Pj4g
-Tm8sIHRoZSBpbnRlcnJ1cHQgZW50cnkgYWxsb2NhdGVzIGEgZnJhbWUgdGhhdCBpcyBiaWcgZW5v
-dWdoIHRvIGNvdmVyDQo+Pj4gdGhlIHJlZCB6b25lIGFzIHdlbGwgYXMgdGhlIHNwYWNlIGl0IG5l
-ZWRzIHRvIHNhdmUgcmVnaXN0ZXJzLg0KPj4+DQo+Pj4gU2VlIFNUQUNLX0lOVF9GUkFNRV9TSVpF
-IHdoaWNoIGluY2x1ZGVzIEtFUk5FTF9SRURaT05FX1NJWkU6DQo+Pj4NCj4+PiDCoMKgIGh0dHBz
-Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4
-LmdpdC8gDQo+Pj4gdHJlZS9hcmNoL3Bvd2VycGMvaW5jbHVkZS9hc20vcHRyYWNlLmg/IA0KPj4+
-IGNvbW1pdD04Y2YwYjkzOTE5ZTEzZDFlOGQ0NDY2ZWI0MDgwYTRjNGQ5ZDY2ZDdiI24xNjUNCj4+
-Pg0KPj4+IFdoaWNoIGlzIHJlbmFtZWQgdG8gSU5UX0ZSQU1FX1NJWkUgaW4gYXNtLW9mZnNldHMu
-YyBhbmQgdGhlbiBpcyB1c2VkIGluDQo+Pj4gdGhlIGludGVycnVwdCBlbnRyeSBoZXJlOg0KPj4+
-DQo+Pj4gwqDCoCBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
-dC90b3J2YWxkcy9saW51eC5naXQvIA0KPj4+IHRyZWUvYXJjaC9wb3dlcnBjL2tlcm5lbC9leGNl
-cHRpb25zLTY0cy5TPyANCj4+PiBjb21taXQ9OGNmMGI5MzkxOWUxM2QxZThkNDQ2NmViNDA4MGE0
-YzRkOWQ2NmQ3YiNuNDk3DQo+PiANCj4+IFRoYW5rcyBmb3IgY2xhcmlmeWluZyB0aGF0LCBNaWNo
-YWVsLg0KPj4gT25seSBhc3luYyBpbnRlcnJ1cHQgaGFuZGxlcnMgdXNlIGRpZmZlcmVudCBpbnRl
-cnJ1cHQgc3RhY2tzLCByaWdodD8NCj4NCj4gLi4uIGFuZCBzZXBhcmF0ZSBlbWVyZ2VuY3kgc3Rh
-Y2sgZm9yIHNvbWUgc3BlY2lhbCBjYXNlcy4uLg0KDQpUaGVyZSBpc24ndCBhIG5lYXQgcnVsZSBs
-aWtlIHN5bmMvYXN5bmMuDQoNCk1vc3QgaW50ZXJydXB0cyB1c2UgdGhlIG5vcm1hbCBrZXJuZWwg
-c3RhY2ssIHdoZXRoZXIgc3luYyBvciBhc3luYy4NCg0KRXh0ZXJuYWwgaW50ZXJydXB0cyBzd2l0
-Y2ggdG8gYSBzZXBhcmF0ZSBoYXJkIGludGVycnVwdCBzdGFjaw0KKGhhcmRpcnFfY3R4KSBpbiBj
-YWxsX2RvX2lycSgpLCBidXQgb25seSBhZnRlciBjb21pbmcgaW4gb24gdGhlIGtlcm5lbA0Kc3Rh
-Y2sgZmlyc3QuDQoNClNvbWUgaW50ZXJydXB0cyB1c2UgdGhlIGVtZXJnZW5jeSBzdGFjayAoaW4g
-c29tZSBjYXNlcyksIGVnLiBITUksIHNvZnQNCk5NSSAoZmFrZSksIFRNIGJhZCB0aGluZyAocHJv
-Z3JhbSBjaGVjayksIG9yIHRoZWlyIG93biBzdGFjaywgc3lzdGVtDQpyZXNldCAobm1pX2VtZXJn
-ZW5jeV9zcCksIG1hY2hpbmUgY2hlY2sgKG1jX2VtZXJnZW5jeV9zcCkuDQoNCmNoZWVycw0K
+On Wed, Oct 16, 2024 at 01:59:51PM +0300, Andy Shevchenko wrote:
+> Rework Makefile to add 'intel' prefix to the modules automatically.
+> This removes a lot of boilerplate code in it and also makes robust
+> against mistypos in the prefix.
+
+> ---
+> 
+> v2: fixed obvious typos (LKP), Cc'ed to Kbuild ML (Ilpo), dropped RFC marker
+> 
+> Note to Kbuild people: TBH I rather want to have something like this
+> to be available on the level of Kbuild for any of the subdirectories
+> in question.
+
+Anyone, any comments on this?
+This already passed a CI tests without failure so far. Perhaps it's good
+to apply to show the demand of such a feature in Kbuild in the future?
+Because I want to do the same for various */tests/ folders where we have
+tons of test*, *kunit modules effectively duplicating the folder name.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
