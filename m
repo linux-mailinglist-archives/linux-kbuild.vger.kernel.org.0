@@ -1,106 +1,158 @@
-Return-Path: <linux-kbuild+bounces-4348-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4349-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442A59B215D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 00:28:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7728C9B22AB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 03:23:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1D211B20C2D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Oct 2024 23:28:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F0DD1B21327
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Oct 2024 02:23:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 321C7187862;
-	Sun, 27 Oct 2024 23:28:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E57015383B;
+	Mon, 28 Oct 2024 02:23:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DN7TMRxO"
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="OZIawUAV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6329B17C219;
-	Sun, 27 Oct 2024 23:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF7C14A088;
+	Mon, 28 Oct 2024 02:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730071723; cv=none; b=LRuLkOdkDnAtCTIT6kYHYRYeVl7hj/kyef9cVs2Pn5fxkY1ptikpC+3Yr+apnIawGgswQ8jcc6Zx8hUTO2e1FRLBbHnKXPLGohJhbUElYrmS5G3AoLOpv4PL6xftpLaZ0PryDW7vL+dcSbRWErd3hMieRllLGWRVefnyCOv1AiU=
+	t=1730082212; cv=none; b=golnDRuYpIR52SqMwQwxbz8Pxqar1HnMS4Yyu21EQm9hlqZs46dPkyzHfnSQYv8GcuXkda9a9MMURSjmdcEw8rludFyIvVEq06Md4BkMzDqB3VRWXTt3m+4dasVDKo695w2cKWscIwPmf1VpIXUCiH7K0b75n34Z+BSQO6PE0vY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730071723; c=relaxed/simple;
-	bh=CYK5sksRp+HHK6ke3ltM89SdmUKYCjXGNd/ci7rSmkI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LrQvM+qzHnX6QG/ObXO+ijuNRSeHm5AgAq8TTT9EQ8w6O/S2ObpQKg3kZi6Wm2PxhHnnKhs7+HZlbZgMTgBYkTQ9SpDYBVzakE5vrJwuwCTYXRTQON//MVcKPOWUoVtUcEa5dH9ncHwkPsj0VED70pxHHnpvPoziar/oEAzsqM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DN7TMRxO; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e31977c653so588256a91.0;
-        Sun, 27 Oct 2024 16:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730071721; x=1730676521; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CYK5sksRp+HHK6ke3ltM89SdmUKYCjXGNd/ci7rSmkI=;
-        b=DN7TMRxOkfiU/Rt5+9UyIAWcW2QimeXJtztz97csRUA3PyTKNfUmAuB3YZCbN+/etB
-         k4OHdmnFC8kwz3kSn/ZATzeypYNMehipj9iV7vRGyS9Ztk9hUbLiRwHRO/Cz4VqJyUBN
-         v6PnLyrhhD21ZGiWmTIAYqXn6IphKoxU/xMkhiEpNW+REZvF5WOadfI2IDzbvAGm4o50
-         0IsXOj50l1l0XURAe+JGXEUKKfQWglVYSS5iak40OlAXE8c5uljqz6vynpiVKi8WByBs
-         Ev+LjOp9ciGjZFF44JZ6SgP83onb3Z9c13lkEiWQSSHRZt/91iXNhdVgKSrfEikGlpKp
-         BwGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730071721; x=1730676521;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CYK5sksRp+HHK6ke3ltM89SdmUKYCjXGNd/ci7rSmkI=;
-        b=Fx7XibrQa5VknO0pzObVlbtLPadnHUSql1GyB9nnjr6UEcxstztgxOivws6mf71cuC
-         LbsevgwXBDzjCZAL2m4SY+8Qtz4lXELP9TFISCA7mOr+CFNmZ+DBPnpopa/mnK+YEMs7
-         FHC13ulbXWwrllMQWL2l3ZzxEPuA18kM7yVNo9LxKQH1tEReTtjE96wZQFYILVSdEX8T
-         tN9WqJaOV6ngjNEc2Qn1tFwGmujGvvn9vBpGk/ZntPM9B52mWH/s901ttppfokr13AeY
-         RwNDxqCRPJuMmzr8WeF4Vc7UeTJ0wpR9mY947oRodZ0wvAJICFrwSy4ES0Z6trLR0mwc
-         k2ug==
-X-Forwarded-Encrypted: i=1; AJvYcCURPvHzDO9I9j3ecMT0tiYkhIPcZQ/FoKX6tbg75Ca07F2ohbdsiXhFquvs0705JhcLcU8VV3xJIXqLyp8=@vger.kernel.org, AJvYcCV8D30umIiubxuoz9u5Dp/kFYO7tbzj5qp+S5tATc9YLAofj52pqn107XxlTzSzyMA5iRp0yiR7cTNHL+6AZ9g=@vger.kernel.org, AJvYcCXXc3of2SHBWw7/sBpaLmSLZ5gceKAdsuxTrcmLx9VzPlEG3KdF6WIEq9P4nYNVB6La/qEGcfvpn+H0bLTg@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQkXxzvam/uEJzON4NNaHMzNfw4itQciLYTiDytwENL2qkO85c
-	TrPIpixpy7FX9OFfFdIxTKrEQfqLuSSTSbMg9qTRu0BSUa60vlZWpzMm9X2ZnmwYte8LXO1MrMV
-	zznoK6Qkxy27cR5W1h/oh3evaOGQ=
-X-Google-Smtp-Source: AGHT+IHq8rw6W8p4S0W/aeuhnIgrpHXtsRtdd+z1XCCrOBHUp853lIr5u8gfY2RgCHl2JwvNYEokrNqMnwuiiLIT1kU=
-X-Received: by 2002:a17:90a:718c:b0:2e2:abab:c456 with SMTP id
- 98e67ed59e1d1-2e8f1051e49mr3244664a91.1.1730071720605; Sun, 27 Oct 2024
- 16:28:40 -0700 (PDT)
+	s=arc-20240116; t=1730082212; c=relaxed/simple;
+	bh=u/xTtnizdqRxZA7D0F1Ev2yUBsm0p/OFai4PrZAtDDg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Rxf7gLGvF7LrYNuxlV/bcyeA+11Zmtv7WgcOYFj3ueztQe/nc49zAQq4MqUMdiIcCltaKvIDg/7Q0hOOOwmBoQWkcK0e3HKdt2YJXuRJ1scyVZZzeE5MGYxU5ShlM9UPtmCoK2rl/cRC9Wbq+3JizAK2FFxBWgf1g1KGjWiCZEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=OZIawUAV; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1730082202;
+	bh=wVzoc2YabnIij5HP3bkYWkQB3e64c7slt7BMmOIG3vk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OZIawUAVvihaiXSwIbUZzcTz/tSg3C1U5LEaVYgOz4QoVISgtL6WviXd3+smevP7j
+	 R/hVpxpqQA2czH0OgbOsdZ/XN9oOlY7sbOzvWwnvGYYyYJsAuLhD8D2cGXk3zQ3Qcf
+	 Xlmo8LCM81g3VdyYneWeZi52VsFp2ozQKki9ZSVwqAf7xk8cYqaSwqlX4Mipqjed6a
+	 eYbw3SKM3H8Y7R3CxIjshRL1I3sLTmewm9KYFwOuMGXWKXrkByPLjplT3Ne2Vy4WLv
+	 oS3+EntGWYqofeVy/dSgM+jb9ZxRrfbS0RYyedkF7axBWtyZppZ+q42fJGbmWcXti8
+	 0jDbtveRkr5HQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4XcHHX4W29z4x89;
+	Mon, 28 Oct 2024 13:23:20 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Hari Bathini <hbathini@linux.ibm.com>, linuxppc-dev
+ <linuxppc-dev@lists.ozlabs.org>, bpf@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: "Naveen N. Rao" <naveen@kernel.org>, Mark Rutland
+ <mark.rutland@arm.com>, Daniel Borkmann <daniel@iogearbox.net>, Masahiro
+ Yamada <masahiroy@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, Alexei
+ Starovoitov <ast@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Vishal Chourasia
+ <vishalc@linux.ibm.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>
+Subject: Re: [PATCH v6 17/17] powerpc64/bpf: Add support for bpf trampolines
+In-Reply-To: <20241018173632.277333-18-hbathini@linux.ibm.com>
+References: <20241018173632.277333-1-hbathini@linux.ibm.com>
+ <20241018173632.277333-18-hbathini@linux.ibm.com>
+Date: Mon, 28 Oct 2024 13:23:13 +1100
+Message-ID: <87wmhtrmni.fsf@mpe.ellerman.id.au>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241027145636.416030-1-ojeda@kernel.org> <20241027222505.GA2882707@thelio-3990X>
-In-Reply-To: <20241027222505.GA2882707@thelio-3990X>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 28 Oct 2024 00:28:28 +0100
-Message-ID: <CANiq72my=xgeu=TZZAZKEvRq_wKm=tr=Juv1Mxdf50MEVxi53Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: avoid errors with old `rustc`s without LLVM
- patch version
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Thorsten Leemhuis <regressions@leemhuis.info>, 
-	Cameron MacPherson <cameron.macpherson@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sun, Oct 27, 2024 at 11:25=E2=80=AFPM Nathan Chancellor <nathan@kernel.o=
-rg> wrote:
+Hari Bathini <hbathini@linux.ibm.com> writes:
+> From: Naveen N Rao <naveen@kernel.org>
 >
-> and it still works for me with rustc 1.82.0:
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> Tested-by: Nathan Chancellor <nathan@kernel.org>
+> Add support for bpf_arch_text_poke() and arch_prepare_bpf_trampoline()
+> for 64-bit powerpc. While the code is generic, BPF trampolines are only
+> enabled on 64-bit powerpc. 32-bit powerpc will need testing and some
+> updates.
 
-Thanks for checking! I took the tags.
+Hi Hari,
 
-Cheers,
-Miguel
+This is breaking the PCREL build for me:
+
+  ERROR: 11:49:18: Failed building ppc64le_defconfig+pcrel@fedora
+  INFO: 11:49:18: (skipped 41 lines) ...
+  INFO: 11:49:18: /linux/arch/powerpc/net/bpf_jit.h:90:9: note: in expansion of macro 'EMIT'
+     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+        |         ^~~~
+  /linux/arch/powerpc/include/asm/ppc-opcode.h:473:88: note: in expansion of macro 'IMM_DS'
+    473 | #define PPC_RAW_LD(r, base, i)          (0xe8000000 | ___PPC_RT(r) | ___PPC_RA(base) | IMM_DS(i))
+        |                                                                                        ^~~~~~
+  /linux/arch/powerpc/net/bpf_jit.h:90:14: note: in expansion of macro 'PPC_RAW_LD'
+     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+        |              ^~~~~~~~~~
+  /linux/arch/powerpc/net/bpf_jit.h:90:36: note: in expansion of macro 'offsetof'
+     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+        |                                    ^~~~~~~~
+  /linux/arch/powerpc/net/bpf_jit_comp.c:791:17: note: in expansion of macro 'PPC64_LOAD_PACA'
+    791 |                 PPC64_LOAD_PACA();
+        |                 ^~~~~~~~~~~~~~~
+  /linux/arch/powerpc/net/bpf_jit.h:90:65: error: 'struct paca_struct' has no member named 'kernel_toc'; did you mean 'kernel_msr'?
+     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+        |                                                                 ^~~~~~~~~~
+  /linux/arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
+     29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
+        |                                  ^~~~~
+  /linux/arch/powerpc/net/bpf_jit.h:90:9: note: in expansion of macro 'EMIT'
+     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+        |         ^~~~
+  /linux/arch/powerpc/include/asm/ppc-opcode.h:473:88: note: in expansion of macro 'IMM_DS'
+    473 | #define PPC_RAW_LD(r, base, i)          (0xe8000000 | ___PPC_RT(r) | ___PPC_RA(base) | IMM_DS(i))
+        |                                                                                        ^~~~~~
+  /linux/arch/powerpc/net/bpf_jit.h:90:14: note: in expansion of macro 'PPC_RAW_LD'
+     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+        |              ^~~~~~~~~~
+  /linux/arch/powerpc/net/bpf_jit.h:90:36: note: in expansion of macro 'offsetof'
+     90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+        |                                    ^~~~~~~~
+  /linux/arch/powerpc/net/bpf_jit_comp.c:882:25: note: in expansion of macro 'PPC64_LOAD_PACA'
+    882 |                         PPC64_LOAD_PACA();
+        |                         ^~~~~~~~~~~~~~~
+  make[5]: *** [/linux/scripts/Makefile.build:229: arch/powerpc/net/bpf_jit_comp.o] Error 1
+
+
+To test it you need to enable CONFIG_POWER10_CPU, eg:
+
+  CONFIG_POWERPC64_CPU=n
+  CONFIG_POWER10_CPU=y
+  CONFIG_PPC_KERNEL_PCREL=y
+
+This diff gets it building, but I haven't tested it actually works:
+
+diff --git a/arch/powerpc/net/bpf_jit.h b/arch/powerpc/net/bpf_jit.h
+index 2d04ce5a23da..af6ff3eb621a 100644
+--- a/arch/powerpc/net/bpf_jit.h
++++ b/arch/powerpc/net/bpf_jit.h
+@@ -86,9 +86,14 @@
+                                                        0xffff));             \
+                } } while (0)
+ #define PPC_LI_ADDR    PPC_LI64
++
++#ifndef CONFIG_PPC_KERNEL_PCREL
+ #define PPC64_LOAD_PACA()                                                    \
+        EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
+ #else
++#define PPC64_LOAD_PACA() do {} while (0)
++#endif
++#else
+ #define PPC_LI64(d, i) BUILD_BUG()
+ #define PPC_LI_ADDR    PPC_LI32
+ #define PPC64_LOAD_PACA() BUILD_BUG()
+
+cheers
 
