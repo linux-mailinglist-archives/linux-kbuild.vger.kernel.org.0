@@ -1,120 +1,113 @@
-Return-Path: <linux-kbuild+bounces-4385-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4386-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1C59B55BB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 23:24:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9EC9B5811
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Oct 2024 00:58:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DD362857DC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 22:24:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17E251F23A97
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 23:58:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B17C120ADDD;
-	Tue, 29 Oct 2024 22:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3DD820C47D;
+	Tue, 29 Oct 2024 23:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dX12qOAv"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0tDBdDkM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689FB20A5DB;
-	Tue, 29 Oct 2024 22:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8F920C019
+	for <linux-kbuild@vger.kernel.org>; Tue, 29 Oct 2024 23:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730240689; cv=none; b=clrfPqLmF+62/B7lq/b6jXccmxIJQEioR7D/bqo8SE4gtUe4QB8inW4hzfMcSwycQrwQsz5IJ5CDDl4OLS5ocZfQ08va/jwaGSdB1+8BiQfK6iSUn59gO0iXfi4FcdSeP5AmZUzAmkrtdXI6V4HzNYos4k+jqO+ikSB7nEoIkyw=
+	t=1730246007; cv=none; b=RG6khIv2i7D4CiyMN51Rdo/+Wh0zEh/KTDcfLdIrnEE1A17fCP9M4nHPH2e4NBD4HuwSS5l/QwKkrc4T9NLEHzKn8cZZAPOWbG2faqOfgWbUzqoqKF+zk4XZuyuzpQlEp+3jisXb3G9CjjdGH915alQmB10ts/gvvBQBwptLM64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730240689; c=relaxed/simple;
-	bh=DaBqTA3A7xl7Kvfy6PSQ6meDmsp/mY+pO3DkEcw1UKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=STXH5Yqwo4BnD5ydEQTj59dJmWX1H0aJgorbxSHPz2NHvM+zSBW5P0DT7MW5mInpB0Z2Fqx/vl/WhYi8p05kiB3KaRvDWIU+jFw7hS0c5z9z9z9KWQ6b1mjXdjpgI9CSxrWpl6UY4bUOrSOnzYHkv/0zjhwPkxJIjewyQFccMqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dX12qOAv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58D6EC4CECD;
-	Tue, 29 Oct 2024 22:24:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730240689;
-	bh=DaBqTA3A7xl7Kvfy6PSQ6meDmsp/mY+pO3DkEcw1UKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dX12qOAvnAJxkAgkZjTdRWtA7qyqDL6ou6eSRhOnt8OJ/8nUWZvhcfWN2lKZhegPk
-	 YUquYoFDgLfB1HL/6VZnY5tbIZpqunyp6hcWSI4gP5NbsBzcj8kyAqvp8jjD6u079F
-	 mKENJ/+uSPUdJ1LIViq0iK/XAcTYKXlB9RZX9wU8BlHOZTdj/hkJ5uDvoOlHMXFbrQ
-	 JOteQ0lL8y1tsnd9CuDai+bFR7IOAKS9qFxl59lR11Uaeq/TwrJe25dr6vH8hJNZva
-	 WdU2KcbWkSRszJ3L/bsFlZ+rg8CH5V/Sb+CCvdEfUr3NY9QgEECP5hNQ2fJrt3/96t
-	 XInqxxc4sYM3w==
-Date: Tue, 29 Oct 2024 15:24:46 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: koachan@protonmail.com
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Jonathan Corbet <corbet@lwn.net>, sparclinux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] sparc/build: Add SPARC target flags for compiling
- with clang
-Message-ID: <20241029222446.GB2632697@thelio-3990X>
-References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
- <20241029-sparc-cflags-v3-2-b28745a6bd71@protonmail.com>
+	s=arc-20240116; t=1730246007; c=relaxed/simple;
+	bh=BiCabWdS2vxLBuw9FlQyB8b+KJNojmOugixJl887czU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H/E/6XhoEgkPsYth5w7AIysXn2aesA6ncsyNGU6RP0BvLLJN15S3DQWp3GKLXSqs3j+Ex+FCXtw/2vXiucr6231aoAJ0Mv6F8wQVp4Ib9sjhBkPnEURtESfBaXU5/jaaRVJjxzZ+rDrWuTcSsl1P53GnhU7l2rTvWKzrdVU05y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0tDBdDkM; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e66ba398so6136e87.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Oct 2024 16:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1730246004; x=1730850804; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BiCabWdS2vxLBuw9FlQyB8b+KJNojmOugixJl887czU=;
+        b=0tDBdDkMnL9EyJr2hKFliDpYWZJxcm369Z+BSmaCCloF0Gv2d7ObHM/tKc2uLSPufR
+         H1jvY849eR/Rr2+3+Uqyu2LXBxTljEUX4UeXUy4rn1/9fyET1I/XnP1fi7F9TKfc6/my
+         0Oaxk/mW88T6GFvzHPRsCQZsN1dTjbhkA1Dh2f1eHyclo9SBTSqA/TOybLlcrRV3QulR
+         wtHv0wATObHlh9aqVL7E7OQhBLtni05tuKLo8AkJwfcMM2l/4peLvo0NxT8SUSMvDrW1
+         5t9DSAQCALZIs1lkEI4C/Flj4gt2e9auL/bH25VF2nJgXsn+78TAx4YBDAlFY49F+O4H
+         MBzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730246004; x=1730850804;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BiCabWdS2vxLBuw9FlQyB8b+KJNojmOugixJl887czU=;
+        b=LFgZrXuCxix9b1rFimaHuJt8rJN2arMnDQZS3ftWq3UEkO0jLqh4kMy9byPnJBFwJr
+         7qA5yqzmHJYbRAZni9qF4vCHtJlwGY6NF+H0D76o0+1TKm2r7dop8YtcBPP4nVPNtESN
+         YyWZj6MSaj3P57QILmyGwwgL7q2tzJqI9tsLSlNh0tuW8G9TOjZ6/FOj3JXPa6Ulnb+k
+         CJSq3F/3KFUhAK5BH5QxiPXbBNyxmKrmOJ7ua0G+x9KTGCduLLYHMKYvv9QMkP9x6bwX
+         JedSkz1XQFE0Z4E1JcNGYObTfZmA8EHj17D99fzMHc9XAz1keVuMO8HJ2quPrRZFPSeX
+         OQ1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXwfgulOuZZsVKt8bhZFzlueG9PFtZlse5CtV12uwioLNxclir1w0qood3kJXuNEXVO5ZLjPGc0pZe7QAA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDFJoZYYfWsRBfyBx3F90ImoBL/5lTMrl5xdpVNwYoT9Kg408a
+	Uzvtgin7hn2PPkUyxsFlyPKa3freip9nnb9J4WY8yoN2woRk0C3MeCyGZv0Bv4zfcOHtaDqZCSa
+	th91v7Hl59hUozcr5W9DE/ibm3ArCclU/1YvJ
+X-Gm-Gg: ASbGncvy11kVm2n9hpFIBIgLxVtIbIBwuqfOMvSsDaGacfc1ueX4o6R1eO9Dd281is1
+	LSfHBZ6xGubZ75XwEAYMd0mNPYKYe
+X-Google-Smtp-Source: AGHT+IHIQGDElLz8/qVf/OV7Pyn52bxrEmCudJB6RD46Ot+/aEOB2whwuA3TpN813KwxwWMUhrWTyKpmffCC9X64vLM=
+X-Received: by 2002:a05:6512:1101:b0:533:49ab:780e with SMTP id
+ 2adb3069b0e04-53b4804d6b6mr875842e87.2.1730246003424; Tue, 29 Oct 2024
+ 16:53:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241029-sparc-cflags-v3-2-b28745a6bd71@protonmail.com>
+References: <20241029-remove-export-report-pl-v1-1-9cd6ccf93493@google.com>
+In-Reply-To: <20241029-remove-export-report-pl-v1-1-9cd6ccf93493@google.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Tue, 29 Oct 2024 16:52:45 -0700
+Message-ID: <CABCJKudHknUxbgHBX9kXOkyMEKn5VrFsLZ6u95fnqpngp4Wy_w@mail.gmail.com>
+Subject: Re: [PATCH] scripts: Remove export_report.pl
+To: Matthew Maurer <mmaurer@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-modules@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 29, 2024 at 09:49:08PM +0700, Koakuma via B4 Relay wrote:
-> From: Koakuma <koachan@protonmail.com>
-> 
-> clang only supports building 64-bit kernel, so we use the
-> sparc64-linux-gnu target.
-> 
-> See also: https://lore.kernel.org/lkml/e26PTXUXEz8OYXmaeKn4Mpuejr4IOlFfFwdB5vpsluXlYiqDdlyQTYcDtdAny_o4gO4SfPeQCCN2qpyT6e0nog5EaP3xk2SeUPTrF54p1gM=@protonmail.com/T/#m068e010dcf8b99d3510a90d7532bcdb70e2e2c6b
-> 
-> Signed-off-by: Koakuma <koachan@protonmail.com>
+Hi Matt,
 
-Acked-by: Nathan Chancellor <nathan@kernel.org>
+On Tue, Oct 29, 2024 at 2:12=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
+ wrote:
+>
+> This script has been broken for 5 years with no user complaints.
+>
+> It first had its .mod.c parser broken in commit a3d0cb04f7df ("modpost:
+> use __section in the output to *.mod.c"). Later, it had its object file
+> enumeration broken in commit f65a486821cf ("kbuild: change module.order
+> to list *.o instead of *.ko"). Both of these changes sat for years with
+> no reports.
+>
+> Rather than reviving this script as we make further changes to `.mod.c`,
+> this patch gets rid of it because it is clearly unused.
+>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
 
-> ---
->  Documentation/kbuild/llvm.rst | 3 +++
->  scripts/Makefile.clang        | 1 +
->  2 files changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index 6dc66b4f31a7bb62ba5bb6174730dc0a69ee0bba..bc8a283bc44bbfa9948ad3c9fe8031269ce10be4 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -179,6 +179,9 @@ yet. Bug reports are always welcome at the issue tracker below!
->     * - s390
->       - Maintained
->       - ``LLVM=1`` (LLVM >= 18.1.0), ``CC=clang`` (LLVM < 18.1.0)
-> +   * - sparc (sparc64 only)
-> +     - Maintained
-> +     - ``CC=clang LLVM_IAS=0`` (LLVM >= 20)
->     * - um (User Mode)
->       - Maintained
->       - ``LLVM=1``
-> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> index 6c23c6af797fb016232914589c948208345417ad..2435efae67f53a26d55a1c0f1bf254a49d9fc731 100644
-> --- a/scripts/Makefile.clang
-> +++ b/scripts/Makefile.clang
-> @@ -10,6 +10,7 @@ CLANG_TARGET_FLAGS_mips		:= mipsel-linux-gnu
->  CLANG_TARGET_FLAGS_powerpc	:= powerpc64le-linux-gnu
->  CLANG_TARGET_FLAGS_riscv	:= riscv64-linux-gnu
->  CLANG_TARGET_FLAGS_s390		:= s390x-linux-gnu
-> +CLANG_TARGET_FLAGS_sparc	:= sparc64-linux-gnu
->  CLANG_TARGET_FLAGS_x86		:= x86_64-linux-gnu
->  CLANG_TARGET_FLAGS_um		:= $(CLANG_TARGET_FLAGS_$(SUBARCH))
->  CLANG_TARGET_FLAGS		:= $(CLANG_TARGET_FLAGS_$(SRCARCH))
-> 
-> -- 
-> 2.47.0
-> 
-> 
+Thanks for the patch! Applying this separately without waiting for the
+rest of the extended modversions series to land makes sense to me.
+
+Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+
+Sami
 
