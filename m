@@ -1,215 +1,145 @@
-Return-Path: <linux-kbuild+bounces-4379-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4382-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E62D9B4286
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 07:45:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AACC9B4C88
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 15:50:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 232221F22DB6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 06:45:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0ECFEB22D7F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2024 14:50:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB6B61DE3C6;
-	Tue, 29 Oct 2024 06:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4B84191F6A;
+	Tue, 29 Oct 2024 14:49:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="iJAGDJX0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f8RUtOX9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8178A145B2C;
-	Tue, 29 Oct 2024 06:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCA018C939;
+	Tue, 29 Oct 2024 14:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730184340; cv=none; b=JqLA0zh/do9Clnp8VJ51hqgdIoZdqxNluARnxtIVNbkQFT8BI7yHTyR1DJ1Vayuvxc6SjwENkZ2agc+Q9KtwnYllKU5yd6DV7Sa0saZ/4CMwEo/O2iJtgwj5H/wQsvkSFzZodkU7Z3NuG6Aja0FnTh9z67D5LHik1tFNHyVpJtQ=
+	t=1730213395; cv=none; b=Tu838YPZBsgor0Q3yJI4uAayquZ6eIgYW3m74CVCx+OfJCy1UKx9DqzFPuYhJKId9efdmeAEJqZGpFb3QfL09lFC9s1iDS4qsCiSKL6Hhd7Dp7VK9Q/Xd1/7afFoU/ZteVStUped0rZWsKKpBBNFhH7MqKXBHQpt9WhCx6ixZG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730184340; c=relaxed/simple;
-	bh=1DrL+8jrbRz5TXvELVZ3R7u/AfvuuYFORhxgcZBZzpM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lejOKsxJN8IxTusLLsB9HRBf42Ys3hQveS/vQtsfU9uwupGAGXY8fxVa83V++8j/t92Jd5H6zHoDH0Lu88LO4oObwa4Eg2gCCEDX1t5rxHH04Z4qxB5M1CKS16zv99K+s+tDlJkpcPl1To/tq6TREOOq4SskzQpId8xpz1uFSdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=iJAGDJX0; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T25Ta3007263;
-	Tue, 29 Oct 2024 06:44:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=wpMMtU
-	T/7iLSb1CPes2U6yH2Knc2kYorBmqmySojMfw=; b=iJAGDJX0zp7I8wnDmOxnwR
-	nsM832ucdpVHkqQlx2nmn3aDhYFrvERJXw+QFNKGd0H1UhMEw6AIZDhCEjEexTAI
-	guKsHOoqJguJX/7T0/zQZAK+VWxiqz9f3CchJR+AXAmbWu3MJQC581JSC2+woml5
-	wu4gC23D4KkJH74McGOquG3CMMc2mmS+7vem9H1FJ2TbLKQmXSvskdWJa/iu90p4
-	0kpLJ8LHaYEpm2681wNPdpOFRtuVAAYCFr/xX16m5/yk5yQhxw+p8EF+TdfG3nR3
-	9ObEqtjhVEPKZWfz9X5implw3U26UFo9ZQNNGrlLtysJVwIYYNIg8BUynlDR1Gng
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42jb65bm7n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 06:44:40 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49T6idbf015515;
-	Tue, 29 Oct 2024 06:44:39 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42jb65bm7h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 06:44:39 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49T55BI6017313;
-	Tue, 29 Oct 2024 06:44:38 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 42harsa1gc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Oct 2024 06:44:38 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49T6iZ7M40370472
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 29 Oct 2024 06:44:35 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4555820043;
-	Tue, 29 Oct 2024 06:44:35 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BBCF820040;
-	Tue, 29 Oct 2024 06:44:31 +0000 (GMT)
-Received: from [9.203.115.143] (unknown [9.203.115.143])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 29 Oct 2024 06:44:31 +0000 (GMT)
-Message-ID: <841804f7-d634-4d8c-8585-04a2e4ea40f0@linux.ibm.com>
-Date: Tue, 29 Oct 2024 12:14:30 +0530
+	s=arc-20240116; t=1730213395; c=relaxed/simple;
+	bh=dxu8NGLbbkNXI+3HmhHSQPHx4jpdDIhPx1liJ8XwGUY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HiSdPVl7tv3/3TrsXawKvx74dhH9x/tWSaha1ughQ6WKBHQZZfVpkXTWgz87zi9cQ37J9b44U9JT48jCf5R89DHK5maQ2xFHFFEvxpBiFJOdDejRmbQcK8UBOCSbkxyvxMF4YSDXayJ4btqg1qSqsNu+KRMKK/54jZRrseYocH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f8RUtOX9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 26807C4CEE5;
+	Tue, 29 Oct 2024 14:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730213395;
+	bh=dxu8NGLbbkNXI+3HmhHSQPHx4jpdDIhPx1liJ8XwGUY=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=f8RUtOX9v/yr7teb2eTHS7GMgsyArQl3bsBlQfUT/GLqeOwtYLawn2oqrIQ5YNx/w
+	 WH0xWqPx0aGpisGHk0uFNIuxzS77BGexeZFrNaqf4ZnSMK882MAi0j4vtLPS0/8vQ+
+	 BDEozqc8eZjZxKEtOOeHQhvElKmxjZwzG0aJmmfSx+Lof8BbuNhgPOdB7uYS+BWo0O
+	 ugMvSwpXBPtowayW0eWv0Ci6aNqUV5VD2htifb1EiTNabRS7YOnY75xYZn+R0FFGav
+	 3vQw4Mk4DEkYa3qpphoVhK4T/RqBse54YsTJeEQU5nBIOf/rQmLepYNKXgZeXE7zmP
+	 Z/y17BRY6NS/w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 105C7D3A665;
+	Tue, 29 Oct 2024 14:49:55 +0000 (UTC)
+From: Koakuma via B4 Relay <devnull+koachan.protonmail.com@kernel.org>
+Subject: [PATCH v3 0/2] sparc/build: Rework CFLAGS for clang compatibility
+Date: Tue, 29 Oct 2024 21:49:06 +0700
+Message-Id: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 17/17] powerpc64/bpf: Add support for bpf trampolines
-To: Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, bpf@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: "Naveen N. Rao" <naveen@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Vishal Chourasia <vishalc@linux.ibm.com>,
-        Mahesh J Salgaonkar <mahesh@linux.ibm.com>
-References: <20241018173632.277333-1-hbathini@linux.ibm.com>
- <20241018173632.277333-18-hbathini@linux.ibm.com>
- <87wmhtrmni.fsf@mpe.ellerman.id.au>
-Content-Language: en-US
-From: Hari Bathini <hbathini@linux.ibm.com>
-In-Reply-To: <87wmhtrmni.fsf@mpe.ellerman.id.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -iB9zBHmU6GGaR0CrGda44FqrDjFKDqK
-X-Proofpoint-GUID: 57WHYjnIt4dw8lVBHWWBue558w_N7zEI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
- impostorscore=0 spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410290052
+X-B4-Tracking: v=1; b=H4sIAOL1IGcC/3XMTQqDMBCG4atI1p0Sp2qwq96jdJGfiQbUSCKhR
+ bx7o5tCS5fvDN+zskjBUWTXYmWBkovOTzkup4LpXk4dgTO5GXKseIMc4iyDBm0H2UUgYdEoZSr
+ VGpYncyDrngd3f+TuXVx8eB16KvfrHyiVUIJSUhhurTAV3ubgFz+N0g1n7Ue2awk/gijFl4DAA
+ es2v6ghVdsfYdu2NzvMEAbvAAAA
+X-Change-ID: 20240620-sparc-cflags-e7f2dbbd4b9d
+To: "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>
+Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Koakuma <koachan@protonmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730213393; l=2365;
+ i=koachan@protonmail.com; s=20240620; h=from:subject:message-id;
+ bh=dxu8NGLbbkNXI+3HmhHSQPHx4jpdDIhPx1liJ8XwGUY=;
+ b=Cpa9Kjmy4yNXmh+4u4E9dL73GLbapjGZbMr1QhlAkTR5avAlOpIVo6RdEvVF63/G1AVuMrly0
+ e8KpgKglyqaCUC2fR+c3tAIi+W+ay3g6BJ/7zN7p/pVdNLBcz8GMcJ5
+X-Developer-Key: i=koachan@protonmail.com; a=ed25519;
+ pk=UA59FS3yiAA1cnAAUZ1rehTmr6skh95PgkNRBLcoKCg=
+X-Endpoint-Received: by B4 Relay for koachan@protonmail.com/20240620 with
+ auth_id=174
+X-Original-From: Koakuma <koachan@protonmail.com>
+Reply-To: koachan@protonmail.com
 
+Hello~
 
+This changes the CFLAGS for building the SPARC kernel so that it can be
+built with clang, as a follow up from the discussion in this thread:
 
-On 28/10/24 7:53 am, Michael Ellerman wrote:
-> Hari Bathini <hbathini@linux.ibm.com> writes:
->> From: Naveen N Rao <naveen@kernel.org>
->>
->> Add support for bpf_arch_text_poke() and arch_prepare_bpf_trampoline()
->> for 64-bit powerpc. While the code is generic, BPF trampolines are only
->> enabled on 64-bit powerpc. 32-bit powerpc will need testing and some
->> updates.
-> 
-> Hi Hari,
-> 
-> This is breaking the PCREL build for me:
-> 
->    ERROR: 11:49:18: Failed building ppc64le_defconfig+pcrel@fedora
->    INFO: 11:49:18: (skipped 41 lines) ...
->    INFO: 11:49:18: /linux/arch/powerpc/net/bpf_jit.h:90:9: note: in expansion of macro 'EMIT'
->       90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->          |         ^~~~
->    /linux/arch/powerpc/include/asm/ppc-opcode.h:473:88: note: in expansion of macro 'IMM_DS'
->      473 | #define PPC_RAW_LD(r, base, i)          (0xe8000000 | ___PPC_RT(r) | ___PPC_RA(base) | IMM_DS(i))
->          |                                                                                        ^~~~~~
->    /linux/arch/powerpc/net/bpf_jit.h:90:14: note: in expansion of macro 'PPC_RAW_LD'
->       90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->          |              ^~~~~~~~~~
->    /linux/arch/powerpc/net/bpf_jit.h:90:36: note: in expansion of macro 'offsetof'
->       90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->          |                                    ^~~~~~~~
->    /linux/arch/powerpc/net/bpf_jit_comp.c:791:17: note: in expansion of macro 'PPC64_LOAD_PACA'
->      791 |                 PPC64_LOAD_PACA();
->          |                 ^~~~~~~~~~~~~~~
->    /linux/arch/powerpc/net/bpf_jit.h:90:65: error: 'struct paca_struct' has no member named 'kernel_toc'; did you mean 'kernel_msr'?
->       90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->          |                                                                 ^~~~~~~~~~
->    /linux/arch/powerpc/net/bpf_jit.h:29:34: note: in definition of macro 'PLANT_INSTR'
->       29 |         do { if (d) { (d)[idx] = instr; } idx++; } while (0)
->          |                                  ^~~~~
->    /linux/arch/powerpc/net/bpf_jit.h:90:9: note: in expansion of macro 'EMIT'
->       90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->          |         ^~~~
->    /linux/arch/powerpc/include/asm/ppc-opcode.h:473:88: note: in expansion of macro 'IMM_DS'
->      473 | #define PPC_RAW_LD(r, base, i)          (0xe8000000 | ___PPC_RT(r) | ___PPC_RA(base) | IMM_DS(i))
->          |                                                                                        ^~~~~~
->    /linux/arch/powerpc/net/bpf_jit.h:90:14: note: in expansion of macro 'PPC_RAW_LD'
->       90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->          |              ^~~~~~~~~~
->    /linux/arch/powerpc/net/bpf_jit.h:90:36: note: in expansion of macro 'offsetof'
->       90 |         EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->          |                                    ^~~~~~~~
->    /linux/arch/powerpc/net/bpf_jit_comp.c:882:25: note: in expansion of macro 'PPC64_LOAD_PACA'
->      882 |                         PPC64_LOAD_PACA();
->          |                         ^~~~~~~~~~~~~~~
->    make[5]: *** [/linux/scripts/Makefile.build:229: arch/powerpc/net/bpf_jit_comp.o] Error 1
-> 
-> 
-> To test it you need to enable CONFIG_POWER10_CPU, eg:
-> 
->    CONFIG_POWERPC64_CPU=n
->    CONFIG_POWER10_CPU=y
->    CONFIG_PPC_KERNEL_PCREL=y
-> 
-> This diff gets it building, but I haven't tested it actually works:
+https://lore.kernel.org/lkml/JAYB7uS-EdLABTR4iWZdtFOVa5MvlKosIrD_cKTzgeozCOGRM7lhxeLigFB1g3exX445I_W5VKB-tAzl2_G1zCVJRQjp67ODfsSqiZWOZ9o=@protonmail.com/T/#u
 
-Thanks, Michael. Yeah, the below snippet will be sufficient as
-PPC64_LOAD_PACA() is used with !IS_ENABLED(CONFIG_PPC_KERNEL_PCREL)
+The changes are removal of various `-fcall-used-*` flags, and adding
+clang target flags for SPARC:
 
-- Hari
+- `-fcall-used-*` flags is gated behind cc-option as it is
+  not supported in clang. It should be safe; clang won't use the registers
+  specified as temporaries, but it is a safe change wrt. the ABI.
+  Assembly code can still use those registers as needed.
+  A cursory look at the assembly generated by GCC 13.2 shows that
+  the compiler was able to reallocate uses of those registers into
+  other temporary registers without adding extra spills, so there
+  should be no change in performance.
 
-> diff --git a/arch/powerpc/net/bpf_jit.h b/arch/powerpc/net/bpf_jit.h
-> index 2d04ce5a23da..af6ff3eb621a 100644
-> --- a/arch/powerpc/net/bpf_jit.h
-> +++ b/arch/powerpc/net/bpf_jit.h
-> @@ -86,9 +86,14 @@
->                                                          0xffff));             \
->                  } } while (0)
->   #define PPC_LI_ADDR    PPC_LI64
-> +
-> +#ifndef CONFIG_PPC_KERNEL_PCREL
->   #define PPC64_LOAD_PACA()                                                    \
->          EMIT(PPC_RAW_LD(_R2, _R13, offsetof(struct paca_struct, kernel_toc)))
->   #else
-> +#define PPC64_LOAD_PACA() do {} while (0)
-> +#endif
-> +#else
->   #define PPC_LI64(d, i) BUILD_BUG()
->   #define PPC_LI_ADDR    PPC_LI32
->   #define PPC64_LOAD_PACA() BUILD_BUG()
-> 
-> cheers
-> 
+- More trivial is to add CLANG_TARGET_FLAGS for SPARC target.
+
+Building with these changes still result in a working kernel,
+at least for Sun T5120, Oracle T4-1, and qemu virtual machines.
+
+On the LLVM side, the effort for building Linux/SPARC is tracked here:
+https://github.com/llvm/llvm-project/issues/40792
+
+Signed-off-by: Koakuma <koachan@protonmail.com>
+---
+Changes in v3:
+- Use cc-option to allow GCC to still use -fcall-used-* flags.
+- Add documentation on building on SPARC, along with required LLVM version.
+- Link to v2: https://lore.kernel.org/r/20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com
+
+Changes in v2:
+- Remove the -mv8plus change; it will be handled on clang side:
+  https://github.com/llvm/llvm-project/pull/98713
+- Add CLANG_TARGET_FLAGS as suggested in v1 review.
+- Link to v1: https://lore.kernel.org/r/20240620-sparc-cflags-v1-1-bba7d0ff7d42@protonmail.com
+
+---
+Koakuma (2):
+      sparc/build: Put usage of -fcall-used* flags behind cc-option
+      sparc/build: Add SPARC target flags for compiling with clang
+
+ Documentation/kbuild/llvm.rst | 3 +++
+ arch/sparc/Makefile           | 4 ++--
+ arch/sparc/vdso/Makefile      | 2 +-
+ scripts/Makefile.clang        | 1 +
+ 4 files changed, 7 insertions(+), 3 deletions(-)
+---
+base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
+change-id: 20240620-sparc-cflags-e7f2dbbd4b9d
+
+Best regards,
+-- 
+Koakuma <koachan@protonmail.com>
+
 
 
