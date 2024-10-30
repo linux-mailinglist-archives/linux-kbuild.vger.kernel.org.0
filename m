@@ -1,84 +1,88 @@
-Return-Path: <linux-kbuild+bounces-4407-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4408-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C639B6A45
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Oct 2024 18:08:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5A39B6A47
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Oct 2024 18:08:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6FB21C2188E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Oct 2024 17:08:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48EB3B201EF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Oct 2024 17:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0384821B45E;
-	Wed, 30 Oct 2024 17:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D6321F4AB;
+	Wed, 30 Oct 2024 17:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4V5sPlKo"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m6rgJziA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288A321B447
-	for <linux-kbuild@vger.kernel.org>; Wed, 30 Oct 2024 17:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0ACC21B459
+	for <linux-kbuild@vger.kernel.org>; Wed, 30 Oct 2024 17:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730307685; cv=none; b=Jy7VS/Codm+WWrKyfxG3NTpnOlwKJ7LK1cW3mnr56jhlrl4DdIiqeNHp3fjAqjk2e5/8UCkdbF30sDIh6/4ODo5ztCfw3hi8Kcr1Eork011gXUKKmC7cs/MaPTpOw4z/NkmiLwRPddYBwyIxFlsKYXRK+SZmFK6omCaBuNUtPYI=
+	t=1730307688; cv=none; b=fwNb/DjH6IL5mUmL9ILnRJ/XvOi7Axqd2zgHp0kKaNGGAiQ6xLlt2aA8068rZ39aooqzfKtiaQahdUHZuDj77mvlsf2srgpPmbsLLC3p24JRlCH9pr6S3lvLIq6ipCfNLi7kIxAz3GI56vf3MsNdRi9fgPk2Mqy/9WlWhc1XRqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730307685; c=relaxed/simple;
-	bh=fQR1ipAg12rN5GQOwppGuY5jZB1MJHykOwFYTdB2cBU=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Hzby+kmJplfcSnGF4PqjkJRmiB+AFTcn9I6u3UXpRm5KuZWmCNr6pXFNGSgkDkq8cp6/93ABM5rQrMg1uNupAZ0bjOhDFBb4i0QQVdwuV4765bZiqlVnVIAS3wVmSxIrIpvtdq0aTPBtjFRrkBryrjkur8Orc1fPqEBmNEE3JDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4V5sPlKo; arc=none smtp.client-ip=209.85.216.73
+	s=arc-20240116; t=1730307688; c=relaxed/simple;
+	bh=JFqhKNnLGh9w7aa5bC1kQAx6mphavhSjPHqtEw0jlh8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=fSD8MmbEZrgALeZrQfBQi4kgyEJNYtGxKErc57rJU4YvS6MrhCluNkw3GzW/Q2jlNI4XkLlPJhvVSsu7cqvVh9ZEPcwQZM4d5KEZMDauJqpH3N1FGGPrrWsGoXwLZG35hX1Ymb2nboeHC78kJ/ayOWJ+hqiMIt7ifao6zFpg1QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m6rgJziA; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2e2cc47ce63so67a91.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Oct 2024 10:01:23 -0700 (PDT)
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-207510f3242so506065ad.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Oct 2024 10:01:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730307682; x=1730912482; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=om9+T+BzGiFlRsW2pBH91Ute5YSKt+l3yNwMimZjYxE=;
-        b=4V5sPlKoCm9L+vVhHvsMTGG4mwPGkuWZ8QGxY81cAa5f3Ma5t8Tb8zHpov/iIQCnmH
-         Zjm937Wfs3NRZGaBhCn4Pt4h78foTjIzEaOZ6IDo9ZAtC0uoEU0EhxvAaMjpHpB+ellk
-         5w7KlDXhY1uZCew/nSFiPkZLY0/FABJjK1ad00ZsOiNBvYp0EkWi56w54wnV9uoe5kwq
-         P4ZLZFMf8ms3avLk1SNX+EkS1nOsUGZmoCTdxfsrPQFZu5zjyum0D+fvlMFA3RLvF1uw
-         U+3KxXEt30yOpqX6FbRY25g6seLdQ6dodRThAYLHjntyJ2tcoG4Ztu9fp7z+YMt66RHZ
-         9dWw==
+        d=google.com; s=20230601; t=1730307684; x=1730912484; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rzv0vlmPqrkQn2efcj0z8bE5vNBtHR+T7c+1dkOz4ic=;
+        b=m6rgJziAhqSPbdUeJIauks7CTMSBBbYK7jsJjjpNrWkSoe9WAR3p8+ye5HCYYo35dH
+         f7nx95mUzQw03jCwBqIapGCzwNS2s5pJckXq33nHOIyeZFXS6by5TPf9PBX8IjRhxbAb
+         KI/VLJItThuHyJxx9sfq0MPeTMRG6F7o9jjH2L2vqiN8kfuYjnDbZGnoO21LJnrWNTfa
+         j4/R1aiHeDfjFJRdBsxxsfaiQ4qsrdL8Iz55HDylSaMTuWeBPO0N8ptepXaPz9i6+RPe
+         102UGFow3gAavYAc/hNZsQqoIvRxCG+aMjzkdv6y8GyOw5+0kP8EN4e09a2RLma4QM5P
+         V9zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730307682; x=1730912482;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=om9+T+BzGiFlRsW2pBH91Ute5YSKt+l3yNwMimZjYxE=;
-        b=Mg1GB9lwEvMZY8n167E7OMIoQ9Lc6e+Uki8o4EIIQPn8k0kQQpvD20r5niNR7EMVWy
-         p2KsjPItd4V2zTmwPH38OFfokdSh6ccr8GhG44K/04pD7xdl3EZh4SCSbDfVoQOHMLyZ
-         3HuIZpe6uOkcm1/69IHFzQEklcwV7A58EhZMpl1Q6SscU0s4gYm61QahTD2MuQ6mM4zx
-         wDL4Br5k/r+t93yGjAVIzoRHI9WTIuiv1i9nAJIyDd6FU34Vbn1eABE4tiXzlgiTx9Ff
-         enH55E/Pj9rHzKwkYsyM8W1TGTTw/i6AzmCxojXIjON1Ezi1T+Md1/v8DHLevGnF8CyM
-         rx1g==
-X-Forwarded-Encrypted: i=1; AJvYcCWDMFQk3gPRXx6WYLjihgUv268SAgIY2ZTGiZwWm3YzItEenwT+Kg3gDaiMNy3yu3tyjQKPk0z86RhDdDA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydqjOe1QUg8P3+ZKFARn92YZNlgTGgOdf3VjF3Bf51WirVhbBk
-	mJaBnzTfpWYor6Jy6bGe2C1Appj3MPO16wn6GjD9f4XBRy3VA3/Y11hRLGWhgibfvO11p+BHgAE
-	DjPlqNamnxnquFqS/FZsJ71kWSw==
-X-Google-Smtp-Source: AGHT+IE7JUiy1OA0lARRilo5KjNtcOiy48QgqtB55vOxlLLSgVgbh4T6s2qrhweBdzwLjj5G6iB7dCy5/BdtSL8N0ns=
+        d=1e100.net; s=20230601; t=1730307684; x=1730912484;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rzv0vlmPqrkQn2efcj0z8bE5vNBtHR+T7c+1dkOz4ic=;
+        b=F7tSgtY4OIT+/Wws+l+W9aTJl95VzhX0JARL8VBNYj6g1cv5WblIwzV1ezrcQNaFjz
+         f4l6neMJ+KsfzSo6X+o7sckNuAtoPSw9CTEv8B/U9qjMKDN5+PRm85LolKm6/hZwyZNV
+         EYhXvMaesVPADoji4CXdTxtbM+O6ckazslB6ETbbbw9eUWS89vrjE4ADJsTYqsntXNSh
+         u44X0WGqKTotBsgJRyqRleEGHvCRtNVCfxVKENcKGjyZsgc4xD198VGf6q1Ni/KlcfyT
+         rygMYCRhJTiiDctIKaCGcLJ2mje0qJbwMwtHhJwuEZD2A0BmZ/SyLTeKzIymJQDLNQJu
+         1nAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUplBStGgPR62MJ7rDNUz9qdj4LmYO2pkfBtYZMjPYHxW/cH4YN1W+zxPaxQmRO/7GPq7TFjDZnOPwFM4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRqe5z2+S39SPZc1Gu7/VAaMJTNTKnuapVxYXgfSKKprWaw3x6
+	LBW4dCFh10UD56wWvIRcThsXxLAfip3FFgx+u0yO4atF3XGTO5z+Ox96dbfnfy2ZofN7V5Nkx0/
+	YfqNsKLGIk/2c3N2sSpQXziZZ1Q==
+X-Google-Smtp-Source: AGHT+IF3lcEK1vTVZovsXf90AQaEC80VtkUCJFdDsXxm855oo/+SOTxTd7VGHJ77aM4hJb7uhTDlPmcjwe3Xfaq1/h4=
 X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a17:90b:23d1:b0:2e2:af0f:9875 with
- SMTP id 98e67ed59e1d1-2e8f11ccdfdmr29458a91.7.1730307682329; Wed, 30 Oct 2024
- 10:01:22 -0700 (PDT)
-Date: Wed, 30 Oct 2024 17:01:07 +0000
+ (user=samitolvanen job=sendgmr) by 2002:a17:902:d505:b0:20b:7ece:3225 with
+ SMTP id d9443c01a7336-210c6711ed3mr1038715ad.0.1730307683970; Wed, 30 Oct
+ 2024 10:01:23 -0700 (PDT)
+Date: Wed, 30 Oct 2024 17:01:08 +0000
+In-Reply-To: <20241030170106.1501763-21-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20241030170106.1501763-21-samitolvanen@google.com>
 X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10158; i=samitolvanen@google.com;
- h=from:subject; bh=fQR1ipAg12rN5GQOwppGuY5jZB1MJHykOwFYTdB2cBU=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDOlKaUHNn8KrtUQ5P6ZrZpz9n/RgkfQn7T3fZ0rkzFPmV
- uyc9/VwRykLgxgHg6yYIkvL19Vbd393Sn31uUgCZg4rE8gQBi5OAZiI7C+G/4EXeuoNcm7MXc8Y
- dj9359GWpPlbZyivk7uu475Ac9m9UDVGhoneiktuc8aJsG5Scbqjqli+7NnpvefLC3eoqTV9CD6 byQgA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9994; i=samitolvanen@google.com;
+ h=from:subject; bh=JFqhKNnLGh9w7aa5bC1kQAx6mphavhSjPHqtEw0jlh8=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDOlKaUETDblfSmlkTJ2cH12qarjrSHJB1KfJr2tsDtwWi
+ LryLNa1o5SFQYyDQVZMkaXl6+qtu787pb76XCQBM4eVCWQIAxenAEyEK4HhD+8pPsaTZrYP8h84
+ u0sluZiKLLD0Ovxh3ocTKdennp7/pp2RYTW7QuLb91mPzlz/GrV9csHZb27zFWbc7XdkVWfZ/iX pJDMA
 X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
-Message-ID: <20241030170106.1501763-21-samitolvanen@google.com>
-Subject: [PATCH v5 00/19] Implement DWARF modversions
+Message-ID: <20241030170106.1501763-22-samitolvanen@google.com>
+Subject: [PATCH v5 01/19] scripts: move genksyms crc32 implementation to a
+ common include
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -91,242 +95,212 @@ Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
 	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+To avoid duplication between host programs, move the crc32 code to a
+shared header file.
 
-Here's v5 of the DWARF modversions series. The main motivation is
-modversions support for Rust, which is important for distributions
-like Android that are about to ship Rust kernel modules. Per Luis'
-request [1], v2 dropped the Rust specific bits from the series and
-instead added the feature as an option for the entire kernel to
-make it easier to evaluate the benefits of this approach, and to
-get better test coverage. Matt is addressing Rust modversion_info
-compatibility issues in a separate patch set [2] that depends on this
-series, and actually allows modversions to be enabled with Rust.
-
-Short background: Unlike C, Rust source code doesn't have sufficient
-information about the final ABI, as the compiler has considerable
-freedom in adjusting structure layout, for example, which makes
-using a source code parser like genksyms a non-starter. Based on
-earlier feedback, this series uses DWARF debugging information for
-computing versions. DWARF is an established and a relatively stable
-format, which includes all the necessary ABI details, and adding a
-CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-reasonable trade-off as most distributions already enable it.
-
-The first patch moves the genksyms CRC32 implementation to a shared
-header file to avoid code duplication and the next 15 patches add
-gendwarfksyms, a tool for computing symbol versions from DWARF. When
-passed a list of exported symbols and object files, the tool
-generates an expanded type string for each symbol and computes symbol
-CRCs similarly to genksyms. gendwarfksyms is written in C and uses
-libdw to process DWARF. Patch 17 ensures that debugging information
-is present where we need it, patch 18 adds gendwarfksyms as an
-alternative to genksyms, and the last patch adds documentation.
-
-v5 is based on v6.12-rc5 and for your convenience the series is also
-available here:
-
-https://github.com/samitolvanen/linux/commits/gendwarfksyms-v5
-
-If you also want to test the series with Rust modules, this branch
-adds Matt's latest modversion_info series:
-
-https://github.com/samitolvanen/linux/commits/rustmodversions-v5
-
-Sami
-
-
-[1] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
-[2] https://lore.kernel.org/lkml/20240925233854.90072-1-mmaurer@google.com/
-
+Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+Acked-by: Neal Gompa <neal@gompa.dev>
 ---
-
-v5:
-- Rebased on v6.12-rc5.
-
-- Fixed an issue with limiting structure expansion, and applied
-  Petr's clean-up. (Patch 10)
-
-- Dropped an unnecessary return statement in error path. (Patch
-  12)
-
-- Addressed several other smaller issues Petr brought up. (Patches
-  13, 14, and 15)
-
-- Added a KBUILD_GENDWARFKSYMS_STABLE flag to enable --stable for
-  the entire kernel build. (Patch 18)
-
-- Updated documentation to include KBUILD flags. (Patch 19)
-
-- Picked up Reviewed-by tags from v4.
-
-v4: https://lore.kernel.org/lkml/20241008183823.36676-21-samitolvanen@google.com/
-- Rebased on v6.12-rc2, which now includes all the prerequisites.
-
-- Dropped unnecessary name_only parameter for symbols.c::for_each
-  and cleaned up error handling. (Patch 3)
-
-- Fixed anonymous scope handling to ensure unnamed DIEs don't get
-  names. (Patch 4)
-
-- Added non-variant children to variant_type output, and included
-  DW_AT_discr_value attributes for variants. (Patch 9)
-
-- Added another symbol pointer test case. (Patch 16)
-
-- Picked up (Acked|Reviewed)-by tags from v3.
-
-
-v3: https://lore.kernel.org/lkml/20240923181846.549877-22-samitolvanen@google.com/
-- Updated SPX license headers.
-
-- Squashed the first two patches in v2 and tried to reduce churn as
-  much as reasonable.
-
-- Dropped patch 18 from v2 ("x86/asm-prototypes: Include
-  <asm/ptrace.h>") as it's addressed by a separate patch.
-
-- Changed the error handling code to immediately terminate instead
-  of propagating the errors back to main, which cleaned up the code
-  quite a bit.
-
-- Switched to the list and hashtable implementations in scripts and
-  dropped the remaining tools/include dependencies. Added a couple
-  missing list macros. (patch 1)
-
-- Moved the genksyms CRC32 implementation to scripts/include and
-  dropped the duplicate code. (patches 2 and 14)
-
-- Switched from ad-hoc command line parsing to getopt_long (patch 3).
-
-- Added structure member and function parameter names to the DIE
-  output to match genksyms behavior, and tweaked the symtypes format
-  to be more parser-friendly in general based on Petr's suggestions.
-
-- Replaced the declaration-only struct annotations with more generic
-  kABI stability rules that allow source code annotations to be used
-  where #ifndef __GENKSYMS__ was previously used.  Added support for
-  rules that can be used to exclude enumerators from versioning.
-  (patch 16)
-
-- Per Miroslav's suggestion, added an option to hide structure
-  members from versioning when they're added to existing alignment
-  holes, for example. (patch 16)
-
-- Per Greg's request, added documentation and example macros for the
-  --stable features, and a couple of test cases. (patches 15, 16, and
-  20)
-
-- Fixed making symtypes files, which need to depend on .o files with
-  gendwarfksyms. (patch 19)
-
-- Addressed several other smaller issues that Petr and Masahiro
-  kindly pointed out during the v2 review.
-
-
-v2: https://lore.kernel.org/lkml/20240815173903.4172139-21-samitolvanen@google.com/
-- Per Luis' request, dropped Rust-specific patches and added
-  gendwarfksyms as an alternative to genksyms for the entire
-  kernel.
-
-- Added support for missing DWARF features needed to handle
-  also non-Rust code.
-
-- Changed symbol address matching to use the symbol table
-  information instead of relying on addresses in DWARF.
-
-- Added __gendwarfksyms_ptr patches to ensure the compiler emits
-  the necessary type information in DWARF even for symbols that
-  are defined in other TUs.
-
-- Refactored debugging output and moved the more verbose output
-  behind --dump* flags.
-
-- Added a --symtypes flag for generating a genksyms-style
-  symtypes output based on Petr's feedback, and refactored
-  symbol version calculations to be based on symtypes instead
-  of raw --dump-dies output.
-
-- Based on feedback from Greg and Petr, added --stable flag and
-  support for reserved data structure fields and declaration-onl
-  structures. Also added examples for using these features.
-
-- Added a GENDWARFKSYMS option and hooked up kbuild support
-  for both C and assembly code. Note that with gendwarfksyms,
-  we have to actually build a temporary .o file for calculating
-  assembly modversions.
-
-v1: https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen@google.com/
-
----
-
-Sami Tolvanen (19):
-  scripts: move genksyms crc32 implementation to a common include
-  tools: Add gendwarfksyms
-  gendwarfksyms: Add address matching
-  gendwarfksyms: Expand base_type
-  gendwarfksyms: Add a cache for processed DIEs
-  gendwarfksyms: Expand type modifiers and typedefs
-  gendwarfksyms: Expand subroutine_type
-  gendwarfksyms: Expand array_type
-  gendwarfksyms: Expand structure types
-  gendwarfksyms: Limit structure expansion
-  gendwarfksyms: Add die_map debugging
-  gendwarfksyms: Add symtypes output
-  gendwarfksyms: Add symbol versioning
-  gendwarfksyms: Add support for kABI rules
-  gendwarfksyms: Add support for reserved and ignored fields
-  gendwarfksyms: Add support for symbol type pointers
-  export: Add __gendwarfksyms_ptr_ references to exported symbols
-  kbuild: Add gendwarfksyms as an alternative to genksyms
-  Documentation/kbuild: Add DWARF module versioning
-
- Documentation/kbuild/gendwarfksyms.rst      |  276 +++++
- Documentation/kbuild/index.rst              |    1 +
- include/linux/export.h                      |   15 +
- kernel/module/Kconfig                       |   31 +
- scripts/Makefile                            |    3 +-
- scripts/Makefile.build                      |   41 +-
- scripts/gendwarfksyms/.gitignore            |    2 +
- scripts/gendwarfksyms/Makefile              |   12 +
- scripts/gendwarfksyms/cache.c               |   44 +
- scripts/gendwarfksyms/die.c                 |  166 +++
- scripts/gendwarfksyms/dwarf.c               | 1109 +++++++++++++++++++
- scripts/gendwarfksyms/examples/kabi.h       |  141 +++
- scripts/gendwarfksyms/examples/kabi_ex0.c   |   86 ++
- scripts/gendwarfksyms/examples/kabi_ex1.c   |   89 ++
- scripts/gendwarfksyms/examples/kabi_ex2.c   |   98 ++
- scripts/gendwarfksyms/examples/kabi_rules.c |   56 +
- scripts/gendwarfksyms/examples/symbolptr.c  |   33 +
- scripts/gendwarfksyms/gendwarfksyms.c       |  185 ++++
- scripts/gendwarfksyms/gendwarfksyms.h       |  288 +++++
- scripts/gendwarfksyms/kabi.c                |  263 +++++
- scripts/gendwarfksyms/symbols.c             |  339 ++++++
- scripts/gendwarfksyms/types.c               |  477 ++++++++
- scripts/genksyms/genksyms.c                 |   77 +-
- scripts/include/crc32.h                     |   93 ++
- 24 files changed, 3840 insertions(+), 85 deletions(-)
- create mode 100644 Documentation/kbuild/gendwarfksyms.rst
- create mode 100644 scripts/gendwarfksyms/.gitignore
- create mode 100644 scripts/gendwarfksyms/Makefile
- create mode 100644 scripts/gendwarfksyms/cache.c
- create mode 100644 scripts/gendwarfksyms/die.c
- create mode 100644 scripts/gendwarfksyms/dwarf.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi.h
- create mode 100644 scripts/gendwarfksyms/examples/kabi_ex0.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi_ex1.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi_ex2.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi_rules.c
- create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
- create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
- create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
- create mode 100644 scripts/gendwarfksyms/kabi.c
- create mode 100644 scripts/gendwarfksyms/symbols.c
- create mode 100644 scripts/gendwarfksyms/types.c
+ scripts/genksyms/genksyms.c | 77 +-----------------------------
+ scripts/include/crc32.h     | 93 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 94 insertions(+), 76 deletions(-)
  create mode 100644 scripts/include/crc32.h
 
-
-base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
+diff --git a/scripts/genksyms/genksyms.c b/scripts/genksyms/genksyms.c
+index f3901c55df23..2885bbcb9eec 100644
+--- a/scripts/genksyms/genksyms.c
++++ b/scripts/genksyms/genksyms.c
+@@ -18,6 +18,7 @@
+ #include <stdarg.h>
+ #include <getopt.h>
+ 
++#include <crc32.h>
+ #include "genksyms.h"
+ /*----------------------------------------------------------------------*/
+ 
+@@ -58,82 +59,6 @@ static struct string_list *mk_node(const char *string);
+ static void print_location(void);
+ static void print_type_name(enum symbol_type type, const char *name);
+ 
+-/*----------------------------------------------------------------------*/
+-
+-static const unsigned int crctab32[] = {
+-	0x00000000U, 0x77073096U, 0xee0e612cU, 0x990951baU, 0x076dc419U,
+-	0x706af48fU, 0xe963a535U, 0x9e6495a3U, 0x0edb8832U, 0x79dcb8a4U,
+-	0xe0d5e91eU, 0x97d2d988U, 0x09b64c2bU, 0x7eb17cbdU, 0xe7b82d07U,
+-	0x90bf1d91U, 0x1db71064U, 0x6ab020f2U, 0xf3b97148U, 0x84be41deU,
+-	0x1adad47dU, 0x6ddde4ebU, 0xf4d4b551U, 0x83d385c7U, 0x136c9856U,
+-	0x646ba8c0U, 0xfd62f97aU, 0x8a65c9ecU, 0x14015c4fU, 0x63066cd9U,
+-	0xfa0f3d63U, 0x8d080df5U, 0x3b6e20c8U, 0x4c69105eU, 0xd56041e4U,
+-	0xa2677172U, 0x3c03e4d1U, 0x4b04d447U, 0xd20d85fdU, 0xa50ab56bU,
+-	0x35b5a8faU, 0x42b2986cU, 0xdbbbc9d6U, 0xacbcf940U, 0x32d86ce3U,
+-	0x45df5c75U, 0xdcd60dcfU, 0xabd13d59U, 0x26d930acU, 0x51de003aU,
+-	0xc8d75180U, 0xbfd06116U, 0x21b4f4b5U, 0x56b3c423U, 0xcfba9599U,
+-	0xb8bda50fU, 0x2802b89eU, 0x5f058808U, 0xc60cd9b2U, 0xb10be924U,
+-	0x2f6f7c87U, 0x58684c11U, 0xc1611dabU, 0xb6662d3dU, 0x76dc4190U,
+-	0x01db7106U, 0x98d220bcU, 0xefd5102aU, 0x71b18589U, 0x06b6b51fU,
+-	0x9fbfe4a5U, 0xe8b8d433U, 0x7807c9a2U, 0x0f00f934U, 0x9609a88eU,
+-	0xe10e9818U, 0x7f6a0dbbU, 0x086d3d2dU, 0x91646c97U, 0xe6635c01U,
+-	0x6b6b51f4U, 0x1c6c6162U, 0x856530d8U, 0xf262004eU, 0x6c0695edU,
+-	0x1b01a57bU, 0x8208f4c1U, 0xf50fc457U, 0x65b0d9c6U, 0x12b7e950U,
+-	0x8bbeb8eaU, 0xfcb9887cU, 0x62dd1ddfU, 0x15da2d49U, 0x8cd37cf3U,
+-	0xfbd44c65U, 0x4db26158U, 0x3ab551ceU, 0xa3bc0074U, 0xd4bb30e2U,
+-	0x4adfa541U, 0x3dd895d7U, 0xa4d1c46dU, 0xd3d6f4fbU, 0x4369e96aU,
+-	0x346ed9fcU, 0xad678846U, 0xda60b8d0U, 0x44042d73U, 0x33031de5U,
+-	0xaa0a4c5fU, 0xdd0d7cc9U, 0x5005713cU, 0x270241aaU, 0xbe0b1010U,
+-	0xc90c2086U, 0x5768b525U, 0x206f85b3U, 0xb966d409U, 0xce61e49fU,
+-	0x5edef90eU, 0x29d9c998U, 0xb0d09822U, 0xc7d7a8b4U, 0x59b33d17U,
+-	0x2eb40d81U, 0xb7bd5c3bU, 0xc0ba6cadU, 0xedb88320U, 0x9abfb3b6U,
+-	0x03b6e20cU, 0x74b1d29aU, 0xead54739U, 0x9dd277afU, 0x04db2615U,
+-	0x73dc1683U, 0xe3630b12U, 0x94643b84U, 0x0d6d6a3eU, 0x7a6a5aa8U,
+-	0xe40ecf0bU, 0x9309ff9dU, 0x0a00ae27U, 0x7d079eb1U, 0xf00f9344U,
+-	0x8708a3d2U, 0x1e01f268U, 0x6906c2feU, 0xf762575dU, 0x806567cbU,
+-	0x196c3671U, 0x6e6b06e7U, 0xfed41b76U, 0x89d32be0U, 0x10da7a5aU,
+-	0x67dd4accU, 0xf9b9df6fU, 0x8ebeeff9U, 0x17b7be43U, 0x60b08ed5U,
+-	0xd6d6a3e8U, 0xa1d1937eU, 0x38d8c2c4U, 0x4fdff252U, 0xd1bb67f1U,
+-	0xa6bc5767U, 0x3fb506ddU, 0x48b2364bU, 0xd80d2bdaU, 0xaf0a1b4cU,
+-	0x36034af6U, 0x41047a60U, 0xdf60efc3U, 0xa867df55U, 0x316e8eefU,
+-	0x4669be79U, 0xcb61b38cU, 0xbc66831aU, 0x256fd2a0U, 0x5268e236U,
+-	0xcc0c7795U, 0xbb0b4703U, 0x220216b9U, 0x5505262fU, 0xc5ba3bbeU,
+-	0xb2bd0b28U, 0x2bb45a92U, 0x5cb36a04U, 0xc2d7ffa7U, 0xb5d0cf31U,
+-	0x2cd99e8bU, 0x5bdeae1dU, 0x9b64c2b0U, 0xec63f226U, 0x756aa39cU,
+-	0x026d930aU, 0x9c0906a9U, 0xeb0e363fU, 0x72076785U, 0x05005713U,
+-	0x95bf4a82U, 0xe2b87a14U, 0x7bb12baeU, 0x0cb61b38U, 0x92d28e9bU,
+-	0xe5d5be0dU, 0x7cdcefb7U, 0x0bdbdf21U, 0x86d3d2d4U, 0xf1d4e242U,
+-	0x68ddb3f8U, 0x1fda836eU, 0x81be16cdU, 0xf6b9265bU, 0x6fb077e1U,
+-	0x18b74777U, 0x88085ae6U, 0xff0f6a70U, 0x66063bcaU, 0x11010b5cU,
+-	0x8f659effU, 0xf862ae69U, 0x616bffd3U, 0x166ccf45U, 0xa00ae278U,
+-	0xd70dd2eeU, 0x4e048354U, 0x3903b3c2U, 0xa7672661U, 0xd06016f7U,
+-	0x4969474dU, 0x3e6e77dbU, 0xaed16a4aU, 0xd9d65adcU, 0x40df0b66U,
+-	0x37d83bf0U, 0xa9bcae53U, 0xdebb9ec5U, 0x47b2cf7fU, 0x30b5ffe9U,
+-	0xbdbdf21cU, 0xcabac28aU, 0x53b39330U, 0x24b4a3a6U, 0xbad03605U,
+-	0xcdd70693U, 0x54de5729U, 0x23d967bfU, 0xb3667a2eU, 0xc4614ab8U,
+-	0x5d681b02U, 0x2a6f2b94U, 0xb40bbe37U, 0xc30c8ea1U, 0x5a05df1bU,
+-	0x2d02ef8dU
+-};
+-
+-static unsigned long partial_crc32_one(unsigned char c, unsigned long crc)
+-{
+-	return crctab32[(crc ^ c) & 0xff] ^ (crc >> 8);
+-}
+-
+-static unsigned long partial_crc32(const char *s, unsigned long crc)
+-{
+-	while (*s)
+-		crc = partial_crc32_one(*s++, crc);
+-	return crc;
+-}
+-
+-static unsigned long crc32(const char *s)
+-{
+-	return partial_crc32(s, 0xffffffff) ^ 0xffffffff;
+-}
+-
+-/*----------------------------------------------------------------------*/
+-
+ static enum symbol_type map_to_ns(enum symbol_type t)
+ {
+ 	switch (t) {
+diff --git a/scripts/include/crc32.h b/scripts/include/crc32.h
+new file mode 100644
+index 000000000000..06eedd273717
+--- /dev/null
++++ b/scripts/include/crc32.h
+@@ -0,0 +1,93 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * CRC32 implementation.
++ *
++ * Moved from scripts/genksyms/genksyms.c, which has the following
++ * notice:
++ *
++ * Generate kernel symbol version hashes.
++ * Copyright 1996, 1997 Linux International.
++ *
++ * New implementation contributed by Richard Henderson <rth@tamu.edu>
++ * Based on original work by Bjorn Ekwall <bj0rn@blox.se>
++ *
++ * This file was part of the Linux modutils 2.4.22: moved back into the
++ * kernel sources by Rusty Russell/Kai Germaschewski.
++ */
++
++#ifndef __CRC32_H
++#define __CRC32_H
++
++static const unsigned int crctab32[] = {
++	0x00000000U, 0x77073096U, 0xee0e612cU, 0x990951baU, 0x076dc419U,
++	0x706af48fU, 0xe963a535U, 0x9e6495a3U, 0x0edb8832U, 0x79dcb8a4U,
++	0xe0d5e91eU, 0x97d2d988U, 0x09b64c2bU, 0x7eb17cbdU, 0xe7b82d07U,
++	0x90bf1d91U, 0x1db71064U, 0x6ab020f2U, 0xf3b97148U, 0x84be41deU,
++	0x1adad47dU, 0x6ddde4ebU, 0xf4d4b551U, 0x83d385c7U, 0x136c9856U,
++	0x646ba8c0U, 0xfd62f97aU, 0x8a65c9ecU, 0x14015c4fU, 0x63066cd9U,
++	0xfa0f3d63U, 0x8d080df5U, 0x3b6e20c8U, 0x4c69105eU, 0xd56041e4U,
++	0xa2677172U, 0x3c03e4d1U, 0x4b04d447U, 0xd20d85fdU, 0xa50ab56bU,
++	0x35b5a8faU, 0x42b2986cU, 0xdbbbc9d6U, 0xacbcf940U, 0x32d86ce3U,
++	0x45df5c75U, 0xdcd60dcfU, 0xabd13d59U, 0x26d930acU, 0x51de003aU,
++	0xc8d75180U, 0xbfd06116U, 0x21b4f4b5U, 0x56b3c423U, 0xcfba9599U,
++	0xb8bda50fU, 0x2802b89eU, 0x5f058808U, 0xc60cd9b2U, 0xb10be924U,
++	0x2f6f7c87U, 0x58684c11U, 0xc1611dabU, 0xb6662d3dU, 0x76dc4190U,
++	0x01db7106U, 0x98d220bcU, 0xefd5102aU, 0x71b18589U, 0x06b6b51fU,
++	0x9fbfe4a5U, 0xe8b8d433U, 0x7807c9a2U, 0x0f00f934U, 0x9609a88eU,
++	0xe10e9818U, 0x7f6a0dbbU, 0x086d3d2dU, 0x91646c97U, 0xe6635c01U,
++	0x6b6b51f4U, 0x1c6c6162U, 0x856530d8U, 0xf262004eU, 0x6c0695edU,
++	0x1b01a57bU, 0x8208f4c1U, 0xf50fc457U, 0x65b0d9c6U, 0x12b7e950U,
++	0x8bbeb8eaU, 0xfcb9887cU, 0x62dd1ddfU, 0x15da2d49U, 0x8cd37cf3U,
++	0xfbd44c65U, 0x4db26158U, 0x3ab551ceU, 0xa3bc0074U, 0xd4bb30e2U,
++	0x4adfa541U, 0x3dd895d7U, 0xa4d1c46dU, 0xd3d6f4fbU, 0x4369e96aU,
++	0x346ed9fcU, 0xad678846U, 0xda60b8d0U, 0x44042d73U, 0x33031de5U,
++	0xaa0a4c5fU, 0xdd0d7cc9U, 0x5005713cU, 0x270241aaU, 0xbe0b1010U,
++	0xc90c2086U, 0x5768b525U, 0x206f85b3U, 0xb966d409U, 0xce61e49fU,
++	0x5edef90eU, 0x29d9c998U, 0xb0d09822U, 0xc7d7a8b4U, 0x59b33d17U,
++	0x2eb40d81U, 0xb7bd5c3bU, 0xc0ba6cadU, 0xedb88320U, 0x9abfb3b6U,
++	0x03b6e20cU, 0x74b1d29aU, 0xead54739U, 0x9dd277afU, 0x04db2615U,
++	0x73dc1683U, 0xe3630b12U, 0x94643b84U, 0x0d6d6a3eU, 0x7a6a5aa8U,
++	0xe40ecf0bU, 0x9309ff9dU, 0x0a00ae27U, 0x7d079eb1U, 0xf00f9344U,
++	0x8708a3d2U, 0x1e01f268U, 0x6906c2feU, 0xf762575dU, 0x806567cbU,
++	0x196c3671U, 0x6e6b06e7U, 0xfed41b76U, 0x89d32be0U, 0x10da7a5aU,
++	0x67dd4accU, 0xf9b9df6fU, 0x8ebeeff9U, 0x17b7be43U, 0x60b08ed5U,
++	0xd6d6a3e8U, 0xa1d1937eU, 0x38d8c2c4U, 0x4fdff252U, 0xd1bb67f1U,
++	0xa6bc5767U, 0x3fb506ddU, 0x48b2364bU, 0xd80d2bdaU, 0xaf0a1b4cU,
++	0x36034af6U, 0x41047a60U, 0xdf60efc3U, 0xa867df55U, 0x316e8eefU,
++	0x4669be79U, 0xcb61b38cU, 0xbc66831aU, 0x256fd2a0U, 0x5268e236U,
++	0xcc0c7795U, 0xbb0b4703U, 0x220216b9U, 0x5505262fU, 0xc5ba3bbeU,
++	0xb2bd0b28U, 0x2bb45a92U, 0x5cb36a04U, 0xc2d7ffa7U, 0xb5d0cf31U,
++	0x2cd99e8bU, 0x5bdeae1dU, 0x9b64c2b0U, 0xec63f226U, 0x756aa39cU,
++	0x026d930aU, 0x9c0906a9U, 0xeb0e363fU, 0x72076785U, 0x05005713U,
++	0x95bf4a82U, 0xe2b87a14U, 0x7bb12baeU, 0x0cb61b38U, 0x92d28e9bU,
++	0xe5d5be0dU, 0x7cdcefb7U, 0x0bdbdf21U, 0x86d3d2d4U, 0xf1d4e242U,
++	0x68ddb3f8U, 0x1fda836eU, 0x81be16cdU, 0xf6b9265bU, 0x6fb077e1U,
++	0x18b74777U, 0x88085ae6U, 0xff0f6a70U, 0x66063bcaU, 0x11010b5cU,
++	0x8f659effU, 0xf862ae69U, 0x616bffd3U, 0x166ccf45U, 0xa00ae278U,
++	0xd70dd2eeU, 0x4e048354U, 0x3903b3c2U, 0xa7672661U, 0xd06016f7U,
++	0x4969474dU, 0x3e6e77dbU, 0xaed16a4aU, 0xd9d65adcU, 0x40df0b66U,
++	0x37d83bf0U, 0xa9bcae53U, 0xdebb9ec5U, 0x47b2cf7fU, 0x30b5ffe9U,
++	0xbdbdf21cU, 0xcabac28aU, 0x53b39330U, 0x24b4a3a6U, 0xbad03605U,
++	0xcdd70693U, 0x54de5729U, 0x23d967bfU, 0xb3667a2eU, 0xc4614ab8U,
++	0x5d681b02U, 0x2a6f2b94U, 0xb40bbe37U, 0xc30c8ea1U, 0x5a05df1bU,
++	0x2d02ef8dU
++};
++
++static inline unsigned long partial_crc32_one(unsigned char c, unsigned long crc)
++{
++	return crctab32[(crc ^ c) & 0xff] ^ (crc >> 8);
++}
++
++static inline unsigned long partial_crc32(const char *s, unsigned long crc)
++{
++	while (*s)
++		crc = partial_crc32_one(*s++, crc);
++	return crc;
++}
++
++static inline unsigned long crc32(const char *s)
++{
++	return partial_crc32(s, 0xffffffff) ^ 0xffffffff;
++}
++
++#endif /* __CRC32_H */
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
