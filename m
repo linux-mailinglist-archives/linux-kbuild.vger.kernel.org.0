@@ -1,133 +1,102 @@
-Return-Path: <linux-kbuild+bounces-4434-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4435-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C906C9B71CC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 02:23:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FA39B71CF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 02:23:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74EE91F23D25
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 01:23:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11D3F1F22F07
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 01:23:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B7845A4C1;
-	Thu, 31 Oct 2024 01:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 984B34D8CF;
+	Thu, 31 Oct 2024 01:22:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZC9vdMG3"
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="C0Y7jtBx"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EAF4D8CF;
-	Thu, 31 Oct 2024 01:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50AB2F855;
+	Thu, 31 Oct 2024 01:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730337675; cv=none; b=FRgfSfNETrZwjaiC7DYC1V7hnwTfOgPOWSG5oHei1zgB0Lr+PDBLARLnfxqalGE3DjvI+a6aC4PjpqP23y/gItP494yG19TBzFU7pG7tKDjc40qyPX+LVbWbD1B9gqgLMvXXVU4TBfyYKGjTHoALmUrmK/B1lCSEW3NsQYEzcnU=
+	t=1730337768; cv=none; b=FrKaD3X++CK3/6sEXP+yuFeHP+mZbb+6W9rxnr04Utu1VMH5gWCc3BvtcfApaCDS8rGNCjI0S1FeUeffja1k1uIeEVYcw6q1YqWNl4cLxmnq2PI+SXjz0o4+ggfGzvBO47N6ZpIKalqbq2fbmVatD8B7PchP/r17UQaqGmpn2JY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730337675; c=relaxed/simple;
-	bh=a9776ARAo44st96MhjZjzQy8NP/+rbnZDlPc7vdC7FI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qytVodvusdv4p4PkFi5Zx8Lbz5SeFQaXjykquxAkM6V8xiO3SQc9hSWLXhv1qdYeJGeBrU+H4S/+2di0WJf0Ukc77BUA1kIPVLRMkJzhTjwgGdEdVfEy6ZEUyHO+S1XIPPAandCuOMHFh2Z0VvFY1UtImmUAlndilbCttQkwHIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZC9vdMG3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA63C4CECE;
-	Thu, 31 Oct 2024 01:21:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730337674;
-	bh=a9776ARAo44st96MhjZjzQy8NP/+rbnZDlPc7vdC7FI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZC9vdMG3as3Ga9HKirUw8ZCFP4qkWmawJH4WWBpwBtR9LBcaRjMhDI1W2tkQ8yEfi
-	 6WoYJNyzeV1NUapqpkXbhEqqFCVyKBI45WwAMo9krQlSD6i4wW5UOzKeSBg2MuwMqP
-	 1OOnpIrh92hEAiA0ukw1IcU+c+d9lRhNcyCznQTUKS3/Q2/LuafAk6JNnuU6SprWOP
-	 9ncc8LkEwe/Ybqha8JUGHb/Rc7xNgKMgsFiKPEyyLgZ+/BdlU0fBZDV/iLnKgsxu4S
-	 c3jxtDvwL2lp/w8VsgM9KuA7Mu+8RESSDXT8pVWi0tHr6f4wyqYM93ablbm0ffXhIk
-	 879C2k56rXGsQ==
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] setlocalversion: Add workaround for "git describe" performance issue
-Date: Wed, 30 Oct 2024 18:20:21 -0700
-Message-ID: <309549cafdcfe50c4fceac3263220cc3d8b109b2.1730337435.git.jpoimboe@kernel.org>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1730337768; c=relaxed/simple;
+	bh=KLOS8u+PMDA0T4vM15ojk9b8umCGFoUlPXxkH5YcKe4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=N3yNbXAR5riO4FHfd5LPyA+Eg4e4NPmJIAEWu8t/nAUsxmekyeBAzS8hY5JYh5+Wt3CapzlqKcy7zIj6FTbHZaswz22ZVBh8RvOpZkoLJQoOhZEQJic+JTITa8A2XSPiv0qPeiQ1y7iyMTns415Fb19c+LO3EqEs/vM50kiYPGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=C0Y7jtBx; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1730337760;
+	bh=QjW8Kw5UFmafLnSTxLCguKpJPtpBFspJBqxqy1O825M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=C0Y7jtBxM2HrGF3Fgeq4yau1+afHnWMC/ktoKCXAG3lCR82udfE4mVv2/ZXCIQfsx
+	 U5qU7v343LVxSw4qCipn8OU8QAwyBRiCFG9zVjXR76F4UU/FF8w6G2TCzCT87OQitD
+	 255pfCHLZiQHs/HThwTzK+Uk6bzjX6N7NKW0SnDkEionTYsikO76raEoo7MOZ0me97
+	 M4xhiSLeJ8mtmtAFlOkqnii4KTVenm/FixC4kKuxQV5hv5L/M5oXaayzyX8gwfPSNx
+	 wbbYqNvkt9wOBPBmqHTppWKssdZWmoZ17CnWM3SrR6eWPh9+OxEMDOgPnx/E+3vPOx
+	 MD5ALWY2q3Bng==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xf5p503Tfz4xGC;
+	Thu, 31 Oct 2024 12:22:36 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Matthew Maurer <mmaurer@google.com>, Nicholas Piggin
+ <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu
+ <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, Daniel
+ Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn?= Roy
+ Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, Matthew Maurer <mmaurer@google.com>
+Subject: Re: [PATCH v8 1/3] modules: Support extended MODVERSIONS info
+In-Reply-To: <20241030-extended-modversions-v8-1-93acdef62ce8@google.com>
+References: <20241030-extended-modversions-v8-0-93acdef62ce8@google.com>
+ <20241030-extended-modversions-v8-1-93acdef62ce8@google.com>
+Date: Thu, 31 Oct 2024 12:22:36 +1100
+Message-ID: <874j4tcbhf.fsf@mpe.ellerman.id.au>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-If HEAD isn't associated with an annotated tag, a bug (or feature?) in
-"git describe --match" causes it to search every commit in the entire
-repository looking for additional match candidates.  Instead of it
-taking a fraction of a second, it adds 10-15 seconds to the beginning of
-every kernel build.
+Matthew Maurer <mmaurer@google.com> writes:
+> Adds a new format for MODVERSIONS which stores each field in a separate
+> ELF section. This initially adds support for variable length names, but
+> could later be used to add additional fields to MODVERSIONS in a
+> backwards compatible way if needed. Any new fields will be ignored by
+> old user tooling, unlike the current format where user tooling cannot
+> tolerate adjustments to the format (for example making the name field
+> longer).
+>
+> Since PPC munges its version records to strip leading dots, we reproduce
+> the munging for the new format. Other architectures do not appear to
+> have architecture-specific usage of this information.
+>
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> ---
+>  arch/powerpc/kernel/module_64.c | 24 ++++++++++-
+  
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-Fix it by adding an additional dummy match which is slightly further
-away from the most recent one, along with setting the max candidate
-count to 1 (not 2, apparently another bug).
-
-Before:
-
-  $ git checkout c1e939a21eb1
-  $ time make kernel/fork.o -s
-
-  real	0m12.403s
-  user	0m11.591s
-  sys	0m0.967s
-
-After:
-
-  $ time make kernel/fork.o -s
-
-  real	0m1.119s
-  user	0m0.658s
-  sys	0m0.659s
-
-Link: https://lore.kernel.org/git/20241030044322.b5n3ji2n6gaeo5u6@treble.attlocal.net/
-Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
----
- scripts/setlocalversion | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-index 38b96c6797f4..bb8c0bcb7368 100755
---- a/scripts/setlocalversion
-+++ b/scripts/setlocalversion
-@@ -57,6 +57,8 @@ scm_version()
- 		return
- 	fi
- 
-+	githack=" --match=v6.11 --candidates=1"
-+
- 	# mainline kernel:  6.2.0-rc5  ->  v6.2-rc5
- 	# stable kernel:    6.1.7      ->  v6.1.7
- 	version_tag=v$(echo "${KERNELVERSION}" | sed -E 's/^([0-9]+\.[0-9]+)\.0(.*)$/\1\2/')
-@@ -67,7 +69,7 @@ scm_version()
- 	tag=${file_localversion#-}
- 	desc=
- 	if [ -n "${tag}" ]; then
--		desc=$(git describe --match=$tag 2>/dev/null)
-+		desc=$(git describe --match=$tag $githack 2>/dev/null)
- 	fi
- 
- 	# Otherwise, if a localversion* file exists, and the tag
-@@ -76,13 +78,13 @@ scm_version()
- 	# it. This is e.g. the case in linux-rt.
- 	if [ -z "${desc}" ] && [ -n "${file_localversion}" ]; then
- 		tag="${version_tag}${file_localversion}"
--		desc=$(git describe --match=$tag 2>/dev/null)
-+		desc=$(git describe --match=$tag $githack 2>/dev/null)
- 	fi
- 
- 	# Otherwise, default to the annotated tag derived from KERNELVERSION.
- 	if [ -z "${desc}" ]; then
- 		tag="${version_tag}"
--		desc=$(git describe --match=$tag 2>/dev/null)
-+		desc=$(git describe --match=$tag $githack 2>/dev/null)
- 	fi
- 
- 	# If we are at the tagged commit, we ignore it because the version is
--- 
-2.47.0
-
+cheers
 
