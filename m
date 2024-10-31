@@ -1,105 +1,179 @@
-Return-Path: <linux-kbuild+bounces-4443-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4444-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6229B79CE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 12:37:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5399B79E3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 12:42:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68D331C2102E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 11:37:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4C811B251DE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 11:42:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61FCE19AD8D;
-	Thu, 31 Oct 2024 11:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1400D19B5B2;
+	Thu, 31 Oct 2024 11:42:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B9Kj6Qg/"
+	dkim=pass (2048-bit key) header.d=peff.net header.i=@peff.net header.b="fwxKkXyz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from cloud.peff.net (cloud.peff.net [104.130.231.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE5719ABB4;
-	Thu, 31 Oct 2024 11:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0308E19AD8D
+	for <linux-kbuild@vger.kernel.org>; Thu, 31 Oct 2024 11:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.130.231.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730374654; cv=none; b=Go+WT/30nLtvctXH6gW5aFIi4Z8MWCL50YXxFL/c+k/7cS7RilFsaWTjbDxQwlYydMBIxiNJTm15bvApN1zHAwEOOvkve9z8mfdbLaRaw4Cqq8OeU9fJEzFiIsKVj8+O5EnVWDwuW11CPVBpT065VRax5LI8XCIq7qbZ2cAZ8fQ=
+	t=1730374942; cv=none; b=FxFGrIr5IV3PUogPouFrWSMss0BcVSO9bmFZ/SyjRjNjSFU5VwZuZN/GIfuGz7TP8NS9Oi75bnkwmRInN43oKNIT+d8VlBPXuJ3AV8jVcEDayT9Gk9nmNXStRR548B0K2bXbWuny5u96VprA2rJUakNyRaFosuo+u3e0hdX9oMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730374654; c=relaxed/simple;
-	bh=HOxK+wU9eU048sXFB2KXeqhmmHOku3kZEDARKwtJaRg=;
+	s=arc-20240116; t=1730374942; c=relaxed/simple;
+	bh=cVVRcU+P8ZGqLgExz0weQRByb+6+IgTbUCtNjAVQhHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0NnyhilxYJ4a84D8HST8n+a40NocTnlm0maA3OroN/O5gOYIEATIX26qCx8PhXJRiq3IznaR2lpwRUPlMdUE6/RY7dX7FQ09Fca0+mqHwr3LCE9jOrc3RP6g8/1Hvh5R2uhihATr6j/k6hNZPjMo6Bri5h/6S8j9qSUxe9NiEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B9Kj6Qg/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17210C4CEFD;
-	Thu, 31 Oct 2024 11:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730374653;
-	bh=HOxK+wU9eU048sXFB2KXeqhmmHOku3kZEDARKwtJaRg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B9Kj6Qg/BXn6D6IPkaWUMa+vq7gBra4scklcDDT+p2gfmB/VQMGx3bOdKA78aOZCx
-	 DpbXWWBb1246u7S4JbuMLGXzfDd1uLbDth9aAMVMq+rce8Wx5+ayP4g44HHejtJsDn
-	 1ce3k7ILlPN4dEYm9tKEZouqLxNZijqqEPiHC6SQckAL+/Ep8wvgjBbzoqM1qcNVdm
-	 P7WFB7HBgMoxeipm2LmZkdDnJRHuWZAHajaIkKvjjwD7C2mySauNlTKTd8/tXdopQd
-	 20VEqB6CFuZiWOTs6CoWBS+ZvX/e4yWfMcgJcyfLUWG/s3V0wWg6Q3YFMpxm3UBIdp
-	 ikZX6VRNMZPOA==
-Date: Thu, 31 Oct 2024 04:37:31 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=gU9KBAFHgpOLaRZbl9/ywmljP7x+MzxU3AUpnCRUiXUBxfIObWrVNoHbkQPfQWGyjMzGFLjcSU8eZnCQxMvq+zAfXKsvvj+jQDGxTy1h9m03xFdktbK2T2DxRcdH42Pa4XsY3ytC80uYYx2/EyPl70BL+uVtURcZM2+8iM46gZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peff.net; spf=pass smtp.mailfrom=peff.net; dkim=pass (2048-bit key) header.d=peff.net header.i=@peff.net header.b=fwxKkXyz; arc=none smtp.client-ip=104.130.231.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=peff.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=peff.net
+Received: (qmail 18592 invoked by uid 109); 31 Oct 2024 11:42:11 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=peff.net; h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=20240930; bh=cVVRcU+P8ZGqLgExz0weQRByb+6+IgTbUCtNjAVQhHM=; b=fwxKkXyziyAut/7iaXZpMaJ9YrGrd6FnqlxMnpfUmk7mm1Z6vESj/oVdOh9BYj1g/caCuy1BiLQVGoiW4Zti4YhvBvyJrOOQRfDo8P42JkbqsiXGyqeV1TCv3hBgJd1GpSRwnyeY2kQabITSTuX+QcctW9dMupPADG9oS9Wj16USiC7LNGOKVVbfiR4A/q++pJnKVBT2//KVcoIPg+3TIs3k38eQ+xmYYhjSITfZL92FYLrO4KCXt8fSU+wvCsEYL6MgQSNHxsIC4Z/LBgDlGQI5mj9euQ7ZC6RT9FAPWqzpt0Qrjci76ZjW19VuW/TVOciazMse0W1NqNbK545xXQ==
+Received: from Unknown (HELO peff.net) (10.0.1.2)
+ by cloud.peff.net (qpsmtpd/0.94) with ESMTP; Thu, 31 Oct 2024 11:42:11 +0000
+Authentication-Results: cloud.peff.net; auth=none
+Received: (qmail 31677 invoked by uid 111); 31 Oct 2024 11:42:10 -0000
+Received: from coredump.intra.peff.net (HELO coredump.intra.peff.net) (10.0.0.2)
+ by peff.net (qpsmtpd/0.94) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPS; Thu, 31 Oct 2024 07:42:10 -0400
+Authentication-Results: peff.net; auth=none
+Date: Thu, 31 Oct 2024 07:42:10 -0400
+From: Jeff King <peff@peff.net>
+To: Rasmus Villemoes <ravi@prevas.dk>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v8 2/3] modpost: Produce extended MODVERSIONS information
-Message-ID: <ZyNr--iMz_6Fj4yq@bombadil.infradead.org>
-References: <20241030-extended-modversions-v8-0-93acdef62ce8@google.com>
- <20241030-extended-modversions-v8-2-93acdef62ce8@google.com>
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	git@vger.kernel.org
+Subject: Re: [PATCH] setlocalversion: Add workaround for "git describe"
+ performance issue
+Message-ID: <20241031114210.GA593548@coredump.intra.peff.net>
+References: <309549cafdcfe50c4fceac3263220cc3d8b109b2.1730337435.git.jpoimboe@kernel.org>
+ <87bjz0k17c.fsf@prevas.dk>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241030-extended-modversions-v8-2-93acdef62ce8@google.com>
+In-Reply-To: <87bjz0k17c.fsf@prevas.dk>
 
-On Wed, Oct 30, 2024 at 11:05:03PM +0000, Matthew Maurer wrote:
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index e6b2427e5c190aacf7b9c5c1bb57fca39d311564..a31c617cd67d3d66b24d2fba34cbd5cc9c53ab78 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -208,6 +208,16 @@ config ASM_MODVERSIONS
->  	  assembly. This can be enabled only when the target architecture
->  	  supports it.
->  
-> +config EXTENDED_MODVERSIONS
-> +	bool "Extended Module Versioning Support"
-> +	depends on MODVERSIONS
-> +	help
-> +	  This enables extended MODVERSIONs support, allowing long symbol
-> +	  names to be versioned.
-> +
-> +	  The most likely reason you would enable this is to enable Rust
-> +	  support. If unsure, say N.
-> +
+On Thu, Oct 31, 2024 at 11:37:27AM +0100, Rasmus Villemoes wrote:
 
-The question is, if only extended moversions are used, what new tooling
-requirements are there? Can you test using only extended modversions?
+> and that "gave up" commit is v4.18-rc4, the eleventh commit
+> encountered. That also explains why you have to add a "dummy" second
+> --match to make --candidates=1 have the expected behaviour.
+> 
+> Perhaps the logic should instead be that as soon as match_cnt hits
+> max_candidates (i.e. all the tags we're going to consider have actually
+> been visited), we break out. That is, the last "else" above should
+> instead be replaced by
+> 
+>   if (match_cnt == max_candidates) {
+>     ... /* ? , gave_up_on is now a misnomer */
+>     break;
+>   }
 
-  Luis
+Yes, I agree that is the right direction. Replacing the "else" entirely
+feels a little weird, because it is part of the:
+
+  if (!tags && !all && n->prio < 2)
+	...
+  else if (match_cnt < max_candidates)
+	...
+  else
+	...
+
+So we'd now run that check even if we triggered the first block. But I
+don't think it should matter in practice. We only increment match_cnt in
+the else-if here. So the "else" block could go away, and the check for
+giving up could go inside the else-if.
+
+It does seem like gave_up_on is now pointless, but I'm not sure I
+understand all of the code here. I assumed that it was only used to
+report "this is where we gave up", and to give you the extra bit of
+information that there _were_ other candidates that we omitted (and not
+just exactly max_candidates). Of course we don't show that without
+--debug. So it seems silly to spend a bunch of extra CPU for that.
+
+But the plot thickens.
+
+What I was going to suggest is that if we wanted to retain that one bit
+of information, what we could do instead is: independent of
+max_candidates, see if we've found all of the possible names we expanded
+from --match. Then max_candidates would work as it does now, but we'd
+avoid fruitlessly searching when there are no more names to find.
+
+Counting the number of expanded names is a little weird. We use them to
+annotate the commits, but of course multiple names can point to a single
+commit, and there's a priority override system. I think the final number
+we can find is the number of entries in the "names" hash.
+
+So I expected this to work:
+
+diff --git a/builtin/describe.c b/builtin/describe.c
+index 7330a77b38..70a11072de 100644
+--- a/builtin/describe.c
++++ b/builtin/describe.c
+@@ -380,6 +380,9 @@ static void describe_commit(struct object_id *oid, struct strbuf *dst)
+ 				c->object.flags |= t->flag_within;
+ 				if (n->prio == 2)
+ 					annotated_cnt++;
++
++				if (match_cnt == hashmap_get_size(&names))
++					break;
+ 			}
+ 			else {
+ 				gave_up_on = c;
+
+but it's still slow! If we set "gave_up_on = c", then it gets fast. I'm
+not sure why that is. Later we do:
+
+        if (gave_up_on) {
+                commit_list_insert_by_date(gave_up_on, &list);
+                seen_commits--;
+        }
+        seen_commits += finish_depth_computation(&list, &all_matches[0]);
+
+but I don't at all understand why adding gave_up_on lets that finish
+sooner. So I'm worried we're missing something about how it is used.
+
+One hack is to just, like the max_candidates case, let us look at one
+_more_ commit before bailing. Like this:
+
+diff --git a/builtin/describe.c b/builtin/describe.c
+index 7330a77b38..177c8232f6 100644
+--- a/builtin/describe.c
++++ b/builtin/describe.c
+@@ -365,6 +365,11 @@ static void describe_commit(struct object_id *oid, struct strbuf *dst)
+ 		struct commit_list *parents = c->parents;
+ 		struct commit_name **slot;
+ 
++		if (match_cnt == hashmap_get_size(&names)) {
++			gave_up_on = c;
++			break;
++		}
++
+ 		seen_commits++;
+ 		slot = commit_names_peek(&commit_names, c);
+ 		n = slot ? *slot : NULL;
+
+
+That works, but I have a feeling that figured out what the heck is going
+on with gave_up_on might produce a more elegant solution.
+
+> Then as a further DWIM aid, wherever the initialization logic is could
+> be updated so that, after expanding all the --match= wildcards, if the
+> number of tags is less than max_candidates, automatically lower
+> max_candidates to that number (which in the setlocalversion case will
+> always be 1 because we're not actually passing a wildcard).
+
+Yeah, I had the same thought (though if we do a separate hashmap check
+as above, it wouldn't be needed).
+
+-Peff
 
