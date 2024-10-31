@@ -1,102 +1,132 @@
-Return-Path: <linux-kbuild+bounces-4435-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4436-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FA39B71CF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 02:23:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C7A9B7245
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 02:57:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11D3F1F22F07
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 01:23:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95F901C220A4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2024 01:57:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 984B34D8CF;
-	Thu, 31 Oct 2024 01:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7CC453A7;
+	Thu, 31 Oct 2024 01:57:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="C0Y7jtBx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkPSf/B2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50AB2F855;
-	Thu, 31 Oct 2024 01:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA408288B5;
+	Thu, 31 Oct 2024 01:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730337768; cv=none; b=FrKaD3X++CK3/6sEXP+yuFeHP+mZbb+6W9rxnr04Utu1VMH5gWCc3BvtcfApaCDS8rGNCjI0S1FeUeffja1k1uIeEVYcw6q1YqWNl4cLxmnq2PI+SXjz0o4+ggfGzvBO47N6ZpIKalqbq2fbmVatD8B7PchP/r17UQaqGmpn2JY=
+	t=1730339849; cv=none; b=uioJ2j0ywkVuF5sjRLlIKNTTlZxF6h2P6nQ+MeJL/bxu28lB2Af6/O8xNEogwM0RkGOJWVLEqkWnpZxk7TzHV9N5IghidTjA6EYv4B8KNqpxoUH/tHJNC1zS+k6XosjhTbpMzK4P+V88xlIOxn0xuKY3AS5p3Ph881SAtHj0fp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730337768; c=relaxed/simple;
-	bh=KLOS8u+PMDA0T4vM15ojk9b8umCGFoUlPXxkH5YcKe4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=N3yNbXAR5riO4FHfd5LPyA+Eg4e4NPmJIAEWu8t/nAUsxmekyeBAzS8hY5JYh5+Wt3CapzlqKcy7zIj6FTbHZaswz22ZVBh8RvOpZkoLJQoOhZEQJic+JTITa8A2XSPiv0qPeiQ1y7iyMTns415Fb19c+LO3EqEs/vM50kiYPGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=C0Y7jtBx; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1730337760;
-	bh=QjW8Kw5UFmafLnSTxLCguKpJPtpBFspJBqxqy1O825M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=C0Y7jtBxM2HrGF3Fgeq4yau1+afHnWMC/ktoKCXAG3lCR82udfE4mVv2/ZXCIQfsx
-	 U5qU7v343LVxSw4qCipn8OU8QAwyBRiCFG9zVjXR76F4UU/FF8w6G2TCzCT87OQitD
-	 255pfCHLZiQHs/HThwTzK+Uk6bzjX6N7NKW0SnDkEionTYsikO76raEoo7MOZ0me97
-	 M4xhiSLeJ8mtmtAFlOkqnii4KTVenm/FixC4kKuxQV5hv5L/M5oXaayzyX8gwfPSNx
-	 wbbYqNvkt9wOBPBmqHTppWKssdZWmoZ17CnWM3SrR6eWPh9+OxEMDOgPnx/E+3vPOx
-	 MD5ALWY2q3Bng==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xf5p503Tfz4xGC;
-	Thu, 31 Oct 2024 12:22:36 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Matthew Maurer <mmaurer@google.com>, Nicholas Piggin
- <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu
- <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, Daniel
- Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
- rust-for-linux@vger.kernel.org, Matthew Maurer <mmaurer@google.com>
-Subject: Re: [PATCH v8 1/3] modules: Support extended MODVERSIONS info
-In-Reply-To: <20241030-extended-modversions-v8-1-93acdef62ce8@google.com>
-References: <20241030-extended-modversions-v8-0-93acdef62ce8@google.com>
- <20241030-extended-modversions-v8-1-93acdef62ce8@google.com>
-Date: Thu, 31 Oct 2024 12:22:36 +1100
-Message-ID: <874j4tcbhf.fsf@mpe.ellerman.id.au>
+	s=arc-20240116; t=1730339849; c=relaxed/simple;
+	bh=0nGzX7cvoxaUK7ySnJHlrYRZOHqiEXeRUQ9nAXlxSN0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NSeRNs8TuQRkDBxcl17gEEaW4RDZF8/JLTGdLNnMEiriCrjhKQtPMIC435fNM1A45xUO+2HFSlmok0tlgNW6b8IhKfX+BBS9miLScslExcbTeVf37CU5m03aCn29Q3TVjzMGFFVI1tNp8qSlBW/MYgHnUOEaNHsf0CxTUbHTvjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HkPSf/B2; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53c78ebe580so564464e87.1;
+        Wed, 30 Oct 2024 18:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730339846; x=1730944646; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0nGzX7cvoxaUK7ySnJHlrYRZOHqiEXeRUQ9nAXlxSN0=;
+        b=HkPSf/B2eGHIwjFgZWu6BsigBGLzhM3zbbQoJk+yhHFbPA41jaWiDyvfdEZ1gNbk6N
+         Iq60/QQI0sjTBzfSmT2Iv690I7oqfjQxxh2BRYwUrOUmZduMgU77NxEgLc1ACVU79Zt4
+         PdDQCh/O3Nqzfz5pm8jQHhFKaPiYZnvyHQjQYQdl5oG+hxkoGuhF25hzjfhGHsD99OoL
+         5eDm1ihFCjuFR2y9JemukzoPnjqgFuRCazkXPkK6kQciSnlrseBmARO0kkYGEHIIzuad
+         jlG2qLBy1d6zP0N0IE2RVtVctuSNR+lwR7CniEWhUN6alw48qts6DfhcApkdXnDUp02U
+         E1AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730339846; x=1730944646;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0nGzX7cvoxaUK7ySnJHlrYRZOHqiEXeRUQ9nAXlxSN0=;
+        b=nkOPp+dmE6GoeCPk/PyN/tCn3R63zc28n8DwHUGzb+GDbBx5Sbz9Uxl2/yEqztKpSV
+         nB+V2pJctAtMwWgig/YXb9CPxtGibBC9CS6wldEROBEecBywpxz0pNh6AguNgIMI/zqf
+         e8jfQBUIZCF6aMPaHfiFFo089b6BY37VDhHK/7XdioGmJmsgSUGwls6GAMtjVoCmooR5
+         sgDt/toW2SncKR/qCK6UfCeFW0KwPLxQkXelM07QM/3eYK7vZm35mQdfFvztuAP1BxSx
+         UsXH3vt5+cJCRmIH9PDg1DXMv14u55SZI1AGd8hTKkKEQ9X5fwt7z5TJDkJUfUVzGgi1
+         sazA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpj1EViFoO13B77p3zQFobQZYYsF/5Yoe0lP4UMslQgSQHILJEkXRavFgmbDA7fIthn7CixZUZpnSNeXJ8uw==@vger.kernel.org, AJvYcCVzylGvv34/NNayAK6xedJ0dYVp4cC3e5EOfamf3XGZkWwimDG5HtjIUuTejgTyUT0h2C8pDPECWdAd5Gw=@vger.kernel.org, AJvYcCW8AplY1RxLdvFOVOnzo9/SQxNnBVjnu6PBG9GVnkDGFGwBRb3PrHi2hEy2MXNoOD5PqtwV+VjA25XE8743kIM=@vger.kernel.org, AJvYcCWtgHMfOgWfyj0FZyLuQMyDZvo3ZGkSEAup/44N23bD4XZlq45C4ARVOWJAII/x3L7WMMeeFjmMtNQRJ1V8@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFw2SJddSj5WL+AFGzqxvJXatGgw4fN1CJtOCyd+XD/xXmT91C
+	J3k6xTxYMWrnH1jI2QQLVfhcDHSNhozO48Oa8ueFZltMBGOYKIW+irfJgVsIaZq3o0nd+ILnkkm
+	ZgEiDXD7v4Y+vUMdnOlF75JYsA7U=
+X-Google-Smtp-Source: AGHT+IGpPkVwwPSIxo8IYBpRNuyJN+Nwt4EGdkKqDyMJU+J6uO8LH84FTUGSBjjnWzI6pB8h3tfIYXFF2CGMvBU+BYY=
+X-Received: by 2002:a05:6512:39c8:b0:539:f23b:59cc with SMTP id
+ 2adb3069b0e04-53c7bc36922mr218912e87.22.1730339845561; Wed, 30 Oct 2024
+ 18:57:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241030170106.1501763-21-samitolvanen@google.com>
+ <CA+icZUWTdgM7HQrnR_NzgZZQE3aXXk+tAqD3srNd1Eyjr5d7EA@mail.gmail.com> <CABCJKuepGSFcQa0F5iO4aa4V2UbhuKO+tyfhB3_ODaTGs3sM5Q@mail.gmail.com>
+In-Reply-To: <CABCJKuepGSFcQa0F5iO4aa4V2UbhuKO+tyfhB3_ODaTGs3sM5Q@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Thu, 31 Oct 2024 02:56:49 +0100
+Message-ID: <CA+icZUXdMGk5uTZ_as0UOw-zmZuxTXc6J3U2_He00UOca86Gig@mail.gmail.com>
+Subject: Re: [PATCH v5 00/19] Implement DWARF modversions
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Matthew Maurer <mmaurer@google.com> writes:
-> Adds a new format for MODVERSIONS which stores each field in a separate
-> ELF section. This initially adds support for variable length names, but
-> could later be used to add additional fields to MODVERSIONS in a
-> backwards compatible way if needed. Any new fields will be ignored by
-> old user tooling, unlike the current format where user tooling cannot
-> tolerate adjustments to the format (for example making the name field
-> longer).
+On Wed, Oct 30, 2024 at 10:14=E2=80=AFPM Sami Tolvanen <samitolvanen@google=
+.com> wrote:
 >
-> Since PPC munges its version records to strip leading dots, we reproduce
-> the munging for the new format. Other architectures do not appear to
-> have architecture-specific usage of this information.
+> Hi Sedat,
 >
-> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
->  arch/powerpc/kernel/module_64.c | 24 ++++++++++-
-  
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+> On Wed, Oct 30, 2024 at 2:00=E2=80=AFPM Sedat Dilek <sedat.dilek@gmail.co=
+m> wrote:
+> >
+> > Hi Sami,
+> >
+> > perfect timing: Nathan uploaded SLIM LLVM toolchain v19.1.3
+> >
+> > KBUILD_GENDWARFKSYMS_STABLE is to be set manually?
+> > What value is recommended?
+>
+> The usage is similar to KBUILD_SYMTYPES, you can just set
+> KBUILD_GENDWARFKSYMS_STABLE=3D1 to use --stable when calculating
+> versions. However, it's not normally necessary to set this flag at all
+> when building your own kernel, it's mostly for distributions.
+>
+> Sami
 
-cheers
+OK, thanks.
+
+# cat /proc/version
+Linux version 6.12.0-rc5-1-amd64-clang19-kcfi
+(sedat.dilek@gmail.com@iniza) (ClangBuiltLinux clang version 19.1.3
+(https://github.com/llvm/llvm-project.git
+ab51eccf88f5321e7c60591c5546b254b6afab99), ClangBuiltLinux LLD 19.1.3
+(https://github.com/llvm/llvm-project.git
+ab51eccf88f5321e7c60591c5546b254b6afab99)) #1~trixie+dileks SMP
+PREEMPT_DYNAMIC 2024-10-30
+
+Tested-by: Sedat Dilek <sedat,dilek@gmail.com> # LLVM/Clang v19.1.3 on x86-=
+64
+
+Best regards,
+-Sedat-
 
