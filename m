@@ -1,141 +1,96 @@
-Return-Path: <linux-kbuild+bounces-4464-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4465-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8979B9A96
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Nov 2024 23:04:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CC59B9DD6
+	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Nov 2024 09:07:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7332E1C215C9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Nov 2024 22:04:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 603541F21F11
+	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Nov 2024 08:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA5651E6DC1;
-	Fri,  1 Nov 2024 22:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 572FC156677;
+	Sat,  2 Nov 2024 08:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zcuv7wXS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1E6LhoQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE6B1CEE91;
-	Fri,  1 Nov 2024 22:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3E32B9A4;
+	Sat,  2 Nov 2024 08:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730498672; cv=none; b=KUOJV8QBOn1JjxzPO3ScWIcepHceBks5NIyAep639mGwf/3gTEsiJGO6hFRjjMvmF3ge9QAV62zlaiXUWSQHv/0pFBOi1tUkcv3QqQvMqjfrNI9OhBzvipDP+Sw2sSf7DMOoZohkjTPgdZArhi4oIuT++nBhyZcDtYAURO1rMVk=
+	t=1730534819; cv=none; b=WJYmS5D/GHWYSl0AbN7FxdkrSz8klUCIM9aS75lKyAev7cbkwdKxX30IGcvJ56Y2CXBbrwmdsKLvqxRnfJeLj4HAk44ECXqyGH00duE17DGkCksweQu3D09Liv8Nz5uOwmTmU/Ev1FEP/oR2YTgAkJcttKOKrnGSzcyDR7JJnSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730498672; c=relaxed/simple;
-	bh=rcoTiHAzGNigzhjuUOf3w29Wr+BpteeHJQCW1ztY21k=;
+	s=arc-20240116; t=1730534819; c=relaxed/simple;
+	bh=EQSWD7lvEpQpbs2qoliMb65fhqZz0rznKwHKh5bu/aI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aQkIH/Rg4erlEP/V8/8Uwzx/jveCaTNyI8KIsxa89Z7ltaBvYv7x2Xs6eWR/psQysDnn645XxWyIbMcyhrXPmpirpIW5d67mc3fA7ij04FziBvKJ4vzL0RAy0ae2AmQ/zrYoTltvXXwE5CYaefqtIVmCPQ1Y2c0wUs8uj3JWo4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zcuv7wXS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F3C6C4CED5;
-	Fri,  1 Nov 2024 22:04:32 +0000 (UTC)
+	 To:Cc:Content-Type; b=FYh/Jk+gkjrKGFRuZ0yS40KVo8pRrgk46XMM6CyZ8m8bhLHQTHGkNyrCgCjal7ykEf4DD/YZQOqmEz9leKrOH2RvcOXwvmVxn5oJC5gAuS35vLjfN989CX5OCm+VSb1JFWTBPtUiFlfAHIOdoEeKTuejZJdyV5vOjy3O1QAZOkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1E6LhoQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C33BCC4CED5;
+	Sat,  2 Nov 2024 08:06:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730498672;
-	bh=rcoTiHAzGNigzhjuUOf3w29Wr+BpteeHJQCW1ztY21k=;
+	s=k20201202; t=1730534818;
+	bh=EQSWD7lvEpQpbs2qoliMb65fhqZz0rznKwHKh5bu/aI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Zcuv7wXSl6E/pJLqvocrlSymBS4scHtLKXTcP+fMrvmrGXVIea9jn0+QGHOGLUeAb
-	 wlAl5cSK7kQC9XO8ADw2A6KRBq4llF28tgj0eOWKf0AbKSqTsAi4pGwWTWGQQ9yRCX
-	 O0i1Zhd3DSnnFl7TqKgTIu5Nz14o2T20gXExsyDXPxZkN2V+iTczHy9eJ3q9Knn2bz
-	 WkzDhS5SjZvKetf7D8DVj7pjXqP96hzR+TZVEnuQVe2etQrYXdwc8PxPFCvFHylNPK
-	 atzuVdx0OpfYKNyGWoorkpwN1u3F27QjDoKhTeiXkNHapW3YeVKj0ysavnK+ZEDD1Y
-	 Csd9H4hjVaQ8g==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb49510250so25464591fa.0;
-        Fri, 01 Nov 2024 15:04:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUt7r25aXE0RlR6kuDg2q/jpjvNEs9wYthkWo7tv8bGaEF36nIqF9BYsqnWzVQ4EjdhSCgtaBX+xfOihA==@vger.kernel.org, AJvYcCWmIrlQ64vhwgCuIZjqExy2uG4AjpLyVGsmprek2wxy3H2NdC2gsm8Zv7tptJRgzkCu8VJBs9smB+ba@vger.kernel.org, AJvYcCX9j1dWeHWEQIQjvFRs96i/WnjhVpinb4Bj30VRdmeznAeA6F13tG2SG6+4Kzh06Myi12lG57EBVI3h@vger.kernel.org, AJvYcCXj5St3YfGTbCEeurz/eC8fBcrtrGRw/TemRp/HX0V1RaNH7lGtqXjsNOb2nj08BVnd8PluGeFbA2zT+Je/@vger.kernel.org, AJvYcCXwSv2bokXYuWwA4V6JcCIDJoAY97KhWsn7Wz+A6khRGnXnTFs4ynMSORbgOeR60STXTpYMnMxSi1Ij@vger.kernel.org, AJvYcCXzCCeLaMl6xLFtlzOuLF65Bm/b3+o3YYEB9px9xzflSuKoFrLy+1lP5GukAOcF3k449xqsfL70/PkFJ2/E@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2gFSX+EDLJd9wraZhrKwtRzSkrT5T06CH5/HQpKfbEQiCZSSH
-	1YPHXxp25cm9IcwsCJZpzAwUSFWg4rf6qB93EvD7NwX5lLgkX4WY71QL5nP8KbidFf/jF2QaFkV
-	lDXrPjNYDwswuPPnXx3E5nTiexYM=
-X-Google-Smtp-Source: AGHT+IGVMAgeS0V2k3gbBjmJnFp43Rbmnq4wT0SbRNO4NZeNLFW4f4vONEJ7HO2aD/gqiSPW9yN22T197mAQWhrZFyU=
-X-Received: by 2002:a2e:819:0:b0:2f7:a5fe:adbe with SMTP id
- 38308e7fff4ca-2fdec72f2bemr34602561fa.18.1730498670823; Fri, 01 Nov 2024
- 15:04:30 -0700 (PDT)
+	b=S1E6LhoQHzSJTvuGfNN9Rl7g23H8Jt1+uPqd1Gkogk4EBSBgPV0u2DV9s4tfWTPa9
+	 J2EE3r1wpvSJf+ydKtE70T9Me2hfgZZymWhegDo+u5L+rCm7HCWNaE3fC2VsZbc3UJ
+	 5DqsjMB55lzmyvuZeFHHYGj4o35bAXKtn8PUnsUobGTFXke4Jj1nM5YrQnTk9/dO1v
+	 DuVZwje6rOdt6R10i3VujReOIt/HeU4jPaPppIFWHJjwjX4opMAEn7nkNeiz47kafQ
+	 pnH46cIahM3SFu489pu49KAPkGbQh0zMkNLGTmFfuq+aErxoXidQ6g2pFQQzY+/gaa
+	 S3tJCTVl/TwDw==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb50e84ec7so18618361fa.1;
+        Sat, 02 Nov 2024 01:06:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVI9278pMZaGP3/K6XzM0I3rc7aGH8Ty7c3KR47vj5HFGUFdbBDHhWf52TOem07bBpGeCB3ULhF23bPGQ==@vger.kernel.org, AJvYcCWcVxXSHQtFbRbQH9e+uyvD+qaYqscWBlOTlK1GA1ULcttd4fRDDxeZpTUiEXJHjmnFkNvjWv0A00hNBpXR@vger.kernel.org, AJvYcCWpexsS650yT81H1xTQ3N7zThuT2FkIQWdAtmsXn0kPsgJzV91pcf/B5SB0OyTHHR/FSqZrLpfybzJot86C@vger.kernel.org, AJvYcCX1CPxSz8go+ILh3kiaz0q/mW7TMIhBNM8Zr/MxAQwC8lYXPadcoUDTHq6Gsm9vS5MLpeoak91LJfU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqF6gFQXeqpgKWElb9riAZrpUFZk8ot0lWVnbMTNE57Y7sUPUS
+	lMqQIFz6Kn3y6et10TY+h7sA8gaMbPMtlP331TZCq8vfbVRVwky7a5TO8dZNbUjkRVqyViAzoik
+	z9pTzgvlMoOnMJijrRZAyBus1POM=
+X-Google-Smtp-Source: AGHT+IH6q5K9/EJNsgxEJPWWk35nqde3J7zA5O8Ap/dpF8tEbWkRkE9xz+WKM92SMTQn+tvXWer2w/ywIL/kTxAvlR8=
+X-Received: by 2002:a05:651c:210f:b0:2fb:5038:3eb4 with SMTP id
+ 38308e7fff4ca-2fcbe078dbcmr130312911fa.29.1730534817303; Sat, 02 Nov 2024
+ 01:06:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-4-xur@google.com>
- <CAK7LNAR6Ni5FZJBK_FZXWZpMZG2ppvZFCtwjx9Z=o8L1e-CyjA@mail.gmail.com> <CAF1bQ=TjpUrEgiqepyaGAiDoFM8jzozzxW=0YvTXpFY64YoTzw@mail.gmail.com>
-In-Reply-To: <CAF1bQ=TjpUrEgiqepyaGAiDoFM8jzozzxW=0YvTXpFY64YoTzw@mail.gmail.com>
+References: <20241029-sparc-cflags-v3-0-b28745a6bd71@protonmail.com> <20241029-sparc-cflags-v3-2-b28745a6bd71@protonmail.com>
+In-Reply-To: <20241029-sparc-cflags-v3-2-b28745a6bd71@protonmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 2 Nov 2024 07:03:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARZ3Hw-OuMe39eOHR=H1BSpyaGQf4xUFW9tuOWFnEzXqw@mail.gmail.com>
-Message-ID: <CAK7LNARZ3Hw-OuMe39eOHR=H1BSpyaGQf4xUFW9tuOWFnEzXqw@mail.gmail.com>
-Subject: Re: [PATCH v6 3/7] Adjust symbol ordering in text output section
-To: Rong Xu <xur@google.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
+Date: Sat, 2 Nov 2024 17:06:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARrn8xQnCYX7aRqGqh+yVvyg4FLS0qJU07k5qjYHbSCFA@mail.gmail.com>
+Message-ID: <CAK7LNARrn8xQnCYX7aRqGqh+yVvyg4FLS0qJU07k5qjYHbSCFA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] sparc/build: Add SPARC target flags for compiling
+ with clang
+To: koachan@protonmail.com
+Cc: "David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de, 
+	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, sparclinux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 2, 2024 at 3:37=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+On Tue, Oct 29, 2024 at 11:49=E2=80=AFPM Koakuma via B4 Relay
+<devnull+koachan.protonmail.com@kernel.org> wrote:
 >
-> Current order is:
-> .text.hot, .text, .text_unlikely, .text.unknown, .text.asan
+> From: Koakuma <koachan@protonmail.com>
 >
-> The patch reorders them to:
-> .text.asan, .text.unknown, .text_unlikely, .text.hot, .text
+> clang only supports building 64-bit kernel, so we use the
+> sparc64-linux-gnu target.
 >
-> The majority of the code resides in three sections: .text.hot, .text, and
->  .text.unlikely, with .text.unknown containing a negligible amount.
-> .text.asan is only generated in ASAN builds.
+> See also: https://lore.kernel.org/lkml/e26PTXUXEz8OYXmaeKn4Mpuejr4IOlFfFw=
+dB5vpsluXlYiqDdlyQTYcDtdAny_o4gO4SfPeQCCN2qpyT6e0nog5EaP3xk2SeUPTrF54p1gM=
+=3D@protonmail.com/T/#m068e010dcf8b99d3510a90d7532bcdb70e2e2c6b
 >
-> Our primary goal is to group code segments based on their execution
-> frequency (hotness).
->
-> First, we want to place .text.hot adjacent to .text. Since we cannot put
-> .text.hot after .text (Due to constraints with -ffunction-sections,
-> placing .text.hot after .text is problematic), we need to put
-> .text.hot before .text.
->
-> Then it comes to .text.unlikely, we cannot put it after .text
-> (same -ffunction-sections issue) . Therefore, we'll position .text.unlike=
-ly
-> before .text.hot.
->
-> .text.unknown and .tex.asan follow the same logic.
->
-> This revised ordering effectively reverses the original arrangement (for
-> .text.unlikely, .text.unknown, and .tex.asan), maintaining a similar leve=
-l of
-> affinity between sections.
->
-> I hope this explains the reason for the new ordering.
+> Signed-off-by: Koakuma <koachan@protonmail.com>
 
 
-Make sense.
-
-Please describe the above in the commit description.
-
-Then, it will be clearer why you not only moved up fixed patterns
-but also reversed the order.
-
-
-
-
-
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
 
 --=20
