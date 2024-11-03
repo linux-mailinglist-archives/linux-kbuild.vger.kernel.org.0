@@ -1,117 +1,126 @@
-Return-Path: <linux-kbuild+bounces-4495-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4496-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9C29BA62E
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 16:01:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 704CF9BA674
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 16:50:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73242B20943
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 15:01:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD73DB21234
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 15:50:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75CCB17C9E8;
-	Sun,  3 Nov 2024 15:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 652311632FE;
+	Sun,  3 Nov 2024 15:50:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F0XX4ozx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ECRrgRdZ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D89171E6E;
-	Sun,  3 Nov 2024 15:01:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FB74A1D;
+	Sun,  3 Nov 2024 15:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730646106; cv=none; b=MZ1Putv58w8ozHt6sT73Msd4zUJCGH6dkdSShw+dqybJoMY81IcScyeZUht3NZayfOc+WipRj6+vZv3Zby7Qrmkg+zS37BjgvKalBhf9/+XTquTjSsc3ae262FDELPrqjGm0re3XoIP6vDhGAs8QxJ/eU+xYtYZ48PMLMKCbLSI=
+	t=1730649006; cv=none; b=r9dLK0axsE3AXp3TW/wyMVWKqPNe3HilTY2I+oL2XIbqWQ+kSukbOKLdQlO2JCsf38FtbXTxc8W4c+7PbhOE3fXh6MK9jgBYeaCUATCCqCB3+JVtkUpmxI3+DONhlW8dfyPGD0gizSA09O0VPIPp8io6FI+kwo5uFtyGuupvimQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730646106; c=relaxed/simple;
-	bh=ATqZN/kUTCmT9mOr3mnM789HutjM8B0bW3ICfRBWggs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnOkYX/hi9Rhl1CkWEwSmG5rmCLlXWe8p7R6twz9qtslnD4q/xdXKoFap26prHmOGkqJY6MfnmW7bX1YbrxNSSrBEGjBagkziJMjsnFCKruL+kUlE3AomtBcfHBLGvb1MBZLmYLmHjKqnbcv4Kw/NWisxLT1080KbqWjhOFDc1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F0XX4ozx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0FF3C4AF0D;
-	Sun,  3 Nov 2024 15:01:45 +0000 (UTC)
+	s=arc-20240116; t=1730649006; c=relaxed/simple;
+	bh=AW4Knij9ewvLsBxLY6FtOGeMfl29M21+rl9tqeA6PmA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=i7nNvfGjwv9YGH0qDe7oVqTxFZ26jVBCJYQ4o4yQZ8x9EYxlOaD2vyy8G/MQCgpWL6mpsd1fE5mBj9yj6PzCSdBxg0RKEn9rms8LBHo3vfz2i+CrXZA0qI8fDJZTlPBWejWJSyvnMW8lIK6M+MOXYyfJaQF9lfQZXKKI8gO7f+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ECRrgRdZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6AC5C4CECD;
+	Sun,  3 Nov 2024 15:50:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730646105;
-	bh=ATqZN/kUTCmT9mOr3mnM789HutjM8B0bW3ICfRBWggs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=F0XX4ozxB4gXQ2NnPdK6+MytrJNTNCH1WUAZ/0u2u3dC1mJ+7IqVcgxjHiI3wCun0
-	 0tzEEr0y23zu6HwLMTKpoRdUFoFBqoScyjN8EsHsQI1+6+pPdEC4V4ATLD8NjcifB0
-	 eXAjXc/w77G9Jvr6HAzn20xbKTc3MguR1cGa4XcuFO0U5R85gOHRFws43Z/L4KsemZ
-	 Z/VOYL4rdkiQvGqIxA9y50TG0nO7dZsFo802n7ZwTSbE+logmqjIkyhEh/Lcj4Fs7Y
-	 mFfp62sWWW0EEmzbFMlZ4oZGnsbVTcbFFYgSV5yGnZ0ReCCcWBzWilGStDWOI+HcVJ
-	 b6oqw4nh2IC2A==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fb3ce15172so43001911fa.0;
-        Sun, 03 Nov 2024 07:01:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW7XtYErsQ5DYfSQ7myUII64RB5B4yZY0QZ8DMgX7Yfifo+ZYSTYGmN5YIRUysD/PZ5/QBAlOw01B03U0M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhptKGa3m6LKsPia8pk8XxllIIqW0VG8MEXSNgEckF7W44mbSn
-	XRwIN9jcVpxnhPJPlKCROPJaHGTHCmE+XdgDyu5fVN+c+KZw4PNY4S+/JnNPESwwMhHjTnnvji0
-	2O0J/XEZAretfNN0doD45c/llJZU=
-X-Google-Smtp-Source: AGHT+IEmBDStAkKB9WMq27czYGT0oy8tg98TQOevCXh0nKTfBAYJKSLn9ohyJ4UmzbATKlndmaoIOrYsfR13Agh1PYU=
-X-Received: by 2002:a2e:a983:0:b0:2fb:5d19:4689 with SMTP id
- 38308e7fff4ca-2fedb3c5ff9mr30961691fa.1.1730646104481; Sun, 03 Nov 2024
- 07:01:44 -0800 (PST)
+	s=k20201202; t=1730649005;
+	bh=AW4Knij9ewvLsBxLY6FtOGeMfl29M21+rl9tqeA6PmA=;
+	h=From:Date:Subject:To:Cc:From;
+	b=ECRrgRdZjGN9hwJkC+gxWigdsnMdhm79OZPLc9sixVG0wTk69PWJHhLfpRIz7kJ0S
+	 iAzE9QAeFCoCbJ+sjInyxz940QRxuMVZ1TJOyfR67ALFEulh3PHX95BOO2X34qv8T0
+	 fB/lZwb5NiNWr+1LCR4tzhQPOH10Cm31wl4wBYPDuUwsWEnm/yXxRJ5+ndUy39L1FS
+	 +A6IcEg9Qvv53hcvf2nXPQfHLT/oScFfjFas+2nUQsSaZs3+gZtYGngSLsxNwWvNbw
+	 CsOjm9aoxfKlGrEacncB2GPkQBEKabeTLR6p9jNKJXOsjyPmrYYiRt6GFkav/TW87s
+	 tS9Oq3TFPLZkQ==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fb559b0b00so27777581fa.0;
+        Sun, 03 Nov 2024 07:50:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWGPXIW1iztAz7B+qC8peEnu3VDxqquWCtdBO7N2hRLn5POayB8Lv5IgStptkNJHyNf0Vpd9+HXg6muUo4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWTI7tfIWat4iq72PqWzxMQcKTAYNrvMyNz+PT2RRBetmIrQ1X
+	9wxq6sOtKLji6o+CoZc8/7kU6qeSq7TYDZ91xbbJTN1PGl8U3SydD5YlTMudJs7Jj9jX5btf8T5
+	ecqV2b1gXzikiwb/AN6FTyT47kVU=
+X-Google-Smtp-Source: AGHT+IEH6qS/+D0U6lTqkeMJhdBXb7uQc9Gm7F9sLTblHGebkuwIQvuzqlWHPiphvFNAaJ8jCKCS9akdi6AUDlH9nyE=
+X-Received: by 2002:a2e:a80b:0:b0:2fa:d4c1:3b71 with SMTP id
+ 38308e7fff4ca-2fedb7c817cmr46315621fa.19.1730649004405; Sun, 03 Nov 2024
+ 07:50:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241103124824.943659-1-masahiroy@kernel.org> <CAK7LNASW1jrO-hENgbZS1QGiZcGeAFwOwZY6M6cAx6tafOfhqQ@mail.gmail.com>
-In-Reply-To: <CAK7LNASW1jrO-hENgbZS1QGiZcGeAFwOwZY6M6cAx6tafOfhqQ@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 4 Nov 2024 00:01:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATz0nOKoZFeFXGii=CcAJ=O+zMV44OYFe+D-CLSJ8GKew@mail.gmail.com>
-Message-ID: <CAK7LNATz0nOKoZFeFXGii=CcAJ=O+zMV44OYFe+D-CLSJ8GKew@mail.gmail.com>
-Subject: Re: [PATCH] modpost: fix acpi MODULE_DEVICE_TABLE built with
- mismatched endianness
-To: linux-kbuild@vger.kernel.org
-Cc: Hanjun Guo <guohanjun@huawei.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
-	"Suthikulpanit, Suravee" <Suravee.Suthikulpanit@amd.com>, linux-kernel@vger.kernel.org
+Date: Mon, 4 Nov 2024 00:49:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARe1AnzxumbfOD7y2CpRXSa59RvsEDTw5YAjCTim9-5GQ@mail.gmail.com>
+Message-ID: <CAK7LNARe1AnzxumbfOD7y2CpRXSa59RvsEDTw5YAjCTim9-5GQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.12-rc6
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 3, 2024 at 9:56=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> On Sun, Nov 3, 2024 at 9:48=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> >
-> > When CONFIG_SATA_AHCI_PLATFORM=3Dm, modpost outputs incorect MODULE_ALI=
-AS()
-> > if the endianness of the target and the build machine do not match.
-> >
-> > When the endianness of the target kernel and the build machine match,
-> > the output is correct:
-> >
-> >   $ grep 'MODULE_ALIAS("acpi' drivers/ata/ahci_platform.mod.c
-> >   MODULE_ALIAS("acpi*:APMC0D33:*");
-> >   MODULE_ALIAS("acpi*:010601:*");
-> >
-> > However, when building a little-endian kernel on a big-endian machine
-> > (or vice versa), the output is incorrect:
-> >
-> >   $ grep 'MODULE_ALIAS("acpi' drivers/ata/ahci_platform.mod.c
-> >   MODULE_ALIAS("acpi*:APMC0D33:*");
-> >   MODULE_ALIAS("acpi*:0601??:*");
-> >
-> > The 'cls' and 'cls_msk' fields are 32-bit.
-> >
-> > DEF_FIELD() must be used instead of DEF_FIELD_ALIAS() to correctly hand=
-le
->
-> This is a typo:
->
->  DEF_FIELD_ALIAS() -> DEF_FIELD_ADDR()
->
+Hello Linus,
 
-Applied to linux-kbuild/fixes.
+Please pull some Kbuild fixes.
+
+Thank you.
 
 
 
---=20
+The following changes since commit 42f7652d3eb527d03665b09edac47f85fb600924:
+
+  Linux 6.12-rc4 (2024-10-20 15:19:38 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.12-2
+
+for you to fetch changes up to 77dc55a978e69625f9718460012e5ef0172dc4de:
+
+  modpost: fix input MODULE_DEVICE_TABLE() built for 64-bit on 32-bit
+host (2024-11-03 23:58:56 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.12 (2nd)
+
+ - Fix a memory leak in modpost
+
+ - Resolve build issues when cross-compiling RPM and Debian packages
+
+ - Fix another regression in Kconfig
+
+ - Fix incorrect MODULE_ALIAS() output in modpost
+
+----------------------------------------------------------------
+Elena Salomatkina (1):
+      sumversion: Fix a memory leak in get_src_version()
+
+Masahiro Yamada (6):
+      kbuild: rpm-pkg: disable kernel-devel package when cross-compiling
+      kbuild: deb-pkg: add pkg.linux-upstream.nokernelheaders build profile
+      kbuild: deb-pkg: add pkg.linux-upstream.nokerneldbg build profile
+      kconfig: show sub-menu entries even if the prompt is hidden
+      modpost: fix acpi MODULE_DEVICE_TABLE built with mismatched endianness
+      modpost: fix input MODULE_DEVICE_TABLE() built for 64-bit on 32-bit host
+
+ scripts/Makefile.package             |  7 ++++++-
+ scripts/kconfig/menu.c               | 13 ++++++++++++-
+ scripts/mod/file2alias.c             | 12 ++++++------
+ scripts/mod/sumversion.c             |  5 +++--
+ scripts/package/builddeb             |  2 +-
+ scripts/package/install-extmod-build |  6 ++----
+ scripts/package/mkdebian             | 10 +++++++++-
+ 7 files changed, 39 insertions(+), 16 deletions(-)
+
+-- 
 Best Regards
 Masahiro Yamada
 
