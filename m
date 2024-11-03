@@ -1,158 +1,112 @@
-Return-Path: <linux-kbuild+bounces-4492-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4493-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01AB9BA57C
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 13:57:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9F99BA599
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 14:23:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60E2D281CC0
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 12:57:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0843B211AC
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Nov 2024 13:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B9E1632E0;
-	Sun,  3 Nov 2024 12:57:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A444816D9C2;
+	Sun,  3 Nov 2024 13:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oz0cuCDk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C1W0Ul1j"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460DA3C6BA;
-	Sun,  3 Nov 2024 12:57:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711461E52D;
+	Sun,  3 Nov 2024 13:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730638621; cv=none; b=Ax3iZPzoKrCLKu5d24Fa1CQWQe6QAzQm/6YioTZHUxO848tviDwc355qw1uupHlp8aMhwHgMspdST2D1AfocnwgieLsaPf15l09qFqxGK9j09soKbCBx+DPoc9LD3DSUGT+mx1/1uqMawc2z6bbPqk052iUC96ehFGsRCgA4hss=
+	t=1730640192; cv=none; b=mlFUWL6iQ5kcGARCq46UnrozcM3oPfz9dIUiFXVQyMgUcA89fL64qTSIQsLo6/PTUS0atXxEcn8mguMw7DTFelBel1rJj6bxxR/psThcjl5hfKszq2LC2nCAwGpa0bF00YhTx0SNVMNlKvyXNyM3QihhV9eaDGYOLWRDEBCz1l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730638621; c=relaxed/simple;
-	bh=Ulo7nuPhsWAYT2Z4MZtXMIUNzaBvaVQ+PLkPkw/w3Vc=;
+	s=arc-20240116; t=1730640192; c=relaxed/simple;
+	bh=owxpUIA5JjJe1/GJIuWE5eHKEp3bhFDZLK8QfdI5UR4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RgtVQBwPvLB3/jjrpkWPK8gOYypOK1IO0k1OA6dJZriyKqbg5ERuZKuoTzjJBumDCbzFditoVEwW4X222CNy+Xn8mHAo7f9WsL6hzL7F2a1uVXV6HH451Oa7/KGykxLdaAJ3Ifb0Lrxa11MXxYmHWn6RIhFViZhpb5OxIeUKi4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oz0cuCDk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD3CC4CED5;
-	Sun,  3 Nov 2024 12:57:01 +0000 (UTC)
+	 To:Cc:Content-Type; b=ZArqvdk7RFJUHtagZkgAlkK7Nvwe2TtoXYDlUhIaxZaa1y7V625/scuIHDc7OGMjvmjAelDmD9X6GCdwFegHJVaALg8HKp5NBrY8JYuMod8DzinSrq9S9+8ZBIXTmQphDgwvJ7GQn0j8cv1wtmEn18nG/GAahRO5cshC+h4hP78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C1W0Ul1j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D853EC4CED5;
+	Sun,  3 Nov 2024 13:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730638621;
-	bh=Ulo7nuPhsWAYT2Z4MZtXMIUNzaBvaVQ+PLkPkw/w3Vc=;
+	s=k20201202; t=1730640191;
+	bh=owxpUIA5JjJe1/GJIuWE5eHKEp3bhFDZLK8QfdI5UR4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Oz0cuCDkAZFXhDfxaZdIElFslhXlBDHk2po/BLBB4gkgbe1fyrgy0BM8oSnouO5Jx
-	 KrNPwfWe2gVjoSqbmEqbZz0VpjaT9ZQZzDkCr/GZTU6OSbWySvEGZP5R/CCGY0A26q
-	 I5gF66IDDhMesJPtZClI2Mb7oiwVp/NIAlDOW1pG/DFmQGkrhV2dLn5dEWgCJMHqjo
-	 86KXSR7R2a6oAXyWT0QOIZulbHnA9KhzISFMPlW43f20fLBuen0uznYl+xYUD6pMFa
-	 /7alCHeYa1cX8HpKsX8qY9LzUcVDM80maH+MZ0CzIERJDbGqhUcWOkderP08UDvxeF
-	 0z+5697E0jdaQ==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fb470a8b27so40003501fa.1;
-        Sun, 03 Nov 2024 04:57:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXI8uSwEw0FGI/R/m8+ZSmXFSX/7lJePK3lG+smnwYoy27oWFYXDXmOaPd0dJI9hPPnuf4VRkTAJiQpBSI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUcBOB47C7Ie9jVYEmaDKlllW7Ig/rCiIQV278j0saqLHNIlpE
-	cGcOXtmuvuf/fzEtZYu1r0iQSCeqHec4JkvIGi6KpJ1M/ZxVmkW9/b7dTlbx02nqba2hRdxJ76j
-	wZaSM5q5WJHFNbF5a9cCkc3H9y6g=
-X-Google-Smtp-Source: AGHT+IF06ebLEarwXDoKFppSamZPRLpZjX3Vu4ACQhXUqkAtck63Coa7NSwE2kFzu1rTbxRjEj4C8KRp8Xpjw9qbX5k=
-X-Received: by 2002:a2e:bd12:0:b0:2fb:579a:fff with SMTP id
- 38308e7fff4ca-2fedb3ed34amr32403311fa.8.1730638619693; Sun, 03 Nov 2024
- 04:56:59 -0800 (PST)
+	b=C1W0Ul1j171/CeC+sLp5WXwg3QJVkHfN7o8RA57ZdsEQLczGNhKRl1rdNKQWHrxgv
+	 DPxsUrYt5M/mFMdaei68/33Dxpt/oalXNyo/8MTBKKqn02iiTZBc2aVKTzphM+I+5q
+	 rDYl1N6iOlvONqCyOKbQg71PL7qM+jRDMLRhAlXoF7k9oVkHX9yfipZdam35qoUrW5
+	 O/OyptcdPyX3sf/wFpp66teG2QhsfnEhTtLsuRuSUBv9kLYFo7gMiiMgIul3PlYbnd
+	 Ckxa/Ou9w4qW7Yq2Y9f69TMwn9yCqT1BGtmcoa7stWa4n0KLSnfOpCv9ZgJc+a8pyD
+	 KDl82IYumz/Zg==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53b34ed38easo3232848e87.0;
+        Sun, 03 Nov 2024 05:23:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUMjJebpDfZBJHUFFiLmMPTf7tlw/y2PYb/yf0mqnoFaY1QBj1KfaafVYcdwtXG0oi/0rbg1vnLB9K4lt0D@vger.kernel.org, AJvYcCUQW7/CgQUgB+NpRQUAm639l2ZJcwceKeWrifKCI0p41sQ6RHJu6jF6xMvVBbgeh4XejmHXCPZ6HtVZlx97@vger.kernel.org, AJvYcCWNLl2yoXoMwLOVcAYyGcOINEYBTQQrH2DNbwWNQr65X70ZYHCGmbq1gn+xY+Ks3zsdIY8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeITdgRunQg2tGPjTZxNNCEJ0SrddTTDeHW3qy2hRSczU/UuJC
+	44leZH66PNVX+Gf1Uf2L9jfDQECgNeZXAiPHvg55sF6n0PVJ/5T3IeWxf0lldVbkNM6GmQrcrXj
+	VVMjTTnK/q9Y6dc7RNjJCLAPeCIc=
+X-Google-Smtp-Source: AGHT+IEif4j0LPoeyuBjQdEErGyNPy2EQiFuXAV+M+x8WHwNgn5Jfb7rCZmzdfW+NcQOCRzaURku+bbfBLN2jdd1drg=
+X-Received: by 2002:a05:6512:2311:b0:539:edbe:ac86 with SMTP id
+ 2adb3069b0e04-53b348b7e1dmr14809315e87.10.1730640190560; Sun, 03 Nov 2024
+ 05:23:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241103124824.943659-1-masahiroy@kernel.org>
-In-Reply-To: <20241103124824.943659-1-masahiroy@kernel.org>
+References: <20241102100452.793970-1-flo@geekplace.eu> <73398de9-620c-9fb9-8414-d0f5c85ac53a@applied-asynchrony.com>
+In-Reply-To: <73398de9-620c-9fb9-8414-d0f5c85ac53a@applied-asynchrony.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 3 Nov 2024 21:56:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASW1jrO-hENgbZS1QGiZcGeAFwOwZY6M6cAx6tafOfhqQ@mail.gmail.com>
-Message-ID: <CAK7LNASW1jrO-hENgbZS1QGiZcGeAFwOwZY6M6cAx6tafOfhqQ@mail.gmail.com>
-Subject: Re: [PATCH] modpost: fix acpi MODULE_DEVICE_TABLE built with
- mismatched endianness
-To: linux-kbuild@vger.kernel.org
-Cc: Hanjun Guo <guohanjun@huawei.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
-	"Suthikulpanit, Suravee" <Suravee.Suthikulpanit@amd.com>, linux-kernel@vger.kernel.org
+Date: Sun, 3 Nov 2024 22:22:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATd0UNu8KsxeD-q2mDUTxQD3ATL1wF59B9K2pxzU08OQQ@mail.gmail.com>
+Message-ID: <CAK7LNATd0UNu8KsxeD-q2mDUTxQD3ATL1wF59B9K2pxzU08OQQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild,bpf: pass make jobs' value to pahole
+To: =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>
+Cc: Florian Schmaus <flo@geekplace.eu>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 3, 2024 at 9:48=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
+On Sun, Nov 3, 2024 at 9:04=E2=80=AFPM Holger Hoffst=C3=A4tte
+<holger@applied-asynchrony.com> wrote:
 >
-> When CONFIG_SATA_AHCI_PLATFORM=3Dm, modpost outputs incorect MODULE_ALIAS=
-()
-> if the endianness of the target and the build machine do not match.
+> On 2024-11-02 11:04, Florian Schmaus wrote:
+> > Pass the value of make's -j/--jobs argument to pahole, to avoid out of
+> > memory errors and make pahole respect the "jobs" value of make.
+> >
+> > On systems with little memory but many cores, invoking pahole using -j
+> > without argument potentially creates too many pahole instances,
+> > causing an out-of-memory situation. Instead, we should pass make's
+> > "jobs" value as an argument to pahole's -j, which is likely configured
+> > to be (much) lower than the actual core count on such systems.
+> >
+> > If make was invoked without -j, either via cmdline or MAKEFLAGS, then
+> > JOBS will be simply empty, resulting in the existing behavior, as
+> > expected.
+> >
+> > Signed-off-by: Florian Schmaus <flo@geekplace.eu>
 >
-> When the endianness of the target kernel and the build machine match,
-> the output is correct:
->
->   $ grep 'MODULE_ALIAS("acpi' drivers/ata/ahci_platform.mod.c
->   MODULE_ALIAS("acpi*:APMC0D33:*");
->   MODULE_ALIAS("acpi*:010601:*");
->
-> However, when building a little-endian kernel on a big-endian machine
-> (or vice versa), the output is incorrect:
->
->   $ grep 'MODULE_ALIAS("acpi' drivers/ata/ahci_platform.mod.c
->   MODULE_ALIAS("acpi*:APMC0D33:*");
->   MODULE_ALIAS("acpi*:0601??:*");
->
-> The 'cls' and 'cls_msk' fields are 32-bit.
->
-> DEF_FIELD() must be used instead of DEF_FIELD_ALIAS() to correctly handle
+> As discussed on IRC:
 
-This is a typo:
-
- DEF_FIELD_ALIAS() -> DEF_FIELD_ADDR()
+Do not do this. Others do not see what was discussed.
 
 
 
-> endianness of these 32-bit fields.
->
-> The check 'if (cls)' was unnecessary; it never became NULL, as it was the
-> pointer to 'symval' plus the offset to the 'cls' field.
->
-> Fixes: 26095a01d359 ("ACPI / scan: Add support for ACPI _CLS device match=
-ing")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/mod/file2alias.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 99dce93a4188..16154449dde1 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -567,12 +567,12 @@ static int do_acpi_entry(const char *filename,
->                         void *symval, char *alias)
->  {
->         DEF_FIELD_ADDR(symval, acpi_device_id, id);
-> -       DEF_FIELD_ADDR(symval, acpi_device_id, cls);
-> -       DEF_FIELD_ADDR(symval, acpi_device_id, cls_msk);
-> +       DEF_FIELD(symval, acpi_device_id, cls);
-> +       DEF_FIELD(symval, acpi_device_id, cls_msk);
->
->         if (id && strlen((const char *)*id))
->                 sprintf(alias, "acpi*:%s:*", *id);
-> -       else if (cls) {
-> +       else {
->                 int i, byte_shift, cnt =3D 0;
->                 unsigned int msk;
->
-> @@ -580,10 +580,10 @@ static int do_acpi_entry(const char *filename,
->                 cnt =3D 6;
->                 for (i =3D 1; i <=3D 3; i++) {
->                         byte_shift =3D 8 * (3-i);
-> -                       msk =3D (*cls_msk >> byte_shift) & 0xFF;
-> +                       msk =3D (cls_msk >> byte_shift) & 0xFF;
->                         if (msk)
->                                 sprintf(&alias[cnt], "%02x",
-> -                                       (*cls >> byte_shift) & 0xFF);
-> +                                       (cls >> byte_shift) & 0xFF);
->                         else
->                                 sprintf(&alias[cnt], "??");
->                         cnt +=3D 2;
-> --
-> 2.43.0
->
+
+I guess the right thing to do is to join the jobserver.
+
+https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html
+
+
 
 
 --=20
