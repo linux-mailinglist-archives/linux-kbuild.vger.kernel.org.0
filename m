@@ -1,211 +1,129 @@
-Return-Path: <linux-kbuild+bounces-4499-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4500-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E80B9BB4C0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 13:37:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A199BB516
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 13:52:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9E99B22511
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 12:37:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6FFC281A7C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 12:52:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1BEF1AF0A7;
-	Mon,  4 Nov 2024 12:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lSJVuqhy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2709B1B394D;
+	Mon,  4 Nov 2024 12:52:47 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5A61EEE6;
-	Mon,  4 Nov 2024 12:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B5B469D;
+	Mon,  4 Nov 2024 12:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730723863; cv=none; b=MI4yKi2g9mRdtOtUG0FrsgQ/4bJo6aTwdhhDSb4BKfh6vdqKLCH5vn26CuyU1tBu/Du0aS12/BiQrO2+eSPI5eOANTVMnj6HNTfYrNtfjOKzy1vEsh+3hsAWSdoY2pU6FbcsYyPhtWXNe0k2tH8ObSX61cK+OaI0zlKnQIsY0mo=
+	t=1730724767; cv=none; b=SeKgqUxN3nLAdQjl037is4iGZbMIGDBRX1wkD4KmpBxCQO1Dm3VDzRVuXiCv4sKC3Bte/juPk4KQwdjqPlTpMr+mMPEvMYuTGiKSjnstexX37qacZNYKYuchaLpq+jvsTr45WAp/ubR5gyX1pspiVLyht6kQcDXWH++bT+dR7lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730723863; c=relaxed/simple;
-	bh=lD9EhOkqky8/x13fa1vyaCFKqUOmfHFsFsgUO9CC2B0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HI6KVC3fG4PcUvSEcSaA7zzFl9xYsV7Gr4wuAnXRmUKj6qg3oXewzUMGbW+m5mxrGr35F6q+wkfAU9TQSaLROhnG4x1yX1cJOzRM8XZNQ5RwbafmUQ0CILlkgp8vxbZWk0u6FQ+MXAi4CAs3gZvZ36vYM/l91PRty+GRgzz5wVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lSJVuqhy; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1730724767; c=relaxed/simple;
+	bh=qfF7Se/dd2tJLYRgUK05fufd9D+Xh/Ma4qzF4RpFNsE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sICVirdxaKW2gxbTRhk4AXRVn31qj0149xUcrJUugVJyj6089uRI38tuuSx1SqToAeGPdnlZJbMBxo6mHRUctYZzsrzv1HC08X1l07rNR27PSzMa5GP5t8UOG5u24WEH5IlcFMq+qPjHyDDQFRIb6hV9/Vt0WZ8qZpxtdIePtd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=geekplace.eu; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=geekplace.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fb587d0436so43711441fa.2;
-        Mon, 04 Nov 2024 04:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730723860; x=1731328660; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vvlWvnMnzqiKZJ0eLOHxGLNTRWNJbjSMZIkx7cs7dhQ=;
-        b=lSJVuqhyYgR0YP0hjgjZxwy9ZMGvO7G9pjhG9MNCtm5LyS8xhV2xeUfUtqkk4IVAGx
-         5UqK0z0DJ/WWpZPOQOlnY7krEY0aWxKo5wSszSkYzMNEl/D86AccsNTHICtGh4rzuBHl
-         scs+di48v8MMsWKq6mx3Ps+Uy3E60tC76lSWmYyDOKIgkZ+dx7vFsuzHhM9qPR8TeeMj
-         Xu+JmxlzxzTxULhkJpigRWXAmJRXBmKn+NF7cfx3XGcLYV57ZsGsBfEk4oCp2/it2ldb
-         ZTplMfm+WFi53i78ugrXa10CFI0ogm8YHoWhpJoTCLzXXYdt8iWz7B/KesiN2u3kiLQg
-         YdOg==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539eb97f26aso1892404e87.2;
+        Mon, 04 Nov 2024 04:52:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730723860; x=1731328660;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vvlWvnMnzqiKZJ0eLOHxGLNTRWNJbjSMZIkx7cs7dhQ=;
-        b=dXuMk+0BmdDLlc+ZAeaP3nbs1rBE9hp4hMemScx31VWIKOa76Evg4M7wdGRC1udbv3
-         3sCpqKO9jIGd0ZtPK5yjSatbZTSYnIPlYqyInRhJw1nZNYd3pxnZlku7xipNKQ7OY0ID
-         ZqaEWPsfI0APAMHprgZDsPCMWm5xFeOcnXDfgBTqT7jKonkxGm7pUgJpMgE09iQyZ4KK
-         xYqYW46Rk2fCsXY3dOivvKiHDS8YxAkiH9tJF0QjgTh0DzVWsXe3dv2O1FZQSbGh8L3U
-         tw8wE9EXQoBgYBDHlwkbADiCqs2+DSBDKPYFDGHetpt+FXw9D/qLbF4FEj09QiI0dpsi
-         tbJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYqkcuXCl7YKdr5hXsQOj67z2gGfXWWHeZYqfB+oq7twUqxxb4AJUwtr2XwEgtAhr7HlhOguf44sCiyTh6@vger.kernel.org, AJvYcCUqsAb77IGwKdQNAdHPzwTtdQ8JkyZxsTEYz0saPb0Cfnd/iE505SHT+yyTyEJH7W/uKPQ=@vger.kernel.org, AJvYcCW+fOqMzRIsCFZrOnFHkV52SOA4kXXVV+YAHMac3vHq0LLfDjmvVSMrrayt8Rd5ZoYv5IOhcNYR+vCtTpGH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg4iRM3F7hyP7n7Af3fnc20D3QBLk8fXMKPyg+dXDmj1Akakri
-	uRgS6Ng5s0cbHf2jExraOOCuvc4Af8STZDDSBqh5jW/GT3jXgbUk3VkndGPHxpeowpk4yrdxZTk
-	ZgBZqr2Uy8kMnB4YiF09V6vrmFj8=
-X-Google-Smtp-Source: AGHT+IF1RiXoyxgWmaSDQWv/gU9IJuYmxxoR7wwdAcMzImzUEknB17ZKd23IyyNvy5r7UGlBU/ED0Z+2NFA1GNF3Ya0=
-X-Received: by 2002:a2e:bd15:0:b0:2fb:34dc:7beb with SMTP id
- 38308e7fff4ca-2fedb7a2114mr61252401fa.12.1730723859326; Mon, 04 Nov 2024
- 04:37:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730724760; x=1731329560;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g6wdq/nEs/3WVwSaO3vA/OwRN/JMzXZwUfX2FbRlt7w=;
+        b=MIxAu9ADRDRwOcTMvTegT3qp8qT1LZQxlwtF1kzjy9JZyyy8hgUSgvXmvTLRxzrcQ1
+         bGFyAKeebXHTmfACGVa1AldtKjqiBCz30rTDzeBrgpTRxZ8LqQkIIrCG3RgXrLKJR1UO
+         ohe2SUlHHKWF3qqCMtYR23IdwWJkSYH+qwXLuCv3Hr8oeruhhYqadMAvGPCUHrKkfYMO
+         icQqMsk30vMsyUuxmbNseUblBtas8998SVgx4XU2DI+0vvLT51AWf6eh1iLliZV9Cg7V
+         SpVzZyn6UNc7S4bR+yi0joSXzfEA/bIsfTyH2ELcaUko/7480S80uNXVwZB+6xq4R8pw
+         0lIw==
+X-Forwarded-Encrypted: i=1; AJvYcCV03lSJSPqHT/BZxjbsAU/cLYrBEpLSCgTeWIDAa3CEEKKVP/0bxKv6auEcRZM6zeOhl5KuQF7GtbuTw88K@vger.kernel.org, AJvYcCVioPzQ5ra1M0H+L828GKuQJCgh3FQ7ujUyiDVV4G79HwVn9lumT2nuQcHfWi/S6lEnI36XLaf49SfqAcI+@vger.kernel.org, AJvYcCXLnKXsGtTK8/2TmA7TdStu8c4ZstvR/Sgnt/5unGJVtFEZLyVAmIufbL2khaf1zRbqWWc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkHMSwgEbKTUqwiOXSaXT/JSsyr2s7gYp9zby6GzSHHS7VvfX3
+	dPJgA5PivcIfhpj+ogZHGmgTDSeKfIJMNX4rDaZM+1r8ugxbGl3T
+X-Google-Smtp-Source: AGHT+IFOI2mOAhadRlqXRkvN3uIDMiTt4juDzrYLjOkTHI62hBYYH/cDc17MBb84TYiLbCI5lbkflw==
+X-Received: by 2002:a05:6512:128a:b0:539:f2f6:c70f with SMTP id 2adb3069b0e04-53b7ecd58cdmr8550171e87.8.1730724758556;
+        Mon, 04 Nov 2024 04:52:38 -0800 (PST)
+Received: from ?IPV6:2001:638:a06:1028:af7d:c868:ce43:5ee1? ([2001:638:a06:1028:af7d:c868:ce43:5ee1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5e7c51sm151606305e9.25.2024.11.04.04.52.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 04:52:37 -0800 (PST)
+Message-ID: <935ac01a-8a1b-4986-9802-d2d1fd6445c2@geekplace.eu>
+Date: Mon, 4 Nov 2024 13:52:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <309549cafdcfe50c4fceac3263220cc3d8b109b2.1730337435.git.jpoimboe@kernel.org>
- <87bjz0k17c.fsf@prevas.dk> <20241031114210.GA593548@coredump.intra.peff.net>
- <20241031122456.GB593548@coredump.intra.peff.net> <20241031144351.GA1720940@coredump.intra.peff.net>
-In-Reply-To: <20241031144351.GA1720940@coredump.intra.peff.net>
-From: Benno Evers <benno.martin.evers@gmail.com>
-Date: Mon, 4 Nov 2024 13:37:27 +0100
-Message-ID: <CAEQVFRFWT02QTL7PTf84p6AAferijHx8L_Tu6ON1H7U=iEdb3A@mail.gmail.com>
-Subject: Re: [PATCH] setlocalversion: Add workaround for "git describe"
- performance issue
-To: Jeff King <peff@peff.net>
-Cc: Rasmus Villemoes <ravi@prevas.dk>, Benno Evers <benno@bmevers.de>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, git@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kbuild,bpf: pass make jobs' value to pahole
+To: Masahiro Yamada <masahiroy@kernel.org>,
+ =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
+ <nicolas@fjasle.eu>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, bpf@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241102100452.793970-1-flo@geekplace.eu>
+ <73398de9-620c-9fb9-8414-d0f5c85ac53a@applied-asynchrony.com>
+ <CAK7LNATd0UNu8KsxeD-q2mDUTxQD3ATL1wF59B9K2pxzU08OQQ@mail.gmail.com>
+Content-Language: en-US, de-DE
+From: Florian Schmaus <flo@geekplace.eu>
+In-Reply-To: <CAK7LNATd0UNu8KsxeD-q2mDUTxQD3ATL1wF59B9K2pxzU08OQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 03/11/2024 14.22, Masahiro Yamada wrote:
+> On Sun, Nov 3, 2024 at 9:04 PM Holger Hoffstätte
+> <holger@applied-asynchrony.com> wrote:
+>>
+>> On 2024-11-02 11:04, Florian Schmaus wrote:
+>>> Pass the value of make's -j/--jobs argument to pahole, to avoid out of
+>>> memory errors and make pahole respect the "jobs" value of make.
+>>>
+>>> On systems with little memory but many cores, invoking pahole using -j
+>>> without argument potentially creates too many pahole instances,
+>>> causing an out-of-memory situation. Instead, we should pass make's
+>>> "jobs" value as an argument to pahole's -j, which is likely configured
+>>> to be (much) lower than the actual core count on such systems.
+>>>
+>>> If make was invoked without -j, either via cmdline or MAKEFLAGS, then
+>>> JOBS will be simply empty, resulting in the existing behavior, as
+>>> expected.
+>>>
+>>> Signed-off-by: Florian Schmaus <flo@geekplace.eu>
+>>
+>> As discussed on IRC:
+> 
+> Do not do this. Others do not see what was discussed.
 
-I'm afraid I can't offer much wisdom, but a few thoughts:
+Sorry, you are right. However, not much was discussed. Holger just 
+pointed out that the memory usage of pahole was already reported as 
+problematic in
 
-In the testcase, the difference between A-3 and B-4 looks very
-academic, but on a real repo the results are more obviously wrong. For
-example, if I put the test setup on top of the current git repo:
+https://lore.kernel.org/lkml/20240820085950.200358-1-jirislaby@kernel.org/
 
-    benno@bourbaki:~/src/git/tmp-test$ git describe HEAD
-    A-3-ga53f69dfb5
-    benno@bourbaki:~/src/git/tmp-test$ git describe --candidates=2 HEAD
-    B-75205-ga53f69dfb5
+My patch would potentially help there as well, as it allows the user to 
+limit the number of threads used by pahole.
 
-When writing the patch I thought that it might be a good idea to
-change the definition of `describe` to favor the tag with the shortest
-first-parent distance to the described tag and print A-2 in the test
-scenario, to me that seems the most intuitive description. But that's
-a change in behavior, and it's not even clear that most people would
-agree A-2 is better, so I discarded the idea.
 
-Other than that, the only way I can see to implement the behavior
-exactly as described would be add the same condition when breaking for
-reaching the max number of candidates, ie. to stop adding new
-candidates but to delay the break from the loop until all disjoint
-paths are unified. No idea how much of a performance hit that would be
-in practice, I guess it depends on average branch lengths.
+> I guess the right thing to do is to join the jobserver.
+> 
+> https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html
 
-Best regards,
-Benno
+Yes, this would be the ideal solution. Until it is implemented, the 
+proposed patch is probably the next best thing.
 
-Am Do., 31. Okt. 2024 um 15:43 Uhr schrieb Jeff King <peff@peff.net>:
->
-> On Thu, Oct 31, 2024 at 08:24:56AM -0400, Jeff King wrote:
->
-> > We have to feed at least one commit with the "within" flag into the
-> > traversal so that it can let us end things. But I don't think it really
-> > matters if that commit is the one we found, or if it's a parent of one
-> > that we happened to pass "within" bits down to.
-> >
-> > So I think we can just set "gave_up_on" to the final element we found
-> > (whether from max_candidates or from finding every possible name). I.e.,
-> > what I showed earlier, or what you were proposing.
->
-> Hmph. So I don't think this is quite true, but now I'm puzzled again.
->
-> It is accurate to say that we must make sure _some_ commit with the
-> those flag bits set remains in "list". And I don't think it matters if
-> it's the candidate we found, or its parent.
->
-> But there's other stuff happening in that loop, after we process that
-> max candidate (where we'd proposed to break) but before we hit the next
-> possible candidate. Stuff like adding onto the depth of the other
-> candidates. Josh's example doesn't show that because it only has one
-> candidate, but I could imagine a case where it does matter (though I
-> didn't construct one).
->
-> So I'd have thought that this:
->
-> diff --git a/builtin/describe.c b/builtin/describe.c
-> index 7330a77b38..b0f645c41d 100644
-> --- a/builtin/describe.c
-> +++ b/builtin/describe.c
-> @@ -366,6 +366,12 @@ static void describe_commit(struct object_id *oid, struct strbuf *dst)
->                 struct commit_name **slot;
->
->                 seen_commits++;
-> +
-> +               if (match_cnt == max_candidates) {
-> +                       gave_up_on = c;
-> +                       break;
-> +               }
-> +
->                 slot = commit_names_peek(&commit_names, c);
->                 n = slot ? *slot : NULL;
->                 if (n) {
-> @@ -381,10 +387,6 @@ static void describe_commit(struct object_id *oid, struct strbuf *dst)
->                                 if (n->prio == 2)
->                                         annotated_cnt++;
->                         }
-> -                       else {
-> -                               gave_up_on = c;
-> -                               break;
-> -                       }
->                 }
->                 for (cur_match = 0; cur_match < match_cnt; cur_match++) {
->                         struct possible_tag *t = &all_matches[cur_match];
->
-> would do it, by just finishing out the loop iteration and bailing on the
-> next commit. After all, that commit _could_ be a candidate itself. But
-> it causes a test in t6120 to fail. We have a disjoint history like this:
->
->                  B
->                  o
->                   \
->     o-----o---o----x
->           A
->
-> and we expect that "x" is described as "A-3" (because we are including
-> the disjoint B). But after the patch above and with --candidates=2
-> (since there are only two tags and part of our goal is to limit
-> candidates to the number of tags), we find "B-4". Which is worse (at
-> least by some metrics).
->
-> I think this comes from 30b1c7ad9d (describe: don't abort too early when
-> searching tags, 2020-02-26). And given the problem description there, I
-> can see how quitting early in a disjoint history will give you worse
-> answers. But the patch above is triggering a case that already _could_
-> trigger.
->
-> So it feels like 30b1c7ad9d is incomplete. Without any patches, if I
-> limit it to --candidates=2 but make A^ a tag, then it gets the same
-> wrong answer (for the exact same reason). And I don't see a way to make
-> it correct without losing the ability to break out of the traversal
-> early when we hit max_candidates (which is obviously a very important
-> optimization in general). But maybe I'm missing something.
->
-> I do think my patch above is not introducing a new problem that wasn't
-> already there. It's just that the toy repo, having so few tags, means
-> any logic to reduce max_candidates will trigger there.
->
-> +cc the author of 30b1c7ad9d for any wisdom
->
-> -Peff
+- Florian
 
