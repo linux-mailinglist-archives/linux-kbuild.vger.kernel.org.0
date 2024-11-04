@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-4502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4503-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B639BB9D0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 17:06:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1003C9BBBF0
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 18:31:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E5C71F22663
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 16:06:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 331C11C217CF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 17:31:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 097C91C07F3;
-	Mon,  4 Nov 2024 16:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89CC433FE;
+	Mon,  4 Nov 2024 17:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="gBzZ8Ebe"
+	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="gU1G6Efk"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CA01C07EC;
-	Mon,  4 Nov 2024 16:06:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BCB18E29;
+	Mon,  4 Nov 2024 17:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730736366; cv=none; b=dtNzgHX8F4wtfVUdaUX8zIHHAvCV5RpU/KMM6yw5jL7SkKG9v0x0LlcpTJtRJBrDJ8XzLC7/6ULfNhg6666hyPy+0BvaiNTsNK/xQqLPu6y23hcQxi0dWEj+8Ey19wp1dHKtfCkn5tfPPESWE89kAumUbhpVijc+AY2aJ4/GElk=
+	t=1730741472; cv=none; b=Lbu6/AoetcuhHcTfq7zvq998yNF96ljD4LhzuZiQErNksoG6n3azCCDqeJG5mZceJa5aVfstuxxxeOSyUGTTTKkOOHlyI5ku4grERo7JuyrNlV+F0RZlpZfnxpNF1wYCNg+Gv+pFUX2tjhZsE3fP+yDrRUtN41HKOC7s/erXJbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730736366; c=relaxed/simple;
-	bh=7ZX/yKOs59hpCNIwhc75CDMFDztu8GVRreFYUik0AsQ=;
+	s=arc-20240116; t=1730741472; c=relaxed/simple;
+	bh=v/+XCzm6EbviC/3znQvwM6rEJLYPP/llNhv5TgI+1mQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WtQ3pwDsIxiioAlZcbjJUBWIDOjWz0TzBIfnJMKSVfnhvDqaPjaCOJzg1ESKUKySiZACXEumWfPqf9eU1aeXqbNggN73tzNoYfdsqgdT1PiRkPdccd/EkZUIJ1Kxj0zpK5JDDX6ab84Bn32XB4Kc6sMXTctzzsBL2wwfwt6hONE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=gBzZ8Ebe; arc=none smtp.client-ip=202.61.224.105
+	 In-Reply-To:Content-Type; b=GEXc5Jwd0CPJNCIAq0KrTJGntNSFzJuIMpzylL+tjOGPrJgerb3O/EMX1LrtU+TE8QZrNQ4T7Qg16MahupVyhBL7NRJkFfSrtOVUhlsQt/Gn6CxPNDRPm8z7+7meDbJ741Z2v4DPzQMc8d2lAFv/pKEQ6ZfudfOyu10MjzfVRJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=gU1G6Efk; arc=none smtp.client-ip=202.61.224.105
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 68D432805A2;
-	Mon,  4 Nov 2024 17:05:51 +0100 (CET)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BFE692805A6;
+	Mon,  4 Nov 2024 18:30:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1730736359; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1730741467; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=78/2oLkCdDHGBvs3uMZj3vtPS/+5QCyX/4kNxVy7H4Q=;
-	b=gBzZ8EbeWQI8MgAt4JyBxlZjhTloI+6ztk2v2rJqIFn59azcp0ZYtSQT5vARD9NtiuR9Ox
-	0HcDfuptMwj6k77huTolotwxGTBWqWwk6ZrP4OTN1i2Np48JG4xI/DBZY7oHDqtTF6Y/8T
-	J2gFnJvsFUeePDPJ5x7zhz5qu7OnNupJ5l6wM7Wuez67vPymwA4t6/wK1yQHFqgrPJR4IV
-	nMop9crreSSOMbB4cch2Tn7ufItQYgi/ANkAv/26SaUTyZZIFPzUNJf7IormfU+1cZKQjq
-	0V/RtFROlo56MtRyTG4zqyli1ABpCY1LtfekneEWXbvqA8x2HujcGZv19metMA==
-Message-ID: <d535cdfa-610d-4f41-b1e4-aa36f5d7e298@cachyos.org>
-Date: Mon, 4 Nov 2024 17:05:50 +0100
+	bh=zw05itR2VzW5JCwoB3XKPiRE0U30CtffShv/4QbhP8k=;
+	b=gU1G6Efk94x8qNU6UjNI9b61SSwffp5l0n4bg8G4dSGy5IvycOhiSLsNA/xjSgTkohajL+
+	ZXV2vq40eTpy31fajxEqpWl92fZR2A/CrBHRyHTrQshMRzZ89XbDMPtZ7K4v/UNznL5l7Y
+	/3Y54cUTQ3Q7mYS3T3y399Xvs98HXL68rFYlrZD0HGu4ZtVECObz/cuwbItjRAb/h77JIG
+	/YnVT7h7X2e0dV95O0NaLly3B8tfxEcyAuEFHySP0Njzbkwj7C8RkapQpLjIplNN10dNVa
+	PVfylg6Ta7i+IsKNEQdmsZL7uZW6rAX/zkGo1zZA1xtEic9PNjBZVPE0caf8mw==
+Message-ID: <67c07d2f-fb1f-4b7d-96e2-fb5ceb8fc692@cachyos.org>
+Date: Mon, 4 Nov 2024 18:30:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -95,14 +95,26 @@ X-Last-TLS-Session-Version: TLSv1.3
 
 Hi Han,
 
-Thanks for the test. I will look into my current setup again and will 
-let you know.
+I have tested your provided method, but the AutoFDO profile (lld does 
+not get lto-sample-profile=$pathtoprofile passed)  nor Clang as compiler 
+gets used.
+Please replace following PKGBUILD and config from linux-mainline with 
+the provided one in the gist. The patch is also included there.
 
-Please do not see this as blocker for now. :)
+https://gist.github.com/ptr1337/c92728bb273f7dbc2817db75eedec9ed
+
+The main change I am doing here, is passing following to the build array 
+and replacing "make all":
+
+make LLVM=1 LLVM_IAS=1 CLANG_AUTOFDO_PROFILE=${srcdir}/perf.afdo all
+
+When compiling the kernel with makepkg, this results at the packaging to 
+following issue and can be reliable reproduced.
 
 Regards,
 
 Peter
+
 
 On 04.11.24 05:50, Han Shen wrote:
 > Hi Peter, thanks for reporting the issue. I am trying to reproduce it
