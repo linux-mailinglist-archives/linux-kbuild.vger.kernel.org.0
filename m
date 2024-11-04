@@ -1,60 +1,49 @@
-Return-Path: <linux-kbuild+bounces-4500-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A199BB516
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 13:52:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370E29BB82C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 15:44:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6FFC281A7C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 12:52:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 620971C21EC1
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2024 14:44:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2709B1B394D;
-	Mon,  4 Nov 2024 12:52:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D33F1B3929;
+	Mon,  4 Nov 2024 14:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ptr1337.dev header.i=@ptr1337.dev header.b="JTqRjBC1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B5B469D;
-	Mon,  4 Nov 2024 12:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48731369B6;
+	Mon,  4 Nov 2024 14:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730724767; cv=none; b=SeKgqUxN3nLAdQjl037is4iGZbMIGDBRX1wkD4KmpBxCQO1Dm3VDzRVuXiCv4sKC3Bte/juPk4KQwdjqPlTpMr+mMPEvMYuTGiKSjnstexX37qacZNYKYuchaLpq+jvsTr45WAp/ubR5gyX1pspiVLyht6kQcDXWH++bT+dR7lU=
+	t=1730731457; cv=none; b=m6MmKpCfjFIk9oOlqzYbD3PmWgNSeyeAtFjILrINgE61fbpGlM7zGWLvTA2xk/EoS9CPWsOnnr8V+TltsXBGQ4V+ZWpcwSTy0x39IiavXyisf3YfgFCN7YE/nlJfo/s8EpOUe/1xBH/8NFhA1mII1N+AdX/QK6NQahpfsbOq1PU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730724767; c=relaxed/simple;
-	bh=qfF7Se/dd2tJLYRgUK05fufd9D+Xh/Ma4qzF4RpFNsE=;
+	s=arc-20240116; t=1730731457; c=relaxed/simple;
+	bh=1dB37Cc49m8JjFGCFvSOY5+g5lvy/roy/zoGscLJP3w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sICVirdxaKW2gxbTRhk4AXRVn31qj0149xUcrJUugVJyj6089uRI38tuuSx1SqToAeGPdnlZJbMBxo6mHRUctYZzsrzv1HC08X1l07rNR27PSzMa5GP5t8UOG5u24WEH5IlcFMq+qPjHyDDQFRIb6hV9/Vt0WZ8qZpxtdIePtd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=geekplace.eu; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=geekplace.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539eb97f26aso1892404e87.2;
-        Mon, 04 Nov 2024 04:52:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730724760; x=1731329560;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g6wdq/nEs/3WVwSaO3vA/OwRN/JMzXZwUfX2FbRlt7w=;
-        b=MIxAu9ADRDRwOcTMvTegT3qp8qT1LZQxlwtF1kzjy9JZyyy8hgUSgvXmvTLRxzrcQ1
-         bGFyAKeebXHTmfACGVa1AldtKjqiBCz30rTDzeBrgpTRxZ8LqQkIIrCG3RgXrLKJR1UO
-         ohe2SUlHHKWF3qqCMtYR23IdwWJkSYH+qwXLuCv3Hr8oeruhhYqadMAvGPCUHrKkfYMO
-         icQqMsk30vMsyUuxmbNseUblBtas8998SVgx4XU2DI+0vvLT51AWf6eh1iLliZV9Cg7V
-         SpVzZyn6UNc7S4bR+yi0joSXzfEA/bIsfTyH2ELcaUko/7480S80uNXVwZB+6xq4R8pw
-         0lIw==
-X-Forwarded-Encrypted: i=1; AJvYcCV03lSJSPqHT/BZxjbsAU/cLYrBEpLSCgTeWIDAa3CEEKKVP/0bxKv6auEcRZM6zeOhl5KuQF7GtbuTw88K@vger.kernel.org, AJvYcCVioPzQ5ra1M0H+L828GKuQJCgh3FQ7ujUyiDVV4G79HwVn9lumT2nuQcHfWi/S6lEnI36XLaf49SfqAcI+@vger.kernel.org, AJvYcCXLnKXsGtTK8/2TmA7TdStu8c4ZstvR/Sgnt/5unGJVtFEZLyVAmIufbL2khaf1zRbqWWc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkHMSwgEbKTUqwiOXSaXT/JSsyr2s7gYp9zby6GzSHHS7VvfX3
-	dPJgA5PivcIfhpj+ogZHGmgTDSeKfIJMNX4rDaZM+1r8ugxbGl3T
-X-Google-Smtp-Source: AGHT+IFOI2mOAhadRlqXRkvN3uIDMiTt4juDzrYLjOkTHI62hBYYH/cDc17MBb84TYiLbCI5lbkflw==
-X-Received: by 2002:a05:6512:128a:b0:539:f2f6:c70f with SMTP id 2adb3069b0e04-53b7ecd58cdmr8550171e87.8.1730724758556;
-        Mon, 04 Nov 2024 04:52:38 -0800 (PST)
-Received: from ?IPV6:2001:638:a06:1028:af7d:c868:ce43:5ee1? ([2001:638:a06:1028:af7d:c868:ce43:5ee1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5e7c51sm151606305e9.25.2024.11.04.04.52.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 04:52:37 -0800 (PST)
-Message-ID: <935ac01a-8a1b-4986-9802-d2d1fd6445c2@geekplace.eu>
-Date: Mon, 4 Nov 2024 13:52:35 +0100
+	 In-Reply-To:Content-Type; b=Zt4HWNK4fM9PuC41KI6RAfUE1edlFpzj/MgXRvvZOr+QRhqHelKyF20kAAHHnCO9nv3q1ctKmYqfjnfOk0NmypK+BpCyjBYVL3H5ffgsZWTUtBCzw1k+BLUOTeXnPtCBNemmnsdc3ihlufAbgLxFCDvt6ryDwX2q9ptx2ZmBcwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ptr1337.dev; spf=pass smtp.mailfrom=ptr1337.dev; dkim=pass (2048-bit key) header.d=ptr1337.dev header.i=@ptr1337.dev header.b=JTqRjBC1; arc=none smtp.client-ip=202.61.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ptr1337.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ptr1337.dev
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7429F2805A2;
+	Mon,  4 Nov 2024 15:44:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ptr1337.dev; s=dkim;
+	t=1730731447; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+	bh=2lEoLjVmg2x1tyqnCSNq6wpXarqIH33FEICWMKbfM3E=;
+	b=JTqRjBC16vhOyZkQxUA6j6P67qF3d29SAcp8bISeSSnIl1wGbzEoVqGHJlxnYYxl4ItfV6
+	VKhYd3chIFsJQDUmj/5r3H98j668GR7LJILcBhxnFGs7Ag3T9BTU2CMSW5qRDi2BFdWWw2
+	hverlXdzUyqCAsKalgcES+x0rhDbZ6wxHa5GYUpwEusePhYJYnB4oj43kDUAuWBtagK9Y/
+	WunxAQNZ4y4Hv8uw9GtYJoaZ8lyC+dyJRUCWf2sMgkWqBFlIAr6eD9sripXpYDwlNOlmJ/
+	H7O3v/6GnlxLuaWtRF0Mjbl08Yu/heoTtdPsw4gvwSZMCTkDjvyQBXcjA/Bl1A==
+Message-ID: <b5c2bf57-c051-40e3-a4a6-ccd38b728752@ptr1337.dev>
+Date: Mon, 4 Nov 2024 15:44:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -62,68 +51,115 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kbuild,bpf: pass make jobs' value to pahole
-To: Masahiro Yamada <masahiroy@kernel.org>,
- =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas@fjasle.eu>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, bpf@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241102100452.793970-1-flo@geekplace.eu>
- <73398de9-620c-9fb9-8414-d0f5c85ac53a@applied-asynchrony.com>
- <CAK7LNATd0UNu8KsxeD-q2mDUTxQD3ATL1wF59B9K2pxzU08OQQ@mail.gmail.com>
-Content-Language: en-US, de-DE
-From: Florian Schmaus <flo@geekplace.eu>
-In-Reply-To: <CAK7LNATd0UNu8KsxeD-q2mDUTxQD3ATL1wF59B9K2pxzU08OQQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add resolve_btfids to pacman PKGBUILD
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: jose.fernandez@linux.dev, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>, Christian Heusel <christian@heusel.eu>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org
+References: <20241102120533.1592277-1-admin@ptr1337.dev>
+ <CAK7LNAQ=sCsTXB_O58W=AH=k8Vqzoi+hh6-BKhEjZYh-+xCvBQ@mail.gmail.com>
+Content-Language: en-US
+From: Peter Jung <admin@ptr1337.dev>
+Autocrypt: addr=admin@ptr1337.dev; keydata=
+ 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
+ gOKqiuxfQT4ByeLKUXhQY5ciKpjPTg==
+In-Reply-To: <CAK7LNAQ=sCsTXB_O58W=AH=k8Vqzoi+hh6-BKhEjZYh-+xCvBQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 03/11/2024 14.22, Masahiro Yamada wrote:
-> On Sun, Nov 3, 2024 at 9:04 PM Holger Hoffstätte
-> <holger@applied-asynchrony.com> wrote:
+
+On 03.11.24 10:47, Masahiro Yamada wrote:
+> On Sat, Nov 2, 2024 at 9:06 PM Peter Jung<admin@ptr1337.dev> wrote:
+>> If the config is using DEBUG_INFO_BTF, it is required to,
+>> package resolve_btfids with.
+>> Compiling dkms modules will fail otherwise.
 >>
->> On 2024-11-02 11:04, Florian Schmaus wrote:
->>> Pass the value of make's -j/--jobs argument to pahole, to avoid out of
->>> memory errors and make pahole respect the "jobs" value of make.
->>>
->>> On systems with little memory but many cores, invoking pahole using -j
->>> without argument potentially creates too many pahole instances,
->>> causing an out-of-memory situation. Instead, we should pass make's
->>> "jobs" value as an argument to pahole's -j, which is likely configured
->>> to be (much) lower than the actual core count on such systems.
->>>
->>> If make was invoked without -j, either via cmdline or MAKEFLAGS, then
->>> JOBS will be simply empty, resulting in the existing behavior, as
->>> expected.
->>>
->>> Signed-off-by: Florian Schmaus <flo@geekplace.eu>
+>> Add a check, if resolve_btfids is present and then package it, if required.
 >>
->> As discussed on IRC:
-> 
-> Do not do this. Others do not see what was discussed.
+>> Signed-off-by: Peter Jung<admin@ptr1337.dev>
+>> ---
+>>   scripts/package/PKGBUILD | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+>> index f83493838cf9..4010899652b8 100644
+>> --- a/scripts/package/PKGBUILD
+>> +++ b/scripts/package/PKGBUILD
+>> @@ -91,6 +91,11 @@ _package-headers() {
+>>                  "${srctree}/scripts/package/install-extmod-build" "${builddir}"
+>>          fi
+>>
+>> +       # required when DEBUG_INFO_BTF_MODULES is enabled
+>> +       if [ -f tools/bpf/resolve_btfids/resolve_btfids ]; then
+>> +               install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids
+>> +       fi
+>> +
+> This is not the right place.
+>
+> scripts/package/install-extmod-build is a script to set up
+> the build environment to build external modules.
+> It is shared by rpm-pkg, deb-pkg, and pacman-pkg.
+>
+>
+> https://github.com/torvalds/linux/blob/v6.12-rc5/scripts/package/install-extmod-build#L34
+>
+> You will see how objtool is copied.
+>
+>
+>
+>
+> (Anyway, it depends on your urgency.
+> My hope is to support objtool and resolve_btfids in more generic ways.)
+>
 
-Sorry, you are right. However, not much was discussed. Holger just 
-pointed out that the memory usage of pahole was already reported as 
-problematic in
+Thanks Masahiro for the suggestion. I will look into and likely bring a v2.
+I did not know about other distribution/package managers, if this is 
+also a problem at them.
 
-https://lore.kernel.org/lkml/20240820085950.200358-1-jirislaby@kernel.org/
+At archlinux we have included this since a while already in the 
+PKGBUILD, see here:
+https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/blob/main/PKGBUILD?ref_type=heads#L151-152
 
-My patch would potentially help there as well, as it allows the user to 
-limit the number of threads used by pahole.
+I will also make the change to grep for DEBUG_INFO_BTF in the config 
+with the is_enabled function, instead of checking the path
 
 
-> I guess the right thing to do is to join the jobserver.
-> 
-> https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html
+Regards,
 
-Yes, this would be the ideal solution. Until it is implemented, the 
-proposed patch is probably the next best thing.
+Peter
 
-- Florian
 
