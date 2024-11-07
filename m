@@ -1,391 +1,190 @@
-Return-Path: <linux-kbuild+bounces-4550-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4551-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B619C0E00
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2024 19:44:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0746E9C0EE7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2024 20:31:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B3FE1C22735
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2024 18:44:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C9F71F2213A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2024 19:31:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1DF9217324;
-	Thu,  7 Nov 2024 18:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D5372170B2;
+	Thu,  7 Nov 2024 19:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i0yziqJR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oTthrFLj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9707A1DC04A
-	for <linux-kbuild@vger.kernel.org>; Thu,  7 Nov 2024 18:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5741213140
+	for <linux-kbuild@vger.kernel.org>; Thu,  7 Nov 2024 19:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731005076; cv=none; b=bRvSh1yC+ZNmKiuj9Tt2gSXIgRQxx427lfP1ZTrDEfgupKaIfCdbil1MHBlRnnNaYxt3/3G0lz3nnW2aNXzK7yehIz9m2AG3sZZ/jCa0qp22do7+wjf4mJo8/EWIHusCEGERHO7LP4EDbN4Ti7OPUPW0AIAcbQNK79Kj4v7Bpvk=
+	t=1731007895; cv=none; b=uGA9SucHUwhwoihkpb8qLjpVWUB97qqC26D8tTH6fy+9N3VrUok5TdWYZ5fodKtFrSKr0qOwMmfSrSCHpZRv2kpmJzeo6hy2jRrnxc1uBqNfJHfjtB3591+zQksuf4Z4Y4GYohs0opjgXs32im8VU8yLqFumIUKkCHDS9dIZQWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731005076; c=relaxed/simple;
-	bh=Tam3C3FSWBIBa879uPr6lOw08wkgu4jeV8XEi7er5NA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u8tejYDj4Y1bepTFNftsv5e/Jo2P85h7vIPKf/4JwaiSyV+7LyV0D7dkhWnQF4QlTk8ykaR9UA24r93K9Es1naYXwHFv/2aWisLfFDdEaqZN0TMiPGBV/o07Nzqf3Nh3/rxhQlitZOaflR8GMzC4uuJyyQHmgOL7IGABlsyeXpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i0yziqJR; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-460a8d1a9b7so21181cf.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Nov 2024 10:44:34 -0800 (PST)
+	s=arc-20240116; t=1731007895; c=relaxed/simple;
+	bh=FhVtDKAHLNobaF3Xr7MJKIpcbXekOH7CtAljMKvTH6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=liropENwASLAFJyhgQO1HUIRJCBC2MUGrhlSXU3uZCWHcsrKMS+aWhhU8DOcZax6eUcRw0N4qVWiCPn5NB28tEe2esSq8iPfj//jufNP/2ABxJbYN1LikctzRaStW8LSV9V84xu0TP3zecodh0W9I2orKTkX5gD5Z34OnlwqW0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oTthrFLj; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7ed9c16f687so948088a12.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 07 Nov 2024 11:31:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731005073; x=1731609873; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J4nPpYXP0vVd6qbOkqNtUFVqt4H36QKYv9JFjcka9R4=;
-        b=i0yziqJRI0ILnBAjYvAjt4vLzPR+UFA6Ww7FdJYeIE3gPS0Vtn+dT3CmfvFdlnaAC+
-         2fNSDAkA9MwKUYhyh6CTqP1zDvl2DQq44OdVRpm+pmayYzTrJTztaO5fZ30Jgfw0qg1B
-         fSLEkaeZuLLCLyUUCgpdFzSj196jVKWEzMvFfEfviYnc2RnxBMaD6JenbvwqMAzGE7Y6
-         1tGMldevX4HH0VAspk48woA+B7QI59I7OeewGTsJcEqrM1sGv61VEkTIgYZWcOCLv2gN
-         v4VSh53JVXdPiKb/W9BOfBZgBO/ZF2cGg0DtvEo1TaYTe6EoRFsSwJlxLEeKPsV7VOEf
-         Ec9Q==
+        d=chromium.org; s=google; t=1731007893; x=1731612693; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hbvSClt+dAXUM1kgWg8I5q9vyT6fSjbN1Ij//6r0NEI=;
+        b=oTthrFLjxQ4Wkc6O4vxIf8kr2X3q4wRMAT9adKQzxRe8tm4r4AlgWyIEb5vpkoDZQf
+         LjyrIYV736lZ0bnHUgsMqeKGw0k0lDWnZXksat1lyKGkPXUXeJX23irry424C5urqWXc
+         u33lzg5mgFD3Jh/xmch1yODDHdbzrKC8oHxjk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731005073; x=1731609873;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J4nPpYXP0vVd6qbOkqNtUFVqt4H36QKYv9JFjcka9R4=;
-        b=RoN28zZEHw4i1Qoyo3+wacmnvQQ9iXrUwE7O5NjPVOPkxPhBwt8DJAF5utTLmWBFHE
-         JKlxDSytDJ3o9ogw5HSnTB1WBLxev45TqGE5gO5Eq51/Tj2Bozg5u7v/ss3EBWH6wztf
-         mDoDZo7sksHOuV0yZI63BrpNluABt54b7EQ0Zsmlhi3bxR+GzAKdvjSS9u2tHC1kOVRx
-         Qj613+eCEU4WY6fEmJv3pTZW0yDLDhVVhVLXqGpPi8nyKzwjSqL6SR7VGWFzMmhuDKE3
-         G+2LX8zhBsfvoMHQOAXpUJeJlZZKfrHqgA+VKH91G6lMKYhmeSOT010mZly66oZLJ5fU
-         NUEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfOv6rGMjFZt1pWo3D378UTSYz7W9POflXZ4TWllU20E/W6hlfA1D/grQZesIfRs6tMS/Yyd4kIImatWk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzX2mO3DTX4urDFrtVS/oZv12XV5dKip0a2Y7qCp3aOQeDwIpOF
-	TLS18AApxHQmGExt/duZ9BEbw8TQQMrP33wJGdKRz9DdRvdHK6J5/BFdhx86jXDy/fAmxoxUyVH
-	/U70AQ6yDxxfdeKZG04L6gUzB/2418FFlXcjZ
-X-Gm-Gg: ASbGncu9ckmS8kz8iQQByyUQCF4N3AVpsussfSR2lwSdqQaneyiTB4YxMHpoY7kWMLQ
-	Pp+9Wj51ta7TRIiyqPKVs3gnk/rfp/wNpnSbbZV2MbFk3I/VKyyKEfrsp9f7H
-X-Google-Smtp-Source: AGHT+IHrq73eKO0bY8+FfuWfYvfEG6yvw63fkpfi5hna41D9nyt3oGP9CfN+ewePinNTBwT8SH0tAPXgnDQz/bQ4nhs=
-X-Received: by 2002:a05:622a:4b0a:b0:462:c158:9f5b with SMTP id
- d75a77b69052e-462fa610ffbmr4822701cf.19.1731005073310; Thu, 07 Nov 2024
- 10:44:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731007893; x=1731612693;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hbvSClt+dAXUM1kgWg8I5q9vyT6fSjbN1Ij//6r0NEI=;
+        b=nQ+o3VhWGVWNkVlK6DqkC7bbzynYEreas0dQ4y1N+MVWXtVk/J5Lrg/2k/LRvC10tP
+         wDV9+B34OF7KBE/i07jk15Nv6410CPO+b+d+iOhAvd8AlSJN6WSdUBq00koA8IBxxth8
+         5hhbz7WKpn+alfyJNfxOrvJ56S5WdZ1AGrfV7K0TeAL9hvJx+U3GcJPtJqmQ99U2OcNY
+         Aydvsa2mvpght9aehrs4XeWOVKo3gtEJNpbEVFlFj6vC15fKRH4kstZYjCPSkLa7qcef
+         /OSALWYvldlhfWKSFkxK+sfpNuVDRLuMz3K+smLS2Urt/aldXrCpvOlJRev2aMBtmt+3
+         kYdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDDwO/w6sSoY26zKW1x2g2cpBLpw6yI4P4r2I4qEOpCs5cY96FnkhqBxii03rbX8QlJz+ccHkK+ISM938=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGsmYaGqlJ1yKleJ++deG0UhUgtIe7QJJev/gwlUjNk9slxAjR
+	A49Zsh0yQnHJ3dX6rmzUzl9CcVKh/RR7UDNrEhuOYEc8xznIRsRMJEZ4mtmy3Q==
+X-Google-Smtp-Source: AGHT+IEbLiBW3PaYgjufhiOm00mstGi5fV/4ArJUPxEYJmyYx8kjZqmIWOQFXW/GQR4cVKjQcYgHcw==
+X-Received: by 2002:a17:90a:e7cb:b0:2e2:e8fc:e0dd with SMTP id 98e67ed59e1d1-2e9b1748ba3mr394578a91.35.1731007892871;
+        Thu, 07 Nov 2024 11:31:32 -0800 (PST)
+Received: from localhost (198.103.247.35.bc.googleusercontent.com. [35.247.103.198])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2e9a5f8f4e2sm2071802a91.26.2024.11.07.11.31.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2024 11:31:32 -0800 (PST)
+From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+To: heikki.krogerus@linux.intel.com,
+	tzungbi@kernel.org,
+	linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev
+Cc: jthies@google.com,
+	akuchynski@google.com,
+	pmalani@chromium.org,
+	dmitry.baryshkov@linaro.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/7] Thunderbolt and DP altmode support for cros-ec-typec
+Date: Thu,  7 Nov 2024 11:29:53 -0800
+Message-ID: <20241107193021.2690050-1-abhishekpandit@chromium.org>
+X-Mailer: git-send-email 2.47.0.277.g8800431eea-goog
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102175115.1769468-1-xur@google.com> <CAK7LNASdBPtq4vaK0XZQvxicOY15qJFsnqkO2_us4AU4ppHw6A@mail.gmail.com>
- <CAF1bQ=R-7z9+57fji4Mn=ZVUgwSniGQ-8H4=42tFunxyp69Wzw@mail.gmail.com> <CAK7LNARpXOm1R_BVsH-fSC4ZzQqstHj0amzX8fu6=USwTD91Tw@mail.gmail.com>
-In-Reply-To: <CAK7LNARpXOm1R_BVsH-fSC4ZzQqstHj0amzX8fu6=USwTD91Tw@mail.gmail.com>
-From: Rong Xu <xur@google.com>
-Date: Thu, 7 Nov 2024 10:44:21 -0800
-Message-ID: <CAF1bQ=SRnSP9mgnyRw+Hg=0-CX-uOwKmsiwHf6b2bFXKnWxPHw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/7] Add AutoFDO and Propeller support for Clang build
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, Yabin Cui <yabinc@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Thanks for the explanation.
 
-On Thu, Nov 7, 2024 at 6:58=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> On Thu, Nov 7, 2024 at 4:00=E2=80=AFAM Rong Xu <xur@google.com> wrote:
-> >
-> > On Wed, Nov 6, 2024 at 8:09=E2=80=AFAM Masahiro Yamada <masahiroy@kerne=
-l.org> wrote:
-> > >
-> > > On Sun, Nov 3, 2024 at 2:51=E2=80=AFAM Rong Xu <xur@google.com> wrote=
-:
-> > > >
-> > > > Hi,
-> > > >
-> > > > This patch series is to integrate AutoFDO and Propeller support int=
-o
-> > > > the Linux kernel. AutoFDO is a profile-guided optimization techniqu=
-e
-> > > > that leverages hardware sampling to enhance binary performance.
-> > > > Unlike Instrumentation-based FDO (iFDO), AutoFDO offers a user-frie=
-ndly
-> > > > and straightforward application process. While iFDO generally yield=
-s
-> > > > superior profile quality and performance, our findings reveal that
-> > > > AutoFDO achieves remarkable effectiveness, bringing performance clo=
-se
-> > > > to iFDO for benchmark applications.
-> > > >
-> > > > Propeller is a profile-guided, post-link optimizer that improves
-> > > > the performance of large-scale applications compiled with LLVM. It
-> > > > operates by relinking the binary based on an additional round of ru=
-ntime
-> > > > profiles, enabling precise optimizations that are not possible at
-> > > > compile time.  Similar to AutoFDO, Propeller too utilizes hardware
-> > > > sampling to collect profiles and apply post-link optimizations to i=
-mprove
-> > > > the benchmark=E2=80=99s performance over and above AutoFDO.
-> > > >
-> > > > Our empirical data demonstrates significant performance improvement=
-s
-> > > > with AutoFDO and Propeller, up to 10% on microbenchmarks and up to =
-5%
-> > > > on large warehouse-scale benchmarks. This makes a strong case for t=
-heir
-> > > > inclusion as supported features in the upstream kernel.
-> > > >
-> > > > Background
-> > > >
-> > > > A significant fraction of fleet processing cycles (excluding idle t=
-ime)
-> > > > from data center workloads are attributable to the kernel. Ware-hou=
-se
-> > > > scale workloads maximize performance by optimizing the production k=
-ernel
-> > > > using iFDO (a.k.a instrumented PGO, Profile Guided Optimization).
-> > > >
-> > > > iFDO can significantly enhance application performance but its use
-> > > > within the kernel has raised concerns. AutoFDO is a variant of FDO =
-that
-> > > > uses the hardware=E2=80=99s Performance Monitoring Unit (PMU) to co=
-llect
-> > > > profiling data. While AutoFDO typically yields smaller performance
-> > > > gains than iFDO, it presents unique benefits for optimizing kernels=
-.
-> > > >
-> > > > AutoFDO eliminates the need for instrumented kernels, allowing a si=
-ngle
-> > > > optimized kernel to serve both execution and profile collection. It=
- also
-> > > > minimizes slowdown during profile collection, potentially yielding
-> > > > higher-fidelity profiling, especially for time-sensitive code, comp=
-ared
-> > > > to iFDO. Additionally, AutoFDO profiles can be obtained from produc=
-tion
-> > > > environments via the hardware=E2=80=99s PMU whereas iFDO profiles r=
-equire
-> > > > carefully curated load tests that are representative of real-world
-> > > > traffic.
-> > > >
-> > > > AutoFDO facilitates profile collection across diverse targets.
-> > > > Preliminary studies indicate significant variation in kernel hot sp=
-ots
-> > > > within Google=E2=80=99s infrastructure, suggesting potential perfor=
-mance gains
-> > > > through target-specific kernel customization.
-> > > >
-> > > > Furthermore, other advanced compiler optimization techniques, inclu=
-ding
-> > > > ThinLTO and Propeller can be stacked on top of AutoFDO, similar to =
-iFDO.
-> > > > ThinLTO achieves better runtime performance through whole-program
-> > > > analysis and cross module optimizations. The main difference betwee=
-n
-> > > > traditional LTO and ThinLTO is that the latter is scalable in time =
-and
-> > > > memory.
-> > > >
-> > > > This patch series adds AutoFDO and Propeller support to the kernel.=
- The
-> > > > actual solution comes in six parts:
-> > > >
-> > > > [P 1] Add the build support for using AutoFDO in Clang
-> > > >
-> > > >       Add the basic support for AutoFDO build and provide the
-> > > >       instructions for using AutoFDO.
-> > > >
-> > > > [P 2] Fix objtool for bogus warnings when -ffunction-sections is en=
-abled
-> > > >
-> > > > [P 3] Adjust symbol ordering in text output sections
-> > > >
-> > > > [P 4] Add markers for text_unlikely and text_hot sections
-> > > >
-> > > > [P 5] Enable =E2=80=93ffunction-sections for the AutoFDO build
-> > > >
-> > > > [P 6] Enable Machine Function Split (MFS) optimization for AutoFDO
-> > > >
-> > > > [P 7] Add Propeller configuration to the kernel build
-> > > >
-> > > > Patch 1 provides basic AutoFDO build support. Patches 2 to 6 furthe=
-r
-> > > > enhance the performance of AutoFDO builds and are functionally depe=
-ndent
-> > > > on Patch 1. Patch 7 enables support for Propeller and is dependent =
-on
-> > > > patch 2 to patch 4.
-> > > >
-> > > > Caveats
-> > > >
-> > > > AutoFDO is compatible with both GCC and Clang, but the patches in t=
-his
-> > > > series are exclusively applicable to LLVM 17 or newer for AutoFDO a=
-nd
-> > > > LLVM 19 or newer for Propeller. For profile conversion, two differe=
-nt
-> > > > tools could be used, llvm_profgen or create_llvm_prof. llvm_profgen
-> > > > needs to be the LLVM 19 or newer, or just the LLVM trunk. Alternati=
-vely,
-> > > > create_llvm_prof v0.30.1 or newer can be used instead of llvm-profg=
-en.
-> > > >
-> > > > Additionally, the build is only supported on x86 platforms equipped
-> > > > with PMU capabilities, such as LBR on Intel machines. More
-> > > > specifically:
-> > > >  * Intel platforms: works on every platform that supports LBR;
-> > > >    we have tested on Skylake.
-> > > >  * AMD platforms: tested on AMD Zen3 with the BRS feature. The kern=
-el
-> > > >    needs to be configured with =E2=80=9CCONFIG_PERF_EVENTS_AMD_BRS=
-=3Dy", To
-> > > >    check, use
-> > > >    $ cat /proc/cpuinfo | grep =E2=80=9C brs=E2=80=9D
-> > > >    For the AMD Zen4, AMD LBRV2 is supported, but we suspect a bug w=
-ith
-> > > >    AMD LBRv2 implementation in Genoa which blocks the usage.
-> > > >
-> > > > For ARM, we plan to send patches for SPE-based Propeller when
-> > > > AutoFDO for Arm is ready.
-> > > >
-> > > > Experiments and Results
-> > > >
-> > > > Experiments were conducted to compare the performance of AutoFDO-op=
-timized
-> > > > kernel images (version 6.9.x) against default builds.. The evaluati=
-on
-> > > > encompassed both open source microbenchmarks and real-world product=
-ion
-> > > > services from Google and Meta. The selected microbenchmarks include=
-d Neper,
-> > > > a network subsystem benchmark, and UnixBench which is a comprehensi=
-ve suite
-> > > > for assessing various kernel operations.
-> > > >
-> > > > For Neper, AutoFDO optimization resulted in a 6.1% increase in thro=
-ughput
-> > > > and a 10.6% reduction in latency. UnixBench saw a 2.2% improvement =
-in its
-> > > > index score under low system load and a 2.6% improvement under high=
- system
-> > > > load.
-> > > >
-> > > > For further details on the improvements observed in Google and Meta=
-'s
-> > > > production services, please refer to the LLVM discourse post:
-> > > > https://discourse.llvm.org/t/optimizing-the-linux-kernel-with-autof=
-do-including-thinlto-and-propeller/79108
-> > > >
-> > > > Thanks,
-> > > >
-> > > > Rong Xu and Han Shen
-> > >
-> > >
-> > > I applied this series to linux-kbuild.
-> > >
-> >
-> > Thanks for taking the patch!
-> >
-> > > As I mentioned before, I do not like #ifdef because
-> > > it hides (not fixes) issues only for default cases.
-> >
-> > We followed the suggestion and removed most of the #if (or #ifdef) in
-> > the linker script.
-> > I just checked: there are two #ifdef remaining:
-> > (1) in the propeller patch for .llvm_bb_addr_map
-> > (2) in linker script patch for arch/sparc/kernel/vmlinux.lds.S.
-> >
-> > I think it's likely safe to remove the checks for head_64.o in
-> > non-SPARC64 builds and .llvm_bb_addr_map symbols in non-propeller build=
-s.
-> >
-> > SPARC64 builds should always produce head_64.o, and non-SPARC64
-> > builds shouldn't.
-> >
-> > Propeller builds always generate .llvm_bb_addr_map symbols, and the
-> > linker will omit the section if it's empty in non-propeller builds.
-> >
-> > Keeping the checks is harmless and might slightly reduce linker
-> > workload for matching.
-> > But If you'd prefer to remove them, I'm happy to provide a patch.
->
->
-> I am talking about the #ifdef in include/asm-generic/vmlinux.lds.h
->
->
-> Yeah, it is me who (reluctantly) accepted cb87481ee89d.
->
-> Now, the #ifdef has become a little more complicated.
-> The default case is safe, but there are hidden issues.
->
-> Some issues are easy to fix, so I sent some patches.
-> https://lore.kernel.org/linux-kbuild/20241106161445.189399-1-masahiroy@ke=
-rnel.org/T/#t
-> https://lore.kernel.org/linux-kbuild/20241106161445.189399-1-masahiroy@ke=
-rnel.org/T/#m4e4fa70386696e903b68d3fe1d7277e9a63fbefe
-> https://lore.kernel.org/linux-kbuild/20241107111519.GA15424@willie-the-tr=
-uck/T/#mccf6d49ddd11c90dcc583d7a68934bb3311da880
+Hi Heikki, Tzung-Bi et al,
 
-I did notice the issues for .data.* -- that is one of the reasons we
-separated text from data in our patch.
+This patch series adds support for alternate mode entry for the
+cros-ec-typec driver for Displayport and Thunderbolt.
 
->
-> For example, see e41f501d3912.
->
-> When CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=3Dy or
-> CONFIG_LTO_CLANG=3Dy or CONFIG_AUTOFDO_CLANG=3Dy or
-> CONFIG_PROPELLER_CLANG=3Dy, the .text.startup sections
-> will go to TEXT_MAIN instead of INIT_TEXT.
-> This is not a fatal issue, but we cannot reuse memory for .text.startup
-> sections.
->
-> Removing the #ifdef (i.e. reverting cb87481ee89d) is more difficult
-> because we need to take a closer look at potential impacts for all
-> architectures.
+Thunderbolt support is added by adapting an RFC Heikki had posted
+previously:
 
-I'm not sure if there is a naming convention for section names in the kerne=
-l.
-For special sections, we should avoid using .text.* or .data.*,
-instead, using "..', or use
-other prefixes.
+https://lore.kernel.org/linux-usb/20191230152857.43917-1-heikki.krogerus@linux.intel.com/
 
-The compiler can generate sections names like .text.hot.*", ".text.unknown.=
-*",
-  ".text.unlikely.*", ".text.split.*", ".text.startup." or
-".text.exit. It seems we've
-addressed most of them except .text.startup and .text.exit.
+A few comments on the series:
 
-For text.startup and .text.exit, have you considered renaming the
-sections within
-the linker script -- they are fixed strings and should be able to be rename=
-d.
+* The cros-ec interface will not accept any VDOs/VDMs so we simply
+  ignore any configurations we are passed (i.e. DPConfigure). This means
+  the sysfs control of DP lanes won't work.
+* ChromeOS has two modes of operation for alt-modes: entirely EC driven
+  or AP-driven from userspace (via the typec daemon). Thus, we don't
+  expect the kernel alt-mode drivers to auto-enter modes in all cases.
+  This series allows auto-enter for displayport but disables it for TBT
+  for this reason.
 
->
-> I understood you did not want to take a risk to break random architecture=
-s,
-> so I decided to postpone the #ifdef issue and accept your patch set.
+This was tested with a ChromeOS Brya device using kernel 6.6 and built
+with allmodconfig for linux-usb.
 
-Thanks for the understanding!
+Thanks,
+Abhishek
 
->
-> --
-> Best Regards
-> Masahiro Yamada
+Changes in v3:
+- Removed mode from altmode device ids
+- Updated modalias for typecd bus to remove mode
+- Re-ordered to start of series
+- Revert rename of TYPEC_TBT_MODE
+- Remove mode from typec_device_id
+- Use port.active instead of introducing auto-enter field
+- Introduce inactive field to typec_altmode_desc to set default value
+  for active.
+- Always make port 'active' field writable
+- Refactored typec_altmode_dp_data per review request
+- Removed unused vdm operations during altmode registration
+- Fix usage of TBT sid and mode.
+- Removed unused vdm operations during altmode registration
+- Set port.inactive = true instead of auto-enter.
+
+Changes in v2:
+- Update altmode_match to ignore mode entirely
+- Also apply the same behavior to typec_match
+- Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
+- Pass struct typec_thunderbolt_data to typec_altmode_notify
+- Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
+- Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
+- Change module license to GPL due to checkpatch warning
+- Refactored displayport into cros_typec_altmode.c to extract common
+  implementation between altmodes
+- Refactored thunderbolt support into cros_typec_altmode.c
+- Only disable auto-enter for Thunderbolt
+- Update commit message to clearly indicate the need for userspace
+  intervention to enter TBT mode
+
+Abhishek Pandit-Subedi (6):
+  usb: typec: Only use SVID for matching altmodes
+  usb: typec: Check port is active before enter mode on probe
+  platform/chrome: cros_ec_typec: Update partner altmode active
+  platform/chrome: cros_ec_typec: Displayport support
+  platform/chrome: cros_ec_typec: Thunderbolt support
+  platform/chrome: cros_ec_typec: Disable tbt on port
+
+Heikki Krogerus (1):
+  usb: typec: Add driver for Thunderbolt 3 Alternate Mode
+
+ MAINTAINERS                                  |   3 +
+ drivers/platform/chrome/Makefile             |   7 +
+ drivers/platform/chrome/cros_ec_typec.c      |  47 ++-
+ drivers/platform/chrome/cros_ec_typec.h      |   1 +
+ drivers/platform/chrome/cros_typec_altmode.c | 360 +++++++++++++++++++
+ drivers/platform/chrome/cros_typec_altmode.h |  48 +++
+ drivers/usb/typec/altmodes/Kconfig           |   9 +
+ drivers/usb/typec/altmodes/Makefile          |   2 +
+ drivers/usb/typec/altmodes/displayport.c     |   9 +-
+ drivers/usb/typec/altmodes/nvidia.c          |   2 +-
+ drivers/usb/typec/altmodes/thunderbolt.c     | 312 ++++++++++++++++
+ drivers/usb/typec/bus.c                      |   6 +-
+ drivers/usb/typec/class.c                    |   9 +-
+ include/linux/usb/typec.h                    |   2 +
+ include/linux/usb/typec_tbt.h                |   1 +
+ scripts/mod/devicetable-offsets.c            |   1 -
+ scripts/mod/file2alias.c                     |   4 +-
+ 17 files changed, 793 insertions(+), 30 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_typec_altmode.c
+ create mode 100644 drivers/platform/chrome/cros_typec_altmode.h
+ create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
+
+-- 
+2.47.0.277.g8800431eea-goog
+
 
