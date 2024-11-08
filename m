@@ -1,133 +1,121 @@
-Return-Path: <linux-kbuild+bounces-4569-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4570-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9115F9C1741
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Nov 2024 08:49:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DD59C1784
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Nov 2024 09:09:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 556EB2819A5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Nov 2024 07:49:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB45CB22727
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Nov 2024 08:09:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D6617BD6;
-	Fri,  8 Nov 2024 07:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUF7koUR"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22DC21D26E9;
+	Fri,  8 Nov 2024 08:08:48 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B00118A950;
-	Fri,  8 Nov 2024 07:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314061D3578;
+	Fri,  8 Nov 2024 08:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731052139; cv=none; b=hedIdA2AeIUqzGrHbjTSCl93V7wG3kkmT0FxVNj2iVZH9j66vNRtyoKhnuOll4Fh9DAIlUUR47qihVmfVJ/MBl/4HFK3VvBy6/2WUAKOVqBRyALsugGz32tMDE7KIIUX3TqRGo+sjWl2VUSao3mD+AgM4YQbie2FbfYFB3/KpaU=
+	t=1731053328; cv=none; b=Wd3SYQPiOLfF34c0c0PwgXQAAWioJpwhNpEr4+YqaJlpdN0ptnfSUW1QUrolxXLrVW/asjOE5pOFVDg/icy1HF4uYG27dJjpGlh7m4mFtJyV5l+L3wyTBOUAT2VuO+mDeyQ1/qbqDTDHkcWJSDw3gaAXarxWPWQ5cn5yoJ8KgAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731052139; c=relaxed/simple;
-	bh=5dmXCCV4iIz/N83stmlHFx3/ccn+n1/Omj/nysKWmw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U6cC3P73wtyM2l5J+S4Pb6L1gD2H9Fc/xz4XVwcsFpFpP+GdV4mOY+b6JRlfdIqQfhuwLhOx90YQ5UU9wdv0SCFmqhagQN1NoEA/Fe4O1WP3y05NJZDaOCG5Q1uEogmQDZY7VeWHHSEeOchq3KsEK4EoKfv65IgpSz8YZXn5WjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUF7koUR; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731052137; x=1762588137;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5dmXCCV4iIz/N83stmlHFx3/ccn+n1/Omj/nysKWmw4=;
-  b=nUF7koURiA32O4aYmPMPMQcUOQghRUz6/09Jo3zjSZ6sKira4VXwstgx
-   MHYGKyOOEadFwuLYxyB2OeQ26oJHxVhudYma/mjxFQa4caYazAZIyuEUo
-   l0QffKbaujMc7RxALfKEJMkjIV57J9XlwIfuFy9IFREqJDxzqTIPsXuug
-   /8loF1EZROq409i/sAChQL0TLrqr/LtG9nLQ74kFTFWMyREERTYZ4UWyR
-   1X67m8HBAxO/TEyYbu++vImn4XkliFIvVkFbC+M8NK2hN5aTylcvWRsxd
-   Xhq0K8h4Z931NApVrVQlvYdY9gf5rLIHaNlqY1T5YuxrLWc7wtUDa81YN
-   w==;
-X-CSE-ConnectionGUID: Org/DAZjQa+bUH5L+mPXHg==
-X-CSE-MsgGUID: 8cI4B76zQCKYacWyLBUvWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41484765"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41484765"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 23:48:56 -0800
-X-CSE-ConnectionGUID: 88KURq/qRN+u3fJM/Z4oEw==
-X-CSE-MsgGUID: ke0sPDvPTL2VBwGCW+N+TQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="89393856"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Nov 2024 23:48:53 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9Jjf-000r9S-1t;
-	Fri, 08 Nov 2024 07:48:51 +0000
-Date: Fri, 8 Nov 2024 15:47:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jacob Keller <jacob.e.keller@intel.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	netdev <netdev@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kbuild@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH net-next v3 3/9] lib: packing: add pack_fields() and
- unpack_fields()
-Message-ID: <202411081548.EnYrguKQ-lkp@intel.com>
-References: <20241107-packing-pack-fields-and-ice-implementation-v3-3-27c566ac2436@intel.com>
+	s=arc-20240116; t=1731053328; c=relaxed/simple;
+	bh=LD2eDfz4SMAlB7umwDHTDu0TvSKpT8mglT8E9NBfcjU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=niY0H8IHUElTqA/Fa+Q5DcibYDk/2d5OYhUmWIeu/H+3bZxPrgB9J3ffWqKJQGqbJSNaqTMZC3nhmcdVGREi5FtEou+DXhEqDTVk7Sb4XVKXYPsCn8sJp4RuA9nrXrSXZTkUqlOajBobG0SNDasxzIuqLMG6hrYFjlzbxyPvM5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e29047bec8fso2383095276.0;
+        Fri, 08 Nov 2024 00:08:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731053324; x=1731658124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0AcfQIh4eL6wqtezh6vPlrQwPcncc/rwq6AytHbkvyU=;
+        b=dAEhA+l+qguEDzp+cmRK/jIIOs9e0bbyUqhYm7wGCgbbXRNBLAIVedmU+4zr05buuS
+         JDbAFPJhKvW4Lt81zFJI7Ia4zHfDmxmAbX2llDWgCkLCyYnrHWxPbukrAguTCin8hUnb
+         0aOauTdIv8i5Zi6XYkyQqpbN3cn40sQznSrE/i+Q3qVjLSZdpaVDoqllCLjw4fGTTDZT
+         JpUuXLNl6W+fGykH8XgGc4gYrYbKKVlDR81rfEUo0fq9t0JAb+LSZoohe4jWpt3jkjXs
+         7RUJwLze8DtHEq27pXrHfl8Hov8YYSofbdG6LPVSh7dZRr8MFrQxgR6u9J0/sZNzQMnY
+         Ww4w==
+X-Forwarded-Encrypted: i=1; AJvYcCUsYb2SiK+qZQ0hU6TNM6c0bFo0mEQZGvnmQ69izMgG4Gx6Pd9VZzZmEYwowMiE6wETh/bZk1zgLxpHKm8=@vger.kernel.org, AJvYcCVGPjXlLSVlMFcD8EfIROWGw4E53qHDGsC/xY5imbzE12AuHxFjfN6p5ijfkcuJPX3P4o2nucwcJptlDr4DDg==@vger.kernel.org, AJvYcCXUcGLUjWGbSY48MfiLNKqnOrhGwsU0a0U3Q4w4vnun0vPQ/YsVVKCAc8QjJf5wrLDOTXX4j5IQ5tfKV0IB@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/BvNF9YyiMd04svx6zkLUFB1zjBUUine8z9cDliHJw2Q9aJ3x
+	1DRGmw+JIcY+daKXDM0SDe8HcbyNGBLwS5sFuiu1b8mcYHvm1ZUrPq0KcwwO
+X-Google-Smtp-Source: AGHT+IEMiGBY1n86Ty1i9Vt5vHiCM2UQhC579mG35SG/6bcIepIg9x3jPY0EGjCNR1X+O0F0sYPpGA==
+X-Received: by 2002:a05:690c:39f:b0:6e3:ceb:9e49 with SMTP id 00721157ae682-6eadc18ed23mr21295537b3.16.1731053324422;
+        Fri, 08 Nov 2024 00:08:44 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6eaceb7a6f0sm6301847b3.104.2024.11.08.00.08.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Nov 2024 00:08:43 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e29047bec8fso2383072276.0;
+        Fri, 08 Nov 2024 00:08:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVfb8tX8Un0JRRm+UrKTWogxKAzu4vDb8+TXPbvkNQlyACdX+N2SG3iVwch/WLZOY4x/q9jT7Ke/KokKzA=@vger.kernel.org, AJvYcCXQH+hOZEyCF+4Yem/AXIyvFXWzET3+b1xk3Je7S9XTs1TLgH+/dE0QP7fN3bCZe6rWjk8GNva7u0csH519@vger.kernel.org, AJvYcCXruCFqMNQxMX1sLWI+o8vRqY+bsH9cvKnWNys1Tp1HMGDIezzw0Z+ol9FA6JG7YBlvDJs7cuTy8DyPvLNJpQ==@vger.kernel.org
+X-Received: by 2002:a05:690c:9686:b0:664:74cd:5548 with SMTP id
+ 00721157ae682-6eadc0a205fmr22121087b3.1.1731053322861; Fri, 08 Nov 2024
+ 00:08:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241107-packing-pack-fields-and-ice-implementation-v3-3-27c566ac2436@intel.com>
+References: <20241106190240.GR10375@noisy.programming.kicks-ass.net> <ZyxSdayBstBGhAeO@infradead.org>
+In-Reply-To: <ZyxSdayBstBGhAeO@infradead.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 8 Nov 2024 09:08:30 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUgO83KksK59XEmF+EqXWHWBd1FLML0Ee1dQ7nOiGV2Eg@mail.gmail.com>
+Message-ID: <CAMuHMdUgO83KksK59XEmF+EqXWHWBd1FLML0Ee1dQ7nOiGV2Eg@mail.gmail.com>
+Subject: Re: [RFC] module: Strict per-modname namespaces
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com, 
+	petr.pavlu@suse.com, samitolvanen@google.com, da.gomez@samsung.com, 
+	masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jacob,
+On Thu, Nov 7, 2024 at 6:39=E2=80=AFAM Christoph Hellwig <hch@infradead.org=
+> wrote:
+> On Wed, Nov 06, 2024 at 08:02:40PM +0100, Peter Zijlstra wrote:
+> > It reserves and disallows imports on any "MODULE_${name}" namespace,
+> > while it implicitly adds the same namespace to every module.
+>
+> Ah nice.  This is pretty similar to what I want and had badly prototyped
+> a while ago.
+>
+> > This allows exports targeted at specific modules and no others -- one
+> > random example included. I've hated the various kvm exports we've had
+> > for a while, and strictly limiting them to the kvm module helps
+> > alleviate some abuse potential.
+>
+> And this was one of the targets on my list.  Specific kunits tests
+> would be another category.
 
-kernel test robot noticed the following build warnings:
+Indeed. E.g. making the scsi_lib KUnit tests modular would require
+exporting an internal symbol[1], which the SCSI maintainers don't like.
 
-[auto build test WARNING on a84e8c05f58305dfa808bc5465c5175c29d7c9b6]
+[1] "[PATCH] scsi: core: Make scsi_lib KUnit tests modular for real"
+    https://lore.kernel.org/all/48ca5e827ca420bbdbabb1643e2179dc95c9e0b7.17=
+10849638.git.geert@linux-m68k.org/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Keller/lib-packing-create-__pack-and-__unpack-variants-without-error-checking/20241108-040154
-base:   a84e8c05f58305dfa808bc5465c5175c29d7c9b6
-patch link:    https://lore.kernel.org/r/20241107-packing-pack-fields-and-ice-implementation-v3-3-27c566ac2436%40intel.com
-patch subject: [PATCH net-next v3 3/9] lib: packing: add pack_fields() and unpack_fields()
-config: x86_64-randconfig-121-20241108 (https://download.01.org/0day-ci/archive/20241108/202411081548.EnYrguKQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081548.EnYrguKQ-lkp@intel.com/reproduce)
+Gr{oetje,eeting}s,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411081548.EnYrguKQ-lkp@intel.com/
+                        Geert
 
-sparse warnings: (new ones prefixed by >>)
->> lib/packing_test.c:412:1: sparse: sparse: symbol '__test_fields_buffer_sz' was not declared. Should it be static?
->> lib/packing_test.c:412:1: sparse: sparse: symbol 'test_fields' was not declared. Should it be static?
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-vim +/__test_fields_buffer_sz +412 lib/packing_test.c
-
-   411	
- > 412	DECLARE_PACKED_FIELDS_S(test_fields, sizeof(packed_buf_t)) = {
-   413		PACKED_FIELD(63, 61, struct test_data, field1),
-   414		PACKED_FIELD(60, 52, struct test_data, field2),
-   415		PACKED_FIELD(51, 28, struct test_data, field3),
-   416		PACKED_FIELD(27, 14, struct test_data, field4),
-   417		PACKED_FIELD(13, 9, struct test_data, field5),
-   418		PACKED_FIELD(8, 0, struct test_data, field6),
-   419	};
-   420	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
