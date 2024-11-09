@@ -1,181 +1,149 @@
-Return-Path: <linux-kbuild+bounces-4595-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4596-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8499C2A82
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 07:16:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF339C2C23
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 12:22:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 256461F21F5E
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 06:16:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5308A282684
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 11:22:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C279BC8FF;
-	Sat,  9 Nov 2024 06:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D70154C09;
+	Sat,  9 Nov 2024 11:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAS/whhl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPx9DSw2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1922A28E8;
-	Sat,  9 Nov 2024 06:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8640154BF5;
+	Sat,  9 Nov 2024 11:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731133000; cv=none; b=fEtmVXFnqr5+7gjfb2gfZdbhS1yUb0ROu7oKmq4guEKENvqUIoDy+ZZDKJ2YqI7aTSDreLheZ9C3t862B98nERX5Y5/RFy8kfPy5lyYeaJJM/gw3WYlpXzAW5q3c7lACy2ilyJozeYtC7ud+/JHdEOx9+lyjytb842sl7JJk+k4=
+	t=1731151371; cv=none; b=O6Aqd6cGThxLqB2CKuVP+4ihfG88yWwL6mPYPY6+IXjzpgGLnSNfpCp6qyRzXTpQ7ZXv2+AMov1sFhEuke0RbapC8dU4FQrxtYUgHx0RT9W44iRfIL+hGISplcqzNYDBTSHzLbotPJxIpA1ZVue6+19S0dpS2xAjdaMCoiJi4Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731133000; c=relaxed/simple;
-	bh=rCuKDejdsh+8s+xtkSEN3tnnY5Jx/GJkZI24D8T2Azw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZs39srsA5aaOIvLFwUQT8jMKCNH7I0klXRM7vXmTzKCBrp7uFpcAz/QjiYX4LsYF9Fjhh4k6wenUT/RCdXtyoIqJpFRXhYUZr54r55L0i3IrOXuIbPz4uKXbC9I2QWZU1dFmOIdGaAnvgrBu6zMOmW7hynLfwwFpx3x1HB2QQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fAS/whhl; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731132999; x=1762668999;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rCuKDejdsh+8s+xtkSEN3tnnY5Jx/GJkZI24D8T2Azw=;
-  b=fAS/whhlTRwnx/+iCCZNr6diBdMO7Fc31QaAHHjZXcIyg7stUwN/jA+f
-   yd7PY14hUbDIBpt70ZD1tE8jJpkg6Q3FZB+egwbRk7diGlN3sP2ssqoPT
-   40eYPCXos7IRvSCWLYh/LqgibKEe93vUe5PIcA0ptrn8HZI6sAqwbjZYd
-   xZwECr8wUpc7D094FMu+LOQLbT9eb1G//4BCevNKZe9/ySifZM2+0EacH
-   by9A+03PG9fu7LaoJ8s23q1mb75nnBbCt+b3NS1ryRhmJwewAiIYibNqM
-   9bq585cTsG+jD3ePIj0SAES3SyI6zzlv68SGTxyyH6zUGaHFCSGZCTXgV
-   Q==;
-X-CSE-ConnectionGUID: gHWCE44eSempxoQ6YLq/6g==
-X-CSE-MsgGUID: Tm7OibiASDOGbfP5W0L0Fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="42118400"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="42118400"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 22:16:39 -0800
-X-CSE-ConnectionGUID: 3ft4vDXRRYS9q09f2nN3/Q==
-X-CSE-MsgGUID: Bu6AIph+QXCICCY1dtrNsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="85893822"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Nov 2024 22:16:35 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9elt-000s8G-0I;
-	Sat, 09 Nov 2024 06:16:33 +0000
-Date: Sat, 9 Nov 2024 14:16:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jacob Keller <jacob.e.keller@intel.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	netdev <netdev@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kbuild@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>
-Subject: Re: [PATCH net-next v4 3/9] lib: packing: add pack_fields() and
- unpack_fields()
-Message-ID: <202411091400.YHOiIq55-lkp@intel.com>
-References: <20241108-packing-pack-fields-and-ice-implementation-v4-3-81a9f42c30e5@intel.com>
+	s=arc-20240116; t=1731151371; c=relaxed/simple;
+	bh=0vQvO3Tqj0HJ08XaZcwUPJplKk1OoO1ba0L7JKxXApk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=krB0qBbW9TbUjaz6XrWyXHjWmh16pDgfNjz8WhF/H4cExT+UGRrs3ubEh7BlmzQGSlAJ743I3GTTza+AL8Ckc4bBoUpnW7Eh/wK1XMLNwQCtqoSbO3jzv7KGT1+dqtLrgVy+sXUAJuw1sR+UTduwWf63umCph4fpoXU6rvy4CQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPx9DSw2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332C9C4CECF;
+	Sat,  9 Nov 2024 11:22:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731151371;
+	bh=0vQvO3Tqj0HJ08XaZcwUPJplKk1OoO1ba0L7JKxXApk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XPx9DSw2jPQ9zKWD4uxI5ypyG6JBbAf2FH9QO1gkUXgIK2FwgEKPjGEV36HkKf/2V
+	 /RTs0wES378/yaYFA/7S0AcXiqPZQKCAzWPVMANs2WuiJEnlP0t+3uc52Spb8F5uOo
+	 Clm42FoUKvolBIwVp38rHI2eMUw67SWDr4BcOGlRj+tpn17sD2YoAsPgy/G8qkszPJ
+	 eam/nZ41MIfjrV+KzHUHlB8AQ8a/t6Mtw0O7hQDzBFstDRktAULAsAIw0N1DxGSBKz
+	 xOUJ8rnipoz+QTwcvQ5prZ7YDrSZs4UNemwEKFdbJf7t2gDjT+IHKzLGyhPggXy99U
+	 ahqbD/ji5/xzA==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb5111747cso25421891fa.2;
+        Sat, 09 Nov 2024 03:22:51 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVmxKFytii2U6l9GUz4oNWhvyCZfhOJ9WGzCdFb6KpDYWJbgfVDO0d+joU7zgzZEAWJzs7iqY11YHS+NOHX@vger.kernel.org, AJvYcCWFKp+aAS49ON0GZSe33o6Vqh6Hhg4rcZuNqIVWArcmX+O/l0/wKDPlRGA3RKF/UzgguwdQ3pF+AWRzTv0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/JkXDPd589Uysjd9pit/RhMzQjzjwLGvzuZul9Z0rBpAkqYnz
+	3dNEmW0z0IP6/jyuDQen8fiep5rLXLqZPpo1eaaJNPW7mU9z8EgGhu59syQIOrwu9R5+hGLbofW
+	s4dZ0laHv8aqLqNE6MfM1hBZKljk=
+X-Google-Smtp-Source: AGHT+IEmUEtfAVJUkSa5cIuswQlLezIgH5Buph6/rMA613evThU6avs7umAO7qoTvRNrXX0varRiaJiCT64sHeY7jLM=
+X-Received: by 2002:a2e:bc1d:0:b0:2fb:5da7:47a1 with SMTP id
+ 38308e7fff4ca-2ff20244ebcmr36913121fa.16.1731151369716; Sat, 09 Nov 2024
+ 03:22:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108-packing-pack-fields-and-ice-implementation-v4-3-81a9f42c30e5@intel.com>
+References: <20241107150508.2835706-1-matt@readmodwrite.com>
+In-Reply-To: <20241107150508.2835706-1-matt@readmodwrite.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 9 Nov 2024 20:22:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS06CGh-nN7Q-4=mWeuRhC2ug+Nc9oLME9D+TYe_WBTGg@mail.gmail.com>
+Message-ID: <CAK7LNAS06CGh-nN7Q-4=mWeuRhC2ug+Nc9oLME9D+TYe_WBTGg@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: deb-pkg: Don't fail if modules.order is missing
+To: Matt Fleming <matt@readmodwrite.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org, 
+	kernel-team@cloudflare.com, Matt Fleming <mfleming@cloudflare.com>, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jacob,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a84e8c05f58305dfa808bc5465c5175c29d7c9b6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Keller/lib-packing-create-__pack-and-__unpack-variants-without-error-checking/20241109-093307
-base:   a84e8c05f58305dfa808bc5465c5175c29d7c9b6
-patch link:    https://lore.kernel.org/r/20241108-packing-pack-fields-and-ice-implementation-v4-3-81a9f42c30e5%40intel.com
-patch subject: [PATCH net-next v4 3/9] lib: packing: add pack_fields() and unpack_fields()
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20241109/202411091400.YHOiIq55-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411091400.YHOiIq55-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411091400.YHOiIq55-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> scripts/mod/packed_fields.c:135:29: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'Elf32_Word' (aka 'unsigned int') [-Wformat]
-     134 |                 error("[%s.ko] \"%s\" has size %zu which is not a multiple of the field size (%zu)\n",
-         |                                                ~~~
-         |                                                %u
-     135 |                       mod->name, symname, sym->st_size, field_size);
-         |                                           ^~~~~~~~~~~~
-   scripts/mod/modpost.h:207:54: note: expanded from macro 'error'
-     207 | #define error(fmt, args...)     modpost_log(true, fmt, ##args)
-         |                                                   ~~~    ^~~~
-   1 warning generated.
---
->> scripts/mod/packed_fields.c:135:29: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'Elf32_Word' (aka 'unsigned int') [-Wformat]
-     134 |                 error("[%s.ko] \"%s\" has size %zu which is not a multiple of the field size (%zu)\n",
-         |                                                ~~~
-         |                                                %u
-     135 |                       mod->name, symname, sym->st_size, field_size);
-         |                                           ^~~~~~~~~~~~
-   scripts/mod/modpost.h:207:54: note: expanded from macro 'error'
-     207 | #define error(fmt, args...)     modpost_log(true, fmt, ##args)
-         |                                                   ~~~    ^~~~
-   1 warning generated.
+On Fri, Nov 8, 2024 at 12:05=E2=80=AFAM Matt Fleming <matt@readmodwrite.com=
+> wrote:
+>
+> From: Matt Fleming <mfleming@cloudflare.com>
+>
+> Kernels built without CONFIG_MODULES might still want to create -dbg deb
+> packages but install_linux_image_dbg() assumes modules.order always
+> exists. This obviously isn't true if no modules were built, so we should
+> skip reading modules.order in that case.
+>
+> Fixes: 16c36f8864e3 ("kbuild: deb-pkg: use build ID instead of debug link=
+ for dbg package")
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Matt Fleming <mfleming@cloudflare.com>
 
 
-vim +135 scripts/mod/packed_fields.c
+Applied to linux-kbuild.
+Thanks!
 
-    99	
-   100	void handle_packed_field_symbol(struct module *mod, struct elf_info *info,
-   101					Elf_Sym *sym, const char *symname)
-   102	{
-   103		unsigned int secindex = get_secindex(info, sym);
-   104		struct packed_field_elem elem = {}, prev = {};
-   105		enum element_order order = FIRST_ELEMENT;
-   106		enum field_type type = UNKNOWN_SECTION;
-   107		size_t field_size, count;
-   108		const void *data, *ptr;
-   109		const char *section;
-   110	
-   111		/* Skip symbols without a name */
-   112		if (*symname == '\0')
-   113			return;
-   114	
-   115		/* Skip symbols with invalid sections */
-   116		if (secindex >= info->num_sections)
-   117			return;
-   118	
-   119		section = sec_name(info, secindex);
-   120	
-   121		if (strcmp(section, ".rodata.packed_fields_s") == 0)
-   122			type = PACKED_FIELD_S;
-   123		else if (strcmp(section, ".rodata.packed_fields_m") == 0)
-   124			type = PACKED_FIELD_M;
-   125	
-   126		/* Other sections don't relate to packed fields */
-   127		if (type == UNKNOWN_SECTION)
-   128			return;
-   129	
-   130		field_size = field_type_to_size(type);
-   131	
-   132		/* check that the data is a multiple of the size */
-   133		if (sym->st_size % field_size != 0) {
-   134			error("[%s.ko] \"%s\" has size %zu which is not a multiple of the field size (%zu)\n",
- > 135			      mod->name, symname, sym->st_size, field_size);
+> ---
+>
+> Changes in v3:
+>  - Wrap modules.order logic in 'if is_enabled CONFIG_MODULES'
+>
+>  scripts/package/builddeb | 22 ++++++++++++----------
+>  1 file changed, 12 insertions(+), 10 deletions(-)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 441b0bb66e0d..fb686fd3266f 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -96,16 +96,18 @@ install_linux_image_dbg () {
+>
+>         # Parse modules.order directly because 'make modules_install' may=
+ sign,
+>         # compress modules, and then run unneeded depmod.
+> -       while read -r mod; do
+> -               mod=3D"${mod%.o}.ko"
+> -               dbg=3D"${pdir}/usr/lib/debug/lib/modules/${KERNELRELEASE}=
+/kernel/${mod}"
+> -               buildid=3D$("${READELF}" -n "${mod}" | sed -n 's@^.*Build=
+ ID: \(..\)\(.*\)@\1/\2@p')
+> -               link=3D"${pdir}/usr/lib/debug/.build-id/${buildid}.debug"
+> -
+> -               mkdir -p "${dbg%/*}" "${link%/*}"
+> -               "${OBJCOPY}" --only-keep-debug "${mod}" "${dbg}"
+> -               ln -sf --relative "${dbg}" "${link}"
+> -       done < modules.order
+> +       if is_enabled CONFIG_MODULES; then
+> +               while read -r mod; do
+> +                       mod=3D"${mod%.o}.ko"
+> +                       dbg=3D"${pdir}/usr/lib/debug/lib/modules/${KERNEL=
+RELEASE}/kernel/${mod}"
+> +                       buildid=3D$("${READELF}" -n "${mod}" | sed -n 's@=
+^.*Build ID: \(..\)\(.*\)@\1/\2@p')
+> +                       link=3D"${pdir}/usr/lib/debug/.build-id/${buildid=
+}.debug"
+> +
+> +                       mkdir -p "${dbg%/*}" "${link%/*}"
+> +                       "${OBJCOPY}" --only-keep-debug "${mod}" "${dbg}"
+> +                       ln -sf --relative "${dbg}" "${link}"
+> +               done < modules.order
+> +       fi
+>
+>         # Build debug package
+>         # Different tools want the image in different locations
+> --
+> 2.34.1
+>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+--=20
+Best Regards
+Masahiro Yamada
 
