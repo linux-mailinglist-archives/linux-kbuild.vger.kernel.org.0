@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-4600-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4601-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867619C2FC7
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 23:21:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4ACB9C2FD9
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 23:53:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9D481C20B8A
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 22:21:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BF8F1F2137C
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 22:53:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC4619D087;
-	Sat,  9 Nov 2024 22:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30F8C14B976;
+	Sat,  9 Nov 2024 22:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RdZqsOo2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iPX4xBFJ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B4C4437C;
-	Sat,  9 Nov 2024 22:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0648E42069;
+	Sat,  9 Nov 2024 22:53:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731190886; cv=none; b=fkUBezxq12tqJoE8yEyFo5MGy9N7uJN/QxzTKS/S7z93z7C2KvnV6wcm8tfYSfDUEzSxmmbyXZYbQCc16Smehq3Xi3hIf8yvpcaU9CDlpBEWGe+t98xWj2mH8fo9Kvrok3WQm7b0ZkCccgW6x26ZXbFGskoUDnMC2oll8xlfh0w=
+	t=1731192814; cv=none; b=U8o9ivDiJ7RkhcBb3dOv/7qAC/b3EPDERL8oypelIvl9p3dohjOWBzREkWBZ8P15YJhdjdKR0UFc6AlFpzNGeGVGfrsCgIxkjqh7Yjli7/6x8eM92uqiPNVPSEEe/IiuEtX9NaR62QdFI/grYwPZTW67x8a3Eio3T2EL2fiVCk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731190886; c=relaxed/simple;
-	bh=8hQIsWT8w2YiPM+AgWA2e3JBzVVePZzXMN166L0C1yU=;
+	s=arc-20240116; t=1731192814; c=relaxed/simple;
+	bh=xtcrRBtDp1sQT0+olLfHpFoUN9DRG4asrIehpwN2shU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eb8MiTnVfIRYt4miGu2u2hW/JAjhuFpXSYYk0fH40BM4KIhedDhJvsw+NjK/w7vpntROPWt1NINGw46sb5prr4tz9A4E2rvetok+dVsmc5Apw//AlKct6NgtB3AEFfINCqSzl5StdKE9ZjnEFxl+wk0uXQNW8e0LQlT1PQ6KRkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RdZqsOo2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9142DC4CED2;
-	Sat,  9 Nov 2024 22:21:25 +0000 (UTC)
+	 To:Cc:Content-Type; b=mRx7SyuIbEFMjD47e7PCQJdZTESxwPQCW7TkMVWG5S0FbWDKpGUwXFL3QcI2LdvOYcO+BAUSagxvZXhyZ3fKlA3rwo61wkbmkbAePtxpEaoIlfpG+K7nI80em/5cSidDu2Lms1cVnS4PYS4plL6Tax12Ot0u94F4nLkqZ5+PCTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iPX4xBFJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B82DC4CECE;
+	Sat,  9 Nov 2024 22:53:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731190885;
-	bh=8hQIsWT8w2YiPM+AgWA2e3JBzVVePZzXMN166L0C1yU=;
+	s=k20201202; t=1731192813;
+	bh=xtcrRBtDp1sQT0+olLfHpFoUN9DRG4asrIehpwN2shU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RdZqsOo24pu/4mg2t6cyd+8tTXZUCcBukqFFdEJaIDBLWiYvImW4B/QcnNngxDn23
-	 Tqx7bptZOwvdxuiP7+gc5otJt3rXseMxwdBCIi16wLlZj8nPLlYiUn4LK7IxSNJjde
-	 sHtCc5cSpZ9IDejtcHWAXFZkLi63xECSNiSaFJMwBXmQnxi3vFJEn0xoA8pSXgmOoo
-	 zNGha119JO43BDrlNX8+6xU3rrkN2OLo86oIhp2sa+OmIZ+8Wn/MYimXzBx87VGYcr
-	 J1goIh1R55WOO0ycQqyUPL1EYXJIPK7h5fFfkJ1EmzD4kOH6I3MykQYe6CBFjS0dPk
-	 9iKSYvxwnwxUg==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb498a92f6so26158321fa.1;
-        Sat, 09 Nov 2024 14:21:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUOAYIIoWcd8KkJWk8j7JMMW5ti5+aFwaO3govNrDue1ROac0IGDfvmws2L87F7iywEt/FMu2sQGPL03EY=@vger.kernel.org, AJvYcCXXYd1Oda9mIUrLNpNTTLm/hDC6Wa4bpHkFtxNUUPGDjeplS1mUoH6z5ZhWHO/NsLz6D2kKPTgnyQZ4SVJr@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdFhLb8XXFNKVceQMvvLeK0VcqiNEuZZShoyiMOp0TmAGg8Iw+
-	kiPWHsBSLg3NVYIsXszRy71yq+Xzvlq86Is7XQo76NMTNV12+JTtDbZsJkiLMA/iET7Hj9SJh0G
-	qMvue7r1rkHaZOGexx41PZ+pHKzU=
-X-Google-Smtp-Source: AGHT+IFz2JBDoKriPrqZwho8VhGAsHBy+K2ddEcnTEDzs8JVe9Rppe6vMdNd8ZqbZASsQgblUyXq3OGJh7z+q0AugKw=
-X-Received: by 2002:a05:651c:1506:b0:2fb:7e65:cb27 with SMTP id
- 38308e7fff4ca-2ff201e73a4mr37414341fa.6.1731190884239; Sat, 09 Nov 2024
- 14:21:24 -0800 (PST)
+	b=iPX4xBFJO+DLDLWfGnZwDzJz+350Jl+p/Wjd1mXWjXvvLePBnvbRqSUpkA3vmag/I
+	 a+5gbmDwYC/F2i9T9WCbDawKptanoPpoLskgED7+2h/AVZX9ETah6xO8kUY3se2B/g
+	 WBZuE7d0Lg6FCwluIR9dOvfjh43ScCO8FXbWOcC/6YliZLoH1nNB2+H2RjUAsqmluv
+	 r1zWqcEwE3EfpS2DF8XnLaF3pd9cglAd/WdQFa8Z5ULeufpn8HKSsKq65uubxU+dgt
+	 OVg1NtFgDtBUJ9bHhuCd19thrhPYL7Dql6tAAdNMmTrjffLWr7pmFDEbnYMvuAkJ7K
+	 cwwT+NpBfjD5Q==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb3ce15172so39208801fa.0;
+        Sat, 09 Nov 2024 14:53:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUwFiuloN1/GDZuo6Kdbs7KS3NvDjcA374ztyk8W7oDCFOFS0/SLfqZZafEqvMqf23ye9S0jvi7n7mx5HJJ@vger.kernel.org, AJvYcCVL5kp4uQEATtQYTe0+KxpeDar4O3o/KxiILzxQR6gGu85iLPIB/KuGhvrvFz2PUD456SYm5NZ/inNyaSk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJCLEjyJSqds2uXFHgzK2zSQ/YEcFjgL/bvaDMcP2TsKSlIhFu
+	d3b0q7Q7Hk8BU1YENFCh+ynpacXE/q2QmS7iz1j0Wg4SzJkW3E8lvazbcPcDxXLrmlwnWHbhk3G
+	AAi9YaM4OsJC9ZQg3ixHXTaYzFk4=
+X-Google-Smtp-Source: AGHT+IHjvn36AnbQLmAWrdPLIf0XSNJ4Dxd6AnhuLakBkJhSf8xKtWBp8YWLdr4o6gqYTIovPRGtUTSjRuk/Ho4NbdY=
+X-Received: by 2002:a05:651c:221e:b0:2fa:ce0d:ec34 with SMTP id
+ 38308e7fff4ca-2ff209437a4mr22012941fa.2.1731192812236; Sat, 09 Nov 2024
+ 14:53:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241031132630.24667-1-t.boehler@kunbus.com> <20241031132630.24667-3-t.boehler@kunbus.com>
-In-Reply-To: <20241031132630.24667-3-t.boehler@kunbus.com>
+References: <20241031132630.24667-1-t.boehler@kunbus.com> <20241031132630.24667-4-t.boehler@kunbus.com>
+In-Reply-To: <20241031132630.24667-4-t.boehler@kunbus.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 10 Nov 2024 07:20:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATED9GeR_0DP_nrqahLOrz_4gwB0X9hm5gBVta4oyBrog@mail.gmail.com>
-Message-ID: <CAK7LNATED9GeR_0DP_nrqahLOrz_4gwB0X9hm5gBVta4oyBrog@mail.gmail.com>
-Subject: Re: [PATCH 2/3] package: debian: add missing Depends to linux-headers
+Date: Sun, 10 Nov 2024 07:52:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQSJJy27=jc3qQVsLd0kYmUJBOa7c=b6pHeonx81TwKFQ@mail.gmail.com>
+Message-ID: <CAK7LNAQSJJy27=jc3qQVsLd0kYmUJBOa7c=b6pHeonx81TwKFQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] package: debian: don't include .gitignore under scripts/
 To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <t.boehler@kunbus.com>
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Philipp Rosenberger <p.rosenberger@kunbus.com>, 
@@ -73,57 +73,100 @@ Content-Transfer-Encoding: quoted-printable
 
 Please use "kbuild: deb-pkg:" as the commit subject.
 
+
+
 On Thu, Oct 31, 2024 at 10:26=E2=80=AFPM Thomas B=C3=B6hler <t.boehler@kunb=
 us.com> wrote:
 >
-> The linux-headers package is missing a dependency to libc. Lintian
-> complains about this as well:
+> Files to copy into the header package from the scripts/ directory are
+> listed by a call to find which also includes .gitignore files. These
+> don't belong in the package, and lintian also complains with a
+> "package-contains-vcs-control-file":
 >
->     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: undeclared-elf-prerequisit=
-es (libc.so.6) [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/asn1=
-_compiler]
->     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: undeclared-elf-prerequisit=
-es (libc.so.6) [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/basi=
-c/fixdep]
->     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: undeclared-elf-prerequisit=
-es (libc.so.6) [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/kall=
-syms]
->     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: undeclared-elf-prerequisit=
-es (libc.so.6) [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/mod/=
-modpost]
->     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: undeclared-elf-prerequisit=
-es (libc.so.6) [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/sort=
-table]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/.gitignore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/basic/.giti=
+gnore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/gcc-plugins=
+/.gitignore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/gdb/linux/.=
+gitignore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/genksyms/.g=
+itignore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/ipe/polgen/=
+.gitignore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/mod/.gitign=
+ore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/selinux/gen=
+headers/.gitignore]
+>     W: linux-headers-6.12.0-rc4-g7e04fcfc6195: package-contains-vcs-contr=
+ol-file [usr/src/linux-headers-6.12.0-rc4-g7e04fcfc6195/scripts/selinux/mdp=
+/.gitignore]
 
 
 Could you add log messages based on linux-headers-6.12.0-rc6 instead?
 Then, the line length will become shorter.
 
-Also, please rebase this on the mainline.
 
 
-
-> Fix this by introducing "dh_shlibdeps" into the build process. It
-> calculates shared library dependencies for packages and creates a
-> substvar entry for them, making them usable in "debian/control" by
-> specifying "${shlibs:Depends}" in the "Depends" field.
->
-> "dh_shlibdeps" detects the dependency on libc for the linux-headers
-> package and by specifying the substvar for the linux-headers package in
-> "debian/control" this dependency is correctly declared and lintian won't
-> complain about it anymore.
+> Filter the .gitignore files so they're not copied into the resulting
+> package.
 >
 > Signed-off-by: Thomas B=C3=B6hler <t.boehler@kunbus.com>
+> ---
+>  scripts/package/install-extmod-build | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/package/install-extmod-build b/scripts/package/insta=
+ll-extmod-build
+> index d2c9cacecc0c..5c735e176b53 100755
+> --- a/scripts/package/install-extmod-build
+> +++ b/scripts/package/install-extmod-build
+> @@ -12,7 +12,8 @@ is_enabled() {
+>  find_in_scripts() {
+>         find scripts \
+>                 \( -name atomic -o -name dtc -o -name kconfig -o -name pa=
+ckage \) -prune -o \
+> -               ! -name unifdef -a ! -name mk_elfconfig -a \( -type f -o =
+-type l \) -print
+> +               ! -name unifdef -a ! -name mk_elfconfig -a \( -type f -o =
+-type l \) \
+> +               ! -name .gitignore -print
+
+For consistency, please move the new pattern before -a \( -type f -o -type =
+l \)
 
 
 
+>  }
+>
+>  mkdir -p "${destdir}"
+> @@ -23,7 +24,8 @@ mkdir -p "${destdir}"
+>         find "arch/${SRCARCH}" -maxdepth 1 -name 'Makefile*'
+>         find "arch/${SRCARCH}" -name generated -prune -o -name include -t=
+ype d -print
+>         find "arch/${SRCARCH}" -name Kbuild.platforms -o -name Platform
+> -       find include \( -name config -o -name generated \) -prune -o \( -=
+type f -o -type l \) -print
+> +       find include \( -name config -o -name generated \) -prune -o \( -=
+type f -o -type l \) \
+> +               ! -name .gitignore -print
+>         find_in_scripts
+>  ) | tar -c -f - -C "${srctree}" -T - | tar -xf - -C "${destdir}"
+>
+> --
+> 2.39.2
+>
 
 
-
-
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
 
