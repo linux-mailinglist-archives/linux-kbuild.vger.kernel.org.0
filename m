@@ -1,67 +1,67 @@
-Return-Path: <linux-kbuild+bounces-4588-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4590-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07E29C2933
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 02:31:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCBB9C2937
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 02:31:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8122B1F23546
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 01:31:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E20FD1C22F2F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Nov 2024 01:31:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2398E56458;
-	Sat,  9 Nov 2024 01:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8955E3FB9C;
+	Sat,  9 Nov 2024 01:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qs0chD2k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aLzqEER3"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EA33FB9C;
-	Sat,  9 Nov 2024 01:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADD04EB38;
+	Sat,  9 Nov 2024 01:30:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731115841; cv=none; b=C9ePCDeQIF9Jynqn/GuZjdpKTBCavhkAM7zS8ydzMHLbaCZpU98D/uqRvnDMiYbSHQ5W7D78PAA7zGN4NsAjwsA+YepER7Nn5CHAT1tmiPGgY/hmunzDu3CfzGtKR4ygGwwWZM5JzB+r1krwL5e5yvtCFdim2E8aelIGRLiXukA=
+	t=1731115842; cv=none; b=ZVrkqGnFJN/gb/l+Accrv5fmk72gQ4k+TV0vuvqhp7J27i3KV6hleGE1z9HpybUqNR/K9y2s0KNbfjd3Fb9HcfqFAgzsVZKYbUuO6MqEFeq+n6/bCCd1F1CJU1Yi8Wrx9PTKaIcTPNOyF0uLzED++9E+mBWPP+kt0/1UoyFLNSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731115841; c=relaxed/simple;
-	bh=W9Y0MqjXuPLa6EwQNVLtTEK4szUojyFWQZrhcx4lVXA=;
+	s=arc-20240116; t=1731115842; c=relaxed/simple;
+	bh=MlXbHuvt3wGllLux/V5NooK/PasQZbsIt3aVkig4UAk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hQs8XYdPR8rdYF2AdximuQ6lQQpC3MJQXUEyE1hkmVVDfSB+hNYi+raQxsa+Gep+99n530CW1juLNg53oPXc3hL24JDHJV16ryLaN7yOoO0NEYpf8TseSpwrma49Wes/DSEjfH2su3Yeq0qinmuhVbJf5tH/1nrxlY/Mqetq/Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qs0chD2k; arc=none smtp.client-ip=192.198.163.16
+	 In-Reply-To:To:Cc; b=ufptGQea8ZczJUzR+1V26+xW/gJFbxwsQMfLJQzWP2ATudCnS+xgd/vo0S7te0X1w+BefVvk75GBoFmYx7F2JeqKU8QK4eJ3cF7wEQ5ivg+NunsGYsvltAAwAdTIyjKsamA1/1uRV4CIPgI5DKaFeR8GY0t47UwtMi3tlCZvYog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aLzqEER3; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731115839; x=1762651839;
+  t=1731115840; x=1762651840;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=W9Y0MqjXuPLa6EwQNVLtTEK4szUojyFWQZrhcx4lVXA=;
-  b=Qs0chD2kIHxIIJ+ds0swvjEPFAJJCW0O+O/VibvX9Ja71A25cmat83ci
-   b6qDiSUMsbcbi9b6p3Nz0Hy8RD4OlcQ3pbjHW3f6MjApY+obQVr+GSDBe
-   8LFOnldDinCvHn9NGt/VkJuKxVNLJEk9v9GGC0xPfmcdrJ6sPKRWbftB8
-   b5WjMcXHQVQu6q+5YK0OdeAZhY0yyPHoDTWUMeYk7euJujzuDNNyoilPN
-   o8KIMj8VUUZ7Ct10AkD+dY5p606+Ued1ZDEoGxEMxI2JlgdQa8pKZxwjQ
-   VFAiix7MSfTdVFpbCt9HzGDVTS34AZP/hZ0SIOLjnlOHiJoHRz5UB2XI3
-   w==;
-X-CSE-ConnectionGUID: HlnkWhSfSDOUwiF9A0NwBQ==
-X-CSE-MsgGUID: EI5fn9QeSkuPnkCmpI6ZDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="18637333"
+  bh=MlXbHuvt3wGllLux/V5NooK/PasQZbsIt3aVkig4UAk=;
+  b=aLzqEER3UZTWLezYYBd7dTSYj+Qk6zySu0PqVa1ZKGwhKX9pFp9Lex90
+   n8PS61NA2MwFP3anz1Ivt4W3EMufX9WlWPJmCOWc+VZVhwdwx4VmvF/IQ
+   PhPBUC60kNM+eJJVFNmP6q7Ki0GMeT30roGjUgvgC5f3Nsu/CjaW4zRiX
+   7YmDC3F86i/28voB/B7DttCEOyAhblSsZfzu1OcAXO4+qZ6XYomm9Qhnr
+   nTteN8maJGmmSEIhisqjPRNJknrsHSQCc6KlBpQx8PW+Cf2n0CLACWuMD
+   2ud+iPbPL/KQ6QlYdCTrIKEkDgHYdTZaSZJPH86TPMU0xM53FQQYMZ8ma
+   A==;
+X-CSE-ConnectionGUID: ANl+RvpSTKeqeLVCWOwwhQ==
+X-CSE-MsgGUID: D1zsx61eRmaCoJOGf9wpeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="18637339"
 X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
-   d="scan'208";a="18637333"
+   d="scan'208";a="18637339"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 17:30:34 -0800
-X-CSE-ConnectionGUID: 0sNhBYMfRmaDWxoMbbhldw==
-X-CSE-MsgGUID: 7GHOYOPVR0ig9l7A2nY1BA==
+X-CSE-ConnectionGUID: 1eaeXfPOSGehwUSo720x1Q==
+X-CSE-MsgGUID: CHCH1awtR2yOLwvstEBgmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="90646167"
+   d="scan'208";a="90646171"
 Received: from jekeller-desk.jf.intel.com ([10.166.241.20])
   by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 17:30:33 -0800
 From: Jacob Keller <jacob.e.keller@intel.com>
-Date: Fri, 08 Nov 2024 17:30:14 -0800
-Subject: [PATCH net-next v4 1/9] lib: packing: create __pack() and
- __unpack() variants without error checking
+Date: Fri, 08 Nov 2024 17:30:15 -0800
+Subject: [PATCH net-next v4 2/9] lib: packing: demote truncation error in
+ pack() to a warning in __pack()
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241108-packing-pack-fields-and-ice-implementation-v4-1-81a9f42c30e5@intel.com>
+Message-Id: <20241108-packing-pack-fields-and-ice-implementation-v4-2-81a9f42c30e5@intel.com>
 References: <20241108-packing-pack-fields-and-ice-implementation-v4-0-81a9f42c30e5@intel.com>
 In-Reply-To: <20241108-packing-pack-fields-and-ice-implementation-v4-0-81a9f42c30e5@intel.com>
 To: Vladimir Oltean <olteanv@gmail.com>, 
@@ -85,66 +85,86 @@ X-Mailer: b4 0.14.1
 
 From: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-A future variant of the API, which works on arrays of packed_field
-structures, will make most of these checks redundant. The idea will be
-that we want to perform sanity checks at compile time, not once
-for every function call.
+Most of the sanity checks in pack() and unpack() can be covered at
+compile time. There is only one exception, and that is truncation of the
+uval during a pack() operation.
 
-Introduce new variants of pack() and unpack(), which elide the sanity
-checks, assuming that the input was pre-sanitized.
+We'd like the error-less __pack() to catch that condition as well. But
+at the same time, it is currently the responsibility of consumer drivers
+(currently just sja1105) to print anything at all when this error
+occurs, and then discard the return code.
+
+We can just print a loud warning in the library code and continue with
+the truncated __pack() operation. In practice, having the warning is
+very important, see commit 24deec6b9e4a ("net: dsa: sja1105: disallow
+C45 transactions on the BASE-TX MDIO bus") where the bug was caught
+exactly by noticing this print.
+
+Add the first print to the packing library, and at the same time remove
+the print for the same condition from the sja1105 driver, to avoid
+double printing.
 
 Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
 ---
- lib/packing.c | 142 ++++++++++++++++++++++++++++++++--------------------------
- 1 file changed, 78 insertions(+), 64 deletions(-)
+ drivers/net/dsa/sja1105/sja1105_static_config.c |  8 ++------
+ lib/packing.c                                   | 26 ++++++++++---------------
+ 2 files changed, 12 insertions(+), 22 deletions(-)
 
+diff --git a/drivers/net/dsa/sja1105/sja1105_static_config.c b/drivers/net/dsa/sja1105/sja1105_static_config.c
+index baba204ad62f..3d790f8c6f4d 100644
+--- a/drivers/net/dsa/sja1105/sja1105_static_config.c
++++ b/drivers/net/dsa/sja1105/sja1105_static_config.c
+@@ -26,12 +26,8 @@ void sja1105_pack(void *buf, const u64 *val, int start, int end, size_t len)
+ 		pr_err("Start bit (%d) expected to be larger than end (%d)\n",
+ 		       start, end);
+ 	} else if (rc == -ERANGE) {
+-		if ((start - end + 1) > 64)
+-			pr_err("Field %d-%d too large for 64 bits!\n",
+-			       start, end);
+-		else
+-			pr_err("Cannot store %llx inside bits %d-%d (would truncate)\n",
+-			       *val, start, end);
++		pr_err("Field %d-%d too large for 64 bits!\n",
++		       start, end);
+ 	}
+ 	dump_stack();
+ }
 diff --git a/lib/packing.c b/lib/packing.c
-index 793942745e34..f237b8af99f5 100644
+index f237b8af99f5..09a2d195b943 100644
 --- a/lib/packing.c
 +++ b/lib/packing.c
-@@ -51,64 +51,20 @@ static size_t calculate_box_addr(size_t box, size_t len, u8 quirks)
- 	return offset_of_group + offset_in_group;
- }
- 
--/**
-- * pack - Pack u64 number into bitfield of buffer.
-- *
-- * @pbuf: Pointer to a buffer holding the packed value.
-- * @uval: CPU-readable unpacked value to pack.
-- * @startbit: The index (in logical notation, compensated for quirks) where
-- *	      the packed value starts within pbuf. Must be larger than, or
-- *	      equal to, endbit.
-- * @endbit: The index (in logical notation, compensated for quirks) where
-- *	    the packed value ends within pbuf. Must be smaller than, or equal
-- *	    to, startbit.
-- * @pbuflen: The length in bytes of the packed buffer pointed to by @pbuf.
-- * @quirks: A bit mask of QUIRK_LITTLE_ENDIAN, QUIRK_LSW32_IS_FIRST and
-- *	    QUIRK_MSB_ON_THE_RIGHT.
-- *
-- * Return: 0 on success, EINVAL or ERANGE if called incorrectly. Assuming
-- *	   correct usage, return code may be discarded. The @pbuf memory will
-- *	   be modified on success.
-- */
--int pack(void *pbuf, u64 uval, size_t startbit, size_t endbit, size_t pbuflen,
--	 u8 quirks)
-+static void __pack(void *pbuf, u64 uval, size_t startbit, size_t endbit,
-+		   size_t pbuflen, u8 quirks)
- {
- 	/* Logical byte indices corresponding to the
- 	 * start and end of the field.
+@@ -59,8 +59,17 @@ static void __pack(void *pbuf, u64 uval, size_t startbit, size_t endbit,
  	 */
--	int plogical_first_u8, plogical_last_u8, box;
+ 	int plogical_first_u8 = startbit / BITS_PER_BYTE;
+ 	int plogical_last_u8 = endbit / BITS_PER_BYTE;
++	int value_width = startbit - endbit + 1;
+ 	int box;
+ 
++	/* Check if "uval" fits in "value_width" bits.
++	 * The test only works for value_width < 64, but in the latter case,
++	 * any 64-bit uval will surely fit.
++	 */
++	WARN(value_width < 64 && uval >= (1ull << value_width),
++	     "Cannot store 0x%llx inside bits %zu-%zu - will truncate\n",
++	     uval, startbit, endbit);
++
+ 	/* Iterate through an idealistic view of the pbuf as an u64 with
+ 	 * no quirks, u8 by u8 (aligned at u8 boundaries), from high to low
+ 	 * logical bit significance. "box" denotes the current logical u8.
+@@ -143,9 +152,6 @@ static void __pack(void *pbuf, u64 uval, size_t startbit, size_t endbit,
+ int pack(void *pbuf, u64 uval, size_t startbit, size_t endbit, size_t pbuflen,
+ 	 u8 quirks)
+ {
 -	/* width of the field to access in the pbuf */
 -	u64 value_width;
 -
--	/* startbit is expected to be larger than endbit, and both are
--	 * expected to be within the logically addressable range of the buffer.
--	 */
--	if (unlikely(startbit < endbit || startbit >= BITS_PER_BYTE * pbuflen))
--		/* Invalid function call */
--		return -EINVAL;
--
+ 	/* startbit is expected to be larger than endbit, and both are
+ 	 * expected to be within the logically addressable range of the buffer.
+ 	 */
+@@ -153,19 +159,7 @@ int pack(void *pbuf, u64 uval, size_t startbit, size_t endbit, size_t pbuflen,
+ 		/* Invalid function call */
+ 		return -EINVAL;
+ 
 -	value_width = startbit - endbit + 1;
 -	if (unlikely(value_width > 64))
 -		return -ERANGE;
@@ -153,156 +173,15 @@ index 793942745e34..f237b8af99f5 100644
 -	 * If value_width is 64, the check will fail, but any
 -	 * 64-bit uval will surely fit.
 -	 */
--	if (unlikely(value_width < 64 && uval >= (1ull << value_width)))
+-	if (value_width < 64 && uval >= (1ull << value_width))
 -		/* Cannot store "uval" inside "value_width" bits.
 -		 * Truncating "uval" is most certainly not desirable,
 -		 * so simply erroring out is appropriate.
 -		 */
--		return -ERANGE;
-+	int plogical_first_u8 = startbit / BITS_PER_BYTE;
-+	int plogical_last_u8 = endbit / BITS_PER_BYTE;
-+	int box;
- 
- 	/* Iterate through an idealistic view of the pbuf as an u64 with
- 	 * no quirks, u8 by u8 (aligned at u8 boundaries), from high to low
- 	 * logical bit significance. "box" denotes the current logical u8.
- 	 */
--	plogical_first_u8 = startbit / BITS_PER_BYTE;
--	plogical_last_u8  = endbit / BITS_PER_BYTE;
--
- 	for (box = plogical_first_u8; box >= plogical_last_u8; box--) {
- 		/* Bit indices into the currently accessed 8-bit box */
- 		size_t box_start_bit, box_end_bit, box_addr;
-@@ -163,15 +119,13 @@ int pack(void *pbuf, u64 uval, size_t startbit, size_t endbit, size_t pbuflen,
- 		((u8 *)pbuf)[box_addr] &= ~box_mask;
- 		((u8 *)pbuf)[box_addr] |= pval;
- 	}
--	return 0;
- }
--EXPORT_SYMBOL(pack);
- 
- /**
-- * unpack - Unpack u64 number from packed buffer.
-+ * pack - Pack u64 number into bitfield of buffer.
-  *
-  * @pbuf: Pointer to a buffer holding the packed value.
-- * @uval: Pointer to an u64 holding the unpacked value.
-+ * @uval: CPU-readable unpacked value to pack.
-  * @startbit: The index (in logical notation, compensated for quirks) where
-  *	      the packed value starts within pbuf. Must be larger than, or
-  *	      equal to, endbit.
-@@ -183,16 +137,12 @@ EXPORT_SYMBOL(pack);
-  *	    QUIRK_MSB_ON_THE_RIGHT.
-  *
-  * Return: 0 on success, EINVAL or ERANGE if called incorrectly. Assuming
-- *	   correct usage, return code may be discarded. The @uval will be
-- *	   modified on success.
-+ *	   correct usage, return code may be discarded. The @pbuf memory will
-+ *	   be modified on success.
-  */
--int unpack(const void *pbuf, u64 *uval, size_t startbit, size_t endbit,
--	   size_t pbuflen, u8 quirks)
-+int pack(void *pbuf, u64 uval, size_t startbit, size_t endbit, size_t pbuflen,
-+	 u8 quirks)
- {
--	/* Logical byte indices corresponding to the
--	 * start and end of the field.
--	 */
--	int plogical_first_u8, plogical_last_u8, box;
- 	/* width of the field to access in the pbuf */
- 	u64 value_width;
- 
-@@ -207,6 +157,33 @@ int unpack(const void *pbuf, u64 *uval, size_t startbit, size_t endbit,
- 	if (unlikely(value_width > 64))
++	if (unlikely(startbit - endbit >= 64))
  		return -ERANGE;
  
-+	/* Check if "uval" fits in "value_width" bits.
-+	 * If value_width is 64, the check will fail, but any
-+	 * 64-bit uval will surely fit.
-+	 */
-+	if (value_width < 64 && uval >= (1ull << value_width))
-+		/* Cannot store "uval" inside "value_width" bits.
-+		 * Truncating "uval" is most certainly not desirable,
-+		 * so simply erroring out is appropriate.
-+		 */
-+		return -ERANGE;
-+
-+	__pack(pbuf, uval, startbit, endbit, pbuflen, quirks);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(pack);
-+
-+static void __unpack(const void *pbuf, u64 *uval, size_t startbit, size_t endbit,
-+		     size_t pbuflen, u8 quirks)
-+{
-+	/* Logical byte indices corresponding to the
-+	 * start and end of the field.
-+	 */
-+	int plogical_first_u8 = startbit / BITS_PER_BYTE;
-+	int plogical_last_u8 = endbit / BITS_PER_BYTE;
-+	int box;
-+
- 	/* Initialize parameter */
- 	*uval = 0;
- 
-@@ -214,9 +191,6 @@ int unpack(const void *pbuf, u64 *uval, size_t startbit, size_t endbit,
- 	 * no quirks, u8 by u8 (aligned at u8 boundaries), from high to low
- 	 * logical bit significance. "box" denotes the current logical u8.
- 	 */
--	plogical_first_u8 = startbit / BITS_PER_BYTE;
--	plogical_last_u8  = endbit / BITS_PER_BYTE;
--
- 	for (box = plogical_first_u8; box >= plogical_last_u8; box--) {
- 		/* Bit indices into the currently accessed 8-bit box */
- 		size_t box_start_bit, box_end_bit, box_addr;
-@@ -271,6 +245,46 @@ int unpack(const void *pbuf, u64 *uval, size_t startbit, size_t endbit,
- 		*uval &= ~proj_mask;
- 		*uval |= pval;
- 	}
-+}
-+
-+/**
-+ * unpack - Unpack u64 number from packed buffer.
-+ *
-+ * @pbuf: Pointer to a buffer holding the packed value.
-+ * @uval: Pointer to an u64 holding the unpacked value.
-+ * @startbit: The index (in logical notation, compensated for quirks) where
-+ *	      the packed value starts within pbuf. Must be larger than, or
-+ *	      equal to, endbit.
-+ * @endbit: The index (in logical notation, compensated for quirks) where
-+ *	    the packed value ends within pbuf. Must be smaller than, or equal
-+ *	    to, startbit.
-+ * @pbuflen: The length in bytes of the packed buffer pointed to by @pbuf.
-+ * @quirks: A bit mask of QUIRK_LITTLE_ENDIAN, QUIRK_LSW32_IS_FIRST and
-+ *	    QUIRK_MSB_ON_THE_RIGHT.
-+ *
-+ * Return: 0 on success, EINVAL or ERANGE if called incorrectly. Assuming
-+ *	   correct usage, return code may be discarded. The @uval will be
-+ *	   modified on success.
-+ */
-+int unpack(const void *pbuf, u64 *uval, size_t startbit, size_t endbit,
-+	   size_t pbuflen, u8 quirks)
-+{
-+	/* width of the field to access in the pbuf */
-+	u64 value_width;
-+
-+	/* startbit is expected to be larger than endbit, and both are
-+	 * expected to be within the logically addressable range of the buffer.
-+	 */
-+	if (startbit < endbit || startbit >= BITS_PER_BYTE * pbuflen)
-+		/* Invalid function call */
-+		return -EINVAL;
-+
-+	value_width = startbit - endbit + 1;
-+	if (value_width > 64)
-+		return -ERANGE;
-+
-+	__unpack(pbuf, uval, startbit, endbit, pbuflen, quirks);
-+
- 	return 0;
- }
- EXPORT_SYMBOL(unpack);
+ 	__pack(pbuf, uval, startbit, endbit, pbuflen, quirks);
 
 -- 
 2.47.0.265.g4ca455297942
