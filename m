@@ -1,145 +1,142 @@
-Return-Path: <linux-kbuild+bounces-4644-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4645-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F6B9C4371
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 18:19:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4539C450E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 19:36:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E4121B26085
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 17:18:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D589C286A20
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 18:36:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 169741A76C4;
-	Mon, 11 Nov 2024 17:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 661D01AB537;
+	Mon, 11 Nov 2024 18:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z0bks52g"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1RP0KIgH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E471A76BB;
-	Mon, 11 Nov 2024 17:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78041AAE32
+	for <linux-kbuild@vger.kernel.org>; Mon, 11 Nov 2024 18:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731345491; cv=none; b=sCdPOMpUsqkHvS/pwwOMiYT9xCLxMR3xZaC/HTIstToq8H/9oaD7vv9d2i6617rX6tR25qHkg4C2mTEkz6D5KKFmTr4HiwQ4xzeOAI4UqMuhhp5YChSAa6S3usa7GfjbKJM4JA7NhyO5RmmuHNxqKAqEMoW8naQbxaasNtQMVKM=
+	t=1731350180; cv=none; b=kF6zjtG0/044j2dCe2JnHXV2xIRLa5TSZeg5BISVl2wcu8ttTqrDa3IJAHtd5eyFXxvGg20akfqvkc73eGIbIUKzToYaDIfCk0hnzgCji0n2pOg1fPPgELgfyv56V+qaq8REHw26kSfmEL3Wabz5iAUW1TsgjTKLnmBIwp9g078=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731345491; c=relaxed/simple;
-	bh=HyEOb/ajtvjoLfiZKpME9ST5LNje9cuvxLYuXrgFb5U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mB3OAV62XTGMq6xF5+3snuYi/ICZXhXsHcYDpjaN3G8uwfuTSSM8mEyC8wBXNumArLuq4TtgW9msCi0qoCgSSwprFYCvtJ0yLH6x0svIlq3V+dYBR+VBd9FdIFNRIZuzw5deTq1U08FC4vzX9HE46LaBM2o6CvASJsRcn0B7Zao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z0bks52g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A334BC4CED5;
-	Mon, 11 Nov 2024 17:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731345490;
-	bh=HyEOb/ajtvjoLfiZKpME9ST5LNje9cuvxLYuXrgFb5U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Z0bks52gnt1bEqRF3aZJ+8iWUlEtClKLKcDGl0L814v25Ug+NYu4J5HcWW3QMwvJy
-	 EzFkFKCUMUQDGRb9pAywWmAopbJhTS3u2GJ4dUl0CrWSXJKuc+bslXZeiCXU30hSxq
-	 el3ZRGPN0I11tsMlJ9e81W4fW61+iAu+E8xCSKlkdm08CGPOzjBUx1JaVT/iwqVZBb
-	 I61GIqdNfayd7WEf1H/74PBk4zXNTcs0vGJr6pJYlIvpdTZw57sKfsGLa9Qf73T5NC
-	 DbvamfzfeSKrcotl8/Ix1nMKFAu626WNCc58LtMamS7W24P70quwwOgliRABjGCnau
-	 Imqfv6cUKt9hw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: remove support for single %.symtypes build rule
-Date: Tue, 12 Nov 2024 02:17:41 +0900
-Message-ID: <20241111171753.2917697-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241111171753.2917697-1-masahiroy@kernel.org>
-References: <20241111171753.2917697-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1731350180; c=relaxed/simple;
+	bh=PV+dFXayKSoza4QKboAoM48LK/FZeCJuiCqWhtXBk0E=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iqjxQZaMWL8q9QgbfKamtm0j0swUXkcPFs+P8nK2LFADAt263t9KykIWpimjznguj2pUIg8w5PSZCtsoWItJmX62bz/hX2HbryXOhmzE2SzZFGb33NIAV1pR3wYxPWbJpm+M4t5ZNP0kwZmCmqBkvEdSSlgPng8cdNF9H9omCxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1RP0KIgH; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2e9b71d44baso4017459a91.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Nov 2024 10:36:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731350178; x=1731954978; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xT65ccAjs8Gh3WkVN2oxehYUfXZk8VYjMpoaHsa33o0=;
+        b=1RP0KIgHNyK4Ur5hol+Yu7G4mRLT5tpDqZKDX+teyt5MNs2yBx2OY1QvIMD3BKtJpY
+         Tm7AOHxYmRV9NaSxUZZuG3kk5lsUeX1X30ZoixVr4WI1su5YKD/jIl2uSs75SDhMUYQs
+         lKnCVRLqS1q1tO8yaRZXNBlm9PKTocDncHCDW6BtCaJjuXPf8e47MmGK79GRt2/HmFHR
+         Z8G1z4WKiRi+48GzPgrAwCmIW+5QOhG+Yez/bVR0LSE01QCItXedJdbqOKW4uQdN1hPI
+         jmTksgzrW8DUqt8wbXQXMMiMAqUUoBQnAQ5GEZ03tHwNVA69ttUxwWdKfSrxIjHhmjAn
+         9bWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731350178; x=1731954978;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xT65ccAjs8Gh3WkVN2oxehYUfXZk8VYjMpoaHsa33o0=;
+        b=u11M7izFhL/9Q8UrD96XFIZMQmlchhDtRYzQ9/AWeVzVYWUJToLnwW4YUyhNoN7G11
+         Ib1rIM/KIZbXKpXIF/+cVkDV23KqEcefKT73dMdHnvNsh0AQgHV8qTKRVU2YN6Cr6crR
+         19cVl6xYDpCQiR+eH/9Oyy6hIkIvIYDK74vaXYYuZTgtU9MDAhPKxRUyM9h+JfSm0LSW
+         GUEaa/tr/tmsz8jE2w/2c/BolU68l7FNGTlgG9bmbSvtuHMeFIpO/p/7KcVmVainkb9h
+         d5bU1VH5yPGxv8RpkrriCzPTlcWAJeAM9exDU6utkci/0WM5t6XXlG+SpPEPta9tQB4b
+         in9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUNiNYPF002V1z9loZqbN+/XyVM9eyv7JfPLz5M09xYjrVIXXnmOc8h61jFGFX6N4ucNCseSNidOqeBSlc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzW5Y5+zT49CcmthA+vpWNyRf0srLEjL5D+jiMz4k46JBAm2ERl
+	IifTVw3WVoLICfu5CoCa0Cx0u549o0khjfvk2tukSqZUQXHiWDhlxB1pBYunjGbQcm7r8hKGu98
+	H9Q==
+X-Google-Smtp-Source: AGHT+IGsaV/1tgPpIVqWB5Mn7y56a6i4yKq/u3n7iqOCe1NxKLezWYvBI7qvvP2xMM7HdjgqR6IWPDWEFzg=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
+ (user=seanjc job=sendgmr) by 2002:a17:90a:8306:b0:2e9:9234:2db7 with SMTP id
+ 98e67ed59e1d1-2e9b16eb06fmr126213a91.1.1731350177740; Mon, 11 Nov 2024
+ 10:36:17 -0800 (PST)
+Date: Mon, 11 Nov 2024 10:36:16 -0800
+In-Reply-To: <ZzHsZoYlwYpNx9A5@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20241111105430.575636482@infradead.org> <20241111111817.532312508@infradead.org>
+ <ZzHsZoYlwYpNx9A5@infradead.org>
+Message-ID: <ZzJOoFFPjrzYzKir@google.com>
+Subject: Re: [RFC][PATCH 6/8] module: Add module specific symbol namespace support
+From: Sean Christopherson <seanjc@google.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com, 
+	petr.pavlu@suse.com, samitolvanen@google.com, da.gomez@samsung.com, 
+	masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
 
-This rule is unnecessary because you can generate foo/bar.symtypes
-as a side effect using:
+On Mon, Nov 11, 2024, Christoph Hellwig wrote:
+> On Mon, Nov 11, 2024 at 11:54:36AM +0100, Peter Zijlstra wrote:
+> > Designate the "MODULE_${modname}" symbol namespace to mean: 'only
+> > export to the named module'.
+> > 
+> > Notably, explicit imports of anything in the "MODULE_" space is
+> > forbidden. Modules implicitly get the "MODULE_${modname}" namespace
+> > added.
+> 
+> Btw, I finally remember why I wanted a separate macro for this:
+> so that we can also add the config symbol as an argument and not
+> export the symbol if the module isn't configured or built in.
 
-  $ make KBUILD_SYMTYPES=1 foo/bar.o
+That could get ugly, especially in generic code, as multiple KVM architectures
+use multiple modules, e.g. x86 generates kvm.ko, and then vendor specific modules
+kvm-amd.ko and kvm-intel.ko; and PPC generates kvm.ko, and kvm-hv.ko and kvm-pr.ko.
+PPC in particular is annoying because it generates kvm.ko for KVM_BOOK3S_32=m or
+KVM_BOOK3S_64=m.
 
-While compiling *.o is slower than preprocessing, the impact is
-negligible. I prioritize keeping the code simpler.
+The other quirk is that, on x86 at least, kvm.ko is now built if and only if at
+least one of KVM_AMD=m or KVM_INTEL=m, which triggers KVM_X86=m.  I.e. kvm.ko isn't
+built if there are no vendor modules, even if KVM=m.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I'd also like to use this infrastructure to restrict KVM's own exports, e.g. so
+that KVM exports its symbols for kvm-{amd,intel,hv,pr}.ko only as needed.
 
- Makefile               |  2 +-
- scripts/Makefile.build | 20 +++-----------------
- 2 files changed, 4 insertions(+), 18 deletions(-)
+So rather than having EXPORT_SYMBOL_GPL_FOR() deal with KVM's messes, would it
+instead make sense to have KVM provide EXPORT_SYMBOL_GPL_FOR_KVM()?  Then KVM can
+reuse the painful extrapolation of Kconfigs to module names for its own exports.
+And IMO, that'd make the code that does the exports much more readable, too.
 
-diff --git a/Makefile b/Makefile
-index 8dceb6830486..93fe5d2d6861 100644
---- a/Makefile
-+++ b/Makefile
-@@ -276,7 +276,7 @@ no-dot-config-targets := $(clean-targets) \
- 			 outputmakefile rustavailable rustfmt rustfmtcheck
- no-sync-config-targets := $(no-dot-config-targets) %install modules_sign kernelrelease \
- 			  image_name
--single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.symtypes %/
-+single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %/
- 
- config-build	:=
- mixed-build	:=
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 36eae845a3e3..1a0d3078dac7 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -108,19 +108,13 @@ $(obj)/%.i: $(obj)/%.c FORCE
- 	$(call if_changed_dep,cpp_i_c)
- 
- genksyms = scripts/genksyms/genksyms		\
--	$(if $(1), -T $(2))			\
-+	$(if $(KBUILD_SYMTYPES), -T $(@:.o=.symtypes))	\
- 	$(if $(KBUILD_PRESERVE), -p)		\
--	$(addprefix -r , $(wildcard $(2:.symtypes=.symref)))
-+	$(addprefix -r , $(wildcard $(@:.o=.symref)))
- 
- # These mirror gensymtypes_S and co below, keep them in synch.
- cmd_gensymtypes_c = $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
- 
--quiet_cmd_cc_symtypes_c = SYM $(quiet_modtag) $@
--      cmd_cc_symtypes_c = $(call cmd_gensymtypes_c,true,$@) >/dev/null
--
--$(obj)/%.symtypes : $(obj)/%.c FORCE
--	$(call cmd,cc_symtypes_c)
--
- # LLVM assembly
- # Generate .ll files from .c
- quiet_cmd_cc_ll_c = CC $(quiet_modtag)  $@
-@@ -158,8 +152,7 @@ ifdef CONFIG_MODVERSIONS
- 
- gen_symversions =								\
- 	if $(NM) $@ 2>/dev/null | grep -q ' __export_symbol_'; then		\
--		$(call cmd_gensymtypes_$(1),$(KBUILD_SYMTYPES),$(@:.o=.symtypes)) \
--			>> $(dot-target).cmd;					\
-+		$(cmd_gensymtypes_$1) >> $(dot-target).cmd;			\
- 	fi
- 
- cmd_gen_symversions_c =	$(call gen_symversions,c)
-@@ -323,13 +316,6 @@ cmd_gensymtypes_S =                                                         \
-      $(NM) $@ | sed -n 's/.* __export_symbol_\(.*\)/EXPORT_SYMBOL(\1);/p' ; } | \
-     $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
- 
--quiet_cmd_cc_symtypes_S = SYM $(quiet_modtag) $@
--      cmd_cc_symtypes_S = $(call cmd_gensymtypes_S,true,$@) >/dev/null
--
--$(obj)/%.symtypes : $(obj)/%.S FORCE
--	$(call cmd,cc_symtypes_S)
--
--
- quiet_cmd_cpp_s_S = CPP $(quiet_modtag) $@
- cmd_cpp_s_S       = $(CPP) $(a_flags) -o $@ $<
- 
--- 
-2.43.0
+E.g. for x86, something like:
 
+#if IS_MODULE(CONFIG_KVM_AMD) && IS_MODULE(CONFIG_KVM_INTEL)
+#define KVM_VENDOR_MODULES kvm-amd,kvm-intel
+#elif IS_MODULE(CONFIG_KVM_AMD)
+#define KVM_VENDOR_MODULES kvm-amd
+#elif IS_MODULE(CONFIG_KVM_INTEL)
+#define KVM_VENDOR_MODULES kvm-intel
+#else
+#undef KVM_VENDOR_MODULES
+#endif
+
+#ifdef KVM_VENDOR_MODULES
+static_assert(IS_MODULE(CONFIG_KVM_X86));
+
+#define EXPORT_SYMBOL_GPL_FOR_KVM_INTERNAL(symbol) \
+	EXPORT_SYMBOL_GPL_FOR(symbol, __stringify(KVM_VENDOR_MODULES))
+#define EXPORT_SYMBOL_GPL_FOR_KVM(symbol) \
+	EXPORT_SYMBOL_GPL_FOR(symbol, "kvm," __stringify(KVM_VENDOR_MODULES))
+#else
+EXPORT_SYMBOL_GPL_FOR_KVM_INTERNAL(symbol)
+EXPORT_SYMBOL_GPL_FOR_KVM(symbol)
+#endif
 
