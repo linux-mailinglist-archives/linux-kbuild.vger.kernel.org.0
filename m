@@ -1,142 +1,251 @@
-Return-Path: <linux-kbuild+bounces-4645-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4646-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4539C450E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 19:36:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0B99C4718
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 21:44:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D589C286A20
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 18:36:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86A5E28C673
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2024 20:44:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 661D01AB537;
-	Mon, 11 Nov 2024 18:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0F4C1B5338;
+	Mon, 11 Nov 2024 20:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1RP0KIgH"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="th4JP1D9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78041AAE32
-	for <linux-kbuild@vger.kernel.org>; Mon, 11 Nov 2024 18:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81811AFB35
+	for <linux-kbuild@vger.kernel.org>; Mon, 11 Nov 2024 20:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731350180; cv=none; b=kF6zjtG0/044j2dCe2JnHXV2xIRLa5TSZeg5BISVl2wcu8ttTqrDa3IJAHtd5eyFXxvGg20akfqvkc73eGIbIUKzToYaDIfCk0hnzgCji0n2pOg1fPPgELgfyv56V+qaq8REHw26kSfmEL3Wabz5iAUW1TsgjTKLnmBIwp9g078=
+	t=1731357850; cv=none; b=e+q4t7BbFvfjVnACfZq/bdOM6YvF9VElyz9yRaqIQ4qyBW7D0M5YdgAE3IEDsENae8paAcKRH1Tm0e90dFxVNGW6Cui2PNO8DqAWVviLH6uplD/9H/qQYGdlMWcS45cCB8yFmvaOQyEmgaCS7JGLtg56LuqVN2XF6bjaVv710WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731350180; c=relaxed/simple;
-	bh=PV+dFXayKSoza4QKboAoM48LK/FZeCJuiCqWhtXBk0E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iqjxQZaMWL8q9QgbfKamtm0j0swUXkcPFs+P8nK2LFADAt263t9KykIWpimjznguj2pUIg8w5PSZCtsoWItJmX62bz/hX2HbryXOhmzE2SzZFGb33NIAV1pR3wYxPWbJpm+M4t5ZNP0kwZmCmqBkvEdSSlgPng8cdNF9H9omCxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1RP0KIgH; arc=none smtp.client-ip=209.85.216.73
+	s=arc-20240116; t=1731357850; c=relaxed/simple;
+	bh=pu1bE2oQyz4PIzvOKsfMnSgcPR/vFs7LU5lLf0wlKVk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S+ZbuA4LiwJWZJk3LBAn2ULW2enYQ+sEx/5sMeFUcQj7MzkIMKXOaMFJwA/hu+V9mAJCDuLft6dg3jK8eUZfUf58mm7exnABcx3pAgBSuObZXct7HuGwADDRcyMJc540JOrFPvOmYAryeAJOoG0A95luQnW2wcBDTuCZaiaLD0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=th4JP1D9; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2e9b71d44baso4017459a91.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 Nov 2024 10:36:18 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-460a8d1a9b7so1531cf.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Nov 2024 12:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731350178; x=1731954978; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xT65ccAjs8Gh3WkVN2oxehYUfXZk8VYjMpoaHsa33o0=;
-        b=1RP0KIgHNyK4Ur5hol+Yu7G4mRLT5tpDqZKDX+teyt5MNs2yBx2OY1QvIMD3BKtJpY
-         Tm7AOHxYmRV9NaSxUZZuG3kk5lsUeX1X30ZoixVr4WI1su5YKD/jIl2uSs75SDhMUYQs
-         lKnCVRLqS1q1tO8yaRZXNBlm9PKTocDncHCDW6BtCaJjuXPf8e47MmGK79GRt2/HmFHR
-         Z8G1z4WKiRi+48GzPgrAwCmIW+5QOhG+Yez/bVR0LSE01QCItXedJdbqOKW4uQdN1hPI
-         jmTksgzrW8DUqt8wbXQXMMiMAqUUoBQnAQ5GEZ03tHwNVA69ttUxwWdKfSrxIjHhmjAn
-         9bWQ==
+        d=google.com; s=20230601; t=1731357847; x=1731962647; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wJ6uFcLfCmrIfQWM4xw2qYGBJMJQRq1denWE0S9O56A=;
+        b=th4JP1D92CK3cfrjBEFzfpzxnrBrwJZUBTJIbHXzUfJkZ5RmdqnaEnn+3K2ZvNLqgs
+         qIIr9Yos1Y8AxPSEJCov1/XvepIiV2VZqbMykG2K3XF7pK3pK/7wYXHBqrYHX9/hkMZI
+         Jb0krIPMLBExfk3O6+Jgj0vVk/61RghT0qh8e42Mz033A/k3DaWdTAvZDVs131T/ZLrD
+         kvTMZhmeIDKunUCd1VqnGp6t0zvRAk9QHiUFaRPHYuDBL3kEJooHwZFEKrguq4PLkNBi
+         B0vbK/mloWngKj8P4pPBx53Exj761aTLx4+FOLhKsQ+bet60Tcid9Uu2JTfvizeEI+jl
+         uIrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731350178; x=1731954978;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xT65ccAjs8Gh3WkVN2oxehYUfXZk8VYjMpoaHsa33o0=;
-        b=u11M7izFhL/9Q8UrD96XFIZMQmlchhDtRYzQ9/AWeVzVYWUJToLnwW4YUyhNoN7G11
-         Ib1rIM/KIZbXKpXIF/+cVkDV23KqEcefKT73dMdHnvNsh0AQgHV8qTKRVU2YN6Cr6crR
-         19cVl6xYDpCQiR+eH/9Oyy6hIkIvIYDK74vaXYYuZTgtU9MDAhPKxRUyM9h+JfSm0LSW
-         GUEaa/tr/tmsz8jE2w/2c/BolU68l7FNGTlgG9bmbSvtuHMeFIpO/p/7KcVmVainkb9h
-         d5bU1VH5yPGxv8RpkrriCzPTlcWAJeAM9exDU6utkci/0WM5t6XXlG+SpPEPta9tQB4b
-         in9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUNiNYPF002V1z9loZqbN+/XyVM9eyv7JfPLz5M09xYjrVIXXnmOc8h61jFGFX6N4ucNCseSNidOqeBSlc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzW5Y5+zT49CcmthA+vpWNyRf0srLEjL5D+jiMz4k46JBAm2ERl
-	IifTVw3WVoLICfu5CoCa0Cx0u549o0khjfvk2tukSqZUQXHiWDhlxB1pBYunjGbQcm7r8hKGu98
-	H9Q==
-X-Google-Smtp-Source: AGHT+IGsaV/1tgPpIVqWB5Mn7y56a6i4yKq/u3n7iqOCe1NxKLezWYvBI7qvvP2xMM7HdjgqR6IWPDWEFzg=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
- (user=seanjc job=sendgmr) by 2002:a17:90a:8306:b0:2e9:9234:2db7 with SMTP id
- 98e67ed59e1d1-2e9b16eb06fmr126213a91.1.1731350177740; Mon, 11 Nov 2024
- 10:36:17 -0800 (PST)
-Date: Mon, 11 Nov 2024 10:36:16 -0800
-In-Reply-To: <ZzHsZoYlwYpNx9A5@infradead.org>
+        d=1e100.net; s=20230601; t=1731357847; x=1731962647;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wJ6uFcLfCmrIfQWM4xw2qYGBJMJQRq1denWE0S9O56A=;
+        b=OxzyoiGofn1rPrKvoGU19HPVZ0RGzzmEX1NkUKIZWDNxCgKPyCSg5BqhTk1mNHhxX2
+         8GM6uDV1oBPRph1yAypXNEeyX7gMo+3+7x3TrL5CGcU3WmpwCV0Paqz/I56bunUOhJ6y
+         0t9npmb/IqIaoRZ+eJHDQZXe58bFUJrGxZX/vf2gzwHFmMxMRvFSULFcMfpsKmiOVuYL
+         20LZ7eGNsGJReV2HdckNy7tTKBRGk1jF0qhpzBAj4gjJMGnsGHKrjYI49ZpdJhtYBplb
+         UE0DSVTOC36038f8HeS4mk3+1ZBtt8e0x0HuZ7ZBSoHqD/uy5M1bO/xebXUv+yE8czqT
+         GvBg==
+X-Forwarded-Encrypted: i=1; AJvYcCX/MgLa3V4cjHZEBGIueTFwn/TWnJMv0XK09OoUot9VX3qlgZwrkvrNgRut75btpEzM2yh7cnHcdk7qiyM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7H8DQ0aAeH+iX3EdoZdiGvS2QItfiac68WjwN7DGqZmfcgtSy
+	YW5oLwRghLd01KXlzybQINrBJApIvB0xUCmkUqNFRZJYdT3MsP1V2V9gd9AdSFGh96oSE4MsWec
+	l2rz1Eq3jvuqoWOwkEyed/QGXHoLa3nekMIu7
+X-Gm-Gg: ASbGncv8lbwPTZTg37q3CSpry4dJvGsmy2WHz5YI8V8FhJu01XOi/GnSsh/NAQTAgcv
+	qpOs0hawUeqByGUKoRcFf9DFSFVbHqbbrNSMugrhkRe4jXWCoMXdlA6JnDMNiMA==
+X-Google-Smtp-Source: AGHT+IHN/VTkEzYYSUDWzDF6ttzYMfgpvSZeOr4oSBlM+xWBr13kyerRjwvS3iVYPd8P6qhTDE91E+q+P0S+4DZZ1Yw=
+X-Received: by 2002:ac8:57cb:0:b0:462:c961:ab88 with SMTP id
+ d75a77b69052e-4633f2ba6b3mr499291cf.13.1731357846333; Mon, 11 Nov 2024
+ 12:44:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241111105430.575636482@infradead.org> <20241111111817.532312508@infradead.org>
- <ZzHsZoYlwYpNx9A5@infradead.org>
-Message-ID: <ZzJOoFFPjrzYzKir@google.com>
-Subject: Re: [RFC][PATCH 6/8] module: Add module specific symbol namespace support
-From: Sean Christopherson <seanjc@google.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com, 
-	petr.pavlu@suse.com, samitolvanen@google.com, da.gomez@samsung.com, 
-	masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20241026051410.2819338-1-xur@google.com> <20241026051410.2819338-4-xur@google.com>
+ <44193ca7-9d31-4b58-99cc-3300a6ad5289@gmail.com>
+In-Reply-To: <44193ca7-9d31-4b58-99cc-3300a6ad5289@gmail.com>
+From: Rong Xu <xur@google.com>
+Date: Mon, 11 Nov 2024 12:43:54 -0800
+Message-ID: <CAF1bQ=ShjoEQZGPjDoy_B6wZdD_jr-RevVXwEDPA_-o-Ba0Omg@mail.gmail.com>
+Subject: Re: [PATCH v6 3/7] Adjust symbol ordering in text output section
+To: Klara Modin <klarasmodin@gmail.com>
+Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
+	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Wei Yang <richard.weiyang@gmail.com>, 
+	workflows@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Maksim Panchenko <max4bolt@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Yonghong Song <yonghong.song@linux.dev>, 
+	Yabin Cui <yabinc@google.com>, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
+	Sriraman Tallam <tmsriram@google.com>, Stephane Eranian <eranian@google.com>, x86@kernel.org, 
+	linux-arch@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 11, 2024, Christoph Hellwig wrote:
-> On Mon, Nov 11, 2024 at 11:54:36AM +0100, Peter Zijlstra wrote:
-> > Designate the "MODULE_${modname}" symbol namespace to mean: 'only
-> > export to the named module'.
-> > 
-> > Notably, explicit imports of anything in the "MODULE_" space is
-> > forbidden. Modules implicitly get the "MODULE_${modname}" namespace
-> > added.
-> 
-> Btw, I finally remember why I wanted a separate macro for this:
-> so that we can also add the config symbol as an argument and not
-> export the symbol if the module isn't configured or built in.
+Thanks for reporting this issue!
 
-That could get ugly, especially in generic code, as multiple KVM architectures
-use multiple modules, e.g. x86 generates kvm.ko, and then vendor specific modules
-kvm-amd.ko and kvm-intel.ko; and PPC generates kvm.ko, and kvm-hv.ko and kvm-pr.ko.
-PPC in particular is annoying because it generates kvm.ko for KVM_BOOK3S_32=m or
-KVM_BOOK3S_64=m.
+I'm assuming your kernel build enables dead code elimination and
+uses the --ffunction-sections compiler flag. Without this patch, all
+the functions
+-- I think there are only .text.unlikely.* and .text.* are grouped
+together in the
+final vmlinux. This patch modifies the linker script to place
+.text.unlikely.* functions
+ before .text.* functions. I've examined arch/mips/kernel/vmlinux.lds.S, an=
+d
+haven't found any obvious issue.
 
-The other quirk is that, on x86 at least, kvm.ko is now built if and only if at
-least one of KVM_AMD=m or KVM_INTEL=m, which triggers KVM_X86=m.  I.e. kvm.ko isn't
-built if there are no vendor modules, even if KVM=m.
+Can you send me the following?
+(1) the kernel build command
+(2) System.map without the patch
+(3) System.map with the patch
 
-I'd also like to use this infrastructure to restrict KVM's own exports, e.g. so
-that KVM exports its symbols for kvm-{amd,intel,hv,pr}.ko only as needed.
+Best regards,
 
-So rather than having EXPORT_SYMBOL_GPL_FOR() deal with KVM's messes, would it
-instead make sense to have KVM provide EXPORT_SYMBOL_GPL_FOR_KVM()?  Then KVM can
-reuse the painful extrapolation of Kconfigs to module names for its own exports.
-And IMO, that'd make the code that does the exports much more readable, too.
+-Rong
 
-E.g. for x86, something like:
-
-#if IS_MODULE(CONFIG_KVM_AMD) && IS_MODULE(CONFIG_KVM_INTEL)
-#define KVM_VENDOR_MODULES kvm-amd,kvm-intel
-#elif IS_MODULE(CONFIG_KVM_AMD)
-#define KVM_VENDOR_MODULES kvm-amd
-#elif IS_MODULE(CONFIG_KVM_INTEL)
-#define KVM_VENDOR_MODULES kvm-intel
-#else
-#undef KVM_VENDOR_MODULES
-#endif
-
-#ifdef KVM_VENDOR_MODULES
-static_assert(IS_MODULE(CONFIG_KVM_X86));
-
-#define EXPORT_SYMBOL_GPL_FOR_KVM_INTERNAL(symbol) \
-	EXPORT_SYMBOL_GPL_FOR(symbol, __stringify(KVM_VENDOR_MODULES))
-#define EXPORT_SYMBOL_GPL_FOR_KVM(symbol) \
-	EXPORT_SYMBOL_GPL_FOR(symbol, "kvm," __stringify(KVM_VENDOR_MODULES))
-#else
-EXPORT_SYMBOL_GPL_FOR_KVM_INTERNAL(symbol)
-EXPORT_SYMBOL_GPL_FOR_KVM(symbol)
-#endif
+On Sat, Nov 9, 2024 at 7:39=E2=80=AFAM Klara Modin <klarasmodin@gmail.com> =
+wrote:
+>
+> Hi,
+>
+> On 2024-10-26 07:14, Rong Xu wrote:
+> > When the -ffunction-sections compiler option is enabled, each function
+> > is placed in a separate section named .text.function_name rather than
+> > putting all functions in a single .text section.
+> >
+> > However, using -function-sections can cause problems with the
+> > linker script. The comments included in include/asm-generic/vmlinux.lds=
+.h
+> > note these issues.:
+> >    =E2=80=9CTEXT_MAIN here will match .text.fixup and .text.unlikely if=
+ dead
+> >     code elimination is enabled, so these sections should be converted
+> >     to use ".." first.=E2=80=9D
+> >
+> > It is unclear whether there is a straightforward method for converting
+> > a suffix to "..".
+> >
+> > This patch modifies the order of subsections within the text output
+> > section. Specifically, it repositions sections with certain fixed patte=
+rns
+> > (for example .text.unlikely) before TEXT_MAIN, ensuring that they are
+> > grouped and matched together. It also places .text.hot section at the
+> > beginning of a page to help the TLB performance.
+> >
+> > Note that the limitation arises because the linker script employs glob
+> > patterns instead of regular expressions for string matching. While ther=
+e
+> > is a method to maintain the current order using complex patterns, this
+> > significantly complicates the pattern and increases the likelihood of
+> > errors.
+> >
+> > This patch also changes vmlinux.lds.S for the sparc64 architecture to
+> > accommodate specific symbol placement requirements.
+>
+> With this patch (622240ea8d71a75055399fd4b3cc2b190e44d2e2 in
+> next-20241108) my Edgerouter 6P hangs on boot (Cavium Octeon III,
+> mips64, running in big endian). It's using device tree passed from the
+> vendored u-boot (attached in case it's relevant).
+>
+> Disabling dead code elimination does not fix the issue.
+>
+> Please let me know if there's anything else you need.
+>
+> Regards,
+> Klara Modin
+>
+> >
+> > Co-developed-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Han Shen <shenhan@google.com>
+> > Signed-off-by: Rong Xu <xur@google.com>
+> > Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> > Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> > Tested-by: Yonghong Song <yonghong.song@linux.dev>
+> > Tested-by: Yabin Cui <yabinc@google.com>
+> > Change-Id: I5202d40bc7e24f93c2bfb2f0d987e9dc57dec1b1
+> > ---
+> >   arch/sparc/kernel/vmlinux.lds.S   |  5 +++++
+> >   include/asm-generic/vmlinux.lds.h | 19 ++++++++++++-------
+> >   2 files changed, 17 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/arch/sparc/kernel/vmlinux.lds.S b/arch/sparc/kernel/vmlinu=
+x.lds.S
+> > index d317a843f7ea9..f1b86eb303404 100644
+> > --- a/arch/sparc/kernel/vmlinux.lds.S
+> > +++ b/arch/sparc/kernel/vmlinux.lds.S
+> > @@ -48,6 +48,11 @@ SECTIONS
+> >       {
+> >               _text =3D .;
+> >               HEAD_TEXT
+> > +             ALIGN_FUNCTION();
+> > +#ifdef CONFIG_SPARC64
+> > +             /* Match text section symbols in head_64.S first */
+> > +             *head_64.o(.text)
+> > +#endif
+> >               TEXT_TEXT
+> >               SCHED_TEXT
+> >               LOCK_TEXT
+> > diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vm=
+linux.lds.h
+> > index eeadbaeccf88b..fd901951549c0 100644
+> > --- a/include/asm-generic/vmlinux.lds.h
+> > +++ b/include/asm-generic/vmlinux.lds.h
+> > @@ -553,19 +553,24 @@
+> >    * .text section. Map to function alignment to avoid address changes
+> >    * during second ld run in second ld pass when generating System.map
+> >    *
+> > - * TEXT_MAIN here will match .text.fixup and .text.unlikely if dead
+> > - * code elimination is enabled, so these sections should be converted
+> > - * to use ".." first.
+> > + * TEXT_MAIN here will match symbols with a fixed pattern (for example=
+,
+> > + * .text.hot or .text.unlikely) if dead code elimination or
+> > + * function-section is enabled. Match these symbols first before
+> > + * TEXT_MAIN to ensure they are grouped together.
+> > + *
+> > + * Also placing .text.hot section at the beginning of a page, this
+> > + * would help the TLB performance.
+> >    */
+> >   #define TEXT_TEXT                                                   \
+> >               ALIGN_FUNCTION();                                       \
+> > +             *(.text.asan.* .text.tsan.*)                            \
+> > +             *(.text.unknown .text.unknown.*)                        \
+> > +             *(.text.unlikely .text.unlikely.*)                      \
+> > +             . =3D ALIGN(PAGE_SIZE);                                  =
+ \
+> >               *(.text.hot .text.hot.*)                                \
+> >               *(TEXT_MAIN .text.fixup)                                \
+> > -             *(.text.unlikely .text.unlikely.*)                      \
+> > -             *(.text.unknown .text.unknown.*)                        \
+> >               NOINSTR_TEXT                                            \
+> > -             *(.ref.text)                                            \
+> > -             *(.text.asan.* .text.tsan.*)
+> > +             *(.ref.text)
+> >
+> >
+> >   /* sched.text is aling to function alignment to secure we have same
 
