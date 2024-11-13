@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-4671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4672-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB6C9C7EE8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2024 00:46:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D10D49C7EEA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2024 00:46:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8E57B24F74
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Nov 2024 23:46:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D1921F23102
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Nov 2024 23:46:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 330BB18FDB0;
-	Wed, 13 Nov 2024 23:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74785193408;
+	Wed, 13 Nov 2024 23:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fuJW5uEO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n3QF0G66"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0953618F2F6;
-	Wed, 13 Nov 2024 23:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA90193061;
+	Wed, 13 Nov 2024 23:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731541533; cv=none; b=lPKzKVNw+wMjQkptc3TuLyA2dnnEN30D1NUVKUs8CSiPQE7WsEwFT/jZup3l8czXg/Qw6H8xuBm/hO9RVQtrXJIk58MYftX1/UAciP1/6Gc/hQ8uSkLGq6U7wGlbeFLai1AJHgHS6awbjKEnK8PNTrl0yAPaHpy5pscZf5o5qz4=
+	t=1731541535; cv=none; b=UFDnKCHfIv71Uz+RJRC6Kmo9/GbUCQFJNbjsPMYnIh2NRhLQENn3lWdcBEkAAJsOnyQE9REpqxtYOt2hAo16so+09w8ZkLP6u/SUqvIat/ptM2sgKhZK01KGD9paKj2rQdpG0yLQwN/PHOHNbnMJGxzb1MIehxD5x//bwlR4cTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731541533; c=relaxed/simple;
-	bh=vPSWjBuFWVQznjZaqIObNUB0TUhuFS1m7kM/on2+uGk=;
+	s=arc-20240116; t=1731541535; c=relaxed/simple;
+	bh=ZsLl0bXqAO1JS0+ecvCCMFS8Q/vLSL1Yq8TvKhkaQBE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QHDmd5d1QJWCsh8subep3UWr4weL/yWsnSfGhQfORATRufuZislL5rZwgDLWougrCQ5K+Az7xttOPenY9dK7lXAR3EU98XiZSGdvhpgMT9jxyBD8rsIEBD+irT8dlts/tbzxnxfOCWPsWrSuVdlyrFVhNIq3dUAwhGDIP5HUbmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fuJW5uEO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D0C2C4CED7;
-	Wed, 13 Nov 2024 23:45:30 +0000 (UTC)
+	 MIME-Version; b=VQS+1RgxOnhzc3l6fQUw61WAoEXN7hLhM8WCftVD0aQpYoBn5GRa5unetBnyw0vznTY/Bj+YUjh4yoeMHjtf7A/dLBzFq45e4ji+IJSiol4YbgqiVnlCFZO7PlhkZ2HRcDacqaeV1fH7pwX3Gmf519WTjo67MVoWEcUNEwBOxVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n3QF0G66; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5010CC4CEC3;
+	Wed, 13 Nov 2024 23:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731541532;
-	bh=vPSWjBuFWVQznjZaqIObNUB0TUhuFS1m7kM/on2+uGk=;
+	s=k20201202; t=1731541534;
+	bh=ZsLl0bXqAO1JS0+ecvCCMFS8Q/vLSL1Yq8TvKhkaQBE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fuJW5uEOYa4ULZSQ4d0T5dC5eBfulC8SSSnTskRb8hU4G2Bf8bFCNFTC9M1sy4E7T
-	 BubypoRnfktz3sLajPRjUiNAG1B27BZtO8WdxgGooLLFiDzqlKB/BovNMYFRQ1MZcP
-	 T/DjyyUv9f7S8o5M6DdDAcmKr6xsmI3psS3O9SGAvEkOmOaO0a2WneNkOLq34bbjXb
-	 5QRTmMrDjhHYjdMb/omNWFRgjpF9o848bgamKCI+CvMSdZxl7ux4cQbhcYWdVkk9B0
-	 OomDImTb6TEeFu4N9B87oC+eFeoiicvB3ke6SnAvrwhuAAEWwqSn4hkmt6QCVuBvVw
-	 gixl1yXPnGOAg==
+	b=n3QF0G66QRBewRZAEhbQW/2zbk6Kzh/VcvMunKkZpDb3+K57DvTEQSrmqjtf5PTOn
+	 S+DJAcOcfPdqZJEn6+BGZvcHG/G4xE5rBQ+jS1MKl9daHO3Wqs0NABzX4H7E1kS3Nt
+	 HmdeyTfUnfC58cCNtElvp1Th8ZwXyJJfZHy8SpQpcTYI98k/B8rCCXIA4IG/Voo4rT
+	 kwakyLzkEC5RD/cwxRWovtLW120u0FLUWWMxT50S/JEqaSWybyvRTvgHSrLwxe13Fo
+	 rV3Bd8FUrJ2gtVBwpbeyMJKyQjO7+ySyc3QnuylyNp1a3MOuIETxxIoMqURGe4JWwY
+	 Y9p6dx4R6us5Q==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
@@ -52,9 +52,9 @@ Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] kbuild: move cmd_cc_o_c and cmd_as_o_S to scripts/Malefile.lib
-Date: Thu, 14 Nov 2024 08:45:21 +0900
-Message-ID: <20241113234526.402738-2-masahiroy@kernel.org>
+Subject: [PATCH 2/3] kbuild: enable objtool for *.mod.o and additional kernel objects
+Date: Thu, 14 Nov 2024 08:45:22 +0900
+Message-ID: <20241113234526.402738-3-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241113234526.402738-1-masahiroy@kernel.org>
 References: <20241113234526.402738-1-masahiroy@kernel.org>
@@ -66,121 +66,123 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The cmd_cc_o_c and cmd_as_o_S macros are duplicated in
-scripts/Makefile.{build,modfinal,vmlinux}.
+Currently, objtool is disabled in scripts/Makefile.{modfinal,vmlinux}.
 
-This commit factors them out to scripts/Makefile.lib.
+This commit moves rule_cc_o_c and rule_as_o_S to scripts/Makefile.lib
+and set objtool-enabled to y there.
 
-No functional changes are intended.
+With this change, *.mod.o, .module-common.o,  builtin-dtb.o, and
+vmlinux.export.o will now be covered by objtool.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.build    |  8 --------
- scripts/Makefile.lib      | 12 ++++++++++++
- scripts/Makefile.modfinal |  6 ++----
- scripts/Makefile.vmlinux  |  8 +-------
- 4 files changed, 15 insertions(+), 19 deletions(-)
+ scripts/Makefile.build    | 17 -----------------
+ scripts/Makefile.lib      | 19 +++++++++++++++++++
+ scripts/Makefile.modfinal |  4 ++--
+ scripts/Makefile.vmlinux  |  4 ++--
+ 4 files changed, 23 insertions(+), 21 deletions(-)
 
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 1aa928a6fb4f..24e10c821461 100644
+index 24e10c821461..18b76947fe96 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -141,11 +141,6 @@ ifdef CONFIG_LTO_CLANG
- cmd_ld_single_m = $(if $(is-single-obj-m), ; $(LD) $(ld_flags) -r -o $(tmp-target) $@; mv $(tmp-target) $@)
+@@ -202,23 +202,6 @@ ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
+ cmd_warn_shared_object = $(if $(word 2, $(modname-multi)),$(warning $(kbuild-file): $*.o is added to multiple modules: $(modname-multi)))
  endif
  
--quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
--      cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $< \
--		$(cmd_ld_single_m) \
--		$(cmd_objtool)
+-define rule_cc_o_c
+-	$(call cmd_and_fixdep,cc_o_c)
+-	$(call cmd,checksrc)
+-	$(call cmd,checkdoc)
+-	$(call cmd,gen_objtooldep)
+-	$(call cmd,gen_symversions_c)
+-	$(call cmd,record_mcount)
+-	$(call cmd,warn_shared_object)
+-endef
 -
- ifdef CONFIG_MODVERSIONS
- # When module versioning is enabled the following steps are executed:
- # o compile a <file>.o from <file>.c
-@@ -336,9 +331,6 @@ cmd_cpp_s_S       = $(CPP) $(a_flags) -o $@ $<
- $(obj)/%.s: $(obj)/%.S FORCE
- 	$(call if_changed_dep,cpp_s_S)
- 
--quiet_cmd_as_o_S = AS $(quiet_modtag)  $@
--      cmd_as_o_S = $(CC) $(a_flags) -c -o $@ $< $(cmd_objtool)
+-define rule_as_o_S
+-	$(call cmd_and_fixdep,as_o_S)
+-	$(call cmd,gen_objtooldep)
+-	$(call cmd,gen_symversions_S)
+-	$(call cmd,warn_shared_object)
+-endef
 -
- ifdef CONFIG_ASM_MODVERSIONS
- 
- # versioning matches the C process described above, with difference that
+ # Built-in and composite module parts
+ $(obj)/%.o: $(obj)/%.c $(recordmcount_source) FORCE
+ 	$(call if_changed_rule,cc_o_c)
 diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 5660dfc9ed36..73e385946855 100644
+index 73e385946855..17c81c346e36 100644
 --- a/scripts/Makefile.lib
 +++ b/scripts/Makefile.lib
-@@ -298,6 +298,18 @@ $(foreach m, $1, \
- 	$(addprefix $(obj)/, $(call suffix-search, $(patsubst $(obj)/%,%,$m), $2, $3))))
- endef
+@@ -302,14 +302,33 @@ endef
+ # ===========================================================================
+ # These are shared by some Makefile.* files.
  
-+# Build commads
-+# ===========================================================================
-+# These are shared by some Makefile.* files.
++objtool-enabled := y
 +
-+quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
-+      cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $< \
-+		$(cmd_ld_single_m) \
-+		$(cmd_objtool)
+ quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
+       cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $< \
+ 		$(cmd_ld_single_m) \
+ 		$(cmd_objtool)
+ 
++define rule_cc_o_c
++	$(call cmd_and_fixdep,cc_o_c)
++	$(call cmd,checksrc)
++	$(call cmd,checkdoc)
++	$(call cmd,gen_objtooldep)
++	$(call cmd,gen_symversions_c)
++	$(call cmd,record_mcount)
++	$(call cmd,warn_shared_object)
++endef
 +
-+quiet_cmd_as_o_S = AS $(quiet_modtag)  $@
-+      cmd_as_o_S = $(CC) $(a_flags) -c -o $@ $< $(cmd_objtool)
+ quiet_cmd_as_o_S = AS $(quiet_modtag)  $@
+       cmd_as_o_S = $(CC) $(a_flags) -c -o $@ $< $(cmd_objtool)
+ 
++define rule_as_o_S
++	$(call cmd_and_fixdep,as_o_S)
++	$(call cmd,gen_objtooldep)
++	$(call cmd,gen_symversions_S)
++	$(call cmd,warn_shared_object)
++endef
 +
  # Copy a file
  # ===========================================================================
  # 'cp' preserves permissions. If you use it to copy a file in read-only srctree,
 diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index bab53884f7e3..d0153d033bbb 100644
+index d0153d033bbb..0547a4b59f13 100644
 --- a/scripts/Makefile.modfinal
 +++ b/scripts/Makefile.modfinal
-@@ -9,7 +9,7 @@ __modfinal:
- include $(objtree)/include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
- 
--# for c_flags
-+# include some build commands
- include $(srctree)/scripts/Makefile.lib
- 
- # find all modules listed in modules.order
-@@ -23,9 +23,7 @@ modname = $(notdir $(@:.mod.o=))
- part-of-module = y
- GCOV_PROFILE := n
- KCSAN_SANITIZE := n
--
--quiet_cmd_cc_o_c = CC [M]  $@
--      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI), $(c_flags)) -c -o $@ $<
-+ccflags-remove-y := $(CC_FLAGS_CFI)
+@@ -26,10 +26,10 @@ KCSAN_SANITIZE := n
+ ccflags-remove-y := $(CC_FLAGS_CFI)
  
  %.mod.o: %.mod.c FORCE
- 	$(call if_changed_dep,cc_o_c)
+-	$(call if_changed_dep,cc_o_c)
++	$(call if_changed_rule,cc_o_c)
+ 
+ .module-common.o: $(srctree)/scripts/module-common.c FORCE
+-	$(call if_changed_dep,cc_o_c)
++	$(call if_changed_rule,cc_o_c)
+ 
+ quiet_cmd_ld_ko_o = LD [M]  $@
+       cmd_ld_ko_o =							\
 diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 9ef0480ed755..1652561896eb 100644
+index 1652561896eb..83fc1a861f41 100644
 --- a/scripts/Makefile.vmlinux
 +++ b/scripts/Makefile.vmlinux
-@@ -6,20 +6,14 @@ __default: vmlinux
- include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
- 
--# for c_flags
-+# include some build commands
- include $(srctree)/scripts/Makefile.lib
- 
+@@ -12,10 +12,10 @@ include $(srctree)/scripts/Makefile.lib
  targets :=
  
--quiet_cmd_cc_o_c = CC      $@
--      cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $<
--
  %.o: %.c FORCE
- 	$(call if_changed_dep,cc_o_c)
+-	$(call if_changed_dep,cc_o_c)
++	$(call if_changed_rule,cc_o_c)
  
--quiet_cmd_as_o_S = AS      $@
--      cmd_as_o_S = $(CC) $(a_flags) -c -o $@ $<
--
  %.o: %.S FORCE
- 	$(call if_changed_dep,as_o_S)
+-	$(call if_changed_dep,as_o_S)
++	$(call if_changed_rule,as_o_S)
  
+ # Built-in dtb
+ # ---------------------------------------------------------------------------
 -- 
 2.43.0
 
