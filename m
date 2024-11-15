@@ -1,66 +1,67 @@
-Return-Path: <linux-kbuild+bounces-4689-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4690-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122D99CDDBA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2024 12:49:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E139CDEA1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2024 13:50:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37F85280B95
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2024 11:49:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9846B229E1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2024 12:49:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C266F1BA89C;
-	Fri, 15 Nov 2024 11:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B551BBBD3;
+	Fri, 15 Nov 2024 12:49:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QsbfJqxz"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OXMuuJvb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46071B86F6;
-	Fri, 15 Nov 2024 11:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB52618950A;
+	Fri, 15 Nov 2024 12:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731671382; cv=none; b=PO8FlVolEg96zV85WT1i/VqzzZj+QSsgMo08rZ7u0d1/G12nD5wBhjx5e9lGCX9Dg5+fxBFb5p+hg22I97WGggYlGY0m2p1rL0fRiC5NPz2+Hb9XskirOlng9kUDrb0Y3a7sQy3rDUXhp1qPiqJ6OrXtTS9RUwhPLGmiZD49y0Q=
+	t=1731674993; cv=none; b=kCGlUSBBwGXSAAYkBDBydsdrw0ShYSisZW27v0hm56XDJsu/e+EIBbpJl2CKaSw0dyEyulR5dkTRa170lcp9FqZ6vpoZkCGkrcRVA1NkgRzSAGWZKMqxbI8PFxH+fkoxL4ixQqVjiOjrtoAeITkWDmoLV4MImCFlaMndTT+zZQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731671382; c=relaxed/simple;
-	bh=MnBOKQ/+1AjbtPfmzW5O5Ib7vgDNVKV7lus2CXVLKWk=;
+	s=arc-20240116; t=1731674993; c=relaxed/simple;
+	bh=uzu/Pblpk2vtYYTcF/7Ls3BSspxpAc/IHqnKWoV4MyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MKzlnGAzHyFbpyAHAvPBLK7c4Z2RTy2OuAMYa0VsvczA8QMH1iNicv0+03d7YhluhkZJGai16Sk+3EBlC8YFxf92v94A9cItmBsWsIcxbUFc1yY6vp3qgQ+Cfa8N6WcM0gzo6XXesAKNMCZNThRT928gD2dn4jJoDWDOUb8zqdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QsbfJqxz; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type:Content-Disposition:In-Reply-To; b=e6enzqkvbLG6Hl3rcvyf2Ga02VM2w5u9ynMgqSlFB/IxBkqOOG3OqqV0JXDVtljkVptFuyeouojzCMEvsHxJuwOAh/QyRB/S9u0cxg6924z2CLVVB31AekdK5s8mqhZeQU9Vi6oMds+XDeiOpW/fHhvXFjJrLIL15ftk084ac6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OXMuuJvb; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=D+xKiB8GWNnGuEpcIIELTeU/fw+jvTZ+eMA0hDrzAVw=; b=QsbfJqxzC1INeY0T215hijNnkV
-	cRtX0AQ5QFVKgcEIRfZ+k/U1II6iO/Rqu4YoH9aZ2X2mK5KMi265n81xUK5P9EG9LwaYTLtTbTLDq
-	uv043Iov+exZdtcYjRv7uRemm6MeY1+fZykY+qIi/Yi7YwkkU6yCs7s0QX1CaxjXcPVcxTIxHD5Ar
-	p0EloHF1pChjkNp2CSb/4FcqZgACMcVSj79cltilph9wlcYfeWRCwu1hTkRPUmm3n0/xMO/C376Po
-	4echqSnoTj6CTRJVnX4P3C+HSaFnRQv47+lQkOacgJyMFUFMYA8Xt4bxC88jojOBnvPFCpWYT7rXQ
-	iJRr/CRA==;
+	bh=d2eOg3ivIVHbIkLcirrH1jOY4rzIlzHyqaFIXvacHh4=; b=OXMuuJvb6UdZEG6FZfNGWrvKvW
+	Hf+VScexg3Yl7HVFTSoIzBmr+kTO05PXLQpyeS75/HZJt4nKsjCzHVXwdHHWh+5bk1SMxB7DfarSi
+	aqqUPAMBIA7U1EYXVfsjW8bMtqhjv6ZbahZaFczDfjyBDMMi7+H/7tjJsFA2dFt4o7cYqYC6K1nHY
+	4iBeD+lCwqJrT7XrmMq5z5be5t+AITTntw1pEodG0rYXMwBiqP5cpwTD/77/G+spfe1XVL2z2o9un
+	ncgHRBuh95YOySF/kvpEliELlHfA+1f3IqMgOmqAjZNcHEWQXrax3KGF2QyWLjlcG1iQomE1x0T4O
+	d5ob4r9g==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tBupM-00000001MIw-2WeB;
-	Fri, 15 Nov 2024 11:49:27 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tBvlY-00000000EYb-3jDa;
+	Fri, 15 Nov 2024 12:49:38 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id D2F1530066A; Fri, 15 Nov 2024 12:49:26 +0100 (CET)
-Date: Fri, 15 Nov 2024 12:49:26 +0100
+	id C193030066A; Fri, 15 Nov 2024 13:49:35 +0100 (CET)
+Date: Fri, 15 Nov 2024 13:49:35 +0100
 From: Peter Zijlstra <peterz@infradead.org>
-To: Christoph Hellwig <hch@infradead.org>
+To: Sean Christopherson <seanjc@google.com>
 Cc: mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com, petr.pavlu@suse.com,
 	samitolvanen@google.com, da.gomez@samsung.com, masahiroy@kernel.org,
 	nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [RFC][PATCH 1/8] module: Prepare for script
-Message-ID: <20241115114926.GH38972@noisy.programming.kicks-ass.net>
+	hch@infradead.org, gregkh@linuxfoundation.org
+Subject: Re: [RFC][PATCH 0/8] module: Strict per-modname namespaces
+Message-ID: <20241115124935.GC22801@noisy.programming.kicks-ass.net>
 References: <20241111105430.575636482@infradead.org>
- <20241111111816.912388412@infradead.org>
- <ZzHsOTLCZlUBN7iW@infradead.org>
- <20241111125529.GF22801@noisy.programming.kicks-ass.net>
+ <ZzKl-ldUQD9ldjWR@google.com>
+ <20241112092023.GL22801@noisy.programming.kicks-ass.net>
+ <ZzOWxC4JlCGe_BTe@google.com>
+ <20241112195226.GT22801@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -69,55 +70,24 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241111125529.GF22801@noisy.programming.kicks-ass.net>
+In-Reply-To: <20241112195226.GT22801@noisy.programming.kicks-ass.net>
 
-On Mon, Nov 11, 2024 at 01:55:29PM +0100, Peter Zijlstra wrote:
-> On Mon, Nov 11, 2024 at 03:36:25AM -0800, Christoph Hellwig wrote:
-> > On Mon, Nov 11, 2024 at 11:54:31AM +0100, Peter Zijlstra wrote:
-> > > Since sed doesn't like multi-line make sure all EXPORT_SYMBOL_NS
-> > > things are a single line.
-> > 
-> > Eww.  Just use coccinelle or another tool not so simplistic.
+On Tue, Nov 12, 2024 at 08:52:26PM +0100, Peter Zijlstra wrote:
+> On Tue, Nov 12, 2024 at 09:56:20AM -0800, Sean Christopherson wrote:
 > 
-> Feel free to do so. I've never managed to get coccinelle to do anything.
+> > This likely needs to be addressed in whatever chunk of code is enforcing the
+> > namespaces.  The s/-/_ behavior (and vice versa!) is *very* baked into the kernel
+> > at this point, e.g. parameqn() will happily parse dashes or underscores for every
+> > kernel parameter.  As horrific as it is, I think the module namespace needs to do
+> > the same, i.e. treat dashes and underscores as one and the same.
+> 
+> Right, I'll add a s/-/_/g on both ends of the strcmp or somesuch.
 
-So I put a little more effort in and got you this (awk needs to be
-gawk>=4.1)
+https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?h=module/namespace&id=f2aabf8436348a47037570af139ec2c1de8c5337
 
-git grep -l -e MODULE_IMPORT_NS -e EXPORT_SYMBOL_NS | while read file;
-do
-  awk -i inplace '
-    /^#define EXPORT_SYMBOL_NS/ {
-      gsub(/__stringify\(ns\)/, "ns");
-      print;
-      next;
-    }
-    /^#define MODULE_IMPORT_NS/ {
-      gsub(/__stringify\(ns\)/, "ns");
-      print;
-      next;
-    }
-    /MODULE_IMPORT_NS/ {
-      $0 = gensub(/MODULE_IMPORT_NS\(([^)]*)\)/, "MODULE_IMPORT_NS(\"\\1\")", "g");
-    }
-    /EXPORT_SYMBOL_NS/ {
-      if ($0 ~ /(EXPORT_SYMBOL_NS[^(]*)\(([^,]+),/) {
-        if ($0 !~ /(EXPORT_SYMBOL_NS[^(]*)\(([^,]+), ([^)]+)\)/ &&
-            $0 !~ /(EXPORT_SYMBOL_NS[^(]*)\(\)/ &&
-            $0 !~ /^my/) {
-          getline line;
-          gsub(/[[:space:]]*\\$/, "");
-          gsub(/[[:space:]]/, "", line);
-          $0 = $0 " " line;
-        }
+My test box seems able to load kvm_intel. I'll let it all sit in that
+tree for a few days such that 0day might get a chance to chew on it
+before posting.
 
-        $0 = gensub(/(EXPORT_SYMBOL_NS[^(]*)\(([^,]+), ([^)]+)\)/,
-                    "\\1(\\2, \"\\3\")", "g");
-      }
-    }
-    { print }' $file;
-done
-
-
-I'm sure that wasn't worth the time I spend on it though :/
+Thanks!
 
