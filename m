@@ -1,164 +1,142 @@
-Return-Path: <linux-kbuild+bounces-4696-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4697-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789219CFD6B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2024 10:09:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2B09CFD6F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2024 10:19:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B258E1F22BE0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2024 09:09:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D268F287C65
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2024 09:19:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEB83190462;
-	Sat, 16 Nov 2024 09:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01187190462;
+	Sat, 16 Nov 2024 09:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDL2mFiq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ON2zqxJB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A90115381A;
-	Sat, 16 Nov 2024 09:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0F679D0;
+	Sat, 16 Nov 2024 09:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731748141; cv=none; b=FRJZGuaFVEskHBs0BQ2ODJJOKo6c61fHrnK6V4dbRfuIYQY8jKM3x0SaVQJehTunZ7d8Hv+ATP3GTqdPJMpA7UYoSMdxy2qL4qyIY627gk+IAAe6rYBthTqHTaANjzc8jh21WAhb2VhpuVdwNRnL0yZ3XJi6mWzNPJ9Z1zzHhMc=
+	t=1731748782; cv=none; b=Xp7Wv3WTCIzTndoZlM3iA+D5fPr8xMr9FMvCi6xvZZqNZQ/kw0Q5L5krfUzjDnWuD/haFXX/DmND8TvzD1+hDfx48k4TQwRX80YRTI7j1BmiMaDgaZRYteolljOUGqG6+MhZHOsyqngFoUAr0lhbrWHB07RjYdfKPGa8SsjzhTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731748141; c=relaxed/simple;
-	bh=vR2V+V2QxqcQECfOUvT+5A1KplyfZDEMEObd7HFAmoA=;
+	s=arc-20240116; t=1731748782; c=relaxed/simple;
+	bh=5YFDb9EGxDHpLuh9sMST5+YRVCn4Tzn8KJyyVcOnOFg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BjLj/hUwu656cbC8LTmYHH8hptYbpApYSS//iyGyHDSmnkm1yOQQvhqqaQ5fpyECbZwRh5X7bWOAzXpfhToRZDaI8t0RmwAzn0mOJwyh3okf/Qpj89L5Ypx9xj69x1hoQdhbfxmKGcHqBhUER3r36VAxccZCDBOXHpk1Z/Hnmg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDL2mFiq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ADE9C4CEC3;
-	Sat, 16 Nov 2024 09:09:01 +0000 (UTC)
+	 To:Cc:Content-Type; b=Xn125lbLTnQVakvrdfa5iB9B5fcigvg0HLQgqZbUtFgRi22hAvCfzo3ye5pL+uNWP+IwUel8F/eoChiSIJnI6eKmYWiPqe2lsdVN+7BOcJQRJkXLuRq8t56Hy5qrI/i4zhIspRc7qjSpicDNDjyLW1zPQgJ1QQerL3Yq4GE+lXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ON2zqxJB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F32CC4CED5;
+	Sat, 16 Nov 2024 09:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731748141;
-	bh=vR2V+V2QxqcQECfOUvT+5A1KplyfZDEMEObd7HFAmoA=;
+	s=k20201202; t=1731748782;
+	bh=5YFDb9EGxDHpLuh9sMST5+YRVCn4Tzn8KJyyVcOnOFg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fDL2mFiq2jNynLhRPE6JTTBqZQaY/SWRFVMrn4Sx1RYpe4j99Lo53dJmP9pHDsEms
-	 Tyegx6moZ6nF2SKwXPT5WnwFJFfxn0Sohyw3rC8hlnSeZP26rrySKKtUx/mruIT980
-	 /kZDvxQb+RxAYju6zxetisy59I+ldPEUv1MDsN1ovNx9qT456VP95uCH5O0XP5PNbl
-	 p2uxu8WSl5jhehDaCLezX5ldIgnU65GtYOmn0K6UKigAZ/z3hisX/GjlniQiAdXr4Y
-	 utA9XbZUR+QSxbYc6BWAowo9U1SxwzhVXXMHewkV/81PNfu6bTdiH/QLuTvHKw6CYl
-	 ZCx2uN1dxk6yA==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53a007743e7so1672607e87.1;
-        Sat, 16 Nov 2024 01:09:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV0/GxAIlrUA518jTXm8GsBSweBAAOsY0hLksW/DBoXK1yEVk72jLG1e4yylZ+DFW+L5momKPNGj0q5EKXJHA==@vger.kernel.org, AJvYcCWg9EzoKX+nK1246AKXlDCi6wXQEaU4guwSid5bA+Bf+4zEvuqFd0NeKRpuCgJ7C/lyRCBHZGcy8lqxENH1YQw=@vger.kernel.org, AJvYcCWpTy/IqRJuuYi5JpwFgrtq5YS8SRbDIPLjuoclOMiwpvgsz13a4ZwDdiynEWI+RULoTH5M12qi7inkFAig@vger.kernel.org, AJvYcCWyQ+j4MnvjV6JEqf73iSo37FqTOwgh5WNxKIzFR6DA/qXOaTzChxoJ3DebNuD5uecAHoL2/rVPrz4UGqM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzipiViB5/n7poAuJb4F9ih+QyC7/6i3tqlxEiLcIl5zeYjMotR
-	5PcJE0ZgTIzXKpc4hyqonMPOYFzM+5YxdyNbmCD+jdtvI5A6BNf9n6nQCj79qegJcRTUmVIDUL8
-	q1Z1oIGA5fn65gcVLP4F2hcCz4kQ=
-X-Google-Smtp-Source: AGHT+IHpl8ZAglZvngz5xm6ocic+KgEC+INX3t93NnViVbyMnAzYKh2RUbWNfOuCYlzJQ1LoVk0VBgZmNkdKrSdV/4s=
-X-Received: by 2002:ac2:5b1c:0:b0:53d:abc3:82a9 with SMTP id
- 2adb3069b0e04-53dabc382f0mr1869248e87.19.1731748139824; Sat, 16 Nov 2024
- 01:08:59 -0800 (PST)
+	b=ON2zqxJBYOfLMIoAwXbWmf16OoQbo92yQAvO/8FKQfvowc3is6ILR38Bj2jBjNWLj
+	 N4DTXhJWYZBA1hqvcj3TWmX2XrJzyJH7faRoQHF8ok8ENz8wOTpYs0XkJVw9uXUz11
+	 39EnI3tDoqtmeARKWu/f8bp9nww80Ttb6V/cjzwMCO9PFAtoKIXJk3wx0039IIjoHY
+	 AMbgMS7eFILtN/MP2eSVuefHf7xx5TdiEJU2qk+c1hFGe1seqbA+6ghl2gA03RfdJf
+	 X26fS1AYNpe2Jeyatt2ttFrWbaYoSFizw4/w3I/9APAKof37JiE49taoSis5Pda1l2
+	 HXq0o0Oe7pqKg==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fb3110b964so2907501fa.1;
+        Sat, 16 Nov 2024 01:19:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXiAVgeYUnzFPBlkhBrhVSKP/er4anqALQcrKOqsKn6SdKpUjoMzwSX0Oz+ZbBq/oWL9GgzbTqVBcQOWqY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw05DQpgFLexopdxg2jNbHCAIZcN4YvOLyRzHD/Cdl1dcYe7BAi
+	w+5zujtbd/Rm/VRsctOFzLanU8ObzCrFHZzVVBRH3/r6D44ttRcwByarITh//nhf+R71eJOego/
+	rO+P6ICAc9rnrWV5bI1/ye0Tuk/Y=
+X-Google-Smtp-Source: AGHT+IHY3QgYgVtivEhPjE7YP0TJGBWgi6zgfXrbod8MbwDHRHt/D9srwucNSPS9xKpoIUCwy4g8DYduLuXR3qFA+GY=
+X-Received: by 2002:a2e:be9a:0:b0:2f7:5f6e:d894 with SMTP id
+ 38308e7fff4ca-2ff606f4f7dmr34216851fa.25.1731748780903; Sat, 16 Nov 2024
+ 01:19:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241030170106.1501763-21-samitolvanen@google.com>
- <20241030170106.1501763-22-samitolvanen@google.com> <CAK7LNAShVzrE6uhXxZ7HepKhmOJYsZeigq6w19jRN3OH-T_Jyg@mail.gmail.com>
- <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com>
-In-Reply-To: <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com>
+References: <20241113234526.402738-1-masahiroy@kernel.org> <20241113234526.402738-2-masahiroy@kernel.org>
+In-Reply-To: <20241113234526.402738-2-masahiroy@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 16 Nov 2024 18:08:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
-Message-ID: <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
-Subject: Re: [PATCH v5 01/19] scripts: move genksyms crc32 implementation to a
- common include
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Date: Sat, 16 Nov 2024 18:19:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATENKMR0k1WiyOt3uv1+M0Ug+4tPFOYOhZdJ9BX0wd6SQ@mail.gmail.com>
+Message-ID: <CAK7LNATENKMR0k1WiyOt3uv1+M0Ug+4tPFOYOhZdJ9BX0wd6SQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kbuild: move cmd_cc_o_c and cmd_as_o_S to scripts/Malefile.lib
+To: linux-kbuild@vger.kernel.org
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>, Borislav Petkov <bp@alien8.de>, 
+	Nikolay Borisov <nik.borisov@suse.com>, Marco Elver <elver@google.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 14, 2024 at 2:54=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
+On Thu, Nov 14, 2024 at 8:45=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> Hi,
+> The cmd_cc_o_c and cmd_as_o_S macros are duplicated in
+> scripts/Makefile.{build,modfinal,vmlinux}.
 >
-> On Mon, Nov 11, 2024 at 8:06=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvanen@goo=
-gle.com> wrote:
-> > >
-> > > To avoid duplication between host programs, move the crc32 code to a
-> > > shared header file.
-> >
-> >
-> > Only the motivation to use this long table is to keep compatibility
-> > between genksyms and gendwarfksyms.
-> > I do not think this should be exposed to other programs.
-> >
-> >
-> > If you avoid the code duplication, you can do
-> >
-> > // scripts/gendwarfksyms/crc.c
-> > #include "../genksyms/crc.c"
+> This commit factors them out to scripts/Makefile.lib.
 >
-> Sure, that sounds reasonable. I'll change this in the next version.
-
-
-BTW, is it necessary to share the same crc function
-between genksyms and gendwarfksyms?
-
-If CONFIG_GENKSYMS and CONFIG_GENDWARFKSYMS
-were able to produce the same CRC, it would be a good motivation
-to share the same function.
-However, as far as I tested, gendwarfksyms generates different CRC values.
-
-When a distro migrates to CONFIG_GENDWARFKSYMS,
-the new kernel cannot load old modules built with CONFIG_GENKSYMS.
-
-So, there is no need to share the old code.
-Another solution might be to use crc32() provided by zlib, for example.
-It requires another external library, but this already depends on
-libdw and libelf.
-
-
-
-
-
-
-
-
-
-
+> No functional changes are intended.
 >
-> > > Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
-> > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > Acked-by: Neal Gompa <neal@gompa.dev>
-> >
-> > Does this Ack add any value?
-> >
-> > Acked-by is meaningful only when it is given by someone who
-> > maintains the relevant area or has established a reputation.
-> >
-> > $ git grep "Neal Gompa"
-> > $ git shortlog -n -s | grep "Neal Gompa"
-> >      2 Neal Gompa
-> >
-> > His Ack feels more like "I like it" rather than a qualified endorsement=
-.
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 >
-> Like Neal explained, an Ack from a potential user of this feature
-> seemed relevant, but if you don't think it's meaningful, I can
-> certainly drop it.
+>  scripts/Makefile.build    |  8 --------
+>  scripts/Makefile.lib      | 12 ++++++++++++
+>  scripts/Makefile.modfinal |  6 ++----
+>  scripts/Makefile.vmlinux  |  8 +-------
+>  4 files changed, 15 insertions(+), 19 deletions(-)
+>
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 1aa928a6fb4f..24e10c821461 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -141,11 +141,6 @@ ifdef CONFIG_LTO_CLANG
+>  cmd_ld_single_m =3D $(if $(is-single-obj-m), ; $(LD) $(ld_flags) -r -o $=
+(tmp-target) $@; mv $(tmp-target) $@)
+>  endif
+>
+> -quiet_cmd_cc_o_c =3D CC $(quiet_modtag)  $@
+> -      cmd_cc_o_c =3D $(CC) $(c_flags) -c -o $@ $< \
+> -               $(cmd_ld_single_m) \
+> -               $(cmd_objtool)
+> -
+>  ifdef CONFIG_MODVERSIONS
+>  # When module versioning is enabled the following steps are executed:
+>  # o compile a <file>.o from <file>.c
+> @@ -336,9 +331,6 @@ cmd_cpp_s_S       =3D $(CPP) $(a_flags) -o $@ $<
+>  $(obj)/%.s: $(obj)/%.S FORCE
+>         $(call if_changed_dep,cpp_s_S)
+>
+> -quiet_cmd_as_o_S =3D AS $(quiet_modtag)  $@
+> -      cmd_as_o_S =3D $(CC) $(a_flags) -c -o $@ $< $(cmd_objtool)
+> -
+>  ifdef CONFIG_ASM_MODVERSIONS
+>
+>  # versioning matches the C process described above, with difference that
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 5660dfc9ed36..73e385946855 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -298,6 +298,18 @@ $(foreach m, $1, \
+>         $(addprefix $(obj)/, $(call suffix-search, $(patsubst $(obj)/%,%,=
+$m), $2, $3))))
+>  endef
+>
+> +# Build commads
 
-Tested-by is more suitable if he wants to leave something.
+I will fix the typo.
+
+ s/commads/commands/
 
 
 
 
---
+--=20
 Best Regards
 Masahiro Yamada
 
