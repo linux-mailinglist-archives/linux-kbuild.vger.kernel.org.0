@@ -1,91 +1,108 @@
-Return-Path: <linux-kbuild+bounces-4699-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4700-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA5E9CFF9B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2024 16:40:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C499D0206
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 Nov 2024 05:53:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E04F61F22759
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2024 15:40:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D46ACB222FD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 Nov 2024 04:53:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6011954765;
-	Sat, 16 Nov 2024 15:40:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 633F11171C;
+	Sun, 17 Nov 2024 04:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a+cpzBVF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juXa5VM2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0559A80BEC
-	for <linux-kbuild@vger.kernel.org>; Sat, 16 Nov 2024 15:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4D5F9D6;
+	Sun, 17 Nov 2024 04:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731771637; cv=none; b=LfoA0r23eUcYqP/4uxigV78sNenl5fppmFoU5SIXo5lfWZGoLj791cMPBaxUzf97D0ItLxi7WTv9E57hiXTgc4ZpkLVl8209VyOXH25YbHiugVseZQ630C9elpXkCPvoJ3ojG4k66dVs5DuCPLsC5OFJ/ApYr1HVMWEhwPrFomw=
+	t=1731819202; cv=none; b=u5dVon7b/ZW/v7SaDY27a9tOF4JCPggvrXiVqMYbI2AgKngxQIbSVOgO/TWHzxGYaAYbjyVwwQVlwLedHRPIh1Gsy7imx8EtEbhQHcB67nyKd7Nq5N99gt/7VObuTslK/HeclSwuGoZgqcdDh2oqBmZZ8jj2AZUcPpi0OIuwThw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731771637; c=relaxed/simple;
-	bh=Wd+7kLQISUZlzyPvYmSUTVOb8NV4Vyd3OpsFXw6X7a0=;
-	h=From:Message-ID:To:Subject:Date:MIME-Version:Content-Type; b=cp4XGu18ltXcglcgEof0S9ePLKGBVkN7F6KppojtOuupzn8OTwzM81EYEm4FI8w2+D+fHHJx/H3TBfHhYLaJQO9n8mViPkodjr3U5Wsp/gDJFK9qOawBEnal6+MNs/QSBbotrNgMXAzTmlPWabVTaQ2VdfNzRDHGuCzs+MiysC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a+cpzBVF; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71e79f73aaeso2130546b3a.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 16 Nov 2024 07:40:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731771635; x=1732376435; darn=vger.kernel.org;
-        h=mime-version:date:subject:to:reply-to:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=a+cpzBVFazTzIWiDM4HQZm9cyz/WGvHFIUafqmtJXjkfRo03JnNoqcfncLv1tP7bsv
-         6ybMv3ZvcTIu+F/NHv8LItApqLgtuVI3KcZNZWEX+dTH6IPpCrqVahnBcegrOM0KJn61
-         TYPjDF/rACj71hikpY9R2yBmAJbD6INaST/x+lw1oFMCSCPlnlf+R1v5L4lELrBdKf5t
-         vV0ymiIYniDUK6T/OYHdruM3VR4jcbIAr8uwjfX75v27jImJBPBYKV2cm/3X9LPQQUn2
-         qk82CsPy8P1c9uK4ZUrIgX61ic/iQOijzsNOgj30ypn2vNceE1BZW5f8GXw+s31tkZIc
-         XUEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731771635; x=1732376435;
-        h=mime-version:date:subject:to:reply-to:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=Vzg7yyas2NHdPXWItYltxlvs/cpbzk/2+J1mYjBbbnw0KY6bZS893hOFy9GVD21R3q
-         1J4SroICJ4/LmIVyoXMBvrWytVYJ0S1ZDecX+zZNkJZLDdkKzXX9yvWOtw9F/Byes6fK
-         4ta2JcuiRrmqpHpnXJfocqWhYcMZ7pQvax8AXz2OKCuTmJSEaM5q3kvnL5mlFk/I7451
-         85j6v7le9jCzuRDauq8cmS4/HGzmrtb9F+cXqtWNQF0J7BiI92pG1lBMltaWtJXjhuiP
-         ycxCR4opUpifaxEaEdB3mn6phLZLAIJtq3Q1/0p+5q+QUG8+D4W38i92ky6buTqwglkE
-         sP1Q==
-X-Gm-Message-State: AOJu0YyuLQWdOgAib0reRo8HtCLWSDWb8D74Imb0e+Ch9yV4R+bSoleh
-	7zgw0fnoA1CU5RlyAh6lhH+jZ/bVOFxkoFe0qaNcdlR8CI0EAI4mdHpv
-X-Google-Smtp-Source: AGHT+IGz7WqGcaKV+wikw+lSWbcUUuoggNuI/29K0tSI3xxerPNShLNQ6W2htXW67V4zjqIFUubXmw==
-X-Received: by 2002:a17:90b:1b45:b0:2ea:6a9:3351 with SMTP id 98e67ed59e1d1-2ea155227d2mr7120603a91.21.1731771635208;
-        Sat, 16 Nov 2024 07:40:35 -0800 (PST)
-Received: from [103.67.163.162] ([103.67.163.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0f345c0sm28856315ad.152.2024.11.16.07.40.34
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 16 Nov 2024 07:40:34 -0800 (PST)
-From: "Van. HR" <madinaradjabu911@gmail.com>
-X-Google-Original-From: "Van. HR" <infodesk@information.com>
-Message-ID: <a56e712e53bbde3a6279c41d19f98dc9ba177904b36fc316b73c32be6a0f89f4@mx.google.com>
-Reply-To: dirofdptvancollin@gmail.com
-To: linux-kbuild@vger.kernel.org
-Subject: Nov:16:24
-Date: Sat, 16 Nov 2024 10:40:32 -0500
+	s=arc-20240116; t=1731819202; c=relaxed/simple;
+	bh=Z4M/l36RQ7BDxA0KkJcywqBI1etn5Goa+uDViOuOZao=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p1smu8VVj6cmDmwNhyPEt32ag5TeI+zLz0exmVP/TFeLTdeTnhwTrpXYD/7eVtbXgHBRrcnPXZQO7qyscGBxJGcECaAGV6OqpBo+qNgHfXgf6PiVvC1iJy7i/gMkPCQE1t8DcQdvXadhfDYmOoO2Ca4owHQuh7ZjvbQDcNV4s3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juXa5VM2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC79CC4CED9;
+	Sun, 17 Nov 2024 04:53:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731819201;
+	bh=Z4M/l36RQ7BDxA0KkJcywqBI1etn5Goa+uDViOuOZao=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=juXa5VM2/3+gf5GKqZo2M0CM5a64MV7GtJW4uxarzymsNmtEjNFADlwrXXQWNeMFV
+	 KJt7QUXfdahobcnv5LdrxDqPCdLQsnbPnEXQxcVeUMdzobUaqdIUjwi3sFTOA+ReUb
+	 TTPM9PmbPYSxKxZix4/SUDOcFRQivtjmU75w7q++WCsBaZk7dfNr68JchAIViZYIsa
+	 Qhz6kgjf0AN0qXTyIhh0BZbEF0sAKl69yljkCllDKExmJUVvSd+EVU6a8a+5GZfeXT
+	 PokapZtrtiF/8047rXyoZ0q0Zjg/JePUCczkm6lT1LYaI/gbD21IAGFv+t6Uu53pku
+	 kIr99w7ZzupEA==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb51f39394so27779891fa.2;
+        Sat, 16 Nov 2024 20:53:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXPyZy4wQ7QE9Lzs0PNypb2Xvwd0dqiCpHD4rdfMv8F9m6IpmGsVWt2tfYBS4blWe2dSJXmNHjirBDul1vW@vger.kernel.org, AJvYcCXQHE0S1ObEOjHbaKe3sLLi7Rxd6+OPD5WQMIioPEpQkvzqcAI9WCfuHYPC8PlMpoaf6LwJzk68uVGlXqw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCqo7n/wcZ6gA0kk69lBjADCJt6gaNrhF/oz7vDInN6H3X4TC+
+	nhsQhO4kxes5q+Lew2fyg3q8moTQ4KlrBY+yyxlGklbRQvqpsZ7I4c8E8ycfqq0fQ+ZHGIFlwJv
+	gxTkxn7/vYMlZLVoMDwNvpNNSr68=
+X-Google-Smtp-Source: AGHT+IFfyVPI/OVi1o+HOnvr+Rz8GoX4PcmXLXqpQzSsQLua2qkafXKAkY8vkxBQcZ+N/vBhCTLgDEDFQ/sdJsp/NN4=
+X-Received: by 2002:a05:651c:1595:b0:2ff:5210:4128 with SMTP id
+ 38308e7fff4ca-2ff60925ebcmr36647001fa.22.1731819200527; Sat, 16 Nov 2024
+ 20:53:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+References: <20241108214953.1160765-1-xur@google.com>
+In-Reply-To: <20241108214953.1160765-1-xur@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 17 Nov 2024 13:52:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARO307kMjXgBPG59g4zbiW6KPQK8SJqjhVS1A7esDJaZw@mail.gmail.com>
+Message-ID: <CAK7LNARO307kMjXgBPG59g4zbiW6KPQK8SJqjhVS1A7esDJaZw@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Fix Propeller build option
+To: Rong Xu <xur@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Han Shen <shenhan@google.com>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-I am a private investment consultant representing the interest of a multinational  conglomerate that wishes to place funds into a trust management portfolio.
+On Sat, Nov 9, 2024 at 6:50=E2=80=AFAM Rong Xu <xur@google.com> wrote:
+>
+> The '-fbasic-block-sections=3Dlabels' option has been deprecated in tip
+> of tree clang (20.0.0) [1]. While the option still works, a warning is
+> emitted:
+>
+>   clang: warning: argument '-fbasic-block-sections=3Dlabels' is deprecate=
+d, use '-fbasic-block-address-map' instead [-Wdeprecated]
+>
+> Add a version check to set the proper option.
+>
+> Link: https://github.com/llvm/llvm-project/pull/110039 [1]
+>
+> Signed-off-by: Rong Xu <xur@google.com>
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Suggested-by: Nathan Chancellor <nathan@kernel.org>
+>
+> ---
+> ChangeLog in V2
+> Integrated suggestions from Nathan Chancellor.
+> (1) improved commit message
+> (2) added links to the comments
+> (3) used ld.lld version in the version check for lld
+> ---
 
-Please indicate your interest for additional information.
+Applied to linux-kbuild.
+Thanks!
 
-Regards,
 
-Van Collin.
 
+--=20
+Best Regards
+Masahiro Yamada
 
