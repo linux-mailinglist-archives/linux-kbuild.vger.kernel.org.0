@@ -1,272 +1,305 @@
-Return-Path: <linux-kbuild+bounces-4702-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4703-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FA09D0F1B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 12:02:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E459D13CC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 15:59:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48DC91F22261
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 11:02:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D9D5B2C726
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 14:56:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A97F192B66;
-	Mon, 18 Nov 2024 11:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D976B1ABEBA;
+	Mon, 18 Nov 2024 14:55:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="EJ4wYrli"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="AoLdfwvD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06D61946A8
-	for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2024 11:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27B31A9B4E;
+	Mon, 18 Nov 2024 14:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731927716; cv=none; b=MSq2I35K8gdDV8PrYcdbNbzVR6ir7PLlAc6dJje7ujQ3xv/U2RC7rj52VqbdlSwWSxkKAGWF+Qb1aHbuZeMn6jgwrszUkDIejq3jvM2rU4YNxkeEPYqLmW5jZiOx0qSWGAHTIZlg33yMj8qzJxq+UdW6mGyhglLsRkB/BWW4UQM=
+	t=1731941708; cv=none; b=u2OKttOGnEqPQhDlURBeHX3XRea5rAv9Vxrve4/2+sd45OPdI3zidxyk/2lTATkxsAMgFisoV7D0X+r4/wIqD19XofxsB0d8yDmi04r6iqG8zb2GttsbC7j8I9OWZmZoSeSYPluY4U0cAopF0YnPiebRYS6p6s47Ld2jntJ3EFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731927716; c=relaxed/simple;
-	bh=/mmqxQIIBTKJU95znxubYAuwPz0Pj4FHpPgJoJZHwCY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jAudbNHm+qAbAyo01eWAe7GUduT1U7pjTNp305pF8OiHIm4p/N/MeceQxCO6kifYfEPJr4TRh2tOxQYxaYIAIiYfFcZAJcymVYrqm+H+3QENCLBv0i3D7yncwl7XBLfe+4Bz02UDSkBsIybETrWlocboExXDcDesPY8zO9/0wqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=EJ4wYrli; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb584a8f81so35704361fa.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2024 03:01:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1731927712; x=1732532512; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VabMAuGwTL06yr3ViS1JrPQ2en669i6+uOZedAFhYnI=;
-        b=EJ4wYrliARRMA9vf5VRfq+mQ7mJfO7dPii/EvPtdP5V1Jojq/jfrHuSZE/p8qOCh22
-         wu4erEmeP+vDvwk5+qB+6CtFeB9fSO5WTg0P9qG3UyviITqjpBqOldF2qujkX7AdiwoL
-         OsKqczgD9stEXmEKcbyP1J13pn7ePgAWdIabs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731927712; x=1732532512;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VabMAuGwTL06yr3ViS1JrPQ2en669i6+uOZedAFhYnI=;
-        b=cNJDgBacxRckpCe+3g4tctMECFe5ZPfMa/iPcNIxPGyFMkP9T/niAQVKLCi7shpksH
-         fF18aaJqL6v/Lao3/dj3EfumcvAlehR/YgSxLeIcKBqDfVjHMlsbjVBI97zP81nOsoBS
-         hZ74Gl/SfKGgF07CDmmG110kzqMbjes3KkFh2696VshvjzHDIjpiT/u3qQN1milRiZNK
-         yj3eY8X3MDecn8Dr4uWIaXGsYdM3zvxkCN6YMSBAxYuzd2Dl4PKJZBFXPdBASk5d1Bdg
-         da0fe8zzz+9hQHiO2SUPbgXVpArbYwdbYBIR94Mj69k9qygbOZeLxY5rQm4CbeI2USNL
-         IkzA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMktcd63JwjuVRqGc9FMXjFxNZvmhjFZx24wlNTZK82HN+ZStfvEU+ogEdylmlnxhHjpXw0TinLevEfrY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzytskBeyP007PZ8PH8fIjo52O9Cbe1jZAt5XsTGUZ701ZESJp6
-	dvptvJNwvGE62DnEHmmTYOo/rJTvy8b8F3YuD2gxTxD4U9/TwgbVsa2af2gAHoE=
-X-Google-Smtp-Source: AGHT+IHGEQGWW6igmzapud9eLSNtzJT0ArhpXDj23UyLyIJqeURWIy0rpxNdqZ1XisNIQLlwCcH+vg==
-X-Received: by 2002:a2e:bc05:0:b0:2fa:dadf:aad5 with SMTP id 38308e7fff4ca-2ff609b4c03mr60813561fa.28.1731927711949;
-        Mon, 18 Nov 2024 03:01:51 -0800 (PST)
-Received: from localhost ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff69ae80fesm9176091fa.89.2024.11.18.03.01.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 03:01:51 -0800 (PST)
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jeff King <peff@peff.net>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sean Christopherson <seanjc@google.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: [PATCH v3] setlocalversion: work around "git describe" performance
-Date: Mon, 18 Nov 2024 12:01:54 +0100
-Message-ID: <20241118110154.3711777-1-linux@rasmusvillemoes.dk>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1731941708; c=relaxed/simple;
+	bh=O1VcKtHxNtdxKa3gZCjgb7ogeAv4PN4jwrhly4wJ1VU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VpUCERJjOchfsUlRoXi1qiwYzIPznc4w72yWjMfzs01noz8a8xx4KGOg+tzGz2dxz80FUix7QL/Nx7tsnMjQCX240A4J6ICi0s/b0MF2JFPAIIccaNVvbw7gTHtUddYR8jdmuk2+a6nw8LEPtAD1AnP13Soyed1u9VK25cp0MPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=AoLdfwvD; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1731941263; bh=O1VcKtHxNtdxKa3gZCjgb7ogeAv4PN4jwrhly4wJ1VU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AoLdfwvDPdlTSCjS5oNEKbT/id9cOOyqz7d1+Psq1s+kfoDomUe+f9SeUBXBQqMjC
+	 ap+GpDIznwJr1tj8UHlgXB22n+sUJ4HS4NW5UU7GJG4e4ymk/nNOnbl6Jrcj3lBEmJ
+	 uE94HZ9HosCH6FTClcggAtG75RDec+tv9MlAgFOM=
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Mon, 18 Nov 2024 15:47:43 +0100 (CET)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id D3F5D80905;
+	Mon, 18 Nov 2024 15:47:43 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id C790718CA1A; Mon, 18 Nov 2024 15:47:43 +0100 (CET)
+Date: Mon, 18 Nov 2024 15:47:43 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, cocci@inria.fr,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v2 05/11] kbuild: change working directory to external
+ module directory with M=
+Message-ID: <20241118-dazzling-gifted-bettong-133eb7@buildd>
+References: <20241110013649.34903-1-masahiroy@kernel.org>
+ <20241110013649.34903-6-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241110013649.34903-6-masahiroy@kernel.org>
+X-purgate-ID: 149429::1731941263-6E2E1E9C-5DA14DCE/0/0
+X-purgate-type: clean
+X-purgate-size: 9472
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
 
-Contrary to expectations, passing a single candidate tag to "git
-describe" is slower than not passing any --match options.
+On Sun, Nov 10, 2024 at 10:34:33AM +0900, Masahiro Yamada wrote:
+> Currently, Kbuild always operates in the output directory of the kernel,
+> even when building external modules. This increases the risk of external
+> module Makefiles attempting to write to the kernel directory.
+> 
+> This commit switches the working directory to the external module
+> directory, allowing the removal of the $(KBUILD_EXTMOD)/ prefix from
+> some build artifacts.
+> 
+> The command for building external modules maintains backward
+> compatibility, but Makefiles that rely on working in the kernel
+> directory may break. In such cases, $(objtree) and $(srctree) should
+> be used to refer to the output and source directories of the kernel.
+> 
+> The appearance of the build log will change as follows:
+> 
+> [Before]
+> 
+>   $ make -C /path/to/my/linux M=/path/to/my/externel/module
+>   make: Entering directory '/path/to/my/linux'
+>     CC [M]  /path/to/my/externel/module/helloworld.o
+>     MODPOST /path/to/my/externel/module/Module.symvers
+>     CC [M]  /path/to/my/externel/module/helloworld.mod.o
+>     CC [M]  /path/to/my/externel/module/.module-common.o
+>     LD [M]  /path/to/my/externel/module/helloworld.ko
+>   make: Leaving directory '/path/to/my/linux'
+> 
+> [After]
+> 
+>   $ make -C /path/to/my/linux M=/path/to/my/externel/module
+>   make: Entering directory '/path/to/my/linux'
+>   make[1]: Entering directory '/path/to/my/externel/module'
+>     CC [M]  helloworld.o
+>     MODPOST Module.symvers
+>     CC [M]  helloworld.mod.o
+>     CC [M]  .module-common.o
+>     LD [M]  helloworld.ko
+>   make[1]: Leaving directory '/path/to/my/externel/module'
+>   make: Leaving directory '/path/to/my/linux'
+> 
+> Printing "Entering directory" twice is cumbersome. This will be
+> addressed later.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+> Changes in v2:
+>  - Introduce a new 'srcroot' variable and clean-up code
+>  - Reword Documentation/dev-tools/coccinelle.rst
+> 
+>  Documentation/dev-tools/coccinelle.rst | 20 ++-----
+>  Documentation/kbuild/makefiles.rst     | 14 +++++
+>  Makefile                               | 80 +++++++++++++++-----------
+>  rust/Makefile                          |  4 +-
+>  scripts/Makefile.build                 |  2 +-
+>  scripts/Makefile.clean                 |  2 +-
+>  scripts/Makefile.compiler              |  2 +-
+>  scripts/Makefile.modpost               |  6 +-
+>  scripts/coccicheck                     |  6 +-
+>  scripts/nsdeps                         |  8 +--
+>  scripts/package/install-extmod-build   |  7 +++
+>  11 files changed, 85 insertions(+), 66 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+> index 535ce126fb4f..6e70a1e9a3c0 100644
+> --- a/Documentation/dev-tools/coccinelle.rst
+> +++ b/Documentation/dev-tools/coccinelle.rst
+> @@ -250,25 +250,17 @@ variables for .cocciconfig is as follows:
+>  - Your directory from which spatch is called is processed next
+>  - The directory provided with the ``--dir`` option is processed last, if used
+>  
+> -Since coccicheck runs through make, it naturally runs from the kernel
+> -proper dir; as such the second rule above would be implied for picking up a
+> -.cocciconfig when using ``make coccicheck``.
+> -
+>  ``make coccicheck`` also supports using M= targets. If you do not supply
+>  any M= target, it is assumed you want to target the entire kernel.
+>  The kernel coccicheck script has::
+>  
+> -    if [ "$KBUILD_EXTMOD" = "" ] ; then
+> -        OPTIONS="--dir $srctree $COCCIINCLUDE"
+> -    else
+> -        OPTIONS="--dir $KBUILD_EXTMOD $COCCIINCLUDE"
+> -    fi
+> +    OPTIONS="--dir $srcroot $COCCIINCLUDE"
+>  
+> -KBUILD_EXTMOD is set when an explicit target with M= is used. For both cases
+> -the spatch ``--dir`` argument is used, as such third rule applies when whether
+> -M= is used or not, and when M= is used the target directory can have its own
+> -.cocciconfig file. When M= is not passed as an argument to coccicheck the
+> -target directory is the same as the directory from where spatch was called.
+> +Here, $srcroot refers to the source directory of the target: it points to the
+> +external module's source directory when M= used, and otherwise, to the kernel
+> +source directory. The third rule ensures the spatch reads the .cocciconfig from
+> +the target directory, allowing external modules to have their own .cocciconfig
+> +file.
+>  
+>  If not using the kernel's coccicheck target, keep the above precedence
+>  order logic of .cocciconfig reading. If using the kernel's coccicheck target,
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 7964e0c245ae..d36519f194dc 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -449,6 +449,20 @@ $(obj)
+>    to prerequisites are referenced with $(src) (because they are not
+>    generated files).
+>  
+> +$(srcroot)
+> +  $(srcroot) refers to the root of the source you are building, which can be
+> +  either the kernel source or the external modules source, depending on whether
+> +  KBUILD_EXTMOD is set. This can be either a relative or an absolute path, but
+> +  if KBUILD_ABS_SRCTREE=1 is set, it is always an absolute path.
+> +
+> +$(srctree)
+> +  $(srctree) refers to the root of the kernel source tree. When building the
+> +  kernel, this is the same as $(srcroot).
+> +
+> +$(objtree)
+> +  $(objtree) refers to the root of the kernel object tree. It is ``.`` when
+> +  building the kernel, but it is different when building external modules.
+> +
 
-  $ time git describe --debug
-  ...
-  traversed 10619 commits
-  ...
-  v6.12-rc5-63-g0fc810ae3ae1
+Thanks, I think it's nice that there is now such a clear definition.
+$(srcroot) sounds fine to me.
 
-  real    0m0.169s
+>  $(kecho)
+>    echoing information to user in a rule is often a good practice
+>    but when execution ``make -s`` one does not expect to see any output
+> diff --git a/Makefile b/Makefile
+> index cf1d55560ae2..e5f7ac7647a7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -180,7 +180,24 @@ ifeq ("$(origin O)", "command line")
+>    KBUILD_OUTPUT := $(O)
+>  endif
+>  
+> -output := $(KBUILD_OUTPUT)
+> +ifdef KBUILD_EXTMOD
+> +    ifdef KBUILD_OUTPUT
+> +        objtree := $(realpath $(KBUILD_OUTPUT))
+> +        $(if $(objtree),,$(error specified kernel directory "$(KBUILD_OUTPUT)" does not exist))
+> +    else
+> +        objtree := $(CURDIR)
+> +    endif
+> +    output := $(KBUILD_EXTMOD)
+> +    # KBUILD_EXTMOD might be a relative path. Remember its absolute path before
+> +    # Make changes the working directory.
+> +    srcroot := $(realpath $(KBUILD_EXTMOD))
+> +    $(if $(srcroot),,$(error specified external module directory "$(KBUILD_EXTMOD)" does not exist))
+> +else
+> +    objtree := .
+> +    output := $(KBUILD_OUTPUT)
+> +endif
+> +
+> +export objtree srcroot
+>  
+>  # Do we want to change the working directory?
+>  ifneq ($(output),)
+> @@ -230,35 +247,33 @@ else # need-sub-make
+>  
+>  # We process the rest of the Makefile if this is the final invocation of make
+>  
+> -ifeq ($(abs_srctree),$(CURDIR))
+> -        # building in the source tree
+> -        srctree := .
+> -	building_out_of_srctree :=
+> +ifndef KBUILD_EXTMOD
+> +srcroot := $(abs_srctree)
+> +endif
+> +
+> +ifeq ($(srcroot),$(CURDIR))
+> +building_out_of_srctree :=
+>  else
+> -        ifeq ($(abs_srctree)/,$(dir $(CURDIR)))
+> -                # building in a subdirectory of the source tree
+> -                srctree := ..
+> -        else
+> -                srctree := $(abs_srctree)
+> -        endif
+> -	building_out_of_srctree := 1
+> +export building_out_of_srctree :=1
+>  endif
+>  
+> -ifneq ($(KBUILD_ABS_SRCTREE),)
+> -srctree := $(abs_srctree)
+> +ifdef KBUILD_ABS_SRCTREE
+> +    # Do not nothing. Use the absolute path.
+> +else ifeq ($(srcroot),$(CURDIR))
+> +    # Building in the source.
+> +    srcroot := .
+> +else ifeq ($(srcroot)/,$(dir $(CURDIR)))
+> +    # Building in a subdirectory of the source.
+> +    srcroot := ..
+>  endif
+>  
+> -objtree		:= .
+> +export srctree := $(if $(KBUILD_EXTMOD),$(abs_srctree),$(srcroot))
 
-  $ time git describe --match=v6.12-rc5 --debug
-  ...
-  traversed 1310024 commits
-  v6.12-rc5-63-g0fc810ae3ae1
+With this patch applied, the following breaks for me:
 
-  real    0m1.281s
+    $ make O=build M=fs/btrfs CONFIG_BTRFS_FS=m
+    make[1]: Entering directory '/data/linux/kbuild-review/fs/btrfs'
+      CC [M]  super.o
+    In file included from <command-line>:
+    /data/linux/kbuild-review/include/linux/compiler_types.h:89:10: fatal error: linux/compiler_attributes.h: No such file or directory
+       89 | #include <linux/compiler_attributes.h>
+          |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    compilation terminated.
 
-In fact, the --debug output shows that git traverses all or most of
-history. For some repositories and/or git versions, those 1.3s are
-actually 10-15 seconds.
+Adding 'ccflags-y += -I$(srctree)/include' to fs/btrfs/Makefile breaks
+the build loudly.  I could make it build again with
 
-This has been acknowledged as a performance bug in git [1], and a fix
-is on its way [2]. However, no solution is yet in git.git, and even
-when one lands, it will take quite a while before it finds its way to
-a release and for $random_kernel_developer to pick that up.
+diff --git a/Makefile b/Makefile
+index e5f7ac7647a7b..3d95911f1a68f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -555,7 +555,7 @@ USERINCLUDE    := \
+ LINUXINCLUDE    := \
+                -I$(srctree)/arch/$(SRCARCH)/include \
+                -I$(objtree)/arch/$(SRCARCH)/include/generated \
+-               $(if $(building_out_of_srctree),-I$(srctree)/include) \
++               $(if $(or $(building_out_of_srctree),$(filter $(srctree)/%, $(CURDIR))),-I$(srctree)/include) \
+                -I$(objtree)/include \
+                $(USERINCLUDE)
 
-So rewrite the logic to use plumbing commands. For each of the
-candidate values of $tag, we ask: (1) is $tag even an annotated
-tag? (2) Is it eligible to describe HEAD, i.e. an ancestor of
-HEAD? (3) If so, how many commits are in $tag..HEAD?
+but this does not feel good.  It building in-tree modules in this way a
+valid thing to do?
 
-I have tested that this produces the same output as the current script
-for ~700 random commits between v6.9..v6.10. For those 700 commits,
-and in my git repo, the 'make -s kernelrelease' command is on average
-~4 times faster with this patch applied (geometric mean of ratios).
-
-For the commit mentioned in Josh's original report [3], the
-time-consuming part of setlocalversion goes from
-
-$ time git describe --match=v6.12-rc5 c1e939a21eb1
-v6.12-rc5-44-gc1e939a21eb1
-
-real    0m1.210s
-
-to
-
-$ time git rev-list --count --left-right v6.12-rc5..c1e939a21eb1
-0       44
-
-real    0m0.037s
-
-[1] https://lore.kernel.org/git/20241101113910.GA2301440@coredump.intra.peff.net/
-[2] https://lore.kernel.org/git/20241106192236.GC880133@coredump.intra.peff.net/
-[3] https://lore.kernel.org/lkml/309549cafdcfe50c4fceac3263220cc3d8b109b2.1730337435.git.jpoimboe@kernel.org/
-
-Reported-by: Sean Christopherson <seanjc@google.com>
-Closes: https://lore.kernel.org/lkml/ZPtlxmdIJXOe0sEy@google.com/
-Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
-Tested-by: Josh Poimboeuf <jpoimboe@kernel.org>
-Closes: https://lore.kernel.org/lkml/309549cafdcfe50c4fceac3263220cc3d8b109b2.1730337435.git.jpoimboe@kernel.org/
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
----
-v3:
-
-- Update trailer tag list, per Masahiro.
-- Drop redundant quoutes around the word tag
-- Add a shellcheck disable directive
-
-Masahiro, I decided to keep the changes minimal, in particular not to
-change anything around the logic or the (unused) return values, in
-order not to invalidate Josh' T-b tag. I think it's more important for
-this to make it to 6.13-rc1 (if that is even still possible, given
-that the MW is already open).
-
-Since you mentioned shellcheck, which I myself am a big fan of, I
-added a directive in the new code, but didn't want to try to make the
-whole script shellcheck clean. But I don't know if we want such linter
-directives; if not, feel free to just remove that line.
-
-v2: https://lore.kernel.org/lkml/20241112210500.2266762-1-linux@rasmusvillemoes.dk/
-
-
- scripts/setlocalversion | 54 +++++++++++++++++++++++++++++------------
- 1 file changed, 38 insertions(+), 16 deletions(-)
-
-diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-index 38b96c6797f4..5818465abba9 100755
---- a/scripts/setlocalversion
-+++ b/scripts/setlocalversion
-@@ -30,6 +30,27 @@ if test $# -gt 0 -o ! -d "$srctree"; then
- 	usage
- fi
- 
-+try_tag() {
-+	tag="$1"
-+
-+	# Is $tag an annotated tag?
-+	[ "$(git cat-file -t "$tag" 2> /dev/null)" = tag ] || return 1
-+
-+	# Is it an ancestor of HEAD, and if so, how many commits are in $tag..HEAD?
-+	# shellcheck disable=SC2046 # word splitting is the point here
-+	set -- $(git rev-list --count --left-right "$tag"...HEAD 2> /dev/null)
-+
-+	# $1 is 0 if and only if $tag is an ancestor of HEAD. Use
-+	# string comparison, because $1 is empty if the 'git rev-list'
-+	# command somehow failed.
-+	[ "$1" = 0 ] || return 1
-+
-+	# $2 is the number of commits in the range $tag..HEAD, possibly 0.
-+	count="$2"
-+
-+	return 0
-+}
-+
- scm_version()
- {
- 	local short=false
-@@ -61,33 +82,33 @@ scm_version()
- 	# stable kernel:    6.1.7      ->  v6.1.7
- 	version_tag=v$(echo "${KERNELVERSION}" | sed -E 's/^([0-9]+\.[0-9]+)\.0(.*)$/\1\2/')
- 
-+	# try_tag initializes count if the tag is usable.
-+	count=
-+
- 	# If a localversion* file exists, and the corresponding
- 	# annotated tag exists and is an ancestor of HEAD, use
- 	# it. This is the case in linux-next.
--	tag=${file_localversion#-}
--	desc=
--	if [ -n "${tag}" ]; then
--		desc=$(git describe --match=$tag 2>/dev/null)
-+	if [ -n "${file_localversion#-}" ] ; then
-+		try_tag "${file_localversion#-}"
- 	fi
- 
- 	# Otherwise, if a localversion* file exists, and the tag
- 	# obtained by appending it to the tag derived from
- 	# KERNELVERSION exists and is an ancestor of HEAD, use
- 	# it. This is e.g. the case in linux-rt.
--	if [ -z "${desc}" ] && [ -n "${file_localversion}" ]; then
--		tag="${version_tag}${file_localversion}"
--		desc=$(git describe --match=$tag 2>/dev/null)
-+	if [ -z "${count}" ] && [ -n "${file_localversion}" ]; then
-+		try_tag "${version_tag}${file_localversion}"
- 	fi
- 
- 	# Otherwise, default to the annotated tag derived from KERNELVERSION.
--	if [ -z "${desc}" ]; then
--		tag="${version_tag}"
--		desc=$(git describe --match=$tag 2>/dev/null)
-+	if [ -z "${count}" ]; then
-+		try_tag "${version_tag}"
- 	fi
- 
--	# If we are at the tagged commit, we ignore it because the version is
--	# well-defined.
--	if [ "${tag}" != "${desc}" ]; then
-+	# If we are at the tagged commit, we ignore it because the
-+	# version is well-defined. If none of the attempted tags exist
-+	# or were usable, $count is still empty.
-+	if [ -z "${count}" ] || [ "${count}" -gt 0 ]; then
- 
- 		# If only the short version is requested, don't bother
- 		# running further git commands
-@@ -95,14 +116,15 @@ scm_version()
- 			echo "+"
- 			return
- 		fi
-+
- 		# If we are past the tagged commit, we pretty print it.
- 		# (like 6.1.0-14595-g292a089d78d3)
--		if [ -n "${desc}" ]; then
--			echo "${desc}" | awk -F- '{printf("-%05d", $(NF-1))}'
-+		if [ -n "${count}" ]; then
-+			printf "%s%05d" "-" "${count}"
- 		fi
- 
- 		# Add -g and exactly 12 hex chars.
--		printf '%s%s' -g "$(echo $head | cut -c1-12)"
-+		printf '%s%.12s' -g "$head"
- 	fi
- 
- 	if ${no_dirty}; then
--- 
-2.47.0
-
+Kind regards,
+Nicolas
 
