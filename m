@@ -1,118 +1,272 @@
-Return-Path: <linux-kbuild+bounces-4701-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4702-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3469D0399
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 Nov 2024 13:26:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FA09D0F1B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 12:02:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B01E41F233A8
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 Nov 2024 12:26:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48DC91F22261
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 11:02:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BF9D19413B;
-	Sun, 17 Nov 2024 12:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A97F192B66;
+	Mon, 18 Nov 2024 11:01:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="bRilmn7a"
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="EJ4wYrli"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C089192B77;
-	Sun, 17 Nov 2024 12:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06D61946A8
+	for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2024 11:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731846321; cv=none; b=Lbc6hbHL3TU4U95NOX+VIy7hEYmRJ44YsVLd5OdIqZIyhODbEiTsmYCFfNLPFwDhPo+R3H9enRzTAF5WBFH1qyrfzhSeRCR5KzbJw5murj2d0J26ZCnhA9weRVMH4juBGdf2r6rVSxHlpu1Artsl4326cCN+qn0DfcnB1xefwkY=
+	t=1731927716; cv=none; b=MSq2I35K8gdDV8PrYcdbNbzVR6ir7PLlAc6dJje7ujQ3xv/U2RC7rj52VqbdlSwWSxkKAGWF+Qb1aHbuZeMn6jgwrszUkDIejq3jvM2rU4YNxkeEPYqLmW5jZiOx0qSWGAHTIZlg33yMj8qzJxq+UdW6mGyhglLsRkB/BWW4UQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731846321; c=relaxed/simple;
-	bh=drkDmXKObuljd6TSDm0KkHDvt1vSnHI2j5z/Kh96Ju8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fgLZMZDSVYk609mIPpKbs8gN0ZQiiwOU4ShUvdfVLOA7VKALK2O9wiCPSlGUVBfF8p8/PnLEBixw3NYfV9qpMv6e3/AQ0NiVoHNG3AwtD+awC7uvgoihD9olKa1Bksx1wnPWL3CRA32DtzRBWrokqk188o7iYZEpz+P9uL98h/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=bRilmn7a; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1731846313;
-	bh=CKG84+r0siAfokontrKDesX9uTEGP18Q8+N/CJSOFJo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bRilmn7aPuUE951f/FQt4pJwT66UGKJxBCurd84j9mebMk3SAQv2CKRe1HGN4gdt7
-	 a6QhHIZpc4TsNhS9fdRhd+R1DDukcGKY2oTTSGKwwET0khacffUaR7NiPps9CLNxFK
-	 G2nfabb5q0bGbN/WpKNM3O3FGYaULt24S3xR0+T1jLXkPiUmuyOUyJaKo/u1jyQiP1
-	 MsUAzPD/iRBfjq4DaG2ALsxM+Da0gzMdKl3TDguoTnEgmyhq/qqdCyfXdx+8VgnNzX
-	 T8d8ubZTpPNcUgIj1B1k25xhcgR9CwtN9RU7XDuDezhqeta9Ful3cRhUcuur1s5pnF
-	 8o4qkBgk7s/ZA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xrqhm4PfHz4xdy;
-	Sun, 17 Nov 2024 23:25:12 +1100 (AEDT)
-From: Michael Ellerman <patch-notifications@ellerman.id.au>
-To: linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, Hari Bathini <hbathini@linux.ibm.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, "Naveen N. Rao" <naveen@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Daniel Borkmann <daniel@iogearbox.net>, Masahiro Yamada <masahiroy@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, Alexei Starovoitov <ast@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, Christophe Leroy <christophe.leroy@csgroup.eu>, Vishal Chourasia <vishalc@linux.ibm.com>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>
-In-Reply-To: <20241030070850.1361304-1-hbathini@linux.ibm.com>
-References: <20241030070850.1361304-1-hbathini@linux.ibm.com>
-Subject: Re: [PATCH v7 00/17] powerpc: Core ftrace rework, support for ftrace direct and bpf trampolines
-Message-Id: <173184539742.890800.10627378696586118580.b4-ty@ellerman.id.au>
-Date: Sun, 17 Nov 2024 23:09:57 +1100
+	s=arc-20240116; t=1731927716; c=relaxed/simple;
+	bh=/mmqxQIIBTKJU95znxubYAuwPz0Pj4FHpPgJoJZHwCY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jAudbNHm+qAbAyo01eWAe7GUduT1U7pjTNp305pF8OiHIm4p/N/MeceQxCO6kifYfEPJr4TRh2tOxQYxaYIAIiYfFcZAJcymVYrqm+H+3QENCLBv0i3D7yncwl7XBLfe+4Bz02UDSkBsIybETrWlocboExXDcDesPY8zO9/0wqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=EJ4wYrli; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2fb584a8f81so35704361fa.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2024 03:01:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google; t=1731927712; x=1732532512; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VabMAuGwTL06yr3ViS1JrPQ2en669i6+uOZedAFhYnI=;
+        b=EJ4wYrliARRMA9vf5VRfq+mQ7mJfO7dPii/EvPtdP5V1Jojq/jfrHuSZE/p8qOCh22
+         wu4erEmeP+vDvwk5+qB+6CtFeB9fSO5WTg0P9qG3UyviITqjpBqOldF2qujkX7AdiwoL
+         OsKqczgD9stEXmEKcbyP1J13pn7ePgAWdIabs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731927712; x=1732532512;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VabMAuGwTL06yr3ViS1JrPQ2en669i6+uOZedAFhYnI=;
+        b=cNJDgBacxRckpCe+3g4tctMECFe5ZPfMa/iPcNIxPGyFMkP9T/niAQVKLCi7shpksH
+         fF18aaJqL6v/Lao3/dj3EfumcvAlehR/YgSxLeIcKBqDfVjHMlsbjVBI97zP81nOsoBS
+         hZ74Gl/SfKGgF07CDmmG110kzqMbjes3KkFh2696VshvjzHDIjpiT/u3qQN1milRiZNK
+         yj3eY8X3MDecn8Dr4uWIaXGsYdM3zvxkCN6YMSBAxYuzd2Dl4PKJZBFXPdBASk5d1Bdg
+         da0fe8zzz+9hQHiO2SUPbgXVpArbYwdbYBIR94Mj69k9qygbOZeLxY5rQm4CbeI2USNL
+         IkzA==
+X-Forwarded-Encrypted: i=1; AJvYcCVMktcd63JwjuVRqGc9FMXjFxNZvmhjFZx24wlNTZK82HN+ZStfvEU+ogEdylmlnxhHjpXw0TinLevEfrY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzytskBeyP007PZ8PH8fIjo52O9Cbe1jZAt5XsTGUZ701ZESJp6
+	dvptvJNwvGE62DnEHmmTYOo/rJTvy8b8F3YuD2gxTxD4U9/TwgbVsa2af2gAHoE=
+X-Google-Smtp-Source: AGHT+IHGEQGWW6igmzapud9eLSNtzJT0ArhpXDj23UyLyIJqeURWIy0rpxNdqZ1XisNIQLlwCcH+vg==
+X-Received: by 2002:a2e:bc05:0:b0:2fa:dadf:aad5 with SMTP id 38308e7fff4ca-2ff609b4c03mr60813561fa.28.1731927711949;
+        Mon, 18 Nov 2024 03:01:51 -0800 (PST)
+Received: from localhost ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff69ae80fesm9176091fa.89.2024.11.18.03.01.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 03:01:51 -0800 (PST)
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jeff King <peff@peff.net>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sean Christopherson <seanjc@google.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: [PATCH v3] setlocalversion: work around "git describe" performance
+Date: Mon, 18 Nov 2024 12:01:54 +0100
+Message-ID: <20241118110154.3711777-1-linux@rasmusvillemoes.dk>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 30 Oct 2024 12:38:33 +0530, Hari Bathini wrote:
-> This is v7 of the series posted here:
-> https://lore.kernel.org/all/20241018173632.277333-1-hbathini@linux.ibm.com/
-> 
-> This series reworks core ftrace support on powerpc to have the function
-> profiling sequence moved out of line. This enables us to have a single
-> nop at kernel function entry virtually eliminating effect of the
-> function tracer when it is not enabled. The function profile sequence is
-> moved out of line and is allocated at two separate places depending on a
-> new config option.
-> 
-> [...]
+Contrary to expectations, passing a single candidate tag to "git
+describe" is slower than not passing any --match options.
 
-Applied to powerpc/next.
+  $ time git describe --debug
+  ...
+  traversed 10619 commits
+  ...
+  v6.12-rc5-63-g0fc810ae3ae1
 
-[01/17] powerpc/trace: Account for -fpatchable-function-entry support by toolchain
-        https://git.kernel.org/powerpc/c/0b9846529e29ba988ce88b98df633de79675fcb3
-[02/17] powerpc/kprobes: Use ftrace to determine if a probe is at function entry
-        https://git.kernel.org/powerpc/c/be87d713eaddf0421ccd61cc060c4c29bc36fc9b
-[03/17] powerpc64/ftrace: Nop out additional 'std' instruction emitted by gcc v5.x
-        https://git.kernel.org/powerpc/c/161d62c2b067c4071cb515efe16475171e1c051e
-[04/17] powerpc32/ftrace: Unify 32-bit and 64-bit ftrace entry code
-        https://git.kernel.org/powerpc/c/654b3fa61b817a46037197b73a7ac6d36d01df7e
-[05/17] powerpc/module_64: Convert #ifdef to IS_ENABLED()
-        https://git.kernel.org/powerpc/c/c12cfe9dee077763708e0a5cf3aca02a85b1e8ba
-[06/17] powerpc/ftrace: Remove pointer to struct module from dyn_arch_ftrace
-        https://git.kernel.org/powerpc/c/8b0dc1305ea0bbb015b560193cdd76fd4100f062
-[07/17] powerpc/ftrace: Skip instruction patching if the instructions are the same
-        https://git.kernel.org/powerpc/c/1d59bd2fc07f0b2e643b2a07405cf0717b93984f
-[08/17] powerpc/ftrace: Move ftrace stub used for init text before _einittext
-        https://git.kernel.org/powerpc/c/ed6144656bb1ea29ad83671b48a21c89e7873b8a
-[09/17] powerpc64/bpf: Fold bpf_jit_emit_func_call_hlp() into bpf_jit_emit_func_call_rel()
-        https://git.kernel.org/powerpc/c/9670f6d2097c4f97e15c67920dfddc664d7ee91c
-[10/17] powerpc/ftrace: Add a postlink script to validate function tracer
-        https://git.kernel.org/powerpc/c/782f46cbce5328da9380f166bd31cd17a04a7b10
-[11/17] kbuild: Add generic hook for architectures to use before the final vmlinux link
-        https://git.kernel.org/powerpc/c/1198c9c689cfdaa2d08eb508c13ff116043f07b7
-[12/17] powerpc64/ftrace: Move ftrace sequence out of line
-        https://git.kernel.org/powerpc/c/eec37961a56aa4f3fe1c33ffd48eec7d1bb0c009
-[13/17] powerpc64/ftrace: Support .text larger than 32MB with out-of-line stubs
-        https://git.kernel.org/powerpc/c/cf9bc0efcce2c324314cf7f5138c08f85ef7b5eb
-[14/17] powerpc/ftrace: Add support for DYNAMIC_FTRACE_WITH_CALL_OPS
-        https://git.kernel.org/powerpc/c/e717754f0bb5c5347aac82232691340955735ce1
-[15/17] powerpc/ftrace: Add support for DYNAMIC_FTRACE_WITH_DIRECT_CALLS
-        https://git.kernel.org/powerpc/c/a52f6043a2238d656ddd23ce0499cf4f12645faa
-[16/17] samples/ftrace: Add support for ftrace direct samples on powerpc
-        https://git.kernel.org/powerpc/c/71db948b9d2744e92124720f682ed2c26f0de75b
-[17/17] powerpc64/bpf: Add support for bpf trampolines
-        https://git.kernel.org/powerpc/c/d243b62b7bd3d5314382d3b54e4992226245e936
+  real    0m0.169s
 
-cheers
+  $ time git describe --match=v6.12-rc5 --debug
+  ...
+  traversed 1310024 commits
+  v6.12-rc5-63-g0fc810ae3ae1
+
+  real    0m1.281s
+
+In fact, the --debug output shows that git traverses all or most of
+history. For some repositories and/or git versions, those 1.3s are
+actually 10-15 seconds.
+
+This has been acknowledged as a performance bug in git [1], and a fix
+is on its way [2]. However, no solution is yet in git.git, and even
+when one lands, it will take quite a while before it finds its way to
+a release and for $random_kernel_developer to pick that up.
+
+So rewrite the logic to use plumbing commands. For each of the
+candidate values of $tag, we ask: (1) is $tag even an annotated
+tag? (2) Is it eligible to describe HEAD, i.e. an ancestor of
+HEAD? (3) If so, how many commits are in $tag..HEAD?
+
+I have tested that this produces the same output as the current script
+for ~700 random commits between v6.9..v6.10. For those 700 commits,
+and in my git repo, the 'make -s kernelrelease' command is on average
+~4 times faster with this patch applied (geometric mean of ratios).
+
+For the commit mentioned in Josh's original report [3], the
+time-consuming part of setlocalversion goes from
+
+$ time git describe --match=v6.12-rc5 c1e939a21eb1
+v6.12-rc5-44-gc1e939a21eb1
+
+real    0m1.210s
+
+to
+
+$ time git rev-list --count --left-right v6.12-rc5..c1e939a21eb1
+0       44
+
+real    0m0.037s
+
+[1] https://lore.kernel.org/git/20241101113910.GA2301440@coredump.intra.peff.net/
+[2] https://lore.kernel.org/git/20241106192236.GC880133@coredump.intra.peff.net/
+[3] https://lore.kernel.org/lkml/309549cafdcfe50c4fceac3263220cc3d8b109b2.1730337435.git.jpoimboe@kernel.org/
+
+Reported-by: Sean Christopherson <seanjc@google.com>
+Closes: https://lore.kernel.org/lkml/ZPtlxmdIJXOe0sEy@google.com/
+Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Tested-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Closes: https://lore.kernel.org/lkml/309549cafdcfe50c4fceac3263220cc3d8b109b2.1730337435.git.jpoimboe@kernel.org/
+Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+---
+v3:
+
+- Update trailer tag list, per Masahiro.
+- Drop redundant quoutes around the word tag
+- Add a shellcheck disable directive
+
+Masahiro, I decided to keep the changes minimal, in particular not to
+change anything around the logic or the (unused) return values, in
+order not to invalidate Josh' T-b tag. I think it's more important for
+this to make it to 6.13-rc1 (if that is even still possible, given
+that the MW is already open).
+
+Since you mentioned shellcheck, which I myself am a big fan of, I
+added a directive in the new code, but didn't want to try to make the
+whole script shellcheck clean. But I don't know if we want such linter
+directives; if not, feel free to just remove that line.
+
+v2: https://lore.kernel.org/lkml/20241112210500.2266762-1-linux@rasmusvillemoes.dk/
+
+
+ scripts/setlocalversion | 54 +++++++++++++++++++++++++++++------------
+ 1 file changed, 38 insertions(+), 16 deletions(-)
+
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index 38b96c6797f4..5818465abba9 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -30,6 +30,27 @@ if test $# -gt 0 -o ! -d "$srctree"; then
+ 	usage
+ fi
+ 
++try_tag() {
++	tag="$1"
++
++	# Is $tag an annotated tag?
++	[ "$(git cat-file -t "$tag" 2> /dev/null)" = tag ] || return 1
++
++	# Is it an ancestor of HEAD, and if so, how many commits are in $tag..HEAD?
++	# shellcheck disable=SC2046 # word splitting is the point here
++	set -- $(git rev-list --count --left-right "$tag"...HEAD 2> /dev/null)
++
++	# $1 is 0 if and only if $tag is an ancestor of HEAD. Use
++	# string comparison, because $1 is empty if the 'git rev-list'
++	# command somehow failed.
++	[ "$1" = 0 ] || return 1
++
++	# $2 is the number of commits in the range $tag..HEAD, possibly 0.
++	count="$2"
++
++	return 0
++}
++
+ scm_version()
+ {
+ 	local short=false
+@@ -61,33 +82,33 @@ scm_version()
+ 	# stable kernel:    6.1.7      ->  v6.1.7
+ 	version_tag=v$(echo "${KERNELVERSION}" | sed -E 's/^([0-9]+\.[0-9]+)\.0(.*)$/\1\2/')
+ 
++	# try_tag initializes count if the tag is usable.
++	count=
++
+ 	# If a localversion* file exists, and the corresponding
+ 	# annotated tag exists and is an ancestor of HEAD, use
+ 	# it. This is the case in linux-next.
+-	tag=${file_localversion#-}
+-	desc=
+-	if [ -n "${tag}" ]; then
+-		desc=$(git describe --match=$tag 2>/dev/null)
++	if [ -n "${file_localversion#-}" ] ; then
++		try_tag "${file_localversion#-}"
+ 	fi
+ 
+ 	# Otherwise, if a localversion* file exists, and the tag
+ 	# obtained by appending it to the tag derived from
+ 	# KERNELVERSION exists and is an ancestor of HEAD, use
+ 	# it. This is e.g. the case in linux-rt.
+-	if [ -z "${desc}" ] && [ -n "${file_localversion}" ]; then
+-		tag="${version_tag}${file_localversion}"
+-		desc=$(git describe --match=$tag 2>/dev/null)
++	if [ -z "${count}" ] && [ -n "${file_localversion}" ]; then
++		try_tag "${version_tag}${file_localversion}"
+ 	fi
+ 
+ 	# Otherwise, default to the annotated tag derived from KERNELVERSION.
+-	if [ -z "${desc}" ]; then
+-		tag="${version_tag}"
+-		desc=$(git describe --match=$tag 2>/dev/null)
++	if [ -z "${count}" ]; then
++		try_tag "${version_tag}"
+ 	fi
+ 
+-	# If we are at the tagged commit, we ignore it because the version is
+-	# well-defined.
+-	if [ "${tag}" != "${desc}" ]; then
++	# If we are at the tagged commit, we ignore it because the
++	# version is well-defined. If none of the attempted tags exist
++	# or were usable, $count is still empty.
++	if [ -z "${count}" ] || [ "${count}" -gt 0 ]; then
+ 
+ 		# If only the short version is requested, don't bother
+ 		# running further git commands
+@@ -95,14 +116,15 @@ scm_version()
+ 			echo "+"
+ 			return
+ 		fi
++
+ 		# If we are past the tagged commit, we pretty print it.
+ 		# (like 6.1.0-14595-g292a089d78d3)
+-		if [ -n "${desc}" ]; then
+-			echo "${desc}" | awk -F- '{printf("-%05d", $(NF-1))}'
++		if [ -n "${count}" ]; then
++			printf "%s%05d" "-" "${count}"
+ 		fi
+ 
+ 		# Add -g and exactly 12 hex chars.
+-		printf '%s%s' -g "$(echo $head | cut -c1-12)"
++		printf '%s%.12s' -g "$head"
+ 	fi
+ 
+ 	if ${no_dirty}; then
+-- 
+2.47.0
+
 
