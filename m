@@ -1,173 +1,179 @@
-Return-Path: <linux-kbuild+bounces-4705-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4706-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD999D19F6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 21:56:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D67C59D1ADD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 22:58:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B2C81F223A5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 20:56:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DA03B21EE0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 21:58:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB37A1E570A;
-	Mon, 18 Nov 2024 20:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 334E31E7C0B;
+	Mon, 18 Nov 2024 21:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="phmi8UAX"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YCwFGM4m"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10F31E1311;
-	Mon, 18 Nov 2024 20:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D79D1E6DC7
+	for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2024 21:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731963391; cv=none; b=EfsJqBVKR8tsNE1kERlCQwF6kBEdBWqm/lq3rCCoyhzkNslQDqMHmak1+3FtUmZ76gCf2iWRb3KUZewomTb93buVGFD25xg7XpsDoNibQZFfI8hHyiDy3ZejT3TMWGsj2Qej85y0WCStb4Knth02PQqJqR9kBO1Vbd5J+7jFszA=
+	t=1731967130; cv=none; b=oSnHljn3ejQYlPt69bfqtN0d83xLS1dkeUQlt372YgAOweDyybnB5L6/bGW0J3XxvPRqbuVfsrMhtvP5+kE8Fxp0ukoTeR69gl9hMyTJHD2/fPBifhnqXTFShEVRDu5iiGycFjYKzfCXNzNmuGmBZ0yCu5Qg7vwwIz63vL07C80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731963391; c=relaxed/simple;
-	bh=C/75dlNTZVVctHgjkR2wxTlbf5aGs3bgMgbYh1A3x3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QSWkOSf+0DkxGpsj670B9QFNbQA1u6BE5l9gJvk8M+CMwpLSjjRQgg22/QiKc8Nzde/gRHIz6MSuv/Y7iZHWvAGHgAH6B+d/L+DdpomwBd2AH9Q7IzTAENGLQkWTiVsDnm5e/+ROqjWPVX+JomN21MN13TxZ/ySyzWLPFzwh2OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=phmi8UAX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 013B0C4CECC;
-	Mon, 18 Nov 2024 20:56:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731963391;
-	bh=C/75dlNTZVVctHgjkR2wxTlbf5aGs3bgMgbYh1A3x3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=phmi8UAXzawnyrf1Mok1RJa2zC/F0QO0kj/gkLvrYII2QAfXVDlfeSq2x/JwwNSjr
-	 KFCJdFDYSV1nElXUN/puKdll9nhZc6ul2vRC0ezGHw5h/Ng5IqW+e1PfvnsW/qQhUb
-	 Blglb2HEIqGDAKqkgcuYislTMysxb5MagQZXemC95QCE6bL8AdSjTm9HOuYsUyygfP
-	 8MUMHa9R9O4Wlhb/REX2TwPOWMTdGK1QFhyb98e4daRxg/NMXWRQL2mSNBjTq/P+Ke
-	 1b691aq/UOxISsdwE5BOnMp6lou/kP1lHsQAYbCx7MfNHeCliOfNzCSgC1IoNOuf/z
-	 DIvjxfVy/68yQ==
-Date: Mon, 18 Nov 2024 13:56:29 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kostadin Shishmanov <kostadinshishmanov@protonmail.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"sam@gentoo.org" <sam@gentoo.org>, arnd@arndb.de,
-	linux-kbuild@vger.kernel.org
-Subject: Re: Build failure with GCC 15 (-std=gnu23)
-Message-ID: <20241118205629.GA15698@thelio-3990X>
-References: <4OAhbllK7x4QJGpZjkYjtBYNLd_2whHx9oFiuZcGwtVR4hIzvduultkgfAIRZI3vQpZylu7Gl929HaYFRGeMEalWCpeMzCIIhLxxRhq4U-Y=@protonmail.com>
+	s=arc-20240116; t=1731967130; c=relaxed/simple;
+	bh=hQkH15gr6Qgm2KoVe/ThQVUD4flOHdtYi2Q7pTwd0MQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NOztBeL3dk/f7irexRzVJkh6UrqNDOJwjMqkhNmLXq5L0v5ZD33v79SOWOSpQAT4NUBcOOo5dducLwZMXTwPyUz7vYh2qAqxNM9+LRFrGe63gzzHfnPkP41aoDFQg5Zgai3cfJ+qt3uCPC0/5Yg10XDhXcaIlVOhXn4Hn75zQ6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YCwFGM4m; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5cfb81a0af9so3404a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2024 13:58:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731967127; x=1732571927; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZQ3Et6WIBdQ7sud4i/NonpGyXfau4X1TNW+PUgugafE=;
+        b=YCwFGM4m7dm3zFbfStEWvyaCFaFZgAlEnsbWu0wmvgKiX3fe9zlLm1kZwFEwV+Y7q/
+         crJtP3SJxgkueA8WSOKJrQIztfNl6bxSkwKeJvsVh0iA61LK0rsBcohX1jJhvdneuxvN
+         /JFSN23ZmIszzCTZL+nvL4lxcm/2fAI+LK17pHRid03SQFt3q63VmmkkbI+0rejeoaW8
+         uXawDrsKcpcfBip21IbCPgpMygCAEMCqEMCfPoxlmnLiUQGU6suyP8I71Zgo8TKnWikf
+         6Uais1OpfOsGBQQQfOpbIOIx+/02IIGLk70py3jHHlQAJ+Hpt3Bm5bakqdoZ96pTz05s
+         d63g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731967127; x=1732571927;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZQ3Et6WIBdQ7sud4i/NonpGyXfau4X1TNW+PUgugafE=;
+        b=oolaCNFui0y3DU9ZtH1+X2/gjxCnwx3v4fSJuCT7yQS4o5LJKgH5XxEOlgz2PHwbV2
+         22a2qGIRJ57RHL/t41wwH2wS4T8OScYLRXoKOzIrpNRGtHGtlPp1pbRTEGlhJ/uyfV28
+         uOan+BcQt6mMaETAe9K9wNX1qv58x/fi54xhLWO9B+0W9ZTOlgomY/R57MIoRfzvzf3C
+         PRlUW5AUJ+kbisKUyVoNAItrZM5CABtgMPoqSAVmcRDRxMDL00pnn9l89zlqK2hl+vI5
+         mCZ/9fdLiu20kTLm51ZtITcV4E169RtES5ZV/ffZ5cdHSAHA14wkRlEi0ysAz92XJlMQ
+         AIOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVRz7Mb+/3QwV+jRIcOyC2HFSNLE1NQjyEBVKZVYfCqmyVURaEQ9shSVhDSAx7uF8NFaPKyPDYQduXUGY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxG3TVHeNODRob3AqGQN94heqs6aqRzBEED1e3i3Ucy4x2a/jht
+	fx4oHbALOzMSHfaMO7vTbMKUyk/S1/jmNELrOu1xjoOprB38Zq7rlVK4j9w7OCY0OAR4OYEV6Ft
+	RepspPmv3iY4N6vhBuH9EbIzj1DAJEknhFpyJ
+X-Gm-Gg: ASbGncth6DfL4ci7tofrR2CSpIRb8Oq77m91QjpxnsQ0+lie3GK2BvVru6udwmB434Z
+	B9J4uyVM8SsWhKSNxzuUz75cFDjJKb8kMzQRv3JHKuqvqeSIiwHo5MHnJ3U4=
+X-Google-Smtp-Source: AGHT+IED/n5r3VjG+Ri+3OnSZ0XSX0QLyw7ggJKkFG+u6FSu0srLpXwOc/cszXrN20qB0TpblSw7+zX2Fd7l9uwnoW4=
+X-Received: by 2002:a05:6402:50c6:b0:5cf:deaf:ac2 with SMTP id
+ 4fb4d7f45d1cf-5cfdec1bb2cmr23256a12.2.1731967126565; Mon, 18 Nov 2024
+ 13:58:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4OAhbllK7x4QJGpZjkYjtBYNLd_2whHx9oFiuZcGwtVR4hIzvduultkgfAIRZI3vQpZylu7Gl929HaYFRGeMEalWCpeMzCIIhLxxRhq4U-Y=@protonmail.com>
+References: <20241030170106.1501763-21-samitolvanen@google.com>
+ <20241030170106.1501763-22-samitolvanen@google.com> <CAK7LNAShVzrE6uhXxZ7HepKhmOJYsZeigq6w19jRN3OH-T_Jyg@mail.gmail.com>
+ <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com> <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
+In-Reply-To: <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Mon, 18 Nov 2024 21:58:09 +0000
+Message-ID: <CABCJKufVpx4dsr7A44qA0ydwTEx+3Qy_OMx9Ch6OKa4nzvRj2g@mail.gmail.com>
+Subject: Re: [PATCH v5 01/19] scripts: move genksyms crc32 implementation to a
+ common include
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kostadin,
+Hi,
 
-Just a quick FYI off the bat, you only directed this to LKML, which is
-basically like sending it into the void because very few people actually
-read every message on LKML. I only caught it because I have a filter set
-up for mentions of Clang and LLVM. I'd suggest adding at least the
-Kbuild mailing list, which I have done now. I have also added Arnd
-because I seem to recall him looking into how hard it would be to build
-the kernel with C23.
+On Sat, Nov 16, 2024 at 9:09=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Thu, Nov 14, 2024 at 2:54=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
+e.com> wrote:
+> >
+> > Hi,
+> >
+> > On Mon, Nov 11, 2024 at 8:06=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
+el.org> wrote:
+> > >
+> > > On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvanen@g=
+oogle.com> wrote:
+> > > >
+> > > > To avoid duplication between host programs, move the crc32 code to =
+a
+> > > > shared header file.
+> > >
+> > >
+> > > Only the motivation to use this long table is to keep compatibility
+> > > between genksyms and gendwarfksyms.
+> > > I do not think this should be exposed to other programs.
+> > >
+> > >
+> > > If you avoid the code duplication, you can do
+> > >
+> > > // scripts/gendwarfksyms/crc.c
+> > > #include "../genksyms/crc.c"
+> >
+> > Sure, that sounds reasonable. I'll change this in the next version.
+>
+>
+> BTW, is it necessary to share the same crc function
+> between genksyms and gendwarfksyms?
+>
+> If CONFIG_GENKSYMS and CONFIG_GENDWARFKSYMS
+> were able to produce the same CRC, it would be a good motivation
+> to share the same function.
+> However, as far as I tested, gendwarfksyms generates different CRC values=
+.
+>
+> When a distro migrates to CONFIG_GENDWARFKSYMS,
+> the new kernel cannot load old modules built with CONFIG_GENKSYMS.
 
-On Mon, Nov 18, 2024 at 02:26:49PM +0000, Kostadin Shishmanov wrote:
-> Whenever I try to build the kernel with upcoming GCC 15 which defaults to -std=gnu23 I get a build failure:
-> 
-> ```
-> In file included from ./include/uapi/linux/posix_types.h:5,
->                  from ./include/uapi/linux/types.h:14,
->                  from ./include/linux/types.h:6,
->                  from ./include/uapi/linux/mei_uuid.h:12,
->                  from ./include/uapi/linux/mei.h:10,
->                  from ./include/linux/mod_devicetable.h:12,
->                  from scripts/mod/devicetable-offsets.c:3:
-> ./include/linux/stddef.h:11:9: error: expected identifier before ‘false’
->    11 |         false   = 0,
-> ./include/linux/types.h:35:33: error: two or more data types in declaration specifiers
->    35 | typedef _Bool                   bool;
-> ./include/linux/types.h:35:1: warning: useless type name in empty declaration
->    35 | typedef _Bool                   bool;
-> ```
-> 
-> This can be reproduced on older GCC versions with KCFLAGS="-std=gnu23"
+No, it's not necessary to use the exact same function, this was just
+to avoid adding more external dependencies.
 
-The kernel builds explicitly with '-std=gnu11' (see Makefile), so I
-would not expect the default switch on the GCC side to matter. That
-signals to me that we are not actually using that flag everywhere then?
-Building with V=1, I can see '-std=gnu11' in the compiler command for
-scripts/mod/devicetable-offsets.s, which is generated from
-scripts/mod/devicetable-offsets.c, so it seems like something else is
-going on here?
+> So, there is no need to share the old code.
+> Another solution might be to use crc32() provided by zlib, for example.
+> It requires another external library, but this already depends on
+> libdw and libelf.
 
-> With Clang 18 and KCFLAGS="-std=c23" it's an even bigger mess:
+Makes sense. I'll switch to the zlib implementation in v6.
 
-I think the error below occurs because you used 'c23' instead of
-'gnu23'. GCC's documentation states:
+> > > > Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+> > > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > > > Acked-by: Neal Gompa <neal@gompa.dev>
+> > >
+> > > Does this Ack add any value?
+> > >
+> > > Acked-by is meaningful only when it is given by someone who
+> > > maintains the relevant area or has established a reputation.
+> > >
+> > > $ git grep "Neal Gompa"
+> > > $ git shortlog -n -s | grep "Neal Gompa"
+> > >      2 Neal Gompa
+> > >
+> > > His Ack feels more like "I like it" rather than a qualified endorseme=
+nt.
+> >
+> > Like Neal explained, an Ack from a potential user of this feature
+> > seemed relevant, but if you don't think it's meaningful, I can
+> > certainly drop it.
+>
+> Tested-by is more suitable if he wants to leave something.
 
-"The asm keyword is a GNU extension. When writing code that can be
-compiled with -ansi and the various -std options, use __asm__ instead of
-asm (see Alternate Keywords)."
+Ack. Neal, I'll drop the acks from v6, but if you end up testing that
+series, please feel free to add your Tested-by.
 
-https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html
-
-Cheers,
-Nathan
-
-> ```
-> In file included from ./arch/x86/include/asm/jump_label.h:7,
->                  from ./include/linux/jump_label.h:112,
->                  from ./arch/x86/include/asm/string_64.h:6,
->                  from ./arch/x86/include/asm/string.h:5,
->                  from ./include/linux/string.h:64,
->                  from ./include/linux/uuid.h:11,
->                  from ./include/linux/mod_devicetable.h:14:
-> ./arch/x86/include/asm/asm.h: In function ‘rip_rel_ptr’:
-> ./arch/x86/include/asm/asm.h:120:9: error: implicit declaration of function ‘asm’ [-Wimplicit-function-declaration]
->   120 |         asm("leaq %c1(%%rip), %0" : "=r"(p) : "i"(p));
-> ./arch/x86/include/asm/asm.h:120:34: error: expected ‘)’ before ‘:’ token
->   120 |         asm("leaq %c1(%%rip), %0" : "=r"(p) : "i"(p));
-> ./arch/x86/include/asm/asm.h: At top level:
-> ./arch/x86/include/asm/asm.h:222:46: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘asm’
->   222 | register unsigned long current_stack_pointer asm(_ASM_SP);
-> ./arch/x86/include/asm/jump_label.h: In function ‘arch_static_branch’:
-> ./arch/x86/include/asm/jump_label.h:27:9: error: ‘asm’ undeclared (first use in this function)
->    27 |         asm goto("1:"
-> ./arch/x86/include/asm/jump_label.h:27:9: note: each undeclared identifier is reported only once for each function it appears in
-> ./arch/x86/include/asm/jump_label.h:27:12: error: expected ‘;’ before ‘goto’
->    27 |         asm goto("1:"
->                   ;
-> In file included from ./include/uapi/linux/swab.h:8,
->                  from ./include/linux/swab.h:5,
->                  from ./include/uapi/linux/byteorder/little_endian.h:14,
->                  from ./include/linux/byteorder/little_endian.h:5,
->                  from ./arch/x86/include/uapi/asm/byteorder.h:5,
->                  from ./include/linux/bitfield.h:11,
->                  from ./include/linux/fortify-string.h:5,
->                  from ./include/linux/string.h:390:
-> ./arch/x86/include/uapi/asm/swab.h: In function ‘__arch_swab32’:
-> ./arch/x86/include/uapi/asm/swab.h:10:24: error: expected ‘)’ before ‘:’ token
->    10 |         asm("bswapl %0" : "=r" (val) : "0" (val));
->                                )
-> ./arch/x86/include/uapi/asm/swab.h: In function ‘__arch_swab64’:
-> ./arch/x86/include/uapi/asm/swab.h:31:24: error: expected ‘)’ before ‘:’ token
->    31 |         asm("bswapq %0" : "=r" (val) : "0" (val));
->                                )
-> In file included from scripts/mod/devicetable-offsets.c:2:
-> scripts/mod/devicetable-offsets.c: In function ‘main’:
-> ./include/linux/kbuild.h:6:9: error: ‘asm’ undeclared (first use in this function)
->     6 |         asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-> scripts/mod/devicetable-offsets.c:5:22: note: in expansion of macro ‘DEFINE’
->     5 | #define DEVID(devid) DEFINE(SIZE_##devid, sizeof(struct devid))
-> scripts/mod/devicetable-offsets.c:11:9: note: in expansion of macro ‘DEVID’
->    11 |         DEVID(usb_device_id);
-> ./include/linux/kbuild.h:6:13: error: expected ‘;’ before ‘volatile’
->     6 |         asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-> ```
-> 
-> There is a lot more output from the compiler that i've cut off because the email would become way too long.
-> 
-> Regards,
-> Kostadin
-> 
+Sami
 
