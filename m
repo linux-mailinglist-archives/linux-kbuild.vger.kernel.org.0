@@ -1,140 +1,90 @@
-Return-Path: <linux-kbuild+bounces-4733-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4734-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2749D311D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 00:57:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 327419D311F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 00:57:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1B50B2389E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 23:57:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC0E7283F5B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 23:57:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88EFE1C4A3F;
-	Tue, 19 Nov 2024 23:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 597081D417B;
+	Tue, 19 Nov 2024 23:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRRyICJU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqVMXPQk"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1AD1C3F0E;
-	Tue, 19 Nov 2024 23:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F63D1D416A;
+	Tue, 19 Nov 2024 23:57:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732060631; cv=none; b=ru/XIwXijgqwQKvcWgb2BJtIspiJWn5q8HtdM6cDLuIGLvZsf35lppEURXBz2SuuyGA1qM/2dNAlbu35TUZtydwPAkRBSQMrNyPJp9/WZ0i3HL9K6AbWJy5jVKQd+Al4c+YaXikS87sZCuv9flUXlDPgc7cTcS0DgMMjTus6a+o=
+	t=1732060633; cv=none; b=oAqDJoZSKGGA0PVs/dyn/HbvSOnFAZvxQvOrpW/DRtQy3nCBdd0sPkDI3VKxkqlhpZVK4frdshDbMy9FBB2rrQyxM49vGbKYiwuObfoQTFiefzclKAsCa36D08qSYHvx2A562zldIqBjmYk2Zj8hw9tRCD3dpFvONtejTcLsb/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732060631; c=relaxed/simple;
-	bh=ZqVUFOpUrJX2TGES1LxXdj47b6mTQNCl9ZFbrzn6zmo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=da7Hw+2QCLtR0daTlonN2t+rb1obb30g5kTzlh83rEoKF7qAWxDyqEOcUHuWt1B4dKcuPSfpm7+nK2XzbT2daiNPOsFARQeNFfkWW8pzdlYJi5UV57s+GdpbxVhnSRv7poMQNU5vHyoISYjiywjkvXQQDJQKOnwfV69tT92PWcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRRyICJU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB771C4CECF;
-	Tue, 19 Nov 2024 23:57:08 +0000 (UTC)
+	s=arc-20240116; t=1732060633; c=relaxed/simple;
+	bh=1R1KuOLQwu0JBV+qDO/hqjP72lYtvycGXqAGNLZOjaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IDNmSjcKfss0BPb5/Mf/nxj3qROYkm4hEVzcCFdbgGSpZza05bA5jYA2/lwSv0BicbXY5jJsJk0/jqfSUmW5d5Yon0ImS1X4XTqOCUdpQgcwN0+nhrDEi3KBxwHnjDrXZ31r4BO5cLnHWhcR2PxpzQYZoCxWuajffcqaR3wH8FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XqVMXPQk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA73C4CED2;
+	Tue, 19 Nov 2024 23:57:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732060631;
-	bh=ZqVUFOpUrJX2TGES1LxXdj47b6mTQNCl9ZFbrzn6zmo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XRRyICJU9aXZq3YxJqHDMSHGpzOKAUu9JiaaYOSo9Hg09yKoWoEHRkPqo83IMqe33
-	 8dWZHGpqL5LoJs+ggTURL9oMv9W11clmAitIRpfkcP6XhnR7mX9vwM/nWb8E8aXH+P
-	 hoQSlxierN+wK/4MymHPzi4FeFoiVyOFyR+IVDzAWoY69Hni4j1S9SlS1J7YhNv/K3
-	 j7KA6TnrMRVzpiuAMl0llLva03nCIc5w8CqAFmlswUELSC0X9gm+LTYZ/HLAxbC53x
-	 rst5/MR0pjd2mJvgcidSXpeZoDcpezxM6T8KYx8KSSu+04nASPYNMFRil0GigkPMl8
-	 RW6YUVNuw30Gg==
+	s=k20201202; t=1732060632;
+	bh=1R1KuOLQwu0JBV+qDO/hqjP72lYtvycGXqAGNLZOjaw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=XqVMXPQkyS7D7VyIPmJraiMsleQceyGGeu+3iyzTUwJfWmYBXKs0ByfRiZ6G5KG/d
+	 4jz7xiUeUMIdyTgv21+F6ZwRpe0z+qhqNnhA2Khg0ToAUdLEGKNkJk6Wehqe6PTtLD
+	 4UCUeFwevwuIyoqm36UrD5vYvxWi4Ow98vUK5sKZR9BprBsFWRHcp8yMxvCxAXJz0R
+	 fadSdoPv6lpcBJDxPubOeRYgzC/ka3FOV9/g+zWyntH76epfXoF8nUSxFG3131yCp7
+	 jLDXbraO0vLTM/bSn6WZdQWWWe1efYWxRijW/OeZUzyAj9F89zbUiCFCLpbUM+yfB5
+	 YGdJ9ZgfdezCg==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Andreas Schwab <schwab@linux-m68k.org>,
-	Jean Delvare <khali@linux-fr.org>,
-	Jochen Friedrich <jochen@scram.de>,
-	Michal Marek <mmarek@suse.cz>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
-	Sam Ravnborg <sam@ravnborg.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 01/15] modpost: remove incorrect code in do_eisa_entry()
-Date: Wed, 20 Nov 2024 08:56:39 +0900
-Message-ID: <20241119235705.1576946-1-masahiroy@kernel.org>
+Subject: [PATCH 02/15] modpost: remove unnecessary check in do_acpi_entry()
+Date: Wed, 20 Nov 2024 08:56:40 +0900
+Message-ID: <20241119235705.1576946-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241119235705.1576946-1-masahiroy@kernel.org>
+References: <20241119235705.1576946-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This function contains multiple bugs after the following commits:
+The 'id' pointer is never NULL since it has the same address as
+'symval'.
 
- - ac551828993e ("modpost: i2c aliases need no trailing wildcard")
- - 6543becf26ff ("mod/file2alias: make modalias generation safe for cross compiling")
+Also, checking (*id)[0] is simpler than calling strlen().
 
-Commit ac551828993e inserted the following code to do_eisa_entry():
-
-    else
-            strcat(alias, "*");
-
-This is incorrect because 'alias' is uninitialized. If it is not
-NULL-terminated, strcat() could cause a buffer overrun.
-
-Even if 'alias' happens to be zero-filled, it would output:
-
-    MODULE_ALIAS("*");
-
-This would match anything. As a result, the module could be loaded by
-any unrelated uevent from an unrelated subsystem.
-
-Commit ac551828993e introduced another bug.            
-
-Prior to that commit, the conditional check was:
-
-    if (eisa->sig[0])
-
-This checked if the first character of eisa_device_id::sig was not '\0'.
-
-However, commit ac551828993e changed it as follows:
-
-    if (sig[0])
-
-sig[0] is NOT the first character of the eisa_device_id::sig. The
-type of 'sig' is 'char (*)[8]', meaning that the type of 'sig[0]' is
-'char [8]' instead of 'char'. 'sig[0]' and 'symval' refer to the same
-address, which never becomes NULL.
-
-The correct conversion would have been:
-
-    if ((*sig)[0])
-
-However, this if-conditional was meaningless because the earlier change
-in commit ac551828993e was incorrect.
-
-This commit removes the entire incorrect code, which should never have
-been executed.
-
-Fixes: ac551828993e ("modpost: i2c aliases need no trailing wildcard")
-Fixes: 6543becf26ff ("mod/file2alias: make modalias generation safe for cross compiling")
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/mod/file2alias.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ scripts/mod/file2alias.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index c4cc11aa558f..634e40748287 100644
+index 634e40748287..34678ed40fdb 100644
 --- a/scripts/mod/file2alias.c
 +++ b/scripts/mod/file2alias.c
-@@ -809,10 +809,7 @@ static int do_eisa_entry(const char *filename, void *symval,
- 		char *alias)
- {
- 	DEF_FIELD_ADDR(symval, eisa_device_id, sig);
--	if (sig[0])
--		sprintf(alias, EISA_DEVICE_MODALIAS_FMT "*", *sig);
--	else
--		strcat(alias, "*");
-+	sprintf(alias, EISA_DEVICE_MODALIAS_FMT "*", *sig);
- 	return 1;
- }
+@@ -570,7 +570,7 @@ static int do_acpi_entry(const char *filename,
+ 	DEF_FIELD(symval, acpi_device_id, cls);
+ 	DEF_FIELD(symval, acpi_device_id, cls_msk);
  
+-	if (id && strlen((const char *)*id))
++	if ((*id)[0])
+ 		sprintf(alias, "acpi*:%s:*", *id);
+ 	else {
+ 		int i, byte_shift, cnt = 0;
 -- 
 2.43.0
 
