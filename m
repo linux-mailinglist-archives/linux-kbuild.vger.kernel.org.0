@@ -1,55 +1,55 @@
-Return-Path: <linux-kbuild+bounces-4735-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4736-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B1B9D3121
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 00:57:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321DA9D3123
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 00:57:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A76FBB237E2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 23:57:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC207283F17
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 23:57:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBABF1D5ADC;
-	Tue, 19 Nov 2024 23:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F00E1D63F9;
+	Tue, 19 Nov 2024 23:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdRv1Hbs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4CTNl0F"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939061C3F0E;
-	Tue, 19 Nov 2024 23:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3814E1D63DC;
+	Tue, 19 Nov 2024 23:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732060634; cv=none; b=ahoD9WWWiADx7cuM/My8y4dju9f5GtuUF8KrHCHvILe4KqtYRrN+aOVfT5ldymufteL4UjX2/uVZtJYTyLQU0eaxRXYv+wRWfd8met6jUPHH5qvRj2Rb7DJtrX9QlpgA3l+++O4QGvKPVclWEzoAvLfEuS0Gj317amkBAU348N0=
+	t=1732060636; cv=none; b=caqhqER5zfnscF2WG/wvJu1kJVAgKl9YnvAYr7/eHj9gvPBWimKuSTaCgF6yq3H2oFue+baAPKj4fHasRzIHr+1m6GO/N5hgC6ldzAn3066x6GOKxCXd+vq2k5Srv8Z7B6jUr1qWybYdiYh5YsX6KwehygUJgFa/X9rP1qNI4e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732060634; c=relaxed/simple;
-	bh=2UnqRtwSNUQVvRRAsV3In/KKTU4A0cy2kJZVKTbg/e4=;
+	s=arc-20240116; t=1732060636; c=relaxed/simple;
+	bh=u4fS+Yv9JFSpTJA04EkNljxO4hQ1JH5HbXri/53dB5g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MQYis1wlX2qFSdXMXNIzw6AqJ4A/rHQIv7Qhk2Qao9VOcWIb/yau2VR7EsdBQmHpwn1C9q8Z+xPdqtcJKtwSXQnH0U0iID/oVx5W6rXTseTVJ+SV/0PV3zIk1i0JPaCPgrbx25+KydNkG7liK7OkZX8TnfgPx75Pk24BP/QbKHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdRv1Hbs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3509AC4CED1;
-	Tue, 19 Nov 2024 23:57:13 +0000 (UTC)
+	 MIME-Version; b=ExULH0zQhc9jjyGkbMB0Qn9fhEATpIUqf0IxF3YcJbiRbfOw8uh9NTmOsG+5r4R0fUuYrKxcs6CyV7dYdIVRgC/XLu3L+xAgSYfnhjVvFsoMqOc95cEcgW7vHcv9OwS7Q2mSnSGGV9PivJAOJU4w9LhUulO7dxk+3HS0OM2QuyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4CTNl0F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9868AC4CECF;
+	Tue, 19 Nov 2024 23:57:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732060634;
-	bh=2UnqRtwSNUQVvRRAsV3In/KKTU4A0cy2kJZVKTbg/e4=;
+	s=k20201202; t=1732060635;
+	bh=u4fS+Yv9JFSpTJA04EkNljxO4hQ1JH5HbXri/53dB5g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SdRv1HbsHnCLmZLyMt1ucmJKBL5s+d0Dl2YG9QiaTtXB7GtJpdj5t4kPZUYnlpxVp
-	 x50cdyQV435wYRyTIfXDE0fcFa8/IPWv2LhvesvjzfI6OSlJFX27SIDUmyh2xEZT9w
-	 0MFBpebuZssiiNvZf3d6L33wCDtJqSgT7GbJptOgBXidRvSURL56WmyWb+KsTUpEzS
-	 OD9xsXwTkHu94iXaDP51pJp7XMMkDTJFFFIZJXNnyQSYvtuAzlOEo+VuVLFOFOH6YE
-	 Vy/dT6ITcsGyWYV/JeGktUNljPSq04Men/FCGLkz7WL0Iize4K1w2YsGJSY+Fgbe3I
-	 ugQJDtuaggg9w==
+	b=j4CTNl0FfMl5CTH1m8bkHPCuwDwv2PXVuq4ncY0hz9V0sVpj07OLwVXYYM9SWebXJ
+	 BFkOK8NytWcakbeFxnrquNT/xS+K5F+7Vje6VIlFIg3gtdnZea30RYiuOl7oFZAh51
+	 vN2o8Y6rxmTgpeuhVOvSkXSwJfHvfwHdoZPGyx9y37AziKlaZYek3CjDjybSwvYDt6
+	 o9MWoMaCfj+Sir35ygtyYWe78KM0RCXrHa+rMwCxwcIPoijOdA9JDsgkOfrd5+kP0T
+	 bFB1w3HmycXGv+ZwexEfjdV5tK77h+VaUwRHrR5HVrFYbgfzzArGd2+8HdM1GFT3DG
+	 sodWTyFRH/Eng==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 03/15] modpost: introduce module_alias_printf() helper
-Date: Wed, 20 Nov 2024 08:56:41 +0900
-Message-ID: <20241119235705.1576946-3-masahiroy@kernel.org>
+Subject: [PATCH 04/15] modpost: deduplicate MODULE_ALIAS() for all drivers
+Date: Wed, 20 Nov 2024 08:56:42 +0900
+Message-ID: <20241119235705.1576946-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241119235705.1576946-1-masahiroy@kernel.org>
 References: <20241119235705.1576946-1-masahiroy@kernel.org>
@@ -61,267 +61,122 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The generic ->do_entry() handler is currently limited to returning
-a single alias string.
+MODULE_DEVICE_TABLE(pnp_card, ...) may have duplicated IDs. For
+instance, snd_ad1816a_pnpids[] in sound/isa/ad1816a/ad1816a.c includes
+multiple occurrences of the "ADS7180" string within its .devs fields.
 
-However, this is not flexible enough for several subsystems, which
-currently require their own implementations:
+Currently, do_pnp_card_entries() handles deduplication on its own, but
+this logic should be moved to a common helper function, as drivers in
+other subsystems might also have similar duplication issues.
 
- - do_usb_table()
- - do_of_table()
- - do_pnp_device_entry()
- - do_pnp_card_entries()
+For example, drivers/media/i2c/s5c73m3/s5c73m3.mod.c contains duplicated
+MODULE_ALIAS() entries because both s5c73m3-core.c and s5c73m3-spi.c
+define the same compatible string.
 
-This commit introduces a helper function so that these special cases can
-add multiple MODULE_ALIAS() and then migrate to the generic framework.
+This commit eliminates redundant MODULE_ALIAS() entries across all
+drivers.
+
+[Before]
+
+  $ grep MODULE_ALIAS drivers/media/i2c/s5c73m3/s5c73m3.mod.c
+  MODULE_ALIAS("i2c:S5C73M3");
+  MODULE_ALIAS("of:N*T*Csamsung,s5c73m3");
+  MODULE_ALIAS("of:N*T*Csamsung,s5c73m3C*");
+  MODULE_ALIAS("of:N*T*Csamsung,s5c73m3");
+  MODULE_ALIAS("of:N*T*Csamsung,s5c73m3C*");
+
+[After]
+
+  $ grep MODULE_ALIAS drivers/media/i2c/s5c73m3/s5c73m3.mod.c
+  MODULE_ALIAS("i2c:S5C73M3");
+  MODULE_ALIAS("of:N*T*Csamsung,s5c73m3");
+  MODULE_ALIAS("of:N*T*Csamsung,s5c73m3C*");
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/mod/file2alias.c | 89 +++++++++++++++++++++++++++++-----------
- scripts/mod/modpost.c    | 11 ++++-
- scripts/mod/modpost.h    | 19 ++++++++-
- 3 files changed, 91 insertions(+), 28 deletions(-)
+ scripts/mod/file2alias.c | 48 +++++++++++++---------------------------
+ 1 file changed, 15 insertions(+), 33 deletions(-)
 
 diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 34678ed40fdb..e31619cee05e 100644
+index e31619cee05e..57bd4e8da8d5 100644
 --- a/scripts/mod/file2alias.c
 +++ b/scripts/mod/file2alias.c
-@@ -10,6 +10,12 @@
-  * of the GNU General Public License, incorporated herein by reference.
-  */
- 
-+#include <stdarg.h>
-+#include <stdio.h>
-+
-+#include "list.h"
-+#include "xalloc.h"
-+
- #include "modpost.h"
- #include "devicetable-offsets.h"
- 
-@@ -31,6 +37,56 @@ typedef Elf64_Addr	kernel_ulong_t;
- #include <ctype.h>
- #include <stdbool.h>
- 
-+/**
-+ * module_alias_printf - add auto-generated MODULE_ALIAS()
-+ *
-+ * @mod: module
-+ * @append_wildcard: append '*' for future extension if not exist yet
-+ * @fmt: printf(3)-like format
-+ */
-+static void __attribute__((format (printf, 3, 4)))
-+module_alias_printf(struct module *mod, bool append_wildcard,
-+		    const char *fmt, ...)
-+{
-+	struct module_alias *new;
-+	size_t len, n;
-+	va_list ap;
-+
-+	/* Determine required size. */
-+	va_start(ap, fmt);
-+	n = vsnprintf(NULL, 0, fmt, ap);
-+	va_end(ap);
-+
-+	if (n < 0) {
-+		error("vsnprintf failed\n");
-+		return;
-+	}
-+
-+	len = n + 1;	/* extra byte for '\0' */
-+
-+	if (append_wildcard)
-+		len++;	/* extra byte for '*' */
-+
-+	new = xmalloc(sizeof(*new) + len);
-+
-+	/* Now, really print it to the allocated buffer */
-+	va_start(ap, fmt);
-+	n = vsnprintf(new->str, len, fmt, ap);
-+	va_end(ap);
-+
-+	if (n < 0) {
-+		error("vsnprintf failed\n");
-+		return;
-+	}
-+
-+	if (append_wildcard && (n == 0 || new->str[n - 1] != '*')) {
-+		new->str[n] = '*';
-+		new->str[n + 1] = '\0';
-+	}
-+
-+	list_add_tail(&new->node, &mod->aliases);
-+}
-+
- typedef uint32_t	__u32;
- typedef uint16_t	__u16;
- typedef unsigned char	__u8;
-@@ -229,9 +285,7 @@ static void do_usb_entry(void *symval,
- 	ADD(alias, "in", match_flags&USB_DEVICE_ID_MATCH_INT_NUMBER,
- 	    bInterfaceNumber);
- 
--	add_wildcard(alias);
--	buf_printf(&mod->dev_table_buf,
--		   "MODULE_ALIAS(\"%s\");\n", alias);
-+	module_alias_printf(mod, true, "%s", alias);
- }
- 
- /* Handles increment/decrement of BCD formatted integers */
-@@ -375,10 +429,8 @@ static void do_of_entry_multi(void *symval, struct module *mod)
- 		if (isspace(*tmp))
- 			*tmp = '_';
- 
--	buf_printf(&mod->dev_table_buf, "MODULE_ALIAS(\"%s\");\n", alias);
--	strcat(alias, "C");
--	add_wildcard(alias);
--	buf_printf(&mod->dev_table_buf, "MODULE_ALIAS(\"%s\");\n", alias);
-+	module_alias_printf(mod, false, "%s", alias);
-+	module_alias_printf(mod, false, "%sC*", alias);
- }
- 
- static void do_of_table(void *symval, unsigned long size,
-@@ -608,14 +660,12 @@ static void do_pnp_device_entry(void *symval, unsigned long size,
- 		char acpi_id[sizeof(*id)];
- 		int j;
- 
--		buf_printf(&mod->dev_table_buf,
--			   "MODULE_ALIAS(\"pnp:d%s*\");\n", *id);
-+		module_alias_printf(mod, false, "pnp:d%s*", *id);
- 
- 		/* fix broken pnp bus lowercasing */
- 		for (j = 0; j < sizeof(acpi_id); j++)
- 			acpi_id[j] = toupper((*id)[j]);
--		buf_printf(&mod->dev_table_buf,
--			   "MODULE_ALIAS(\"acpi*:%s:*\");\n", acpi_id);
-+		module_alias_printf(mod, false, "acpi*:%s:*", acpi_id);
- 	}
- }
- 
-@@ -666,14 +716,12 @@ static void do_pnp_card_entries(void *symval, unsigned long size,
- 				char acpi_id[PNP_ID_LEN];
- 				int k;
- 
--				buf_printf(&mod->dev_table_buf,
--					   "MODULE_ALIAS(\"pnp:d%s*\");\n", id);
-+				module_alias_printf(mod, false, "pnp:d%s*", id);
- 
- 				/* fix broken pnp bus lowercasing */
- 				for (k = 0; k < sizeof(acpi_id); k++)
- 					acpi_id[k] = toupper(id[k]);
--				buf_printf(&mod->dev_table_buf,
--					   "MODULE_ALIAS(\"acpi*:%s:*\");\n", acpi_id);
-+				module_alias_printf(mod, false, "acpi*:%s:*", acpi_id);
- 			}
- 		}
- 	}
-@@ -1534,8 +1582,7 @@ static void do_table(void *symval, unsigned long size,
- 
- 	for (i = 0; i < size; i += id_size) {
- 		if (do_entry(mod->name, symval+i, alias)) {
--			buf_printf(&mod->dev_table_buf,
--				   "MODULE_ALIAS(\"%s\");\n", alias);
-+			module_alias_printf(mod, false, "%s", alias);
- 		}
- 	}
- }
-@@ -1660,11 +1707,3 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
- 	}
- 	free(zeros);
- }
--
--/* Now add out buffered information to the generated C source */
--void add_moddevtable(struct buffer *buf, struct module *mod)
--{
--	buf_printf(buf, "\n");
--	buf_write(buf, mod->dev_table_buf.p, mod->dev_table_buf.pos);
--	free(mod->dev_table_buf.p);
--}
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 107393a8c48a..1948d69ce2b9 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -176,6 +176,7 @@ static struct module *new_module(const char *name, size_t namelen)
- 	INIT_LIST_HEAD(&mod->unresolved_symbols);
- 	INIT_LIST_HEAD(&mod->missing_namespaces);
- 	INIT_LIST_HEAD(&mod->imported_namespaces);
-+	INIT_LIST_HEAD(&mod->aliases);
- 
- 	memcpy(mod->name, name, namelen);
- 	mod->name[namelen] = '\0';
-@@ -1966,6 +1967,7 @@ static void write_vmlinux_export_c_file(struct module *mod)
- static void write_mod_c_file(struct module *mod)
+@@ -48,7 +48,7 @@ static void __attribute__((format (printf, 3, 4)))
+ module_alias_printf(struct module *mod, bool append_wildcard,
+ 		    const char *fmt, ...)
  {
- 	struct buffer buf = { };
-+	struct module_alias *alias, *next;
- 	char fname[PATH_MAX];
- 	int ret;
+-	struct module_alias *new;
++	struct module_alias *new, *als;
+ 	size_t len, n;
+ 	va_list ap;
  
-@@ -1973,7 +1975,14 @@ static void write_mod_c_file(struct module *mod)
- 	add_exported_symbols(&buf, mod);
- 	add_versions(&buf, mod);
- 	add_depends(&buf, mod);
--	add_moddevtable(&buf, mod);
-+
-+	buf_printf(&buf, "\n");
-+	list_for_each_entry_safe(alias, next, &mod->aliases, node) {
-+		buf_printf(&buf, "MODULE_ALIAS(\"%s\");\n", alias->str);
-+		list_del(&alias->node);
-+		free(alias);
+@@ -84,6 +84,14 @@ module_alias_printf(struct module *mod, bool append_wildcard,
+ 		new->str[n + 1] = '\0';
+ 	}
+ 
++	/* avoid duplication */
++	list_for_each_entry(als, &mod->aliases, node) {
++		if (!strcmp(als->str, new->str)) {
++			free(new);
++			return;
++		}
 +	}
 +
- 	add_srcversion(&buf, mod);
+ 	list_add_tail(&new->node, &mod->aliases);
+ }
  
- 	ret = snprintf(fname, sizeof(fname), "%s.mod.c", mod->name);
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index ada3a36cc4bc..52efe0026b34 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -79,6 +79,22 @@ buf_printf(struct buffer *buf, const char *fmt, ...);
- void
- buf_write(struct buffer *buf, const char *s, int len);
+@@ -685,44 +693,18 @@ static void do_pnp_card_entries(void *symval, unsigned long size,
  
-+/**
-+ * struct module_alias - auto-generated MODULE_ALIAS()
-+ *
-+ * @node: linked to module::aliases
-+ * @str: a string for MODULE_ALIAS()
-+ */
-+struct module_alias {
-+	struct list_head node;
-+	char str[];
-+};
-+
-+/**
-+ * struct module - represent a module (vmlinux or *.ko)
-+ *
-+ * @aliases: list head for module_aliases
-+ */
- struct module {
- 	struct list_head list;
- 	struct list_head exported_symbols;
-@@ -89,12 +105,12 @@ struct module {
- 	bool seen;
- 	bool has_init;
- 	bool has_cleanup;
--	struct buffer dev_table_buf;
- 	char	     srcversion[25];
- 	// Missing namespace dependencies
- 	struct list_head missing_namespaces;
- 	// Actual imported namespaces
- 	struct list_head imported_namespaces;
-+	struct list_head aliases;
- 	char name[];
- };
+ 		for (j = 0; j < PNP_MAX_DEVICES; j++) {
+ 			const char *id = (char *)(*devs)[j].id;
+-			int i2, j2;
+-			int dup = 0;
++			char acpi_id[PNP_ID_LEN];
  
-@@ -170,7 +186,6 @@ Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
- /* file2alias.c */
- void handle_moddevtable(struct module *mod, struct elf_info *info,
- 			Elf_Sym *sym, const char *symname);
--void add_moddevtable(struct buffer *buf, struct module *mod);
+ 			if (!id[0])
+ 				break;
  
- /* sumversion.c */
- void get_src_version(const char *modname, char sum[], unsigned sumlen);
+-			/* find duplicate, already added value */
+-			for (i2 = 0; i2 < i && !dup; i2++) {
+-				DEF_FIELD_ADDR_VAR(symval + i2 * id_size,
+-						   pnp_card_device_id,
+-						   devs, devs_dup);
+-
+-				for (j2 = 0; j2 < PNP_MAX_DEVICES; j2++) {
+-					const char *id2 =
+-						(char *)(*devs_dup)[j2].id;
+-
+-					if (!id2[0])
+-						break;
+-
+-					if (!strcmp(id, id2)) {
+-						dup = 1;
+-						break;
+-					}
+-				}
+-			}
+-
+ 			/* add an individual alias for every device entry */
+-			if (!dup) {
+-				char acpi_id[PNP_ID_LEN];
+-				int k;
++			module_alias_printf(mod, false, "pnp:d%s*", id);
+ 
+-				module_alias_printf(mod, false, "pnp:d%s*", id);
+-
+-				/* fix broken pnp bus lowercasing */
+-				for (k = 0; k < sizeof(acpi_id); k++)
+-					acpi_id[k] = toupper(id[k]);
+-				module_alias_printf(mod, false, "acpi*:%s:*", acpi_id);
+-			}
++			/* fix broken pnp bus lowercasing */
++			for (int k = 0; k < sizeof(acpi_id); k++)
++				acpi_id[k] = toupper(id[k]);
++			module_alias_printf(mod, false, "acpi*:%s:*", acpi_id);
+ 		}
+ 	}
+ }
 -- 
 2.43.0
 
