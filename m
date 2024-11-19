@@ -1,123 +1,166 @@
-Return-Path: <linux-kbuild+bounces-4728-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4729-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7884C9D27EE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 15:18:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAD79D2CED
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 18:48:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31BFD1F26A0E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 14:18:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1AF33B22C0E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 17:28:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D3041CCB47;
-	Tue, 19 Nov 2024 14:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5775F1CEAAA;
+	Tue, 19 Nov 2024 17:23:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qKHJuYQt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eIuWoD5L"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E724C22067;
-	Tue, 19 Nov 2024 14:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3D41D1E7C;
+	Tue, 19 Nov 2024 17:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732025892; cv=none; b=FQ+a+jVeWMf8AiEzJmKoqlW7BuSn3yFOzkXcEnADqE12++7F63Uic6OYyQQfjYyE0tAIY6X1AbV6eM/Ar1PGQ9tJ6Gg8ZOONTD7vz+CH6nhliwb9ql2g5fUThMd/HvN7RmCsm90ffug9rIKnyqFtJ0A8IFhnflBWUEKc7DnxFjs=
+	t=1732036996; cv=none; b=eIOmgsXY80kTsl80+veNrRwdFhduPt5MjNs95tJNBDUt+Wv0jTtvbQMTY2bdn+dR7xQMtVH3TnebSmgYa+ezCgPs3qd/dsa8FoRROXi5XKe3QV04RQyzlqKKukLIwZbt7LDAlYjQY5ISwPsueIPf58dt9jqvMdr1AyNI4eeLl3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732025892; c=relaxed/simple;
-	bh=mJzC5a4daWwZ8YlClCAB1o6tEvWR2J0Qw7lYayToIhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ENYS822T2DwmH5zQKDkAEVRRRRor8C29/POKj+AS2wcaNjocw2xgKU+7RQGQbskVcs1LWjP88jn6kYrMr85xpj7EuFC93phco2LoHTtGjMmDLf8s7yLDvaEII3tvOGpmPyX7NuLKGvF/qUaBCgMjRbMn7qR6YALS/hD7o0SQml4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qKHJuYQt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746A4C4CECF;
-	Tue, 19 Nov 2024 14:18:11 +0000 (UTC)
+	s=arc-20240116; t=1732036996; c=relaxed/simple;
+	bh=Qm0DmK2/otYLi9MxrhjrpcdK31lIw8QIKSWNGb9beUk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aquuTTd5bcDub+4zM64zPGb2wmQAmB3YCIKB8FohyfAxRaEjdaCpXBzR5X53oreOhwNAMTT3PB8RFCXhZI602SDrYYEvxkfz0t/7uCrUhOvHsxNHfp7K9fB3oOOQIsoW63h2RJgVMXqBTakHgLOfICunVa5qckYyfWb1hLr6lw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eIuWoD5L; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEBE9C4AF0B;
+	Tue, 19 Nov 2024 17:23:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732025891;
-	bh=mJzC5a4daWwZ8YlClCAB1o6tEvWR2J0Qw7lYayToIhk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qKHJuYQtJsCsQXYCy45OMr5zPFQNPD8h322uGOIxi0tF3m+t3g3MkQd8pvTCLHs+Y
-	 TI4eeNEH40RhQ4QdirKv+virVSd1t9zMqCtdhD+TFfRHCkhTj2w3XbUTam86nRSBsT
-	 dQ+bcqsZzbEvXTeZVCv8Vt/XhjP/N8X5tp+r1ZSfb7q0zodwvDr64EfQ/jl3s0BvkQ
-	 qxU4oxvagoUyuVbM5cpETU2G80TPJ7CY+0p1kOtj3EnkgM3+NPumiRD0gvrRGA+gbO
-	 tRo2qcvoAFBafXGbIQ8t1bkz9+OUkfkK7xp5RtpmXMQChlo9Emce6+B0AkVGHuGywE
-	 xoLSniFKlkKLw==
-Date: Tue, 19 Nov 2024 07:18:09 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Sam James <sam@gentoo.org>,
-	Kostadin Shishmanov <kostadinshishmanov@protonmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: Build failure with GCC 15 (-std=gnu23)
-Message-ID: <20241119141809.GA2196859@thelio-3990X>
-References: <4OAhbllK7x4QJGpZjkYjtBYNLd_2whHx9oFiuZcGwtVR4hIzvduultkgfAIRZI3vQpZylu7Gl929HaYFRGeMEalWCpeMzCIIhLxxRhq4U-Y=@protonmail.com>
- <20241118205629.GA15698@thelio-3990X>
- <8734joj5gn.fsf@gentoo.org>
- <20241119041550.GA573925@thelio-3990X>
- <10db3077-9409-446d-8e50-1a2a803db767@app.fastmail.com>
+	s=k20201202; t=1732036995;
+	bh=Qm0DmK2/otYLi9MxrhjrpcdK31lIw8QIKSWNGb9beUk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=eIuWoD5L7136bJMwU7c5sZ33v+E6KqgnJeHXYy+zz966g/7JBa0hWu/GVAk6WAaWQ
+	 cCZQGLYxdgJ/GrPDX2UV4/QNHZB9PFQvtyYtmNtYlgqHk92h5Kuw08GcWDc69GkxSF
+	 L4FgyVxThiHR0IT+bT92eP3NfCUpxSnH23c+yVm7Zi9A//kMsaWPEr95tUx2m3KF33
+	 Bws1Gylv0t0gnmXeWZ//RSeJfdj64mBNspxmqa6lnW7x6hvM8TjqTAdMEZHgdVj2ik
+	 6NIyQi9RbCK6B+rW9cf01BvB/OB8QzMSqIIKRNRiQl3zvaGluYJT9vHoyklFez191J
+	 vz1kUc22qu1dg==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53da4fd084dso8991e87.0;
+        Tue, 19 Nov 2024 09:23:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXzY/OCFrsF/EPe5w6+RSZnT9qveocw8DoJUvnc4jQF3V04YHyWeseaC4YyY3VigCV6Cmp/DMJddvxQs5k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfSrtUBcHdKGGVRiNR6NavZyESAWTATlHTMDpJnVMDudbcYP4W
+	rL+5pixr7ouGIbCsOyDbwhqOcxxExVwXJz/FHVt5VtnGEdbjAdjOOYLfvFhJFELJiN2tufOU546
+	yMYhQOxcFkH5z0HQLavSF04wUY3o=
+X-Google-Smtp-Source: AGHT+IGA+YLkeMShimZMSDu/qFLnamzCmzyQPjXpN2lqr61+otjjHTJg4RVNE1aYBIZLqUKZpL2FbOhLSZWLZs0u1os=
+X-Received: by 2002:a05:6512:110e:b0:539:e88f:2396 with SMTP id
+ 2adb3069b0e04-53dc0d8722bmr46626e87.24.1732036994424; Tue, 19 Nov 2024
+ 09:23:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10db3077-9409-446d-8e50-1a2a803db767@app.fastmail.com>
+References: <20241113234526.402738-1-masahiroy@kernel.org> <20241113234526.402738-3-masahiroy@kernel.org>
+ <20241119022730.GA2908286@thelio-3990X>
+In-Reply-To: <20241119022730.GA2908286@thelio-3990X>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 20 Nov 2024 02:22:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATpu5zYwx7kmaknsPGLXt8n8uCXyFpdi5vZeFZiBxYkGw@mail.gmail.com>
+Message-ID: <CAK7LNATpu5zYwx7kmaknsPGLXt8n8uCXyFpdi5vZeFZiBxYkGw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kbuild: enable objtool for *.mod.o and additional
+ kernel objects
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>, 
+	Borislav Petkov <bp@alien8.de>, Nikolay Borisov <nik.borisov@suse.com>, Marco Elver <elver@google.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000cb0cb5062747496d"
 
-On Tue, Nov 19, 2024 at 07:53:37AM +0100, Arnd Bergmann wrote:
-> On Tue, Nov 19, 2024, at 05:15, Nathan Chancellor wrote:
-> > On Tue, Nov 19, 2024 at 02:57:28AM +0000, Sam James wrote:
-> >> 
-> >> -std=gnu11 certainly isn't there.
+--000000000000cb0cb5062747496d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Nov 19, 2024 at 11:27=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> Hi Masahiro,
+>
+> On Thu, Nov 14, 2024 at 08:45:22AM +0900, Masahiro Yamada wrote:
+> > Currently, objtool is disabled in scripts/Makefile.{modfinal,vmlinux}.
 > >
-> > Ugh, this is because drivers/firmware/efi/libstub does not use
-> > KBUILD_CFLAGS from the rest of the kernel when targeting x86:
+> > This commit moves rule_cc_o_c and rule_as_o_S to scripts/Makefile.lib
+> > and set objtool-enabled to y there.
 > >
-> > $ sed -n '9,21p' drivers/firmware/efi/libstub/Makefile
-> > # non-x86 reuses KBUILD_CFLAGS, x86 does not
-> > cflags-y                        := $(KBUILD_CFLAGS)
+> > With this change, *.mod.o, .module-common.o,  builtin-dtb.o, and
+> > vmlinux.export.o will now be covered by objtool.
 > >
-> > cflags-$(CONFIG_X86_32)         := -march=i386
-> > cflags-$(CONFIG_X86_64)         := -mcmodel=small
-> > cflags-$(CONFIG_X86)            += -m$(BITS) -D__KERNEL__ \
-> >                                    -fPIC -fno-strict-aliasing 
-> > -mno-red-zone \
-> >                                    -mno-mmx -mno-sse -fshort-wchar \
-> >                                    -Wno-pointer-sign \
-> >                                    $(call cc-disable-warning, 
-> > address-of-packed-member) \
-> >                                    $(call cc-disable-warning, gnu) \
-> >                                    -fno-asynchronous-unwind-tables \
-> >                                    $(CLANG_FLAGS)
-> >
-> > This isn't the first time this peculiarity has bitten us :/ sticking
-> > '-std=gnu11' in there should resolve that issue.
-> 
-> Could we revisit the decision to make x86 special here and
-> change it to use a modified KBUILD_CFLAGS like the other ones?
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> I am seeing some build failures when LTO is enabled with this change in
+> -next as commit d8d3f6c6690c ("kbuild: enable objtool for *.mod.o and
+> additional kernel objects").
+>
+>   $ printf 'CONFIG_LTO_%s\n' NONE=3Dn CLANG_THIN=3Dy >kernel/configs/thin=
+lto.config
+>
+>   $ make -skj"$(nproc)" ARCH=3Dx86_64 LLVM=3D1 mrproper {def,thinlto.}con=
+fig all
+>   ...
+>   .vmlinux.export.o: warning: objtool: gelf_getehdr: invalid `Elf' handle
+>   make[4]: *** [scripts/Makefile.vmlinux:13: .vmlinux.export.o] Error 1
+>   ...
+>
+> When LTO is enabled, these files are LLVM bitcode, not ELF, so objtool
+> can't process them:
+>
+>   $ file .vmlinux.export.o
+>   .vmlinux.export.o: LLVM IR bitcode
 
-I am sure that we could have a discussion with Ard and the x86 folks
-about it to see what flags need to be filtered and such but we will
-still need something like I suggested in other areas of the kernel,
-since this is not the only place where KBUILD_CFLAGS gets blown away.
+Good catch!
 
-> > arch/x86/boot/compressed/Makefile might need the same treatment. It
-> > might make sense to introduce something like 'CSTD_FLAG := -std=gnu11'
-> > then use that in the various places within the kernel that need it so it
-> > can be consistently updated in the future whenever needed. I see that
-> > flag in Makefile, arch/arm64/kernel/vdso32/Makefile, and
-> > arch/x86/Makefile.
-> 
-> I actually have a patch to make the entire kernel use -std=gnu2x,
-> but I never sent that because that requires gcc-9 or higher, and
-> has no real upsides: the main difference is the handling of 'bool'
-> types, and the std=gnu1x variant is simpler here because it avoids
-> using the compiler-provided "stdbool.h".
+I will squash the attached diff.
 
-Ah, that's what I thought the conclusion was but I could not remember
-exactly.
+Thank you.
 
-Cheers,
-Nathan
+
+--
+Best Regards
+Masahiro Yamada
+
+--000000000000cb0cb5062747496d
+Content-Type: application/x-patch; name="0001-fixup.patch"
+Content-Disposition: attachment; filename="0001-fixup.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_m3oq2dwa0>
+X-Attachment-Id: f_m3oq2dwa0
+
+RnJvbSA2Njc0NjQ4MTRjZGQ3Y2Q0ZjYyNjk5YmUyZjdlNTg3MTU1N2FmMWZlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3Jn
+PgpEYXRlOiBUdWUsIDE5IE5vdiAyMDI0IDE3OjI5OjQyICswOTAwClN1YmplY3Q6IFtQQVRDSF0g
+Zml4dXAKClNpZ25lZC1vZmYtYnk6IE1hc2FoaXJvIFlhbWFkYSA8bWFzYWhpcm95QGtlcm5lbC5v
+cmc+Ci0tLQogc2NyaXB0cy9NYWtlZmlsZS5idWlsZCB8IDYgKy0tLS0tCiBzY3JpcHRzL01ha2Vm
+aWxlLmxpYiAgIHwgOSArKysrKysrKy0KIDIgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCsp
+LCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQgYi9z
+Y3JpcHRzL01ha2VmaWxlLmJ1aWxkCmluZGV4IDI1MzhhOTI1ZTA0Yy4uNDE2NDliOGE2NjMxIDEw
+MDY0NAotLS0gYS9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkCisrKyBiL3NjcmlwdHMvTWFrZWZpbGUu
+YnVpbGQKQEAgLTEyOSwxMSArMTI5LDcgQEAgJChvYmopLyUubGw6ICQob2JqKS8lLmMgRk9SQ0UK
+IAogaXMtc2luZ2xlLW9iai1tID0gJChhbmQgJChwYXJ0LW9mLW1vZHVsZSksJChmaWx0ZXIgJEAs
+ICQob2JqLW0pKSx5KQogCi0jIFdoZW4gYSBtb2R1bGUgY29uc2lzdHMgb2YgYSBzaW5nbGUgb2Jq
+ZWN0LCB0aGVyZSBpcyBubyByZWFzb24gdG8ga2VlcCBMTFZNIElSLgotIyBNYWtlICQoTEQpIGNv
+dmVydCBMTFZNIElSIHRvIEVMRiBoZXJlLgotaWZkZWYgQ09ORklHX0xUT19DTEFORwotY21kX2xk
+X3NpbmdsZV9tID0gJChpZiAkKGlzLXNpbmdsZS1vYmotbSksIDsgJChMRCkgJChsZF9mbGFncykg
+LXIgLW8gJCh0bXAtdGFyZ2V0KSAkQDsgbXYgJCh0bXAtdGFyZ2V0KSAkQCkKLWVuZGlmCituZWVk
+LWxkLXNpbmdsZSA9ICQoaXMtc2luZ2xlLW9iai1tKQogCiBpZmRlZiBDT05GSUdfTU9EVkVSU0lP
+TlMKICMgV2hlbiBtb2R1bGUgdmVyc2lvbmluZyBpcyBlbmFibGVkIHRoZSBmb2xsb3dpbmcgc3Rl
+cHMgYXJlIGV4ZWN1dGVkOgpkaWZmIC0tZ2l0IGEvc2NyaXB0cy9NYWtlZmlsZS5saWIgYi9zY3Jp
+cHRzL01ha2VmaWxlLmxpYgppbmRleCBhZDZiOGRmYTU1MzAuLjdhYzY1NDE0Njk5YyAxMDA2NDQK
+LS0tIGEvc2NyaXB0cy9NYWtlZmlsZS5saWIKKysrIGIvc2NyaXB0cy9NYWtlZmlsZS5saWIKQEAg
+LTMwMywxMCArMzAzLDE3IEBAIGVuZGVmCiAjIFRoZXNlIGFyZSBzaGFyZWQgYnkgc29tZSBNYWtl
+ZmlsZS4qIGZpbGVzLgogCiBvYmp0b29sLWVuYWJsZWQgOj0geQorbmVlZC1sZC1zaW5nbGUgOj0g
+eQorCisjIFdoZW4gYSBtb2R1bGUgY29uc2lzdHMgb2YgYSBzaW5nbGUgb2JqZWN0LCB0aGVyZSBp
+cyBubyByZWFzb24gdG8ga2VlcCBMTFZNIElSLgorIyBNYWtlICQoTEQpIGNvdmVydCBMTFZNIElS
+IHRvIEVMRiBoZXJlLgoraWZkZWYgQ09ORklHX0xUT19DTEFORworY21kX2xkX3NpbmdsZSA9ICQo
+aWYgJChuZWVkLWxkLXNpbmdsZSksIDsgJChMRCkgJChsZF9mbGFncykgLXIgLW8gJCh0bXAtdGFy
+Z2V0KSAkQDsgbXYgJCh0bXAtdGFyZ2V0KSAkQCkKK2VuZGlmCiAKIHF1aWV0X2NtZF9jY19vX2Mg
+PSBDQyAkKHF1aWV0X21vZHRhZykgICRACiAgICAgICBjbWRfY2Nfb19jID0gJChDQykgJChjX2Zs
+YWdzKSAtYyAtbyAkQCAkPCBcCi0JCSQoY21kX2xkX3NpbmdsZV9tKSBcCisJCSQoY21kX2xkX3Np
+bmdsZSkgXAogCQkkKGNtZF9vYmp0b29sKQogCiBkZWZpbmUgcnVsZV9jY19vX2MKLS0gCjIuNDMu
+MAoK
+--000000000000cb0cb5062747496d--
 
