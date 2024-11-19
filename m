@@ -1,200 +1,179 @@
-Return-Path: <linux-kbuild+bounces-4709-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4710-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE95C9D1BC8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 00:20:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C299D1C1D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 01:09:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 318CD283034
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2024 23:20:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6EA91F21F04
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 00:09:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 310EB194A53;
-	Mon, 18 Nov 2024 23:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09F6B211C;
+	Tue, 19 Nov 2024 00:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fWVhzMyU"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hWPkwO9I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08542147C71;
-	Mon, 18 Nov 2024 23:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A11A139B
+	for <linux-kbuild@vger.kernel.org>; Tue, 19 Nov 2024 00:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731972020; cv=none; b=MfE8JRUrFObTVwJmBWqMtbfhp/pYloNzUzI8+nHb57pgFI8iJX0sWq4wrVtvpQI3rVFkx2Z+VZALo/NbTYuFo6l4BQvpj/DJl/QjnBtvwyIbz8Vr8FgPAZKoEwcAi1UTeAk4hYTEqBfSUV/0duCPHJWPRM+F8LVSyoVy/f8IIsU=
+	t=1731974988; cv=none; b=Sgh0AVOM4mQZYCEK61rfeVJ6zXBY2N6virUzQ31oQPyU2SMHFdW9F1O9mhP3CPMbuj4gUIFwsYa29pN9qjAONLW9sVJC9Jmxll3PvZ61YrhcfQVlt5PF8mAt3VdwGkTlRbFmW2+aE882D+GTai/Xk8aTCm/A32jhOMEuf1xxcwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731972020; c=relaxed/simple;
-	bh=BaVw3kfXsoiSkf74HWaBs6gPJl6E8QZFBql0KydVi50=;
+	s=arc-20240116; t=1731974988; c=relaxed/simple;
+	bh=2joQyxA/A/Ix50bwDrphRLZe1ZN4vLdUciNkknx5Y1w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q/IdDQpUG9mkxAhysaafDfFHi3GUo/IuS2tj/R1i7lJANuFrS9eEE1QSOwjjhvtVCqIC/KGUiEoO2R0aj4IQiO2eWHI0BgXdsIHrQXVGnkikRFy52p5bC9Z0jjT+3+UUBYJkgdZLS1reh+tkwdy46lHcOU7Y/Aoof1xnGbq4LCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fWVhzMyU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8DCC4CED7;
-	Mon, 18 Nov 2024 23:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731972019;
-	bh=BaVw3kfXsoiSkf74HWaBs6gPJl6E8QZFBql0KydVi50=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fWVhzMyUDG9AqnkmCFYJLXAsQWCx4bZfg+T9FvpDERz+zkhCqa0SHzMrxUTOONGSR
-	 UP1jexdQqU2F1M1JVGgDOUi1m4H3fcOjLK+iABaln76ocTuFDsrlwC6wXUMD5eVc5S
-	 E4drNKBf6ozXI6N8ZM9MtoeBkWjtmj0fJ2Rx79Gcsn6lnDOgqNTMvuKN2pDXH6KCxv
-	 YXRqxhbAFoFvVMDy+Blr0+EUo2wMRxmjG1IpRBr//WoF8yrhDd14vVfVuBO+4LWA0o
-	 39nKrWdLjfsgbRE8466fkK5oXeRae9PNZLuA6ArB4BYRlSlcW7a0/PKwTrx6+BIdoM
-	 BDFU8ttgGM1bg==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53b34ed38easo362920e87.0;
-        Mon, 18 Nov 2024 15:20:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUtyEkdZyIxY2f9EsPuWf0yeodcgrLocE+h2G39iyp6LOmGSAZ8PtJRyV1keXJdUzbeVx8J6KF03GhidN0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVAr0ukIJWPQaacm4CR61cf6MmS80hosBwn4+LJZo09jAF5+ll
-	HIWG1zf3JirvSfqR49qah91AWxcYXwqEbvHDC0V0K0SBuCDB/kHFMuJ5cGzkjNdO21ZKZ2eXmmW
-	plDHiLQXE+WrTBDnVRHWY2UHGwBM=
-X-Google-Smtp-Source: AGHT+IG1fK7n0D0KSLQsBdJJ6+sYaXGVDS1vE2YI3gBWfE7pJTFggdp3rMlVZrE1iN2TN/x7DCTEy0VCpIkzXFhERF0=
-X-Received: by 2002:a05:6512:2389:b0:53b:1625:bcf8 with SMTP id
- 2adb3069b0e04-53dab2a71bcmr5925262e87.30.1731972018044; Mon, 18 Nov 2024
- 15:20:18 -0800 (PST)
+	 To:Cc:Content-Type; b=NZhrE4m1R284+nhWcEb9SZlqGl8njm1cXZELB4FkLn+u+RyWjuOTajMmAARDlAe2/NAyMXs4PyKFEOm4baOspJsiXaEApXc3eCq+pi+u2I/a8ndWE3P9EkrW3TZMM/TNCZZvQAeifliT69ol2ekHwKdLXB0wrGZblyxuVLlG+jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hWPkwO9I; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5cfc264b8b6so4093a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2024 16:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731974985; x=1732579785; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2joQyxA/A/Ix50bwDrphRLZe1ZN4vLdUciNkknx5Y1w=;
+        b=hWPkwO9IKE0mcDw1guYidN9euwszrsIhtf2WghLE+tEDyvcK7DKzBMO3S1NVvjn9/E
+         drM88icJqpN39XLRsTkOuncXv+icSxP5fc3IDTd3TUNYlfdJwnJ69FDBXAn2UdUnXIPA
+         j5e4ta4N9s4fv+uVwngsQwG3xAVVsqPsbfD1ndYbxMtbO3+kHvj5tfBZ0r/X9WU6SBZP
+         MjRmep7ay09tA3lq/qME7f7CLU+c5RV/aVinc7lCAatlXoUp93m6Ze3NXTaLFIKRZ4gs
+         gQiH8inZ1YRGWt6bqj8kWgyahUNyJ0knUkOzUrkk1AplHgQ7ReW1YLvULF163tP6tvUo
+         gDEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731974985; x=1732579785;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2joQyxA/A/Ix50bwDrphRLZe1ZN4vLdUciNkknx5Y1w=;
+        b=Jmtj3gnbeiF8RpAYPDYXX/mXn9VihnBbq2NDgo2I9lshieK+cxitHjfONFufYiafFW
+         BWmxGVQ0akkdW+xy/qSIpSt84T+iIQCegu6h5FOns83kv2GrtcUIiCCV+icKfcHEjhyL
+         OfpISO8SSw2QIqnX7ubfkdsKbJX06oVDGB8/h2pxlQdSTxMLQU46anuC4vJCeaNPB2kH
+         6hFPfP3xOK90hVKqXthTbz6+XjNxHHBKi6FInJIG2kMuMKNF2yffCq7txtr+5bI6LmJH
+         hKgH9415tWVjHD9mPf6M3o1B6uQwc1sZ0UiLLVTKAtC1J+/cVdnmTo3K9wT1xs5mI+fS
+         av7A==
+X-Forwarded-Encrypted: i=1; AJvYcCX47t/QbNSoDUSmO9C0mmtEL4CZlVt6byjJ+mDnDYGyu3GrLpXr1g2GeFYRu3Nx7TwIoXtKRK09aTdhogc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9BRcbBQ9Pu6Bq8gNCebfV1GQBV/5fRPacLTbzyKo30IkI5epl
+	GnuiW9mK5Yuvs+e1IV/3Ra+kUVWwMgKi0+zUud1mfHl0z4v4TQObpbqEiYo/jzMpYOFOMpBbRFK
+	v8sGEme1lvH8vPpCBdhZ9MlS+E0Mbtkvlp4A0
+X-Gm-Gg: ASbGnctAgurZEWuNB1yn9noYCvqTdbOBCLPZLBLLRm91goitHVU6oQcBhpaQQeeM3GF
+	XVwfK0Rl2td5okw0jQHwkP4cQiF3pWr1RNTgKAQFRPjgVfaOYujeey+YAiu6r1g==
+X-Google-Smtp-Source: AGHT+IGFkoWOhwex/vXz0phxng/cuRxB+IRiCctA7Y89o5ijfhkRJftBIN3eR6qiPieo/jVpc0lu+QpSWPIlthCtl3k=
+X-Received: by 2002:a05:6402:1351:b0:5cf:bd9a:41ec with SMTP id
+ 4fb4d7f45d1cf-5cfdec244d3mr31183a12.2.1731974985273; Mon, 18 Nov 2024
+ 16:09:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241118110154.3711777-1-linux@rasmusvillemoes.dk>
-In-Reply-To: <20241118110154.3711777-1-linux@rasmusvillemoes.dk>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 19 Nov 2024 08:19:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATvMOR3qcp+-6koxnKkvMDRVHYJ0E0hyUaWLeV3-c0eBA@mail.gmail.com>
-Message-ID: <CAK7LNATvMOR3qcp+-6koxnKkvMDRVHYJ0E0hyUaWLeV3-c0eBA@mail.gmail.com>
-Subject: Re: [PATCH v3] setlocalversion: work around "git describe" performance
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jeff King <peff@peff.net>, Sean Christopherson <seanjc@google.com>, Josh Poimboeuf <jpoimboe@kernel.org>
+References: <20241030-extended-modversions-v8-0-93acdef62ce8@google.com>
+ <20241030-extended-modversions-v8-2-93acdef62ce8@google.com>
+ <ZyNr--iMz_6Fj4yq@bombadil.infradead.org> <CAGSQo00F07viDHQkwBS8_1-THxJHYwx9VkS=TXC5rz3i8zSZSw@mail.gmail.com>
+ <ZyVDv0mTm3Bgh1BR@bombadil.infradead.org> <CAGSQo02uDZ5QoRMPOn=3Fa9g5d+VPfKW-vmSsS2H+pOdPYCBFw@mail.gmail.com>
+ <ZyrRYUD0K1f7SwWg@bombadil.infradead.org> <CAGSQo03+1WjUVj-iQ6zdOST6z=p+=OqS2Xk_c4ZUdHOsxa7g2w@mail.gmail.com>
+ <Zy1BVXgnT72Jt_HE@bombadil.infradead.org> <Zzu-wfGqbuAm24yg@bombadil.infradead.org>
+In-Reply-To: <Zzu-wfGqbuAm24yg@bombadil.infradead.org>
+From: Matthew Maurer <mmaurer@google.com>
+Date: Mon, 18 Nov 2024 16:09:34 -0800
+Message-ID: <CAGSQo033fha6tj7sU8se4kbNfYD_rm5sx6-hpF9s8SfcgWH3Tg@mail.gmail.com>
+Subject: Re: [PATCH v8 2/3] modpost: Produce extended MODVERSIONS information
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Lucas De Marchi <lucas.de.marchi@gmail.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 18, 2024 at 8:01=E2=80=AFPM Rasmus Villemoes
-<linux@rasmusvillemoes.dk> wrote:
->
-> Contrary to expectations, passing a single candidate tag to "git
-> describe" is slower than not passing any --match options.
->
->   $ time git describe --debug
->   ...
->   traversed 10619 commits
->   ...
->   v6.12-rc5-63-g0fc810ae3ae1
->
->   real    0m0.169s
->
->   $ time git describe --match=3Dv6.12-rc5 --debug
->   ...
->   traversed 1310024 commits
->   v6.12-rc5-63-g0fc810ae3ae1
->
->   real    0m1.281s
->
-> In fact, the --debug output shows that git traverses all or most of
-> history. For some repositories and/or git versions, those 1.3s are
-> actually 10-15 seconds.
->
-> This has been acknowledged as a performance bug in git [1], and a fix
-> is on its way [2]. However, no solution is yet in git.git, and even
-> when one lands, it will take quite a while before it finds its way to
-> a release and for $random_kernel_developer to pick that up.
->
-> So rewrite the logic to use plumbing commands. For each of the
-> candidate values of $tag, we ask: (1) is $tag even an annotated
-> tag? (2) Is it eligible to describe HEAD, i.e. an ancestor of
-> HEAD? (3) If so, how many commits are in $tag..HEAD?
->
-> I have tested that this produces the same output as the current script
-> for ~700 random commits between v6.9..v6.10. For those 700 commits,
-> and in my git repo, the 'make -s kernelrelease' command is on average
-> ~4 times faster with this patch applied (geometric mean of ratios).
->
-> For the commit mentioned in Josh's original report [3], the
-> time-consuming part of setlocalversion goes from
->
-> $ time git describe --match=3Dv6.12-rc5 c1e939a21eb1
-> v6.12-rc5-44-gc1e939a21eb1
->
-> real    0m1.210s
->
-> to
->
-> $ time git rev-list --count --left-right v6.12-rc5..c1e939a21eb1
-> 0       44
->
-> real    0m0.037s
->
-> [1] https://lore.kernel.org/git/20241101113910.GA2301440@coredump.intra.p=
-eff.net/
-> [2] https://lore.kernel.org/git/20241106192236.GC880133@coredump.intra.pe=
-ff.net/
-> [3] https://lore.kernel.org/lkml/309549cafdcfe50c4fceac3263220cc3d8b109b2=
-.1730337435.git.jpoimboe@kernel.org/
->
-> Reported-by: Sean Christopherson <seanjc@google.com>
-> Closes: https://lore.kernel.org/lkml/ZPtlxmdIJXOe0sEy@google.com/
-> Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
-> Tested-by: Josh Poimboeuf <jpoimboe@kernel.org>
-> Closes: https://lore.kernel.org/lkml/309549cafdcfe50c4fceac3263220cc3d8b1=
-09b2.1730337435.git.jpoimboe@kernel.org/
-> Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> ---
-> v3:
->
-> - Update trailer tag list, per Masahiro.
-> - Drop redundant quoutes around the word tag
-> - Add a shellcheck disable directive
->
-> Masahiro, I decided to keep the changes minimal, in particular not to
-> change anything around the logic or the (unused) return values, in
-> order not to invalidate Josh' T-b tag. I think it's more important for
-> this to make it to 6.13-rc1 (if that is even still possible, given
-> that the MW is already open).
+> Thinking about this some more, if we're going down enabling a new
+> option, it seems to beg the question if the old *two* ksymtab sections
+> could just be folded into the a new one where the "gpl only" thing
+> becomes just one "column" as you call it. Reasons I ask, it seems like
+> we're duplicating symbol names on ksymtab and for modeversions. Could
+> you review this a bit?
 
+ Short answer: We could do this, but I don't necessarily think it's a good idea.
 
-This is not urgent because it has been broken more than one year.
+ksymtab and modversions aren't duplicating names even with this patch
+series - We have two different formats, one for importing symbols, and
+one for exporting them. `__ksymtab`, `__ksymtab_gpl`, and
+`__ksymtab_strings` are used to export symbols. `__versions` or the
+new `__version_ext_names` and `__version_ext_crcs` are used to import
+them. For this reason, in any given compilation unit, a string should
+only appear either in the ksymtab (providing it), or in versions
+(consuming it).
 
-Your "|| return 1" may not live long.
-https://lore.kernel.org/linux-kbuild/20241118231534.1351938-1-masahiroy@ker=
-nel.org/T/#u
+There also isn't as much immediate technical need for that kind of
+rework of the ksymtab format - ksymtab uses a string table for their
+names, so the "long name support" that extended modversions provides
+to modversions is already present in ksymtab.
 
+Combined, this means that there would be few technical benefits to
+this - the primary potential benefit I could see to something like
+this would be code complexity reduction, which is a bit of a matter of
+personal taste, and mine might not match others'.
 
-If you write try_tag() like you wrote, my patch can become even simpler.
+However, we could do some things similar to what's going on here:
+A. We could try to unify versions and ksymtab (this seems most viable,
+but the change in meaning of this data structure has me wary)
+B. We could make ksymtab use columnar storage for more things - it
+already does so for CRCs, we could theoretically make any or all of
+licensing, namespaces, or symbol values columnar.
 
+With the caveat that I am not convinced this restructuring is worth
+the churn, the way I would do A would be:
 
+1. Add a field to the `kernel_symbol` that indicates whether the
+symbol is import/export (or possibly re-use `value` with a 0 value
+after linker resolution to mean "import" instead of export).
+2. Generate `kernel_symbol` entries for imported symbols, not just
+exported ones.
+3. Read `kcrctab` for import symbols to figure out what the expected
+crc value is when importing, rather than using versions.
+4. Stop generating/reading any of `__versions`, `__version_ext_names`,
+`__versions_ext_crcs`, etc.
 
+There are two downsides I can see to this:
+1. You cannot make this backwards compatible with existing `kmod`.
+(This was the argument given against just enlarging MODVERSIONS symbol
+names.)
+2. It's hard to be certain that we know about all users of `ksymtab`
+in order to ensure they all know the new convention around imported vs
+exported symbols.
 
-> +
-> +       # $2 is the number of commits in the range $tag..HEAD, possibly 0=
-.
-> +       count=3D"$2"
+I think that B would actually make things worse because symbols always
+today always have a value, a namespace, a name, and a license. The
+only thing that's optional is the CRC, and that's already columnar.
+Making the other ones columnar would hurt locality. We'd still need
+the strtab sections, or we'd end up with many copies of each
+namespace, where today that should get deduped down by the linker.
+Columns are good for things that are extensions, optional, or variable
+length.
 
-count=3D$2
+If there are other reasons *for* doing this that I'm not aware of,
+what I'd do would be:
+1. Use the name as the primary index, same as modversions.
+2. Split each other piece into its own column, with a joint iterator.
+3. Convert license into a column, with an enum value (currently only
+fully exported or GPL).
+4. Replace places in the coe where a `struct kernel_symbol *` is used
+today with an iterator over the joint columns.
 
-is enough because double-quotes are not required on the RHS
-of an assignment.
-
-
-
-
-> -       # If we are at the tagged commit, we ignore it because the versio=
-n is
-> -       # well-defined.
-> -       if [ "${tag}" !=3D "${desc}" ]; then
-> +       # If we are at the tagged commit, we ignore it because the
-> +       # version is well-defined. If none of the attempted tags exist
-> +       # or were usable, $count is still empty.
-> +       if [ -z "${count}" ] || [ "${count}" -gt 0 ]; then
-
-Is this code equivalent to the following?
-
-         if [ "${count}" !=3D 0 ]; then
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Again, to reiterate, I *do not* think that B is a good idea. A might
+be, but the improvement seems sufficiently marginal to me that I don't
+know if it's worth the churn.
 
