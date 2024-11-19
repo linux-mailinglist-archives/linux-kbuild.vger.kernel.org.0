@@ -1,83 +1,60 @@
-Return-Path: <linux-kbuild+bounces-4721-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4722-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF489D1D62
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 02:34:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F349D1E3D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 03:27:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46013B22F4F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 01:34:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 719CEB23780
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 02:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6F907E59A;
-	Tue, 19 Nov 2024 01:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99EEB78C76;
+	Tue, 19 Nov 2024 02:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eem+nPyw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gePzZ0ga"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7218C38DF9;
-	Tue, 19 Nov 2024 01:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6879F2D600;
+	Tue, 19 Nov 2024 02:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731980038; cv=none; b=UjquZQiiV64T58QXMWJGJTS8flu+cRA9OcqKTUT+LY+qKnBxzphP65hLCQQtCnXpXjzDOIukXt2TDM0t80K9D+JAtFwlPL5pdIknro2PScueeeo9V+Ftzn7LWwNC4qEFOahEEuYa/s7NsVfYEoYFsOl+8FXlVZPNKEsiSsE3NLw=
+	t=1731983253; cv=none; b=eFxypKC6/kRgv1TrvdljHJuSatpqsPxpcGGyP/vZOn4ejVJGpEvzGqw+akR8ql+gxyvLWk6nEJuTqc0bc8FJ1Qm60LJGeCYPWHl1ZDGGFE0Fldb6FPOSkJ+Pro0Azv13NvN0zxKt9xuwZJKB8FW+bFT4H9BMxn4g3PvFmlIQpPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731980038; c=relaxed/simple;
-	bh=mNt8PlqqcC/OYquNFftD5zrdVAQF347e7lS7kQENIPk=;
+	s=arc-20240116; t=1731983253; c=relaxed/simple;
+	bh=jNYt/5ZeoW2P4ANhdq3q4i2jFSD2rau/nCAIuD3cIvA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGHvV8v6g24DHP08bajX7p/qWUMPjI4cvlo1a/+ZVGwyxk7RN3jJRgUBhfbByAxPAalBl+D5iDvE5J861U4HYMCYS4li7B4E2FKxdq4enkOXNX/npNwYzNbfKOlHbtcqGaUozdIi+G48AMcA3jA2h1Chf8QcAUYdKXg8zO0/nQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eem+nPyw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA7DC4CECC;
-	Tue, 19 Nov 2024 01:33:57 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=QMXHx40Zi5USYFlUmpsJe/PeuTItSvuHurgBgdbZc1LzxxzfGOsW01/gGZC4Tew0CAiSWrHbOiQkGwFcdhu96WmLYVmeyJW3WM2ybl1AM2GNaaZfhnz+maVFU7nnKUKsKahri5nIMXlJ5dxtuv7JYRTc9DZfYhJkuPd5IfwnJkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gePzZ0ga; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753E5C4CECC;
+	Tue, 19 Nov 2024 02:27:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731980038;
-	bh=mNt8PlqqcC/OYquNFftD5zrdVAQF347e7lS7kQENIPk=;
+	s=k20201202; t=1731983253;
+	bh=jNYt/5ZeoW2P4ANhdq3q4i2jFSD2rau/nCAIuD3cIvA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eem+nPywW0S2PDt91tSJR5p0NMCU+bTT5JOtCmT14pE/aJodu5jgVPqbKYtMScBTO
-	 4a6oEr0BIwqu7ctxPRVl4gmjUfKuyKWzV3GIlqflmoxzJTtyF3khU+bFKzkBa4W7xn
-	 uS/0+gnOstSaoY32KS80dPq19n77mZfH4F+fTO9puHA/NZT0q9IKxwGIOM8SNaQ3fT
-	 aEUjEhlu2kI833TKd+EX80pn6Ajw7GdGwNBKwigJWaQB70jF4DZV7h+WkWYW1nrFLT
-	 VhV6Ro96JpzGjR2ogkz0k1QY4DP8MjriuHWtibLjHrgQXjIoet+kamk0xEN0GtrJS2
-	 CokaAdc0f2CMg==
-Date: Mon, 18 Nov 2024 17:33:56 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
-	Lucas De Marchi <lucas.de.marchi@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v8 2/3] modpost: Produce extended MODVERSIONS information
-Message-ID: <ZzvrBDb9tRqaPxAa@bombadil.infradead.org>
-References: <20241030-extended-modversions-v8-2-93acdef62ce8@google.com>
- <ZyNr--iMz_6Fj4yq@bombadil.infradead.org>
- <CAGSQo00F07viDHQkwBS8_1-THxJHYwx9VkS=TXC5rz3i8zSZSw@mail.gmail.com>
- <ZyVDv0mTm3Bgh1BR@bombadil.infradead.org>
- <CAGSQo02uDZ5QoRMPOn=3Fa9g5d+VPfKW-vmSsS2H+pOdPYCBFw@mail.gmail.com>
- <ZyrRYUD0K1f7SwWg@bombadil.infradead.org>
- <CAGSQo03+1WjUVj-iQ6zdOST6z=p+=OqS2Xk_c4ZUdHOsxa7g2w@mail.gmail.com>
- <Zy1BVXgnT72Jt_HE@bombadil.infradead.org>
- <Zzu-wfGqbuAm24yg@bombadil.infradead.org>
- <CAGSQo033fha6tj7sU8se4kbNfYD_rm5sx6-hpF9s8SfcgWH3Tg@mail.gmail.com>
+	b=gePzZ0gabKPZ+qqCPIOGMXwAo6nek5SE7ORSZ8ZysMqtpy6qy3NJ/X0Ll6GDssV7w
+	 NWhG35//ZkfM/ZUw3u7tagIcNFXZlBNrn9b3LQK8PB1L/wG8jQVzIIMEIYYvDcRcp9
+	 L3pU5gNI5Ee4v/P25m5opGnZthoqTuOkXBzPRzU3k8sxin7ok/BzLmz633dwkxRu3C
+	 9ZLtGzrRgetOsA7CTZYF1WoFcvKiZ3ms7tkc8CFqDS5rCa0Vb9Db9BUjuMJFxbXa0H
+	 Zn23545NzGuHTnH9zYngmu61QO/aIt+9h5G9nEkipUn2Qd8JUP1CqdGZXRhsBB1PZu
+	 AmDdc7WTCEe3g==
+Date: Mon, 18 Nov 2024 19:27:30 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Marco Elver <elver@google.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] kbuild: enable objtool for *.mod.o and additional
+ kernel objects
+Message-ID: <20241119022730.GA2908286@thelio-3990X>
+References: <20241113234526.402738-1-masahiroy@kernel.org>
+ <20241113234526.402738-3-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -86,20 +63,39 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGSQo033fha6tj7sU8se4kbNfYD_rm5sx6-hpF9s8SfcgWH3Tg@mail.gmail.com>
+In-Reply-To: <20241113234526.402738-3-masahiroy@kernel.org>
 
-On Mon, Nov 18, 2024 at 04:09:34PM -0800, Matthew Maurer wrote:
-> > Thinking about this some more, if we're going down enabling a new
-> > option, it seems to beg the question if the old *two* ksymtab sections
-> > could just be folded into the a new one where the "gpl only" thing
-> > becomes just one "column" as you call it. Reasons I ask, it seems like
-> > we're duplicating symbol names on ksymtab and for modeversions. Could
-> > you review this a bit?
+Hi Masahiro,
+
+On Thu, Nov 14, 2024 at 08:45:22AM +0900, Masahiro Yamada wrote:
+> Currently, objtool is disabled in scripts/Makefile.{modfinal,vmlinux}.
 > 
->  Short answer: We could do this, but I don't necessarily think it's a good idea.
+> This commit moves rule_cc_o_c and rule_as_o_S to scripts/Makefile.lib
+> and set objtool-enabled to y there.
+> 
+> With this change, *.mod.o, .module-common.o,  builtin-dtb.o, and
+> vmlinux.export.o will now be covered by objtool.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks for your review on this. I agree the complexities you outline
-don't yet justify the churn.
+I am seeing some build failures when LTO is enabled with this change in
+-next as commit d8d3f6c6690c ("kbuild: enable objtool for *.mod.o and
+additional kernel objects").
 
-  Luis
+  $ printf 'CONFIG_LTO_%s\n' NONE=n CLANG_THIN=y >kernel/configs/thinlto.config
+
+  $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper {def,thinlto.}config all
+  ...
+  .vmlinux.export.o: warning: objtool: gelf_getehdr: invalid `Elf' handle
+  make[4]: *** [scripts/Makefile.vmlinux:13: .vmlinux.export.o] Error 1
+  ...
+
+When LTO is enabled, these files are LLVM bitcode, not ELF, so objtool
+can't process them:
+
+  $ file .vmlinux.export.o
+  .vmlinux.export.o: LLVM IR bitcode
+
+Cheers,
+Nathan
 
