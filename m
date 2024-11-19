@@ -1,55 +1,55 @@
-Return-Path: <linux-kbuild+bounces-4743-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4744-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091649D3131
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 00:59:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E981F9D3133
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 00:59:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7B7A1F232CA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 23:59:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A892E283F85
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2024 23:59:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51591DA116;
-	Tue, 19 Nov 2024 23:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 312A11DAC9B;
+	Tue, 19 Nov 2024 23:57:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lAY0MSqJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGZqCVfo"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9681DA0FC;
-	Tue, 19 Nov 2024 23:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082371D4176;
+	Tue, 19 Nov 2024 23:57:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732060647; cv=none; b=K3fzNex9BhedHuvJLY+tgSUOi90NuF7wic2JNT9/Q/Tuz+qVulmgEqGB3npK8DXYUz7RysCbZHnh+jB3gR06r5XuF/X3ie+KNQBP+cp35TNafYKPXssxQZbaAKo3GR0AMPRAf7fiMRPW/gp5ImhzBNNYrxrwRyMD8VloLdH6ahM=
+	t=1732060649; cv=none; b=DUkDDE3Diq2OptOl/PO2hcXfPF1kgH9sscxW68QEpy+H2fceXki+bBYSiCr6RCey5718m5+/D1sxvLReZ7DAxhYe1dJ3uZ7UY6VQssnCWTpyNN/yBXmSm3V3G8WYu/KGZlzo1KyurOJaWozeXiV3o6pelpQPbWAU8iQEgq8DYro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732060647; c=relaxed/simple;
-	bh=vopBxyzn7ThFZEGIUPB0bKYCFzVKl3VSCgwq4H4l3DI=;
+	s=arc-20240116; t=1732060649; c=relaxed/simple;
+	bh=vKE5pwuQ35hn8BTD0L6kSiF6LH1K9KrbOolsQUxhzBg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hELbFUVNLq7FeTxwy6RWajoY361oQCqP1pZKFWfmKE8wbFQPpfIYKsJnzYvn3CbR4y8Ekj0wAFxcb5ZxewH0gP9aIaNsBLtegc6RrmIPrn8kGJMcYrKyudvqYW/OwJgM1OgaU/91rFYZ1isxXzPl5L9oQCc6yNu0/8FQ5Rgk9zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lAY0MSqJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E13FC4CEDB;
-	Tue, 19 Nov 2024 23:57:25 +0000 (UTC)
+	 MIME-Version; b=n/hrAys8T+fnlqC+SYF5yGh91Z3tzXi/cP1k7gLItMhp5Twqrkl2A2EOwEUIf6t7ArBLGn0mo52qOZ8ERY6UDC0/XM0dNh0MGojnO8Qz3Uh0RL3672GVzJiIdA2uettUKxZMSUj7pc2nLUI98BmmxRblqO5OsMCAHjvnS1yHIDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGZqCVfo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C391DC4CED1;
+	Tue, 19 Nov 2024 23:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732060647;
-	bh=vopBxyzn7ThFZEGIUPB0bKYCFzVKl3VSCgwq4H4l3DI=;
+	s=k20201202; t=1732060648;
+	bh=vKE5pwuQ35hn8BTD0L6kSiF6LH1K9KrbOolsQUxhzBg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lAY0MSqJB8JP+o2pd7jRLtPz9xR9ENNmJH/ueHrIEFYIZQJkjHspFg+vItgaDTFBg
-	 iMTQqP4pIMDwX4PZOvTlpW+moH5x+0+sxwJNt3F6m9HX477v7Szl1TWM75xr8anco8
-	 jbaeUyRTWqqSkpBTqfEgQp95aHYWttLay9+7cw6qbYfNixzqAItguozcEurN5OqC8N
-	 AILZw4mJJv8PiBEr9SbekOT9GmrNVu6XE6fgFYcQ0GypGPIPw54O1wL6b2oPJ2mhZL
-	 ls8cuwbiumezAkuZTk6N0SejIW/GureiGGL/HtNWTiqNrfO8BJoPhcJEPWpDPa6oab
-	 YXtLriHloRG2A==
+	b=MGZqCVfof1rdoRT8azbuNePvhFUzxAOOp+yPjiMmBHMMaj21p+NIY4QFXMH+CbeXE
+	 P/+te6Xbq5QQxluIcotaQ81owpZGbizbyZv5lomfgXCsuAWObfDUJYvi8ySSbf07OR
+	 fSXg5LASwKxB/M/XZy91Om5nL53RIvqprqzzG+BMCQYOvp/ZIR9YOuRn5CFfL8P2eC
+	 Tuz2tlLI4kIlo3GSdvJcn9+tG3JFtUyhLT0EnSSxbiiruCZlW3Rh/nsi4RCZQioqQq
+	 PII46Pav9chsKKgL2PHWp61y2BJbStsbDHhHRSm8c98XQ9ctuxzhzsbGS1ldJis8JU
+	 nai9ms7QhB6tA==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/15] modpost: convert do_usb_table() to a generic handler
-Date: Wed, 20 Nov 2024 08:56:49 +0900
-Message-ID: <20241119235705.1576946-11-masahiroy@kernel.org>
+Subject: [PATCH 12/15] modpost: move strstarts() to modpost.h
+Date: Wed, 20 Nov 2024 08:56:50 +0900
+Message-ID: <20241119235705.1576946-12-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241119235705.1576946-1-masahiroy@kernel.org>
 References: <20241119235705.1576946-1-masahiroy@kernel.org>
@@ -61,98 +61,55 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-do_usb_table() no longer needs to iterate over the usb_device_id array.
-
-Convert it to a generic ->do_entry() handler.
-
-This is the last special case. Clean up handle_moddevtable().
+This macro is useful in file2alias.c as well.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/mod/file2alias.c | 39 +++++++++------------------------------
- 1 file changed, 9 insertions(+), 30 deletions(-)
+ scripts/mod/file2alias.c | 2 +-
+ scripts/mod/modpost.c    | 2 --
+ scripts/mod/modpost.h    | 2 ++
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 42a76ad25d40..b2d5e6451959 100644
+index b2d5e6451959..01a4b0eaca6d 100644
 --- a/scripts/mod/file2alias.c
 +++ b/scripts/mod/file2alias.c
-@@ -120,7 +120,6 @@ typedef struct {
-  * we handle those differences explicitly below */
- #include "../../include/linux/mod_devicetable.h"
+@@ -1513,7 +1513,7 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 		return;
  
--/* This array collects all instances that use the generic do_table */
- struct devtable {
- 	const char *device_id; /* name of table, __mod_<name>__*_device_table. */
- 	unsigned long id_size;
-@@ -316,7 +315,7 @@ static unsigned int incbcd(unsigned int *bcd,
- 	return init;
+ 	/* All our symbols are of form __mod_<name>__<identifier>_device_table. */
+-	if (strncmp(symname, "__mod_", strlen("__mod_")))
++	if (!strstarts(symname, "__mod_"))
+ 		return;
+ 	name = symname + strlen("__mod_");
+ 	namelen = strlen(name);
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 1948d69ce2b9..3bbd5efcf3f3 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -341,8 +341,6 @@ static const char *sec_name(const struct elf_info *info, unsigned int secindex)
+ 	return sech_name(info, &info->sechdrs[secindex]);
  }
  
--static void do_usb_entry_multi(void *symval, struct module *mod)
-+static void do_usb_entry_multi(struct module *mod, void *symval)
+-#define strstarts(str, prefix) (strncmp(str, prefix, strlen(prefix)) == 0)
+-
+ static struct symbol *sym_add_exported(const char *name, struct module *mod,
+ 				       bool gpl_only, const char *namespace)
  {
- 	unsigned int devlo, devhi;
- 	unsigned char chi, clo, max;
-@@ -381,21 +380,6 @@ static void do_usb_entry_multi(void *symval, struct module *mod)
- 	}
- }
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 52efe0026b34..49848fcbe2a1 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -67,6 +67,8 @@
  
--static void do_usb_table(void *symval, unsigned long size,
--			 struct module *mod)
--{
--	unsigned int i;
--	const unsigned long id_size = SIZE_usb_device_id;
--
--	device_id_check(mod->name, "usb", size, id_size, symval);
--
--	/* Leave last one: it's the terminator. */
--	size -= id_size;
--
--	for (i = 0; i < size; i += id_size)
--		do_usb_entry_multi(symval + i, mod);
--}
--
- static void do_of_entry(struct module *mod, void *symval)
- {
- 	char alias[500];
-@@ -1504,6 +1488,7 @@ static const struct devtable devtable[] = {
- 	{"vchiq", SIZE_vchiq_device_id, do_vchiq_entry},
- 	{"coreboot", SIZE_coreboot_device_id, do_coreboot_entry},
- 	{"of", SIZE_of_device_id, do_of_entry},
-+	{"usb", SIZE_usb_device_id, do_usb_entry_multi},
- 	{"pnp", SIZE_pnp_device_id, do_pnp_device_entry},
- 	{"pnp_card", SIZE_pnp_card_device_id, do_pnp_card_entry},
- };
-@@ -1549,21 +1534,15 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
- 		symval = sym_get_data(info, sym);
- 	}
+ #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
  
--	/* First handle the "special" cases */
--	if (sym_is(name, namelen, "usb"))
--		do_usb_table(symval, sym->st_size, mod);
--	else {
--		int i;
-+	for (int i = 0; i < ARRAY_SIZE(devtable); i++) {
-+		const struct devtable *p = &devtable[i];
- 
--		for (i = 0; i < ARRAY_SIZE(devtable); i++) {
--			const struct devtable *p = &devtable[i];
--
--			if (sym_is(name, namelen, p->device_id)) {
--				do_table(symval, sym->st_size, p->id_size,
--					 p->device_id, p->do_entry, mod);
--				break;
--			}
-+		if (sym_is(name, namelen, p->device_id)) {
-+			do_table(symval, sym->st_size, p->id_size,
-+				 p->device_id, p->do_entry, mod);
-+			break;
- 		}
- 	}
++#define strstarts(str, prefix) (strncmp(str, prefix, strlen(prefix)) == 0)
 +
- 	free(zeros);
- }
+ struct buffer {
+ 	char *p;
+ 	int pos;
 -- 
 2.43.0
 
