@@ -1,175 +1,116 @@
-Return-Path: <linux-kbuild+bounces-4748-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4749-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39249D323D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 03:38:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 168DA9D3698
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 10:15:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B3BD1F24730
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 02:38:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D915E285ECB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2024 09:15:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85F434A3E;
-	Wed, 20 Nov 2024 02:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1132E19B586;
+	Wed, 20 Nov 2024 09:15:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cjgw9tgh"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZNIwuK88";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="q6xhrnB7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523DD20EB;
-	Wed, 20 Nov 2024 02:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7FD1953BB;
+	Wed, 20 Nov 2024 09:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732070280; cv=none; b=uzysvjLFmfKr3EG5C9kbf2cHatdtA5Jhtezg4rSttGfYqWo3y8p2DQu71sfaUgAJjUaEVVd8MEtAlLHZM/HlbCFT2Uf/ndg8uxAh1q+kWejx+8RMTNMnsd7HWUxJ5liCZ+zKDpHCBgue6qVTfpHpjDNt4qaJbMzswDpXKqLyN+w=
+	t=1732094104; cv=none; b=kjvAT2O21HvC/ge7Cduj8pu0pVu04Iyrvgyy4IPkQUF0NrNy8bcJJUtDWQa2xmBunbBBfNfya3Ea7YzJRl09rMNya9hYLeO2OTKo17vDfj6EQYlDk93xJm3SBcxMjjYmj8IWT7OONrIaVY/QaZh6bYZXGSgXI8Xb6YE9H0S26RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732070280; c=relaxed/simple;
-	bh=M1Aj/fgd7SSu3unEYYX5UP/0fa9kLLLmecNn0wqaY8g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vm+JzKDDm84si7n0GoIj0lSzJF4mB4KtjldjenjvXSQMsyKOSkj4XtQt8NQ/JY4PtGHpBhqpC7YjiL+O8DPDYmaZoiE/bWbCDiPKWLJbz6n3Xcah+G/5liWtD9sTeKy9dPQsND8Sydrx6L90F+s1e3UfWU/LJPYb/YoDmcI5zYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cjgw9tgh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDC5CC4CED1;
-	Wed, 20 Nov 2024 02:37:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732070280;
-	bh=M1Aj/fgd7SSu3unEYYX5UP/0fa9kLLLmecNn0wqaY8g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cjgw9tghlBCdGoSOXC37p56rwhI7ekvKRlP8lcu77NGmVBnbTKDpdn1uJajVl/hd7
-	 w9OGHe2LfY+2z43VZ71/saMe3ewvQr1TeptbgK/u7xHBApVDhyb7yCcdUfHnu+E75U
-	 JimgK1QbaIlOZtkSq4Ycd4GNfPTYhbgpd/zGwaWIEx7sWus5nit7kFh2uXiM9a1sv6
-	 cR06b9zEusmjNH6jT97IsmGa7F7tuxGle8XtLdlJS5C3rGsmqbKFoRDgpr0wQcmJq/
-	 ac3N5hlfJ5BANURXNO26nzrDPAarsuDo6x7m3r61WvCK/zScdnHq3bJ+Bq761NqQwf
-	 v8ev3cBNXKpMg==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539e4b7409fso464246e87.0;
-        Tue, 19 Nov 2024 18:37:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV5Ac9firMYN8HJipbg0mV+PhnRV2TSlrdDE6OvM8C2yeD7UqaSLBa7RYLTv8O/lZZnRNXYq7LFMftBhak=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwyyTomJKxZgBK2/T6XtCQ19ZZuMyBiBeGTAJ+lh9YE8PPb/+E
-	7OisRp0Dls35Kt/3FJempOZZH9rqkIH804h2tnI3p0p0onJ4L4j9oGIHVtazY+gbKl1Qux2cJwm
-	SaGSdrR6quoG1PGiIKARO4zNm+iE=
-X-Google-Smtp-Source: AGHT+IG2idTvYvfVo0+fTiTAiDkxoO8GtuATz9rXh1NjmjTV6nOKBPsuacDm8kfm5f8d53B/mVtG63OHUM/TEfc8axg=
-X-Received: by 2002:ac2:4c54:0:b0:53d:ab3c:87ca with SMTP id
- 2adb3069b0e04-53dc0f89cc1mr319395e87.5.1732070278560; Tue, 19 Nov 2024
- 18:37:58 -0800 (PST)
+	s=arc-20240116; t=1732094104; c=relaxed/simple;
+	bh=1AqMwBd2fwyT0PJ1aufpv7qtkxrCYGdSVyFzcWGPUSA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=b4toi+uzE5jbragG2MoCREjDmzIjDasgEFkf6BR8xP9b/8Z6fhJ7o7V5zR1ciYbrP+1BzPoH3rN3KGWq5Jwu31afNMIiNuCBXDgLtqYvANKR7oCXoSPzFCBKn0KIyfKIfzzH719PbOUjhHplUx7EmMHsqXdRXK/YFXLuc4+tPKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZNIwuK88; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=q6xhrnB7; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1732094100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qUaoUu58p2ei5u53XgN4KnMyMyGd6RlLfof/fQPZE84=;
+	b=ZNIwuK88dMFIWC8wSIf0aVTNzXeGUXLUC+gljr89+H+QAi0aQFZWNMwu6TAWym/7Wvfv6/
+	AavMBIufDy5Row6FcGF//7BYyo7jaZqDGDpO812O+H8ZuLAAdKGARm7ahCFrAPU1skjmW+
+	ymsBHUR1s2bfO8PR8V60xceAONg87pN9bDE5xwfLx7xFWE3z1Ctacphqa9AMRxSfXUQT2S
+	Gtqydpmu37Rf/HWBlTOP7VLX8Ns1HAM5SKEQmlD937j6p+bbR9CcU2y3sSOrtwUOdufOAN
+	+bFUNgO8UN3KoYM6Jf1skX+qlI5boZvQwyTnlqwAtgnreQubelul8eSyvZXkcQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1732094100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qUaoUu58p2ei5u53XgN4KnMyMyGd6RlLfof/fQPZE84=;
+	b=q6xhrnB730/spkq4OzzNB48+6IpzX0nb9L0558CGOnFrZ7LweF4iXUUXAajjNIVf0qv9Gg
+	P1Yz438Lee8xO7CA==
+Date: Wed, 20 Nov 2024 10:14:07 +0100
+Subject: [PATCH] selinux: explicitly clean generated av_permissions.h
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241119235705.1576946-1-masahiroy@kernel.org> <20241119235705.1576946-3-masahiroy@kernel.org>
-In-Reply-To: <20241119235705.1576946-3-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 20 Nov 2024 11:37:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ2APK-4T+9wmS=ELT11hqCYgh9w=tcMpaPFxttKMOsBQ@mail.gmail.com>
-Message-ID: <CAK7LNAQ2APK-4T+9wmS=ELT11hqCYgh9w=tcMpaPFxttKMOsBQ@mail.gmail.com>
-Subject: Re: [PATCH 03/15] modpost: introduce module_alias_printf() helper
-To: linux-kbuild@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241120-selinux-clean-v1-1-68704e007f7a@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAF6oPWcC/x3MQQqAIBBA0avErBtQE4KuEi1MxxoQC6UQxLsnL
+ d/i/wqZElOGZaiQ6OXMV+yQ4wD2NPEgZNcNSigtpRKYKXB8CtpAJqLz1gmazaT1Dr25E3ku/2/
+ dWvsAd0QQ4V8AAAA=
+X-Change-ID: 20241120-selinux-clean-dfcd0e7a344b
+To: Paul Moore <paul@paul-moore.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+ selinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732094098; l=1017;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=1AqMwBd2fwyT0PJ1aufpv7qtkxrCYGdSVyFzcWGPUSA=;
+ b=hJegPWxCYL19dK/A3bdGcHvZDa2ZCb0G0ux8MxYfF0sWVfGH03wj6TaFYygAuForlBzEBMxa+
+ V9AHgS73VzLBVEzXPpGDXvrW4O+D80oCVmLETrvEiwZTNzDwTGpZ+UI
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Wed, Nov 20, 2024 at 8:57=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> The generic ->do_entry() handler is currently limited to returning
-> a single alias string.
->
-> However, this is not flexible enough for several subsystems, which
-> currently require their own implementations:
->
->  - do_usb_table()
->  - do_of_table()
->  - do_pnp_device_entry()
->  - do_pnp_card_entries()
->
-> This commit introduces a helper function so that these special cases can
-> add multiple MODULE_ALIAS() and then migrate to the generic framework.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/mod/file2alias.c | 89 +++++++++++++++++++++++++++++-----------
->  scripts/mod/modpost.c    | 11 ++++-
->  scripts/mod/modpost.h    | 19 ++++++++-
->  3 files changed, 91 insertions(+), 28 deletions(-)
->
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 34678ed40fdb..e31619cee05e 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -10,6 +10,12 @@
->   * of the GNU General Public License, incorporated herein by reference.
->   */
->
-> +#include <stdarg.h>
-> +#include <stdio.h>
-> +
-> +#include "list.h"
-> +#include "xalloc.h"
-> +
->  #include "modpost.h"
->  #include "devicetable-offsets.h"
->
-> @@ -31,6 +37,56 @@ typedef Elf64_Addr   kernel_ulong_t;
->  #include <ctype.h>
->  #include <stdbool.h>
->
-> +/**
-> + * module_alias_printf - add auto-generated MODULE_ALIAS()
-> + *
-> + * @mod: module
-> + * @append_wildcard: append '*' for future extension if not exist yet
-> + * @fmt: printf(3)-like format
-> + */
-> +static void __attribute__((format (printf, 3, 4)))
-> +module_alias_printf(struct module *mod, bool append_wildcard,
-> +                   const char *fmt, ...)
-> +{
-> +       struct module_alias *new;
-> +       size_t len, n;
-> +       va_list ap;
-> +
-> +       /* Determine required size. */
-> +       va_start(ap, fmt);
-> +       n =3D vsnprintf(NULL, 0, fmt, ap);
-> +       va_end(ap);
-> +
-> +       if (n < 0) {
-> +               error("vsnprintf failed\n");
-> +               return;
-> +       }
-> +
-> +       len =3D n + 1;    /* extra byte for '\0' */
-> +
-> +       if (append_wildcard)
-> +               len++;  /* extra byte for '*' */
-> +
-> +       new =3D xmalloc(sizeof(*new) + len);
-> +
-> +       /* Now, really print it to the allocated buffer */
-> +       va_start(ap, fmt);
-> +       n =3D vsnprintf(new->str, len, fmt, ap);
-> +       va_end(ap);
-> +
-> +       if (n < 0) {
-> +               error("vsnprintf failed\n");
-> +               return;
+av_permissions.h is not declared as a target and therefore won't be
+added to clean-files automatically by kbuild.
+For details why it is not a target see the Makefile itself.
 
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ security/selinux/Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
 
-This is a memory leak bug.
-I will add free() here.
+diff --git a/security/selinux/Makefile b/security/selinux/Makefile
+index 86f0575f670da66a9dc57e13a236d6a5551af38e..58129a7c8cfa08f9caf5444f7df776f41056b77a 100644
+--- a/security/selinux/Makefile
++++ b/security/selinux/Makefile
+@@ -41,5 +41,8 @@ targets += flask.h
+ $(obj)/flask.h: $(obj)/genheaders FORCE
+ 	$(call if_changed,genhdrs)
+ 
++# see the note above, remove this line
++clean-files += av_permissions.h
++
+ hostprogs := genheaders
+ HOST_EXTRACFLAGS += -I$(srctree)/security/selinux/include
 
-        if (n < 0) {
-                error("vsnprintf failed\n");
-+               free(new);
-                return;
-        }
+---
+base-commit: bf9aa14fc523d2763fc9a10672a709224e8fcaf4
+change-id: 20241120-selinux-clean-dfcd0e7a344b
 
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
-
-
---=20
-Best Regards
-Masahiro Yamada
 
