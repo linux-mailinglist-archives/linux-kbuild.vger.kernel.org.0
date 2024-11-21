@@ -1,157 +1,118 @@
-Return-Path: <linux-kbuild+bounces-4764-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4765-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9EE9D4882
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 09:09:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE739D514C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 18:09:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3FD44B221F2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 08:09:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 478751F211C9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 17:09:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55E391CB306;
-	Thu, 21 Nov 2024 08:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F725189F37;
+	Thu, 21 Nov 2024 17:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UB1IE6oX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2fS3USbt"
+	dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b="DcD0S9IR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8760A1CACE9;
-	Thu, 21 Nov 2024 08:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CE713C807;
+	Thu, 21 Nov 2024 17:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732176580; cv=none; b=F4MYbAiXMDxsvV+jVX3E5X7c2dZO3OWadX83+38+iU25DL6MpVYWAkfXHojCm9GOixOt63h4AOyH9d/e4e9XpDjRHMkl9BRUPHMydIMhfU8x0fNGUaiXif6vO1L2f39fOVRlPdYLv8OFbic3VH0QMptlOk//o/je6QITzgOl7TY=
+	t=1732208982; cv=none; b=HztWJRF+5tpMVLyeKm2Hrczw+2vw6vrzciHuj9DVlZXa1ohMIYWydO/J4Z5UR1RTTgcO6t2fc4xYSze96GDrUX9gTDgFPQKpixUyoB6Rkt1P8x55/ndZf5JaOvC7xh/TVAVvEhxIrhu47CGqmFaiDWH2wFfWQdjwKFLYFM7lAI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732176580; c=relaxed/simple;
-	bh=BvEyhnyI0XDIdgF3tPtxKSiOJGP23vgPNFMQaakLTGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uNwM+vfFswGF0cy08wfjaAOrBFUJc0wIeoESo5LfGF5J6uMoi6d9Iq+aMuvpKJy4wwE2XOrh5yb96RTflqNR0gUJD8ZNzl/niH7hoRZGXD3o7+LnlfgIcxhc4/ZdQRNAktjHNeOAPg80eU5S01FYyEHNzBY6jpBpZt8aOl+5uCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UB1IE6oX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2fS3USbt; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Thu, 21 Nov 2024 09:09:33 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1732176576;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=be4tTM+SqMFCpbwOaFbBKI9pXVAlJLs1b+OQG81BDrs=;
-	b=UB1IE6oXBYkFO/J97uHPV36m2ZdVgvPsU3jm7lCpx596p7Azoyhc2fVVnuf0FWLD7gQD8m
-	a2JbPEqfEiYuTZfhypdbGYkNbJ7Ov42HvPPsGHWplmyphQCmdWpt1txwLR28FHgwuiwJhn
-	AVVpcw8eka6OuCon2vva3e0ofwng2wMe8Sb5Zu/z7pDGkEYJf7Jopuic9T1bS/9y8CDgoc
-	2dkPR0p99xweKWkNoaiXV+d8JPZEMlExd2FAIURH3h9YBEhuzCcU8Um5xlZaiSvEH/6Z9e
-	SY27fHC7om4OliyidxSbH1OjMytxDMshQRCWs6WsQKFXtINk8HYRZP8UYLsC3g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1732176576;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=be4tTM+SqMFCpbwOaFbBKI9pXVAlJLs1b+OQG81BDrs=;
-	b=2fS3USbtB9V1nqNf8D3rhSHW0dmQUQ/lw6VtQ7sw7sg8MLyODHqkUkHRn5sY5wqzeyycPk
-	nPcUq3tVXnYWWiCg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] selinux: explicitly clean generated av_permissions.h
-Message-ID: <20241121085228-327b3d62-4e9b-4f4e-9100-b62bcedfab1d@linutronix.de>
-References: <20241120-selinux-clean-v1-1-68704e007f7a@linutronix.de>
- <CAK7LNATUnCPt03BRFSKh1EH=+Sy0Q48wE4ER0BZdJqOb_44L8w@mail.gmail.com>
+	s=arc-20240116; t=1732208982; c=relaxed/simple;
+	bh=Ienun4VW9O2FwBJVBtm5qXYcp2e+U7uSxedKmhxnwIc=;
+	h=MIME-Version:Message-ID:From:To:Cc:Subject:Content-Type:Date; b=aNl8dsg5lz+R6WGeWc+kJ7tqROAUchPymjF3I0V/2ixFekXwNEMQ7Kp4jh2W5lC8p3tTKrZt+a/C/RniMMVAxnMSJlJVWl9WJhCZztoFDrPT7acAQxFipb7EPCKFwo5iVRbUBqMMtGYkjmqHD8HeHU2AF23YIZyThNT8aKlpaNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b=DcD0S9IR; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
+	s=s31663417; t=1732208955; x=1732813755; i=frank-w@public-files.de;
+	bh=oyBAAp+TqWN3ylwr2/elXUCc8cfY3vbibyis40Z1YhA=;
+	h=X-UI-Sender-Class:MIME-Version:Message-ID:From:To:Cc:Subject:
+	 Content-Type:Date:cc:content-transfer-encoding:content-type:date:
+	 from:message-id:mime-version:reply-to:subject:to;
+	b=DcD0S9IRXU0bRBfFckR7wHFQ3Vm9392bxWKI2aNJuDsVQMZRWTlepo2jMwCY86OY
+	 lZaR+hRz1DhBcdG9RXPZ4nTTIWQOCt0o2GmXddBxitmp7uqhxIgx6+3zKbT5GKCeW
+	 NX2pnFwDZzz1hOor8xOY7ugBjFYM+kO0Wv+2cMxaQjof7gtQSbCnh/Q/3lv6CYZ4T
+	 49HULGrPbAm6u/AGfZVieaPi+dmAkbVAwJU0MhPuWSUZJMSXqwTdYkMrlHl0xrtLe
+	 SOCaX9TEouy8YouK4KNhhFQ2RJACxmqmCQgn79CjrcjeiqRDSpeeHNUvm1Tv6hGVb
+	 gM/R5gUKfryvwkSNOA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [217.61.158.185] ([217.61.158.185]) by
+ trinity-msg-rest-gmx-gmx-live-86dc4689bd-wks9v (via HTTP); Thu, 21 Nov 2024
+ 17:09:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATUnCPt03BRFSKh1EH=+Sy0Q48wE4ER0BZdJqOb_44L8w@mail.gmail.com>
+Message-ID: <trinity-6989b089-36ba-4f0b-a924-f175377209c3-1732208954843@trinity-msg-rest-gmx-gmx-live-86dc4689bd-wks9v>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: re@w6rz.net, masahiroy@kernel.org, nicolas@fjasle.eu, nathan@kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: frank-w@public-files.de
+Subject: build issue in builddeb (dpkg-checkbuilddeps: error: Unmet build
+ dependencies: libssl-dev) in 6.12
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Nov 2024 17:09:14 +0000
+X-UI-CLIENT-META-MAIL-DROP: W10=
+X-Provags-ID: V03:K1:CR3pPsPrqTyHSSZfgC7YZ/KmPokO0bYav0vvq7+zAPbH0mEPnAwvsr+RRVU/vxHylHYOV
+ 6I4C/RO6iep78jMKE6wyeLfLIZHrtYOxjl0uOtdzntBqLvttN9rSBDYxVVJ99t2gc8jrgmyZwPi6
+ aIDGuHy4RwQ8HnRO/w9vkGf9XPcfGcRXcVaD5iq+6JrKX8nZDmqUZ/UOs9JqsyPW3+rC8Oq9N5qc
+ nihArLLK+N+PEFRx6AkH6HFXr/uYrrFb8YUHO+nS9pBvK8VmWaLqnPbvTtH30TggDtdifnkQAbHa
+ lsdqAzI+o3GkLv8YVmPahHg13V6ZFh+F8wslGj/Ja1HCagG5ssFEUWhIh+Ce7b15p0=
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Y5qjbmLrqlI=;j2x73XkjWDdDsvpLqjwg2QXJrae
+ iu4l4MGikK/AuqXrEhQdC9Iqxd5eQY40rV6iq/d+6mEUvK5Iqsgwav5sK0MYMA3e5gdBMPO92
+ uL/CABA9J+j/dFKV2JL4RjV38f4YP2RgBrGZ8jMCoSLLvQdBpFX/sgkfWmxOVGQO0NTEET8LY
+ k4z3T6+MFq88MRZBaWhSFwoGe4lasJ/hmecYnCismWKEJEOloMxFT75K7oJfRPBKQeg1VZhHR
+ 6d5HKQQz3r4I8njckZUFUxuUPhqBhJyqp1bHEr6izZIQKohbPpSsFHttVjn/a2T/PWXpyqroa
+ k997BcYLW9rt/pVyGpc8VjvyVrrFxNQtQjn0kUJ6HWHlZ21pbyvbUmh6sD1Qr1NoTo/7k28qV
+ MkYENkS/TGmSLVKv7LNvqa7Q9XgZo3JEygqryb7afAfblHlDeiEov668/g62fQV3OAKsh2z2A
+ YL2QxmNlAvIOL3srw2Tsxwm8xZHksEBFNxU6+oDIShZ+eHosB0UYj/4C3cDyba1tUQd4zY31s
+ VcFmT5CDNUbZth7tHbA/urUeAdMKxtY3GLz13lHPutMmikl+merDlm7ODWaxZaYWXi8s+jCSh
+ GEkJvWef7K2gdC2kytMrmonhMC5kK6HqJTLfVOoBIB4AzUUAGIK8eS9Yb8MdJlaOaFmGDZ915
+ aulZJnIhPTMDVZ4LkOTJPkiVznhaB0JCdBN6OlQti/jo8q2DDYkw41UsCDMKmByWQnq9i1o/O
+ yEOD7SHrMYaobs2xTjya5hxilceaiTmGlER53k2f7Rh0eSR1lZXQZQ2oFZZCPw2SPXJBRsmor
+ wN17gau2eDwpoKKVBOkXbLYBy9sSzD6Vj/F6WNK4VAzX7jQ/kXMrSiYjnURWcwBmj1qMjTVZ1
+ o1BSI1rIj7RU1ZQxsQyc10iGbeC0tD57oG0c=
 
 Hi,
 
-On Wed, Nov 20, 2024 at 08:55:00PM +0900, Masahiro Yamada wrote:
-> On Wed, Nov 20, 2024 at 6:15 PM Thomas Weißschuh
-> <thomas.weissschuh@linutronix.de> wrote:
-> >
-> > av_permissions.h is not declared as a target and therefore won't be
-> > added to clean-files automatically by kbuild.
-> > For details why it is not a target see the Makefile itself.
-> >
-> > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> > ---
-> >  security/selinux/Makefile | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/security/selinux/Makefile b/security/selinux/Makefile
-> > index 86f0575f670da66a9dc57e13a236d6a5551af38e..58129a7c8cfa08f9caf5444f7df776f41056b77a 100644
-> > --- a/security/selinux/Makefile
-> > +++ b/security/selinux/Makefile
-> > @@ -41,5 +41,8 @@ targets += flask.h
-> >  $(obj)/flask.h: $(obj)/genheaders FORCE
-> >         $(call if_changed,genhdrs)
-> >
-> > +# see the note above, remove this line
-> > +clean-files += av_permissions.h
-> > +
-> >  hostprogs := genheaders
-> >  HOST_EXTRACFLAGS += -I$(srctree)/security/selinux/include
-> 
-> 
-> 
-> Presumably, the attached fixup.diff (comment in 'targets' assignment)
-> would align with the intention of the maintainer of this Makefile
-> because you can do
-> 
->   targets += $(genhdrs)
-> 
-> without the need of the grouped target feature.
-> 'make clean' removes files listed in 'targets'.
-> 
-> 
-> 
-> BTW, the NOTE in this Makefile is not true.
->   https://github.com/torvalds/linux/blob/v6.12/security/selinux/Makefile#L7
-> 
-> 
-> Even if you use GNU Make 4.3, the grouped target does not work with
-> the if_changed macro.
-> 
-> With GNU Make 4.4, it will work as a side-effect of commit
-> fabb03eac412b5ea19f1a97be31dc8c6fa7fc047
-> 
-> 
-> I asked about this behavior some time ago in GNU Make ML.
-> 
-> https://lists.gnu.org/archive/html/help-make/2024-08/msg00001.html
->   or
-> https://savannah.gnu.org/bugs/index.php?66073
-> 
-> 
-> The combination of the grouped target and if_changed
-> is working with GNU Make 4.4+, but I do not know if
-> it is future promising.
+i noticed this issue with debian package build-system in final 6.12.
 
-Thanks for all the insights!
+LOCALVERSION=-main board=bpi-r2 ARCH=arm CROSS_COMPILE=ccache arm-linux-gnueabihf-
+make[1]: Entering directory '/media/data_ext/git/kernel/build'
+  GEN     debian
+dpkg-buildpackage --build=binary --no-pre-clean --unsigned-changes -R'make -f debian/rules' -j1 -a$(cat debian/arch)
+dpkg-buildpackage: info: source package linux-upstream
+dpkg-buildpackage: info: source version 6.12.0-00061-g837897c10f69-3
+dpkg-buildpackage: info: source distribution noble
+dpkg-buildpackage: info: source changed by frank <frank@frank-u24>
+dpkg-buildpackage: info: host architecture armhf
+ dpkg-source --before-build .
+dpkg-checkbuilddeps: error: Unmet build dependencies: libssl-dev
+dpkg-buildpackage: warning: build dependencies/conflicts unsatisfied; aborting
+dpkg-buildpackage: warning: (Use -d flag to override.)
+make[3]: *** [/media/data_ext/git/kernel/BPI-R2-4.14/scripts/Makefile.package:126: bindeb-pkg] Error 3
 
-> IMHO, I do not see much benefits for using the group target in this case
-> because you can still generate flask.h and av_permissions.h
-> separately.
+it was ok in at least rc1 and libssl-dev is installed
 
-I'm fine either way.
+basicly i use this command after setting crosscompiler
 
-@Selinux maintainers:
+LOCALVERSION="${gitbranch}" board="$board" KDEB_COMPRESS=gzip make bindeb-pkg
 
-What do you prefer? Also feel free to just commit whatever you think is
-best.
+if i Revert "kbuild: deb-pkg: add pkg.linux-upstream.nokernelheaders build profile"
 
+i can compile again..any idea why this happens? my build-system is ubuntu 24.4 and github actions with ubuntu-latest.
 
-Thomas
+https://github.com/frank-w/BPI-Router-Linux/actions/runs/11955322294/job/33327423877
+
+regards Frank</frank@frank-u24>
 
