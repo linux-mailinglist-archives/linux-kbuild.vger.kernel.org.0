@@ -1,177 +1,156 @@
-Return-Path: <linux-kbuild+bounces-4785-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4786-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0479D549F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 22:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E989D54E3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 22:43:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F192282545
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 21:20:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92E16280C70
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 21:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 244C61CB50C;
-	Thu, 21 Nov 2024 21:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 348A01DA2F6;
+	Thu, 21 Nov 2024 21:43:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AaVXi5v0"
+	dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b="Q6dIUuxR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323684502F;
-	Thu, 21 Nov 2024 21:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F731B86CF;
+	Thu, 21 Nov 2024 21:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732224003; cv=none; b=QMwUCUB4MUIV02h9YmdFNZXEjGoWZm90ZF+jJI856ScjQ3fmaYNHxKWUwIVApBlwAxFOJbg3rJ/wPeQVYuuU3MTI1nQNggMst6uCog3T9IbKQv1R1mx98TTeJCE2RunsMkowekv3Jisyh6PuYULWKCOX8tO3C0QLRIrobuhsVmQ=
+	t=1732225418; cv=none; b=hz7bA5n1L4pB/LwQ9WwITixo/f6s4pCID5FgZY/B2+12tSHtdnIu0zgpViSO7LtTDoxhHBfR3N/WIbOcAdTa+d8PNxwF6WQ15i4f4lAOSH/OTNjcpQVcivfpiMNLa++ZgkArE6mWSzi22GB3pOyu0bEoryYmAiOG/tEQEJwyijQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732224003; c=relaxed/simple;
-	bh=IZxeSj3DH9D4QFgOVdPCe7k3HBOTZSxL4HiD7PDE4bg=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=bCER9n04nu2k10XjOum/g7tOtmYmw8HOiGEk+EvaxTLGZqTJWO57bvWEwXWtR96L7DIlgLY7y7SAaYKKx+8EuUwsBifop28D6OSv5zF/PrgfWHfehPh2IVbOV69ETWz7ryTcKTnziG03daWpf64/1DTt87gJLBDXr0+hacOSSY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AaVXi5v0; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a99f646ff1bso212277466b.2;
-        Thu, 21 Nov 2024 13:20:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732223999; x=1732828799; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+5mVwL/gxcL6T7A/AL0caz7nykYr0i5AQPoZcXGEz/0=;
-        b=AaVXi5v0mabo9uTBhRwqMGGVGnkxNO7jKPbSlJ6WdF3JMk4uFddFjmXMbx0tuKeKc1
-         htK2tPM2t0ct5BAxCsHY/muHntnTakxRdbFDwv/SpnaqB1dDi6XmUoSWgWAo1+yhp9tu
-         iVSblNVrssx+jw25fe5APllpmjD0ktaS6/ZN+RscwIa+b0RDzNExnvg3mfe/qCd5Yb2s
-         4ovtNMITiUs6oKWSj+spKGrwHBSGARYf8BPM/hH5QGjuWDajIPC7d6KThBztGGNdnjM2
-         Kt5UGFCy7J1hz6LoYkqz4V7IJgOp9i21UP3pbWxgLVtDys2I7iCG4SjqR5JZ3X31GYUD
-         9iqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732223999; x=1732828799;
-        h=content-transfer-encoding:cc:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+5mVwL/gxcL6T7A/AL0caz7nykYr0i5AQPoZcXGEz/0=;
-        b=iO/YXEoKxD/t02m5/O42ftdQfiIeEiy7ft9+FrDg7Q0Q0icxx367XuczXUYHCiaT4M
-         ufpjNsdT6/gD2dzS2mihqwUGyomtmMrODumfi3UPShEGEvTLM5XIzK3w0ad04OOdsrwT
-         xpbZD05MiOMQ5Q2lCIe8vT4Mqv8zOz1xKm9mK2+qKZyI3w2yIyAjnWrOQWune7S//9r3
-         VjM5hXwEGv7bjSvAtsogJ6MQTZdl/un0l2DE9W1MSflgpDoCsB18QVKv4rWGAxxMlabA
-         aVCBv/yhJzovTFnAlGmJ/0o/02kbf9oVNsa3txYbmNW23iD5srOFeZs9aps1+n3qbF4+
-         Y7jA==
-X-Forwarded-Encrypted: i=1; AJvYcCXbKFOOCZN1uxxS4Q/HQkqKZGVciTN8wRb/UgWfDd396HaBDFWlrimZHp6ns3Y4X+y3MbbSHL73LLKLRxY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoaATQwJxozITH3SQClDpkiRsAvGERiA2q+15E4hiZzsS2viwP
-	CtUlhEwbEdpb1d4InDgm6MLRvBQ8s4QcuQKinEddsy3YPxKg5pgbJXLnAg==
-X-Gm-Gg: ASbGncut5skYK8jFsaxeyKtJb8bhqTKLhNCYqhHG6RP0MwQcG6l2YsZLR/C528u1Nf/
-	OBU+VMkPNWLyc3rgaZRFW/+hIiZqjnVVR1o7ivrzDJ2C8RgHSLpPizGWTWh6hwkdqegxckGDW9G
-	9t3cPwRnVhCYRhMZ8oJuBNP8okAVqww3SKk2b4gg+cFVAcXKHJ8lLRM3d3HCO12+Jc2I9S4rrYu
-	FRmFGmj5FL9KLn29I5itsEszV2+eSiBfIukJlogZwXn0dpWOIUW+dyi7G6ByNNhUcSQqUOx
-X-Google-Smtp-Source: AGHT+IEgJCmbBuQqoybt7KwE0w4X0L72atjpXIF7Z7ccrhIhMaRCKipXQU1YUH2jkLaRC8w+NGL2Cw==
-X-Received: by 2002:a17:907:cb26:b0:a9e:b0a3:db75 with SMTP id a640c23a62f3a-aa509b551a0mr42773066b.35.1732223998775;
-        Thu, 21 Nov 2024 13:19:58 -0800 (PST)
-Received: from [192.168.178.20] (dh207-40-8.xnet.hr. [88.207.40.8])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b57d4d5sm14881366b.163.2024.11.21.13.19.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Nov 2024 13:19:58 -0800 (PST)
-Message-ID: <f96d57c9-efda-4781-a395-a7c5fec7f2ad@gmail.com>
-Date: Thu, 21 Nov 2024 22:18:58 +0100
+	s=arc-20240116; t=1732225418; c=relaxed/simple;
+	bh=6T+dZanRGAdb9LvwIN1qB/R8hVhDMuJAuu09F5PqTK4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Heov86KTm8W9gnG3KGHd4sIpyt5DdqP/gkD7nviT0JJVqUWIBn0AMAlnGIGNuACSi8hii81S80LHAK/L1swOcEBP1s4etAzFZsEfmEtjxOc4QUI8pO0bc0l6mW4EB+MagHe2LdFcgnxLivlzKRoGuVkxovkRda55hNoXfZkf5KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de; spf=pass smtp.mailfrom=t-8ch.de; dkim=pass (1024-bit key) header.d=t-8ch.de header.i=@t-8ch.de header.b=Q6dIUuxR; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=t-8ch.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=t-8ch.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+	t=1732225410; bh=6T+dZanRGAdb9LvwIN1qB/R8hVhDMuJAuu09F5PqTK4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q6dIUuxRW0VmYwL0qm2t+xkKfZuEI85M3fZVXd9ROjj4PEo9Mo9YEUdRrJ4Y40JET
+	 pf8NA3dr4fndQLe2MqYWERGpGW+i0yCtJPXBXPuNsvNoeUPpmx5UC9WtjM8DS6QXx/
+	 b4dAInEdo8UOWRS1BqMDFN8pFslUB02ClFTz9Bgs=
+Date: Thu, 21 Nov 2024 22:43:29 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To: Mirsad Todorovac <mtodorovac69@gmail.com>
+Cc: Linux Kernel Build System <linux-kbuild@vger.kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PROBLEM] make bindeb-pkg: When just one source line in a single
+ driver is changed, all driver are rebuilt?
+Message-ID: <9748bda4-0db8-4c70-a321-c7189d575cbc@t-8ch.de>
+References: <f96d57c9-efda-4781-a395-a7c5fec7f2ad@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Linux Kernel Build System <linux-kbuild@vger.kernel.org>
-From: Mirsad Todorovac <mtodorovac69@gmail.com>
-Subject: [PROBLEM] make bindeb-pkg: When just one source line in a single
- driver is changed, all driver are rebuilt?
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f96d57c9-efda-4781-a395-a7c5fec7f2ad@gmail.com>
 
-Hi,
+Hi Mirsad,
 
-I am perplexed now at 6.12 stable vanilla tree, and I've noticed that after changing just one
-line in ./drivers/gpu/drm/xe/tests/xe_migrate.c:226:5-11, all unrelated drivers are being BTF'd, SIGNED,
-and INSTALL-ed:
+On 2024-11-21 22:18:58+0100, Mirsad Todorovac wrote:
+> I am perplexed now at 6.12 stable vanilla tree, and I've noticed that after changing just one
+> line in ./drivers/gpu/drm/xe/tests/xe_migrate.c:226:5-11, all unrelated drivers are being BTF'd, SIGNED,
+> and INSTALL-ed:
+> 
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/aht10.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/coretemp.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/atxp1.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-cpro.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/adt7475.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/axi-fan-control.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/as370-hwmon.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/chipcap2.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/aquacomputer_d5next.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/coretemp.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/applesmc.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-psu.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-cpro.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/asus_rog_ryujin.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/cros_ec_hwmon.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/asc7621.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/da9052-hwmon.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/atxp1.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/axi-fan-control.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-psu.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/da9055-hwmon.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/chipcap2.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/cros_ec_hwmon.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/da9052-hwmon.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/coretemp.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-cpro.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/dell-smm-hwmon.ko
 
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/aht10.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/coretemp.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/atxp1.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-cpro.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/adt7475.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/axi-fan-control.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/as370-hwmon.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/chipcap2.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/aquacomputer_d5next.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/coretemp.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/applesmc.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-psu.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-cpro.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/asus_rog_ryujin.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/cros_ec_hwmon.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/asc7621.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/da9052-hwmon.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/atxp1.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/axi-fan-control.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-psu.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/da9055-hwmon.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/chipcap2.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/cros_ec_hwmon.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/da9052-hwmon.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/coretemp.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/corsair-cpro.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/hwmon/dell-smm-hwmon.ko
+This happens when the vermagic is changed. The vermagic is linked into
+each module. And after relinking all the other steps also need to be
+done.
+Building the Debian package increases the build number which ends up in
+the vermagic and therefore all modules.
+Also there is CONFIG_LOCALVERSION_AUTO which may be involved.
 
-Is there an option to rebuild just the necessary driver that was modified?
+> Is there an option to rebuild just the necessary driver that was modified?
 
-2.
+With the whole Debian packaging: No idea.
+With plain kbuild: make $MAKEFLAGS $PATH_TO_MODULE.ko
 
-From the list of files that were compiled, it seems that drivers/gpu/drm/xe/tests/xe_migrate.c was
-not rebult:
+> 2.
+> 
+> >From the list of files that were compiled, it seems that drivers/gpu/drm/xe/tests/xe_migrate.c was
+> not rebult:
+> 
+> $ grep CC ../err-6.12.0-tiny-pt-02b.log
+>   CC      init/version.o
+>   CC      init/version-timestamp.o
+>   CC      arch/x86/boot/version.o
+>   CC      arch/x86/boot/compressed/kaslr.o
+>   CC      arch/x86/boot/compressed/misc.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/kallsyms
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/sorttable
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/asn1_compiler
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/genksyms.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/selinux/genheaders/genheaders
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/selinux/mdp/mdp
+>   YACC    debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/parse.tab.[ch]
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/sign-file
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/insert-sys-cert
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/parse.tab.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/lex.lex.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/modpost.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/file2alias.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/sumversion.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/symsearch.o
+>   HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/basic/fixdep
+> 
+> But they were only BTF + INSTALL + STRIP + SIGN'ed:
+> 
+> $ grep drivers/gpu/drm/xe/ ../err-6.12.0-tiny-pt-02b.log
+>   BTF [M] drivers/gpu/drm/xe/xe.ko
+>   INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/gpu/drm/xe/xe.ko
+>   STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/gpu/drm/xe/xe.ko
+>   SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/gpu/drm/xe/xe.ko
+> 
+> Nothing suggests that "drivers/gpu/drm/xe/tests/xe_migrate.c" is being recompiled, though it was modified,
+> or at least "touch"-ed.
 
-$ grep CC ../err-6.12.0-tiny-pt-02b.log
-  CC      init/version.o
-  CC      init/version-timestamp.o
-  CC      arch/x86/boot/version.o
-  CC      arch/x86/boot/compressed/kaslr.o
-  CC      arch/x86/boot/compressed/misc.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/kallsyms
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/sorttable
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/asn1_compiler
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/genksyms.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/selinux/genheaders/genheaders
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/selinux/mdp/mdp
-  YACC    debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/parse.tab.[ch]
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/sign-file
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/insert-sys-cert
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/parse.tab.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/genksyms/lex.lex.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/modpost.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/file2alias.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/sumversion.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/mod/symsearch.o
-  HOSTCC  debian/linux-headers-6.12.0-dirty/usr/src/linux-headers-6.12.0-dirty/scripts/basic/fixdep
+Do you have CONFIG_DRM_XE_KUNIT_TEST enabled?
+It probably does not make sense to use Debian packaging for a kunit
+test. Just use kunit.py directly.
 
-But they were only BTF + INSTALL + STRIP + SIGN'ed:
+> Is this the expected behaviour?
+> 
+> (I have deliberately skipped "make clean", to see if I can save some building time and grid power.)
 
-$ grep drivers/gpu/drm/xe/ ../err-6.12.0-tiny-pt-02b.log
-  BTF [M] drivers/gpu/drm/xe/xe.ko
-  INSTALL debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/gpu/drm/xe/xe.ko
-  STRIP   debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/gpu/drm/xe/xe.ko
-  SIGN    debian/linux-image-6.12.0-dirty/lib/modules/6.12.0-dirty/kernel/drivers/gpu/drm/xe/xe.ko
 
-Nothing suggests that "drivers/gpu/drm/xe/tests/xe_migrate.c" is being recompiled, though it was modified,
-or at least "touch"-ed.
-
-Is this the expected behaviour?
-
-(I have deliberately skipped "make clean", to see if I can save some building time and grid power.)
-
-Thank you very much.
-
-Best regards,
-Mirsad Todorovac
-
+Thomas
 
