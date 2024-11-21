@@ -1,148 +1,157 @@
-Return-Path: <linux-kbuild+bounces-4763-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4764-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3459C9D4572
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 02:50:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9EE9D4882
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 09:09:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E6E0B22754
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 01:50:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3FD44B221F2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 08:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335C4224F6;
-	Thu, 21 Nov 2024 01:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55E391CB306;
+	Thu, 21 Nov 2024 08:09:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m0hJUQk4"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UB1IE6oX";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2fS3USbt"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87E72309AD;
-	Thu, 21 Nov 2024 01:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8760A1CACE9;
+	Thu, 21 Nov 2024 08:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732153799; cv=none; b=VoHpBvRUNzs9J79LwiMsFbcokKmHB2vDbPCmTOLyd84cvpCm4cIsg2yBLZJovJ27gwRpCZg5h15OGwkL+pK2c3Ziv+bT4cyqCMyGM/56E7VmDx4MBN77f46GO65BO5UVMtjJXZFh/WD8GVB2zi3afUXxucqqiabUFs0WXPQkc7Q=
+	t=1732176580; cv=none; b=F4MYbAiXMDxsvV+jVX3E5X7c2dZO3OWadX83+38+iU25DL6MpVYWAkfXHojCm9GOixOt63h4AOyH9d/e4e9XpDjRHMkl9BRUPHMydIMhfU8x0fNGUaiXif6vO1L2f39fOVRlPdYLv8OFbic3VH0QMptlOk//o/je6QITzgOl7TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732153799; c=relaxed/simple;
-	bh=9Wzdg2ci85w2wMHXN26WimTxHTAB3AOhmoL4OiOfmAc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ChqNDRDmdOqC+OXAi2KDNVw4wHLLDvApuyobLtp2CT11oGWGcmnH+W7n0BuT093cSp7WjEQfxTg/Gs6LAZekYhrhjiZqYUVvJBG9B4H6CXbuKOD775Md72VJD3tV3aUiJAwILc6fO+xM+CWkXP0INbfiKk36yAutN/uN7pvVasw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m0hJUQk4; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-83abcfb9f37so17438439f.1;
-        Wed, 20 Nov 2024 17:49:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732153797; x=1732758597; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWUCvJsSdXoIhC6o2UMOCGwxpjGSWTPIQOwgtRNzfoc=;
-        b=m0hJUQk4NPKOT4L0RBpIzSMvbQli7RCM6ClbsBlc+FyapGD9HefuNUfQoJCUPW/2q0
-         eAGaftg48W82GZ3gZbksSfaJJuq4yQHDtphQiqn7kRdXo3tk5+TzOtfLA7tnQJgPCxTC
-         nk2Dq5E94czpNZ97x9kILNACU3lAFYgK36waTiniYI0kMAyS09Fomq63IqQ7VQEQUvb+
-         ijF8VxoHmfFsAXPfgbgaiD6R7flvV6/C50pzcuiM0HsIw0eWgjjo5P8WcFpmFTLs7A6b
-         pPd1EySNUVZBwoXUdK5XabLZa6wZUem3Esi5wursYsiABA+SLNW5CN3YLZnleZ48lztg
-         Q8Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732153797; x=1732758597;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JWUCvJsSdXoIhC6o2UMOCGwxpjGSWTPIQOwgtRNzfoc=;
-        b=PEbQcG++t9TAYbES/EppGDx6blaTbLC8g0PaG4hBPcNreCBck1Z8M2iZ5swU5+94Yi
-         2F5NJUQmEFFox4+gyyZfMzU8NINpmIyIGFHpNHnXHjK87cUWRf+723LTR0Q0c3tQEMNc
-         6sLzYb+uhbBasaTKBkx5P0WZWCRugaY0XT5+L9fkXqGDzCmXOqwWBrSTa4mTfsoEQkK+
-         Jy1tT5JCWiOZjrkoj5vgRSQs/FeBY0B8L388PnJo5u69U72eZfhlM5kW7INeE830dK0w
-         YZWAIY5/psFDobeLjtfXMQHYa8R/oErzcB/qWfSCi/37dS37ioxzXAxIMxEHNNKMjei5
-         uvXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdHlPtF9EJrqDWHfFRqtNg9sN6Ze4YZEDkK5/XYLEWZxb+4JV2ia1oRKDnv1yfFVMkrmof9O4ZH+OQjr45@vger.kernel.org, AJvYcCVJVKDe/FlinqhyA1eX5obGwlzspDrVOzk5bdMtcvnZWGR84vGyPk2KMcePb03caSItVPNWttrErsrhDmti@vger.kernel.org, AJvYcCXkVAewP31K2Xjn6PH2GvLaawGaBPC2fyBLfs03WKRfmZkKiXuM1urz/YoDbfe4SNroZgqhAjQ/gEzXTv9G@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTrQz1rHcb8LjzS834iK2gIBL0HeCoIh8JTCTlUPlqZZw2nD4I
-	jxNp3UQlKm1QgWnvIyFrrp8jCTkWo3DIhp8YPTNd0xjjiAMEdFlzQ0P1SPYhH4t+0jtLYcNaGIq
-	S67qWaarQhHUpX18CdNgZqsWyauE=
-X-Gm-Gg: ASbGncseXm3bzZKe631ulL4yIEGulXawbR5/o3dKUiB3LsoJyzZ50ZTA2Sf+SzvnrRp
-	x5aKWDQfcZ4HHdsgjc+B1sQsPP35eDtc=
-X-Google-Smtp-Source: AGHT+IFh8SZLjAYfaOvwEHKsujNC4f1OC6rw1sfTwjSfqOhitM4CoORxUcXQ/f2DBftwZf2WYV9HSVnid5nQordIXA4=
-X-Received: by 2002:a05:6602:13d4:b0:82a:7181:200f with SMTP id
- ca18e2360f4ac-83eb5ff1397mr521065939f.9.1732153796731; Wed, 20 Nov 2024
- 17:49:56 -0800 (PST)
+	s=arc-20240116; t=1732176580; c=relaxed/simple;
+	bh=BvEyhnyI0XDIdgF3tPtxKSiOJGP23vgPNFMQaakLTGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uNwM+vfFswGF0cy08wfjaAOrBFUJc0wIeoESo5LfGF5J6uMoi6d9Iq+aMuvpKJy4wwE2XOrh5yb96RTflqNR0gUJD8ZNzl/niH7hoRZGXD3o7+LnlfgIcxhc4/ZdQRNAktjHNeOAPg80eU5S01FYyEHNzBY6jpBpZt8aOl+5uCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UB1IE6oX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2fS3USbt; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Thu, 21 Nov 2024 09:09:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1732176576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=be4tTM+SqMFCpbwOaFbBKI9pXVAlJLs1b+OQG81BDrs=;
+	b=UB1IE6oXBYkFO/J97uHPV36m2ZdVgvPsU3jm7lCpx596p7Azoyhc2fVVnuf0FWLD7gQD8m
+	a2JbPEqfEiYuTZfhypdbGYkNbJ7Ov42HvPPsGHWplmyphQCmdWpt1txwLR28FHgwuiwJhn
+	AVVpcw8eka6OuCon2vva3e0ofwng2wMe8Sb5Zu/z7pDGkEYJf7Jopuic9T1bS/9y8CDgoc
+	2dkPR0p99xweKWkNoaiXV+d8JPZEMlExd2FAIURH3h9YBEhuzCcU8Um5xlZaiSvEH/6Z9e
+	SY27fHC7om4OliyidxSbH1OjMytxDMshQRCWs6WsQKFXtINk8HYRZP8UYLsC3g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1732176576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=be4tTM+SqMFCpbwOaFbBKI9pXVAlJLs1b+OQG81BDrs=;
+	b=2fS3USbtB9V1nqNf8D3rhSHW0dmQUQ/lw6VtQ7sw7sg8MLyODHqkUkHRn5sY5wqzeyycPk
+	nPcUq3tVXnYWWiCg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selinux: explicitly clean generated av_permissions.h
+Message-ID: <20241121085228-327b3d62-4e9b-4f4e-9100-b62bcedfab1d@linutronix.de>
+References: <20241120-selinux-clean-v1-1-68704e007f7a@linutronix.de>
+ <CAK7LNATUnCPt03BRFSKh1EH=+Sy0Q48wE4ER0BZdJqOb_44L8w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241120204125.52644-1-pvorel@suse.cz> <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
- <20241121011720.GA69389@pevik>
-In-Reply-To: <20241121011720.GA69389@pevik>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 20 Nov 2024 17:49:44 -0800
-Message-ID: <CAF6AEGuzFNVd5fE+b+hKcC8xAOg7CrkPaYuWC6tCVmioutoOOw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
-To: Petr Vorel <pvorel@suse.cz>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATUnCPt03BRFSKh1EH=+Sy0Q48wE4ER0BZdJqOb_44L8w@mail.gmail.com>
 
-On Wed, Nov 20, 2024 at 5:17=E2=80=AFPM Petr Vorel <pvorel@suse.cz> wrote:
->
-> > On Thu, Nov 21, 2024 at 5:41=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wro=
-te:
->
-> > > It will be used in the next commit for DRM_MSM.
->
-> > > Suggested-by: Rob Clark <robdclark@gmail.com>
-> > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
-> > > ---
-> > > Changes v3->v4:
-> > > * Move definition to the end of the file
->
->
-> > I prefer to not check the tool.
->
-> Ack.
->
-> > Why don't you install python3?
->
-> Everybody installs it when it's required, the question is how to inform a=
-bout
-> the dependency.
->
-> There build environments are minimal environments:
-> * chroot (e.g. cross compilation)
-> * container
->
-> These are used by both developers and distros.
+Hi,
 
-I don't think py3 is an _onerous_ dependency, but it has come up as a
-surprise in minimal distro build environments at least once.. so I'd
-be a fan of surfacing this dependency in a predictable/understandable
-way (ie. I'm in favor of this patchset)
+On Wed, Nov 20, 2024 at 08:55:00PM +0900, Masahiro Yamada wrote:
+> On Wed, Nov 20, 2024 at 6:15 PM Thomas Weißschuh
+> <thomas.weissschuh@linutronix.de> wrote:
+> >
+> > av_permissions.h is not declared as a target and therefore won't be
+> > added to clean-files automatically by kbuild.
+> > For details why it is not a target see the Makefile itself.
+> >
+> > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> > ---
+> >  security/selinux/Makefile | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/security/selinux/Makefile b/security/selinux/Makefile
+> > index 86f0575f670da66a9dc57e13a236d6a5551af38e..58129a7c8cfa08f9caf5444f7df776f41056b77a 100644
+> > --- a/security/selinux/Makefile
+> > +++ b/security/selinux/Makefile
+> > @@ -41,5 +41,8 @@ targets += flask.h
+> >  $(obj)/flask.h: $(obj)/genheaders FORCE
+> >         $(call if_changed,genhdrs)
+> >
+> > +# see the note above, remove this line
+> > +clean-files += av_permissions.h
+> > +
+> >  hostprogs := genheaders
+> >  HOST_EXTRACFLAGS += -I$(srctree)/security/selinux/include
+> 
+> 
+> 
+> Presumably, the attached fixup.diff (comment in 'targets' assignment)
+> would align with the intention of the maintainer of this Makefile
+> because you can do
+> 
+>   targets += $(genhdrs)
+> 
+> without the need of the grouped target feature.
+> 'make clean' removes files listed in 'targets'.
+> 
+> 
+> 
+> BTW, the NOTE in this Makefile is not true.
+>   https://github.com/torvalds/linux/blob/v6.12/security/selinux/Makefile#L7
+> 
+> 
+> Even if you use GNU Make 4.3, the grouped target does not work with
+> the if_changed macro.
+> 
+> With GNU Make 4.4, it will work as a side-effect of commit
+> fabb03eac412b5ea19f1a97be31dc8c6fa7fc047
+> 
+> 
+> I asked about this behavior some time ago in GNU Make ML.
+> 
+> https://lists.gnu.org/archive/html/help-make/2024-08/msg00001.html
+>   or
+> https://savannah.gnu.org/bugs/index.php?66073
+> 
+> 
+> The combination of the grouped target and if_changed
+> is working with GNU Make 4.4+, but I do not know if
+> it is future promising.
 
-BR,
--R
+Thanks for all the insights!
 
-> Kind regards,
-> Petr
->
-> > >  init/Kconfig | 3 +++
-> > >  1 file changed, 3 insertions(+)
->
-> > > diff --git a/init/Kconfig b/init/Kconfig
-> > > index fbd0cb06a50a..c77e45484e81 100644
-> > > --- a/init/Kconfig
-> > > +++ b/init/Kconfig
-> > > @@ -2047,3 +2047,6 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
-> > >  # <asm/syscall_wrapper.h>.
-> > >  config ARCH_HAS_SYSCALL_WRAPPER
-> > >         def_bool n
-> > > +
-> > > +config HAVE_PYTHON3
-> > > +       def_bool $(success,$(PYTHON3) -V)
-> > > --
-> > > 2.45.2
+> IMHO, I do not see much benefits for using the group target in this case
+> because you can still generate flask.h and av_permissions.h
+> separately.
+
+I'm fine either way.
+
+@Selinux maintainers:
+
+What do you prefer? Also feel free to just commit whatever you think is
+best.
+
+
+Thomas
 
