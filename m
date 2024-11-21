@@ -1,190 +1,148 @@
-Return-Path: <linux-kbuild+bounces-4762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4763-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0549A9D453B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 02:17:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3459C9D4572
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 02:50:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA08E2812D1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 01:17:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E6E0B22754
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 01:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CDF7AD31;
-	Thu, 21 Nov 2024 01:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335C4224F6;
+	Thu, 21 Nov 2024 01:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WTfy/D8l";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sHoe/EPT";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WTfy/D8l";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="sHoe/EPT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m0hJUQk4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5136729B0;
-	Thu, 21 Nov 2024 01:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87E72309AD;
+	Thu, 21 Nov 2024 01:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732151847; cv=none; b=Ks3yRs5rj6c1aXp/Mg8NtGIJHfD8REf1BIcD6P0KAJ6iUbLVIdlzVft9jXj4fRBgSHVIXIj8TCAyLY8lJsG2rEV/tAUHwCKrbNwNLXRFJb7WFy2GysSJ30hqHvKaz4gb+7d5tus5iEnUeoOOiO1rRJ0mJ/Iu2xVVX3OQDncP/iE=
+	t=1732153799; cv=none; b=VoHpBvRUNzs9J79LwiMsFbcokKmHB2vDbPCmTOLyd84cvpCm4cIsg2yBLZJovJ27gwRpCZg5h15OGwkL+pK2c3Ziv+bT4cyqCMyGM/56E7VmDx4MBN77f46GO65BO5UVMtjJXZFh/WD8GVB2zi3afUXxucqqiabUFs0WXPQkc7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732151847; c=relaxed/simple;
-	bh=vyXbvtxhyPtbV5ayWzvanIDpgaq/AHNMfKErujSAQMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMZ14QZhB8FN2/5krSssT3jSBx9NwNqxF6mUb4mkf4NxLuyOB57/z8P08xo1YL5MDIGpjQEsx9qzkiEQ65htgBqsb9DUv+UfGrTmTaSuath9tSMHlHkXC6MOW3p9Rd1h45WEfOmhhAQh146gmZseSSImrvLa7ZlA3q3qdr7WUSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WTfy/D8l; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sHoe/EPT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WTfy/D8l; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=sHoe/EPT; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 33ACB218E8;
-	Thu, 21 Nov 2024 01:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1732151843;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
-	b=WTfy/D8lXXnS1RCYj/kN8ybXIRGdK9y77RgIIzyC2F+xZxevqn2DN5XCMEVnC/Do6cMl0H
-	M2AJae9CvW7tMxtUVDf0Ipiqi8tjNeii2nWDh9zG2MCCsJ8B8NebR1eH2oOVVAu9q8jRFX
-	271J45VO7uiuqFTr+2DFW7/HtOhaQy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1732151843;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
-	b=sHoe/EPT2FszmRf+WJP9eUtps0tEwuPNJ1TVh409aaJnFORCnA18Tw2+KbajPc5Kla0CRO
-	QcJELP0LMHFpTNDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1732151843;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
-	b=WTfy/D8lXXnS1RCYj/kN8ybXIRGdK9y77RgIIzyC2F+xZxevqn2DN5XCMEVnC/Do6cMl0H
-	M2AJae9CvW7tMxtUVDf0Ipiqi8tjNeii2nWDh9zG2MCCsJ8B8NebR1eH2oOVVAu9q8jRFX
-	271J45VO7uiuqFTr+2DFW7/HtOhaQy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1732151843;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLQJlwjvQ2Dbsxi9xrvB3E+w9FqEmidg2MsLHAlaruU=;
-	b=sHoe/EPT2FszmRf+WJP9eUtps0tEwuPNJ1TVh409aaJnFORCnA18Tw2+KbajPc5Kla0CRO
-	QcJELP0LMHFpTNDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93B9A1376E;
-	Thu, 21 Nov 2024 01:17:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cNZzHyKKPme0XgAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Thu, 21 Nov 2024 01:17:22 +0000
-Date: Thu, 21 Nov 2024 02:17:20 +0100
-From: Petr Vorel <pvorel@suse.cz>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
-Message-ID: <20241121011720.GA69389@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20241120204125.52644-1-pvorel@suse.cz>
- <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
+	s=arc-20240116; t=1732153799; c=relaxed/simple;
+	bh=9Wzdg2ci85w2wMHXN26WimTxHTAB3AOhmoL4OiOfmAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ChqNDRDmdOqC+OXAi2KDNVw4wHLLDvApuyobLtp2CT11oGWGcmnH+W7n0BuT093cSp7WjEQfxTg/Gs6LAZekYhrhjiZqYUVvJBG9B4H6CXbuKOD775Md72VJD3tV3aUiJAwILc6fO+xM+CWkXP0INbfiKk36yAutN/uN7pvVasw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m0hJUQk4; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-83abcfb9f37so17438439f.1;
+        Wed, 20 Nov 2024 17:49:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732153797; x=1732758597; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JWUCvJsSdXoIhC6o2UMOCGwxpjGSWTPIQOwgtRNzfoc=;
+        b=m0hJUQk4NPKOT4L0RBpIzSMvbQli7RCM6ClbsBlc+FyapGD9HefuNUfQoJCUPW/2q0
+         eAGaftg48W82GZ3gZbksSfaJJuq4yQHDtphQiqn7kRdXo3tk5+TzOtfLA7tnQJgPCxTC
+         nk2Dq5E94czpNZ97x9kILNACU3lAFYgK36waTiniYI0kMAyS09Fomq63IqQ7VQEQUvb+
+         ijF8VxoHmfFsAXPfgbgaiD6R7flvV6/C50pzcuiM0HsIw0eWgjjo5P8WcFpmFTLs7A6b
+         pPd1EySNUVZBwoXUdK5XabLZa6wZUem3Esi5wursYsiABA+SLNW5CN3YLZnleZ48lztg
+         Q8Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732153797; x=1732758597;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JWUCvJsSdXoIhC6o2UMOCGwxpjGSWTPIQOwgtRNzfoc=;
+        b=PEbQcG++t9TAYbES/EppGDx6blaTbLC8g0PaG4hBPcNreCBck1Z8M2iZ5swU5+94Yi
+         2F5NJUQmEFFox4+gyyZfMzU8NINpmIyIGFHpNHnXHjK87cUWRf+723LTR0Q0c3tQEMNc
+         6sLzYb+uhbBasaTKBkx5P0WZWCRugaY0XT5+L9fkXqGDzCmXOqwWBrSTa4mTfsoEQkK+
+         Jy1tT5JCWiOZjrkoj5vgRSQs/FeBY0B8L388PnJo5u69U72eZfhlM5kW7INeE830dK0w
+         YZWAIY5/psFDobeLjtfXMQHYa8R/oErzcB/qWfSCi/37dS37ioxzXAxIMxEHNNKMjei5
+         uvXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUdHlPtF9EJrqDWHfFRqtNg9sN6Ze4YZEDkK5/XYLEWZxb+4JV2ia1oRKDnv1yfFVMkrmof9O4ZH+OQjr45@vger.kernel.org, AJvYcCVJVKDe/FlinqhyA1eX5obGwlzspDrVOzk5bdMtcvnZWGR84vGyPk2KMcePb03caSItVPNWttrErsrhDmti@vger.kernel.org, AJvYcCXkVAewP31K2Xjn6PH2GvLaawGaBPC2fyBLfs03WKRfmZkKiXuM1urz/YoDbfe4SNroZgqhAjQ/gEzXTv9G@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTrQz1rHcb8LjzS834iK2gIBL0HeCoIh8JTCTlUPlqZZw2nD4I
+	jxNp3UQlKm1QgWnvIyFrrp8jCTkWo3DIhp8YPTNd0xjjiAMEdFlzQ0P1SPYhH4t+0jtLYcNaGIq
+	S67qWaarQhHUpX18CdNgZqsWyauE=
+X-Gm-Gg: ASbGncseXm3bzZKe631ulL4yIEGulXawbR5/o3dKUiB3LsoJyzZ50ZTA2Sf+SzvnrRp
+	x5aKWDQfcZ4HHdsgjc+B1sQsPP35eDtc=
+X-Google-Smtp-Source: AGHT+IFh8SZLjAYfaOvwEHKsujNC4f1OC6rw1sfTwjSfqOhitM4CoORxUcXQ/f2DBftwZf2WYV9HSVnid5nQordIXA4=
+X-Received: by 2002:a05:6602:13d4:b0:82a:7181:200f with SMTP id
+ ca18e2360f4ac-83eb5ff1397mr521065939f.9.1732153796731; Wed, 20 Nov 2024
+ 17:49:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
-X-Spam-Score: -3.50
-X-Spamd-Result: default: False [-3.50 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	HAS_REPLYTO(0.30)[pvorel@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linaro.org,linux-foundation.org,lists.freedesktop.org,gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:replyto,suse.cz:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
+References: <20241120204125.52644-1-pvorel@suse.cz> <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
+ <20241121011720.GA69389@pevik>
+In-Reply-To: <20241121011720.GA69389@pevik>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 20 Nov 2024 17:49:44 -0800
+Message-ID: <CAF6AEGuzFNVd5fE+b+hKcC8xAOg7CrkPaYuWC6tCVmioutoOOw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-arm-msm@vger.kernel.org, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Thu, Nov 21, 2024 at 5:41 AM Petr Vorel <pvorel@suse.cz> wrote:
+On Wed, Nov 20, 2024 at 5:17=E2=80=AFPM Petr Vorel <pvorel@suse.cz> wrote:
+>
+> > On Thu, Nov 21, 2024 at 5:41=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wro=
+te:
+>
+> > > It will be used in the next commit for DRM_MSM.
+>
+> > > Suggested-by: Rob Clark <robdclark@gmail.com>
+> > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > > ---
+> > > Changes v3->v4:
+> > > * Move definition to the end of the file
+>
+>
+> > I prefer to not check the tool.
+>
+> Ack.
+>
+> > Why don't you install python3?
+>
+> Everybody installs it when it's required, the question is how to inform a=
+bout
+> the dependency.
+>
+> There build environments are minimal environments:
+> * chroot (e.g. cross compilation)
+> * container
+>
+> These are used by both developers and distros.
 
-> > It will be used in the next commit for DRM_MSM.
+I don't think py3 is an _onerous_ dependency, but it has come up as a
+surprise in minimal distro build environments at least once.. so I'd
+be a fan of surfacing this dependency in a predictable/understandable
+way (ie. I'm in favor of this patchset)
 
-> > Suggested-by: Rob Clark <robdclark@gmail.com>
-> > Signed-off-by: Petr Vorel <pvorel@suse.cz>
-> > ---
-> > Changes v3->v4:
-> > * Move definition to the end of the file
+BR,
+-R
 
-
-> I prefer to not check the tool.
-
-Ack.
-
-> Why don't you install python3?
-
-Everybody installs it when it's required, the question is how to inform about
-the dependency.
-
-There build environments are minimal environments:
-* chroot (e.g. cross compilation)
-* container
-
-These are used by both developers and distros.
-
-Kind regards,
-Petr
-
-> >  init/Kconfig | 3 +++
-> >  1 file changed, 3 insertions(+)
-
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index fbd0cb06a50a..c77e45484e81 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -2047,3 +2047,6 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
-> >  # <asm/syscall_wrapper.h>.
-> >  config ARCH_HAS_SYSCALL_WRAPPER
-> >         def_bool n
-> > +
-> > +config HAVE_PYTHON3
-> > +       def_bool $(success,$(PYTHON3) -V)
-> > --
-> > 2.45.2
+> Kind regards,
+> Petr
+>
+> > >  init/Kconfig | 3 +++
+> > >  1 file changed, 3 insertions(+)
+>
+> > > diff --git a/init/Kconfig b/init/Kconfig
+> > > index fbd0cb06a50a..c77e45484e81 100644
+> > > --- a/init/Kconfig
+> > > +++ b/init/Kconfig
+> > > @@ -2047,3 +2047,6 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+> > >  # <asm/syscall_wrapper.h>.
+> > >  config ARCH_HAS_SYSCALL_WRAPPER
+> > >         def_bool n
+> > > +
+> > > +config HAVE_PYTHON3
+> > > +       def_bool $(success,$(PYTHON3) -V)
+> > > --
+> > > 2.45.2
 
