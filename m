@@ -1,143 +1,141 @@
-Return-Path: <linux-kbuild+bounces-4788-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4789-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DD49D5533
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 23:10:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7AD9D554D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 23:17:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C80B281BB2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 22:10:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B70DE1F211FC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Nov 2024 22:17:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E0BE1DC05D;
-	Thu, 21 Nov 2024 22:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F9541885B0;
+	Thu, 21 Nov 2024 22:17:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJWLzhuX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGFOQGfg"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2200F1DA103;
-	Thu, 21 Nov 2024 22:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE2870801;
+	Thu, 21 Nov 2024 22:17:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732227020; cv=none; b=kd9gY4AA4vQBVytyT+M7k3O3jy/JSwjLmwUv3zRJ9AFy/JgHCDDweSa4ghuzCCLuFagkOHqLYPhk30UcckeXYyb5FnDK+/c5aJ3B7P1bVKzpzNcCET2sik4uyfmXmsXxPn7xc2zTGxZ3zVuGFWbX2l5r9vavbML9e5Ude3PhgUs=
+	t=1732227449; cv=none; b=nh+TRLLAk5iMQy923IjCQfNcuQqWhezotqwIewW2iM3jkyHb8K4xSaVd8NdzS1aZJi0ICfEXY/PdKkKrvHIuJNpVdPAdg0/Bxa7fixFclmUmXlri2Y8ajeo80moQTLOYdbNopJQ7tQpVP4/xB6LT8KlheE0kCvhAtWj8i0kFRGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732227020; c=relaxed/simple;
-	bh=P8Qd/MRAyy/b/gU33MQSGIBjufUiMMrQJ42bPKEfkWk=;
+	s=arc-20240116; t=1732227449; c=relaxed/simple;
+	bh=MLlq8+M+tw64hFOX9c9IBrDEY8JRJbyJBDIrXXaqd+k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pq4nGqljnS3HnwS6LrJlW265UygRHdwiDWt3+dOH3e9zaKU6c2uoVW34I2TEcINbhtLnfDgYBKtHcuqsYjPTfM2cIqly3Q7KXJeml3GTVAXbMGTU1vkxynKzlpN6Lm6g4nApmRAx1FKf8tj1tAxmd3RbnNYyoGlsOqi4fUPFNW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qJWLzhuX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910A4C4CECC;
-	Thu, 21 Nov 2024 22:10:18 +0000 (UTC)
+	 To:Cc:Content-Type; b=kct2eDS37hE1o3nnD0OLphtGPR5PCQIL8QANAUxGMxycoCS7sVDBy2xcia5MyD46Trahr2r06KKuwFtTOIEm2Y8wy9nmydYlX2C4yFPMIJrDCGrwPysix1lfOXeBboK6YpyfLGd5xNHCANnj1dNYPs0wfe2pU9xxoHwgK/gJSoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGFOQGfg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87F75C4CECD;
+	Thu, 21 Nov 2024 22:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732227018;
-	bh=P8Qd/MRAyy/b/gU33MQSGIBjufUiMMrQJ42bPKEfkWk=;
+	s=k20201202; t=1732227447;
+	bh=MLlq8+M+tw64hFOX9c9IBrDEY8JRJbyJBDIrXXaqd+k=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qJWLzhuXblhGHrc/UdhNMI/aMPQ4f+rWm1uLJUpLV/vlCbtu7bE6Cx/guToc4eGqt
-	 yg6DKpXgmiSdb2o8t0eDbW2765Pyv21LAPOYeZ5eP7sborjvW6sOAZ7HgymHWbAvuQ
-	 rrfwAgl6zTPQO54aaGiCOzOfFsGACb0WgAErIMCM9Bzwvis+3emIVfIAX9Eltbj8rb
-	 cV8PgzC0CpN28z4EL+qmyHGwCF5YRfAlG9wGbYwcECwcYVaZUnOluv5sav2JYebTsV
-	 AfraWN1mO9wk13MXtVOgdk6pHgiezjbBrpON/OLtlqwX4PJva87MPwHsTTypGsVuFA
-	 tnhG+SeNpP5wg==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539ee1acb86so1525293e87.0;
-        Thu, 21 Nov 2024 14:10:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVqXSVQ4FMF7YRIVFnO/Frh/bD8f1eSfvA/b6Kq8qvCUnQc8Zj3RJyNktTO8HnATh0LuIwkXz77wsOu/1GY@vger.kernel.org, AJvYcCXuwwMI/YDwvIceQ4hoMV32QVcWhoq9ezMq13sIlNGGPKzLqyB39G6ER1N4LVDDRpMrR5cmB1aVvuJjl6E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuS4LOZ+K96SlfHXL7F5aurEcI447DsxliiNnqy8LaR4lD5Gf0
-	mLCitYmtbdkRCD+W/RIp+Nye53RMwyGfYQF3HJVr99ct7CpahN1hGIXo6mmtSPUmzp0Dxi2Ets2
-	ivcUrygQaDifoueaajeRnLeUxLBk=
-X-Google-Smtp-Source: AGHT+IFzJA2JGKgzD7q4s8J77+zJtSvedW7tV0Gczz0OSUyzXKCpXkShpj+6t0JHVapFkxxPqHLVJ/O0fxFMYlOy+C8=
-X-Received: by 2002:a05:6512:31ce:b0:536:a583:2777 with SMTP id
- 2adb3069b0e04-53dd35a4ce4mr184353e87.9.1732227017219; Thu, 21 Nov 2024
- 14:10:17 -0800 (PST)
+	b=oGFOQGfggCJy5L2K6kG9BCE2IChc89FYc/HSCB1upfT0yICiKWAW+pm4UZ+LJox6+
+	 vVZTsriZv4j1zYIBm0Or/lC1CZV+BI3ZWTAUDdzL0rqgrxyzwSHvPZEE/+LYYx48Bo
+	 ee6kjUyic+rqdCeAQbrwV0+dtmpORSs87xA0dgXbHgwgZAu9hNL/wXghccHbG8IjtN
+	 eHJ3e5SzGgjUK5MQkUSLotDpg1VH+CjeR8DGCD5l1iPuDY2aWlEn37V7b2VwOtmKqN
+	 g+yWDlskxerZYOg2dCSITNsVja2OhqLhY7hkX0Yf4KuQop4pTS2y9rFKwGX4nRvaA7
+	 aP47c1kzR5gFQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53d9ff92edaso1586265e87.1;
+        Thu, 21 Nov 2024 14:17:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV/DqywRGx9GmsZCG84M53izHDc/51Yh1wk/NqOV6X8m3szrnpn/aSvj/Nfy1Tjd9qA5ieoBpBRx/xErjef@vger.kernel.org, AJvYcCXKrAZ4K9t3sw9sJL70jH6gtyuLTUa/s29hSEE6M3yLyu0Z0UGEmJyECFNiTjO/5YUFhdtkTX8dvt6/1MI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywv4ZbmfJt4LXUZy3hUBjaljYNu2caCV+1+7eMcMjOQy5fNs9nl
+	/SKpXBU/3Ky14cirqvTLS1oX3wEE94zdAmx7FhEneMn/HAzkGnpfPQHV0D1QVDoHAw18UPwe0fs
+	5EiIWXxDrt3oNGoy+7rtnHTXrgEQ=
+X-Google-Smtp-Source: AGHT+IEDF/pd/Sz3sl47bUiAWd6bAMOR+fWYehca9LHB3zJLcbn10+vWnVIxV5UhcwMI+r07eJGD8MGL4Aptk38j+GA=
+X-Received: by 2002:a05:6512:31ce:b0:53d:d125:c26b with SMTP id
+ 2adb3069b0e04-53dd35a55edmr201881e87.9.1732227446129; Thu, 21 Nov 2024
+ 14:17:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <trinity-6989b089-36ba-4f0b-a924-f175377209c3-1732208954843@trinity-msg-rest-gmx-gmx-live-86dc4689bd-wks9v>
-In-Reply-To: <trinity-6989b089-36ba-4f0b-a924-f175377209c3-1732208954843@trinity-msg-rest-gmx-gmx-live-86dc4689bd-wks9v>
+References: <20241120204125.52644-1-pvorel@suse.cz> <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
+ <20241121011720.GA69389@pevik>
+In-Reply-To: <20241121011720.GA69389@pevik>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 22 Nov 2024 07:09:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQuE_e2XrRA7r=o8p-Vjqi3OAii1z99E+GdacvMdw6-5w@mail.gmail.com>
-Message-ID: <CAK7LNAQuE_e2XrRA7r=o8p-Vjqi3OAii1z99E+GdacvMdw6-5w@mail.gmail.com>
-Subject: Re: build issue in builddeb (dpkg-checkbuilddeps: error: Unmet build
- dependencies: libssl-dev) in 6.12
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: re@w6rz.net, nicolas@fjasle.eu, nathan@kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 22 Nov 2024 07:16:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARc4Cp1a8G9p0KiCGyu0WL3BNEd0BY0COMPL4U8bLr8gA@mail.gmail.com>
+Message-ID: <CAK7LNARc4Cp1a8G9p0KiCGyu0WL3BNEd0BY0COMPL4U8bLr8gA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
+To: Petr Vorel <pvorel@suse.cz>
+Cc: linux-arm-msm@vger.kernel.org, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 22, 2024 at 2:09=E2=80=AFAM Frank Wunderlich
-<frank-w@public-files.de> wrote:
+On Thu, Nov 21, 2024 at 10:17=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wrote:
 >
-> Hi,
+> > On Thu, Nov 21, 2024 at 5:41=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wro=
+te:
 >
-> i noticed this issue with debian package build-system in final 6.12.
+> > > It will be used in the next commit for DRM_MSM.
 >
-> LOCALVERSION=3D-main board=3Dbpi-r2 ARCH=3Darm CROSS_COMPILE=3Dccache arm=
--linux-gnueabihf-
-> make[1]: Entering directory '/media/data_ext/git/kernel/build'
->   GEN     debian
-> dpkg-buildpackage --build=3Dbinary --no-pre-clean --unsigned-changes -R'm=
-ake -f debian/rules' -j1 -a$(cat debian/arch)
-> dpkg-buildpackage: info: source package linux-upstream
-> dpkg-buildpackage: info: source version 6.12.0-00061-g837897c10f69-3
-> dpkg-buildpackage: info: source distribution noble
-> dpkg-buildpackage: info: source changed by frank <frank@frank-u24>
-> dpkg-buildpackage: info: host architecture armhf
->  dpkg-source --before-build .
-> dpkg-checkbuilddeps: error: Unmet build dependencies: libssl-dev
-
-This error message means, you need to install "libssl-dev:armhf"
-
-
-> dpkg-buildpackage: warning: build dependencies/conflicts unsatisfied; abo=
-rting
-> dpkg-buildpackage: warning: (Use -d flag to override.)
-> make[3]: *** [/media/data_ext/git/kernel/BPI-R2-4.14/scripts/Makefile.pac=
-kage:126: bindeb-pkg] Error 3
+> > > Suggested-by: Rob Clark <robdclark@gmail.com>
+> > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > > ---
+> > > Changes v3->v4:
+> > > * Move definition to the end of the file
 >
-> it was ok in at least rc1 and libssl-dev is installed
-
-
-Presumably, you already installed libssl-dev for your build machine
-(i.e. "libssl-dev:amd64" if your build machine is x86_64).
-
-But, you have not installed "libssl-dev" for the architecture
-your are building for (i.e, "libssl-dev:armhf")
-
-
-
-
-
-
-
-
-
-
-
-
-
 >
-> basicly i use this command after setting crosscompiler
+> > I prefer to not check the tool.
 >
-> LOCALVERSION=3D"${gitbranch}" board=3D"$board" KDEB_COMPRESS=3Dgzip make =
-bindeb-pkg
+> Ack.
 >
-> if i Revert "kbuild: deb-pkg: add pkg.linux-upstream.nokernelheaders buil=
-d profile"
+> > Why don't you install python3?
 >
-> i can compile again..any idea why this happens? my build-system is ubuntu=
- 24.4 and github actions with ubuntu-latest.
+> Everybody installs it when it's required, the question is how to inform a=
+bout
+> the dependency.
 >
-> https://github.com/frank-w/BPI-Router-Linux/actions/runs/11955322294/job/=
-33327423877
+> There build environments are minimal environments:
+> * chroot (e.g. cross compilation)
+> * container
 >
-> regards Frank</frank@frank-u24>
+> These are used by both developers and distros.
+
+
+Documentation/process/changes.rst
+documents basic tools necessary for building the kernel.
+
+Python3 is listed as "optional" because it is required
+only for some CONFIG options.
+
+If the exact dependency is unclear, it is better to install
+all tools listed in that table.
+
+
+
+
+> Kind regards,
+> Petr
+>
+> > >  init/Kconfig | 3 +++
+> > >  1 file changed, 3 insertions(+)
+>
+> > > diff --git a/init/Kconfig b/init/Kconfig
+> > > index fbd0cb06a50a..c77e45484e81 100644
+> > > --- a/init/Kconfig
+> > > +++ b/init/Kconfig
+> > > @@ -2047,3 +2047,6 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+> > >  # <asm/syscall_wrapper.h>.
+> > >  config ARCH_HAS_SYSCALL_WRAPPER
+> > >         def_bool n
+> > > +
+> > > +config HAVE_PYTHON3
+> > > +       def_bool $(success,$(PYTHON3) -V)
+> > > --
+> > > 2.45.2
 
 
 
