@@ -1,167 +1,231 @@
-Return-Path: <linux-kbuild+bounces-4800-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4801-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362BE9D6499
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 20:32:28 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B979D64F7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 21:42:13 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DEE6528371E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 19:32:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB6F016188F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 20:42:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91EC95FDA7;
-	Fri, 22 Nov 2024 19:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A06A1865FD;
+	Fri, 22 Nov 2024 20:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=boeing.com header.i=@boeing.com header.b="b9Fe4hYW"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AzsDTPqT";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XZz/Zwqu";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="AzsDTPqT";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XZz/Zwqu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ewa-mbsout-02.mbs.boeing.net (ewa-mbsout-02.mbs.boeing.net [130.76.20.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AE52FC23;
-	Fri, 22 Nov 2024 19:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.76.20.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BC317B428;
+	Fri, 22 Nov 2024 20:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732303942; cv=none; b=t7gTuCueGsGgYfu3vXzOfaa+RSZHr4gDZY3SVkYDWsPkHxBas6oy1ZeqN91tehX25WKCw+noo26AcQx9RBcOrb/XAxx1QOaPFTEoEGtxCnA+BilvKnEIWaMoEniDdD5dluHGihvn3Pb+cjPHJusVvTzS5+rWDrvrKrLS+LKpmp8=
+	t=1732308128; cv=none; b=gDxPfumSMyVPZGNmOi9wr0X++cmH7ykVh0/vqJMI1BgHWJhA+DgPlE4jqW2Axg9VJ7PK9T35LWrqb9J+DtInxjL4IslYT1vtSthBwCc56hiKuDUV8lHqr3cpjnhCU4DFv+4/DYLwMqtrWWjN7EHunsc6T9ot9I8dtI5YBuPv1aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732303942; c=relaxed/simple;
-	bh=wG2inwSpR/9+X54wlCts1dEXVIrIecNMNuwaBfvJ464=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lEYXUpBP8KqO9oAwSkGQzAXOx/YwW2nchqIkiwDqaznAC4OyxyxKtkA9I3bbXW0xyWRs5Ow1z0gMUvTU7CFX+YbjxUxzns0DTos5eHTXYG7InnsFq5Ljv057BhFp6fqrL7Py9hnnboY4ftYyswXUuoMAVaCdoSMncminuDUP0pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=boeing.com; spf=pass smtp.mailfrom=boeing.com; dkim=pass (2048-bit key) header.d=boeing.com header.i=@boeing.com header.b=b9Fe4hYW; arc=none smtp.client-ip=130.76.20.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=boeing.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=boeing.com
-Received: from localhost (localhost [127.0.0.1])
-	by ewa-mbsout-02.mbs.boeing.net (8.15.2/8.15.2/DOWNSTREAM_MBSOUT) with SMTP id 4AMJT4ff028071;
-	Fri, 22 Nov 2024 11:29:12 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=boeing.com;
-	s=boeing-s1912; t=1732303752;
-	bh=wG2inwSpR/9+X54wlCts1dEXVIrIecNMNuwaBfvJ464=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=b9Fe4hYWJDv8vlgzCTBJRYxvgKsY2s2xN94nQIX+oFkSQfukvayGgoYYk2nABAroA
-	 FyZHzL14PUk4dE7FeKfiYrdms0/c2Vmu48G4BAUwsNW31cUmUJ5wIDmV59Gl5HWM1f
-	 iWdyqjsc/Ggb0sfh6meyffWTBwpOyr0wg7hCawcPRADGq7XEJkDRRuVmYsyPH0CbXu
-	 0Y095/BH8cur5GmSkVqsTcqUMQJXv+O9LU1g9sOpMspF+v622PaLECbD6NozlIstk3
-	 KPMGdG1e0eMFNTqhMkBz09iXV4wnSRLF6/2hbHKR9ZBX+3phMSKB9eC934hVPIqO+H
-	 6zpiT4xVsj+YA==
-Received: from XCH16-03-02.nos.boeing.com (xch16-03-02.nos.boeing.com [137.137.111.11])
-	by ewa-mbsout-02.mbs.boeing.net (8.15.2/8.15.2/8.15.2/UPSTREAM_MBSOUT) with ESMTPS id 4AMJSmxp027883
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 22 Nov 2024 11:28:49 -0800
-Received: from XCH16-03-04.nos.boeing.com (137.137.111.13) by
- XCH16-03-02.nos.boeing.com (137.137.111.11) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 22 Nov 2024 11:28:46 -0800
-Received: from XCH16-03-04.nos.boeing.com ([fe80::7809:c78b:36c8:935e]) by
- XCH16-03-04.nos.boeing.com ([fe80::7809:c78b:36c8:935e%13]) with mapi id
- 15.01.2507.039; Fri, 22 Nov 2024 11:28:46 -0800
-From: "Wolber (US), Chuck" <chuck.wolber@boeing.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-        Nathan Chancellor
-	<nathan@kernel.org>
-CC: Wentao Zhang <wentaoz5@illinois.edu>,
-        "Kelly (US), Matt"
-	<Matt.Kelly2@boeing.com>,
-        "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>,
-        "Oppelt (US), Andrew J"
-	<andrew.j.oppelt@boeing.com>,
-        "anton.ivanov@cambridgegreys.com"
-	<anton.ivanov@cambridgegreys.com>,
-        "ardb@kernel.org" <ardb@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>,
-        "dvyukov@google.com" <dvyukov@google.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "jinghao7@illinois.edu"
-	<jinghao7@illinois.edu>,
-        "johannes@sipsolutions.net"
-	<johannes@sipsolutions.net>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "justinstitt@google.com" <justinstitt@google.com>,
-        "kees@kernel.org"
-	<kees@kernel.org>,
-        "kent.overstreet@linux.dev" <kent.overstreet@linux.dev>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        "luto@kernel.org"
-	<luto@kernel.org>,
-        "marinov@illinois.edu" <marinov@illinois.edu>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "maskray@google.com"
-	<maskray@google.com>,
-        "mathieu.desnoyers@efficios.com"
-	<mathieu.desnoyers@efficios.com>,
-        "Weber (US), Matthew L"
-	<matthew.l.weber3@boeing.com>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "morbo@google.com" <morbo@google.com>,
-        "ndesaulniers@google.com" <ndesaulniers@google.com>,
-        "oberpar@linux.ibm.com"
-	<oberpar@linux.ibm.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "richard@nod.at" <richard@nod.at>,
-        "rostedt@goodmis.org"
-	<rostedt@goodmis.org>,
-        "samitolvanen@google.com" <samitolvanen@google.com>,
-        "Sarkisian (US), Samuel" <samuel.sarkisian@boeing.com>,
-        "Vanderleest (US),
- Steven H" <steven.h.vanderleest@boeing.com>,
-        "tglx@linutronix.de"
-	<tglx@linutronix.de>,
-        "tingxur@illinois.edu" <tingxur@illinois.edu>,
-        "tyxu@illinois.edu" <tyxu@illinois.edu>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v2 0/4] Enable measuring the kernel's
- Source-based Code Coverage and MC/DC with Clang
-Thread-Topic: [EXTERNAL] Re: [PATCH v2 0/4] Enable measuring the kernel's
- Source-based Code Coverage and MC/DC with Clang
-Thread-Index: AQHbFIcZxf21kGRuK0Wyyav9pF/OKLJzeOYAgAKrngCATew1gP//77aA
-Date: Fri, 22 Nov 2024 19:28:46 +0000
-Message-ID: <5F5EA6BE-94BD-4352-ADA9-D14BBE703D4F@boeing.com>
-References: <20241002045347.GE555609@thelio-3990X>
- <20241002064252.41999-1-wentaoz5@illinois.edu>
- <20241003232938.GA1663252@thelio-3990X>
- <20241122122703.GW24774@noisy.programming.kicks-ass.net>
-In-Reply-To: <20241122122703.GW24774@noisy.programming.kicks-ass.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Microsoft-MacOutlook/16.90.24110120
-x-tm-snts-smtp: 7DF70432748D194DD0E592FE746D6476C899CCB5789BECADCB3900194B2B36932000:8
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <16FA026E611EC84494309EE6F018901D@boeing.com>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1732308128; c=relaxed/simple;
+	bh=KHKHQCXvuPqtS8zBtf2vIiBmq70MyYsvypTSAYgkiac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J4D3t3vjwVbVEInf70YFvXMazW/Rv1cc88n0patbhFMu/VO1hVtbUdFDg/+81pGcfmkJfmVilRNakmXj+JDmggZNPjvS8XxEGBErl5lLAdVGsJy6wV1slgPLWie8uj3naFBkD1ZWL7pdaSS7XvgWyP81GB4Im0mNtPWjoWzKTPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AzsDTPqT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XZz/Zwqu; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=AzsDTPqT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XZz/Zwqu; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4270221240;
+	Fri, 22 Nov 2024 20:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1732308124;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KHKHQCXvuPqtS8zBtf2vIiBmq70MyYsvypTSAYgkiac=;
+	b=AzsDTPqT7eoeHiGQhWEj4WP5gEbXkxHzIEV42sxL+XYjq1GcEtMKEkF9eTpm++y1OcS53L
+	NgTKC68IcUn8EdftJ9vPGZNPjgcZJpkQj4/fRow2065DaZqdJSyQsbPgzr1FRasW0UD7bf
+	PWhkcX5WaZRySP5fqFm7kMsF3sCxbOA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1732308124;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KHKHQCXvuPqtS8zBtf2vIiBmq70MyYsvypTSAYgkiac=;
+	b=XZz/Zwqu27QgWYeUGgkJu5PLIx9ocmWILGpX51ZwduaMkHZ29nBQOgyXf0XF+TvouhrXj/
+	Q0c5l2DwC/5zDaDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=AzsDTPqT;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="XZz/Zwqu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1732308124;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KHKHQCXvuPqtS8zBtf2vIiBmq70MyYsvypTSAYgkiac=;
+	b=AzsDTPqT7eoeHiGQhWEj4WP5gEbXkxHzIEV42sxL+XYjq1GcEtMKEkF9eTpm++y1OcS53L
+	NgTKC68IcUn8EdftJ9vPGZNPjgcZJpkQj4/fRow2065DaZqdJSyQsbPgzr1FRasW0UD7bf
+	PWhkcX5WaZRySP5fqFm7kMsF3sCxbOA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1732308124;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KHKHQCXvuPqtS8zBtf2vIiBmq70MyYsvypTSAYgkiac=;
+	b=XZz/Zwqu27QgWYeUGgkJu5PLIx9ocmWILGpX51ZwduaMkHZ29nBQOgyXf0XF+TvouhrXj/
+	Q0c5l2DwC/5zDaDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8A59138A7;
+	Fri, 22 Nov 2024 20:42:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9uhuNpvsQGefVAAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Fri, 22 Nov 2024 20:42:03 +0000
+Date: Fri, 22 Nov 2024 21:41:57 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
+Message-ID: <20241122204157.GA125569@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20241120204125.52644-1-pvorel@suse.cz>
+ <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
+ <20241121011720.GA69389@pevik>
+ <CAF6AEGuzFNVd5fE+b+hKcC8xAOg7CrkPaYuWC6tCVmioutoOOw@mail.gmail.com>
+ <CAK7LNAQDMJUYUF7BaN10bwctW7fuHmSMrrAjMmn4s7P2ys5P+Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQDMJUYUF7BaN10bwctW7fuHmSMrrAjMmn4s7P2ys5P+Q@mail.gmail.com>
+X-Rspamd-Queue-Id: 4270221240
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.71 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,linaro.org,linux-foundation.org,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.71
+X-Spam-Flag: NO
 
-PiA+IE9uIFRodSwgT2N0IDAzLCAyMDI0IGF0IDA0OjI5OjM4UE0gLTA3MDAsIE5hdGhhbiBDaGFu
-Y2VsbG9yIHdyb3RlOg0KPiA+DQo+ID4gJCAvdXNyL2Jpbi90aW1lIC12IG1ha2UgLXNraiIkKG5w
-cm9jKSIgQVJDSD14ODZfNjQgTExWTT0xIG1ycHJvcGVyIHtkZWYsYW1kX21lbV9lbmNyeXB0Lixm
-b3J0aWZ5X3NvdXJjZS4sbGx2bV9jb3YufWNvbmZpZyBiekltYWdlDQo+ID4gLi4uDQo+ID4gdm1s
-aW51eC5vOiB3YXJuaW5nOiBvYmp0b29sOiBfX3Nldl9lc19ubWlfY29tcGxldGUrMHg2ZTogY2Fs
-bCB0byBrYXNhbl9jaGVja193cml0ZSgpIGxlYXZlcyAubm9pbnN0ci50ZXh0IHNlY3Rpb24NCg0K
-JTwgU05JUCAlPA0KDQo+ID4gdm1saW51eC5vOiB3YXJuaW5nOiBvYmp0b29sOiBhY3BpX2lkbGVf
-ZG9fZW50cnkrMHg0OiBjYWxsIHRvIHBlcmZfbG9wd3JfY2IoKSBsZWF2ZXMgLm5vaW5zdHIudGV4
-dCBzZWN0aW9uDQo+DQo+DQo+IEp1c3Qgc2F3IHRoaXMgZmx5IGJ5LCB0aGF0IGxvb2tzIGxpa2Ug
-c29tZXRoaW5nIGlzIGJ1Z2dlcmVkIGJhZC4gTm90YWJseQ0KPiBsb2NrZGVwX2hhcmRpcnFzX3tv
-bixvZmZ9KCkgYXJlIG5vaW5zdHIuDQo+DQo+DQo+IElzIHRoaXMgcGF0Y2gtc2V0IGNhdXNpbmcg
-dGhpcywgb3Igd2hhdD8NCg0KTm8sIHRoZXNlIHBhdGNoZXMgYXJlIG5vdCBjYXVzaW5nIHRoaXMu
-IFRoaXMgcGF0Y2gtc2V0IGFwcGVhcnMgdG8gaGF2ZSBleHBvc2VkIGENCmJ1ZyBpbiB0aGUgbGx2
-bSBsaW5rZXIgKGxsZCk6DQoNCmh0dHBzOi8vZ2l0aHViLmNvbS9sbHZtL2xsdm0tcHJvamVjdC9p
-c3N1ZXMvMTE2NTc1DQoNCi4uQ2g6Vy4uDQoNCg==
+> On Thu, Nov 21, 2024 at 10:49 AM Rob Clark <robdclark@gmail.com> wrote:
+
+> > On Wed, Nov 20, 2024 at 5:17 PM Petr Vorel <pvorel@suse.cz> wrote:
+
+> > > > On Thu, Nov 21, 2024 at 5:41 AM Petr Vorel <pvorel@suse.cz> wrote:
+
+> > > > > It will be used in the next commit for DRM_MSM.
+
+> > > > > Suggested-by: Rob Clark <robdclark@gmail.com>
+> > > > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > > > > ---
+> > > > > Changes v3->v4:
+> > > > > * Move definition to the end of the file
+
+
+> > > > I prefer to not check the tool.
+
+> > > Ack.
+
+> > > > Why don't you install python3?
+
+> > > Everybody installs it when it's required, the question is how to inform about
+> > > the dependency.
+
+> > > There build environments are minimal environments:
+> > > * chroot (e.g. cross compilation)
+> > > * container
+
+> > > These are used by both developers and distros.
+
+> > I don't think py3 is an _onerous_ dependency, but it has come up as a
+> > surprise in minimal distro build environments at least once.. so I'd
+> > be a fan of surfacing this dependency in a predictable/understandable
+> > way (ie. I'm in favor of this patchset)
+
+
+> "once" is a keyword here.
+
+> "/bin/sh: python3: not found" provides sufficient information
+> about why the compilation failed, and you know what to do
+> to fix the problem.
+> This is good.
+
+> If you hide CONFIG_DRM_MSM silently
+> due to missing python3, you may scratch your head
+> "why drm/msm was not compiled?".
+It's not on the list, but still visible in help (via search).
+
+> This is worse.
+
+I'm ok with this being refused. Yes, it's a trivial thing to find that python3
+is not installed. I wasn't sure myself if this is really better. Having
+something like "requires $(PYTHON3)" would be best solution (e.g. not disable
+the config, but exit before starting to build), but of course unless this
+feature is needed for many modules it does not make sense to have it.
+It's because kernel mostly contains everything (unless languages like python
+or any other dependency starts to be added). For this reason I like that
+mconf-cfg.sh warns when missing ncurses devel files (even suggesting package
+names).
+
+Just to explain what was my motivation. CONFIG_DRM_MSM in in arm64 defconfig,
+thus it will affect anybody who uses the defconfig (any distro will need to add
+it).
+
+It's needed only for Qualcomm arm64 devices only. But only for these devices
+which are mainlined enough to really use CONFIG_DRM_MSM (many of them aren't in
+that state).
+
+postmarketOS is the distribution which supports Qualcomm. It stores kernel
+config for each device and devices often have individual maintainer. E.g. 175x
+"once" :).
+
+Kind regards,
+Petr
 
