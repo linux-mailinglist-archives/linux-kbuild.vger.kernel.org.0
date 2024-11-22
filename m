@@ -1,385 +1,336 @@
-Return-Path: <linux-kbuild+bounces-4792-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4793-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999D39D57D8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 02:55:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DFB9D5910
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 06:06:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A4241F23661
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 01:55:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E58AB217CF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2024 05:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77F1213F435;
-	Fri, 22 Nov 2024 01:51:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE7F70828;
+	Fri, 22 Nov 2024 05:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mv09uMKa"
+	dkim=pass (2048-bit key) header.d=illinois.edu header.i=@illinois.edu header.b="Gi0OI0Cg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00007101.pphosted.com (mx0b-00007101.pphosted.com [148.163.139.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3465E13BAE7;
-	Fri, 22 Nov 2024 01:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732240309; cv=none; b=RI9DhMKt/pPsZAFOqfCNJIdQdLZpFnLfQbMbETYEuTG1257dPGbjIGWYpLMp/h5rVB+NQBXacSKtG8siJD1W7+kzhWOgSPXjhvlaCshawlEb7N0tHCQKYLokdd3vtKFsQy/q5drOo2MJBa5S/w7+klF4xKWQbFb1bnuei2DFG3I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732240309; c=relaxed/simple;
-	bh=/aZ5tnhrg58nES9DotuawpjZyBP9ljUcHLWoDrLmcpo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mVkjilpi9kUaQeZTfoM7wDd3TEFBBK5ItuLh0BPkt4QDzmF4Yl6QD1YySR+wiHoEWK9g0b7JGVq4knzSe71LF1C9pnGDIatDRE9nzaWEFn+A9V5N8VBZXKddpnCZNzPucmkcIlDEJo+UM0/tMyBgHS/Z4rCurp4bGm1iGQN7Ut4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mv09uMKa; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e63c8678so1762038e87.0;
-        Thu, 21 Nov 2024 17:51:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732240305; x=1732845105; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=i8Z+CPVajeJ3Ry1Xl5fp5aaPACwKhtsug1K6GR7nlyg=;
-        b=Mv09uMKafbJ3OUHer8UHJCkRuFpxmvp9+x7eUFQfI31pSGxd2IId+UVJYc17RuCkps
-         C+zUtMjCoT9uMhkU8VoTviCx56KuAtLcepmij09UK5EAAD67D56Sbhp9e1zkHK03rWGO
-         YkUmTOzItNNXLHIl4C8ieJk+t1vDQuB8S28LkE5smCMl6kayTkVuYeGAWmMJ8vP9lfMU
-         drz4Tg0dgD8BZGhnEhuInYYCpa+J2yz/OmkMoIBkineYGEFP5vubzu76mqdipccHEMOB
-         wL1VkkO1/BzKJSdhI8m6riXkJtdohQYYz1uDyE934oRbQw/3bxX4GetzyxuLnh02F8a8
-         x28w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732240305; x=1732845105;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i8Z+CPVajeJ3Ry1Xl5fp5aaPACwKhtsug1K6GR7nlyg=;
-        b=H/Ocg13d/RRtFiFyirG5AHPdKk/PCr1djtd6qtTZky68a/LektrURkd0S8weC4HPeD
-         6WKxefHa96+d4xETFI/hx6++RlK2X5nYMkhl1iJOKN6TfWHjzSOfVCNlEQqp/JU1Ia0M
-         h+EbZvzFKbiB8IZNdKuMTnjqLc4PU2WcPd6haYb4ezTeIJIDD6ibom55A6L3zg7V+yR4
-         p1j3ptBhZZMVOKiGyRW7MlkoqJQ70ndDyNMrvpow+JrUnFrEExI6QRzVdmZPpSSAmEYv
-         bwauTbvyxSCtQHhWIOIW7mvQsR3zfGgZr6GlhfdyVTKlo2bdDxvqtCv96AUGXF9UQSxO
-         42jA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+ycGvHtoolF+b7HPicaVpXO9JoQ/g2yfb5uGOmFouI3CPIP8YOesB1jbLD9p/xOJb0QNWSH4hq9PbLQY=@vger.kernel.org, AJvYcCUXcCecTx8Mpo5LX62GZOOJ4bklHMcvupt7FgKG3fcI5zC1x6ArnbaxLFjJ2euTxXeOvxagwNA33bas5e8apvE=@vger.kernel.org, AJvYcCUcet5IjtTOqDah+Fu6mweIQ6LpE81GcLuKaBIkXOoa/xrpoJNwPhM1+ZsmvhPZNwslLLnfwvigZUEGAZvV@vger.kernel.org, AJvYcCX70g89Wzw6EYHq2TzOs25aeIi0LsH8pdFOju27NYoQdV6VNn4eTgXR6igORVzpTAoWsAq4K4V6u2X9ESj7xA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyklhIplm44iuQ+Zlf1q6BTUua2xNw66snvidFFqhXDUQcvN2qy
-	RtDtmI2R3dAtyZA0lco4MlrlLLJB6oHGSjOPizdKdBlPVEo5KmVNI5Wd28R1M/LnyGS2T3fqSNU
-	CXVB0sgK5tj2zNHAJCe3JTb3NVbs=
-X-Gm-Gg: ASbGnctrxx81Ytvyh3t9BwdhIaUy+bZEiVl7ufRRouiE3P2YELhrgbTJ2Vj1cbkUfq1
-	zXAlhDGKusAr3WWOiexFOUOdBfkj32HV9kw==
-X-Google-Smtp-Source: AGHT+IFhrF/dTuYAUtNauVsCU2r43xjLhGCO/XkliH18CF905DIz+unOZlD2iAtqVdv86vVM4u4IrbFXUnuFJOYf8n0=
-X-Received: by 2002:a05:6512:1594:b0:53d:a864:2432 with SMTP id
- 2adb3069b0e04-53dd36aa58bmr457837e87.17.1732240304980; Thu, 21 Nov 2024
- 17:51:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166572309B4;
+	Fri, 22 Nov 2024 05:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732252008; cv=fail; b=Th8YuskR4tyX22eEa7Pl0jk/pkHEynof8TODgRXCX810c9JyVhO2QIOwVtpbFF7v9gf76O2zrh8zTGDTZpnujFQkw4ts1jGpSOb2SFPRrufDj3l6TT5zrvzCnEl8OKaEwT9i+gfulUt4+5bB6syEYqeQuO2P8nXvXPbJFd0YqyE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732252008; c=relaxed/simple;
+	bh=x2MK10VtSpkXFP1SqNQRx1d0Aqc2VMWyXIwgx2HUUmE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LC96F1AcOMpRS90hxFJKH70z0wfMn7ozKvYP15azMz+olKVhwOo2WZqqklkCLROlcA4ljiP4Kw6S64MYr3U17VaLg6EzSAi2MMS7Qa7wlU0Kx2M0S45buHx+8c5nhXeBh60wO4rvy4poLPTyVkX4/JKylNoH6luj2Xjp25ft0fY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=illinois.edu; spf=pass smtp.mailfrom=illinois.edu; dkim=pass (2048-bit key) header.d=illinois.edu header.i=@illinois.edu header.b=Gi0OI0Cg; arc=fail smtp.client-ip=148.163.139.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=illinois.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=illinois.edu
+Received: from pps.filterd (m0272703.ppops.net [127.0.0.1])
+	by mx0b-00007101.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AM1KX8S023315;
+	Fri, 22 Nov 2024 05:05:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=illinois.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=campusrelays;
+	 bh=RXvrHdd3VfKVnXzzZPOQaOfjxOP9nhAj15k1kWvfEEo=; b=Gi0OI0Cg859r
+	vLOJvhuqCDBgFsxGLq44lOiTLcIkzS0uFijoz/Tu437/wtEBPD1Ja49lijjaXyDu
+	r7EVghU6uRdqbBSnxK3DqXiDtXgyyOKHmJO6j108FzWaDPduMARz8L+5t6wo1/+c
+	belNFKnU0zNI5A5RtlKSl1f1gPCLZ0LRrextzmAE3KN7dVeoF+cFjBj8A8xagg/w
+	PhDekX+SmfjfPNvKFFPzVx852LLBAKm+h/xiNC3+smIxrecXDzZDws0n29sghE8Z
+	nCyqwiUejwrEP+DRq0Lren3U/IerlceSryDeLZBIB6CZW7YyXQ5sqzmzaQJj/RFD
+	8Vqqtp2R/w==
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+	by mx0b-00007101.pphosted.com (PPS) with ESMTPS id 431m10w9cu-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 22 Nov 2024 05:05:29 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m4b1rjhKjjhdsggiaGFDwMVIAfa88dMmdIRe5wsdCRe4dY1ud5F4MCyQsrqxZok5T0jMRqDcmSwHgLBhwTk8OFSZUGr2YsDIa12cy2n9wBkYDSAvhgS2KRHAMFXurUmumlznFFxKO9uf5mHLRdvb97kPJoAovW9a0KnvJXO0lcZAzX6UdbOlPNDyz4AZAnD7rcneJ3FLU6qzamDVbgTX6HzNKHdL097qtzGqoABSmstKC3gyxK+UfrABizGKFThx1yNEB65ASdYb6EZDWMVqB9I2V+WtXG0R5hSS8b/ZVc1wVFPTN6hPLsZtn/P4xuKFiC8zXxdS/2f+3cjcbhFd2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RXvrHdd3VfKVnXzzZPOQaOfjxOP9nhAj15k1kWvfEEo=;
+ b=iudjgkbiZL0GeQIlt8XlXWILrQEn3tFE3p+/XZqwyVooKSqkSUiTHhO8hMqzfuJHLaD13ld4wbgK5RhprHx2xfwD58Hd1j6mTOV5PPbMC7f8/tffiadWi+nbLFftBmq74Q8LtDqRy2sLi5FAhKltpqqBNMf1+w+W5o1cD1fY53ZNBzzK5vZePSy8WTc9fXuCx8h3Eq2ow12zwX8CpCPYPwx1/q/7yX0lcYtyCJS4Z/dv+QxyhsZJrqx6sV9tkFlXa+urwr23SnnOB0V8szZAtwk819iFbyfNg1KVWZ9XFYYi8S1LHBYDpw26JSIdP31bTy1Rt99xtecUrvGZXvFgIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=illinois.edu; dmarc=pass action=none header.from=illinois.edu;
+ dkim=pass header.d=illinois.edu; arc=none
+Received: from DS0PR11MB7286.namprd11.prod.outlook.com (2603:10b6:8:13c::15)
+ by CH0PR11MB8233.namprd11.prod.outlook.com (2603:10b6:610:183::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.24; Fri, 22 Nov
+ 2024 05:05:24 +0000
+Received: from DS0PR11MB7286.namprd11.prod.outlook.com
+ ([fe80::d52:d2da:59c7:808]) by DS0PR11MB7286.namprd11.prod.outlook.com
+ ([fe80::d52:d2da:59c7:808%4]) with mapi id 15.20.8182.016; Fri, 22 Nov 2024
+ 05:05:16 +0000
+Message-ID: <284fe8fa-c094-49b7-8e16-3318676d38e3@illinois.edu>
+Date: Thu, 21 Nov 2024 23:05:14 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] Enable measuring the kernel's Source-based Code
+ Coverage and MC/DC with Clang
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Matt.Kelly2@boeing.com, akpm@linux-foundation.org,
+        andrew.j.oppelt@boeing.com, anton.ivanov@cambridgegreys.com,
+        ardb@kernel.org, arnd@arndb.de, bhelgaas@google.com, bp@alien8.de,
+        chuck.wolber@boeing.com, dave.hansen@linux.intel.com,
+        dvyukov@google.com, hpa@zytor.com, johannes@sipsolutions.net,
+        jpoimboe@kernel.org, justinstitt@google.com, kees@kernel.org,
+        kent.overstreet@linux.dev, linux-arch@vger.kernel.org,
+        linux-efi@vger.kernel.org, Wentao Zhang <wentaoz5@illinois.edu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+        llvm@lists.linux.dev, luto@kernel.org, marinov@illinois.edu,
+        masahiroy@kernel.org, maskray@google.com,
+        mathieu.desnoyers@efficios.com, matthew.l.weber3@boeing.com,
+        mhiramat@kernel.org, mingo@redhat.com, morbo@google.com,
+        ndesaulniers@google.com, oberpar@linux.ibm.com, paulmck@kernel.org,
+        peterz@infradead.org, richard@nod.at, rostedt@goodmis.org,
+        samitolvanen@google.com, samuel.sarkisian@boeing.com,
+        steven.h.vanderleest@boeing.com, tglx@linutronix.de,
+        tingxur@illinois.edu, tyxu@illinois.edu, x86@kernel.org
+References: <20241002045347.GE555609@thelio-3990X>
+ <20241002064252.41999-1-wentaoz5@illinois.edu>
+ <20241003232938.GA1663252@thelio-3990X>
+Content-Language: en-US
+From: Jinghao Jia <jinghao7@illinois.edu>
+In-Reply-To: <20241003232938.GA1663252@thelio-3990X>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0P221CA0018.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:610:11c::19) To DS0PR11MB7286.namprd11.prod.outlook.com
+ (2603:10b6:8:13c::15)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com>
-In-Reply-To: <20241121204220.2378181-20-samitolvanen@google.com>
-Reply-To: sedat.dilek@gmail.com
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Fri, 22 Nov 2024 02:51:09 +0100
-Message-ID: <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7286:EE_|CH0PR11MB8233:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66193b42-07eb-46ec-87d6-08dd0ab34120
+X-LD-Processed: 44467e6f-462c-4ea2-823f-7800de5434e3,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?M0ZoNzY4cmViRDkzSTZ3YTAxWjNHUTJYUGxuYVZVejlFOElVd04vVzZ4NjdR?=
+ =?utf-8?B?VzdHMFBZNkpPdmZ4eEVrR1pzWjN0cTJZZmh6ZVNwRGU2WXdsQXZ6L0ZYWEhE?=
+ =?utf-8?B?ODJacVY1a0NqZVZhOWVLRTEwSHRwUW4xUVlNM2MyWG5LVzdDTVFGSHNPQ2lH?=
+ =?utf-8?B?a01zWHlzTnc0K3doV2dvdy9PcExhRU5JNlpoTWw2cVlCSk1qb05SeEo5eVF3?=
+ =?utf-8?B?VlRjNDdMQSs0d1BXaWJpdU5lcXNVdEsyb3hra2E0b0JkQ2RPQUJFeHJaQ3hz?=
+ =?utf-8?B?U2F0MTB4L2UyKzlHZyszUkVYeEpYWlhPMkRveWhncW1rMzc3bi9LZHoxYktV?=
+ =?utf-8?B?aEdOa1dPQ1RjcC9TYkt3OCtPcm1zOXl2WmNnN29kajdrSlBjeGM4RGpvbUFL?=
+ =?utf-8?B?RlZtSGZqc2R3RDNWWGZCdHVPSGtWS3pERFgrQ3N4Z3RreGtIVGZlVGR3UjhK?=
+ =?utf-8?B?Z1Y3RnBuTGhsV1hjcHY3SkhNTTN4aEdydUo2KzNMUzROdkJBWDl6Yllmb1ZQ?=
+ =?utf-8?B?TGRTZHJ1UWxKa1lMQ3BBOVczS2IxOGJuSnBqWVlCTnpKaTNHNTdqL3ZzaDJL?=
+ =?utf-8?B?VWg3SVhzV3lmeVZNd05VREprYTBvN2tueU11SThPVXdJdWtLdlBXRlYrRHhE?=
+ =?utf-8?B?WFViUDlFRzdOdGE1N1V6eFVqOHZadFBncFV1MEZBV0lYcElxRW5EUHEvQTBq?=
+ =?utf-8?B?cWZZb3RQSjEwTG13U2NFdHZLbDYwNXVPd2hrdjhTZXdyYnhNeWpuRTY4OFBK?=
+ =?utf-8?B?bWR2VWtUaVo3MC9nUFY4WkJlQndrQjBMbk1wRmY5Nnhxb2ZZREQvWVF6ZWZD?=
+ =?utf-8?B?QnRYZmZUbmoyZEJtTERHSjVxMU1oUFNqZWo0Qmp4N2pDSFhPaUlZUXVBUk5R?=
+ =?utf-8?B?eElHRnFjUGlpM1g1bm9QTHVQMUdtZG5iS2NpdHJ3WHc5QjZ3TFgrbkV2VFR2?=
+ =?utf-8?B?c1FTV0ZoWURHUHFqa3o2SHEvdnY5Zll3TkROQXI2a1NQdXdJaXdQdCtmR3NC?=
+ =?utf-8?B?OW5iSzBINXVmL0VXY1VOU1BWT010TXFZMk5VNUIreVJJc05OeUtySDBCZkJP?=
+ =?utf-8?B?cE8vU3lNdWc3OC8ySldMeFRpTTJFUDRnTkNQVEJWRE1IMm1OdnR3d1R5Tysy?=
+ =?utf-8?B?bmMrem54VkpuNXB4cDFyb0E0UXVLSU45bEIxbDZXSEVkd2xQOWIwUTNzZk5V?=
+ =?utf-8?B?YVIxTjNLc1dEOVkzZFBJS3JBQU5LUWxxWXlseWpFQmN3Y1AzN0lreGFwYmhJ?=
+ =?utf-8?B?MU9FRFRjOThQdzVCL3BVRkxRT1p0Uk9CRkFFbEx6TmhsS1p4YnY2ZDgwK1Z2?=
+ =?utf-8?B?aWdZdnFVUU41a1NxTSsxcHhWdFh2MXZHYUZJWjJ3VGpGaVh6VXV0aXdXaTR0?=
+ =?utf-8?B?VXcyY2VId2QydkpIWTgvcTVXaU5DVVNHRjlYQlZrYWhQMitHNkpUZkE5MjVX?=
+ =?utf-8?B?UzZydWdKQ1lyUXZSSmlDUHN6UEVUR09acU1mQ0lJU1hkbUl5UTZRUVExdElP?=
+ =?utf-8?B?UHZVc083STV6N3ZqN0pRNU1GQURSR0JTTmdpWnhFZm1oZVlodXB4S3BPbXlU?=
+ =?utf-8?B?bjNhdnZQUUlCQTBIT3JRVjRjKzdCYkNnOGZUUnZBMVRwUG5GR3hMdmtWMzJE?=
+ =?utf-8?B?S3I2bDl1cE84SkFvOUhVRmE1MmY3Y2VBMHRZbzVocjFaYkZrdXJlZEM3NzEz?=
+ =?utf-8?B?cncwcEtDbThUQ0k0c0NTYkFsWkRtUVpWZGZsbEVsUHlsSUtPUHdvZ3ludnNR?=
+ =?utf-8?Q?gGUACxCEsG9co+GPE69CigfHluV6ym1JdLEdZn1?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7286.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?d0RveUVUTGlYdHRaQ0pvNDg5TE1kaVlYSysrL1kyVlhveDhFdDRNamp0b2VQ?=
+ =?utf-8?B?TFp1ZDVPSjVXMGdCQm1Oemc2M2RVRlB0Kzd0VE9sbGpoZGtGOUVicCtoRFpr?=
+ =?utf-8?B?T0wwbnVUWWtQOWRjbGMyT05QenordWZOTmwyUGpSSTY0VHRKOFVSZXZva0FN?=
+ =?utf-8?B?eDY4VHZUc2JnMzl1cFZNZXM1SGU1UEZXamVzZ2VEZVIxUXZtR1A5aXk1NWtl?=
+ =?utf-8?B?bVRNbTBMZ3lXYUZIaVhRQlNJNGZtSm5YSnRCZEJTT3Fmdzczem5reDR3eFBM?=
+ =?utf-8?B?ZFd6bER0aDNVY3VDK2ROdUcwQVlaTWFKL3lUNTVjRlhlMFc5QkNCSnpCUjY4?=
+ =?utf-8?B?Q09WWTJxdnhyMHY5aFdNNGJEUE41RkJOK2JTenlTczlqOUF5K0FLd3dSdXFn?=
+ =?utf-8?B?VlFKY3JSMW1DRGdMYzBBbUt5Yk5IMGRsdFBJaDI3OFdpdHhDOUl0Q2dLYStz?=
+ =?utf-8?B?YTJoSWNHWDhlVUpjSUxBMDZiOC92NDhuTkRJMzZHdnBxQjR0aTlMbmdKZlgz?=
+ =?utf-8?B?ZHpWQWpNcWg2WVVSQ3BjSm9kbUFMeVkwQVRrbEMyVkZpckpGZ2tWQURvRTkw?=
+ =?utf-8?B?RFBtSlc0VlRrdisyd1lMTkZaNFVyWlFNSU9aWlVlUWtwb3V0TitNZ2RqLzJ0?=
+ =?utf-8?B?aVV1L3V3TXE4bEo1SnRXS1BUcXBWMUJJVnNzd1B5eXR5OVhvMWNkbW9sMHZC?=
+ =?utf-8?B?Q2l4Vnh3QnZFMHZSM3NabW80YitEOTRUMlNtQVJjNjJueHM1bitPUllucVJV?=
+ =?utf-8?B?Uktqb2IrUEt6NzdiMWVEOU41NUhsaVQxaXNJbXJyc0VEbUx4NFJ3QVlZbTRK?=
+ =?utf-8?B?NnZPeDlEUHZPUTA5a3ljZDFvUEw4eDBWR1RjVTRhN2RlSkNhNGtRS0ZuRElG?=
+ =?utf-8?B?cDFXUlBqcVVBTG9KKzFMTGFCRWsyN0k2LzFKRkhvUGdIdklaV294MmNGbHFU?=
+ =?utf-8?B?YllKcktLSUgxZzgvMmthOU5tTG1jakVMQWk3ZjFVWnhaOFpPWWtSL1hiVVJD?=
+ =?utf-8?B?azE4ekVCNUQxRWFZbjBPdUtBL2k0eXlFWnZUd3cxR3UyMjM5aXYranF2VFJ6?=
+ =?utf-8?B?OWR5NXdBMXRVOSs0cnM0TTg5b3R6VDAxbEp4ZG51ZEdZMEF1dnMrV05hbFlV?=
+ =?utf-8?B?bXpzanNyMUdGYzhGV3lrMDJPRUROWTNSeWMxMUhpaCtySDFETVVGbjhoMUFH?=
+ =?utf-8?B?RVJqa2hoTkdvRDhxSys4MVVXTHpaUzNpT0pEL3FyZmxsRFpZZWdHeVVBbE5w?=
+ =?utf-8?B?TDlwY1hFYklpYTUweVhRd01EeUNtOXRSS2dTVWkveWdjRDBoRHFYSmdkTXFD?=
+ =?utf-8?B?SkdyOHlCaENlUDNnMkFtMSttUGFJalo3eE1HUTFzZ0hENXo4S2VwcGpzYmFI?=
+ =?utf-8?B?c1AzREMwL2VFSjNRWE1RbFRVL2djTktKY0xmMExBVmdVNjViZCtGTW54WWIz?=
+ =?utf-8?B?K1I2L24rbEJSTUU1UnJjR0QzQklvTTduSGVlUktmcEoyUDVqZnRuOHEwM1Yz?=
+ =?utf-8?B?bzgrbHlGYVJTTDRPN1V1emxiK0FuektzaXVLMnB3WEt2NVIzSnNuYnJYN3BR?=
+ =?utf-8?B?Z2FOZmdjbVdCWGMzR25wTGNlanNjc3hNRkY2MHJQTXZsSjhTMDJIaXhPU2FR?=
+ =?utf-8?B?NXl5Y1RBdGhVSWlDZEtrWTBUL1VidmRWd1JDV1d5R3pDeXRjWmc3KzhoQ1NH?=
+ =?utf-8?B?NUFiZ3pMTTFOT0dhejR1NW5sV1FQMFE2RGFmaDNSbVVpb0ttMEVyMVlRYlN1?=
+ =?utf-8?B?ckR5WHhkamV1eEszRy9lVHYxNWY4Sk5PajNoRnpoanJhd3JBY0dTS0pJYlJP?=
+ =?utf-8?B?V25na2Rxc0lXY0htOFA1UEhJOGxOMHAvaVIxamJYeVBIcW9rdzVySldidWc0?=
+ =?utf-8?B?b0VsTm55MUR5c3dPT1RheDFhemFuT2RYZjdIVnVUTEl4QklFZlZHdnloRVVT?=
+ =?utf-8?B?UUtLdDNjU0F1c0lIeEJxdHI3NmkwR0dUOWY1elNZbHM5bEZmakNUeVRIN1lC?=
+ =?utf-8?B?bmNkZWRNYnFmNXRZTVljbk1RaFVWcWxkMTlhZm5rbTQ4L1lFTm1iL0U3VFZ3?=
+ =?utf-8?B?ek9ENHBNUVFZczl6T0g5cUc1N2JlejZFVThJRzk5ZktkVEFLN3NCL3dFOHFj?=
+ =?utf-8?Q?+yh4qN9dLYel2dhVDlOJjTJxp?=
+X-OriginatorOrg: illinois.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66193b42-07eb-46ec-87d6-08dd0ab34120
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7286.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2024 05:05:16.7314
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 44467e6f-462c-4ea2-823f-7800de5434e3
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FMSQaX3ZwallINNhf1thINWTMFF7EyBlELFRmxwFyxB8YPdSuZ0PVBEZiKu9hhTQrfrD39DIJShdMYnJDh0fmw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB8233
+X-Proofpoint-ORIG-GUID: WSpmIfItbiAwMm0PG3UBlCHkj0uMzp5_
+X-Proofpoint-GUID: WSpmIfItbiAwMm0PG3UBlCHkj0uMzp5_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+X-Spam-Details: rule=cautious_plus_nq_notspam policy=cautious_plus_nq score=0 mlxscore=0
+ lowpriorityscore=0 clxscore=1011 impostorscore=0 spamscore=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2411220041
+X-Spam-Score: 0
+X-Spam-OrigSender: jinghao7@illinois.edu
+X-Spam-Bar: 
 
-On Thu, Nov 21, 2024 at 9:42=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
->
-> Hi,
->
-> Here's v6 of the DWARF modversions series. The main motivation is
-> modversions support for Rust, which is important for distributions
-> like Android that are about to ship Rust kernel modules. Per Luis'
-> request [1], v2 dropped the Rust specific bits from the series and
-> instead added the feature as an option for the entire kernel to
-> make it easier to evaluate the benefits of this approach, and to
-> get better test coverage. Matt is addressing Rust modversion_info
-> compatibility issues in a separate patch set [2] that depends on
-> this series, and actually allows modversions to be enabled with
-> Rust.
->
-> Short background: Unlike C, Rust source code doesn't have sufficient
-> information about the final ABI, as the compiler has considerable
-> freedom in adjusting structure layout, for example, which makes
-> using a source code parser like genksyms a non-starter. Based on
-> earlier feedback, this series uses DWARF debugging information for
-> computing versions. DWARF is an established and a relatively stable
-> format, which includes all the necessary ABI details, and adding a
-> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> reasonable trade-off as most distributions already enable it.
->
-> The first 15 patches add gendwarfksyms, a tool for computing symbol
-> versions from DWARF. When passed a list of exported symbols and
-> object files, the tool generates an expanded type string for each
-> symbol and computes symbol versions. gendwarfksyms is written in C,
-> uses libdw to process DWARF, and zlib for CRC32. Patch 16 ensures
-> that debugging information is present where we need it, patch 17
-> adds gendwarfksyms as an alternative to genksyms, and the last patch
-> adds documentation.
->
-> v6 has changes to structure expansion and the kABI stability
-> features based on our backtesting results with previous Android
-> release kernels (see the change log below). It's also based on
-> linux-kbuild/for-next to include symtypes build rule clean-ups from
-> Masahiro [3]. For your convenience, the series is also available
-> here:
->
-> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v6
->
+Hi Nathan,
 
-Thanks for the update, Sami.
+Wentao and I were looking into this issue in the past weeks. The high level
+conclusion is that it seems to be some problem with lld and I will go over the
+detail here.
 
-What are your plans to get this upstream?
+On 10/3/24 6:29 PM, Nathan Chancellor wrote:
+> I seem to have narrowed down it to a few different configurations on top
+> of x86_64_defconfig but I will include the full bad configuration as an
+> attachment just in case anything else is relevant.
+> 
+> $ echo 'CONFIG_LLVM_COV_KERNEL=y
+> CONFIG_LLVM_COV_PROFILE_ALL=y' >kernel/configs/llvm_cov.config
+> 
+> $ echo CONFIG_FORTIFY_SOURCE=y >kernel/configs/fortify_source.config
+> 
+> $ echo CONFIG_AMD_MEM_ENCRYPT=y >arch/x86/configs/amd_mem_encrypt.config
+> 
+> $ /usr/bin/time -v make -skj"$(nproc)" ARCH=x86_64 LLVM=1 mrproper {def,amd_mem_encrypt.,fortify_source.,llvm_cov.}config bzImage
+> ...
+> vmlinux.o: warning: objtool: __sev_es_nmi_complete+0x6e: call to kasan_check_write() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: do_syscall_64+0x141: call to lockdep_hardirqs_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: do_int80_emulation+0x138: call to lockdep_hardirqs_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: handle_bug+0x5: call to kmsan_unpoison_entry_regs() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x105: call to lockdep_hardirqs_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: syscall_exit_to_user_mode+0x73: call to user_enter_irqoff() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x105: call to lockdep_hardirqs_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: irqentry_exit_to_user_mode+0x62: call to user_enter_irqoff() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: irqentry_enter+0x45: call to lockdep_hardirqs_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: irqentry_exit+0x4a: call to lockdep_hardirqs_on() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: irqentry_nmi_enter+0x4: call to lockdep_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: irqentry_nmi_exit+0x67: call to lockdep_on() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: enter_s2idle_proper+0xb5: call to lockdep_hardirqs_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: cpuidle_enter_state+0x113: call to lockdep_hardirqs_off() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: default_idle_call+0xad: call to lockdep_hardirqs_on() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: cpu_idle_poll+0x29: call to lockdep_hardirqs_on() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: acpi_idle_enter_bm+0x118: call to lockdep_hardirqs_on() leaves .noinstr.text section
+> vmlinux.o: warning: objtool: acpi_idle_do_entry+0x4: call to perf_lopwr_cb() leaves .noinstr.text section
+> ...
+>         User time (seconds): 670.86
+>         System time (seconds): 459.05
+>         Percent of CPU this job got: 169%
+>         Elapsed (wall clock) time (h:mm:ss or m:ss): 11:06.15
+>         Average shared text size (kbytes): 0
+>         Average unshared data size (kbytes): 0
+>         Average stack size (kbytes): 0
+>         Average total size (kbytes): 0
+>         Maximum resident set size (kbytes): 38644844
+>         Average resident set size (kbytes): 0
+>         Major (requiring I/O) page faults: 18694
+>         Minor (reclaiming a frame) page faults: 23068856
+>         Voluntary context switches: 32215431
+>         Involuntary context switches: 46422
+>         Swaps: 0
+>         File system inputs: 0
+>         File system outputs: 40127696
+>         Socket messages sent: 0
+>         Socket messages received: 0
+>         Signals delivered: 0
+>         Page size (bytes): 4096
+>         Exit status: 0
+> 
+> $ curl -LSs https://urldefense.com/v3/__https://github.com/ClangBuiltLinux/boot-utils/releases/download/20230707-182910/x86_64-rootfs.cpio.zst__;!!DZ3fjg!7BrjObiTQ7yWOq1feQGQPxe3uzUM5t4pPHkLUuijWyjOwoaX2rdCwZoD4P52pNU_t1tCT2OCWV3GPtNnAw8$  | zstd -d >rootfs.cpio
+> 
+> $ qemu-system-x86_64 \
+>     -display none \
+>     -nodefaults \
+>     -M q35 \
+>     -d unimp,guest_errors \
+>     -append 'console=ttyS0 earlycon=uart8250,io,0x3f8' \
+>     -kernel arch/x86/boot/bzImage
+>     -initrd rootfs.cpio \
+>     -cpu host \
+>     -enable-kvm \
+>     -m 8G \
+>     -smp 8 \
+>     -serial mon:stdio
+> <hangs with no output>
 
-Is Linux 6.13 the new development base?
+This hang is caused by an early boot exception -- gdb shows the execution
+reaches the halt loop in early_fixup_exception().  Dumping regs->ip associated
+with this exception points us to the following instruction:
 
-Personally, I would like to see a Linux v6.12 LTS version offered.
+ffffffff89b58074:       48 ff 05 85 7f 4a 76    incq   0x764a7f85(%rip)        # 0 <fixed_percpu_data>
 
-LTO is not supported - might be worth mentioning this in the
-documentation patch with some explanations?
+This is apparently an incorrect access to the per-cpu variable (the cpu offset
+in %gs is needed) and triggers a null-ptr-deref. Without CONFIG_AMD_MEM_ENCRYPT
+(one of the bad configs), it turns out the instruction is actually accessing
+the llvm prof-counter of strscpy():
 
-BTW, I am testing with the latest kmod-git and pahole-git.
+ffffffff89b85a04:       48 ff 05 6d 94 7d fa    incq   -0x5826b93(%rip)        # ffffffff8435ee78 <__profc__Z13sized_strscpyPcU25pass_dynamic_object_size1PKcU25pass_dynamic_object_size1m>
 
-I will give this a try when Linux v6.12.1 is released.
+This symbol is left undefined in the bad vmlinux, which explains why the
+faulting instruction is accessing address 0.  Tracing through the kernel
+linking process shows that the symbol is still defined (as a weak symbol) in
+vmlinux.a and vmlinux.o, but becomes undefined after the first round of linking
+of the kernel image (.tmp_vmlinux1).
 
-Best regards,
--Sedat-
+After playing with it a little bit, we found the creation of vmlinux.o to be
+the problem. Specifically, if we use mold[1] instead of lld to create the
+object and pass it to the later stages of kernel linking, the symbol will be
+properly defined as a data symbol (and the kernel can boot).
 
+It seems that the issue does not reproduce with LLVM-20. Nevertheless we have
+reported[2] this to upstream llvm.
 
+[1]: https://github.com/rui314/mold
+[2]: https://github.com/llvm/llvm-project/issues/116575
 
+P.S.: We used mold because gnu ld is simply too slow with all these llvm-cov
+sections -- the vmlinux.o step ran for 10+ hours and still didn't stop. At the
+same time, the fact that the creation of vmlinux.o does not use a linker script
+allows us to directly plug mold in.
 
-> If you also want to test the series with actual Rust modules, this
-> branch adds Matt's latest modversion_info series:
->
-> https://github.com/samitolvanen/linux/commits/rustmodversions-v6
->
-> Sami
->
->
-> [1] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
-> [2] https://lore.kernel.org/linux-modules/20241030-extended-modversions-v=
-8-0-93acdef62ce8@google.com/
-> [3] https://lore.kernel.org/linux-modules/CAK7LNAR9c+EEsOvPPn4qSq3gAFskYO=
-XVd=3Ddg8O+bKeeC-HMifw@mail.gmail.com/
->
-> ---
->
-> v6:
-> - Dropped pointer expansion limits as this affects version
->   stability when exported symbols are removed. (Patch 9)
->
-> - Changed local type definitions (in .c files) that are opaque
->   to external users to be treated as declarations even if a
->   definition is available. (Patch 9)
->
-> - Switched to zlib's CRC32 implementation per Masahiro's
->   suggestion. (Patch 12)
->
-> - Renamed struct_declonly kABI rule to simply declonly, as it
->   applies also to unions and enums, added a new rule for
->   overriding enumerator values, and refactored the examples.
->   (Patch 13)
->
-> - Added --stable support for renamed structure members and
->   also added examples. (Patch 14)
->
-> - Rebased on linux-kbuild/for-next for Masahiro's symtypes
->   build rule clean-ups. (Patch 17)
->
-> - Updated the documentation reflect --stable changes. (Patch 18)
->
-> v5: https://lore.kernel.org/lkml/20241030170106.1501763-21-samitolvanen@g=
-oogle.com/
-> - Rebased on v6.12-rc5.
->
-> - Fixed an issue with limiting structure expansion, and applied
->   Petr's clean-up. (Patch 10)
->
-> - Dropped an unnecessary return statement in error path. (Patch
->   12)
->
-> - Addressed several other smaller issues Petr brought up. (Patches
->   13, 14, and 15)
->
-> - Added a KBUILD_GENDWARFKSYMS_STABLE flag to enable --stable for
->   the entire kernel build. (Patch 18)
->
-> - Updated documentation to include KBUILD flags. (Patch 19)
->
-> - Picked up Reviewed-by tags from v4.
->
-> v4: https://lore.kernel.org/lkml/20241008183823.36676-21-samitolvanen@goo=
-gle.com/
-> - Rebased on v6.12-rc2, which now includes all the prerequisites.
->
-> - Dropped unnecessary name_only parameter for symbols.c::for_each
->   and cleaned up error handling. (Patch 3)
->
-> - Fixed anonymous scope handling to ensure unnamed DIEs don't get
->   names. (Patch 4)
->
-> - Added non-variant children to variant_type output, and included
->   DW_AT_discr_value attributes for variants. (Patch 9)
->
-> - Added another symbol pointer test case. (Patch 16)
->
-> - Picked up (Acked|Reviewed)-by tags from v3.
->
-> v3: https://lore.kernel.org/lkml/20240923181846.549877-22-samitolvanen@go=
-ogle.com/
-> - Updated SPX license headers.
->
-> - Squashed the first two patches in v2 and tried to reduce churn as
->   much as reasonable.
->
-> - Dropped patch 18 from v2 ("x86/asm-prototypes: Include
->   <asm/ptrace.h>") as it's addressed by a separate patch.
->
-> - Changed the error handling code to immediately terminate instead
->   of propagating the errors back to main, which cleaned up the code
->   quite a bit.
->
-> - Switched to the list and hashtable implementations in scripts and
->   dropped the remaining tools/include dependencies. Added a couple
->   missing list macros. (patch 1)
->
-> - Moved the genksyms CRC32 implementation to scripts/include and
->   dropped the duplicate code. (patches 2 and 14)
->
-> - Switched from ad-hoc command line parsing to getopt_long (patch 3).
->
-> - Added structure member and function parameter names to the DIE
->   output to match genksyms behavior, and tweaked the symtypes format
->   to be more parser-friendly in general based on Petr's suggestions.
->
-> - Replaced the declaration-only struct annotations with more generic
->   kABI stability rules that allow source code annotations to be used
->   where #ifndef __GENKSYMS__ was previously used.  Added support for
->   rules that can be used to exclude enumerators from versioning.
->   (patch 16)
->
-> - Per Miroslav's suggestion, added an option to hide structure
->   members from versioning when they're added to existing alignment
->   holes, for example. (patch 16)
->
-> - Per Greg's request, added documentation and example macros for the
->   --stable features, and a couple of test cases. (patches 15, 16, and
->   20)
->
-> - Fixed making symtypes files, which need to depend on .o files with
->   gendwarfksyms. (patch 19)
->
-> - Addressed several other smaller issues that Petr and Masahiro
->   kindly pointed out during the v2 review.
->
-> v2: https://lore.kernel.org/lkml/20240815173903.4172139-21-samitolvanen@g=
-oogle.com/
-> - Per Luis' request, dropped Rust-specific patches and added
->   gendwarfksyms as an alternative to genksyms for the entire
->   kernel.
->
-> - Added support for missing DWARF features needed to handle
->   also non-Rust code.
->
-> - Changed symbol address matching to use the symbol table
->   information instead of relying on addresses in DWARF.
->
-> - Added __gendwarfksyms_ptr patches to ensure the compiler emits
->   the necessary type information in DWARF even for symbols that
->   are defined in other TUs.
->
-> - Refactored debugging output and moved the more verbose output
->   behind --dump* flags.
->
-> - Added a --symtypes flag for generating a genksyms-style
->   symtypes output based on Petr's feedback, and refactored
->   symbol version calculations to be based on symtypes instead
->   of raw --dump-dies output.
->
-> - Based on feedback from Greg and Petr, added --stable flag and
->   support for reserved data structure fields and declaration-onl
->   structures. Also added examples for using these features.
->
-> - Added a GENDWARFKSYMS option and hooked up kbuild support
->   for both C and assembly code. Note that with gendwarfksyms,
->   we have to actually build a temporary .o file for calculating
->   assembly modversions.
->
-> v1: https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen@goo=
-gle.com/
->
-> ---
->
-> Sami Tolvanen (18):
->   tools: Add gendwarfksyms
->   gendwarfksyms: Add address matching
->   gendwarfksyms: Expand base_type
->   gendwarfksyms: Add a cache for processed DIEs
->   gendwarfksyms: Expand type modifiers and typedefs
->   gendwarfksyms: Expand subroutine_type
->   gendwarfksyms: Expand array_type
->   gendwarfksyms: Expand structure types
->   gendwarfksyms: Limit structure expansion
->   gendwarfksyms: Add die_map debugging
->   gendwarfksyms: Add symtypes output
->   gendwarfksyms: Add symbol versioning
->   gendwarfksyms: Add support for kABI rules
->   gendwarfksyms: Add support for reserved and ignored fields
->   gendwarfksyms: Add support for symbol type pointers
->   export: Add __gendwarfksyms_ptr_ references to exported symbols
->   kbuild: Add gendwarfksyms as an alternative to genksyms
->   Documentation/kbuild: Add DWARF module versioning
->
->  Documentation/kbuild/gendwarfksyms.rst     |  308 ++++++
->  Documentation/kbuild/index.rst             |    1 +
->  include/linux/export.h                     |   15 +
->  kernel/module/Kconfig                      |   31 +
->  scripts/Makefile                           |    3 +-
->  scripts/Makefile.build                     |   35 +-
->  scripts/gendwarfksyms/.gitignore           |    2 +
->  scripts/gendwarfksyms/Makefile             |   12 +
->  scripts/gendwarfksyms/cache.c              |   51 +
->  scripts/gendwarfksyms/die.c                |  166 +++
->  scripts/gendwarfksyms/dwarf.c              | 1158 ++++++++++++++++++++
->  scripts/gendwarfksyms/examples/kabi.h      |  157 +++
->  scripts/gendwarfksyms/examples/kabi_ex.c   |   30 +
->  scripts/gendwarfksyms/examples/kabi_ex.h   |  263 +++++
->  scripts/gendwarfksyms/examples/symbolptr.c |   33 +
->  scripts/gendwarfksyms/gendwarfksyms.c      |  185 ++++
->  scripts/gendwarfksyms/gendwarfksyms.h      |  301 +++++
->  scripts/gendwarfksyms/kabi.c               |  333 ++++++
->  scripts/gendwarfksyms/symbols.c            |  339 ++++++
->  scripts/gendwarfksyms/types.c              |  477 ++++++++
->  20 files changed, 3893 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/kbuild/gendwarfksyms.rst
->  create mode 100644 scripts/gendwarfksyms/.gitignore
->  create mode 100644 scripts/gendwarfksyms/Makefile
->  create mode 100644 scripts/gendwarfksyms/cache.c
->  create mode 100644 scripts/gendwarfksyms/die.c
->  create mode 100644 scripts/gendwarfksyms/dwarf.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi.h
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex.h
->  create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
->  create mode 100644 scripts/gendwarfksyms/kabi.c
->  create mode 100644 scripts/gendwarfksyms/symbols.c
->  create mode 100644 scripts/gendwarfksyms/types.c
->
->
-> base-commit: 3596c721c4348b2a964e43f9296a0c01509ba927
-> --
-> 2.47.0.371.ga323438b13-goog
->
+> 
+> Cheers,
+> Nathan
+
+Best,
+Jinghao
+
 
