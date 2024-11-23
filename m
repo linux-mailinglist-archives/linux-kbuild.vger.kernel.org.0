@@ -1,140 +1,107 @@
-Return-Path: <linux-kbuild+bounces-4808-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4809-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516F19D66DF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 01:53:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED219D6714
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 02:45:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DCD69B21997
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 00:53:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9E86B22982
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 01:44:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F8D92F46;
-	Sat, 23 Nov 2024 00:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D562844C76;
+	Sat, 23 Nov 2024 01:44:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QU2tVmvz"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l+q2HpI3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81007257D;
-	Sat, 23 Nov 2024 00:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30F7B65C
+	for <linux-kbuild@vger.kernel.org>; Sat, 23 Nov 2024 01:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732323220; cv=none; b=F38dRzGNUQvuB9YXZDkwMv8NXwXCanKsBLdTw17aoCcIS+M6P26MGqzbKQALnCW0Yx4wfJYjr7R+qWWErTe80V/AYRutrwMupbFg3bZDUjXgQDEPCBv3xT4BOHsgogHWhjlzaIajTxKe6V1CegtH9aPkpJvG3ZkTteixISBSw7k=
+	t=1732326292; cv=none; b=Psup7hx+OwlLCRR823Pe2ndo7ZpAiESKlM3nWjwkVtIr6cQbaoxFa9pCcPRmK3Yt4RkGYNrk305CcD4g4xCCC4WixXMpwPjN+kV3k+0OR+s/MBzo1U62T/nXju/ixyMbhFc6S3X8ZTD+RJGXJbr5FyxIDLLKmgof3zATlK5ebZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732323220; c=relaxed/simple;
-	bh=ZOzgDCszNpXOPabHGe4wYbuuBiKrW5VJPNfRwhtW3h8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bivi2hIgcb4gsgaCJVeGQmHEXHiO7b0IjRwE2H9ipxTUpLsV8Ju/eHYUX0ojZ9hd5tp3V1jtYOVCwv2s+vlRkEe9u5xkWWjywLDuKi3i0YqcEdBrVyYltG5Kb+RJC1/OXkqhdKBcAdGvEpHjSZH00yYwGY5AAALXJ+4k1pySuHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QU2tVmvz; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=MySxW6Yvv72K+z2FlW9SiPYONLnpcffXjHrq0N51mFU=; b=QU2tVmvz9D0LyQZn/2E6OR0PhY
-	KqXPwT+XvUFmnjhx5IsgFic9byvXjamh8g3lJVkl/jKjHX/h8Ggf7+w5Ghw4Lsdg5GIoWmsnqZm8D
-	ePaR9EfPcQPX34JQkfJmVVzE5ZIupnCRIXKH0w9Cn54RS3pY8r0/hB+sE7/0f+3W1WYsM8fEo8AFg
-	BRh4wa4LCvl8zk7i8GQXoG0u7/6solDBLYQ181K8Kg8OIy4rr4QMBbrE2+f4NwBdqvFtp5bs0iRPO
-	1IIaqwvExMrR54msJqJW+LFghYYaBHjDtNT7UZSRQDrevYXT/7znfak++IuQLvgyD86oKT27WPwRa
-	HPwW7zZw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tEeOj-00000008XJ3-3vvj;
-	Sat, 23 Nov 2024 00:53:19 +0000
-Message-ID: <eac20e8d-d08c-4be7-a34f-b511798f0a57@infradead.org>
-Date: Fri, 22 Nov 2024 16:53:07 -0800
+	s=arc-20240116; t=1732326292; c=relaxed/simple;
+	bh=TJ0g2uv+fOikKVeaJE+ufAGsb288vXYEqQmALJOQXLY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XcroCZNeyfZ/QSDygo1zyiimUTPMdFLMjtIhzuctF8UIiYAETTevDsotenFAtmkLXM2Kb0zowPGqKIdvs0dcg60PmZHhPyZDxsTKN2X5FVzCNMVoitInC+Sxj/TA6XnLDnm1KXfiOzoRDvbfhpsYfHTd6LltfPpUblFKckXzoVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l+q2HpI3; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d027dc53ccso1759a12.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 22 Nov 2024 17:44:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732326289; x=1732931089; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=S3VAkynSndmVHDi0F0L9SQm1sisxlAWh9z4fRkq2KhY=;
+        b=l+q2HpI3rmv14EZhGlpRHtZZ5ocQkNsQDuln++6dvJjNb/HfbnfwDigtcrQA8nVkfV
+         qRo2Ix4bP6GLPmlTk9dYdpdqsvecuq1XnzzPaUfI3l5pcyEBVAiwZD5p2F9Tr4BtqQA2
+         9HGl0BiiMyOadlC/dlThphN9GVaAdHSDFTUqAXD2ZfVi8DH5nTEBOOwLUjcb2J2RM36h
+         s7cjuzQVC2H+U+sw1UfKZIIHglvrby8iJvSfLOZXnNnJEqhYtF4xHoGHTnI5Ad+KAe2D
+         ne2agVufHfdjfEUYsj8DhittcXQnRr8uqvhljnudGt0yIX0E0k/4p9/Xhoko4K0/sfGc
+         9iCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732326289; x=1732931089;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S3VAkynSndmVHDi0F0L9SQm1sisxlAWh9z4fRkq2KhY=;
+        b=iqJu4V9jpCpJNSV234pcBD1+YSNTTxzyiVJG+4T8llnbYlT78Xz4/JVq7/IgMtm1KR
+         UWI7BIQoQwPREKl9KB9Hi8rdiD9GDfL5MWbsW687h3a2o8eON4tg5AUOdlSeixTx0Uyz
+         Lg5j0jxwo3csdTR9kUsquBJ7+xwiPSGGdZofoIlkOZ9nyHGT/hpyNRe+lMmUTaS9arVc
+         JEqAf6sMC68Cm6af/lAV5pky6LdeuSOuPyZk4Gdx0DHLcQN9lMIaaj6HymbUY6/HG3JN
+         Oa80W96KB7zFC3Qghj4dwLPjibGK0oVrZBBI3s4Wo0fodfzfx3WmvYA+X2x3RZBrlAZ1
+         4U+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUhx7mHKFDH8tYNoyMUqtKulUPXESrt4Euy0nrkgcfjuDRlylKUfsQA3edj1Yq8KpHEM8szSXuHTXmC7wo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvTSRhgLFBjFisNoJ9116F+EpwZSa/nZH9HEAlKiVhnWU8kjIj
+	bgCMk3LTrY8RoRyTMAKLjDny6ww3++1q9JI5xZipLG4t6PCOjzYW8RI1jpxOMbxZvRrU51IMuly
+	2JLoq9F2MZcHCCx0FlMNJrq3BO2L3FUuYAQ7l
+X-Gm-Gg: ASbGnculuDO5zasGQSLIWaImuPAx2MwNPrbAFNeqMvyQxG7kGFUs6mTMDfKxMgW34M3
+	KGZf12Lsn9eBzfG2N3ACsbou1r0863CbnrBtoW/dlVxGce3uGtubBj0AT5EAxraG1
+X-Google-Smtp-Source: AGHT+IGL77AC2bNXg1gDSicOAbEhb3ZzKW1ZO63HPbNunVMxHMFLSIMrlQMvQthUYrEvM5iHSpLMrwWh4Y5yA5ldlD0=
+X-Received: by 2002:aa7:c249:0:b0:5cf:deaf:ac2 with SMTP id
+ 4fb4d7f45d1cf-5d035db0d11mr37256a12.2.1732326289218; Fri, 22 Nov 2024
+ 17:44:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/5] modules: Allow extended modversions without basic
- MODVERSIONS
-To: Matthew Maurer <mmaurer@google.com>, Michael Ellerman
- <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
- <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>
-Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20241123-extended-modversions-v9-0-bc0403f054bf@google.com>
- <20241123-extended-modversions-v9-3-bc0403f054bf@google.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241123-extended-modversions-v9-3-bc0403f054bf@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20241123-extended-modversions-v9-3-bc0403f054bf@google.com> <eac20e8d-d08c-4be7-a34f-b511798f0a57@infradead.org>
+In-Reply-To: <eac20e8d-d08c-4be7-a34f-b511798f0a57@infradead.org>
+From: Matthew Maurer <mmaurer@google.com>
+Date: Fri, 22 Nov 2024 17:44:37 -0800
+Message-ID: <CAGSQo02-o_T7LY4Ld3EyQRyWcuryzw1YSnt=fi6CBiN4NAmYDw@mail.gmail.com>
+Subject: Re: [PATCH v9 3/5] modules: Allow extended modversions without basic MODVERSIONS
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+> >       depends on !COMPILE_TEST
+> > +     selects BASIC_MODVERSIONS
+>
+> tested?  'selects' is not valid.
+>
 
-
-On 11/22/24 4:19 PM, Matthew Maurer wrote:
-> If you know that your kernel modules will only ever be loaded by a newer
-> kernel, you can disable BASIC_MODVERSIONS to save space. This also
-> allows easy creation of test modules to seee how tooling will respond to
-> modules that only have the new format.
-> 
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
->  kernel/module/Kconfig    | 15 +++++++++++++++
->  scripts/Makefile.modpost |  1 +
->  scripts/mod/modpost.c    | 19 +++++++++++--------
->  3 files changed, 27 insertions(+), 8 deletions(-)
-> 
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index a31c617cd67d3d66b24d2fba34cbd5cc9c53ab78..f28b361494c4b4cc2446d683589f9452a0043b2b 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -161,6 +161,7 @@ config MODULE_UNLOAD_TAINT_TRACKING
->  config MODVERSIONS
->  	bool "Module versioning support"
->  	depends on !COMPILE_TEST
-> +	selects BASIC_MODVERSIONS
-
-tested?  'selects' is not valid.
-
->  	help
->  	  Usually, you have to use modules compiled with your kernel.
->  	  Saying Y here makes it sometimes possible to use modules
-> @@ -218,6 +219,20 @@ config EXTENDED_MODVERSIONS
->  	  The most likely reason you would enable this is to enable Rust
->  	  support. If unsure, say N.
->  
-> +config BASIC_MODVERSIONS
-> +	bool "Basic Module Versioning Support"
-> +	depends on MODVERSIONS
-> +	help
-> +	  This enables basic MODVERSIONS support, allowing older tools or
-> +	  kernels to potentially load modules.
-> +
-> +	  Disabling this may cause older `modprobe` or `kmod` to be unable
-> +	  to read MODVERSIONS information from built modules. With this
-> +	  disabled, older kernels may treat this module as unversioned.
-> +
-> +	  This is enabled by default when MODVERSIONS are enabled.
-> +	  If unsure, say Y.
-> +
->  config MODULE_SRCVERSION_ALL
->  	bool "Source checksum for all modules"
->  	help
-
-
--- 
-~Randy
-
+Apologies. Tested before making BASIC_MODVERSIONS default. I've fixed
+this locally, and will re-test with the whole stack before resending.
 
