@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-4803-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4804-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6E49D66B4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 01:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4E59D66BA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 01:19:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16185B222DC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 00:19:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5BBE1B21FE3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 00:19:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2E4FDF5C;
-	Sat, 23 Nov 2024 00:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4DD182C5;
+	Sat, 23 Nov 2024 00:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="khVJSaXd"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PGoyDx/p"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE928494
-	for <linux-kbuild@vger.kernel.org>; Sat, 23 Nov 2024 00:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CB4CA4E
+	for <linux-kbuild@vger.kernel.org>; Sat, 23 Nov 2024 00:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732321162; cv=none; b=bm6uNi1+T9y2El+8my2fn+E/IPtnxisdkLqLMsulK6pLabrVfS907Upv2EnzArM2GaqcBiKi/DsW2WQ4J+UZX+qLb3Jf7eUXP74EVUA70hE3WiSw/9uog1QwpJF5bl/MA9q2PnPBcobPyvW+CG9S3n5KTYixjOxrGgAkl6WN5cg=
+	t=1732321164; cv=none; b=Io2I0oL4EbCdXOx/CBf1hx3rYbMPxO68/JlGi3BV/AAVBugOnSJ1Xycnvkf7UwMotgAd1TslSuPlYzOTwuvVjKH8BIslyAOQYvcsH8yp3IN3uTYykiuSbtH9iKJpBSjO3UcqGAr1QTzNSvm7uPe5waN4M9dqbf3akQiv2sO9jTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732321162; c=relaxed/simple;
-	bh=5ngwflngr6VwCJwhGVHtOhkC5EcEksG3ObajLDICFeY=;
+	s=arc-20240116; t=1732321164; c=relaxed/simple;
+	bh=0yX0O56Cy9DjD1BN27Ou2NLL8xBazcNKqhkhwB+1Elo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=OqPSqZF4NJPXAU7yr81lyLS85qM4pOgvBgtJi3zPZfm8aNuB2wT9/LfB/C8aqBE5v7ydTsXXG6Y2lwFAaW+OBY4XrNSLfUa9I3rfI86jXN2DME5L/oQL9snkCq3L8JtdHQCSiXpPTZ+ivg2Prw/s5gfNwIdVpV+mTCC9Si2MQnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=khVJSaXd; arc=none smtp.client-ip=209.85.219.202
+	 To:Cc:Content-Type; b=IG+PjGmQjLtb3ff9wBQOWEOPR8Tr0h7GNhPcyVAQ9r3cYb9YVtvP6D6BvA+FdZkjig4wm/AZ9elsFOCex47gLf1iutuBAX9BelZazEj5UFd/UrjMl4dakfaMsrxnXei9U8DNVgHnzIXmLJt9z7CW8IV0ZS+t/iA+TnOQWFdIEIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PGoyDx/p; arc=none smtp.client-ip=209.85.128.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e381f195051so4722420276.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 22 Nov 2024 16:19:20 -0800 (PST)
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6eeab4be015so47561807b3.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 22 Nov 2024 16:19:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732321159; x=1732925959; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1732321161; x=1732925961; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h3Yg/eUXVo0xoK0aOhjxOTpuvvgxkC5HtYT7/oJpLwk=;
-        b=khVJSaXd/96tmUIZztJj6p6C7uZIbs392WJrfdzWH7Nje+WXnrB8w6cT9OWx4nP7kK
-         XJ+mxkRWuUfiiDsxfYR5N8tGOt4dNg5Lt6P5sTSgdlu95aTQgJpfDLvLERoCo4Zxnypw
-         orw+W56fz7fceiRrCUqT3l9a50INlL5+szuD+NSOuvrtduRoZPuaEE8alorXh2urpzig
-         vlWLQEgIorWrwe4iwrs34g8RlH+RvygZYN5AR+qj6OSnWc6uUIjWTs/euKDknNKIumqg
-         7nfHVuG0Epn4iA9+Rx6guH1qJCXFGfcvi/SIYeBC7nssQ60GM/zIhnTF/5RaBgqXaWhh
-         h4Xg==
+        bh=Lp/DQHT9ajDejoGv2qWHIWzSG+xRkTc6NeDxcpejopM=;
+        b=PGoyDx/prd8NN8YvB7C93jZI/uGmAr2uN7UYF4lyoAFGr0MrPDFqE0749j3H/jaybt
+         bitvIfEEO0DyEnIbldcYvn7xbXvMe4aaMyvfzWegiu4YKI8Se+HoZPku0Gg1Afx2x1KQ
+         +aVWBi5lteBRQbC72nOzxuIdnnNNRgByxUZwwE7EV+yLSQkk04oOPVAh4CqKBsJLsU9q
+         pqY34SbKJsgjlRWFCEF8yh0UP2csLpwuD20mx7vmQ3dUfYsGg5s4W5fSEnruCcYI330c
+         kV22JTj4571aj5+OgiQkS0Ex629DpHNclERthCsaZJxlc+ec7g6G3zAOl7CKMH4XYYey
+         HPlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732321159; x=1732925959;
+        d=1e100.net; s=20230601; t=1732321161; x=1732925961;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h3Yg/eUXVo0xoK0aOhjxOTpuvvgxkC5HtYT7/oJpLwk=;
-        b=iFG1M+dDr2sXek+krRmKCSKN/GlA+Jh/Je/2gzyk/jaWRstwLxwZWr11wPs/XyXWXP
-         cqMbIxa1NVe1XoQmJwivcP/Kv/BrD9JbG6/rDxjN0FSEBRG4Vj85ec1y8c5GA43Qun1w
-         2kSa0LYUemzzMMTye1QGtkgEu9C0ZPtqiy28vhy/ICCZQ48gr59R1KjjGuhZfFwHXlTS
-         cQbA9EJugfLgKq99DW/AQjQ4eodaZ9SzuBc5UvynENKmRKJ4Fd3epFD2j+oqLuWTkXRh
-         2ffzMqPxsNyD+3rWTYmJRKPo09ljMRc+Emvny38myt42w6BxpAucLLVtCnjOnVPKz1oa
-         T74w==
-X-Forwarded-Encrypted: i=1; AJvYcCX2lRxNWi55IY8j68KOhs4hJRARzUbeD66X1IW+JHYzPWaT0czybo0zjObT249YGpeltt/BgHnKftBK2m0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiA1eIaujS2/joFXW7ijl77jMmAXgwO5y7U0HiGgUUZ87I6ntP
-	oHWLmcj5KG5hKAGWPTFfWw7bWhkVIcwWwXNdrSvjxILtyyCGo0NxZk8EQnBLF9I/0VP6s8MKyN/
-	cy1xfqg==
-X-Google-Smtp-Source: AGHT+IG1cXE7snfeX8JrGt0e0WuPYphpLmhVSGRJHn9Q6cmhTHeXCKNijbrHgoOIQtEDk3mm1JwEodN65Hvd
+        bh=Lp/DQHT9ajDejoGv2qWHIWzSG+xRkTc6NeDxcpejopM=;
+        b=ILdZcK3+8OEv31srmthWbB9FM1sObPPLsXOLbKtmfnxna2lLbdJ7VA3f7+hznR+lHn
+         FbhsKtuTbkLpAY6OLeByyXhQVFWgmbjiXG3Je6hJmceNrZahZjyCvDx5+KbVjjMobS46
+         jnc+MctDINVpvqJZiAOOjKCGbrlqnOka6XpRjCpgZ91J3fYVa8yEYqDFpRilS8WX5tGd
+         Ww4+o6hNp3AGYARBJaFKdkwSAnZRsHxREilg3JIFsSqwoiqf/rMA1AgmPQ0sGwoZDKD7
+         gneaVO4OSo/GQPbG69qw3jXGWonynAsVejYMwq21UhZNR8XcPRBJwlCPhu82q+RpfKYs
+         aXUg==
+X-Forwarded-Encrypted: i=1; AJvYcCXS8ZgJGS2uHiC5Q2kR6TUtiT4bp5KTB0807wmk+UwditVnUHTHoG9NhR0m5AxHRvNChaSyHEVD7FLaoLw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzerf7Av2ppkHGFBR8rmw8cdvE5E5/uEbo+UZyx8aHZr709r1cX
+	0VZDbKvwD2JQ5S11b9tyLo9iDXM/WKkr7aV0IO3q7BMG8avRoxkTOEJ/56ufhMusJ954F2PwsUm
+	YSd0x+Q==
+X-Google-Smtp-Source: AGHT+IFuSLZGc60ostLOU1k2OiwHArN8p4rGSAZKGq+sEAZLzYGueiQ4iVD6+faW9zxR2K/RMUCSN+U/O/4d
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a25:c554:0:b0:e28:e4a7:3206 with SMTP id
- 3f1490d57ef6-e38f8be4bdfmr13876276.8.1732321159161; Fri, 22 Nov 2024 16:19:19
+ (user=mmaurer job=sendgmr) by 2002:a25:d651:0:b0:e2e:3328:7a00 with SMTP id
+ 3f1490d57ef6-e38fb5b40f4mr6735276.3.1732321161087; Fri, 22 Nov 2024 16:19:21
  -0800 (PST)
-Date: Sat, 23 Nov 2024 00:18:58 +0000
+Date: Sat, 23 Nov 2024 00:18:59 +0000
 In-Reply-To: <20241123-extended-modversions-v9-0-bc0403f054bf@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,8 +74,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241123-extended-modversions-v9-0-bc0403f054bf@google.com>
 X-Mailer: b4 0.15-dev
-Message-ID: <20241123-extended-modversions-v9-1-bc0403f054bf@google.com>
-Subject: [PATCH v9 1/5] modules: Support extended MODVERSIONS info
+Message-ID: <20241123-extended-modversions-v9-2-bc0403f054bf@google.com>
+Subject: [PATCH v9 2/5] modpost: Produce extended MODVERSIONS information
 From: Matthew Maurer <mmaurer@google.com>
 To: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
 	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
@@ -94,292 +94,168 @@ Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
 	Matthew Maurer <mmaurer@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-Adds a new format for MODVERSIONS which stores each field in a separate
-ELF section. This initially adds support for variable length names, but
-could later be used to add additional fields to MODVERSIONS in a
-backwards compatible way if needed. Any new fields will be ignored by
-old user tooling, unlike the current format where user tooling cannot
-tolerate adjustments to the format (for example making the name field
-longer).
+Generate both the existing modversions format and the new extended one
+when running modpost. Presence of this metadata in the final .ko is
+guarded by CONFIG_EXTENDED_MODVERSIONS.
 
-Since PPC munges its version records to strip leading dots, we reproduce
-the munging for the new format. Other architectures do not appear to
-have architecture-specific usage of this information.
+We no longer generate an error on long symbols in modpost if
+CONFIG_EXTENDED_MODVERSIONS is set, as they can now be appropriately
+encoded in the extended section. These symbols will be skipped in the
+previous encoding. An error will still be generated if
+CONFIG_EXTENDED_MODVERSIONS is not set.
 
 Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- arch/powerpc/kernel/module_64.c | 24 ++++++++++-
- kernel/module/internal.h        | 11 +++++
- kernel/module/main.c            | 92 +++++++++++++++++++++++++++++++++++++----
- kernel/module/version.c         | 45 ++++++++++++++++++++
- 4 files changed, 162 insertions(+), 10 deletions(-)
+ kernel/module/Kconfig    | 10 ++++++++
+ scripts/Makefile.modpost |  1 +
+ scripts/mod/modpost.c    | 65 +++++++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 72 insertions(+), 4 deletions(-)
 
-diff --git a/arch/powerpc/kernel/module_64.c b/arch/powerpc/kernel/module_64.c
-index 45dac7b46aa3cdcb2058a2320b88c0d67e5586b3..34a5aec4908fba3b91a02e914264cb525918942a 100644
---- a/arch/powerpc/kernel/module_64.c
-+++ b/arch/powerpc/kernel/module_64.c
-@@ -369,6 +369,24 @@ static void dedotify_versions(struct modversion_info *vers,
- 		}
- }
+diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+index e6b2427e5c190aacf7b9c5c1bb57fca39d311564..a31c617cd67d3d66b24d2fba34cbd5cc9c53ab78 100644
+--- a/kernel/module/Kconfig
++++ b/kernel/module/Kconfig
+@@ -208,6 +208,16 @@ config ASM_MODVERSIONS
+ 	  assembly. This can be enabled only when the target architecture
+ 	  supports it.
  
-+/* Same as normal versions, remove a leading dot if present. */
-+static void dedotify_ext_version_names(char *str_seq, unsigned long size)
-+{
-+	unsigned long out = 0;
-+	unsigned long in;
-+	char last = '\0';
++config EXTENDED_MODVERSIONS
++	bool "Extended Module Versioning Support"
++	depends on MODVERSIONS
++	help
++	  This enables extended MODVERSIONs support, allowing long symbol
++	  names to be versioned.
 +
-+	for (in = 0; in < size; in++) {
-+		/* Skip one leading dot */
-+		if (last == '\0' && str_seq[in] == '.')
-+			in++;
-+		last = str_seq[in];
-+		str_seq[out++] = last;
-+	}
-+	/* Zero the trailing portion of the names table for robustness */
-+	memset(&str_seq[out], 0, size - out);
-+}
++	  The most likely reason you would enable this is to enable Rust
++	  support. If unsure, say N.
 +
- /*
-  * Undefined symbols which refer to .funcname, hack to funcname. Make .TOC.
-  * seem to be defined (value set later).
-@@ -438,10 +456,12 @@ int module_frob_arch_sections(Elf64_Ehdr *hdr,
- 			me->arch.toc_section = i;
- 			if (sechdrs[i].sh_addralign < 8)
- 				sechdrs[i].sh_addralign = 8;
--		}
--		else if (strcmp(secstrings+sechdrs[i].sh_name,"__versions")==0)
-+		} else if (strcmp(secstrings + sechdrs[i].sh_name, "__versions") == 0)
- 			dedotify_versions((void *)hdr + sechdrs[i].sh_offset,
- 					  sechdrs[i].sh_size);
-+		else if (strcmp(secstrings + sechdrs[i].sh_name, "__version_ext_names") == 0)
-+			dedotify_ext_version_names((void *)hdr + sechdrs[i].sh_offset,
-+						   sechdrs[i].sh_size);
- 
- 		if (sechdrs[i].sh_type == SHT_SYMTAB)
- 			dedotify((void *)hdr + sechdrs[i].sh_offset,
-diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-index daef2be8390222c22220e2f168baa8d35ad531b9..59959c21b205bf91c0073260885743098c4022cf 100644
---- a/kernel/module/internal.h
-+++ b/kernel/module/internal.h
-@@ -86,6 +86,8 @@ struct load_info {
- 		unsigned int vers;
- 		unsigned int info;
- 		unsigned int pcpu;
-+		unsigned int vers_ext_crc;
-+		unsigned int vers_ext_name;
- 	} index;
- };
- 
-@@ -389,6 +391,15 @@ void module_layout(struct module *mod, struct modversion_info *ver, struct kerne
- 		   struct kernel_symbol *ks, struct tracepoint * const *tp);
- int check_modstruct_version(const struct load_info *info, struct module *mod);
- int same_magic(const char *amagic, const char *bmagic, bool has_crcs);
-+struct modversion_info_ext {
-+	size_t remaining;
-+	const s32 *crc;
-+	const char *name;
-+};
-+void modversion_ext_start(const struct load_info *info, struct modversion_info_ext *ver);
-+void modversion_ext_advance(struct modversion_info_ext *ver);
-+#define for_each_modversion_info_ext(ver, info) \
-+	for (modversion_ext_start(info, &ver); ver.remaining > 0; modversion_ext_advance(&ver))
- #else /* !CONFIG_MODVERSIONS */
- static inline int check_version(const struct load_info *info,
- 				const char *symname,
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 5399c182b3cbed2dbeea0291f717f30358d8e7fc..5b5ce391d68529ecd778a93f1214e74136e53501 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -2073,6 +2073,82 @@ static int elf_validity_cache_index_str(struct load_info *info)
- 	return 0;
+ config MODULE_SRCVERSION_ALL
+ 	bool "Source checksum for all modules"
+ 	help
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index ab0e94ea62496e11dbaa3ffc289ce546862795ca..40426fc6350985780c0092beb49c6cc29b9eff62 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -43,6 +43,7 @@ MODPOST = $(objtree)/scripts/mod/modpost
+ modpost-args =										\
+ 	$(if $(CONFIG_MODULES),-M)							\
+ 	$(if $(CONFIG_MODVERSIONS),-m)							\
++	$(if $(CONFIG_EXTENDED_MODVERSIONS),-x)						\
+ 	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
+ 	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)					\
+ 	$(if $(KBUILD_MODPOST_WARN),-w)							\
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 107393a8c48a5993dbe456702fec0652a967ee86..bd38f33fd41fbd98bce34f8924b2fb0ac04297ee 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -32,6 +32,8 @@ static bool module_enabled;
+ static bool modversions;
+ /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
+ static bool all_versions;
++/* Is CONFIG_EXTENDED_MODVERSIONS set? */
++static bool extended_modversions;
+ /* If we are modposting external module set to 1 */
+ static bool external_module;
+ /* Only warn about unresolved symbols */
+@@ -1817,6 +1819,52 @@ static void add_exported_symbols(struct buffer *buf, struct module *mod)
+ 	}
  }
  
 +/**
-+ * elf_validity_cache_index_versions() - Validate and cache version indices
-+ * @info:  Load info to cache version indices in.
-+ *         Must have &load_info->sechdrs and &load_info->secstrings populated.
-+ * @flags: Load flags, relevant to suppress version loading, see
-+ *         uapi/linux/module.h
-+ *
-+ * If we're ignoring modversions based on @flags, zero all version indices
-+ * and return validity. Othewrise check:
-+ *
-+ * * If "__version_ext_crcs" is present, "__version_ext_names" is present
-+ * * There is a name present for every crc
-+ *
-+ * Then populate:
-+ *
-+ * * &load_info->index.vers
-+ * * &load_info->index.vers_ext_crc
-+ * * &load_info->index.vers_ext_names
-+ *
-+ * if present.
-+ *
-+ * Return: %0 if valid, %-ENOEXEC on failure.
++ * Record CRCs for unresolved symbols, supporting long names
 + */
-+static int elf_validity_cache_index_versions(struct load_info *info, int flags)
++static void add_extended_versions(struct buffer *b, struct module *mod)
 +{
-+	unsigned int vers_ext_crc;
-+	unsigned int vers_ext_name;
-+	size_t crc_count;
-+	size_t remaining_len;
-+	size_t name_size;
-+	char *name;
++	struct symbol *s;
 +
-+	/* If modversions were suppressed, pretend we didn't find any */
-+	if (flags & MODULE_INIT_IGNORE_MODVERSIONS) {
-+		info->index.vers = 0;
-+		info->index.vers_ext_crc = 0;
-+		info->index.vers_ext_name = 0;
-+		return 0;
-+	}
++	if (!extended_modversions)
++		return;
 +
-+	vers_ext_crc = find_sec(info, "__version_ext_crcs");
-+	vers_ext_name = find_sec(info, "__version_ext_names");
-+
-+	/* If we have one field, we must have the other */
-+	if (!!vers_ext_crc != !!vers_ext_name) {
-+		pr_err("extended version crc+name presence does not match");
-+		return -ENOEXEC;
-+	}
-+
-+	/*
-+	 * If we have extended version information, we should have the same
-+	 * number of entries in every section.
-+	 */
-+	if (vers_ext_crc) {
-+		crc_count = info->sechdrs[vers_ext_crc].sh_size / sizeof(s32);
-+		name = (void *)info->hdr +
-+			info->sechdrs[vers_ext_name].sh_offset;
-+		remaining_len = info->sechdrs[vers_ext_name].sh_size;
-+
-+		while (crc_count--) {
-+			name_size = strnlen(name, remaining_len) + 1;
-+			if (name_size > remaining_len) {
-+				pr_err("more extended version crcs than names");
-+				return -ENOEXEC;
-+			}
-+			remaining_len -= name_size;
-+			name += name_size;
++	buf_printf(b, "\n");
++	buf_printf(b, "static const s32 ____version_ext_crcs[]\n");
++	buf_printf(b, "__used __section(\"__version_ext_crcs\") = {\n");
++	list_for_each_entry(s, &mod->unresolved_symbols, list) {
++		if (!s->module)
++			continue;
++		if (!s->crc_valid) {
++			/*
++			 * We already warned on this when producing the legacy
++			 * modversions table.
++			 */
++			continue;
 +		}
++		buf_printf(b, "\t%#8x,\n", s->crc);
 +	}
++	buf_printf(b, "};\n");
 +
-+	info->index.vers = find_sec(info, "__versions");
-+	info->index.vers_ext_crc = vers_ext_crc;
-+	info->index.vers_ext_name = vers_ext_name;
-+	return 0;
++	buf_printf(b, "static const char ____version_ext_names[]\n");
++	buf_printf(b, "__used __section(\"__version_ext_names\") =\n");
++	list_for_each_entry(s, &mod->unresolved_symbols, list) {
++		if (!s->module)
++			continue;
++		if (!s->crc_valid) {
++			/*
++			 * We already warned on this when producing the legacy
++			 * modversions table.
++			 * We need to skip its name too, as the indexes in
++			 * both tables need to align.
++			 */
++			continue;
++		}
++		buf_printf(b, "\t\"%s\\0\"\n", s->name);
++	}
++	buf_printf(b, ";\n");
 +}
 +
  /**
-  * elf_validity_cache_index() - Resolve, validate, cache section indices
-  * @info:  Load info to read from and update.
-@@ -2087,9 +2163,7 @@ static int elf_validity_cache_index_str(struct load_info *info)
-  * * elf_validity_cache_index_mod()
-  * * elf_validity_cache_index_sym()
-  * * elf_validity_cache_index_str()
-- *
-- * If versioning is not suppressed via flags, load the version index from
-- * a section called "__versions" with no validation.
-+ * * elf_validity_cache_index_versions()
-  *
-  * If CONFIG_SMP is enabled, load the percpu section by name with no
-  * validation.
-@@ -2112,11 +2186,9 @@ static int elf_validity_cache_index(struct load_info *info, int flags)
- 	err = elf_validity_cache_index_str(info);
- 	if (err < 0)
- 		return err;
--
--	if (flags & MODULE_INIT_IGNORE_MODVERSIONS)
--		info->index.vers = 0; /* Pretend no __versions section! */
--	else
--		info->index.vers = find_sec(info, "__versions");
-+	err = elf_validity_cache_index_versions(info, flags);
-+	if (err < 0)
-+		return err;
- 
- 	info->index.pcpu = find_pcpusec(info);
- 
-@@ -2327,6 +2399,10 @@ static int rewrite_section_headers(struct load_info *info, int flags)
- 
- 	/* Track but don't keep modinfo and version sections. */
- 	info->sechdrs[info->index.vers].sh_flags &= ~(unsigned long)SHF_ALLOC;
-+	info->sechdrs[info->index.vers_ext_crc].sh_flags &=
-+		~(unsigned long)SHF_ALLOC;
-+	info->sechdrs[info->index.vers_ext_name].sh_flags &=
-+		~(unsigned long)SHF_ALLOC;
- 	info->sechdrs[info->index.info].sh_flags &= ~(unsigned long)SHF_ALLOC;
- 
- 	return 0;
-diff --git a/kernel/module/version.c b/kernel/module/version.c
-index 53f43ac5a73e9d537a9e95ff97728a51fad0e797..c246d40879706d4f413fa7ea9bbe2264ea1b2aa8 100644
---- a/kernel/module/version.c
-+++ b/kernel/module/version.c
-@@ -19,11 +19,28 @@ int check_version(const struct load_info *info,
- 	unsigned int versindex = info->index.vers;
- 	unsigned int i, num_versions;
- 	struct modversion_info *versions;
-+	struct modversion_info_ext version_ext;
- 
- 	/* Exporting module didn't supply crcs?  OK, we're already tainted. */
- 	if (!crc)
- 		return 1;
- 
-+	/* If we have extended version info, rely on it */
-+	if (info->index.vers_ext_crc) {
-+		for_each_modversion_info_ext(version_ext, info) {
-+			if (strcmp(version_ext.name, symname) != 0)
+  * Record CRCs for unresolved symbols
+  **/
+@@ -1840,9 +1888,14 @@ static void add_versions(struct buffer *b, struct module *mod)
+ 			continue;
+ 		}
+ 		if (strlen(s->name) >= MODULE_NAME_LEN) {
+-			error("too long symbol \"%s\" [%s.ko]\n",
+-			      s->name, mod->name);
+-			break;
++			if (extended_modversions)
++				/* this symbol will only be in the extended info */
 +				continue;
-+			if (*version_ext.crc == *crc)
-+				return 1;
-+			pr_debug("Found checksum %X vs module %X\n",
-+				 *crc, *version_ext.crc);
-+			goto bad_version;
-+		}
-+		pr_warn_once("%s: no extended symbol version for %s\n",
-+			     info->name, symname);
-+		return 1;
-+	}
-+
- 	/* No versions at all?  modprobe --force does this. */
- 	if (versindex == 0)
- 		return try_to_force_load(mod, symname) == 0;
-@@ -87,6 +104,34 @@ int same_magic(const char *amagic, const char *bmagic,
- 	return strcmp(amagic, bmagic) == 0;
- }
++			else {
++				error("too long symbol \"%s\" [%s.ko]\n",
++				      s->name, mod->name);
++				break;
++			}
+ 		}
+ 		buf_printf(b, "\t{ %#8x, \"%s\" },\n",
+ 			   s->crc, s->name);
+@@ -1972,6 +2025,7 @@ static void write_mod_c_file(struct module *mod)
+ 	add_header(&buf, mod);
+ 	add_exported_symbols(&buf, mod);
+ 	add_versions(&buf, mod);
++	add_extended_versions(&buf, mod);
+ 	add_depends(&buf, mod);
+ 	add_moddevtable(&buf, mod);
+ 	add_srcversion(&buf, mod);
+@@ -2130,7 +2184,7 @@ int main(int argc, char **argv)
+ 	LIST_HEAD(dump_lists);
+ 	struct dump_list *dl, *dl2;
  
-+void modversion_ext_start(const struct load_info *info,
-+			  struct modversion_info_ext *start)
-+{
-+	unsigned int crc_idx = info->index.vers_ext_crc;
-+	unsigned int name_idx = info->index.vers_ext_name;
-+	Elf_Shdr *sechdrs = info->sechdrs;
-+
-+	/*
-+	 * Both of these fields are needed for this to be useful
-+	 * Any future fields should be initialized to NULL if absent.
-+	 */
-+	if (crc_idx == 0 || name_idx == 0) {
-+		start->remaining = 0;
-+		return;
-+	}
-+
-+	start->crc = (const s32 *)sechdrs[crc_idx].sh_addr;
-+	start->name = (const char *)sechdrs[name_idx].sh_addr;
-+	start->remaining = sechdrs[crc_idx].sh_size / sizeof(*start->crc);
-+}
-+
-+void modversion_ext_advance(struct modversion_info_ext *vers)
-+{
-+	vers->remaining--;
-+	vers->crc++;
-+	vers->name += strlen(vers->name) + 1;
-+}
-+
- /*
-  * Generate the signature for all relevant module structures here.
-  * If these change, we don't want to try to parse the module.
+-	while ((opt = getopt(argc, argv, "ei:MmnT:to:au:WwENd:")) != -1) {
++	while ((opt = getopt(argc, argv, "ei:MmnT:to:au:WwENd:x")) != -1) {
+ 		switch (opt) {
+ 		case 'e':
+ 			external_module = true;
+@@ -2179,6 +2233,9 @@ int main(int argc, char **argv)
+ 		case 'd':
+ 			missing_namespace_deps = optarg;
+ 			break;
++		case 'x':
++			extended_modversions = true;
++			break;
+ 		default:
+ 			exit(1);
+ 		}
 
 -- 
 2.47.0.371.ga323438b13-goog
