@@ -1,218 +1,140 @@
-Return-Path: <linux-kbuild+bounces-4807-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4808-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF2B9D66CE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 01:20:28 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 516F19D66DF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 01:53:48 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF438161345
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 00:20:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DCD69B21997
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 00:53:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D291042AA9;
-	Sat, 23 Nov 2024 00:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F8D92F46;
+	Sat, 23 Nov 2024 00:53:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NihGDptW"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QU2tVmvz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35516175A5
-	for <linux-kbuild@vger.kernel.org>; Sat, 23 Nov 2024 00:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81007257D;
+	Sat, 23 Nov 2024 00:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732321169; cv=none; b=hAHouchCXVLETwIhJ3ZLG65NQKCVfuauzESApz8M/Kc6Y0WcifGFydSRbXD4WovQFtHQA9dVxe9ymv5S/QXgbZj8/RRi7hIEu+z7IVPQpJrDO4B48IDgK2B/RmTpZZLrnZIMPTNXur9U/TsZnp+9i+eT16HM8c5E7jiQ9fXyTLA=
+	t=1732323220; cv=none; b=F38dRzGNUQvuB9YXZDkwMv8NXwXCanKsBLdTw17aoCcIS+M6P26MGqzbKQALnCW0Yx4wfJYjr7R+qWWErTe80V/AYRutrwMupbFg3bZDUjXgQDEPCBv3xT4BOHsgogHWhjlzaIajTxKe6V1CegtH9aPkpJvG3ZkTteixISBSw7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732321169; c=relaxed/simple;
-	bh=PQ7BWLWokR6IGFsP7MriMLRRm+M2pMmO0KrDpLKXuSE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=W8KpzWnVqu1IN6JR6eg7b8/0y57hU9VFwGG7j0fkguPpGJGUGhDTtGIGVaX41NdKXBqyBTfrAePqKi1uZqNKKIn1S3tKpgp8HMHAzN3eNECmO+3AxGN11Qhc2L4OoK7taDsjpG0IiSh+Z8b0zv4+Za5IFAZRe40V4T14XmIbMwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NihGDptW; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e38f81a895dso2913907276.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 22 Nov 2024 16:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732321166; x=1732925966; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D3SgXuWoWK4BO6s3M/0azb/Xt7N95+oJhCSHs7onn8k=;
-        b=NihGDptW9vpAuiqofIJu9xrjbb668IEeziLlXNVE1nj6gRo7lRGbmNH+ZpsxEcaFT7
-         Pm77HjX4yGO9QbILF1TeEXSNIaIgUWhN+Ot1DgKFNjUTabznvNJVHmtXQ5TOoafnhN9d
-         MhxLBxuiIr431DMrKorX1JXN54IWfJB7f0PaDidBweR3dL/ig0JYfIBXBPRafVcNryiq
-         r2TrqYv6KaBVqBvb/6My58C0AH3LRO/A6iWYuLaIhCZ02haA+xorOV870ML9IeBL1/hH
-         BCREJ7fVPtze2ZUdoJSf8WxoBb9/x9M7RucvWA+e++PJ0u2SxjbfE+QQLKUjtkT3QQbc
-         Id/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732321166; x=1732925966;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D3SgXuWoWK4BO6s3M/0azb/Xt7N95+oJhCSHs7onn8k=;
-        b=F3WmT0ndEWAr/kyyFkZIiaeVf8UD5RFBLhnBKtDvLy2LNlS0kzziO7uceSRAP6uPrK
-         LzZPBeZOixVs8B9i5BVL2OLu8A5ao0oF3OIoBUofhA1t6XC0yaZXizRsuhyuWeQqC9d+
-         a+cphJPFJRpISeZphvt0bnJT9lwxT69Gc6lctqStHlma0qyUBg8FKxBAKt1qYNPEhE04
-         qK31YEfe0rVrDdCuhZdoDxS6CYmcd2J7W9IJ8A7Usugvxz0aIZU6uGnxlTVvE9K2wHT2
-         IqeoeDe59SDMy+6NJiPlYRaOHzAjAArt742vR4ncEqES11VPGbEgNn/oXEbhflmGiErk
-         9Geg==
-X-Forwarded-Encrypted: i=1; AJvYcCXlG8opHv/wJo7NeE/vt2BWYnapqAEtBSep7h6WSphB43krFRye9WcwRop+XWMIyxHPN+FzCET3FXZc71Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznAwW4Rau0JFt6jW1o1UoAeNfCyykHpJYx5/mtbV4vWFYk63pM
-	Qe0w5rlB2NulQ4MHsAO2i6g1s10Z6WBvBDAAgkb8R5nTP10tWTdSHFXbxyOrWTGQFad9s9RuN5I
-	0pHBBVA==
-X-Google-Smtp-Source: AGHT+IFASTUqLlC21MX7tf98zKEIqUbvVG9QZO9snVRK1MZEWyuq2nupvFJacSFrArEoQiOGv1QJT6Re3Cl/
-X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a25:8c85:0:b0:e2e:3401:ea0f with SMTP id
- 3f1490d57ef6-e38f8be09dbmr2980276.7.1732321165984; Fri, 22 Nov 2024 16:19:25
- -0800 (PST)
-Date: Sat, 23 Nov 2024 00:19:02 +0000
-In-Reply-To: <20241123-extended-modversions-v9-0-bc0403f054bf@google.com>
+	s=arc-20240116; t=1732323220; c=relaxed/simple;
+	bh=ZOzgDCszNpXOPabHGe4wYbuuBiKrW5VJPNfRwhtW3h8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bivi2hIgcb4gsgaCJVeGQmHEXHiO7b0IjRwE2H9ipxTUpLsV8Ju/eHYUX0ojZ9hd5tp3V1jtYOVCwv2s+vlRkEe9u5xkWWjywLDuKi3i0YqcEdBrVyYltG5Kb+RJC1/OXkqhdKBcAdGvEpHjSZH00yYwGY5AAALXJ+4k1pySuHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QU2tVmvz; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=MySxW6Yvv72K+z2FlW9SiPYONLnpcffXjHrq0N51mFU=; b=QU2tVmvz9D0LyQZn/2E6OR0PhY
+	KqXPwT+XvUFmnjhx5IsgFic9byvXjamh8g3lJVkl/jKjHX/h8Ggf7+w5Ghw4Lsdg5GIoWmsnqZm8D
+	ePaR9EfPcQPX34JQkfJmVVzE5ZIupnCRIXKH0w9Cn54RS3pY8r0/hB+sE7/0f+3W1WYsM8fEo8AFg
+	BRh4wa4LCvl8zk7i8GQXoG0u7/6solDBLYQ181K8Kg8OIy4rr4QMBbrE2+f4NwBdqvFtp5bs0iRPO
+	1IIaqwvExMrR54msJqJW+LFghYYaBHjDtNT7UZSRQDrevYXT/7znfak++IuQLvgyD86oKT27WPwRa
+	HPwW7zZw==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tEeOj-00000008XJ3-3vvj;
+	Sat, 23 Nov 2024 00:53:19 +0000
+Message-ID: <eac20e8d-d08c-4be7-a34f-b511798f0a57@infradead.org>
+Date: Fri, 22 Nov 2024 16:53:07 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 3/5] modules: Allow extended modversions without basic
+ MODVERSIONS
+To: Matthew Maurer <mmaurer@google.com>, Michael Ellerman
+ <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20241123-extended-modversions-v9-0-bc0403f054bf@google.com>
-X-Mailer: b4 0.15-dev
-Message-ID: <20241123-extended-modversions-v9-5-bc0403f054bf@google.com>
-Subject: [PATCH v9 5/5] rust: Use gendwarfksyms + extended modversions for CONFIG_MODVERSIONS
-From: Matthew Maurer <mmaurer@google.com>
-To: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>
-Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Matthew Maurer <mmaurer@google.com>
-Content-Type: text/plain; charset="utf-8"
+ <20241123-extended-modversions-v9-3-bc0403f054bf@google.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20241123-extended-modversions-v9-3-bc0403f054bf@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Sami Tolvanen <samitolvanen@google.com>
 
-Previously, two things stopped Rust from using MODVERSIONS:
-1. Rust symbols are occasionally too long to be represented in the
-   original versions table
-2. Rust types cannot be properly hashed by the existing genksyms
-   approach because:
-	* Looking up type definitions in Rust is more complex than C
-	* Type layout is potentially dependent on the compiler in Rust,
-	  not just the source type declaration.
 
-CONFIG_EXTENDED_MODVERSIONS addresses the first point, and
-CONFIG_GENDWARFKSYMS the second. If Rust wants to use MODVERSIONS, allow
-it to do so by selecting both features.
+On 11/22/24 4:19 PM, Matthew Maurer wrote:
+> If you know that your kernel modules will only ever be loaded by a newer
+> kernel, you can disable BASIC_MODVERSIONS to save space. This also
+> allows easy creation of test modules to seee how tooling will respond to
+> modules that only have the new format.
+> 
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> ---
+>  kernel/module/Kconfig    | 15 +++++++++++++++
+>  scripts/Makefile.modpost |  1 +
+>  scripts/mod/modpost.c    | 19 +++++++++++--------
+>  3 files changed, 27 insertions(+), 8 deletions(-)
+> 
+> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+> index a31c617cd67d3d66b24d2fba34cbd5cc9c53ab78..f28b361494c4b4cc2446d683589f9452a0043b2b 100644
+> --- a/kernel/module/Kconfig
+> +++ b/kernel/module/Kconfig
+> @@ -161,6 +161,7 @@ config MODULE_UNLOAD_TAINT_TRACKING
+>  config MODVERSIONS
+>  	bool "Module versioning support"
+>  	depends on !COMPILE_TEST
+> +	selects BASIC_MODVERSIONS
 
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Co-developed-by: Matthew Maurer <mmaurer@google.com>
-Signed-off-by: Matthew Maurer <mmaurer@google.com>
----
- init/Kconfig  |  3 ++-
- rust/Makefile | 34 ++++++++++++++++++++++++++++++++--
- 2 files changed, 34 insertions(+), 3 deletions(-)
+tested?  'selects' is not valid.
 
-diff --git a/init/Kconfig b/init/Kconfig
-index a20e6efd3f0fbdd7f0df2448854cc30734a0ee4f..2cfbefe0933ed129fdc1cca4121183e6285840d3 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1956,7 +1956,8 @@ config RUST
- 	bool "Rust support"
- 	depends on HAVE_RUST
- 	depends on RUST_IS_AVAILABLE
--	depends on !MODVERSIONS
-+	select EXTENDED_MODVERSIONS if MODVERSIONS
-+	depends on !MODVERSIONS || GENDWARFKSYMS
- 	depends on !GCC_PLUGIN_RANDSTRUCT
- 	depends on !RANDSTRUCT
- 	depends on !DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE
-diff --git a/rust/Makefile b/rust/Makefile
-index 9da9042fd62796ddb852f4bf7cf46d70f0b8ca97..397ce424a0509c2a1b4ebccd5d430b86b4ecbac6 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -316,10 +316,11 @@ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ;
- $(obj)/bindings/bindings_helpers_generated.rs: $(src)/helpers/helpers.c FORCE
- 	$(call if_changed_dep,bindgen)
- 
-+rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ { printf $(2),$(3) }'
-+
- quiet_cmd_exports = EXPORTS $@
-       cmd_exports = \
--	$(NM) -p --defined-only $< \
--		| awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ {printf "EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3}' > $@
-+	$(call rust_exports,$<,"EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3) > $@
- 
- $(obj)/exports_core_generated.h: $(obj)/core.o FORCE
- 	$(call if_changed,exports)
-@@ -388,11 +389,36 @@ ifneq ($(or $(CONFIG_ARM64),$(and $(CONFIG_RISCV),$(CONFIG_64BIT))),)
- 		__ashlti3 __lshrti3
- endif
- 
-+ifdef CONFIG_MODVERSIONS
-+cmd_gendwarfksyms = $(if $(skip_gendwarfksyms),, \
-+	$(call rust_exports,$@,"%s\n",$$3) | \
-+	scripts/gendwarfksyms/gendwarfksyms \
-+		$(if $(KBUILD_GENDWARFKSYMS_STABLE), --stable) \
-+		$(if $(KBUILD_SYMTYPES), --symtypes $(@:.o=.symtypes),) \
-+		$@ >> $(dot-target).cmd)
-+endif
-+
- define rule_rustc_library
- 	$(call cmd_and_fixdep,rustc_library)
- 	$(call cmd,gen_objtooldep)
-+	$(call cmd,gendwarfksyms)
- endef
- 
-+define rule_rust_cc_library
-+	$(call if_changed_rule,cc_o_c)
-+	$(call cmd,force_checksrc)
-+	$(call cmd,gendwarfksyms)
-+endef
-+
-+# helpers.o uses the same export mechanism as Rust libraries, so ensure symbol
-+# versions are calculated for the helpers too.
-+$(obj)/helpers/helpers.o: $(src)/helpers/helpers.c $(recordmcount_source) FORCE
-+	+$(call if_changed_rule,rust_cc_library)
-+
-+# Disable symbol versioning for exports.o to avoid conflicts with the actual
-+# symbol versions generated from Rust objects.
-+$(obj)/exports.o: private skip_gendwarfksyms = 1
-+
- $(obj)/core.o: private skip_clippy = 1
- $(obj)/core.o: private skip_flags = -Wunreachable_pub
- $(obj)/core.o: private rustc_objcopy = $(foreach sym,$(redirect-intrinsics),--redefine-sym $(sym)=__rust$(sym))
-@@ -404,13 +430,16 @@ ifneq ($(or $(CONFIG_X86_64),$(CONFIG_X86_32)),)
- $(obj)/core.o: scripts/target.json
- endif
- 
-+$(obj)/compiler_builtins.o: private skip_gendwarfksyms = 1
- $(obj)/compiler_builtins.o: private rustc_objcopy = -w -W '__*'
- $(obj)/compiler_builtins.o: $(src)/compiler_builtins.rs $(obj)/core.o FORCE
- 	+$(call if_changed_rule,rustc_library)
- 
-+$(obj)/build_error.o: private skip_gendwarfksyms = 1
- $(obj)/build_error.o: $(src)/build_error.rs $(obj)/compiler_builtins.o FORCE
- 	+$(call if_changed_rule,rustc_library)
- 
-+$(obj)/ffi.o: private skip_gendwarfksyms = 1
- $(obj)/ffi.o: $(src)/ffi.rs $(obj)/compiler_builtins.o FORCE
- 	+$(call if_changed_rule,rustc_library)
- 
-@@ -422,6 +451,7 @@ $(obj)/bindings.o: $(src)/bindings/lib.rs \
- 	+$(call if_changed_rule,rustc_library)
- 
- $(obj)/uapi.o: private rustc_target_flags = --extern ffi
-+$(obj)/uapi.o: private skip_gendwarfksyms = 1
- $(obj)/uapi.o: $(src)/uapi/lib.rs \
-     $(obj)/ffi.o \
-     $(obj)/uapi/uapi_generated.rs FORCE
+>  	help
+>  	  Usually, you have to use modules compiled with your kernel.
+>  	  Saying Y here makes it sometimes possible to use modules
+> @@ -218,6 +219,20 @@ config EXTENDED_MODVERSIONS
+>  	  The most likely reason you would enable this is to enable Rust
+>  	  support. If unsure, say N.
+>  
+> +config BASIC_MODVERSIONS
+> +	bool "Basic Module Versioning Support"
+> +	depends on MODVERSIONS
+> +	help
+> +	  This enables basic MODVERSIONS support, allowing older tools or
+> +	  kernels to potentially load modules.
+> +
+> +	  Disabling this may cause older `modprobe` or `kmod` to be unable
+> +	  to read MODVERSIONS information from built modules. With this
+> +	  disabled, older kernels may treat this module as unversioned.
+> +
+> +	  This is enabled by default when MODVERSIONS are enabled.
+> +	  If unsure, say Y.
+> +
+>  config MODULE_SRCVERSION_ALL
+>  	bool "Source checksum for all modules"
+>  	help
+
 
 -- 
-2.47.0.371.ga323438b13-goog
+~Randy
 
 
