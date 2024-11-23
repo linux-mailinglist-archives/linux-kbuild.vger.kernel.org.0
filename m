@@ -1,122 +1,105 @@
-Return-Path: <linux-kbuild+bounces-4821-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4822-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A4C9D682F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 09:36:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B259D68D6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 12:23:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28F4B281CE3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 08:36:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15595B2175B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2024 11:23:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3948916EBE9;
-	Sat, 23 Nov 2024 08:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEBE9187325;
+	Sat, 23 Nov 2024 11:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YjLR4ZzV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QX7zEFi1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114C22309A9;
-	Sat, 23 Nov 2024 08:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1910154BFB;
+	Sat, 23 Nov 2024 11:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732350988; cv=none; b=RBBtd8rxdOu8O9w6w73eVTj9cYmCyBvUAoBZDN6n1rA7PO8c13hgqOs9PKYg9u2m1Nvu9NHMUDyALFOm4SqNKKlrrbpBvmpZkMllvXtgjlpTtGRdOUxu/B/Q1KtEdRyDSuuu6edgxvd/8AbleYZndtRwMayXgK/tkSqnThD0Vsc=
+	t=1732360995; cv=none; b=PHhDeKw1xgRYDkyGTHJ7zPRzNXq1u+Tjmjkjgtdnoy81Si4u5AXkGVkRGP7vdIBxItMiOGuGLqXpmrGsURKufFTbl17s0S3vsP0M5b57WbTdN0ZCoxgPPGBOstOkW/XgfFMnKG0FONGqHylGEYXv7iirROTYKnCOcW1h8O92ru4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732350988; c=relaxed/simple;
-	bh=vCbbUDU7YR5rexB85RZdHO0TXSgA9XOay8yeEWw+d84=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A5E0eQUIOqhrvsXEN9AgyiIPRY2g8U6hd0aarzgove+WaIQ2a4aWjfGbd6dwXBXKVGKk2ibU0z4Njz/OaBldRJLusQDTW5nnKmDFzFtg1fpUsM+RQI9eRXAhMucl9glexzRy3Pe8Bw+xypsuE8jO6ZYcU3g4zT518sQLWpCXg4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YjLR4ZzV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B50C4CECD;
-	Sat, 23 Nov 2024 08:36:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732350985;
-	bh=vCbbUDU7YR5rexB85RZdHO0TXSgA9XOay8yeEWw+d84=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YjLR4ZzVxTPIzbtu1h2wqZeIuBzkIGsrldIOIKcUO5JVjdIwg4N7hcdiIFZWzz3Xi
-	 vFhIp8GX6beMIC7FgUgVN0GIILQom5Z1m/i9pjllf8Ik/rX5kDxJE6ftPCFNiaeCSn
-	 Lm2eY+X+oR3fA9G6znkKfFbh4BVR+lgVVv18Gy0NmDgmpirDU9XZNsxFHfl/DrwXFh
-	 0FNPCT7bGSl1S+wWc9Y29XGtm2i/R7f7mZsnpro0J2qkBnUWVniP+4VRAb9PhMAklo
-	 AiiEVXtZu+J2NJdXpP0BVD+jm+c0ukiMoeJHdg7mnTmpESRyROiYpd5lnY7A2uTrBV
-	 MHL72Jwu4JYIg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] modpost: replace tdb_hash() with hash_str()
-Date: Sat, 23 Nov 2024 17:36:08 +0900
-Message-ID: <20241123083609.29811-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1732360995; c=relaxed/simple;
+	bh=u/EP1S+viKGpmTrQ8yI3KxsDbuyUkdLIpl2IkM7RyRs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kBpa7UWWk8zDD03ZP4s+yrxXkgjstWBwECKQNSwwCtYNqGyRbp5H9sKFYScuDKPLio6QLM5uvAYWqAl1cfL+K/86XTt2Q1BHBqDaIYRRLlCO2Bp2WXatcTGdorzV7Xa9929zizSl2UC5ph3hnHJWpUv2g/e+L9qlQAbyyw1mfa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QX7zEFi1; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53dd59a2bc1so1783540e87.2;
+        Sat, 23 Nov 2024 03:23:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732360992; x=1732965792; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u/EP1S+viKGpmTrQ8yI3KxsDbuyUkdLIpl2IkM7RyRs=;
+        b=QX7zEFi1wFY/uD3jkok8lfHTByJ2aNleRCbOXvNUXvJHNNNRYsDSMeXIdtuXwJAl5H
+         nClVUwKKIYQKFNoCJIpu3wCP0AXoxObBLiaQaIJcISuGAZF2E7Msmfu00u/kkAdGZEOP
+         Kek8z4DaMshzkmnfzMw8zfvT5/YvJzp1iDp62P3h8tSJzIGEwsTW9H8ne+6dv5h4YkdN
+         PSE+vgkjr7EbMNka536HxpVfB/WPVb1zJKmjg3JpZvtZBR2M8aHKkOa1iLW+txiUyvOn
+         YcRXU+vP/ieIovXgVbWIki1lEajZNH3icl72OKCEEu6KDxgYODb2GDf7GogsL+ucGZBd
+         aSSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732360992; x=1732965792;
+        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u/EP1S+viKGpmTrQ8yI3KxsDbuyUkdLIpl2IkM7RyRs=;
+        b=VnWZW6pZuZWQNJJR/66h/ZzuHFg9ecMJyX4ZQivpDkbRzbvZusWFiGEDuyPx0EuMzL
+         7oq+nS9tyUbhyd1L6SZiqR6lQjpafXx071+y+WlBnBu2/iNVAvUFMYJel5VrHtqbIgaT
+         RC+vEjrP/iijpYVIGhVNX93MCQHssE5+XjSVC24IvNhiqj1DIL6QDHr7KtV6anJgz5Lo
+         XW3Nsy4VgPq6tW1no9e7Cft1o3mW/lm0RDp4rxp3mCZ0CU7Qt33s1zMYZcw3a6brH6tP
+         2j4Zs3w9Ok7J6PGc6BXfgOeC6w9H9EfZuUBK8pwlVn1YzaUjZ/zjz2bKCafuyfxs+yuy
+         yfRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6QY6fpqRdXGGTKuOqIh2PtKWu1xxzrEaXqIalaaoXE3zWA/29ZRiU+4FE1PhIorYEX63sgz/CUwGQtDzm@vger.kernel.org, AJvYcCVtZKJZGHM5uSNFm8WeKH0MEREdvBj2zoncN/H3V6y8CXf9e/opkLvJhrk5Pl/FIEQ6/4ZmRSBdPgTPgSV1l0o=@vger.kernel.org, AJvYcCWbb6oXiqwXOl2f2nQdb6dzC8OBqaJMBe1eFoI2nhItdbCfQiz5WoWc1SCUWRrvqXQrFiF3qqlUhyv1fn1fYQ==@vger.kernel.org, AJvYcCX+ZpqOv+UcEnplXjzvJasIE+6Am8yEc1CJAc79vtEwDXmTN0n+I9UkWgdduR3n4dA1omPjCug3QjBq6gU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxP0v6rC+5+Sk+Mlu8v8I4wiiTMYdP8Docgsk1WhCN0vl2BlQbQ
+	mVMA1L/WPUNsK9/snrgMm/XFj8Cs4z/yGCqEwyHhvKLLUEC6VNKJvATziz2Dy9HIVLrx8ftRXVI
+	+5SoyeuBdB6DT3coQKJU1Lo6lEts=
+X-Gm-Gg: ASbGncsGFGgpLICVdo4Eo6EmRAO7tv/8jjdPNXtOwuk/NYIaCuTafdKBxwMEw8Q3cf2
+	q3iRPZtue1ary66qu08+sP3Y6xphpDTm4EX+ej7FDgOsqzCgFFbXZvaBq2NNJvg==
+X-Google-Smtp-Source: AGHT+IF0iUq4b7Ych9A6xW9HMPkRzg3eqN5Ybs8vt/ejefOR7PyZW6CtBCOharUBfJO5wJ8zXGhjtReeIFOtxTdYdEU=
+X-Received: by 2002:a05:6512:2391:b0:53d:d5be:4bd9 with SMTP id
+ 2adb3069b0e04-53dd5be4bebmr3155701e87.22.1732360991729; Sat, 23 Nov 2024
+ 03:23:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241121204220.2378181-20-samitolvanen@google.com> <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
+In-Reply-To: <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Sat, 23 Nov 2024 12:22:35 +0100
+Message-ID: <CA+icZUWSKygQJNiODzdauNiHz2Di-2eSGGmd-fgBrFpdyh_HgA@mail.gmail.com>
+Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Use a helper available in scripts/include/hash.h.
+> BTW, I am testing with the latest kmod-git and pahole-git.
+>
+> I will give this a try when Linux v6.12.1 is released.
+>
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I have a prolonged build-time of +22,75 per cent.
+Compared gendwarfksyms-v5 + Linux-v6.12.0 VS. gendwarfksyms-v6 + Linux-v6.12.1
 
- scripts/mod/modpost.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+Is this a known issue?
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 3bbd5efcf3f3..0584cbcdbd2d 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -21,6 +21,7 @@
- #include <stdbool.h>
- #include <errno.h>
- 
-+#include <hash.h>
- #include <hashtable.h>
- #include <list.h>
- #include <xalloc.h>
-@@ -210,19 +211,6 @@ struct symbol {
- 
- static HASHTABLE_DEFINE(symbol_hashtable, 1U << 10);
- 
--/* This is based on the hash algorithm from gdbm, via tdb */
--static inline unsigned int tdb_hash(const char *name)
--{
--	unsigned value;	/* Used to compute the hash value.  */
--	unsigned   i;	/* Used to cycle through random values. */
--
--	/* Set the initial value from the key size. */
--	for (value = 0x238F13AF * strlen(name), i = 0; name[i]; i++)
--		value = (value + (((unsigned char *)name)[i] << (i*5 % 24)));
--
--	return (1103515243 * value + 12345);
--}
--
- /**
-  * Allocate a new symbols for use in the hash of exported symbols or
-  * the list of unresolved symbols per module
-@@ -240,7 +228,7 @@ static struct symbol *alloc_symbol(const char *name)
- /* For the hash of exported symbols */
- static void hash_add_symbol(struct symbol *sym)
- {
--	hash_add(symbol_hashtable, &sym->hnode, tdb_hash(sym->name));
-+	hash_add(symbol_hashtable, &sym->hnode, hash_str(sym->name));
- }
- 
- static void sym_add_unresolved(const char *name, struct module *mod, bool weak)
-@@ -261,7 +249,7 @@ static struct symbol *sym_find_with_module(const char *name, struct module *mod)
- 	if (name[0] == '.')
- 		name++;
- 
--	hash_for_each_possible(symbol_hashtable, s, hnode, tdb_hash(name)) {
-+	hash_for_each_possible(symbol_hashtable, s, hnode, hash_str(name)) {
- 		if (strcmp(s->name, name) == 0 && (!mod || s->module == mod))
- 			return s;
- 	}
--- 
-2.43.0
-
+Best regards,
+-Sedat-
 
