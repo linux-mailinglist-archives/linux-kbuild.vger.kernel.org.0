@@ -1,119 +1,169 @@
-Return-Path: <linux-kbuild+bounces-4843-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4844-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2759D821C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 10:22:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7669D8260
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 10:34:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89B4C28189E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 09:22:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7298B2782F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 09:34:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F45319005F;
-	Mon, 25 Nov 2024 09:22:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12861925B9;
+	Mon, 25 Nov 2024 09:33:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="L/QApVvC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="edZZUv3u"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AE5188907
-	for <linux-kbuild@vger.kernel.org>; Mon, 25 Nov 2024 09:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176611922F5;
+	Mon, 25 Nov 2024 09:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732526527; cv=none; b=Xu/yyOIIwKL0B6DW4AUA1AoF7JGuCU4nEkghGShaYPSz6Q/QkCz04XD9AwpBWRznQjc4jRT9iLTRJD01wvmZL9SI+1h7mWQMr0g05gLBWUV1/YfIPIpVLez7mM2EbQMi/vCjUMC7jgGQsi0Qf8FroZuzQIkOFS9esFr3bC2l8ro=
+	t=1732527211; cv=none; b=EjuYirpUcz9kewLnVM8NOMGWeK6s3r/MeDJMBdSYML21PiXOPjdmwZJ2x62H5ukfXXGMm3vw0q6NGMyzvFCipI59GOUSHUlXpU24eLPXTtvPOCbraM7veYE6DCE8ZC4OhIBPe4u42R6r8nUfrrtZklQ0VGmwGib+HhHQ5bQTexs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732526527; c=relaxed/simple;
-	bh=FCYlpekwLX29y1babPtkl5hhwfzqAWLF9A3oe2+5id0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NlZlykeWxF14QFBIRpqoePFimmE0i6gNBEhuANHwuMGF10v7Bxb2VAUVktxfg0+GA50YmxSzWJQNtuzLk0tDwffNJXVEYP9M4atr8GWAsCu9IDrRXKdWvNR5S9woIEipYi+rH4HUyONY6lnSGEsJ4kGNHX/Sh42Xc/kkLR0n9Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=L/QApVvC; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5cfc264b8b6so8215a12.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Nov 2024 01:22:05 -0800 (PST)
+	s=arc-20240116; t=1732527211; c=relaxed/simple;
+	bh=X81NZt9qx3DE0gbvEotrk8pcmoWkcatWmTjsILlbnbI=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uYJUSXGNJEXojpjgBCvtqHiUUp0z46NO4oDLX0uVci1sKXIuN9d/MGtzqf2tk6bW8VC7f6+mdDJx0P/sGYSVgWXTiwqZmVMWmq/A5SC7JnHjsnlibWg/51sjbf49WOapqXFsijNVnlH3AxXziu/YglzK8ufBmD4rGAFJLloLmwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=edZZUv3u; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ffb0bbe9c8so20462561fa.0;
+        Mon, 25 Nov 2024 01:33:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732526524; x=1733131324; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FCYlpekwLX29y1babPtkl5hhwfzqAWLF9A3oe2+5id0=;
-        b=L/QApVvCl2TEfZGYYEfTC3A1hQNfZH2vjBTq86eD/zjHUJ54iRzh51xj3aYuIKBuUv
-         YHUejdIuGeK4KTPZ4p4MVGpV9KX1wfCemqd0ciGNreYL8at1hJVYiDvamxYmz96qz0GL
-         sDXHtdhWoEK/iGnani5i3vzGP+qpSQVXE6HxYedijsvrLlstYYhLxPxNPvUlaFkPfqmt
-         zEhRnIwbUXq43jiXU2o+hdZBEAueRG1pjOSQoLf3R5bNjJVU4MGLhUzse2juThQKgsiC
-         mkXMThFP1UqRsiIJmzr8IvZFvEYXtfvSqLgPWNGY/dclfQbUKAf/SBjZlglyKAYLSE4c
-         wdgA==
+        d=gmail.com; s=20230601; t=1732527208; x=1733132008; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CJd7YmDRIf/qZZRuIn1RRwsg87hhLA4wTR2jmGGoM0I=;
+        b=edZZUv3u7CuTJxhvRxwEwMA1jdaaD94Gafw/mM/pTJaiZR3H0AL547Uh48NTgITxej
+         R1OYhaoM37VOLFczBNQor8xXrlaS09PQD8Q0B3ErRMBBTdbaq40bxkeSV3U1sPd/Dsx5
+         PVUx9I7cxBcGaElQRcthKEUI+wJoj9GioNjBYFeNsFAgi1jYZ7AsuE/WLkKRw1RTsKhP
+         788k/QqI5/x2uKzyk1L7ZkWNCLYSr7rtjPevHQfQmof42TdDm5JR+mzDn7BZEOljV5Sa
+         N+dHg939o1u6+y434V3TQwyqMQdE5EYNN/f2PLS27iBs25/C9JYyURhmX8S5sBE/lGB/
+         qddw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732526524; x=1733131324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FCYlpekwLX29y1babPtkl5hhwfzqAWLF9A3oe2+5id0=;
-        b=IHBuVgwNpsPJtxPYwQ1ZCBXEJcDG3iXWPtmPU7haSb8VFgy5o6T/zxM5I1WmFOL10Q
-         +WqaqsgczFVzjBGa3MfwDX1jRT0Rg5Q9bmF4IPvhr6jsscizWnPC4aeIdT9dlLY0asgI
-         dyKWF0fTwSGsF7GBqspwnP8t/NgRdvJ8tDlHqC9BOrmH4sElXndCNBebCzsOleyTWsfE
-         dtcYVl/u7WEMeRbpmlW44Qlm/lqRjq5gp/BrQcKkrWPY/g0n2U3uhwq/qp4ZJbzSC8kw
-         B4Zjxccajtd6Ugs+Kj7lj65/zLKxltrABnVtdf6yi5M8K20pfcI2t2A7eRuwFfgyJMLO
-         hkxA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKHk4CfUoXokVZZikDH0DuYRqh5jVUJEFYmCE4pwvqD3kZl2QaKm8aM5cHSxotlbxngpYNpX1YRPp9dNA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQyTPAe/UDvoHRRop9eNx4970y7uEDrtcHAEhOUzo09SZQf7Nu
-	TpczXzHk2P0JI5O5NI65/bs1n+n4IPNfpKsC8ApqMe1Ksd4VF3mvUjNvUaZpsbUDDcZ+gqzEzMC
-	r6JeC1LZs8FNMv1e4EgXO1HrIfRHM8yu7yvfc
-X-Gm-Gg: ASbGncu08oDJoHmc8Dv/YAAz1GWoXPLUcDdb3zmTCF6z8TWjIgqcdRLopKuYjsDFEtX
-	OGHbTOwTUYDwtCff7oY+tPIBHNOKtsUpJ
-X-Google-Smtp-Source: AGHT+IEyjVc+w4xYMWK45ReBVdh5zSSYk8/svaq/gH5CeUai6F225gz3gVyn1zbIlnkBPYmtw02u4vkN3IF6RImReBs=
-X-Received: by 2002:a05:6402:1ca2:b0:5d0:3807:bcbd with SMTP id
- 4fb4d7f45d1cf-5d03807bf0amr89021a12.6.1732526523672; Mon, 25 Nov 2024
- 01:22:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732527208; x=1733132008;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CJd7YmDRIf/qZZRuIn1RRwsg87hhLA4wTR2jmGGoM0I=;
+        b=kxcmQM7Hd5x5wo8iPYC57eP3lDIIvyCJ/KWEZ8XuoGdfgVOOpyVL6fjpy2Dkx3IwwB
+         VKFEP8PvT3nC2NHlrrojur2uZSZZowr8zfE1t1e8FAJObMOdCaRcftk5BkS6MWs3y3qo
+         P1lp2+YYN50yAsVwkcL/QiQZxjTp3sniem4Jftol4h03v2Ige5WoI+DOn3KcD4LApVmg
+         IHQn2QdxDtFkT3WzPEeQXIJ1Ej32IivfTFTIzGAaMdUYNb2j4r8d7O/c5PlCXCR7nZal
+         f5tW/A1brRvQ/Rid32uQFB88uvUERkHt3lDxstct5WjDnuis8TSYqAzB/YbhzmRxFNgH
+         tAeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnHSQQGTfuOXTvvOkLzLjSA5mqG2M9/DqolI7YRf75u0D3Jrafgn69FDkmflW8PLb821Y=@vger.kernel.org, AJvYcCUwJIoaLcFosdUS0zjvC9BEX1B9ThPhkN2rYiNSahE1CM3aUnvwzQTk3OugC3Lq8vqGIJ4J4FuC/QqgdV/X@vger.kernel.org, AJvYcCVcJc7Pp4RdIxgcf2rTcfxodOU183Jw5MoGAhIyxEfSiuYeABdr8Hu3QMzNoqi+3dYHTy0MPXWynCQl2JSZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0ydYdXt+bCq86ETyAxLpkRh7tvhy+tMeaDFD/51PQI94GPlte
+	DYC8WfKnY1HjxQUbFtQtBD/KtrDKbYpPvND04FwkJsKiq7nJNkHn
+X-Gm-Gg: ASbGncscHW0a1Q+1l3fysxeqFyqpcCbSL/2cVrrfRchxDecZu1+JkkUtEVcGliiNMiN
+	ikGQ5+9Oj2buCUlq5KAfl3aEWlydU8gn7EmFBrdRc1FG6jdla/q2vmxdtOqGBUEzvi2Cfc+4PmV
+	MU8dt6BzcZDqnhDKjK1+BS6ODo67ihftm4zoarOSk49s5FjFgSry5k0a34rXvk7XT5gSy6gccj6
+	ev88qjkr1jAw7Hedpufp6vQr3e/XKYn/36k2VlKzLfwO18VG+kkbRWki8PXdwW8NTrPnrVN/gZI
+	yS6zZBzHAzJ9UpfgXd6ZAL8=
+X-Google-Smtp-Source: AGHT+IFmsgLuuEjHvCGS6xK+KSUkxEbyq3M3cWUJah1M0laeKP1YjZJc3hl5ShQC/nZ44R6jc79QJg==
+X-Received: by 2002:a2e:b8d4:0:b0:2ff:557e:b418 with SMTP id 38308e7fff4ca-2ffa71bc397mr57943991fa.36.1732527207876;
+        Mon, 25 Nov 2024 01:33:27 -0800 (PST)
+Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm40436105e9.33.2024.11.25.01.33.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2024 01:33:27 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Mon, 25 Nov 2024 10:33:25 +0100
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>
+Subject: Re: [PATCH 3/3] kbuild: propagate CONFIG_WERROR to resolve_btfids
+Message-ID: <Z0REZczFIfGHtjsQ@krava>
+References: <20241123-resolve_btfids-v1-0-927700b641d1@weissschuh.net>
+ <20241123-resolve_btfids-v1-3-927700b641d1@weissschuh.net>
+ <CAADnVQL4_8-Y0O3Gar-+q7XKMU6_tY8atEddWB2KsR+DCUZ7WQ@mail.gmail.com>
+ <f7764e9b-6254-42af-94b8-41562a18b58b@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com> <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
-In-Reply-To: <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Mon, 25 Nov 2024 11:21:26 +0200
-Message-ID: <CABCJKufb7SLY3j7EqRwFkNbrp22moJ51rDJm8madpUQdOhV9kQ@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-To: sedat.dilek@gmail.com
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7764e9b-6254-42af-94b8-41562a18b58b@t-8ch.de>
 
-Hi Sedat,
+On Mon, Nov 25, 2024 at 09:20:37AM +0100, Thomas Weißschuh wrote:
+> On 2024-11-24 15:38:40-0800, Alexei Starovoitov wrote:
+> > On Sat, Nov 23, 2024 at 5:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > >
+> > > Use CONFIG_WERROR to also fail on warnings emitted by resolve_btfids.
+> > > Allow the CI bots to prevent the introduction of new warnings.
+> > >
+> > > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > > ---
+> > >  scripts/link-vmlinux.sh | 6 +++++-
+> > >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> > > index a9b3f34a78d2cd4514e73a728f1a784eee891768..61f1f670291351a276221153146d66001eca556c 100755
+> > > --- a/scripts/link-vmlinux.sh
+> > > +++ b/scripts/link-vmlinux.sh
+> > > @@ -274,7 +274,11 @@ vmlinux_link vmlinux
+> > >  # fill in BTF IDs
+> > >  if is_enabled CONFIG_DEBUG_INFO_BTF; then
+> > >         info BTFIDS vmlinux
+> > > -       ${RESOLVE_BTFIDS} vmlinux
+> > > +       RESOLVE_BTFIDS_ARGS=""
+> > > +       if is_enabled CONFIG_WERROR; then
+> > > +               RESOLVE_BTFIDS_ARGS=" --fatal-warnings "
+> > > +       fi
+> > > +       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
+> > 
+> > I'm not convinced we need to fail the build when functions are renamed.
+> > These warns are eventually found and fixed.
+> 
+> The same could be said for most other build warnings.
+> CONFIG_WERROR is a well-known opt-in switch for exactly this behavior.
+> 
+> Fixing these warnings before they hit mainline has various
+> advantages. The author introducing the warning knows about the full
+> impact of their change, discussions can be had when everybody still
+> has the topic fresh on their mind and other unrelated people don't get
+> confused, like me or [0].
+> 
+> The "eventually fixed" part seems to have been me the last two times :-)
+> 
+> Given the fairly simple implementation, in my opinion this is worth doing.
+> 
+> Please note that I have two fairly trivial changes for a v2 and would
+> also like to get some feedback from Masahiro, especially for patch 1.
 
-On Fri, Nov 22, 2024 at 3:51=E2=80=AFAM Sedat Dilek <sedat.dilek@gmail.com>=
- wrote:
->
-> Thanks for the update, Sami.
->
-> What are your plans to get this upstream?
+ok, I think it's fine to fail for CONFIG_WERROR option, for patchset:
 
-Once everything has been reviewed, I'm suspect it would be up to
-Masahiro to decide if he wants to pick this up.
+Acked-by: Jiri Olsa <jolsa@kernel.org>
 
-> Is Linux 6.13 the new development base?
->
-> Personally, I would like to see a Linux v6.12 LTS version offered.
+thanks,
+jirka
 
-This version is based on linux-kbuild/for-next, which at the time was
-based on 6.12-rc6, I think. It should apply cleanly to 6.12.
-
-> LTO is not supported - might be worth mentioning this in the
-> documentation patch with some explanations?
-
-Sure, it's probably worthwhile to add a note.
-
-Sami
+> 
+> 
+> Thomas
+> 
+> [0] https://lore.kernel.org/lkml/20241113093703.9936-1-laura.nao@collabora.com/
 
