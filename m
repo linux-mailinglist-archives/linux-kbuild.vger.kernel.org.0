@@ -1,145 +1,161 @@
-Return-Path: <linux-kbuild+bounces-4849-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4850-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAC89D88A5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 16:01:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4057D9D8A14
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 17:16:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 33DCDB2DCD1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 14:41:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD1F0B37586
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 14:52:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACF101B0F30;
-	Mon, 25 Nov 2024 14:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 502ED1B218C;
+	Mon, 25 Nov 2024 14:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FKSxC4Tb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q26UpezS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EA32746C;
-	Mon, 25 Nov 2024 14:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233C01B218A;
+	Mon, 25 Nov 2024 14:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732545698; cv=none; b=jVrRTiEZbpQVrJ682wODD7k7URxnhBUzF/d7fyM9bUkVxHEh0Srefs8YsWpArcRs+67WnkQ9BEgMG1fiPlUOpoMab+5qTvZ7UxHx7OAm+VqQwDHdd3RwXi0djD4K/WBx+cAmhoibuHsIiKhSdfLrkIgOW3fot+Fqgw2qEixRjkI=
+	t=1732546374; cv=none; b=Sn26Qjrmi0i++zG3uxCZPEdfy/9dDsSSY6yrCvkRzH0F0w/9AlPoIncOYeDmwErUEdQw1l74t2ijyAilxN1XdlEW1cfmB9tWXbObTpVNkPtr/W9tzUYAvVwbC87466aR3Z8IkUJNuLOkqKDYYPE/vDxEnINO5U4D3wLWKYHBu8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732545698; c=relaxed/simple;
-	bh=hKchmO2WDRxCHT7Jx9boQ3vWleTZKJaMpXI2cFPNwo8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VzcOWPxiCSxsrz9ncuFqLUZB0Iz6Fg2RLjkkPWGIbKbzLX8CzqaVFiR8hae1b8+CQ7Cgs030hAUjlXM0rtCn+0cgyN0nVaJEmz5inquq1YpPScNayYAuNO//oaQZQ+4mDH2OKC9rH0I7B76ZlYDFc2bx5JSMQVjON4N5U9xH4GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FKSxC4Tb; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2edbe217f00so272492a91.3;
-        Mon, 25 Nov 2024 06:41:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732545696; x=1733150496; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OyNHGDdr/bbhmu+9pKCigFAMTb5SHnCy56oapFhW6XY=;
-        b=FKSxC4Tbc6BB6OoQ8TwlUpq2a+R3slcoOke9vBpC/T7sXSRBK67L0XbtVj2eKwMMgr
-         pqNwvtljkbjw3SoLVybEDp2z9+sGMduI3VgpYsRj98rECD9J8ZG5iNftUOvOLMC4+MTh
-         FyVb1SyP2+9R+8SAIg2Fn1IaCMfYc5LfINK94p5dT7ui1Mc3Pj+jwjPtVAxwN9vGEJex
-         CndfBoLrwPxD/R1m6PaOk1+0FKmMd5kzdLElH33/NI8yezN+vSS8pndZcrpzS5qeb3rK
-         Ui9+h/nOJ9MXaQ8GPiEjS89atZvvQOVfH9EHN0GpbND8Z7cD0XUXg58c+f+bQu+HDG+O
-         BW+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732545696; x=1733150496;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OyNHGDdr/bbhmu+9pKCigFAMTb5SHnCy56oapFhW6XY=;
-        b=sdEbyI0NyH616bw4cRwEvY6oNNZI/rFL2Eh/neQNTWZdnhxvDnVrfjCJPPGyOA7tCa
-         hSVAG4vNntjAuIpe5mjw1hK5onePyMzWyALl8JojrpZKxYXMIiYQ5pgx2vDFzlaVI189
-         A2O9onn4/1gRUI5zc2sARY/NdImOVfz0JT1e/YdQVhu3BZD5s7E097GUXeFk2sn7xn8e
-         C7AJ3OtZfyrC8CCuIxIUSuaSGPjbtd98fyiBJ2PfE+jO7wzNU7WN23I7hqDz0DvsnejI
-         XoWARAzohJwHO7IXcIz/d4ipTyxi8T6TuixOTqZ0TdUcH4K1L+IuGzFVw2/gH7Zw+L4j
-         Ctzw==
-X-Forwarded-Encrypted: i=1; AJvYcCVKpWw0bO51X9xhUwjChzVK73l6LCppms3PXr68oQ5GTjtQiavEXtDmdLUIQ6VsgwbzS6uAIJnBfb5p+iWZlQ==@vger.kernel.org, AJvYcCVc+9pFcENIQOxsl8R68aoJOwr2uqg4ZW35bWfn6Mfu8UTYqM8ixdM/fS99ylSBOeLK0AxWJTKA4y/5CVw=@vger.kernel.org, AJvYcCVnU1E3PNblv+DXPXL2/GYarODw9BeouVz9waJML8wTFq2Kq+scSA4UXx8ljjeI8W/Jf4GNpR3jSwZ2QTXSFpE=@vger.kernel.org, AJvYcCWbPhEP7k80Qv+noEh+sC6pI73Iz/d9MkxIIyuH7GZgvizgDM/Rz3E3HQmRg2go9DtoIFx7QTrdbAy6JDNn@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFg0DLvXcpGrhnfO1UmQsS1eGzVLOu9Fu6h1Z6kZUz7FVMqBHs
-	bxgBXhmnRS0+gsNZCfN0NC2Bl4sSP7bUbTmcjMuiIKAAqIyRJQsJXaOo1v+43RzO1rIM6SOl/0X
-	NM9ifNCCjT8xXWkQoFGKC75m/cDY=
-X-Gm-Gg: ASbGnctYGSFClRCOCyE0kQf5T05FY15NtP4xbi9yyq691UewIV4oVkQFyvWf/0bmgt/
-	UvPJGu1ARp5AozfM3q8oGKzISdWO7oJo=
-X-Google-Smtp-Source: AGHT+IGUUfMqZ7Ksdh9fDCHJKZhC4rrxnKvWE7KOas6EI0MDojhpBH438SIr7nU6YUTcwPqa7tAeUT4MYakkcrTwWBw=
-X-Received: by 2002:a17:90b:1d07:b0:2eb:12ee:cf0b with SMTP id
- 98e67ed59e1d1-2ede7d8e536mr173275a91.1.1732545696207; Mon, 25 Nov 2024
- 06:41:36 -0800 (PST)
+	s=arc-20240116; t=1732546374; c=relaxed/simple;
+	bh=oqhy9e2J5epV4x7uNnvqT47Lb5Y9aVgtKCBMDtMl5w8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l0rYkTYyIuFfBZQsI3sLU8vtGdbT1pAEh/OGkSzO5ioykcD+xVyjqWiuLGSY9vQspbvDN7daO0tfsMtxMGXUq6lUkvoOyksgCRWzztJveIbHWp4HM9iJSaW/N2WK6ql1TfJq5KmM7yIVYrRNAlajk15LvhshnSHc/zn4FHGD5no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q26UpezS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E070C4CECE;
+	Mon, 25 Nov 2024 14:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732546373;
+	bh=oqhy9e2J5epV4x7uNnvqT47Lb5Y9aVgtKCBMDtMl5w8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q26UpezSdvx5Gfgz5TLt3/VHkChCuOBtRwN4IhDyJwrFHZZdGQINMYtUzjaBAgP25
+	 JSVqC6XcxoN9DpW4nnnsi6I5+YQKvFNkLaAe4ZC2LZU0+8xHop+JNpoYu5sjkpYdQU
+	 EU5dICDKEh93MF1q15c9/6QbM8OZnXZ9JhiZi1z4riRIhPXO0NQ4SG9ITmd17dP88P
+	 SQrhc/hZUt5r7Aiz0Kak0JUmdvn+GSMQFruQWgGrWDW1P7q4zR6EsdWlDtwL8QXS0H
+	 svi407GcA10F7VjrPJVRYbilLsSSHQ1OcleNgxr3pOZvBqa3xdWRVOTdZyJaIrg6fm
+	 OSKb9Tp/pkuwA==
+Date: Mon, 25 Nov 2024 07:52:51 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] kconfig: prefer toolchain default for debug information
+ choice
+Message-ID: <20241125145251.GA2067874@thelio-3990X>
+References: <20241124-kbuild-allconfig_debug_info-v1-1-07a7ac8d9a73@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com> <CAEg-Je-h4NitWb2ErFGCOqt0KQfXuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com>
-In-Reply-To: <CAEg-Je-h4NitWb2ErFGCOqt0KQfXuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 25 Nov 2024 15:41:24 +0100
-Message-ID: <CANiq72m4fea15Z0fFZauz8N2madkBJ0G7Dc094OwoajnXmROOA@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-To: Neal Gompa <neal@gompa.dev>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	"Darrick J. Wong" <djwong@kernel.org>, Donald Zickus <dzickus@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241124-kbuild-allconfig_debug_info-v1-1-07a7ac8d9a73@weissschuh.net>
 
-On Mon, Nov 25, 2024 at 2:29=E2=80=AFPM Neal Gompa <neal@gompa.dev> wrote:
->
-> As my Acked-by was removed, I'm sorry to say that there is no point
-> for me to provide feedback since it is unwanted.
->
-> I hope it lands soon, but I also hope the people here who decided that
-> a person's efforts aren't worth recording because they don't
-> personally know them should reflect on this too. It's a good way to
-> keep people from coming into the community for the long term.
+Hi Thomas,
 
-Hopefully this reply helps -- apologies to anyone if I am overstepping.
+On Sun, Nov 24, 2024 at 04:58:04PM +0100, Thomas Weißschuh wrote:
+> Kconfig by default chooses the first entry of a choice setting.
+> For the "debug information" choice this is DEBUG_INFO_NONE which
+> disables debug information completely.
+> 
+> The kconfig choice itself recommends to use "Toolchain default":
+> 
+> 	Choose which version of DWARF debug info to emit. If unsure,
+> 	select "Toolchain default".
+> 
+> Align the actual configuration with the recommendation by providing an
+> explicit default.
+> 
+> This also enables more codepaths from allmodconfig/allyesconfig which
+> depend on debug information being available.
+> 
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
+>  lib/Kconfig.debug | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 5d9eca035d470f7ba0c5ff932c37fd5869174269..0aefcd103d9012cd8067e5594404358b0e977644 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -240,6 +240,7 @@ config AS_HAS_NON_CONST_ULEB128
+>  choice
+>  	prompt "Debug information"
+>  	depends on DEBUG_KERNEL
+> +	default DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+>  	help
+>  	  Selecting something other than "None" results in a kernel image
+>  	  that will include debugging info resulting in a larger kernel image.
+> 
+> ---
+> base-commit: 9f16d5e6f220661f73b36a4be1b21575651d8833
+> change-id: 20241124-kbuild-allconfig_debug_info-f7449ba15be6
+> 
+> Best regards,
+> -- 
+> Thomas Weißschuh <linux@weissschuh.net>
+> 
 
-On one side, it is true that Acked-by is typically used by people that
-is responsible for the code one way or another, because the tag is
-meant for them to acknowledge they are OK with the change going in,
-and so I can see the argument that restricting it for that purpose
-only may help avoid confusion later on reading the log.
+I am not the biggest fan of this because it appears to have around a 5%
+penalty in compilation times when I benchmarked building allmodconfig
+with and without this change.
 
-On the other hand, someone being willing to put their name on a patch
-is very valuable, whoever they are, and whatever the tag name is.
-Moreover, it is also true that, Acked-by may be used here in a "as a
-key user downstream, this looks reasonable and satisfies our needs"
-sense.
+With LLVM 19.1.4:
 
-Finally, sometimes new tags are invented on the fly because there is
-no good fit, too.
+  Benchmark 1: DEBUG_INFO_NONE
+    Time (mean ± σ):     715.858 s ±  0.531 s    [User: 38038.311 s, System: 3718.784 s]
+    Range (min … max):   715.271 s … 716.307 s    3 runs
 
-Either way, I don't think anyone wanted to disregard your efforts or
-to be rude to you in particular, but rather wanted to keep tags usage
-aligned to how they view them or how they use them in their subsystem.
-The Tested-by was still wanted, so I doubt their goal was to remove
-you from the log or to make you feel unwelcomed.
+  Benchmark 2: DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+    Time (mean ± σ):     760.749 s ±  0.172 s    [User: 40699.800 s, System: 3817.819 s]
+    Range (min … max):   760.617 s … 760.943 s    3 runs
 
-Two solutions here that could be OK for both sides:
+  Summary
+    DEBUG_INFO_NONE ran
+      1.06 ± 0.00 times faster than DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
 
-  - Would you be OK with another tag name? For instance,
-"Acked-by-User:" or similar? That may help the maintainer keep the
-Acked-bys the way they prefer, yet record your own Acked-by in a
-separate category.
+With GCC 14.2.0:
 
-  - Another idea that the maintainer may accept is an Acked-by with a
-"# suffix" comment that clarifies the meaning in this particular case,
-e.g.:
+  Benchmark 1: DEBUG_INFO_NONE
+    Time (mean ± σ):     830.524 s ±  0.342 s    [User: 43901.642 s, System: 4515.917 s]
+    Range (min … max):   830.135 s … 830.777 s    3 runs
 
-      Acked-by: Neal Gompa <neal@gompa.dev> # As primary consumer
-(Fedora Asahi kernel maintainer).
+  Benchmark 2: DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+    Time (mean ± σ):     873.663 s ±  0.150 s    [User: 46102.416 s, System: 4968.065 s]
+    Range (min … max):   873.565 s … 873.836 s    3 runs
+
+  Summary
+    DEBUG_INFO_NONE ran
+      1.05 ± 0.00 times faster than DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+
+I understand the desire to have CONFIG_DEBUG_INFO_BTF be selected with
+allmodconfig for the sake of coverage but that is going to add up for
+builders doing many builds a day.
+
+Maybe we could add a fragment to kernel/configs for easily flipping
+this? Another alternative that I have thought about recently is allowing
+developers to specify a directory that holds out of tree config
+fragments (KBUILD_FRAGMENTS_DIR?) that would be searched like
+kernel/configs and arch/*/configs, so that people could maintain their
+own fragments for easily doing something like:
+
+  allmodconfig debug_info_btf.config
+
+during configuration. Regardless though, if others find this new default
+desirable, I am fine with it.
 
 Cheers,
-Miguel
+Nathan
 
