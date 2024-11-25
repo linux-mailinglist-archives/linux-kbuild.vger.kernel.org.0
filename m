@@ -1,118 +1,153 @@
-Return-Path: <linux-kbuild+bounces-4839-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4840-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D649D7CCD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 09:20:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC839D7CFD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 09:35:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AE6E281DD9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 08:20:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E23EB281FE0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 08:35:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B6E816FF37;
-	Mon, 25 Nov 2024 08:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38AD3185955;
+	Mon, 25 Nov 2024 08:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="p0bGCS2L"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdooRpbQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27CE1A296;
-	Mon, 25 Nov 2024 08:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C31376;
+	Mon, 25 Nov 2024 08:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732522847; cv=none; b=rQocgxcJaVDlv63+MKgGzSFTPcZpA8BdAGHVValem7O153IFtJeWoDY+xaDEB8fympJqTaiREl5aImxwbb+3Xl77PqPUyLaZQharhjeH+hNv3LbjVU9At68ZplgzuqAgk1KzGCp4QcPcJjN7lVvzumrZVshiXD4vXj5XNsdAGsQ=
+	t=1732523749; cv=none; b=nl8egGGg1Fsk/KHdIaKFQLbBJpPYlP2mwNHauds0bGI1VxB7BnCXYpDddf26oNZ7vpGunT5kUuEPVn20XDRuQwIS+HHOdaN9Kpkoedh2Hl6Qthh8rGQFKr/RhheF5XL6yVJR/bLSm3ryeaugOtRuvKi7K7ZrAgC8J//sGajSYSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732522847; c=relaxed/simple;
-	bh=tuFGzuKT9Kp+P4m5tTUOZPtcMxp0g2nRys84C2P3StE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0BjAQMuyBqvvrIrOaPBco4JDINmC64RafvlRnSc0Rl4UD4QqQmZMWuJ7RcX4OhgBujT7WcFCMsblt/YN35zRnuvUZuWhG8dJFUESRLoFFxiS8ENs8vNVUDVkE3YUzLKI6nIQPPJpr84IvWC2vjm5xNeeX+NkJ2WbTkPEAd7ejM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=p0bGCS2L; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1732522839;
-	bh=tuFGzuKT9Kp+P4m5tTUOZPtcMxp0g2nRys84C2P3StE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p0bGCS2LNemliJfdmxMqG9vlusdYA7kTxyNQaWFWmsCVbYVnbVpOFCxkHXUg0uaVC
-	 CQUyna8F5V6HlTf0Uc7dCxD2AsUi8JT7jXdcwy6cYDo/N0pH2Y/2W8XzTlgbuXLrjJ
-	 jSmZBju27GRXD4w5l7yo81d4b6CFkDkx4/o1bJ1g=
-Date: Mon, 25 Nov 2024 09:20:37 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>
-Subject: Re: [PATCH 3/3] kbuild: propagate CONFIG_WERROR to resolve_btfids
-Message-ID: <f7764e9b-6254-42af-94b8-41562a18b58b@t-8ch.de>
-References: <20241123-resolve_btfids-v1-0-927700b641d1@weissschuh.net>
- <20241123-resolve_btfids-v1-3-927700b641d1@weissschuh.net>
- <CAADnVQL4_8-Y0O3Gar-+q7XKMU6_tY8atEddWB2KsR+DCUZ7WQ@mail.gmail.com>
+	s=arc-20240116; t=1732523749; c=relaxed/simple;
+	bh=giqjuR8SayINfQRMvdKC45TjKx+/gcQKWZAhbM6pN6g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fGalBSOrtuS5oPiAziC0eK+SGjbXU970APf/GpAWCfewYOArqp8Aq9fnbYx/4zS0y635uQ9PYVNnMR+5clzUyjjuVRKMKiELfCQhn3MpoveBz6IfSpHcUI7Lyqa3xEJTfkXlQUSbT4n5OKC4tRzdKo5PcKEFvFYdmTl2teMd2+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdooRpbQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92E04C4CECE;
+	Mon, 25 Nov 2024 08:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732523748;
+	bh=giqjuR8SayINfQRMvdKC45TjKx+/gcQKWZAhbM6pN6g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=WdooRpbQ5u6eHCnM9Ej4riSSEeaFmHBi7Db444box+szJzgzdapMMH6GZAbrnH2xB
+	 sqr4k2kHzpaE1OdphrsR9izJmdStKqo9AiThGJ7T6gDaKM8fssTCtZYrVZz7amT+zc
+	 hO5yUeHXDJ857s4LbyLmjJTlPaQ4J2Qe91uhQkwWvcV8ZTdSTqaYDYPJ15L6eFHa8v
+	 hnSmmgYvJgID8XBMcjzk8S4hiJmniyJq/tTGVLQdDE4CLpWd6YWS6Heppblvj9PleV
+	 rlM2nSvhr5mXoJrZ9WgS0jpEDDH1rUCHruQ9DX34ZVETxU13AlaDS3j3TMTI+Nt1yD
+	 d5VJ+yzigvTtw==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ffa8df8850so28759481fa.3;
+        Mon, 25 Nov 2024 00:35:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV7kN2IKSQj8bc91QuM5f5/Z/l39/wAU0qNf+204IJaVfno0X3qKq1c7yZmctxtX3g+ZPGyPl6etdBZ4bB5@vger.kernel.org, AJvYcCW3+T1SZWPaSEd8a17wBiFBk1xnpJK1ooCzelubMRDrvHw93JjKvK6y1GoE+X9LQecs237o/s48tfmXIBXC@vger.kernel.org, AJvYcCXDocWxBjQBhTQvzMiymEjQ2Wn4JFicF+LfNG4lKvLH54o6f5KBHyM3TTtV5Z7qzhyI/J0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPyTY44oFRMs5UMR4Kzm9D9J+ytNdczecI5ZSCCX5KBS6kct8h
+	cyjFDy+RCfBzUjB9RyKkrv1EfiXz/DO8aH4a517Jik7LxQUXXK9ijqw5sesSSWETVlR3dHWncSJ
+	Plado8MeO/qIzitABS7081L6BByc=
+X-Google-Smtp-Source: AGHT+IE3pYY4SyydxATz2K5n+Wei67MO86RDjcb//k8TvfxZ3L/3zJNbxC7jzwmA+XU84NJpz/HlxAZNDIhvOYStDes=
+X-Received: by 2002:a05:651c:19a2:b0:2ff:c741:db92 with SMTP id
+ 38308e7fff4ca-2ffc741de13mr4309141fa.17.1732523747252; Mon, 25 Nov 2024
+ 00:35:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAADnVQL4_8-Y0O3Gar-+q7XKMU6_tY8atEddWB2KsR+DCUZ7WQ@mail.gmail.com>
+References: <20241123-resolve_btfids-v1-0-927700b641d1@weissschuh.net>
+ <20241123-resolve_btfids-v1-1-927700b641d1@weissschuh.net>
+ <Z0ONnhIVK1Sj9J09@krava> <fa77c47c-b9c7-4013-8ccf-7ee7773c0c2d@t-8ch.de>
+In-Reply-To: <fa77c47c-b9c7-4013-8ccf-7ee7773c0c2d@t-8ch.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 25 Nov 2024 17:35:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQw9Ra8p6PtkGqhGvDZoWudsxHGW005ZotcpdqXuAMCRg@mail.gmail.com>
+Message-ID: <CAK7LNAQw9Ra8p6PtkGqhGvDZoWudsxHGW005ZotcpdqXuAMCRg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kbuild: add dependency from vmlinux to resolve_btfids
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-11-24 15:38:40-0800, Alexei Starovoitov wrote:
-> On Sat, Nov 23, 2024 at 5:33 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
+On Mon, Nov 25, 2024 at 5:58=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weisss=
+chuh.net> wrote:
+>
+> On 2024-11-24 21:33:34+0100, Jiri Olsa wrote:
+> > On Sat, Nov 23, 2024 at 02:33:37PM +0100, Thomas Wei=C3=9Fschuh wrote:
+> > > resolve_btfids is used by link-vmlinux.sh.
+> > > In contrast to other configuration options and targets no transitive
+> > > dependency between resolve_btfids and vmlinux.
+> > > Add an explicit one.
 > >
-> > Use CONFIG_WERROR to also fail on warnings emitted by resolve_btfids.
-> > Allow the CI bots to prevent the introduction of new warnings.
+> > hi,
+> > there's prepare dependency in root Makefile, isn't it enough?
+>
+> It doesn't seem for me.
+> If the source of resolve_btfids is changed, it itself is recompiled as
+> per the current Makefile, but vmlinux is not relinked/BTFID'd.
+
+
+If we need rebuilding vmlinux, this seems correct
+
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+I can pick up this during the current MW.
+
+
+
+
+
+
+> > ifdef CONFIG_BPF
+> > ifdef CONFIG_DEBUG_INFO_BTF
+> > prepare: tools/bpf/resolve_btfids
+> > endif
+> > endif
 > >
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> >  scripts/link-vmlinux.sh | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > thanks,
+> > jirka
 > >
-> > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> > index a9b3f34a78d2cd4514e73a728f1a784eee891768..61f1f670291351a276221153146d66001eca556c 100755
-> > --- a/scripts/link-vmlinux.sh
-> > +++ b/scripts/link-vmlinux.sh
-> > @@ -274,7 +274,11 @@ vmlinux_link vmlinux
-> >  # fill in BTF IDs
-> >  if is_enabled CONFIG_DEBUG_INFO_BTF; then
-> >         info BTFIDS vmlinux
-> > -       ${RESOLVE_BTFIDS} vmlinux
-> > +       RESOLVE_BTFIDS_ARGS=""
-> > +       if is_enabled CONFIG_WERROR; then
-> > +               RESOLVE_BTFIDS_ARGS=" --fatal-warnings "
-> > +       fi
-> > +       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
-> 
-> I'm not convinced we need to fail the build when functions are renamed.
-> These warns are eventually found and fixed.
-
-The same could be said for most other build warnings.
-CONFIG_WERROR is a well-known opt-in switch for exactly this behavior.
-
-Fixing these warnings before they hit mainline has various
-advantages. The author introducing the warning knows about the full
-impact of their change, discussions can be had when everybody still
-has the topic fresh on their mind and other unrelated people don't get
-confused, like me or [0].
-
-The "eventually fixed" part seems to have been me the last two times :-)
-
-Given the fairly simple implementation, in my opinion this is worth doing.
-
-Please note that I have two fairly trivial changes for a v2 and would
-also like to get some feedback from Masahiro, especially for patch 1.
+> > >
+> > > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> > > ---
+> > >  scripts/Makefile.vmlinux | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> > > index 1284f05555b97f726c6d167a09f6b92f20e120a2..599b486adb31cfb653e54=
+707b7d77052d372b7c1 100644
+> > > --- a/scripts/Makefile.vmlinux
+> > > +++ b/scripts/Makefile.vmlinux
+> > > @@ -32,6 +32,9 @@ cmd_link_vmlinux =3D                               =
+                         \
+> > >  targets +=3D vmlinux
+> > >  vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
+> > >     +$(call if_changed_dep,link_vmlinux)
+> > > +ifdef CONFIG_DEBUG_INFO_BTF
+> > > +vmlinux: $(RESOLVE_BTFIDS)
+> > > +endif
+> > >
+> > >  # module.builtin.ranges
+> > >  # ------------------------------------------------------------------=
+---------
+> > >
+> > > --
+> > > 2.47.0
+> > >
 
 
-Thomas
 
-[0] https://lore.kernel.org/lkml/20241113093703.9936-1-laura.nao@collabora.com/
+--=20
+Best Regards
+Masahiro Yamada
 
