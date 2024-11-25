@@ -1,150 +1,197 @@
-Return-Path: <linux-kbuild+bounces-4855-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4856-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D1A9D8B56
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 18:32:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3CC9D8C8A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 19:59:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 974B1B292CF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 17:18:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E26E6B2421D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Nov 2024 18:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AD11192D6C;
-	Mon, 25 Nov 2024 17:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DD001B983F;
+	Mon, 25 Nov 2024 18:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cold-front.org header.i=@cold-front.org header.b="hXmvcHSN";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e8YLa30K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQnLt20d"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6949D191F91
-	for <linux-kbuild@vger.kernel.org>; Mon, 25 Nov 2024 17:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047441B415F;
+	Mon, 25 Nov 2024 18:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732555098; cv=none; b=rM6Vn1uZK6z2ZDXVLqzABrBkcejGSf6Mn4HRB2DKw8uKyD5LyDo45Ieit03hd3hmarlkwEnDf/gEO6m4Gr/VqAofz7umippPdM5Lt6Y6lweLWVltHwEdD2Wq3xEfzoka7RP+xYRj1CFXKGX6MgZvOXu1KkzqJsWUZ0OaPJVBGGE=
+	t=1732561120; cv=none; b=SxtMftc13NeekILBVMMaUJGS0cA/85NyGxkTaHkoiWXVj92Tkz26rRRVRF/G7OJT1GBUy+GNpzFVOOzHCoIHooMbCDqpDwlAgslDyZmVyQyvf2N0R7aqhheCBARF5jAFd+haiifBb8VQHkEl32hxW3it4b6FpHn2bpRjY8Vht9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732555098; c=relaxed/simple;
-	bh=xU5Q/S80eZg6fe5jVAqC4hxrxb+qrhyPlh0hwPDLMhI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uDikvck5R0qG8JVRo6EWZmUjLi0u2Mybswyow23tK8IFChZEEDRiILWsIbXO72eUQMHfJ98GJ1V08OXll7oLGwagdxOedr894/mXAJI95zTqwSufldMG6MIxm27DTl9URN0lDy1lkA9yK+Gw7XYZwhlP5Gnh3Znsivo5Hu5eSUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cold-front.org; spf=pass smtp.mailfrom=cold-front.org; dkim=pass (2048-bit key) header.d=cold-front.org header.i=@cold-front.org header.b=hXmvcHSN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e8YLa30K; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cold-front.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cold-front.org
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 8400125400CE;
-	Mon, 25 Nov 2024 12:18:13 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 25 Nov 2024 12:18:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1732555093; x=1732641493; bh=rwJLdPFi0X
-	iiQWcBWzsyk/2c0O0lQ21HDieMea7/vgQ=; b=hXmvcHSN5AEd/R4qblwdhBpp5e
-	FtOtzyGv0SDiRBOBlHA84sLLExkdmfkfYMqfpmP8WHpVgwGdyP9L8SWUDnia95Fo
-	aIFpmxmFQrMi1+RhxlUOhM/bKMC1dr3LCWH81V7jW7AOripDiPj+GIRl1rpQpxqM
-	d0g+uEBhM052Oh1sFQRjhjYX8b06Pz6feKJHpDQQJG6nRH66dA1ksHwba8afFMHd
-	9LZvrLzY1m8V3P6ReSS48T7QoAQ1aISZcXQtlcUYrggTPtKcRgTYGtpC3hjcjG/9
-	xdGA9MCy4MtkWW8aBmNybZ8AIgijn6xgpuuYtDXv5AhzbaVoiuUIJNr87ZZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1732555093; x=1732641493; bh=rwJLdPFi0XiiQWcBWzsyk/2c0O0lQ21HDie
-	Mea7/vgQ=; b=e8YLa30K9gkOtzRlGqMfIzkojcx3qxJBxvXHT02id63K+RzhtFi
-	Vnx9AU4en4k87zMdt5zbCY1SNcoNN6pkrNXztd7Rk4F7a2ubAoQLzp76ZBZJ1Kkf
-	O9pVs+fhxdNLBJbYr32W1RWoYRdYxe9uS1rQvH7ifgumzeaTKmbWYxHWYGaq+skh
-	KQXgPzmoGLbX1EvPnBXqgXbohYC/Jzk4/NhjovqywzTply6nF8HApTCeJkt4Xfvg
-	5R18RMrBKU3Fh7r4HeGFaQnownLJNhUZbLeQqRQGggRigKTpV+378lHbO6o9OmRf
-	VJOsrtjtR32IUZd90YgGUcUmHsvmoZSpgcQ==
-X-ME-Sender: <xms:VbFEZ7aXLhJOLu6p33KYfy78856O2mkXbZbcZ2oljiMq9P-S7BWwbw>
-    <xme:VbFEZ6Y44pESarXznXhc1J0ygVMW6AN0G3QmHyPwZ_vUIsi9E1x4LCP9Tdb60_Eei
-    BvHxlfnBg3ABCesJQ>
-X-ME-Received: <xmr:VbFEZ9-an4CwnW6q4yowi9d-BazH7TRqj4zBRjmgXyELF4V1W5Vwz2Mc0YAwxJaX4NaJqApp3uWbOC9zPyOqbRM1t4-JmoGmRexrNtDxMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrgeehgdeliecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefuff
-    fkofgggfestdekredtredttdenucfhrhhomheplfhushhtihhnuceurhhonhguvghruceo
-    jhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeffudfgffefuedvuddttdfgfeehgfeikeffudfhgfehieefteefgedvieehvdegvden
-    ucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepjhhssghrohhnuggvrhestgholhguqdhfrhhonhht
-    rdhorhhgpdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdprhgtphhtth
-    hopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdrohhrgh
-X-ME-Proxy: <xmx:VbFEZxq3kJWiFT5majG0o1nMKso5JNM9dstgg-CTB3ynoyDmo7Disg>
-    <xmx:VbFEZ2oWW0cOCGjVdNiqdZj1RDzkp2FF3D3Ta0IHwIKuWIkj60dU8w>
-    <xmx:VbFEZ3Rjik5xs9pfC3uMkjAUdB3PSwGceizcisiGDppP8RC7WqDCAQ>
-    <xmx:VbFEZ-oh1H-7fzxQiZoz7MMmDNzLnWSBtHC45CEq-msN9BL7LK3exQ>
-    <xmx:VbFEZ93GxpWKmZOEgUeYQsi9qLz-mK7ool_yAutG07etiJ0iAyiHwg3s>
-Feedback-ID: iea0042cb:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Nov 2024 12:18:12 -0500 (EST)
-From: Justin Bronder <jsbronder@cold-front.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Justin Bronder <jsbronder@cold-front.org>
-Subject: [PATCH] kbuild: use lz4 instead of lz4c
-Date: Mon, 25 Nov 2024 12:18:00 -0500
-Message-ID: <20241125171800.1131761-1-jsbronder@cold-front.org>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1732561120; c=relaxed/simple;
+	bh=Fqrnpfc5wrMBhOgBDmW15TU9vQsVhq/EplZwpJQIS7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fRal/d3G7dt1TKrKkbsMhUoePvzEtY7G9riTK4xVEc7QQK0D7ViV0X1/09BAO+ZQywOXQfHK6XNWRJefPF+fqMV4pBEuj2gvEZ8/XedpWdedYTzkZAeOhDKxf8l+OaIYuBkND+PmJHvIiKHlgBnIFXx9r2P3up2upgWBSNHADNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQnLt20d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA6AC4CECE;
+	Mon, 25 Nov 2024 18:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732561119;
+	bh=Fqrnpfc5wrMBhOgBDmW15TU9vQsVhq/EplZwpJQIS7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YQnLt20dC4rqMsXjR32O9xRjmTRZUv68cydjbF60dgZXotZON17lHJAmL8WMKk/Ic
+	 XSuQTw4u5ItMyV8Q2ji+WlKnn3o4qggMWMnXpqeRlYBNBF9sM27vOP8fkus2UWYDkV
+	 Qohq+zmWEtAkD11vRf8ZXyJdhi3i7ugOPbiGOGwisAFyTvFS6nHriX6QP98qNjx0lH
+	 z7hIpONn+ht5lDGIyGp5V+0EGEnEt9AZYKbxpqalXHDxG1QrVAvlUiqaSe5Us77HMa
+	 VAmSqZUhPieNjGk3ouYNz7t+9mn6/cZCDT88N3JroRTObe/S4v2AgdzLaJKZp+e8Gi
+	 8BK5I8Minrzfg==
+Date: Mon, 25 Nov 2024 11:58:37 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] kconfig: prefer toolchain default for debug information
+ choice
+Message-ID: <20241125185837.GA495243@thelio-3990X>
+References: <20241124-kbuild-allconfig_debug_info-v1-1-07a7ac8d9a73@weissschuh.net>
+ <20241125145251.GA2067874@thelio-3990X>
+ <5fdad1e3-1b0c-4292-9bb1-2f7654d9b816@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <5fdad1e3-1b0c-4292-9bb1-2f7654d9b816@t-8ch.de>
 
-lz4c has been considered deprecated by upstream since at least 2018 [1]
-and has been disabled by default recently [2].  openSUSE Tumbleweed is
-no longer packaging the deprecated version and others will likely
-follow.
+On Mon, Nov 25, 2024 at 04:46:53PM +0100, Thomas Weißschuh wrote:
+> Hi Nathan,
+> 
+> On 2024-11-25 07:52:51-0700, Nathan Chancellor wrote:
+> > On Sun, Nov 24, 2024 at 04:58:04PM +0100, Thomas Weißschuh wrote:
+> > > Kconfig by default chooses the first entry of a choice setting.
+> > > For the "debug information" choice this is DEBUG_INFO_NONE which
+> > > disables debug information completely.
+> > > 
+> > > The kconfig choice itself recommends to use "Toolchain default":
+> > > 
+> > > 	Choose which version of DWARF debug info to emit. If unsure,
+> > > 	select "Toolchain default".
+> > > 
+> > > Align the actual configuration with the recommendation by providing an
+> > > explicit default.
+> > > 
+> > > This also enables more codepaths from allmodconfig/allyesconfig which
+> > > depend on debug information being available.
+> > > 
+> > > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > > ---
+> > >  lib/Kconfig.debug | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > > index 5d9eca035d470f7ba0c5ff932c37fd5869174269..0aefcd103d9012cd8067e5594404358b0e977644 100644
+> > > --- a/lib/Kconfig.debug
+> > > +++ b/lib/Kconfig.debug
+> > > @@ -240,6 +240,7 @@ config AS_HAS_NON_CONST_ULEB128
+> > >  choice
+> > >  	prompt "Debug information"
+> > >  	depends on DEBUG_KERNEL
+> > > +	default DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> > >  	help
+> > >  	  Selecting something other than "None" results in a kernel image
+> > >  	  that will include debugging info resulting in a larger kernel image.
+> > > 
+> > > ---
+> > > base-commit: 9f16d5e6f220661f73b36a4be1b21575651d8833
+> > > change-id: 20241124-kbuild-allconfig_debug_info-f7449ba15be6
+> > > 
+> > > Best regards,
+> > > -- 
+> > > Thomas Weißschuh <linux@weissschuh.net>
+> > > 
+> > 
+> > I am not the biggest fan of this because it appears to have around a 5%
+> > penalty in compilation times when I benchmarked building allmodconfig
+> > with and without this change.
+> > 
+> > With LLVM 19.1.4:
+> > 
+> >   Benchmark 1: DEBUG_INFO_NONE
+> >     Time (mean ± σ):     715.858 s ±  0.531 s    [User: 38038.311 s, System: 3718.784 s]
+> >     Range (min … max):   715.271 s … 716.307 s    3 runs
+> > 
+> >   Benchmark 2: DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> >     Time (mean ± σ):     760.749 s ±  0.172 s    [User: 40699.800 s, System: 3817.819 s]
+> >     Range (min … max):   760.617 s … 760.943 s    3 runs
+> > 
+> >   Summary
+> >     DEBUG_INFO_NONE ran
+> >       1.06 ± 0.00 times faster than DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> > 
+> > With GCC 14.2.0:
+> > 
+> >   Benchmark 1: DEBUG_INFO_NONE
+> >     Time (mean ± σ):     830.524 s ±  0.342 s    [User: 43901.642 s, System: 4515.917 s]
+> >     Range (min … max):   830.135 s … 830.777 s    3 runs
+> > 
+> >   Benchmark 2: DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> >     Time (mean ± σ):     873.663 s ±  0.150 s    [User: 46102.416 s, System: 4968.065 s]
+> >     Range (min … max):   873.565 s … 873.836 s    3 runs
+> > 
+> >   Summary
+> >     DEBUG_INFO_NONE ran
+> >       1.05 ± 0.00 times faster than DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+> > 
+> > I understand the desire to have CONFIG_DEBUG_INFO_BTF be selected with
+> > allmodconfig for the sake of coverage but that is going to add up for
+> > builders doing many builds a day.
+> 
+> No argument on the increased cost.
+> 
+> But it's called "allyesconfig" not "ciconfig".
+> I do realize that technically it is a Kconfig "choice" which
+> does not have a "yes" answer. However I think it does fit the spirit.
 
-Going back as far as Ubuntu 16.04/Fedora 25, both lz4 and lz4c are
-installed as part of the same package and both accept -9 to enable high
-compression so switching should be safe.
+Sure, I do not really disagree there. I more interpret allmodconfig and
+allyesconfig to mean "build all code" not "build with every option
+possible", which is a small distinction but meaningful in this case. Not
+saying one is more correct than the other, just saying where I come from
+:)
 
-1. https://github.com/lz4/lz4/pull/553
-2. https://github.com/lz4/lz4/pull/1479
+> > Maybe we could add a fragment to kernel/configs for easily flipping
+> > this? Another alternative that I have thought about recently is allowing
+> > developers to specify a directory that holds out of tree config
+> > fragments (KBUILD_FRAGMENTS_DIR?) that would be searched like
+> > kernel/configs and arch/*/configs, so that people could maintain their
+> > own fragments for easily doing something like:
+> > 
+> >   allmodconfig debug_info_btf.config
+> > 
+> > during configuration. Regardless though, if others find this new default
+> > desirable, I am fine with it.
+> 
+> The same could be used by the CI setups :-)
+> 
+> There should be less CI setups than regular developers, they known more
+> about special or expensive configuration quirks and they should already
+> have logic to filter and customize build configurations.
+> 
+> While I'm arguing here to accomodate for my personal laziness, I also do
+> think that these are generally valid arguments.
+> But if there if it's not convincing enough, I'll drop it.
 
-Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
----
- Makefile             | 2 +-
- scripts/Makefile.lib | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Yes, I think there is definitely a fine argument here. I am certainly
+not here to block anything, just giving my opinion as someone who does a
+lot of builds every day :)
 
-diff --git a/Makefile b/Makefile
-index 68a8faff2543..ded07aca0d2a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -508,7 +508,7 @@ KGZIP		= gzip
- KBZIP2		= bzip2
- KLZOP		= lzop
- LZMA		= lzma
--LZ4		= lz4c
-+LZ4		= lz4
- XZ		= xz
- ZSTD		= zstd
- 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 01a9f567d5af..b73950bfee34 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -371,10 +371,10 @@ quiet_cmd_lzo_with_size = LZO     $@
-       cmd_lzo_with_size = { cat $(real-prereqs) | $(KLZOP) -9; $(size_append); } > $@
- 
- quiet_cmd_lz4 = LZ4     $@
--      cmd_lz4 = cat $(real-prereqs) | $(LZ4) -l -c1 stdin stdout > $@
-+      cmd_lz4 = cat $(real-prereqs) | $(LZ4) -l -9 stdin stdout > $@
- 
- quiet_cmd_lz4_with_size = LZ4     $@
--      cmd_lz4_with_size = { cat $(real-prereqs) | $(LZ4) -l -c1 stdin stdout; \
-+      cmd_lz4_with_size = { cat $(real-prereqs) | $(LZ4) -l -9 stdin stdout; \
-                   $(size_append); } > $@
- 
- # U-Boot mkimage
--- 
-2.47.0
+> The out of tree fragments idea sounds personally useful but a bit
+> inconsistent with the rest of kbuild.
+> AFAIK there is nothing similar; for thing like CFLAGS etc.
 
+KCFLAGS in Makefile or Documentation/kbuild/kbuild.rst?
+
+Cheers,
+Nathan
 
