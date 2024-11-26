@@ -1,124 +1,184 @@
-Return-Path: <linux-kbuild+bounces-4861-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4862-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F5C9D90D2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 04:51:33 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FC79D90F3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 05:13:16 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2849B25FF0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 03:51:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0814D166F36
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 04:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DA4C80BEC;
-	Tue, 26 Nov 2024 03:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADB2212CDA5;
+	Tue, 26 Nov 2024 04:13:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GcbB6cmk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQTECpwG"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373262940D;
-	Tue, 26 Nov 2024 03:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEB042A80;
+	Tue, 26 Nov 2024 04:13:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732593086; cv=none; b=q8XO6fafax5L8LjWWr7D4FUeKpE/bach8Eg9a4/VQqSgBw+7RPX89uyXkqWxdsYPpq6WLSo6nugI0GkHVgoZ6tIw5fbG1fAqNxINnHnBAtlMlJwECZJEbM4jcwzwJ7Adov9A60MiPUFjrOhxnO7kkiXuNCk/ct1Npfmyp/+1aUc=
+	t=1732594392; cv=none; b=HFKhKPTDnXr6RsmdmoXwhR8D5M7vC98h4G3ZeTiN4eLsfwY8XIfj5xqDjq2nTceARoTEvfmpeQ+Yzc7hGGATtNESLrf4dwoRGRSMghFrlDPifRduKwHDMw2xuiggEyjGjdU2oKTeFri1bAoAUiL+7G6UYfqhuSJ/io7+/H+sn1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732593086; c=relaxed/simple;
-	bh=zMONBQMoYUxKJcmzdRpne6c+qzfU1TZwryMh/qwAkig=;
+	s=arc-20240116; t=1732594392; c=relaxed/simple;
+	bh=wvE1j6jYlustZGPgO4za1DJpvm8S+eQ4rSParDa6Lgg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=euKcqGIH4TlnUvkIKdWRo9h6UeL19ra+TVObGRS9B5KFW36wn/g20f6IFRG/gJcTm5uPGq5gHsAhOQWBG4IY3NZZXEDUReFD0or2OhT4RlR54gnUDbAFLJ9tor1KBdjdzdTJfGyWn+Hs16KNTcyZX+kSBxPsvVVmtSBRD85VdDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GcbB6cmk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB442C4CECF;
-	Tue, 26 Nov 2024 03:51:25 +0000 (UTC)
+	 To:Cc:Content-Type; b=ubKQbR0FPLhCecU31WHHpShmcYEufta14YzKuvKj7tyTQjoyNgMwlzXeDT/AeoQWJCyToSKgqF7NIjjGc0XGhZVnai1lD/2Z5PSDfChBZidB3K0NyoGtDjmMAguB8e9CZW3JA9lUrQ8amuBCg/2XtC4Dr/+wMzd+G39aqss7ckE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQTECpwG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11FB4C4CED7;
+	Tue, 26 Nov 2024 04:13:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732593085;
-	bh=zMONBQMoYUxKJcmzdRpne6c+qzfU1TZwryMh/qwAkig=;
+	s=k20201202; t=1732594392;
+	bh=wvE1j6jYlustZGPgO4za1DJpvm8S+eQ4rSParDa6Lgg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GcbB6cmkPNgfmPY+L6M4TOdJi1U5I5Mt+1Eh1luEb/wFRjsMhQAJIdwMp43gsQIjk
-	 6tR/K4RyGQEnju0MfVfMPIil1Jqqrc/VUMup/jI/9DwTiyEDtMOYzkAd+BfF3skNLc
-	 j+iZ0HANiYqQ8ADZKa2qX2vS5Lpu/m7AeDCC5JM4die1O2F5zKyBR60xnmHfGkwzna
-	 bh8mNc1tnyNr9wdgselSM5KLOdzQHQdCMDPxFDbvnp5mcfgvvAUEMVcw7eHYhQQ78f
-	 q2K2Y6h7nbnZ6thk36coy/7EKCJCnEXwZuUqxoc63S+ID1SGPHr09wnnuiIYPYbHJn
-	 H8wCzU0eXDb6Q==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53dded7be84so2804405e87.1;
-        Mon, 25 Nov 2024 19:51:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUJgmHqCG1yHN+37OJ///3NZ0TwllREA8Fwd4dflotA0Jegi/gr8d3s/Y30p/l/qgUsi6GuDYfBOb+C5zSqfg==@vger.kernel.org, AJvYcCVprOPm/J2NtcrNh05SyptVVLWlxMeMxcbgVTXm4/EkxXd557QW0p/bClhkMnwcwOeC05OVt+XPnaSeoXw=@vger.kernel.org, AJvYcCWY86mF58zhikO222FWvTl2KnqePCWua2ycRAjaFjr8yFCzFA/tw6V9dJgUjvu6p8LzsbePS7mRiZXxLsAZylQ=@vger.kernel.org, AJvYcCX/qou4i6R2aBBtibuKnXSX9RKx5gi5F58NLR/lzhqbEoXZ8tDjv0/cTBgwokZJXWM6MNLqVu8NPIxlf0NP@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzGZEEk3dovSHcnO/3sacaXhlNlJJ9HSDa/Y52kMcx2ZJ7JkDD
-	7brqv+s9Xp0TUPpgcFtBrA+2J9jd0FqNvwP/UrpMEzv8nPfdwR0QsXjpSZOweYQxz7DQm3ZKUA7
-	jS6vajWEb9uqskZlBQZ7DY++J/6s=
-X-Google-Smtp-Source: AGHT+IGfZbCGxLVNWV4gijGeosGJ443DngbeOpxPOn45AImk4jYRfXEGZyQcjNG4hqqjcdHxcChMPYKgSDJiicl7DPQ=
-X-Received: by 2002:a05:6512:e83:b0:53d:df26:b782 with SMTP id
- 2adb3069b0e04-53ddf26b7cbmr3805477e87.31.1732593084382; Mon, 25 Nov 2024
- 19:51:24 -0800 (PST)
+	b=uQTECpwGCtXvgW65bmiUP/yGxJvz0r7mVGsCCqF/XcRfiIuZv42jYE+QPSuePckeG
+	 dVbnsZ00LE3d97xJR0ePFq8U2Yna8qZuuLQRvwb8eQI1wxd3k/KmMWjdEoDku2wqsM
+	 5TBjzWODkEd91uKinwhXClwNwOgrMStAMcYizAy7nilQEqoHOb5j+YoNl+se83vScv
+	 +42ovPaLlv1+IrKOuv6MgCjlDvHiXubKEt15Twjb9yqSSaQbJexzFs2nkEel1m063j
+	 NmiD8mcuO+uw07c8qlCBNtJ2U/ke+no1KjokLVaCPMMy7AyeXY4qgL1/BNNqPb5+Jm
+	 gINg2xT+7LbPQ==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ffced84ba8so1223721fa.2;
+        Mon, 25 Nov 2024 20:13:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV36tjH5IWTg9U+yoJeP5cYMlIP0nOgwTMW9TM8ZRlRdHhacAvVHb2TomybLNz2KJCh1l+FmUmxZCCILk5G@vger.kernel.org, AJvYcCWiMo8rBXeRyO5pFfoVRCDqxRRNdbQIgAuAaUds1NqNU+jl3LJBlZvVL7EJP5EvlxLY4tLOwobeLMA8p69O@vger.kernel.org, AJvYcCWtm+xh8j5ZfA3+nzo23vWjc8319gOuzC7GRtjOiCI1XnbYDIAtyVub5qN9UetOcmkFuof5rysE8j3PjhJX@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVR/6jAzLqJhdnCWtxqPC/69VG8h1t4z1SKm/CAdD6ZzXSLUZo
+	di+BFhvig6VY1Uz11gVSBVQkAAeYyyjwuEHFn7ckVEKmLDxkN2OJ2rO3sLOUb+C2yxFmBDBDCGk
+	tKjkyg8AXVKVvUwfawyIwynHGVRM=
+X-Google-Smtp-Source: AGHT+IGax4HC8zIQqLB8xrI0moZd82uV5VPNJpszQ12dMOodNR4A+EElpdPN8bJ83seoA/fkNz8n4WUh6BTdRHvKAZE=
+X-Received: by 2002:a05:6512:b86:b0:53d:d0f0:ad0d with SMTP id
+ 2adb3069b0e04-53dd39b55bemr7255517e87.46.1732594390702; Mon, 25 Nov 2024
+ 20:13:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <20241121204220.2378181-21-samitolvanen@google.com> <Z0UIdmDHYQtUTR1i@bombadil.infradead.org>
-In-Reply-To: <Z0UIdmDHYQtUTR1i@bombadil.infradead.org>
+References: <20241120204125.52644-1-pvorel@suse.cz> <CAK7LNASYr+pjUs-W40d_Gc+vP67nX7NHXyE0AnOpXxXgxrCtqQ@mail.gmail.com>
+ <20241121011720.GA69389@pevik> <CAF6AEGuzFNVd5fE+b+hKcC8xAOg7CrkPaYuWC6tCVmioutoOOw@mail.gmail.com>
+ <CAK7LNAQDMJUYUF7BaN10bwctW7fuHmSMrrAjMmn4s7P2ys5P+Q@mail.gmail.com> <20241122204157.GA125569@pevik>
+In-Reply-To: <20241122204157.GA125569@pevik>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 26 Nov 2024 12:50:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATK9rSm4AUSneq=aYbADatPL=1eUXuYRChX+WU+zNTyKw@mail.gmail.com>
-Message-ID: <CAK7LNATK9rSm4AUSneq=aYbADatPL=1eUXuYRChX+WU+zNTyKw@mail.gmail.com>
-Subject: Re: [PATCH v6 01/18] tools: Add gendwarfksyms
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Date: Tue, 26 Nov 2024 13:12:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARDWAw6Yo9HdO-Sba=G_bohr_0uXuKtgNZSr1YLeQE2ug@mail.gmail.com>
+Message-ID: <CAK7LNARDWAw6Yo9HdO-Sba=G_bohr_0uXuKtgNZSr1YLeQE2ug@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] init/Kconfig: add python3 availability config
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 26, 2024 at 8:30=E2=80=AFAM Luis Chamberlain <mcgrof@kernel.org=
+On Sat, Nov 23, 2024 at 5:42=E2=80=AFAM Petr Vorel <pvorel@suse.cz> wrote:
+>
+> > On Thu, Nov 21, 2024 at 10:49=E2=80=AFAM Rob Clark <robdclark@gmail.com=
 > wrote:
 >
-> On Thu, Nov 21, 2024 at 08:42:22PM +0000, Sami Tolvanen wrote:
-> > Add a basic DWARF parser, which uses libdw to traverse the debugging
-> > information in an object file and looks for functions and variables.
-> > In follow-up patches, this will be expanded to produce symbol versions
-> > for CONFIG_MODVERSIONS from DWARF.
-> >
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-> > ---
-> >  kernel/module/Kconfig                 |   8 ++
-> >  scripts/Makefile                      |   1 +
-> >  scripts/gendwarfksyms/.gitignore      |   2 +
+> > > On Wed, Nov 20, 2024 at 5:17=E2=80=AFPM Petr Vorel <pvorel@suse.cz> w=
+rote:
 >
-> This doesn't add scripts/gendwarfksyms to MAINTAINERS
-> but then again   scripts/genksyms/ is not there either
-> but it does got to Masahiro.
+> > > > > On Thu, Nov 21, 2024 at 5:41=E2=80=AFAM Petr Vorel <pvorel@suse.c=
+z> wrote:
+>
+> > > > > > It will be used in the next commit for DRM_MSM.
+>
+> > > > > > Suggested-by: Rob Clark <robdclark@gmail.com>
+> > > > > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> > > > > > ---
+> > > > > > Changes v3->v4:
+> > > > > > * Move definition to the end of the file
+>
+>
+> > > > > I prefer to not check the tool.
+>
+> > > > Ack.
+>
+> > > > > Why don't you install python3?
+>
+> > > > Everybody installs it when it's required, the question is how to in=
+form about
+> > > > the dependency.
+>
+> > > > There build environments are minimal environments:
+> > > > * chroot (e.g. cross compilation)
+> > > > * container
+>
+> > > > These are used by both developers and distros.
+>
+> > > I don't think py3 is an _onerous_ dependency, but it has come up as a
+> > > surprise in minimal distro build environments at least once.. so I'd
+> > > be a fan of surfacing this dependency in a predictable/understandable
+> > > way (ie. I'm in favor of this patchset)
+>
+>
+> > "once" is a keyword here.
+>
+> > "/bin/sh: python3: not found" provides sufficient information
+> > about why the compilation failed, and you know what to do
+> > to fix the problem.
+> > This is good.
+>
+> > If you hide CONFIG_DRM_MSM silently
+> > due to missing python3, you may scratch your head
+> > "why drm/msm was not compiled?".
+> It's not on the list, but still visible in help (via search).
+>
+> > This is worse.
+>
+> I'm ok with this being refused. Yes, it's a trivial thing to find that py=
+thon3
+> is not installed. I wasn't sure myself if this is really better. Having
+> something like "requires $(PYTHON3)" would be best solution (e.g. not dis=
+able
+> the config, but exit before starting to build), but of course unless this
+> feature is needed for many modules it does not make sense to have it.
+> It's because kernel mostly contains everything (unless languages like pyt=
+hon
+> or any other dependency starts to be added). For this reason I like that
+> mconf-cfg.sh warns when missing ncurses devel files (even suggesting pack=
+age
+> names).
+>
+> Just to explain what was my motivation. CONFIG_DRM_MSM in in arm64 defcon=
+fig,
+> thus it will affect anybody who uses the defconfig (any distro will need =
+to add
+> it).
 
-scripts/genksyms/ is a very old tool with no maintainer.
 
-It defaults to the maintainer of the scripts/ directory (i.e. me)
+arch/arm64/configs/defconfig is a multi-platform config.
+
+If CONFIG_DRM_MSM exists in arch/arm64/configs/defconfig
+and if you want to build arm64 defconfig, you need to install
+all necessary tools for that.
 
 
 
 >
-> Masahiro, should we just add both to KERNEL BUILD and add
-> Sami as a Reviewer to help with gendwarfksyms?
-
-I think it is better to have a separate entry for
-
-F:  scripts/gendwarfksyms/
-
-with Sami as the maintainer.
-
-
-
-
+> It's needed only for Qualcomm arm64 devices only. But only for these devi=
+ces
+> which are mainlined enough to really use CONFIG_DRM_MSM (many of them are=
+n't in
+> that state).
 >
->   Luis
+> postmarketOS is the distribution which supports Qualcomm. It stores kerne=
+l
+> config for each device and devices often have individual maintainer. E.g.=
+ 175x
+> "once" :).
 
+
+If you do not want to be bothered by unnecessary drivers,
+you need to disable the relevant CONFIG option.
+(e.g, scripts/config -d  CONFIG_DRM_MSM)
+
+
+This is the standard way we have for many years.
 
 
 
