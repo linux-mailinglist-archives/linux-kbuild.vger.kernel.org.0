@@ -1,134 +1,136 @@
-Return-Path: <linux-kbuild+bounces-4869-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4870-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EA19D9896
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 14:35:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 937A99D99E1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 15:46:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DDC32840A5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 13:35:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 43A26B23A61
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 14:45:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CABDD53C;
-	Tue, 26 Nov 2024 13:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3F7419BA6;
+	Tue, 26 Nov 2024 14:45:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aNLtLnEj"
+	dkim=pass (2048-bit key) header.d=cold-front.org header.i=@cold-front.org header.b="jFDs0K6O";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="blkMquBK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2820BBA49;
-	Tue, 26 Nov 2024 13:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B6F9454
+	for <linux-kbuild@vger.kernel.org>; Tue, 26 Nov 2024 14:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732628140; cv=none; b=cmFH4iFqNIqlcZaAi9zoRNPoyTlkIP3QbLVMmY3zvWv5cXmJma9vzsSsrpKeXYHcKZ+mjxgPQljiB/B+ew1uzCsWof68+HI4MqYU5JOXckruwlW4/MacMiX5i2zVMDnQbEPQ3Rksmtwbs//t94/YXKvDKtu/QM9WL93YvZZFO4s=
+	t=1732632325; cv=none; b=AvOLDwx01+QwKswmp/pVxpS6JbWFImUAZmxSzs9b/skQ9gVmcVjD3SOykCcPuV7eH+9z0JgArK4ojfOxKzJL63Y8DPKevYFQjm8/hD/W0poJ4U1FmYgFlIqFJ2e+VhVBBAkUVHyC8tPPSE7ZQ3wbcAWFfc7jg/cT5JwCZFEKBU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732628140; c=relaxed/simple;
-	bh=eEdgeH8RAM4gsztBcwR0qWURd6umlZnREyPmTlInX0I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cGp3wIGDwVGqoYjvdqEcNkWUwTj6+/11GoewAHz2C5t58aA+TN/ROIeNRithOyzWzRLfez6b+pYamhn5AdAVxAZjyGvjU2fxlHKXyBdt6+pe/xMPW3E8NFrIxZCrTkwmRDxvlNdiae0qNGq/VoDArL8SlpwP+5L+MLrC3AoTw8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aNLtLnEj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4205C4CED0;
-	Tue, 26 Nov 2024 13:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732628139;
-	bh=eEdgeH8RAM4gsztBcwR0qWURd6umlZnREyPmTlInX0I=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=aNLtLnEjYZSFSOlX20iTbsUk/iK3tj/E/scLGoYmYpXiWRnZHz3P8wMzPS7AbJSG6
-	 hxNtAff/ppQQn9VL1B2a6gMJutYIzddwirhbdoHY38w15JG00Ia+SyHyobGs4lnnvd
-	 pgf3ABFHWiQUHraJtEQg7GsF3ONgoorpUFv8jjiSP0CEpa85DcNM9wtGKE7yzWllz7
-	 WqrAaA/Wkiq/8DiyvIVV+cc7yKvkvqhOu3OurrCJDJguxERTGblgucoYRb1I0jBnwd
-	 R0efp1awg1Ueqfn3z4uptWTkphBGRX6+TOqNDqs0jJynyJhZTB8pTMC4ZVAMl/dfgP
-	 iEwa9dt5E3clA==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53de8ecb39bso891833e87.2;
-        Tue, 26 Nov 2024 05:35:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUCyGk2pmv8h3ifSYjUrJ2B8VQQEI133zaCaU3Ahu3qrf3KzhLG1NqJK7Rg6x+fOdQsJ0gwxQ5WulSPlz+mpQ==@vger.kernel.org, AJvYcCUt6YDR0ObN99q1/OkFS299ldSx5hAaYzyKb3qvyM+N0b4dawyF51BmzyN/+prBQqSkRlEpOCJ7jIZPXjg=@vger.kernel.org, AJvYcCWV94m0ZV5lsUMeWUQT0QjQyt3/cedUkdDJOdfCbOTovO0L4LQanbSb/rpS8YfKoLA3luOdNJ4/O1zU54Us@vger.kernel.org, AJvYcCX4Qxt3xfM5dlDlLlT9Ypq0mCVFzwHOMr1tJKEWFBfDDNXrPJ7XOJ9wx5ua2GpInx5OPQslSQUmGaKZ3u7C87M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzn5BfrHfPqaw1b1MA0NixcTjLbKc1PsdkiCEoDul3QvhbCKrC
-	lGjl9DqqOFlTtG7MAV6yb9jOgTFYp/bwsgWhaALctFfK1lq4OQTw/B9Iwo20StN9bjn1btHHowj
-	2JUjVSCQpnA6vGi8qcHSSgK0ovzY=
-X-Google-Smtp-Source: AGHT+IF+dFvhlgin3zLG1WzH4Jppws42ttM+/X4kFx7RuGrhS2XMsjXtwtSwj19beqzn6FQMSzIX7ockErZbmN0AesU=
-X-Received: by 2002:a05:6512:3da3:b0:53d:e7b6:c702 with SMTP id
- 2adb3069b0e04-53de7b6c987mr2767749e87.50.1732628138542; Tue, 26 Nov 2024
- 05:35:38 -0800 (PST)
+	s=arc-20240116; t=1732632325; c=relaxed/simple;
+	bh=nKRCls9WZtOCSDmVC0lk6D+PogVP2imeJilK09AV11Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DZKgIPOQcCiRd/8WQWnC4e0INHDu2TGl5Vr4eQWmQ7QsSPlL61dwtA+8jE9XEBe/g0/b9KAp+Maabk0SxrnhprWEV+jGkTw6xrEHGxXZOB+sZCKnzMm4WLL4q1NtBF7xedSLXWCC8TFHgEFwr9phes1vbM1ReE0+eIA37QzWDHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cold-front.org; spf=pass smtp.mailfrom=cold-front.org; dkim=pass (2048-bit key) header.d=cold-front.org header.i=@cold-front.org header.b=jFDs0K6O; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=blkMquBK; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cold-front.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cold-front.org
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5276B114019E;
+	Tue, 26 Nov 2024 09:45:22 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 26 Nov 2024 09:45:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1732632322; x=1732718722; bh=FlAf2rksFHcXh7bdjkWfESCw/E1eXhdR
+	XjPw7yTLv9A=; b=jFDs0K6OIpoYcll9qwOsFWJDKFr/ucT9ODy8dZIpHEUUDWRT
+	UOUeh03tNN/02IqEwXgRYlwwbz1p/2yVNUEwhywAwg1eAmzt9LC1zGtX7R7eZaEL
+	GOBPpwR4hdUhqh0HDAp2gHhXisUyowQwbHT3TD97lZxLTIgt6vBe6XeZEdn7fx1Y
+	IhRbsWP6PUlye71nFmFWGXN1IEix/O+qgCIQoDYE2JyIiva9GvwHjN25U3UAghZc
+	GEocyAL+G1TkFckHu4JpiqMkTolv/UR+aEcWYR/2isLkiL1NjqGLjX/EwovkCOXv
+	DjCaQ2kk+44CcZMDLFKYcm7psNDnxxMBiljlNA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1732632322; x=
+	1732718722; bh=FlAf2rksFHcXh7bdjkWfESCw/E1eXhdRXjPw7yTLv9A=; b=b
+	lkMquBKlkfLNBDl15oigt+TTCnDTLRk8xZCZEbRvQsQZKkv8ypxndb8XNrlg67l0
+	R94NRj1MnFe3tFjClG1thaAhys1e9m/3a0/oeuTM8Kc5CZ8Vw0NLddfabl2r7616
+	t0fapcr9WQhn8ogr+ZsbXrkSAyX1HEYvzZuqpX/HOodnkT4mD/SS9sNzAZ23B+lA
+	KwTKhMx7IpJqCMQUqQvq/bk6aMJNyoV+78IncVcNxnG22qI9vtw83wPq/fS8PAH6
+	+5MKi7+lpcEQeQss5ezlEdgP9Co9ny5snQZPkNNpv80waOtAYdua/rLB47Sh1hOw
+	54nJDWpVYfI5yttSClaPA==
+X-ME-Sender: <xms:Ad9FZxJftxgYKUE4-RCDlrzGYcQIzAq78mhuuD5lyt7A0kPAN6vpfw>
+    <xme:Ad9FZ9LCC84t93Y_IN9II8CLRGe3AlKP7gDH1aWLFL-1BbS66BQL71XCCY-CzxMqP
+    WTcweTSu0jQM4-sVg>
+X-ME-Received: <xmr:Ad9FZ5v3AvkQxgtoZTnyUoJ1khF2qDt3MVLfde_Fqt-TSoNVM50-8tdFDoMRL028H107gyoSIvLUJJ2yMdDe-j9N>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrgeejgdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
+    ucfhrhhomheplfhushhtihhnuceurhhonhguvghruceojhhssghrohhnuggvrhestgholh
+    guqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrhhnpeevtddvgfefleffgeethfef
+    feehjeefvdffieekfefgtdegjefhffdtteevteffjeenucffohhmrghinhepghhithhhuh
+    gsrdgtohhmpdhkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdroh
+    hrghdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    mhgrshgrhhhirhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkh
+    gsuhhilhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:Ad9FZyYbgKL9X5mmf1dBE833nfJuVjmYVm8imi_HLCwNulogqVYXHg>
+    <xmx:Ad9FZ4Z3O4COlJaGkquCQR3HqeLngwHqSDWhcvAzr-WhRwPcHQfIvQ>
+    <xmx:Ad9FZ2DkIuve8zClDTLlON9rvU_dDYthr0f4y9pI9XoBkL5mLyp4aA>
+    <xmx:Ad9FZ2YOJ7JGsFkZSzNciqG-W5gZX9eVwIoQhB-WXOxh_aWhUxoNMg>
+    <xmx:At9FZ3mvD7QDuDicgm6AQQdoPBMZc0WnmhnWLNVRGP-ieZRlSdBMJXyZ>
+Feedback-ID: iea0042cb:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Nov 2024 09:45:21 -0500 (EST)
+Date: Tue, 26 Nov 2024 09:45:21 -0500
+From: Justin Bronder <jsbronder@cold-front.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Subject: Re: kbuild: use lz4 instead of lz4c
+Message-ID: <Z0XfAbL5LbZjzISw@ravine.members.linode.com>
+References: <20241125171800.1131761-1-jsbronder@cold-front.org>
+ <CAK7LNARCB0Ce=gYjEZE1uSP0_Oyht91zxTQ1RZrMiChe3vgy+g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com> <20241121204220.2378181-21-samitolvanen@google.com>
-In-Reply-To: <20241121204220.2378181-21-samitolvanen@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 26 Nov 2024 22:35:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATzF9++sEcgX3t3KEAH1JFPPdeB9EMVk44KVQ1cBiO8xg@mail.gmail.com>
-Message-ID: <CAK7LNATzF9++sEcgX3t3KEAH1JFPPdeB9EMVk44KVQ1cBiO8xg@mail.gmail.com>
-Subject: Re: [PATCH v6 01/18] tools: Add gendwarfksyms
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARCB0Ce=gYjEZE1uSP0_Oyht91zxTQ1RZrMiChe3vgy+g@mail.gmail.com>
 
-On Fri, Nov 22, 2024 at 5:42=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
->
-> Add a basic DWARF parser, which uses libdw to traverse the debugging
-> information in an object file and looks for functions and variables.
-> In follow-up patches, this will be expanded to produce symbol versions
-> for CONFIG_MODVERSIONS from DWARF.
->
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-> ---
->  kernel/module/Kconfig                 |   8 ++
->  scripts/Makefile                      |   1 +
->  scripts/gendwarfksyms/.gitignore      |   2 +
->  scripts/gendwarfksyms/Makefile        |   8 ++
->  scripts/gendwarfksyms/dwarf.c         | 166 ++++++++++++++++++++++++++
->  scripts/gendwarfksyms/gendwarfksyms.c | 126 +++++++++++++++++++
->  scripts/gendwarfksyms/gendwarfksyms.h | 100 ++++++++++++++++
->  scripts/gendwarfksyms/symbols.c       |  96 +++++++++++++++
->  8 files changed, 507 insertions(+)
->  create mode 100644 scripts/gendwarfksyms/.gitignore
->  create mode 100644 scripts/gendwarfksyms/Makefile
->  create mode 100644 scripts/gendwarfksyms/dwarf.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
->  create mode 100644 scripts/gendwarfksyms/symbols.c
->
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index 7c6588148d42..f9e5f82fa88b 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -169,6 +169,14 @@ config MODVERSIONS
->           make them incompatible with the kernel you are running.  If
->           unsure, say N.
->
-> +config GENDWARFKSYMS
-> +       bool
+On 26/11/24 13:26 +0900, Masahiro Yamada wrote:
+> On Tue, Nov 26, 2024 at 2:18 AM Justin Bronder <jsbronder@cold-front.org> wrote:
+> >
+> > lz4c has been considered deprecated by upstream since at least 2018 [1]
+> > and has been disabled by default recently [2].  openSUSE Tumbleweed is
+> > no longer packaging the deprecated version and others will likely
+> > follow.
+> >
+> > Going back as far as Ubuntu 16.04/Fedora 25, both lz4 and lz4c are
+> > installed as part of the same package and both accept -9 to enable high
+> > compression so switching should be safe.
+> >
+> > 1. https://github.com/lz4/lz4/pull/553
+> > 2. https://github.com/lz4/lz4/pull/1479
+> >
+> > Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+> 
+> 
+> I already applied a similar patch.
+> 
+> https://lore.kernel.org/linux-kbuild/CAK7LNAS0VzqcKDz_1ds5qJcASqxVizE3kkdRk1Yiidch9KMxEQ@mail.gmail.com/T/#t
 
+Ah, apologies for not noticing that.  That patch definitely covers what I was
+trying to achieve, so this one can be can be dropped.
 
-You can move the prompt addition from 17/18 to this patch.
+Thanks!
 
--       bool
-+       bool "gendwarfksyms (from debugging information)"
-
-
-You split the patch set into a large number of patches, but
-I cannot compile-test each of them until 17/18 is applied.
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Justin Bronder
 
