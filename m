@@ -1,99 +1,93 @@
-Return-Path: <linux-kbuild+bounces-4863-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4864-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E7129D9105
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 05:26:53 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42E24169C21
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 04:26:50 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 822542107;
-	Tue, 26 Nov 2024 04:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iHN2OJzc"
-X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D998C9D9408
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 10:19:51 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B20110E6
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 Nov 2024 04:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68964B243EC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2024 09:19:49 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69E3B126C0A;
+	Tue, 26 Nov 2024 09:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tCEsd9kd"
+X-Original-To: linux-kbuild@vger.kernel.org
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B5B10E9;
+	Tue, 26 Nov 2024 09:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732595210; cv=none; b=g97mFi/zWOy17szD6eplzy83OcvwubKF/g1K1wk5/7tckTAqSRUHH0aGJJ+Jtl59WF8fUEVgmuyNoP+wZgoW6/IrZ8UVqOqSFmI5siW56OvkGAEyObZcTJOBc6/TBWFF6kiH1aIdD/8Eu2pgjmV2jcVuaHSOsostK+gL1sVZJ/M=
+	t=1732612785; cv=none; b=h5SnR67UIK//mcvSQ4i3rp97QuBY39RNiALYaaMCe9aEraGnCSa5TxvEvzvOfYITDXz0Nk81WnvqS6xpp9aa6o68PdZbBUwhJugBd62ptcTEjuf7Di2K6ccLBYxK9Qw48WGglGxctCJ0ZMdLBXS2q3lNyapLlXTCS4LDbih9jPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732595210; c=relaxed/simple;
-	bh=rS9TrH8Ljjgoh7Psm77vX4a8h4L+yZv7na58TWyZD0Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZZ8GWQLuLmuykq7ZFGUJeeCxw0VCEVAitPGjkYqL/SuTHgJymnByjl9o/LQBR9X7To0uYPo7T3LjNELNZmxyGaPLVa4gwdrgJS9eMz0zXudtf34iLzb6xeh1bb10qF4vj+3gDQ9SmQjG71U3LBULkymH2vPBAoUp0lGbvKshyak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iHN2OJzc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F353EC4CECF
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 Nov 2024 04:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732595210;
-	bh=rS9TrH8Ljjgoh7Psm77vX4a8h4L+yZv7na58TWyZD0Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=iHN2OJzc4Gtt7o3oNsbQzq2jcxvIYMz3lNv/eGEufXVyp6oTk2e2Ys3eTseTAxAVN
-	 r+WX2RUo5Dm83p1i9Hgj/Zwel2Rjl/gSv8iGUbSkquBiWBSbv0zRB+mClgGITAay7l
-	 uA//IMJYc4ZYEIzGG2v6pR5ZjEN1uVjg+sv3DawDE1ie28gKkg7JlikVQ1JYe8bMDz
-	 z99f3Kf4k4N4QXQxnKOA2iJHjm1HWGuJH0CK39/tkEygzWQ4WYq6UkoWJwnGlKfYeJ
-	 D2GSXm/aa3nzXvdlw2Aq/DE4wycYuwu1NyG/M1aJm3rzkunynE+S40E6TzQKgmn1Ny
-	 ziAxWySThn29A==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53de6b7da14so1378702e87.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Nov 2024 20:26:49 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz3lseh2pvXW/ZL2FQcR9f1Aru2hSxv+9334yIWPI0qkcfStu1g
-	AbC9XdP7v+QeV1O6QFN3MD8e4enB5oXj26qZBVmPvP4zu93ewnM/ug85hYnB2TeCUf1oSvp7YdR
-	iD+IyY7C9euueBLy1TbwwoGnKZNs=
-X-Google-Smtp-Source: AGHT+IE2dldlTyz6sFW2PqW0RqrZ7eshUrDLP/LRwPTdAnajkbv0Jsm292yvVtYsZRD75/5WrpSpRHJGinzeb7sJaAc=
-X-Received: by 2002:ac2:4189:0:b0:53d:d3ff:7875 with SMTP id
- 2adb3069b0e04-53dd3ff78ebmr5752880e87.22.1732595208649; Mon, 25 Nov 2024
- 20:26:48 -0800 (PST)
+	s=arc-20240116; t=1732612785; c=relaxed/simple;
+	bh=0wMhNfjuCKn3KFiqtyzjvXNUsEsAl0GjHojhqpYkvQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksAHBuyPux5TZtDnTyszKbMGVOHkUA+snsMcxLJAQgC2wuvA3/3qV2bkWvvWnlpQoVj8aWAbUd6LXUkFKm8JEbx2FmfzTlZVT6BIE7g3CkUNZXwLSnatmwLdnC464xjKCtqXgGTc2jbua15THpDnbd4Hcgxt0e9HzBKmnRoTtEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tCEsd9kd; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=20KTCDW3VkmdcqUU6UZT4aexfvWCdFnOYJYEWBp7gtY=; b=tCEsd9kdqE+wBksj3JXO8zSRMG
+	lvQOf/xYvKJvodvMWzmcjTSCVYLr1TWGJOBcVLb439SA9Vg0oLSfAPS8lBhbGZqp/1V5lvccH8fph
+	p7bbLVVT06eV7xfT1NQm44Vv8yN1IAo5rgpqfV8L/QOmuH26G7iyjQT17Lk2bqkS7vXQYcDd4nDvm
+	lNy7eheA0H1mNlTY8SAqEbk6Z7JqXnpuHCddKKDiE0rIr0I0DXpI4cD2BEowDt35xQbKCTIFYXdtc
+	I0/DzNI6HovJKO/TC37iR5T3IbQ/JC+L1XUJCZpiYl1DeXiuzUcOT3RWOkS7XgmaTD1l1/UxrDVU2
+	P8ohPXbA==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tFrjK-0000000DLTw-0Akr;
+	Tue, 26 Nov 2024 09:19:36 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 861223002A2; Tue, 26 Nov 2024 10:19:34 +0100 (CET)
+Date: Tue, 26 Nov 2024 10:19:34 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Matthew Maurer <mmaurer@google.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	scott.d.constable@intel.com
+Subject: Re: [PATCH v2 0/2] Rust KCFI support
+Message-ID: <20241126091934.GP39245@noisy.programming.kicks-ass.net>
+References: <20240801-kcfi-v2-0-c93caed3d121@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241125171800.1131761-1-jsbronder@cold-front.org>
-In-Reply-To: <20241125171800.1131761-1-jsbronder@cold-front.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 26 Nov 2024 13:26:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARCB0Ce=gYjEZE1uSP0_Oyht91zxTQ1RZrMiChe3vgy+g@mail.gmail.com>
-Message-ID: <CAK7LNARCB0Ce=gYjEZE1uSP0_Oyht91zxTQ1RZrMiChe3vgy+g@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use lz4 instead of lz4c
-To: jsbronder@cold-front.org
-Cc: linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240801-kcfi-v2-0-c93caed3d121@google.com>
 
-On Tue, Nov 26, 2024 at 2:18=E2=80=AFAM Justin Bronder <jsbronder@cold-fron=
-t.org> wrote:
->
-> lz4c has been considered deprecated by upstream since at least 2018 [1]
-> and has been disabled by default recently [2].  openSUSE Tumbleweed is
-> no longer packaging the deprecated version and others will likely
-> follow.
->
-> Going back as far as Ubuntu 16.04/Fedora 25, both lz4 and lz4c are
-> installed as part of the same package and both accept -9 to enable high
-> compression so switching should be safe.
->
-> 1. https://github.com/lz4/lz4/pull/553
-> 2. https://github.com/lz4/lz4/pull/1479
->
-> Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+On Thu, Aug 01, 2024 at 01:35:16PM +0000, Alice Ryhl wrote:
+> The control flow integrity (kCFI) sanitizer is an important sanitizer
+> that is often used in production. This patch series makes it possible to
+> use kCFI and Rust together.
+
+So about this -- there's a proposal for a modification to kCFI here:
+
+  https://github.com/llvm/llvm-project/pull/117121
+
+And Sami notes that this would break this Rust thing. Assuming all the
+relevant crabs are present on this thread, could you please comment?
 
 
-I already applied a similar patch.
-
-https://lore.kernel.org/linux-kbuild/CAK7LNAS0VzqcKDz_1ds5qJcASqxVizE3kkdRk=
-1Yiidch9KMxEQ@mail.gmail.com/T/#t
-
-
-
---=20
-Best Regards
-Masahiro Yamada
 
