@@ -1,140 +1,331 @@
-Return-Path: <linux-kbuild+bounces-4901-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4902-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3929DAFB6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Nov 2024 00:06:01 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B6C9DAFC7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Nov 2024 00:16:08 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DEBE21644B0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 23:16:04 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58D38192D76;
+	Wed, 27 Nov 2024 23:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MMedw67I"
+X-Original-To: linux-kbuild@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF234280EF1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 23:05:59 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C0B6203707;
-	Wed, 27 Nov 2024 23:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PhvYs/kp"
-X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547BB202F71;
-	Wed, 27 Nov 2024 23:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA51433C8;
+	Wed, 27 Nov 2024 23:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732748757; cv=none; b=scLcOVsWEyfrZ2V5Tp6gXMFFSqA+s6lXllSd/vgahM+dwWKnToAZWnBhUpeMasNN0k5z5X1W0PE90CZcqkdqY5hl7vNZ5ZdhY+25GQ4qAj9NddeaZjPiJVoSsC/BuKymRvr+lcMGVFaLxTq137nwO9WMQ9S9Knp98Us3U9FPRsM=
+	t=1732749365; cv=none; b=g29YWz1lIYoy/38t4li7/I1oAH9EJwfkx5bLQjWEqz7ihANtuyKHSOaeXhQRr2jiHZi0rIP339aRAuVlIKfj/a7uL4tnXzuZkOcxuWi2wJ4pDZJlvpmdyUNFnQj82EcKBf/22ZW0JXO6I36qOSGu7VritdaIUxmd5C20hQtMkWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732748757; c=relaxed/simple;
-	bh=IBnHTnLx6R19BBp5cLxEEfXX31iIfTAv66qH7GUA7RI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vBFWD6VGv6zcwmeU/xsze/I5vFW9TxspfgQsK5x99S+b62fbkAzVlop6JSf5enz23uNMf6jc3J4coALqbRexhIRFVRkPsZJcbJJPwJ//RIqehism3LZ//CX34os43fM5arzzXIHjh1FjNvnWAz7SEM3j0B6Bm326Ea56zvxGlGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PhvYs/kp; arc=none smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4af58808485so20908137.3;
-        Wed, 27 Nov 2024 15:05:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732748754; x=1733353554; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LD0NsE8cueBmHLv9nYIGrdVGIuuAR+96OlYlJUtBTGw=;
-        b=PhvYs/kpnIzxr1GWXJPZiegqcCrhlT47yRbEnh5PAYoS9L3VUgvx5CbF7XoVY33hU1
-         rNO+Q5N2NaYmiIQh2o9iR+Sia4HVOBiJgffAqIlFvWIhg2scMn5E9+3z5Uh2VRQ/YUL2
-         6ASV55rf7eD8QICFBS9jS3xRuOBFiFRU2b+q+KcLrz3+kPUx+05sWypUIODW6T3gNgwU
-         ueWRZ/V1FCmvkMjH9ejpFC1Oa+zBK4OYLS6gp7IjlILMhhqTokJlXnrQQRNhJcR4uluG
-         qhHRCvqCxvxiSHmalTDw3grNVCbpVtlswAHs7WFKTzJnU5I67YJ17Qk6ybdo//KEI9Q3
-         hXfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732748754; x=1733353554;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LD0NsE8cueBmHLv9nYIGrdVGIuuAR+96OlYlJUtBTGw=;
-        b=FNHU58QxkPdaIUQGr/zxPPHAFHgzkjYCofEmtN72w7soFVLfM4mMLVVHacJzbftbnN
-         XjrNJj+BVH7W0muH/6DzYcmEUErD9q47L9objr9fz+Ro/mATWv0TeRQu0k+ZxQVvyLwE
-         De1tdHlV/s+0tkS71SYq07DbaOQAJylVduVcCJHNhbcWLrFXgztn8XU19uSNzmS2eeel
-         z6sui5VXHWFY0+DIv6isaDsnQDPqP/mTxyfWffq9IKNJHWk+3Osu9uoGz1zAjPvTTaf7
-         ZnEMs/Sbr7OpW+LCTalDpDWg7iogr9N2b7Y0fa/4fwMbtk/eSLuavRy7wWL1pHNVvIjX
-         GkOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1+ErF3yavfAoIRt72CygzMyg0TLnyQ/EzghVsnkXnbX2Y4Gq0gVL8a5fiWwNVCXd29mo5UE2bmvuJ7cY=@vger.kernel.org, AJvYcCVTQpB7bbQIjRrQuIihNnM1q8Iif5kzoOKLk5OrHFIKEINaimRv12oRHPeKExzfNvYVSNDwKGUAFwU8moWH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4ww+w8IPBewsrIp1hBWC05xNqOSt6Z6Xh1if4o9IZ7IWUH+2e
-	ri2vjvELGbc+bWQeREa6/jwaH5Sqm8zifMEHhgfMUhFn42X/G34ggqyzWQ==
-X-Gm-Gg: ASbGncsAE82QrU02RaoQ8KbFxvPgOuj7efqlSAInWZYI0nctbIlhM+U72b+Bt1LUu0U
-	F+OZLxNA94/clmMO1h7WmY2w99KoWcCri1qDsF+2UtLy9BwUlIp1EWw1Kr9jWzJZKuqNYBq1AYk
-	L8Fpmnsd5kgcslQ3l2z7YDimD9QIKzlXgkDBH5YhbllumWOVCgvpp6n2MBZaFay+FJsYF3o83xz
-	Z1U5ZuUeVinLzq7Ec8x1DrZOagjBBKEQ0hFY/1y8z60vLAzI/CDfIMv9HTC/8DGfkzqTTFn6sJH
-	80TMFvX4d5voCGs5Bcv000vJPtio6uQ=
-X-Google-Smtp-Source: AGHT+IGrD4YCLnVT88uZaUoynT2sbqidMdrLivph9MkTZpL1bBRvFiL0NmeH+Xqp7pUW0CAJ+O2H2A==
-X-Received: by 2002:a05:6102:32ce:b0:4af:3fa2:2d0f with SMTP id ada2fe7eead31-4af44ae4d60mr7496262137.26.1732748754107;
-        Wed, 27 Nov 2024 15:05:54 -0800 (PST)
-Received: from localhost (57-135-107-183.static4.bluestreamfiber.net. [57.135.107.183])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4af590ac4b0sm11652137.3.2024.11.27.15.05.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 15:05:53 -0800 (PST)
-From: David Hunter <david.hunter.linux@gmail.com>
-To: rostedt@goodmis.org
-Cc: david.hunter.linux@gmail.com,
-	javier.carrasco.cruz@gmail.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	masahiroy@kernel.org,
-	shuah@kernel.org,
-	David.hunter.linux@gmail.com
-Subject: Re: [PATCH v3 0/7] streamline_config.pl: fix: process configs set to "y"
-Date: Wed, 27 Nov 2024 18:05:47 -0500
-Message-ID: <20241127230547.2047716-1-david.hunter.linux@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241018103032.09ff7dcf@gandalf.local.home>
-References: <20241018103032.09ff7dcf@gandalf.local.home>
+	s=arc-20240116; t=1732749365; c=relaxed/simple;
+	bh=6Qu8uz2fjJ8iZDLh3BxDKj48BBZNQb8qilSVdb8Tki8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B8572oB+FGOcNK6r2JBJ5HM8tcxWlk6un79/VMMRv+ikXONJJvq3fEO0bvttK6n27MBEN5gpyg1sUEe37BKeflgHDphj6r6um4VUR1GJCw8CVlZKIEFve6H+bIk1Qagxd7PziirpDgymK2xqRivJhG2S6EzYDa87fydmoV1kolE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MMedw67I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98496C4CECC;
+	Wed, 27 Nov 2024 23:16:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732749364;
+	bh=6Qu8uz2fjJ8iZDLh3BxDKj48BBZNQb8qilSVdb8Tki8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MMedw67Is8BjeF2fb0WoMSDFzZCeWmp6Vbpkb7p2BGIOVy6rMvlZNKKYTLPU/LGRs
+	 55pdufL8AJR8lza9cmnNMbGR1JNtl2x0/eZRh94bC5Jn6hmlNzsYBqpveJ/53u/N14
+	 +JTJR0+sI9vcUG81a18A2+0RVeeCC6UR8BGHpdcdZDEo42EMQImEdvJVgGG0oMnTP9
+	 PLw7A+lvA5lTZ8U1SUTS5zxp1iObfK6u46wDH8BT+nVwegDCHK3/GuJJtFnpnks/Vh
+	 ZD+JEeUtTX6cp/AfdkG60JhkeXkiWMmQVjW09d6zvBK56sxOiyXu/yjBf1Z6fV2MKv
+	 vIDVmX2AmiKCw==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53df19bf6a9so233226e87.1;
+        Wed, 27 Nov 2024 15:16:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUTpzctG2cVhtuilrWt5utOtkbvCsMlICtjo1Bm8xCNd3gV0Ns2iF4ADVuFggoZ18JoEk7UyftEj+QqK10wKNQ=@vger.kernel.org, AJvYcCUZfXtNXybSaT7VvQLmrFBXl/wijsXSwxboCgocP6i59La3uCw3Nr3MJvU5Tm4Md2UW6RLdyl5ogSKy+EI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXS3amPoHw2IQN5D4G2wqF2wk6Sd3JPuHPnlDU0988Mnmvm1PP
+	by1NEUkfSmVBzNErzNQx3l4NIjYUNsx10kl23pv4A31RE5zLvtD/GemEICAez+ijDDGCrU1xn6S
+	n/p9f/bfzVGXBjHCe72mAG57Ka/k=
+X-Google-Smtp-Source: AGHT+IEyHrrQl9hSawuoz0PS/8OAj87EVIxpEAzyG91hApou/NM0qZq5mVbPvsbR4lHlrb58foootrE9HBCMQu5cAyE=
+X-Received: by 2002:a05:6512:400f:b0:53d:a93c:649e with SMTP id
+ 2adb3069b0e04-53df0109024mr3254947e87.35.1732749363227; Wed, 27 Nov 2024
+ 15:16:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241110013649.34903-1-masahiroy@kernel.org> <20241110013649.34903-6-masahiroy@kernel.org>
+ <20241118-dazzling-gifted-bettong-133eb7@buildd> <CAK7LNATomVVvxHgy=e7rwq7EPgP7Z2UUERkyDJGQe63n6BuW3Q@mail.gmail.com>
+ <20241127-maize-hippo-of-innovation-ad1c54@buildd>
+In-Reply-To: <20241127-maize-hippo-of-innovation-ad1c54@buildd>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 28 Nov 2024 08:15:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ5zkcFwLpbLxKa2C_RFCOHmTZsRi-DPEmR7Rc2uXCPCg@mail.gmail.com>
+Message-ID: <CAK7LNAQ5zkcFwLpbLxKa2C_RFCOHmTZsRi-DPEmR7Rc2uXCPCg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] kbuild: change working directory to external
+ module directory with M=
+To: Nicolas Schier <n.schier@avm.de>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, cocci@inria.fr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: David.hunter.linux@gmail.com
-
-I think that there are 2 distinct reasons that a module should not be turned off when using the 'localmodconfig' command. 
-
-1) the module is used directly
-2) the module is needed for another module that has been included in the kernel with a "y". 
-
-I think we both agree on the first reason, but we may be having a disagreement/miscommunication for reason 2. 
-
-> For example:
+On Thu, Nov 28, 2024 at 12:29=E2=80=AFAM Nicolas Schier <n.schier@avm.de> w=
+rote:
 >
->  BCACHEFS_FS n -> m
+> On Tue, Nov 19, 2024 at 02:02:05AM +0900, Masahiro Yamada wrote:
+> > On Mon, Nov 18, 2024 at 11:47=E2=80=AFPM Nicolas Schier <n.schier@avm.d=
+e> wrote:
+> > >
+> > > On Sun, Nov 10, 2024 at 10:34:33AM +0900, Masahiro Yamada wrote:
+> > > > Currently, Kbuild always operates in the output directory of the ke=
+rnel,
+> > > > even when building external modules. This increases the risk of ext=
+ernal
+> > > > module Makefiles attempting to write to the kernel directory.
+> > > >
+> > > > This commit switches the working directory to the external module
+> > > > directory, allowing the removal of the $(KBUILD_EXTMOD)/ prefix fro=
+m
+> > > > some build artifacts.
+> > > >
+> > > > The command for building external modules maintains backward
+> > > > compatibility, but Makefiles that rely on working in the kernel
+> > > > directory may break. In such cases, $(objtree) and $(srctree) shoul=
+d
+> > > > be used to refer to the output and source directories of the kernel=
+.
+> > > >
+> > > > The appearance of the build log will change as follows:
+> > > >
+> > > > [Before]
+> > > >
+> > > >   $ make -C /path/to/my/linux M=3D/path/to/my/externel/module
+> > > >   make: Entering directory '/path/to/my/linux'
+> > > >     CC [M]  /path/to/my/externel/module/helloworld.o
+> > > >     MODPOST /path/to/my/externel/module/Module.symvers
+> > > >     CC [M]  /path/to/my/externel/module/helloworld.mod.o
+> > > >     CC [M]  /path/to/my/externel/module/.module-common.o
+> > > >     LD [M]  /path/to/my/externel/module/helloworld.ko
+> > > >   make: Leaving directory '/path/to/my/linux'
+> > > >
+> > > > [After]
+> > > >
+> > > >   $ make -C /path/to/my/linux M=3D/path/to/my/externel/module
+> > > >   make: Entering directory '/path/to/my/linux'
+> > > >   make[1]: Entering directory '/path/to/my/externel/module'
+> > > >     CC [M]  helloworld.o
+> > > >     MODPOST Module.symvers
+> > > >     CC [M]  helloworld.mod.o
+> > > >     CC [M]  .module-common.o
+> > > >     LD [M]  helloworld.ko
+> > > >   make[1]: Leaving directory '/path/to/my/externel/module'
+> > > >   make: Leaving directory '/path/to/my/linux'
+> > > >
+> > > > Printing "Entering directory" twice is cumbersome. This will be
+> > > > addressed later.
+> > > >
+> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > > ---
+> > > >
+> > > > Changes in v2:
+> > > >  - Introduce a new 'srcroot' variable and clean-up code
+> > > >  - Reword Documentation/dev-tools/coccinelle.rst
+> > > >
+> > > >  Documentation/dev-tools/coccinelle.rst | 20 ++-----
+> > > >  Documentation/kbuild/makefiles.rst     | 14 +++++
+> > > >  Makefile                               | 80 +++++++++++++++-------=
+----
+> > > >  rust/Makefile                          |  4 +-
+> > > >  scripts/Makefile.build                 |  2 +-
+> > > >  scripts/Makefile.clean                 |  2 +-
+> > > >  scripts/Makefile.compiler              |  2 +-
+> > > >  scripts/Makefile.modpost               |  6 +-
+> > > >  scripts/coccicheck                     |  6 +-
+> > > >  scripts/nsdeps                         |  8 +--
+> > > >  scripts/package/install-extmod-build   |  7 +++
+> > > >  11 files changed, 85 insertions(+), 66 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation=
+/dev-tools/coccinelle.rst
+> > > > index 535ce126fb4f..6e70a1e9a3c0 100644
+> > > > --- a/Documentation/dev-tools/coccinelle.rst
+> > > > +++ b/Documentation/dev-tools/coccinelle.rst
+> > > > @@ -250,25 +250,17 @@ variables for .cocciconfig is as follows:
+> > > >  - Your directory from which spatch is called is processed next
+> > > >  - The directory provided with the ``--dir`` option is processed la=
+st, if used
+> > > >
+> > > > -Since coccicheck runs through make, it naturally runs from the ker=
+nel
+> > > > -proper dir; as such the second rule above would be implied for pic=
+king up a
+> > > > -.cocciconfig when using ``make coccicheck``.
+> > > > -
+> > > >  ``make coccicheck`` also supports using M=3D targets. If you do no=
+t supply
+> > > >  any M=3D target, it is assumed you want to target the entire kerne=
+l.
+> > > >  The kernel coccicheck script has::
+> > > >
+> > > > -    if [ "$KBUILD_EXTMOD" =3D "" ] ; then
+> > > > -        OPTIONS=3D"--dir $srctree $COCCIINCLUDE"
+> > > > -    else
+> > > > -        OPTIONS=3D"--dir $KBUILD_EXTMOD $COCCIINCLUDE"
+> > > > -    fi
+> > > > +    OPTIONS=3D"--dir $srcroot $COCCIINCLUDE"
+> > > >
+> > > > -KBUILD_EXTMOD is set when an explicit target with M=3D is used. Fo=
+r both cases
+> > > > -the spatch ``--dir`` argument is used, as such third rule applies =
+when whether
+> > > > -M=3D is used or not, and when M=3D is used the target directory ca=
+n have its own
+> > > > -.cocciconfig file. When M=3D is not passed as an argument to cocci=
+check the
+> > > > -target directory is the same as the directory from where spatch wa=
+s called.
+> > > > +Here, $srcroot refers to the source directory of the target: it po=
+ints to the
+> > > > +external module's source directory when M=3D used, and otherwise, =
+to the kernel
+> > > > +source directory. The third rule ensures the spatch reads the .coc=
+ciconfig from
+> > > > +the target directory, allowing external modules to have their own =
+.cocciconfig
+> > > > +file.
+> > > >
+> > > >  If not using the kernel's coccicheck target, keep the above preced=
+ence
+> > > >  order logic of .cocciconfig reading. If using the kernel's coccich=
+eck target,
+> > > > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbu=
+ild/makefiles.rst
+> > > > index 7964e0c245ae..d36519f194dc 100644
+> > > > --- a/Documentation/kbuild/makefiles.rst
+> > > > +++ b/Documentation/kbuild/makefiles.rst
+> > > > @@ -449,6 +449,20 @@ $(obj)
+> > > >    to prerequisites are referenced with $(src) (because they are no=
+t
+> > > >    generated files).
+> > > >
+> > > > +$(srcroot)
+> > > > +  $(srcroot) refers to the root of the source you are building, wh=
+ich can be
+> > > > +  either the kernel source or the external modules source, dependi=
+ng on whether
+> > > > +  KBUILD_EXTMOD is set. This can be either a relative or an absolu=
+te path, but
+> > > > +  if KBUILD_ABS_SRCTREE=3D1 is set, it is always an absolute path.
+> > > > +
+> > > > +$(srctree)
+> > > > +  $(srctree) refers to the root of the kernel source tree. When bu=
+ilding the
+> > > > +  kernel, this is the same as $(srcroot).
+> > > > +
+> > > > +$(objtree)
+> > > > +  $(objtree) refers to the root of the kernel object tree. It is `=
+`.`` when
+> > > > +  building the kernel, but it is different when building external =
+modules.
+> > > > +
+> > >
+> > > Thanks, I think it's nice that there is now such a clear definition.
+> > > $(srcroot) sounds fine to me.
+> > >
+> > > >  $(kecho)
+> > > >    echoing information to user in a rule is often a good practice
+> > > >    but when execution ``make -s`` one does not expect to see any ou=
+tput
+> > > > diff --git a/Makefile b/Makefile
+> > > > index cf1d55560ae2..e5f7ac7647a7 100644
+> > > > --- a/Makefile
+> > > > +++ b/Makefile
+> > > > @@ -180,7 +180,24 @@ ifeq ("$(origin O)", "command line")
+> > > >    KBUILD_OUTPUT :=3D $(O)
+> > > >  endif
+> > > >
+> > > > -output :=3D $(KBUILD_OUTPUT)
+> > > > +ifdef KBUILD_EXTMOD
+> > > > +    ifdef KBUILD_OUTPUT
+> > > > +        objtree :=3D $(realpath $(KBUILD_OUTPUT))
+> > > > +        $(if $(objtree),,$(error specified kernel directory "$(KBU=
+ILD_OUTPUT)" does not exist))
+> > > > +    else
+> > > > +        objtree :=3D $(CURDIR)
+> > > > +    endif
+> > > > +    output :=3D $(KBUILD_EXTMOD)
+> > > > +    # KBUILD_EXTMOD might be a relative path. Remember its absolut=
+e path before
+> > > > +    # Make changes the working directory.
+> > > > +    srcroot :=3D $(realpath $(KBUILD_EXTMOD))
+> > > > +    $(if $(srcroot),,$(error specified external module directory "=
+$(KBUILD_EXTMOD)" does not exist))
+> > > > +else
+> > > > +    objtree :=3D .
+> > > > +    output :=3D $(KBUILD_OUTPUT)
+> > > > +endif
+> > > > +
+> > > > +export objtree srcroot
+> > > >
+> > > >  # Do we want to change the working directory?
+> > > >  ifneq ($(output),)
+> > > > @@ -230,35 +247,33 @@ else # need-sub-make
+> > > >
+> > > >  # We process the rest of the Makefile if this is the final invocat=
+ion of make
+> > > >
+> > > > -ifeq ($(abs_srctree),$(CURDIR))
+> > > > -        # building in the source tree
+> > > > -        srctree :=3D .
+> > > > -     building_out_of_srctree :=3D
+> > > > +ifndef KBUILD_EXTMOD
+> > > > +srcroot :=3D $(abs_srctree)
+> > > > +endif
+> > > > +
+> > > > +ifeq ($(srcroot),$(CURDIR))
+> > > > +building_out_of_srctree :=3D
+> > > >  else
+> > > > -        ifeq ($(abs_srctree)/,$(dir $(CURDIR)))
+> > > > -                # building in a subdirectory of the source tree
+> > > > -                srctree :=3D ..
+> > > > -        else
+> > > > -                srctree :=3D $(abs_srctree)
+> > > > -        endif
+> > > > -     building_out_of_srctree :=3D 1
+> > > > +export building_out_of_srctree :=3D1
 >
-> Why is that needed?
+> Nit: Adding a space between ':=3D1' for consistency?
+>
+> > > >  endif
+> > > >
+> > > > -ifneq ($(KBUILD_ABS_SRCTREE),)
+> > > > -srctree :=3D $(abs_srctree)
+> > > > +ifdef KBUILD_ABS_SRCTREE
+> > > > +    # Do not nothing. Use the absolute path.
+>
+> Is this a superfluous "not"?
+>
+> "Do nothing. Use the absolute path."?
 
-With regards to your question, I see that 'CLOSURES' is set to 'y' in your original .config file. 'BCACHEFS_FS' selects 'CLOSURES'. I suspect that if 'BCACHEFS_FS' is set to 'n', then your config would have no way of keeping 'CLOSURES' as 'y'.
 
-I understand that the following patch is not suitable for upstream; however, the following patch might help you to understand a little bit more about each config options like 'BCACHEFS_FS'. 
+Thanks. I folded both.
 
-https://lore.kernel.org/all/20241014141345.5680-5-david.hunter.linux@gmail.com/
 
-If you put in
 
-dprintvar("BCACHEFS_FS);
+>
+>
+> Thanks, again!
+>
+> Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
-you would be able to see what selects 'BCACHEFS_FS' and what is selected by 'BCACHEFS_FS'. I suspect that if you were to use it for each of the config options that you have questions about, you would likely see that each config option set to "m" has a "y" option that it selects. The question then would be is the "y" option actually required for your particular machine.   
+Thanks for the review!
 
-This brings us to the root cause of the issue that we are having: there is no way to know if a config option set to 'y' is actually required. If there was a way to tell if 'CLOSURES' is needed, we can easily determine whether BCACHEFS_FS is actually necessary. 
 
-Without knowing whether the 'y' options are needed, we then have to make a determination whether it is better to have the (potentially necessary) 'y' options with the extra (not directly used) 'm' options or to drop those 'y' options along with those 'm' options. 
-
-My argument is that the 'y' options are important, even if we cannot determine whether they are used or not. The problem I had that made me aware of the issues with localmodconfig was that my new computer would consistently do an emergency shutdown whenever I would try to compile the kernel. I eventually realized that the fan was not being recognized, so my workaround was to put the BIOS in control of the fan (instead of the kernel). 
-
-It was not until I realized that I had a few hardware devices that were not being recognized that I was able to pinpoint the root cause of the problem. For clarity, some of my hardware devices that were nonfunctional were USBs, the microphone, Bluetooth (and as mentioned earlier, the fan). 
-
-I am curious to know if there are any hardware devices that are not recognized on your computer after you use localmodconfig. One way to check is to use use 'ls' on the psuedofilesystem or to use any of the commands (like lspci) that recognize hardware.
-
-I do not know whether any of your hardware requires the 'CLOSURES' config, but because someone's hardware MAY need it, my reasoning is that streamline_config.pl should include 'BCACHEFS_FS' if it is the only thing that selects another config opiton set to 'y'. 
-
-On my computer, when all of these configs set to 'm' are added (because of reason 2), all of my hardware works (including the Bluetooth, microphone, and USBs. 
-
-If, on the other hand, you still feel like it would be better to not include these particular config options, I would ask that you allow a command line option like '-s' or '--safe' that users could use to make the config file with the added modules. 
+--=20
+Best Regards
+Masahiro Yamada
 
