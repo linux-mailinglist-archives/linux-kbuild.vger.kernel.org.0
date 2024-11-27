@@ -1,79 +1,79 @@
-Return-Path: <linux-kbuild+bounces-4894-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4895-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC609DA859
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 14:18:16 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBBC9DA875
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 14:27:05 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A9451623E9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 13:18:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C9932823CB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 13:27:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B119B1FCD1A;
-	Wed, 27 Nov 2024 13:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9AC1FAC29;
+	Wed, 27 Nov 2024 13:27:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZSFlWUI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0PsAX0Z"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A32D1FC119;
-	Wed, 27 Nov 2024 13:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F62A1FCD18;
+	Wed, 27 Nov 2024 13:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732713492; cv=none; b=RIeqXfEzKw5oV6GMbTft7fW4+aoxilFmobQYGzEZULjhheYjLc1Odr6zAPyVuswwLWcE/gtdCm+LBrV2QhA7vISiW2YC/0nST1ZMgz8QmosZSa4y0bU9RRCghCjq0Vb7HOtUSVsrpILBiqDpaXtyIt+CaiULuE3bx79sMsfoGBw=
+	t=1732714021; cv=none; b=eTEOsTVDcT4BaYnESJ5g/mA5U6WP8KGhOZxPcZ4Y5nC+dNf3AToN2TRc0p7jSjNstNEllQGce5Dw8x0zcNjq/HVhN3grbEthgeBRnA2ykQCyLpuhywVpOThqwPC5UG5Si52MWaLZKJKuW+E0a7Z9GPkP3/YUZyBwwzxUuLbGU20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732713492; c=relaxed/simple;
-	bh=i0TQGAHi6uYX4HxoRa3zUstErM9WDdUW2RSIM/o3Xs4=;
+	s=arc-20240116; t=1732714021; c=relaxed/simple;
+	bh=uaCiDCXuWzRxHU/92iiKkygk/Ft9kvQnq4yPLx94xjc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LSBcQRGUHred/osS78Eax+zx/NJpFK3Y5Czd8NegfDqY0jkaDKtrW+yj0uEmueHwZy38gtgf3405VAHdUB98UOtnIl/EqSi8pniI5KrhrgmHXDS/Tn/ouEVPIznT6LAoSazYu2955A6MuN4dMMrtQuAXb4v+fRWk+skC0TFxfdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZSFlWUI; arc=none smtp.client-ip=209.85.221.170
+	 In-Reply-To:Content-Type; b=BaDxyIJazdy1aoJKgNrX3ITwCkRyC8RHUh4EG320IqEFbFGqlo/kQHx8lfSYjfi2AwsR7lek4h6HH5fjYWqmsN+isCqspuMuO3P9XfXrnDDSzMy7GQ8cs7r7/NQ0cus6n15gSjaeq2iLpPVl9YtgHsL5ffJ2Xa7LIns8rdb9ar0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0PsAX0Z; arc=none smtp.client-ip=209.85.217.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5154fab9889so413450e0c.0;
-        Wed, 27 Nov 2024 05:18:10 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4aefdbf8134so1422633137.2;
+        Wed, 27 Nov 2024 05:27:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732713490; x=1733318290; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1732714019; x=1733318819; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=3EMmZPv4ipiCAMOYRilXOFtwDUZhRsTLrhd6cKnwqMA=;
-        b=MZSFlWUIDWw2n1LbmCO9R0+SGcrp7YlAo/0Zpitm2fZG9OnphY/NdUyCBm7U0Rd+0d
-         6MfK0LJwanF2yCdsaRl1emOPe3yqD3P1b1uF8VHjssdako4XqdoskotscGnmNLxsnZ28
-         b1P5pgNVojv+bw9qFJUEqa8ENYT5Ze3dl7okoa4o/vyd//Hrw9vwz+YiMP0NKlJdtwwM
-         FrGa6EAkqa6u9c9X9+0ik0sgT1qEQq1rRRAMS2lLApcaODPrDicwcXBJU66rAqB6WZxZ
-         WgK16m43U1RVIWzkhLhkHgEBU+D5Vdun4WN+CijMxVv3xkkY5Vl/VkK7eiEAocd/iw02
-         RsCQ==
+        bh=IOiOJ6+Vu6oJDu2ObyW5Mt7Xes58O5evw8O4KBY+L+Y=;
+        b=M0PsAX0Z8hRmqpup+VoLqzSEEteEimh5wO+A8Drf6scjR2AJmaePCk97/OwAkgZRjs
+         v8n4yvn0M2vsbxYs6Hq9DA5qy7i0bWrvkQJKimu5a8bHQonMPGQPpLaD/NVsk300BrYM
+         gnfxTCuhf/n05Ni3CvWxRIJalAiu+nK1oprqfElqyCbhQ1Br7HaNU1H2Ta2f92ANMOpW
+         pJLOBTl05ssUhqaugJ9ZriLD1sHvN+DV3YTb+etXb6ogbyGqXQFE+SxvKhzHoR76WQPE
+         /9G51YdNnQTO5IP23fbeGMfIx7E3dgg/beL9LA4UzR+0uSI7rWFSJ71h/71nsfY3ySsL
+         8+uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732713490; x=1733318290;
+        d=1e100.net; s=20230601; t=1732714019; x=1733318819;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3EMmZPv4ipiCAMOYRilXOFtwDUZhRsTLrhd6cKnwqMA=;
-        b=VubvfXQSGmcEz8/sVjUuachZ1yjcgssH7D+sK0ZySXt/Xel/itdRC6p25Vyzc6czui
-         /fZQkA8Fy2wYBr2JV11qgpqtjqhb4a1kSMcKo5eirfX+EyFp4jYq7om/4cJFk0Ers9DD
-         gox+NI0J8xTfJn03UEOVVwN5QiZQOBF0hJlgoBGIYHRe0OgJxY3awyMIzeYjTfuMroVy
-         C70//06LUju1DM/R5vEPbkDesaQIKBHCod1PQ0jXgD/prQUnR36NdRDmgPVZpATMyL/u
-         QRQ0g9bGqbx2OvldKqS/7Ol/tQzoflMFYVctOECxpDo408sQlzdEE8xz+B+SMTf/+okJ
-         AJxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWV034JsS7UvvZRQJLAsE88muLJSqf8C/uPIzUtHpctTHGLNCcLwMW4tp5yculM42u66J6ze9MB400opY0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxzugf88PkYNpCwQoAecmNG9+O/haCmHMrHG4OBqqDUPmLqVoRv
-	DO4Xbvq2eIzDbCcHmoCqrnWTsSD5putWjRw2bVD8D0vhcAuzGTuL
-X-Gm-Gg: ASbGncs5uScUXk+vhQmCAGTHJpfqfUjLQClGnIs5U5WBD189u3Rs9B2D0mQPEn2ghzR
-	N7ocLD13/8PG1IIOlPLFkEbLpXDD2dOJORPA7VMNizYPUzqaesxI8CoxeO8jxkxg54IXC3WdSu4
-	nzBYzkJUA2u04kUvAm3Xoro+3Ka6qA7lSBFR1mq9lC4dJlPRcPC486uliy5FLc4ba+MuyPv+f9M
-	3mJHD83IqMy2TzRF0q19ImDGcqXc8TgNrKP43un0GavhJqYsL8pWpLxVlyYRD4TUQLBgDM2N3gT
-	ZmP+Utyxst8AQ0L/ng5s9RyVzCbT0zIxBA72bP8=
-X-Google-Smtp-Source: AGHT+IFcuvzq8pRpuA23JDCL1/XjslFt5AKvwpMZNpXtw4Cpy024+w/ZM79+cagxl2QLc7Bt8qe9sg==
-X-Received: by 2002:a05:6122:1d12:b0:50d:3ec1:1537 with SMTP id 71dfb90a1353d-515568dd0b5mr3415597e0c.1.1732713489949;
-        Wed, 27 Nov 2024 05:18:09 -0800 (PST)
+        bh=IOiOJ6+Vu6oJDu2ObyW5Mt7Xes58O5evw8O4KBY+L+Y=;
+        b=h4lcM05m3gaqBnVOjgL+d4TwQINOIb8n8fiHfByVnoIlIfHnZ9Lk4WlUSCW0R/67p4
+         QEQ/Ps+bdaiS09Lzn8+n/K81LUfWwnwLs3wS9T9UVDzUNbTzWD1SfFJVWHAddSfuuhVb
+         HTSSBR3KD8/R5oFmh1+zkWK9H8CvnrHxyIQIp/Ye32oxtBzlVgnZn88VI5GICyCu3NLp
+         VfTo8/y1oMcfHITDb8j5OJE++uTZ7lkrT/GJWfYM8oxGNx1jkUbWaOrs+HBhQCFWfcjm
+         R1QKDtfArHDCFzzIV+uHJOPrQRTVKHu1G2zErvpzVzBVZRJWm5+5W3F2wE1jhjpE3xX1
+         weJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvcn9w1OfWO4QETKNzxAcShMxjc8uxK5T49/PUzGHMi6eX9C5gJT55zgsbqhtoYlQ91AOR37Ov+L2SM1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1PfxNlEWAP617WqerUtoqMW59GuTes9sAHv0+JS14LgOyXWJu
+	PSRoRuyW7rcVjLT6dgiJ+8fN7ifwQoF+1bdCCMwYiiIH5cJl25Ww
+X-Gm-Gg: ASbGncuImSnBSpFQ/DLSvDmUCZFCSOVAQGfzqOmGD80kSTR21VJUaqqhkD9KSR70Gjk
+	shmKx5XW+F9fe4w923Yc+2L+8go/bsuPjxMcLx2CoR2unZIVEmPDdqNgErxcjAgKqEM5SD/hW9l
+	ZoIqr5FMdPwIXjvAJK3MEeCAm4cw6Vg6dH8aXUYkCBrmoZQjEZwbxhp/HGn6D32Vz2cjay+e2Mp
+	8eEqza5NRAP2uqKziofe1DqF7DdE7cnsz1NU0tgU6UFu5m2XbJvGnZfyOm6yNCyAfyjEYivLYzX
+	NEG+wai6DzHhkpOATgKQfagH1zu+7L1gBISPkms=
+X-Google-Smtp-Source: AGHT+IGSGm6WE0IC/9CAvd5/e4c2BcSs4ujLES12ykfA/Ho+ScWSgImvHrgtxD/oipWTcAMOUv0oFg==
+X-Received: by 2002:a05:6102:26d5:b0:4af:4101:fd53 with SMTP id ada2fe7eead31-4af44984beamr3817306137.22.1732714019193;
+        Wed, 27 Nov 2024 05:26:59 -0800 (PST)
 Received: from [192.168.1.145] (57-135-107-183.static4.bluestreamfiber.net. [57.135.107.183])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51544450691sm425503e0c.5.2024.11.27.05.18.07
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4af35905181sm748652137.31.2024.11.27.05.26.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2024 05:18:08 -0800 (PST)
-Message-ID: <fe9de0fe-b069-49b8-b7a3-cfb81c82199a@gmail.com>
-Date: Wed, 27 Nov 2024 08:18:05 -0500
+        Wed, 27 Nov 2024 05:26:58 -0800 (PST)
+Message-ID: <20725773-8456-448f-a91e-f926d94bcb63@gmail.com>
+Date: Wed, 27 Nov 2024 08:26:55 -0500
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -81,60 +81,29 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] streamline_config.pl: fix: implement choice for
- kconfigs
+Subject: Re: [PATCH v2 7/7] streamline_config.pl: check prompt for bool
+ options
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  shuah@kernel.org, javier.carrasco.cruz@gmail.com,
- Steven Rostedt <rostedt@goodmis.org>
+ Steven Rostedt <rostedt@goodmis.org>, david.hunter.linux@gmail.com
 References: <20241014141345.5680-1-david.hunter.linux@gmail.com>
- <20241014141345.5680-6-david.hunter.linux@gmail.com>
- <CAK7LNAQmV=CGzEyJtBRSfz+YW6yTfWza7mf1dPXEiaJDT7z5xQ@mail.gmail.com>
+ <20241014141345.5680-8-david.hunter.linux@gmail.com>
+ <CAK7LNASqqbNX652UdyO_MeLmcxsno-zHykeO1ff0rES=_PAOqw@mail.gmail.com>
 Content-Language: en-US
 From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <CAK7LNAQmV=CGzEyJtBRSfz+YW6yTfWza7mf1dPXEiaJDT7z5xQ@mail.gmail.com>
+In-Reply-To: <CAK7LNASqqbNX652UdyO_MeLmcxsno-zHykeO1ff0rES=_PAOqw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/5/24 18:33, Masahiro Yamada wrote:
-> I previously suggested checking how the 'if' statement is handled.
-> https://lore.kernel.org/lkml/CAK7LNAQ8D4OVT81iTVs8jjrBXX6Zgwc+VJ_vb7hb4J-vCZZN=g@mail.gmail.com/
-> 
-I think I understand now what you were saying. I misunderstood what you 
-were saying because I thought that you were saying that the "if" blocks 
-were not implemented.
 
-To paraphrase, I believe that you are saying that the "choice" blocks 
-should have a similar style to the "if" blocks.
+> As I reviewed in v1, this patch depends on 6/7.
 
-I will take a look at the patch that you sent and figure out how it 
-would work. I would like some clarification on the information in the 
-choice blocks that are not "depends." Should those also have the same 
-style as the "if" block?
+Hello,
 
-I am not sure if you saw this email:
-https://lore.kernel.org/all/994efba2-2829-4874-b5fa-9f5317f6ea6b@gmail.com/
+I am a little confused by this part. I originally understood this to say 
+that I should put it after the 6/7 patch because it depends on it. 
+Should I have combined the two patches into one?
 
-There are lots of information, specifically "prompts" and "defaults" 
-that are distributed to each of the config options in the "choice" blocks.
-
-> 
-> BTW, 'menu' also can have 'depends on'.
-> 
-> 
-> menu "menu"
->           depends on FOO
-> config A
->             bool "A"
-> config B
->             bool "B"
-> endmenu
-> 
-> 
-> This is not implemented, either.
-> 
-> I am not sure how much effort should be invested in this script, though.
-> 
-> 
-I will look into distributing the "menu" information.
+Sorry for not understanding.
 
