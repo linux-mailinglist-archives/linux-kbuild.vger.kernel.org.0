@@ -1,124 +1,135 @@
-Return-Path: <linux-kbuild+bounces-4898-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4899-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546169DAEA9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 21:55:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DCD9DAEF4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 22:31:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A378282588
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 20:55:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E357B20EDA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2024 21:31:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2276B201261;
-	Wed, 27 Nov 2024 20:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 505CE12E1E0;
+	Wed, 27 Nov 2024 21:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="Jcp/etHk";
-	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="axOlhXBz";
-	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="uQ7H2Byq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AQGesUzo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from e2i702.smtp2go.com (e2i702.smtp2go.com [103.2.142.190])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE1319885D
-	for <linux-kbuild@vger.kernel.org>; Wed, 27 Nov 2024 20:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.142.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8A2322E;
+	Wed, 27 Nov 2024 21:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732740927; cv=none; b=kEsN4zHB5T7G/O91GuDhDhpRjXHew3NkCZvNcDNb5F2NCUKm7lG6vSwCAnNuFf4bNbRfig9z2Va3aM45aYejn95IWWhC2FxxRojDz7LFFGHzFc9LSfa67GG20ig6BZ4LuMz6MYIzRaSi/A4CRZvDedm1wZgUHh3OWBXk4im3frw=
+	t=1732743075; cv=none; b=c3jQmJc8ACAQmDsJUaqbh5BLo2mRTqLeB9jQLq2yUrM4d8UidX7WVMezIigYAXkSR5iyKUkbXlaVbGDdM6pKCW4s1PsIj/VJWeEa1/coDe2YVCEORw7roKed7Ryqz5gfLneY41A+XaanbYlaM0kCKdjy5A1jWOG07fhF7pz8Tzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732740927; c=relaxed/simple;
-	bh=em50niaeJ/+DFKfLB8owqRPQ+e0oCNG4MKo4HwmVwYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eu91CFILpnyH+QNLEE622Pq87NHMQnt40p83ifsXppOFdjCzLMBPlCmIxRw0I9yzL3nxqBtDSOjpP5/8GgKTgCO9XmOrKE7inS6guD21IHWjSvxZBf7EBuR/60/6Pb2zYVKLTnt73MowFDjNL28SsY0iPqZoiQk2GHk11ENmRQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=Jcp/etHk reason="unknown key version"; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=axOlhXBz; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=uQ7H2Byq; arc=none smtp.client-ip=103.2.142.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1732741812; h=Feedback-ID:
-	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
-	List-Unsubscribe:List-Unsubscribe-Post;
-	bh=2WINOyRzo695WtaTsQIcd3pK9JHKA4hoY8eCup6zQQo=; b=Jcp/etHkoFEoBl3SzSc8uDOySw
-	XWCSmuX+dqM/yh+XzmSGurG5m5vU3LplI6moybdVyNujpG8s+soB9kiFoVE1CjAn52Gjp+kzp21Yq
-	tfN4tjLEO2bJh1yY7NuFEZlKn2MHY2FTSNm8O8fO8IjYGoc3pdQZnDL9YjMw/i8EJPB7XaTSgJhHd
-	Kr+QYGlEucH2wtIKx1vZEyKXTRIOW2InqvcBGfzb6ToHgPq17Y1C394AHfEBJMevkxFlzu7fuv3H9
-	7ag/+5ZKLrw3RxzZXee5THYuPPA1VNiALKrB9GsLPs3uFToXw9O7sRTBxfMZzI5fRy9IWTDfcCAc9
-	0eOHcfFw==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
- i=@fjasle.eu; q=dns/txt; s=s1174286; t=1732740912; h=from : subject :
- to : message-id : date;
- bh=2WINOyRzo695WtaTsQIcd3pK9JHKA4hoY8eCup6zQQo=;
- b=axOlhXBzuGwXGf2pQ995LomndYcBpLfgY1lTEgppe73YFo8ZE07hfHoqDVv9fcCCaag/S
- 3EgThZ6sKpU35Yo66vv0yqS+/Yy8bT+CpN1Qth2EJf3iCTDIg3DdGycnF+HxJ9jgt22T1jb
- Hl+tGI+Zy8nEGiscJmm9p62nGt5J0STExz7nVB+LiYv+Hj0G3JQ8hOVa9P3UoJBn+D7/An+
- +oc37rnZUyPm+1l0gP3JgapduThuI911mFkk4OPsLsoh4DgvD7Z1NY1j2FhimsJE0C/naF2
- Uie+VmUM3B680ovURgbOpC+S0Q6yMeF9bH0IRzXHt83vGHqqkEUOaMnCGmYA==
-Received: from [10.172.233.58] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1tGP0o-qt4KpM-ES; Wed, 27 Nov 2024 20:51:50 +0000
-Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
- by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.97.1-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1tGP0n-FnQW0hPueOx-n8LA; Wed, 27 Nov 2024 20:51:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
- t=1732740708; bh=em50niaeJ/+DFKfLB8owqRPQ+e0oCNG4MKo4HwmVwYE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uQ7H2ByqwM2bNS8kgFd/4tj6GiGvQlM2GnCKAi3M4xf21iew9DK6D9Xdcb3NXe9Yv
- 6mYzAWAjgdzB7R/bNUJu77oJCxUdo+Avf4pssR+q/9Sk5QOsrpnOjsoK4qb5u1cYz7
- L8/W3ZuIE5Sm3ISPZaha3/h2Mv24Zm3yzqibezQA=
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
- id 1F0C93CDEB; Wed, 27 Nov 2024 21:51:48 +0100 (CET)
-Date: Wed, 27 Nov 2024 21:51:47 +0100
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Advait Dhamorikar <advaitdhamorikar@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH-next] modpost: Remove logically dead condition
-Message-ID: <Z0eGY_6e9jVMezxE@fjasle.eu>
-References: <20241127162904.28182-1-advaitdhamorikar@gmail.com>
+	s=arc-20240116; t=1732743075; c=relaxed/simple;
+	bh=rF0P/oK+/sxgso0hocpUT2X91lu6qi/ELVD9lR33fJI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ly5mScjc2hWWijGOhdnTskoif8A3kDw0ANT/xowjFm1jNWvtNAWFn8Ok4m6Gdl43QYFBG60HZbL9w8rVR9U90/R5LPhJ4fO5FTqzIQgPo1WTvbzIq80mfuAOBGo8efsFt/4rvJluoMgCzFBblnfo/i1Ql75hXbdwkyzJpkB8I3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AQGesUzo; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ffa49f623cso2390901fa.1;
+        Wed, 27 Nov 2024 13:31:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732743070; x=1733347870; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O5O2OQSI/S+1vPggQ7mGR0YWzFzwK0obiH3lF7ckWh0=;
+        b=AQGesUzoLWaky38CNW4+yqTRzzaB+/aX3MlKjd8etnHnc05Zby+Foq4Zzr0LtuLs9L
+         ZUfeRJJF2MXzjFXozKBrvg1MRpm1EXP+RqcEbyxsq1Q1HUDKDen0sH4BnVSlYST7WHMy
+         c8M9zQBhw9sw2tAMfR/UJysdV5jlfLEWZ2LF2bxjEtAVfYwybWQ00hHAZEa8qCjeugqy
+         fJuekiqndl0s4DA/d+Yiw/oUc3rqm+a6T3qjPi1C61wOoyrGxsyfEa6/JO9WdU4ilVu9
+         P7na2KthfC/otCPwD+PhV0eW+7K+8K05yRyGfNtiVBijeh4VW+Ih8yNn9dSBDXfl5ltm
+         6TGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732743070; x=1733347870;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O5O2OQSI/S+1vPggQ7mGR0YWzFzwK0obiH3lF7ckWh0=;
+        b=RiwhiTIcOwmmnf4QdXNJ9kCUOBLKd8aw0LMHIEJxgyHnRyfm5yVApV1Xp2S52N080x
+         AoATTCVFmRMSoqVeK1/MsBQwH9A1AdHR2zH69qzmKgDsjPj+fhWc+WU2foz9e4ypgADw
+         r0SqiGEq9SlJjlH1CrIXOkEk8AmYsjdmL5fwA/CC2fIg+2yLn2wYpXxHdM/KsL38OIiv
+         aUwCBt4X1DA2fMkgam1e52fBxQUpgeEeG52TFWAQeSwyIQbZU1BoL7ubb3EQvnBu5Ncu
+         rIJ4HvVd0SMKtyXZ4k3FJSAvJx1hyC65oe85zEXrI2ZnEAONQWCsZVnhcV0J151y0187
+         9uAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFaR1S99tpL4aSYJOuH7XZCI5DBYfuW1Ztte3e2Sy19okGtsIyUhQbQtpu+vW2T9xLmy/B0P8vQ6IaHk/E@vger.kernel.org, AJvYcCWRaRllF9ZBSpyGPNJnyHfrGHdOjBCRF/A7lUtX2lo1NGTge9DEl++moa4bwSZzrRGsE8O4h7wc9TT4PSw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwabpJ9yuhLsF61iiY9WW0t/1NBEgWl3iZbtbBEmJnJaPg10RhP
+	n3nhiBLjiuM+UCFCWP/Vh2DdnnNKPkwVqKOQI8FpAPNQ5shO1seRQQuUz1Cs231AzbGeJDDiXZW
+	QrkfJkn0kMcBBze9M93RoFi0xQzVPm8Nf4bM=
+X-Gm-Gg: ASbGncstIK8kt/68u7m3hI1sgXSJyC6Jwo2XU74ovRVe8VrWld0arwLeE2Ij+IgsqcY
+	AFTU/2XZL7bllTpzrVpNw5ocUG4f7ME/JBG45FDasI7BpQZ2Xlk9zomuQw5Cs
+X-Google-Smtp-Source: AGHT+IE2zuvT9nkDbOkC4V4DPtrLpnGENPPXWPjlLLxpz84u8zvf6i2IIIxaivUhcc5ioHZgmzqAMBH3bg2xjXBmhOA=
+X-Received: by 2002:a05:651c:1597:b0:2fa:f5f1:2539 with SMTP id
+ 38308e7fff4ca-2ffd604ca52mr28449861fa.24.1732743070053; Wed, 27 Nov 2024
+ 13:31:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20241127162904.28182-1-advaitdhamorikar@gmail.com> <Z0eGY_6e9jVMezxE@fjasle.eu>
+In-Reply-To: <Z0eGY_6e9jVMezxE@fjasle.eu>
+From: Advait Dhamorikar <advaitdhamorikar@gmail.com>
+Date: Thu, 28 Nov 2024 03:00:57 +0530
+Message-ID: <CAJ7bep+s04GXoht7MuVDBZ-FsjDXgdVtk11k9ajok8SkoCwH2w@mail.gmail.com>
+Subject: Re: [PATCH-next] modpost: Remove logically dead condition
+To: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20241127162904.28182-1-advaitdhamorikar@gmail.com>
-X-Smtpcorp-Track: f9h3sipZk3W7.NGx6LglMOzuj.KY3CPA4NXfw
-Feedback-ID: 1174286m:1174286a9YXZ7r:1174286sXt6ANBR9r
-X-Report-Abuse: Please forward a copy of this message, including all headers,
- to <abuse-report@smtp2go.com>
 
-On Wed, Nov 27, 2024 at 09:59:04PM +0530 Advait Dhamorikar wrote:
-> In case of failure vsnprintf returns `pos`, an unsigned long integer.
-> An unsigned value can never be negative, so this test will always evaluat=
-e=20
-> the same way.=20
+Hello Nicolas,
 
-'man vsnprintf' on my system reveals a different behaviour:
+> vsnprintf prototypes also indicate 'int' as return type.  What is the sou=
+rce of your mentioned findings?
+Sorry, I read an alternate vsnprintf implementation and have worded my
+patch log wrong based on it.
 
-| The  functions  snprintf() and vsnprintf() do not
-| write more than size bytes (including the  termi=E2=80=90
-| nating  null  byte  ('\0')).   If  the output was
-| truncated due to  this  limit,  then  the  return
-| value  is the number of characters (excluding the
-| terminating null  byte)  which  would  have  been
-| written  to  the final string if enough space had
-| been available.  Thus, a return value of size  or
-| more  means  that the output was truncated.  (See
-| also below under NOTES.)
-|
-| If an output error  is  encountered,  a  negative
-| value is returned.
+However there is still an issue that n is declared as size_t which is
+a typedef for
+an unsigned long, I think the correct solution then is to use a signed
+data type here for n?
 
-vsnprintf prototypes also indicate 'int' as return type.  What is the sourc=
-e of your mentioned findings?
+Thanks for your time and feedback.
 
-Kind regards,
-Nicolas
+Best regards,
+Advait
 
+On Thu, 28 Nov 2024 at 02:21, Nicolas Schier <nicolas@fjasle.eu> wrote:
+>
+> On Wed, Nov 27, 2024 at 09:59:04PM +0530 Advait Dhamorikar wrote:
+> > In case of failure vsnprintf returns `pos`, an unsigned long integer.
+> > An unsigned value can never be negative, so this test will always evalu=
+ate
+> > the same way.
+>
+> 'man vsnprintf' on my system reveals a different behaviour:
+>
+> | The  functions  snprintf() and vsnprintf() do not
+> | write more than size bytes (including the  termi=E2=80=90
+> | nating  null  byte  ('\0')).   If  the output was
+> | truncated due to  this  limit,  then  the  return
+> | value  is the number of characters (excluding the
+> | terminating null  byte)  which  would  have  been
+> | written  to  the final string if enough space had
+> | been available.  Thus, a return value of size  or
+> | more  means  that the output was truncated.  (See
+> | also below under NOTES.)
+> |
+> | If an output error  is  encountered,  a  negative
+> | value is returned.
+>
+> vsnprintf prototypes also indicate 'int' as return type.  What is the sou=
+rce of your mentioned findings?
+>
+> Kind regards,
+> Nicolas
+>
 
