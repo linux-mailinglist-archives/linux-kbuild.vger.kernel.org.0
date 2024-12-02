@@ -1,181 +1,120 @@
-Return-Path: <linux-kbuild+bounces-4942-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4943-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFF79E0A8C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 18:59:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 048649E0CF6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 21:24:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF75B282EAC
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 17:59:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 812E0B2FC49
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 19:34:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213681DC185;
-	Mon,  2 Dec 2024 17:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDD001DB527;
+	Mon,  2 Dec 2024 19:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b="fYi+IZqG"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="WB/6Uvsw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mister-muffin.de (mister-muffin.de [144.76.155.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB181DC19A
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Dec 2024 17:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.155.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3E11DBB36
+	for <linux-kbuild@vger.kernel.org>; Mon,  2 Dec 2024 19:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733162344; cv=none; b=EQxgXgaTBwBWcH0GSlpQKWljzr3UdawySfnvR6JSB3gikVqigI5s34IoRYWrxcpeQ3BK0jlVuauDmayz5uWo9ZJNgfnRZMC+N+L9M7+9V/ug8UU4Z+q68Dzzr49zwL4ueG5U/7QCA2rEVbHtFiDrNc7XLnHn84JbBFHRkzvrBUM=
+	t=1733168060; cv=none; b=KPPFmZKQUdmm8HUDoU7dhjTr89Rubh0XPjWzpu+QLm4Xbp3LdBBX85HK21FVbq8X9yQRyuuIBr7OsMS6BxuwI03MP3XqMw/EIJXkEDGWA3VC01aYNypUOnc1vmfM/krGvBhCGImpYGwc5pg8ed29jm5QjF+yuUTYK94ZkoiD3G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733162344; c=relaxed/simple;
-	bh=uQyn/0vURxi1maWOz7Bbi0fYsfiV/qLlOKQWrNCLXtM=;
-	h=Content-Type:MIME-Version:Content-Disposition:In-Reply-To:
-	 References:Subject:From:Cc:To:Date:Message-ID; b=CQ/yu2UzwqW6EWFuKAhRGp1JyaiUVCLiJPtCBm9yvFKA8C2heJ07LFVpm54hQ/DzT7xzCVc42IYj2glOTzVw4rXRQXsEQRoxxqV/MECmhbZks5vWAU+wuytkbaeTNtXsCZlY9xOpBt1NUDnmpRD+c5boLmyXUHAMrZ/WehwjW0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de; spf=pass smtp.mailfrom=mister-muffin.de; dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b=fYi+IZqG; arc=none smtp.client-ip=144.76.155.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mister-muffin.de
-Received: from localhost (ip2504e6e1.dynamic.kabel-deutschland.de [37.4.230.225])
-	by mister-muffin.de (Postfix) with ESMTPSA id 26018304;
-	Mon,  2 Dec 2024 18:58:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mister-muffin.de;
-	s=mail; t=1733162333;
-	bh=uQyn/0vURxi1maWOz7Bbi0fYsfiV/qLlOKQWrNCLXtM=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=fYi+IZqGcMW162dt2atsgj+FTTkU1Nwz6gdBi18Wx+J9ZhJBQLvlnOZvAF0tHK1sx
-	 qYMONbflUBM/zQyHNVfmOdjvZfzUqZ1VT6LAhmSr5hyBnUABfrG9CIFLXY1hyZPSi+
-	 t63gQwSGLeOAodxl6ZqYVTBa0JDOQlr8rJ4WG1kY=
-Content-Type: multipart/signed; micalg="pgp-sha512"; protocol="application/pgp-signature"; boundary="===============6624358916724242307=="
+	s=arc-20240116; t=1733168060; c=relaxed/simple;
+	bh=R1wjqLCnK/jl668F/7xiZbuQwwYunoRzMSm3GVh/kRk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dDQsYuirw6tY9yTlg6BezAj59cRvyR1Go1V9234sI5D1PLVZzFkarHtjpoKHNTZzm5kXube0nhWhv7mqnM1hSCHXIJWPh9ti1Hn3Flyov0w/YGzQYwFSmLMABrwELggFRI8lG18rDtR7iFbhxkdz73Q9/9k2BaqD1xnXHsX/UVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=WB/6Uvsw; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53de579f775so6493244e87.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Dec 2024 11:34:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1733168057; x=1733772857; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NKeXocoBU43F0p08iiIssomLE42KNiU+OuyoZjKEnbw=;
+        b=WB/6Uvswi0iKRnuA6adQ/zmwnSM34eErILizMXXPwnhxM+B4xw6oa6N1Xd+WmtsAbj
+         aS7AbrxNcu/m3MigHk94PawZE3AkF62cfwJfoXTcocF00rTq5cNITFa6vVoBScMeYtlu
+         CsCM6OgLzItnUcOoMEfZ2mv2cLlm/jCLI+GRk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733168057; x=1733772857;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NKeXocoBU43F0p08iiIssomLE42KNiU+OuyoZjKEnbw=;
+        b=ThWWYcEkSgCR+V1G5+ao9+NGQw9buzq6KUZ9KXW5ONussxRfx+UHkYjOt+LyrfSDze
+         6SGRXT+BGmfon/CzEwktCbjqRYLou3p3vkq8r/k3OT/0jZe/VmhnpRNG1yqD/gzkxIXc
+         pueg4mnLs5bRVLGZAqnbe5Jg6IisBrBeiFIzOM/8udhzxUPG7XZE+45J+tbIx8PrWXUH
+         YB/qfE9l/AeBf1SrJ5oIMCTxNUNG+hCtt5QJ821m5WOxUrbEn5SiH5ZKRiXgYBt0mrNm
+         ldxV6NiNanpNbxwEcWuoZx3FYcdO/Ax+iKEzBhG/7p3I7I1vIJCwQWl4jGriBjxbasFU
+         NOmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcU7NZQi7rVhAdNnUkQIu+8t7NcVsKfRMIzJyqnnz1M9yZbiHiVdweGAsNsMCHvDYy2LFT//oimk7xSUA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxb7NwYGmegEZ0DyXJvrqXzEdDekH6JxmM211pLk/eHodiXXIe5
+	A8I8iNWwSpDpYpR+kPFQSWmp7HaaBD2S5b7E430oSphFTslX8SAvmOSWR3PLLUTJaOshiAFCsQf
+	VFSGcDQ==
+X-Gm-Gg: ASbGncs3M7YjVxc/41ZY61rGF3lfPz8Gz+xZA0bK9iXa/jxDgYMCpjhXD2wcFvgYiwK
+	KZVv82dZnnNis/wE7qLnZ8mafomlDulfwJVqakbcOfnh/fzi8caNFc2XKXaaV1kKdYo4T/oXI3L
+	R+PJ3ZNiJQvPCil/MWWGVg+pEGGJZuUo4g6Rb6JfgaJLC5nvbPkmWzYi9CEMCzga0Izjy/6TAUR
+	BEEA22SlO3X1hXVN/4BuG2frL8IY8t8CrW628Z4YijOZYzTc5GwVl9h5u4jnfEK0oOOt0H2iV17
+	ldqwFF2L+PixCMvthLeyKsP62ZhK
+X-Google-Smtp-Source: AGHT+IEs2KHoGqj6Gww8SI0TzpIJaPdzz2sz6/UfrOjHvp2atpdRvGRer/5zCFOz+6LP+BJJ3IadOg==
+X-Received: by 2002:a05:6512:2822:b0:53d:e592:5415 with SMTP id 2adb3069b0e04-53df00dc968mr20580697e87.34.1733168056471;
+        Mon, 02 Dec 2024 11:34:16 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df64310ffsm1581852e87.27.2024.12.02.11.34.14
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Dec 2024 11:34:15 -0800 (PST)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ffdbc0c103so64369471fa.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Dec 2024 11:34:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW5rCsfXB/zoS5JufC61f8BnGFECHuOPlGC6xI4qKI9O6Q4LEu3u0PFqtN9aPm1Tmg4O2aOw/yQ8EOARV4=@vger.kernel.org
+X-Received: by 2002:a05:651c:508:b0:2ff:cb81:c016 with SMTP id
+ 38308e7fff4ca-2ffd6028d77mr201405821fa.19.1733168054547; Mon, 02 Dec 2024
+ 11:34:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAK7LNATyvVGt8j7bcwsWKaophdBU3x53=_UnPajKjtSMtoS9iA@mail.gmail.com>
-References: <CAK7LNARMBTf8usS0UxZ06gVZDbTTrhXt73mpVaGZRby-Zcdtsw@mail.gmail.com> <20241128062940.1708257-1-josch@mister-muffin.de> <20241128062940.1708257-2-josch@mister-muffin.de> <CAK7LNATyvVGt8j7bcwsWKaophdBU3x53=_UnPajKjtSMtoS9iA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] scripts/package/builddeb: allow hooks also in /usr/share/kernel
-From: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
-Cc: linux-kbuild@vger.kernel.org
-To: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 02 Dec 2024 18:58:52 +0100
-Message-ID: <173316233246.3934267.15523840202340139145@localhost>
-User-Agent: alot/0.10
+References: <20241202145946.108093528@infradead.org> <20241202150810.048548103@infradead.org>
+ <20241202151533.GF8562@noisy.programming.kicks-ass.net>
+In-Reply-To: <20241202151533.GF8562@noisy.programming.kicks-ass.net>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 2 Dec 2024 11:33:58 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wh7KugYO+R-1DMmkLz4fD_-A9BMyrWTVsH_K0a86Ojn4A@mail.gmail.com>
+Message-ID: <CAHk-=wh7KugYO+R-1DMmkLz4fD_-A9BMyrWTVsH_K0a86Ojn4A@mail.gmail.com>
+Subject: Re: [PATCH -v2 1/7] module: Convert symbol namespace to string literal
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com, petr.pavlu@suse.com, 
+	samitolvanen@google.com, da.gomez@samsung.com, masahiroy@kernel.org, 
+	nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	hch@infradead.org, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
---===============6624358916724242307==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2 Dec 2024 at 07:15, Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> Perhaps we can ask Linus to run this now, before -next fills up again ?
 
-Hi,
+Sure. I did an unasked-for scripted 'remove_new' removal right after
+rc1 for the same reason.
 
-Quoting Masahiro Yamada (2024-12-02 16:42:02)
-> > @@ -84,7 +93,26 @@ install_linux_image () { # Tell initramfs builder
-> > whether it's wanted export INITRD=3D$(if_enabled_echo CONFIG_BLK_DEV_IN=
-ITRD
-> > Yes No)
-> >
-> > -               test -d ${debhookdir}/${script}.d && run-parts --arg=3D=
-"${KERNELRELEASE}" --arg=3D"/${installed_image_path}" ${debhookdir}/${scrip=
-t}.d
-> > +               # run-parts will error out if one of its directory argu=
-ments does not
-> > +               # exist, so filter the list of hook directories accordi=
-ngly.
-> > +               hookdirs=3D
-> > +               for dir in ${debhookdir}; do
-> > +                       test -d "\$dir/${script}.d" || continue
-> > +                       hookdirs=3D"\$hookdirs \$dir/${script}.d"
-> > +               done
-> > +               hookdirs=3D"\${hookdirs# }"
-> > +               test -n "\$hookdirs" || exit 0
-> > +
-> > +               # If more than one hook directory remained, check versi=
-on of run-parts. If
-> > +               # run-parts is too old, fall back to only processing th=
-e first.
-> > +               case \$hookdirs in *" "*) if ! run-parts --help 2>&1 \
-> > +                               | grep -Fxq "Usage: run-parts [OPTION].=
-.. DIRECTORY [DIRECTORY ...]"; then
-> > +                               echo "E: run-parts >=3D5.21 is required=
- for multiple hook directories, falling back to $firsthookdir" >&2
->=20
-> Same comment as in the previous version.
-> If both /etc/kernel/postinst.d/ and /usr/share/kernel/postinst.d/ exist,
-> can we assume the run-parts>=3D5.12 on that system?
+If we have these kinds of big scripted things, right after the merge
+window tends to be the best time to do them. The conflict potential of
+leaving it hanging in linux-next can be somewhat annoying. They may be
+fairly unlikely, and easy to resolve individually, but it's one of
+those "one is trivial to deal with, but even just a handful is
+annoying".
 
-since KDEB_HOOKDIR can now be any directories and any number of directories,
-the question should rather be: if more than one directory from KDEB_HOOKDIR
-exists, can we assume that run-parts>=3D5.12 exists on that system?
+So I'll run your script and take your commit message, and we'll have
+this part over and done with.
 
-Personally, I'd prefer a best-effort fallback mechanism. The alternative wo=
-uld
-be that kernel installation would just error out in case a (buggy) package =
-on a
-distro ships something in /usr/share/kernel/postinst.d/ but failed to also
-declare a versioned dependency against debianutils. The error message cannot
-(or rather only with considerable effort) tell the user *why* their kernel
-installation errored out. By only considering the first hook directory
-(probably /etc) in those situation, the kernel would succeed to install and=
- the
-hooks from the (buggy) package would be skipped. I understand that such a
-behaviour comes with its own set of disadvantages. One could also argue, th=
-at
-it is better to error out loudly in case of an error instead of hiding a
-message prefixed with a "E:" in a bunch of console output when a kernel pac=
-kage
-gets installed.
-
-What is your position on this question? What behaviour would you prefer? If=
- you
-strongly prefer the kernel installation to error out loudly if run-parts is=
- too
-old, then my next patch will implement just that. I think whether "we can
-assume run-parts>=3D5.12" depends on what we declare to be the right way to=
- hold
-this feature. If we say "packages must declare this versioned dependency an=
-d if
-they fail to do this then it is their bug and not ours" then yes, then we c=
-an
-assume run-parts>=3D5.12 in case of multiple directories.
-
-> Do we need to check the help message and offer the fallback mechanism?
-
-The answer two that question depends on the answer to the last question. If=
- we
-want to error out loudly with unsupported run-parts, then no help message h=
-as
-to be checked. Otherwise, when we want to check what version of run-parts we
-have, then there are two options. Either parsing the --version output (whic=
-h is
-not trivial itself because run-parts prints six lines of copyright informat=
-ion)
-or parsing the --help output. The debianutils maintainer encouraged using t=
-he
-latter option which is why I chose that one.
-
-Thanks!
-
-cheers, josch
---===============6624358916724242307==
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Description: signature
-Content-Type: application/pgp-signature; name="signature.asc"; charset="us-ascii"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElFhU6KL81LF4wVq58sulx4+9g+EFAmdN9VkACgkQ8sulx4+9
-g+Hntw//RuQPuPkaWTE+A6z+6enRoy3qZb4RxvepPAt9FHm7HJtQ0IhyB0B3XOjG
-e3EgQCzIm65fnrXDAGj7lJg/ablpnDENmJR98Eq7KzeIva5KQBemJzfoO1R+5eQO
-9kh/es8YSR4KElviMMmmXBMRax/am5QZ+Ar+6ryqJYjduxvqxB2joMR7Ibqrq8vD
-/jq8aZ7FkqwmqEZ52OicBr9HlOxwdBMOSWFNAxoUbmFFgcNl/7z0fO1T1gGQ+Kuq
-xdEl+z15cZmPNqtUVIJl5Q/5TCbLmNpCG2iLH4u4vXNwu9/SsN0CZgOFkIOnZREJ
-AFpIuoJbdGuUZOqk/06HAviliNLe3unJq+n3o1XIe1/Hz3QJLqyPgFfGxdW/ecQM
-aXTvv7lAD70f1GldODCoGQEX5DAMhsnBH81/MJVMiQMJzkF52fBIwk4Hkk5NIzWh
-EtHBGlFSzSMoW0RqHwZVD/JXi2zVvDDexfaHXaC2gtEPmG5o8qQcD8rUmzYx48u/
-5884BKm0jqYjR55BMFq/Qx/G1jLo9TnDrYcjxPCLsdd9dF3Wh9oQmXk+z7ndCvrb
-hD6c+69r2dtEbq33YR+xe9o+iqaOPcv813sLSFD+I/MTJtAFwGSMS2sbo1y2hgei
-TbhaYjirBuSJfoCZK0Wj6KMZJPorSkddFXSk3oK975qrRBTJoE8=
-=HThX
------END PGP SIGNATURE-----
-
---===============6624358916724242307==--
+Thanks,
+            Linus
 
