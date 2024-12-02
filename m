@@ -1,199 +1,209 @@
-Return-Path: <linux-kbuild+bounces-4938-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4937-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1789E08A2
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 17:33:25 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 663759E0B4F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 19:50:56 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E10A617302B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 16:09:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DD66B2733D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 15:42:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B27FC17332C;
-	Mon,  2 Dec 2024 16:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05884209681;
+	Mon,  2 Dec 2024 15:42:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IPd7OWB2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtPI4Xl7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D3316F84F
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Dec 2024 16:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24F81F943D
+	for <linux-kbuild@vger.kernel.org>; Mon,  2 Dec 2024 15:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733155738; cv=none; b=jb7QhfAmutIs3zic3uhmayDJvbxo6Hh4s3nVDZFByGvpMVQEiotejoek4Ev7Ap/0bbxZrTi3VHb8/a49qIVAK2KQzQue3Z96qj+hg1w8R9d/ICMdR0raken3pU4/nksPa43OTwb6kLm1EE5eyNVLe0zsGdnD5STS3Qa4yx0oU14=
+	t=1733154162; cv=none; b=P4dn6I9yzq6RkyD3ch8ARv22dsvbo4qAOsvnYbu3YypXxfEqe8qcMkBS8xmOT3/WDCkcy/Z7nn8TdF6GpTNEjMOJWXLm1fKa/91FSZqoTA6T3JcEjbiRaWt4HkxpjG4irAxS3ijV4c+HKIWBcVQ41x7hvS0wjzeFsGcy2VPsBXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733155738; c=relaxed/simple;
-	bh=MwB1ACqjAl/x3LNO27/3tM8Pks1XLvEtvtCteP6ruUM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dCFinlYvya1X1Bjf2N1wH6PQCqtWySSBE8MsVblHY/WCKnk8p3YtigLYBQclbDacXTbMdQThAP8C9Jv6l/9qvto4nNiC77DRwRcQICEt2ca4ofv1KI7i5Hyghi63H1SEfhKN+pDkpN3jnmtM3luS11DmaArHw2HZtbaJ5IyxHfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IPd7OWB2; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385e3621518so1760832f8f.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Dec 2024 08:08:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733155734; x=1733760534; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Wk9t4gJyThohCN5wH/UWKd/DL3WW9bY6aJcRvcTwW+M=;
-        b=IPd7OWB29gqHQCgvYZIT/dkWVaopbBnsYwjBoQXEiEU3lcqlcS0Skvy4p+n7of2xIU
-         QO2bq484PA4IkL9WnrhnRQv42L2vBYbLV0cabcHqFBC/JiAcT1MXM0rD9KlfGSxZbF+S
-         NruSM1vAoFDAarT662Scyd1/3U1pkULdYQy+4JHkst7vXI/Akde+QVqd1V8P1T7kMRjq
-         y6VlTYTsJUW5IlRCMrwKrBRddxaZhM0EYZQyEGypCC422wHZ1/gZFHTDq+wvJOgLJTaD
-         ozstk65PY+jd1/QKcwhTU4eBoyBjufKSUhuDe8HB28rjNxLecT/WfL3iePyampzVtjeE
-         Ga1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733155734; x=1733760534;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wk9t4gJyThohCN5wH/UWKd/DL3WW9bY6aJcRvcTwW+M=;
-        b=UR7qYhzUWBhx/I5QyBXihqI+av5Z8BwvC8nP5knv8k14CFxhT/K+ucOhwwAuTWBma6
-         ii/ykaGH+plRIalTkSPvn86suWxztxi36ibz7UiPwMzvRJKLNqwkGQYU3OLmujDi9/42
-         Mq5JiGIOVtPlNu8+qM/SLS/uCsI9uLTJ1oY4h/Y5ABL8O01erYwT4+amvVjwvrdmE4/B
-         RTH2gFchDY5pwl5zt6jBgqaADSQbLbgj5akesJ1NpoFf1fGq+ig8B01FEAGl/bmBLUpR
-         ZX+LBtLt1Xmygv4YkKM29G/gG8M6blu1LeLWsbAAMx60W4MBNsXFC0hIMRTpv5gBMrVg
-         Ey3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUAYvyWP5SQ1uU/Wwb17D/DFxO4jLdMGWJCts85p5AXNHGMzeirakMsPvhMyby7SrRyEJLTsw4LFFQnJeI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJpDUCS7d3kQk48P9l+UJGf29k/ve01CUdsgTjm6fd76ZJQqrM
-	4Txe3V9/L88j3sqw0ZMB2OCJ15TXEW5WudmF7w/KnN7YfErecE5kfBoBo9Nn+dI=
-X-Gm-Gg: ASbGncsOViQ7wxHfQJeCVBC3I8LAIYutCYiC4DwyFvdd98UwlrLrx/5MG+IusoGYfnP
-	kNdsstiAImVi1IK82pg8j5DntYjn0Aq09Vf6+bQw6Nr5Tgizh/0HshS6SClSrO4epY/SiIfx+Ki
-	o6rcGA4S9XY+fPbKTwEHcowmBnPEV03zxWdz5Z6MdU7OV7SYQ/wm+0AVG3Me/eWc/ug4kUdSgxv
-	GW5deOI+2jLMKHjpj2e++XFxTmCzHKEMlBwEpjbARB4sXEoGfUDTw==
-X-Google-Smtp-Source: AGHT+IHdMxsweQVSvkIE89/cartjnOdmknoW4rycIDu/WM156Nv5fZKnY0Cvww8TcwuaRagOlY68cw==
-X-Received: by 2002:a5d:5f46:0:b0:385:fb59:8358 with SMTP id ffacd0b85a97d-385fb598458mr236029f8f.53.1733155732003;
-        Mon, 02 Dec 2024 08:08:52 -0800 (PST)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385ccd68c1bsm13165465f8f.84.2024.12.02.08.08.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2024 08:08:51 -0800 (PST)
-Message-ID: <de6b416c-b96a-43aa-ad72-ea365ffbe785@suse.com>
-Date: Mon, 2 Dec 2024 17:08:49 +0100
+	s=arc-20240116; t=1733154162; c=relaxed/simple;
+	bh=JFUwK2FbHnRfQYNufi6mHGY/idpaDVbQjY93yTPdrgw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AiMYFp8HbvCdH4psFFV99qOinmFB3dWg70a1tzWMH5tnErZd2rZO755AIh6r1XEFrLHvHmCfsyLT6Gkm4TBwQzcsrjLUBV8edGAeKUJIiOOFjA6/Of1ON8rQtHoX3lYpbFDgBh7Ay6sRDM6Kyi0+yID6VzSDKTkmD0Wwj/9uyOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rtPI4Xl7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B3EC4CEE1
+	for <linux-kbuild@vger.kernel.org>; Mon,  2 Dec 2024 15:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733154162;
+	bh=JFUwK2FbHnRfQYNufi6mHGY/idpaDVbQjY93yTPdrgw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rtPI4Xl7pt3gpWt450K/IkY9ZuDwfwPHPb/zxIozNhLcV0WqB88rYW6xarGiNiaih
+	 m28WNx3z+4suoEyRxO3HtxtNSZr4RdA3o4EIUGYvlcIvtikeSLwurfQZ01vCNh6BdN
+	 qdaDvI3EX6bdPV+fvuDJKAqkJ06FX/J6FIuNI8/Otex4RN4uv7m2Cc5em9w4S7apBI
+	 C0gbtoelmQqVQMA/Fly+VnZG7C2roSZoWx31RPVTws0TEo2Sf4Sp1ut43xi/nNjZaX
+	 H06GhA4Osn3TjvkUOOCpFlHiA3Qwk8c8WAJkUFDzR2sOodiy3D5To33UwQS724oNmp
+	 bnEWdsL7GVZ5g==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53df6322ea7so7441854e87.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Dec 2024 07:42:41 -0800 (PST)
+X-Gm-Message-State: AOJu0YzANeexzFja4w0xGKaUJjT1bRQOdTvB3KNkWFPSni4pwkWeJslO
+	zSDD+w7HV1onSC34z3eSkMV+jWVSOlKtOpkJyjXMjAMGrWkeGN6I0UCw+iYbz5iEXNQcLQMpmPo
+	GuXqok7pmmb52z4V5pgPoRQaT6j8=
+X-Google-Smtp-Source: AGHT+IFjIGh6UV+Kc+7Bbd0SRNL9HPrnY3JiGy/jac3sltAq2yTuQHzKEvHfLGoMVdwX8SUfZMkWq5dU6A1S+EB2lns=
+X-Received: by 2002:a05:6512:3d05:b0:53d:edf6:6fc1 with SMTP id
+ 2adb3069b0e04-53df0016101mr17365042e87.0.1733154160412; Mon, 02 Dec 2024
+ 07:42:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 02/18] gendwarfksyms: Add address matching
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
- Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <20241121204220.2378181-22-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20241121204220.2378181-22-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAK7LNARMBTf8usS0UxZ06gVZDbTTrhXt73mpVaGZRby-Zcdtsw@mail.gmail.com>
+ <20241128062940.1708257-1-josch@mister-muffin.de> <20241128062940.1708257-2-josch@mister-muffin.de>
+In-Reply-To: <20241128062940.1708257-2-josch@mister-muffin.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 3 Dec 2024 00:42:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATyvVGt8j7bcwsWKaophdBU3x53=_UnPajKjtSMtoS9iA@mail.gmail.com>
+Message-ID: <CAK7LNATyvVGt8j7bcwsWKaophdBU3x53=_UnPajKjtSMtoS9iA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] scripts/package/builddeb: allow hooks also in /usr/share/kernel
+To: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
+Cc: linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/21/24 21:42, Sami Tolvanen wrote:
-> The compiler may choose not to emit type information in DWARF for all
-> aliases, but it's possible for each alias to be exported separately.
-> To ensure we find type information for the aliases as well, read
-> {section, address} tuples from the symbol table and match symbols also
-> by address.
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+On Thu, Nov 28, 2024 at 3:29=E2=80=AFPM Johannes Schauer Marin Rodrigues
+<josch@mister-muffin.de> wrote:
+>
+> By passing an additional directory to run-parts, allow Debian and its
+> derivatives an easy way to ship maintainer scripts in /usr while at the
+> same time allowing the local admin to easily override or disable them by
+> placing hooks of the same name in /etc. This adds support for the
+> mechanism described in the UAPI Configuration Files Specification for
+> kernel hooks:
+> https://uapi-group.org/specifications/specs/configuration_files_specifica=
+tion/
+>
+> This functionality relies on run-parts 5.21 or later.  It is the
+> responsibility of packages installing hooks into /usr/share/kernel to
+> also declare a Depends: debianutils (>=3D 5.21).
+>
+> KDEB_HOOKDIR can be used to change the list of directories that is
+> searched. By default, /etc/kernel and /usr/share/kernel are hook
+> directories.
+>
+> Signed-off-by: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
 > ---
-[...]
-> @@ -82,6 +118,130 @@ struct symbol *symbol_get(const char *name)
->  	return sym;
->  }
->  
-> +typedef void (*elf_symbol_callback_t)(const char *name, GElf_Sym *sym,
-> +				      Elf32_Word xndx, void *arg);
+>  scripts/package/builddeb | 44 ++++++++++++++++++++++++++++++++--------
+>  1 file changed, 36 insertions(+), 8 deletions(-)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 441b0bb66e0d..2772146a76ce 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -5,10 +5,12 @@
+>  #
+>  # Simple script to generate a deb package for a Linux kernel. All the
+>  # complexity of what to do with a kernel after it is installed or remove=
+d
+> -# is left to other scripts and packages: they can install scripts in the
+> -# /etc/kernel/{pre,post}{inst,rm}.d/ directories (or an alternative loca=
+tion
+> -# specified in KDEB_HOOKDIR) that will be called on package install and
+> -# removal.
+> +# is left to other scripts and packages. Scripts can be placed into the
+> +# preinst, postinst, prerm and postrm directories in /etc/kernel or
+> +# /usr/share/kernel. A different list of search directories can be given
+> +# via KDEB_HOOKDIR. Scripts in directories earlier in the list will
+> +# override scripts of the same name in later directories.  The script wi=
+ll
+> +# be called on package installation and removal.
+>
+>  set -eu
+>
+> @@ -68,11 +70,18 @@ install_linux_image () {
+>         # kernel packages, as well as kernel packages built using make-kp=
+kg.
+>         # make-kpkg sets $INITRD to indicate whether an initramfs is want=
+ed, and
+>         # so do we; recent versions of dracut and initramfs-tools will ob=
+ey this.
+> -       debhookdir=3D${KDEB_HOOKDIR:-/etc/kernel}
+> +       debhookdir=3D${KDEB_HOOKDIR:-/etc/kernel /usr/share/kernel}
 > +
-> +static void elf_for_each_global(int fd, elf_symbol_callback_t func, void *arg)
-> +{
-> +	size_t sym_size;
-> +	GElf_Shdr shdr_mem;
-> +	GElf_Shdr *shdr;
-> +	Elf_Data *xndx_data = NULL;
-> +	Elf_Scn *scn;
-> +	Elf *elf;
+> +       # Only pre-create the first hook directory. Support for more than=
+ one hook
+> +       # directory requires run-parts 5.21 and it is the responsibility =
+of packages
+> +       # creating additional hook directories to declare that dependency=
+.
+> +       firsthookdir=3D${debhookdir%% *}
+>         for script in postinst postrm preinst prerm; do
+> -               mkdir -p "${pdir}${debhookdir}/${script}.d"
+> +               mkdir -p "${pdir}${firsthookdir}/${script}.d"
+> +       done
+>
+> -               mkdir -p "${pdir}/DEBIAN"
+> +       mkdir -p "${pdir}/DEBIAN"
+> +       for script in postinst postrm preinst prerm; do
+>                 cat <<-EOF > "${pdir}/DEBIAN/${script}"
+>                 #!/bin/sh
+>
+> @@ -84,7 +93,26 @@ install_linux_image () {
+>                 # Tell initramfs builder whether it's wanted
+>                 export INITRD=3D$(if_enabled_echo CONFIG_BLK_DEV_INITRD Y=
+es No)
+>
+> -               test -d ${debhookdir}/${script}.d && run-parts --arg=3D"$=
+{KERNELRELEASE}" --arg=3D"/${installed_image_path}" ${debhookdir}/${script}=
+.d
+> +               # run-parts will error out if one of its directory argume=
+nts does not
+> +               # exist, so filter the list of hook directories according=
+ly.
+> +               hookdirs=3D
+> +               for dir in ${debhookdir}; do
+> +                       test -d "\$dir/${script}.d" || continue
+> +                       hookdirs=3D"\$hookdirs \$dir/${script}.d"
+> +               done
+> +               hookdirs=3D"\${hookdirs# }"
+> +               test -n "\$hookdirs" || exit 0
 > +
-> +	if (elf_version(EV_CURRENT) != EV_CURRENT)
-> +		error("elf_version failed: %s", elf_errmsg(-1));
-> +
-> +	elf = elf_begin(fd, ELF_C_READ_MMAP, NULL);
-> +	if (!elf)
-> +		error("elf_begin failed: %s", elf_errmsg(-1));
-> +
-> +	scn = elf_nextscn(elf, NULL);
-> +
-> +	while (scn) {
-> +		shdr = gelf_getshdr(scn, &shdr_mem);
-> +		if (!shdr)
-> +			error("gelf_getshdr failed: %s", elf_errmsg(-1));
-> +
-> +		if (shdr->sh_type == SHT_SYMTAB_SHNDX) {
-> +			xndx_data = elf_getdata(scn, NULL);
-> +			if (!xndx_data)
-> +				error("elf_getdata failed: %s", elf_errmsg(-1));
-> +			break;
-> +		}
-> +
-> +		scn = elf_nextscn(elf, scn);
-> +	}
-> +
-> +	sym_size = gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT);
-> +	scn = elf_nextscn(elf, NULL);
-> +
-> +	while (scn) {
-> +		shdr = gelf_getshdr(scn, &shdr_mem);
-> +		if (!shdr)
-> +			error("gelf_getshdr failed: %s", elf_errmsg(-1));
-> +
-> +		if (shdr->sh_type == SHT_SYMTAB) {
-> +			unsigned int nsyms;
-> +			unsigned int n;
-> +			Elf_Data *data = elf_getdata(scn, NULL);
-> +
-> +			if (!data)
-> +				error("elf_getdata failed: %s", elf_errmsg(-1));
-> +
-> +			if (shdr->sh_entsize != sym_size)
-> +				error("expected sh_entsize (%lu) to be %zu",
-> +				      shdr->sh_entsize, sym_size);
-> +
-> +			nsyms = shdr->sh_size / shdr->sh_entsize;
-> +
-> +			for (n = 1; n < nsyms; ++n) {
-> +				const char *name = NULL;
-> +				Elf32_Word xndx = 0;
-> +				GElf_Sym sym_mem;
-> +				GElf_Sym *sym;
-> +
-> +				sym = gelf_getsymshndx(data, xndx_data, n,
-> +						       &sym_mem, &xndx);
-> +
-> +				if (!sym ||
-> +				    GELF_ST_BIND(sym->st_info) == STB_LOCAL)
-> +					continue;
+> +               # If more than one hook directory remained, check version=
+ of run-parts. If
+> +               # run-parts is too old, fall back to only processing the =
+first.
+> +               case \$hookdirs in *" "*) if ! run-parts --help 2>&1 \
+> +                               | grep -Fxq "Usage: run-parts [OPTION]...=
+ DIRECTORY [DIRECTORY ...]"; then
+> +                               echo "E: run-parts >=3D5.21 is required f=
+or multiple hook directories, falling back to $firsthookdir" >&2
 
-Doesn't NULL returned by gelf_getsymshndx() indicate an error? If yes
-then I think it should be reported instead of silently skipping the
-symbol.
+Same comment as in the previous version.
+If both /etc/kernel/postinst.d/ and /usr/share/kernel/postinst.d/ exist,
+can we assume the run-parts>=3D5.12 on that system?
 
-With this addressed, feel free to add:
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+Do we need to check the help message and offer the fallback mechanism?
 
--- 
-Thanks,
-Petr
+
+
+
+
+
+> +                               test -d "${firsthookdir}/${script}.d" || =
+exit 0
+> +                               hookdirs=3D"${firsthookdir}/${script}.d"
+> +                       fi
+> +               esac
+> +               run-parts --arg=3D"${KERNELRELEASE}" --arg=3D"/${installe=
+d_image_path}" \$hookdirs
+>                 exit 0
+>                 EOF
+>                 chmod 755 "${pdir}/DEBIAN/${script}"
+> --
+> 2.39.2
+>
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
