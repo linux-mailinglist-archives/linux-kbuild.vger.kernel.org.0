@@ -1,60 +1,78 @@
-Return-Path: <linux-kbuild+bounces-4936-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4938-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6703C9E07F1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 17:07:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1789E08A2
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 17:33:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C391173F99
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 15:34:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E10A617302B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 16:09:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 075EB209670;
-	Mon,  2 Dec 2024 15:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B27FC17332C;
+	Mon,  2 Dec 2024 16:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="I2m1BK44"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IPd7OWB2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8EC209665;
-	Mon,  2 Dec 2024 15:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D3316F84F
+	for <linux-kbuild@vger.kernel.org>; Mon,  2 Dec 2024 16:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733153672; cv=none; b=m1gBSL8vs3o8kT0aYk+Gnf11wIpY3baAcIGxQzLuZYb0Ekbcy5tzpUQKBm8ozv2hfOXRRxW348ygczQpWElHA4x0F7brBXcu+QsBq3vsKpoSWdtROOH/cMYyFKM8+7ZxDML2FJTUV1/xuceNpyYoNY7h+/YsodHqyaplAQ8G3vs=
+	t=1733155738; cv=none; b=jb7QhfAmutIs3zic3uhmayDJvbxo6Hh4s3nVDZFByGvpMVQEiotejoek4Ev7Ap/0bbxZrTi3VHb8/a49qIVAK2KQzQue3Z96qj+hg1w8R9d/ICMdR0raken3pU4/nksPa43OTwb6kLm1EE5eyNVLe0zsGdnD5STS3Qa4yx0oU14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733153672; c=relaxed/simple;
-	bh=SCy2pkEu/+ybYbDeTUI8ZHS5hfEUNXxihnZ7bvoAtSc=;
+	s=arc-20240116; t=1733155738; c=relaxed/simple;
+	bh=MwB1ACqjAl/x3LNO27/3tM8Pks1XLvEtvtCteP6ruUM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qtx+SbpwkMd9z9kr24uH0Yxxne4ygOy4JybvPU4iA/vHEVe0qCVL+UQdWc4xgVdJw2FDjvGh1/nH9U/3fuL2NmfKQpxPzppuJtGwgpSpbIqgco/67U1zVJnhnanivZWgaRjzLUwx9pjwCH7ir0ELzUxsTaObz13NuMnw4BD+0hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=I2m1BK44; arc=none smtp.client-ip=213.133.104.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=dYOFzkdiXB0Hna3UWi1Qmgm4kVdDKfwii/vdkDQ0dd0=; b=I2m1BK44JwW3LJC2J29y+/Gxit
-	UODyTJGN0VILidfSCPwE8sbtDUGuruJLaZr6jFRjPRXncAEzR5lANGjCBUsOA0DgtFa0F7yxVkZmx
-	gi85k0HSaWXLio3RHUFnmXIiUSqudsjlRwpbR73s5L3AP/WSkwVRsOMeMBxDYeec/0OGTSXNF+Gp8
-	5qybofVPB0G4rnVcWPjaYCBT5mkS4MLHoItsYIIhsd9E9OijSb7aKV2hT1Icf+QzaCjTI6swsNHKs
-	Gsr4XVGRpRQ8PdR7qg+yntMkWJCXo9a9cUvF6q48s/wReYHCg+PbQ3dvXluNOfb+M8aWbRPMarkHc
-	8ye/np9g==;
-Received: from sslproxy05.your-server.de ([78.46.172.2])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1tI8RQ-000FFI-3t; Mon, 02 Dec 2024 16:34:28 +0100
-Received: from [178.197.248.17] (helo=[192.168.1.114])
-	by sslproxy05.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1tI8RO-000OtF-1W;
-	Mon, 02 Dec 2024 16:34:27 +0100
-Message-ID: <e0a51f8c-9d09-4e99-b6f6-6a3b0a3363eb@iogearbox.net>
-Date: Mon, 2 Dec 2024 16:34:26 +0100
+	 In-Reply-To:Content-Type; b=dCFinlYvya1X1Bjf2N1wH6PQCqtWySSBE8MsVblHY/WCKnk8p3YtigLYBQclbDacXTbMdQThAP8C9Jv6l/9qvto4nNiC77DRwRcQICEt2ca4ofv1KI7i5Hyghi63H1SEfhKN+pDkpN3jnmtM3luS11DmaArHw2HZtbaJ5IyxHfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IPd7OWB2; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385e3621518so1760832f8f.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Dec 2024 08:08:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1733155734; x=1733760534; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wk9t4gJyThohCN5wH/UWKd/DL3WW9bY6aJcRvcTwW+M=;
+        b=IPd7OWB29gqHQCgvYZIT/dkWVaopbBnsYwjBoQXEiEU3lcqlcS0Skvy4p+n7of2xIU
+         QO2bq484PA4IkL9WnrhnRQv42L2vBYbLV0cabcHqFBC/JiAcT1MXM0rD9KlfGSxZbF+S
+         NruSM1vAoFDAarT662Scyd1/3U1pkULdYQy+4JHkst7vXI/Akde+QVqd1V8P1T7kMRjq
+         y6VlTYTsJUW5IlRCMrwKrBRddxaZhM0EYZQyEGypCC422wHZ1/gZFHTDq+wvJOgLJTaD
+         ozstk65PY+jd1/QKcwhTU4eBoyBjufKSUhuDe8HB28rjNxLecT/WfL3iePyampzVtjeE
+         Ga1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733155734; x=1733760534;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wk9t4gJyThohCN5wH/UWKd/DL3WW9bY6aJcRvcTwW+M=;
+        b=UR7qYhzUWBhx/I5QyBXihqI+av5Z8BwvC8nP5knv8k14CFxhT/K+ucOhwwAuTWBma6
+         ii/ykaGH+plRIalTkSPvn86suWxztxi36ibz7UiPwMzvRJKLNqwkGQYU3OLmujDi9/42
+         Mq5JiGIOVtPlNu8+qM/SLS/uCsI9uLTJ1oY4h/Y5ABL8O01erYwT4+amvVjwvrdmE4/B
+         RTH2gFchDY5pwl5zt6jBgqaADSQbLbgj5akesJ1NpoFf1fGq+ig8B01FEAGl/bmBLUpR
+         ZX+LBtLt1Xmygv4YkKM29G/gG8M6blu1LeLWsbAAMx60W4MBNsXFC0hIMRTpv5gBMrVg
+         Ey3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUAYvyWP5SQ1uU/Wwb17D/DFxO4jLdMGWJCts85p5AXNHGMzeirakMsPvhMyby7SrRyEJLTsw4LFFQnJeI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJpDUCS7d3kQk48P9l+UJGf29k/ve01CUdsgTjm6fd76ZJQqrM
+	4Txe3V9/L88j3sqw0ZMB2OCJ15TXEW5WudmF7w/KnN7YfErecE5kfBoBo9Nn+dI=
+X-Gm-Gg: ASbGncsOViQ7wxHfQJeCVBC3I8LAIYutCYiC4DwyFvdd98UwlrLrx/5MG+IusoGYfnP
+	kNdsstiAImVi1IK82pg8j5DntYjn0Aq09Vf6+bQw6Nr5Tgizh/0HshS6SClSrO4epY/SiIfx+Ki
+	o6rcGA4S9XY+fPbKTwEHcowmBnPEV03zxWdz5Z6MdU7OV7SYQ/wm+0AVG3Me/eWc/ug4kUdSgxv
+	GW5deOI+2jLMKHjpj2e++XFxTmCzHKEMlBwEpjbARB4sXEoGfUDTw==
+X-Google-Smtp-Source: AGHT+IHdMxsweQVSvkIE89/cartjnOdmknoW4rycIDu/WM156Nv5fZKnY0Cvww8TcwuaRagOlY68cw==
+X-Received: by 2002:a5d:5f46:0:b0:385:fb59:8358 with SMTP id ffacd0b85a97d-385fb598458mr236029f8f.53.1733155732003;
+        Mon, 02 Dec 2024 08:08:52 -0800 (PST)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385ccd68c1bsm13165465f8f.84.2024.12.02.08.08.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Dec 2024 08:08:51 -0800 (PST)
+Message-ID: <de6b416c-b96a-43aa-ad72-ea365ffbe785@suse.com>
+Date: Mon, 2 Dec 2024 17:08:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -62,90 +80,120 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] kbuild: propagate CONFIG_WERROR to resolve_btfids
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH v6 02/18] gendwarfksyms: Add address matching
+To: Sami Tolvanen <samitolvanen@google.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-References: <20241126-resolve_btfids-v2-0-288c37cb89ee@weissschuh.net>
- <7dfd3085-f433-41d9-a697-6b2433e27e3b@iogearbox.net>
- <0a5cd9a8-46c6-44d3-9d76-a0191613f694@t-8ch.de>
+ Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
+ Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+ Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
+ Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <20241121204220.2378181-20-samitolvanen@google.com>
+ <20241121204220.2378181-22-samitolvanen@google.com>
 Content-Language: en-US
-From: Daniel Borkmann <daniel@iogearbox.net>
-Autocrypt: addr=daniel@iogearbox.net; keydata=
- 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
-In-Reply-To: <0a5cd9a8-46c6-44d3-9d76-a0191613f694@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27475/Mon Dec  2 10:41:11 2024)
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20241121204220.2378181-22-samitolvanen@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 12/2/24 4:32 PM, Thomas Weißschuh wrote:
-> On 2024-12-02 16:28:07+0100, Daniel Borkmann wrote:
->> On 11/26/24 10:17 PM, Thomas Weißschuh wrote:
->>> Use CONFIG_WERROR to also fail on warnings emitted by resolve_btfids.
->>> Allow the CI bots to prevent the introduction of new warnings.
->>>
->>> This series currently depends on
->>> "[PATCH] bpf, lsm: Fix getlsmprop hooks BTF IDs" [0]
->>>
->>> [0] https://lore.kernel.org/lkml/20241123-bpf_lsm_task_getsecid_obj-v1-1-0d0f94649e05@weissschuh.net/
->>
->> Given this is a dependency, do you plan to follow up on [1]?
+On 11/21/24 21:42, Sami Tolvanen wrote:
+> The compiler may choose not to emit type information in DWARF for all
+> aliases, but it's possible for each alias to be exported separately.
+> To ensure we find type information for the aliases as well, read
+> {section, address} tuples from the symbol table and match symbols also
+> by address.
 > 
->>    [1] https://lore.kernel.org/lkml/Z0TRc0A6Q8QUxNAe@google.com/
-> 
-> I did so in [2], which is already part of the BPF tree.
-> 
-> [2] https://lore.kernel.org/lkml/20241125-bpf_lsm_task_getsecid_obj-v2-1-c8395bde84e0@weissschuh.net/
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> ---
+[...]
+> @@ -82,6 +118,130 @@ struct symbol *symbol_get(const char *name)
+>  	return sym;
+>  }
+>  
+> +typedef void (*elf_symbol_callback_t)(const char *name, GElf_Sym *sym,
+> +				      Elf32_Word xndx, void *arg);
+> +
+> +static void elf_for_each_global(int fd, elf_symbol_callback_t func, void *arg)
+> +{
+> +	size_t sym_size;
+> +	GElf_Shdr shdr_mem;
+> +	GElf_Shdr *shdr;
+> +	Elf_Data *xndx_data = NULL;
+> +	Elf_Scn *scn;
+> +	Elf *elf;
+> +
+> +	if (elf_version(EV_CURRENT) != EV_CURRENT)
+> +		error("elf_version failed: %s", elf_errmsg(-1));
+> +
+> +	elf = elf_begin(fd, ELF_C_READ_MMAP, NULL);
+> +	if (!elf)
+> +		error("elf_begin failed: %s", elf_errmsg(-1));
+> +
+> +	scn = elf_nextscn(elf, NULL);
+> +
+> +	while (scn) {
+> +		shdr = gelf_getshdr(scn, &shdr_mem);
+> +		if (!shdr)
+> +			error("gelf_getshdr failed: %s", elf_errmsg(-1));
+> +
+> +		if (shdr->sh_type == SHT_SYMTAB_SHNDX) {
+> +			xndx_data = elf_getdata(scn, NULL);
+> +			if (!xndx_data)
+> +				error("elf_getdata failed: %s", elf_errmsg(-1));
+> +			break;
+> +		}
+> +
+> +		scn = elf_nextscn(elf, scn);
+> +	}
+> +
+> +	sym_size = gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT);
+> +	scn = elf_nextscn(elf, NULL);
+> +
+> +	while (scn) {
+> +		shdr = gelf_getshdr(scn, &shdr_mem);
+> +		if (!shdr)
+> +			error("gelf_getshdr failed: %s", elf_errmsg(-1));
+> +
+> +		if (shdr->sh_type == SHT_SYMTAB) {
+> +			unsigned int nsyms;
+> +			unsigned int n;
+> +			Elf_Data *data = elf_getdata(scn, NULL);
+> +
+> +			if (!data)
+> +				error("elf_getdata failed: %s", elf_errmsg(-1));
+> +
+> +			if (shdr->sh_entsize != sym_size)
+> +				error("expected sh_entsize (%lu) to be %zu",
+> +				      shdr->sh_entsize, sym_size);
+> +
+> +			nsyms = shdr->sh_size / shdr->sh_entsize;
+> +
+> +			for (n = 1; n < nsyms; ++n) {
+> +				const char *name = NULL;
+> +				Elf32_Word xndx = 0;
+> +				GElf_Sym sym_mem;
+> +				GElf_Sym *sym;
+> +
+> +				sym = gelf_getsymshndx(data, xndx_data, n,
+> +						       &sym_mem, &xndx);
+> +
+> +				if (!sym ||
+> +				    GELF_ST_BIND(sym->st_info) == STB_LOCAL)
+> +					continue;
 
-Perfect, nevermind then!
+Doesn't NULL returned by gelf_getsymshndx() indicate an error? If yes
+then I think it should be reported instead of silently skipping the
+symbol.
+
+With this addressed, feel free to add:
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+
+-- 
+Thanks,
+Petr
 
