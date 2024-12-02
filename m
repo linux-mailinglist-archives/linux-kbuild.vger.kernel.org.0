@@ -1,190 +1,141 @@
-Return-Path: <linux-kbuild+bounces-4939-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4940-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D8C9E0B53
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 19:51:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4899E0A5D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 18:47:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7160BB2606F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 16:14:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C3F1B2CDDA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 16:16:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80EE6176ADB;
-	Mon,  2 Dec 2024 16:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9606017A5A4;
+	Mon,  2 Dec 2024 16:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="foiYXTCb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AM3jWJZp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F2516EBE9
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Dec 2024 16:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F75AD51;
+	Mon,  2 Dec 2024 16:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733156069; cv=none; b=DPp+2dl7AT8SYcISMwb6CNp10HYzqKcCX6Ke2hEjb6ysXBn8E3+5q0s8qC+SGQX8FThMhgU7eSV3ak8C2nsTY78oyc0/I5TiSIVeq9583qjQPBYB8HYdPmQrwT88682rcPSJPeSQkzycqSBTSOD52eBIvCB66NDMc86gZTXxOM4=
+	t=1733156173; cv=none; b=NDfjiCF4ZU8yKKzFqGVDr17zKpR/85FWTRhh6nZVvAiTBa0BMqCJCc6bbXVbyv5Sy+bkb891qxpOB9+zxi8zVejiHguNFVG0wUD/aRtoUzjbL6fIPnr/+FtCtlCa7tiuCDpmqzGGmh+v/CK2+M8f7/BZqYioBFhcaaTDCdzpc9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733156069; c=relaxed/simple;
-	bh=OwIXuOkl98ecBMfXkAdimvKCgH93U2DB6vsnaTQrIw4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SFv8UsgSSS7JImtaxAN86ukzXzLSx1Di3P6Y/LX4J9MxYPHich76fsdnU/5JAwSJBdd0HIn/c13cecqT1TTXIfN1Y47v3BWDkdpRmhVoFu0ijoTqDwGfL2WfoJN54aj5zpV6Omj8wyDbIglBk9PDmXkrGp9z8bzxdPqXqUpc35w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=foiYXTCb; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-434aa472617so37806845e9.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Dec 2024 08:14:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733156066; x=1733760866; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JkqtF7gf3rzskqYkgv0SBovnNKd2qwXos1/as7nPpuk=;
-        b=foiYXTCb5ubz5C1P3skEksMF9LdXPe0Kee+UfgBu7IEZBRzEiI53KnK1sXdqfSewho
-         E3PYpFf3M8sM0Mgjr5v3wSkDmb/n/qjqHmkb3WRNN0G2O8JZsNq//1xxu0xbXwvHYuaN
-         m3qQx7scKoI+DRZ5xcuxLTDfdLANkIgEfAloJE6WPnV30UAK0PA+aIYBtRd4kQZuKzIq
-         fe41ql8JZgefHy4jGp03muOGGtlMjRAqmKu5IxSE+XpW9Pw5VIs2UfNiAJCd5xXnTrl4
-         eJjUgH0Fclbx6zUUaXUvuAQ41g0hAxD9UomxC4vN3D5Ky6AIoExAm4tXFzI14vTqE54/
-         0yQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733156066; x=1733760866;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JkqtF7gf3rzskqYkgv0SBovnNKd2qwXos1/as7nPpuk=;
-        b=ZCXum0X06naN4sHPbVLmxwrIZrHQaA5OLCTY/GZWiWTQUSceo1zDMy5x6S3JFxxVH2
-         M8waJjIHF6SD3tH/IM8fGDLG6cVld+fUYkeca4W0K/Pd6CaXnS5OBpF1pz4A7jQINioh
-         q3Nx1VMgFH3iuZRDF90/6dDRAQM0ltFuijdeZ9ZCNwPsTgOGF0NLBLVXMc4kEVPYrFQ3
-         G0EnIrqaDbL5fBL1AaQzpj/uHehBrfZedU50prxzX2YIwU+znXy3qeyIkON+WuF6XWJA
-         Ivl66I0VpwSU3cKeofQNmmZ7fUUMfXAryR40gQUdwBOBk+KX7AtYSHBZK0Hu9xm9DI8d
-         exbg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGaw2w3begT0tv8Mb8P70GYZd5CID8ZJV5Ig/O4P13PsNPP9N4B8Oibw4X4RW5vRmv9NQuFUrZm6vvwgI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1/LnDpwXSzSuGB3ebuxY8aDApxKGDlDnyUAH4AmiMbqXbAuoJ
-	Homf3zgLvSSK16+RbH/jSRLiL26xadDdyyhS+/s6evhN7qVOlvulB+A+2C7zOxI=
-X-Gm-Gg: ASbGncuBu78UQ3XMWwwltYiRljeHXRCfEqg31sjI7kwhiC4Zzmrn3fGV+AwfF5sRKe1
-	ZeDwv9KUQfAAIEnesv8YYJtJgNmefMYMvOJTkFTSf35d+M6hrxVcCZMZEGUf775Ndz2ETsaypnX
-	NYkSGX1k2fUDyWsbDxEnaX0OkexqDOg1cYMZzNpV1apAPLNipRXqrmIlsjizNyv9lIzmLnXrOxr
-	Ysuo75f1MyxJt+xzn0vc05S/IVzDqCFnDxqB/xMUFTMXJUqT+YdUw==
-X-Google-Smtp-Source: AGHT+IFYutETRRcXML+QIddm9XhVvanLL6JGdMr2H3NcnNfxeBujp0ZUmjFwG3N6uzej8qITOTWbNA==
-X-Received: by 2002:a05:600c:5253:b0:434:9e1d:7629 with SMTP id 5b1f17b1804b1-434a9e07911mr188863885e9.33.1733156065599;
-        Mon, 02 Dec 2024 08:14:25 -0800 (PST)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434aa781200sm187506945e9.25.2024.12.02.08.14.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2024 08:14:25 -0800 (PST)
-Message-ID: <409987f4-d124-48f7-b49c-dd61a4798bef@suse.com>
-Date: Mon, 2 Dec 2024 17:14:24 +0100
+	s=arc-20240116; t=1733156173; c=relaxed/simple;
+	bh=xlQywIlZNQT5qCo7G3nLeY962rjjbO5Mq7s9hOqzSTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ot4eBzmD8mZ+3Q8KbdXoVR0Cifc3qHC4N6G4FBjzE7GGelK1JMlwCLrZrlN1VuNUpGGMC+a7y7S/DQbu8eyOoCbHkahMfHIb/0ewlDQO8ksg/oA1FLOxAv8zcCj5hldnrjeItdxgAWEvf4Cr90ZVjTnptN/OXhwjWe9pTAnTjuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AM3jWJZp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41270C4CED1;
+	Mon,  2 Dec 2024 16:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733156172;
+	bh=xlQywIlZNQT5qCo7G3nLeY962rjjbO5Mq7s9hOqzSTg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AM3jWJZp/CgkhVFK3t4ZwOl6h+mOxDJCQGTmx11N/Hf/ImgkXc1kb1eUP5yFTTFkj
+	 C542BBLgdoRljc3cFThdDsZ72G6r/Wt+ZH1IQ0idZd/D9REB3bX7SWEpc9Sd/kIzHD
+	 9LAH3oMX8fddnzb7a9+AAFjcVrMUX2A3zUUUo4ec8CCiOjAH/qlsIEPn+5yPXSFXDH
+	 ub4vRhdTZyhfDZGdmUIwXyWBgmFF1qIMNm2zk0nzZkXpRvLQyz13Re+7H5HqORoTMg
+	 wTfKHqx+3iafT5IrwnauhRgnYebgSmavAeFUPCkVaOr1VCOuP/iXxvcwW4NGGRMm6H
+	 inpEPVj9t2ItQ==
+Date: Mon, 2 Dec 2024 09:16:10 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Aleksei Vetrov <vvvvvv@google.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, patches@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: Move -Wenum-enum-conversion to W=2
+Message-ID: <20241202161610.GA2845796@thelio-3990X>
+References: <20241017-disable-two-clang-enum-warnings-v2-1-163ac04346ae@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 09/18] gendwarfksyms: Limit structure expansion
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
- Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <20241121204220.2378181-29-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20241121204220.2378181-29-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241017-disable-two-clang-enum-warnings-v2-1-163ac04346ae@kernel.org>
 
-On 11/21/24 21:42, Sami Tolvanen wrote:
-> Expand each structure type only once per exported symbol. This
-> is necessary to support self-referential structures, which would
-> otherwise result in infinite recursion, and it's sufficient for
-> catching ABI changes.
+Masahiro, could you please pick this up? The lore link is below in case
+it is no longer in your inbox (or I can resend).
+
+https://lore.kernel.org/20241017-disable-two-clang-enum-warnings-v2-1-163ac04346ae@kernel.org/
+
+On Thu, Oct 17, 2024 at 10:09:22AM -0700, Nathan Chancellor wrote:
+> -Wenum-enum-conversion was strengthened in clang-19 to warn for C, which
+> caused the kernel to move it to W=1 in commit 75b5ab134bb5 ("kbuild:
+> Move -Wenum-{compare-conditional,enum-conversion} into W=1") because
+> there were numerous instances that would break builds with -Werror.
+> Unfortunately, this is not a full solution, as more and more developers,
+> subsystems, and distributors are building with W=1 as well, so they
+> continue to see the numerous instances of this warning.
 > 
-> Types defined in .c files are opaque to external users and thus
-> cannot affect the ABI. Consider type definitions in .c files to
-> be declarations to prevent opaque types from changing symbol
-> versions.
-
-Thanks for adding support for skipping types defined in .c files. That
-is a useful feature that genksyms has.
-
-I was also recently thinking that it would be great if genksyms could
-skip definitions that are in internal header files, for example,
-kernel/events/internal.h. Perhaps something that could be added in the
-future..
-
-I've noted one nit below, but the patch looks sensible to me, feel free
-to use:
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-
-> @@ -79,6 +80,55 @@ static bool match_export_symbol(struct state *state, Dwarf_Die *die)
->  	return !!state->sym;
->  }
+> Since the move to W=1, there have not been many new instances that have
+> appeared through various build reports and the ones that have appeared
+> seem to be following similar existing patterns, suggesting that most
+> instances of this warning will not be real issues. The only alternatives
+> for silencing this warning are adding casts (which is generally seen as
+> an ugly practice) or refactoring the enums to macro defines or a unified
+> enum (which may be undesirable because of type safety in other parts of
+> the code).
+> 
+> Move the warning to W=2, where warnings that occur frequently but may be
+> relevant should reside.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 75b5ab134bb5 ("kbuild: Move -Wenum-{compare-conditional,enum-conversion} into W=1")
+> Link: https://lore.kernel.org/ZwRA9SOcOjjLJcpi@google.com/
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> Changes in v2:
+> - Move -Wenum-enum-conversion to W=2, instead of disabling it
+>   outright (Arnd)
+> - Leave -Wenum-compare-conditional in W=1, as there are not that
+>   many instances, so it can be turned on fully at some point (Arnd)
+> - Link to v1: https://lore.kernel.org/r/20241016-disable-two-clang-enum-warnings-v1-1-ae886d7a0269@kernel.org
+> ---
+>  scripts/Makefile.extrawarn | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 1d13cecc7cc7808610e635ddc03476cf92b3a8c1..04faf15ed316a9c291dc952b6cc40fb6c8c330cf 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -130,7 +130,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+>  KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
+>  KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
+>  KBUILD_CFLAGS += -Wno-enum-compare-conditional
+> -KBUILD_CFLAGS += -Wno-enum-enum-conversion
+>  endif
 >  
-> +/* DW_AT_decl_file -> struct srcfile */
-> +static struct cache srcfile_cache;
+>  endif
+> @@ -154,6 +153,10 @@ KBUILD_CFLAGS += -Wno-missing-field-initializers
+>  KBUILD_CFLAGS += -Wno-type-limits
+>  KBUILD_CFLAGS += -Wno-shift-negative-value
+>  
+> +ifdef CONFIG_CC_IS_CLANG
+> +KBUILD_CFLAGS += -Wno-enum-enum-conversion
+> +endif
 > +
-> +static bool is_definition_private(Dwarf_Die *die)
-> +{
-> +	Dwarf_Word filenum;
-> +	Dwarf_Files *files;
-> +	Dwarf_Die cudie;
-> +	const char *s;
-> +	int res;
-> +
-> +	/*
-> +	 * Definitions in .c files cannot change the public ABI,
-> +	 * so consider them private.
-> +	 */
-> +	if (!get_udata_attr(die, DW_AT_decl_file, &filenum))
-> +		return false;
-> +
-> +	res = cache_get(&srcfile_cache, filenum);
-> +	if (res >= 0)
-> +		return !!res;
-> +
-> +	if (!dwarf_cu_die(die->cu, &cudie, NULL, NULL, NULL, NULL, NULL, NULL))
-> +		error("dwarf_cu_die failed: '%s'", dwarf_errmsg(-1));
-> +
-> +	if (dwarf_getsrcfiles(&cudie, &files, NULL))
-> +		error("dwarf_getsrcfiles failed: '%s'", dwarf_errmsg(-1));
-> +
-> +	s = dwarf_filesrc(files, filenum, NULL, NULL);
-> +	if (!s)
-> +		error("dwarf_filesrc failed: '%s'", dwarf_errmsg(-1));
-> +
-> +	s = strrchr(s, '.');
-> +	res = s && !strcmp(s, ".c");
-> +	cache_set(&srcfile_cache, filenum, res);
-> +
-> +	return !!res;
-> +}
-> +
-> +static bool is_declaration(Dwarf_Die *die)
-> +{
-> +	bool value;
-> +
-> +	if (get_flag_attr(die, DW_AT_declaration, &value) && value)
-> +		return true;
-> +
-> +	return is_definition_private(die);
-> +}
-
-Nit: When I read the is_declaration() function in isolation, it is not
-clear to me what determining if a definition is private has to do with
-the type being a declaration. I think this and related logic in
-__process_structure_type() would be easier to follow if the return value
-of is_declaration() was negated and the function renamed, for example,
-to is_kabi_definition().
-
--- 
-Thanks,
-Petr
+>  ifdef CONFIG_CC_IS_GCC
+>  KBUILD_CFLAGS += -Wno-maybe-uninitialized
+>  endif
+> 
+> ---
+> base-commit: 8e929cb546ee42c9a61d24fae60605e9e3192354
+> change-id: 20241016-disable-two-clang-enum-warnings-e7994d44f948
+> 
+> Best regards,
+> -- 
+> Nathan Chancellor <nathan@kernel.org>
+> 
 
