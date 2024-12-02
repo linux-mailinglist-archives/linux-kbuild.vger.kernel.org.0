@@ -1,111 +1,128 @@
-Return-Path: <linux-kbuild+bounces-4944-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4945-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5EB9E0CFC
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 21:27:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F1F9E0D05
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 21:33:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 622BC165007
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 20:27:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 811BA1628AE
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 20:33:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D621DE3BE;
-	Mon,  2 Dec 2024 20:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A791DE8A7;
+	Mon,  2 Dec 2024 20:33:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="dqAPfq5D";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="dqAPfq5D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WcCNsyYD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83436AAD;
-	Mon,  2 Dec 2024 20:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798E21DED67;
+	Mon,  2 Dec 2024 20:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733171261; cv=none; b=RfkFUrdeSBqIqa8viD9nUzfDHiFUg3ZRFUwx92xU2+nobzKre8QdXY5H+OsRTd7L0jzo3AHsS2RzrIO4ylmouXuQtEGAIliOPkCaxukpxs1AN8nCFqjodiCOVI27f/177XH6DmrAfGWzw6bRAtLCQxA92muIkkEy2LlaTNOFsok=
+	t=1733171595; cv=none; b=SQ0KEf08stuTHb+EU4jDjLhzIpL6vMOY7HQ2mCUvA6ZUdR234Nn7aE9lKhpOmLngma8rvWHS2Nt69i41uxXXPh/NzQb7lakH5xi/eKTVx49MPcP27vrYd3e9E8pf3V+vy6aeMS+FfACP1t7NeftfrTNtGQqy3eMk3/1yyn/NYrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733171261; c=relaxed/simple;
-	bh=LAsH30HjyJQrUzkQ1khwv/whmLNUuQEjnxMaRCEjDII=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=Fw8/eSuEmGZNmNgcqpDrKmcNEBTHvRQCUpqON5rTJ2UU65lbWdLRpD/Y0ALrAqWjHnZ76hby0sjsb1XRTZU3aMXw03TdH/vtbjtbMUFTF/gae6FTomHaJq3pd2rcEltCfL/bKp3wSOMR31WUyLS4ARFjz/D4r/x/G3a+trEhBrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=dqAPfq5D; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=dqAPfq5D; arc=none smtp.client-ip=96.44.175.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733171258;
-	bh=LAsH30HjyJQrUzkQ1khwv/whmLNUuQEjnxMaRCEjDII=;
-	h=Message-ID:Subject:From:To:Date:From;
-	b=dqAPfq5DMDW7PHVkwu9KK/EOOQOKAvSRBvFgC8NlCmYMNVWY/+SKSaW046r87+aIP
-	 A4dEd/0hQski10NKcP2LlcLqJOdf4fanDO2etcukfJZUle2qGtP8k68Y9wFK0zFhaI
-	 edMQenp45qGd81Z2qUsFe/hvV/G0J0B/lWRNJuLk=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id A4CBF1286901;
-	Mon, 02 Dec 2024 15:27:38 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id FcXxQgDL0rRV; Mon,  2 Dec 2024 15:27:38 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733171258;
-	bh=LAsH30HjyJQrUzkQ1khwv/whmLNUuQEjnxMaRCEjDII=;
-	h=Message-ID:Subject:From:To:Date:From;
-	b=dqAPfq5DMDW7PHVkwu9KK/EOOQOKAvSRBvFgC8NlCmYMNVWY/+SKSaW046r87+aIP
-	 A4dEd/0hQski10NKcP2LlcLqJOdf4fanDO2etcukfJZUle2qGtP8k68Y9wFK0zFhaI
-	 edMQenp45qGd81Z2qUsFe/hvV/G0J0B/lWRNJuLk=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 080991286824;
-	Mon, 02 Dec 2024 15:27:37 -0500 (EST)
-Message-ID: <81560af7526138aa5221e5900ee7462f55bb090d.camel@HansenPartnership.com>
-Subject: section mismatch error in aesgcm causing a build failure
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: linux-crypto@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 02 Dec 2024 15:27:36 -0500
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+	s=arc-20240116; t=1733171595; c=relaxed/simple;
+	bh=5hTytA/323orTHPBckXWro3utEuKP7/p06If5sUJ5wY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HqOcjRudLTj0L5oyT7E6JuFZkU+pJ/Y9u1ODdpbiKz0dBNgIrg1iKVzQ7J/kNXObkTnCXWi4b7PcQNFxcqLAmDuzRAxNQN74DCNcUMCk6lKyWvR1h/7hOH3LK1bK6BS8HQF8i/k7J56Zu201i7c7ko9f7Ko8mheNG4uuzsean90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WcCNsyYD; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-215348d1977so37153475ad.3;
+        Mon, 02 Dec 2024 12:33:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733171593; x=1733776393; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JvIrUVZ26c/hkCNcIW5Ac8d45yn03JhhJVVGGlpUW/w=;
+        b=WcCNsyYDj9Vs4sPfGcnsSvgeCjVRvHB488U/yovAzW0TKYsv8kJrZ55MwjteyZ/d+L
+         A5kf1cssMx/Rln/6uHFQoXso4WcR+YwdLK4zM9FcPEPGJXYNo/EWWO4IkN8G/1FsgEqr
+         +DZNFEHdiRomKcfkxSk/Wwkz9PWJBm4CjiVxnx/KCV1DVyty3Dexy6aY1Ngs/ThGVayq
+         ncNh3qlQ6j+b/Aksj+dsQvti72fD+55c1oPrO45MpSABVpPqdDS0CIjOpqwtURuqCXkT
+         f11nPnVpBRBuJ3NkAfYv7MA7CpOdrj74BFWy5nqMfgfcfOhmv9iQBCVHVL9gy5HISOkg
+         TvNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733171593; x=1733776393;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JvIrUVZ26c/hkCNcIW5Ac8d45yn03JhhJVVGGlpUW/w=;
+        b=UEY4VlZHSLpUiKFpyyaMDVb3ABOymU4E7qX8m34B5R7oSx6nJ+ALLjbOdhDEHkcd1f
+         Q182+kDCTfu5Tkd1tW+hwyZXFxdn4pt1dtfLbY1K5ASv/pO7CRBG3cq27YGW/cmnACVV
+         K0/k7L7eNL1QxpBwissBrGGetjVaDa5RRPSNwEWo2w42qzTo512+kvB6E/o2zEVYExpl
+         KYEG69UZ9A7H+6p5Id/8wq11hA8McNirZaC/3VAMKnTlvAWxgGx1eJojMX8Ur4JS49IH
+         RIc96it58Ke2/uQvvCH/4h0FbFoXY5Y1Zsb/x0ZoZF86IDikXIYJZwDuqDuOE4+TYmU+
+         HVAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUqj0txbm1Lq9R/Cbaqs/UiXdmJNWGESt9dQssy7MRlGcLjK/bORJhkSoH4ozxDqZqkxq1Big/YKdQnPpI=@vger.kernel.org, AJvYcCWRJT2/PnfAT6kvq1vNk9BDpj9j2f3ZgnUTgfRU+w+39MTfVjO5Pno10usdCwgv904taaaiiGYXBICIbt/L@vger.kernel.org, AJvYcCXXWQq6MmWbHc+smMYwBubXIMwmRjjBcA9AgacQG/t7inTTQDcv/uYeq6PqrC1ifPZs//9MJg2jUEBFl9znP58=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHwCyRd6QjyqpC5HHD6nTMKd1RTBWtEoxPqRggaDL/pB8ZoCEC
+	bWn6EMrEMw5/6cHog8W1NZr0f62m9eUABQyqx6lyB0Sd7fs90OH4
+X-Gm-Gg: ASbGncty0HIIvw18qv0dJfU2HK7mY2cRQ4/s+v62AFdNsSnIckuVwScy6lgfcr93dJW
+	udEpAgUtdqP6b63K+0PxKyHYv88Fqr6mQcZh63KnG9a+kssPtyjkwupEq4wNAgRc1PRLrtOd3YS
+	zYFAcQtiOEYObrYlvQ0XyPtUS3NVGJvnRrh1861YPmR5/CFwURYM3jAmYMp9Y2Laaz+JoREIS5f
+	5kP0hxTvpo4eKKCAAmUBjvZbGZlrqyGpPCL+F3GtwFB39U7nRQDQLtNFr94OOs=
+X-Google-Smtp-Source: AGHT+IH8dNd1XAqIFQbJi+JtUGTNnehRKYTwkqN0kLONDL4Bl28lQMIPvBJQYHM3PhL4mvPCaRWpgA==
+X-Received: by 2002:a17:902:f549:b0:215:5d4a:fdfe with SMTP id d9443c01a7336-2155d4affefmr147512115ad.20.1733171592583;
+        Mon, 02 Dec 2024 12:33:12 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2152191dcc9sm81565565ad.112.2024.12.02.12.33.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Dec 2024 12:33:11 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 2 Dec 2024 12:33:10 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>, linux-openrisc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, Rong Xu <xur@google.com>,
+	Han Shen <shenhan@google.com>, Kees Cook <kees@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] openrisc: place exception table at the head of vmlinux
+Message-ID: <07dcb646-d806-4767-b29d-77092f6819e4@roeck-us.net>
+References: <20241202062909.2194341-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241202062909.2194341-1-masahiroy@kernel.org>
 
-I'm getting this in 6.13-rc1:
+On Mon, Dec 02, 2024 at 03:28:22PM +0900, Masahiro Yamada wrote:
+> Since commit 0043ecea2399 ("vmlinux.lds.h: Adjust symbol ordering in
+> text output section"), the exception table in arch/openrisc/kernel/head.S
+> is no longer positioned at the very beginning of the kernel image, which
+> causes a boot failure.
+> 
+> Currently, the exception table resides in the regular .text section.
+> Previously, it was placed at the head by relying on the linker receiving
+> arch/openrisc/kernel/head.o as the first object. However, this behavior
+> has changed because sections like .text.{asan,unknown,unlikely,hot} now
+> precede the regular .text section.
+> 
+> The .head.text section is intended for entry points requiring special
+> placement. However, in OpenRISC, this section has been misused: instead
+> of the entry points, it contains boot code meant to be discarded after
+> booting. This feature is typically handled by the .init.text section.
+> 
+> This commit addresses the issue by replacing the current __HEAD marker
+> with __INIT and re-annotating the entry points with __HEAD. Additionally,
+> it adds __REF to entry.S to suppress the following modpost warning:
+> 
+>   WARNING: modpost: vmlinux: section mismatch in reference: _tng_kernel_start+0x70 (section: .text) -> _start (section: .init.text)
+> 
+> Fixes: 0043ecea2399 ("vmlinux.lds.h: Adjust symbol ordering in text output section")
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Closes: https://lore.kernel.org/all/5e032233-5b65-4ad5-ac50-d2eb6c00171c@roeck-us.net/#t
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-/home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:212:29: error: ptext1
-causes a section type conflict with aesgcm_tv
- static const u8 __initconst ptext1[16];
-                             ^~~~~~
-/home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:570:9: note: ‘aesgcm_tv’ was declared here
- } const aesgcm_tv[] __initconst = {
-         ^~~~~~~~~
-make[5]: *** [/home/jejb/git/linux-tpm/scripts/Makefile.build:194: lib/crypto/aesgcm.o] Error 1
-/home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:212:29: error: ptext1 causes a section type conflict with aesgcm_tv
- static const u8 __initconst ptext1[16];
-                             ^~~~~~
-/home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:570:9: note: ‘aesgcm_tv’ was declared here
- } const aesgcm_tv[] __initconst = {
-         ^~~~~~~~~
-make[5]: *** [/home/jejb/git/linux-tpm/scripts/Makefile.build:194: lib/crypto/aesgcm.o] Error 1
+Tested-by: Guenter Roeck <linux@roeck-us.net>
 
-I think it's way older than 6.13-rc1, but the inclusion of the sevguest
-driver in the merge window now means that something actually selects
-it.  I can fix it simply by adding a zero initialization to the file:
-
--static const u8 __initconst ptext1[16];
-+static const u8 __initconst ptext1[16] = { 0 };
-
-Which I think means that by default the traditional zero initialization
-of a static variable is in the wrong section (and actually likely is
-wrong for all our __initX variables as well).
-
-In case it matters, this is with gcc-7
-
-Regards,
-
-James
-
+Guenter
 
