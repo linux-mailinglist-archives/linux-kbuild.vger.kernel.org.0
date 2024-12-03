@@ -1,183 +1,162 @@
-Return-Path: <linux-kbuild+bounces-4970-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4972-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9A19E2600
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:07:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F91E9E2860
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:58:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B482B26C99
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 14:24:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF42BBA0E6B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 15:28:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5C9F17BB16;
-	Tue,  3 Dec 2024 14:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4475B1F756A;
+	Tue,  3 Dec 2024 15:28:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wc6jpX6g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWl6IF+P"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D561DE2DE
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 14:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143071F7557;
+	Tue,  3 Dec 2024 15:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733235888; cv=none; b=e5uT6RrML7LMBEOO7JJEtJwsWYQ8Fn9Spi2m+uXBd4QCbfx1RfXmz5kgP4f3iqz6XbsTdturJfXmJ89A7iiQIgw9VMLKcPepMRHTkGVfCVE60FnLp4i5bLqaQUdxbk1pKTggYllR7RSrNcvkj/aPVmuWuP7POTR6F47eacZszrk=
+	t=1733239695; cv=none; b=lbvj0p3GwI3J0fdl9Vv5QvVdTsBX0kI20RwkgvBF1kzPqfrPNhm1z43LVxsqPYxw2upmoR1kY6STJNuM+cMZa73XNC6h63AmDTWG+dZuxmg+iOwB828p7I5OoC0UuSPnmq/XpXClhU+/1+q4W5Uk4dE4sX4ZSTVKq3TVSp6/99g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733235888; c=relaxed/simple;
-	bh=TBuSmQ0+MMVxzfLDAleArYWYmzm4Z/MB9tK6Th440+k=;
+	s=arc-20240116; t=1733239695; c=relaxed/simple;
+	bh=N0BkY/ggH+tuVrewwwmwKP9Nf+Iv3TX+3MCwcoLII/4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E/rD0ztvoZ4Ry3snCRERQWNMZTbeKbWsqN2Ic8VjIF8ykUKAU/xihTBUeh5LnvtQqpfnF4Amw1iJBfKHpsI3GRMStbCsr5krqMZ80bpO3ao4+NRnzxVl9Gus+qCc8ETpkkSX2GfnGOoF8H3DmqUYqTPv144tSVymm6wbofbDp88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wc6jpX6g; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D2E1C4CECF
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 14:24:48 +0000 (UTC)
+	 To:Cc:Content-Type; b=gPPFvi5GdKIHomyy2kE0qlid+LhydfD6PmLezrXycZ/mjCa039heGOQoFC/mQOVP1QKd8ypoMTQOeWHRittlpfjumc4NQLGmfQKINdmODLRzd60jvL23SW0MmXOSyGrVBZPKSnB1p60tLJF3GGzXv9Mj87uPlLK0XBGudwOKYik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWl6IF+P; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C65CFC4CED8;
+	Tue,  3 Dec 2024 15:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733235888;
-	bh=TBuSmQ0+MMVxzfLDAleArYWYmzm4Z/MB9tK6Th440+k=;
+	s=k20201202; t=1733239694;
+	bh=N0BkY/ggH+tuVrewwwmwKP9Nf+Iv3TX+3MCwcoLII/4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Wc6jpX6gVMA+Rfy/31Qe+xOTMY5RJLectibudgChEXSX/QJCI79n8F5opzQVX/Jyg
-	 h9FXWysp0ZXR7rawaC+SSkeMCSBC+AhS6NRJ6cSq2+ePhtHWn+laDQK4SZVFEXMGwG
-	 +DXxcc5GR6+UepSt55lZ80wp1Dj4hAVTMgNGZSsCEycrAsEbJvAZKClovfmaZgI9X0
-	 f0vi1ykHaGJz+rXecGgDQmbDH+9OEM+wq93/y9HkkEZRTF6sZNF7idIiuHnJsUHH0w
-	 23EqgEgjfh+XvA+l7EwHO/PSz15sgqGGJFH4QtJQfVgpgaYVCwsodBh7aNcIk45fVo
-	 dzocjcPQWC3PQ==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53dd0cb9ce3so4950498e87.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 Dec 2024 06:24:48 -0800 (PST)
-X-Gm-Message-State: AOJu0Yyw5TMAizzjPG6HLaJI5sstF6M+GQEZkI1ebUV9vTL55chG5LnV
-	2w8sgfZa/Yr1TldyziYINuyd0ttyeL3gSqPOUcfv2UzBmSec9BNVfZJkJtvBC8QNUdY3ERK6l+j
-	JytedMBCVY+cqrGphCggSeQwlCjw=
-X-Google-Smtp-Source: AGHT+IHEpGZYUQWq3vcfzfMm1i/SPUvJOmbzQTCmIXUrZPUgLMOzACpgzGxB0cynwq3brVMGgd+1RvzC4gChOpolZno=
-X-Received: by 2002:a05:6512:2313:b0:53d:de48:7409 with SMTP id
- 2adb3069b0e04-53e1b81e7a4mr222544e87.0.1733235886779; Tue, 03 Dec 2024
- 06:24:46 -0800 (PST)
+	b=kWl6IF+PL/jW5gtC87aDjIqfmBIOq8mAVxVdB75oYAgao14c3KJmVPuAQsFCY7nCF
+	 Sj82YOBr1WLj9MoH0kwg8uMS4SggJAH74i4LLk8R8qA1aQwLgjduXPNdFbp1ZYGlEe
+	 692Tb1GdDXLLvXoowEQmJxhjjz0HSf0aLXHey4v6N2k5tXzSCZ4HUgb8mml2ZeNnvF
+	 pTjM/UjBeyuc162YLyE1Eet69iTtumlyCtzWHkv0fdH2XB96sHqFRynQMXRwhoY8Jb
+	 r7Er3eSyU3O992lF0Kup6xaEcnRq1zwgKmWADWLlQu8HJBNhoKPWn9fMqKmswInZ0i
+	 hDnDXxWNmiRzw==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53df19bf6a9so6525641e87.1;
+        Tue, 03 Dec 2024 07:28:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW1pKz22fCcHWkH64z9gc/LXUl73TwN7Yv/7dmBF8l2j353Y5LZV+Oi5X5kMYNztUg2/48875r8@vger.kernel.org, AJvYcCWoQ2TY7rhJuL7kFWTqPp/WnGl90XoMY7yMTR0KOPTCONdCS1NCyU4LWUauQmLQLqgBa6C7VlxZHlw=@vger.kernel.org, AJvYcCX3P/n50Uc68le8rjdLMT4Aazct0IFvFpsmKJ1OT7y3E9RrwVjEwd8lNpM3YCNVdLozIH3tEfS6rZtoqtNd@vger.kernel.org, AJvYcCX3Vu+1xewLIBhoLoHN6tpcMpncmR0Ox5U+rRJxsb16mRx1DeJBsWOqLOq2Ft8YGXmjXZlGRdmXrn4Pr34=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGwTK01D/9VWKaQcshE3kiM09M2tfMVHqb99CQi4eu+IU8ONKS
+	8C2bk7bnCMnAEWdNgeI+4c6ZgpXSSL0rH7PFtUh/ckL0JINtZ3qUg7dJPasupJ67AODv0YsU10C
+	UPM8Od0a46NZofEbxPTm9lQHs/QY=
+X-Google-Smtp-Source: AGHT+IFbGc7Z55XjDY3dxgfRXS7E3uMfxtXjokd26/r3+Qtpz7UwIcGh3l41gXthpLrPGRCJfCAoo5M2nf1TrArtITU=
+X-Received: by 2002:a05:6512:3b12:b0:53d:a86e:42d7 with SMTP id
+ 2adb3069b0e04-53e12a2e9dfmr1948992e87.49.1733239693443; Tue, 03 Dec 2024
+ 07:28:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNARarqG2Okacbp4TKJAFz9OagB2NF=qs-Cq2rzOW4CA2Bg@mail.gmail.com>
- <20241203065441.2341579-1-josch@mister-muffin.de> <20241203065441.2341579-2-josch@mister-muffin.de>
- <CAK7LNASiENba_7O2-6utUaWCad=rsFkD5ZMeSheqG64MGhZGQg@mail.gmail.com> <173321885530.3934267.7112925923730589277@localhost>
-In-Reply-To: <173321885530.3934267.7112925923730589277@localhost>
+References: <20241128111844.GE10431@google.com> <87o71xvuf3.ffs@tglx>
+ <20241130114549.GI10431@google.com> <87iks3wt2t.ffs@tglx> <CAK7LNARWpcbVsJFYCDN28vuuLfEibZmT+m5=qMEJcKD9Abzv4Q@mail.gmail.com>
+ <87iks1vlu5.ffs@tglx>
+In-Reply-To: <87iks1vlu5.ffs@tglx>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 3 Dec 2024 23:24:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
-Message-ID: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] scripts/package/builddeb: allow hooks also in /usr/share/kernel
-To: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
-Cc: linux-kbuild@vger.kernel.org
+Date: Wed, 4 Dec 2024 00:27:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARufW5wc=qBt5R=RJ9BkFirLKAgRgg_t=OmTTGbjLfsAg@mail.gmail.com>
+Message-ID: <CAK7LNARufW5wc=qBt5R=RJ9BkFirLKAgRgg_t=OmTTGbjLfsAg@mail.gmail.com>
+Subject: Re: [PATCH] modpost: Add .irqentry.text to OTHER_SECTIONS
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 20241015061522.25288-1-rui.zhang@intel.com, 
+	Zhang Rui <rui.zhang@intel.com>, hpa@zytor.com, peterz@infradead.org, 
+	thorsten.blum@toblux.com, yuntao.wang@linux.dev, tony.luck@intel.com, 
+	len.brown@intel.com, srinivas.pandruvada@intel.com, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, rafael.j.wysocki@intel.com, 
+	x86@kernel.org, linux-pm@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 3, 2024 at 6:41=E2=80=AFPM Johannes Schauer Marin Rodrigues
-<josch@mister-muffin.de> wrote:
+On Tue, Dec 3, 2024 at 6:03=E2=80=AFAM Thomas Gleixner <tglx@linutronix.de>=
+ wrote:
 >
-> Quoting Masahiro Yamada (2024-12-03 10:27:11)
-> > > @@ -68,11 +70,18 @@ install_linux_image () {
-> > >         # kernel packages, as well as kernel packages built using mak=
-e-kpkg.
-> > >         # make-kpkg sets $INITRD to indicate whether an initramfs is =
-wanted, and
-> > >         # so do we; recent versions of dracut and initramfs-tools wil=
-l obey this.
-> > > -       debhookdir=3D${KDEB_HOOKDIR:-/etc/kernel}
-> > > +       debhookdir=3D${KDEB_HOOKDIR:-/etc/kernel /usr/share/kernel}
-> > > +
-> > > +       # Only pre-create the first hook directory. Support for more =
-than one hook
-> > > +       # directory requires run-parts 5.21 and it is the responsibil=
-ity of packages
-> > > +       # creating additional hook directories to declare that depend=
-ency.
-> > > +       firsthookdir=3D${debhookdir%% *}
-> > >         for script in postinst postrm preinst prerm; do
-> > > -               mkdir -p "${pdir}${debhookdir}/${script}.d"
-> > > +               mkdir -p "${pdir}${firsthookdir}/${script}.d"
+> On Mon, Dec 02 2024 at 11:02, Masahiro Yamada wrote:
+> > On Sun, Dec 1, 2024 at 8:17=E2=80=AFPM Thomas Gleixner <tglx@linutronix=
+.de> wrote:
+> >>
+> >> The compiler can fully inline the actual handler function of an interr=
+upt
+> >> entry into the .irqentry.text entry point. If such a function contains=
+ an
+> >> access which has an exception table entry, modpost complains about a
+> >> section mismatch:
+> >>
+> >>   WARNING: vmlinux.o(__ex_table+0x447c): Section mismatch in reference=
+ ...
+> >>
+> >>   The relocation at __ex_table+0x447c references section ".irqentry.te=
+xt"
+> >>   which is not in the list of authorized sections.
+> >>
+> >> Add .irqentry.text to OTHER_SECTIONS to cure the issue.
+> >>
+> >> Reported-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > >
-> > I still do not understand why this 'mkdir' is needed.
+> > I found the context in LKML.
+> > Closes: https://lore.kernel.org/all/20241128111844.GE10431@google.com/
 > >
-> > linux-image package does not install any script into the hook directory=
-.
-> > In general, there exist some scripts (e.g. initramfs-tools) already
-> > under /etc/kernel/*.d/  (and under /usr/share/kernel/*.d/ once the
-> > new location is used broader).
-> > If nothing exists under the hook directory, there is no point to
-> > execute run-parts.
->
-> Unless I'm misunderstanding the old code, the existing script *does* crea=
-te
-> /etc/kernel/*.d/ (That's the "- mkdir -p" line above) so I wanted to pres=
-erve
-> this behaviour even with more than one directory in KDEB_HOOKDIR. Do I
-> misunderstand something?
-
-Right. The existing code does create empty directories, which
-are unnecessary.
-
-
-> Are you saying that with this change, no
-> /etc/kernel/*.d/ should be created anymore? Why?
-
-
-The 'mkdir' is unnecessary regardless of your patch,
-unless I am misunderstanding the code.
-
-At present, it is a single line of code.
-You are extending it into several lines of verbose code simply
-in order to precisely retain these unnecessary directories.
-This is a problem for me because I will need to maintain code
-whose necessity is unclear.
-
-Judging from your cautious approach and verbose changes, I
-assume you are trying to avoid any risks (a common trait
-among many contributors).
-
-That said, I understand you are not motivated to strive for
-clean code at all costs. Once you commit the run-parts
-changes, you may feel your work is done. However, as the
-maintainer, I must manage this code for many years,
-so I aim to proactively remove unneeded code.
-
-I have decided to take responsibility for cleaning up this
-single line myself:
-
-https://lore.kernel.org/linux-kbuild/CAK7LNARU=3DM282fAOOgzPOBPtDNFPjH8To9e=
-K2vYstWxkEDEEPA@mail.gmail.com/T/#t
-
-If something breaks due to missing directories,
-it will be my fault, not yours.
-
-Now that the dummy directories are gone from the linux-image
-package, please prepare the next version without the
-"pre-create the first hook directory" stuff.
-
-A few more requests.
-
-Please add the version number (the next patch will be v4?) like others do.
-And "kbuild: deb-pkg:" as the patch subject.
-('git log script/package/buildeb' to see examples)
-
-
-
->
-> > > +       done
-> > >
-> > > -               mkdir -p "${pdir}/DEBIAN"
-> > > +       mkdir -p "${pdir}/DEBIAN"
+> > However, is this still relevant to the mainline kernel?
 > >
-> > Please drop this noise change.
-> >
-> > If you want to optimize this, please split it into a separate patch lik=
-e
-> > "kbuild: deb-pkg: create DEBIAN directory just once" etc.
+> > In Linux 5.4.y, I agree this because smp_apic_timer_interrupt()
+> > is annotated as __irq_entry:
 >
-> Okay, no need to optimize this now. mkdir -p is cheap.
+> Correct.
 >
-> Thanks!
+> > In this mainline kernel, DEFINE_IDTENTRY_SYSVEC()
+> > expands to a normal .text function which is explicitly
+> > annotated 'noinline'.
 >
-> cheers, josch
---
+> It's not annotated noinline, it's annotated 'noinstr', which puts the
+> code into the .noinstr.text section. That one is indeed covered.
+
+
+The callsite of local_apic_timer_interrupt() is annotated 'noinline'
+if I correctly understand this line:
+  https://github.com/torvalds/linux/blob/v6.13-rc1/arch/x86/include/asm/idt=
+entry.h#L272
+
+
+It expands to:
+
+static noinline void __sysvec_apic_timer_interrupt(struct pt_regs *regs)
+{
+       [snip]
+       local_apic_timer_interrupt();
+       [snip]
+}
+
+
+
+> So yes, the fix is only required for pre 5.8 kernels.
+
+This never occurs on x86 after commit f0178fc01fe46,
+but theoretically this may occur for other architectures.
+
+Now applied to linux-kbuild.
+Thanks.
+
+
+
+
+>
+> Thanks,
+>
+>         tglx
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
 
