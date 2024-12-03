@@ -1,141 +1,134 @@
-Return-Path: <linux-kbuild+bounces-4974-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4975-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368999E26D9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:17:56 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7519E271A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:21:19 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFC2D289442
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 16:17:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12DCF166EF5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 16:17:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4EA1EE00B;
-	Tue,  3 Dec 2024 16:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECEEC1EE00B;
+	Tue,  3 Dec 2024 16:17:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b="I4SqzXR5"
+	dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b="HGt92Sb8"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mister-muffin.de (mister-muffin.de [144.76.155.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4B61E2613
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 16:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A41D14A088
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 16:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.155.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733242673; cv=none; b=rzT55owFwDgX6kAWQMo0AkdKE0miTzULdISWhgxmS5Xsih7Q3B7V9JHR7TNjevov/HFSgM/sNmse4te3vt4bDXpQ/AdP1wfUC097edwrNi5HJBUXsL6u1kTQktznvqLPQH5Hidk6D2qO/rkxJerQgK5iG//DVilwoqLPVfVceX8=
+	t=1733242677; cv=none; b=p9UInD1pkRITzQQFcNRyuuPepDMjraJFSByM4C+7wzIrMq1RSVR3O3BgvNFJPiPDBUTfBWCxtACw6Upl/R1ZZJuBs9dww0+W2dePqX22WnnXMHuuPnCmRoH9c63cXKxO0OyKyWLkIxr0Tt+tddyM6FwtU9osfbfEax/BAhR2MhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733242673; c=relaxed/simple;
-	bh=Mp822f7t9NTXdbjoFK6m0qu8tNFS/6pieNkeS5hYKsI=;
+	s=arc-20240116; t=1733242677; c=relaxed/simple;
+	bh=r8OaUDfNALJUUhyhscOy7k2yROP7VGTXlSUgS58edcg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bDLa8sL07725KKqGRWYYxbU6fdJZByU8WBCHGEAz3zojua0X2U76HdKrtPGa2Rd186rMIljDXXubTYOjyeqbe1xDKq/iCAPBfvN2ppxbWEHrpYWnA1xdbGs6x0P/1BG+URWEheufxW+TPePp3p9p8YDP3RCur4zlAqctdqgG5J8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de; spf=pass smtp.mailfrom=mister-muffin.de; dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b=I4SqzXR5; arc=none smtp.client-ip=144.76.155.182
+	 MIME-Version; b=uWOfLnOhUCf2TSvvcg+X/7QcaKE4sJO9jKMEAucE2ux27b9eCdJvzPLViwEQACoMZuvRuvQsIGz9jYY8XNNUbQ37ULOXgRPTzYpNPdO0LOdZcPzAekUlW9DRbrvhILvNXLe0hwMNN/174SDRnlFynMfr2gg5c0YsRPgrb3OUMOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de; spf=pass smtp.mailfrom=mister-muffin.de; dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b=HGt92Sb8; arc=none smtp.client-ip=144.76.155.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mister-muffin.de
 Received: from localhost (ipb218f889.dynamic.kabel-deutschland.de [178.24.248.137])
-	by mister-muffin.de (Postfix) with ESMTPSA id 93ADF79C;
-	Tue,  3 Dec 2024 17:17:48 +0100 (CET)
+	by mister-muffin.de (Postfix) with ESMTPSA id 2F64179D;
+	Tue,  3 Dec 2024 17:17:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mister-muffin.de;
-	s=mail; t=1733242668;
-	bh=Mp822f7t9NTXdbjoFK6m0qu8tNFS/6pieNkeS5hYKsI=;
+	s=mail; t=1733242673;
+	bh=r8OaUDfNALJUUhyhscOy7k2yROP7VGTXlSUgS58edcg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=I4SqzXR5VWSBu58fWvlH37p8U2d+EAhl7ibdHE/lLTqVT/eLwM1g9HRhJBoXFu66q
-	 BOjqYDj92qE8/wy0QASytEdUrxV+rSnydk/NtmBLE890TOj5gwXv2BAjhzajPHV6/b
-	 HD63fklgSdtVe/Dldt2KsYzez3vzt7xq8yuIh4eY=
+	b=HGt92Sb8ZiCSqRd3HXSKd7znEp3YLHIb8A3E2X1yst2xYW6aZK9gv1lKBFZ/KxKHz
+	 WNq7+7Y4n7wHBdxTmjtnVUC1NrBTQ3hYT9u2B1EcRLnuZdLLtoVMpY9IbvoZ/PrwBw
+	 vsnom7+sBS/g9qM0P1UpLZwh/G+d7cZNmhJlQius=
 From: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
 To: linux-kbuild@vger.kernel.org
 Cc: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
-Subject: [PATCHv4 0/1] kbuild: deb-pkg: allow hooks also in /usr/share/kernel
-Date: Tue,  3 Dec 2024 17:17:34 +0100
-Message-Id: <20241203161735.2411494-1-josch@mister-muffin.de>
+Subject: [PATCHv4 1/1] kbuild: deb-pkg: allow hooks also in /usr/share/kernel
+Date: Tue,  3 Dec 2024 17:17:35 +0100
+Message-Id: <20241203161735.2411494-2-josch@mister-muffin.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
+In-Reply-To: <20241203161735.2411494-1-josch@mister-muffin.de>
 References: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
+ <20241203161735.2411494-1-josch@mister-muffin.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Quoting Masahiro Yamada (2024-12-03 15:24:10)
-> > Unless I'm misunderstanding the old code, the existing script *does* create 
-> > /etc/kernel/*.d/ (That's the "- mkdir -p" line above) so I wanted to
-> > preserve this behaviour even with more than one directory in KDEB_HOOKDIR.
-> > Do I misunderstand something?
->█
-> Right. The existing code does create empty directories, which
-> are unnecessary.
+By passing an additional directory to run-parts, allow Debian and its
+derivatives to ship maintainer scripts in /usr while at the same time
+allowing the local admin to override or disable them by placing hooks of
+the same name in /etc. This adds support for the mechanism described in
+the UAPI Configuration Files Specification for kernel hooks. The same
+idea is also used by udev, systemd or modprobe for their config files.
+https://uapi-group.org/specifications/specs/configuration_files_specification/
 
-Okay. I had assumed that their creation was intentional.
+This functionality relies on run-parts 5.21 or later.  It is the
+responsibility of packages installing hooks into /usr/share/kernel to
+also declare a Depends: debianutils (>= 5.21).
 
-> > Are you saying that with this change, no
-> > /etc/kernel/*.d/ should be created anymore? Why?
->█
-> The 'mkdir' is unnecessary regardless of your patch,
-> unless I am misunderstanding the code.
+KDEB_HOOKDIR can be used to change the list of directories that is
+searched. By default, /etc/kernel and /usr/share/kernel are hook
+directories. Since the list of directories in KDEB_HOOKDIR is separated
+by spaces, the paths must not contain the space character themselves.
 
-Yes, the mkdir is not necessary as far as I can see. Packages that do
-install hooks will take care of creating these. It doesn't have to be
-the linux kernel image package that takes care of creating them.
-
-> Judging from your cautious approach and verbose changes, I
-> assume you are trying to avoid any risks (a common trait
-> among many contributors).
-
-That is correct. I hope that such an approach is considered desirable?
-
-> That said, I understand you are not motivated to strive for
-> clean code at all costs. Once you commit the run-parts
-> changes, you may feel your work is done. However, as the
-> maintainer, I must manage this code for many years,
-> so I aim to proactively remove unneeded code.
-
-I understand. I don't see a problem changing the patch in a way such that you
-feel that you can take responsibility for it in the long term. Thank you for
-taking the time to explain this to me. It is really much appreciated and I know
-that you don't have to. Thank you!
-
-That being said, please do reach out to me if there are problems with my
-contributions later on. I am also the contributor of the new functionality in
-run-parts, so should there be issues with debianutils, you can also contact me
-about problems with using run-parts on multiple directories as well.
-
-> I have decided to take responsibility for cleaning up this
-> single line myself:
->█
-> https://lore.kernel.org/linux-kbuild/CAK7LNARU=M282fAOOgzPOBPtDNFPjH8To9eK2vYstWxkEDEEPA@mail.gmail.com/T/#t
->█
-> If something breaks due to missing directories,
-> it will be my fault, not yours.
-
-Thank you. My new patch (v4) in the next mail now is on top of your
-change above.
-
-> Now that the dummy directories are gone from the linux-image
-> package, please prepare the next version without the
-> "pre-create the first hook directory" stuff.
->█
-> A few more requests.
->█
-> Please add the version number (the next patch will be v4?) like others do.
-> And "kbuild: deb-pkg:" as the patch subject.  ('git log
-> script/package/buildeb' to see examples)
-
-I think I have taken care of these issues now.
-
-Thank you!
-
-cheers, josch
-
-
-Johannes Schauer Marin Rodrigues (1):
-  kbuild: deb-pkg: allow hooks also in /usr/share/kernel
-
+Signed-off-by: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
+---
  scripts/package/builddeb | 23 +++++++++++++++++------
  1 file changed, 17 insertions(+), 6 deletions(-)
 
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 5843c5c04e56..1b79f25442c7 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -5,10 +5,12 @@
+ #
+ # Simple script to generate a deb package for a Linux kernel. All the
+ # complexity of what to do with a kernel after it is installed or removed
+-# is left to other scripts and packages: they can install scripts in the
+-# /etc/kernel/{pre,post}{inst,rm}.d/ directories (or an alternative location
+-# specified in KDEB_HOOKDIR) that will be called on package install and
+-# removal.
++# is left to other scripts and packages. Scripts can be placed into the
++# preinst, postinst, prerm and postrm directories in /etc/kernel or
++# /usr/share/kernel. A different list of search directories can be given
++# via KDEB_HOOKDIR. Scripts in directories earlier in the list will
++# override scripts of the same name in later directories.  The script will
++# be called on package installation and removal.
+ 
+ set -eu
+ 
+@@ -68,7 +70,8 @@ install_linux_image () {
+ 	# kernel packages, as well as kernel packages built using make-kpkg.
+ 	# make-kpkg sets $INITRD to indicate whether an initramfs is wanted, and
+ 	# so do we; recent versions of dracut and initramfs-tools will obey this.
+-	debhookdir=${KDEB_HOOKDIR:-/etc/kernel}
++	debhookdir=${KDEB_HOOKDIR:-/etc/kernel /usr/share/kernel}
++
+ 	for script in postinst postrm preinst prerm; do
+ 		mkdir -p "${pdir}/DEBIAN"
+ 		cat <<-EOF > "${pdir}/DEBIAN/${script}"
+@@ -82,7 +85,15 @@ install_linux_image () {
+ 		# Tell initramfs builder whether it's wanted
+ 		export INITRD=$(if_enabled_echo CONFIG_BLK_DEV_INITRD Yes No)
+ 
+-		test -d ${debhookdir}/${script}.d && run-parts --arg="${KERNELRELEASE}" --arg="/${installed_image_path}" ${debhookdir}/${script}.d
++		# run-parts will error out if one of its directory arguments does not
++		# exist, so filter the list of hook directories accordingly.
++		hookdirs=
++		for dir in ${debhookdir}; do
++			test -d "\$dir/${script}.d" || continue
++			hookdirs="\$hookdirs \$dir/${script}.d"
++		done
++		hookdirs="\${hookdirs# }"
++		test -n "\$hookdirs" && run-parts --arg="${KERNELRELEASE}" --arg="/${installed_image_path}" \$hookdirs
+ 		exit 0
+ 		EOF
+ 		chmod 755 "${pdir}/DEBIAN/${script}"
 -- 
 2.39.2
 
