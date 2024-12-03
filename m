@@ -1,117 +1,174 @@
-Return-Path: <linux-kbuild+bounces-4980-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4982-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3269E2F86
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 00:08:23 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E102A9E2F88
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 00:09:21 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5A86B29081
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 22:06:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB71B164B7B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 23:09:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E25A1DFDB7;
-	Tue,  3 Dec 2024 22:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9907D207A3E;
+	Tue,  3 Dec 2024 23:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftUS/Wpf"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="b1ASdtAH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F051D79A0;
-	Tue,  3 Dec 2024 22:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458078460;
+	Tue,  3 Dec 2024 23:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733263569; cv=none; b=hqUMxlkW9GSVLrlCTvl1RFuyqxLmK4jztjiS+hBw7YGwI/QE26xJypN6wehV3x5ptoxUZEcU0r3gV+GZpjYeKV+wq3SvNN5QC1cLDYXw759AfrncPvPjo+7ZWc4at74Pn1DnbrnDprUkZz+baqnvyEKQviG4H9Hw44a15fFa05Y=
+	t=1733267357; cv=none; b=Pwr9j/PbgaKTglohvRnS3Q/NkshYLBd280u1ruFcWoPaC4BSfM09QqIMFkNABx3WivkaYv/8bMoNdYliHhkOnQlJojAFLlLTXcn0S2ZZ0zlw+UGIOAQfvgmlwEYh22ggXbApuy7X7nVtCgfYnriqqTmUvpz4FimeVZUM/z2yB0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733263569; c=relaxed/simple;
-	bh=IehJ4AIWWz0772NCAQO8hzMuGVgotMd1OEvMqgvLjO8=;
+	s=arc-20240116; t=1733267357; c=relaxed/simple;
+	bh=3zN1x3N+s9QrJx4DCJMFRRP/JtlOXiWxV6oDmoR/K0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bR+b2NDAf/tHNsUn4uOGKHTHFuQWke6UrSkQPU5T78/tm93PfuASE7HnUbzK/lE6rt35hM6oohjt+73kMCue7X/WK5xeL/p+/PSRCEv34Aq2IWefX/uylzbwF7nDMA45cN6HqFz5tp7SCUhOR0bo51dm1zB7lqNluKk5ymiuVoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftUS/Wpf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326F6C4CEDC;
-	Tue,  3 Dec 2024 22:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733263568;
-	bh=IehJ4AIWWz0772NCAQO8hzMuGVgotMd1OEvMqgvLjO8=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZOKyQ/ivVknfuovA8kp62ZZgBn2FuchtCUS8ciTOKk0h0mvup7uFLwK6QBo5aAdOOfs5+S5USVG0RVKOyKtOg2nWL62sh6iGh2Qt7u0bXS5h1yulex6aIhwZuga1taLkGBfO7Ewen6fuK0b87blTmRG+/9qZIC94AtRyxxW+JBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=b1ASdtAH; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1733267349;
+	bh=3zN1x3N+s9QrJx4DCJMFRRP/JtlOXiWxV6oDmoR/K0E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ftUS/Wpfzl6rAV6W1Fv9Nj0Z6nP375x3sX3S0EgpAXN8jeJSSHevR7r9/J59WGnn6
-	 dnKlO1CeZ6WUoZPPy5V8p4VlDsak2GM3J8JYiF6GRNs339aHB5OOj7OYFVEsCMKCes
-	 KcDTggAMPlAndWscRzMlHDRP7g3d8Iff+lHx5SR1Qfft59Ao7bw8ipN+xGGDGjWNzG
-	 MDrxHBUGoA5kZzYBC8GnzU6AfcV+nh9AA8/2bpludCpwJQ4vKC9unAx9PYysaWnHRg
-	 UwZao6PW+eaQl3Ng39j7t1kBtsjKdifmmJyi2iL3HB3hx9vax/GzF3HQPIbap/3bdy
-	 2AqNY9CNhRKCA==
-Date: Tue, 3 Dec 2024 22:06:01 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, mcgrof@kernel.org,
-	x86@kernel.org, hpa@zytor.com, petr.pavlu@suse.com,
-	samitolvanen@google.com, da.gomez@samsung.com, masahiroy@kernel.org,
-	nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	hch@infradead.org, gregkh@linuxfoundation.org,
-	linux-next@vger.kernel.org
-Subject: Re: [PATCH -v2 1/7] module: Convert symbol namespace to string
- literal
-Message-ID: <93a900b2-7740-4bfa-bfac-1ec2e5bfa383@sirena.org.uk>
-References: <20241202145946.108093528@infradead.org>
- <20241202150810.048548103@infradead.org>
- <20241202151533.GF8562@noisy.programming.kicks-ass.net>
- <CAHk-=wh7KugYO+R-1DMmkLz4fD_-A9BMyrWTVsH_K0a86Ojn4A@mail.gmail.com>
- <d707cb3b-1569-45d9-bdc3-dcc98eb88bc4@sirena.org.uk>
+	b=b1ASdtAHY6b2cx0XrR2Y7/JBFvWsaNY22fJtiUq98k0Rkk9vF4BvVGNeGmqFWijz4
+	 MNQY1TwPW7/kF2houjesmHMja7FUDIaWYCHxNP1v8GbxgvCLEo/AIHtmM+1KnfZ9Dy
+	 NGnV5GWwWzh9YbSgHeG6l6Rfad+CuHi3mEKhlBPM=
+Date: Wed, 4 Dec 2024 00:09:08 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] tools/resolve_btfids: Add --fatal-warnings option
+Message-ID: <9a11cf2f-ddca-4a50-817f-74183d31dcaf@t-8ch.de>
+References: <20241126-resolve_btfids-v2-0-288c37cb89ee@weissschuh.net>
+ <20241126-resolve_btfids-v2-1-288c37cb89ee@weissschuh.net>
+ <CAEf4BzahMQWVH0Gaub-tWjH9GweG8Kt7OBU-f+PBhmmRDCKfrA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DLVYcvakTOgKySND"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d707cb3b-1569-45d9-bdc3-dcc98eb88bc4@sirena.org.uk>
-X-Cookie: Alimony is the high cost of leaving.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4BzahMQWVH0Gaub-tWjH9GweG8Kt7OBU-f+PBhmmRDCKfrA@mail.gmail.com>
 
+On 2024-12-03 14:31:01-0800, Andrii Nakryiko wrote:
+> On Tue, Nov 26, 2024 at 1:17 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> >
+> > Currently warnings emitted by resolve_btfids are buried in the build log
+> > and are slipping into mainline frequently.
+> > Add an option to elevate warnings to hard errors so the CI bots can
+> > catch any new warnings.
+> >
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > Acked-by: Jiri Olsa <jolsa@kernel.org>
+> > ---
+> >  tools/bpf/resolve_btfids/main.c | 12 ++++++++++--
+> >  1 file changed, 10 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
+> > index bd9f960bce3d5b74dc34159b35af1e0b33524d2d..571d29d2da97fea75e5f9c544a95b9ac65f9e579 100644
+> > --- a/tools/bpf/resolve_btfids/main.c
+> > +++ b/tools/bpf/resolve_btfids/main.c
+> > @@ -141,6 +141,7 @@ struct object {
+> >  };
+> >
+> >  static int verbose;
+> > +static int warnings;
+> >
+> >  static int eprintf(int level, int var, const char *fmt, ...)
+> >  {
+> > @@ -604,6 +605,7 @@ static int symbols_resolve(struct object *obj)
+> >                         if (id->id) {
+> >                                 pr_info("WARN: multiple IDs found for '%s': %d, %d - using %d\n",
+> >                                         str, id->id, type_id, id->id);
+> > +                               warnings++;
+> >                         } else {
+> >                                 id->id = type_id;
+> >                                 (*nr)--;
+> > @@ -625,8 +627,10 @@ static int id_patch(struct object *obj, struct btf_id *id)
+> >         int i;
+> >
+> >         /* For set, set8, id->id may be 0 */
+> > -       if (!id->id && !id->is_set && !id->is_set8)
+> > +       if (!id->id && !id->is_set && !id->is_set8) {
+> >                 pr_err("WARN: resolve_btfids: unresolved symbol %s\n", id->name);
+> > +               warnings++;
+> > +       }
+> >
+> >         for (i = 0; i < id->addr_cnt; i++) {
+> >                 unsigned long addr = id->addr[i];
+> > @@ -782,6 +786,7 @@ int main(int argc, const char **argv)
+> >                 .funcs    = RB_ROOT,
+> >                 .sets     = RB_ROOT,
+> >         };
+> > +       bool fatal_warnings = false;
+> >         struct option btfid_options[] = {
+> >                 OPT_INCR('v', "verbose", &verbose,
+> >                          "be more verbose (show errors, etc)"),
+> > @@ -789,6 +794,8 @@ int main(int argc, const char **argv)
+> >                            "BTF data"),
+> >                 OPT_STRING('b', "btf_base", &obj.base_btf_path, "file",
+> >                            "path of file providing base BTF"),
+> > +               OPT_BOOLEAN(0, "fatal-warnings", &fatal_warnings,
+> > +                           "turn warnings into errors"),
+> 
+> We are mixing naming styles here: we have "btf_base" with underscore
+> separator, and you are adding "fatal-warnings" with dash separator. I
+> personally like dashes, but whichever way we should stay consistent.
+> So let's fix it, otherwise it looks a bit sloppy.
 
---DLVYcvakTOgKySND
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Ack.
 
-On Tue, Dec 03, 2024 at 07:20:05PM +0000, Mark Brown wrote:
-> On Mon, Dec 02, 2024 at 11:33:58AM -0800, Linus Torvalds wrote:
+> 
+> Please also use [PATCH bpf-next v3] subject prefix to make it explicit
+> that this should go through bpf-next tree.
 
-> > If we have these kinds of big scripted things, right after the merge
-> > window tends to be the best time to do them. The conflict potential of
-> > leaving it hanging in linux-next can be somewhat annoying. They may be
-> > fairly unlikely, and easy to resolve individually, but it's one of
-> > those "one is trivial to deal with, but even just a handful is
-> > annoying".
+Ack.
 
-> > So I'll run your script and take your commit message, and we'll have
-> > this part over and done with.
+> 
+> pw-bot: cr
+> 
+> >                 OPT_END()
+> >         };
+> >         int err = -1;
+> > @@ -823,7 +830,8 @@ int main(int argc, const char **argv)
+> >         if (symbols_patch(&obj))
+> >                 goto out;
+> >
+> > -       err = 0;
+> > +       if (!(fatal_warnings && warnings))
+> > +               err = 0;
+> 
+> nit: just
+> 
+> if (!fatal_warnings)
+>     err = 0;
+> 
+> ?
 
-> I *think* this is interacting in a fun way with at least the IIO
-> subsystem in -next (Linus' tree is fine, I didn't do too much
-> investigation as I'd quite like the -next build to finish some time
-> today):
+This seems wrong. Now the actual warning counter is never evaluated.
+And --fatal_warnings will always lead to an error exit code.
 
-Yes, this is breaking ASoC and possibly other things as well.  I guess
-any tree adding a new use of these macros needs to merge mainline to
-avoid a mess here.
-
---DLVYcvakTOgKySND
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdPgMgACgkQJNaLcl1U
-h9BV/gf9HfmQ/2rTxmyGvtTJh/xuiW79W2pQGjCcU3r7niEke5B2mPtIAyGIpqSI
-ID4mHsuGkFAxk3XAL636XS3ccDCUIAXpGAVnTr4mqX8EeknHK932vfg0fAua3AUU
-/qANxVOhvIE+NNoat2sDq9WH3EBDdLtG02Wa0EhYr5e5QOO7H4yZSpkAhVTyAbxd
-BXcYq50biFFnQ9z1srulbSUzYJ7ldpKKX3j40noJ9GfRGifKAOIbXjY10uYG1Au7
-1KxhGqxZ/RssMsfrMov1wgd08F73IautuDwJTbVicPCm6Nbucoz85wASWZtkboss
-hLEkq7WkGbChUldcW7TsNbTRrjSquQ==
-=Qf1I
------END PGP SIGNATURE-----
-
---DLVYcvakTOgKySND--
+> >  out:
+> >         if (obj.efile.elf) {
+> >                 elf_end(obj.efile.elf);
+> >
+> > --
+> > 2.47.1
+> >
 
