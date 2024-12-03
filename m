@@ -1,135 +1,106 @@
-Return-Path: <linux-kbuild+bounces-4975-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4976-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7519E271A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:21:19 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12DCF166EF5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 16:17:58 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECEEC1EE00B;
-	Tue,  3 Dec 2024 16:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b="HGt92Sb8"
-X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mister-muffin.de (mister-muffin.de [144.76.155.182])
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 491E89E282E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:52:39 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A41D14A088
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 16:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.155.182
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F6CBB2B818
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 16:24:11 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 738E41F893D;
+	Tue,  3 Dec 2024 16:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="H6o9CfyY"
+X-Original-To: linux-kbuild@vger.kernel.org
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9D91F891F
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 16:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733242677; cv=none; b=p9UInD1pkRITzQQFcNRyuuPepDMjraJFSByM4C+7wzIrMq1RSVR3O3BgvNFJPiPDBUTfBWCxtACw6Upl/R1ZZJuBs9dww0+W2dePqX22WnnXMHuuPnCmRoH9c63cXKxO0OyKyWLkIxr0Tt+tddyM6FwtU9osfbfEax/BAhR2MhU=
+	t=1733243047; cv=none; b=U/odbisX04ihKBus0Gc/oMSovN8WuPXm+zO810pMIR2QR6bSMOGRKpT4wTxoCj9FDRBKAZ/8S1MeCE8x8o5OzycyyG3I1IjLW3oE/w64MLZ561cRS69gC3KbQ4u+4vuZM5o2ruocKwT/hVGdESScrfRk9GUBV+cTUhr2OJOjKdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733242677; c=relaxed/simple;
-	bh=r8OaUDfNALJUUhyhscOy7k2yROP7VGTXlSUgS58edcg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uWOfLnOhUCf2TSvvcg+X/7QcaKE4sJO9jKMEAucE2ux27b9eCdJvzPLViwEQACoMZuvRuvQsIGz9jYY8XNNUbQ37ULOXgRPTzYpNPdO0LOdZcPzAekUlW9DRbrvhILvNXLe0hwMNN/174SDRnlFynMfr2gg5c0YsRPgrb3OUMOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de; spf=pass smtp.mailfrom=mister-muffin.de; dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b=HGt92Sb8; arc=none smtp.client-ip=144.76.155.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mister-muffin.de
-Received: from localhost (ipb218f889.dynamic.kabel-deutschland.de [178.24.248.137])
-	by mister-muffin.de (Postfix) with ESMTPSA id 2F64179D;
-	Tue,  3 Dec 2024 17:17:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mister-muffin.de;
-	s=mail; t=1733242673;
-	bh=r8OaUDfNALJUUhyhscOy7k2yROP7VGTXlSUgS58edcg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HGt92Sb8ZiCSqRd3HXSKd7znEp3YLHIb8A3E2X1yst2xYW6aZK9gv1lKBFZ/KxKHz
-	 WNq7+7Y4n7wHBdxTmjtnVUC1NrBTQ3hYT9u2B1EcRLnuZdLLtoVMpY9IbvoZ/PrwBw
-	 vsnom7+sBS/g9qM0P1UpLZwh/G+d7cZNmhJlQius=
-From: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
-To: linux-kbuild@vger.kernel.org
-Cc: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
-Subject: [PATCHv4 1/1] kbuild: deb-pkg: allow hooks also in /usr/share/kernel
-Date: Tue,  3 Dec 2024 17:17:35 +0100
-Message-Id: <20241203161735.2411494-2-josch@mister-muffin.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20241203161735.2411494-1-josch@mister-muffin.de>
-References: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
- <20241203161735.2411494-1-josch@mister-muffin.de>
+	s=arc-20240116; t=1733243047; c=relaxed/simple;
+	bh=f+P/kAbB1gWGPCsxHq/pGGSoaVxgmWew0X65TGH31wQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tN+j+44JMt9GZkftt2CYNCvAFr/avMkf70JH4zqXXuFofgLsvKaRIxAcLqieln6Cy5JHek83dTMEyvQpWwbbZmz5IF0Nrx1v9ygLqg+LECJcd+pEA9NRIe0rhZeI7t4DfUVy4rl388AIzXaVLzZJZ089qVQR0spE5EoMVyxR3r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=H6o9CfyY; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d0ca0f67b6so4757761a12.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Dec 2024 08:24:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1733243043; x=1733847843; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wtSjOuVKtZRnK0WO9fp7EqIM7Es6Bf3JeXvEkCB5I4E=;
+        b=H6o9CfyYlem5jZWF0Aehbsa5B+h7qb5OKHMheRkWET8NxZIcIZaUeJEyot9lcT60U8
+         a7oR+4x36myMjUyhFWcuLviAZg3D7UMGUK24VkwnmxuVUjnOO039g9ElSxLgPpC6tGUV
+         2M5hfyaAPIv9I+kaHfmjhzTbm5BD1qfaJctvs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733243043; x=1733847843;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wtSjOuVKtZRnK0WO9fp7EqIM7Es6Bf3JeXvEkCB5I4E=;
+        b=kameRF1681gBJTYpaSoXZ8dmjvg0Lb5e+rYaqrO7sN2/e3BdqWvMwDHV4vcydp8uBD
+         O3Ma+qi5T7ZSwNn26DBgNabg96TwoMyiYs1FNKruZ/4fNQYVi1OlGxmPOnvUcHGSnUq6
+         IkiRNnevlVioWOVC8NxiL4AZt/+yWk2lBLjOz/yUjjOWMJSlb1pvExTJTx1R3H89Kikh
+         q89VEsUpIl0hX2T8fBLfPn3f7uExn1dJpum2XYxf7zyUifngGlmrRCVKmvA0TGE8mDCp
+         5bCVoHFdJ3OehuXT+IuWuVrHCjIIBWXD8XSW7A4uShOcM1eu3EI3MK0zcWKsQyimGphT
+         8Wpw==
+X-Forwarded-Encrypted: i=1; AJvYcCVUdsUw3GWIZnbOfwW7xwrF/WQp7fbYAEJBf7YXjT6ZhLACWxampM3dsq6UfWhf50wumJ8a4uE7NPXOcHA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAXZyscx/IX1wXcsigYO6zyXpJVhyu7hVAP5GYViEnp9K4SaH3
+	I8Q/j7ovZjc+YSYQXaNnRrqFGuSpKYALJyI4FVIz0+Kh3aUQ9y9HvBHloBpI75GScniATHGNHYR
+	IyRnpjg==
+X-Gm-Gg: ASbGnctKblAcwouaJmtnfUtR98YM2MkU4eNWtMoNOO25yvkyHclWnAsYbuoai4Ti7W8
+	1foUGvbPI0ZVvUXCSmaZGF9ZVELLl4tuO8gdqDI7UCb0I9j5oV0jtBwhGVSOqSfyleVhrSnFkbB
+	S01VQ7erApmuIMJNhg5iNTWIra7rB/ZufjfhjeiuL9JzPufFv1tGVTscaIFnFnTp0X7ituTmEJJ
+	moVuDIImgPqhRVJ6A1aKcQco2fM3MC/82RKvNHIr47wGI10XNdo3UbgsPnakOabFPonxKeC/w6S
+	S+C1JYBMg1h9OYok67tiKBVo
+X-Google-Smtp-Source: AGHT+IGdGIbBgk1i/j+dINhwCGOsEgYcwhZWQ2GoifLKivC6/oB1yMmi7YVgrtVFBSL5oqJpovKxOg==
+X-Received: by 2002:a05:6402:4301:b0:5d0:bd2a:fc1d with SMTP id 4fb4d7f45d1cf-5d10cb826bemr2461337a12.23.1733243043667;
+        Tue, 03 Dec 2024 08:24:03 -0800 (PST)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d0e5367115sm2894599a12.58.2024.12.03.08.24.02
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 08:24:03 -0800 (PST)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a9a68480164so775503466b.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Dec 2024 08:24:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXhIrJZEmN07Taz1VZktu3voaE3OJPkEqtDnJYlPpemYh+OG70LTPh0+ftrkNHswTXGlnOw/NSiOCTJq60=@vger.kernel.org
+X-Received: by 2002:a17:906:2922:b0:aa5:2575:e76a with SMTP id
+ a640c23a62f3a-aa5f7d154e9mr213082766b.13.1733243042083; Tue, 03 Dec 2024
+ 08:24:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241203102124.3147478-1-masahiroy@kernel.org> <CAK7LNAQ8MKTWWzLNYDBMCcRzWGVhX-kUyFM=BwK8-maKtqZj3Q@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ8MKTWWzLNYDBMCcRzWGVhX-kUyFM=BwK8-maKtqZj3Q@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 3 Dec 2024 08:23:45 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgCZX5YzWhKMvyF9Do_9hvOfFV8mMa_GGfh0RRLv0MJ+A@mail.gmail.com>
+Message-ID: <CAHk-=wgCZX5YzWhKMvyF9Do_9hvOfFV8mMa_GGfh0RRLv0MJ+A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] module: fixups after module namespace conversion
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Matthias Maennich <maennich@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-By passing an additional directory to run-parts, allow Debian and its
-derivatives to ship maintainer scripts in /usr while at the same time
-allowing the local admin to override or disable them by placing hooks of
-the same name in /etc. This adds support for the mechanism described in
-the UAPI Configuration Files Specification for kernel hooks. The same
-idea is also used by udev, systemd or modprobe for their config files.
-https://uapi-group.org/specifications/specs/configuration_files_specification/
+On Tue, 3 Dec 2024 at 03:09, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> I submitted this patch set to you, hoping you can merge it.
+> Please let me know if you would prefer a different course.
 
-This functionality relies on run-parts 5.21 or later.  It is the
-responsibility of packages installing hooks into /usr/share/kernel to
-also declare a Depends: debianutils (>= 5.21).
+Applied. Thanks,
 
-KDEB_HOOKDIR can be used to change the list of directories that is
-searched. By default, /etc/kernel and /usr/share/kernel are hook
-directories. Since the list of directories in KDEB_HOOKDIR is separated
-by spaces, the paths must not contain the space character themselves.
-
-Signed-off-by: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
----
- scripts/package/builddeb | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index 5843c5c04e56..1b79f25442c7 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -5,10 +5,12 @@
- #
- # Simple script to generate a deb package for a Linux kernel. All the
- # complexity of what to do with a kernel after it is installed or removed
--# is left to other scripts and packages: they can install scripts in the
--# /etc/kernel/{pre,post}{inst,rm}.d/ directories (or an alternative location
--# specified in KDEB_HOOKDIR) that will be called on package install and
--# removal.
-+# is left to other scripts and packages. Scripts can be placed into the
-+# preinst, postinst, prerm and postrm directories in /etc/kernel or
-+# /usr/share/kernel. A different list of search directories can be given
-+# via KDEB_HOOKDIR. Scripts in directories earlier in the list will
-+# override scripts of the same name in later directories.  The script will
-+# be called on package installation and removal.
- 
- set -eu
- 
-@@ -68,7 +70,8 @@ install_linux_image () {
- 	# kernel packages, as well as kernel packages built using make-kpkg.
- 	# make-kpkg sets $INITRD to indicate whether an initramfs is wanted, and
- 	# so do we; recent versions of dracut and initramfs-tools will obey this.
--	debhookdir=${KDEB_HOOKDIR:-/etc/kernel}
-+	debhookdir=${KDEB_HOOKDIR:-/etc/kernel /usr/share/kernel}
-+
- 	for script in postinst postrm preinst prerm; do
- 		mkdir -p "${pdir}/DEBIAN"
- 		cat <<-EOF > "${pdir}/DEBIAN/${script}"
-@@ -82,7 +85,15 @@ install_linux_image () {
- 		# Tell initramfs builder whether it's wanted
- 		export INITRD=$(if_enabled_echo CONFIG_BLK_DEV_INITRD Yes No)
- 
--		test -d ${debhookdir}/${script}.d && run-parts --arg="${KERNELRELEASE}" --arg="/${installed_image_path}" ${debhookdir}/${script}.d
-+		# run-parts will error out if one of its directory arguments does not
-+		# exist, so filter the list of hook directories accordingly.
-+		hookdirs=
-+		for dir in ${debhookdir}; do
-+			test -d "\$dir/${script}.d" || continue
-+			hookdirs="\$hookdirs \$dir/${script}.d"
-+		done
-+		hookdirs="\${hookdirs# }"
-+		test -n "\$hookdirs" && run-parts --arg="${KERNELRELEASE}" --arg="/${installed_image_path}" \$hookdirs
- 		exit 0
- 		EOF
- 		chmod 755 "${pdir}/DEBIAN/${script}"
--- 
-2.39.2
-
+              Linus
 
