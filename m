@@ -1,125 +1,187 @@
-Return-Path: <linux-kbuild+bounces-4947-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4948-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1820C9E0D81
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 22:03:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF70D9E1346
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 07:15:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9FFC165498
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2024 21:03:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 944DF160EB2
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 06:15:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C36A1DF247;
-	Mon,  2 Dec 2024 21:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EB6C154430;
+	Tue,  3 Dec 2024 06:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IH3XR5Oq";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VLKUAJA/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sG6hM3D9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17AFA94A;
-	Mon,  2 Dec 2024 21:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DBF29A9
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 06:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733173430; cv=none; b=QM22D1TL65B0rzxhN7dM4SIyQP5EZoG5a8OGXFGxuMF848DQTXd3EuYkkqWBw1uqPz49T3TInGMXxBCMIe0dFSPmHDuPBSWavVA5OV5E/Cok/SFIrwzJz3/61NBF0zKa6rMmOEaMfJH5jOh40vKKFx/QBWg809ixoIEfbjnr0m4=
+	t=1733206556; cv=none; b=F9YQefY6bLz4In1peKpOLg6y7jtvjK+oSdTSyiio70FaI5G470wCVkvzS+XtOi7F3rT7bPYME378Ajj6Q34JWk21ti4dl79/Sx5BQ38nR+u4nm6YwLMbo0vBAnDe8Y72ZKH4jqh0v36POm9Mq2K6zAhABLaX5zBaAhAfVxQYS6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733173430; c=relaxed/simple;
-	bh=vLUZ5k+c0qQj50mqVkJ/qwvhEf2wa3vsjB0XW38D4rE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rvXKMKalHu+k+oPes+NZCB6khQx6dKyzshh7oVeU78K4rmwLVzVg6+cdNiMmlb3hTulQvDi5/EIwcNxtpvLHBNG30yzvXd4LlSs3P7RTviz7iw/UXqx5CZ/enTX8PH76ZgA22irCJmR7TElK4y7UmkCDMXlth+ZVjmX6ZTDFa68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IH3XR5Oq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VLKUAJA/; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1733173426;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JAbKsbnsziIXiGhjcBxtSdueB/xYO7LsnWwodvNhQE0=;
-	b=IH3XR5Oq5J30CrhyMejMAMCWFzEMywOB8oA1KABYd32vlyPtoy2Wr5NyRAGLe/w6yyfoWn
-	4cwBFUby+yeCKl1vigIvvmwQypIksVnJPBv0c2j+GzBv+wpimOO98YMmizuZBJhb63RItn
-	AGnPEzDBYCx4kLXUStcGjApJA8KzUXlfTyhqMEH6oUyjdIFv7d4uUfn5kGSubMGyVQ9pRm
-	gcyvX/u0PD1pNp3PqaFrr4P1yya5j/kdaxkwkaNwHl5Bbewrdo2ccaOnzjYoO81uz6IcRl
-	NdB4qToq7Dr7InMmMztyQ1Qs0VLXe3uvZB0sunVPPIkeF0xhP/cWOt7aJXEsSQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1733173426;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JAbKsbnsziIXiGhjcBxtSdueB/xYO7LsnWwodvNhQE0=;
-	b=VLKUAJA/sfuoNOZCdIc4gMvY9VsnZnsNqbDpRSVJhOcNAgsSb+eAmhoYkfwO/BWpXThDzL
-	a9JCwCaNBqbQdTBw==
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
- 20241015061522.25288-1-rui.zhang@intel.com, Zhang Rui
- <rui.zhang@intel.com>, hpa@zytor.com, peterz@infradead.org,
- thorsten.blum@toblux.com, yuntao.wang@linux.dev, tony.luck@intel.com,
- len.brown@intel.com, srinivas.pandruvada@intel.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, rafael.j.wysocki@intel.com,
- x86@kernel.org, linux-pm@vger.kernel.org, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] modpost: Add .irqentry.text to OTHER_SECTIONS
-In-Reply-To: <CAK7LNARWpcbVsJFYCDN28vuuLfEibZmT+m5=qMEJcKD9Abzv4Q@mail.gmail.com>
-References: <20241128111844.GE10431@google.com> <87o71xvuf3.ffs@tglx>
- <20241130114549.GI10431@google.com> <87iks3wt2t.ffs@tglx>
- <CAK7LNARWpcbVsJFYCDN28vuuLfEibZmT+m5=qMEJcKD9Abzv4Q@mail.gmail.com>
-Date: Mon, 02 Dec 2024 22:03:46 +0100
-Message-ID: <87iks1vlu5.ffs@tglx>
+	s=arc-20240116; t=1733206556; c=relaxed/simple;
+	bh=aUN4btWaise441m3rNd1xYW2vmbTBY73AVKHahODaOU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XudfecX3fnZt625sUkhvPwbUhhX70b+B5JePuPrklUpimFOTqXp4Kuc3Jz3g7Pstgj4gZtWsgM+Zy1wQti9Ad5N5SxLYgcRM1ud02aIjHGUJWhbiTNES8ZlyswqzjY4tCUDTmxiPch/6gpEuu2UJn3JcosnfbazI1kovjLYoy1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sG6hM3D9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D35DBC4CECF
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 06:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733206555;
+	bh=aUN4btWaise441m3rNd1xYW2vmbTBY73AVKHahODaOU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=sG6hM3D9nHmKxINuca0ftCfN85ziFNtbdQfnDYiyNAW2vaS4JePTm5OixHYf4pANH
+	 HuCiAfDfWoM0N8Qdk32moGwGntSh6BA0N/D9pY1/S8XMICQaIo47wyavx5HbIuWqZt
+	 yWwLdfWJpDAN54mPkpkh8dX0/NzXqSGkzATOcS3H/uOsuL+CWExbgsNfbr02xlMPoL
+	 Oews9/8lzwlSn1hV5Jpk7KnqwUAqzhhhNxpk9vKLpcv0NYBsW7IGsXX76XyD70DKzd
+	 cWl/kAcXLox7BN0MXDWk3JPPKsVvdqyKuXgIZ+FpKP7lQIRykJ55lwzF3nI0CQDQKy
+	 xy6gAdPvfI8gQ==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53dd9e853ccso5347270e87.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Dec 2024 22:15:55 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywn3D04cI/TZb8D3wKbspTsJir+g8+1OQQspbl3lbTeX5FmbSaB
+	KW+Nc1Zde+t4XW2/SXgqqHcyUzYdNubofgv06cWeOMdDTXSHMX2Fqc3aWXA+Nzte2xLjnv9vpbP
+	kJg+sVpvIm9GD7zSulnftvcF296s=
+X-Google-Smtp-Source: AGHT+IEoPvgwdLWwfyIRdtrjs4m95xJQTbGGBeWdf2jNnOfsyIXXuwxhs0eXD5W0THHY+O78kejAeoU6j5UucQqm0fo=
+X-Received: by 2002:a05:6512:3e1b:b0:53d:e430:2276 with SMTP id
+ 2adb3069b0e04-53e12a26440mr616485e87.45.1733206554380; Mon, 02 Dec 2024
+ 22:15:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <CAK7LNARMBTf8usS0UxZ06gVZDbTTrhXt73mpVaGZRby-Zcdtsw@mail.gmail.com>
+ <20241128062940.1708257-1-josch@mister-muffin.de> <20241128062940.1708257-2-josch@mister-muffin.de>
+ <CAK7LNATyvVGt8j7bcwsWKaophdBU3x53=_UnPajKjtSMtoS9iA@mail.gmail.com> <173316233246.3934267.15523840202340139145@localhost>
+In-Reply-To: <173316233246.3934267.15523840202340139145@localhost>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 3 Dec 2024 15:15:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARarqG2Okacbp4TKJAFz9OagB2NF=qs-Cq2rzOW4CA2Bg@mail.gmail.com>
+Message-ID: <CAK7LNARarqG2Okacbp4TKJAFz9OagB2NF=qs-Cq2rzOW4CA2Bg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] scripts/package/builddeb: allow hooks also in /usr/share/kernel
+To: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
+Cc: linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 02 2024 at 11:02, Masahiro Yamada wrote:
-> On Sun, Dec 1, 2024 at 8:17=E2=80=AFPM Thomas Gleixner <tglx@linutronix.d=
-e> wrote:
->>
->> The compiler can fully inline the actual handler function of an interrupt
->> entry into the .irqentry.text entry point. If such a function contains an
->> access which has an exception table entry, modpost complains about a
->> section mismatch:
->>
->>   WARNING: vmlinux.o(__ex_table+0x447c): Section mismatch in reference .=
-..
->>
->>   The relocation at __ex_table+0x447c references section ".irqentry.text"
->>   which is not in the list of authorized sections.
->>
->> Add .irqentry.text to OTHER_SECTIONS to cure the issue.
->>
->> Reported-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+On Tue, Dec 3, 2024 at 2:59=E2=80=AFAM Johannes Schauer Marin Rodrigues
+<josch@mister-muffin.de> wrote:
 >
-> I found the context in LKML.
-> Closes: https://lore.kernel.org/all/20241128111844.GE10431@google.com/
+> Hi,
 >
-> However, is this still relevant to the mainline kernel?
+> Quoting Masahiro Yamada (2024-12-02 16:42:02)
+> > > @@ -84,7 +93,26 @@ install_linux_image () { # Tell initramfs builder
+> > > whether it's wanted export INITRD=3D$(if_enabled_echo CONFIG_BLK_DEV_=
+INITRD
+> > > Yes No)
+> > >
+> > > -               test -d ${debhookdir}/${script}.d && run-parts --arg=
+=3D"${KERNELRELEASE}" --arg=3D"/${installed_image_path}" ${debhookdir}/${sc=
+ript}.d
+> > > +               # run-parts will error out if one of its directory ar=
+guments does not
+> > > +               # exist, so filter the list of hook directories accor=
+dingly.
+> > > +               hookdirs=3D
+> > > +               for dir in ${debhookdir}; do
+> > > +                       test -d "\$dir/${script}.d" || continue
+> > > +                       hookdirs=3D"\$hookdirs \$dir/${script}.d"
+> > > +               done
+> > > +               hookdirs=3D"\${hookdirs# }"
+> > > +               test -n "\$hookdirs" || exit 0
+> > > +
+> > > +               # If more than one hook directory remained, check ver=
+sion of run-parts. If
+> > > +               # run-parts is too old, fall back to only processing =
+the first.
+> > > +               case \$hookdirs in *" "*) if ! run-parts --help 2>&1 =
+\
+> > > +                               | grep -Fxq "Usage: run-parts [OPTION=
+]... DIRECTORY [DIRECTORY ...]"; then
+> > > +                               echo "E: run-parts >=3D5.21 is requir=
+ed for multiple hook directories, falling back to $firsthookdir" >&2
+> >
+> > Same comment as in the previous version.
+> > If both /etc/kernel/postinst.d/ and /usr/share/kernel/postinst.d/ exist=
+,
+> > can we assume the run-parts>=3D5.12 on that system?
 >
-> In Linux 5.4.y, I agree this because smp_apic_timer_interrupt()
-> is annotated as __irq_entry:
+> since KDEB_HOOKDIR can now be any directories and any number of directori=
+es,
+> the question should rather be: if more than one directory from KDEB_HOOKD=
+IR
+> exists, can we assume that run-parts>=3D5.12 exists on that system?
+>
+> Personally, I'd prefer a best-effort fallback mechanism. The alternative =
+would
+> be that kernel installation would just error out in case a (buggy) packag=
+e on a
+> distro ships something in /usr/share/kernel/postinst.d/ but failed to als=
+o
+> declare a versioned dependency against debianutils. The error message can=
+not
+> (or rather only with considerable effort) tell the user *why* their kerne=
+l
+> installation errored out. By only considering the first hook directory
+> (probably /etc) in those situation, the kernel would succeed to install a=
+nd the
+> hooks from the (buggy) package would be skipped. I understand that such a
+> behaviour comes with its own set of disadvantages. One could also argue, =
+that
+> it is better to error out loudly in case of an error instead of hiding a
+> message prefixed with a "E:" in a bunch of console output when a kernel p=
+ackage
+> gets installed.
+>
+> What is your position on this question? What behaviour would you prefer? =
+If you
+> strongly prefer the kernel installation to error out loudly if run-parts =
+is too
+> old, then my next patch will implement just that. I think whether "we can
+> assume run-parts>=3D5.12" depends on what we declare to be the right way =
+to hold
+> this feature. If we say "packages must declare this versioned dependency =
+and if
+> they fail to do this then it is their bug and not ours" then yes, then we=
+ can
+> assume run-parts>=3D5.12 in case of multiple directories.
 
-Correct.
+My preference is to pass the existing hook directories to run-parts.
+If KDEB_HOOKDIR specifies two directories and both exist,
+pass them to run-parts.
 
-> In this mainline kernel, DEFINE_IDTENTRY_SYSVEC()
-> expands to a normal .text function which is explicitly
-> annotated 'noinline'.
 
-It's not annotated noinline, it's annotated 'noinstr', which puts the
-code into the .noinstr.text section. That one is indeed covered.
 
-So yes, the fix is only required for pre 5.8 kernels.
+>
+> > Do we need to check the help message and offer the fallback mechanism?
+>
+> The answer two that question depends on the answer to the last question. =
+If we
+> want to error out loudly with unsupported run-parts, then no help message=
+ has
+> to be checked. Otherwise, when we want to check what version of run-parts=
+ we
+> have, then there are two options. Either parsing the --version output (wh=
+ich is
+> not trivial itself because run-parts prints six lines of copyright inform=
+ation)
+> or parsing the --help output. The debianutils maintainer encouraged using=
+ the
+> latter option which is why I chose that one.
+>
+> Thanks!
+>
+> cheers, josch
 
-Thanks,
 
-        tglx
+
+--=20
+Best Regards
+Masahiro Yamada
 
