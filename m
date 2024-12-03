@@ -1,172 +1,92 @@
-Return-Path: <linux-kbuild+bounces-4977-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4978-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3269E2BE9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 20:20:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E9E9E2C87
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 20:58:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 58F49B27CF7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 16:31:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5F02B2F331
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:03:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2817A1F4283;
-	Tue,  3 Dec 2024 16:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD59D1F8EE2;
+	Tue,  3 Dec 2024 17:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cN7BVadz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iC6s4bFf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0000F2BD1D;
-	Tue,  3 Dec 2024 16:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A34A1F76C6;
+	Tue,  3 Dec 2024 17:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733243460; cv=none; b=j18aJJg/4uP8dboD7XK5YQTxmza27j/FMpaiZWsBGNHsRN60cIkFC/irumvGzkhrjuYOomskaLtTtoKDpe9ckcNicMZDYbJojzEobfNXRl/yq1A/LJjkcmGQm/3DEohci76yaMOYItyDWO3FmhaTfjRbzIzB5bi3lZLAJ/8w3oQ=
+	t=1733245421; cv=none; b=HTl+yAIUYpy6OB+0WrVHkkX8R9097RfsJhj+JbIx3F3oA/T0fs7NgeYzf+tp8uNJVjngkBcuZLiA/PL9yTNJWP7tYQRvFrLni4joNyuakj7Ik6DGdoqBTwJT60wgpGkgoV6kRWx0LKFBfVrup759LzMy52vd7BMjTqZjM1D77ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733243460; c=relaxed/simple;
-	bh=9WLbfDlWBf7lIxo4Ik3otfBy5WpGKtytQam0hLGECxM=;
+	s=arc-20240116; t=1733245421; c=relaxed/simple;
+	bh=E3hcewTlyOcLTnAf9Eg8o4Sqw/w4ZTAeGgYqxAzO5V4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ov+lT07TXUKDE1oyQVsmP6NL9mM7hFqpJ6H7VKBSZeI0/0iHNCp84tNEXghDOybhdT6nvl+Raw3y1LJp6+AvkkXdeDiTrhdDahi29bmrH0GA/p7W6hKxE6nGLlEg1EMN8M5ofxBMqSrM/zpdgmJ2+0CGC5IdEQMYxxGfI+sjna4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cN7BVadz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB999C4CECF;
-	Tue,  3 Dec 2024 16:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733243459;
-	bh=9WLbfDlWBf7lIxo4Ik3otfBy5WpGKtytQam0hLGECxM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cN7BVadzHZTZ8k/0Mao8K9b9j6SR4AxtW/zY1WyAYeB38yABXh70gFT0r3hCbbQtU
-	 haHWv9xZrY/MMfPCXS2FjiqnMHOKkQXmLHCJn2ADVEc/6rnH167Iyaeq8R9DAWwzcL
-	 UctflHT2ci0CycvYKWUGCJzKZ37ZV/ifSSx3Iyq8iczJFSHsS8gZEKxXLOHCrrTgvj
-	 UVw3Gs+zc7U9+78PvcQPUrE2boSGL5bf08XAwcSmjhNnpPDpg0w9WUSNmGDKljaIbT
-	 DaRRo2AmECvdIVJUfBs5DMO6s8eL4BNSFO8zQLAifTwj0BxljC1R70jTs7/OW04nZm
-	 wJMIwPKbT6AnQ==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ffc3f2b3a9so77119361fa.1;
-        Tue, 03 Dec 2024 08:30:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVCDSpYM54uEj4ZikTckkqvdhSqDsCAKal0pjPQvJ50883ZbHG2LjELtp+AbPKUrGaYKebI2NO9IjnzL4A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBEy0ejqPC8WYXGDyNUriOjOmRT1Rp+2KkAJjHH2fsH3ePNrnk
-	iCVANAFLI0A7/ADqfg7yhT688DUWD+akWPZbOeGzZh3q9yKRY5C6qRNAHAVaG9T9qZRUUrdT36D
-	NEFZd6h4nt2u0Kq3DlC5/hIbXjiQ=
-X-Google-Smtp-Source: AGHT+IE89g3zw4bi/PoiZ1mYdJHT7q8RiN7r1eQmEL3MXVMc3aYkDMi2ulypAM0VD26e9gpMvQJJzIFok/4p8MxS4dE=
-X-Received: by 2002:a05:6512:1189:b0:53d:eef7:a017 with SMTP id
- 2adb3069b0e04-53e129ff019mr3272024e87.15.1733243458067; Tue, 03 Dec 2024
- 08:30:58 -0800 (PST)
+	 To:Cc:Content-Type; b=nRAr5ylI3vG8Ooj6pQRRfOqCOZUH/9kwaGfb3w0YkayQKmlvDQTWFOoe5PBvCAvi5lJXDjjv71UAW+Z33QImKCTFDU8rd65CSRkaY8pzsuvz4cHwiRILpIDnLgfPO0+ZifYJj2uZOqdkGbcPRK6iTsQ7EkKRUKInbIO75gc1meo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iC6s4bFf; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2ffa974b2b0so58648681fa.3;
+        Tue, 03 Dec 2024 09:03:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733245418; x=1733850218; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=E3hcewTlyOcLTnAf9Eg8o4Sqw/w4ZTAeGgYqxAzO5V4=;
+        b=iC6s4bFfNBm2o/6yh+UtAQsY1UZn09/AmKbc/qhkYBbOT1tI8NJ17aSzOMWMtNpJUr
+         jStdgDaLxL7KOz5FEL4sWFUbyXjHXoadFyL/Qgm9NSxd8KoSy9EuFARWf/BWGI0hjxak
+         tPzpB/CqN5sN3pW3ZulPQdd5rbWa0TW9gQ3OKJTN1AznPR/8lHxlWGN11MPz4gjMBwQY
+         hQ2kYQc2TLZXfF4v+PFSaBQ5kfKH4xfnK19GmH8Zclifh7prFBoLHVWCYjlh3uAH6BR4
+         19LBW6cSG13qh49DYA/gy4TQfQtKi97+H+2MhvJrrG9QfUWmiJwJ+ZbB5XyoN53hebD9
+         ZoqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733245418; x=1733850218;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E3hcewTlyOcLTnAf9Eg8o4Sqw/w4ZTAeGgYqxAzO5V4=;
+        b=efkD7zO0RvpFYIFDkuQTUuYn1TBklBhRc35y2bq/98ysNJT9WRBOIPCUviyoomMGhd
+         qhdT3j7YxuT0HKE/fUYPcGm8GHt+ICwBBVLYH/MEFB8UyVzTBqENCGoqQrPXwCyfiuep
+         i2LzCECqOXXn9J6YIgJ2UDRnE+5uE27A5EP8Dt/87fWoPuwuD6xpu70jixAXf48cdaRe
+         ZamOxlgJvRBZ3KxtUZjyaf2LokM0auY2t1SCHOE1bm4RAPQmZFPwaFxZuUPH+lAdq5rU
+         FCqUY0gc0TElKuY6bdjNBwJQ7i73qqZKr/gVXWyRpBILwvk+tdV8eB+gQZv69TZQobN+
+         I9+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUocg/GmtgmCPtKsj8OzEHoVE6yaaac05jUmdvVBFMI5EXWSOXFmYSwk0/2uNKw+tCGuCHz/XpgS8ShozY/zrs=@vger.kernel.org, AJvYcCWeNa+FSwWQ22V1U8H07esGGRdBc3p0ZUQjlC8HiPicHnhF6J8WblcfSCdGsYN56Q8tmQkr6FBNzay+CxU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUreIT/WwW13rx12arwgy6eIDRJUIBXQtvcmytbh+AGOrEilTD
+	zY5FT9GN8wGs2hqe9rOhbZXO4V5T4znDc3FCj1lcP1ZmGNHe09+lsaKG2AGvGizZmx66qv+1xG8
+	HGrVMB+RcGp+Fa/3GlNYGipUOnwM=
+X-Gm-Gg: ASbGncsusMwnhK6yT01j+Oa9qGZ2nkBb7DjFr42c9T2ag/qRIMog+53U2XstSZLu7Pw
+	lgiDyWud7L9elJC1rAoA/GSVpc4Or0OHkcoL6GuXKgwPaeVk=
+X-Google-Smtp-Source: AGHT+IGraF7fxPX7KiWWaAjJF07+mEgcjdtRuA8A8OQKs6/SdJmHoc4uijFxrFaq3YHrj8cL81iMj7iysm0toJbh5xQ=
+X-Received: by 2002:a05:651c:546:b0:2ff:cfeb:cabd with SMTP id
+ 38308e7fff4ca-30009c6cfeemr25991641fa.28.1733245418141; Tue, 03 Dec 2024
+ 09:03:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <81560af7526138aa5221e5900ee7462f55bb090d.camel@HansenPartnership.com>
- <CAMj1kXFGEeAkxpqsfp0G3VqTRs+Sve-pULDXBKvzSqAc_AVFMA@mail.gmail.com> <6d21ce25bab39922c5c8b9f9433267e9d3e40d52.camel@HansenPartnership.com>
-In-Reply-To: <6d21ce25bab39922c5c8b9f9433267e9d3e40d52.camel@HansenPartnership.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 3 Dec 2024 17:30:47 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXE5H9_FMeyx-P=1P-q_OignBD9fBZm4xcc+-tKQ7yE2OA@mail.gmail.com>
-Message-ID: <CAMj1kXE5H9_FMeyx-P=1P-q_OignBD9fBZm4xcc+-tKQ7yE2OA@mail.gmail.com>
-Subject: Re: section mismatch error in aesgcm causing a build failure
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: linux-crypto@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>
+References: <20241105-b4-dylib-host-macos-v6-1-4e66515e6630@gmail.com>
+In-Reply-To: <20241105-b4-dylib-host-macos-v6-1-4e66515e6630@gmail.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Tue, 3 Dec 2024 12:03:01 -0500
+Message-ID: <CAJ-ks9nbwwtpO6TX3zM2Embag_7RQMfA0iBhtS5TS44wx1iOQQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v6] rust: use host dylib naming convention
+To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, Fiona Behrens <me@kloenk.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 3 Dec 2024 at 15:56, James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> On Tue, 2024-12-03 at 09:35 +0100, Ard Biesheuvel wrote:
-> > On Mon, 2 Dec 2024 at 21:27, James Bottomley
-> > <James.Bottomley@hansenpartnership.com> wrote:
-> > >
-> > > I'm getting this in 6.13-rc1:
-> > >
-> > > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:212:29: error: ptext1
-> > > causes a section type conflict with aesgcm_tv
-> > >  static const u8 __initconst ptext1[16];
-> > >                              ^~~~~~
-> > > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:570:9: note:
-> > > =E2=80=98aesgcm_tv=E2=80=99 was declared here
-> > >  } const aesgcm_tv[] __initconst =3D {
-> > >          ^~~~~~~~~
-> > > make[5]: *** [/home/jejb/git/linux-tpm/scripts/Makefile.build:194:
-> > > lib/crypto/aesgcm.o] Error 1
-> > > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:212:29: error: ptext1
-> > > causes a section type conflict with aesgcm_tv
-> > >  static const u8 __initconst ptext1[16];
-> > >                              ^~~~~~
-> > > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:570:9: note:
-> > > =E2=80=98aesgcm_tv=E2=80=99 was declared here
-> > >  } const aesgcm_tv[] __initconst =3D {
-> > >          ^~~~~~~~~
-> > > make[5]: *** [/home/jejb/git/linux-tpm/scripts/Makefile.build:194:
-> > > lib/crypto/aesgcm.o] Error 1
-> > >
-> > > I think it's way older than 6.13-rc1, but the inclusion of the
-> > > sevguest
-> > > driver in the merge window now means that something actually
-> > > selects
-> > > it.  I can fix it simply by adding a zero initialization to the
-> > > file:
-> > >
-> > > -static const u8 __initconst ptext1[16];
-> > > +static const u8 __initconst ptext1[16] =3D { 0 };
-> > >
-> > > Which I think means that by default the traditional zero
-> > > initialization
-> > > of a static variable is in the wrong section (and actually likely
-> > > is
-> > > wrong for all our __initX variables as well).
-> > >
-> > > In case it matters, this is with gcc-7
-> > >
-> >
-> > This also works
-> >
-> > static const u8 __section(".init.rodata,\"a\",@progbits #")
-> > ptext1[16];
->
-> That also works for me.
->
-> > and so this suggests that without the @progbits annotations, the
-> > compiler is placing ptext1 into a SHT_NOBITS section, causing a
-> > conflict with the SHT_PROGBITS annotation of aesgcm_tv.
->
-> I'm not so sure about that:
->
-> static const u8 __section(".bss.init,\"a\",@nobits #") ptext1[16];
->
-> Also works for me.
->
-
-I'm not sure I get the point you are trying to make. .bss.init does
-not exist otherwise, so there is no other section it might conflict
-with.
-
-> > Given how unusual it is to have a static const variable without an
-> > initializer, I don't think this suggests that there is a wider issue
-> > with __initconst/__initdata.
->
-> What I meant was that uninitialized static __initX variables point to
-> the bss section.  We don't seem to have a discardable init bss section,
-> so they remain allocated for the life of the kernel.
->
-
-This is not about the section, but about the type annotation.
-
-__initdata will be emitted into .init.data, and it will be discarded
-after boot. Even if there is no initializer, the variable will still
-end up in the correct section, and not point to the .bss section as
-you claim.
-
-> > We're about to bump the minimum GCC version to 8 for other reasons,
-> > and I couldn't reproduce it with GCC 8.5.0. But the fix is
-> > straight-forward and actually clarifies this rather odd occurrence,
-> > so I think we should apply it nonetheless.
->
-> Hm, that's going to cause some problems: I'm on openSUSE Leap.
-> Although all gcc's up to gcc-13 can be installed, the default compiler
-> is still gcc-7
->
-
-I guess you will have to upgrade your compiler then.
+Gentle bump. How can I move this forward please?
 
