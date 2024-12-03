@@ -1,92 +1,126 @@
-Return-Path: <linux-kbuild+bounces-4978-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4979-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E9E9E2C87
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 20:58:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E05129E2BE5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 20:20:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5F02B2F331
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:03:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A53D4284AB7
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 19:20:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD59D1F8EE2;
-	Tue,  3 Dec 2024 17:03:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEE331FECB8;
+	Tue,  3 Dec 2024 19:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iC6s4bFf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/a2Vsjz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A34A1F76C6;
-	Tue,  3 Dec 2024 17:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7852013B2B8;
+	Tue,  3 Dec 2024 19:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733245421; cv=none; b=HTl+yAIUYpy6OB+0WrVHkkX8R9097RfsJhj+JbIx3F3oA/T0fs7NgeYzf+tp8uNJVjngkBcuZLiA/PL9yTNJWP7tYQRvFrLni4joNyuakj7Ik6DGdoqBTwJT60wgpGkgoV6kRWx0LKFBfVrup759LzMy52vd7BMjTqZjM1D77ao=
+	t=1733253605; cv=none; b=XNyxYRuhn+sPpUmTStYHXuOcvkegReocty/f624e4vILV5jXJo7T8y9ms9A58WSVwXQgff1HgocQ4ufvXB/T/CB7S8hma21vUmOvNcfV285713MO5J8tex30eE3PV/nHdkqaoiU05YC6NBSWG8ohGgFC9Fig69p8EZXwGfYRgZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733245421; c=relaxed/simple;
-	bh=E3hcewTlyOcLTnAf9Eg8o4Sqw/w4ZTAeGgYqxAzO5V4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nRAr5ylI3vG8Ooj6pQRRfOqCOZUH/9kwaGfb3w0YkayQKmlvDQTWFOoe5PBvCAvi5lJXDjjv71UAW+Z33QImKCTFDU8rd65CSRkaY8pzsuvz4cHwiRILpIDnLgfPO0+ZifYJj2uZOqdkGbcPRK6iTsQ7EkKRUKInbIO75gc1meo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iC6s4bFf; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2ffa974b2b0so58648681fa.3;
-        Tue, 03 Dec 2024 09:03:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733245418; x=1733850218; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=E3hcewTlyOcLTnAf9Eg8o4Sqw/w4ZTAeGgYqxAzO5V4=;
-        b=iC6s4bFfNBm2o/6yh+UtAQsY1UZn09/AmKbc/qhkYBbOT1tI8NJ17aSzOMWMtNpJUr
-         jStdgDaLxL7KOz5FEL4sWFUbyXjHXoadFyL/Qgm9NSxd8KoSy9EuFARWf/BWGI0hjxak
-         tPzpB/CqN5sN3pW3ZulPQdd5rbWa0TW9gQ3OKJTN1AznPR/8lHxlWGN11MPz4gjMBwQY
-         hQ2kYQc2TLZXfF4v+PFSaBQ5kfKH4xfnK19GmH8Zclifh7prFBoLHVWCYjlh3uAH6BR4
-         19LBW6cSG13qh49DYA/gy4TQfQtKi97+H+2MhvJrrG9QfUWmiJwJ+ZbB5XyoN53hebD9
-         ZoqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733245418; x=1733850218;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E3hcewTlyOcLTnAf9Eg8o4Sqw/w4ZTAeGgYqxAzO5V4=;
-        b=efkD7zO0RvpFYIFDkuQTUuYn1TBklBhRc35y2bq/98ysNJT9WRBOIPCUviyoomMGhd
-         qhdT3j7YxuT0HKE/fUYPcGm8GHt+ICwBBVLYH/MEFB8UyVzTBqENCGoqQrPXwCyfiuep
-         i2LzCECqOXXn9J6YIgJ2UDRnE+5uE27A5EP8Dt/87fWoPuwuD6xpu70jixAXf48cdaRe
-         ZamOxlgJvRBZ3KxtUZjyaf2LokM0auY2t1SCHOE1bm4RAPQmZFPwaFxZuUPH+lAdq5rU
-         FCqUY0gc0TElKuY6bdjNBwJQ7i73qqZKr/gVXWyRpBILwvk+tdV8eB+gQZv69TZQobN+
-         I9+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUocg/GmtgmCPtKsj8OzEHoVE6yaaac05jUmdvVBFMI5EXWSOXFmYSwk0/2uNKw+tCGuCHz/XpgS8ShozY/zrs=@vger.kernel.org, AJvYcCWeNa+FSwWQ22V1U8H07esGGRdBc3p0ZUQjlC8HiPicHnhF6J8WblcfSCdGsYN56Q8tmQkr6FBNzay+CxU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUreIT/WwW13rx12arwgy6eIDRJUIBXQtvcmytbh+AGOrEilTD
-	zY5FT9GN8wGs2hqe9rOhbZXO4V5T4znDc3FCj1lcP1ZmGNHe09+lsaKG2AGvGizZmx66qv+1xG8
-	HGrVMB+RcGp+Fa/3GlNYGipUOnwM=
-X-Gm-Gg: ASbGncsusMwnhK6yT01j+Oa9qGZ2nkBb7DjFr42c9T2ag/qRIMog+53U2XstSZLu7Pw
-	lgiDyWud7L9elJC1rAoA/GSVpc4Or0OHkcoL6GuXKgwPaeVk=
-X-Google-Smtp-Source: AGHT+IGraF7fxPX7KiWWaAjJF07+mEgcjdtRuA8A8OQKs6/SdJmHoc4uijFxrFaq3YHrj8cL81iMj7iysm0toJbh5xQ=
-X-Received: by 2002:a05:651c:546:b0:2ff:cfeb:cabd with SMTP id
- 38308e7fff4ca-30009c6cfeemr25991641fa.28.1733245418141; Tue, 03 Dec 2024
- 09:03:38 -0800 (PST)
+	s=arc-20240116; t=1733253605; c=relaxed/simple;
+	bh=GoVY0MacbGqeIM2tuFnUAwUqQsX3P927jIipuZadN/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SlX063Pp7rxnvGaMPym5NNoBbGsQO/XQeTu83yLFAPM/7S28P+hKGhHjuzi1Nj5uFYJKJr34mdmP1/WtSLXdH9j/dqazJ8l//l7kkEsS7jM2b8crHnmbd0fTNuDtr8mSdPFhKs+HofHdWcbSEX27cbklEWN08xdXMV8XY2+I9CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/a2Vsjz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B950C4CECF;
+	Tue,  3 Dec 2024 19:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733253605;
+	bh=GoVY0MacbGqeIM2tuFnUAwUqQsX3P927jIipuZadN/8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b/a2VsjzXpa4vq+6GX9bWpT4jfdCc9+qSk5OIXdrtio3/wiZsdTNMnGHPb5hWQ1Lu
+	 hnJraYFam6cvpxnBvD22Ajp/WwFQLQOdN74OE7XwbpKKDUqcFY5A/Uz/oOrKg6ZgVa
+	 bqvVY/5u91+fPguQJOGxbEsS43YeS/32dpiPHd+hKL9WUEHF3ckg+B1Gv+6jauj8U2
+	 Xe9cg0rQHScQpqNzLZ5UAZqGVM4kXUCVE9lC3aSGcHJ+TgH6tMjXWTTteSgXZDPiQ1
+	 pxNd5QqcXmNcUwz7HQtEhX2FJEeOT5H5e5MgklbZuSV8aATLJasgSNxnTkgXkbKDjv
+	 LiV+OrnyYgqzA==
+Date: Tue, 3 Dec 2024 19:19:58 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, mcgrof@kernel.org,
+	x86@kernel.org, hpa@zytor.com, petr.pavlu@suse.com,
+	samitolvanen@google.com, da.gomez@samsung.com, masahiroy@kernel.org,
+	nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	hch@infradead.org, gregkh@linuxfoundation.org,
+	linux-next@vger.kernel.org
+Subject: Re: [PATCH -v2 1/7] module: Convert symbol namespace to string
+ literal
+Message-ID: <d707cb3b-1569-45d9-bdc3-dcc98eb88bc4@sirena.org.uk>
+References: <20241202145946.108093528@infradead.org>
+ <20241202150810.048548103@infradead.org>
+ <20241202151533.GF8562@noisy.programming.kicks-ass.net>
+ <CAHk-=wh7KugYO+R-1DMmkLz4fD_-A9BMyrWTVsH_K0a86Ojn4A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241105-b4-dylib-host-macos-v6-1-4e66515e6630@gmail.com>
-In-Reply-To: <20241105-b4-dylib-host-macos-v6-1-4e66515e6630@gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Tue, 3 Dec 2024 12:03:01 -0500
-Message-ID: <CAJ-ks9nbwwtpO6TX3zM2Embag_7RQMfA0iBhtS5TS44wx1iOQQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v6] rust: use host dylib naming convention
-To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, Fiona Behrens <me@kloenk.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PoFmYAtqBuzya2VW"
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wh7KugYO+R-1DMmkLz4fD_-A9BMyrWTVsH_K0a86Ojn4A@mail.gmail.com>
+X-Cookie: She's genuinely bogus.
 
-Gentle bump. How can I move this forward please?
+
+--PoFmYAtqBuzya2VW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 02, 2024 at 11:33:58AM -0800, Linus Torvalds wrote:
+> On Mon, 2 Dec 2024 at 07:15, Peter Zijlstra <peterz@infradead.org> wrote:
+> >
+> > Perhaps we can ask Linus to run this now, before -next fills up again ?
+>=20
+> Sure. I did an unasked-for scripted 'remove_new' removal right after
+> rc1 for the same reason.
+>=20
+> If we have these kinds of big scripted things, right after the merge
+> window tends to be the best time to do them. The conflict potential of
+> leaving it hanging in linux-next can be somewhat annoying. They may be
+> fairly unlikely, and easy to resolve individually, but it's one of
+> those "one is trivial to deal with, but even just a handful is
+> annoying".
+>=20
+> So I'll run your script and take your commit message, and we'll have
+> this part over and done with.
+
+I *think* this is interacting in a fun way with at least the IIO
+subsystem in -next (Linus' tree is fine, I didn't do too much
+investigation as I'd quite like the -next build to finish some time
+today):
+
+/tmp/next/tmp/ccjk7YJR.s: Assembler messages:
+/tmp/next/tmp/ccjk7YJR.s:5: Error: junk at end of line, first unrecognized =
+character is `I'
+make[7]: *** [/tmp/next/build/scripts/Makefile.build:194: drivers/iio/imu/i=
+nv_icm42600/inv_icm42600_core.o] Error 1
+
+I've dropped the IIO trees from -next for now.
+
+--PoFmYAtqBuzya2VW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdPWd0ACgkQJNaLcl1U
+h9DqCgf/eHt6CEyW4+3cV5neQO9p64Zdpt+vJBM+4RtNmpd3ZRufj3exRjmiqrC7
+L4Yj4iHFGHk5Vdkw0PUCe6JZ7vS5hIcP1TC/xzhPqL31++/6L3/RCn1bAJZ5s+if
+UVKFxbTEiFclpfcHejEYmv/mz0+sN1WOm7xwK2N5/AHwWxlMNGZAQmG0gM0sA2Ws
+Z+dT6DjMIOD/RR63yeT6uetozBl2TkJTVj8tDH8QHZlgOlZrqyUl4RrcLGnDugq9
+rXEBU/EgaKGTQhWgj4Uleid3Rw5VS8Hmu1Tcp+yvKS4ACzICMVKuE8WV7inO0Xt/
+oYpm7fWMp9YMDq/gHcC4Dlrs6njCGQ==
+=uKSV
+-----END PGP SIGNATURE-----
+
+--PoFmYAtqBuzya2VW--
 
