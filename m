@@ -1,114 +1,142 @@
-Return-Path: <linux-kbuild+bounces-4973-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4974-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93DB9E2840
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:55:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 368999E26D9
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 17:17:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9FC9ABE709D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 16:10:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFC2D289442
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 16:17:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E9E1F890B;
-	Tue,  3 Dec 2024 16:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C4EA1EE00B;
+	Tue,  3 Dec 2024 16:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Z+2ReGAd";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JClbkhKx"
+	dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b="I4SqzXR5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mister-muffin.de (mister-muffin.de [144.76.155.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BDC1F76D7;
-	Tue,  3 Dec 2024 16:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4B61E2613
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 16:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.155.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733242214; cv=none; b=JWDMWCPGEvM8Ycnm7lawalX/r761dWd3sNSoGViQTIc2AEMvAsMoEaoqXWy1bnwg6M+suoSIKYu930RtGJP1eSsn0QXyQrmdMAbEH/vpMNkJxbM7AL6Bg8xF70gFByr3waeLe9+1l5VBS/qor7BFB6DE4hH5dBkqrpJsjAdQSRU=
+	t=1733242673; cv=none; b=rzT55owFwDgX6kAWQMo0AkdKE0miTzULdISWhgxmS5Xsih7Q3B7V9JHR7TNjevov/HFSgM/sNmse4te3vt4bDXpQ/AdP1wfUC097edwrNi5HJBUXsL6u1kTQktznvqLPQH5Hidk6D2qO/rkxJerQgK5iG//DVilwoqLPVfVceX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733242214; c=relaxed/simple;
-	bh=fG2igQkn+4+8e57/uPhJs9Uh52Ls0xvv3KuRt0L7L8g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SMcTEb2cv+J0niaqMJ+sGWZ8LfKYn2FCL6MKRIoe9j1rMD3TK+0xqFR2dYF+SR0j7Q97TWuE/mYZHXAWWnnYVFeW3MxygiUga1kt9bjcsEkfiyDZSaHNrr9WObl0zmq/1h0TjOKR7317kQ9kOFLzY81dKL76yQPQHHILgeGyaHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Z+2ReGAd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JClbkhKx; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1733242210;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddk6G81ViUFgr4R1ETgTtudIxbjBUqRlwB5igRmXu4g=;
-	b=Z+2ReGAdXtDLEPMXg5raBwXetTEwjAfMflPPAVrOEfwrcGysNtb8Ptm4XzSqdf4ddJMGIq
-	ZZBqiBOgCOuNuIq7DGHEpXVU5Xu4jv5Ii0TG4PGQvsseXUozaeu5T5eRpVLSIubrfSBUZY
-	lFZrJk3uf2apYr8jS5FoEhfHHkKwHL1pNg0eQKunI6+PHruC3fqVPA0XwdV0EArk+NSne1
-	qRUQSW5+Hn6udBK6/6UYU3VD1Qvh1dzaS5h0bDf2GWTmtVuK2vdUqgTz4h/DjFGF7xoGyx
-	74YrDneOpK3BgwfyF7vv7CsmkugBesXXEbSgxcas7HUjervqVsUTsLXvAgoZEw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1733242210;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddk6G81ViUFgr4R1ETgTtudIxbjBUqRlwB5igRmXu4g=;
-	b=JClbkhKx8PC6kkrMhZFXxilt17KHhS6wyGx8qQN8eby8jwpBXi3PGasAee6M7LJ+MvpgRm
-	h+JYswnTZp71zZAw==
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
- 20241015061522.25288-1-rui.zhang@intel.com, Zhang Rui
- <rui.zhang@intel.com>, hpa@zytor.com, peterz@infradead.org,
- thorsten.blum@toblux.com, yuntao.wang@linux.dev, tony.luck@intel.com,
- len.brown@intel.com, srinivas.pandruvada@intel.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, rafael.j.wysocki@intel.com,
- x86@kernel.org, linux-pm@vger.kernel.org, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] modpost: Add .irqentry.text to OTHER_SECTIONS
-In-Reply-To: <CAK7LNARufW5wc=qBt5R=RJ9BkFirLKAgRgg_t=OmTTGbjLfsAg@mail.gmail.com>
-References: <20241128111844.GE10431@google.com> <87o71xvuf3.ffs@tglx>
- <20241130114549.GI10431@google.com> <87iks3wt2t.ffs@tglx>
- <CAK7LNARWpcbVsJFYCDN28vuuLfEibZmT+m5=qMEJcKD9Abzv4Q@mail.gmail.com>
- <87iks1vlu5.ffs@tglx>
- <CAK7LNARufW5wc=qBt5R=RJ9BkFirLKAgRgg_t=OmTTGbjLfsAg@mail.gmail.com>
-Date: Tue, 03 Dec 2024 17:10:09 +0100
-Message-ID: <87h67ku4ri.ffs@tglx>
+	s=arc-20240116; t=1733242673; c=relaxed/simple;
+	bh=Mp822f7t9NTXdbjoFK6m0qu8tNFS/6pieNkeS5hYKsI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bDLa8sL07725KKqGRWYYxbU6fdJZByU8WBCHGEAz3zojua0X2U76HdKrtPGa2Rd186rMIljDXXubTYOjyeqbe1xDKq/iCAPBfvN2ppxbWEHrpYWnA1xdbGs6x0P/1BG+URWEheufxW+TPePp3p9p8YDP3RCur4zlAqctdqgG5J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de; spf=pass smtp.mailfrom=mister-muffin.de; dkim=pass (1024-bit key) header.d=mister-muffin.de header.i=@mister-muffin.de header.b=I4SqzXR5; arc=none smtp.client-ip=144.76.155.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mister-muffin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mister-muffin.de
+Received: from localhost (ipb218f889.dynamic.kabel-deutschland.de [178.24.248.137])
+	by mister-muffin.de (Postfix) with ESMTPSA id 93ADF79C;
+	Tue,  3 Dec 2024 17:17:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mister-muffin.de;
+	s=mail; t=1733242668;
+	bh=Mp822f7t9NTXdbjoFK6m0qu8tNFS/6pieNkeS5hYKsI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=I4SqzXR5VWSBu58fWvlH37p8U2d+EAhl7ibdHE/lLTqVT/eLwM1g9HRhJBoXFu66q
+	 BOjqYDj92qE8/wy0QASytEdUrxV+rSnydk/NtmBLE890TOj5gwXv2BAjhzajPHV6/b
+	 HD63fklgSdtVe/Dldt2KsYzez3vzt7xq8yuIh4eY=
+From: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
+To: linux-kbuild@vger.kernel.org
+Cc: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
+Subject: [PATCHv4 0/1] kbuild: deb-pkg: allow hooks also in /usr/share/kernel
+Date: Tue,  3 Dec 2024 17:17:34 +0100
+Message-Id: <20241203161735.2411494-1-josch@mister-muffin.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
+References: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 04 2024 at 00:27, Masahiro Yamada wrote:
-> On Tue, Dec 3, 2024 at 6:03=E2=80=AFAM Thomas Gleixner <tglx@linutronix.d=
-e> wrote:
->> > In this mainline kernel, DEFINE_IDTENTRY_SYSVEC()
->> > expands to a normal .text function which is explicitly
->> > annotated 'noinline'.
->>
->> It's not annotated noinline, it's annotated 'noinstr', which puts the
->> code into the .noinstr.text section. That one is indeed covered.
->
-> The callsite of local_apic_timer_interrupt() is annotated 'noinline'
-> if I correctly understand this line:
->   https://github.com/torvalds/linux/blob/v6.13-rc1/arch/x86/include/asm/i=
-dtentry.h#L272
+Quoting Masahiro Yamada (2024-12-03 15:24:10)
+> > Unless I'm misunderstanding the old code, the existing script *does* create 
+> > /etc/kernel/*.d/ (That's the "- mkdir -p" line above) so I wanted to
+> > preserve this behaviour even with more than one directory in KDEB_HOOKDIR.
+> > Do I misunderstand something?
+>█
+> Right. The existing code does create empty directories, which
+> are unnecessary.
 
-You're right. I got lost in the macro maze and looked at the actual
-sysvec_...() part.
+Okay. I had assumed that their creation was intentional.
 
->> So yes, the fix is only required for pre 5.8 kernels.
->
-> This never occurs on x86 after commit f0178fc01fe46,
-> but theoretically this may occur for other architectures.
+> > Are you saying that with this change, no
+> > /etc/kernel/*.d/ should be created anymore? Why?
+>█
+> The 'mkdir' is unnecessary regardless of your patch,
+> unless I am misunderstanding the code.
 
-Correct.
+Yes, the mkdir is not necessary as far as I can see. Packages that do
+install hooks will take care of creating these. It doesn't have to be
+the linux kernel image package that takes care of creating them.
 
-Thanks,
+> Judging from your cautious approach and verbose changes, I
+> assume you are trying to avoid any risks (a common trait
+> among many contributors).
 
-        tglx
+That is correct. I hope that such an approach is considered desirable?
+
+> That said, I understand you are not motivated to strive for
+> clean code at all costs. Once you commit the run-parts
+> changes, you may feel your work is done. However, as the
+> maintainer, I must manage this code for many years,
+> so I aim to proactively remove unneeded code.
+
+I understand. I don't see a problem changing the patch in a way such that you
+feel that you can take responsibility for it in the long term. Thank you for
+taking the time to explain this to me. It is really much appreciated and I know
+that you don't have to. Thank you!
+
+That being said, please do reach out to me if there are problems with my
+contributions later on. I am also the contributor of the new functionality in
+run-parts, so should there be issues with debianutils, you can also contact me
+about problems with using run-parts on multiple directories as well.
+
+> I have decided to take responsibility for cleaning up this
+> single line myself:
+>█
+> https://lore.kernel.org/linux-kbuild/CAK7LNARU=M282fAOOgzPOBPtDNFPjH8To9eK2vYstWxkEDEEPA@mail.gmail.com/T/#t
+>█
+> If something breaks due to missing directories,
+> it will be my fault, not yours.
+
+Thank you. My new patch (v4) in the next mail now is on top of your
+change above.
+
+> Now that the dummy directories are gone from the linux-image
+> package, please prepare the next version without the
+> "pre-create the first hook directory" stuff.
+>█
+> A few more requests.
+>█
+> Please add the version number (the next patch will be v4?) like others do.
+> And "kbuild: deb-pkg:" as the patch subject.  ('git log
+> script/package/buildeb' to see examples)
+
+I think I have taken care of these issues now.
+
+Thank you!
+
+cheers, josch
+
+
+Johannes Schauer Marin Rodrigues (1):
+  kbuild: deb-pkg: allow hooks also in /usr/share/kernel
+
+ scripts/package/builddeb | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
+
+-- 
+2.39.2
+
 
