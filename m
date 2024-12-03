@@ -1,174 +1,156 @@
-Return-Path: <linux-kbuild+bounces-4982-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4983-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E102A9E2F88
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 00:09:21 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB71B164B7B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 23:09:18 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9907D207A3E;
-	Tue,  3 Dec 2024 23:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="b1ASdtAH"
-X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C749E2FDB
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 00:30:36 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458078460;
-	Tue,  3 Dec 2024 23:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFD56B2917F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 23:26:42 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACE5620A5E5;
+	Tue,  3 Dec 2024 23:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g5GZLFX+"
+X-Original-To: linux-kbuild@vger.kernel.org
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9181FC10C
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 23:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733267357; cv=none; b=Pwr9j/PbgaKTglohvRnS3Q/NkshYLBd280u1ruFcWoPaC4BSfM09QqIMFkNABx3WivkaYv/8bMoNdYliHhkOnQlJojAFLlLTXcn0S2ZZ0zlw+UGIOAQfvgmlwEYh22ggXbApuy7X7nVtCgfYnriqqTmUvpz4FimeVZUM/z2yB0U=
+	t=1733268396; cv=none; b=TMY6/HItzsrMcz85UCHGdvzIMoIU51rqI3QNkZVF9ZFHYEy4/ee5lDNB2h49KBviP4Be21V8HYxzKxnZ9O1ADBDvhbzExw0T4Vg3seibWSlq+TjnKLod3Jr9J75NIyyFbgM+ofL+C4tEuDeWWwLO2Hrhu2c6ZS5RBDUPw/qDCt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733267357; c=relaxed/simple;
-	bh=3zN1x3N+s9QrJx4DCJMFRRP/JtlOXiWxV6oDmoR/K0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZOKyQ/ivVknfuovA8kp62ZZgBn2FuchtCUS8ciTOKk0h0mvup7uFLwK6QBo5aAdOOfs5+S5USVG0RVKOyKtOg2nWL62sh6iGh2Qt7u0bXS5h1yulex6aIhwZuga1taLkGBfO7Ewen6fuK0b87blTmRG+/9qZIC94AtRyxxW+JBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=b1ASdtAH; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1733267349;
-	bh=3zN1x3N+s9QrJx4DCJMFRRP/JtlOXiWxV6oDmoR/K0E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b1ASdtAHY6b2cx0XrR2Y7/JBFvWsaNY22fJtiUq98k0Rkk9vF4BvVGNeGmqFWijz4
-	 MNQY1TwPW7/kF2houjesmHMja7FUDIaWYCHxNP1v8GbxgvCLEo/AIHtmM+1KnfZ9Dy
-	 NGnV5GWwWzh9YbSgHeG6l6Rfad+CuHi3mEKhlBPM=
-Date: Wed, 4 Dec 2024 00:09:08 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] tools/resolve_btfids: Add --fatal-warnings option
-Message-ID: <9a11cf2f-ddca-4a50-817f-74183d31dcaf@t-8ch.de>
-References: <20241126-resolve_btfids-v2-0-288c37cb89ee@weissschuh.net>
- <20241126-resolve_btfids-v2-1-288c37cb89ee@weissschuh.net>
- <CAEf4BzahMQWVH0Gaub-tWjH9GweG8Kt7OBU-f+PBhmmRDCKfrA@mail.gmail.com>
+	s=arc-20240116; t=1733268396; c=relaxed/simple;
+	bh=A+NygRxfATzmDDYl4BW+aoTxyFsALc+e05mYyvBpsWU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZDxxxwjxrH3JAqOOF2Te7KH8gLbBTCQid+radA3Wm1I/Tm7YRJPeo0Z0Jpxc1nAyjdQs5MLHjolpHpUxZNh7puA76sU0quXwHmE1qXyIoePFfO+4n2pBwfo5fMXhCaTA6q+Er63yBBjV15Q7sTbBoI+HKK7YzgsYLPihxGVc1MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g5GZLFX+; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5cf9ef18ae9so527188a12.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Dec 2024 15:26:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733268393; x=1733873193; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h0gsOOV1IK0tbYsC9eBpU6WfUiWf0dqVzzhWYdaHF04=;
+        b=g5GZLFX+dNpdx1YYUJf5LjvBATqDc4vNwiLsd5Vg5f/Q0v1vpIo5LbOagutF6tWpuq
+         6YPnniNdcTWkE0F9Pvnvrnyoz9rQRpLflynsw2tat7MCaNvjdvbRURLlw6ilPDuWJGjM
+         jwltgiwduh6ZCo5qqzKW6ZY9o5YAhNmfK1NZ7+gO96u9qTwIAKxCwQT3n6BFbosUl7NU
+         KJy+Azpyyugs2JXMN6hZZfh1JmHZOlJqSATah+9PVo8y6wgRdTm6n6ssGamQGnEs+vHT
+         4lOi6RHdVh+hafoWNSS7MvnG4IuACOc9ad8h6t6tXTl5T+0V+0QY0DDdQXw4VU8auBjZ
+         kqHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733268393; x=1733873193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h0gsOOV1IK0tbYsC9eBpU6WfUiWf0dqVzzhWYdaHF04=;
+        b=pARA/4YriXR+h+w1UAQuS0Akk9U/Lwiq8I3tPtIzRyzGJeTpk9m6kEl0LO8NNyx4c6
+         dUAyQgFpqElnr+vPywfh2b658LcHk5FEOYCTQklff9sdCdONM98Ojd0BNy3HJaAvIFxW
+         vt77eU4UWJjoJdHuVWrHuLbUkqr5mGimkWMLgkH6uOmCxhkHFVU4q8Xiv+tXhy1fjfrG
+         rv5JLeuB8Sxi7iL4Z7DnJHDyP+1mVCjuvoB85ooqvI68MLkQREPzWTUmFr7+usQ4nfC6
+         IIwmYILr2Oa7z2aQbDNYcHl5OZcSpf0telLZIK4Egrdgwr4fIQObGggxepg+SWip61I4
+         38yw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8Gmuz+FShkl5SMemWQgxHq4H8j4M4kEGJsP4A0CaJkqAPz3QbGnmxCjTrSmc8wcgNv+ms7+dwAbcpB+g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUH10D9w00YPo+fbSWdlJD5f6kT1duhmaVbwBEKioApjp4Z47w
+	zjlpXpLoQQJWLi3CKN8fGFFBgn8qnrzeT1zz5ogM9/VtjEbbyeeKgbvbyBKvlY7rXW0gPrGV/IZ
+	O74o4ai/dLcs6EAT7rTkErDqDk+jRPQovpwP5
+X-Gm-Gg: ASbGncuONAqonnl756S0UNLEHfzerCj22s0LbXJdSepnpQpc4LZCyZgIJLLY3Z27gJ5
+	4zEVJZZeOlukJyAXwq7zDXuVrOtPz+SNVGX7+foLPXOl6YRPAE+nItV9bD07ASsLX
+X-Google-Smtp-Source: AGHT+IG44HltO60JYgYmVvMEo3QlcFo1P0mYiAAGDSp4Skz4zAxbxt9ZfqfNSvUY79c414MNywqlUX98rVVFvuuFn2Y=
+X-Received: by 2002:a05:6402:1d49:b0:5d0:e9a8:4c96 with SMTP id
+ 4fb4d7f45d1cf-5d10c2498d8mr3918350a12.9.1733268392481; Tue, 03 Dec 2024
+ 15:26:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4BzahMQWVH0Gaub-tWjH9GweG8Kt7OBU-f+PBhmmRDCKfrA@mail.gmail.com>
+References: <20241112184455.855133-1-ojeda@kernel.org> <CAH5fLghFZTG2X_mYE2yGJwPM31NrJdkA-cpZTCYsdghR8YdY8Q@mail.gmail.com>
+In-Reply-To: <CAH5fLghFZTG2X_mYE2yGJwPM31NrJdkA-cpZTCYsdghR8YdY8Q@mail.gmail.com>
+From: "Hong, Yifan" <elsk@google.com>
+Date: Tue, 3 Dec 2024 15:25:56 -0800
+Message-ID: <CAABy=s1sEzJZBR6Mt+ujFY_SSbU_OgKDtOs0+bxXQhTo9QZtGA@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-12-03 14:31:01-0800, Andrii Nakryiko wrote:
-> On Tue, Nov 26, 2024 at 1:17 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
+On Wed, Nov 13, 2024 at 5:34=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> w=
+rote:
+>
+> On Tue, Nov 12, 2024 at 7:45=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> w=
+rote:
 > >
-> > Currently warnings emitted by resolve_btfids are buried in the build log
-> > and are slipping into mainline frequently.
-> > Add an option to elevate warnings to hard errors so the CI bots can
-> > catch any new warnings.
+> > From: HONG Yifan <elsk@google.com>
 > >
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > Acked-by: Jiri Olsa <jolsa@kernel.org>
-> > ---
-> >  tools/bpf/resolve_btfids/main.c | 12 ++++++++++--
-> >  1 file changed, 10 insertions(+), 2 deletions(-)
+> > These are flags to be passed when linking proc macros for the Rust
+> > toolchain. If unset, it defaults to $(KBUILD_HOSTLDFLAGS).
 > >
-> > diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
-> > index bd9f960bce3d5b74dc34159b35af1e0b33524d2d..571d29d2da97fea75e5f9c544a95b9ac65f9e579 100644
-> > --- a/tools/bpf/resolve_btfids/main.c
-> > +++ b/tools/bpf/resolve_btfids/main.c
-> > @@ -141,6 +141,7 @@ struct object {
-> >  };
+> > This is needed because the list of flags to link hostprogs is not
+> > necessarily the same as the list of flags used to link libmacros.so.
+> > When we build proc macros, we need the latter, not the former (e.g. whe=
+n
+> > using a Rust compiler binary linked to a different C library than host
+> > programs).
 > >
-> >  static int verbose;
-> > +static int warnings;
+> > To distinguish between the two, introduce this new variable to stand
+> > out from KBUILD_HOSTLDFLAGS used to link other host progs.
 > >
-> >  static int eprintf(int level, int var, const char *fmt, ...)
-> >  {
-> > @@ -604,6 +605,7 @@ static int symbols_resolve(struct object *obj)
-> >                         if (id->id) {
-> >                                 pr_info("WARN: multiple IDs found for '%s': %d, %d - using %d\n",
-> >                                         str, id->id, type_id, id->id);
-> > +                               warnings++;
-> >                         } else {
-> >                                 id->id = type_id;
-> >                                 (*nr)--;
-> > @@ -625,8 +627,10 @@ static int id_patch(struct object *obj, struct btf_id *id)
-> >         int i;
+> > Signed-off-by: HONG Yifan <elsk@google.com>
+> > Link: https://lore.kernel.org/r/20241017210430.2401398-2-elsk@google.co=
+m
+> > [ v3:
 > >
-> >         /* For set, set8, id->id may be 0 */
-> > -       if (!id->id && !id->is_set && !id->is_set8)
-> > +       if (!id->id && !id->is_set && !id->is_set8) {
-> >                 pr_err("WARN: resolve_btfids: unresolved symbol %s\n", id->name);
-> > +               warnings++;
-> > +       }
-> >
-> >         for (i = 0; i < id->addr_cnt; i++) {
-> >                 unsigned long addr = id->addr[i];
-> > @@ -782,6 +786,7 @@ int main(int argc, const char **argv)
-> >                 .funcs    = RB_ROOT,
-> >                 .sets     = RB_ROOT,
-> >         };
-> > +       bool fatal_warnings = false;
-> >         struct option btfid_options[] = {
-> >                 OPT_INCR('v', "verbose", &verbose,
-> >                          "be more verbose (show errors, etc)"),
-> > @@ -789,6 +794,8 @@ int main(int argc, const char **argv)
-> >                            "BTF data"),
-> >                 OPT_STRING('b', "btf_base", &obj.base_btf_path, "file",
-> >                            "path of file providing base BTF"),
-> > +               OPT_BOOLEAN(0, "fatal-warnings", &fatal_warnings,
-> > +                           "turn warnings into errors"),
-> 
-> We are mixing naming styles here: we have "btf_base" with underscore
-> separator, and you are adding "fatal-warnings" with dash separator. I
-> personally like dashes, but whichever way we should stay consistent.
-> So let's fix it, otherwise it looks a bit sloppy.
+> >   - `export`ed the variable. Otherwise it would not be visible in
+> >     `rust/Makefile`.
+>
+> Despite the missing export, the previous version worked for us too.
+> I'm not sure why that is.
 
-Ack.
+It happened to pass the build when KBUILD_HOSTLDFLAGS was empty, which
+was the case when it was not exported. But that was definitely not the
+original intention of this patch. Thanks for catching it! I have
+verified that v3 correctly exports the variable to sub-make and still
+works for our case.
 
-> 
-> Please also use [PATCH bpf-next v3] subject prefix to make it explicit
-> that this should go through bpf-next tree.
-
-Ack.
-
-> 
-> pw-bot: cr
-> 
-> >                 OPT_END()
-> >         };
-> >         int err = -1;
-> > @@ -823,7 +830,8 @@ int main(int argc, const char **argv)
-> >         if (symbols_patch(&obj))
-> >                 goto out;
+>
+> >   - Removed "additional" from the documentation and commit message,
+> >     since this actually replaces the other flags, unlike other cases.
 > >
-> > -       err = 0;
-> > +       if (!(fatal_warnings && warnings))
-> > +               err = 0;
-> 
-> nit: just
-> 
-> if (!fatal_warnings)
->     err = 0;
-> 
-> ?
-
-This seems wrong. Now the actual warning counter is never evaluated.
-And --fatal_warnings will always lead to an error exit code.
-
-> >  out:
-> >         if (obj.efile.elf) {
-> >                 elf_end(obj.efile.elf);
+> >   - Added example of use case to documentation and commit message.
+> >     Thanks Alice for the details on what Google needs!
 > >
-> > --
-> > 2.47.1
+> >   - Instead of `HOSTLDFLAGS`, used `KBUILD_HOSTLDFLAGS` as the fallback
+> >     to preserve the previous behavior as much as possible, as discussed
+> >     with Alice/Yifan. Thus moved the variable down too (currently we
+> >     do not modify `KBUILD_HOSTLDFLAGS` elsewhere) and avoided
+> >     mentioning `HOSTLDFLAGS` directly in the documentation.
 > >
+> >   - Fixed documentation header formatting.
+> >
+> >   - Reworded slightly.
+> >
+> >          - Miguel ]
+> > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+>
+> Tested-by: Alice Ryhl <aliceryhl@google.com>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Reviewed-by: HONG Yifan <elsk@google.com>
 
