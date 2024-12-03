@@ -1,103 +1,126 @@
-Return-Path: <linux-kbuild+bounces-4963-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4964-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC849E1AC9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 12:22:30 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A94A19E1B69
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 12:54:21 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D192B6369F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 11:17:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD7C6164BEC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 11:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B64A51E3787;
-	Tue,  3 Dec 2024 11:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C19F81E47C6;
+	Tue,  3 Dec 2024 11:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nF024No2"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="C1+/yZjI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD6B1DE8AA;
-	Tue,  3 Dec 2024 11:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9131632E6
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 11:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733224509; cv=none; b=YOrOf11Bed8PUeeG2ymAGf3dCOIeYln5NVabUoj3zl3kEym0UdoHnQIFfNHqWTcSzex5NPAW3dUMCqO4kFyxvOn9piAnJ9I58ItYgC4Jf1Tc4dxzq2baYgXFkw98DFkqBRog9IbijjlXHjjTm0XJuKdmftguCpjjBay4FVybl40=
+	t=1733226852; cv=none; b=iw7J5bGgpKHuZCHqf375xGwrURBRt2KdHRRsIlOCdFWn8e6iTDhRZ00QbHbj+pA3viOp1usAIfAHt+mugQ2XETQxYuhAlkhuO4n8yc8JbyjBatQOJdmbV5vZO93OmteYtuO/h7Vc6+2GFo7HRZ1X7xUgw78AO1/8SVIETqukf44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733224509; c=relaxed/simple;
-	bh=iawhnenaWY2lWeuk9GU/cwTVeVccbon43Qla7QBiHBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IU44xlvIVeRFw2PL3fiDeyAnw7P5AhSJdjlQ2GBstK6Bud+YYiNa5ErfAPBEvdQeETUyzaDbTPqZYKi6+aHYmskuKPiutqkr2hEgj9TDleE2anB9ny98fBI+c627mYDyTQinZInr+aJ+GxyBgiaoLuIRYG+mjVVUQPSVy/jg9sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nF024No2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED5A5C4CEE5;
-	Tue,  3 Dec 2024 11:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733224509;
-	bh=iawhnenaWY2lWeuk9GU/cwTVeVccbon43Qla7QBiHBw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nF024No2cTYxFWel+x3K/QNK9850K/p5asfEsB+SM/zi6mja7WLRG5yfdhAz6B7oT
-	 s+Jm7GUHJvfiTi7mAklzopUxTPFA2jYAarC7RAiqdx27qT0VosPDVUfRkZs1cJnHJb
-	 laTpFff8fAZalCbbmRrE5EnK2PiTXduYnxOwUpDeSpb2LoBJdzmj+vNkw9m3mh4NGb
-	 TmNjkCzpyQULGgBZp4BwtFcGj3hPaOv/7t2lL+Q4YkvVYRDkfEKfLSLZH19xPEQFL1
-	 SpOhx27MG0PaQ5sBmhTmYpJ32xbXzwSGtPAAg1TPrZ/wMlJDuIth4y+xXPTIX/Q8O8
-	 UM68qwuyowCxQ==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: deb-pkg: add debarch for ARCH=um
-Date: Tue,  3 Dec 2024 20:14:45 +0900
-Message-ID: <20241203111459.3331534-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1733226852; c=relaxed/simple;
+	bh=iZ6iZsYDGgn6+nosV/i7U3c9sBZT+1+wu183Z3mPfA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UmARPqkc54ElvJiJDNiqllzp2y87Y29mFTIW1KiAnEEjQYmfxN90Ducuk6WlO2IdV6XT3Ds1dBZ3nKq32Jp0ubmy5hOXPnDoB4vMnZ2f43tzIejpxT4Ag4TZYkORvrSG2uUVbq+VpNESiogSPu1x2trEzePIAV1ZdKYoDMBpzHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=C1+/yZjI; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385eed29d7fso1607559f8f.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Dec 2024 03:54:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1733226848; x=1733831648; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZR6c9RoUjrM3dk40cs7PLYguaqe6xp835zylMe9vPV0=;
+        b=C1+/yZjIPX22lJxVL5/59K8t2UzOxMgAMsfcH7jg7yWyPNbsHsdhExoI8UqKrCzj1D
+         GYnWn2J1/IwyGF9bUNQOJRKG+ChCpUfdZno9hxSl7tfeIau8TMi206ETwDV7y7/n8Pp3
+         KwzqWMkVebo2qOEgODlPjYMW99OEMCyIFwW3JUn5BM6lXh0p/t1oJWKCEmkdJOHqES9e
+         QMfhKZ/heaYvjqad3m5S55UqsQmj1FwBcnmrrgoYIlrTMrOHgbdDKrYj2lvuQ/Py7ZU0
+         C1BgnUljwa9mdnCWBb+1L6GHQR7Y8E1KmTi+yR95Wz4Hp7ScaJPPu+J9m+INB9zj1efY
+         yuCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733226848; x=1733831648;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZR6c9RoUjrM3dk40cs7PLYguaqe6xp835zylMe9vPV0=;
+        b=WIJ/OaRQ5nFLR2Om85IBEzPD/IZXAM3kbz/JR0walqy3f+/o1Evxp6hAZL1d05pm//
+         4O18LkO60rH/4CjYmy+4ZO7ptpjGwUOB7dkmxNZ+lfRX30PQvw/RBID8/95xfzRzicIw
+         jCnfE2w28IyGsDGaNqkuXMMrUoS7sqmHZivdcppU4+rdyzuSh3HrTR4rB1B0H+0cD252
+         o5vu9VLNnq1eiFEKFwWKjz1YU67uYpr+ptX67dJ0hyhuF8TUR2Q1tU2V3nWdy829fU1U
+         el2JoX65LoOiK+QebfPtlFJc6+YZi7Bv68ODFX/Gr51d1OY3fPKx/KqKYWSdLUG+V+L+
+         U+SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWaasF/SBJplouFPE0zUEakDJSpWAPfKC4ar5FLyGrFR4+WUcenNYhwuDc41/XFH+m3xQ396jiwgUQXBE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywu0GF4ZYRM7QP19CD/2xJ3qlydViXnaLzwn0DudhCOdyaguzS/
+	NHcyYtz3I6YztET4jTc4m4BY15Ca2FBXUyMafc9mVJz1eZxcFdT5Je+4hjNQm+k=
+X-Gm-Gg: ASbGncuwS64KI7b0AuNs8yW6FFu+wYRXvOVDHtqw9A6mLiNuiiN0v+QF305ImCV2sDh
+	RjpX+m0Y22apg+1EIDlzoVpPlRP1cBHL2kbkpweeWR4fY9QY7bJ7y9/yb4qhQMirvWm7ptqfTEA
+	AVfb4QdWhBgbbt6QyKwS4gS8ih1oGOMvD3qnh22eMRUyKnr7T9kkEFPaGlnasvVckNZbKpg3UMA
+	HwN55wP8MK3IWSfkyEWFM1+V9SRK2Wr2lLTtCpgW7OSaoYgvdTlBw==
+X-Google-Smtp-Source: AGHT+IF3C+gAe9enWE6coDrJOE0PJBinw+OtrvrTgQQOl+8HAIq0aTYlzIw7cnuVNYgk8Zd7vO+IRQ==
+X-Received: by 2002:a05:6000:2c2:b0:385:e8e7:d09a with SMTP id ffacd0b85a97d-385fd969071mr2152487f8f.2.1733226848550;
+        Tue, 03 Dec 2024 03:54:08 -0800 (PST)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385fa330ca0sm3064430f8f.11.2024.12.03.03.54.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 03:54:08 -0800 (PST)
+Message-ID: <32fdbc0a-ba70-4d99-93c8-15ec8ebe6f70@suse.com>
+Date: Tue, 3 Dec 2024 12:54:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 11/18] gendwarfksyms: Add symtypes output
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
+ Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+ Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
+ Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <20241121204220.2378181-20-samitolvanen@google.com>
+ <20241121204220.2378181-31-samitolvanen@google.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20241121204220.2378181-31-samitolvanen@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-'make ARCH=um bindeb-pkg' shows the following warning.
+On 11/21/24 21:42, Sami Tolvanen wrote:
+> Add support for producing genksyms-style symtypes files. Process
+> die_map to find the longest expansions for each type, and use symtypes
+> references in type definitions. The basic file format is similar to
+> genksyms, with two notable exceptions:
+> 
+>   1. Type names with spaces (common with Rust) in references are
+>      wrapped in single quotes. E.g.:
+> 
+>      s#'core::result::Result<u8, core::num::error::ParseIntError>'
+> 
+>   2. The actual type definition is the simple parsed DWARF format we
+>      output with --dump-dies, not the preprocessed C-style format
+>      genksyms produces.
+> 
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-  $ make ARCH=um bindeb-pkg
-     [snip]
-    GEN     debian
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
-  ** ** **  WARNING  ** ** **
-
-  Your architecture doesn't have its equivalent
-  Debian userspace architecture defined!
-  Falling back to the current host architecture (amd64).
-  Please add support for um to ./scripts/package/mkdebian ...
-
-This commit hard-codes i386/amd64 because UML is only supported for x86.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/package/mkdebian | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 4ffcc70f8e31..b038a1380b8a 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -70,6 +70,13 @@ set_debarch() {
- 			debarch=sh4$(if_enabled_echo CONFIG_CPU_BIG_ENDIAN eb)
- 		fi
- 		;;
-+	um)
-+		if is_enabled CONFIG_64BIT; then
-+			debarch=amd64
-+		else
-+			debarch=i386
-+		fi
-+		;;
- 	esac
- 	if [ -z "$debarch" ]; then
- 		debarch=$(dpkg-architecture -qDEB_HOST_ARCH)
 -- 
-2.43.0
-
+Thanks,
+Petr
 
