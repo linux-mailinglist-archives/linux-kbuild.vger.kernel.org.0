@@ -1,152 +1,202 @@
-Return-Path: <linux-kbuild+bounces-4952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4953-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DF99E1845
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 10:50:43 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACC89E1785
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 10:29:27 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7005B26421
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 09:01:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4E71165265
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2024 09:29:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE7C71DEFC2;
-	Tue,  3 Dec 2024 09:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332841E0DFF;
+	Tue,  3 Dec 2024 09:27:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qN75zcUC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMr4UJWX"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9522D1DED75;
-	Tue,  3 Dec 2024 09:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4E91E0DFB
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 09:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733216485; cv=none; b=cQ0uxjQV3Zqb1oj511PlmX7Fed16HAg90aQZGrAUTQEU4HTUKEZEJ9B2aQTnfjrF4dZfKaTJDiPGbXPltTreJT571II2ZYGF7QnKZilUJMNf/ESPVksbbZQFfJqvvrDzQO+KCCeog67ksKOYotBP/cdYJJdhoUakjUsNRYgPTsU=
+	t=1733218070; cv=none; b=hehmMLBYOJkMk+3+i7OhuJGHNrI1oj1XdrRRURZdQ6Pj4GcXyIvzsu821oNiY+qXHnOCrCVNaz0rnH9g+plEQ0bKGzd3m3eeGtd/f7PXjM7tsI2Q7Y2TbuJ16iNtt6Ztbq5EtfOyzBPZGFzYCRV2eKSTXX7D4OIb7O3SRtDgq4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733216485; c=relaxed/simple;
-	bh=jrbYi65ApxHKC8+pjbJl/N9HlwU4KbfFDpjeUSNyUVI=;
+	s=arc-20240116; t=1733218070; c=relaxed/simple;
+	bh=xuUqHv9lUpoVlNTsKuMcLi/B3h8fiQt7KkEesgW1YTw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T4JI/R+i8r6f78TClicYwvTrwOSTWmbzLz6CZs/wZ+uIn3TfEZ10Q1iMhHJwp6MrywTgbXPWOQvolApBwbmzevN/OVA4E25VJICP6hJCQGMc1xrSqlT+7o+tOewJW3HAvgXh/uFbGr/APTgBlA6dSFOfIwKAAfPcQN/EQ5suSk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qN75zcUC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 149F9C4CED6;
-	Tue,  3 Dec 2024 09:01:25 +0000 (UTC)
+	 To:Cc:Content-Type; b=N7OfKH1YAn2F6wu2uN6XBF1VvwYLq6z57LgTzAzNm+kkPKZ14ImaPS58X68M/9pBJhA3SZVYO0aOEzN2o1X2f+gAB7/J1zlns/loyaAkOUiue6wKIC0Tr/6I00PmK4RD4gIjAweNbuh6rCvKrXwIXq7FzrgNI3TfYn2rt/UuHwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMr4UJWX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BCDC4CECF
+	for <linux-kbuild@vger.kernel.org>; Tue,  3 Dec 2024 09:27:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733216485;
-	bh=jrbYi65ApxHKC8+pjbJl/N9HlwU4KbfFDpjeUSNyUVI=;
+	s=k20201202; t=1733218069;
+	bh=xuUqHv9lUpoVlNTsKuMcLi/B3h8fiQt7KkEesgW1YTw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qN75zcUCwk1oYfRLKujuanjs+VIRNB8VepjbR/LTJ3XzNitIhY/1RHAXmV5VzYKIE
-	 7+7cI5HBoZlT7e4kPXQG0YYTOZb5KDOhWt+Wv2aCUojm7csw36RHmi+ilwXBor102L
-	 gTyaqie5Gx7QygC8Aez4luXGjotJNkzIRG6yN2wFk+4nMo5jjf+/ermSXGy0bZQfoh
-	 zIVtdr9dbczi9szCNRUAnFsOg4HfRi5HkjJagmLgWSrUJmAVeiOXIei2tVsQPUoR7y
-	 aXVluK+gPJUMBCbRdke7RkJF6sO62COdifE/Oc0AOecszBIBFX6k3vlfr0yv829Ycd
-	 igDVdgZaihCgA==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53de8ecb39bso6125387e87.2;
-        Tue, 03 Dec 2024 01:01:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWY1vknapBEzJplMVt/B5jLShwS2oK1QwZsZJRFG3NaixaQn9zAQYgqzK/4MAqb7hHryioRYJpdUBJZd+I=@vger.kernel.org, AJvYcCXJi/PcdipeCmihhdpmim1iriB+n0JClVQv5EYiXsAKlkFWRxnbYDeF/ANSoAiAHB1cl/DZtgLY+9hxnzbU@vger.kernel.org
-X-Gm-Message-State: AOJu0YzURjo0yewgrtSILTmxn3jM4RhxPNAFLVRJNT/zybia1Eq2ObnW
-	njajHAhlf7rO5/hXS0fNeKbofe2DNXiTduJbgPwSOPiCLeoAfIoOfoG9K3svhPvpk8a7scbQqIa
-	r5pcD6hSNnntC6Y7YCAF8gvc+ESg=
-X-Google-Smtp-Source: AGHT+IE53UOWx86TF5Ktbvamul0qTjoaDWhGc52xK+zs1MsYWDe+raaJrd2aCocOr62XBgjMaSgtsG3g++T7vvKy+vg=
-X-Received: by 2002:a05:6512:3c8c:b0:53d:d137:d7a4 with SMTP id
- 2adb3069b0e04-53e12a3896bmr828741e87.53.1733216483720; Tue, 03 Dec 2024
- 01:01:23 -0800 (PST)
+	b=HMr4UJWXOcGJeCGVNoqGj7PKF03pslLkHEFXAPcZNdpn9RxbUF37Msis8mi9OB2bj
+	 Ma4qUIq2GjuCwcN0KL35XCrZCI7kgLwnIbExlgDWbfMhzPsdw21MqL3/T7kWj4yphq
+	 T+rbO2qrvh63Tf5FN14WWmXg6sWDr/xsat4vL5RurjeDOh7MRIDaKk3SnCD1m1+4ZG
+	 Hjov/B3kpUeXm2sqegdfbaq33phispHAQqh9VLLkaTEZX/aIjKS6TpcaxZ/LsPmFuW
+	 +b+PtvMVwGYCtyjMQQFPd/z0hptiF43hHhLJDsK7ASAO/O1u9pQDAiLLmffdFPGw85
+	 4lleKcl/setLg==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53de771c5ebso6144666e87.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Dec 2024 01:27:49 -0800 (PST)
+X-Gm-Message-State: AOJu0YzFg9/Cv4jFAT6V9JGAk+nvZRhc+LVp4XeOQBJAn4aWobrF9bH7
+	4kcPtb9saLfO7VrX37XRFzFPBoD3oeIVWcdZGN2FT5Su2Q+ddHA46Q9L1joqZmmzHue52828nav
+	UeprGCxBvR7UdrC0wPndKfHnR4hE=
+X-Google-Smtp-Source: AGHT+IFzD1f9DDFmqOWkgrkRZiCeHPo3BY9O9blnpWj9HPDfv+u1Wlci4nRy4AkBXF+4+u+7F5v/u8V6Ux8pNXI+isM=
+X-Received: by 2002:a05:6512:128b:b0:539:8a9a:4e63 with SMTP id
+ 2adb3069b0e04-53e12a21812mr912341e87.42.1733218068244; Tue, 03 Dec 2024
+ 01:27:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <81560af7526138aa5221e5900ee7462f55bb090d.camel@HansenPartnership.com>
- <CAMj1kXFGEeAkxpqsfp0G3VqTRs+Sve-pULDXBKvzSqAc_AVFMA@mail.gmail.com>
-In-Reply-To: <CAMj1kXFGEeAkxpqsfp0G3VqTRs+Sve-pULDXBKvzSqAc_AVFMA@mail.gmail.com>
+References: <CAK7LNARarqG2Okacbp4TKJAFz9OagB2NF=qs-Cq2rzOW4CA2Bg@mail.gmail.com>
+ <20241203065441.2341579-1-josch@mister-muffin.de> <20241203065441.2341579-2-josch@mister-muffin.de>
+In-Reply-To: <20241203065441.2341579-2-josch@mister-muffin.de>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 3 Dec 2024 18:00:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT4YibckTwYRCzUv0dZs4qX4BFzh0uc=bvTuaZM12nrvw@mail.gmail.com>
-Message-ID: <CAK7LNAT4YibckTwYRCzUv0dZs4qX4BFzh0uc=bvTuaZM12nrvw@mail.gmail.com>
-Subject: Re: section mismatch error in aesgcm causing a build failure
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, linux-crypto@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
+Date: Tue, 3 Dec 2024 18:27:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASiENba_7O2-6utUaWCad=rsFkD5ZMeSheqG64MGhZGQg@mail.gmail.com>
+Message-ID: <CAK7LNASiENba_7O2-6utUaWCad=rsFkD5ZMeSheqG64MGhZGQg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] scripts/package/builddeb: allow hooks also in /usr/share/kernel
+To: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
+Cc: linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 3, 2024 at 5:35=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wro=
-te:
+On Tue, Dec 3, 2024 at 3:55=E2=80=AFPM Johannes Schauer Marin Rodrigues
+<josch@mister-muffin.de> wrote:
 >
-> On Mon, 2 Dec 2024 at 21:27, James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
-> >
-> > I'm getting this in 6.13-rc1:
-> >
-> > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:212:29: error: ptext1
-> > causes a section type conflict with aesgcm_tv
-> >  static const u8 __initconst ptext1[16];
-> >                              ^~~~~~
-> > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:570:9: note: =E2=80=98aesg=
-cm_tv=E2=80=99 was declared here
-> >  } const aesgcm_tv[] __initconst =3D {
-> >          ^~~~~~~~~
-> > make[5]: *** [/home/jejb/git/linux-tpm/scripts/Makefile.build:194: lib/=
-crypto/aesgcm.o] Error 1
-> > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:212:29: error: ptext1 caus=
-es a section type conflict with aesgcm_tv
-> >  static const u8 __initconst ptext1[16];
-> >                              ^~~~~~
-> > /home/jejb/git/linux-tpm/lib/crypto/aesgcm.c:570:9: note: =E2=80=98aesg=
-cm_tv=E2=80=99 was declared here
-> >  } const aesgcm_tv[] __initconst =3D {
-> >          ^~~~~~~~~
-> > make[5]: *** [/home/jejb/git/linux-tpm/scripts/Makefile.build:194: lib/=
-crypto/aesgcm.o] Error 1
-> >
-> > I think it's way older than 6.13-rc1, but the inclusion of the sevguest
-> > driver in the merge window now means that something actually selects
-> > it.  I can fix it simply by adding a zero initialization to the file:
-> >
-> > -static const u8 __initconst ptext1[16];
-> > +static const u8 __initconst ptext1[16] =3D { 0 };
-> >
-> > Which I think means that by default the traditional zero initialization
-> > of a static variable is in the wrong section (and actually likely is
-> > wrong for all our __initX variables as well).
-> >
-> > In case it matters, this is with gcc-7
-> >
+> By passing an additional directory to run-parts, allow Debian and its
+> derivatives to ship maintainer scripts in /usr while at the same time
+> allowing the local admin to override or disable them by placing hooks of
+> the same name in /etc. This adds support for the mechanism described in
+> the UAPI Configuration Files Specification for kernel hooks. The same
+> idea is also used by udev, systemd or modprobe for their config files.
+> https://uapi-group.org/specifications/specs/configuration_files_specifica=
+tion/
 >
-> This also works
+> This functionality relies on run-parts 5.21 or later.  It is the
+> responsibility of packages installing hooks into /usr/share/kernel to
+> also declare a Depends: debianutils (>=3D 5.21).
 >
-> static const u8 __section(".init.rodata,\"a\",@progbits #") ptext1[16];
+> KDEB_HOOKDIR can be used to change the list of directories that is
+> searched. By default, /etc/kernel and /usr/share/kernel are hook
+> directories.
 >
-> and so this suggests that without the @progbits annotations, the
-> compiler is placing ptext1 into a SHT_NOBITS section, causing a
-> conflict with the SHT_PROGBITS annotation of aesgcm_tv.
+> Signed-off-by: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
+> ---
+>  scripts/package/builddeb | 33 +++++++++++++++++++++++++--------
+>  1 file changed, 25 insertions(+), 8 deletions(-)
 >
-> Given how unusual it is to have a static const variable without an
-> initializer, I don't think this suggests that there is a wider issue
-> with __initconst/__initdata.
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 441b0bb66e0d..6e83f6f3ec6d 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -5,10 +5,12 @@
+>  #
+>  # Simple script to generate a deb package for a Linux kernel. All the
+>  # complexity of what to do with a kernel after it is installed or remove=
+d
+> -# is left to other scripts and packages: they can install scripts in the
+> -# /etc/kernel/{pre,post}{inst,rm}.d/ directories (or an alternative loca=
+tion
+> -# specified in KDEB_HOOKDIR) that will be called on package install and
+> -# removal.
+> +# is left to other scripts and packages. Scripts can be placed into the
+> +# preinst, postinst, prerm and postrm directories in /etc/kernel or
+> +# /usr/share/kernel. A different list of search directories can be given
+> +# via KDEB_HOOKDIR. Scripts in directories earlier in the list will
+> +# override scripts of the same name in later directories.  The script wi=
+ll
+> +# be called on package installation and removal.
 >
-> We're about to bump the minimum GCC version to 8 for other reasons,
-> and I couldn't reproduce it with GCC 8.5.0. But the fix is
-> straight-forward and actually clarifies this rather odd occurrence, so
-> I think we should apply it nonetheless.
+>  set -eu
 >
+> @@ -68,11 +70,18 @@ install_linux_image () {
+>         # kernel packages, as well as kernel packages built using make-kp=
+kg.
+>         # make-kpkg sets $INITRD to indicate whether an initramfs is want=
+ed, and
+>         # so do we; recent versions of dracut and initramfs-tools will ob=
+ey this.
+> -       debhookdir=3D${KDEB_HOOKDIR:-/etc/kernel}
+> +       debhookdir=3D${KDEB_HOOKDIR:-/etc/kernel /usr/share/kernel}
+> +
+> +       # Only pre-create the first hook directory. Support for more than=
+ one hook
+> +       # directory requires run-parts 5.21 and it is the responsibility =
+of packages
+> +       # creating additional hook directories to declare that dependency=
+.
+> +       firsthookdir=3D${debhookdir%% *}
+>         for script in postinst postrm preinst prerm; do
+> -               mkdir -p "${pdir}${debhookdir}/${script}.d"
+> +               mkdir -p "${pdir}${firsthookdir}/${script}.d"
+
+
+I still do not understand why this 'mkdir' is needed.
+
+linux-image package does not install any script into the hook directory.
+In general, there exist some scripts (e.g. initramfs-tools) already
+under /etc/kernel/*.d/  (and under /usr/share/kernel/*.d/ once the
+new location is used broader).
+If nothing exists under the hook directory, there is no point to
+execute run-parts.
+
+
+
+
+> +       done
+>
+> -               mkdir -p "${pdir}/DEBIAN"
+> +       mkdir -p "${pdir}/DEBIAN"
+
+Please drop this noise change.
+
+If you want to optimize this, please split it into a separate patch like
+"kbuild: deb-pkg: create DEBIAN directory just once" etc.
+
+
+
+
+> +       for script in postinst postrm preinst prerm; do
+>                 cat <<-EOF > "${pdir}/DEBIAN/${script}"
+>                 #!/bin/sh
+>
+> @@ -84,7 +93,15 @@ install_linux_image () {
+>                 # Tell initramfs builder whether it's wanted
+>                 export INITRD=3D$(if_enabled_echo CONFIG_BLK_DEV_INITRD Y=
+es No)
+>
+> -               test -d ${debhookdir}/${script}.d && run-parts --arg=3D"$=
+{KERNELRELEASE}" --arg=3D"/${installed_image_path}" ${debhookdir}/${script}=
+.d
+> +               # run-parts will error out if one of its directory argume=
+nts does not
+> +               # exist, so filter the list of hook directories according=
+ly.
+> +               hookdirs=3D
+> +               for dir in ${debhookdir}; do
+> +                       test -d "\$dir/${script}.d" || continue
+> +                       hookdirs=3D"\$hookdirs \$dir/${script}.d"
+> +               done
+> +               hookdirs=3D"\${hookdirs# }"
+> +               test -n "\$hookdirs" && run-parts --arg=3D"${KERNELRELEAS=
+E}" --arg=3D"/${installed_image_path}" \$hookdirs
+>                 exit 0
+>                 EOF
+>                 chmod 755 "${pdir}/DEBIAN/${script}"
 > --
-> Ard.
-
-
-So, this 16-byte zero data is stored in the kernel image due to
-the __initconst section?
-
-Without the __initconst annotation, it would go to the BSS section,
-saving the kernel image size?
-
-Anyway, up to the crypt maintainer.
-Personally, I do not have much interest in an old compiler issue.
-
-
-
---=20
+> 2.39.2
+>
+>
+--
 Best Regards
 Masahiro Yamada
 
