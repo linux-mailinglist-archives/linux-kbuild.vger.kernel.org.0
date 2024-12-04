@@ -1,99 +1,134 @@
-Return-Path: <linux-kbuild+bounces-4987-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-4988-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11AA9E34EE
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 09:06:44 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 281089E353B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 09:26:33 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA12D168B7A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 08:06:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E04EB282E6B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2024 08:26:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64BD5155C97;
-	Wed,  4 Dec 2024 08:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92440192D6B;
+	Wed,  4 Dec 2024 08:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+UqW5mw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2XIrpyJ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7591FA4
-	for <linux-kbuild@vger.kernel.org>; Wed,  4 Dec 2024 08:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6971D192B8A;
+	Wed,  4 Dec 2024 08:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733299598; cv=none; b=sVQ4CVN1sYxjJFQJvQnBU+6aWUes3LOjundttmnM4OuGUxFrNY8dEnfZ5u507ibm6hysx30qb3gs5cH6UrjvzktiKUs94AkB0uL9bX2gd/R8jbac/UcheJ2cmRkpfyem143dnjPuECvr/m/q9z0iNEOf7Mc9g3Cj5ytC5pm0zuQ=
+	t=1733300788; cv=none; b=Va2II2TWuPHCjC7y/FERJD8L+wFduJb50YrcHHjrWjIvGrA2Jz5R/IAHoGQi8RBKvOKwq0Toyrv8nTjSmdNzS8atboNYk4ZzPL/6VKgNOnMDwpHEtwAB/siU0x+g1y04+nQV/0rHqLw1ODHmZreA0zNOrUkuUd/IAVXuXB1WVwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733299598; c=relaxed/simple;
-	bh=AnL9Ek96nRN0MLAvsm/ADR+dxGhbyNbBzW2jia4EP4s=;
+	s=arc-20240116; t=1733300788; c=relaxed/simple;
+	bh=ZZmLxNdmeT3wRoc3WOPkvn9PlOHWxCMiMT7V1nkTTy4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Upw/DUkxfqvzhHTwbawoG+qu75onlfeZxX4rumihBmnHQGKN+eiWC2CKSEZ/1qSNJGCgzowF1P9X3hzZePOA2qRLeteYjTN/X6N9s8KSLvl2NpaG/A5LQSHY0ildWU6hjpzglKgxvT2+I5XF7Q5rWk1yh93GPM8A82JsfzlTp/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r+UqW5mw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD79C4CED1
-	for <linux-kbuild@vger.kernel.org>; Wed,  4 Dec 2024 08:06:37 +0000 (UTC)
+	 To:Cc:Content-Type; b=KYfJU2CbuzLPCvTwytB/G1htwXCTHpzY7KqybXTUfNByrwW4csESk/obwlrkahY29TELrRggYglyeRmEmCELTrXtnl+0Wd1whb9R22Sv9IPvsClVjkK0TLbIMLSeCsVuXO4qOW0vVUPyo5Mtu4698wklIjknaxh79gPZmMjzgkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2XIrpyJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02940C4CED6;
+	Wed,  4 Dec 2024 08:26:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733299597;
-	bh=AnL9Ek96nRN0MLAvsm/ADR+dxGhbyNbBzW2jia4EP4s=;
+	s=k20201202; t=1733300788;
+	bh=ZZmLxNdmeT3wRoc3WOPkvn9PlOHWxCMiMT7V1nkTTy4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=r+UqW5mwZaU8tg0FmSV5VhMD2hQ6T6bQOPYMWavmwbW9Rw4Lyo3l5p1Ugs8BzcNvy
-	 jM5wGtubVKtKOh4M3BDwhawO1Qz1Qh8tW63KIg8JcDKnEuEtwpDrc/BYrQp8cdPIVG
-	 GevLGcCiFbWfRiorPLQZdhSKLYDOZ6KwuYFcJhrlYRxsWd5qUTHf3haLpHJUseC1vg
-	 7cpfUmRFHMoGl1YSCtAs4K0LI/OSoYaRFT3tr11L1X1sHNPrkmcoaPR7/OOJfT5xXH
-	 CSI4gg8e+V1PjPcxlDRWJNwCL7sg+SAZW9ZqBnFrB3nnbFvABnGQWK22uLIt2Xy9E8
-	 GMKnehb9ssmgg==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53dde4f0f23so6458951e87.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 04 Dec 2024 00:06:37 -0800 (PST)
-X-Gm-Message-State: AOJu0Yzx8Y/5wFKactC8F/DGUSIIRseSEcJnMzrO5tbw9wm8awjStTg+
-	j9tBTwORYaNcN+udicY//JyGOMzbgyWQeW4fCNPUrmbWGaf9koKCxxgRK9tFJhlbaHbBr828NKf
-	yAbNn6ZMpYXlSEKGRqaNCCNgd8bU=
-X-Google-Smtp-Source: AGHT+IEZmkm9QwqgJkJMx2DxA4qB5GsI+sFZcOGPjgItUIGOx6SH1tLAIlju+NhmnCeRtrK2HC95zksCpIrUSW/70Bc=
-X-Received: by 2002:a05:6512:2815:b0:53d:dbc4:3b8f with SMTP id
- 2adb3069b0e04-53e129f187fmr3015667e87.13.1733299596305; Wed, 04 Dec 2024
- 00:06:36 -0800 (PST)
+	b=T2XIrpyJTCRKwBw1Ex2CyBQ/CPGlB9IuXS88doFK3QsvSzwD5SpuIMh6pEdrwMtjJ
+	 2cbElYUXMWjSxBESK2KZZKw1L5ZPf7Pso8rvx8zwuJjIBnHQUY1qIfPVcgYnYuOD1U
+	 frDNuHz3fsa6Q6jYVzT32OQ9XeKoWP6T1snczSHkGCOzEdyjKgpc+RcXTl5qEtlCa7
+	 HdD6WK7m7DL5b6b2hpjhd7BZpYXK7Wousu4lWhxODM9H5MO4D0BPBrU/Gy+5ZwBUbg
+	 X7Ghhte2cbB5+V0v5sNgxWvgS3prK+RqtYMhVrLPVZRPcHyl5FIlrhWAI2uFQLZxEt
+	 V2EBnl9hpkJWA==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53e1be0ec84so1076519e87.1;
+        Wed, 04 Dec 2024 00:26:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWDQ8odoLalKE/e2SMbEHIXSvAVwraEZd790JlwnnqcceqULzpAKpSvvHNmYFCm93kwoGfCRqU85J2TYBPj@vger.kernel.org, AJvYcCX2tIawWnwGxQENxlofvJYo/sWXuCY83NzlUhZC862UEfcn3UbMN0NLUkaRnIwvIhLcw4ULYfalcZfRPYg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YystJ53RerfITfvjrbyItaRyM8r/Cl1G4QtDyC7/aJ/ZzCUHDkU
+	K5yUyZdw4SlFGRaXFtuD1wfqfa5bjcDpM1D0shfnV1ceAHWepg2xYhiYLYSJQjvETlv8YAZJyIA
+	SM8Itxm8Q2/HUWhbpCkOjDNVerIM=
+X-Google-Smtp-Source: AGHT+IFiA0kFZtrMuM/VGW7BrLd2SssYmTfcCkZUoXo0qXJqOjjL8WbQDECxi4ads6oXPvHlKe9Gn+/TmGwB7G6knq8=
+X-Received: by 2002:a05:6512:e8c:b0:53e:1c7e:2837 with SMTP id
+ 2adb3069b0e04-53e1c7e288bmr868883e87.42.1733300786667; Wed, 04 Dec 2024
+ 00:26:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNATQ6Gu6D6gpH3htJS=e136zPBQbCxtMLZU3YZx_bkWiLg@mail.gmail.com>
- <20241203161735.2411494-1-josch@mister-muffin.de> <20241203161735.2411494-2-josch@mister-muffin.de>
-In-Reply-To: <20241203161735.2411494-2-josch@mister-muffin.de>
+References: <e534ce33b0e1060eb85ece8429810f087b034c88.1733234008.git.leonro@nvidia.com>
+In-Reply-To: <e534ce33b0e1060eb85ece8429810f087b034c88.1733234008.git.leonro@nvidia.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 4 Dec 2024 17:06:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARTAKJDG5X5TfTYdoVe1rwAV+njyLSG1h73JJ6zcL57KQ@mail.gmail.com>
-Message-ID: <CAK7LNARTAKJDG5X5TfTYdoVe1rwAV+njyLSG1h73JJ6zcL57KQ@mail.gmail.com>
-Subject: Re: [PATCHv4 1/1] kbuild: deb-pkg: allow hooks also in /usr/share/kernel
-To: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
-Cc: linux-kbuild@vger.kernel.org
+Date: Wed, 4 Dec 2024 17:25:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATU2OKEWh6p9QuUXtYmYmqTkN5nspBq9DbCh9yUjqW5xA@mail.gmail.com>
+Message-ID: <CAK7LNATU2OKEWh6p9QuUXtYmYmqTkN5nspBq9DbCh9yUjqW5xA@mail.gmail.com>
+Subject: Re: [PATCH rdma-next] kbuild: Respect request to silent output when
+ merging configs
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Leon Romanovsky <leonro@nvidia.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 4, 2024 at 1:17=E2=80=AFAM Johannes Schauer Marin Rodrigues
-<josch@mister-muffin.de> wrote:
+On Tue, Dec 3, 2024 at 10:55=E2=80=AFPM Leon Romanovsky <leon@kernel.org> w=
+rote:
 >
-> By passing an additional directory to run-parts, allow Debian and its
-> derivatives to ship maintainer scripts in /usr while at the same time
-> allowing the local admin to override or disable them by placing hooks of
-> the same name in /etc. This adds support for the mechanism described in
-> the UAPI Configuration Files Specification for kernel hooks. The same
-> idea is also used by udev, systemd or modprobe for their config files.
-> https://uapi-group.org/specifications/specs/configuration_files_specifica=
-tion/
+> From: Leon Romanovsky <leonro@nvidia.com>
 >
-> This functionality relies on run-parts 5.21 or later.  It is the
-> responsibility of packages installing hooks into /usr/share/kernel to
-> also declare a Depends: debianutils (>=3D 5.21).
+> Builds with -s option (silent) are supposed to silence all output
+> which is not an error. It is the case for target builds but not
+> for configs. These builds generate prints like this:
 >
-> KDEB_HOOKDIR can be used to change the list of directories that is
-> searched. By default, /etc/kernel and /usr/share/kernel are hook
-> directories. Since the list of directories in KDEB_HOOKDIR is separated
-> by spaces, the paths must not contain the space character themselves.
+> =E2=9E=9C  kernel git:(rdma-next) make -s defconfig debug.config
+>  Using .config as base
+>  Merging ./kernel/configs/debug.config
+>  #
+>  # merged configuration written to .config (needs make)
+>  #
+>  ...
+>  Value of CONFIG_FUNCTION_TRACER is redefined by fragment ./kernel/config=
+s/debug.config:
+>  Previous value: # CONFIG_FUNCTION_TRACER is not set
+>  New value: CONFIG_FUNCTION_TRACER=3Dy
+>  ----
 >
-> Signed-off-by: Johannes Schauer Marin Rodrigues <josch@mister-muffin.de>
-> ---
+> Let's honor -s option and hide all non-error output.
 
-Applied to linux-kbuild. Thanks!
+
+Is it necessary to add the --quiet option to every script?
+
+Kbuild already provides a generic way to suppress the stdout
+with 'make -s'.
+
+The following code works for me.
+'make defconfig debug.config' is as verbose as before.
+'make -s defconfig debug.config' is really silent.
+
+
+
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index a0a0be38cbdc..fb50bd4f4103 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -105,9 +105,11 @@ configfiles =3D $(wildcard
+$(srctree)/kernel/configs/$(1) $(srctree)/arch/$(SRCARC
+ all-config-fragments =3D $(call configfiles,*.config)
+ config-fragments =3D $(call configfiles,$@)
+
++cmd_merge_fragments =3D $(srctree)/scripts/kconfig/merge_config.sh -m
+$(KCONFIG_CONFIG) $(config-fragments)
++
+ %.config: $(obj)/conf
+        $(if $(config-fragments),, $(error $@ fragment does not exists
+on this architecture))
+-       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh
+-m $(KCONFIG_CONFIG) $(config-fragments)
++       $(call cmd,merge_fragments)
+        $(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+
+ PHONY +=3D tinyconfig
+
 
 
 
