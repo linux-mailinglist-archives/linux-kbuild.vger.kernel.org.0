@@ -1,136 +1,214 @@
-Return-Path: <linux-kbuild+bounces-5005-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5006-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CDD9E4CD4
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 04:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B529E4D9A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 07:27:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08765166311
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 03:46:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D891168EED
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 06:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EFF7190674;
-	Thu,  5 Dec 2024 03:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67B2A196D9D;
+	Thu,  5 Dec 2024 06:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qlFHdIIR"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Z37L6G7Q"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D5A170A13;
-	Thu,  5 Dec 2024 03:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0783718FDDE
+	for <linux-kbuild@vger.kernel.org>; Thu,  5 Dec 2024 06:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733370408; cv=none; b=iLhCwEGavfAAW/yoZggkYKFriL9HIXYPKXvfgO5xlMl7dDgzVZYW9zD/3jSTKBlAkf/FiO7VoPhN25fua2FjQa3gewFbZFGpGf37gX7GTVtRxUasfBWrQWwqlPLTyKoJJnoYWbG0CzE8ZsOoMImARFqk8885Zy3ZoKd5FXQK8v8=
+	t=1733380063; cv=none; b=ZOheSaGJW9iI6SDKMf1P62qXaNrafr6SZ77Q2DX6dx0Z9JlLODWgedb9b+gZqoKgyb/1S1zzvyO2broij5Unu8y7VWAwbdzBayZr4jC9gMf/c8SCavt7NvrzLViUCNYuz8rH4nBONCUV0A6scXTNd/Rhp0iu24L2A4Y7fYPoPTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733370408; c=relaxed/simple;
-	bh=Z6WX58jels7q59APEeah0oca/ZdVmls3VoLNao891D0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mVgdnR4vrlLuLDpU4dJshtpqe0WHqVIFdw7nM8Bu6chIWBfOijWFoPSsSVV6fJnJfawP45ZJGlRQY7wqzsxptZZecyOKpDzdgVhnR4YH6aKx7znCGiv6HnWhcuoJgyPISpa5pmRjLs4Sl9a1JD2z7nmqKxKJD7xv6WM60+mU8lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qlFHdIIR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95BC3C4AF0C;
-	Thu,  5 Dec 2024 03:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733370407;
-	bh=Z6WX58jels7q59APEeah0oca/ZdVmls3VoLNao891D0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qlFHdIIRzQb+jtYkEcUyiwqE+12mw30Ix4vySspB2dtYhhbpurke/UAXaiaglfhTj
-	 ZDoClI+hHBJmGtTcd/WaiiOowg6cpMsK4OvvaX24u1dqn83KqFw4GLcqXHoS/fVk4l
-	 GyeRszCxgVIa8X2aGedbDaE6MPq2xHIs8WjXAll9FCyYSYbicrF93TA7vuXMAAIgRl
-	 ZoanCS3WD36BAguHyx3268UW0Lirtt61MDONBgXPMzKKZk6/xEGweZCEyXGyBbS5nw
-	 ZvKJYT1cbqg1jE8cD0/TyG9Y2ZARtBhBvemHMdpRpyxqn2UHFpcAG5Iky1YeAjuatV
-	 xoTKacGWaQzng==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53dd668c5easo543045e87.1;
-        Wed, 04 Dec 2024 19:46:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVMz1zLM9BkqXWvqdv2MtiPJBAfFUi+pQN35nENT0jmEbK4VNyc/raXD+I/mNcPLDM6pAb+0+JYHeK5k+E3@vger.kernel.org, AJvYcCVy70gFwNYFOtQxGIIQ+Jqtykru3j9OwwVTg1QHmK3EuhKiM3cswQ/ATGYxYnBGS5z2TgmOEUMwQ5XKZKk=@vger.kernel.org, AJvYcCWYmLRqSrjfDU6eU81/Nf5wTBCdF5tmc5WpqQMuSAAI/F8H1+sSYt2t11Gnhf8wuY4GpojR7/RZ3qVNdHT4nrc=@vger.kernel.org, AJvYcCXEg8yRb8tpjipxaWaID1N5BhJLSD6sfTJ3STD0XugMkAdN0aNI6+iBe2fgdXBulpS9w25aqUz7oFqWHi4CSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzwi43eidrFLE32m6NNNIEUA7iOvtndcigglPFyIap7WhYbog9r
-	1h72WjrgE+GgU56xh/j3r6N5eFqyW3mscpzJAZvg312HlJ9GWsZ6ZNeZWkvtAgGb6Z+dWp0cfVQ
-	Wa4e8rbUrx/Nm/Et60oRgGZgJhNc=
-X-Google-Smtp-Source: AGHT+IGVqKlQS/Jjmg92XuFwkx6CeBX8rw0Lk7GUAGzo4vhqXPxIIS8mzsUDLukXITQG8Ui1TlwCO0GZK7KXvezW744=
-X-Received: by 2002:a05:6512:3195:b0:53e:1c3e:65e with SMTP id
- 2adb3069b0e04-53e219159b7mr412818e87.21.1733370406229; Wed, 04 Dec 2024
- 19:46:46 -0800 (PST)
+	s=arc-20240116; t=1733380063; c=relaxed/simple;
+	bh=qS1NPBabbYXkSV9uKTFXDZ1+1kaI8qyGYql2iCfXsR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pYJsRW3uRdnldVyWNns+at2Z8pLGZCztSplxZDCRS10ByAmC0YlxLmi4DvMmoZN93JqK01CSe3HADQXxUdp1WyHAOjcmahbRZvcZihFHjb9rzCPP0QqXcGwHRfs1Wb3l83JV6lcXJ+uLGS3OHYIDsjV5Bu4ORaoejiV0qIDw+fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Z37L6G7Q; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-725a84ff55dso122377b3a.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 04 Dec 2024 22:27:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1733380059; x=1733984859; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XCYS6iztL10oOLNtRWs25ZswwaRh2arrdQMGB4nuP3Q=;
+        b=Z37L6G7Q9O3J/jIe9bXpu/w8sGyS3ep1x0k9Ni7TooVNPkTmYSxF7XdacrJv5sDCdP
+         Zfc7KdMK3SyuH3ehmGPjRHjub4rE2Of/uRpqGPOp2Y19X8CNsYyl7yYWlZlkvAouOVjI
+         oLfrGlf1KVu2OTBV3bAppsdoyjn3QqHtv9kyGlsn5jR1+69cqf7j0rQuNDNWOoM09gGX
+         wITdjy3c/Wht771j6ILxHs/aFUmxc/u5IMubuRTexsSMoPl0YiEdmd5DHLIK5UrJMQRY
+         T0ERtzBUmkPkPhxU9DwwTjKcrGJLorRHTjKaWZZgLm5sEeFMJAnVqFqeIEvfS7vSjsiY
+         d9Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733380059; x=1733984859;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XCYS6iztL10oOLNtRWs25ZswwaRh2arrdQMGB4nuP3Q=;
+        b=qlV1ZpLINRcrPQSYAuXzw0ceXbrLZZkWoGK1JHBCBu1KfrAsJiE+CIcMdR3YmQRQ2z
+         qwXPcEWtl2ggwx7YikbVVT5E+LNE729EDQQ/hRiVDJRGOSFpyuqXsprqzGNvaeutIzTu
+         Y+V9c7sl91F9EPxMaZTvzJK0qcYboLKP+6Khu/KY5Z/RDhC515k234I4MiqmGqPt7w6n
+         ArNLObZzsg0wKQqFjKhfvtPcXmA/zgcLUJaK6lgLdqvCcGBWs2ZMXZPo50Gvgbf8pZwP
+         3mOX/FlSer36cHS7e1wJUeHdWmda364EFYXTMZPfgwvfYP8s7eIn/Bkle7U1p6WqByEZ
+         Qp6g==
+X-Gm-Message-State: AOJu0YyzhYuH1/sj7debYlFhbgAxkNwfjW2qzkaolIdebGKuoX5TeR6R
+	mXtRAyO6qn/iQZeUqnU+x+SzwozD1BCdiWMRekf3/r162MMz/2/rQN+cr7mtGfLHVbzfUkRD13m
+	f
+X-Gm-Gg: ASbGncu/SBlJ8mdd2y4cq7+NnhTMVS6qM0NLN06BglRDwDPR/y8kHP3F+U2ucfII0Dy
+	LoVmw8UMnEq7Vye8JkogwfPKgspW1FpWHnOBad8VXhQi5QQvmrsKkV7D174MSVtryBYYiNiCcQQ
+	wpo0rwMf4jGzDKBrI3nWcyHXEPJdAyUmA95Yy84aW+kQzWEZLXgrmP/S6c5leVemgyZ9gA7UMUl
+	UW4q0JRYoDvvwNt8FmEk1R7FvTauJ/44ZKB/H24R3x8
+X-Google-Smtp-Source: AGHT+IFPvyQvWZJgFv3tZ7dxjDrDJ/Mpj5QRafpwVa5PN4Od6vrWdyy5rrj1mByFq7QDEWqX+uF9Gw==
+X-Received: by 2002:a05:6a00:2789:b0:725:9cc4:2354 with SMTP id d2e1a72fcca58-7259cc423b6mr4370890b3a.10.1733380057829;
+        Wed, 04 Dec 2024 22:27:37 -0800 (PST)
+Received: from ghost ([2601:647:6700:64d0:f7b6:61d:746e:a663])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fd157dd329sm569747a12.85.2024.12.04.22.27.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 22:27:37 -0800 (PST)
+Date: Wed, 4 Dec 2024 22:27:34 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, cocci@inria.fr
+Subject: Re: [PATCH v2 05/11] kbuild: change working directory to external
+ module directory with M=
+Message-ID: <Z1FH1qIc7nErHVZ2@ghost>
+References: <20241110013649.34903-1-masahiroy@kernel.org>
+ <20241110013649.34903-6-masahiroy@kernel.org>
+ <Z1DnP-GJcfseyrM3@ghost>
+ <CAK7LNAR0jmafdi7GAxq58AU-=tuWdVas02q=sQXC4zaOg4JcEA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <20241121204220.2378181-21-samitolvanen@google.com> <Z0UIdmDHYQtUTR1i@bombadil.infradead.org>
- <CAK7LNATK9rSm4AUSneq=aYbADatPL=1eUXuYRChX+WU+zNTyKw@mail.gmail.com> <Z0YS1hVWuozpN4Ln@bombadil.infradead.org>
-In-Reply-To: <Z0YS1hVWuozpN4Ln@bombadil.infradead.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 5 Dec 2024 12:46:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARcECiG0TAJFmFDhmbgzQiETX0i-_mr3StDAUiGTjKnLA@mail.gmail.com>
-Message-ID: <CAK7LNARcECiG0TAJFmFDhmbgzQiETX0i-_mr3StDAUiGTjKnLA@mail.gmail.com>
-Subject: Re: [PATCH v6 01/18] tools: Add gendwarfksyms
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAR0jmafdi7GAxq58AU-=tuWdVas02q=sQXC4zaOg4JcEA@mail.gmail.com>
 
-On Wed, Nov 27, 2024 at 3:26=E2=80=AFAM Luis Chamberlain <mcgrof@kernel.org=
-> wrote:
->
-> On Tue, Nov 26, 2024 at 12:50:48PM +0900, Masahiro Yamada wrote:
-> > On Tue, Nov 26, 2024 at 8:30=E2=80=AFAM Luis Chamberlain <mcgrof@kernel=
-.org> wrote:
+On Thu, Dec 05, 2024 at 11:48:08AM +0900, Masahiro Yamada wrote:
+> On Thu, Dec 5, 2024 at 8:35 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> >
+> > On Sun, Nov 10, 2024 at 10:34:33AM +0900, Masahiro Yamada wrote:
+> > > Currently, Kbuild always operates in the output directory of the kernel,
+> > > even when building external modules. This increases the risk of external
+> > > module Makefiles attempting to write to the kernel directory.
 > > >
-> > > On Thu, Nov 21, 2024 at 08:42:22PM +0000, Sami Tolvanen wrote:
-> > > > Add a basic DWARF parser, which uses libdw to traverse the debuggin=
-g
-> > > > information in an object file and looks for functions and variables=
-.
-> > > > In follow-up patches, this will be expanded to produce symbol versi=
-ons
-> > > > for CONFIG_MODVERSIONS from DWARF.
-> > > >
-> > > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > > Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-> > > > ---
-> > > >  kernel/module/Kconfig                 |   8 ++
-> > > >  scripts/Makefile                      |   1 +
-> > > >  scripts/gendwarfksyms/.gitignore      |   2 +
+> > > This commit switches the working directory to the external module
+> > > directory, allowing the removal of the $(KBUILD_EXTMOD)/ prefix from
+> > > some build artifacts.
 > > >
-> > > This doesn't add scripts/gendwarfksyms to MAINTAINERS
-> > > but then again   scripts/genksyms/ is not there either
-> > > but it does got to Masahiro.
+> > > The command for building external modules maintains backward
+> > > compatibility, but Makefiles that rely on working in the kernel
+> > > directory may break. In such cases, $(objtree) and $(srctree) should
+> > > be used to refer to the output and source directories of the kernel.
+> > >
+> > > The appearance of the build log will change as follows:
+> > >
+> > > [Before]
+> > >
+> > >   $ make -C /path/to/my/linux M=/path/to/my/externel/module
+> > >   make: Entering directory '/path/to/my/linux'
+> > >     CC [M]  /path/to/my/externel/module/helloworld.o
+> > >     MODPOST /path/to/my/externel/module/Module.symvers
+> > >     CC [M]  /path/to/my/externel/module/helloworld.mod.o
+> > >     CC [M]  /path/to/my/externel/module/.module-common.o
+> > >     LD [M]  /path/to/my/externel/module/helloworld.ko
+> > >   make: Leaving directory '/path/to/my/linux'
+> > >
+> > > [After]
+> > >
+> > >   $ make -C /path/to/my/linux M=/path/to/my/externel/module
+> > >   make: Entering directory '/path/to/my/linux'
+> > >   make[1]: Entering directory '/path/to/my/externel/module'
+> > >     CC [M]  helloworld.o
+> > >     MODPOST Module.symvers
+> > >     CC [M]  helloworld.mod.o
+> > >     CC [M]  .module-common.o
+> > >     LD [M]  helloworld.ko
+> > >   make[1]: Leaving directory '/path/to/my/externel/module'
+> > >   make: Leaving directory '/path/to/my/linux'
+> > >
+> > > Printing "Entering directory" twice is cumbersome. This will be
+> > > addressed later.
 > >
-> > scripts/genksyms/ is a very old tool with no maintainer.
+> > This change has caused O=<relative directory> to fail.
 > >
-> > It defaults to the maintainer of the scripts/ directory (i.e. me)
+> > For example:
 > >
-> > > Masahiro, should we just add both to KERNEL BUILD and add
-> > > Sami as a Reviewer to help with gendwarfksyms?
+> > make O=build defconfig
+> > make -j$(nproc) V=1 O=build bindeb-pkg
 > >
-> > I think it is better to have a separate entry for
+> > outputs:
 > >
-> > F:  scripts/gendwarfksyms/
+> > make ARCH=x86 KERNELRELEASE=6.13.0-rc1 KBUILD_BUILD_VERSION=3  run-command KBUILD_RUN_COMMAND='+$(srctree)/scripts/package/builddeb linux-libc-dev'
+> > dh_installchangelogs -plinux-image-6.13.0-rc1
+> > ../scripts/package/builddeb linux-headers-6.13.0-rc1
+> > dh_compress -plinux-image-6.13.0-rc1
+> > dh_fixperms -plinux-image-6.13.0-rc1
+> > dh_gencontrol -plinux-image-6.13.0-rc1 -- -fdebian/image.files
+> > Rebuilding host programs with x86_64-linux-gnu-gcc...
+> > make[6]: Entering directory '/scratch/kernels/linux/build'
+> > /scratch/kernels/linux/Makefile:190: *** specified kernel directory "build" does not exist.  Stop.
 > >
-> > with Sami as the maintainer.
->
-> OK do you want this and the extended modversions to go through your tree
-> or modules tree?
->
->   Luis
+> > It is stepping into this directory and then trying to find the directory
+> > it just stepped into so $(realpath $(KBUILD_OUTPUT)) returns an empty
+> > string.
+> >
+> > Using an absolute directory resolves this problem, but I believe it
+> > shouldn't be necessary.
+> 
+> 
+> Agree.
+> 
+> I will apply the following fixup unless I have a better idea.
+> 
+> 
+> 
+> 
+> diff --git a/scripts/package/install-extmod-build
+> b/scripts/package/install-extmod-build
+> index 64d958ee45f3..85af1573db31 100755
+> --- a/scripts/package/install-extmod-build
+> +++ b/scripts/package/install-extmod-build
+> @@ -69,7 +69,7 @@ if [ "${CC}" != "${HOSTCC}" ]; then
+>         #
+>         # Use the single-target build to avoid the modpost invocation, which
+>         # would overwrite Module.symvers.
+> -       "${MAKE}" HOSTCC="${CC}" KBUILD_EXTMOD="${destdir}" scripts/
+> +       "${MAKE}" O=. HOSTCC="${CC}" KBUILD_EXTMOD="${destdir}" scripts/
+> 
+>         cat <<-'EOF' >  "${destdir}/scripts/Kbuild"
+>         subdir-y := basic
+> @@ -78,7 +78,7 @@ if [ "${CC}" != "${HOSTCC}" ]; then
+>         EOF
+> 
+>         # Run once again to rebuild scripts/basic/ and scripts/mod/modpost.
+> -       "${MAKE}" HOSTCC="${CC}" KBUILD_EXTMOD="${destdir}" scripts/
+> +       "${MAKE}" O=. HOSTCC="${CC}" KBUILD_EXTMOD="${destdir}" scripts/
+> 
+>         rm -f "${destdir}/Kbuild" "${destdir}/scripts/Kbuild"
+>  fi
+> 
 
+Looks fine to me :)
 
-I guess I can pick up them.
+If this is what you decide on, feel free to add my tags.
 
-I was just thinking about a possibility to
-make this (and the other one) less worse.
+Tested-by: Charlie Jenkins <charlie@rivosinc.com>
+Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
 
-
---=20
-Best Regards
-Masahiro Yamada
+> 
+> 
+> --
+> Best Regards
+> Masahiro Yamada
 
