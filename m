@@ -1,192 +1,589 @@
-Return-Path: <linux-kbuild+bounces-5003-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5004-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0D39E4C75
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 03:48:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D852D9E4CA4
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 04:28:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7240A18817FE
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 02:48:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 588151881495
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2024 03:28:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE0B817B4EC;
-	Thu,  5 Dec 2024 02:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F08F18FC72;
+	Thu,  5 Dec 2024 03:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rftoUn15"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgbeonh4"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDA679DC;
-	Thu,  5 Dec 2024 02:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7D8383A2;
+	Thu,  5 Dec 2024 03:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733366926; cv=none; b=kjFVoZAzxQgchzO2qQIQXdTbsKcv8Q/2DR/srk35AcB7r9RdWDwouP3vinzsuZMIg27zBJVVjGem8dpVsl9vGME6poZGEUbid8+9OmKZ7FYtFxl4H89/jx2X2ZjeoO8AA+UmJpz60Sd2JvSB5oGN1vQzCiNdRcY08jBEoL1I/d0=
+	t=1733369327; cv=none; b=b2NOqazIzGvQoYM7Z8HN6jHv0XclWGBJzwOYJvbPh+J69gxlUZpXRTGnEXXaJ1AaqjHFlQKVb18J3gSXpPWaEVtDd4Xqz4szDdxP0PTRqEZZugO675biH/CG3rQVMcwEp+Jx9/uLLPG/I5C3xVoJfCy+aycxXBHJDURMZwoG1bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733366926; c=relaxed/simple;
-	bh=DGF70DZln5IThYnEF4xvE0h/pdv3E5Nk+vHPdXkKDoI=;
+	s=arc-20240116; t=1733369327; c=relaxed/simple;
+	bh=dQfviD8uzcdULhtFY1gIruW001nGEeYJMZLF1POWlOI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QkdHAaewS0YBZpPEN1QyLRBKPbSXX2MSaUPdi847F3DElrKKeBX+a69aAeGpIItRwBTazoeKUViuv4S1x524NlcXj066Cxhqlt/NnRE/PE/unR9rCTY2UBXwLew4t4ugk5bt/aL2BKB8Q7jbjsotj8u5pR1UUjJUVAnp07+wpJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rftoUn15; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14415C4CEDD;
-	Thu,  5 Dec 2024 02:48:46 +0000 (UTC)
+	 To:Cc:Content-Type; b=kIlCfvjdKD+FQmd3KW6WntMdLhEdidWsrfChIqs8u6K50CYQJtlatRdEugMOJMxWngFntHb97V/01uMsb+JyT7Vie2Bgss5fDXq82e1+sCxFlPLxD0mAUeI626mXFdHWKqH8qIxLS0jHO1p0w79bZbZqg6dJVR8wuyOFG5yKUTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgbeonh4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4395C4CEDD;
+	Thu,  5 Dec 2024 03:28:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733366926;
-	bh=DGF70DZln5IThYnEF4xvE0h/pdv3E5Nk+vHPdXkKDoI=;
+	s=k20201202; t=1733369326;
+	bh=dQfviD8uzcdULhtFY1gIruW001nGEeYJMZLF1POWlOI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=rftoUn15aGFBIRnpVaAVAmjIxPc1EwQ3BMQFjAukWCAx3UVBHpa9OAIC6h7DD6gCp
-	 8r/y6Mpg+o8vmanLhEGUwptePJ69vGvd9JMBvbEQ1ZPN456Kqx2oq+9ZxFaOebQI7s
-	 kL8vjhNoflVNWSGY4pPohDFu7M5LgRdzv+MWj7iHogn4MZTlOZKtbKj9uSItqCF7Dl
-	 9+6W4bXbBF5VJ41yhJqsRPOe2p4TD7OpcD3y0TKxzDmKJFlpRLHxVw2W+Cl71Z+pgf
-	 I8L/qSQ8gCX/jB91bX2jKyM2tO7vh3Isk9IkqLSOgboVIIOlPalDuuqgQyLQfkI9nt
-	 GPSWBYnes70Lg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53df1d1b6e8so444037e87.1;
-        Wed, 04 Dec 2024 18:48:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUwL410WMQnfdH9HCn3T2l72yV5rEFedEc6zlkmzGFHB2EeXj8E7wvd68T+CRf4uAv9FApgcucEdOaWoH0=@vger.kernel.org, AJvYcCVnNPsn7lf0dsGXDxXdUmO3/Hf2x7Licoy/VCbmSpm/jve8AQbcixuTokIh/mYh9IBCtpRv9tibGO5jFyPybwk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNOcDsySnqfJMhpggWI4rEMnQekzIUMx4zXMeOTZX6S38rSVJT
-	ugEBkIbRv2durOQymsPPma8M9N9VPTPPKbksaU/9XtpJT3i9NpKVHfPp+CPd/ncJh01P6o+PUgJ
-	oE0regUA/4LuKGKrZwWnqsAbBKO0=
-X-Google-Smtp-Source: AGHT+IFCBAQTSON6KO7eKz9ICddrwpuu6tdofnQ5qKiK3Z8z33N+AkdWTWu4fSDeOy/kXzQjn9HZXL3f2oJE/UZT//g=
-X-Received: by 2002:a05:6512:224b:b0:53e:1ead:e33a with SMTP id
- 2adb3069b0e04-53e1eade521mr1490930e87.49.1733366924705; Wed, 04 Dec 2024
- 18:48:44 -0800 (PST)
+	b=hgbeonh4cqey7ay/FdbeNk+EJoTPsaCcihegDw2YuafxrCpP14qyvdmoHZJmmVjtU
+	 0djWEz+GxrEAYY0dgiK59k7SCBGNEeYM1YZMO92ubAgqrdbB9Nm5ir4wayOO5O+9Ps
+	 GYmPshJWFDr+n2FMkwwjLud+jycuOQKLvWmnmX12VIfQ96qh50DzjVcbtkeagMn+Wq
+	 oCzNReLsAS6PKLYZFGkAucQgwSkqZdTrmykD+LVOV28NEXQRjFOCd9V9ir97NKRIQK
+	 Bfbe3VwKeMfz49AqUo58p0MSSMo+p8Ll1RGIC+ni/nkq9Mf6jT4j4J79QI4J4MRZXS
+	 eTuMLzodhpVNw==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53e1c3e1c50so437511e87.1;
+        Wed, 04 Dec 2024 19:28:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU3z5iB4yrlctkqKN98vNsmejT+xfhcV6pzvwicPeD4JGDcqlLcK/DTtqPev0X8B48b0bWmQcZl5Te0YPVuaQ==@vger.kernel.org, AJvYcCUyIoL10YTOtrjVAMthRJ/IfTnCeVH+r23qfdB62pSACHy0q1yBBwVZo+08eIc6NJG/GXTScx7c1JY1Q3x/1Gw=@vger.kernel.org, AJvYcCV5ITrijPl7CRmNecD7xAGq0Qh0WUYJmjDg9CcddTvaddyJWIF8ogRLn//xWar9ZWW56It0thUQBA0Fh3Vc@vger.kernel.org, AJvYcCWXeMymzxJhsf0LZDct26bY8n+LSxR6DsqgOCmC4aU6o1I81SPtNmh5opyHc5dvCPJOlM0k/CPdF9IE4Aw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWRJhxbvKSyXfJ5sdOivqRTIoYJpTNTFSxsrHDbUfvlI4qLqpE
+	23i0RHyO2Uh7UYte6eG8hE7utHAgOrrKXS2YDXDJOcWs5OrRszj7kl6xOAlVsOj4fZ19cZzYHkz
+	uAbR36LJMgmgRo3QEWqg+nw9nzQo=
+X-Google-Smtp-Source: AGHT+IHIsP57MVylo5BpUboAyfeP+5j2CJ0YDvV4woFHFdWG6e+Hjw4RZIfwl806kk6sXEwfrrjGh2abXqgjaH6Bz3s=
+X-Received: by 2002:a05:6512:3b9e:b0:53e:135a:e1cd with SMTP id
+ 2adb3069b0e04-53e135ae27amr5309553e87.11.1733369325359; Wed, 04 Dec 2024
+ 19:28:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241110013649.34903-1-masahiroy@kernel.org> <20241110013649.34903-6-masahiroy@kernel.org>
- <Z1DnP-GJcfseyrM3@ghost>
-In-Reply-To: <Z1DnP-GJcfseyrM3@ghost>
+References: <20241121204220.2378181-20-samitolvanen@google.com>
+ <CGME20241121204243eucas1p191055690457a8f56962315c32df2558d@eucas1p1.samsung.com>
+ <20241121204220.2378181-21-samitolvanen@google.com> <a8f28e4b-5319-4b99-9882-645057f92b95@samsung.com>
+In-Reply-To: <a8f28e4b-5319-4b99-9882-645057f92b95@samsung.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 5 Dec 2024 11:48:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR0jmafdi7GAxq58AU-=tuWdVas02q=sQXC4zaOg4JcEA@mail.gmail.com>
-Message-ID: <CAK7LNAR0jmafdi7GAxq58AU-=tuWdVas02q=sQXC4zaOg4JcEA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] kbuild: change working directory to external
- module directory with M=
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, cocci@inria.fr
+Date: Thu, 5 Dec 2024 12:28:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATax0AjuTRoKmcNrc_c-A5AqfKuHwSDgKZOa-z7kUYuEA@mail.gmail.com>
+Message-ID: <CAK7LNATax0AjuTRoKmcNrc_c-A5AqfKuHwSDgKZOa-z7kUYuEA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/18] tools: Add gendwarfksyms
+To: Daniel Gomez <da.gomez@samsung.com>
+Cc: Sami Tolvanen <samitolvanen@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>, 
+	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 5, 2024 at 8:35=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.co=
-m> wrote:
+On Wed, Dec 4, 2024 at 11:14=E2=80=AFPM Daniel Gomez <da.gomez@samsung.com>=
+ wrote:
 >
-> On Sun, Nov 10, 2024 at 10:34:33AM +0900, Masahiro Yamada wrote:
-> > Currently, Kbuild always operates in the output directory of the kernel=
+> On 11/21/2024 9:42 PM, Sami Tolvanen wrote:
+> > Add a basic DWARF parser, which uses libdw to traverse the debugging
+> > information in an object file and looks for functions and variables.
+> > In follow-up patches, this will be expanded to produce symbol versions
+> > for CONFIG_MODVERSIONS from DWARF.
+> >
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+> > ---
+> >   kernel/module/Kconfig                 |   8 ++
+> >   scripts/Makefile                      |   1 +
+> >   scripts/gendwarfksyms/.gitignore      |   2 +
+> >   scripts/gendwarfksyms/Makefile        |   8 ++
+> >   scripts/gendwarfksyms/dwarf.c         | 166 +++++++++++++++++++++++++=
++
+> >   scripts/gendwarfksyms/gendwarfksyms.c | 126 +++++++++++++++++++
+> >   scripts/gendwarfksyms/gendwarfksyms.h | 100 ++++++++++++++++
+> >   scripts/gendwarfksyms/symbols.c       |  96 +++++++++++++++
+> >   8 files changed, 507 insertions(+)
+> >   create mode 100644 scripts/gendwarfksyms/.gitignore
+> >   create mode 100644 scripts/gendwarfksyms/Makefile
+> >   create mode 100644 scripts/gendwarfksyms/dwarf.c
+> >   create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
+> >   create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
+> >   create mode 100644 scripts/gendwarfksyms/symbols.c
+> >
+> > diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+> > index 7c6588148d42..f9e5f82fa88b 100644
+> > --- a/kernel/module/Kconfig
+> > +++ b/kernel/module/Kconfig
+> > @@ -169,6 +169,14 @@ config MODVERSIONS
+> >         make them incompatible with the kernel you are running.  If
+> >         unsure, say N.
+> >
+> > +config GENDWARFKSYMS
+> > +     bool
+> > +     depends on DEBUG_INFO
+> > +     # Requires full debugging information, split DWARF not supported.
+> > +     depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
+> > +     # Requires ELF object files.
+> > +     depends on !LTO
+> > +
+> >   config ASM_MODVERSIONS
+> >       bool
+> >       default HAVE_ASM_MODVERSIONS && MODVERSIONS
+> > diff --git a/scripts/Makefile b/scripts/Makefile
+> > index 6bcda4b9d054..d7fec46d38c0 100644
+> > --- a/scripts/Makefile
+> > +++ b/scripts/Makefile
+> > @@ -54,6 +54,7 @@ targets +=3D module.lds
+> >
+> >   subdir-$(CONFIG_GCC_PLUGINS) +=3D gcc-plugins
+> >   subdir-$(CONFIG_MODVERSIONS) +=3D genksyms
+> > +subdir-$(CONFIG_GENDWARFKSYMS) +=3D gendwarfksyms
+> >   subdir-$(CONFIG_SECURITY_SELINUX) +=3D selinux
+> >   subdir-$(CONFIG_SECURITY_IPE) +=3D ipe
+> >
+> > diff --git a/scripts/gendwarfksyms/.gitignore b/scripts/gendwarfksyms/.=
+gitignore
+> > new file mode 100644
+> > index 000000000000..0927f8d3cd96
+> > --- /dev/null
+> > +++ b/scripts/gendwarfksyms/.gitignore
+> > @@ -0,0 +1,2 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +/gendwarfksyms
+> > diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Mak=
+efile
+> > new file mode 100644
+> > index 000000000000..9f8fec4fd39b
+> > --- /dev/null
+> > +++ b/scripts/gendwarfksyms/Makefile
+> > @@ -0,0 +1,8 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +hostprogs-always-y +=3D gendwarfksyms
+> > +
+> > +gendwarfksyms-objs +=3D gendwarfksyms.o
+> > +gendwarfksyms-objs +=3D dwarf.o
+> > +gendwarfksyms-objs +=3D symbols.o
+> > +
+> > +HOSTLDLIBS_gendwarfksyms :=3D -ldw -lelf
+> > diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwar=
+f.c
+> > new file mode 100644
+> > index 000000000000..81df3e2ad3ae
+> > --- /dev/null
+> > +++ b/scripts/gendwarfksyms/dwarf.c
+> > @@ -0,0 +1,166 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2024 Google LLC
+> > + */
+> > +
+> > +#include "gendwarfksyms.h"
+> > +
+> > +static bool get_ref_die_attr(Dwarf_Die *die, unsigned int id, Dwarf_Di=
+e *value)
+> > +{
+> > +     Dwarf_Attribute da;
+> > +
+> > +     /* dwarf_formref_die returns a pointer instead of an error value.=
+ */
+> > +     return dwarf_attr(die, id, &da) && dwarf_formref_die(&da, value);
+> > +}
+> > +
+> > +#define DEFINE_GET_STRING_ATTR(attr)                         \
+> > +     static const char *get_##attr##_attr(Dwarf_Die *die) \
+> > +     {                                                    \
+> > +             Dwarf_Attribute da;                          \
+> > +             if (dwarf_attr(die, DW_AT_##attr, &da))      \
+> > +                     return dwarf_formstring(&da);        \
+> > +             return NULL;                                 \
+> > +     }
+> > +
+> > +DEFINE_GET_STRING_ATTR(name)
+> > +DEFINE_GET_STRING_ATTR(linkage_name)
+> > +
+> > +static const char *get_symbol_name(Dwarf_Die *die)
+> > +{
+> > +     const char *name;
+> > +
+> > +     /* rustc uses DW_AT_linkage_name for exported symbols */
+> > +     name =3D get_linkage_name_attr(die);
+> > +     if (!name)
+> > +             name =3D get_name_attr(die);
+> > +
+> > +     return name;
+> > +}
+> > +
+> > +static bool match_export_symbol(struct state *state, Dwarf_Die *die)
+> > +{
+> > +     Dwarf_Die *source =3D die;
+> > +     Dwarf_Die origin;
+> > +
+> > +     /* If the DIE has an abstract origin, use it for type information=
+. */
+> > +     if (get_ref_die_attr(die, DW_AT_abstract_origin, &origin))
+> > +             source =3D &origin;
+> > +
+> > +     state->sym =3D symbol_get(get_symbol_name(die));
+> > +
+> > +     /* Look up using the origin name if there are no matches. */
+> > +     if (!state->sym && source !=3D die)
+> > +             state->sym =3D symbol_get(get_symbol_name(source));
+> > +
+> > +     state->die =3D *source;
+> > +     return !!state->sym;
+> > +}
+> > +
+> > +/*
+> > + * Type string processing
+> > + */
+> > +static void process(const char *s)
+> > +{
+> > +     s =3D s ?: "<null>";
+> > +
+> > +     if (dump_dies)
+> > +             fputs(s, stderr);
+> > +}
+> > +
+> > +bool match_all(Dwarf_Die *die)
+> > +{
+> > +     return true;
+> > +}
+> > +
+> > +int process_die_container(struct state *state, Dwarf_Die *die,
+> > +                       die_callback_t func, die_match_callback_t match=
+)
+> > +{
+> > +     Dwarf_Die current;
+> > +     int res;
+> > +
+> > +     res =3D checkp(dwarf_child(die, &current));
+> > +     while (!res) {
+> > +             if (match(&current)) {
+> > +                     /* <0 =3D error, 0 =3D continue, >0 =3D stop */
+> > +                     res =3D checkp(func(state, &current));
+> > +                     if (res)
+> > +                             return res;
+> > +             }
+> > +
+> > +             res =3D checkp(dwarf_siblingof(&current, &current));
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/*
+> > + * Exported symbol processing
+> > + */
+> > +static void process_symbol(struct state *state, Dwarf_Die *die,
+> > +                        die_callback_t process_func)
+> > +{
+> > +     debug("%s", state->sym->name);
+> > +     check(process_func(state, die));
+> > +     if (dump_dies)
+> > +             fputs("\n", stderr);
+> > +}
+> > +
+> > +static int __process_subprogram(struct state *state, Dwarf_Die *die)
+> > +{
+> > +     process("subprogram");
+> > +     return 0;
+> > +}
+> > +
+> > +static void process_subprogram(struct state *state, Dwarf_Die *die)
+> > +{
+> > +     process_symbol(state, die, __process_subprogram);
+> > +}
+> > +
+> > +static int __process_variable(struct state *state, Dwarf_Die *die)
+> > +{
+> > +     process("variable ");
+> > +     return 0;
+> > +}
+> > +
+> > +static void process_variable(struct state *state, Dwarf_Die *die)
+> > +{
+> > +     process_symbol(state, die, __process_variable);
+> > +}
+> > +
+> > +static int process_exported_symbols(struct state *unused, Dwarf_Die *d=
+ie)
+> > +{
+> > +     int tag =3D dwarf_tag(die);
+> > +
+> > +     switch (tag) {
+> > +     /* Possible containers of exported symbols */
+> > +     case DW_TAG_namespace:
+> > +     case DW_TAG_class_type:
+> > +     case DW_TAG_structure_type:
+> > +             return check(process_die_container(
+> > +                     NULL, die, process_exported_symbols, match_all));
+> > +
+> > +     /* Possible exported symbols */
+> > +     case DW_TAG_subprogram:
+> > +     case DW_TAG_variable: {
+> > +             struct state state;
+> > +
+> > +             if (!match_export_symbol(&state, die))
+> > +                     return 0;
+> > +
+> > +             if (tag =3D=3D DW_TAG_subprogram)
+> > +                     process_subprogram(&state, &state.die);
+> > +             else
+> > +                     process_variable(&state, &state.die);
+> > +
+> > +             return 0;
+> > +     }
+> > +     default:
+> > +             return 0;
+> > +     }
+> > +}
+> > +
+> > +void process_cu(Dwarf_Die *cudie)
+> > +{
+> > +     check(process_die_container(NULL, cudie, process_exported_symbols=
 ,
-> > even when building external modules. This increases the risk of externa=
-l
-> > module Makefiles attempting to write to the kernel directory.
-> >
-> > This commit switches the working directory to the external module
-> > directory, allowing the removal of the $(KBUILD_EXTMOD)/ prefix from
-> > some build artifacts.
-> >
-> > The command for building external modules maintains backward
-> > compatibility, but Makefiles that rely on working in the kernel
-> > directory may break. In such cases, $(objtree) and $(srctree) should
-> > be used to refer to the output and source directories of the kernel.
-> >
-> > The appearance of the build log will change as follows:
-> >
-> > [Before]
-> >
-> >   $ make -C /path/to/my/linux M=3D/path/to/my/externel/module
-> >   make: Entering directory '/path/to/my/linux'
-> >     CC [M]  /path/to/my/externel/module/helloworld.o
-> >     MODPOST /path/to/my/externel/module/Module.symvers
-> >     CC [M]  /path/to/my/externel/module/helloworld.mod.o
-> >     CC [M]  /path/to/my/externel/module/.module-common.o
-> >     LD [M]  /path/to/my/externel/module/helloworld.ko
-> >   make: Leaving directory '/path/to/my/linux'
-> >
-> > [After]
-> >
-> >   $ make -C /path/to/my/linux M=3D/path/to/my/externel/module
-> >   make: Entering directory '/path/to/my/linux'
-> >   make[1]: Entering directory '/path/to/my/externel/module'
-> >     CC [M]  helloworld.o
-> >     MODPOST Module.symvers
-> >     CC [M]  helloworld.mod.o
-> >     CC [M]  .module-common.o
-> >     LD [M]  helloworld.ko
-> >   make[1]: Leaving directory '/path/to/my/externel/module'
-> >   make: Leaving directory '/path/to/my/linux'
-> >
-> > Printing "Entering directory" twice is cumbersome. This will be
-> > addressed later.
+> > +                                 match_all));
+> > +}
+> > diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfks=
+yms/gendwarfksyms.c
+> > new file mode 100644
+> > index 000000000000..f84fa98fcbdb
+> > --- /dev/null
+> > +++ b/scripts/gendwarfksyms/gendwarfksyms.c
+> > @@ -0,0 +1,126 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2024 Google LLC
+> > + */
+> > +
+> > +#include <fcntl.h>
+> > +#include <getopt.h>
+> > +#include <errno.h>
+> > +#include <stdarg.h>
+> > +#include <string.h>
+> > +#include <unistd.h>
+> > +#include "gendwarfksyms.h"
+> > +
+> > +/*
+> > + * Options
+> > + */
+> > +
+> > +/* Print debugging information to stderr */
+> > +int debug;
+> > +/* Dump DIE contents */
+> > +int dump_dies;
+> > +
+> > +static void usage(void)
+> > +{
+> > +     fputs("Usage: gendwarfksyms [options] elf-object-file ... < symbo=
+l-list\n\n"
+> > +           "Options:\n"
+> > +           "  -d, --debug          Print debugging information\n"
+> > +           "      --dump-dies      Dump DWARF DIE contents\n"
+> > +           "  -h, --help           Print this message\n"
+> > +           "\n",
+> > +           stderr);
+> > +}
+> > +
+> > +static int process_module(Dwfl_Module *mod, void **userdata, const cha=
+r *name,
+> > +                       Dwarf_Addr base, void *arg)
+> > +{
+> > +     Dwarf_Addr dwbias;
+> > +     Dwarf_Die cudie;
+> > +     Dwarf_CU *cu =3D NULL;
+> > +     Dwarf *dbg;
+> > +     int res;
+> > +
+> > +     debug("%s", name);
+> > +     dbg =3D dwfl_module_getdwarf(mod, &dwbias);
+> > +
+> > +     do {
+> > +             res =3D dwarf_get_units(dbg, cu, &cu, NULL, NULL, &cudie,=
+ NULL);
+> > +             if (res < 0)
+> > +                     error("dwarf_get_units failed: no debugging infor=
+mation?");
+> > +             if (res =3D=3D 1)
+> > +                     break; /* No more units */
+> > +
+> > +             process_cu(&cudie);
+> > +     } while (cu);
+> > +
+> > +     return DWARF_CB_OK;
+> > +}
+> > +
+> > +static const Dwfl_Callbacks callbacks =3D {
+> > +     .section_address =3D dwfl_offline_section_address,
+> > +     .find_debuginfo =3D dwfl_standard_find_debuginfo,
+> > +};
+> > +
+> > +int main(int argc, char **argv)
+> > +{
+> > +     unsigned int n;
+> > +     int opt;
+> > +
+> > +     struct option opts[] =3D { { "debug", 0, NULL, 'd' },
+> > +                              { "dump-dies", 0, &dump_dies, 1 },
+> > +                              { "help", 0, NULL, 'h' },
+> > +                              { 0, 0, NULL, 0 } };
+> > +
+> > +     while ((opt =3D getopt_long(argc, argv, "dh", opts, NULL)) !=3D E=
+OF) {
+> > +             switch (opt) {
+> > +             case 0:
+> > +                     break;
+> > +             case 'd':
+> > +                     debug =3D 1;
+> > +                     break;
+> > +             case 'h':
+> > +                     usage();
+> > +                     return 0;
+> > +             default:
+> > +                     usage();
+> > +                     return 1;
+> > +             }
+> > +     }
+> > +
+> > +     if (optind >=3D argc) {
+> > +             usage();
+> > +             error("no input files?");
+> > +     }
+> > +
+> > +     symbol_read_exports(stdin);
+> > +
+> > +     for (n =3D optind; n < argc; n++) {
+> > +             Dwfl *dwfl;
+> > +             int fd;
+> > +
+> > +             fd =3D open(argv[n], O_RDONLY);
+> > +             if (fd =3D=3D -1)
+> > +                     error("open failed for '%s': %s", argv[n],
+> > +                           strerror(errno));
+> > +
+> > +             dwfl =3D dwfl_begin(&callbacks);
+> > +             if (!dwfl)
+> > +                     error("dwfl_begin failed for '%s': %s", argv[n],
+> > +                           dwarf_errmsg(-1));
+> > +
+> > +             if (!dwfl_report_offline(dwfl, argv[n], argv[n], fd))
+> > +                     error("dwfl_report_offline failed for '%s': %s",
+> > +                           argv[n], dwarf_errmsg(-1));
+> > +
+> > +             dwfl_report_end(dwfl, NULL, NULL);
+> > +
+> > +             if (dwfl_getmodules(dwfl, &process_module, NULL, 0))
+> > +                     error("dwfl_getmodules failed for '%s'", argv[n])=
+;
+> > +
+> > +             dwfl_end(dwfl);
+> > +     }
+> > +
+> > +     symbol_free();
+> > +
+> > +     return 0;
+> > +}
+> > diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfks=
+yms/gendwarfksyms.h
+> > new file mode 100644
+> > index 000000000000..23e484af5d22
+> > --- /dev/null
+> > +++ b/scripts/gendwarfksyms/gendwarfksyms.h
+> > @@ -0,0 +1,100 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2024 Google LLC
+> > + */
+> > +
+> > +#define _GNU_SOURCE
 >
-> This change has caused O=3D<relative directory> to fail.
 >
-> For example:
+> I'm getting these warnings:
 >
-> make O=3Dbuild defconfig
-> make -j$(nproc) V=3D1 O=3Dbuild bindeb-pkg
+> scripts/gendwarfksyms/kabi.c:245:6: warning: implicit declaration of
+> function 'asprintf' is invalid in C99 [-Wimplicit-function-declaration]
+>          if (asprintf(&target, "%s %s", fqn, field) < 0)
+>              ^
+> 1 warning generated.
+>    HOSTCC  scripts/gendwarfksyms/symbols.o
+>    HOSTCC  scripts/gendwarfksyms/types.o
+> scripts/gendwarfksyms/types.c:260:6: warning: implicit declaration of
+> function 'asprintf' is invalid in C99 [-Wimplicit-function-declaration]
+>          if (asprintf(&name, "%c#%s%s%s", prefix, quote, cache->fqn,
+> quote) < 0)
+>              ^
+> 1 warning generated.
 >
-> outputs:
 >
-> make ARCH=3Dx86 KERNELRELEASE=3D6.13.0-rc1 KBUILD_BUILD_VERSION=3D3  run-=
-command KBUILD_RUN_COMMAND=3D'+$(srctree)/scripts/package/builddeb linux-li=
-bc-dev'
-> dh_installchangelogs -plinux-image-6.13.0-rc1
-> ../scripts/package/builddeb linux-headers-6.13.0-rc1
-> dh_compress -plinux-image-6.13.0-rc1
-> dh_fixperms -plinux-image-6.13.0-rc1
-> dh_gencontrol -plinux-image-6.13.0-rc1 -- -fdebian/image.files
-> Rebuilding host programs with x86_64-linux-gnu-gcc...
-> make[6]: Entering directory '/scratch/kernels/linux/build'
-> /scratch/kernels/linux/Makefile:190: *** specified kernel directory "buil=
-d" does not exist.  Stop.
->
-> It is stepping into this directory and then trying to find the directory
-> it just stepped into so $(realpath $(KBUILD_OUTPUT)) returns an empty
-> string.
->
-> Using an absolute directory resolves this problem, but I believe it
-> shouldn't be necessary.
+> I think it may be cleaner to define _GNU_SOURCE in the CFLAGS instead.
+
+I do not think so.
+
+I believe the standard approach would be to define the necessary
+macros and  include headers where they are used.
 
 
-Agree.
+diff --git a/scripts/gendwarfksyms/gendwarfksyms.h
+b/scripts/gendwarfksyms/gendwarfksyms.h
+index 86b3a3f2f558..127dceaf838d 100644
+--- a/scripts/gendwarfksyms/gendwarfksyms.h
++++ b/scripts/gendwarfksyms/gendwarfksyms.h
+@@ -3,8 +3,6 @@
+  * Copyright (C) 2024 Google LLC
+  */
 
-I will apply the following fixup unless I have a better idea.
+-#define _GNU_SOURCE
+-
+ #include <dwarf.h>
+ #include <elfutils/libdw.h>
+ #include <elfutils/libdwfl.h>
+diff --git a/scripts/gendwarfksyms/kabi.c b/scripts/gendwarfksyms/kabi.c
+index 2c6670ff1ac9..a3b5bb9e5487 100644
+--- a/scripts/gendwarfksyms/kabi.c
++++ b/scripts/gendwarfksyms/kabi.c
+@@ -3,7 +3,10 @@
+  * Copyright (C) 2024 Google LLC
+  */
+
++#define _GNU_SOURCE
+ #include <errno.h>
++#include <stdio.h>
++
+ #include "gendwarfksyms.h"
+
+ #define KABI_RULE_SECTION ".discard.gendwarfksyms.kabi_rules"
+diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
+index f4dbd21b83e6..c37afdb90fe9 100644
+--- a/scripts/gendwarfksyms/types.c
++++ b/scripts/gendwarfksyms/types.c
+@@ -3,7 +3,10 @@
+  * Copyright (C) 2024 Google LLC
+  */
+
++#define _GNU_SOURCE
++#include <stdio.h>
+ #include <zlib.h>
++
+ #include "gendwarfksyms.h"
+
+ static struct cache expansion_cache;
 
 
 
 
-diff --git a/scripts/package/install-extmod-build
-b/scripts/package/install-extmod-build
-index 64d958ee45f3..85af1573db31 100755
---- a/scripts/package/install-extmod-build
-+++ b/scripts/package/install-extmod-build
-@@ -69,7 +69,7 @@ if [ "${CC}" !=3D "${HOSTCC}" ]; then
-        #
-        # Use the single-target build to avoid the modpost invocation, whic=
-h
-        # would overwrite Module.symvers.
--       "${MAKE}" HOSTCC=3D"${CC}" KBUILD_EXTMOD=3D"${destdir}" scripts/
-+       "${MAKE}" O=3D. HOSTCC=3D"${CC}" KBUILD_EXTMOD=3D"${destdir}" scrip=
-ts/
 
-        cat <<-'EOF' >  "${destdir}/scripts/Kbuild"
-        subdir-y :=3D basic
-@@ -78,7 +78,7 @@ if [ "${CC}" !=3D "${HOSTCC}" ]; then
-        EOF
 
-        # Run once again to rebuild scripts/basic/ and scripts/mod/modpost.
--       "${MAKE}" HOSTCC=3D"${CC}" KBUILD_EXTMOD=3D"${destdir}" scripts/
-+       "${MAKE}" O=3D. HOSTCC=3D"${CC}" KBUILD_EXTMOD=3D"${destdir}" scrip=
-ts/
+The current code adopts:
+  - Collect all library header includes to gendwarfksyms.h
+  - All C files include "gendwarfksyms.h" but nothing else.
 
-        rm -f "${destdir}/Kbuild" "${destdir}/scripts/Kbuild"
- fi
+
+This smells like "please include <windows.h> from every file
+when you program in Visual C++".
+
+
+Personally I do not do that, but others may think differently.
 
 
 
---
+--=20
 Best Regards
 Masahiro Yamada
 
