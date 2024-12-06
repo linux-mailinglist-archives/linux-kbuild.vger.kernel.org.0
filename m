@@ -1,72 +1,74 @@
-Return-Path: <linux-kbuild+bounces-5025-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5026-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D349E7CAC
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Dec 2024 00:38:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F2F9E7CAF
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Dec 2024 00:38:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D27E18871EC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2024 23:38:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CC4816C7FC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2024 23:38:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17F85212FBB;
-	Fri,  6 Dec 2024 23:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F84213E7E;
+	Fri,  6 Dec 2024 23:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gcz1q44n"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Rvp+WWeL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B93212F88
-	for <linux-kbuild@vger.kernel.org>; Fri,  6 Dec 2024 23:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D29212FB2
+	for <linux-kbuild@vger.kernel.org>; Fri,  6 Dec 2024 23:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733528323; cv=none; b=F8CxLWkKFO/MeDKgriCqFGouJrivVILBU40m0MhZMy+H+g32zACyAMoAjI0MtdZrMZB6rzetNn2BLcea6h+Pc8yv1ngs4DtaHLvaYYaf6ztNlhthF0KHWMD0GLDwPIZOIqd9FiH/7Et9PzURI5Mt4lJa17Sr8dgs97wLpllHAx4=
+	t=1733528325; cv=none; b=Otikc3RCgDRIYuhXfmU30kFo35Ha7mzSzHbobGTqAg1WCcGc1iIsAMEf9myX6cIBwoxgRnlANp92vWW8H424QM9/2MOpfGspN0te8IyRiiHezekQdK8XP8qM73/Rv5qj1TvSahJ9ChsAz3CHIzNDuL9Heeo2GbNNCTnb1LaAINQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733528323; c=relaxed/simple;
-	bh=WXa72mHQrBWrS/09dYwuBRNffw100ctDcz92BZvdr5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mY2F/vv+xHupcRelIb8IqHsfVyXoF6QgiiHOScDQCY9gonKllBf96DWtrSbO4m/P7w/XvabZTVyowjrV8MRn9mpzrDdhZnEcrWAjMEow5EiMnZ6uE1zP8QFiBBX3usFD8V9WxhNpA2icj/Cc7yMxt21jf7bNUidtlAON0koLStU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gcz1q44n; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1733528325; c=relaxed/simple;
+	bh=Wa7Kv7PricBjMroxEO0Q9NJCwPJQ0U69/lCUJwLLOoA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NyVmg48opOkFaoOCpb9UxxNl6UHGBlm6vMAuzSZR+tpvxkpMMvm4K1F5f7D3dE88O25aTL9BgCpnrJ8DczSqmBpVJMqdTlfDofMzxxQazSzIggqixTWMSUGJA9BOxmJs+TAwdwDRc7ZT9CDZMOiuNwE5wm9wVIP06esPB8qDsRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Rvp+WWeL; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-724e14b90cfso2628751b3a.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 06 Dec 2024 15:38:42 -0800 (PST)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-724d23df764so2616459b3a.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Dec 2024 15:38:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733528321; x=1734133121; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bliC/7ngsldUriRdPv0FfcilaOEufGfZUp9MYyymSd4=;
-        b=gcz1q44nXqD0R+dBRpL0xGbecb1NRtHvfo40kltslWzTPEjTNt4ZXw64VsMJYcnYcd
-         9YjPb4NW3EfNxZKkKMVU4OMVKlGcXfNyLIlrY3TD34AagoRWTT9FDUAW6oBBJp+SYr48
-         L936YU8LhdCNhA+3elGJP28JPQXpFJoEsKmT0=
+        d=chromium.org; s=google; t=1733528323; x=1734133123; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=npc5/EXwRgV9fZkcYMR5vMPbJLkeKsCQO+ev3yk2o1U=;
+        b=Rvp+WWeLyvJtHNcbfMwhxHPFbpZPCajJ49QfKh36ep8dKX7cg+l23U8M/rTEF+0BHX
+         Yz5XM7uAoW+Cf1i0UDcdhmBD4X5mbEg3WDMmp4ncAlG7DGgfqodt29ROHI/jV9LqY4Ee
+         gapUR74zeKWz97xQDcazDhLOatXydswt/TNGA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733528321; x=1734133121;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bliC/7ngsldUriRdPv0FfcilaOEufGfZUp9MYyymSd4=;
-        b=M8cZ2G1IbbI5VqZgwjqbei8F3jRu6ZeFr8LGlV4SI+iZNIMh+vYTTYFsCl2p++5fw8
-         ldgy9zjEiKzM+mltY0s7zUDKuLW6klyfNaCe7gaYRUe7RKAHQM0eGweIw8PQC4Dmms33
-         JLEgosMgW6PMaSJ0v13nWyevYI9JO4UTGRuHUR90YCJpWfePmSgUJ0B1y1cVKjdAxB0d
-         Nt8sX4fPUWgg+J/3JB+BFUYTFfOZQHyc6wLcit0iw+OidnnWnqgsDwu7dTe0g3ugJkBd
-         C9C3IkFlu4ACeuxKUdNEqLvW+V1OPvTpG9IUFZyUBarkRLUhdVc4Mocvuu+nZIGSVJy+
-         +5lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX9M2KR2z14EQnV4MtFgZSIoSxQZWm51WVrZyBV9meUghfEi0ELeGUrc/ZVwVxst5g26K+jJbUjl3tJ5Bw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6cCQEYZU/ISZtUabTkGK/Bdvn11VUmtJj6rJgo1Rk0Or4A2oW
-	WWZH6h9rR8nOuvmVQGKsR5LeVCcxXzHlfkd+gSm3JKXBwL3r6nUg88n381FMPg==
-X-Gm-Gg: ASbGncub28rXUuiTyBewMBAtI9NG5opAUTyZJtwRC7TUALMkaLESrurErbRuF93LLeL
-	ohAW8M6kodKun92ExwzWY/Hf4V6zlVEuHpVhcsBXi3IgX1k2SBgl5+OerCKNCf3M9agZyx2/o+A
-	qicgeIdOrjMyu8Gudt2gBvLhy4cZ9xa1mr/fSvD7OXWJrD2TCdJhckjKK5BQ1q2NXXIM759FfNO
-	iCb/v7facVMOLw3yS+vvB12fbIdikzwJuZMQEcuwRxLj7TKyWwhXK0PJCVWkfp6dvZ6qYk6te0l
-	5LKkveL8/Y1sjnxPKW+9wg0l
-X-Google-Smtp-Source: AGHT+IEkA+EzntcpC7SX4bylZJEqihRp/oHlKdoDMfiAiGb+uqmJYJKq5YjJPM+7LI1gzxn2Knk5YA==
-X-Received: by 2002:a05:6a00:22d1:b0:725:9ec3:7ee4 with SMTP id d2e1a72fcca58-725b80e1435mr6302505b3a.1.1733528321623;
-        Fri, 06 Dec 2024 15:38:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733528323; x=1734133123;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=npc5/EXwRgV9fZkcYMR5vMPbJLkeKsCQO+ev3yk2o1U=;
+        b=i/kZmj6MW6EIOs5HW/o/BLeqXM5BkHYQmlwlPOuToUwRpB09EcVeIXNbdoRhXUvNML
+         7V7iyedo5V71loiAFVU1r+tdNiShgBdGTxuWJLd7wLbmbGq5RDXuM9OQk+l2nlm5xzgu
+         EipANCti1nypX+JGFmyLrarLqGRiF1XGl6QLZmKfEAjw8Yef3EgBiA17yGKA8+rp+ShM
+         amqOdWKHim3lXhu4Iw3ZFWdUSgDZJ97LKfVteOaOnSjqrOZtwzTQ664y0tbmM1dhb8YA
+         liiLSOjFLXeYYijqzPQOV+YiyRkbPaj1FHyxn8CjlqUEPPZHQimKC30LEYIENMTdzKkn
+         w1DA==
+X-Forwarded-Encrypted: i=1; AJvYcCVSdX83i/Fg07HG50nbspNKOGvI3vr3ZrqAcprq6jYXnIfSculO7FHX4QedlSXUhb1ValYzVrwqfA6HhJ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPkGPX1Re2g+vJLTE5WJ87BagfK7xmDNcFvr1t0R80gV3jNGLB
+	gN/9qgaieTDO2Dzl2YNFhKuYArEgxhgfLijk9ymJE7bWi8WfstFQj/YuOrisvw==
+X-Gm-Gg: ASbGnctQ4Dpuoi3j6h7ooxvWSWUTJnkbyMNtme4+Zs40xvArfqAVeAYl8783/aEvSy+
+	2uIgvvM14pGl0kHg4L0hT5L5RK4S/lTAAI+iF9isy4o8BHqhWSzzYsNmQgZV+Vp4rjRqge9+OGM
+	1FM94hLakDLG9f5PCR1RYClDyID3JlXoH0EUBLpWj9K8a8kTuuyG8f4XCYkEboGAQve5MhIYJyW
+	SA4LH5njHhiwRvRMExvm5moyh4TKxjLx0/QNkOQCJvTcBXK23N2wn5tBgG5Soyqi22k2SP7RT05
+	apcC20RCa0I99erhXDszNJZ+
+X-Google-Smtp-Source: AGHT+IEwnZn4JmHjf3RRZuf4aJQ3xLLJws8lCWbViXA/5lZ1RWNF9JnUYcLQmuMX0s00k7x5Jh8dAg==
+X-Received: by 2002:a17:903:110f:b0:215:44fe:1640 with SMTP id d9443c01a7336-21614d1f22amr59537635ad.3.1733528323337;
+        Fri, 06 Dec 2024 15:38:43 -0800 (PST)
 Received: from localhost (227.180.227.35.bc.googleusercontent.com. [35.227.180.227])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-725a29c5b1asm3476216b3a.32.2024.12.06.15.38.40
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-215f8e5f2d6sm33999035ad.71.2024.12.06.15.38.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Dec 2024 15:38:40 -0800 (PST)
+        Fri, 06 Dec 2024 15:38:42 -0800 (PST)
 From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 To: heikki.krogerus@linux.intel.com,
 	tzungbi@kernel.org,
@@ -79,18 +81,18 @@ Cc: akuchynski@google.com,
 	badhri@google.com,
 	rdbabiera@google.com,
 	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <groeck@chromium.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 0/7] Thunderbolt and DP altmode support for cros-ec-typec
-Date: Fri,  6 Dec 2024 15:38:11 -0800
-Message-ID: <20241206233830.2401638-1-abhishekpandit@chromium.org>
+Subject: [PATCH v4 1/7] usb: typec: Only use SVID for matching altmodes
+Date: Fri,  6 Dec 2024 15:38:12 -0800
+Message-ID: <20241206153813.v4.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
 X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+In-Reply-To: <20241206233830.2401638-1-abhishekpandit@chromium.org>
+References: <20241206233830.2401638-1-abhishekpandit@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -99,114 +101,135 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Mode in struct typec_altmode is used to indicate the index of the
+altmode on a port, partner or plug. It is used in enter mode VDMs but
+doesn't make much sense for matching against altmode drivers or for
+matching partner to port altmodes.
 
-Hi Heikki, Tzung-Bi et al,
+Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+---
 
-This patch series adds support for alternate mode entry for the
-cros-ec-typec driver for Displayport and Thunderbolt.
-
-Thunderbolt support is added by adapting an RFC Heikki had posted
-previously:
-
-https://lore.kernel.org/linux-usb/20191230152857.43917-1-heikki.krogerus@linux.intel.com/
-
-A few comments on the series:
-
-* The cros-ec interface will not accept any VDOs/VDMs so we simply
-  ignore any configurations we are passed (i.e. DPConfigure). This means
-  the sysfs control of DP lanes won't work.
-* ChromeOS has two modes of operation for alt-modes: entirely EC driven
-  or AP-driven from userspace (via the typec daemon). Thus, we don't
-  expect the kernel alt-mode drivers to auto-enter modes in all cases.
-  This series allows auto-enter for displayport but disables it for TBT
-  for this reason.
-
-This was tested with a ChromeOS Brya device using kernel 6.6 and built
-with allmodconfig for linux-usb.
-
-Thanks,
-Abhishek
-
-Changes in v4:
-- Large refactor to use cable_altmodes
-- Fixed ordering of cable mode enter/exit (SOP', SOP", then port for
-  enter; reverse order for exit)
-- Other small fixes from v3 feedback
-- memset struct typec_altmode_desc
-- Add CONFIG_CROS_EC_TYPEC_ALTMODES for Makefile use
-- Move ap_driven_altmode check to common vdm function
-- Add locking to protect shared data
-- Update enter/exit error messages
-- Update Makefile + Kconfig to use CONFIG_CROS_EC_TYPEC_ALTMODES
-- Add locking in vdm function
+(no changes since v3)
 
 Changes in v3:
 - Removed mode from altmode device ids
 - Updated modalias for typecd bus to remove mode
 - Re-ordered to start of series
-- Revert rename of TYPEC_TBT_MODE
-- Remove mode from typec_device_id
-- Refactored typec_altmode_dp_data per review request
-- Removed unused vdm operations during altmode registration
-- Fix usage of TBT sid and mode.
-- Removed unused vdm operations during altmode registration
-- Set port.inactive = true instead of auto-enter.
 
 Changes in v2:
 - Update altmode_match to ignore mode entirely
 - Also apply the same behavior to typec_match
-- Use <linux/usb/typec_tbt.h> and add missing TBT_CABLE_ROUNDED
-- Pass struct typec_thunderbolt_data to typec_altmode_notify
-- Rename TYPEC_TBT_MODE to USB_TYPEC_TBT_MODE
-- Use USB_TYPEC_TBT_SID and USB_TYPEC_TBT_MODE for device id
-- Change module license to GPL due to checkpatch warning
-- Refactored displayport into cros_typec_altmode.c to extract common
-  implementation between altmodes
-- Refactored thunderbolt support into cros_typec_altmode.c
-- Only disable auto-enter for Thunderbolt
-- Update commit message to clearly indicate the need for userspace
-  intervention to enter TBT mode
 
-Changes in v1:
-- Delay cable + plug checks so that the module doesn't fail to probe
-  if cable + plug information isn't available by the time the partner
-  altmode is registered.
-- Remove unncessary brace after if (IS_ERR(plug))
+ drivers/usb/typec/altmodes/displayport.c | 2 +-
+ drivers/usb/typec/altmodes/nvidia.c      | 2 +-
+ drivers/usb/typec/bus.c                  | 6 ++----
+ drivers/usb/typec/class.c                | 4 ++--
+ scripts/mod/devicetable-offsets.c        | 1 -
+ scripts/mod/file2alias.c                 | 4 +---
+ 6 files changed, 7 insertions(+), 12 deletions(-)
 
-Abhishek Pandit-Subedi (6):
-  usb: typec: Only use SVID for matching altmodes
-  usb: typec: Print err when displayport fails to enter
-  platform/chrome: cros_ec_typec: Update partner altmode active
-  platform/chrome: cros_ec_typec: Displayport support
-  platform/chrome: cros_ec_typec: Thunderbolt support
-  platform/chrome: cros_ec_typec: Disable tbt on port
-
-Heikki Krogerus (1):
-  usb: typec: Add driver for Thunderbolt 3 Alternate Mode
-
- MAINTAINERS                                  |   3 +
- drivers/platform/chrome/Kconfig              |   7 +
- drivers/platform/chrome/Makefile             |   4 +
- drivers/platform/chrome/cros_ec_typec.c      |  48 ++-
- drivers/platform/chrome/cros_ec_typec.h      |   1 +
- drivers/platform/chrome/cros_typec_altmode.c | 369 ++++++++++++++++++
- drivers/platform/chrome/cros_typec_altmode.h |  48 +++
- drivers/usb/typec/altmodes/Kconfig           |   9 +
- drivers/usb/typec/altmodes/Makefile          |   2 +
- drivers/usb/typec/altmodes/displayport.c     |   5 +-
- drivers/usb/typec/altmodes/nvidia.c          |   2 +-
- drivers/usb/typec/altmodes/thunderbolt.c     | 387 +++++++++++++++++++
- drivers/usb/typec/bus.c                      |   6 +-
- drivers/usb/typec/class.c                    |   9 +-
- include/linux/usb/typec.h                    |   2 +
- include/linux/usb/typec_tbt.h                |   1 +
- scripts/mod/devicetable-offsets.c            |   1 -
- scripts/mod/file2alias.c                     |   4 +-
- 18 files changed, 879 insertions(+), 29 deletions(-)
- create mode 100644 drivers/platform/chrome/cros_typec_altmode.c
- create mode 100644 drivers/platform/chrome/cros_typec_altmode.h
- create mode 100644 drivers/usb/typec/altmodes/thunderbolt.c
-
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index 2f03190a9873..3245e03d59e6 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -791,7 +791,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+ EXPORT_SYMBOL_GPL(dp_altmode_remove);
+ 
+ static const struct typec_device_id dp_typec_id[] = {
+-	{ USB_TYPEC_DP_SID, USB_TYPEC_DP_MODE },
++	{ USB_TYPEC_DP_SID },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(typec, dp_typec_id);
+diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altmodes/nvidia.c
+index fe70b36f078f..2b77d931e494 100644
+--- a/drivers/usb/typec/altmodes/nvidia.c
++++ b/drivers/usb/typec/altmodes/nvidia.c
+@@ -24,7 +24,7 @@ static void nvidia_altmode_remove(struct typec_altmode *alt)
+ }
+ 
+ static const struct typec_device_id nvidia_typec_id[] = {
+-	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
++	{ USB_TYPEC_NVIDIA_VLINK_SID },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
+diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+index aa879253d3b8..ae90688d23e4 100644
+--- a/drivers/usb/typec/bus.c
++++ b/drivers/usb/typec/bus.c
+@@ -454,8 +454,7 @@ static int typec_match(struct device *dev, const struct device_driver *driver)
+ 	const struct typec_device_id *id;
+ 
+ 	for (id = drv->id_table; id->svid; id++)
+-		if (id->svid == altmode->svid &&
+-		    (id->mode == TYPEC_ANY_MODE || id->mode == altmode->mode))
++		if (id->svid == altmode->svid)
+ 			return 1;
+ 	return 0;
+ }
+@@ -470,8 +469,7 @@ static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 	if (add_uevent_var(env, "MODE=%u", altmode->mode))
+ 		return -ENOMEM;
+ 
+-	return add_uevent_var(env, "MODALIAS=typec:id%04Xm%02X",
+-			      altmode->svid, altmode->mode);
++	return add_uevent_var(env, "MODALIAS=typec:id%04X", altmode->svid);
+ }
+ 
+ static int typec_altmode_create_links(struct altmode *alt)
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 4b3047e055a3..febe453b96be 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -237,13 +237,13 @@ static int altmode_match(struct device *dev, void *data)
+ 	if (!is_typec_altmode(dev))
+ 		return 0;
+ 
+-	return ((adev->svid == id->svid) && (adev->mode == id->mode));
++	return (adev->svid == id->svid);
+ }
+ 
+ static void typec_altmode_set_partner(struct altmode *altmode)
+ {
+ 	struct typec_altmode *adev = &altmode->adev;
+-	struct typec_device_id id = { adev->svid, adev->mode, };
++	struct typec_device_id id = { adev->svid };
+ 	struct typec_port *port = typec_altmode2port(adev);
+ 	struct altmode *partner;
+ 	struct device *dev;
+diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
+index 9c7b404defbd..d3d00e85edf7 100644
+--- a/scripts/mod/devicetable-offsets.c
++++ b/scripts/mod/devicetable-offsets.c
+@@ -237,7 +237,6 @@ int main(void)
+ 
+ 	DEVID(typec_device_id);
+ 	DEVID_FIELD(typec_device_id, svid);
+-	DEVID_FIELD(typec_device_id, mode);
+ 
+ 	DEVID(tee_client_device_id);
+ 	DEVID_FIELD(tee_client_device_id, uuid);
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index c4cc11aa558f..218ccb7150bf 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -1343,14 +1343,12 @@ static int do_tbsvc_entry(const char *filename, void *symval, char *alias)
+ 	return 1;
+ }
+ 
+-/* Looks like: typec:idNmN */
++/* Looks like: typec:idN */
+ static int do_typec_entry(const char *filename, void *symval, char *alias)
+ {
+ 	DEF_FIELD(symval, typec_device_id, svid);
+-	DEF_FIELD(symval, typec_device_id, mode);
+ 
+ 	sprintf(alias, "typec:id%04X", svid);
+-	ADD(alias, "m", mode != TYPEC_ANY_MODE, mode);
+ 
+ 	return 1;
+ }
 -- 
 2.47.0.338.g60cca15819-goog
 
