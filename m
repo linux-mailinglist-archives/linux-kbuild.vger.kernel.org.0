@@ -1,135 +1,145 @@
-Return-Path: <linux-kbuild+bounces-5035-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5036-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AB89E85A1
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Dec 2024 15:46:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190529E85A3
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Dec 2024 15:49:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B47F1884CBA
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Dec 2024 14:46:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFF161884CBE
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Dec 2024 14:49:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4DEF143C40;
-	Sun,  8 Dec 2024 14:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C6661482E7;
+	Sun,  8 Dec 2024 14:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssPM35nh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYSj6oT9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8842A1E489;
-	Sun,  8 Dec 2024 14:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBA81E489;
+	Sun,  8 Dec 2024 14:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733669189; cv=none; b=R3WXrBktZAyzRLveANtDUqdC2a6umtQsfQKVhtcbhCf2VX1qI0Yx1U6DlInHfD6i2wwn7K2Uu8dKYMs53MmPiJ1fLYvllPs0CnDmpJUZOh9MVIJaZX+lSCBelIyUMFKGuohTtjIEDAZOA0Hw0mAM7DyTNIlHA+NjWW24JFzkjBQ=
+	t=1733669390; cv=none; b=EjUXn4yaEwkN6yTHCRGBSHizmJAlJvtbAg6inXcvd7zK6lE1vY6CW+5ToqSWDKPW4EMyrI3UzxbB3FWOHIoef1VsKcqmC6DPwZavky7hltWNWDBASsoP0GL4DjeqxbAO19vqK5Bdgqjt2MvZeK1/7Wr6EeXkJkVnksPJVcb9Rwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733669189; c=relaxed/simple;
-	bh=XGnXVoi6vJ19BMQcQWDR8m7tZFaDn+ql39q0dN/MIrA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZAdJfp66b7vV2Vl/S9OpM28kixcujYgtMyJEivPn+Z/zN5DuvknMizOzvpdqMvvDOiZ1w5LJMLK6b3yqcDqQI98/5HFmXr4C8oUFCPSCszXncChjqKIBUDKATA5AFDWl6Eu2eQ8qIHSPZVDSEFPRCBLVMuX+TLRc6XdfX9pk+Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssPM35nh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A99C4CED2;
-	Sun,  8 Dec 2024 14:46:26 +0000 (UTC)
+	s=arc-20240116; t=1733669390; c=relaxed/simple;
+	bh=kPtZsDZOFCErVRYwR6yJAFtRqrolY1qYp2Cx+9ipgL0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=psbewx/nztTb9kM07CGtjy/T8ssnTzveztUiSrXnAyNGW2f+5QOkI1qiHzQWrJDsxl6ILbP3uPNYhtkNqGQraKbdNdsy7r9bcN4b95VmGmHhsWVUO9l+mmnJjjlAQ9uxeoFL76kLUeexB2l8cgUiGFYgZZDbCeOAxy1y0a6JAgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYSj6oT9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF265C4CED2;
+	Sun,  8 Dec 2024 14:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733669187;
-	bh=XGnXVoi6vJ19BMQcQWDR8m7tZFaDn+ql39q0dN/MIrA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ssPM35nhxJoICm2EXJEbm4/dfOZUvLdrjSeqYC9i8sKTjyNCbCReQzsttVBy/91dz
-	 kvN2yib7HZPMSROQOi84zkqbSSgA4IBhh5xYeJ28L0DSN788+PJJcxmMikm2a6UVE5
-	 4PqHRVadHCRpvrjJ2MSpJ1oENv0jbPELzyx/i6JdbVpGNnuXGb7ZqVXLhBNGhzZw8K
-	 ry1BSG6/xnoYkhGwSjdY/CAPRdAk0pSzkE4gsSUApu/CNYF1mOW7am/UmpDMZnYJ7H
-	 awpugmTWNvio9LVUZH9qGCpS70VkGUK6HRoAR4Dv31PNREtZWiw2DTfWCBPbF5KnSt
-	 IAq4SY42lKO0g==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: suppress stdout from merge_config for silent builds
-Date: Sun,  8 Dec 2024 23:46:14 +0900
-Message-ID: <20241208144622.605523-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1733669389;
+	bh=kPtZsDZOFCErVRYwR6yJAFtRqrolY1qYp2Cx+9ipgL0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=KYSj6oT9dwLWkhOk9ghK108T9hNDg0ZGUCbU3SQzkfM9LQEIz2YHRm8cjDv0+4LR4
+	 5znSEJWv4NvzLsG7k/OlVMWMzJaofMCjcanRSpqfVjpVbJyYdox7U/CCo+TWeHzuFk
+	 47LDZR9+QXNn0nJvQEGQAxtsaU7OcRdxrKWATi1+nln7xpdSspAFJ1KJR05YjUCqZz
+	 tjG9kvx4CDLz8PNDEFvyyIV4vNDgtHiX6WU91u9A330dPDBeVnLgMQmoQDeaB+dsJm
+	 eS/6WxV52A33FlDNw5HebOge7qeALC2xkTEhxm5H2EDWO9wUw427qpqWFCt01xjDdZ
+	 znVEemBXh/NeA==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5401ab97206so505783e87.3;
+        Sun, 08 Dec 2024 06:49:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWgGEAQxwsg+emsedKlhyEao5JaUcT87+eh4Bh6IOcSS4nliqwcMA29NvNUAcS3p0w5lUJHM8yOFiyJ17w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6WRXorpDIC2ISon0//xBPy7P7JZFVk6Plz291/QWoGbW+8vo+
+	kjUQsKiTY4ZbhSHRxqsWa4mrD3mk/Z0M4Fgr9axs6uSYjH3fhmgajZfBtM9WfbLpDKBUL245qjx
+	MFhZyoTLMFQiL8Wb9iawejzFLQao=
+X-Google-Smtp-Source: AGHT+IE2++bMeewqyWrzEia7Ulax3nN2feLYe5c7fUpD58UMA6vpROrvY0/QbPU1aZvMBanqYtqDKRbMeta/icFQrBI=
+X-Received: by 2002:a05:6512:2814:b0:53d:a321:db74 with SMTP id
+ 2adb3069b0e04-53e2c30da48mr2852769e87.50.1733669388507; Sun, 08 Dec 2024
+ 06:49:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <e534ce33b0e1060eb85ece8429810f087b034c88.1733234008.git.leonro@nvidia.com>
+ <CAK7LNATU2OKEWh6p9QuUXtYmYmqTkN5nspBq9DbCh9yUjqW5xA@mail.gmail.com> <20241204084943.GM1245331@unreal>
+In-Reply-To: <20241204084943.GM1245331@unreal>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 8 Dec 2024 23:49:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATGbTxu9cYGfW6FK5VFfJ2+ut_e1dSFOfo+q6CgM4XHtQ@mail.gmail.com>
+Message-ID: <CAK7LNATGbTxu9cYGfW6FK5VFfJ2+ut_e1dSFOfo+q6CgM4XHtQ@mail.gmail.com>
+Subject: Re: [PATCH rdma-next] kbuild: Respect request to silent output when
+ merging configs
+To: Leon Romanovsky <leon@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-merge_config does not respect the Make's -s (--silent) option.
+On Wed, Dec 4, 2024 at 5:49=E2=80=AFPM Leon Romanovsky <leon@kernel.org> wr=
+ote:
+>
+> On Wed, Dec 04, 2024 at 05:25:50PM +0900, Masahiro Yamada wrote:
+> > On Tue, Dec 3, 2024 at 10:55=E2=80=AFPM Leon Romanovsky <leon@kernel.or=
+g> wrote:
+> > >
+> > > From: Leon Romanovsky <leonro@nvidia.com>
+> > >
+> > > Builds with -s option (silent) are supposed to silence all output
+> > > which is not an error. It is the case for target builds but not
+> > > for configs. These builds generate prints like this:
+> > >
+> > > =E2=9E=9C  kernel git:(rdma-next) make -s defconfig debug.config
+> > >  Using .config as base
+> > >  Merging ./kernel/configs/debug.config
+> > >  #
+> > >  # merged configuration written to .config (needs make)
+> > >  #
+> > >  ...
+> > >  Value of CONFIG_FUNCTION_TRACER is redefined by fragment ./kernel/co=
+nfigs/debug.config:
+> > >  Previous value: # CONFIG_FUNCTION_TRACER is not set
+> > >  New value: CONFIG_FUNCTION_TRACER=3Dy
+> > >  ----
+> > >
+> > > Let's honor -s option and hide all non-error output.
+> >
+> >
+> > Is it necessary to add the --quiet option to every script?
+> >
+> > Kbuild already provides a generic way to suppress the stdout
+> > with 'make -s'.
+> >
+> > The following code works for me.
+> > 'make defconfig debug.config' is as verbose as before.
+> > 'make -s defconfig debug.config' is really silent.
+>
+> This is exactly what I'm doing. I'm using -s option and added -q to very
+> specific merge_config script, because "-s" is already in use in that
+> script.
+>
+> Before my change on 40384c840ea1 ("Linux 6.13-rc1"):
+> [leonro@e534d5fa4327 kernel]$ make -s defconfig debug.config
+> Using .config as base
+> Merging ./kernel/configs/debug.config
+> Value of CONFIG_DYNAMIC_DEBUG is redefined by fragment ./kernel/configs/d=
+ebug.config:
+> Previous value: # CONFIG_DYNAMIC_DEBUG is not set
+> New value: CONFIG_DYNAMIC_DEBUG=3Dy
+>
+> Value of CONFIG_PRINTK_CALLER is redefined by fragment ./kernel/configs/d=
+ebug.config:
+> Previous value: # CONFIG_PRINTK_CALLER is not set
+> New value: CONFIG_PRINTK_CALLER=3Dy
+> ...
+>
+> After my change:
+> [leonro@4dd2c2078dff kernel]$ make -s defconfig debug.config <--- silent
 
-Let's sink the stdout from merge_config for silent builds.
 
-This commit does not cater to the direct invocation of merge_config.sh
-(e.g. arch/mips/Makefile).
+Not sure if you checked the attached code diff in my previous reply.
 
-Reported-by: Leon Romanovsky <leon@kernel.org>
-Closes: https://lore.kernel.org/all/e534ce33b0e1060eb85ece8429810f087b034c88.1733234008.git.leonro@nvidia.com/
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+To make my question clearer, does this suffice your needs?
+https://lore.kernel.org/all/20241208144622.605523-1-masahiroy@kernel.org/T/=
+#u
 
- scripts/Makefile.defconf | 13 +++++++------
- scripts/kconfig/Makefile |  4 +++-
- 2 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/Makefile.defconf b/scripts/Makefile.defconf
-index 226ea3df3b4b..97bc5161d6bf 100644
---- a/scripts/Makefile.defconf
-+++ b/scripts/Makefile.defconf
-@@ -1,6 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0
- # Configuration heplers
- 
-+cmd_merge_fragments = \
-+	$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
-+	$4 -m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$2 \
-+	$(foreach config,$3,$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
-+
- # Creates 'merged defconfigs'
- # ---------------------------------------------------------------------------
- # Usage:
-@@ -8,9 +13,7 @@
- #
- # Input config fragments without '.config' suffix
- define merge_into_defconfig
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
--		-m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$(1) \
--		$(foreach config,$(2),$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
-+	$(call cmd,merge_fragments,$1,$2)
- 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- endef
- 
-@@ -22,8 +25,6 @@ endef
- #
- # Input config fragments without '.config' suffix
- define merge_into_defconfig_override
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
--		-Q -m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$(1) \
--		$(foreach config,$(2),$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
-+	$(call cmd,merge_fragments,$1,$2,-Q)
- 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- endef
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index a0a0be38cbdc..fb50bd4f4103 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -105,9 +105,11 @@ configfiles = $(wildcard $(srctree)/kernel/configs/$(1) $(srctree)/arch/$(SRCARC
- all-config-fragments = $(call configfiles,*.config)
- config-fragments = $(call configfiles,$@)
- 
-+cmd_merge_fragments = $(srctree)/scripts/kconfig/merge_config.sh -m $(KCONFIG_CONFIG) $(config-fragments)
-+
- %.config: $(obj)/conf
- 	$(if $(config-fragments),, $(error $@ fragment does not exists on this architecture))
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(KCONFIG_CONFIG) $(config-fragments)
-+	$(call cmd,merge_fragments)
- 	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- 
- PHONY += tinyconfig
--- 
-2.43.0
-
+--=20
+Best Regards
+Masahiro Yamada
 
