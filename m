@@ -1,215 +1,124 @@
-Return-Path: <linux-kbuild+bounces-5044-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5045-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4B69E8D76
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 09:31:59 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 127C71885307
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 08:31:59 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE191C0DED;
-	Mon,  9 Dec 2024 08:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9sD4D13"
-X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EC69E8DA6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 09:39:52 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6E112CDAE;
-	Mon,  9 Dec 2024 08:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8D6128134E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 08:39:50 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18653215191;
+	Mon,  9 Dec 2024 08:39:50 +0000 (UTC)
+X-Original-To: linux-kbuild@vger.kernel.org
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFB212CDAE;
+	Mon,  9 Dec 2024 08:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733733117; cv=none; b=GyN2q3swJFgbQxQvSXe0sMGkkDCvK/7JML3JN5KiQu3aUzsNL4AO7fN4W9qQrprDke4DRqB3Lp47UAa/qZeTaM0RMyz1iGON+dhzxi088j5pEiuA42+61TFcFcMTPlIo4dtKkeN/pTWTz7MZjqNRQQAanJR88ViMFtAs5ZCGS4Q=
+	t=1733733590; cv=none; b=AaAG5O49jwXcxz3EJmjbTROjgNHRYTK7tmWJiMAfnCUiGyZGPerFOCdENV7jWu/Noogy8agXVAD/DiNjpKeml8Nqn4j/HV4cR/NIYXHsekilWbOMxmmngU8OGGtUlJRI5YpkdVFZaQs9PdPJJ5GgsaqBoRG6iNBpBIrwaF9BUyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733733117; c=relaxed/simple;
-	bh=OXDcmuj6dJBmZafC8rFQNhhumNNdoBeDEizT1mjedQs=;
+	s=arc-20240116; t=1733733590; c=relaxed/simple;
+	bh=Jl8XVHqMZt2C6NUaLrvrkjVEAEzOnkGkd2PgS8L6ovM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cJd0mtrMDEA3WDO/jCmvy/hepxG3U0Yq+7s3/3sKT7E7zI34mgRBXqxqUKHJzCKfh3wKSrbouH5GlFIYJqjcrLUPj4rASu4Vt4N2PtZG4NGJyXuNAnUo/ngvMOj/08ICvHl7dxV6JJimapOOyO5VpqWZkgYlilPRvoKTYh0KH/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9sD4D13; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB89AC4CED1;
-	Mon,  9 Dec 2024 08:31:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733733116;
-	bh=OXDcmuj6dJBmZafC8rFQNhhumNNdoBeDEizT1mjedQs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=G9sD4D13Apsbs2y/i67y1IztMC2/fYb3d/k3lTv9i44pvEibLhHW0uk2dVroGUVdL
-	 37ij1KxX9LFj6jezjepyZ+gBd+BmMt7C0qmq5+PyYoMobULxydWhPU6h5MdgyeQpfx
-	 6ffYK8RA6teMWab2+SHov+yzaCMQyExDRURx7JOL1rzhdoqQzRH6FlGyS7oPuxvJcx
-	 iQ8ef/eMb0K5qOuIUkBM0LMxh6yrja6UIqzn/Gkuvw9G4ePZ7fVBQWxMmSQV6DExvP
-	 myG5sgCT+qqCqfAhcaXIXL5j7+UyeKZBMJnF5U6dpYlpuyEKNR+Ljld1UOIDlnzBSc
-	 bokz7daDF3pnQ==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5401c52000fso836206e87.2;
-        Mon, 09 Dec 2024 00:31:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV29L5zWvcBiFCWQRQ9Qvm615llkFxIO22JvpAfcpO9hh2gLZqUyGziNW3mL/SU0NZVmaaprae/9imsuFs=@vger.kernel.org, AJvYcCWIo9nmxoLwGchhPfVv99/wXZ3mWcX6WxmxWhnea3Ba8/F9lRZVM0wZwmvDDvsWJRgsMera2s/h5SI7+eFp@vger.kernel.org, AJvYcCWsfc3GIyBIK8XE8tPbUTX1Y187jx0z843Mewb09VPx1nCyAQ/fCvCXM3nmV464O9JNnYHzXTKK@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeF3neRozDYAMl2wfVKTxubFHCVwRdQ2yjQYe0JQBVXCFUzAXK
-	xYNxe7afu27wy3J5BIlzwVgao1WX9TKCrtTyCy9zBH5AI2tyVhb5u5iPdiskTJ/wyKM7txF/6RT
-	jIXjrOb9Wg/lDs0ana0C3PXDZ7SA=
-X-Google-Smtp-Source: AGHT+IGMWZRZQy+J3n8zTwDkOHS4vYSTqxdMj4RkRBjWA19n5LCCT8s31zfp9zMsoNVhKTJA/CXUmvRP8sHSBYw8boA=
-X-Received: by 2002:a05:6512:e9f:b0:53f:5e23:fb72 with SMTP id
- 2adb3069b0e04-53f5e23fd21mr2030810e87.57.1733733114978; Mon, 09 Dec 2024
- 00:31:54 -0800 (PST)
+	 To:Cc:Content-Type; b=DzyCFLC0S8J4n3IvtojK5kwwAmAk1nrt0zrK7r4YyQEA3i2dUCnZQQ3cO4w2uE1W7+s3kQs5urXwjB6O6lzw7VNZLqMS/pvUTvSKPiruBLra5iqu4w3nn9pCIa5matXSKADmZ89eVipJjsByeCPYU3yXvK2+XsThRAv8h0NMhYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9a68480164so545786766b.3;
+        Mon, 09 Dec 2024 00:39:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733733585; x=1734338385;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FkBZuLv19PU6NMyD5z5lsGrY5nzevthCnCME1a5gWHg=;
+        b=HMRiZVoRKVJcnpDra6qF7IANOLkfKknsWyxlvJXudxXtcLkm2/UV/Dt4rkTW4xlYtT
+         pGtEryOXcL+0b3JaKYgB+9A4UkLO8D2jGenbFQJ6EySmibJ8lY8rJXQ4+70rOLquAKV5
+         vUWRJk3Jsu4Q9cKmK+jyc66uppSDtM9b78qCwLYPi/Ed2Cj34F89reC+MkzrYbX3XAPB
+         MQynlNbS9YaTj9z66faO7EE8WffiJFZFF34sebjmyIvxmUAMtm0lgTLckYs4hUYMHfOh
+         YxBFZtsYkIyNg2Whb3VtRgDmwhZZBHbjctgqOY4x5f/wJsimXSycVlxuzWls0dG8j37U
+         G1Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/KL1MQfdI7r4RW1fj/mM/fj2x1VL01Idb/XJURiXScmvcw3r/Gtjl/X16wo4hYEroKuRw9Rs5YTpAbCGN@vger.kernel.org, AJvYcCVcgP4vZbmbilMwn5jgtBHaid6nPLPtTz5ofRJjGeDYg47eXVBriNnza6AfrhI4fQ5zHoy+1pVqtovlBg4P@vger.kernel.org, AJvYcCXm1+0rWi3gfXSsWf1C1WwI1Qh1c12qnNRyAEYHgCZyZSmMOQ2JUHHb82FAZB/89uOgLKX06Rn/E/dD@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyIUI6XjO5lKVPLawQVZ8MBK9sxO7seZRHWKIKb1gsGbYqKv6/
+	V6cqc5lVY2J/0xMdWW9SbIki/yXHPvrwnXxTXtyp9dcd9eMFicCoLUE7p182mkg=
+X-Gm-Gg: ASbGncspRNzVIUZ2vn4rGgtVCI3Qf/+zzWAhRWu19b0cfELebfjuVYk3Uvs5j+ee7gO
+	Chv5Z4IKrWLfLmjFsY6+XPc1sPAVXfwQd7vp5EAy5Hu4b05O2UhJSqa3qJeHN0SU8jr+j53ZAfe
+	BV2ucL95jSLn9ZJygxEUUPFOPto1zzK19zSDHPB8kwJ0/YGu2w3nsPyPOSqTxyf8s6rQ0lg69xW
+	TvcXj2bdOxzD4/lwwG3m92Ic1B4i/2bpBHprwzwvUrpkwsRKKrLAWhRNuJp3CTyLEe5v8J39qmq
+	m/0vZd0ufCwZ
+X-Google-Smtp-Source: AGHT+IGUEbVU0BSWlVfqWyxDy6KCsCOKx0H7o7k4EVwuIVlDkCo8ptmatHysFIAIBAb6frQgBvZB9g==
+X-Received: by 2002:a17:907:7809:b0:a9a:9df:5580 with SMTP id a640c23a62f3a-aa639fed45cmr1119584866b.19.1733733585031;
+        Mon, 09 Dec 2024 00:39:45 -0800 (PST)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa68770c481sm120047266b.110.2024.12.09.00.39.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Dec 2024 00:39:44 -0800 (PST)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d3e8f64d5dso2098123a12.3;
+        Mon, 09 Dec 2024 00:39:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVi80gM9sVJ37J8rLX6LTRM5ioRO5k9UElkgq8ixkwQRym/r/DS7Yeph8rIWg/P5cjTVZ2Aut4TKahl@vger.kernel.org, AJvYcCVrkAfgBlz8+s6L3FQHEmFc3HFimh6HnQ54iWW9AErhTdV1hUZicoq3fbqw2gibgItQljbdoKG/W582fa5n@vger.kernel.org, AJvYcCW5R/3aqdy7JTQab32Q7Pwoa0ei7mNAb1s70D8AoORtth/h7LaeDiyzyRbVam0AtXnHvzVRxGwbAaOmjs4O@vger.kernel.org
+X-Received: by 2002:a05:6402:380c:b0:5d0:e3fa:17ca with SMTP id
+ 4fb4d7f45d1cf-5d3be695187mr11236302a12.15.1733733584470; Mon, 09 Dec 2024
+ 00:39:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241206085810.112341-1-chenhuacai@loongson.cn>
- <2024120635-wham-campsite-b62b@gregkh> <CAAhV-H4Db0tVrqcfXHceJeODgnK0ggHpx9_6vwXAAV0LohCD-w@mail.gmail.com>
- <2024120748-preaching-reshape-06e9@gregkh> <ccb1fa9034b177042db8fcbe7a95a2a5b466dc30.camel@xry111.site>
-In-Reply-To: <ccb1fa9034b177042db8fcbe7a95a2a5b466dc30.camel@xry111.site>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 9 Dec 2024 09:31:43 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXEV+HC+2HMLhDaLfAufQLrXRs2J7akMNr1mjejDYc7kdw@mail.gmail.com>
-Message-ID: <CAMj1kXEV+HC+2HMLhDaLfAufQLrXRs2J7akMNr1mjejDYc7kdw@mail.gmail.com>
-Subject: Re: [PATCH 6.1&6.6 0/3] kbuild: Avoid weak external linkage where possible
-To: Xi Ruoyao <xry111@xry111.site>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Huacai Chen <chenhuacai@kernel.org>, 
-	Huacai Chen <chenhuacai@loongson.cn>, Sasha Levin <sashal@kernel.org>, 
-	Xuerui Wang <kernel@xen0n.name>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, stable@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
+References: <cover.1733404444.git.geert+renesas@glider.be> <2c4a75726a976d117055055b68a31c40dcab044e.1733404444.git.geert+renesas@glider.be>
+ <b0e9c31f81a368375541d16dbc88783f614ede6d.camel@perches.com> <CAK7LNARwQq-woUeM+a-Eg=Kh3Eu045xL9Y6tbOY0FAM4+Jk4hQ@mail.gmail.com>
+In-Reply-To: <CAK7LNARwQq-woUeM+a-Eg=Kh3Eu045xL9Y6tbOY0FAM4+Jk4hQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 9 Dec 2024 09:39:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVcXxQUErB6KA2MzaK6v4OO5GEmd9HfES13LE+K4thktg@mail.gmail.com>
+Message-ID: <CAMuHMdVcXxQUErB6KA2MzaK6v4OO5GEmd9HfES13LE+K4thktg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] checkpatch: Update reference to include/asm-<arch>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Joe Perches <joe@perches.com>, Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arch@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 7 Dec 2024 at 11:46, Xi Ruoyao <xry111@xry111.site> wrote:
+Hi Yamada-san,
+
+On Sat, Dec 7, 2024 at 3:31=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+> On Fri, Dec 6, 2024 at 1:40=E2=80=AFAM Joe Perches <joe@perches.com> wrot=
+e:
+> > On Thu, 2024-12-05 at 14:20 +0100, Geert Uytterhoeven wrote:
+> > > "include/asm-<arch>" was replaced by "arch/<arch>/include/asm" a long
+> > > time ago.
 >
-> On Sat, 2024-12-07 at 10:32 +0100, Greg Kroah-Hartman wrote:
-> > On Sat, Dec 07, 2024 at 05:21:00PM +0800, Huacai Chen wrote:
-> > > Hi, Greg,
-> > >
-> > > On Fri, Dec 6, 2024 at 9:04=E2=80=AFPM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Fri, Dec 06, 2024 at 04:58:07PM +0800, Huacai Chen wrote:
-> > > > > Backport this series to 6.1&6.6 because LoongArch gets build erro=
-rs with
-> > > > > latest binutils which has commit 599df6e2db17d1c4 ("ld, LoongArch=
-: print
-> > > > > error about linking without -fPIC or -fPIE flag in more detail").
-> > > > >
-> > > > >   CC      .vmlinux.export.o
-> > > > >   UPD     include/generated/utsversion.h
-> > > > >   CC      init/version-timestamp.o
-> > > > >   LD      .tmp_vmlinux.kallsyms1
-> > > > > loongarch64-unknown-linux-gnu-ld: kernel/kallsyms.o:(.text+0): re=
-location R_LARCH_PCALA_HI20 against `kallsyms_markers` can not be used when=
- making a PIE object; recompile with -fPIE
-> > > > > loongarch64-unknown-linux-gnu-ld: kernel/crash_core.o:(.init.text=
-+0x984): relocation R_LARCH_PCALA_HI20 against `kallsyms_names` can not be =
-used when making a PIE object; recompile with -fPIE
-> > > > > loongarch64-unknown-linux-gnu-ld: kernel/bpf/btf.o:(.text+0xcc7c)=
-: relocation R_LARCH_PCALA_HI20 against `__start_BTF` can not be used when =
-making a PIE object; recompile with -fPIE
-> > > > > loongarch64-unknown-linux-gnu-ld: BFD (GNU Binutils) 2.43.50.2024=
-1126 assertion fail ../../bfd/elfnn-loongarch.c:2673
-> > > > >
-> > > > > In theory 5.10&5.15 also need this, but since LoongArch get upstr=
-eam at
-> > > > > 5.19, so I just ignore them because there is no error report abou=
-t other
-> > > > > archs now.
-> > > >
-> > > > Odd, why doesn't this affect other arches as well using new binutil=
-s?  I
-> > > > hate to have to backport all of this just for one arch, as that fee=
-ls
-> > > > odd.
-> > > The related binutils commit is only for LoongArch, so build errors
-> > > only occured on LoongArch. I don't know why other archs have no
-> > > problem exactly, but may be related to their CFLAGS (for example, if
-> > > we disable CONFIG_RELOCATABLE, LoongArch also has no build errors
-> > > because CFLAGS changes).
-> >
-> > does LoongArch depend on that option?
+> Is this check still needed?
 >
-> "That option" is -mdirect-extern-access.  Without it we'll use GOT in
-> the kernel image to address anything out of the current TU, bloating the
-> kernel size and making it slower.
+> include/asm was a symlink to include/asm-<architecture> in the old days,
+> but it no longer exists.
 >
+> In which case, is this check triggered?
 
-An alternative to this might be to add
+Someone might still try to create a header file under include/asm/.
 
--include $(srctree)/include/linux/hidden.h
+Gr{oetje,eeting}s,
 
-to KBUILD_CFLAGS_KERNEL, so that the compiler understands that all
-external references are resolved at link time, not at load/run time.
+                        Geert
 
-> The problem is the linker failed to handle a direct access to undefined
-> weak symbol on LoongArch.
-...
-> With Binutils trunk, an error is emitted instead of silently producing
-> buggy executable.  Still I don't think emitting an error is correct when
-> linking a static PIE (our vmlinux is a static PIE).  Instead the linker
-> should just rewrite
->
->     pcalau12i rd, %pc_hi20(undef_weak)
->
-> to
->
->     move rd, $zero
->
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Is that transformation even possible at link time? Isn't pc_hi20 part of a =
-pair?
-
-> Also the "recompile with -fPIE" suggestion in the error message is
-> completely misleading.  We are *already* compiling relocatable kernel
-> with -fPIE.
->
-
-And this is the most important difference between LoongArch and the
-other arches - LoongArch already uses PIC code explicitly. Other
-architectures use ordinary position dependent codegen and linking, or
--in the case of arm64- use position dependent codegen and PIE linking,
-where the fact that this is even possible is a happy accident.
-
-...
-> > What happens if it is enabled for other arches?  Why doesn't it break
-> > them?
->
-> The other arches have copy relocation, so their -mdirect-extern-access
-> is intended to work with dynamically linked executable, thus it's the
-> default and not as strong as ours.  On them -mdirect-extern-access still
-> uses GOT to address weak symbols.
->
-> We don't have copy relocation, thus our default is -mno-direct-extern-
-> access, and -mdirect-extern-access is only intended for static
-> executables (including OS kernel, embedded firmware, etc).  So it's
-> designed to be stronger, unfortunately the toolchain failed to implement
-> it correctly.
->
-
-This has nothing to do with copy relocations - those are only relevant
-when shared libraries come into play.
-
-Other architectures don't break because they either a) use position
-dependent codegen with absolute addressing, and simply resolve
-undefined weak references as 0x0, or b) use GOT indirection, where the
-reference is a GOT load and the address in the GOT is set to 0x0.
-
-So the issue here appears to be that the compiler fails to emit a GOT
-entry for this reference, even though it is performing PIC codegen.
-This is probably due to -mdirect-extern-access being taken into
-account too strictly. The upshot is that a relative reference is
-emitted to an undefined symbol, and it is impossible for a relative
-reference to [reliably] yield NULL, and so the reference produces a
-bogus non-NULL address.
-
-As these patches deal with symbols that are only undefined in the
-preliminary first linker pass, and are guaranteed to exist afterwards,
-silently emitting a bogus relative reference was not a problem in
-these cases. Obviously, throwing an error is.
-
-The patches should be rather harmless in practice, but I know Masahiro
-did not like the approach for the kallsyms markers, and made some
-subsequent modifications to it.
-
-Given that this is relatively new toolchain behavior, I'd suggest
-fixing the compiler to emit weak external references via GOT entries
-even when  -mdirect-extern-access is in effect.
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
