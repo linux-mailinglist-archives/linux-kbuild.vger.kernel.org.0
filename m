@@ -1,124 +1,237 @@
-Return-Path: <linux-kbuild+bounces-5045-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5046-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EC69E8DA6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 09:39:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8606A9E8DB6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 09:43:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8D6128134E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 08:39:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41CBA2813FF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 08:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18653215191;
-	Mon,  9 Dec 2024 08:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 615602156FF;
+	Mon,  9 Dec 2024 08:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qPzpjm6I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFB212CDAE;
-	Mon,  9 Dec 2024 08:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C356136357
+	for <linux-kbuild@vger.kernel.org>; Mon,  9 Dec 2024 08:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733733590; cv=none; b=AaAG5O49jwXcxz3EJmjbTROjgNHRYTK7tmWJiMAfnCUiGyZGPerFOCdENV7jWu/Noogy8agXVAD/DiNjpKeml8Nqn4j/HV4cR/NIYXHsekilWbOMxmmngU8OGGtUlJRI5YpkdVFZaQs9PdPJJ5GgsaqBoRG6iNBpBIrwaF9BUyc=
+	t=1733733819; cv=none; b=fdrFwzGoNJZ2AEfQ8z37vR1eJhvHFUVlkRUPup8rVDZqwG8vH1lFnNs5OuArbHlcCmN2d/IX6ON/8m+WN32jMYHoT57oK30XDO+4wNg45KahtnzSPQN9OThOopyxI8Nban5NG2IURuVVbxuLyql2ESHrUfKrJ77ozxFTAKyU2Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733733590; c=relaxed/simple;
-	bh=Jl8XVHqMZt2C6NUaLrvrkjVEAEzOnkGkd2PgS8L6ovM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DzyCFLC0S8J4n3IvtojK5kwwAmAk1nrt0zrK7r4YyQEA3i2dUCnZQQ3cO4w2uE1W7+s3kQs5urXwjB6O6lzw7VNZLqMS/pvUTvSKPiruBLra5iqu4w3nn9pCIa5matXSKADmZ89eVipJjsByeCPYU3yXvK2+XsThRAv8h0NMhYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9a68480164so545786766b.3;
-        Mon, 09 Dec 2024 00:39:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733733585; x=1734338385;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FkBZuLv19PU6NMyD5z5lsGrY5nzevthCnCME1a5gWHg=;
-        b=HMRiZVoRKVJcnpDra6qF7IANOLkfKknsWyxlvJXudxXtcLkm2/UV/Dt4rkTW4xlYtT
-         pGtEryOXcL+0b3JaKYgB+9A4UkLO8D2jGenbFQJ6EySmibJ8lY8rJXQ4+70rOLquAKV5
-         vUWRJk3Jsu4Q9cKmK+jyc66uppSDtM9b78qCwLYPi/Ed2Cj34F89reC+MkzrYbX3XAPB
-         MQynlNbS9YaTj9z66faO7EE8WffiJFZFF34sebjmyIvxmUAMtm0lgTLckYs4hUYMHfOh
-         YxBFZtsYkIyNg2Whb3VtRgDmwhZZBHbjctgqOY4x5f/wJsimXSycVlxuzWls0dG8j37U
-         G1Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/KL1MQfdI7r4RW1fj/mM/fj2x1VL01Idb/XJURiXScmvcw3r/Gtjl/X16wo4hYEroKuRw9Rs5YTpAbCGN@vger.kernel.org, AJvYcCVcgP4vZbmbilMwn5jgtBHaid6nPLPtTz5ofRJjGeDYg47eXVBriNnza6AfrhI4fQ5zHoy+1pVqtovlBg4P@vger.kernel.org, AJvYcCXm1+0rWi3gfXSsWf1C1WwI1Qh1c12qnNRyAEYHgCZyZSmMOQ2JUHHb82FAZB/89uOgLKX06Rn/E/dD@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyIUI6XjO5lKVPLawQVZ8MBK9sxO7seZRHWKIKb1gsGbYqKv6/
-	V6cqc5lVY2J/0xMdWW9SbIki/yXHPvrwnXxTXtyp9dcd9eMFicCoLUE7p182mkg=
-X-Gm-Gg: ASbGncspRNzVIUZ2vn4rGgtVCI3Qf/+zzWAhRWu19b0cfELebfjuVYk3Uvs5j+ee7gO
-	Chv5Z4IKrWLfLmjFsY6+XPc1sPAVXfwQd7vp5EAy5Hu4b05O2UhJSqa3qJeHN0SU8jr+j53ZAfe
-	BV2ucL95jSLn9ZJygxEUUPFOPto1zzK19zSDHPB8kwJ0/YGu2w3nsPyPOSqTxyf8s6rQ0lg69xW
-	TvcXj2bdOxzD4/lwwG3m92Ic1B4i/2bpBHprwzwvUrpkwsRKKrLAWhRNuJp3CTyLEe5v8J39qmq
-	m/0vZd0ufCwZ
-X-Google-Smtp-Source: AGHT+IGUEbVU0BSWlVfqWyxDy6KCsCOKx0H7o7k4EVwuIVlDkCo8ptmatHysFIAIBAb6frQgBvZB9g==
-X-Received: by 2002:a17:907:7809:b0:a9a:9df:5580 with SMTP id a640c23a62f3a-aa639fed45cmr1119584866b.19.1733733585031;
-        Mon, 09 Dec 2024 00:39:45 -0800 (PST)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa68770c481sm120047266b.110.2024.12.09.00.39.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 00:39:44 -0800 (PST)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5d3e8f64d5dso2098123a12.3;
-        Mon, 09 Dec 2024 00:39:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVi80gM9sVJ37J8rLX6LTRM5ioRO5k9UElkgq8ixkwQRym/r/DS7Yeph8rIWg/P5cjTVZ2Aut4TKahl@vger.kernel.org, AJvYcCVrkAfgBlz8+s6L3FQHEmFc3HFimh6HnQ54iWW9AErhTdV1hUZicoq3fbqw2gibgItQljbdoKG/W582fa5n@vger.kernel.org, AJvYcCW5R/3aqdy7JTQab32Q7Pwoa0ei7mNAb1s70D8AoORtth/h7LaeDiyzyRbVam0AtXnHvzVRxGwbAaOmjs4O@vger.kernel.org
-X-Received: by 2002:a05:6402:380c:b0:5d0:e3fa:17ca with SMTP id
- 4fb4d7f45d1cf-5d3be695187mr11236302a12.15.1733733584470; Mon, 09 Dec 2024
- 00:39:44 -0800 (PST)
+	s=arc-20240116; t=1733733819; c=relaxed/simple;
+	bh=SSGLGSr9h7m0Q5b9WJaaH1BlWAJiiIIUGMmGk43sh7U=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=vAhBY4jsPSGoM0Fz5BJypgJ/c2GJHWfoWfKeXFGkd7Au3JAXEVT36B/xerxPkhZqtF8/Khk6LD/rtXmuyFSE7hcN5T1a4OlmhqGl1mV5ytwbi0CbKK+lTi4EYX3e48toZbSMX0FKfhb2JtsiQqikoWvLC+fahFvkUX1P3onuMTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qPzpjm6I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A087EC4CED1
+	for <linux-kbuild@vger.kernel.org>; Mon,  9 Dec 2024 08:43:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733733818;
+	bh=SSGLGSr9h7m0Q5b9WJaaH1BlWAJiiIIUGMmGk43sh7U=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=qPzpjm6IOhE8E+vkyhtl2A1Cna8AjVY73zALFsPxCHQEiwkgaOhU01/lk3lx3I80s
+	 OfUcx135GrBfxeoXAR4ntxY+vXTmq8wrBNYDde6KJJ/CpSaKpBOX8pwfc0PPBcNoOO
+	 9m6HmqISQbtL4+AwNcMOp9WOHBncBsvlmSymkq7OVP+WwP5XC08VyNKMLQIsTuInU4
+	 myu02h31TVnM9iB4L067OsvSSJyWDAZuB5kjHmJYmSVWranzbcHTIjKhbzLSewY4Pp
+	 T48Yr/BmSCCN+0HcpFcr9aCWeg0gDYLDQDSaFUSmvae8GEkKHK90+vyUujGU0WaskW
+	 Ol0b03RZ7REJg==
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 9A4BB1200074;
+	Mon,  9 Dec 2024 03:43:37 -0500 (EST)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-03.internal (MEProxy); Mon, 09 Dec 2024 03:43:37 -0500
+X-ME-Sender: <xms:ua1WZxCggoTIFRnZOrAwUX_TQaVLGwSCyY9ji_pRLu3xDjK9gmxFEA>
+    <xme:ua1WZ_iiIn6Uxcs5YbGMJhUmIknnsLn0Eh4uYdgybET2lVIMZ2wv8qGwtxYTgq4Rl
+    V0I8_2f-1cEqXwpRbM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrjeeggdduvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+    necuhfhrohhmpedfnfgvohhnucftohhmrghnohhvshhkhidfuceolhgvohhnsehkvghrnh
+    gvlhdrohhrgheqnecuggftrfgrthhtvghrnheptdehueetudeljeejueeljeefhfeludff
+    hefhhfdvgfetjefgtdeiffeuheetvdffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrgh
+    dpghhithhhuhgsrdgtohhmpdguohdqsghuihhlugdrphihpdhsthhonhgvrdguvghvpdhp
+    hihthhhonhdrohhrghdpshhusghprhhotggvshhsrdgtrghllhenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehlvghonhdomhgvshhmthhprghu
+    thhhphgvrhhsohhnrghlihhthidquddvfedtheefleekgedqvdejjeeljeejvdekqdhlvg
+    honheppehkvghrnhgvlhdrohhrgheslhgvohhnrdhnuhdpnhgspghrtghpthhtohepfedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgrshgrhhhirhhohieskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgsuhhilhgusehvghgvrhdrkhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrh
+    hnvghlrdhorhhg
+X-ME-Proxy: <xmx:ua1WZ8mLKhf6jx1NRgaAo9LEzum12zjHNzD_KjDxp1cqIjpNkZkTEw>
+    <xmx:ua1WZ7yG44YR59e7_zkGHthwyaWhI7xwlZlFAdwt9SahiVffmfM-SA>
+    <xmx:ua1WZ2QKgVMQPWpA6FhnnJoRW47cuGnlw29QMCclhRUG3As9PF9LnQ>
+    <xmx:ua1WZ-bgXUpAgxHvYr5k04kYe0NcAT-vitUhb2pRSRIRd3MQ4jWZkQ>
+    <xmx:ua1WZ3T3rDyam9xqioKfr4lGnIGAOJrgdZ6oxLO2K44pU7yADOYWYr6G>
+Feedback-ID: i927946fb:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6A3361C20067; Mon,  9 Dec 2024 03:43:37 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1733404444.git.geert+renesas@glider.be> <2c4a75726a976d117055055b68a31c40dcab044e.1733404444.git.geert+renesas@glider.be>
- <b0e9c31f81a368375541d16dbc88783f614ede6d.camel@perches.com> <CAK7LNARwQq-woUeM+a-Eg=Kh3Eu045xL9Y6tbOY0FAM4+Jk4hQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARwQq-woUeM+a-Eg=Kh3Eu045xL9Y6tbOY0FAM4+Jk4hQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Dec 2024 09:39:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVcXxQUErB6KA2MzaK6v4OO5GEmd9HfES13LE+K4thktg@mail.gmail.com>
-Message-ID: <CAMuHMdVcXxQUErB6KA2MzaK6v4OO5GEmd9HfES13LE+K4thktg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] checkpatch: Update reference to include/asm-<arch>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Joe Perches <joe@perches.com>, Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-arch@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 09 Dec 2024 10:43:17 +0200
+From: "Leon Romanovsky" <leon@kernel.org>
+To: "Masahiro Yamada" <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <c73891e5-13f6-4ca4-964a-a453a24cd6b8@app.fastmail.com>
+In-Reply-To: 
+ <CAK7LNASYp+LWyfF78rc3V=ZpR1iu9gZBj4npuE6Md86X0KcWOQ@mail.gmail.com>
+References: 
+ <e534ce33b0e1060eb85ece8429810f087b034c88.1733234008.git.leonro@nvidia.com>
+ <CAK7LNATU2OKEWh6p9QuUXtYmYmqTkN5nspBq9DbCh9yUjqW5xA@mail.gmail.com>
+ <20241204084943.GM1245331@unreal>
+ <CAK7LNATGbTxu9cYGfW6FK5VFfJ2+ut_e1dSFOfo+q6CgM4XHtQ@mail.gmail.com>
+ <20241208163557.GA1245331@unreal>
+ <CAK7LNASYp+LWyfF78rc3V=ZpR1iu9gZBj4npuE6Md86X0KcWOQ@mail.gmail.com>
+Subject: Re: [PATCH rdma-next] kbuild: Respect request to silent output when merging
+ configs
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Yamada-san,
 
-On Sat, Dec 7, 2024 at 3:31=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
+
+On Mon, Dec 9, 2024, at 07:34, Masahiro Yamada wrote:
+> On Mon, Dec 9, 2024 at 1:36=E2=80=AFAM Leon Romanovsky <leon@kernel.or=
 g> wrote:
-> On Fri, Dec 6, 2024 at 1:40=E2=80=AFAM Joe Perches <joe@perches.com> wrot=
-e:
-> > On Thu, 2024-12-05 at 14:20 +0100, Geert Uytterhoeven wrote:
-> > > "include/asm-<arch>" was replaced by "arch/<arch>/include/asm" a long
-> > > time ago.
+>>
+>> On Sun, Dec 08, 2024 at 11:49:12PM +0900, Masahiro Yamada wrote:
+>> > On Wed, Dec 4, 2024 at 5:49=E2=80=AFPM Leon Romanovsky <leon@kernel=
+.org> wrote:
+>> > >
+>> > > On Wed, Dec 04, 2024 at 05:25:50PM +0900, Masahiro Yamada wrote:
+>> > > > On Tue, Dec 3, 2024 at 10:55=E2=80=AFPM Leon Romanovsky <leon@k=
+ernel.org> wrote:
+>> > > > >
+>> > > > > From: Leon Romanovsky <leonro@nvidia.com>
+>> > > > >
+>> > > > > Builds with -s option (silent) are supposed to silence all ou=
+tput
+>> > > > > which is not an error. It is the case for target builds but n=
+ot
+>> > > > > for configs. These builds generate prints like this:
+>> > > > >
+>> > > > > =E2=9E=9C  kernel git:(rdma-next) make -s defconfig debug.con=
+fig
+>> > > > >  Using .config as base
+>> > > > >  Merging ./kernel/configs/debug.config
+>> > > > >  #
+>> > > > >  # merged configuration written to .config (needs make)
+>> > > > >  #
+>> > > > >  ...
+>> > > > >  Value of CONFIG_FUNCTION_TRACER is redefined by fragment ./k=
+ernel/configs/debug.config:
+>> > > > >  Previous value: # CONFIG_FUNCTION_TRACER is not set
+>> > > > >  New value: CONFIG_FUNCTION_TRACER=3Dy
+>> > > > >  ----
+>> > > > >
+>> > > > > Let's honor -s option and hide all non-error output.
+>> > > >
+>> > > >
+>> > > > Is it necessary to add the --quiet option to every script?
+>> > > >
+>> > > > Kbuild already provides a generic way to suppress the stdout
+>> > > > with 'make -s'.
+>> > > >
+>> > > > The following code works for me.
+>> > > > 'make defconfig debug.config' is as verbose as before.
+>> > > > 'make -s defconfig debug.config' is really silent.
+>> > >
+>> > > This is exactly what I'm doing. I'm using -s option and added -q =
+to very
+>> > > specific merge_config script, because "-s" is already in use in t=
+hat
+>> > > script.
+>> > >
+>> > > Before my change on 40384c840ea1 ("Linux 6.13-rc1"):
+>> > > [leonro@e534d5fa4327 kernel]$ make -s defconfig debug.config
+>> > > Using .config as base
+>> > > Merging ./kernel/configs/debug.config
+>> > > Value of CONFIG_DYNAMIC_DEBUG is redefined by fragment ./kernel/c=
+onfigs/debug.config:
+>> > > Previous value: # CONFIG_DYNAMIC_DEBUG is not set
+>> > > New value: CONFIG_DYNAMIC_DEBUG=3Dy
+>> > >
+>> > > Value of CONFIG_PRINTK_CALLER is redefined by fragment ./kernel/c=
+onfigs/debug.config:
+>> > > Previous value: # CONFIG_PRINTK_CALLER is not set
+>> > > New value: CONFIG_PRINTK_CALLER=3Dy
+>> > > ...
+>> > >
+>> > > After my change:
+>> > > [leonro@4dd2c2078dff kernel]$ make -s defconfig debug.config <---=
+ silent
+>> >
+>> >
+>> > Not sure if you checked the attached code diff in my previous reply.
+>> >
+>> > To make my question clearer, does this suffice your needs?
+>> > https://lore.kernel.org/all/20241208144622.605523-1-masahiroy@kerne=
+l.org/T/#u
+>>
+>> Unfortunately no, as both my development suite and our CI rely on
+>> merge_config script to create right config.
+>>
+>> In CI, they run add very specific config options to already
+>> well-established .config.
+>> In my development suite, I'm removing extra options with merge_config
+>> script.
+>>
+>>         subprocess.call(cmd + ['defconfig', 'kvm_guest.config', 'nopm=
+.config', 'debug.config'])
+>>         subprocess.call(['scripts/kconfig/merge_config.sh', '-y', '-m=
+', '-q',
+>>                          '.config', '/plugins/kernel.config'])
+>>         subprocess.call(cmd + ['olddefconfig'])
+>>
+>> https://github.com/Mellanox/mkt/blob/master/plugins/do-build.py#L19
+>> https://github.com/Mellanox/mkt/commit/26d7cbd776f508ab506f6d33cfe0e9=
+b0bf44d557
+>>
+>> I need both chunks, silence make ... and silence merge_config script.
 >
-> Is this check still needed?
 >
-> include/asm was a symlink to include/asm-<architecture> in the old days,
-> but it no longer exists.
+> You are no longer talking about 'make -s'.
+
+Yes, I killed two birds with one stone.
+
 >
-> In which case, is this check triggered?
+> "> /dev/null" is the standard way to suppress stdout, but you do not u=
+se it.
+>
+> Similarly, subprocess.call() supports stdout=3Dsubprocess.DEVNULL
+>  https://docs.python.org/3.13/library/subprocess.html#subprocess.call
 
-Someone might still try to create a header file under include/asm/.
+No problem, will do it.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+>
+>
+>
+>
+>
+>
+>
+>> Thanks
+>>
+>> >
+>> >
+>> > --
+>> > Best Regards
+>> > Masahiro Yamada
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
