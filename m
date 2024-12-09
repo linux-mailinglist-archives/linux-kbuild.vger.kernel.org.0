@@ -1,198 +1,127 @@
-Return-Path: <linux-kbuild+bounces-5042-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5043-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94589E8B08
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 06:35:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EB69E8D72
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 09:31:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4641162BF1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 05:35:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0E2918852D8
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2024 08:31:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 529B543AA1;
-	Mon,  9 Dec 2024 05:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3D2D136357;
+	Mon,  9 Dec 2024 08:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qQsKjIJO"
+	dkim=pass (2048-bit key) header.d=limbasan.ro header.i=@limbasan.ro header.b="dYQ+itOD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2623A46B8;
-	Mon,  9 Dec 2024 05:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC0B22C6E8
+	for <linux-kbuild@vger.kernel.org>; Mon,  9 Dec 2024 08:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733722528; cv=none; b=Cy09mJ9I2r448fXtzcWPLHwJ7QM0m9KT6Q6seGOeGNDuuwqLF33+w7+r6ubngacQizZfeMMebj4JturXo+HJBWK7l9N2vn3s04JKjR8JBf44aH1aXy+qymSa+ARuOotrvpBBNuw4THA0rPME9H7dI0JuvcA68hKiRmRoLAx17jE=
+	t=1733733107; cv=none; b=mPo7cpNBIwFcXLo96puNXWA4dJ02AAfJC+YKCnSAiK1wpPiqmu2O7rfFUulolMfif9VVDucLf4mXhNHYQY5ryahH56DSwc66yAs4edn4g2fPGdzzNqTtacVSnQq/2aadOXe2D7OEq7bDn6AskUWeBF2omTpN7EvIJFoGYyJRbTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733722528; c=relaxed/simple;
-	bh=nUUgLUbptz1AhKUO1RHy4Z6m34EzZZbFM8zEr7fGwkQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EDOndmnjWqRvtxu0kifeIAwfQa6JQ/Yo4/WMLB8Tzb+fb8UpQkzVSuIuP5kBM/CraFBAexuGlcFv5eAmmDrXbaoSXQ9hLvoy/yPWgB13kwYObj2AgwaJ/sncSPKyAO8Y5aaY6qPCtUvV93FCfdzrpTBuMeXVLicqQkqurFhGPHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qQsKjIJO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98728C4CED1;
-	Mon,  9 Dec 2024 05:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733722525;
-	bh=nUUgLUbptz1AhKUO1RHy4Z6m34EzZZbFM8zEr7fGwkQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qQsKjIJOlB8kyDh6XXxkOi8ST2S9C+slarT4O12UGVvdnFHxV70M3pJWhToRrMFIb
-	 mc7nbK5MIQI46OniUgxoFQdleQy80t8Uu3fZGzwmwWC780mopMZ5FnwHUk7fi7WtxS
-	 qGmwDS6bBqWfJ3C+0MDeErbd5c4Rc2BqhnmAQ0Q58x4S8h75TMTj3kAni9dgi135La
-	 W4IkJHr3I8rvYiTjwW/q+LWywpif8uwaNy+2nApjipXzREwgrfhb7PhB9f7JG2kcxr
-	 aWElbDXdclnFjq8fO8cD74kUQkwYFvZQEJI3tjjPbdXbE9/+0GH299YKJ2scWeoRvH
-	 fLiGFiaXNpzbA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ffd6af012eso44579751fa.2;
-        Sun, 08 Dec 2024 21:35:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWu6rLso0GPLzpl2rSsSxPeU3P7jAjZOEpA1y15yrhtQHhbGPBAUGhwFb+/d+NMobhwISacxItkOCctSOA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsuWFH5Nd1Z6cbyJRXAKsvRtks5wx+WYSZ5hKXIKwYXKjalAWx
-	hAXliZFHkHObqc7ct0Ib6p47MIaytmkXtr0uoUWDftPFBmVn5cpAAZgX/WPZyZBi2b+uW8b8++O
-	AqciV8BKnhqEb9qpOVZ8Mjgm+Cy4=
-X-Google-Smtp-Source: AGHT+IH3wBq+6UHWTGPTipIPWEarPonH3s5qwpZVRtRaMnBG3p947mT0RhMebhPJK4Aob3VxSdMZyPHrLi3IvLfzqHc=
-X-Received: by 2002:a2e:a803:0:b0:302:189f:ea58 with SMTP id
- 38308e7fff4ca-302189fec00mr16135091fa.27.1733722524268; Sun, 08 Dec 2024
- 21:35:24 -0800 (PST)
+	s=arc-20240116; t=1733733107; c=relaxed/simple;
+	bh=7JumrFZPjiuAajyzyI3QUHbt42fwE5hgHfqtVgixtXw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=vCgPG3LpHOvIg+eKQTa1UCnds1+eMsnvslXqUYFCbSyk7bGTv0VqH93gTUafbK438YwNHPb3W6ifINoAHr3yhDg3jJ5oKCsnqdmcwbwcWG+fk7ZHzZA4VDxJH8ztWvmc3VL2SlFa3oMgrjsuJGvqAlYTZV0r025nDFE9Xw/WyC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=limbasan.ro; spf=pass smtp.mailfrom=limbasan.ro; dkim=pass (2048-bit key) header.d=limbasan.ro header.i=@limbasan.ro header.b=dYQ+itOD; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=limbasan.ro
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=limbasan.ro
+Message-ID: <b7bb8d16-2d05-43b5-95fc-7d303b925f44@limbasan.ro>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=limbasan.ro; s=key1;
+	t=1733733100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=hYiIB6sZ7uNO1d062xzX1A3B+xh/nFMYFJ8Tnp58nnk=;
+	b=dYQ+itODe1YozlQBfpO0R+ZfXw0JA61Fx7W691N8inye8QsOtHAvRBiLO9Imb5hvq39SCD
+	nxw/7D2rhk8ZVd0gpwzQsYcZVaXfZaoHSPmLCucZXrfY9Qt3acwwcS7brmLmSfBotIAzPb
+	T08HFhUDQIpjizZiV169ILTVCn/E/0LBhw7Z/ZojhQkVqWXV1BbtpmLi9aK3b2+qhnZOLt
+	JCOUfY3JoI0Eoqau64aN6UMq3R2OR9oSbntJYxlqaFDccLLexK+L6oz9Ed3BJY+beUD2BV
+	DVMx8dByePRUz2IXXIiD33YI22I6Bb3ml9u2CUKjJSniT07h439p51SLGXU5Rg==
+Date: Mon, 9 Dec 2024 10:31:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <e534ce33b0e1060eb85ece8429810f087b034c88.1733234008.git.leonro@nvidia.com>
- <CAK7LNATU2OKEWh6p9QuUXtYmYmqTkN5nspBq9DbCh9yUjqW5xA@mail.gmail.com>
- <20241204084943.GM1245331@unreal> <CAK7LNATGbTxu9cYGfW6FK5VFfJ2+ut_e1dSFOfo+q6CgM4XHtQ@mail.gmail.com>
- <20241208163557.GA1245331@unreal>
-In-Reply-To: <20241208163557.GA1245331@unreal>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 9 Dec 2024 14:34:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASYp+LWyfF78rc3V=ZpR1iu9gZBj4npuE6Md86X0KcWOQ@mail.gmail.com>
-Message-ID: <CAK7LNASYp+LWyfF78rc3V=ZpR1iu9gZBj4npuE6Md86X0KcWOQ@mail.gmail.com>
-Subject: Re: [PATCH rdma-next] kbuild: Respect request to silent output when
- merging configs
-To: Leon Romanovsky <leon@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: =?UTF-8?Q?Mihai_Limb=C4=83=C8=99an?= <mihai@limbasan.ro>
+Subject: [Bug] 6.12+ DKMS modsign breakage due to missing .config in Debian
+ headers package
+To: linux-kbuild@vger.kernel.org
+Content-Language: en-US, ro, de-DE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Dec 9, 2024 at 1:36=E2=80=AFAM Leon Romanovsky <leon@kernel.org> wr=
-ote:
->
-> On Sun, Dec 08, 2024 at 11:49:12PM +0900, Masahiro Yamada wrote:
-> > On Wed, Dec 4, 2024 at 5:49=E2=80=AFPM Leon Romanovsky <leon@kernel.org=
-> wrote:
-> > >
-> > > On Wed, Dec 04, 2024 at 05:25:50PM +0900, Masahiro Yamada wrote:
-> > > > On Tue, Dec 3, 2024 at 10:55=E2=80=AFPM Leon Romanovsky <leon@kerne=
-l.org> wrote:
-> > > > >
-> > > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > > >
-> > > > > Builds with -s option (silent) are supposed to silence all output
-> > > > > which is not an error. It is the case for target builds but not
-> > > > > for configs. These builds generate prints like this:
-> > > > >
-> > > > > =E2=9E=9C  kernel git:(rdma-next) make -s defconfig debug.config
-> > > > >  Using .config as base
-> > > > >  Merging ./kernel/configs/debug.config
-> > > > >  #
-> > > > >  # merged configuration written to .config (needs make)
-> > > > >  #
-> > > > >  ...
-> > > > >  Value of CONFIG_FUNCTION_TRACER is redefined by fragment ./kerne=
-l/configs/debug.config:
-> > > > >  Previous value: # CONFIG_FUNCTION_TRACER is not set
-> > > > >  New value: CONFIG_FUNCTION_TRACER=3Dy
-> > > > >  ----
-> > > > >
-> > > > > Let's honor -s option and hide all non-error output.
-> > > >
-> > > >
-> > > > Is it necessary to add the --quiet option to every script?
-> > > >
-> > > > Kbuild already provides a generic way to suppress the stdout
-> > > > with 'make -s'.
-> > > >
-> > > > The following code works for me.
-> > > > 'make defconfig debug.config' is as verbose as before.
-> > > > 'make -s defconfig debug.config' is really silent.
-> > >
-> > > This is exactly what I'm doing. I'm using -s option and added -q to v=
-ery
-> > > specific merge_config script, because "-s" is already in use in that
-> > > script.
-> > >
-> > > Before my change on 40384c840ea1 ("Linux 6.13-rc1"):
-> > > [leonro@e534d5fa4327 kernel]$ make -s defconfig debug.config
-> > > Using .config as base
-> > > Merging ./kernel/configs/debug.config
-> > > Value of CONFIG_DYNAMIC_DEBUG is redefined by fragment ./kernel/confi=
-gs/debug.config:
-> > > Previous value: # CONFIG_DYNAMIC_DEBUG is not set
-> > > New value: CONFIG_DYNAMIC_DEBUG=3Dy
-> > >
-> > > Value of CONFIG_PRINTK_CALLER is redefined by fragment ./kernel/confi=
-gs/debug.config:
-> > > Previous value: # CONFIG_PRINTK_CALLER is not set
-> > > New value: CONFIG_PRINTK_CALLER=3Dy
-> > > ...
-> > >
-> > > After my change:
-> > > [leonro@4dd2c2078dff kernel]$ make -s defconfig debug.config <--- sil=
-ent
-> >
-> >
-> > Not sure if you checked the attached code diff in my previous reply.
-> >
-> > To make my question clearer, does this suffice your needs?
-> > https://lore.kernel.org/all/20241208144622.605523-1-masahiroy@kernel.or=
-g/T/#u
->
-> Unfortunately no, as both my development suite and our CI rely on
-> merge_config script to create right config.
->
-> In CI, they run add very specific config options to already
-> well-established .config.
-> In my development suite, I'm removing extra options with merge_config
-> script.
->
->         subprocess.call(cmd + ['defconfig', 'kvm_guest.config', 'nopm.con=
-fig', 'debug.config'])
->         subprocess.call(['scripts/kconfig/merge_config.sh', '-y', '-m', '=
--q',
->                          '.config', '/plugins/kernel.config'])
->         subprocess.call(cmd + ['olddefconfig'])
->
-> https://github.com/Mellanox/mkt/blob/master/plugins/do-build.py#L19
-> https://github.com/Mellanox/mkt/commit/26d7cbd776f508ab506f6d33cfe0e9b0bf=
-44d557
->
-> I need both chunks, silence make ... and silence merge_config script.
+Hi!
 
+Would like to report a DKMS build system impacting bug with kernel 6.12+ 
+introduced in commit aaed5c7739be81ebdd6008aedc8befd98c88e67a . Hope I'm 
+addressing this following proper protocol by mailing linux-kbuild, tried 
+mailing the maintainer directly on 2024-11-20 but received no feedback; 
+my apologies otherwise, it's my first kernel bug report.
 
-You are no longer talking about 'make -s'.
+Specifically, the commit changes scripts/package/install-extmod-build to 
+remove the shipped copy of the kernel configuration as .config in the 
+generated package. Unfortunately, this breaks DKMS when secure boot is 
+being used and any locally compiled the modules need to be signed. DKMS 
+needs it to extract various characteristics of the built kernel, among 
+which CONFIG_MODULE_SIG_HASH so that it can sign the .ko files it 
+creates. It's likely that it also uses various other symbols from the 
+kernel config, e.g. clang-related stuff, but I didn't test that.
 
-"> /dev/null" is the standard way to suppress stdout, but you do not use it=
-.
+The removal of the other formerly shipped files doesn't appear to cause 
+any problems, at least not in this scenario.
 
-Similarly, subprocess.call() supports stdout=3Dsubprocess.DEVNULL
- https://docs.python.org/3.13/library/subprocess.html#subprocess.call
+In detail:
 
+DKMS sets its path to the kernel config into the kernel_config var in 
+this function: 
+https://github.com/dell/dkms/blob/93bf2bd79704c0a8a39b240a52b001610cdc419b/dkms.in#L274
+DKMS then uses it to extract CONFIG_MODULE_SIG_HASH in this function: 
+https://github.com/dell/dkms/blob/93bf2bd79704c0a8a39b240a52b001610cdc419b/dkms.in#L1021
+If kernel_config isn't set, the build process issues "Kernel config 
+${kernel_config} not found, modules won't be signed" and skips signing 
+the built .ko files, subsequently resulting in a runtime failure to load 
+the corresponding module with "Loading of unsigned module is rejected" 
+when secure boot is being used.
 
+While it's possible to supply the path to the kernel config manually 
+when invoking DKMS, it would need manual intervention after every kernel 
+header package installation. This would be rather clumsy and 
+inconvenient compared to the current set-and-forget approach where a 
+kernel headers package install hook auto-builds and installs modules. 
+Unfortunately there's no viable workaround via a config snippet or any 
+sort of build hook, DKMS would need to be patched to somehow figure out 
+the relationships between the installed packages and the various kernel 
+config file placement conventions across distros.
 
+Is there any chance for .config to be shipped again when generating the 
+headers package? This would be a simple two-line change, restoring the 
+shipped copy of the kernel config. I.e. something like the below. Have 
+tested that patch and can confirm it restores proper modsign functionality.
 
+Thank you very much!
+Mihai Limbasan
 
+diff -Naur linux.orig/scripts/package/install-extmod-build 
+linux/scripts/package/install-extmod-build
+--- linux.orig/scripts/package/install-extmod-build    2024-12-09 
+10:28:03.000000000 +0200
++++ linux/scripts/package/install-extmod-build    2024-12-09 
+10:30:28.871498366 +0200
+@@ -76,4 +76,6 @@
+      rm -f "${destdir}/Kbuild" "${destdir}/scripts/Kbuild"
+  fi
 
++# copy .config manually to be where it's expected to be
++cp "${KCONFIG_CONFIG}" "${destdir}/.config"
+  find "${destdir}" \( -name '.*.cmd' -o -name '*.o' \) -delete
 
-> Thanks
->
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
-
-
-
---
-Best Regards
-Masahiro Yamada
 
