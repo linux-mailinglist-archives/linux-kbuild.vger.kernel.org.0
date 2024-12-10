@@ -1,143 +1,157 @@
-Return-Path: <linux-kbuild+bounces-5067-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5068-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923879EB778
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 18:09:30 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C599EB9F9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 20:17:44 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E3E72820AD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 17:09:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B227316760F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 19:17:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1E42327A9;
-	Tue, 10 Dec 2024 17:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14A7A214229;
+	Tue, 10 Dec 2024 19:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="hXE5Xpt0"
+	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="Q5WLWETe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+Received: from mx0a-00206402.pphosted.com (mx0a-00206402.pphosted.com [148.163.148.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCCA23278D;
-	Tue, 10 Dec 2024 17:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E8D1BC9E2;
+	Tue, 10 Dec 2024 19:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733850560; cv=none; b=Uv9kTTi07OwDbXU4fsAlAXLNFhVFRluiD6uOvKPdWD+BLSurrU6faqSnN3PBFD1GBUpF3swOwnz7RgsxVTAQlNR2U5ep+N8lshUnOqUVOYwJyeMhwSeldmY/ruS4OMIu2ZGdKwgOZ7izJbNNzAARlDmHgOgCuBaSXHnF/6PBnds=
+	t=1733858256; cv=none; b=tqn1S5aHJ4gbyKEVB2qm0anNEq7itXammtGxbkbq79F1SCRC7FEadzuINVZ6tE/3UcJc3v11eUeUPFq6p8kt1nCopJYQlNzLwOAAX9rJNcXBEoHsTZ9hLVvK57gxu7J8txuNkVzJZztRaKAPjjzeSak+i7OR306+V4ozipgNW+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733850560; c=relaxed/simple;
-	bh=wO/0cbFH5CrJBGE3thNjrMItqwmJVeacGdmd/tvE0BE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U8KaH10ZY2xFR4DEB9egWGBSIniL8DSqpePENQaUCCkh2GrqCYpG9UreAADepA6MRGYeZFlF9bP5mpXOnZtitQ0AaWz2nx8dPWhk+wc06SaRzAKNv+W3DvLrIHn1Ja+TGsterkL0M2jzw9Rxr92M3bGKml4s5xc6NycEUIDFxRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=hXE5Xpt0; arc=none smtp.client-ip=213.133.104.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=TWAHK6mWkMJL0EVKia4A1USZ4Y/1FqYrDSK3+4KSzJM=; b=hXE5Xpt0hwS2nZFoUWTqNCROqN
-	9q7dMF45qXto8teUS2DtJoPgbB3zg/F2mRljNK4kWypnWikAkIKTjLZFoKgn1tyaHX8YrPD0+uJlo
-	lH8K6/KAWUPlK6YColXEX4irbYrkb82kNhPy6jAbx7QE/TpaiV7d1bDLCDpt76gy+O2bncJpyd7Jv
-	WegDc4/AD5EUqoFpT5vveYvITbaRLFcoVl17xxzwEEDh+q//tzjIpeRYI4jineuxLR/HD86BJmHUd
-	FEshfLmVluOUfkBMrdU3a66JnQRFSKYCTRWu8Mz3GEuXeKOtE2FcnWSPviKeSsRbYtfKnQIPo7pFs
-	V0q2cbeg==;
-Received: from sslproxy07.your-server.de ([78.47.199.104])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1tL3jT-000Gg2-Pm; Tue, 10 Dec 2024 18:09:11 +0100
-Received: from [178.197.248.35] (helo=[192.168.1.114])
-	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1tL3jS-000JDL-2M;
-	Tue, 10 Dec 2024 18:09:10 +0100
-Message-ID: <76104a18-490d-4751-b377-c82c41cf59d4@iogearbox.net>
-Date: Tue, 10 Dec 2024 18:09:10 +0100
+	s=arc-20240116; t=1733858256; c=relaxed/simple;
+	bh=B1adUjR1VE80f1PTstNu785YA4jDE4rVDXmLSCYT2aI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=dTjXL6YtlcBzVdPq3dFpahLcUlE4PLJEgZYm85rQhNx+szyxUaUdczonyr4yjyej+h97BCYGiZObXlXKOZKKkx/NGcCZ4iNfhQOWwpMwZEftYVKzlYVHFv+ao5fOl32Uq+VP45q6ds0H41tyjVVuV5tSg/U5LaCMzPYCFUZKU4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com; spf=pass smtp.mailfrom=crowdstrike.com; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=Q5WLWETe; arc=none smtp.client-ip=148.163.148.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crowdstrike.com
+Received: from pps.filterd (m0354652.ppops.net [127.0.0.1])
+	by mx0a-00206402.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAGAf2t018432;
+	Tue, 10 Dec 2024 19:15:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crowdstrike.com;
+	 h=cc:content-id:content-transfer-encoding:content-type:date
+	:from:in-reply-to:message-id:mime-version:references:subject:to;
+	 s=default; bh=B1adUjR1VE80f1PTstNu785YA4jDE4rVDXmLSCYT2aI=; b=Q
+	5WLWETej/0uKO6cQ1WldX4CJ3IaLH90EjGr1lkk0cGOEJj9n5PVIBgjR9chPXsbh
+	WXfczIGo4DVHR8tSYL60ElqL20UzdQeCSsvKfZtraVBvxMfQNWA7GJ/+SG0UnDNz
+	aKyYPDoWR4XmnBmuqNDUlpXmXzhsu7tfSKi8/HI7jvRVcAEOEgNbqvgw9dFh+4zI
+	mwo5kSulGhKEyf1/Qm32CpBkx88bzZXpktbqg7i1aCI4I3PP2pU9IC1qmoqodYQA
+	abjRiSXTTPxt3IO7dNESBuZUu7pikklfjV20zIHwzNeudEq0BlTJggjPmdZvr173
+	tg/P8MaftEbtGDXHPrYtg==
+Received: from mail.crowdstrike.com (dragosx.crowdstrike.com [208.42.231.60] (may be forged))
+	by mx0a-00206402.pphosted.com (PPS) with ESMTPS id 43erxfgjqw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 19:15:15 +0000 (GMT)
+Received: from 04wpexch06.crowdstrike.sys (10.100.11.99) by
+ 04wpexch05.crowdstrike.sys (10.100.11.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 10 Dec 2024 19:15:13 +0000
+Received: from 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5]) by
+ 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5%9]) with mapi id
+ 15.02.1544.009; Tue, 10 Dec 2024 19:15:13 +0000
+From: Martin Kelly <martin.kelly@crowdstrike.com>
+To: "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "ojeda@kernel.org"
+	<ojeda@kernel.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pasha.tatashin@soleen.com" <pasha.tatashin@soleen.com>,
+        "mhiramat@kernel.org" <mhiramat@kernel.org>,
+        "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>,
+        "james.clark@arm.com" <james.clark@arm.com>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "mathieu.desnoyers@efficios.com"
+	<mathieu.desnoyers@efficios.com>,
+        "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "nathan@kernel.org"
+	<nathan@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
+        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
+        "surenb@google.com"
+	<surenb@google.com>,
+        "npiggin@gmail.com" <npiggin@gmail.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "hpa@zytor.com"
+	<hpa@zytor.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "zhengyejian@huaweicloud.com" <zhengyejian@huaweicloud.com>,
+        "naveen.n.rao@linux.ibm.com" <naveen.n.rao@linux.ibm.com>,
+        "bp@alien8.de"
+	<bp@alien8.de>,
+        "kent.overstreet@linux.dev" <kent.overstreet@linux.dev>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>
+CC: Amit Dang <amit.dang@crowdstrike.com>,
+        "linux-modules@vger.kernel.org"
+	<linux-modules@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org"
+	<linux-kbuild@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and fix
+ weak function issue
+Thread-Topic: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and fix
+ weak function issue
+Thread-Index: AQHbSzfWIbF4ko3yU0yIDGnRxekZ5w==
+Date: Tue, 10 Dec 2024 19:15:13 +0000
+Message-ID: <44353f4cd4d1cc7170d006031819550b37039dd2.camel@crowdstrike.com>
+References: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
+In-Reply-To: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-disclaimer: USA
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <894EEA24DDE3DA4C924E664F311AA9D3@crowdstrike.sys>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v3 1/2] tools/resolve_btfids: Add
- --fatal_warnings option
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org
-References: <20241204-resolve_btfids-v3-0-e6a279a74cfd@weissschuh.net>
- <20241204-resolve_btfids-v3-1-e6a279a74cfd@weissschuh.net>
-Content-Language: en-US
-From: Daniel Borkmann <daniel@iogearbox.net>
-Autocrypt: addr=daniel@iogearbox.net; keydata=
- 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
-In-Reply-To: <20241204-resolve_btfids-v3-1-e6a279a74cfd@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27483/Tue Dec 10 10:38:50 2024)
+X-Authority-Analysis: v=2.4 cv=Td5stQQh c=1 sm=1 tr=0 ts=67589343 cx=c_pps a=1d8vc5iZWYKGYgMGCdbIRA==:117 a=1d8vc5iZWYKGYgMGCdbIRA==:17 a=xqWC_Br6kY4A:10 a=EjBHVkixTFsA:10 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=VwQbUJbxAAAA:8 a=i0EeH86SAAAA:8
+ a=pl6vuDidAAAA:8 a=eHuGQ7gFT_7OOu_YEIIA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: mM4J9j6hWFAPRFjVNI4NhQBKWaTtiq1Z
+X-Proofpoint-GUID: mM4J9j6hWFAPRFjVNI4NhQBKWaTtiq1Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 mlxlogscore=658
+ adultscore=0 clxscore=1011 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2412100140
 
-On 12/4/24 8:37 PM, Thomas Weißschuh wrote:
-> Currently warnings emitted by resolve_btfids are buried in the build log
-> and are slipping into mainline frequently.
-> Add an option to elevate warnings to hard errors so the CI bots can
-> catch any new warnings.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> Acked-by: Jiri Olsa <jolsa@kernel.org>
-
-Given the dependencies by now propagated to bpf-next, I took these two
-in, thanks!
+T24gVHVlLCAyMDI0LTA3LTIzIGF0IDE0OjMyICswODAwLCBaaGVuZyBZZWppYW4gd3JvdGU6DQo+
+IEJhY2tncm91bmQgb2YgdGhpcyBwYXRjaCBzZXQgY2FuIGJlIGZvdW5kIGluIHYxOg0KPiANCj4g
+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjQwNjEzMTMzNzExLjI4Njc3NDUtMS16aGVu
+Z3llamlhbjFAaHVhd2VpLmNvbS8NCj4gwqANCj4gDQo+IEhlcmUgYWRkIGEgcmVwcm9kdWN0aW9u
+IHRvIHNob3cgdGhlIGltcGFjdCB0byBsaXZlcGF0Y2g6DQo+IDEuIEFkZCBmb2xsb3dpbmcgaGFj
+ayB0byBtYWtlIGxpdmVwYXRjaC1zYW1wbGUua28gZG8gcGF0Y2ggb24NCj4gZG9fb25lX2luaXRj
+YWxsKCkNCj4gwqDCoCB3aGljaCBoYXMgYW4gb3ZlcnJpZGVuIHdlYWsgZnVuY3Rpb24gYmVoaW5k
+IGluIHZtbGludXgsIHRoZW4gcHJpbnQNCj4gdGhlDQo+IMKgwqAgYWN0dWFsbHkgdXNlZCBfX2Zl
+bnRyeV9fIGxvY2F0aW9uOg0KPiANCg0KSGkgYWxsLCB3aGF0IGlzIHRoZSBzdGF0dXMgb2YgdGhp
+cyBwYXRjaCBzZXJpZXM/IEknZCByZWFsbHkgbGlrZSB0byBzZWUNCml0IG9yIHNvbWUgb3RoZXIg
+Zml4IHRvIHRoaXMgaXNzdWUgbWVyZ2VkLiBUaGUgdW5kZXJseWluZyBidWcgaXMgYQ0Kc2lnbmlm
+aWNhbnQgb25lIHRoYXQgY2FuIGNhdXNlIGZ0cmFjZS9saXZlcGF0Y2gvQlBGIGZlbnRyeSB0byBm
+YWlsDQpzaWxlbnRseS4gSSd2ZSBub3RpY2VkIHRoaXMgYnVnIGluIGFub3RoZXIgY29udGV4dFsx
+XSBhbmQgcmVhbGl6ZWQNCnRoZXkncmUgdGhlIHNhbWUgaXNzdWUuDQoNCkknbSBoYXBweSB0byBo
+ZWxwIHdpdGggdGhpcyBwYXRjaCBzZXJpZXMgdG8gYWRkcmVzcyBhbnkgaXNzdWVzIGFzDQpuZWVk
+ZWQuDQoNClsxXQ0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYnBmLzcxMzY2MDVkMjRkZTliMWZj
+NjJkMDJhMzU1ZWYxMWM5NTBhOTQxNTMuY2FtZWxAY3Jvd2RzdHJpa2UuY29tL1QvI21iN2U2Zjg0
+YWM5MGZhNzg5ODllOWUyYzNjZDhkMjlmNjVhNzg4NDViDQo=
 
