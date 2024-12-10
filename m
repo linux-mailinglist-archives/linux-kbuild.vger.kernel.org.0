@@ -1,157 +1,145 @@
-Return-Path: <linux-kbuild+bounces-5068-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5069-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C599EB9F9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 20:17:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F469EBA04
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 20:21:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B227316760F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 19:17:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68011188611E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 19:21:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14A7A214229;
-	Tue, 10 Dec 2024 19:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18924214231;
+	Tue, 10 Dec 2024 19:21:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="Q5WLWETe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h54apc8N"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-00206402.pphosted.com (mx0a-00206402.pphosted.com [148.163.148.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E8D1BC9E2;
-	Tue, 10 Dec 2024 19:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3777214227;
+	Tue, 10 Dec 2024 19:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733858256; cv=none; b=tqn1S5aHJ4gbyKEVB2qm0anNEq7itXammtGxbkbq79F1SCRC7FEadzuINVZ6tE/3UcJc3v11eUeUPFq6p8kt1nCopJYQlNzLwOAAX9rJNcXBEoHsTZ9hLVvK57gxu7J8txuNkVzJZztRaKAPjjzeSak+i7OR306+V4ozipgNW+M=
+	t=1733858497; cv=none; b=TA9oRff2bpax309dLGpcmXzsG5oa9Y5MxcI5X7YJ2Ka3YbCbVZ+Ki4/gEF3qQg3O7CQ4HK+kUcBqhnlqgBF54met3QJp8Uaq3WN24+Ck+GuXEpWZUO2tLxwPz/VZpEOh7wf7TQ0bba320dgNOMiMIMiFEGzX6HgnNuXt56xVDPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733858256; c=relaxed/simple;
-	bh=B1adUjR1VE80f1PTstNu785YA4jDE4rVDXmLSCYT2aI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=dTjXL6YtlcBzVdPq3dFpahLcUlE4PLJEgZYm85rQhNx+szyxUaUdczonyr4yjyej+h97BCYGiZObXlXKOZKKkx/NGcCZ4iNfhQOWwpMwZEftYVKzlYVHFv+ao5fOl32Uq+VP45q6ds0H41tyjVVuV5tSg/U5LaCMzPYCFUZKU4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com; spf=pass smtp.mailfrom=crowdstrike.com; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=Q5WLWETe; arc=none smtp.client-ip=148.163.148.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crowdstrike.com
-Received: from pps.filterd (m0354652.ppops.net [127.0.0.1])
-	by mx0a-00206402.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAGAf2t018432;
-	Tue, 10 Dec 2024 19:15:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crowdstrike.com;
-	 h=cc:content-id:content-transfer-encoding:content-type:date
-	:from:in-reply-to:message-id:mime-version:references:subject:to;
-	 s=default; bh=B1adUjR1VE80f1PTstNu785YA4jDE4rVDXmLSCYT2aI=; b=Q
-	5WLWETej/0uKO6cQ1WldX4CJ3IaLH90EjGr1lkk0cGOEJj9n5PVIBgjR9chPXsbh
-	WXfczIGo4DVHR8tSYL60ElqL20UzdQeCSsvKfZtraVBvxMfQNWA7GJ/+SG0UnDNz
-	aKyYPDoWR4XmnBmuqNDUlpXmXzhsu7tfSKi8/HI7jvRVcAEOEgNbqvgw9dFh+4zI
-	mwo5kSulGhKEyf1/Qm32CpBkx88bzZXpktbqg7i1aCI4I3PP2pU9IC1qmoqodYQA
-	abjRiSXTTPxt3IO7dNESBuZUu7pikklfjV20zIHwzNeudEq0BlTJggjPmdZvr173
-	tg/P8MaftEbtGDXHPrYtg==
-Received: from mail.crowdstrike.com (dragosx.crowdstrike.com [208.42.231.60] (may be forged))
-	by mx0a-00206402.pphosted.com (PPS) with ESMTPS id 43erxfgjqw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 19:15:15 +0000 (GMT)
-Received: from 04wpexch06.crowdstrike.sys (10.100.11.99) by
- 04wpexch05.crowdstrike.sys (10.100.11.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 10 Dec 2024 19:15:13 +0000
-Received: from 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5]) by
- 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5%9]) with mapi id
- 15.02.1544.009; Tue, 10 Dec 2024 19:15:13 +0000
-From: Martin Kelly <martin.kelly@crowdstrike.com>
-To: "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ojeda@kernel.org"
-	<ojeda@kernel.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pasha.tatashin@soleen.com" <pasha.tatashin@soleen.com>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>,
-        "james.clark@arm.com" <james.clark@arm.com>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "mathieu.desnoyers@efficios.com"
-	<mathieu.desnoyers@efficios.com>,
-        "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "nathan@kernel.org"
-	<nathan@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
-        "surenb@google.com"
-	<surenb@google.com>,
-        "npiggin@gmail.com" <npiggin@gmail.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "hpa@zytor.com"
-	<hpa@zytor.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "zhengyejian@huaweicloud.com" <zhengyejian@huaweicloud.com>,
-        "naveen.n.rao@linux.ibm.com" <naveen.n.rao@linux.ibm.com>,
-        "bp@alien8.de"
-	<bp@alien8.de>,
-        "kent.overstreet@linux.dev" <kent.overstreet@linux.dev>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>
-CC: Amit Dang <amit.dang@crowdstrike.com>,
-        "linux-modules@vger.kernel.org"
-	<linux-modules@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org"
-	<linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and fix
- weak function issue
-Thread-Topic: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and fix
- weak function issue
-Thread-Index: AQHbSzfWIbF4ko3yU0yIDGnRxekZ5w==
-Date: Tue, 10 Dec 2024 19:15:13 +0000
-Message-ID: <44353f4cd4d1cc7170d006031819550b37039dd2.camel@crowdstrike.com>
-References: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
-In-Reply-To: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-disclaimer: USA
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <894EEA24DDE3DA4C924E664F311AA9D3@crowdstrike.sys>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1733858497; c=relaxed/simple;
+	bh=e36iDQhgxoWGtD/jRPRwGZzqymLMA+CTcq3Gts4Rd+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T4V8/huSVanuAEh+ttrwVih325fFVP8/vtlnlnNz6NW7373R747GCb4XxCWUqRHNyDi4EALxjD1sA4VPntQp2UxJG383LkaiUeqQia+0c4xkWm1cX9m+tAEe3mah+hjL6UNxjZWRHyiKXYVdTFNbo6fb/XLbqilHVSn0Nc2Cgss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h54apc8N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F34FC4CED6;
+	Tue, 10 Dec 2024 19:21:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733858496;
+	bh=e36iDQhgxoWGtD/jRPRwGZzqymLMA+CTcq3Gts4Rd+4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h54apc8NzeTTa+3Ei5dLVQcUi2NaqCa9FWH/KiRT+InKA8l0bkjZFUIdjs2un+F2e
+	 XCt6YJS9DqNMCus+/gtF4Bekbxo/qYfrYcohSdNXpFOrjdyvH1IN9nr2J+W42S+6e1
+	 9ZnMonYfzO10BTWFpCJm8luABQqgbozjoAbQn84/eTxOCjP1rI2etKoGFdkTur2M5O
+	 4iIi7UsaWOiplPq/SnBKPBAROaZDdQUpK8wsd4KdJ0SQEUf7n3lydaKlYmI3l1mjtU
+	 aqC9ZSdYQQ+JdKrU9y9o6/OAVkM3G5yM74j3TcRP8a8KxJCCSAdjeP0rb1lXREHbmr
+	 XvTFwleMLMAGQ==
+Date: Tue, 10 Dec 2024 12:21:33 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Leon Romanovsky <leon@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v2] kbuild: suppress stdout from merge_config for silent
+ builds
+Message-ID: <20241210192133.GA923495@ax162>
+References: <20241210102442.3390267-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=Td5stQQh c=1 sm=1 tr=0 ts=67589343 cx=c_pps a=1d8vc5iZWYKGYgMGCdbIRA==:117 a=1d8vc5iZWYKGYgMGCdbIRA==:17 a=xqWC_Br6kY4A:10 a=EjBHVkixTFsA:10 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=VwQbUJbxAAAA:8 a=i0EeH86SAAAA:8
- a=pl6vuDidAAAA:8 a=eHuGQ7gFT_7OOu_YEIIA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: mM4J9j6hWFAPRFjVNI4NhQBKWaTtiq1Z
-X-Proofpoint-GUID: mM4J9j6hWFAPRFjVNI4NhQBKWaTtiq1Z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 suspectscore=0
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 mlxlogscore=658
- adultscore=0 clxscore=1011 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412100140
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241210102442.3390267-1-masahiroy@kernel.org>
 
-T24gVHVlLCAyMDI0LTA3LTIzIGF0IDE0OjMyICswODAwLCBaaGVuZyBZZWppYW4gd3JvdGU6DQo+
-IEJhY2tncm91bmQgb2YgdGhpcyBwYXRjaCBzZXQgY2FuIGJlIGZvdW5kIGluIHYxOg0KPiANCj4g
-aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjQwNjEzMTMzNzExLjI4Njc3NDUtMS16aGVu
-Z3llamlhbjFAaHVhd2VpLmNvbS8NCj4gwqANCj4gDQo+IEhlcmUgYWRkIGEgcmVwcm9kdWN0aW9u
-IHRvIHNob3cgdGhlIGltcGFjdCB0byBsaXZlcGF0Y2g6DQo+IDEuIEFkZCBmb2xsb3dpbmcgaGFj
-ayB0byBtYWtlIGxpdmVwYXRjaC1zYW1wbGUua28gZG8gcGF0Y2ggb24NCj4gZG9fb25lX2luaXRj
-YWxsKCkNCj4gwqDCoCB3aGljaCBoYXMgYW4gb3ZlcnJpZGVuIHdlYWsgZnVuY3Rpb24gYmVoaW5k
-IGluIHZtbGludXgsIHRoZW4gcHJpbnQNCj4gdGhlDQo+IMKgwqAgYWN0dWFsbHkgdXNlZCBfX2Zl
-bnRyeV9fIGxvY2F0aW9uOg0KPiANCg0KSGkgYWxsLCB3aGF0IGlzIHRoZSBzdGF0dXMgb2YgdGhp
-cyBwYXRjaCBzZXJpZXM/IEknZCByZWFsbHkgbGlrZSB0byBzZWUNCml0IG9yIHNvbWUgb3RoZXIg
-Zml4IHRvIHRoaXMgaXNzdWUgbWVyZ2VkLiBUaGUgdW5kZXJseWluZyBidWcgaXMgYQ0Kc2lnbmlm
-aWNhbnQgb25lIHRoYXQgY2FuIGNhdXNlIGZ0cmFjZS9saXZlcGF0Y2gvQlBGIGZlbnRyeSB0byBm
-YWlsDQpzaWxlbnRseS4gSSd2ZSBub3RpY2VkIHRoaXMgYnVnIGluIGFub3RoZXIgY29udGV4dFsx
-XSBhbmQgcmVhbGl6ZWQNCnRoZXkncmUgdGhlIHNhbWUgaXNzdWUuDQoNCkknbSBoYXBweSB0byBo
-ZWxwIHdpdGggdGhpcyBwYXRjaCBzZXJpZXMgdG8gYWRkcmVzcyBhbnkgaXNzdWVzIGFzDQpuZWVk
-ZWQuDQoNClsxXQ0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYnBmLzcxMzY2MDVkMjRkZTliMWZj
-NjJkMDJhMzU1ZWYxMWM5NTBhOTQxNTMuY2FtZWxAY3Jvd2RzdHJpa2UuY29tL1QvI21iN2U2Zjg0
-YWM5MGZhNzg5ODllOWUyYzNjZDhkMjlmNjVhNzg4NDViDQo=
+On Tue, Dec 10, 2024 at 07:24:41PM +0900, Masahiro Yamada wrote:
+> merge_config does not respect the Make's -s (--silent) option.
+> 
+> Let's sink the stdout from merge_config for silent builds.
+> 
+> This commit does not cater to the direct invocation of merge_config.sh
+> (e.g. arch/mips/Makefile).
+> 
+> Reported-by: Leon Romanovsky <leon@kernel.org>
+> Closes: https://lore.kernel.org/all/e534ce33b0e1060eb85ece8429810f087b034c88.1733234008.git.leonro@nvidia.com/
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Tested-by: Leon Romanovsky <leon@kernel.org>
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+> ---
+> 
+> Changes in v2:
+>   - Remove CONFIG_SHELL from Makefile.defconf
+> 
+>  scripts/Makefile.defconf | 13 +++++++------
+>  scripts/kconfig/Makefile |  4 +++-
+>  2 files changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/scripts/Makefile.defconf b/scripts/Makefile.defconf
+> index 226ea3df3b4b..a44307f08e9d 100644
+> --- a/scripts/Makefile.defconf
+> +++ b/scripts/Makefile.defconf
+> @@ -1,6 +1,11 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  # Configuration heplers
+>  
+> +cmd_merge_fragments = \
+> +	$(srctree)/scripts/kconfig/merge_config.sh \
+> +	$4 -m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$2 \
+> +	$(foreach config,$3,$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
+> +
+>  # Creates 'merged defconfigs'
+>  # ---------------------------------------------------------------------------
+>  # Usage:
+> @@ -8,9 +13,7 @@
+>  #
+>  # Input config fragments without '.config' suffix
+>  define merge_into_defconfig
+> -	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
+> -		-m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$(1) \
+> -		$(foreach config,$(2),$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
+> +	$(call cmd,merge_fragments,$1,$2)
+>  	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>  endef
+>  
+> @@ -22,8 +25,6 @@ endef
+>  #
+>  # Input config fragments without '.config' suffix
+>  define merge_into_defconfig_override
+> -	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
+> -		-Q -m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$(1) \
+> -		$(foreach config,$(2),$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
+> +	$(call cmd,merge_fragments,$1,$2,-Q)
+>  	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>  endef
+> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> index a0a0be38cbdc..fb50bd4f4103 100644
+> --- a/scripts/kconfig/Makefile
+> +++ b/scripts/kconfig/Makefile
+> @@ -105,9 +105,11 @@ configfiles = $(wildcard $(srctree)/kernel/configs/$(1) $(srctree)/arch/$(SRCARC
+>  all-config-fragments = $(call configfiles,*.config)
+>  config-fragments = $(call configfiles,$@)
+>  
+> +cmd_merge_fragments = $(srctree)/scripts/kconfig/merge_config.sh -m $(KCONFIG_CONFIG) $(config-fragments)
+> +
+>  %.config: $(obj)/conf
+>  	$(if $(config-fragments),, $(error $@ fragment does not exists on this architecture))
+> -	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(KCONFIG_CONFIG) $(config-fragments)
+> +	$(call cmd,merge_fragments)
+>  	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>  
+>  PHONY += tinyconfig
+> -- 
+> 2.43.0
+> 
 
