@@ -1,117 +1,149 @@
-Return-Path: <linux-kbuild+bounces-5056-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5057-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B6B9EADC5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 11:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8799EADC9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 11:16:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E744D1884732
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 10:15:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BFFE18825BC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 10:16:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3D3E78F40;
-	Tue, 10 Dec 2024 10:15:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2222C78F40;
+	Tue, 10 Dec 2024 10:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VVtjPA6v"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCDE23DEAC;
-	Tue, 10 Dec 2024 10:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D7423DE8D;
+	Tue, 10 Dec 2024 10:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733825744; cv=none; b=T31K+0nXwjLm3H4uG6j0jgAiK9ATm/If02DMG9voIGKVuxeEzsMGXjwg0ykPysYrsA7yQE6jq5HVot364Ea3zv3xoArWLYHWiKpgE67sLOvpAsmMlbvrPtY8EEzEDDTpgnoaPGEOruruDTMZ4FJOrG8Im0cxo5fBHam3wSpvWeg=
+	t=1733825799; cv=none; b=syJ9gYZyvuvaaqGpCb4gNpSHBq5uIV1MpOLGIxqGCMTKPVJ2O7ArAsF4MZH+DQGxAYW2O4mTFZZLd+xX7VZQ0teZ1pIuby3ksJhurT5VEECjVqel8udHmShfZnZr2T6aXwuV1WALanhNcmzTl8Y1/nyY9tWf2+FpTMttK/nbjHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733825744; c=relaxed/simple;
-	bh=D4ZOBExquZ7c/tCXnjuhBALSErPwKsv5Me/SpRxzelk=;
+	s=arc-20240116; t=1733825799; c=relaxed/simple;
+	bh=PJBxcwLHWxsBlBqUDqEWt2vmCoyohO0Lx1XwXSatMic=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lQXEFHeSOYp3PYe3LTrn4KNc0sQvEq9ZPXZIUJLj50dec/WbptK1TxyGVrsiJVzIdvVdo+5tbP7LsQ9WiqIXw5h0efizC9gKmvOc+gGvHdL50SENwy/uRxP7NEM/GRv1MwZrXo9tYuJXnL7M/tiqKA4yLjnZR2DMY+hcw5Pg0Og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4afe99e5229so712704137.3;
-        Tue, 10 Dec 2024 02:15:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733825741; x=1734430541;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VB6f4Rz8jPEzmCNgtIOwVu4unaWtfDXhGq42cgDlyPg=;
-        b=sS/ZR9kNZ0RJLhF/+aTQyCYxlFoy0eyMlHnUc6SXkAe2MyU1c/ihOzqxfdeHV4TL2T
-         YorhUKx8E5ep5wfkNG0dgW8clIrNFEZHRc2V/pKKFNFGWkK04QmtVNM9OlE6Q4Ejf2gf
-         SGKSkhAvKhtmkEife9q9Dq/GMPVjVlIhYPLxtZaktYedE1L8SFJXDomGKWuH8c+kT13B
-         gO29D8oKa7DSMtH10qR08ZADE/A5/h+RzsLjdnNejfpfKrPTNE+4t+M74gsh1Orhd886
-         bKkE6Lp7Pk35GAzE5oipVQRt4HxdnmLJKtovJZB95iuWpoRkCMxaRSVcPN0mcAglZtho
-         K8CA==
-X-Forwarded-Encrypted: i=1; AJvYcCVprbaGBCrO247Xgie0HWb+IgRrlgzz3PHiJAnvgbCpQ1t+wY5B/cSgP7UO5bmNeyfvF3uX9jjzMMVZWJ4=@vger.kernel.org, AJvYcCWvL6v6CBsfhRe6pbv/0RiEBNodcTvQaGj75FSBm8K83QAyO8Jqb6Qk39oNJIq7m/kt3N5VEWbeL42/jDjx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8+QB0Ci4L59pl+3q2LqXOd7u2a18e7UsCninqtUVGvGu9Wjjp
-	gJgOocFSNpCpO7tYg+0huOUoI4ohEsqhs2PrMbJ2Wd3Nriub09QIdr652VcN
-X-Gm-Gg: ASbGncu97+6oIlPypm8JMEqHd8hIOtWQkvRMBnwr6SROqXTDxUu7smeSjwx01Z77MuC
-	fQh8YzizFoZbVYfW4xeLy5zmHrqGh41vSos+PV7QiYdLDStYcRPBF664iiJUAHCeEJAapCDZ7c/
-	Z0bOW3gsfAVQVtf4zDyEoiy/x7ieh8ghJVQ+jJDaY5IePSVFlgWddk7P6s+iv+McY8qjM2xGUlj
-	BzDXO3ua/fCAZs8WkWLbmMMGG4uxmwR1qfyuUB1pgz151yTlQC/Kv5vfk88pI9C3v2UX2xpjBe4
-	q8dEeGl7HKrTuPRH
-X-Google-Smtp-Source: AGHT+IHvitPy3g+CcCGJcLKIZ/SgJVojVdpZPal37hNdz4sPko6Q5a0iJGX9TfJMF1MsF9r6l6OdNg==
-X-Received: by 2002:a05:6102:1612:b0:4af:ef85:dae4 with SMTP id ada2fe7eead31-4afef85dbe6mr7411438137.5.1733825740874;
-        Tue, 10 Dec 2024 02:15:40 -0800 (PST)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c2bcf37eesm1328094241.26.2024.12.10.02.15.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2024 02:15:40 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4aff78a39e1so538959137.1;
-        Tue, 10 Dec 2024 02:15:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV9mshy5+F7kI31UV2HKV8uffK4/Nrf3YBsnq9GNdflWr3NlqCIXE+JhOzagIDoQsDg/pKyjAVIbtXbLkk=@vger.kernel.org, AJvYcCXTQsn4W9wXhn5KWgP6Yva6W2SBiAT2Nu0S3fqTYVdGdEOlrq6LwAup/i4iHfenp7UE1GndtPF0lBWLPhKA@vger.kernel.org
-X-Received: by 2002:a05:6102:508e:b0:4b1:1295:43da with SMTP id
- ada2fe7eead31-4b1129548d2mr4737360137.4.1733825740382; Tue, 10 Dec 2024
- 02:15:40 -0800 (PST)
+	 To:Cc:Content-Type; b=FXDOtiuVuVFV4X++clz+Q7I4AlhfA+dI8mdCsNyKiCFotPylm1CdGe9xGaVZDMYM4Qu0T9P/SVwU48qoq0rVbJn/8AGBFUmOZ0h3DiVsUtMHqqPAWO5WIVNoDNZXnUyAiRybZid5QEbP27uRMBOxPiMY13wwfAibkJd5fScGLio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VVtjPA6v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9E1C4CEE0;
+	Tue, 10 Dec 2024 10:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733825798;
+	bh=PJBxcwLHWxsBlBqUDqEWt2vmCoyohO0Lx1XwXSatMic=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=VVtjPA6vyeS5xzZDQdkBypJ35Um9yRWQFP/iRd0+iVo5vciPuUa3ZUWS9Mn4AngYy
+	 kjG0DjvHo51KPWH3cEKwwtSeNS/IFTJIWr4qPJZdarwiRx5RRx1HDD3BVOOR6VYJaa
+	 0EDh5K/iatuqTX4QGG1ZfGlXz4JGPE1trgloPvERGdWqIJ8zx6Jwqb3i0bjP4UuEdc
+	 R+lYIXBTEiCH0CDkFIsyuTiFZby+c4vi9wiUbSt/0k9O//DSpkTFYm37ZaJhl4rCe3
+	 i/jWlWx7GwkfIkdZnmU9ClhS9v5U+c5CkE+CrJUywM6I3M6VsiQzaGKJuBwtDbsAgX
+	 YCZbux4Z9DiaQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-300392cc4caso33209311fa.3;
+        Tue, 10 Dec 2024 02:16:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV/rb/c/XYy/3mzQLr/PdwUgNMQrQ9QYNm/EKq05eMZOxo55/BxxqSln9L3k1t1rrv8yo1TxvSAyfctbeSb@vger.kernel.org, AJvYcCWKj4ehdPbr498i2otdf06/XMe10b9xSYAnNjFg+mbbXM8wxoeLjoxGHT9b9gUyBNIDmbPsP85h01Aek7rD@vger.kernel.org, AJvYcCXi2dKNz8Qhgb81PeeYlP4fqtHoRPOCb56mHq09NroZJ9B8EpEd/7xKli31gf6hOS3R8XXjrGQmfINY@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywnid7P6WncYQ5EfU2VJb6Jz0p03QPPzwIGEbEksXO5PgDxocMt
+	jjE9+3cShiRcosYBOGuUu5DMIwy9hGRCBd702B8dWLw3EflRWrJ+WRSbU1hGYRrOigQwFBzPucE
+	4qlU0vUCQd5WvryAxh2MNxxaTL0Q=
+X-Google-Smtp-Source: AGHT+IHRLmEd87XJmaKK06Eipq9n4X1mcTqwjtfXnT2h8jFaioSw0C+t+qNoFAl6uMLACCYe6hX2wnJF9A8DyKpadsc=
+X-Received: by 2002:a05:651c:541:b0:302:1c90:58ec with SMTP id
+ 38308e7fff4ca-3022fd53cffmr15940631fa.21.1733825797258; Tue, 10 Dec 2024
+ 02:16:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert+renesas@glider.be>
- <CAK7LNAR8dy-=EcsZFb-tjXSk2sK7sHrV0WSSV4E8dzRh5Veceg@mail.gmail.com>
-In-Reply-To: <CAK7LNAR8dy-=EcsZFb-tjXSk2sK7sHrV0WSSV4E8dzRh5Veceg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Dec 2024 11:15:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWi-dGwdxydnmgNfDbM-uOP21zDAQz5-cZJiFEz4PhJnA@mail.gmail.com>
-Message-ID: <CAMuHMdWi-dGwdxydnmgNfDbM-uOP21zDAQz5-cZJiFEz4PhJnA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Drop architecture argument from headers_check.pl
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <cover.1733404444.git.geert+renesas@glider.be> <19fb5b49396239d28020015ba2640d77dacdb6c2.1733404444.git.geert+renesas@glider.be>
+ <CAK7LNARNa3NPSeRAUgMaEqWiA+C6-s1PxRe1bCUJg6zLyOtDkA@mail.gmail.com>
+In-Reply-To: <CAK7LNARNa3NPSeRAUgMaEqWiA+C6-s1PxRe1bCUJg6zLyOtDkA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 10 Dec 2024 19:16:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATmeEFK5J+PUvO4BRCPaPKy5+bsioz9F3LEYetxFSo53w@mail.gmail.com>
+Message-ID: <CAK7LNATmeEFK5J+PUvO4BRCPaPKy5+bsioz9F3LEYetxFSo53w@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kbuild: Drop support for include/asm-<arch> in headers_check.pl
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Andy Whitcroft <apw@canonical.com>, 
+	Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arch@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Yamada-san,
+I applied this with the follow-up squashed. Thanks.
+(https://lore.kernel.org/all/CAK7LNAR8dy-=3DEcsZFb-tjXSk2sK7sHrV0WSSV4E8dzR=
+h5Veceg@mail.gmail.com/T/#t)
 
-On Tue, Dec 10, 2024 at 11:14=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> On Tue, Dec 10, 2024 at 5:52=E2=80=AFPM Geert Uytterhoeven
+This should be dropped from Andrew Morton's tree.
+
+
+
+
+On Sat, Dec 7, 2024 at 11:27=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Thu, Dec 5, 2024 at 10:20=E2=80=AFPM Geert Uytterhoeven
 > <geert+renesas@glider.be> wrote:
 > >
-> > Since commit 7ff0fd4a9e20cf73 ("kbuild: drop support for
+> > "include/asm-<arch>" was replaced by "arch/<arch>/include/asm" a long
+> > time ago.  All assembler header files are now included using
+> > "#include <asm/*>", so there is no longer a need to rewrite paths.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
 >
-> This is not a fixed commit hash because Andrew Morton
-> does not use 'git request-pull'
 >
-> I will squash this to the original patch.
+> After this commit, the second argument $arch is no longer
+> used.
+>
+> Please clean up
+>
+> my ($dir, $arch, @files) =3D @ARGV;
+>
+>
+>
+>
+>
+>
+>
+> >  usr/include/headers_check.pl | 4 ----
+> >  1 file changed, 4 deletions(-)
+> >
+> > diff --git a/usr/include/headers_check.pl b/usr/include/headers_check.p=
+l
+> > index b6aec5e4365f9bf2..7070c891ea294b4d 100755
+> > --- a/usr/include/headers_check.pl
+> > +++ b/usr/include/headers_check.pl
+> > @@ -54,10 +54,6 @@ sub check_include
+> >                 my $inc =3D $1;
+> >                 my $found;
+> >                 $found =3D stat($dir . "/" . $inc);
+> > -               if (!$found) {
+> > -                       $inc =3D~ s#asm/#asm-$arch/#;
+> > -                       $found =3D stat($dir . "/" . $inc);
+> > -               }
+> >                 if (!$found) {
+> >                         printf STDERR "$filename:$lineno: included file=
+ '$inc' is not exported\n";
+> >                         $ret =3D 1;
+> > --
+> > 2.34.1
+> >
+> >
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
-Thank you!
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--
+Best Regards
+Masahiro Yamada
 
