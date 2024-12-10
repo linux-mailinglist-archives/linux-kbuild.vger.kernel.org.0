@@ -1,57 +1,55 @@
-Return-Path: <linux-kbuild+bounces-5053-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5054-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E16D9EAB0A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 09:52:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34CE9EAD96
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 11:07:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 267021666E5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 08:52:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A3611881697
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 10:07:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76AB0230D1D;
-	Tue, 10 Dec 2024 08:52:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D5F23DE8C;
+	Tue, 10 Dec 2024 10:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bass0+DD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9721230D08
-	for <linux-kbuild@vger.kernel.org>; Tue, 10 Dec 2024 08:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCD823DE88;
+	Tue, 10 Dec 2024 10:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733820739; cv=none; b=SD710yq8Kd48NjX4yEzYaVWvbAR8HkULxbpGSGmbn5Qw4htB88zLbossbmmq8DcJC2DJwnZQ+hzrmPxOeDZ8Z6Pqo4ZOc28eg7hXlHa39glSnuxHNSBbJUIyTVsnUIopc9aEvVbbw4hIvWCT8zMMBsmTxFe/GJthvnHvAbW8gFg=
+	t=1733825220; cv=none; b=EUB/ypdYvNsyMqdA2Sd1KoZ//Zy1paxoxlp+9y/x4GcIq2jTeM+VDK7Juxc7x3UQ1Mmf/gwhWxz5La3tMAJOTT8dWsj4k6hVi1lfVcWXmbVsZfJhUgFpm+Gm8npEQsxGqlR5hteVoMS/N2vUkxvbJRc4fz3tBzf36nRUn2bye10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733820739; c=relaxed/simple;
-	bh=hr0TPaCGw3LhKmhIDpLsXe/y8JIpZV+C5LY9aLrSB/c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C4i4hVH9wA5KE6LirFyFq4zH7iG827ssj2SMqcDKwBuxt+yBhPAcPcu6d3K8xutHuInAELsm7qVEsPlQ6Naxr14N4qKzlxlDPI9NRHkcwYrQSeOigrMn3dZWC0zYSqUoITSpAjkiImWnl8bn3dvzogBL9LyH12brieV6tN+xGCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:bf13:4c3:373e:7260])
-	by laurent.telenet-ops.be with cmsmtp
-	id mws72D00K3K2VbF01ws7Kj; Tue, 10 Dec 2024 09:52:08 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tKvyP-000eT0-U3;
-	Tue, 10 Dec 2024 09:52:07 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tKvyR-009nZb-5C;
-	Tue, 10 Dec 2024 09:52:07 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Masahiro Yamada <masahiroy@kernel.org>,
+	s=arc-20240116; t=1733825220; c=relaxed/simple;
+	bh=S3XEXUDmkBmOooWN6DOpebqOCKHrXOqvVezVsx4571s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fpEuLj7T2NToQi0/1qmuuzdupq+byQFfBuZp9Y0QW+iOc2I8xBX/XMMfEc/dxCHvl6SjcB66Eixl3pnBlF9ZiLAWTZGFO42qjdbVvvaGmIS6/hgyjxWcY7IdIW80v6rfu/OAB1dPakyrvz1FtabqMYXfbDFMElS2FDdSDiGprM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bass0+DD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0317C4CED6;
+	Tue, 10 Dec 2024 10:06:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733825219;
+	bh=S3XEXUDmkBmOooWN6DOpebqOCKHrXOqvVezVsx4571s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Bass0+DDxUgnKfDdCBiQj/BmWQ1ADeoqp5E+e0nqJ8OhpTbxW6YnOEcOMXkaLL1Bv
+	 tt8DIE5BnbeW/ibUveGb6siHc+u3pq5KZ5n6l3OR4iKAx8w66U7dEjBCzrFo0Lg8Kr
+	 71aBnpC8y2vw04AmpeZv7VdalHibT4JJgP6NNRf+c/6DtD8ksCf1uj+RMQwqxOHA2+
+	 p1B5+9Tb0CaCC/obPELqNiIKxJoDnZ7g40rTZt6J0pQqSernLULeIi0aoOOw1ziVrw
+	 B/1DJjGJXcU+BE8UwaMHDDKldo2xjmVWghhVojiX5fBBAneCvAw7v+dNI57uouI2+X
+	 KnyaPEMGojF6A==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] kbuild: Drop architecture argument from headers_check.pl
-Date: Tue, 10 Dec 2024 09:52:05 +0100
-Message-Id: <168b2cb09f09ec3cead8a6b1e726ac76f5d06171.1733820553.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH v2] kbuild: refactor cross-compiling linux-headers package
+Date: Tue, 10 Dec 2024 19:06:17 +0900
+Message-ID: <20241210100626.3384260-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,58 +58,116 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since commit 7ff0fd4a9e20cf73 ("kbuild: drop support for
-include/asm-<arch> in headers_check.pl"), the second argument $arch is
-no longer used, hence drop it.
+Since commit 13b25489b6f8 ("kbuild: change working directory to external
+module directory with M="), when cross-building host programs for the
+linux-headers package, the "Entering directory" and "Leaving directory"
+messages appear multiple times, and each object path shown is relative
+to the working directory. This makes it difficult to track which objects
+are being rebuilt.
 
-Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-Closes: https://lore.kernel.org/CAK7LNARNa3NPSeRAUgMaEqWiA+C6-s1PxRe1bCUJg6zLyOtDkA@mail.gmail.com
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+In hindsight, using the external module build (M=) was not a good idea.
+
+This commit simplifies the script by leveraging the run-command target,
+resulting in a cleaner build log again.
+
+[Before]
+
+  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg
+    [ snip ]
+  Rebuilding host programs with aarch64-linux-gnu-gcc...
+  make[5]: Entering directory '/home/masahiro/linux'
+  make[6]: Entering directory '/home/masahiro/linux/debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+'
+    HOSTCC  scripts/kallsyms
+    HOSTCC  scripts/sorttable
+    HOSTCC  scripts/asn1_compiler
+  make[6]: Leaving directory '/home/masahiro/linux/debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+'
+  make[5]: Leaving directory '/home/masahiro/linux'
+  make[5]: Entering directory '/home/masahiro/linux'
+  make[6]: Entering directory '/home/masahiro/linux/debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+'
+    HOSTCC  scripts/basic/fixdep
+    HOSTCC  scripts/mod/modpost.o
+    HOSTCC  scripts/mod/file2alias.o
+    HOSTCC  scripts/mod/sumversion.o
+    HOSTCC  scripts/mod/symsearch.o
+    HOSTLD  scripts/mod/modpost
+  make[6]: Leaving directory '/home/masahiro/linux/debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+'
+  make[5]: Leaving directory '/home/masahiro/linux'
+
+[After]
+
+  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg
+    [ snip ]
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/basic/fixdep
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/kallsyms
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/sorttable
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/asn1_compiler
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/mod/modpost.o
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/mod/file2alias.o
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/mod/sumversion.o
+    HOSTCC  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/mod/symsearch.o
+    HOSTLD  debian/linux-headers-6.13.0-rc1+/usr/src/linux-headers-6.13.0-rc1+/scripts/mod/modpost
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
-Commit 7ff0fd4a9e20cf73 is part of the mm tree.
 
- usr/include/Makefile         | 2 +-
- usr/include/headers_check.pl | 5 ++---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+Changes in v2:
+  - Fix build error with O=
 
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index 771e32872b2ab12d..6c6de1b1622b1a69 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -78,7 +78,7 @@ quiet_cmd_hdrtest = HDRTEST $<
-       cmd_hdrtest = \
- 		$(CC) $(c_flags) -fsyntax-only -x c /dev/null \
- 			$(if $(filter-out $(no-header-test), $*.h), -include $< -include $<); \
--		$(PERL) $(src)/headers_check.pl $(obj) $(SRCARCH) $<; \
-+		$(PERL) $(src)/headers_check.pl $(obj) $<; \
- 		touch $@
+ scripts/package/install-extmod-build | 32 +++++++---------------------
+ 1 file changed, 8 insertions(+), 24 deletions(-)
+
+diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
+index d3c5b104c063..81f5b24b09a3 100755
+--- a/scripts/package/install-extmod-build
++++ b/scripts/package/install-extmod-build
+@@ -49,17 +49,10 @@ mkdir -p "${destdir}"
+ # This caters to host programs that participate in Kbuild. objtool and
+ # resolve_btfids are out of scope.
+ if [ "${CC}" != "${HOSTCC}" ]; then
+-	echo "Rebuilding host programs with ${CC}..."
+-
+-	# This leverages external module building.
+-	# - Clear sub_make_done to allow the top-level Makefile to redo sub-make.
+-	# - Filter out --no-print-directory to print "Entering directory" logs
+-	#   when Make changes the working directory.
+-	unset sub_make_done
+-	MAKEFLAGS=$(echo "${MAKEFLAGS}" | sed s/--no-print-directory//)
+-
+-	cat <<-'EOF' >  "${destdir}/Kbuild"
+-	subdir-y := scripts
++	cat "${destdir}/scripts/Makefile" - <<-'EOF' > "${destdir}/scripts/Kbuild"
++	subdir-y += basic
++	hostprogs-always-y += mod/modpost
++	mod/modpost-objs := $(addprefix mod/, modpost.o file2alias.o sumversion.o symsearch.o)
+ 	EOF
  
- $(obj)/%.hdrtest: $(obj)/%.h FORCE
-diff --git a/usr/include/headers_check.pl b/usr/include/headers_check.pl
-index 7070c891ea294b4d..2b70bfa5558e6451 100755
---- a/usr/include/headers_check.pl
-+++ b/usr/include/headers_check.pl
-@@ -3,9 +3,8 @@
- #
- # headers_check.pl execute a number of trivial consistency checks
- #
--# Usage: headers_check.pl dir arch [files...]
-+# Usage: headers_check.pl dir [files...]
- # dir:   dir to look for included files
--# arch:  architecture
- # files: list of files to check
- #
- # The script reads the supplied files line by line and:
-@@ -23,7 +22,7 @@ use warnings;
- use strict;
- use File::Basename;
+ 	# HOSTCXX is not overridden. The C++ compiler is used to build:
+@@ -67,20 +60,11 @@ if [ "${CC}" != "${HOSTCC}" ]; then
+ 	# - GCC plugins, which will not work on the installed system even after
+ 	#   being rebuilt.
+ 	#
+-	# Use the single-target build to avoid the modpost invocation, which
+-	# would overwrite Module.symvers.
+-	"${MAKE}" HOSTCC="${CC}" KBUILD_OUTPUT=. KBUILD_EXTMOD="${destdir}" scripts/
++	# Clear VPATH and srcroot because the source files reside in the output
++	# directory
++	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC=$(CC) VPATH= srcroot=. $(build)='"${destdir}"/scripts
  
--my ($dir, $arch, @files) = @ARGV;
-+my ($dir, @files) = @ARGV;
+-	cat <<-'EOF' >  "${destdir}/scripts/Kbuild"
+-	subdir-y := basic
+-	hostprogs-always-y := mod/modpost
+-	mod/modpost-objs := $(addprefix mod/, modpost.o file2alias.o sumversion.o symsearch.o)
+-	EOF
+-
+-	# Run once again to rebuild scripts/basic/ and scripts/mod/modpost.
+-	"${MAKE}" HOSTCC="${CC}" KBUILD_OUTPUT=. KBUILD_EXTMOD="${destdir}" scripts/
+-
+-	rm -f "${destdir}/Kbuild" "${destdir}/scripts/Kbuild"
++	rm -f "${destdir}/scripts/Kbuild"
+ fi
  
- my $ret = 0;
- my $line;
+ find "${destdir}" \( -name '.*.cmd' -o -name '*.o' \) -delete
 -- 
-2.34.1
+2.43.0
 
 
