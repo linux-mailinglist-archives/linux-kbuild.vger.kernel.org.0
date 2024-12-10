@@ -1,165 +1,117 @@
-Return-Path: <linux-kbuild+bounces-5071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5072-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F4E9EBBA7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 22:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8659EBF39
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 00:24:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA6C016845C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 21:14:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AD4216546B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 23:24:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5794F23026C;
-	Tue, 10 Dec 2024 21:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D211F1936;
+	Tue, 10 Dec 2024 23:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="KcwrhxSb"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="tAIKk3I+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-00206402.pphosted.com (mx0b-00206402.pphosted.com [148.163.152.16])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79057153BF6;
-	Tue, 10 Dec 2024 21:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.152.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7492186324;
+	Tue, 10 Dec 2024 23:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733865286; cv=none; b=n38iK4XlbV6F7Qrl75qWnkR1WuiO3HthudX+MfUWMgXbUpps1NHLx3ENMdAPcdbZ1IkEowQE3tUJbVBQ8xQN+saWPqD4uI+HUmxnp9OYamZ9LEty5K+Lnpaz8RbP+FDw0Y0qRdDd/yRo2rwmvzJx0IYeQxu/MSEQgVNsDHk0+lI=
+	t=1733873046; cv=none; b=ZDAbGJeqRLXhiZt5gt+pqHXamjwygjdPQcBgL6YwmHWdm2sNKtmVvOS1+oWbcniAyKP7kXGppZzju00Fvk2pjqomX4on+Oc7ESGD1SLx4HpKqESJo9rFevZdNJuOIdNWIezs/Nefc93bNbq6xeZRJp4iCxHAcy8V11yEhujBRbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733865286; c=relaxed/simple;
-	bh=uWWb82MfPtRjjHyxXIswpvSWMmUlqgSV9x5gdwMFw2Y=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XEnlc10fCY+Kt4W1BOs6ZNfEEz3CAIKvXGs4RTqCm31N1yke5ERCkSlrhjb3rHGWPV6eJd6Ft9TDOTek9DgReR9v/XhDjsPWRelrAY0ZOcbNr9uUDFaMFmUOd0hRDjYGEVZTROdbKHHWD4IlBRL4tCWdp+FDi6YM79dZ/QHS80o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com; spf=pass smtp.mailfrom=crowdstrike.com; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=KcwrhxSb; arc=none smtp.client-ip=148.163.152.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crowdstrike.com
-Received: from pps.filterd (m0354655.ppops.net [127.0.0.1])
-	by mx0b-00206402.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAJn2AF006248;
-	Tue, 10 Dec 2024 20:49:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crowdstrike.com;
-	 h=cc:content-id:content-transfer-encoding:content-type:date
-	:from:in-reply-to:message-id:mime-version:references:subject:to;
-	 s=default; bh=uWWb82MfPtRjjHyxXIswpvSWMmUlqgSV9x5gdwMFw2Y=; b=K
-	cwrhxSbtEYBRvzsvsdx1itGQHsRJHy9PNRLA66zz6oyTYnQVI4c1q6FUCu9xMPRJ
-	x0sAFGTiqVpRUS1SpETm2fRLQ/m1uglh5GD2r43bUKz3rGW28EvMRm8p4o+NC4tC
-	h4lDRk+xz2rzDJfXliu7ZUCvW43PKN/YME0gxCX6zj+RcR7aLx7D6DWBN6w0Mz2l
-	uzjY4YVow0UhdvthHLIJkmc2TrD2MFIV4qkETzPE1q8RletPrvfLIQhEt/EyicLy
-	wW1C8eXBIGk7cxfwmGw6tyrSUH2ku/gOHcA1gY2p9uFvB/ssGOW+VTovtgSmKYTf
-	erSvpHH7AVT+6jFL/bhFQ==
-Received: from mail.crowdstrike.com (dragosx.crowdstrike.com [208.42.231.60] (may be forged))
-	by mx0b-00206402.pphosted.com (PPS) with ESMTPS id 43enarhfqw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 20:49:53 +0000 (GMT)
-Received: from 04WPEXCH006.crowdstrike.sys (10.100.11.70) by
- 04wpexch08.crowdstrike.sys (10.100.11.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 10 Dec 2024 20:49:52 +0000
-Received: from 04wpexch06.crowdstrike.sys (10.100.11.99) by
- 04WPEXCH006.crowdstrike.sys (10.100.11.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 10 Dec 2024 12:49:51 -0800
-Received: from 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5]) by
- 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5%9]) with mapi id
- 15.02.1544.009; Tue, 10 Dec 2024 20:49:51 +0000
-From: Martin Kelly <martin.kelly@crowdstrike.com>
-To: "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "ojeda@kernel.org"
-	<ojeda@kernel.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
-        "pasha.tatashin@soleen.com" <pasha.tatashin@soleen.com>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>,
-        "james.clark@arm.com" <james.clark@arm.com>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "nathan@kernel.org"
-	<nathan@kernel.org>,
-        "christophe.leroy@csgroup.eu"
-	<christophe.leroy@csgroup.eu>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
-        "mathieu.desnoyers@efficios.com"
-	<mathieu.desnoyers@efficios.com>,
-        "npiggin@gmail.com" <npiggin@gmail.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "hpa@zytor.com"
-	<hpa@zytor.com>,
-        "surenb@google.com" <surenb@google.com>,
-        "zhengyejian@huaweicloud.com" <zhengyejian@huaweicloud.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "naveen.n.rao@linux.ibm.com"
-	<naveen.n.rao@linux.ibm.com>,
-        "kent.overstreet@linux.dev"
-	<kent.overstreet@linux.dev>,
-        "bp@alien8.de" <bp@alien8.de>, "mcgrof@kernel.org" <mcgrof@kernel.org>
-CC: Amit Dang <amit.dang@crowdstrike.com>,
-        "linux-modules@vger.kernel.org"
-	<linux-modules@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org"
-	<linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>
-Subject: Re: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and
- fix weak function issue
-Thread-Topic: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and
- fix weak function issue
-Thread-Index: AQHbS0UOy5EKb9eED0ygRLeYfQd4Mg==
-Date: Tue, 10 Dec 2024 20:49:51 +0000
-Message-ID: <d25741d8a6f88d5a6c219fb53e8aa0bcc1fea982.camel@crowdstrike.com>
-References: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
-	 <44353f4cd4d1cc7170d006031819550b37039dd2.camel@crowdstrike.com>
-	 <364aaf7c-cdc4-4e57-bb4c-f62e57c23279@csgroup.eu>
-In-Reply-To: <364aaf7c-cdc4-4e57-bb4c-f62e57c23279@csgroup.eu>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-disclaimer: USA
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B02A2CB1C4F11649B171690F94820629@crowdstrike.sys>
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1733873046; c=relaxed/simple;
+	bh=uRN07EVZGn1ySGZv5iCrZP2k3eDPDlir8l8cG+/nBNg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=djVFawKNe3h8O09yj+dsQqCxJiZ3urOFUviHHFBHjjARJH1MtmhJO1nGwnrO/r62lAcQxPZ5MPCWkCZ3m7OUthgaAXSLx3uwdkNIAZ63JJltxMiQen45cxtKyxMoNzZS33UtJdNMj506X9MvVFYlKsZMM5k6dNxl3WBV5exPUK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=tAIKk3I+; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1733873039;
+	bh=uRN07EVZGn1ySGZv5iCrZP2k3eDPDlir8l8cG+/nBNg=;
+	h=From:Date:Subject:To:Cc:From;
+	b=tAIKk3I+YW3bATNqVJ0HOahk0dHpNyEmUl/XAnNV2d1K9+Rnfqwbv9EkHB/9FS8Kf
+	 iljXflny+OcKhx5xwZNC/GQAwsgo3zE+Royibl8Kg/hkXsAdoORvu3RkS825Fss4uj
+	 Jrze6upuoWOVNRo4WrkCfZYNcEJrIchHlmdGD888=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Wed, 11 Dec 2024 00:23:50 +0100
+Subject: [PATCH bpf-next] kbuild, bpf: Enable reproducible BTF generation
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: PMYGstxHIcTVLjDkxVGTLGYbNtmnvdZh
-X-Authority-Analysis: v=2.4 cv=d6sPyQjE c=1 sm=1 tr=0 ts=6758a971 cx=c_pps a=1d8vc5iZWYKGYgMGCdbIRA==:117 a=1d8vc5iZWYKGYgMGCdbIRA==:17 a=xqWC_Br6kY4A:10 a=EjBHVkixTFsA:10 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=VwQbUJbxAAAA:8 a=AiHppB-aAAAA:8
- a=PLFCH0Z3ytBysqgyJFcA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: PMYGstxHIcTVLjDkxVGTLGYbNtmnvdZh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=831
- impostorscore=0 mlxscore=0 spamscore=0 clxscore=1015 bulkscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412100150
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241211-pahole-reproducible-v1-1-22feae19bad9@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAIXNWGcC/x3MTQqAIBBA4avErBNSgn6uEi0cnWogVMaKILp70
+ vJbvPdAJmHKMFYPCF2cOYYCXVfgNhtWUuyLwTSm1dq0Ktkt7qSEkkR/OsYCg303WNejtwilTEI
+ L3/91AkyLCnQfML/vB8Sjn3FvAAAA
+X-Change-ID: 20241124-pahole-reproducible-2b879ac8bdab
+To: Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Kui-Feng Lee <kuifeng@fb.com>, Alan Maguire <alan.maguire@oracle.com>, 
+ Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
+ Miguel Ojeda <ojeda@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733873038; l=1632;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=uRN07EVZGn1ySGZv5iCrZP2k3eDPDlir8l8cG+/nBNg=;
+ b=/K5by3KiAguNYUyBxdbON2ym8wXtDZA5r1rYnu1i+YNRs8mopxH+WoCM6tKFjMPPByj6lVsUw
+ jkPJPbm5x6PBNY00W47hd982/eRvPPKNVhI11w3Y82iNHI0M3Mpptyl
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-T24gVHVlLCAyMDI0LTEyLTEwIGF0IDIxOjAxICswMTAwLCBDaHJpc3RvcGhlIExlcm95IHdyb3Rl
-Og0KPiA+IA0KPiA+IEhpIGFsbCwgd2hhdCBpcyB0aGUgc3RhdHVzIG9mIHRoaXMgcGF0Y2ggc2Vy
-aWVzPyBJJ2QgcmVhbGx5IGxpa2UgdG8NCj4gPiBzZWUNCj4gPiBpdCBvciBzb21lIG90aGVyIGZp
-eCB0byB0aGlzIGlzc3VlIG1lcmdlZC4gVGhlIHVuZGVybHlpbmcgYnVnIGlzIGENCj4gPiBzaWdu
-aWZpY2FudCBvbmUgdGhhdCBjYW4gY2F1c2UgZnRyYWNlL2xpdmVwYXRjaC9CUEYgZmVudHJ5IHRv
-IGZhaWwNCj4gPiBzaWxlbnRseS4gSSd2ZSBub3RpY2VkIHRoaXMgYnVnIGluIGFub3RoZXIgY29u
-dGV4dFsxXSBhbmQgcmVhbGl6ZWQNCj4gPiB0aGV5J3JlIHRoZSBzYW1lIGlzc3VlLg0KPiA+IA0K
-PiA+IEknbSBoYXBweSB0byBoZWxwIHdpdGggdGhpcyBwYXRjaCBzZXJpZXMgdG8gYWRkcmVzcyBh
-bnkgaXNzdWVzIGFzDQo+ID4gbmVlZGVkLg0KPiANCj4gQXMgZmFyIGFzIEkgY2FuIHNlZSB0aGVy
-ZSBhcmUgcHJvYmxlbXMgb24gYnVpbGQgd2l0aCBwYXRjaCAxLCBzZWUgDQo+IGh0dHBzOi8vcGF0
-Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51eC1tb2R1bGVzL3BhdGNoLzIwMjQwNzIzMDYz
-MjU4LjIyNDA2MTAtMi16aGVuZ3llamlhbkBodWF3ZWljbG91ZC5jb20vDQo+IMKgDQo+IA0KPiAN
-Cg0KWWVhaCwgSSBzZWUgdGhvc2UuIEFkZGl0aW9uYWxseSwgdGhpcyBwYXRjaCBubyBsb25nZXIg
-YXBwbGllcyBjbGVhbmx5DQp0byBjdXJyZW50IG1hc3RlciwgdGhvdWdoIGZpeGluZyBpdCB1cCB0
-byBkbyBzbyBpcyBwcmV0dHkgZWFzeS4gSGF2aW5nDQpkb25lIHRoYXQsIHRoaXMgc2VyaWVzIGFw
-cGVhcnMgdG8gcmVzb2x2ZSB0aGUgaXNzdWVzIEkgc2F3IGluIHRoZSBvdGhlcg0KbGlua2VkIHRo
-cmVhZC4NCg0KWmhlbmcsIGRvIHlvdSBwbGFuIHRvIHNlbmQgYSB2Mz8gSSdkIGJlIGhhcHB5IHRv
-IGhlbHAgb3V0IHdpdGggdGhpcw0KcGF0Y2ggc2VyaWVzIGlmIHlvdSdkIGxpa2UsIGFzIEknbSBo
-b3BpbmcgdG8gZ2V0IHRoaXMgaXNzdWUgcmVzb2x2ZWQNCih0aG91Z2ggSSBhbSBub3QgYW4gZnRy
-YWNlIGV4cGVydCkuDQo=
+Pahole v1.27 added a new BTF generation feature to support
+reproducibility in the face of multithreading.
+Enable it if supported and reproducible builds are requested.
+
+As unknown --btf_features are ignored, avoid the test for the pahole
+version to keep the line readable.
+
+Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and generate BTF with multithreading.")
+Fixes: 72d091846de9 ("kbuild: avoid too many execution of scripts/pahole-flags.sh")
+Link: https://lore.kernel.org/lkml/4154d202-5c72-493e-bf3f-bce882a296c6@gentoo.org/
+Link: https://lore.kernel.org/lkml/20240322-pahole-reprodicible-v1-1-3eaafb1842da@weissschuh.net/
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ scripts/Makefile.btf | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+index c3cbeb13de503555adcf00029a0b328e74381f13..da23265bc8b3cf43c0a1c89fbc4f53815a290e13 100644
+--- a/scripts/Makefile.btf
++++ b/scripts/Makefile.btf
+@@ -22,6 +22,7 @@ else
+ 
+ # Switch to using --btf_features for v1.26 and later.
+ pahole-flags-$(call test-ge, $(pahole-ver), 126)  = -j$(JOBS) --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func,decl_tag_kfuncs
++pahole-flags-$(if $(KBUILD_BUILD_TIMESTAMP),y) += --btf_features=reproducible_build
+ 
+ ifneq ($(KBUILD_EXTMOD),)
+ module-pahole-flags-$(call test-ge, $(pahole-ver), 126) += --btf_features=distilled_base
+
+---
+base-commit: 7cb1b466315004af98f6ba6c2546bb713ca3c237
+change-id: 20241124-pahole-reproducible-2b879ac8bdab
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
 
