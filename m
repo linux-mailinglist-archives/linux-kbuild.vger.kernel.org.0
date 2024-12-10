@@ -1,143 +1,165 @@
-Return-Path: <linux-kbuild+bounces-5070-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043C99EBA8C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 21:02:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F4E9EBBA7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 22:14:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 514221884C51
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 20:02:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA6C016845C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2024 21:14:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C69622619B;
-	Tue, 10 Dec 2024 20:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5794F23026C;
+	Tue, 10 Dec 2024 21:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="KcwrhxSb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+Received: from mx0b-00206402.pphosted.com (mx0b-00206402.pphosted.com [148.163.152.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B74523ED5A;
-	Tue, 10 Dec 2024 20:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79057153BF6;
+	Tue, 10 Dec 2024 21:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.152.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733860926; cv=none; b=V9ayZTd8b/0ki+iv5/Ak+2eW/W9drB7YC5GfRcgnLGktWiINSsH5RkBukbQ77gKpjUYsVNfviPLUJS6K1p+YSCd/hFnwnfzU3geKgUJmB3YcO4+IgxFSpwWqdfOMhXEkftigBYwV2hBCU7on/c2j6t7eV2JGp/uYkm8oA47CVVI=
+	t=1733865286; cv=none; b=n38iK4XlbV6F7Qrl75qWnkR1WuiO3HthudX+MfUWMgXbUpps1NHLx3ENMdAPcdbZ1IkEowQE3tUJbVBQ8xQN+saWPqD4uI+HUmxnp9OYamZ9LEty5K+Lnpaz8RbP+FDw0Y0qRdDd/yRo2rwmvzJx0IYeQxu/MSEQgVNsDHk0+lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733860926; c=relaxed/simple;
-	bh=I0Qj8NxUTp9f5YV1tI1BPeHC0ggLDs4Lt1mSXAMS8yQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eV8hhmNudhiCTCv++dvDh4GwDS8USHJSUV7g75SrKwEM55segb74bddlj/V/J9+8jXVPvu4+WZzNKRLLM06Opd3rIf+tPKHMg2dBpP55SM6hSuxRhdJrJuplqCYSb/K9Au5rMlP95qEOVtXHan6qS8+wQt1J8lRUHiyVwXlZlw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4Y78l81GySz9tMX;
-	Tue, 10 Dec 2024 21:01:56 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Agk6G1NcVLjd; Tue, 10 Dec 2024 21:01:56 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4Y78l76Llsz9tMW;
-	Tue, 10 Dec 2024 21:01:55 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id A260A8B778;
-	Tue, 10 Dec 2024 21:01:55 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id 7E9cnDt9W5q9; Tue, 10 Dec 2024 21:01:55 +0100 (CET)
-Received: from [192.168.232.97] (unknown [192.168.232.97])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 196DA8B763;
-	Tue, 10 Dec 2024 21:01:54 +0100 (CET)
-Message-ID: <364aaf7c-cdc4-4e57-bb4c-f62e57c23279@csgroup.eu>
-Date: Tue, 10 Dec 2024 21:01:53 +0100
+	s=arc-20240116; t=1733865286; c=relaxed/simple;
+	bh=uWWb82MfPtRjjHyxXIswpvSWMmUlqgSV9x5gdwMFw2Y=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XEnlc10fCY+Kt4W1BOs6ZNfEEz3CAIKvXGs4RTqCm31N1yke5ERCkSlrhjb3rHGWPV6eJd6Ft9TDOTek9DgReR9v/XhDjsPWRelrAY0ZOcbNr9uUDFaMFmUOd0hRDjYGEVZTROdbKHHWD4IlBRL4tCWdp+FDi6YM79dZ/QHS80o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com; spf=pass smtp.mailfrom=crowdstrike.com; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=KcwrhxSb; arc=none smtp.client-ip=148.163.152.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crowdstrike.com
+Received: from pps.filterd (m0354655.ppops.net [127.0.0.1])
+	by mx0b-00206402.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAJn2AF006248;
+	Tue, 10 Dec 2024 20:49:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crowdstrike.com;
+	 h=cc:content-id:content-transfer-encoding:content-type:date
+	:from:in-reply-to:message-id:mime-version:references:subject:to;
+	 s=default; bh=uWWb82MfPtRjjHyxXIswpvSWMmUlqgSV9x5gdwMFw2Y=; b=K
+	cwrhxSbtEYBRvzsvsdx1itGQHsRJHy9PNRLA66zz6oyTYnQVI4c1q6FUCu9xMPRJ
+	x0sAFGTiqVpRUS1SpETm2fRLQ/m1uglh5GD2r43bUKz3rGW28EvMRm8p4o+NC4tC
+	h4lDRk+xz2rzDJfXliu7ZUCvW43PKN/YME0gxCX6zj+RcR7aLx7D6DWBN6w0Mz2l
+	uzjY4YVow0UhdvthHLIJkmc2TrD2MFIV4qkETzPE1q8RletPrvfLIQhEt/EyicLy
+	wW1C8eXBIGk7cxfwmGw6tyrSUH2ku/gOHcA1gY2p9uFvB/ssGOW+VTovtgSmKYTf
+	erSvpHH7AVT+6jFL/bhFQ==
+Received: from mail.crowdstrike.com (dragosx.crowdstrike.com [208.42.231.60] (may be forged))
+	by mx0b-00206402.pphosted.com (PPS) with ESMTPS id 43enarhfqw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 20:49:53 +0000 (GMT)
+Received: from 04WPEXCH006.crowdstrike.sys (10.100.11.70) by
+ 04wpexch08.crowdstrike.sys (10.100.11.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 10 Dec 2024 20:49:52 +0000
+Received: from 04wpexch06.crowdstrike.sys (10.100.11.99) by
+ 04WPEXCH006.crowdstrike.sys (10.100.11.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 10 Dec 2024 12:49:51 -0800
+Received: from 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5]) by
+ 04wpexch06.crowdstrike.sys ([fe80::9386:41e4:ec25:9fd5%9]) with mapi id
+ 15.02.1544.009; Tue, 10 Dec 2024 20:49:51 +0000
+From: Martin Kelly <martin.kelly@crowdstrike.com>
+To: "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "ojeda@kernel.org"
+	<ojeda@kernel.org>,
+        "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+        "pasha.tatashin@soleen.com" <pasha.tatashin@soleen.com>,
+        "mhiramat@kernel.org" <mhiramat@kernel.org>,
+        "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>,
+        "james.clark@arm.com" <james.clark@arm.com>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "nathan@kernel.org"
+	<nathan@kernel.org>,
+        "christophe.leroy@csgroup.eu"
+	<christophe.leroy@csgroup.eu>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
+        "mathieu.desnoyers@efficios.com"
+	<mathieu.desnoyers@efficios.com>,
+        "npiggin@gmail.com" <npiggin@gmail.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "hpa@zytor.com"
+	<hpa@zytor.com>,
+        "surenb@google.com" <surenb@google.com>,
+        "zhengyejian@huaweicloud.com" <zhengyejian@huaweicloud.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "naveen.n.rao@linux.ibm.com"
+	<naveen.n.rao@linux.ibm.com>,
+        "kent.overstreet@linux.dev"
+	<kent.overstreet@linux.dev>,
+        "bp@alien8.de" <bp@alien8.de>, "mcgrof@kernel.org" <mcgrof@kernel.org>
+CC: Amit Dang <amit.dang@crowdstrike.com>,
+        "linux-modules@vger.kernel.org"
+	<linux-modules@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org"
+	<linux-kbuild@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>
+Subject: Re: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and
+ fix weak function issue
+Thread-Topic: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and
+ fix weak function issue
+Thread-Index: AQHbS0UOy5EKb9eED0ygRLeYfQd4Mg==
+Date: Tue, 10 Dec 2024 20:49:51 +0000
+Message-ID: <d25741d8a6f88d5a6c219fb53e8aa0bcc1fea982.camel@crowdstrike.com>
+References: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
+	 <44353f4cd4d1cc7170d006031819550b37039dd2.camel@crowdstrike.com>
+	 <364aaf7c-cdc4-4e57-bb4c-f62e57c23279@csgroup.eu>
+In-Reply-To: <364aaf7c-cdc4-4e57-bb4c-f62e57c23279@csgroup.eu>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-disclaimer: USA
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B02A2CB1C4F11649B171690F94820629@crowdstrike.sys>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and fix
- weak function issue
-To: Martin Kelly <martin.kelly@crowdstrike.com>,
- "masahiroy@kernel.org" <masahiroy@kernel.org>,
- "ojeda@kernel.org" <ojeda@kernel.org>,
- "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
- "pasha.tatashin@soleen.com" <pasha.tatashin@soleen.com>,
- "mhiramat@kernel.org" <mhiramat@kernel.org>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "james.clark@arm.com" <james.clark@arm.com>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "mingo@redhat.com" <mingo@redhat.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "nathan@kernel.org" <nathan@kernel.org>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
- "nicolas@fjasle.eu" <nicolas@fjasle.eu>,
- "surenb@google.com" <surenb@google.com>,
- "npiggin@gmail.com" <npiggin@gmail.com>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>, "hpa@zytor.com"
- <hpa@zytor.com>, "peterz@infradead.org" <peterz@infradead.org>,
- "zhengyejian@huaweicloud.com" <zhengyejian@huaweicloud.com>,
- "naveen.n.rao@linux.ibm.com" <naveen.n.rao@linux.ibm.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "kent.overstreet@linux.dev" <kent.overstreet@linux.dev>,
- "mcgrof@kernel.org" <mcgrof@kernel.org>
-Cc: Amit Dang <amit.dang@crowdstrike.com>,
- "linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
- "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
-References: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
- <44353f4cd4d1cc7170d006031819550b37039dd2.camel@crowdstrike.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <44353f4cd4d1cc7170d006031819550b37039dd2.camel@crowdstrike.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: PMYGstxHIcTVLjDkxVGTLGYbNtmnvdZh
+X-Authority-Analysis: v=2.4 cv=d6sPyQjE c=1 sm=1 tr=0 ts=6758a971 cx=c_pps a=1d8vc5iZWYKGYgMGCdbIRA==:117 a=1d8vc5iZWYKGYgMGCdbIRA==:17 a=xqWC_Br6kY4A:10 a=EjBHVkixTFsA:10 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=VwQbUJbxAAAA:8 a=AiHppB-aAAAA:8
+ a=PLFCH0Z3ytBysqgyJFcA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: PMYGstxHIcTVLjDkxVGTLGYbNtmnvdZh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=831
+ impostorscore=0 mlxscore=0 spamscore=0 clxscore=1015 bulkscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
+ malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412100150
 
-Hi,
-
-Le 10/12/2024 à 20:15, Martin Kelly a écrit :
-> [Vous ne recevez pas souvent de courriers de martin.kelly@crowdstrike.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> On Tue, 2024-07-23 at 14:32 +0800, Zheng Yejian wrote:
->> Background of this patch set can be found in v1:
->>
->> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20240613133711.2867745-1-zhengyejian1%40huawei.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Cbc4f27151ef04b74fba608dd194f0034%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638694550404456289%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C80000%7C%7C%7C&sdata=a5XFKy9qxVrM5yXuvJuilJ%2FsUxU4j326MOmEz7dBViY%3D&reserved=0
->>
->>
->> Here add a reproduction to show the impact to livepatch:
->> 1. Add following hack to make livepatch-sample.ko do patch on
->> do_one_initcall()
->>     which has an overriden weak function behind in vmlinux, then print
->> the
->>     actually used __fentry__ location:
->>
-> 
-> Hi all, what is the status of this patch series? I'd really like to see
-> it or some other fix to this issue merged. The underlying bug is a
-> significant one that can cause ftrace/livepatch/BPF fentry to fail
-> silently. I've noticed this bug in another context[1] and realized
-> they're the same issue.
-> 
-> I'm happy to help with this patch series to address any issues as
-> needed.
-
-As far as I can see there are problems on build with patch 1, see 
-https://patchwork.kernel.org/project/linux-modules/patch/20240723063258.2240610-2-zhengyejian@huaweicloud.com/
-
-> 
-> [1]
-> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fbpf%2F7136605d24de9b1fc62d02a355ef11c950a94153.camel%40crowdstrike.com%2FT%2F%23mb7e6f84ac90fa78989e9e2c3cd8d29f65a78845b&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7Cbc4f27151ef04b74fba608dd194f0034%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638694550404477455%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C80000%7C%7C%7C&sdata=v9qPnj%2FDDWAuSdB6dP19nyxUWijxveymI6mQb63KxbY%3D&reserved=0
-
-Christophe
-
-
+T24gVHVlLCAyMDI0LTEyLTEwIGF0IDIxOjAxICswMTAwLCBDaHJpc3RvcGhlIExlcm95IHdyb3Rl
+Og0KPiA+IA0KPiA+IEhpIGFsbCwgd2hhdCBpcyB0aGUgc3RhdHVzIG9mIHRoaXMgcGF0Y2ggc2Vy
+aWVzPyBJJ2QgcmVhbGx5IGxpa2UgdG8NCj4gPiBzZWUNCj4gPiBpdCBvciBzb21lIG90aGVyIGZp
+eCB0byB0aGlzIGlzc3VlIG1lcmdlZC4gVGhlIHVuZGVybHlpbmcgYnVnIGlzIGENCj4gPiBzaWdu
+aWZpY2FudCBvbmUgdGhhdCBjYW4gY2F1c2UgZnRyYWNlL2xpdmVwYXRjaC9CUEYgZmVudHJ5IHRv
+IGZhaWwNCj4gPiBzaWxlbnRseS4gSSd2ZSBub3RpY2VkIHRoaXMgYnVnIGluIGFub3RoZXIgY29u
+dGV4dFsxXSBhbmQgcmVhbGl6ZWQNCj4gPiB0aGV5J3JlIHRoZSBzYW1lIGlzc3VlLg0KPiA+IA0K
+PiA+IEknbSBoYXBweSB0byBoZWxwIHdpdGggdGhpcyBwYXRjaCBzZXJpZXMgdG8gYWRkcmVzcyBh
+bnkgaXNzdWVzIGFzDQo+ID4gbmVlZGVkLg0KPiANCj4gQXMgZmFyIGFzIEkgY2FuIHNlZSB0aGVy
+ZSBhcmUgcHJvYmxlbXMgb24gYnVpbGQgd2l0aCBwYXRjaCAxLCBzZWUgDQo+IGh0dHBzOi8vcGF0
+Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51eC1tb2R1bGVzL3BhdGNoLzIwMjQwNzIzMDYz
+MjU4LjIyNDA2MTAtMi16aGVuZ3llamlhbkBodWF3ZWljbG91ZC5jb20vDQo+IMKgDQo+IA0KPiAN
+Cg0KWWVhaCwgSSBzZWUgdGhvc2UuIEFkZGl0aW9uYWxseSwgdGhpcyBwYXRjaCBubyBsb25nZXIg
+YXBwbGllcyBjbGVhbmx5DQp0byBjdXJyZW50IG1hc3RlciwgdGhvdWdoIGZpeGluZyBpdCB1cCB0
+byBkbyBzbyBpcyBwcmV0dHkgZWFzeS4gSGF2aW5nDQpkb25lIHRoYXQsIHRoaXMgc2VyaWVzIGFw
+cGVhcnMgdG8gcmVzb2x2ZSB0aGUgaXNzdWVzIEkgc2F3IGluIHRoZSBvdGhlcg0KbGlua2VkIHRo
+cmVhZC4NCg0KWmhlbmcsIGRvIHlvdSBwbGFuIHRvIHNlbmQgYSB2Mz8gSSdkIGJlIGhhcHB5IHRv
+IGhlbHAgb3V0IHdpdGggdGhpcw0KcGF0Y2ggc2VyaWVzIGlmIHlvdSdkIGxpa2UsIGFzIEknbSBo
+b3BpbmcgdG8gZ2V0IHRoaXMgaXNzdWUgcmVzb2x2ZWQNCih0aG91Z2ggSSBhbSBub3QgYW4gZnRy
+YWNlIGV4cGVydCkuDQo=
 
