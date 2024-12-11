@@ -1,73 +1,61 @@
-Return-Path: <linux-kbuild+bounces-5079-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5080-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0E49EC3EE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 05:19:41 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 661EC16839E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 04:19:36 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D85481BD017;
-	Wed, 11 Dec 2024 04:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJ8MLIR0"
-X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6AF9EC4B7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 07:25:06 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3042AE90;
-	Wed, 11 Dec 2024 04:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0ACF28523A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 06:25:04 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F8301C4A0A;
+	Wed, 11 Dec 2024 06:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Hj5YnUae"
+X-Original-To: linux-kbuild@vger.kernel.org
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC331C462D;
+	Wed, 11 Dec 2024 06:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733890775; cv=none; b=NB3YZpkG9IgN06We+WasJKP1cPQH1jiJ6Z6UuGEfjUVA3/JSUZzKNBtAFCV+GTzk7gdzPDiiB9cMK0gThVA53AqSKJNAoxPhPvIFBbx0kcYFwQigNArPyCMv+iZmlj6ROGuzuVhCjAIkABC1G402Aga/xg68vvXSHjGWGivCp1A=
+	t=1733898289; cv=none; b=EPN4bkLh1PNTVTUifBmsZQsXojWu54owLfAuEv8SMHvr3pVZAIB4Kja92jfmUN/X2S91aY5b+455NFBCgNDtHQTsqUksXC+04NLYnaaCjOU+J6zFSMWXgOpI209b2j0ea+h2sD/Usw1JuVoFCEs1gQh1b7n5YYfQCuHnwCoMvRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733890775; c=relaxed/simple;
-	bh=C32hIFQ3Gfh9PhB3jChte3FH0hDXjjDORJiNlEbV5hE=;
+	s=arc-20240116; t=1733898289; c=relaxed/simple;
+	bh=y7aZHwpgi27v8ZTlv7YlS3FJfZiEfiPR2Bpm7+DPGJo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F4gY92cnG942iqODIKzTNAUiKRa0VY/b+LGQSut8ZAiC044d8h+pyl4vVOoySPYgDJpCDD43rS4VRTnBfb5NgcPI+cRlD+yUMgX+XtCVdKH8Q56BxLbQZ3oEKoyAbwAY5Gre/rGzq3jkefAOpdAq1kHGFBrZAcuCv+IPz5vQKMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJ8MLIR0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845F0C4CED2;
-	Wed, 11 Dec 2024 04:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733890775;
-	bh=C32hIFQ3Gfh9PhB3jChte3FH0hDXjjDORJiNlEbV5hE=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+5eMNwFiW6oDw4XrpcHDCLOr4DdUpyX2OeBNCZcWuFKhrbAeHsv89ZI+yFDdk3HRCdcwj/UPTxxKXJ5/h6eLi7GSJXtkUcnE6Jrpz1sKEXItdKEXL1gGdp2lSBnN0YG4zin3wddV4KiT37ryJub65nIwGGOZqME8ia65mt/T1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Hj5YnUae; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1733898280;
+	bh=y7aZHwpgi27v8ZTlv7YlS3FJfZiEfiPR2Bpm7+DPGJo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JJ8MLIR0CTwqHxwJxamypw1b1Jj5WZfI7UnyPLqu6PE57z1AaQJfyNPJq6dnG6Oez
-	 /YLKEJg3UvN1Q0EGkOauLQ4ug0r2VUzoWEwBIlKIJ+0V8WRuh8lhej+0pS2XUFqEpz
-	 KQTygoyTSr4ykcwR2rK8f3x6umawGrG9DKr47d6DCK7w4IF1Gvh2q7XWu/zucw5VHD
-	 ow/E3EKgkZRPlPPloiVWzX9MMkxI0LOE2goQUQ7yo8fhQLkS/BaIliQPUKtwCLxQz8
-	 CUnw0PSLaT5/BC+Do2UpS6PkIfxPb1pPxNxlnGcKMOveD6tLziMU8EBFvpZb/stFNi
-	 ZHCmzFrJ7Dbrw==
-Date: Tue, 10 Dec 2024 20:19:33 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>, Sami Tolvanen <samitolvanen@google.com>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthew Maurer <mmaurer@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Donald Zickus <dzickus@redhat.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-Message-ID: <Z1kS1Y8_aUQc83tb@bombadil.infradead.org>
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <CAEg-Je-h4NitWb2ErFGCOqt0KQfXuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com>
- <CANiq72m4fea15Z0fFZauz8N2madkBJ0G7Dc094OwoajnXmROOA@mail.gmail.com>
- <CABCJKudozEhZXLZVxVixsO5YuZg0nOEmgo3=vMyhcrEw+6Xo5w@mail.gmail.com>
- <CAEg-Je-58WxKXOFEDBWmZDpt8E+SaRq+kK7ZnfMER2qtnKUD=w@mail.gmail.com>
- <CAK7LNATR0epWogDDDOnAvBJyypdgY-CPsi_mUehOWsvphg4LSA@mail.gmail.com>
+	b=Hj5YnUaeQAs5jb6PfRT6vy2lo43gPnqlBH3DYu+Hr07ugu7fe47ya0s4kPR8GNWnf
+	 BrA8qk/QLBD1RFKO9Evifp10s7ZtUYAWLVrbE1JDSUW2W7nR5eOMQMHXFI5UA4c+O7
+	 m/UDbyxHeTGtFCZq0WpwFugz9bC5T1qKeZ/SW4ow=
+Date: Wed, 11 Dec 2024 07:24:40 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Ihor Solodrai <ihor.solodrai@pm.me>
+Cc: Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Kui-Feng Lee <kuifeng@fb.com>, 
+	Alan Maguire <alan.maguire@oracle.com>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next] kbuild, bpf: Enable reproducible BTF generation
+Message-ID: <3b834807-9f20-4f04-b788-f45dfac5cb1f@t-8ch.de>
+References: <20241211-pahole-reproducible-v1-1-22feae19bad9@weissschuh.net>
+ <REDzg-0aL2-Qw7QvYCKTfsLGh6E6Iq8dgWJPo5a94ym2x5DiUkwdHA-naUtaDO7HJgvOr6zd201E5P_WAquOyOFIiUij6Bi183EyxPusDuo=@pm.me>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -77,127 +65,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATR0epWogDDDOnAvBJyypdgY-CPsi_mUehOWsvphg4LSA@mail.gmail.com>
+In-Reply-To: <REDzg-0aL2-Qw7QvYCKTfsLGh6E6Iq8dgWJPo5a94ym2x5DiUkwdHA-naUtaDO7HJgvOr6zd201E5P_WAquOyOFIiUij6Bi183EyxPusDuo=@pm.me>
 
-On Tue, Dec 10, 2024 at 11:27:06PM +0900, Masahiro Yamada wrote:
-> On Tue, Dec 10, 2024 at 9:42 PM Neal Gompa <neal@gompa.dev> wrote:
-> >
-> > On Mon, Nov 25, 2024 at 10:34 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> > >
-> > > On Mon, Nov 25, 2024 at 4:41 PM Miguel Ojeda
-> > > <miguel.ojeda.sandonis@gmail.com> wrote:
-> > > >
-> > > > On Mon, Nov 25, 2024 at 2:29 PM Neal Gompa <neal@gompa.dev> wrote:
-> > > > >
-> > > > > As my Acked-by was removed, I'm sorry to say that there is no point
-> > > > > for me to provide feedback since it is unwanted.
-> > > > >
-> > > > > I hope it lands soon, but I also hope the people here who decided that
-> > > > > a person's efforts aren't worth recording because they don't
-> > > > > personally know them should reflect on this too. It's a good way to
-> > > > > keep people from coming into the community for the long term.
-> > > >
-> > > > Hopefully this reply helps -- apologies to anyone if I am overstepping.
-> > > >
-> > > > On one side, it is true that Acked-by is typically used by people that
-> > > > is responsible for the code one way or another, because the tag is
-> > > > meant for them to acknowledge they are OK with the change going in,
-> > > > and so I can see the argument that restricting it for that purpose
-> > > > only may help avoid confusion later on reading the log.
-> > > >
-> > > > On the other hand, someone being willing to put their name on a patch
-> > > > is very valuable, whoever they are, and whatever the tag name is.
-> > > > Moreover, it is also true that, Acked-by may be used here in a "as a
-> > > > key user downstream, this looks reasonable and satisfies our needs"
-> > > > sense.
-> > > >
-> > > > Finally, sometimes new tags are invented on the fly because there is
-> > > > no good fit, too.
-> > > >
-> > > > Either way, I don't think anyone wanted to disregard your efforts or
-> > > > to be rude to you in particular, but rather wanted to keep tags usage
-> > > > aligned to how they view them or how they use them in their subsystem.
-> > > > The Tested-by was still wanted, so I doubt their goal was to remove
-> > > > you from the log or to make you feel unwelcomed.
-> > >
-> > > Thank you for putting this more eloquently than I could, Miguel. Neal,
-> > > I do appreciate your feedback, and I'm sorry if I didn't make it clear
-> > > enough in my previous emails. I would very much welcome your
-> > > Tested-by, or another suitable tag that's acceptable to both you and
-> > > Masahiro.
-> > >
-> >
-> > Honestly, I don't think it's worth it if my tag is going to be
-> > stripped simply because someone thinks I'm "unqualified". If you want
-> > more people participating in these things, doing stuff like that is
-> > definitely not the way to do it. It's not like people haven't had a
-> > chance to know me or even just look me up to know I'm not just blowing
-> > smoke. I definitely feel like I'm being disregarded. :(
-> >
-> > The sole reason I didn't give a Reviewed-by or Tested-by is that I
-> > didn't want to do any integration work to validate it beyond the
-> > basics, which would have meant dipping into the Red Hat kernel symbol
-> > tracking infrastructure. I don't have time for that right now. If
-> > someone else does, they can be my guest. I just don't feel comfortable
-> > giving either without *actually* going that far.
+Hi Ihor,
+
+On 2024-12-11 00:17:02+0000, Ihor Solodrai wrote:
+> On Tuesday, December 10th, 2024 at 3:23 PM, Thomas Weißschuh <linux@weissschuh.net> wrote:
 > 
+> > 
+> > 
+> > Pahole v1.27 added a new BTF generation feature to support
+> > reproducibility in the face of multithreading.
+> > Enable it if supported and reproducible builds are requested.
+> > 
+> > As unknown --btf_features are ignored, avoid the test for the pahole
+> > version to keep the line readable.
+> > 
+> > Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and generate BTF with multithreading.")
+> > Fixes: 72d091846de9 ("kbuild: avoid too many execution of scripts/pahole-flags.sh")
+> > Link: https://lore.kernel.org/lkml/4154d202-5c72-493e-bf3f-bce882a296c6@gentoo.org/
+> > Link: https://lore.kernel.org/lkml/20240322-pahole-reprodicible-v1-1-3eaafb1842da@weissschuh.net/
+> > Signed-off-by: Thomas Weißschuh linux@weissschuh.net
+> > 
+> > ---
+> > scripts/Makefile.btf | 1 +
+> > 1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+> > index c3cbeb13de503555adcf00029a0b328e74381f13..da23265bc8b3cf43c0a1c89fbc4f53815a290e13 100644
+> > --- a/scripts/Makefile.btf
+> > +++ b/scripts/Makefile.btf
+> > @@ -22,6 +22,7 @@ else
+> > 
+> > # Switch to using --btf_features for v1.26 and later.
+> > pahole-flags-$(call test-ge, $(pahole-ver), 126) = -j$(JOBS) --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func,decl_tag_kfuncs
+> > +pahole-flags-$(if $(KBUILD_BUILD_TIMESTAMP),y) += --btf_features=reproducible_build
 > 
-> If you provided a Reviewed-by and/or Tested-by tag, they would not be stripped.
+> Hi Thomas,
 > 
-> I would not say you are unqualified in terms of skills or abilities.
-> However, this is not how the Acked-by tag is typically used.
-> As Miguel mentioned, "Acked-by-User" or "Acked-by: # As primary user"
-> could be an option, but I am not sure if they would gain
-> sufficient consensus.
+> There are a couple of issues with reproducible_build flag which I
+> think are worth mentioning here. I don't know all the reasons behind
+> adding this now, and it's optional too, so feel free to discard my
+> comments.
 > 
-> Code reviews and tests are always appreciated.
-> The Reviewed-by and Tested-by tags are open to everyone.
+> Currently with this flag, the BTF output is deterministic for a given
+> order of DWARF compilation units. So the BTF will be the same for the
+> same vmlinux binary. However, if the vmlinux is rebuilt due to an
+> incremental change in a source code, my understanding is that there is
+> no guarantee that DWARF CUs will be in the same order in the binary.
+
+The goal behind reproducible builds is to produce bit-by-bit idential
+binaries. If the CUs are in a different order then that requirement
+would have been broken there already.
+
+For an incremental build a full relink with *all* CUs is done, not only
+the changed once, so the order should always be the same.
+
+> At the same time, reproducible_build slows down BTF generation by
+> 30-50%, maybe more depending on the kernel config.
+
+If a user explicitly requests reproducibility then they should get it,
+even if it is slower.
+
+> Hopefully these problems will be solved in upcoming pahole releases.
+
+I don't see it as big problem. This is used for release builds, not
+during development.
+ 
+> Question: why KBUILD_BUILD_TIMESTAMP flag? Isn't it more appropriate
+> to use a separate flag for this particular feature?
+
+Adding an additional variable would need to be documented and would
+makes the feature harder to use. KBUILD_BUILD_TIMESTAMP already needs to
+be set by the user if they are building for reproducibility.
+
+> > ifneq ($(KBUILD_EXTMOD),)
+> > module-pahole-flags-$(call test-ge, $(pahole-ver), 126) += --btf_features=distilled_base
+> > 
+> > ---
+> > base-commit: 7cb1b466315004af98f6ba6c2546bb713ca3c237
+> > change-id: 20241124-pahole-reproducible-2b879ac8bdab
+> > 
+> > Best regards,
+> > --
+> > Thomas Weißschuh linux@weissschuh.net
+> > 
+> > 
 > 
-> If you are uncomfortable with a Reviewed-by or Tested-by tag,
-> I cannot think of any other alternatives.
-
-I think we just need to update docs that Acked-by is a *tool* mechanism
-to help maintainers in their quest to find sanity in determining if a
-patch is ready.
-
-Clearly, if I don't know a contributor and they send an Acked-by, it
-does not matter if was Donald Knuth (CS algorithmic lord), or John
-Grisham (author of intense legal drama books), what really is of value
-to the maintainer is the the qualitative appreciation over the
-maintainer's own perception of the value of that Acked-by is going to
-help the maintainer own's dreadful quest to find sanity in a review
-process in answering if a patch series is ready.
-
-An unknown developer to a maintainer, as qualified as they may be, could
-provide an Acked-by, but the utlitiarian value is completely subjective
-to the domain of review and so up to the maintainer's own critique. The
-value in Acked-by is in helping the maintainer. There is a hidden
-context of trust of behind the appreciation of maintainer's value of
-a simple Acked-by.
-
-A series of Reviewed-by tags over time on a subsystem can help a
-maintainer appreciate the value of a future Acked-by by the same
-developer. In fact the *more utilitrarian appreciation* for a maintainer
-will be how often said reviewer is helping find *bugs* in previous patch
-series, not how many Reviewed-by tags or Acked-by tags they use. The act
-of finding real issues and thinking critically about the big picture
-over and over of on different patchsets can help a maintainer garner
-confidence in future Reviewed-by tags from the developer. Helping a
-maintainer review patchsets and get authors to fix issues until it is
-mind numbingly clear the patchset is ready is a way to help a maintainer
-appreciate future Reviewed-by or Acked-by tags from that developer.
-
-Since anyone can also provide a Tested-by, it does not mean that there
-cannot also be subjective association to it as well. A Tested-by a reporter
-of a complex regression is of most value. A Tested-by a random new developer
-for the same complex regression may be meaningless to that same maintainer
-unless the same original reporter also conirms the issues of a
-regression are fixed.
-
-Keeping a tag is not too important as well, we sometimes loose them even
-for developers engaging daily, what is more important is *helping the
-maintainer* on their quest to ensure proper state of affairs of the
-patchset and to remain sane.
-
-  Luis
 
