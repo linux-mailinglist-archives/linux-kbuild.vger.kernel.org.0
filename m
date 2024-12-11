@@ -1,227 +1,286 @@
-Return-Path: <linux-kbuild+bounces-5081-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5082-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1529EC95A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 10:40:58 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 287E39ECBE6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 13:21:53 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACBA0281BC2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 09:40:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A756164209
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 12:21:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 297011A8415;
-	Wed, 11 Dec 2024 09:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88CFE1C173F;
+	Wed, 11 Dec 2024 12:21:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+CWh6Xy"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PGxSAoks"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2082.outbound.protection.outlook.com [40.107.96.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B26B236FB7;
-	Wed, 11 Dec 2024 09:40:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733910056; cv=none; b=dvjRp0fri4skjHEtCDM9Y5nhslT2Ne6Z0BtQtPVf+wzf+hK00cU5zysi+I6Y6lN7/O8QGeBP2BkyGQAxFl1MfiF4cchRTFTVhAjbgfQdDjQ41iqKs27mJ6sORFJOGOqsjeXNC+/z7sA8ZC3tga+9jv69X6mQ55wgem3p+igW0ng=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733910056; c=relaxed/simple;
-	bh=GS5Z33ohQY2/h9ot0AUWoBG8q6TtS3G7qEZ7HPbHInU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FIrl3z1ZolgAb9bIviBCjWQh7B5sFI0gmYXID85T25/ApojygVoQjH+OWz9ynHlGUEsm0kw57c9TiHJR6XkS2J97NXIz8h17EZMX+8ZAbNdpSjF1CAHx5XqNeoGgBwckid0/Z5qIougJzDtWbU5YPhxCpa4In61eEsFh64/pvRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+CWh6Xy; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733910054; x=1765446054;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GS5Z33ohQY2/h9ot0AUWoBG8q6TtS3G7qEZ7HPbHInU=;
-  b=F+CWh6Xy90nal7PeqTxrCEwAFSMmk0C+lhkxr+TOsWAyCx9ixXSUptNU
-   CTP+WgdB/12RgBic7hh+fX/1dj+jlm2UQQKdkpz73me+wkKtbaGZ4Q9fB
-   0oVmdpQZ1AyLVzmbgacYuTbpC/tlpERpOtPJnIG4K04GKQ9AOfne4Co/U
-   ehthCBhNpFWu0vL681Ro2jfsflNRmzMJPpBePm6/MPTLgNMN93HRey6AN
-   CLsbliecXZA/FJsdMxZdSn4/OyWBUiwY84qhztI8fRzynlQOQvQJp80qG
-   E6YyS4KDseOptuTYV2Klekdu/D31MIl/5DjVMIx3rgNb+RtzFiEyljdOG
-   A==;
-X-CSE-ConnectionGUID: a+IrBPUiTlyxNZAIez5DCw==
-X-CSE-MsgGUID: rQArnoC9T16PZ1IqClp6bA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="37117047"
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="37117047"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 01:40:54 -0800
-X-CSE-ConnectionGUID: jLknP7QSS2y7aIPjuiF0Kg==
-X-CSE-MsgGUID: ejgYfS7HRvCb5auIaQiC5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="95604206"
-Received: from kuha.fi.intel.com ([10.237.72.152])
-  by orviesa009.jf.intel.com with SMTP; 11 Dec 2024 01:40:49 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 11 Dec 2024 11:40:48 +0200
-Date: Wed, 11 Dec 2024 11:40:48 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev, akuchynski@google.com,
-	pmalani@chromium.org, jthies@google.com,
-	dmitry.baryshkov@linaro.org, badhri@google.com,
-	rdbabiera@google.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/7] usb: typec: Only use SVID for matching altmodes
-Message-ID: <Z1leIAhqopg_We9F@kuha.fi.intel.com>
-References: <20241206233830.2401638-1-abhishekpandit@chromium.org>
- <20241206153813.v4.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECF42210F9;
+	Wed, 11 Dec 2024 12:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.82
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733919697; cv=fail; b=gRfnMGq9lb9ZznHFwHH3IKEiGGjGXR6gvz1bM2iahb+/QO+IEjw2/Ry+jEsnNhFfp6NSE9u2G8r2EQpQV8HN7IUW9i4OezJZMwA2xW2G8TiVwd/szbJMzOtEug2+iRn4mtwf2Rw9jgeMb+N4YH/CM54c4XAItuv1D4AsMxmv3NQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733919697; c=relaxed/simple;
+	bh=pXRPzk9uD3vCXhBi91QJp31mui9DZ9VJxMc7TQK38vI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Zq/JUNgjJ2RJZNifuIedbhgv/vlWrLEn5Gin0y79rh4ngswn1E/yTWm6wVVdE6xGSsAbekcJNfDd9bhSgaNX2Da4STKDjpDD87m9oyKxNnIymMs0mfdcIr0CDauz7jW2UMRt7o473+U8fzbwqpJhAA0tA5ZhO0e+IqctMV6zRho=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PGxSAoks; arc=fail smtp.client-ip=40.107.96.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bwkJxNTa1hJIDk2aZfDDQAwiBuGj8Z+IbMvfdwgafA7dxGbr3lV5cL8Z/9PesmxOeU8La5RT7DKVc869MU5T9AFjIl1KV3unVdtj4lrVmx2z88/F3GXlC2S/zVJ+2AdIsgpNPWXQUmA6QYIfFgRa2kgjgZdS99bYkB4Iuufiz6yi0Brnti4ze3tun0iuimUWwaSK75PSHQAsDilgur/tpBuaSeNMQ6CzckDZBxwJPQe69ubFmskql+XPbSQ5KIi7iG/xJPwvTRW62kPv8MPOnj/aReWvFvP9OFK7e1O/Jy+mjrxWyYRu/KuSlZY3zhGYTwyL/sQfKeGdB9BAsQ/shA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q3S6Bw9wZUvSelo3OOXVd5edDd+7iL9lvO752wOfpq0=;
+ b=kqsGXorOgw0eOBBc5mW0uNKHL9bxxZgTvvLYQLIyi5OMJDuhgWOejJmEVyRM+n/lPrfMzfX+WikkHvcII2FljWviS188bQemzuuMudu0okpmlXScaQ/g8hSHIORfDf0dJtyyic0yoqT89ixJi8p/q/EyJnjkp1OZxW6C9D5xQUY9flINWILWezKmrORmhb/d/mgNSPHgxc4O4tmrUGg/8uDyTP66D4VDRgtgH9Nwi7h2gZHoeE5it2QEHJsl+RElxnaeJlAR7Q1HaCoDub9g/3FnAINPUOIOZgxFZ0dpCc2cGRqc3wKcc7TMWxB1bTzMq0PhjQ8DGlSZaOy2TQt5MA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q3S6Bw9wZUvSelo3OOXVd5edDd+7iL9lvO752wOfpq0=;
+ b=PGxSAoksYjYas+UNI4FgwxNx7kZ/VE9lWf7DFz4OIpI4/u8gNJSNyzjqwUsvG3kGtK0s6q6IjJkZFPWGu8syUrfw1YyYR+m9kRYN7lfk5YmiSJZaNBKs3OnX+Kx4cxU4zYE2BvQDvzJ6T7NMm8kr2rrvmDQjI0bCoFUmWl0bfMa6IlLtH0ekvN4Xkp0pSTCf+zSonIRUq4++XK/Wxtvp4XN6FnOK9w4S+jrse3fYem5AucmP9/bDnyukVnHk4bjDFxpWEQTA39lmVjVt1t+k2KA4TCJ5LXdbdrH4isJNHRr2rKiNe3RecIVTykV+jvvgkTCrOE2fU+cr+8FptZXGKQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB8784.namprd12.prod.outlook.com (2603:10b6:a03:4d0::11)
+ by CH3PR12MB8401.namprd12.prod.outlook.com (2603:10b6:610:130::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.14; Wed, 11 Dec
+ 2024 12:21:31 +0000
+Received: from SJ2PR12MB8784.namprd12.prod.outlook.com
+ ([fe80::1660:3173:eef6:6cd9]) by SJ2PR12MB8784.namprd12.prod.outlook.com
+ ([fe80::1660:3173:eef6:6cd9%2]) with mapi id 15.20.8230.016; Wed, 11 Dec 2024
+ 12:21:31 +0000
+Message-ID: <b20db4db-afb4-4f58-bc01-ae1250abc8b0@nvidia.com>
+Date: Wed, 11 Dec 2024 12:21:27 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/11] kbuild: change working directory to external
+ module directory with M=
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, cocci@inria.fr,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <20241110013649.34903-1-masahiroy@kernel.org>
+ <20241110013649.34903-6-masahiroy@kernel.org>
+ <bdd5ff13-ec66-4ab6-985a-1fe433e85f91@nvidia.com>
+ <CAK7LNATgL=vOr37+XfF7du+_ak5yKgXYyNNNTEQdVvy5J2MMyA@mail.gmail.com>
+From: Jon Hunter <jonathanh@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <CAK7LNATgL=vOr37+XfF7du+_ak5yKgXYyNNNTEQdVvy5J2MMyA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P302CA0009.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c2::17) To SJ2PR12MB8784.namprd12.prod.outlook.com
+ (2603:10b6:a03:4d0::11)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241206153813.v4.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB8784:EE_|CH3PR12MB8401:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82ef0dc7-d605-46f3-b897-08dd19de5863
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|10070799003|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cHpMaU93azIwOS9LMzVuNXFQdS9mbEc3d2RZaHFWVlV2YlpaNk9xQ0QwbnFF?=
+ =?utf-8?B?Wm9ub3RGalRBMmwyYnBGY2UrSy95N1NzWUlsdFpaK0luT0gyQ3NHZzNBb2t5?=
+ =?utf-8?B?V2RKYUYyQk1pMkVRQmVpcWFROUhCSVJnSW41NXlhKzc3WFAwenhHU0VYR0wx?=
+ =?utf-8?B?MkpIT3Z6UmxJS2VhcnF0eUN1Z1lWY0pEWks0TWdXbDhOMDNtRUY1cVpsbzlJ?=
+ =?utf-8?B?MUtPNDdKWjBKZEZIQW1ObFBTa3EzL0Y2djU2dzc1MUlMTWNaZnhWMzJUT3hy?=
+ =?utf-8?B?OFdpK1ZkcmpNdWtkUGdLS1F6M1pGZGtxR2w2KzJLbDYvdUlCWDdKWHozZWh2?=
+ =?utf-8?B?RVd6ZHFGY0UrOEFyQjJzWEdBY0tOQVEyb0EwTGh4REJCRk5QVCtKWGJuVFlG?=
+ =?utf-8?B?YkpUd1lXV2hlckgrV1Jaa2VoQ1RCL1hkbjNDaWZRMHFUQkZsdjVFZGJhaE9V?=
+ =?utf-8?B?dm14UkQ5WU9yKzd4ZS9SNVA3Z21uQkx6U2VWYWtEUC9NWFNXWkpUMExXSURQ?=
+ =?utf-8?B?ZVBZODIzTmJlcFhIM3FGOWluU3lJWGJFOTFyWVFZWUFvYkVaVDQrSUVQRVlP?=
+ =?utf-8?B?dFc3cWhTTThqSFRnZ1NwdEluWWVOazNoelQyUHVxMnNZTVZpYW4rSTF1bURv?=
+ =?utf-8?B?NFVFZmhZSk44YXF5UTdXdDU0Um9ycHZtcU14NHJXNDZTRjNQamZXMXRLVzl3?=
+ =?utf-8?B?SGJUMlVxOFdHMFZ0YmFFQ2NjUnRlM0RLdlZCYTFQWTYvUW1xV1l6SDhvd2Fv?=
+ =?utf-8?B?M2ZFbU9WREx5RzN6TFVkRi9INmczSFhZVU4vSWZhc3F3VGFvc3Bhc21pYytZ?=
+ =?utf-8?B?Z3BYamtaa1NObjRIRlB0YjZsZk9XUTI4UkxTNzNGOHByVDRIanh4SmZxeC9o?=
+ =?utf-8?B?WDVsc0lKZkIxa2ZaSHdYL3VNYis1Z2oreVdaSnFkdXN2RDE2UzN6N2c4bFI1?=
+ =?utf-8?B?RmlGZGx6cmMxV1A5WWpZMExVeTNCN2FCSGxkY01kU0xnS1JaeDBZUzZPbGJY?=
+ =?utf-8?B?QmxuaFVVc2pHVjZXL2R2aFdBSVlWbW9FQUxqa1ZGd1NwcFJ0Um1wdmNSUlND?=
+ =?utf-8?B?VVV6WDQ5YjFrRzNneXN3aTA5ZmNwclJiOFpubWo0UWhOc3ByUWdtanlveDMz?=
+ =?utf-8?B?VkV6NlAwUnVycmpESlczeCs1YUM0aFRraHF2a3p5eEZVcG82Y21SNmwwMW54?=
+ =?utf-8?B?a3V3dHowTlZkWUxYeDVYZXlVYVBWVDVQaUFUbWduUDIya2MvMFFUUU52bnYy?=
+ =?utf-8?B?S3VDeFpHM1hwMU90NGh5WlFNaVgvRDY5OEU4TExVcDQxZEcwQVBGa3FNS1o5?=
+ =?utf-8?B?Mkp3cDFTMUFWam5ycEZKVEZIYWRBRUZ1TWhKelB1RHRxczZnKzc4TzJtbzVn?=
+ =?utf-8?B?R3F1MTExUnAwaUdxQmo2Lyt3RHdlaXg4TjNFZkFEdk90Z2RtSktuNXR1bC95?=
+ =?utf-8?B?L0NQdDEyc1F4eWRFUDJQbTJiL1BqTU5ZSzQvTmx6ZzYvMDhWRnh2Ulc4dTJq?=
+ =?utf-8?B?eGJmd3RZcTFQVC9LVEMwV29rQzJlcTRNVW9WWUpubDhSL1BxMmQ0cy9YNWFy?=
+ =?utf-8?B?Ujl2cHhtcDJkL2x3TnJWdWJOYTBtSUQxS0MwUm54VWtRV1orQmhzdHRhbTR3?=
+ =?utf-8?B?SmkvODgyMnZOV0RmWk4zVG83TTBiYXFzYTA5OHp5alJ1WnNGSGVWUUZGSHFj?=
+ =?utf-8?B?RGFoRkpvSlFTWTVudXZGa1U3aG1mSnBEOHdvU2JHOXl6SzRjcXU4Vmlhamxp?=
+ =?utf-8?B?UUJSZXp1S2QyZlZQd29ZUGVMUDF6MTQzcG1KUVRaQTBQdHhtOThuL01CMDYy?=
+ =?utf-8?B?RHluNVVMdXU1bVFDcERmdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR12MB8784.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UEhObW4rZGIxZXBpL0VFT1hibUNFNjZQczhqVnoxdnJKRVlWekhPdU1HbjVI?=
+ =?utf-8?B?MDZNU3JOSkJJNDd5S0dDcUhrdXNUTjFXUE43OTYzaWVHcEJWeitiYlJieVdC?=
+ =?utf-8?B?b3QyOUJzZXMrL2ZNQXoxY2xZTkcxZ29XYUJYcGM4UERadHBXQVlRaXV5Qklt?=
+ =?utf-8?B?Y085Q0Fnb05pWFYrWEpZN08vZGZSWDltbDVIaGNvZ2RpT1k2SjMzNmpxY3Zu?=
+ =?utf-8?B?RDU4OUcvSHZqN2MrdFkwYU4yUk5NVm1nS0xpVzArYmxCWmd5Nmp5eE5oUkV5?=
+ =?utf-8?B?QlBCMGxEcHJCTlhkMnZPUnRIMFRreElSU1dmZXRXcVY5dzhMcjNaWXAyZlVM?=
+ =?utf-8?B?TTNJaExuQnV3WkRnOUFuOElWaTlKUVB2TkRmdjVxa0VRNno2RlZXNDlMdjli?=
+ =?utf-8?B?VjFzTi8vTCtYa2JMYmpDdllMSmNCaDlGU3JUdnRPRnoydW9QN1pzWFUxNHBQ?=
+ =?utf-8?B?MmlLaFJHcHBMN3pCbEVZMnF5bEs3akwzVUE1YlI1WVZaN2RIY1ZjbVhJT1JH?=
+ =?utf-8?B?N1RrdURvZU1EWGN4VWxhMDUwVVN4QURXYU1NNXk2MDlMMXBQZE40UG0yYS9K?=
+ =?utf-8?B?Q0g0WEt6aVJQcnRMbzgrUUc5QTh2SitweHI2WWt3dDVUUTFvcFRqUlJNZ016?=
+ =?utf-8?B?NFd1czZjeXQvUzlzUkYzU1A4U3p0Ynl4YTZndndRTzhhYWFoMElLbnYxdCts?=
+ =?utf-8?B?VldpaFlXK3QzclJjWU85ajlMRGUwYVdXUmlkK21WQlJhNUtlRldub09yWFFF?=
+ =?utf-8?B?NEFUdXlIdHMzNWI0dDhrQmVrN1VlQU1yUDN2eWpqSE9pNm9RSWtKbDQrYVdY?=
+ =?utf-8?B?SmtTSDhYM0x3Tlh4Y0RSWGRSYzRUQmk1ZG1KQlJ1ZHRCYng2cmc4RUc3RGUx?=
+ =?utf-8?B?ckE0ZCt6YnBKY0M4U0tMNHQyTzF3SndodVdlaWdMMGZkeXNzZzFtaDQxZFk5?=
+ =?utf-8?B?NmZucjRaN1pYcFovS1ZDN2VudHpoMXRaaHpsNXJlU05ZcHQrd0M2QjRaT3Fx?=
+ =?utf-8?B?bzFRZUlqRHdRTWV4elR4SXVXbjZLTmhxV0pXblpjdjBkS25ZWFQwOEJGbm8w?=
+ =?utf-8?B?REdvVjdFbzhLeExRRlZoOE5wUlRrWkljSi96YWFqc0FENkVDQzBlMm1TZGxH?=
+ =?utf-8?B?MHhTZFZpSGV3WEJiV1hmaFNVVUlZMGFsZjhYOTdmMlZzRWhHbjI5SHZvZVNa?=
+ =?utf-8?B?S1N2VU5RTFJaVEsyTnhYSUZ2SllheTQ0NzBXZEt1KzdwSEVXWGRUaTdkR0lE?=
+ =?utf-8?B?TXBqTmVSQ0JyS1pqU2F4QXZjdUFjWlBkRmlScXhWeGZ4a2ZiVkovcEdVNXo0?=
+ =?utf-8?B?NzBwRHR2SWR2eVBZcHk2QUFoWEhjRlBxRzBjdXZWbENBeXVQNXZsaHBZemFN?=
+ =?utf-8?B?QWhYemlTcUh3Um01SUs4cFhmaTJHZHYzZlBEemEzSmxrM0s1RmdWTFdkeGNn?=
+ =?utf-8?B?K3BFUTE3ZUlqSTFib2d5VEFMUWJTVkRKSnFicTExbVJ6MmRjaTE0dEZSWmFH?=
+ =?utf-8?B?T1BsWmU3WUg5YUZYL2V1ZFNIcVU5UDlKSUE3dVVFcW44NUVKalRocC96Z1dx?=
+ =?utf-8?B?YjI0UnRBY0dDa1VDSFRJeVEza3grN05GUzZ1bHV4bi9zK1ZVclNtS2xFQ3ow?=
+ =?utf-8?B?bzNHT0Nmc2ZwcEYyWHN5K0dra09uaUw4ZUNkUEJaR3Y4dXVJR3NOd2dtYVFw?=
+ =?utf-8?B?YnlXRlFaKy8xTGMxbGFiYXVuWmNOWFVhS3pVOGxwemVoVkNGdE42VFN0ZlND?=
+ =?utf-8?B?Z3ljd3NLTjZLcGNmV1QvODRwSG5BeGJQNDZFQTA0ZVdGSVVPaG1zdjlrbWt1?=
+ =?utf-8?B?VkFhbEsxTUtPZDBqL1hTeDVJUUZBb3Y0bzR0VkNMbWEySGdCd0ZVUi83dTZO?=
+ =?utf-8?B?WlFwZHBLYXRyVURQdVkyZUl3TWtubGJ0YkgwRTBybDI2R3VaQXQ5bXlWOGZl?=
+ =?utf-8?B?RnpBa25YaHU1ejlUNjZncTM3OUhtV0hocnFIWHJrL3pmbHc0LzVpbTY2U1dl?=
+ =?utf-8?B?Q0swSzVBalRCS0pVcnhHNWQyYVY4UHZZREpmWlBBY2VjdkxXam1QTllIcW5R?=
+ =?utf-8?B?eGJNckdaZTdvQ21uYXZYSC8xakhwRFRTV2dwS0ptMTNKYzN1L0tlaTFQM1hz?=
+ =?utf-8?B?L29KenlPV0h3aC9JYm04U1I2ODBmd0liZmRFTkJWOG1aT1hmbmZKUTErZklu?=
+ =?utf-8?B?N1ZzUFBDdE5EcXBkdUNwRFRHWnFsd1BwcTV2TzZGTDM0dVYzKzFiL2hJckQz?=
+ =?utf-8?B?Nm8vWlNtdXFYRDZkUHYxelFOVEt3PT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82ef0dc7-d605-46f3-b897-08dd19de5863
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB8784.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2024 12:21:31.5977
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r5gdGSDdOJEtbs9VenrlMz4gltkTmi26+Dqgk1gCQuEyBONZNVXwZbmLHxbkHW7fzYHrMG8fVERPYsx6GRxYRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8401
 
-On Fri, Dec 06, 2024 at 03:38:12PM -0800, Abhishek Pandit-Subedi wrote:
-> Mode in struct typec_altmode is used to indicate the index of the
-> altmode on a port, partner or plug. It is used in enter mode VDMs but
-> doesn't make much sense for matching against altmode drivers or for
-> matching partner to port altmodes.
-> 
-> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+On 11/12/2024 02:39, Masahiro Yamada wrote:
+> On Wed, Dec 11, 2024 at 12:34 AM Jon Hunter <jonathanh@nvidia.com> wrote:
+>>
+>> Hi Masahiro,
+>>
+>> On 10/11/2024 01:34, Masahiro Yamada wrote:
+>>> Currently, Kbuild always operates in the output directory of the kernel,
+>>> even when building external modules. This increases the risk of external
+>>> module Makefiles attempting to write to the kernel directory.
+>>>
+>>> This commit switches the working directory to the external module
+>>> directory, allowing the removal of the $(KBUILD_EXTMOD)/ prefix from
+>>> some build artifacts.
+>>>
+>>> The command for building external modules maintains backward
+>>> compatibility, but Makefiles that rely on working in the kernel
+>>> directory may break. In such cases, $(objtree) and $(srctree) should
+>>> be used to refer to the output and source directories of the kernel.
+>>>
+>>> The appearance of the build log will change as follows:
+>>>
+>>> [Before]
+>>>
+>>>     $ make -C /path/to/my/linux M=/path/to/my/externel/module
+>>>     make: Entering directory '/path/to/my/linux'
+>>>       CC [M]  /path/to/my/externel/module/helloworld.o
+>>>       MODPOST /path/to/my/externel/module/Module.symvers
+>>>       CC [M]  /path/to/my/externel/module/helloworld.mod.o
+>>>       CC [M]  /path/to/my/externel/module/.module-common.o
+>>>       LD [M]  /path/to/my/externel/module/helloworld.ko
+>>>     make: Leaving directory '/path/to/my/linux'
+>>>
+>>> [After]
+>>>
+>>>     $ make -C /path/to/my/linux M=/path/to/my/externel/module
+>>>     make: Entering directory '/path/to/my/linux'
+>>>     make[1]: Entering directory '/path/to/my/externel/module'
+>>>       CC [M]  helloworld.o
+>>>       MODPOST Module.symvers
+>>>       CC [M]  helloworld.mod.o
+>>>       CC [M]  .module-common.o
+>>>       LD [M]  helloworld.ko
+>>>     make[1]: Leaving directory '/path/to/my/externel/module'
+>>>     make: Leaving directory '/path/to/my/linux'
+>>>
+>>> Printing "Entering directory" twice is cumbersome. This will be
+>>> addressed later.
+>>>
+>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>>
+>>
+>> Since this change I have been observing the following build error when
+>> building an external module ...
+>>
+>>    MODPOST Module.symvers
+>> ERROR: modpost: drivers/gpu/host1x/host1x: 'host1x_device_init' exported
+>>       twice. Previous export was in drivers/gpu/host1x/host1x.ko
+>> ERROR: modpost: drivers/gpu/host1x/host1x: 'host1x_device_exit' exported
+>>       twice. Previous export was in drivers/gpu/host1x/host1x.ko
+>>
+>> Now host1x is an upstream driver, but I have a local copy that using to
+>> stage development changes (and avoid polluting the upstream driver).
+>> Plus I can swap between which version I am using on a live system.
+>>
+>> What I noticed is that previously the Modules.symvers for the external
+>> module had the full path of the external module for the name. However,
+>> now the name is just the relative path and in this case
+>> 'drivers/gpu/host1x/host1x'. Hence, this clashes with the in-kernel
+>> driver and we get the 'exported twice' error.
+>>
+>> I have been looking to see if there is a way to fix this because it has
+>> been a useful feature to override an upstream driver with a locally
+>> modified version.
+> 
+> 
+> I do not know how to reproduce it.
+> 
+>    if (s && (!external_module || s->module->is_vmlinux || s->module == mod)) {
+> 
+> is not checking the module path at all.
+> I do not understand why it was affected.
 
-> ---
-> 
-> (no changes since v3)
-> 
-> Changes in v3:
-> - Removed mode from altmode device ids
-> - Updated modalias for typecd bus to remove mode
-> - Re-ordered to start of series
-> 
-> Changes in v2:
-> - Update altmode_match to ignore mode entirely
-> - Also apply the same behavior to typec_match
-> 
->  drivers/usb/typec/altmodes/displayport.c | 2 +-
->  drivers/usb/typec/altmodes/nvidia.c      | 2 +-
->  drivers/usb/typec/bus.c                  | 6 ++----
->  drivers/usb/typec/class.c                | 4 ++--
->  scripts/mod/devicetable-offsets.c        | 1 -
->  scripts/mod/file2alias.c                 | 4 +---
->  6 files changed, 7 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-> index 2f03190a9873..3245e03d59e6 100644
-> --- a/drivers/usb/typec/altmodes/displayport.c
-> +++ b/drivers/usb/typec/altmodes/displayport.c
-> @@ -791,7 +791,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
->  EXPORT_SYMBOL_GPL(dp_altmode_remove);
->  
->  static const struct typec_device_id dp_typec_id[] = {
-> -	{ USB_TYPEC_DP_SID, USB_TYPEC_DP_MODE },
-> +	{ USB_TYPEC_DP_SID },
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(typec, dp_typec_id);
-> diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altmodes/nvidia.c
-> index fe70b36f078f..2b77d931e494 100644
-> --- a/drivers/usb/typec/altmodes/nvidia.c
-> +++ b/drivers/usb/typec/altmodes/nvidia.c
-> @@ -24,7 +24,7 @@ static void nvidia_altmode_remove(struct typec_altmode *alt)
->  }
->  
->  static const struct typec_device_id nvidia_typec_id[] = {
-> -	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
-> +	{ USB_TYPEC_NVIDIA_VLINK_SID },
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
-> diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
-> index aa879253d3b8..ae90688d23e4 100644
-> --- a/drivers/usb/typec/bus.c
-> +++ b/drivers/usb/typec/bus.c
-> @@ -454,8 +454,7 @@ static int typec_match(struct device *dev, const struct device_driver *driver)
->  	const struct typec_device_id *id;
->  
->  	for (id = drv->id_table; id->svid; id++)
-> -		if (id->svid == altmode->svid &&
-> -		    (id->mode == TYPEC_ANY_MODE || id->mode == altmode->mode))
-> +		if (id->svid == altmode->svid)
->  			return 1;
->  	return 0;
->  }
-> @@ -470,8 +469,7 @@ static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  	if (add_uevent_var(env, "MODE=%u", altmode->mode))
->  		return -ENOMEM;
->  
-> -	return add_uevent_var(env, "MODALIAS=typec:id%04Xm%02X",
-> -			      altmode->svid, altmode->mode);
-> +	return add_uevent_var(env, "MODALIAS=typec:id%04X", altmode->svid);
->  }
->  
->  static int typec_altmode_create_links(struct altmode *alt)
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 4b3047e055a3..febe453b96be 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -237,13 +237,13 @@ static int altmode_match(struct device *dev, void *data)
->  	if (!is_typec_altmode(dev))
->  		return 0;
->  
-> -	return ((adev->svid == id->svid) && (adev->mode == id->mode));
-> +	return (adev->svid == id->svid);
->  }
->  
->  static void typec_altmode_set_partner(struct altmode *altmode)
->  {
->  	struct typec_altmode *adev = &altmode->adev;
-> -	struct typec_device_id id = { adev->svid, adev->mode, };
-> +	struct typec_device_id id = { adev->svid };
->  	struct typec_port *port = typec_altmode2port(adev);
->  	struct altmode *partner;
->  	struct device *dev;
-> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
-> index 9c7b404defbd..d3d00e85edf7 100644
-> --- a/scripts/mod/devicetable-offsets.c
-> +++ b/scripts/mod/devicetable-offsets.c
-> @@ -237,7 +237,6 @@ int main(void)
->  
->  	DEVID(typec_device_id);
->  	DEVID_FIELD(typec_device_id, svid);
-> -	DEVID_FIELD(typec_device_id, mode);
->  
->  	DEVID(tee_client_device_id);
->  	DEVID_FIELD(tee_client_device_id, uuid);
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index c4cc11aa558f..218ccb7150bf 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -1343,14 +1343,12 @@ static int do_tbsvc_entry(const char *filename, void *symval, char *alias)
->  	return 1;
->  }
->  
-> -/* Looks like: typec:idNmN */
-> +/* Looks like: typec:idN */
->  static int do_typec_entry(const char *filename, void *symval, char *alias)
->  {
->  	DEF_FIELD(symval, typec_device_id, svid);
-> -	DEF_FIELD(symval, typec_device_id, mode);
->  
->  	sprintf(alias, "typec:id%04X", svid);
-> -	ADD(alias, "m", mode != TYPEC_ANY_MODE, mode);
->  
->  	return 1;
->  }
-> -- 
-> 2.47.0.338.g60cca15819-goog
+
+So this is not explicitly checking the path, but comparing the contents
+of the Module.symvers before and after this change for the external
+module I see ...
+
+$ grep -r host1x_device_init Module.symvers
+0x00000000      host1x_device_init      /absolute/path/to/drivers/gpu/host1x/host1x        EXPORT_SYMBOL
+
+And now I see ...
+
+$ grep -r host1x_device_init Module.symvers
+0x00000000      host1x_device_init      drivers/gpu/host1x/host1x  EXPORT_SYMBOL
+
+So the problem is that now there is no longer an absolute path in the
+external modules Module.symvers and so conflicts with the kernel's.
+
+Does that make sense?
+
+Jon
 
 -- 
-heikki
+nvpublic
+
 
