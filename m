@@ -1,155 +1,227 @@
-Return-Path: <linux-kbuild+bounces-5080-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5081-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6AF9EC4B7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 07:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1529EC95A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 10:40:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0ACF28523A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 06:25:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACBA0281BC2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2024 09:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F8301C4A0A;
-	Wed, 11 Dec 2024 06:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 297011A8415;
+	Wed, 11 Dec 2024 09:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Hj5YnUae"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+CWh6Xy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC331C462D;
-	Wed, 11 Dec 2024 06:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B26B236FB7;
+	Wed, 11 Dec 2024 09:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733898289; cv=none; b=EPN4bkLh1PNTVTUifBmsZQsXojWu54owLfAuEv8SMHvr3pVZAIB4Kja92jfmUN/X2S91aY5b+455NFBCgNDtHQTsqUksXC+04NLYnaaCjOU+J6zFSMWXgOpI209b2j0ea+h2sD/Usw1JuVoFCEs1gQh1b7n5YYfQCuHnwCoMvRA=
+	t=1733910056; cv=none; b=dvjRp0fri4skjHEtCDM9Y5nhslT2Ne6Z0BtQtPVf+wzf+hK00cU5zysi+I6Y6lN7/O8QGeBP2BkyGQAxFl1MfiF4cchRTFTVhAjbgfQdDjQ41iqKs27mJ6sORFJOGOqsjeXNC+/z7sA8ZC3tga+9jv69X6mQ55wgem3p+igW0ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733898289; c=relaxed/simple;
-	bh=y7aZHwpgi27v8ZTlv7YlS3FJfZiEfiPR2Bpm7+DPGJo=;
+	s=arc-20240116; t=1733910056; c=relaxed/simple;
+	bh=GS5Z33ohQY2/h9ot0AUWoBG8q6TtS3G7qEZ7HPbHInU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+5eMNwFiW6oDw4XrpcHDCLOr4DdUpyX2OeBNCZcWuFKhrbAeHsv89ZI+yFDdk3HRCdcwj/UPTxxKXJ5/h6eLi7GSJXtkUcnE6Jrpz1sKEXItdKEXL1gGdp2lSBnN0YG4zin3wddV4KiT37ryJub65nIwGGOZqME8ia65mt/T1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Hj5YnUae; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1733898280;
-	bh=y7aZHwpgi27v8ZTlv7YlS3FJfZiEfiPR2Bpm7+DPGJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hj5YnUaeQAs5jb6PfRT6vy2lo43gPnqlBH3DYu+Hr07ugu7fe47ya0s4kPR8GNWnf
-	 BrA8qk/QLBD1RFKO9Evifp10s7ZtUYAWLVrbE1JDSUW2W7nR5eOMQMHXFI5UA4c+O7
-	 m/UDbyxHeTGtFCZq0WpwFugz9bC5T1qKeZ/SW4ow=
-Date: Wed, 11 Dec 2024 07:24:40 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Ihor Solodrai <ihor.solodrai@pm.me>
-Cc: Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Kui-Feng Lee <kuifeng@fb.com>, 
-	Alan Maguire <alan.maguire@oracle.com>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	 Content-Type:Content-Disposition:In-Reply-To; b=FIrl3z1ZolgAb9bIviBCjWQh7B5sFI0gmYXID85T25/ApojygVoQjH+OWz9ynHlGUEsm0kw57c9TiHJR6XkS2J97NXIz8h17EZMX+8ZAbNdpSjF1CAHx5XqNeoGgBwckid0/Z5qIougJzDtWbU5YPhxCpa4In61eEsFh64/pvRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+CWh6Xy; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733910054; x=1765446054;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GS5Z33ohQY2/h9ot0AUWoBG8q6TtS3G7qEZ7HPbHInU=;
+  b=F+CWh6Xy90nal7PeqTxrCEwAFSMmk0C+lhkxr+TOsWAyCx9ixXSUptNU
+   CTP+WgdB/12RgBic7hh+fX/1dj+jlm2UQQKdkpz73me+wkKtbaGZ4Q9fB
+   0oVmdpQZ1AyLVzmbgacYuTbpC/tlpERpOtPJnIG4K04GKQ9AOfne4Co/U
+   ehthCBhNpFWu0vL681Ro2jfsflNRmzMJPpBePm6/MPTLgNMN93HRey6AN
+   CLsbliecXZA/FJsdMxZdSn4/OyWBUiwY84qhztI8fRzynlQOQvQJp80qG
+   E6YyS4KDseOptuTYV2Klekdu/D31MIl/5DjVMIx3rgNb+RtzFiEyljdOG
+   A==;
+X-CSE-ConnectionGUID: a+IrBPUiTlyxNZAIez5DCw==
+X-CSE-MsgGUID: rQArnoC9T16PZ1IqClp6bA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="37117047"
+X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
+   d="scan'208";a="37117047"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 01:40:54 -0800
+X-CSE-ConnectionGUID: jLknP7QSS2y7aIPjuiF0Kg==
+X-CSE-MsgGUID: ejgYfS7HRvCb5auIaQiC5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
+   d="scan'208";a="95604206"
+Received: from kuha.fi.intel.com ([10.237.72.152])
+  by orviesa009.jf.intel.com with SMTP; 11 Dec 2024 01:40:49 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 11 Dec 2024 11:40:48 +0200
+Date: Wed, 11 Dec 2024 11:40:48 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: tzungbi@kernel.org, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, akuchynski@google.com,
+	pmalani@chromium.org, jthies@google.com,
+	dmitry.baryshkov@linaro.org, badhri@google.com,
+	rdbabiera@google.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next] kbuild, bpf: Enable reproducible BTF generation
-Message-ID: <3b834807-9f20-4f04-b788-f45dfac5cb1f@t-8ch.de>
-References: <20241211-pahole-reproducible-v1-1-22feae19bad9@weissschuh.net>
- <REDzg-0aL2-Qw7QvYCKTfsLGh6E6Iq8dgWJPo5a94ym2x5DiUkwdHA-naUtaDO7HJgvOr6zd201E5P_WAquOyOFIiUij6Bi183EyxPusDuo=@pm.me>
+Subject: Re: [PATCH v4 1/7] usb: typec: Only use SVID for matching altmodes
+Message-ID: <Z1leIAhqopg_We9F@kuha.fi.intel.com>
+References: <20241206233830.2401638-1-abhishekpandit@chromium.org>
+ <20241206153813.v4.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <REDzg-0aL2-Qw7QvYCKTfsLGh6E6Iq8dgWJPo5a94ym2x5DiUkwdHA-naUtaDO7HJgvOr6zd201E5P_WAquOyOFIiUij6Bi183EyxPusDuo=@pm.me>
+In-Reply-To: <20241206153813.v4.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
 
-Hi Ihor,
-
-On 2024-12-11 00:17:02+0000, Ihor Solodrai wrote:
-> On Tuesday, December 10th, 2024 at 3:23 PM, Thomas Weißschuh <linux@weissschuh.net> wrote:
+On Fri, Dec 06, 2024 at 03:38:12PM -0800, Abhishek Pandit-Subedi wrote:
+> Mode in struct typec_altmode is used to indicate the index of the
+> altmode on a port, partner or plug. It is used in enter mode VDMs but
+> doesn't make much sense for matching against altmode drivers or for
+> matching partner to port altmodes.
 > 
-> > 
-> > 
-> > Pahole v1.27 added a new BTF generation feature to support
-> > reproducibility in the face of multithreading.
-> > Enable it if supported and reproducible builds are requested.
-> > 
-> > As unknown --btf_features are ignored, avoid the test for the pahole
-> > version to keep the line readable.
-> > 
-> > Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and generate BTF with multithreading.")
-> > Fixes: 72d091846de9 ("kbuild: avoid too many execution of scripts/pahole-flags.sh")
-> > Link: https://lore.kernel.org/lkml/4154d202-5c72-493e-bf3f-bce882a296c6@gentoo.org/
-> > Link: https://lore.kernel.org/lkml/20240322-pahole-reprodicible-v1-1-3eaafb1842da@weissschuh.net/
-> > Signed-off-by: Thomas Weißschuh linux@weissschuh.net
-> > 
-> > ---
-> > scripts/Makefile.btf | 1 +
-> > 1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
-> > index c3cbeb13de503555adcf00029a0b328e74381f13..da23265bc8b3cf43c0a1c89fbc4f53815a290e13 100644
-> > --- a/scripts/Makefile.btf
-> > +++ b/scripts/Makefile.btf
-> > @@ -22,6 +22,7 @@ else
-> > 
-> > # Switch to using --btf_features for v1.26 and later.
-> > pahole-flags-$(call test-ge, $(pahole-ver), 126) = -j$(JOBS) --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func,decl_tag_kfuncs
-> > +pahole-flags-$(if $(KBUILD_BUILD_TIMESTAMP),y) += --btf_features=reproducible_build
+> Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+> ---
 > 
-> Hi Thomas,
+> (no changes since v3)
 > 
-> There are a couple of issues with reproducible_build flag which I
-> think are worth mentioning here. I don't know all the reasons behind
-> adding this now, and it's optional too, so feel free to discard my
-> comments.
+> Changes in v3:
+> - Removed mode from altmode device ids
+> - Updated modalias for typecd bus to remove mode
+> - Re-ordered to start of series
 > 
-> Currently with this flag, the BTF output is deterministic for a given
-> order of DWARF compilation units. So the BTF will be the same for the
-> same vmlinux binary. However, if the vmlinux is rebuilt due to an
-> incremental change in a source code, my understanding is that there is
-> no guarantee that DWARF CUs will be in the same order in the binary.
-
-The goal behind reproducible builds is to produce bit-by-bit idential
-binaries. If the CUs are in a different order then that requirement
-would have been broken there already.
-
-For an incremental build a full relink with *all* CUs is done, not only
-the changed once, so the order should always be the same.
-
-> At the same time, reproducible_build slows down BTF generation by
-> 30-50%, maybe more depending on the kernel config.
-
-If a user explicitly requests reproducibility then they should get it,
-even if it is slower.
-
-> Hopefully these problems will be solved in upcoming pahole releases.
-
-I don't see it as big problem. This is used for release builds, not
-during development.
- 
-> Question: why KBUILD_BUILD_TIMESTAMP flag? Isn't it more appropriate
-> to use a separate flag for this particular feature?
-
-Adding an additional variable would need to be documented and would
-makes the feature harder to use. KBUILD_BUILD_TIMESTAMP already needs to
-be set by the user if they are building for reproducibility.
-
-> > ifneq ($(KBUILD_EXTMOD),)
-> > module-pahole-flags-$(call test-ge, $(pahole-ver), 126) += --btf_features=distilled_base
-> > 
-> > ---
-> > base-commit: 7cb1b466315004af98f6ba6c2546bb713ca3c237
-> > change-id: 20241124-pahole-reproducible-2b879ac8bdab
-> > 
-> > Best regards,
-> > --
-> > Thomas Weißschuh linux@weissschuh.net
-> > 
-> > 
+> Changes in v2:
+> - Update altmode_match to ignore mode entirely
+> - Also apply the same behavior to typec_match
 > 
+>  drivers/usb/typec/altmodes/displayport.c | 2 +-
+>  drivers/usb/typec/altmodes/nvidia.c      | 2 +-
+>  drivers/usb/typec/bus.c                  | 6 ++----
+>  drivers/usb/typec/class.c                | 4 ++--
+>  scripts/mod/devicetable-offsets.c        | 1 -
+>  scripts/mod/file2alias.c                 | 4 +---
+>  6 files changed, 7 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index 2f03190a9873..3245e03d59e6 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -791,7 +791,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
+>  EXPORT_SYMBOL_GPL(dp_altmode_remove);
+>  
+>  static const struct typec_device_id dp_typec_id[] = {
+> -	{ USB_TYPEC_DP_SID, USB_TYPEC_DP_MODE },
+> +	{ USB_TYPEC_DP_SID },
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(typec, dp_typec_id);
+> diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altmodes/nvidia.c
+> index fe70b36f078f..2b77d931e494 100644
+> --- a/drivers/usb/typec/altmodes/nvidia.c
+> +++ b/drivers/usb/typec/altmodes/nvidia.c
+> @@ -24,7 +24,7 @@ static void nvidia_altmode_remove(struct typec_altmode *alt)
+>  }
+>  
+>  static const struct typec_device_id nvidia_typec_id[] = {
+> -	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
+> +	{ USB_TYPEC_NVIDIA_VLINK_SID },
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
+> diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+> index aa879253d3b8..ae90688d23e4 100644
+> --- a/drivers/usb/typec/bus.c
+> +++ b/drivers/usb/typec/bus.c
+> @@ -454,8 +454,7 @@ static int typec_match(struct device *dev, const struct device_driver *driver)
+>  	const struct typec_device_id *id;
+>  
+>  	for (id = drv->id_table; id->svid; id++)
+> -		if (id->svid == altmode->svid &&
+> -		    (id->mode == TYPEC_ANY_MODE || id->mode == altmode->mode))
+> +		if (id->svid == altmode->svid)
+>  			return 1;
+>  	return 0;
+>  }
+> @@ -470,8 +469,7 @@ static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  	if (add_uevent_var(env, "MODE=%u", altmode->mode))
+>  		return -ENOMEM;
+>  
+> -	return add_uevent_var(env, "MODALIAS=typec:id%04Xm%02X",
+> -			      altmode->svid, altmode->mode);
+> +	return add_uevent_var(env, "MODALIAS=typec:id%04X", altmode->svid);
+>  }
+>  
+>  static int typec_altmode_create_links(struct altmode *alt)
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 4b3047e055a3..febe453b96be 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -237,13 +237,13 @@ static int altmode_match(struct device *dev, void *data)
+>  	if (!is_typec_altmode(dev))
+>  		return 0;
+>  
+> -	return ((adev->svid == id->svid) && (adev->mode == id->mode));
+> +	return (adev->svid == id->svid);
+>  }
+>  
+>  static void typec_altmode_set_partner(struct altmode *altmode)
+>  {
+>  	struct typec_altmode *adev = &altmode->adev;
+> -	struct typec_device_id id = { adev->svid, adev->mode, };
+> +	struct typec_device_id id = { adev->svid };
+>  	struct typec_port *port = typec_altmode2port(adev);
+>  	struct altmode *partner;
+>  	struct device *dev;
+> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
+> index 9c7b404defbd..d3d00e85edf7 100644
+> --- a/scripts/mod/devicetable-offsets.c
+> +++ b/scripts/mod/devicetable-offsets.c
+> @@ -237,7 +237,6 @@ int main(void)
+>  
+>  	DEVID(typec_device_id);
+>  	DEVID_FIELD(typec_device_id, svid);
+> -	DEVID_FIELD(typec_device_id, mode);
+>  
+>  	DEVID(tee_client_device_id);
+>  	DEVID_FIELD(tee_client_device_id, uuid);
+> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> index c4cc11aa558f..218ccb7150bf 100644
+> --- a/scripts/mod/file2alias.c
+> +++ b/scripts/mod/file2alias.c
+> @@ -1343,14 +1343,12 @@ static int do_tbsvc_entry(const char *filename, void *symval, char *alias)
+>  	return 1;
+>  }
+>  
+> -/* Looks like: typec:idNmN */
+> +/* Looks like: typec:idN */
+>  static int do_typec_entry(const char *filename, void *symval, char *alias)
+>  {
+>  	DEF_FIELD(symval, typec_device_id, svid);
+> -	DEF_FIELD(symval, typec_device_id, mode);
+>  
+>  	sprintf(alias, "typec:id%04X", svid);
+> -	ADD(alias, "m", mode != TYPEC_ANY_MODE, mode);
+>  
+>  	return 1;
+>  }
+> -- 
+> 2.47.0.338.g60cca15819-goog
+
+-- 
+heikki
 
