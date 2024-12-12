@@ -1,213 +1,260 @@
-Return-Path: <linux-kbuild+bounces-5102-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5103-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ED49EFEEE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 23:03:39 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8DB9EFF98
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 23:54:55 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3ABD1165B72
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 22:03:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47096285A11
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 22:54:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9121DD0FF;
-	Thu, 12 Dec 2024 22:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E451DE2C1;
+	Thu, 12 Dec 2024 22:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TDKoOuQ0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uxr0xRNb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0931D88DB
-	for <linux-kbuild@vger.kernel.org>; Thu, 12 Dec 2024 22:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A1E1AD9ED;
+	Thu, 12 Dec 2024 22:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734041014; cv=none; b=fYdudlYOmrJsJNmxxc344IQqwAhmc0HxxWNXYW3cq/Oep6iOxlzXdCaaWCiQI2JAI8oJWrxUUvzaH7jDRQAa27JZqmiye6UEFI6Lr+R0X9QL5bOrq0BaTzERkgLn7JtFky41N5+7ul62e0PO3oDqZlv1aMltNRVdI2O8qTzSz2c=
+	t=1734044090; cv=none; b=peWoHX+8gNubp+vXQuSk8R0Ssq3qUBBMC7ES5RFlDsY+2XS1OhwWang81xvHpIH/HQmdk3HUy2nPviqU3M86Ds6F6laPQUznKs7i3anTx9CkZejNokNAi0dND2O2HXCxVlZwFbd1SinonFEbKGAnNEVqn0hUk+qDdAaGHhcF8R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734041014; c=relaxed/simple;
-	bh=CRwmUv4IRr1Zsl2l5O8iNo6qgyCr1gO6u+tuGewt/rs=;
+	s=arc-20240116; t=1734044090; c=relaxed/simple;
+	bh=0kU0jCir+mX6QNkTTrGeBLeQYe6BkWEG4iPtzpl8Pg0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZGoE7YFpUb4z3mGAffaMJ1Q05OyFSH5Ga168z3gPOqvkaaN+8ShYs1cwR5clfVkCx05TNzPY2XS15XHrYwgtXPZapBFfhHAeFEm4HMdYnJ5pLEXB2ci1mCoQOTdz9KPhxOY5PaKIRIDzkU2Hz7e52Hjk+49fek08NHrI2qtqS54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TDKoOuQ0; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4679b5c66d0so15871cf.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 12 Dec 2024 14:03:32 -0800 (PST)
+	 To:Cc:Content-Type; b=lwqBS1gSGZnGtY4ZJsbyJocFCa122dDxnrwThdjP2lhf5A4Rx5hIDcsIAuBMMx0V9zFXGRx0xTGUckGAebymN1Y6Iv4UvY+7Mt4ndfzqwH0LlX1hN5ITPSx04xa14k9aknGMarQc1IyWeNsng5ebGWOs1mdumlFtOZ53fcD86w8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uxr0xRNb; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2ef748105deso821821a91.1;
+        Thu, 12 Dec 2024 14:54:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734041012; x=1734645812; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734044088; x=1734648888; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UolAYRSfthqXCSLPGGN4mTa1qltoMW6sppP83v6THCY=;
-        b=TDKoOuQ0Z4SzapnjN5WCQvwUsVau5P9ESW6FRbX3uCWJIVa/eonsfM4lTLdWbgPZzq
-         L/ysN87H74/gGPp+XQxEZVygkMdEcZ4eMuxeNgjKyhFT/qScosoAXT7pjey5Nl9etX5r
-         ZM6GvXLsPL1OiJ+jxUDTZoAwZYJr+YrgKjh8pP2gGOlswTW0YG7ORk54Jh/3ZsSMRJ+H
-         2EiKycHxPQ8aKfBPDJ0XFXhDr35R6i6kAefYWzWWzri+68Lw1/p2PLeioFQHhMI5OTHc
-         J8cRLyOFFgA3UCxz4uzlRpX/7+yzxc+1WDFi9T7hFBOsXfGfIEcyLkg5eNgtXNe0M3Lt
-         xZYg==
+        bh=cu3bsJq/+UKlAtZnBLQa/cSRZsPRbGmPSv5xNPM7oBg=;
+        b=Uxr0xRNbc0UaJkkfsFY98wN7YwvVDwvZowsbXaVlpwChBF1Gd+QOzOerJkQ0w9sjl+
+         KwlZIIwU4OKp2gz5CdGYCBJ8AWV/k647Ekj2GUUvdaaaBr4P8XMMRc7Jf5nB/GH1f+ky
+         JL0E+w6gzKEWCTeGmUEAcCpDSWWSSKqnruaFLmwVSqYxKX7EoYSQrN7W5Iqcpo69iA4n
+         jVOb6yZptnqZPnPkUktSJAU07az8cCCnzQ/Bs2tIt0+9xaWkAh+BD4G1yOR8pmp7+bfD
+         DkJzfddvLOR+gZUfLaZDoyEmeobj0Ox25qP46DYG5ZuOQLxzh2szYYBD+viEszp1kB3p
+         ZxSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734041012; x=1734645812;
+        d=1e100.net; s=20230601; t=1734044088; x=1734648888;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UolAYRSfthqXCSLPGGN4mTa1qltoMW6sppP83v6THCY=;
-        b=uaGz0iuMR9yPpspl2dmK6nNEEGgY/glpO8tlERZgmmgX36ndgUGVCnAq2IYjLLYCx9
-         OvEy4/YjcaPtDJvbyqbNxlxI4WG1ajWsycQJLms5HkLoeL9SWMJSrQ6HVU9oDuoBo9ie
-         AEYyOJso8en8TSqhcR55h4g/gwdksdFHGYNrBZc/c7GecHz5E3HZuC/2XAXfbtLDeNHJ
-         /NM6lOV2Y4GmHJM/QoBeJgpH/GjkGpsDf5YmlecmgkcmBb9aTNQuHab/UjqcGwaJgl5G
-         sXU1qbq8mfhApp8U08ILDe5rSwiGyeY4K/aMtMoufGHXd91H1KKSKF8WwkP7m4a60NCa
-         Pluw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQzjzS/9GWnyzPjhphgSEY8jsxGrmy1eOcNOGSVE7LjjqVaDm+u2+3nI6auiVmlam10dNgstmlyUoguHU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYH8YZGV8CdcuuITEdRE/GxQhE/KPhlv93ni0i/dml5N0koApx
-	7nxV3iihsUNeJAxAUJ14KBkm5+V/EHR3NxR+QjGF7aQgFJLy3bzKQixUf7C5GtJyvVMf7iKZM3l
-	VkZUqra2heRBfCNqAFSBeBNnqzEg0ijBcIcAD
-X-Gm-Gg: ASbGnct7jETthEIRrIYq6PN04rficSda/bASAm0UbJ5faoh4UzHO8+IaQCni9b/S85t
-	Us4Nb5VYSRLNvWLZ6zpld47YdgLzHgXq6/BNI78IPtYkFxfTV7X6HZVyqrpRk37uFBRTRCZ0=
-X-Google-Smtp-Source: AGHT+IEtTXrfsemev1bQXjp2ru2C3SgTe0WM6v4TuwBypYZLXlJpqMqyNYgXDGfoZdfwkwvY0DZhia4IV4zRNCi3yYE=
-X-Received: by 2002:a05:622a:5a86:b0:466:861a:f633 with SMTP id
- d75a77b69052e-467a588583cmr208881cf.5.1734041011301; Thu, 12 Dec 2024
- 14:03:31 -0800 (PST)
+        bh=cu3bsJq/+UKlAtZnBLQa/cSRZsPRbGmPSv5xNPM7oBg=;
+        b=Vbw+Wi8TswFXLVq5oBjO/CddFpB/sc3d3dnEeubTSRF4qv7gKtxaXNAkADSw9BLF/z
+         qEKhFlSNL8gvaLf7wml4gx+LlUlM/UbJQDsyqOCCmP0OhUUDn1NIgE54bFCDcwnewE3G
+         wjxTttOPgoqBXce4vQF5zzFVXm5JszPpxPL37EkJXl8TZQzDq8e0Ljqp98Cuvqe9ZuvT
+         fCaH2Gq6o/ivRE6AgkSBnnhQZzQJelV0/UcRIia1DC0HVxK6doUVlFZDGYaHekeoWUr4
+         tw4aTAlR8DKdQIOHWzqkldN7DdFN1WvGwBVIKm5wkdIPz16xhRjVG3uqe2qCfuW17hDK
+         IbsA==
+X-Forwarded-Encrypted: i=1; AJvYcCVsZKe/Igp+yfMj2pArzjmrP4MA8sysseTg2ieOhqyQH+/e30uZLVcHyjUUQwwutC0EKsX0M9/gIqapAN4t@vger.kernel.org, AJvYcCWt+7vkFGNvAMoBxTp8WK4HPVL5ttWi87swPDNnOmtqAlwxK1PNMLS48K4LfTwDq+KNBM4=@vger.kernel.org, AJvYcCWvrhYkxsjBKK3OnFs5Rmo4UJB9w7ympGhRS76zsDyjvUjzZed+k6KYZzb16Pq/QThPmrX/1dTkXzYu3I9o@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKIew1qdWkUDkp38W32y7c26pR5rHaIe2EZIAX23iQBsP68z0w
+	fkWH86NnYat4jWlPo+l/Mmj2jHnR0WYRm+DHBbmI5+IOll0Al5uvH4l0FgVfh3cgo8xXMdCSpmV
+	AXsnhvBL9cZ0uIR9HshyqBxTV6og=
+X-Gm-Gg: ASbGncsNwH45BlJORHrk31YKsYgRDKZ7d7MFbEArl8lySVNoE5toac96y2sfrjGxbkF
+	o6RqnxHUZUbw1BuIH7+iECTPHVlODGyvd9LQKrRybRlpzY0Sfvc5NfQ==
+X-Google-Smtp-Source: AGHT+IGMb7Wvy4MjNYmnltmynjKEniH11G2YbQUjYVL2QooFsF00VNLx1ayawENFY+lQ/kOZo8/ZVqC+EYOTVUT2ybQ=
+X-Received: by 2002:a17:90b:2dc7:b0:2ee:b26c:10a3 with SMTP id
+ 98e67ed59e1d1-2f2901b81b3mr608339a91.36.1734044088186; Thu, 12 Dec 2024
+ 14:54:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102175115.1769468-1-xur@google.com> <20241102175115.1769468-8-xur@google.com>
- <c0a6ae91-c925-40d6-8f95-59a9144d203b@linux.dev> <20241212213448.GA865755@thelio-3990X>
-In-Reply-To: <20241212213448.GA865755@thelio-3990X>
-From: Rong Xu <xur@google.com>
-Date: Thu, 12 Dec 2024 14:03:19 -0800
-Message-ID: <CAF1bQ=R9MTbCeRJi4eNMSW4s5OFVPXUhM3RPyUKr4xMn+Y1YwQ@mail.gmail.com>
-Subject: Re: [PATCH v7 7/7] Add Propeller configuration for kernel build
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Yonghong Song <yonghong.song@linux.dev>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
-	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
-	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Juergen Gross <jgross@suse.com>, Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Yabin Cui <yabinc@google.com>, 
-	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
-	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Peter Jung <ptr1337@cachyos.org>
+References: <20241211-pahole-reproducible-v1-1-22feae19bad9@weissschuh.net>
+ <REDzg-0aL2-Qw7QvYCKTfsLGh6E6Iq8dgWJPo5a94ym2x5DiUkwdHA-naUtaDO7HJgvOr6zd201E5P_WAquOyOFIiUij6Bi183EyxPusDuo=@pm.me>
+ <3b834807-9f20-4f04-b788-f45dfac5cb1f@t-8ch.de> <CAEf4BzZSB2nzhYag_LKACXXJLwqLLfddXMV9_JRGYi+Y48rC-w@mail.gmail.com>
+ <acf36eab-f906-42f7-9299-1473c0451dd1@t-8ch.de>
+In-Reply-To: <acf36eab-f906-42f7-9299-1473c0451dd1@t-8ch.de>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Thu, 12 Dec 2024 14:54:36 -0800
+Message-ID: <CAEf4Bzaa+X4K3_NApFYHxWP1P7stnAvZH4to65D1600fie6H3w@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] kbuild, bpf: Enable reproducible BTF generation
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Ihor Solodrai <ihor.solodrai@pm.me>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Kui-Feng Lee <kuifeng@fb.com>, 
+	Alan Maguire <alan.maguire@oracle.com>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-We will take a look at this issue and get back to you. Thanks for
-reporting this.
-
-Best Regards,
-
--Rong
-
-On Thu, Dec 12, 2024 at 1:34=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+On Thu, Dec 12, 2024 at 1:07=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisss=
+chuh.net> wrote:
 >
-> On Thu, Dec 12, 2024 at 01:20:46PM -0800, Yonghong Song wrote:
-> ...
-> > > +5) Use the create_llvm_prof tool (https://github.com/google/autofdo)=
+> Hi Andrii,
+>
+> On 2024-12-12 11:23:03-0800, Andrii Nakryiko wrote:
+> > On Tue, Dec 10, 2024 at 10:24=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@w=
+eissschuh.net> wrote:
+> > > On 2024-12-11 00:17:02+0000, Ihor Solodrai wrote:
+> > > > On Tuesday, December 10th, 2024 at 3:23 PM, Thomas Wei=C3=9Fschuh <=
+linux@weissschuh.net> wrote:
+> > > >
+> > > > >
+> > > > >
+> > > > > Pahole v1.27 added a new BTF generation feature to support
+> > > > > reproducibility in the face of multithreading.
+> > > > > Enable it if supported and reproducible builds are requested.
+> > > > >
+> > > > > As unknown --btf_features are ignored, avoid the test for the pah=
+ole
+> > > > > version to keep the line readable.
+> > > > >
+> > > > > Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and ge=
+nerate BTF with multithreading.")
+> > > > > Fixes: 72d091846de9 ("kbuild: avoid too many execution of scripts=
+/pahole-flags.sh")
+> > > > > Link: https://lore.kernel.org/lkml/4154d202-5c72-493e-bf3f-bce882=
+a296c6@gentoo.org/
+> > > > > Link: https://lore.kernel.org/lkml/20240322-pahole-reprodicible-v=
+1-1-3eaafb1842da@weissschuh.net/
+> > > > > Signed-off-by: Thomas Wei=C3=9Fschuh linux@weissschuh.net
+> > > > >
+> > > > > ---
+> > > > > scripts/Makefile.btf | 1 +
+> > > > > 1 file changed, 1 insertion(+)
+> > > > >
+> > > > > diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+> > > > > index c3cbeb13de503555adcf00029a0b328e74381f13..da23265bc8b3cf43c=
+0a1c89fbc4f53815a290e13 100644
+> > > > > --- a/scripts/Makefile.btf
+> > > > > +++ b/scripts/Makefile.btf
+> > > > > @@ -22,6 +22,7 @@ else
+> > > > >
+> > > > > # Switch to using --btf_features for v1.26 and later.
+> > > > > pahole-flags-$(call test-ge, $(pahole-ver), 126) =3D -j$(JOBS) --=
+btf_features=3Dencode_force,var,float,enum64,decl_tag,type_tag,optimized_fu=
+nc,consistent_func,decl_tag_kfuncs
+> > > > > +pahole-flags-$(if $(KBUILD_BUILD_TIMESTAMP),y) +=3D --btf_featur=
+es=3Dreproducible_build
+> > > >
+> > > > Hi Thomas,
+> > > >
+> > > > There are a couple of issues with reproducible_build flag which I
+> > > > think are worth mentioning here. I don't know all the reasons behin=
+d
+> > > > adding this now, and it's optional too, so feel free to discard my
+> > > > comments.
+> > > >
+> > > > Currently with this flag, the BTF output is deterministic for a giv=
+en
+> > > > order of DWARF compilation units. So the BTF will be the same for t=
+he
+> > > > same vmlinux binary. However, if the vmlinux is rebuilt due to an
+> > > > incremental change in a source code, my understanding is that there=
+ is
+> > > > no guarantee that DWARF CUs will be in the same order in the binary=
+.
+> > >
+> > > The goal behind reproducible builds is to produce bit-by-bit idential
+> > > binaries. If the CUs are in a different order then that requirement
+> > > would have been broken there already.
+> >
+> > I'm curious, how do we guarantee that we get bit-by-bit identical
+> > DWARF? Do we enforce the order of linking of .o files into the final
+> > vmlinux? Is this described anywhere?
+>
+> The CU order has to be fixed, otherwise the non-debugging parts of the
+> binary would not be reproducible either.
+> For docs is Documentation/kbuild/reproducible-builds.rst, the linked
+> reproducible-builds.org project has much more information.
+>
+> Also besides reproducible builds, lots of kernel components rely
+> (accidentally or intentionally) on a stable initialization order, which
+> is also defined by linking order.
+>
+> From Documentation/kbuild/makefiles.rst:
+>
+>         Link order is significant, because certain functions
+>         (module_init() / __initcall) will be called during boot in the
+>         order they appear. So keep in mind that changing the link
+>         order may e.g. change the order in which your SCSI
+>         controllers are detected, and thus your disks are renumbered.
+>
+> > > For an incremental build a full relink with *all* CUs is done, not on=
+ly
+> > > the changed once, so the order should always be the same.
+> >
+> > The concern here is whether linker guarantees that CUs' DWARF data
+> > will be appended in exactly the same order in such case?
+>
+> Otherwise it wouldn't be reproducible in general.
+> The pahole developers specifically implemented
+> --btf_features=3Dreproducible_build for use in the kernel; after I sent
+> a precursor patch to this one (also linked in the patch):
+>
+> https://lore.kernel.org/lkml/20240322-pahole-reprodicible-v1-1-3eaafb1842=
+da@weissschuh.net/
+>
+> In general the kernel already supports reproducible builds.
+
+Great, thanks for all the info!
+
+I do agree with Ihor that KBUILD_BUILD_TIMESTAMP is a non-obvious and
+surprising way to enable this behavior, but if that's what's used for
+other aspects of kernel build I guess it's fine by me.
+
+Ihor's work on making BTF generation more deterministic w.r.t. CU
+order would automatically benefit --btf_features=3Dreproducible_build in
+the end and might make it unnecessary, but there is no need to block
+on a completion of that work.
+
+>
+> For my personal kernel builds only two incompatibilities/rough edges rema=
+in:
+>
+> * (parallel) BTF generation, which is fixed with this patch
+> * CONFIG_MODULE_SIG with non-precreated keys (which I am working on)
+>
+> > > > At the same time, reproducible_build slows down BTF generation by
+> > > > 30-50%, maybe more depending on the kernel config.
+> > >
+> > > If a user explicitly requests reproducibility then they should get it=
+,
+> > > even if it is slower.
+> > >
+> > > > Hopefully these problems will be solved in upcoming pahole releases=
+.
+> > >
+> > > I don't see it as big problem. This is used for release builds, not
+> > > during development.
+> > >
+> > > > Question: why KBUILD_BUILD_TIMESTAMP flag? Isn't it more appropriat=
+e
+> > > > to use a separate flag for this particular feature?
+> > >
+> > > Adding an additional variable would need to be documented and would
+> > > makes the feature harder to use. KBUILD_BUILD_TIMESTAMP already needs=
  to
-> > > +   generate Propeller profile. ::
-> > > +
-> > > +      $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file=
->
-> > > +                         --format=3Dpropeller --propeller_output_mod=
-ule_name
-> > > +                         --out=3D<propeller_profile_prefix>_cc_profi=
-le.txt
-> > > +                         --propeller_symorder=3D<propeller_profile_p=
-refix>_ld_profile.txt
-> >
-> > Prevously I am using perf-6.8.5-0.hs1.hsx.el9.x86_64 and it works fine.
-> > Now in my system, the perf is upgraded to 6.12.gadc218676eef
-> >
-> > [root@twshared7248.15.atn5 ~]# perf --version
-> > perf version 6.12.gadc218676eef
-> >
-> > and create_llvm_prof does not work any more.
-> >
-> > The command to collect sampling data:
-> >
-> > # perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c 500009 -- str=
-ess --cpu 36 --io 36 --vm 36 --vm-bytes 128M --timeout 300s
-> > stress: info: [536354] dispatching hogs: 36 cpu, 36 io, 36 vm, 0 hdd
-> > stress: info: [536354] successful run completed in 300s
-> > [ perf record: Woken up 2210 times to write data ]
-> > [ perf record: Captured and wrote 562.529 MB perf.data (701971 samples)=
- ]
-> > # uname -r
-> > 6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39
-> >
-> > The kernel is a 6.11 lto kernel.
-> >
-> > I then run the following command:
-> > $ cat ../run.sh
-> > # perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c 500009 \
-> > #       -- stress --cpu 36 --io 36 --vm 36 --vm-bytes 128M --timeout 30=
-0s
-> > # good: perf-6.8.5-0.hs1.hsx.el9.x86_64
-> >
-> > # <propeller_profile_prefix>: /tmp/propeller
-> > ./create_llvm_prof --binary=3Dvmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572d=
-fac1b39 \
-> >          --profile=3Dperf.data \
-> >          --format=3Dpropeller --propeller_output_module_name \
-> >          --out=3D/tmp/propeller_cc_profile.txt \
-> >          --propeller_symorder=3D/tmp/propeller_ld_profile.txt
-> >
-> > $ ./run.sh
-> > WARNING: Logging before InitGoogleLogging() is written to STDERR
-> > I20241212 13:12:18.401772 463318 llvm_propeller_binary_content.cc:376] =
-'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is PIE: 0
-> > I20241212 13:12:18.403692 463318 llvm_propeller_binary_content.cc:380] =
-'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is relocatable: 0
-> > I20241212 13:12:18.404873 463318 llvm_propeller_binary_content.cc:388] =
-Build Id found in 'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39': eaacd=
-5a14abc48cf832b3ad0fa6c64635ab569a8
-> > I20241212 13:12:18.521499 463318 llvm_propeller_binary_content.cc:376] =
-'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is PIE: 0
-> > I20241212 13:12:18.521530 463318 llvm_propeller_binary_content.cc:380] =
-'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is relocatable: 0
-> > I20241212 13:12:18.521553 463318 llvm_propeller_binary_content.cc:388] =
-Build Id found in 'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39': eaacd=
-5a14abc48cf832b3ad0fa6c64635ab569a8
-> > I20241212 13:12:18.521611 463318 llvm_propeller_perf_lbr_aggregator.cc:=
-51] Parsing [1/1] perf.data ...
-> > [ERROR:/home/runner/work/autofdo/autofdo/third_party/perf_data_converte=
-r/src/quipper/perf_reader.cc:1386] Event size 132 after uint64_t alignment =
-of the filename length is greater than event size 128 reported by perf for =
-the buildid event of type 0
-> > W20241212 13:12:18.521708 463318 llvm_propeller_perf_lbr_aggregator.cc:=
-55] Skipped profile [1/1] perf.data: FAILED_PRECONDITION: Failed to read pe=
-rf data file: [1/1] perf.data
-> > W20241212 13:12:18.521718 463318 llvm_propeller_perf_lbr_aggregator.cc:=
-67] Too few branch records in perf data.
-> > E20241212 13:12:18.554437 463318 create_llvm_prof.cc:238] FAILED_PRECON=
-DITION: No perf file is parsed, cannot proceed.
-> >
-> >
-> > Could you help take a look why perf 12 does not work with create_llvm_p=
-rof?
-> > The create_llvm_prof is downloaded from https://github.com/google/autof=
-do/releases/tag/v0.30.1.
->
-> I think Peter may have reported the same issue on GitHub?
->
-> https://github.com/google/autofdo/issues/233
->
-> I wonder if this is a kernel side or perf tool regression?
->
-> Cheers,
-> Nathan
+> > > be set by the user if they are building for reproducibility.
+> > >
+> > > > > ifneq ($(KBUILD_EXTMOD),)
+> > > > > module-pahole-flags-$(call test-ge, $(pahole-ver), 126) +=3D --bt=
+f_features=3Ddistilled_base
+> > > > >
+> > > > > ---
+> > > > > base-commit: 7cb1b466315004af98f6ba6c2546bb713ca3c237
+> > > > > change-id: 20241124-pahole-reproducible-2b879ac8bdab
+> > > > >
+> > > > > Best regards,
+> > > > > --
+> > > > > Thomas Wei=C3=9Fschuh linux@weissschuh.net
 
