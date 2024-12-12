@@ -1,104 +1,98 @@
-Return-Path: <linux-kbuild+bounces-5094-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5095-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030F59EEE62
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 16:56:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6033B9EF04D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 17:26:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8FAB1687F6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 15:51:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1652B188B523
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 16:18:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D199222D65;
-	Thu, 12 Dec 2024 15:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25BDD231A42;
+	Thu, 12 Dec 2024 16:05:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HssL/8vf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbM6v0Qy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047A42210CD;
-	Thu, 12 Dec 2024 15:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF36223E61;
+	Thu, 12 Dec 2024 16:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734018628; cv=none; b=YIareyA81Xf/tsaA5AN/J7mLblP5WUmNVRlb6qsPKP7/+zpqiLMvtOxLoPeG7cqMAiFpFvZ+I0R1Zaw53O0Kpkgs/ODrbGu2p/8EYFzP72OARWyaotlDPBRJtKazSz47ciYkyjYxbf27iziR9yqbwEUOnpGR6/h+R6Hxu4HVHJA=
+	t=1734019555; cv=none; b=e3yFP+atYz17ByxpeeVCxZKO05ZKs26vDLbwHWa3YbdrzI8IJkVbMDHzuMpLEI4CZMM216qBHFLcnGJnU32+CHu4IczXX/NdBNwVmgBZdKjhOQ+8A1aSZMSvKXIYt1QtKVRKuj8jxSX23wA8n5E46sTcDEZmvCI5NKJnATkZloc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734018628; c=relaxed/simple;
-	bh=SAvTRNNbapiAg5dpA9PyCGERpK6EazCw4Yr2O+tX678=;
+	s=arc-20240116; t=1734019555; c=relaxed/simple;
+	bh=1thxMyObyFIfuoA6BeWJHGda6gjxV1E3JNYjUL+Psis=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ezXwR7oe5Ef7k2UqXIOfs/hmqPbKJotcMlvAUlcAp9DEO0Nq5Mxs000L1jyPbB+HuqVRRC+AjP8UvC+QNycZtTJChWzKAO+LLSq/V5EJmxc/J7A2mzuGpUl2O+SsqsI2o5tfSwuYjCyRw6+q9dwFQTtS8yKID1PK1vKgHjc0LNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HssL/8vf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF80FC4CED3;
-	Thu, 12 Dec 2024 15:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734018625;
-	bh=SAvTRNNbapiAg5dpA9PyCGERpK6EazCw4Yr2O+tX678=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HssL/8vfQavJjMJ2WBf/N2FweKs9mml17vBqy+alDd7BzaE3eCS6i3GCHQJgpV2oA
-	 oK9F4NqcXezotmGu70QTtWMu/rHmNi18b41Bm4YKNnjuBCMkVcXOsJSfxmj56fAa+d
-	 /zyy00RvFs39afAAf/peAEXiXUd8uFRDpHDgeHp+pyoeZd9PcdIn1iPr34uby+cym2
-	 PpbbLvEVwd/wjkiSrTWLB8I7rI+feVUjQoT4cmuyrT85La3ueNAwBUjiJVxiF6qj5j
-	 hru9t07sNo7fM7DHA8GB+67CtI6WJUyiLVSbxFC0oEQrqykd8VB2pOqEUTwURgzvqP
-	 X8r2M6BUNe+iA==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3003c0c43c0so7811261fa.1;
-        Thu, 12 Dec 2024 07:50:25 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz0lZ6A3o9rhXZ0/hBOX/n8DdueCrK2Ku49L4u8vTOpJwyEj08Z
-	y8R8+NXUmjqJruio3hPE9wpkIfpKaH9B+pD4oRTQwZSLYPz+t0B+0cYqTHRZowpXqltKdIjPAum
-	SO1pl64HFM9TJ8QJErhoExkzA7LI=
-X-Google-Smtp-Source: AGHT+IEqcQZ0DjYZD0cBKnUgKIy6QbViNthhBj/SQzjcLeD8uNbIMPhOGGDD1hiQno/0oqEpCBXkQGyQ5UFUjKy6CIA=
-X-Received: by 2002:a05:651c:1507:b0:300:329e:23fb with SMTP id
- 38308e7fff4ca-30251e89840mr3539601fa.34.1734018624470; Thu, 12 Dec 2024
- 07:50:24 -0800 (PST)
+	 To:Cc:Content-Type; b=m6OWC+YlDS6DOMIw6ub9XMmgg3iemTfioiO5Qsdu1QSB6CkXs+6jpU8BQybi+rzMl3iNXb+NSbFEpv6m8/Knlw4+L01njlYMnYQoVsa71VNHRYuBoIRTKEi6WvMLak05beifVQxFxju65ydXgjutlRXRrgW7hpRScTUk0ALORD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbM6v0Qy; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30036310158so6180821fa.0;
+        Thu, 12 Dec 2024 08:05:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734019551; x=1734624351; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1thxMyObyFIfuoA6BeWJHGda6gjxV1E3JNYjUL+Psis=;
+        b=EbM6v0QyQUN9H1ndc84M/LxqukIG3zQ9p5lSTERzL6ugRUYxb2uMH0oMuDgfrbGcUx
+         G4CIGFeZGc1pE+V9JXOKWcVQwXa57Z1TJ3oxPMZNdTraeJbYAguLi6q3XDYUjZfnqYoE
+         ouQUTium5h4l4WDgAyNs9z4aiXoVhmVRRa1xClvh9vKnc3q148rS/BXOATEl+3mHJ9fo
+         u3tv+D+kRufS3n8dwvWvIe2k6+K3PVBCu3E4lUtXXyVVqqqELgt+C+6jScXnwDgfdTmi
+         lS8zJwX+7JR1tR6s8xbiW1esnLM6AT173wLCWVJz/6f7Trp85NTn6Wha+3pwQllMvNgC
+         zqWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734019551; x=1734624351;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1thxMyObyFIfuoA6BeWJHGda6gjxV1E3JNYjUL+Psis=;
+        b=VSoznTRMsKuBNqi3ktoQwK3QSsnMUGacUT/uqTuYBdGfr+lDnIRDzK1uzUt0P9R4IK
+         LvYtNvENVacvo7E3cUEnWpGJA0W7hl1WaQSsONyEiVsS09ERNP1v08ILdlynTY82AFg4
+         MqkSSNCp9Ft9gozBNhjAf8SqOvOsCz2JBKSjeNxRKOanir1MS4beXopLYDw90YV7F3+5
+         f/9LkgWVorUVgwkvmVBiaoe8t/cVoQti2kGAsAQs/LgQWWCplmg0laB2OiPT68h6Loco
+         eZoomHtxM0wO2Ck+XrdcT1AO644xq11orO5E13Ihsm6JNC3XF1qZoMkQ9jmHgItrJVJL
+         OLcw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnDAh2ACe27SYphz/48CGtREcD5DFXQ7gPXdlGgojF+9ISGVUWPu0ZnkBDW2Tmon83Zno7/unqDbQG8Go=@vger.kernel.org, AJvYcCXIk0k9semtnCjbkQaaikGiuGYpq3jyk0y+kdwB0yg3zyvtjqpMWsdvDdex/blPqjVznbGBLWRmhfT+wtSgRoQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuEsg6LJJgCIdDc886DqTrYrqJ2fUa8HCg4tYGyrtMoozhLWl+
+	VaRAatGQqDdjfcr1LksTHbNfS5d3QXgRfpPvA/xvfGvGg9QTw12QqshN15SGSkspSErHzf/qCH9
+	wQ8vpqn2ptyCmPwHYez7dlZKNw2I=
+X-Gm-Gg: ASbGncuZcdm6KBJifLUNDRiAnz72UwKPYcaUjGBNFtzHFPID0uy673jcoX4qy6PdHwg
+	ezql4VF+F0zlBuQLRBdGgnVk8TFs73K1SP7bgnz7DcDVbvp9bse1lFQ==
+X-Google-Smtp-Source: AGHT+IFE+6Rc5RJc5XJHUWw6nvGAlQm3hnhguaQKwSThJU1hjnm5dxe+wawq7AtB56EJJQ9yA1Wir1mnVO9DVrRYBeM=
+X-Received: by 2002:a2e:a7ca:0:b0:2ff:c349:8d08 with SMTP id
+ 38308e7fff4ca-30251d08635mr2952721fa.8.1734019551077; Thu, 12 Dec 2024
+ 08:05:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241212154619.2235767-1-masahiroy@kernel.org>
-In-Reply-To: <20241212154619.2235767-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 13 Dec 2024 00:49:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASMT1k_sTpUDnzBE1Mho0faqzo_ZpouEoPvL5mAS8f_zQ@mail.gmail.com>
-Message-ID: <CAK7LNASMT1k_sTpUDnzBE1Mho0faqzo_ZpouEoPvL5mAS8f_zQ@mail.gmail.com>
-Subject: Re: [PATCH] modpost: distinguish same module paths from different
- dump files
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Jon Hunter <jonathanh@nvidia.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+References: <20241105-b4-dylib-host-macos-v6-1-4e66515e6630@gmail.com> <CAJ-ks9nbwwtpO6TX3zM2Embag_7RQMfA0iBhtS5TS44wx1iOQQ@mail.gmail.com>
+In-Reply-To: <CAJ-ks9nbwwtpO6TX3zM2Embag_7RQMfA0iBhtS5TS44wx1iOQQ@mail.gmail.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Thu, 12 Dec 2024 11:05:15 -0500
+Message-ID: <CAJ-ks9mu8igfXUNhitctB4Vp0WsqPwsoe3Wmai4DCjmBKv3FOQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v6] rust: use host dylib naming convention
+To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, Fiona Behrens <me@kloenk.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 13, 2024 at 12:46=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> Since commit 13b25489b6f8 ("kbuild: change working directory to external
-> module directory with M=3D"), module paths are always relative to the top
-> of the external module tree.
->
-> The module paths recorded in Module.symvers is no longer globally unique
+Ping! I'd really appreciate a review.
 
-    is -> are
-
-> when they are passed via KBUILD_EXTRA_SYMBOLS for building other external
-> modules, which may result in false positive "exported twice" errors.
-> Such errors should not occur because external modules should be able to
-> override in-tree modules.
->
-> To address this, record the dump file path in struct module and check it
-> when searching for a module.
->
-> Fixes: 13b25489b6f8 ("kbuild: change working directory to external module=
- directory with M=3D")
-> Reported-by: Jon Hunter <jonathanh@nvidia.com>
-> Closes: https://lore.kernel.org/all/eb21a546-a19c-40df-b821-bbba80f19a3d@=
-nvidia.com/
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-
-
---=20
-Best Regards
-Masahiro Yamada
++Ma=C3=ADra, you mentioned you were considering using this to build on macO=
+S.
 
