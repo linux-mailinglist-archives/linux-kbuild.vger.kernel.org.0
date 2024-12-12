@@ -1,225 +1,102 @@
-Return-Path: <linux-kbuild+bounces-5093-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5094-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3209EEDCD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 16:51:14 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 030F59EEE62
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 16:56:50 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5809D2857A9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 15:51:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8FAB1687F6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 15:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E95222D73;
-	Thu, 12 Dec 2024 15:49:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D199222D65;
+	Thu, 12 Dec 2024 15:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyXGlV9V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HssL/8vf"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E418A222D4A;
-	Thu, 12 Dec 2024 15:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047A42210CD;
+	Thu, 12 Dec 2024 15:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734018598; cv=none; b=DYjZunlQkXokCqmlKo8VEhEeHKpGCRBm8CrRIjp/Yb+Wn1kWnugOjvnWCZb67yVLGEA4a14EIE6Ky+fb8z7R5Gn7RZrwF9U0jTG3v5rD1UHkzJ3ZomNZXCdg2bBhnUjNn7lokiI8CcubRuU7NNxH/4iNjMixkyhamgIbIa8ezCE=
+	t=1734018628; cv=none; b=YIareyA81Xf/tsaA5AN/J7mLblP5WUmNVRlb6qsPKP7/+zpqiLMvtOxLoPeG7cqMAiFpFvZ+I0R1Zaw53O0Kpkgs/ODrbGu2p/8EYFzP72OARWyaotlDPBRJtKazSz47ciYkyjYxbf27iziR9yqbwEUOnpGR6/h+R6Hxu4HVHJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734018598; c=relaxed/simple;
-	bh=htv+UPiuxFH5l75rnUXHTUNj6KGcw1im7Z97ayXbG/U=;
+	s=arc-20240116; t=1734018628; c=relaxed/simple;
+	bh=SAvTRNNbapiAg5dpA9PyCGERpK6EazCw4Yr2O+tX678=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aAXUYsI122ofeCXq316pbLq44HlKo7uw/KhsXM9Qy9IaCvc/84QWglAPAH4anoC62fyP+pE9D7B8IJcOqirwGZoUEfMGs97x+qHkAEPLG0P+5ldUXpNzyB1FvGT4G1rf42law5KMQteDAOCrhSW/rFl3FiLyE/crTd2h80PJc18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyXGlV9V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF53CC4CEDF;
-	Thu, 12 Dec 2024 15:49:57 +0000 (UTC)
+	 To:Cc:Content-Type; b=ezXwR7oe5Ef7k2UqXIOfs/hmqPbKJotcMlvAUlcAp9DEO0Nq5Mxs000L1jyPbB+HuqVRRC+AjP8UvC+QNycZtTJChWzKAO+LLSq/V5EJmxc/J7A2mzuGpUl2O+SsqsI2o5tfSwuYjCyRw6+q9dwFQTtS8yKID1PK1vKgHjc0LNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HssL/8vf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF80FC4CED3;
+	Thu, 12 Dec 2024 15:50:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734018597;
-	bh=htv+UPiuxFH5l75rnUXHTUNj6KGcw1im7Z97ayXbG/U=;
+	s=k20201202; t=1734018625;
+	bh=SAvTRNNbapiAg5dpA9PyCGERpK6EazCw4Yr2O+tX678=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DyXGlV9Vn8wlOexZkTcy223Q18awPcPgYx5ZzmT4EBKM240MJ/+ituocvDsDxMNBp
-	 4xwfHWhaTpgEMJWMxDHEcTVce0P/w6RUd3B20NV8zNXxNPI+UYgiF/tendoxqNTTJM
-	 d9vflwHPch2Ug/8zBkQ3pJWHpV3v0L5P6GN7SSQ/ccI3sUNE4KmoixrwHbprxx7E1h
-	 maG+2IFhxSmsETe/1oe2+XXNRv1x3ZpF//WrkVlI03W3hPM8Km12ozcUEGsM/Ca/Ii
-	 WYE0hVGDtIrwhQfzw18GWGXrqsV9kxVBfxhDDp7zblqor9AOaKctOBLggtH5C4ajNE
-	 POKdAH+snE/+g==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ffa49f623cso7733291fa.1;
-        Thu, 12 Dec 2024 07:49:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU/efqqzOwvhOYON+vLJwiu3Li7iD7OiGvZfCMcEx+PO8xKl9j2GDZbGKzk/ibY5AHcLhSCAwV4Rb0tB9P6MGQ=@vger.kernel.org, AJvYcCUVKiG1t8yHqDTwCMMAqtqCQoUa1AAcMJ/Lojzddm97cq0b4GiE4tlW6jy+7vk0wk+tQFI3bh1HH7G0KuU=@vger.kernel.org, AJvYcCWCQB+Vdokd1Wihk0XCdcqAYszIAamKuen/3E5BZoTs5pdIEEHqIq3CwlVCmth3EW5uyxC5Sul+b/sjmfw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yymk1Ws0bs715/sfi80Iq70gV/Eq6awfwKG1QkQNxuS6wfeMDQq
-	AqLA5PjmfsuXo6CJOR7y5pLODrTGivBe9BNNaWRuf49zU/DreduJ1TOA47IZDGz6AFldSfn/lcL
-	4p88qBNfhYfc+e71ffkOzGynSuqo=
-X-Google-Smtp-Source: AGHT+IHmrKLcaLYW/lzhCLoUQyw/UlgK8Yt9mn+tMxhedsH8J/pZYJ7bPWpqt83lK+884t/Y0Jonc8vuqh39q6arPdE=
-X-Received: by 2002:a2e:2c15:0:b0:2fa:d2c3:a7e8 with SMTP id
- 38308e7fff4ca-30251e0f3f8mr2145091fa.13.1734018596433; Thu, 12 Dec 2024
- 07:49:56 -0800 (PST)
+	b=HssL/8vfQavJjMJ2WBf/N2FweKs9mml17vBqy+alDd7BzaE3eCS6i3GCHQJgpV2oA
+	 oK9F4NqcXezotmGu70QTtWMu/rHmNi18b41Bm4YKNnjuBCMkVcXOsJSfxmj56fAa+d
+	 /zyy00RvFs39afAAf/peAEXiXUd8uFRDpHDgeHp+pyoeZd9PcdIn1iPr34uby+cym2
+	 PpbbLvEVwd/wjkiSrTWLB8I7rI+feVUjQoT4cmuyrT85La3ueNAwBUjiJVxiF6qj5j
+	 hru9t07sNo7fM7DHA8GB+67CtI6WJUyiLVSbxFC0oEQrqykd8VB2pOqEUTwURgzvqP
+	 X8r2M6BUNe+iA==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3003c0c43c0so7811261fa.1;
+        Thu, 12 Dec 2024 07:50:25 -0800 (PST)
+X-Gm-Message-State: AOJu0Yz0lZ6A3o9rhXZ0/hBOX/n8DdueCrK2Ku49L4u8vTOpJwyEj08Z
+	y8R8+NXUmjqJruio3hPE9wpkIfpKaH9B+pD4oRTQwZSLYPz+t0B+0cYqTHRZowpXqltKdIjPAum
+	SO1pl64HFM9TJ8QJErhoExkzA7LI=
+X-Google-Smtp-Source: AGHT+IEqcQZ0DjYZD0cBKnUgKIy6QbViNthhBj/SQzjcLeD8uNbIMPhOGGDD1hiQno/0oqEpCBXkQGyQ5UFUjKy6CIA=
+X-Received: by 2002:a05:651c:1507:b0:300:329e:23fb with SMTP id
+ 38308e7fff4ca-30251e89840mr3539601fa.34.1734018624470; Thu, 12 Dec 2024
+ 07:50:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241110013649.34903-1-masahiroy@kernel.org> <20241110013649.34903-6-masahiroy@kernel.org>
- <bdd5ff13-ec66-4ab6-985a-1fe433e85f91@nvidia.com> <CAK7LNATgL=vOr37+XfF7du+_ak5yKgXYyNNNTEQdVvy5J2MMyA@mail.gmail.com>
- <b20db4db-afb4-4f58-bc01-ae1250abc8b0@nvidia.com> <CAK7LNATzdVrvmqm2wYHojVhNEiBNTaz6+4xgGBJwFixDvL=TMA@mail.gmail.com>
- <eb21a546-a19c-40df-b821-bbba80f19a3d@nvidia.com>
-In-Reply-To: <eb21a546-a19c-40df-b821-bbba80f19a3d@nvidia.com>
+References: <20241212154619.2235767-1-masahiroy@kernel.org>
+In-Reply-To: <20241212154619.2235767-1-masahiroy@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 13 Dec 2024 00:49:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASzvkKgC+1-O+X2wchR6=Zc2raOc4Sb5YPMp_-AbhcpBg@mail.gmail.com>
-Message-ID: <CAK7LNASzvkKgC+1-O+X2wchR6=Zc2raOc4Sb5YPMp_-AbhcpBg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] kbuild: change working directory to external
- module directory with M=
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, cocci@inria.fr, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Date: Fri, 13 Dec 2024 00:49:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASMT1k_sTpUDnzBE1Mho0faqzo_ZpouEoPvL5mAS8f_zQ@mail.gmail.com>
+Message-ID: <CAK7LNASMT1k_sTpUDnzBE1Mho0faqzo_ZpouEoPvL5mAS8f_zQ@mail.gmail.com>
+Subject: Re: [PATCH] modpost: distinguish same module paths from different
+ dump files
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Jon Hunter <jonathanh@nvidia.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 12, 2024 at 3:00=E2=80=AFPM Jon Hunter <jonathanh@nvidia.com> w=
-rote:
+On Fri, Dec 13, 2024 at 12:46=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
 >
+> Since commit 13b25489b6f8 ("kbuild: change working directory to external
+> module directory with M=3D"), module paths are always relative to the top
+> of the external module tree.
 >
-> On 12/12/2024 02:08, Masahiro Yamada wrote:
-> > On Wed, Dec 11, 2024 at 9:21=E2=80=AFPM Jon Hunter <jonathanh@nvidia.co=
-m> wrote:
-> >>
-> >>
-> >> On 11/12/2024 02:39, Masahiro Yamada wrote:
-> >>> On Wed, Dec 11, 2024 at 12:34=E2=80=AFAM Jon Hunter <jonathanh@nvidia=
-.com> wrote:
-> >>>>
-> >>>> Hi Masahiro,
-> >>>>
-> >>>> On 10/11/2024 01:34, Masahiro Yamada wrote:
-> >>>>> Currently, Kbuild always operates in the output directory of the ke=
-rnel,
-> >>>>> even when building external modules. This increases the risk of ext=
-ernal
-> >>>>> module Makefiles attempting to write to the kernel directory.
-> >>>>>
-> >>>>> This commit switches the working directory to the external module
-> >>>>> directory, allowing the removal of the $(KBUILD_EXTMOD)/ prefix fro=
-m
-> >>>>> some build artifacts.
-> >>>>>
-> >>>>> The command for building external modules maintains backward
-> >>>>> compatibility, but Makefiles that rely on working in the kernel
-> >>>>> directory may break. In such cases, $(objtree) and $(srctree) shoul=
-d
-> >>>>> be used to refer to the output and source directories of the kernel=
-.
-> >>>>>
-> >>>>> The appearance of the build log will change as follows:
-> >>>>>
-> >>>>> [Before]
-> >>>>>
-> >>>>>      $ make -C /path/to/my/linux M=3D/path/to/my/externel/module
-> >>>>>      make: Entering directory '/path/to/my/linux'
-> >>>>>        CC [M]  /path/to/my/externel/module/helloworld.o
-> >>>>>        MODPOST /path/to/my/externel/module/Module.symvers
-> >>>>>        CC [M]  /path/to/my/externel/module/helloworld.mod.o
-> >>>>>        CC [M]  /path/to/my/externel/module/.module-common.o
-> >>>>>        LD [M]  /path/to/my/externel/module/helloworld.ko
-> >>>>>      make: Leaving directory '/path/to/my/linux'
-> >>>>>
-> >>>>> [After]
-> >>>>>
-> >>>>>      $ make -C /path/to/my/linux M=3D/path/to/my/externel/module
-> >>>>>      make: Entering directory '/path/to/my/linux'
-> >>>>>      make[1]: Entering directory '/path/to/my/externel/module'
-> >>>>>        CC [M]  helloworld.o
-> >>>>>        MODPOST Module.symvers
-> >>>>>        CC [M]  helloworld.mod.o
-> >>>>>        CC [M]  .module-common.o
-> >>>>>        LD [M]  helloworld.ko
-> >>>>>      make[1]: Leaving directory '/path/to/my/externel/module'
-> >>>>>      make: Leaving directory '/path/to/my/linux'
-> >>>>>
-> >>>>> Printing "Entering directory" twice is cumbersome. This will be
-> >>>>> addressed later.
-> >>>>>
-> >>>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> >>>>
-> >>>>
-> >>>> Since this change I have been observing the following build error wh=
-en
-> >>>> building an external module ...
-> >>>>
-> >>>>     MODPOST Module.symvers
-> >>>> ERROR: modpost: drivers/gpu/host1x/host1x: 'host1x_device_init' expo=
-rted
-> >>>>        twice. Previous export was in drivers/gpu/host1x/host1x.ko
-> >>>> ERROR: modpost: drivers/gpu/host1x/host1x: 'host1x_device_exit' expo=
-rted
-> >>>>        twice. Previous export was in drivers/gpu/host1x/host1x.ko
-> >>>>
-> >>>> Now host1x is an upstream driver, but I have a local copy that using=
- to
-> >>>> stage development changes (and avoid polluting the upstream driver).
-> >>>> Plus I can swap between which version I am using on a live system.
-> >>>>
-> >>>> What I noticed is that previously the Modules.symvers for the extern=
-al
-> >>>> module had the full path of the external module for the name. Howeve=
-r,
-> >>>> now the name is just the relative path and in this case
-> >>>> 'drivers/gpu/host1x/host1x'. Hence, this clashes with the in-kernel
-> >>>> driver and we get the 'exported twice' error.
-> >>>>
-> >>>> I have been looking to see if there is a way to fix this because it =
-has
-> >>>> been a useful feature to override an upstream driver with a locally
-> >>>> modified version.
-> >>>
-> >>>
-> >>> I do not know how to reproduce it.
-> >>>
-> >>>     if (s && (!external_module || s->module->is_vmlinux || s->module =
-=3D=3D mod)) {
-> >>>
-> >>> is not checking the module path at all.
-> >>> I do not understand why it was affected.
-> >>
-> >>
-> >> So this is not explicitly checking the path, but comparing the content=
-s
-> >> of the Module.symvers before and after this change for the external
-> >> module I see ...
-> >>
-> >> $ grep -r host1x_device_init Module.symvers
-> >> 0x00000000      host1x_device_init      /absolute/path/to/drivers/gpu/=
-host1x/host1x        EXPORT_SYMBOL
-> >>
-> >> And now I see ...
-> >>
-> >> $ grep -r host1x_device_init Module.symvers
-> >> 0x00000000      host1x_device_init      drivers/gpu/host1x/host1x  EXP=
-ORT_SYMBOL
-> >>
-> >> So the problem is that now there is no longer an absolute path in the
-> >> external modules Module.symvers and so conflicts with the kernel's.
-> >>
-> >> Does that make sense?
-> >
-> >
-> > As I said, I do not know how to reproduce it.
-> >
-> > Please provide the steps to reproduce it.
->
-> Got it! The steps would be ...
->
-> 1. Create an external module by copying using an existing upstream
->     driver (such as host1x).
-> 2. Create a new external module that uses the external module from step
->     1 and uses KBUILD_EXTRA_SYMBOLS to reference the Module.symvers for
->     the driver in step 1.
->
-> Thanks!
-> Jon
+> The module paths recorded in Module.symvers is no longer globally unique
 
+    is -> are
 
-OK, now I understand, and posted a patch.
-Thanks.
+> when they are passed via KBUILD_EXTRA_SYMBOLS for building other external
+> modules, which may result in false positive "exported twice" errors.
+> Such errors should not occur because external modules should be able to
+> override in-tree modules.
+>
+> To address this, record the dump file path in struct module and check it
+> when searching for a module.
+>
+> Fixes: 13b25489b6f8 ("kbuild: change working directory to external module=
+ directory with M=3D")
+> Reported-by: Jon Hunter <jonathanh@nvidia.com>
+> Closes: https://lore.kernel.org/all/eb21a546-a19c-40df-b821-bbba80f19a3d@=
+nvidia.com/
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+
 
 --=20
 Best Regards
