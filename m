@@ -1,175 +1,195 @@
-Return-Path: <linux-kbuild+bounces-5098-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5099-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4DF9EFD72
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 21:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDED9EFDE8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 22:08:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F07528B757
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 20:29:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39280289F56
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2024 21:08:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51A9818FDA9;
-	Thu, 12 Dec 2024 20:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DDA11D88A4;
+	Thu, 12 Dec 2024 21:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=limbasan.ro header.i=@limbasan.ro header.b="bFFJzy3M"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="hFYaHO5+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46005DDDC
-	for <linux-kbuild@vger.kernel.org>; Thu, 12 Dec 2024 20:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5811CCEE0;
+	Thu, 12 Dec 2024 21:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734035358; cv=none; b=Ryy/LfoRKw0LfMPN75uro0cPtD/F2qfQ1cLP6vGZp4tcLv8WsWfhlSKZ3QYKa+3VXrPiHGHZxJM3S/jnPr67Up9MVssRdK4Mo69mUDvkcjvTXhTTmSPo5lyhLDlTQ8dA/7PMk2XbClBm+keUOvrBGLUrJMIx4zIl7reIIgsm2JA=
+	t=1734037688; cv=none; b=QcmsU7HcW1JWFNICqac+cXWhSL0TMapnAGhMnIp/YCpEwWf/y7f+zEUPcRsQw5g2YdAtcg0MvbJjd5tKp44NI8y960Vid2TNfie7madc6Cl4B7PsvpnA2R7v6FwK2vTuBcfy3BIqSPu2rILUntjhXcA+6+Y+CG7hFXtbiknu6hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734035358; c=relaxed/simple;
-	bh=UFpPWqv46Rx5cy85zZSkKkAlF0Lt8EuANCPSpDg2O04=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kMCSu35jckULbNkJd+eILwfZmTYB6jc9iD+a02ZfA3fONU1UmH9CLaM2l7x2g/EWdL55d7+cr1dumFsB5+KRk0yk/E8tpN8QZl+tgR+Q7ncMDXdfpPNb59JyjFh13bGR7zpedZzQ0nrtuPTMyGnUhyjeet5T4+Zqpg5pCm4RADU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=limbasan.ro; spf=pass smtp.mailfrom=limbasan.ro; dkim=pass (2048-bit key) header.d=limbasan.ro header.i=@limbasan.ro header.b=bFFJzy3M; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=limbasan.ro
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=limbasan.ro
-Message-ID: <bdbd14d9-0291-4b55-9f3c-b333048465d4@limbasan.ro>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=limbasan.ro; s=key1;
-	t=1734035352;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f16qZ9e/hVbXcfDuCSyoMATNIkqyrfKhHrWg9H/2Nd8=;
-	b=bFFJzy3Mm6fZWC6ltkkVFOH3OPu1lps3dnKn3LZRS0diLUeT6y6DMKiuF8WUOY5bWlj9op
-	3MhgDvAIKmO6NqFW1WdNgOqYNcOYw7lY02kDooVOCzxU3LYrZ9AjQKHpSzRNPCfgklrOzM
-	I3nkQms51iQmd4RKWh8+2wGFxFtSAiwL4hl1BKIyG8ceZHzax5VAakr3I1Km3daCrgHjSn
-	FuWtDcEQdYCgcqaMEjTV77sfFid0WLOUfEqIVTasZfGa0ryow2KXOMu3DCSRkap81gyjuG
-	xqN8N7dvvxxAugxlulj/hUKt5b664ijrruC2gUOw3kP99W4g7KXmyc2TdBsLtQ==
-Date: Thu, 12 Dec 2024 22:29:08 +0200
+	s=arc-20240116; t=1734037688; c=relaxed/simple;
+	bh=Oz60QXYrQ9KYyUZgqU/a7cC+v7HQv3mC+ucMNvm8EOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R3a8ulw7IAeSw4E/kwUceh3yfFwdqw7i0DZmwzRAZDRkxYhQz7tzG1DpsSur1UgJv76Pto/g3yw/Xj9u+nr/WaiTe53Mu3N3GRVOqsBN8UdlFH58Rfba41Z6h7vmfRNlYxOjki0/9UZwd1K4pFXZ1s98xCKva+bCXPt80gFxAhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=hFYaHO5+; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1734037673;
+	bh=Oz60QXYrQ9KYyUZgqU/a7cC+v7HQv3mC+ucMNvm8EOc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hFYaHO5+OW8IYLiJKvsuPjwxiHo8S53cfj4lkbUB/Ic22Qm7PKJokYb69mOwVqeab
+	 4UeA8Ta0ZRrjMxLk47DM7OB8zFDtFdqTvoV47ek9HYCECQxYoY+34MvkRYnxT4eTB8
+	 fkHNJuAIp5lYZLcHXvOTTrZvsWcCJT27k6AnfyaY=
+Date: Thu, 12 Dec 2024 22:07:52 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Ihor Solodrai <ihor.solodrai@pm.me>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Kui-Feng Lee <kuifeng@fb.com>, 
+	Alan Maguire <alan.maguire@oracle.com>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next] kbuild, bpf: Enable reproducible BTF generation
+Message-ID: <acf36eab-f906-42f7-9299-1473c0451dd1@t-8ch.de>
+References: <20241211-pahole-reproducible-v1-1-22feae19bad9@weissschuh.net>
+ <REDzg-0aL2-Qw7QvYCKTfsLGh6E6Iq8dgWJPo5a94ym2x5DiUkwdHA-naUtaDO7HJgvOr6zd201E5P_WAquOyOFIiUij6Bi183EyxPusDuo=@pm.me>
+ <3b834807-9f20-4f04-b788-f45dfac5cb1f@t-8ch.de>
+ <CAEf4BzZSB2nzhYag_LKACXXJLwqLLfddXMV9_JRGYi+Y48rC-w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [Bug] 6.12+ DKMS modsign breakage due to missing .config in
- Debian headers package
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-References: <b7bb8d16-2d05-43b5-95fc-7d303b925f44@limbasan.ro>
- <CAK7LNARHWcHiXPWxRD804vO6hF5H06kgBho-EXSa1f8eiPj5rQ@mail.gmail.com>
- <9b87eed3-4b6e-4a2a-88c6-db56c043c9fe@limbasan.ro>
- <CAK7LNARqEOVOzP5vdUVF0KxQBNb9xtYs-COSXXWDMpBzGaLGow@mail.gmail.com>
-Content-Language: en-US, ro, de-DE
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: =?UTF-8?Q?Mihai_Limb=C4=83=C8=99an?= <mihai@limbasan.ro>
-In-Reply-To: <CAK7LNARqEOVOzP5vdUVF0KxQBNb9xtYs-COSXXWDMpBzGaLGow@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CAEf4BzZSB2nzhYag_LKACXXJLwqLLfddXMV9_JRGYi+Y48rC-w@mail.gmail.com>
 
-Hi!
+Hi Andrii,
 
-Just a quick update for searchability's sake: This issue has been fixed 
-in DKMS in 
-https://github.com/dell/dkms/pull/468/commits/27b9d1fcc83d62968d75f089666929af2232899a 
-with the corresponding discussion in 
-https://github.com/dell/dkms/issues/464 .
+On 2024-12-12 11:23:03-0800, Andrii Nakryiko wrote:
+> On Tue, Dec 10, 2024 at 10:24 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > On 2024-12-11 00:17:02+0000, Ihor Solodrai wrote:
+> > > On Tuesday, December 10th, 2024 at 3:23 PM, Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > >
+> > > >
+> > > >
+> > > > Pahole v1.27 added a new BTF generation feature to support
+> > > > reproducibility in the face of multithreading.
+> > > > Enable it if supported and reproducible builds are requested.
+> > > >
+> > > > As unknown --btf_features are ignored, avoid the test for the pahole
+> > > > version to keep the line readable.
+> > > >
+> > > > Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and generate BTF with multithreading.")
+> > > > Fixes: 72d091846de9 ("kbuild: avoid too many execution of scripts/pahole-flags.sh")
+> > > > Link: https://lore.kernel.org/lkml/4154d202-5c72-493e-bf3f-bce882a296c6@gentoo.org/
+> > > > Link: https://lore.kernel.org/lkml/20240322-pahole-reprodicible-v1-1-3eaafb1842da@weissschuh.net/
+> > > > Signed-off-by: Thomas Weißschuh linux@weissschuh.net
+> > > >
+> > > > ---
+> > > > scripts/Makefile.btf | 1 +
+> > > > 1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+> > > > index c3cbeb13de503555adcf00029a0b328e74381f13..da23265bc8b3cf43c0a1c89fbc4f53815a290e13 100644
+> > > > --- a/scripts/Makefile.btf
+> > > > +++ b/scripts/Makefile.btf
+> > > > @@ -22,6 +22,7 @@ else
+> > > >
+> > > > # Switch to using --btf_features for v1.26 and later.
+> > > > pahole-flags-$(call test-ge, $(pahole-ver), 126) = -j$(JOBS) --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func,decl_tag_kfuncs
+> > > > +pahole-flags-$(if $(KBUILD_BUILD_TIMESTAMP),y) += --btf_features=reproducible_build
+> > >
+> > > Hi Thomas,
+> > >
+> > > There are a couple of issues with reproducible_build flag which I
+> > > think are worth mentioning here. I don't know all the reasons behind
+> > > adding this now, and it's optional too, so feel free to discard my
+> > > comments.
+> > >
+> > > Currently with this flag, the BTF output is deterministic for a given
+> > > order of DWARF compilation units. So the BTF will be the same for the
+> > > same vmlinux binary. However, if the vmlinux is rebuilt due to an
+> > > incremental change in a source code, my understanding is that there is
+> > > no guarantee that DWARF CUs will be in the same order in the binary.
+> >
+> > The goal behind reproducible builds is to produce bit-by-bit idential
+> > binaries. If the CUs are in a different order then that requirement
+> > would have been broken there already.
+> 
+> I'm curious, how do we guarantee that we get bit-by-bit identical
+> DWARF? Do we enforce the order of linking of .o files into the final
+> vmlinux? Is this described anywhere?
 
-Thanks for the guidance!
-Mihai
+The CU order has to be fixed, otherwise the non-debugging parts of the
+binary would not be reproducible either.
+For docs is Documentation/kbuild/reproducible-builds.rst, the linked 
+reproducible-builds.org project has much more information.
 
-On 2024-12-11 05:45, Masahiro Yamada wrote:
-> On Tue, Dec 10, 2024 at 8:08 PM Mihai Limbășan <mihai@limbasan.ro> wrote:
->> Hi!
->>
->> On 2024-12-10 12:45, Masahiro Yamada wrote:
->>> On Mon, Dec 9, 2024 at 5:31 PM Mihai Limbășan <mihai@limbasan.ro> wrote:
->>>> Hi!
->>>>
->>>> Would like to report a DKMS build system impacting bug with kernel 6.12+
->>>> introduced in commit aaed5c7739be81ebdd6008aedc8befd98c88e67a . Hope I'm
->>>> addressing this following proper protocol by mailing linux-kbuild, tried
->>>> mailing the maintainer directly on 2024-11-20 but received no feedback;
->>>> my apologies otherwise, it's my first kernel bug report.
->>> Sorry, I missed that.
->>>
->>> Before you, another guy asked me the same question off-list.
->>> Multiple people contacted me off-list for the same question.
->>>
->>> Presumably, asking this in the ML is better because
->>> other people may find the answer and avoid duplicated questions.
->> Oh my, not a problem. Initially approached directly to avoid potentially
->> bugging a lot of unrelated people, but you're absolutely right, easier
->> to find this way. Thank you!
->>
->>>> Specifically, the commit changes scripts/package/install-extmod-build to
->>>> remove the shipped copy of the kernel configuration as .config in the
->>>> generated package. Unfortunately, this breaks DKMS when secure boot is
->>>> being used and any locally compiled the modules need to be signed. DKMS
->>>> needs it to extract various characteristics of the built kernel, among
->>>> which CONFIG_MODULE_SIG_HASH so that it can sign the .ko files it
->>>> creates. It's likely that it also uses various other symbols from the
->>>> kernel config, e.g. clang-related stuff, but I didn't test that.
->>>>
->>>> The removal of the other formerly shipped files doesn't appear to cause
->>>> any problems, at least not in this scenario.
->>> I do not think removal of the .config is a problem because
->>> another copy, include/config/auto.conf exists in the package.
->>>
->>> DKMS can parse "${kernel_source_dir}/include/config/auto.conf
->>> for CONFIG options.
->> True. The problem I see with  with that is that it unexpectedly breaks
->> the current behavior (even though admittedly there never was a formal
->> API contract in place) and requires an update to DKMS across *all*
->> distributions. I'll report a bug to upstream DKMS to this effect, but it
->> might take a long time to fix this, and many distros will likely not
->> backport a future DKMS fix to current or older-but-still-supported
->> versions, whereas re-including .config in the kernel headers package at
->> the cost of a 200-300kb .config copy would not let users of the mainline
->> kernel hanging, *and* would minimize the surprise factor.
-> This is a problem only when users replace the distro kernel
-> with the upstream one.
-> Distributions do not use scripts/package/install-extmod-build.
->
->
->
->
->
->>   From my testing, things seem to work perfectly well when creating a
->> relative symlink from "${kernel_source_dir}/.config" to
->> "include/config/auto.conf" -- maybe this could be a compromise solution?
->> It'd avoid shipping the extra noise from the full .config while at the
->> same time avoid breaking already-shipped DKMS versions.
->>
->> Mind you, it's not like it's a big deal for me personally. It's just
->> that the behavior of the system as a whole with this issue in place is
->> thoroughly unintuitive: DKMS does *not* report an error nor does it fail
->> OOT module build. From an user point of view, what happens are problems
->> on the next system boot (potentially boot failure, depending on what
->> failure to load the OOT modules does), with module load failure messages
->> that initially give no clue as to the root cause. And since the use case
->> for DKMS here is *exactly* a set-and-forget approach to OOT module
->> building, it can take a *while* before people think to check the build
->> logs (if they even keep them) and somehow figure out that "Kernel config
->> ${kernel_config} not found, modules won't be signed" means "upstream
->> changed the kernel headers package semantics".
->>
->> Thanks,
->> Mihai
-> The linux-headers package is intended to provide the necessary tools
-> for building external modules.
->
-> The .config file is not required for building external modules,
-> so it was removed.
->
-> This is an issue with DKMS.
->
-> Furthermore, I do not understand why they decided to allow the process
-> to proceed successfully when the file DKMS requires is missing:
->
-> https://github.com/dell/dkms/blob/93bf2bd79704c0a8a39b240a52b001610cdc419b/dkms.in#L1026
->
-> They need to fix the issue in DKMS.
->
+Also besides reproducible builds, lots of kernel components rely
+(accidentally or intentionally) on a stable initialization order, which
+is also defined by linking order.
 
+From Documentation/kbuild/makefiles.rst:
+
+	Link order is significant, because certain functions
+	(module_init() / __initcall) will be called during boot in the
+	order they appear. So keep in mind that changing the link
+	order may e.g. change the order in which your SCSI
+	controllers are detected, and thus your disks are renumbered.
+
+> > For an incremental build a full relink with *all* CUs is done, not only
+> > the changed once, so the order should always be the same.
+> 
+> The concern here is whether linker guarantees that CUs' DWARF data
+> will be appended in exactly the same order in such case?
+
+Otherwise it wouldn't be reproducible in general.
+The pahole developers specifically implemented
+--btf_features=reproducible_build for use in the kernel; after I sent
+a precursor patch to this one (also linked in the patch):
+
+https://lore.kernel.org/lkml/20240322-pahole-reprodicible-v1-1-3eaafb1842da@weissschuh.net/
+
+In general the kernel already supports reproducible builds.
+
+For my personal kernel builds only two incompatibilities/rough edges remain:
+
+* (parallel) BTF generation, which is fixed with this patch
+* CONFIG_MODULE_SIG with non-precreated keys (which I am working on)
+
+> > > At the same time, reproducible_build slows down BTF generation by
+> > > 30-50%, maybe more depending on the kernel config.
+> >
+> > If a user explicitly requests reproducibility then they should get it,
+> > even if it is slower.
+> >
+> > > Hopefully these problems will be solved in upcoming pahole releases.
+> >
+> > I don't see it as big problem. This is used for release builds, not
+> > during development.
+> >
+> > > Question: why KBUILD_BUILD_TIMESTAMP flag? Isn't it more appropriate
+> > > to use a separate flag for this particular feature?
+> >
+> > Adding an additional variable would need to be documented and would
+> > makes the feature harder to use. KBUILD_BUILD_TIMESTAMP already needs to
+> > be set by the user if they are building for reproducibility.
+> >
+> > > > ifneq ($(KBUILD_EXTMOD),)
+> > > > module-pahole-flags-$(call test-ge, $(pahole-ver), 126) += --btf_features=distilled_base
+> > > >
+> > > > ---
+> > > > base-commit: 7cb1b466315004af98f6ba6c2546bb713ca3c237
+> > > > change-id: 20241124-pahole-reproducible-2b879ac8bdab
+> > > >
+> > > > Best regards,
+> > > > --
+> > > > Thomas Weißschuh linux@weissschuh.net
 
