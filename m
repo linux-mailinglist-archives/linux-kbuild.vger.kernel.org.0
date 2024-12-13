@@ -1,210 +1,114 @@
-Return-Path: <linux-kbuild+bounces-5125-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5126-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0B69F0D2B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 14:17:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A549F0F0B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 15:23:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1CD91683EB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 13:17:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4AE21881C12
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 14:23:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C94D1E049C;
-	Fri, 13 Dec 2024 13:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B659D1E0DE3;
+	Fri, 13 Dec 2024 14:23:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CCYKX/MI"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="F0LO00IQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFC01DFE2C;
-	Fri, 13 Dec 2024 13:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB331E04B6;
+	Fri, 13 Dec 2024 14:23:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734095852; cv=none; b=brtiuB++8kPL3IpNoxmZ5Hja41bNYaCDs2NB4Gbh4tWzxszOXIGxWgUQyyPWgoezSa7tK3pW/emYtxOdV8yyKT0FlB0FAddWfc45YJVr3qC2+Ob+VYYuBWYsb2KizXGbLvL1XCAwSw4dmRcPPDldFBsauSEd5x8Rmlvw8XzUnRg=
+	t=1734099809; cv=none; b=aG8ltZGd+FJWuOWkAIiwd11rC3aGA1JM5tKMafmj9vgs4pjm11iL4TsWj86D1QuRrEoXZGrIETMB3ecu5XiH/u3hPahId27NFwKvfIn+n78IsZVUKuir+S17XKrggcg09AVDAfDXgqPBPBX09en6M47STXJy8tsqHqOD404+/W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734095852; c=relaxed/simple;
-	bh=tMXE95FfkjhkdFZo7cyuYKKGbHS/ZBxnfSxNp0VgYiM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tAyR6rsg/+AbD0VYUJA5pi5tkR8o+RAvGjeyWx2iAIZiyROVVihvaEmJVUMDoNAZemRQDip019aJrkbLHSV81Es5WssG9pPzbMzmZLVqUUfzSmUuEx0ZyLmk3lYfrkgB/vYbCEv9kxZqOdDCBfSvpb+N/2XZwSGJ3RJaVpwoGoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CCYKX/MI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993E2C4CED7;
-	Fri, 13 Dec 2024 13:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734095852;
-	bh=tMXE95FfkjhkdFZo7cyuYKKGbHS/ZBxnfSxNp0VgYiM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CCYKX/MIgky9byQK2GGKBUqrXedQcPRVdNhargwyBMeHFzUYdgB21qQtUqIblJpcH
-	 E9AtC7MMji5y7iia648qfhnNAX4pFRB1vWiJaa0kPcBkt/v4/3H8ufGKKNYrT0rUu3
-	 ZwnYSJyYlS04s0lQzGHQ6paXpFinQiHsF4qWtM/xdj8KMd/2E+caNRX5LI4MLVqMbB
-	 4km1suW1AgZq8hAL6vePKSYbP7uN/Tk97t0EHg75I0ttm6/NCcHjX62+1ltQQI9NRJ
-	 i24K+fLC5dul7ZWRDSPmwQKbUkDA127dGrvz9Z44YSuwRxA59d5ZYA6EhB+1tYJMBc
-	 5tFjklHYM8tcA==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
- <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
- <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  "Benno
- Lossin" <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,
-  "Masahiro Yamada" <masahiroy@kernel.org>,  "Nathan Chancellor"
- <nathan@kernel.org>,  "Nicolas Schier" <nicolas@fjasle.eu>,  "Trevor
- Gross" <tmgross@umich.edu>,  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
-  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
-  <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v3 4/4] rust: add parameter support to the `module!` macro
-In-Reply-To: <CANiq72kb2ocNuE6n32vr4xCkZhZN0uPuCN3SFA1+Q5L+Ma4ByQ@mail.gmail.com>
- (Miguel
-	Ojeda's message of "Fri, 13 Dec 2024 13:54:14 +0100")
+	s=arc-20240116; t=1734099809; c=relaxed/simple;
+	bh=8Fu+2xNetoe5kq0Vd5HTWdZxa6W/2sXw3vvL/j7EZeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rA6ObvCBPF8Dj6NGh5metscqSAqoeJ/OhfIU+DryyuHPKsrPnu3Sc8U84vxmC/cDBk1ecPc2NM/VdSup447Zk3RuXI+jjxXISrzOrVvxEbAKGflNwAQn02VfnO+vJEfU1szuX+PGo05nsWRQAY8fB0M1t8cQr0BuAYU1Hg46zNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=F0LO00IQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC1EC4CED0;
+	Fri, 13 Dec 2024 14:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1734099809;
+	bh=8Fu+2xNetoe5kq0Vd5HTWdZxa6W/2sXw3vvL/j7EZeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F0LO00IQ92nt2/SayGrbigp//QGiEbsj6v58OLj3oBeHWYWinaf1KN+XPsogLfvdZ
+	 LHHzioO/adpphmO+vK/ENgTNK6XZtMTH4uMNrFOHvS/yad/UknOKvHf2MrAEFoD7uL
+	 9C3bJ+3EGDJkW7l6zoy8NDBbOHZqWzxDVDejv9Ew=
+Date: Fri, 13 Dec 2024 15:23:24 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Trevor Gross <tmgross@umich.edu>,
+	Adam Bratschi-Kaye <ark.email@gmail.com>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] rust: extend `module!` macro with integer
+ parameter support
+Message-ID: <2024121309-lethargic-ended-5f99@gregkh>
 References: <20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org>
-	<20241213-module-params-v3-v3-4-485a015ac2cf@kernel.org>
-	<pw5PzA4YGsu7j6ET_-OYE2oq9l7ixtTTGhHtxMxmMP5ggHxLrjzMkNMvcMVjGPhu7FpBb2duDD3bRbtMJZZHIw==@protonmail.internalid>
-	<CANiq72kb2ocNuE6n32vr4xCkZhZN0uPuCN3SFA1+Q5L+Ma4ByQ@mail.gmail.com>
-Date: Fri, 13 Dec 2024 14:17:19 +0100
-Message-ID: <87y10jd8o0.fsf@kernel.org>
+ <4Dsa69UGULRGsMbRbwOJNp_puyfsSSFt1QTcYU9AL4azd8vbfEFFtc7YNSsGegc40AfCZqVqZETfxg4TggUlSw==@protonmail.internalid>
+ <2024121324-overdue-giggly-bdb8@gregkh>
+ <87frmrepo5.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87frmrepo5.fsf@kernel.org>
 
-Hi Miguel,
+On Fri, Dec 13, 2024 at 01:24:42PM +0100, Andreas Hindborg wrote:
+> "Greg KH" <gregkh@linuxfoundation.org> writes:
+> 
+> > On Fri, Dec 13, 2024 at 12:30:45PM +0100, Andreas Hindborg wrote:
+> >> This series extends the `module!` macro with support module parameters.
+> >
+> > Eeek, why?
+> >
+> > Module parameters are from the 1990's, back when we had no idea what we
+> > were doing and thought that a simple "one variable for a driver that
+> > controls multiple devices" was somehow a valid solution :)
+> >
+> > Please only really add module parameters if you can prove that you
+> > actually need a module parameter.
+> 
+> I really need module parameters to make rust null block feature
+> compatible with C null block.
 
-"Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com> writes:
+Is that a requirement?  That wasn't documented here :(
 
-> On Fri, Dec 13, 2024 at 12:33=E2=80=AFPM Andreas Hindborg <a.hindborg@ker=
-nel.org> wrote:
->>
->> +#![feature(sync_unsafe_cell)]
->
-> Please mention this in the commit message, the status of the feature
-> and justify the addition.
+You should have put the user of these apis in the series as you have
+that code already in the tree, right?
 
-I forgot, thanks for pointing that out. Following the discussion of v2
-of this series I can understand that `mut static` is discouraged and
-scheduled for removal. Interior mutability via `SyncUnsafeCell` provides
-the same functionality and it is my understanding that this feature is
-on track to be stabilized.
+> Let's not block interfacing parts of the kernel because we decided that
+> the way we (well not me, I was not around) did things in the 80's was
+> less than stellar. I mean, we would get nowhere.
 
->
->> +//! C header: [`include/linux/moduleparam.h`](../../../include/linux/mo=
-duleparam.h)
->
-> Please use `srctree`.
+On the contrary, if we don't learn from our past mistakes, we will
+constantly keep making them and prevent others from "doing the right
+thing" by default.
 
-Ok.
+I would strongly prefer that any driver not have any module parameters
+at all, as drivers don't work properly that way (again, they need to
+handle multiple devices, which does not work for a module parameter.)
 
->
->> +/// Newtype to make `bindings::kernel_param` `Sync`.
->
-> Please add intra-doc links where applicable, e.g. `Sync` here.
+That's why we created sysfs, configfs, and lots of other things, to
+learn from our past mistakes.
 
-Will do.
+thanks,
 
->
->> +unsafe extern "C" fn set_param<T>(
->> +    val: *const core::ffi::c_char,
->> +    param: *const crate::bindings::kernel_param,
->> +) -> core::ffi::c_int
->> +where
->> +    T: ModuleParam,
->> +{
->> +    // NOTE: If we start supporting arguments without values, val _is_ =
-allowed
->> +    // to be null here.
->> +    assert!(!val.is_null());
->
-> Should this return an error instead?
-
-Not sure. `val` being null not supposed to happen in the current
-configuration. It should be an unreachable state. So BUG is the right thing?
-
->
->> +/// Write a string representation of the current parameter value to `bu=
-f`.
->> +///
->> +/// # Safety
->> +///
->> +/// Must not be called.
->> +///
->> +/// # Note
->> +///
->> +/// This should not be called as we declare all parameters as read only.
->> +#[allow(clippy::extra_unused_type_parameters)]
->> +unsafe extern "C" fn get_param<T>(
->> +    _buf: *mut core::ffi::c_char,
->> +    _param: *const crate::bindings::kernel_param,
->> +) -> core::ffi::c_int
->> +where
->> +    T: ModuleParam,
->> +{
->> +    unreachable!("Parameters are not readable");
->> +}
->
-> Do we need this? Can't the `ops` callback be `null`?
-
-Not in the current configuration. The parameters can only be declared
-"read only". It should be impossible for anyone to call this function.
-
->
->> +/// The `arg` field of `param` must be an initialized instance of `Self=
-`.
->
-> `Self`?
-
-That whole line is wrong, thanks for spotting. It should read "`arg` must
-be an initialized instance of `T`. This function takes ownership of
-the `T` pointed to by `arg`.".
-
->
->> +/// Generate a static [`kernel_param_ops`](../../../include/linux/modul=
-eparam.h) struct.
->
-> `srctree`.
-
-=F0=9F=91=8D
-
->
->> +/// Parse a token stream of the form `expected_name: "value",` and retu=
-rn the
->> +/// string in the position of "value". Panics on parse error.
->
-> `# Panics` section.
-
-Ok.
-
->
->> +/// `type` may be one of
->> +///
->> +/// - `i8`
->> +/// - `u8`
->> +/// - `i8`
->> +/// - `u8`
->> +/// - `i16`
->> +/// - `u16`
->> +/// - `i32`
->> +/// - `u32`
->> +/// - `i64`
->> +/// - `u64`
->> +/// - `isize`
->> +/// - `usize`
->
-> Can these be intra-doc links?
-
-Yes!
-
-
-Thanks for the comments!
-
-
-
-Best regards,
-Andreas Hindborg
-
-
-
+greg k-h
 
