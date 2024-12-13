@@ -1,44 +1,44 @@
-Return-Path: <linux-kbuild+bounces-5116-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5117-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825F39F0B83
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 12:43:46 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 420169F0B92
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 12:46:23 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42295283654
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 11:43:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FDA31884152
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 11:46:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E620B1DE899;
-	Fri, 13 Dec 2024 11:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555C51C3C16;
+	Fri, 13 Dec 2024 11:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NOM5UwnE"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QW64Q4U9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBF91AB528;
-	Fri, 13 Dec 2024 11:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DCD4A21;
+	Fri, 13 Dec 2024 11:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734090223; cv=none; b=NkPE6knEkETcGLIO78MxdM9bF6/VPSvLDto+yBXDAPNwgT5PoHP1N3N6hZ8JJnSjPLaFevVgcAm4j1ZxfAYvVcUpeQGNh9wovT5xmoFA17VvSub1H0MmZ9RJQ8gxKQ1gZQ9XxV1FszASH27CYFt7Aw2PYpvy5P/z0SCYbDzARP4=
+	t=1734090378; cv=none; b=mJamNjZH9UhsXQU8vtsRT7ZtSGw8GmV/0zaroPA8xhgVgAnzCN1uG4pLbgLbnd/BWuhSIyHg2koRl1B/Nr7ftqVVO7QZS4jHD8EhlZuVkdsqTVWR/qlphsfQ+tKZK7pUilSOsnteS/00aMwUWmdrLvEqmbREIY6FRTZRNRKD6E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734090223; c=relaxed/simple;
-	bh=cjRjp/Xse2fxvqepIjHcf3vL97ttat9N5UPpJjOyyYo=;
+	s=arc-20240116; t=1734090378; c=relaxed/simple;
+	bh=8I2WOxBCpiJk/vx8BuUgAahu4pS5nzEFeAlUisNqg8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hf6a+3Tcv6tzJZa5YzlWYJbhVdLGuN1QcP1xorqpLvcuO+NtXrZR+UmnesbjryGyZfxC2u/trBN3qJehtvf9+gLbjPYmD7WpoZ38hceuuQLl7pnFTzP/ES3JyNpQZzMawJJxoKsSjyr6nmMfmuWIPAjZ4G3n5oxfAAVx06JdtoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NOM5UwnE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D1E1C4CED0;
-	Fri, 13 Dec 2024 11:43:42 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Otz7nmnjxY1IaWip8w0cyHe9+U78f7UDR+dhLsjvHfoI0k8GsuEmAPX5cGrI6dAZdXvO/GYRIsk7gt3y4wp+0uwHWgF2LCZLWZKEOg21juSycpkmVNBzKWtZ3Y8zERyODSJDgMxog7JOGdXsH1MmTMXIROSrgCVdYUOLzwof4x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QW64Q4U9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CAAAC4CED0;
+	Fri, 13 Dec 2024 11:46:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1734090223;
-	bh=cjRjp/Xse2fxvqepIjHcf3vL97ttat9N5UPpJjOyyYo=;
+	s=korg; t=1734090376;
+	bh=8I2WOxBCpiJk/vx8BuUgAahu4pS5nzEFeAlUisNqg8s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NOM5UwnEn2U5tGOJZ13vJval1uW1zxj9jvN9Jk9+efNsEkjCBgAmJF+SEEuRk4KFt
-	 YLo2WN2VCRflhqoakOF/Qo2eMvYrksjQ2EH2jcW0vFnqwMDlwRjQrvMCy/Z5/DvfsP
-	 kOWmOTlg5GOzkvUr7GrcbVGXPp2gWl+p4h9A1Dq0=
-Date: Fri, 13 Dec 2024 12:43:40 +0100
+	b=QW64Q4U9ZRlk6Ov/FMmTfZNawUgwFHBgq8hXbVj4vgNvLc4PUiQTtpGrQe+k3CKyj
+	 S6bgYjPpKIWJqiw27hQXc4+C6GTX01hHoC9fNTxHGdq7lpGMs4ro/jUXdSX7wGrKUC
+	 4LVzkEg1TStBoHwL/VcqxRJOH4vjqUI7AWKExi5M=
+Date: Fri, 13 Dec 2024 12:46:13 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Andreas Hindborg <a.hindborg@kernel.org>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
@@ -53,10 +53,10 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
 	Adam Bratschi-Kaye <ark.email@gmail.com>,
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] rust: extend `module!` macro with integer
- parameter support
-Message-ID: <2024121324-overdue-giggly-bdb8@gregkh>
+Subject: Re: [PATCH v3 4/4] rust: add parameter support to the `module!` macro
+Message-ID: <2024121324-ravine-kinswoman-c0d1@gregkh>
 References: <20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org>
+ <20241213-module-params-v3-v3-4-485a015ac2cf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,19 +65,24 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org>
+In-Reply-To: <20241213-module-params-v3-v3-4-485a015ac2cf@kernel.org>
 
-On Fri, Dec 13, 2024 at 12:30:45PM +0100, Andreas Hindborg wrote:
-> This series extends the `module!` macro with support module parameters.
+On Fri, Dec 13, 2024 at 12:30:49PM +0100, Andreas Hindborg wrote:
+> This patch includes changes required for Rust kernel modules to utilize
+> module parameters. This code implements read only support for integer
+> types without `sysfs` support.
 
-Eeek, why?
+read-only is VERY limited, and as such, only good for boot options,
+which as I mentioned before, is not how any "modern" kernel driver
+should be doing things.
 
-Module parameters are from the 1990's, back when we had no idea what we
-were doing and thought that a simple "one variable for a driver that
-controls multiple devices" was somehow a valid solution :)
+And no sysfs interaction?  That's going to confuse the heck out of
+people wondering why the option they added doesn't show up in the same
+place it normally would if they did it in C, right?  Not that I'm saying
+this should be done at all, just that this is going to be confusing
+right off the bat which is probably not a good idea.
 
-Please only really add module parameters if you can prove that you
-actually need a module parameter.
+Friends don't let friends add new module parameters to the kernel :)
 
 thanks,
 
