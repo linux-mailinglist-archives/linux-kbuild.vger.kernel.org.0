@@ -1,91 +1,88 @@
-Return-Path: <linux-kbuild+bounces-5121-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886CF9F0CAE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 13:48:42 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F04FF9F0CB5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 13:50:21 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A70C0160FB6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 12:48:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B12FD281DEE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 12:50:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C62B41DEFEC;
-	Fri, 13 Dec 2024 12:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418691DFDA3;
+	Fri, 13 Dec 2024 12:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gREh2xjm"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qiNEn3Qh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56881B3922
-	for <linux-kbuild@vger.kernel.org>; Fri, 13 Dec 2024 12:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268E61A0AF7
+	for <linux-kbuild@vger.kernel.org>; Fri, 13 Dec 2024 12:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734094120; cv=none; b=IEJ6IOG/GRsiB1r/MO9UGdU8hhTUDIWxDKQNdALSMmPVZzXWBxVfBAUahDJ9rMZVxsEPvXEBxxlqOzB2P/40RIFW2CdBptnOhM6PQ7bHQZmnpIrzkORwHAR5nYbUChVQ2Fb8iLwn1zeQFBG/MjdQ3gUXeeBZfkN7fi0rE8dCDCI=
+	t=1734094213; cv=none; b=JX9qDrik/QNrX3c/cBjANp/OGVDs39TuPIr3X1GwlXV8yfz/NuU8fXfGD97PsqmXEQMzh7MnjLPviftprfHWgbmV0LVzBPnHF3huCP4WwGjP72y0BiQtGnSp7ZMymGQl2U1tpqtBbiyJVVyhmKyz6mrheh/yUdQP+9z3l9XiKfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734094120; c=relaxed/simple;
-	bh=lethxNSS8EAyNyjFkm2pBuuwojYh8oVRmh80d1A3DX0=;
+	s=arc-20240116; t=1734094213; c=relaxed/simple;
+	bh=k6suJOebW+T2tQfGVv5Vkd1GGLC7hP2TbXFK9BWUYTE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eSw5wMr08szbxXKrG2QRdC8c9+lxHmpjC1VVcRnz+sGWNf3s8mFDy8AwO1YQpzI9ooY4117gZy0UArLbw7hxj+t7Mcz3+IY3pERJu8Ed5QB6UJl3jL9/TT5fOnwbHRG3fX7+d3TiWGCpLgJbeq9/stK1gNyMIXchMCEWeOaHMHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gREh2xjm; arc=none smtp.client-ip=209.85.221.43
+	 To:Cc:Content-Type; b=JgRAZjmFlDoA8XO7xvYd/NvaXgyIJORgTcOBS7Q6vqc5zxFV7dqALpOIBVrApL4zFx9+ZyqXSNbZTpLB1j5EbZAfCaHtOsjwwjPkgwwrN/jTTTupkQ6rQZwBLipf/wutxPr+Qupbw8rA8U4RrsA6WURrtxPnIGaCsYEgBRUGJ1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qiNEn3Qh; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37ed3bd6114so812194f8f.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Dec 2024 04:48:38 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385f07cd1a4so1097622f8f.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 13 Dec 2024 04:50:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734094117; x=1734698917; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1734094208; x=1734699008; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lethxNSS8EAyNyjFkm2pBuuwojYh8oVRmh80d1A3DX0=;
-        b=gREh2xjmlLP11JXhJd1CdpbKXTdqiprPxIgFKDxfB1Hvp3ui+rmMUNn+cb7zV5HdWI
-         sf6t8JwVqNzSIg4whDQWTrab7z8eqG5XUilKLs5lPovbByYt9QwOMQOsoqgTVlnWrkAS
-         cemNtM+j5lvMlcli4gdBmoDlnv/7p7U4hEoh8SVoDBoM8u9VRF+THcxhycFKGOafuAj2
-         N141xH3ekUw65YRy/oYUr7bQldWoGYAw9Basz8noRN8d+ckf46PRhd0PGM7ptk5pIrFx
-         MltX3LPIGHUqunprn5DFzRhXXN3O3zPjsLdfIXMru6JiS6IbL+MgCxxajiVzDdiLn915
-         dZ6A==
+        bh=k6suJOebW+T2tQfGVv5Vkd1GGLC7hP2TbXFK9BWUYTE=;
+        b=qiNEn3QhLiGGvjAIHhKeDgnHAOD3NHqwCwbPPcCb7Mxn8sH9Pkm3ey73LvaXxUN3O4
+         AEyh09OpMp1k07cGrAI5PJK3clmNjF6wzi6r87xhTRKDIB10AswRiE6XRFjJYQYwrihC
+         OKnLkYyUyBJ1coY8UyVwmJO8a0IPL6JxL61MIBmK5tQ/za4+tV7SrkZUAr/f1eEJ6kPb
+         wokxH6tfHnjtyynwEeM0I1gyq5vQIvyuyfiy7o/yJP1nYwMlMhEkJLOfkZ/u5X32Nvc7
+         AY1je6Z19DzjxH3gNIE2yRWbWmv/z9RkqRTk0THHS7KjAXaMD8p+YoFjTIvACAuashBK
+         HxZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734094117; x=1734698917;
+        d=1e100.net; s=20230601; t=1734094208; x=1734699008;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lethxNSS8EAyNyjFkm2pBuuwojYh8oVRmh80d1A3DX0=;
-        b=fJ1nW2huUtmeIlUTvqWAKKN4KcTySP6gwpBifdrdC5zcfW+4xYbkNZPYJi+3XSmShM
-         iJwxdVg1gJl0mRlgOMtjLB45KCmpI8RLnZaa28xdh8+2+LrxgEkRFiXm3roRx9jhiDkw
-         ik5ZT0fY44dAqwqH2j12z9OhuXiLFT0sQCRCo+E3fBzIgcoSAfdAooMjlMmvidDrvnmk
-         TSmNxGotc7EDRGvDK0uqAoPX675NeMYBR+PcYv2sS/ui5CnFHuYMhl+4f+THITbV7YM2
-         NQtLNyXGmewgz+RLAZYhidKqgfBSr+SSxQQ+R1R1DwyHvpJ8iz8dg/ylu85ACZNMPuj4
-         Fjtg==
-X-Forwarded-Encrypted: i=1; AJvYcCWK/WYH1BaajwUgGomct7e7Z1s9TMdhTpXw7+1PdWKXDPsus5cqdalY7dwEgz7KNz7NNKPg+7Zro4RXXtc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz2NT7jIkZMzMmhqU1a95XE/JlQOaL8mn5S76VRW0sWMwze/Eh
-	PiYCMX0pkweQ9vvIDt1W9WF2bPXNC5bqvbmmuhRkzB6rVzp5xDsF7ZRSo6rZfSfEF2nMMFtEk/P
-	RBxxPp0tr2ihRbYsm79TbCskFiSv98OEJ+Aqi
-X-Gm-Gg: ASbGncvBK49nTEWWj+PHzLfE3Nsl6nkCzfmxGBtufYvfZBFVkUIfohI6EKIO5Mgv6QX
-	RHbBqCCtjbxgoxM+e6t2FXKDatx9azruS4I+xKL8=
-X-Google-Smtp-Source: AGHT+IH0dpfDtOwGlnb2C6mIuU/5tSY4s4rjRlEZpLi8EzftkJqd7mRISCvo5vQa2rNmSwXyxe3wzmOuHV6dQFuozXc=
-X-Received: by 2002:a5d:6da2:0:b0:386:2ebe:7aeb with SMTP id
- ffacd0b85a97d-3888e0b887dmr2002637f8f.44.1734094117119; Fri, 13 Dec 2024
- 04:48:37 -0800 (PST)
+        bh=k6suJOebW+T2tQfGVv5Vkd1GGLC7hP2TbXFK9BWUYTE=;
+        b=O4HmGDGUHp2MyRpJswvxOKbo+XXe1OQJKFvSDiSfBb5MazZ6/NGojzNRSbDTlMLwN4
+         6smPJWSdFVjvJ8WhE/1jgPw86Xk4HTrCNWisMA5EVKhI5zUDIqQ+5RDmQwnTc4Yr5PR/
+         noODxwTiT9MR+TdPMrvfdWKPtYmuu8Jiin2T18W0SAWVx3tap/B0K0Bw/7OTGqzMfBe5
+         7Nka6sDvcgIpRsqFQHg9ctTri9/6L2H5810tJng6JE64DL1yDBUBvqx9MrAkWbvazHWf
+         Vmki5r6gRvrE/KX1qsLE5tbKLsyHDJGSK7n8W7NARYnJrrDfPyaREX9R1bJ4v9VYfhdx
+         5Yxw==
+X-Forwarded-Encrypted: i=1; AJvYcCWS+4cJB+8417LG6jXlEHhPnliCeiYghY3o1d961i38GlJrVlT010jZYKWz4Rmgy02E8l9BPWUczP45NX8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXIj5QdHI1948ZCAAyaecpRTrZvFzo7dYs921tJiJRvjUr/8Cd
+	+WHjuDexcoJ/tgBQnj/nADx3Z8ruMDP3PW1mlldHe/vVVjIDalCa23XLjAjI4cvZmNmiY8Txo5u
+	ihukbzML2eJ/UlGk+EEp+YEXmPekkPwB5AaUc
+X-Gm-Gg: ASbGncvfVVRV9s7+wR3LpS36h5rcUj5Z8l0YH9/99/v8hGi8FNBWCoErj7h5T99CHxz
+	MDi2LyDEJicbQa1C4M/DGbeuS1gX0teQWkEquPeU=
+X-Google-Smtp-Source: AGHT+IFJwfW3yssZ7+jsglJf5d+5FmvssL5C/KzY0tcQAh75c2NrYq9vh2lXeL/kRzsw+F2F/hFZXHTrxvm3QYHIi+4=
+X-Received: by 2002:a05:6000:1fa5:b0:386:45e9:fc8a with SMTP id
+ ffacd0b85a97d-38880ac21c4mr1917804f8f.5.1734094208479; Fri, 13 Dec 2024
+ 04:50:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org>
- <4Dsa69UGULRGsMbRbwOJNp_puyfsSSFt1QTcYU9AL4azd8vbfEFFtc7YNSsGegc40AfCZqVqZETfxg4TggUlSw==@protonmail.internalid>
- <2024121324-overdue-giggly-bdb8@gregkh> <87frmrepo5.fsf@kernel.org>
-In-Reply-To: <87frmrepo5.fsf@kernel.org>
+References: <20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org> <20241213-module-params-v3-v3-1-485a015ac2cf@kernel.org>
+In-Reply-To: <20241213-module-params-v3-v3-1-485a015ac2cf@kernel.org>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 13 Dec 2024 13:48:25 +0100
-Message-ID: <CAH5fLgh+iOefU3vG=e8aAFhcKh0W=6M0odUt3s_wfDKW+rGNOg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] rust: extend `module!` macro with integer
- parameter support
+Date: Fri, 13 Dec 2024 13:49:56 +0100
+Message-ID: <CAH5fLghA6qHsSrC1YL9M=e-YHBa69xr7dp+_9nNR65C27ssO0A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] rust: str: implement `PartialEq` for `BStr`
 To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <benno.lossin@proton.me>, Masahiro Yamada <masahiroy@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Trevor Gross <tmgross@umich.edu>, 
 	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
@@ -93,31 +90,12 @@ Cc: Greg KH <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 13, 2024 at 1:24=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
+On Fri, Dec 13, 2024 at 12:33=E2=80=AFPM Andreas Hindborg <a.hindborg@kerne=
+l.org> wrote:
 >
-> "Greg KH" <gregkh@linuxfoundation.org> writes:
+> Implement `PartialEq` for `BStr` by comparing underlying byte slices.
 >
-> > On Fri, Dec 13, 2024 at 12:30:45PM +0100, Andreas Hindborg wrote:
-> >> This series extends the `module!` macro with support module parameters=
-.
-> >
-> > Eeek, why?
-> >
-> > Module parameters are from the 1990's, back when we had no idea what we
-> > were doing and thought that a simple "one variable for a driver that
-> > controls multiple devices" was somehow a valid solution :)
-> >
-> > Please only really add module parameters if you can prove that you
-> > actually need a module parameter.
->
-> I really need module parameters to make rust null block feature
-> compatible with C null block.
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-Instead of providing module parameters to Rust code, you could
-implement that part of Rust nullblk in C. That way, you discourage
-future Rust drivers from using module parameters without making it
-impossible to have them in Rust nullblk.
-
-Alice
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
