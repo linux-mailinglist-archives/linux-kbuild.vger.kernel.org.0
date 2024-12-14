@@ -1,165 +1,209 @@
-Return-Path: <linux-kbuild+bounces-5136-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5137-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496399F1D8D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Dec 2024 09:38:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3514E9F1DDD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Dec 2024 10:59:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5168A188B64D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Dec 2024 08:38:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6EA6E7A054D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Dec 2024 09:59:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E916F1632DF;
-	Sat, 14 Dec 2024 08:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A72A156F3C;
+	Sat, 14 Dec 2024 09:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z2AqL/qT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B2D383;
-	Sat, 14 Dec 2024 08:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFD3433D8;
+	Sat, 14 Dec 2024 09:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734165510; cv=none; b=oS4DUd0x+Rz3nMzIQlcyztk1kuChfmdjoU3h+tmSZZGI0w6fqmCtV8qF1SeokQJrSh4ijIzRlwcM138WrjZjiQnux0Tqy569eTXiBJdRFqIJvTgImYiBlT25fn/aG+N8r/QjOb6E8SWrUpeLJVJKEJPzIbz2M2GMkGS/gpr1pHo=
+	t=1734170359; cv=none; b=qknUL0B7ed7Z2lHpuGuM9ZMPlbzKc4QZpn62wgSd/lyavkJZclLZkclsHdGR4+C46+LZnzmLZdcIpnWwKdU1+0BaEZD7ReNVHaapJ9DJFB/JMCI2wqmnB0j4MJ7rxO01XSMukflhjABsql/KW4NV5/iKv0Z2koKPT0LLaHzujvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734165510; c=relaxed/simple;
-	bh=1/yIy1SrlcaNV2kPAIqau8laoWMKllp8+UijVCDcJAo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=d3ITfWZ21vvrTNiqsgZIpxMBKUDlPUoNK9Ph1btsbkQntTqtRvjHRKQ9IECC1HXdv1A7DbBhF+Hn7oD2iY7YJeSjkmF8TVVs5PKf9wGn/43eK8y2W7OmYn7IAYZr53y3Zgp2QCAzcL8zbUcGhZJNe3Emx7VvhAbkgjwEhJ5qJZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Y9KNp5ZCgz20lpM;
-	Sat, 14 Dec 2024 16:38:34 +0800 (CST)
-Received: from kwepemo500008.china.huawei.com (unknown [7.202.195.163])
-	by mail.maildlp.com (Postfix) with ESMTPS id 33C09180044;
-	Sat, 14 Dec 2024 16:38:17 +0800 (CST)
-Received: from [10.67.111.172] (10.67.111.172) by
- kwepemo500008.china.huawei.com (7.202.195.163) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Sat, 14 Dec 2024 16:38:15 +0800
-Message-ID: <7266ee61-3085-74fc-2560-c62fc34c2148@huawei.com>
-Date: Sat, 14 Dec 2024 16:37:59 +0800
+	s=arc-20240116; t=1734170359; c=relaxed/simple;
+	bh=zPCYquVMyHszbkGVcE2/GM5XO92yWX3+ZbBjTyw9TYw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mQZlDLYgDIlt1VnnwtGXZnp8mzXQImuZbwyM3DlvFxTLrsEUEqMOWG8DVclhgx1QsxntQRtrFgoJCuyVaQGH8tTQIxVcy6BFYJRNZQQymCZQORXDgfIMSzHOoHlXUBOGpC0C+DTGZmzEjh4Xx4eosv7lqxYBLI8jdetuDvVDalM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z2AqL/qT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32D19C4CED1;
+	Sat, 14 Dec 2024 09:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734170358;
+	bh=zPCYquVMyHszbkGVcE2/GM5XO92yWX3+ZbBjTyw9TYw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Z2AqL/qTmZhQOqXXapTMVn6uJAQMYGDEeYuppOZtY7zRTDvZYX2h8E2e2zJRJJimz
+	 WUaIGMqcYk0nTWddN56atlY4MAPL7yvyYlL2qAOl/XLndN5tUDO/zXySB/mQyVk/P+
+	 5V5rRQ7qVlvvlDqD/Bv9wFrHwa5S/N+Q83rYKxr7rGVX4yEOILJ8WSOTAM5mzLblBr
+	 4c19sgVgviVuf7D+PD1s2ndcYR9u9cLAxZRgd+RNAGy8Whz9o8FaxGloLX73XKyvqX
+	 xhHRloyqTRPFQLr0IOoc4sdbpLJAXxdvUjhBzS//EflGISnB2H2vLV5t1fukQ2joXS
+	 81tFQqpI0TC9w==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-arch@vger.kernel.org,
+	linux-modules@vger.kernel.org
+Subject: [PATCH] kbuild: keep symbols for symbol_get() even with CONFIG_TRIM_UNUSED_KSYMS
+Date: Sat, 14 Dec 2024 18:58:57 +0900
+Message-ID: <20241214095900.42990-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and fix
- weak function issue
-Content-Language: en-US
-To: Martin Kelly <martin.kelly@crowdstrike.com>, "masahiroy@kernel.org"
-	<masahiroy@kernel.org>, "ojeda@kernel.org" <ojeda@kernel.org>,
-	"jpoimboe@kernel.org" <jpoimboe@kernel.org>, "pasha.tatashin@soleen.com"
-	<pasha.tatashin@soleen.com>, "mhiramat@kernel.org" <mhiramat@kernel.org>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"james.clark@arm.com" <james.clark@arm.com>, "mpe@ellerman.id.au"
-	<mpe@ellerman.id.au>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>, "nicolas@fjasle.eu"
-	<nicolas@fjasle.eu>, "tglx@linutronix.de" <tglx@linutronix.de>,
-	"christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-	"nathan@kernel.org" <nathan@kernel.org>, "npiggin@gmail.com"
-	<npiggin@gmail.com>, "mark.rutland@arm.com" <mark.rutland@arm.com>,
-	"hpa@zytor.com" <hpa@zytor.com>, "surenb@google.com" <surenb@google.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "naveen.n.rao@linux.ibm.com"
-	<naveen.n.rao@linux.ibm.com>, "kent.overstreet@linux.dev"
-	<kent.overstreet@linux.dev>, "bp@alien8.de" <bp@alien8.de>,
-	"yeweihua4@huawei.com" <yeweihua4@huawei.com>,
-	"mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
-	"mcgrof@kernel.org" <mcgrof@kernel.org>
-CC: Amit Dang <amit.dang@crowdstrike.com>, "linux-modules@vger.kernel.org"
-	<linux-modules@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
-	<linux-kbuild@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>
-References: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
- <44353f4cd4d1cc7170d006031819550b37039dd2.camel@crowdstrike.com>
- <364aaf7c-cdc4-4e57-bb4c-f62e57c23279@csgroup.eu>
- <d25741d8a6f88d5a6c219fb53e8aa0bcc1fea982.camel@crowdstrike.com>
- <1f11e3c4-e8fd-d4ac-23cd-0ab2de9c1799@huaweicloud.com>
- <30ee9989044dad1a7083a85316d77b35f838e622.camel@crowdstrike.com>
-From: Zheng Yejian <zhengyejian1@huawei.com>
-In-Reply-To: <30ee9989044dad1a7083a85316d77b35f838e622.camel@crowdstrike.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemo500008.china.huawei.com (7.202.195.163)
 
-On 2024/12/14 03:31, Martin Kelly wrote:
-> On Thu, 2024-12-12 at 17:52 +0800, Zheng Yejian wrote:
->> On 2024/12/11 04:49, Martin Kelly wrote:
->>>
->>>
->>> Zheng, do you plan to send a v3? I'd be happy to help out with this
->>> patch series if you'd like, as I'm hoping to get this issue
->>> resolved
->>> (though I am not an ftrace expert).
->>
->> Sorry to rely so late. Thanks for your feedback!
->>
->> Steve recently started a discussion of the issue in:
->>
->> https://lore.kernel.org/all/20241015100111.37adfb28@gandalf.local.home/
->> but there's no conclusion.
->>    
->> I can rebase this patch series and send a new version first, and
->> I'm also hoping to get more feedbacks and help to resolve the issue.
->>
-> 
-> Hi Zheng,
-> 
-> I may have misunderstood, but based on the final message from Steven, I
-> got the sense that the idea listed in that thread didn't work out and
-> we should proceed with your current approach.
+Linus observed that the symbol_request(utf8_data_table) call fails when
+CONFIG_UNICODE=y and CONFIG_TRIM_UNUSED_KSYMS=y.
 
-This patch set attempts to add length information of symbols to kallsyms,
-which can then ensure that there is only one valid fentry within the range
-of function length.
+symbol_get() relies on the symbol data being present in the ksymtab for
+symbol lookups. However, EXPORT_SYMBOL_GPL(utf8_data_table) is dropped
+due to CONFIG_TRIM_UNUSED_KSYMS, as no module references it in this case.
 
-However, I think this patch set actually has some performance implications,
-including：
-   1. Adding hole symbols may cause the symbol table to grow significantly;
-   2. When parsing fentry tables, excluding invalid fentries through kallsyms lookups
-      may also increase boot or module load times slightly.
+Probably, this has been broken since commit dbacb0ef670d ("kconfig option
+for TRIM_UNUSED_KSYMS").
 
-The direct cause of this issue is the wrong fentry being founded by ftrace_location(),
-following the approach of "FTRACE_MCOUNT_MAX_OFFSET", narrowing down the search range
-and re-finding may also solve this problem, demo patch like below (not
-fully tested):
+This commit addresses the issue by leveraging modpost. Symbol names
+passed to symbol_get() are recorded in the special .no_trim_symbol
+section, which is then parsed by modpost to forcibly keep such symbols.
+The .no_trim_symbol section is discarded by the linker scripts, so there
+is no impact on the size of the final vmlinux or modules.
 
-     diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
-     index 9b17efb1a87d..7d34320ca9d1 100644
-     --- a/kernel/trace/ftrace.c
-     +++ b/kernel/trace/ftrace.c
-     @@ -1678,8 +1678,11 @@ unsigned long ftrace_location(unsigned long ip)
-                             goto out;
-     
-                     /* map sym+0 to __fentry__ */
-     -               if (!offset)
-     +               if (!offset) {
-                             loc = ftrace_location_range(ip, ip + size - 1);
-     +                       while (loc > ip && loc - ip > FTRACE_MCOUNT_MAX_OFFSET)
-     +                               loc = ftrace_location_range(ip, loc - 1);
-     +               }
-             }
+This commit cannot resolve the issue for direct calls to __symbol_get()
+because the symbol name is not known at compile-time.
 
-Steve, Peter, what do you think?
+Although symbol_get() may eventually be deprecated, this workaround
+should be good enough meanwhile.
 
-> 
-> Please consider me an interested party for this patch series, and let
-> me know if there's anything I can do to help speed it along (co-
-> develop, test, anything else). And of course, thanks very much for your
-> work thus far!
+Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ include/asm-generic/vmlinux.lds.h |  1 +
+ include/linux/module.h            |  5 ++++-
+ scripts/mod/modpost.c             | 25 ++++++++++++++++++++++++-
+ scripts/mod/modpost.h             |  2 ++
+ scripts/module.lds.S              |  1 +
+ 5 files changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index 54504013c749..02a4adb4a999 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -1038,6 +1038,7 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
+ 	*(.discard)							\
+ 	*(.discard.*)							\
+ 	*(.export_symbol)						\
++	*(.no_trim_symbol)						\
+ 	*(.modinfo)							\
+ 	/* ld.bfd warns about .gnu.version* even when not emitted */	\
+ 	*(.gnu.version*)						\
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 94acbacdcdf1..405ca74c0340 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -306,7 +306,10 @@ extern int modules_disabled; /* for sysctl */
+ /* Get/put a kernel symbol (calls must be symmetric) */
+ void *__symbol_get(const char *symbol);
+ void *__symbol_get_gpl(const char *symbol);
+-#define symbol_get(x) ((typeof(&x))(__symbol_get(__stringify(x))))
++#define symbol_get(x)	({ \
++	static const char __notrim[] \
++		__used __section(".no_trim_symbol") = __stringify(x); \
++	(typeof(&x))(__symbol_get(__stringify(x))); })
+ 
+ /* modules using other modules: kdb wants to see this. */
+ struct module_use {
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 94ee49207a45..82dde0342ad5 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -503,6 +503,9 @@ static int parse_elf(struct elf_info *info, const char *filename)
+ 			info->modinfo_len = sechdrs[i].sh_size;
+ 		} else if (!strcmp(secname, ".export_symbol")) {
+ 			info->export_symbol_secndx = i;
++		} else if (!strcmp(secname, ".no_trim_symbol")) {
++			info->no_trim_symbol = (void *)hdr + sechdrs[i].sh_offset;
++			info->no_trim_symbol_len = sechdrs[i].sh_size;
+ 		}
+ 
+ 		if (sechdrs[i].sh_type == SHT_SYMTAB) {
+@@ -1443,6 +1446,24 @@ static char *remove_dot(char *s)
+ 	return s;
+ }
+ 
++/*
++ * Keep symbols recorded in the .no_trim_symbol section. This is necessary to
++ * prevent CONFIG_TRIM_UNUSED_KSYMS from dropping EXPORT_SYMBOL because
++ * symbol_get() relies on the symbol being present in the ksymtab for lookups.
++ */
++static void keep_no_trim_symbols(const struct elf_info *info)
++{
++	unsigned long size = info->no_trim_symbol_len;
++
++	for (char *s = info->no_trim_symbol; s; s = next_string(s , &size)) {
++		struct symbol *sym;
++
++		sym = find_symbol(s);
++		if (sym)
++			sym->used = true;
++	}
++}
++
+ /*
+  * The CRCs are recorded in .*.cmd files in the form of:
+  * #SYMVER <name> <crc>
+@@ -1594,7 +1615,9 @@ static void read_symbols(const char *modname)
+ 
+ 	check_sec_ref(mod, &info);
+ 
+-	if (!mod->is_vmlinux) {
++	if (mod->is_vmlinux) {
++		keep_no_trim_symbols(&info);
++	} else {
+ 		version = get_modinfo(&info, "version");
+ 		if (version || all_versions)
+ 			get_src_version(mod->name, mod->srcversion,
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 8b72c227ebf4..cfcda357ccb2 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -127,6 +127,8 @@ struct elf_info {
+ 	char         *strtab;
+ 	char	     *modinfo;
+ 	unsigned int modinfo_len;
++	char         *no_trim_symbol;
++	unsigned int no_trim_symbol_len;
+ 
+ 	/* support for 32bit section numbers */
+ 
+diff --git a/scripts/module.lds.S b/scripts/module.lds.S
+index c2f80f9141d4..450f1088d5fd 100644
+--- a/scripts/module.lds.S
++++ b/scripts/module.lds.S
+@@ -16,6 +16,7 @@ SECTIONS {
+ 		*(.discard)
+ 		*(.discard.*)
+ 		*(.export_symbol)
++		*(.no_trim_symbol)
+ 	}
+ 
+ 	__ksymtab		0 : ALIGN(8) { *(SORT(___ksymtab+*)) }
 -- 
-Thanks,
-Zheng Yejian
+2.43.0
 
 
