@@ -1,243 +1,101 @@
-Return-Path: <linux-kbuild+bounces-5133-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5134-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27BD9F1A28
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Dec 2024 00:36:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B439F1B57
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Dec 2024 01:36:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFEFA188E06E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2024 23:36:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12CB816B054
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Dec 2024 00:36:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CB821E0B62;
-	Fri, 13 Dec 2024 23:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E9A96AA7;
+	Sat, 14 Dec 2024 00:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Fdfu34mm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cLuFTptL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9711B87DB
-	for <linux-kbuild@vger.kernel.org>; Fri, 13 Dec 2024 23:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6115D539A;
+	Sat, 14 Dec 2024 00:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734132958; cv=none; b=sEuGGIt20yTX+mTWdW6ffzx3Zg137ctFcfjp0HA1Mi9I27A9JWgZp85BDjNGj2chn0xnCiLtmmRcOP543WShvZhrtxQrbc5KfKHaJJiYac9Awq09Q/PvZEPjLUHbL6pCMJd5oA+QhewNvTFPCroY4AKIjQkRrGfeK6ichHD4v8E=
+	t=1734136568; cv=none; b=YmgQSDhNQ8Cc5ItaDQUir8WXSaJ8eAq64lu5r8DepWDFZEJed5KcB5M9yNPf4qNzEGRYqv0zBXf1bXjEAY3SRB5TCZD2xJhy5nJJdjWZntwc97I8Nle1uO7BeZPGix0zWqrLAniHxcfLQ6Knqtfkl0p3mZeGo60ifadEuOnqd2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734132958; c=relaxed/simple;
-	bh=KVAPKHKDIi6ZozifLwAVFGy3NJHCm9SP5tWGLFajcC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TkJYOsQxhvKWQKEjdi106DM72VSCDCX7yQgBqwPxN6igBXlGU3mlA1w52lZIZ9tAXyPYqhWYayW4Nb0THFaJvH30auHrqVabNNBF9tH/DmxCk9fGgZewfNamMkzC4KblQ62YZhvG9YBYfv+E43lpOSGlek3KcD78H87uSG4qgD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Fdfu34mm; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21628b3fe7dso19416405ad.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Dec 2024 15:35:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1734132955; x=1734737755; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2joRXiX4ZDmMc5H+1DaNrFqQcCzYSVBFrBBIReWvLhM=;
-        b=Fdfu34mmqoOVPo5nCP07/Aa4QjoNnHgW9mSoHDOE+O/w/pYQV9HR6r1KFvRe8OBK06
-         czigsFX4vQk6QgjgrHqmhp3TSGabY6o3CEBMDjascaDLnojaXQOr2QHIT9k7pULJ3au+
-         tQxsWRHYGTSHQeKJraJCq2j3ardfCI5l8Uoqg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734132955; x=1734737755;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2joRXiX4ZDmMc5H+1DaNrFqQcCzYSVBFrBBIReWvLhM=;
-        b=DuIUg3oxG6/lGxVZ8IQ4ZSqMQRQUWHl2QiDhwSNUalc04a0YJv22sGmt++VDm/aKwW
-         fe7+InKtv0N5SwW/RgAle9E5ED5DNjemCfAcYurAT45lcNlzY+2wWjMaSUpenb8U7qje
-         wZYijjK2MuAUNCzicPex3hXYPe2bT5o8DizOo+ludbC+VXFw5E5P+p5FZwtvRsCSE1iH
-         SUNCSwCJ9gD7uaR8pJ5/R9gP7JTZDO+I3Dg9lzsEebhOTNs2o1yGEkdCXe1m9W5mW8NA
-         lFXhIbAsjGHt3RHWVgjOkFFW0z41pUWlKKPrmMrOI0Dulc1L6hUg0H9S9nTo1Sw4kFoA
-         MtJA==
-X-Forwarded-Encrypted: i=1; AJvYcCW33WE/Iee680CuddaZQDZi8l715b58irW8jnWKwJUJ2li0quep79JfE9BcOasbhFl3ccQch8X+4hcmsqA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAlpGxF4KhliGjxpcPRhdI1n3liQ3XI4B1vaU3cgiUqu10pHla
-	k2/mXAuz5fA0PNSluKg3V4AevvGwwDpqiW0czsGByn/leLCIZJnEOwB1GXq2Tg==
-X-Gm-Gg: ASbGncvzRyncMa9YqJpQLAAeMNRes38gQPxSPGGcW9KAiyxp9nrcB49hV8xDT6/5IwI
-	8sQmqaUSqLIFq730pYFRvcBJ1DQD0qQQnc7yRYaDRmyQ02Abnd1MDTFEWjtIWVvsHb6kA0x1SWm
-	BBRCugTqtEXzFavlyXdN3Fhgun34RIov5pnlS0q20gJbqkQALBxg6AGk5Joz6gJoo882FU0Mjta
-	SRyLYvQcchWehAF7CKP45QcMk6JuK9HO6pAXCTcDefzG8gqKoSqIaGVrh11DX5Fl0b+NCUuXCaI
-	TgSdV4WunqTvkVfl3TFAxYD4OW2tVqs=
-X-Google-Smtp-Source: AGHT+IH8ZFuDs0emt0+PPLGZ5/ZYn4/Duplxh1Ipgr1sWzkwTO40N5VOvKe8sHcnYfrW2a/CsJ7WdA==
-X-Received: by 2002:a17:903:41c5:b0:215:9a73:6c45 with SMTP id d9443c01a7336-218929d8326mr65691895ad.22.1734132955475;
-        Fri, 13 Dec 2024 15:35:55 -0800 (PST)
-Received: from localhost (227.180.227.35.bc.googleusercontent.com. [35.227.180.227])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-218a1e5404csm2923585ad.150.2024.12.13.15.35.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2024 15:35:55 -0800 (PST)
-From: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-To: heikki.krogerus@linux.intel.com,
-	tzungbi@kernel.org,
-	linux-usb@vger.kernel.org,
-	chrome-platform@lists.linux.dev
-Cc: akuchynski@google.com,
-	sboyd@kernel.org,
-	pmalani@chromium.org,
-	badhri@google.com,
-	rdbabiera@google.com,
-	dmitry.baryshkov@linaro.org,
-	jthies@google.com,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	s=arc-20240116; t=1734136568; c=relaxed/simple;
+	bh=Fl0kTfngZ/Qwv3m22qp4EK746DEdtia9PGWWE4vya3E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oiruEhCxx+EvIotgKeBJlpqSQh+/fl4WRaHOrjHAC1rpk81Me3I/RnOC6NAuJnG7KiUJSXSls3xMhDTtiBTA4NS972LPjmvEZNYR70WmvIN7CSUYqYve2AvulnIbp9iOhy209IUd6ZtesHuVDgpJO8ZT/vBXEpDwhBHZW/0u+QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cLuFTptL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0214C4CED0;
+	Sat, 14 Dec 2024 00:36:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734136567;
+	bh=Fl0kTfngZ/Qwv3m22qp4EK746DEdtia9PGWWE4vya3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cLuFTptLrVen/ZrLYdWXMT39puYEi+tYgcJJirYLheEwKSaR2Vc1zWhZoTQmyfix6
+	 1XvSkcnQ67n/fofSZg+7+3mrRfhfMdkkifnthtchIbzelNoH20iByICCq9S7HzxeGe
+	 HZnak1M8FeqKSy5CotK6sjz5ATkqQt7/O//5/hgm1xSplSC++Es+JmgbhTds9pWnXG
+	 zWph3vS+2De4OOmi/bdOkj3FsQrM5Y24yfDF6d9CvMJQield/roMs53Jjpa11tCsOK
+	 7mjJU6Z/A2PSvMndkvi2+g/mPt1EGkZLv30xbWID6WG6oM5TkhH3zDzpL8QBihm1FU
+	 leIpynRTRuXag==
+Date: Fri, 13 Dec 2024 16:36:05 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 1/8] usb: typec: Only use SVID for matching altmodes
-Date: Fri, 13 Dec 2024 15:35:42 -0800
-Message-ID: <20241213153543.v5.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
-X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-In-Reply-To: <20241213233552.451927-1-abhishekpandit@chromium.org>
-References: <20241213233552.451927-1-abhishekpandit@chromium.org>
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 1/2] objtool: Add --fail-on-warn
+Message-ID: <20241214003605.gwlfukj3tdelx4bq@jpoimboe>
+References: <20241213-objtool-strict-v1-0-fd388f9d971f@google.com>
+ <20241213-objtool-strict-v1-1-fd388f9d971f@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241213-objtool-strict-v1-1-fd388f9d971f@google.com>
 
-Mode in struct typec_altmode is used to indicate the index of the
-altmode on a port, partner or plug. It is used in enter mode VDMs but
-doesn't make much sense for matching against altmode drivers or for
-matching partner to port altmodes.
+On Fri, Dec 13, 2024 at 11:31:30AM +0000, Brendan Jackman wrote:
+> At present objtool only prints to the terminal when observing "fatal
+> warnings". This option lets you have it produce an error instead.
+> 
+> My use case for this is noinstr validation; so far I've never seen any
+> false warnings here, but it quite often detects real bugs. I'd like my
+> build to fail when I have those bugs.
+> 
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> ---
+>  tools/objtool/builtin-check.c           | 6 ++++++
+>  tools/objtool/check.c                   | 7 ++-----
+>  tools/objtool/include/objtool/builtin.h | 1 +
+>  3 files changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/tools/objtool/builtin-check.c b/tools/objtool/builtin-check.c
+> index 387d56a7f5fb8da8435d0a3f5c05eeee66932c9b..dd70cbb98929b7f558c27766bda46ad276c0750d 100644
+> --- a/tools/objtool/builtin-check.c
+> +++ b/tools/objtool/builtin-check.c
+> @@ -94,6 +94,12 @@ static const struct option check_options[] = {
+>  	OPT_BOOLEAN(0, "sec-address", &opts.sec_address, "print section addresses in warnings"),
+>  	OPT_BOOLEAN(0, "stats", &opts.stats, "print statistics"),
+>  	OPT_BOOLEAN('v', "verbose", &opts.verbose, "verbose warnings"),
+> +	/*
+> +	 *  For now, don't fail the kernel build on fatal warnings by default.
+> +	 *  These errors are still fairly common due to the growing matrix of
+> +	 *  supported toolchains and their recent pace of change.
+> +	 */
+> +	OPT_BOOLEAN(0, "fail-on-warn", &opts.fail_on_warn, "fail on fatal warnings"),
 
-Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
+How about "--Werror" to mirror the compiler -Werror option.
 
-Changes in v5:
-- Rebase with module_alias_printf
-
-Changes in v3:
-- Removed mode from altmode device ids
-- Updated modalias for typecd bus to remove mode
-- Re-ordered to start of series
-
-Changes in v2:
-- Update altmode_match to ignore mode entirely
-- Also apply the same behavior to typec_match
-
- drivers/usb/typec/altmodes/displayport.c | 2 +-
- drivers/usb/typec/altmodes/nvidia.c      | 2 +-
- drivers/usb/typec/bus.c                  | 6 ++----
- drivers/usb/typec/class.c                | 4 ++--
- scripts/mod/devicetable-offsets.c        | 1 -
- scripts/mod/file2alias.c                 | 9 ++-------
- 6 files changed, 8 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 2f03190a9873..3245e03d59e6 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -791,7 +791,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
- EXPORT_SYMBOL_GPL(dp_altmode_remove);
- 
- static const struct typec_device_id dp_typec_id[] = {
--	{ USB_TYPEC_DP_SID, USB_TYPEC_DP_MODE },
-+	{ USB_TYPEC_DP_SID },
- 	{ },
- };
- MODULE_DEVICE_TABLE(typec, dp_typec_id);
-diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altmodes/nvidia.c
-index fe70b36f078f..2b77d931e494 100644
---- a/drivers/usb/typec/altmodes/nvidia.c
-+++ b/drivers/usb/typec/altmodes/nvidia.c
-@@ -24,7 +24,7 @@ static void nvidia_altmode_remove(struct typec_altmode *alt)
- }
- 
- static const struct typec_device_id nvidia_typec_id[] = {
--	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
-+	{ USB_TYPEC_NVIDIA_VLINK_SID },
- 	{ },
- };
- MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
-diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
-index aa879253d3b8..ae90688d23e4 100644
---- a/drivers/usb/typec/bus.c
-+++ b/drivers/usb/typec/bus.c
-@@ -454,8 +454,7 @@ static int typec_match(struct device *dev, const struct device_driver *driver)
- 	const struct typec_device_id *id;
- 
- 	for (id = drv->id_table; id->svid; id++)
--		if (id->svid == altmode->svid &&
--		    (id->mode == TYPEC_ANY_MODE || id->mode == altmode->mode))
-+		if (id->svid == altmode->svid)
- 			return 1;
- 	return 0;
- }
-@@ -470,8 +469,7 @@ static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	if (add_uevent_var(env, "MODE=%u", altmode->mode))
- 		return -ENOMEM;
- 
--	return add_uevent_var(env, "MODALIAS=typec:id%04Xm%02X",
--			      altmode->svid, altmode->mode);
-+	return add_uevent_var(env, "MODALIAS=typec:id%04X", altmode->svid);
- }
- 
- static int typec_altmode_create_links(struct altmode *alt)
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 4b3047e055a3..febe453b96be 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -237,13 +237,13 @@ static int altmode_match(struct device *dev, void *data)
- 	if (!is_typec_altmode(dev))
- 		return 0;
- 
--	return ((adev->svid == id->svid) && (adev->mode == id->mode));
-+	return (adev->svid == id->svid);
- }
- 
- static void typec_altmode_set_partner(struct altmode *altmode)
- {
- 	struct typec_altmode *adev = &altmode->adev;
--	struct typec_device_id id = { adev->svid, adev->mode, };
-+	struct typec_device_id id = { adev->svid };
- 	struct typec_port *port = typec_altmode2port(adev);
- 	struct altmode *partner;
- 	struct device *dev;
-diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
-index 9c7b404defbd..d3d00e85edf7 100644
---- a/scripts/mod/devicetable-offsets.c
-+++ b/scripts/mod/devicetable-offsets.c
-@@ -237,7 +237,6 @@ int main(void)
- 
- 	DEVID(typec_device_id);
- 	DEVID_FIELD(typec_device_id, svid);
--	DEVID_FIELD(typec_device_id, mode);
- 
- 	DEVID(tee_client_device_id);
- 	DEVID_FIELD(tee_client_device_id, uuid);
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 5b5745f00eb3..7049c31062c6 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -1221,17 +1221,12 @@ static void do_tbsvc_entry(struct module *mod, void *symval)
- 	module_alias_printf(mod, true, "tbsvc:%s", alias);
- }
- 
--/* Looks like: typec:idNmN */
-+/* Looks like: typec:idN */
- static void do_typec_entry(struct module *mod, void *symval)
- {
--	char alias[256] = {};
--
- 	DEF_FIELD(symval, typec_device_id, svid);
--	DEF_FIELD(symval, typec_device_id, mode);
--
--	ADD(alias, "m", mode != TYPEC_ANY_MODE, mode);
- 
--	module_alias_printf(mod, false, "typec:id%04X%s", svid, alias);
-+	module_alias_printf(mod, false, "typec:id%04X", svid);
- }
- 
- /* Looks like: tee:uuid */
 -- 
-2.47.1.613.gc27f4b7a9f-goog
-
+Josh
 
