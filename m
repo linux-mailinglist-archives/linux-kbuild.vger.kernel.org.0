@@ -1,138 +1,159 @@
-Return-Path: <linux-kbuild+bounces-5161-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5162-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AAC9F3EC8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2024 01:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F4E9F4126
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2024 04:10:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D08916B28A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2024 00:29:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 438A016CBDD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2024 03:10:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6AE8C8F0;
-	Tue, 17 Dec 2024 00:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCDF213BC18;
+	Tue, 17 Dec 2024 03:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mN5EcNW9"
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="Ue6n58qX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F246A8F5A
-	for <linux-kbuild@vger.kernel.org>; Tue, 17 Dec 2024 00:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB3042AAB;
+	Tue, 17 Dec 2024 03:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734395373; cv=none; b=NN77AOaSaCwa17gkjreL27aEmWEgiwx4kn9jSDgF3efNEMgUdHHNFmm/NiLGnW5vCkJvEdM7zGbforCl3wVw4NARY/CBpmIx6Ymh7OV7iFlald7gFfcM8ky41EpIxIPvDxj7XIScomJPSzGPEnN1z7pTpkVqYQgQaD5VZHi5BIg=
+	t=1734405031; cv=none; b=ffHkK/ShUMh836/ennzptKNyesbGCZAXE6OtIcVwxY5vp6Lu2qYdwUPowmyBMOAonfT6MapLMDA0f4cQQ9LCX8P91t9lY83waVEIIzups/wRORSzPqBWq71wMnj4BAHNmlLQH6URDg9YjukjC7Ndg72lDbr9JSyowgRwQTRbe24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734395373; c=relaxed/simple;
-	bh=EcMHthg8w1+nS6G5Zs4+7mc0M0kkZqrbK9TwcDBa+AQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cLt5C1FfBgYtlSbD9Uq7Ru5wIJgwXX7YNtRsOXs827GJmp7iZ4EMezBHMnfRMkk2WKV4XE4jlGqjqMeF1VSgYnt9jo2hricHrFPS4zY7HWCHoMpQzNvMfR5ghIRCHDRC5XiYBA4kWyCu4RWncjEZP5SUuQiEXf+4CUxhTBmIwM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mN5EcNW9; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d3cfdc7e4fso4338a12.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Dec 2024 16:29:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734395370; x=1735000170; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EcMHthg8w1+nS6G5Zs4+7mc0M0kkZqrbK9TwcDBa+AQ=;
-        b=mN5EcNW99p0a/m15MLCy5FgbzR73l83cvVDY3nylpKt0BVLymchG1XSdFYwt9t1Vve
-         THoJ9JjfazCJdHEAe0vcXCvOcRzdBy++hcTPwL7b3v5DA/phnxi3+4Pb4AmpywvjofCn
-         NfiL4PXGfESvLpCcyGnc20f4G81c7bfM3KfHdlokpu/HMSRQkn3dYQR/Af/saEvHu4lh
-         FaoWYpc+/fnqYZ7Icu1Nm4eMl6NWE8Z/SpvWEwhloiBlDDbgeg2AiHqQZzmLQX9lTSXj
-         3uDA5k5HA9ab0HlTbNbSCPDdt5x7VoncrmaS3+3OvwhiyIxxbRmCrBMzA/hppgw20lmk
-         7uPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734395370; x=1735000170;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EcMHthg8w1+nS6G5Zs4+7mc0M0kkZqrbK9TwcDBa+AQ=;
-        b=h5t5bbkePXrRrcNLsHjpkrlGCwwKGBBWIJDjvE9RnKUONWVUU9wYLqMVMsBvD9Nr7x
-         VcPxJLs1js0XXdFj9Vrr0/iYgWA+lYkV1kLWgspJ6QyJezerXVPADl+Tp/Y0tCE8UyO7
-         9dSfft/ekRGi2KTaGvqLcYDeMV2ARzFGbl/M8vQNPI1Rq9n535pRcOlbyTKt4NDCyvrE
-         VV2LjB4telECPi1mEqpZ8agHTSGEhQ2++FnDgNgxRVpEymtvk5tPuHMvV5mqgMIyYD0u
-         tdQ3d1cAG8OELZoARU8B6yy9AN2kpWuT403JgMa4rlYv0fiYxECjTKxYzv8sLnpHiydP
-         bFhA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZJZNCn/EbV9m/Z2x2HZUm/tcHrz5Zi+JxeKms/5d/CmtDlkYXgDQacstuOsRLFa5s0dMYu5PAELwMJxw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz596qKkDE0MijaoOUmdrErQm6wejiAJm2f4WuY9/HbFANYeeEC
-	oL00RygZCs3d4qDjgYq/WPACDf6llzP6OqyWjH5jlhywwnasTGrL2zHdpm6c1EfqtpxUlI0BN1X
-	YlTnPJcn8EqqquzK8Rlo1gT0rnNH4vphFGZn+
-X-Gm-Gg: ASbGncsL1dDo0QHt/igmqUpVFKs2TSFJhVhhRMYp2vit74R8CwXky3FmPf+RPoYjlTM
-	//Y+wvdqbbYSVtIicSOvG3i0BaijGkaknKG8=
-X-Google-Smtp-Source: AGHT+IGJ2vMJeNxhiowuw33Qt/H3cjobYWBekImH6tWUBKuxTu+odWdOFkVa8jp2BkFSKsaw+CS/TQ1/n07AUP5JKDM=
-X-Received: by 2002:aa7:d3d2:0:b0:5d0:d7ca:7bf4 with SMTP id
- 4fb4d7f45d1cf-5d7d638f84dmr41885a12.0.1734395370189; Mon, 16 Dec 2024
- 16:29:30 -0800 (PST)
+	s=arc-20240116; t=1734405031; c=relaxed/simple;
+	bh=M4nC/QuF7h8r8657KRYYOxmcMhWAjFJiZd1ArhA1aNI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KpKTXsOja/bes+Kn5MlSIcECwZo7XrnrVeKkQOwZZg2GKC4xzzUBbnnEUf69mj77yJWcqP2QvbXUEshk5dGiMtzP7rU/QP1Eg0k8fvkh9NICgn7PyMMtNDpKCnu39LYxk0sgaW3UleHzmZnzqMLpLmY7HBbHVQMPs48QcG3LoQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=Ue6n58qX; arc=none smtp.client-ip=207.54.90.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1734405030; x=1765941030;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=M4nC/QuF7h8r8657KRYYOxmcMhWAjFJiZd1ArhA1aNI=;
+  b=Ue6n58qXVJu9Yn8g3c+jia4Tf5Wz+ta2ELIlUb6hAmc/AJQJybGK8MKE
+   F/R1fplNYHidAF/wp/EwgL0UVEzVcjw2P/GnnBy3LukoCfHPn3+vqTMgV
+   AKh2wGRvirmekF0tdKw2uCRlJ2toz5pytwHFi56MaMfxh62xLv9gi44HO
+   JmjHPotB0oqV+j2u0NnLqlBLPa8pbbvCYVxTODjIqCvRyLawYv7g7abuk
+   pjmMgqAbYq+2vrfZN+QPiQ1dXqd7Bx9egPd0zvk512qoFgecoiR0uC2Nq
+   XjrJDXb+XgU6C3cSLvYksFLUs++MHuDpneRAYu0FR6ohj8YKbkl5tJJWg
+   A==;
+X-CSE-ConnectionGUID: wlRq4/dxSdGRKTHWWzsyYw==
+X-CSE-MsgGUID: dIORant4RV2MitdDOdmglA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="183982002"
+X-IronPort-AV: E=Sophos;i="6.12,240,1728918000"; 
+   d="scan'208";a="183982002"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 12:10:20 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 482D8D5011;
+	Tue, 17 Dec 2024 12:10:18 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 17ED4D5098;
+	Tue, 17 Dec 2024 12:10:18 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 7E97FE8DE;
+	Tue, 17 Dec 2024 12:10:17 +0900 (JST)
+Received: from iaas-rdma.. (unknown [10.167.135.44])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8AC841A000B;
+	Tue, 17 Dec 2024 11:10:16 +0800 (CST)
+From: Li Zhijian <lizhijian@fujitsu.com>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>,
+	linux-kselftest@vger.kernel.org,
+	Li Zhijian <lizhijian@fujitsu.com>
+Subject: [PATCH RFC] Makefile: Export absolute srctree path for out-of-tree builds
+Date: Tue, 17 Dec 2024 11:10:52 +0800
+Message-ID: <20241217031052.69744-1-lizhijian@fujitsu.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com>
- <20241121204220.2378181-38-samitolvanen@google.com> <CAK7LNAS7Pi9=Hcm7Kr=Ju4fMWK4taXEPLOqYombSLqGQ3ehR+w@mail.gmail.com>
-In-Reply-To: <CAK7LNAS7Pi9=Hcm7Kr=Ju4fMWK4taXEPLOqYombSLqGQ3ehR+w@mail.gmail.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Mon, 16 Dec 2024 16:28:53 -0800
-X-Gm-Features: AbW1kvaGgMMEILJN5boY_yIqECmEZxfHxS0KrWFUsA14957v4WM1ex3EXvwLDI0
-Message-ID: <CABCJKudLD15R1YoR37NcKGZPqdwrwBVLcoCiH1m-HDZYUt+Gfw@mail.gmail.com>
-Subject: Re: [PATCH v6 18/18] Documentation/kbuild: Add DWARF module versioning
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28864.004
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28864.004
+X-TMASE-Result: 10--0.633800-10.000000
+X-TMASE-MatchedRID: QxNw5Kr7aBeh8NIgadoMHh1kSRHxj+Z5ohrMq0nEhQczyScpZuj/nizy
+	bVqWyY2N+SSaqR6S8TQlLmeOTKV2xRlcucGIY/14v8fLAX0P50DNKdtHc3A3XDnP3k+syM8k+jV
+	zof0NuiPPQfWquCqW3SLebaXr2O4UlFKRvEp4lzj4c540RssCiaVjgXyvS9c/dE7HIe9l0mw9dx
+	qDxQNRxSL637QCIVpiV1uoDPGLPAgfE8yM4pjsDwtuKBGekqUpnH7sbImOEBSlrvbCC0mrLDMDm
+	LGIOPRcJ6wy91uaDgtO/9J3JLbpTrF5ko+nSlUw0nnrlhi+scYjuLsNpywqtfar0z1Io/d1yvIH
+	coJBdxKbDRBqS2n66yzP5xAyz9Oenvkw4sh/+PcMX5CwH5DTUmgGZNLBHGNe
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-Hi,
+Fixes an issue where out-of-tree kselftest builds fail when building
+the BPF and bpftools components. The failure occurs because the top-level
+Makefile passes a relative srctree path ('..') to its sub-Makefiles, which
+leads to errors in locating necessary files.
 
-On Sat, Dec 14, 2024 at 3:34=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Fri, Nov 22, 2024 at 5:43=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
-e.com> wrote:
-> >
-> > +When a symbol pointer is found in DWARF, gendwarfksyms can use its
-> > +type for calculating symbol versions even if the symbol is defined
-> > +elsewhere. The name of the symbol pointer is expected to start with
-> > +`__gendwarfksyms_ptr_`, followed by the name of the exported symbol.
->
-> I am interested in this sentence.
->
-> __GENDWARFKSYMS_EXPORT() is primarily introduced to handle
-> EXPORT_SYMBOL() in *.S files.
-> In fact, .discard.gendwarfksyms is always output for EXPORT_SYMBOL()
-> from *.c files.
->
-> Can we make it faster by processing only symbol references in the
-> .dscard.gendwarfksyms section, and skipping all other sections entirely?
+For example, the following error is encountered:
 
-I don't think we can, because the DWARF type information is still all
-in the same .debug_info section no matter where we place the actual
-symbol references. Also, locating exported symbols from the debugging
-information is already pretty quick, the slow part is actually
-recursing through the types, which would still be the same amount of
-work even if we had separate debugging information only for
-.discard.gendwarfksyms.
+```
+$ make V=1 O=$build/ TARGETS=hid kselftest-all
+...
+make -C ../tools/testing/selftests all
+make[4]: Entering directory '/path/to/linux/tools/testing/selftests/hid'
+make  -C /path/to/linux/tools/testing/selftests/../../../tools/lib/bpf OUTPUT=/path/to/linux/O/kselftest/hid/tools/build/libbpf/ \
+            EXTRA_CFLAGS='-g -O0'                                      \
+            DESTDIR=/path/to/linux/O/kselftest/hid/tools prefix= all install_headers
+make[5]: Entering directory '/path/to/linux/tools/lib/bpf'
+...
+make[5]: Entering directory '/path/to/linux/tools/bpf/bpftool'
+Makefile:127: ../tools/build/Makefile.feature: No such file or directory
+make[5]: *** No rule to make target '../tools/build/Makefile.feature'.  Stop.
+```
 
-> > +4.3. Adding structure members
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > +
-> > +Perhaps the most common ABI compatible changeis adding a member to a
->
-> changeis -> change is
+To resolve this, the srctree is exported as an absolute path (abs_srctree)
+when performing an out-of-tree build. This ensures that all sub-Makefiles
+have the correct path to the source tree, preventing directory resolution
+errors.
 
-Thanks, I'll fix this.
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+---
+Request for Additional Testing
 
-Sami
+We welcome all contributors and CI systems to test this change thoroughly.
+In theory, this change should not affect in-tree builds. However, to ensure
+stability and compatibility, we encourage testing across different
+configurations.
+
+What has been tested?
+- out-of-tree kernel build
+- out-of-tree kselftest-all
+---
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index e5b8a8832c0c..36e65806bb5e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -275,7 +275,8 @@ else ifeq ($(srcroot)/,$(dir $(CURDIR)))
+     srcroot := ..
+ endif
+ 
+-export srctree := $(if $(KBUILD_EXTMOD),$(abs_srctree),$(srcroot))
++srctree := $(if $(KBUILD_EXTMOD),$(abs_srctree),$(srcroot))
++export srctree := $(if $(building_out_of_srctree),$(abs_srctree),$(srctree))
+ 
+ ifdef building_out_of_srctree
+ export VPATH := $(srcroot)
+-- 
+2.44.0
+
 
