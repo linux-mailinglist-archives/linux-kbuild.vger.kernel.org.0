@@ -1,185 +1,138 @@
-Return-Path: <linux-kbuild+bounces-5160-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5161-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB209F3E19
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2024 00:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AAC9F3EC8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2024 01:29:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E241316DE82
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Dec 2024 23:14:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D08916B28A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2024 00:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A6A71D9663;
-	Mon, 16 Dec 2024 23:13:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6AE8C8F0;
+	Tue, 17 Dec 2024 00:29:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rLzNy+Zo"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mN5EcNW9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546E11DA61E
-	for <linux-kbuild@vger.kernel.org>; Mon, 16 Dec 2024 23:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F246A8F5A
+	for <linux-kbuild@vger.kernel.org>; Tue, 17 Dec 2024 00:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734390812; cv=none; b=meHtspRVPNLqOrJb2afsrW8NG1WXKKiMJlHKpvcMfx9LgQ2AndJgwWq52AkmHsGX2cLVtJbbLUyqyH2QqVAKi+bTj6LGWDjVqIKy1lWkJwRIQiihbHNgqTM0iG74fnn/PbXmHN7IJ7qMKiTqAd9pemW18j7NRrti1lfzlg0eZGg=
+	t=1734395373; cv=none; b=NN77AOaSaCwa17gkjreL27aEmWEgiwx4kn9jSDgF3efNEMgUdHHNFmm/NiLGnW5vCkJvEdM7zGbforCl3wVw4NARY/CBpmIx6Ymh7OV7iFlald7gFfcM8ky41EpIxIPvDxj7XIScomJPSzGPEnN1z7pTpkVqYQgQaD5VZHi5BIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734390812; c=relaxed/simple;
-	bh=k4Sj7dM5EROtRyKRIxtv+8o9o4DaFse9qSyIbzlZ98Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Fv0AUwd/v2dBYheA7U709HkktLxWU+VO7w5lKeW2Fi+CtI4iRQLkTjk5IBiLtN3ijvBP0ynRKxIthRmUR+A7TAWCfrDwDywmogLbnXZ/aeyVxBPrhtN9mjdJXoI+jEmsYtMiYvEkHQv6qXsVAbsBYBhmR6dtUoc9vWCIoYVqcl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rLzNy+Zo; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2166022c5caso36615055ad.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Dec 2024 15:13:30 -0800 (PST)
+	s=arc-20240116; t=1734395373; c=relaxed/simple;
+	bh=EcMHthg8w1+nS6G5Zs4+7mc0M0kkZqrbK9TwcDBa+AQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cLt5C1FfBgYtlSbD9Uq7Ru5wIJgwXX7YNtRsOXs827GJmp7iZ4EMezBHMnfRMkk2WKV4XE4jlGqjqMeF1VSgYnt9jo2hricHrFPS4zY7HWCHoMpQzNvMfR5ghIRCHDRC5XiYBA4kWyCu4RWncjEZP5SUuQiEXf+4CUxhTBmIwM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mN5EcNW9; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d3cfdc7e4fso4338a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Dec 2024 16:29:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1734390809; x=1734995609; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sm+gy0vg6ADpwKtQUne3ds2s3sgHguLz0qdVVhDqizo=;
-        b=rLzNy+ZoD62XrVBG36DyvneX+0xpq7HIHUzxZgHPmXBc9QEUE5T62rTbzpje8A9xcz
-         n/NzfEDKmuP3+oXVhcadC8LYl74usW5a8YoL2U4UhvDPN4gFnfv8Eim9I4SfJplAQGgX
-         6iTdSPXU7hLhW6VrjxXpl571KVK7PRLaEa1rTcJIGdJNU32cMQAskfTyef9AKRH7SHwV
-         T8uye/SUoIQZI405B38FMIYd7XH6DTqQnQGWy+AnMOrNYbaCWTkNeNutwJdunKlHOpxR
-         lWz1XL79M5qJnS4WSp8by4kzqYq+B7yzWyXH2Pq4m1fsN5jHcsSv3Tx2b6jhpwPLM4Ou
-         MtCQ==
+        d=google.com; s=20230601; t=1734395370; x=1735000170; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EcMHthg8w1+nS6G5Zs4+7mc0M0kkZqrbK9TwcDBa+AQ=;
+        b=mN5EcNW99p0a/m15MLCy5FgbzR73l83cvVDY3nylpKt0BVLymchG1XSdFYwt9t1Vve
+         THoJ9JjfazCJdHEAe0vcXCvOcRzdBy++hcTPwL7b3v5DA/phnxi3+4Pb4AmpywvjofCn
+         NfiL4PXGfESvLpCcyGnc20f4G81c7bfM3KfHdlokpu/HMSRQkn3dYQR/Af/saEvHu4lh
+         FaoWYpc+/fnqYZ7Icu1Nm4eMl6NWE8Z/SpvWEwhloiBlDDbgeg2AiHqQZzmLQX9lTSXj
+         3uDA5k5HA9ab0HlTbNbSCPDdt5x7VoncrmaS3+3OvwhiyIxxbRmCrBMzA/hppgw20lmk
+         7uPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734390809; x=1734995609;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1734395370; x=1735000170;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sm+gy0vg6ADpwKtQUne3ds2s3sgHguLz0qdVVhDqizo=;
-        b=FqFTqjUHyGbduNxyFDJBL7IQ3EBTV1ESc5WmN/OFGL/lGCwJYyANimqg/+SMP1TVBh
-         EHSgs31418ktNKn42aXWP4MLQVC6o9WbcasyuZV91Kh5eKjVh75zeng22l1Q7S2bicBV
-         7BSElA+cKxoeMOI0xqnbK6m0TF/zGQGzrAmWRYMF+5PCtKe42Kag5ANL/QFdPznr/ADj
-         78h6rp6x8n88YzQ3sjAnFnGvVAOlHeYeBl9vyOCer5DN0sopWndT1IG4VylBgsi12Dfl
-         5Gwmq5zvTQ9b0rtN2kArU3YzZv9APRMsq5EXwmfYDaskc9QDscAqXnyxJmNwUKu+KxnZ
-         mdcw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1sEDpQXOwy+9Vab/CLPgw5d35N6nnCIJ9tKNh0IMD6gfp6hPQpJdUfbDHOGqeZMu9yiU/5pIIsR5RZOw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzlKRybtNama5/ZiW460en/UP9n5eisiYrD02jh/AZHsK0SCPg
-	om8N+eWnqfS0sNFsZTGyT7E2VQzrE9P+f0FR/DrfdSW79DdaTQYqU4x0exNQP+/xVaRRYisxe2T
-	u
-X-Gm-Gg: ASbGnctu8lzDWCgQ/unMdAV1JfvafXJjIpR/G3zzAQVgSH8rSigh3Yx+51qbNVuZQoE
-	IlP/QZYsBS0xoDZrIMPqsg353zAHwc3ThPrc3Dr4IiA8ZLuUmrOW01qVof+r/eYBZ+CXAOB3In/
-	dn/kHSa/EsKmZKh4VTBqNCHVvmgPO3iMEYYh+ydnNTMu5OetP6HfbNZmtA5ZGF59Hw6fbtKqx8J
-	Wk/k6okAwLqrdITi5F0AVzxtHQAHBrCD41FLgazpdY5xIPAeana/S4VJyNQMwNCrz0EvxWD
-X-Google-Smtp-Source: AGHT+IEUS1KQ0ef501yi9KQdApUOJap2Q7VLgsPuhiCn2hfgEw7VxTtRPysE5A5XxEfaj3jPqra1Kw==
-X-Received: by 2002:a17:902:ecd1:b0:216:3eaf:3781 with SMTP id d9443c01a7336-21892a58734mr187815855ad.43.1734390808967;
-        Mon, 16 Dec 2024 15:13:28 -0800 (PST)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1dcc47bsm48333255ad.63.2024.12.16.15.13.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 15:13:28 -0800 (PST)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Mon, 16 Dec 2024 15:12:52 -0800
-Subject: [PATCH 2/2] tools: perf: tests: Fix code reading for riscv
+        bh=EcMHthg8w1+nS6G5Zs4+7mc0M0kkZqrbK9TwcDBa+AQ=;
+        b=h5t5bbkePXrRrcNLsHjpkrlGCwwKGBBWIJDjvE9RnKUONWVUU9wYLqMVMsBvD9Nr7x
+         VcPxJLs1js0XXdFj9Vrr0/iYgWA+lYkV1kLWgspJ6QyJezerXVPADl+Tp/Y0tCE8UyO7
+         9dSfft/ekRGi2KTaGvqLcYDeMV2ARzFGbl/M8vQNPI1Rq9n535pRcOlbyTKt4NDCyvrE
+         VV2LjB4telECPi1mEqpZ8agHTSGEhQ2++FnDgNgxRVpEymtvk5tPuHMvV5mqgMIyYD0u
+         tdQ3d1cAG8OELZoARU8B6yy9AN2kpWuT403JgMa4rlYv0fiYxECjTKxYzv8sLnpHiydP
+         bFhA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZJZNCn/EbV9m/Z2x2HZUm/tcHrz5Zi+JxeKms/5d/CmtDlkYXgDQacstuOsRLFa5s0dMYu5PAELwMJxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz596qKkDE0MijaoOUmdrErQm6wejiAJm2f4WuY9/HbFANYeeEC
+	oL00RygZCs3d4qDjgYq/WPACDf6llzP6OqyWjH5jlhywwnasTGrL2zHdpm6c1EfqtpxUlI0BN1X
+	YlTnPJcn8EqqquzK8Rlo1gT0rnNH4vphFGZn+
+X-Gm-Gg: ASbGncsL1dDo0QHt/igmqUpVFKs2TSFJhVhhRMYp2vit74R8CwXky3FmPf+RPoYjlTM
+	//Y+wvdqbbYSVtIicSOvG3i0BaijGkaknKG8=
+X-Google-Smtp-Source: AGHT+IGJ2vMJeNxhiowuw33Qt/H3cjobYWBekImH6tWUBKuxTu+odWdOFkVa8jp2BkFSKsaw+CS/TQ1/n07AUP5JKDM=
+X-Received: by 2002:aa7:d3d2:0:b0:5d0:d7ca:7bf4 with SMTP id
+ 4fb4d7f45d1cf-5d7d638f84dmr41885a12.0.1734395370189; Mon, 16 Dec 2024
+ 16:29:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241216-perf_fix_riscv_obj_reading-v1-2-b75962660a9b@rivosinc.com>
-References: <20241216-perf_fix_riscv_obj_reading-v1-0-b75962660a9b@rivosinc.com>
-In-Reply-To: <20241216-perf_fix_riscv_obj_reading-v1-0-b75962660a9b@rivosinc.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
- Nelson Chu <nelson@rivosinc.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- linux-riscv@lists.infradead.org, llvm@lists.linux.dev, 
- linux-perf-users@vger.kernel.org, linux-security-module@vger.kernel.org, 
- Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2802; i=charlie@rivosinc.com;
- h=from:subject:message-id; bh=k4Sj7dM5EROtRyKRIxtv+8o9o4DaFse9qSyIbzlZ98Q=;
- b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ3rCFsHN62Zdecfs+JNP2uLlep5+jx3vdkTV/r39gW3+i
- RnX8+22dZSyMIhxMMiKKbLwXGtgbr2jX3ZUtGwCzBxWJpAhDFycAjCR+wmMDF+2JGUuPhm4eJ+U
- wobqzxGrOt5EMjWvrZGL5XpxZAfXtzWMDFOnT7tTaS962CctyFjKfIG1dduJX4UMnUpCpZ6iYvz
- KnAA=
-X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
- fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
+References: <20241121204220.2378181-20-samitolvanen@google.com>
+ <20241121204220.2378181-38-samitolvanen@google.com> <CAK7LNAS7Pi9=Hcm7Kr=Ju4fMWK4taXEPLOqYombSLqGQ3ehR+w@mail.gmail.com>
+In-Reply-To: <CAK7LNAS7Pi9=Hcm7Kr=Ju4fMWK4taXEPLOqYombSLqGQ3ehR+w@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Mon, 16 Dec 2024 16:28:53 -0800
+X-Gm-Features: AbW1kvaGgMMEILJN5boY_yIqECmEZxfHxS0KrWFUsA14957v4WM1ex3EXvwLDI0
+Message-ID: <CABCJKudLD15R1YoR37NcKGZPqdwrwBVLcoCiH1m-HDZYUt+Gfw@mail.gmail.com>
+Subject: Re: [PATCH v6 18/18] Documentation/kbuild: Add DWARF module versioning
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-After binutils commit e43d876 which was first included in binutils 2.41,
-riscv no longer supports dumping in the middle of instructions. Increase
-the objdump window by 2-bytes to ensure that any instruction that sits
-on the boundary of the specified stop-address is not cut in half.
+Hi,
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- arch/riscv/Kconfig              |  5 +++++
- tools/perf/tests/code-reading.c | 17 ++++++++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
+On Sat, Dec 14, 2024 at 3:34=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Fri, Nov 22, 2024 at 5:43=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
+e.com> wrote:
+> >
+> > +When a symbol pointer is found in DWARF, gendwarfksyms can use its
+> > +type for calculating symbol versions even if the symbol is defined
+> > +elsewhere. The name of the symbol pointer is expected to start with
+> > +`__gendwarfksyms_ptr_`, followed by the name of the exported symbol.
+>
+> I am interested in this sentence.
+>
+> __GENDWARFKSYMS_EXPORT() is primarily introduced to handle
+> EXPORT_SYMBOL() in *.S files.
+> In fact, .discard.gendwarfksyms is always output for EXPORT_SYMBOL()
+> from *.c files.
+>
+> Can we make it faster by processing only symbol references in the
+> .dscard.gendwarfksyms section, and skipping all other sections entirely?
 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index d4a7ca0388c071b536df59c0eb11d55f9080c7cd..f164047471267936bc62389b7d7d9a7cbdca8f97 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -229,6 +229,11 @@ config GCC_SUPPORTS_DYNAMIC_FTRACE
- 	def_bool CC_IS_GCC
- 	depends on $(cc-option,-fpatchable-function-entry=8)
- 
-+config RISCV_OBJDUMP_SUPPORTS_SPLIT_INSTRUCTION
-+	# Some versions of objdump do not support dumping partial instructions
-+	def_bool y
-+	depends on !(OBJDUMP_IS_GNU && OBJDUMP_VERSION > 24100)
-+
- config HAVE_SHADOW_CALL_STACK
- 	def_bool $(cc-option,-fsanitize=shadow-call-stack)
- 	# https://github.com/riscv-non-isa/riscv-elf-psabi-doc/commit/a484e843e6eeb51f0cb7b8819e50da6d2444d769
-diff --git a/tools/perf/tests/code-reading.c b/tools/perf/tests/code-reading.c
-index 27c82cfb7e7de42284bf5af9cf7594a3a963052e..605f4a8e1dbc00d8a572503f45053c2f30ad19e3 100644
---- a/tools/perf/tests/code-reading.c
-+++ b/tools/perf/tests/code-reading.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <errno.h>
-+#include <linux/kconfig.h>
- #include <linux/kernel.h>
- #include <linux/types.h>
- #include <inttypes.h>
-@@ -183,9 +184,23 @@ static int read_via_objdump(const char *filename, u64 addr, void *buf,
- 	const char *fmt;
- 	FILE *f;
- 	int ret;
-+	u64 stop_address = addr + len;
-+
-+	if (IS_ENABLED(__riscv) && !IS_ENABLED(CONFIG_RISCV_OBJDUMP_SUPPORTS_SPLIT_INSTRUCTION)) {
-+		/*
-+		 * On some versions of riscv objdump, dumping in the middle of
-+		 * instructions is not supported. riscv instructions are aligned along
-+		 * 2-byte intervals and can be either 2-bytes or 4-bytes. This makes it
-+		 * possible that the stop-address lands in the middle of a 4-byte
-+		 * instruction. Increase the stop_address by two to ensure an
-+		 * instruction is not cut in half, but leave the len as-is so only the
-+		 * expected number of bytes are collected.
-+		 */
-+		stop_address += 2;
-+	}
- 
- 	fmt = "%s -z -d --start-address=0x%"PRIx64" --stop-address=0x%"PRIx64" %s";
--	ret = snprintf(cmd, sizeof(cmd), fmt, test_objdump_path, addr, addr + len,
-+	ret = snprintf(cmd, sizeof(cmd), fmt, test_objdump_path, addr, stop_address,
- 		       filename);
- 	if (ret <= 0 || (size_t)ret >= sizeof(cmd))
- 		return -1;
+I don't think we can, because the DWARF type information is still all
+in the same .debug_info section no matter where we place the actual
+symbol references. Also, locating exported symbols from the debugging
+information is already pretty quick, the slow part is actually
+recursing through the types, which would still be the same amount of
+work even if we had separate debugging information only for
+.discard.gendwarfksyms.
 
--- 
-2.34.1
+> > +4.3. Adding structure members
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > +
+> > +Perhaps the most common ABI compatible changeis adding a member to a
+>
+> changeis -> change is
 
+Thanks, I'll fix this.
+
+Sami
 
