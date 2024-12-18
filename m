@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-5175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F6A59F6938
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 15:59:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7924F9F6939
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 15:59:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DECDE165B88
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 14:59:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0609163D87
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 14:59:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F49B1EBFF8;
-	Wed, 18 Dec 2024 14:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02711F03DB;
+	Wed, 18 Dec 2024 14:59:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AGbNema/"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uLKz8fHM"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438091D54E3
-	for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 14:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F043B1E9B1C
+	for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 14:59:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734533944; cv=none; b=srb0bdDa//wqMSRhaJTEvkCGjc1BPwGrclUq9r/5TSRHNT4ivhvdyLhhSRIG5R14Qyqc37sUA3xILQzkiz/EqqIKQQecG8naHhe/mk+2ggI2LI2anfYwesExNg0b2/HuqozpkkyGzwzJzceMiaKlyLS9rhe6/XSMfUK5eHIldFQ=
+	t=1734533945; cv=none; b=fCV654twL42Kgs4OgBX4inyPJdA/IxZvkMf6JjwkTJHRbinKS7yrQPKM95xWVeGvmWZgRjJNNRDCguPls7DIS7+9lDWxgLgZxGdFlbGdrNhn+yM/oSvr/0fldm3Vhu59TwFjBYuU0eloEjtzChJflIQAetLHdNciw7XMSkvIPdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734533944; c=relaxed/simple;
-	bh=KCEr2W+5QMJ0aau2ejxlB/jVgNJmqNP817wKzYYGqxE=;
+	s=arc-20240116; t=1734533945; c=relaxed/simple;
+	bh=vafDbXBf+QfMxG6+rjWXgv88J6vjtPaiFaHXbRrgmRo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=l/ujZPBLlT86kqxzwhEE2rcXF5n162K5D3utKgW1udoW9S1Nosb4ffFXrmBMMMTKPRtcdpCF2xOCAlbwmd59KhzmK8pQjrC6/13KOzuU3vZQtgmebbxQF4k4vNw7FolIiIR9cjIRgeBNS5RnDLO5rjHip9f9EbUBjGJq1CZ2Pxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AGbNema/; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=WKH5sd+N9AzF1qc18R506XEKPxEOHynW0dFhJXmFOBULTPs7P6kk+dRLNEfZG+RLW07FIWTv/Zquayu5E7IXjx3chZMOlojTc0/edDTycPu9MPTxNbJgo29P9tZ7ojmXDEiApJ/8KalqG5e2+fzASezkc6a5L3WFKuyo1UW1pTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uLKz8fHM; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4362b9c1641so29446905e9.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 06:59:02 -0800 (PST)
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4359eb032c9so36095505e9.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 06:59:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734533940; x=1735138740; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1734533942; x=1735138742; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=idHXEvLLy2mDizWltND5EhS5SGdeBni13+lqGt1+LxU=;
-        b=AGbNema/vKjBlDTiqxyTT9DphZS98J69TnjIn6hYgWJy0s8cNXgzIK1SyxBSf+rQt3
-         WyGs0Sqr7gYu1KX+ArNrykhTHaSlWtHl3a8qeOEWYFCsQ8iJxQiAgJ1IyyJQeX8qXyHN
-         TCPu+CL/6/EX2lfo/nZExskBuiyuLAoT34XXxiO8SYzzdaU3v3+GSKYb0aufhOjbG6S8
-         VADpRCdMAcXpmxo3Ya49F8whTZqhN6OcWhoKzWWv3Ci+wk5zMBqwxZrXPCPmcLPfEMEF
-         ZeIeEi6SRyRWIspHMTbADzF67cJcZ61CSRtAeQZI63Ww3fWRpUDhRyZ1xj6gq2CRQ5EG
-         Lv1w==
+        bh=+fxq85lD6PQT2A+RCvBP9upNyfET7edCFQdJ5Qc6idU=;
+        b=uLKz8fHMvJYDm5qi3QlRmw8prr87P6YS67XLrVdLOirHX6tUYAhlXV3Yd0eD3yy5RX
+         H9JMvvTpU1YStfWTFXl0zrfauWyllSmLaS/ucNiZySUJfeLc/3sSMXh8yf9YhpI70gsa
+         Mf6ORdjKLqb1Ci/qKkdKmsEoYqJTArPamYnP+5I/RPxvDrMRZF2H4Bo8PlR1nzaNkkiF
+         5aJ4Zw+nrnKQHJvMBlrUtftAG4f5ZU4AEBRolfxmLHXV/45GogNIxVZUz99FIclbZNlc
+         gkMMeiPNebLRHMNcTiZ8XqZR56MM23pEws3fLjWEcSPVRYTFWAjHbrHBNqaTFek9GisV
+         yYDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734533940; x=1735138740;
+        d=1e100.net; s=20230601; t=1734533942; x=1735138742;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=idHXEvLLy2mDizWltND5EhS5SGdeBni13+lqGt1+LxU=;
-        b=pfxCbxRaXznYjkMtsNKoO/c+IqEl1a3OE6Kh4merw7/R52eIRSP4POfEQNxFiBp5pm
-         Y3kMojAohDfd6DziChbyWof7lKFqKn2rCkzJdYj5YuSO3QGlIWEYlqYsRo7EBsnyF7fq
-         d2240gBLqe3xHGG3uWiEVVjPHqRP1WcKDHxxlgzQwv28saYRTTLDoZ1SZ6+IiHZBNRxZ
-         Jht9l/yneFXFyk3msGuPDSgEmwHxt+Z//ReeEvJRPMcwzEbFuQvjzywOkIrxBwcc0Lfe
-         gBeJGXkvnITj1QvYCO4S/NF02xZ8RX7QKykOxgBkyhSkp+hkRGFMt1CwnIWSy1C2kY8F
-         /Bmw==
-X-Forwarded-Encrypted: i=1; AJvYcCUB329ljIfU5/LGVs6azG+DKRQuC9SQLwM1b0lmoe1AwE10Nsw3rVpUen8aY6X1gnmLw1TzTy8PUXjs2Uw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFISga7wIWy2no/nDnQEmpTt6zwSI9JMEfE1laJI04qIYndC2A
-	x9yBCCgZcvx1v0rLJ0bbXNkvmSgrzkgpsPL68ld2Z8O2J30sKAIE8xfb99s9afwiA6K9tFMWa5T
-	cLyg0CzkpBQ==
-X-Google-Smtp-Source: AGHT+IH+9zaQOVFuVfKtcWUDrT45GIKtZMxkPrMnUP9HyJ02nWCkBrRH3WyfgoYhgFwBe/w1jpoWPWajtTkyMg==
-X-Received: from wmin8.prod.google.com ([2002:a7b:cbc8:0:b0:434:a346:77e5])
+        bh=+fxq85lD6PQT2A+RCvBP9upNyfET7edCFQdJ5Qc6idU=;
+        b=UYiiNU5FensttWmRK7DoZa9ivvA0EtevKuf5Z4NGmxAqwydPEd6QG80IrmzdHl1+ZJ
+         wq4+S1L3NFbWxB/2+GopWKBwwH01pLFbRjTPr9g1zrq4dMrpU6oghgKMgKIqTqJyJ8Kq
+         /HlDbLem3Yp0bhVU30kwxMKCZLLk/pbGA1vooqhTxPAA0Rqgqq0yBq1YI57/QVfEu/a0
+         +SDWz31YNSAXnitiBEEjyw2KnBnQ17RtwYQm+T+pcO0TrJuWAbGFnHoq6RCGKVkbE5bI
+         7j2U/VZgAgVtjzR6PKTOmadHutfCH1KL5r1pTYDni3fsWY+qeEr95X6AtgDuVKO+qaZ4
+         WdgA==
+X-Forwarded-Encrypted: i=1; AJvYcCW6zDNW7zZSLGoYBAD+WgkOhs7wS3KO2f/4tsp5v7+26t0AUJsY8fG2ydZcKL7jV9vQSrjQ8wwKCE8f6UQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtzKrDcDKFQS6leNiyiHZY76R/vk5fWFc8ZH7IItkzJtJYBjgI
+	YTiBIuUFRaXuqXSTq77l/78BaC9RpDx894eYTKA6U48oVFZtUL0WHczuUYXtVSaxu799KQtp2Ds
+	JUnnb9BlenQ==
+X-Google-Smtp-Source: AGHT+IH6nFaGWCuLmtEVK7MkT2qc20xbncxkKqUUs/d5E7z2van0Z9iQNOqaZ3mX/Vt8cvgsSyrqh3ATVeu6rw==
+X-Received: from wmbhn6.prod.google.com ([2002:a05:600c:a386:b0:434:9eee:e503])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3c98:b0:434:9936:c823 with SMTP id 5b1f17b1804b1-43655395610mr28336945e9.18.1734533940792;
- Wed, 18 Dec 2024 06:59:00 -0800 (PST)
-Date: Wed, 18 Dec 2024 14:58:55 +0000
+ 2002:a05:600c:5248:b0:435:14d:f61a with SMTP id 5b1f17b1804b1-436553eb4a4mr23858575e9.25.1734533942686;
+ Wed, 18 Dec 2024 06:59:02 -0800 (PST)
+Date: Wed, 18 Dec 2024 14:58:56 +0000
 In-Reply-To: <20241218-objtool-strict-v2-0-a5297c961434@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,8 +74,8 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241218-objtool-strict-v2-0-a5297c961434@google.com>
 X-Mailer: b4 0.15-dev
-Message-ID: <20241218-objtool-strict-v2-1-a5297c961434@google.com>
-Subject: [PATCH v2 1/2] objtool: Add --Werror
+Message-ID: <20241218-objtool-strict-v2-2-a5297c961434@google.com>
+Subject: [PATCH v2 2/2] kbuild: Add option to fail build on vmlinux objtool issues
 From: Brendan Jackman <jackmanb@google.com>
 To: Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
 	Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
@@ -84,66 +84,52 @@ Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	Brendan Jackman <jackmanb@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-At present objtool only prints to the terminal when observing "fatal
-warnings". This option lets you have it produce an error instead.
+NOINSTR_VALIDATION is pretty helpful for detecting bugs, it would be
+helpful for the build to fail when those bugs arise.
 
-The use case for this is noinstr validation; so far I've never seen any
-false warnings here, but it quite often detects real bugs. It would
-be useful for the build to fail when I have those bugs.
+If necessary it would be possible to enable this for individual
+warnings, it seems unlikely there's a use-case for that though. So
+for now just add a global setting.
 
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- tools/objtool/builtin-check.c           | 6 ++++++
- tools/objtool/check.c                   | 7 ++-----
- tools/objtool/include/objtool/builtin.h | 1 +
- 3 files changed, 9 insertions(+), 5 deletions(-)
+ lib/Kconfig.debug    | 10 ++++++++++
+ scripts/Makefile.lib |  1 +
+ 2 files changed, 11 insertions(+)
 
-diff --git a/tools/objtool/builtin-check.c b/tools/objtool/builtin-check.c
-index 387d56a7f5fb8da8435d0a3f5c05eeee66932c9b..0b28082df90710ff7127327deb857c0548f378c7 100644
---- a/tools/objtool/builtin-check.c
-+++ b/tools/objtool/builtin-check.c
-@@ -94,6 +94,12 @@ static const struct option check_options[] = {
- 	OPT_BOOLEAN(0, "sec-address", &opts.sec_address, "print section addresses in warnings"),
- 	OPT_BOOLEAN(0, "stats", &opts.stats, "print statistics"),
- 	OPT_BOOLEAN('v', "verbose", &opts.verbose, "verbose warnings"),
-+	/*
-+	 *  For now, don't fail the kernel build on fatal warnings by default.
-+	 *  These errors are still fairly common due to the growing matrix of
-+	 *  supported toolchains and their recent pace of change.
-+	 */
-+	OPT_BOOLEAN(0, "Werror", &opts.werror, "fail on fatal warnings"),
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index f3d72370587936fa373129cc9b246f15dac907be..3ee92da4733a3a504991d5dbb4d0cee84f519d64 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -545,6 +545,16 @@ config FRAME_POINTER
+ config OBJTOOL
+ 	bool
  
- 	OPT_END(),
- };
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 4ce176ad411fb12a10101bbedbb6180275941b4b..7c73517dc11c98cd7163f96dc8f4158389d58428 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -4941,10 +4941,7 @@ int check(struct objtool_file *file)
- 	}
++config OBJTOOL_WERROR
++	bool "Run objtool with warnings as errors"
++	default n
++	depends on OBJTOOL
++	help
++	  Fail the build when objtool produces warnings.
++
++	  By default, objtool just prints warnings to the terminal without
++	  causing a build failure. This config changes that.
++
+ config STACK_VALIDATION
+ 	bool "Compile-time stack metadata validation"
+ 	depends on HAVE_STACK_VALIDATION && UNWINDER_FRAME_POINTER
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 7395200538da89a2f6e6d21f8959f3f60d291d79..a53e052ae0532e886fcb2019025cf7216e484bd2 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -277,6 +277,7 @@ objtool-args-$(CONFIG_HAVE_STATIC_CALL_INLINE)		+= --static-call
+ objtool-args-$(CONFIG_HAVE_UACCESS_VALIDATION)		+= --uaccess
+ objtool-args-$(CONFIG_GCOV_KERNEL)			+= --no-unreachable
+ objtool-args-$(CONFIG_PREFIX_SYMBOLS)			+= --prefix=$(CONFIG_FUNCTION_PADDING_BYTES)
++objtool-args-$(CONFIG_OBJTOOL_WERROR)			+= --Werror
  
- out:
--	/*
--	 *  For now, don't fail the kernel build on fatal warnings.  These
--	 *  errors are still fairly common due to the growing matrix of
--	 *  supported toolchains and their recent pace of change.
--	 */
-+	if (opts.werror && warnings)
-+		return 1;
- 	return 0;
- }
-diff --git a/tools/objtool/include/objtool/builtin.h b/tools/objtool/include/objtool/builtin.h
-index fcca6662c8b4b5e0048e54fada8694cc2e6ebc34..97d668010efadfa05bb6e25e1967a7d72bf77815 100644
---- a/tools/objtool/include/objtool/builtin.h
-+++ b/tools/objtool/include/objtool/builtin.h
-@@ -38,6 +38,7 @@ struct opts {
- 	bool sec_address;
- 	bool stats;
- 	bool verbose;
-+	bool werror;
- };
- 
- extern struct opts opts;
+ objtool-args = $(objtool-args-y)					\
+ 	$(if $(delay-objtool), --link)					\
 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
