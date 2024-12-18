@@ -1,137 +1,253 @@
-Return-Path: <linux-kbuild+bounces-5176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7924F9F6939
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 15:59:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B239F69BA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 16:15:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0609163D87
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 14:59:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 876817A12F5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2024 15:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02711F03DB;
-	Wed, 18 Dec 2024 14:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 203E61E9B04;
+	Wed, 18 Dec 2024 15:14:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uLKz8fHM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJUNGrrD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F043B1E9B1C
-	for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 14:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2221D45FC;
+	Wed, 18 Dec 2024 15:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734533945; cv=none; b=fCV654twL42Kgs4OgBX4inyPJdA/IxZvkMf6JjwkTJHRbinKS7yrQPKM95xWVeGvmWZgRjJNNRDCguPls7DIS7+9lDWxgLgZxGdFlbGdrNhn+yM/oSvr/0fldm3Vhu59TwFjBYuU0eloEjtzChJflIQAetLHdNciw7XMSkvIPdc=
+	t=1734534894; cv=none; b=ff2VfFJr3fCDyjke7G0fiDF/ToU2KsCmAKuohiwKCS6xeSq2y6Ay/3Y+D5AdAHSfeDcfKrUgb4Icst0EDMfqEHbFduIOHddW6iCzTiEIpGYXya6IKa1zFXwQTnN8T8ZH/tyX82ODuYfi1WvIZejPVHRNrelol6TnBy6/j5e2Dd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734533945; c=relaxed/simple;
-	bh=vafDbXBf+QfMxG6+rjWXgv88J6vjtPaiFaHXbRrgmRo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=WKH5sd+N9AzF1qc18R506XEKPxEOHynW0dFhJXmFOBULTPs7P6kk+dRLNEfZG+RLW07FIWTv/Zquayu5E7IXjx3chZMOlojTc0/edDTycPu9MPTxNbJgo29P9tZ7ojmXDEiApJ/8KalqG5e2+fzASezkc6a5L3WFKuyo1UW1pTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uLKz8fHM; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4359eb032c9so36095505e9.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 06:59:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734533942; x=1735138742; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+fxq85lD6PQT2A+RCvBP9upNyfET7edCFQdJ5Qc6idU=;
-        b=uLKz8fHMvJYDm5qi3QlRmw8prr87P6YS67XLrVdLOirHX6tUYAhlXV3Yd0eD3yy5RX
-         H9JMvvTpU1YStfWTFXl0zrfauWyllSmLaS/ucNiZySUJfeLc/3sSMXh8yf9YhpI70gsa
-         Mf6ORdjKLqb1Ci/qKkdKmsEoYqJTArPamYnP+5I/RPxvDrMRZF2H4Bo8PlR1nzaNkkiF
-         5aJ4Zw+nrnKQHJvMBlrUtftAG4f5ZU4AEBRolfxmLHXV/45GogNIxVZUz99FIclbZNlc
-         gkMMeiPNebLRHMNcTiZ8XqZR56MM23pEws3fLjWEcSPVRYTFWAjHbrHBNqaTFek9GisV
-         yYDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734533942; x=1735138742;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+fxq85lD6PQT2A+RCvBP9upNyfET7edCFQdJ5Qc6idU=;
-        b=UYiiNU5FensttWmRK7DoZa9ivvA0EtevKuf5Z4NGmxAqwydPEd6QG80IrmzdHl1+ZJ
-         wq4+S1L3NFbWxB/2+GopWKBwwH01pLFbRjTPr9g1zrq4dMrpU6oghgKMgKIqTqJyJ8Kq
-         /HlDbLem3Yp0bhVU30kwxMKCZLLk/pbGA1vooqhTxPAA0Rqgqq0yBq1YI57/QVfEu/a0
-         +SDWz31YNSAXnitiBEEjyw2KnBnQ17RtwYQm+T+pcO0TrJuWAbGFnHoq6RCGKVkbE5bI
-         7j2U/VZgAgVtjzR6PKTOmadHutfCH1KL5r1pTYDni3fsWY+qeEr95X6AtgDuVKO+qaZ4
-         WdgA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6zDNW7zZSLGoYBAD+WgkOhs7wS3KO2f/4tsp5v7+26t0AUJsY8fG2ydZcKL7jV9vQSrjQ8wwKCE8f6UQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtzKrDcDKFQS6leNiyiHZY76R/vk5fWFc8ZH7IItkzJtJYBjgI
-	YTiBIuUFRaXuqXSTq77l/78BaC9RpDx894eYTKA6U48oVFZtUL0WHczuUYXtVSaxu799KQtp2Ds
-	JUnnb9BlenQ==
-X-Google-Smtp-Source: AGHT+IH6nFaGWCuLmtEVK7MkT2qc20xbncxkKqUUs/d5E7z2van0Z9iQNOqaZ3mX/Vt8cvgsSyrqh3ATVeu6rw==
-X-Received: from wmbhn6.prod.google.com ([2002:a05:600c:a386:b0:434:9eee:e503])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:5248:b0:435:14d:f61a with SMTP id 5b1f17b1804b1-436553eb4a4mr23858575e9.25.1734533942686;
- Wed, 18 Dec 2024 06:59:02 -0800 (PST)
-Date: Wed, 18 Dec 2024 14:58:56 +0000
-In-Reply-To: <20241218-objtool-strict-v2-0-a5297c961434@google.com>
+	s=arc-20240116; t=1734534894; c=relaxed/simple;
+	bh=SjNt+XDqcRtFHMkrR6DiTUZbGYdJRYJjVJCsdb9bxhI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BnwOtHgzGVAtHcmCFUzRD9nd10jiYIl9/fhcYwzMvmiGgh3Wb1Fyxr1aW8eMkzuYzGnpSSqQtrE7f+YbwfM1Wg6SsLD77GsPkPCYbO+lRQeXdDC2shon7nNVgUEGiiWLk5Z9LLlSwiuJMOCepDKDcAx2/ZdRfVCrXTJQA5LIKSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJUNGrrD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CA9C4CECD;
+	Wed, 18 Dec 2024 15:14:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734534893;
+	bh=SjNt+XDqcRtFHMkrR6DiTUZbGYdJRYJjVJCsdb9bxhI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZJUNGrrD92LbfAoykCRLgv4ue8/TQpJT+ZSjc4y0+QtjHMVeqodSTtGy68pavPYpn
+	 7otipDC35WXX4JW0z0ruRtK60POtL8s39akaRRmceo96gHferykcsnG4fyBicw8PV4
+	 zQ4kWMq0kDgrymMA2EuSu0ZYDIzaDRP5NiwpRzperRw/nx+RzHcyaPYC5zP8YviM3c
+	 cSxv2hGTZ/3MnOxN3hf9Iq7b8IzYriLLiMwWCrkIEmAlWxIG/DznT7dXRim2wPDLVx
+	 W13UxjbMxcgktTohq5MQGZ/I+EvK7fRwj0bSmiCjA/WY02raeDO7JxsE2M3W8MOJUW
+	 oxEBf6ZoYgIbg==
+Date: Wed, 18 Dec 2024 15:14:46 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Nelson Chu <nelson@rivosinc.com>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-riscv@lists.infradead.org,
+	llvm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH 1/2] kbuild: Check version of objdump
+Message-ID: <20241218-sandfish-hence-5fa18539f7ca@spud>
+References: <20241216-perf_fix_riscv_obj_reading-v1-0-b75962660a9b@rivosinc.com>
+ <20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241218-objtool-strict-v2-0-a5297c961434@google.com>
-X-Mailer: b4 0.15-dev
-Message-ID: <20241218-objtool-strict-v2-2-a5297c961434@google.com>
-Subject: [PATCH v2 2/2] kbuild: Add option to fail build on vmlinux objtool issues
-From: Brendan Jackman <jackmanb@google.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Brendan Jackman <jackmanb@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="b/GWEQJsBut7jlmV"
+Content-Disposition: inline
+In-Reply-To: <20241216-perf_fix_riscv_obj_reading-v1-1-b75962660a9b@rivosinc.com>
 
-NOINSTR_VALIDATION is pretty helpful for detecting bugs, it would be
-helpful for the build to fail when those bugs arise.
 
-If necessary it would be possible to enable this for individual
-warnings, it seems unlikely there's a use-case for that though. So
-for now just add a global setting.
+--b/GWEQJsBut7jlmV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Brendan Jackman <jackmanb@google.com>
----
- lib/Kconfig.debug    | 10 ++++++++++
- scripts/Makefile.lib |  1 +
- 2 files changed, 11 insertions(+)
+On Mon, Dec 16, 2024 at 03:12:51PM -0800, Charlie Jenkins wrote:
+> Similar to ld-version, add a way to check the version of objdump. This
+> should most of the time end up being the binutils version or the llvm
+> version.
+>=20
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index f3d72370587936fa373129cc9b246f15dac907be..3ee92da4733a3a504991d5dbb4d0cee84f519d64 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -545,6 +545,16 @@ config FRAME_POINTER
- config OBJTOOL
- 	bool
- 
-+config OBJTOOL_WERROR
-+	bool "Run objtool with warnings as errors"
-+	default n
-+	depends on OBJTOOL
-+	help
-+	  Fail the build when objtool produces warnings.
-+
-+	  By default, objtool just prints warnings to the terminal without
-+	  causing a build failure. This config changes that.
-+
- config STACK_VALIDATION
- 	bool "Compile-time stack metadata validation"
- 	depends on HAVE_STACK_VALIDATION && UNWINDER_FRAME_POINTER
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 7395200538da89a2f6e6d21f8959f3f60d291d79..a53e052ae0532e886fcb2019025cf7216e484bd2 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -277,6 +277,7 @@ objtool-args-$(CONFIG_HAVE_STATIC_CALL_INLINE)		+= --static-call
- objtool-args-$(CONFIG_HAVE_UACCESS_VALIDATION)		+= --uaccess
- objtool-args-$(CONFIG_GCOV_KERNEL)			+= --no-unreachable
- objtool-args-$(CONFIG_PREFIX_SYMBOLS)			+= --prefix=$(CONFIG_FUNCTION_PADDING_BYTES)
-+objtool-args-$(CONFIG_OBJTOOL_WERROR)			+= --Werror
- 
- objtool-args = $(objtool-args-y)					\
- 	$(if $(delay-objtool), --link)					\
+This fails for allmodconfig and rv32_defconfig with clang. 19.1.1
+according to Bjorn :)
 
--- 
-2.47.1.613.gc27f4b7a9f-goog
+Cheers,
+Conor.
 
+> ---
+>  init/Kconfig               | 10 +++++++
+>  scripts/Kconfig.include    |  6 ++++
+>  scripts/objdump-version.sh | 69 ++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 85 insertions(+)
+>=20
+> diff --git a/init/Kconfig b/init/Kconfig
+> index a20e6efd3f0fbdd7f0df2448854cc30734a0ee4f..0b5d36f939e1de89c12ebdd61=
+e4815015314d4f1 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -60,6 +60,16 @@ config LLD_VERSION
+>  	default $(ld-version) if LD_IS_LLD
+>  	default 0
+> =20
+> +config OBJDUMP_IS_GNU
+> +	def_bool $(success,test "$(objdump-name)" =3D objdump)
+> +
+> +config OBJDUMP_IS_LLVM
+> +	def_bool $(success,test "$(objdump-name)" =3D llvm-objdump)
+> +
+> +config OBJDUMP_VERSION
+> +	int
+> +	default $(objdump-version)
+> +
+>  config RUSTC_VERSION
+>  	int
+>  	default $(rustc-version)
+> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> index 33193ca6e8030e659d6b321acaea1acd42c387a4..cb3e2d2564fea8cce780adb3b=
+e672c9596b7ccf2 100644
+> --- a/scripts/Kconfig.include
+> +++ b/scripts/Kconfig.include
+> @@ -58,6 +58,12 @@ $(error-if,$(success,test -z "$(ld-info)"),Sorry$(comm=
+a) this linker is not supp
+>  ld-name :=3D $(shell,set -- $(ld-info) && echo $1)
+>  ld-version :=3D $(shell,set -- $(ld-info) && echo $2)
+> =20
+> +# Get the objdump name, version, and error out if it is not supported.
+> +objdump-info :=3D $(shell,$(srctree)/scripts/objdump-version.sh $(OBJDUM=
+P))
+> +$(error-if,$(success,test -z "$(objdump-info)"),Sorry$(comma) this objdu=
+mp is not supported.)
+> +objdump-name :=3D $(shell,set -- $(objdump-info) && echo $1)
+> +objdump-version :=3D $(shell,set -- $(objdump-info) && echo $2)
+> +
+>  # machine bit flags
+>  #  $(m32-flag): -m32 if the compiler supports it, or an empty string oth=
+erwise.
+>  #  $(m64-flag): -m64 if the compiler supports it, or an empty string oth=
+erwise.
+> diff --git a/scripts/objdump-version.sh b/scripts/objdump-version.sh
+> new file mode 100755
+> index 0000000000000000000000000000000000000000..fa24f8dc2d3c42fd1195fceb3=
+c96b27f7127db25
+> --- /dev/null
+> +++ b/scripts/objdump-version.sh
+> @@ -0,0 +1,69 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Print the objdump name and its version in a 5 or 6-digit form.
+> +# Also, perform the minimum version check.
+> +
+> +set -e
+> +
+> +# Convert the version string x.y.z to a canonical 5 or 6-digit form.
+> +get_canonical_version()
+> +{
+> +	IFS=3D.
+> +	set -- $1
+> +
+> +	# If the 2nd or 3rd field is missing, fill it with a zero.
+> +	#
+> +	# The 4th field, if present, is ignored.
+> +	# This occurs in development snapshots as in 2.35.1.20201116
+> +	echo $((10000 * $1 + 100 * ${2:-0} + ${3:-0}))
+> +}
+> +
+> +orig_args=3D"$@"
+> +
+> +# Get the first line of the --version output.
+> +IFS=3D'
+> +'
+> +set -- $(LC_ALL=3DC "$@" --version)
+> +
+> +# Split the line on spaces.
+> +IFS=3D' '
+> +set -- $1
+> +
+> +min_tool_version=3D$(dirname $0)/min-tool-version.sh
+> +
+> +if [ "$1" =3D GNU -a "$2" =3D objdump ]; then
+> +	shift $(($# - 1))
+> +	version=3D$1
+> +	min_version=3D$($min_tool_version binutils)
+> +	disp_name=3D"GNU objdump"
+> +else
+> +	while [ $# -gt 1 -a "$1" !=3D "LLVM" ]; do
+> +		shift
+> +	done
+> +
+> +	if [ "$1" =3D LLVM ]; then
+> +		version=3D$3
+> +		min_version=3D$($min_tool_version llvm)
+> +		disp_name=3D"llvm-objdump"
+> +	else
+> +		echo "$orig_args: unknown objdump" >&2
+> +		exit 1
+> +	fi
+> +fi
+> +
+> +version=3D${version%%[!0-9.]*}
+> +
+> +cversion=3D$(get_canonical_version $version)
+> +min_cversion=3D$(get_canonical_version $min_version)
+> +
+> +if [ "$cversion" -lt "$min_cversion" ]; then
+> +	echo >&2 "***"
+> +	echo >&2 "*** objdump is too old."
+> +	echo >&2 "***   Your $disp_name version:    $version"
+> +	echo >&2 "***   Minimum $disp_name version: $min_version"
+> +	echo >&2 "***"
+> +	exit 1
+> +fi
+> +
+> +echo objdump $cversion
+>=20
+> --=20
+> 2.34.1
+>=20
+>=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+--b/GWEQJsBut7jlmV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ2Lm5gAKCRB4tDGHoIJi
+0u/lAP9kRzDD4E/btOPSi7N3eOmgjKUrMlMEji8jDYxIKzyTmAD/XIfHvCTvc6cx
+cqbHAgzjJzYiJ5hNBr8W+Qg7PTaoEwA=
+=4kd8
+-----END PGP SIGNATURE-----
+
+--b/GWEQJsBut7jlmV--
 
