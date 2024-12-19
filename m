@@ -1,45 +1,45 @@
-Return-Path: <linux-kbuild+bounces-5187-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5186-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277219F7556
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 08:24:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 597839F7552
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 08:24:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E33091885206
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 07:23:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9730E18876C2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 07:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B10216E1B;
-	Thu, 19 Dec 2024 07:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102C2524F;
+	Thu, 19 Dec 2024 07:23:26 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086301FBEB3;
-	Thu, 19 Dec 2024 07:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6FC7082A;
+	Thu, 19 Dec 2024 07:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.209.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734593015; cv=none; b=oJwzJqG8JF9efq3SZZ/QGYQjym/fRvkM3waPhrBk6Ej6HD5BPHEHexnvoQA5Ehx8BpTdttr/ndRd8LavMUxQhscW66tRzYOABmeL6/Q2Wh8jaAwDjX1n4PTsN9RyozzNDGLRbDyMKszH6eEOp4HmRgZOSUAyFsG8o5E6/w17xeE=
+	t=1734593006; cv=none; b=moA8u/+PT5t99LOvEJ5/UTrM73blvbs2khwOIVK7NjqpLBe69DY98RpD/SN/le6ohT/AM8Hqnd/JGvusYzwJfV0LxW9L6GfUlVZbcW+GfFRT/BOzLN+/2+HXtRJ+jNV/SlLNaN3S+ZVJMEN4bkz8kdcC4UWOxieCN28y9pX3Nag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734593015; c=relaxed/simple;
-	bh=Okk8sxzKQlf7/XbtE8NF8dwpXdcmq0j5uX4X58f9c4M=;
+	s=arc-20240116; t=1734593006; c=relaxed/simple;
+	bh=flm2R4EFoZlf5JkycqEWSAxk2tzk5iCAxcrfO4Os0A4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IXzFLKQ/zA74tS4a98Uz+Wn9hbERDjPOsyFKOQJdvVtsbr6xfjQyV1O/f59rtC9c0zgsXlgl91Bf3l5HyG87u9hy6SMllM7Ox5knns2rnvNnRzGmG+RouYhB7GJQ9GjoYgBkTdF4twu9OHHkMrhQSycnDUDiBRbjrAcuqIp4xY4=
+	 MIME-Version:Content-Type; b=nae+VcU9RkxdB5shhw+KvWRMiNe/dhggEh3+3oWCRMwtVXCxRcjrNriXBfFGUcDXfUZLQ5PgEFzzvOYuD3+8IO1PHENqXrJ07gwfZQt4LVujfkp6Iz6e9VRi+uMr/XqtFz8pCgLyg3WT+9RMXuwLmCHfsyJPRrIdxmdGttQt36Y=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emlix.com; spf=pass smtp.mailfrom=emlix.com; arc=none smtp.client-ip=178.63.209.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emlix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emlix.com
 Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id A90CE5FA41;
+	by mx1.emlix.com (Postfix) with ESMTPS id 6DBF35FA2D;
 	Thu, 19 Dec 2024 08:23:11 +0100 (CET)
 From: Rolf Eike Beer <eb@emlix.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] kconfig: qconf: use QCommandLineParser
-Date: Thu, 19 Dec 2024 08:21:23 +0100
-Message-ID: <4945092.GXAFRqVoOG@devpool47.emlix.com>
+Subject: [PATCH 3/4] kconfig: qconf: remove overloaded constructor
+Date: Thu, 19 Dec 2024 08:22:03 +0100
+Message-ID: <2207289.irdbgypaU6@devpool47.emlix.com>
 Organization: emlix GmbH
 In-Reply-To: <5843611.DvuYhMxLoT@devpool47.emlix.com>
 References: <5843611.DvuYhMxLoT@devpool47.emlix.com>
@@ -52,85 +52,41 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-This has a much nicer output without manual processing. It also adds window
-management options from Qt for free.
+No extra implementation is needed for this variant, provide a default argum=
+ent
+to the matching sibling instead.
 
 Signed-off-by: Rolf Eike Beer <eb@emlix.com>
 =2D--
- scripts/kconfig/qconf.cc | 44 ++++++++++++++++------------------------
- 1 file changed, 17 insertions(+), 27 deletions(-)
+ scripts/kconfig/qconf.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index eaa465b0ccf9..4d500cc9ba9d 100644
-=2D-- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -8,6 +8,7 @@
- #include <QActionGroup>
- #include <QApplication>
- #include <QCloseEvent>
-+#include <QCommandLineParser>
- #include <QDebug>
- #include <QFileDialog>
- #include <QLabel>
-@@ -1785,41 +1786,30 @@ void fixup_rootmenu(struct menu *menu)
+diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
+index 62ab3286d04f..1c90fec4c2da 100644
+=2D-- a/scripts/kconfig/qconf.h
++++ b/scripts/kconfig/qconf.h
+@@ -114,7 +114,7 @@ public slots:
+ class ConfigItem : public QTreeWidgetItem {
+ 	typedef class QTreeWidgetItem Parent;
+ public:
+=2D	ConfigItem(ConfigList *parent, ConfigItem *after, struct menu *m)
++	ConfigItem(ConfigList *parent, ConfigItem *after, struct menu *m =3D null=
+ptr)
+ 	: Parent(parent, after), nextItem(0), menu(m), goParent(false)
+ 	{
+ 		init();
+@@ -124,11 +124,6 @@ class ConfigItem : public QTreeWidgetItem {
+ 	{
+ 		init();
  	}
- }
-=20
-=2Dstatic const char *progname;
-=2D
-=2Dstatic void usage(void)
-=2D{
-=2D	printf("%s [-s] <config>\n", progname);
-=2D	exit(0);
-=2D}
-=2D
- int main(int ac, char** av)
- {
- 	ConfigMainWindow* v;
-=2D	const char *name;
-+	configApp =3D new QApplication(ac, av);
-+	QCommandLineParser cmdline;
-+	QCommandLineOption silent("s", "silent");
-=20
-=2D	progname =3D av[0];
-=2D	if (ac > 1 && av[1][0] =3D=3D '-') {
-=2D		switch (av[1][1]) {
-=2D		case 's':
-=2D			conf_set_message_callback(NULL);
-=2D			break;
-=2D		case 'h':
-=2D		case '?':
-=2D			usage();
-=2D		}
-=2D		name =3D av[2];
-=2D	} else
-=2D		name =3D av[1];
-=2D	if (!name)
-=2D		usage();
-+	cmdline.addOption(silent);
-+	cmdline.addHelpOption();
-+	cmdline.addPositionalArgument("Kconfig", "Top-level Kconfig file", "Kconf=
-ig");
-+
-+	cmdline.process(*configApp);
-+
-+	if (cmdline.isSet(silent))
-+		conf_set_message_callback(NULL);
-=20
-=2D	conf_parse(name);
-+	QStringList args =3D cmdline.positionalArguments();
-+	if (args.isEmpty())
-+		cmdline.showHelp(1);
-+
-+	conf_parse(args.first().toLocal8Bit().constData());
- 	fixup_rootmenu(&rootmenu);
- 	//zconfdump(stdout);
-=20
-=2D	configApp =3D new QApplication(ac, av);
-=2D
- 	configSettings =3D new ConfigSettings();
- 	configSettings->beginGroup("/kconfig/qconf");
- 	v =3D new ConfigMainWindow();
+=2D	ConfigItem(ConfigList *parent, ConfigItem *after)
+=2D	: Parent(parent, after), nextItem(0), menu(0), goParent(true)
+=2D	{
+=2D		init();
+=2D	}
+ 	~ConfigItem(void);
+ 	void init(void);
+ 	void updateMenu(void);
 =2D-=20
 2.47.1
 
