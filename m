@@ -1,77 +1,77 @@
-Return-Path: <linux-kbuild+bounces-5183-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5184-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BC89F71A1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 02:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D799F71BA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 02:24:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD5931689DA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 01:19:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51B911691FD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 01:24:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8FC45009;
-	Thu, 19 Dec 2024 01:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B170C1E4BE;
+	Thu, 19 Dec 2024 01:24:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DDUEV+rg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lxi/8Sjo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B883594B
-	for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2024 01:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027C3339A1
+	for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2024 01:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734571131; cv=none; b=aweilV9tm3IKmIKcvDp4RN15SzVaZS9Hdz2mmdiQYA5EpSyJAkI0HxKmDDBAZq3+Pqq/7oix4hdcf24qHsV7A+6QgqkAylJzNW0x6huqql9ingMgS7YfWK2rKYyCiWLEuOn6/k/Vt+jWynr3PatTCDbpMlfGm1eUpvRqDwGuoQc=
+	t=1734571475; cv=none; b=VvyRTqz1trQ17tiJ9d3dVTAV6eZaGG/1Ybg6mthmlzOMcpdnniAh7tfjOFzd7/oF+wB2aIBloHPWxqBW5+xppfJz3KuTa39LRn0rcUV121aXAmOgrjstGGwa1m5ngz8SBF2zDWLXg8YdvhAdFXtxHD3mbGGRJVVfyTGHEO+ADNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734571131; c=relaxed/simple;
-	bh=zOPYZ0noYe5xCNfWNHHE5VT+VOJySgqJczmIywH5aKI=;
+	s=arc-20240116; t=1734571475; c=relaxed/simple;
+	bh=OudgbSikughOw5dIyo7PTJmkitrq37OtKzhTk8CzY7s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K3MnHW46Ds8qkEgzTYaHSdRtzxMHswkfrApAHtgrxGZa8Rwi7nO5pcuuC08vxvamVd3CUubXUoqm44pbtxf9ukfHV60wKDkcOhQNiKnXgsA22uAJi8Xd2RJFQMycvx715tIIvIACjCZT/qyl5Js5pio1VtXSHQydpU6BS5RowCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DDUEV+rg; arc=none smtp.client-ip=209.85.210.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=smP/LovTSjj5f4Y6WADOh89QhOns+nCTkY7zPdZdM8sDXMf7ruGbwC74axUrfH+GRHdMy+ocLAkBzrehytqUWvSGt9svl//jkVy3XrLqKd/iXFoclDwHRn/SC+246YQNM6jF9Vz+4Ts/8Aa4DIWMTyQUI3I4cn3ZRT1JsYRra6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lxi/8Sjo; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-72739105e02so318809b3a.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 17:18:48 -0800 (PST)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-216426b0865so2659645ad.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2024 17:24:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734571128; x=1735175928; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1734571473; x=1735176273; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8GKLWgSaFyOyBanOdsrMy5uvCwvu9h4/1PoCzkqGNIc=;
-        b=DDUEV+rgti6lOefmxE/m3JoUE7eovl/KRvwqtOAzERsSIJgcRUGzdLpyVumE1+uJA/
-         MZLa2lhJ8l5mqPMpz0SaIkcaR+LlxoITlYK3q+SoxUoUfuOaCix0vHC4FKlU+aodmco7
-         MFYZskMq8DMEPuhnpPTjrnRFpvR2jkcplWDzDub0mhJxevzC62sTtZ8O+FIE9EiSfdD5
-         Vo5E6hM2T/xzpXd77iqXDhJnBC3fTxi5a3YxoaqQhsSrglV2EHD0BfP3I/EF1om/Jh50
-         3xvOUQCwp0tgqARTAHLuXPHETYZEiWmVSXKs0XCloQ7dgMEHrE3CFObju7GVJU5ozidR
-         1NuQ==
+        bh=QzoWB9uKmqzEITnep0Kte2yC094FBZkHjSVIcpLE68o=;
+        b=lxi/8SjoTWhrsFcMP4yfeRBlEVoggaOBlekAApaCLVZ6G3VJAw4qgf3am2DzAxl/pM
+         kXRobhYF6W5s4DwsiPCE+icyegKJQ3tfA5p7UGYZWc4/2mdz/HfORSVQi1EDam9uBAp0
+         mifyG9WCa9l+MiM7MGRClY7fsyR8fMwJHkX7JyfqgBfcY/Y3+6UZn/oI+r1w5k0ZzOkO
+         zSBYh20o/JElLzwYB5ueSb6zGUufGa/Juf9RsghxcF5rhrWJPzqzMUso3fUSI/TDaFpT
+         sxorJCDeUv+8yic1RuSXIroJ+H+6bX2PoSqpNA9wbDvF/5eqa01gaQ8UV45omQl7GSd9
+         uc4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734571128; x=1735175928;
+        d=1e100.net; s=20230601; t=1734571473; x=1735176273;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8GKLWgSaFyOyBanOdsrMy5uvCwvu9h4/1PoCzkqGNIc=;
-        b=se3Ur+7+619ad4oHPyIQCY9c3fK6riBuNvrUXlBWpOefG0gfB6WeRoZywLHBLJwPsg
-         pa4S8CIgzJDf/tsXKY2Vyhbxig0VXx7RRo+qES9lfvTcS+sGnlgA0O4RPwszW9NQFNbi
-         DPFm18HluMUS0KX0rNA9gbliFxIdJxo16MbDw9PhSNjdOvlNFAWqMZkTZJfSgOhA+IeA
-         DpgoRRD8bbxwIgsIuxizcNOuE1KKQ07IPaNNROwOedFDdxEhb8HBLC2wfEyprnYTAnyL
-         VgWPjKelK6szW91Un16oJVHwhslGf4NQv/zsTJJHOMqxGoo479v34iKAZr55K6izoop3
-         Y4yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrXMtXR6/4qGPUUpwHuQ/2BdFPnYePbgsMjxeFgQb7joPIK49ar+wNyUUMxStm9Xnkdu16vn9bDuct8Wo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPCIz3MMWf5uAaiXLAeb5XPoA+pUIuq+Z62Z7aZyq6PWQp0JAK
-	P8ZYih0U9rvcxCcVxzQ96UjjJjWaGZUJkR4tNE9tjSKlVxPcKsCJPD9Inc94Ww==
-X-Gm-Gg: ASbGncsa5ld/AFoqrKh8qlvDGb4duvlkx5Og9YJv3A08rkRYlcuaXGAHIVyznPV0IoU
-	0gyMoy8CBYvZ0zc9pRVxkuQsG8TpyW3FmQ1DS6+Vp7lxLD00kIqXtLff0uiROsDcCsHk3nMvfAu
-	SgjHQ/6BzoMVbLRbBntR18BGEoasQfAQtLwdB0kfB0Sp0qaeVRL+BAkSFlZKHMNrXOxqz0QsVKi
-	a0eStvvGEeBqoHqUipk3KPg5HXBRjqty6o6upXOzo/iMsrqOMJaq0VUDn+wky40K8tWbY3zoFIr
-	V0oecBIl5etF24Sa
-X-Google-Smtp-Source: AGHT+IEoV352txeBY/6Pj7PNTU6sj27JgQG9dJ+WPNC4pwZzHlRD1/Fnho5ilUQmlFeoHJFXMc2mcQ==
-X-Received: by 2002:a05:6a00:f8a:b0:725:9dc7:4f8b with SMTP id d2e1a72fcca58-72a8d23f53bmr6772048b3a.15.1734571127716;
-        Wed, 18 Dec 2024 17:18:47 -0800 (PST)
+        bh=QzoWB9uKmqzEITnep0Kte2yC094FBZkHjSVIcpLE68o=;
+        b=nRc2FW5pf78rfotnTQT5MVZI3+BfMUl/79tWhFSoVuupSF/L1YPflKBCmwCVXMgabX
+         9KefMKDN0mAGaDvsGrEGAeb56zGlhyXc+rpSE99gS7S149NzM/1ajDFpx3MKwdtYjSbv
+         BRp7dWC/5GO6Jx0eHrg/yoJdCC/p+QsJtePmzyCLI6faJMflkDbEENbPdIwGsFeRUNbp
+         XrWvQgVmTH8odyzE8XKkLY6t5GhMdjlLFgJ3AXqPjOwdUtwc15lrIu40bl2rly7Nxpu9
+         G8CHNj2n4qT/N1Dc0Oi9uvFsf+6hjnaWd6Ey4CQWAqeXrnmqpHZ3COnoXn9c35FDBmCy
+         rnug==
+X-Forwarded-Encrypted: i=1; AJvYcCVmT2gPrzufrXNqWIgy6ONATV0SjN2wtK+TKywvzljcHyZGxSb6gU8gek4wczAK1Hzb5Q91TN4YX7DYx64=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTdV1alCql47m/tsKwGgyVlUFDCpkZapTK7WNQCSat8nZJaba0
+	eRlGh8wee5Wq8CrWmv8OMMjospu2qNmTfNNySJZp66LXIZxJygPPgEzbBLlWOg==
+X-Gm-Gg: ASbGnctxRND4412KRVK9yul8OSScdzV+baEN+tBd/9IScAKUurdeUiY6FqcAom38lvK
+	qG0D7Tj+dVRVZOZGahsRZQ9KWqGKsd/KN8JZklXQyLju3sVKPFKcp/ZYT67UHEPLlzv/8ZM58gM
+	3G/Cl1r5Ph+1UefmPS4qiQ1kILnPmLv+oBRcSLtzT1/IHOTa3CGslx8RfQUk/pjOehwU1/RIjvN
+	63UYlygMaJczVRPM7KOR8nWkeH+xSPWjQ2e0qPm5/O+kqRAF2K9xXdt1nG6MpOyBRD4iTBBxd4P
+	IhF918P2xKKiSVjp
+X-Google-Smtp-Source: AGHT+IGnPR1XF1O8ztshv+NnnMvpSQktuAIwES7k5tAbAhO5cgkLOeRX6lcm3rVoCEz239PXsbcVBw==
+X-Received: by 2002:a17:902:d48e:b0:215:3849:9275 with SMTP id d9443c01a7336-219d99014damr19985905ad.49.1734571472985;
+        Wed, 18 Dec 2024 17:24:32 -0800 (PST)
 Received: from google.com (30.176.125.34.bc.googleusercontent.com. [34.125.176.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8347d1sm116676b3a.66.2024.12.18.17.18.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9cde42sm1634185ad.169.2024.12.18.17.24.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 17:18:46 -0800 (PST)
-Date: Thu, 19 Dec 2024 01:18:42 +0000
+        Wed, 18 Dec 2024 17:24:31 -0800 (PST)
+Date: Thu, 19 Dec 2024 01:24:27 +0000
 From: Benson Leung <bleung@google.com>
 To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
@@ -85,7 +85,7 @@ Cc: heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
 	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v5 1/8] usb: typec: Only use SVID for matching altmodes
-Message-ID: <Z2N0cjJU_RzEZfWh@google.com>
+Message-ID: <Z2N1y6GWDzDt5MUT@google.com>
 References: <20241213233552.451927-1-abhishekpandit@chromium.org>
  <20241213153543.v5.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
 Precedence: bulk
@@ -95,12 +95,12 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Y2G4k320tFOEEIbr"
+	protocol="application/pgp-signature"; boundary="aLLMXR7XCDUUdaWP"
 Content-Disposition: inline
 In-Reply-To: <20241213153543.v5.1.Ie0d37646f18461234777d88b4c3e21faed92ed4f@changeid>
 
 
---Y2G4k320tFOEEIbr
+--aLLMXR7XCDUUdaWP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -114,7 +114,7 @@ On Fri, Dec 13, 2024 at 03:35:42PM -0800, Abhishek Pandit-Subedi wrote:
 > Signed-off-by: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
 > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-
+Reviewed-by: Benson Leung <bleung@chromium.org>
 
 > ---
 >=20
@@ -257,16 +257,16 @@ id *symval)
 >=20
 >=20
 
---Y2G4k320tFOEEIbr
+--aLLMXR7XCDUUdaWP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZ2N0cgAKCRBzbaomhzOw
-wkw0AP9VNknHcWgUi7nZvPhRVKYlBqDN0DYORfEm9tw+ROo1kgD+Ph0CXzQGAWwR
-xRrlRwx/IlWTbIyp0C1gVTTpSLFseAg=
-=uW64
+iHUEABYIAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCZ2N1ywAKCRBzbaomhzOw
+wuiFAP9X5SOHP1/8ATb5RH/CLmVZCq302+xJAOZdzzJN9uFo2gEAz7ISkoNJF8P3
+b/TcgeVnjFyabDPha9Ho3/YKuOUpsQI=
+=a5gb
 -----END PGP SIGNATURE-----
 
---Y2G4k320tFOEEIbr--
+--aLLMXR7XCDUUdaWP--
 
