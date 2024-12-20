@@ -1,106 +1,91 @@
-Return-Path: <linux-kbuild+bounces-5215-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5216-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08549F8852
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Dec 2024 00:02:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D10E9F8B3A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Dec 2024 05:29:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E4E87A1A0E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2024 23:02:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A152167098
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Dec 2024 04:29:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B45741B85D3;
-	Thu, 19 Dec 2024 23:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BB87E107;
+	Fri, 20 Dec 2024 04:29:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fr92NC7W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4RKSCwQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523911A0BE1
-	for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2024 23:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C5218EAB;
+	Fri, 20 Dec 2024 04:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734649325; cv=none; b=u0Z6J/0x/ww5WxyD6ijmjX1NOXzBhMFzXfXzOD0ujQVruI9Wz/e/KMyZ9BMCaAcZdNdnMFZ9zjG+o4v1xJMjiuGLs6AtvGtpdgKri4Ac/qmfewL8YjHHurb24lchjrcogeRwQm0SzSPDMQ7uO+9MyJa3koowdFmhzPCIo6rsHw4=
+	t=1734668942; cv=none; b=GrHtWqslqGImw75AnOwUDKdSkR/Sv+dRhuYpHbx9cG598bhPz6Bqd5zQq/ticBYrl8IFjatmy30sWmsCGCULvqzObGuwkMDDdndyMbkAx3ULmsWBtXliQoYySlLGEEqch8ZIlTTW21i4VhQaKB9tk3qLC4CJ0MD8vC13whGIXSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734649325; c=relaxed/simple;
-	bh=9t9sJm17zMjh9nS2520pB9UHMLqjCKiUePdrW91YeJE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TTILSAwOr7Ngg13LkOZoHtfPYUda5T+EpOXp4PqFDWdz9Dh02/MERPn39qH9ApPCDlpuh7/ZzxahYZ7xOKw/b+pKEk1YclLqrRr9xoQ5pb1lh5lB1S/TkcQiGn+3jSyBvhaBbzrXt/Css3FlaNU/SaoNEl/9AOke7Id/HODC6EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Fr92NC7W; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ef714374c0so1072776a91.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2024 15:02:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734649323; x=1735254123; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9t9sJm17zMjh9nS2520pB9UHMLqjCKiUePdrW91YeJE=;
-        b=Fr92NC7WY7nOX9EdeIELUNGK07/7sxbusTDuP4rvECpz7276M1BAQvaw2mOxLsDlMI
-         h7eS0cmgHINWdz6I8ZF5fDD2j8BeQ2aPHTw+pm8mezeH41Dy9qvwR8j4F6G2Uzmxu4LX
-         RzamDoHMpA7YclihHwN5kXQtjHA41odPgcwbKrWaYXO3ohZRzHI1l7kFdTLva7XK5FA3
-         KG3diaDoggG8zWlov5qVMAMrAecOxd4HE6gTwim9ROiQJ8O67dT6grAjSQ2ZvS4nZwAW
-         hmgls6+bPyluq+dN2RmOfzg1rtSf1/RxdQYTtOkVIOjVmoEjDJzYNgioXuasRySa3R4c
-         OR1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734649323; x=1735254123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9t9sJm17zMjh9nS2520pB9UHMLqjCKiUePdrW91YeJE=;
-        b=bCRZmH7eAgpwj/PBu9GiVCBV1bAeaEE8GHBUkLIYh68p3ZyDZj3KBR7Bumgm2+EcrH
-         md5hGXLIhRl0i+AuJUvi/TRIxVaCCz3zTxxK40P9eobkPVksSlDJrfBxF6VDlQM1fz2Y
-         G3NZNzF/7fJqhWxgwpnjbEgK1h17TakA16kTq/QqTz3fJFCGQHnlbVg4O6DX59YIe0+4
-         1ZjDZSrTaOXeLoe6dZnkYNZaJmj5FmnpScXMNnxJZ2aHerTPLNNMy+V1iTRD74NtOyar
-         RlUSJFL38Olw/sCYrvEdpao45kKoy0tlye8dj5ZoLS1TdYjKAZEEDHV9Qs5IoML4s7tI
-         4r2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVsg8hZADBxitTa9lSIhAjZomRAmsvJ4El2GhSpUPS3hdRmz814gkTeDX6soRGuIY8FWajmkE8OgN7nglw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS6xU729pFSLXhHrKmnxxFyg0PaXv7SJjNwwDigcTpT6/VOdnA
-	3RCCxwETiTV4d31w2+WUP+ft6CmkJefoqDEOcZKYr/OuyZt71ihS+urWrM4p/9jTV7mhTQuPj0R
-	OpVWQG5sH3gSvxAfUs5iXHMafMih/ZTXpr2Eh
-X-Gm-Gg: ASbGncuXx8coVZZLQfncvmhVxWXtWEyiqLEieQYzMS7uSvouxpX3Nmtau6cNyYPbxih
-	B6KZ1Akw31IhSZTrV/nJKBgFRTeLifcmRSnMQ3Ss3AEvaLXRvTvVsiBvphVeQrOSmjs4=
-X-Google-Smtp-Source: AGHT+IFzReAaCkEqUEW+1n4s+PAdFdKrrl4F01bTRyQK3ZxyuMEm8z1A4VPjOUJ8qEl5uYrWhtnCS0kYDmRkL7Y4DGo=
-X-Received: by 2002:a17:90b:5190:b0:2ee:5106:f565 with SMTP id
- 98e67ed59e1d1-2f4438e493emr7160538a91.16.1734649323309; Thu, 19 Dec 2024
- 15:02:03 -0800 (PST)
+	s=arc-20240116; t=1734668942; c=relaxed/simple;
+	bh=uPUnHYn/V1+uMo80vM/4FkDBN47Pxt/+NHL6ybpWZ7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L0fsXxS9Yh6seXLX02CVWiET/PSugrf1tyGK/CswV293Pm02OvC+V3eM7CeKkt4W3xYCOpY61zLEt+/IWIAmEYb0CxUdH4wzjm/2FqMzIQkUIMxZDpIWj5vaYMhquEl+fC1M7kcKyTCowpTMSIjLQuVJSbV+nboa743EwX9ULUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4RKSCwQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3CBC4CECD;
+	Fri, 20 Dec 2024 04:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734668942;
+	bh=uPUnHYn/V1+uMo80vM/4FkDBN47Pxt/+NHL6ybpWZ7A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H4RKSCwQ1BKLiT5ChzVtgl1UQA0rglKgLqk/JBoa7leqe/bwuAFOdaxb2V0TrXbaN
+	 pAzzH1Dj6v61fb1Z2R/liF9RTdmY1Z3fsSqcUQ88CCLj7h5l1SvmI8MCVvOoc6HsAB
+	 ZLHyRuMIXKVzAFknDOX9g3ipy+Fq5htQ5LeAqRRDuB0xFAYXMrGAsqzxW5aenThmCf
+	 U1RRpOacI16yjzkDRRGU0KGiptUSsLi2arnnvIaVq7Fj50nwv2NgO73zwzVb2IcIBO
+	 2lkQsMNJPEHp1hU8j6e0N+4i+yROMGy3dpkYwgPTpf+EQgUnGO1pAJFu7e184E/PNf
+	 0GBmrnGtS5mbg==
+Date: Fri, 20 Dec 2024 04:28:57 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>
+Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
+	chrome-platform@lists.linux.dev, akuchynski@google.com,
+	sboyd@kernel.org, pmalani@chromium.org, badhri@google.com,
+	rdbabiera@google.com, dmitry.baryshkov@linaro.org,
+	jthies@google.com, Benson Leung <bleung@chromium.org>,
+	Bill Wendling <morbo@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v5 0/8] Thunderbolt and DP altmode support for
+ cros-ec-typec
+Message-ID: <Z2TyiUt1SCASbznh@google.com>
+References: <20241213233552.451927-1-abhishekpandit@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218-objtool-strict-v2-0-a5297c961434@google.com>
- <20241218160656.18cbdcbb93b0e0bcf28adf18@linux-foundation.org>
- <20241219010054.pxcnejgkvy3g744k@jpoimboe> <20241219221913.GA1259354@ax162>
-In-Reply-To: <20241219221913.GA1259354@ax162>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Thu, 19 Dec 2024 15:01:51 -0800
-X-Gm-Features: AbW1kvYCVmlUEvz1HQsCdFztetspccUmhnURpw0E9O2r9_4s0rIDBZyrpgtQ9MA
-Message-ID: <CAKwvOdm+03xrgupEGny4VG3mKVroYPH55qgGZcFbudFod9O=kA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] objtool: Add option to fail build on vmlinux warnings
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Brendan Jackman <jackmanb@google.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241213233552.451927-1-abhishekpandit@chromium.org>
 
-On Thu, Dec 19, 2024 at 2:19=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> Some objtool reports get sent to only llvm@lists.linux.dev when clang is
-> involved (due to a historical filter IIRC, I cannot find the original
-> request),
+On Fri, Dec 13, 2024 at 03:35:41PM -0800, Abhishek Pandit-Subedi wrote:
+> Abhishek Pandit-Subedi (7):
+>   usb: typec: Only use SVID for matching altmodes
+>   usb: typec: Make active on port altmode writable
+>   usb: typec: Print err when displayport fails to enter
+>   platform/chrome: cros_ec_typec: Update partner altmode active
+>   platform/chrome: cros_ec_typec: Displayport support
+>   platform/chrome: cros_ec_typec: Thunderbolt support
+>   platform/chrome: cros_ec_typec: Disable tbt on port
+> 
+> Heikki Krogerus (1):
+>   usb: typec: Add driver for Thunderbolt 3 Alternate Mode
 
-https://lore.kernel.org/all/CAKwvOdmJvWpmbP3GyzaZxyiuwooFXA8D7ui05QE7+f8Oaz=
-+rXg@mail.gmail.com/
-perhaps?
---=20
-Thanks,
-~Nick Desaulniers
+It looks no but just want to confirm: does the 4 cros_ec_typec patches
+build-time depend on the typec patches?  I.e. can they merge through
+different trees?
 
