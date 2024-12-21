@@ -1,122 +1,79 @@
-Return-Path: <linux-kbuild+bounces-5226-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5227-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982CB9FA0D9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 15:08:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B379FA23E
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 20:30:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B101418866D6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 14:08:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1251188CD20
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 19:30:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EB491F2C5F;
-	Sat, 21 Dec 2024 14:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C437218FDB9;
+	Sat, 21 Dec 2024 19:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gagAyZqA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gcoPlsw9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B021F2387;
-	Sat, 21 Dec 2024 14:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C79F18C03A;
+	Sat, 21 Dec 2024 19:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734790123; cv=none; b=NztWProgX/MQ4iS298/kjUWY2AXLIEvUlUylrii1f3n3aml5ve+sTwkCHVAkw5+qqfPogz0U2Rcy/cT+uGDFCLPSiuMDFzVRYpwZygKtDaMUtduKVdNjJNghDYQTKOcX4OQyNibkFILlVe6SJ3kxPtJ/gd25S+UUyS9AApxQfkU=
+	t=1734809385; cv=none; b=MRFtCuVvvTkk6xyr4zBt2bc1C4JqIJKjS6lf/5FCA35SpMCz7ZaSmoUfmnG1Ff4DmHEvhnb4UxO5sDE/CwDP9QJ2ilWfiwrne6uPZFi5IKKAClx3duFgU3g8mNdhrrCUbe39m/LyL7q8wRUMXMklWrCatoThsmXK8CicNOmRwrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734790123; c=relaxed/simple;
-	bh=GyXtwhFFKPVC2gyHuBqVOWZqCMmwnQ1EoX2saHcNVyQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=NmBlhh7ZJ9fwuMW3o7M5sw50inmxAZv3S3T3tFRbxKpd5VLyew0RV9vnEmbnGAsU5n9ni6zDT0E2XTW6TT4Xy5GGe98PZEpRbWKYnKE11h4H42yjEW8YTG/g5DJMMnRX0K4IbhVf//K0rzdoz8YoBSymFproemelF6qPeun45iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gagAyZqA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87EDEC4CECE;
-	Sat, 21 Dec 2024 14:08:42 +0000 (UTC)
+	s=arc-20240116; t=1734809385; c=relaxed/simple;
+	bh=J5zvCsYZEmObOkr8QYc6RUtVdEBZkL/0nW6mV1OKSLM=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=SiE4/wIxe9QfSzrGB6/qljVSRSjPyjK0JUfF+Zhb/kzP+siKf+grSCQ+A6jqf2gwKpj75KEwAyWshePPlRoS2dL4Yjhh/B2n+IQlPP/zJ/7j7MpItOAjai+wAq7aVyQ1VjiSuA/MrDo1PAGrcGwur5U3CUwDXqDtIC0HGL8ZrmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gcoPlsw9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26F9BC4CEDD;
+	Sat, 21 Dec 2024 19:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734790122;
-	bh=GyXtwhFFKPVC2gyHuBqVOWZqCMmwnQ1EoX2saHcNVyQ=;
-	h=From:Date:Subject:To:Cc:From;
-	b=gagAyZqAqnyKdN/Hpqw7mGiNcL/S1BdT2DgfPrTYYKCYU8USvXfyMgHG0jOLvMbD7
-	 /WJOolVbTTPmCbHe/14X/eibdtDu4PgvgxrK9GUsKgOZa85+rge1lDFsv7MLQh/I2v
-	 23r/s6xL5RjcK0bZ8I6G6M9eVqa/qKfnWbitocQ0Y0iltJYSVh0yaoq7cYNmmT0obi
-	 IOz5S3jcpbT7jZofQeksQw/nXW8j5M0jf4YjhfOYMUVS9AU1EYm2REzA7L4Mz4f8Zq
-	 ad2EytujmtdXaQCkrlhuJLgUfdluGvN3k7a3f4KaqkRyVKbV1lelVCS8OH1yuhsTUF
-	 njIfrfBWFPOdg==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5401be44b58so2860736e87.0;
-        Sat, 21 Dec 2024 06:08:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXJqIq8bmP26w6CGw3Pm2et/laDqa89t4WpsvlddJjUZMD6ghIRyTbFbMdbSZuls3uX8Z4yTsSHx/eQF7o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/85dzcuuuuESpkhtWPXRZq45cKRxjomT64f/w4k77VABrAPei
-	INYeuu27TSF4delKbvFeWlK1zzzpeJp++OESkK70K6bw1oRpyIf3LOZsS5vZOzuRMvyTvnTia+i
-	McAfLQO1Vpg4xzF5j6nIAdrQkS44=
-X-Google-Smtp-Source: AGHT+IEMVhmKkuLR7uJ+IKTOAc9A5JeKDj+nTQXqPWmLSMgn9W2gyH2Pp2bLmMcuM1Ovced7aaMfhoA+wW4iofxdfHc=
-X-Received: by 2002:a05:6512:10d2:b0:53e:39e6:a1c5 with SMTP id
- 2adb3069b0e04-54229562a91mr2413897e87.41.1734790121189; Sat, 21 Dec 2024
- 06:08:41 -0800 (PST)
+	s=k20201202; t=1734809385;
+	bh=J5zvCsYZEmObOkr8QYc6RUtVdEBZkL/0nW6mV1OKSLM=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=gcoPlsw9Z1mUdfCBGdZcTJGFkZZ4+DkqxmoRC/uJIJbZwfeYs7SafuYGFDP1TlXyO
+	 BlY6229jpTSFLQ8pSVTZWHZs6WW4PRbIP4MOvJNHHbpYImhbTpBggxl/Kr3hwFbEsY
+	 ce3QcsTDNj/MnV0PyZvy3bU5dAAO9z1y4Q+CFbprZYMlgDvOQnEqj2L80JbvpD/oeK
+	 umQ05RlUfV85rh8X+Ixqzw6VbsqAm3jrDa6SAacI6wQv2mE/BzVZhTbDLiwU0PbmAs
+	 fsgrWQgjJLTYa/1pb0f20P8aMet6rpTOQ2TkGhmArp8xAKDqvly4aVJqjPDq36J/Vu
+	 7t2SpgY2yyrSQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 727FA3805D84;
+	Sat, 21 Dec 2024 19:30:04 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild fixes for v6.13-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAQ_Mm0cCxU-TUqkuW67Wif1nPb+nnBfoLgTRwHnvCf3-Q@mail.gmail.com>
+References: <CAK7LNAQ_Mm0cCxU-TUqkuW67Wif1nPb+nnBfoLgTRwHnvCf3-Q@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAQ_Mm0cCxU-TUqkuW67Wif1nPb+nnBfoLgTRwHnvCf3-Q@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.13-2
+X-PR-Tracked-Commit-Id: 9435dc77a33fa20afec7cd35ceaae5f7f42dbbe2
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: a016546ba60cbf3243f10670ae24fbd0bb343c08
+Message-Id: <173480940413.3212866.11403152475475162551.pr-tracker-bot@kernel.org>
+Date: Sat, 21 Dec 2024 19:30:04 +0000
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 21 Dec 2024 23:08:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ_Mm0cCxU-TUqkuW67Wif1nPb+nnBfoLgTRwHnvCf3-Q@mail.gmail.com>
-Message-ID: <CAK7LNAQ_Mm0cCxU-TUqkuW67Wif1nPb+nnBfoLgTRwHnvCf3-Q@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v6.13-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-Hello Linus,
+The pull request you sent on Sat, 21 Dec 2024 23:08:05 +0900:
 
-Please pull some Kbuild fixes.
-Thank you.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.13-2
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/a016546ba60cbf3243f10670ae24fbd0bb343c08
 
-
-The following changes since commit fac04efc5c793dccbd07e2d59af9f90b7fc0dca4:
-
-  Linux 6.13-rc2 (2024-12-08 14:03:39 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v6.13-2
-
-for you to fetch changes up to 9435dc77a33fa20afec7cd35ceaae5f7f42dbbe2:
-
-  modpost: distinguish same module paths from different dump files
-(2024-12-21 12:42:10 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v6.13 (2nd)
-
- - Remove stale code in usr/include/headers_check.pl
-
- - Fix issues in the user-mode-linux Debian package
-
- - Fix false-positive "export twice" errors in modpost
-
-----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      kbuild: Drop support for include/asm-<arch> in headers_check.pl
-
-Masahiro Yamada (2):
-      kbuild: deb-pkg: add debarch for ARCH=um
-      modpost: distinguish same module paths from different dump files
-
-Nicolas Schier (1):
-      kbuild: deb-pkg: Do not install maint scripts for arch 'um'
-
- scripts/mod/modpost.c        | 17 +++++++++--------
- scripts/mod/modpost.h        |  3 ++-
- scripts/package/builddeb     |  6 ++++++
- scripts/package/mkdebian     |  7 +++++++
- usr/include/Makefile         |  2 +-
- usr/include/headers_check.pl |  9 ++-------
- 6 files changed, 27 insertions(+), 17 deletions(-)
-
+Thank you!
 
 -- 
-Best Regards
-Masahiro Yamada
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
