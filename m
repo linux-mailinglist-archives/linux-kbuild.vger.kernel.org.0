@@ -1,169 +1,132 @@
-Return-Path: <linux-kbuild+bounces-5222-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5223-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6B89F9E18
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 04:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1622F9F9E1D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 04:46:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0A30188DB34
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 03:42:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E96E188E598
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2024 03:46:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD8591D9A54;
-	Sat, 21 Dec 2024 03:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4041D9A70;
+	Sat, 21 Dec 2024 03:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HQN/eqnk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k+E6Z0aE"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F79191F88;
-	Sat, 21 Dec 2024 03:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3F513A244;
+	Sat, 21 Dec 2024 03:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734752519; cv=none; b=Kgabjel8b0SmPrGSXvcsy5nMNiJsKfKCZc2Yjq+qYVlpBSmuAAVzfS/qG/XP7LaYz5xU11rJFLCYBTwlwk4KLY/OUsRl5ypi1OHWn4u5KJbSsMwIj1uPxjjkL2LiT3GMtp22BtgVTTfwxxy6HlQBii3bcOXdCxhDFZ1fE4iqEk4=
+	t=1734752794; cv=none; b=eDodaVbt8FoC7wBMADNP0uuLUuPCap8HN5CT+InH/xvQ8CTi7TK6vufoHSWGZChPC8+FphDoJYX0ss5hlk/+n+dMEppYRh3XpQnFvv3AFeggkEOEc8FvFPGQt/VksDHJGnmPzbHx0QUppmfrqLKspSij7dI0FlPCjc5IFhH+NGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734752519; c=relaxed/simple;
-	bh=yG9MP6/1nDTaMeFSwhjRT+j3EwObKL+mO76ZF2tLz3w=;
+	s=arc-20240116; t=1734752794; c=relaxed/simple;
+	bh=3Gsuuv4hWPVqGIW3skh+e3zUKvTwAHxQMouPxyV753Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5YJCrn5d9sxeTeu+/uTMwKmEw5Sj6IHOBRt/RikLQ4CGWHaXS44PmTvZq7NfQJwjGQTxHJXCk12Q4RY2AAI6wEThxIlLqAvsB4zqTr+r6XGqkUYzeWFxgOLaC6PMFH6tzXM0dwTBnvHmCG7TWCy37zP8oqU7VpdpsKxPNoMrY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HQN/eqnk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1BF4C4CEDC;
-	Sat, 21 Dec 2024 03:41:58 +0000 (UTC)
+	 To:Cc:Content-Type; b=VDnnJoaBRM8+g2vlyHrlpNUjh47gTKLHHYzsYu4+YGGi3jUYcEB3cR9X1o2xYQB22l7dN6bi205IcZO9BkANbX1hnaCKp8B7Ab5hyEGn4hDTSXXm5BR5dbUwfoguME2KVApEd1sGVn+X2wgrBk7/48am0w7IMTAFqxKWwFZsrXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k+E6Z0aE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 021E8C4CED7;
+	Sat, 21 Dec 2024 03:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734752518;
-	bh=yG9MP6/1nDTaMeFSwhjRT+j3EwObKL+mO76ZF2tLz3w=;
+	s=k20201202; t=1734752794;
+	bh=3Gsuuv4hWPVqGIW3skh+e3zUKvTwAHxQMouPxyV753Y=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HQN/eqnkhplQgwaYqx6q/aYlGAAK3XbLp2SEXTYmh4ODuWAOhYYbhRgPEPov2Sr/6
-	 aeddXVi0PCLkolnEQ0OOfYPW8iRgtmA04BMZz4rEEMopWfpMVn5O5N8lzzBmxoTM59
-	 hAcKGIMI8f8jBbZcliMw6ZKRkCytJqoyuwbu/SEjRzLNq7RvGFdz79ZDQkuw53YTu+
-	 UfCoOCOC+8iYC243Vzc9mpJ01tovi7gtZL4IgXYvf1FjKrCz/h2arxGFKuCOfyrXRV
-	 4erL78nkO88U/+wiuXx5qA5oYKMSkqG/YZ7PyHTtlFNfmGLB0h3B4XemvMa4xZk+cZ
-	 3HeejBGaly6Qg==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53e3c47434eso2650973e87.3;
-        Fri, 20 Dec 2024 19:41:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUMCwau5LA8QOc7VLcXzBoK9GVYsNf20WX1tBKP1FU2DMMJcpTt+9Ra6FXuhxTuTXnxyQNT8vCsBzgHFkRG@vger.kernel.org, AJvYcCUtaGK008EQvVgn184xWeKF09VKJxZQWjUHXSh4WfPfUD8kgoC2DWayXIg/vGky+hgZtb7/uhJxN0zgJkWNvhfq@vger.kernel.org, AJvYcCV4Cot6HWo0gMdrdH2t/j+3Nxs4bp2zD85Yih4yc3umO8I/zIIdPfLE8/MtUs9gBeVy+5g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgyhYrzsq3Cq5mRILGzqNsAa5hvrh8AA5Di9BD3Nn0xrHKLeLD
-	yKkT9lCrEpWBL0k1KHz6bg6mQ79ksZCdbvbZLacQhmSQmRKdLNpY+RgOrFV7JHPah5D/keeXa1T
-	UhYJOL0Qy1QEq59Aq9Yig1I9qeqU=
-X-Google-Smtp-Source: AGHT+IHIP6YEkUj/lGilUyhY5zs38Ycs0bicoiYQQh+9XbXFMhOFib18iKHw3u5M4pvLfqhkO62vVO5dxMj4pGpnNzc=
-X-Received: by 2002:a05:6512:230a:b0:53e:28e0:cde3 with SMTP id
- 2adb3069b0e04-54229540697mr1491984e87.30.1734752517474; Fri, 20 Dec 2024
- 19:41:57 -0800 (PST)
+	b=k+E6Z0aEq7uCoWKUEiSlZPSGu50BFSZIA4EDlVfIvzAvmyjVuXV6WeqhQKRkHwbqf
+	 eferVOkNpPf8k4V5hEjWkchGilzAmQ3EOYx9FlJWci6dr6Oyz69B0ivGRYhe00FEYz
+	 FZkd2UhAwQraaSPCX3ucTox/p0dnXUJZWxGHansnXjRVeEUDln7WHF2L04e5vEmhDH
+	 73hp51Zmr+FA+2vvzogg86zCiXoixE85FyrDFh2x8rHI4MNo7BpWXk7FbiZQSSUgH1
+	 906y09P9ieYVK+Xawp945Zq0+7XE61Raw7pOZLDGeTkfjVUCMgP4DpY6MUNDiH0RzB
+	 SRwQb0So+z/Nw==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53e399e3310so2733894e87.1;
+        Fri, 20 Dec 2024 19:46:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUBdZQoTPEV73/E7snT9ROWCvsQ5IGTYoddTnmBjWbnqz2eRS7gczkGxm+D2OKS5WV3vjlRqDnnkGccLWY=@vger.kernel.org, AJvYcCXvsNpEtLA27ufCJ1iMuNPNwnlFyL3ggkXJC5BpUCuuBa3diz78IQ4RdlCm6shd5HbZwrlPd8NYKjvQirSz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6e6ByNfUxM+e/3J1sMj4T01I2wCeBkQJK+MaykE7Mw0Q1Dyam
+	5bMtvrxJoJCWqVScb0k/2zAyZckrty2kKzXu3uelJYU1S3HUu3pPtu3MU0toZ6OFeOysNIipKu0
+	9OVdvu0IKg3t8luQjm3NScSw9St8=
+X-Google-Smtp-Source: AGHT+IE9z6TdwulX1LoBkH9L2doqhcaB0Lo3EHYDI1bcNaOb4B9pgBstuYt3WIyVYUixW6+63qnQihZz5cR1OxEUl28=
+X-Received: by 2002:a05:6512:68e:b0:540:3566:5397 with SMTP id
+ 2adb3069b0e04-54229530300mr1764685e87.22.1734752792648; Fri, 20 Dec 2024
+ 19:46:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217031052.69744-1-lizhijian@fujitsu.com>
-In-Reply-To: <20241217031052.69744-1-lizhijian@fujitsu.com>
+References: <20241212-kbuild-deb-pkg-no-maint-scripts-for-um-v1-1-45db61e3272a@fjasle.eu>
+In-Reply-To: <20241212-kbuild-deb-pkg-no-maint-scripts-for-um-v1-1-45db61e3272a@fjasle.eu>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 21 Dec 2024 12:41:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS4yrEvvDOFdHyNxBp9Yzi9=eGRsO+2R-t+NNTOfp=gHg@mail.gmail.com>
-Message-ID: <CAK7LNAS4yrEvvDOFdHyNxBp9Yzi9=eGRsO+2R-t+NNTOfp=gHg@mail.gmail.com>
-Subject: Re: [PATCH RFC] Makefile: Export absolute srctree path for
- out-of-tree builds
-To: Li Zhijian <lizhijian@fujitsu.com>
-Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
-	Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org
+Date: Sat, 21 Dec 2024 12:45:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATP05jzniF8QbQERbY43K7nmis045nFK6s-8u+ca=6xYw@mail.gmail.com>
+Message-ID: <CAK7LNATP05jzniF8QbQERbY43K7nmis045nFK6s-8u+ca=6xYw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: deb-pkg: Do not install maint scripts for arch 'um'
+To: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 17, 2024 at 12:10=E2=80=AFPM Li Zhijian <lizhijian@fujitsu.com>=
+On Thu, Dec 12, 2024 at 10:06=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu>=
  wrote:
 >
-> Fixes an issue where out-of-tree kselftest builds fail when building
-> the BPF and bpftools components. The failure occurs because the top-level
-> Makefile passes a relative srctree path ('..') to its sub-Makefiles, whic=
-h
-> leads to errors in locating necessary files.
+> Stop installing Debian maintainer scripts when building a
+> user-mode-linux Debian package.
 >
-> For example, the following error is encountered:
+> Debian maintainer scripts are used for e.g. requesting rebuilds of
+> initrd, rebuilding DKMS modules and updating of grub configuration.  As
+> all of this is not relevant for UML but also may lead to failures while
+> processing the kernel hooks, do no more install maintainer scripts for
+> the UML package.
 >
-> ```
-> $ make V=3D1 O=3D$build/ TARGETS=3Dhid kselftest-all
-> ...
-> make -C ../tools/testing/selftests all
-> make[4]: Entering directory '/path/to/linux/tools/testing/selftests/hid'
-> make  -C /path/to/linux/tools/testing/selftests/../../../tools/lib/bpf OU=
-TPUT=3D/path/to/linux/O/kselftest/hid/tools/build/libbpf/ \
->             EXTRA_CFLAGS=3D'-g -O0'                                      =
-\
->             DESTDIR=3D/path/to/linux/O/kselftest/hid/tools prefix=3D all =
-install_headers
-> make[5]: Entering directory '/path/to/linux/tools/lib/bpf'
-> ...
-> make[5]: Entering directory '/path/to/linux/tools/bpf/bpftool'
-> Makefile:127: ../tools/build/Makefile.feature: No such file or directory
-> make[5]: *** No rule to make target '../tools/build/Makefile.feature'.  S=
-top.
-> ```
->
-> To resolve this, the srctree is exported as an absolute path (abs_srctree=
-)
-> when performing an out-of-tree build. This ensures that all sub-Makefiles
-> have the correct path to the source tree, preventing directory resolution
-> errors.
-
-NACK.
-This negates 9da0763bdd82572be243fcf5161734f11568960f
-
-This is a recurring topic [1] because kselftest adopts a completely
-different build system.
-If kselftest cannot do this correctly, please do not hook it to the
-top-Makefile.
-
-[1] https://lore.kernel.org/linux-kbuild/cover.1657614127.git.guillaume.tuc=
-ker@collabora.com/
-
-
-
-> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Nicolas Schier <nicolas@fjasle.eu>
 > ---
-> Request for Additional Testing
->
-> We welcome all contributors and CI systems to test this change thoroughly=
-.
-
-This is NACKed. I recommend not wasting CI system resources.
+> Misleaded predecessor patch:
+> https://lore.kernel.org/linux-kbuild/20241212-kbuild-deb-pkg-no-initrd-fo=
+r-um-v1-1-23243b5c7093@fjasle.eu/
 
 
+Applied to linux-kbuild. Thanks.
 
 
 
-
-> In theory, this change should not affect in-tree builds. However, to ensu=
-re
-> stability and compatibility, we encourage testing across different
-> configurations.
->
-> What has been tested?
-> - out-of-tree kernel build
-> - out-of-tree kselftest-all
 > ---
->  Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  scripts/package/builddeb | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
-> diff --git a/Makefile b/Makefile
-> index e5b8a8832c0c..36e65806bb5e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -275,7 +275,8 @@ else ifeq ($(srcroot)/,$(dir $(CURDIR)))
->      srcroot :=3D ..
->  endif
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index b497b933901013b1b8b82c2c340a88c9257c6193..3627ca227e5a5db520958e6eb=
+0128512dca083bc 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -65,6 +65,12 @@ install_linux_image () {
+>         esac
+>         cp "$(${MAKE} -s -f ${srctree}/Makefile image_name)" "${pdir}/${i=
+nstalled_image_path}"
 >
-> -export srctree :=3D $(if $(KBUILD_EXTMOD),$(abs_srctree),$(srcroot))
-> +srctree :=3D $(if $(KBUILD_EXTMOD),$(abs_srctree),$(srcroot))
-> +export srctree :=3D $(if $(building_out_of_srctree),$(abs_srctree),$(src=
-tree))
+> +       if [ "${ARCH}" !=3D um ]; then
+> +               install_maint_scripts "${pdir}"
+> +       fi
+> +}
+> +
+> +install_maint_scripts () {
+>         # Install the maintainer scripts
+>         # Note: hook scripts under /etc/kernel are also executed by offic=
+ial Debian
+>         # kernel packages, as well as kernel packages built using make-kp=
+kg.
 >
->  ifdef building_out_of_srctree
->  export VPATH :=3D $(srcroot)
+> ---
+> base-commit: 8f2db654f79c7fa579c64eda2b5db44553d6e513
+> change-id: 20241212-kbuild-deb-pkg-no-maint-scripts-for-um-2261ffdfb903
+>
+> Best regards,
 > --
-> 2.44.0
+> Nicolas
 >
 >
 
