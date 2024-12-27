@@ -1,117 +1,131 @@
-Return-Path: <linux-kbuild+bounces-5253-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5254-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D169C9FCFB9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Dec 2024 04:04:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D337D9FCFD6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Dec 2024 04:35:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 352703A054F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Dec 2024 03:04:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 455BB188252C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Dec 2024 03:35:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 164A235973;
-	Fri, 27 Dec 2024 03:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1010833998;
+	Fri, 27 Dec 2024 03:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bmVpcRBC"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DsE7YAwc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BCC3596A
-	for <linux-kbuild@vger.kernel.org>; Fri, 27 Dec 2024 03:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A723595D
+	for <linux-kbuild@vger.kernel.org>; Fri, 27 Dec 2024 03:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735268661; cv=none; b=WYdKRSB5JOnP/OpbnL+JhniXndtlL4rFVRsO1brmI1LHYZU7yGoU2F3N25jSmflQZl9IpioiJ7sZn+PSAwiEOqXd0gi+lqTO4ZMVnOuTDAwVa4343QkEiA9l3YemMhhK6wq/i51VOCaUwPa3tEe0Ia2/vcNkNll+lbzSN8Del/4=
+	t=1735270541; cv=none; b=jm3lDk59jzHMdntHrC3Rb92se+jEaRqXjgVtCON9ma1NAxnux8piu20y4wROd7SbFwTgmEGrPXpyTdI/uMb6rmS6IgXpdTK0cGb9p6wwii6aqWiATRp5ZwR3cTRq7wQM/LvCyvEre0hhfM6KYKWw2QJDvF3HJe4TGXAg2gE6sXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735268661; c=relaxed/simple;
-	bh=ThQ9KV6K3n5aFJXUeKhastYFmKYHErpU1Qq4XCFqwn8=;
+	s=arc-20240116; t=1735270541; c=relaxed/simple;
+	bh=AGXTRv0LmVHEZMilybwu6oh4mQ5OUxVnd/fQq8fjrEw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ae/Aq6uJ4emkvZ2q3gvmcCETCJRTVqyhQeIytm6DBJgbRzEM3C5MJ4r4dPK/DyaUBbFi+QwxXGLJAfdPWy+tM5RdeVtHKk8oweG9kY0AsHsV7u+a4nuhAKapO4pufnWOdHZgLiWU0+uVU+FbvbAsoL+NXpYgwf4Z58ExRU47P3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bmVpcRBC; arc=none smtp.client-ip=209.85.218.41
+	 To:Cc:Content-Type; b=o2RL9ikAm/Xo4TbyF5TC6uTuYf6nVKWSPuR9nnpSas+yYZKE5ZZXHLJ8KTaAq3xwfVK4hlvhrs46Zm1MxsZyVO/QNroMlSuaScm8Wqjo2tgS6DfQcHm+FS4Gta+O27iIvw4TN2ak1H45VJCIIqV9VgP6se4w02WUK9fybk+i1ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=DsE7YAwc; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aaeec07b705so412499166b.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Dec 2024 19:04:18 -0800 (PST)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aaee0b309adso528286466b.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Dec 2024 19:35:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1735268657; x=1735873457; darn=vger.kernel.org;
+        d=linux-foundation.org; s=google; t=1735270537; x=1735875337; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qIvsaxrrzusHG3DGldZGLiyb0altyr/HFAubLTJu3hY=;
-        b=bmVpcRBCEvjv9K9iiRo6sbVC8pORVxz0pml1hjJF/Ncu12cebu4eQ4X1fSpNObkPwe
-         mt3IqHTlF+y9ie7g3M9XRtwCY3fc52rcwYjj0GV0GMe2OnBvwrDZ/l+yqsbmehbDOlMQ
-         /tRKMgQerY2Ok8tSYYu6yPteo8M2pRkgHMHg0=
+        bh=zv2Kquny1rwoCYildgERHjuaVV6RvgaxGbRxpY4LP4I=;
+        b=DsE7YAwc7cUYm+W+PyLHXAweb+R2+uplnXYkLlyjHy0bZXCnANkWklJnsYcq8PLAKM
+         Q3OBo30FJjP9l6r65N9LVOcOU0k2u/+KxdGWU4gnxpXAEI7R2nEpfzxdSZW7LxDdkyj0
+         WXPz6s8Fy2pJp7r+kYrIJXR/7tsFqqPl95xS4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735268657; x=1735873457;
+        d=1e100.net; s=20230601; t=1735270537; x=1735875337;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qIvsaxrrzusHG3DGldZGLiyb0altyr/HFAubLTJu3hY=;
-        b=fwoCrtM//684VRXjUjDjnQCtfzr3I2P3kz1YlmUy0HmvsLSD8RmnZ4WvJZ7jMsTobq
-         XHhDo/sjhkZRyBxX0D2O58y83YGqvW67BKgutMmqHhk4m1CyuK1SzPRTLGPulh+u8IDD
-         IEqrZ739mIIbdsiBdaM9k1fCA1cKFZJikaadeW0C7+jYFfVh7ae9g9+P2LiR/cp6TSoM
-         73EtIWVr00lbjimWqLvnmrtLmiO2JEQi2LL4YMYsD2miv/jo1oetXE6NScsPgC4p2X9v
-         LNRNmECuqcnzhMpryNVUlAYbjZrPf/PKv5KqyeEDfRlkIPCVtcJbkMmE26FPrpgyMZ/J
-         Jb0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXboCZN/R2T5bQBrmjBEpkQbX0qUfJu8MbYD93GNCG1nyEzdGsLbWKo+eHef/b6bM62C9HM6utgKC7T/Rw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTu7dKXyu9wQgw8A1K5hIsTAYB4wFJI525ihJyqUHJb6GO2zgj
-	iLgnLvtmJhLbZinjOuvnbf6r/zrJnX66ghxyRd1gG1LbR+lXPXKkCM3inH7W0BAcVIL7oky8Qio
-	H3S2M7w==
-X-Gm-Gg: ASbGncvZuw9k9Gxr7aGBRhzJ/20yEww/1ztBGJ0ppWBKRyTSVA3+vcKcd5HeimVrSVP
-	G6nYQK/n3IZopm+OkNnBDPg/3fsr8abMqqRsGmsGW9BlPzxBQ/x/CVzCHYGCPvpiB63lwIXR5df
-	5OEDovyi4O4A+xSFW2kYFntfqa3Yw+fondMFUPcFI5uFrkR+2v75hYkf0pOX0sl4X6TEB+Gs174
-	INZiAcXFCj/NHjv4tA2qEhlN0tdMehbQZoX+BHr7SrXm+DfVSu1Vzkk41o/dH7loXBmQ3KZ/DKh
-	kuQ4cfTFW6Q1cypU5251d4gHztXH6sM=
-X-Google-Smtp-Source: AGHT+IGbaMceLOl7iTlShYMclfmQ1aG5StLJIoqtR3iAp+qBs8rn5sEsel9IIQEBrpSA+Az29qqDig==
-X-Received: by 2002:a17:906:bf49:b0:aae:82ab:d531 with SMTP id a640c23a62f3a-aae82abd5c2mr1972453366b.38.1735268657467;
-        Thu, 26 Dec 2024 19:04:17 -0800 (PST)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e8951ebsm1042595066b.71.2024.12.26.19.04.13
+        bh=zv2Kquny1rwoCYildgERHjuaVV6RvgaxGbRxpY4LP4I=;
+        b=kpW00cqwF0dzEQP3pWQ4lIRw9i+ZobQ7/L0bX9CsdCB8/9DEsvDrW9+Q5Tt9FHIg9g
+         qD94LkkpYaxGRrpo3OWsR0hz/Nld8hfTX1Q2XK/7uJFUGtd58H541RUf7vh42FkIp6nW
+         eL0z+NG/WlG0L0+0+wFXfXNLhDTnlTB4Lh3PfrRlU5PIB4dO1OMkLBMTas2Dtmhomkpf
+         YDK4o2NZXR5T3mpVtaQJ+6cRY6TlVgke3PWc8ItLmFMvta9iyK3ajvv8Zi6NnpRK5zxo
+         3JD3dwG0prGWVxdKoEUgb0SnUboWBWC2/4KVp49jGp+DRRtpKcZTuVPCAxUjMpVSzXA/
+         y7eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVc0oTWryW4q3Gv6YGwpum+MiVg7zbJAIcgi+x/lL0ZAmQdalzZMqzFKaK7UMVBIMOieAxD6oy3zTR4uW0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMTra5kCqclZWxdhWknhxLBgu/PTfZH2U8tafNVGFaZrinuDSF
+	Yvke7KdVn0u9ywmCtCc/ynNunP+RabnIq0IyB3cgbBUENmqvuxTHzvlKGoCqsItj6/ny2I8Y8aR
+	a0x8=
+X-Gm-Gg: ASbGncv+i7JU1okYeuMKN3YKIc11SulZ0zYu85M/e3nYb1Orb/zll4x7wEjlMf6SCnP
+	+n/Ufv9ehQlALC4JBYrWumHnlbJ6OtuLkmqECznTk6ufflQ9QWxzpyKQNgJ522IeC39Z1CSz7jJ
+	teCK/ih5leJXkDAIzPjAW2RzKdg13msnZJoJmuIRLFK2HROS7TxV58z26vNXhe6VDl6gUYZR9p/
+	Wkk6lHQiS02IZ0+9EyXxkqDKiPwHr7wwhZKgLFnQ+Wr9u4hnb/QCko7F+lUMhuEzQeQuSBCzP/V
+	EtFJ1g/o881O01j2fwDU0jp8XDAjxtQ=
+X-Google-Smtp-Source: AGHT+IF1spJG/EWUS7gZgRA48roQG2jiiMzUBHN9GbRkqCZ8ZCIlMOkadbqDzYtlnATep3Qxby1dRQ==
+X-Received: by 2002:a17:907:7e9b:b0:aab:cd46:561a with SMTP id a640c23a62f3a-aac348c7180mr2169725466b.59.1735270537216;
+        Thu, 26 Dec 2024 19:35:37 -0800 (PST)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0efe4b85sm1043871766b.118.2024.12.26.19.35.35
         for <linux-kbuild@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Dec 2024 19:04:14 -0800 (PST)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa67333f7d2so1019471366b.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Dec 2024 19:04:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV4W2+X2I1MI4W4S9gL/nomxRgSyBLQuSIMbzA949OKz19U9mq2zmpwCeSOrfmWpyqKt/ZaM/iSHaFIN34=@vger.kernel.org
-X-Received: by 2002:a17:907:7f24:b0:aa5:44a8:9ae7 with SMTP id
- a640c23a62f3a-aac334f1984mr1642418266b.47.1735268653379; Thu, 26 Dec 2024
- 19:04:13 -0800 (PST)
+        Thu, 26 Dec 2024 19:35:36 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d3d0205bd5so9681051a12.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Dec 2024 19:35:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWJDeBjQWX3zkD9/7BwgN+30lYhcxQUHgIV8rQCQBaqYV74kTKLaNj1SbIzf7Fhag6kbD4MVBN0flqryRU=@vger.kernel.org
+X-Received: by 2002:a17:906:6a27:b0:aa6:9fad:3c1d with SMTP id
+ a640c23a62f3a-aac3464881amr1926490766b.39.1735270534947; Thu, 26 Dec 2024
+ 19:35:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226164957.5cab9f2d@gandalf.local.home> <CAHk-=wgTFSqiMvbGYqFLQaERoeXR5nK1Y=-L3SN7rB3UtzG0PQ@mail.gmail.com>
- <20241226211935.02d34076@batman.local.home> <CAK7LNARUCpzr+1ey0MKmyCdTbaVOq8o7_42t4x5BW=4dyy4wPQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARUCpzr+1ey0MKmyCdTbaVOq8o7_42t4x5BW=4dyy4wPQ@mail.gmail.com>
+References: <20241226164957.5cab9f2d@gandalf.local.home>
+In-Reply-To: <20241226164957.5cab9f2d@gandalf.local.home>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 26 Dec 2024 19:03:56 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wi5JZ62=FFZQi2=doEOwTf4sa=cO+iAFEvnwBr0o7687w@mail.gmail.com>
-Message-ID: <CAHk-=wi5JZ62=FFZQi2=doEOwTf4sa=cO+iAFEvnwBr0o7687w@mail.gmail.com>
+Date: Thu, 26 Dec 2024 19:35:18 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiL8B2=fPaRwDPGgQhVs=3G=8Gy=QyR59L85L0GF67Gbg@mail.gmail.com>
+Message-ID: <CAHk-=wiL8B2=fPaRwDPGgQhVs=3G=8Gy=QyR59L85L0GF67Gbg@mail.gmail.com>
 Subject: Re: [POC][RFC][PATCH] build: Make weak functions visible in kallsyms
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, LKML <linux-kernel@vger.kernel.org>, 
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, 
 	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
 	linux-kbuild@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>, 
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Zheng Yejian <zhengyejian1@huawei.com>, Martin Kelly <martin.kelly@crowdstrike.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Zheng Yejian <zhengyejian1@huawei.com>, 
+	Martin Kelly <martin.kelly@crowdstrike.com>, 
 	Christophe Leroy <christophe.leroy@csgroup.eu>, Josh Poimboeuf <jpoimboe@redhat.com>, 
 	Mark Rutland <mark.rutland@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 26 Dec 2024 at 18:52, Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, 26 Dec 2024 at 13:49, Steven Rostedt <rostedt@goodmis.org> wrote:
 >
-> So, does the kallsyms patch set from Zheng Yejian fix the issues?
+> But then, when the linker removes these functions because they were
+> overridden, the code does not disappear, leaving the pointers in the
+> __mcount_loc locations.
 
-[ Me goes searching ]
+Btw, does this actually happen when the compiler does the mcount thing for us?
 
-Oh. Instead of adding size information, it seems to add fake "hole"
-entries to the kallsyms.
+It *feels* like this might be a bug in the FTRACE_MCOUNT_USE_OBJTOOL
+logic interacting with --gc-setions.
 
-And I guess that works too. It does feel a bit hacky, but at least
-it's integrated with the kallsyms logic.
+Is the problem that --gc-sections removed the function section that
+contained the weak function that was then never used, but the objtool
+thing with create_mcount_loc_sections() would generate that
+mcount_loc_list and nothing realized that it's no longer there?
 
-                Linus
+Or does it happen even with the compiler-generated case (ie with the
+-mrecord-mcount and FTRACE_MCOUNT_USE_CC)?
+
+We can disable LD_DEAD_CODE_DATA_ELIMINATION, if that's what triggers it.
+
+It's marked as experimental, and it does smell like either
+--gc-sections is buggy, or we're doing something wrong to trigger it
+(and I could easily see objtool rewriting object files being that
+trigger...)
+
+                  Linus
 
