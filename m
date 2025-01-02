@@ -1,68 +1,87 @@
-Return-Path: <linux-kbuild+bounces-5296-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5297-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E1E9FFFC1
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jan 2025 21:02:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5414C9FFFF6
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jan 2025 21:24:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FC953A356C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jan 2025 20:02:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44E913A3802
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jan 2025 20:24:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E823B1991A4;
-	Thu,  2 Jan 2025 20:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D65FA1B4230;
+	Thu,  2 Jan 2025 20:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XQTmG9zI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4FA1DFD1;
-	Thu,  2 Jan 2025 20:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF137E782;
+	Thu,  2 Jan 2025 20:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735848162; cv=none; b=nbiJvvtvqqcTRDyNcSLgOaJBnfJPnb0oRIdHL6zsLFmMszs+VMu8n9hBgMQXXmK7paRxGXklrTgpxVgXxRf+dGXyfUViLH2kJ0SnnBzHYsuA5Wfk7EusLbFHl0iXeIlzaHYqng8Kmp4KxmBgB5LDUN7BE8o7xmsLkUW7vyehX7U=
+	t=1735849463; cv=none; b=goGxsL824ElSCOoz0VnyrtiZqgc7u1U3MUqb31RRvLjzCaPnXLdxqbLO0QIHFG0ek9zBLnUYsrQtpFeb9MRm0+18hpUSRiji/3TmTtHPQ/EX6Af1sJ8BfdOodagVx3V21IRdXPnG3sKNZYe3+5znVfe5C0n6bGOBZe7mv8MLzgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735848162; c=relaxed/simple;
-	bh=4Q4jCO12eC6+ybBJOm62KTy7r+b4laSfmxEN9SnD4mo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qvLEFXjUVxSDMuGpbKtSL/IdhoEXw+acAsioLZBUjhBwHj70nTNFtHlA5qTB4PhF9Z1fS49ig5GEQWA7aSWQnfT74clG8H+3kdMTHhJPwHSlXs8eJAkmFnCFGdyhd1ZiDTXPvcLRod4omVs6Gi5N9iltfTnT66ODZiRa0xGqK3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A29AC4CED0;
-	Thu,  2 Jan 2025 20:02:40 +0000 (UTC)
-Date: Thu, 2 Jan 2025 15:03:56 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Peter Zijlstra <peterz@infradead.org>
+	s=arc-20240116; t=1735849463; c=relaxed/simple;
+	bh=HaJO6HN0mmyZkae/WwlssxgealcaCHnYk96Gl7wZWpw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0kWLluELKv1yXiDOSb1R+UStJQoL0qDLPBz3h4y1gihYXNKBUMqvSTTMl5S4gAC05CslGYLMGzfdLT0jqRsg8Ta9Mi5n2J8OCn1n3v5WQxJhu0bIXKLjfqaKHu/E++q44T2yjkTqyYrK0MxmS6V+2bQzHxGQFblq8xd7JkSpwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XQTmG9zI; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=xv/nF1T4OzFqp/VaO1iqvYW4NweLPvFxzbhk/bUxdWk=; b=XQTmG9zI57U+eM6s9xxe1iSr7T
+	/Zf/6/PxlVFe7DGniF93JJ7IRTh3pF1pI3SB/4+gPRoJrgVANUYvvKfy6kFE72RAv6SFDGAvVDdOQ
+	NOreZd2SU7Nj0omIX/fOBK5THhWMsbsO6bXj7/E4Z0IgcPvcrgPe8Lw0Uo0MQWhKXtHPGmMLFe2NF
+	NEqZiCmlRpf6s4W4CYztlb3M/ipW5yqY/vcSBI31DZqTrDwgBP4ZQHgAj2g2GgtJ6RjCYPtqEbJgZ
+	cmdTxPq3q7u5LskVqgDKAQmx/wWe/GDSlven2xbh9+in59Kb5kIK2yyY0xkpYK9SGGyRk7ZTqArGw
+	TMMD2UZw==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tTRjh-00000003u8w-0OXA;
+	Thu, 02 Jan 2025 20:24:05 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id E17963005D6; Thu,  2 Jan 2025 21:24:04 +0100 (CET)
+Date: Thu, 2 Jan 2025 21:24:04 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, bpf <bpf@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
- <akpm@linux-foundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Zheng Yejian <zhengyejian1@huawei.com>, Martin Kelly
- <martin.kelly@crowdstrike.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Josh Poimboeuf <jpoimboe@redhat.com>
+	linux-kbuild@vger.kernel.org, bpf <bpf@vger.kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Zheng Yejian <zhengyejian1@huawei.com>,
+	Martin Kelly <martin.kelly@crowdstrike.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Josh Poimboeuf <jpoimboe@redhat.com>
 Subject: Re: [PATCH 14/14] scripts/sorttable: ftrace: Do not add weak
  functions to available_filter_functions
-Message-ID: <20250102150356.1372a947@gandalf.local.home>
-In-Reply-To: <20250102145501.3e821c56@gandalf.local.home>
+Message-ID: <20250102202404.GD7274@noisy.programming.kicks-ass.net>
 References: <20250102185845.928488650@goodmis.org>
-	<20250102190105.506164167@goodmis.org>
-	<20250102194814.GA7274@noisy.programming.kicks-ass.net>
-	<20250102145501.3e821c56@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20250102190105.506164167@goodmis.org>
+ <20250102194814.GA7274@noisy.programming.kicks-ass.net>
+ <20250102145501.3e821c56@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250102145501.3e821c56@gandalf.local.home>
 
-On Thu, 2 Jan 2025 14:55:01 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
-
+On Thu, Jan 02, 2025 at 02:55:01PM -0500, Steven Rostedt wrote:
 > On Thu, 2 Jan 2025 20:48:14 +0100
 > Peter Zijlstra <peterz@infradead.org> wrote:
 > 
@@ -74,7 +93,7 @@ Steven Rostedt <rostedt@goodmis.org> wrote:
 > > 
 > > Eg. if might make sense to also ignore alternative / static_branch /
 > > static_call patching for such 'dead' code. Yes, that's not an immediate
-> > problem atm, but just fixing __mcount_loc seems very short sighted.  
+> > problem atm, but just fixing __mcount_loc seems very short sighted.
 > 
 > Read my reply to the email that I forgot to add to the cover letter (but
 > mention in the last patch). Fixing kallsyms does not remove the place
@@ -84,39 +103,9 @@ Steven Rostedt <rostedt@goodmis.org> wrote:
 > 
 > The kallsyms is a completely different issue.
 
-Maybe I misunderstood you, if you are not talking about kallsyms, but for
-static calls or anything else that references weak functions.
+It is not. If kallsyms is fixed, you can use that to tell which
+fentry/mcount sites are 'invalid'.
 
-The reference is not a problem I'm trying to address. The problem with
-mcount_loc, is that it is used to create the ftrace_table that is exposed
-to user space, and I can't remove entries once they are added.
-
-To set filter functions you echo names into set_ftrace_filter. If you want
-to enabled 5000 filters, that can take over a minute complete. That's
-because echoing in names to set_ftrace_filter is an O(n^2) operation. It
-has to search every address, call kallsyms on the address then compare it
-to every function passed in. If you have 40,000 functions total, and pass
-in 5,000 functions, that's 40,000 * 5,000 compares!
-
-Since tooling is what does add these large number of filters, a shortcut
-was added. If a number written into set_ftrace_filter, it doesn't do a
-kallsyms lookup, it will enable the nth function in
-available_filter_functions. This turns into a O(1) operation.
-
-libtracefs() will read the available_filter_functions, figure out what to
-enable from that, and then write the indexes of all the functions it wants
-to enable. This is a much faster operation then echoing the names one at a
-time.
-
-This is where the weak functions becomes an issue. If I just ignore them,
-and do not add a place holder in the mcount section. Then the index will be
-off, and will break.
-
-When the issue first came about, I simply ignored the weak functions, but
-then my libtracefs self tests started to fail.
-
-So yes, this is just fixing mcount_loc, but I believe it's the only one
-that has a user interface issue.
-
--- Steve
+Better yet, other people can then also tell if their things are inside
+dead weak code or not.
 
