@@ -1,116 +1,119 @@
-Return-Path: <linux-kbuild+bounces-5339-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5340-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B170A0097B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2025 13:50:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4417EA00BD2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2025 17:04:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5594E1640D8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2025 12:50:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89CC41884CAA
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2025 16:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0BB41F9EAB;
-	Fri,  3 Jan 2025 12:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D9741B532F;
+	Fri,  3 Jan 2025 16:04:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Ajz7/YUf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nGFm8why"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EB31F9426;
-	Fri,  3 Jan 2025 12:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F531A8F9A;
+	Fri,  3 Jan 2025 16:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735908617; cv=none; b=DCF6EHhhJ40o+OYJrNEHGZMxAfQvOZyk/ycdjxiJ2KZwfYs3HDSzCZrhmg/9dxJeBC1Q1KsDogiBaKOilNlO8WPyP9UHqKkzU8kfutHkECLhEJG158/w821uFCq98ncscHxix024GJaS+nXvThBquUw5o30b+7w19CMjyLccdtk=
+	t=1735920266; cv=none; b=hFuqHNgWEahMm0SnXkNFMhBI/3Y1fEPUDnpBusSjZw8seMCCrt/cS6N26Pbfwko+cHjIQRRKnuY7LbAoPjeb0VQDS09f7AHS4esiamqKx6bbvpY4XlvvvD/9IS90SX6b+T3Q0RHnM+iR3FVuTPzPTD90hbU7xUNCzCgZXPxqx7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735908617; c=relaxed/simple;
-	bh=eowNIMUi0cIA8eleCKI/b2O4L9eWToEJdB5IFS+WEL8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=eYMw1CjMTrBU8oWQ4xI5AVpbFuijumi3hu92aEKbL5hnNH40JzYT2URm4awfFTY12orIkWTCsqeChX+gkSqhKAGfkyRkzGUtM9vmJ3gV7drXXNaRg3bBHsBHhAh02o5osMGEdS+gtX1OZBc8EBYKDHT6V35ZK8oLXSVi8X6/P9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Ajz7/YUf; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1735908607; x=1736513407; i=markus.elfring@web.de;
-	bh=rC02SXiR9Z4OKjEwkMvmbRsT79Ij977vPD00Sx2tebA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Ajz7/YUfjuHJaEnUxk8lZdLpCGyXVq4Qf+tyJ5NPQdr/BBPdWC/u6eLTHwjtWY5P
-	 YCwbbSOcYOad/vvNJ7BIF4SS1TnA+/Dd9EoGdx/jSXpnZ5wmyKNHNEK4KxGNYMaQQ
-	 aDTBVrquR6Ig/UrbVen//G//6ZnZy9Tj05BPgKUjW7FWEDIZkoTbKTmNTjPoXIaln
-	 INL/kheb5JJ2fijQxLkMf/HblZJ/Lt0S2xqfMucjP5eJIydwIZv8TB0FWghTtLb0x
-	 3Ltf9HYIVHEa1M1d5kOki5s/R80k5ZSRxQe5MWQGkscso17vUVz9tFqZ9YUneVG1P
-	 dskTmbgpNwmXvVhjmg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.93.37]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MZSFY-1sxBzl049u-00UDXT; Fri, 03
- Jan 2025 13:50:07 +0100
-Message-ID: <a7da70a4-19bf-4d53-a6c8-a5ddc422a199@web.de>
-Date: Fri, 3 Jan 2025 13:50:06 +0100
+	s=arc-20240116; t=1735920266; c=relaxed/simple;
+	bh=j6NVA6F2GO4p2ka/ReBD2niFkhktzSehRJZnbmCGtQ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F4jeormoo+ygKwdANh76hWtEWtcDqLtaFBPwSCege1sTUU4yMBSscTp8dMRWb/9UP8NJ1UHPzJNUFCnP7Pav7lrITh//cKY9s3b6qNJcCAUSs6KJ6xEMLjYQgC2ORu8IXUlPagyd0PQ0mKPW9RAy0by4LzNv0Lszr4Vb33dVfmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nGFm8why; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75C98C4CEDC;
+	Fri,  3 Jan 2025 16:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735920265;
+	bh=j6NVA6F2GO4p2ka/ReBD2niFkhktzSehRJZnbmCGtQ4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nGFm8whyWLJGGw/Gk2chFtICHWwhKRaDCepD7gnnJV1GyUII4EitRsbBYKXddm3kH
+	 1OQIs1TpmICzP5E6L6c4FxCnTR4SMazi2MwvV+q5hUH1mzVeifNuhNOajVUT3/sayj
+	 6PQcUtGsCokJpt7IBe7lrzqiSXIkx0eaOgJEx87zaK5SNGeaZEs7xM0ytKfSlrwIKI
+	 jjCP8UddtQHIbsBAGyVWsyO5yvWOnrIfaxB3AKnH6WY8ChvlvxQ1x56U2MLgpXimze
+	 5elwTYMY0sKRLFmN1E68NuMjs7ZCA/wEkYQGhpFoC0Wgq1qH1QQaN8ylAxEwZcqdXC
+	 laMwDBlisczQA==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-540215984f0so13087222e87.1;
+        Fri, 03 Jan 2025 08:04:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWR2HSYd78jRwHDmLr5LTGsT/w1Z4gWRhLLBlu+XklN2RPPTOBQ/4xWoghDd9P0CJpLuNOgw9O7aFmmKm0=@vger.kernel.org, AJvYcCXYTgqlhSVu9sgpvkDWejZTOwi5P9gPOmhbEN9x0WUOZ3oW6l5TbK2cIEbnFZo/FirAlaLSOBYa3+eZ50qaxg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyleCDTAg4ncCLqH3CLMyzhJpl1z7ggNE+rE3LsylQE/gmDGEsm
+	Y/foUoEJvrgPacWYJFOTGetLkbhUPU6lLnLa+8zvOmyNZh/mrBzxv+++lhvZCQbRbJzrd0vDsai
+	cAKyW9oGj4miCPQgiCwBQ0uBeE2E=
+X-Google-Smtp-Source: AGHT+IGpkeoWEdio4uvBiKMfJB/GOyzc0DIrd25EPkP7aIXpSPZa/om70FdRA60SzWv18Oin0hQQeDcwaPDpb0hvg5g=
+X-Received: by 2002:a05:6512:3b26:b0:540:3566:5b37 with SMTP id
+ 2adb3069b0e04-542295aa1cdmr15412985e87.57.1735920264048; Fri, 03 Jan 2025
+ 08:04:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, =?UTF-8?Q?Andreas_Gr=C3=BCnbacher?=
- <agruen@suse.de>, Andrew Morton <akpm@linux-foundation.org>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20250103073046.2609911-2-masahiroy@kernel.org>
-Subject: Re: [PATCH 2/6] genksyms: fix memory leak when the same symbol is
- read from *.symref file
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250103073046.2609911-2-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+References: <20241228154603.2234284-1-masahiroy@kernel.org>
+ <20241228154603.2234284-2-masahiroy@kernel.org> <f9b9795a-ab0c-49b6-92a1-b887f923279b@suse.com>
+In-Reply-To: <f9b9795a-ab0c-49b6-92a1-b887f923279b@suse.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 4 Jan 2025 01:03:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQqvkRL7BDKW=tCxFatU01t268adsu5VXW1ZRWBQnCq4w@mail.gmail.com>
+Message-ID: <CAK7LNAQqvkRL7BDKW=tCxFatU01t268adsu5VXW1ZRWBQnCq4w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] module: get symbol crc back to unsigned
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, linux-modules@vger.kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, Matthew Maurer <mmaurer@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:EIMueVHvHfrkh59CprQVR50tf99FXuDZdf/ejrQOxCjoQfbTsda
- 9IfNdJw+yO/fR/0KIomOXzpkvtUKwYm71oZKoxfUJYt+ET4PFdt4mILbzYKk3YfCtBuDBPO
- SJoX14yihnTwkD7SNSerYsD8MpvfJoGO+cYM+ZOuKJ+FjL5Z0HmNRFCFjflGDF7ojwTMI0p
- SVr143X+qAgs5piVIr5ZQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:cVfjBp/Kis4=;dN8wgCjORDqn2WJqjKRVhLq3vRb
- ItWS7zQ0DNJknrqQouRFZMEh+g2XhqNhKQ8oExFVMQ/bJEPLj/LD13QWhRUnE2ysJkneeHewW
- 9rS2md2vDZRSkckPJ5nP/UHSoBk60CVeyjqS+7x72JiGoKCd72tIbWNUy2pmTRrZhIk1ggm7s
- ONiDbIhYPfIydHr3xLEHrR1XhwmaRkJrN1f1VNVkfvjr69CMZ6OIy6z3L6s9kS8pLSviRWxTp
- YR8OBTC1PQ9mv5+i5Bf+s2BlXPiZZdtkzfGLoEsuQbSH0ye9FMQJTE3a+yK8+aUK1LCSLBLKi
- xQD7tVqdo+S/zcTBPMSeiNvbZEqk/3qC/9vKjKj/vbE9XPFTl18wvb+JlwHiILM5eZrJIVytL
- jBU4cwvCKj8IMYbVjwJTDGaY5VeGYyaZ2X6n5NPS81pvQgFbMNQi/L0mXNs8I5HRz1YM4OtYo
- hcl9zQ5iEr9+uJrPlOPlUPC9ZsgRG2G06LohnVMjDeGw0xBhcFGPyvLc888jT+xnpfcVQFstt
- KiSQpckMjj1UttsFsNviWCMu90Wi2NavMZyVj17kdskthKMvRBaq1DJFVR2o0xSGtDLHIR8V7
- 5ieEYKRKj5j7DJu3jVM9IN3bvZoDi4cSgSaenLS2p2W0Ou82ul99lHXLkeIwYtFiCKNAawaDL
- kYPr1XHQjYP9z4mDQgnjiy82VrX5D+k1ukJl7wbkSa2AEHo/7GG/Jd9iHSpXhcusN4en2bzaE
- oer8k7Uu7tQXE/Mo+VamaEQr0tLJx/m+fCEjbv9NoLWzbaA2vp2BHifHLrSB6nrhR4BGb3xy7
- jHdy523vRky8Nr+ASCiEfVu3grjZHVlT4OhqARVgj6zAewl8xUoXg9YLfGzBWMqudU14rqWov
- K8TQNNcVspjd4LA/G/Sia7ZdW1+n2b+xfs6JLJ0JbQX6sByImdHwr/CF0A1jmg/ipnZ01qvzS
- AzBuXqTs4IcNZTYBEUdSrocX8PFIXKf/CRJy9s37qEPutuQg0I8LRamrRBcFvt/8gD6GJSFc1
- T5P6mE6fNWtLZF7TOhKkZjKRUhlEOi7GIMxNLvXNyzP8DRors4elZ6Vdw2GEY8lUFNqiiPuLR
- 4RNzLSol8=
 
-=E2=80=A6
-> +++ b/scripts/genksyms/parse.y
-> @@ -482,12 +482,12 @@ enumerator_list:
->  enumerator:
->  	IDENT
->  		{
-> -			const char *name =3D strdup((*$1)->string);
-> +			const char *name =3D (*$1)->string;
->  			add_symbol(name, SYM_ENUM_CONST, NULL, 0);
->  		}
-=E2=80=A6
+On Mon, Dec 30, 2024 at 11:02=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> w=
+rote:
+>
+> On 12/28/24 16:45, Masahiro Yamada wrote:
+> > Commit 71810db27c1c ("modversions: treat symbol CRCs as 32 bit
+> > quantities") changed the CRC fields to s32 because the __kcrctab and
+> > __kcrctab_gpl sections contained relative references to the actual
+> > CRC values stored in the .rodata section when CONFIG_MODULE_REL_CRCS=3D=
+y.
+> >
+> > Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
+> > CONFIG_MODULE_REL_CRCS") removed this complexity. Now, the __kcrctab
+> > and __kcrctab_gpl sections directly contain the CRC values in all cases=
+.
+> >
+> > The genksyms tool outputs unsigned 32-bit CRC values, so u32 is preferr=
+ed
+> > over s32.
+> >
+> > No functional changes are intended.
+> >
+> > Regardless of this change, the CRC value is assigned to the u32 variabl=
+e,
+> > 'crcval' before the comparison, as seen in kernel/module/version.c:
+> >
+> >     crcval =3D *crc;
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+>
+> I understand the plan is for this to go through the kbuild tree with the
+> rest of the extended modversions + Rust support.
 
-I would find it safer and cleaner to separate such adjustments into anothe=
-r update step.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.13-rc5#n81
 
-Will code transformation concerns be reconsidered any more?
+Yes.
 
-Regards,
-Markus
+Now applied to linux-kbuild.
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
