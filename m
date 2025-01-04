@@ -1,61 +1,57 @@
-Return-Path: <linux-kbuild+bounces-5369-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5370-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1656BA0118A
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 02:38:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35C4A01275
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 06:05:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2FEB164BB4
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 01:37:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64DB0163CDF
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 05:05:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F9944EB38;
-	Sat,  4 Jan 2025 01:37:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83EBBAD27;
+	Sat,  4 Jan 2025 05:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oibeiaxk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Psc4ww0s"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF552381B9;
-	Sat,  4 Jan 2025 01:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D8B8467;
+	Sat,  4 Jan 2025 05:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735954675; cv=none; b=m2001/F5R/b2TQn/lOM7cOaO9H+my3Ba2bZrv0o+j7L3xRElAIFLTwjzLidV81IbZPA16LldSHTDq/0jAGs6m97kBKe5CGLo1Ljy29Lzoyjhtc4kKctd+pKmsjwTZELawk3QnQcu7E4WLU5t8o1Vm20GdlYjPLEp4uIw03BIRRw=
+	t=1735967119; cv=none; b=AelbZPlj6EbeUy1Lt0UrtDj0QEMaatfhLPSU+Vcib6ZMVI+WpO3YMD0wGTd4wN2gJ5frWBvWsp9pb2XvU1EpNI3r8ldeoICcxu3S9aTLoku8uMbtsCFO2WS78u3GXECdxcKt1QN/H1qkgepHVl3zKvU7QlqHXsQT+2PIWBl8vOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735954675; c=relaxed/simple;
-	bh=o8fDQX46pA+dvY8cqfL8dHgiiL6/GQLpQvWf2Mg87GI=;
+	s=arc-20240116; t=1735967119; c=relaxed/simple;
+	bh=SFvvwHZvyXane5xPqQlV/bih6it2oFawzJFgoFFKpIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkK/uAj1pOa0LTyEB2cVCxxYMoSSz2vmd3QoeR15UX4Q1+avhzw1kd4PjI0KEmjbfPbXw9wQ73+7PIX3wLUBMeU+U05AT++OcVjU4FY9edehCjiQmgul0UDEB7CQxQDAwNGJyJavCQ3fsYIdlYlWHszcYe5i34uFe1YN4Mnzh9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oibeiaxk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0D4C4CED6;
-	Sat,  4 Jan 2025 01:37:53 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=BLHESfTlvz1UccDIC6WtGsXGResXOcowIvHnEdd9tZVpTf4i3+7I7l9BvZDmP2cgBJwZglwtI/d0DbdcclPTibApCxfb2Gsgp9aXAilyi8oyKXzBIHkcPxLoXBvapaofJwg4D7+22EhwmWtYB0P+x/lRZdzZ/mi8FaBr7/3f/EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Psc4ww0s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64E65C4CED1;
+	Sat,  4 Jan 2025 05:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735954674;
-	bh=o8fDQX46pA+dvY8cqfL8dHgiiL6/GQLpQvWf2Mg87GI=;
+	s=k20201202; t=1735967117;
+	bh=SFvvwHZvyXane5xPqQlV/bih6it2oFawzJFgoFFKpIo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oibeiaxkeoIhcXxxV0NQ0LkXtQmlsSzXxAdP2VkNeBSUoIBV9z/dVr6X0lAJbypnt
-	 mJaz6CG+CcghdHbRkpdPl5REPPW/SOEQX/xmYZZV9MNZb6uuhGNiGQJ3wRUfPirdJ7
-	 gfajJH28946xAiCm1HPMdNf1um+X6wcgAEnshO3IY0ZubSW9o3kON4xjBMreiM+Cjj
-	 SZGHasUD3YVMVrEz9y/S3n4P1UuyTkieyeUpJez2d3BN0dQ2A/VGYGUSsUMRU0YaXv
-	 EDMQo+M6KIAEfKl5CQpRS78dWKvObyUJBMBpDphVBg72ZcV6wcro4NA7OfR2vZuVaS
-	 BLAkz8jmTQxwg==
-Date: Fri, 3 Jan 2025 17:37:52 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
+	b=Psc4ww0sMraK+0/TFj+uGFSpU3p8AaPse+6AdinNac33KeOkWl0I0fsdcVd8BVw5P
+	 oFe3MtHSfw0Wp4AD5B/qbH4HknilPXrx5w9EvC60PzDahUl8EKZ39bpWv8w0tRJQgh
+	 WZMKvPypQc/FvIvbGK0Awh4KQwugUhdJOtODYvmZoSJmeiBjCKSxpZbtxv74Jw8J89
+	 jegOejG0hbSuEhmrFyrexjnBQxQf1ipCxw2CgTP/2DrK8+BZbbTmFqAMnLrcyHEfw9
+	 Kwiilrl8e+0Sas5ULySE7P+n+Q4zzym3i0/34MKRSXeSjKXJN/HA+NB+NsZJ8B5uZp
+	 P/WQfI5LjZ6iw==
+Date: Fri, 3 Jan 2025 22:05:13 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-modules@vger.kernel.org
-Subject: Re: [PATCH RFC 2/2] module: Introduce hash-based integrity checking
-Message-ID: <Z3iQ8FI4J7rCzICF@bombadil.infradead.org>
-References: <20241225-module-hashes-v1-0-d710ce7a3fd1@weissschuh.net>
- <20241225-module-hashes-v1-2-d710ce7a3fd1@weissschuh.net>
+Cc: Christian Heusel <christian@heusel.eu>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: pacman-pkg: provide versioned linux-api-headers
+ package
+Message-ID: <20250104050513.GA1889730@ax162>
+References: <20250103-kbuild-pacman-pkg-provides-v1-1-d568b4b9cfd5@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,122 +61,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241225-module-hashes-v1-2-d710ce7a3fd1@weissschuh.net>
+In-Reply-To: <20250103-kbuild-pacman-pkg-provides-v1-1-d568b4b9cfd5@weissschuh.net>
 
-On Wed, Dec 25, 2024 at 11:52:00PM +0100, Thomas Weiﬂschuh wrote:
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index 7b329057997ad2ec310133ca84617d9bfcdb7e9f..57d317a6fa444195d0806e6bd7a2af6e338a7f01 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -344,6 +344,17 @@ config MODULE_DECOMPRESS
+On Fri, Jan 03, 2025 at 07:20:23PM +0100, Thomas Weiﬂschuh wrote:
+> The Arch Linux glibc package contains a versioned dependency on
+> "linux-api-headers". If the linux-api-headers package provided by
+> pacman-pkg does not specify an explicit version this dependency is not
+> satisfied.
+> Fix the dependency by providing an explicit version.
+> 
+> Fixes: c8578539deba ("kbuild: add script and target to generate pacman package")
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+
+Makes sense based on my understanding of provides.
+
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+> ---
+>  scripts/package/PKGBUILD | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+> index f83493838cf96ac9f209c6fc8f9b219705f9715b..dca706617adc76d01a09a86785815a48db15b099 100644
+> --- a/scripts/package/PKGBUILD
+> +++ b/scripts/package/PKGBUILD
+> @@ -103,7 +103,7 @@ _package-headers() {
 >  
->  	  If unsure, say N.
+>  _package-api-headers() {
+>  	pkgdesc="Kernel headers sanitized for use in userspace"
+> -	provides=(linux-api-headers)
+> +	provides=(linux-api-headers="${pkgver}")
+>  	conflicts=(linux-api-headers)
 >  
-> +config MODULE_HASHES
-> +	bool "Module hash validation"
-> +	depends on !MODULE_SIG
-
-Why are these mutually exclusive? Can't you want module signatures *and*
-this as well? What distro which is using module signatures would switch
-to this as an alternative instead? The help menu does not clarify any of
-this at all, and neither does the patch.
-
-> +	select CRYPTO_LIB_SHA256
-> +	help
-> +	  Validate modules by their hashes.
-> +	  Only modules built together with the main kernel image can be
-> +	  validated that way.
-> +
-> +	  Also see the warning in MODULE_SIG about stripping modules.
-> +
->  config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
->  	bool "Allow loading of modules with missing namespace imports"
->  	help
-> diff --git a/kernel/module/Makefile b/kernel/module/Makefile
-> index 50ffcc413b54504db946af4dce3b41dc4aece1a5..6fe0c14ca5a05b49c1161fcfa8aaa130f89b70e1 100644
-> --- a/kernel/module/Makefile
-> +++ b/kernel/module/Makefile
-> @@ -23,3 +23,4 @@ obj-$(CONFIG_KGDB_KDB) += kdb.o
->  obj-$(CONFIG_MODVERSIONS) += version.o
->  obj-$(CONFIG_MODULE_UNLOAD_TAINT_TRACKING) += tracking.o
->  obj-$(CONFIG_MODULE_STATS) += stats.o
-> +obj-$(CONFIG_MODULE_HASHES) += hashes.o
-> diff --git a/kernel/module/hashes.c b/kernel/module/hashes.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..f19eccb0e3754e3edbf5cdea6d418da5c6ae6c65
-> --- /dev/null
-> +++ b/kernel/module/hashes.c
-> @@ -0,0 +1,51 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#define pr_fmt(fmt) "module/hash: " fmt
-> +
-> +#include <linux/int_log.h>
-> +#include <linux/module_hashes.h>
-> +#include <linux/module.h>
-> +#include <crypto/sha2.h>
-> +#include "internal.h"
-> +
-> +static inline size_t module_hashes_count(void)
-> +{
-> +	return (__stop_module_hashes - __start_module_hashes) / MODULE_HASHES_HASH_SIZE;
-> +}
-> +
-> +static __init __maybe_unused int module_hashes_init(void)
-> +{
-> +	size_t num_hashes = module_hashes_count();
-> +	int num_width = (intlog10(num_hashes) >> 24) + 1;
-> +	size_t i;
-> +
-> +	pr_debug("Builtin hashes (%zu):\n", num_hashes);
-> +
-> +	for (i = 0; i < num_hashes; i++)
-> +		pr_debug("%*zu %*phN\n", num_width, i,
-> +			 (int)sizeof(module_hashes[i]), module_hashes[i]);
-> +
-> +	return 0;
-> +}
-> +
-> +#ifdef DEBUG
-
-We have MODULE_DEBUG so just add depend on that and leverage that for
-this instead.
-
-
-> diff --git a/scripts/module-hashes.sh b/scripts/module-hashes.sh
-> new file mode 100755
-> index 0000000000000000000000000000000000000000..7ca4e84f4c74266b9902d9f377aa2c901a06f995
-> --- /dev/null
-> +++ b/scripts/module-hashes.sh
-> @@ -0,0 +1,26 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +set -e
-> +set -u
-> +set -o pipefail
-> +
-> +prealloc="${1:-}"
-> +
-> +echo "#include <linux/module_hashes.h>"
-> +echo
-> +echo "const u8 module_hashes[][MODULE_HASHES_HASH_SIZE] __module_hashes_section = {"
-> +
-> +for mod in $(< modules.order); do
-> +	mod="${mod/%.o/.ko}"
-> +	if [ "$prealloc" = "prealloc" ]; then
-> +		modhash=""
-> +	else
-> +		modhash="$(cksum -a sha256 --raw "$mod" | hexdump -v -e '"0x" 1/1 "%02x, "')"
-> +	fi
-> +	echo "	/* $mod */"
-> +	echo "	{ $modhash },"
-> +	echo
-> +done
-> +
-> +echo "};"
-
-Parallelize this.
-
-  Luis
+>  	_prologue
+> 
+> ---
+> base-commit: 0bc21e701a6ffacfdde7f04f87d664d82e8a13bf
+> change-id: 20250103-kbuild-pacman-pkg-provides-06b02d213e75
+> 
+> Best regards,
+> -- 
+> Thomas Weiﬂschuh <linux@weissschuh.net>
+> 
 
