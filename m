@@ -1,196 +1,160 @@
-Return-Path: <linux-kbuild+bounces-5371-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5372-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20C2A012C8
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 07:30:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14231A013BA
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 10:43:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B75D18848D3
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 06:30:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A05C18814C5
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 09:43:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A85E01534FB;
-	Sat,  4 Jan 2025 06:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D99B418871F;
+	Sat,  4 Jan 2025 09:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="QJmLbxxK"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="kc9ul9fr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF8914F123;
-	Sat,  4 Jan 2025 06:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA3E28FD;
+	Sat,  4 Jan 2025 09:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735972248; cv=none; b=nohYPRiryor5GO8sxofSCwxdZNVMbD0t3ipWT3OdnHtYNWNaNg4Mef/ZjS5372yuNB4vVt29IidTRa1D2YVQVsSUGQyVfBi9MdkK9KhctybQnbSbYK1Jo3hbsu8fsBu1zbdVstfoyAWlJszhNHP/wEmpTz3pe355C6Jh2+2u8u0=
+	t=1735983817; cv=none; b=Mvf/UTpz8+OQJCs/7bzHYeghpKjLyjoLmzi87fGg1p/ge+EfsB9vS/cYVqVaP+ykMPguA6Avc3l9vSfRu1/z/7+1R0zj4/y+WtKzM2P6quWlLfUdEfs8MOMuaybs7nziSsreKo8SFDnL6yNrtaviGZNm35mOwfIeLDIFxLtuqXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735972248; c=relaxed/simple;
-	bh=+VQlci/lpWUmZtr7JVADCGsdOB2jTAKsJBZPjdGGBYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nwTt9ERmrqFg/hGAw62KEOdxS7WarJz+/+Plc1EKUvfEjiybmmOGX6BT4/v5MNoGOow3paAqn7tGuh10yFzxD/vaRlS40anLRBdCfYKKP1ic/LLoJhchH4M81AV2+q7ZOZzwiTHszp9DjvfV4V9PeRuSBRFP4TEHlB8O8YnVOLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=QJmLbxxK; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1735972239;
-	bh=+VQlci/lpWUmZtr7JVADCGsdOB2jTAKsJBZPjdGGBYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QJmLbxxKkr86pkCAnynomJW9gzFgc8oHiUWfTE31PQu8+BN5xbKz3N47y05pW12Zc
-	 NDBf1GvgvkQJvtk9u9FKRNPn8HJvlBgxHHRfB7yyRFqgY9UQofMABPv6A+oHyLT3wJ
-	 QSAFPQlWqh2U/LefgvkI1f8DiDKaibGnHBehVIHs=
-Date: Sat, 4 Jan 2025 07:30:39 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Arnd Bergmann <arnd@arndb.de>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-modules@vger.kernel.org
-Subject: Re: [PATCH RFC 2/2] module: Introduce hash-based integrity checking
-Message-ID: <5c2ef82a-7558-4397-827d-523f8fe4895b@t-8ch.de>
-References: <20241225-module-hashes-v1-0-d710ce7a3fd1@weissschuh.net>
- <20241225-module-hashes-v1-2-d710ce7a3fd1@weissschuh.net>
- <Z3iQ8FI4J7rCzICF@bombadil.infradead.org>
+	s=arc-20240116; t=1735983817; c=relaxed/simple;
+	bh=5p7VWTo4tV7UGtLUc5M5YI2hbHUp+A2ZGE52Mew/oOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N3y29ybV9oTt0ZQXl42bYBkvo62LSR35H3JaFPsHJRZLjWNGre4rcvwIhmJfCvMKJ+QD71/y8PVc0smgHC4kGyIKZRMCkLvYuZIPMPw6Bj/Y6wGh5gR8HvBNsB+gNZJ8XGBCoMPkRDX0WWl0IxzkAFVtgQypVB66hIEUTGkxjj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=kc9ul9fr; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=CltqrSu3WXvQ7OyzqrcmDeIhr4y6F4rusdMCoOgj+Gc=; t=1735983815;
+	x=1736415815; b=kc9ul9frqoKHk0xe0og3eAWJMoz1XlttNXu/vI6jzSM0XajsaZmRJ99ERKn/O
+	KwEljbBb+Voe7We5s9iWNF20b8rYz4C/J55rGVf5QFbOWN6pkVTf1WhmQLx5lakxIeu8tjlR3wESF
+	imJBrXiFtpdrRl357YxiWGTMxjgWe+nCsZZErtr2rF6hR19f+pZI8qPsHvYc/EU7MT3iETGvrpyZ9
+	sEUXRPTtoPpB7m2UHgUP0QnaMCp+dHvkR4KqAK8vBQ2DlZmq2TPq5pOYGgZ6G6MLIxxYqk0Zcca6r
+	18PnU0aov3JLDpe0hYEmM+MqGgv5Fkg7yaecoCT3Ze1tfvkuJQ==;
+Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
+	id 1tU0gt-004UPr-1T;
+	Sat, 04 Jan 2025 10:43:31 +0100
+Message-ID: <54fc582e-1da0-410d-b410-316792e3472b@leemhuis.info>
+Date: Sat, 4 Jan 2025 10:43:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z3iQ8FI4J7rCzICF@bombadil.infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] module: sign with sha512 instead of sha1 by default
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen
+ <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
+ linux-modules@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <52ee32c0c92afc4d3263cea1f8a1cdc809728aff.1729088288.git.linux@leemhuis.info>
+ <ZxQ5QJAa-iv4S6sw@bombadil.infradead.org>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <ZxQ5QJAa-iv4S6sw@bombadil.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1735983815;e4ce9b42;
+X-HE-SMSGID: 1tU0gt-004UPr-1T
 
-Hi Luis,
-
-On 2025-01-03 17:37:52-0800, Luis Chamberlain wrote:
-> On Wed, Dec 25, 2024 at 11:52:00PM +0100, Thomas Weißschuh wrote:
-> > diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> > index 7b329057997ad2ec310133ca84617d9bfcdb7e9f..57d317a6fa444195d0806e6bd7a2af6e338a7f01 100644
-> > --- a/kernel/module/Kconfig
-> > +++ b/kernel/module/Kconfig
-> > @@ -344,6 +344,17 @@ config MODULE_DECOMPRESS
-> >  
-> >  	  If unsure, say N.
-> >  
-> > +config MODULE_HASHES
-> > +	bool "Module hash validation"
-> > +	depends on !MODULE_SIG
+On 20.10.24 00:57, Luis Chamberlain wrote:
+> On Wed, Oct 16, 2024 at 04:18:41PM +0200, Thorsten Leemhuis wrote:
+>> Switch away from using sha1 for module signing by default and use the
+>> more modern sha512 instead, which is what among others Arch, Fedora,
+>> RHEL, and Ubuntu are currently using for their kernels.
+>>
+>> Sha1 has not been considered secure against well-funded opponents since
+>> 2005[1]; since 2011 the NIST and other organizations furthermore
+>> recommended its replacement[2]. This is why OpenSSL on RHEL9, Fedora
+>> Linux 41+[3], and likely some other current and future distributions
+>> reject the creation of sha1 signatures, which leads to a build error of
+>> allmodconfig configurations:
+>>
+>>   80A20474797F0000:error:03000098:digital envelope routines:do_sigver_init:invalid digest:crypto/evp/m_sigver.c:342:
+>>   make[4]: *** [.../certs/Makefile:53: certs/signing_key.pem] Error 1
+>>   make[4]: *** Deleting file 'certs/signing_key.pem'
+>>   make[4]: *** Waiting for unfinished jobs....
+>>   make[3]: *** [.../scripts/Makefile.build:478: certs] Error 2
+>>   make[2]: *** [.../Makefile:1936: .] Error 2
+>>   make[1]: *** [.../Makefile:224: __sub-make] Error 2
+>>   make[1]: Leaving directory '...'
+>>   make: *** [Makefile:224: __sub-make] Error 2
+>>
+>> This change makes allmodconfig work again and sets a default that is
+>> more appropriate for current and future users, too.
+>>
+>> Link: https://www.schneier.com/blog/archives/2005/02/cryptanalysis_o.html [1]
+>> Link: https://csrc.nist.gov/projects/hash-functions [2]
+>> Link: https://fedoraproject.org/wiki/Changes/OpenSSLDistrustsha1SigVer [3]
+>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 > 
-> Why are these mutually exclusive? Can't you want module signatures *and*
-> this as well? What distro which is using module signatures would switch
-> to this as an alternative instead? The help menu does not clarify any of
-> this at all, and neither does the patch.
-
-The exclusivity is to keep the initial RFC patch small.
-The cover letter lists "Enable coexistence with MODULE_SIG" as
-a further improvement.
-
-In general this MODULE_HASHES would be used by distros which are
-currently using the build-time generated signing key with
-CONFIG_MODULE_SIG_KEY=certs/signing_key.pem.
-
-More concretely the Arch Linux team has expressed interest.
-
-> > +	select CRYPTO_LIB_SHA256
-> > +	help
-> > +	  Validate modules by their hashes.
-> > +	  Only modules built together with the main kernel image can be
-> > +	  validated that way.
-> > +
-> > +	  Also see the warning in MODULE_SIG about stripping modules.
-> > +
-> >  config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-> >  	bool "Allow loading of modules with missing namespace imports"
-> >  	help
-> > diff --git a/kernel/module/Makefile b/kernel/module/Makefile
-> > index 50ffcc413b54504db946af4dce3b41dc4aece1a5..6fe0c14ca5a05b49c1161fcfa8aaa130f89b70e1 100644
-> > --- a/kernel/module/Makefile
-> > +++ b/kernel/module/Makefile
-> > @@ -23,3 +23,4 @@ obj-$(CONFIG_KGDB_KDB) += kdb.o
-> >  obj-$(CONFIG_MODVERSIONS) += version.o
-> >  obj-$(CONFIG_MODULE_UNLOAD_TAINT_TRACKING) += tracking.o
-> >  obj-$(CONFIG_MODULE_STATS) += stats.o
-> > +obj-$(CONFIG_MODULE_HASHES) += hashes.o
-> > diff --git a/kernel/module/hashes.c b/kernel/module/hashes.c
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..f19eccb0e3754e3edbf5cdea6d418da5c6ae6c65
-> > --- /dev/null
-> > +++ b/kernel/module/hashes.c
-> > @@ -0,0 +1,51 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +
-> > +#define pr_fmt(fmt) "module/hash: " fmt
-> > +
-> > +#include <linux/int_log.h>
-> > +#include <linux/module_hashes.h>
-> > +#include <linux/module.h>
-> > +#include <crypto/sha2.h>
-> > +#include "internal.h"
-> > +
-> > +static inline size_t module_hashes_count(void)
-> > +{
-> > +	return (__stop_module_hashes - __start_module_hashes) / MODULE_HASHES_HASH_SIZE;
-> > +}
-> > +
-> > +static __init __maybe_unused int module_hashes_init(void)
-> > +{
-> > +	size_t num_hashes = module_hashes_count();
-> > +	int num_width = (intlog10(num_hashes) >> 24) + 1;
-> > +	size_t i;
-> > +
-> > +	pr_debug("Builtin hashes (%zu):\n", num_hashes);
-> > +
-> > +	for (i = 0; i < num_hashes; i++)
-> > +		pr_debug("%*zu %*phN\n", num_width, i,
-> > +			 (int)sizeof(module_hashes[i]), module_hashes[i]);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +#ifdef DEBUG
+> Thanks!
 > 
-> We have MODULE_DEBUG so just add depend on that and leverage that for
-> this instead.
-
-Ack.
-
-> > diff --git a/scripts/module-hashes.sh b/scripts/module-hashes.sh
-> > new file mode 100755
-> > index 0000000000000000000000000000000000000000..7ca4e84f4c74266b9902d9f377aa2c901a06f995
-> > --- /dev/null
-> > +++ b/scripts/module-hashes.sh
-> > @@ -0,0 +1,26 @@
-> > +#!/bin/bash
-> > +# SPDX-License-Identifier: GPL-2.0-or-later
-> > +
-> > +set -e
-> > +set -u
-> > +set -o pipefail
-> > +
-> > +prealloc="${1:-}"
-> > +
-> > +echo "#include <linux/module_hashes.h>"
-> > +echo
-> > +echo "const u8 module_hashes[][MODULE_HASHES_HASH_SIZE] __module_hashes_section = {"
-> > +
-> > +for mod in $(< modules.order); do
-> > +	mod="${mod/%.o/.ko}"
-> > +	if [ "$prealloc" = "prealloc" ]; then
-> > +		modhash=""
-> > +	else
-> > +		modhash="$(cksum -a sha256 --raw "$mod" | hexdump -v -e '"0x" 1/1 "%02x, "')"
-> > +	fi
-> > +	echo "	/* $mod */"
-> > +	echo "	{ $modhash },"
-> > +	echo
-> > +done
-> > +
-> > +echo "};"
+> Tested-by: kdevops <kdevops@lists.linux.dev> [0]
+> Links: https://github.com/linux-kdevops/linux-modules-kpd/actions/runs/11420092929/job/31775404330 # [0]
 > 
-> Parallelize this.
+> Applied and pushed!
 
-Ack.
+Lo! Just wandering: what happened to that patch? That reply made me
+assume that the patch was heading towards mainline, but it seems it's
+not even in -next. Were there problems and it was dropped or something?
+
+Ciao, Thorsten
 
