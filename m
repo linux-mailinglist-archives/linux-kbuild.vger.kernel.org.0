@@ -1,97 +1,186 @@
-Return-Path: <linux-kbuild+bounces-5368-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5369-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C9BA01083
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 00:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1656BA0118A
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 02:38:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0044D16367B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2025 23:01:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2FEB164BB4
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2025 01:37:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4817F1C0DF3;
-	Fri,  3 Jan 2025 23:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F9944EB38;
+	Sat,  4 Jan 2025 01:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oibeiaxk"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085671B4233;
-	Fri,  3 Jan 2025 23:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF552381B9;
+	Sat,  4 Jan 2025 01:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735945288; cv=none; b=rMEAbNE4YPp9r7y2/HHhzZZ6yO4Gy+q7W+CXn8zIKF2dvdSK1uRl7q1OYsTSiktfNEMoBUSb78Ly3LRZnA8BXOozpChy7YkJqNi6g3P6W1drZMwZ06dzOOKqPoczVWBEu/Ae0AMJKRsxE0t1Kp1WiynXU5VuWwUG0kalzr6f5/4=
+	t=1735954675; cv=none; b=m2001/F5R/b2TQn/lOM7cOaO9H+my3Ba2bZrv0o+j7L3xRElAIFLTwjzLidV81IbZPA16LldSHTDq/0jAGs6m97kBKe5CGLo1Ljy29Lzoyjhtc4kKctd+pKmsjwTZELawk3QnQcu7E4WLU5t8o1Vm20GdlYjPLEp4uIw03BIRRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735945288; c=relaxed/simple;
-	bh=ygKZEWWLkAua1jdISLtrBfJeTUhY4u4X3AGmkp9dDto=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MTMTy2+Yk8N6usYqV3+19p9zajlUBvb534TaMVBEAVclUq4R2hO1od2gLzraJV+TH6o51E2jwts3Yq0Nj194M8M1wSfb686pUWheOZMz3uaMyag4f7NonU7eTfwXbtF640CCR7FEQalFH0xe6nIrmDAn48HrFcyDXQzTQrS8vTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A609FC4CEDF;
-	Fri,  3 Jan 2025 23:01:24 +0000 (UTC)
-Date: Fri, 3 Jan 2025 18:02:43 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, bpf <bpf@vger.kernel.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>, Peter Zijlstra
- <peterz@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Zheng Yejian
- <zhengyejian1@huawei.com>, Martin  Kelly <martin.kelly@crowdstrike.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Josh Poimboeuf
- <jpoimboe@redhat.com>
-Subject: Re: [PATCH v2 13/16] scripts/sorttable: Move code from sorttable.h
- into sorttable.c
-Message-ID: <20250103180243.53cc9e98@gandalf.local.home>
-In-Reply-To: <20250102232650.834242633@goodmis.org>
-References: <20250102232609.529842248@goodmis.org>
-	<20250102232650.834242633@goodmis.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1735954675; c=relaxed/simple;
+	bh=o8fDQX46pA+dvY8cqfL8dHgiiL6/GQLpQvWf2Mg87GI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bkK/uAj1pOa0LTyEB2cVCxxYMoSSz2vmd3QoeR15UX4Q1+avhzw1kd4PjI0KEmjbfPbXw9wQ73+7PIX3wLUBMeU+U05AT++OcVjU4FY9edehCjiQmgul0UDEB7CQxQDAwNGJyJavCQ3fsYIdlYlWHszcYe5i34uFe1YN4Mnzh9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oibeiaxk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0D4C4CED6;
+	Sat,  4 Jan 2025 01:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735954674;
+	bh=o8fDQX46pA+dvY8cqfL8dHgiiL6/GQLpQvWf2Mg87GI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oibeiaxkeoIhcXxxV0NQ0LkXtQmlsSzXxAdP2VkNeBSUoIBV9z/dVr6X0lAJbypnt
+	 mJaz6CG+CcghdHbRkpdPl5REPPW/SOEQX/xmYZZV9MNZb6uuhGNiGQJ3wRUfPirdJ7
+	 gfajJH28946xAiCm1HPMdNf1um+X6wcgAEnshO3IY0ZubSW9o3kON4xjBMreiM+Cjj
+	 SZGHasUD3YVMVrEz9y/S3n4P1UuyTkieyeUpJez2d3BN0dQ2A/VGYGUSsUMRU0YaXv
+	 EDMQo+M6KIAEfKl5CQpRS78dWKvObyUJBMBpDphVBg72ZcV6wcro4NA7OfR2vZuVaS
+	 BLAkz8jmTQxwg==
+Date: Fri, 3 Jan 2025 17:37:52 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-modules@vger.kernel.org
+Subject: Re: [PATCH RFC 2/2] module: Introduce hash-based integrity checking
+Message-ID: <Z3iQ8FI4J7rCzICF@bombadil.infradead.org>
+References: <20241225-module-hashes-v1-0-d710ce7a3fd1@weissschuh.net>
+ <20241225-module-hashes-v1-2-d710ce7a3fd1@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241225-module-hashes-v1-2-d710ce7a3fd1@weissschuh.net>
 
-On Thu, 02 Jan 2025 18:26:22 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
-
-> diff --git a/scripts/sorttable.c b/scripts/sorttable.c
-> index 20615de18276..da9e1a82e886 100644
-> --- a/scripts/sorttable.c
-> +++ b/scripts/sorttable.c
-> @@ -327,10 +327,420 @@ static inline void *get_index(void *start, int entsize, int index)
->  	return start + (entsize * index);
->  }
+On Wed, Dec 25, 2024 at 11:52:00PM +0100, Thomas Weißschuh wrote:
+> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+> index 7b329057997ad2ec310133ca84617d9bfcdb7e9f..57d317a6fa444195d0806e6bd7a2af6e338a7f01 100644
+> --- a/kernel/module/Kconfig
+> +++ b/kernel/module/Kconfig
+> @@ -344,6 +344,17 @@ config MODULE_DECOMPRESS
 >  
-> -/* 32 bit and 64 bit are very similar */
-> -#include "sorttable.h"
-> -#define SORTTABLE_64
-> -#include "sorttable.h"
+>  	  If unsure, say N.
+>  
+> +config MODULE_HASHES
+> +	bool "Module hash validation"
+> +	depends on !MODULE_SIG
+
+Why are these mutually exclusive? Can't you want module signatures *and*
+this as well? What distro which is using module signatures would switch
+to this as an alternative instead? The help menu does not clarify any of
+this at all, and neither does the patch.
+
+> +	select CRYPTO_LIB_SHA256
+> +	help
+> +	  Validate modules by their hashes.
+> +	  Only modules built together with the main kernel image can be
+> +	  validated that way.
 > +
-
-[..]
-
+> +	  Also see the warning in MODULE_SIG about stripping modules.
 > +
-> +#if defined(SORTTABLE_64) && defined(UNWINDER_ORC_ENABLED)
-
-My tests started to fail after this patch. It was the stack tracing tests
-on x86_64. This patch removed the define of SORTTABLE_64, which stopped the
-orc unwinder section from being sorted. :-p
-
-Oops! When I post the stand-a-lone patches, this will be fixed.
-
--- Steve
-
-
-> +/* ORC unwinder only support X86_64 */
-> +#include <asm/orc_types.h>
+>  config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
+>  	bool "Allow loading of modules with missing namespace imports"
+>  	help
+> diff --git a/kernel/module/Makefile b/kernel/module/Makefile
+> index 50ffcc413b54504db946af4dce3b41dc4aece1a5..6fe0c14ca5a05b49c1161fcfa8aaa130f89b70e1 100644
+> --- a/kernel/module/Makefile
+> +++ b/kernel/module/Makefile
+> @@ -23,3 +23,4 @@ obj-$(CONFIG_KGDB_KDB) += kdb.o
+>  obj-$(CONFIG_MODVERSIONS) += version.o
+>  obj-$(CONFIG_MODULE_UNLOAD_TAINT_TRACKING) += tracking.o
+>  obj-$(CONFIG_MODULE_STATS) += stats.o
+> +obj-$(CONFIG_MODULE_HASHES) += hashes.o
+> diff --git a/kernel/module/hashes.c b/kernel/module/hashes.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f19eccb0e3754e3edbf5cdea6d418da5c6ae6c65
+> --- /dev/null
+> +++ b/kernel/module/hashes.c
+> @@ -0,0 +1,51 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
 > +
-> +#define ERRSTR_MAXSZ	256
+> +#define pr_fmt(fmt) "module/hash: " fmt
 > +
+> +#include <linux/int_log.h>
+> +#include <linux/module_hashes.h>
+> +#include <linux/module.h>
+> +#include <crypto/sha2.h>
+> +#include "internal.h"
+> +
+> +static inline size_t module_hashes_count(void)
+> +{
+> +	return (__stop_module_hashes - __start_module_hashes) / MODULE_HASHES_HASH_SIZE;
+> +}
+> +
+> +static __init __maybe_unused int module_hashes_init(void)
+> +{
+> +	size_t num_hashes = module_hashes_count();
+> +	int num_width = (intlog10(num_hashes) >> 24) + 1;
+> +	size_t i;
+> +
+> +	pr_debug("Builtin hashes (%zu):\n", num_hashes);
+> +
+> +	for (i = 0; i < num_hashes; i++)
+> +		pr_debug("%*zu %*phN\n", num_width, i,
+> +			 (int)sizeof(module_hashes[i]), module_hashes[i]);
+> +
+> +	return 0;
+> +}
+> +
+> +#ifdef DEBUG
+
+We have MODULE_DEBUG so just add depend on that and leverage that for
+this instead.
+
+
+> diff --git a/scripts/module-hashes.sh b/scripts/module-hashes.sh
+> new file mode 100755
+> index 0000000000000000000000000000000000000000..7ca4e84f4c74266b9902d9f377aa2c901a06f995
+> --- /dev/null
+> +++ b/scripts/module-hashes.sh
+> @@ -0,0 +1,26 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +set -e
+> +set -u
+> +set -o pipefail
+> +
+> +prealloc="${1:-}"
+> +
+> +echo "#include <linux/module_hashes.h>"
+> +echo
+> +echo "const u8 module_hashes[][MODULE_HASHES_HASH_SIZE] __module_hashes_section = {"
+> +
+> +for mod in $(< modules.order); do
+> +	mod="${mod/%.o/.ko}"
+> +	if [ "$prealloc" = "prealloc" ]; then
+> +		modhash=""
+> +	else
+> +		modhash="$(cksum -a sha256 --raw "$mod" | hexdump -v -e '"0x" 1/1 "%02x, "')"
+> +	fi
+> +	echo "	/* $mod */"
+> +	echo "	{ $modhash },"
+> +	echo
+> +done
+> +
+> +echo "};"
+
+Parallelize this.
+
+  Luis
 
