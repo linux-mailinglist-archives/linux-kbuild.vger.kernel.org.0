@@ -1,122 +1,181 @@
-Return-Path: <linux-kbuild+bounces-5374-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5376-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50F6A019E4
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 16:01:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1EFA01A62
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 17:22:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF3E618834C3
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 15:01:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56368162773
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 16:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 179BB154BFC;
-	Sun,  5 Jan 2025 15:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rWERAvc6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FFB156228;
+	Sun,  5 Jan 2025 16:22:21 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C157215573D;
-	Sun,  5 Jan 2025 15:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80D01DA4E;
+	Sun,  5 Jan 2025 16:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736089289; cv=none; b=OeAox09TUlgiYu8v/ldkde1ze+bJRnhKV571vIL49QVc91c2tqN0tu567xI/Ykr4HetzbU+JcuRVy6ATZW6jNP2Acyt7EA10qk0gOto9hhhfokREHSycQk57FiSE3OvQwhg9MKo6OIkMOTNaPhv0q8wOL381OB/GHlRGQSXO2Lw=
+	t=1736094140; cv=none; b=XUyJeig5mDAW3+cIid0gkGAJM+eh2sd7YU1tBWuZPoyOM2+vndh685vkTleYWbIiKF7S1UwPbD9k7dcko/UoMVVvpssA8FoPjkQl3srEcfehmKHL/68zknqxlXtEYongGHS8vvmz+13RDJ8O6SoGgwbdH4zcZV07zUx267fvCKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736089289; c=relaxed/simple;
-	bh=xRD9x89Vk8p0tQFcx7eVi/Oqul9bUM/WnYJqpCYf2lw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=nS15VSuac3li41xBL8KZge4wBOBNSiNNtHzOXSeNmxiG9hgRX/FApGCKgjB1jkAvuhkGbKZMfIfXRGDREBpmhn+NTRrw9Np1ZMS7bqwjyJgnDycRdz9+PomuOSVM2sz8371jUf1I/5neFIUhYcMuFyR6OYZKiKQ96nrsjABNkIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rWERAvc6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A99C4CED0;
-	Sun,  5 Jan 2025 15:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736089289;
-	bh=xRD9x89Vk8p0tQFcx7eVi/Oqul9bUM/WnYJqpCYf2lw=;
-	h=From:Date:Subject:To:From;
-	b=rWERAvc6TEftDHw8gQPEn7+RyPCAmsIlG1oCc0NJ79kaBy+Mu9rgqqxu985VmfZAo
-	 Rs06sD4WYzyM/sZRl0Vnch8mMWuwJUWHkbcJJF5DoSd5OTmQNCGPuSg9RqhdUDRcvV
-	 if/YF+wffgQTz5HOnqxFt6fMk1XkuB8ZvvCV3LMaTr4cGiarQg+6YGtmCFggoigo+N
-	 ZPxoBmFP3uOtdKICeP8VHJE5AWCeoGXrsOUbiSRbbZ+f9XGAeDvS6gfZr3aYSgGPO+
-	 6au28eMu837kA95zfudLDfhXL3V6bbndtD+9fOesjaFkdFWKpbDb3pGsQpOo9uu54/
-	 /62uKtU+tqiZg==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5401be44b58so14531981e87.0;
-        Sun, 05 Jan 2025 07:01:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU6NKkBySxjR/HA8fvf21cAXee0D8VJUq1CrPTTDgLqDy5dZTa6D/Stzx2sV8wdX1ApAar8uBd6h1EXCTw=@vger.kernel.org, AJvYcCUh2V72HweGUAppESXD6dsRzu4Jh4vstfo9zbQc9NAkrj0JiWPgvkNXmaOVcgxf6OGAg2H6i6DCwdpYcCuS@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyucy+Ys8iCowFf7MtUt18sQErBd8MCL4oyXndiJ6vQE47XwLbb
-	eNMkhEFx2DbmCNVWnWvyac0mqVO/6Yjmh5uMDSR3REU76o1/qUq8C4d9DBZ7kj/aBegvXlUZ4wm
-	pyP73aModSc0+zQGBkq20+3GFXVI=
-X-Google-Smtp-Source: AGHT+IGdknyUW5J3sW1T6vRdGStcNUE3LOUuvlL8gzTmdR+gHRwu/F0BvKEaA7VRkKyjN3/cgYCMwVDxd+VPoNnpKoE=
-X-Received: by 2002:a05:6512:3e1e:b0:540:1d6c:f1bf with SMTP id
- 2adb3069b0e04-542295254a0mr15802733e87.11.1736089286852; Sun, 05 Jan 2025
- 07:01:26 -0800 (PST)
+	s=arc-20240116; t=1736094140; c=relaxed/simple;
+	bh=29UOMsvhvxWUG9Ns0MDq/rK22y+w9nzb3Bqr1M/V/Ao=;
+	h=Message-ID:Date:From:To:Cc:Subject; b=cO6ywQ3TD8h2MAaKNVnQh54ojoafwNjdl/LMqJwm89Q+VHYIcPYoLhST98PXe/ZslMZcUqTajA+LV+NaDCp78fFgWw86I47cblWew6RBnMbMupbVHQjbro4c6p/k1Qi+Y3ZDok3LoPuxYYiiLN+6OCgruAJerIqYov6kStLF8vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F6DC4CED0;
+	Sun,  5 Jan 2025 16:22:20 +0000 (UTC)
+Received: from rostedt by gandalf with local (Exim 4.98)
+	(envelope-from <rostedt@goodmis.org>)
+	id 1tUTPk-00000008EqH-0MGm;
+	Sun, 05 Jan 2025 11:23:44 -0500
+Message-ID: <20250105162211.971039541@goodmis.org>
+User-Agent: quilt/0.68
+Date: Sun, 05 Jan 2025 11:22:11 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ bpf <bpf@vger.kernel.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>,
+ Zheng Yejian <zhengyejian1@huawei.com>,
+ Martin  Kelly <martin.kelly@crowdstrike.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: [PATCH 00/14] scripts/sorttable: Rewrite the accessing of the Elf data fields
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 6 Jan 2025 00:00:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQe5cn_Jnr++a4Dg0Qhrxc88dvwTji1Z-JbYimE3xD39A@mail.gmail.com>
-Message-ID: <CAK7LNAQe5cn_Jnr++a4Dg0Qhrxc88dvwTji1Z-JbYimE3xD39A@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v6.13-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello Linus,
-
-Please pull some Kbuild fixes.
-Thank you.
 
 
-The following changes since commit 4bbf9020becbfd8fc2c3da790855b7042fad455b=
-:
+While looking at getting rid of the place holder __ftrace_invalid_address___
+from the available_filter_functions file[1], I noticed that the sorttable.[ch]
+code could use a major clean up!
 
-  Linux 6.13-rc4 (2024-12-22 13:22:21 -0800)
+This series is that clean up of the scripts/sorttable.c code. The sorttable.c
+was a copy from recordmcount.c which is very hard to maintain. That's because
+it uses macro helpers and places the code in a header file sorttable.h to
+handle both the 64 bit and 32 bit version of  the Elf structures. It also uses
+_r()/r()/r2() wrappers around accessing the data which will read the 64 bit or
+32 bit version of the data as well as handle endianess. If the wrong wrapper is
+used, an invalid value will result, and this has been a cause for bugs in the
+past. In fact the new ORC code doesn't even use it. That's fine because ORC is
+only for 64 bit x86 which is the default parsing.
 
-are available in the Git repository at:
+Instead of having a bunch of macros defined and then include the code
+twice from a header, the Elf structures are each wrapped in a union.
+The union holds the 64 bit and 32 bit version of the needed structure.
+To access the values, helper function pointers are used instead of
+defining a function. For example, instead of having:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v6.13-3
+  In sorttable.h:
 
-for you to fetch changes up to 385443057f475e775fe1c66e77d4be9727f40973:
+     #undef Elf_Ehdr
+     #undef Elf_Shdr
 
-  kbuild: pacman-pkg: provide versioned linux-api-headers package
-(2025-01-05 23:19:17 +0900)
+     #ifdef SORTTABLE_64
+     # define Elf_Ehdr		Elf64_Ehdr
+     # define Elf_Shdr		Elf64_Shdr
+     [..]
+     # define _r			r8
+     #else
+     # define Elf_Ehdr		Elf32_Ehdr
+     # define Elf_Shdr		Elf32_Shdr
+     [..]
+     # define _r			r
+     #endif
 
-----------------------------------------------------------------
-Kbuild fixes for v6.13 (3rd)
+     [..]
+     Elf_Shdr *s, *shdr = (Elf_Shdr *)((char *)ehdr + _r(&ehdr->e_shoff));
 
- - Fix escaping of '$' in scripts/mksysmap
+  In sorttable.c:
 
- - Fix a modpost crash observed with the latest binutils
+     #include "sorttable.h"
+     #define SORTTABLE_64
+     #include "sorttable.h"
 
- - Fix 'provides' in the linux-api-headers pacman package
+Using the Unions we have just sorttable.c:
 
-----------------------------------------------------------------
-Masahiro Yamada (3):
-      modpost: fix the missed iteration for the max bit in do_input()
-      modpost: refactor do_vmbus_entry()
-      modpost: work around unaligned data access error
+     typedef union {
+	    Elf32_Ehdr	e32;
+	    Elf64_Ehdr	e64;
+     } Elf_Ehdr;
 
-Mostafa Saleh (1):
-      scripts/mksysmap: Fix escape chars '$'
+     typedef union {
+	    Elf32_Shdr	e32;
+	    Elf64_Shdr	e64;
+     } Elf_Shdr;
 
-Thomas Wei=C3=9Fschuh (1):
-      kbuild: pacman-pkg: provide versioned linux-api-headers package
+     [..]
 
- scripts/mksysmap         |  4 ++--
- scripts/mod/file2alias.c | 36 +++++++++++++++++-------------------
- scripts/mod/modpost.c    | 24 ++++++++++++------------
- scripts/mod/modpost.h    | 14 ++++++++++++++
- scripts/package/PKGBUILD |  2 +-
- 5 files changed, 46 insertions(+), 34 deletions(-)
+     static uint64_t ehdr64_shoff(Elf_Ehdr *ehdr)
+     {
+	    return r8(&ehdr->e64.e_shoff);
+     }
 
---=20
-Best Regards
-Masahiro Yamada
+     static uint64_t ehdr32_shoff(Elf_Ehdr *ehdr)
+     {
+	    return r(&ehdr->e32.e_shoff);
+     }
+
+     [..]
+     static uint64_t (*ehdr_shoff)(Elf_Ehdr *ehdr);
+     [..]
+
+	    switch (ehdr->e32.e_ident[EI_CLASS]) {
+	    case ELFCLASS32:
+		    [..]
+		    ehdr_shoff	= ehdr32_shoff;
+		    [..]
+	    case ELFCLASS65:
+		    [..]
+		    ehdr_shoff	= ehdr64_shoff;
+		    [..]
+
+     shdr_start = (Elf_Shdr *)((char *)ehdr + ehdr_shoff(ehdr));
+
+The code may be a little more verbose, but the meat of the code is easier to
+read, and the conversion functions live in the helper functions to make
+it easier to have the fields read the proper way, and not worry how to
+read the fields within the code that accesses them.
+
+This makes the code less error prone and easier to maintain. This also
+makes it easier to extend and update the sorttable code.
+
+[1] https://lore.kernel.org/all/20250102232609.529842248@goodmis.org/
+
+Steven Rostedt (14):
+      scripts/sorttable: Remove unused macro defines
+      scripts/sorttable: Remove unused write functions
+      scripts/sorttable: Remove unneeded Elf_Rel
+      scripts/sorttable: Have the ORC code use the _r() functions to read
+      scripts/sorttable: Make compare_extable() into two functions
+      scripts/sorttable: Convert Elf_Ehdr to union
+      scripts/sorttable: Replace Elf_Shdr Macro with a union
+      scripts/sorttable: Convert Elf_Sym MACRO over to a union
+      scripts/sorttable: Add helper functions for Elf_Ehdr
+      scripts/sorttable: Add helper functions for Elf_Shdr
+      scripts/sorttable: Add helper functions for Elf_Sym
+      scripts/sorttable: Use uint64_t for mcount sorting
+      scripts/sorttable: Move code from sorttable.h into sorttable.c
+      scripts/sorttable: Get start/stop_mcount_loc from ELF file directly
+
+----
+ scripts/sorttable.c | 674 +++++++++++++++++++++++++++++++++++++++++++++++-----
+ scripts/sorttable.h | 497 --------------------------------------
+ 2 files changed, 620 insertions(+), 551 deletions(-)
+ delete mode 100644 scripts/sorttable.h
 
