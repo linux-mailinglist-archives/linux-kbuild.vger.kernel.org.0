@@ -1,96 +1,120 @@
-Return-Path: <linux-kbuild+bounces-5373-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5374-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47BEA019B2
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 15:21:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A50F6A019E4
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 16:01:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 920291627B7
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 14:21:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF3E618834C3
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 15:01:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD551130E58;
-	Sun,  5 Jan 2025 14:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 179BB154BFC;
+	Sun,  5 Jan 2025 15:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S7pA+2xO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rWERAvc6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B153F42A93;
-	Sun,  5 Jan 2025 14:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C157215573D;
+	Sun,  5 Jan 2025 15:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736086898; cv=none; b=HPDbHRDImQOscRyD7nmbZ/noChj8qm5TOAKFlXVAoWx+Py/ovMrj74Vgcgp5vjJv3FQH6pEwvZCJX5CcDWViO9OjEJuaPDDO/I+cCxxYZ0spWAfUT/S3XXjFco8bGuNc8VuqHlhMSjmUhMGXY6420CTsGMBJ43QdnmFJJaVTG64=
+	t=1736089289; cv=none; b=OeAox09TUlgiYu8v/ldkde1ze+bJRnhKV571vIL49QVc91c2tqN0tu567xI/Ykr4HetzbU+JcuRVy6ATZW6jNP2Acyt7EA10qk0gOto9hhhfokREHSycQk57FiSE3OvQwhg9MKo6OIkMOTNaPhv0q8wOL381OB/GHlRGQSXO2Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736086898; c=relaxed/simple;
-	bh=zhmSB7U+55M+P7j7NTDO/Y6M5HhYkiLPraR2/TSVDSk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eVEABUMG/iKxaATEUL470bsjTPxqMnWlvhgppTAonBFo6fMQraatpXL3rduT6Yo87SKu07U2xWconYH3rF0JE58M+5GqRf/osxdh4Wa4H7wAUYBHZLlluzHVvzDHHUtRdVyBbFX3EuDeui7dL2jN1BZCXWGqNuKPNWGj46moZ7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S7pA+2xO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19128C4CEE1;
-	Sun,  5 Jan 2025 14:21:38 +0000 (UTC)
+	s=arc-20240116; t=1736089289; c=relaxed/simple;
+	bh=xRD9x89Vk8p0tQFcx7eVi/Oqul9bUM/WnYJqpCYf2lw=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=nS15VSuac3li41xBL8KZge4wBOBNSiNNtHzOXSeNmxiG9hgRX/FApGCKgjB1jkAvuhkGbKZMfIfXRGDREBpmhn+NTRrw9Np1ZMS7bqwjyJgnDycRdz9+PomuOSVM2sz8371jUf1I/5neFIUhYcMuFyR6OYZKiKQ96nrsjABNkIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rWERAvc6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29A99C4CED0;
+	Sun,  5 Jan 2025 15:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736086898;
-	bh=zhmSB7U+55M+P7j7NTDO/Y6M5HhYkiLPraR2/TSVDSk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=S7pA+2xOVDt2QXNjPlkP8k5fcWKBaUKN2WjiUECiWHrqTSZjfPKei3c0id3F+0Oik
-	 r9rFsLEUlcAPlafeACb5CMI0Cb4ptYnKJP8UNjHpvzpdfpgFuOEHSz90N2luNFCx2s
-	 UwL8DeFu+/cNQd4mS1pO+TsVgSOkchEekd+GmS5MDgy/vhPryDi2X4AsH9xD2XkVaR
-	 AXIQB50s0AY+Ny/2I1W9QQt+bkEOV4kNLVUjZkY5RPrX3r1HrD5S3fexGoVugp/jZl
-	 zY1C/8tbDL8CyTtnesWpC1zs3LoMvdn7t6fiiN1C1Va2l+oBmac9owIUBUovoiKwnr
-	 Pw77odOi+Z0mw==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5401c52000fso13768481e87.2;
-        Sun, 05 Jan 2025 06:21:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVfbdZjwxc+IQbGLV2gYVBPlnV+ks2gOImraj8mUXU5i4vKUf5K4siOf/tgynT1giHmV85T3ZkmTK/l9RNE@vger.kernel.org, AJvYcCWeT935iaYHMZNLDWEvbsNC4lJYiybLOu3KN6zlcOJMnUeo/lmwF1CKkf6OPQX5N7rZ7UB0pIrp/5OQ1XM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHS8XDELHdA7M+k3ehA+oNHbH/g2uiRuJ9Mzmv979UlXzN9ITg
-	Nb0VcnYK5WhmfbVjXNNmk+xVYLdzaKniPfVX7yIG6HRuiDu7yitISRur8XF6+VgGLFP3Uvqnc26
-	B9QA3G4HWkPIsNzjaIAmU4NlryEk=
-X-Google-Smtp-Source: AGHT+IHcHKmXkasgIPNw/PwZP42biwqq1txg7E3H9XR2kuw63k6IXrDZu9kAX2YbKiEzwqC74XuX7OLIWIx1sGUaKFo=
-X-Received: by 2002:a05:6512:308d:b0:540:2231:4a0f with SMTP id
- 2adb3069b0e04-5422959d43fmr16477321e87.55.1736086896741; Sun, 05 Jan 2025
- 06:21:36 -0800 (PST)
+	s=k20201202; t=1736089289;
+	bh=xRD9x89Vk8p0tQFcx7eVi/Oqul9bUM/WnYJqpCYf2lw=;
+	h=From:Date:Subject:To:From;
+	b=rWERAvc6TEftDHw8gQPEn7+RyPCAmsIlG1oCc0NJ79kaBy+Mu9rgqqxu985VmfZAo
+	 Rs06sD4WYzyM/sZRl0Vnch8mMWuwJUWHkbcJJF5DoSd5OTmQNCGPuSg9RqhdUDRcvV
+	 if/YF+wffgQTz5HOnqxFt6fMk1XkuB8ZvvCV3LMaTr4cGiarQg+6YGtmCFggoigo+N
+	 ZPxoBmFP3uOtdKICeP8VHJE5AWCeoGXrsOUbiSRbbZ+f9XGAeDvS6gfZr3aYSgGPO+
+	 6au28eMu837kA95zfudLDfhXL3V6bbndtD+9fOesjaFkdFWKpbDb3pGsQpOo9uu54/
+	 /62uKtU+tqiZg==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5401be44b58so14531981e87.0;
+        Sun, 05 Jan 2025 07:01:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU6NKkBySxjR/HA8fvf21cAXee0D8VJUq1CrPTTDgLqDy5dZTa6D/Stzx2sV8wdX1ApAar8uBd6h1EXCTw=@vger.kernel.org, AJvYcCUh2V72HweGUAppESXD6dsRzu4Jh4vstfo9zbQc9NAkrj0JiWPgvkNXmaOVcgxf6OGAg2H6i6DCwdpYcCuS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyucy+Ys8iCowFf7MtUt18sQErBd8MCL4oyXndiJ6vQE47XwLbb
+	eNMkhEFx2DbmCNVWnWvyac0mqVO/6Yjmh5uMDSR3REU76o1/qUq8C4d9DBZ7kj/aBegvXlUZ4wm
+	pyP73aModSc0+zQGBkq20+3GFXVI=
+X-Google-Smtp-Source: AGHT+IGdknyUW5J3sW1T6vRdGStcNUE3LOUuvlL8gzTmdR+gHRwu/F0BvKEaA7VRkKyjN3/cgYCMwVDxd+VPoNnpKoE=
+X-Received: by 2002:a05:6512:3e1e:b0:540:1d6c:f1bf with SMTP id
+ 2adb3069b0e04-542295254a0mr15802733e87.11.1736089286852; Sun, 05 Jan 2025
+ 07:01:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250103-kbuild-pacman-pkg-provides-v1-1-d568b4b9cfd5@weissschuh.net>
-In-Reply-To: <20250103-kbuild-pacman-pkg-provides-v1-1-d568b4b9cfd5@weissschuh.net>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 5 Jan 2025 23:21:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQf2EV1nA5pa7ijMpmzMBw4ftu6Nk281wpNjaY4Ws_OiA@mail.gmail.com>
-Message-ID: <CAK7LNAQf2EV1nA5pa7ijMpmzMBw4ftu6Nk281wpNjaY4Ws_OiA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: pacman-pkg: provide versioned linux-api-headers package
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Christian Heusel <christian@heusel.eu>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Mon, 6 Jan 2025 00:00:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQe5cn_Jnr++a4Dg0Qhrxc88dvwTji1Z-JbYimE3xD39A@mail.gmail.com>
+Message-ID: <CAK7LNAQe5cn_Jnr++a4Dg0Qhrxc88dvwTji1Z-JbYimE3xD39A@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.13-rc6
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 4, 2025 at 3:20=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weisssc=
-huh.net> wrote:
->
-> The Arch Linux glibc package contains a versioned dependency on
-> "linux-api-headers". If the linux-api-headers package provided by
-> pacman-pkg does not specify an explicit version this dependency is not
-> satisfied.
-> Fix the dependency by providing an explicit version.
->
-> Fixes: c8578539deba ("kbuild: add script and target to generate pacman pa=
-ckage")
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> ---
+Hello Linus,
 
-Applied to linux-kbuild.
-Thanks!
+Please pull some Kbuild fixes.
+Thank you.
 
 
+The following changes since commit 4bbf9020becbfd8fc2c3da790855b7042fad455b=
+:
 
+  Linux 6.13-rc4 (2024-12-22 13:22:21 -0800)
 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.13-3
+
+for you to fetch changes up to 385443057f475e775fe1c66e77d4be9727f40973:
+
+  kbuild: pacman-pkg: provide versioned linux-api-headers package
+(2025-01-05 23:19:17 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.13 (3rd)
+
+ - Fix escaping of '$' in scripts/mksysmap
+
+ - Fix a modpost crash observed with the latest binutils
+
+ - Fix 'provides' in the linux-api-headers pacman package
+
+----------------------------------------------------------------
+Masahiro Yamada (3):
+      modpost: fix the missed iteration for the max bit in do_input()
+      modpost: refactor do_vmbus_entry()
+      modpost: work around unaligned data access error
+
+Mostafa Saleh (1):
+      scripts/mksysmap: Fix escape chars '$'
+
+Thomas Wei=C3=9Fschuh (1):
+      kbuild: pacman-pkg: provide versioned linux-api-headers package
+
+ scripts/mksysmap         |  4 ++--
+ scripts/mod/file2alias.c | 36 +++++++++++++++++-------------------
+ scripts/mod/modpost.c    | 24 ++++++++++++------------
+ scripts/mod/modpost.h    | 14 ++++++++++++++
+ scripts/package/PKGBUILD |  2 +-
+ 5 files changed, 46 insertions(+), 34 deletions(-)
 
 --=20
 Best Regards
