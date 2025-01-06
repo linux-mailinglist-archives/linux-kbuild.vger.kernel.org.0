@@ -1,79 +1,120 @@
-Return-Path: <linux-kbuild+bounces-5391-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5392-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D38FA01BBE
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 21:04:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0017A01F1B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jan 2025 07:08:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45A643A2D98
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Jan 2025 20:04:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1910C3A2B89
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jan 2025 06:08:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC9F1D619D;
-	Sun,  5 Jan 2025 20:03:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB64D14B94B;
+	Mon,  6 Jan 2025 06:08:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I0Z5GHWd"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pcTvClkp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32121CEAC8;
-	Sun,  5 Jan 2025 20:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3656929A0;
+	Mon,  6 Jan 2025 06:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736107425; cv=none; b=kMLtiRNXSXHTx8G5RXMg+KfSeiZhIOvzz7WcC5hJe9DUgWdt5fsN+jFEjRuJ3ror4Z90X2L2nZFZmkKJbUbuAcSkH927St0n0qe+/xWacL5asnqVValsRacINovyUd6TKcAhzLKNACbt0AthmEst1WTs0OOVInY7e60QVPMS310=
+	t=1736143730; cv=none; b=P4RR0COmuMH15+D36eKL1cWumHqTCWU4cdbxzNUaLgoIrxl+OR0V0G7bSs78LFQzf3+ycH3bKpcdIIFj97tHFF1lu64CD7E+u9uApHZXypXhDCsspRTSa9V6C5SFbqEcVZwmYHKzbKE+MnhaI7G6JDXFp81+fvnvGpxammqHsQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736107425; c=relaxed/simple;
-	bh=K83FmScb1EpoeUjh+1QgX6UBLKMVxc2vAMBxfeNr9l0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=sb2tSIx9k5nCtQ6DBsLLGMDbQkzO11Eb0Ke4lwTVvY4bC6Nbuv3yW9THFf/irDzG2i/wgJqVFOh9DoIUcDfUKlzHhpAFXzvKZN46yF9CVakO6jTB6IdrmelM5VSmo5ubiwYGv5Z4BWAa1I3BSEZm9NO5B+7KlOOr9AAJD5Ys9ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I0Z5GHWd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D6EC4CED0;
-	Sun,  5 Jan 2025 20:03:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736107425;
-	bh=K83FmScb1EpoeUjh+1QgX6UBLKMVxc2vAMBxfeNr9l0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=I0Z5GHWd+OhHxT+v5M3kAb7PSr8E0iG7+aZKHNzGdyDaHIpcxYyswh1spVXBYAcLL
-	 f/HfwxNullST+zJ/Fp8mX8Pc18MfAvIq/TA6TH2HMxS20/znncgeVUU+4TpaZiev/U
-	 /wuH5GURu2zWbuvHp62BgFRlyzSewrIqkuETTO/VOx3yqNOwRw++W4aYktVlJrA15w
-	 5FAivFk1IWY+hzXrtIN1GxSMtbS9Vj+MXTOuf8j0UhzivhvNzUXytqI93xEFLCOnzL
-	 VEB8llMgmnuw9XVxtFjedRZ5TxnA4kqyH9x0mHJ1qBeTJwcdzoAxtOvouarYlOFhj6
-	 M+ulbywuk6vrQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70C58380A976;
-	Sun,  5 Jan 2025 20:04:07 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.13-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAQe5cn_Jnr++a4Dg0Qhrxc88dvwTji1Z-JbYimE3xD39A@mail.gmail.com>
-References: <CAK7LNAQe5cn_Jnr++a4Dg0Qhrxc88dvwTji1Z-JbYimE3xD39A@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAQe5cn_Jnr++a4Dg0Qhrxc88dvwTji1Z-JbYimE3xD39A@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.13-3
-X-PR-Tracked-Commit-Id: 385443057f475e775fe1c66e77d4be9727f40973
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9244696b34f2a626d7468864420ab6a47289bf10
-Message-Id: <173610744607.2663043.10264399457694415133.pr-tracker-bot@kernel.org>
-Date: Sun, 05 Jan 2025 20:04:06 +0000
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1736143730; c=relaxed/simple;
+	bh=JpnT6XDiDi5v7yU1l/uSYIFMfZG6zHH+8eWd9ppJpT8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ODuZWVx1qHUEq5SgNwUIKv+fl+t3Lq6i8AKFiO4Bngf6k4Jp02bDD7UKy9LAIW4esB6Pd4kQgU1QDI2ZGfFmpAxKUcIzNdAytV8N2TGuVL3m+KDAJpnUiWQS18rGdFdEbXMR3XZUFlqhMuXer6Nrujwe4uLAqTSmAe6Gv6d7sec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pcTvClkp; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=466vvuHwmWKlZeIUy/KmSmUiE8XU5/pjhwbYX0vXyBo=; b=pcTvClkpFlq/IwHF4RwHFIFUJc
+	JPkNzFBavlHll+VCJ3h0+frT6KgwNmkopeZhSV/TLeyirjRqrq8snGqiEhC/E0bzxpUb1wsvBcydy
+	cAMOG6fFcmisnxJ4G3vJ1Kau68dVJ3ozg4E8SdybnCLz7IWVCchU5+BOiJ4FAQ+9zRkAffulas93B
+	j/1oNSE1OxHu0xaDSIznq+8KnQOji7uaFeGiMMQtoA4Qsr3KBBLNyGJDAbqNjDgGm7ScaLRHjvcxc
+	3Tp3ujhvAvAa243S6u1Z/hxINTYe+qNvxK/ZMmYq+M5n1D7xft2H1d0Fl9YDbTkS4qGzdvV/o12UN
+	+hb9td7g==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tUgHr-00000008ru5-05JL;
+	Mon, 06 Jan 2025 06:08:27 +0000
+Message-ID: <aacd5e49-2539-4cf5-a3d2-76583e04e08f@infradead.org>
+Date: Sun, 5 Jan 2025 22:08:14 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] kbuild: rust: provide an option to inline C
+ helpers into Rust
+To: Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dirk Behme <dirk.behme@de.bosch.com>, Tamir Duberstein <tamird@gmail.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+ Paul Moore <paul@paul-moore.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ Matt Gilbride <mattgilbride@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ Eder Zulian <ezulian@redhat.com>, Filipe Xavier <felipe_life@live.com>
+Cc: rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
+ Kees Cook <kees@kernel.org>, Daniel Xu <dxu@dxuuu.xyz>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250105194054.545201-1-gary@garyguo.net>
+ <20250105194054.545201-3-gary@garyguo.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250105194054.545201-3-gary@garyguo.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Mon, 6 Jan 2025 00:00:49 +0900:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.13-3
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9244696b34f2a626d7468864420ab6a47289bf10
+On 1/5/25 11:40 AM, Gary Guo wrote:
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index f3d723705879..8a8834128f13 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -3253,6 +3253,20 @@ config RUST_KERNEL_DOCTESTS
+>  
+>  	  If unsure, say N.
+>  
+> +config RUST_INLINE_HELPERS
+> +    bool "Inline C helpers into Rust crates"
+> +    depends on RUST && RUSTC_CLANG_LLVM_COMPATIBLE
+> +    help
+> +        Links C helpers into with Rust crates through LLVM IR.
 
-Thank you!
+cannot parse "into with".
+
+> +
+> +        If this option is enabled, instead of generating object files directly,
+> +        rustc is asked to produce LLVM IR, which is then linked together with
+> +        the LLVM IR of C helpers, before object file is generated.
+> +
+> +        This requires a matching LLVM version for Clang and rustc.
+> +
+> +        If unsure, say N.
+> +
+>  endmenu # "Rust"
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+~Randy
+
 
