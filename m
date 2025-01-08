@@ -1,147 +1,165 @@
-Return-Path: <linux-kbuild+bounces-5398-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5399-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1C7A05BBC
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2025 13:34:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9923A05BE3
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2025 13:45:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36DE33A5D1D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2025 12:34:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66C407A2419
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2025 12:45:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 552CD1F9F7D;
-	Wed,  8 Jan 2025 12:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D0C61F63C9;
+	Wed,  8 Jan 2025 12:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lXv3FJ6n";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J1guJe8x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5XSw59i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC27D1F8AD3;
-	Wed,  8 Jan 2025 12:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF1B1A239D;
+	Wed,  8 Jan 2025 12:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736339688; cv=none; b=gCII4AbQaTgK4d5+xEOtSe9ai1bG398Wi1OjDAr3Tsu68MW7uuboVf3PrG1HQSyQtSED+u5x5E3qxBVMIRynv7aqcH/l5bEq0oKBNxvz0QHAHTHE6WyrcQb8j2cZ3faIF2UtGSyBhf+UT/YOuE1he1wPRAd9EmF5NmY9AUOnm9U=
+	t=1736340332; cv=none; b=O52mOWhkOJ2YK6SahCNOXZuFympIy69Qc8stKNg4wu1BhoTnWlJ7Vcj3/gHkvMhEeSOQliMSOiHDGEipCNgzZ0m6jFvda7jfSgu3q7JD2CfQVsfCwljeu+7lmbjnffJVgxQ83XinjWUAvlLjldOZ+7olTDZhUb8TIkFS6rrShfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736339688; c=relaxed/simple;
-	bh=mfRXr8X6hivXNLW5/+JavOgTmHO5jVioJNhZARGBpyQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IIbQ7j/1ySi8E8YgTG7f4JuiWB9tL/2e82Vtknij74gYTPXPvcNLjPH+dcwVFYDad8LXQJ8NxQq8AvRD01O3fuIlfx/wHzzOwD1vmmIKRjdda2UViq2Ynw/bghpI3+serzOhKrOx8P3hM27z5mADSUEaY70OpuIM2ejilXOHIEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lXv3FJ6n; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=J1guJe8x; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1736339685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i/p4ELp2/ZQmNrcsyqgwATapI6kF52rb6hc0Ubjr/Ss=;
-	b=lXv3FJ6nUJRL/cAQwYGVEaHJcAhLhkLOm5mfKM7+qInIpVWMdQtiCuERDssFvUfO2DXNbw
-	ILC6nQVgjTY6y9k9PhFnMIsd+1JsHkwSS+SdPv2M5TnDNiEWyBgPtxj4vM4/lvb1WLbz4y
-	c0bjJEzCNv/wWHuirA4Idy1u2Lp1DRqZMul/G/VyQ3RRwfANTFFvSNoRYRA77r23Gy6f/q
-	sK0skwHOpvOeQc8JwGPCONWHb6JMscWwxREE+MCWacJ2xYAtMPr4mBIbvuuUanUo19hZ8f
-	ULq3G0hgPu45i3M1seh3IOFifhC4g/CsNx6/G1nUE8lqvDTf2N7J+Xg4IDnlJg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1736339685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i/p4ELp2/ZQmNrcsyqgwATapI6kF52rb6hc0Ubjr/Ss=;
-	b=J1guJe8xouSvY/ETMM6e2El5iuQ0BV2qygAi6IVyz/cguP8MuyWd8ANRLOZr2u3N9F3wbI
-	Uoi2GbUiswPpgaCg==
-Date: Wed, 08 Jan 2025 13:34:29 +0100
-Subject: [PATCH 2/2] diffconfig: add verification mode
+	s=arc-20240116; t=1736340332; c=relaxed/simple;
+	bh=IF8cbp+7gNJeGLCETAgpwe4NyF9qqSHtjma2BuF+uMY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=BYf/reCx7JpKd37iEcKuXDbiqdoDisnd0neZx6hOBk1eS5Poz0uOTWIpNGDZqV32lTFNQnNPmuUr1tAy4K35wEXGfOs+qyJefcxZkZ7m45p3HmRCH3hKsWMlaQmY8NnoV/1utB3WGVcOtQkoOOOwxMhBzEVkMOO3kW4+vAsAs50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5XSw59i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B776C4CEDD;
+	Wed,  8 Jan 2025 12:45:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736340331;
+	bh=IF8cbp+7gNJeGLCETAgpwe4NyF9qqSHtjma2BuF+uMY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=t5XSw59iEASl0rRz8F6kTdUMM3UrJl11HK/sDXy8g8wMeMvG1XJcUhscfigclcKds
+	 jZuFiaurMx5sQWi+CBTF6aK8zLpT5RRLEhj8Enb4gU4wED1DkSSWHLWVdajiH+C6Ub
+	 o/DOA4kcuH6dw+mWJh44Vj6UfehxgFcCKMUgkbr7Fwn/0IChYNCc/yB1Jaev2oM52L
+	 9A3F1pSwC/alTWyku/eyeQCoJXtxPjAw5JJJyVMujFcJuxllgb7LDLfYxnBsUgQjd6
+	 j7i9cWgl1ek4fUYVzxRbS8fN1q0YbcwdVoh150cecj4+XYyw544ggg7bFEvH85EsbC
+	 3nkPEsaP7mDFg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Benno
+ Lossin" <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,
+  "Masahiro Yamada" <masahiroy@kernel.org>,  "Nathan Chancellor"
+ <nathan@kernel.org>,  "Nicolas Schier" <nicolas@fjasle.eu>,  "Trevor
+ Gross" <tmgross@umich.edu>,  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
+  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v3 4/4] rust: add parameter support to the `module!` macro
+In-Reply-To: <CANiq72nBpVy911cVhNFM6teQ0EaE-xs0SB2Qx95O4=nKBdRDuQ@mail.gmail.com>
+ (Miguel
+	Ojeda's message of "Fri, 13 Dec 2024 18:14:37 +0100")
+References: <20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org>
+	<20241213-module-params-v3-v3-4-485a015ac2cf@kernel.org>
+	<pw5PzA4YGsu7j6ET_-OYE2oq9l7ixtTTGhHtxMxmMP5ggHxLrjzMkNMvcMVjGPhu7FpBb2duDD3bRbtMJZZHIw==@protonmail.internalid>
+	<CANiq72kb2ocNuE6n32vr4xCkZhZN0uPuCN3SFA1+Q5L+Ma4ByQ@mail.gmail.com>
+	<87y10jd8o0.fsf@kernel.org>
+	<Tq7yfG7Ag6jqd_ns9qvfEn2KFLl_oJxBm6YwKDey8kbCE9-rDnkN84aW29C4_w1T6FkhDhzPsLeH0XYKe2WSSQ==@protonmail.internalid>
+	<CANiq72nBpVy911cVhNFM6teQ0EaE-xs0SB2Qx95O4=nKBdRDuQ@mail.gmail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Wed, 08 Jan 2025 13:45:20 +0100
+Message-ID: <87tta9bhjz.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250108-diffconfig-validate-v1-2-4b3d8ee489da@linutronix.de>
-References: <20250108-diffconfig-validate-v1-0-4b3d8ee489da@linutronix.de>
-In-Reply-To: <20250108-diffconfig-validate-v1-0-4b3d8ee489da@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736339682; l=2426;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=mfRXr8X6hivXNLW5/+JavOgTmHO5jVioJNhZARGBpyQ=;
- b=b8mG9u6Xs1Xky0fkxtSVpI5EzRWpUCk3B3hvtSdwkEP4J2R/tbhguCiiEyb6gG/lqIIEEpHF2
- ZQvHYv8YRsBAwUyOchueNmeRvrB+/VrKEhD+uV4gF9nVL8D8tROiwuJ
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-When creating kconfig files from defconfig files or snippets some items
-from the reference config may be silently omitted when dependency
-constraints are not met.
-Manual validation is necessary to make sure that the expected items are
-present in the new configuration. As the constraints can change over
-time, this validation has to be repeated.
-Extend the diffconfig script with a validation mode that can be used to
-perform those validation easily and in an automated manner.
+"Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com> writes:
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> On Fri, Dec 13, 2024 at 2:17=E2=80=AFPM Andreas Hindborg <a.hindborg@kern=
+el.org> wrote:
+>>
+>> scheduled for removal. Interior mutability via `SyncUnsafeCell` provides
+>> the same functionality and it is my understanding that this feature is
+>> on track to be stabilized.
+>
+> I am not sure about the last bit, but even if it is on track, we do
+> not want to start using new language features or APIs that could
+> potentially change.
+>
+> And even if it is a feature that we are sure will not change, we
+> should still let upstream Rust know before using it, since we are
+> actively discussing with them the remaining unstable items that the
+> kernel needs and they are putting the kernel in their roadmap.
+>
+> So I suggest we mention it next week in the Rust/Rust for Linux meeting.
+
+I don't think we ever discussed this?
+
+I was going to put this in the commit trailer for v4:
+
 ---
- scripts/diffconfig | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+Version 3 of this patch enabled the unstable feature `sync_unsafe_cell` [1]=
+ to
+avoid `static mut` variables as suggested by Trevor Tross and Benno Lossin =
+[2].
 
-diff --git a/scripts/diffconfig b/scripts/diffconfig
-index 43f0f3d273ae7178086f03038780ba103fd9970b..95cb0282f6db2873ef32804d361ef6db8a7bc8ce 100755
---- a/scripts/diffconfig
-+++ b/scripts/diffconfig
-@@ -24,6 +24,10 @@ Changed items show the old and new values on a single line.
- If -m is specified, then output will be in "merge" style, which has the
- changed and new values in kernel config option format.
- 
-+If -v is specified, then diffconfig will validate that config2 is a superset of
-+of config1. Only items from config1 not in config2 are printed.
-+If items are missing from config2 diffconfig will exit with code 2.
-+
- If no config files are specified, .config and .config.old are used.
- 
- Example usage:
-@@ -77,6 +81,11 @@ def show_diff():
-         merge_style = 1
-         sys.argv.remove("-m")
- 
-+    validate = 0
-+    if "-v" in sys.argv:
-+        validate = 1
-+        sys.argv.remove("-v")
-+
-     argc = len(sys.argv)
-     if not (argc==1 or argc == 3):
-         print("Error: incorrect number of arguments or unrecognized option")
-@@ -123,11 +132,15 @@ def show_diff():
-         print_config("->", config, a[config], b[config])
-         del b[config]
- 
--    # now print items in b but not in a
--    # (items from b that were in a were removed above)
--    new = sorted(b.keys())
--    for config in new:
--        print_config("+", config, None, b[config])
-+    if not validate:
-+        # now print items in b but not in a
-+        # (items from b that were in a were removed above)
-+        new = sorted(b.keys())
-+        for config in new:
-+            print_config("+", config, None, b[config])
-+
-+    if validate and (old or changed):
-+        sys.exit(2)
- 
- def main():
-     try:
+As we are moving closer to a new edition, it is now clear that `static mut`=
+ is
+not being deprecated in the 2024 edition as first anticipated [3].
 
--- 
-2.47.1
+Still, `SyncUnsafeCell` allows us to use safe code when referring to the
+parameter value:
+
+```
+{param_name}.as_mut_ptr().cast()
+```
+
+rather than unsafe code:
+
+```
+unsafe { addr_of_mut!(__{name}_{param_name}_value) }.cast()
+```
+
+Thus, this version (4) keeps the feature enabled.
+
+[1] https://github.com/rust-lang/rust/issues/95439
+[2] https://lore.kernel.org/all/CALNs47sqt=3D=3Do+hM5M1b0vTayKH177naybg_Kur=
+cirXszYAa22A@mail.gmail.com/
+[3] https://github.com/rust-lang/rust/issues/53639#issuecomment-2434023115
+---
+
+What do you think?
+
+>
+>> Not sure. `val` being null not supposed to happen in the current
+>> configuration. It should be an unreachable state. So BUG is the right th=
+ing?
+>
+> Since you can easily return an error in this situation, I would say
+> ideally a `WARN_ON_ONCE` + returning an error would be the best
+> option, and covers you in case the rest changes and someone forgets to
+> update this.
+
+Returning an error and `pr_warn!` is doable. As far as I can tell, we do
+not have `WARN_ON_ONCE` yet?
+
+>
+>> Not in the current configuration. The parameters can only be declared
+>> "read only". It should be impossible for anyone to call this function.
+>
+> What I meant is, can you avoid writing the function to begin with, by
+> leaving a null function pointer in the `kernel_param_ops` struct, i.e.
+> `None`?
+>
+
+It turns out we can!
+
+
+Best regards,
+Andreas Hindborg
+
 
 
