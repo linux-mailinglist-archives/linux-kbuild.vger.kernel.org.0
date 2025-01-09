@@ -1,113 +1,185 @@
-Return-Path: <linux-kbuild+bounces-5403-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5404-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF42A0650F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2025 20:08:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1A4A06E56
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jan 2025 07:35:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDEEF3A1829
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2025 19:08:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71F841887240
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jan 2025 06:36:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB420201258;
-	Wed,  8 Jan 2025 19:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21CD219F489;
+	Thu,  9 Jan 2025 06:35:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LlOfZCHh"
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="od/ORC7f"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768A81FF1D5;
-	Wed,  8 Jan 2025 19:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24ED119CC14
+	for <linux-kbuild@vger.kernel.org>; Thu,  9 Jan 2025 06:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736363293; cv=none; b=ZPToBZl3g+m5fVvmp9ols8AXT2nwfW/5RATMDA3oCQq8z6HIjMnJBRgG1ytgnrTuuW5aBs4lOsSY9HmXXzoZixKGzXuGXbjBSOXmmqiCcqyhyxdfmsqM6exT+0ZxqnZoRhxcwAm93QC6GoRynsfDXfCHPHpG1rFe7ymHGCN6W1U=
+	t=1736404555; cv=none; b=RayePx6dpsdw5nqSp1uW+cS92FKtMx2lmjb5Z/LqkJshLqSK+oULeXziji2TrdTN3mwqcSZC+BdvJWioGDkQGzd+a6mjAdJC832SJJCBBKURMj4wW9qQJkwuQ1sh5SKrUGs564Vfw1VGWFYDVo4ZU/auNIZwLGrhPRSba0+Tv50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736363293; c=relaxed/simple;
-	bh=3PUWUE0j8aX0wTHTz/AyJlaIPaFYJp4EEy+cErusWM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e8Jon2fkSTSUp9vmdy3pMcIBEZGUJ54w8IGPWk2DcBlcHZgGg0M708Mwax7/5wEhDZHyI5mQAeHnnYagM8tRpLXmcsuVytbFS7uW4k+TSvLchm8fP/SALOhctYJKhykiQttk8saOjVlys92QSJNZHtDwJfkOjdEboJR0oPnMCAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LlOfZCHh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7925C4CED3;
-	Wed,  8 Jan 2025 19:08:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736363293;
-	bh=3PUWUE0j8aX0wTHTz/AyJlaIPaFYJp4EEy+cErusWM8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LlOfZCHhdVqInUc2ds5Ab/TSYejNly7psB4Gt6ZNCrBP/FonXZelAArjwYx4++zpg
-	 G6uQpgORv/JrWJDqYAIfENqrqGH2pBdKPgtjY0e6ADbuTUeV23WtE9RrGPh6ZvXrX6
-	 21bt1alGX6Wm8vrKCO0ud5is0F9fZwc0MOd8aV+LZaz9SNVfelnJ+u+6fB5vL8XS5R
-	 QfGDfpq27YCX3V6xIa46Kqed7Vooo2jtSODb2TpBtS94VFx614O1myFaFz0V3lvnNp
-	 LpUvPx61gkuHUiPSs7ggvtgFcB/x77nBBd+ufX3v6g382HOc10fueHzrbr06XrS5/M
-	 bUZKMcn61J19Q==
-Date: Wed, 8 Jan 2025 11:08:11 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-modules@vger.kernel.org
-Subject: Re: [PATCH RFC 2/2] module: Introduce hash-based integrity checking
-Message-ID: <Z37NGzxnUznefi8x@bombadil.infradead.org>
-References: <20241225-module-hashes-v1-0-d710ce7a3fd1@weissschuh.net>
- <20241225-module-hashes-v1-2-d710ce7a3fd1@weissschuh.net>
- <Z3iQ8FI4J7rCzICF@bombadil.infradead.org>
- <5c2ef82a-7558-4397-827d-523f8fe4895b@t-8ch.de>
+	s=arc-20240116; t=1736404555; c=relaxed/simple;
+	bh=yHDcNcpHtlF4OmqVziiYHOBW+klbswN5ElURkd1/8w4=;
+	h=Message-ID:Date:MIME-Version:From:To:CC:Subject:Content-Type; b=c3prqg4XrzfuUOtqKLRHLOfCjsyVTptk5l7iSSKL/joaQRZNJoFCiTsDP1cDbrZvZtxGDP0YCkFDJDkLFdmMEspwef87adJPsOjeBEf7VVXilARPhh12zT2bbCIoRWUkwug38htn+uOFB68nNSVhE4jgy/qbj5iAcopKtATFcBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=od/ORC7f; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
+Received: from localhost (localhost [127.0.0.1])
+	by a.mx.secunet.com (Postfix) with ESMTP id 0BF0F207A4;
+	Thu,  9 Jan 2025 07:35:44 +0100 (CET)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FfbgHpR17L44; Thu,  9 Jan 2025 07:35:43 +0100 (CET)
+Received: from cas-essen-02.secunet.de (rl2.secunet.de [10.53.40.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by a.mx.secunet.com (Postfix) with ESMTPS id 7052F20799;
+	Thu,  9 Jan 2025 07:35:43 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 7052F20799
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1736404543;
+	bh=WsKrLqMJRPS9afIcwKyumxFJ1TU45qWuk2JQVF/y+6o=;
+	h=Date:From:To:CC:Subject:From;
+	b=od/ORC7f555ja6B8tOL4jE8g4sGHirczbXseBhgelsXHDfC1rJ3iphiCYxuSigNv7
+	 QbGmqvUR7qhpC+FeeSbkWFyeZh8GRy+V2i/xKN0R19OZ/r16BXeDpeeKOLQEPEBhYQ
+	 FNyxeX9/wVk/Ba659D6WVJhatB6j9L/kgLVdqJMxCF3t3mI6IUhZVQ0pGCyCuaFT8a
+	 HZmiVdYByYj66ZwzKpcPTwsrBqNlRmWAqL3VQzFVs5UbMBtXpMx7wIecZawapdyrMJ
+	 4hs3e+aBuUZgrcJ2BjHhQGm1mw06J47LGLbaUnlEKYYfM3OJ+owJDW6PPentIng5Lh
+	 rtVu8fPKJegrA==
+Received: from mbx-essen-02.secunet.de (10.53.40.198) by
+ cas-essen-02.secunet.de (10.53.40.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 9 Jan 2025 07:35:43 +0100
+Received: from [10.36.110.53] (10.36.110.53) by mbx-essen-02.secunet.de
+ (10.53.40.198) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 9 Jan
+ 2025 07:35:42 +0100
+Message-ID: <302dedfd-af8b-43cc-99cf-3a3f7b34b714@secunet.com>
+Date: Thu, 9 Jan 2025 07:35:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5c2ef82a-7558-4397-827d-523f8fe4895b@t-8ch.de>
+User-Agent: Mozilla Thunderbird
+From: Torsten Hilbrich <torsten.hilbrich@secunet.com>
+Content-Language: en-US
+To: Masahiro Yamada <masahiroy@kernel.org>
+CC: <linux-kbuild@vger.kernel.org>
+Subject: v6.13-rc1: Module signing stopped working for external modules
+Autocrypt: addr=torsten.hilbrich@secunet.com; keydata=
+ xsBNBFs5uIIBCAD4qbEieyT7sBmcro1VrCE1sSnV29a9ub8c0Xj0yw0Cz2N7LalBn4a+YeJN
+ OMfL1MQvEiTxZNIzb1I0bRYcfhkhjN4+vAoPJ3q1OpSY+WUgphUbzseUk/Bq3gwvfa6/U+Hm
+ o2lvEfN2dewBGptQ+DrWz+SPM1TQiwShKjowY/avaVgrABBGen3LgB0XZXEH8Q720kjP7htK
+ tCGRt1T+qNIj3tZDZfPkqEVb8lTRcyn1hI3/FbDTysletRrCmkHSVbnxNzO6lw2G1H61wQhw
+ YVbIVNohY61ieSJFhNLL6/UTGHtUE2IAicnsUAUKR8GiI1+3cTf233O5HaWYeOjBmTCLABEB
+ AAHNL1RvcnN0ZW4gSGlsYnJpY2ggPHRvcnN0ZW4uaGlsYnJpY2hAc2VjdW5ldC5jb20+wsB3
+ BBMBCAAhBQJbObiCAhsDBQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEJ7rXZh78/h8+tIH
+ +QFYRQH4qh3WagcmjbG/zCe2RmZZePO8bmut2fAxY04aqJZGYUBxb5lfaWaHkstqM5sFD8Jo
+ k1j5E7f1cnfwB21azdUO8fzYL889kdVOzatdT/uTjR7OjR59gpJMd4lx7fwFuZUg8z6rfWJ3
+ ImjxxBgaJRL6pqaZ9lOst82O0qJKEFBR+HDUVvgh4n8TTOfKNv/dGPQhaed+2or98asdYRWo
+ S/zc4ltTh4SxZjLd98pDxjlUyOJoMJeWdlMmLgWV3h1qjy4DxgQzvgATEaKjOuwtkCOcwHn7
+ Unf0F2V9p4O7NFOuoVyqTBRX+5xKgzSM7VP1RlTT4FA9/7wkhhG+FELOwE0EWzm4ggEIAL9F
+ IIPQYMx5x+zMjm8lDsmh12zoqCtMfn9QWrERd2gDS3GsORbe/i6DhYvzsulH8vsviPle4ocU
+ +PaTwadfnEqm0FS7xCONYookDGfAiPS4cHWX7WrTNBP7mK3Gl1KaAOJJsMbCVAA9q4d8WL+A
+ e+XrfOAetZq5gxLxDMYySNI1pIMJVrGECiboLa/LPPh2yw4jieAedW96CPuZs7rUY/5uIVt0
+ Dn4/aSzV+Ixr52Z2McvNmH/VxDt59Z6jBztZIJBXpX3BC/UyH7rJOJTaqEF+EVWEpOmSoZ6u
+ i1DWyqOBKnQrbUa0fpNd3aaOl2KnlgTH9upm70XZGpeJik/pQGcAEQEAAcLAXwQYAQgACQUC
+ Wzm4ggIbDAAKCRCe612Ye/P4fEzqB/9gcM/bODO8o9YR86BLp0S8bF73lwIJyDHg5brjqAnz
+ CtCdb4I+evI4iyU9zuN1x4V+Te5ej+mUu5CbIte8gQbo4cc9sbe/AEDoOh0lGoXKZiwtHqoh
+ RZ4jOFrZJsEjOSUCLE8E8VR1afPf0SkFXLXWZfZDU28K80JWeV1BCtxutZ39bz6ybMbcCvMS
+ UfwCTY0IJOiDga1K4H2HzHAqlvfzCurqe616S4S1ax+erg3KTEXylxmzcFjJU8AUZURy/lQt
+ VElzs4Km1p3v6GUciCAb+Uhd12sQG2mL05jmEems9uRe3Wfke/RKp8A+Yq+p6E0A0ZOP+Okm
+ LXB2q+ckPvZG
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
+ mbx-essen-02.secunet.de (10.53.40.198)
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
 
-On Sat, Jan 04, 2025 at 07:30:39AM +0100, Thomas Weißschuh wrote:
-> Hi Luis,
-> 
-> On 2025-01-03 17:37:52-0800, Luis Chamberlain wrote:
-> > On Wed, Dec 25, 2024 at 11:52:00PM +0100, Thomas Weißschuh wrote:
-> > > diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> > > index 7b329057997ad2ec310133ca84617d9bfcdb7e9f..57d317a6fa444195d0806e6bd7a2af6e338a7f01 100644
-> > > --- a/kernel/module/Kconfig
-> > > +++ b/kernel/module/Kconfig
-> > > @@ -344,6 +344,17 @@ config MODULE_DECOMPRESS
-> > >  
-> > >  	  If unsure, say N.
-> > >  
-> > > +config MODULE_HASHES
-> > > +	bool "Module hash validation"
-> > > +	depends on !MODULE_SIG
-> > 
-> > Why are these mutually exclusive? Can't you want module signatures *and*
-> > this as well? What distro which is using module signatures would switch
-> > to this as an alternative instead? The help menu does not clarify any of
-> > this at all, and neither does the patch.
-> 
-> The exclusivity is to keep the initial RFC patch small.
-> The cover letter lists "Enable coexistence with MODULE_SIG" as
-> a further improvement.
+Hello,
 
-Looking forward to that.
+after testing v6.13-rc1 after successfully using v6.12 I noticed that our external modules are no longer building correctly.
 
-> In general this MODULE_HASHES would be used by distros which are
-> currently using the build-time generated signing key with
-> CONFIG_MODULE_SIG_KEY=certs/signing_key.pem.
+- Module source: /build/client/devel/addmodules/vtx/work/vtx
+- Kernel source: /build/client/devel/kernel/work/linux-2.6
+   Symlinked by build-source
 
-The Kconfig needs to describe this, otherwise no one would sensibly
-enable this.
+We run the module_install step:
 
-> More concretely the Arch Linux team has expressed interest.
+----------------
+make -C build-source M=/build/client/devel/addmodules/vtx/work/vtx modules_install INSTALL_MOD_PATH=/build/client/devel/addmodules/vtx/_ INSTALL_MOD_DIR=extra
+make[5]: Entering directory '/build/client/devel/kernel/work/linux-2.6'
+make[6]: Entering directory '/build/client/devel/addmodules/vtx/work/vtx'
+   INSTALL /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+/extra/vtx.ko
+   SIGN    /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+/extra/vtx.ko
+/bin/sh: 1: scripts/sign-file: not found
+   DEPMOD  /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+
+make[6]: Leaving directory '/build/client/devel/addmodules/vtx/work/vtx'
+make[5]: Leaving directory '/build/client/devel/kernel/work/linux-2.6'
+----------------
 
-Interest sure, but will it be used? If not there is no point to this.
-What do the other distro have to think about this?
+The problem here is that before calling cmd_sign (scripts/sign-file) the build system now changes to the module source.
 
-  Luis
+In v6.12 the build system was still in the kernel source tree when running this command so "scripts/sign-file" was found.
+
+Here from a build log with a 6.8.12 kernel (/build/client/daily/kernel/work/linux-2.6 being the kernel source here):
+
+----------------
+make[4]: Entering directory '/build/client/daily/addmodules/vtx/work/vtx'
+make -C build-source M=/build/client/daily/addmodules/vtx/work/vtx modules_install INSTALL_MOD_PATH=/build/client/daily/addmodules/vtx/_ INSTALL_MOD_DIR=extra
+make[5]: Entering directory '/build/client/daily/kernel/work/linux-2.6'
+   INSTALL /build/client/daily/addmodules/vtx/_/lib/modules/6.8.12-grsec+/extra/vtx.ko
+   SIGN    /build/client/daily/addmodules/vtx/_/lib/modules/6.8.12-grsec+/extra/vtx.ko
+   DEPMOD  /build/client/daily/addmodules/vtx/_/lib/modules/6.8.12-grsec+
+make[5]: Leaving directory '/build/client/daily/kernel/work/linux-2.6'
+----------------
+
+Here the sign-file call is made with cwd being the kernel source.
+
+I also tried the new method in v6.13 by invoking "make -f /build/client/devel/kernel/work/linux-2.6/Makefile" with the same result.
+
+Here is the relevant part of our Makefile for building the module:
+
+----------------
+TARGETS = vtx
+
+obj-m := vtx.o
+
+vtx-objs := main.o intel.o amd.o
+subdir = extra
+
+KERNEL_SOURCE ?= build-source
+BUILD = $(MAKE) -C $(KERNEL_SOURCE) M=$(CURDIR)
+
+.PHONY: all install clean
+
+all:
+     ln -sf $(KERNEL_SOURCE) build-source
+     $(BUILD)
+
+clean:
+     $(BUILD) $@
+
+install:
+     $(BUILD) modules_install INSTALL_MOD_PATH=$(DESTDIR) INSTALL_MOD_DIR=$(subdir)
+----------------
+
+KERNEL_SOURCE is suppliced when running the all target. DESTDIR is supplied when running install.
+
+The module_sign target fails as well.
+
+I already consulted the updated documentation but couldn't find any problem in that invocation (which still works in v6.12).
+
+Thanks,
+
+	Torsten
 
