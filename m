@@ -1,108 +1,116 @@
-Return-Path: <linux-kbuild+bounces-5418-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5419-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B52A08E6B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 11:48:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF350A0900B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 13:14:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 47D98188BAB5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 10:48:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBFA93A229D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 12:14:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0DC0205509;
-	Fri, 10 Jan 2025 10:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DF99205E37;
+	Fri, 10 Jan 2025 12:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lv7L4w33"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlLK6X/d"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAD1205516;
-	Fri, 10 Jan 2025 10:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30136205E21;
+	Fri, 10 Jan 2025 12:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736506088; cv=none; b=f31N9SuoB0u0STPslFMsK+fifA96+KyQTTYlHYbLSHjGMP0qOMkntgZ1FuPweo0K+T61b13hkBoOPwv7Q4N9OT+TNQ4fq8f0j6DANkdY60gcR/bc0DRugfmvXl19g6XAUoTdNSJgnybgTWt7mditlc41/CVIqIV1NbFsY0bHKOk=
+	t=1736511259; cv=none; b=lr2VUoQ3CevOglU9wM0nf0VhGG6ygvPsJ5xrUOmXtS/joEFQ+CjizrVcbmg+sM+G54yVi8lcKSGTeMoAKr0H8EmuLe1nzH9qsQxakdWkMFdu49W4hl8okyk/K/JDfHAJQL06ljf32PBd+oUVEJo/q7Cu4RrLHRt39UhZB6TL+pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736506088; c=relaxed/simple;
-	bh=lFsbb417oUics3zVCdYv/wYNs/27UThiR2O6185IXmk=;
+	s=arc-20240116; t=1736511259; c=relaxed/simple;
+	bh=LKo8bpEtYIe5t1VceBxZS22BvfVVDlhIZm0EoNnQYEs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DCLI2sR/o+084+JLAt0CSgawBuJm/7SqKHs5MtFyy1MXelh90W/2ocx8Q23591A8VmWKQ1NT78rurJWQnnrwm34PzcZclXB3QS9b0SdpOh+4TEqCQi+fp9tWkKWxvAIinfaoPq0sdR5NqxclyV309M/U0hdYqXlXvUjpVDsan1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lv7L4w33; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2166db59927so3263425ad.0;
-        Fri, 10 Jan 2025 02:48:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736506087; x=1737110887; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zx2ZsFmqjuaHpA0ezy+PudV4xa2ISEK5U5ZpNdaLwCI=;
-        b=Lv7L4w33hvEfDrF3aWEZZXTs1aJuS4a8pLe+tm2+SUtgYVwbiWj2Np77jgWg/muChP
-         VyURDqoj5+4UYhkg39f/eyq+MO+p4zaYxO84GulyEcMMDywoueurpADalg9ZTXtHuogu
-         lC1wW3GFe3plRYMtOUGfseFFwcpkgENYIzA1XZz3hKUFA5I4/27qp9ep+EOPa47q9S14
-         8qOFa4xY6LDHqg+mUD3ERjg/1qR0ncVjMLUEIEifMAfcT/d4M3UauYYhWU7oNlgI56HZ
-         aXSERTd7oLtbT9g2/Asp/3n184Dhe3xLh7xPqdEBVjwpc1wrLhd2hRHCHXBoePaXUA+f
-         gE6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736506087; x=1737110887;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zx2ZsFmqjuaHpA0ezy+PudV4xa2ISEK5U5ZpNdaLwCI=;
-        b=LvS/UwC89XIIDTG3kpzXfTTNd+wtG+elJMoQZhu2ExpLQt+djQsqCUVwkylmLWUdBp
-         u0brHaoxM8KPtED7K2S9j0ip7+zUZjbtkljo4Ssz5daVWY2lp750ee6HOPM/toq/u7ro
-         UzoRM8c+F/ypEe2mNJKesFHzvnxLr+ITSVzeksUDANOL9fkaRygp/9hDy43uW9KCve0r
-         i6YGdbZ2+uoMGtR9U+z4bDB7aishcGy7CkhYvt85vNIueQl2ZiZPgbr3k74/CB6Lx1uK
-         WVmxX7MoQewBAuO4zefizkGnlGnK+S/XZydW2ey6VVciODfd2OR0CntVbVT391lKFlNn
-         6ZWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUxSLYhRsnHMRCSEh4LEm8ZwwojRO6R5261MFcJANn0uBBftcqLl9XeNF97R58m88yhGAOZPGeesODyzyw=@vger.kernel.org, AJvYcCVOuVj1fZu0smTW0L4rIW2pLRCs80y8mSJIdIdRMgweTnfC5H1UqIDTXISJJyp8Qb98/hYIJqXY7g4KI2Gb@vger.kernel.org, AJvYcCXfTM1KqCpn86hp1xU1AeRSkF1ozuBx3RkFD6l6rroqtv58s2oGNx0pusi/rwe++R+5q875ir8xji0lxAIW8Yk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYqzgOq7wCiyemi+s6kUqTbM+BiEyCTx8g4hspFcx3Ftp+nHMH
-	Z7kA6WnU8xePVhS+8iOyo3fFW8rDrKI5ZgL9/swlA+wN+oSaHsixh0BqW4JVnhyr2PTlG7bhqaK
-	8R44rbOLgII+PNTbR5FbAw9lZW5I=
-X-Gm-Gg: ASbGnctbv3OuR4ZOImtUA8QoQG7/KxNTrh7NkR7W1tVlQr+q19RpJfFhMxCHG0RQKCN
-	7zL+juQ3e6n9Ouyw+rxPUGCQd8UG+wrEzqbETYQ==
-X-Google-Smtp-Source: AGHT+IGyf59oV/p6cf82Eqcgec3+B7VHzkc2+S771jI7beU0/V8LGFATlaU1f8mNdYIncIjTD5U9TITdOOKWL+pwr3A=
-X-Received: by 2002:a17:903:32ce:b0:216:30f9:93c5 with SMTP id
- d9443c01a7336-21a83f4c434mr58642955ad.6.1736506086757; Fri, 10 Jan 2025
- 02:48:06 -0800 (PST)
+	 To:Cc:Content-Type; b=T+CU/HxBddKe1GbvNDT0lTG4TQoTPeXrltoBepk3uU960gHSMsU/blFizoV8SGlS9iwc5IpOPKyDle80+cWqOW5rFeKPVTk/Vh2E4Mg7gq5imLu0cIXQL3arhw0OCeR1/3vjjeot30bWqq2X8BQdrboGkU5i4b0hlPQY9FgDIYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XlLK6X/d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC297C4CEE1;
+	Fri, 10 Jan 2025 12:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736511258;
+	bh=LKo8bpEtYIe5t1VceBxZS22BvfVVDlhIZm0EoNnQYEs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XlLK6X/dS8tqVWhYOAJVc4GMdupJU0aj3EbEpgjG5ELiHvIrp92f3An90gvP6r2uF
+	 Sdt/RO5yWD7whAscqg2x5vvLmkc9ghXYG5ku1ARD8cLJ+rRcYQpK6BwZxyNBXrnLme
+	 hoKYYPLj3VdnAUhSbldJrWSjomkiBzk3BmFpUcOgnUwOCvTxzXaeLySIONJc527TwB
+	 GoN3HeoEsM5+phLM6E6RMX5B3AFozfV1N/gDFazPfOTcfg/IFsfnTiWW2eLEI8yR/X
+	 f3UuqtrVqHKrjts5F5wgKfObTlnpW+BuOLR6Mb31EUaMP1tc28G3LRp83iL1op8R8U
+	 nLg2+pu6IUEeQ==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53ff1f7caaeso2036749e87.0;
+        Fri, 10 Jan 2025 04:14:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWfF1x2sV34hswMAZXNoZKRQRjUXCS+TxsELvL4/gwvS+UKgMZ3pb2IlKX2mLejx6g9iDUy75kNpRG3jA==@vger.kernel.org, AJvYcCXWx6ZzTqwP0cszRMoKh3/AGiga8nkATmkqL+1iMnMXVK6Z44i8D1sgYv3uJjyv78bT315PKEomg9Gi60E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbiqlJ9YTG7It6mV/dmR7PFtDQ+8MrGSNVJii9j7xKdkxgHhV1
+	oIRBhm5ELIJrYEAk8dTx6yR+wS/j68YTzlsp6Nph1UzA1Fo4AcSVWciNDVCs+C2OnqK+H3o6E2a
+	jYr197GK7O7NVz8ttFxHmJ6XcayE=
+X-Google-Smtp-Source: AGHT+IH34RNFIsnvALe6AjqSTDDJWj/TiAsDt+LHFUd3XT4Qq1HhowlIi4/eiuJedBUmy+/wHA0rdXMqF+/iSLbSmak=
+X-Received: by 2002:a05:6512:1149:b0:540:2201:57d1 with SMTP id
+ 2adb3069b0e04-542845c01b8mr3284401e87.49.1736511257474; Fri, 10 Jan 2025
+ 04:14:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216-b4-dylib-host-macos-v7-1-cfc507681447@gmail.com>
-In-Reply-To: <20241216-b4-dylib-host-macos-v7-1-cfc507681447@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 10 Jan 2025 11:47:54 +0100
-X-Gm-Features: AbW1kvYFtM9gpvVIEJO__6thh4bP2NWe8_9mFJDHvx9YXvcc5OZRwWyYQtXA5ik
-Message-ID: <CANiq72kk_HX-vcCrj0rvaajPv2v-7w8hmQb8Rw4Lo04gB5eUDQ@mail.gmail.com>
-Subject: Re: [PATCH v7] rust: use host dylib naming convention
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	Daniel Gomez <da.gomez@samsung.com>, Fiona Behrens <me@kloenk.dev>
+References: <20250110082744.457067-2-ardb+git@google.com>
+In-Reply-To: <20250110082744.457067-2-ardb+git@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 10 Jan 2025 21:13:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASygf5gRdYOOa3KsKbz8mny9nnn5RduuGtP5WoWgXDTQA@mail.gmail.com>
+X-Gm-Features: AbW1kvYJSJ4ULPz9l8U8QGvpjCXJw-r5-U5EtXUed8QBmqt7AOBtvhMEG4S3Zrw
+Message-ID: <CAK7LNASygf5gRdYOOa3KsKbz8mny9nnn5RduuGtP5WoWgXDTQA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Strip runtime const RELA sections correctly
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 16, 2024 at 4:54=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
+On Fri, Jan 10, 2025 at 5:28=E2=80=AFPM Ard Biesheuvel <ardb+git@google.com=
+> wrote:
 >
-> the appropriate name for the artifact. This allows the kernel to build
-> with CONFIG_RUST=3Dy on macOS.
+> From: Ard Biesheuvel <ardb@kernel.org>
+>
+> Due to the fact that runtime const ELF sections are named without a
+> leading period or double underscore, the RSTRIP logic that removes the
+> static RELA sections from vmlinux fails to identify them. This results
+> in a situation like below, where some sections that were supposed to get
+> removed are left behind.
+>
+>   [Nr] Name                              Type            Address         =
+ Off     Size   ES Flg Lk Inf Al
+>
+>   [58] runtime_shift_d_hash_shift        PROGBITS        ffffffff83500f50=
+ 2900f50 000014 00   A  0   0  1
+>   [59] .relaruntime_shift_d_hash_shift   RELA            0000000000000000=
+ 55b6f00 000078 18   I 70  58  8
+>   [60] runtime_ptr_dentry_hashtable      PROGBITS        ffffffff83500f68=
+ 2900f68 000014 00   A  0   0  1
+>   [61] .relaruntime_ptr_dentry_hashtable RELA            0000000000000000=
+ 55b6f78 000078 18   I 70  60  8
+>   [62] runtime_ptr_USER_PTR_MAX          PROGBITS        ffffffff83500f80=
+ 2900f80 000238 00   A  0   0  1
+>   [63] .relaruntime_ptr_USER_PTR_MAX     RELA            0000000000000000=
+ 55b6ff0 000d50 18   I 70  62  8
+>
+> So tweak the match expression to strip all sections starting with .rel.
+> While at it, consolidate the logic used by RISC-V, s390 and x86 into a
+> single shared Makefile library command.
 
-Applied to `rust-next` -- thanks everyone!
+I do not know how this works because arch/*/Makefile.post
+do not include scripts/Makefile.lib
 
-    [ Added `MAKEFLAGS=3D`s to avoid jobserver warnings. Removed space.
-      Reworded title. - Miguel ]
 
-Cheers,
-Miguel
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
