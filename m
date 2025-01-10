@@ -1,130 +1,142 @@
-Return-Path: <linux-kbuild+bounces-5426-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5427-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD04A095CA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 16:34:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B23DAA0978E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 17:33:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB7181669C7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 15:34:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C45373A29DB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jan 2025 16:33:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F28591FA15C;
-	Fri, 10 Jan 2025 15:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED89D20B1E1;
+	Fri, 10 Jan 2025 16:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HqJSje11"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sput3gIz"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC82019AA63
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Jan 2025 15:34:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47BE1FC114;
+	Fri, 10 Jan 2025 16:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736523247; cv=none; b=Ben9oKbJdk2U1XNIzAVaf7pxksgXmEcU1ujFZd1HWQFBm6JSQhH3cbX4yps2vzr4Mf04wOKVu3hkXVrSmRtQNgCTHWo223UeNBGlDIRiVTmHFA14UOrI2MHG6vyFV/gP9+sfUFNYqIwrBp1PqoNAosYZzILoU2rppvRTci4FcVE=
+	t=1736526825; cv=none; b=g+mV0biOa3q1uEufqHt8JnhGyV4GQnUyhO8mJuBAgBM+S5KTAznTVxlU6nzLsNJfV9oSAbDPNJNmZSxhwAp1D/Uib9lEW2hamUi5Uy6P7SOmJ8khFSgSxk81bwym3GKIFlroJDymUssAqzM2J6tIdi4U/vcCyvkgWOuOQPzUgOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736523247; c=relaxed/simple;
-	bh=C5ZD8/Stc/ntNyxm+oyaN5udfHu2iNdZcgFufPmLIBM=;
+	s=arc-20240116; t=1736526825; c=relaxed/simple;
+	bh=iR8auIcyn2SIDYZfhrHZrIFr6THIu7bH4vq56852TUg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U13gV/9pCRNTuNiAduc41X9RZgGibda2qOlGKF0hHr1UsbygFvVtJfuiHNsV5J95ymPH/qJFK0MT2ztE3L0/8l7O9NdkjUG6DVm6DB3tFFX5ZjjCI9+S2LciqefOhbuobAYX1Clr9edjxWAGo2KL7tCEULP3M4IS5jk2e0jwfrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HqJSje11; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C3B4C4CEE1
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Jan 2025 15:34:07 +0000 (UTC)
+	 To:Cc:Content-Type; b=ErdFTFPnS3nf75CBV/aMAt0dVoI0hN2/+rlEAplj5tis/xx1AzBbzmOT3IYFQUYKlu7Tq4oETpf3WjMa2DE36qJZbWzpXArLc6n7SKntS1sJQ1yDP0LWnhorEMTcnDEtGIS1EsENe+wS2Ap2IyWjU/eIUkRrX6+j2EJ4fZiaM2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sput3gIz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41256C4CED6;
+	Fri, 10 Jan 2025 16:33:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736523247;
-	bh=C5ZD8/Stc/ntNyxm+oyaN5udfHu2iNdZcgFufPmLIBM=;
+	s=k20201202; t=1736526825;
+	bh=iR8auIcyn2SIDYZfhrHZrIFr6THIu7bH4vq56852TUg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HqJSje11IMAx9TVs1WuRzTfqOmOhcekcDvyVG2GuuDQo+HiQatEVEiAXjwRQpOATo
-	 OYkUzz6muvPO4pbfGRDaOJQGlFpJUkaHZFWoC0tkAdHzV3bPvQoxcQpcDzX+mB65E2
-	 AXAo3zTwjwJUf/OabGq0AWx7Nk7ff2i+lWiaL28fYdV2i6grjWH5Brx6SRdgzcQUlj
-	 eLOaHICnfn4kGTrhDlU3B5NpMcCl/HGt+CzdE3OWWCo1kzJRBvANkToWBAj5ZzYrUj
-	 vvzpuVcz3ZVvYQkdyWyi3SUsovSzWMKBeasGp2zsH5VJBbhssM8pj+GG2QIGYzVFLF
-	 Q/4kva3VMKXKQ==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54025432becso2081485e87.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Jan 2025 07:34:07 -0800 (PST)
-X-Gm-Message-State: AOJu0YxSztwV9sRUpzKwCbD2TL5o0UkJ0pctOkhXqkrOLdS5AO3/zU/F
-	LVIFb+ipt4gN/jYdEWyDRRAnifEScl/p6ptVEckInKCvemDjlXCO4Qy87D+97GDcAaOyxmmWyjG
-	VO1I8mw/TREBwlS8tf9Cb/q1honU=
-X-Google-Smtp-Source: AGHT+IGZUcPw9+LW9HpA/SWtXdRs96zZW0v416VHw60HRDv+DYUfX9xEemQaYln3lYVENs/PnVTf4JXiaPwfvzv6SNQ=
-X-Received: by 2002:a05:6512:23a3:b0:53e:385c:e881 with SMTP id
- 2adb3069b0e04-54284547e5cmr3623722e87.30.1736523246012; Fri, 10 Jan 2025
- 07:34:06 -0800 (PST)
+	b=sput3gIzVCV1FoGtYt9n3Y2eXV5OGgEiSi+oP/W9C+Wjaf7GgU21CXa8duaaQPV/A
+	 5JtCwBLGpZWOlLDt0DuArZrfRAA7gBQBMGjfPOfyXMtThnLnYcLsInuNlM+5dWB5I3
+	 FX8v6QQJCYoJf6/RrR+JeYzdB1g1bsvSUpHnKBJfXmn2EgB+X2maYkyuhqBA0DcX2g
+	 BNGt+q/sqW9PT5FRFUifaow1NFy/12oDLeaRuz/PFzSEFF6kOAGkvWqLbJzQ9UhNt+
+	 9/steiBrBixXvalaP+bDj1fy8Q1bvEy1UoO+ghrNSEd4pH/zOa3Uo/+ycyU/pULXAW
+	 No/T+BGPpp/kQ==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5401c68b89eso2449560e87.0;
+        Fri, 10 Jan 2025 08:33:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV0nGm3hqGBNAiXLzXbMx4bsiwkEC2yt8t+NfHSXXz/KJ3DbQzLfhOoGOyBvp1Cg6vLBmlBSVz0FM/jdtg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzed09kfNETMFi0iPcV+uqt1Yf0X4iLP4q+H/cL69GRqYRPCOUK
+	39o6oF3Vgl/wTDEOhU95Zq44+NJ6IWAVMohl++UKYc+x8oLj6BHEpfLVY0Wus1thNeaYH8hLHy1
+	x2Z30y7Hsy/+hGIoDGaTygeyqgRo=
+X-Google-Smtp-Source: AGHT+IENbkMr7M6WPgiWXCk8mMhFPTUJ6/kSg+VU1MbAGigKna5Dp3om89alv/5iuJipo5ZbETGVEgoACXo1GZDWREo=
+X-Received: by 2002:a05:6512:308d:b0:542:8386:e5bf with SMTP id
+ 2adb3069b0e04-5428a5fa5c0mr2577120e87.6.1736526823966; Fri, 10 Jan 2025
+ 08:33:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <302dedfd-af8b-43cc-99cf-3a3f7b34b714@secunet.com>
- <4915d245-4419-43cf-abbe-b28cd27c869a@secunet.com> <CAK7LNAQi0ZbVF9BLMCkHKufim43qH7MULW5iksoLK_sxYhRjkg@mail.gmail.com>
- <be81c0ac-fac7-44bf-9062-018bf47e7bbe@secunet.com>
-In-Reply-To: <be81c0ac-fac7-44bf-9062-018bf47e7bbe@secunet.com>
+References: <5843611.DvuYhMxLoT@devpool47.emlix.com> <4616510.LvFx2qVVIh@devpool47.emlix.com>
+In-Reply-To: <4616510.LvFx2qVVIh@devpool47.emlix.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 11 Jan 2025 00:33:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS5ZrLNeV=_gjbbJvKWLsdPaCHM=KgOevxKe_dRFCnUEw@mail.gmail.com>
-X-Gm-Features: AbW1kvaNjKcJHQFAUlI6Y_lSx4-quSA5U02nCsp2n6uQ27jMd3x9o5eXqRYObvM
-Message-ID: <CAK7LNAS5ZrLNeV=_gjbbJvKWLsdPaCHM=KgOevxKe_dRFCnUEw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Fix signing issue for external modules
-To: Torsten Hilbrich <torsten.hilbrich@secunet.com>
-Cc: linux-kbuild@vger.kernel.org
+Date: Sat, 11 Jan 2025 01:33:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASnzS=nCNwzj577qNZOpf8D2U-OVvbCRmDisiw4P2wOkA@mail.gmail.com>
+X-Gm-Features: AbW1kvazN4W3yq5eKGxdyjf4l0UGYOiedZfHK6KpJgDbWyA2I32viEKWppLW8x8
+Message-ID: <CAK7LNASnzS=nCNwzj577qNZOpf8D2U-OVvbCRmDisiw4P2wOkA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] kconfig: qconf: use preferred form of QString API
+To: Rolf Eike Beer <eb@emlix.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 10, 2025 at 11:00=E2=80=AFPM Torsten Hilbrich
-<torsten.hilbrich@secunet.com> wrote:
+On Thu, Dec 19, 2024 at 4:23=E2=80=AFPM Rolf Eike Beer <eb@emlix.com> wrote=
+:
 >
-> When running the sign script the kernel is within the source directory
-> of external modules. This caused issues when the kernel uses relative
-> paths, like:
+> A QString constructed from a character literal of length 0, i.e. "", is n=
+ot
+> "null" for historical reasons. This does not matter here so use the prefe=
+rred
+> method isEmpty() instead.
 >
-> make[5]: Entering directory '/build/client/devel/kernel/work/linux-2.6'
-> make[6]: Entering directory '/build/client/devel/addmodules/vtx/work/vtx'
->    INSTALL /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+=
-/extra/vtx.ko
->    SIGN    /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+=
-/extra/vtx.ko
-> /bin/sh: 1: scripts/sign-file: not found
->    DEPMOD  /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+
+> Also directly construct empty QString objects instead of passing in an em=
+pty
+> character literal that has to be parsed into an empty object first.
 >
-> Working around it by using absolute pathes here.
->
-> Fixes: 13b25489b6f8 ("kbuild: change working directory to external module=
- directory with M=3D")
-> Link: https://lore.kernel.org/linux-kbuild/302dedfd-af8b-43cc-99cf-3a3f7b=
-34b714@secunet.com
-> Issue: CLIENT-32662
-
-Please drop this tag.
-
-Instead, your Signed-off-by tag is mandatory.
-
-
-
-
-
+> Signed-off-by: Rolf Eike Beer <eb@emlix.com>
 > ---
->   scripts/Makefile.modinst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+
+Applied to linux-kbuild. Thanks.
+
+>  scripts/kconfig/qconf.cc | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> index f97c9926ed31..1628198f3e83 100644
-> --- a/scripts/Makefile.modinst
-> +++ b/scripts/Makefile.modinst
-> @@ -105,7 +105,7 @@ else
->   sig-key :=3D $(CONFIG_MODULE_SIG_KEY)
->   endif
->   quiet_cmd_sign =3D SIGN    $@
-> -      cmd_sign =3D scripts/sign-file $(CONFIG_MODULE_SIG_HASH) "$(sig-ke=
-y)" certs/signing_key.x509 $@ \
-> +      cmd_sign =3D $(objtree)/scripts/sign-file $(CONFIG_MODULE_SIG_HASH=
-) "$(sig-key)" $(objtree)/certs/signing_key.x509 $@ \
->                    $(if $(KBUILD_EXTMOD),|| true)
+> diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
+> index 6c92ef1e16ef..eaa465b0ccf9 100644
+> --- a/scripts/kconfig/qconf.cc
+> +++ b/scripts/kconfig/qconf.cc
+> @@ -1464,8 +1464,8 @@ void ConfigMainWindow::loadConfig(void)
+>  {
+>         QString str;
 >
->   ifeq ($(sign-only),)
+> -       str =3D QFileDialog::getOpenFileName(this, "", configname);
+> -       if (str.isNull())
+> +       str =3D QFileDialog::getOpenFileName(this, QString(), configname)=
+;
+> +       if (str.isEmpty())
+>                 return;
+>
+>         if (conf_read(str.toLocal8Bit().constData()))
+> @@ -1491,8 +1491,8 @@ void ConfigMainWindow::saveConfigAs(void)
+>  {
+>         QString str;
+>
+> -       str =3D QFileDialog::getSaveFileName(this, "", configname);
+> -       if (str.isNull())
+> +       str =3D QFileDialog::getSaveFileName(this, QString(), configname)=
+;
+> +       if (str.isEmpty())
+>                 return;
+>
+>         if (conf_write(str.toLocal8Bit().constData())) {
 > --
-> 2.39.5
+> 2.47.1
 >
+>
+> --
+> Rolf Eike Beer
+>
+> emlix GmbH
+> Headquarters: Berliner Str. 12, 37073 G=C3=B6ttingen, Germany
+> Phone +49 (0)551 30664-0, e-mail info@emlix.com
+> District Court of G=C3=B6ttingen, Registry Number HR B 3160
+> Managing Directors: Heike Jordan, Dr. Uwe Kracke
+> VAT ID No. DE 205 198 055
+> Office Berlin: Panoramastr. 1, 10178 Berlin, Germany
+> Office Bonn: Bachstr. 6, 53115 Bonn, Germany
+> http://www.emlix.com
+>
+> emlix - your embedded Linux partner
 >
 >
 
