@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-5457-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5458-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36B3A0BB33
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:08:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B553A0BB48
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:11:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CEC627A0116
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 15:08:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9517188CA93
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 15:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35295246344;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B0E2246349;
 	Mon, 13 Jan 2025 15:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RxmAiebt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0/Ben0B"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6B324633F;
-	Mon, 13 Jan 2025 15:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22987246342;
+	Mon, 13 Jan 2025 15:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736780595; cv=none; b=tsVMGfW0mNQE6paZTEd+DYr9shAAOE+s60GeKF913Ok07rK43rKsMadTQFz2FSPehfpUJRNBGcjDQYb8xQvpG0NrbtStVAmoxC2wgmE7Ljf1p6GaSfjRLNVkv6VWqPBJa3NAWeENCH4DsIlJCjQXIU5Fxf1dwLzASJ4/krWDvvg=
+	t=1736780595; cv=none; b=N4jx7pd7l2zIUrnF+UrNOzKKmPriKXW+Ieg5uB8UUTgM/Ll8OT8gaGP5FNFx2mLOR9tF+7hIhCJ7tQlQ1ilrYOcZdQ91OYI2vMXkv+Mu2Cuylj/HYjq91oEeqKhwL7ZDn/F2b7QMYg7n2KYYaC7ln0dliJiiMEBuIelxBXAp1HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736780595; c=relaxed/simple;
-	bh=PfKY4hMHBliNrr+kB89PDTK5pTJ42rOLJlyN9uzG4mc=;
+	bh=gl+dkIBbAjpPyPqoYKA51tUTj6PDx8224vetyPM6EYU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oZL7zxme9r3iWFjuV3EvjcDMkT+UR/N8edyWB1aFFgeCEsywwUrqKmC1/ExuX7/2qXNeM5XfOOTwYXjiUHYU4tkdeAvNCVDVIkbHD/NKqFA6U7kbCLkRBxYXTzU7/R/Mxqk/NgOKFWozOlN7dHXYgojaZamhBqN9TnsPuCTy/xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RxmAiebt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA006C4CEE5;
-	Mon, 13 Jan 2025 15:03:12 +0000 (UTC)
+	 MIME-Version; b=PFxjMHHW1ywXK+Z2/oEi5mPdrpCtbhMIIKWgWy5pY89Yqov2RzAXP5oHeqwr4o5wL3dWYOzSO5LdhxwLl2uAJaYwUeS5mvFKgiHGj/eLVoKbD+MGx6YzmoRp5rk1qINqEiXrNBT/P9l7j9OraF6yyLHndLsThxLhisssyZRhxLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0/Ben0B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23829C4CEE3;
+	Mon, 13 Jan 2025 15:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736780593;
-	bh=PfKY4hMHBliNrr+kB89PDTK5pTJ42rOLJlyN9uzG4mc=;
+	s=k20201202; t=1736780595;
+	bh=gl+dkIBbAjpPyPqoYKA51tUTj6PDx8224vetyPM6EYU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RxmAiebtvyZPCC94xe9haKdtqusNNEmaizgExpkrAXG21XJEZAQgcHCgg80rOXzAH
-	 ProxzWMix3qtzz22CMO3LKB/vL48r1O4beGC63O8SbO6xix1D1rH60m9OrcprWHWDt
-	 37ceVZqpm8SYHgYmLdt2zZv7owN2Z2twS/EK2GwmMbjXD5q1x6FPGPomkZGMslXv2D
-	 s2/IpeozkfiC2nvqou3ox0jmxsvKzQSTSgCK7ES0K2QIKwO6fO1NrLSpTcihavyti1
-	 M1GtIgaHRA0ol7LeNPxhXa94nLEUA7VxVrfW1zUVsHjQreWEgt8ssAoRk5hDyvx6Fs
-	 jWSIDe3tb7RKw==
+	b=P0/Ben0BNYE0WEm20vpagdfXDSPMD0TON5peRa0J12hcoikPV7dEBefUogk4XulZY
+	 WRFAKIZurFiUUkFBr0isGoDDDkX17OX2hq68j1eTCedau+k5dWP1CrCrV5WRj+ibIa
+	 vMeff4LitqfuXTxURHR+TwJLgFl7R9oEvvFp6ekEM4Ww0Y6lyAX3Udf6wzHXND6O03
+	 ASbuEfp9syaF1QQ0iRHKPuUBAhmEh1LAIuu/FXmdjdKUj5r2ECiYZelo29jhEK8IXI
+	 n8Cg5VshZFXCUveGSXohW3UwuuRYG9C11DMdknSVGY8aFLul3WeiAm7RL5Mm1vY74i
+	 +jkF49ue0jK1w==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 09/17] genksyms: record attributes consistently for init-declarator
-Date: Tue, 14 Jan 2025 00:00:47 +0900
-Message-ID: <20250113150253.3097820-10-masahiroy@kernel.org>
+Subject: [PATCH 10/17] genksyms: decouple ATTRIBUTE_PHRASE from type-qualifier
+Date: Tue, 14 Jan 2025 00:00:48 +0900
+Message-ID: <20250113150253.3097820-11-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250113150253.3097820-1-masahiroy@kernel.org>
 References: <20250113150253.3097820-1-masahiroy@kernel.org>
@@ -59,67 +59,47 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I believe the missing action here is a bug.
+The __attribute__ keyword can appear in more contexts than 'const' or
+'volatile'.
 
-For rules with no explicit action, the following default is used:
+To avoid grammatical conflicts with future changes, ATTRIBUTE_PHRASE
+should not be reduced into type_qualifier.
 
-    { $$ = $1; }
-
-However, in this case, $1 is the value of attribute_opt itself. As a
-result, the value of attribute_opt is always NULL.
-
-The following test code demonstrates inconsistent behavior.
-
-    int x __attribute__((__aligned__(4)));
-    int y __attribute__((__aligned__(4))) = 0;
-
-The attribute is recorded only when followed by an initializer.
-
-This commit adds the correct action to propagate the value of the
-ATTRIBUTE_PHRASE token.
-
-With this change, the attribute in the example above is consistently
-recorded for both 'x' and 'y'.
-
-[Before]
-
-    $ cat <<EOF | scripts/genksyms/genksyms -d
-    int x __attribute__((__aligned__(4)));
-    int y __attribute__((__aligned__(4))) = 0;
-    EOF
-    Defn for type0 x == <int x >
-    Defn for type0 y == <int y __attribute__ ( ( __aligned__ ( 4 ) ) ) >
-    Hash table occupancy 2/4096 = 0.000488281
-
-[After]
-
-    $ cat <<EOF | scripts/genksyms/genksyms -d
-    int x __attribute__((__aligned__(4)));
-    int y __attribute__((__aligned__(4))) = 0;
-    EOF
-    Defn for type0 x == <int x __attribute__ ( ( __aligned__ ( 4 ) ) ) >
-    Defn for type0 y == <int y __attribute__ ( ( __aligned__ ( 4 ) ) ) >
-    Hash table occupancy 2/4096 = 0.000488281
+No functional changes are intended.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/genksyms/parse.y | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/genksyms/parse.y | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/genksyms/parse.y b/scripts/genksyms/parse.y
-index 33a6aab53b69..e3c160046143 100644
+index e3c160046143..cd933a95548d 100644
 --- a/scripts/genksyms/parse.y
 +++ b/scripts/genksyms/parse.y
-@@ -480,7 +480,7 @@ member_bitfield_declarator:
- 
- attribute_opt:
- 	/* empty */					{ $$ = NULL; }
--	| attribute_opt ATTRIBUTE_PHRASE
-+	| attribute_opt ATTRIBUTE_PHRASE		{ $$ = $2; }
+@@ -216,6 +216,7 @@ decl_specifier:
+ 		}
+ 	| type_specifier	{ dont_want_type_specifier = true; $$ = $1; }
+ 	| type_qualifier
++	| ATTRIBUTE_PHRASE
  	;
  
- enum_body:
+ storage_class_specifier:
+@@ -285,11 +286,13 @@ type_qualifier_seq_opt:
+ 
+ type_qualifier_seq:
+ 	type_qualifier
++	| ATTRIBUTE_PHRASE
+ 	| type_qualifier_seq type_qualifier		{ $$ = $2; }
++	| type_qualifier_seq ATTRIBUTE_PHRASE		{ $$ = $2; }
+ 	;
+ 
+ type_qualifier:
+-	CONST_KEYW | VOLATILE_KEYW | ATTRIBUTE_PHRASE
++	CONST_KEYW | VOLATILE_KEYW
+ 	| RESTRICT_KEYW
+ 		{ /* restrict has no effect in prototypes so ignore it */
+ 		  remove_node($1);
 -- 
 2.43.0
 
