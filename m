@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-5456-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5457-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345FEA0BB4C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:12:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A36B3A0BB33
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:08:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C846F16AE42
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 15:08:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CEC627A0116
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 15:08:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BE392451C8;
-	Mon, 13 Jan 2025 15:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35295246344;
+	Mon, 13 Jan 2025 15:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANQQxS56"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RxmAiebt"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E7D23ED6F;
-	Mon, 13 Jan 2025 15:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6B324633F;
+	Mon, 13 Jan 2025 15:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736780592; cv=none; b=sjmgzKRamIT6KVAxOV3Qcw4RZuvq29YVoBHMIc9TzmJNgEiKCNIF+eqvVi+HjQS0idUNYW25wS064SC/5y6nZNTM2+H4cVW2jdGLd9kBXVmMyPktXy07E/qWGCEKE8OM4HNFt621PjiBW8XTy9A97PzD3IeeJqhZRdfF1O01big=
+	t=1736780595; cv=none; b=tsVMGfW0mNQE6paZTEd+DYr9shAAOE+s60GeKF913Ok07rK43rKsMadTQFz2FSPehfpUJRNBGcjDQYb8xQvpG0NrbtStVAmoxC2wgmE7Ljf1p6GaSfjRLNVkv6VWqPBJa3NAWeENCH4DsIlJCjQXIU5Fxf1dwLzASJ4/krWDvvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736780592; c=relaxed/simple;
-	bh=1XEqICoW5bCK9qLPwTMIN712gYss/wBf1UHwd91O+qs=;
+	s=arc-20240116; t=1736780595; c=relaxed/simple;
+	bh=PfKY4hMHBliNrr+kB89PDTK5pTJ42rOLJlyN9uzG4mc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HmcdPXZYh7SWEvUnv07HBxPxr7QdugL9hteYBO5MgphNx+q0kNZfdOXe6OMCZv3MGqaLSr+ZoLYmPnmQWUwA/fEFbw320dCGugLus0fiki/GBTV+Yr65BqxUE9KtCiv5yeMrTTd3V2ECwpdTDM+X+NEULtumDXHTcrpOrkmdQms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANQQxS56; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7143EC4CEE3;
-	Mon, 13 Jan 2025 15:03:11 +0000 (UTC)
+	 MIME-Version; b=oZL7zxme9r3iWFjuV3EvjcDMkT+UR/N8edyWB1aFFgeCEsywwUrqKmC1/ExuX7/2qXNeM5XfOOTwYXjiUHYU4tkdeAvNCVDVIkbHD/NKqFA6U7kbCLkRBxYXTzU7/R/Mxqk/NgOKFWozOlN7dHXYgojaZamhBqN9TnsPuCTy/xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RxmAiebt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA006C4CEE5;
+	Mon, 13 Jan 2025 15:03:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736780592;
-	bh=1XEqICoW5bCK9qLPwTMIN712gYss/wBf1UHwd91O+qs=;
+	s=k20201202; t=1736780593;
+	bh=PfKY4hMHBliNrr+kB89PDTK5pTJ42rOLJlyN9uzG4mc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ANQQxS565+9aWe0jGHLytm+SW9qQ/i4NSolUnh1H72M5ArGKkxJX+NA/cubVH06d+
-	 LOrVPluvrBttzhkTqIRWgeKVIpyCGwOg9grZ+wKZQs8jSlHfzyiwnoo14waa8Z+Z6e
-	 3d3O7VFhdnDWSYQcaIF4n2L/gQ5aILs81E2Ep29pCOSatZ5cmehZ0lYN7LuVBt+FJP
-	 tuzyVafHn5Ev8xz0r5kzsnnXb+l4i3CIuJYN5zEQIvK1QiHfWklzHYE/GcanCNl9xL
-	 d341+N4SHYZXWlQLPGzcAojqq5PnVWiam84+S7JI29iPDcIq+yD1afAvnk6zP9gCaN
-	 1pR858N/ztO7g==
+	b=RxmAiebtvyZPCC94xe9haKdtqusNNEmaizgExpkrAXG21XJEZAQgcHCgg80rOXzAH
+	 ProxzWMix3qtzz22CMO3LKB/vL48r1O4beGC63O8SbO6xix1D1rH60m9OrcprWHWDt
+	 37ceVZqpm8SYHgYmLdt2zZv7owN2Z2twS/EK2GwmMbjXD5q1x6FPGPomkZGMslXv2D
+	 s2/IpeozkfiC2nvqou3ox0jmxsvKzQSTSgCK7ES0K2QIKwO6fO1NrLSpTcihavyti1
+	 M1GtIgaHRA0ol7LeNPxhXa94nLEUA7VxVrfW1zUVsHjQreWEgt8ssAoRk5hDyvx6Fs
+	 jWSIDe3tb7RKw==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 08/17] genksyms: restrict direct-declarator to take one parameter-type-list
-Date: Tue, 14 Jan 2025 00:00:46 +0900
-Message-ID: <20250113150253.3097820-9-masahiroy@kernel.org>
+Subject: [PATCH 09/17] genksyms: record attributes consistently for init-declarator
+Date: Tue, 14 Jan 2025 00:00:47 +0900
+Message-ID: <20250113150253.3097820-10-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250113150253.3097820-1-masahiroy@kernel.org>
 References: <20250113150253.3097820-1-masahiroy@kernel.org>
@@ -59,52 +59,67 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Similar to the previous commit, this change makes the parser logic a
-little more accurate.
+I believe the missing action here is a bug.
 
-Currently, genksyms accepts the following invalid code:
+For rules with no explicit action, the following default is used:
 
-    struct foo {
-            int (*callback)(int)(int)(int);
-    };
+    { $$ = $1; }
 
-A direct-declarator should not recursively absorb multiple
-( parameter-type-list ) constructs.
+However, in this case, $1 is the value of attribute_opt itself. As a
+result, the value of attribute_opt is always NULL.
 
-In the example above, (*callback) should be followed by at most one
-(int).
+The following test code demonstrates inconsistent behavior.
+
+    int x __attribute__((__aligned__(4)));
+    int y __attribute__((__aligned__(4))) = 0;
+
+The attribute is recorded only when followed by an initializer.
+
+This commit adds the correct action to propagate the value of the
+ATTRIBUTE_PHRASE token.
+
+With this change, the attribute in the example above is consistently
+recorded for both 'x' and 'y'.
+
+[Before]
+
+    $ cat <<EOF | scripts/genksyms/genksyms -d
+    int x __attribute__((__aligned__(4)));
+    int y __attribute__((__aligned__(4))) = 0;
+    EOF
+    Defn for type0 x == <int x >
+    Defn for type0 y == <int y __attribute__ ( ( __aligned__ ( 4 ) ) ) >
+    Hash table occupancy 2/4096 = 0.000488281
+
+[After]
+
+    $ cat <<EOF | scripts/genksyms/genksyms -d
+    int x __attribute__((__aligned__(4)));
+    int y __attribute__((__aligned__(4))) = 0;
+    EOF
+    Defn for type0 x == <int x __attribute__ ( ( __aligned__ ( 4 ) ) ) >
+    Defn for type0 y == <int y __attribute__ ( ( __aligned__ ( 4 ) ) ) >
+    Hash table occupancy 2/4096 = 0.000488281
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/genksyms/parse.y | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ scripts/genksyms/parse.y | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/genksyms/parse.y b/scripts/genksyms/parse.y
-index 03cdd8d53c13..33a6aab53b69 100644
+index 33a6aab53b69..e3c160046143 100644
 --- a/scripts/genksyms/parse.y
 +++ b/scripts/genksyms/parse.y
-@@ -331,12 +331,16 @@ nested_declarator:
+@@ -480,7 +480,7 @@ member_bitfield_declarator:
+ 
+ attribute_opt:
+ 	/* empty */					{ $$ = NULL; }
+-	| attribute_opt ATTRIBUTE_PHRASE
++	| attribute_opt ATTRIBUTE_PHRASE		{ $$ = $2; }
  	;
  
- direct_nested_declarator:
-+	direct_nested_declarator1
-+	| direct_nested_declarator1 '(' parameter_declaration_clause ')'
-+		{ $$ = $4; }
-+	;
-+
-+direct_nested_declarator1:
- 	IDENT	{ $$ = $1; dont_want_type_specifier = false; }
--	| direct_nested_declarator '(' parameter_declaration_clause ')'
-+	| direct_nested_declarator1 '(' error ')'
- 		{ $$ = $4; }
--	| direct_nested_declarator '(' error ')'
--		{ $$ = $4; }
--	| direct_nested_declarator BRACKET_PHRASE
-+	| direct_nested_declarator1 BRACKET_PHRASE
- 		{ $$ = $2; }
- 	| '(' nested_declarator ')'
- 		{ $$ = $3; }
+ enum_body:
 -- 
 2.43.0
 
