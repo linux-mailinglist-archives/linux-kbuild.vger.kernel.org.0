@@ -1,128 +1,151 @@
-Return-Path: <linux-kbuild+bounces-5441-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5442-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A07A0AB6F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Jan 2025 19:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A609A0AF0E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 07:01:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A5ED1658D2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Jan 2025 18:32:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5661B161244
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 06:01:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE1051BD9CB;
-	Sun, 12 Jan 2025 18:32:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E6D81C3306;
+	Mon, 13 Jan 2025 06:01:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J6HfWcw3"
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="GvPtVP7q"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF489629
+	for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 06:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736748102; cv=none; b=qv14y6u1HFPRF6ai3LDSd3WufJFK/CzojdRGQHVB6hnDMDBQfjqhoDoOH3h0HljsOPjXlmwYIN1Aps6OvewZHglHSpjHjzlS8fMqxg5XHYo450HELI26gBa3J7jeEptfxxqpjHND1OxVQUTOsWUMTO9Gdy1fDLLk16DWwWgPXSI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736748102; c=relaxed/simple;
+	bh=lNC8gNckYid4BKB+f7xTZa51dLqOhDIwMC8NbB0Hor8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:CC:
+	 In-Reply-To:Content-Type; b=kFQWlx3GJeEGfXjQHRKioF7tJdfmrYt98RHyqOm/HSMLmG6//97vGSwiAMQb5YliYFFFVPhJBwJcCVoLefy00Vd/JayaC+muYqKXZ798Vx2Q9GCDN72iuPy52m0PCu8t7wDAgH5neiD79d+PcacLUnb/3mYfySTCBKuVMIgTqHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=GvPtVP7q; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
+Received: from localhost (localhost [127.0.0.1])
+	by a.mx.secunet.com (Postfix) with ESMTP id 331792076B;
+	Mon, 13 Jan 2025 07:01:32 +0100 (CET)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id dwkSYGMYWJap; Mon, 13 Jan 2025 07:01:31 +0100 (CET)
+Received: from cas-essen-02.secunet.de (rl2.secunet.de [10.53.40.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D95C22083;
-	Sun, 12 Jan 2025 18:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736706773; cv=none; b=XplkX479zcI+ETNgwK1Z2LbQ6bLjsZgDNQCdx5JqI4BVf2hLZKDgHniw/LJqclXP8tZ/seQOaWb0gkY07Cth+hOpxnqbqI/TscAgEYA0LzYYx71xl5C2lNXkZkN8Vr6gyT0oOhIGdc6ptTcL7L6BDlXNEbORHJuda9kXHfm/Fpg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736706773; c=relaxed/simple;
-	bh=yhvI24/fVs78yt1gcCwNGyYwQ0Y2pgqQMWlzSDMmOLs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OZR+O0VQIMrd0CrHG8Fr/XDlKhOiQVp1y2Zy1W4xBpfHL08JCWcFt7BeM8bkH/DeU323hqsa7QBz3/njxyYCgg2hGJOypkPLxvbTo2Od6u7KXkPmq4n2rqyxw1z9P64lIfw4VG8X0ZZ4rnQnH6fJ2Ol3D3p0GZHsDxGCSZUvs4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6HfWcw3; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2161d4b820bso4889475ad.1;
-        Sun, 12 Jan 2025 10:32:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736706772; x=1737311572; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wqdXteI6po77iy2QSprlVR4R07cOMcPi4KkHxst/BpI=;
-        b=J6HfWcw3wIK2/gsQ4FbrbH5rjcsyfLIfvWintr2w74eEKx+YyUDsq0EWQRydU1/pyO
-         2czGyVQMcqO6uOlDNXZb3EImnya3rKr6vvK4KV52bx/gZ3CUZlDs82XdEUMdssMB/Fis
-         fGWo5Aqrz0EzwotZCLwpE+ZaCPGUQlj7fF2PZbpHMevSY9qJHgWNBAEfZPTkZOmWxpgN
-         qn9aCLxbvtk0d1YRaG7IZXaMDhy6HTpuxTDHObq1udVxJ8ULlEKe9L/L7PGzq7wfvw7h
-         KVX7x5BKPDFtb28aSUldheVov2O+03ABRjGG8nDuCuRFV3o6JXJgU59WMzVd/WMmxv97
-         yVuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736706772; x=1737311572;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wqdXteI6po77iy2QSprlVR4R07cOMcPi4KkHxst/BpI=;
-        b=oYjPYCp+JdYbZPX1doCPuFeN0ftZygeMYrBVfTt0F/U0EecuCSlDxvC6ccIWeUPrHB
-         krQL93O8pT+/p8EULuMqTAKqhUulzNyBsAdZpxdH0BbTRR6870wIuk2mdGcV0Fsj0FrN
-         umFJN2h9ymPhieEHcs43X9PG3Y2n29KwvkhLlNYDvBIgmw9HbJQIFsuK766UHsfwCtvX
-         x5rtikMWBsVMXsbCKYrGxGdgtKCxOxOEhL+nvs3+keBS21YJ1MhQGBsG9aa8/HWXGvex
-         Aovo3wgLX7CSlnTZl0FsNrGUIF+N0GVC0YQfur2C65LB0t2/MdL7ERT7aFNg0FFNVGIE
-         iF4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUsRnv7UoKUJpI6YKnKNO9SP0fKHKZbVLyydWFvqxvrzDgFFyI+AE1JHP4cmRy7PQHNEij1Q4Se5AmKEd1I@vger.kernel.org, AJvYcCVJPhugayByAu9nzOdjDrIzNjy3CpemLmV65eG9Li19M32XpXNKUmIkXif3Warj2tEcDjTyORMLVo98/FI=@vger.kernel.org, AJvYcCXUXOotsUgr8YfNgd9DJAh7KlsHcE5kBGgldi3wYnwjFy4CLKQIh0BTXJL1mai0frV+BvZclAJYTjBej+R1EcA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ5M9mub8z8rH9uJEHDe8ldNOlsrZgq9Fk3Qsuxtm6RUhYNWLX
-	9swRWgw6tx1M9K5cmximJ6HbI82e4/0CNfLn0SOTcE5iOL1yveG1/F7eAqPSyswLCD2zM02a9r7
-	VbcWa6JhKUHbj+JvIjrTY2OsNgSw=
-X-Gm-Gg: ASbGncu2HJZFXrlRkF0CABavzCzoTBCEt4eAjhUO1uM22IAveLeklSGLKRvfx07IHa/
-	7OmuOu+umCspuxX0t3DsYhmXtUWsPGwZMATQ+wQ==
-X-Google-Smtp-Source: AGHT+IE68VS9F2h8PG0xQDi2AIsVODYBWEuZjRHGRen0i7cGHQvgFb8+PBSL1XOvezWGmnqEQlgbvKcD96RTRggxziQ=
-X-Received: by 2002:a17:903:184:b0:215:9a73:6c4f with SMTP id
- d9443c01a7336-21a83f5b625mr102738325ad.6.1736706771683; Sun, 12 Jan 2025
- 10:32:51 -0800 (PST)
+	by a.mx.secunet.com (Postfix) with ESMTPS id 50AE42064C;
+	Mon, 13 Jan 2025 07:01:31 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com 50AE42064C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1736748091;
+	bh=b5cKEwQAH/ea8iuMyR+Yj6/OKgbkVGihsvDoVnoBMMI=;
+	h=Date:Subject:To:References:From:CC:In-Reply-To:From;
+	b=GvPtVP7qS5yz5ShOgA2oy+lX1M4uRd4jj0Ugugs6BkCyaDq34njnYz5a37uDC2MbI
+	 Uj67l/qg0NP3CnY2h577V5W0e0FbJm3zZDv3sJKGNP/wLjIS2IweZZflO2+GhL+wng
+	 15/bP9Na7xLKKTK43xxQzcb7XFdIx2RYWfszUQd6ZUhNfzVaT9mV5TXVXRnLSxH8y9
+	 nOhPNVfd1+2oZK4Rb6JAOTkOd2lDg3nLRIZQ0wlA6raYfsJO4v4aNkL6MH4doS2Yku
+	 89llckiwOcis8KzVaPoHAe5AVK0MBlI+6UHKPm+El+CaUVPJRfLuidz7wF1al4Ldbg
+	 NqHypJnwWz/5w==
+Received: from mbx-essen-02.secunet.de (10.53.40.198) by
+ cas-essen-02.secunet.de (10.53.40.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 13 Jan 2025 07:01:31 +0100
+Received: from [172.18.150.65] (172.18.150.65) by mbx-essen-02.secunet.de
+ (10.53.40.198) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 13 Jan
+ 2025 07:01:30 +0100
+Message-ID: <4cce9f70-71ef-4bd8-8517-ab4086386555@secunet.com>
+Date: Mon, 13 Jan 2025 07:01:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240519211235.589325-1-ojeda@kernel.org> <20240519211235.589325-2-ojeda@kernel.org>
- <CAK7LNATPx2wTEM=KDmGtcH8vVTB4suOhh-CUQKP54F8wtPWDiw@mail.gmail.com>
- <CANiq72mcdtNie=t=HHhZnjQa7gQiDZin+TYP_7Rgi4kL83H2BA@mail.gmail.com>
- <CAK7LNASYYYsiZUaA1StD9kWO0WBC0PBPtfY7u32g94WtOPFZgw@mail.gmail.com>
- <CANiq72mzTaKYJqNcv1qT3nXEbh_t7CwaAqxCuYNcx9eHOZf7wQ@mail.gmail.com>
- <CAK7LNAQkUik_VW7j-d56Pr4NnExxDnjMfWSwtxvijH4q4Onctg@mail.gmail.com> <878qrig5f5.fsf@kernel.org>
-In-Reply-To: <878qrig5f5.fsf@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 12 Jan 2025 19:32:39 +0100
-X-Gm-Features: AbW1kvbarXXNox8Aqm6y6l8o9SVEsvFhrrvSgxGIdEGR5pO0-K6aJ8d8RCBOZ0w
-Message-ID: <CANiq72nNTc+XLBZxcSBD9beZ+OocEEYQcNOM_e7Be55LuJ1M4A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kbuild: rust: apply `CONFIG_WERROR` to all Rust targets
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v2] kbuild: Fix signing issue for external modules
+To: Masahiro Yamada <masahiroy@kernel.org>
+References: <302dedfd-af8b-43cc-99cf-3a3f7b34b714@secunet.com>
+ <4915d245-4419-43cf-abbe-b28cd27c869a@secunet.com>
+ <CAK7LNAQi0ZbVF9BLMCkHKufim43qH7MULW5iksoLK_sxYhRjkg@mail.gmail.com>
+ <be81c0ac-fac7-44bf-9062-018bf47e7bbe@secunet.com>
+ <CAK7LNAS5ZrLNeV=_gjbbJvKWLsdPaCHM=KgOevxKe_dRFCnUEw@mail.gmail.com>
+From: Torsten Hilbrich <torsten.hilbrich@secunet.com>
+Content-Language: en-US
+CC: <linux-kbuild@vger.kernel.org>
+Autocrypt: addr=torsten.hilbrich@secunet.com; keydata=
+ xsBNBFs5uIIBCAD4qbEieyT7sBmcro1VrCE1sSnV29a9ub8c0Xj0yw0Cz2N7LalBn4a+YeJN
+ OMfL1MQvEiTxZNIzb1I0bRYcfhkhjN4+vAoPJ3q1OpSY+WUgphUbzseUk/Bq3gwvfa6/U+Hm
+ o2lvEfN2dewBGptQ+DrWz+SPM1TQiwShKjowY/avaVgrABBGen3LgB0XZXEH8Q720kjP7htK
+ tCGRt1T+qNIj3tZDZfPkqEVb8lTRcyn1hI3/FbDTysletRrCmkHSVbnxNzO6lw2G1H61wQhw
+ YVbIVNohY61ieSJFhNLL6/UTGHtUE2IAicnsUAUKR8GiI1+3cTf233O5HaWYeOjBmTCLABEB
+ AAHNL1RvcnN0ZW4gSGlsYnJpY2ggPHRvcnN0ZW4uaGlsYnJpY2hAc2VjdW5ldC5jb20+wsB3
+ BBMBCAAhBQJbObiCAhsDBQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEJ7rXZh78/h8+tIH
+ +QFYRQH4qh3WagcmjbG/zCe2RmZZePO8bmut2fAxY04aqJZGYUBxb5lfaWaHkstqM5sFD8Jo
+ k1j5E7f1cnfwB21azdUO8fzYL889kdVOzatdT/uTjR7OjR59gpJMd4lx7fwFuZUg8z6rfWJ3
+ ImjxxBgaJRL6pqaZ9lOst82O0qJKEFBR+HDUVvgh4n8TTOfKNv/dGPQhaed+2or98asdYRWo
+ S/zc4ltTh4SxZjLd98pDxjlUyOJoMJeWdlMmLgWV3h1qjy4DxgQzvgATEaKjOuwtkCOcwHn7
+ Unf0F2V9p4O7NFOuoVyqTBRX+5xKgzSM7VP1RlTT4FA9/7wkhhG+FELOwE0EWzm4ggEIAL9F
+ IIPQYMx5x+zMjm8lDsmh12zoqCtMfn9QWrERd2gDS3GsORbe/i6DhYvzsulH8vsviPle4ocU
+ +PaTwadfnEqm0FS7xCONYookDGfAiPS4cHWX7WrTNBP7mK3Gl1KaAOJJsMbCVAA9q4d8WL+A
+ e+XrfOAetZq5gxLxDMYySNI1pIMJVrGECiboLa/LPPh2yw4jieAedW96CPuZs7rUY/5uIVt0
+ Dn4/aSzV+Ixr52Z2McvNmH/VxDt59Z6jBztZIJBXpX3BC/UyH7rJOJTaqEF+EVWEpOmSoZ6u
+ i1DWyqOBKnQrbUa0fpNd3aaOl2KnlgTH9upm70XZGpeJik/pQGcAEQEAAcLAXwQYAQgACQUC
+ Wzm4ggIbDAAKCRCe612Ye/P4fEzqB/9gcM/bODO8o9YR86BLp0S8bF73lwIJyDHg5brjqAnz
+ CtCdb4I+evI4iyU9zuN1x4V+Te5ej+mUu5CbIte8gQbo4cc9sbe/AEDoOh0lGoXKZiwtHqoh
+ RZ4jOFrZJsEjOSUCLE8E8VR1afPf0SkFXLXWZfZDU28K80JWeV1BCtxutZ39bz6ybMbcCvMS
+ UfwCTY0IJOiDga1K4H2HzHAqlvfzCurqe616S4S1ax+erg3KTEXylxmzcFjJU8AUZURy/lQt
+ VElzs4Km1p3v6GUciCAb+Uhd12sQG2mL05jmEems9uRe3Wfke/RKp8A+Yq+p6E0A0ZOP+Okm
+ LXB2q+ckPvZG
+In-Reply-To: <CAK7LNAS5ZrLNeV=_gjbbJvKWLsdPaCHM=KgOevxKe_dRFCnUEw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
+ mbx-essen-02.secunet.de (10.53.40.198)
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
 
-On Fri, Jan 10, 2025 at 2:33=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
->
-> @Miguel: Should I look into exempting host programs, or do you already
-> have an idea of how to implement?
+When running the sign script the kernel is within the source directory
+of external modules. This caused issues when the kernel uses relative
+paths, like:
 
-I will send a v2. I may take the chance to already apply the first
-patch into `rust-next`, since that could go in already.
+make[5]: Entering directory '/build/client/devel/kernel/work/linux-2.6'
+make[6]: Entering directory '/build/client/devel/addmodules/vtx/work/vtx'
+   INSTALL /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+/extra/vtx.ko
+   SIGN    /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+/extra/vtx.ko
+/bin/sh: 1: scripts/sign-file: not found
+   DEPMOD  /build/client/devel/addmodules/vtx/_/lib/modules/6.13.0-devel+
 
-> Regarding host programs, it would be nice to set werror for those. How
-> does C do this? Is W=3De enough?
+Working around it by using absolute pathes here.
 
-Neither `CONFIG_WERROR` nor `W=3De` apply to C host programs.
+Fixes: 13b25489b6f8 ("kbuild: change working directory to external module directory with M=")
+Link: https://lore.kernel.org/linux-kbuild/302dedfd-af8b-43cc-99cf-3a3f7b34b714@secunet.com
+Signed-off-by: Torsten Hilbrich <torsten.hilbrich@secunet.com>
+---
+  scripts/Makefile.modinst | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-However, you may already do:
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index f97c9926ed31..1628198f3e83 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -105,7 +105,7 @@ else
+  sig-key := $(CONFIG_MODULE_SIG_KEY)
+  endif
+  quiet_cmd_sign = SIGN    $@
+-      cmd_sign = scripts/sign-file $(CONFIG_MODULE_SIG_HASH) "$(sig-key)" certs/signing_key.x509 $@ \
++      cmd_sign = $(objtree)/scripts/sign-file $(CONFIG_MODULE_SIG_HASH) "$(sig-key)" $(objtree)/certs/signing_key.x509 $@ \
+                   $(if $(KBUILD_EXTMOD),|| true)
+  
+  ifeq ($(sign-only),)
+-- 
+2.39.5
 
-    make ... HOSTCFLAGS=3D-Werror
-
-And for Rust:
-
-    make ... HOSTRUSTFLAGS=3D-Dwarnings
-
-I could perhaps add that into the docs.
-
-I hope that helps, and thanks for the tags!
-
-Cheers,
-Miguel
 
