@@ -1,106 +1,210 @@
-Return-Path: <linux-kbuild+bounces-5471-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5472-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0700A0BDA6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 17:35:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95DD1A0C1AF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 20:38:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEFFB161D78
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:35:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98C451622AF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 19:38:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4679190692;
-	Mon, 13 Jan 2025 16:35:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C7CA1C760D;
+	Mon, 13 Jan 2025 19:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZUKgtt7H"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="g4iNwX7A";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="g4iNwX7A"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC7C146D53
-	for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 16:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8657A1C726D
+	for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 19:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736786126; cv=none; b=OGPz4pQuYW8uNMv3SlGQj0YB1B91jUxk514fY0Sb2AXJB8DI9N79oF7edbbIOQ8fugjJhu77ZnuFtXhv6x+0/hmYicJZSTqiklMtKQ/RjNyQ7aiE2Ld8WxFoavkAP++ExggJBUgA+ZYvF8Aesnm6mrwvbhbbFt1edxA2JLrDSlk=
+	t=1736797094; cv=none; b=aWajHSeXIuDZMEbg7s17EsTtK2zvXPkT0utkjPiMDX8c8wpaDxEBZDHmDK7BfwEIV94ioI5MalsUrhYVI90ho6z42gT6KvOysEAqBoYMbTXRo6UsJK7KevXEvorD1g7l19Qw05gs9T61GKgF0pEzinprA3hfBX3mNmfLyvxto6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736786126; c=relaxed/simple;
-	bh=BooridWNkwj5e5l7KJGz0aXFtBPUjNvLT1DK2xRxOfM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rElhBeJri/j4pb7X8pAubI0PMYr8F7DFFdSCIF8KKFH/IJCR6AGsUmnXZq6TVmrYsNRa5f+mYppZQ+gYNupPc3/jiwOF6RZnDWADf9TVF1O4i2PldS0T8Sty68o/ztQyVt53OW4mC/yaCi/3F7ccKHnW5+/5e4d4hSVHvEpg1+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZUKgtt7H; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4678c9310afso381551cf.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 08:35:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736786124; x=1737390924; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XMmCFePuGHQ1skz70dTUlVQVmje52VzFgi7onjQ2Bto=;
-        b=ZUKgtt7HTSPULOTv040kxbrw5EkNTyM22y/xJc4J1qoUDSn+BrQYwCH+4yj8vZrD+D
-         oT3xhu2UH+5T9DxNfeXr8KdTepti1uG8387G+n4g1zsgP7Q/xBKQTgWwlSRZGp8g2EUE
-         XE5196+xxkouhfye8Pigl7aGHe4fXgTRQnOTeKksdGcKXQlNU3YwFBhaq0vqkn/KGPg2
-         mITZygzorr0zput+zPA18Nd5Zme7JRB9F1WJkenyO5ClfKHuR5WFH+TDPher3paJ/6Va
-         hBcQV6vgcRWFy/HCrPbU2fYUHFrjeXjA3bIM7Wnn6j5t0qftzh4v+vreLt+xQ4ydd5yv
-         oymw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736786124; x=1737390924;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XMmCFePuGHQ1skz70dTUlVQVmje52VzFgi7onjQ2Bto=;
-        b=Fcg+Z3GXXS0pmWXvjzHWAYaakTVCOn1DyKEwjkSeoWzff0iOUr9zqO2XFznwxVOlJI
-         RjNT6jwdusWXFtora0N8B4U79WczYTUUCHt6qFyFeUS5izNOlOhp5YIDzFLYQ+95zNYD
-         JER5IxxRBMOj0e5BhDdnza5nqxWLRX68m8T51KP2YI/oR5iwMVX7YWFdnW4D+kiKdG6B
-         xA6LYrOEuJUrVU4i3csuzDYCLx9Rc+uRBuRE9acrrP/0o0r2phgf1LV/hNwYejLzMLB6
-         lYj1P+F/yr7uRyDm0PcM1NEETP0wBprX0w4VoSSDPx31zWHRjLLMTw9lD6W7hw7ZBoo0
-         DlfA==
-X-Gm-Message-State: AOJu0YzZIw8ESe1C88czf6OmqLNjYHbSu3fmv3bHWO0kmz/DsHQI1dX2
-	0d9pVbREAXwuHEu3gydnHcBKFSifKvPnQ5LhPNGctmgC7X/jB5izTQZJzI2jmpe4w8J1Br67Nz4
-	O51FETDCg6dC11ZRLWAbNd47JPkXDoOxKeE5T
-X-Gm-Gg: ASbGncuCIjxiTc3USMMorZp1/HLSeO0W5dt6jDQunc885CZKu86PhkJ6M0lG6+1g7Ug
-	EzgKi5ZQoesShyKWO2m6jBAryR0HlXzbH4t+GFqRKP/SS3IaHV/vHIKPm3UxeLPWbNpop
-X-Google-Smtp-Source: AGHT+IGNaOvCCyABwZt5vUL0P//fF4haAUUv6EOUPp31qiCFuubLN0JgBuYZ9VhbJJXjKtv1PsArYhwHaRneetKcBck=
-X-Received: by 2002:a05:622a:2c1:b0:460:491e:d2a2 with SMTP id
- d75a77b69052e-46c89dad5a8mr10415471cf.17.1736786124079; Mon, 13 Jan 2025
- 08:35:24 -0800 (PST)
+	s=arc-20240116; t=1736797094; c=relaxed/simple;
+	bh=WTjeQ/c9o9Abpl3ISgJVDLspwNQmp1sAYXW2mtscVD8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WRBhZfEIdOi14pGdG9yTICR7nXG/+rmWRLiwMjrwKdJ99meAT0MTSW+P3JIi2MlYSHjCk3pDYNG+L4rXKGDP4KoyFvSSpHgCV64yrMkeut2LYCt0O2gaFzdxsh7q96YvhU6afe7FB6lN9hf1DZn3vxbsPkoOdvdMzYQIh7hr0Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=g4iNwX7A; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=g4iNwX7A; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A398D2117A;
+	Mon, 13 Jan 2025 19:38:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1736797090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5kz2f+1kr/L7lRDhd2aN0f6DjD9bpbko12N5sSmL2BI=;
+	b=g4iNwX7ARjInul3M1m+dQ+3IfSXuHVB6qQC7o336zMq31C/6Bi84yue26rcoDAEsGZORct
+	x+q/s7quWs18hQAlzhrKZesWjqbdE0HJ9KtjHBIXRUUff4D6SjWtBkx1+yIfGjMtmCfmGI
+	hZ2XrgsS98ov0XKnujhWsOoAuPhv/18=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1736797090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5kz2f+1kr/L7lRDhd2aN0f6DjD9bpbko12N5sSmL2BI=;
+	b=g4iNwX7ARjInul3M1m+dQ+3IfSXuHVB6qQC7o336zMq31C/6Bi84yue26rcoDAEsGZORct
+	x+q/s7quWs18hQAlzhrKZesWjqbdE0HJ9KtjHBIXRUUff4D6SjWtBkx1+yIfGjMtmCfmGI
+	hZ2XrgsS98ov0XKnujhWsOoAuPhv/18=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2676A13876;
+	Mon, 13 Jan 2025 19:38:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rCKANqFrhWclHQAAD6G6ig
+	(envelope-from <mpdesouza@suse.com>); Mon, 13 Jan 2025 19:38:09 +0000
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Marcos Paulo de Souza <mpdesouza@suse.com>,
+	Marcos Paulo de Souza <mpdesouza@suse.de>,
+	linux-kbuild@vger.kernel.org,
+	mbenes@suse.cz
+Subject: Re: # Toplevel Makefile doesn't process module build correctly on recursive make calls
+Date: Mon, 13 Jan 2025 16:37:47 -0300
+Message-ID: <20250113193756.721489-1-mpdesouza@suse.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <CAK7LNATLv2KSWo0BnFGXi73GVdnvc1EX23TvTkKT1U-krgBnNQ@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240920085628.51863-1-ole0811sch@gmail.com> <20240920085628.51863-12-ole0811sch@gmail.com>
-In-Reply-To: <20240920085628.51863-12-ole0811sch@gmail.com>
-From: Brendan Jackman <jackmanb@google.com>
-Date: Mon, 13 Jan 2025 17:35:13 +0100
-X-Gm-Features: AbW1kvar2NaeJlZ6d8aLs2I9DLAdsdd3k4-g4cdTbq0WNqqUA1YfMJ1G58lL7GQ
-Message-ID: <CA+i-1C02_GBbrSeNPqoyTrzfV3Lv0ovdsKzcv3d7zCkNk_Hv6g@mail.gmail.com>
-Subject: Re: [PATCH v5 11/11] kconfig: Add documentation for the conflict resolver
-To: Ole Schuerks <ole0811sch@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, jude.gyimah@rub.de, thorsten.berger@rub.de, 
-	deltaone@debian.org, jan.sollmann@rub.de, mcgrof@kernel.org, 
-	masahiroy@kernel.org, linux-kernel@vger.kernel.org, nathan@kernel.org, 
-	nicolas@fjasle.eu
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.com:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Fri, 20 Sept 2024 at 10:59, Ole Schuerks <ole0811sch@gmail.com> wrote:
-> +    To add a symbol to the list of symbols whose values should be changed (that
-> +    is, the 'conflict'), you select the symbol in the main view of xconfig.
+On Sat, 14 Oct 2023 17:35:55 +0900 Masahiro Yamada <masahiroy@kernel.org> wrote:
 
-I got confused by this at first, I was thinking "but if there's a
-conflict, I generally _can't_ select it in the main view, because it's
-hidden, because of the conflict!".
+> On Tue, Oct 10, 2023 at 5:43 AM Marcos Paulo de Souza <mpdesouza@suse.de> wrote:
+> >
+> > Hi all,
+> >
+> > I found an issue while moving the livepatch kselftest modules to be built on the
+> > fly, instead of building them on kernel building.
+> >
+> > If, for some reason, there is a recursive make invocation that starts from the
+> > top level Makefile and in the leaf Makefile it tries to build a module (using M=
+> > in the make invocation), it doesn't produce the module. This happens because the
+> > toplevel Makefile checks for M= only once. This is controlled by the
+> > sub_make_done variable, which is exported after checking the command line
+> > options are passed to the top level Makefile. Once this variable is set it's
+> > the M= setting is never checked again on the recursive call.
+> >
+> > This can be observed when cleaning the bpf kselftest dir. When calling
+> >
+> >         $ make TARGETS="bpf" SKIP_TARGETS="" kselftest-clean
+> >
+> > What happens:
+> >
+> >         1. It checks for some command line settings (like M=) was passed (it wasn't),
+> >         set some definitions and exports sub_make_done.
+> >
+> >         2. Jump into tools/testing/selftests/bpf, and calls the clean target.
+> >
+> >         3. The clean target is overwritten to remove some files and then jump to
+> >         bpf_testmod dir and call clean there
+> >
+> >         4. On bpf_testmod/Makefile, the clean target will execute
+> >                 $(Q)make -C $(KDIR) M=$(BPF_TESTMOD_DIR) clean
+> >
+> >         5. The KDIR is to toplevel dir. The top Makefile will check that sub_make_done was
+> >         already set, ignoring the M= setting.
+> >
+> >         6. As M= wasn't checked, KBUILD_EXTMOD isn't set, and the clean target applies
+> >         to the kernel as a whole, making it clean all generated code/objects and
+> >         everything.
+> >
+> > One way to avoid it is to call "unexport sub_make_done" on
+> > tools/testing/selftests/bpf/bpf_testmod/Makefile before processing the all
+> > target, forcing the toplevel Makefile to process the M=, producing the module
+> > file correctly.
+> >
+> > If the M=dir points to /lib/modules/.../build, then it fails with "m2c: No such
+> > file", which I already reported here[1]. At the time this problem was treated
+> > like a problem with kselftest infrastructure.
+> >
+> > Important: The process works fine if the initial make invocation is targeted to a
+> > different directory (using -C), since it doesn't goes through the toplevel
+> > Makefile, and sub_make_done variable is not set.
+> >
+> > I attached a minimal reproducer, that can be used to better understand the
+> > problem. The "make testmod" and "make testmod-clean" have the same effect that
+> > can be seem with the bpf kselftests. There is a unexport call commented on
+> > test-mods/Makefile, and once that is called the process works as expected.
+> >
+> > Is there a better way to fix this? Is this really a problem, or am I missing
+> > something?
+> 
+> 
+> Or, using KBUILD_EXTMOD will work too.
 
-However then I discovered xconfig has a "show all options" setting.
-(Then if you ctrl-F for a config and click it, it shows up in the main
-view).
+So it worked until 13b25489b6f8bd73ed65f07928f7c27a481f1820 ("kbuild: change working
+directory to external module directory with M="). Right now, it shows the same
+error as reported before:
 
-After that, this worked great, I was able to switch on CONFIG_KVM_AMD
-from a starting point of 'make tinyconfig', without having to faff
-around trying to remember its dependencies. Nice!
+m2c    -o /home/mpdesouza/git/linux/scripts/Makefile.build -e /home/mpdesouza/git/linux/scripts/Makefile.build /home/mpdesouza/git/linux/scripts/Makefile.build.mod
+make[6]: m2c: No such file or directory
 
-So maybe it's worth highlighting this 'Options' > 'Show all Options'
-setting here.
+To reproduce, it's just execute the livepatch ksefltests:
+
+$ make kselftest TARGETS=livepatch KDIR=<kernel source top dir>
+
+Is there something that we can do in this case to solve this issue?
+
+I'm quite surprised that no bots found this problem yet.
+
+> 
+> 
+> 
+> 
+> 
+> --
+> Best Regards
+> Masahiro Yamada
+
+/*
+ * !REMOVE THIS COMMENT BLOCK BEFORE SENDING THIS MAIL!
+ * below are signatures added by "hkml".
+ * edit signatures below, or use "hkml signature".
+ */
+
+Sent using hkml (https://github.com/sjp38/hackermail)
 
