@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-5460-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5461-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A452A0BB55
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:13:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC67A0BB51
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:12:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 649A916B187
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 15:09:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C41F1888EDB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 15:09:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4491A28EC95;
-	Mon, 13 Jan 2025 15:03:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2573A3DABE1;
+	Mon, 13 Jan 2025 15:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H6s6jKkr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DdWwVceL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C26428EC90;
-	Mon, 13 Jan 2025 15:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A1D28EC9D;
+	Mon, 13 Jan 2025 15:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736780598; cv=none; b=IhCx4OfpoqGRWSA125SwgR0Hwox3qcBMTDxN7vinRG6l8tnpgp5Gzs/kBOEnwWg8xqDxnAsexaC0C8SqxFOtp+K4hhNPovgjhnEe/4dWtCE3SojYWv8H31LRhVsYvlVq85CJ20fmp24dxXrtwuJEg2HdIJq4ywhkX295X1Y/3Nc=
+	t=1736780599; cv=none; b=Ueqcf8KfE620v01Cyf9EjPfKxz8OEgp7qp3jgjY7GIKqUVrAd5YpOxQ/82TrJS2PYcXIESLGufQRe+/OcdUEhcuwWZ/h/sbb55f53oO8C3cSYl87PZdhSmxG4NU7zp7tt+6C5dUQzRuk0uf5nWw3lA1NQlzR1RVoF2KJWNQMEqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736780598; c=relaxed/simple;
-	bh=AG7pHJDASGQ58M1lrrHCxlNDhJODKLJBdg+zBnInz6o=;
+	s=arc-20240116; t=1736780599; c=relaxed/simple;
+	bh=pgv9FKCG4AUzpL30eZ4Yc5tAtzFwIXBxtFKEtiHS16o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ADGfrUxlxX6lZpBixvSTN7EcgNXBeyHR6amoJdY9fGnF6812IZqw2TiUiek7SvXWlvCgwSqHiMEXqpzd89kxbqULHt7vLEhjQFhw2kekqysKMssBqb6l1TbmH6Wxz+I+1XZ3Yn0trvbYmswi5J1WezNfV2c+1L2twTzUk0BHAzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H6s6jKkr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E26EAC4CEE2;
-	Mon, 13 Jan 2025 15:03:16 +0000 (UTC)
+	 MIME-Version; b=BVntp1rnG6jaPHpXGKtGmo6NA+T/P/2Td8xQYqiCWlFP5D5QrHwZE/wYfDs8UEyQy8HGiWMQUB6VfO1VFyT67U1mC6bqYC6RFT5IOIRN33Fh5YkHhQZDg4lwPiVpYXLArReNOgawKnzRvUowltHB6xPMB0/AActc1d2Y41gVgpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DdWwVceL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36065C4CEE4;
+	Mon, 13 Jan 2025 15:03:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736780597;
-	bh=AG7pHJDASGQ58M1lrrHCxlNDhJODKLJBdg+zBnInz6o=;
+	s=k20201202; t=1736780598;
+	bh=pgv9FKCG4AUzpL30eZ4Yc5tAtzFwIXBxtFKEtiHS16o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H6s6jKkrHlmvC/OsWBWJ6bp2GrfWXip/OWkMRAc5xcbWiiiuOdKg3Ut4yKI+n7g3a
-	 Ji72gd0o1mroZvzzp/mdWjyON4r3hxOUUmsUBtJwAa9J/7tBqrQm5cPpqrN+jXqmCT
-	 K5McMI7qx6HOyz26OSmF9ewoO6ggjAQ65+neeaXTsJZQL4YYUh4oVk0jEERhlaTfMW
-	 cP/KNWqCRgh/YNTbBW3x46LR2VK/7cHuybVeaCx9qn7i/7O4f3ooyqnZqOxtW1SS/k
-	 b4RsIrttUYpslMWtjfRf0+jivFEunkDnDpu/Xx1Uf4tA7kV7iIHGH5i6n9xT9TweNl
-	 tNsMO3+3NGcVA==
+	b=DdWwVceLCHMLuzuEgLSNK2rbCDEULeWdGW76ek/OpnvdnsvhiTMGlJnWYatEv4XU3
+	 NrnY7jhihiKc8cjbgMBakm+DiwqNfRbEfv7yi7TOCNBB8ZsJe7CqdcJFYIjx96DagE
+	 3wd/66jbKGtV/QkfJF5/tpZyuHYpKLmbkpcqMzk9PjVUYtwjMdGetl6Q8dtZlCtTlj
+	 2R7K7dzKAaFDFZGilK/ZgMNmBBsHjWm7kdXal+gYUCRERlXNHTg53s5gLAx6cxgiLu
+	 wkwuNCG61LkEN4l3rvnYKF4Vj1OBNq0KSA+BuQBF0pNeHBiwbGVAp10SC8iqOtmGbG
+	 0w/K2COTaj1AQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 12/17] genksyms: fix syntax error for attribute before nested_declarator
-Date: Tue, 14 Jan 2025 00:00:50 +0900
-Message-ID: <20250113150253.3097820-13-masahiroy@kernel.org>
+Subject: [PATCH 13/17] genksyms: fix syntax error for attribute after abstact_declarator
+Date: Tue, 14 Jan 2025 00:00:51 +0900
+Message-ID: <20250113150253.3097820-14-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250113150253.3097820-1-masahiroy@kernel.org>
 References: <20250113150253.3097820-1-masahiroy@kernel.org>
@@ -68,23 +68,24 @@ You can observe syntax errors by manually passing the -w option.
 
 For example, with CONFIG_MODVERSIONS=y on v6.13-rc1:
 
-    $ make -s KCFLAGS=-D__GENKSYMS__ drivers/acpi/prmt.i
-    $ cat drivers/acpi/prmt.i | scripts/genksyms/genksyms -w
+    $ make -s KCFLAGS=-D__GENKSYMS__ kernel/module/main.i
+    $ cat kernel/module/main.i | scripts/genksyms/genksyms -w
         [ snip ]
-    drivers/acpi/prmt.c:56: syntax error
+    kernel/module/main.c:97: syntax error
 
-The syntax error occurs in the following code in drivers/acpi/prmt.c:
+The syntax error occurs in the following code in kernel/module/main.c:
 
-    struct prm_handler_info {
+    static void __mod_update_bounds(enum mod_mem_type type __maybe_unused, void *base,
+                                    unsigned int size, struct mod_tree_root *tree)
+    {
             [ snip ]
-            efi_status_t (__efiapi *handler_addr)(u64, void *);
-            [ snip ]
-    };
+    }
 
-The issue arises from __efiapi, which is defined as either
-__attribute__((ms_abi)) or __attribute__((regparm(0))).
+The issue arises from __maybe_unused, which is defined as
+__attribute__((__unused__)).
 
-This commit allows nested_declarator to be prefixed with attributes.
+This commit allows direct_abstract_declarator to be followed with
+attributes.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
@@ -93,20 +94,20 @@ Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/genksyms/parse.y b/scripts/genksyms/parse.y
-index 54e16c2e0b4b..49d3e536b9a8 100644
+index 49d3e536b9a8..82774df50642 100644
 --- a/scripts/genksyms/parse.y
 +++ b/scripts/genksyms/parse.y
-@@ -345,8 +345,8 @@ direct_nested_declarator1:
- 		{ $$ = $4; }
- 	| direct_nested_declarator1 BRACKET_PHRASE
- 		{ $$ = $2; }
--	| '(' nested_declarator ')'
--		{ $$ = $3; }
-+	| '(' attribute_opt nested_declarator ')'
-+		{ $$ = $4; }
- 	| '(' error ')'
- 		{ $$ = $3; }
+@@ -383,8 +383,8 @@ abstract_declarator:
+ 	ptr_operator
+ 	| ptr_operator abstract_declarator
+ 		{ $$ = $2 ? $2 : $1; }
+-	| direct_abstract_declarator
+-		{ $$ = $1; dont_want_type_specifier = false; }
++	| direct_abstract_declarator attribute_opt
++		{ $$ = $2; dont_want_type_specifier = false; }
  	;
+ 
+ direct_abstract_declarator:
 -- 
 2.43.0
 
