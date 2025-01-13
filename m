@@ -1,226 +1,117 @@
-Return-Path: <linux-kbuild+bounces-5469-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5470-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC80A0BCA7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:53:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7530AA0BD8F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 17:31:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B7C01885903
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 15:53:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05F7F7A3C27
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2025 16:31:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32DB1FBBCC;
-	Mon, 13 Jan 2025 15:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0B2120AF8C;
+	Mon, 13 Jan 2025 16:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="op+s+NNB"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KAbWCrG9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C8D240225
-	for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 15:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290A92297F0
+	for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 16:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736783601; cv=none; b=W5o4f4KnN8mNLxtY0Dlb32vS4fFpSlxLWU0eHnUeUibwm5Iz51n/IrPJazUerHa5SQWAvk+7ISqkvBFdmQbkpJ5zJtwU66J0VUQcIcsammcn5RRUY+JuFxcfdFho5pOVPvxZUEhm7IPRdNwJMjOqyr/Mh+viyxuRUdNHuyuPu7I=
+	t=1736785793; cv=none; b=VFiSnwBgjZE4XLBMly2OPBqCJRV6cpEoNlj0Znb8gl65ZlmZOOWbif7HIc5ZAxeDk9nm56AiAhqJTxc7Gp6b+oQjx0Q3G0Ya70N9DXZlW/AmWFp0DeOPG4W/ym9hWD3XXpXwYgsQjnKI4Tvjehh2Ghe1RnRUphJR1/y3e6LmiEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736783601; c=relaxed/simple;
-	bh=7+aQuI/za1zmIkn/UHCnXgtSF+ivUYg266I22Jva0Go=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=afmJ9rcAC3wWQhyzkydsuDCrA7j4slfTtqh8fg++3w1gavV3Uw7yaVKKASD1BixAPlTgreSwt8YCWQ6Ho7qhj3zu5EJxF3vwi20vghkIoSID/YjKUIrMbbdrjRKc88VY/aFrEk+sncDzEddmt9JB9g8LWASrQbXz2bWZNDxzVUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=op+s+NNB; arc=none smtp.client-ip=209.85.128.74
+	s=arc-20240116; t=1736785793; c=relaxed/simple;
+	bh=FJcbvys8aZYwOSJt0Zuu+MvAf+z2ENwlELthMAUK+Mk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pBEEgXMsghQi36kvpbHnuCKd+if+F92lFnSTHm11SDRCs9qj4XMdNw2AYAbaUXKk1kmC+Iok3d/6rNjh8aPGMzTEsfzw1Fze2U/jarNjPWfw297f8swcuGlvj0AJbk1PO/bdFLN+TJ8UeKATSvot2ukyi+GnxLeeVQ9M/7GaZkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KAbWCrG9; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-43625ceae52so25092145e9.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 07:53:17 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4678c9310afso379741cf.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 Jan 2025 08:29:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736783596; x=1737388396; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=G6GC1+XOYFciKr0QO2K3EfTIEu2fRgTNywEW62ZU6LU=;
-        b=op+s+NNB4YytSKU/lfINY8nX4XGZNEij4TZQuypLCuLWWBI9cerXY3KC0cV8Vpa2dc
-         R//lZgzNPFFope0dhLloNYJTV9JnxXbmeeEcDwb7UHLH0HYhfRF6wmVbhJ6vp0yMCOFl
-         ObtNvsKfcaFBNVfcNmHCYCd4Xd3bjfAEoKVbFBY4BKuoMWOET+MFmSQmHNxZau58ty1R
-         219Q5A/A7qwhRGQu35TO84lIjqgHcHsRS84Isf+nSpEaZTD5IIXzzFeD7+KLfyTw8S6u
-         0hWp+q3SKY0wKjDC0NZtMfHi4jiJjA82N8kM18UaQf91G2p/KwkFgP1zngmLmeVGBT9N
-         KYHg==
+        d=google.com; s=20230601; t=1736785791; x=1737390591; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FJcbvys8aZYwOSJt0Zuu+MvAf+z2ENwlELthMAUK+Mk=;
+        b=KAbWCrG9b+d9OxbhZk6sWrnItDAdBogEM6KF5XXrd63JsCbggFy3uBrNgP3Zs6HgYC
+         Fx0oWCiUJSW+hcxBcmymiezcEF8T2dvt1N1t0A2k4aBkgsf6fOOZC1T/JSYSY4Krxwbe
+         f/5TGoK43sJZuWvNHIby+iquwTqyssCVEjfrZfjThXDg5QYif8t+gH8tpGRFwh1X4jcH
+         f7avQq4k7IaLnp674QxdaiAddt5DXVztc5xjb7BL5hQdukgz97hhVQdNSWd9krsiJ/t2
+         N5j64XHGTXs6WOMsnTJkRL93p78yLfCaSZT1rfxihF/jDfDYdhgDwXVblozCfqc/hgFI
+         jANA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736783596; x=1737388396;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G6GC1+XOYFciKr0QO2K3EfTIEu2fRgTNywEW62ZU6LU=;
-        b=NaPLJzHKA2XbK0hQKkl/8KmWmT7RK0mq9J+gjK/Ltpw3q41v0iBo7HUy+iXFEDXsiw
-         GEgsPHXZa6KY5Axj6wA1Fjz/XSGRqcn764NGeiFK3a/fCqxPot8nfBF8KkXnJZ6RRk+W
-         QWFqtwC/3uJr7/uBHaYGInIcuiPdxDtcOSHqGjk7ZKbjmTKZyyKmSfwdToTy7gC/dkw4
-         VlNXoDoXbGJvfjyqi5bCA6gVGhcoRwVRduHmufWXnupoWP4dc75oeC0l9cefbQ7l0sxi
-         Uv/aUXck7jS/+B4IBczFfk0cyXwxMFyndIvRWUocFE2gnCvpLOYE7fbqLm9AENhdKugC
-         bUYg==
-X-Gm-Message-State: AOJu0YwJ05DGSiGB1dX8c8TjKaRZ0irIeB4HYKSudYRsuQVDRlN5BCEq
-	5jc2FNuCW1uvKOXsyEV0PkZQaqI40oPqLgIyaB68mQO+9mAOHs+ZmEdBHHe4RROiU4Fr+MzxHbc
-	m3XLsQNutnchaDHRqQg6LRPWb2grpHJneNDMgWQHp5nS/HoCFULQJjQNFUPZOWQXz+5Xt5l6GXV
-	R88FN0t3xVvaKfF6iwvyKAKuq/m9hdPw==
-X-Google-Smtp-Source: AGHT+IH5dEPphrI2+hqKkm7nO8Qbid4pBpO1yTJyk8F4n5RDCgoHc9WThlBG2WEW1eUpQcKcce5iGx6w
-X-Received: from wmgg20.prod.google.com ([2002:a05:600d:14:b0:436:3ea:c491])
- (user=ardb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:1d01:b0:434:fec5:4ef5
- with SMTP id 5b1f17b1804b1-436e26b6f51mr217012995e9.14.1736783596145; Mon, 13
- Jan 2025 07:53:16 -0800 (PST)
-Date: Mon, 13 Jan 2025 16:53:07 +0100
+        d=1e100.net; s=20230601; t=1736785791; x=1737390591;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FJcbvys8aZYwOSJt0Zuu+MvAf+z2ENwlELthMAUK+Mk=;
+        b=w38I7UCaXPOoE2Ig+2QebRGxx968Da8tU+sKvBXrJ4tRgaGnsTfQrlsbrMUzo8tj1K
+         2KxOypEWWFyPoiU/ZPXkLyrmqub85gw6H+wqqMilq3jFHRhZ0HaaoyZHGS8nAtCQ7KSi
+         ubsiRaVMlBQFrPSkXS87uJ5SEVpNJ4OTZKwm+6U4MB7ukzfnd3DgMkarBO0wNsCUcVis
+         r6kJZV2YtR1tyx9uD81vr2v5B7NnsqrVmiOk2mZeONw/nAzDg+jdqHXu5wnq9bXTO9Ii
+         USRDT0iEc5ivBLiTwRam0llHezkxlN5UOzhUAqmqF+iJzYGI34zPNNswMgXBGQ0SHzgM
+         UfLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUP20yWaEX6Qs03PD6vnnHdRmqAWth65DiNfFDZ+dI1N8lS4Jc66juC6Uh+JWvKcEEdnKSRv472sMyszDM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+viWvmxleCpFA3su/+VBl9NKOFaU1LSjt0ihizIW0y5kcuRue
+	rAxcMVYOSoT3TFuuMjRFti2w9LJr4K0gW5XXZavzy1rDjsKKav40+ZoXBA+UOs4Rthx3cT4fNjZ
+	o3g18EJyAmq9pvwaZI2ktXUvJg0OOkIuP3dZ5
+X-Gm-Gg: ASbGncuPsVTJ6D/OgZl4nAzZmQnitawzLjTafsfmmYB1zdFf6T4lAtyHkYesTxscxnH
+	9yNFwL14tsKUY/gCcmNhXLllvW5oqWs6HPl/OpEP5E+Rqaquv0f5ZfDAafDJCAOkalYFc
+X-Google-Smtp-Source: AGHT+IGE5s378pBHwC/a560UBUTxnuoY6byJkKpN744uaA+rTIw+UpjLvzpnYKG5s5Oao6RoQjYKujGhkqMena0x/WM=
+X-Received: by 2002:ac8:7f54:0:b0:46c:70b1:c5e4 with SMTP id
+ d75a77b69052e-46c89d3a757mr12352621cf.3.1736785790800; Mon, 13 Jan 2025
+ 08:29:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Developer-Key: i=ardb@kernel.org; a=openpgp; fpr=F43D03328115A198C90016883D200E9CA6329909
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5339; i=ardb@kernel.org;
- h=from:subject; bh=s4MbVtYFuNllJHwyINAWQC4eh4cmwVLd+OMXzyVaU8I=;
- b=owGbwMvMwCFmkMcZplerG8N4Wi2JIb3V7LH6jISPUvYLO+s+zL58qDPvUuyVJ3PK+858XGPgc
- tyuLU6po5SFQYyDQVZMkUVg9t93O09PlKp1niULM4eVCWQIAxenAEzEQZnhf4piYPWaVCmvf2ps
- SwW6XzS8sDjfce3ulErNM5nnbhziOMfw33me3BH9j5aTNdIvVVxjmZjIcMbvovG+pUsM56YnFvV vYAUA
-X-Mailer: git-send-email 2.47.1.688.g23fc6f90ad-goog
-Message-ID: <20250113155306.1922992-2-ardb+git@google.com>
-Subject: [PATCH v3] kbuild: Strip runtime const RELA sections correctly
-From: Ard Biesheuvel <ardb+git@google.com>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	Ron Economos <re@w6rz.net>
+MIME-Version: 1.0
+References: <20241028034949.95322-1-ole0811sch@gmail.com> <20250109132817.1426138-1-jackmanb@google.com>
+ <Z4FxyuF-Lnqa4Wl_@bombadil.infradead.org>
+In-Reply-To: <Z4FxyuF-Lnqa4Wl_@bombadil.infradead.org>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Mon, 13 Jan 2025 17:29:39 +0100
+X-Gm-Features: AbW1kvaLL7SLOI4-TcOwbilQxDdQ6m8VV_bHz3Zxs4BHPjSYCbRr_IK5gswNOlA
+Message-ID: <CA+i-1C0HUE2+TmMMthRv1MCSQg4SX-+oZao9-4M3rKg71oA-5A@mail.gmail.com>
+Subject: Re: [PATCH v6 01/11] kconfig: Add PicoSAT interface
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: ole0811sch@gmail.com, deltaone@debian.org, jan.sollmann@rub.de, 
+	jude.gyimah@rub.de, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
+	nicolas@fjasle.eu, thorsten.berger@rub.de
 Content-Type: text/plain; charset="UTF-8"
 
-From: Ard Biesheuvel <ardb@kernel.org>
+On Fri, 10 Jan 2025 at 20:15, Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> On Thu, Jan 09, 2025 at 01:28:17PM +0000, Brendan Jackman wrote:
+> > Would it be easy enough to provide this support as a standalone binary that can
+> > be called from scripts/config too?
+>
+> I suspect this begs more the question of how could this be useful
+> outside of xconfig.
 
-Due to the fact that runtime const ELF sections are named without a
-leading period or double underscore, the RSTRIP logic that removes the
-static RELA sections from vmlinux fails to identify them. This results
-in a situation like below, where some sections that were supposed to get
-removed are left behind.
+I was thinking of something like like this:
 
-  [Nr] Name                              Type            Address          Off     Size   ES Flg Lk Inf Al
+$ scripts/sat_config --interactive --enable KVM_AMD
 
-  [58] runtime_shift_d_hash_shift        PROGBITS        ffffffff83500f50 2900f50 000014 00   A  0   0  1
-  [59] .relaruntime_shift_d_hash_shift   RELA            0000000000000000 55b6f00 000078 18   I 70  58  8
-  [60] runtime_ptr_dentry_hashtable      PROGBITS        ffffffff83500f68 2900f68 000014 00   A  0   0  1
-  [61] .relaruntime_ptr_dentry_hashtable RELA            0000000000000000 55b6f78 000078 18   I 70  60  8
-  [62] runtime_ptr_USER_PTR_MAX          PROGBITS        ffffffff83500f80 2900f80 000238 00   A  0   0  1
-  [63] .relaruntime_ptr_USER_PTR_MAX     RELA            0000000000000000 55b6ff0 000d50 18   I 70  62  8
+This would then prompt the user with a range of solutions for getting
+KVM_AMD enabled.
 
-So tweak the match expression to strip all sections starting with .rel.
-While at it, consolidate the logic used by RISC-V, s390 and x86 into a
-single shared Makefile library command.
+Then there might be an "I'm feeling lucky" variant like:
 
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-riscv@lists.infradead.org
-Cc: linux-s390@vger.kernel.org
-Cc: Ron Economos <re@w6rz.net>
-Link: https://lore.kernel.org/all/CAHk-=wjk3ynjomNvFN8jf9A1k=qSc=JFF591W00uXj-qqNUxPQ@mail.gmail.com/
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
----
-v3: put back missing 'endif' to fix the RISC-V build
-v2: add missing include of scripts/Makefile.lib
+$ scripts/sat_config --first-solution --enable KVM_AMD
 
- arch/riscv/Makefile.postlink |  8 ++------
- arch/s390/Makefile.postlink  |  6 +-----
- arch/x86/Makefile.postlink   |  6 +-----
- scripts/Makefile.lib         |  3 +++
- 4 files changed, 7 insertions(+), 18 deletions(-)
+Where instead of prompting the user it just picks some arbitrary or
+"minimal" set of changes that leads to KVM_AMD being enabled.
 
-diff --git a/arch/riscv/Makefile.postlink b/arch/riscv/Makefile.postlink
-index 829b9abc91f6..750d2784f69e 100644
---- a/arch/riscv/Makefile.postlink
-+++ b/arch/riscv/Makefile.postlink
-@@ -10,6 +10,7 @@ __archpost:
- 
- -include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
-+include $(srctree)/scripts/Makefile.lib
- 
- quiet_cmd_relocs_check = CHKREL  $@
- cmd_relocs_check = 							\
-@@ -19,11 +20,6 @@ ifdef CONFIG_RELOCATABLE
- quiet_cmd_cp_vmlinux_relocs = CPREL   vmlinux.relocs
- cmd_cp_vmlinux_relocs = cp vmlinux vmlinux.relocs
- 
--quiet_cmd_relocs_strip = STRIPREL $@
--cmd_relocs_strip = $(OBJCOPY)   --remove-section='.rel.*'       \
--                                --remove-section='.rel__*'      \
--                                --remove-section='.rela.*'      \
--                                --remove-section='.rela__*' $@
- endif
- 
- # `@true` prevents complaint when there is nothing to be done
-@@ -33,7 +27,7 @@ vmlinux: FORCE
- ifdef CONFIG_RELOCATABLE
- 	$(call if_changed,relocs_check)
- 	$(call if_changed,cp_vmlinux_relocs)
--	$(call if_changed,relocs_strip)
-+	$(call if_changed,strip_relocs)
- endif
- 
- clean:
-diff --git a/arch/s390/Makefile.postlink b/arch/s390/Makefile.postlink
-index df82f5410769..1ae5478cd6ac 100644
---- a/arch/s390/Makefile.postlink
-+++ b/arch/s390/Makefile.postlink
-@@ -11,6 +11,7 @@ __archpost:
- 
- -include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
-+include $(srctree)/scripts/Makefile.lib
- 
- CMD_RELOCS=arch/s390/tools/relocs
- OUT_RELOCS = arch/s390/boot
-@@ -19,11 +20,6 @@ quiet_cmd_relocs = RELOCS  $(OUT_RELOCS)/relocs.S
- 	mkdir -p $(OUT_RELOCS); \
- 	$(CMD_RELOCS) $@ > $(OUT_RELOCS)/relocs.S
- 
--quiet_cmd_strip_relocs = RSTRIP  $@
--      cmd_strip_relocs = \
--	$(OBJCOPY) --remove-section='.rel.*' --remove-section='.rel__*' \
--		   --remove-section='.rela.*' --remove-section='.rela__*' $@
--
- vmlinux: FORCE
- 	$(call cmd,relocs)
- 	$(call cmd,strip_relocs)
-diff --git a/arch/x86/Makefile.postlink b/arch/x86/Makefile.postlink
-index fef2e977cc7d..8b8a68162c94 100644
---- a/arch/x86/Makefile.postlink
-+++ b/arch/x86/Makefile.postlink
-@@ -11,6 +11,7 @@ __archpost:
- 
- -include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
-+include $(srctree)/scripts/Makefile.lib
- 
- CMD_RELOCS = arch/x86/tools/relocs
- OUT_RELOCS = arch/x86/boot/compressed
-@@ -20,11 +21,6 @@ quiet_cmd_relocs = RELOCS  $(OUT_RELOCS)/$@.relocs
- 	$(CMD_RELOCS) $@ > $(OUT_RELOCS)/$@.relocs; \
- 	$(CMD_RELOCS) --abs-relocs $@
- 
--quiet_cmd_strip_relocs = RSTRIP  $@
--      cmd_strip_relocs = \
--	$(OBJCOPY) --remove-section='.rel.*' --remove-section='.rel__*' \
--		   --remove-section='.rela.*' --remove-section='.rela__*' $@
--
- # `@true` prevents complaint when there is nothing to be done
- 
- vmlinux: FORCE
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 7395200538da..f604f51d23ca 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -374,6 +374,9 @@ quiet_cmd_ar = AR      $@
- quiet_cmd_objcopy = OBJCOPY $@
- cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
- 
-+quiet_cmd_strip_relocs = RSTRIP  $@
-+cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $@
-+
- # Gzip
- # ---------------------------------------------------------------------------
- 
--- 
-2.47.1.688.g23fc6f90ad-goog
+> But one step at a time, this can be done *after*
+> this initial patch set gets merged,
 
+Totally, please consider this a "yes, and" not a "but".
 
