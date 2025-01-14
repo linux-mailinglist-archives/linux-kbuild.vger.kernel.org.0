@@ -1,230 +1,145 @@
-Return-Path: <linux-kbuild+bounces-5483-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5484-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729A8A11096
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 19:58:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDA7A1120F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 21:33:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 853D81887BCC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 18:58:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4ED6F164F10
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 20:33:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14F551FDA93;
-	Tue, 14 Jan 2025 18:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4249C1FCD05;
+	Tue, 14 Jan 2025 20:33:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sv3uIoG+"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pkiDuXa0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206831FBBC5
-	for <linux-kbuild@vger.kernel.org>; Tue, 14 Jan 2025 18:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DDC1F9EB3;
+	Tue, 14 Jan 2025 20:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736881108; cv=none; b=tOch1aIBw+6Pw4yEWXJE8enVQmhfBI8k7Cx5i0yfm1+C0qODQaV6zAAqulqre6suppREUahwoOxLgf2NBOnkWtYMG0RfCaa+kDZ4Qlk0N9RU7BqeXlj/icHwU96nnyQ+HPfZJ/aXOq8SMeYcyUhEEFQdNTyPfptTgVqdVZHnTKE=
+	t=1736886821; cv=none; b=uPB2J115FD0jJaLYDoD/wEknky27C95x2cSfeEnFpQGGY6xaZQv8VrZJKENABEdhUKQ4Eke6FTjatmsmiQNzoP5s+YKu52eIeL5CiowMpLxJ9uX/PfA18SgLIhLh0f9fkL+DJAnawccwZrdvaT0JIC63E+RX+DZu/Zm1unSgsEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736881108; c=relaxed/simple;
-	bh=iKe/Ir7F11LNiqHDMJ30bCROVh05nyv6d7BmrLXKNNw=;
+	s=arc-20240116; t=1736886821; c=relaxed/simple;
+	bh=/b5pKPR+HgSbFg/FbL/HysVPUwhvLoHEZ4VXk4zO65g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hjqEuVRo08OOZk1YkiIwythVw6YpugNC/QPc+CTseK0+OkLpZfpswgsaJlERoeEvnZSaLDyIsV5zGijB7xMXVTNxY6Y5cNyyOoX0ehviyn+bRIV8HnPvbZaTqvzVhGnO4rRZm/XJ4p8c5uhUzhj8T1PhAowmFYlAODmo/WqgIIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sv3uIoG+; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-219f6ca9a81so147285ad.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 Jan 2025 10:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736881104; x=1737485904; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=t2CWdiE+Y588cATxDxllUErMB/2Ly3FWAF67BGEJO/4=;
-        b=Sv3uIoG+7ybTo6/20hlUgLSpZCTtlmaGT0HRF+CCEQ6gd6WATFrWywTTBPM/9I6CTg
-         /5rMAGJMR/9JIP8pYgo0KsULbGgvxqtI8gW9gVm3HSUDxExTLGoCLwxkAlwj/oI2DuIQ
-         2/OnjPOYCGMRrOuU0JLYMVdObEcdW+1WYIINM1IiKIpxELyRUfRKcYiG3FxJxF+Q/Fed
-         ChHbFFIqt1X87kbBknso6RhuMUHWSRP4VtKf/9iWlmN+s4J5MyqAtfXkQVb8zb+GT8xn
-         wtoTw3h+foApVHIq6BRBg9974sDe1rM0Qu/n71XDuVWJFI/RaDO7OXHqMGVG2gAtTxLZ
-         sz7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736881104; x=1737485904;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t2CWdiE+Y588cATxDxllUErMB/2Ly3FWAF67BGEJO/4=;
-        b=SBbBC1JcBAxMtE3JAkXe8WNRpy4u5jWhYo3tEaFK3cwhywutNOuKF1B1GbNgm09uKV
-         qeXmvtZcdU7xYDi3aHnCUjg+HpRTf/qNQHwvKptwDIrm6YgC5Y1z+RBnX3Z77QbEhDT/
-         Mf1HCFca/W1pxzL2KUObcr+N3FSDdkdm8arIUQVAuBRN0X2AuC1IuJIbV9eauhYuo+UM
-         cGazzxD6hPSY8ptK3VYJep0vvtjJ5EJxA203fddOyUtvHQBCwzffxOPbpfHBjg2OoAxL
-         G+0q4GCNNBGmfMtpDrQY6+ftI+ZJW+gDhWw+dnPyk4lJM1N++G/xPmTFAPXrsH5qD6gk
-         mAGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMnq7o21tkRqdbZ+PWABkumtom8fDdYb7kKXrMNmOxRrmHL+88aqwGvcvlR4zA9BFLcshWWMAWeg9qr+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwL6mYBNeeDi5QM2FSbNz1ztpUyJtgAMOIFZcfcjqMRggZhH0V8
-	rJfkhJqIlV5KLrniGTxMKrDgifldrOgtPKISOSHGewtwMwbLOmwC+7KkLr9PIg==
-X-Gm-Gg: ASbGncvhQGxxXMeq36bHrVPi5TKctuUkpub5wquhBUvuoJrEPUkTMzuW8a9l8q2ZsFu
-	YpiU2FFdS+r2Uw7gaZMwSL7hLExzrcK0Kml2PEfUADcfA03XMpvHipOJnve4F3mAMsBJ+LPUN1l
-	Ye6kVjOAzMOOTQcSslz5FX07mFg+cyKoVp5VL/KpkoZ3xO86+AMP93nsXIuEqW593fyuZps4Rwg
-	HNOvRH00r9+M3UDEYp4i5QVHBojcMu0RrfjkfX07kGhkQQyilo5VBUpiuOqirl2dlW8Kb30694q
-	JWk9GRkQXXiDOZSp+KguRCsZejw=
-X-Google-Smtp-Source: AGHT+IG/013Oj515jx+bAnxAgTCQ+vTnK59fPTZt8oVE2ZAEpSVnb9QRz1EEDwXZHaYE7mba9SJ2Ig==
-X-Received: by 2002:a17:903:492:b0:20b:5e34:1850 with SMTP id d9443c01a7336-21bf0e598d9mr26285ad.23.1736881104251;
-        Tue, 14 Jan 2025 10:58:24 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f2339dasm69151185ad.177.2025.01.14.10.58.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 10:58:23 -0800 (PST)
-Date: Tue, 14 Jan 2025 18:58:19 +0000
-From: Sami Tolvanen <samitolvanen@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IwN1imzi5y2cGX0Z6XcQTX9CwRYrUU8u3FcDy3pPnPkVeeSHHvDQO4pnXg8iG7QrIgTowfrhKyLcaOYN0i1+Ok1G8n943fqeYL/w5C7hNapnE3R/KmJ1a4YPVujOqi5Yef/jv/3+LQtKIeS3l6xr/LBo/+6p24o52ol5c1twEWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pkiDuXa0; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 14 Jan 2025 21:33:29 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1736886812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VsYc6oT5LuI6oBgnyqWNtel+cPqZHgE1uZnZ+C9qRZk=;
+	b=pkiDuXa0mD/3T/emblVQptOn+dOodH3T92+OLcolib4pk+uOFjmMzetAK68IX7Mof/+b2r
+	b0aZZUgG6FN0zWPN6cYRNwfMqWbeLSpFXOzLpiia/hDhmazX44sXa1UWp+G3GstIFQVuGo
+	xhFsux6oi9qSt5HrdVwxozGWBTE0xmo=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Matthew Maurer <mmaurer@google.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Jonathan Corbet <corbet@lwn.net>, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 5/5] rust: Use gendwarfksyms + extended modversions
- for CONFIG_MODVERSIONS
-Message-ID: <20250114185819.GA2222429@google.com>
-References: <20250103-extended-modversions-v13-0-35d87c65ee04@google.com>
- <20250103-extended-modversions-v13-5-35d87c65ee04@google.com>
- <CAK7LNATGw-m_dcdjTBHsFwCZh7mTt8q8yNZQ7VFP=hMU8NvUvg@mail.gmail.com>
- <CABCJKuf-w1puUsypU-cr5BH8uvCdPPQmhZZ1qVKDDg3Y-iQhSg@mail.gmail.com>
- <CAK7LNASh4xMN8nN5vwR6R1OCNW9u4MJz=CSwW4_4hvFOhczmWA@mail.gmail.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nicolas Schier <n.schier@avm.de>
+Subject: Re: [PATCH 00/17] genksyms: fix conflicts and syntax errors in parser
+Message-ID: <Z4bKGZWPvNrooZwD@fjasle.eu>
+References: <20250113150253.3097820-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="f+9HptkmQYRxHGJx"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASh4xMN8nN5vwR6R1OCNW9u4MJz=CSwW4_4hvFOhczmWA@mail.gmail.com>
-
-On Tue, Jan 14, 2025 at 10:22:15AM +0900, Masahiro Yamada wrote:
-> On Tue, Jan 14, 2025 at 5:04 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
-> > Hi Masahiro,
-> >
-> > On Fri, Jan 10, 2025 at 6:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > On Sat, Jan 4, 2025 at 2:37 AM Matthew Maurer <mmaurer@google.com> wrote:
-> > > >
-> > > > From: Sami Tolvanen <samitolvanen@google.com>
-> > > >
-> > > > Previously, two things stopped Rust from using MODVERSIONS:
-> > > > 1. Rust symbols are occasionally too long to be represented in the
-> > > >    original versions table
-> > > > 2. Rust types cannot be properly hashed by the existing genksyms
-> > > >    approach because:
-> > > >         * Looking up type definitions in Rust is more complex than C
-> > > >         * Type layout is potentially dependent on the compiler in Rust,
-> > > >           not just the source type declaration.
-> > > >
-> > > > CONFIG_EXTENDED_MODVERSIONS addresses the first point, and
-> > > > CONFIG_GENDWARFKSYMS the second. If Rust wants to use MODVERSIONS, allow
-> > > > it to do so by selecting both features.
-> > > >
-> > > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > > Co-developed-by: Matthew Maurer <mmaurer@google.com>
-> > > > Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> > > > ---
-> > > >  init/Kconfig  |  3 ++-
-> > > >  rust/Makefile | 34 ++++++++++++++++++++++++++++++++--
-> > > >  2 files changed, 34 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/init/Kconfig b/init/Kconfig
-> > > > index c1f9eb3d5f2e892e977ba1425599502dc830f552..b60acfd9431e0ac2bf401ecb6523b5104ad31150 100644
-> > > > --- a/init/Kconfig
-> > > > +++ b/init/Kconfig
-> > > > @@ -1959,7 +1959,8 @@ config RUST
-> > > >         bool "Rust support"
-> > > >         depends on HAVE_RUST
-> > > >         depends on RUST_IS_AVAILABLE
-> > > > -       depends on !MODVERSIONS
-> > > > +       select EXTENDED_MODVERSIONS if MODVERSIONS
-> > > > +       depends on !MODVERSIONS || GENDWARFKSYMS
-> > > >         depends on !GCC_PLUGIN_RANDSTRUCT
-> > > >         depends on !RANDSTRUCT
-> > > >         depends on !DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE
-> > > > diff --git a/rust/Makefile b/rust/Makefile
-> > > > index a40a3936126d603836e0ec9b42a1285916b60e45..80f970ad81f7989afe5ff2b5f633f50feb7f6006 100644
-> > > > --- a/rust/Makefile
-> > > > +++ b/rust/Makefile
-> > > > @@ -329,10 +329,11 @@ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ;
-> > > >  $(obj)/bindings/bindings_helpers_generated.rs: $(src)/helpers/helpers.c FORCE
-> > > >         $(call if_changed_dep,bindgen)
-> > > >
-> > > > +rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ { printf $(2),$(3) }'
-> > > > +
-> > > >  quiet_cmd_exports = EXPORTS $@
-> > > >        cmd_exports = \
-> > > > -       $(NM) -p --defined-only $< \
-> > > > -               | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ {printf "EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3}' > $@
-> > > > +       $(call rust_exports,$<,"EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3) > $@
-> > >
-> > > I noticed a nit:
-> > >
-> > > Both of the two callsites of rust_exports pass
-> > > '$$3' to the last parameter instead of hardcoding it.
-> > >
-> > > Is it a flexibility for future extensions?
-> > >
-> > > I cannot think of any other use except for printing
-> > > the third column, i.e. symbol name.
-> >
-> > Good catch, the last parameter isn't necessary anymore. It was used in
-> > early versions of the series to also pass symbol addresses to
-> > gendwarfksyms, but that's not needed since we read the symbol table
-> > directly now.
-> 
-> If you submit a diff, I will squash it to 5/5.
-> (You do not need to input commit description body)
-
-Thanks, here's a diff that drops the last parameter.
-
-Sami
+In-Reply-To: <20250113150253.3097820-1-masahiroy@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
 
-diff --git a/rust/Makefile b/rust/Makefile
-index 80f970ad81f7..ab300bfb46f6 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -329,11 +329,11 @@ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ;
- $(obj)/bindings/bindings_helpers_generated.rs: $(src)/helpers/helpers.c FORCE
- 	$(call if_changed_dep,bindgen)
- 
--rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ { printf $(2),$(3) }'
-+rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ { printf $(2),$$3 }'
- 
- quiet_cmd_exports = EXPORTS $@
-       cmd_exports = \
--	$(call rust_exports,$<,"EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3) > $@
-+	$(call rust_exports,$<,"EXPORT_SYMBOL_RUST_GPL(%s);\n") > $@
- 
- $(obj)/exports_core_generated.h: $(obj)/core.o FORCE
- 	$(call if_changed,exports)
-@@ -404,7 +404,7 @@ endif
- 
- ifdef CONFIG_MODVERSIONS
- cmd_gendwarfksyms = $(if $(skip_gendwarfksyms),, \
--	$(call rust_exports,$@,"%s\n",$$3) | \
-+	$(call rust_exports,$@,"%s\n") | \
- 	scripts/gendwarfksyms/gendwarfksyms \
- 		$(if $(KBUILD_GENDWARFKSYMS_STABLE), --stable) \
- 		$(if $(KBUILD_SYMTYPES), --symtypes $(@:.o=.symtypes),) \
+--f+9HptkmQYRxHGJx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 14, 2025 at 12:00:38AM +0900, Masahiro Yamada wrote:
+>=20
+> This series fixes several long-standing issues in genksyms.
+>=20
+>  - The parser contains grammatical ambiguities, including both
+>    reduce/reduce and shift/reduce conflicts.
+>=20
+>  - There are several hidden syntax errors
+>    When a syntax error occurs, the type becomes UNKNOWN, and
+>    precise CRC calculation becomes impossible.
+>=20
+>=20
+>=20
+> Masahiro Yamada (17):
+>   genksyms: rename m_abstract_declarator to abstract_declarator
+>   genksyms: rename cvar_qualifier to type_qualifier
+>   genksyms: reduce type_qualifier directly to decl_specifier
+>   genksyms: fix 6 shift/reduce conflicts and 5 reduce/reduce conflicts
+>   genksyms: fix last 3 shift/reduce conflicts
+>   genksyms: remove Makefile hack
+>   genksyms: restrict direct-abstract-declarator to take one
+>     parameter-type-list
+>   genksyms: restrict direct-declarator to take one parameter-type-list
+>   genksyms: record attributes consistently for init-declarator
+>   genksyms: decouple ATTRIBUTE_PHRASE from type-qualifier
+>   genksyms: fix syntax error for attribute before abstract_declarator
+>   genksyms: fix syntax error for attribute before nested_declarator
+>   genksyms: fix syntax error for attribute after abstact_declarator
+>   genksyms: fix syntax error for attribute after 'struct'
+>   genksyms: fix syntax error for attribute after 'union'
+>   genksyms: fix syntax error for builtin (u)int*x*_t types
+>   genksyms: fix syntax error for attribute before init-declarator
+>=20
+>  scripts/genksyms/Makefile   |  18 -----
+>  scripts/genksyms/genksyms.h |   3 +
+>  scripts/genksyms/lex.l      |  17 +++-
+>  scripts/genksyms/parse.y    | 150 ++++++++++++++++++++----------------
+>  4 files changed, 101 insertions(+), 87 deletions(-)
+>=20
+> --=20
+> 2.43.0
+
+Thanks for the series, especially for the very detailed,
+explanatory commit messages!
+
+I looked through all the patches and they all look good to me
+-- but my bison/parsing/lexing knowledge is rusty and quite
+limited, therefore I cannot review properly.
+
+Acked-by: Nicolas Schier <n.schier@avm.de>
+
+Kind regards,
+Nicolas
+
+--f+9HptkmQYRxHGJx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmeGyhkACgkQB1IKcBYm
+EmmVdw//TSe0HsrjhOzRWxUUHmKVl+3eZTG+75DENWqSN8zdBw8ZXfbgyK67/sKK
+1G5OrCEH7XpQHFaKD7s+CDV5vkn93KVseOQM+O9csWegbIqZuGPZGYOPD1K/dnue
+E/M6SYIqRg86APU2hWv5sOZjWpy/C1q2spdnmVSCB3JHfcCPNvkY5pkfJfBWG+Ak
+lfKhGfeWctOqHYGUVALzC7ByJtzKu5+/vj8p143hOR7zGM87BYWFw7HvU1aSWouh
+a7L0kFjzFxdVSJ7iW9tuvw43QpJ4UEvRiCGN+WRZDHc5cmwCZ63I8NA1lZB5CrBH
+S0dZIA6qUDPGmJOkFQltDxfEWfTH/YO0jW+LQIqrvGCoQk3z+6HeHRrmVstZIOnF
+SQQDoewwNNtONcQkL3zmTLecq0CJovfOTm30kkc4y4iqbNF8wpU5agoSESmW7wAJ
+2H7EjkFOGrShpFnbysTDgk1oXZu51OHQUvLkB7NY5VW68hml8wUnu2HqS/9tEqG1
+iq5OnvHoqtcCYy7dP7qysFx1YkJpBtbP0c4OxD7AcyT68FAEuOKUY7F0fEnXFG6M
+8sDDRFHzajoD4eFOPEMMaBbhKDggK9UDmX1QQcxtqeoNscCKxWw9cTZ+4yY9l2Y7
+lCJNqsVu4HE/8vFbP4cGNZmi01kINVxBxA/KyH5O9YP9RLxk3zk=
+=lq6c
+-----END PGP SIGNATURE-----
+
+--f+9HptkmQYRxHGJx--
 
