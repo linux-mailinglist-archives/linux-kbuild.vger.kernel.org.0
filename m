@@ -1,145 +1,123 @@
-Return-Path: <linux-kbuild+bounces-5484-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5485-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDA7A1120F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 21:33:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8E8A1145A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 23:47:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4ED6F164F10
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 20:33:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15B481889545
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2025 22:47:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4249C1FCD05;
-	Tue, 14 Jan 2025 20:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75D362144AE;
+	Tue, 14 Jan 2025 22:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pkiDuXa0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JODKSTyO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DDC1F9EB3;
-	Tue, 14 Jan 2025 20:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18BB2144DB;
+	Tue, 14 Jan 2025 22:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736886821; cv=none; b=uPB2J115FD0jJaLYDoD/wEknky27C95x2cSfeEnFpQGGY6xaZQv8VrZJKENABEdhUKQ4Eke6FTjatmsmiQNzoP5s+YKu52eIeL5CiowMpLxJ9uX/PfA18SgLIhLh0f9fkL+DJAnawccwZrdvaT0JIC63E+RX+DZu/Zm1unSgsEE=
+	t=1736894825; cv=none; b=IsbGaFhOnmpXbcDN0vYlB4a/gTzNzXaGGmnJ9+GKX657SJ7KagHOZh6X/tXe/jclfyFoIlqGWQOgaXeVeGuoOCC0Wj7275FTv7guAd8MlwPOgsHQu9u+K8uFZgghtRENX5/R612VfbGgN9seDb1JXKsN0VVACoIjSWYfrQfVCts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736886821; c=relaxed/simple;
-	bh=/b5pKPR+HgSbFg/FbL/HysVPUwhvLoHEZ4VXk4zO65g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IwN1imzi5y2cGX0Z6XcQTX9CwRYrUU8u3FcDy3pPnPkVeeSHHvDQO4pnXg8iG7QrIgTowfrhKyLcaOYN0i1+Ok1G8n943fqeYL/w5C7hNapnE3R/KmJ1a4YPVujOqi5Yef/jv/3+LQtKIeS3l6xr/LBo/+6p24o52ol5c1twEWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pkiDuXa0; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Tue, 14 Jan 2025 21:33:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1736886812;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VsYc6oT5LuI6oBgnyqWNtel+cPqZHgE1uZnZ+C9qRZk=;
-	b=pkiDuXa0mD/3T/emblVQptOn+dOodH3T92+OLcolib4pk+uOFjmMzetAK68IX7Mof/+b2r
-	b0aZZUgG6FN0zWPN6cYRNwfMqWbeLSpFXOzLpiia/hDhmazX44sXa1UWp+G3GstIFQVuGo
-	xhFsux6oi9qSt5HrdVwxozGWBTE0xmo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <n.schier@avm.de>
-Subject: Re: [PATCH 00/17] genksyms: fix conflicts and syntax errors in parser
-Message-ID: <Z4bKGZWPvNrooZwD@fjasle.eu>
-References: <20250113150253.3097820-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1736894825; c=relaxed/simple;
+	bh=IXANTz1bJSDyjXEnN8PxknznKsE2jL8seUW9FVQiReU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gkLSS7bxaWKaDIl9PmRLXGZuVoABO/RFZTyenhGuIIdmL+TPxdOuYCuY3VPoSwAmGY6xGF0SQvlCWD2z3ysmlWLVZunmo6LMxiqV3E3ps3vXD3uiPpnHgkVejgWxQEGx2TSbAfATXpkj1Q+Q/2cQK7r8vHm5Rey9cpS7Z7UHgXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JODKSTyO; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2162699e0ccso10081385ad.0;
+        Tue, 14 Jan 2025 14:47:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736894823; x=1737499623; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lozpaj0g3GYjPfEclpw5ZqeH+g5/kYsdh3R22/oSzT8=;
+        b=JODKSTyODZraHYlDzoQGB1r3Fyl89RqEcFWEXlQ820GDxGMNkxASbMiMPjLq9tAC1A
+         YWTzg1mEeap8aEDRVDx/Hec0jLLwPwDAJoAytV+ppVH9lozTx8utQR1MO/v4Hq4yAdWO
+         kPOWQEBnumvTUelznl71sDXuqFulG6rV34H/EmeIbw/1lVqnFFz11n1ZH6IuR9iujp7a
+         SQvGkeSJTVdHGG2cEWBxvkz8lv1xRYf3EzY9LIocDHGOxRXpyB15yrR5UBJ5iGVFVEBO
+         Elp9ve3/4Ah08m/gQK1ycbDGhn+unKXpvkvdeTkxkfnusLkheDbEVq3m0sgdtDEtAShB
+         /44g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736894823; x=1737499623;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lozpaj0g3GYjPfEclpw5ZqeH+g5/kYsdh3R22/oSzT8=;
+        b=UzmvFDd1012Tmu2/UnzH+efV1XhGrLg59xmbA9xq5eYL6ScJvNMxf1ntZMTnzCx9tc
+         wx0raMJqBBAxUzGBrxe55rg746FLWMmvMdaQdh11AJhFmVDBBDWps5VNTZ+/79mDVxlw
+         euN+mdtVnfxcLrb8QKegh4UmWuKz1UUSQ2cphGc5nPZfZMxCieBrmrIXHRR2du36DxuJ
+         UkUyX6+lnWQjvUhxaqBRzWh1KC6sQIXMLE/oiyeUYo6Uu3wZlw6FXKNCcD2fuKI9xFXD
+         abKFAZh+IG31ODp+UIfBXuiUHre+LBwvHbgOvBE6TTZXttH0fNMGJVKdZYjWEqWShuOe
+         e0dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUL0oGpustraxL6g+OnGaD8e5WGsxuMEXjsoIHgFANm2hejWPzaQmhQ+c7CcRnqo1SKR11hbRWAvRgHAMfD@vger.kernel.org, AJvYcCV5Ii1V6uw8BsyX1x/zC4G7QKSo3SUZPQyc+VAyNLS23Ic2oZNc0RoR16+7eCkvyywQbibCsOz37pJ3Hc15@vger.kernel.org, AJvYcCWIdfwsGKWLYm4a29km3yAS8Ien0tOZv/BuVilRy8l3Q14szrkfoAFgsA7c943jGT1+4l+Ok/elwYLDZQiesdo=@vger.kernel.org, AJvYcCXEvjQXm+El836REp0XrMvYm/1cgLXVstpHWZyBQNBDRntxgQ8jOzAP3iSHoYZjuuNEpXIwCYy6CVs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhGZFpniuA1twBO/jUJK+e0n3/zNG37VcdjnuFZXcXHzOeU6OL
+	MiS3/bF0HpXfPkQorobdsj6Mn+RsOc5TPBTcf4QL9i8Y3NnlIs8Ox53GIx5J6nlW76jYR0nUwmp
+	asMJcuPf5gRDNDVqjmbD2Y0ogxJc=
+X-Gm-Gg: ASbGnctU9eKk73wBXPSpCYAtHIi8R/ZyDjfUKrNN7Bft7g0McWeVc44pFk+jUJjI6ic
+	2ZR3UzBVLIjA8G+KxknZ66XV7K0ksNHlv+YY62g==
+X-Google-Smtp-Source: AGHT+IGevwfPXGCAQQVOp/Ab1cBDzyCJ8G1YfMVI8AtOp+xUdHCuOY6eWeuJWDZfjx7Z2eYbdSZVK9tX1UXrXPJHYgA=
+X-Received: by 2002:a17:902:e545:b0:215:435d:b41a with SMTP id
+ d9443c01a7336-21a83f34893mr149435055ad.1.1736894823228; Tue, 14 Jan 2025
+ 14:47:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="f+9HptkmQYRxHGJx"
-Content-Disposition: inline
-In-Reply-To: <20250113150253.3097820-1-masahiroy@kernel.org>
-X-Migadu-Flow: FLOW_OUT
-
-
---f+9HptkmQYRxHGJx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241112184455.855133-1-ojeda@kernel.org> <CANiq72=BvnriScFay8SpLNe9mNhjvGsBJ9W9UtdzU_6v_i+woA@mail.gmail.com>
+ <CAABy=s12gOZadhYC+=6=TbbyN9j5L0B19ZLSGR_VFEdt1jhwEA@mail.gmail.com>
+In-Reply-To: <CAABy=s12gOZadhYC+=6=TbbyN9j5L0B19ZLSGR_VFEdt1jhwEA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 14 Jan 2025 23:46:50 +0100
+X-Gm-Features: AbW1kvacpMeTqUYlQMLS6S4D2USApAhXAr5atLy2VwEVUQxisq97hcv1qVOPz0I
+Message-ID: <CANiq72kQKGG7j61bpsORnE0vzNo_dzwMZMLx=Z0xOnY0wefv6g@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
+To: "Hong, Yifan" <elsk@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2025 at 12:00:38AM +0900, Masahiro Yamada wrote:
->=20
-> This series fixes several long-standing issues in genksyms.
->=20
->  - The parser contains grammatical ambiguities, including both
->    reduce/reduce and shift/reduce conflicts.
->=20
->  - There are several hidden syntax errors
->    When a syntax error occurs, the type becomes UNKNOWN, and
->    precise CRC calculation becomes impossible.
->=20
->=20
->=20
-> Masahiro Yamada (17):
->   genksyms: rename m_abstract_declarator to abstract_declarator
->   genksyms: rename cvar_qualifier to type_qualifier
->   genksyms: reduce type_qualifier directly to decl_specifier
->   genksyms: fix 6 shift/reduce conflicts and 5 reduce/reduce conflicts
->   genksyms: fix last 3 shift/reduce conflicts
->   genksyms: remove Makefile hack
->   genksyms: restrict direct-abstract-declarator to take one
->     parameter-type-list
->   genksyms: restrict direct-declarator to take one parameter-type-list
->   genksyms: record attributes consistently for init-declarator
->   genksyms: decouple ATTRIBUTE_PHRASE from type-qualifier
->   genksyms: fix syntax error for attribute before abstract_declarator
->   genksyms: fix syntax error for attribute before nested_declarator
->   genksyms: fix syntax error for attribute after abstact_declarator
->   genksyms: fix syntax error for attribute after 'struct'
->   genksyms: fix syntax error for attribute after 'union'
->   genksyms: fix syntax error for builtin (u)int*x*_t types
->   genksyms: fix syntax error for attribute before init-declarator
->=20
->  scripts/genksyms/Makefile   |  18 -----
->  scripts/genksyms/genksyms.h |   3 +
->  scripts/genksyms/lex.l      |  17 +++-
->  scripts/genksyms/parse.y    | 150 ++++++++++++++++++++----------------
->  4 files changed, 101 insertions(+), 87 deletions(-)
->=20
-> --=20
-> 2.43.0
+On Tue, Dec 10, 2024 at 1:51=E2=80=AFAM Hong, Yifan <elsk@google.com> wrote=
+:
+>
+> With https://github.com/rust-lang/compiler-team/issues/731 fixed and
+> this idea of appending flags, our --sysroot flag should be able to be
+> properly overridden. But the -L and -Wl,-rpath's remains, and could
+> potentially be disturbing.
 
-Thanks for the series, especially for the very detailed,
-explanatory commit messages!
+On second thought, #731 probably only applies to `rustc` native flags
+only, rather than those that are passed to the linker (e.g. if I pass
+a dummy flag, it is passed as-is, so I doubt they will start checking,
+and probably they shouldn't), so it may not help here after all.
 
-I looked through all the patches and they all look good to me
--- but my bison/parsing/lexing knowledge is rusty and quite
-limited, therefore I cannot review properly.
+> So if I understand what you mean correctly, with this:
+>   KBUILD_PROCMACROLDFLAGS :=3D $(HOSTLDFLAGS) $(PROCMACROLDFLAGS)
+> Android might need a separate mechanism (another variable?) to filter
+> out our -L/-Wl,-rpath from HOSTLDFLAGS. (Dumb question: We can't take
+> -L/-Wl,-rpath away by prepending/appending more flags, right?)
 
-Acked-by: Nicolas Schier <n.schier@avm.de>
+Yeah, we would need a variable to provide the filters, but it would be
+more complex and possibly less flexible. I think it may be best to
+keep things simple and use the v3 here, which already works for your
+use case.
 
-Kind regards,
-Nicolas
-
---f+9HptkmQYRxHGJx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmeGyhkACgkQB1IKcBYm
-EmmVdw//TSe0HsrjhOzRWxUUHmKVl+3eZTG+75DENWqSN8zdBw8ZXfbgyK67/sKK
-1G5OrCEH7XpQHFaKD7s+CDV5vkn93KVseOQM+O9csWegbIqZuGPZGYOPD1K/dnue
-E/M6SYIqRg86APU2hWv5sOZjWpy/C1q2spdnmVSCB3JHfcCPNvkY5pkfJfBWG+Ak
-lfKhGfeWctOqHYGUVALzC7ByJtzKu5+/vj8p143hOR7zGM87BYWFw7HvU1aSWouh
-a7L0kFjzFxdVSJ7iW9tuvw43QpJ4UEvRiCGN+WRZDHc5cmwCZ63I8NA1lZB5CrBH
-S0dZIA6qUDPGmJOkFQltDxfEWfTH/YO0jW+LQIqrvGCoQk3z+6HeHRrmVstZIOnF
-SQQDoewwNNtONcQkL3zmTLecq0CJovfOTm30kkc4y4iqbNF8wpU5agoSESmW7wAJ
-2H7EjkFOGrShpFnbysTDgk1oXZu51OHQUvLkB7NY5VW68hml8wUnu2HqS/9tEqG1
-iq5OnvHoqtcCYy7dP7qysFx1YkJpBtbP0c4OxD7AcyT68FAEuOKUY7F0fEnXFG6M
-8sDDRFHzajoD4eFOPEMMaBbhKDggK9UDmX1QQcxtqeoNscCKxWw9cTZ+4yY9l2Y7
-lCJNqsVu4HE/8vFbP4cGNZmi01kINVxBxA/KyH5O9YP9RLxk3zk=
-=lq6c
------END PGP SIGNATURE-----
-
---f+9HptkmQYRxHGJx--
+Cheers,
+Miguel
 
