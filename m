@@ -1,106 +1,141 @@
-Return-Path: <linux-kbuild+bounces-5488-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5490-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792AEA11D04
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 10:10:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3C2A123C4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 13:32:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B457168CCC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 09:10:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB1C73A7F71
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 12:32:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D017A1DB147;
-	Wed, 15 Jan 2025 09:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 061111DFEF;
+	Wed, 15 Jan 2025 12:32:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PH89h/Yu"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="ftu7AYhU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569E4246A35;
-	Wed, 15 Jan 2025 09:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2A42139C6;
+	Wed, 15 Jan 2025 12:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736932248; cv=none; b=uOWOJQK3W9UoLUYayq/wTTJ64FvGNF9sgD4RwmKRzJuqEexfZ1Y3Oj7dscZMj0RjdIabJ8n84g4wLwiOfWeo1U3tGijCN7PEsQzhJBmiZriCEmRJkHmlPsH1PVgkK3MOa3SR21IIDdXZGrU2+SgfJMssRjWlOLooOAkE82Pz1pc=
+	t=1736944348; cv=none; b=jjqdV53PhQVaEcqy8TyHuGZLA85yufLF914asyIOxWZkVhvhmWJzHg0HJdIdRG9lCCjQpTmZp9IENdwK/pez/l2mwpqxLChQT2D81GJ9nMC4ZTSE5yEtrbIentI4xf+uoyINO1kwdgS1gA7Iz044oSqsPjsekaYhN8EDqxpTX4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736932248; c=relaxed/simple;
-	bh=s4gowUCkR8ThPcXmpLKlGclM8lC6TIMzjSkqs9savQ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hqAs5hb+BpqifvBarFHovWDjCFkXe7MxNWQni1Ssy82r12bWsIsgPA9XKI+fYuWtpf8KT/M0LVKsY7dujmmMZbN8VJFYcZFbTMuZ+NxK8zesWANH5C50jrCvkARTX9bKibFodo9ne34VdOgO+DOwQmlly1RaD43SDgQzUjzwn80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PH89h/Yu; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ef05d0ef18so1345839a91.0;
-        Wed, 15 Jan 2025 01:10:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736932246; x=1737537046; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s4gowUCkR8ThPcXmpLKlGclM8lC6TIMzjSkqs9savQ8=;
-        b=PH89h/YuSRAissrvXDNSVWYeb4oOxps/RbuOu/+snzNfis1qxCHbxQYMO8b9YufGhM
-         ZFpcpIbCDHz6O6yon+Q+5D/90QviirEY3zTWvXyyMDegCZlorXQTuv1uQrUM7wUrK+jS
-         5jNdXPy/Y3eXG8qNWUl69SYbl3jZlr9vv678M0HFwdVLVYYewwv1LkYWLFfErjaXUjwd
-         CNZDk03yKUUS2WGVzH6p3PopBAo7bpEUV5mwpkqxJChTVRdpLyqGWkBXAMa8DRlxrleI
-         NZGirZtU05/lBIdHelPGGwOnM/lVa1fAckzKPWvpArcq/QaAvK3sMNXIcNCPozb9ryw+
-         Juiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736932246; x=1737537046;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s4gowUCkR8ThPcXmpLKlGclM8lC6TIMzjSkqs9savQ8=;
-        b=sIWMv5U/HoKpfy0sJmrnLbhx3U073y4U6TNvDfq6fKbXygO8DQuSr/IRuvEZ/D3FGj
-         zOyLXu67t/PMnXYWozdP93G0noXavHc0UwCHkTwYSoSdG99l8gKdGEAzYAyOAJ7bIi9g
-         aR9TGV/Uo92wjJsfcoV5dYaDdFU/n6yIyoc7hvOpivivgRwJmyjt3WHA6e3pfuorqi7f
-         xkWLv8IvdKA6q0KLBRvOs1brKEHF3OjRy9sm8FQrridOxEqdXzdzgJEKnItKtXLmdEGI
-         Rr7/xG6GXEdjt8ZeMiBPPrCeN5jd2pY7eSTUIkW2BOtn5T+MJvRXO6Gb6p1QxOTUpoj0
-         9YYw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdnCwndlNuTlD82kuCgGijBCIYVG1MKnwP+aEgYTmMcveorrho7vfTfhgbhqzoLuDwvbFOZvyeXM0V4GXCko8=@vger.kernel.org, AJvYcCX0GOMqbYQYrYFyC5UrCZhCMQgw0A89PHdB7BAo2v8+DTIZr9fSKKugozVsCMD4cbsN6BAhxraIHO0OFAxy@vger.kernel.org, AJvYcCXWc66fug2wCr6FHiqZDiBGp8UpRFz8H9MZhAeaOJFK/XEvmbBY5V/NsjHH/Ae0tW4FS4AxblAEgBm84ML6@vger.kernel.org, AJvYcCXdWyEg1K6e/yY4AaLcSDB5JMD527XKR7qz1o9GCjnFTYBw20Q9onFuEeNersCLyQMiCekaDQqaQzA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTaafdp0ek5RKT1DNDDfQ1Yhc/JKRjHlTO5PdwZ1TZd8d4pk0K
-	nS/ydJMDUhVyO1zaG+zVnsY0DCwQr5SFwpMqf9gmIaAP5ZFkjMpZJtOLpOPusgyNkfY2lRmS6jo
-	k3/JVCKUnwviYK9rwReueT5sq2s4=
-X-Gm-Gg: ASbGnctkjI52v6a773LMXB6B1zNT/7oG8y4LTu42tlL5sn3oiJi+kiVen+2Yrn84e7c
-	HiQYwLiOJ3JsIxwzmheTOVjBU/SXk9sRLB8rpFA==
-X-Google-Smtp-Source: AGHT+IF5o5Fngx9F8mAKdkHS+kf8BLRmpwBINYjoHVCcfYVIb4s1YvcCTtZ+OZrv6w6UeWm6DL+Xl1deyoXsqkgUcPY=
-X-Received: by 2002:a17:90b:37c3:b0:2f2:f6e5:d28e with SMTP id
- 98e67ed59e1d1-2f548f1c677mr15527940a91.3.1736932246563; Wed, 15 Jan 2025
- 01:10:46 -0800 (PST)
+	s=arc-20240116; t=1736944348; c=relaxed/simple;
+	bh=teRVM/zef6yxKmxqGUVSmS3J+7xef++XR2dpHMRbOyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NOJsI1AKHVbfiE1xCH+XPA9LOogNPCFlAiP3E6mW2FhBljUvEwt9B1ypscOg/UCGxnlu0Ja5grWg/fExIfilp1UzIiJ8vT0/rfE3XFPirwWrpZN6gnFzkEVt7cf4B5rEE9eokG4N644MSYY8E2KG5WOfFMQsPwWwUlPoOLMHjxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=ftu7AYhU; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=I/HhoSZkyx9wRmYxds6irdlwDqpgcVefL5lUu6B+L/g=; b=ftu7AYhUI2IohLtTnJF9ckG2jW
+	c43NDVIpS9dh0oJQbzReth+XQ9e21huqlHnGaFpyKaJf3rHnaiaGdbfhpAwmGvXiLV3mze0AgmqBo
+	QWbYHxwDN92m0blJ5N94s5Yl+lcihuJqqEPXnT7DI/xl4ppYtRUxwhQlDvVLzrck5Y/CQp43wpIwl
+	ZuDqn1GSKr0y6ioFO3XhnHBQBq1LsRZmPyOVZ21X7grhuLiDvBySxdejc7omBdDVkU/k/rnC+j3PG
+	25octr0lJgOjKGKF/pe5BiTE/8KDiJCHRCZxSo0UT5+4RGmxm08tdFuGXnbiZpH8HDa+EAzTnJkln
+	Q5DN37pA==;
+Received: from smtp
+	by smtp.domeneshop.no with esmtpsa (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	id 1tY2En-00FTis-33;
+	Wed, 15 Jan 2025 13:11:09 +0100
+Date: Wed, 15 Jan 2025 13:11:06 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 1/2] MAINTAINERS: Add kconfig utility scripts
+Message-ID: <Z4el2qEV1xZIMBfk@bergen>
+References: <20250108-diffconfig-validate-v1-0-4b3d8ee489da@linutronix.de>
+ <20250108-diffconfig-validate-v1-1-4b3d8ee489da@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241112184455.855133-1-ojeda@kernel.org> <CANiq72m+k07miKu=vHfp1-A+nu092R+khau5b95Ugq8M8sksFQ@mail.gmail.com>
- <CAK7LNASXLdya8d2Cjo9H2j5J2d8ukj27aDNStqWEVbDQFgsP2w@mail.gmail.com>
-In-Reply-To: <CAK7LNASXLdya8d2Cjo9H2j5J2d8ukj27aDNStqWEVbDQFgsP2w@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 15 Jan 2025 10:10:33 +0100
-X-Gm-Features: AbW1kvablhI2XqwtFDUl4ZnT060edaVgVSWH6gDoFIWIPktYypdDmv7lacp_u_Q
-Message-ID: <CANiq72kpCMcDgpRuUA-5oJq5dYgtLW2bVkk+H7fU6CTtKAw4SA@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, HONG Yifan <elsk@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="PZcjHei43lSAfEDQ"
+Content-Disposition: inline
+In-Reply-To: <20250108-diffconfig-validate-v1-1-4b3d8ee489da@linutronix.de>
+X-Operating-System: Debian GNU/Linux 12.8
+Jabber-ID: nicolas@jabber.no
+
+
+--PZcjHei43lSAfEDQ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2025 at 3:56=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+On Wed 08 Jan 2025 13:34:28 GMT, Thomas Wei=DFschuh wrote:
+> There are various utilities in scripts/ which work with kconfig=20
+> files.
+> These have currently no maintainer.
+> As most patches for them are applied through kconfig/kbuild anyways,
+> add an explicit maintainership entry.
+>=20
+> Signed-off-by: Thomas Wei=DFschuh <thomas.weissschuh@linutronix.de>
+> ---
+>  MAINTAINERS | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 30cbc3d44cd53e6b1a81d56161004d7ab825d7a9..2bd414fb3e6d6515b57a57a5f=
+3d4d735137edcce 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12385,6 +12385,9 @@ Q:	https://patchwork.kernel.org/project/linux-kbu=
+ild/list/
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
+ild.git kbuild
+>  F:	Documentation/kbuild/kconfig*
+>  F:	scripts/Kconfig.include
+> +F:	scripts/checkkconfigsymbols.py
+> +F:	scripts/config
+> +F:	scripts/diffconfig
 
-Added, thanks a lot!
+Thanks!
 
-Cheers,
-Miguel
+Does it make sense to add scripts/extract-ikconfig also?  It does not=20
+handle kconfig language at all, but linux-kbuild would probably still a=20
+good place for review.
+
+Nevertheless,
+
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+Kind regards,
+Nicolas
+
+--PZcjHei43lSAfEDQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmeHpdkACgkQB1IKcBYm
+EmlGUxAAmvkLwwy+9QI8ZQmVjnI39yCWI7YxV4gJym7d92E5YCI14UtqxEs+Qr1G
+Z2aKiRZcFwRdrtGEVKR6t6i1HFqtCM4/dK5Oz3CbHQ+VclFijhEb20z8HxGMReNU
+f3a2wi0qxX4rG1d49SJ6v9IwYyP/62Qefbg2pPaauGRaxRcgCBU1ntZ0vY3OkP7/
+KbASxOxcB+rrpcpvKVI+8s41y/WoxjEDF5XXXHhBuWTfx+LWypzkb8fSCWdmm2G7
+90B4DcCw9ed5dRwVgqHN4fsiZurk0DsG2d1RQt5UNGIls/Xd/fUaiARILSVvgwp1
+dlyaSJoFG3qZtOJTKwrkgGS7Gr9LRmnaCttgOI87KFSrPEyeMp3eacu4wr8RgFFY
+t6lm8ufZ3TwrC7MJcNbB+otkUi1aogFqXQVN43TKaKEDkBO1rtoLT4EABJRJiTD2
+BlQlAfmM1y8QglCr/UtPphlletIk0pyLhRvsS9PXEmtmn8/KPkPoFpk7xSICi8Nt
+qN+1jq34KLD4StB8ggh9E8NPPY1Xj5dErPfvM0CvGZZbiT20gXuUGCprf0SavEML
+r06K4UtzrgRvLMofjQJUzFhWFsWct1wtp+JbxFepYdOxsflHtnLTsvvuiZj2MVXm
+QDvvc5Xx2Yx/cbx/UTk0BMDMfYC3EzuOIvuy7IMgmImgeKW1mB8=
+=io3k
+-----END PGP SIGNATURE-----
+
+--PZcjHei43lSAfEDQ--
 
