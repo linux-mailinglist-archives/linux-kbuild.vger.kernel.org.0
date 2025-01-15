@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-5494-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5495-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFB5A12BC7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 20:35:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D190DA12BE4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 20:42:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12E0B3A5FBC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 19:35:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 085BD1887E6B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jan 2025 19:42:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4351D5AC3;
-	Wed, 15 Jan 2025 19:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9378F1D6DAA;
+	Wed, 15 Jan 2025 19:42:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="B8B2qIle"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="xDIPDpbl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020093.outbound.protection.outlook.com [52.101.195.93])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022125.outbound.protection.outlook.com [52.101.96.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15EE1D63CE;
-	Wed, 15 Jan 2025 19:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3F71D5AC3;
+	Wed, 15 Jan 2025 19:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.125
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736969731; cv=fail; b=hVWLZXiJcyi3yxv13And7lZ3Ab7Hgsvu0bQBR3lFkpgbbBuFAMeggIG+LfCU4arW8OTaEczgyIF7u6oB7hALq3ktchu1VxxSS9GY1OWO1vOkGInpcVuuudCrXVDqQGqftMNHy06dudc3Fvs4jGYxfGm2vXVi7eD28Kym30Zb34I=
+	t=1736970156; cv=fail; b=VpenQ+l9Y7OxQIvJ5yzM1jVspRijaUwWCVPU3B8wk/iirPlDaN+0hDW64FGKb2YO4PXcsRdng7cxFPjHeehjqrEhRLx1wzUpgXajBIMdv5wLW6IZec5wtSk6jjPmYJg+AqBNMDDBVEqj+YodjAy+ZpejhO1+Ax1CWASlgGUhqWw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736969731; c=relaxed/simple;
-	bh=sl2CJSxTewmGYuF7R9aML0bDYgbNourPfXny4GRfOL4=;
+	s=arc-20240116; t=1736970156; c=relaxed/simple;
+	bh=3cVDv46WhssFxWTBRQKQgO6hvO7CsBbzK/Mr9berkZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jXbPyFRuXXvmmWdiOyDxLlYweZnM5EH/eMfZ/mBPFNNzXg2bfhvSrpcZL9LVqOqWXbQneP+VyJWBncevMt/T0tJXFZR9QAUoac5VFHXAFyovP2ujs3z9nn+9IXOCKIRG5Dt0ExeVyXR/WdzXFBWmAXVIo/ILkcTdYb2R08JTEH8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=B8B2qIle; arc=fail smtp.client-ip=52.101.195.93
+	 Content-Type:MIME-Version; b=NNbH9TNP5i6WylnSDU3yHf2ccxGXIexshQJjsu4OLDg/Jml9HiLLhk5XWCik7bpFlRo7hW1wi12Hfvsl/fiBKRmMYpOYtN8YkaMMPey74mQfZZTSg3H+BIR3LS+GMtDzmtPwQqrUpafy0Nb/pjvqEwc5gxJ+SBDlDQ4R9lYpb0U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=xDIPDpbl; arc=fail smtp.client-ip=52.101.96.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d0uE/+tIxN9kknJuIMhWuVs4SR4qAS03s7vD6d+NyPwBNprYU2owLgaUVZUlYs1L1Y7+IV3oYYyVxBetTWoUYk3drb/yF/0nHRj21o+pd/Rs2FlB/LanKHe33aw3fnrS/q7L4Fzoae0IPAO7fLwhRChwD9SFVlFTzBFsmeo33KkE70y7JGkCqDcah5gCP2N65WrdLAY0NoEL6qnwepY26S7PmdrgBT0HGDfCFoNR30DLv/L+U7yO7Jfo4jS9KzGlCMF5u41d2Lwmv49tNoKsXBK8ilkSFgHyAtZkS04rGY+nocmDs0HOL2blAjG0CZrZP6p0dt9khVoIMee4fdWFXw==
+ b=u1MW9XEt3xI/WUwdc2m0xkmXNvWCzTXrA6eY4YunqOk/dyJ3OgYDVXoqFde1xpAmd6pTtFc6FgnSXIJxiG0C2+cT2Bkz1Z6HvXskM2H5arLXPa9jUEwCgEq1ieZYtklpBzA9//y41y4pomuk8rKvjGranCKzavoz1qSTcS9muIAZSRuAHSKb9sD0x54S+38Cw0vpqrKMqCEmpJ78jZsQSnO4H5LpoI/YsI0b2dtNIucCw8wiJmpU4ZwCPpX2R+jO2yNwkq6dHdjsjr1oRzz1Drq/01pPiwX1dQ/pDWoyQ1xdqficosu861t8CgIM4X8AtVloB2Vc45zsbzM6gVf2/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mpatoyU4O1i+ckyp5+qqUorzjR2Fb2q89h21QkFHLy0=;
- b=wWNBDT+HixxE1TeNvIWm245o1o1rw0Durd8Kx/SLKj4wwYL6K4kxGv7zHYe1U3mme2dBZNcqGLnHr7jCV0779A1eXbXOFsOGGwpdjVTU5rRvGQ7M4VB9jBdgdghNUY4jvuvM0e0ob8U1XyVZmtxnLdzp1PIXrcprUvk+L8s9PUtelt15pM57TeL2Zio4hmeNyU+ho2XN1QVv3r6j1HVgvw19UtZJw5ZguHUy76qPVkb9O2EmD8q3N8cEnwejgDmpbbl3dW06dO4obJ/jLJuQHD0XjxCPG6P9A+WW3wX/yqvfJGBGHxGjZWkjFmhO1orI1e4rxnThpKkRdPBMBdXcXA==
+ bh=+lYbatbeqIuDwdjhewBDe9mfh9q5h0/eFIbz7WRo1O0=;
+ b=gXAkYeQO/LBGgakTXMi0LwfEHfHAR9iRI9Zeay1fuyQ9zbVBXiGygSCTeNueb6xl/SIlU9hgK4dkQk5IHShTaebjL3HsqrLUTdh+In76jCWHyM6ivOfk+/Jrrt/sL91KV2tPdpuqUqh8sPvqP2pqmLo/s6Eul+SfIOx/ye81Fv7Gatenze7ZHIBNwmVPLdnS/5aCv9P4JsWr9ip1yntaUpQk6GwN9MiXU0AXHqm+0Phgu8ZzIZefUptBOMZYMd2u82EAx8qjR/aRe5lGIUUJPcRSOChUQjvJRWkBs06zcIjSD6SKyKVuS8sY/6LgjsQly8AuPmDe9ek7tI7yFYDD5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mpatoyU4O1i+ckyp5+qqUorzjR2Fb2q89h21QkFHLy0=;
- b=B8B2qIletoFF1xAJLDAJSPHLJdfwXv8P7WvCJhswPLetOFRfPtmn5BvTKVesLwLhWNax48ACVmob4PHJzyzLPgW2Pc+lee2cq++rax40aPvddhHkTixO+mFAOvNmWDRzAEFoxBTn4lJ7aYVCS5m8xOTzbyiMXMHa2w67B0NLr4Y=
+ bh=+lYbatbeqIuDwdjhewBDe9mfh9q5h0/eFIbz7WRo1O0=;
+ b=xDIPDpblOsue23Vypi5+MySalLSL06L2i/TtJZBXoOMbuWbLIEdhAJIW+VBpJG9nS+2qPFvK3y4nR+36jzS9Oj0M1WPlOMOVERz49wQBpfyshqfk070y9tH3f/oapV3KM8n2M64Pt0QKMIAzWAUNqgz/pRELpGyGMFm96cKd+vU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by LO7P265MB7924.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:410::6) with
+ by LO3P265MB2092.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:103::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
- 2025 19:35:27 +0000
+ 2025 19:42:31 +0000
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1818:a2bf:38a7:a1e7]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1818:a2bf:38a7:a1e7%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 19:35:26 +0000
-Date: Wed, 15 Jan 2025 19:35:24 +0000
+ 19:42:31 +0000
+Date: Wed, 15 Jan 2025 19:42:29 +0000
 From: Gary Guo <gary@garyguo.net>
 To: Andreas Hindborg <a.hindborg@kernel.org>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
@@ -71,16 +71,17 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, Daniel
  Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, Greg
  KH <gregkh@linuxfoundation.org>, linux-modules@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] rust: str: implement `strip_prefix` for `BStr`
-Message-ID: <20250115193524.5c07a472.gary@garyguo.net>
-In-Reply-To: <20250109-module-params-v3-v4-2-c208bcfbe11f@kernel.org>
+Subject: Re: [PATCH v4 3/4] rust: str: add radix prefixed integer parsing
+ functions
+Message-ID: <20250115194229.04cd1068.gary@garyguo.net>
+In-Reply-To: <20250109-module-params-v3-v4-3-c208bcfbe11f@kernel.org>
 References: <20250109-module-params-v3-v4-0-c208bcfbe11f@kernel.org>
-	<20250109-module-params-v3-v4-2-c208bcfbe11f@kernel.org>
+	<20250109-module-params-v3-v4-3-c208bcfbe11f@kernel.org>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0063.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:60::27) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P265CA0222.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:b::18) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:253::10)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -89,128 +90,235 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO7P265MB7924:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62bf6572-95c8-442d-2231-08dd359bc334
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO3P265MB2092:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3fd9302-fa1f-4b8e-2e6e-08dd359cc052
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|10070799003|1800799024|7053199007;
+	BCL:0;ARA:13230040|366016|1800799024|10070799003|376014|7416014|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?8zuUrBx7br/coycdLb1WQF3f1QrWKHcozTT9kd6tzZ+6hTtv9mZnT24EBkYV?=
- =?us-ascii?Q?6whA9knVP8U+4UuqBxYhpOMWiU1l1MgIvvJS1wrBcYidNoamWo9oYE9kWEsE?=
- =?us-ascii?Q?cYZbO5d28vzqxc1dkRZy6d8EC4RFp3p53eGC0+SR3Em+e1KzC96Xzcm4ZCE8?=
- =?us-ascii?Q?/FkpMi/ZiJXqqP7knAFSj2d669f8gtxdR6Cz6z4g6pLZDRUPYRaP10seXpQL?=
- =?us-ascii?Q?bb1S4AD99dzk/E2jhkJYvimYrtC1FwFt8kEkcle5816s/aaaf2Tp1/YLjq3u?=
- =?us-ascii?Q?bQeg0nsHBHVZYjw8Uy77J9i+VeJIg5d55KMedgii+PzEGc926wqXJ4ElHX8r?=
- =?us-ascii?Q?Mm+LTVNsd11IctqfBX1mtEaSQvwvM6EAFvL5iF6UTvSdN7CCWETK+wFRdeeB?=
- =?us-ascii?Q?ZfX2UUwFSuaisoOi1bNhLsf2Z0Q4nxZKzx7nwfaXxf76uvG78ZBapEDvEAtZ?=
- =?us-ascii?Q?xekg3ki11udjQjHlyg9rWqUtIHsgd9QCpoCGK+LDQyBrALYOtea+xZxFfgV0?=
- =?us-ascii?Q?4/5mR9LEkaJ42qhL/48zXYWLpETViuFlQtPnLgBl2QqKLIzFgNu9DAj3Z4Bn?=
- =?us-ascii?Q?0eQDqVbl5XhIS9ovqweFf6Jok0MD12Nmv6GYVxbkMhSqvDJjdrdTG15ag+0c?=
- =?us-ascii?Q?+67xsLpfOwCuGXEHaZr5q6whmEUUS6GXjtBBrXnwyTuq2spILWQ4/jSWtnt3?=
- =?us-ascii?Q?yle+KvQ/kOeHSlT1aXBzCkXGYS7lCuyJiSJo/yogLSgXZ/KrcOM6pkk/zGSn?=
- =?us-ascii?Q?qoM/QrwbDjDpJjagBdKedUzslo/xAPkBwZF4jeUB1M9+3OxoblaZBO6X2Gom?=
- =?us-ascii?Q?HPZDQ08UcJEu2f6G3CwMxAH1GwtbKJ+52pMcHA4PeFdBIYDvAsRWdgrofven?=
- =?us-ascii?Q?2jVXWmBeg4U/aRMsMs0OrpDv/6GSJGCwxXGlF3IG2pYrdgXZDYgDuEqX95z/?=
- =?us-ascii?Q?ZJCRLlP9GCjkdoPbQpgolRAYs2KDgHf0WZajkhlXDiVLaPMRvuiqMuUdz87L?=
- =?us-ascii?Q?z+aRS7GzpOoT/Wozs7faMo8bFsZA7J+JU7z3GJNllPx54ih46Cpf/zdMq3m+?=
- =?us-ascii?Q?2YmMHjYHHH24sdwrBV3RApM+MPgfrBqltpIWllDvC1VAKY4WmA/jlwx7y9uv?=
- =?us-ascii?Q?JiBgTu+fk8rOHIuYfO8G/rg44VzgEK7Eq8s+tyyCBhYd9YSDT1VfK05+LSfy?=
- =?us-ascii?Q?M4arBSuwZJDrRJr4cJTy7fFK9pNmzDx87cgqIOaTYsbWSxF0ODo1H9FZkIbc?=
- =?us-ascii?Q?LAIw7OutlQWV4of/25kEXK4ws8FFFihaRMVWfVJgn6I7r6zyqMDNjhvptx+/?=
- =?us-ascii?Q?5o2uoMOwdkekxgtC1WqrWLyaca0p79Ls1VkAn2TvlH0fIcvNImTcNIANF9TR?=
- =?us-ascii?Q?9x16QIAn3Ebe4Pr/JULHpN4zZihA?=
+	=?us-ascii?Q?kglXaiiiHCSlqGtCRlQvX4SOx6WVh1rTWcOsHx1W147iNTKqTKKc23ZW4/f5?=
+ =?us-ascii?Q?heOsEEpAuczhPgkSBHTP+39lu70Z8+veTM9EzbqddCCWv6z2PRWsUTA7Dn9K?=
+ =?us-ascii?Q?QSpIzx/4NZJYIyxqco1f37/K7N7FJYDG5uOwVVnALvIY7J2d8btHbZFf9XOo?=
+ =?us-ascii?Q?FsrG56urAyQDFiZm97nCl5dAtOco44M0Ttj6cDTSXKr0oCPwROLaGLqlrB+x?=
+ =?us-ascii?Q?V8K2mAxDwRt3dTipafeVF6qvzhHL95v6uH4OPMYrFqXPDEP9Yic2MOaUtzAT?=
+ =?us-ascii?Q?eJL3YLFGq8V032F3UzKtLTFdU75LzexeCZcywq7GTw12yraRiraHyjyvDpBJ?=
+ =?us-ascii?Q?3gtunWvxVb5HtGDoWfZrpDHpTxxSz6T9WRLt+mc+E88j/BoF/MLAXMDMyyGy?=
+ =?us-ascii?Q?AEWOy8CKcbPM9TYJJ7AolF9caY50tlR+yw32KNTf4MHNX4gJe8jWHvz+4HpK?=
+ =?us-ascii?Q?aq/Ap7GAvyGJ3GxdY6qujglLc0W1Hskut+u5ycViMWDYsnKzzQCAC7Zz6VCU?=
+ =?us-ascii?Q?LTGQKKUuWnutalsoXxJvPxdszIw/+Uadg6xYhTY3xXw02IZ8X8W2yldev+lj?=
+ =?us-ascii?Q?aa34ThRo2lSyxuhSsQ8EMavq5vmKJsY34I6+N+tg9PsOz6U4+BGQIolUuUBI?=
+ =?us-ascii?Q?RMvtFqeu/jd2vuBqtBfj/qrGbAqCMINCIHBYrxewpQ/ubOW8lWLa2oAUho2A?=
+ =?us-ascii?Q?p272S+BA2BISC85holkd6wFQ8h85KXpwrxH/zcE5iDMuVd3VsTjnaZFrEZ3v?=
+ =?us-ascii?Q?3XlYrA5R4TzKpIpZdKSLiQ3RqWGcRLn05nLrD0jkNR46BHwFq2hyo79XrlgV?=
+ =?us-ascii?Q?8RjU5nauE5RKndfCrO8OuNTSDTQiSdASlUmNJKWTxg5S3EwVhOVKL2c/QbYT?=
+ =?us-ascii?Q?x2i6yCzT5g7xiZ05ul8DV3xegTuqpbdYxuBqtXL9WfvABpN32CHN2Cwxyodx?=
+ =?us-ascii?Q?x/I4z/Uk28JtowhBToA4VgwBiTxlnymxw7QvLFtnSqWkvmmnO6K5BjPCfTxY?=
+ =?us-ascii?Q?k7JTIr6yIaXQLTnGqvPj9v+DrREm6l4C6YYpWSe9JYyah6lx4VL5faHPSWRf?=
+ =?us-ascii?Q?T/bEj6PNoivUh2ipnKPbJ/iNjJVEVKrUBz12czZK6r3Qe5c7bCIJ0wV3xOyG?=
+ =?us-ascii?Q?Su0Z/x1U8ModqKmrpAXhXyc6O7AB+BBn1+AuhLXyaGRSBEZiLfFOJnqfVIuO?=
+ =?us-ascii?Q?CAYyNuC97aZ6c5/xUOQWpiQX2ANUea9VSfdUwXb2i69wNHiCioH/XsrxI96L?=
+ =?us-ascii?Q?00RjR+1kAkwmLodwpmxP6xRG2nMhdmhf7AgDsXfSvEOQnIHrozoB6Vinpdaz?=
+ =?us-ascii?Q?/PlAj+NS7O5IrMfECRSx3FyqH51T3VAimj+62Pk9TE3NCg=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(10070799003)(1800799024)(7053199007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(7416014)(7053199007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?O/dIRbYAFT4x67vrnN7ijp5lpBFK4W69cMx+pLnMTQP4CsWTsZDSx/HsAVWT?=
- =?us-ascii?Q?2287FA2PMRdAR09vNXVLwV8NhcY6akq4g1xPknskzuvZdmXkblK3YtA2DOD3?=
- =?us-ascii?Q?wKrHaLhLZY4mOluPCbiNrazkZkZApVodEpH4rdRC8GkLNOrMHC2BugVOdXVp?=
- =?us-ascii?Q?06zAUlHS78BO/B1XpuFO/8NLQ1DXFgqKtT41UHP/pIIthaJLZf1G4nHwpowQ?=
- =?us-ascii?Q?Exz3N+PwGTGibRVjp3mLYFRDZTIEFzCE3r00h82xrNapm7fUAPOweNZCyHKL?=
- =?us-ascii?Q?18TIkHTcNkDKcaQZK2N9zNK/AQHx35Fjavy0smbR+QR5VAntQM1dwiCU63fk?=
- =?us-ascii?Q?qmgA1K2umCkHdtIIx/Db/cJc6NeeyJphPW8QPnnxAQo59X55HXxjPBvgesR5?=
- =?us-ascii?Q?X647DQAcgLu2vLPQUKLW/mrjfngqqSbXr4bZ1N9u25cSeP4Zrrh0vuMZiG/F?=
- =?us-ascii?Q?oPx4sWA0At3SIrWtOJdw4O4ygdyulaYDfPKuIclKYk6xKlZZkMR5aS2lUPW2?=
- =?us-ascii?Q?Lssda7giLBP7BIBF/3nkHOSzihoDVlUnc7aM2zdkNtOhBDdpc6QG7B8AZcRZ?=
- =?us-ascii?Q?Izp7omMIZsKZdd46e54ML8cKvIWk4ykMIpV6FxfKWYim1DUEJpeYJi83y3sK?=
- =?us-ascii?Q?f8ZDiknyopx9z3F1BgI1vSBxZsIJb+5PA+HCWJonaNNdpZL5YSw58dhvl0AB?=
- =?us-ascii?Q?LvNfhhKoNh/2Xphlfkpai/ylzH1HtFBwKz53Va/YtcYAbq3VTtdekIKh5WSy?=
- =?us-ascii?Q?9LpqRab6e+lcrx//AVchVVHGEFIckD5fDQj8uDBmhaW8tQ6IQv2N4mnAmNAP?=
- =?us-ascii?Q?ItY/Eu4SHnFU9X/N7tuRnL5+AO0Bc5bmxdQA3eaXsZe+KRA/sJczdWP0qPLz?=
- =?us-ascii?Q?zR1z5t/umjRSLfoH/9eJtARcn98qALN9M+iOU0tHVu7TNGyH6QhubS72XEmU?=
- =?us-ascii?Q?6nmjXlfka+tLUxNF5q+lbA8ivxhrf5h0t0qoyFSMRVXH5WBXI7LcSjFurDTk?=
- =?us-ascii?Q?BHUHbrYTAVc6ieLLt03k02xm+A0ZA+Ozb/EdPMbBRGD8N2Nr10/O2tqZmE7+?=
- =?us-ascii?Q?f89jyLE9PoZN7Tg/Y4KaCcFf4jLl9reKTfq3SR2Z1zdvcytlaA6UCODuoOWG?=
- =?us-ascii?Q?q6K29/mTrhVAu60LeMz+aPnBIb+25xSUtZqDcr/DzRXNY6RvOdhNyXaM/91w?=
- =?us-ascii?Q?XvLJiGGswbm0VX7wbp2raKenEsrUc/LPt5k4z4WkkVMMBxYOv6FCmuJ2LMXw?=
- =?us-ascii?Q?KuKECpDMRkxsRmiiGwv42nq6BRZPs6SuVz1NcBsXboDKgAMUD1+lWMjiU3lW?=
- =?us-ascii?Q?iPs7cvTMRBo0P8zwgWPkBn3bQiHfVs9cEbISLYTraV7VFFJFSRcZ4ohfxbkC?=
- =?us-ascii?Q?UPJTKea4QiRIzX5gyeg+xh4Ydp7FBOJBSCJlnkwLbpahLgFokQVhw+jBmX4i?=
- =?us-ascii?Q?gijZAHZtgXQJhk5kdnJvtZrhbNlxZtXOmyTf7CULBRmo2P+EJvD+fkZ+ETrf?=
- =?us-ascii?Q?AtmY0XKwkIZg1uaAQKZ4Qx63maWgEFZjwtqNBNzzdjRjPRvB/clCFCtqs09m?=
- =?us-ascii?Q?BmkzZLAWoYLV2frPWjn02zfcn8uQf1r8ikjy9yC8siM6itPr0nNjFyQkZC1C?=
- =?us-ascii?Q?2Q=3D=3D?=
+	=?us-ascii?Q?45YE3EgA6w8uepbjPlC57BIF55YgftP1i/NrqdnBJIMDu9mAN4mnBRv59NuD?=
+ =?us-ascii?Q?J0jdCYmY1F238ZE48ySBnO+V1EKNzfWcxJ3RCecU3Xo4Nn979Ht4fn72dJcm?=
+ =?us-ascii?Q?AApbjU2X+3196Gr89eRKqxwoL3cMJgWWsiF62F468a8AyRfYEio0VXDX4e4A?=
+ =?us-ascii?Q?oBbv8n5KMJSiZvCE4engULzqK3DXgfL5e2r9rW9nlVtB5B1OnfFb2Yp0PxaD?=
+ =?us-ascii?Q?48Vk7tKHjfrN3QORYatxAhekLZx6LJNiviC74t8l7y4MRjQjimeKLZe5PB0e?=
+ =?us-ascii?Q?jKuTjU5vlV0TsLzS/UUou4aaFO7+4lAGEg9z5P2afFSJhap3mGJEkM+lDwIU?=
+ =?us-ascii?Q?LgppN6rJ4mNk8rNqdIEbMOjYesbCcdwtcRacNcm68DcvrtHZoDoIXc7ZFpJt?=
+ =?us-ascii?Q?dRjc87k6Trk2/NzPMPwX3FZZSefo2u6aU24gDLm0+A4WiaG+Ml185oW9dDyR?=
+ =?us-ascii?Q?cf+wAvH1reK7IeTTQ1q46t2dAyl2TZU+p8xyAGEWA4kDNyUd083Y3Yu31mYz?=
+ =?us-ascii?Q?iYTVM70gkL7XTkdjHKeL7iXhyNNMWomhxxZ51maXxNMUNCjugO3LqzzU5vIt?=
+ =?us-ascii?Q?YRUNtjlKXDPNjADGo7C2Bk1rLC7fsuI27SyCI2ZqEL64wuzUtcGByzucuDQi?=
+ =?us-ascii?Q?fx/B1PzFUjmUaiTZHOAneXlFd0TPBPJBuAj+reL/t5VvNjCVJUCQ5kZ//qQU?=
+ =?us-ascii?Q?jqHYbuKGlRQTOH9dMi/dkCm/1KPDa4rJbcpinDZDQYhG0W8HM1jkJN/M9oM7?=
+ =?us-ascii?Q?uek4sO0vhREf6BHu/DyETHLXT5WTn6qKLa/e+TYypE1sZRmM16adLSOc59rm?=
+ =?us-ascii?Q?6GcRbKLT1x4OoR3ZU+kJPDm1HEW+hymQqz6DzurbG8l7Uc7GLYyTOT0jMAUq?=
+ =?us-ascii?Q?fo6BWTGdDhS5RRoSwtOWGIhKeL4fkk984huje/alNfeVRctTz37QYiXm6V0Z?=
+ =?us-ascii?Q?Ki66fC4VNow6dQxM8nqCvaf4rKXnMQnqGO6WYqMF0Ifwb65d7Gsat0otGjPR?=
+ =?us-ascii?Q?iGDy6oxS2AcVYE0tHyWchtPqYzDCEs5My3AVWv7KyT/IsQdKmpYLStCKNzHi?=
+ =?us-ascii?Q?cW0+G2VtdmaO4GGQbiGXLqbGL4rmKSQ6D9C2WXTsIGOqhYMv7VafrGEC1fR2?=
+ =?us-ascii?Q?0Ciu8u/dSSykFrG8MYOqvTHV7sKQb7WWbAJEZOLoBIVffIkukmFeZIkwUa7+?=
+ =?us-ascii?Q?c6Kv3BQ5BeQf0eHSDbD/bX5HY1tsHrleHnLK8I+xCnjUVarqmLaOjayOBrSR?=
+ =?us-ascii?Q?PPQOduMN6pGnN1oUO5NDwovsi5q2lZTqvcZZj5tXlIOBrIlMcZl+w70ciWFD?=
+ =?us-ascii?Q?OqYCoc5Qf1kaYVBrQu1YI7+YsCJop/6CMsmjS+8Kof8Z5/CJ4TJXojJs90T0?=
+ =?us-ascii?Q?RH1TFHNBTnvtuu+pq4DJw3pvz2Y7M0QT0uf33GljKOO15cMLKGmsS4ESGQ0L?=
+ =?us-ascii?Q?b0KXZkynwTXjSFck8VEJ0lu/ZQAxTZw+c4WAzdkkuJV/j3E1jYwzbmfF9+Ha?=
+ =?us-ascii?Q?U4WXgWufPsGjyIg49xnWMD+sATSMp08ofGQoHb8BlxA1km7kpiF1OrGUQp53?=
+ =?us-ascii?Q?lBR5anhCRyywtJoMxXN4mybH7k7vR/v2IkWnh1gbxT52vZa3wc+aOTMbzpNz?=
+ =?us-ascii?Q?uA=3D=3D?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62bf6572-95c8-442d-2231-08dd359bc334
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3fd9302-fa1f-4b8e-2e6e-08dd359cc052
 X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 19:35:26.9127
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 19:42:31.5598
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EUITVa+2hHS55AKFlao/n2NRi01hJhKvq1GOCCaIFBCCV1AgNAZhyjk0XdrkOS3zuaSshJkd8cFkUzypyeEgHA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7924
+X-MS-Exchange-CrossTenant-UserPrincipalName: 44y+62XBdTDTRj4YnBWKyA8H6EhJyqlW60+/wx807K4+jgYtwnqaDr1zPRTFnnxaT5ySyx91NctGZNR7z8/AwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB2092
 
-On Thu, 09 Jan 2025 11:54:57 +0100
+On Thu, 09 Jan 2025 11:54:58 +0100
 Andreas Hindborg <a.hindborg@kernel.org> wrote:
 
-> Implement `strip_prefix` for `BStr` by deferring to `slice::strip_prefix`
-> on the underlying `&[u8]`.
+> Add the trait `ParseInt` for parsing string representations of integers
+> where the string representations are optionally prefixed by a radix
+> specifier. Implement the trait for the primitive integer types.
 > 
 > Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-
-Reviewed-by: Gary Guo <gary@garyguo.net>
-
-> 
 > ---
-> 
-> It is also possible to get this method by implementing
-> `core::slice::SlicePattern` for `BStr`. `SlicePattern` is unstable, so this
-> seems more reasonable.
-> ---
->  rust/kernel/str.rs | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  rust/kernel/str.rs | 118 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 118 insertions(+)
 > 
 > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-> index c441acf76ebd1f14919b6d233edffbbbbf944619..9c446ff1ad7adba7ca09a5ae9df00fd369a32899 100644
+> index 9c446ff1ad7adba7ca09a5ae9df00fd369a32899..14da40213f9eafa07a104eba3129efe07c8343f3 100644
 > --- a/rust/kernel/str.rs
 > +++ b/rust/kernel/str.rs
-> @@ -31,6 +31,22 @@ pub const fn from_bytes(bytes: &[u8]) -> &Self {
->          // SAFETY: `BStr` is transparent to `[u8]`.
->          unsafe { &*(bytes as *const [u8] as *const BStr) }
->      }
+> @@ -914,3 +914,121 @@ fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+>  macro_rules! fmt {
+>      ($($f:tt)*) => ( core::format_args!($($f)*) )
+>  }
 > +
-> +    /// Strip a prefix from `self`. Delegates to [`slice::strip_prefix`].
+> +pub mod parse_int {
+> +    //! Integer parsing functions for parsing signed and unsigned integers
+> +    //! potentially prefixed with `0x`, `0o`, or `0b`.
+> +
+> +    use crate::alloc::flags;
+> +    use crate::prelude::*;
+> +    use crate::str::BStr;
+> +
+> +    /// Trait that allows parsing a [`&BStr`] to an integer with a radix.
+> +    ///
+> +    /// [`&BStr`]: kernel::str::BStr
+> +    // This is required because the `from_str_radix` function on the primitive
+> +    // integer types is not part of any trait.
+> +    pub trait FromStrRadix: Sized {
+> +        /// Parse `src` to `Self` using radix `radix`.
+> +        fn from_str_radix(src: &BStr, radix: u32) -> Result<Self, crate::error::Error>;
+> +    }
+> +
+> +    /// Extract the radix from an integer literal optionally prefixed with
+> +    /// one of `0x`, `0X`, `0o`, `0O`, `0b`, `0B`, `0`.
+> +    fn strip_radix(src: &BStr) -> (u32, &BStr) {
+> +        if let Some(n) = src.strip_prefix(b_str!("0x")) {
+> +            (16, n)
+> +        } else if let Some(n) = src.strip_prefix(b_str!("0X")) {
+> +            (16, n)
+> +        } else if let Some(n) = src.strip_prefix(b_str!("0o")) {
+> +            (8, n)
+> +        } else if let Some(n) = src.strip_prefix(b_str!("0O")) {
+> +            (8, n)
+> +        } else if let Some(n) = src.strip_prefix(b_str!("0b")) {
+> +            (2, n)
+> +        } else if let Some(n) = src.strip_prefix(b_str!("0B")) {
+> +            (2, n)
+> +        } else if let Some(n) = src.strip_prefix(b_str!("0")) {
+> +            (8, n)
+> +        } else {
+> +            (10, src)
+> +        }
+
+This can be done better with a match:
+
+match src.deref() {
+    [b'0', b'x' | b'X', ..] => (16, &src[2..]),
+    [b'0', b'o' | b'O', ..] => (8, &src[2..]),
+    [b'0', b'b' | b'B', ..] => (2, &src[2..]),
+    [b'0', ..] => (8, &src[1..]),
+    _ => (10, src),
+}
+
+> +    }
+> +
+> +    /// Trait for parsing string representations of integers.
+> +    ///
+> +    /// Strings beginning with `0x`, `0o`, or `0b` are parsed as hex, octal, or
+> +    /// binary respectively. Strings beginning with `0` otherwise are parsed as
+> +    /// octal. Anything else is parsed as decimal. A leading `+` or `-` is also
+> +    /// permitted. Any string parsed by [`kstrtol()`] or [`kstrtoul()`] will be
+> +    /// successfully parsed.
+> +    ///
+> +    /// [`kstrtol()`]: https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.kstrtol
+> +    /// [`kstrtoul()`]: https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.kstrtoul
 > +    ///
 > +    /// # Example
 > +    /// ```
+> +    /// use kernel::str::parse_int::ParseInt;
 > +    /// use kernel::b_str;
-> +    /// assert_eq!(Some(b_str!("bar")), b_str!("foobar").strip_prefix(b_str!("foo")));
-> +    /// assert_eq!(None, b_str!("foobar").strip_prefix(b_str!("bar")));
-> +    /// assert_eq!(Some(b_str!("foobar")), b_str!("foobar").strip_prefix(b_str!("")));
-> +    /// assert_eq!(Some(b_str!("")), b_str!("foobar").strip_prefix(b_str!("foobar")));
+> +    ///
+> +    /// assert_eq!(Ok(0xa2u8), u8::from_str(b_str!("0xa2")));
+> +    /// assert_eq!(Ok(-0xa2i32), i32::from_str(b_str!("-0xa2")));
+> +    ///
+> +    /// assert_eq!(Ok(-0o57i8), i8::from_str(b_str!("-0o57")));
+> +    /// assert_eq!(Ok(0o57i8), i8::from_str(b_str!("057")));
+> +    ///
+> +    /// assert_eq!(Ok(0b1001i16), i16::from_str(b_str!("0b1001")));
+> +    /// assert_eq!(Ok(-0b1001i16), i16::from_str(b_str!("-0b1001")));
+> +    ///
+> +    /// assert_eq!(Ok(127), i8::from_str(b_str!("127")));
+> +    /// assert!(i8::from_str(b_str!("128")).is_err());
+> +    /// assert_eq!(Ok(-128), i8::from_str(b_str!("-128")));
+> +    /// assert!(i8::from_str(b_str!("-129")).is_err());
+> +    /// assert_eq!(Ok(255), u8::from_str(b_str!("255")));
+> +    /// assert!(u8::from_str(b_str!("256")).is_err());
 > +    /// ```
-> +    pub fn strip_prefix(&self, pattern: &Self) -> Option<&BStr> {
-> +        self.deref()
-> +            .strip_prefix(pattern.deref())
-> +            .map(Self::from_bytes)
+> +    pub trait ParseInt: FromStrRadix {
+> +        /// Parse a string according to the description in [`Self`].
+> +        fn from_str(src: &BStr) -> Result<Self> {
+> +            match src.iter().next() {
+> +                None => Err(EINVAL),
+> +                Some(sign @ b'-') | Some(sign @ b'+') => {
+> +                    let (radix, digits) = strip_radix(BStr::from_bytes(&src[1..]));
+> +                    let mut n_digits: KVec<u8> =
+> +                        KVec::with_capacity(digits.len() + 1, flags::GFP_KERNEL)?;
+
+I don't think we should allocate for parsing. This can trivially be a
+non-allocating. Just check that the next byte is an ASCII digit (reject
+if so, in case people give multiple signs), and then from_str_radix and
+return as is or use `checked_neg`.
+
+> +                    n_digits.push(*sign, flags::GFP_KERNEL)?;
+> +                    n_digits.extend_from_slice(digits, flags::GFP_KERNEL)?;
+> +                    Self::from_str_radix(BStr::from_bytes(&n_digits), radix).map_err(|_| EINVAL)
+> +                }
+> +                Some(_) => {
+> +                    let (radix, digits) = strip_radix(src);
+> +                    Self::from_str_radix(digits, radix).map_err(|_| EINVAL)
+> +                }
+> +            }
+> +        }
 > +    }
->  }
->  
->  impl fmt::Display for BStr {
+> +
+> +    macro_rules! impl_parse_int {
+> +        ($ty:ty) => {
+> +            impl FromStrRadix for $ty {
+> +                fn from_str_radix(src: &BStr, radix: u32) -> Result<Self, crate::error::Error> {
+> +                    <$ty>::from_str_radix(core::str::from_utf8(src).map_err(|_| EINVAL)?, radix)
+> +                        .map_err(|_| EINVAL)
+> +                }
+> +            }
+> +
+> +            impl ParseInt for $ty {}
+> +        };
+> +    }
+> +
+> +    impl_parse_int!(i8);
+> +    impl_parse_int!(u8);
+> +    impl_parse_int!(i16);
+> +    impl_parse_int!(u16);
+> +    impl_parse_int!(i32);
+> +    impl_parse_int!(u32);
+> +    impl_parse_int!(i64);
+> +    impl_parse_int!(u64);
+> +    impl_parse_int!(isize);
+> +    impl_parse_int!(usize);
+> +}
 > 
 
 
