@@ -1,173 +1,248 @@
-Return-Path: <linux-kbuild+bounces-5496-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5497-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EFCA13C4C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Jan 2025 15:32:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85789A14459
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Jan 2025 23:02:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8373188D2EE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Jan 2025 14:32:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8285188DC9E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Jan 2025 22:02:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3454924A7F2;
-	Thu, 16 Jan 2025 14:32:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C41621DC998;
+	Thu, 16 Jan 2025 22:02:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9g8WnKU"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="RbUeOTfL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8F486328;
-	Thu, 16 Jan 2025 14:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB9A158520
+	for <linux-kbuild@vger.kernel.org>; Thu, 16 Jan 2025 22:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737037957; cv=none; b=hHpyM7H4tZso6XE4OgbbNFATjblR7BXEnxjEdApLMWuHvw5sBtn+F8ilTxNLjEpWQZ7RKOGbdJuk4blCa1+MXRnGLisin8nCvIsMjqbc2yISfcVSUPG5HwvTnS81ThEERxdFaBWrphex90jq2JuWUlNr3lJAmtPdu/E7Wz20cMw=
+	t=1737064959; cv=none; b=KsJZWTsh5xPfVdID2PcOZH7qpuxR92TlCvK3g60HpdjS625e2OxN3BScBh75CObj34pMgCKws7S2pa7We2Kxhab45wM54O68SL4E9x0TV5O7HoYkfwPZO1uVk1AFd5KvnUWEvxVoNUt+WZR09wLLyRAzWIWY83oxyG/fknY0wzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737037957; c=relaxed/simple;
-	bh=ooFJgRo3EQMASo0xPCIEe1puHaOcHiWdiD9O1HszpZY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CNCjNyZcUSec7I5rXff5t6dscQjCjGNI9hpfamGmyqK4LKAba1tuzUZP3dBN2wCjnO1nRvZwpszG2xtCpfPeqZAiEdElIRSvi0hi6RXIvPIcO3gpbhqfaO9jSpttiRwtpIIYkvkfyaDRvrJ+fGZo7AN7U/Vkv6Z+q1Te7hfCHV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9g8WnKU; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737037955; x=1768573955;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ooFJgRo3EQMASo0xPCIEe1puHaOcHiWdiD9O1HszpZY=;
-  b=K9g8WnKUQhRlKXMggtG+2Wk9ufnFQJynuf7J8DUXcZ4cb4qavnvtUmK0
-   jQo3yCvAWZ92BxpEGhlwWB5gFZXnFbh8MdPE+wzisTaz8/aKMIr+MHXZp
-   jPSKZuDsm/DIPPDGi2SO8ShsPb28xeGu/8SA2GGg7GqpbGFVF4A7OFAQW
-   csjMsKbOdH9dg4L16YE8uQUtPLHtkvB9sxj0r1HO/ZBQj0aCXl/Of5Whq
-   B/7g9K2iAui1PiSxwmv66Vl4lWP1NJ3KEjzrVjkdpTrvPY1Sc7eXZ8VFz
-   JPoEGiWydvBov3eQTWUv0V40XfmaSTjXwRKftH213zZVWx6XbBiNn9FVO
-   g==;
-X-CSE-ConnectionGUID: 5Y2XpalmT3C9EW/+Muz7Hg==
-X-CSE-MsgGUID: uSFR9S6zRICp4VTV9moVMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="37308726"
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="37308726"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 06:32:34 -0800
-X-CSE-ConnectionGUID: OXHVgrlwQmeytQ1zyYoskw==
-X-CSE-MsgGUID: nk/Av0yXRVyYDku4T3sy9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110134556"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 06:32:33 -0800
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: artem.bityutskiy@intel.com,
-	maciej.wieczor-retman@intel.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] scripts: kconfig: merge_config: Add upgrade mode option
-Date: Thu, 16 Jan 2025 15:31:40 +0100
-Message-ID: <20250116143140.2640563-1-maciej.wieczor-retman@intel.com>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1737064959; c=relaxed/simple;
+	bh=LXml806C/TOBeEr046OC0OvZkBEk1w1exWNnDPQeFGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XRbugZ+0jkTYo8JgUve0GKB0+Dp3asyv/HeDjAu7nLWx7rj45bAFKG21/idQjdoHxjNSfY3Vx9xXt00l/PXFLL7UWJi0buQkKLfqWhMXU6JCsz4g1XkCqwojZgHMcI3KgVlc0EYGw9rWBbMadxG1pTTReJN9yHoV+8buXwU9Of4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=RbUeOTfL; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-216401de828so25503645ad.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 16 Jan 2025 14:02:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1737064956; x=1737669756; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G9HyN5fzzsxjX7rL5WN4+ekEIWemc4MJvOPgL3AWRJU=;
+        b=RbUeOTfLhm/1YsDniGZwLjZ0Ks4t4jCfMkdNdXg/MqZTSp75+pCTKerXggYIlgBQFQ
+         5DvMQ4L1j7eiOxKp048zt015zgK0/7TtWvArxExuX4OnjHeoJczGo44RuQPLOPrPcn2K
+         LztXyGm+/aqxjLdBI7Wbxc6XflnQd8BW3gSjaPpvVu2pGyCazKiQgsK98nWJVeTylItN
+         yE1sAT+Ga9mZmeDJ+VnZVqKC6NkYPwvG76OQCfXr0mFz6ehGKxLVGKuEXEenNhAVVKfE
+         +esdvad+6szRSTLwMUZOWZyNSgVatDCWlrUufbXGLDSenENOvsz2lJQA7wSsz7D4kS2J
+         b0HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737064956; x=1737669756;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G9HyN5fzzsxjX7rL5WN4+ekEIWemc4MJvOPgL3AWRJU=;
+        b=Z3tpQ04IEzqqLEsPNW7PsWg4pjGDqp2S27DPj1PkffoKGZQYPZzXTM+ObzuA/3g54R
+         xrO1zNVCdd49bj2Z1zOUwCTBRO/sD1EIXm4JFZcKd+fvaF6W5OA2nWuEgRIPMThfx8N5
+         2l/z4wUQ0oWScUvMe349DjR4m1QhrfbPAKCRXtAFG/a5gr+VLQwhwIehq1aUZ4ZyjqCq
+         UK418pM8VSzGidolWAm2Vjb3FhbCUTQdcgmWfvyqZgt8rmuadzkReJoYjLGC3Or4vbXt
+         5YbIjlyn8+LBCPpcsOzudpHDCRYcmQ2kELSknBqZ0zkxhzVIVWL8ZwGJen0AIz1B37cM
+         n+9g==
+X-Gm-Message-State: AOJu0YwQTnPHglQzqLNSAb2OnZfn7Bhey4Tmz1hR6RIlbmnv/4KETLIv
+	MZPHnSUqgcbpYL1dPXgnPYuZrQXZ/wRNhqCfzPHlqEzax+OvQD0l4zW52ddEpFY=
+X-Gm-Gg: ASbGncuBDOdfGKvTAj8pn0uC23ZB1Xg2ZmOXG5sXsFcRCPdReF5zTQ83c+CRrSTgPXg
+	4TYMcpagEl16uC9zLt+0SD5hVsUU3ryQPb4nBU14KLlnjSEDHFsKb20SZ9e8m3ZK3EP15reRqap
+	pX5x3MV4rusYqQS5S82ujDxEvNg8o1F+I/zFIY9aMMl7OHwU9oOY9+aLP1HgD4a0vcuLYJ1uOxl
+	EN6CdlGIlB41o5sUNG438/C8kYHt/DNdxADV51WYzP2ttE=
+X-Google-Smtp-Source: AGHT+IFU/8awlpMa01JGFciAUeb1+31NMw3m/BNIqOBK6PrwzwYa7UYwhd6+mC4PgxTTkBxFrumquQ==
+X-Received: by 2002:a05:6a20:8423:b0:1e1:aa24:2e58 with SMTP id adf61e73a8af0-1eb2145dc65mr527617637.7.1737064955823;
+        Thu, 16 Jan 2025 14:02:35 -0800 (PST)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dabace1bdsm488740b3a.171.2025.01.16.14.02.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 14:02:35 -0800 (PST)
+Date: Thu, 16 Jan 2025 14:02:32 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	Ron Economos <re@w6rz.net>
+Subject: Re: [PATCH v3] kbuild: Strip runtime const RELA sections correctly
+Message-ID: <Z4mB-I5jeGithAQX@ghost>
+References: <20250113155306.1922992-2-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250113155306.1922992-2-ardb+git@google.com>
 
-The -y option in merge_config.sh is used to not demote options that are
-enabled - if something is set as builtin it won't move to be a module in
-the output .config.
+On Mon, Jan 13, 2025 at 04:53:07PM +0100, Ard Biesheuvel wrote:
+> From: Ard Biesheuvel <ardb@kernel.org>
+> 
+> Due to the fact that runtime const ELF sections are named without a
+> leading period or double underscore, the RSTRIP logic that removes the
+> static RELA sections from vmlinux fails to identify them. This results
+> in a situation like below, where some sections that were supposed to get
+> removed are left behind.
+> 
+>   [Nr] Name                              Type            Address          Off     Size   ES Flg Lk Inf Al
+> 
+>   [58] runtime_shift_d_hash_shift        PROGBITS        ffffffff83500f50 2900f50 000014 00   A  0   0  1
+>   [59] .relaruntime_shift_d_hash_shift   RELA            0000000000000000 55b6f00 000078 18   I 70  58  8
+>   [60] runtime_ptr_dentry_hashtable      PROGBITS        ffffffff83500f68 2900f68 000014 00   A  0   0  1
+>   [61] .relaruntime_ptr_dentry_hashtable RELA            0000000000000000 55b6f78 000078 18   I 70  60  8
+>   [62] runtime_ptr_USER_PTR_MAX          PROGBITS        ffffffff83500f80 2900f80 000238 00   A  0   0  1
+>   [63] .relaruntime_ptr_USER_PTR_MAX     RELA            0000000000000000 55b6ff0 000d50 18   I 70  62  8
+> 
+> So tweak the match expression to strip all sections starting with .rel.
+> While at it, consolidate the logic used by RISC-V, s390 and x86 into a
+> single shared Makefile library command.
+> 
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-riscv@lists.infradead.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: Ron Economos <re@w6rz.net>
+> Link: https://lore.kernel.org/all/CAHk-=wjk3ynjomNvFN8jf9A1k=qSc=JFF591W00uXj-qqNUxPQ@mail.gmail.com/
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+> v3: put back missing 'endif' to fix the RISC-V build
+> v2: add missing include of scripts/Makefile.lib
+> 
+>  arch/riscv/Makefile.postlink |  8 ++------
+>  arch/s390/Makefile.postlink  |  6 +-----
+>  arch/x86/Makefile.postlink   |  6 +-----
+>  scripts/Makefile.lib         |  3 +++
+>  4 files changed, 7 insertions(+), 18 deletions(-)
+> 
+> diff --git a/arch/riscv/Makefile.postlink b/arch/riscv/Makefile.postlink
+> index 829b9abc91f6..750d2784f69e 100644
+> --- a/arch/riscv/Makefile.postlink
+> +++ b/arch/riscv/Makefile.postlink
 
-There is however no mode that would simply take the most enabled option
-out of both files and put it in the output .config.
+When I compile x86 as relocatable I see the problem that you are fixing
+here, but I don't see it on riscv. It's probably better to keep around
+this code for riscv, but I don't think it even needs this stripping? I
+am adding Alex since he added this for riscv.
 
-Add an upgrade mode specified by passing -u parameter. It works similar
-to -y but when the new value is "not set" it will use the old value.
+Anyways this works as expected:
 
-Reuse the BUILTIN_FLAG since usage is similar and rename it to OMIT_FLAG
-since it's not used for builtin option only anymore.
+Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
+Tested-by: Charlie Jenkins <charlie@rivosinc.com>
 
-Change the if else order so upgrade is checked first and builtin is
-checked second since upgrade is a wider version of builtin.
-
-I tested the patch on two working configs from two very different kernel
-builds and it compiled and booted without problems.
-
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
- scripts/kconfig/merge_config.sh | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index 0b7952471c18..da794ac08b3e 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -30,6 +30,7 @@ usage() {
- 	echo "  -O    dir to put generated output files.  Consider setting \$KCONFIG_CONFIG instead."
- 	echo "  -s    strict mode. Fail if the fragment redefines any value."
- 	echo "  -Q    disable warning messages for overridden options."
-+	echo "  -u    make builtin have precedence over modules and modules over not set"
- 	echo
- 	echo "Used prefix: '$CONFIG_PREFIX'. You can redefine it with \$CONFIG_ environment variable."
- }
-@@ -38,6 +39,7 @@ RUNMAKE=true
- ALLTARGET=alldefconfig
- WARNREDUN=false
- BUILTIN=false
-+UPGRADE=false
- OUTPUT=.
- STRICT=false
- CONFIG_PREFIX=${CONFIG_-CONFIG_}
-@@ -69,6 +71,11 @@ while true; do
- 		shift
- 		continue
- 		;;
-+	"-u")
-+		UPGRADE=true
-+		shift
-+		continue
-+		;;
- 	"-O")
- 		if [ -d $2 ];then
- 			OUTPUT=$(echo $2 | sed 's/\/*$//')
-@@ -143,13 +150,23 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
- 		grep -q -w $CFG $TMP_FILE || continue
- 		PREV_VAL=$(grep -w $CFG $TMP_FILE)
- 		NEW_VAL=$(grep -w $CFG $MERGE_FILE)
--		BUILTIN_FLAG=false
--		if [ "$BUILTIN" = "true" ] && [ "${NEW_VAL#CONFIG_*=}" = "m" ] && [ "${PREV_VAL#CONFIG_*=}" = "y" ]; then
-+		OMIT_FLAG=false
-+
-+		if { [ "$UPGRADE" = "true" ] && \
-+			{ { [ "${NEW_VAL#CONFIG_*=}" = "m" ] && [ "${PREV_VAL#CONFIG_*=}" = "y" ]; } ||
-+			{ [ "${NEW_VAL#CONFIG_*=}" != "m" ] && [ "${NEW_VAL#CONFIG_*=}" != "y" ] &&
-+			{ [ "${PREV_VAL#CONFIG_*=}" = "y" ] || [ "${PREV_VAL#CONFIG_*=}" = "m" ]; }; }; }; }; then
-+			${WARNOVERRIDE} Previous  value: $PREV_VAL
-+			${WARNOVERRIDE} New value:       $NEW_VAL
-+			${WARNOVERRIDE} -u passed, will demote neither y to m nor y or m to not set
-+			${WARNOVERRIDE}
-+			OMIT_FLAG=true
-+		elif [ "$BUILTIN" = "true" ] && [ "${NEW_VAL#CONFIG_*=}" = "m" ] && [ "${PREV_VAL#CONFIG_*=}" = "y" ]; then
- 			${WARNOVERRIDE} Previous  value: $PREV_VAL
- 			${WARNOVERRIDE} New value:       $NEW_VAL
- 			${WARNOVERRIDE} -y passed, will not demote y to m
- 			${WARNOVERRIDE}
--			BUILTIN_FLAG=true
-+			OMIT_FLAG=true
- 		elif [ "x$PREV_VAL" != "x$NEW_VAL" ] ; then
- 			${WARNOVERRIDE} Value of $CFG is redefined by fragment $ORIG_MERGE_FILE:
- 			${WARNOVERRIDE} Previous  value: $PREV_VAL
-@@ -161,7 +178,7 @@ for ORIG_MERGE_FILE in $MERGE_LIST ; do
- 		elif [ "$WARNREDUN" = "true" ]; then
- 			${WARNOVERRIDE} Value of $CFG is redundant by fragment $ORIG_MERGE_FILE:
- 		fi
--		if [ "$BUILTIN_FLAG" = "false" ]; then
-+		if [ "$OMIT_FLAG" = "false" ]; then
- 			sed -i "/$CFG[ =]/d" $TMP_FILE
- 		else
- 			sed -i "/$CFG[ =]/d" $MERGE_FILE
--- 
-2.47.1
-
+> @@ -10,6 +10,7 @@ __archpost:
+>  
+>  -include include/config/auto.conf
+>  include $(srctree)/scripts/Kbuild.include
+> +include $(srctree)/scripts/Makefile.lib
+>  
+>  quiet_cmd_relocs_check = CHKREL  $@
+>  cmd_relocs_check = 							\
+> @@ -19,11 +20,6 @@ ifdef CONFIG_RELOCATABLE
+>  quiet_cmd_cp_vmlinux_relocs = CPREL   vmlinux.relocs
+>  cmd_cp_vmlinux_relocs = cp vmlinux vmlinux.relocs
+>  
+> -quiet_cmd_relocs_strip = STRIPREL $@
+> -cmd_relocs_strip = $(OBJCOPY)   --remove-section='.rel.*'       \
+> -                                --remove-section='.rel__*'      \
+> -                                --remove-section='.rela.*'      \
+> -                                --remove-section='.rela__*' $@
+>  endif
+>  
+>  # `@true` prevents complaint when there is nothing to be done
+> @@ -33,7 +27,7 @@ vmlinux: FORCE
+>  ifdef CONFIG_RELOCATABLE
+>  	$(call if_changed,relocs_check)
+>  	$(call if_changed,cp_vmlinux_relocs)
+> -	$(call if_changed,relocs_strip)
+> +	$(call if_changed,strip_relocs)
+>  endif
+>  
+>  clean:
+> diff --git a/arch/s390/Makefile.postlink b/arch/s390/Makefile.postlink
+> index df82f5410769..1ae5478cd6ac 100644
+> --- a/arch/s390/Makefile.postlink
+> +++ b/arch/s390/Makefile.postlink
+> @@ -11,6 +11,7 @@ __archpost:
+>  
+>  -include include/config/auto.conf
+>  include $(srctree)/scripts/Kbuild.include
+> +include $(srctree)/scripts/Makefile.lib
+>  
+>  CMD_RELOCS=arch/s390/tools/relocs
+>  OUT_RELOCS = arch/s390/boot
+> @@ -19,11 +20,6 @@ quiet_cmd_relocs = RELOCS  $(OUT_RELOCS)/relocs.S
+>  	mkdir -p $(OUT_RELOCS); \
+>  	$(CMD_RELOCS) $@ > $(OUT_RELOCS)/relocs.S
+>  
+> -quiet_cmd_strip_relocs = RSTRIP  $@
+> -      cmd_strip_relocs = \
+> -	$(OBJCOPY) --remove-section='.rel.*' --remove-section='.rel__*' \
+> -		   --remove-section='.rela.*' --remove-section='.rela__*' $@
+> -
+>  vmlinux: FORCE
+>  	$(call cmd,relocs)
+>  	$(call cmd,strip_relocs)
+> diff --git a/arch/x86/Makefile.postlink b/arch/x86/Makefile.postlink
+> index fef2e977cc7d..8b8a68162c94 100644
+> --- a/arch/x86/Makefile.postlink
+> +++ b/arch/x86/Makefile.postlink
+> @@ -11,6 +11,7 @@ __archpost:
+>  
+>  -include include/config/auto.conf
+>  include $(srctree)/scripts/Kbuild.include
+> +include $(srctree)/scripts/Makefile.lib
+>  
+>  CMD_RELOCS = arch/x86/tools/relocs
+>  OUT_RELOCS = arch/x86/boot/compressed
+> @@ -20,11 +21,6 @@ quiet_cmd_relocs = RELOCS  $(OUT_RELOCS)/$@.relocs
+>  	$(CMD_RELOCS) $@ > $(OUT_RELOCS)/$@.relocs; \
+>  	$(CMD_RELOCS) --abs-relocs $@
+>  
+> -quiet_cmd_strip_relocs = RSTRIP  $@
+> -      cmd_strip_relocs = \
+> -	$(OBJCOPY) --remove-section='.rel.*' --remove-section='.rel__*' \
+> -		   --remove-section='.rela.*' --remove-section='.rela__*' $@
+> -
+>  # `@true` prevents complaint when there is nothing to be done
+>  
+>  vmlinux: FORCE
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 7395200538da..f604f51d23ca 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -374,6 +374,9 @@ quiet_cmd_ar = AR      $@
+>  quiet_cmd_objcopy = OBJCOPY $@
+>  cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
+>  
+> +quiet_cmd_strip_relocs = RSTRIP  $@
+> +cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $@
+> +
+>  # Gzip
+>  # ---------------------------------------------------------------------------
+>  
+> -- 
+> 2.47.1.688.g23fc6f90ad-goog
+> 
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
