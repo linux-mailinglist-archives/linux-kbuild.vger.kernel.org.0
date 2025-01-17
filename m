@@ -1,173 +1,110 @@
-Return-Path: <linux-kbuild+bounces-5498-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5499-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A740A1538E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2025 17:03:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 290CFA15466
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2025 17:32:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCEF7188BC6A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2025 16:02:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AF893A9D54
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2025 16:31:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 732CB1A08A6;
-	Fri, 17 Jan 2025 16:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DA3319DF4B;
+	Fri, 17 Jan 2025 16:30:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lSMHjBY3"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="dZH88KyI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C46C19AD8C;
-	Fri, 17 Jan 2025 16:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8996419D89D
+	for <linux-kbuild@vger.kernel.org>; Fri, 17 Jan 2025 16:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737129706; cv=none; b=KaxJD2jNfMiOPRDpvhZ2RpTDikn4g7QUikrFpgJfbaCQqEGgwHa/M6533jveYJvA0GM4HC1Y/I8mVB/XD+sPatKh/D8mk1YE8PNFti7BZDTS/cJd2OKBtgGkCV4SBZsn18PpokFMOyq+GEwhoiXo92PUtnDkCRQVDzNKglpubos=
+	t=1737131455; cv=none; b=eP8AOB1GpsJB/vFRe0wOlxjHsg+iA+josVTveUwhHayetZJd7cIWgy1c/FngaPP0ohTQxwM97kF7aDOIx2xdsz9ataak/0Rm97o4wGPYGmHxMRnA2NscsipBJENdShou1Nki7B4g5utXZqkGU+LZNPrdcqtZPfpHPhKheENgZGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737129706; c=relaxed/simple;
-	bh=s979JhbIX/irgqOlZL6T+T/4O9+NcJ5UNqWwVMy1ypI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nzWiLgJmanuBZdab0VL1/JEEmJIeU5qYcDHspBkkZviMorY06xna4M9l2j7mI+HzPGC2BUvS0XjN7mZ7dN1Airz2rLwKUmkYUt6mFdhxjH5CYtycmVc7CMojktOaghfrN3GK0f+e5G0sB/n8FzvXWAkQFaNWEYY7YcJoxJNIwYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lSMHjBY3; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50HFLC21001421;
-	Fri, 17 Jan 2025 16:01:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FdET8nQmBxVGrxpK3oHaFVqJnWkEfrQO9HjuF/kFizs=; b=lSMHjBY350D7ieZD
-	ia9B2eRQ3dp2Rru9XZ6oUlk+vlqasKCpDMxcDbslu87LpdtdlBrDSHzHJpH5iTyb
-	eOQZp9OK2iidq+Y0tF+yyiuK+W6RGURNaBK7GoM/K79NCDQnxy303xfOKmnYobgK
-	h4R//loU/+cmYPFjEKiG6Glein/4+inRdgqyq5EAVIjAqqR6iyDegqH2tSxvY7tf
-	Gt1mgDl5cD5SI3dnMgxUmS78unfNBpP7oNU7C54AtfuDK5bQGKKwIorSTTZXYEax
-	UzdiET9TbO6eQXs4dm4C32Wl2npWuUtUFWAAtwo8UwiZx+IwGa5WmvVIacY+iDA+
-	BQ1Rxw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447ss1032k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 16:01:26 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50HG1PF9004265
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 16:01:25 GMT
-Received: from [10.81.24.74] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 Jan
- 2025 08:01:25 -0800
-Message-ID: <d218ca3e-20af-47f5-b3b3-3a372c15a1aa@quicinc.com>
-Date: Fri, 17 Jan 2025 08:01:25 -0800
+	s=arc-20240116; t=1737131455; c=relaxed/simple;
+	bh=pbg8o5dz8njHgKg1NDQXRfGlM7MhqH+igmKnw4ydDHA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MOfWp6SiW5HV7BNuTP6HnC35vYt6UcNIv5M1MKFFY1Om/17nLWduavmwOSW1xkWlxOsUPQksnBbipKHCaME2Q/TZZla2ijwvhNpH880YHJFPXbt4rOmzAcKwncVb6/rNyCu59F+JRTzYZlbCFXR2zzyqOtx16rRbsS2V2+D2aqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=dZH88KyI; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e5787c3fcf8so4204858276.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jan 2025 08:30:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1737131452; x=1737736252; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0+X5++CJ0KNwoc8gGmPhsCoxz0UPerYMZjw+oDnzx48=;
+        b=dZH88KyITmHWNjCuoOpI+++KNulowPOBbxriNYS8yQa0VmfvmxpI6Bk1MaegXGJyCq
+         9WChzqObNmME8LFX9oea+V5ZnKuzoQnOBc2zMkmAcwURSZLB9yi+oDZUiOsnT07kfE95
+         2tXV49gIO4cE7OVFvsIhjcSLUlR+AR2CNXRLLCPN4nFzvgNN4K0g7TAkmGJq8bVh/f4r
+         vik+EImQkB8/Mg5UVcQKgwJ7Y/G6MbySzAFaxPZyBmlPdKLSfv9E88KKx+F16Ffqlq3Q
+         fS6RUoyNHX7XnkCGoI47uzVmO8fhalXHAz4/ASaAKhLISNzc0Pr2YdHrB/v5hbjcOXnc
+         G79Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737131452; x=1737736252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0+X5++CJ0KNwoc8gGmPhsCoxz0UPerYMZjw+oDnzx48=;
+        b=GdsbD1Zpg0cACFSsDfkpIESde/xEn69mC4VZq7mnkwUnSkeUJr+ZlReuetdGLcOuNC
+         3kz0AZpmBy6TEraaSWmiNUK7koj39Da1caFW1kHjTYP4FWfPQs8faxgN7wgxZa2bZkkB
+         vqo8JKs+cLe8SMxdckLwjtwxddXdlWGR4lvl32R93vtMbtp6cVXy97qmtBSnBOaqiJuD
+         Ba/FEHESqsGW2/NdKUu/pLuUTwql9Mm0iOiUPmYHVTOhxjvhHTLeEXheCDqFLCUQMlM1
+         gRoRamhPbN4J7+IT3VsR8qyL/7KBkYzagLU8mXjaELYN/DZzFBf//9k5XXy+CJeY4QLk
+         JjOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnNdy6xFAderaNY6921RokVcb3AdiTkew9xB392xXbcBkoVX45DBW44aAzG8nJAhJH5RQm+rfWWNmn1E8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiZWSfexquB982+mKwdi9R2ZA0VskO2y8Y3EQjeRWSTWjkuCFu
+	pc9YRRpfygv1DVAdhrV98zf6+5+XPL0QrPEFOSFaQgQsvaaGeaA/69ZmgSADUH9D8bwaebUkQ5K
+	1kjZ9EzjbNN/w00efFtmjWmf2jOjpV7rNuyJv
+X-Gm-Gg: ASbGncs6kIbv8jm9v68+dki4gdnLRsJMDPR5MqeZY2sRj9tT6BL8lUbkPfFwCSPEX+w
+	jajFPDivCNJoq9wZfCddsy5kIT9AqUm9j5Zr6
+X-Google-Smtp-Source: AGHT+IFkcIbSanU0awGz+g8PDvOcCR4f5DfDkcwb62fkJKTCQoTz3ErGkqkSlHrseL0Jsri6uzmQLKq+74Cm3j6IR/k=
+X-Received: by 2002:a05:6902:1a4a:b0:e4a:3170:1e90 with SMTP id
+ 3f1490d57ef6-e57b1060abdmr2613329276.12.1737131452445; Fri, 17 Jan 2025
+ 08:30:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IHNlbGludXg6IGVycm9yOiDigJhORVRMSU5LX1JPVVRFX1NPQ0tF?=
- =?UTF-8?Q?T=5F=5FNLMSG=E2=80=99_undeclared?=
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>
-CC: <selinux@vger.kernel.org>,
-        =?UTF-8?Q?Bram_Bonn=C3=A9?=
-	<brambonne@google.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>,
-        Paul Moore
-	<paul@paul-moore.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>, <linux-kbuild@vger.kernel.org>
-References: <20250108082855.PkG-_BaT@linutronix.de>
- <CA+zpnLc1PhF7zfWVCj3qezfvYYHbaOc-FyscWS9y74bXZw3rxQ@mail.gmail.com>
- <20250108104525.PJL0eRAG@linutronix.de>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <20250108104525.PJL0eRAG@linutronix.de>
+References: <20250108082855.PkG-_BaT@linutronix.de> <CA+zpnLc1PhF7zfWVCj3qezfvYYHbaOc-FyscWS9y74bXZw3rxQ@mail.gmail.com>
+ <20250108104525.PJL0eRAG@linutronix.de> <d218ca3e-20af-47f5-b3b3-3a372c15a1aa@quicinc.com>
+In-Reply-To: <d218ca3e-20af-47f5-b3b3-3a372c15a1aa@quicinc.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 17 Jan 2025 11:30:41 -0500
+X-Gm-Features: AbW1kvYbcT7vva24VEusxajdJl_cPqcMxOHG9yj-PvcL5CPee3yPO304an5Hi30
+Message-ID: <CAHC9VhRkVLeJVgU7kPhUnHp0r7rWRRYhs9NuLnsPs3cANrqHJg@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IHNlbGludXg6IGVycm9yOiDigJhORVRMSU5LX1JPVVRFX1NPQ0tFVF9fTkxNU0c=?=
+	=?UTF-8?B?4oCZIHVuZGVjbGFyZWQ=?=
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, =?UTF-8?Q?Thi=C3=A9baud_Weksteen?= <tweek@google.com>, 
+	selinux@vger.kernel.org, =?UTF-8?Q?Bram_Bonn=C3=A9?= <brambonne@google.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: edxVEE8OVZ_VDtw2PPGpQ_m3OpyVBPf4
-X-Proofpoint-GUID: edxVEE8OVZ_VDtw2PPGpQ_m3OpyVBPf4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
- clxscore=1011 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 impostorscore=0 adultscore=0 phishscore=0 mlxlogscore=778
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501170126
+Content-Transfer-Encoding: quoted-printable
 
-On 1/8/25 02:45, Sebastian Andrzej Siewior wrote:
-> On 2025-01-08 21:31:15 [+1100], Thiébaud Weksteen wrote:
->> Thanks for the report. This is a known issue where the generated
->> header is not cleaned properly:
->> https://lore.kernel.org/selinux/20241127-selinux-clean-v2-1-a6e528c1ff93@linutronix.de/
->>
->> Could you try to remove security/selinux/av_permissions.h manually
->> from your build directory and build again?
-> 
-> I used a "clean" build directory for this: as in
-> 
-> | make O=/dev/shm/build defconfig
-> | make O=/dev/shm/build security/selinux/nlmsgtab.o
-> 
-> and it occurred. But since you gave me the pointer, I had
-> av_permissions.h in my source directory which did not pop in "git
-> status" as it was ignored. Now that this is gone, it builds again.
-> I have no idea who this ended up in my source tree since I build out of
-> tree.
-> 
-> Anyway, thank you!
-> 
-> Sebastian
+On Fri, Jan 17, 2025 at 11:01=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicin=
+c.com> wrote:
+>
+> Is someone going to followup on the comments in selinux/Makefile
+> about replacing the dependency rules?
 
-+linux-kbuild@vger.kernel.org
+As stated in the Makefile comments that you referenced, the suggested
+fixes for the selinux Makefile require make v4.3 or greater and
+unfortunately the kernel still supports make versions going back to
+make v4.0.  Once that changes we can look at implementing the
+suggestions in the selinux Makefile.
 
-I was seeing a similar issue. I was trying builds against
-multiple ARCH settings. Based upon the prior comments I first
-removed the instances of av_permissions.h from my build
-directories, but still had the "undeclared" issue.  I then
-noticed I had an instance of av_permissions.h in my source
-directory, so I removed it, but then got:
+In the meantime, if someone wants to propose changes to the Makefile,
+patches are welcome on the selinux mailing list.
 
-../security/selinux/nlmsgtab.c:20:10: fatal error: 'av_permissions.h' file not found
-   20 | #include "av_permissions.h"
-      |          ^~~~~~~~~~~~~~~~~~
-1 error generated.
-make[5]: *** [../scripts/Makefile.build:194: security/selinux/nlmsgtab.o] Error 1
-make[5]: Target 'security/selinux/' not remade because of errors.
-make[4]: *** [../scripts/Makefile.build:440: security/selinux] Error 2
-
-So I dug into the selinux Makefile and discovered there isn't a
-specific rule to make av_permissions.h, but instead it is built
-as a side-effect of creating flask.h.  So I removed all versions
-of flask.h from my source and build directories, and now my
-selinux build issues are gone.
-
-Is someone going to followup on the comments in selinux/Makefile
-about replacing the dependency rules?
-
-# NOTE: There are a number of improvements that can be made to this Makefile
-# once the kernel requires make v4.3 or greater; the most important feature
-# lacking in older versions of make is support for grouped targets.  These
-# improvements are noted inline in the Makefile below ...
-...
-# see the note above, replace the dependency rule with the one below:
-#  $(addprefix $(obj)/,$(selinux-y)): $(addprefix $(obj)/,$(genhdrs))
-$(addprefix $(obj)/,$(selinux-y)): $(obj)/flask.h
-...
-# see the note above, replace the $targets and 'flask.h' rule with the lines
-# below:
-#  targets += $(genhdrs)
-#  $(addprefix $(obj)/,$(genhdrs)) &: $(obj)/genheaders FORCE
-targets += flask.h
-$(obj)/flask.h: $(obj)/genheaders FORCE
-	$(call if_changed,genhdrs)
-
-/jeff
-/jeff
-
+--=20
+paul-moore.com
 
