@@ -1,92 +1,93 @@
-Return-Path: <linux-kbuild+bounces-5526-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5527-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362A4A18782
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 22:53:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8196A1879A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 23:12:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0206E188B73B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 21:53:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0ECBF16834A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 22:12:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 126B81F791C;
-	Tue, 21 Jan 2025 21:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qo1EOUYl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4FE1F7080;
+	Tue, 21 Jan 2025 22:12:03 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9901B85C5;
-	Tue, 21 Jan 2025 21:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0ADC1B041B;
+	Tue, 21 Jan 2025 22:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737496415; cv=none; b=kYp0YvAV5jhaa4UQHYg2jJP9juUmIkV4A6i3q8ZFw82CzRxgoiYI/cM6URp9+px2FOYPv0AgUXv65tuBlVmKM8lsqW2E72brrZvQRYYr4/xArjJSDbj30uyiqsDQ+rtOZKSuPeHBTmw2INSPuHBzlWiawe8q+UYi6GWtmR4IJDs=
+	t=1737497523; cv=none; b=XHgNqSZpW3wpf0KA5bG0eEzSZpIDoVYi0qznCkB4N1pFrZWRvcgFTlpfSBqEav+KPNoa/3cirLWNS17Wh+3IEFbkg6YaaL+TIGs0c8Z7FL47A49+v9F8cMW1LKpKBcwpFpzgSYPJY6riu/D8n7wdPvh3yHZhXM+/AnbKrsvw/aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737496415; c=relaxed/simple;
-	bh=wO7nlXrdgq8dnKW/0q0WLq1jr4AlyakzwXqV5l0s+Os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HklXu/alMa0Jv49DOc/behGSR88/ZHYf6xVbEi0SZvRS+4AQbJLBzCMMbmLEVcSDO/xYWlVTvyr2kwV+DXVgd7IiGYo+g66jOm4dnCLS/wIBoyhudEXdBHMnYmSem6KnEg35+F3MniVws/ji2TeXLWJAVTgM/kCBglKm0DAOekw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qo1EOUYl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE8A2C4CEDF;
-	Tue, 21 Jan 2025 21:53:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737496414;
-	bh=wO7nlXrdgq8dnKW/0q0WLq1jr4AlyakzwXqV5l0s+Os=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qo1EOUYlk5sa5YJi7F6JVGMEN1SYwQYMfG+YpHn2FYbH5DpxPf3lQPKtDnn1LmVPi
-	 R/0igYfkWTg/4Q05I1YIwOznHf58lT6kPpTBJIZ3qdIOLiOumgJc1x/OnDwtGawRUw
-	 bLWPD3Q4pTdNshCLpxzk5Z9eWDtXePew4bdZ8QoORmbsIHD6ucybyry7YWil1Lqwg/
-	 MrM54xgssK/PhZYUvRCcrnVi7WDjruO0t3ABcZagzUHrTsyP50XdZL2mWaU6txtZi5
-	 kxUjB4/2bgORaspes24qCie4KF/aJOYRCaDHhbw9EoIm7eqJNBAduwhoKXcrGuToPt
-	 xe/TOKwd84/gA==
-Date: Tue, 21 Jan 2025 14:53:30 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Sam James <sam@gentoo.org>,
-	Kostadin Shishmanov <kostadinshishmanov@protonmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	arnd@arndb.de, linux-kbuild@vger.kernel.org
+	s=arc-20240116; t=1737497523; c=relaxed/simple;
+	bh=ozW20dgpJo+yKHTw8q9FJMdahbitrTcO+Wp6jwFc2lI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fPE/oPutapmfOjunS3bJAl9iuwrw4E2ro50HPrM7rDO76B1DEeEZ/lFu6f7NFnCrGToyFpJERi1TISPjOWBFWgXjIml7Nw7A3Cq/hS/LM2Qmdg7E9/BwFBlzPyLMk+dpxDx9mpp2hdfOvf8JCFY8d4Dl3X0nlSIUgg/JusbUkFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from mop.sam.mop (unknown [82.8.138.118])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sam)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id BF839340BEA;
+	Tue, 21 Jan 2025 22:11:59 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,  Masahiro Yamada <masahiroy@kernel.org>,
+  Kostadin Shishmanov <kostadinshishmanov@protonmail.com>,
+  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+  arnd@arndb.de,  linux-kbuild@vger.kernel.org
 Subject: Re: Build failure with GCC 15 (-std=gnu23)
-Message-ID: <20250121215330.GB1517789@ax162>
+In-Reply-To: <20250121215330.GB1517789@ax162> (Nathan Chancellor's message of
+	"Tue, 21 Jan 2025 14:53:30 -0700")
+Organization: Gentoo
 References: <4OAhbllK7x4QJGpZjkYjtBYNLd_2whHx9oFiuZcGwtVR4hIzvduultkgfAIRZI3vQpZylu7Gl929HaYFRGeMEalWCpeMzCIIhLxxRhq4U-Y=@protonmail.com>
- <20241118205629.GA15698@thelio-3990X>
- <8734joj5gn.fsf@gentoo.org>
- <20241119041550.GA573925@thelio-3990X>
- <87r077j1fa.fsf@gentoo.org>
- <20241119044724.GA2246422@thelio-3990X>
- <CAK7LNAS6DZkbf6AM7kthPuUE_=ZPaaBPoP0UtvuF=6ijrzUPgQ@mail.gmail.com>
- <202501201615.F606516@keescook>
+	<20241118205629.GA15698@thelio-3990X> <8734joj5gn.fsf@gentoo.org>
+	<20241119041550.GA573925@thelio-3990X> <87r077j1fa.fsf@gentoo.org>
+	<20241119044724.GA2246422@thelio-3990X>
+	<CAK7LNAS6DZkbf6AM7kthPuUE_=ZPaaBPoP0UtvuF=6ijrzUPgQ@mail.gmail.com>
+	<202501201615.F606516@keescook> <20250121215330.GB1517789@ax162>
+User-Agent: mu4e 1.12.7; emacs 31.0.50
+Date: Tue, 21 Jan 2025 22:11:56 +0000
+Message-ID: <877c6n24wj.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202501201615.F606516@keescook>
+Content-Type: text/plain
 
-On Mon, Jan 20, 2025 at 04:16:30PM -0800, Kees Cook wrote:
-> On Wed, Nov 20, 2024 at 03:28:35AM +0900, Masahiro Yamada wrote:
-> > Some Makefile overriding KBUILD_CFLAGS would forget to add
-> > $(CSTD_FLAG), for the same reason as they would forget to add
-> > -std=gnu11.
-> 
-> But at least we'd have 1 place to change when we changed the std level.
-> 
-> FWIW, I just ran into this build failure too testing GCC 15 from their
-> ToT. Both EFI and compressed Makefiles needed it in my build.
+Nathan Chancellor <nathan@kernel.org> writes:
 
-Yeah, I suggested the simpler diff in a separate thread, which seems to
-agree with your testing:
+> On Mon, Jan 20, 2025 at 04:16:30PM -0800, Kees Cook wrote:
+>> On Wed, Nov 20, 2024 at 03:28:35AM +0900, Masahiro Yamada wrote:
+>> > Some Makefile overriding KBUILD_CFLAGS would forget to add
+>> > $(CSTD_FLAG), for the same reason as they would forget to add
+>> > -std=gnu11.
+>> 
+>> But at least we'd have 1 place to change when we changed the std level.
+>> 
+>> FWIW, I just ran into this build failure too testing GCC 15 from their
+>> ToT. Both EFI and compressed Makefiles needed it in my build.
+>
+> Yeah, I suggested the simpler diff in a separate thread, which seems to
+> agree with your testing:
+>
+> https://lore.kernel.org/20250120182048.GA3244701@ax162/
+>
+> I don't mind drafting up a commit message and sending those along if
+> that would be preferrable.
 
-https://lore.kernel.org/20250120182048.GA3244701@ax162/
+At this point, I'd like to see the scattered -std= in given it seems
+less objectionable, even if I'd prefer one place, as we already missed
+one release being GCC 15-buildable. Happy to test/ack it if you're willing to send it.
 
-I don't mind drafting up a commit message and sending those along if
-that would be preferrable.
-
-Cheers,
-Nathan
+thanks,
+sam
 
