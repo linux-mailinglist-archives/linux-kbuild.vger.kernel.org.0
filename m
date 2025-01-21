@@ -1,105 +1,79 @@
-Return-Path: <linux-kbuild+bounces-5529-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5530-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22E2A187DF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 23:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08432A18853
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 00:22:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF2017A1556
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 22:51:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB2AB7A1009
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 23:21:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C57F1F8912;
-	Tue, 21 Jan 2025 22:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3C291F8AC7;
+	Tue, 21 Jan 2025 23:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4Y1sYik"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktwMgYFm"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124B518AE2;
-	Tue, 21 Jan 2025 22:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE441F890C;
+	Tue, 21 Jan 2025 23:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737499883; cv=none; b=EyiEt/77IYS/nawawLl31YXoEzdWH0hpRs+lngXJ3eMzfosrPDc85Z+8dd8RbWgktlC5Cx9bDqdWDjIBzqD5ibuJb21bfPmXVFRHq+I1gya8LAQlA7X6OTaPXiXPJncQayier25U6WHZLsKNzrxsU0NkcgO/QTT7nd93nuoVm+Y=
+	t=1737501717; cv=none; b=VPo84HQcdLYxcIE0TfgOEPBb3B0YOwqRf2oW5r1c0JQgiZ804J7wgr26oXrscweB0i6aqfocOQUBNbsb4WXsb4d1C4/A+6LMphRuGtBS+KtNgvVvKgv86tQqx6Y4qcw8gb0CIr+dsNys17pE18JfS9ghyN0ORm2eQ7+OM4zFtaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737499883; c=relaxed/simple;
-	bh=sxAo7bCulttA4Zt61Olo02BloQhSK3gg7N18a4OqPuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6LrUEt7JQLiUcwVAE/yR8/ghrNYw9TtWwmufXDQqe1U7kxkNc8ieEXaD2YDJ/7azF/w7PdXkC/ut8Odx/N13pKUfOKIxVMMljkViekG4ExJmefyv1bUnPioyEPJBHWk299xi9rZ+jQ53MBNcb13HwMbOLECYyYlDXopdX6qdh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4Y1sYik; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBDE2C4CEDF;
-	Tue, 21 Jan 2025 22:51:18 +0000 (UTC)
+	s=arc-20240116; t=1737501717; c=relaxed/simple;
+	bh=DN9fouYPy3Q7SS2bBlqzCX9gB0jvFxYRG93/8cGJeg0=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=dZtr60L6UMPB2nEsPDlsqSYKeurovEHqA82J9F8cWJNpMaRT1c4S6ggr3T20DRDKzkPJ+CHpkT3SBqub+XVqAn1wceZ+NUbf5dbDT3YiAlQtZKgL09wLJ94X3eSkMo/si+CR+hdMq73Lwr/nIKYtNHHk3lOiQEPYysebs009bpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktwMgYFm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73AF6C4CEDF;
+	Tue, 21 Jan 2025 23:21:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737499880;
-	bh=sxAo7bCulttA4Zt61Olo02BloQhSK3gg7N18a4OqPuc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S4Y1sYikKafbJDtE/SdSfWLv21p0eW9Ou+qazufP42PmHCOKoFrEeWWKRxOJs/laG
-	 +TNI+QIPsNh1A1DxmapE9EwE4HFrrVwHNlmo8Zp+hvUq5+CiHDCHIV9odjXmPQZ3zz
-	 +WK4MLLN+/H1QMLZfnMnp2KegLbYV1OeDlog0SSvvKz0qdVZvuPD/ruxce06VAQGHo
-	 n5+PhCffgJFQxCZgDTDU16o59NVXv+y+GxaVmL4LqOok5yfrva3UQENxsyFIHnb1Xs
-	 +pW7/IyuuRRkJex/QRtCzW+lWIsoF22oxIWcNxx3kmMWXXtmxKsdR2/fMeS2PfQtwc
-	 Q/VtILdAyF4WQ==
-Date: Tue, 21 Jan 2025 15:51:15 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sam James <sam@gentoo.org>
-Cc: Kees Cook <kees@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
-	Kostadin Shishmanov <kostadinshishmanov@protonmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	arnd@arndb.de, linux-kbuild@vger.kernel.org
-Subject: Re: Build failure with GCC 15 (-std=gnu23)
-Message-ID: <20250121225115.GA2560185@ax162>
-References: <4OAhbllK7x4QJGpZjkYjtBYNLd_2whHx9oFiuZcGwtVR4hIzvduultkgfAIRZI3vQpZylu7Gl929HaYFRGeMEalWCpeMzCIIhLxxRhq4U-Y=@protonmail.com>
- <20241118205629.GA15698@thelio-3990X>
- <8734joj5gn.fsf@gentoo.org>
- <20241119041550.GA573925@thelio-3990X>
- <87r077j1fa.fsf@gentoo.org>
- <20241119044724.GA2246422@thelio-3990X>
- <CAK7LNAS6DZkbf6AM7kthPuUE_=ZPaaBPoP0UtvuF=6ijrzUPgQ@mail.gmail.com>
- <202501201615.F606516@keescook>
- <20250121215330.GB1517789@ax162>
- <877c6n24wj.fsf@gentoo.org>
+	s=k20201202; t=1737501717;
+	bh=DN9fouYPy3Q7SS2bBlqzCX9gB0jvFxYRG93/8cGJeg0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=ktwMgYFmNjWhWjOEApVG31J7cXXr5FJb1OdnR4auHO2Olpde0ouiA39byTusGia4g
+	 HgIZ42kY/HhoR+gSAxFCGehy7U9KvDJdeWl3sk6JFfrvpHgvdaKzfxxwZsY/3LF36X
+	 faGz7ZLCYKGPbhgimpu7+2OlCnYgmT6Dey8+PGup7t6sl7Y0/ce5/6dvH2oMFBQ8Sb
+	 gENPJn0WdC6dFwzhIbQLvuiz6xb+ro+IVfX44P8hiyI1q/EBqkOnYx+vrmC7Vr657+
+	 v+fMd6CumHLn1qa+GxO+eSSEHeIK5dtSIV+taD9gArKPuO2GzG/+8sgUe2tyCRGpdT
+	 wF5s7sSgqAnHg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB7EB380AA6B;
+	Tue, 21 Jan 2025 23:22:22 +0000 (UTC)
+Subject: Re: [GIT PULL] scripts/sorttable: Updates for 6.14
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20250121162119.2c3c0a4a@gandalf.local.home>
+References: <20250121162119.2c3c0a4a@gandalf.local.home>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20250121162119.2c3c0a4a@gandalf.local.home>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git trace-sorttable-v6.14
+X-PR-Tracked-Commit-Id: 1e5f6771c247b28135307058d2cfe3b0153733dc
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c0e75905caf368e19aab585d20151500e750de89
+Message-Id: <173750174147.150771.1802008775156683884.pr-tracker-bot@kernel.org>
+Date: Tue, 21 Jan 2025 23:22:21 +0000
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, LKML <linux-kernel@vger.kernel.org>, linux-kbuild@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Zheng Yejian <zhengyejian1@huawei.com>, Martin Kelly <martin.kelly@crowdstrike.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, Josh Poimboeuf <jpoimboe@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877c6n24wj.fsf@gentoo.org>
 
-On Tue, Jan 21, 2025 at 10:11:56PM +0000, Sam James wrote:
-> Nathan Chancellor <nathan@kernel.org> writes:
-> 
-> > On Mon, Jan 20, 2025 at 04:16:30PM -0800, Kees Cook wrote:
-> >> On Wed, Nov 20, 2024 at 03:28:35AM +0900, Masahiro Yamada wrote:
-> >> > Some Makefile overriding KBUILD_CFLAGS would forget to add
-> >> > $(CSTD_FLAG), for the same reason as they would forget to add
-> >> > -std=gnu11.
-> >> 
-> >> But at least we'd have 1 place to change when we changed the std level.
-> >> 
-> >> FWIW, I just ran into this build failure too testing GCC 15 from their
-> >> ToT. Both EFI and compressed Makefiles needed it in my build.
-> >
-> > Yeah, I suggested the simpler diff in a separate thread, which seems to
-> > agree with your testing:
-> >
-> > https://lore.kernel.org/20250120182048.GA3244701@ax162/
-> >
-> > I don't mind drafting up a commit message and sending those along if
-> > that would be preferrable.
-> 
-> At this point, I'd like to see the scattered -std= in given it seems
-> less objectionable, even if I'd prefer one place, as we already missed
-> one release being GCC 15-buildable. Happy to test/ack it if you're willing to send it.
+The pull request you sent on Tue, 21 Jan 2025 16:21:19 -0500:
 
-Sounds good, I will get that drafted up and sent along today (if not
-tomorrow) with all relevant parties on CC for testing. We can consider
-unifying these flags next time we bump the version.
+> git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git trace-sorttable-v6.14
 
-CHeers,
-Nathan
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c0e75905caf368e19aab585d20151500e750de89
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
