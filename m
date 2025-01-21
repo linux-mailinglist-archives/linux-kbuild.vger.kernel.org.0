@@ -1,122 +1,127 @@
-Return-Path: <linux-kbuild+bounces-5524-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5525-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07506A1873C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 22:21:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61099A18781
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 22:51:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25FF5160668
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 21:21:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4E09A7A162B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 21:51:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0E821B87ED;
-	Tue, 21 Jan 2025 21:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 566231F76D2;
+	Tue, 21 Jan 2025 21:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t/6AtUgu"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D7423A9;
-	Tue, 21 Jan 2025 21:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4F31B85C5;
+	Tue, 21 Jan 2025 21:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737494478; cv=none; b=ZBLzOW9Ld8evaluO5+LJ7XDMeeJ1PW4fJ16eEUB2CRIiZzOqe9w1CT3sz05QShsSZAZu6m8UVN6CCvHLiChwg4xBxeLx5hs5vzZ6XKwEmzKNlTDUHQYfuU+yikzKF0FO16a7WkKJKBP6iqIRc0nuCnN/H0j0hrYhQtNUtue5uDc=
+	t=1737496287; cv=none; b=X5ZlgBZ6pFVa3GRwCRWpxts15LtvGGBv5u2KmZmt8kcmDwyYiWx7P3rQ7WEyGL9R/+eJ7VW96223FQc1diAWBhdA7z86+ryd0LvYIXMZ3I83HTjd7y/PzWaMYJw/QBnT3iR2QDIRsvGsX3y//Zu/uQwYQndxzw+Hrb/Q6Z1AS+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737494478; c=relaxed/simple;
-	bh=lPXQsa70itiM+5yhxJyu8T2VWZ3WKa7FM7L1nskq2/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=S+J6ghV0FDwPehszETT2weY89+COuE9jri+N93CNXprm8ZUTa2Ia1dvt3HVaN5q65JdXmm/eK4NvsUVePSjF3SMZ5J0pkeu6Iq5iJd15LxaZQ+NtCykgwbE+3sapOIwZPnjNIoKg5x69wwWqO81XE9DB7sheqJ3K9LRQHA3Nc8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3655BC4CEDF;
-	Tue, 21 Jan 2025 21:21:16 +0000 (UTC)
-Date: Tue, 21 Jan 2025 16:21:19 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-kbuild@vger.kernel.org,
- Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Mark Rutland <mark.rutland@arm.com>,
- Peter Zijlstra <peterz@infradead.org>, Andrew Morton
- <akpm@linux-foundation.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor  <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Zheng Yejian  <zhengyejian1@huawei.com>, Martin  Kelly
- <martin.kelly@crowdstrike.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Josh Poimboeuf  <jpoimboe@redhat.com>
-Subject: [GIT PULL] scripts/sorttable: Updates for 6.14
-Message-ID: <20250121162119.2c3c0a4a@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1737496287; c=relaxed/simple;
+	bh=ghPzPcH4slQD//gSMFh6JByj3Bbfq1ElIu7rxa7KJuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eRZW2++ONQ/KHPEit3749RgJck6iE2+RgO6HLWziGFK4Iw47i4N7Q6ABVCjp7MS3FhHWB6XjAa0OBLvSXhVKyIxlSSFR0UNWPEzcx3EihIL5KrG67UKG/WEgQeJQv9mZdTYyG/4TYlBBcAAzE6h+nW+rhhoXcvQQUSwqfKOwKQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t/6AtUgu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02207C4CEDF;
+	Tue, 21 Jan 2025 21:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737496286;
+	bh=ghPzPcH4slQD//gSMFh6JByj3Bbfq1ElIu7rxa7KJuU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t/6AtUguCkvg8jyLjxP+LSXvzDm8FKRVhkADOgYAZi4sbxxAYbPAx4e6PF1rV4Jty
+	 rrc7jFtSZz5wYH3Ur7KUINHmAi3hfdAck/qdFAdfOLseTrwg1Bsq0hCDUawkitKMhT
+	 9Pm/Wy4EuWN+GzjB0fEy5MO+GFYZ80NvIXXF6K2GRFNbfpd3srg0UsUAlOHhyrcrSN
+	 jY5gMvQv58sr+Cj9HmPdiFmj4fyW47zREPz1VSHLgRIHeFXDGMvRxiVSRFzHHLvrG3
+	 MVun19DQL2GM0Gvv2pbgQbqnSFWhmagXRzxlOTtjaRD0PQyyWTy8eeKGru3zHtz2uQ
+	 oEg6ssSH5Ez3Q==
+Date: Tue, 21 Jan 2025 14:51:22 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Jakub Jelinek <jakub@redhat.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Use -fzero-init-padding-bits=all
+Message-ID: <20250121215122.GA1517789@ax162>
+References: <20250121003646.work.168-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250121003646.work.168-kees@kernel.org>
 
+On Mon, Jan 20, 2025 at 04:36:53PM -0800, Kees Cook wrote:
+> Enable -fzero-init-padding-bits=all when available (GCC 15+). This will
+> correctly zero padding bits in structs and unions that might have been
+> left uninitialized, and will make sure there is no regression in union
+> initializations[1]. This fixes the following stackinit KUnit selftest
+> cases that had been XFAIL until now because there was no compiler
+> support:
+> 
+>     ok 38 test_small_hole_static_all # SKIP XFAIL uninit bytes: 3
+>     ok 39 test_big_hole_static_all # SKIP XFAIL uninit bytes: 124
+>     ok 40 test_trailing_hole_static_all # SKIP XFAIL uninit bytes: 7
+>     ok 42 test_small_hole_dynamic_all # SKIP XFAIL uninit bytes: 3
+>     ok 43 test_big_hole_dynamic_all # SKIP XFAIL uninit bytes: 124
+>     ok 44 test_trailing_hole_dynamic_all # SKIP XFAIL uninit bytes: 7
+>     ok 58 test_small_hole_assigned_static_all # SKIP XFAIL uninit bytes: 3
+>     ok 59 test_big_hole_assigned_static_all # SKIP XFAIL uninit bytes: 124
+>     ok 60 test_trailing_hole_assigned_static_all # SKIP XFAIL uninit bytes: 7
+>     ok 62 test_small_hole_assigned_dynamic_all # SKIP XFAIL uninit bytes: 3
+>     ok 63 test_big_hole_assigned_dynamic_all # SKIP XFAIL uninit bytes: 124
+>     ok 64 test_trailing_hole_assigned_dynamic_all # SKIP XFAIL uninit bytes: 7
+> 
+> All of the above now pass when built under GCC 15:
+> 
+>     ./tools/testing/kunit/kunit.py run stackinit --arch=x86_64 \
+>         --make_option CC=gcc-15
+> 
+> Suggested-by: Jakub Jelinek <jakub@redhat.com>
+> Link: https://lore.kernel.org/linux-toolchains/Z0hRrrNU3Q+ro2T7@tucnak/ [1]
+> Signed-off-by: Kees Cook <kees@kernel.org>
 
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Linus,
+As far as I understand it, clang has decided to do this unconditionally:
 
-Updates to scripts/sorttable for 6.14:
+https://github.com/llvm/llvm-project/commit/7a086e1b2dc05f54afae3591614feede727601fa
 
-The sorttable.c was a copy from recordmcount.c which is very hard to
-maintain. That's because it uses macro helpers and places the code in a
-header file sorttable.h to handle both the 64 bit and 32 bit version of
-the Elf structures. It also uses _r()/r()/r2() wrappers around accessing
-the data which will read the 64 bit or 32 bit version of the data as well
-as handle endianess. If the wrong wrapper is used, an invalid value will
-result, and this has been a cause for bugs in the past. In fact the new
-ORC code doesn't even use it. That's fine because ORC is only for 64 bit
-x86 which is the default parsing.
-
-Instead of having a bunch of macros defined and then include the code
-twice from a header, the Elf structures are each wrapped in a union.  The
-union holds the 64 bit and 32 bit version of the needed structure. Then
-a structure of function pointers is used, along with helper macros
-to access the ELF types appropriately for their byte size and endianess.
-How to reference the data fields is moved from the code that implements
-the sorting to the helper functions where all accesses to a field will
-use he same helper function. As long as the helper functions access
-the fields correctly, the code will also access the fields. This is
-an improvement over having to code implementing the sorting having to
-make sure it always uses the right accessor function when reading an
-ELF field.
-
-This is a clean up only, the functionality of the scripts/sorttable.c
-does not change.
-
-
-Please pull the latest trace-sorttable-v6.14 tree, which can be found at:
-
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git
-trace-sorttable-v6.14
-
-Tag SHA1: fabf1492e45892c215eff466f80b62284f50854f
-Head SHA1: 1e5f6771c247b28135307058d2cfe3b0153733dc
-
-
-Steven Rostedt (15):
-      scripts/sorttable: Remove unused macro defines
-      scripts/sorttable: Remove unused write functions
-      scripts/sorttable: Remove unneeded Elf_Rel
-      scripts/sorttable: Have the ORC code use the _r() functions to read
-      scripts/sorttable: Make compare_extable() into two functions
-      scripts/sorttable: Convert Elf_Ehdr to union
-      scripts/sorttable: Replace Elf_Shdr Macro with a union
-      scripts/sorttable: Convert Elf_Sym MACRO over to a union
-      scripts/sorttable: Add helper functions for Elf_Ehdr
-      scripts/sorttable: Add helper functions for Elf_Shdr
-      scripts/sorttable: Add helper functions for Elf_Sym
-      scripts/sorttable: Use uint64_t for mcount sorting
-      scripts/sorttable: Move code from sorttable.h into sorttable.c
-      scripts/sorttable: Get start/stop_mcount_loc from ELF file directly
-      scripts/sorttable: Use a structure of function pointers for elf helpers
-
-----
- scripts/sorttable.c | 740 ++++++++++++++++++++++++++++++++++++++++++++++++----
- scripts/sorttable.h | 500 -----------------------------------
- 2 files changed, 685 insertions(+), 555 deletions(-)
- delete mode 100644 scripts/sorttable.h
----------------------------
+> ---
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: linux-kbuild@vger.kernel.org
+> ---
+>  scripts/Makefile.extrawarn | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 1d13cecc7cc7..eb719f6d8d53 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -77,6 +77,9 @@ KBUILD_CFLAGS += $(call cc-option,-Werror=designated-init)
+>  # Warn if there is an enum types mismatch
+>  KBUILD_CFLAGS += $(call cc-option,-Wenum-conversion)
+>  
+> +# Explicitly clear padding bits during variable initialization
+> +KBUILD_CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
+> +
+>  KBUILD_CFLAGS += -Wextra
+>  KBUILD_CFLAGS += -Wunused
+>  
+> -- 
+> 2.34.1
+> 
 
