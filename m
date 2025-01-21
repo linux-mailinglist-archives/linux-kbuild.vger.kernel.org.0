@@ -1,119 +1,121 @@
-Return-Path: <linux-kbuild+bounces-5514-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5515-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47420A17532
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 01:20:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AE7A17540
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 01:37:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EBF71686D5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 00:20:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07B3B3A806B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2025 00:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68074C13D;
-	Tue, 21 Jan 2025 00:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25EF79475;
+	Tue, 21 Jan 2025 00:37:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C0IvOdGD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PdCNe8Qg"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369379475;
-	Tue, 21 Jan 2025 00:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED99879D2;
+	Tue, 21 Jan 2025 00:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737418806; cv=none; b=KidZ1hy+74pN/IiraO/LVQ9uFpxZBbi7MWRPdUMnXxOwP3lpp+BWPMry0lEAznL2bfw7QK0dN74gUYPjNiSetmbYsTviUiC93TuLRVo4o4YETa9oJn5Wb7GI2LAIp9yeUeGzU1Sn3ld/Ug9tFOw4IJFqovzVjZBOEUdSxYKcSCU=
+	t=1737419823; cv=none; b=OomZdSKYn1k5v6wDAV+DK1hXn7btHFudHyvfxfJiqy3w6vRGWoxxz0FJlnawjGwiq8M7qbWTrL4slCgvl2pd0KalIiQ0IAEl1o8tc0W5u3sV4YzR1+VjHGNbOuuAyGS/gaqMYuVOCSbVVh4p1Koanlf6eblL1qv8aZxPJAoe0vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737418806; c=relaxed/simple;
-	bh=8S+cd3S5qM1k6mnMcNcb3ZKWUBe0goIpXrzFzAWnjD8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I/px3KB/TOt0g4kmH7vbv9TIoKcWrmyqUdh0LmKE3bfLm/gzo8x1720jjbJJDBJ3lqp8q0mHOlXgW/IyEdqPTuq5ZhP97W6y0J6TkRqc5ihhKFzAf3XtnyWaq+VOlY59xcP7MXqjphfOzWOPkOlwV4etRcVt8HAveTU/NG5Dh5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C0IvOdGD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2411C4CEE1;
-	Tue, 21 Jan 2025 00:20:05 +0000 (UTC)
+	s=arc-20240116; t=1737419823; c=relaxed/simple;
+	bh=3HnnYi/SmEcGz2glgVrJmb8BnWrs+DQG6iLqEy+biCE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qvRijzfvh4aLLDbWpb3MT9EMh2dNLVEtwEIsBhCH4CmwymonsUN4AzPC7uBD3nkXqS/Y9LK9J91loDHXKVoYN3mxjjaZs7xawIsoYX9TDCSci8hxLF+NC4l1o9PXNS0YqfJ0B64LyqNvHRwiqxAcv23ysrrpLU1Qedw0UIhdMJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PdCNe8Qg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51955C4CEDD;
+	Tue, 21 Jan 2025 00:37:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737418805;
-	bh=8S+cd3S5qM1k6mnMcNcb3ZKWUBe0goIpXrzFzAWnjD8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=C0IvOdGDvboKiNJIj/MhKDM040rIr7I0Rnck2Q0Bi6WHksrvH1/pg2VQPvx2D3p1h
-	 y1ykZco7TswbzzfDJPJPJLtnrTP/psi6a+4ACgY4JOP4IlO7cfLDIHUFJ1f86n1K+q
-	 SWhwTw4VnMw1J583jaFIMjstxUr0rUC8oVO4BtU2CidArUB9MjvETMUfBxrz20BhHo
-	 OhuBDHiIGGT81q/xdGHv7ntoGHZprTzK8TqKZPmxA+yrqwowDmBlERbkfG4E7soQrf
-	 ZTI2l9mIBo0b12oxZzz3vMB0+PqBu4GK8D+ITv7qYep8H6JO12XShSjrISx+8aWdFW
-	 Ne+sbPTTEwFhQ==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-540254357c8so4736357e87.1;
-        Mon, 20 Jan 2025 16:20:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUDFFTdFJko4dbAmLj+VCI52TG6fERC6T76LYlZiqvv6IOUYNs8SFr9k8JdFWmagf9IkOhjmMPaaYFUN4Os@vger.kernel.org, AJvYcCXhAb5rKHN14HfEBp4SgP4tTaE9YxTEiQlASpMyLnQx91b+eJvYMTX8So8Pv+7oJ4+Rb072f50eexi9@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTO0hjQ7SrqUi0kkG6dz+Yy9ouG4hrQ9kRZiponsDRN7/fnauR
-	kJz9x/OHTeWsMQKhD0+QzHY2SJs7gRNOwerTOuXWBHlZhv97YN3TcjnjiU1coJ7WAzH5Kr11/dn
-	r3/58RveuuElET/+hw6rjOLcWevk=
-X-Google-Smtp-Source: AGHT+IExSI6nlRjF4jnonhF+UkBWnNBdR9x9teS0A8O0GamOqIclItkZgI1INzVWncwio+Cvqd22qIoAFItABmwRl54=
-X-Received: by 2002:ac2:5187:0:b0:53e:36c8:6e54 with SMTP id
- 2adb3069b0e04-5439c280905mr4237275e87.42.1737418804392; Mon, 20 Jan 2025
- 16:20:04 -0800 (PST)
+	s=k20201202; t=1737419822;
+	bh=3HnnYi/SmEcGz2glgVrJmb8BnWrs+DQG6iLqEy+biCE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PdCNe8QgIHqew3aXu0kl3Ne3+Qq+3cHesEQxhIRigZBK9P7ByzqilM5UKoFB9dPBE
+	 xPa5fZr6nv2svRcNUfzOpYmdGHjVjk/IM+6O70pP2HG1/YqKJbYANqg9cjypjnIM1e
+	 vGqo/xPcljz+vW3yKtZKdRKnopxU/p47F13/XiiM/lS8WqEzPBANokTdD3Yich9/3j
+	 vgAmvx7wXyMgbsXUg9lrZdKTBWjR9KXcKsbQNakbz5JEulpPjr+fTp9c+BKsPSyYLD
+	 66y99td+dQ4xoUDtl2hXO59qDhjiEnkT2Qsy/tyalU8vSowE2pJVoNQOYQDEcyHYDw
+	 ws0JPZ24MCSgQ==
+From: Kees Cook <kees@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Jakub Jelinek <jakub@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	Stephen Hemminger <stephen@networkplumber.org>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] kbuild: Use -fzero-init-padding-bits=all
+Date: Mon, 20 Jan 2025 16:36:53 -0800
+Message-Id: <20250121003646.work.168-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250120212839.1675696-1-arnd@kernel.org>
-In-Reply-To: <20250120212839.1675696-1-arnd@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 21 Jan 2025 09:19:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASo+wGhpCVhBi+ew1mOtLbSXgx3AiQ6D7RtXO5P=R0EfQ@mail.gmail.com>
-X-Gm-Features: AbW1kvbc1aF7uSK9oa8tsDMoVxPv87eSjB_2x8-t6FWPOwW_6ttafN93A9RBgf8
-Message-ID: <CAK7LNASo+wGhpCVhBi+ew1mOtLbSXgx3AiQ6D7RtXO5P=R0EfQ@mail.gmail.com>
-Subject: Re: [PATCH] [RFC, DO NOT APPLY] vmlinux.lds: revert link speed regression
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, regressions@lists.linux.dev, Han Shen <shenhan@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>, Rong Xu <xur@google.com>, 
-	Jann Horn <jannh@google.com>, Ard Biesheuvel <ardb@kernel.org>, linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2377; i=kees@kernel.org; h=from:subject:message-id; bh=3HnnYi/SmEcGz2glgVrJmb8BnWrs+DQG6iLqEy+biCE=; b=owGbwMvMwCVmps19z/KJym7G02pJDOl9b1Tbuf1uNPy0S5c5+3KDw+kc7bWG1zb9OTzT//Rz+ Y2lTLYcHaUsDGJcDLJiiixBdu5xLh5v28Pd5yrCzGFlAhnCwMUpABNxXsHwv56pnjEi7na2ZfNP mX2TntwtVRHQFbmsqMQQeGDrtv18PowMD5ytQmatL+8wY+v+ssM8a6as/uL6ZhmdT569/l3lL+a wAAA=
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 21, 2025 at 6:29=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
-te:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> I noticed a regression in the time it takes to fully link some randconfig
-> kernels and bisected this to commit 0043ecea2399 ("vmlinux.lds.h: Adjust
-> symbol ordering in text output section"), which (among other changes) mov=
-es
-> .text.unlikely ahead of .text.
->
-> Partially reverting this makes the final link over six times faster again=
-,
-> back to what it was in linux-6.12:
->
->                 linux-6.12      linux-6.13
-> ld.lld v20      1.2s            1.2s
-> ld.bfd v2.36    3.2s            5.2s
-> ld.bfd v2.39    59s             388s
->
-> According to the commit description, that revert is not allowed here
-> because with CONFIG_LD_DEAD_CODE_DATA_ELIMINATION, the .text.unlikely
-> section name conflicts with the function-section names. On the other
-> hand, the excessive link time happens both with and without that
-> option, so the order could be conditional.
->
-> I did not try to bisect the linker beyond trying multiple versions
-> I had installed already, and it does feel like the behavior of recent
-> versions (tested 2.39 and 2.42 with identical results) is broken in
-> some form that earlier versions were not. According to 'perf', most
-> of the time is spent in elf_link_adjust_relocs() and ext64l_r_offset().
+Enable -fzero-init-padding-bits=all when available (GCC 15+). This will
+correctly zero padding bits in structs and unions that might have been
+left uninitialized, and will make sure there is no regression in union
+initializations[1]. This fixes the following stackinit KUnit selftest
+cases that had been XFAIL until now because there was no compiler
+support:
 
-Is this problem specific to the BFD linker from binutils?
+    ok 38 test_small_hole_static_all # SKIP XFAIL uninit bytes: 3
+    ok 39 test_big_hole_static_all # SKIP XFAIL uninit bytes: 124
+    ok 40 test_trailing_hole_static_all # SKIP XFAIL uninit bytes: 7
+    ok 42 test_small_hole_dynamic_all # SKIP XFAIL uninit bytes: 3
+    ok 43 test_big_hole_dynamic_all # SKIP XFAIL uninit bytes: 124
+    ok 44 test_trailing_hole_dynamic_all # SKIP XFAIL uninit bytes: 7
+    ok 58 test_small_hole_assigned_static_all # SKIP XFAIL uninit bytes: 3
+    ok 59 test_big_hole_assigned_static_all # SKIP XFAIL uninit bytes: 124
+    ok 60 test_trailing_hole_assigned_static_all # SKIP XFAIL uninit bytes: 7
+    ok 62 test_small_hole_assigned_dynamic_all # SKIP XFAIL uninit bytes: 3
+    ok 63 test_big_hole_assigned_dynamic_all # SKIP XFAIL uninit bytes: 124
+    ok 64 test_trailing_hole_assigned_dynamic_all # SKIP XFAIL uninit bytes: 7
 
-Did you observe a link speed regression with LLVM=3D1 build?
+All of the above now pass when built under GCC 15:
 
+    ./tools/testing/kunit/kunit.py run stackinit --arch=x86_64 \
+        --make_option CC=gcc-15
 
+Suggested-by: Jakub Jelinek <jakub@redhat.com>
+Link: https://lore.kernel.org/linux-toolchains/Z0hRrrNU3Q+ro2T7@tucnak/ [1]
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-kbuild@vger.kernel.org
+---
+ scripts/Makefile.extrawarn | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 1d13cecc7cc7..eb719f6d8d53 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -77,6 +77,9 @@ KBUILD_CFLAGS += $(call cc-option,-Werror=designated-init)
+ # Warn if there is an enum types mismatch
+ KBUILD_CFLAGS += $(call cc-option,-Wenum-conversion)
+ 
++# Explicitly clear padding bits during variable initialization
++KBUILD_CFLAGS += $(call cc-option,-fzero-init-padding-bits=all)
++
+ KBUILD_CFLAGS += -Wextra
+ KBUILD_CFLAGS += -Wunused
+ 
+-- 
+2.34.1
 
-
---
-Best Regards
-Masahiro Yamada
 
