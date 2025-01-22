@@ -1,168 +1,159 @@
-Return-Path: <linux-kbuild+bounces-5546-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5547-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF6BA19AF9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 23:37:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6EAA19B81
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jan 2025 00:34:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A614188CDD6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 22:38:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D4453AC4C3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 23:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EFC81C5F2D;
-	Wed, 22 Jan 2025 22:37:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD4DB1CB9E2;
+	Wed, 22 Jan 2025 23:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yzNGaW+r"
+	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="VFnQzv5P";
+	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="Euh2GBG3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1F31C5D4F
-	for <linux-kbuild@vger.kernel.org>; Wed, 22 Jan 2025 22:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67011185B62;
+	Wed, 22 Jan 2025 23:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737585471; cv=none; b=Ur7VXlGU5yYmeFMVvjaMzKp4f0RjwyOmSTMa0+2dSZPUmbssieUuNmPieRsMSoopDRqsNZUmhtsxABn/IFU3Gk33DpUjx2nwW2YBPV8dS7XfXD5Mn0g3bUampwPduJYHY3JSzHbF6MyBrEvVF2BkGIX6jj6iw/KMQ9VxLyfDI34=
+	t=1737588871; cv=none; b=HUherR4o2PZ8MnAqgjNildmhNu3w9HN/jKAJ1PL28FVzwTJ9aWs/cN31nen71s5iVu0IxL/ZW3lt0M2UD7vQ9MXCfi4iRFOprRNcihFMQ6xmKbbu6BTiUsoEYdukZ7AraonkgTVoJbJemFyJrSfP3Z9jgdeD8q5aEf67KNi/1vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737585471; c=relaxed/simple;
-	bh=muQHKH+YtVhs47z/cQO4qQSWMU8f3qzDbgNESrFc+dM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tTkHWn9MvybQoLtwIwMgLClOCtk3/MuiIyZiwCapC3iKqa0+/BM+PsALSx/yAwe+11N62jqJV396DDf0v9Is/F+XMAf5ppQNS7CyXV+GvrMkSiPep437NWfJHzfwTj5ErVn6A8pX8ChITA100SlDIuHw8aaVbiKvaokBDY1bOZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yzNGaW+r; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-467896541e1so97821cf.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Jan 2025 14:37:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1737585468; x=1738190268; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RNWPmlwGRos1SZFW6JfxWy7NUgqHSwSZwtnxl8s4MEk=;
-        b=yzNGaW+rpJVvIbL1uRP3WSqtnQ1JUMb/2vRhMvJW3uJqo6bv60EuV+KeeQQ/4uyPmz
-         csNVSpZ34J+gLB64h6TSv3kyaXBxZNpaDPyR6J6+uBxaQarV9VGITRdbfbpnJ2ckA053
-         y/IGlODEZX3S4HxoWHw5ih7ehKfWlm3KLaFREIu1RpfElUvdAASnYgzmwMi4o94Ililc
-         Wdcb0fYq2JA4DOBMxY3n6tU4a7QoyOk9fWZrU41c1wt5qM5Vq5AMAgGiFLQU1r4khn3a
-         2XBZGKKe40r6rKiJ13rOca0mcXUJZOCB6FYElrA3yc1IrvugDB9qQCG0qZx56FvJ8enM
-         RQ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737585468; x=1738190268;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RNWPmlwGRos1SZFW6JfxWy7NUgqHSwSZwtnxl8s4MEk=;
-        b=LdfoLkZ1qxJQgH6BePK/ILgNR4Zr4HCbnik+/wI3M836dPCBahkmsY+HNv3h1byqgn
-         JJQ3/k8XxWCGG2tMrtDsKHAJPadymPehz4+RNWzQeCa4BZGkBRrxf2LAL+Cei9tK+u0p
-         lbuQwIvrFSKXaiwq5m8ud/vTGWbj8uFeXUBrtzA5Gvlxh2OMwuYGB35BVNH7pVHarSzs
-         Z5Mu97iWu6TNsd8M3c1H09j/OIXL44yEOayAWruktiEjm8izW8zOeWDBPsEMsg4V3Uu0
-         /XnTp8sd9kLCRaN0qiyluAvyeXGrYfWXRv8sqlvCHP1wjaR7ZmW7Qr28zyMUgBiVdckJ
-         vy9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXAP/x+zie1n6Caf0NVZLV3yUz7m/aj1IpjMA+g6PAzNK4Kx4T7YT+AaHjlodABoOoOM8ROUg1XcKwkB3k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfDXj4MeT+tZsIaA/YUb8KrrSawXKwNL6Lnsr7qS+Q9OULQFud
-	0W9Sl3STA63dv1necWPxy4xF/KQPQPh/+jz0snoBlmhevptzT8aqKFNNu+JPppuLK/deOJEbkZa
-	u1VJMFvyyCIGsxxS9jSfWHPwLno1eMVXeR35Z
-X-Gm-Gg: ASbGncsyJ7mE3jBUxyxXoP2XxdQdmXn4PvqFN6OCOGX758DT20QhoMFpHoDvLPBVPEn
-	3+I80Hrj5/BckNky0bltaRTmCdmF06G9d4mJEZS8mEPeIEfmAgdPNuBLn9Mgp5BY0WRDhMuWdeU
-	wklxA=
-X-Google-Smtp-Source: AGHT+IE7sdb1UO7lPrISBGAhpx5JEvuTlWU+6OO+ygvNWlmkeAdywMg6ssKZ6NWKbxANm+Cry9tUm/RyIi756qhPSFI=
-X-Received: by 2002:a05:622a:1b8e:b0:46c:791f:bf2f with SMTP id
- d75a77b69052e-46e5da99a74mr280031cf.1.1737585468033; Wed, 22 Jan 2025
- 14:37:48 -0800 (PST)
+	s=arc-20240116; t=1737588871; c=relaxed/simple;
+	bh=y9Q8HEE6q0vmvrQ9y+XwfgTOy+3p3frBcuPef11CoPo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l9rXmgwajrbo+sB0K1Fx9YOWEzqMn+JRLZqPCcg2qY4P2/TqU95g9osIW4XnhPuZLL7u9dzgHiUSCK0KX9+JoCheZTtC4oxFvIwzHn79dIrA4rZz2TahhTa9LmSKjEq6p4VA0yvUDZgVVM+nyXmqBAOHEsXDE99ZD6k6aSmG9W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=VFnQzv5P; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=Euh2GBG3; arc=none smtp.client-ip=95.216.189.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+Message-ID: <8e5b171d-78fa-4cba-8217-1a661d23785b@archlinux.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+	s=dkim-rsa; t=1737588523;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nN8ZPByiAs2yKdwLh5W4fO3m7Re8B0wU6vIlJ5ZWJ6U=;
+	b=VFnQzv5PEHo+boR7sYtwv3SvjQNrMce7nfWtbHdM4vxonnsLc+EQPaJObToIm2zIe0H5dc
+	Dd3vYJdPEOtGoAYr/pKWs/Bxv7kkhyy/hSuMuUppZ2kkD5A7NAzO7HrFaSUozPhdnz3koF
+	LS6rsq25cvrJHrm+rk8VJ3K1wCUqs8Y8WzHS3z/yQtavQGj3xROYyJLITrBOeGWY2LHr+6
+	CrD4DtsD50Id6KahUobwnvGqKzIRAwHpMHYS4nQM71yHb0sryuyZwG1W7vweZEnRN8UFGc
+	XBEPPo41c8T1lnnwVy6eNyZD7UWjTNdG5bE9FyWlazPr/e43Vvg/X4asGsoso/fIBRloM+
+	aRYZquTWAvLlR4ACSkhH+N3GHc8k2AhwRdFBKL16gjI51oBjo+0NdVYhSelNaT6Z2romhT
+	ZnJvbOGhpMWNoc36jwbZWGh8SZlM39gpdGrFsCJKhVbd+WDFwZXqSZIkB8+43ixtksv8Ix
+	8oDaELwyHiUVnCFUqBqntV2UmcLUgxozoFPcTFJJ7UPo+0gRCwmgHSJkM5bSAj5UNXw+Ac
+	KO5UW7A9oX/ktq9A5JrOmwHDwB8alHpAh3Y1OlBCmvjsrO7QKRRNEwQ9IjGzLSnlOWKgPY
+	ZYjcY3fIOMQkbiFByM49TmxK6ltNK+EkNjJnMmyYMQ0BtLRzf71dQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+	s=dkim-ed25519; t=1737588523;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nN8ZPByiAs2yKdwLh5W4fO3m7Re8B0wU6vIlJ5ZWJ6U=;
+	b=Euh2GBG39NEZKnmrDmzHEp7zEz7La8UboW2/Llrndh0TjmRCgzYt9pSb0oQW9Pb2RFA9cv
+	AXC5ElgjGj/UKHAw==
+Authentication-Results: mail.archlinux.org;
+	auth=pass smtp.auth=kpcyrd smtp.mailfrom=kpcyrd@archlinux.org
+Date: Thu, 23 Jan 2025 00:28:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250120212839.1675696-1-arnd@kernel.org> <CAF1bQ=QFxE8AvnpOeSjSeL1buxDDACKVNufLjw99cQir0pyS_Q@mail.gmail.com>
- <c5855908-df1f-46be-a8cf-aba066b52585@app.fastmail.com> <CAF1bQ=SEybO_+UMDqspA+9OecYqJhE56D-zJyxEUiPcj+Af_fA@mail.gmail.com>
- <04db1d00-8801-4d29-bed9-54b2cc39e4fc@app.fastmail.com>
-In-Reply-To: <04db1d00-8801-4d29-bed9-54b2cc39e4fc@app.fastmail.com>
-From: Rong Xu <xur@google.com>
-Date: Wed, 22 Jan 2025 14:37:36 -0800
-X-Gm-Features: AWEUYZm3KSmYxfUanGEFArAdq_FoZxyzTMm-E5VEa9MroDn3oTe2JaMTTo7tTxs
-Message-ID: <CAF1bQ=Q+FLu=RYT5tVT0Nrre72w-_sgXMw=sr0MBXhgudbJn4w@mail.gmail.com>
-Subject: Re: [PATCH] [RFC, DO NOT APPLY] vmlinux.lds: revert link speed regression
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev, Han Shen <shenhan@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>, Jann Horn <jannh@google.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 6/6] module: Introduce hash-based integrity checking
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
+ Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+ Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
+ <20250120-module-hashes-v2-6-ba1184e27b7f@weissschuh.net>
+Content-Language: en-US
+From: kpcyrd <kpcyrd@archlinux.org>
+In-Reply-To: <20250120-module-hashes-v2-6-ba1184e27b7f@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 22, 2025 at 12:30=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrot=
-e:
->
-> On Wed, Jan 22, 2025, at 19:47, Rong Xu wrote:
-> > On Tue, Jan 21, 2025 at 1:18=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
-rote:
-> >>
-> >> On Tue, Jan 21, 2025, at 18:45, Rong Xu wrote:
-> >> > On Mon, Jan 20, 2025 at 1:29=E2=80=AFPM Arnd Bergmann <arnd@kernel.o=
-rg> wrote:
-> >> >
-> >> > Yes. The order could be conditional. As a matter of fact, the first
-> >> > version was conditional.
-> >> > I changed it based on the reviewer comments to reduce conditions for
-> >> > more maintainable code.
-> >> > I would like to work from the ld.bfd side to see if we can fix the p=
-roblem.
-> >>
-> >> Makes sense. At least once we understand what makes the linker so slow
-> >> and fix future versions, it should also be possible to come up with
-> >> a more effective workaround for the existing linkers that suffer from =
-it.
-> >
-> > @Arnd: Can you send me the instructions to reproduce this regression?
->
-> My report had linked to the config that I saw originally:
->
-> >> > Link: https://pastebin.com/raw/sWpbkapL (config)
->
-> This is for a x86_64 build, and I used 'make savedefconfig' to
-> simplify it, so you have to copy it to arch/x86/configs/test_defconfig
-> and run 'make test_defconfig' to get the full file back.
->
-> I have also uploaded a reproducer to
-> https://drive.google.com/file/d/14xWdD_S51XBgV6kOajLvdtOef7tQTZQq/view?us=
-p=3Dsharing
-> but it's fairly large. The reproducer is from ld.lld --reproduce=3D, but
-> you can simply unpack it and do
->
-> x86_64-linux-gnu-ld.bfd  -m elf_x86_64 -z noexecstack --emit-relocs --dis=
-card-none -z max-page-size=3D0x200000 --gc-sections --build-id=3Dsha1 --orp=
-han-handling warn --script home/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig=
-/arch/x86/kernel/vmlinux.lds --strip-debug -o .tmp_vmlinux1 --whole-archive=
- home/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig/vmlinux.a home/arnd/arm-s=
-oc/build/x86/0xA8B23FFD_defconfig/init/version-timestamp.o --no-whole-archi=
-ve --start-group home/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig/lib/lib.a=
- home/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig/arch/x86/lib/lib.a --end-=
-group home/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig/.tmp_vmlinux0.kallsy=
-ms.o
->
->     Arnd
+Hi!
 
-Thanks Arnd. I can reproduce the issue with your files.
+Thanks for reaching out, also your work on this is much appreciated and 
+followed with great interest. <3
 
-The slowdown was caused by the following change in elflink.c:
+On 1/20/25 6:44 PM, Thomas Weißschuh wrote:
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index effe1db02973d4f60ff6cbc0d3b5241a3576fa3e..094ace81d795711b56d12a2abc75ea35449c8300 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -3218,6 +3218,12 @@ static int module_integrity_check(struct load_info *info, int flags)
+>   {
+>   	int err = 0;
+>   
+> +	if (IS_ENABLED(CONFIG_MODULE_HASHES)) {
+> +		err = module_hash_check(info, flags);
+> +		if (!err)
+> +			return 0;
+> +	}
+> +
+>   	if (IS_ENABLED(CONFIG_MODULE_SIG))
+>   		err = module_sig_check(info, flags);
+>   
 
-commit fba1ac87dcb76e61f270d236f1e7c8aaec80f9c4
-Author: Tomoaki Kawada <kawada@kmckk.co.jp>
-Date:   Thu Jun 16 09:54:30 2022 +0000
+ From how I'm reading this (please let me know if I'm wrong):
 
-    Fix the sorting algorithm for reloc entries
+## !CONFIG_MODULE_HASHES && !CONFIG_MODULE_SIG
 
-    The optimized insertion sort algorithm in `elf_link_adjust_relocs`
-    incorrectly assembled "runs" from unsorted entries and inserted them to=
- an
-    already-sorted prefix, breaking the loop invariants of insertion sort.
-    This commit updates the run assembly loop to break upon encountering a
-    non-monotonic change in the sort key.
+No special checks, CAP_SYS_MODULE only.
 
-I haven't looked closely into this. The fix is most likely valid. But
-the code might not be efficient.
+## !CONFIG_MODULE_HASHES && CONFIG_MODULE_SIG
 
--Rong
+No change from how things work today:
+
+- if the module signature verifies the module is permitted
+- else, if sig_enforce=1, the module is rejected
+- else, if lockdown mode is enabled, the module is rejected
+- else, the module is permitted
+
+## CONFIG_MODULE_HASHES && CONFIG_MODULE_SIG
+
+This configuration is the one relevant for Arch Linux:
+
+- if the module is in the set of allowed module_hashes it is permitted
+- else, if the module signature verifies, the module is permitted
+- else, if sig_enforce=1, the module is rejected
+- else, if lockdown mode is enabled, the module is rejected
+- else, the module is permitted
+
+## CONFIG_MODULE_HASHES && !CONFIG_MODULE_SIG
+
+This one is new:
+
+- if the module is in the set of allowed module_hashes it is permitted
+- else, if lockdown mode is enabled, the module is rejected
+- else, the module is permitted
+
+---
+
+This all seems reasonable to me, maybe the check for 
+is_module_sig_enforced() could be moved from kernel/module/signing.c to 
+kernel/module/main.c, otherwise `sig_enforce=1` would not have any 
+effect for a `CONFIG_MODULE_HASHES && !CONFIG_MODULE_SIG` kernel.
+
+cheers,
+kpcyrd
 
