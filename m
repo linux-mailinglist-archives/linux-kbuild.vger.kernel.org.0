@@ -1,146 +1,167 @@
-Return-Path: <linux-kbuild+bounces-5544-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5545-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30EF7A1997F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 21:06:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB88A199E3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 21:30:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7653E16AFE2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 20:06:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 884AE1888C90
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2025 20:30:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47CE52153CD;
-	Wed, 22 Jan 2025 20:06:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC0591C5F10;
+	Wed, 22 Jan 2025 20:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EjJcG2Z6"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="PKohlQ4U";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LWLsIJmk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1826F1B6CE0;
-	Wed, 22 Jan 2025 20:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0A91C1F34;
+	Wed, 22 Jan 2025 20:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737576376; cv=none; b=NzYtfFbwvJ550vkakpUQLRAlexz+PziF1KMPY/GMQlvQVt7dWzlflsKZlUupsuFduujIyIJxO9ngJAUwC6rfYw9y26rPLQcGxmkxZ5R8OT4nYX8YxCXiqhDg8m3zgOPYMk02AcOy/uBcFfLyaIbIhvCregTqtwPNI55kn9oMsds=
+	t=1737577815; cv=none; b=RGwba5FxH5roWEjDK9qubATU1H68mT7a2W4P0BgDOqDScKs0GWkcaJ5KTVnoD9bk2ACNQY7ghQKPQ+S5S9qnqaBNBKdRNWe9NhJLzOF7XBjnDDxcQmStibwD0HXqfzVFk2Jbg9Q89lw9ZoHM6sio1DCnqHInGbeYlxV+lV/nqsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737576376; c=relaxed/simple;
-	bh=S5TTnFvAJPPSSH0AY88qF4Q33YOQ5/7GfsUezm6tuHY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JrNbO0RBBKfs73+CErdEqWcjUnBYbEVIVGEmGJ9AD+rTfV+8ckTVna1uIuhxP6OdYAJf892CKbcCJzNypp/tRvRbLwN51mEWb3MaL67Xi79iD6L3N8V8FwhPx8/SkQnZFCO5lNqHM0qUhMomwCVXCa9ouVWShhexIyP0ctr3ahM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EjJcG2Z6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60920C4CED2;
-	Wed, 22 Jan 2025 20:06:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737576374;
-	bh=S5TTnFvAJPPSSH0AY88qF4Q33YOQ5/7GfsUezm6tuHY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EjJcG2Z66JJlh9mImcdD7SeVperH0zRWeaXzqZx1y6HpMbv1EuJrfAseTFRTFDRT2
-	 4dYZddDKMnsHPfAciwhrI7Dyg6Z44Nui6JWwBW2wHtIXNsM6LmStoIHbJQ9MGIULl8
-	 n7h5ok6ypAzMIhbHd2PI5OhNje8S4XYwimGLiEFJt5+mbe5Q9gDhAc7t0UuaYhoOvc
-	 9nROdsYl2QPbFD07pMAXXMJ9+rfL+91nTQlHTaAh7nG7ibDhsv+L5uUtdrfuNDCzu5
-	 Sj9bQmSd1Lp/1D55sHm2N2NZBdrTIPU+2gjgs+QPkxZfynS4N9htgdrwu3PGRCCeBg
-	 ZFqyDsmQGqgdg==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Petr Pavlu" <petr.pavlu@suse.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
- <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
- <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  "Benno
- Lossin" <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,
-  "Masahiro Yamada" <masahiroy@kernel.org>,  "Nathan Chancellor"
- <nathan@kernel.org>,  "Nicolas Schier" <nicolas@fjasle.eu>,  "Luis
- Chamberlain" <mcgrof@kernel.org>,  "Trevor Gross" <tmgross@umich.edu>,
-  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
-  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
-  <linux-kbuild@vger.kernel.org>,  "Sami Tolvanen"
- <samitolvanen@google.com>,  "Daniel Gomez" <da.gomez@samsung.com>,
-  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg KH"
- <gregkh@linuxfoundation.org>,  <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH v4 4/4] rust: add parameter support to the `module!` macro
-In-Reply-To: <04419f26-1411-4e47-a0f0-f774064bc2f0@suse.com> (Petr Pavlu's
-	message of "Wed, 22 Jan 2025 17:01:32 +0100")
-References: <20250109-module-params-v3-v4-0-c208bcfbe11f@kernel.org>
-	<20250109-module-params-v3-v4-4-c208bcfbe11f@kernel.org>
-	<XHW3ISBydpd3OFamhThxUUd97oEcmOAxv3ro0WP6nAbUALocUp3qw62jNCuDv66LoSL_8shwbFH660c1GhekiA==@protonmail.internalid>
-	<04419f26-1411-4e47-a0f0-f774064bc2f0@suse.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Wed, 22 Jan 2025 21:06:00 +0100
-Message-ID: <874j1q1umv.fsf@kernel.org>
+	s=arc-20240116; t=1737577815; c=relaxed/simple;
+	bh=ipgI7wHGTr/giYhjnCIlPAmUcilXuIwDSO/Yi3o2Pz0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=TJa0vIyV0mLvhQuVu76pzEKEm3mjhvPpN0mzh61nioe64UiiTQAscIElmkp/Tkk7rs6Zn0LODbWErmMHGNEnJPYLoLKMe05oMfoskFerU7C0KfoPPf3+ItKMm6bW3D9Ys37ftcteCVKpSusXFRuPNeKKTZ/Uf8gjchD2SVElXE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=PKohlQ4U; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LWLsIJmk; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 69BBF13801F0;
+	Wed, 22 Jan 2025 15:30:12 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Wed, 22 Jan 2025 15:30:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1737577812;
+	 x=1737664212; bh=bvOr6eELKK/8/q70N6ap7S2VJku4+BpsyEmLsAm/q18=; b=
+	PKohlQ4UA8jg170PEYEzbdV68/SAspiTnOdxFP+C76YcIo+QkToGVGrxCZI9Vy7j
+	eyHCPW63EHM1ZYItNxDfocJcJMeTAp9eCCmtBrTAVvygz5FePDlKUtOJs10HDem7
+	lWM6zorYMdLOtjRzEE87WhA6nWii4pCEHMqo99R/NjReSKq7/Xy+bbZ8KGzFuVG6
+	NM1sce9dyyNDk56FBJwCF+6KkHAo5PAY/h33J+/vkqfqdWUoxLg0yWi7DyebGhVZ
+	9+GUXeLdHlIZvi7+HQq6CzJlLIfqhBC4DxR+f/wm/h0nVPbgF2D//KXYhBCYUOJ2
+	3ZxaObyge7dTW+VEyheFzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737577812; x=
+	1737664212; bh=bvOr6eELKK/8/q70N6ap7S2VJku4+BpsyEmLsAm/q18=; b=L
+	WLsIJmk7C8xNZVLdO5MPG7TfNmyflugBOPF/pBvzGFZwpkg+mnurzEyL8qpNQbkp
+	pgjp1ZOLmh+BSrQuDLEeYdLQTWsYK0ij8s6GBOcTcRr+nZ3lvvddAeTFtUSRRkEp
+	tKe1lTFfDV7+dMaPjgbH+/6HbXUxJWTg7jF14T1zcU/gQpkj8Q536e1VuU4fe8yJ
+	3mMDg1HtZUiGGWhHTkqnz4GYR/4PQ0/UYDMHoXEvE5gY+FiZZx1iNkYNTFMgnucr
+	rThdd5AbiNTj37Az2Bd9j3d8IbPBlO38cB8Ium000bwIpFUvdbnbhPIu6ZC+9g3G
+	8zLV9gH3xXxuwxYMT8aLg==
+X-ME-Sender: <xms:VFWRZ3KsYRhFs4xJ_Ye7fpDrPB2DWTyQUZuGlP_Vy0r3SWjE_FE52g>
+    <xme:VFWRZ7L0kj8wkYOYv9R4etyhVROnws0dcZsyg5ZWmrFaDAzaxZfSAwTWYYGgPHPE5
+    pZ-JEXmlw2moCxhUtc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejfedgvdeitdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenogfuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughr
+    pefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhnugcuue
+    gvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrhhn
+    peehffetueelhefhleeghfejjeduuddtueetfffgleeffeeuiefhhfdtkeduffffueenuc
+    ffohhmrghinhepphgrshhtvggsihhnrdgtohhmpdhgohhoghhlvgdrtghomhenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnh
+    gusgdruggvpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepjhgrnhhnhhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepshhhvghnhhgrnh
+    esghhoohhglhgvrdgtohhmpdhrtghpthhtohepgihurhesghhoohhglhgvrdgtohhmpdhr
+    tghpthhtoheprghruggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvvghssehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnrg
+    hthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhgvghhrvghsshhiohhnshes
+    lhhishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:VFWRZ_tz4gBDU-XCVB5Uc_8rEd3nXwihjlqi2cy8tKwzh-4u7C8kbA>
+    <xmx:VFWRZwZQ5q5_v5o21S04G2xYc_ev5Rxsv_pAo5TJJBSa7fQjGPtFdQ>
+    <xmx:VFWRZ-Y6wZnJdBNC7_4J2CSPx1174-FYmzbc-gtz0qwIFFN-YJHFjg>
+    <xmx:VFWRZ0BUH1MQpNUxN3vSPVasVDkmTbUfq16sv4_Pqhp6dmhaILrOvw>
+    <xmx:VFWRZwD3MsXxDoO6e9xY3rSmF7bLk1RnzI_EraageD5CYhvylbYgMA9q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 102072220072; Wed, 22 Jan 2025 15:30:11 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Date: Wed, 22 Jan 2025 21:29:51 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Rong Xu" <xur@google.com>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
+ "Masahiro Yamada" <masahiroy@kernel.org>, linux-kernel@vger.kernel.org,
+ regressions@lists.linux.dev, "Han Shen" <shenhan@google.com>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Jann Horn" <jannh@google.com>, "Ard Biesheuvel" <ardb@kernel.org>,
+ Linux-Arch <linux-arch@vger.kernel.org>
+Message-Id: <04db1d00-8801-4d29-bed9-54b2cc39e4fc@app.fastmail.com>
+In-Reply-To: 
+ <CAF1bQ=SEybO_+UMDqspA+9OecYqJhE56D-zJyxEUiPcj+Af_fA@mail.gmail.com>
+References: <20250120212839.1675696-1-arnd@kernel.org>
+ <CAF1bQ=QFxE8AvnpOeSjSeL1buxDDACKVNufLjw99cQir0pyS_Q@mail.gmail.com>
+ <c5855908-df1f-46be-a8cf-aba066b52585@app.fastmail.com>
+ <CAF1bQ=SEybO_+UMDqspA+9OecYqJhE56D-zJyxEUiPcj+Af_fA@mail.gmail.com>
+Subject: Re: [PATCH] [RFC, DO NOT APPLY] vmlinux.lds: revert link speed regression
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-"Petr Pavlu" <petr.pavlu@suse.com> writes:
-
-> On 1/9/25 11:54, Andreas Hindborg wrote:
->> This patch includes changes required for Rust kernel modules to utilize
->> module parameters. This code implements read only support for integer
->> types without `sysfs` support.
+On Wed, Jan 22, 2025, at 19:47, Rong Xu wrote:
+> On Tue, Jan 21, 2025 at 1:18=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
+wrote:
 >>
-
-[cut]
-
->> +
->> +        // SAFETY: `old_value` is valid for writes, as we have exclusive
->> +        // access. `old_value` is pointing to an initialized static, an
+>> On Tue, Jan 21, 2025, at 18:45, Rong Xu wrote:
+>> > On Mon, Jan 20, 2025 at 1:29=E2=80=AFPM Arnd Bergmann <arnd@kernel.=
+org> wrote:
+>> >
+>> > Yes. The order could be conditional. As a matter of fact, the first
+>> > version was conditional.
+>> > I changed it based on the reviewer comments to reduce conditions for
+>> > more maintainable code.
+>> > I would like to work from the ld.bfd side to see if we can fix the =
+problem.
+>>
+>> Makes sense. At least once we understand what makes the linker so slow
+>> and fix future versions, it should also be possible to come up with
+>> a more effective workaround for the existing linkers that suffer from=
+ it.
 >
-> Typo: an -> and
+> @Arnd: Can you send me the instructions to reproduce this regression?
 
-Thanks.
+My report had linked to the config that I saw originally:
 
-[cut]
+>> > Link: https://pastebin.com/raw/sWpbkapL (config)
 
->> +
->> +    fn emit_params(&mut self, info: &ModuleInfo) {
->> +        let Some(params) = &info.params else {
->> +            return;
->> +        };
->> +
->> +        for param in params {
->> +            let ops = param_ops_path(&param.ptype);
->> +
->> +            // Note: The spelling of these fields is dictated by the user space
->> +            // tool `modinfo`.
->> +            self.emit_param("parmtype", &param.name, &param.ptype);
->> +            self.emit_param("parm", &param.name, &param.description);
->> +
->> +            write!(
->> +                self.param_buffer,
->> +                "
->> +                    pub(crate) static {param_name}:
->> +                        ::kernel::module_param::ModuleParamAccess<{param_type}> =
->> +                            ::kernel::module_param::ModuleParamAccess::new({param_default});
->> +
->> +                    #[link_section = \"__param\"]
->> +                    #[used]
->> +                    static __{module_name}_{param_name}_struct:
->> +                        ::kernel::module_param::RacyKernelParam =
->> +                        ::kernel::module_param::RacyKernelParam(::kernel::bindings::kernel_param {{
->> +                            name: if cfg!(MODULE) {{
->> +                                c\"{module_name}.{param_name}\"
->> +                            }} else {{
->> +                                c\"{param_name}\"
->> +                            }}.as_ptr(),
->
-> This should be the other way around? Running
-> 'insmod rust_minimal.ko test_parameter=2' reports for me that the
-> parameter is unknown while specifying 'rust_minimal.test_parameter=2'
-> works. The prefix should be used only if the module is built-in so the
-> parameter can be distinguished on the kernel command line.
+This is for a x86_64 build, and I used 'make savedefconfig' to
+simplify it, so you have to copy it to arch/x86/configs/test_defconfig
+and run 'make test_defconfig' to get the full file back.
 
-Thanks for testing! This actually gave me quite a headache when I was
-using the series elsewhere. I forgot to resend the series with the fix,
-sorry.
+I have also uploaded a reproducer to
+https://drive.google.com/file/d/14xWdD_S51XBgV6kOajLvdtOef7tQTZQq/view?u=
+sp=3Dsharing
+but it's fairly large. The reproducer is from ld.lld --reproduce=3D, but
+you can simply unpack it and do
 
+x86_64-linux-gnu-ld.bfd  -m elf_x86_64 -z noexecstack --emit-relocs --di=
+scard-none -z max-page-size=3D0x200000 --gc-sections --build-id=3Dsha1 -=
+-orphan-handling warn --script home/arnd/arm-soc/build/x86/0xA8B23FFD_de=
+fconfig/arch/x86/kernel/vmlinux.lds --strip-debug -o .tmp_vmlinux1 --who=
+le-archive home/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig/vmlinux.a ho=
+me/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig/init/version-timestamp.o =
+--no-whole-archive --start-group home/arnd/arm-soc/build/x86/0xA8B23FFD_=
+defconfig/lib/lib.a home/arnd/arm-soc/build/x86/0xA8B23FFD_defconfig/arc=
+h/x86/lib/lib.a --end-group home/arnd/arm-soc/build/x86/0xA8B23FFD_defco=
+nfig/.tmp_vmlinux0.kallsyms.o
 
-Best regards,
-Andreas Hindborg
-
-
-
+    Arnd
 
