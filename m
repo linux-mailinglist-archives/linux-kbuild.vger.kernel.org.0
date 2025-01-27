@@ -1,45 +1,46 @@
-Return-Path: <linux-kbuild+bounces-5557-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5558-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3770CA1DC86
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jan 2025 20:11:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 954BAA1DC81
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jan 2025 20:10:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0192B7A491E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jan 2025 19:10:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF8563A5528
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jan 2025 19:10:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8638A192D83;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9DE192D9A;
 	Mon, 27 Jan 2025 19:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ck9Gf7/o"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oRmVuUEl"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555C815B10D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5561119006B;
 	Mon, 27 Jan 2025 19:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738005035; cv=none; b=rZr0SrmOBua7wUTRvQL3cPncuPDZIpd1iDuqAcaIx6K/zgHdp0NZM9a9uxtt15p7t3HS+rrsogt9N5J+BPcusF3iCbUEDhWg8Ikkyxh2TdjbAuREKBG8MGvLc7HXg8SrFz+p4RmoFP+U8oQemBKbfnhqS9xxuJqRP2eHWSm/vQo=
+	t=1738005035; cv=none; b=ZCQ8r0Ks8QfkJNDlZ3KwWTvNfAorNvyd3wEPnc3ddKZOUDM5FpqT/S2FsiIM9zl8LEGr8FOO7FeG6+TEtSR8u87r6op/7foczhq3l5oozxWQsZpUdgm2wQLfEIZBPflfZcW7f1JaYdMCppe5Ct9Jr8XHM2yaeyFTMNgOFzoTB10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738005035; c=relaxed/simple;
-	bh=AqSUk5sUf3jbxdrXZ2fTfevBbBjNAnQmRaLdwuch76A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BndIfg8VTrPJaogLtGMFoHLaEqmkn3nemm1DnJ8m1gBKj+ZNfa9TF3xG4WKIvFCl1yvr5M/ZWYhccA+jAOdgTy7/WME6V+Ir28bJQZhI1UKlYiBMOvmlMEgsDvQVsMBHteMZiBkeSlImgoBsm31cbu/4VAL6WLlSDa1ZXykglaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ck9Gf7/o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB0CEC4CEE4;
+	bh=JWdR82V9fln+3rkwIhGCUgHg8nrGmCKkFmeBeaEjtG0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=sEY2Ptt17gnhSTdm5AWdOABXE2DLOrxkYhAhOvH0C6Aw43PFD133Kf6OOfEb4P0gsnAHpP5sYN2k33s3E4BGuuT9Am61pVYGEFFTpDxmWtY9Wfbe3HlrycUk2Le4+wTfEDM4lCVLY6gV3m/yrtuA8VEIiHRicLiCe5PTFLBYLJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oRmVuUEl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0E02C4CEE0;
 	Mon, 27 Jan 2025 19:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1738005034;
-	bh=AqSUk5sUf3jbxdrXZ2fTfevBbBjNAnQmRaLdwuch76A=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Ck9Gf7/oi5DRU/2YkxwuvmIX09dDv6wKbPqBH8keKHZzt6pJ10wdcpIvZmIRkaSRX
-	 VO7/yevJ/KsXa+g5F7AZIh18HnaZyHDuV1/TbtaFmbrWlhkaQ2M9Fy/fUVYCDeFQIC
-	 AP7g8rcY257yg2SUd+IH+S5Jl3Z0Mp34blhyWb7EN/QriBj4J+w9RuNByAMaHWJqVL
-	 GP7s8LUeliJR51DytYr8dn5D18Je9A+X5I2SwL1HHkspen+ZbRpFf6OYGsK4fwyBMl
-	 Jj5zRd9gBNBrjEEJ026xwbBwc4qUv/lZm50gCHRAVkH4Ky5suHhG2BYm1P8x/OQwTp
-	 0Ve5Aq/YfZNhg==
+	bh=JWdR82V9fln+3rkwIhGCUgHg8nrGmCKkFmeBeaEjtG0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oRmVuUEl/UkLlXiGrP713/AyeBI4AFrIy3XMNhiQ3Lf26n83HqVbV5t2CpC03NmK6
+	 E3+v7g0I+3SILN6CSCtyeQeLBnx/RCeRdXic56KXqG5o1QE/nYJxKVCoUWWW3Zx2OV
+	 Diw7/G1JW1oB1tjsTJnWNvq15gicL8Y30v4+qmDAQW4JqrBZYMQT+1fQYvmrhlMQ+4
+	 4TbbGz3DzfU+C3amYpM8JxGvJXD4uXL02drv5RA9LToaDid9S/FNHHlyjH1tBdb8sg
+	 c44qZgUCq+Lcqk+O9jXBkihCkjmqWMVYYjjE4bLqm5Ys5dZlfP8e+Guvuqb1cVW5Xz
+	 OyjFAqNSdT8gw==
 From: Kees Cook <kees@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Kees Cook <kees@kernel.org>,
@@ -54,41 +55,58 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-kbuild@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 0/3] kbuild: Use -fzero-init-padding-bits=all
-Date: Mon, 27 Jan 2025 11:10:25 -0800
-Message-Id: <20250127190636.it.745-kees@kernel.org>
+Subject: [PATCH v2 1/3] stackinit: Add old-style zero-init syntax to struct tests
+Date: Mon, 27 Jan 2025 11:10:26 -0800
+Message-Id: <20250127191031.245214-1-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250127190636.it.745-kees@kernel.org>
+References: <20250127190636.it.745-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=701; i=kees@kernel.org; h=from:subject:message-id; bh=AqSUk5sUf3jbxdrXZ2fTfevBbBjNAnQmRaLdwuch76A=; b=owGbwMvMwCVmps19z/KJym7G02pJDOnTbynFbW2tyQ4OVJK3V34v6xt/cSX/pmnfVrVMMkpab ZCcZ7m3o5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCLmvQz/dKddT929/8UNj1uv w8+oPu7xrvjyQLy/7FU7h9n8H75erowMmz4ryP30+vnyArtdzRmhd7Mfvo6p0ujmymoX+l85efJ dbgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1490; i=kees@kernel.org; h=from:subject; bh=JWdR82V9fln+3rkwIhGCUgHg8nrGmCKkFmeBeaEjtG0=; b=owGbwMvMwCVmps19z/KJym7G02pJDOnTbyk5G61NmH1vwssbZ6L/HF1zbf7Jx8zuq7lTu1h2R UXMKS362lHKwiDGxSArpsgSZOce5+Lxtj3cfa4izBxWJpAhDFycAjCRurOMDJNC7kSaLFqw70ZW wWWuUukoLrO/C86H3F0xc6fr2+sPr85hZPhYLpr851B+h9p51bDMD3zSJ37+mrj/0qmJvcp8+Vt 32zECAA==
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The deprecated way to do a full zero init of a structure is with "= { 0 }",
+but we weren't testing this style. Add it.
 
-This fixes the union initialization regression introduced by GCC 15,
-and improves explicit padding initialization for structs.
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+ lib/stackinit_kunit.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I can take this via the hardening tree if that's easiest.
-
--Kees
-
- v2: Add updated stackinit KUnit tests, improve change log, add Reviewed-By
- v1: https://lore.kernel.org/lkml/20250121003646.work.168-kees@kernel.org/
-
-Kees Cook (3):
-  stackinit: Add old-style zero-init syntax to struct tests
-  stackinit: Add union initialization to selftests
-  kbuild: Use -fzero-init-padding-bits=all
-
- lib/stackinit_kunit.c      | 106 +++++++++++++++++++++++++++++++++++++
- scripts/Makefile.extrawarn |   3 ++
- 2 files changed, 109 insertions(+)
-
+diff --git a/lib/stackinit_kunit.c b/lib/stackinit_kunit.c
+index c40818ec9c18..7cc9af181e89 100644
+--- a/lib/stackinit_kunit.c
++++ b/lib/stackinit_kunit.c
+@@ -101,6 +101,7 @@ static bool stackinit_range_contains(char *haystack_start, size_t haystack_size,
+ 
+ #define INIT_STRUCT_none(var_type)	/**/
+ #define INIT_STRUCT_zero(var_type)	= { }
++#define INIT_STRUCT_old_zero(var_type)	= { 0 }
+ 
+ 
+ #define __static_partial		{ .two = 0, }
+@@ -346,6 +347,7 @@ struct test_user {
+ /* These should be fully initialized all the time! */
+ DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+ DEFINE_STRUCT_TESTS(zero, ALWAYS_PASS);
++DEFINE_STRUCT_TESTS(old_zero, ALWAYS_PASS);
+ /* Struct initializers: padding may be left uninitialized. */
+ DEFINE_STRUCT_INITIALIZER_TESTS(static, STRONG_PASS);
+ DEFINE_STRUCT_INITIALIZER_TESTS(dynamic, STRONG_PASS);
+@@ -440,6 +442,7 @@ static struct kunit_case stackinit_test_cases[] = {
+ 	/* These are explicitly initialized and should always pass. */
+ 	KUNIT_test_scalars(zero),
+ 	KUNIT_test_structs(zero),
++	KUNIT_test_structs(old_zero),
+ 	/* Padding here appears to be accidentally always initialized? */
+ 	KUNIT_test_structs(dynamic_partial),
+ 	KUNIT_test_structs(assigned_dynamic_partial),
 -- 
 2.34.1
 
