@@ -1,178 +1,223 @@
-Return-Path: <linux-kbuild+bounces-5563-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5564-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578D9A20525
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jan 2025 08:47:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42205A20DA8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jan 2025 16:53:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94857166383
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jan 2025 07:47:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6631B18804AB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jan 2025 15:53:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A42DA1A2C27;
-	Tue, 28 Jan 2025 07:46:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BC441CF5E2;
+	Tue, 28 Jan 2025 15:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="ruLtgPEn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from YT3PR01CU008.outbound.protection.outlook.com (mail-canadacentralazon11020119.outbound.protection.outlook.com [52.101.189.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3581F2AD2D;
-	Tue, 28 Jan 2025 07:46:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738050415; cv=none; b=dl3e/pHnaXnSrjF8QzPbMOnzlPizCWe4V2p8XOH4quGtou1F+oZcoM50qLURJIY/JQRg7+LmHhekRyGKRTfWei5XQUwokFAn/ZL9JdtgO11ufxx86jv0UUnV+O3RDPcrjFXePbR8a0+BkA7lxzgQpiAmkSzPKK7c4nzbwcgxf14=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738050415; c=relaxed/simple;
-	bh=HoFnfKNIxlQFIpRI6i6Nga0bkUmYF+rmpL7IrlCQpfE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fQjziK6SXFHT54L+1I4ekPQEdmkNzR19IItJncjX64B1PtJxkazcm0rr7vORYzM4HkYkmZKx8cfWt7CA83ENHjBgHf502HJEBTgPFverJExn/pljBnDV+fpaj/tZ5A+sS1vKD1GgSvQmuVRTYQWb3yxG+uCeYdW1h2SDOLUoO64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-51619b06a1cso3203862e0c.3;
-        Mon, 27 Jan 2025 23:46:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738050412; x=1738655212;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sgNHrZqOh5I+Nq0sLYkdt+xY+8gHWM07xUx8EPjp/r4=;
-        b=Zh2Ey1KV4qa8lN35lJYQh9WW+T20ffuP+RwmUSFfni1Rtu/o8c7CE7cNvPBLT5eb5a
-         mhNLv+VD0JuDIq/hqLwtI5JiRLbFpGq5LkU/I4ZYdORvsjS76F5YTV6XN6HfEk/Wiy2P
-         n2MGL5En0QAMD3gQce0qG/MuKvezqp2P6qaIHiraovu5nS7JF4gyfEEFqR9zlroq7VlU
-         xKyZf85KFLuG5P69DpGgqS/SUfSDk9H9S3eg92ACuEJI5+C+/qE19i+cHdbq7xTkW0rg
-         0udwoza+nTK1mLpcilBrk6OqWRZ9sfNDe/NHW0lLUIG2X4qCxedxMLyPSZTEjO8o/U8t
-         o2Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4iExdH2xbAtrLVvll0apRappTeYTAjUdb32RbAVTgMJN0p3t8lVinKEeTnYHDekwuU7aTOSiiKFxGdigN@vger.kernel.org, AJvYcCWBdXqmj+BAAM0uGNdmZMnQrdPn6+RjSGy+V2LKAaf1fY29WNvXPxFkkTPwjM5LC+rtnxVx6nPerOsQ0tdK@vger.kernel.org, AJvYcCXv0ENenWcgAzeNftipbulTrkkJAVOStZ/LHn857xJErV8LP8wPfXuX8i5mX4jN3nsvyHSBi1jDfkWNNtIx3Qw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFjc/qisYufWs7DOZvdHhF0mmDui/eX9XzGnSnFWWpRUrbkOez
-	CGXEjh2WlUz/J4i3rEVwMtdyzOhgVr9aJ/YT2rldqSG3oNF1+ilskLy4o1hv8Tk=
-X-Gm-Gg: ASbGncsZU0goIdjFWZ5rYPWRVGq0ayCIhn94YOuz+chaYoJV9uzlrIjhTAMaKYUiDv8
-	I6aQMHfucqCNOUPi5ruHm3tjpYaxiUEWCM6hUc4of7v3M7rLJz5UJXxF7hvmryyLIqsBSzeQoo0
-	kPB6lh2LeV36rMmbr8rCotjJJKEy2/kzid3DUCgXZuYBua5dPG0bL8KejcUsEfBilPHbsunqWOA
-	vH+lOd4IThdjDFLj44MphpG5Y6ZFkNuW87eWa4mN7a8q88wuQRRqy/wSClGyrFZsN0F7I8/0/Ql
-	lkf+xE7+dImfSj8zYdA1JrJFkxdZPiuZhGt2I41jj8ZerJyU5d8MEw==
-X-Google-Smtp-Source: AGHT+IHoUv7vmI2nYtiYctgecoOHTN3dDCuOvSldZdFZ/HDVtrOeWvGk4AAeXk2B14QJ3lgKNDxs6Q==
-X-Received: by 2002:a05:6122:3c90:b0:516:1ab2:9955 with SMTP id 71dfb90a1353d-51d5b2fd549mr38724027e0c.6.1738050411701;
-        Mon, 27 Jan 2025 23:46:51 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51e4ebea379sm1678870e0c.42.2025.01.27.23.46.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2025 23:46:51 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-85bad7be09dso3064327241.0;
-        Mon, 27 Jan 2025 23:46:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVq0P68CDA462QJj/ppD44PUOGTdR2hxOlN5xjPklMct2G9CrnBFpKvFnFtcNnEvKsRYetqfcFM4CeakJF7IyY=@vger.kernel.org, AJvYcCVsNVWDs+JBVpOy3Qjwl0WmvGjdt3mnVIE2YZfxQbqGplXOUcaU2pSz5us2zcL+UUvsG5T/leqtqNvlQWon@vger.kernel.org, AJvYcCWaqKDUh+AJoVVvykdizIdo3G6EnkNgWLZCzXF4rkVKr7wqIgfsAba/g72SxLEPiGcLnbaapebpNoP78f0d@vger.kernel.org
-X-Received: by 2002:a05:6102:f97:b0:4b4:27dc:ffe3 with SMTP id
- ada2fe7eead31-4b69099e6f9mr42788280137.0.1738050411311; Mon, 27 Jan 2025
- 23:46:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005431D7E30;
+	Tue, 28 Jan 2025 15:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.189.119
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738079628; cv=fail; b=bNOSmGYciaYHT/QQ0t9FqwADHBtWP12KKzdtY00ocxSz4Ln46LximimwyotCr/AwSBV1x6K0E7Icxl6ZAmYeSgcn/h0//CNjQpofLxSrMwoQgfpu4VLLOr2+pxbTn0UYWOxuYMaJQPKwHy7z8qS3evLrOeBTw7GxpqcV8jOKYr4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738079628; c=relaxed/simple;
+	bh=laHPRtfTuaf6mZIohpUvQawZODQEqPXS5brJgjIm4a8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=JCKUALOiXJPbCh/lOy1C6gjfBCWzqOFjoHvDL+OZAGyEi6vb4dVNUkYjQEcRaXWIRJ/nPT/E8PuzwA7V29BW1o1/nPhRR9tBdymQ/ZMNNm230bwmjY8agEPrQ2q8ovwWFDU31J7G0rx6g+9ZECoyWaJVP9g7G7bX5jgBgoE5WsY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=ruLtgPEn; arc=fail smtp.client-ip=52.101.189.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XCYUKtrcynAmA3WUBazTw/Zd4U8kyD+q0yXrl0yHCiSAOgfxi2Cw74jD7O1ytJdteEAZ+ozt897gNrhUHum1b2adBfXjJD7+ny/yTmFKPsLLH0/u/0asp+eLXROjeujkh1GHTQRLYLnKz6UHP3YP706LBFKyoVyWzmvVQTKbxhb51E44VjMr3hAZ+dHXCJFiHl1iLIl5q77eYtsspvdZ6JwO8aOtglteaiXZf1S0bOdXSew8Wv/F0np8Fl9ctj7uYkUTnBE/01ftWU3Ucp55CNJeTh3wkgfI2C0KU/zRj+GrGLC7NQUxwpAxbjwnHii0uIC7zpQ9XEvaUqejVMPgRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i95QI9uxrJ1jG2qmxLGjkHcrycJe+ehHqd//8bsfQmU=;
+ b=l0ECEMlDEFped+rMmYL5BAz3PXuHlBHh8UNXfr6q8FbQeMeuPpVGxw8wK827kE7uppmDIvEK30sLHhgKVfSJF394EzuRDN48ogKaOWSnaOfqzemFn9WpCwkXirBII/aIvu0uD8pqZAsGt6FoyV5aAn01pJDQ4zGO8uS9rRW6WVB8w7j4c322HCyM/ffc1VJNO+WS1dakwiI/Aufun2AM80vkZkdgWPCHVjSVptHSumxR9IlBlaFvU7XaCXyIqLK31UOJsXUARuhjBRFzMxE8KSI9BbG3xECuo2nUc1a2gc4wIMEgapJFnuGnx44itIMoIpdbxb6ZM9smJf0aG5PFaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i95QI9uxrJ1jG2qmxLGjkHcrycJe+ehHqd//8bsfQmU=;
+ b=ruLtgPEnNgIj4DUj3S++2/5zhnPTAvhGzJGdhEsffr4BXfUc988h6RFv+4bFZp7RF+DNvhdE+s+5RLENveLjLy/UZqP6wzIPedyN9n/gWRdnnZWZUe+2hJLjDVB3VqHuGaYjgCSgS2dL0R2wSuv2R59aXRUimjIVyB7ZDP/Wvct6VAKXggdO5O5AbK4mz49sySBQ2/gAkuKOC47PAJnui17O4+V74mpxU4NwxcHRxl7EcC57O1M5nBPuShTbD8t5noH0LM1xN+zgSWC7pBSV3driumIdf6xDhh7IyKCGXV26eKjrEf3ciaTOjbn13ixJM+iMYzueFpPrrWLsViMgnQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT4PR01MB10341.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:e8::14)
+ by YT3PR01MB5779.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:67::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.17; Tue, 28 Jan
+ 2025 15:53:44 +0000
+Received: from YT4PR01MB10341.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::e27c:c1e2:e6e:9256]) by YT4PR01MB10341.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::e27c:c1e2:e6e:9256%6]) with mapi id 15.20.8377.021; Tue, 28 Jan 2025
+ 15:53:44 +0000
+Message-ID: <d0eb6abf-c0f2-4726-92ea-7d007813936d@efficios.com>
+Date: Tue, 28 Jan 2025 10:53:42 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kbuild: Add missing $(objtree) prefix to powerpc
+ crtsavres.o artifact
+To: Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Naveen N Rao <naveen@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20250127-buildfix-extmod-powerpc-v1-1-450012b16263@efficios.com>
+Content-Language: en-US
+From: Kienan Stewart <kstewart@efficios.com>
+In-Reply-To: <20250127-buildfix-extmod-powerpc-v1-1-450012b16263@efficios.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0309.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6c::13) To YT4PR01MB10341.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:e8::14)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250127190636.it.745-kees@kernel.org> <20250127191031.245214-2-kees@kernel.org>
-In-Reply-To: <20250127191031.245214-2-kees@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 Jan 2025 08:46:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWvcKOc6v5o3-9-SqP_4oh5-GZQjZZb=-krhY=mVRED_Q@mail.gmail.com>
-X-Gm-Features: AWEUYZlRJyqtu46GFLPmK_2UxNTy_ZZ3I5OahfBQNH_UNqTJSeeHUl0QUknH2n0
-Message-ID: <CAMuHMdWvcKOc6v5o3-9-SqP_4oh5-GZQjZZb=-krhY=mVRED_Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] stackinit: Add union initialization to selftests
-To: Kees Cook <kees@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jakub Jelinek <jakub@redhat.com>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT4PR01MB10341:EE_|YT3PR01MB5779:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51569954-23f0-4f87-a47a-08dd3fb3f1c7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ODVLMXE3SFBPY1JTREtOMEU1cEpnQWZhK01aUVdTeVB2WW8xRk1meTgzMzAy?=
+ =?utf-8?B?WG9CSGsvaldVeUUwQmluandMU2Z5Uy9nUVJnYlpFeXVMa01aZEd1dHlIaFFu?=
+ =?utf-8?B?SjRuMDNidUVMd1lsdkdtdW1UVWFoR29ObW41VWl6dTlkOFJ0Q3YzL3BacE5Z?=
+ =?utf-8?B?VzlqelVxbis0Uzd5azIvK2dGVGdPeTM3Qm0wMlJMdEZiY1FCc3plSzBwbjBO?=
+ =?utf-8?B?aGlMZkc5NHVzbTRPR3FPSU9VNXRSNDhmLy83ZHlCZnVVb3ZkYjV1TVV6cmov?=
+ =?utf-8?B?VmRFWWRYK3ZVTlR0RzJIWGdINzVIcU96VEUrZUN2Qmc3eEhjWXJ2SXNHRHlE?=
+ =?utf-8?B?dnE1UFR1V2RacHh6TG9ObkpvZGNDMlpsN3FrNENXTzZ5aXQ1MGxzeUMvVW53?=
+ =?utf-8?B?RXRLNzBEcm9Zcnh3TnA4TXZCRXVOOVlIdDlJWWg5SkRVNVpaUG1zK3lFYjlZ?=
+ =?utf-8?B?ZGs1djExWWh1RXZFa3lCN1BlaXdVbkdhVXpZUHRBa2UzVnRzOGhUckxJQlY4?=
+ =?utf-8?B?NEVjby95SEZ6c2xJZ1dUVVdRSzdpcjNTS2ZjbzdjMVBWeVhzQmFiL2xKL0Zh?=
+ =?utf-8?B?Y09KaDFKd2ZyWnJ2TmJBSHhTekJTd3l0aXExQmN6L1JBKzZvMXRyWFVzVVdP?=
+ =?utf-8?B?K3FEanJ0Tm9NN0ZBNDJzRDRwM25ReFZWdUpaQ0hWUnFQREMrTC9rY0g5dEJo?=
+ =?utf-8?B?LzJDS1BsdTNIN3M5Sm43MHMxYUtHTktrLy96MzMvVk5RSGcyUUJlTDk0aXkz?=
+ =?utf-8?B?WjdNMjc2bGFPQ1krQnNPcUpoZUlXR2FNU2VCTHJTUjBtQlF1OEFObE5kaWJV?=
+ =?utf-8?B?QTZVZE9jRnhjbzE3RFpiVDR3M0ovbWlWOXpjc2lWa0t1QkZaMlVPYTNqR0FD?=
+ =?utf-8?B?eWE4a1c5aDBWNWpWR2tIbm9XVy85YnlzZXVkdDc0WkltQllVZTE0NkZXZDJE?=
+ =?utf-8?B?TWcrY3NRYnJqUWVvcW4rUXdJN1ZoOU1nYldrcUlIZERxenJTc0JYejd4dFJ3?=
+ =?utf-8?B?ZWRCc1dLR3hUaG9ReWxwOWxVNThSOGpuWVZkamg2aHlWNDcrUk5Edk85YVBs?=
+ =?utf-8?B?OHRtdlhEbjVTM21UcU1qZDdwK1ViSCttM1RJYld6UXNFZ0U5VEdMV01vY0ZH?=
+ =?utf-8?B?VThMaEJOODBRSzlPRUJaWDA5M2c0TzFWSWJVcCsxVUkrZjNOYUdWTzhYa3Vn?=
+ =?utf-8?B?cnpYOGpiWml1ZktFYXI5SnFqNXYrV01iRWlHTDBlcDJQV1FnVFZHQytPQ3hH?=
+ =?utf-8?B?UWxQelRZMWhSNHRCcWlKV3NicEtFdjZ3N3krSENQS3FXTU54anJ0NzZkdE42?=
+ =?utf-8?B?Tm9tNVVyK0NVNFVqb0RMdE1OYkRXTC83a1V4MUNpWlJRSEUrZHBBbC91Umpq?=
+ =?utf-8?B?US9ybTN4WTJMZDlaRlg2MHRSeGtiK3V4aEE0VXcwL0JIbTY3NStVQkV5cTRQ?=
+ =?utf-8?B?RDhmMDEwVmY3RFIwdFRoTzhHbU9wdFJjVUNRbU16THViRmJPQm9oWjgyZzlW?=
+ =?utf-8?B?a2dYYjFiZVRYRkhsVWtCdW9uOXU2cWxJWTEzSE16cGxWQkxBL2hEWTRhMi9L?=
+ =?utf-8?B?Z2RFQU1nbWlNT2l2MnkyY0NPVVVhUUhtbGZBSERqOWhUalMxVUdtNU1hT2xz?=
+ =?utf-8?B?dk1EN2JlSGg5UXhIVDV6d051Q0VsK2NrMU1FaHFBZDNXeFRHdzFCcDViRC9Q?=
+ =?utf-8?B?ODBVeVl1emdCT0oxMnhmRjFObUZWMDZzc0Ywb3BUNVdKbXgwQTJDcVN3Y1pC?=
+ =?utf-8?B?dGI1RFpnb2lGRmRoL091NXdGY1g5M3lNVTJERWlGMVVWUHB6MnduWDB6K2lo?=
+ =?utf-8?B?QWszNjVHTUhPVTZGek0zWnFObWg4TiswbUhveWkvNnp5WFhYV1BEd3NFY1Ny?=
+ =?utf-8?Q?7FGJSt9dCX7Ij?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT4PR01MB10341.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L3lJRlZzOXpjT1dBTndwZHFiaWZjOEM0d3YwZlc0VlZqMzB4MTIxQVNraDRW?=
+ =?utf-8?B?L0lreHBJV1RKcVpjK2c5L09XL29IZWtCNFExZitUcHVNeDIzR0kwVGIxZFcx?=
+ =?utf-8?B?dzBCV3NGaGZEYWtTVW5xUEU0WjJFK05Db1ZCa0NMWm9YZ2p4OVVkcTZib05I?=
+ =?utf-8?B?YU44eFRia05ZeXlHMjh1WUNDNFozYU1wanNQYy9SK2pxOWx4bkY4UTdxYUlN?=
+ =?utf-8?B?QzlGOE9QbUNldXRTK21DZnViQkpZY1ZLcWRzMnV3S2ZVc2NTOEhCUXBaTlM1?=
+ =?utf-8?B?NnE0T0F5VzJqdHdhUVNSalNyTXlDMks0NEo5ZFNsVlgvQWVTaXc4TjhMdDBY?=
+ =?utf-8?B?bTNEeFBBblI1RWEvcWhSZDQvSVYxNWVTOWlMSmVMM0Z3S0FwVDg3NVc1NGlZ?=
+ =?utf-8?B?cDJYK1FKMlo5emlxNlJMUS9aNHBqWjVFOENWNFRhVC9jNjZOWlVGNG5WenE2?=
+ =?utf-8?B?K01HalVJSitSUEtQSFpzcVB4MVlPNVBkMHVvQ2NhNnZsMWZhN0tFbFMySmdj?=
+ =?utf-8?B?UndUdWpZTStBZFZRRmNTeUsvQU9OeXNuK1huOXZmak5SZG9Qc1RLcG84MlRU?=
+ =?utf-8?B?YlJnTktxSmlIMTZVdW5DSFhBMTVFUVMwTVFoY1IycGV3TEpsaitjSzYxUkZ5?=
+ =?utf-8?B?Tk04RlVzSC9pNWphVVZHZ2RlOFhuQk5tcWlLZ2ZVWmdCRTJxRzVzeEVYNUVG?=
+ =?utf-8?B?SkxTWmZiNVU2QytPbXFZZ2tqZzIrOC8wUm1ZNWFiYlYrOVVYeGpIdFdqTGFp?=
+ =?utf-8?B?Tm9yQzEwMVhtSEU0UDVQOVk1RnJoaHBmUGZ0dC9IeFNzTTRHbkxCVHlEUkhw?=
+ =?utf-8?B?VnJLclIva2dVRDFBYUFHYU56Y0xkK1BmRGc3bTE3TUJoSHpXK1Fqdldyc1dO?=
+ =?utf-8?B?a3pCaE1VdHZCUzBMckxBc2NnU00vMm5UcnR3cWJpM3U3QUhUV1o5cTJSRXp3?=
+ =?utf-8?B?VHEyWjNwNmRkMmNMcUQ3TjRicmlLVEJ6SXphVDVmMzhKNXZtZ0lxK0t0bklm?=
+ =?utf-8?B?aFZ3dWhQckYvNVBzRlArYUNOclFqTHZYaytCWmtGNFZUYWh5SlVrc0VJcE13?=
+ =?utf-8?B?aHlxU2ZPT2k2M1lCcUpGSGltanFqa2ZqNkcwRURUL3RPZmxUMWdJa2tCNEpE?=
+ =?utf-8?B?cHJPYStESEZtZDhQVnVVQ1kyS3NnRkVkb2RtSkJhZkZEN2hSa2FnZFo5NGJL?=
+ =?utf-8?B?VHdRb0xkbjR2SG9qRzVKajg5YSt5SHNUUVMrcmhxY0VSeGpOTUNPYURMb0pJ?=
+ =?utf-8?B?MmNnTkpwTjZOWUlwQ3RUUE9TTWZOc0dyMkNua2w4OW4xTFNlekwwUk9DWVMy?=
+ =?utf-8?B?emRzV083MjlLR3ZKQ0Y3TXE2TDc5NzRNbmpnL2UyMEtYakRLR2JQWGFNVyt1?=
+ =?utf-8?B?cEQzajl4Q0YvK2l1RDIra2hRVWhWZ0txVTlDMUxTUE5xNjBJZVpkakZvRm9l?=
+ =?utf-8?B?bEJPVFBSRy9ZekhPZ1pDUTdXVWkrcUNVdFpEakhGWVJSWmNiaHFFdy9kMVhF?=
+ =?utf-8?B?MEJTYjNBcURDK29Xajg0VmtEdExpWnZLRjBBNU0rOGdwWkVSamRmc0NaY2hM?=
+ =?utf-8?B?QjMyeUxNdENMc1JEbVpGdXB4QUNaZmMwR3lLRUxzQU1IbEFuM1M5djBPSGgw?=
+ =?utf-8?B?d2FleVVFRDBkVk5QaC9xdm1MWVBpQ0dQVytTY0diWGVZSVJqeVpGN2h6RHBT?=
+ =?utf-8?B?TjVzTEFQNGVtMys0YlE4WmFqRDNveVlHQW9zakZHVVVxSlltMmdoQjRhVldP?=
+ =?utf-8?B?VFVyL2hlb0VFSmJLV21JYjdueCtObFRIT09aRGFEMnBodWRIbG1UMkN4M1Ra?=
+ =?utf-8?B?VXRNck0wbDRkeHlyNE1xdC91NjZhMjUxcW1NNnZ4eENOdTluTW5QVDBVbmhy?=
+ =?utf-8?B?YnpiMjF0NTVmWTVXS09JOWlLR1B3QXRTbHlCZkYwUktyRlY3cFp0T3RMOXZs?=
+ =?utf-8?B?dFJORE5lZVlkUHlPWlRCR08xc0xjbnBuWkg3UWpCbUFZaVVMUlV3bnVwODI5?=
+ =?utf-8?B?c0lockJYemwvSnNhaE1BeEs1L280bGhyREVlZ2xNTFhTdUVlRkVoeEhUUmVp?=
+ =?utf-8?B?aitkcEIxNTA3TDUvYURJckxyZkVTeHBzZW9meUlmZkE1V09QRitzUTM0ZXFK?=
+ =?utf-8?Q?fA4eiM6vGQQkL33ml7Qb/17Zq?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51569954-23f0-4f87-a47a-08dd3fb3f1c7
+X-MS-Exchange-CrossTenant-AuthSource: YT4PR01MB10341.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2025 15:53:44.5677
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5fepqQ4zJl+kevdCQp3Ifb4BLSUOczJCTUYZ28+/CMB5HHB2d/z2RZr/OIpQnMRZm7dTtyDOBx+eNqQeSUf1wQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB5779
 
-Hi Kees,
+Hi,
 
-On Mon, 27 Jan 2025 at 20:11, Kees Cook <kees@kernel.org> wrote:
-> The stack initialization selftests were checking scalars, strings,
-> and structs, but not unions. Add union tests (which are mostly identical
-> setup to structs). This catches the recent union initialization behavioral
-> changes seen in GCC 15. Before GCC 15, this new test passes:
->
->     ok 18 test_small_start_old_zero
->
-> With GCC 15, it fails:
->
->     not ok 18 test_small_start_old_zero
->
-> Specifically, a union with a larger member where a smaller member is
-> initialized with the older "= { 0 }" syntax:
->
-> union test_small_start {
->      char one:1;
->      char two;
->      short three;
->      unsigned long four;
->      struct big_struct {
->              unsigned long array[8];
->      } big;
-> };
->
-> This is a regression in compiler behavior that Linux has depended on.
-> GCC does not seem likely to fix it, instead suggesting that affected
-> projects start using -fzero-init-padding-bits=unions:
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=118403
->
-> Signed-off-by: Kees Cook <kees@kernel.org>
+I missed a few CCs, looping them in now. Apologies for the extra noise.
 
-Thanks for your patch!
+thanks,
+kienan
 
-> --- a/lib/stackinit_kunit.c
-> +++ b/lib/stackinit_kunit.c
+On 1/27/25 1:47 PM, Kienan Stewart wrote:
+> In the upstream commit 214c0eea43b2ea66bcd6467ea57e47ce8874191b
+> ("kbuild: add $(objtree)/ prefix to some in-kernel build artifacts")
+> artifacts required for building out-of-tree kernel modules had
+> $(objtree) prepended to them to prepare for building in other
+> directories.
+> 
+> When building external modules for powerpc,
+> arch/powerpc/lib/crtsavres.o is required for certain
+> configurations. This artifact is missing the prepended $(objtree).
+> 
+> External modules may work around this omission for v6.13 by setting MO=$KDIR.
+> 
+> Signed-off-by: Kienan Stewart <kstewart@efficios.com>
+> ---
+>   arch/powerpc/Makefile | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+> index f3804103c56ccfdb16289468397ccaea71bf721e..9933b98df69d7f7b9aaf33d36155cc61ab4460c7 100644
+> --- a/arch/powerpc/Makefile
+> +++ b/arch/powerpc/Makefile
+> @@ -58,7 +58,7 @@ ifeq ($(CONFIG_PPC64)$(CONFIG_LD_IS_BFD),yy)
+>   # There is a corresponding test in arch/powerpc/lib/Makefile
+>   KBUILD_LDFLAGS_MODULE += --save-restore-funcs
+>   else
+> -KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
+> +KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
+>   endif
+>   
+>   ifdef CONFIG_CPU_LITTLE_ENDIAN
+> 
+> ---
+> base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+> change-id: 20250127-buildfix-extmod-powerpc-a744e1331f83
+> 
+> Best regards,
 
-> @@ -295,6 +330,33 @@ struct test_user {
->         unsigned long four;
->  };
->
-> +/* No padding: all members are the same size. */
-> +union test_same_sizes {
-> +       unsigned long one;
-> +       unsigned long two;
-> +       unsigned long three;
-> +       unsigned long four;
-> +};
-> +
-> +/* Mismatched sizes, with one and two being small */
-> +union test_small_start {
-> +       char one:1;
-> +       char two;
-> +       short three;
-> +       unsigned long four;
-> +       struct big_struct {
-> +               unsigned long array[8];
-> +       } big;
-> +};
-> +
-> +/* Mismatched sizes, with one and two being small */
-
-three and four
-
-> +union test_small_end {
-> +       short one;
-> +       unsigned long two;
-> +       char three:1;
-> +       char four;
-> +};
-> +
->  #define ALWAYS_PASS    WANT_SUCCESS
->  #define ALWAYS_FAIL    XFAIL
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
