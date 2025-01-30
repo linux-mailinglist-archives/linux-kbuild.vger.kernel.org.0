@@ -1,118 +1,119 @@
-Return-Path: <linux-kbuild+bounces-5572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5573-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A56A231BA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 17:26:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 165D1A233C5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 19:30:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC4C11641C1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 16:25:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87E261636B1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 18:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B53C1EE00C;
-	Thu, 30 Jan 2025 16:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A33B1482E1;
+	Thu, 30 Jan 2025 18:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v8GyktGu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mezy6fJR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1936139B
-	for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 16:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E747DA82;
+	Thu, 30 Jan 2025 18:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738254354; cv=none; b=OLj109I+l17F69qCsnh0wWgepuXIiYadHSL5O1ZUxcwag40p1VwYttK8el7C3xdtvsbY8VixLMSYx+60xgqFt/vqfyKGb5y/545sh9Zc6tG4CpjzWG49EsjAj+d2I063qse+IpheJ/ljJyXFMkRuo2VXNwYeGVGBaTyWglJyy0U=
+	t=1738261848; cv=none; b=sdqKVmfqcrWNod3D62LCv+oL6NJOLJMa4cBYpIU9XwvF/z2D4JSQ82BpO4x5apXFCB50t+aTSY7ER+MflteWhUjbgTHxg155iZHtf4CZD2EdA7NuIPZe1SlwFcrZxR/JAwtnXwKkYXQYbZ8gNnq+UhSyWczwpuRKxt55vOTRF2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738254354; c=relaxed/simple;
-	bh=7MbILsjhKj2s5zvjXYe+wMzspmEdlv0lccPETbKTUcc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pYrT/p4WLt7sFtjNKp//54K17Z870lmGZje5PbqO2gydEK6NlSGqRHDeE1HMKs3RL7F77fFnNepfIAs8j0lX3QUfreaYl/0KwFCue+IRsTEAlHIu9MUct6/3EfpYN2v8Qfsb9xGvPMmQbPDxR7T37HjmWYgzFepzja16cor+gZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v8GyktGu; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5dbfc122b82so9946a12.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 08:25:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738254351; x=1738859151; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D1VbyvNf60Kf8EUF9uihS44Al/9bqOoO9TPYohytuLs=;
-        b=v8GyktGu3oIdtVizEDSzsTCiPf0rD2ziPEApSJVovnRL5RtWb2OQwpIrZcouqZgnDH
-         IPEkFDVFAo9T6RCr8wAmaTR6PKbpdNk+cpCuTNPE9k806yfnCLz6oIt9ewZupH5qYJtq
-         nGrxuOQByHILujq5FWguDCN6R4BLVUXPikBILiPhHRXkCfmI7pII8d8HXlfVfG1IwkyZ
-         vrwZk870Ad9xYvRWTe3fooLuB2QQM53k3Ho1KiiJAJdp0wdS+b5rW+G5GYm9NTkxg49A
-         UwHYsLNNHh7BeZFo+d0z9oD13E/dRZleFNrTd50ChC8bFEEUEKGeQjbuWkpqVJh4RYep
-         MWVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738254351; x=1738859151;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D1VbyvNf60Kf8EUF9uihS44Al/9bqOoO9TPYohytuLs=;
-        b=lPO8pnjEiqsxeeX69lO0XCRZCN4J7JYYVgKOQGEMK8m2ZtlbPWr8F2HmeE7YYQXdy8
-         oxMOJN93Ceq6kkcokEFk6p3rqvb760qm3Rb8ZiVe6ihzh5/Euo83FTK0dCpShYozzXhW
-         jDTM2TWL7KmTkSDUvu0tu+yOtoLGbLDSY/gDymGgDFiBVCooTSg7nvcUwzTMRoTgSALy
-         SPEkU1Cq2Txr6pPp1tZL9ULBMhpskvJQaev5NzDB2AgIrjoE5nRZP0n2ozFsKjXalSzu
-         BZOhDxqF9lXMFIXFtcJ1FelDxLZndy52NkDjjfc6A9YyPfwxhyrASYn68UE+iTBce/YD
-         gatA==
-X-Gm-Message-State: AOJu0YzSWbAk13V9bFKb6WC0etxD/0tZz+LQOShAZruoJouHoE541R+K
-	0NTeGgiUBCCzsUOaPN9ywF4D72QTXxH941E0lXNO+DQZCWsyxGISimSjKdJ1jY+TsCk/DY8ZGRQ
-	wKrO+d24T/eoOBUUuylmjlt+XES9J0M6pU+QK
-X-Gm-Gg: ASbGncs19CVSfNWzL8rlwW/5qhL15ttJho/plaWaLSO+Bby8iRlkGBPPo4ehxEHApZi
-	kCWPZlVTVgt5P2VZGuwqQEDhsXncrbDgDJ4owYff5LZIuVRWqRNyG2zovUwuRZlYvlnJIEA==
-X-Google-Smtp-Source: AGHT+IHhDr3WLmHS020qYiDGqruH/H5KWsGKCNm6bAmGyAHM/dAndCBO2vfKx9M5/upYX5fbRvFEKaH+41A2H/O8RSI=
-X-Received: by 2002:a50:cc94:0:b0:5db:e72d:b084 with SMTP id
- 4fb4d7f45d1cf-5dc7f8f2eb1mr6594a12.0.1738254350731; Thu, 30 Jan 2025 08:25:50
- -0800 (PST)
+	s=arc-20240116; t=1738261848; c=relaxed/simple;
+	bh=q3D8T2eL4a5/21hoDtjcTOhRF4z3jarLUATrczArHTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U9wf9ayq6XHGNNU6ZwfTc2EhptvhDLPoryoxO4HTwHYPYgZgSGWC93PtDdgBMs1i6H3hP/A6/eNsBQK3qu/lh0Xhunq+qeAYNZLo94nDG1GLk9PyVZ23QVJzE3ai1dzUO1l9dvohoT2ev1J9mtk8+UngOslhsEFaitd8GbDngEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mezy6fJR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA411C4CED2;
+	Thu, 30 Jan 2025 18:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738261847;
+	bh=q3D8T2eL4a5/21hoDtjcTOhRF4z3jarLUATrczArHTI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mezy6fJRewn/qZZrF6SD2ebE9IlzPHe3zqrpSmhD1mvKXNyhxKuPlf5VQalm3QP3j
+	 xgMcBO8drMkgcBKdZxm53G41u//c7353qbpbG99r9KqZKWfG4mQ8uMYzgHZ5/Ti1DA
+	 Pb79m9IckU3YCsj6fQhTxTyUTaFk+RoyAItSez+CYtqw0GpOm9dTNIQkk0WerM2dlY
+	 lGBqEbD9GUAoKSolmFx3nfhTVwZIMeSB2EQSpW2123eG0B/46KEvlIN2FJ1Bbz2O4O
+	 8rDDVChZ7NnLdifCIybaQBQEclZSn/2IF+wdUAZF0S4v//YzUHvb3K5LtDZPhlfe/C
+	 WWU3xYIwc06SA==
+Date: Thu, 30 Jan 2025 11:30:42 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] objtool: Add option to fail build on vmlinux
+ warnings
+Message-ID: <20250130183042.GB3394637@ax162>
+References: <20250113-objtool-strict-v3-0-8b51f94957fb@google.com>
+ <20250114001440.cagqlvjfvw6ghsj7@jpoimboe>
+ <CA+i-1C0MFQCLOah56wWQhPhtk4p0ynhxh48eTmQ0-0x+pB6fvw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <679b7c95.050a0220.d7c5a.0014.GAE@google.com>
-In-Reply-To: <679b7c95.050a0220.d7c5a.0014.GAE@google.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 30 Jan 2025 08:25:13 -0800
-X-Gm-Features: AWEUYZmrBV1U2WTS48Ggt1n7BFcW0T5BPP0zexNotres2EAXXsig32k122LDFns
-Message-ID: <CABCJKufpND1qvBhUMwpJ4OE7Umo9EuaNTLOi-GmAXFdXRqhoFQ@mail.gmail.com>
-Subject: Re: [syzbot] linux-next build error (19)
-To: syzbot <syzbot+62ba359e1dfec1473c57@syzkaller.appspotmail.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-next@vger.kernel.org, 
-	sfr@canb.auug.org.au, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+i-1C0MFQCLOah56wWQhPhtk4p0ynhxh48eTmQ0-0x+pB6fvw@mail.gmail.com>
 
-On Thu, Jan 30, 2025 at 5:20=E2=80=AFAM syzbot
-<syzbot+62ba359e1dfec1473c57@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    a13f6e0f405e Add linux-next specific files for 20250130
-> git tree:       linux-next
-> console output: https://syzkaller.appspot.com/x/log.txt?x=3D10221ddf98000=
-0
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D3445081dab637=
-16c
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3D62ba359e1dfec14=
-73c57
-> compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Deb=
-ian) 2.40
->
-> IMPORTANT: if you fix the issue, please add the following tag to the comm=
-it:
-> Reported-by: syzbot+62ba359e1dfec1473c57@syzkaller.appspotmail.com
->
-> scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: dwarf.h: No such=
- file or directory
+On Thu, Jan 30, 2025 at 04:55:39PM +0100, Brendan Jackman wrote:
+> On Tue, 14 Jan 2025 at 01:14, Josh Poimboeuf <jpoimboe@kernel.org> wrote:
+> > Thanks!  I'm putting it through bot testing now.
+> 
+> Hey Josh, how has it been going - could we merge the feature?
+> 
+> (Or, has it already been merged in some tree that doesn't go into linux-next?)
 
-gendwarfksyms depends on libdw, so on a Debian system, I assume
-libdw-dev would be required to build with CONFIG_GENDWARFKSYMS.
+It looks like it is in Josh's tree but that tree does not flow into
+-next; IIRC, they have to be merged into -tip to show up there.
 
-Sami
+https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git/log/?h=objtool/core
+
+For the record, this will be disruptive for clang users because a number
+of warnings have crept up in recent releases and this option will get
+enabled for allmodconfig. I have started going through them all but I am
+working at an unfortunate intersection between compiler/optimization
+internals, other flags such as sanitizers, and reconstructing control
+flow. Most of them are "falls through to the next function" or
+"unexpected end of section" warnings, which generally mean some
+undefined behavior has been encountered and clang has given up code
+generation. Figuring out what changed on the LLVM side requires a bisect
+then reporting it (if it is a legitimate compiler problem) requires a
+source file reduction. I did explore turning unreachable into a trap to
+fix several of those but I think that will need further objtool changes
+to cure the warnings that were reported:
+
+https://lore.kernel.org/all/?q=llvm-trap-unreachable
+
+I think Josh already mentioned it but exposing -Werror for objtool is a
+big committment. Any time the build breaks because of it (even due to
+external factors such as a compiler upgrade), there will be a need for
+triage and just saying "turn off CONFIG_OBJTOOL_WERROR" cannot always be
+the solution otherwise it loses its power. While it is nice leverage to
+keep things clean (and I feel like it has generally worked well for
+compilers with CONFIG_WERROR), it is disruptive and requires real labor
+to upkeep, which should be from the authors who introduce the warnings
+but they might need guidance or advice. I am regularly helping people
+with figuring out issues from the LLVM toolchain becuase they get a
+report that they have broken something but they do not use LLVM so they
+are unsure what to do or what it means. I am not saying this is all a
+bad idea but I want to make sure that this committment has been
+considered.
+
+If exposing this to the world feels too premature, maybe the flag could
+be added then have a make variable like OBJTOOL_FLAGS to allow a
+developer to pass it through if they wish?
+
+Cheers,
+Nathan
 
