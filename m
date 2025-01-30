@@ -1,105 +1,96 @@
-Return-Path: <linux-kbuild+bounces-5570-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5571-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D051A22D92
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 14:20:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8AE1A2313B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 16:55:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14D4B1680ED
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 13:20:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B28B73A6934
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 15:55:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10661E47C2;
-	Thu, 30 Jan 2025 13:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60E741E991C;
+	Thu, 30 Jan 2025 15:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ThgW348h"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426B11E3774
-	for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 13:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83981E98F3
+	for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 15:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738243223; cv=none; b=i/JpTlhmSyAkcNkwi0R/30+Fl8R7bS15CmDHtclAU388rnD/iL2wpEYZXjiiq6lcoMpPe+xxLQErjZ9M+fc2NZi8rgEEsUmn4rQNiFrB2Ejrkev9rotlAFy1U0RK/Zp37WlBVzvQUWq/atD71bIixTXslvcKciqAnri2XkqF7Mg=
+	t=1738252553; cv=none; b=s3dG5DMV6qxvvX+6CSPnWjSYPJP10xgaOZ0wbA0m35ilvNNPtsOY2Q4zstG9P9Ocehl8Cr8l+aDueTKsSJJCtXYoaSGBgDv6Sa/4qzIooRAnEWQVjpILNfrO0RF8GsEMLi72r7JcWs0Auq+SpAm8J8loYX5gtA46WdKd9f/KnPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738243223; c=relaxed/simple;
-	bh=gfNrwLh31RJ+nqCVy/pGNDN/uYfgux1yzAMDandeUvg=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QpTsqU5NqQ6vjtr76EWXU9HhWmP4mbIsHwf0bn4v78TtObhtxDZRIAIrc/UNjyCyqFc8EO9jqo9JUbi04LA0FrWGrk6W7tLiI2Y819pr7GGcZJ/CEgsC7t7Xng8aNLiwLeWGPnb7+lo5eAc26IpVGYWbRPJK/0+1UQVC3JcybPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3ce7a0ec1easo5520145ab.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 05:20:22 -0800 (PST)
+	s=arc-20240116; t=1738252553; c=relaxed/simple;
+	bh=pU1zgu3VyGVnXmoXtL1hak/fvrA33iGdz5knc0cTcm4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XtA9x4wIhdjzisgmcMH/QCBj2bFxDyMpsT68DdCPmK5EV49i7DYoQ5icBqaAQwGoXI8ep71DGFvzkCXFOS90zVarc2Lh+VEFK2+4yzojv9sYYm0EYDuFvQf0Z3sOcYF7OuW9bxer4zu6t7an3OQD8XOm28HbTjAdWGSTv/NUibY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ThgW348h; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4678c9310afso234971cf.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 07:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1738252551; x=1738857351; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gPuxTWL11JQJhUA2jK4STSm/0jEICakOx9XSDtMUZj4=;
+        b=ThgW348h+asgiPvTn56iBQAIKfahPqqFMLEr6CE6VMGGUSvw7jRH6XwKq22oIBach+
+         gqZIo7a6W3A/GhD0SqBAEi+JoXYuh6uyIZcMb8P6hH+M3XKNlBfDQ9MY2eidr4m+u3D2
+         JykyYS6MsW5uItG5F7rJ6Tr9zF0KEoePYW24TVbnykdW3tDdnZTYFoYCbCrEMgsumj2h
+         Nx6ihLe9ExckoZM23NkrB73vxdoqgBcVIuzwXFCd/3Md9KF1bw+P+PkR16B0z4zs48WP
+         zA/fdH/syZ+JCijIHW2GYv4xr4ylSToGCB/wQNs3I4UR4W2re6/bwTqFZYwmwz/dkY6q
+         rFpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738243221; x=1738848021;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wo5+/q+lEeJCbAsUCbSQ6PYEetiAqRpvHNIHfpexH7U=;
-        b=gYDmHM3ocTti7CF+zBEzy8ne8ta8D/tiDyOnco/br8jjXpq63e4m+4rheIa5bJiPBz
-         VymqCdYDkRptkN96Q9LNgtKyWCt8Vf0AheA23biIAUKuTVlEsHwJomzQfLEzZzDoS+hf
-         wHO4qY4/6JBZ7e/0nt39bSVO9GQ3zkUv/17H1UEKZiGvNlavmoODi72mGLod5aYINkYk
-         tDAuwnNEdsRgqFiZ8kjpPUvGEFLfO8dFyPWMTjBSThE8S8r8BOWdUrvxlgGdGB26WAy3
-         bUXEPVVTf4JzWaaNIQ1JClNptD0tCyHG6bMI3xS4M2Jj3Eka0/XIkaNgjCBuN5zASGZj
-         SCSg==
-X-Gm-Message-State: AOJu0Yy8EwQ0CVqZY6pRsIcx47BLkEZ5iOsyjf4nBUSQJnNgutJ0QSo9
-	IMn1H/gD02YXgJMNXVUErTFls6EJfHYnC3+ZEWcLxsPn9YfRLqB8cu46JPWLbg5mf0bM6lUjR/C
-	VZeLvtIRIYcLHvwRZAx3FBnL5s/PyXS8CQ3cEK+3VziJQUChNTtOXCEI=
-X-Google-Smtp-Source: AGHT+IHViKgfvzY1lTUxx5aoCaO55RBgNQZZD/mrRkMpBCCo5X1rpdex8BU1V+tHAnGxZUyINIEsHIo7xLys7ZnK/MTLsOYfYmjE
+        d=1e100.net; s=20230601; t=1738252551; x=1738857351;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gPuxTWL11JQJhUA2jK4STSm/0jEICakOx9XSDtMUZj4=;
+        b=c7F3kpx+VEF6859c4oK1GonyUviM82rl2y8WFaPa03aG09LSr3aKJZMq8hxlmuMOo3
+         5oNBXy7imhqU/hBvVWoVBwye/RlY+VckvUyJgY+18Yq10rmBgHwMoM4k9Ho/jSQFqImK
+         PZSvgEL85uyaoQUoM8zPg2CSYI0FQiZOOM0K77Y0bfR74X/B68+Z37dviXeFiL5EkL3P
+         DhxepYLaGuDMim0OstmBMJAvP0w6bRy272v48KmOzONt7Chn+XUSHmtQjATJcNzuYqz5
+         rBV2sHowNNh9asC13YFhFvdvAawdfIaQaMOpyWZfg0/u/Xq9TEW/bZQNFryqojHPtgFE
+         71ow==
+X-Forwarded-Encrypted: i=1; AJvYcCUrQkUZl/XKf4EOVHOHK4fwdZcR1tQOSjsZ3+t9bv2jZJTWPhtHdi7kuLj/aZzOsuS+lqSEaxZRxBbkywU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxA1ZPjcVF0bCJHD9it656ED86VoiPCKKLjV9t8UBK86kHt7Jkx
+	TyoPZ00NclR/pq7j4XEnrvgusKtQmiOGajlzBl5AXrn5U7w3TE2Y7Xn3BD6KSFMN1kYidUEiJJC
+	8/ePTzodlG8D1gAIrn9FnFjw8qsgJt6ULcSul
+X-Gm-Gg: ASbGncvStVKdU7KfAIIN1WV0tIYWAW7FW5uEsOkK5G2mAojs6jpOGFy5MyfFb2AE0Fe
+	4AsVyRtOSdYgkoDMGnR6MjOrSWkCYbr7rsYT4aD7Q4FYEb+G/r+T/DB+KIeFjBhR0HQ1DBfu1Wh
+	6wdV4ZvA4KXtg/E8we8zq2fk1A4q4=
+X-Google-Smtp-Source: AGHT+IFHB7rKsZb4QjUNCVKPKyTgN8xH7+wfdczpYVAu5y18Gnq/h8yl/V7tXr8gPVhXTYeTkntGJAzy95Kno8A3oEM=
+X-Received: by 2002:a05:622a:1ba6:b0:46c:791f:bf2f with SMTP id
+ d75a77b69052e-46fdf5bc2a8mr3375561cf.1.1738252550566; Thu, 30 Jan 2025
+ 07:55:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c84:b0:3cf:c92e:b3a9 with SMTP id
- e9e14a558f8ab-3cffe6b8499mr62911605ab.22.1738243221306; Thu, 30 Jan 2025
- 05:20:21 -0800 (PST)
-Date: Thu, 30 Jan 2025 05:20:21 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <679b7c95.050a0220.d7c5a.0014.GAE@google.com>
-Subject: [syzbot] linux-next build error (19)
-From: syzbot <syzbot+62ba359e1dfec1473c57@syzkaller.appspotmail.com>
-To: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-next@vger.kernel.org, 
-	samitolvanen@google.com, sfr@canb.auug.org.au, 
-	syzkaller-bugs@googlegroups.com
+References: <20250113-objtool-strict-v3-0-8b51f94957fb@google.com> <20250114001440.cagqlvjfvw6ghsj7@jpoimboe>
+In-Reply-To: <20250114001440.cagqlvjfvw6ghsj7@jpoimboe>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Thu, 30 Jan 2025 16:55:39 +0100
+X-Gm-Features: AWEUYZl0GF5Oi1uY8Kg0VqJNObRxnZZ82Cfhh_LmP9Ajz9yvxxXObZAjbFFBRo0
+Message-ID: <CA+i-1C0MFQCLOah56wWQhPhtk4p0ynhxh48eTmQ0-0x+pB6fvw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] objtool: Add option to fail build on vmlinux warnings
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Tue, 14 Jan 2025 at 01:14, Josh Poimboeuf <jpoimboe@kernel.org> wrote:
+> Thanks!  I'm putting it through bot testing now.
 
-syzbot found the following issue on:
+Hey Josh, how has it been going - could we merge the feature?
 
-HEAD commit:    a13f6e0f405e Add linux-next specific files for 20250130
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=10221ddf980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3445081dab63716c
-dashboard link: https://syzkaller.appspot.com/bug?extid=62ba359e1dfec1473c57
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+62ba359e1dfec1473c57@syzkaller.appspotmail.com
-
-scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: dwarf.h: No such file or directory
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+(Or, has it already been merged in some tree that doesn't go into linux-next?)
 
