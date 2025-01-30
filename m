@@ -1,124 +1,105 @@
-Return-Path: <linux-kbuild+bounces-5569-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5570-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B783A228EC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 07:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D051A22D92
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 14:20:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79B451669B7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 06:39:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14D4B1680ED
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2025 13:20:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30B3A1494CC;
-	Thu, 30 Jan 2025 06:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTEK8HWU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D10661E47C2;
+	Thu, 30 Jan 2025 13:20:23 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A08A148832
-	for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 06:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426B11E3774
+	for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 13:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738219138; cv=none; b=ZsdH+aRCBu3Avu1Gl9ZXR8SjLaHshP59Y++nlgGk0HQ4a75TsK9loe5fzeCmv2uBr+gcOrl2S2fvuRvT324X+XGIDXK/uSKYcppP0Vy0S4UqA8ahtrop0/knCX5EzpZ61EpPaVpSGWL3YMXJGr8eYpCWPIzROUn8365SHKPWNNc=
+	t=1738243223; cv=none; b=i/JpTlhmSyAkcNkwi0R/30+Fl8R7bS15CmDHtclAU388rnD/iL2wpEYZXjiiq6lcoMpPe+xxLQErjZ9M+fc2NZi8rgEEsUmn4rQNiFrB2Ejrkev9rotlAFy1U0RK/Zp37WlBVzvQUWq/atD71bIixTXslvcKciqAnri2XkqF7Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738219138; c=relaxed/simple;
-	bh=nLeALQbAkOTDaPhrCicqflozbPAPYp6bd+KFb0DBUtM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T+8W7/ciR47C1IGjBJyxbF763uGekvART3foQKRNXAzoI9xPI43sNI1l02esYqFPW5x2kw2GIWeKGFTpKrZy77dY6Ge+J0xuTvjl/uA1JkVdN5spTU7JFtyrS8ei6HXqZMzXgxum12O61DVUQf2f7trcN7u5XdetV6+BNNO7GvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTEK8HWU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62449C4CEE0
-	for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 06:38:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738219137;
-	bh=nLeALQbAkOTDaPhrCicqflozbPAPYp6bd+KFb0DBUtM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HTEK8HWU0JluPphoDNmSjtXAvuugk+D8/9+S1MIcOAEFhjnWQwzYFy4WneLXE4TIn
-	 NdWOIGPo3OvlWsSn/SAM2PrJQmoJ+biEqJzSOcPgBydU51HsBWzkoaE7bUNHIdU0LO
-	 pM7ZO7gKpA0lgm1qhFlNQxcdtVuYcXIz+B6ZanoWjA07KQS4drYaLWlJZecEg4B0lT
-	 dG3GWufUBWEUTlYD3r5NKgDup67J7Ng3hLzskHehItixUR8Y48FdVPDuT/yKN1zL+o
-	 gKMoKOEX/DRvLYpHYUTV9WhkFi7xglpVbMj4r/mNiZSheuN23H1Ah7SCHkpqd3kb4p
-	 +Er2y9vyEG6uw==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5401c52000fso359680e87.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 29 Jan 2025 22:38:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW0HX5FVKNu7ZV8oF7kUVJCAmGDtwnxXiZ8F34ywUwEHpfY9t5JPCwToh4laHHIuadFB3Ni8cpbwFQX3S8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztOX5MGfvyfRhc1AriTP1/92S9x9QWiFjqkenisMFbAP56EvEC
-	XRmyTcVlTss4XWUc4VarQ8Bmz4Xn+H/5Tbsk0+pEmxL7KZhOoc1RLk/qrMaphZUzCWowC0+IAIH
-	xX4P8vJPViaieeAvgt4akibN719Y=
-X-Google-Smtp-Source: AGHT+IEus8rD1SUMbPDgFzNYV4Fd2np6+a+6bs2jr8ZJq/d+Wd8fy3pOavwzhLQqHrC8uH4/TtHdgMz3MjdccAb91BI=
-X-Received: by 2002:ac2:46ef:0:b0:543:c3d9:418d with SMTP id
- 2adb3069b0e04-543e4be9663mr1758495e87.22.1738219135988; Wed, 29 Jan 2025
- 22:38:55 -0800 (PST)
+	s=arc-20240116; t=1738243223; c=relaxed/simple;
+	bh=gfNrwLh31RJ+nqCVy/pGNDN/uYfgux1yzAMDandeUvg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=QpTsqU5NqQ6vjtr76EWXU9HhWmP4mbIsHwf0bn4v78TtObhtxDZRIAIrc/UNjyCyqFc8EO9jqo9JUbi04LA0FrWGrk6W7tLiI2Y819pr7GGcZJ/CEgsC7t7Xng8aNLiwLeWGPnb7+lo5eAc26IpVGYWbRPJK/0+1UQVC3JcybPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3ce7a0ec1easo5520145ab.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2025 05:20:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738243221; x=1738848021;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wo5+/q+lEeJCbAsUCbSQ6PYEetiAqRpvHNIHfpexH7U=;
+        b=gYDmHM3ocTti7CF+zBEzy8ne8ta8D/tiDyOnco/br8jjXpq63e4m+4rheIa5bJiPBz
+         VymqCdYDkRptkN96Q9LNgtKyWCt8Vf0AheA23biIAUKuTVlEsHwJomzQfLEzZzDoS+hf
+         wHO4qY4/6JBZ7e/0nt39bSVO9GQ3zkUv/17H1UEKZiGvNlavmoODi72mGLod5aYINkYk
+         tDAuwnNEdsRgqFiZ8kjpPUvGEFLfO8dFyPWMTjBSThE8S8r8BOWdUrvxlgGdGB26WAy3
+         bUXEPVVTf4JzWaaNIQ1JClNptD0tCyHG6bMI3xS4M2Jj3Eka0/XIkaNgjCBuN5zASGZj
+         SCSg==
+X-Gm-Message-State: AOJu0Yy8EwQ0CVqZY6pRsIcx47BLkEZ5iOsyjf4nBUSQJnNgutJ0QSo9
+	IMn1H/gD02YXgJMNXVUErTFls6EJfHYnC3+ZEWcLxsPn9YfRLqB8cu46JPWLbg5mf0bM6lUjR/C
+	VZeLvtIRIYcLHvwRZAx3FBnL5s/PyXS8CQ3cEK+3VziJQUChNTtOXCEI=
+X-Google-Smtp-Source: AGHT+IHViKgfvzY1lTUxx5aoCaO55RBgNQZZD/mrRkMpBCCo5X1rpdex8BU1V+tHAnGxZUyINIEsHIo7xLys7ZnK/MTLsOYfYmjE
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250123110951.370759-2-u.kleine-koenig@baylibre.com> <Z5JlTd-qCif4a5W2@smile.fi.intel.com>
-In-Reply-To: <Z5JlTd-qCif4a5W2@smile.fi.intel.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 30 Jan 2025 15:38:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQP8jkak1WkNc_Rh9_tH69GAqoi=jEJiSX6Y78HQ44s5A@mail.gmail.com>
-X-Gm-Features: AWEUYZlqV-v1hSV3z8P-9H0H_XIqqUPk42uldKE2aADnjiFpvQA1d8Ino69wSH0
-Message-ID: <CAK7LNAQP8jkak1WkNc_Rh9_tH69GAqoi=jEJiSX6Y78HQ44s5A@mail.gmail.com>
-Subject: Re: [PATCH] modpost: Warn about unused module namespace imports
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
+X-Received: by 2002:a05:6e02:1c84:b0:3cf:c92e:b3a9 with SMTP id
+ e9e14a558f8ab-3cffe6b8499mr62911605ab.22.1738243221306; Thu, 30 Jan 2025
+ 05:20:21 -0800 (PST)
+Date: Thu, 30 Jan 2025 05:20:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <679b7c95.050a0220.d7c5a.0014.GAE@google.com>
+Subject: [syzbot] linux-next build error (19)
+From: syzbot <syzbot+62ba359e1dfec1473c57@syzkaller.appspotmail.com>
+To: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-next@vger.kernel.org, 
+	samitolvanen@google.com, sfr@canb.auug.org.au, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 24, 2025 at 12:50=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@intel.com> wrote:
->
-> On Thu, Jan 23, 2025 at 12:09:50PM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > Symbols can be exported in namespaces and to make use of such symbols,
-> > the namespace has to be explicitly imported. Importing a namespace
-> > without actually using one of its symbols is likely a mistake.
-> >
-> > There are a few offenders for an x86_64 allmodconfig build, so the
-> > warning is (for now) only enabled for W=3D1 builds.
-> >
-> > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
-> > ---
-> > Hello,
-> >
-> > one of the offenders is drivers/pwm/pwm-raspberrypi-poe.c (
-> >
-> >       WARNING: modpost: module pwm-raspberrypi-poe imports namespace PW=
-M, but doesn't use it.
-> >
-> > ). The issue there is that on x86_64 CONFIG_RASPBERRYPI_FIRMWARE is
-> > always disabled and so devm_rpi_firmware_get() returns always NULL whic=
-h
-> > makes raspberrypi_pwm_probe return an error before the pwm functions ar=
-e
-> > used. So the compiler optimizes out all references to pwm functions and
-> > the warning triggers. I didn't look into the other problems to check if
-> > these are similar half-false positives.
-> >
-> > Still I think this is a useful check?
->
-> This will require to add a number of ugly ifdeffery to the kernel code li=
-ke
->
-> MODULE_FOO();
-> #if ...
-> MODULE_IMPORT_NS();
-> #endif
->
-> I am definitely not okay with that.
+Hello,
 
+syzbot found the following issue on:
 
-+1
+HEAD commit:    a13f6e0f405e Add linux-next specific files for 20250130
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=10221ddf980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3445081dab63716c
+dashboard link: https://syzkaller.appspot.com/bug?extid=62ba359e1dfec1473c57
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+62ba359e1dfec1473c57@syzkaller.appspotmail.com
 
+scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: dwarf.h: No such file or directory
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
---=20
-Best Regards
-Masahiro Yamada
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
