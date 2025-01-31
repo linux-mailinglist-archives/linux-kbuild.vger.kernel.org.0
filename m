@@ -1,93 +1,134 @@
-Return-Path: <linux-kbuild+bounces-5593-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5594-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F345A244E2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 22:41:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9CEA24568
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 23:55:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04F223A4760
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 21:41:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D1243A7DB5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 22:55:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF8C31F3D52;
-	Fri, 31 Jan 2025 21:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B2B219E7D3;
+	Fri, 31 Jan 2025 22:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gLbMAb9s"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxpVhSkZ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80F57081F;
-	Fri, 31 Jan 2025 21:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDAD19AD89;
+	Fri, 31 Jan 2025 22:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738359701; cv=none; b=kc641ODhoiWJT0GVvU7ppBGf3IKrpWAfV1qQ5IvRSJxfQ/JzyIUE9DXaPhOHE5fO0a3zWPqjG4lOFzdrEx4Dh7/JcYHGUvrxSlkSP6WZpNYtuILunz0Y4kIL453BA0CDMYlq2gHitm7EVMC+vU9iRteXh+yOh+LRhx/AJabAp+s=
+	t=1738364143; cv=none; b=H5/nkVIYksgV28NmuAWLgEpm8fb0DTUkp3wGIVyaa94mJhB6oPa8G0A48xF7DCV0/F2gky5F5svOM2ypnSBBZeJks0eUNRmFePYYTmmRAQNzuIXH3ACe4vyKW93jaEb/Hl07wYasfyofFz2/uHximyYOOW0cWOYSWfCirNG974E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738359701; c=relaxed/simple;
-	bh=xjrlPeBG4WNIUU7fpf7l1Xd1y0KhADy+YvMS2wRVdA4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sx8d4F9FgaeoXpS/jzFvcREuaE+DecO6pPfguldK00ESaDkaJdHA4FTkySbahFeSKQCa8WYYhFje4KpiVf/Dv+FP8LOcukgkxI0SNlbBOHBbuEonWfDFqXL8BegZluz6fcODn8LJgyb5A69N9o3l6fp4eb80qHrADpF31BjktVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gLbMAb9s; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 514DBC4CEE3;
-	Fri, 31 Jan 2025 21:41:41 +0000 (UTC)
+	s=arc-20240116; t=1738364143; c=relaxed/simple;
+	bh=lOGd3AYXVfHBbSKgrkXk8Xz+aydLyMFpZVs4uwg2GIM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=XkeU/arr8ipcSF66rjrdLkA9Z200pjC78SySUbVecojnNGJ4YcdALjlUxJ4xN507oke7HJup5/IfPFqeSQd8+cd12kOhwj3jhGv/GJ7mXBafNs4G4wCdvu266eOQGrOl2aVKWny/DilPRQvBNYx0EZjbXYsJs8ddJq7S2pqOOZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxpVhSkZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DCE9C4CED1;
+	Fri, 31 Jan 2025 22:55:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738359701;
-	bh=xjrlPeBG4WNIUU7fpf7l1Xd1y0KhADy+YvMS2wRVdA4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=gLbMAb9sJJIwnYWk6N6K1/LW630zPucoGYiBtdwDLlFIFq5papYnxtUGIF1nDXE6G
-	 AFGZmNJp8Mg7God2MtsrnzqwKL6uNleiIBypkcttBnFycLodU6gR6ElmjjN1/xgzXl
-	 B2W1xQZPmmUUieVKYwpf8fBJu/H1R5z2jisbWi96izrMfR14iQGA76H2PpUPVprh4g
-	 m/Dx2rURW82kE616fexCWpIBJWlD0/VWb9Hh5RJ+yUF48crQqxz6aco96MH7s6zNbR
-	 +Uu0OuGXu0K2gud72MLaNvoaS8P0FZ/sH5xRnYSyXb09iYOF+Cdai9KLOxrdD3y5qb
-	 dA/QKJKd8Blrw==
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3ce87d31480so7883025ab.2;
-        Fri, 31 Jan 2025 13:41:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX75hVlrpCGa6ma6Jn+fJL1f1RJKmVgwhlescWrIJpuUlmcLjgxCqz7+cGKEEIMmQSSXo/t+F6P0yNV8fU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2BLKdaXClXrCWeoTpMxl+BkwXaUyq5MxUHUVHyDeYyxaLLbEM
-	rYivl0p1yAVbR1RY3U9MCHtEDxBYpmHxsTBwLwVf3U9S7HvNY3IGqZ8HNXsUkoaLMZ21ah79lkM
-	/QBTnY/SzTHqnkFC7Ig1sbGkghUs=
-X-Google-Smtp-Source: AGHT+IGsRtOKF92cDzqILaRoJNyVEWQl3SaFoHvDWV0af5w3tbe8Hx3MCLHCzCExBblLuM0SzvndJDqxS/xn1MJQa10=
-X-Received: by 2002:a05:6e02:1fe4:b0:3ce:5af3:79d5 with SMTP id
- e9e14a558f8ab-3cffe4277d0mr105176065ab.6.1738359700599; Fri, 31 Jan 2025
- 13:41:40 -0800 (PST)
+	s=k20201202; t=1738364143;
+	bh=lOGd3AYXVfHBbSKgrkXk8Xz+aydLyMFpZVs4uwg2GIM=;
+	h=From:Date:Subject:To:Cc:From;
+	b=lxpVhSkZWfQJOpSjaQ8PD+QmcDjRQaeHFZtpGD9+tvwIRtHPAtuv+TjG7uSOdD3YZ
+	 nuMN2WK1UbMS8iVHOn/sVWtAqo5wWiIg+vhtLbMgdbFNLzZZm+C8wgsqM4XkoJV0yt
+	 /LeNs2/h5XzldL2KcHZDVJ+eaKQGREAk/9MJjm4eZOhRQE29muKWuExLdvEbh/SbJJ
+	 9sr9uSNVP2ZgQ713b63JBR/Pb43ReRFJRiVsgrOY3nZGpG+CI3OwvEgT1yV/xw41l/
+	 VGwSgvVYJeckMWihc2HvHfhwFbohI5Gl9w13jwkN44EAfMLXhZ/JYy/8PToyUblg49
+	 UtkNp+oCrmGMw==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Fri, 31 Jan 2025 15:55:28 -0700
+Subject: [PATCH] scripts/Makefile.extrawarn: Do not show clang's
+ non-kprintf warnings at W=1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250131140407.1392008-1-masahiroy@kernel.org>
-In-Reply-To: <20250131140407.1392008-1-masahiroy@kernel.org>
-From: Song Liu <song@kernel.org>
-Date: Fri, 31 Jan 2025 13:41:29 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW5GsWe-hV7MwMPbFMDK24W5OAPzjE+HJQjNKQ4CKtKqqA@mail.gmail.com>
-X-Gm-Features: AWEUYZnvnI5gCbcie_yGEuQm0lJs01jxgmXraMkjAxhN7ygTbHoevId4pUbOGAo
-Message-ID: <CAPhsuW5GsWe-hV7MwMPbFMDK24W5OAPzjE+HJQjNKQ4CKtKqqA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix Clang LTO with CONFIG_OBJTOOL=n
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Yonghong Song <yonghong.song@linux.dev>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250131-makefile-extrawarn-fix-clang-format-non-kprintf-v1-1-6c6747ada0d4@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAN9UnWcC/x2N0QqDMAxFf0XyvIC1DsZ+Zewhs+kW1FTSshXEf
+ 1/x8cA99+yQ2YQz3LsdjL+SJWkDd+lg+pC+GSU0hqEfrr3zDleaOcrCyLUY/cgUo1ScljbGmGy
+ lgpoU581ES8QwhsDkb8wvD+11s6bXs/h4HscfV/kad4EAAAA=
+X-Change-ID: 20250131-makefile-extrawarn-fix-clang-format-non-kprintf-d4ddea38eeb3
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, kernel test robot <lkp@intel.com>, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2545; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=lOGd3AYXVfHBbSKgrkXk8Xz+aydLyMFpZVs4uwg2GIM=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDOlzQ96ozV/Ra3BLaZnE74hqv437TPSPLjXWWxR8wOKlu
+ JwXj/yCjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRZ9cZGda2JsVMlrj+JzbW
+ uU87SKRxp/GVJ3zMz4P104+L2/7bXMfwv0Dn9NcLuctsbR127jKrVcuc2fJcL3LegR8vpFJ2X2j
+ k4wIA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Fri, Jan 31, 2025 at 6:04=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Since commit bede169618c6 ("kbuild: enable objtool for *.mod.o and
-> additional kernel objects"), Clang LTO builds do not perform any
-> optimizations when CONFIG_OBJTOOL is disable (e.g., for ARCH=3Darm64).
-> This is because every LLVM bitcode file is immediately converted to
-> ELF format before the object files are linked together.
->
-> This commit fixes the breakage.
->
-> Fixes: bede169618c6 ("kbuild: enable objtool for *.mod.o and additional k=
-ernel objects")
-> Reported-by: Yonghong Song <yonghong.song@linux.dev>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Clang's -Wformat-overflow and -Wformat-truncation have chosen to check
+'%p' unlike GCC but it does not know about the kernel's pointer
+extensions in lib/vsprintf.c, so the developers split that part of the
+warning out for the kernel to disable because there will always be false
+positives.
 
-Tested-by: Song Liu <song@kernel.org>
+Commit 908dd508276d ("kbuild: enable -Wformat-truncation on clang") did
+disabled these warnings but only in a block that would be called when
+W=1 was not passed, so they would appear with W=1. Move the disabling of
+the non-kprintf warnings to a block that always runs so that they are
+never seen, regardless of warning level.
+
+Fixes: 908dd508276d ("kbuild: enable -Wformat-truncation on clang")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202501291646.VtwF98qd-lkp@intel.com/
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ scripts/Makefile.extrawarn | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 1d13cecc7cc7..8878f71463fc 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -31,6 +31,11 @@ KBUILD_CFLAGS-$(CONFIG_CC_NO_ARRAY_BOUNDS) += -Wno-array-bounds
+ ifdef CONFIG_CC_IS_CLANG
+ # The kernel builds with '-std=gnu11' so use of GNU extensions is acceptable.
+ KBUILD_CFLAGS += -Wno-gnu
++
++# Clang checks for overflow/truncation with '%p', while GCC does not:
++# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111219
++KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow-non-kprintf)
++KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation-non-kprintf)
+ else
+ 
+ # gcc inanely warns about local variables called 'main'
+@@ -102,11 +107,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+ KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
+ ifdef CONFIG_CC_IS_GCC
+ KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation)
+-else
+-# Clang checks for overflow/truncation with '%p', while GCC does not:
+-# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111219
+-KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow-non-kprintf)
+-KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation-non-kprintf)
+ endif
+ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
+ 
+
+---
+base-commit: fd8c09ad0d87783b9b6a27900d66293be45b7bad
+change-id: 20250131-makefile-extrawarn-fix-clang-format-non-kprintf-d4ddea38eeb3
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
+
 
