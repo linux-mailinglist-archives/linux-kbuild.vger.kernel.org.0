@@ -1,417 +1,195 @@
-Return-Path: <linux-kbuild+bounces-5591-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5592-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805F1A24437
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 21:49:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BEEA244AD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 22:33:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DC683A5C0C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 20:49:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43D17188752A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 21:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 491B21F2388;
-	Fri, 31 Jan 2025 20:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55414187876;
+	Fri, 31 Jan 2025 21:33:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j9NdFO0i"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="1HOYXDHj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE0D1494AD;
-	Fri, 31 Jan 2025 20:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0A3153838
+	for <linux-kbuild@vger.kernel.org>; Fri, 31 Jan 2025 21:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738356566; cv=none; b=oQtCx2bmr6dTbr5c2SrlQ52NYGh6i0FfvL20M/HiQRnaTXknmJ4fZ5f+6lS6HDkcLQCquGKgX1BB3X1syTCtHlOnFTPKmRE6YtWsgLDnrMCMZgwPTTmBYwK4Q4U2CLpXcgmqL/jmtcxZyClYQbc9usqEN1irwP8jevN6+7KsIGU=
+	t=1738359211; cv=none; b=NH+7UrmqjZS6fY+T0htju9zqkLaHC0yBeatOk7Ktu0zUD6ipLL0VkKHiz9jnppBOLdgUZi2XYprlxVvLy8s9MJeo5ebrBl9RWCvfv1KNqIQu7P2D83tbMUcagr9dEGqlKWBGZQNyKZaLV9N1Fte0fbEpK/zzvIBlBIk/GfdUj+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738356566; c=relaxed/simple;
-	bh=jEJXvDy6tRn01UWx5QLXVr7QPDMqGTXnIQtlB9fxnXg=;
+	s=arc-20240116; t=1738359211; c=relaxed/simple;
+	bh=xtcewb2keeFDNgvPxW6fpHtKWZHT/aAKVXRFf8b5FRg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fiz6y3xeVzJolg9iGPXXuv+wDwNeHrgLEdo9kkYeljyYgbpuG6kGJEY5IfEwTlgvY6Zc9ENL6xZPe10xhzWwnobm+zUjVbZUN0aWQBXM614FaV7GnhsJ8VOXkEvG81w00jdwg7GyTHjskZ7p8xFkeB9VOEOdCCJ74RqO0WNiYUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j9NdFO0i; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8681C4CED1;
-	Fri, 31 Jan 2025 20:49:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738356565;
-	bh=jEJXvDy6tRn01UWx5QLXVr7QPDMqGTXnIQtlB9fxnXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j9NdFO0iZGGz45yl4wtk1o7qQfdmVAoXHZYVvpwRnLIp6MFAc2sx1gdnEo7TRGj3c
-	 WVCR8sUGeTQK9Q9o1RB/64rxEtLqD9JHw382cDCwC9LHFqGy6IR7yuO4TnTBilpBNY
-	 xAOl3e1J/SXzbph85uhsa18/+e3Y24S8QTd4GFghKcUWVr9uaXtf9IQCe9dQ4wz/Ke
-	 yZ93VV91Uj9GKc/4r1rEKTX45b2Ijbdijqbp77inFSwCYle8FLUHqjb9C4m08L4mDt
-	 SPsOO569kl/7P63Oxow1T/mey0Ch+IJ2zNLeDqTIR5JXSfEaz8XWRsP+dhVjmNQLb+
-	 ffPnnFnYku5oQ==
-Date: Fri, 31 Jan 2025 13:49:20 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] objtool: Add option to fail build on vmlinux
- warnings
-Message-ID: <20250131204920.GA1974131@ax162>
-References: <20250113-objtool-strict-v3-0-8b51f94957fb@google.com>
- <20250114001440.cagqlvjfvw6ghsj7@jpoimboe>
- <CA+i-1C0MFQCLOah56wWQhPhtk4p0ynhxh48eTmQ0-0x+pB6fvw@mail.gmail.com>
- <20250130183042.GB3394637@ax162>
- <CA+i-1C2rw6uNOpeY8fakco8T75udRhLJLxJ4CHgJNKBhbxGa_A@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ndv7L6S9KptwM8T0vMmpyt96B1gVER54By6V4idMyeMAmJhJSsD+V5rA3ft0FvdVhNb++HaP9k8AsIFxHNkP6BVci7vl9LE828l+ClOcgDaSNop68Zb0Js8C7b6BQYGFGlq5Ezmz8cymT0U85xJLnegrAI7YHB8Hn4J/XtwIWsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=1HOYXDHj; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2166360285dso42656325ad.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 31 Jan 2025 13:33:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1738359209; x=1738964009; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gNnceRFPO5fDZxRcbBd7tMfQOg82L8AVSRCaR86RMVM=;
+        b=1HOYXDHjmC1Aymz9WE/XWPA8fXWU3jQ14wefatL0NQk/Fl2MZ35Io/y9qaqrtxWeiR
+         fVekUpapkpxEWha72gFUW8S5Ru3hbvmCQ6Rh7s0ryeXWy4vfuu2PP6eiUvhMTTRWqg/Z
+         sWEKqo3zv1ecBb3XatvHCmKOk9iULDkIw3hQNLOU7RDW+t/qKEOd9U7LORZE3du0vWr8
+         L2HM6oXblmewuwu0mtxL69aDfKPyAFhVqLEmrCvU0V7KHu0LxARbBtKgwuUa+HvQrBT7
+         wHEr/pRy7V4XTs/YjFoQbGi9qaVRg7qGJa8c4FU7G92lxtWCnIOzkZfq3nk5s+/7vjd1
+         e2OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738359209; x=1738964009;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gNnceRFPO5fDZxRcbBd7tMfQOg82L8AVSRCaR86RMVM=;
+        b=Mr51t7isHI5gFmQK+vzCX7G/n96Quot4RQEN3S4bxOLY1/hmn0o3C5Vuzrvbk0ns7N
+         dMda46Ml7i0YfQeWHTCkuTOq85KBQPXBIi5ka0WChrnbMqI1/6tg0I7NZxuVoGvmpJ7S
+         iXcrQSNMebcrDaOX46nGCqByX8ALKeKFav7EIbuWjrzgZ6DHbrz0uq/NfWyvqykUcnYG
+         f2uM9ANixy8ugSb5oC9D4RS0bk9fWeIzfj2AKiPNXsRo6sor/lfgpNeW9uITAzU9e5MG
+         /XmTYmye+e7gXrhjbQPWLLFnMNoqP8146ujbMj7K+X0FTFxV/3eYJE6j8ZeH6zlCiZXf
+         gPKg==
+X-Forwarded-Encrypted: i=1; AJvYcCXeR3YBNXGt2jKS6BjZVubiCgbuQXfkXUdO7bK/WenuGA/zpY5pMQ0cAUm4Hi3or4qbsiQXegMOWScrCts=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9C2DZQOVHzGOkihQn1BVR+a8AOXj9PpvIo7FVd1oDQgwEJNa2
+	qvf0Sk31ebScnJpyTNpaZdYnD6thktnrA+/45OAG9Kov5uBnt7sP8dRW9ZPQgN8=
+X-Gm-Gg: ASbGncuT5sR8S7Q15IMqsKDSWZxClK9QFP3Olubmnjsa6n+zOQOpg8ErrYz3EY8h6t0
+	sFsRu2W5CLh/+p8Ms+SgGKo8yPI7UKw3AaGVihbp2T70kxI8winWTC5pKrcfUbOGDu2ggBV1lPq
+	DCIdGTOr2IQrvfk4slx7ZqAXG1dJnI/v1NfV031bJQ/irQH+xwLbxUkcgc7pGdN1/1FE67Opy1n
+	TXkQPuoEGcWXJaQPoOEDFSgk6BcSVgGLYwWvkOR2PKfkgI+tO40UqGanP3q3bzaqcmeo8ihW28D
+	DzcbrlKJtg==
+X-Google-Smtp-Source: AGHT+IGtV2TYJwc8Rghm6y+ELcvh6mAobsDIIs+HgTVDhBkhgylQ0meJoVWxHdfv9B3r/OPi1a/Cgg==
+X-Received: by 2002:a05:6a00:2e27:b0:72d:65c1:ad01 with SMTP id d2e1a72fcca58-72fd0c8bb54mr18663860b3a.21.1738359208746;
+        Fri, 31 Jan 2025 13:33:28 -0800 (PST)
+Received: from ghost ([2001:428:6405:1e0:b67e:25c1:3d0b:392b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe631bf82sm3910729b3a.17.2025.01.31.13.33.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2025 13:33:28 -0800 (PST)
+Date: Fri, 31 Jan 2025 13:33:25 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH] kbuild: Use --strip-unneeded with INSTALL_MOD_STRIP
+Message-ID: <Z51BpVEkmVCg7gTX@ghost>
+References: <20250122-strip_unneeded-v1-1-ac29a726cb41@rivosinc.com>
+ <20250131035245.GA47826@ax162>
+ <Z5xzkwwZAWRRLCdj@ghost>
+ <CAK7LNAR=1sNs+hOW8gL=7xOs=gHLToTAnAUTF1SizroYoui8sg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+i-1C2rw6uNOpeY8fakco8T75udRhLJLxJ4CHgJNKBhbxGa_A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAR=1sNs+hOW8gL=7xOs=gHLToTAnAUTF1SizroYoui8sg@mail.gmail.com>
 
-On Fri, Jan 31, 2025 at 11:44:46AM +0100, Brendan Jackman wrote:
-> On Thu, 30 Jan 2025 at 19:30, Nathan Chancellor <nathan@kernel.org> wrote:
-> > For the record, this will be disruptive for clang users because a number
-> > of warnings have crept up in recent releases and this option will get
-> > enabled for allmodconfig.
-> [snip]
-> > I think Josh already mentioned it but exposing -Werror for objtool is a
-> > big committment.
+On Sat, Feb 01, 2025 at 12:10:02AM +0900, Masahiro Yamada wrote:
+> On Fri, Jan 31, 2025 at 3:54 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> >
+> > On Thu, Jan 30, 2025 at 08:52:45PM -0700, Nathan Chancellor wrote:
+> > > On Wed, Jan 22, 2025 at 07:17:26PM -0800, Charlie Jenkins wrote:
+> > > > On riscv, kernel modules end up with a significant number of local
+> > > > symbols. This becomes apparent when compiling modules with debug symbols
+> > > > enabled. Using amdgpu.ko as an example of a large module, on riscv the
+> > > > size is 754MB (no stripping), 53MB (--strip-debug), and 21MB
+> > > > (--strip-unneeded). ON x86, amdgpu.ko is 482MB (no stripping), 21MB
+> > > > (--strip-debug), and 20MB (--strip-unneeded).
+> > > >
+> > > > Use --strip-unneeded instead of --strip-debug to strip modules so
+> > > > decrease the size of the resulting modules. This is particularly
+> > > > relevant for riscv, but also marginally aids other architectures.
+> > > >
+> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > >
+> > > Is there any sort of regression risk with this patch? If so, another
+> > > option may be to give another level to INSTALL_MOD_STRIP like 2 so that
+> > > INSTALL_MOD_STRIP=1 continues to behave as before but people can easily
+> > > opt into this option. No strong opinion because I am not sure but was
+> > > not sure if it was considered.
+> >
+> > I do not believe this would cause regressions. The description on gnu
+> > strip is:
+> >
+> > "Remove all symbols that are not needed for relocation processing in
+> > addition to debugging symbols and sections stripped by --strip-debug."
+> >
+> > The description on llvm-strip is:
+> >
+> > "Remove from the output all local or undefined symbols that are not
+> > required by relocations. Also remove all debug sections."
+> >
+> > gnu strip --strip-unneeded strips slightly more aggressively but it does
+> > not appear this causes any issues.
+> >
+> > >
+> > > Regardless:
+> > >
+> > > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > Thanks!
+> >
 > 
-> OK yeah, I hadn't really taken the implications on board, i.e. I
-> hadn't really internalised the fact that this affects builds where the
-> user didn't explicitly opt-in to strictness.
->
-> Do you have a mental picture of how sources of objtool regressions are
-> distributed in the kernel? I'm wondering if it would be alleviated if
-> we enabled it for stuff like defconfig and tinyconfig, while disabling
-> it for allmodconfig/allyesconfig. Looks like LTO_CLANG_FULL does the
-> latter (forcefully) by depending on !COMPILE_TEST, maybe there's
-> another way.
-
-I do not have a good high level overview yet since I have only just
-started combing over them in addition to all of my other work keeping
-the tree green and our CI running.
-
-I can at least provide an overview of what my most recent build of
-linux-next with a close to tip of tree clang shows. I have sorted it two
-different ways.
-
-The first is showing what builds have warnings.
-
------------------------------------------------
-
-loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: .text.dc_fixpt_recip: unexpected end of section
-	vmlinux.o: warning: objtool: .text.crash_shutdown_secondary: unexpected end of section
-	vmlinux.o: warning: objtool: .text.kexec_reboot: unexpected end of section
-	vmlinux.o: warning: objtool: .text.kexec_shutdown_secondary: unexpected end of section
-	vmlinux.o: warning: objtool: .text.machine_kexec: unexpected end of section
-	vmlinux.o: warning: objtool: ___bpf_prog_run+0x64: sibling call from callable instruction with modified stack frame
-	vmlinux.o: warning: objtool: __efistub_efi_boot_kernel() falls through to next function __efistub_exit_boot_func()
-
-loongarch-defconfig.log
-	arch/loongarch/kernel/machine_kexec.o: warning: objtool: .text: unexpected end of section
-	arch/loongarch/kernel/machine_kexec.o: warning: objtool: crash_shutdown_secondary() falls through to next function machine_shutdown()
-	arch/loongarch/kernel/machine_kexec.o: warning: objtool: kexec_reboot() falls through to next function crash_smp_send_stop()
-	arch/loongarch/kernel/machine_kexec.o: warning: objtool: kexec_shutdown_secondary() falls through to next function machine_kexec()
-	drivers/gpu/drm/amd/amdgpu/../display/dc/basics/fixpt31_32.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	kernel/bpf/core.o: warning: objtool: ___bpf_prog_run+0x64: sibling call from callable instruction with modified stack frame
-
-x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-	drivers/gpu/drm/msm/msm.o: warning: objtool: .text.msm_dp_catalog_ctrl_config_msa: unexpected end of section
-	drivers/iio/adc/at91-sama5d2_adc.o: warning: objtool: .text.at91_adc_probe: unexpected end of section
-	drivers/media/dvb-frontends/dib8000.o: warning: objtool: .text.dib8000_tune: unexpected end of section
-	drivers/media/dvb-frontends/rtl2832_sdr.o: warning: objtool: .text.rtl2832_sdr_s_fmt_sdr_cap: unexpected end of section
-	drivers/media/dvb-frontends/rtl2832_sdr.o: warning: objtool: .text.rtl2832_sdr_try_fmt_sdr_cap: unexpected end of section
-	drivers/media/i2c/mt9t112.o: warning: objtool: .text.mt9t112_set_fmt: unexpected end of section
-	drivers/media/i2c/mt9t112.o: warning: objtool: .text.mt9t112_set_params: unexpected end of section
-	drivers/media/usb/msi2500/msi2500.o: warning: objtool: .text.msi2500_s_fmt_sdr_cap: unexpected end of section
-	drivers/media/usb/msi2500/msi2500.o: warning: objtool: .text.msi2500_try_fmt_sdr_cap: unexpected end of section
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: .text.mlx5e_mpwrq_mtts_per_wqe: unexpected end of section
-	drivers/nvme/target/nvmet.o: warning: objtool: .text.nvmet_ctrl_state_show: unexpected end of section
-	drivers/pci/endpoint/functions/pci-epf-test.o: warning: objtool: .text.pci_epf_test_cmd_handler: unexpected end of section
-	drivers/regulator/rk808-regulator.o: warning: objtool: .text.rk806_set_mode_dcdc: unexpected end of section
-	drivers/spi/spi-amd.o: warning: objtool: .text.amd_set_spi_freq: unexpected end of section
-	sound/soc/codecs/snd-soc-wcd9335.o: warning: objtool: .text.wcd9335_slimbus_irq: unexpected end of section
-	sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
-	vmlinux.o: warning: objtool: do_user_addr_fault+0xe5b: unreachable instruction
-
-x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-	drivers/gpu/drm/msm/msm.o: warning: objtool: msm_dp_catalog_ctrl_config_msa() falls through to next function __cfi_msm_dp_catalog_ctrl_set_pattern_state_bit()
-	drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_tune() falls through to next function dib8096p_cfg_DibRx()
-	drivers/media/pci/solo6x10/solo6x10.o: warning: objtool: tw28_set_ctrl_val() falls through to next function __cfi_tw28_get_ctrl_val()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function __cfi_mlx5e_mpwrq_max_num_entries()
-	drivers/nvme/target/nvmet.o: warning: objtool: nvmet_ctrl_state_show() falls through to next function __cfi_nvmet_ctrl_host_traddr_open()
-	drivers/regulator/rk808-regulator.o: warning: objtool: rk806_set_mode_dcdc() falls through to next function __cfi_rk806_get_mode_dcdc()
-	drivers/spi/spi-amd.o: warning: objtool: amd_set_spi_freq() falls through to next function amd_spi_busy_wait()
-	sound/soc/codecs/snd-soc-wcd9335.o: warning: objtool: wcd9335_slimbus_irq() falls through to next function __cfi_wcd9335_set_channel_map()
-	sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: wcd934x_slim_irq_handler() falls through to next function __cfi_swclk_gate_disable()
-
-x86_64-alpine-config.log
-	arch/x86/kernel/head_64.o: warning: objtool: xen_hypercall_hvm+0x30: sibling call from callable instruction with modified stack frame
-	drivers/bluetooth/hci_vhci.o: warning: objtool: vhci_coredump_hdr() falls through to next function vhci_open_timeout()
-	drivers/gpu/drm/amd/amdgpu/../display/dc/basics/fixpt31_32.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	drivers/gpu/drm/amd/amdgpu/../display/dc/spl/spl_fixpt31_32.o: warning: objtool: spl_fixpt_recip() falls through to next function spl_fixpt_sinc()
-	drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_set_frontend() falls through to next function dib8000_fe_get_tune_settings()
-	drivers/net/ethernet/jme.o: warning: objtool: jme_check_link() falls through to next function jme_powersave_phy()
-	drivers/net/ethernet/mellanox/mlx5/core/en/params.o: warning: objtool: mlx5e_mpwrq_max_log_rq_size() falls through to next function mlx5e_get_linear_rq_headroom()
-	drivers/net/ethernet/mellanox/mlx5/core/en/params.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function mlx5e_mpwrq_max_num_entries()
-	fs/bcachefs/btree_update_interior.o: warning: objtool: bch2_btree_split_leaf() falls through to next function bch2_btree_update_start()
-
-x86_64-archlinux-config.log
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: spl_fixpt_recip() falls through to next function spl_fixpt_sinc()
-	drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_set_frontend() falls through to next function dib8000_fe_get_tune_settings()
-	drivers/media/i2c/ccs/ccs.o: warning: objtool: ccs_set_selection() falls through to next function ccs_propagate()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_max_log_rq_size() falls through to next function mlx5e_get_linear_rq_headroom()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function mlx5e_mpwrq_max_num_entries()
-
-x86_64-debian-config.log
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: spl_fixpt_recip() falls through to next function spl_fixpt_sinc()
-	drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_set_frontend() falls through to next function dib8000_fe_get_tune_settings()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_max_log_rq_size() falls through to next function mlx5e_get_linear_rq_headroom()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function mlx5e_mpwrq_max_num_entries()
-
-x86_64-fedora-config.log
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: spl_fixpt_recip() falls through to next function spl_fixpt_sinc()
-	drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_set_frontend() falls through to next function dib8000_fe_get_tune_settings()
-	drivers/media/i2c/ccs/ccs.o: warning: objtool: ccs_set_selection() falls through to next function ccs_propagate()
-	drivers/media/pci/solo6x10/solo6x10.o: warning: objtool: tw28_set_ctrl_val() falls through to next function tw28_get_ctrl_val()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_max_log_rq_size() falls through to next function mlx5e_get_linear_rq_headroom()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function mlx5e_mpwrq_max_num_entries()
-
-x86_64-opensuse-config.log
-	drivers/bluetooth/hci_vhci.o: warning: objtool: vhci_coredump_hdr() falls through to next function vhci_open_timeout()
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: spl_fixpt_recip() falls through to next function spl_fixpt_sinc()
-	drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_set_frontend() falls through to next function dib8000_fe_get_tune_settings()
-	drivers/media/i2c/ccs/ccs.o: warning: objtool: ccs_set_selection() falls through to next function ccs_propagate()
-	drivers/misc/lkdtm/lkdtm.o: warning: objtool: execute_location+0x4f: relocation to !ENDBR: .text+0x11a8
-	drivers/net/ethernet/jme.o: warning: objtool: jme_check_link() falls through to next function jme_powersave_phy()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_max_log_rq_size() falls through to next function mlx5e_get_linear_rq_headroom()
-	drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function mlx5e_mpwrq_max_num_entries()
-
------------------------------------------------
-
-The second way is looking at warnings and what configurations they
-appear in. You will notice there are a good number of warnings that
-appear only in allmodconfig, so that could point to a sanitizer causing
-some weird behavior with code generation.
-
------------------------------------------------
-
-drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: .text.dc_fixpt_recip: unexpected end of section
-	loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-
-vmlinux.o: warning: objtool: .text.crash_shutdown_secondary: unexpected end of section
-	loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-
-vmlinux.o: warning: objtool: .text.kexec_reboot: unexpected end of section
-	loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-
-vmlinux.o: warning: objtool: .text.kexec_shutdown_secondary: unexpected end of section
-	loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-
-vmlinux.o: warning: objtool: .text.machine_kexec: unexpected end of section
-	loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-
-vmlinux.o: warning: objtool: ___bpf_prog_run+0x64: sibling call from callable instruction with modified stack frame
-	loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-
-vmlinux.o: warning: objtool: __efistub_efi_boot_kernel() falls through to next function __efistub_exit_boot_func()
-	loongarch-defconfig-CONFIG_LTO_CLANG_THIN=y.log
-
-arch/loongarch/kernel/machine_kexec.o: warning: objtool: .text: unexpected end of section
-	loongarch-defconfig.log
-
-arch/loongarch/kernel/machine_kexec.o: warning: objtool: crash_shutdown_secondary() falls through to next function machine_shutdown()
-	loongarch-defconfig.log
-
-arch/loongarch/kernel/machine_kexec.o: warning: objtool: kexec_reboot() falls through to next function crash_smp_send_stop()
-	loongarch-defconfig.log
-
-arch/loongarch/kernel/machine_kexec.o: warning: objtool: kexec_shutdown_secondary() falls through to next function machine_kexec()
-	loongarch-defconfig.log
-
-drivers/gpu/drm/amd/amdgpu/../display/dc/basics/fixpt31_32.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	loongarch-defconfig.log
-	x86_64-alpine-config.log
-
-kernel/bpf/core.o: warning: objtool: ___bpf_prog_run+0x64: sibling call from callable instruction with modified stack frame
-	loongarch-defconfig.log
-
-drivers/gpu/drm/msm/msm.o: warning: objtool: .text.msm_dp_catalog_ctrl_config_msa: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/iio/adc/at91-sama5d2_adc.o: warning: objtool: .text.at91_adc_probe: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/dvb-frontends/dib8000.o: warning: objtool: .text.dib8000_tune: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/dvb-frontends/rtl2832_sdr.o: warning: objtool: .text.rtl2832_sdr_s_fmt_sdr_cap: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/dvb-frontends/rtl2832_sdr.o: warning: objtool: .text.rtl2832_sdr_try_fmt_sdr_cap: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/i2c/mt9t112.o: warning: objtool: .text.mt9t112_set_fmt: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/i2c/mt9t112.o: warning: objtool: .text.mt9t112_set_params: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/usb/msi2500/msi2500.o: warning: objtool: .text.msi2500_s_fmt_sdr_cap: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/usb/msi2500/msi2500.o: warning: objtool: .text.msi2500_try_fmt_sdr_cap: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: .text.mlx5e_mpwrq_mtts_per_wqe: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/nvme/target/nvmet.o: warning: objtool: .text.nvmet_ctrl_state_show: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/pci/endpoint/functions/pci-epf-test.o: warning: objtool: .text.pci_epf_test_cmd_handler: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/regulator/rk808-regulator.o: warning: objtool: .text.rk806_set_mode_dcdc: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/spi/spi-amd.o: warning: objtool: .text.amd_set_spi_freq: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-sound/soc/codecs/snd-soc-wcd9335.o: warning: objtool: .text.wcd9335_slimbus_irq: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-vmlinux.o: warning: objtool: do_user_addr_fault+0xe5b: unreachable instruction
-	x86_64-allmodconfig-CONFIG_GCOV_KERNEL=n-CONFIG_KASAN=n-CONFIG_LTO_CLANG_THIN=y-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/gpu/drm/msm/msm.o: warning: objtool: msm_dp_catalog_ctrl_config_msa() falls through to next function __cfi_msm_dp_catalog_ctrl_set_pattern_state_bit()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_tune() falls through to next function dib8096p_cfg_DibRx()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/media/pci/solo6x10/solo6x10.o: warning: objtool: tw28_set_ctrl_val() falls through to next function __cfi_tw28_get_ctrl_val()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function __cfi_mlx5e_mpwrq_max_num_entries()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/nvme/target/nvmet.o: warning: objtool: nvmet_ctrl_state_show() falls through to next function __cfi_nvmet_ctrl_host_traddr_open()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/regulator/rk808-regulator.o: warning: objtool: rk806_set_mode_dcdc() falls through to next function __cfi_rk806_get_mode_dcdc()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-drivers/spi/spi-amd.o: warning: objtool: amd_set_spi_freq() falls through to next function amd_spi_busy_wait()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-sound/soc/codecs/snd-soc-wcd9335.o: warning: objtool: wcd9335_slimbus_irq() falls through to next function __cfi_wcd9335_set_channel_map()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: wcd934x_slim_irq_handler() falls through to next function __cfi_swclk_gate_disable()
-	x86_64-allmodconfig-CONFIG_WERROR=n-CONFIG_DRM_WERROR=n.log
-
-arch/x86/kernel/head_64.o: warning: objtool: xen_hypercall_hvm+0x30: sibling call from callable instruction with modified stack frame
-	x86_64-alpine-config.log
-
-drivers/bluetooth/hci_vhci.o: warning: objtool: vhci_coredump_hdr() falls through to next function vhci_open_timeout()
-	x86_64-alpine-config.log
-	x86_64-opensuse-config.log
-
-drivers/gpu/drm/amd/amdgpu/../display/dc/spl/spl_fixpt31_32.o: warning: objtool: spl_fixpt_recip() falls through to next function spl_fixpt_sinc()
-	x86_64-alpine-config.log
-
-drivers/media/dvb-frontends/dib8000.o: warning: objtool: dib8000_set_frontend() falls through to next function dib8000_fe_get_tune_settings()
-	x86_64-alpine-config.log
-	x86_64-archlinux-config.log
-	x86_64-debian-config.log
-	x86_64-fedora-config.log
-	x86_64-opensuse-config.log
-
-drivers/net/ethernet/jme.o: warning: objtool: jme_check_link() falls through to next function jme_powersave_phy()
-	x86_64-alpine-config.log
-	x86_64-opensuse-config.log
-
-drivers/net/ethernet/mellanox/mlx5/core/en/params.o: warning: objtool: mlx5e_mpwrq_max_log_rq_size() falls through to next function mlx5e_get_linear_rq_headroom()
-	x86_64-alpine-config.log
-
-drivers/net/ethernet/mellanox/mlx5/core/en/params.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function mlx5e_mpwrq_max_num_entries()
-	x86_64-alpine-config.log
-
-fs/bcachefs/btree_update_interior.o: warning: objtool: bch2_btree_split_leaf() falls through to next function bch2_btree_update_start()
-	x86_64-alpine-config.log
-
-drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: dc_fixpt_recip() falls through to next function dc_fixpt_sinc()
-	x86_64-archlinux-config.log
-	x86_64-debian-config.log
-	x86_64-fedora-config.log
-	x86_64-opensuse-config.log
-
-drivers/gpu/drm/amd/amdgpu/amdgpu.o: warning: objtool: spl_fixpt_recip() falls through to next function spl_fixpt_sinc()
-	x86_64-archlinux-config.log
-	x86_64-debian-config.log
-	x86_64-fedora-config.log
-	x86_64-opensuse-config.log
-
-drivers/media/i2c/ccs/ccs.o: warning: objtool: ccs_set_selection() falls through to next function ccs_propagate()
-	x86_64-archlinux-config.log
-	x86_64-fedora-config.log
-	x86_64-opensuse-config.log
-
-drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_max_log_rq_size() falls through to next function mlx5e_get_linear_rq_headroom()
-	x86_64-archlinux-config.log
-	x86_64-debian-config.log
-	x86_64-fedora-config.log
-	x86_64-opensuse-config.log
-
-drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.o: warning: objtool: mlx5e_mpwrq_mtts_per_wqe() falls through to next function mlx5e_mpwrq_max_num_entries()
-	x86_64-archlinux-config.log
-	x86_64-debian-config.log
-	x86_64-fedora-config.log
-	x86_64-opensuse-config.log
-
-drivers/media/pci/solo6x10/solo6x10.o: warning: objtool: tw28_set_ctrl_val() falls through to next function tw28_get_ctrl_val()
-	x86_64-fedora-config.log
-
-drivers/misc/lkdtm/lkdtm.o: warning: objtool: execute_location+0x4f: relocation to !ENDBR: .text+0x11a8
-	x86_64-opensuse-config.log
-
------------------------------------------------
-
-I know the fixpt_recip warnings from amdgpu.o have a patch on the
-mailing list and I think the LoongArch folks are aware of the ones in
-their builds.
-
-LTO does definitely give the compiler more ability to find and optimize
-around undefined behavior and that does make things more difficult to
-triage. Sanitizers muck things about too :/
-
-> But I can also envisage a world where that creates exactly as much
-> work for you, just introducing Kconfig hackery for no reason!
-
-Such is the nature of such changes. It is not that big of a deal for us
-to work around in the short term but it would still need to be addressed
-pretty quickly at that point.
-
-> > If exposing this to the world feels too premature, maybe the flag could
-> > be added then have a make variable like OBJTOOL_FLAGS to allow a
-> > developer to pass it through if they wish?
 > 
-> Yeah, that would definitely be a reasonable start.
+> It is true --strip-unneeded drops a lot of compiler-generated symbols, but
+> it also drops real symbols that originate in the source code.
 > 
-> I'll wait and see if Josh has any additional thoughts.
+> So, this would give user-visible changes for kallsyms at least.
 
-Sounds good, thanks again for bringing this up.
+Adding INSTALL_MOD_STRIP="--strip-unneeded" would be sufficient for
+riscv. However, this has the downside that riscv will require different
+flags than other architectures to get reasonably sized modules. 
 
-Cheers,
-Nathan
+I believe these symbols are only useful for debugging, is there a
+usecase for them to be available when the user has modules compiled with
+INSTALL_MOD_STRIP=1?
+
+- Charlie
+
+> 
+> 
+> $ riscv64-linux-gnu-nm  -n
+> /tmp/strip-unneeded/lib/modules/6.13.0-09760-g69e858e0b8b2/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+>  > /tmp/symbol-with-strip-unneeded
+> $ riscv64-linux-gnu-nm  -n
+> /tmp/strip-debug/lib/modules/6.13.0-09760-g69e858e0b8b2/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+>  > /tmp/symbol-with-strip-debug
+> 
+> $  diff -u /tmp/symbol-with-strip-debug  /tmp/symbol-with-strip-unneeded
+>  [ snip ]
+>  00000000001676cc t uvd_v6_0_ring_test_ring
+>  0000000000167802 t uvd_v6_0_ring_emit_pipeline_sync
+>  0000000000167a02 t uvd_v6_0_ring_emit_fence
+> -0000000000167b58 r CSWTCH.2
+> -0000000000167b68 r abm_settings
+> -0000000000167b80 r abm_config
+> -0000000000167b90 r min_reduction_table_v_2_2
+> -0000000000167ba0 r max_reduction_table_v_2_2
+> -0000000000167bb0 r min_reduction_table
+> -0000000000167bc0 r max_reduction_table
+> -0000000000167bd0 r custom_backlight_curve0
+>  0000000000167c38 r abm_settings_config2
+>  0000000000167c70 r abm_settings_config1
+>  0000000000167ca8 r abm_settings_config0
+> 
+> 
+> 
+> 
+> --
+> Best Regards
+> Masahiro Yamada
 
