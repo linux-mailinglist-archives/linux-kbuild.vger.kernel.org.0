@@ -1,165 +1,89 @@
-Return-Path: <linux-kbuild+bounces-5580-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5581-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B201A23F74
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 16:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA1FA24157
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 17:58:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D21761881CDB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 15:10:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3B38188321B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 16:58:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B48C11C5D74;
-	Fri, 31 Jan 2025 15:10:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67CB81E570E;
+	Fri, 31 Jan 2025 16:58:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jo4hQjC5"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jDnvnTY4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C94D3D66;
-	Fri, 31 Jan 2025 15:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D502563
+	for <linux-kbuild@vger.kernel.org>; Fri, 31 Jan 2025 16:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738336242; cv=none; b=vGuX1xWSre+ewkN8aJ7gTNhDYVDE13vrf/R0JO0/uHrycN4qJS1hPVvaVFV/rmJGH8kbgWDwY801+OG86LNerk6iiowrAwaeto1/jBLiHXbNIR63KQmgoyoueiFgnljmkb+9+0xnZuXtlh6I+dy7RqoH+xGoxsGMjtcCWfPGF8M=
+	t=1738342716; cv=none; b=kS5IwGdVJqM/2jCYMkc3Inb2WIMkGyZsoBGhemc5oijdHRUyr2+7QJSSYAGloi5p+LhT7fTNMLk/Xnt6BIympkP+S/Uk8RZpoymiETIHth8jfSluCLTRBOXmjYkjDnsNpVM4UnWjSwonFseMnXDmKBZFhuTUKkDAHuQhVJNvw3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738336242; c=relaxed/simple;
-	bh=eX0cVA2yp71nvD7An+e7tafzcanp+36FNBsdUymO1Lg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ohWOtm5q4UazreBtNheqtQKFZuNbj4ikrY2Brg4dlsUZIGZvNf+4EoCYX3ozbTu3yOhhp5LeBU3WHZPaYhQmOVOr6Kyy/UdodAEN3LwLOed8vKR+vu6K964NPV/EjcCnINSkRAk/MzT7ZqON8tMMgiopyMwFahi8KfAG+hYTVk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jo4hQjC5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110CFC4CEE6;
-	Fri, 31 Jan 2025 15:10:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738336241;
-	bh=eX0cVA2yp71nvD7An+e7tafzcanp+36FNBsdUymO1Lg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jo4hQjC5aXakRQngnuNqTei/aintLDideMNfRRMpoHKdagZd5dGCa9ntGDzqkZvxx
-	 tjxNoP4rC9xGhTf26llA1C/FXgbksxQUxV0wb6eRKSKviQqTFvceQuWEPQAzG25xpU
-	 1DyTLB4R/PyDE5syvJ5JTKw/uWoLqdb2ZVc6Gud0gC94BX9r2hAZh0G0CZeXy4/BDZ
-	 P//v8CKaDoI3WzYonswB3dLmuR3R/JOUqn+HmhVi5/O1D4sLcnGI5W1PCtnsfwpi76
-	 JQUBaDVdVHiIXwWsFOadepXsQ7rBxIULMsiWOY1MQiG50924Yncf/e4v7Z1RvC2jMd
-	 2pi680JBilq0g==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-543cc81ddebso2371210e87.1;
-        Fri, 31 Jan 2025 07:10:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVPnxAXyhZ0leAi3rulitHw2jwdEKrwGUxs/GS+NfTwF3rQsMBiSNW5OvhLA8f9C8WR9FsupEwaowoo+JY=@vger.kernel.org, AJvYcCWjbF/JD23sq/iNX8Xxh99qiXhWzHXbgrBHx4R38LsbLxZmOt7XzpnJpC7BmuQ1ziMarhZtcaVf8lOgoaG1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2YMO3proVoZLT7FangXp6cpTD4VXnQ0gzjEGywI0/FhQikpTQ
-	wLbfpHbW+9cangED9XUOrmHM90GfXBGuRoCZwIkeccsw+zugbUjtttFArc0DGXiRxub7ocyqORE
-	K9fb7ElIW5cgx7rVIIoL2SAuLhiY=
-X-Google-Smtp-Source: AGHT+IEa5D7ILTAFw/tuud1q0Rc56l9olpgCHLQg0r7/Z2bDIApocb2GXjNIBwm86F2MUJw8DwMA84TcH2H9Zj6R7x4=
-X-Received: by 2002:a05:6512:3a8e:b0:542:8d45:cb3e with SMTP id
- 2adb3069b0e04-543e4beb1d2mr4122940e87.18.1738336239628; Fri, 31 Jan 2025
- 07:10:39 -0800 (PST)
+	s=arc-20240116; t=1738342716; c=relaxed/simple;
+	bh=xOJb1xRsrhAC+IlZ+UD5XxQ4SDRFfH/5tAWUx5IVt9A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WVrc0EhBrHba6Btpl1RKEseALNVAdxDg5QWxfz/vOhsnbbOgIC6ASbub9haAAfdANlSwMMA8cy3Vg5Wu6oVmz8xQbIQfL6MPoBxmnFu506Nx2Z4KFEqf8kRvqeVsGxVLq2RRhdB5SWoZJOe3kxc5skJ+24OOVtX8ty10vzMoVE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jDnvnTY4; arc=none smtp.client-ip=91.218.175.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <f8759dae-ec1c-4f3c-a44a-dbd22d7964e4@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738342707;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xOJb1xRsrhAC+IlZ+UD5XxQ4SDRFfH/5tAWUx5IVt9A=;
+	b=jDnvnTY46CIUzdJJg/Y1TaH+JgUZpovG+TiVEW2nij2uF91ccg3wxv/M0Bi1wJWrFgm/Zi
+	IqAKmfTgZngUVUcVZm6Hx8P6oosWIiZ53dE1w0a3xHRaKX/+VmuVvivoQRtkMzeFZ+BWun
+	JO22xSkdydzNTOKqz0X3Ovbf4cc0hvM=
+Date: Fri, 31 Jan 2025 08:58:21 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250122-strip_unneeded-v1-1-ac29a726cb41@rivosinc.com>
- <20250131035245.GA47826@ax162> <Z5xzkwwZAWRRLCdj@ghost>
-In-Reply-To: <Z5xzkwwZAWRRLCdj@ghost>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 1 Feb 2025 00:10:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=1sNs+hOW8gL=7xOs=gHLToTAnAUTF1SizroYoui8sg@mail.gmail.com>
-X-Gm-Features: AWEUYZnyZe5mPzh78I__zpHIfZytPX5pJn8z98JOPt3b9lu7WLwCwryXByvCTvU
-Message-ID: <CAK7LNAR=1sNs+hOW8gL=7xOs=gHLToTAnAUTF1SizroYoui8sg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Use --strip-unneeded with INSTALL_MOD_STRIP
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] kbuild: fix Clang LTO with CONFIG_OBJTOOL=n
+Content-Language: en-GB
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev
+References: <20250131140407.1392008-1-masahiroy@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <20250131140407.1392008-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jan 31, 2025 at 3:54=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.c=
-om> wrote:
+
+
+
+On 1/31/25 6:04 AM, Masahiro Yamada wrote:
+> Since commit bede169618c6 ("kbuild: enable objtool for *.mod.o and
+> additional kernel objects"), Clang LTO builds do not perform any
+> optimizations when CONFIG_OBJTOOL is disable (e.g., for ARCH=arm64).
+> This is because every LLVM bitcode file is immediately converted to
+> ELF format before the object files are linked together.
 >
-> On Thu, Jan 30, 2025 at 08:52:45PM -0700, Nathan Chancellor wrote:
-> > On Wed, Jan 22, 2025 at 07:17:26PM -0800, Charlie Jenkins wrote:
-> > > On riscv, kernel modules end up with a significant number of local
-> > > symbols. This becomes apparent when compiling modules with debug symb=
-ols
-> > > enabled. Using amdgpu.ko as an example of a large module, on riscv th=
-e
-> > > size is 754MB (no stripping), 53MB (--strip-debug), and 21MB
-> > > (--strip-unneeded). ON x86, amdgpu.ko is 482MB (no stripping), 21MB
-> > > (--strip-debug), and 20MB (--strip-unneeded).
-> > >
-> > > Use --strip-unneeded instead of --strip-debug to strip modules so
-> > > decrease the size of the resulting modules. This is particularly
-> > > relevant for riscv, but also marginally aids other architectures.
-> > >
-> > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> >
-> > Is there any sort of regression risk with this patch? If so, another
-> > option may be to give another level to INSTALL_MOD_STRIP like 2 so that
-> > INSTALL_MOD_STRIP=3D1 continues to behave as before but people can easi=
-ly
-> > opt into this option. No strong opinion because I am not sure but was
-> > not sure if it was considered.
+> This commit fixes the breakage.
 >
-> I do not believe this would cause regressions. The description on gnu
-> strip is:
->
-> "Remove all symbols that are not needed for relocation processing in
-> addition to debugging symbols and sections stripped by --strip-debug."
->
-> The description on llvm-strip is:
->
-> "Remove from the output all local or undefined symbols that are not
-> required by relocations. Also remove all debug sections."
->
-> gnu strip --strip-unneeded strips slightly more aggressively but it does
-> not appear this causes any issues.
->
-> >
-> > Regardless:
-> >
-> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> Thanks!
->
+> Fixes: bede169618c6 ("kbuild: enable objtool for *.mod.o and additional kernel objects")
+> Reported-by: Yonghong Song <yonghong.song@linux.dev>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
+Thanks for the fix!
 
-It is true --strip-unneeded drops a lot of compiler-generated symbols, but
-it also drops real symbols that originate in the source code.
+I tested x86_64 and arm64 for with and without lto, everything works fine. So
 
-So, this would give user-visible changes for kallsyms at least.
+Tested-by: Yonghong Song <yonghong.song@linux.dev>
 
-
-$ riscv64-linux-gnu-nm  -n
-/tmp/strip-unneeded/lib/modules/6.13.0-09760-g69e858e0b8b2/kernel/drivers/g=
-pu/drm/amd/amdgpu/amdgpu.ko
- > /tmp/symbol-with-strip-unneeded
-$ riscv64-linux-gnu-nm  -n
-/tmp/strip-debug/lib/modules/6.13.0-09760-g69e858e0b8b2/kernel/drivers/gpu/=
-drm/amd/amdgpu/amdgpu.ko
- > /tmp/symbol-with-strip-debug
-
-$  diff -u /tmp/symbol-with-strip-debug  /tmp/symbol-with-strip-unneeded
- [ snip ]
- 00000000001676cc t uvd_v6_0_ring_test_ring
- 0000000000167802 t uvd_v6_0_ring_emit_pipeline_sync
- 0000000000167a02 t uvd_v6_0_ring_emit_fence
--0000000000167b58 r CSWTCH.2
--0000000000167b68 r abm_settings
--0000000000167b80 r abm_config
--0000000000167b90 r min_reduction_table_v_2_2
--0000000000167ba0 r max_reduction_table_v_2_2
--0000000000167bb0 r min_reduction_table
--0000000000167bc0 r max_reduction_table
--0000000000167bd0 r custom_backlight_curve0
- 0000000000167c38 r abm_settings_config2
- 0000000000167c70 r abm_settings_config1
- 0000000000167ca8 r abm_settings_config0
-
-
-
-
---
-Best Regards
-Masahiro Yamada
 
