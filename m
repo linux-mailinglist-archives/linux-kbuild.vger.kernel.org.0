@@ -1,180 +1,247 @@
-Return-Path: <linux-kbuild+bounces-5582-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5583-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860F7A2417B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 18:03:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC17AA242CF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 19:35:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00DF9163CAA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 17:03:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B5881884798
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2025 18:35:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A96C6A8D2;
-	Fri, 31 Jan 2025 17:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0F41F03ED;
+	Fri, 31 Jan 2025 18:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Wo/AF/ew"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Je+OZp+s"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E094738DF9
-	for <linux-kbuild@vger.kernel.org>; Fri, 31 Jan 2025 17:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE90C7081F;
+	Fri, 31 Jan 2025 18:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738343002; cv=none; b=jWy89vK9TzTrgks7ttFJ/13rurOMLFHbWIuSe/ENNkjHM65wuoMbUhIWrKTzJAsfBZmjTqLUnfERwRnSH+QYOKX20ac/pW+mIKcQnFq5UHZzAYCR1f99HopqXR12z2QOLGeYMxoQAe14JxYq4I6PFndOk5X7iAuSchvL6qIfV94=
+	t=1738348543; cv=none; b=FASHWEOwHQMIeJdEjzcLTQRsjtOn8KSfa4kxzuCzPHMdDWaRL+UStuM5LqrZR7jK7QZEYlwj9ZEkFSozd44jxlSVoGMa7qhcfLEHjfgju0oao1sI1VsBnh+yZGhz8KE1iKME/d/xD52smXPPBLBqBvRpQFZA1EOPCGa51A8MZvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738343002; c=relaxed/simple;
-	bh=qTAvAV+ljVpaZZ5TLRK7tSG7FxAocWPV0Yb1WBFSq4A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z0Pq9KI2/cOU4qQ7lSiOtuYoPQ4oCnGowfdvr30LlcJFhH1EtV08LyG41w7zSQhEgIJSGFIpf1cjmtIPrXObUSb32+b5d36fqJLahsvmAicXQ4/nNnUsOcrwKh8kKwd229/KaqQGiUzfXDBUMdGvQ6dc8YCnJdlvd0ck0ED5PIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Wo/AF/ew; arc=none smtp.client-ip=95.215.58.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <9c426abe-471a-43c4-bc69-d19c290b5b88@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1738342997;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uxBTI0YbED6PyyykEKqp0D9DL3nSCpBnGFcX6r0oGrk=;
-	b=Wo/AF/ewAUMmhGCNA7wdAjTHWcc9BIWpkJvm4mJ4bqg7UqqhwL5qslXgFxr+oAXw8tjlHY
-	ZgQVWKRr7BQyxDuVFMIwXBU3xTyHrIKD+zZNXhlVea4R/Ze6W5VJgDd1i+K2XFlIJH21Ft
-	8gNb2+W45zc1+96rS+NfRPi1xjG6sMw=
-Date: Fri, 31 Jan 2025 09:03:11 -0800
+	s=arc-20240116; t=1738348543; c=relaxed/simple;
+	bh=EaMcjhb4HCyABF3C5By3MXJbUDe+AyJi93ipbLgmkSY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bT38FY9AHfMwhKdD/3NvXxH24bzXkHpae3KNaCX8LBjAQK4HZmcpgU6iWQCpzkQCj4pPKWJ3B2DiHd/Y9UQIogQV9JFJIN4Ay7Df5tyeZTPm2Vei3ir3wZRucF2sl1pS63CIwt0pVhCy/5OkAo//guQurqLxx2V2H8Y3rAJ6f/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Je+OZp+s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 398C2C4CED3;
+	Fri, 31 Jan 2025 18:35:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738348542;
+	bh=EaMcjhb4HCyABF3C5By3MXJbUDe+AyJi93ipbLgmkSY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Je+OZp+sMzZ8y8eJXBCGnqLSG3d7RO0OYZcVR/+Y6NMTcnvthl70g+5BmF80QBAY3
+	 ICTten8cPB0EQ8mggyhvGjsUwZOdGpDit5rzhBV+Y0gShH3F/VsxzAw1WBOuddrD5J
+	 68plw8Iyr/8u2la3flX78eJSYqw2/ANiI1/e0AwhCclp7ypgf7A1D89AumEmdm71lp
+	 FGn0FS3sMNCaMZ10cIbYCAealI+d7gN1AO7qYaZK4fjt5l45CN3OqRDlrERk/fsSCN
+	 F5RWpt0R91SRxGTkLqbLrXUgeSQ7fT0+6UMTHuChbP2uKCkXL8QUxtjkrMKYO9Lie0
+	 2zzsnvUI2Pmuw==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30762598511so23474691fa.0;
+        Fri, 31 Jan 2025 10:35:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU9VMqCQMPCki9EZ6tRnJPTXLThaepGVSjOcaFlrUjVsFCeC8EZoEq7dncSMLP3VD0VVlYAbMi/XZDciiU=@vger.kernel.org, AJvYcCVOi7rV/iuauBd9UJY4kCAPcuRUGBFPh682VnEXbaltYLFcM738JAMHGamY1ieC9TLoBdcGZ81vdvFMFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YypIORFwOOb03CThEn8UnxBsRBY8pHYMIw5GZ1xWualMufmcDb1
+	o0aV7NZglzg3mDVXCmnSC7aHokCAuYK2RIgYySMFKBBgncswKl4fhCrFBX50GVEf6QS3pffzx6w
+	3EIDOgzrtw/eEkfdO/mbeG+XF2R4=
+X-Google-Smtp-Source: AGHT+IF/PkjaeYBFmgnvEk7vgpn8JvoIm/XXwf59wvtHOUK2C9lacjjTkP+Om+I3FP91kPVHYBT64zI31JRRVCpFHYs=
+X-Received: by 2002:a2e:a548:0:b0:307:2bc6:5eb9 with SMTP id
+ 38308e7fff4ca-307968c0568mr47983691fa.4.1738348540790; Fri, 31 Jan 2025
+ 10:35:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] kbuild: Fix lto build issue for aarch64
-Content-Language: en-GB
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
- Josh Poimboeuf <jpoimboe@kernel.org>, kernel-team@fb.com,
- Marco Elver <elver@google.com>, Nathan Chancellor <nathan@kernel.org>,
- Nikolay Borisov <nik.borisov@suse.com>, Paul Menzel <pmenzel@molgen.mpg.de>,
- Song Liu <song@kernel.org>
-References: <20250130222208.4109974-1-yonghong.song@linux.dev>
- <CAK7LNASOKf=VWcgvncLqkCwq8bZOe-9y=zydJhRwy+sQr1jf=Q@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <CAK7LNASOKf=VWcgvncLqkCwq8bZOe-9y=zydJhRwy+sQr1jf=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250113155306.1922992-2-ardb+git@google.com>
+In-Reply-To: <20250113155306.1922992-2-ardb+git@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 1 Feb 2025 03:35:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARmPcM2RTBOfpep7puY8hSJ4rz6mOrw+5EuFHh6iQ0_iA@mail.gmail.com>
+X-Gm-Features: AWEUYZk_UMjgJBjWnjAjhexeeD2YPTkmaB1_Gb4gNChcZ5GhchP6_vEDlKvItsE
+Message-ID: <CAK7LNARmPcM2RTBOfpep7puY8hSJ4rz6mOrw+5EuFHh6iQ0_iA@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Strip runtime const RELA sections correctly
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	Ron Economos <re@w6rz.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 14, 2025 at 12:53=E2=80=AFAM Ard Biesheuvel <ardb+git@google.co=
+m> wrote:
+>
+> From: Ard Biesheuvel <ardb@kernel.org>
+>
+> Due to the fact that runtime const ELF sections are named without a
+> leading period or double underscore, the RSTRIP logic that removes the
+> static RELA sections from vmlinux fails to identify them.
+
+
+Dumb question - why can't you rename the section 'runtime*' to '.runtime*' =
+?
+
+.rel* matches to sections that just happen to start with '.rel',
+which may not be REL or RELA.
 
 
 
 
-On 1/31/25 6:08 AM, Masahiro Yamada wrote:
-> On Fri, Jan 31, 2025 at 7:25 AM Yonghong Song <yonghong.song@linux.dev> wrote:
->> Commit bede169618c6 ("kbuild: enable objtool for *.mod.o and additional kernel objects")
->> added objtool support for various files like *.mod.o, vmlinux.export.o, etc.
->> But unfortunately it also breaks lto build for aarch64 where a common source file,
->> e.g., kernel/bpf/syscall.c, is compiled with command:
->>    clang ... -flto=thin ... -c -o kernel/bpf/syscall.o /home/yhs/work/bpf-next/kernel/bpf/syscall.c  ;
->>    ld.lld -EL  -maarch64elf -z norelro -mllvm -import-instr-limit=5 -z noexecstack   \
->>        -r -o kernel/bpf/.tmp_syscall.o kernel/bpf/syscall.o;
->>    mv kernel/bpf/.tmp_syscall.o kernel/bpf/syscall.o
->>
->> The above command line completely destroyed thin-lto since file kernel/bpf/syscall.o
->> is expected to be a llvm bitcode file and later ld.lld can do cross-file inlining.
->>
->> The issue has been reported in [1] and Masahiro actually provided a suggested fix.
->> But unfortunately that suggested fix does not work.
-> Thanks for the report, but your patch does not fix the real issue.
->
-> I think my original [1] worked, although it was a bit redundant
-> (extra $(LD) is executed where it is unnecessary).
->
->
->> This patch made improvement on top of [2] and the issue for aarch64 lto is fixed.
->> The x86_64 is also tested without any issue.
-> You are not fixing the issue.
-> You are just disabling objtool (i.e. reverting  bede169618c6).
 
-You are correct. Essentially my patch just reverted bede169618c6
-since I am not familar with Makefile.build and Makefile.lib so
-won't be able to come up with a proper solution.
-
+> This results
+> in a situation like below, where some sections that were supposed to get
+> removed are left behind.
 >
+>   [Nr] Name                              Type            Address         =
+ Off     Size   ES Flg Lk Inf Al
 >
->> In [1], commit 1b466b29a3bf ("kbuild: re-enable KCSAN for autogenerated *.mod.c intermediaries")
->> enabled kcsan for *.mod.c files. This patch actually disabled that.
->> Should we revert commit 1b466b29a3bf as well?
-> No.
-> I do not want to revert 1b466b29a3bf.
+>   [58] runtime_shift_d_hash_shift        PROGBITS        ffffffff83500f50=
+ 2900f50 000014 00   A  0   0  1
+>   [59] .relaruntime_shift_d_hash_shift   RELA            0000000000000000=
+ 55b6f00 000078 18   I 70  58  8
+>   [60] runtime_ptr_dentry_hashtable      PROGBITS        ffffffff83500f68=
+ 2900f68 000014 00   A  0   0  1
+>   [61] .relaruntime_ptr_dentry_hashtable RELA            0000000000000000=
+ 55b6f78 000078 18   I 70  60  8
+>   [62] runtime_ptr_USER_PTR_MAX          PROGBITS        ffffffff83500f80=
+ 2900f80 000238 00   A  0   0  1
+>   [63] .relaruntime_ptr_USER_PTR_MAX     RELA            0000000000000000=
+ 55b6ff0 000d50 18   I 70  62  8
 >
-> If 1b466b29a3bf were reverted, there would be no point
-> in applying bede169618c6.
+> So tweak the match expression to strip all sections starting with .rel.
+> While at it, consolidate the logic used by RISC-V, s390 and x86 into a
+> single shared Makefile library command.
 >
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-riscv@lists.infradead.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: Ron Economos <re@w6rz.net>
+> Link: https://lore.kernel.org/all/CAHk-=3Dwjk3ynjomNvFN8jf9A1k=3DqSc=3DJF=
+F591W00uXj-qqNUxPQ@mail.gmail.com/
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+> v3: put back missing 'endif' to fix the RISC-V build
+> v2: add missing include of scripts/Makefile.lib
 >
->>    [1] https://lore.kernel.org/lkml/20241113234526.402738-1-masahiroy@kernel.org/
->>    [2] https://lore.kernel.org/lkml/CAK7LNATpu5zYwx7kmaknsPGLXt8n8uCXyFpdi5vZeFZiBxYkGw@mail.gmail.com/
->>
->> Fixes: bede169618c6 ("kbuild: enable objtool for *.mod.o and additional kernel objects")
->> Signed-off-by: Yonghong Song <yonghong.song@linux.dev>
->> ---
->>   scripts/Makefile.build | 2 ++
->>   scripts/Makefile.lib   | 4 +---
->>   2 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
->> index c16e4cf54d77..e9ae38b71a08 100644
->> --- a/scripts/Makefile.build
->> +++ b/scripts/Makefile.build
->> @@ -129,6 +129,8 @@ $(obj)/%.ll: $(obj)/%.c FORCE
->>
->>   is-single-obj-m = $(and $(part-of-module),$(filter $@, $(obj-m)),y)
->>
->> +need-ld-single = $(is-single-obj-m)
->> +
->>   ifdef CONFIG_MODVERSIONS
->>   # When module versioning is enabled the following steps are executed:
->>   # o compile a <file>.o from <file>.c
->> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
->> index 7395200538da..f04672bfe068 100644
->> --- a/scripts/Makefile.lib
->> +++ b/scripts/Makefile.lib
->> @@ -302,11 +302,9 @@ endef
->>   # ===========================================================================
->>   # These are shared by some Makefile.* files.
->>
->> -objtool-enabled := y
->> -
-> This is wrong.
+>  arch/riscv/Makefile.postlink |  8 ++------
+>  arch/s390/Makefile.postlink  |  6 +-----
+>  arch/x86/Makefile.postlink   |  6 +-----
+>  scripts/Makefile.lib         |  3 +++
+>  4 files changed, 7 insertions(+), 18 deletions(-)
 >
-> You are simply disabling objtool for *.mod.o
+> diff --git a/arch/riscv/Makefile.postlink b/arch/riscv/Makefile.postlink
+> index 829b9abc91f6..750d2784f69e 100644
+> --- a/arch/riscv/Makefile.postlink
+> +++ b/arch/riscv/Makefile.postlink
+> @@ -10,6 +10,7 @@ __archpost:
 >
-> I am pretty sure the problem reported by 54babdc
-> will come back.
+>  -include include/config/auto.conf
+>  include $(srctree)/scripts/Kbuild.include
+> +include $(srctree)/scripts/Makefile.lib
 >
+>  quiet_cmd_relocs_check =3D CHKREL  $@
+>  cmd_relocs_check =3D                                                    =
+ \
+> @@ -19,11 +20,6 @@ ifdef CONFIG_RELOCATABLE
+>  quiet_cmd_cp_vmlinux_relocs =3D CPREL   vmlinux.relocs
+>  cmd_cp_vmlinux_relocs =3D cp vmlinux vmlinux.relocs
 >
-> I submitted a proper fix.
-
-I tested the patch with arm64/x86_64 + lto/no-lto. Everything works fine.
-I have replied with my Tested-by tag. Thanks!
-
+> -quiet_cmd_relocs_strip =3D STRIPREL $@
+> -cmd_relocs_strip =3D $(OBJCOPY)   --remove-section=3D'.rel.*'       \
+> -                                --remove-section=3D'.rel__*'      \
+> -                                --remove-section=3D'.rela.*'      \
+> -                                --remove-section=3D'.rela__*' $@
+>  endif
 >
+>  # `@true` prevents complaint when there is nothing to be done
+> @@ -33,7 +27,7 @@ vmlinux: FORCE
+>  ifdef CONFIG_RELOCATABLE
+>         $(call if_changed,relocs_check)
+>         $(call if_changed,cp_vmlinux_relocs)
+> -       $(call if_changed,relocs_strip)
+> +       $(call if_changed,strip_relocs)
+>  endif
 >
+>  clean:
+> diff --git a/arch/s390/Makefile.postlink b/arch/s390/Makefile.postlink
+> index df82f5410769..1ae5478cd6ac 100644
+> --- a/arch/s390/Makefile.postlink
+> +++ b/arch/s390/Makefile.postlink
+> @@ -11,6 +11,7 @@ __archpost:
 >
->>   ifdef CONFIG_LTO_CLANG
->>   # objtool cannot process LLVM IR. Make $(LD) covert LLVM IR to ELF here.
->> -cmd_ld_single = $(if $(objtool-enabled), ; $(LD) $(ld_flags) -r -o $(tmp-target) $@; mv $(tmp-target) $@)
->> +cmd_ld_single = $(if $(need-ld-single), ; $(LD) $(ld_flags) -r -o $(tmp-target) $@; mv $(tmp-target) $@)
->>   endif
->>
->>   quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
->> --
->> 2.43.5
->>
+>  -include include/config/auto.conf
+>  include $(srctree)/scripts/Kbuild.include
+> +include $(srctree)/scripts/Makefile.lib
+>
+>  CMD_RELOCS=3Darch/s390/tools/relocs
+>  OUT_RELOCS =3D arch/s390/boot
+> @@ -19,11 +20,6 @@ quiet_cmd_relocs =3D RELOCS  $(OUT_RELOCS)/relocs.S
+>         mkdir -p $(OUT_RELOCS); \
+>         $(CMD_RELOCS) $@ > $(OUT_RELOCS)/relocs.S
+>
+> -quiet_cmd_strip_relocs =3D RSTRIP  $@
+> -      cmd_strip_relocs =3D \
+> -       $(OBJCOPY) --remove-section=3D'.rel.*' --remove-section=3D'.rel__=
+*' \
+> -                  --remove-section=3D'.rela.*' --remove-section=3D'.rela=
+__*' $@
+> -
+>  vmlinux: FORCE
+>         $(call cmd,relocs)
+>         $(call cmd,strip_relocs)
+> diff --git a/arch/x86/Makefile.postlink b/arch/x86/Makefile.postlink
+> index fef2e977cc7d..8b8a68162c94 100644
+> --- a/arch/x86/Makefile.postlink
+> +++ b/arch/x86/Makefile.postlink
+> @@ -11,6 +11,7 @@ __archpost:
+>
+>  -include include/config/auto.conf
+>  include $(srctree)/scripts/Kbuild.include
+> +include $(srctree)/scripts/Makefile.lib
+>
+>  CMD_RELOCS =3D arch/x86/tools/relocs
+>  OUT_RELOCS =3D arch/x86/boot/compressed
+> @@ -20,11 +21,6 @@ quiet_cmd_relocs =3D RELOCS  $(OUT_RELOCS)/$@.relocs
+>         $(CMD_RELOCS) $@ > $(OUT_RELOCS)/$@.relocs; \
+>         $(CMD_RELOCS) --abs-relocs $@
+>
+> -quiet_cmd_strip_relocs =3D RSTRIP  $@
+> -      cmd_strip_relocs =3D \
+> -       $(OBJCOPY) --remove-section=3D'.rel.*' --remove-section=3D'.rel__=
+*' \
+> -                  --remove-section=3D'.rela.*' --remove-section=3D'.rela=
+__*' $@
+> -
+>  # `@true` prevents complaint when there is nothing to be done
+>
+>  vmlinux: FORCE
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 7395200538da..f604f51d23ca 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -374,6 +374,9 @@ quiet_cmd_ar =3D AR      $@
+>  quiet_cmd_objcopy =3D OBJCOPY $@
+>  cmd_objcopy =3D $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
+>
+> +quiet_cmd_strip_relocs =3D RSTRIP  $@
+> +cmd_strip_relocs =3D $(OBJCOPY) --remove-section=3D'.rel*' $@
+> +
+>  # Gzip
+>  # ----------------------------------------------------------------------=
+-----
 >
 > --
-> Best Regards
+> 2.47.1.688.g23fc6f90ad-goog
 >
-> Masahiro Yamada
 
+
+--=20
+Best Regards
+Masahiro Yamada
 
