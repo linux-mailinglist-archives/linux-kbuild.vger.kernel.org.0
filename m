@@ -1,118 +1,99 @@
-Return-Path: <linux-kbuild+bounces-5595-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5596-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD06BA247F8
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2025 10:31:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F0BA248F7
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2025 13:22:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1283E7A2E23
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2025 09:30:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9110B3A3828
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2025 12:22:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C06191369AA;
-	Sat,  1 Feb 2025 09:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26004194A74;
+	Sat,  1 Feb 2025 12:22:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="icEKna1a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OBwYAAqH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B989433D1;
-	Sat,  1 Feb 2025 09:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743F115B0F2
+	for <linux-kbuild@vger.kernel.org>; Sat,  1 Feb 2025 12:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738402281; cv=none; b=hwQXzckC2B1wOzvR1XwqYSxRvSsSJQFNDmk5aiKzMitxlH1G3M3wUfW32jblwHLxJA2PamIH79ayWGvjpWzeuYHxuMh2IuoU2eOYDGWGwl7kSm1U6ZWINsIfbOt82Ed6MoF7UcrUgKFGIVLVTfPqnlcqd/Gwdkhmv/4FREoBrrY=
+	t=1738412544; cv=none; b=VlYYarwHLRflfdGD+CkJ9kWmj0Srdj2hl5YCLdEDVaT+K1mfHqqvyKraMJQdL2RgxfWmPWbsHZD6mfWXHewJ7VbQCWTfkK6Hg3fWiFDP0MxOmMRobk2dPU9nUb9ACRt4A50b9tB+ya2YwnCC2nj7tpF+O7qLz+AJ0excG55jdLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738402281; c=relaxed/simple;
-	bh=6DiUo9G39DaWbmRy6lCYOWw+aW2k6BNakn+GWpCVmYU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RbuAX03rhXT87OSmsVHmLdTPuBSN9aS3hiaG61BO6vDhtbbo4lvw/sUCVR38aoLHkFsm9k0d47T7/vg473GMrbqRZADYRHvt0qMKWa3LhAeQwdTRPR/I0+YQuloywgZBJl2TUN7AiidpmUv1BgROSGgYdHJWGsgOjXJe653sIr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=icEKna1a; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F06BEC4CEE2;
-	Sat,  1 Feb 2025 09:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738402281;
-	bh=6DiUo9G39DaWbmRy6lCYOWw+aW2k6BNakn+GWpCVmYU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=icEKna1ax3M+9sQ0nOXpx2qrPh0SywEn1Sq7vInQ1kK0S4/2Oc7ed3GACSDbBjn96
-	 q7Dsn2yhfforlX9dr6HKfVo7u2Uq9JZLXMxnpz865w1zGfzg3MNj1fHvxnsfNael3r
-	 4jn5URjGKXhvvmPsMLhpT4pKHw4gvpf9KTqWZRw6CoayNRPnBQUUnEuiHGsm7eoO0O
-	 tLB2DMAvyI7E1Gjbb3LckYGdDtbS38mKPQVEIFCtxM4Yd/EmYyy+gRZVVeU1uE1k6K
-	 68aFoakDdK7CFmqPtTcDaCk9ZYvr0DXHTQ4klIdDGAKdpsrnlcSYRFfpoqJwPF4LGh
-	 1Ig8ZFpctEcMQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-303548a933aso23509831fa.3;
-        Sat, 01 Feb 2025 01:31:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWC3M9YwJ2km358cx/RCKCDSShPKkbmirftu/8amwSWLphzQCzzklJL4c/BUpMzmwThLssvCIP8DvTjdAE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa7JmMbk5tPJJACt/hSDcLVQvBaUo1wf4940fBzDlHd0qfEe3m
-	71XIMHqIyoKBiJSAHOOECO3v/Fk9pXImMu36tBOQ/HT2UzxT2LfoWA6vHjcrnGzfXTwtLYh+5Nb
-	+i5oraxnrlEa5hn2Pc3/GtSOtzbU=
-X-Google-Smtp-Source: AGHT+IFZ+BVnAff2qucCKMwfJKaFH6U9NoPlFG9EX15dBLth7fCztHJ+8Xt/1N2IXzize4CrVjAIfWsnTe5r1UMeecE=
-X-Received: by 2002:a2e:a54a:0:b0:302:4a61:8b85 with SMTP id
- 38308e7fff4ca-307968fcc32mr50769211fa.37.1738402279650; Sat, 01 Feb 2025
- 01:31:19 -0800 (PST)
+	s=arc-20240116; t=1738412544; c=relaxed/simple;
+	bh=oz78K0pc2IswLluHaBxq32bDecMY/Cw0IVZhJzyWcok=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ERdM206dl0qNRzSa5GQqrLdMGNOpGnHOZsdQNIoQFWdPnljIWrcKYnTe0Wa54nTi1KOKoCDcIKsZPliHcXeQ09nEm6H0Ud5Et+vwLAnrQENcSVqkUQlg+WFPfM7Vnn8bi3coEjzTd7DxSg8T+vtdyRHrKb4LAzLCQQT0tXys4qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OBwYAAqH; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aaee2c5ee6eso515733766b.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 01 Feb 2025 04:22:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738412540; x=1739017340; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7FPk1jZLpM+/Jm5qu91+dExBTrx0tPEv+WV6xHlsdA=;
+        b=OBwYAAqH/Y59dVfGQSdqsq8gaWYAShApCT5QYMMQQEcZaW7CZbSoKVZHcOJJ10EEb/
+         TIj9NsGYoWGFEMIAkjXRPU2pcqrCI9tCMam4rvyRcQCXgVbb92XLuGXOGNQsjgptj8jF
+         nV8SI0ijGdqbNFdfiFrZ6+xGEpiBMuqr1qQOOuzBB0r/cawwsLEdOMwSAKqamHnPDevH
+         6s15yi7GMN7/3kNZMkEqrxbg1Z4QM8KNVIIuUAW+mJZjH5tVELPiLR8KqyipUvKDcwwn
+         xAilfZSvFIkDVfe3H19RI0Le37PY5CMT5wPqfrr5hSXzeB7epSPjmn5xLUXf057lTued
+         tkyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738412540; x=1739017340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j7FPk1jZLpM+/Jm5qu91+dExBTrx0tPEv+WV6xHlsdA=;
+        b=ZDs/462CTLcD/zuQL82htvehXOIn0jJsEbfbIJnjDoRecNVFAbcu6PgIPpTkccUW/0
+         cW+C0x3C8nGC7grLY515cGKxMREmoya5PqLQp5pkvgtu8WBIAvGQt0ZiwLtvo/j3Nl++
+         sYNpJ+EcC1AZ85IToWwxdQfIi0y8TENSQeS9RMN2CoOGXWfP05AU1O3XjUZctgXQfHWa
+         YXi8kFGyHcTq9ZGHYFbQq5w6SM4SBThTRZufl0EFFM/WNtPIFzsiGLSVEWRdKEyEMmRS
+         pFBcHRy3A36yp+zX9O82GbLY1bhfQz77Vx5THkd5i94cMN+V8nSJctYMymMbh+x0j5XC
+         ukVg==
+X-Gm-Message-State: AOJu0YyT8QJUBY0SrqW6NsFdOlC9cpFzSGwS1zozavmRe5iBtXxp5lbV
+	ckvYL1Zd42YLDOemD4JwR97NEHjonjEPQzKzup6W/Qf4rn/c07NHkMDvTw==
+X-Gm-Gg: ASbGncsyvBn8dxRUoVXxL8q9EZ+pXjO6QBi7EGwcPriDPIk/tvi63BO1QKdlkbx6Ny+
+	/SiQI+dqcHOoTJTm8/PjbQsJ/FNntrS4lmQQMADIo5ELoszfU0/7U8MeT1xV2zgcrD1aMKwQexk
+	9x4DkVMjps3qq+U3dhMlyroAXXW968J+Sv2cnpqSQ2c+a7eOL6pAbulbQZaDkOQU5/aYZkOOmfQ
+	ngDeim4lH31GBHkOK1WMIV4fE5UFwXtT/JCxkofdXOgr+KFPUW2NiixCqIHJ/E4edAuiBsZLIxY
+	aIoCpng1WiRHsV7Roq+Ug45b/GWG4FSGL3KAwbLc9Qv4TDYl1Y1ZQhZLINr0Qs5WgexlNOP5R4+
+	g
+X-Google-Smtp-Source: AGHT+IGv/WnGYXojKRtGbpT+7Y6g7gDK4TxtQJqxhzN4ccGDMB6E06RmCwmZ79lY5YayFdmSUdxXvQ==
+X-Received: by 2002:a17:906:a3d3:b0:ab6:d9f7:fd71 with SMTP id a640c23a62f3a-ab6d9f83783mr1333217066b.51.1738412539733;
+        Sat, 01 Feb 2025 04:22:19 -0800 (PST)
+Received: from ozadorozhnyi-MS-7918.lan (176.111.176.240.kyiv.nat.volia.net. [176.111.176.240])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e4a2fad0sm433782666b.126.2025.02.01.04.22.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Feb 2025 04:22:19 -0800 (PST)
+From: Oleh Zadorozhnyi <lesorubshayan@gmail.com>
+To: linux-kbuild@vger.kernel.org
+Cc: Oleh Zadorozhnyi <lesorubshayan@gmail.com>
+Subject: [PATCH 0/1] misspelling
+Date: Sat,  1 Feb 2025 14:22:02 +0200
+Message-ID: <20250201122213.12504-1-lesorubshayan@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNAQeyWYm2OZ6p=vWJegs_VZMz5RN+0fze6GG=f-ZGWQ3nA@mail.gmail.com>
- <CAHk-=whzh=4XxP5mQEh9G+xYOjBLxpyV16Hk9NWMp5PszrKRWQ@mail.gmail.com>
-In-Reply-To: <CAHk-=whzh=4XxP5mQEh9G+xYOjBLxpyV16Hk9NWMp5PszrKRWQ@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 1 Feb 2025 18:30:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT+uTNfrRu2+=yc1qvWBcFuNK+PCDHN1_tODQ5EkgxCBg@mail.gmail.com>
-X-Gm-Features: AWEUYZke96FRhojHqLyYZ3OPw0I6v2I9aMVr3RCPCmvk4S8BO4_q35IF-Uhgslg
-Message-ID: <CAK7LNAT+uTNfrRu2+=yc1qvWBcFuNK+PCDHN1_tODQ5EkgxCBg@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild updates for v6.14-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+misspelling
 
-On Sat, Feb 1, 2025 at 5:16=E2=80=AFAM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Fri, 31 Jan 2025 at 11:45, Masahiro Yamada <masahiroy@kernel.org> wrot=
-e:
-> >
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.=
-git
-> > tags/kbuild-v6.14
->
-> Hmm. I was expecting the CONFIG_TRIM_UNUSED_KSYMS fix to come in from
-> you too. IOW, this:
->
->   https://lore.kernel.org/all/20241214105726.92557-1-masahiroy@kernel.org=
-/
->
-> which fixes the "load_utf8() ->symbol_request() -> symbol_get()
-> returns NULL" case when CONFIG_TRIM_UNUSED_KSYMS is enabled.
->
-> Obviously I can apply that patch directly, but the reason I _didn't_
-> do so was that I was just expecting it to come through the normal
-> Kbuild tree... Pls advice,
+Oleh Zadorozhnyi (1):
+  misspelling
 
-Sorry, I noticed a case where that patch does not work.
+ scripts/Makefile.lib | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For example, when both consumer and provider of a symbol
-are modules,v2 does not solve the issue.
+-- 
+2.43.0
 
-I need to send v3.
-
-
-
-
->
->                 Linus
-
-
-
---=20
-Best Regards
-Masahiro Yamada
 
