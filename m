@@ -1,197 +1,173 @@
-Return-Path: <linux-kbuild+bounces-5602-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5603-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A378CA2516E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2025 03:47:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C78F3A25A82
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2025 14:15:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 605C61883D15
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2025 02:47:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B14D47A2733
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2025 13:14:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1EC13B787;
-	Mon,  3 Feb 2025 02:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F5CE204F78;
+	Mon,  3 Feb 2025 13:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="go7x2/Wt"
+	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="LppzQA80"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DD62A1CF;
-	Mon,  3 Feb 2025 02:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5287204C39;
+	Mon,  3 Feb 2025 13:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738550728; cv=none; b=O1DeM4uQ2D5N6pPwrnC8hd1xVJRfUCVvKLV+mJvwtqs1VWwOv92606bWHekh54XstMoi66c+PB3Q9OG794IQR2V+zhszvyPd203CD+ahvUkD5eegNePSgh/7+K03JLU2vBP3sbNOWwyjou44gomsRAvxpBwiUqssOJ7TucxaY3M=
+	t=1738588503; cv=none; b=gcn4OO6sIbpsKOTt2VTtv4MAImfpD/w4yMv1mofsxpS0HrbgKu088j2iXXotnrKcMRq8dGsmaZJU4rfdB3WNBDACYsFEUyMDQ78T7lfa5lXl1v82p+Ayhh+uashB3XnYeWKCO7umJD3+zRgA6rgsokAM/EwhexbpkdFUyQc0xJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738550728; c=relaxed/simple;
-	bh=XG0mbk49V0NegpRPkM/klHrf0dbF+cSTFHmpA1Udj3k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z+oLTsA46HOvb4QKZafFMZ3sj7F8TFY8OS0I8jiNIqrgQtPfdTnxWhwgQGzlK6dOZc8tzqi8Vukgu7gUODoEyd9u8mHplTIvTdbJUvkjS79kVMU1VnTbKATuFsjXIFViZ9BapctRCv3n7hWgdiMOkLKYFqB+7aZ+z+NJMa/VgnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=go7x2/Wt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D4FC4CED1;
-	Mon,  3 Feb 2025 02:45:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738550728;
-	bh=XG0mbk49V0NegpRPkM/klHrf0dbF+cSTFHmpA1Udj3k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=go7x2/WtXYy0hLH6pqkLK2jH/711U2X2oMk9dT1Z8HVFpotT2Or4QLGsBtfsChE+g
-	 hroh2pPDSwAsxkXTU9RyZzhy40edDypULqoxfjIShLGiqP7xfzT6Nv7UCjyubFoTaN
-	 /4hKoc9577HbNgho5r7M1JZouZvEeUwa0vnRK+fntdwpqLKKpZGrfGqoYDI+52N99F
-	 RtDIe/6qhEjXT0JcqHTK6cGMLjeCSIlMP5gmKtRUo6G6tq7+MtlrmcV0YLLa/Tbw4V
-	 qEUd5DWFLoAcCOAG7cVoU/ewlCTlNL06QELTGFv36rLR3IFldwmKeAGNkaDj6Sy9Qz
-	 zzASm9T3lzqCA==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5401ab97206so3745469e87.3;
-        Sun, 02 Feb 2025 18:45:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUWQxKgaIS1C/8fR2GGAHXvZv2EcJPin5cVOtDbno+er2rTuutzdMyOa9NUeAWZ7Bti0CInWrf1@vger.kernel.org, AJvYcCUgUNF8KI6eGBpFX43o5YpXWXquiqnOwz3pUsUYsZyaSVjCAzvn6eTwjDZ5Ak5LRahTQvAt9qs3HxF4wRQA@vger.kernel.org, AJvYcCXdtwJXC+bpP0CCC/rhEv4Kfu0yazGhsKVcfiW2DmpipDwv85aUB41HPaLu/DAkee9rJ8WUALhjlsZqgyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMJec9mtVokbVo0+cWQCaxa5iZehe5vtm05pQyqze4KSNafMQZ
-	LtsMEyJ6Z1Y9jyzfV2oGBTMM+nUvXHWeP/I7bQ1jWCgsHyybRMlKxnGijDzP8I6krnjSEguJwoq
-	2RgIUIlj8fay7m2+kC57BbnXJKeg=
-X-Google-Smtp-Source: AGHT+IF19tgvw1mISx/p0V+qRrWjG/6aPn50rV6owggCPM3zdZ5zMVnvGZCfSqZJQIyAy+OpQLR1IKKpsG5KU1fPEMQ=
-X-Received: by 2002:a05:6512:1249:b0:542:250d:eef2 with SMTP id
- 2adb3069b0e04-543e4bea4b0mr5980225e87.20.1738550726692; Sun, 02 Feb 2025
- 18:45:26 -0800 (PST)
+	s=arc-20240116; t=1738588503; c=relaxed/simple;
+	bh=AE1GNI4dCnKiSpYJEGzMAZPeqcrJkHOL3Nw8EWbZIW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uzeeovLWMT1Q1vmRLxVJUx9JPbauZjnZO6/q3oZ3Lu0LuInVIzn7cMSzCBNUeQDQqVTUk0OiOf1BYriWPY59r2hJyf+MxR8zVRdt7R+2Tm72VA9ft9zNZOi9f9F8TlrgtoCS/3BRYwFx3l6kird0jqec0ipQEnGAHcVc4F+0aCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=LppzQA80; arc=none smtp.client-ip=217.72.192.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
+	s=s1-ionos; t=1738588486; x=1739193286; i=christian@heusel.eu;
+	bh=HW/nhA7rOLlZN/zmthKgpqOHoSWN2U6+fDDzCTddEJw=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=LppzQA802y5aZz9FYytlu7pwxMQDYgmSpzfYXSp51a9i15cF39uXd1v0O3d+I2DF
+	 nDwb9houPen/p1zCAppZUIq5wdDnRI8MDQkmqjyNDprMgPjpPbmcQfUOzDQRmYTNM
+	 u8/5d4AD3YjYdCoki8N8fnWlxycPSqJAkED9OSn7W21HCRlaffMU27VtDPYU853NV
+	 O/jIHS8LUaEVo65lTmw7gMpOnxUVdcCgaHyXsBE6ZFN3aPptUQT7bAPUZMlN2swtO
+	 vUpssc+kN+K2jpM84TJvY81pXJWb6P6HkDxUJfvFxt8Fd6kXEYLe/0043bZhHdakt
+	 uO4/1MFw4Z76E/hiiA==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from localhost ([80.187.122.235]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MoNu2-1t3St32XHc-00gLz3; Mon, 03 Feb 2025 14:14:45 +0100
+Date: Mon, 3 Feb 2025 14:14:41 +0100
+From: Christian Heusel <christian@heusel.eu>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
+	kpcyrd <kpcyrd@archlinux.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] module: Introduce hash-based integrity checking
+Message-ID: <62c93d58-2e27-4304-a6ad-36aa932f18ac@heusel.eu>
+References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241114145645.563356-1-parth105105@gmail.com>
- <2024111442-yeast-flail-fcea@gregkh> <20241115083940.GA3971@francesco-nb>
- <2024111541-antiquity-footpath-e221@gregkh> <ZzcYLAFqTSlFm2uF@gaggiata.pivistrello.it>
- <CAK7LNAS0VzqcKDz_1ds5qJcASqxVizE3kkdRk1Yiidch9KMxEQ@mail.gmail.com> <Z580LZIi2iXGzSv5@eldamar.lan>
-In-Reply-To: <Z580LZIi2iXGzSv5@eldamar.lan>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 3 Feb 2025 11:44:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARFfUexOjoBsr385ECC61k-oNzefRZtTtNhdGV01r-iXg@mail.gmail.com>
-X-Gm-Features: AWEUYZmdMaCVBGU-SkjDQ6frrwUMLHsMGxpEaxqc-tBhI4EQgCXDmMgjchDjdvI
-Message-ID: <CAK7LNARFfUexOjoBsr385ECC61k-oNzefRZtTtNhdGV01r-iXg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: switch from lz4c to lz4 for compression
-To: Salvatore Bonaccorso <carnil@debian.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Francesco Dolcini <francesco@dolcini.it>, 
-	Parth Pancholi <parth105105@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Parth Pancholi <parth.pancholi@toradex.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, Francesco Dolcini <francesco.dolcini@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4hw4xsdogt6jxe7z"
+Content-Disposition: inline
+In-Reply-To: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
+X-Provags-ID: V03:K1:pi4w6UvELjOYlWx7bJXU+/MmGORjxYJ29ngsxP99C0aV5nQ3ul1
+ 50dRrVBGRzy382VjDqjmmj8CaowbFOxH6DRu/k4gDMUunGQRyvqTJFVqMabGxL8+TSojaD+
+ D5zgrN7RkpgcTuwaqWPZsmZPmtWRMPC+TynSjMjsU57e9Ve1YGGzesZTL0TA1sY8pQaJDPj
+ +LnrtY5KXjyOSqIHK3xUQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:MXtMipq4Kd4=;s7t6p8NLj9eAy9+INYP4yrDREcn
+ mAWRrWEOBfYn4sK814eCwCN7T5urJ+ejs/Oy+IxU60xC1bLGsM3kFHQcWBiJz7gUkz7JGrKbw
+ Z91+1BGDEYrOY/tQYmYBOLNB+2+BPO5ImG8WtGBknV7Ag+NHIs788e6PzchIEEXJozfUE/dzX
+ 0WfbkO0FibPwXv0YqjVZ0EvgkgeBbcO/WKIq3rIYCITfInXyCl3h6e1gKfH55fBpVwzs5tI4/
+ C55A+NhSqKAeoTJB3+ts3DAzjMX7bP7v/PhcigUQ2EuDdeqIkKhO4xC/A4eMw75K8otX06HmD
+ 0Wsq+kBc4SNRgXH0cMHxCFC7AzrH4VqGgTuOdvazW69g50x7qtMxQZrtlhqf8yasQ9UpwAwCL
+ 8fuUCcuPnVfKN7rfnEt5l8CEqVDSpgsGxlQXzK0KTX1xFmgdJ+bE8ueFZHrue9PeeYqsmPsPL
+ BB8dv28sMSsUxN9P/Uos9YfSfw6Je7AY/uFHHkRDjV5BFsyOcp0auJB7fk+L9nk83LFFSlEFh
+ DjwutzRJiIT0XbRCo1fcwe2JSiNoKNi4s/iDqhRwa0KjpLIKeFn8wNmhnipTsWW4PGnFtfoVI
+ Lm3JVfMRZXyyCX4HxGpyDxSQqwm4yFGxCTLUAPRtIrmSjv3pZcL53MsEFoCeDZBnsC9VyDuFS
+ hFt0+GvzASuQdrLEYuoMaGrgwBGHthR32jRN9HMEvbtV/XIN39q6IIlRZ3TRVnoBnoqh6u1Fj
+ viIvrVLt/SiNzqiYfVrMNaQoKooh2YrCMXG5Iu4q7zb4Pmjgf54bnUumMeSbqioNLqCstZG9o
+ 200sSd6RHny+UC9RkBl4Jm5990Ea/Wq1EaOFMJ1t7mT7bgEAiJSk++Lng1r+7UamgVXlV3XYu
+ 6pC4eOPSR272a99fpgvxznwhETRs5/fl//8Pp/ysx7caqC/keVlsH8dEkh1aqUrMglRIGgvSl
+ RqTD7dfBkEr864/2UvpSrTNybyGRTPTUzI+Fjpclb3Wo0kUMKHdglQAsFhWtmhVmkB7eEtTxA
+ LkuUlOcWisrg3vtBlcMxnb632UOl6IGIpHrjarOG1t5swqONa21oEcLXtnMP8qhVknssH0/fw
+ sYrQZ2lW50PdTi8547UqqAxc6mVVTv5zBYxt+5fWYNOdYgTl1pltlClsLSMbkTHMmMhQnA/Q6
+ 3beOMFy52JOYX43X5O6qFcc5ZM+PenSI4LL9T4Oosc7Z0pfiMjqtfhyJhcg0KDSMPPtElZ+Z5
+ 3bMNKvZCQh2IsVih3WS3VTHkXN+Hh3sykuyCJOvbdH/wehCqCReBDxI=
+
+
+--4hw4xsdogt6jxe7z
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 0/6] module: Introduce hash-based integrity checking
+MIME-Version: 1.0
 
-On Sun, Feb 2, 2025 at 6:00=E2=80=AFPM Salvatore Bonaccorso <carnil@debian.=
-org> wrote:
->
-> Hi Greg, hi Yamada,
->
-> On Sat, Nov 16, 2024 at 04:51:48PM +0900, Masahiro Yamada wrote:
-> > On Fri, Nov 15, 2024 at 6:45=E2=80=AFPM Francesco Dolcini <francesco@do=
-lcini.it> wrote:
-> > >
-> > > On Fri, Nov 15, 2024 at 10:22:13AM +0100, Greg KH wrote:
-> > > > On Fri, Nov 15, 2024 at 09:39:40AM +0100, Francesco Dolcini wrote:
-> > > > > On Thu, Nov 14, 2024 at 05:02:01PM +0100, Greg KH wrote:
-> > > > > > On Thu, Nov 14, 2024 at 03:56:44PM +0100, Parth Pancholi wrote:
-> > > > > > > From: Parth Pancholi <parth.pancholi@toradex.com>
-> > > > > > >
-> > > > > > > Replace lz4c with lz4 for kernel image compression.
-> > > > > > > Although lz4 and lz4c are functionally similar, lz4c has been=
- deprecated
-> > > > > > > upstream since 2018. Since as early as Ubuntu 16.04 and Fedor=
-a 25, lz4
-> > > > > > > and lz4c have been packaged together, making it safe to updat=
-e the
-> > > > > > > requirement from lz4c to lz4.
-> > > > > > >
-> > > > > > > Consequently, some distributions and build systems, such as O=
-penEmbedded,
-> > > > > > > have fully transitioned to using lz4. OpenEmbedded core adopt=
-ed this
-> > > > > > > change in commit fe167e082cbd ("bitbake.conf: require lz4 ins=
-tead of
-> > > > > > > lz4c"), causing compatibility issues when building the mainli=
-ne kernel
-> > > > > > > in the latest OpenEmbedded environment, as seen in the errors=
- below.
-> > > > > > >
-> > > > > > > This change also updates the LZ4 compression commands to make=
- it backward
-> > > > > > > compatible by replacing stdin and stdout with the '-' option,=
- due to some
-> > > > > > > unclear reason, the stdout keyword does not work for lz4 and =
-'-' works for
-> > > > > > > both. In addition, this modifies the legacy '-c1' with '-9' w=
-hich is also
-> > > > > > > compatible with both. This fixes the mainline kernel build fa=
-ilures with
-> > > > > > > the latest master OpenEmbedded builds associated with the men=
-tioned
-> > > > > > > compatibility issues.
-> > > > > > >
-> > > > > > > LZ4     arch/arm/boot/compressed/piggy_data
-> > > > > > > /bin/sh: 1: lz4c: not found
-> > > > > > > ...
-> > > > > > > ...
-> > > > > > > ERROR: oe_runmake failed
-> > > > > > >
-> > > > > > > Cc: stable@vger.kernel.org
-> > > > > >
-> > > > > > What bug does this resolve that it needs to be backported to st=
-able
-> > > > > > kernels?
-> > > > >
-> > > > > This is not solving any existing actual bug, and therefore there =
-is no
-> > > > > fixes tag.
-> > > > >
-> > > > > The issue here is that the kernel build system is using lz4c, tha=
-t is
-> > > > > deprecated since 2018, and now distributions are actively moving =
-away from it.
-> > > > >
-> > > > > openSUSE Tumbleweed and OE already removed it, so you would not b=
-e able
-> > > > > to compile a stable kernel on such distribution when using lz4 un=
-less we
-> > > > > backport such a patch.
-> > > > >
-> > > > > Everything should be properly documented in the commit message al=
-ready.
-> > > > >
-> > > > > My understanding is that something like that would be a reason fo=
-r
-> > > > > backporting to stable, if my understanding is not correct we'll r=
-emove
-> > > > > the cc:stable and send a v3.
-> > > >
-> > > > Please read:
-> > > >     https://www.kernel.org/doc/html/latest/process/stable-kernel-ru=
-les.html
-> > > > for what meets stable kernel requirements.  I don't think that this
-> > > > patch is that.
-> > >
-> > > Greg, ack.
-> > >
-> > > Masahiro, can you please let me know if we should send a v3 with the =
-stable
-> > > tag removed or you can remove it yourself when applying?
-> > >
-> >
-> > I applied this with the stable tag removed.
-> > Thanks.
-> >
-> > (I guess someone may want to backport this eventually,
-> > as such distros cannot build stable kernels with ld4 compression.)
->
-> Yes please :)
+Hey Thomas,
 
-Agree.
-This should be back-ported.
+On 25/01/20 06:44PM, Thomas Wei=DFschuh wrote:
+> Thomas Wei=DFschuh (6):
+>       kbuild: add stamp file for vmlinux BTF data
+>       module: Make module loading policy usable without MODULE_SIG
+>       module: Move integrity checks into dedicated function
+>       module: Move lockdown check into generic module loader
+>       lockdown: Make the relationship to MODULE_SIG a dependency
+>       module: Introduce hash-based integrity checking
 
+thanks for working on this!
 
+I had a look at this patch series together with kpcyrd over the weekend
+and we were able to verify that this indeed allows one to get a
+reproducible kernel image with the toolchain on Arch Linux (if the patch
+you mentioned in your cover letter is also applied), which is of course
+great news! :)
 
+We also found a major issues with it, as adding it on top of the v6.13
+kernel and setting the needed config options while removing modules
+signatures made the kernel unable to load any module while also not
+printing any error for the failure, therefore resulting in an early boot
+failure on my machine.
 
+Do you have any clue what could be going wrong here or what we could
+investigate? I have pushed my build config into [this repository][0] and
+also uploaded a prebuilt version (signed with my packager key)
+[here][1] (you can therefore just install it via "sudo pacman -U
+<link>").
 
+Happy to test more stuff, feel free to CC me on any further revision /
+thread on this!
 
---=20
-Best Regards
-Masahiro Yamada
+Cheers,
+Christian
+
+[0]: https://gitlab.archlinux.org/gromit/linux-mainline-repro-test
+[1]: https://pkgbuild.com/~gromit/linux-bisection-kernels/linux-mainline-6.=
+13-1.2-x86_64.pkg.tar.zst
+
+--4hw4xsdogt6jxe7z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmegwUEACgkQwEfU8yi1
+JYWeYg//T393bfbxswhXCUthBFnjA93W811Td6FcAaSuQVYHkaShTzHhGFhM0/42
+bPKOeU9FsEBfcAaqQ2hSBfJK951EGxmXPcVuwGD8P3cSLR8076bcH4QJq6YbbO1m
+nGhXArgtsQ/4JeDwP2Od5UQwKJP0eJKL2rrkU+EK/EACyOIQCH4SUJf+AaNN2wab
+3t7GXOIOihirIEeubhD5OpUcsAoWJLG2GiPTwhKWr/P3ia7LStbK335jQl0E2nAu
+sL6T7AopwkFFZ94p2Fd4w9bLd2k4DvzjHsQaI2On3Ybam0qBL/mei6V6jcgjDAvr
+zo5s8O3Pcy3YbFPZYdttjaD1Jp+KNn7JA0G1HBd/Qbz55JevkufdW0c2Fq8/V56m
+LIFAX1wgJMNWT/6BG29OuGJ9yx+qO7EXfz1LjTce+oOTls2tsu3OhuNcyJeQeADN
+W6ThiLff+NFU7YQpEb+rfFgVM2krN7ib+DUrge0oe4Nj/gBivnC8o44BCK9k5zoG
+qvfNGV5ARMqJj/n8e0CtyNZ3d8L+n+3TVPy4o8fvAJRndCHNIVvnY/Tkx9DQn73g
+Mo/jqtT08gUoptL9pYAjr686IXQalRmPDFYcV74Xq43xvUToVApgtKjARphPxXSA
+cnM3z3x5zLdin5otTL1sVwQzUjvt/HcnOR7gVAyqwooTJ6STENA=
+=2M+y
+-----END PGP SIGNATURE-----
+
+--4hw4xsdogt6jxe7z--
 
