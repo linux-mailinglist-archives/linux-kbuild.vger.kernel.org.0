@@ -1,114 +1,221 @@
-Return-Path: <linux-kbuild+bounces-5616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5617-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172BCA26B47
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 06:21:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C31AA26ECF
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 10:52:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE2FE1885A28
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 05:21:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B786D166B44
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 09:52:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6B0025A635;
-	Tue,  4 Feb 2025 05:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA5A9209F48;
+	Tue,  4 Feb 2025 09:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FKFSimrP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnL6N78f"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7C725A624
-	for <linux-kbuild@vger.kernel.org>; Tue,  4 Feb 2025 05:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870A413A258;
+	Tue,  4 Feb 2025 09:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738646465; cv=none; b=KnwKkVIDsDF7BuhvJyJaecRLEq88hrWGiNWMRNRp5S1Kgfkxzk1VeH7NAvH/BdkYZeVfem1mRGgTdExfxD4IdJt2UYse0OitzD63sCEoFdAa5InqhOgyjDWvDwGAdn92YdtbWA+OYBF6nDHl21l3UYJkLI4fIP0Zl9odUYzX+cs=
+	t=1738662738; cv=none; b=M8TFOTP2KXV+6j8qRlqwyQryJoBqTD19PP8KYOdPnBA7bSORhfiKt4fzaDc4sTBqywML80g1bySnxnTeHRaSxusFSCDH74Cwc0/0uFWgua+xIzkX1ro3Y0UVQ+LokHrsU1IzzLD9fq7gp6UCzmYdCjxghW46farhJSVvdWTp5/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738646465; c=relaxed/simple;
-	bh=5DZw4yfLlGCFG2Az0CqyQWnqnWGa/Vhdi7e7fSIJ85s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Nqxy72avsUQhxQfZduwObt3xjZ8Cg/pmmDrFyZiMr/XM7rNAnMM17E8clFHw39f0WX1QW8YJ3s8W1M1eOOhikd2uz1L/0E4NQMOEI4zOKoKQQ/6xjDBnJrVJny6Qcz02AH9H8s12Tp6p/NcvObqi7xrwOmmXn5M3kCaby4fN6WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FKFSimrP; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5d3cf094768so9419586a12.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 03 Feb 2025 21:21:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738646462; x=1739251262; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pAG3zCS36pmbQ/AUcetEdklJVtmrzTW775Irpf9uy4k=;
-        b=FKFSimrPK537nVgm9KndX85mNlylWjlH9g5BswnOKCtqhuMUXjZleiC1wWo/r/Q2ll
-         sNTTU2mDFxQ8RuRAo923ElaeZksDmqptuEJcUt8sbTAlcGeRDdaQhTibK2NYePbvgliF
-         twMvUEq1ohN4kdx8V8dVyBXE0OaXARD4Z7JWsjcWIQfV5Ju9zEpMEU3up4T3/e0+bA75
-         K0xY1pkYWTmCFVx7ypP8I9oh3UQ6afngcpZ/Lcoz7M6n9gZRaxYnGU9AzIofNJxKgOOZ
-         WlWWO055lfYIzfuzlD8EKuf0Ty4tcfISJYEiHxPJXPmAfA+LaW5Lb2/DlMkHlFDwzq0g
-         LQJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738646462; x=1739251262;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pAG3zCS36pmbQ/AUcetEdklJVtmrzTW775Irpf9uy4k=;
-        b=FMDGxBKEEvctZGSm23RyNGkW1il0lMnGEo22U5bEeQu9TI9pKUzfDL9UJ5w8OP0rht
-         L8klRX8KjQCQLTMnFCi+Woz7VwFsDtE2XZQzOCWOLkLINmGziSwYw2Z0/O1RmWQ0hOYi
-         /j9YAmblM27E/MWk2F6UiFffTB3QDHnlHirW+ViKTPfOwsOALD29Y03DpomUrwaJaK0t
-         GDmjXhEzhu9WnMDQ2j9mxWCDLxaMchmJWpTAog5OVLI9kkQ7W1KXBT1ZcmYvhb0mL/0L
-         biEQV4/kGLh49z08VVrEJ/aW3Sq3oPODVS0rrvEn/+HHnb5k/m1c8Vo4cKNHc/LC52N2
-         AO8A==
-X-Gm-Message-State: AOJu0Yzq4SSG992e/3v9MavEREWBzuKRZbykz/9vmtTzOiR2fzTlTl9y
-	ex3d+Nva6EJalxI+DSTlB/tLrkuMl5wDcP5/WByA2SGU0MWKyosY5vAnOA==
-X-Gm-Gg: ASbGncuRbRw7GpZ9wNFIRd7Vd1b7wBAVky7dZ6IKHsnGHXlJX/ftQI0fO0yCEEAEXDd
-	EasYEVHgh9oLhak18DUgKQgcr6ktZEkyMlfndvtRxyZu0g8nf4QGosqovQ7JYK9En+fZB+T4QN4
-	P/m6dEOwEd2s4pAsacTUiHq1e1a6Jl8LME1YQR+0yyzG2+dx2o78qUiJ7g6y71Rdlezxv5Ztu5/
-	+NGephcOITsaKH9ILWXe/n5vsTt7Xt3AMKS6Keijo7xcgb3ZY/aveN5+sKmrWeaipHoCAiWtgEE
-	7nQdT+R5pGzoiJle34igKcMsm2fEI0aHp5UZC5LfPT+zUP5m4AuViOK1gqYzsZcLz5LdBCbuFfZ
-	v
-X-Google-Smtp-Source: AGHT+IGKCu5ryikKO0zv7OO4q+iHfGMQp+tzkPBuyNGeXS3McfxnVISpgBz4DJH7IhXvvBXWdmkO1A==
-X-Received: by 2002:a17:907:6ea3:b0:ab6:f4e0:c06 with SMTP id a640c23a62f3a-ab6f4e00fe4mr1996557366b.21.1738646461323;
-        Mon, 03 Feb 2025 21:21:01 -0800 (PST)
-Received: from ozadorozhnyi-MS-7918.lan (176.111.178.190.kyiv.nat.volia.net. [176.111.178.190])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e47cf883sm851545466b.49.2025.02.03.21.21.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 21:21:00 -0800 (PST)
-From: Oleh Zadorozhnyi <lesorubshayan@gmail.com>
-To: linux-kbuild@vger.kernel.org
-Cc: Oleh Zadorozhnyi <lesorubshayan@gmail.com>
-Subject: [PATCH 1/1] kbuild: fix misspelling in scripts/Makefile.lib
-Date: Tue,  4 Feb 2025 07:17:30 +0200
-Message-ID: <20250204052004.5583-2-lesorubshayan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250204052004.5583-1-lesorubshayan@gmail.com>
-References: <35574>
- <20250204052004.5583-1-lesorubshayan@gmail.com>
+	s=arc-20240116; t=1738662738; c=relaxed/simple;
+	bh=7YjY5Y/y9g8pANkXmwohE9fjChn9L6CLgPLOeAGWmGw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rDGh6okLf7GdDUHfeSL9zZcoL3jWneCWgNWdm+DuNNPNdpRtLLO+wJg+wQiW/CzfVfQDbu8yP6g6ZL2QVnCdQi8MGasA1+PvNZIak1UhOSESl+YrfU1HUK1jNSGx8NbQ+7DqAlIv19R6X5FHXWOKEoCvKBypI0hkImXiixVwOoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnL6N78f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A977C4CEE4;
+	Tue,  4 Feb 2025 09:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738662735;
+	bh=7YjY5Y/y9g8pANkXmwohE9fjChn9L6CLgPLOeAGWmGw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=SnL6N78f5qQaSmTKzfELbe+l5OSA4107TP6sJNUDhNxcS/SL7xl/C4e8rPOvcxoHI
+	 Ajnk88R7b2D7g7K20dN6+05oAt5tYYia43zexOVIBEpzqzT6hVW6JgOGfntKOgTIQ/
+	 YqFdEuE0UxkA8ZpFHEkNaoj5yVopiQz1a6T4224yIlW0AWt/J6cmKRpkSQsRBs2VrR
+	 wIes/vTYFfjrcMNmQQ2LPT2+hdgG8L/Z3d8xUAT/dk/nJafWs6OEkR57qBPgXzb9uD
+	 +aj1NYlcBKHS/Mlfo9H0DOfIfsBFtVBgkRQRhFIaoBfLwielrGkcy7WYEAJ8zMopAs
+	 dhPjJVRidk9dA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,
+  =?utf-8?Q?Bj=C3=B6rn?= Roy
+ Baron <bjorn3_gh@protonmail.com>,  "Benno Lossin"
+ <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,  "Masahiro
+ Yamada" <masahiroy@kernel.org>,  "Nathan Chancellor" <nathan@kernel.org>,
+  "Nicolas Schier" <nicolas@fjasle.eu>,  "Luis Chamberlain"
+ <mcgrof@kernel.org>,  "Trevor Gross" <tmgross@umich.edu>,  "Adam
+ Bratschi-Kaye" <ark.email@gmail.com>,  <rust-for-linux@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-kbuild@vger.kernel.org>,  "Petr
+ Pavlu" <petr.pavlu@suse.com>,  "Sami Tolvanen" <samitolvanen@google.com>,
+  "Daniel Gomez" <da.gomez@samsung.com>,  "Simona Vetter"
+ <simona.vetter@ffwll.ch>,  "Greg KH" <gregkh@linuxfoundation.org>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v4 3/4] rust: str: add radix prefixed integer parsing
+ functions
+In-Reply-To: <20250115194229.04cd1068.gary@garyguo.net> (Gary Guo's message of
+	"Wed, 15 Jan 2025 19:42:29 +0000")
+References: <20250109-module-params-v3-v4-0-c208bcfbe11f@kernel.org>
+	<20250109-module-params-v3-v4-3-c208bcfbe11f@kernel.org>
+	<2dAu_rNb_lYG0bzL-SV9gQteXT63njXIGZ2X9FhQqA0R9C79piRw2S_xCZZeKKLekNEZQwc086H_mdNd7_9kSQ==@protonmail.internalid>
+	<20250115194229.04cd1068.gary@garyguo.net>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Tue, 04 Feb 2025 10:51:58 +0100
+Message-ID: <87wme6jav5.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Oleh Zadorozhnyi <lesorubshayan@gmail.com>
----
- scripts/Makefile.lib | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Gary,
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index ad55ef201aac..cad20f0e66ee 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -305,7 +305,7 @@ endef
- # These are shared by some Makefile.* files.
- 
- ifdef CONFIG_LTO_CLANG
--# Run $(LD) here to covert LLVM IR to ELF in the following cases:
-+# Run $(LD) here to convert LLVM IR to ELF in the following cases:
- #  - when this object needs objtool processing, as objtool cannot process LLVM IR
- #  - when this is a single-object module, as modpost cannot process LLVM IR
- cmd_ld_single = $(if $(objtool-enabled)$(is-single-obj-m), ; $(LD) $(ld_flags) -r -o $(tmp-target) $@; mv $(tmp-target) $@)
--- 
-2.43.0
+Sorry, I missed this email when sending v5. Thanks for the comments!
+
+"Gary Guo" <gary@garyguo.net> writes:
+
+> On Thu, 09 Jan 2025 11:54:58 +0100
+> Andreas Hindborg <a.hindborg@kernel.org> wrote:
+>
+>> Add the trait `ParseInt` for parsing string representations of integers
+>> where the string representations are optionally prefixed by a radix
+>> specifier. Implement the trait for the primitive integer types.
+>>
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>> ---
+>>  rust/kernel/str.rs | 118 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 118 insertions(+)
+>>
+>> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+>> index 9c446ff1ad7adba7ca09a5ae9df00fd369a32899..14da40213f9eafa07a104eba3129efe07c8343f3 100644
+>> --- a/rust/kernel/str.rs
+>> +++ b/rust/kernel/str.rs
+>> @@ -914,3 +914,121 @@ fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+>>  macro_rules! fmt {
+>>      ($($f:tt)*) => ( core::format_args!($($f)*) )
+>>  }
+>> +
+>> +pub mod parse_int {
+>> +    //! Integer parsing functions for parsing signed and unsigned integers
+>> +    //! potentially prefixed with `0x`, `0o`, or `0b`.
+>> +
+>> +    use crate::alloc::flags;
+>> +    use crate::prelude::*;
+>> +    use crate::str::BStr;
+>> +
+>> +    /// Trait that allows parsing a [`&BStr`] to an integer with a radix.
+>> +    ///
+>> +    /// [`&BStr`]: kernel::str::BStr
+>> +    // This is required because the `from_str_radix` function on the primitive
+>> +    // integer types is not part of any trait.
+>> +    pub trait FromStrRadix: Sized {
+>> +        /// Parse `src` to `Self` using radix `radix`.
+>> +        fn from_str_radix(src: &BStr, radix: u32) -> Result<Self, crate::error::Error>;
+>> +    }
+>> +
+>> +    /// Extract the radix from an integer literal optionally prefixed with
+>> +    /// one of `0x`, `0X`, `0o`, `0O`, `0b`, `0B`, `0`.
+>> +    fn strip_radix(src: &BStr) -> (u32, &BStr) {
+>> +        if let Some(n) = src.strip_prefix(b_str!("0x")) {
+>> +            (16, n)
+>> +        } else if let Some(n) = src.strip_prefix(b_str!("0X")) {
+>> +            (16, n)
+>> +        } else if let Some(n) = src.strip_prefix(b_str!("0o")) {
+>> +            (8, n)
+>> +        } else if let Some(n) = src.strip_prefix(b_str!("0O")) {
+>> +            (8, n)
+>> +        } else if let Some(n) = src.strip_prefix(b_str!("0b")) {
+>> +            (2, n)
+>> +        } else if let Some(n) = src.strip_prefix(b_str!("0B")) {
+>> +            (2, n)
+>> +        } else if let Some(n) = src.strip_prefix(b_str!("0")) {
+>> +            (8, n)
+>> +        } else {
+>> +            (10, src)
+>> +        }
+>
+> This can be done better with a match:
+>
+> match src.deref() {
+>     [b'0', b'x' | b'X', ..] => (16, &src[2..]),
+>     [b'0', b'o' | b'O', ..] => (8, &src[2..]),
+>     [b'0', b'b' | b'B', ..] => (2, &src[2..]),
+>     [b'0', ..] => (8, &src[1..]),
+>     _ => (10, src),
+> }
+
+Thanks, will add. I was not aware that matching syntax was this powerful.
+
+>
+>> +    }
+>> +
+>> +    /// Trait for parsing string representations of integers.
+>> +    ///
+>> +    /// Strings beginning with `0x`, `0o`, or `0b` are parsed as hex, octal, or
+>> +    /// binary respectively. Strings beginning with `0` otherwise are parsed as
+>> +    /// octal. Anything else is parsed as decimal. A leading `+` or `-` is also
+>> +    /// permitted. Any string parsed by [`kstrtol()`] or [`kstrtoul()`] will be
+>> +    /// successfully parsed.
+>> +    ///
+>> +    /// [`kstrtol()`]: https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.kstrtol
+>> +    /// [`kstrtoul()`]: https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.kstrtoul
+>> +    ///
+>> +    /// # Example
+>> +    /// ```
+>> +    /// use kernel::str::parse_int::ParseInt;
+>> +    /// use kernel::b_str;
+>> +    ///
+>> +    /// assert_eq!(Ok(0xa2u8), u8::from_str(b_str!("0xa2")));
+>> +    /// assert_eq!(Ok(-0xa2i32), i32::from_str(b_str!("-0xa2")));
+>> +    ///
+>> +    /// assert_eq!(Ok(-0o57i8), i8::from_str(b_str!("-0o57")));
+>> +    /// assert_eq!(Ok(0o57i8), i8::from_str(b_str!("057")));
+>> +    ///
+>> +    /// assert_eq!(Ok(0b1001i16), i16::from_str(b_str!("0b1001")));
+>> +    /// assert_eq!(Ok(-0b1001i16), i16::from_str(b_str!("-0b1001")));
+>> +    ///
+>> +    /// assert_eq!(Ok(127), i8::from_str(b_str!("127")));
+>> +    /// assert!(i8::from_str(b_str!("128")).is_err());
+>> +    /// assert_eq!(Ok(-128), i8::from_str(b_str!("-128")));
+>> +    /// assert!(i8::from_str(b_str!("-129")).is_err());
+>> +    /// assert_eq!(Ok(255), u8::from_str(b_str!("255")));
+>> +    /// assert!(u8::from_str(b_str!("256")).is_err());
+>> +    /// ```
+>> +    pub trait ParseInt: FromStrRadix {
+>> +        /// Parse a string according to the description in [`Self`].
+>> +        fn from_str(src: &BStr) -> Result<Self> {
+>> +            match src.iter().next() {
+>> +                None => Err(EINVAL),
+>> +                Some(sign @ b'-') | Some(sign @ b'+') => {
+>> +                    let (radix, digits) = strip_radix(BStr::from_bytes(&src[1..]));
+>> +                    let mut n_digits: KVec<u8> =
+>> +                        KVec::with_capacity(digits.len() + 1, flags::GFP_KERNEL)?;
+>
+> I don't think we should allocate for parsing. This can trivially be a
+> non-allocating. Just check that the next byte is an ASCII digit (reject
+> if so, in case people give multiple signs), and then from_str_radix and
+> return as is or use `checked_neg`.
+
+The issue with that approach is that 2s complement signed integer types
+of width `b` can assume values from -2^(b-1) to (2^(b-1))-1. We would
+reject the value -2^(b-1) when trying to parse as 2^(b-1).
+
+We could parse into an unsigned type, but it gets kind of clunky.
+
+Another option is to stop relying on `from_str_radix` from core and roll
+our own that takes sign as a separate function argument.
+
+
+Best regards,
+Andreas Hindborg
+
 
 
