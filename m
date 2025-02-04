@@ -1,221 +1,203 @@
-Return-Path: <linux-kbuild+bounces-5617-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5621-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C31AA26ECF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 10:52:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A81AA27105
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 13:07:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B786D166B44
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 09:52:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18AAE188747C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2025 12:06:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA5A9209F48;
-	Tue,  4 Feb 2025 09:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00ACC212B3A;
+	Tue,  4 Feb 2025 12:05:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnL6N78f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CIVtQlx0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870A413A258;
-	Tue,  4 Feb 2025 09:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B00212B2D;
+	Tue,  4 Feb 2025 12:05:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738662738; cv=none; b=M8TFOTP2KXV+6j8qRlqwyQryJoBqTD19PP8KYOdPnBA7bSORhfiKt4fzaDc4sTBqywML80g1bySnxnTeHRaSxusFSCDH74Cwc0/0uFWgua+xIzkX1ro3Y0UVQ+LokHrsU1IzzLD9fq7gp6UCzmYdCjxghW46farhJSVvdWTp5/s=
+	t=1738670700; cv=none; b=dVUggOZezAshCr77RTWCsRtKGYzWQJ7kYVg26DvGAT123Tw6zqp2TVO7r3YYLCzPS3N3yoKbDVp0T34jqsS1QPNgH20i/Qg6K25+kQm61PIt99S4rSf4InXetJw6Ubo2pnaVq+/X2MHg84bjdno1bcuCpT8A5OLCdiJk1HSrUoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738662738; c=relaxed/simple;
-	bh=7YjY5Y/y9g8pANkXmwohE9fjChn9L6CLgPLOeAGWmGw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rDGh6okLf7GdDUHfeSL9zZcoL3jWneCWgNWdm+DuNNPNdpRtLLO+wJg+wQiW/CzfVfQDbu8yP6g6ZL2QVnCdQi8MGasA1+PvNZIak1UhOSESl+YrfU1HUK1jNSGx8NbQ+7DqAlIv19R6X5FHXWOKEoCvKBypI0hkImXiixVwOoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnL6N78f; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A977C4CEE4;
-	Tue,  4 Feb 2025 09:52:10 +0000 (UTC)
+	s=arc-20240116; t=1738670700; c=relaxed/simple;
+	bh=PfuRE/ZR4isUzc3qeO77yo8aH9yzP+UY+ow6O90zSqk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZmUAHQsjee5oEbNwHh1xaI57f25kPxXCLAtqM/oiYnt+0fR3rAI/S46Cp84NrCV26+UzMGYpoAaK14DCTGwNYvu/euzXy+KKA5irN9swSX03fFhxzZq/b3Hr9GrRyo3lOZ2VIj2NBzfJT97Nv8Y4aVAjqOWa0P36NlM2leEzVOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CIVtQlx0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45156C4CEE2;
+	Tue,  4 Feb 2025 12:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738662735;
-	bh=7YjY5Y/y9g8pANkXmwohE9fjChn9L6CLgPLOeAGWmGw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=SnL6N78f5qQaSmTKzfELbe+l5OSA4107TP6sJNUDhNxcS/SL7xl/C4e8rPOvcxoHI
-	 Ajnk88R7b2D7g7K20dN6+05oAt5tYYia43zexOVIBEpzqzT6hVW6JgOGfntKOgTIQ/
-	 YqFdEuE0UxkA8ZpFHEkNaoj5yVopiQz1a6T4224yIlW0AWt/J6cmKRpkSQsRBs2VrR
-	 wIes/vTYFfjrcMNmQQ2LPT2+hdgG8L/Z3d8xUAT/dk/nJafWs6OEkR57qBPgXzb9uD
-	 +aj1NYlcBKHS/Mlfo9H0DOfIfsBFtVBgkRQRhFIaoBfLwielrGkcy7WYEAJ8zMopAs
-	 dhPjJVRidk9dA==
+	s=k20201202; t=1738670700;
+	bh=PfuRE/ZR4isUzc3qeO77yo8aH9yzP+UY+ow6O90zSqk=;
+	h=From:Subject:Date:To:Cc:From;
+	b=CIVtQlx0tqVh1JFxmejdDWkDoNP5Y8o1L4BNrPx5ca3hdmprZ8ako3bc2acptE/Lo
+	 9HYtOdLacWz4ZnF4hLJ6eKZ3UDcVrysK2KEv3XRnMXQrXGlrZRtylymwIotOITiMFS
+	 RI0Rqo4TF4PPbzNCJhnXB/clVq1oPfwflsGGm/O/nd1myeCFES4JtE8uZrulRLa1SC
+	 kKWHDBVhJ2zhwOFtHhxXzL6Bk2DxHqkbQ0xKOkXyQRs6bvEh5NzqGsHFlW4LMhfrI5
+	 xkhUCKLo2rfMKyvawE8A7MYTItc1dqODG9nP7A/4eLcKfJdFWkBHtV5kQ/jDtx8BMF
+	 t72nYNw/c4lrA==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Gary Guo" <gary@garyguo.net>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
- <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,
-  =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>,  "Benno Lossin"
- <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,  "Masahiro
- Yamada" <masahiroy@kernel.org>,  "Nathan Chancellor" <nathan@kernel.org>,
-  "Nicolas Schier" <nicolas@fjasle.eu>,  "Luis Chamberlain"
- <mcgrof@kernel.org>,  "Trevor Gross" <tmgross@umich.edu>,  "Adam
- Bratschi-Kaye" <ark.email@gmail.com>,  <rust-for-linux@vger.kernel.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-kbuild@vger.kernel.org>,  "Petr
- Pavlu" <petr.pavlu@suse.com>,  "Sami Tolvanen" <samitolvanen@google.com>,
-  "Daniel Gomez" <da.gomez@samsung.com>,  "Simona Vetter"
- <simona.vetter@ffwll.ch>,  "Greg KH" <gregkh@linuxfoundation.org>,
-  <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH v4 3/4] rust: str: add radix prefixed integer parsing
- functions
-In-Reply-To: <20250115194229.04cd1068.gary@garyguo.net> (Gary Guo's message of
-	"Wed, 15 Jan 2025 19:42:29 +0000")
-References: <20250109-module-params-v3-v4-0-c208bcfbe11f@kernel.org>
-	<20250109-module-params-v3-v4-3-c208bcfbe11f@kernel.org>
-	<2dAu_rNb_lYG0bzL-SV9gQteXT63njXIGZ2X9FhQqA0R9C79piRw2S_xCZZeKKLekNEZQwc086H_mdNd7_9kSQ==@protonmail.internalid>
-	<20250115194229.04cd1068.gary@garyguo.net>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Tue, 04 Feb 2025 10:51:58 +0100
-Message-ID: <87wme6jav5.fsf@kernel.org>
+Subject: [PATCH v5 0/5] rust: extend `module!` macro with integer parameter
+ support
+Date: Tue, 04 Feb 2025 13:02:07 +0100
+Message-Id: <20250204-module-params-v3-v5-0-bf5ec2041625@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL8BomcC/23PTWrDMBAF4KsYrTtBv47jVe5RSpDkcSIaWe7IE
+ S0hd6/iEEppQZsnmG/eXFlGCphZ31wZYQk5pKkG89Iwf7LTESEMNTPJpRZSCIhpuJwRZks2Zig
+ KLG7R+G7onLGsjs2EY/hcyde3mk8hL4m+1g1F3X+fmPqL1cdBd8ZyYayXfty/I0143iQ6srtW9
+ FMwXPDdP4Kugpe8c350KMRv4fYoSPhxqacuj5Y/l/bNWk3wLcx0SJPHQ7SeUoZWqw7b0bidVH0
+ tUR1nM4JPMYalb0q7ERrIi7rj9g03gUxRVgEAAA==
+X-Change-ID: 20241211-module-params-v3-ae7e5c8d8b5a
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Luis Chamberlain <mcgrof@kernel.org>
+Cc: Trevor Gross <tmgross@umich.edu>, 
+ Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ Greg KH <gregkh@linuxfoundation.org>, linux-modules@vger.kernel.org, 
+ Andreas Hindborg <a.hindborg@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5270; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=PfuRE/ZR4isUzc3qeO77yo8aH9yzP+UY+ow6O90zSqk=;
+ b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBnogHTY/q2y6tivMkfUAhM+3qDVJDzQPGSrmdoU
+ 4KQGnJFCNCJAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCZ6IB0wAKCRDhuBo+eShj
+ dzVcD/9bOPaAottr8750r1K2G1SqhmEGXEyT3fjczoLnbR655oiykpiDSXS7zW2/yC9v7/A3lfg
+ D1SubqB7BrRtq7WWjp7PPG9DgZPFdfe/QBTID/nKiUMjRq+wgvPXRfCQPlmhA0Wpnx2FINviKXv
+ DX/6neB5hi/6j0/I59tvX5uMDRDO7Wev0+k37luXZ+aIppiVz8KNNZi2WFuh+Xfn6ErhvLpM9LB
+ UXPsuHat4/H7XQDogR5SjuGaMvCRZwzk2dNqJnNVzQvdej3Jgo+9IA2aQJrodvIBbOFk4yKCEgO
+ KIFobv7tsZANeOrrIpy4iN7Vs2+/mZ4YWHfca6vxYi6+L3ci8RKt1IytafqvKdzXi5UgTuZm8AB
+ 21qGA8t7oZM/zA5YwGVfv9ztb23jucuP2vnuhTDPLjZjMV8x1Bs74YpM4tKTa3oKJLxmNEtBPUX
+ OXOVVkjniGYHn+QJZZL3pNCdomK7jLi1VYamxSsMS8G3/Eg+cUMDl/z7YYvMRLYg6vmC2tukyju
+ prsUKs7XihBT59SMfwnhLh3Tnq2+cvkCXlqpvKlS1a2iDQ8v2ry7awYR8qHfa+7BFfIfqT/fnz5
+ KzpQyTwLVmRc0T2OZEXcjrtuk1InnD3MCxowVavPiKJSZ74SxGGsUYRQanduu0qdn9mFh0Z2em2
+ u2XNr3gMSoXOg/w==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Hi Gary,
+This series extends the `module!` macro with support module parameters. It
+also adds some string to integer parsing functions and updates `BStr` with
+a method to strip a string prefix.
 
-Sorry, I missed this email when sending v5. Thanks for the comments!
+This series stated out as code by Adam Bratschi-Kaye lifted from the original
+`rust` branch [1].
 
-"Gary Guo" <gary@garyguo.net> writes:
+After a bit of discussion on v3 about whether or not module parameters
+is a good idea, it seems that module parameters in Rust has a place
+in the kernel for now. This series is a dependency for `rnull`, the Rust
+null block driver [2].
 
-> On Thu, 09 Jan 2025 11:54:58 +0100
-> Andreas Hindborg <a.hindborg@kernel.org> wrote:
->
->> Add the trait `ParseInt` for parsing string representations of integers
->> where the string representations are optionally prefixed by a radix
->> specifier. Implement the trait for the primitive integer types.
->>
->> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->> ---
->>  rust/kernel/str.rs | 118 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 118 insertions(+)
->>
->> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
->> index 9c446ff1ad7adba7ca09a5ae9df00fd369a32899..14da40213f9eafa07a104eba3129efe07c8343f3 100644
->> --- a/rust/kernel/str.rs
->> +++ b/rust/kernel/str.rs
->> @@ -914,3 +914,121 @@ fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
->>  macro_rules! fmt {
->>      ($($f:tt)*) => ( core::format_args!($($f)*) )
->>  }
->> +
->> +pub mod parse_int {
->> +    //! Integer parsing functions for parsing signed and unsigned integers
->> +    //! potentially prefixed with `0x`, `0o`, or `0b`.
->> +
->> +    use crate::alloc::flags;
->> +    use crate::prelude::*;
->> +    use crate::str::BStr;
->> +
->> +    /// Trait that allows parsing a [`&BStr`] to an integer with a radix.
->> +    ///
->> +    /// [`&BStr`]: kernel::str::BStr
->> +    // This is required because the `from_str_radix` function on the primitive
->> +    // integer types is not part of any trait.
->> +    pub trait FromStrRadix: Sized {
->> +        /// Parse `src` to `Self` using radix `radix`.
->> +        fn from_str_radix(src: &BStr, radix: u32) -> Result<Self, crate::error::Error>;
->> +    }
->> +
->> +    /// Extract the radix from an integer literal optionally prefixed with
->> +    /// one of `0x`, `0X`, `0o`, `0O`, `0b`, `0B`, `0`.
->> +    fn strip_radix(src: &BStr) -> (u32, &BStr) {
->> +        if let Some(n) = src.strip_prefix(b_str!("0x")) {
->> +            (16, n)
->> +        } else if let Some(n) = src.strip_prefix(b_str!("0X")) {
->> +            (16, n)
->> +        } else if let Some(n) = src.strip_prefix(b_str!("0o")) {
->> +            (8, n)
->> +        } else if let Some(n) = src.strip_prefix(b_str!("0O")) {
->> +            (8, n)
->> +        } else if let Some(n) = src.strip_prefix(b_str!("0b")) {
->> +            (2, n)
->> +        } else if let Some(n) = src.strip_prefix(b_str!("0B")) {
->> +            (2, n)
->> +        } else if let Some(n) = src.strip_prefix(b_str!("0")) {
->> +            (8, n)
->> +        } else {
->> +            (10, src)
->> +        }
->
-> This can be done better with a match:
->
-> match src.deref() {
->     [b'0', b'x' | b'X', ..] => (16, &src[2..]),
->     [b'0', b'o' | b'O', ..] => (8, &src[2..]),
->     [b'0', b'b' | b'B', ..] => (2, &src[2..]),
->     [b'0', ..] => (8, &src[1..]),
->     _ => (10, src),
-> }
+Link: https://github.com/Rust-for-Linux/linux/tree/bc22545f38d74473cfef3e9fd65432733435b79f [1]
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/a.hindborg/linux.git/log/?h=rnull [2]
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+Changes in v5:
+- Fix a typo in a safety comment in `set_param`.
+- Use a match statement in `parse_int::strip_radix`.
+- Add an implementation of `Index` for `BStr`.
+- Fix a logic inversion bug where parameters would not be parsed.
+- Use `kernel::ffi::c_char` in `set_param` rather than the one in `core`.
+- Use `kernel::c_str!` rather than `c"..."` literal in module macro.
+- Rebase on v6.14-rc1.
+- Link to v4: https://lore.kernel.org/r/20250109-module-params-v3-v4-0-c208bcfbe11f@kernel.org
 
-Thanks, will add. I was not aware that matching syntax was this powerful.
+Changes in v4:
+- Add module maintainers to Cc list (sorry)
+- Add a few missing [`doc_links`]
+- Add panic section to `expect_string_field`
+- Fix a typo in safety requirement of `module_params::free`
+- Change `assert!` to `pr_warn_once!` in `module_params::set_param`
+- Remove `module_params::get_param` and install null pointer instead
+- Remove use of the unstable feature `sync_unsafe_cell`
+- Link to v3: https://lore.kernel.org/r/20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org
 
->
->> +    }
->> +
->> +    /// Trait for parsing string representations of integers.
->> +    ///
->> +    /// Strings beginning with `0x`, `0o`, or `0b` are parsed as hex, octal, or
->> +    /// binary respectively. Strings beginning with `0` otherwise are parsed as
->> +    /// octal. Anything else is parsed as decimal. A leading `+` or `-` is also
->> +    /// permitted. Any string parsed by [`kstrtol()`] or [`kstrtoul()`] will be
->> +    /// successfully parsed.
->> +    ///
->> +    /// [`kstrtol()`]: https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.kstrtol
->> +    /// [`kstrtoul()`]: https://www.kernel.org/doc/html/latest/core-api/kernel-api.html#c.kstrtoul
->> +    ///
->> +    /// # Example
->> +    /// ```
->> +    /// use kernel::str::parse_int::ParseInt;
->> +    /// use kernel::b_str;
->> +    ///
->> +    /// assert_eq!(Ok(0xa2u8), u8::from_str(b_str!("0xa2")));
->> +    /// assert_eq!(Ok(-0xa2i32), i32::from_str(b_str!("-0xa2")));
->> +    ///
->> +    /// assert_eq!(Ok(-0o57i8), i8::from_str(b_str!("-0o57")));
->> +    /// assert_eq!(Ok(0o57i8), i8::from_str(b_str!("057")));
->> +    ///
->> +    /// assert_eq!(Ok(0b1001i16), i16::from_str(b_str!("0b1001")));
->> +    /// assert_eq!(Ok(-0b1001i16), i16::from_str(b_str!("-0b1001")));
->> +    ///
->> +    /// assert_eq!(Ok(127), i8::from_str(b_str!("127")));
->> +    /// assert!(i8::from_str(b_str!("128")).is_err());
->> +    /// assert_eq!(Ok(-128), i8::from_str(b_str!("-128")));
->> +    /// assert!(i8::from_str(b_str!("-129")).is_err());
->> +    /// assert_eq!(Ok(255), u8::from_str(b_str!("255")));
->> +    /// assert!(u8::from_str(b_str!("256")).is_err());
->> +    /// ```
->> +    pub trait ParseInt: FromStrRadix {
->> +        /// Parse a string according to the description in [`Self`].
->> +        fn from_str(src: &BStr) -> Result<Self> {
->> +            match src.iter().next() {
->> +                None => Err(EINVAL),
->> +                Some(sign @ b'-') | Some(sign @ b'+') => {
->> +                    let (radix, digits) = strip_radix(BStr::from_bytes(&src[1..]));
->> +                    let mut n_digits: KVec<u8> =
->> +                        KVec::with_capacity(digits.len() + 1, flags::GFP_KERNEL)?;
->
-> I don't think we should allocate for parsing. This can trivially be a
-> non-allocating. Just check that the next byte is an ASCII digit (reject
-> if so, in case people give multiple signs), and then from_str_radix and
-> return as is or use `checked_neg`.
+Changes in v3:
+- use `SyncUnsafeCell` rather than `static mut` and simplify parameter access
+- remove `Display` bound from `ModuleParam`
+- automatically generate documentation for `PARAM_OPS_.*`
+- remove `as *const _ as *mut_` phrasing
+- inline parameter name in struct instantiation in  `emit_params`
+- move `RacyKernelParam` out of macro template
+- use C string literals rather than byte string literals with explicit null
+- template out `__{name}_{param_name}` in `emit_param`
+- indent template in `emit_params`
+- use let-else expression in `emit_params` to get rid of an indentation level
+- document `expect_string_field`
+- move invication of `impl_int_module_param` to be closer to macro def
+- move attributes after docs in `make_param_ops`
+- rename `impl_module_param` to impl_int_module_param`
+- use `ty` instead of `ident` in `impl_parse_int`
+- use `BStr` instead of `&str` for string manipulation
+- move string parsing functions to seperate patch and add examples, fix bugs
+- degrade comment about future support from doc comment to regular comment
+- remove std lib path from `Sized` marker
+- update documentation for `trait ModuleParam`
+- Link to v2: https://lore.kernel.org/all/20240819133345.3438739-1-nmi@metaspace.dk/
 
-The issue with that approach is that 2s complement signed integer types
-of width `b` can assume values from -2^(b-1) to (2^(b-1))-1. We would
-reject the value -2^(b-1) when trying to parse as 2^(b-1).
+Changes in v2:
+- Remove support for params without values (`NOARG_ALLOWED`).
+- Improve documentation for `try_from_param_arg`.
+- Use prelude import.
+- Refactor `try_from_param_arg` to return `Result`.
+- Refactor `ParseInt::from_str` to return `Result`.
+- Move C callable functions out of `ModuleParam` trait.
+- Rename literal string field parser to `expect_string_field`.
+- Move parameter parsing from generation to parsing stage.
+- Use absolute type paths in macro code.
+- Inline `kparam`and `read_func` values.
+- Resolve TODO regarding alignment attributes.
+- Remove unnecessary unsafe blocks in macro code.
+- Improve error message for unrecognized parameter types.
+- Do not use `self` receiver when reading parameter value.
+- Add parameter documentation to `module!` macro.
+- Use empty `enum` for parameter type.
+- Use `addr_of_mut` to get address of parameter value variable.
+- Enabled building of docs for for `module_param` module.
+- Link to v1: https://lore.kernel.org/rust-for-linux/20240705111455.142790-1-nmi@metaspace.dk/
 
-We could parse into an unsigned type, but it gets kind of clunky.
+---
+Andreas Hindborg (5):
+      rust: str: implement `PartialEq` for `BStr`
+      rust: str: implement `Index` for `BStr`
+      rust: str: implement `strip_prefix` for `BStr`
+      rust: str: add radix prefixed integer parsing functions
+      rust: add parameter support to the `module!` macro
 
-Another option is to stop relying on `from_str_radix` from core and roll
-our own that takes sign as a separate function argument.
-
+ rust/kernel/lib.rs           |   1 +
+ rust/kernel/module_param.rs  | 225 +++++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/str.rs           | 142 +++++++++++++++++++++++++++
+ rust/macros/helpers.rs       |  14 +++
+ rust/macros/lib.rs           |  31 ++++++
+ rust/macros/module.rs        | 188 ++++++++++++++++++++++++++++++++----
+ samples/rust/rust_minimal.rs |  10 ++
+ 7 files changed, 593 insertions(+), 18 deletions(-)
+---
+base-commit: 379487e17ca406b47392e7ab6cf35d1c3bacb371
+change-id: 20241211-module-params-v3-ae7e5c8d8b5a
+prerequisite-change-id: 20241107-pr_once_macros-6438e6f5b923:v4
+prerequisite-patch-id: 57743fff5d9c649ff7c1aed7e374d08ae67dda91
+prerequisite-patch-id: fe607e3e1f666e7250bf099e581d53c83fea5f7d
+prerequisite-patch-id: eb030eccf23466b0e22e7c699f252c40bd5f21bf
 
 Best regards,
-Andreas Hindborg
+-- 
+Andreas Hindborg <a.hindborg@kernel.org>
 
 
 
