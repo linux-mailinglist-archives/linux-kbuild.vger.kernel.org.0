@@ -1,57 +1,67 @@
-Return-Path: <linux-kbuild+bounces-5671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5672-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8FDA2CFC0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 22:37:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A2EA2CFE6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 22:41:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9EAD3A3002
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 21:37:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A94B1883CF3
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 21:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A8019CC02;
-	Fri,  7 Feb 2025 21:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F7719DF44;
+	Fri,  7 Feb 2025 21:41:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kup/n0FH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZtNmAYwu"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF74188CB1;
-	Fri,  7 Feb 2025 21:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B914D23C8CB;
+	Fri,  7 Feb 2025 21:41:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738964085; cv=none; b=JaifAsnpZQ0VJ0jEF5khnFDT6oqL9m89QjmV5zoamd7/4KMI42+f2uQ5g8mxpwD4LuzDoXSR88P16ZeBoQDECD5HFgFp7W7QeUBxnuDuAES5x8lPzDX2jgj+tbdT6AhSVQsMNLmxb345f0IUZi40Jf+4b/PzaAJILsjbTo8oeOg=
+	t=1738964478; cv=none; b=XHqTzY2B4qbQepOhVeQMra/TfRqK9d6DZynR3fgDkW+N60WKl4NPSeHiKLuPTusVsCVVETXUgLD1Z9ZmPgCOYxBu4WdkaTWjBkNHCZvPE1lpPfd0WuFHjr3ooQq/QRq14XLI4Pt/oxZJr2VlTa5gANs+UNSSuW7wZx0Y+ZbGv8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738964085; c=relaxed/simple;
-	bh=1vu6IK/TqU5ipJPjTf+My4zQafmF71UcieC3YgeztUE=;
+	s=arc-20240116; t=1738964478; c=relaxed/simple;
+	bh=bqBytptlQlI73yqYfMLj2ttbYFVky1pvmuVnq2C2jHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pllcVvsFYKyvmKAKbr6YuQeiPu6oekvywxlwtAA3Xo3WzT/q3653uocsSct1S1TmnXJ79spBNCtTVuH7cNY0JPLR7GisDFk0y3Kq6eYYXe34k3jeHLZJLDljVkun7FIx/ilpvtf5me0ZSvRFAvLusIdDTA47Q8Ev6m6sotyMgEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kup/n0FH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2ADFC4CEE2;
-	Fri,  7 Feb 2025 21:34:42 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z3Qn8SqMoEjQt+5j2leRHvjrM6GbVv7DFrJP3TpXnKmzGdy95dHxoxulIE3gQ267QPxzcloOcSUSlFx4kFQHo0wFeg7/6bDPZ2qh6o4oseIa5uWt3s4N9EQo1MSrcKSfHEcBYNmFRyLASKv2vDlH+Uy+/E91WcUzZKe2rSgbJg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZtNmAYwu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DD0C4CED1;
+	Fri,  7 Feb 2025 21:41:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738964084;
-	bh=1vu6IK/TqU5ipJPjTf+My4zQafmF71UcieC3YgeztUE=;
+	s=k20201202; t=1738964478;
+	bh=bqBytptlQlI73yqYfMLj2ttbYFVky1pvmuVnq2C2jHE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kup/n0FH4N1HCPxeEfcBSE0Hk6Ym/590YyJipMTt7WA6I9iN0Ih7ts7RNdllhdhLD
-	 p8c/goMpaEOLUoP2ofmKh5w1h/MPKj/0eOceXwdjgJAry23wYGKSMEvkm0jhZDeFzL
-	 xwer1m0ggV43k+XfOyIxmNzjbc8q6M0VH9hNFof8yW4ymcFSLxsUXy5iFBsBFiGFh+
-	 SY7KN82mQ49+c+ASX39MoLx1h/73tK7BbxwGgM1Lw+lkbRo7IcuBOTyIklNcaS5h5Y
-	 9UdgESfA397ZP3EYTHCbuURmPry1Oca8boPJFBIoBSBwCTxw/DUIYdWmD2WotE7b1i
-	 xDX580XLalEdw==
-Date: Fri, 7 Feb 2025 14:34:39 -0700
+	b=ZtNmAYwul23XH0zCg2ocs+olF6xs3OWFogWmnRQH6KXquwcmduMhunb+CYcrGRZIU
+	 Png6QHlNUBRlsq3XbaVCOQV3fMt8qbLdd9j35K0KDCto0QpAbmOyetSSMbXJqBZljM
+	 dVxU3/t2z06NfEnMVaI2/9zJMPeqCQLR/gASA3SuR+8sT84xmXUKkL2BUbfWu1zuJI
+	 ohaQ+oIInjT0SzVPfjtiJm3a5OIBJrxZJdF4hMpGx55Xh4T3RCBgTmAS2ZU38Ok0ER
+	 W7UdvYLlXAyg9ZyIE/t7+kbCyYTHblN/IBZ7CSCJjaXMCLDGcSb+o/YIeLV/9K9Wvm
+	 OgWJb324GuRyQ==
+Date: Fri, 7 Feb 2025 14:41:13 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev
-Subject: Re: [PATCH] gen_compile_commands.py: remove code for '\#' replacement
-Message-ID: <20250207213439.GA661404@ax162>
-References: <20250205171811.3471289-1-masahiroy@kernel.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Brendan Jackman <jackmanb@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] objtool: Add option to fail build on vmlinux
+ warnings
+Message-ID: <20250207214113.GB661404@ax162>
+References: <20250113-objtool-strict-v3-0-8b51f94957fb@google.com>
+ <20250114001440.cagqlvjfvw6ghsj7@jpoimboe>
+ <CA+i-1C0MFQCLOah56wWQhPhtk4p0ynhxh48eTmQ0-0x+pB6fvw@mail.gmail.com>
+ <20250130183042.GB3394637@ax162>
+ <CA+i-1C2rw6uNOpeY8fakco8T75udRhLJLxJ4CHgJNKBhbxGa_A@mail.gmail.com>
+ <20250131204920.GA1974131@ax162>
+ <CA+i-1C1A_0nkY6G+W3n=dYqEJHZGuEwNXK=xrWNwDh7561x_9A@mail.gmail.com>
+ <20250206171036.GF180182@ax162>
+ <20250207025127.2sy74bhcu6wtbo6a@jpoimboe>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,46 +70,32 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250205171811.3471289-1-masahiroy@kernel.org>
+In-Reply-To: <20250207025127.2sy74bhcu6wtbo6a@jpoimboe>
 
-On Thu, Feb 06, 2025 at 02:18:02AM +0900, Masahiro Yamada wrote:
-> Since commit 9564a8cf422d ("Kbuild: fix # escaping in .cmd files for
-> future Make"), '#' in the build command is replaced with $(pound) rather
-> than '\#'.
+On Thu, Feb 06, 2025 at 06:51:27PM -0800, Josh Poimboeuf wrote:
+> On Thu, Feb 06, 2025 at 10:10:36AM -0700, Nathan Chancellor wrote:
+> > Right, I think gating on '!COMPILE_TEST' would not be a terrible way to
+> > introduce it. We would definitely want to remove that dependency as
+> > soon as possible because we want compile testers to be qble to find
+> > these problems and have them be noticeable but it should make the
+> > introduction of CONFIG_OBJTOOL_WERROR less disruptive.
 > 
-> Calling .replace(r'\#', '#') is only necessary when this tool is used
-> to parse .*.cmd files generated by Linux 4.16 or earlier, which is
-> unlikely happen.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> I want to get CONFIG_OBJTOOL_WERROR merged soon.  I'm working on some
+> other patches to go along with it that will hopefully ease some of the
+> pain.  I'll post those soon and then hopefully we can get it into
+> linux-next.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Sounds good to me, getting it into linux-next will give us a good idea
+of how disruptive it may be.
 
-> ---
-> 
->  scripts/clang-tools/gen_compile_commands.py | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> index e4fb686dfaa9..96e6e46ad1a7 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -167,10 +167,10 @@ def process_line(root_directory, command_prefix, file_path):
->              root_directory or file_directory.
->      """
->      # The .cmd files are intended to be included directly by Make, so they
-> -    # escape the pound sign '#', either as '\#' or '$(pound)' (depending on the
-> -    # kernel version). The compile_commands.json file is not interepreted
-> -    # by Make, so this code replaces the escaped version with '#'.
-> -    prefix = command_prefix.replace(r'\#', '#').replace('$(pound)', '#')
-> +    # escape the pound sign '#' as '$(pound)'. The compile_commands.json file
-> +    # is not interepreted by Make, so this code replaces the escaped version
-> +    # with '#'.
-> +    prefix = command_prefix.replace('$(pound)', '#')
->  
->      # Return the canonical path, eliminating any symbolic links encountered in the path.
->      abs_path = os.path.realpath(os.path.join(root_directory, file_path))
-> -- 
-> 2.43.0
-> 
+> I didn't quite follow the OBJTOOL_FLAGS idea.  We already have
+> OBJTOOL_ARGS which allows adding arguments (though not removing them),
+> was it mean to be something like that?
+
+Yes, I should have prefaced "if it does not already exist" since I did
+not realize that there was already support for adding to objtool
+arguments via an environment/make variable already.
+
+Cheers,
+Nathan
 
