@@ -1,110 +1,139 @@
-Return-Path: <linux-kbuild+bounces-5666-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B66A2CB8B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 19:41:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D517A2CBA6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 19:43:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E4B73AF3C2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 18:40:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A624B1883696
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 18:43:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E251E1A8412;
-	Fri,  7 Feb 2025 18:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5DE019CD1E;
+	Fri,  7 Feb 2025 18:42:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pvOwmal5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lU/EHgnv"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F421A3161;
-	Fri,  7 Feb 2025 18:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7DB19259D;
+	Fri,  7 Feb 2025 18:42:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738953415; cv=none; b=jxMLqwlymPlNkS7XqUXU3bMx+FSwgygxwY35tA+p+h0Y5wq9Zw5kTn1t1bGzgkinS2wJ4ekzmiPoGxtBbftIjO+jf3tQVL46v/at12G6wm0XEEVGkLpdgLbmXVgEGAq/K/gFBGxxIGfufhejzZ0XksxLefBcVc4FtbwdxBMAJ7g=
+	t=1738953740; cv=none; b=ITfEPtgmMCO+ye/b9eFN4R4d8j2fMmmdcOATguoKCoCgofih+v+3I13Cxj9OH157fVfzjC0NNLS9t77y+Lrto6AHvXkkACqFk79DnpHF+Nici34Sx9DeD+MWUL8svArqeLN9TCs6Lr3HL+HxaXNTEs/6bgCidSsWJvF41FQzFFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738953415; c=relaxed/simple;
-	bh=L4SabA78oMLZLqMu8BASlkexrk1dtRH3ggYFE99fL3o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PUwg4RwDKQqT9LTQCrTwy6icqjSbYHPY2p+1kuqGOD8tUMy68n0zL6G3vMw9nO8Bb+02F2iDMdhD/aLr6PT1rfnT+uNXFIyLQQR1XMoKE9vtZLj6EJQeWLxtezpq7K6gw6q6akcIK0EX0jLvSQp9LuhoeXZP0i/vOV+cxqhrldY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pvOwmal5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A093C4CED1;
-	Fri,  7 Feb 2025 18:36:55 +0000 (UTC)
+	s=arc-20240116; t=1738953740; c=relaxed/simple;
+	bh=vLL2/x5Xd0jIBxlSa0RKV1awz+Qu2EmvR9mbuE5+/VQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sOrcOMsjuqvwRThnpreAhen9JyTIQPKst0VFGX4QITj7YjXh5MM3IbCheK0IslFOsMT0uEpSGjDTt0rAS/RpAuon3J+HJxBC+vgM3S+MzOHQ6wSV1Y3zfW9hdToHjYOzcfsjBMHvn9LsK6OFtr6JHZzYrg3e7MO2n/oJhugWxtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lU/EHgnv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B93C6C4CED1;
+	Fri,  7 Feb 2025 18:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738953415;
-	bh=L4SabA78oMLZLqMu8BASlkexrk1dtRH3ggYFE99fL3o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pvOwmal5UZ9I/GOs6Hs3RIs11qCg8axF1A32ru4AO83rnBfBhybYRYlkMJJ1QHQBX
-	 T26eCM9P7ClJ6MmNqu54Ov/FDbEVwGQaiJbKHK0vndo5CX1WMyvBhQO1HPsnm2r7ej
-	 eqt9yNF8cFhxBh7YDc0fl5ELKLw1Z/D4mAhHMPQ/fLJOWcDd0DBrpqYcssdUAzC6QC
-	 MPPIVvafvv5upw9hSrbcW/yu5ayDyyjFLSmJKU5D/XQ3bp1b7YavSmbxvMNU08cuSZ
-	 qk2LV9kG6pv2axEcociNr9IADsPxtGwY4k5NF1q4S5wgrNAeOLLnBeBbrtX9Zp8REP
-	 OGaM4CP0f2Nag==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-307e4e72ef3so13312311fa.0;
-        Fri, 07 Feb 2025 10:36:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU3g5Bncz2CKn+enGMb5DWcQyEKtoh6VW+iN9t0rSJI1BUJxMVw890+RCPBi60MM9S0fj271iPrjyDWlsyH@vger.kernel.org, AJvYcCVMsoln2avbaT/NjQbWJ3XKTEOq2oMmF38yn9jQ9vldMh2oQZxGKtmn1h78HGezoA4TTMPRsnuDMwJ+uQk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp/VV4tGiB6CeMwzbEYdGsJnGPGZtuEi68VjMaEzd7CJ30bWju
-	SpcO+rGelQFcemOclmxe7lk6ZjgqMB9aEag6Ru7GNTAihW0FBAVXizVJDF+wbE5w0p2W/ZgtVuQ
-	ZdQtSSoUxAHrvaRI7kk9bN84cERY=
-X-Google-Smtp-Source: AGHT+IGKrt+U3I6m3VETh9oqfow8/fcZA18C4A56HPq/MQcTyYDXU3wKngKe/aUvANihPITnWRXgMBzskneoHxEPWR8=
-X-Received: by 2002:a05:651c:b29:b0:302:1b18:2c06 with SMTP id
- 38308e7fff4ca-307e58169b4mr12624841fa.17.1738953413943; Fri, 07 Feb 2025
- 10:36:53 -0800 (PST)
+	s=k20201202; t=1738953740;
+	bh=vLL2/x5Xd0jIBxlSa0RKV1awz+Qu2EmvR9mbuE5+/VQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lU/EHgnv5I6H8usnbQYNKAxUsM/ibmNjM7UzvmoGBB1RU9p3Ww4mZjs6Nq+xrde5s
+	 ZjzStGvrVAdKlkMjlOxLglUEvARggZU3r40bcHWzKXHNDOb3hgTeX89+B2+FaG7rJ9
+	 5hhzmaduMKTd6PXr/EyvocZm+eOfct311qJrq7wASAjy43unh43C92NFf73xO4mUpu
+	 6wZHV6ypcyQZyB+2xGJbWwtdPMT7hMcBeHJPchCK0E8UDAc+TUGl5jMixb4eBvFGDo
+	 lMRslavPambFGytHtGFGhRHB7+kBjtqNT8pUbo/pF59uPPQ5E5KmwqVtQC3ONEeJeL
+	 BJgWmlygp2/SA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] kconfig: do not clear SYMBOL_VALID when reading include/config/auto.conf
+Date: Sat,  8 Feb 2025 03:41:55 +0900
+Message-ID: <20250207184157.497745-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <43AE9F470D835AD1+20250207070855.227283-1-wangyuli@uniontech.com>
-In-Reply-To: <43AE9F470D835AD1+20250207070855.227283-1-wangyuli@uniontech.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 8 Feb 2025 03:36:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ3wBCTCNT4YBXEr1m06VCPFCJUJuDyHBj1QuyD7xTC-Q@mail.gmail.com>
-X-Gm-Features: AWEUYZlMBpTNz7ZdJDYi7HxCIdReDgc9bvzREQ6uewnzSwLm34Jj3njagMcs08Y
-Message-ID: <CAK7LNAQ3wBCTCNT4YBXEr1m06VCPFCJUJuDyHBj1QuyD7xTC-Q@mail.gmail.com>
-Subject: Re: [PATCH] scripts: install-extmod-build: add missing quotation
- marks for CC variable
-To: WangYuli <wangyuli@uniontech.com>
-Cc: nathan@kernel.org, nicolas@fjasle.eu, jeffbai@aosc.io, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, revy@deepin.org, 
-	zhanjun@uniontech.com, guanwentao@uniontech.com, chenlinxuan@uniontech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 7, 2025 at 4:26=E2=80=AFPM WangYuli <wangyuli@uniontech.com> wr=
-ote:
->
-> While attempting to build a Debian packages with CC=3D"ccache gcc", I
-> saw the following error as builddeb builds linux-headers-$KERNELVERSION:
->
->   make HOSTCC=3Dccache gcc VPATH=3D srcroot=3D. -f ./scripts/Makefile.bui=
-ld obj=3Ddebian/linux-headers-6.14.0-rc1/usr/src/linux-headers-6.14.0-rc1/s=
-cripts
->   make[6]: *** No rule to make target 'gcc'.  Stop.
->
-> Upon investigation, it seems that one instance of $(CC) variable referenc=
-e
-> in ./scripts/package/install-extmod-build was missing quotation marks,
-> causing the above error.
->
-> Add the missing quotation marks around $(CC) to fix build.
->
-> Fixes: 5f73e7d0386d ("kbuild: refactor cross-compiling linux-headers pack=
-age")
-> Co-developed-by: Mingcong Bai <jeffbai@aosc.io>
-> Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
-> Tested-by: WangYuli <wangyuli@uniontech.com>
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
-> ---
+When conf_read_simple() is called with S_DEF_AUTO, it is meant to read
+previous symbol values from include/config/auto.conf to determine which
+include/config/* files should be touched.
 
-Applied to linux-kbuild/fixes.
-Thanks!
+This process should not modify the current symbol status in any way.
+However, conf_touch_deps() currently invalidates all symbol values and
+recalculates them, which is totally unneeded.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/kconfig/confdata.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
---=20
-Best Regards
-Masahiro Yamada
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 3b55e7a4131d..ac95661a1c9d 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -385,7 +385,7 @@ int conf_read_simple(const char *name, int def)
+ 
+ 	def_flags = SYMBOL_DEF << def;
+ 	for_all_symbols(sym) {
+-		sym->flags &= ~(def_flags|SYMBOL_VALID);
++		sym->flags &= ~def_flags;
+ 		switch (sym->type) {
+ 		case S_INT:
+ 		case S_HEX:
+@@ -398,7 +398,11 @@ int conf_read_simple(const char *name, int def)
+ 		}
+ 	}
+ 
+-	expr_invalidate_all();
++	if (def == S_DEF_USER) {
++		for_all_symbols(sym)
++			sym->flags &= ~SYMBOL_VALID;
++		expr_invalidate_all();
++	}
+ 
+ 	while (getline_stripped(&line, &line_asize, in) != -1) {
+ 		struct menu *choice;
+@@ -464,6 +468,9 @@ int conf_read_simple(const char *name, int def)
+ 		if (conf_set_sym_val(sym, def, def_flags, val))
+ 			continue;
+ 
++		if (def != S_DEF_USER)
++			continue;
++
+ 		/*
+ 		 * If this is a choice member, give it the highest priority.
+ 		 * If conflicting CONFIG options are given from an input file,
+@@ -967,10 +974,8 @@ static int conf_touch_deps(void)
+ 	depfile_path[depfile_prefix_len] = 0;
+ 
+ 	conf_read_simple(name, S_DEF_AUTO);
+-	sym_calc_value(modules_sym);
+ 
+ 	for_all_symbols(sym) {
+-		sym_calc_value(sym);
+ 		if (sym_is_choice(sym))
+ 			continue;
+ 		if (sym->flags & SYMBOL_WRITE) {
+@@ -1084,12 +1089,12 @@ int conf_write_autoconf(int overwrite)
+ 	if (ret)
+ 		return -1;
+ 
+-	if (conf_touch_deps())
+-		return 1;
+-
+ 	for_all_symbols(sym)
+ 		sym_calc_value(sym);
+ 
++	if (conf_touch_deps())
++		return 1;
++
+ 	ret = __conf_write_autoconf(conf_get_autoheader_name(),
+ 				    print_symbol_for_c,
+ 				    &comment_style_c);
+-- 
+2.43.0
+
 
