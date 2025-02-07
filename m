@@ -1,101 +1,132 @@
-Return-Path: <linux-kbuild+bounces-5672-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5673-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A2EA2CFE6
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 22:41:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 246BFA2D1C8
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Feb 2025 00:50:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A94B1883CF3
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 21:41:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B375916C6EF
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 23:50:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F7719DF44;
-	Fri,  7 Feb 2025 21:41:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE22A1C700F;
+	Fri,  7 Feb 2025 23:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZtNmAYwu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7Zyw6rK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B914D23C8CB;
-	Fri,  7 Feb 2025 21:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2985118FDAE;
+	Fri,  7 Feb 2025 23:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738964478; cv=none; b=XHqTzY2B4qbQepOhVeQMra/TfRqK9d6DZynR3fgDkW+N60WKl4NPSeHiKLuPTusVsCVVETXUgLD1Z9ZmPgCOYxBu4WdkaTWjBkNHCZvPE1lpPfd0WuFHjr3ooQq/QRq14XLI4Pt/oxZJr2VlTa5gANs+UNSSuW7wZx0Y+ZbGv8U=
+	t=1738972246; cv=none; b=qAiNt1AENWKl+231ZaDbFpljbM1GzhCg7fTl1WzqCq3fJmWjhKLmZEMduZTbwYr6c2lBdlTPnAmcqfzFMcb7BhhroIuPdR/udtGLoIJYkenA7z5FysQJOenqd3DX1WdyPE+cEDe4SUJCFyLZa0YMxyJpNq/Cr3b3scOEiucnjIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738964478; c=relaxed/simple;
-	bh=bqBytptlQlI73yqYfMLj2ttbYFVky1pvmuVnq2C2jHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3Qn8SqMoEjQt+5j2leRHvjrM6GbVv7DFrJP3TpXnKmzGdy95dHxoxulIE3gQ267QPxzcloOcSUSlFx4kFQHo0wFeg7/6bDPZ2qh6o4oseIa5uWt3s4N9EQo1MSrcKSfHEcBYNmFRyLASKv2vDlH+Uy+/E91WcUzZKe2rSgbJg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZtNmAYwu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DD0C4CED1;
-	Fri,  7 Feb 2025 21:41:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738964478;
-	bh=bqBytptlQlI73yqYfMLj2ttbYFVky1pvmuVnq2C2jHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZtNmAYwul23XH0zCg2ocs+olF6xs3OWFogWmnRQH6KXquwcmduMhunb+CYcrGRZIU
-	 Png6QHlNUBRlsq3XbaVCOQV3fMt8qbLdd9j35K0KDCto0QpAbmOyetSSMbXJqBZljM
-	 dVxU3/t2z06NfEnMVaI2/9zJMPeqCQLR/gASA3SuR+8sT84xmXUKkL2BUbfWu1zuJI
-	 ohaQ+oIInjT0SzVPfjtiJm3a5OIBJrxZJdF4hMpGx55Xh4T3RCBgTmAS2ZU38Ok0ER
-	 W7UdvYLlXAyg9ZyIE/t7+kbCyYTHblN/IBZ7CSCJjaXMCLDGcSb+o/YIeLV/9K9Wvm
-	 OgWJb324GuRyQ==
-Date: Fri, 7 Feb 2025 14:41:13 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Brendan Jackman <jackmanb@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] objtool: Add option to fail build on vmlinux
- warnings
-Message-ID: <20250207214113.GB661404@ax162>
-References: <20250113-objtool-strict-v3-0-8b51f94957fb@google.com>
- <20250114001440.cagqlvjfvw6ghsj7@jpoimboe>
- <CA+i-1C0MFQCLOah56wWQhPhtk4p0ynhxh48eTmQ0-0x+pB6fvw@mail.gmail.com>
- <20250130183042.GB3394637@ax162>
- <CA+i-1C2rw6uNOpeY8fakco8T75udRhLJLxJ4CHgJNKBhbxGa_A@mail.gmail.com>
- <20250131204920.GA1974131@ax162>
- <CA+i-1C1A_0nkY6G+W3n=dYqEJHZGuEwNXK=xrWNwDh7561x_9A@mail.gmail.com>
- <20250206171036.GF180182@ax162>
- <20250207025127.2sy74bhcu6wtbo6a@jpoimboe>
+	s=arc-20240116; t=1738972246; c=relaxed/simple;
+	bh=CYB3FSNwFShTpdPawetKpiJWckc8LHuMIECqtzbzRuA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p6qRm/xna1Ll1YZsrnx3Vt394WlEHaQDEPE7N5ptZoW0pdVELzRyVEm7egITs0RsNp8o9dY/jSBEJUBO9GgpUNnzs9OTFbNIU7LS8gOlp8YDjslrEOEnsdthfoZNIPM8FMIn1FsO/Y0vRLZiX26OTVyUiU1kXHLqx/96Nt6tjwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7Zyw6rK; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38dc6d55ebaso918466f8f.1;
+        Fri, 07 Feb 2025 15:50:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738972242; x=1739577042; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=USgMOjHrfaLirLOT5WzrXhmwlLjtY2e3GvXtshzzQDE=;
+        b=c7Zyw6rK1Lzqm4hzIYaSpqj4hgXLU2DimUsrbrNZ71qd57zMBowm0Y4A+3scX+fAq2
+         MwEyA+CWGuYQSw3ZuH6MgMrzrZvVafX+TfM3BRL3yAJMU9BxOw+Q94sAFW/qP2YHZxl2
+         seUswpuFiuWr3BDJV16MwR7IxGpcgrOR6e9T6qbE5Yokt2uBt+Kf2j9LeoSZ/dDgESjq
+         CE/NX0DuuP1vE6RNdmKiv7KxICtciiiGYbytk0eux8eMfMa4KUW/0cEJC5dpOY0o7Ynt
+         p2WCAu7fySol75OSiO1WxrFud2Ld+M7jyLo0NmwIOT2nSAFGrcO8/Y+FCnJGS8Vg5Dtg
+         hBtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738972242; x=1739577042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=USgMOjHrfaLirLOT5WzrXhmwlLjtY2e3GvXtshzzQDE=;
+        b=obuQgRcUcgjO/cSUpxhY6y7T0tlkJ+oaI8dPMfZ3mKGCJDzN9n7mRD71uoQ6grucM4
+         J0V+HLYz8Yw1uHOb4bJzJ+d7l2pzl45pLmB3US5qnV0tTtbq0uL4St5YHyYJ8BrZXX98
+         cH/VetV60beG4X1dFx0DXEK/tg43loYHklWG5PU7mYAWgVVkawBw6PmrME2pnbR1XM7l
+         32g5SG22vOrwWboHFu7EKgIaIk7UJhGN4rnB4UOqYXo9+RXoQ9PlezLIixJs/DpGxzoF
+         Ng44vMnT9x+OYdWmrJSh+sjwh6JhDXPg+hRkXG/KJL3mw0QmnaS2w81I7NJB5CraVRxo
+         +SIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJnnGlUd5zYTyKQp8QDwssZkdWozw5k1jW6yMLjsKtjZQaZU5fNPic+99pGIBC08bVJy7i6vICEx8iTBju@vger.kernel.org, AJvYcCVAJHZU1bH+C7IAV8KCwF8d1y4eR4C7CSoFHQzTts6mGh2f7G52W8TajqLEYcM0xzDVEcV3FZqfZdAq5lYx@vger.kernel.org, AJvYcCVsLvsiQ/ap+750f8zGVeiZx3gdhctlyBkgVQ53xlphmfT3vaCYhb1zre3jUqR/k/QinX4JNKYhhidTHw==@vger.kernel.org, AJvYcCX2hPF8lq3zyy7ODfO+lpa8WYnkaM3VwglU7WIfBG44jMF3bZfKIR9eJbf7BAR+NaDPnGIFrxm86VKbOKQuqjVh@vger.kernel.org, AJvYcCXkPUxSaNxjeJ8ZSeHYyZZkq88iD2eeZtzAfSzwVxICAknBDI+08XHRs2NTjlL6oM/ULHY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEvUb6DbfPl5n+yGWkWum+uT3nnZmbklg6IyfPcUY4ArhyR2wL
+	NIi00J/6GsynPUzihJ0YWZA6bWiQaJJaa5FmVYop13kXxrDY3QvSwrCQNLhrMZDwVObo6pkA5yA
+	E+mkCpyBGirrt/7rWu58Il4Ys+OQ=
+X-Gm-Gg: ASbGncvQrjZWg7pBiwFvt1dU/9YKESrsoIZu5biw0bqINe8WVgblcmo2xTYSLyUI3U4
+	ncwYrNitYPx7ObQ8p8hn/VVL/npQ27xSb+MthLBCKGXAOl+E3naSoSQue+ntgPRRS8fmnKYxQFY
+	8s0nmm1Tgv+di+6YF0cpfPvA741MY4
+X-Google-Smtp-Source: AGHT+IGdgzDpsGso08/WhacNlqhvHR4fHBB/5Nz0HBLIhyrzc3k6+vYm1v3vC1IFWO2rgyWwA0J32kxp6cJzNPaPo+I=
+X-Received: by 2002:a05:6000:1865:b0:38d:c0c0:b410 with SMTP id
+ ffacd0b85a97d-38dc960e4d7mr3988849f8f.0.1738972242115; Fri, 07 Feb 2025
+ 15:50:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250207025127.2sy74bhcu6wtbo6a@jpoimboe>
+References: <20250207012045.2129841-1-stephen.s.brennan@oracle.com> <20250207012045.2129841-3-stephen.s.brennan@oracle.com>
+In-Reply-To: <20250207012045.2129841-3-stephen.s.brennan@oracle.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Fri, 7 Feb 2025 15:50:31 -0800
+X-Gm-Features: AWEUYZkFsykde3fyEMInELSdBVAKmObvfOG_wL5GI8Zt-4AF2wq8l2htXaP5ptM
+Message-ID: <CAADnVQLiyezBW34dhkwZw+mWmkFAYMZUdHbOa4uYCdPbgS10SQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] btf: Add the option to include global variable types
+To: Stephen Brennan <stephen.s.brennan@oracle.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Kees Cook <kees@kernel.org>, KP Singh <kpsingh@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Sami Tolvanen <samitolvanen@google.com>, 
+	Eduard Zingerman <eddyz87@gmail.com>, linux-arch <linux-arch@vger.kernel.org>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Jiri Olsa <jolsa@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Jann Horn <jannh@google.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Hao Luo <haoluo@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, linux-debuggers@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, Song Liu <song@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 06, 2025 at 06:51:27PM -0800, Josh Poimboeuf wrote:
-> On Thu, Feb 06, 2025 at 10:10:36AM -0700, Nathan Chancellor wrote:
-> > Right, I think gating on '!COMPILE_TEST' would not be a terrible way to
-> > introduce it. We would definitely want to remove that dependency as
-> > soon as possible because we want compile testers to be qble to find
-> > these problems and have them be noticeable but it should make the
-> > introduction of CONFIG_OBJTOOL_WERROR less disruptive.
-> 
-> I want to get CONFIG_OBJTOOL_WERROR merged soon.  I'm working on some
-> other patches to go along with it that will hopefully ease some of the
-> pain.  I'll post those soon and then hopefully we can get it into
-> linux-next.
+On Thu, Feb 6, 2025 at 5:21=E2=80=AFPM Stephen Brennan
+<stephen.s.brennan@oracle.com> wrote:
+> When the feature was implemented in pahole, my measurements indicated
+> that vmlinux BTF size increased by about 25.8%, and module BTF size
+> increased by 53.2%. Due to these increases, the feature is implemented
+> behind a new config option, allowing users sensitive to increased memory
+> usage to disable it.
+>
 
-Sounds good to me, getting it into linux-next will give us a good idea
-of how disruptive it may be.
+...
+> +config DEBUG_INFO_BTF_GLOBAL_VARS
+> +       bool "Generate BTF type information for all global variables"
+> +       default y
+> +       depends on DEBUG_INFO_BTF && PAHOLE_VERSION >=3D 128
+> +       help
+> +         Include type information for all global variables in the BTF. T=
+his
+> +         increases the size of the BTF information, which increases memo=
+ry
+> +         usage at runtime. With global variable types available, runtime
+> +         debugging and tracers may be able to provide more detail.
 
-> I didn't quite follow the OBJTOOL_FLAGS idea.  We already have
-> OBJTOOL_ARGS which allows adding arguments (though not removing them),
-> was it mean to be something like that?
+This is not a solution.
+Even if it's changed to 'default n' distros will enable it
+like they enable everything and will suffer a regression.
 
-Yes, I should have prefaced "if it does not already exist" since I did
-not realize that there was already support for adding to objtool
-arguments via an environment/make variable already.
+We need to add a new module like vmlinux_btf.ko that will contain
+this additional BTF data. For global vars and everything else we might need=
+.
 
-Cheers,
-Nathan
+pw-bot: cr
 
