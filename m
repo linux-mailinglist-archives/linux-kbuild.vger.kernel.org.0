@@ -1,158 +1,105 @@
-Return-Path: <linux-kbuild+bounces-5670-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2A6A2CEE5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 22:14:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8FDA2CFC0
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 22:37:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 237DC188A8A7
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 21:14:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9EAD3A3002
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2025 21:37:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 372981AE01C;
-	Fri,  7 Feb 2025 21:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A8019CC02;
+	Fri,  7 Feb 2025 21:34:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ajEYgs9i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kup/n0FH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F30191F62;
-	Fri,  7 Feb 2025 21:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF74188CB1;
+	Fri,  7 Feb 2025 21:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738962888; cv=none; b=FsObFx7PNOD44it1ba1zG4WdSQOXfTsn1wN+3h8NmUeCSW4JH1c1Q4gQXIvmJu3/Nwhx5PZa1og7MqYWk38jIT0qCMouoqS/SS+LgRj1arJA8VplbrzkGCOBzJim3X/0BZ+TH6fpP1qi7v9G1MfuAEZBO5raMWzDdQjTSzXJAhI=
+	t=1738964085; cv=none; b=JaifAsnpZQ0VJ0jEF5khnFDT6oqL9m89QjmV5zoamd7/4KMI42+f2uQ5g8mxpwD4LuzDoXSR88P16ZeBoQDECD5HFgFp7W7QeUBxnuDuAES5x8lPzDX2jgj+tbdT6AhSVQsMNLmxb345f0IUZi40Jf+4b/PzaAJILsjbTo8oeOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738962888; c=relaxed/simple;
-	bh=UzW/j/MhqjsYRn0dghOTG6lqfHaO4zHzu7s6Zg/VY/E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Yf+5SqMPPMm9WBBudqw9xDm7eCerFBLRnof9s7kKQG01M7cjeLjhX7ft5yi0d+BjFbNESZH5dM/odO/RfWQwZkkKNncaRnimaM3v9zUtfsNa9cJ+bxvnl6n9Wxi83WMvSUQhgdLH4vsXlDWBQu4k6zcf4QS6EyNysmEanEMVuhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ajEYgs9i; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDBFC4CED1;
-	Fri,  7 Feb 2025 21:14:47 +0000 (UTC)
+	s=arc-20240116; t=1738964085; c=relaxed/simple;
+	bh=1vu6IK/TqU5ipJPjTf+My4zQafmF71UcieC3YgeztUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pllcVvsFYKyvmKAKbr6YuQeiPu6oekvywxlwtAA3Xo3WzT/q3653uocsSct1S1TmnXJ79spBNCtTVuH7cNY0JPLR7GisDFk0y3Kq6eYYXe34k3jeHLZJLDljVkun7FIx/ilpvtf5me0ZSvRFAvLusIdDTA47Q8Ev6m6sotyMgEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kup/n0FH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2ADFC4CEE2;
+	Fri,  7 Feb 2025 21:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738962887;
-	bh=UzW/j/MhqjsYRn0dghOTG6lqfHaO4zHzu7s6Zg/VY/E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ajEYgs9iieuGO09n478aohb5YMW8lk2JTRt4af0yaVOQ1f/LWFzJYkZszvSuyxCdi
-	 m6MJHrjqS7u4zjp6Pb/+wZEJQyYHGR/Urwk/ywwC8++BNosP6hTySNThSXqHCI4oNW
-	 fUu9IFSkdAPdrkwWBvp08Sn/umIoCe6c3pZsqcnmfN3ZLGPcPAMS8pWApZRE7L6Ft6
-	 Fy+pgcqOCeOT3cjagQmE9QRcJQjXbP3sD7IOVEvDfxQhUauhP6RxywKknJiXHRFUZy
-	 gyJEPmo7EzMyKx9633gllG4ZmYJNCK9VwO8LtfbkGpEvRHIPCa4+UcIi56Si8I4zDy
-	 pYrDLxLrDHMMA==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-307325f2436so23171411fa.0;
-        Fri, 07 Feb 2025 13:14:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVeN5m9HSSEoTdogWk9ET8q244Ha14ejdZle0SEPMixSEHCnE+oweAU6azd+1NyeV95h7MykZ3KhU/3TcfJ@vger.kernel.org, AJvYcCWOyDVZqFCNmxUSNLpLKvDfFNyMBf2z4xWx61fYc7+6SkiTGDAcQzTIZufYocPhTy3HiRk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeivdGUUuX4oMP4hvOb8qgxH6NpvDCiKcjNIbozebAeWz6BgNE
-	dqgJ6hkdQqfRa75hdjbfr+vIhVGDc4ApZ0pXWTTD5KHVoqodBBZbYJOi0LY2QtZRvFN7yEVx/6m
-	dpf46it2Wu7mup8wEjYG9T+Om32s=
-X-Google-Smtp-Source: AGHT+IFH/lse15fSsw/oIj5fPPzMgUf+j3EWKTx6cAiTONgWZxGRKhsKbpDczDZ5OAGzjx0G1mLA4wKdWJEkU80mgKI=
-X-Received: by 2002:a2e:a545:0:b0:302:3261:8e33 with SMTP id
- 38308e7fff4ca-307e57afd20mr16636731fa.4.1738962886567; Fri, 07 Feb 2025
- 13:14:46 -0800 (PST)
+	s=k20201202; t=1738964084;
+	bh=1vu6IK/TqU5ipJPjTf+My4zQafmF71UcieC3YgeztUE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kup/n0FH4N1HCPxeEfcBSE0Hk6Ym/590YyJipMTt7WA6I9iN0Ih7ts7RNdllhdhLD
+	 p8c/goMpaEOLUoP2ofmKh5w1h/MPKj/0eOceXwdjgJAry23wYGKSMEvkm0jhZDeFzL
+	 xwer1m0ggV43k+XfOyIxmNzjbc8q6M0VH9hNFof8yW4ymcFSLxsUXy5iFBsBFiGFh+
+	 SY7KN82mQ49+c+ASX39MoLx1h/73tK7BbxwGgM1Lw+lkbRo7IcuBOTyIklNcaS5h5Y
+	 9UdgESfA397ZP3EYTHCbuURmPry1Oca8boPJFBIoBSBwCTxw/DUIYdWmD2WotE7b1i
+	 xDX580XLalEdw==
+Date: Fri, 7 Feb 2025 14:34:39 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev
+Subject: Re: [PATCH] gen_compile_commands.py: remove code for '\#' replacement
+Message-ID: <20250207213439.GA661404@ax162>
+References: <20250205171811.3471289-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <40ab531dfb491020ae1cc07d68dd03b0fb1d1fc8.1738440683.git.dxu@dxuuu.xyz>
-In-Reply-To: <40ab531dfb491020ae1cc07d68dd03b0fb1d1fc8.1738440683.git.dxu@dxuuu.xyz>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 8 Feb 2025 06:14:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARKnzM8hX1P1Gt8MDb6DxO4Nys7k9vphwqsrVW29vZg8g@mail.gmail.com>
-X-Gm-Features: AWEUYZm9fHMkVzPM1gtg6FqcNdCAygp82-dY1x8wHjOO6F2QFFyeM8FOUgnaSTo
-Message-ID: <CAK7LNARKnzM8hX1P1Gt8MDb6DxO4Nys7k9vphwqsrVW29vZg8g@mail.gmail.com>
-Subject: Re: [PATCH] tools/build: Skip jobserver flgas in -s detection
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org, jolsa@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250205171811.3471289-1-masahiroy@kernel.org>
 
-On Sun, Feb 2, 2025 at 5:11=E2=80=AFAM Daniel Xu <dxu@dxuuu.xyz> wrote:
->
-> Currently there is unnecessarily verbose output:
->
->     $ make -j8 bzImage
->     mkdir -p /home/dlxu/dev/linux/tools/objtool && make
->       O=3D/home/dlxu/dev/linux subdir=3Dtools/objtool --no-print-director=
-y -C
->       objtool
->     mkdir -p /home/dlxu/dev/linux/tools/bpf/resolve_btfids && make
->       O=3D/home/dlxu/dev/linux subdir=3Dtools/bpf/resolve_btfids
->       --no-print-directory -C bpf/resolve_btfids
->       INSTALL libsubcmd_headers
->       INSTALL libsubcmd_headers
->       UPD     include/config/kernel.release
->
-> The reason this happens is that it seems that make is internally adding
-> the following flag to $(MAKEFLAGS):
->
->     ---jobserver-auth=3Dfifo:/tmp/GMfifo1880691
->
-> This breaks -s detection which searches for 's' in $(short-opts), as any
-> this entire long flag is treated as a short flag and the presence of any
-> 's' triggers silent=3D1.
->
-> Fix by filtering out such flags so it's still correct to do a substring
-> search for 's'.
->
-> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+On Thu, Feb 06, 2025 at 02:18:02AM +0900, Masahiro Yamada wrote:
+> Since commit 9564a8cf422d ("Kbuild: fix # escaping in .cmd files for
+> future Make"), '#' in the build command is replaced with $(pound) rather
+> than '\#'.
+> 
+> Calling .replace(r'\#', '#') is only necessary when this tool is used
+> to parse .*.cmd files generated by Linux 4.16 or earlier, which is
+> unlikely happen.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-
-This is not the right fix.
-
-The code for calculating short-opts is correct.
-
-This is documented in GNU Make manual:
- Recall that MAKEFLAGS will put all single-letter options (such as =E2=80=
-=98-t=E2=80=99) into
- the first word, and that word will be empty if no single-letter options we=
-re
- given. To work with this, it=E2=80=99s helpful to add a value at the start=
- to ensure
- there=E2=80=99s a word: for example =E2=80=98-$(MAKEFLAGS)=E2=80=99.
-
-https://www.gnu.org/software/make/manual/make.html#Testing-Flags
-
-
-The root cause is different.
-
-
-
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
->  tools/scripts/Makefile.include | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.incl=
-ude
-> index 0aa4005017c7..a413f73a7856 100644
-> --- a/tools/scripts/Makefile.include
-> +++ b/tools/scripts/Makefile.include
-> @@ -139,9 +139,9 @@ endif
->  # If the user is running make -s (silent mode), suppress echoing of comm=
-ands
->  # make-4.0 (and later) keep single letter options in the 1st word of MAK=
-EFLAGS.
->  ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> -short-opts :=3D $(firstword -$(MAKEFLAGS))
-> +short-opts :=3D $(filter-out ---%,$(firstword -$(MAKEFLAGS)))
->  else
-> -short-opts :=3D $(filter-out --%,$(MAKEFLAGS))
-> +short-opts :=3D $(filter-out --% ---%,$(MAKEFLAGS))
->  endif
->
->  ifneq ($(findstring s,$(short-opts)),)
-> --
-> 2.47.1
->
->
-
-
---
-Best Regards
-Masahiro Yamada
+> 
+>  scripts/clang-tools/gen_compile_commands.py | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> index e4fb686dfaa9..96e6e46ad1a7 100755
+> --- a/scripts/clang-tools/gen_compile_commands.py
+> +++ b/scripts/clang-tools/gen_compile_commands.py
+> @@ -167,10 +167,10 @@ def process_line(root_directory, command_prefix, file_path):
+>              root_directory or file_directory.
+>      """
+>      # The .cmd files are intended to be included directly by Make, so they
+> -    # escape the pound sign '#', either as '\#' or '$(pound)' (depending on the
+> -    # kernel version). The compile_commands.json file is not interepreted
+> -    # by Make, so this code replaces the escaped version with '#'.
+> -    prefix = command_prefix.replace(r'\#', '#').replace('$(pound)', '#')
+> +    # escape the pound sign '#' as '$(pound)'. The compile_commands.json file
+> +    # is not interepreted by Make, so this code replaces the escaped version
+> +    # with '#'.
+> +    prefix = command_prefix.replace('$(pound)', '#')
+>  
+>      # Return the canonical path, eliminating any symbolic links encountered in the path.
+>      abs_path = os.path.realpath(os.path.join(root_directory, file_path))
+> -- 
+> 2.43.0
+> 
 
