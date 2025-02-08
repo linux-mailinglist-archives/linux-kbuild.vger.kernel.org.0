@@ -1,77 +1,77 @@
-Return-Path: <linux-kbuild+bounces-5682-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5683-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECB4A2D774
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Feb 2025 17:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B87EA2D779
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Feb 2025 17:41:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A4B63A8180
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Feb 2025 16:41:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2D0A3A1F21
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Feb 2025 16:41:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89E3C1F3BB1;
-	Sat,  8 Feb 2025 16:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C907241DF8;
+	Sat,  8 Feb 2025 16:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXdIn+K0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MHNviXpO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7843E1F3BAB;
-	Sat,  8 Feb 2025 16:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10503DAC16;
+	Sat,  8 Feb 2025 16:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739032864; cv=none; b=dmIoCap48hnhDcmNEgYfyyDJKxV7Nt54Q1zbHrPY0u1RHcZF29sL7dl9ftV3q+0Q1HDctoP9uhHRwvppczIczeWSyXLhlC+nb2cyChDDqJB8BdBb7UKdvm5UgvC5TZImXhnaJwiXSOkauD91pE3uZFgIo/FLMIOsGblZpDjfhvg=
+	t=1739032870; cv=none; b=BmmwV35znZAQ05ZxDP9DhjkTIAPTbZvY1eNv6e1J4eDs/3Ts0vfHT4aCxV3yo7EfsfDAfF04QIwhlCZnN2q2ihb00nOWQVbLtodlM8OsCuRsrGhoe7HzQk3sP/7DPRRswrbWr51JHPu5+5T+teDLD1aTJZkscEk9IP9PF26PM6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739032864; c=relaxed/simple;
-	bh=zoO28aFVkP79VmHa6smDzpp65M5mfMHpJuokDSAizrY=;
+	s=arc-20240116; t=1739032870; c=relaxed/simple;
+	bh=pkvNrYUNC1dXrXHeGx43F+q9bWKmjgpPryymP1jnHUU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sX1YTOBxh1PPNcaWPU8i8oDazd3I12oAzE+1iu2LsfVzfMPYXv30D1MrcZ/2JNk/+gHQqm0kdJ9ZGP8yHz5peWi91F87fn0GDOjN9+it+VNjd65O2c/oTCkNvJRqSvgbQl310o31KN06sbVImysOIeF6myvWKZE9CFA3J3nTj3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PXdIn+K0; arc=none smtp.client-ip=209.85.218.52
+	 MIME-Version; b=sIKzYwlezbiksRZF/yxxsLVwQsb9JD3E8e7rj+oT+HKY1/KUJ2a51OthYIFJI9AErOZzO4JsIfj9brq8OYtJVr7UI/eC3CSLT1r4Q5ElTRzLXVhwkB3MC09yn1P/L7eBuuvLMjzI+myCe9O2YrNNvLQLzpJ67VRdgz29CDkAtFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MHNviXpO; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ab7814aa2adso287919866b.0;
-        Sat, 08 Feb 2025 08:41:01 -0800 (PST)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aa67ac42819so480930666b.0;
+        Sat, 08 Feb 2025 08:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739032860; x=1739637660; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1739032864; x=1739637664; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XhSKulL/jcQkkOeYmaX9J3roT9oQLXT9cnUOl8BYF8U=;
-        b=PXdIn+K0Cr8TvtKonZwvfBbi4eTVlONLu7qcmORxAw5SGOH1hXlRAyOc6E+I9cKl0W
-         Q8VMEU229PFyqKtUxRTrnTiUMZMSE1uPQlk+lfeAkZGBKbknDkd7XHjCMBGyzY3F5S/G
-         fwLP5CUf7UOaqw5XkowFproKOu37c+ozSCc13uFpWEeTdvc4+11JEZl1Hceru/Doojhg
-         zMALVTgwmjL4z7843VTok+t/WvossQCS/UxX1S1lxrXqBkApyUOtbKN7V3IbbOq1843K
-         MvylN4GjmwnX08WFjlnZ2d2361XXB7j9PIZdTcoSWyku8IIPi08MyYFFOvOCeLecYSo8
-         +wcg==
+        bh=EQ0kUaUS3PHiloOOyIcVRYupmf7yXzMkKyQKclEF5Cc=;
+        b=MHNviXpOHC2uZPb9m9s4XYg7W/ur2MGtAiPlRMLh2GwGj3clbLYroxHv+VWgV0jTfV
+         eqJqaDtPMoK3cPt81cC4WEpy9kpdpQyAyZ5jEQd8JHt33EzqPDs0QWrW2/yjXtWrt2NI
+         0K+B59y6rANLGmv5YZcJ1chAtwn1nDWs3/VkV/Ar7fgB+RO72jDgaONtHtPNn6d3kr7L
+         YshpbNM7/fo2MbkBXQRaSeeFXhcr3tTjxe1Lr6kkU+Z7eti2vks5WiY78aU2/Ecpk1O2
+         aOw/A/hRAySkFRnfVCl+uKONASoiz3a+5lRjt7+0wb/j68SnxjdIuP8RCSX8sfu+srVL
+         pk+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739032860; x=1739637660;
+        d=1e100.net; s=20230601; t=1739032864; x=1739637664;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XhSKulL/jcQkkOeYmaX9J3roT9oQLXT9cnUOl8BYF8U=;
-        b=mahgt1DxVmF2+ItRdHYfL0opSZuqrbjW2oY1UaX4nKbxaZVpy0pjzjjwCZDNT2qB/3
-         99kfdD4qhZzp+hLz4kJUbKLvYJxl3XU2AQfWwmnxFLYbGrpqh/Rh9MLXHE5C4KiKj9Oy
-         HnYlp1dJUnwMlethzgLQ1ZlXOh/VEiGh5d4NGpezVHL5Cnwob6a/rxmNrBuu3rmkVhol
-         xFplcL9+ZzJcgG67U40DgNCmZyP2IBaTog/WLy+AuFPPteHSOYz7peU4Mcr5JBlzyQc7
-         yHKSbRU5eXzXBb5l8furNySWQZbiYIKBHOgOcfqTKk7N+uzl63cjYqR3OcV+K/AGM7JO
-         t7qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVk9YFLuS5lBFIRkKZPDwuTpTFTbI+dbeSobPgzUUl7uX5vmdVtz2uJ2rkiCD9/ILlMELwz5jbfDinuHCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzo+Qrt4hNR8hmO/K9eh3Eycry0M9sN7klp2KZ3NOFD9ID1rwT
-	Z2Yi0kzqiwhcho/sbiyhV7AOPlGGp1ek0ThKGkypkJI6CSLB2urtINtcVA==
-X-Gm-Gg: ASbGnctCL6yByAUZvBuqFPzikFL0bGIm90l0M4iB7zT3Wd5L31SX8JSeHruGduldiYz
-	025nezdDY1bD82M3s6uUXW/RqApGJDSgSEmQOlWhZOED0bPkns5acyANlGF+KIQXmCRZQNwLw8H
-	QRyNwTYdb8ejs5Rgl+GxO0g7HIuUfD4y+r20FKZo4oIPUz2BhnZTFXpq5AvicvmO/3Ih/v8bnY8
-	OwGG23krwel2PtA3/uhSc8mmUgSmuoSvG4j1o5d1hkF+iOWP2AOOHr+8kIn+spILgcKn+5PFC4k
-	0OcnMgWE17rRCZ6QgblYCUFKrmWaGw==
-X-Google-Smtp-Source: AGHT+IFsQ39bt8oftFu0JDjY8z/1XuzzOIe+bfLKYLufDjjXqzZL/XT0qYqyNalizygJnR/1AK7W4A==
-X-Received: by 2002:a05:6402:40cb:b0:5d0:bf5e:eb8 with SMTP id 4fb4d7f45d1cf-5de45070884mr16647761a12.23.1739032859422;
-        Sat, 08 Feb 2025 08:40:59 -0800 (PST)
+        bh=EQ0kUaUS3PHiloOOyIcVRYupmf7yXzMkKyQKclEF5Cc=;
+        b=vlBxKjVs32mEf688a9xgAHyY7SUOpZZh2XVwglD5csZv+/gmYSr6UfjlEiMBThnb4u
+         Um4pmBelgG736qDvuDC7HU/2jrxEqzJ5B6B8gZdlWfYAS5d5BQi5BbdNjT/qytECkQd1
+         ig/f62qf5iEPDtAuINWiJ3sJ4o8pWwcbif26XYexVe6CDLW52TeacsgV/crBiVskdoeR
+         Z0PXGnCEdxoeaAYC0JBzWoPXHI7Ef45WvWPxWQEH5kMXi4+KG0skjGrIWJ5EXYtdDQui
+         /fuTIBQcbuwSMM/Jo0HJvUghQkNpRPaHGac32I8Ew0+lmZHk2uV4EcNav9tcsQzFaF85
+         Hz8g==
+X-Forwarded-Encrypted: i=1; AJvYcCV8iGXr1eD/G3UGWjYM4+SaeoDor/iLE4OHiCHatNBph61ZBThPeZuWfoBEjSCN6m9lwC+F658/kh/zU8g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4Z3st2HeC7ff4KuM+GfSOufXNnVWY08Gd1cgJhULLUv0iO2Xa
+	hOEvj1qncHaGYiLiLtF0aOzs/EkkQakTFvcBSiH+cGDSsTW3cohLpAFaQg==
+X-Gm-Gg: ASbGncvSmHlOsqPFGgWP3sUleaiD+6TZYAecZ7fnLmK7htnC6SX4L5zGWcvpXixpXUE
+	spCDlCqAorWiYcNTj1BRds3q31gickqasXmNDxne0pfFvA9pM2om9VMS36jitdFAXRqzxhMPlSQ
+	2P8ZaxUK1jKvImlL2guUgwX0PdxMtv5PywKKNNE1Fp1QHuq1mLuh+OmOIZKdvTMcsh5aVnJSQTZ
+	dJlciEm+JlxiPskiUtb2QaZtY8UZHalXPyrs23oW0h2vQcSea8LOul/AIiLZaP0srM/aeQ1947h
+	nJjezsutOSvuObw5IRfFJy3bl+xFOA==
+X-Google-Smtp-Source: AGHT+IH3ZAsVUX1yMnXQIjn21269frmjWJrHGDuPdi2Y+gSiSm5mHVCgP22wZqxnsVvBgmSguTQu7A==
+X-Received: by 2002:a17:907:9628:b0:ab3:76fb:96ab with SMTP id a640c23a62f3a-ab789c36549mr828938966b.57.1739032863917;
+        Sat, 08 Feb 2025 08:41:03 -0800 (PST)
 Received: from localhost.localdomain ([2a02:908:e842:bf20:e115:64e7:5d6:176])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab773337f3dsm501539166b.139.2025.02.08.08.40.58
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab773337f3dsm501539166b.139.2025.02.08.08.41.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 08:40:59 -0800 (PST)
+        Sat, 08 Feb 2025 08:41:03 -0800 (PST)
 From: Ole Schuerks <ole0811sch@gmail.com>
 To: linux-kbuild@vger.kernel.org
 Cc: ole0811sch@gmail.com,
@@ -84,9 +84,9 @@ Cc: ole0811sch@gmail.com,
 	linux-kernel@vger.kernel.org,
 	nathan@kernel.org,
 	nicolas@fjasle.eu
-Subject: [PATCH v7 06/11] kconfig: Add files for fix generation
-Date: Sat,  8 Feb 2025 17:39:54 +0100
-Message-Id: <20250208163959.3973163-7-ole0811sch@gmail.com>
+Subject: [PATCH v7 07/11] kconfig: Add files with utility functions
+Date: Sat,  8 Feb 2025 17:39:55 +0100
+Message-Id: <20250208163959.3973163-8-ole0811sch@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250208163959.3973163-1-ole0811sch@gmail.com>
 References: <20250208163959.3973163-1-ole0811sch@gmail.com>
@@ -98,9 +98,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add files to implement the algorithm that is used to resolve conflicts,
-i.e., find sets of symbols whose values need to be changed in order to
-be able to make the desired changes of symbol values.
+Add various helper functions used in the project.
 
 Co-developed-by: Patrick Franz <deltaone@debian.org>
 Signed-off-by: Patrick Franz <deltaone@debian.org>
@@ -113,18 +111,18 @@ Suggested-by: Thorsten Berger <thorsten.berger@rub.de>
 Signed-off-by: Thorsten Berger <thorsten.berger@rub.de>
 Signed-off-by: Ole Schuerks <ole0811sch@gmail.com>
 ---
- scripts/kconfig/cf_fixgen.c | 1136 +++++++++++++++++++++++++++++++++++
- scripts/kconfig/cf_fixgen.h |   21 +
- 2 files changed, 1157 insertions(+)
- create mode 100644 scripts/kconfig/cf_fixgen.c
- create mode 100644 scripts/kconfig/cf_fixgen.h
+ scripts/kconfig/cf_utils.c | 980 +++++++++++++++++++++++++++++++++++++
+ scripts/kconfig/cf_utils.h | 136 +++++
+ 2 files changed, 1116 insertions(+)
+ create mode 100644 scripts/kconfig/cf_utils.c
+ create mode 100644 scripts/kconfig/cf_utils.h
 
-diff --git a/scripts/kconfig/cf_fixgen.c b/scripts/kconfig/cf_fixgen.c
+diff --git a/scripts/kconfig/cf_utils.c b/scripts/kconfig/cf_utils.c
 new file mode 100644
-index 000000000000..88a6a464cccb
+index 000000000000..8dbcee451209
 --- /dev/null
-+++ b/scripts/kconfig/cf_fixgen.c
-@@ -0,0 +1,1136 @@
++++ b/scripts/kconfig/cf_utils.c
+@@ -0,0 +1,980 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2023 Patrick Franz <deltaone@debian.org>
@@ -140,731 +138,361 @@ index 000000000000..88a6a464cccb
 +#include <string.h>
 +#include <time.h>
 +#include <unistd.h>
++#include <ctype.h>
 +
 +#include <xalloc.h>
 +
-+#include "lkc.h"
-+#include "cf_defs.h"
++#include "internal.h"
++#include "picosat_functions.h"
++#include "cf_utils.h"
 +#include "cf_expr.h"
 +#include "list.h"
-+#include "list_types.h"
-+#include "cf_fixgen.h"
-+#include "internal.h"
-+#include "cf_utils.h"
-+#include "cf_defs.h"
 +
-+#define MAX_DIAGNOSES 3
-+#define MAX_SECONDS 120
-+#define PRINT_UNSAT_CORE true
-+#define PRINT_DIAGNOSES false
-+#define PRINT_DIAGNOSIS_FOUND true
-+#define MINIMISE_DIAGNOSES false
-+#define MINIMISE_UNSAT_CORE true
++#define SATMAP_INIT_SIZE 2
 +
-+static struct sfl_list *diagnoses_symbol;
++static PicoSAT *pico;
 +
-+static struct fexl_list *generate_diagnoses(PicoSAT *pico, struct cfdata *data);
++static void unfold_cnf_clause(struct pexpr *e);
++static void build_cnf_tseytin(struct pexpr *e, struct cfdata *data);
 +
-+static void add_fexpr_to_constraint_set(struct fexpr_list *C,
-+					struct cfdata *data);
-+static void set_assumptions(PicoSAT *pico, struct fexpr_list *c,
-+			    struct cfdata *data);
-+static void fexpr_add_assumption(PicoSAT *pico, struct fexpr *e, int satval);
-+static struct fexpr_list *get_unsat_core_soft(PicoSAT *pico,
-+					      struct cfdata *data);
-+static void minimise_unsat_core(PicoSAT *pico, struct fexpr_list *C,
-+				struct cfdata *data);
++static void build_cnf_tseytin_top_and(struct pexpr *e, struct cfdata *data);
++static void build_cnf_tseytin_top_or(struct pexpr *e, struct cfdata *data);
 +
-+static struct fexpr_list *get_difference(struct fexpr_list *C,
-+					 struct fexpr_list *E0);
-+static bool has_intersection(struct fexpr_list *e, struct fexpr_list *X);
-+static struct fexpr_list *fexpr_list_union(struct fexpr_list *A,
-+					   struct fexpr_list *B);
-+static struct fexl_list *fexl_list_union(struct fexl_list *A,
-+					 struct fexl_list *B);
-+static bool is_subset_of(struct fexpr_list *A, struct fexpr_list *B);
-+static void print_unsat_core(struct fexpr_list *list);
-+static bool diagnosis_contains_fexpr(struct fexpr_list *diagnosis,
-+				     struct fexpr *e);
-+static bool diagnosis_contains_symbol(struct sfix_list *diagnosis,
-+				      struct symbol *sym);
++static void build_cnf_tseytin_tmp(struct pexpr *e, struct fexpr *t,
++				  struct cfdata *data);
++static void build_cnf_tseytin_and(struct pexpr *e, struct fexpr *t,
++				  struct cfdata *data);
++static void build_cnf_tseytin_or(struct pexpr *e, struct fexpr *t,
++				 struct cfdata *data);
++static int pexpr_get_satval(struct pexpr *e);
 +
-+static void print_diagnoses(struct fexl_list *diag);
-+static void print_diagnoses_symbol(struct sfl_list *diag_sym);
-+
-+static struct sfl_list *convert_diagnoses(struct fexl_list *diagnoses,
-+					  struct cfdata *data);
-+static struct sfix_list *convert_diagnosis(struct fexpr_list *diagnosis,
-+					   struct cfdata *data);
-+static struct symbol_fix *symbol_fix_create(struct fexpr *e,
-+					    enum symbolfix_type type,
-+					    struct fexpr_list *diagnosis);
-+static struct sfl_list *minimise_diagnoses(PicoSAT *pico,
-+					   struct fexl_list *diagnoses,
-+					   struct cfdata *data);
-+
-+static tristate calculate_new_tri_val(struct fexpr *e,
-+				      struct fexpr_list *diagnosis);
-+static const char *calculate_new_string_value(struct fexpr *e,
-+					      struct fexpr_list *diagnosis);
-+static bool fexpr_list_has_length_1(struct fexpr_list *list);
-+
-+/* count assumptions, only used for debugging */
-+static unsigned int nr_of_assumptions = 0, nr_of_assumptions_true;
-+
-+/* -------------------------------------- */
-+
-+struct sfl_list *fixgen_run(PicoSAT *pico, struct cfdata *data)
++/*
++ * parse Kconfig-file and read .config
++ */
++void init_config(const char *Kconfig_file)
 +{
-+	clock_t start, end;
-+	double time;
-+	struct fexl_list *diagnoses;
-+	struct fexl_node *node;
-+
-+	printd("Starting fix generation...\n");
-+	printd("Generating diagnoses...");
-+
-+	/* generate the diagnoses */
-+	start = clock();
-+	diagnoses = generate_diagnoses(pico, data);
-+	end = clock();
-+
-+	time = ((double) (end - start)) / CLOCKS_PER_SEC;
-+	printd("Generating diagnoses...done. (%.6f secs.)\n", time);
-+
-+	if (PRINT_DIAGNOSES) {
-+		printd("Diagnoses (only for debugging):\n");
-+		print_diagnoses(diagnoses);
-+		printd("\n");
-+	}
-+
-+	/* convert diagnoses of fexpr to diagnoses of symbols */
-+	if (MINIMISE_DIAGNOSES)
-+		diagnoses_symbol = minimise_diagnoses(pico, diagnoses, data);
-+	else
-+		diagnoses_symbol = convert_diagnoses(diagnoses, data);
-+
-+	printd("\n");
-+
-+	CF_LIST_FOR_EACH(node, diagnoses, fexl)
-+		CF_LIST_FREE(node->elem, fexpr);
-+	CF_LIST_FREE(diagnoses, fexl);
-+
-+	return diagnoses_symbol;
++	conf_parse(Kconfig_file);
++	conf_read(NULL);
 +}
 +
 +/*
-+ * generate the diagnoses
++ * initialize satmap
 + */
-+static struct fexl_list *generate_diagnoses(PicoSAT *pico, struct cfdata *data)
++void init_data(struct cfdata *data)
 +{
-+	CF_DEF_LIST(C, fexpr);
-+	CF_DEF_LIST(empty_diagnosis, fexpr);
-+	CF_DEF_LIST(E, fexl);
-+	CF_DEF_LIST(R, fexl);
-+	size_t num_diagnoses = 0;
-+	struct fexpr_list *X, *e, *E2;
-+	struct fexl_list *E_R_Union;
-+	clock_t start_t, end_t;
-+	double time_t;
++	/* create hashtable with all fexpr */
++	data->satmap = xcalloc(SATMAP_INIT_SIZE, sizeof(typeof(*data->satmap)));
++	data->satmap_size = SATMAP_INIT_SIZE;
 +
-+	/* create constraint set C */
-+	add_fexpr_to_constraint_set(C, data);
-+
-+	if (PRINT_UNSAT_CORE)
-+		printd("\n");
-+
-+	/* init E with an empty diagnosis */
-+	CF_PUSH_BACK(E, empty_diagnosis, fexl);
-+
-+	/* start the clock */
-+	start_t = clock();
-+
-+	while (!list_empty(&E->list)) {
-+		/* get random diagnosis */
-+		struct fexl_node *E0_node =
-+			list_first_entry(&E->list, struct fexl_node, node);
-+		struct fexpr_list *E0 = E0_node->elem;
-+
-+		/* calculate C\E0 */
-+		struct fexpr_list *c = get_difference(C, E0);
-+
-+		struct fexl_node *node, *next;
-+		int res;
-+
-+		/* set assumptions */
-+		nr_of_assumptions = 0;
-+		nr_of_assumptions_true = 0;
-+		set_assumptions(pico, c, data);
-+		CF_LIST_FREE(c, fexpr);
-+
-+		res = picosat_sat(pico, -1);
-+
-+		if (res == PICOSAT_SATISFIABLE) {
-+			if (PRINT_DIAGNOSIS_FOUND && CFDEBUG)
-+				fexpr_list_print("DIAGNOSIS FOUND", E0);
-+
-+			list_del(&E0_node->node);
-+			if (!list_empty(&E0->list)) {
-+				CF_PUSH_BACK(R, E0, fexl);
-+				++num_diagnoses;
-+			} else
-+				CF_LIST_FREE(E0, fexpr);
-+
-+			if (num_diagnoses >= MAX_DIAGNOSES)
-+				goto DIAGNOSES_FOUND;
-+
-+			continue;
-+
-+		} else if (res == PICOSAT_UNSATISFIABLE) {
-+
-+		} else if (res == PICOSAT_UNKNOWN) {
-+			printd("UNKNOWN\n");
-+		} else {
-+			perror("Doh.");
-+		}
-+
-+		/* check elapsed time */
-+		end_t = clock();
-+		time_t = ((double) (end_t - start_t)) / CLOCKS_PER_SEC;
-+		if (time_t > (double) MAX_SECONDS)
-+			goto DIAGNOSES_FOUND;
-+
-+		/* abort and return results if cancelled by user */
-+		if (stop_fixgen) {
-+			stop_fixgen = false;
-+			goto DIAGNOSES_FOUND;
-+		}
-+
-+		/* get unsat core from SAT solver */
-+		X = get_unsat_core_soft(pico, data);
-+
-+		/* minimise the unsat core */
-+		if (MINIMISE_UNSAT_CORE)
-+			minimise_unsat_core(pico, X, data);
-+
-+		if (PRINT_UNSAT_CORE)
-+			print_unsat_core(X);
-+
-+		list_for_each_entry_safe(node, next, &E->list, node) {
-+			struct fexpr_node *fnode;
-+
-+			/* get partial diagnosis */
-+			e = node->elem;
-+
-+			/* check, if there is an intersection between e and X
-+			 * if there is, go to the next partial diagnosis
-+			 */
-+			if (has_intersection(e, X))
-+				continue;
-+
-+			/* for each fexpr in the core */
-+			CF_LIST_FOR_EACH(fnode, X, fexpr) {
-+				struct fexpr *x = fnode->elem;
-+				bool E2_subset_of_E1;
-+				struct fexl_node *lnode;
-+				CF_DEF_LIST(E_without_e, fexl);
-+				CF_DEF_LIST(x_set, fexpr);
-+				struct fexpr_list *E1;
-+
-+				/* create {x} */
-+				CF_PUSH_BACK(x_set, x, fexpr);
-+
-+				/* create E' = e U {x} */
-+				E1 = fexpr_list_union(e, x_set);
-+
-+				/* create (E\e) U R */
-+				CF_LIST_FOR_EACH(lnode, E, fexl) {
-+					if (lnode->elem == e)
-+						continue;
-+					CF_PUSH_BACK(E_without_e,
-+							lnode->elem, fexl);
-+				}
-+				E_R_Union = fexl_list_union(E_without_e, R);
-+
-+				E2_subset_of_E1 = false;
-+
-+				/* E" in (E\e) U R */
-+				CF_LIST_FOR_EACH(lnode, E_R_Union, fexl) {
-+					E2 = lnode->elem;
-+
-+					/* E" subset of E' ? */
-+					if (is_subset_of(E2, E1)) {
-+						E2_subset_of_E1 = true;
-+						break;
-+					}
-+				}
-+
-+				CF_LIST_FREE(E_without_e, fexl);
-+				CF_LIST_FREE(E_R_Union, fexl);
-+				CF_LIST_FREE(x_set, fexpr);
-+
-+				/* there exists no E" that is a subset of E' */
-+				if (!E2_subset_of_E1)
-+					CF_PUSH_BACK(E, E1, fexl);
-+				else
-+					CF_LIST_FREE(E1, fexpr);
-+			}
-+
-+			CF_LIST_FREE(e, fexpr);
-+
-+			list_del(&node->node);
-+		}
-+		CF_LIST_FREE(X, fexpr);
-+	}
-+
-+	struct fexl_node *node;
-+DIAGNOSES_FOUND:
-+	CF_LIST_FREE(C, fexpr);
-+	CF_LIST_FOR_EACH(node, E, fexl)
-+		CF_LIST_FREE(node->elem, fexpr);
-+	CF_LIST_FREE(E, fexl);
-+
-+	return R;
++	printd("done.\n");
 +}
 +
 +/*
-+ * add the fexpr to the constraint set C
++ * create SAT-variables for all fexpr
 + */
-+static void add_fexpr_to_constraint_set(struct fexpr_list *C,
-+					struct cfdata *data)
++void create_sat_variables(struct cfdata *data)
 +{
 +	struct symbol *sym;
++
++	printd("Creating SAT-variables...");
 +
 +	for_all_symbols(sym) {
-+		/* must be a proper symbol */
-+		if (sym->type == S_UNKNOWN)
-+			continue;
++		sym->constraints = CF_LIST_INIT(pexpr);
++		sym_create_fexpr(sym, data);
++	}
 +
-+		/*
-+		 * don't need the conflict symbols they are handled separately
-+		 */
-+		if (sym_is_sdv(data->sdv_symbols, sym))
-+			continue;
++	printd("done.\n");
++}
 +
-+		/* must have a prompt and a name */
-+		if (!sym->name || !sym_has_prompt(sym))
-+			continue;
++/*
++ * create various constants
++ */
++void create_constants(struct cfdata *data)
++{
++	printd("Creating constants...");
 +
-+		if (sym->type == S_BOOLEAN)
-+			CF_PUSH_BACK(C, sym->fexpr_y, fexpr);
-+		else if (sym->type == S_TRISTATE) {
-+			CF_PUSH_BACK(C, sym->fexpr_y, fexpr);
-+			CF_PUSH_BACK(C, sym->fexpr_m, fexpr);
-+		} else if (sym->type == S_INT || sym->type == S_HEX ||
-+			   sym->type == S_STRING) {
-+			struct fexpr_node *node;
++	/* create TRUE and FALSE constants */
++	data->constants->const_false =
++		fexpr_create(data->sat_variable_nr++, FE_FALSE, "False");
++	// const_false = fexpr_create(sat_variable_nr++, FE_FALSE, "False");
++	fexpr_add_to_satmap(data->constants->const_false, data);
 +
-+			CF_LIST_FOR_EACH(node, sym->nb_vals, fexpr)
-+				CF_PUSH_BACK(C, node->elem, fexpr);
-+		} else {
-+			perror("Error adding variables to constraint set C.");
-+		}
++	data->constants->const_true =
++		fexpr_create(data->sat_variable_nr++, FE_TRUE, "True");
++	fexpr_add_to_satmap(data->constants->const_true, data);
++
++	/* add fexpr of constants to tristate constants */
++	symbol_yes.fexpr_y = data->constants->const_true;
++	symbol_yes.fexpr_m = data->constants->const_false;
++
++	symbol_mod.fexpr_y = data->constants->const_false;
++	symbol_mod.fexpr_m = data->constants->const_true;
++
++	symbol_no.fexpr_y = data->constants->const_false;
++	symbol_no.fexpr_m = data->constants->const_false;
++
++	/* create symbols yes/mod/no as fexpr */
++	data->constants->symbol_yes_fexpr = fexpr_create(0, FE_SYMBOL, "y");
++	data->constants->symbol_yes_fexpr->sym = &symbol_yes;
++	data->constants->symbol_yes_fexpr->tri = yes;
++
++	data->constants->symbol_mod_fexpr = fexpr_create(0, FE_SYMBOL, "m");
++	data->constants->symbol_mod_fexpr->sym = &symbol_mod;
++	data->constants->symbol_mod_fexpr->tri = mod;
++
++	data->constants->symbol_no_fexpr = fexpr_create(0, FE_SYMBOL, "n");
++	data->constants->symbol_no_fexpr->sym = &symbol_no;
++	data->constants->symbol_no_fexpr->tri = no;
++
++	printd("done.\n");
++}
++
++/*
++ * create a temporary SAT-variable
++ */
++struct fexpr *create_tmpsatvar(struct cfdata *data)
++{
++	char *name = get_tmp_var_as_char(data->tmp_variable_nr);
++	struct fexpr *t =
++		fexpr_create(data->sat_variable_nr++, FE_TMPSATVAR, name);
++
++	++data->tmp_variable_nr;
++	fexpr_add_to_satmap(t, data);
++
++	free(name);
++	return t;
++}
++
++/*
++ * return a temporary SAT variable as string
++ */
++char *get_tmp_var_as_char(int i)
++{
++	char *val = malloc(sizeof(char) * 18);
++
++	snprintf(val, 18, "T_%d", i);
++	return val;
++}
++
++/*
++ * return a tristate value as a char *
++ */
++char *tristate_get_char(tristate val)
++{
++	switch (val) {
++	case yes:
++		return "yes";
++	case mod:
++		return "mod";
++	case no:
++		return "no";
++	default:
++		return "";
 +	}
 +}
 +
 +/*
-+ * check whether the fexpr symbolises the no-value-set fexpr for a non-boolean
-+ * symbol
++ *check whether an expr can evaluate to mod
 + */
-+static bool fexpr_is_novalue(struct fexpr *e)
++bool expr_can_evaluate_to_mod(struct expr *e)
 +{
-+	if (!sym_is_nonboolean(e->sym))
++	if (!e)
 +		return false;
 +
-+	return e ==
-+	       list_first_entry(&e->sym->nb_vals->list, struct fexpr_node, node)
-+		       ->elem;
++	switch (e->type) {
++	case E_SYMBOL:
++		return e->left.sym == &symbol_mod ||
++		       e->left.sym->type == S_TRISTATE;
++	case E_AND:
++	case E_OR:
++		return expr_can_evaluate_to_mod(e->left.expr) ||
++		       expr_can_evaluate_to_mod(e->right.expr);
++	case E_NOT:
++		return expr_can_evaluate_to_mod(e->left.expr);
++	default:
++		return false;
++	}
 +}
 +
-+static void set_assumptions_sdv(PicoSAT *pico, struct sdv_list *arr)
++/*
++ * check whether an expr is a non-Boolean constant
++ */
++bool expr_is_nonbool_constant(struct expr *e)
 +{
-+	struct symbol_dvalue *sdv;
++	if (e->type != E_SYMBOL)
++		return false;
++	if (e->left.sym->type != S_UNKNOWN)
++		return false;
++
++	if (e->left.sym->flags & SYMBOL_CONST)
++		return true;
++
++	return string_is_number(e->left.sym->name) ||
++	       string_is_hex(e->left.sym->name);
++}
++
++/*
++ * check whether a symbol is a non-Boolean constant
++ */
++bool sym_is_nonbool_constant(struct symbol *sym)
++{
++	if (sym->type != S_UNKNOWN)
++		return false;
++
++	if (sym->flags & SYMBOL_CONST)
++		return true;
++
++	return string_is_number(sym->name) || string_is_hex(sym->name);
++}
++
++/*
++ * check, if the symbol is a tristate-constant
++ */
++bool sym_is_tristate_constant(struct symbol *sym)
++{
++	return sym == &symbol_yes || sym == &symbol_mod || sym == &symbol_no;
++}
++
++/*
++ * check, if a symbol is of type boolean or tristate
++ */
++bool sym_is_boolean(struct symbol *sym)
++{
++	return sym->type == S_BOOLEAN || sym->type == S_TRISTATE;
++}
++
++/*
++ * check, if a symbol is a boolean/tristate or a tristate constant
++ */
++bool sym_is_bool_or_triconst(struct symbol *sym)
++{
++	return sym_is_tristate_constant(sym) || sym_is_boolean(sym);
++}
++
++/*
++ * check, if a symbol is of type int, hex, or string
++ */
++bool sym_is_nonboolean(struct symbol *sym)
++{
++	return sym->type == S_INT || sym->type == S_HEX ||
++	       sym->type == S_STRING;
++}
++
++/*
++ * check, if a symbol has a prompt
++ */
++bool sym_has_prompt(struct symbol *sym)
++{
++	struct property *prop;
++
++	for_all_prompts(sym, prop)
++		return true;
++
++	return false;
++}
++
++/*
++ * return the prompt of the symbol if there is one, NULL otherwise
++ */
++struct property *sym_get_prompt(struct symbol *sym)
++{
++	struct property *prop;
++
++	for_all_prompts(sym, prop)
++		return prop;
++
++	return NULL;
++}
++
++/*
++ * return the condition for the property, NULL if there is none. To be pexpr_put
++ * by caller.
++ */
++struct pexpr *prop_get_condition(struct property *prop, struct cfdata *data)
++{
++	if (prop == NULL)
++		return NULL;
++
++	/* if there is no condition, return True */
++	if (!prop->visible.expr)
++		return pexpr_alloc_symbol(data->constants->const_true);
++
++	return expr_calculate_pexpr_both(prop->visible.expr, data);
++}
++
++/*
++ * return the default property, NULL if none exists or can be satisfied
++ */
++struct property *sym_get_default_prop(struct symbol *sym)
++{
++	struct property *prop;
++
++	for_all_defaults(sym, prop) {
++		prop->visible.tri = expr_calc_value(prop->visible.expr);
++		if (prop->visible.tri != no)
++			return prop;
++	}
++	return NULL;
++}
++
++/*
++ * check whether a non-boolean symbol has a value set
++ */
++bool sym_nonbool_has_value_set(struct symbol *sym)
++{
++	/*
++	 * The built constraints make the following constraints:
++	 *
++	 * visible -> not 'n'
++	 * sym->dir_dep not fulfilled -> 'n'
++	 * invisible -> (no default's condition is fulfilled <-> 'n')
++	 */
++	struct property *prompt;
++	struct property *p;
++
++	if (!sym_is_nonboolean(sym))
++		return false;
++
++	/* cannot have a value with unmet dependencies */
++	if (sym->dir_dep.expr && sym->dir_dep.tri == no)
++		return false;
++
++	/* visible prompt => value set */
++	prompt = sym_get_prompt(sym);
++	if (prompt != NULL && prompt->visible.tri != no)
++		return true;
++
++	/* invisible prompt => must get value from default value */
++	p = sym_get_default_prop(sym);
++	return p != NULL;
++}
++
++/*
++ * return pointer to the name of the symbol or the current prompt-text, if it
++ * is a choice symbol
++ */
++const char *sym_get_name(struct symbol *sym)
++{
++	if (sym_is_choice(sym)) {
++		struct property *prompt = sym_get_prompt(sym);
++
++		if (prompt == NULL)
++			return "";
++
++		return prompt->text;
++	} else {
++		return sym->name;
++	}
++}
++
++/*
++ * check whether symbol is to be changed
++ */
++bool sym_is_sdv(struct sdv_list *list, struct symbol *sym)
++{
 +	struct sdv_node *node;
-+	struct symbol *sym;
 +
-+	CF_LIST_FOR_EACH(node, arr, sdv) {
-+		int lit_y;
-+
-+		sdv = node->elem;
-+		sym = sdv->sym;
-+
-+		lit_y = sym->fexpr_y->satval;
-+
-+		if (sym->type == S_BOOLEAN) {
-+			switch (sdv->tri) {
-+			case yes:
-+				picosat_assume(pico, lit_y);
-+				sym->fexpr_y->assumption = true;
-+				nr_of_assumptions_true++;
-+				break;
-+			case no:
-+				picosat_assume(pico, -lit_y);
-+				sym->fexpr_y->assumption = false;
-+				break;
-+			case mod:
-+				perror("Should not happen.\n");
-+			}
-+			nr_of_assumptions++;
-+		} else if (sym->type == S_TRISTATE) {
-+			int lit_m = sym->fexpr_m->satval;
-+
-+			switch (sdv->tri) {
-+			case yes:
-+				picosat_assume(pico, lit_y);
-+				sym->fexpr_y->assumption = true;
-+				picosat_assume(pico, -lit_m);
-+				sym->fexpr_m->assumption = false;
-+				nr_of_assumptions_true++;
-+				break;
-+			case mod:
-+				picosat_assume(pico, -lit_y);
-+				sym->fexpr_y->assumption = false;
-+				picosat_assume(pico, lit_m);
-+				sym->fexpr_m->assumption = true;
-+				nr_of_assumptions_true++;
-+				break;
-+			case no:
-+				picosat_assume(pico, -lit_y);
-+				sym->fexpr_y->assumption = false;
-+				picosat_assume(pico, -lit_m);
-+				sym->fexpr_y->assumption = false;
-+			}
-+			nr_of_assumptions += 2;
-+		}
-+	}
-+}
-+
-+/*
-+ * set the assumptions for the next run of Picosat
-+ */
-+static void set_assumptions(PicoSAT *pico, struct fexpr_list *c,
-+			    struct cfdata *data)
-+{
-+	struct fexpr_node *node;
-+
-+	CF_LIST_FOR_EACH(node, c, fexpr)
-+		fexpr_add_assumption(pico, node->elem, node->elem->satval);
-+
-+	/* set assumptions for the conflict-symbols */
-+	set_assumptions_sdv(pico, data->sdv_symbols);
-+}
-+
-+/*
-+ * set the assumtption for a fexpr for the next run of Picosat
-+ */
-+static void fexpr_add_assumption(PicoSAT *pico, struct fexpr *e, int satval)
-+{
-+	struct symbol *sym = e->sym;
-+
-+	if (sym->type == S_BOOLEAN) {
-+		int tri_val = sym_get_tristate_value(sym);
-+
-+		if (tri_val == yes) {
-+			picosat_assume(pico, satval);
-+			e->assumption = true;
-+			nr_of_assumptions_true++;
-+		} else {
-+			picosat_assume(pico, -satval);
-+			e->assumption = false;
-+		}
-+		nr_of_assumptions++;
-+	}
-+
-+	if (sym->type == S_TRISTATE) {
-+		int tri_val = sym_get_tristate_value(sym);
-+
-+		if (e->tri == yes) {
-+			if (tri_val == yes) {
-+				picosat_assume(pico, satval);
-+				e->assumption = true;
-+				nr_of_assumptions_true++;
-+			} else {
-+				picosat_assume(pico, -satval);
-+				e->assumption = false;
-+			}
-+		} else if (e->tri == mod) {
-+			if (tri_val == mod) {
-+				picosat_assume(pico, satval);
-+				e->assumption = true;
-+				nr_of_assumptions_true++;
-+			} else {
-+				picosat_assume(pico, -satval);
-+				e->assumption = false;
-+			}
-+		}
-+		nr_of_assumptions++;
-+	}
-+
-+	if (sym->type == S_INT || sym->type == S_HEX || sym->type == S_STRING) {
-+
-+		char *string_val = (char *) sym_get_string_value(sym);
-+
-+		if (sym->type == S_STRING && !strcmp(string_val, ""))
-+			return;
-+
-+		/* check, if e symbolises the no-value-set fexpr */
-+		if (fexpr_is_novalue(e)) {
-+			if (!sym_nonbool_has_value_set(sym)) {
-+				picosat_assume(pico, satval);
-+				e->assumption = true;
-+				nr_of_assumptions_true++;
-+			} else {
-+				picosat_assume(pico, -satval);
-+				e->assumption = false;
-+			}
-+		}
-+		/* check whena string-symbol has value "" */
-+		else if (sym->type == S_STRING && !strcmp(string_val, "")) {
-+			if (sym_nonbool_has_value_set(sym)) {
-+				picosat_assume(pico, satval);
-+				e->assumption = true;
-+				nr_of_assumptions_true++;
-+			} else {
-+				picosat_assume(pico, -satval);
-+				e->assumption = false;
-+			}
-+		} else {
-+			if (!strcmp(str_get(&e->nb_val), string_val) &&
-+					sym_nonbool_has_value_set(sym)) {
-+				picosat_assume(pico, satval);
-+				e->assumption = true;
-+				nr_of_assumptions_true++;
-+			} else {
-+				picosat_assume(pico, -satval);
-+				e->assumption = false;
-+			}
-+		}
-+		nr_of_assumptions++;
-+	}
-+}
-+
-+/*
-+ * get the unsatisfiable soft constraints from the last run of Picosat
-+ */
-+static struct fexpr_list *get_unsat_core_soft(PicoSAT *pico,
-+					      struct cfdata *data)
-+{
-+	CF_DEF_LIST(ret, fexpr);
-+	struct fexpr *e;
-+
-+	int lit;
-+	const int *i = picosat_failed_assumptions(pico);
-+
-+	lit = abs(*i++);
-+
-+	while (lit != 0) {
-+		e = data->satmap[lit];
-+
-+		if (!sym_is_sdv(data->sdv_symbols, e->sym))
-+			CF_PUSH_BACK(ret, e, fexpr);
-+
-+		lit = abs(*i++);
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * minimise the unsat core C
-+ */
-+static void minimise_unsat_core(PicoSAT *pico, struct fexpr_list *C,
-+				struct cfdata *data)
-+{
-+	struct fexpr_node *node, *tmp;
-+
-+	/* no need to check further */
-+	if (fexpr_list_has_length_1(C))
-+		return;
-+
-+	list_for_each_entry_safe(node, tmp, &C->list, node) {
-+		CF_DEF_LIST(c_set, fexpr);
-+		struct fexpr_list *t;
-+		int res;
-+
-+		if (fexpr_list_has_length_1(C))
-+			return;
-+
-+		/* create C\c */
-+		CF_PUSH_BACK(c_set, node->elem, fexpr);
-+		t = get_difference(C, c_set);
-+
-+		/* invoke PicoSAT */
-+		set_assumptions(pico, t, data);
-+
-+		res = picosat_sat(pico, -1);
-+
-+		if (res == PICOSAT_UNSATISFIABLE) {
-+			list_del(&node->node);
-+			free(node);
-+		}
-+
-+		CF_LIST_FREE(c_set, fexpr);
-+		CF_LIST_FREE(t, fexpr);
-+	}
-+}
-+
-+
-+/*
-+ * Calculate C\E0
-+ */
-+static struct fexpr_list *get_difference(struct fexpr_list *C,
-+					 struct fexpr_list *E0)
-+{
-+	CF_DEF_LIST(ret, fexpr);
-+	struct fexpr_node *node1, *node2;
-+
-+	CF_LIST_FOR_EACH(node1, C, fexpr) {
-+		bool found = false;
-+
-+		CF_LIST_FOR_EACH(node2, E0, fexpr) {
-+			if (node1->elem->satval == node2->elem->satval) {
-+				found = true;
-+				break;
-+			}
-+		}
-+		if (!found)
-+			CF_PUSH_BACK(ret, node1->elem, fexpr);
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * check, if there is an intersection between e and X
-+ */
-+static bool has_intersection(struct fexpr_list *e, struct fexpr_list *X)
-+{
-+	struct fexpr_node *node1, *node2;
-+
-+	CF_LIST_FOR_EACH(node1, e, fexpr)
-+		CF_LIST_FOR_EACH(node2, X, fexpr)
-+			if (node1->elem->satval == node2->elem->satval)
-+				return true;
-+
-+	return false;
-+}
-+
-+/*
-+ * get the union of 2 fexpr_list
-+ */
-+static struct fexpr_list *fexpr_list_union(struct fexpr_list *A,
-+					   struct fexpr_list *B)
-+{
-+	struct fexpr_list *ret = CF_LIST_COPY(A, fexpr);
-+	struct fexpr_node *node1, *node2;
-+	bool found;
-+
-+	CF_LIST_FOR_EACH(node2, B, fexpr) {
-+		found = false;
-+		CF_LIST_FOR_EACH(node1, A, fexpr) {
-+			if (node2->elem->satval == node1->elem->satval) {
-+				found = true;
-+				break;
-+			}
-+		}
-+		if (!found)
-+			CF_PUSH_BACK(ret, node2->elem, fexpr);
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * get the union of 2 fexl_list
-+ */
-+static struct fexl_list *fexl_list_union(struct fexl_list *A,
-+					 struct fexl_list *B)
-+{
-+	struct fexl_list *ret = CF_LIST_COPY(A, fexl);
-+	struct fexl_node *node1, *node2;
-+	bool found;
-+
-+	CF_LIST_FOR_EACH(node2, B, fexl) {
-+		found = false;
-+		CF_LIST_FOR_EACH(node1, A, fexl) {
-+			if (node2->elem == node1->elem) {
-+				found = true;
-+				break;
-+			}
-+		}
-+		if (!found)
-+			CF_PUSH_BACK(ret, node2->elem, fexl);
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * check, whether A is a subset of B
-+ */
-+static bool is_subset_of(struct fexpr_list *A, struct fexpr_list *B)
-+{
-+	struct fexpr_node *node1, *node2;
-+	bool found;
-+
-+	CF_LIST_FOR_EACH(node1, A, fexpr) {
-+		found = false;
-+		CF_LIST_FOR_EACH(node2, B, fexpr) {
-+			if (node1->elem->satval == node2->elem->satval) {
-+				found = true;
-+				break;
-+			}
-+		}
-+		if (!found)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+/*
-+ * print an unsat core
-+ */
-+static void print_unsat_core(struct fexpr_list *list)
-+{
-+	struct fexpr_node *node;
-+	bool first = true;
-+
-+	printd("Unsat core: [");
-+
-+	CF_LIST_FOR_EACH(node, list, fexpr) {
-+		if (first)
-+			first = false;
-+		else
-+			printd(", ");
-+		printd("%s", str_get(&node->elem->name));
-+		printd(" <%s>", node->elem->assumption == true ? "T" : "F");
-+	}
-+
-+	printd("]\n");
-+}
-+
-+
-+/*
-+ * check if a diagnosis contains a fexpr
-+ */
-+static bool diagnosis_contains_fexpr(struct fexpr_list *diagnosis,
-+				     struct fexpr *e)
-+{
-+	struct fexpr_node *node;
-+
-+	CF_LIST_FOR_EACH(node, diagnosis, fexpr)
-+		if (node->elem->satval == e->satval)
-+			return true;
-+
-+	return false;
-+}
-+
-+/*
-+ * check if a diagnosis contains a symbol
-+ */
-+static bool diagnosis_contains_symbol(struct sfix_list *diagnosis,
-+				      struct symbol *sym)
-+{
-+	struct sfix_node *node;
-+
-+	CF_LIST_FOR_EACH(node, diagnosis, sfix)
++	CF_LIST_FOR_EACH(node, list, sdv)
 +		if (sym == node->elem->sym)
 +			return true;
 +
@@ -872,420 +500,749 @@ index 000000000000..88a6a464cccb
 +}
 +
 +/*
-+ * print the diagnoses of type fexpr_list
++ * print a symbol's name
 + */
-+static void print_diagnoses(struct fexl_list *diag)
++void print_sym_name(struct symbol *sym)
 +{
-+	struct fexl_node *lnode;
-+	unsigned int i = 1;
++	printf("Symbol: ");
++	if (sym_is_choice(sym)) {
++		struct property *prompt = sym_get_prompt(sym);
 +
-+	CF_LIST_FOR_EACH(lnode, diag, fexl) {
-+		struct fexpr_node *node;
-+		bool first = true;
++		printf("(Choice) %s", prompt->text);
++	} else  {
++		printf("%s", sym->name);
++	}
++	printf("\n");
++}
 +
-+		printd("%d: [", i++);
-+		CF_LIST_FOR_EACH(node, lnode->elem, fexpr) {
-+			char *new_val = node->elem->assumption ? "false" :
-+								 "true";
++/*
++ * print all constraints for a symbol
++ */
++void print_sym_constraint(struct symbol *sym)
++{
++	struct pexpr_node *node;
 +
-+			if (first)
-+				first = false;
-+			else
-+				printd(", ");
-+			printd("%s => %s", str_get(&node->elem->name), new_val);
++	CF_LIST_FOR_EACH(node, sym->constraints, pexpr)
++		pexpr_print("::", node->elem, -1);
++}
++
++/*
++ * print a default map
++ */
++void print_default_map(struct defm_list *map)
++{
++	struct default_map *entry;
++	struct defm_node *node;
++
++	CF_LIST_FOR_EACH(node, map, defm) {
++		struct gstr s = str_new();
++
++		entry = node->elem;
++
++		str_append(&s, "\t");
++		str_append(&s, str_get(&entry->val->name));
++		str_append(&s, " ->");
++		pexpr_print(strdup(str_get(&s)), entry->e, -1);
++		str_free(&s);
++	}
++}
++
++/*
++ * check whether a string is a number
++ */
++bool string_is_number(char *s)
++{
++	int len = strlen(s);
++	int i = 0;
++
++	while (i < len) {
++		if (!isdigit(s[i]))
++			return false;
++		i++;
++	}
++
++	return true;
++}
++
++/*
++ * check whether a string is a hexadecimal number
++ */
++bool string_is_hex(char *s)
++{
++	int len = strlen(s);
++	int i = 2;
++
++	if (len >= 3 && s[0] == '0' && s[1] == 'x') {
++		while (i < len) {
++			if (!isxdigit(s[i]))
++				return false;
++			i++;
 +		}
-+		printd("]\n");
++		return true;
++	} else {
++		return false;
 +	}
 +}
 +
 +/*
-+ * print a single diagnosis of type symbol_fix
++ * initialize PicoSAT
 + */
-+void print_diagnosis_symbol(struct sfix_list *diag_sym)
++PicoSAT *initialize_picosat(void)
 +{
-+	struct symbol_fix *fix;
-+	struct sfix_node *node;
++	PicoSAT *pico;
 +
-+	printd("[");
++	printd("\nInitializing PicoSAT...");
++	pico = picosat_init();
++	picosat_enable_trace_generation(pico);
++	printd("done.\n");
 +
-+	CF_LIST_FOR_EACH(node, diag_sym, sfix) {
-+		fix = node->elem;
-+
-+		if (fix->type == SF_BOOLEAN)
-+			printd("%s => %s", fix->sym->name,
-+			       tristate_get_char(fix->tri));
-+		else if (fix->type == SF_NONBOOLEAN)
-+			printd("%s => %s", fix->sym->name,
-+			       str_get(&fix->nb_val));
-+		else
-+			perror("NB not yet implemented.");
-+
-+		if (node->node.next != &diag_sym->list)
-+			printd(", ");
-+	}
-+	printd("]\n");
++	return pico;
 +}
 +
 +/*
-+ * print the diagnoses of type symbol_fix
++ * construct the CNF-clauses from the constraints
 + */
-+static void print_diagnoses_symbol(struct sfl_list *diag_sym)
++void construct_cnf_clauses(PicoSAT *p, struct cfdata *data)
 +{
-+	struct sfl_node *arr;
-+	unsigned int i = 1;
++	struct symbol *sym;
 +
-+	CF_LIST_FOR_EACH(arr, diag_sym, sfl) {
-+		printd("%d: ", i++);
-+		print_diagnosis_symbol(arr->elem);
-+	}
-+}
++	pico = p;
 +
-+/*
-+ * convert a single diagnosis of fexpr into a diagnosis of symbols
-+ */
-+static struct sfix_list *convert_diagnosis(struct fexpr_list *diagnosis,
-+					   struct cfdata *data)
-+{
-+	CF_DEF_LIST(diagnosis_symbol, sfix);
-+	struct fexpr *e;
-+	struct symbol_fix *fix;
-+	struct symbol_dvalue *sdv;
-+	struct sdv_node *snode;
-+	struct fexpr_node *fnode;
++	/* adding unit-clauses for constants */
++	sat_add_clause(2, pico, -(data->constants->const_false->satval));
++	sat_add_clause(2, pico, data->constants->const_true->satval);
 +
-+	/* set the values for the conflict symbols */
-+	CF_LIST_FOR_EACH(snode, data->sdv_symbols, sdv) {
-+		sdv = snode->elem;
-+		fix = xmalloc(sizeof(*fix));
-+		fix->sym = sdv->sym;
-+		fix->type = SF_BOOLEAN;
-+		fix->tri = sdv->tri;
-+		CF_PUSH_BACK(diagnosis_symbol, fix, sfix);
-+	}
++	for_all_symbols(sym) {
++		struct pexpr_node *node;
 +
-+	CF_LIST_FOR_EACH(fnode, diagnosis, fexpr) {
-+		enum symbolfix_type type;
-+
-+		e = fnode->elem;
-+
-+		/* diagnosis already contains symbol, so continue */
-+		if (diagnosis_contains_symbol(diagnosis_symbol, e->sym))
++		if (sym->type == S_UNKNOWN)
 +			continue;
 +
-+		if (sym_is_boolean(e->sym))
-+			type = SF_BOOLEAN;
-+		else if (sym_is_nonboolean(e->sym))
-+			type = SF_NONBOOLEAN;
-+		else
-+			type = SF_DISALLOWED;
-+		fix = symbol_fix_create(e, type, diagnosis);
++		CF_LIST_FOR_EACH(node, sym->constraints, pexpr) {
++			if (pexpr_is_cnf(node->elem)) {
++				unfold_cnf_clause(node->elem);
++				picosat_add(pico, 0);
++			} else {
++				build_cnf_tseytin(node->elem, data);
++			}
 +
-+		CF_PUSH_BACK(diagnosis_symbol, fix, sfix);
++		}
 +	}
-+
-+	return diagnosis_symbol;
 +}
 +
 +/*
-+ * convert the diagnoses of fexpr into diagnoses of symbols
-+ * it is easier to handle symbols when applying fixes
++ * helper function to add an expression to a CNF-clause
 + */
-+static struct sfl_list *convert_diagnoses(struct fexl_list *diag_arr,
-+					  struct cfdata *data)
++static void unfold_cnf_clause(struct pexpr *e)
 +{
-+	struct fexl_node *lnode;
-+
-+	diagnoses_symbol = CF_LIST_INIT(sfl);
-+
-+	CF_LIST_FOR_EACH(lnode, diag_arr, fexl) {
-+		struct sfix_list *fix = convert_diagnosis(lnode->elem, data);
-+
-+		CF_PUSH_BACK(diagnoses_symbol, fix, sfl);
-+	}
-+
-+	return diagnoses_symbol;
-+}
-+
-+/*
-+ * create a symbol_fix given a fexpr
-+ */
-+static struct symbol_fix *symbol_fix_create(struct fexpr *e,
-+					    enum symbolfix_type type,
-+					    struct fexpr_list *diagnosis)
-+{
-+	struct symbol_fix *fix = malloc(sizeof(struct symbol_fix));
-+
-+	fix->sym = e->sym;
-+	fix->type = type;
-+
-+	switch (type) {
-+	case SF_BOOLEAN:
-+		fix->tri = calculate_new_tri_val(e, diagnosis);
++	switch (e->type) {
++	case PE_SYMBOL:
++		picosat_add(pico, e->left.fexpr->satval);
 +		break;
-+	case SF_NONBOOLEAN:
-+		fix->nb_val = str_new();
-+		str_append(&fix->nb_val,
-+			   calculate_new_string_value(e, diagnosis));
++	case PE_OR:
++		unfold_cnf_clause(e->left.pexpr);
++		unfold_cnf_clause(e->right.pexpr);
++		break;
++	case PE_NOT:
++		picosat_add(pico, -(e->left.pexpr->left.fexpr->satval));
 +		break;
 +	default:
-+		perror("Illegal symbolfix_type.\n");
++		perror("Not in CNF, FE_EQUALS.");
 +	}
-+
-+	return fix;
 +}
 +
 +/*
-+ * remove symbols from the diagnosis, which will be set automatically:
-+ * 1. symbol gets selected
-+ * 2. choice symbol gets enabled/disabled automatically
-+ * 3. symbol uses a default value
++ * build CNF-clauses for a pexpr not in CNF
 + */
-+static struct sfl_list *minimise_diagnoses(PicoSAT *pico,
-+					   struct fexl_list *diagnoses,
-+					   struct cfdata *data)
++static void build_cnf_tseytin(struct pexpr *e, struct cfdata *data)
++{
++	switch (e->type) {
++	case PE_AND:
++		build_cnf_tseytin_top_and(e, data);
++		break;
++	case PE_OR:
++		build_cnf_tseytin_top_or(e, data);
++		break;
++	default:
++		perror("Expression not a propositional logic formula. root.");
++	}
++}
++
++/*
++ * split up a pexpr of type AND as both sides must be satisfied
++ */
++static void build_cnf_tseytin_top_and(struct pexpr *e, struct cfdata *data)
++{
++	if (pexpr_is_cnf(e->left.pexpr))
++		unfold_cnf_clause(e->left.pexpr);
++	else
++		build_cnf_tseytin(e->left.pexpr, data);
++
++	if (pexpr_is_cnf(e->right.pexpr))
++		unfold_cnf_clause(e->right.pexpr);
++	else
++		build_cnf_tseytin(e->right.pexpr, data);
++
++}
++
++static void build_cnf_tseytin_top_or(struct pexpr *e, struct cfdata *data)
++{
++	struct fexpr *t1 = NULL, *t2 = NULL;
++	int a, b;
++
++	/* set left side */
++	if (pexpr_is_symbol(e->left.pexpr)) {
++		a = pexpr_get_satval(e->left.pexpr);
++	} else {
++		t1 = create_tmpsatvar(data);
++		a = t1->satval;
++	}
++
++	/* set right side */
++	if (pexpr_is_symbol(e->right.pexpr)) {
++		b = pexpr_get_satval(e->right.pexpr);
++	} else {
++		t2 = create_tmpsatvar(data);
++		b = t2->satval;
++	}
++
++	/* A v B */
++	sat_add_clause(3, pico, a, b);
++
++	/* traverse down the tree to build more constraints if needed */
++	if (!pexpr_is_symbol(e->left.pexpr)) {
++		if (t1 == NULL)
++			perror("t1 is NULL.");
++
++		build_cnf_tseytin_tmp(e->left.pexpr, t1, data);
++	}
++
++	if (!pexpr_is_symbol(e->right.pexpr)) {
++		if (t2 == NULL)
++			perror("t2 is NULL.");
++
++		build_cnf_tseytin_tmp(e->right.pexpr, t2, data);
++	}
++}
++
++/*
++ * build the sub-expressions
++ */
++static void build_cnf_tseytin_tmp(struct pexpr *e, struct fexpr *t,
++				  struct cfdata *data)
++{
++	switch (e->type) {
++	case PE_AND:
++		build_cnf_tseytin_and(e, t, data);
++		break;
++	case PE_OR:
++		build_cnf_tseytin_or(e, t, data);
++		break;
++	default:
++		perror("Expression not a propositional logic formula. root.");
++	}
++}
++
++/*
++ * build the Tseytin sub-expressions for a pexpr of type AND
++ */
++static void build_cnf_tseytin_and(struct pexpr *e, struct fexpr *t,
++				  struct cfdata *data)
++{
++	struct fexpr *t1 = NULL, *t2 = NULL;
++	int a, b, c;
++
++	assert(t != NULL);
++
++	/* set left side */
++	if (pexpr_is_symbol(e->left.pexpr)) {
++		a = pexpr_get_satval(e->left.pexpr);
++	} else {
++		t1 = create_tmpsatvar(data);
++		a = t1->satval;
++	}
++
++	/* set right side */
++	if (pexpr_is_symbol(e->right.pexpr)) {
++		b = pexpr_get_satval(e->right.pexpr);
++	} else {
++		t2 = create_tmpsatvar(data);
++		b = t2->satval;
++	}
++
++	c = t->satval;
++
++	/* -A v -B v C */
++	sat_add_clause(4, pico, -a, -b, c);
++	/* A v -C */
++	sat_add_clause(3, pico, a, -c);
++	/* B v -C */
++	sat_add_clause(3, pico, b, -c);
++
++	/* traverse down the tree to build more constraints if needed */
++	if (!pexpr_is_symbol(e->left.pexpr)) {
++		if (t1 == NULL)
++			perror("t1 is NULL.");
++
++		build_cnf_tseytin_tmp(e->left.pexpr, t1, data);
++	}
++	if (!pexpr_is_symbol(e->right.pexpr)) {
++		if (t2 == NULL)
++			perror("t2 is NULL.");
++
++		build_cnf_tseytin_tmp(e->right.pexpr, t2, data);
++	}
++}
++
++/*
++ * build the Tseytin sub-expressions for a pexpr of type
++ */
++static void build_cnf_tseytin_or(struct pexpr *e, struct fexpr *t,
++				 struct cfdata *data)
++{
++	struct fexpr *t1 = NULL, *t2 = NULL;
++	int a, b, c;
++
++	assert(t != NULL);
++
++	/* set left side */
++	if (pexpr_is_symbol(e->left.pexpr)) {
++		a = pexpr_get_satval(e->left.pexpr);
++	} else {
++		t1 = create_tmpsatvar(data);
++		a = t1->satval;
++	}
++
++	/* set right side */
++	if (pexpr_is_symbol(e->right.pexpr)) {
++		b = pexpr_get_satval(e->right.pexpr);
++	} else {
++		t2 = create_tmpsatvar(data);
++		b = t2->satval;
++	}
++
++	c = t->satval;
++
++	/* A v B v -C */
++	sat_add_clause(4, pico, a, b, -c);
++	/* -A v C */;
++	sat_add_clause(3, pico, -a, c);
++	/* -B v C */
++	sat_add_clause(3, pico, -b, c);
++
++	/* traverse down the tree to build more constraints if needed */
++	if (!pexpr_is_symbol(e->left.pexpr)) {
++		if (t1 == NULL)
++			perror("t1 is NULL.");
++
++		build_cnf_tseytin_tmp(e->left.pexpr, t1, data);
++	}
++	if (!pexpr_is_symbol(e->right.pexpr)) {
++		if (t2 == NULL)
++			perror("t2 is NULL.");
++
++		build_cnf_tseytin_tmp(e->right.pexpr, t2, data);
++	}
++}
++
++/*
++ * add a clause to PicoSAT
++ * First argument must be the SAT solver
++ */
++void sat_add_clause(int num, ...)
++{
++	va_list valist;
++	int lit;
++	PicoSAT *pico;
++
++	if (num <= 1)
++		return;
++
++	va_start(valist, num);
++
++	pico = va_arg(valist, PicoSAT *);
++
++	/* access all the arguments assigned to valist */
++	for (int i = 1; i < num; i++) {
++		lit = va_arg(valist, int);
++		picosat_add(pico, lit);
++	}
++	picosat_add(pico, 0);
++
++	va_end(valist);
++}
++
++/*
++ * return the SAT-variable for a pexpr that is a symbol
++ */
++static int pexpr_get_satval(struct pexpr *e)
++{
++	if (!pexpr_is_symbol(e)) {
++		perror("pexpr is not a symbol.");
++		return -1;
++	}
++
++	switch (e->type) {
++	case PE_SYMBOL:
++		return e->left.fexpr->satval;
++	case PE_NOT:
++		return -(e->left.pexpr->left.fexpr->satval);
++	default:
++		perror("Not a symbol.");
++	}
++
++	return -1;
++}
++
++/*
++ * start PicoSAT
++ */
++void picosat_solve(PicoSAT *pico, struct cfdata *data)
 +{
 +	clock_t start, end;
 +	double time;
-+	struct fexpr_list *d;
-+	struct sfix_list *diagnosis_symbol;
-+	CF_DEF_LIST(diagnoses_symbol, sfl);
-+	struct fexpr *e;
-+	int satval, deref = 0;
-+	struct symbol_fix *fix;
-+	struct fexl_node *flnode;
-+	CF_DEF_LIST(C, fexpr);
++	int res;
 +
-+	printd("Minimising diagnoses...");
++	printd("Solving SAT-problem...");
 +
 +	start = clock();
-+
-+	/* create soft constraint set C */
-+	add_fexpr_to_constraint_set(C, data);
-+
-+	CF_LIST_FOR_EACH(flnode, diagnoses, fexl) {
-+		struct fexpr_node *fnode;
-+		struct sfix_node *snode, *snext;
-+		struct fexpr_list *C_without_d;
-+		int res;
-+
-+		d = flnode->elem;
-+
-+		/*
-+		 * set assumptions for those symbols that don't need to be
-+		 * changed
-+		 */
-+		C_without_d = get_difference(C, d);
-+		set_assumptions(pico, C_without_d, data);
-+		CF_LIST_FREE(C_without_d, fexpr);
-+		CF_LIST_FREE(C, fexpr);
-+
-+
-+		/* flip the assumptions from the diagnosis */
-+		CF_LIST_FOR_EACH(fnode, d, fexpr) {
-+			e = fnode->elem;
-+			satval = e->assumption ? -(e->satval) : e->satval;
-+			picosat_assume(pico, satval);
-+		}
-+
-+		res = picosat_sat(pico, -1);
-+		if (res != PICOSAT_SATISFIABLE)
-+			perror("Diagnosis not satisfiable (minimise).");
-+
-+		diagnosis_symbol = convert_diagnosis(d, data);
-+
-+		/* check if symbol gets selected */
-+		list_for_each_entry_safe(snode, snext, &diagnosis_symbol->list,
-+					 node) {
-+			fix = snode->elem;
-+
-+			/* symbol is never selected, continue */
-+			if (!fix->sym->fexpr_sel_y)
-+				continue;
-+
-+			/* check, whether the symbol was selected anyway */
-+			if (fix->sym->type == S_BOOLEAN && fix->tri == yes)
-+				deref = picosat_deref(
-+					pico, fix->sym->fexpr_sel_y->satval);
-+			else if (fix->sym->type == S_TRISTATE &&
-+				 fix->tri == yes)
-+				deref = picosat_deref(
-+					pico, fix->sym->fexpr_sel_y->satval);
-+			else if (fix->sym->type == S_TRISTATE &&
-+				 fix->tri == mod)
-+				deref = picosat_deref(
-+					pico, fix->sym->fexpr_sel_m->satval);
-+
-+			if (deref == 1)
-+				list_del(&snode->node);
-+			else
-+				deref = 0;
-+		}
-+		CF_PUSH_BACK(diagnoses_symbol, diagnosis_symbol, sfl);
-+	}
-+
++	res = picosat_sat(pico, -1);
 +	end = clock();
++
 +	time = ((double) (end - start)) / CLOCKS_PER_SEC;
++	printd("done. (%.6f secs.)\n\n", time);
 +
-+	printd("done. (%.6f secs.)\n", time);
++	if (res == PICOSAT_SATISFIABLE) {
++		printd("===> PROBLEM IS SATISFIABLE <===\n");
 +
-+	return diagnoses_symbol;
-+}
++	} else if (res == PICOSAT_UNSATISFIABLE) {
++		struct fexpr *e;
++		int lit;
++		const int *i;
 +
-+/*
-+ * list the diagnoses and let user choose a diagnosis to be applied
-+ */
-+struct sfix_list *ask_user_choose_fix(struct sfl_list *diag)
-+{
-+	int choice;
-+	struct sfl_node *ret;
++		printd("===> PROBLEM IS UNSATISFIABLE <===\n");
 +
-+	printd("=== GENERATED DIAGNOSES ===\n");
-+	printd("0: No changes wanted\n");
-+	print_diagnoses_symbol(diag);
++		/* print unsat core */
++		printd("\nPrinting unsatisfiable core:\n");
 +
-+	printd("\n> Choose option: ");
-+	scanf("%d", &choice);
++		i = picosat_failed_assumptions(pico);
++		lit = abs(*i++);
 +
-+	/* no changes wanted */
-+	if (choice == 0)
-+		return NULL;
++		while (lit != 0) {
++			e = data->satmap[lit];
 +
-+	ret = cflist_at_index(choice - 1, &diag->list, struct sfl_node, node);
-+	return ret ? ret->elem : NULL;
-+}
-+
-+
-+/*
-+ * calculate the new value for a boolean symbol given a diagnosis and an fexpr
-+ */
-+static tristate calculate_new_tri_val(struct fexpr *e,
-+				      struct fexpr_list *diagnosis)
-+{
-+	assert(sym_is_boolean(e->sym));
-+
-+	/* return the opposite of the last assumption for booleans */
-+	if (e->sym->type == S_BOOLEAN)
-+		return e->assumption ? no : yes;
-+
-+	/* new values for tristate must be deduced from the diagnosis */
-+	if (e->sym->type == S_TRISTATE) {
-+		/* fexpr_y */
-+		if (e->tri == yes) {
-+			if (e->assumption == true)
-+				/*
-+				 * if diagnosis contains fexpr_m, fexpr_m was
-+				 * false => new value is mod
-+				 */
-+				return diagnosis_contains_fexpr(
-+					       diagnosis, e->sym->fexpr_m) ?
-+					       mod :
-+					       no;
-+			else if (e->assumption == false)
-+				/*
-+				 * if fexpr_y is set to true, the new value
-+				 * must be yes
-+				 */
-+				return yes;
++			printd("(%d) %s <%d>\n", lit, str_get(&e->name),
++			       e->assumption);
++			lit = abs(*i++);
 +		}
-+		/* fexpr_m */
-+		if (e->tri == mod) {
-+			if (e->assumption == true)
-+				/*
-+				 * if diagnosis contains fexpr_y, fexpr_y was
-+				 * false => new value is yes
-+				 */
-+				return diagnosis_contains_fexpr(
-+					       diagnosis, e->sym->fexpr_m) ?
-+					       yes :
-+					       no;
-+			else if (e->assumption == false)
-+				/*
-+				 * if diagnosis contains fexpr_m, the new value
-+				 * must be mod
-+				 */
-+				return mod;
-+		}
-+		perror("Should not get here.\n");
++	} else {
++		printd("Unknown if satisfiable.\n");
 +	}
-+
-+	perror("Error calculating new tristate value.\n");
-+	return no;
 +}
 +
 +/*
-+ * calculate the new value for a non-boolean symbol given a diagnosis and an
-+ * fexpr
++ * add assumption for a symbol to the SAT-solver
 + */
-+static const char *calculate_new_string_value(struct fexpr *e,
-+					      struct fexpr_list *diagnosis)
++void sym_add_assumption(PicoSAT *pico, struct symbol *sym)
 +{
-+	struct fexpr_node *node;
-+	struct fexpr *e2;
++	if (sym_is_boolean(sym)) {
++		int tri_val = sym_get_tristate_value(sym);
 +
-+	assert(sym_is_nonboolean(e->sym));
-+
-+	/* if assumption was false before, this is the new value because only 1
-+	 * variable can be true
-+	 */
-+	if (e->assumption == false)
-+		return str_get(&e->nb_val);
-+
-+	/* a diagnosis always contains 2 variables for the same non-boolean
-+	 * symbol one is set to true, the other to false
-+	 * otherwise you'd set 2 variables to true, which is not allowed
-+	 */
-+	CF_LIST_FOR_EACH(node, diagnosis, fexpr) {
-+		e2 = node->elem;
-+
-+		/* not interested in other symbols or the same fexpr */
-+		if (e->sym != e2->sym || e->satval == e2->satval)
-+			continue;
-+
-+		return str_get(&e2->nb_val);
++		sym_add_assumption_tri(pico, sym, tri_val);
++		return;
 +	}
 +
-+	perror("Error calculating new string value.\n");
-+	return "";
-+}
++	if (sym_is_nonboolean(sym)) {
++		bool first;
++		struct fexpr *not_set = list_first_entry(&sym->nb_vals->list,
++						   struct fexpr_node, node)
++					  ->elem;
++		struct fexpr_node *node;
 +
-+static bool fexpr_list_has_length_1(struct fexpr_list *list)
-+{
-+	struct fexpr_node *node;
-+	bool first = true;
++		const char *string_val = sym_get_string_value(sym);
 +
-+	CF_LIST_FOR_EACH(node, list, fexpr) {
-+		if (first)
-+			first = false;
-+		else
-+			return false;
++		if (sym->type == S_STRING && !strcmp(string_val, ""))
++			return;
++
++		/* symbol does not have a value */
++		if (!sym_nonbool_has_value_set(sym)) {
++			bool first = true;
++
++			/* set value for sym=n */
++			picosat_assume(pico, not_set->satval);
++			not_set->assumption = true;
++
++			CF_LIST_FOR_EACH(node, sym->nb_vals, fexpr) {
++				if (first) {
++					first = false;
++					continue;
++				}
++				picosat_assume(pico, -(node->elem->satval));
++				node->elem->assumption = false;
++			}
++
++			return;
++		}
++
++		/* symbol does have a value set */
++
++		/* set value for sym=n */
++		picosat_assume(pico, -(not_set->satval));
++		not_set->assumption = false;
++
++		first = true;
++		/* set value for all other fexpr */
++		CF_LIST_FOR_EACH(node, sym->nb_vals, fexpr) {
++			if (first) {
++				first = false;
++				continue;
++			}
++
++			if (strcmp(str_get(&node->elem->nb_val), string_val) ==
++			    0) {
++				picosat_assume(pico, node->elem->satval);
++				node->elem->assumption = true;
++			} else {
++				picosat_assume(pico, -(node->elem->satval));
++				node->elem->assumption = false;
++			}
++		}
 +	}
-+	return true;
 +}
-diff --git a/scripts/kconfig/cf_fixgen.h b/scripts/kconfig/cf_fixgen.h
++
++/*
++ * add assumption for a boolean symbol to the SAT-solver
++ */
++void sym_add_assumption_tri(PicoSAT *pico, struct symbol *sym, tristate tri_val)
++{
++	if (sym->type == S_BOOLEAN) {
++		int a = sym->fexpr_y->satval;
++
++		switch (tri_val) {
++		case no:
++			picosat_assume(pico, -a);
++			sym->fexpr_y->assumption = false;
++			break;
++		case mod:
++			perror("Should not happen. Boolean symbol is set to mod.\n");
++			break;
++		case yes:
++
++			picosat_assume(pico, a);
++			sym->fexpr_y->assumption = true;
++			break;
++		}
++	}
++	if (sym->type == S_TRISTATE) {
++		int a = sym->fexpr_y->satval;
++		int a_m = sym->fexpr_m->satval;
++
++		switch (tri_val) {
++		case no:
++			picosat_assume(pico, -a);
++			picosat_assume(pico, -a_m);
++			sym->fexpr_y->assumption = false;
++			sym->fexpr_m->assumption = false;
++			break;
++		case mod:
++			picosat_assume(pico, -a);
++			picosat_assume(pico, a_m);
++			sym->fexpr_y->assumption = false;
++			sym->fexpr_m->assumption = true;
++			break;
++		case yes:
++			picosat_assume(pico, a);
++			picosat_assume(pico, -a_m);
++			sym->fexpr_y->assumption = true;
++			sym->fexpr_m->assumption = false;
++			break;
++		}
++	}
++}
++
++/*
++ * add assumptions for the symbols to be changed to the SAT solver
++ */
++void sym_add_assumption_sdv(PicoSAT *pico, struct sdv_list *list)
++{
++	struct symbol_dvalue *sdv;
++	struct sdv_node *node;
++	int lit_y, lit_m;
++
++	CF_LIST_FOR_EACH(node, list, sdv) {
++		sdv = node->elem;
++		lit_y = sdv->sym->fexpr_y->satval;
++
++		if (sdv->sym->type == S_BOOLEAN) {
++			switch (sdv->tri) {
++			case yes:
++				picosat_assume(pico, lit_y);
++				break;
++			case no:
++				picosat_assume(pico, -lit_y);
++				break;
++			case mod:
++				perror("Should not happen.\n");
++			}
++		} else if (sdv->sym->type == S_TRISTATE) {
++			lit_m = sdv->sym->fexpr_m->satval;
++
++			switch (sdv->tri) {
++			case yes:
++				picosat_assume(pico, lit_y);
++				picosat_assume(pico, -lit_m);
++				break;
++			case mod:
++				picosat_assume(pico, -lit_y);
++				picosat_assume(pico, lit_m);
++				break;
++			case no:
++				picosat_assume(pico, -lit_y);
++				picosat_assume(pico, -lit_m);
++			}
++		}
++	}
++}
+diff --git a/scripts/kconfig/cf_utils.h b/scripts/kconfig/cf_utils.h
 new file mode 100644
-index 000000000000..4526b5e4db06
+index 000000000000..1cbdcd8b7257
 --- /dev/null
-+++ b/scripts/kconfig/cf_fixgen.h
-@@ -0,0 +1,21 @@
++++ b/scripts/kconfig/cf_utils.h
+@@ -0,0 +1,136 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Copyright (C) 2023 Patrick Franz <deltaone@debian.org>
 + */
 +
-+#ifndef CF_FIXGEN_H
-+#define CF_FIXGEN_H
++#ifndef CF_UTILS_H
++#define CF_UTILS_H
 +
-+#include "picosat_functions.h"
++#include "expr.h"
 +#include "cf_defs.h"
++#include "picosat_functions.h"
++#include "../include/list.h"
 +
-+/* initialize fixgen and return the diagnoses */
-+struct sfl_list *fixgen_run(PicoSAT *pico, struct cfdata *data);
++/**
++ * cflist_at_index - retrieve the entry at index i in O(n)
++ * @i:		index of entry to retrieve.
++ * @head:	the head for your list.
++ * @type:	the type of the struct the entries are embedded in.
++ * @member:	the name of the list_head within the struct.
++ */
++#define cflist_at_index(i, head, type, member)               \
++	({                                                 \
++		type *__pos;                               \
++		size_t __counter = 0;                      \
++		list_for_each_entry(__pos, head, member) { \
++			if (__counter++ == i)              \
++				break;                     \
++			if (__pos->member.next == head) {  \
++				__pos = NULL;              \
++				break;                     \
++			}                                  \
++		}                                          \
++		__pos;                                     \
++	})
 +
-+/* ask user which fix to apply */
-+struct sfix_list *ask_user_choose_fix(struct sfl_list *diag);
 +
-+/* print a single diagnosis of type symbol_fix */
-+void print_diagnosis_symbol(struct sfix_list *diag_sym);
++/* parse Kconfig-file and read .config */
++void init_config(const char *Kconfig_file);
++
++/* initialize satmap and cnf_clauses */
++void init_data(struct cfdata *data);
++
++/* assign SAT-variables to all fexpr and create the sat_map */
++void create_sat_variables(struct cfdata *data);
++
++/* create True/False constants */
++void create_constants(struct cfdata *data);
++
++/* create a temporary SAT-variable */
++struct fexpr *create_tmpsatvar(struct cfdata *data);
++
++/* return a temporary SAT variable as string */
++char *get_tmp_var_as_char(int i);
++
++/* return a tristate value as a char * */
++char *tristate_get_char(tristate val);
++
++/* check whether an expr can evaluate to mod */
++bool expr_can_evaluate_to_mod(struct expr *e);
++
++/* check whether an expr is a non-Boolean constant */
++bool expr_is_nonbool_constant(struct expr *e);
++
++/* check whether a symbol is a non-Boolean constant */
++bool sym_is_nonbool_constant(struct symbol *sym);
++
++/* check, if the symbol is a tristate-constant */
++bool sym_is_tristate_constant(struct symbol *sym);
++
++/* check, if a symbol is of type boolean or tristate */
++bool sym_is_boolean(struct symbol *sym);
++
++/* check, if a symbol is a boolean/tristate or a tristate constant */
++bool sym_is_bool_or_triconst(struct symbol *sym);
++
++/* check, if a symbol is of type int, hex, or string */
++bool sym_is_nonboolean(struct symbol *sym);
++
++/* check, if a symbol has a prompt */
++bool sym_has_prompt(struct symbol *sym);
++
++/* return the prompt of the symbol, if there is one */
++struct property *sym_get_prompt(struct symbol *sym);
++
++/* return the condition for the property, True if there is none */
++struct pexpr *prop_get_condition(struct property *prop, struct cfdata *data);
++
++/* return the default property, NULL if none exists or can be satisfied */
++struct property *sym_get_default_prop(struct symbol *sym);
++
++/* check whether a non-boolean symbol has a value set */
++bool sym_nonbool_has_value_set(struct symbol *sym);
++
++/* return the name of the symbol */
++const char *sym_get_name(struct symbol *sym);
++
++/* check whether symbol is to be changed */
++bool sym_is_sdv(struct sdv_list *list, struct symbol *sym);
++
++/* print a symbol's name */
++void print_sym_name(struct symbol *sym);
++
++/* print all constraints for a symbol */
++void print_sym_constraint(struct symbol *sym);
++
++/* print a default map */
++void print_default_map(struct defm_list *map);
++
++/* check whether a string is a number */
++bool string_is_number(char *s);
++
++/* check whether a string is a hexadecimal number */
++bool string_is_hex(char *s);
++
++/* initialize PicoSAT */
++PicoSAT *initialize_picosat(void);
++
++/* construct the CNF-clauses from the constraints */
++void construct_cnf_clauses(PicoSAT *pico, struct cfdata *data);
++
++/* add a clause to PicoSAT */
++void sat_add_clause(int num, ...);
++
++/* start PicoSAT */
++void picosat_solve(PicoSAT *pico, struct cfdata *data);
++
++/* add assumption for a symbol to the SAT-solver */
++void sym_add_assumption(PicoSAT *pico, struct symbol *sym);
++
++/* add assumption for a boolean symbol to the SAT-solver */
++void sym_add_assumption_tri(PicoSAT *pico, struct symbol *sym, tristate tri_val);
++
++/* add assumptions for the symbols to be changed to the SAT solver */
++void sym_add_assumption_sdv(PicoSAT *pico, struct sdv_list *list);
 +
 +#endif
 -- 
