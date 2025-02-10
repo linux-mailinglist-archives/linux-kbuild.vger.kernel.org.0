@@ -1,79 +1,156 @@
-Return-Path: <linux-kbuild+bounces-5689-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5690-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E3FA2DFEE
-	for <lists+linux-kbuild@lfdr.de>; Sun,  9 Feb 2025 19:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3356AA2E350
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2025 06:01:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B7C8162B3B
-	for <lists+linux-kbuild@lfdr.de>; Sun,  9 Feb 2025 18:32:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3A7A1639AA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2025 05:01:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D001E0B77;
-	Sun,  9 Feb 2025 18:32:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0334B2E62C;
+	Mon, 10 Feb 2025 05:01:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JjSFKPw2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BUIHntp4"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C291DFD86;
-	Sun,  9 Feb 2025 18:32:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA5A2F2A;
+	Mon, 10 Feb 2025 05:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739125965; cv=none; b=a+xgzWSYywVBccj1s9V+jcJKHWBp3+eID0JCQH/oVWj5gIvd1vcxvYvKi1dH1ZHP6nyZfdMhezd+hmp+mpgTp4m4/VADeYbEq1YBHqj1Hn87jZeykKVX3zIbLIR4GwjeQ2EdNHcriPq0jTukm/yk4B5V6T3NI5H9lpDwq0pgG44=
+	t=1739163690; cv=none; b=Hddc4h6H704YDVWqr1pDi7ntqja1NO50lOd1LdRQ+oNVjoBhgk3fF2Gi0UFpbVIjp2+9B1cM5zgSLhPZ0JmRUyhtUWXmz23Pw6F9LyqAX/rFZQVLOQYB0EvhHVBDYYeSRRrjAC927A7BNB+Pr9K0YWRVPgMqb+y2M398JogCTCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739125965; c=relaxed/simple;
-	bh=NdssoG+DOhM5SQLbUkUSl60DaMn7ig7bfBM1fPBUDs0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=MnzrznTcWviCt3k6EqNrF8YNKbo1Jdvrq0GNpflB+BQajArDB/zZHRnL5wniLIPJKOCmq7bto3wclegMJjsdPFyw3ASQ2081fvn2kGPo7YXVBwuGHLGFH1c/2EWJK0UJV+SbBoycAPgJ3V0HJA6YFujF9+qzZeyk+I5+MifuFxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JjSFKPw2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C55C4CEDD;
-	Sun,  9 Feb 2025 18:32:45 +0000 (UTC)
+	s=arc-20240116; t=1739163690; c=relaxed/simple;
+	bh=W2w6E6ETmTeuVJUBa9j4VdBuubQqmp/igTJCtkIwjVM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BFwhKqTIFsTj20tEBYgELs2uU47+AVHf8ICE7g9irfTm9cO07lmQtjPGeGKMjaHYbCwexkzQ85FHRE4+TxzP8m2IHizZiKZWiaTi+zccrc3+iw8+3zclQv5uQf+SkBJXXCelBKGrM6Air7OdXp9lacX88Eq6BriCVzvVHDMiW4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BUIHntp4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B4CC4CED1;
+	Mon, 10 Feb 2025 05:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739125965;
-	bh=NdssoG+DOhM5SQLbUkUSl60DaMn7ig7bfBM1fPBUDs0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=JjSFKPw2KmHsnIHdnztxihDiWN8Rj66Lwlz29ABxeXRo0qkJwe4niKGRCYf0zZCEn
-	 rXzxOr+9ukajnHr/m73r+rBWXHpS6nnZV+MBPVpSw88gFc/LAbkFuNmDBTUQ+++RRf
-	 2Pygy031r8AGWHMFPQpB6s+6ibh29RlxHrzdn6q+Qz+pMtsdK77YQBq++iG8+mPUg4
-	 wLaRZOdqjOq/lRmLflGlKkp/siZtB7V4gG370rUSAYVfOFkJcOGy/WD9FXulbkGPp1
-	 us+Q9XyhTBvlCyy3rF+mAn5SN6qnbr623atmN6rgsIrb/1Ha31urwSrg4o7lJy36m6
-	 EuJXxMbxs5VHA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D7A380AAEB;
-	Sun,  9 Feb 2025 18:33:15 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.14-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAR3rgsNCN2hUs_s3H9wZeBPaLPwZgMH3ShLuLUKMjjihQ@mail.gmail.com>
-References: <CAK7LNAR3rgsNCN2hUs_s3H9wZeBPaLPwZgMH3ShLuLUKMjjihQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAR3rgsNCN2hUs_s3H9wZeBPaLPwZgMH3ShLuLUKMjjihQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.14
-X-PR-Tracked-Commit-Id: f354fc88a72ae83dacd68370f6fa040e5733bcfe
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 69b54314c975f4dfd3a29d6b9211ab68fff46682
-Message-Id: <173912599377.2868883.6817567728527424259.pr-tracker-bot@kernel.org>
-Date: Sun, 09 Feb 2025 18:33:13 +0000
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1739163690;
+	bh=W2w6E6ETmTeuVJUBa9j4VdBuubQqmp/igTJCtkIwjVM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BUIHntp4y1Kn+4uG1G4y9imPcbX5gkK6qDHFuVdkq8033fsfRQxMMSUVqL/MGYOZ3
+	 ILPo85v6SwFvXfPduBazBxQahCZcLpaOtC1y/XVv4UNEad2rdAUGd3fXRKNMKOHrdx
+	 TP4dAKjkJsmzPniIT5KUNuZS45N54eiI4VxHFhsntIF0DBydeZszHn0GeoyydEqJuh
+	 sXJf60UgHvq9SX6iuzIHNzgq+4xafN2zHgthJDJupp9+okQTr+FsgKe1ELc307Ay42
+	 wiWAAYDQPoxDueIJbwx6Q5MtTVFjkIgYUf7e8AAZ6i7XI89Pyfxk7tfNPfS9A1qSo7
+	 I/DEt3rGB+m1Q==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-308e3bd8286so12145401fa.1;
+        Sun, 09 Feb 2025 21:01:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWPvSIunJlQkltFxwqqiRdcH/A2Olgq952F+nF0tRUvHlBZkraTcFNzNjbaXMXzI1+jUrSp4Gqzwf5i2EI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo2AfoweHPhZAQ5S5Q3hY8Os0fsBHuo7ivA+4/cmeHFmgw2zJl
+	jeobikfo/P1PZedhMuXbxgtopDH8BEuVksAu7NaeBoDp8WfqY/G+ZtDY4rkKs9VEymv+z1KrhNr
+	uyoLxKRBrerPsC9qtFTv7zZpSoZI=
+X-Google-Smtp-Source: AGHT+IHLxJvAHmlELrlec1zDn9FnTVtXy3FIzCBROaw6n4XXX+y3xD2ESZoqMRHGKCbcBQXAa/7je/rBVVXVRZKj1mo=
+X-Received: by 2002:a2e:bccc:0:b0:307:e031:15a0 with SMTP id
+ 38308e7fff4ca-307e57ce0efmr42647781fa.13.1739163688887; Sun, 09 Feb 2025
+ 21:01:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20250208163959.3973163-1-ole0811sch@gmail.com>
+In-Reply-To: <20250208163959.3973163-1-ole0811sch@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 10 Feb 2025 14:00:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQBBKfSwQ=z3yBchg--gcrAykWz6xvpAYWKse9R9g8KVQ@mail.gmail.com>
+X-Gm-Features: AWEUYZn_X83jYxjHSq3f6Bj36yQxqx79BFj1f1IaiFuzsHlPGiLFIKV_k8nlAig
+Message-ID: <CAK7LNAQBBKfSwQ=z3yBchg--gcrAykWz6xvpAYWKse9R9g8KVQ@mail.gmail.com>
+Subject: Re: [PATCH v7 00/11] kconfig: Add support for conflict resolution
+To: Ole Schuerks <ole0811sch@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, jude.gyimah@rub.de, thorsten.berger@rub.de, 
+	deltaone@debian.org, jan.sollmann@rub.de, mcgrof@kernel.org, 
+	linux-kernel@vger.kernel.org, nathan@kernel.org, nicolas@fjasle.eu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Mon, 10 Feb 2025 02:39:14 +0900:
+On Sun, Feb 9, 2025 at 1:40=E2=80=AFAM Ole Schuerks <ole0811sch@gmail.com> =
+wrote:
+>
+> Hi,
+>
+> This patch series (for next-20250207) provides support to enable users
+> to express their desired target configuration and display possible
+> resolutions to their conflicts. This support is provided within xconfig.
+>
+> Conflict resolution is provided by translating kconfig's configuration
+> option tree to a propositional formula and allowing our resolution
+> algorithm and PicoSAT to calculate the possible fixes for an expressed
+> target kernel configuration. PicoSAT is the smallest and most robust C SA=
+T
+> solver we could find which is also GPL compatible. PicoSAT is used as a
+> dynamically loaded library. For Debian and Fedora, the apt and dnf packag=
+es
+> named "picosat" provide the library. For other distros, we provide
+> instructions on how PicoSAT needs to be compiled from the sources in the
+> documentation.
+>
+> New UI extensions are made to xconfig with panes and buttons to allow use=
+rs
+> to express new desired target options, calculate fixes, and apply any of
+> found solutions.
+>
+> You can see a YouTube video demonstrating this work [2]. This effort is
+> part of the kernelnewbies Kconfig-SAT project [3], the approach and effor=
+t
+> is also explained in detail in our paper [4]. The results from the
+> evaluation have significantly improved since then: Around 80 % of the
+> conflicts could be resolved, and 99.9 % of the generated fixes resolved t=
+he
+> conflict. It is also our attempt at contributing back to the kernel
+> community, whose configurator researchers studied a lot.
+>
+> Patches applicable to next-20250207.
+>
+> [0] https://gsd.uwaterloo.ca/sites/default/files/vamos12-survey.pdf
+> [1] https://www.linux-magazine.com/Issues/2021/244/Kconfig-Deep-Dive
+> [2] https://www.youtube.com/watch?v=3Dvn2JgK_PTbc
+> [3] https://kernelnewbies.org/KernelProjects/kconfig-sat
+> [4] http://www.cse.chalmers.se/~bergert/paper/2021-icseseip-configfix.pdf
+>
+> Thanks from the team! (and thanks to Luis Chamberlain for guiding us here=
+)
+>
+> Changelog v7:
+> * improve error handling when loading picosat symbols with dlsym(): use
+>   dlerror() instead of checking for NULL
+> * move list_at_index from scripts/include/list.h to
+>   scripts/kconfig/cf_utils.h
+> * change interface of list_for_each_entry_from and rename list_size to
+>   list_count_nodes to more closely match scripts/include/list.h
+> * change misleading name "rangefix" of fix generation algorithm to
+>   "fixgen"
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.14
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/69b54314c975f4dfd3a29d6b9211ab68fff46682
 
-Thank you!
+Thanks for this, but I have no plans to merge the SAT solver.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+The reason is that my future plan is to move toolchain selection
+to the Kconfig stage instead of specifying it statically from the command l=
+ine.
+This approach was suggested by Linus [1], and to achieve that,
+the shell evaluation must be dynamically re-evaluated [2].
+
+The SAT solver would likely conflict with this plan. At least due to the
+significant amount of additional code, which would be an obstacle.
+
+
+[1] https://lore.kernel.org/lkml/CAHk-=3DwhdrvCkSWh=3DBRrwZwNo3=3DyLBXXM88N=
+Gx8VEpP1VTgmkyQ@mail.gmail.com/
+
+[2] https://lore.kernel.org/lkml/CAK7LNATe7Ah-ow9wYGrtL9i4z-VD=3DMCo=3DsJjb=
+C_S0ofEoH6CFQ@mail.gmail.com/
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
