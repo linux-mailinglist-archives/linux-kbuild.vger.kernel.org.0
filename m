@@ -1,113 +1,136 @@
-Return-Path: <linux-kbuild+bounces-5700-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5701-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561F0A2F4C2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2025 18:11:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B61B6A2FF15
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2025 01:29:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF5D47A1F11
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2025 17:10:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B9183A62A0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2025 00:29:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4EF2417C2;
-	Mon, 10 Feb 2025 17:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96EDB29406;
+	Tue, 11 Feb 2025 00:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jgeXBblM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AXimKAQK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBE022258D;
-	Mon, 10 Feb 2025 17:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4FB28F5;
+	Tue, 11 Feb 2025 00:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739207474; cv=none; b=UT65YB+ORxKcvWtJTWfd4wTmT0HJAfCepA37J0h4QI86vgsZaYBtXJPCOIXPHeep0QH8R+5PLBlPImPnxibv3G6spzjPl7iKgm84GovWX0ybbW/RbN8dxHyYQei8CL3MbTFTKf8I5wJet/Wc+cSIX9v4KReLD0AiHLG6lKT3XTA=
+	t=1739233786; cv=none; b=mZEsY0pIpZELOL+PLmbcPYNU7G0zQ464+8vTO6CTEQw/IRqzGfvxD0IQeuqQtLt8hkKUCGR9QlPuP5Gng/xlw1W0OzqnabNQ5dRFKff4D3K0YuUiEHQ3QauNrRlfAk8LI4fIq4dKs/VAcBvFPLPx04J7gBS56MbTZC1sFmKOjRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739207474; c=relaxed/simple;
-	bh=i//L9LO/eHFu/2zQpwB5EoGkGlMUVpJiGcOVAdHJs0M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=q8ndpEXDHrs6oEid+aDJGSO1esTp/7r6ClTx/KX7DuoyEz/LaQBLeZaxHz51INQJKXilFzCAXssMVSatXAfcOOeHy20hTymZWfO6xM5iXDMrFY28T+/mPIyzY30pm9kfYIzaW7uVO7uu6+dhNZGI8YHjm99cJlHFf+2biZBI8pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jgeXBblM; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1739207469;
-	bh=i//L9LO/eHFu/2zQpwB5EoGkGlMUVpJiGcOVAdHJs0M=;
-	h=From:Date:Subject:To:Cc:From;
-	b=jgeXBblMIsuM6MZpQnOKK27pfoht4YM+NT8gRuObsbsCla4ZoqElZQWeK9jrhWnEN
-	 KFauw6aJiOE2+jWDYynA/Ug/iSMIO8TSXnvjOdzWboJLK59Z3vTPhgtu8olUjjehAg
-	 T8j7dCApUnJPfaEWFiJtvUgCwZyzmgp3TdCZ7OOI=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 10 Feb 2025 18:08:50 +0100
-Subject: [PATCH] kbuild, rust: use -fremap-path-prefix to make paths
- relative
+	s=arc-20240116; t=1739233786; c=relaxed/simple;
+	bh=TMgXkr3cTJRM3MaW/W4X97Rj0sxwJzv7gAxKX00QO1Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HDIdP9XWjoo78VVPsbIFOp4htaQS4rIop0RipvhCcFVByK3Th+j8knk5lpV3bYE20Txq2vOQhlIIoIF8TeLCeAonUKDy8u/UykILaTGqjOfo6LvFQ9LUC1AvXmvkQTAT+f9xfMfUlTug6UPyhEI+JtlshfpQw25bkr/Qy+HCtwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AXimKAQK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08730C4CED1;
+	Tue, 11 Feb 2025 00:29:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739233785;
+	bh=TMgXkr3cTJRM3MaW/W4X97Rj0sxwJzv7gAxKX00QO1Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AXimKAQK8gtKAqF7lap7m+Ntcb4qLWi68dQxwb0HERhJcKUxpSG2D5D7e2JKqrRbL
+	 OydQbSj9RgWKPQxirB4rLTsB4mH7IYirz2Dmg1OAf6yfRP895vtTSq/drXwSP4W3xA
+	 Z3T51AMKiOjD2UrpaaROYee4snilkqPvtzos/YW/u/fjlrpTWyRPY5c25mgApK/+UR
+	 vmAcESqUeOn5VaX6uRnNFXh0D0RDt2dLCo3L1B8cr4aQ4ciG2R/Bujqimt5gHKU6QF
+	 3CgihS2mwyoFgYEPrSCuzSZ2lvstbbZwAKac3ZMm0W8AeSUQA1DZkaWPXevsH0tHPT
+	 g59OqFsgfFHgQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: Frank Binns <frank.binns@imgtec.com>,
+	Matt Coster <matt.coster@imgtec.com>
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	Borislav Petkov <bp@suse.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	bpf@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] tools: fix annoying "mkdir -p ..." logs when building tools in parallel
+Date: Tue, 11 Feb 2025 09:29:06 +0900
+Message-ID: <20250211002930.1865689-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAKEyqmcC/x3MQQ5AMBBG4avIrE3SNkG4ilg09WMWaKaIRNxdY
- /kt3nsoQQWJuuIhxSVJ9i3DlgWFxW8zWMZscsZVxlnDeqaDoz8WVqw+MtomIDQWtfWUq6iY5P6
- P/fC+H/j5Q7FhAAAA
-X-Change-ID: 20250210-rust-path-remap-e97cec71e61a
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739207468; l=1373;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=i//L9LO/eHFu/2zQpwB5EoGkGlMUVpJiGcOVAdHJs0M=;
- b=l/N+YPuwNOcWbbf448LFb4B7j4VKk1V6lKcjHk2C9Jmf/LWE6wp5JThfogVQG+Z8o+FDsrxb1
- OCEzxqoxaevB90o4TSddldWZ9VB/9tEm5PZFFPUkJ1MEtjKJuUkbGyh
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Remap source path prefixes in all output, including compiler
-diagnostics, debug information, macro expansions, etc.
-This removes a few absolute paths from the binary and also makes it
-possible to use core::panic::Location properly.
+When CONFIG_OBJTOOL=y or CONFIG_DEBUG_INFO_BTF=y, parallel builds
+show awkward "mkdir -p ..." logs.
 
-Equivalent to the same configuration done for C sources in
-commit 1d3730f0012f ("kbuild: support -fmacro-prefix-map for external modules")
-and commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to make __FILE__ a relative path").
+  $ make -j16
+    [ snip ]
+  mkdir -p /home/masahiro/ref/linux/tools/objtool && make O=/home/masahiro/ref/linux subdir=tools/objtool --no-print-directory -C objtool
+  mkdir -p /home/masahiro/ref/linux/tools/bpf/resolve_btfids && make O=/home/masahiro/ref/linux subdir=tools/bpf/resolve_btfids --no-print-directory -C bpf/resolve_btfids
 
-Link: https://doc.rust-lang.org/rustc/command-line-arguments.html#--remap-path-prefix-remap-source-names-in-output
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Defining MAKEFLAGS=<value> on the command line wipes out command line
+switches from the resultant MAKEFLAGS definition, even though the command
+line switches are active. [1]
+
+The first word of $(MAKEFLAGS) is a possibly empty group of characters
+representing single-letter options that take no argument. However, this
+breaks if MAKEFLAGS=<value> is given on the command line.
+
+The tools/ and tools/% targets set MAKEFLAGS=<value> on the command
+line, which breaks the following code in tools/scripts/Makefile.include:
+
+    short-opts := $(firstword -$(MAKEFLAGS))
+
+If MAKEFLAGS really needs modification, it should be done through the
+environment variable, as follows:
+
+    MAKEFLAGS=<value> $(MAKE) ...
+
+That said, I question whether modifying MAKEFLAGS is necessary here.
+The only flag we might want to exclude is --no-print-directory, as the
+tools build system changes the working directory. However, people might
+find the "Entering/Leaving directory" logs annoying.
+
+I simply removed the offending MAKEFLAGS=.
+
+[1]: https://savannah.gnu.org/bugs/?62469
+
+Fixes: a50e43332756 ("perf tools: Honor parallel jobs")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
+
+ Makefile | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 9e0d63d9d94b90672f91929e5e148e5a0c346cb6..ac35083180c825b72f13149ec3acfd7d6d74ef98 100644
+index 89628e354ca7..52207bcb1a9d 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1068,6 +1068,7 @@ endif
- # change __FILE__ to the relative path to the source directory
- ifdef building_out_of_srctree
- KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
-+KBUILD_RUSTFLAGS += $(call rustc-option,--remap-path-prefix=$(srcroot)/=)
+@@ -1421,18 +1421,13 @@ ifneq ($(wildcard $(resolve_btfids_O)),)
+ 	$(Q)$(MAKE) -sC $(srctree)/tools/bpf/resolve_btfids O=$(resolve_btfids_O) clean
  endif
  
- # include additional Makefiles when needed
-
----
-base-commit: beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d
-change-id: 20250210-rust-path-remap-e97cec71e61a
-
-Best regards,
+-# Clear a bunch of variables before executing the submake
+-ifeq ($(quiet),silent_)
+-tools_silent=s
+-endif
+-
+ tools/: FORCE
+ 	$(Q)mkdir -p $(objtree)/tools
+-	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/
++	$(Q)$(MAKE) LDFLAGS= O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/
+ 
+ tools/%: FORCE
+ 	$(Q)mkdir -p $(objtree)/tools
+-	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/ $*
++	$(Q)$(MAKE) LDFLAGS= O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/ $*
+ 
+ # ---------------------------------------------------------------------------
+ # Kernel selftest
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.43.0
 
 
