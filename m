@@ -1,152 +1,113 @@
-Return-Path: <linux-kbuild+bounces-5704-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5705-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E23A2FFAA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2025 01:52:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508C8A2FFB4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2025 01:53:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ABF7C188BFBA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2025 00:50:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F980188CDC6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2025 00:50:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31AA1B5EB5;
-	Tue, 11 Feb 2025 00:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 574551E3DEC;
+	Tue, 11 Feb 2025 00:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4H/VYac"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qR/0+Cv+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CE6175D53;
-	Tue, 11 Feb 2025 00:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE311E3DE3;
+	Tue, 11 Feb 2025 00:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739234623; cv=none; b=fE5x9fJYcIbqgeFcuwoRRk+3jO8EpCj25oEfsJrsmI+uCmPDQjJV+dfrppcx0V3B8QYuYu42cpkDgAjCtAzKcsvLDOB6DeEwQwIq4jtdyfkBdc8mRYTzqstZKyvOT6FE35nB5VPfRlg6L1TmycjU5kM7ZMY/BHE6s1H0OKF1cOs=
+	t=1739234834; cv=none; b=Ybof/ka7cTbS7bQEMqTqHGfEdMYi47w0O1Kc1L6JLiQ11ePcnB6w75GWMU7hDN/BOEole2JJZiexo4GDcLOBdW7gerKKzyTweShcaMQROI3eNLEqHU+vCNmbjXUHW5IB1qb0+cOKhiqvBZP1zj1uLyfm7YFZLGBQFEgAExn6Scg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739234623; c=relaxed/simple;
-	bh=KCSViv0OWASYK3hvtHdH5e/jXmrnMM4Yi/yKHh5fLC4=;
+	s=arc-20240116; t=1739234834; c=relaxed/simple;
+	bh=qrCLKCr3lp4Od3eARtB8IWB+0Ku+BwguDtG0i3KJAtE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V4qhoEMioBwB3CzslICW2Jhm0UKfD6G3hSgPXuyzaG4YqbZro3lJi2UuFN6Va3tlPzQe4Peb7PMotM6Zm7LyKArV0Nrb/5j1638eI4NN6Kw283FfuDFOpvjjlDhKQZepBYr5EzC8RMYDec+pN1H1GKILUxha1jO3P7a2bcAF0kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4H/VYac; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A8CC4CED1;
-	Tue, 11 Feb 2025 00:43:43 +0000 (UTC)
+	 To:Cc:Content-Type; b=WegH30KzEc8hXmr5QVWk11CjPSx4n0xewg+yQDPpGbSzYudk0AU/c//JPjtPbzcF0Cj3iDAhJCwlEv6a0Z9GX25YjeEyOOzoTWSiC6jp4iaKOtBbfNCQ9xDehAV3QeyPnnkihRitorxs14Df5MPEIpdfjGcqd8kfn/3bajOpxM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qR/0+Cv+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9054FC4AF09;
+	Tue, 11 Feb 2025 00:47:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739234623;
-	bh=KCSViv0OWASYK3hvtHdH5e/jXmrnMM4Yi/yKHh5fLC4=;
+	s=k20201202; t=1739234833;
+	bh=qrCLKCr3lp4Od3eARtB8IWB+0Ku+BwguDtG0i3KJAtE=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=i4H/VYac8zLfn7i+NuAGfWMvfRgsHZKuA/IshQnvvVPUdGpI9K+7n/wgck4hJIJko
-	 5AqHMihBnmmCu6c1vzEcWM5c8H9LKqm3ZVEUNOmLz6ugLWv4RPaLSu4XHkdPc+sTbN
-	 Tc4+S0rQXU03cGkxoEhCfVKRD99oxHO7fYEekXw4j/hnMpxUa48Z554SFi664lUehl
-	 OuuVrYiqL24hbhKBN+xGFgnOapQT5tOQ2U6WYM/2rNo0Ewz23mqDAzqJ5k/OFZFsJx
-	 KbC/vnrxF5Yekb0p92+iKGIdPD6LcBgq6pML0xxImsICb2xDelWRbiNpbhIM+gg8TQ
-	 cnYkFLHpyJGxg==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30613802a59so51124321fa.0;
-        Mon, 10 Feb 2025 16:43:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWLB4uWzLW16PAosynudgOn1aucVLErcF1oDSsyy8xMFu+zoJI/O2pTPn2m3ldRdvYoMd+Eyn9VYRO9nZY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDI1nllLj3v7D24ZWGjmlnTkZ3BYTg6u/biS79X8KesxJAaNiO
-	3hRXEEj+KILSOJlGZGHLMO9MDvNg0UxwOXPrvLl1tDBglr4gUqwk3o6xhmMMpoSc/XjelMW9Rrt
-	NzG0RIxNDDtS2+oWbhFbXoxfINQA=
-X-Google-Smtp-Source: AGHT+IFvZm9mStugcDaqkymRtqbkTbT9YgU/LWYFh0JCnpWFPqzIgoYsv87gNn0UQZrN1uip6zaigJT3CFuJoAvD8Ik=
-X-Received: by 2002:a2e:a58d:0:b0:300:33b1:f0cc with SMTP id
- 38308e7fff4ca-307e5a85f92mr60294321fa.34.1739234621920; Mon, 10 Feb 2025
- 16:43:41 -0800 (PST)
+	b=qR/0+Cv+ano5arWUwg/8ByIfAIcScQLo6IKe0bT9X1FSBv4rzObQ/2weehePoKOsL
+	 Lea/GZmsawipy/pyIPlby0YjmLrgOoUp4UZw1Nr8Fo6foUBb+HYuZYI4pZ5KY2/o+z
+	 HHnnEd/n+xJA9yfQypNhqOuHcZ4uu/1sVTimUlFS8RtuImNe5WeNrf4T8wgytCd54/
+	 klNE1gCmwFaiFFK/YYANvG21vT0EsUxbnKQXr679ZGE+qyZyxPCHVRtHRz5T3Lw/tO
+	 ebCj8XwTJqRDbtkRimG4wmidaTSBeEz0L07ERMBqim7eKbm1UoTXyalq25ac3DgtPb
+	 UkTVVIhg9Pzuw==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-308ee953553so17010371fa.0;
+        Mon, 10 Feb 2025 16:47:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV2cEAeUS8W9MsxS1ztTnR1XeTcAGhu1CG4Kbu1BECJ03VpaNoh1KCh92sQTbhOolSgvPu/GwUo4q/Gmto=@vger.kernel.org, AJvYcCWbFeGdm195bx/9bNghWbP/z70D+5jjWIbQsuuV/dl8iV3cA0xsdWf+BKA9IBUNsm991H8/A46mfF/LeDxh@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDPt/GRFVf/7iUTrZKTecisJVC8j5zweZs171hq3XmvTYyF+cZ
+	NnYSqZin/MTtiHHh+C/wX/1Np2AIpkElNVOROurx/AVfQxG0d8vw/iQob1p4Br69rhOcRdMVq5Z
+	g/se7i6KStvjPTewWU/VRA15uUGs=
+X-Google-Smtp-Source: AGHT+IEF94kl+HuFqhqZyJF4k12riyy8vRxRUkt8s9LvLbCLbZwV+87J+Qv3tWfHCQfOPNY6q1VjZNQnp8K6v9HVhWw=
+X-Received: by 2002:a05:651c:2226:b0:308:f53a:ed34 with SMTP id
+ 38308e7fff4ca-308f53af039mr16029961fa.18.1739234832238; Mon, 10 Feb 2025
+ 16:47:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250207175104.412158-1-masahiroy@kernel.org> <Z6cmGqMMLHrWddU6@bergen>
-In-Reply-To: <Z6cmGqMMLHrWddU6@bergen>
+References: <20250208163959.3973163-1-ole0811sch@gmail.com>
+ <CAK7LNAQBBKfSwQ=z3yBchg--gcrAykWz6xvpAYWKse9R9g8KVQ@mail.gmail.com> <Z6oeplCypN825pyR@bombadil.infradead.org>
+In-Reply-To: <Z6oeplCypN825pyR@bombadil.infradead.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 11 Feb 2025 09:43:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR9f=u3tFQE_xczxOHv5FzJRdAxi81-TJ95BNxEsO9Lbw@mail.gmail.com>
-X-Gm-Features: AWEUYZmupTElOmYrHrexq_tqn4O9uIWLVOFNNLjbwf0BWcb5y7Ro9MVpaOwrpNQ
-Message-ID: <CAK7LNAR9f=u3tFQE_xczxOHv5FzJRdAxi81-TJ95BNxEsO9Lbw@mail.gmail.com>
-Subject: Re: [PATCH] modpost: use strstarts() to clean up parse_source_files()
-To: Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>
+Date: Tue, 11 Feb 2025 09:46:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT48101gZzcHF3U-VL1i0Ekns6zXKpNDb3MnScoSNr-kw@mail.gmail.com>
+X-Gm-Features: AWEUYZlO8WVOfuZud4umbLAHHUCz-8Dphu2RHwzMTd2fI6VTdW2KiDyFEVqFXbY
+Message-ID: <CAK7LNAT48101gZzcHF3U-VL1i0Ekns6zXKpNDb3MnScoSNr-kw@mail.gmail.com>
+Subject: Re: [PATCH v7 00/11] kconfig: Add support for conflict resolution
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Ole Schuerks <ole0811sch@gmail.com>, linux-kbuild@vger.kernel.org, jude.gyimah@rub.de, 
+	thorsten.berger@rub.de, deltaone@debian.org, jan.sollmann@rub.de, 
+	linux-kernel@vger.kernel.org, nathan@kernel.org, nicolas@fjasle.eu
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 8, 2025 at 6:38=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu> w=
-rote:
+On Tue, Feb 11, 2025 at 12:43=E2=80=AFAM Luis Chamberlain <mcgrof@kernel.or=
+g> wrote:
 >
-> On Sat 08 Feb 2025 02:50:55 GMT, Masahiro Yamada wrote:
-> > No functional changes are intended.
+> On Mon, Feb 10, 2025 at 02:00:52PM +0900, Masahiro Yamada wrote:
+> > Thanks for this, but I have no plans to merge the SAT solver.
 > >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/sumversion.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/scripts/mod/sumversion.c b/scripts/mod/sumversion.c
-> > index e79fc40d852f..3dd28b4d0099 100644
-> > --- a/scripts/mod/sumversion.c
-> > +++ b/scripts/mod/sumversion.c
-> > @@ -330,7 +330,7 @@ static int parse_source_files(const char *objfile, =
-struct md4_ctx *md)
-> >                       line++;
-> >               p =3D line;
-> >
-> > -             if (strncmp(line, "source_", sizeof("source_")-1) =3D=3D =
-0) {
-> > +             if (strstarts(line, "source_")) {
-> >                       p =3D strrchr(line, ' ');
-> >                       if (!p) {
-> >                               warn("malformed line: %s\n", line);
-> > @@ -344,7 +344,7 @@ static int parse_source_files(const char *objfile, =
-struct md4_ctx *md)
-> >                       }
-> >                       continue;
-> >               }
-> > -             if (strncmp(line, "deps_", sizeof("deps_")-1) =3D=3D 0) {
-> > +             if (strstarts(line, "deps_")) {
-> >                       check_files =3D 1;
-> >                       continue;
-> >               }
-> > --
-> > 2.43.0
-> >
+> > The reason is that my future plan is to move toolchain selection
+> > to the Kconfig stage instead of specifying it statically from the comma=
+nd line.
 >
-> Thanks, looks good to me.
+> That makes sense.
 >
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> > This approach was suggested by Linus [1], and to achieve that,
+> > the shell evaluation must be dynamically re-evaluated [2].
 >
-> Do you also want to replace the last strncmp() in
-> scripts/mod/modpost.c?
+> Sure.
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index e18ae7dc8140..31468923cdf6 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -670,7 +670,7 @@ static char *get_next_modinfo(struct elf_info *info, =
-const char *tag,
->         }
+> > The SAT solver would likely conflict with this plan. At least due to th=
+e
+> > significant amount of additional code, which would be an obstacle.
 >
->         for (p =3D modinfo; p; p =3D next_string(p, &size)) {
-> -               if (strncmp(p, tag, taglen) =3D=3D 0 && p[taglen] =3D=3D =
-'=3D')
-> +               if (strstarts(p, tag) =3D=3D 0 && p[taglen] =3D=3D '=3D')
->                         return p + taglen + 1;
->         }
->         return NULL;
+> I can't see how the toolchain selection, if set on Kconfig can't be
+> leveraged later to enable / disable the SAT solver, however I can
+> see the amount of code shuffling incurred to be an extra hurdle to
+> address and a preference to leave that for later.
+>
+> In other words, I susepct it is still possible to evaluate to
+> add support for the SAT solver post toolchain kconfig integration.
+>
+> Thoughts?
 
 
-I believe you meant:
-
-  if (strstarts(p, tag) && p[taglen] =3D=3D '=3D')
-
-
-
-I do not think there is a strong reason to do so
-because taglen is already calculated a few lines above,
-but the compiler may be clever enough to avoid
-calling strlen() twice. I did not check the compiler output.
-
+It depends on how the dynamic shell evaluation is implemented.
+This is not limited to bool/tristate, but SAT solver only works for
+those two types.
 
 
 
