@@ -1,166 +1,139 @@
-Return-Path: <linux-kbuild+bounces-5736-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5737-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E293A338BA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 08:20:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46ECFA338D9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 08:30:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CFCA7A2158
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 07:19:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD5171888D2C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 07:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A23FD208977;
-	Thu, 13 Feb 2025 07:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD0D2054E7;
+	Thu, 13 Feb 2025 07:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="OHgeQudZ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="R/0rMqmW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090632080D2;
-	Thu, 13 Feb 2025 07:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDF92045B1
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 07:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739431241; cv=none; b=KioYGiwgm6fuMhkJeCRt1m1aqaPJ9CJTYiHUEW0Ie45PPBA0ljCE2B+27dLWB6dX1uxvD/rYlmZVYYb/9PBqwI8xYjTsN/WQYwai82Q2989k8vXC8unPIluNz96uCEo57sPbNnLQc0ijRcjQd2hC4N+I+A8DTCFpKHW/Uw18yNU=
+	t=1739431854; cv=none; b=AMF/lip2SdDGozRwSxip/rVohiNfwlx+wERYMm1JxMEfWyTmmlioJeREk/YMoQ16smzs3qEdtYdlrqj9r0duWeLukeE9sji+BXValAliuX9Qz8/EuOWFXxOxQpQ8eTZKReXnDXcRfAnQuSK4Ya76ycCF7/A7OHHNTfgWoYASRdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739431241; c=relaxed/simple;
-	bh=+UmDyGFYqbRGqxiUXDzk0wYia4DEJ/qtggUagtruh1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J/g0UPOzXzj81+/sLY+uDBkBiGRzip4yA1ndUWX73gOyq4vsgM4jGBgt12TrhR97Woclf1C5F7bXEn0d8dTuAcGKpVP3R7pUShsVi2j9uF95bWLCft/WpVqRTFksEKoDxxW9A9cji3ocTBGs+/bKoNwI0k0rME0xGOdsuQDEupk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=OHgeQudZ; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1739431188; bh=+UmDyGFYqbRGqxiUXDzk0wYia4DEJ/qtggUagtruh1U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OHgeQudZxxT0wgi5FGAagv7q2QLFdFIkd0t7eygA7wxw/marKM8WnD45X7azm8HUM
-	 31EnxHXdDNyET2f/Y/k98z4tGVCY2lYF5djVeG+CkfRgpvh9dAeohwS1GgQ4F+LZK3
-	 zzyqrcRmkF8IiVKSYPI8wXg1bR22JFIxo0Lypzwg=
-Received: from [212.42.244.71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.52.1)
-	(envelope-from <n.schier@avm.de>)
-	id 67ad9d14-038b-7f0000032729-7f0000018ad4-1
-	for <multiple-recipients>; Thu, 13 Feb 2025 08:19:48 +0100
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Thu, 13 Feb 2025 08:19:48 +0100 (CET)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 39DA480175;
-	Thu, 13 Feb 2025 08:19:49 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 2A47B182D0A; Thu, 13 Feb 2025 08:19:49 +0100 (CET)
-Date: Thu, 13 Feb 2025 08:19:49 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	moderated for non-subscribers <linux-arm-kernel@lists.infradead.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH] kbuild: rust: add rustc-min-version support function
-Message-ID: <20250213-masked-wombat-of-painting-8afb53@buildd>
-References: <20250210164245.282886-1-ojeda@kernel.org>
+	s=arc-20240116; t=1739431854; c=relaxed/simple;
+	bh=aN3Lr6wUibYnqI/f3UR3bxnxRH352lurFdPMDr3wGpA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X/o79kLmilq+QTQPhv6h7WOre2jAHvJ94ppiBWaPUovPzPd1cQ3mdzK1g+4UIv2bhdQVZlt0j83J3lk5MiZcwqluz5CnS2uGiVdJWDzI67BG2A45AJJ7XgW/6U59Meyv39+KbzPBd6gW6t4UHvlz8OsiNHQ2lj701MoT8e1GxE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=R/0rMqmW; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51D7IAID001727
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 07:30:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QCNYViztWzNyVGjuZcYvR8osCseZOp+c2iM9vCmfw4k=; b=R/0rMqmW1RSHmyyH
+	u2b1USDPdJ7aSlC531/4GzTs9XfBdPWtR3glJ0GOnjt/hqL99dF5hdHaKgfyYI0R
+	FzdVsIXTqwX0crKqRCYUBJEb16DE4Q4W5akBHjTElbDrllPIe9zXQiWJZUyUXyJG
+	CfCbinO4n0UO4N8++jttlWeufVwsM6Q//Wfpb7F+rkJBheQFrz1kr91/Mez21jgI
+	Ltqk/KlhfDKNTGMg0gvGwDRBkKuFDXEsVljF+UTf69DZ+t3471NYtdm3UH0evOy7
+	499pHdPdtYHmPjAfF3cd/29wFyICf9SfBHP63nt55WI9c6EbnAzp5DT204Dl7e3K
+	vXiC2Q==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44sc7b80y3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 07:30:51 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-220d8599659so6191925ad.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Feb 2025 23:30:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739431850; x=1740036650;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QCNYViztWzNyVGjuZcYvR8osCseZOp+c2iM9vCmfw4k=;
+        b=cBiqZo8Yx0Pg7RgrfafB3mn/y+dvJelvt4vrw2AHfbkiT24Nj08vu0fr2otLTxoAj6
+         ynGTkULVET5ZafL+oQk7yi7lmbNXtmOg2Pt6ueguTOhfTm+CdkMZDxl0RWUcHkxSmqpt
+         XaFO9C5gDyH2L7GSoTTcnU6sbd2pTv6xtjSPgznhvp8zcXQbfgckr0K8W8jvPSFZy2RU
+         QXevN3sXwR9LxWf5HvKLuNZvrsLotzSt3XKLRzonMibXH8ck2QCEkvm29uJaE9n9OvfB
+         h+7BPn4wNM2zBNOIbHHchq/Yn0UfZDnniiwrJsjqSYqR7cY0DB8yeZc7IVVHsIPvoEF1
+         7X5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVgJZQA/3y4URwpF/mGRpx+idYOKCQX0/zauj99akWKw3yg+0d//r+hJNClqLWHcH5WngzqwoTnbNZ8nfY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyJfAMTAmTJFBmHM2PrgGtxWQcZkIhwUqkGL1jpU4ZpgkzNQwR
+	wp5b6/uiahbCyRCDQHZVdDt5MF2MTpqnni192G6GEr3kpCGQgHZSKthFmaVdvwSdaZ+Fdcgdv8u
+	p9ASg5S7qq0k7T4KINIGyc287ziZhsg0v++QOD8tXh4aXulhiFeAl0b/7BvYtGrk=
+X-Gm-Gg: ASbGncua99JWsZzUJwXz3dNee74yU2XaN0LuhWUpmNLckKg1fj6A9k2FoLQ6qwMpCDd
+	UvNQse0JMsBid7bK3D15Z5KKPT42RegzGSAcZBrbjaxpzCoIf1t9t2jRSLtDlcUou/W4S7Zx8kI
+	QnfgGJpSlGmCs98hkjBtvDkxflS1oJh54CZYCJe6mWz2mGgn7ieDwFvAo9hPsJdbWbV3FnKRIQn
+	eZVX/39iTI7gqfngp/V3kgNdoSdmwHde6r5W6fAiWrCWtkStwZnx6Qu13xb+tlP3UINyIn0Kecz
+	U/ywUs8xTNtO/Fa7aB4YwYKEFoVts7NGGAgrlxpXAy9jQ66PQEFMdWtTN6lBLon6UsBlvidINA=
+	=
+X-Received: by 2002:a17:902:e946:b0:215:9379:4650 with SMTP id d9443c01a7336-220bbc8bc56mr100108515ad.42.1739431849915;
+        Wed, 12 Feb 2025 23:30:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEXJWllrpEsU7pxBlVyMLO/Rybu/ihb4r1/egz6PdTfhq0gEYZa9CuRi0M1qC1i4D6yi6/26Q==
+X-Received: by 2002:a17:902:e946:b0:215:9379:4650 with SMTP id d9443c01a7336-220bbc8bc56mr100108175ad.42.1739431849521;
+        Wed, 12 Feb 2025 23:30:49 -0800 (PST)
+Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545d621sm6361875ad.136.2025.02.12.23.30.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Feb 2025 23:30:49 -0800 (PST)
+Message-ID: <85a035e7-fb06-434c-ba26-f813fc4f3200@oss.qualcomm.com>
+Date: Wed, 12 Feb 2025 23:30:48 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250210164245.282886-1-ojeda@kernel.org>
-X-purgate-ID: 149429::1739431188-4EA08E17-E08D2BED/0/0
-X-purgate-type: clean
-X-purgate-size: 3033
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kbuild: fix linux-headers package build when $(CC)
+ cannot link userspace
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
+References: <20250213062645.325632-1-masahiroy@kernel.org>
+From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20250213062645.325632-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: NqlbHGglN3FfkfR91o0n0acLYHc4NF87
+X-Proofpoint-GUID: NqlbHGglN3FfkfR91o0n0acLYHc4NF87
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-13_02,2025-02-11_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
+ phishscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502130056
 
-On Mon, Feb 10, 2025 at 05:42:45PM +0100, Miguel Ojeda wrote:
-> Introduce `rustc-min-version` support function that mimics
-> `{gcc,clang}-min-version` ones, following commit 88b61e3bff93
-> ("Makefile.compiler: replace cc-ifversion with compiler-specific macros").
+On 2/12/2025 10:26 PM, Masahiro Yamada wrote:
+> Since commit 5f73e7d0386d ("kbuild: refactor cross-compiling
+> linux-headers package"), the linux-headers Debian package fails to
+> build when $(CC) cannot build userspace applications, for example,
+> when using toolchains installed by the 0day bot.
 > 
-> In addition, use it in the first use case we have in the kernel (which
-> was done independently to minimize the changes needed for the fix).
+> The host programs in the linux-headers package should be rebuilt using
+> the disto's cross-compiler, ${DEB_HOST_GNU_TYPE}-gcc instead of $(CC).
+> Hence, the variable 'CC' must be expanded in this shell script instead
+> of in the top-level Makefile.
 > 
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
-> This is based on top of the fix so that the fix remains as simple as
-> possible:
+> Commit f354fc88a72a ("kbuild: install-extmod-build: add missing
+> quotation marks for CC variable") was not a correct fix because
+> CC="ccache gcc" should be unrelated when rebuilding userspace tools.
 > 
->     https://lore.kernel.org/rust-for-linux/20250210163732.281786-1-ojeda@kernel.org/
-> 
->  Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
->  arch/arm64/Makefile                |  2 +-
->  scripts/Makefile.compiler          |  4 ++++
->  3 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index d36519f194dc..2608aa32c762 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -670,6 +670,20 @@ cc-cross-prefix
->              endif
->      endif
-> 
-> +$(RUSTC) support functions
-> +--------------------------
-> +
-> +rustc-min-version
-> +  rustc-min-version tests if the value of $(CONFIG_RUSTC_VERSION) is greater
-> +  than or equal to the provided value and evaluates to y if so.
-> +
-> +  Example::
-> +
-> +    rustflags-$(call rustc-min-version, 108500) := -Cfoo
-> +
-> +  In this example, rustflags-y will be assigned the value -Cfoo if
-> +  $(CONFIG_RUSTC_VERSION) is >= 1.85.0.
-> +
->  $(LD) support functions
->  -----------------------
-> 
-> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> index 2b25d671365f..1d5dfcd1c13e 100644
-> --- a/arch/arm64/Makefile
-> +++ b/arch/arm64/Makefile
-> @@ -48,7 +48,7 @@ KBUILD_CFLAGS	+= $(CC_FLAGS_NO_FPU) \
->  KBUILD_CFLAGS	+= $(call cc-disable-warning, psabi)
->  KBUILD_AFLAGS	+= $(compat_vdso)
-> 
-> -ifeq ($(call test-ge, $(CONFIG_RUSTC_VERSION), 108500),y)
-> +ifeq ($(call rustc-min-version, 108500),y)
->  KBUILD_RUSTFLAGS += --target=aarch64-unknown-none-softfloat
->  else
->  KBUILD_RUSTFLAGS += --target=aarch64-unknown-none -Ctarget-feature="-neon"
-> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index 8c1029687e2e..8956587b8547 100644
-> --- a/scripts/Makefile.compiler
-> +++ b/scripts/Makefile.compiler
-> @@ -67,6 +67,10 @@ gcc-min-version = $(call test-ge, $(CONFIG_GCC_VERSION), $1)
->  # Usage: cflags-$(call clang-min-version, 110000) += -foo
->  clang-min-version = $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
-> 
-> +# rustc-min-version
-> +# Usage: rustc-$(call rustc-min-version, 108500) += -Cfoo
-> +rustc-min-version = $(call test-ge, $(CONFIG_RUSTC_VERSION), $1)
-> +
->  # ld-option
->  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
->  ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
-> --
-> 2.48.1
+> Fixes: 5f73e7d0386d ("kbuild: refactor cross-compiling linux-headers package")
+> Reported-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+> Closes: https://lore.kernel.org/linux-kbuild/CAK7LNARb3xO3ptBWOMpwKcyf3=zkfhMey5H2KnB1dOmUwM79dA@mail.gmail.com/T/#t
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Thanks for the quick fix!
+
+Tested-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+
 
