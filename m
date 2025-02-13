@@ -1,139 +1,120 @@
-Return-Path: <linux-kbuild+bounces-5737-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5738-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46ECFA338D9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 08:30:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6423DA344AC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 16:07:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD5171888D2C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 07:31:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BBB918950D3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 14:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD0D2054E7;
-	Thu, 13 Feb 2025 07:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA0CB20013A;
+	Thu, 13 Feb 2025 14:55:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="R/0rMqmW"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jhvWygYo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gMdo1Fxu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDF92045B1
-	for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 07:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A50A2A1D1;
+	Thu, 13 Feb 2025 14:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739431854; cv=none; b=AMF/lip2SdDGozRwSxip/rVohiNfwlx+wERYMm1JxMEfWyTmmlioJeREk/YMoQ16smzs3qEdtYdlrqj9r0duWeLukeE9sji+BXValAliuX9Qz8/EuOWFXxOxQpQ8eTZKReXnDXcRfAnQuSK4Ya76ycCF7/A7OHHNTfgWoYASRdM=
+	t=1739458536; cv=none; b=nVJSX4Lu9V8KBh7NHJlfVeBy+whbRwIgkD0n60cClJ7BqVGarnX13/MbBCHw78N+L3dhuyiicVRS33blauKZwNVvmGJZTDfMCzi+elDk6V9nGJpd+N6ub9qMQhxxBT8kqjfylSLJrAzeMPKQwa5LtZBn+yz1VdoCwg5S/e87Hiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739431854; c=relaxed/simple;
-	bh=aN3Lr6wUibYnqI/f3UR3bxnxRH352lurFdPMDr3wGpA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X/o79kLmilq+QTQPhv6h7WOre2jAHvJ94ppiBWaPUovPzPd1cQ3mdzK1g+4UIv2bhdQVZlt0j83J3lk5MiZcwqluz5CnS2uGiVdJWDzI67BG2A45AJJ7XgW/6U59Meyv39+KbzPBd6gW6t4UHvlz8OsiNHQ2lj701MoT8e1GxE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=R/0rMqmW; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51D7IAID001727
-	for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 07:30:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QCNYViztWzNyVGjuZcYvR8osCseZOp+c2iM9vCmfw4k=; b=R/0rMqmW1RSHmyyH
-	u2b1USDPdJ7aSlC531/4GzTs9XfBdPWtR3glJ0GOnjt/hqL99dF5hdHaKgfyYI0R
-	FzdVsIXTqwX0crKqRCYUBJEb16DE4Q4W5akBHjTElbDrllPIe9zXQiWJZUyUXyJG
-	CfCbinO4n0UO4N8++jttlWeufVwsM6Q//Wfpb7F+rkJBheQFrz1kr91/Mez21jgI
-	Ltqk/KlhfDKNTGMg0gvGwDRBkKuFDXEsVljF+UTf69DZ+t3471NYtdm3UH0evOy7
-	499pHdPdtYHmPjAfF3cd/29wFyICf9SfBHP63nt55WI9c6EbnAzp5DT204Dl7e3K
-	vXiC2Q==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44sc7b80y3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 07:30:51 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-220d8599659so6191925ad.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Feb 2025 23:30:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739431850; x=1740036650;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QCNYViztWzNyVGjuZcYvR8osCseZOp+c2iM9vCmfw4k=;
-        b=cBiqZo8Yx0Pg7RgrfafB3mn/y+dvJelvt4vrw2AHfbkiT24Nj08vu0fr2otLTxoAj6
-         ynGTkULVET5ZafL+oQk7yi7lmbNXtmOg2Pt6ueguTOhfTm+CdkMZDxl0RWUcHkxSmqpt
-         XaFO9C5gDyH2L7GSoTTcnU6sbd2pTv6xtjSPgznhvp8zcXQbfgckr0K8W8jvPSFZy2RU
-         QXevN3sXwR9LxWf5HvKLuNZvrsLotzSt3XKLRzonMibXH8ck2QCEkvm29uJaE9n9OvfB
-         h+7BPn4wNM2zBNOIbHHchq/Yn0UfZDnniiwrJsjqSYqR7cY0DB8yeZc7IVVHsIPvoEF1
-         7X5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVgJZQA/3y4URwpF/mGRpx+idYOKCQX0/zauj99akWKw3yg+0d//r+hJNClqLWHcH5WngzqwoTnbNZ8nfY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyJfAMTAmTJFBmHM2PrgGtxWQcZkIhwUqkGL1jpU4ZpgkzNQwR
-	wp5b6/uiahbCyRCDQHZVdDt5MF2MTpqnni192G6GEr3kpCGQgHZSKthFmaVdvwSdaZ+Fdcgdv8u
-	p9ASg5S7qq0k7T4KINIGyc287ziZhsg0v++QOD8tXh4aXulhiFeAl0b/7BvYtGrk=
-X-Gm-Gg: ASbGncua99JWsZzUJwXz3dNee74yU2XaN0LuhWUpmNLckKg1fj6A9k2FoLQ6qwMpCDd
-	UvNQse0JMsBid7bK3D15Z5KKPT42RegzGSAcZBrbjaxpzCoIf1t9t2jRSLtDlcUou/W4S7Zx8kI
-	QnfgGJpSlGmCs98hkjBtvDkxflS1oJh54CZYCJe6mWz2mGgn7ieDwFvAo9hPsJdbWbV3FnKRIQn
-	eZVX/39iTI7gqfngp/V3kgNdoSdmwHde6r5W6fAiWrCWtkStwZnx6Qu13xb+tlP3UINyIn0Kecz
-	U/ywUs8xTNtO/Fa7aB4YwYKEFoVts7NGGAgrlxpXAy9jQ66PQEFMdWtTN6lBLon6UsBlvidINA=
-	=
-X-Received: by 2002:a17:902:e946:b0:215:9379:4650 with SMTP id d9443c01a7336-220bbc8bc56mr100108515ad.42.1739431849915;
-        Wed, 12 Feb 2025 23:30:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEXJWllrpEsU7pxBlVyMLO/Rybu/ihb4r1/egz6PdTfhq0gEYZa9CuRi0M1qC1i4D6yi6/26Q==
-X-Received: by 2002:a17:902:e946:b0:215:9379:4650 with SMTP id d9443c01a7336-220bbc8bc56mr100108175ad.42.1739431849521;
-        Wed, 12 Feb 2025 23:30:49 -0800 (PST)
-Received: from [192.168.1.111] (c-73-202-227-126.hsd1.ca.comcast.net. [73.202.227.126])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545d621sm6361875ad.136.2025.02.12.23.30.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 23:30:49 -0800 (PST)
-Message-ID: <85a035e7-fb06-434c-ba26-f813fc4f3200@oss.qualcomm.com>
-Date: Wed, 12 Feb 2025 23:30:48 -0800
+	s=arc-20240116; t=1739458536; c=relaxed/simple;
+	bh=vodOrnA+mp/Kiz6MLJ6Gms4MHuag31+UDR9YzBcrYwU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XsAJRm5pJjR/KJy3pgrGPhmifhz3YaQuMRDJekCHv0EQX+93+MRAKYarhWulW316BVzANzweLFTOqJbzjTznYCZqkxMd1ZMytJ02xQnZKhdLpQ8iPMcznFxAAiY6KFvZKRwn0MMU9AxCanugTlEw02RW1qmeg7HSGvyUI1bDMqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jhvWygYo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gMdo1Fxu; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1739458533;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=U9uQyD9MxiTKtzDeq5SkjdXy3TxsjG73sLxqRoM0omM=;
+	b=jhvWygYorfUcEr4jsOp6nTps494CSDslJzFbvopeMHTFVsOIkr/Vk+n/TFk9Nln8/Mlwhb
+	kIcv0zSccNdh2fNMMvatrWKLWpKetypX/OYUpsDhJ6FuKWlffg8+wTcbeaZhOEQK+wn4U1
+	bZlJTG23de1q+TBV0n/yl2XjB2IpZcc+XVPQ5Y9vf5aBJ6/RhNI9qfJ1KP4aXOW65UT0eJ
+	ZuTkZvxpU+hSaybfvEWGKL+e9wMFO9PIes1UWPu/dWjtRJqJeTHV2hDc8gQNIz6pcuetxi
+	fk15leYRewDcJGFN/lUcwk8UWVTNCj/sHePMNNjGoPdwwysY+a+3iFWSPXysmw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1739458533;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=U9uQyD9MxiTKtzDeq5SkjdXy3TxsjG73sLxqRoM0omM=;
+	b=gMdo1FxuD9SidanWXipL9Lv4ACmkefZFyTNtMze37yMRx4bfcept1gupP1JuQOVq/aX+Xu
+	rGK8/fgILPYi0PBQ==
+Subject: [PATCH 0/2] kbuild: userprogs: two fixes for LLVM=1
+Date: Thu, 13 Feb 2025 15:55:16 +0100
+Message-Id: <20250213-kbuild-userprog-fixes-v1-0-f255fb477d98@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] kbuild: fix linux-headers package build when $(CC)
- cannot link userspace
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-References: <20250213062645.325632-1-masahiroy@kernel.org>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20250213062645.325632-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: NqlbHGglN3FfkfR91o0n0acLYHc4NF87
-X-Proofpoint-GUID: NqlbHGglN3FfkfR91o0n0acLYHc4NF87
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-13_02,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
- phishscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
- bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502130056
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIANQHrmcC/x3LSQqAMAxA0auUrA20dSpeRVw4RA1KKy2KIN7d4
+ PLzeQ8kikwJGvVApIsTBy9hMgXj2vuFkCdpsNqW2poct+HkfcJT3BHDgjPflLCYdT1UtidnHIg
+ 9Iv1DaNu97wdn91mfZwAAAA==
+X-Change-ID: 20250213-kbuild-userprog-fixes-4f07b62ae818
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ stable@vger.kernel.org
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739458532; l=992;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=vodOrnA+mp/Kiz6MLJ6Gms4MHuag31+UDR9YzBcrYwU=;
+ b=4cIfzXuaJsZ1Sg5xxpN9sCsSCIyYL4yS+JkK2zcNv5fYt6Ts1JtfWrRmDece8We8pFRhr95YV
+ E5pFV93gukJC/yPiRsLzEugJnIDqW+rlo0Rxfdzl7rYzIEwyc7q14vS
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On 2/12/2025 10:26 PM, Masahiro Yamada wrote:
-> Since commit 5f73e7d0386d ("kbuild: refactor cross-compiling
-> linux-headers package"), the linux-headers Debian package fails to
-> build when $(CC) cannot build userspace applications, for example,
-> when using toolchains installed by the 0day bot.
-> 
-> The host programs in the linux-headers package should be rebuilt using
-> the disto's cross-compiler, ${DEB_HOST_GNU_TYPE}-gcc instead of $(CC).
-> Hence, the variable 'CC' must be expanded in this shell script instead
-> of in the top-level Makefile.
-> 
-> Commit f354fc88a72a ("kbuild: install-extmod-build: add missing
-> quotation marks for CC variable") was not a correct fix because
-> CC="ccache gcc" should be unrelated when rebuilding userspace tools.
-> 
-> Fixes: 5f73e7d0386d ("kbuild: refactor cross-compiling linux-headers package")
-> Reported-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-> Closes: https://lore.kernel.org/linux-kbuild/CAK7LNARb3xO3ptBWOMpwKcyf3=zkfhMey5H2KnB1dOmUwM79dA@mail.gmail.com/T/#t
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Fix two issues when cross-building userprogs with clang.
 
-Thanks for the quick fix!
+Reproducer, using nolibc to avoid libc requirements for cross building:
 
-Tested-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+$ tail -2 init/Makefile
+userprogs-always-y += test-llvm
+test-llvm-userccflags += -nostdlib -nolibc -static -isystem usr/ -include $(srctree)/tools/include/nolibc/nolibc.h
+
+$ cat init/test-llvm.c
+int main(void)
+{
+	return 0;
+}
+
+$ make ARCH=arm64 LLVM=1 allnoconfig headers_install init/
+
+Validate that init/test-llvm builds and has the correct binary format.
+
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Thomas Weißschuh (2):
+      kbuild: userprogs: fix bitsize and target detection on clang
+      kbuild: userprogs: use lld to link through clang
+
+ Makefile | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250213-kbuild-userprog-fixes-4f07b62ae818
+
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
 
