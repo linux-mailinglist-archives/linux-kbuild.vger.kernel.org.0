@@ -1,123 +1,120 @@
-Return-Path: <linux-kbuild+bounces-5740-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5741-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A78A34496
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 16:06:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F8BA348F2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 17:05:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 208111711AB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 14:59:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7117161EF9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 16:04:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3802320A5FC;
-	Thu, 13 Feb 2025 14:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76C3918784A;
+	Thu, 13 Feb 2025 16:04:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Y5db328";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="siXfTNw2"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="MZU3rLrK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EAB1FFC69;
-	Thu, 13 Feb 2025 14:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC26519D092
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 16:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739458542; cv=none; b=qr4LWZYmHhhGfIJkcBWYWVEJRzZBHCqOdaH+VEiw3pYB2kIu+0W50K9+ju7TaKC2HgT098uA7krvEsqvLKAHANy3JDsagcAto0BzoczhuTTKXRi45FDhiRJlg0nO+oZ9UMVBnhV6kl1kPEnGmT8aVBi+J8BS6hvNaHWTfS4t4v4=
+	t=1739462683; cv=none; b=L/FCemEBKZgenOf3g7ki9rWTd5DgrzPH4PC+qidHXtt9zwsFxXD3N9KuqS2p2xYyLi8b9DBmu6qloS/etAFxJCHlregWeUrJDSPDprFYKfYkieoY8oy2slat0Nv2hkgBE3ruLONJ/qIzX2XHobAihTO//qLLxVKM4hZ82aa5ebA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739458542; c=relaxed/simple;
-	bh=VsJP2WA7ooxf6Q50q5cBWRfJTkxkoykLDjcBCjCSHrI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EQPKj5ZMD7AviyJS6oOyTOVithpftapfP6LRCACmObFx4Pmkz16aqvp/xhnqNLUGkuaX58CniXu8poURoiQjeDXHTx4dn4X82aT5+mSQkq8mIpyLimWlS7S7or231z2cSzyUlaeyeO8+YrutwY6ZJlU2xxn+dGsmJHXBnILj4aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2Y5db328; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=siXfTNw2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739458534;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U0Uz4M0nysayxZy8O+uDEBR3eTZPLx7yuVwYwNJRJKg=;
-	b=2Y5db328te54wyfew7h4HOb/N3hvFahLRa/HQxYQcn2qIWZk3Lnq6EZ8/wF9jNz+fCeWuo
-	0HKZCzi7w8BSY7jRDy5Kqmx6rq/0R4LRN14jTCwismiU/vsAVHzUDCw5a0xIsbacTmA4g8
-	BmY43HogkQ7hDQEY20pr3fO9VlXPyiAQANb3WIwDzpIh/cDg6rpDzfF9jh7PYpqqmZT0IW
-	sa+tIsilWygLkASpnSfQI+n6LE2WP6m4iXC03lPsqAz2PkZJY5Fvc/hwtWt6f/vOm6faZq
-	HvRd0WX2FGRArDD6TY29E9fkuiSywKsSf9tQUp7m44zhL+VHAjoSpUpfL8jC9g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739458534;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U0Uz4M0nysayxZy8O+uDEBR3eTZPLx7yuVwYwNJRJKg=;
-	b=siXfTNw2xSiOkdln54UCJxk/2Isv3RzFueCNsMvTaaXKOelkE8j18podtAhYikCkPREM6S
-	tS4OoxlyvbrQlzCw==
-Date: Thu, 13 Feb 2025 15:55:18 +0100
-Subject: [PATCH 2/2] kbuild: userprogs: use lld to link through clang
+	s=arc-20240116; t=1739462683; c=relaxed/simple;
+	bh=GabBB/XO4AMFto6/6PP9NaekvK6Eev5NPIae5xOo9VE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qeQWbkeG7QDXpJIxb4Lpq8YTZiuoXS2nAZZaZ9Ye9MAhd6vg4FdFFwlmJmF1BNZbmHcfI0R9GHKzAJFUxsD6Adyz9Ayrfcjt2eXL23TUMBNF1Qb53vc+rPhBqyjYFudKMl963d2UQ9pFFiGpFIvfpdEGv4dbb/SDt9b0CtCAKec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=MZU3rLrK; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4394a823036so11846315e9.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Feb 2025 08:04:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739462679; x=1740067479; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ScXkYd1lWroAt8TZyrWs1EkWrcjKhcOM78p2vgMw4Ic=;
+        b=MZU3rLrKGeTtvAoNt1iBt/j7ngn5KzIG3iIYS8MSKDDMszcpzIsmS+iavgGvviTE9t
+         +pL9hevuHjO6cEwbkYgErZ06seRcGzFD+ai9DMb3DwIxlb/hL0n7DGqSK+yKrFdjqnLw
+         d+vCBefMbDctH0zD42BrpaiMEBOEdAXJprCD8J/wiAuVL8WKzmNCMh/8j3oxk4vob0eE
+         yP7RjTzQoydMrVL5RUWVTNMzpzyHrP5U9MPniCaEDztOa36vaGTuGjimceFCJlmSe0ID
+         NTZXcIXV9n7kMs+x+7BbGpqfXbUSqOJo7R3V0fOg711NOGrNVgS8xVgxGqUwPw409Z7Z
+         fIAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739462679; x=1740067479;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ScXkYd1lWroAt8TZyrWs1EkWrcjKhcOM78p2vgMw4Ic=;
+        b=RFFFFbauLg3pxYjIEcwOpEr+jCFAtYI+580UwKKlKd0YVA4yhQr0Si8lJSgLZKB46M
+         nVtvC629sSwCjf9vrjuJqJLeyG5mlCJjuUdW0eV/zYEgI0tjrXF4zzijIWOrS78OW8b6
+         4r2hxnAN7iWkGonRwEjgc19FPrh5OCLQZgRjMXkHAs5OX2L0l0VLTt6Vf3Cc3xD6mC7k
+         2FBfCxKtv+iuQZz1coTNCLgy69xlBfKcNQrzEQDKML7YrI4E96J9QAKIB8Vq+xjgyf2X
+         KG6//AkFZ15J2oBazheD25yb7i045JXVjEQ/JlvRWXHYlA+VEwOGhw+9aWaZfKousGui
+         W5cg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOb4/9uaP3Dcl5H3JX7gD1/ckapcZXJu1CGheMuW9CdSSlgBN0dqMPiEvfaeTGfMWeOCLsvXKo5uCIdjo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywn87I7rDuCohG6D2GPoWAGukTvmFkQnv0FuwHrOOPI0SrCBstz
+	IR7zNDsV3rgdk19UOioZD2bBb/U5kCDBx5ENiSTAzdKdQgMm5tjCgcrOFPXNKsA=
+X-Gm-Gg: ASbGncuw3FKau7BrTfyYHQ5Lomsc2NqNTxO4WScssqPah3dA/n6gCKzX9ESdxtr1czY
+	345x8PRlEZEB1Wc02NwXB57AHwSv0sxdRlIPe9HnWFSyLOlr+M2LJbJ+fDuhhpPqGB+sX1jlZP5
+	o0bn/uJW+tCjD5Yi7FvKULppueQEK0JCxOP1PtH/AfUHQP9jd/lNM85svnX94y8FaCAslKJsgMr
+	7FNb8Rguj0ftsQbQd/HOOQ3JWLxi3G+7ONJomegxYhR+in/WEYpD5OOuB8rI1FMHy5rnOye+C8J
+	yhn9JJYU8l5qVxpAs2X/3D54VWJXBPfx3Hs+BeOLTxPLMr/Hgm23h+uQRQ==
+X-Google-Smtp-Source: AGHT+IEPznaqabtzhdRx+CNhBSWhT+zuSELyNefBcm+310ijz6rx1O9S7Omk0UNmeK4z8pMNvrYD6A==
+X-Received: by 2002:a05:6000:2a6:b0:38a:88ac:f115 with SMTP id ffacd0b85a97d-38dea2e98d1mr8209846f8f.34.1739462678718;
+        Thu, 13 Feb 2025 08:04:38 -0800 (PST)
+Received: from localhost (p200300f65f083b0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f08:3b04::1b9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d8dd6sm2276595f8f.62.2025.02.13.08.04.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2025 08:04:38 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] modpost: Fix a few typos in a comment
+Date: Thu, 13 Feb 2025 17:04:29 +0100
+Message-ID: <20250213160430.104118-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=899; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=GabBB/XO4AMFto6/6PP9NaekvK6Eev5NPIae5xOo9VE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnrhgPA9TSuASBaF5k7yiJ5T5YYOcds4fWQfQTJ GcUTZmsNh2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ64YDwAKCRCPgPtYfRL+ TtY0B/4trq7NOu7i8SqR0LY+oozYJRFSGZ81gmaORkvP0OxxnUAKfW/FrkCWKeO/7rvXx0bijsD 9ME3op7lmPhHFARKIYezG+ABQDG3HwRHVrg32FP1SknDNkpIRGz2rBLTa/0R6Tpmz6yA17IkuS0 24eUnA/9+6TB4HwcjNNLR3eln9sQmeMnpkBY6SibXN8k4hBevZPo/wWMUBsw6YPJ60c6TmDz8fx LrpfeJdYTrGWbQ52F1AQtLUjF9uxgwty8ej0gCIz6LRf+Ao8W8CRHZb//jL4q+5PyOVp2tlh5Ok HVWlNUOo5lr7Yxdled2986WvIr8QajOn8Pj6nBi/QlLdc6he
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250213-kbuild-userprog-fixes-v1-2-f255fb477d98@linutronix.de>
-References: <20250213-kbuild-userprog-fixes-v1-0-f255fb477d98@linutronix.de>
-In-Reply-To: <20250213-kbuild-userprog-fixes-v1-0-f255fb477d98@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Sam Ravnborg <sam@ravnborg.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- stable@vger.kernel.org
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739458532; l=1464;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=VsJP2WA7ooxf6Q50q5cBWRfJTkxkoykLDjcBCjCSHrI=;
- b=8OMIVLKzPjKBGa+nsuyZo48SgY/H7ox75L6z9V8p2CPGZuYfEbGXiibYamh8B6s+e9cikZVwq
- UOOjyGCL6v+DwjajMJZig3VnB/KagLzox2tccsCQfBkVnRBxL8VhKQQ
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-The userprog infrastructure links objects files through $(CC).
-Either explicitly by manually calling $(CC) on multiple object files or
-implicitly by directly compiling a source file to an executable.
-The documentation at Documentation/kbuild/llvm.rst indicates that ld.lld would
-be used for linking if LLVM=1 is specified.
-However clang instead will use either a globally installed cross linker from
-$PATH called ${target}-ld or fall back to the system linker, which probably
-does not support crosslinking.
-For the normal kernel build this is not an issue because the linker is always
-executed directly, without the compiler being involved.
+Namely: s/becasue/because/ and s/wiht/with/ plus an added article.
 
-Fix this by passing -fuse-lld and let clang find its matching lld.
-
-Fixes: 7f3a59db274c ("kbuild: add infrastructure to build userspace programs")
-Cc: stable@vger.kernel.org
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/mod/modpost.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index bb5737ce7f9e79f4023c9c1f578a49a951d1e239..b4c208ae4041c1f4e32c2a158322422ce7353d06 100644
---- a/Makefile
-+++ b/Makefile
-@@ -510,6 +510,7 @@ OBJCOPY		= $(LLVM_PREFIX)llvm-objcopy$(LLVM_SUFFIX)
- OBJDUMP		= $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
- READELF		= $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
- STRIP		= $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
-+KBUILD_USERLDFLAGS += -fuse-ld=lld
- else
- CC		= $(CROSS_COMPILE)gcc
- LD		= $(CROSS_COMPILE)ld
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 36b28987a2f0..c35d22607978 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -190,8 +190,8 @@ static struct module *new_module(const char *name, size_t namelen)
+ 
+ 	/*
+ 	 * Set mod->is_gpl_compatible to true by default. If MODULE_LICENSE()
+-	 * is missing, do not check the use for EXPORT_SYMBOL_GPL() becasue
+-	 * modpost will exit wiht error anyway.
++	 * is missing, do not check the use for EXPORT_SYMBOL_GPL() because
++	 * modpost will exit with an error anyway.
+ 	 */
+ 	mod->is_gpl_compatible = true;
+ 
 
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
 -- 
-2.48.1
+2.47.1
 
 
