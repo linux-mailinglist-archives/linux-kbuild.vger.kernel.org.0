@@ -1,160 +1,139 @@
-Return-Path: <linux-kbuild+bounces-5748-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5749-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C204A34A23
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 17:38:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38276A34C7D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 18:54:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92B51171EF8
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 16:33:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C50CD188C6CA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2025 17:54:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC6BB281349;
-	Thu, 13 Feb 2025 16:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C96E423A9B8;
+	Thu, 13 Feb 2025 17:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DsbPabev"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835CB280A26;
-	Thu, 13 Feb 2025 16:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979F323A9B1;
+	Thu, 13 Feb 2025 17:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739463696; cv=none; b=SIXaHKd0b9FfxE3/l0a1TeecwEUfFxrcmHHYidy5veZi7yjstb2J9Csr+jfDacA8AAYXCosgFIqzAe8csl/nEeR1WD6plP85gJkCBrwYd5WghWAeEgviKR1+PS8ZY3IyXuE4h7INDxetKhv1Go+vqL0l4B+XEpWfMgh2ZUUxjeU=
+	t=1739469282; cv=none; b=hUUqm1+z0t9MtvpJcgZBneEOrw+ki+8Qt+m9y1xDCkBqrI/77An62hGJS5zzp2Z2z+LTcy2VuNdWpIXHo1t4iIjgdpVHvJP5S7qSOfPE6GMtUU7r5/LaFz1G3sNARg0eRGy1fka15pUIiwzXl24dmgFP27o2f/b1m1VhAbf4cEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739463696; c=relaxed/simple;
-	bh=h5HZDvjlSble8n9tutmQYNXJ8OyrHiQ1Z2innQWa9XE=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type; b=ErB+bdoobo5sTU46GX4z3JdThx62/WS5rf9uawDJKrHu4AnxCbH+MLLfflZEylvnVIrNxGkyh/fpiYoY6iMDpI1AD9EhwJeryoQUW1QZrVwLfc4UwxWkDC5pVIVHVFnjRQNk8paY/TEv4OA+7Mc/tRaqW9Zkd4BrP6D8Wxtx7gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 006D4C4CEE7;
-	Thu, 13 Feb 2025 16:21:36 +0000 (UTC)
-Received: from rostedt by gandalf with local (Exim 4.98)
-	(envelope-from <rostedt@goodmis.org>)
-	id 1tibyE-00000001qcx-21Ty;
-	Thu, 13 Feb 2025 11:21:46 -0500
-Message-ID: <20250213162146.332262157@goodmis.org>
-User-Agent: quilt/0.68
-Date: Thu, 13 Feb 2025 11:20:53 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org,
- bpf <bpf@vger.kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- linux-s390@vger.kernel.org
-Cc: Masami Hiramatsu <mhiramat@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>,
- Zheng Yejian <zhengyejian1@huawei.com>,
- Martin  Kelly <martin.kelly@crowdstrike.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Josh Poimboeuf <jpoimboe@redhat.com>,
- Heiko Carstens <hca@linux.ibm.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>
-Subject: [PATCH v3 6/6] ftrace: Have ftrace pages output reflect freed pages
-References: <20250213162047.306074881@goodmis.org>
+	s=arc-20240116; t=1739469282; c=relaxed/simple;
+	bh=iDL3s3NaZnaoGm6u8HjuN2ua/uzNLftNBCQrWX/yTCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VudI6W9SgFuyjUkCFBI9U3t4A3W9b6UQTc7FI0w0Tkk7p/Gcp21synJqMlv9QWDJL32Hcx64N08Dfnk30EaoRbR4aoi39aRyDPJognUeTWYOgvjxdXbI+GBDTPRuJkv75KX/xmt03OBMihjbd15vC+VgJzL77+QqIW5gDVw3Es8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DsbPabev; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA810C4CED1;
+	Thu, 13 Feb 2025 17:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739469282;
+	bh=iDL3s3NaZnaoGm6u8HjuN2ua/uzNLftNBCQrWX/yTCM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DsbPabevbPzuy23oKJjArPyKeP55PYyANXqhxizJPqCZlcjkx8uzMt/V07xTXwF6E
+	 PDkZVFchKnXgqR/uYFsIjtijZO24jhXJGRB1om7Q/d9sXrm7tQL3aoJk/VOGqhOHQb
+	 hgtjY8eILxTM4htOQtPs4GXUyo3P4EZxSH7Vd4YjewYTO8lIWECJToFSiZwzFwga0k
+	 EoCo+bHVFNm9mLMahppZ9n4Ts2Yktp7sKo9XjL6SOI8ZPqJigqo4Ie8asftUnvbmbb
+	 OH27csbu2kbqhfQWA8X4O7jKkW9nqGbYoSveW1JRqic2mk9Vetqv4OGnouhXkrGB5V
+	 9tbReHafQoD7A==
+Date: Thu, 13 Feb 2025 10:54:37 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] kbuild: userprogs: use lld to link through clang
+Message-ID: <20250213175437.GA2756218@ax162>
+References: <20250213-kbuild-userprog-fixes-v1-0-f255fb477d98@linutronix.de>
+ <20250213-kbuild-userprog-fixes-v1-2-f255fb477d98@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250213-kbuild-userprog-fixes-v1-2-f255fb477d98@linutronix.de>
 
-From: Steven Rostedt <rostedt@goodmis.org>
+Hi Thomas,
 
-The amount of memory that ftrace uses to save the descriptors to manage
-the functions it can trace is shown at output. But if there are a lot of
-functions that are skipped because they were weak or the architecture
-added holes into the tables, then the extra pages that were allocated are
-freed. But these freed pages are not reflected in the numbers shown, and
-they can even be inconsistent with what is reported:
+On Thu, Feb 13, 2025 at 03:55:18PM +0100, Thomas Weiﬂschuh wrote:
+> The userprog infrastructure links objects files through $(CC).
+> Either explicitly by manually calling $(CC) on multiple object files or
+> implicitly by directly compiling a source file to an executable.
+> The documentation at Documentation/kbuild/llvm.rst indicates that ld.lld would
+> be used for linking if LLVM=1 is specified.
+> However clang instead will use either a globally installed cross linker from
+> $PATH called ${target}-ld or fall back to the system linker, which probably
+> does not support crosslinking.
+> For the normal kernel build this is not an issue because the linker is always
+> executed directly, without the compiler being involved.
+> 
+> Fix this by passing -fuse-lld and let clang find its matching lld.
+> 
+> Fixes: 7f3a59db274c ("kbuild: add infrastructure to build userspace programs")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
 
- ftrace: allocating 57482 entries in 225 pages
- ftrace: allocated 224 pages with 3 groups
+First of all, thank you for catching and noticing this!
 
-The above shows the number of original entries that are in the mcount_loc
-section and the pages needed to save them (225), but the second output
-reflects the number of pages that were actually used. The two should be
-consistent as:
+> ---
+>  Makefile | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index bb5737ce7f9e79f4023c9c1f578a49a951d1e239..b4c208ae4041c1f4e32c2a158322422ce7353d06 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -510,6 +510,7 @@ OBJCOPY		= $(LLVM_PREFIX)llvm-objcopy$(LLVM_SUFFIX)
+>  OBJDUMP		= $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
+>  READELF		= $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
+>  STRIP		= $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
+> +KBUILD_USERLDFLAGS += -fuse-ld=lld
 
- ftrace: allocating 56739 entries in 224 pages
- ftrace: allocated 224 pages with 3 groups
+Now that our minimum supported version upstream is 13.0.1, I think we
+can make this
 
-The above also shows the accurate number of entires that were actually
-stored and does not include the entries that were removed.
+  KBUILD_USERLDFLAGS += --ld-path=$(LD)
 
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
- kernel/trace/ftrace.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+as it should respect the user's choice of linker a little bit more, such
+as if they specific LLVM=<prefix>/bin/ or LLVM=-20. That reminds me that
+I can clean up what I did in commit 4406b12214f6 ("powerpc/vdso: Link
+with ld.lld when requested").
 
-diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
-index 55d28c060784..fa7c3417d995 100644
---- a/kernel/trace/ftrace.c
-+++ b/kernel/trace/ftrace.c
-@@ -7006,6 +7006,7 @@ static int ftrace_process_locs(struct module *mod,
- 	unsigned long addr;
- 	unsigned long kaslr;
- 	unsigned long flags = 0; /* Shut up gcc */
-+	unsigned long pages;
- 	int ret = -ENOMEM;
- 
- 	count = end - start;
-@@ -7013,6 +7014,8 @@ static int ftrace_process_locs(struct module *mod,
- 	if (!count)
- 		return 0;
- 
-+	pages = DIV_ROUND_UP(count, ENTRIES_PER_PAGE);
-+
- 	/*
- 	 * Sorting mcount in vmlinux at build time depend on
- 	 * CONFIG_BUILDTIME_MCOUNT_SORT, while mcount loc in
-@@ -7125,6 +7128,8 @@ static int ftrace_process_locs(struct module *mod,
- 				remaining += 1 << pg->order;
- 			}
- 
-+			pages -= remaining;
-+
- 			skip = DIV_ROUND_UP(skip, ENTRIES_PER_PAGE);
- 
- 			/*
-@@ -7138,6 +7143,13 @@ static int ftrace_process_locs(struct module *mod,
- 		synchronize_rcu();
- 		ftrace_free_pages(pg_unuse);
- 	}
-+
-+	if (!mod) {
-+		count -= skipped;
-+		pr_info("ftrace: allocating %ld entries in %ld pages\n",
-+			count, pages);
-+	}
-+
- 	return ret;
- }
- 
-@@ -7783,9 +7795,6 @@ void __init ftrace_init(void)
- 		goto failed;
- 	}
- 
--	pr_info("ftrace: allocating %ld entries in %ld pages\n",
--		count, DIV_ROUND_UP(count, ENTRIES_PER_PAGE));
--
- 	ret = ftrace_process_locs(NULL,
- 				  __start_mcount_loc,
- 				  __stop_mcount_loc);
--- 
-2.47.2
+Additionally, this would not fix someone using CC=clang and LD=ld.lld
+(it is uncommon but still techincally supported) so could we use a check
+like
 
+  ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_LD_IS_LLD),yy)
+  KBUILD_USERLDFLAGS += --ld-path=$(LD)
+  endif
 
+further down in Makefile to make it more robust?
+
+The stable backport may want to use cc-option like I did for the powerpc
+vdso since there is a lower minimum supported version of LLVM there.
+
+>  else
+>  CC		= $(CROSS_COMPILE)gcc
+>  LD		= $(CROSS_COMPILE)ld
+> 
+> -- 
+> 2.48.1
+> 
+
+Cheers,
+Nathan
 
