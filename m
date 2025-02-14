@@ -1,163 +1,115 @@
-Return-Path: <linux-kbuild+bounces-5751-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5752-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACCFA35394
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 02:18:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB311A353C9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 02:39:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A3153ABE9C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 01:18:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F35716AA02
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 01:39:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 197F5487BF;
-	Fri, 14 Feb 2025 01:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 757FA5BAF0;
+	Fri, 14 Feb 2025 01:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LxK4asBA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCpZJaSM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340793C17;
-	Fri, 14 Feb 2025 01:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A51537FF;
+	Fri, 14 Feb 2025 01:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739495897; cv=none; b=UxF6JKagtyBAouxSqhVLD/0UICn4DZL11jtFYo8ODOO2kYlEk0MgosxsBSeFUjJu1pXifBZwCV4UHpv37gqRw7MiOgnubtYwF654++BMKS2MfztmunOuRNpCnPxfRzOXb5Sea6M0P2SXP3PYXS0A9qfEW0pCLGGZYbyddz3Ow54=
+	t=1739497159; cv=none; b=e0mu2Lk5/rVGQErZeWR7BN6ESeeLmDffV19w5BS63GpWjCGfPQigbTKk47SJ3jnE9Ts/YTgvcVETscB2AtscF+x3sxvwQczXIlXsLK9iEQSflzLEeCBr+wWt7h/0rENIVh6uCf755pGMjIvkJeXUg9RsURSG5PSjJ3Yq/6a1ahk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739495897; c=relaxed/simple;
-	bh=7KmvRdNkOB8Mr3YZotzrxWe4W/LaMjQF7NLNIhjtF3o=;
+	s=arc-20240116; t=1739497159; c=relaxed/simple;
+	bh=9IxhGYBiqmCXEOQC+SsmBi/iEnbY572YamGs8pAzvaI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bJlJNQkODJOS5M45SewxB58lbGSQzyNo50P0rg6RqoaQBItMkcXjgV2NEsm/dSEjMYl98R/4DmbIGc5wEeoFzLtZjIoUKxdVgQnojzfs+cjB1ucUzoeBLt4ybQD911p6Gng3w9PN+KdBBx06S8wtlUq7jWSVOC0j8g2Q6gEEAS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LxK4asBA; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38dc5764fc0so1298582f8f.3;
-        Thu, 13 Feb 2025 17:18:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739495893; x=1740100693; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iZNgfoJpdQnnYrxgyLyaeefs7r2kSe1cqjB7lzYuaOY=;
-        b=LxK4asBATP1MeRU6Tug/wM5pDWexWygZDRfTC/vbdHU3zlvgXNcHgoKtsv/N7i/QUi
-         yHStzkJ9EXSAWeLe35ysovgUPeLF0lMz8BiU8Ei8q8NUF6CoRsoXbwZjD2CJGe1Jehep
-         /YphwX+NCcwrkQc9M+tUL1orVmCND1wwWjN8dEsFw3+PrmnJS6PNxUzoQ7yPqtcn2Ys2
-         noBbHtyL8GMwygxk/k5jiVcUDBi+oQ1ZUtR5qSpzis1AgBjt6vlXOZ7SUmcCySnsNSWD
-         nOLKldd9c8X7fdnygej1AWYDwZoKHee5p6EGmreiir7QXwCsGysJuesfJ4cQpijobsyg
-         BYpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739495893; x=1740100693;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iZNgfoJpdQnnYrxgyLyaeefs7r2kSe1cqjB7lzYuaOY=;
-        b=K9sz0Ifzh0KhZlYa/s2qoGXTbK1FnvCwvcIYJy3oVE9tUF98o6M4G/Ews2E/g/AS8T
-         uFnaKe/IlooekVw4fR5MlQGgIdIJNLFccitP+/PLTqody4Ja6sFOlqNJiLQINsETeXZv
-         RuR4alLglorvqnpUgpTefbtngDnp638g21a2+WrSH4ZnE/NW3R0AkKuPloje9pNWSVnA
-         HG2As89iXIpEDnI1w17j5VWJNnQ/cfALT9Ozm5wM6t4+vcqy61O7CL2IukEf8geeBbnb
-         8ypJcah44wWBP/Af9FVXMSJ10bxOWlDv20uD4RBOUvKISx+i07BZzHa8kfEp+5x9chOJ
-         z2jg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIpVd5AYtEBCT0qaPbKvkpNNo6y2wDNR2Degx/QbYsLqjsLeIt7zidDeqVOG6RYVQeEvg=@vger.kernel.org, AJvYcCUMKQNpgipCLbMF7bAhixEJtcfPA+8jMD0V/TkMFS/Kn8GgZVBIu7jktE0bY+LTtzx/nb9hpWdeFrAhlQna@vger.kernel.org, AJvYcCUsHeDl7o90oPtinSl3Jsnk9mIZUqnwOpDzJS29GzOe05vOIx1m8IVDZgXdrbMrY7Xb5Sbr5+Y4pUFU4A==@vger.kernel.org, AJvYcCVXkEp4S1oFJ9zTiEVpV0l0EAoB1w8909YK9AoP3/Bel/goHAOzdNfhwsoD7qySO9ve+wl9cnHge3FIDlPA6boy@vger.kernel.org, AJvYcCXg7blZmWnYhHKW73CD0ZBnEDFdt6uBmDkKUKZc7FtzNBcAsTEL5eh6bbfn7lxIEzPXdhUo+RFnniCbKh6x@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbNqWKlSD3k+48L4bgacxvB5kK0HBa3VAeMGK41yAJQI80/kVK
-	8YObXNpHJVK7k9H9t4AidUuJMCmwGaRJ+61tB5n0fCFlxV+G19LcoRsMeF1Th1TpM+Wii3PVWdp
-	y+mOI7xBgxoMrIrhu3ye4Btjf5q+k6T/F
-X-Gm-Gg: ASbGnctEuk7Q3/s571M2HWEEyj3kOZogI6Xaio0Us2yfa/wwO/xVXBsJwgMjwVARHzf
-	03jwEodQFksPjZK2cmt7D2uU/B3yzvWuQIchF3TkiFr1fwKARAsbaOZCODbxBA/YFtStmn2lCCL
-	Xr8lCWQRJZvPgAHkjpva6l6Fj4H4wM
-X-Google-Smtp-Source: AGHT+IHjH3HbrV6sFGnOweivEcys63M8NcPKfcX22oOSM82lFAdrwn46q5GI7CB4DnW7A34GOs2t+/KwcM7+WXRkatg=
-X-Received: by 2002:a05:6000:1f88:b0:38d:dd8c:51db with SMTP id
- ffacd0b85a97d-38dea2f982dmr10477713f8f.53.1739495893060; Thu, 13 Feb 2025
- 17:18:13 -0800 (PST)
+	 To:Cc:Content-Type; b=nbkEhELlaQ6SZ1aknZwYCFXpwX+oRAgDqTm/HMo3vMdi2UnqNXucLxtgRcVr2bV7hLXdF7omcrD39/A3e8uW6MZhLOUnKOPKQcdQP3t04ldlgtPSUK9vx4vZgJmjISdBAT0B+Gz7O2GivNUXKmQeUu3oOa1x+F+pEgUDA9nHJ5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCpZJaSM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2A42C4CEE5;
+	Fri, 14 Feb 2025 01:39:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739497158;
+	bh=9IxhGYBiqmCXEOQC+SsmBi/iEnbY572YamGs8pAzvaI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QCpZJaSMvwlOtPipw6P2cmUd735GYuoTwoZ7oGgyosvm9q5hKR/SP0A5/TSGHCFA+
+	 BR0kVj9fAbXBEOmNfXfu+V08GkWLc/YOV/KSr0fXaxAa/WlhEChsxDOYG85kX7Fo11
+	 ESawMtQbxeG4MFhh5rm/fegF36JvEBXWBb2Tg+AuuDrzGRtQtuZ0TVuH23pcKt6/2h
+	 /2a+2mWeeUp/ifkZWJfWtpPYVEd3JfboIquEElv2t5QIDp8w5zBoSbD2oUzftfRakW
+	 cK7tx/mQJGvYTJBmVK/RTGoIhDCESXELHgOVsGk0mcVloBzOlbuikspPotWHdJxPLP
+	 u7haketNbg8kQ==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30615661f98so16858041fa.2;
+        Thu, 13 Feb 2025 17:39:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUw+dXNXKgQLFCOGMwDW0dxRyT9KeiSw0WigCMYFVX3g5ACZnryRZK50hH4ZGpkwihKxZNYpZBR1PFZpGOm@vger.kernel.org, AJvYcCW3qt8PVatSxYeUBC0+6XJsafeOr+oiiOkLQwSqbg65v2mKH/zUf83zd8PhfNLunZynntDpcFSnD0NpCcVOscM=@vger.kernel.org, AJvYcCWaN8bUvobNP+sceXv1/wPS7xekUmGEy7IfRNDZrNwApOCpgtxClKzhqXDIPNJGLhVTbwtmCSOe9EA=@vger.kernel.org, AJvYcCXkZS933uOtNCpEDGeTST38J1e7ooxPVGkj+1KvXg1X0J+cKaz/0BdhOBoHkT+iTy18mChSKhb+oG9cYH2H@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbe4a0pPVAB2Sf+gpShliVffO5qGX+BT2L0UxLGMeP3NKRKCDR
+	qhtFOMqAUsiVdhGL2s/jUdsm+DU/dSra3lQ6MXCZKf1rxjdCp+If5yKhhYgxth2ZeQ34s5Ef+2U
+	ksBb6k3iU9PE7QPQaDnmH/cDYR4g=
+X-Google-Smtp-Source: AGHT+IGEYz+WkoUrySCxtqr7dpKbi6V2S+88qBoYDexCvVUD02b8yZebnuEPHDd5b4ywaSPaelkedcVjstzog0U1ao8=
+X-Received: by 2002:a05:6512:1281:b0:545:ee3:f3be with SMTP id
+ 2adb3069b0e04-5451dd88faemr1651337e87.10.1739497157461; Thu, 13 Feb 2025
+ 17:39:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250207012045.2129841-1-stephen.s.brennan@oracle.com>
- <20250207012045.2129841-3-stephen.s.brennan@oracle.com> <CAADnVQLiyezBW34dhkwZw+mWmkFAYMZUdHbOa4uYCdPbgS10SQ@mail.gmail.com>
- <87a5asghj2.fsf@oracle.com>
-In-Reply-To: <87a5asghj2.fsf@oracle.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Thu, 13 Feb 2025 17:18:02 -0800
-X-Gm-Features: AWEUYZko1eBho3JB_JCiwey_VkI40uEQrrVuLZrlphS9FJjF_Fxjtl4z_U1OGOk
-Message-ID: <CAADnVQKLykG3akdPRTDgHDey9FW1LpixZHjLcj+eG2rhXo7V1w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] btf: Add the option to include global variable types
-To: Stephen Brennan <stephen.s.brennan@oracle.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Kees Cook <kees@kernel.org>, KP Singh <kpsingh@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Sami Tolvanen <samitolvanen@google.com>, 
-	Eduard Zingerman <eddyz87@gmail.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Jiri Olsa <jolsa@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Jann Horn <jannh@google.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Hao Luo <haoluo@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, linux-debuggers@vger.kernel.org, 
-	Alexei Starovoitov <ast@kernel.org>, Song Liu <song@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	bpf <bpf@vger.kernel.org>
+References: <20250210164245.282886-1-ojeda@kernel.org>
+In-Reply-To: <20250210164245.282886-1-ojeda@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 14 Feb 2025 10:38:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQBFX5q6yyKBJoxMoD5d9SwdKm0c23J4+LpjwA1eh=bZw@mail.gmail.com>
+X-Gm-Features: AWEUYZnI4fpDKGlVQ3nPgTvxchXJzpHlGyUSt2uP8tA04Q4qKsA6VL1SMVCFHCo
+Message-ID: <CAK7LNAQBFX5q6yyKBJoxMoD5d9SwdKm0c23J4+LpjwA1eh=bZw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rust: add rustc-min-version support function
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-doc@vger.kernel.org, 
+	moderated for non-subscribers <linux-arm-kernel@lists.infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 11, 2025 at 3:59=E2=80=AFPM Stephen Brennan
-<stephen.s.brennan@oracle.com> wrote:
+On Tue, Feb 11, 2025 at 1:43=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
 >
-> Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
-> > On Thu, Feb 6, 2025 at 5:21=E2=80=AFPM Stephen Brennan
-> > <stephen.s.brennan@oracle.com> wrote:
-> >> When the feature was implemented in pahole, my measurements indicated
-> >> that vmlinux BTF size increased by about 25.8%, and module BTF size
-> >> increased by 53.2%. Due to these increases, the feature is implemented
-> >> behind a new config option, allowing users sensitive to increased memo=
-ry
-> >> usage to disable it.
-> >>
-> >
-> > ...
-> >> +config DEBUG_INFO_BTF_GLOBAL_VARS
-> >> +       bool "Generate BTF type information for all global variables"
-> >> +       default y
-> >> +       depends on DEBUG_INFO_BTF && PAHOLE_VERSION >=3D 128
-> >> +       help
-> >> +         Include type information for all global variables in the BTF=
-. This
-> >> +         increases the size of the BTF information, which increases m=
-emory
-> >> +         usage at runtime. With global variable types available, runt=
-ime
-> >> +         debugging and tracers may be able to provide more detail.
-> >
-> > This is not a solution.
-> > Even if it's changed to 'default n' distros will enable it
-> > like they enable everything and will suffer a regression.
-> >
-> > We need to add a new module like vmlinux_btf.ko that will contain
-> > this additional BTF data. For global vars and everything else we might =
-need.
+> Introduce `rustc-min-version` support function that mimics
+> `{gcc,clang}-min-version` ones, following commit 88b61e3bff93
+> ("Makefile.compiler: replace cc-ifversion with compiler-specific macros")=
+.
 >
-> Fair enough. I believe I had shared Alan Maguire's proof-of-concept for
-> that idea a while back for an older version of this feature:
+> In addition, use it in the first use case we have in the kernel (which
+> was done independently to minimize the changes needed for the fix).
 >
-> https://lore.kernel.org/all/20221104231103.752040-10-stephen.s.brennan@or=
-acle.com/
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+> This is based on top of the fix so that the fix remains as simple as
+> possible:
+>
+>     https://lore.kernel.org/rust-for-linux/20250210163732.281786-1-ojeda@=
+kernel.org/
+>
 
-Right vmlinux_extra was discussed in various context, so let's make it happ=
-en.
 
-> We can dust that off and include it for a new version of this series.
-> I'd be curious of what you'd like to see for kernel modules? A
-> three-level tree would be too complex, in my opinion.
 
-What is the use case for vars in kernel modules?
+Do you want me to pick it up to kbuild tree,
+or will you take it with my Ack?
 
-> module BTF size increased by 53.2%.
+If you go with the latter,
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
-This is the sum of all mods with vars divided by
-the sum of all mods without?
-Any outliers there?
-I would expect modules to have few global variables.
 
-So before we decide on what to do with vars in mods lets figure out
-the need.
+
+--=20
+Best Regards
+Masahiro Yamada
 
