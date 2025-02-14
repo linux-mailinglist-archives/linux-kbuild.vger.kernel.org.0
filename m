@@ -1,111 +1,155 @@
-Return-Path: <linux-kbuild+bounces-5754-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5755-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5671A365E5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 19:48:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3FEA3682A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 23:14:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8A1A16C579
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 18:48:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D29EA188DE0E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2025 22:14:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61CDD1917D0;
-	Fri, 14 Feb 2025 18:48:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E75BC1FC0EF;
+	Fri, 14 Feb 2025 22:14:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YasJWioE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EYKGEZP9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82E4134AB;
-	Fri, 14 Feb 2025 18:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347741DDA18;
+	Fri, 14 Feb 2025 22:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739558885; cv=none; b=FYG3hbrEWHsP7p8Em8sP+erzZebqwdGzHAQOlGCV6BITl0zRPlyIXjgBSvzlPSyLoUtaKFGOScCxvZSEm/idTzqwNIrFVLYI9O1QDpbf3bC4lBm2NFuE4jwC6u7fkB/IVfXMCR8hbic8XKJ5TyKqaWqFSEVlqNYPPJSDBB0SyPc=
+	t=1739571272; cv=none; b=Qb7ujbdRLk63GM4nAEtHpb36Nzvot3P5ChpIpkFNVX+sQuSVLTI2XC6fTogR3x331Q14d6T0bfebML12UZ/sYbe5pCqQU08dug4TQtIn2fzsWqWXCiy/uTAhWQnIDRIdCeAnq/0jDSZDj0l3KuG18Jd6grVCW1UN4S3Bks2t0X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739558885; c=relaxed/simple;
-	bh=mbPXCYa0Euo1MoCU+SWGOw4OmTSsV7u/JIvOIPr+CKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cPvYpEOkkHJMdEovZ01EZVoMK8gpzCFNieUvuKnNXNcOUWo9mCx5xS3PQ5hbB9liKgCkwaOsVgv91ig1Hrc85+LO0BZW02cGYZ85S4sbq8RkAydicSye5hy92vi64xxeRS/9q+neV31Xah8coRJwkhbVIuZkIQD4ySyeHs8Fa04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YasJWioE; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1739571272; c=relaxed/simple;
+	bh=HIsehv+iWAWVMHHYckz3gqMXnT7YI+cVRjsvqR6vsrQ=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lRpCo9FjoVST6lBK6YWsF8YkGWDIEQWp9xsq6W9QjJ5JFkw62iV195bdi7LxjY6mskY9uEq/Fh5vVGP0WuSI0Qt7xKrpF9Oa638m/Ex96bUkr1q+ZpDOeDi1KYAciVnH2MFO1/FPqUezjxIPgplfox19NhGl7jYVrGUY/B2cFiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EYKGEZP9; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2f2f5e91393so526211a91.0;
-        Fri, 14 Feb 2025 10:48:03 -0800 (PST)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5de4d3bbc76so4090234a12.3;
+        Fri, 14 Feb 2025 14:14:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739558883; x=1740163683; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mbPXCYa0Euo1MoCU+SWGOw4OmTSsV7u/JIvOIPr+CKU=;
-        b=YasJWioElOE6Id9eXQUBxCUE5x8dcJ+EQMejVcyyNaQII29zfa70Pdj0me5pRPvWkr
-         +vrnQXgNUcj3bsWZkTGtcwV/pgIOLcq/cw/OYvxVm9KiLP9j8kEpJEOnTLj9JXvG+VAG
-         bmlntoyIB59SALEdHjN/KHNAWeIA5Dyu4CIAMGeTloL4iSqz9T8vVroaNxcPK+3nMZGB
-         tSkYy5sTWekABYQUFwF4Q2Y0szBPGkwHJi28bHs/VmVs4ABLd2eVs5juOK8VWsQNCHBz
-         3T4vrFunAlw79UZXgh8z8roT+w2fcfA7tefRSXNDmw4D05V51fHWQON2b+R4ENF3u2F3
-         Jm3g==
+        d=gmail.com; s=20230601; t=1739571269; x=1740176069; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bEB+wipqpxDExoX7XkJyi7zxDfuglvJ+HC5Ljm+PuFY=;
+        b=EYKGEZP95Mh5IUFfOEHxXs2I9qpTnoCE2q/sbx98ayfP2Kb92NBL7w9N2Q3Y1nisDR
+         ulFPQcJA2mNxp/BiFLODSGtO1X5YZt/6C9nRtYmkKfYuRhp19ab0HR4r2rYhznHq1byD
+         xrXUXr31gPU1MpT4dmPlchcoeLI/EJbxjX8f0bGlDTHORPF1S0Du9GabCvbX+4ohEaRM
+         E954HyhnQnpxWdZsoqyUlO5G9fLJKvyNFngqiIwwVTts2iYavQJAMU177YlYvQCsH8cQ
+         RiR+6W7gfVPKLVk3nL20RxgW9FaEqwt2LUCPjbChbAFNBygt3kTgZ9827DPmlKXklbOg
+         qXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739558883; x=1740163683;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mbPXCYa0Euo1MoCU+SWGOw4OmTSsV7u/JIvOIPr+CKU=;
-        b=PDTsGS6FXe4PPZPPfGtAlnToQVapDqn9M+F0Uu4MUpWPaGvM+gK1XWAq5eJUryaD42
-         yiRUB+fn0uNw2+vRx2f+xIho+Vzth1YX1NfLEocpvoMFjlg1Dj0+Vs8d89TsBI1Fr/mM
-         oQJbF2+wVBK4IvoUJiYc07AgZ7oigDzR4ixrJ/Ohkg9qibn4wAC7Ks2cvXBvURIvSo0v
-         xvS8vHcyKDiMhsimZ3sycIEr65gRrfg4rNblCiUXekWqhuta85Yto7CI2TObAGWHTolW
-         XooG1YUR5QMVRpHk/9JrWg3QbHgy3LnI3RLBJ9VBQHnt1FBenj4tptCxPJVbrh+SmIgu
-         GvZw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzY6YlNCZpwq3xlLUKqEDIAG5FNtfp8UzwwllVhcmUnMaFbrl3NkZqnkZjo0TRdwFY9SG46/qiLds=@vger.kernel.org, AJvYcCWYgVKO4i3kixEKmWi75Ml26QrDuZn9KueaMZeZibjg9pQZcynlvBsql4v2xWmUbBHFcinDMn9bFe2vVmvZ@vger.kernel.org, AJvYcCWgdlqBf6JJ+bK7WjfyYEa43ycAwQ74w0nWO+DgVuJ5FVgw/HjksH3a010WdQvw6LvKY1bceUSzejeJBnWNlzA=@vger.kernel.org, AJvYcCXcLjeHPPmLPmTwN+wZ7dgtjgnkNRlBcFnZ6UAEJEBUmETVS28P9koBlC4HFiaXK+GzepeWDQz9l7npHoJL@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzd8JeePVQts9dH6aBdZeUWhkJfqRvu6t9/lvJaa9NpUjKn4Qa1
-	VAghqatIDfTKfeyR/Mp0RGYRVM5rSZp2FimVi/R+BuABt3DHfJtDl6+dpapFnRXzDC+sarV+R1L
-	n3Xq5qOjcYRuN8FwrgU72TTWUHjw=
-X-Gm-Gg: ASbGncs/eS3HdL9aqf4LHqcgd+AweX/KmwFIKFxyQDuQaYa8DYi8+fiFUxan7P/VPFJ
-	kEH7A+B0+JY38f/Y8suLaGznAqQikWLo6oKjXrJXa3kv8E6ILM5PvlCG/PNGPCwYbuMjmYO9W
-X-Google-Smtp-Source: AGHT+IGUeE04nboJL79uQEQi255Sh6F2ujsdzLVst5SO8l5tm1Su0Y1pKusKL+gCNnpOW2NARcGAkDEUDmt8oqZunC8=
-X-Received: by 2002:a17:90b:2250:b0:2fc:1370:9c2f with SMTP id
- 98e67ed59e1d1-2fc4103cd0dmr79419a91.4.1739558883232; Fri, 14 Feb 2025
- 10:48:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739571269; x=1740176069;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bEB+wipqpxDExoX7XkJyi7zxDfuglvJ+HC5Ljm+PuFY=;
+        b=B/mXjqKwD7TzZE6AUZXztYny1vlYpi9Yrj8JPC4DhNmJizJMlS+/Qfqz9nQwzaHYgQ
+         oAF2WnRpCdnr6KZP/8EJYdcYFFQnwJJ0T6o9SurcNQNPBA5INphKZZ2C2dtjirFcC/9C
+         QYQXW8JxyQF4+++tnYIoltFcDlEguC6t1o4yo1y/AYLuk50Iiwn+YU4/kjFnU+pkBqEN
+         S+UDs9UcsWV3F+2gHw47iDjxBeZlkH6fLoe3MT+XZPXmnsq2zDJULa1niKuHT1CUSeVj
+         GNqhrcvQ1yow6ena8TxqbPldZG1XodgrUqRyqMie/JpHeK3r0l4ghzqUa5G9dSGQ2QzD
+         MIOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBNVGf7FF6B6I0k4Rr5WWRtuk+xq3++ip9uZS7K5Wr4ZbRgOJ72WPY8UFIrvKWUK6thhmr+lVrj85eWg==@vger.kernel.org, AJvYcCUBtk0+AVl/cF/Qbul9soD61IUE6n29xpTAQIoKkMccBgbVVqVopaDgdiC1igNrZM/dvGI=@vger.kernel.org, AJvYcCVZq7ROyxVQ7xL1NaOry5yXMnmuMyi9TsUM5GPDDA4nweSSIwAu8dz9DBd0CSzol/gKhLP/hCaLoGBBZZcG@vger.kernel.org, AJvYcCW78kdoJUbcS8Ci6PKzpGQPGj2K1sYN09N93CfyCIDPsIFW8zibRlsCocBlczC2r3E5m76+sx9kpPUIoYk6Rk9gMTIC@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGsfeTYTwNLFispEsCCZDhEZnrNEah6/HwYlXIUXxm4UUvm+4g
+	pdYh/EFMuTSm3xX9lKPHYCoW+KSnuRShtalrdY4Pm7duNp305I1x
+X-Gm-Gg: ASbGncu26dkFW4irT/qU9laTdGnVt+5Jwaiq2AFdjjE8qcYp+NT2Yq2sQ68tPCDw8Br
+	SRSQMebSMuk0+YEA9o28s1wCwDEvAVOkaAwSPUz4fn7EH4hA+mziSkYk5Ho1AFf9q8tIJnKRS1m
+	HuJCQtjh2g8GYF+rpwcuyiqmdVcuNaWjbiJG343huimvzS/nJpdSsy6rDk3X9iSLKnaK/FlLW3I
+	xwAYgp+7RvQP8UH/T5hcFlqk1yOSANRMFEuECEIHDFpOhc7VdWpg/+RnQZ62zM0JAdb8ka3P/0e
+	8DR0+9x6BbYFNBpS9s96FZxPROiXWZymowmN
+X-Google-Smtp-Source: AGHT+IGhKMUt6pQQ2eEdpEq9Kp47Mlkh7KYX18Dx2znHH1AwQvYGHh0IRemg9M7NamftnrBLcT9VIw==
+X-Received: by 2002:a05:6402:5210:b0:5de:dc08:9cc5 with SMTP id 4fb4d7f45d1cf-5e0360a1fb6mr766609a12.7.1739571269178;
+        Fri, 14 Feb 2025 14:14:29 -0800 (PST)
+Received: from krava (ip-94-113-247-30.net.vodafone.cz. [94.113.247.30])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1c46b3sm3547034a12.21.2025.02.14.14.14.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 14:14:28 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Fri, 14 Feb 2025 23:14:26 +0100
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, bpf <bpf@vger.kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Zheng Yejian <zhengyejian1@huawei.com>,
+	Martin Kelly <martin.kelly@crowdstrike.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Josh Poimboeuf <jpoimboe@redhat.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>
+Subject: Re: [PATCH v3 4/6] scripts/sorttable: Zero out weak functions in
+ mcount_loc table
+Message-ID: <Z6_AQmaUWAekeB5B@krava>
+References: <20250213162047.306074881@goodmis.org>
+ <20250213162145.986887092@goodmis.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210164245.282886-1-ojeda@kernel.org> <CAK7LNAQBFX5q6yyKBJoxMoD5d9SwdKm0c23J4+LpjwA1eh=bZw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQBFX5q6yyKBJoxMoD5d9SwdKm0c23J4+LpjwA1eh=bZw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 14 Feb 2025 19:47:51 +0100
-X-Gm-Features: AWEUYZkFZsSwR_pcKDqppTTtKFiRY98pi3gXltfVmX7IBbEAqUtXPZHv7bRa5Ec
-Message-ID: <CANiq72n=95jgJs17NFAkit5uzxqtO9xij9Um3ybd_RiMCpFrDQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: add rustc-min-version support function
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
-	moderated for non-subscribers <linux-arm-kernel@lists.infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250213162145.986887092@goodmis.org>
 
-On Fri, Feb 14, 2025 at 2:39=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Do you want me to pick it up to kbuild tree,
-> or will you take it with my Ack?
->
-> If you go with the latter,
-> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+On Thu, Feb 13, 2025 at 11:20:51AM -0500, Steven Rostedt wrote:
 
-Thanks a lot Masahiro -- happy to take it on my side if that means
-less work for you.
+SNIP
 
-Cheers,
-Miguel
+> +static int cmp_funcs(const void *A, const void *B)
+> +{
+> +	const struct func_info *a = A;
+> +	const struct func_info *b = B;
+> +
+> +	if (a->addr < b->addr)
+> +		return -1;
+> +	return a->addr > b->addr;
+> +}
+> +
+> +static int parse_symbols(const char *fname)
+> +{
+> +	FILE *fp;
+> +	char addr_str[20]; /* Only need 17, but round up to next int size */
+> +	char size_str[20];
+> +	char type;
+> +
+> +	fp = fopen(fname, "r");
+> +	if (!fp) {
+> +		perror(fname);
+> +		return -1;
+> +	}
+> +
+> +	while (fscanf(fp, "%16s %16s %c %*s\n", addr_str, size_str, &type) == 3) {
+> +		uint64_t addr;
+> +		uint64_t size;
+> +
+> +		/* Only care about functions */
+> +		if (type != 't' && type != 'T')
+> +			continue;
+
+hi,
+I think we need the 'W' check in here [1]
+
+jirka
+
+
+[1] https://lore.kernel.org/bpf/20250103071409.47db1479@batman.local.home/
 
