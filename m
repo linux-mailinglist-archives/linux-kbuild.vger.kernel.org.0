@@ -1,154 +1,150 @@
-Return-Path: <linux-kbuild+bounces-5777-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5778-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EACA37C30
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 08:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F94A37C8C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 08:52:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE38D1631AB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 07:28:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F52216F0E0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 07:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74451190665;
-	Mon, 17 Feb 2025 07:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DA09192D80;
+	Mon, 17 Feb 2025 07:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RrGPv7El";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eaLYpoU/"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="HY16XWVp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GCzHjQBv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4EB198E84;
-	Mon, 17 Feb 2025 07:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C6015382E;
+	Mon, 17 Feb 2025 07:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739777281; cv=none; b=LAIxoYHBcf5h/2VocxFmElzP2GwxiFrhSRCjQB0K/2Clqh2ezRY0bj+8IXPt6A/whNuE8KT4KIK9R+jMEDovs4qhjLwhkESzDi7xsaR4CKlBe8ncz1enZKUOqz/bABwVp7wOQ/QQFKIGPCUZD3DnmaKHbErAoZCyp+nzhDs/ttg=
+	t=1739778735; cv=none; b=NpwIAQMXnwx+RSIisyY4sbqY4octetMOrLWOgFTp99CM5evYRiDO8rTq7h6EO2/X4b07SP/RFgxBgHiLzJUOKyVlKFh5ykMQBoGdabzSjTd1U4FWeTsqbYuornw72drXIH4l1H0TIdV+nKqSz8YSdLAGVirOF1K2fJABpFaN0dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739777281; c=relaxed/simple;
-	bh=3Mlel136TcYtZin15fAFGGDRy94Qs+xjXkzgX9G5iEs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=mHU0t7b5ZfFQ3hxyVzVBiwt722Q1NBa/wZnw6Ep3bjc2EyFCXgJ6A32Us6Eltj/4LT/SOcb2baFa3El/KDmWop1Ikfz/xxEzazX481Sh4XjSLb5j6/OToUe2CPGWVJO8Tbm0wOqlnTbZwT5ZiCBeCGLfrbOQ1RzS2cftr3x43T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RrGPv7El; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eaLYpoU/; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739777276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mOeqpsxy3WOUCAs+hjzPwYFoK5hFisvXwlEv1uvfwCo=;
-	b=RrGPv7ElJvmZkJHC9JMOvvs0KsrPavr6eLHi6KjYkiwV1rLYkOvpRwfHdv+7TVm3GyNekU
-	rUjvXlEqU3WgA6wuYjfRDu5PV1cmDlc44Ye5XsS5Xd2p1tDMrO5DdYo25KcKmenSY1OtUa
-	u1kBI+87/EZYcE7qqe3Sm1QbZYcXacf/1z+PpZ0ByjDt7Dm0FbGEdTTjQkUGAycjiO+NMG
-	ZVYhEsfm41097iWMnI1q5m7Y26xFZGjH7aZg5oycP9Fjc05s9ustYckAdDcjkJKzB3+0Sn
-	T/TjHlvDcdJ3Ihbbe4L6fIsANmDmbvwpLmch0gdt/ZVGxpE8hgIYbqTxfe54TA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739777276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mOeqpsxy3WOUCAs+hjzPwYFoK5hFisvXwlEv1uvfwCo=;
-	b=eaLYpoU/bG+VqTo30Cyx4kBpKaNblpAJaq5ZVA5+33werYvYsxbGC//XGRQVpOuJ484iHF
-	k6C5rTxkAdUdnPBQ==
-Date: Mon, 17 Feb 2025 08:27:54 +0100
-Subject: [PATCH v2] kbuild: userprogs: use correct lld when linking through
- clang
+	s=arc-20240116; t=1739778735; c=relaxed/simple;
+	bh=2bqkKJuQYrXDncYh8bA+cxdRKWIaL5fo1RzMSv2km24=;
+	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Xd1q9uKuKQlQ8ndmNrpsG7v8viFa2SAExgHdxVeR2QZ1nckBwiQUaL1ZEaLiA/+VPO/TzTK7lxGWzFk/0KBud+mrzGf8Nav1kyC5ROVJtEes6l0jncnDX+NUxfivswcD1kXfwOnynzgvxzJSgDSx31vejKZGHZ517LBSc42b0DI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=HY16XWVp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GCzHjQBv; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.phl.internal (Postfix) with ESMTP id BF97E1380267;
+	Mon, 17 Feb 2025 02:52:10 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-11.internal (MEProxy); Mon, 17 Feb 2025 02:52:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1739778730;
+	 x=1739865130; bh=T2KHexYfmjD4XCcJqSK9a9i2fLMa/FWpq6BX9aeCb4M=; b=
+	HY16XWVpte/vv3Mm0S1dgDPzOrN/Zj4/8OYMVnXua1S3PTemPR9FJvaiG8j5z/p1
+	Hux8ETGkpjx5rFVSVpW1ISjgFqTSF+3L1Q3K+r1EKeqGhqrQYvPZ34vVRh0mNR2z
+	FGrrAPFoE/8nJtIC1Q0xwZZhWySFB05Z/n6WZS1i0dDru63jxZphwdQThVYAIr3b
+	dYoJWKq9+82CsfM8VUpAMvTauGkH+u3NKb9UDPOXivnd9TX/FaJVvUE1NjP+3+vD
+	3RTU1gPJu8fQhyAOKasabOOs6L8wmj9a/q93gJvK3Y4g8ZpeR3M0ly7J0ASMBHVp
+	4P68/dtRftXqqgNdwFJ81Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1739778730; x=1739865130; bh=T
+	2KHexYfmjD4XCcJqSK9a9i2fLMa/FWpq6BX9aeCb4M=; b=GCzHjQBvV3Abwf5ZK
+	h5aEd1wHWslEIinkwpB8EyuM/IcqbeVS+FD/A6SojFP163uwsrVqGvFcegakLK9a
+	NYG/20HtsLqDwvo1xYhYb3K5ujMQfIpu1Nz9SB0w2WZBCyqZ5A6gu3fc+xL5t7v+
+	KL3xv5qGXEgDT4ez3jGLBBZE+ymswPmx+sdzQZFZNz64dxY6lNbY9GawRly1DR3K
+	LZltyP4MwfSunWpRQ0ZGS0SPW35xHntavNrjymhF4AKQ0V2AYVrOWE7VpBIzb9Gt
+	N/Ym0gNkEqLzCyPmbvbQ5/BPCTZIjHOMt/jnHJaJCgk2DZdDszPLyJvuSGOMHuUJ
+	5xFOw==
+X-ME-Sender: <xms:quqyZzr9ELyujPyjrysTvCuBkmfVTq6BKs_pLByRXzvIfQJKj7Z6Fw>
+    <xme:quqyZ9oJLFxTQJB--gmea_ZCsVz0kUejgjrbLrlAlECxFkPEN1nDJRGCd-qT7nTv7
+    DZXjts4cc8kbLK1zUc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehjeekvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhephfekledtffefhffghfetteehuefhgfetgefhtdeu
+    feduueeltefghedtjeeifffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhitgholhgrshesfhhjrghslhgvrd
+    gvuhdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriiihshiith
+    hofhdrkhhoiihlohifshhkiheslhhinhgrrhhordhorhhgpdhrtghpthhtoheptghorhgs
+    vghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
+    hkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:quqyZwNm8ue67guSiweZM5KGbf4wr90FmHsiPr7w13tnwdFtBKnZVA>
+    <xmx:quqyZ26Ng3PwPVjVD3l-OZxAXUOSyzUzy--OhBNLJjsb1yBj_3iKwQ>
+    <xmx:quqyZy7Qv2EfGzlpYsNNmSDDZMmxMYvofOPtQyaM32aazOr8yT-3YQ>
+    <xmx:quqyZ-iTA0PnHwXGeLLFYXQNy49HxTaqI26d865ppbDU3SWBsEMB6Q>
+    <xmx:quqyZ5a-c-hWR7XOGOlOQFXS4VaetMSLZAs0N3ZbfL1gRPIpPOmA8-aE>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 18C5F2220072; Mon, 17 Feb 2025 02:52:09 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250217-kbuild-userprog-fixes-v2-1-4da179778be0@linutronix.de>
-X-B4-Tracking: v=1; b=H4sIAPnksmcC/4WNQQ6CMBBFr0Jm7Zi2gqAr72FYUDuFiaQlLTQYw
- t2tXMDl+z/v/w0iBaYI92KDQIkje5dBnQp4DZ3rCdlkBiVUJZS84FsvPBpcsjcF36PllSKWVtT
- 6qjpqZAPZnQIdRVafbeaB4+zD57hJ8pf+W0wSBVpVVVaXdW1uzWNkt8zBO17PhqDd9/0LH+vBS
- L4AAAA=
-X-Change-ID: 20250213-kbuild-userprog-fixes-4f07b62ae818
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Sam Ravnborg <sam@ravnborg.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, stable@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739777275; l=2552;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=3Mlel136TcYtZin15fAFGGDRy94Qs+xjXkzgX9G5iEs=;
- b=9lTve4IZ+M57ebksbuM1zX0+WyirxLUzJ8hYNgka0PhEtqWh46bybjwMLxmltatxmQo5h3vJu
- gy7XkPzgquPDbpuV9l/tJ0BVJLsIpgVgNHWJRiPH/LiDM7PZRfVlpv+
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+Date: Mon, 17 Feb 2025 08:51:39 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, "Jonathan Corbet" <corbet@lwn.net>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <eda7d555-d34d-4418-8fc4-a874dcca91fa@app.fastmail.com>
+In-Reply-To: <20250215131739.220629-1-krzysztof.kozlowski@linaro.org>
+References: <20250215131739.220629-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] docs: kconfig: Mention IS_REACHABLE as way for optional
+ dependency
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-The userprog infrastructure links objects files through $(CC).
-Either explicitly by manually calling $(CC) on multiple object files or
-implicitly by directly compiling a source file to an executable.
-The documentation at Documentation/kbuild/llvm.rst indicates that ld.lld
-would be used for linking if LLVM=1 is specified.
-However clang instead will use either a globally installed cross linker
-from $PATH called ${target}-ld or fall back to the system linker, which
-probably does not support crosslinking.
-For the normal kernel build this is not an issue because the linker is
-always executed directly, without the compiler being involved.
+On Sat, Feb 15, 2025, at 14:17, Krzysztof Kozlowski wrote:
+> Several drivers express optional Kconfig dependency with FOO || !FOO,
+> but for many choices this is neither suitable (lack of stubs for !FOO
+> like in HWMON) nor really needed and driver can be built in even if FOO
+> is the module.  This is achieved with IS_REACHABLE, so move earlier
+> section from "imply" chapter to "Optional dependencies" and grow the
+> description.
+>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Explicitly pass --ld-path to clang so $(LD) is respected.
-As clang 13.0.1 is required to build the kernel, this option is available.
+I think this needs to be more strongly worded to heavy discourage
+the use of IS_REACHABLE(). In most cases, anyone trying this has
+just given up on writing correct dependencies and works around
+it in a user-hostile way.
 
-Fixes: 7f3a59db274c ("kbuild: add infrastructure to build userspace programs")
-Cc: stable@vger.kernel.org # needs wrapping in $(cc-option) for < 6.9
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
-Reproducer, using nolibc to avoid libc requirements for cross building:
+> +1. If pre-processor can discard entire optional code or module BAR does not
+> +   provide !BAR stubs then call can be guarded with IS_REACHABLE()::
+> +
+> +	foo_init()
+> +	{
+> +		if (IS_REACHABLE(CONFIG_BAR))
+> +			bar_register(&foo);
+> +		...
+> +	}
+> +
+> +   Drawback: this might lead to run-time debugging, when looking why
+> +   bar_register() was not called.
 
-$ tail -2 init/Makefile
-userprogs-always-y += test-llvm
-test-llvm-userccflags += -nostdlib -nolibc -static -isystem usr/ -include $(srctree)/tools/include/nolibc/nolibc.h
+From this description, I wouldn't expect most readers to understand
+what you mean with "run-time debugging". The behavior that users
+are going to see is just a bug -- they turned on CONFIG_BAR=m because
+they wanted to use BAR, but then it doesn't work.
 
-$ cat init/test-llvm.c
-int main(void)
-{
-	return 0;
-}
-
-$ make ARCH=arm64 LLVM=1 allnoconfig headers_install init/
-
-Validate that init/test-llvm builds and has the correct binary format.
----
-Changes in v2:
-- Use --ld-path instead of -fuse-ld
-- Drop already applied patch
-- Link to v1: https://lore.kernel.org/r/20250213-kbuild-userprog-fixes-v1-0-f255fb477d98@linutronix.de
----
- Makefile | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index 96407c1d6be167b04ed5883e455686918c7a75ee..b41c164533d781d010ff8b2522e523164dc375d0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1123,6 +1123,11 @@ endif
- KBUILD_USERCFLAGS  += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
- KBUILD_USERLDFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
- 
-+# userspace programs are linked via the compiler, use the correct linker
-+ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_LD_IS_LLD),yy)
-+KBUILD_USERLDFLAGS += --ld-path=$(LD)
-+endif
-+
- # make the checker run with the right architecture
- CHECKFLAGS += --arch=$(ARCH)
- 
-
----
-base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
-change-id: 20250213-kbuild-userprog-fixes-4f07b62ae818
-
-Best regards,
--- 
-Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-
+      Arnd
 
