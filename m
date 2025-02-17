@@ -1,78 +1,115 @@
-Return-Path: <linux-kbuild+bounces-5775-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5776-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B047A37904
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 00:43:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEC1A379C5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 03:36:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D5A597A2574
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2025 23:42:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50E84188F0E4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 02:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3251A38E4;
-	Sun, 16 Feb 2025 23:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gBsxaw8f"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65EFA634EC;
+	Mon, 17 Feb 2025 02:36:50 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BAB1A3168;
-	Sun, 16 Feb 2025 23:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21A8C8FE;
+	Mon, 17 Feb 2025 02:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739749402; cv=none; b=DyxNrr6jXtbLsbIH+GQJKsV2fC58ymW1ZNz6dMnHrkF6rMru6r+dqNQLiWunxEnLNVXDscBNf8ScIr2vzLTiMuizp8F8Q9qSMZLLRaGVMDVzX1qw9UrMcAbgAShR3Ti1K9iktcPOebBVkbxucYyNlY7syOI1AhF4Tv24NI04Xow=
+	t=1739759810; cv=none; b=Uavq7GXdbj0SmXNFDSM2F3M/VKjZxQGFYmgZur8nvHCrJ1ziSSeCd+JUbA9kq8mrMGmkWUCsH58XnqlXWUqpVfFWzSW+qs1a9GgR29Ky1jvrZdi0QL0yefASNMN20DqcFtT8N+A7JO0cw7G+na5V4BBKxy1Ib91kbYfYEjATh4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739749402; c=relaxed/simple;
-	bh=Uq+c01FyZfmQ8IwJDlaJcYnRLG2lox+tfA5r37xPDT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSeWtbJ3b0JAMngp6X9fNLz2bxZpbOWfIoCAiRx1K0Z4/OvJNXslilOyCyVG+wJPU3g/lkOM14I82rPoLgNOjwKm6ByMm0YeCzPM9cWlAxtmYu1ARLZTma2grCTIuY/+yYLPiKTjLfviOO3lzIEqP3PIb2XshYJ4DJ63YcBGeK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBsxaw8f; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56511C4CEDD;
-	Sun, 16 Feb 2025 23:43:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739749402;
-	bh=Uq+c01FyZfmQ8IwJDlaJcYnRLG2lox+tfA5r37xPDT4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gBsxaw8foJp1ShW1ZK+pCaFqlb2AdkGFvxKHQ21eXCMrAoCsHpbbhfsKsE33pMO7k
-	 jRQoz4JyGjr79f6clp0VjVB7ZG4csEFtK5LLch/YVhx6edGIad37IAwKd6KyrYC48C
-	 oThnP54Fkb5IawtzhSzmvzLOVQp8N3eT49vsf9wGvLHlYrLFyMt847R2gac3GfkbQS
-	 QhYqHAS9yGX8X2oTlltCCcStr5BH+SrqFtSL3M6i998D7Z9+oDDD4h+GHnLhpLHJQe
-	 Nf62fJ40VyUXsQz5Z61cYcyI9Y5MYgrXu60rCLKMO1GSyjED6T854AwSRIHK851qV5
-	 L+S3EYtQ0I5NA==
-Date: Sun, 16 Feb 2025 15:43:17 -0800
-From: Kees Cook <kees@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: move -fzero-init-padding-bits=all to the
- top-level Makefile
-Message-ID: <202502161542.DE21E47C65@keescook>
-References: <20250215161604.690467-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1739759810; c=relaxed/simple;
+	bh=I2rRDOaKvJmH/fo4VfvrvXCEyC3FkbqRpsXWolij3SY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oIl8YPzUnCQDDu8RnkkukhBGZ1OIMa208KLc8wF89kw6ep0UNZXNH/m8+FkbbrRRseMuznms11BmTXBbFEujZ2F3F3GK7vgsrYpci0CNkyZ88ylXgU4tGEf3j/limeBdwK97+bt0jge7n/1Xun+YB1F52pcysPXGCuGPgJFq8HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Yx6Bp68Lbz1ltbV;
+	Mon, 17 Feb 2025 10:32:50 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id 776E71402C7;
+	Mon, 17 Feb 2025 10:36:42 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by kwepemf100008.china.huawei.com
+ (7.202.181.222) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 17 Feb
+ 2025 10:36:40 +0800
+From: Zeng Heng <zengheng4@huawei.com>
+To: <peterz@infradead.org>, <masahiroy@kernel.org>, <mgorman@suse.de>,
+	<guoweikang.kernel@gmail.com>, <mingo@redhat.com>,
+	<vincent.guittot@linaro.org>, <hpa@zytor.com>, <agordeev@linux.ibm.com>,
+	<vschneid@redhat.com>, <tzimmermann@suse.de>, <dave.hansen@linux.intel.com>,
+	<ardb@kernel.org>, <mhiramat@kernel.org>, <juri.lelli@redhat.com>,
+	<geert@linux-m68k.org>, <bp@alien8.de>, <pavel@ucw.cz>,
+	<simona.vetter@ffwll.ch>, <bp@suse.de>, <rostedt@goodmis.org>,
+	<bsegall@google.com>, <nicolas@fjasle.eu>, <sebastian.reichel@collabora.com>,
+	<tglx@linutronix.de>, <akpm@linux-foundation.org>,
+	<mathieu.desnoyers@efficios.com>, <dietmar.eggemann@arm.com>,
+	<lkundrak@v3.sk>, <changhuaixin@linux.alibaba.com>, <nathan@kernel.org>,
+	<javierm@redhat.com>
+CC: <linux-trace-kernel@vger.kernel.org>, <linux-efi@vger.kernel.org>,
+	<bobo.shaobowang@huawei.com>, <linux-kbuild@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <x86@kernel.org>
+Subject: [PATCH 1/5] ring-buffer: Update pages_touched to reflect persistent buffer content
+Date: Mon, 17 Feb 2025 10:46:35 +0800
+Message-ID: <20250217024639.1980139-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250215161604.690467-1-masahiroy@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-On Sun, Feb 16, 2025 at 01:15:52AM +0900, Masahiro Yamada wrote:
-> The -fzero-init-padding-bits=all option is not a warning flag, so
-> defining it in scripts/Makefile.extrawarn is inconsistent.
-> 
-> Move it to the top-level Makefile for consistency.
+From: Steven Rostedt <rostedt@goodmis.org>
 
-Oops, yes. Thanks!
+The pages_touched field represents the number of subbuffers in the ring
+buffer that have content that can be read. This is used in accounting of
+"dirty_pages" and "buffer_percent" to allow the user to wait for the
+buffer to be filled to a certain amount before it reads the buffer in
+blocking mode.
 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+The persistent buffer never updated this value so it was set to zero, and
+this accounting would take it as it had no content. This would cause user
+space to wait for content even though there's enough content in the ring
+buffer that satisfies the buffer_percent.
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+Cc: stable@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Vincent Donnefort <vdonnefort@google.com>
+Link: https://lore.kernel.org/20250214123512.0631436e@gandalf.local.home
+Fixes: 5f3b6e839f3ce ("ring-buffer: Validate boot range memory events")
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+---
+ kernel/trace/ring_buffer.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 0419d41a2060..bb6089c2951e 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -1850,6 +1850,11 @@ static void rb_meta_validate_events(struct ring_buffer_per_cpu *cpu_buffer)
+ 				cpu_buffer->cpu);
+ 			goto invalid;
+ 		}
++
++		/* If the buffer has content, update pages_touched */
++		if (ret)
++			local_inc(&cpu_buffer->pages_touched);
++
+ 		entries += ret;
+ 		entry_bytes += local_read(&head_page->page->commit);
+ 		local_set(&cpu_buffer->head_page->entries, ret);
 -- 
-Kees Cook
+2.25.1
+
 
