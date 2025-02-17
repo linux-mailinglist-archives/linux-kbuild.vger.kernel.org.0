@@ -1,186 +1,175 @@
-Return-Path: <linux-kbuild+bounces-5780-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5794-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E1BA38109
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 12:01:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5915CA381BF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 12:32:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C1A7C7A658D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 10:59:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28EEE16EB89
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 11:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845D1217F5D;
-	Mon, 17 Feb 2025 11:00:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 805D7218AB9;
+	Mon, 17 Feb 2025 11:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OQa3vEUO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sPFMBWWt"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843CF192B71
-	for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2025 11:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2ED217730
+	for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2025 11:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739790026; cv=none; b=naj4rcxH3O6yuNJ08qdCNrrPwy6+71i09cJieDJ3dGK+6BPdPMvQt+rwxvF2WXzjY99aDOAne5zYVOGZUlHnK+AgMWHEGQfHr98VhrIwOk6s2OxXu1PDmi/HN3NERVp/CFCrYwdnIyoCkqVWLmaKytuI+XJ40peHD9XRr01VdBY=
+	t=1739791920; cv=none; b=TOOz9xodNMTRul9mqxJvYa4aKXRyNQ+3E0TMsiYCMlHUnF0HxISoEvIUeDaSZM9O0miWGmFKiqa2ELCe2jBNHJ/rbWtv2ZtpsAFAkOWlTSt0Z4uElU03ji9VX2JJCSnesK4Et3W/OAxpMqk36cyN3SG95gBduRx0Ad/62bpPao8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739790026; c=relaxed/simple;
-	bh=Fqcakq8Z4dK0KW6FqfXsROW5Ca3rxcnHIn+rj3eCIe8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=aYh19OzGPX91KTeE1nyn99kaB6GUMHwEw0As6LCnIUxiKarRRYKEthJKIiLMAF3G2jgyVARdtuItdGjCbJKZAwpHjeKw8rZVNMlVmndcsOOfKzILLoEmVsJOcmBH/poxKg1pxU5Ylgf7L/5oHQWQvkrF2vA64LiE637Z3IUwank=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OQa3vEUO; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1739791920; c=relaxed/simple;
+	bh=+hLWA2hCnKT5kulKutuWGIx2zEUObNyrhqOjKdPI9nQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VeOv8NQYzjeDxQLFaIOdwyck/spbNVnC6fzrbhRK9xm7XUjYfMMyVnaKxMNLSb9dTgjUrqWxSgE88YNNJ3RUmV6XZN0Z2QrROjvrT9+lI3acdWwhhLLAg0xjnB0GxQny/6V6JQOVaxBFVvuuqF8vNCgNgB9ZBHhUilN7wCP7tlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sPFMBWWt; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43979038df6so981425e9.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2025 03:00:24 -0800 (PST)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5ded500589aso600237a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2025 03:31:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739790023; x=1740394823; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SaV2pSSvbrWhPVnao95hj5C2ZKd6wNQfe6jtbM1LUYU=;
-        b=OQa3vEUOABZ8AHxsXHJfuBGLIipPYlV4CETqi7Ykg+QW7xZHgGdBo9Cm0hdRogUnxV
-         AlsDJ5e6hYethiIfIrr5yAgsPo9j4WRgSzgAABTyisSfd6mDwxH7HB/g0foQ5g/ssya+
-         ku1Q1Or4v6FBzqsyJQZbuhsFSGnkeFL2rYPp+JFkEvD1u5g/OAgUKsjuqYpv9Qdour1M
-         d7fLBgVddCrXweECZ8pVLKJRxNXvJsCuoMIgexCbHPsOzmDGkgepOWukcBPn6RxCsrg3
-         6D1U8bUW8wjPsY0BlSKM9NWJqjBS0815s8PHfksZjNkUfi1sH3G5BNUVeJT5Zoa4RWdV
-         6vaQ==
+        d=linaro.org; s=google; t=1739791917; x=1740396717; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oKimg4pzOrqaPAD9ALPNCd7JMmdFnSaV4akqnAMH+aM=;
+        b=sPFMBWWt8A9jgcuPvG4ovrehKfJc/Fn+3Q4YXus57fEYgun1t0bARqoIcFf8d2i/0S
+         ocB9QKSy8JXld2eC9BTFlbAhG2BPE5hbXYGFpClB1EscXBesRrF9PB3+OYS9bA4HbkBF
+         aUReJKMYYZlrXNp4OLMJSQ7c09L8AA/w03fd/J3Ql7tuTisIuvuSaae20B/unvGLaRI2
+         DgWZbyEv5fIHKZ5iNMu3vpuc/B90hqdCE32Z642LcetDEC0NMcgkOae8OpAmrAEEZ6mx
+         y5F1KdSr08CGljLMrgwYZLnyG/16irMovSAFpQgq/+43kpD4twTyFmajOhmfTj/Gnbx7
+         PITg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739790023; x=1740394823;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SaV2pSSvbrWhPVnao95hj5C2ZKd6wNQfe6jtbM1LUYU=;
-        b=pa0VKuhatJAob8YY6gTK92a9fVhPhiVOuGEnzcZhCeE8LUCGUXPFgV/kCBzd0qKJqY
-         iL4mED36mjJvBrMfV5YLemiKm+P5YjP8hFktZ515BrHN1fN9j44WpRvNHRi9qn3yHZtw
-         JlvTeDyGYGj57mVi/YQ16VPCuCf/KmaKYSmC5Ec0r1IRfJfvpDLHKW0dqL8tqgN1J9xq
-         Gxr77DSV0uVFPJsXePGrz9Z3wUNsR4MOtRN9msfMFCOcKJvIpy5g1HgOzeJyGrsinw5+
-         Ej6mcLEXUc2HYuAlYaMRzBIqgXnyXPO3SpihLTXpOPAODJe43xo08sdDT5oHouKahrwW
-         tf9g==
-X-Forwarded-Encrypted: i=1; AJvYcCXqOsQjPmUzm+z8YyhHMmbGYyWvZNpwHvDGeQDa9+itFg2PpQ8xOG2nPwLEJUqYILXoLGv0iUra0NShQfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyriVffmoAGHPbzodBV3z6x4LjS1qyKbrix6PFORcBbkUn/V3j+
-	L9umOshnD6hY16kcIuA2SCkyfpQUpHvkAdQaTTtVuFExFmgJB9ymym28/pzIDQw=
-X-Gm-Gg: ASbGncsiIJH6OrB+7DsibYJyNEV3ERdOrY2nEsg/VRqR4F5AKQetLzvj3xpkPj+UuYQ
-	iH6rqI99m6bgG7FSkCKy4RxeCUnuBnpgDhGJ3oG3egDUq6g0qTiOEsfyJrlc7PHpD74/1goetJD
-	WiCyfm06Hb8IY+u6/cU+A8ihT3WstD7nrJ4Fc+YiCR26C0PCeVvbSdEjgJHe4CRlArM/ZYSGFck
-	3PXBxYIqoEu138G7DHquyiwftreygeay0boERhWu6LKr0z6aiHmba5AzZDZbG6KVF0rWIILWwH1
-	5zQes95/d8VhEsrtlzTcfQONjmk60etDa+s=
-X-Google-Smtp-Source: AGHT+IFZ19beHrXuXE+3JKJUMi/evXHnARTOJfyIdfMhErwnEvP2mj3vLMi08stQSyqfnrfgDg2CXw==
-X-Received: by 2002:a05:600c:4611:b0:439:8c80:6af3 with SMTP id 5b1f17b1804b1-4398c806dcamr3468915e9.8.1739790022762;
-        Mon, 17 Feb 2025 03:00:22 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.206.225])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5655sm11902818f8f.77.2025.02.17.03.00.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Feb 2025 03:00:21 -0800 (PST)
-Message-ID: <e7d33579-d58e-48b7-b0c4-bb77ea1bd788@linaro.org>
-Date: Mon, 17 Feb 2025 12:00:19 +0100
+        d=1e100.net; s=20230601; t=1739791917; x=1740396717;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oKimg4pzOrqaPAD9ALPNCd7JMmdFnSaV4akqnAMH+aM=;
+        b=d41zcPhC6Ug6b0+lODER5ZrWeKj2Lnkr/KvWGd0QuV/TWC5/7JKanFRqgu16eoG10P
+         iQo//augsEGr3RQJqC3OMoyhOrfEV9RaLL4LuZmeNUmLSOnJE8WCiNoemqVeubC/RS1g
+         sgLvspuhu+I3Ve2/sDonPO+iT69bZHcXOXWKffHZ2pL+UX5ICpqNQmJfaFVm97d/eCtB
+         2PhiWDuc2F/EtJoyHT8+7dGcqL5MzvAQTeq/zd7WgsvPcP16X2ynb1IshSP/XgQ1SqAU
+         GcJMmzRUPcgMrZ/q3oTsj30+R86SCSy3guXXXB+q+fCOsqjm53sW/5TZ7y/w9YEMYg5t
+         K9fg==
+X-Forwarded-Encrypted: i=1; AJvYcCWBZUZFHBibeLqpT7+7MEl/hNcYLKDQBpUeetPCq6V0n0Jougrb/nRFfim9uhe9xAkh72ocLYZFMP2WI7M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+XBc/e7NvyhsGfRlL1sCu/u3ICOWAigSGzEpv95A1ewVOFwlX
+	7JaoIu61iSYTsP0zpVlvUNduJ04PMlHaMcHblTUJlmzx7Numa9gpgIqWgQr3tJ8=
+X-Gm-Gg: ASbGncvvs/aT2ER5dhcWgC7ZfPXYZOhn2Hgp9Z55auCCCShvBjAUq1t30jFCM/BTeZP
+	b57HXp5Yc6C8V61Q8pv3eWcgR4jmm2cfDBK8I6aaTvmTl3in2q1ibC/s3w7pZfkmPz0Q1b0Jhlr
+	gMpzQKyFzNF7rdpAMSfcDH9Uia/Rv/cOfZbMyGHjEf6OvuSMgzfw55+gYcAjmaauMwwsB1XPj3u
+	spr0yavcomcCLPm4GJESkx/DlQxSTKF3doahp/sh+OOYQUm5CS3LFl0bLDAUhbd0yaPO0SRUM3W
+	2MZ2nukjZXKi/SFKx3hO+z8kfMB8Ag==
+X-Google-Smtp-Source: AGHT+IF187xjpbv8MjESEcHWSW3tQgy/oCc4RlywDfwrTREL9mIvbOFSssZRofy6CqOFM+/0HK3Tag==
+X-Received: by 2002:a17:907:d8b:b0:ab6:58e4:4fec with SMTP id a640c23a62f3a-abb7093370fmr369717266b.3.1739791916663;
+        Mon, 17 Feb 2025 03:31:56 -0800 (PST)
+Received: from krzk-bin.. ([178.197.206.225])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb1e1bef3esm554323866b.146.2025.02.17.03.31.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 03:31:56 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v3] docs: kconfig: Mention IS_REACHABLE as way for optional dependency
+Date: Mon, 17 Feb 2025 12:31:53 +0100
+Message-ID: <20250217113153.161476-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: kconfig: Mention IS_REACHABLE as way for
- optional dependency
-To: Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250215131739.220629-1-krzysztof.kozlowski@linaro.org>
- <eda7d555-d34d-4418-8fc4-a874dcca91fa@app.fastmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <eda7d555-d34d-4418-8fc4-a874dcca91fa@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/02/2025 08:51, Arnd Bergmann wrote:
-> On Sat, Feb 15, 2025, at 14:17, Krzysztof Kozlowski wrote:
->> Several drivers express optional Kconfig dependency with FOO || !FOO,
->> but for many choices this is neither suitable (lack of stubs for !FOO
->> like in HWMON) nor really needed and driver can be built in even if FOO
->> is the module.  This is achieved with IS_REACHABLE, so move earlier
->> section from "imply" chapter to "Optional dependencies" and grow the
->> description.
->>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> I think this needs to be more strongly worded to heavy discourage
-> the use of IS_REACHABLE(). In most cases, anyone trying this has
-> just given up on writing correct dependencies and works around
-> it in a user-hostile way.
-> 
+Several drivers express optional Kconfig dependency with FOO || !FOO,
+but for many choices this is not suitable: lack of stubs for !FOO
+like in HWMON.  Describe the second, less favorable way of optional
+dependency with IS_REACHABLE by moving the code from "imply" chapter to
+"Optional dependencies".
 
-Ack
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
->> +1. If pre-processor can discard entire optional code or module BAR does not
->> +   provide !BAR stubs then call can be guarded with IS_REACHABLE()::
->> +
->> +	foo_init()
->> +	{
->> +		if (IS_REACHABLE(CONFIG_BAR))
->> +			bar_register(&foo);
->> +		...
->> +	}
->> +
->> +   Drawback: this might lead to run-time debugging, when looking why
->> +   bar_register() was not called.
-> 
-> From this description, I wouldn't expect most readers to understand
-> what you mean with "run-time debugging". The behavior that users
-> are going to see is just a bug -- they turned on CONFIG_BAR=m because
-> they wanted to use BAR, but then it doesn't work.
+---
 
-Ack
+Changes in v3:
+1. Significant rewrite to mark IS_REACHABLE as less favorable.
 
+Changes in v2:
+1. Replace FOO->BAR
+2. Instead of referencing earlier "imply", move the code here and add
+   more text (Masahiro)
+---
+ Documentation/kbuild/kconfig-language.rst | 29 ++++++++++++++---------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 2619fdf56e68..c8c20a34525e 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -194,16 +194,6 @@ applicable everywhere (see syntax).
+   ability to hook into a secondary subsystem while allowing the user to
+   configure that subsystem out without also having to unset these drivers.
+ 
+-  Note: If the combination of FOO=y and BAZ=m causes a link error,
+-  you can guard the function call with IS_REACHABLE()::
+-
+-	foo_init()
+-	{
+-		if (IS_REACHABLE(CONFIG_BAZ))
+-			baz_register(&foo);
+-		...
+-	}
+-
+   Note: If the feature provided by BAZ is highly desirable for FOO,
+   FOO should imply not only BAZ, but also its dependency BAR::
+ 
+@@ -588,7 +578,9 @@ uses the slightly counterintuitive::
+ 	depends on BAR || !BAR
+ 
+ This means that there is either a dependency on BAR that disallows
+-the combination of FOO=y with BAR=m, or BAR is completely disabled.
++the combination of FOO=y with BAR=m, or BAR is completely disabled.  The BAR
++module must provide all the stubs for !BAR case.
++
+ For a more formalized approach if there are multiple drivers that have
+ the same dependency, a helper symbol can be used, like::
+ 
+@@ -599,6 +591,21 @@ the same dependency, a helper symbol can be used, like::
+   config BAR_OPTIONAL
+ 	def_tristate BAR || !BAR
+ 
++Much less favorable way to express optional dependency is IS_REACHABLE() within
++the module code, useful for example when the module BAR does not provide
++!BAR stubs::
++
++	foo_init()
++	{
++		if (IS_REACHABLE(CONFIG_BAR))
++			bar_register(&foo);
++		...
++	}
++
++IS_REACHABLE() is generally discouraged, because the code will be silently
++discarded, when CONFIG_BAR=m and this code is built-in.  This is not what users
++usually expect when enabling BAR as module.
++
+ Kconfig recursive dependency limitations
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-- 
+2.43.0
+
 
