@@ -1,126 +1,143 @@
-Return-Path: <linux-kbuild+bounces-5796-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5797-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9E8A383FB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 14:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A8EA384A1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 14:28:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 94BA13B32AB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 13:03:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8F4B3A2BD2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 13:23:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04A7E21CFF6;
-	Mon, 17 Feb 2025 13:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6795121C9EC;
+	Mon, 17 Feb 2025 13:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="m7ovJ0Cq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="p/oNoCF6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XKxRCQ2Q"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7DC21CC79;
-	Mon, 17 Feb 2025 13:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9413521C9EA;
+	Mon, 17 Feb 2025 13:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739797312; cv=none; b=Nc4DW6S9D71XphmA7PHEMKx7/6vUtYqkO5iGn9W22T8gGzJUzDx5AmeHcRF2AnsqivcqoTCyc4lpSlCtDIVhqv5XhxxADEOh9hQz86LGyJaOJWmmx+6KW+gwos0IRnuYPgZ2JlUxSB8gFajhv/gw/pkdWhmeiAUHzSGUtoOEGS4=
+	t=1739798627; cv=none; b=uevP0MTteBy0rqC+lVf3tHi4ln+MnoQno8TA5+pDIiDA4qMuN5xC1vM2WsNxmxYLmcdmoafk/u54yL59ekA3liuYdWBXbdqbKUMF5cc5b7M2Iq1rZJ/uPU/XMtSDpdYP0gDwx4282CzDJ7IqUbWwYAn8ONvYsI6UU4FZV5s39ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739797312; c=relaxed/simple;
-	bh=2jD9QuN6VW28G8GTwlxHKo4MVefLSMtcuuBQ7ppj4Do=;
-	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=jlcA+8vWuG+twyo7o2udT3Z+yScAO21j8RqaWYjjPFwsGGmAUz4/fWdNxyEGwve7OsBpgSK5HeatNwWkfA4E/kYvnh2Gxag6u/hguFlMry+zLjjfPJIFAlMQKk3dWyQoG409XQPZ4OrcHBTAdUh9ePrl2ef1Sj9zb1xqjuOTuPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=m7ovJ0Cq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=p/oNoCF6; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3B76B138098A;
-	Mon, 17 Feb 2025 08:01:49 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-11.internal (MEProxy); Mon, 17 Feb 2025 08:01:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1739797309;
-	 x=1739883709; bh=fGA+ofvv0mZ+MkkWUzOVgJmFJURib3VnJcpnpL+ZHus=; b=
-	m7ovJ0CqOB+FGXNyWezZXR56R+dUPXg6y5/SjLuu+Z77Eyw6oLdhktPa22dnJyAq
-	yZszsehsAJibdRlQQ3b0hBWrx4Aekp6tOEm/kBarmM8x+58Ewc8I8T5vhjgiqP+d
-	Tkyh+51baL+h+SmlorvlQWJ+hb5nceMOegTiO2rCFxMR262XQgLMyuW17leo8SgK
-	u7e9bU4WIs9ldGbq8om4mnP8TWzwzXTp4hGfEvQ27uIQldcwqoG6H55c0LUQIN+I
-	CF+sHtRpHpEGtZMhAO+Wwsdsa81317GPh7ODhe2X5A6m1DUcmvLwdiR9/L8bCwLk
-	vwXymEPs4zjaLRZP2YfNSA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1739797309; x=1739883709; bh=f
-	GA+ofvv0mZ+MkkWUzOVgJmFJURib3VnJcpnpL+ZHus=; b=p/oNoCF6+AG2rsT1U
-	oJoNbzjA2pwiZ6qSDsPpAm+UG3XX0E0me0IOaLb1y4QZes7coe/crzQCAJCjYgAi
-	O3kpT2OHrLtN3uwDpNVAgG+2hf5tT8b+EJpNI/LSJITAOahD9YngzVNtTjIeIqsD
-	CaHug9xQA7KtlZGvP+356t9HYT5JqetoOCu2PY/YKxGp6yAOQcrQSwo8uErfo/pS
-	lMkw7vWWyTnhMsmbUyXokhNnbAIhUq+mwmCMBumUFu2eO0bQfmTy2yRLzY0Cr7w2
-	RQCZR6bPUgd63iTX1s8YizTYbH1u4vjPtKGTtZM7Oa4957KmcSz42QMIKkjG3Adp
-	E3m1g==
-X-ME-Sender: <xms:PDOzZ0DdmgvgEDBJ02HcqB5xjLCi2S8W_eUnp2wxItsJbI8HXsmU3w>
-    <xme:PDOzZ2jQrdI42GeBUxtyjyxZrLXR4Gd2erb7mIdYo-Ex9f9-BucKlU92SiMqn2qff
-    YoRjXlK-eNYE1AQzbU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehkeegiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfekledtffefhffghfetteehuefhgfetgefhtdeu
-    feduueeltefghedtjeeifffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepkedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhitgholhgrshesfhhjrghslhgvrd
-    gvuhdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriiihshiith
-    hofhdrkhhoiihlohifshhkiheslhhinhgrrhhordhorhhgpdhrtghpthhtoheptghorhgs
-    vghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrd
-    hkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:PDOzZ3mEfyRqMpos6wPvm0i6GQM0gnYE6rb5Tp63W4Op0L_RT3cCRw>
-    <xmx:PDOzZ6yJv22itZ9lTlorwR4ohb5cZzUIOVnxhKUYz7xpV3o1XsrRMg>
-    <xmx:PDOzZ5TqER8X68IL5Ie85fbeuYGpYQVjqbrSNqWWClkNNHLtETjKwA>
-    <xmx:PDOzZ1Z1uGxPWPR6N3eSKIWV8P7Brtd0Bo6s6a9IRoo3dLUYzxywCw>
-    <xmx:PTOzZ6RETDtBvsZ3WkggEr3Qf7EgZ8b5emkQCq69NMl3ro4FQU6xVbZ3>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 830D72220073; Mon, 17 Feb 2025 08:01:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1739798627; c=relaxed/simple;
+	bh=kt/K5przm46mL2H8Okc3eEm+BVm/V5KSx7283IGAhU4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JmDTjomMgL5rqlU6g72Y9JYGN+nbbvOti/uSID2MKGfA0X4MCTn34oXe2Icv0rmwZbqkhDEzlRKJc23pRxciltnx7GNpgqUxNYuVWhivifyeZvAVsL0Dv2K8YkdoF1rJeD7Ogvv8KF6+AFGEveWYnU+ppGVPromElCunhBGM68Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XKxRCQ2Q; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-216513f8104so9081065ad.2;
+        Mon, 17 Feb 2025 05:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739798625; x=1740403425; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yBj0h8f4FM1FBb+FMFSuMLsKQtkdRR7R06+FZTQQ6jk=;
+        b=XKxRCQ2QrghVAWzc7JW9Km0EO7NDYXH1osozDFy9ED1BThFJEG/159WG4FCwkX91xJ
+         ypOpM5rF0MTxLEZkVS9+W2YfetBL5GRXogD6OfZuj267vr9O9LomUOn+HE0j1aCQWa3E
+         qa3szQwzHL6QnjhG8yywarFLbMcS/6yuSCxF/niPPop/uZlTTRYp7URVatV/S+dwiYCD
+         yP8Lrmy7mq/RrR6vmu753Njblt/QCUpFQ1D6Ry01aNlFj4hGNfxubRDF6CtrnqIOlsMZ
+         oh1nqObp/gHHDqVnj/YdnSotkqoH7hGjdzq3k8pnBT43fgqf3JdrIBugFmL1TbeYPMsL
+         U3Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739798625; x=1740403425;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yBj0h8f4FM1FBb+FMFSuMLsKQtkdRR7R06+FZTQQ6jk=;
+        b=b+IxyfllcMwXSvcbFMqvp4HtuSLGlAtCtRfYKWkinfNpui02JASNvvimyrJfGuMIxy
+         z/0gyARySFvDrCktT5XVsJQLtES3dituR3+LoRoevcTDMztlXKPIL6ezEvYLCT1uOoqv
+         /aUtGcwpA9RLTcZofhYBPQZ0uUl3OZ3rgYMS7ZRlnjMH/VoHZ104ruZ50S35qixUYg7u
+         piTVos/eMu4kRVU5ZjwX3E89eSii7ZwJSDJyYIcsCwPGHf2tqpahKn+5nxxVBwponNL9
+         oFjJGxIyS6zoqfG5/BBEOzpIJ0H4YcJyGs5BNDMjetJHggopIoeqUTGgrJ372tWlcmyu
+         mYAw==
+X-Forwarded-Encrypted: i=1; AJvYcCWBrK5kfRmWDl/Y++dA6/5tlJwqSeo4VaF3QSSucQZVxghNNcXAsUm7hLUNmXbndxC6X3ahZzSDME85r3B0HZw=@vger.kernel.org, AJvYcCWb1dRKm0z14O0fgG5Hshoca/N1yac+Y8DRhgVT+CAlgQqcEgNYpfE0OmWDXGvID8YOQDpN/Uql+BrDNUU=@vger.kernel.org, AJvYcCXVFaVvTSvBlBHtmpQZxBG3xRWF5Ek6URWJYxy9rOtdiwJ2lwEKJ1eGL3oB99FHGGVGJrtte3JoErpINeT+@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHnnmpLmLZQNV0HZEUjwKJ7eJD6G8n24OODWzWnAroh3EA8qAL
+	J9+jvccpiEzk22k32mmKk3okqqGztYUQkO3/cJ7J8yj12+mbr+GyF0lafOiYtEXuhL8WW3f+TB2
+	HcybjUxzcIrmH3tzbiqaju1h/5nI=
+X-Gm-Gg: ASbGnctA9SC3ikjUwveGeVSjqvKyOk9iWNlklF8htWPi3rg+Kpr1Hh6Zir9ozw64ZEl
+	QiqJaavq2zS3CEtFDbkzC07Xa/3017jSWgYOLTi3G8lisTbibsJp4FmBM0n5cC7HtgjNZQrfj
+X-Google-Smtp-Source: AGHT+IEF2AmyB4qFalTyuT+96mQHIf4HLj5D4oC3auklR/J0qUGpWNF/G8ASHHj7MI3eLorFnXVP76TvfTwC3mkYoKA=
+X-Received: by 2002:a17:903:3d04:b0:21b:d105:26a7 with SMTP id
+ d9443c01a7336-2210401a440mr58843155ad.6.1739798623888; Mon, 17 Feb 2025
+ 05:23:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 17 Feb 2025 14:01:28 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>, "Jonathan Corbet" <corbet@lwn.net>,
- linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <b1667246-d6e3-46cb-9b76-997e6d6fe052@app.fastmail.com>
-In-Reply-To: <20250217113153.161476-1-krzysztof.kozlowski@linaro.org>
-References: <20250217113153.161476-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v3] docs: kconfig: Mention IS_REACHABLE as way for optional
- dependency
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
+In-Reply-To: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 17 Feb 2025 14:23:31 +0100
+X-Gm-Features: AWEUYZl_xoW-q_Uo1mBzKspdAgUlp5rPZusT5g_C-77oKHze5Aq-wQBZJQ9o7Aw
+Message-ID: <CANiq72mcpVL1YXyDFi-PrbQ2Uh0WUA_VNqLZaOeqQnpY5HnX8Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild, rust: use -fremap-path-prefix to make paths relative
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ben Hutchings <ben@decadent.org.uk>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Urgau <urgau@numericable.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 17, 2025, at 12:31, Krzysztof Kozlowski wrote:
-> Several drivers express optional Kconfig dependency with FOO || !FOO,
-> but for many choices this is not suitable: lack of stubs for !FOO
-> like in HWMON.  Describe the second, less favorable way of optional
-> dependency with IS_REACHABLE by moving the code from "imply" chapter to
-> "Optional dependencies".
+On Mon, Feb 10, 2025 at 6:11=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisss=
+chuh.net> wrote:
 >
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Remap source path prefixes in all output, including compiler
+> diagnostics, debug information, macro expansions, etc.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Hmm... We don't do all the cases in the C side -- the docs ask to use
+`KCFLAGS` when one wants to remove them in the debug info:
+
+    https://docs.kernel.org/kbuild/reproducible-builds.html#absolute-filena=
+mes
+
+I am not sure if there is a reason not to cover all cases in C (Cc'ing Ben)=
+.
+
+If there is a reason to not do it for the debug info by default (or if
+we want to make it consistent with C even if there is no reason), then
+I think we would need `-Zremap-path-scope=3D...` too, which is still
+unstable, sadly (Cc'ing Urgau who implemented it for Rust 1.75.0):
+
+    https://doc.rust-lang.org/nightly/unstable-book/compiler-flags/remap-pa=
+th-scope.html
+    https://github.com/rust-lang/rust/issues/111540
+
+In such case, we would also need probably to mention in the
+`reproducible-builds` docs how to achieve the same as in C (e.g.
+passing an extra `-Zremap-path-scope=3Ddebug`, since it aggregates with
+the previous ones, according to compiler flag docs).
+
+>  # change __FILE__ to the relative path to the source directory
+
+Perhaps we could add a note to this comment with what we do in the Rust sid=
+e.
+
+> +KBUILD_RUSTFLAGS +=3D $(call rustc-option,--remap-path-prefix=3D$(srcroo=
+t)/=3D)
+
+I don't think we need `rustc-option`, since the flag is available
+since a long time ago (Rust 1.26.0).
+
+So we should be able to just do:
+
+    KBUILD_RUSTFLAGS +=3D --remap-path-prefix=3D$(srcroot)/=3D
+
+Cheers,
+Miguel
 
