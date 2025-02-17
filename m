@@ -1,112 +1,142 @@
-Return-Path: <linux-kbuild+bounces-5807-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5808-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F1DA38B0D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 19:07:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7691A38B9E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 19:55:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51CE2170873
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 18:07:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A9DB18944E2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 18:55:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF2D922B5A3;
-	Mon, 17 Feb 2025 18:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD66822DFBF;
+	Mon, 17 Feb 2025 18:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZFL62sY7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TS/SMsuD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB7D17DE2D;
-	Mon, 17 Feb 2025 18:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887A7137C35;
+	Mon, 17 Feb 2025 18:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739815641; cv=none; b=OxFtX2FzmEJdcqaOgLkFpYH9K2qtOL8Y6PBo7qw0Qw013q3tZ8Wg9JOic8bgwl1e0vmTWCa1Lco9ugDY1ooQZ1hTwx/U3QqznngirTXaLHo3wgyVOjkGDsJgsEm1fdqc/nsPFmI97KKDyQuch+OLeX/CnYSvgXrtG44VQhWcj4k=
+	t=1739818502; cv=none; b=ShlZHA9ts49MLk0EPXOodHjieWpTou4v2Z8l2WDKv32e5K5aEKGLKwcu0aYD9Aob8eXTWnR12CZS4zV696GkEZg84wQlStzNMYXfb1pvQhUzU4zt5Yr4bfNZf+zcG0cjOqExaSdCPW+0QGerm+r8Fx7dMNdH2HQt+y6m7qqSldQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739815641; c=relaxed/simple;
-	bh=jNbkbQgyN9p6wmiXECxbEDooxhQxvwmXxm/5M1lcUdY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=li0mErE/l4wSmDepG9A4Lh4Q1Q6+lZJOWAJ8r0iJW+8MTX9VeabcD4U2MjvAkjwcBP+Jd9CjVlb0iUlbQ47kFYcVFTHHQ42VbN6+OJnGtRmhWu0YnQwHJK61Nov46MRbCE4xmB3kb0CXybXEzAoaZqWxVG/DmgfKM/xmXZrhMOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZFL62sY7; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2fc0ab102e2so1061324a91.1;
-        Mon, 17 Feb 2025 10:07:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739815638; x=1740420438; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jNbkbQgyN9p6wmiXECxbEDooxhQxvwmXxm/5M1lcUdY=;
-        b=ZFL62sY7ooit4p7N+bEF3FSV7VCCGTzW/zYRb711eizaCP+VajJFy6cTZSsLsvmXDY
-         fEseWSqYeC1FJ/lqtQQHNMSvUQ76jICX0EFFSNGuIP1RGtOXGwmA2tIXU35F/wufs+cQ
-         iUAIB2dI550004zS7N1iIJYoMkQ+TqWRG/meV55CRhsLYlJhC9dBUAJOZuOUbUVy98DA
-         /bIHZB4YMmZX+gAg4PhSIbQFSpEoM8ylEnZs3nilv2z+E2XdnD9nBJLXVDMyzrGw3qy9
-         Qn3GK3u9/vMSni5c+N8cVaOvH6AaDdXVf7X92I0X6PZXonch0lqDc1q1f1nOV8WD6vBs
-         26Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739815638; x=1740420438;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jNbkbQgyN9p6wmiXECxbEDooxhQxvwmXxm/5M1lcUdY=;
-        b=qDb/0nCr7TbSyJZzUFQGKUhRwMWs6OZ2RtYXdTcWVUsPVsmmXk9oce2Lzp4t6NQPDC
-         RGgG4NzCqeTRuGtyuNVX0Y5xJdcNPqrTA9HUMMRntlRJaiX8qgrdj7Ma7GVK2wSvlFyC
-         L49J5ZNNo/UhmSVYH5E6Saqpf5+3m7pNwb/Om6Ry5PeJ6EijG1fOm0zev6yzqHvA4ItJ
-         n5UrUKaTeVOg3SxorFglowDpaJCu2SzW5QGISbx+IMybTmRjJnQYdjmJk5v8KAj5YDaZ
-         Bf4iqcGg9fQh7iLRFGQO3J2pJdh6X+RxAFFiyvxyVTef7p6JixH+jhZprZbjuW8//j2n
-         NzFA==
-X-Forwarded-Encrypted: i=1; AJvYcCURM/YdoenY/AdEVKwI00UsabVT/r6ZW2LvjFm827R1ZQ5bGXaTtafL9gHbFgbx2KB3dNh2V086jaPCuQQ=@vger.kernel.org, AJvYcCUxOoPWfbbJ7vLh0bYNVbFmC2NKqg5p90gNd+u/YAtnWMHX7tIUtNKnlfen7/oRgLz2IXJ0qx5eItdZD0LOI2k=@vger.kernel.org, AJvYcCWRELuq0M4KEXMlQKc4asB3ql02+egXN6N/iCnK1ErKyyK3jnvIkHa/ylJqiuUmbia8NSVcKDcudqnBVGU/@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWjMm/ssjv/Y9XyAlyEwWAt+GQ9IhYIVNrcWTyIn0G9c0pcq7N
-	soGTzrK37vXEiZfZ6TFmStzVtkzxV5xdZT5V0XtJhq584+B/EqlsKAGtrpdvQqtOEO26K2ob3pC
-	juWZShuV2r0dPw3Yukz7ZZGZqpHg=
-X-Gm-Gg: ASbGncsUPfTbcjxdLj/uRavsrr3UsmCZBNe4T76MKKzbleK+kRQM0p7VdD/xbehvOij
-	XwCeDKNGKfd072lKgQmceCHwZitCVzmA+SPENd7TLMH3HM9g8v0rlAVcdnIIchupVMs2lj9/J
-X-Google-Smtp-Source: AGHT+IGPfaM4CjtvNt+6ENhZ89pBtXp973gZc0Wei5OtOunt4SljfXggcfufBMvvS2uVItRFMbPkG8/KBFd0PXM2qdA=
-X-Received: by 2002:a17:90b:1e05:b0:2ee:6563:20b5 with SMTP id
- 98e67ed59e1d1-2fc407909c6mr6384938a91.0.1739815637758; Mon, 17 Feb 2025
- 10:07:17 -0800 (PST)
+	s=arc-20240116; t=1739818502; c=relaxed/simple;
+	bh=Tqbh4I2DxBUjZqDu585rxe+RDN/kxswkQgYyawvMlPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kA0vrAonkOl1tF7t4lbkVFAnIW8YWxj21BjW+KFF6AF+NUaN0dcA9uDGJ+kmWnJdcoPLnbyMBKDNeeu0ANmY7g6XetCVvEzCG4V9wv7HOAPtjm4TUYmH+zdd2Se/zpaTR6iSlSMZUdMM9Dgm9z8la2orI6dS2App8li6XvB+WaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TS/SMsuD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A4FC4CED1;
+	Mon, 17 Feb 2025 18:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739818502;
+	bh=Tqbh4I2DxBUjZqDu585rxe+RDN/kxswkQgYyawvMlPE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TS/SMsuDJRBUEMsQKkbR5RQBT44JpwsqHZjtu4QGib/fqIClvQUKgDdtBKAUgaypl
+	 ZLHeEiiyk+rU/TAveQVNFxusS9sqKvjuKGgQ0S9PWKY9zi3Cbdl8rpt2XWGsY712zb
+	 pf/6BTpMKWS2I2dZYbajKoxxAZAdseDSDGufeahc86wUd5mIMHNeXapm6bWipArYce
+	 2JAeyDhRnX0/Md+eSiIEnSQ1GHD6vrH0JOgKbKbif9rfi7PIuwQNjK0B7uv962tEdb
+	 PsZ5k74Gzo1eQAPi4tD585cY0hAIr8FQfqRSnwETHEIso4SpWuadNijK2j8f++iT97
+	 AroJ1X0Yos1/w==
+Date: Mon, 17 Feb 2025 10:54:56 -0800
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Sam Ravnborg <sam@ravnborg.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: userprogs: use correct lld when linking
+ through clang
+Message-ID: <20250217185456.GA435791@ax162>
+References: <20250217-kbuild-userprog-fixes-v2-1-4da179778be0@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250216213827.3752586-1-benno.lossin@proton.me> <20250216213827.3752586-2-benno.lossin@proton.me>
-In-Reply-To: <20250216213827.3752586-2-benno.lossin@proton.me>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 17 Feb 2025 19:07:04 +0100
-X-Gm-Features: AWEUYZnbpsfDS7WwJYbRnxqcBmd4ydrbxCtodLqMmz_46ELmEpvkblvuPWcl8QU
-Message-ID: <CANiq72kwME8D2P5C2mbwmTpxekR8u_kdW6GDVz8WERi_NvRZYw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rust: enable `too-long-first-doc-paragraph` clippy lint
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250217-kbuild-userprog-fixes-v2-1-4da179778be0@linutronix.de>
 
-On Sun, Feb 16, 2025 at 10:38=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
-me> wrote:
->
-> Introduced in Rust 1.82.0 [1], this lint ensures that the first line of
+On Mon, Feb 17, 2025 at 08:27:54AM +0100, Thomas Weiﬂschuh wrote:
+> The userprog infrastructure links objects files through $(CC).
+> Either explicitly by manually calling $(CC) on multiple object files or
+> implicitly by directly compiling a source file to an executable.
+> The documentation at Documentation/kbuild/llvm.rst indicates that ld.lld
+> would be used for linking if LLVM=1 is specified.
+> However clang instead will use either a globally installed cross linker
+> from $PATH called ${target}-ld or fall back to the system linker, which
+> probably does not support crosslinking.
+> For the normal kernel build this is not an issue because the linker is
+> always executed directly, without the compiler being involved.
+> 
+> Explicitly pass --ld-path to clang so $(LD) is respected.
+> As clang 13.0.1 is required to build the kernel, this option is available.
+> 
+> Fixes: 7f3a59db274c ("kbuild: add infrastructure to build userspace programs")
+> Cc: stable@vger.kernel.org # needs wrapping in $(cc-option) for < 6.9
+> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
 
-We will need to ignore unknown lints so that it does not warn on older
-compilers.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-We should probably do it conditionally instead -- it requires some
-rework to do it for everything, but we can easily do it for kernel code.
-
-I can tweak it and put this patch into my warning rework series -- I
-had to send the v2 of that anyway. Sounds good?
-
-Thanks!
-
-Cheers,
-Miguel
+> ---
+> Reproducer, using nolibc to avoid libc requirements for cross building:
+> 
+> $ tail -2 init/Makefile
+> userprogs-always-y += test-llvm
+> test-llvm-userccflags += -nostdlib -nolibc -static -isystem usr/ -include $(srctree)/tools/include/nolibc/nolibc.h
+> 
+> $ cat init/test-llvm.c
+> int main(void)
+> {
+> 	return 0;
+> }
+> 
+> $ make ARCH=arm64 LLVM=1 allnoconfig headers_install init/
+> 
+> Validate that init/test-llvm builds and has the correct binary format.
+> ---
+> Changes in v2:
+> - Use --ld-path instead of -fuse-ld
+> - Drop already applied patch
+> - Link to v1: https://lore.kernel.org/r/20250213-kbuild-userprog-fixes-v1-0-f255fb477d98@linutronix.de
+> ---
+>  Makefile | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index 96407c1d6be167b04ed5883e455686918c7a75ee..b41c164533d781d010ff8b2522e523164dc375d0 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1123,6 +1123,11 @@ endif
+>  KBUILD_USERCFLAGS  += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+>  KBUILD_USERLDFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+>  
+> +# userspace programs are linked via the compiler, use the correct linker
+> +ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_LD_IS_LLD),yy)
+> +KBUILD_USERLDFLAGS += --ld-path=$(LD)
+> +endif
+> +
+>  # make the checker run with the right architecture
+>  CHECKFLAGS += --arch=$(ARCH)
+>  
+> 
+> ---
+> base-commit: 0ad2507d5d93f39619fc42372c347d6006b64319
+> change-id: 20250213-kbuild-userprog-fixes-4f07b62ae818
+> 
+> Best regards,
+> -- 
+> Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> 
+> 
 
