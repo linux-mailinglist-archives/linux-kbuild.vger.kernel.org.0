@@ -1,160 +1,112 @@
-Return-Path: <linux-kbuild+bounces-5806-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5807-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1334A387AB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 16:35:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F1DA38B0D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 19:07:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9546C173907
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 15:35:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51CE2170873
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2025 18:07:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B04225766;
-	Mon, 17 Feb 2025 15:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF2D922B5A3;
+	Mon, 17 Feb 2025 18:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZFL62sY7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24DD225413;
-	Mon, 17 Feb 2025 15:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB7D17DE2D;
+	Mon, 17 Feb 2025 18:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739806474; cv=none; b=JAo6eEWIDJYhng3UM86hJXtbrL4wMUYCUFS5rBS2cgBgZyYLEevE8I/IBHXcAErhDzTezpZ4As/96GONsre8ct5MpFL8bBeOtN8c7MfjGKTSBWwSFbtScu7lDC9ibsLtE5gWODx0mHU+nQy5YLwTmnIEPVPCEsRBeHTYH+JP98k=
+	t=1739815641; cv=none; b=OxFtX2FzmEJdcqaOgLkFpYH9K2qtOL8Y6PBo7qw0Qw013q3tZ8Wg9JOic8bgwl1e0vmTWCa1Lco9ugDY1ooQZ1hTwx/U3QqznngirTXaLHo3wgyVOjkGDsJgsEm1fdqc/nsPFmI97KKDyQuch+OLeX/CnYSvgXrtG44VQhWcj4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739806474; c=relaxed/simple;
-	bh=h5HZDvjlSble8n9tutmQYNXJ8OyrHiQ1Z2innQWa9XE=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type; b=C6mabTJ9Yni+/3vY6nLknFmZso/pycdLwY6DgQTYtY7ZKyxDGXfYUxSYb+Mk4p3TCdsSUNDHPffrBggxjY56ymQIYeGhSGHBAAuXEICr2VbK00FxFlt/0wNvTS8C4XEWqdFf2GcAXp/jn1H9XNJn0+i8IgVpJ00xiGdTTk4Slsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 389B4C4CEEB;
-	Mon, 17 Feb 2025 15:34:34 +0000 (UTC)
-Received: from rostedt by gandalf with local (Exim 4.98)
-	(envelope-from <rostedt@goodmis.org>)
-	id 1tk394-00000003aML-0SO6;
-	Mon, 17 Feb 2025 10:34:54 -0500
-Message-ID: <20250217153453.960950584@goodmis.org>
-User-Agent: quilt/0.68
-Date: Mon, 17 Feb 2025 10:34:07 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org,
- bpf <bpf@vger.kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- linux-s390@vger.kernel.org
-Cc: Masami Hiramatsu <mhiramat@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>,
- Zheng Yejian <zhengyejian1@huawei.com>,
- Martin  Kelly <martin.kelly@crowdstrike.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Josh Poimboeuf <jpoimboe@redhat.com>,
- Heiko Carstens <hca@linux.ibm.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>
-Subject: [PATCH v4 6/6] ftrace: Have ftrace pages output reflect freed pages
-References: <20250217153401.022858448@goodmis.org>
+	s=arc-20240116; t=1739815641; c=relaxed/simple;
+	bh=jNbkbQgyN9p6wmiXECxbEDooxhQxvwmXxm/5M1lcUdY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=li0mErE/l4wSmDepG9A4Lh4Q1Q6+lZJOWAJ8r0iJW+8MTX9VeabcD4U2MjvAkjwcBP+Jd9CjVlb0iUlbQ47kFYcVFTHHQ42VbN6+OJnGtRmhWu0YnQwHJK61Nov46MRbCE4xmB3kb0CXybXEzAoaZqWxVG/DmgfKM/xmXZrhMOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZFL62sY7; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2fc0ab102e2so1061324a91.1;
+        Mon, 17 Feb 2025 10:07:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739815638; x=1740420438; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jNbkbQgyN9p6wmiXECxbEDooxhQxvwmXxm/5M1lcUdY=;
+        b=ZFL62sY7ooit4p7N+bEF3FSV7VCCGTzW/zYRb711eizaCP+VajJFy6cTZSsLsvmXDY
+         fEseWSqYeC1FJ/lqtQQHNMSvUQ76jICX0EFFSNGuIP1RGtOXGwmA2tIXU35F/wufs+cQ
+         iUAIB2dI550004zS7N1iIJYoMkQ+TqWRG/meV55CRhsLYlJhC9dBUAJOZuOUbUVy98DA
+         /bIHZB4YMmZX+gAg4PhSIbQFSpEoM8ylEnZs3nilv2z+E2XdnD9nBJLXVDMyzrGw3qy9
+         Qn3GK3u9/vMSni5c+N8cVaOvH6AaDdXVf7X92I0X6PZXonch0lqDc1q1f1nOV8WD6vBs
+         26Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739815638; x=1740420438;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jNbkbQgyN9p6wmiXECxbEDooxhQxvwmXxm/5M1lcUdY=;
+        b=qDb/0nCr7TbSyJZzUFQGKUhRwMWs6OZ2RtYXdTcWVUsPVsmmXk9oce2Lzp4t6NQPDC
+         RGgG4NzCqeTRuGtyuNVX0Y5xJdcNPqrTA9HUMMRntlRJaiX8qgrdj7Ma7GVK2wSvlFyC
+         L49J5ZNNo/UhmSVYH5E6Saqpf5+3m7pNwb/Om6Ry5PeJ6EijG1fOm0zev6yzqHvA4ItJ
+         n5UrUKaTeVOg3SxorFglowDpaJCu2SzW5QGISbx+IMybTmRjJnQYdjmJk5v8KAj5YDaZ
+         Bf4iqcGg9fQh7iLRFGQO3J2pJdh6X+RxAFFiyvxyVTef7p6JixH+jhZprZbjuW8//j2n
+         NzFA==
+X-Forwarded-Encrypted: i=1; AJvYcCURM/YdoenY/AdEVKwI00UsabVT/r6ZW2LvjFm827R1ZQ5bGXaTtafL9gHbFgbx2KB3dNh2V086jaPCuQQ=@vger.kernel.org, AJvYcCUxOoPWfbbJ7vLh0bYNVbFmC2NKqg5p90gNd+u/YAtnWMHX7tIUtNKnlfen7/oRgLz2IXJ0qx5eItdZD0LOI2k=@vger.kernel.org, AJvYcCWRELuq0M4KEXMlQKc4asB3ql02+egXN6N/iCnK1ErKyyK3jnvIkHa/ylJqiuUmbia8NSVcKDcudqnBVGU/@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWjMm/ssjv/Y9XyAlyEwWAt+GQ9IhYIVNrcWTyIn0G9c0pcq7N
+	soGTzrK37vXEiZfZ6TFmStzVtkzxV5xdZT5V0XtJhq584+B/EqlsKAGtrpdvQqtOEO26K2ob3pC
+	juWZShuV2r0dPw3Yukz7ZZGZqpHg=
+X-Gm-Gg: ASbGncsUPfTbcjxdLj/uRavsrr3UsmCZBNe4T76MKKzbleK+kRQM0p7VdD/xbehvOij
+	XwCeDKNGKfd072lKgQmceCHwZitCVzmA+SPENd7TLMH3HM9g8v0rlAVcdnIIchupVMs2lj9/J
+X-Google-Smtp-Source: AGHT+IGPfaM4CjtvNt+6ENhZ89pBtXp973gZc0Wei5OtOunt4SljfXggcfufBMvvS2uVItRFMbPkG8/KBFd0PXM2qdA=
+X-Received: by 2002:a17:90b:1e05:b0:2ee:6563:20b5 with SMTP id
+ 98e67ed59e1d1-2fc407909c6mr6384938a91.0.1739815637758; Mon, 17 Feb 2025
+ 10:07:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250216213827.3752586-1-benno.lossin@proton.me> <20250216213827.3752586-2-benno.lossin@proton.me>
+In-Reply-To: <20250216213827.3752586-2-benno.lossin@proton.me>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 17 Feb 2025 19:07:04 +0100
+X-Gm-Features: AWEUYZnbpsfDS7WwJYbRnxqcBmd4ydrbxCtodLqMmz_46ELmEpvkblvuPWcl8QU
+Message-ID: <CANiq72kwME8D2P5C2mbwmTpxekR8u_kdW6GDVz8WERi_NvRZYw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: enable `too-long-first-doc-paragraph` clippy lint
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Steven Rostedt <rostedt@goodmis.org>
+On Sun, Feb 16, 2025 at 10:38=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
+me> wrote:
+>
+> Introduced in Rust 1.82.0 [1], this lint ensures that the first line of
 
-The amount of memory that ftrace uses to save the descriptors to manage
-the functions it can trace is shown at output. But if there are a lot of
-functions that are skipped because they were weak or the architecture
-added holes into the tables, then the extra pages that were allocated are
-freed. But these freed pages are not reflected in the numbers shown, and
-they can even be inconsistent with what is reported:
+We will need to ignore unknown lints so that it does not warn on older
+compilers.
 
- ftrace: allocating 57482 entries in 225 pages
- ftrace: allocated 224 pages with 3 groups
+We should probably do it conditionally instead -- it requires some
+rework to do it for everything, but we can easily do it for kernel code.
 
-The above shows the number of original entries that are in the mcount_loc
-section and the pages needed to save them (225), but the second output
-reflects the number of pages that were actually used. The two should be
-consistent as:
+I can tweak it and put this patch into my warning rework series -- I
+had to send the v2 of that anyway. Sounds good?
 
- ftrace: allocating 56739 entries in 224 pages
- ftrace: allocated 224 pages with 3 groups
+Thanks!
 
-The above also shows the accurate number of entires that were actually
-stored and does not include the entries that were removed.
-
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
- kernel/trace/ftrace.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
-index 55d28c060784..fa7c3417d995 100644
---- a/kernel/trace/ftrace.c
-+++ b/kernel/trace/ftrace.c
-@@ -7006,6 +7006,7 @@ static int ftrace_process_locs(struct module *mod,
- 	unsigned long addr;
- 	unsigned long kaslr;
- 	unsigned long flags = 0; /* Shut up gcc */
-+	unsigned long pages;
- 	int ret = -ENOMEM;
- 
- 	count = end - start;
-@@ -7013,6 +7014,8 @@ static int ftrace_process_locs(struct module *mod,
- 	if (!count)
- 		return 0;
- 
-+	pages = DIV_ROUND_UP(count, ENTRIES_PER_PAGE);
-+
- 	/*
- 	 * Sorting mcount in vmlinux at build time depend on
- 	 * CONFIG_BUILDTIME_MCOUNT_SORT, while mcount loc in
-@@ -7125,6 +7128,8 @@ static int ftrace_process_locs(struct module *mod,
- 				remaining += 1 << pg->order;
- 			}
- 
-+			pages -= remaining;
-+
- 			skip = DIV_ROUND_UP(skip, ENTRIES_PER_PAGE);
- 
- 			/*
-@@ -7138,6 +7143,13 @@ static int ftrace_process_locs(struct module *mod,
- 		synchronize_rcu();
- 		ftrace_free_pages(pg_unuse);
- 	}
-+
-+	if (!mod) {
-+		count -= skipped;
-+		pr_info("ftrace: allocating %ld entries in %ld pages\n",
-+			count, pages);
-+	}
-+
- 	return ret;
- }
- 
-@@ -7783,9 +7795,6 @@ void __init ftrace_init(void)
- 		goto failed;
- 	}
- 
--	pr_info("ftrace: allocating %ld entries in %ld pages\n",
--		count, DIV_ROUND_UP(count, ENTRIES_PER_PAGE));
--
- 	ret = ftrace_process_locs(NULL,
- 				  __start_mcount_loc,
- 				  __stop_mcount_loc);
--- 
-2.47.2
-
-
+Cheers,
+Miguel
 
