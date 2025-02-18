@@ -1,75 +1,132 @@
-Return-Path: <linux-kbuild+bounces-5824-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5825-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD9AA3A015
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 15:38:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 213DAA3A0AA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 16:00:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 407E8163DC7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 14:33:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47D473A3B9C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 14:59:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2315269B03;
-	Tue, 18 Feb 2025 14:33:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA9B26B0A3;
+	Tue, 18 Feb 2025 14:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="DQIJfHhO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9616C2417C5;
-	Tue, 18 Feb 2025 14:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DD926A1B9;
+	Tue, 18 Feb 2025 14:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739889236; cv=none; b=GZOj18kFecCVut+/5Fgtu3rqDCD/n36UG3y69p5P931rIZ+JmVKBjCp8mPMWi1YSq2OmvPudPsnACeOnbyULtCUb48mGKkPT60o7/JkAFOs1h6J7ySZQvofmO4i9xZMTMjF/H7Fw9DbHGomnv36SvAe3hbzQgA1/5YZvHi+Qwxw=
+	t=1739890755; cv=none; b=hjjHqRh6VAQPV4ntvtqE9vVj3Jp9rp+GL66j8oyR91yDUcsOhZ8gmwmDSVA07nSTP8rmm33sVRbOD+XVPdvhnNyblInxnjd/0l44g9z3vcF69IOXq6sMR2donxaX1uSG+uf2qmigjfSTc4dpBLtOU2V6/TMPu5J50HwdpYixqAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739889236; c=relaxed/simple;
-	bh=dD1EK1xrVXA5cExlcxN9TkVo2ZSIeE4Wg+CYc+EEd7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FrjSnClzu4pzW8gA+fB/n4BtDlSZUqtvPo4+aV9UW951KLvzo8r5Fo3t/UxNPR3u1Nvx8u3bAIoKnVOG7Q+UCAQmx2s80PioMcQQzFho7Dajx5i1tVJ+6perxiUCY0tLYA7Fa+AUjgrR0789SfSVWjpyHzh/PF97kxQ+JoMVKiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1064EC4CEE2;
-	Tue, 18 Feb 2025 14:33:53 +0000 (UTC)
-Date: Tue, 18 Feb 2025 09:34:14 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Uday Shankar <ushankar@purestorage.com>, Frederic Weisbecker
- <fweisbec@gmail.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/2] scripts: make python shebangs specific about
- desired version
-Message-ID: <20250218093414.68069ce1@gandalf.local.home>
-In-Reply-To: <20250210-debuginfo-v1-1-368feb58292a@purestorage.com>
-References: <20250210-debuginfo-v1-0-368feb58292a@purestorage.com>
-	<20250210-debuginfo-v1-1-368feb58292a@purestorage.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1739890755; c=relaxed/simple;
+	bh=eKQAJOFiSFjCBvaN3otwv1zRSOaJ56bFYDieUXVuLTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e6odYDl9Bm5IIsUzlmBN7/DHQCcgxQib+wjPbx2nnrZM8qTWlIteEUUKPa7IdxB9TkZtY4LrNp/H8wPPCf18iPygZKvzIyt1UiEMWo1iiXd/sW/82zTMv7WjWTPE5bh6QHeq9Uuu/r1tqzrVIdkkcmzgW/GVRHP+SfOMkLofIvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=DQIJfHhO; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51ID86i6001000;
+	Tue, 18 Feb 2025 14:58:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=8G3fJTsPM3PHD9oCrIMRqDVoc+Taso
+	PU4gPsLvhxTFY=; b=DQIJfHhO3QD73+jp3tfon/61fA2d/r5I1fep0BoPRgRBrh
+	fgTG7k33O7gqCKVdYSvGhvsPyfxJBhUvfW652t0LZUwumb8W7vcB7aFrWN63bzag
+	6EejdN/Xkyy85PHoZRW+h9YrP2n5iSzFr+iXZr+FjGtmwnlygJ/3xlzQ+e/pLMwF
+	hq/alZxfLV+BBcaCe0ditIsn6EDNOWgnPqvpfYxcBk2bPrsO25OtBWTib2Gr048X
+	wkQvZnBgJcvBsGfXl0XeGf6KH0A30OySYegj9P8XoFSkXXaDRSiZGHxtODNd6+QA
+	9yQcMpnfr8PYX66y7AaEwT8XPDcwxB4VKYs/cKcQ==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44vh203848-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Feb 2025 14:58:41 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51IEr2qW013259;
+	Tue, 18 Feb 2025 14:58:41 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 44u7fkkgt6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Feb 2025 14:58:41 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 51IEwbYV39322100
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Feb 2025 14:58:37 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 94FF720040;
+	Tue, 18 Feb 2025 14:58:37 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3119A20043;
+	Tue, 18 Feb 2025 14:58:37 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.60])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 18 Feb 2025 14:58:37 +0000 (GMT)
+Date: Tue, 18 Feb 2025 15:58:36 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, bpf <bpf@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Zheng Yejian <zhengyejian1@huawei.com>,
+        Martin Kelly <martin.kelly@crowdstrike.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Subject: Re: [PATCH v4 0/6] scripts/sorttable: ftrace: Remove place holders
+ for weak functions in available_filter_functions
+Message-ID: <20250218145836.7740B3b-hca@linux.ibm.com>
+References: <20250217153401.022858448@goodmis.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250217153401.022858448@goodmis.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: N6Nd-Kgwrh6LB3tMVi3DOv2CPHs0sU1v
+X-Proofpoint-ORIG-GUID: N6Nd-Kgwrh6LB3tMVi3DOv2CPHs0sU1v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-18_07,2025-02-18_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
+ spamscore=0 impostorscore=0 adultscore=0 bulkscore=0 mlxlogscore=293
+ phishscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502180109
 
-On Mon, 10 Feb 2025 18:11:54 -0700
-Uday Shankar <ushankar@purestorage.com> wrote:
+Hi Steven,
 
-> diff --git a/scripts/tracing/draw_functrace.py b/scripts/tracing/draw_functrace.py
-> index 42fa8730094166b5883aaa92b0e2c32e0268b120..97594b65f8ce9b1ade7f08b6b95eee6a1383fec7 100755
-> --- a/scripts/tracing/draw_functrace.py
-> +++ b/scripts/tracing/draw_functrace.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env python
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0-only
+> This series removes the place holder __ftrace_invalid_address___ from
+> the available_filter_functions file.
+> 
+> The rewriting of the sorttable.c code to make it more manageable
+> has already been merged:
+> 
+>   https://git.kernel.org/torvalds/c/c0e75905caf368e19aab585d20151500e750de89
+> 
+> Now this is only for getting rid of the ftrace invalid function place holders.
 
-Does anyone actually use this script?
-
-If not, I wonder if we should just remove it.
-
-Frederic?
-
--- Steve
+Since you asked me to test this on s390: seems to work with
+HAVE_BUILDTIME_MCOUNT_SORT enabled; the ftrace selftests still
+work as before.
 
