@@ -1,149 +1,126 @@
-Return-Path: <linux-kbuild+bounces-5815-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5819-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F11DA39C62
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 13:43:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD2BA39CBF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 14:03:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 796283A2D43
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 12:43:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D7A17A05AF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2025 13:02:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E3CC248178;
-	Tue, 18 Feb 2025 12:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B08C269AE2;
+	Tue, 18 Feb 2025 13:02:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="ZNx5BYbL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5Ie2UPL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E57F2475F2;
-	Tue, 18 Feb 2025 12:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEC2267384;
+	Tue, 18 Feb 2025 13:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739882617; cv=none; b=Tq2nCe8wY0Zwh0ObyGFGYXxV5+Y7EMyTMwwP+73py7hZW1u5BOgsJS9V8BFxQOSTb9Gh3ytRaPqB4m5CHbFAwYYGncdhpnzerDmRXdNMMW3YrvH059Oo/dxtIGgaXS12J5Fz1Wily9+N6gI2VLQMjnVijfU91zmbgZUa45Jj4OE=
+	t=1739883725; cv=none; b=p5iUbll8NK77+v01K0tUme3SNSmbJ2+Yf41LLESx5C0d7AnZFHPdR4a1M8E0zfR6T1pNO0dsNZLAG7wJAPzqRg1UN8+UgSsdbyNoMbCthPX8GdoU6shM8w3a3eT9ukyoEEILr0Om+QkR/EY91+2neGbJhQPEwyv6MStGM7826aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739882617; c=relaxed/simple;
-	bh=PPfx+qN+r3fsPzBvaolV7hOKBn7l6DYQD6YgdMuZ/SI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=as0wjBgkdgwtiyq7Z+pE+F/+nbmp4MIKCWFZsx68XrS8cFp8kkkcs38afGqxKPgLeVyRBgqBYv1B1/hmm9/6XJmO/NAZACR7/j5VlIQMSqy0tO2FHj85c5mDoOUL7Bj5LaG11Jkt9WznCNI60TMdK9lZwNotOi3mglzAofilXss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=ZNx5BYbL; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=q3sgjaww3zf6jjt5pzlzd6ux3u.protonmail; t=1739882607; x=1740141807;
-	bh=8nsvnyARfLGt6tPfX961veuIV9VExo8yct+FDPP2mDI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=ZNx5BYbL9RA91zzUIBpyXgcwhSHUGEJJ62FPKJ/ni2mbVu4fDzxJ+3N608wx+Z4VV
-	 wyhDLZXIS5LPCGmcQDzVA3kHiRJBukQ5IZFZUjQEttI9uXG69wnHBAVW+5yiAFoXU/
-	 j7Hsm3yjfJpTSA2bECMDKUMWh1IAD1Hg364bn2XnQ+1+t01Bw99HBnRirfBVh+0KHE
-	 921f5TtLBtG6vv5RRw+jhBuqsnOoG/r4C7j8hSlIOe9I2oSPBb+esjkXgPubAPeCtk
-	 W7uLhY/SrY5HMUq+K4zK/fXV2D6DtT7KGDY59IXXohyoBmZwBiYrzw6Ap7YT8FvxGg
-	 7vk6JAU8w7NYA==
-Date: Tue, 18 Feb 2025 12:43:21 +0000
-To: Andreas Hindborg <a.hindborg@kernel.org>, Gary Guo <gary@garyguo.net>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Luis Chamberlain <mcgrof@kernel.org>, Trevor Gross <tmgross@umich.edu>, Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, Greg KH <gregkh@linuxfoundation.org>, linux-modules@vger.kernel.org
-Subject: Re: [PATCH v6 2/6] rust: str: implement `Index` for `BStr`
-Message-ID: <86474714-24a5-49ff-9767-23e25afee7d3@proton.me>
-In-Reply-To: <87wmdnfqt0.fsf@kernel.org>
-References: <20250211-module-params-v3-v6-0-24b297ddc43d@kernel.org> <20250211-module-params-v3-v6-2-24b297ddc43d@kernel.org> <kW0CDyK5M8DuLPr_1HwIXcnVP4x8evlFoq0BOjldchTZqkGiqzNJ-dtpV7s5QHLbbmm6cW529GeDTo_GoDKfdQ==@protonmail.internalid> <20250211164004.6de768c3@eugeo> <87lduc44c3.fsf@kernel.org> <2m_bB1GvgxV0DoM1PIggnkJD83g9AA6EeW5bgH1JmfZBG1P8D_DE966KAg53gCK8KmWgjpdCUPU6T-5xuZ-FYg==@protonmail.internalid> <20250212090914.6ef7e83b@eugeo> <87wmdnfqt0.fsf@kernel.org>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 7deb9b54b3c5e867e75199ddc60dac1ad16802d2
+	s=arc-20240116; t=1739883725; c=relaxed/simple;
+	bh=kvGbpK9kXJddOYZoiGF2djCA1EY8EEWP9GNQBrdAngE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bFGNIShWNqiBA0YfsOYhCs8euA07MO8w3gwxq1AUS6o/1f3KRhC4+JEAi35ylQOrNxpYh/Xm5snIpFQjDU4kAPITMLxC+q2JXygSfnc7BHqeQIzABX02NNCd3Ko2yMA5DSUMne375DzgCWDv9H6IQl5VE8ox2pY+zxz8clCNwS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5Ie2UPL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A968C4CEE2;
+	Tue, 18 Feb 2025 13:01:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739883725;
+	bh=kvGbpK9kXJddOYZoiGF2djCA1EY8EEWP9GNQBrdAngE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=D5Ie2UPLiPm48/it8g6AvmzcXhTWyR8yEwmD/nAM6fyxJvxdkKUrn8XOSOu+2Bb25
+	 oxBA3b+SXz/5ZwvOmsH8k/ahIX0BPQ7sm69fDVnE1eyVoxMx2XIfVFyDxsXcmJl28f
+	 KaydLtAJan2g8LOOg3OCViaEZNw9U6Q1op8GF1sLNYBt7gFeFXpJHs+yjN26HyIR/z
+	 OzVPNnugcfcTGFqFFd4ZxkVuaCrrLzVKr49ILbq6DeHm5+lecKFsYXtWY3IB4V4KF7
+	 kF3phVtiJhlF94m17q469/VlZ2/hhE0HGwito842HH/jfWhkwVsOCwB1jSdwBi6IUY
+	 ecGOqy5ICTRUA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Date: Tue, 18 Feb 2025 14:00:45 +0100
+Subject: [PATCH v7 3/6] rust: str: implement `AsRef<BStr>` for `[u8]` and
+ `BStr`
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250218-module-params-v3-v7-3-5e1afabcac1b@kernel.org>
+References: <20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org>
+In-Reply-To: <20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Luis Chamberlain <mcgrof@kernel.org>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Adam Bratschi-Kaye <ark.email@gmail.com>, linux-kbuild@vger.kernel.org, 
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ Greg KH <gregkh@linuxfoundation.org>, linux-modules@vger.kernel.org
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=844; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=kvGbpK9kXJddOYZoiGF2djCA1EY8EEWP9GNQBrdAngE=;
+ b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBntISFZJsHCDQ/fYrSsdwC6D0joyKK16I5hZxcv
+ 1WrTIW05g2JAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCZ7SEhQAKCRDhuBo+eShj
+ d9LlD/9AXD7x+fgK0eDF7+5eqzztOc9cyUmJRsa9caJUaZMK20kNv9/Wu8gi72DfGynreTyx1Am
+ M+PywlvqQmQmf5njTmNkD0zRuDyCH/vJYmPKdHoe8Qt5CLVc0eKfLwQC0/A34I5l3GQB9YknLxt
+ T7Psf5O5u/mNbckCCLOv8JAjzXBRQL9XV0pZsXBKG9IHaen/bk93lREws+biXEh2Y2RTJ8VEteF
+ ZjxncX+FoFH5btwW1Viu/LrFYfOs/ufFvHhyHX4umcf0CH5cLqWsOoqzEWNtnqLk8StgT2cTwG0
+ B3HSXpmfNfy19yK3PFnvbmlMeFIO2pYcgqZ72n0IksJwiJJXLyOmz6/8sDqHYskpCoIx0flB1Wa
+ Oe1owSXt2JotwiKJqnU3Ta3CX9zWTo5IgyRhlId8i5bT3rIwbv18vWPixwn13S6GvhPoec0VM1g
+ iIvJ6xAOBipHc7vytgV/D0fNQ+6Mkzumseoq4uLYmZXMboAAyxai/QKf5zZExQh4453ie/tHViV
+ eKB9m2dIIgkJ9t/1JXq1B0VVVtdcpnGqcOAzLGynE8HCMWcxLtHHZQce/SXWFDdObg2oLO7EVEN
+ GLqrVTLoo5HUu23PDTZelJ0ZBO+BJoWLUIqT89n80pnJjmu9wxixM/IuO4Hdtiq32vZaKmBokZ4
+ sLbGNo0ugaCCgCw==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-On 18.02.25 12:14, Andreas Hindborg wrote:
-> "Gary Guo" <gary@garyguo.net> writes:
->=20
->> On Tue, 11 Feb 2025 21:24:44 +0100
->> Andreas Hindborg <a.hindborg@kernel.org> wrote:
->>
->>> "Gary Guo" <gary@garyguo.net> writes:
->>>
->>>> On Tue, 11 Feb 2025 16:57:36 +0100
->>>> Andreas Hindborg <a.hindborg@kernel.org> wrote:
->>>>
->>>>> The `Index` implementation on `BStr` was lost when we switched `BStr`=
- from
->>>>> a type alias of `[u8]` to a newtype. This patch adds back `Index` by
->>>>> implementing `Index` for `BStr` when `Index` would be implemented for
->>>>> `[u8]`.
->>>>>
->>>>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->>>>> ---
->>>>>  rust/kernel/str.rs | 11 +++++++++++
->>>>>  1 file changed, 11 insertions(+)
->>>>>
->>>>> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
->>>>> index 002dcddf7c768..1eb945bed77d6 100644
->>>>> --- a/rust/kernel/str.rs
->>>>> +++ b/rust/kernel/str.rs
->>>>> @@ -114,6 +114,17 @@ fn eq(&self, other: &Self) -> bool {
->>>>>      }
->>>>>  }
->>>>>
->>>>> +impl<Idx> Index<Idx> for BStr
->>>>> +where
->>>>> +    Idx: core::slice::SliceIndex<[u8], Output =3D [u8]>,
->>>>
->>>> I think I'd prefer
->>>>
->>>> =09[T]: Index<Idx>,
->>>
->>> Is that equivalent?
->>
->> Sorry, I meant `[u8]: Index<Idx>`. This makes more semantic sense that
->> "what ever can index a byte slice, it can also index BStr". This is
->> also how our CStr and the array primitive type implements its Index
->> operation.
->>
->> They should be equivalent as libcore does
->>
->> =09impl<T, I> Index<I> for [T] where I: SliceIndex<[T]> { ... }
->>
->=20
-> What I originally wrote is `Idx` must be usable as an index for `[u8]`,
-> yielding `[u8]` when indexing.
->=20
-> The new one you suggest, I parse as `[u8]` should be indexable by `Idx`.
-> This is less info. The compiler will also complain about the missing info=
-:
->=20
-> error[E0308]: mismatched types
->    --> /home/aeh/src/linux-rust/module-params/rust/kernel/str.rs:141:26
->     |
-> 141 |         BStr::from_bytes(&self.0[index])
->     |         ---------------- ^^^^^^^^^^^^^^ expected `&[u8]`, found `&<=
-[u8] as Index<Idx>>::Output`
->     |         |
->     |         arguments to this function are incorrect
->     |
->     =3D note: expected reference `&[u8]`
->                found reference `&<[u8] as Index<Idx>>::Output`
->     =3D help: consider constraining the associated type `<[u8] as Index<I=
-dx>>::Output` to `[u8]`
->=20
-> If I constrain the output it's all fine again:
->=20
->     [u8]: Index<Idx, Output =3D [u8]>,
->=20
->=20
-> But as I said, I don't think it matters which direction we put this?
+Implement `AsRef<BStr>` for `[u8]` and `BStr` so these can be used
+interchangeably for operations on `BStr`.
 
-I think it's better to depend on `Index` compared to `SliceIndex`.
-
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
-Cheers,
-Benno
+ rust/kernel/str.rs | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+index ba6b1a5c4f99d..c6bd2c69543dc 100644
+--- a/rust/kernel/str.rs
++++ b/rust/kernel/str.rs
+@@ -125,6 +125,18 @@ fn index(&self, index: Idx) -> &Self::Output {
+     }
+ }
+ 
++impl AsRef<BStr> for [u8] {
++    fn as_ref(&self) -> &BStr {
++        BStr::from_bytes(self)
++    }
++}
++
++impl AsRef<BStr> for BStr {
++    fn as_ref(&self) -> &BStr {
++        self
++    }
++}
++
+ /// Creates a new [`BStr`] from a string literal.
+ ///
+ /// `b_str!` converts the supplied string literal to byte string, so non-ASCII
+
+-- 
+2.47.0
+
 
 
