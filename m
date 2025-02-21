@@ -1,56 +1,56 @@
-Return-Path: <linux-kbuild+bounces-5854-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5855-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D540A3FB0E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 17:25:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91020A3FB14
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 17:25:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1CF127AE923
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 16:19:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24BAA7A7B0A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 16:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 312EC1FBCB8;
-	Fri, 21 Feb 2025 16:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEE6B1E491B;
+	Fri, 21 Feb 2025 16:16:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="HrFq2N6H"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="BJ7hB8pc"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD747217F34;
-	Fri, 21 Feb 2025 16:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD5D1E1C36;
+	Fri, 21 Feb 2025 16:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740154521; cv=pass; b=t+Al+Zr9MY1305FDOu9uIzcLTzKJqsz1MBpq6UCBN/ggpEXyDbOZta83FjdYyml+KFK+n6BPLcTt9pfARVDyOa7o9gv3HpeI/3TxFtcsUQwITb61EhdTmmdSTY01CqLgjIc7WIYCg9wvjDdSo18A3hoDoqUpqx/OZ5JDNWvGDhQ=
+	t=1740154600; cv=pass; b=t388+eFFEkX4bUBC/Cn6M6UvNpS/3Y8Otz6cnF2vRpmAzusB66o0wA7eHrMKU8kIvNZgX/nF87HuKlguwdge4PifWMED+EmTuc6VNlHKWdIIo8DiDN8HCz4Z/H/1zIXFjAq9YJiQ/+IwkNfyGLtDLv8mjPaScE+pVMbRpjKsOuc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740154521; c=relaxed/simple;
-	bh=kq47C7Cj0lNqK5gVuD4iv3D6ANd/wMKGIASyMs4pBI8=;
+	s=arc-20240116; t=1740154600; c=relaxed/simple;
+	bh=jOzJHq8+4wQqwKjhyLa1Z3VwwS37RnvY9pGLMAgnTLw=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=uIBnKwum4Ft8rKH8bHOaKOfY0Iqg6YMQKxDQXJflbN4TXsVUecru2ifuAOi97yhHzbsfUIFa5CNk++fg5C3hJl8MWpBNHPvGbpb5xmANChd1acryDWd5f26OWmUWTpREBr2l7enZlHSQPK6ABBimKLhpD72SLAMDJ7uLK+uhcb8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=HrFq2N6H; arc=pass smtp.client-ip=136.143.188.112
+	 Message-Id:References:To; b=akP94vgUUU7ET04AQwui2LnUoZJZl0JC9PialSdzqJfb62oAsXUinIyMIktmGU8ctqGFnJM9XZi/aqWZtlyt6kgfe3IOk+LfmVvWpKbxq5coLGQcMtDzjgPLdMXrDsakRvqp799YtNTpIinAgMsS6dywNTYdpC3GPsJYO2ZOlpE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=BJ7hB8pc; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740154482; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1740154558; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=axGHV7uyYSgur6jAbZ0Etq+z1vfX/8gV0yhdKRCEsvL/aRaXScGSPfUTYWGlflg3I3EaCy2is22lLWHFIhM1r+2EOe9zJZ990PTmBDflG64bfgrrb8w+01KvrtsrHU1qz8sNVIDx5Epa5ff44L0f9Ci12rG34fOH3TA0W9ya05g=
+	b=VhLhNhUzP54DD6vMRPUo125BM+LXQgfPZ8gjRvb0QXfqJXYHeLIPSqFAOh4J6JqX+Z6Xw+utK0ii0MK+441qG3PmnMLWJYLlnXi8Vtw5zz78yRFE75WqS1ppi7zP7bQxcJAqYqF4VYhNU3KXdKdHomZUnTMzq29qcz9vJuC5LJM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740154482; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=QU4oftVAlwYPxLUQYSBkIID7nutOF48ooWl8p3gGC8U=; 
-	b=RvaHzRqNFevItfz77ByvGc2u0dwRmUQEWMgkQohPzULqL3YIn4Rv4p6w854LCks8FWClszYG6qGHd4JwXQ1Kl0Iyb/KvNkZxP2eF0DX51f/ORtZwjPDA4srqKxUEpksmqcb7A/1cOAw3HyKlZv0slxPOHNbAqBQWrBZHedMCrKU=
+	t=1740154558; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=l133VrdCg0Pj7Gbh3P0YhOoWAIun5QkcWnsNlg1Ey2Q=; 
+	b=KRJWysobFndxVP6cjpeH0YS+35yOdhfGVTkmaHjdS2m+FSJHutDREdF8hw8JDAVEMaKVO72O8MUZE4jZwWR3Gzdg82bAc9ZexNoLk+kvjovq1P2XWqm5hcoLt+AilecYgS8tqtnbG/hAfnp3bsJ+PnxCOtACQwVpxIE9CgJ3u20=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
 	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740154482;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740154558;
 	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
 	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=QU4oftVAlwYPxLUQYSBkIID7nutOF48ooWl8p3gGC8U=;
-	b=HrFq2N6HUVJUM+27SbT1pFfXF7Sv0hwVKWfR2MX/YkUE9QsI3X8eTWfgHECI0zIH
-	c31QL3bPS0QL3Ah1Dv8hHZ6qHEim0t8KbW+LCr/gnws4o9HomBVixcqPh9Sv10umH68
-	zVFxMDJ5jeHXEEYxEGu70eucZdZYlBqFh24IHfFs=
-Received: by mx.zohomail.com with SMTPS id 1740154479024643.7915371630859;
-	Fri, 21 Feb 2025 08:14:39 -0800 (PST)
+	bh=l133VrdCg0Pj7Gbh3P0YhOoWAIun5QkcWnsNlg1Ey2Q=;
+	b=BJ7hB8pcl/l/K0B9LTPrK4t63Ju6TTkaeS5mogSLaM/GhoXmCGnuwwNBDMt2bqt/
+	rp3+6t8rMsfaYJraCvfNpIDNvjti4J6qOzLTdOrzgavHEnYSJwipxebx37B+HyyWBdD
+	SpVtXZoAwbtGNFexAoJaEWDZDYdIp1itFEpnJpjY=
+Received: by mx.zohomail.com with SMTPS id 174015455580945.3150431144137;
+	Fri, 21 Feb 2025 08:15:55 -0800 (PST)
 Content-Type: text/plain;
 	charset=us-ascii
 Precedence: bulk
@@ -59,10 +59,11 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
-Subject: Re: [PATCH v7 4/6] rust: str: implement `strip_prefix` for `BStr`
+Subject: Re: [PATCH v7 3/6] rust: str: implement `AsRef<BStr>` for `[u8]` and
+ `BStr`
 From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250218-module-params-v3-v7-4-5e1afabcac1b@kernel.org>
-Date: Fri, 21 Feb 2025 13:14:21 -0300
+In-Reply-To: <87372128-2734-4402-B46F-EF81ECEE546A@collabora.com>
+Date: Fri, 21 Feb 2025 13:15:38 -0300
 Cc: Miguel Ojeda <ojeda@kernel.org>,
  Alex Gaynor <alex.gaynor@gmail.com>,
  Boqun Feng <boqun.feng@gmail.com>,
@@ -86,76 +87,67 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,
  Greg KH <gregkh@linuxfoundation.org>,
  linux-modules@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <1723B7FD-5929-4C64-8DB3-671C74D97468@collabora.com>
+Message-Id: <94DA7409-439D-4D6B-98F5-687A743DB277@collabora.com>
 References: <20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org>
- <20250218-module-params-v3-v7-4-5e1afabcac1b@kernel.org>
+ <20250218-module-params-v3-v7-3-5e1afabcac1b@kernel.org>
+ <87372128-2734-4402-B46F-EF81ECEE546A@collabora.com>
 To: Andreas Hindborg <a.hindborg@kernel.org>
 X-Mailer: Apple Mail (2.3826.300.87.4.3)
 X-ZohoMailClient: External
 
-Hi Andreas,
 
-> On 18 Feb 2025, at 10:00, Andreas Hindborg <a.hindborg@kernel.org> =
+
+> On 21 Feb 2025, at 13:01, Daniel Almeida =
+<daniel.almeida@collabora.com> wrote:
+>=20
+>=20
+>=20
+>> On 18 Feb 2025, at 10:00, Andreas Hindborg <a.hindborg@kernel.org> =
 wrote:
+>>=20
+>> Implement `AsRef<BStr>` for `[u8]` and `BStr` so these can be used
+>> interchangeably for operations on `BStr`.
+>>=20
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>> ---
+>> rust/kernel/str.rs | 12 ++++++++++++
+>> 1 file changed, 12 insertions(+)
+>>=20
+>> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+>> index ba6b1a5c4f99d..c6bd2c69543dc 100644
+>> --- a/rust/kernel/str.rs
+>> +++ b/rust/kernel/str.rs
+>> @@ -125,6 +125,18 @@ fn index(&self, index: Idx) -> &Self::Output {
+>>    }
+>> }
+>>=20
+>> +impl AsRef<BStr> for [u8] {
+>> +    fn as_ref(&self) -> &BStr {
+>> +        BStr::from_bytes(self)
+>> +    }
+>> +}
+>> +
+>> +impl AsRef<BStr> for BStr {
+>> +    fn as_ref(&self) -> &BStr {
+>> +        self
+>> +    }
+>> +}
 >=20
-> Implement `strip_prefix` for `BStr` by deferring to =
-`slice::strip_prefix`
-> on the underlying `&[u8]`.
->=20
-> Reviewed-by: Gary Guo <gary@garyguo.net>
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-> ---
->=20
-> It is also possible to get this method by implementing
-> `core::slice::SlicePattern` for `BStr`. `SlicePattern` is unstable, so =
-this
-> seems more reasonable.
-> ---
-> rust/kernel/str.rs | 16 ++++++++++++++++
-> 1 file changed, 16 insertions(+)
->=20
-> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-> index c6bd2c69543dc..db272d2198fcc 100644
-> --- a/rust/kernel/str.rs
-> +++ b/rust/kernel/str.rs
-> @@ -31,6 +31,22 @@ pub const fn from_bytes(bytes: &[u8]) -> &Self {
->         // SAFETY: `BStr` is transparent to `[u8]`.
->         unsafe { &*(bytes as *const [u8] as *const BStr) }
->     }
-> +
-> +    /// Strip a prefix from `self`. Delegates to =
-[`slice::strip_prefix`].
-> +    ///
-> +    /// # Example
-> +    /// ```
-> +    /// use kernel::b_str;
-> +    /// assert_eq!(Some(b_str!("bar")), =
-b_str!("foobar").strip_prefix(b_str!("foo")));
-> +    /// assert_eq!(None, =
-b_str!("foobar").strip_prefix(b_str!("bar")));
-> +    /// assert_eq!(Some(b_str!("foobar")), =
-b_str!("foobar").strip_prefix(b_str!("")));
-> +    /// assert_eq!(Some(b_str!("")), =
-b_str!("foobar").strip_prefix(b_str!("foobar")));
-> +    /// ```
+> Why do you need this last one?
 
-This is passing.
+I see that this is used by the following patch.
 
-> +    pub fn strip_prefix(&self, pattern: impl AsRef<Self>) -> =
-Option<&BStr> {
-> +        self.deref()
-> +            .strip_prefix(pattern.as_ref().deref())
-> +            .map(Self::from_bytes)
-> +    }
-> }
 >=20
-> impl fmt::Display for BStr {
->=20
-> --=20
-> 2.47.0
->=20
->=20
+>> +
+>> /// Creates a new [`BStr`] from a string literal.
+>> ///
+>> /// `b_str!` converts the supplied string literal to byte string, so =
+non-ASCII
+>>=20
+>> --=20
+>> 2.47.0
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+
+
 
