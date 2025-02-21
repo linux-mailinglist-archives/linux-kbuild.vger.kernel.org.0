@@ -1,56 +1,56 @@
-Return-Path: <linux-kbuild+bounces-5852-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5853-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0530AA3FA69
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 17:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0E2A3FA7F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 17:15:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 04693425629
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 16:06:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 215BA440EB6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2025 16:08:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7540521507D;
-	Fri, 21 Feb 2025 15:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00705217674;
+	Fri, 21 Feb 2025 16:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="d9RyPqF/"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ErpbdhC2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825D621506B;
-	Fri, 21 Feb 2025 15:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5D51F4299;
+	Fri, 21 Feb 2025 16:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740153579; cv=pass; b=LAdzO4eOLuncSxhxALSsOErr0guUzz2S+aLK5Z7nqoCR9T5e+Mg/okWAdOoYpoGapFX6YEYgG5r+xDhxG3OydzHxXCqcMx4JsTWJUWi+jVix7T/t+u1C/O8gSaYev23ajYacVWAHwGYyTMfdIv31sHn8+//X1ttsV1yCn6ieYRA=
+	t=1740153734; cv=pass; b=p9xFISEqT7L51SB01Om/vXVli9R4A/QC5bUc2XHfnC/OUbCcX2p6n/iid5K2g3z1myqhHUEpcToVsFfeiWv+27AZelmVyIuc2wWD8qThvxfKdt+tHFwjC8Qbvf/Bmklr1X9RBp+XFsCY1LIL/lY+FI+h50WhXZP/clP1uO48bg8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740153579; c=relaxed/simple;
-	bh=ntiVJXzkZTZjsdeI5IdrDhxqLX4AiOQr3+403vBJSnI=;
+	s=arc-20240116; t=1740153734; c=relaxed/simple;
+	bh=HV97Xq3PPrIXArannXCNBgY8VQMumEfQDGVjRdJhiNk=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=ilo86LQ1DuZi8BlFuHA2bZRmE4hPqzNNqxbpv+d8gBdxFFA5zO/YEkJmfOn6GuWcb0CS3qxlgP29Sf/X/59D177+iJABkYnV8454YIMXScX8vi0FeAHRHWgR6gJCng6jG5Qh0oHLCXe1hl2ua+XmLcYzYAkxcENsVdvsFUR+T5E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=d9RyPqF/; arc=pass smtp.client-ip=136.143.188.112
+	 Message-Id:References:To; b=DkTiXYZfGdkr6jyvMSCPfxnf3JwwHb8ZA4CoIRe7L0g5PWU38VZOk8lQP46G1jQnaay2IauiF7LFNbmwikkPwrFtfiHbsF32EZTxpf8/hByZeJHybhKzWtoMPI+r+tGG0pDvJ9aA4QUZu8pEW5B+pwE0d46jlD9gD9lzuMLJgH4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=ErpbdhC2; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740153544; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1740153695; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=Nn1BpqQX78RRt0sY8e9CKmdBeBFf3st0Sbf+2kPjRqbrxIPZZN2Og7TO5iFdMxCWDmuYZFUWvX7d6BjFcUdIPEfeQBEs4f/5mUG3Z7zqVZvKs4mkNO04haCW7nPvbSvo673VZt3FmihGouWdFQxTPOzF10lAcDXcgdv0GMRr8J0=
+	b=kZb5ylR6XGfJS2iULorWAP6ngITzkFpnWDJAEeHRV0zJK5psgifirKfeJlKYEA6r3VvypGcKqdqVOpuETTnZk1ESdZO8og0KtmhKy2gbHAKdY3fEEl6xzA3IJAiiWLs01HP3FS8BCYYOnCM0IDjQqinJPcpbumKa4Ao0TggxY88=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740153544; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=VMzhihZ2XljnljV6PhP6eOJIJ/ST5xaErOjkBTRaQ9k=; 
-	b=L2GAaaJpyc50eu/ChVdfRWf9bIfqr6PeJSyCONhDf+nq+nv/vjx6Zupx3Df3JfL0b0FEjQaijPZ/mGiGNmgDXR1oZpuf8bVUL763Jx3ECMkhWx/tizYDPj8lK04WT1N3hm7ozXrc8aMsmW9sVPuT86DwMa9yn0U1rgz21O6mki8=
+	t=1740153695; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=lmnS12fhAODY05bchgMX7CUUcq/rZl+v6K7NyDg0XTI=; 
+	b=gUvGyZFte4NJpAXZaKbjgitDvvuUfOz7tqzRJsAyYbm8h3iFlWC5oJCMur4fE1O59UUV1/ufn1GUDOqUEu9T9bxu87qE9cSS9g9+ndqqLrgynQZ/g0dBouQYZCpB1m0qjJXosVLqw5YL1/UxarPxnbtY5GvaNydit+p31PhNSb0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
 	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740153544;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740153695;
 	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
 	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=VMzhihZ2XljnljV6PhP6eOJIJ/ST5xaErOjkBTRaQ9k=;
-	b=d9RyPqF/6qrMyi29DkZ44eIpR7Bn4PjpU1W3GdDNsdqFF7SJr04SmUmsa2hgz38z
-	p/CnJVJ2mtVIY40upH2QaDkGqoviSCmklvJUvzAjldz/vwXGTVnmtHIZcFDIsYnIYr/
-	ZMj3ECxbboHDXy7bcgpyhl1+HIUMdTy8M2jhbbTU=
-Received: by mx.zohomail.com with SMTPS id 1740153542341460.47491147955066;
-	Fri, 21 Feb 2025 07:59:02 -0800 (PST)
+	bh=lmnS12fhAODY05bchgMX7CUUcq/rZl+v6K7NyDg0XTI=;
+	b=ErpbdhC2wCOHghgpgPXKXHl3myP5rbSg2tGVaJHU6caHIlSZmJcDWH9ZCW2ZHHQc
+	BV8fZMTYdm6ZEvqU4xrlf2UZhc19CQK4qRJinqgqK8tiSbIisoztFnErWVuYA+Tz/z5
+	LRKKfP3Zbs9+pGd9zSoPJ6SescUwdO2qHjueWz6s=
+Received: by mx.zohomail.com with SMTPS id 1740153693259380.183280566775;
+	Fri, 21 Feb 2025 08:01:33 -0800 (PST)
 Content-Type: text/plain;
 	charset=us-ascii
 Precedence: bulk
@@ -59,10 +59,11 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
-Subject: Re: [PATCH v7 2/6] rust: str: implement `Index` for `BStr`
+Subject: Re: [PATCH v7 3/6] rust: str: implement `AsRef<BStr>` for `[u8]` and
+ `BStr`
 From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250218-module-params-v3-v7-2-5e1afabcac1b@kernel.org>
-Date: Fri, 21 Feb 2025 12:58:45 -0300
+In-Reply-To: <20250218-module-params-v3-v7-3-5e1afabcac1b@kernel.org>
+Date: Fri, 21 Feb 2025 13:01:16 -0300
 Cc: Miguel Ojeda <ojeda@kernel.org>,
  Alex Gaynor <alex.gaynor@gmail.com>,
  Boqun Feng <boqun.feng@gmail.com>,
@@ -86,9 +87,9 @@ Cc: Miguel Ojeda <ojeda@kernel.org>,
  Greg KH <gregkh@linuxfoundation.org>,
  linux-modules@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <56BF12A8-F632-428B-ACC2-0847F95CB8E9@collabora.com>
+Message-Id: <87372128-2734-4402-B46F-EF81ECEE546A@collabora.com>
 References: <20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org>
- <20250218-module-params-v3-v7-2-5e1afabcac1b@kernel.org>
+ <20250218-module-params-v3-v7-3-5e1afabcac1b@kernel.org>
 To: Andreas Hindborg <a.hindborg@kernel.org>
 X-Mailer: Apple Mail (2.3826.300.87.4.3)
 X-ZohoMailClient: External
@@ -98,35 +99,36 @@ X-ZohoMailClient: External
 > On 18 Feb 2025, at 10:00, Andreas Hindborg <a.hindborg@kernel.org> =
 wrote:
 >=20
-> The `Index` implementation on `BStr` was lost when we switched `BStr` =
-from
-> a type alias of `[u8]` to a newtype. This patch adds back `Index` by
-> implementing `Index` for `BStr` when `Index` would be implemented for
-> `[u8]`.
+> Implement `AsRef<BStr>` for `[u8]` and `BStr` so these can be used
+> interchangeably for operations on `BStr`.
 >=20
 > Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 > ---
-> rust/kernel/str.rs | 11 +++++++++++
-> 1 file changed, 11 insertions(+)
+> rust/kernel/str.rs | 12 ++++++++++++
+> 1 file changed, 12 insertions(+)
 >=20
 > diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-> index 002dcddf7c768..ba6b1a5c4f99d 100644
+> index ba6b1a5c4f99d..c6bd2c69543dc 100644
 > --- a/rust/kernel/str.rs
 > +++ b/rust/kernel/str.rs
-> @@ -114,6 +114,17 @@ fn eq(&self, other: &Self) -> bool {
+> @@ -125,6 +125,18 @@ fn index(&self, index: Idx) -> &Self::Output {
 >     }
 > }
 >=20
-> +impl<Idx> Index<Idx> for BStr
-> +where
-> +    [u8]: Index<Idx, Output =3D [u8]>,
-> +{
-> +    type Output =3D Self;
-> +
-> +    fn index(&self, index: Idx) -> &Self::Output {
-> +        BStr::from_bytes(&self.0[index])
+> +impl AsRef<BStr> for [u8] {
+> +    fn as_ref(&self) -> &BStr {
+> +        BStr::from_bytes(self)
 > +    }
 > +}
+> +
+> +impl AsRef<BStr> for BStr {
+> +    fn as_ref(&self) -> &BStr {
+> +        self
+> +    }
+> +}
+
+Why do you need this last one?
+
 > +
 > /// Creates a new [`BStr`] from a string literal.
 > ///
@@ -138,7 +140,5 @@ non-ASCII
 >=20
 >=20
 >=20
-
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 
 
