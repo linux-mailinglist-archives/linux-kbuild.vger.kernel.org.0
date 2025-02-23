@@ -1,129 +1,110 @@
-Return-Path: <linux-kbuild+bounces-5864-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5865-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA467A40C78
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Feb 2025 02:20:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84775A410E9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Feb 2025 19:34:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF6C83BFA50
-	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Feb 2025 01:20:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2DA23A5A85
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Feb 2025 18:34:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 007C8B644;
-	Sun, 23 Feb 2025 01:20:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E4F1A29A;
+	Sun, 23 Feb 2025 18:34:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGRXnAqP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nelr3CD6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C43380B;
-	Sun, 23 Feb 2025 01:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4602E8C11;
+	Sun, 23 Feb 2025 18:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740273606; cv=none; b=efkXy3XHZAwaBeCN93i8F2wfXE0b2ohMejfpXWZlyq+7b2Nx6r5TwEdyNxvN0FOvFvBSWqm4tlShQX6NEAPX1i79MTOhdoGjAt3lwUaP/p7hVLP1y03znPTqRsQHVh5krP6W76wUqWUSVvSwODsKz48ipsSAWGw0sL2WL4TTrE0=
+	t=1740335648; cv=none; b=BWtUiftb/Pl46vWVrRobNkLvC2VSacNhTE4Dzt4tf2ktRA1emN82oeV/HyhmWPru0VCQS+ShH7FsP4Ubwd9jt5H09b5zVxOaefN8jN7F0XqlOBgD5RoLrko+HeYn4lvvstftPKCJYvlhP2OzGCZgWVTVZX9UKp5hHajyV+1syv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740273606; c=relaxed/simple;
-	bh=1Ag3yiNkTYSiiXOUq2O4eAczAUnCaTPGnKXkanJ5QQQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f76EFKuADSuX2yLBXfz1YS9ntB0cpSdbvoW1p1aY/nhD3OiKk2FPS26NMoKeP39cN3tNiDG3tC5q2hPsl/xfBzYkqjI5oEJqXa7Y5us4GZ3TUxxlPlllVzMfejBOUZo0KB9OkdPVyKwSz/wkoCplMPO1SppxuxCCzXr7pBUu/c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGRXnAqP; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6ddcff5a823so27723586d6.0;
-        Sat, 22 Feb 2025 17:20:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740273604; x=1740878404; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5/E8h6tPt70jBikyge4qsbuUL7f0EA3xrxeSF/10MbI=;
-        b=dGRXnAqPG3gHMw0AnLTN/8OjgCM+dDs5B42iwhWtaVTx8Webr+EllzB4ZunbyABxEC
-         U8GK4/jQWSyCoZNp4xXs0bu6T6AIeOFnNaT6Rsa64HiV0MFJ2N4usPMYzY1TNIjF7ELp
-         6mxtbO2zOfX5MkEpgBVp4mGaxuDfhMzYRIAx3J2C1yKFtV2/vo+hLzVranC4G4bKMMCp
-         E2AITD5JQxgWDcWLvBlZdOQVNeK/DDF//kobGiYR8qntegRIEETRQv0d3NiPk5uGPjLZ
-         f7aNAA/ai/oDhaVXyfw/bkURwSf50Du0iM5MqEsSUL5Uda2jJZqMPUw5gWVzd0Jwutbm
-         OH2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740273604; x=1740878404;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5/E8h6tPt70jBikyge4qsbuUL7f0EA3xrxeSF/10MbI=;
-        b=p+rjBaZ2pqhqJrrVeq4bHoYJAuvsdG7UyeYHlypJV0gSKMfegLU215WZa36x3uhLhf
-         B5WqEK9qlrbJR5dl0+ffjjC2qyBRFTgPV/umpctxeq2UUewKcbY+dUvRsZvE7pD5TLVu
-         5hNqp6BOnPoWMaWuOq56rpIzWRaHFzlXngYwm+ImR8HyqeJd44dKasia82Spgb2vg4+e
-         eXQFwldHyMmAM39AMN3WK52vK8Smn1ldd3rFr2N4f9HYYXuyUtFzNH4DzQCVrQhrgwTb
-         zo95zXQEzQWaXAJmeM58h1zPY4Nlos+960gwjXcEaSQSCqYwSzg8jZi8Ethfzk8aAVZs
-         dCWg==
-X-Forwarded-Encrypted: i=1; AJvYcCVn/Bp5h8gIu3LOncHRpsEe2Oj5LqQ8vMCgLcPKGzd22WwIVKmJU9U2XusUAUGdV0+Mol6tgI9WHdumClky@vger.kernel.org, AJvYcCWaR8k8GZffk9psOl3mk/V6l7UsOyHcOC/gdzqPhqZ3Icn9nSKn23wl8vn9y8uGKfxP5ns6xYDmqO+slng=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyN72UAQerz7MG1uNM5Vf8HsaWqVgZ9OUbN8S598+pr2qOHUohf
-	D17LtSf+gbFKluHPgj/r7qVsJ9FcQvJ7IHNGKqH4da/fXYNV6ZIa
-X-Gm-Gg: ASbGncuVxMgc7kEANt1cTqE/2ewSm/VfYNTsmwBV6fWfTfPMjF8imQ3Qdhwv5sq3Xyg
-	W9B/PswUygvpuJm7qtnAKGTDM+Srh8Han3DWw2RuOBX+gF0WLbJ2uzn+FfYbAtRYhmnfC/zCQhy
-	IXuRRvqhQEzPFgYwRh/G4yfLzvrC0XeJl2RMMkWuYBmvA/3uNaXHuXL2J8iHS6r1/ihp9nWAkKz
-	Fyhzxd9+B3AnHQIHTQsnR4BT7EyHYNnB2QEPix7O4TLjuOhMmAuYs7AYnq3wpcQc1Df2D3bdLew
-	Gw==
-X-Google-Smtp-Source: AGHT+IGltQ6nyO2jkep3dzWPjLm1uU24Rp2OlIoDOrD5tZZ4WHRwWqt/UMOUxzmAGpbVsv+jxTZ4LQ==
-X-Received: by 2002:a05:6214:d8a:b0:6e6:5bc0:1521 with SMTP id 6a1803df08f44-6e6ae7f870fmr119198646d6.17.1740273604178;
-        Sat, 22 Feb 2025 17:20:04 -0800 (PST)
-Received: from localhost ([2001:da8:7001:11::cb])
-        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-471f2b0476dsm74440991cf.28.2025.02.22.17.20.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2025 17:20:03 -0800 (PST)
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Masahiro Yamada <masahiroy@kernel.org>,
+	s=arc-20240116; t=1740335648; c=relaxed/simple;
+	bh=0pSzTfWTwkHzlF+kAjOQWSUAirh8DuiwUvvvbBFi1sA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SBmKEiL+PJsm5MYJymfa1/sHaNsNLFpbF+blHFzz1zs6EtGo5cJB5lvczTUI7K5zJs3YwvB1dYenvlXGqaGifUfTrfseyAdsUaznoxSD2yufCbfW5inRGLWCa7jqZseJ2L4ef0BUgxtIJAalkju+G67cEf9jf9Oz4arigZ6hmY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nelr3CD6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB28C4CEDD;
+	Sun, 23 Feb 2025 18:34:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740335647;
+	bh=0pSzTfWTwkHzlF+kAjOQWSUAirh8DuiwUvvvbBFi1sA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nelr3CD67d9LL4SO7tJkKJt5qfwIeku+GPQTSikN94GKUbcCyiyX5Ry3ZMtyjShy1
+	 ZyvNC2WY9DrLURf9V6d/OQGwKNtO27HBdimPZmqbVI0xlPs6VM33ddmMiFdam7c1LY
+	 7CI0a66sXI4letQjIgzKL59wY+L6jITKu/fMQ2KCRv/9L4q8yjq03FV8Ab35Jg4cc2
+	 mWfk6D05RB8Ut+tGd7kEMn0MXMjdkyCQ5iZtrCQaAk/zSCPCFpv3nXTVpDEZAE3p2J
+	 GKQNAq5QWlppuD7anD9/l/bj3IwpkKnFQzAdyaEbdaD3gK6xweX8AZlgyQVxlZN6Ml
+	 W647zcNFDxEQA==
+Date: Sun, 23 Feb 2025 19:33:56 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Cc: Inochi Amaoto <inochiama@gmail.com>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yixun Lan <dlan@gentoo.org>,
-	Longbin Li <looong.bin@gmail.com>
-Subject: [PATCH] kbuild: install-extmod-build: Fix build when specifying KBUILD_OUTPUT
-Date: Sun, 23 Feb 2025 09:19:43 +0800
-Message-ID: <20250223011944.902904-1-inochiama@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	Nicolas Schier <nicolas@fjasle.eu>, linux-efi@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] x86: Add CONFIG_KERNEL_UNCOMPRESSED support
+Message-ID: <Z7tqFCo4smCysrfQ@gmail.com>
+References: <20250121-kernel-compress-fast-v1-1-fa693b6167d4@google.com>
+ <CAMj1kXF-GSB9Ty7X1h4u1uA6qhO1Y1UvVrNF=R+hk3PENRz7WA@mail.gmail.com>
+ <CAG48ez2hVHk-C4XAGW2GieHZ9JAF0RrFfpZF7XhYc80pznMwbA@mail.gmail.com>
+ <CAMj1kXFT6wkP=eRemR1Y=C-fk2VxNurLHMy74VRFLNmx6NkOAA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXFT6wkP=eRemR1Y=C-fk2VxNurLHMy74VRFLNmx6NkOAA@mail.gmail.com>
 
-Since commit 5f73e7d0386d ("kbuild: refactor cross-compiling
-linux-headers package"), the linux-headers pacman package fails
-to build when "O=" is set. The build system complains:
 
-/mnt/chroot/linux/scripts/Makefile.build:41: mnt/chroots/linux-mainline/pacman/linux-upstream/pkg/linux-upstream-headers/usr//lib/modules/6.14.0-rc3-00350-g771dba31fffc/build/scripts/Makefile: No such file or directory
+* Ard Biesheuvel <ardb@kernel.org> wrote:
 
-This is because the "srcroot" variable is set to "." and the
-"build" variable is set to the absolute path. This makes the
-"src" variables point to wrong directory.
+> > But I wasn't sure how to wire that up in a nice way. I guess the 
+> > nicest option would be to create a separate kconfig variable for 
+> > the compression level to use for any cmd_lz4/cmd_lz4_with_size 
+> > invocations in the build process; and then maybe only make this 
+> > option visible if LZ4 is selected as kernel compression method?
+> >
+> > Another option would be to create a new option in the "Kernel 
+> > compression mode" choice menu with a name like "LZ4 (fast)", turn 
+> > CONFIG_KERNEL_LZ4 into an internal flag that is selected by both 
+> > LZ4 variants shown in the choice menu, and duplicate some of the 
+> > make rules, but that seems overly complicated.
+> >
+> 
+> I didn't realise that KERNEL_UNCOMPRESSED already exists and you are 
+> just wiring it up for x86. But I still think that we should avoid 
+> that, not only because it is yet another bzImage format but also 
+> because I still see a 3x size reduction even with the fastest 
+> setting.
+> 
+> I think adding one Kconfig symbol that depends on KERNEL_LZ4 and 
+> switches from -9 to -1 for LZ4 only is reasonable.
 
-Change the "build" variable to a relative path to "." to
-fix build.
+Maybe a CONFIG_COMPRESS_FAST option that maps to and enables the 
+current fastest compressor? Then we can also add LZ4_FAST and map it to 
+it. (And if a future fastest compressor is added it can change this 
+mapping.) Or something like that?
 
-Fixes: 5f73e7d0386d ("kbuild: refactor cross-compiling linux-headers package")
-Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
----
- scripts/package/install-extmod-build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+And if there's still a measurable difference in total build time (say 
+larger than 1%) from doing it all uncompressed, then I think we should 
+go with Jann's original patch that hooks up zero-compression on x86. It 
+doesn't look overly complicated.
 
-diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
-index 2966473b4660..c0357ba2ff72 100755
---- a/scripts/package/install-extmod-build
-+++ b/scripts/package/install-extmod-build
-@@ -63,7 +63,7 @@ if [ "${CC}" != "${HOSTCC}" ]; then
- 	# Clear VPATH and srcroot because the source files reside in the output
- 	# directory.
- 	# shellcheck disable=SC2016 # $(MAKE) and $(build) will be expanded by Make
--	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='"${CC}"' VPATH= srcroot=. $(build)='"${destdir}"/scripts
-+	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='"${CC}"' VPATH= srcroot=. $(build)='"$(realpath --relative-base=. ${destdir})"/scripts
- 
- 	rm -f "${destdir}/scripts/Kbuild"
- fi
--- 
-2.48.1
+Thanks,
 
+	Ingo
 
