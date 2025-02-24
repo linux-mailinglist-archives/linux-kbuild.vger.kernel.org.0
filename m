@@ -1,120 +1,126 @@
-Return-Path: <linux-kbuild+bounces-5880-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5881-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2457FA42988
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 18:26:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21204A42BE0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 19:44:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF9381693D3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 17:25:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0BEE317ABD0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 18:44:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49525262D37;
-	Mon, 24 Feb 2025 17:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912D9233709;
+	Mon, 24 Feb 2025 18:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tj+om4Em"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="N+vSeZe7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9C22627E6;
-	Mon, 24 Feb 2025 17:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48FD265CC9;
+	Mon, 24 Feb 2025 18:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740417903; cv=none; b=Hiiiu6h994U0pW90uyjWMc/M6NsH08xAMS+safkAdAyJW07CQHNTvGxKY3I7DtLicxLLtGSQdcW1PbhXrbRNGWA0/khvxoVUjLSL/HDW88Zt0+mi4ItqCO03PL6pZlw73fjkntNuM2uc9Nr/+HyNXm/equpxuCiQs1lhJQwYwYo=
+	t=1740422637; cv=none; b=aytIphbHdRpciYNgUrZ4nmqphfBRu4N5xvP7FkMdneoo/uIwF8QN7a6GaTPuRctmYu65DAJIbPZudydLwsHbn9Fje9DAJvEqfW4jIgXPhc1q2hB0uhE+JZreuzgzrEChW5umQQCZ04ggeuPcg91ZXMIaNh/apyAAZkItjjBj87I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740417903; c=relaxed/simple;
-	bh=v7il4LMEfA/42fmG0eoKZPNhHXPInWhqNxLmpPkVLss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pk1i0h2vDXHgX2ur/DgBKXUwFCAl30wjd5T/+1J5NV0w56sBi2jbqsTni6Cu3WPtALTgifcjUt9nCkHrXmH3tBWSbNoCpO6GwlDLWkcyD8YuPKrqcwG+YaG+xJk7HjNzhVJhs5k4gwPJjQ0c9GQURT7W4Vpf8+UDE2+vtj4oHo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tj+om4Em; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA59C4CEE7;
-	Mon, 24 Feb 2025 17:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740417902;
-	bh=v7il4LMEfA/42fmG0eoKZPNhHXPInWhqNxLmpPkVLss=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tj+om4Ema2bIlx+SJW0NlMw5C7FhJFgtS0g45tVXX1FdFyu8VMJOri6XZHgeipFqt
-	 Dvw44JbGyJ/wGcfsZKmEoD6RMvUAWfcz1hazyF1olgMRoghkHYyoNpIPPevD7rejrj
-	 8hbD1FamKUx6OmHdFaLcfG3vg4Bka0gjrnMnVlAsuMNc5SZoMgTionp6y7IRL1HOgT
-	 9jhoVVEjRxbtkJYD3BltQcIQjGzRGoFdR5xTCrxgU3tMVdBUK4G12tjraLGsZTL55w
-	 AJ7NS6CH+zL+sLkkzw0AmR/h8/gPhYj6f/LZEyp/O/7f3aMF+47SS9B2VDYu7KGFtC
-	 mgkO/Jy/H5dUw==
-Date: Mon, 24 Feb 2025 09:24:56 -0800
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH] [v2] kbuild: hdrcheck: fix cross build with clang
-Message-ID: <20250224172456.GB585841@ax162>
-References: <20250224141242.1370280-1-arnd@kernel.org>
+	s=arc-20240116; t=1740422637; c=relaxed/simple;
+	bh=OAk+L/m7x/cv0UJhgKlMAM86FPmhXcJlx0x+6YlYuSU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZrxCd1IHa64gAkKHGTvi8fP9DQScPQFtQyJVGXnavyHq+WiZCZbnYWWOxXSpw4oe70nHVd6C00IuldIGFLjmbctSgHTAoVXlTrX8ReiXzLyY2GTcCRpkjv55MYdM7bXaWqAvasxb+h/f8utTIazACyMdCxAk9lIIhbVoxot1Wpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=N+vSeZe7; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1740421602;
+	bh=1sX2eNn3l5oEvnLc1+fi+CI5BMXl1Ff+USd9YlIlS+s=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=N+vSeZe7k9zK7o7LYSEp/ZdnXfUWZgziuxpBZUA79ug57lRtNBcy8knZ/6KJI8r6j
+	 CFchJaXCerHQ3IvW9zf6F42ECyT+avc5HbPvt0FDZ8oq2DitEbzdb24FfccUMrOy2G
+	 i2Gv5PQE+rM3Wjn07uv/bEKk5GH1oRqpFCIa4DOY=
+X-QQ-mid: bizesmtpip2t1740421588tidkldu
+X-QQ-Originating-IP: O6Ik0ahvFrkWILBE+jZrq4jmedga7AVIgaWuSR78YVE=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 25 Feb 2025 02:26:26 +0800 (CST)
+X-QQ-SSF: 0002000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 52011159772379626
+From: WangYuli <wangyuli@uniontech.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chenhuacai@loongson.cn,
+	kernel@xen0n.name,
+	revy@deepin.org,
+	zhanjun@uniontech.com,
+	niecheng1@uniontech.com,
+	guanwentao@uniontech.com,
+	chenlinxuan@uniontech.com,
+	WangYuli <wangyuli@uniontech.com>,
+	Shiwei Liu <liushiwei@anheng.com.cn>
+Subject: [PATCH] kbuild: deb-pkg: add debarch for ARCH=loongarch64
+Date: Tue, 25 Feb 2025 02:26:19 +0800
+Message-ID: <DB8BF02DB314013F+20250224182619.1557027-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250224141242.1370280-1-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: ODcDgdcDagQKd5vojsbs1QK7Qnv72QLp3+VphTZwn9zd2O7s5J33OY05
+	Movph5YfADliSfaib5ivzfueH9YtcI3GR6JJ4UCkM+6VMAd1B2zyx+gfjFi/K0J2HqCg29b
+	8yCsb3q9Byet6y0C7pYXKu/luSETKLUdBzr415JLj9qXa9s2VEYwiVJXWWs/8LUxwpnrADy
+	npDKWgVF009zCOPFLtDA4WNwA/OyMoSWA4oiWGeXazD/aXkxblNzf8gacFdSnYUVDEY3vzi
+	XwZj0nxy7BLLT+Y3Nj6+K9MNpOUDwUMPD23jsrBipwjHcRvyP2qWTqFGfkKeOMvw4QGMQrA
+	mwXTF3StdqQk7D2IschychvMjWQf63gcHsS/Ess0s/ifmWE53yNnJyGVYCp4f9a7+Lrx71m
+	PEMzRHDecF+POVCr5M1sKksh3rJtYUjtvIR0PaOSvWHSN38dNjbD5cY7HpYCS+QGqVKP6Ln
+	Wu5KifoW1sC8+RIClVZzmBdA819FWVhmt3dr7GoUClZmQrAkgMLgJxiuQHHVP5BpjoKdeOL
+	I9hYU9dD1Vd18e6NvC801TP9nhIE7PpRi/AHHoYsK27siOGaUDjsn8FzmE+0ePq5QoCMtA1
+	jXM0dIw0WcJrXm3Ww5jNjYB2gZizPT6XHfYDXzAm1u7XdG5G1MQgacU/bPs8kD2OulHOMvn
+	iTlDT5oyoUzZ+FVh6WdbVWoM/n9S/pk3cxpIhNJFwydNL1JLtCRtRJbEBGh53LrD0k3Fkt6
+	t/Z9uDokqBawU5TeiFWvabpUK4g45bY6/sYAx0siy45pjLyJyjMZg58nGeTy6TdfSRbjevN
+	xs9phHqwoopHCHqUFRR147yL2JoIM7jMx7vlMeAtzVZRvQ05tV+r/ZUryvvtw9V/YhQVNZr
+	7p5Z43qtSEZP0Vr8+Hp3BnnqL7gSIg5qBiR3gZAEzg7gxLCt1tUJL5QoW0UZIzsICjypHZ0
+	pGTMdCOgTRqVnKTAQzy9DlBW7jW/vUPIJNsFpRzXu2NNLDuWqwatsW7TEMNofY16h6c0g/s
+	UU+VWFEsEJ86fd211O
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-On Mon, Feb 24, 2025 at 03:12:36PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The headercheck tries to call clang with a mix of compiler arguments
-> that don't include the target architecture. When building e.g. x86
-> headers on arm64, this produces a warning like
-> 
->    clang: warning: unknown platform, assuming -mfloat-abi=soft
-> 
-> Add in the CLANG_FLAGS, which contain the target, in order to make it
+Fix follow warning when 'make ARCH=loongarch64 bindeb-pkg':
 
-Small nit, this should probably be KBUILD_CPPFLAGS now.
+  ** ** **  WARNING  ** ** **
 
-> build properly.
-> 
-> See also 1b71c2fb04e7 ("kbuild: userprogs: fix bitsize and target
-> > detection on clang").
+  Your architecture doesn't have its equivalent
+  Debian userspace architecture defined!
+  Falling back to the current host architecture (loong64).
+  Please add support for loongarch64 to ./scripts/package/mkdebian ...
 
-Extra '>' I think?
+Reported-by: Shiwei Liu <liushiwei@anheng.com.cn>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ scripts/package/mkdebian | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index b6dd98ca860b..0178000197fe 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -77,6 +77,8 @@ set_debarch() {
+ 			debarch=i386
+ 		fi
+ 		;;
++	loongarch64)
++		debarch=loong64 ;;
+ 	esac
+ 	if [ -z "$debarch" ]; then
+ 		debarch=$(dpkg-architecture -qDEB_HOST_ARCH)
+-- 
+2.47.2
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
-Perhaps this wants the same Fixes tag as the above referenced patch
-since I think that is the one that broke this?
-
-Fixes: feb843a469fb ("kbuild: add $(CLANG_FLAGS) to KBUILD_CPPFLAGS")
-
-> ---
-> v2: use same approach as the other patch.
-> ---
->  usr/include/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/usr/include/Makefile b/usr/include/Makefile
-> index 58a9cbe4eba4..b9a2640b4bb7 100644
-> --- a/usr/include/Makefile
-> +++ b/usr/include/Makefile
-> @@ -10,7 +10,7 @@ UAPI_CFLAGS := -std=c90 -Wall -Werror=implicit-function-declaration
->  
->  # In theory, we do not care -m32 or -m64 for header compile tests.
->  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64.
-> -UAPI_CFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
-> +UAPI_CFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
->  
->  # USERCFLAGS might contain sysroot location for CC.
->  UAPI_CFLAGS += $(USERCFLAGS)
-> -- 
-> 2.39.5
-> 
 
