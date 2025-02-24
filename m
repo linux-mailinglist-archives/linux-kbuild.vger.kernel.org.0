@@ -1,94 +1,98 @@
-Return-Path: <linux-kbuild+bounces-5889-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5890-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37175A42F10
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 22:29:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDA0A42F3B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 22:34:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EAEA63B1619
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 21:28:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B65D87A49B5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 21:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E847A1DD9AC;
-	Mon, 24 Feb 2025 21:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FgvAuKsP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7461B1DB924;
+	Mon, 24 Feb 2025 21:34:41 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06271DC9AA;
-	Mon, 24 Feb 2025 21:28:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479F5469D;
+	Mon, 24 Feb 2025 21:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740432523; cv=none; b=LWrCJlkljMLSO0GEU2aEWFdzZ2C/xmcXlim8ap4JKgfWc/ul6fLw7MRTZLyaNClSEvfLL49bWWPy+e3Fj0Nlr1IBuSNltjkCyYX4f6bcUwwlKTgM5hlzUFyw2ZA+/yiAzObPhFCg44YhBb3IOZebFO9c85ANPp1r2clkgi5Z2CM=
+	t=1740432881; cv=none; b=BLmwqga/xUsQFu8BtYUyjEpNiEezxDUivEy5NREfPqn9eybzne6s8EIaRNweaObhWuZY9trZpg8AT/cAH6WwfvbZhrM6JR1Nev8ZPxltaexL7xFMj6LxzzckWCY8cRXz3imQtSJeHRvrFCdwJ3WyV99ZKVIwJBFOqM8a+JKJTX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740432523; c=relaxed/simple;
-	bh=owWVXqXxTEWPy3Mnl7VxASxHSFRKtfqJPhx2DlEodn4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mp8FCIQN3uknwAI8dC1sbHIQklXRVFig+3OnCwxSlTpPUPBvOKqkvvl7xa2pGN6ipasdPZWk3jG4y+gVuKX1B8wRKUTJ4QT7XM9kfeKxGBj/QlbvQ5H26ZtS81ScwaAMA0jkRSpSeSrfK4uZTGNRxynDVLE8ByQ8iO7v27S8Yyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FgvAuKsP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CFBBC4CEE9;
-	Mon, 24 Feb 2025 21:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740432523;
-	bh=owWVXqXxTEWPy3Mnl7VxASxHSFRKtfqJPhx2DlEodn4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FgvAuKsPcfpnHMkP58tN1Xutpg7/OPz8kwJXvD+UMr2uhmjmpMRH3ZhKp3LCGez1w
-	 ZtR+n8MMiWJTS+zj7L65XII0xqXTxdqlGGpicACMxxvh/iYqwJ/WSRXS/V8uVj01zw
-	 ZsTWoE6IGL+zZtBIrs30wdNw4eAqEyjzY6fD9kkP0/yfy0Ggs24g/kaC3Oc2falImK
-	 D9vu+hy9LQd0K4bTO8Hpjk9WLyixuDrbItzRcYGubvEDpEOQD2TY7UxLqo1hQAfy6t
-	 DKPb9pG9NgxsOBQ1IRgDAlpOvJm17nDGsdAiuIwGfBmkb4itZGjIqMIz1JGwzvDC0J
-	 ukOQu0QT2Mmlw==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5461dab4bfdso5921246e87.3;
-        Mon, 24 Feb 2025 13:28:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUa2557QCQb6RIm7dHWp+TTRA6Sz12kcNZ8g65TOIIxbDeiyHJ5nGdIagkZFtYNLJZ3xUEUzJ93wRPhSgZm@vger.kernel.org, AJvYcCVextvIm8lvvC53JM8dNnMPIMXqzyHD8WB+H1ggm3wgZ9+E5V0rwrQF27a02yT9z6gPjNIZbS//Fp321sE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzbfddko3w6KQoJVNIAfKthWKsZaukeecX/gmuhhZ5a2MmOHDDT
-	Arl0ByKvxu69te3TYaPXe1T74HoNAkJD0qWNM04Tf+Idw6jESgKH7YI+GPtpO3bCnd6eukSnOpR
-	ISLeQCfNW2PYxxm0JXjEsRu6pHZQ=
-X-Google-Smtp-Source: AGHT+IH4uuJWuzIIkkZjCVcrJTp8tEVgRA2Px36H+gSe3Wkn5aoqRd/7i9WPl8IygELhnLrWY37JD5Cq2gw48RSL4UE=
-X-Received: by 2002:a05:6512:238a:b0:545:ea9:1a1e with SMTP id
- 2adb3069b0e04-54838ef5c21mr5647552e87.26.1740432521583; Mon, 24 Feb 2025
- 13:28:41 -0800 (PST)
+	s=arc-20240116; t=1740432881; c=relaxed/simple;
+	bh=xJDyPX/kbtIszyonpoNVCKIWwERsN5Sbj1e5YYCc3vA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mif/dzXPMCRAVzxcx0sgGXmuFS6scXw+IVObz9qK0laRnYJrgW80P58ftOZ2Z/mnAFsBhJTHx4l02zPb8BWq1djg+JemVc7q9So+2ql0z9vZFmV7hRepIK1ArDvBd0QXQulElQNEEucKXdIVe6KaMKCKKfL08PCLmIiX/xEkSe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF62C4CED6;
+	Mon, 24 Feb 2025 21:34:37 +0000 (UTC)
+Date: Mon, 24 Feb 2025 16:35:13 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, bpf <bpf@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, Linus
+ Torvalds <torvalds@linux-foundation.org>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas@fjasle.eu>, Zheng Yejian <zhengyejian1@huawei.com>, Martin
+ Kelly <martin.kelly@crowdstrike.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Josh Poimboeuf <jpoimboe@redhat.com>, Heiko
+ Carstens <hca@linux.ibm.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
+ Gordeev <agordeev@linux.ibm.com>
+Subject: Re: [PATCH v5 4/6] scripts/sorttable: Zero out weak functions in
+ mcount_loc table
+Message-ID: <20250224163513.1ea561b7@gandalf.local.home>
+In-Reply-To: <5225b07b-a9b2-4558-9d5f-aa60b19f6317@sirena.org.uk>
+References: <20250218195918.255228630@goodmis.org>
+	<20250218200022.883095980@goodmis.org>
+	<5225b07b-a9b2-4558-9d5f-aa60b19f6317@sirena.org.uk>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250224132132.1765115-6-ardb+git@google.com> <Z7y_i-ySL68BfkgQ@gmail.com>
-In-Reply-To: <Z7y_i-ySL68BfkgQ@gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 24 Feb 2025 22:28:30 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXFe=-tAp7cGGO-meO-NWO93XNhxW8MBNhRE-gC8myh0-w@mail.gmail.com>
-X-Gm-Features: AWEUYZnzhrjfmOEa4NYvryZ8pp3MRH8SRURweAydDOmGkKfGreCMo-dnx_kT2YU
-Message-ID: <CAMj1kXFe=-tAp7cGGO-meO-NWO93XNhxW8MBNhRE-gC8myh0-w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
-To: Ingo Molnar <mingo@kernel.org>
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 24 Feb 2025 at 19:51, Ingo Molnar <mingo@kernel.org> wrote:
->
-...
-> >
-> > So refactor the vmlinux shell scripts and build rules so that
-> > architectures that rely on --emit-relocs to construct vmlinux with
-> > static relocations preserved will get a separate vmlinux.unstripped file
-> > carrying those relocations. This removes the need for an imperative
-> > postlink step, given that any rules that depend on the unstripped
-> > vmlinux can now simply depend on vmlinux.unstripped, rather than inject
-> > a build step into Makefile.postlink
->
-> Nice! Does this also result in any measurable speedup of the build, or
-> are the steps still similar?
->
+On Mon, 24 Feb 2025 20:06:28 +0000
+Mark Brown <broonie@kernel.org> wrote:
 
-The steps are essentially the same, only described in a slightly
-better way (and with an additional artifact so the used disk space
-goes up slightly too)
+> On Tue, Feb 18, 2025 at 02:59:22PM -0500, Steven Rostedt wrote:
+> > From: Steven Rostedt <rostedt@goodmis.org>
+> > 
+> > When a function is annotated as "weak" and is overridden, the code is not
+> > removed. If it is traced, the fentry/mcount location in the weak function
+> > will be referenced by the "__mcount_loc" section. This will then be added
+> > to the available_filter_functions list. Since only the address of the
+> > functions are listed, to find the name to show, a search of kallsyms is
+> > used.  
+> 
+> This breaks builds with ftrace on architectures without KASLR, one
+> affected configuration is bcm2835_defconfig:
+> 
+> /home/broonie/git/bisect/kernel/trace/ftrace.c: In function 'ftrace_process_locs':
+> /home/broonie/git/bisect/kernel/trace/ftrace.c:7057:24: error: implicit declaration of function 'kaslr_offset' [-Werror=implicit-function-declaration]
+>  7057 |         kaslr = !mod ? kaslr_offset() : 0;
+>       |                        ^~~~~~~~~~~~
+> 
+> since that happens to enable CONFIG_FUNCTION_TRACER but doesn't have
+> KASLR, we don't have stubs for KASLR on architectures that don't have
+> it.  It also looks like from a quick glance at least RISC-V will fail to
+> link since it only provides kaslr_offset() with RANDOMIZE_BASE enabled.
+> This all feels a bit footgunish.
+
+Already reported:
+
+  https://lore.kernel.org/all/20250224180805.GA1536711@ax162/
+
+-- Steve
 
