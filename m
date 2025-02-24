@@ -1,107 +1,153 @@
-Return-Path: <linux-kbuild+bounces-5882-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5883-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7241BA42C03
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 19:51:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B449A42C08
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 19:52:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B5D117B23F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 18:51:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D1083A8E4F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 18:52:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D80B263F3A;
-	Mon, 24 Feb 2025 18:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F69266B5A;
+	Mon, 24 Feb 2025 18:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ogr4hGpV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e1NinDUi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1474B26136D;
-	Mon, 24 Feb 2025 18:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8232266B4A;
+	Mon, 24 Feb 2025 18:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740423104; cv=none; b=dnvXMtoJ7nQdzs5zH3aU74h8nd7svvMHBh44EKjTDVx+fVc26pQlFcNDdNoyZINEAE3FXR4UC4MHh4mrkxAIRD7jKswlZf+a7m9cdvR6K9qnQ3rbrwUCtZy/zfhtkBdVOtJABqUF685CqIYJqvg+YoyGf/6C5Lup7SLJuT/YzRI=
+	t=1740423113; cv=none; b=U2cPF3VMy8u1DrSW/FzOnZkadZMG9DvcPgA5BgD+IKbZB2DWikTpw45H7JiDZ60TXTTLIQwP1vKDcljdyBVyisfJ1P39mZ0babEOrEMlapZjqykDMWFxQ3iB3n4Gat8qEaaiXJGkueCgwt4uinVtlz46recNkQhTFwp5M01Xt1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740423104; c=relaxed/simple;
-	bh=LdrQZqrp3xjhBQGUZB3gje9pLhxMsPsOYHdOiNeCf5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZAHlv4VefUJIisgwkikS9O2WCf/u3Ln5iLLg1WyzzVrvmhQaqSh3o5Iqb1CHq64VPTLkMN3AHy6ddPCTVECVa3cAZc63kRiP04nadjStKgNvZoLYMRemR+vSo2NlXzgU0XB+TTkgRieCCRRNHAH2zhHikaKnkPXh8eUCT8xPGuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ogr4hGpV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625C0C4CED6;
-	Mon, 24 Feb 2025 18:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740423103;
-	bh=LdrQZqrp3xjhBQGUZB3gje9pLhxMsPsOYHdOiNeCf5I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ogr4hGpVVlzS+yqzsEQhi01hwxo/x0XFGs2lXu93KVPC7ln9waKrcxxXytrFJzEmA
-	 Bj29u3u4CvmQwFh3Iew2fDFRZ93g4WTyyHIgXck4JXhc5Y9SXsBh7YmhGzaEK09YmN
-	 5WCkYR5Gb9CAi/lRyqIBN2zu4Kl6JcP+a2SacjNBVZVz6z8Qzh3qwoKEDyyNynhpj1
-	 sAqTgm+iTHc8g6/nu63LHIbVMypo9UrBIqohkxtUD0/ICm4ghEa2uyfT/BmjLEfQEW
-	 qR1NT47MTGvdI7Wre2GXtBG/hdfrkaOVQCWmYSMclA2rjfNmMfIkUgoOpJ6lIOXkeM
-	 uqUy7HpUqfzHw==
-Date: Mon, 24 Feb 2025 19:51:35 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-kbuild@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
-Message-ID: <Z7y_i-ySL68BfkgQ@gmail.com>
-References: <20250224132132.1765115-6-ardb+git@google.com>
+	s=arc-20240116; t=1740423113; c=relaxed/simple;
+	bh=TUEqaIXpwI/RfqdyMieJkO4fzyFhGbd9bZvDzL0LVtg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=apph5K5wSIqAxM3D0friY3jcOJuUhThqf2lDs+7+a7DuYowtDODXkV322I6XaU3sFwLjpxHqzbln/0UOjUsrZQRO86/hgjDe/g1z3721KI64Ok/jmOfeG+ghv6v7C4esI0fiqrEHdwwJoDz5vkjIcQ0STVj4GUTj37hSm8lmIZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e1NinDUi; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2fc4418c0b9so7309770a91.0;
+        Mon, 24 Feb 2025 10:51:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740423111; x=1741027911; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TUEqaIXpwI/RfqdyMieJkO4fzyFhGbd9bZvDzL0LVtg=;
+        b=e1NinDUiIBwWKB75/J8RGZ3Egic/V/HYS01tcHTqEV24KffFTQt+e9JSrcdWkV2+rc
+         TWVHQBYWXdEn3434GizAUDoIf+mBFUHiijPWuE2hvDn1c85hXV9AIJtWiGhy7EZMkTdL
+         NzwuzBV9WevNfTj9Olweo01Y6YtoWiat4aCawuX1s9NzS9S7R5+m0t7AS60puFNEBC1s
+         zip4CLI9tK8mevOgsTHS+1mEnIjkMA4xm665Rpd2lGxyCua0ORDVolU3iqQ9xc/6uXil
+         ARrxczAii0lNtFMrS2y5GOlVNMdV56i7bE7xWL7eonrMApnz3x/GcfI3G2NNkZDWOZE1
+         2zCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740423111; x=1741027911;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TUEqaIXpwI/RfqdyMieJkO4fzyFhGbd9bZvDzL0LVtg=;
+        b=w1WbvQpFweZgDiSptST2sCBKFmDal1f5/xfvyGHnRd4uLYIjhsrOt0bjzAfmZUdejX
+         Uuzg1p0dTX+XaH3IZiIKzE5bqbbvwL3RFVboBKsNgCAgsbS7rtOun3xu4cTMTPP2dfB8
+         WGn7TM+Tx1QJfWCaog6NoZL8OOXdkT/0XZLalsqHm8lUbOPuul7ijgwhbtfyArAl14QY
+         dCQapjGITO32I9KZtqYEfiY8zWq80of0f5PMAK2Ils8S479/B3R+Hqhdloxz0fsGwcVn
+         H4Pc9ftJ8l2Yl4OMxUHPiA986GUYnY9yWYFc6USdeqPOtpnfEWz5F1cfLV9GZv5fo2DO
+         Ilxw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJjDccSUEqMJvusfMlQ2HQj0y9RBSo84JlR+7XiY8QJPtzMYis/EJ+B52Ua3lZRU8gOVwD1FIDU3E62g==@vger.kernel.org, AJvYcCV1MjxSFx8Qr+9qUxnuLgVQQU1tYN3jrQcoef0iVu1Fe8N8R6IycZ80QtwqNVG8LGQu8M7ezo9Fz5PORLPvxv2i@vger.kernel.org, AJvYcCVxtp7w6YnuPgPWuF1D5zwAr91A+mO6Pf5IpliHfVfqJHrdAKdkp3b9j/qK7v6YH0xEDDG71mJxI2nPQWYE@vger.kernel.org, AJvYcCW20q4jPYzxeNiVdZ9PnR9sZrs/O1IXrA8Z9en8Tsr1F3EUXxZpThCP+Q2P36RGgzW5W28=@vger.kernel.org, AJvYcCX5aXtCYqyP5rhnjtzGF6ObMGWkxRgBoLGheKZkfHwhMrqozye7dqIJwdgmGthGg7RNVlJguL0xRjrGd9ox@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRhJoiYE5M/u1C15iGHFA/K1HCjn7HB4yr1KrzILqftw2aP81V
+	rtkXUOA7CPgqOvShEC/zsOM94kk77ugegQgtKWd1mI0i/AsPkZ/TbNH9w5gKT7v1Imw0y4EYTl0
+	a8KfYpNrNHmAcnuVgnTYb51MW/bk=
+X-Gm-Gg: ASbGnctyOcIbs3nmayznqSybb+QQSBvA8MWf0uh7TpFr5QUB0ezzlm74f3FuFWC/iji
+	/IepP6VXqSbak+5TXaQCFJjWaoUBFviQ1UgKfen8FFzaGUVx1gXIWh+HHQePjqwuXJx/AKdLr9+
+	/+o2tr8D3tKNFJShd8xWfbxvE=
+X-Google-Smtp-Source: AGHT+IEM92T52Wzy74biCjdt13zNava/7AlYK1wNiCPPQTiFKurSCN5AvJp5hFsbNvAbAeL2dN9RyVPPvrf75/LQ5Wo=
+X-Received: by 2002:a17:90b:1344:b0:2fc:a3b7:10a2 with SMTP id
+ 98e67ed59e1d1-2fce78cb879mr27572269a91.17.1740423110927; Mon, 24 Feb 2025
+ 10:51:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250224132132.1765115-6-ardb+git@google.com>
+References: <20250207012045.2129841-1-stephen.s.brennan@oracle.com>
+ <20250207012045.2129841-2-stephen.s.brennan@oracle.com> <CAK7LNAQokoST0FnByeWywaghTMP2aG7hQaV1T=TcQ=1v4ZLQrg@mail.gmail.com>
+In-Reply-To: <CAK7LNAQokoST0FnByeWywaghTMP2aG7hQaV1T=TcQ=1v4ZLQrg@mail.gmail.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 24 Feb 2025 10:51:38 -0800
+X-Gm-Features: AWEUYZlWebfCB8ebdoh-Z8K_EKpop-kMh4XUx8JTAFtvrkByBiikkkZM8iT5dTo
+Message-ID: <CAEf4Bzb9rYHTVkuxxSuoW=0P84M7UPkBr-4991KiMnFsv10hjA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kallsyms: output rodata to ".kallsyms_rodata"
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Stephen Brennan <stephen.s.brennan@oracle.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Andrii Nakryiko <andrii@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Kees Cook <kees@kernel.org>, 
+	KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Sami Tolvanen <samitolvanen@google.com>, Eduard Zingerman <eddyz87@gmail.com>, linux-arch@vger.kernel.org, 
+	Stanislav Fomichev <sdf@fomichev.me>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Jiri Olsa <jolsa@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Jann Horn <jannh@google.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Hao Luo <haoluo@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kbuild@vger.kernel.org, 
+	Daniel Borkmann <daniel@iogearbox.net>, Nathan Chancellor <nathan@kernel.org>, 
+	linux-debuggers@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
+	Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Feb 15, 2025 at 6:21=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Fri, Feb 7, 2025 at 10:21=E2=80=AFAM Stephen Brennan
+> <stephen.s.brennan@oracle.com> wrote:
+> >
+> > When vmlinux is linked, the rodata from kallsyms is placed arbitrarily
+> > within the .rodata section. The linking process is repeated several
+> > times, since the kallsyms data size changes, which shifts symbols,
+> > requiring re-generating the data and re-linking.
+> >
+> > BTF is generated during the first link only. For variables, BTF include=
+s
+> > a BTF_K_DATASEC for each data section that may contain a variable, whic=
+h
+> > includes the variable's name, type, and offset within the data section.
+> > Because the size of kallsyms data changes during later links, the
+> > offsets of variables placed after it in .rodata will change. This means
+> > that BTF_K_DATASEC information for those variables becomes inaccurate.
+> >
+> > This is not currently a problem, because BTF currently only generates
+> > variable data for percpu variables. However, the next commit will add
+> > support for generating BTF for all global variables, including for the
+> > .rodata section.
+> >
+> > We could re-generate BTF each time vmlinux is linked, but this is quite
+> > expensive, and should be avoided at all costs. Further as each chunk of
+> > data (BTF and kallsyms) are re-generated, there's no guarantee that
+> > their sizes will converge anyway.
+> >
+> > Instead, we can take advantage of the fact that BTF only cares to store
+> > the offset of variables from the start of their section. Therefore, so
+> > long as the kallsyms data is stored last in the .rodata section, no
+> > offsets will be affected. Adjust kallsyms to output to .rodata.kallsyms=
+,
+> > and update the linker script to include this at the end of .rodata.
+> >
+> > Signed-off-by: Stephen Brennan <stephen.s.brennan@oracle.com>
+> > ---
+>
+> I am fine if this is helpful for BTF.
 
-* Ard Biesheuvel <ardb+git@google.com> wrote:
+This seems like a useful change all by itself even while the main
+feature of this patch set is still being developed and reviewed.
+Should we land just this .kallsyms_rodata change?
 
-> From: Ard Biesheuvel <ardb@kernel.org>
-> 
-> Kbuild supports an architecture specific Makefile.postlink file that is
-> invoked for the vmlinux target after it has been built. This Makefile
-> takes 'vmlinux' (which has just been built) as the target, and mangles
-> the file and/or constructs other intermediate artifacts from it.
-> 
-> This violates the general philosophy of Make, which is based on rules
-> and dependencies, and artifacts that are rebuilt only when any of their
-> dependencies have been updated.
-> 
-> Instead, the different incarnations of vmlinux that are consumed by
-> different stages of the build should be emitted as distinct files, where
-> rules and dependencies are used to define one in terms of the other.
-> 
-> This also works around an error observed here [0], where vmlinux is
-> deleted by Make because a subsequent step that consumes it as input
-> throws an error.
-> 
-> So refactor the vmlinux shell scripts and build rules so that
-> architectures that rely on --emit-relocs to construct vmlinux with
-> static relocations preserved will get a separate vmlinux.unstripped file
-> carrying those relocations. This removes the need for an imperative
-> postlink step, given that any rules that depend on the unstripped
-> vmlinux can now simply depend on vmlinux.unstripped, rather than inject
-> a build step into Makefile.postlink
-
-Nice! Does this also result in any measurable speedup of the build, or 
-are the steps still similar?
-
-But in terms of justification for upstreaming, the reduction in 
-complexity alone makes it worth it IMO:
-
-  19 files changed, 52 insertions(+), 87 deletions(-)
-
-Thanks,
-
-	Ingo
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
