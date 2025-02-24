@@ -1,126 +1,107 @@
-Return-Path: <linux-kbuild+bounces-5881-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5882-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21204A42BE0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 19:44:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7241BA42C03
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 19:51:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0BEE317ABD0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 18:44:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B5D117B23F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 18:51:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912D9233709;
-	Mon, 24 Feb 2025 18:43:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D80B263F3A;
+	Mon, 24 Feb 2025 18:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="N+vSeZe7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ogr4hGpV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48FD265CC9;
-	Mon, 24 Feb 2025 18:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1474B26136D;
+	Mon, 24 Feb 2025 18:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740422637; cv=none; b=aytIphbHdRpciYNgUrZ4nmqphfBRu4N5xvP7FkMdneoo/uIwF8QN7a6GaTPuRctmYu65DAJIbPZudydLwsHbn9Fje9DAJvEqfW4jIgXPhc1q2hB0uhE+JZreuzgzrEChW5umQQCZ04ggeuPcg91ZXMIaNh/apyAAZkItjjBj87I=
+	t=1740423104; cv=none; b=dnvXMtoJ7nQdzs5zH3aU74h8nd7svvMHBh44EKjTDVx+fVc26pQlFcNDdNoyZINEAE3FXR4UC4MHh4mrkxAIRD7jKswlZf+a7m9cdvR6K9qnQ3rbrwUCtZy/zfhtkBdVOtJABqUF685CqIYJqvg+YoyGf/6C5Lup7SLJuT/YzRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740422637; c=relaxed/simple;
-	bh=OAk+L/m7x/cv0UJhgKlMAM86FPmhXcJlx0x+6YlYuSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZrxCd1IHa64gAkKHGTvi8fP9DQScPQFtQyJVGXnavyHq+WiZCZbnYWWOxXSpw4oe70nHVd6C00IuldIGFLjmbctSgHTAoVXlTrX8ReiXzLyY2GTcCRpkjv55MYdM7bXaWqAvasxb+h/f8utTIazACyMdCxAk9lIIhbVoxot1Wpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=N+vSeZe7; arc=none smtp.client-ip=54.92.39.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1740421602;
-	bh=1sX2eNn3l5oEvnLc1+fi+CI5BMXl1Ff+USd9YlIlS+s=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=N+vSeZe7k9zK7o7LYSEp/ZdnXfUWZgziuxpBZUA79ug57lRtNBcy8knZ/6KJI8r6j
-	 CFchJaXCerHQ3IvW9zf6F42ECyT+avc5HbPvt0FDZ8oq2DitEbzdb24FfccUMrOy2G
-	 i2Gv5PQE+rM3Wjn07uv/bEKk5GH1oRqpFCIa4DOY=
-X-QQ-mid: bizesmtpip2t1740421588tidkldu
-X-QQ-Originating-IP: O6Ik0ahvFrkWILBE+jZrq4jmedga7AVIgaWuSR78YVE=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 25 Feb 2025 02:26:26 +0800 (CST)
-X-QQ-SSF: 0002000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 52011159772379626
-From: WangYuli <wangyuli@uniontech.com>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenhuacai@loongson.cn,
-	kernel@xen0n.name,
-	revy@deepin.org,
-	zhanjun@uniontech.com,
-	niecheng1@uniontech.com,
-	guanwentao@uniontech.com,
-	chenlinxuan@uniontech.com,
-	WangYuli <wangyuli@uniontech.com>,
-	Shiwei Liu <liushiwei@anheng.com.cn>
-Subject: [PATCH] kbuild: deb-pkg: add debarch for ARCH=loongarch64
-Date: Tue, 25 Feb 2025 02:26:19 +0800
-Message-ID: <DB8BF02DB314013F+20250224182619.1557027-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1740423104; c=relaxed/simple;
+	bh=LdrQZqrp3xjhBQGUZB3gje9pLhxMsPsOYHdOiNeCf5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZAHlv4VefUJIisgwkikS9O2WCf/u3Ln5iLLg1WyzzVrvmhQaqSh3o5Iqb1CHq64VPTLkMN3AHy6ddPCTVECVa3cAZc63kRiP04nadjStKgNvZoLYMRemR+vSo2NlXzgU0XB+TTkgRieCCRRNHAH2zhHikaKnkPXh8eUCT8xPGuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ogr4hGpV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625C0C4CED6;
+	Mon, 24 Feb 2025 18:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740423103;
+	bh=LdrQZqrp3xjhBQGUZB3gje9pLhxMsPsOYHdOiNeCf5I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ogr4hGpVVlzS+yqzsEQhi01hwxo/x0XFGs2lXu93KVPC7ln9waKrcxxXytrFJzEmA
+	 Bj29u3u4CvmQwFh3Iew2fDFRZ93g4WTyyHIgXck4JXhc5Y9SXsBh7YmhGzaEK09YmN
+	 5WCkYR5Gb9CAi/lRyqIBN2zu4Kl6JcP+a2SacjNBVZVz6z8Qzh3qwoKEDyyNynhpj1
+	 sAqTgm+iTHc8g6/nu63LHIbVMypo9UrBIqohkxtUD0/ICm4ghEa2uyfT/BmjLEfQEW
+	 qR1NT47MTGvdI7Wre2GXtBG/hdfrkaOVQCWmYSMclA2rjfNmMfIkUgoOpJ6lIOXkeM
+	 uqUy7HpUqfzHw==
+Date: Mon, 24 Feb 2025 19:51:35 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-kbuild@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
+Message-ID: <Z7y_i-ySL68BfkgQ@gmail.com>
+References: <20250224132132.1765115-6-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: ODcDgdcDagQKd5vojsbs1QK7Qnv72QLp3+VphTZwn9zd2O7s5J33OY05
-	Movph5YfADliSfaib5ivzfueH9YtcI3GR6JJ4UCkM+6VMAd1B2zyx+gfjFi/K0J2HqCg29b
-	8yCsb3q9Byet6y0C7pYXKu/luSETKLUdBzr415JLj9qXa9s2VEYwiVJXWWs/8LUxwpnrADy
-	npDKWgVF009zCOPFLtDA4WNwA/OyMoSWA4oiWGeXazD/aXkxblNzf8gacFdSnYUVDEY3vzi
-	XwZj0nxy7BLLT+Y3Nj6+K9MNpOUDwUMPD23jsrBipwjHcRvyP2qWTqFGfkKeOMvw4QGMQrA
-	mwXTF3StdqQk7D2IschychvMjWQf63gcHsS/Ess0s/ifmWE53yNnJyGVYCp4f9a7+Lrx71m
-	PEMzRHDecF+POVCr5M1sKksh3rJtYUjtvIR0PaOSvWHSN38dNjbD5cY7HpYCS+QGqVKP6Ln
-	Wu5KifoW1sC8+RIClVZzmBdA819FWVhmt3dr7GoUClZmQrAkgMLgJxiuQHHVP5BpjoKdeOL
-	I9hYU9dD1Vd18e6NvC801TP9nhIE7PpRi/AHHoYsK27siOGaUDjsn8FzmE+0ePq5QoCMtA1
-	jXM0dIw0WcJrXm3Ww5jNjYB2gZizPT6XHfYDXzAm1u7XdG5G1MQgacU/bPs8kD2OulHOMvn
-	iTlDT5oyoUzZ+FVh6WdbVWoM/n9S/pk3cxpIhNJFwydNL1JLtCRtRJbEBGh53LrD0k3Fkt6
-	t/Z9uDokqBawU5TeiFWvabpUK4g45bY6/sYAx0siy45pjLyJyjMZg58nGeTy6TdfSRbjevN
-	xs9phHqwoopHCHqUFRR147yL2JoIM7jMx7vlMeAtzVZRvQ05tV+r/ZUryvvtw9V/YhQVNZr
-	7p5Z43qtSEZP0Vr8+Hp3BnnqL7gSIg5qBiR3gZAEzg7gxLCt1tUJL5QoW0UZIzsICjypHZ0
-	pGTMdCOgTRqVnKTAQzy9DlBW7jW/vUPIJNsFpRzXu2NNLDuWqwatsW7TEMNofY16h6c0g/s
-	UU+VWFEsEJ86fd211O
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224132132.1765115-6-ardb+git@google.com>
 
-Fix follow warning when 'make ARCH=loongarch64 bindeb-pkg':
 
-  ** ** **  WARNING  ** ** **
+* Ard Biesheuvel <ardb+git@google.com> wrote:
 
-  Your architecture doesn't have its equivalent
-  Debian userspace architecture defined!
-  Falling back to the current host architecture (loong64).
-  Please add support for loongarch64 to ./scripts/package/mkdebian ...
+> From: Ard Biesheuvel <ardb@kernel.org>
+> 
+> Kbuild supports an architecture specific Makefile.postlink file that is
+> invoked for the vmlinux target after it has been built. This Makefile
+> takes 'vmlinux' (which has just been built) as the target, and mangles
+> the file and/or constructs other intermediate artifacts from it.
+> 
+> This violates the general philosophy of Make, which is based on rules
+> and dependencies, and artifacts that are rebuilt only when any of their
+> dependencies have been updated.
+> 
+> Instead, the different incarnations of vmlinux that are consumed by
+> different stages of the build should be emitted as distinct files, where
+> rules and dependencies are used to define one in terms of the other.
+> 
+> This also works around an error observed here [0], where vmlinux is
+> deleted by Make because a subsequent step that consumes it as input
+> throws an error.
+> 
+> So refactor the vmlinux shell scripts and build rules so that
+> architectures that rely on --emit-relocs to construct vmlinux with
+> static relocations preserved will get a separate vmlinux.unstripped file
+> carrying those relocations. This removes the need for an imperative
+> postlink step, given that any rules that depend on the unstripped
+> vmlinux can now simply depend on vmlinux.unstripped, rather than inject
+> a build step into Makefile.postlink
 
-Reported-by: Shiwei Liu <liushiwei@anheng.com.cn>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- scripts/package/mkdebian | 2 ++
- 1 file changed, 2 insertions(+)
+Nice! Does this also result in any measurable speedup of the build, or 
+are the steps still similar?
 
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index b6dd98ca860b..0178000197fe 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -77,6 +77,8 @@ set_debarch() {
- 			debarch=i386
- 		fi
- 		;;
-+	loongarch64)
-+		debarch=loong64 ;;
- 	esac
- 	if [ -z "$debarch" ]; then
- 		debarch=$(dpkg-architecture -qDEB_HOST_ARCH)
--- 
-2.47.2
+But in terms of justification for upstreaming, the reduction in 
+complexity alone makes it worth it IMO:
 
+  19 files changed, 52 insertions(+), 87 deletions(-)
+
+Thanks,
+
+	Ingo
 
