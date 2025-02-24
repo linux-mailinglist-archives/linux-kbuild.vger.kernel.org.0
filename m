@@ -1,616 +1,922 @@
-Return-Path: <linux-kbuild+bounces-5878-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5879-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A76A42326
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 15:35:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9796DA4267E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 16:40:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57D80162F73
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 14:25:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 288C83BA188
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 15:32:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F56314D28C;
-	Mon, 24 Feb 2025 14:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C2AE24887A;
+	Mon, 24 Feb 2025 15:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="AQ3ZW2LD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C69513AA2D;
-	Mon, 24 Feb 2025 14:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740407148; cv=none; b=appMPVDVIFd7jky8yjP/vaHsjA6XaJIRguF0zH6bkQIWQhoDwFOhJgW1Y3bURitX3p9ntNMnQYfSJRflz1cjMNpNqMu5cGgWwlRoXdr5bW7R5KVmeTo42drQbp4t9TUB4QRZxsfohk3rAQttt4awFX0soTVbDrPl+1Mz/8Ke6Nc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740407148; c=relaxed/simple;
-	bh=lo4cANUE66X8njwHLhDW2tG+DZRDi3HBlrQ+pi9YCKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g3uYC1itR/DRBHN291LBAhYC/gV64r/FRcNUiQVBiX7WoilQlAIMCfWyP6aENizfAUWuKcqmLgyUWepgHPOvQPRaj5jX570VQDcbPrIgqgyM6gMRrapYfklZQLCEB1KuvkE3YoVAo1+w/vTrKJ5v4+mU9y1dUrLfyYtMy2Hi4YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.52.1)
-	(envelope-from <n.schier@avm.de>)
-	id 67bc815e-038b-7f0000032729-7f000001cd5c-1
-	for <multiple-recipients>; Mon, 24 Feb 2025 15:25:34 +0100
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Mon, 24 Feb 2025 15:25:34 +0100 (CET)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 7F0998074B;
-	Mon, 24 Feb 2025 15:25:34 +0100 (CET)
-Received: from l-nschier-z2.ads.avm.de (unknown [IPv6:fde4:4c1b:acd5:7792::1])
-	by buildd.core.avm.de (Postfix) with ESMTP id 72551181209;
-	Mon, 24 Feb 2025 15:25:34 +0100 (CET)
-Received: from nicolas by l-nschier-z2.ads.avm.de with local (Exim 4.98)
-	(envelope-from <n.schier@avm.de>)
-	id 1tmZOn-0000000BFOD-1i9a;
-	Mon, 24 Feb 2025 15:25:33 +0100
-Date: Mon, 24 Feb 2025 15:25:33 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: add Kbuild bash completion
-Message-ID: <20250224-vivid-merry-oriole-f0cb8a@l-nschier-z2>
-References: <20250207193133.506076-1-masahiroy@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A813213BC26;
+	Mon, 24 Feb 2025 15:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740410998; cv=pass; b=fDTS0q4v4gLthCBmHajdZrIliBLRzFAbpm/IUDexVHPo2yRu86a5VsCrOd/6tU74vcrv/FV12THMKNnyihK1yagPCRPE8iMhkokgNzmvjVvWzTpp7UrDWVUh4zkpTK88VTCdp/VF2wwV97YSEXhuzxIuAgeFlOMmkYHzjbERepg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740410998; c=relaxed/simple;
+	bh=FkWUIt+35xSjlXOxZo9/bK2FIakJ34YEyAzubuiCs5U=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=V0UeQRbFEDjgGz3S+Zh5TNN/oJaaZOzuJ+RLxpp3dxhr/kzB1Jq+kyMGjktPd5v+DX2xaSMLM38saFTAQ6qBZQKBmOd3gFG2NY8vapHLNOoCMDuBTVd0rJJKE+MnkT1dTepd7YmKsgEQHNlqyIYT9GUTRnPH0Za27PgMEMkHcIA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=AQ3ZW2LD; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1740410960; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Pf9XCbphTiM+rEuEzy39oTvCeqGZu8jXaShnC/fxqIQVKSiB3p9YyMYokkfRWYl5VXaDe7uOo8puNnMcP/WxpsS0MOV2sgU0BhnGr/FlGUtfFjlUPk14pYivI6Ai8iHSgwSYRoN1LGJ5v2yqjr/G492AsFC7gH8ZZ0mipVs52CA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740410960; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=dEfgjLenwrka3ImjA5eliWOtAuABZDRYEUSQbkPE5RQ=; 
+	b=ZGza1ojHRER7i8NUKZVG+RbQVe7DzW9BdvDtw6YvIKWJh74GHinVDMVvRHdRMT1ilYwoH8Gyf2m26BGz45CdUQY0IsfqPW7jH0teFnXmaM8VEoB65svLd0lkMsmN8zGaikcbEddpe4ryKm2WI8iorTahZ8kfZyeRC+DEknwJGr0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740410960;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=dEfgjLenwrka3ImjA5eliWOtAuABZDRYEUSQbkPE5RQ=;
+	b=AQ3ZW2LDbHx9LfD8YzeFLnovO7IXmRJS0dfGYJt+iHrJxLjgjSF2ADXGTTZfydcU
+	gNPZ4FhkwmDWiBGlo7hIE1cf+w6xppwhifs/PmOM6HampSAfDk1QYyp3SznWmuBtT3Q
+	CpwGIK4m46ilqBz8/OseIFwnHFI+IGUot9WbGP+Q=
+Received: by mx.zohomail.com with SMTPS id 1740410957728502.61084319948463;
+	Mon, 24 Feb 2025 07:29:17 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250207193133.506076-1-masahiroy@kernel.org>
-X-purgate-ID: 149429::1740407134-6CA44F57-49389224/0/0
-X-purgate-type: clean
-X-purgate-size: 16855
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
+Subject: Re: [PATCH v7 6/6] rust: add parameter support to the `module!` macro
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20250218-module-params-v3-v7-6-5e1afabcac1b@kernel.org>
+Date: Mon, 24 Feb 2025 12:28:56 -0300
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Adam Bratschi-Kaye <ark.email@gmail.com>,
+ linux-kbuild@vger.kernel.org,
+ Petr Pavlu <petr.pavlu@suse.com>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Daniel Gomez <da.gomez@samsung.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ linux-modules@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <8AF85A37-76AC-4937-BD59-115BB432B738@collabora.com>
+References: <20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org>
+ <20250218-module-params-v3-v7-6-5e1afabcac1b@kernel.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+X-Mailer: Apple Mail (2.3826.300.87.4.3)
+X-ZohoMailClient: External
 
-On Sat, Feb 08, 2025 at 04:31:31AM +0900, Masahiro Yamada wrote:
-> Kernel build commands can sometimes be long, particularly when
-> cross-compiling, making them tedious to type and prone to mistypes.
-> 
-> This commit introduces bash completion support for common variables
-> and targets in Kbuild.
-> 
-> For installation instructions, please refer to the documentation in
-> Documentation/kbuild/bash-completion.rst.
-> 
-> The following examples demonstrate how this saves typing.
-> 
-> [Example 1] a long command line for cross-compiling
-> 
->   $ make A<TAB>
->    -> completes 'A' to 'ARCH='
-> 
->   $ make ARCH=<TAB>
->    -> displays all supported architectures
-> 
->   $ make ARCH=arm64 CR<TAB>
->    -> completes 'CR' to 'CROSS_COMPILE='
-> 
->   $ make ARCH=arm64 CROSS_COMPILE=<TAB>
->    -> displays installed toolchains
-> 
->   $ make ARCH=arm64 CROSS_COMPILE=aa<TAB>
->    -> completes 'CROSS_COMPILE=aa' to 'CROSS_COMPILE=aarch64-linux-gnu-'
-> 
->   $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- def<TAB>
->    -> completes 'def' to 'defconfig'
-> 
-> [Example 2] a single build target
-> 
->   $ make f<TAB>
->    -> completes 'f' to 'fs/'
-> 
->   $ make fs/<TAB>
->    -> displays objects and sub-directories in fs/
-> 
->   $ make fs/xf<TAB>
->    -> completes 'fs/xf' to 'fs/xfs/'
-> 
->   $ make fs/xfs/l<TAB>
->    -> completes 'fs/xfs/l' to 'fs/xfs/libxfs/xfs_'
-> 
->   $ make fs/xfs/libxfs/xfs_g<TAB>
->    -> completes 'fs/xfs/libxfs/xfs_g' to 'fs/xfs/libxfs/xfs_group.o'
-> 
-> This does not aim to provide a complete list of variables and targets,
-> as there are too many. However, it covers variables and targets used
-> in common scenarios, and I hope this is useful enough.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Hi Andreas, thanks for working on this, I can see that this patch took a =
+lot
+of effort.
+
+> On 18 Feb 2025, at 10:00, Andreas Hindborg <a.hindborg@kernel.org> =
+wrote:
+>=20
+> This patch includes changes required for Rust kernel modules to =
+utilize
+> module parameters. This code implements read only support for integer
+> types without `sysfs` support.
+>=20
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Acked-by: Petr Pavlu <petr.pavlu@suse.com> # from modules perspective
 > ---
-
-Thanks!  I have been testing this a few days and find it quite handy;
-especially I do like the toolchain completion!
-
-> 
->  Documentation/kbuild/bash-completion.rst |  65 ++++
->  Documentation/kbuild/index.rst           |   2 +
->  MAINTAINERS                              |   1 +
->  scripts/bash-completion/make             | 451 +++++++++++++++++++++++
->  4 files changed, 519 insertions(+)
->  create mode 100644 Documentation/kbuild/bash-completion.rst
->  create mode 100644 scripts/bash-completion/make
-> 
-> diff --git a/Documentation/kbuild/bash-completion.rst b/Documentation/kbuild/bash-completion.rst
+> rust/kernel/lib.rs           |   1 +
+> rust/kernel/module_param.rs  | 226 =
++++++++++++++++++++++++++++++++++++++++++++
+> rust/macros/helpers.rs       |  25 +++++
+> rust/macros/lib.rs           |  31 ++++++
+> rust/macros/module.rs        | 191 =
+++++++++++++++++++++++++++++++++----
+> samples/rust/rust_minimal.rs |  10 ++
+> 6 files changed, 466 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 496ed32b0911a..aec04df2bac9f 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -57,6 +57,7 @@
+> pub mod kunit;
+> pub mod list;
+> pub mod miscdevice;
+> +pub mod module_param;
+> #[cfg(CONFIG_NET)]
+> pub mod net;
+> pub mod of;
+> diff --git a/rust/kernel/module_param.rs b/rust/kernel/module_param.rs
 > new file mode 100644
-> index 000000000000..2b52dbcd0933
+> index 0000000000000..0047126c917f4
 > --- /dev/null
-> +++ b/Documentation/kbuild/bash-completion.rst
-> @@ -0,0 +1,65 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
+> +++ b/rust/kernel/module_param.rs
+> @@ -0,0 +1,226 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +
-> +==========================
-> +Bash completion for Kbuild
-> +==========================
+> +//! Types for module parameters.
+
+nit: maybe =E2=80=9CSupport for module parameters=E2=80=9D?
+
+Or anything else other than =E2=80=9Ctypes=E2=80=9D, really :)
+
+> +//!
+> +//! C header: =
+[`include/linux/moduleparam.h`](srctree/include/linux/moduleparam.h)
 > +
-> +The kernel build system is written using Makefiles, and Bash completion
-> +for the `make` command is available through the `bash-completion`_ project.
+> +use crate::prelude::*;
+> +use crate::str::BStr;
 > +
-> +However, the Makefiles for the kernel build are complex. The generic completion
-> +rules for the `make` command do not provide meaningful suggestions for the
-> +kernel build system, except for the options of the `make` command itself.
+> +/// Newtype to make `bindings::kernel_param` [`Sync`].
+> +#[repr(transparent)]
+> +#[doc(hidden)]
+> +pub struct RacyKernelParam(pub ::kernel::bindings::kernel_param);
 > +
-> +To enhance completion for various variables and targets, the kernel source
-> +includes its own completion script at `scripts/bash-completion/make`.
+> +// SAFETY: C kernel handles serializing access to this type. We never =
+access
+
+nit: perhaps: =E2=80=9Cwe never access *it* from *a* Rust module=E2=80=9D =
+?
+
+> +// from Rust module.
+> +unsafe impl Sync for RacyKernelParam {}
 > +
-> +This script provides additional completions when working within the kernel tree.
-> +Outside the kernel tree, it defaults to the generic completion rules for the
-> +`make` command.
+> +/// Types that can be used for module parameters.
+> +///
+> +/// Note that displaying the type in `sysfs` will fail if
+> +/// [`Display`](core::fmt::Display) implementation would write more =
+than
+
+nit: perhaps `implementation writes more than`? Although it=E2=80=99d be =
+great if a
+native speaker could chime in on this one.
+
+> +/// [`PAGE_SIZE`] - 1 bytes.
+> +///
+> +/// [`PAGE_SIZE`]: `bindings::PAGE_SIZE`
+> +pub trait ModuleParam: Sized {
+> +    /// The [`ModuleParam`] will be used by the kernel module through =
+this type.
+> +    ///
+> +    /// This may differ from `Self` if, for example, `Self` needs to =
+track
+> +    /// ownership without exposing it or allocate extra space for =
+other possible
+> +    /// parameter values.
+
+I don=E2=80=99t understand what=E2=80=99s being said here. e.g.: what =
+does =E2=80=9CSelf needs to track
+ownership without exposing it=E2=80=9D mean? Can you expand on this?
+
+Also this is pub. It should perhaps also be sealed?
+
+
+> +    // This is required to support string parameters in the future.
+> +    type Value: ?Sized;
+
+Why? Can you also expand on this a tad further?
+
 > +
-> +Prerequisites
-> +=============
-> +
-> +The script relies on helper functions provided by `bash-completion`_ project.
-> +Please ensure it is installed on your system. On most distributions, you can
-> +install the `bash-completion` package through the standard package manager.
-> +
-> +How to use
-> +==========
-> +
-> +You can source the script directly::
-> +
-> +  $ source scripts/bash-completion/make
-> +
-> +Or, you can copy it into the search path for Bash completion scripts.
-> +For example::
-> +
-> +  $ mkdir -p ~/.local/share/bash-completion/completions
-> +  $ cp scripts/bash-completion/make ~/.local/share/bash-completion/completions/
-> +
-> +Details
-> +=======
-> +
-> +The additional completion for Kbuild is enabled in the following cases:
-> +
-> + - You are in the root directory of the kernel source.
-> + - You are in the top-level build directory created by the O= option
-> +   (checked via the `source` symlink pointing to the kernel source).
-> + - The -C make option specifies the kernel source or build directory.
-> + - The -f make option specifies a file in the kernel source or build directory.
-> +
-> +If none of the above are met, it falls back to the generic completion rules.
-> +
-> +The completion supports:
-> +
-> +  - Commonly used targets, such as `all`, `menuconfig`, `dtbs`, etc.
-> +  - Make (or environment) variables, such as `ARCH`, `LLVM`, etc.
-> +  - Single-target builds (`foo/bar/baz.o`)
-> +  - Configuration files (`*_defconfig` and `*.config`)
-> +
-> +Some variables offer intelligent behavior. For instance, `CROSS_COMPILE=`
-> +followed by a TAB displays installed toolchains. The list of defconfig files
-> +shown depends on the value of the `ARCH=` variable.
-> +
-> +.. _bash-completion: https://github.com/scop/bash-completion/
-> diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-> index e82af05cd652..3731ab22bfe7 100644
-> --- a/Documentation/kbuild/index.rst
-> +++ b/Documentation/kbuild/index.rst
-> @@ -23,6 +23,8 @@ Kernel Build System
->      llvm
->      gendwarfksyms
->  
-> +    bash-completion
-> +
->  .. only::  subproject and html
->  
->     Indices
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 896a307fa065..cca379fbeb4f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12566,6 +12566,7 @@ F:	Makefile
->  F:	scripts/*vmlinux*
->  F:	scripts/Kbuild*
->  F:	scripts/Makefile*
-> +F:	scripts/bash-completion/
->  F:	scripts/basic/
->  F:	scripts/clang-tools/
->  F:	scripts/dummy-tools/
-> diff --git a/scripts/bash-completion/make b/scripts/bash-completion/make
-> new file mode 100644
-> index 000000000000..d06e642ddcf7
-> --- /dev/null
-> +++ b/scripts/bash-completion/make
-> @@ -0,0 +1,451 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +# bash completion for GNU make with kbuild extension       -*- shell-script -*-
-> +
-> +# Load the default completion script for make. It is typically located at
-> +# /usr/share/bash-completion/completions/make, but we do not rely on it.
-> +__kbuild_load_default_make_completion()
-> +{
-> +	local -a dirs=("${BASH_COMPLETION_USER_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/bash-completion}/completions")
-> +	local ifs=$IFS IFS=: dir compfile this_dir
-> +
-> +	for dir in ${XDG_DATA_DIRS:-/usr/local/share:/usr/share}; do
-> +	        dirs+=("$dir"/bash-completion/completions)
-> +	done
-> +	IFS=$ifs
-> +
-> +	this_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
-> +
-> +	for dir in "${dirs[@]}"; do
-> +		if [[ ! -d ${dir} || ${dir} = "${this_dir}" ]]; then
-> +			continue
-> +		fi
-> +
-> +		for compfile in make make.bash _make; do
-> +			compfile=$dir/$compfile
-> +			# Avoid trying to source dirs; https://bugzilla.redhat.com/903540
-> +			if [[ -f ${compfile} ]] && . "${compfile}" &>/dev/null; then
-> +
-> +				__kbuild_default_make_completion=$(
-> +					# shellcheck disable=SC2046 # word splitting is the point here
-> +					set -- $(complete -p make)
-> +
-> +					while [[ $# -gt 1 && "$1" != -F ]]; do
-> +						shift
-> +					done
-> +
-> +					if [[ "$1" = -F ]]; then
-> +						echo "$2"
-> +					fi
-> +				)
-> +
-> +				return
-> +			fi
-> +		done
-> +	done
+> +    /// Parse a parameter argument into the parameter value.
+> +    ///
+> +    /// `Err(_)` should be returned when parsing of the argument =
+fails.
+> +    ///
+> +    /// Parameters passed at boot time will be set before [`kmalloc`] =
+is
+> +    /// available (even if the module is loaded at a later time). =
+However, in
+> +    /// this case, the argument buffer will be valid for the entire =
+lifetime of
+> +    /// the kernel. So implementations of this method which need to =
+allocate
+> +    /// should first check that the allocator is available (with
+> +    /// [`crate::bindings::slab_is_available`]) and when it is not =
+available
+> +    /// provide an alternative implementation which doesn't allocate. =
+In cases
+> +    /// where the allocator is not available it is safe to save =
+references to
+> +    /// `arg` in `Self`, but in other cases a copy should be made.
+> +    ///
+> +    /// [`kmalloc`]: srctree/include/linux/slab.h
+> +    fn try_from_param_arg(arg: &'static [u8]) -> Result<Self>;
 > +}
 > +
-> +__kbuild_load_default_make_completion
-> +
-> +__kbuild_handle_variable()
+> +/// Set the module parameter from a string.
+> +///
+> +/// Used to set the parameter value at kernel initialization, when =
+loading
+> +/// the module or when set through `sysfs`.
+> +///
+> +/// `param.arg` is a pointer to `*mut T` as set up by the [`module!`]
+> +/// macro.
+
+Perhaps the above should also be an invariant?
+
+> +///
+> +/// See `struct kernel_param_ops.set`.
+> +///
+> +/// # Safety
+> +///
+> +/// If `val` is non-null then it must point to a valid =
+null-terminated
+> +/// string. The `arg` field of `param` must be an instance of `T`.
+> +///
+> +/// # Invariants
+> +///
+> +/// Currently, we only support read-only parameters that are not =
+readable
+> +/// from `sysfs`. Thus, this function is only called at kernel
+> +/// initialization time, or at module load time, and we have =
+exclusive
+> +/// access to the parameter for the duration of the function.
+> +///
+> +/// [`module!`]: macros::module
+> +unsafe extern "C" fn set_param<T>(
+> +    val: *const kernel::ffi::c_char,
+> +    param: *const crate::bindings::kernel_param,
+> +) -> core::ffi::c_int
+> +where
+> +    T: ModuleParam,
 > +{
-> +	local var=${1%%=*}
-> +	local cur=${cur#"${var}"=}
-> +	local srctree=$2
-> +	local keywords=()
+> +    // NOTE: If we start supporting arguments without values, val =
+_is_ allowed
+> +    // to be null here.
+> +    if val.is_null() {
+> +        // TODO: Use pr_warn_once available.
+> +        crate::pr_warn!("Null pointer passed to =
+`module_param::set_param`");
+> +        return crate::error::code::EINVAL.to_errno();
+> +    }
 > +
-> +	case $var in
-> +	ARCH)
-> +		# sub-directories under arch/
-> +		keywords+=($(find "${srctree}/arch" -mindepth 1 -maxdepth 1 -type d -printf '%P\n'))
-> +		# architectures hard-coded in the top Makefile
-> +		keywords+=(i386 x86_64 sparc32 sparc64 parisc64)
-> +		;;
-> +	CROSS_COMPILE)
-> +		# toolchains with a full path
-> +		local cross_compile=()
-> +		local c c2
-> +		_filedir
+> +    // SAFETY: By function safety requirement, val is non-null and
+> +    // null-terminated. By C API contract, `val` is live and valid =
+for reads
+> +    // for the duration of this function.
+> +    let arg =3D unsafe { CStr::from_char_ptr(val).as_bytes() };
 > +
-> +		for c in "${COMPREPLY[@]}"; do
-> +			# eval for tilde expansion
-> +			# suppress error, as this fails when it contains a space
-> +			eval "c2=${c}" 2>/dev/null || continue
-> +			if [[ ${c} == *-elfedit && ! -d ${c2} && -x ${c2} ]]; then
-> +				cross_compile+=("${c%elfedit}")
-> +			fi
-> +		done
+> +    crate::error::from_result(|| {
+> +        let new_value =3D T::try_from_param_arg(arg)?;
 > +
-> +		# toolchains in the PATH environment
-> +		while read -r c; do
-> +			if [[ ${c} == *-elfedit ]]; then
-> +				keywords+=("${c%elfedit}")
-> +			fi
-> +		done < <(compgen -c)
+> +        // SAFETY: `param` is guaranteed to be valid by C API =
+contract
+> +        // and `arg` is guaranteed to point to an instance of `T`.
+> +        let old_value =3D unsafe { (*param).__bindgen_anon_1.arg as =
+*mut T };
 > +
-> +		COMPREPLY=()
-> +		_filedir -d
-> +
-> +		# Add cross_compile directly without passing it to compgen.
-> +		# Otherwise, toolchain paths with a tilde do not work.
-> +		# e.g.)
-> +		#   CROSS_COMPILE=~/0day/gcc-14.2.0-nolibc/aarch64-linux/bin/aarch64-linux-
-> +		COMPREPLY+=("${cross_compile[@]}")
-> +		;;
-> +	LLVM)
-> +		# LLVM=1 uses the default 'clang' etc.
-> +		keywords+=(1)
-> +
-> +		# suffix for a particular version. LLVM=-18 uses 'clang-18' etc.
-> +		while read -r c; do
-> +			if [[ ${c} == clang-[0-9]* ]]; then
-> +				keywords+=("${c#clang}")
-> +			fi
-> +		done < <(compgen -c)
-> +
-> +		# directory path to LLVM toolchains
-> +		_filedir -d
-> +		;;
-> +	KCONFIG_ALLCONFIG)
-> +		# KCONFIG_ALLCONFIG=1 selects the default fragment
-> +		keywords+=(1)
-> +		# or the path to a fragment file
-> +		_filedir
-> +		;;
-> +	C | KBUILD_CHECKSRC)
-> +		keywords+=(1 2)
-> +		;;
-> +	V | KBUILD_VERBOSE)
-> +		keywords+=({,1}{,2})
-> +		;;
-> +	W | KBUILD_EXTRA_WARN)
-> +		keywords+=({,1}{,2}{,3}{,c}{,e})
-> +		;;
-> +	KBUILD_ABS_SRCTREE | KBUILD_MODPOST_NOFINAL | KBUILD_MODPOST_WARN | \
-> +		CLIPPY | KBUILD_CLIPPY | KCONFIG_NOSILENTUPDATE | \
-> +		KCONFIG_OVERWRITECONFIG | KCONFIG_WARN_UNKNOWN_SYMBOL | \
-> +		KCONFIG_WERROR )
-> +		keywords+=(1)
-> +		;;
-> +	INSTALL_MOD_STRIP)
-> +		keywords+=(1 --strip-debug --strip-unneeded)
-> +		;;
-> +	O | KBUILD_OUTPUT | M | KBUILD_EXTMOD | MO | KBUILD_EXTMOD_OUTPUT | *_PATH)
-> +		# variables that take a directory.
-> +		_filedir -d
-
-Would it make sense to temporarily switch cwd to ${srctree} to allow
-completion of KBUILD_OUTPUT and friends with relative paths from
-${srctree}?
-
-A simple approach (probably with some bad side-effects), works for me:
-
-		local opwd=$OLDPWD
-                cd ${srctree} && _filedir -d && cd $OLDPWD
-                OLDPWD=$opwd
-
-But this is quite a step further, if there is no clean solution right
-now, I'd prefer leaving it as it is for now.
-
-> +		return
-> +		;;
-> +	KBUILD_EXTRA_SYMBOL | KBUILD_KCONFIG | KCONFIG_CONFIG)
-> +		# variables that take a file.
-> +		_filedir
-> +		return
-> +	esac
-> +
-> +	COMPREPLY+=($(compgen -W "${keywords[*]}" -- "${cur}"))
+> +        // SAFETY: `old_value` is valid for writes, as we have =
+exclusive
+> +        // access. `old_value` is pointing to an initialized static, =
+and
+> +        // so it is properly initialized.
+> +        unsafe { core::ptr::replace(old_value, new_value) };
+> +        Ok(0)
+> +    })
 > +}
 > +
-> +# Check the -C, -f options and 'source' symlink. Return the source tree we are
-> +# working in.
-> +__kbuild_get_srctree()
+> +/// Drop the parameter.
+> +///
+> +/// Called when unloading a module.
+> +///
+> +/// # Safety
+> +///
+> +/// The `arg` field of `param` must be an initialized instance of =
+`T`.
+> +unsafe extern "C" fn free<T>(arg: *mut core::ffi::c_void)
+> +where
+> +    T: ModuleParam,
 > +{
-> +	local words=("$@")
-> +	local cwd makef_dir
-> +
-> +        # see if a path was specified with -C/--directory
-> +        for ((i = 1; i < ${#words[@]}; i++)); do
-
-indent ^^: spaces instead of tab
-
-> +		if [[ ${words[i]} == -@(C|-directory) ]]; then
-> +			# eval for tilde expansion.
-> +			# suppress error, as this fails when it contains a space
-> +			eval "cwd=${words[i + 1]}" 2>/dev/null
-> +			break
-> +		fi
-> +        done
-
-indent ^: spaces instead of tab
-
-> +
-> +	if [[ -z ${cwd} ]]; then
-> +		cwd=.
-> +	fi
-> +
-> +        # see if a Makefile was specified with -f/--file/--makefile
-> +        for ((i = 1; i < ${#words[@]}; i++)); do
-
-indent ^^: spaces instead of tab
-
-> +		if [[ ${words[i]} == -@(f|-?(make)file) ]]; then
-
-(I am really impressed: everytime I am reviewing one of your new shell
-scripts, I learn something new.  TIL: '-@()' and '?()'.)
-
-> +			# eval for tilde expansion
-> +			# suppress error, as this fails when it contains a space
-> +			eval "makef_dir=${words[i + 1]%/*}" 2>/dev/null
-> +			break
-> +		fi
-> +        done
-
-indent ^: spaces instead of tab
-
-> +
-> +	if [ -z "${makef_dir}" ]; then
-> +		makef_dir=${cwd}
-> +	elif [[ ${makef_dir} != /* ]]; then
-> +		makef_dir=${cwd}/${makef_dir}
-> +	fi
-> +
-> +	# If ${makef_dir} is a build directory created by the O= option, there
-> +	# is a symbolic link 'source', which points to the kernel source tree.
-> +	if [[ -L ${makef_dir}/source ]]; then
-> +		makef_dir=$(readlink "${makef_dir}/source")
-> +	fi
-> +
-> +	echo "${makef_dir}"
+> +    // SAFETY: By function safety requirement, `arg` is an =
+initialized
+> +    // instance of `T`. By C API contract, `arg` will not be used =
+after
+> +    // this function returns.
+> +    unsafe { core::ptr::drop_in_place(arg as *mut T) };
 > +}
 > +
-> +# Get SRCARCH to do a little more clever things
-> +__kbuild_get_srcarch()
-> +{
-> +	local words=("$@")
-> +	local arch srcarch uname_m
+> +macro_rules! impl_int_module_param {
+> +    ($ty:ident) =3D> {
+> +        impl ModuleParam for $ty {
+> +            type Value =3D $ty;
 > +
-> +        # see if ARCH= is explicitly specified
-> +        for ((i = 1; i < ${#words[@]}; i++)); do
-
-indent ^^: spaces instead of tab
-
-> +		if [[ ${words[i]} == ARCH=* ]]; then
-> +			arch=${words[i]#ARCH=}
-> +			break
-> +		fi
-> +        done
-
-indent ^: spaces instead of tab
-
-> +
-> +	# If ARCH= is not specified, check the build marchine's architecture
-> +	if [[ -z ${arch} ]]; then
-> +		uname_m=$(uname -m)
-> +
-> +		# shellcheck disable=SC2209 # 'sh' is SuperH, not a shell command
-> +		case ${uname_m} in
-> +		arm64 | aarch64*) arch=arm64 ;;
-> +		arm* | sa110)     arch=arm ;;
-> +		i?86 | x86_64)    arch=x86 ;;
-> +		loongarch*)       arch=loongarch ;;
-> +		mips*)            arch=mips ;;
-> +		ppc*)             arch=powerpc ;;
-> +		riscv*)           arch=riscv ;;
-> +		s390x)            arch=s390 ;;
-> +		sh[234]*)         arch=sh ;;
-> +		sun4u)            arch=sparc64 ;;
-> +		*)                arch=${uname_m} ;;
-> +		esac
-> +	fi
-> +
-> +	case ${arch} in
-> +		parisc64)          srcarch=parisc ;;
-> +		sparc32 | sparc64) srcarch=sparc ;;
-> +		i386 | x86_64)     srcarch=x86 ;;
-> +		*)                 srcarch=${arch} ;;
-> +	esac
-> +
-> +	echo "$srcarch"
+> +            fn try_from_param_arg(arg: &'static [u8]) -> Result<Self> =
+{
+> +                let bstr =3D BStr::from_bytes(arg);
+> +                <$ty as =
+crate::str::parse_int::ParseInt>::from_str(bstr)
+> +            }
+> +        }
+> +    };
 > +}
 > +
-> +# small Makefile to parse obj-* syntax
-> +__kbuild_tmp_makefile()
-> +{
-> +cat <<'EOF'
-> +.PHONY: __default
-> +__default:
-> +	$(foreach m,$(obj-y) $(obj-m) $(obj-),$(foreach s, -objs -y -m -,$($(m:%.o=%$s))) $(m))
-> +EOF
-> +echo "include ${1}"
+> +impl_int_module_param!(i8);
+> +impl_int_module_param!(u8);
+> +impl_int_module_param!(i16);
+> +impl_int_module_param!(u16);
+> +impl_int_module_param!(i32);
+> +impl_int_module_param!(u32);
+> +impl_int_module_param!(i64);
+> +impl_int_module_param!(u64);
+> +impl_int_module_param!(isize);
+> +impl_int_module_param!(usize);
+> +
+> +/// A wrapper for kernel parameters.
+> +///
+> +/// This type is instantiated by the [`module!`] macro when module =
+parameters are
+> +/// defined. You should never need to instantiate this type directly.
+> +#[repr(transparent)]
+> +pub struct ModuleParamAccess<T> {
+> +    data: core::cell::UnsafeCell<T>,
 > +}
 > +
-> +_make_for_kbuild ()
-> +{
-> +	# shellcheck disable=SC2034 # these are set by _init_completion
-> +	local cur prev words cword split
-> +	_init_completion -s || return
+> +// SAFETY: We only create shared references to the contents of this =
+container,
+> +// so if `T` is `Sync`, so is `ModuleParamAccess`.
+> +unsafe impl<T: Sync> Sync for ModuleParamAccess<T> {}
 > +
-> +	local srctree
-> +	srctree=$(__kbuild_get_srctree "${words[@]}")
+> +impl<T> ModuleParamAccess<T> {
+> +    #[doc(hidden)]
+> +    pub const fn new(value: T) -> Self {
+
+I assume that this is pub so that the macro can find it? If so, can you =
+leave a note
+outlining this?
+
+> +        Self {
+> +            data: core::cell::UnsafeCell::new(value),
+> +        }
+> +    }
 > +
-> +	# If 'kernel' and 'Documentation' directories are found, we assume this
-> +	# is a kernel tree. Otherwise, we fall back to the generic rule provided
-> +	# by the bash-completion project.
-> +	if [[ ! -d ${srctree}/kernel || ! -d ${srctree}/Documentation ]]; then
-> +		if [ -n "${__kbuild_default_make_completion}" ]; then
-> +			"${__kbuild_default_make_completion}" "$@"
-> +		fi
-> +		return
-> +	fi
+> +    /// Get a shared reference to the parameter value.
+> +    // Note: When sysfs access to parameters are enabled, we have to =
+pass in a
+> +    // held lock guard here.
+
+What lock guard, guarding what exactly?
+
+> +    pub fn get(&self) -> &T {
+> +        // SAFETY: As we only support read only parameters with no =
+sysfs
+> +        // exposure, the kernel will not touch the parameter data =
+after module
+> +        // initialization.
+> +        unsafe { &*self.data.get() }
+> +    }
 > +
-> +	# make options with a parameter (copied from the bash-completion project)
-> +	case ${prev} in
-> +        --file | --makefile | --old-file | --assume-old | --what-if | --new-file | \
-
-indent ^: spaces instead of tab
-
-> +		--assume-new | -!(-*)[foW])
-> +		_filedir
-> +		return
-> +		;;
-> +	--include-dir | --directory | -!(-*)[ICm])
-> +		_filedir -d
-> +		return
-> +		;;
-> +	-!(-*)E)
-> +		COMPREPLY=($(compgen -v -- "$cur"))
-> +		return
-> +		;;
-> +	--eval | -!(-*)[DVx])
-> +		return
-> +		;;
-> +	--jobs | -!(-*)j)
-> +		COMPREPLY=($(compgen -W "{1..$(($(_ncpus) * 2))}" -- "$cur"))
-> +		return
-> +		;;
-> +	esac
+> +    /// Get a mutable pointer to the parameter value.
+> +    pub const fn as_mut_ptr(&self) -> *mut T {
+> +        self.data.get()
+> +    }
+> +}
 > +
-> +	local keywords=()
+> +#[doc(hidden)]
+> +#[macro_export]
+> +/// Generate a static =
+[`kernel_param_ops`](srctree/include/linux/moduleparam.h) struct.
+> +///
+> +/// # Examples
+> +///
+> +/// ```ignore
+> +/// make_param_ops!(
+> +///     /// Documentation for new param ops.
+> +///     PARAM_OPS_MYTYPE, // Name for the static.
+> +///     MyType // A type which implements [`ModuleParam`].
+> +/// );
+> +/// ```
+> +macro_rules! make_param_ops {
+> +    ($ops:ident, $ty:ty) =3D> {
+> +        ///
+> +        /// Static =
+[`kernel_param_ops`](srctree/include/linux/moduleparam.h)
+> +        /// struct generated by `make_param_ops`
+> +        #[doc =3D concat!("for [`", stringify!($ty), "`].")]
+> +        pub static $ops: $crate::bindings::kernel_param_ops =3D =
+$crate::bindings::kernel_param_ops {
+> +            flags: 0,
+> +            set: Some(set_param::<$ty>),
+> +            get: None,
+> +            free: Some(free::<$ty>),
+> +        };
+> +    };
+> +}
 > +
-> +	case ${cur} in
-> +	-*)
-> +		# make options (copied from the bash-completion project)
-> +		local opts
-> +		opts="$(_parse_help "$1")"
-> +		COMPREPLY=($(compgen -W "${opts:-$(_parse_usage "$1")}" -- "$cur"))
-> +		if [[ ${COMPREPLY-} == *= ]]; then
-> +			compopt -o nospace
-> +		fi
-> +		return
-> +		;;
-> +	*=*)
-> +		__kbuild_handle_variable "${cur}" "${srctree}"
-> +		return
-> +		;;
-> +	KBUILD_*)
-> +		# There are many variables prefixed with 'KBUILD_'.
-> +		# Display them only when 'KBUILD_' is entered.
-> +		# shellcheck disable=SC2191 # '=' is appended for variables
-> +		keywords+=(
-> +			KBUILD_{CHECKSRC,EXTMOD,EXTMOD_OUTPUT,VERBOSE,EXTRA_WARN,CLIPPY}=
-> +			KBUILD_BUILD_{USER,HOST,TIMESTAMP}=
-> +			KBUILD_MODPOST_{NOFINAL,WARN}=
-> +			KBUILD_{ABS_SRCTREE,EXTRA_SYMBOLS,KCONFIG}=
+> +make_param_ops!(PARAM_OPS_I8, i8);
+> +make_param_ops!(PARAM_OPS_U8, u8);
+> +make_param_ops!(PARAM_OPS_I16, i16);
+> +make_param_ops!(PARAM_OPS_U16, u16);
+> +make_param_ops!(PARAM_OPS_I32, i32);
+> +make_param_ops!(PARAM_OPS_U32, u32);
+> +make_param_ops!(PARAM_OPS_I64, i64);
+> +make_param_ops!(PARAM_OPS_U64, u64);
+> +make_param_ops!(PARAM_OPS_ISIZE, isize);
+> +make_param_ops!(PARAM_OPS_USIZE, usize);
+> diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
+> index 563dcd2b7ace5..ffc9f0cccddc8 100644
+> --- a/rust/macros/helpers.rs
+> +++ b/rust/macros/helpers.rs
+> @@ -10,6 +10,17 @@ pub(crate) fn try_ident(it: &mut =
+token_stream::IntoIter) -> Option<String> {
+>     }
+> }
+>=20
+> +pub(crate) fn try_sign(it: &mut token_stream::IntoIter) -> =
+Option<char> {
+> +    let peek =3D it.clone().next();
+> +    match peek {
+> +        Some(TokenTree::Punct(punct)) if punct.as_char() =3D=3D '-' =
+=3D> {
+> +            let _ =3D it.next();
+> +            Some(punct.as_char())
+> +        }
+> +        _ =3D> None,
+> +    }
+> +}
+> +
+> pub(crate) fn try_literal(it: &mut token_stream::IntoIter) -> =
+Option<String> {
+>     if let Some(TokenTree::Literal(literal)) =3D it.next() {
+>         Some(literal.to_string())
+> @@ -107,6 +118,20 @@ pub(crate) struct Generics {
+>     pub(crate) ty_generics: Vec<TokenTree>,
+> }
+>=20
+> +/// Parse a token stream of the form `expected_name: "value",` and =
+return the
+> +/// string in the position of "value".
+> +///
+> +/// # Panics
+> +///
+> +/// - On parse error.
+> +pub(crate) fn expect_string_field(it: &mut token_stream::IntoIter, =
+expected_name: &str) -> String {
+> +    assert_eq!(expect_ident(it), expected_name);
+> +    assert_eq!(expect_punct(it), ':');
+> +    let string =3D expect_string(it);
+> +    assert_eq!(expect_punct(it), ',');
+> +    string
+> +}
+> +
+> /// Parses the given `TokenStream` into `Generics` and the rest.
+> ///
+> /// The generics are not present in the rest, but a where clause might =
+remain.
+> diff --git a/rust/macros/lib.rs b/rust/macros/lib.rs
+> index d61bc6a56425e..2778292f8cee1 100644
+> --- a/rust/macros/lib.rs
+> +++ b/rust/macros/lib.rs
+> @@ -24,6 +24,30 @@
+> /// The `type` argument should be a type which implements the =
+[`Module`]
+> /// trait. Also accepts various forms of kernel metadata.
+> ///
+> +/// The `params` field describe module parameters. Each entry has the =
+form
+> +///
+> +/// ```ignore
+> +/// parameter_name: type {
+> +///     default: default_value,
+> +///     description: "Description",
+> +/// }
+> +/// ```
+> +///
+> +/// `type` may be one of
+> +///
+> +/// - [`i8`]
+> +/// - [`u8`]
+> +/// - [`i8`]
+> +/// - [`u8`]
+> +/// - [`i16`]
+> +/// - [`u16`]
+> +/// - [`i32`]
+> +/// - [`u32`]
+> +/// - [`i64`]
+> +/// - [`u64`]
+> +/// - [`isize`]
+> +/// - [`usize`]
+> +///
+> /// C header: =
+[`include/linux/moduleparam.h`](srctree/include/linux/moduleparam.h)
+> ///
+> /// [`Module`]: ../kernel/trait.Module.html
+> @@ -40,6 +64,12 @@
+> ///     description: "My very own kernel module!",
+> ///     license: "GPL",
+> ///     alias: ["alternate_module_name"],
+> +///     params: {
+> +///         my_parameter: i64 {
+> +///             default: 1,
+> +///             description: "This parameter has a default of 1",
+> +///         },
+> +///     },
+> /// }
+> ///
+> /// struct MyModule(i32);
+> @@ -48,6 +78,7 @@
+> ///     fn init(_module: &'static ThisModule) -> Result<Self> {
+> ///         let foo: i32 =3D 42;
+> ///         pr_info!("I contain:  {}\n", foo);
+> +///         pr_info!("i32 param is:  {}\n", =
+module_parameters::my_parameter.read());
+> ///         Ok(Self(foo))
+> ///     }
+> /// }
+> diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+> index cdf94f4982dfc..e6af3ae5fe80e 100644
+> --- a/rust/macros/module.rs
+> +++ b/rust/macros/module.rs
+> @@ -26,6 +26,7 @@ struct ModInfoBuilder<'a> {
+>     module: &'a str,
+>     counter: usize,
+>     buffer: String,
+> +    param_buffer: String,
+> }
+>=20
+> impl<'a> ModInfoBuilder<'a> {
+> @@ -34,10 +35,11 @@ fn new(module: &'a str) -> Self {
+>             module,
+>             counter: 0,
+>             buffer: String::new(),
+> +            param_buffer: String::new(),
+>         }
+>     }
+>=20
+> -    fn emit_base(&mut self, field: &str, content: &str, builtin: =
+bool) {
+> +    fn emit_base(&mut self, field: &str, content: &str, builtin: =
+bool, param: bool) {
+>         let string =3D if builtin {
+>             // Built-in modules prefix their modinfo strings by =
+`module.`.
+>             format!(
+> @@ -51,8 +53,14 @@ fn emit_base(&mut self, field: &str, content: &str, =
+builtin: bool) {
+>             format!("{field}=3D{content}\0", field =3D field, content =
+=3D content)
+>         };
+>=20
+> +        let buffer =3D if param {
+> +            &mut self.param_buffer
+> +        } else {
+> +            &mut self.buffer
+> +        };
+> +
+>         write!(
+> -            &mut self.buffer,
+> +            buffer,
+>             "
+>                 {cfg}
+>                 #[doc(hidden)]
+> @@ -75,20 +83,116 @@ fn emit_base(&mut self, field: &str, content: =
+&str, builtin: bool) {
+>         self.counter +=3D 1;
+>     }
+>=20
+> -    fn emit_only_builtin(&mut self, field: &str, content: &str) {
+> -        self.emit_base(field, content, true)
+> +    fn emit_only_builtin(&mut self, field: &str, content: &str, =
+param: bool) {
+> +        self.emit_base(field, content, true, param)
+>     }
+>=20
+> -    fn emit_only_loadable(&mut self, field: &str, content: &str) {
+> -        self.emit_base(field, content, false)
+> +    fn emit_only_loadable(&mut self, field: &str, content: &str, =
+param: bool) {
+> +        self.emit_base(field, content, false, param)
+>     }
+>=20
+>     fn emit(&mut self, field: &str, content: &str) {
+> -        self.emit_only_builtin(field, content);
+> -        self.emit_only_loadable(field, content);
+> +        self.emit_internal(field, content, false);
+> +    }
+> +
+> +    fn emit_internal(&mut self, field: &str, content: &str, param: =
+bool) {
+> +        self.emit_only_builtin(field, content, param);
+> +        self.emit_only_loadable(field, content, param);
+> +    }
+> +
+> +    fn emit_param(&mut self, field: &str, param: &str, content: &str) =
+{
+> +        let content =3D format!("{param}:{content}", param =3D param, =
+content =3D content);
+> +        self.emit_internal(field, &content, true);
+> +    }
+> +
+> +    fn emit_params(&mut self, info: &ModuleInfo) {
+> +        let Some(params) =3D &info.params else {
+> +            return;
+> +        };
 
-Did you leave-out KBUILD_OUTPUT by intention?  I think it would be nice
-to complete it here, too.
+Shouldn=E2=80=99t this panic? A call to emit_params() where there=E2=80=99=
+s nothing to emit doesn=E2=80=99t
+look right at a first glance.
 
+> +
+> +        for param in params {
+> +            let ops =3D param_ops_path(&param.ptype);
+> +
+> +            // Note: The spelling of these fields is dictated by the =
+user space
+> +            // tool `modinfo`.
+> +            self.emit_param("parmtype", &param.name, &param.ptype);
+> +            self.emit_param("parm", &param.name, &param.description);
+> +
+> +            write!(
+> +                self.param_buffer,
+> +                "
+> +                    pub(crate) static {param_name}:
+> +                        =
+::kernel::module_param::ModuleParamAccess<{param_type}> =3D
+> +                            =
+::kernel::module_param::ModuleParamAccess::new({param_default});
+> +
+> +                    #[link_section =3D \"__param\"]
+> +                    #[used]
+> +                    static __{module_name}_{param_name}_struct:
+> +                        ::kernel::module_param::RacyKernelParam =3D
+> +                        =
+::kernel::module_param::RacyKernelParam(::kernel::bindings::kernel_param =
+{{
+> +                            name: if cfg!(MODULE) {{
+> +                                =
+::kernel::c_str!(\"{param_name}\").as_bytes_with_nul()
+> +                            }} else {{
+> +                                =
+::kernel::c_str!(\"{module_name}.{param_name}\").as_bytes_with_nul()
+> +                            }}.as_ptr(),
+> +                            // SAFETY: `__this_module` is constructed =
+by the kernel at load time
+> +                            // and will not be freed until the module =
+is unloaded.
+> +                            #[cfg(MODULE)]
+> +                            mod_: unsafe {{
+> +                                (&::kernel::bindings::__this_module
+> +                                    as *const =
+::kernel::bindings::module)
+> +                                    .cast_mut()
+> +                            }},
+> +                            #[cfg(not(MODULE))]
+> +                            mod_: ::core::ptr::null_mut(),
+> +                            ops: &{ops} as *const =
+::kernel::bindings::kernel_param_ops,
+> +                            perm: 0, // Will not appear in sysfs
+> +                            level: -1,
+> +                            flags: 0,
+> +                            __bindgen_anon_1:
+> +                                =
+::kernel::bindings::kernel_param__bindgen_ty_1 {{
+> +                                    arg: =
+{param_name}.as_mut_ptr().cast()
+> +                                }},
+> +                        }});
+> +                ",
+> +                module_name =3D info.name,
+> +                param_type =3D param.ptype,
+> +                param_default =3D param.default,
+> +                param_name =3D param.name,
+> +                ops =3D ops,
+> +            )
+> +            .unwrap();
+> +        }
+> +    }
+> +}
+> +
+> +fn param_ops_path(param_type: &str) -> &'static str {
+> +    match param_type {
+> +        "i8" =3D> "::kernel::module_param::PARAM_OPS_I8",
+> +        "u8" =3D> "::kernel::module_param::PARAM_OPS_U8",
+> +        "i16" =3D> "::kernel::module_param::PARAM_OPS_I16",
+> +        "u16" =3D> "::kernel::module_param::PARAM_OPS_U16",
+> +        "i32" =3D> "::kernel::module_param::PARAM_OPS_I32",
+> +        "u32" =3D> "::kernel::module_param::PARAM_OPS_U32",
+> +        "i64" =3D> "::kernel::module_param::PARAM_OPS_I64",
+> +        "u64" =3D> "::kernel::module_param::PARAM_OPS_U64",
+> +        "isize" =3D> "::kernel::module_param::PARAM_OPS_ISIZE",
+> +        "usize" =3D> "::kernel::module_param::PARAM_OPS_USIZE",
+> +        t =3D> panic!("Unsupported parameter type {}", t),
+>     }
+> }
+>=20
+> +fn expect_param_default(param_it: &mut token_stream::IntoIter) -> =
+String {
+> +    assert_eq!(expect_ident(param_it), "default");
+> +    assert_eq!(expect_punct(param_it), ':');
+> +    let sign =3D try_sign(param_it);
+> +    let default =3D try_literal(param_it).expect("Expected default =
+param value");
+> +    assert_eq!(expect_punct(param_it), ',');
+> +    let mut value =3D sign.map(String::from).unwrap_or_default();
+> +    value.push_str(&default);
+> +    value
+> +}
+> +
+> #[derive(Debug, Default)]
+> struct ModuleInfo {
+>     type_: String,
+> @@ -98,6 +202,50 @@ struct ModuleInfo {
+>     description: Option<String>,
+>     alias: Option<Vec<String>>,
+>     firmware: Option<Vec<String>>,
+> +    params: Option<Vec<Parameter>>,
+> +}
+> +
+> +#[derive(Debug)]
+> +struct Parameter {
+> +    name: String,
+> +    ptype: String,
+> +    default: String,
+> +    description: String,
+> +}
+> +
+> +fn expect_params(it: &mut token_stream::IntoIter) -> Vec<Parameter> {
+> +    let params =3D expect_group(it);
+> +    assert_eq!(params.delimiter(), Delimiter::Brace);
+> +    let mut it =3D params.stream().into_iter();
+> +    let mut parsed =3D Vec::new();
+> +
+> +    loop {
+> +        let param_name =3D match it.next() {
+> +            Some(TokenTree::Ident(ident)) =3D> ident.to_string(),
+> +            Some(_) =3D> panic!("Expected Ident or end"),
+> +            None =3D> break,
+> +        };
+> +
+> +        assert_eq!(expect_punct(&mut it), ':');
+> +        let param_type =3D expect_ident(&mut it);
+> +        let group =3D expect_group(&mut it);
+> +        assert_eq!(group.delimiter(), Delimiter::Brace);
+> +        assert_eq!(expect_punct(&mut it), ',');
+> +
+> +        let mut param_it =3D group.stream().into_iter();
+> +        let param_default =3D expect_param_default(&mut param_it);
+> +        let param_description =3D expect_string_field(&mut param_it, =
+"description");
+> +        expect_end(&mut param_it);
+> +
+> +        parsed.push(Parameter {
+> +            name: param_name,
+> +            ptype: param_type,
+> +            default: param_default,
+> +            description: param_description,
+> +        })
+> +    }
+> +
+> +    parsed
+> }
+>=20
+> impl ModuleInfo {
+> @@ -112,6 +260,7 @@ fn parse(it: &mut token_stream::IntoIter) -> Self =
+{
+>             "license",
+>             "alias",
+>             "firmware",
+> +            "params",
+>         ];
+>         const REQUIRED_KEYS: &[&str] =3D &["type", "name", "license"];
+>         let mut seen_keys =3D Vec::new();
+> @@ -140,6 +289,7 @@ fn parse(it: &mut token_stream::IntoIter) -> Self =
+{
+>                 "license" =3D> info.license =3D =
+expect_string_ascii(it),
+>                 "alias" =3D> info.alias =3D =
+Some(expect_string_array(it)),
+>                 "firmware" =3D> info.firmware =3D =
+Some(expect_string_array(it)),
+> +                "params" =3D> info.params =3D =
+Some(expect_params(it)),
+>                 _ =3D> panic!(
+>                     "Unknown key \"{}\". Valid keys are: {:?}.",
+>                     key, EXPECTED_KEYS
+> @@ -183,28 +333,30 @@ pub(crate) fn module(ts: TokenStream) -> =
+TokenStream {
+>     let info =3D ModuleInfo::parse(&mut it);
+>=20
+>     let mut modinfo =3D ModInfoBuilder::new(info.name.as_ref());
+> -    if let Some(author) =3D info.author {
+> -        modinfo.emit("author", &author);
+> +    if let Some(author) =3D &info.author {
+> +        modinfo.emit("author", author);
+>     }
+> -    if let Some(description) =3D info.description {
+> -        modinfo.emit("description", &description);
+> +    if let Some(description) =3D &info.description {
+> +        modinfo.emit("description", description);
+>     }
+>     modinfo.emit("license", &info.license);
+> -    if let Some(aliases) =3D info.alias {
+> +    if let Some(aliases) =3D &info.alias {
+>         for alias in aliases {
+> -            modinfo.emit("alias", &alias);
+> +            modinfo.emit("alias", alias);
+>         }
+>     }
+> -    if let Some(firmware) =3D info.firmware {
+> +    if let Some(firmware) =3D &info.firmware {
+>         for fw in firmware {
+> -            modinfo.emit("firmware", &fw);
+> +            modinfo.emit("firmware", fw);
+>         }
+>     }
 
-I am unsure, if I like the mix of quoted and unquoted use of variables.
-But as they all look correct to me, this is just a question of personal
-style.
+These seem a bit unrelated?
 
+>=20
+>     // Built-in modules also export the `file` modinfo string.
+>     let file =3D
+>         std::env::var("RUST_MODFILE").expect("Unable to fetch =
+RUST_MODFILE environmental variable");
+> -    modinfo.emit_only_builtin("file", &file);
+> +    modinfo.emit_only_builtin("file", &file, false);
+> +
+> +    modinfo.emit_params(&info);
+>=20
+>     format!(
+>         "
+> @@ -362,14 +514,17 @@ unsafe fn __exit() {{
+>                             __MOD.assume_init_drop();
+>                         }}
+>                     }}
+> -
+>                     {modinfo}
+>                 }}
+>             }}
+> +            mod module_parameters {{
+> +                {params}
+> +            }}
+>         ",
+>         type_ =3D info.type_,
+>         name =3D info.name,
+>         modinfo =3D modinfo.buffer,
+> +        params =3D modinfo.param_buffer,
+>         initcall_section =3D ".initcall6.init"
+>     )
+>     .parse()
+> diff --git a/samples/rust/rust_minimal.rs =
+b/samples/rust/rust_minimal.rs
+> index 4aaf117bf8e3c..d999a77c6eb9a 100644
 
+I wonder if the changes to rust_minimal.rs should be a separate patch.
 
-Thanks, I really appreciate this kbuild bash-completion.
+> --- a/samples/rust/rust_minimal.rs
+> +++ b/samples/rust/rust_minimal.rs
+> @@ -10,6 +10,12 @@
+>     author: "Rust for Linux Contributors",
+>     description: "Rust minimal sample",
+>     license: "GPL",
+> +    params: {
+> +        test_parameter: i64 {
+> +            default: 1,
+> +            description: "This parameter has a default of 1",
+> +        },
+> +    },
+> }
+>=20
+> struct RustMinimal {
+> @@ -20,6 +26,10 @@ impl kernel::Module for RustMinimal {
+>     fn init(_module: &'static ThisModule) -> Result<Self> {
+>         pr_info!("Rust minimal sample (init)\n");
+>         pr_info!("Am I built-in? {}\n", !cfg!(MODULE));
+> +        pr_info!(
+> +            "My parameter: {}\n",
+> +            *module_parameters::test_parameter.get()
+> +        );
+>=20
+>         let mut numbers =3D KVec::new();
+>         numbers.push(72, GFP_KERNEL)?;
+>=20
+> --=20
+> 2.47.0
+>=20
+>=20
+>=20
 
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
-Tested-by: Nicolas Schier <n.schier@avm.de>
-
-Kind regards,
-Nicolas
+=E2=80=94 Daniel=
 
