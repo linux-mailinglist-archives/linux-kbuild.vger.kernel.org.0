@@ -1,106 +1,114 @@
-Return-Path: <linux-kbuild+bounces-5867-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5868-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D39A41953
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 10:40:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBD3A41DC3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 12:55:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA79D3AC085
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 09:38:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EFC337AA587
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 11:47:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6499D12CDBE;
-	Mon, 24 Feb 2025 09:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AFFE25D533;
+	Mon, 24 Feb 2025 11:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cohens.org.il header.i=@cohens.org.il header.b="Pxv15Mpw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZeU5eho"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from lemon.tzafrir.org.il (lemon.tzafrir.org.il [95.142.162.245])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5798A24502A
-	for <linux-kbuild@vger.kernel.org>; Mon, 24 Feb 2025 09:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.142.162.245
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C64125A2D1;
+	Mon, 24 Feb 2025 11:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740389911; cv=none; b=o2YDUGLawnzSihTGBFXSejyRHnGf8nwuTNQZ6Jawiza9x4LCC7OKy6QcfZCjoxFFMkzdQu0SVY6rbDnEb+omSuuJJsT1C9wP8SyWHXuIYgmWJWxjZErwzGHvIuh+Z1oQowi14kGKvUgek8/EcN+sGZih71HT6RqidgD3sAM1g0c=
+	t=1740396492; cv=none; b=ip1fRJcOzk/v+mYt3dptHSRwU+N0Qp5sx62RO5AMj5Io6XIEFwRUTkFccTJSb8ua+Dm9mQPeHUa6eTsnjfDB2k1oWDH9dfewWqPhEeuVwa5YkIgqQ5xsBy77RVq4kJW/WV+OJUG6meinlg9eHV7CdBwp7jTnitIg5tehuHcPOHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740389911; c=relaxed/simple;
-	bh=WILyuv+duGpM++hT5o95aA9CchBzTIWjwb3ggo96JL4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OKGY4PUcGJtcl+efwS/TBqrx40cfxMRWFcbN6sDxiGNfOGCgwv7zFTiOQKt76KkeNyOIq0w/gsyZMYpsw4Om+Nz9khd/e567HMVThWb0epW0rCQSmBdXtJCXf8G/SSG7mXsevKry+VN9k0U9glSoMEsTJ454g58zDlCr/m043is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cohens.org.il; spf=pass smtp.mailfrom=cohens.org.il; dkim=pass (2048-bit key) header.d=cohens.org.il header.i=@cohens.org.il header.b=Pxv15Mpw; arc=none smtp.client-ip=95.142.162.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cohens.org.il
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cohens.org.il
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cohens.org.il;
-	s=default; t=1740389569;
-	bh=WILyuv+duGpM++hT5o95aA9CchBzTIWjwb3ggo96JL4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Pxv15MpwaISqYufMuhE1YM0sqUTgplOyTaCmCtyYPNOKUOGlR2eOhZhsmNwCseDC9
-	 L1+PvlpE3FhoBxzDwj7yDreDiKPmhD+xettJU3hOFlaZMK/ys/s35IvG+5KyV1s4me
-	 hs1y5l5D+PMjFgA8ZfhRUOA70htMnbGeLgJYQV5CCE3P2ZhK/LF4xR2m75oimrP8Ie
-	 Sy9kFQ/yMi/nRfdC+PR/lN4zp+7Nc3EOAAXppC+ylDjibfMaCjR8Y7tnXKNfab2ubP
-	 fznInOOQ7i7nR0PR5sX6Dkf+QrpBKax1L+qCbl/2ylPFUmtdHVwAGBYXnKF559bOUQ
-	 77h9+8wL+TDtw==
-Received: from malaclypse.mth.mellanox.com (unknown [10.2.0.10])
-	by lemon.tzafrir.org.il (Postfix) with ESMTPS id 4D45C8B8;
-	Mon, 24 Feb 2025 10:32:49 +0100 (CET)
-Received: by malaclypse.mth.mellanox.com (Postfix, from userid 1000)
-	id 5866382B0CEE; Mon, 24 Feb 2025 11:32:48 +0200 (IST)
-From: Tzafrir Cohen <nvidia@cohens.org.il>
-To: linux-kbuild@vger.kernel.org
-Cc: Tzafrir Cohen <nvidia@cohens.org.il>
-Subject: [PATCH] rpm-pkg: Include symvers in kernel package
-Date: Mon, 24 Feb 2025 11:31:50 +0200
-Message-ID: <20250224093150.4040723-1-nvidia@cohens.org.il>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1740396492; c=relaxed/simple;
+	bh=wMBKiyOZ9vgChPGZe1p/asOkvswkGQx02TjhWX4vQ7I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ePlRlrMpBvCm9UcjkMKBCussLFbn3GVVgqZc/LMzu5xF5LjXgO/n1qdOdRlgOBZQw891InKueXdzu+QXZnxwnwGj9LyM0J+z62gJYuc50yuBNA9Zp1L8RlGtwyRUiuOsGPrKzgfefdyxZ4RMXngRJy7TLnoBnEZirggJH3seq+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZeU5eho; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FE64C4CED6;
+	Mon, 24 Feb 2025 11:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740396491;
+	bh=wMBKiyOZ9vgChPGZe1p/asOkvswkGQx02TjhWX4vQ7I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=PZeU5eho82z/uA42c7FJtxfs66KEeLlHc6fPoxrbm0doYw+YmSoZ+TNrDp5BnU4rw
+	 +OMsSSWyORMlYBGTRxnbhhnJd1XjOpPumvBOtVVkSTobY3w5FH8ZFTP/yeWPP/7CnT
+	 Kcuks2WmzEG1W1DUCozs1ClAsVijMPhgkQGSyRfQOAtllydQnuA7JlM3SOfFFQt+qD
+	 pxqL7RgoC9h2nhMZyplBRsIcJclN419e+lCt+FNuzjJWJftfqovVeT3qd6D32dt/c1
+	 4vUN2WSHV5xpQ+IGDptthbFbh7inS4HCeRmpDZrBfjXUVBotccierB6Av23HVbVA8M
+	 Fla1sS0TVQtFg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Petr Pavlu" <petr.pavlu@suse.com>
+Cc: "Alex Gaynor" <alex.gaynor@gmail.com>,
+	"Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo" <gary@garyguo.net>,
+	=?utf-8?Q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	"Benno Lossin" <benno.lossin@proton.me>,
+	"Alice Ryhl" <aliceryhl@google.com>,  "Trevor Gross" <tmgross@umich.edu>,
+	"Masahiro Yamada" <masahiroy@kernel.org>,
+	"Nathan Chancellor" <nathan@kernel.org>,
+	"Nicolas Schier" <nicolas@fjasle.eu>,
+	"Luis Chamberlain" <mcgrof@kernel.org>,  <rust-for-linux@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	"Adam Bratschi-Kaye" <ark.email@gmail.com>,
+	<linux-kbuild@vger.kernel.org>,
+	"Daniel Gomez" <da.gomez@samsung.com>,
+	"Simona Vetter" <simona.vetter@ffwll.ch>,
+	"Greg KH" <gregkh@linuxfoundation.org>,  <linux-modules@vger.kernel.org>,
+	"Miguel Ojeda" <ojeda@kernel.org>, "Sami Tolvanen"
+ <samitolvanen@google.com>
+Subject: Re: [PATCH v7 0/6] rust: extend `module!` macro with integer
+ parameter support
+In-Reply-To: <20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org> (Andreas
+	Hindborg's message of "Tue, 18 Feb 2025 14:00:42 +0100")
+References: <JKqjFnoTeEbURcTQ5PpmUZWDS2VMEt0eZl68dWkgk3e8ROFpb2eTWH2mStKkkXJw__Ql5DdYvIR9I7qYks-lag==@protonmail.internalid>
+	<20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Mon, 24 Feb 2025 12:27:59 +0100
+Message-ID: <87ldtv1t1c.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This change adds an extra file to the generated kernel rpm package:
-symvers.gz under the modules directory.
+Hi Petr,
 
-With that extra file, rpm-build on some systems (specifically many
-systems based on Centos >= 8) can create better dependencies when
-it builds binary modules packages using weak-modules.
+"Andreas Hindborg" <a.hindborg@kernel.org> writes:
 
-Normally it creates dependencies of type:
+> This series extends the `module!` macro with support module parameters. It
+> also adds some string to integer parsing functions and updates `BStr` with
+> a method to strip a string prefix.
+>
+> This series stated out as code by Adam Bratschi-Kaye lifted from the original
+> `rust` branch [1].
+>
+> After a bit of discussion on v3 about whether or not module parameters
+> is a good idea, it seems that module parameters in Rust has a place
+> in the kernel for now. This series is a dependency for `rnull`, the Rust
+> null block driver [2].
 
-  kmod(foo.ko)
 
-but with the symver information available, it will create extra
-dependencies of the sort of:
+Luis told me you are the one wearing the modules hat for the moment. How
+do you want to handle merging of patch 6 and subsequent maintenance of
+the code?
 
-  kernel(foo_sym_bol) = 0x112233445566
+I think we discussed you guys taking this under the current module
+maintainer entry? If that is correct, will you add the new files to your
+entry yourself, or should I include an update to MAINTAINERS in the next
+version of this series?
 
-And therefore if a binary kernel module was built with that specific
-kernel, the package manager can check if another kernel provides
-foo_sym_bol and of the same version. This is similar to the tests
-that The weak-modules script runs at run time.
+If prefer another solution, let me know and we can figure that out.
 
-Using gzip explicitly as with Centos 8 only symvers.gz is tested for.
-See /usr/lib/rpm/fileattrs/kabi.attr . Centos 9 and 10 also tests for
-symvers.xz .
 
-Signed-off-by: Tzafrir Cohen <nvidia@cohens.org.il>
----
- scripts/package/kernel.spec | 1 +
- 1 file changed, 1 insertion(+)
+Best regards,
+Andreas Hindborg
 
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index ac3e5ac01d8a..06a792731282 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -62,6 +62,7 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/lib/modules/%{KERNELRELEAS
- %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
- cp System.map %{buildroot}/lib/modules/%{KERNELRELEASE}
- cp .config %{buildroot}/lib/modules/%{KERNELRELEASE}/config
-+%{__gzip} -n -9 <Module.symvers > %{buildroot}/lib/modules/%{KERNELRELEASE}/symvers.gz
- if %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='test -d ${srctree}/arch/${SRCARCH}/boot/dts' 2>/dev/null; then
- 	%{make} %{makeflags} INSTALL_DTBS_PATH=%{buildroot}/lib/modules/%{KERNELRELEASE}/dtb dtbs_install
- fi
--- 
-2.47.2
+
 
 
