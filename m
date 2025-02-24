@@ -1,153 +1,109 @@
-Return-Path: <linux-kbuild+bounces-5883-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5884-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B449A42C08
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 19:52:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D31F9A42CCE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 20:35:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D1083A8E4F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 18:52:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4F191748F2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2025 19:35:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F69266B5A;
-	Mon, 24 Feb 2025 18:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8DE21DC19D;
+	Mon, 24 Feb 2025 19:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e1NinDUi"
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="TKe0k6QS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f225.google.com (mail-pl1-f225.google.com [209.85.214.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8232266B4A;
-	Mon, 24 Feb 2025 18:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467151EA7E9
+	for <linux-kbuild@vger.kernel.org>; Mon, 24 Feb 2025 19:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740423113; cv=none; b=U2cPF3VMy8u1DrSW/FzOnZkadZMG9DvcPgA5BgD+IKbZB2DWikTpw45H7JiDZ60TXTTLIQwP1vKDcljdyBVyisfJ1P39mZ0babEOrEMlapZjqykDMWFxQ3iB3n4Gat8qEaaiXJGkueCgwt4uinVtlz46recNkQhTFwp5M01Xt1I=
+	t=1740425703; cv=none; b=Z907+Fx+Xkve+5XLnqk5Wg9rDpiqDG0IC5l+3ozR0egJ+tVxovO61rXdFOWuYgiw9+trlAt5QDmqcoip6r2MyOfzaePtQACKZetvuIds/ZX8Go5tmZx2PS+9Z/lNx1m29tj5v5FPovaIyryaxzKpL34Xo3iHjlaj+ZDlbg/6iXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740423113; c=relaxed/simple;
-	bh=TUEqaIXpwI/RfqdyMieJkO4fzyFhGbd9bZvDzL0LVtg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=apph5K5wSIqAxM3D0friY3jcOJuUhThqf2lDs+7+a7DuYowtDODXkV322I6XaU3sFwLjpxHqzbln/0UOjUsrZQRO86/hgjDe/g1z3721KI64Ok/jmOfeG+ghv6v7C4esI0fiqrEHdwwJoDz5vkjIcQ0STVj4GUTj37hSm8lmIZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e1NinDUi; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2fc4418c0b9so7309770a91.0;
-        Mon, 24 Feb 2025 10:51:51 -0800 (PST)
+	s=arc-20240116; t=1740425703; c=relaxed/simple;
+	bh=9pSl4UpUltApWCkaB2TQU6IpD04bsOyRgYCWjHq9QwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dCYx+WjPlD69fNVUQr9kQce3eOKsrw5Iq++ItePmmVgq3vk2/qCvAkJhKUrUgZA+2Dx/GlWfSN1TWNYfdUjut3wlRK+IPBZrieTU0O5zS3enUIwVgIwv6F+psMvF6ZpmpvZEftRHqtb85grPprjDk6XXMRTtbU2g4kQyg3EcPJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=TKe0k6QS; arc=none smtp.client-ip=209.85.214.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+Received: by mail-pl1-f225.google.com with SMTP id d9443c01a7336-220bfdfb3f4so107378695ad.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 24 Feb 2025 11:35:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740423111; x=1741027911; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TUEqaIXpwI/RfqdyMieJkO4fzyFhGbd9bZvDzL0LVtg=;
-        b=e1NinDUiIBwWKB75/J8RGZ3Egic/V/HYS01tcHTqEV24KffFTQt+e9JSrcdWkV2+rc
-         TWVHQBYWXdEn3434GizAUDoIf+mBFUHiijPWuE2hvDn1c85hXV9AIJtWiGhy7EZMkTdL
-         NzwuzBV9WevNfTj9Olweo01Y6YtoWiat4aCawuX1s9NzS9S7R5+m0t7AS60puFNEBC1s
-         zip4CLI9tK8mevOgsTHS+1mEnIjkMA4xm665Rpd2lGxyCua0ORDVolU3iqQ9xc/6uXil
-         ARrxczAii0lNtFMrS2y5GOlVNMdV56i7bE7xWL7eonrMApnz3x/GcfI3G2NNkZDWOZE1
-         2zCQ==
+        d=purestorage.com; s=google2022; t=1740425701; x=1741030501; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9pSl4UpUltApWCkaB2TQU6IpD04bsOyRgYCWjHq9QwQ=;
+        b=TKe0k6QSBbcLWljPAqk2LHJsseAL2iiE57aDD/9Sbo/rq9jLIidy7b4dz6M6+SqCuh
+         FRMpdZSOH4A80mMkyrtdjKRvXtk9DM0VfUTTAN40uMB3VXIDqeb2vOhCJwXbLcypjDRp
+         epy3JV2th+OQZDE4y6ZP4zZHa7psnXEAZx/JgtGpyN11AMYCidCmZSwXdQ42jSDg8UfP
+         4iFMvd6ilNF7yYjRWdat4FjsNAS7TzT3J1A+9apqpFmUFdM2GpAGg3VrcWeWjjX/GP6G
+         nR9fMbPkM59AxyZY3lcYcGJ+hjtDzY2rgove1QuWwnoqmMJd0z1ooH2rWAO4ewQeNKJz
+         BSkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740423111; x=1741027911;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TUEqaIXpwI/RfqdyMieJkO4fzyFhGbd9bZvDzL0LVtg=;
-        b=w1WbvQpFweZgDiSptST2sCBKFmDal1f5/xfvyGHnRd4uLYIjhsrOt0bjzAfmZUdejX
-         Uuzg1p0dTX+XaH3IZiIKzE5bqbbvwL3RFVboBKsNgCAgsbS7rtOun3xu4cTMTPP2dfB8
-         WGn7TM+Tx1QJfWCaog6NoZL8OOXdkT/0XZLalsqHm8lUbOPuul7ijgwhbtfyArAl14QY
-         dCQapjGITO32I9KZtqYEfiY8zWq80of0f5PMAK2Ils8S479/B3R+Hqhdloxz0fsGwcVn
-         H4Pc9ftJ8l2Yl4OMxUHPiA986GUYnY9yWYFc6USdeqPOtpnfEWz5F1cfLV9GZv5fo2DO
-         Ilxw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJjDccSUEqMJvusfMlQ2HQj0y9RBSo84JlR+7XiY8QJPtzMYis/EJ+B52Ua3lZRU8gOVwD1FIDU3E62g==@vger.kernel.org, AJvYcCV1MjxSFx8Qr+9qUxnuLgVQQU1tYN3jrQcoef0iVu1Fe8N8R6IycZ80QtwqNVG8LGQu8M7ezo9Fz5PORLPvxv2i@vger.kernel.org, AJvYcCVxtp7w6YnuPgPWuF1D5zwAr91A+mO6Pf5IpliHfVfqJHrdAKdkp3b9j/qK7v6YH0xEDDG71mJxI2nPQWYE@vger.kernel.org, AJvYcCW20q4jPYzxeNiVdZ9PnR9sZrs/O1IXrA8Z9en8Tsr1F3EUXxZpThCP+Q2P36RGgzW5W28=@vger.kernel.org, AJvYcCX5aXtCYqyP5rhnjtzGF6ObMGWkxRgBoLGheKZkfHwhMrqozye7dqIJwdgmGthGg7RNVlJguL0xRjrGd9ox@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRhJoiYE5M/u1C15iGHFA/K1HCjn7HB4yr1KrzILqftw2aP81V
-	rtkXUOA7CPgqOvShEC/zsOM94kk77ugegQgtKWd1mI0i/AsPkZ/TbNH9w5gKT7v1Imw0y4EYTl0
-	a8KfYpNrNHmAcnuVgnTYb51MW/bk=
-X-Gm-Gg: ASbGnctyOcIbs3nmayznqSybb+QQSBvA8MWf0uh7TpFr5QUB0ezzlm74f3FuFWC/iji
-	/IepP6VXqSbak+5TXaQCFJjWaoUBFviQ1UgKfen8FFzaGUVx1gXIWh+HHQePjqwuXJx/AKdLr9+
-	/+o2tr8D3tKNFJShd8xWfbxvE=
-X-Google-Smtp-Source: AGHT+IEM92T52Wzy74biCjdt13zNava/7AlYK1wNiCPPQTiFKurSCN5AvJp5hFsbNvAbAeL2dN9RyVPPvrf75/LQ5Wo=
-X-Received: by 2002:a17:90b:1344:b0:2fc:a3b7:10a2 with SMTP id
- 98e67ed59e1d1-2fce78cb879mr27572269a91.17.1740423110927; Mon, 24 Feb 2025
- 10:51:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740425701; x=1741030501;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9pSl4UpUltApWCkaB2TQU6IpD04bsOyRgYCWjHq9QwQ=;
+        b=UNRbeKvqL3RSO0uIroa5X9WIopciEevlraPm3/2vIQPM/1M4xuMWJrInx2QJY6weMs
+         viHpYUotB5faXUjWp7hfryj8n/ADd2d5UJyWv4yDYkZxvatYyr8KucQF3CfUPfxPI6i3
+         RMXSmKH59H9CeO/q30oQnaVX/yU4n4XvqSubw0FcxH/DtfzkDXVJJ2r3UDxugrkLeB6G
+         /vV3wWNfDkO8HhebOVs/unjgWdmx9mVApWtQWugnw04iOP+TQ4Wzubp8DdQhDKNGTLRB
+         c1pz7V7xOpGdbj1HaaUjKyoJpJZI0Ukw7YmapMb7u69TuJl1DHW5oFtq6gwLvM2bgTnq
+         r8EQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkGAcUt3qW8Xw+mrIgSeSsH8/0s91z8I/L85mtfnlakdP2cZFDguQA3vC5JE0+KFfoKFzSGr0Inl22J4k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlecJ3ForkssKrjf/ZBIi5yay1/Ra/Bk4lDM7zGKC91p95Sb+R
+	Ryl1/3xnGQa0X0egbgtxIg+yWzfoDpEiAgKKA5lGlkGfbKZXZgrDsxZHSEeE925otDheC7NTM/8
+	7kgkk1f0jIFsPXehIHhqtRzy/cJW88Fem
+X-Gm-Gg: ASbGncv1+5ob+8FOqaJUc52++RF0BE6v/tOCEgss6mJLHoG/7PohGJEhxz/axJfyIjk
+	dGijoxgeCkD3CApBMGffFHg9NnWoLwrRo8yqeMYHEEZPJAkyKuVSB4CzfwKphKSajXuwzv0kgE9
+	QthmRatHOfyMtazk3oz+OQ/dJMYkaaFh0egA4AqZP3YHqj9ea+RZK1nPrqbjYn0+6uoNOv1C61A
+	VeSIn6dYx0I43hMOvOzL1b2cxSNdFyWBtjFY7KMbG+NMumyq+7E0im1Y5Q0nBfZJE+pRDr8AVIQ
+	dz51vFcnL73wAGgB+W80byQEqWWavpUML6lz3BKTuf6U/tQD4g==
+X-Google-Smtp-Source: AGHT+IFmkKPAJexMZBFCuDqSF7cUkV55id/jBHYO/SYW9uNccAYqjX1Ep8ynNrqPIS1as9sxoALbH7LjPbML
+X-Received: by 2002:a17:902:dac5:b0:220:e9ef:ec98 with SMTP id d9443c01a7336-2219ff50d25mr225280065ad.19.1740425701534;
+        Mon, 24 Feb 2025 11:35:01 -0800 (PST)
+Received: from c7-smtp-2023.dev.purestorage.com ([208.88.159.128])
+        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-220d5324f7fsm11616215ad.56.2025.02.24.11.35.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 11:35:01 -0800 (PST)
+X-Relaying-Domain: purestorage.com
+Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [IPv6:2620:125:9007:640:7:70:36:0])
+	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id CEC243401C5;
+	Mon, 24 Feb 2025 12:35:00 -0700 (MST)
+Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
+	id BE5DCE55EF8; Mon, 24 Feb 2025 12:35:00 -0700 (MST)
+Date: Mon, 24 Feb 2025 12:35:00 -0700
+From: Uday Shankar <ushankar@purestorage.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/2] kbuild: rpm-pkg: improve debuggability
+Message-ID: <Z7zJ5EjIFLbz9C3I@dev-ushankar.dev.purestorage.com>
+References: <20250210-debuginfo-v1-0-368feb58292a@purestorage.com>
+ <Z7Pv+hD3AOS/ymFI@dev-ushankar.dev.purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250207012045.2129841-1-stephen.s.brennan@oracle.com>
- <20250207012045.2129841-2-stephen.s.brennan@oracle.com> <CAK7LNAQokoST0FnByeWywaghTMP2aG7hQaV1T=TcQ=1v4ZLQrg@mail.gmail.com>
-In-Reply-To: <CAK7LNAQokoST0FnByeWywaghTMP2aG7hQaV1T=TcQ=1v4ZLQrg@mail.gmail.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Mon, 24 Feb 2025 10:51:38 -0800
-X-Gm-Features: AWEUYZlWebfCB8ebdoh-Z8K_EKpop-kMh4XUx8JTAFtvrkByBiikkkZM8iT5dTo
-Message-ID: <CAEf4Bzb9rYHTVkuxxSuoW=0P84M7UPkBr-4991KiMnFsv10hjA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kallsyms: output rodata to ".kallsyms_rodata"
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Stephen Brennan <stephen.s.brennan@oracle.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Andrii Nakryiko <andrii@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Kees Cook <kees@kernel.org>, 
-	KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Sami Tolvanen <samitolvanen@google.com>, Eduard Zingerman <eddyz87@gmail.com>, linux-arch@vger.kernel.org, 
-	Stanislav Fomichev <sdf@fomichev.me>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Jiri Olsa <jolsa@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Jann Horn <jannh@google.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Hao Luo <haoluo@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-kbuild@vger.kernel.org, 
-	Daniel Borkmann <daniel@iogearbox.net>, Nathan Chancellor <nathan@kernel.org>, 
-	linux-debuggers@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
-	Song Liu <song@kernel.org>, linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z7Pv+hD3AOS/ymFI@dev-ushankar.dev.purestorage.com>
 
-On Sat, Feb 15, 2025 at 6:21=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Fri, Feb 7, 2025 at 10:21=E2=80=AFAM Stephen Brennan
-> <stephen.s.brennan@oracle.com> wrote:
-> >
-> > When vmlinux is linked, the rodata from kallsyms is placed arbitrarily
-> > within the .rodata section. The linking process is repeated several
-> > times, since the kallsyms data size changes, which shifts symbols,
-> > requiring re-generating the data and re-linking.
-> >
-> > BTF is generated during the first link only. For variables, BTF include=
-s
-> > a BTF_K_DATASEC for each data section that may contain a variable, whic=
-h
-> > includes the variable's name, type, and offset within the data section.
-> > Because the size of kallsyms data changes during later links, the
-> > offsets of variables placed after it in .rodata will change. This means
-> > that BTF_K_DATASEC information for those variables becomes inaccurate.
-> >
-> > This is not currently a problem, because BTF currently only generates
-> > variable data for percpu variables. However, the next commit will add
-> > support for generating BTF for all global variables, including for the
-> > .rodata section.
-> >
-> > We could re-generate BTF each time vmlinux is linked, but this is quite
-> > expensive, and should be avoided at all costs. Further as each chunk of
-> > data (BTF and kallsyms) are re-generated, there's no guarantee that
-> > their sizes will converge anyway.
-> >
-> > Instead, we can take advantage of the fact that BTF only cares to store
-> > the offset of variables from the start of their section. Therefore, so
-> > long as the kallsyms data is stored last in the .rodata section, no
-> > offsets will be affected. Adjust kallsyms to output to .rodata.kallsyms=
-,
-> > and update the linker script to include this at the end of .rodata.
-> >
-> > Signed-off-by: Stephen Brennan <stephen.s.brennan@oracle.com>
-> > ---
->
-> I am fine if this is helpful for BTF.
+On Mon, Feb 17, 2025 at 07:27:06PM -0700, Uday Shankar wrote:
+> ping
 
-This seems like a useful change all by itself even while the main
-feature of this patch set is still being developed and reviewed.
-Should we land just this .kallsyms_rodata change?
+ping again
 
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
 
