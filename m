@@ -1,116 +1,134 @@
-Return-Path: <linux-kbuild+bounces-5897-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5898-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99BDA432D6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2025 03:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A66A434D7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2025 06:55:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65E151894191
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2025 02:10:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA9601897CD3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2025 05:55:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5B021BC20;
-	Tue, 25 Feb 2025 02:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F7502561A8;
+	Tue, 25 Feb 2025 05:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWmwkQhl"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888AF2C9D;
-	Tue, 25 Feb 2025 02:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F198E36124;
+	Tue, 25 Feb 2025 05:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740449429; cv=none; b=sY91/Gl+zVNfTi8jpnKzVov8LFHc8Oy7wivfUhb/XK94YWt4wNrqq3ZEwlIptczbk4o6D92n1ol5FaVlrDsl31wb3yiSTqTdC/fdS0aJIE89QmXAmquFoDy0X2r9/6RP0Y+jAuJ7ueTopD4UmcaZx6TDHicXCH3pO+zgKn1rsyg=
+	t=1740462919; cv=none; b=jnOx7XE4L96e3ByXsrkArxXSUwJF1lbOkKtOjv5Xb58XawyOiBIFjVcGd3OnmiD7zxKrks6tbZtnVFZypo3ZiPtTOgxKQNwhVt9LFXZxCNtvscrtIIb05qfeKpJenM9FCvy9KyreVf7bS/h7CqEhjDXU7qDdf+Z2sjnUCc4exOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740449429; c=relaxed/simple;
-	bh=aaHGUOs30tNuy84PGnD8R0PY9RDSWCOwwuFCRkSChe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qVC6HrD8DtavyxruxygWpk5/Xi+GSvj+q/sm2Rz724LS/aYb5IvnzWvSz5UOgMOO/ly5cDLnctnW+TLwR4DhlzbUPsawWmFsSHgHvbbT7+Jp50KHUeYPjdGXMvCJ7mRqVWG8RFgnpZHUB0G4DSCrlq3Vy4WTXFqbc/GDtc8pQFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659A4C4CED6;
-	Tue, 25 Feb 2025 02:10:26 +0000 (UTC)
-Date: Mon, 24 Feb 2025 21:11:02 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, bpf <bpf@vger.kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, "Masami
- Hiramatsu" <mhiramat@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Peter Zijlstra" <peterz@infradead.org>,
- "Linus Torvalds" <torvalds@linux-foundation.org>, "Masahiro Yamada"
- <masahiroy@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>, "Nicolas
- Schier" <nicolas@fjasle.eu>, "Zheng Yejian" <zhengyejian1@huawei.com>,
- "Martin Kelly" <martin.kelly@crowdstrike.com>, "Christophe Leroy"
- <christophe.leroy@csgroup.eu>, "Josh Poimboeuf" <jpoimboe@redhat.com>,
- "Heiko Carstens" <hca@linux.ibm.com>, "Catalin Marinas"
- <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>, "Vasily Gorbik"
- <gor@linux.ibm.com>, "Alexander Gordeev" <agordeev@linux.ibm.com>
-Subject: Re: [PATCH v5 2/6] scripts/sorttable: Have mcount rela sort use
- direct values
-Message-ID: <20250224211102.33e264fc@gandalf.local.home>
-In-Reply-To: <20250224172147.1de3fda5@gandalf.local.home>
-References: <20250218195918.255228630@goodmis.org>
-	<20250218200022.538888594@goodmis.org>
-	<893cd8f1-8585-4d25-bf0f-4197bf872465@app.fastmail.com>
-	<20250224172147.1de3fda5@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1740462919; c=relaxed/simple;
+	bh=z/n0ecmeuHsI6oH5v9VDQSdSll/BCv4bxwUSARxaT8c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nz8UNXbFYq7RLjv4InfpiL7oaPcSXqu2US2OhX63FF9ROvjsg1ccLD79MmV1HQSZ3+dTDot6zGMbkjSHF4lZuQxTA3NI6phuI6NZXndVznh3mDlXU7ls8aRwS8iek/xPfBOtOCvL5dSo6IDOq7LE0QIKO7PaopTRPchYexrYE5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWmwkQhl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61F6CC4CEDD;
+	Tue, 25 Feb 2025 05:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740462918;
+	bh=z/n0ecmeuHsI6oH5v9VDQSdSll/BCv4bxwUSARxaT8c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=kWmwkQhljPmntmcEC/IzNKPb7DCR31kahxvqoAOp4hqCBP6A7AZ+nIEvysYxYblE+
+	 yHCa6Hp1qVKCIlQT/sdP3cMtGDrdX9Nf1zwPLJ1hWosxwYzNUlhjmiKZCMQY3JGNib
+	 XIKkJvt997eagCvwY7jV8OP4ZROf6FaR30dZW0Un657xBvOeGsk1n/jZEQ6Gc8N3li
+	 aJqTBNiCkldsbQdjoM4rYjYGq+5ZfFKjIQcJFMWdgtKMvPRScxJFyUH1W5bwssKfw7
+	 PKsemGTkOXu/0P5fpUq34kCM3uh4uErwnF7MxlBWo1Qu+vWkCHsCPYKIGejD+oBvSB
+	 eVshhZ+lsyQIA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Janne Grunau" <j@jannau.net>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Benno
+ Lossin" <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,
+  "Trevor Gross" <tmgross@umich.edu>,  "Masahiro Yamada"
+ <masahiroy@kernel.org>,  "Nathan Chancellor" <nathan@kernel.org>,
+  "Nicolas Schier" <nicolas@fjasle.eu>,  "Luis Chamberlain"
+ <mcgrof@kernel.org>,  <rust-for-linux@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  "Adam Bratschi-Kaye"
+ <ark.email@gmail.com>,  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu"
+ <petr.pavlu@suse.com>,  "Sami Tolvanen" <samitolvanen@google.com>,
+  "Daniel Gomez" <da.gomez@samsung.com>,  "Simona Vetter"
+ <simona.vetter@ffwll.ch>,  "Greg KH" <gregkh@linuxfoundation.org>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v7 5/6] rust: str: add radix prefixed integer parsing
+ functions
+In-Reply-To: <20250224223032.GA615664@robin.jannau.net> (Janne Grunau's
+	message of "Mon, 24 Feb 2025 23:30:32 +0100")
+References: <20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org>
+	<20250218-module-params-v3-v7-5-5e1afabcac1b@kernel.org>
+	<pxb9YSTFjQxi7OFAjJ0RYOrJ8AmteN_UzJU-aeQA1wbQMquZLi99UDcDWHMw5ImXYDLj9ADxJ33K7huT1nq7Vw==@protonmail.internalid>
+	<20250224223032.GA615664@robin.jannau.net>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Tue, 25 Feb 2025 06:54:45 +0100
+Message-ID: <87tt8iy3fe.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Mon, 24 Feb 2025 17:21:47 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+"Janne Grunau" <j@jannau.net> writes:
 
-> Hmm, I haven't tried building this with clang.
-> 
-> Can you compile without that commit, run and give me the output from these
-> two programs:
-> 
->  ./dump_elf_sym vmlinux __start_mcount_loc __stop_mcount_loc
->  ./dump_elf_rela vmlinux .rela.dyn
-> 
-> If the second one fails, remove the '.rela.dyn' and see what that shows.
-> 
->  https://rostedt.org/code/dump_elf_sym.c
->  https://rostedt.org/code/dump_elf_rela.c
-> 
+> On Tue, Feb 18, 2025 at 02:00:47PM +0100, Andreas Hindborg wrote:
+>> Add the trait `ParseInt` for parsing string representations of integers
+>> where the string representations are optionally prefixed by a radix
+>> specifier. Implement the trait for the primitive integer types.
+>>
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>> ---
+>>  rust/kernel/str.rs | 118 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 118 insertions(+)
+>>
+>> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+>> index db272d2198fcc..8b0d814b47f52 100644
+>> --- a/rust/kernel/str.rs
+>> +++ b/rust/kernel/str.rs
+>> @@ -945,3 +945,121 @@ fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+>
+> [...]
+>
+>> +    pub trait ParseInt: FromStrRadix + TryFrom<i128> {
+>> +        /// Parse a string according to the description in [`Self`].
+>> +        fn from_str(src: &BStr) -> Result<Self> {
+>> +            match src.deref() {
+>> +                [b'-', rest @ ..] => {
+>> +                    let (radix, digits) = strip_radix(rest.as_ref());
+>> +                    // 2's complement values range from -2^(b-1) to 2^(b-1)-1.
+>> +                    // So if we want to parse negative numbers as positive and
+>> +                    // later multiply by -1, we have to parse into a larger
+>> +                    // integer. We choose i128 as sufficiently large.
+>> +                    let val = i128::from_str_radix(
+>
+> The usage of i128 causes here following link errors on arm64 with
+> "rustc 1.84.1 (e71f9a9a9 2025-01-27) (Fedora 1.84.1-1.fc41)"
+>
+> | ld: rust/kernel.o: in function `<i128>::from_str_radix':
+> | /usr/lib/rustlib/src/rust/library/core/src/num/mod.rs:1563:(.text+0x3bc): undefined reference to `__muloti4'
+> | ld: /usr/lib/rustlib/src/rust/library/core/src/num/mod.rs:1563:(.text+0x440): undefined reference to `__muloti4'
+> | ld: rust/kernel.o: in function `<i128>::overflowing_mul':
+> | /usr/lib/rustlib/src/rust/library/core/src/num/int_macros.rs:2517:(.text+0x4b4): undefined reference to `__muloti4'
+> | ld: /usr/lib/rustlib/src/rust/library/core/src/num/int_macros.rs:2517:(.text+0x534): undefined reference to `__muloti4'
+>
+> The errors go away after exchanging i128 with i64 (while breaking the
+> parsing for large values).
 
-Nevermind, Masami told me all I need to do is add LLVM=1 and clang can
-handle the cross compiling.
-
-I looked, and sure enough clang on arm64 does it the same way x86 does. So
-using the rela items to sort is a gcc thing :-p
-
-Can you try this patch?
-
--- Steve
+Thanks for reporting! I will have to find a better way to fix this issue
+then.
 
 
-diff --git a/scripts/sorttable.c b/scripts/sorttable.c
-index 23c7e0e6c024..07ad8116bc8d 100644
---- a/scripts/sorttable.c
-+++ b/scripts/sorttable.c
-@@ -827,9 +827,14 @@ static void *sort_mcount_loc(void *arg)
- 		pthread_exit(m_err);
- 	}
- 
--	if (sort_reloc)
-+	if (sort_reloc) {
- 		count = fill_relocs(vals, size, ehdr, emloc->start_mcount_loc);
--	else
-+		/* gcc may use relocs to save the addresses, but clang does not. */
-+		if (!count) {
-+			count = fill_addrs(vals, size, start_loc);
-+			sort_reloc = 0;
-+		}
-+	} else
- 		count = fill_addrs(vals, size, start_loc);
- 
- 	if (count < 0) {
+Best regards,
+Andreas Hindborg
+
+
+
 
