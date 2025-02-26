@@ -1,61 +1,59 @@
-Return-Path: <linux-kbuild+bounces-5912-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5913-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BC7A460E7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2025 14:29:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB612A460F0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2025 14:30:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB247188C175
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2025 13:29:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC92D177E5E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2025 13:30:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A0B21C194;
-	Wed, 26 Feb 2025 13:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D085101FF;
+	Wed, 26 Feb 2025 13:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="dEAFUUJT"
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="mQIX7WSq"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from xry111.site (xry111.site [89.208.246.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A532821578A;
-	Wed, 26 Feb 2025 13:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1E74A32;
+	Wed, 26 Feb 2025 13:30:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.208.246.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740576550; cv=none; b=CSxfzqBIiy+vrsJrwHe7K82umkJzog/La7cWNivIR51BCDVep9ADx5MOY19232UyMy03138XB7n9aw5UwVxRRMl5DezfQEYo8PnCC1/EE+XkClKntfFTUovN206o2frONdfa6EX2BIVHXmA4WlbbitTZ9qDVsCVtBmPrhg4upAU=
+	t=1740576635; cv=none; b=D/Jlra/ZnwxZHy/PnBauAL5su7CiVR10TZulPUbT0TGDMWO1gC2ywMSQSbIYs4KEwBZpeKJooR0WhKOXm+fYT0VzmQy2fu/GHFiVpy8aZ9k8uBC1nKNd+Xl6IXQPmSKF54qK++234Legl3PlMgykJAF7M21/GgPxP0cInGDFllE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740576550; c=relaxed/simple;
-	bh=Kps6CRn6lwp3Sf/xBH3YZLxHsLFMxHU24p7u/qwezGM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O5R1cSifBYA7NRNpR6AS8vxW2UUzLXjgnsXfDiOhsMuU5/cE03suN3Ah9LLZrqbHg6Txw3G4KdsLCC1fnIZbQ8WU1E9CTpHUSkp5+1MerCuG9A09/eEOnyBidMwA+lloR+TRcK1Tioj+7bJon4btdbB0OoSSoTFgI86SuHJowmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site; spf=pass smtp.mailfrom=xry111.site; dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b=dEAFUUJT; arc=none smtp.client-ip=89.208.246.23
+	s=arc-20240116; t=1740576635; c=relaxed/simple;
+	bh=WUCn3NR9PxdbMqa3sx2Zz8b2LWvwcQQuQ0f4+sSp+oA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=amWPlyVkHAZYNV94rihz2g/CIuLJv/D5dpMz9DU7i2Iv/kt5FhWWbMFphn4kaxCz2HdjJWX9ExsScOsgStJb0B9iLVFRIygiTIJ6o459AqBbe5Ji9oRx8kO/FpiZnhQryY/asoXr2B54BwwOIDDYRoGNCUc4Ye0W7WA7wVx3smE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site; spf=pass smtp.mailfrom=xry111.site; dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b=mQIX7WSq; arc=none smtp.client-ip=89.208.246.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xry111.site;
-	s=default; t=1740576541;
-	bh=TNtk7emEalBYnrGztT/GGV0G9xZ09oPsRARFcEGb+mo=;
+	s=default; t=1740576633;
+	bh=nMbc5CnbI6I8clY9cZ5d8AQEmOjE8gCVJmupuYyFtt0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=dEAFUUJTAVqbCbSLSQa8LWRJpQxnQE+A5YIE+NaM98GUPcTRvOE1HJhbq5VVMG0A2
-	 OQY7BbNLLvXB3DnaCyU+GA21OL9PWL/7OKvEy3b930jx1NPorzS9/qOvfLafQkODLm
-	 69/icPwBroWNs5m2oOj7bSkkHuIDUDpv2p+KmwxU=
+	b=mQIX7WSqXvqz9PMK9PFNmIZaPG6MY5KC4HyPJypgirSNR/qsrng82mlOU2oyKk7Bi
+	 AS+gjxsRrPEOExEPQgrqqkHuFDaK/CVD2VPLaXYQaDA6T/7pqmLrwcR/rkWKxgr3sw
+	 2NCYmJP+4KNNgP2oG4Cp4D4UiUXIErFkEq+fMJ28=
 Received: from stargazer.. (unknown [IPv6:240e:456:1120:44ab:6cbe:bf9d:b543:fee6])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
 	(Client did not present a certificate)
 	(Authenticated sender: xry111@xry111.site)
-	by xry111.site (Postfix) with ESMTPSA id 5237D1A3F54;
-	Wed, 26 Feb 2025 08:28:54 -0500 (EST)
+	by xry111.site (Postfix) with ESMTPSA id AA6C01A3F54;
+	Wed, 26 Feb 2025 08:30:28 -0500 (EST)
 From: Xi Ruoyao <xry111@xry111.site>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: Matt Redfearn <matt.redfearn@blaize.com>,
-	linux-mips@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Xi Ruoyao <xry111@xry111.site>
-Subject: [PATCH] MIPS: Ignore relocs against __ex_table for relocatable kernel
-Date: Wed, 26 Feb 2025 21:28:41 +0800
-Message-ID: <20250226132841.381063-1-xry111@xry111.site>
+Subject: [PATCH] kbuild: add dependency from vmlinux to sorttable
+Date: Wed, 26 Feb 2025 21:30:14 +0800
+Message-ID: <20250226133014.381585-1-xry111@xry111.site>
 X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -65,52 +63,30 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since commit 6f2c2f93a190 ("scripts/sorttable: Remove unneeded
-Elf_Rel"), sorttable no longer clears relocs against __ex_table,
-claiming "it was never used."  But in fact MIPS relocatable kernel had
-been implicitly depending on this behavior, so after this commit the
-MIPS relocatable kernel has started to spit oops like:
+Without this dependency it's really puzzling when we bisect for a "bad"
+commit in a series of sorttable change: when "git bisect" switches to
+another commit, "make" just does nothing to vmlinux.
 
-	CPU 1 Unable to handle kernel paging request at virtual address 000000fffbbdbff8, epc == ffffffff818f9a6c, ra == ffffffff813ad7d0
-	... ...
-	Call Trace:
-	[<ffffffff818f9a6c>] __raw_copy_from_user+0x48/0x2fc
-	[<ffffffff813ad7d0>] cp_statx+0x1a0/0x1e0
-	[<ffffffff813ae528>] do_statx_fd+0xa8/0x118
-	[<ffffffff813ae670>] sys_statx+0xd8/0xf8
-	[<ffffffff81156cc8>] syscall_common+0x34/0x58
-
-So ignore those relocs on our own to fix the issue.
-
-Fixes: 6f2c2f93a190 ("scripts/sorttable: Remove unneeded Elf_Rel")
 Signed-off-by: Xi Ruoyao <xry111@xry111.site>
 ---
- arch/mips/boot/tools/relocs.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/Makefile.vmlinux | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/mips/boot/tools/relocs.c b/arch/mips/boot/tools/relocs.c
-index a88d66c46d7f..9863e1d5c62e 100644
---- a/arch/mips/boot/tools/relocs.c
-+++ b/arch/mips/boot/tools/relocs.c
-@@ -468,6 +468,8 @@ static void walk_relocs(int (*process)(struct section *sec, Elf_Rel *rel,
- 			Elf_Sym *sym, const char *symname))
- {
- 	int i;
-+	struct section *extab_sec = sec_lookup("__ex_table");
-+	int extab_index = extab_sec ? extab_sec - secs : -1;
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index 873caaa55313..fb79fd6b2465 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -79,6 +79,10 @@ ifdef CONFIG_DEBUG_INFO_BTF
+ vmlinux: $(RESOLVE_BTFIDS)
+ endif
  
- 	/* Walk through the relocations */
- 	for (i = 0; i < ehdr.e_shnum; i++) {
-@@ -480,6 +482,9 @@ static void walk_relocs(int (*process)(struct section *sec, Elf_Rel *rel,
- 		if (sec->shdr.sh_type != SHT_REL_TYPE)
- 			continue;
- 
-+		if (sec->shdr.sh_info == extab_index)
-+			continue;
++ifdef CONFIG_BUILDTIME_TABLE_SORT
++vmlinux: scripts/sorttable
++endif
 +
- 		sec_symtab  = sec->link;
- 		sec_applies = &secs[sec->shdr.sh_info];
- 		if (!(sec_applies->shdr.sh_flags & SHF_ALLOC))
+ # module.builtin.ranges
+ # ---------------------------------------------------------------------------
+ ifdef CONFIG_BUILTIN_MODULE_RANGES
 -- 
 2.48.1
 
