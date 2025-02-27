@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-5927-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5926-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9771A481BF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Feb 2025 15:42:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8041A48202
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Feb 2025 15:50:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AD9B3B01F2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Feb 2025 14:40:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3801F19C4DAD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Feb 2025 14:40:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5391623BF99;
-	Thu, 27 Feb 2025 14:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EAEC238163;
+	Thu, 27 Feb 2025 14:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOlhyc63"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWlRcwVO"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEEC23BCE3;
-	Thu, 27 Feb 2025 14:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D758236435;
+	Thu, 27 Feb 2025 14:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740667188; cv=none; b=FeTceNZnDbkYL50WuYJ1gAT4ljR0R5JIzLthKIa7sj2p4MA70Alagek+7+Kot+7aoE/YphjRIhN4JV9WbSFjVdkU2Bw4JRIvgu7KuuD8IC1AYzlA1DZ2XoBM4jX3xBUcgKWxbTeoKsE3Yxs81tr0tWiQFapjFCpMKTcuEZqokQQ=
+	t=1740667181; cv=none; b=NDI1HvmnR0GgpQb2aqls/zvH3fWq4kwTg0AfdqJhTP4+PPV9hIo2kGw5YTkLn4Fxo/dBrwaSA9lkQxK+2fXfq1oWmyns85gFDh602OMO0PaASPd/dx70AkijpapQpKs+J0eu1M6JGOZv5ZOHc9wQlFAgUlaWEwCSXqLvym/Tx2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740667188; c=relaxed/simple;
-	bh=9xEh8xnuonl+Y4DJJTe3psqTruSkTcctIO2KOz8LZ3U=;
+	s=arc-20240116; t=1740667181; c=relaxed/simple;
+	bh=M5A9CbtSctHEgOcj2zrV2KphF+Jjyb2nnPlybeaE3OM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dV0G8Y+DpZ2DMkI0C37cVOuuwBt0iC+lJ6nHqWC5IiGLNQ2+uKiLZ+CvGiHnCrYP14h8G86tAvyhWeSNGujzT5xv9s1X1iU01ZcCxyxQ3Zi81s0Q/b7vMq7J+lzZGlxXxJvVx6kQUT+iLCCHO3ytjwUJerFg30AlqQcwmdKlB2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOlhyc63; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF35C4CEE9;
-	Thu, 27 Feb 2025 14:39:41 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=fluFVVb6cVT4rd32BScaCuSympPwTNIkaC+SKXbhHpd3PwdjtLAm6wrEQkVEPvx6m8XJHAjmc6SH0tGcvyxyU9FWc6MKlk5+i4tRld/d7hDiN9PiQyZu6ul+drvOGfWq4Slnw+n6eKs7FaHlgzWtUYJVRBRjsVPjjRfWJNJSQXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWlRcwVO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A02C3C4CEDD;
+	Thu, 27 Feb 2025 14:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740667187;
-	bh=9xEh8xnuonl+Y4DJJTe3psqTruSkTcctIO2KOz8LZ3U=;
+	s=k20201202; t=1740667181;
+	bh=M5A9CbtSctHEgOcj2zrV2KphF+Jjyb2nnPlybeaE3OM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=FOlhyc63NdTvMRnEoTKfKrBjtuf99xMXITmk8vn+5L376KocYDLukN+HFCaX/rgCW
-	 5t2SXyNf33h8lnRwWXJtKYi+MoEISMK5U1gz1qhIQyFT1n/W1feor0njQzmJoQcXbm
-	 NaOa3YGBuD445tb6MWpt0vdHH03bHSJUdQh8SrO/g3/+Ae5sqfxqpLICah9V4gUWry
-	 XjtHd3n6ttmWwh5tvrdMLHF1gnmmfokMfoofsTlMk9dG5sNiCQb/Sygd0d0OdeVEwl
-	 /dokBoIy1QHi71WM47bpJKxw4KRPnQz6303E1H20AllBPux82NP5zk4R1Adc5MnrE1
-	 KT7coRs5T1jAw==
+	b=IWlRcwVOc+TAmjwEZ/ByAfglNpcGDzR0g5rAtA87u3IMoWG9uwJnT0jBzMes/E+XC
+	 0ilVNKkc6d7FPF9jmweEqogNpMgX6mpK2smUdu6MrJtM7BcE7s7oed994K4Idmulb2
+	 2VB2FxZnGDI+8DXpelhu5znImKhqdd7SO8zlaBGmp3JsNovA1Z6mNd9vYqdK96x/2j
+	 VSmsEH/gc0Y7RwWQGdEVVGcOxZaizoDcymE1u99dR+FFE8GqoLw9vWJJZiAtGtCrCL
+	 X9jmHPXhSPVAIevxab/7EtgIwushl4SRR75PBrgBWjE2HRroqLq2FeWqviU8N68CnX
+	 6zkUI2GaXuoBQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Thu, 27 Feb 2025 15:38:07 +0100
-Subject: [PATCH v8 1/7] rust: str: implement `PartialEq` for `BStr`
+Date: Thu, 27 Feb 2025 15:38:08 +0100
+Subject: [PATCH v8 2/7] rust: str: implement `Index` for `BStr`
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250227-module-params-v3-v8-1-ceeee85d9347@kernel.org>
+Message-Id: <20250227-module-params-v3-v8-2-ceeee85d9347@kernel.org>
 References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
 In-Reply-To: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -71,45 +71,51 @@ Cc: Trevor Gross <tmgross@umich.edu>,
  Daniel Almeida <daniel.almeida@collabora.com>, 
  linux-modules@vger.kernel.org, Andreas Hindborg <a.hindborg@kernel.org>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=911; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=9xEh8xnuonl+Y4DJJTe3psqTruSkTcctIO2KOz8LZ3U=;
- b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBnwHjQmudfccCCA3TVrg15lT/He0OPHIxRmsZZ+
- L7YWtBKcOSJAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCZ8B40AAKCRDhuBo+eShj
- d0rpD/wMpVT+8AVIxXiBvtFG3pZADIaZoJ24E0rNtHqYQypZA7B2alFifWZZw4ddWAxdFX0qeYq
- 5YrOQSx/euZCaVbHbOPTGmzY2S4zItr2Dp6BOElkXL1LshFw5uE9yOkwVCPymSy2dFqjqTHavyK
- +ZlA0w4tViBL6WZbk3zvAqxqtig5Q6YbkClnP0UJQbtW35GUcaYrdotmPXPLQb9Z/cIkWO9LJFQ
- d21DzzNLrBmhXe0J2fuxG6d/5JzqBOi0UnZCLz2u1rOVZ4oqcr44h2ajLMPf26BLhYNkRoupi9f
- TzHZ2SdpVgzoMOd3B+1RH4bCSZcnY7xggFIx3s/R4KVuigmNe2TMSyBIWzW6VYka/Wne6Xpd2Ql
- gQBjCcgzm7ciiOwuaP3XIe3FBglnT4QG9A68+E7MjIzWmW/7CxH86soDQP563Brgevm0+KXFPu3
- T9DnDklxvccRZNQQp9OJ8IzXGZKfVkD3nELOSYyjJKxz+QmrQqn84yXICTSliBnYAqw6YTwMfzX
- MdHy2I2zGPf/D1k/+BtWEDxSWXlglNsi+xD95cnKmD6D352Ms4/BwRUtyk5HeJppn7o073Cv+IH
- g1hQPdxSx5o1vGEw1O2kTME/nuMzlLrjt5snEaykkrNNglkoRKY4n4jbOepR4L7DjEXnyyvV1In
- 0AT3Y7F66VjQAOQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1112; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=M5A9CbtSctHEgOcj2zrV2KphF+Jjyb2nnPlybeaE3OM=;
+ b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBnwHjRKeyyfaKxrJbA8R7hdevR5EtBatPUaJ8f8
+ TQQ2HJ746OJAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCZ8B40QAKCRDhuBo+eShj
+ d33KD/wOboHDofwhau5kg5su/fiNGZfBgeG0XU9/kRdFP3NwMTcuPJbbVAodbO87uTyklTIpYxy
+ 0GsTHOGYiwkpe0IeXljHKblDXE3Hv9ThWS/qafNOIHFsqUkqKIjS5CaBi3Wna6quc7uNIS/mEmf
+ WL1d9RvG/07doamWa3DZF08FztimRJiDe/lKLNX7NdDr2D2iE08JfIb7HHZctjXz1LXj/b7G4J7
+ KIZONs4P80Mw5R9zivGIYuJwRIUaV9x+C9iSRXHDuM/8V8FN6WHK7oK1Fe2ZhfE4dPEgyUANR/6
+ BMgtIFY4QmYFzM+7XUQou2r8rt3FOc4aq841pb2YtClTvezDqUj2q2fd1KdGda0LdaeX4HjeX/Q
+ PeffS3ZO9L5BjUJhahlcL3al9wutq9TxFPPLI8CDjzmb14VMijDXbdm2ud2sd+xeHjNXqD1qAm0
+ n2cqjSr4gJ/limNoZUAyScZJAKyR9lfWZ2DeS+rmZiiYFMNW+afG/WKwK80QHDnhNKVxkdRzYvv
+ mHVfPHYEFIYlCr2SaVZ82OU/lRldacD52DJrpqftoUGC8Dg57zSv+eTTUSJdfFPBGSKTgJlehQ1
+ 5VhI7kzKjwSe2U/TOU/X+mdPKmyYs/PIwxwyypHCOfFfLcDLEqtQ07eDGU6yha3J0EKspgYE882
+ ywZqbSnKXInVbaQ==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Implement `PartialEq` for `BStr` by comparing underlying byte slices.
+The `Index` implementation on `BStr` was lost when we switched `BStr` from
+a type alias of `[u8]` to a newtype. Add back `Index` by implementing
+`Index` for `BStr` when `Index` would be implemented for `[u8]`.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Reviewed-by: Gary Guo <gary@garyguo.net>
 Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 Tested-by: Daniel Almeida <daniel.almeida@collabora.com>
+Reviewed-by: Fiona Behrens <me@kloenk.dev>
 Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- rust/kernel/str.rs | 6 ++++++
- 1 file changed, 6 insertions(+)
+ rust/kernel/str.rs | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-index 28e2201604d6..002dcddf7c76 100644
+index 002dcddf7c76..ba6b1a5c4f99 100644
 --- a/rust/kernel/str.rs
 +++ b/rust/kernel/str.rs
-@@ -108,6 +108,12 @@ fn deref(&self) -> &Self::Target {
+@@ -114,6 +114,17 @@ fn eq(&self, other: &Self) -> bool {
      }
  }
  
-+impl PartialEq for BStr {
-+    fn eq(&self, other: &Self) -> bool {
-+        self.deref().eq(other.deref())
++impl<Idx> Index<Idx> for BStr
++where
++    [u8]: Index<Idx, Output = [u8]>,
++{
++    type Output = Self;
++
++    fn index(&self, index: Idx) -> &Self::Output {
++        BStr::from_bytes(&self.0[index])
 +    }
 +}
 +
