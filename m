@@ -1,178 +1,132 @@
-Return-Path: <linux-kbuild+bounces-5943-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5944-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50A9A4B3AE
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Mar 2025 18:07:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE08A4B3B9
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Mar 2025 18:16:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 000327A42B9
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Mar 2025 17:06:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78B7E3B08C5
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Mar 2025 17:15:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3367D1E9B14;
-	Sun,  2 Mar 2025 17:07:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 118BB1E9915;
+	Sun,  2 Mar 2025 17:16:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k8BFewXm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDj4WH9/"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5D5192B86;
-	Sun,  2 Mar 2025 17:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4A41D5CC7;
+	Sun,  2 Mar 2025 17:16:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740935223; cv=none; b=YiG9L0CcEuAkXEzrAvZNDuE72nf0IWSQBmKvOsx2VHp74dEKC5NSH2qRzfA5zEtB0acg5AimwapSSHTK9teRxY5zbZOetVRp1fAhrRC76CKzwy3eil/D88U/ikF+FSFPB0JAbduygVcfWX4byYPYmhy9caf93WSz2tWkq54S41w=
+	t=1740935764; cv=none; b=YM0PlRq8/dCsqPGabIK9ujvVDb9NkaRRBWdZaU4PtQYdxWpi6GjzLFbblf8QTZt1W/ZFHXQi3gw0ZczKtNusXcVcpx5aqyVLk75G13IL2a3j4lVWoaPkskFFllrk0jDmRQELfkOLTxFG1RlJxr8f8yt3PabU1ytfG5rEAUa58IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740935223; c=relaxed/simple;
-	bh=EReg4R5/Rp429iFWUy0ALvUUqMENRJdRYvt/qHX8jYI=;
+	s=arc-20240116; t=1740935764; c=relaxed/simple;
+	bh=C+5LcGfBUtvq89KxisTyEENM0n4q2gqsCs7v54Y82pI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PzUMHwQxfHeiCBHl2WkP1z98WqQJzHA9HDa5I5O/uR5kztJrRHzEzHg5skWP+UwNZ9nfFQmgrVLrztxQykdqI4QhMmhcaj+mqPwBe1WkPrCPJ4dRafUkLwSTgXLiaUDZvaKMjHbr3kcZ2cs4f+HFxe074LFv78ESFrqmb0Q0yKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k8BFewXm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D348C4CEED;
-	Sun,  2 Mar 2025 17:07:02 +0000 (UTC)
+	 To:Cc:Content-Type; b=BuDwoc7If6fvT77rSCpNZwtfBDJMm4ZzjDuXJq5qK4AdwTOTZVx43u3JX2tz064k9XR0CG+585p2cpy5Q9PY+gBNYhE85ms7tC8/ngK6PSk9q3D/FymZMXbKLA+3mM7AnQLG9noCZ4Ct6m+hbAsl94pEQ6d+MGqc3W1RGaZmAvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDj4WH9/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 564B7C4CEE8;
+	Sun,  2 Mar 2025 17:16:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740935222;
-	bh=EReg4R5/Rp429iFWUy0ALvUUqMENRJdRYvt/qHX8jYI=;
+	s=k20201202; t=1740935763;
+	bh=C+5LcGfBUtvq89KxisTyEENM0n4q2gqsCs7v54Y82pI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=k8BFewXmjp8nr15qQirwsCwOZB3jMil0eAlxngKkih998mTPPE6ah3XhuWSfFGYdP
-	 qhpl8LI2kbsUptMjsCOoe30FJbkHvCX6yKiDXcemoNf2HnYBsRr0HjJD2Xg0B+lMIH
-	 pFifxnqAdbZ+cyNVPjW52ruRW/meyVyk2CN6nUH1189E/JquvUHXRucVVm2ZbYwkc9
-	 Jxb8dPt4eI/jHLGOXo0A5QUR0GDo5jzqWA5dfPhhopYZXhw3lHABl/BadE0rv35maT
-	 urWdhXEn+zh6sziG+CIfQsrzOQNxbvnNnDBUW5m8kgedWoZ3j+cJDLwO0Ien0NsLhO
-	 Nfie3IN2JQeiw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54959d1a856so1150288e87.1;
-        Sun, 02 Mar 2025 09:07:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVpzu8rCJlH8OMbuEJDX1eeLJc829ygAgN7sEvXfoRWRofPKmru+UYZhjh/ZILoFZbBWN5gbJXvniz8kSb6@vger.kernel.org, AJvYcCW53erx15DFJIiTaFskxSRVUTWFenG+i+nQ9OO6HBB3UK3Q/4DNSxt/LpUVzC28JDtE+Q8+aepLs58kLpye@vger.kernel.org, AJvYcCXH2vuBIAAeAZYCbxxUh1tygAi+Lggn/erO8F11nKslt8gQA6cdNi266mQh1JH08cNsbeEHcV/tXyqL1R67fox0@vger.kernel.org, AJvYcCXxIiEo2+vr98jer+LeuV/rgWYmg2RULIMFHmtw1qbI6+jJYJ1P0wqFy2f39BUm1llDSF4hyRtEp7Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNwK0fSj+P/AVz5KYdMhlHjD8WX2nsPMkD3eKf0RGuWn/IxkmI
-	Q1zbSLIHm7uGQCydTsS0Gch+tvKc6bpv89Kt6T8YMw3ghmYiGLapCY3vaL4H2OM1Z8poq3BTBke
-	mKNwmn2pb75B0XHChca0tRnYY4Ls=
-X-Google-Smtp-Source: AGHT+IElir4UZRbh6eakWHMwCbyJlB7kh1ylQHUkoTBffXIliqE/rAepGuSMYTfMVuTavoDbfUsApRL1WGX5Kxd1U8Q=
-X-Received: by 2002:a05:6512:15a8:b0:545:81b:1516 with SMTP id
- 2adb3069b0e04-5494c3283e2mr3854026e87.15.1740935220916; Sun, 02 Mar 2025
- 09:07:00 -0800 (PST)
+	b=HDj4WH9/fXb4a6FHY8+/WyoVpyhprrK1a8xum5NBI8MAsvoW7YOcnX5YVS3EltEux
+	 cBGPJMsmIFWQLZAgNBPaCFm/gSJdViEQ4BObczfPqv/ronOU2bYsT5bB1sztwCey96
+	 mBopFYdAqbE9bypiHA43xzR6upiqg6O0dihhB8NkfE6HU5aX3mj8bFbo3KAgCYkwBd
+	 3Od8IIPY4iQ7+Q1Sko8DKh2h+VvoRgGJnnShTFTBhpPME9I9IRS0TpPpR12/Yzbjzo
+	 1WtLekTirw4iDDrS8o7hbmvDfoRcqczewnCQEz28gWUTvJVnUaj170m1Ogzh39/NHa
+	 t5mg/sXRmXMSg==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5496301c6afso567680e87.0;
+        Sun, 02 Mar 2025 09:16:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWHSSkCIT0osJ8pOBRYUSZAiVapFMITvxBwbtEGr+xKAZxQNSbGE7R+p6YRaqXTaiPaVEL3V8VQ1IocPtss@vger.kernel.org, AJvYcCWK/Zi/lXPlHB2B6wxeg15gZXk6OrjCbUiYiCiG8HolAN79ARnnaBkaYzp07Ga4OSn1MNoAO82B61DI0So=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqbdwEwAphDHFwOfzf9W2epI4WaWAvz8H2lFvbZxEE/HTd0I6v
+	HFPYbnbn1oRwuxG68AjEWHz1VPz5d83Lthu2fwDfvCzkRq99oB4h398Z2Rqs7sZgJGJVYN6NHly
+	o+tkZ7bie/nJrTJAY3SNCUBF6kXY=
+X-Google-Smtp-Source: AGHT+IE37MiTtp2DXxPPSPuVqZfd9k0kkjXkkvCGTVMafD7ZcM6Ah7S8qYxRs8jydGahzE5e9WltMc2yukg0OnBMWok=
+X-Received: by 2002:a05:6512:e8b:b0:546:1fd8:3876 with SMTP id
+ 2adb3069b0e04-549432de15dmr5315785e87.14.1740935761962; Sun, 02 Mar 2025
+ 09:16:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de> <20250217-kunit-kselftests-v1-1-42b4524c3b0a@linutronix.de>
-In-Reply-To: <20250217-kunit-kselftests-v1-1-42b4524c3b0a@linutronix.de>
+References: <20250225100037.2709624-1-arnd@kernel.org>
+In-Reply-To: <20250225100037.2709624-1-arnd@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 3 Mar 2025 02:06:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASz86AM+zBo=7Jhvj4UOP0qDPKfq7XhN6FqHhx=rM3HwQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JpYL88anSF5LNOcGhAezBfNqBNhOtM15GS3TKKB_NXTOGu8UPIseDNH6Pk
-Message-ID: <CAK7LNASz86AM+zBo=7Jhvj4UOP0qDPKfq7XhN6FqHhx=rM3HwQ@mail.gmail.com>
-Subject: Re: [PATCH 01/12] kconfig: implement CONFIG_HEADERS_INSTALL for
- Usermode Linux
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Joe Perches <joe@perches.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+Date: Mon, 3 Mar 2025 02:15:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARsT2sop_uUgERvJ_EhbFj825MPPrqqZv64_13z19KeHQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JpSchcyIguDDJsm_gNw4MryJBtW1epPJBL1qrMzD1bJvalXRCihjJfRFnA
+Message-ID: <CAK7LNARsT2sop_uUgERvJ_EhbFj825MPPrqqZv64_13z19KeHQ@mail.gmail.com>
+Subject: Re: [PATCH] [v3] kbuild: hdrcheck: fix cross build with clang
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-To: Joe Perches for checkpatch.pl input
-
-
-On Mon, Feb 17, 2025 at 8:00=E2=80=AFPM Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
+On Tue, Feb 25, 2025 at 7:00=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 >
-> userprogs sometimes need access to UAPI headers.
-> This is currently not possible for Usermode Linux, as UM is only
-> a pseudo architecture built on top of a regular architecture and does
-> not have its own UAPI.
-> Instead use the UAPI headers from the underlying regular architecture.
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+> The headercheck tries to call clang with a mix of compiler arguments
+> that don't include the target architecture. When building e.g. x86
+> headers on arm64, this produces a warning like
+>
+>    clang: warning: unknown platform, assuming -mfloat-abi=3Dsoft
+>
+> Add in the KBUILD_CPPFLAGS, which contain the target, in order to make it
+> build properly.
+>
+> See also 1b71c2fb04e7 ("kbuild: userprogs: fix bitsize and target
+> detection on clang").
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Fixes: feb843a469fb ("kbuild: add $(CLANG_FLAGS) to KBUILD_CPPFLAGS")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  Makefile          | 5 ++++-
->  lib/Kconfig.debug | 1 -
->  2 files changed, 4 insertions(+), 2 deletions(-)
+
+Applied to linux-kbuild. Thanks.
 
 
-Can we add some checks to scripts/checkpatch.pl
-for inappropriate commit subject prefixes?
-
-I really want to see "kconfig:" used in the subject only
-for changes under scripts/kconfig/.
-
-I wonder if scripts/checkpatch.pl shows a warning
-if "kconfig:" is used in the subject but nothing
-under scripts/kconfig/ is changed.
-
-People incorrectly use "kconfig:" prefix for random
-"Kconfig"  file changes. I am fed up with pointing out
-this silly stuff.
-
-Apparently, this patch is not related to Kconfig at all.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+> v2: use same approach as the other patch.
+> v3: fix changelog text
+> ---
+>  usr/include/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Makefile b/Makefile
-> index b4c208ae4041c1f4e32c2a158322422ce7353d06..275185d2ff5d3dc99bd7982ab=
-d1de85af0b9621a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1357,9 +1357,12 @@ hdr-inst :=3D -f $(srctree)/scripts/Makefile.heade=
-rsinst obj
+> diff --git a/usr/include/Makefile b/usr/include/Makefile
+> index 58a9cbe4eba4..b9a2640b4bb7 100644
+> --- a/usr/include/Makefile
+> +++ b/usr/include/Makefile
+> @@ -10,7 +10,7 @@ UAPI_CFLAGS :=3D -std=3Dc90 -Wall -Werror=3Dimplicit-fu=
+nction-declaration
 >
->  PHONY +=3D headers
->  headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders archs=
-cripts
-> -       $(if $(filter um, $(SRCARCH)), $(error Headers not exportable for=
- UML))
-> +ifdef HEADER_ARCH
-> +       $(Q)$(MAKE) -f $(srctree)/Makefile HEADER_ARCH=3D SRCARCH=3D$(HEA=
-DER_ARCH) headers
-> +else
->         $(Q)$(MAKE) $(hdr-inst)=3Dinclude/uapi
->         $(Q)$(MAKE) $(hdr-inst)=3Darch/$(SRCARCH)/include/uapi
-> +endif
+>  # In theory, we do not care -m32 or -m64 for header compile tests.
+>  # It is here just because CONFIG_CC_CAN_LINK is tested with -m32 or -m64=
+.
+> -UAPI_CFLAGS +=3D $(filter -m32 -m64 --target=3D%, $(KBUILD_CFLAGS))
+> +UAPI_CFLAGS +=3D $(filter -m32 -m64 --target=3D%, $(KBUILD_CPPFLAGS) $(K=
+BUILD_CFLAGS))
 >
->  ifdef CONFIG_HEADERS_INSTALL
->  prepare: headers
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 1af972a92d06f6e3f7beec4bd086c00b412c83ac..60026c8388db82c0055ccd8b8=
-ac8789d6b939b62 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -473,7 +473,6 @@ config READABLE_ASM
->
->  config HEADERS_INSTALL
->         bool "Install uapi headers to usr/include"
-> -       depends on !UML
->         help
->           This option will install uapi headers (headers exported to user=
--space)
->           into the usr/include directory for use during the kernel build.
->
+>  # USERCFLAGS might contain sysroot location for CC.
+>  UAPI_CFLAGS +=3D $(USERCFLAGS)
 > --
-> 2.48.1
+> 2.39.5
 >
 
 
---
+--=20
 Best Regards
 Masahiro Yamada
 
