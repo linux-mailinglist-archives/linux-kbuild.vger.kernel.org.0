@@ -1,154 +1,104 @@
-Return-Path: <linux-kbuild+bounces-5951-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB5CA4DA5C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Mar 2025 11:27:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B67A4DBD7
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Mar 2025 12:07:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFFC616B4C0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Mar 2025 10:26:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00AAF162AA6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Mar 2025 11:07:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D951FF1B7;
-	Tue,  4 Mar 2025 10:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8719E1FECAD;
+	Tue,  4 Mar 2025 11:07:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rX5gQber"
+	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="GBFpSHDl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9141FE44C;
-	Tue,  4 Mar 2025 10:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46901FCF60;
+	Tue,  4 Mar 2025 11:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741083942; cv=none; b=AkzDfvCWRzgUW2PYjGuKQZLzvBAqIlMT0Bi0OltWCLpOAO8rraX8n2k59D6GId7a2qhYemucwlg9+KV+pPZYn1Dafx5aQD9ZAC9X3jKAbh+T+/i1F4mNp7K+N8JB/rGdk9YOT0Pwo8XQuJ1qsAtoXN39xaSib0Qf6ZYBf3BdOxQ=
+	t=1741086463; cv=none; b=d/eKV7dy4FFN6FGskje4fAxy1U+ABbn5B9/aIgl0T7ybkBWQlPHO+JCkBtjDGOBnNePts+n2D4WtSWgURmbEYUKeuwJG2IK0tGB2c73CwSNOLqZw5L2z+TA8X9HY03MLXH0fgaqbnbLxV4fX1jWrwZ/HfDs5V8BqI9raJnJ68b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741083942; c=relaxed/simple;
-	bh=8ZkZU3FoF7zi+/hYRJkZ7DR17Usi6ykuq+2dOQLsQ9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rKAihtGJk0oA6A34SGjlHZbjALU/IpjpbXwZU4c4FZic3PqBbcY0r+mVXA5hCph9XCTP3TlVF6PIShkLhJRAr4rnxpaDRiRJ3GTdm4EsmPM8YU+tJeaZB0LYEcgv8XzUQ0K5otYhp/1HQdJSbfrO2+IddvFK0OvQqGCECf7v7Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rX5gQber; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27A6FC4CEE5;
-	Tue,  4 Mar 2025 10:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741083941;
-	bh=8ZkZU3FoF7zi+/hYRJkZ7DR17Usi6ykuq+2dOQLsQ9E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rX5gQberdBnCGAgwLtoDbjzRfpjAZFQe3KlPLx5WiBReC5yfyunNCbknNPIRCQvSs
-	 6k/TOoJ4MrcVR9G5+HSerd3dnXkH4WwiD/LW36PtLfu282BVsPp+r6+4dCDz8+n2Fy
-	 k2TpXZCfFVyU5O/FPUMQ4RDJkSCAIVF4RPY0t149zeEx71SjFoHZfKWO2j+drCyx6X
-	 1/YBe29TcMupWbiyvSuPQneZ+8It/K/Maj7QnMI2ePBjdjHMtFhEX1r1dJ/DCgQSsu
-	 R3ftb3rTlyYejS2/tr5rqMsyCBkGWco+bBOVTOOkPNQotMMalSeHigCRHcuzxPdHyB
-	 gFs2yPCscSNoA==
-Date: Tue, 4 Mar 2025 11:25:36 +0100
-From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Kees Cook <kees@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, David Gow <davidgow@google.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kbuild: clang: Support building UM with SUBARCH=i386
-Message-ID: <20250304102536.GB2529736@ax162>
-References: <20250303215240.work.379-kees@kernel.org>
- <05a25510-ab44-4eb1-a878-71e84c8aff0d@t-8ch.de>
+	s=arc-20240116; t=1741086463; c=relaxed/simple;
+	bh=Du7MZsOIDKOjbNlXu3JaKpDxFRTp/orNDFob1H41r7g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TdUA6hjhbW692/9mXhqDJvmR8E42oIC5Qe4sRthf+uC3hb0bQkxfl2hGByDtRJ00oKQAU3O3eV9n+VR9nwOQzP0Xz1rC9WMPMHiTfvCfTHetilqSLVErOUEajaVqUA0PU6gvDc7Dv9IBUNq9B/tDTTLqmrgOczeLT+Zl+OP513Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=GBFpSHDl; arc=none smtp.client-ip=49.12.72.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
+From: Fiona Behrens <me@kloenk.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
+	t=1741086451; bh=oONgIxzK+8/o9sj2P7jZLoDOLJDTkcQZb3hUnWfl6o0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=GBFpSHDlAydUtZbG7niyZVHYfKk1RE4ABbCLC8z6ePratb2mJcWn3n9TILykbIc/K
+	 FU1XBlHDiuNqmkebnV4r8iZiR1ca6Exl3D5emEVuv48LGV/B1M+sqj4aJPwBf/DKbs
+	 GcnfjBssl2cvihZLjtj2NULV6LoITCCOt9POX59k=
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,
+  Boqun Feng <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,
+  =?utf-8?Q?Bj=C3=B6rn?=
+ Roy Baron <bjorn3_gh@protonmail.com>,  Benno Lossin
+ <benno.lossin@proton.me>,  Alice Ryhl <aliceryhl@google.com>,  Masahiro
+ Yamada <masahiroy@kernel.org>,  Nathan Chancellor <nathan@kernel.org>,
+  Nicolas Schier <nicolas@fjasle.eu>,  Luis Chamberlain
+ <mcgrof@kernel.org>,  Trevor Gross <tmgross@umich.edu>,  Adam
+ Bratschi-Kaye <ark.email@gmail.com>,  rust-for-linux@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-kbuild@vger.kernel.org,  Petr Pavlu
+ <petr.pavlu@suse.com>,  Sami Tolvanen <samitolvanen@google.com>,  Daniel
+ Gomez <da.gomez@samsung.com>,  Simona Vetter <simona.vetter@ffwll.ch>,
+  Greg KH <gregkh@linuxfoundation.org>,  Daniel Almeida
+ <daniel.almeida@collabora.com>,  linux-modules@vger.kernel.org
+Subject: Re: [PATCH v8 1/7] rust: str: implement `PartialEq` for `BStr`
+In-Reply-To: <20250227-module-params-v3-v8-1-ceeee85d9347@kernel.org> (Andreas
+	Hindborg's message of "Thu, 27 Feb 2025 15:38:07 +0100")
+References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
+	<20250227-module-params-v3-v8-1-ceeee85d9347@kernel.org>
+Date: Tue, 04 Mar 2025 12:07:29 +0100
+Message-ID: <m2o6yhjbpq.fsf@kloenk.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <05a25510-ab44-4eb1-a878-71e84c8aff0d@t-8ch.de>
+Content-Type: text/plain
 
-On Mon, Mar 03, 2025 at 11:29:58PM +0100, Thomas Weißschuh wrote:
-> On 2025-03-03 13:52:41-0800, Kees Cook wrote:
-> > The UM builds distinguish i386 from x86_64 via SUBARCH, but we don't
-> > support building i386 directly with Clang. To make SUBARCH work for
-> > i386 UM, we need to explicitly test for it.
-> > 
-> > This lets me run i386 KUnit tests with Clang:
-> > 
-> > $ ./tools/testing/kunit/kunit.py run \
-> > 	--make_options LLVM=1 \
-> > 	--make_options SUBARCH=i386
-> > ...
-> > 
-> > Fixes: c7500c1b53bf ("um: Allow builds with Clang")
-> > Signed-off-by: Kees Cook <kees@kernel.org>
-> > ---
-> > I could not find a cleaner way to do this without hardcoding a test
-> > for i386 UM. Does anyone see a more sane way to accomplish this? The
-> > comment above the CLANG_TARGET_FLAGS seems like it can't be done with
-> > UM's Makefile...
-> 
-> This seems to work for me:
-> 
-> diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> index 2435efae67f5..8e349bf30fa8 100644
-> --- a/scripts/Makefile.clang
-> +++ b/scripts/Makefile.clang
-> @@ -12,6 +12,7 @@ CLANG_TARGET_FLAGS_riscv      := riscv64-linux-gnu
->  CLANG_TARGET_FLAGS_s390                := s390x-linux-gnu
->  CLANG_TARGET_FLAGS_sparc       := sparc64-linux-gnu
->  CLANG_TARGET_FLAGS_x86         := x86_64-linux-gnu
-> +CLANG_TARGET_FLAGS_i386                := i386-linux-gnu
->  CLANG_TARGET_FLAGS_um          := $(CLANG_TARGET_FLAGS_$(SUBARCH))
->  CLANG_TARGET_FLAGS             := $(CLANG_TARGET_FLAGS_$(SRCARCH))
+Andreas Hindborg <a.hindborg@kernel.org> writes:
 
-Yeah, I think I prefer this. As the comment at the top of this file
-notes, we normally want '-m32' and '-m64' to control the word size,
-which happens for regular x86 but not UML. Since UML is already weird
-here, I think going this route for simplicity rather than consistency is
-not that big of a deal. I would probably add a comment it is only there
-for ARCH=um SUBARCH=i386 though just so we do not accidentally remove
-it.
+> Implement `PartialEq` for `BStr` by comparing underlying byte slices.
+>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Reviewed-by: Gary Guo <gary@garyguo.net>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Tested-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-> This is also what exists in tools/testing/selftests/lib.mk.
-> Minus the missing CONFIG_FORTIFY_SOURCE on clang x86_32
-> and a failure of overflow.DEFINE_FLEX_test (clang 19.1.7).
+Reviewed-by: Fiona Behrens <me@kloenk.dev>
 
-Does Kees's other patch resolve the second issue? It'll obviously fix
-the first :P
-
-https://lore.kernel.org/20250303214929.work.499-kees@kernel.org/
-
-> > Cc: Nathan Chancellor <nathan@kernel.org>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: Bill Wendling <morbo@google.com>
-> > Cc: Justin Stitt <justinstitt@google.com>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Nicolas Schier <nicolas@fjasle.eu>
-> > Cc: llvm@lists.linux.dev
-> > Cc: linux-kbuild@vger.kernel.org
-> > ---
-> >  scripts/Makefile.clang | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-> > index 2435efae67f5..fa6f9a9be4ac 100644
-> > --- a/scripts/Makefile.clang
-> > +++ b/scripts/Makefile.clang
-> > @@ -12,8 +12,12 @@ CLANG_TARGET_FLAGS_riscv	:= riscv64-linux-gnu
-> >  CLANG_TARGET_FLAGS_s390		:= s390x-linux-gnu
-> >  CLANG_TARGET_FLAGS_sparc	:= sparc64-linux-gnu
-> >  CLANG_TARGET_FLAGS_x86		:= x86_64-linux-gnu
-> > +ifeq ($(SRCARCH):$(SUBARCH),um:i386)
-> > +CLANG_TARGET_FLAGS		:= i386-linux-gnu
-> > +else
-> >  CLANG_TARGET_FLAGS_um		:= $(CLANG_TARGET_FLAGS_$(SUBARCH))
-> >  CLANG_TARGET_FLAGS		:= $(CLANG_TARGET_FLAGS_$(SRCARCH))
-> > +endif
-> >  
-> >  ifeq ($(CLANG_TARGET_FLAGS),)
-> >  $(error add '--target=' option to scripts/Makefile.clang)
-> > -- 
-> > 2.34.1
-> > 
-> 
+> ---
+>  rust/kernel/str.rs | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+> index 28e2201604d6..002dcddf7c76 100644
+> --- a/rust/kernel/str.rs
+> +++ b/rust/kernel/str.rs
+> @@ -108,6 +108,12 @@ fn deref(&self) -> &Self::Target {
+>      }
+>  }
+>  
+> +impl PartialEq for BStr {
+> +    fn eq(&self, other: &Self) -> bool {
+> +        self.deref().eq(other.deref())
+> +    }
+> +}
+> +
+>  /// Creates a new [`BStr`] from a string literal.
+>  ///
+>  /// `b_str!` converts the supplied string literal to byte string, so non-ASCII
 
