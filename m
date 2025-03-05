@@ -1,102 +1,161 @@
-Return-Path: <linux-kbuild+bounces-5971-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5972-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1B4A50249
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 15:39:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 480A7A502AF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 15:51:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4CA93B45B5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 14:36:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71B0F1897527
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 14:46:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E7224DFFA;
-	Wed,  5 Mar 2025 14:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E25C924EF70;
+	Wed,  5 Mar 2025 14:46:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="X+nq+VyV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FT3IPME9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE0C242911;
-	Wed,  5 Mar 2025 14:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FF7204C35;
+	Wed,  5 Mar 2025 14:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741185284; cv=none; b=cRCSBZ9KDA8lnTeFQalUdmuvmnL0aFpzqvG9mHkCNJ10bXrogzkxV3IeQyv2zt1ZJIImuQSu5hP3OnKYz8nnsyXKxsoxqIBoPyj95DtC0kjOQ7W4ukPiDVz0WJrR/58hn7ypDLHMJq5piB1CfMJOW+ClI4jJz2P27tTpcbmNvAQ=
+	t=1741185960; cv=none; b=luAuxk4X6Kjx9PGfSVVyJSRIkzaJxA/nwv32iPz8C/9fVOwWe+rBgErhKe0T4KMHU5Dt2OjlG3iSsQVUSvIsHhUJ/NpJ+DHGKBrkdfKlnIG+T5HKrKaVxKp78nP0npSasUXCY7S3YQHf7itpTgDI7pMwPM6WIkiVuax+/budC84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741185284; c=relaxed/simple;
-	bh=+3KZycyRQWg6AONdj6MUvhWQ0yttj5flpyUcA4hxWz8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dme+TpIWB3Vzx6n9Z+2DVuoqG74oQOoaVV1VS2wc3CwPhrU7tW//Z7RhnunWJWhEBkuWQ75sHBhpD5WLilobeBJ4nbCHO8ZWQne/nvVfK4Z2467jvWUv2NCWUPOnHv2voHP+JEJeQ9jMjR+32HgHTqCp8yTxyUtHXJbCmq8keGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=X+nq+VyV; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=cogdqg55erhcjfmdfg247whv2y.protonmail; t=1741185280; x=1741444480;
-	bh=+3KZycyRQWg6AONdj6MUvhWQ0yttj5flpyUcA4hxWz8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=X+nq+VyVUTJl6QdqXVEonz5IDPa9VbvjAvmcPlCsjHps5CeP/6HaxVKnCJ7Y4SC9M
-	 zLC/D5VHdBgK1qo/Ne32jj7FjEkYxYJ3cfxWfU3Jz7HwXPzBTG5oOP0x4TtSe4sFA2
-	 vrwSUItLtT0Pxp6RSWiBB1hA8O8cwAYx/+jMVduu8Mv2T09ooDQm7Km3c4lGM5zhSb
-	 Kai3cw9sdqjjbQcEbEL2sQPjCgd3GiT+k5+pRNL+fauHYqiDjuCeoIhOeIoiVFrxZj
-	 /iMYgsKhbmY5ex+74sl2YhcrROOs60341LtJHZ2yLO9/UUV+8IkYhtpe5iZ01TXZ6J
-	 AhusOW/Rp4qFw==
-Date: Wed, 05 Mar 2025 14:34:35 +0000
-To: Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 14/22] rust: add pin-init crate build infrastructure
-Message-ID: <D88ENUE2B49N.FGSNLEB107E1@proton.me>
-In-Reply-To: <878qpja7b5.fsf@kernel.org>
-References: <20250304225245.2033120-1-benno.lossin@proton.me> <jpQp16UCJ00pInqOI-QFULU6-FKl2bBtAlmnxtXWLgXPVb7gy6d727nr7THeyks3ERF5Yqu3R6bikD0OK4mqXA==@protonmail.internalid> <20250304225245.2033120-15-benno.lossin@proton.me> <87h647d6xg.fsf@kernel.org> <cdfBMmuIl8Wl-KpI-koNDQJOCGBr9z9dOi5fxQvFbgNWQHHw6JtMizaMMbMniNlE841-9b7TdLuZ9Xh_hFsf7w==@protonmail.internalid> <D88BLHENDH8Y.HQUKEXN1XB7C@proton.me> <87ldtjbqw2.fsf@kernel.org> <okP1iZelIm5t6CfgoFyh0m8LiVEQW3ULUroZHdSQ97ul_BmPr47HBpB3RgHDMtm_2jzF4sTJszuUACsCGBEXcQ==@protonmail.internalid> <CANiq72k=KiYhKr9XHU38==Rx0df4rERyOL1abRG_cDo+4NNa0g@mail.gmail.com> <878qpja7b5.fsf@kernel.org>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: eb7d669969bb2d542e365fcae0c70997690124b9
+	s=arc-20240116; t=1741185960; c=relaxed/simple;
+	bh=IJITA4ytTmUFMzhJpi0Z7MN58Xcdm8gfOaBFwHxdNW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PCwni12AMGyiz5E8GVcO1LsCXtcPhgLlhvvttV8SZGoUbTbWg7v9Kx/hjrRyZ5WnznO1nj03p8Z5ExKLqIDYHPtqcsCEWe8Krjh0Z1ql6XoIpg7t1ZgJS4pRpiaeyib7QQgEUZiK4TZMKuL00UE0ZhsVeKtsR71Txp8LGQzxmwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FT3IPME9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933EEC4CED1;
+	Wed,  5 Mar 2025 14:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741185960;
+	bh=IJITA4ytTmUFMzhJpi0Z7MN58Xcdm8gfOaBFwHxdNW0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FT3IPME95VlP5ie8KtxCMaGhv9WI7HkAgfV5txTXgSUAmriapmls6XY88Bc6Uq/sD
+	 scdeXCE3d2n4As1YBHd89RRWC77MAo8l3T0nfGCDIxatUROgcdF58Dhkvwl1RXq9G7
+	 TmBB2FsZdA9RmziGtrzZ94Xi1GnIIu8Nkm7MtN/j2aBJ3m598Oow/b4Juv/dsH3q/t
+	 KVPHICTnHEFuWXQdnokU77/RHvyM4lEBeILVBEE/t82FMtoHuM9CJeSCjFu3UbtdNe
+	 4phE+5IAs10TfByEyJ6wDCa7r4k/BvQ7dF+VRhNh6OKKhyyajodAuWWNkQPIuy372O
+	 +F0IYyZO+GtGA==
+Date: Wed, 5 Mar 2025 15:45:54 +0100
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org, David Gow <davidgow@google.com>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] kbuild: clang: Support building UM with SUBARCH=i386
+Message-ID: <20250305144554.GA3574115@ax162>
+References: <20250303215240.work.379-kees@kernel.org>
+ <05a25510-ab44-4eb1-a878-71e84c8aff0d@t-8ch.de>
+ <20250304102536.GB2529736@ax162>
+ <e1a1531d-6968-4ae8-a3b5-5ea0547ec4b3@t-8ch.de>
+ <202503040842.1177A1F15B@keescook>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202503040842.1177A1F15B@keescook>
 
-On Wed Mar 5, 2025 at 3:19 PM CET, Andreas Hindborg wrote:
-> "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com> writes:
->
->> On Wed, Mar 5, 2025 at 1:34=E2=80=AFPM Andreas Hindborg <a.hindborg@kern=
-el.org> wrote:
->>>
->>> I _really_ think that the ability to run the tests should be present in
->>> the kernel repository. But I also do not want to block this series on i=
-t,
->>> if it is something that will be easier to achieve with the build system
->>> overhaul that is in the pipeline.
->>
->> No, that is not the plan. Even with the new build system, this is
->> supposed to be developed upstream as far as I understand, so you will
->> need to run them there anyway.
->>
->> Unless there is a reason we could catch more bugs here, that is.
->
-> I guess it would be no different than `syn`. But I think it is a shame
-> that we move something that people could contribute to via the kernel
-> development flow - out of the kernel development flow.
+On Tue, Mar 04, 2025 at 09:07:57AM -0800, Kees Cook wrote:
+> On Tue, Mar 04, 2025 at 03:51:19PM +0100, Thomas Weißschuh wrote:
+> > No, it doesn't.
+> > 
+> > Running tests with:
+> > $ .kunit/linux kunit.filter_glob=overflow.DEFINE_FLEX_test kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
+> > [15:48:30] =================== overflow (1 subtest) ===================
+> > [15:48:30] # DEFINE_FLEX_test: EXPECTATION FAILED at lib/overflow_kunit.c:1200
+> > [15:48:30] Expected __builtin_dynamic_object_size(two_but_zero, 0) == expected_raw_size, but
+> > [15:48:30]     __builtin_dynamic_object_size(two_but_zero, 0) == 12 (0xc)
+> > [15:48:30]     expected_raw_size == 8 (0x8)
+> > [15:48:30] [FAILED] DEFINE_FLEX_test
+> > [15:48:30] # module: overflow_kunit
+> > [15:48:30] ==================== [FAILED] overflow =====================
+> > [15:48:30] ============================================================
+> > [15:48:30] Testing complete. Ran 1 tests: failed: 1
+> > [15:48:31] Elapsed time: 43.985s total, 0.001s configuring, 43.818s building, 0.133s running
+> > 
+> > If I force CONFIG_CC_HAS_COUNTED_BY=n then the test succeeds.
+> > Clang 19.1.7 from the Arch Linux repos.
+> 
+> I wasn't seeing with Clang 20 from git:
+> ClangBuiltLinux clang version 20.0.0git (git@github.com:llvm/llvm-project.git 72901fe19eb1e55d0ee1c380ab7a9f57d2f187c5)
+> 
+> But I do see the error with ToT Clang:
+> ClangBuiltLinux clang version 21.0.0git (git@github.com:llvm/llvm-project.git eee3db5421040cfc3eae6e92ed714650a6f741fa)
+> 
+> Clang 17.1: (does not support counted_by)
+> 
+>     # DEFINE_FLEX_test: missing counted_by
+>     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
+>     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
+> 
+> Clang 19.1.1: (actually is _does_ support counted_by, but Linux disables it)
+> 
+>     # DEFINE_FLEX_test: missing counted_by
+>     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
+>     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
+> 
+> GCC 13.3:
+> 
+>     # DEFINE_FLEX_test: missing counted_by
+>     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
+>     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
+> 
+> Clang 21 (ToT):
+> 
+>     # DEFINE_FLEX_test: has counted_by
+>     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
+>     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 0
+> 
+> GCC 15 (ToT):
+> 
+>     # DEFINE_FLEX_test: has counted_by
+>     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
+>     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
+>     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 0
+> 
+> It seems like the on-stack sizes with __bdos all agree now, regardless
+> of the used compiler features. It is only the array size calculation
+> that now gets masked by counted_by. (i.e. the stack size is overridden
+> by the zero "count" for the array elements.)
+> 
+> I'll send a fix for the test...
 
-You *can* send patches via the list, I will pick them up and run them
-through the GitHub CI.
+Just for my own understanding, is this because of the adjustment that
+Bill did to the __bdos() calculation in [1]? I think that tracks because
+the version of LLVM 20 that you have is pretty old and does not have
+that change. I know for a fact I tested the original change to the
+overflow KUnit test to adjust the expected calculation result and it
+passed but it was before that change as well. If I use a current version
+of LLVM 20, I see the failure. If I allow LLVM 18 to use __counted_by(),
+the test passes with it. Not that it truly matters but it does explain
+how we got to this point.
 
-Patches that arrive via GitHub will also go through the list and people
-can add their tags there.
+[1]: https://github.com/llvm/llvm-project/commit/8c62bf54df76e37d0978f4901c6be6554e978b53
 
-Also I don't think that pin-init will receive a lot of contributions in
-the first place. I do have a lot of changes planned for when we get
-`syn`, but other than that, I don't think it will change a lot in the
-future.
-
----
 Cheers,
-Benno
-
+Nathan
 
