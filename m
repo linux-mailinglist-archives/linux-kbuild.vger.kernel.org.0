@@ -1,161 +1,141 @@
-Return-Path: <linux-kbuild+bounces-5972-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5973-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480A7A502AF
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 15:51:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D03A50B72
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 20:27:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71B0F1897527
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 14:46:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A98233AD0E6
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Mar 2025 19:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E25C924EF70;
-	Wed,  5 Mar 2025 14:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80800253B7C;
+	Wed,  5 Mar 2025 19:27:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FT3IPME9"
+	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="g3omvRn6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.133.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FF7204C35;
-	Wed,  5 Mar 2025 14:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD9C24C062
+	for <linux-kbuild@vger.kernel.org>; Wed,  5 Mar 2025 19:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741185960; cv=none; b=luAuxk4X6Kjx9PGfSVVyJSRIkzaJxA/nwv32iPz8C/9fVOwWe+rBgErhKe0T4KMHU5Dt2OjlG3iSsQVUSvIsHhUJ/NpJ+DHGKBrkdfKlnIG+T5HKrKaVxKp78nP0npSasUXCY7S3YQHf7itpTgDI7pMwPM6WIkiVuax+/budC84=
+	t=1741202867; cv=none; b=kTeMXwCJfBcZ5BblaUAgWJmxvSk3DuclaIIgkGCcl3aOhSfo7ewimpwV2/WHfXb/XhgUvPvIWUylIP5unL92MyILL3zbsPnHWTjhLRZODAnY/5KbgIrEEHV066z8YRV06iW5i3UDNfJ3JUmKWneLE3Kp3QC9NN9bGhG6ZyApDaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741185960; c=relaxed/simple;
-	bh=IJITA4ytTmUFMzhJpi0Z7MN58Xcdm8gfOaBFwHxdNW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PCwni12AMGyiz5E8GVcO1LsCXtcPhgLlhvvttV8SZGoUbTbWg7v9Kx/hjrRyZ5WnznO1nj03p8Z5ExKLqIDYHPtqcsCEWe8Krjh0Z1ql6XoIpg7t1ZgJS4pRpiaeyib7QQgEUZiK4TZMKuL00UE0ZhsVeKtsR71Txp8LGQzxmwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FT3IPME9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933EEC4CED1;
-	Wed,  5 Mar 2025 14:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741185960;
-	bh=IJITA4ytTmUFMzhJpi0Z7MN58Xcdm8gfOaBFwHxdNW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FT3IPME95VlP5ie8KtxCMaGhv9WI7HkAgfV5txTXgSUAmriapmls6XY88Bc6Uq/sD
-	 scdeXCE3d2n4As1YBHd89RRWC77MAo8l3T0nfGCDIxatUROgcdF58Dhkvwl1RXq9G7
-	 TmBB2FsZdA9RmziGtrzZ94Xi1GnIIu8Nkm7MtN/j2aBJ3m598Oow/b4Juv/dsH3q/t
-	 KVPHICTnHEFuWXQdnokU77/RHvyM4lEBeILVBEE/t82FMtoHuM9CJeSCjFu3UbtdNe
-	 4phE+5IAs10TfByEyJ6wDCa7r4k/BvQ7dF+VRhNh6OKKhyyajodAuWWNkQPIuy372O
-	 +F0IYyZO+GtGA==
-Date: Wed, 5 Mar 2025 15:45:54 +0100
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, David Gow <davidgow@google.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kbuild: clang: Support building UM with SUBARCH=i386
-Message-ID: <20250305144554.GA3574115@ax162>
-References: <20250303215240.work.379-kees@kernel.org>
- <05a25510-ab44-4eb1-a878-71e84c8aff0d@t-8ch.de>
- <20250304102536.GB2529736@ax162>
- <e1a1531d-6968-4ae8-a3b5-5ea0547ec4b3@t-8ch.de>
- <202503040842.1177A1F15B@keescook>
+	s=arc-20240116; t=1741202867; c=relaxed/simple;
+	bh=qgFufaYHE7ZhKPMw+c54H6YIs8L7NTTUgMvALYLQB4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=Ky9VgbuVAeAath3vFtewdiPXUlIwqWGv/4VaJRMo5so8Srfq5WWFTSs4E7XI1LSLbTrOzkYIryDUAYlcpNnb1iL0KFe+/noUfUjBAlfSjR6MRtFjHHZkZP0DI5Nvgcm/C2wFPF9DlMKLsxhp0eMZReoOgPxUW/h3A1J4zbqCfmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=g3omvRn6; arc=none smtp.client-ip=170.10.133.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
+	t=1741202863;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nKyJxOhXzkW5rTLblcneQpSA0/ozUONR0BpbeodOjQ8=;
+	b=g3omvRn6nTrvKh/uvhf/6VuSKIk7gfh3iLkBvpDIcwXMsCaxPdFVnSSJiFm7pEML6ycZ7h
+	pvWCmhks9sgP30HWiofDnH3lT6F9S7Jww8UNUHMD1EVRfkJoIhXXQGUFVJB8wdLM7S58Zo
+	4yeptKOBN+SFQsH0GiUVOlL6DKcZYp0=
+Received: from g7t16451g.inc.hp.com (hpi-bastion.austin1.mail.core.hp.com
+ [15.73.128.137]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-584-ZaGcdk-JMCmGo1aiqBHA9A-1; Wed, 05 Mar 2025 14:27:41 -0500
+X-MC-Unique: ZaGcdk-JMCmGo1aiqBHA9A-1
+X-Mimecast-MFC-AGG-ID: ZaGcdk-JMCmGo1aiqBHA9A_1741202860
+Received: from g7t16459g.inc.hpicorp.net (g7t16459g.inc.hpicorp.net [15.63.18.36])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by g7t16451g.inc.hp.com (Postfix) with ESMTPS id 233306000B60;
+	Wed,  5 Mar 2025 19:27:39 +0000 (UTC)
+Received: from localhost.localdomain (unknown [15.53.255.151])
+	by g7t16459g.inc.hpicorp.net (Postfix) with ESMTP id 1517E6000097;
+	Wed,  5 Mar 2025 19:27:36 +0000 (UTC)
+From: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	linux-kbuild@vger.kernel.org
+Cc: nicolas@fjasle.eu,
+	linux-kernel@vger.kernel.org,
+	Alexandru Gagniuc <alexandru.gagniuc@hp.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] kbuild: deb-pkg: don't set KBUILD_BUILD_VERSION indiscriminately
+Date: Wed,  5 Mar 2025 19:25:36 +0000
+Message-ID: <20250305192536.1673099-1-alexandru.gagniuc@hp.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202503040842.1177A1F15B@keescook>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dpnOO8GLazrTEI1EFN3uTlv-H3x8enLuJyxenkWs9vU_1741202860
+X-Mimecast-Originator: hp.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 
-On Tue, Mar 04, 2025 at 09:07:57AM -0800, Kees Cook wrote:
-> On Tue, Mar 04, 2025 at 03:51:19PM +0100, Thomas Weißschuh wrote:
-> > No, it doesn't.
-> > 
-> > Running tests with:
-> > $ .kunit/linux kunit.filter_glob=overflow.DEFINE_FLEX_test kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
-> > [15:48:30] =================== overflow (1 subtest) ===================
-> > [15:48:30] # DEFINE_FLEX_test: EXPECTATION FAILED at lib/overflow_kunit.c:1200
-> > [15:48:30] Expected __builtin_dynamic_object_size(two_but_zero, 0) == expected_raw_size, but
-> > [15:48:30]     __builtin_dynamic_object_size(two_but_zero, 0) == 12 (0xc)
-> > [15:48:30]     expected_raw_size == 8 (0x8)
-> > [15:48:30] [FAILED] DEFINE_FLEX_test
-> > [15:48:30] # module: overflow_kunit
-> > [15:48:30] ==================== [FAILED] overflow =====================
-> > [15:48:30] ============================================================
-> > [15:48:30] Testing complete. Ran 1 tests: failed: 1
-> > [15:48:31] Elapsed time: 43.985s total, 0.001s configuring, 43.818s building, 0.133s running
-> > 
-> > If I force CONFIG_CC_HAS_COUNTED_BY=n then the test succeeds.
-> > Clang 19.1.7 from the Arch Linux repos.
-> 
-> I wasn't seeing with Clang 20 from git:
-> ClangBuiltLinux clang version 20.0.0git (git@github.com:llvm/llvm-project.git 72901fe19eb1e55d0ee1c380ab7a9f57d2f187c5)
-> 
-> But I do see the error with ToT Clang:
-> ClangBuiltLinux clang version 21.0.0git (git@github.com:llvm/llvm-project.git eee3db5421040cfc3eae6e92ed714650a6f741fa)
-> 
-> Clang 17.1: (does not support counted_by)
-> 
->     # DEFINE_FLEX_test: missing counted_by
->     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
->     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
-> 
-> Clang 19.1.1: (actually is _does_ support counted_by, but Linux disables it)
-> 
->     # DEFINE_FLEX_test: missing counted_by
->     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
->     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
-> 
-> GCC 13.3:
-> 
->     # DEFINE_FLEX_test: missing counted_by
->     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
->     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
-> 
-> Clang 21 (ToT):
-> 
->     # DEFINE_FLEX_test: has counted_by
->     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
->     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 0
-> 
-> GCC 15 (ToT):
-> 
->     # DEFINE_FLEX_test: has counted_by
->     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
->     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
->     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 0
-> 
-> It seems like the on-stack sizes with __bdos all agree now, regardless
-> of the used compiler features. It is only the array size calculation
-> that now gets masked by counted_by. (i.e. the stack size is overridden
-> by the zero "count" for the array elements.)
-> 
-> I'll send a fix for the test...
+In ThinPro, we use the convention <upstream_ver>+hp<patchlevel> for
+the kernel package. This does not have a dash in the name or version.
+This is built by editing ".version" before a build, and setting
+EXTRAVERSION=3D"+hp" and KDEB_PKGVERSION make variables:
 
-Just for my own understanding, is this because of the adjustment that
-Bill did to the __bdos() calculation in [1]? I think that tracks because
-the version of LLVM 20 that you have is pretty old and does not have
-that change. I know for a fact I tested the original change to the
-overflow KUnit test to adjust the expected calculation result and it
-passed but it was before that change as well. If I use a current version
-of LLVM 20, I see the failure. If I allow LLVM 18 to use __counted_by(),
-the test passes with it. Not that it truly matters but it does explain
-how we got to this point.
+    echo 68 > .version
+    make -j<n> EXTRAVERSION=3D"+hp" bindeb-pkg KDEB_PKGVERSION=3D6.6.6+hp69
 
-[1]: https://github.com/llvm/llvm-project/commit/8c62bf54df76e37d0978f4901c6be6554e978b53
+    .deb name: linux-image-6.6.6+hp_6.6.6+hp69_amd64.deb
 
-Cheers,
-Nathan
+Since commit 7d4f07d5cb71 ("kbuild: deb-pkg: squash
+scripts/package/deb-build-option to debian/rules"), this no longer
+works. The deb build logic changed, even though, the commit message
+implies that the logic should be unmodified.
+
+Before, KBUILD_BUILD_VERSION was not set if the KDEB_PKGVERSION did
+not contain a dash. After the change KBUILD_BUILD_VERSION is always
+set to KDEB_PKGVERSION. Since this determines UTS_VERSION,the uname
+output to look off:
+
+    (now)      uname -a: version 6.6.6+hp ... #6.6.6+hp69
+    (expected) uname -a: version 6.6.6+hp ... #69
+
+Update the debian/rules logic to restore the original behavior.
+
+Cc: <stable@vger.kernel.org> # v6.12+
+Fixes: 7d4f07d5cb71 ("kbuild: deb-pkg: squash scripts/package/deb-build-opt=
+ion to debian/rules")
+Signed-off-by: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
+---
+ scripts/package/debian/rules | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index ca07243bd5cd..bbc214f2e6bd 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -21,9 +21,13 @@ ifeq ($(origin KBUILD_VERBOSE),undefined)
+     endif
+ endif
+=20
+-revision =3D $(lastword $(subst -, ,$(shell dpkg-parsechangelog -S Version=
+)))
++debian_revision =3D $(shell dpkg-parsechangelog -S Version)
++revision =3D $(lastword $(subst -, ,$(debian_revision)))
+ CROSS_COMPILE ?=3D $(filter-out $(DEB_BUILD_GNU_TYPE)-, $(DEB_HOST_GNU_TYP=
+E)-)
+-make-opts =3D ARCH=3D$(ARCH) KERNELRELEASE=3D$(KERNELRELEASE) KBUILD_BUILD=
+_VERSION=3D$(revision) $(addprefix CROSS_COMPILE=3D,$(CROSS_COMPILE))
++make-opts =3D ARCH=3D$(ARCH) KERNELRELEASE=3D$(KERNELRELEASE) $(addprefix =
+CROSS_COMPILE=3D,$(CROSS_COMPILE))
++ifneq ($(revision), $(debian_revision))
++    make-opts+=3DKBUILD_BUILD_VERSION=3D$(revision)
++endif
+=20
+ binary-targets :=3D $(addprefix binary-, image image-dbg headers libc-dev)
+=20
+--=20
+2.48.1
+
 
