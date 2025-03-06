@@ -1,164 +1,133 @@
-Return-Path: <linux-kbuild+bounces-5975-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-5976-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98290A54299
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Mar 2025 07:12:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C9DA542E2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Mar 2025 07:40:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFCB51892375
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Mar 2025 06:13:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C301D16C6F7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Mar 2025 06:40:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4E419F495;
-	Thu,  6 Mar 2025 06:12:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B3281A5B8B;
+	Thu,  6 Mar 2025 06:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nebOxELY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CujDZUYV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D133199E88;
-	Thu,  6 Mar 2025 06:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4E11A2547;
+	Thu,  6 Mar 2025 06:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741241571; cv=none; b=RoT+c+iLrG3L6rhTu4vjivPrqp/ts9P9qgtEHXw7p/AXviAo6GuwVQv0BstuqpbDuzN5c5rVo3wGCVP8yIYJR211w7grnwZPvic3Jb7WiwYzkXX3cfsVZubb3LUQgt1GZsAgilXM5nrkWfn7Q9ZmUTgxP0XkgbfiWlEr4OG54kQ=
+	t=1741243238; cv=none; b=HelsnZTCAFWaI9J4+r9I07GokEQD4VPB+r8sMbAReGBa2Y7stAniPjXwcV2V8ZR7JPVTiYl+twtJxb29ILlxhFWcwuIo9C8BmcBv5pwEwYeAZZ0d0zB5YXRaerZHW4zDn65/3EMYu+uuxWnkmv3apF7ooaESu4fggERlNr+k+ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741241571; c=relaxed/simple;
-	bh=4iDBRxTwji7W2TQy4yPD5QDaGlyxwd8lWIRxM9oQpQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=osY5NEKDDEHtYwRxFWNv7AgODqa6mTCvqGgdEzN3VCu1mvlCO4jkZScu7e8UVHSW4gbLu19UomAoJMC1Ah8NTrKGnooYuQhZ7qevyWNHK2qjqUOrvt5EJ9pJGtM4Wd1FiY9hcHbnCt+eDQyAz6EENUFgzgos8dSV7EXTueJMuCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nebOxELY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8AEFC4CEE4;
-	Thu,  6 Mar 2025 06:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741241571;
-	bh=4iDBRxTwji7W2TQy4yPD5QDaGlyxwd8lWIRxM9oQpQA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nebOxELYtScjRAAYyHTl3X/sJuEPF7zfO2N7x2Dd/YHYOSh9rLuy0PrXBW1ZJY++y
-	 249KaGGqJPRm1wE4mUHwVGrZK1jDlfFSUKHe54JcX2lR5lMd3QFwUCJjBnwLxxFdCR
-	 3r5wCG4r4dcXD3fXJb72WoSDKeDND3LkS/EhKcyvMSouv5iYn81VmSdvpLPgonKw1T
-	 YPnqfQBbY4kk5wsC69DQyg1w8XbDSyu2FppTuGvoNOhCXgoqwrjINnhOFv9ZL1C/NE
-	 Ka2dOWuANApqbiRpi9LgSOOMvJe1oUri3M9JaEAdqNbh9Pkoz7QTu+qf5HnbfaHdhW
-	 bNJHOstZKNS4A==
-Date: Wed, 5 Mar 2025 22:12:47 -0800
-From: Kees Cook <kees@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, David Gow <davidgow@google.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kbuild: clang: Support building UM with SUBARCH=i386
-Message-ID: <202503052208.8CC5A355A7@keescook>
-References: <20250303215240.work.379-kees@kernel.org>
- <05a25510-ab44-4eb1-a878-71e84c8aff0d@t-8ch.de>
- <20250304102536.GB2529736@ax162>
- <e1a1531d-6968-4ae8-a3b5-5ea0547ec4b3@t-8ch.de>
- <202503040842.1177A1F15B@keescook>
- <20250305144554.GA3574115@ax162>
+	s=arc-20240116; t=1741243238; c=relaxed/simple;
+	bh=ozb3Ntewz5dAoim3t2E0N9mnusqlzcbMV6JJK/J8TYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Evi1eeoHpzLd334s+5jTtZeoaxAT6CuhU8Iul06eGoFe2clWukqXUwFARYazHEIW8mZcUkoU/IzJ9FpAQv131PX1HXwv/w6ETUettn0ug0fvPfKeyjmdUx1SL/dX7993y1fHw1W4h/5i/nQjox26ZI7idORB8frG13RzbEpzxzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CujDZUYV; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6e8efefec89so2930036d6.3;
+        Wed, 05 Mar 2025 22:40:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741243235; x=1741848035; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oXBqS8+oem4RcRZbOve/5nJddFZ+ymMHAxAunop9ZKE=;
+        b=CujDZUYVhWTS611lexOXJOw0XK3A8X65pGS0w2HKLBWC+g44D2CqcPchq0neWigrmk
+         qPDU8YZgD8y3gEp5nv/4ziq6dX411UaUeiREgZKJHCIofqB2tS5Mdv6O3yTbeyR7b5oS
+         tSPQe/0BMh1gfMCpSYS9W+PKwMXr+1WMXnfPnaOmTnm0gj19ItszUJUosuaQp857Jk+W
+         1yJcEvisxRfAsIrIk4INw/OyV5knaeoYR9DJRs72SFaWbzIiCk6g4w9dGozYF6/7rdtA
+         2Q3vzhQfw4GqMvSzHDGirKwDeuDZ7Y+m1mqut1l2aYusC8mvHITt//1jgZdfMBsPQRuj
+         BBdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741243235; x=1741848035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oXBqS8+oem4RcRZbOve/5nJddFZ+ymMHAxAunop9ZKE=;
+        b=J+2sZziQNdunl+hCM7XFqyR7RhwOA3j35hP9FXa8MoGvoGF/LRKM2VxGX4YTkeAw68
+         uBf1YQkB+P2hP+UCgeKZYSXTmFOdiWV9hQPylceosgYR+NDlNK5RyUscaAYp19Z5VDpW
+         rjCHv5Y+edkplsWGkWe2pgFflYX7br+dGLaOo0FwJdFkYMZ5DVQ2s+gnR+3b9/v8ExLt
+         uIQ71osWIucxiQM7a7zl9BwF3DqOtHyc3fvCFIfpWHNzYsYjCS7ZmzxMohkQkYoa+TCA
+         lUIvBXehZy6gXwJL5dvX2jxw37GwGkidxlTVPib2RGuAinsTFCvRtTcVCLL0tTh+aFps
+         fsGg==
+X-Forwarded-Encrypted: i=1; AJvYcCU73bssD7VCO5VpNuPu+61FrzuKeXNXYW4d0VpZul1e6mQQ3yoOybidtG1ZoExCAcgJypUpJ9QA5NeEczQP@vger.kernel.org, AJvYcCXzS7KBfOZ+DMUjLdjGGAYYODvr8jyyqMkKKWkORV3JXTfJgEcK8baoM+LHHrXgBkP/VNZTkFK7HjnfuUw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEeZi91OAnkzRp/gBSEWOEUZE15XEGVYI1ESRIL6HTG5jLkh5A
+	Fvyg1KfWpF8SboT6/w+7ZHgaP0z+329l7+iaXSeLeYEjMbryqxIY
+X-Gm-Gg: ASbGncsq+8uYhpio7BKKRybmxJB26IeEq+kHYwKcmR5zO+BGGiI81vjKktBGOjRXMkR
+	tdVPafvbXuPEGCJBbDa2qv61QTH0zjVPX0Y9RQI8VyNvSY2OdjS1LntNvTCo01f8o2eaDEnUGOG
+	3qlYeFJ141xvqymMQlGiy7JZgYau/SO1kFhN+j63uzXGQR0ZiUbQdc/Xscr6qcxuYnBGvWM7pd7
+	SLHm78qaAABfaoyw+5aCDpZs9RTmc+Zh9dU26cVWkr2nM8tp95Lk+Ahj8UGL6BHZqaXTCZcJ1jV
+	drv/wL4BhS5RhVbs2tS2
+X-Google-Smtp-Source: AGHT+IEV4wyXNsRwBaIEnM0bIbHwpKMM8in5Vt2e5y8psSg1abcly+Gh+xRUJwLh+HevnzU4h8+8fg==
+X-Received: by 2002:a05:6214:212a:b0:6e8:fac2:2ea4 with SMTP id 6a1803df08f44-6e8fac231f5mr2770806d6.14.1741243235282;
+        Wed, 05 Mar 2025 22:40:35 -0800 (PST)
+Received: from localhost ([2001:da8:7001:11::cb])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6e8f707c5dcsm3909616d6.3.2025.03.05.22.40.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 22:40:34 -0800 (PST)
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Cc: Inochi Amaoto <inochiama@gmail.com>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yixun Lan <dlan@gentoo.org>,
+	Longbin Li <looong.bin@gmail.com>
+Subject: [PATCH v2] kbuild: install-extmod-build: Fix build when specifying KBUILD_OUTPUT
+Date: Thu,  6 Mar 2025 14:39:51 +0800
+Message-ID: <20250306063952.1029900-1-inochiama@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250305144554.GA3574115@ax162>
 
-On Wed, Mar 05, 2025 at 03:45:54PM +0100, Nathan Chancellor wrote:
-> On Tue, Mar 04, 2025 at 09:07:57AM -0800, Kees Cook wrote:
-> > On Tue, Mar 04, 2025 at 03:51:19PM +0100, Thomas Weißschuh wrote:
-> > > No, it doesn't.
-> > > 
-> > > Running tests with:
-> > > $ .kunit/linux kunit.filter_glob=overflow.DEFINE_FLEX_test kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
-> > > [15:48:30] =================== overflow (1 subtest) ===================
-> > > [15:48:30] # DEFINE_FLEX_test: EXPECTATION FAILED at lib/overflow_kunit.c:1200
-> > > [15:48:30] Expected __builtin_dynamic_object_size(two_but_zero, 0) == expected_raw_size, but
-> > > [15:48:30]     __builtin_dynamic_object_size(two_but_zero, 0) == 12 (0xc)
-> > > [15:48:30]     expected_raw_size == 8 (0x8)
-> > > [15:48:30] [FAILED] DEFINE_FLEX_test
-> > > [15:48:30] # module: overflow_kunit
-> > > [15:48:30] ==================== [FAILED] overflow =====================
-> > > [15:48:30] ============================================================
-> > > [15:48:30] Testing complete. Ran 1 tests: failed: 1
-> > > [15:48:31] Elapsed time: 43.985s total, 0.001s configuring, 43.818s building, 0.133s running
-> > > 
-> > > If I force CONFIG_CC_HAS_COUNTED_BY=n then the test succeeds.
-> > > Clang 19.1.7 from the Arch Linux repos.
-> > 
-> > I wasn't seeing with Clang 20 from git:
-> > ClangBuiltLinux clang version 20.0.0git (git@github.com:llvm/llvm-project.git 72901fe19eb1e55d0ee1c380ab7a9f57d2f187c5)
-> > 
-> > But I do see the error with ToT Clang:
-> > ClangBuiltLinux clang version 21.0.0git (git@github.com:llvm/llvm-project.git eee3db5421040cfc3eae6e92ed714650a6f741fa)
-> > 
-> > Clang 17.1: (does not support counted_by)
-> > 
-> >     # DEFINE_FLEX_test: missing counted_by
-> >     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
-> >     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
-> > 
-> > Clang 19.1.1: (actually is _does_ support counted_by, but Linux disables it)
-> > 
-> >     # DEFINE_FLEX_test: missing counted_by
-> >     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
-> >     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
-> > 
-> > GCC 13.3:
-> > 
-> >     # DEFINE_FLEX_test: missing counted_by
-> >     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
-> >     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 4
-> > 
-> > Clang 21 (ToT):
-> > 
-> >     # DEFINE_FLEX_test: has counted_by
-> >     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
-> >     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 0
-> > 
-> > GCC 15 (ToT):
-> > 
-> >     # DEFINE_FLEX_test: has counted_by
-> >     # DEFINE_FLEX_test: sizeof(two_but_zero): 8
-> >     # DEFINE_FLEX_test: __struct_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero): 12
-> >     # DEFINE_FLEX_test: __member_size(two_but_zero->array): 0
-> > 
-> > It seems like the on-stack sizes with __bdos all agree now, regardless
-> > of the used compiler features. It is only the array size calculation
-> > that now gets masked by counted_by. (i.e. the stack size is overridden
-> > by the zero "count" for the array elements.)
-> > 
-> > I'll send a fix for the test...
-> 
-> Just for my own understanding, is this because of the adjustment that
-> Bill did to the __bdos() calculation in [1]? I think that tracks because
-> the version of LLVM 20 that you have is pretty old and does not have
-> that change. I know for a fact I tested the original change to the
-> overflow KUnit test to adjust the expected calculation result and it
-> passed but it was before that change as well. If I use a current version
-> of LLVM 20, I see the failure. If I allow LLVM 18 to use __counted_by(),
-> the test passes with it. Not that it truly matters but it does explain
-> how we got to this point.
+Since commit 5f73e7d0386d ("kbuild: refactor cross-compiling
+linux-headers package"), the linux-headers pacman package fails
+to build when "O=" is set. The build system complains:
 
-Yes, totally! This is exactly how I got there too. Great; thank you for
-summarizing! :)
+/mnt/chroot/linux/scripts/Makefile.build:41: mnt/chroots/linux-mainline/pacman/linux-upstream/pkg/linux-upstream-headers/usr//lib/modules/6.14.0-rc3-00350-g771dba31fffc/build/scripts/Makefile: No such file or directory
 
--- 
-Kees Cook
+This is because the "srcroot" variable is set to "." and the
+"build" variable is set to the absolute path. This makes the
+"src" variables point to wrong directory.
+
+Change the "build" variable to a relative path to "." to
+fix build.
+
+Fixes: 5f73e7d0386d ("kbuild: refactor cross-compiling linux-headers package")
+Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
+---
+Changed from v1:
+- https://lore.kernel.org/all/20250223011944.902904-1-inochiama@gmail.com/
+1. fix shellcheck warning C2086
+---
+ scripts/package/install-extmod-build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
+index 2966473b4660..b96538787f3d 100755
+--- a/scripts/package/install-extmod-build
++++ b/scripts/package/install-extmod-build
+@@ -63,7 +63,7 @@ if [ "${CC}" != "${HOSTCC}" ]; then
+ 	# Clear VPATH and srcroot because the source files reside in the output
+ 	# directory.
+ 	# shellcheck disable=SC2016 # $(MAKE) and $(build) will be expanded by Make
+-	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='"${CC}"' VPATH= srcroot=. $(build)='"${destdir}"/scripts
++	"${MAKE}" run-command KBUILD_RUN_COMMAND='+$(MAKE) HOSTCC='"${CC}"' VPATH= srcroot=. $(build)='"$(realpath --relative-base=. "${destdir}")"/scripts
+
+ 	rm -f "${destdir}/scripts/Kbuild"
+ fi
+--
+2.48.1
+
 
