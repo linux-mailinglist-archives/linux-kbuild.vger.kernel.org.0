@@ -1,115 +1,184 @@
-Return-Path: <linux-kbuild+bounces-6001-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6002-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A28A57088
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Mar 2025 19:29:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6BEA570E6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Mar 2025 19:55:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F22D3A45AE
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Mar 2025 18:29:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D290A179906
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Mar 2025 18:55:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935F823F411;
-	Fri,  7 Mar 2025 18:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7128D2475DD;
+	Fri,  7 Mar 2025 18:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCqb9BXD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JAJksGt9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC53421ADCC;
-	Fri,  7 Mar 2025 18:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479142459FB;
+	Fri,  7 Mar 2025 18:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741372150; cv=none; b=loCQdBwpOeqc0t/j5U3jATgMgsK9m4JrMrzoDuMi+5LpVyeZaiCBeD6OpyArParYxoKoykrV42vYfZrRII48UWGrZO/wdrkAmTNikgGGMvVJOayWl3RI40yRtZxMuTUI3eSVrIKnVpNTgotcyzwmjviZlwnAC1fN1+9i/m7Jtbw=
+	t=1741373698; cv=none; b=Vi3audpSJGvCjUCVlyj0LVSgsvWSm53p3Dup6XKmsVyxLkt00rvDr0wVCziZxp5tpOhQu6w8jV8ZmPFDVjimZX0c+ixDrK9A/oO2pRIqJUNCBaCJgtqtrnKgPHWS70sa9CxHUYXpNXiiDNYtygIbJ8oJBkUiGpT8a+ibcTL9Lp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741372150; c=relaxed/simple;
-	bh=cGtP4QSwxOSP+D5OmIRPQZNbFvr0XWLHaNX/8FWwz10=;
+	s=arc-20240116; t=1741373698; c=relaxed/simple;
+	bh=A1hzyzX2gwYPUPzTsAzIqU0ZPHdzSA6DM3y210R7dIk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MOIlXGW4pDr7W2gYgeMAp5QJPuOrwqJ0UhWOdApgWNGf6xhPHE5NUo7DtRvLMBGHy+TvI7ihjZL6lt8X4mIsK48TP/3LWeFUR06FS6V96CIk1kJKfRk1ebEajXatBim21pyROCw6T0JmSH26437dyOdOLDReEBvj7QweK9mcl2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCqb9BXD; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30bf8f5dde5so6670671fa.2;
-        Fri, 07 Mar 2025 10:29:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741372147; x=1741976947; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cGtP4QSwxOSP+D5OmIRPQZNbFvr0XWLHaNX/8FWwz10=;
-        b=MCqb9BXDgX0gvYtHc6S3mnbvkPN5OdBILxAN1G45jrN2fwv3iMZ0OK5bSUxLTHpa7Y
-         QOc+RfT/TvXsjXV7tlL6PpKwTP2QCJMdcqTjZoQ0f6CZnQsEwwoDM8vv7eQvUr2x7LJu
-         d4bwsWHY0H5VzSpdDv6J6t5bbo6Mm6vOCgDhlPWoFTvO6HzjAvqDRElUx0T/mzNgtK2Y
-         RLtyHpnZ6xuhSdtcFgeqCIJ31+FxVDeo+imkzMmE/qp7vuDQ+243eJqIKSawmxJzU53I
-         kPHprq9cIgECwt4Plb+7rEs3ZXU0JwgJwz2JMl1BHUDgEvZylGI2/U3gvtzY5IKzSGoM
-         VE3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741372147; x=1741976947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cGtP4QSwxOSP+D5OmIRPQZNbFvr0XWLHaNX/8FWwz10=;
-        b=s1WUANWgiixPkyizVYfumpNf3JzL6LFydQKedscd2UTf0t0FGZaKTOdxQZevxAA2Qh
-         TEsfmcuqYRZeImVkyTFMJDFyrLhcP/axxgYHMlmhvkYRuRGv4Q8oCS5yDxXvTuCb+Nm5
-         sR11c5WebqQ1xDsCu+IvThxP4HXnfJ+cuUyIp6SJjm48a2llaT7pxCog0CyZdE6bZjJT
-         rGN4+VPlwe4dVHXPF4qsOc1aT0xopSFr/0sJ1s2YpoTX03joWUmfR5EzkyaMhCOo5kif
-         KVHagHgQ/ShKVev0Z4uxE+ZqUeoKRThHo3/G4dlztiTM7fwFq8Xh7sPSd5IT7h7b/qqk
-         OXrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXDFl55BCg2MtcBNN5Fb5M+gAaYWDnlQrlgQrdyRxUfnDLXb5vpNZ8yDeKlzuAx/7CYbXDVe4YN6MCDrm/@vger.kernel.org, AJvYcCWWHxljZdZlbY3ThQstXnNjKEkOGs2M9ItZKu34HfzyEHUJH2+CXuIop18x2pM/4QtFFVl8NtLCGnZ4f0w=@vger.kernel.org, AJvYcCWpEU3bRSi161CxyryvRGcOucGgjOsfdS2hEKLTawuVIAAucjVdx0JBo9jDtJu+pgDfe7GmhBzalg+O@vger.kernel.org, AJvYcCX7F3ZBQWYzWrH44TuKS6/EpLYzsVdbjlA9Y/CZt6Ogk8KxBGtfJz/Il+1GPRR99xwKpPIHLRHeXQbKJlE/9LQ=@vger.kernel.org, AJvYcCXCnNRDMIKRd5UPYobYqZoSH5iVSN/SqdmhLzEzIw+BCvauBFfwOf/QnGQQDc4vzUStY8sF0KA7dhhcUhytf3/v@vger.kernel.org
-X-Gm-Message-State: AOJu0YyixrnHRVAMjq2tfLqKyv3ROWTUehzAB+TS0D90mzu+/BCtgTxi
-	YRWw4CjOmVSJZEXC6j+unqajx+QL4EWrY6DB/f6ybm2j9pjsFwp7TxZkBGyloIfOX32qPSjRnM5
-	t/ugNheeOlPhK56UKbWPdNmTtb2U=
-X-Gm-Gg: ASbGnctT57RJtaVrefaPwhYH6NuGeFh9IIJvKLxgSuTUwh+Cvca+f84ikJjBnveino/
-	pW/h5CdaRNOhSdWaGfwJcSLSTLOPaEyjg5C2N4RpgLUEr72BCONtFWD+vyzqXl8PeXkSOpWprBE
-	pOu2cPy9SDdNt2n8bu0GlgKvbU2K87SgU+Zp6iecyF1LHc/QS9pXvfdkyZBCUU
-X-Google-Smtp-Source: AGHT+IHRgOkqnc4r0TqP+DaZV9tHJeg9CVHvk/pZ98ZH27bcUeG/EiKG7YPVku/qQ7lmTk86KTBRnySXZzrdpYqQ9bM=
-X-Received: by 2002:a05:651c:e0d:b0:30b:f27d:6e33 with SMTP id
- 38308e7fff4ca-30bf452d01fmr13803171fa.21.1741372146749; Fri, 07 Mar 2025
- 10:29:06 -0800 (PST)
+	 To:Cc:Content-Type; b=ri67Xhi14Sm2DeleK/CQlYpPODTNk9+u1ysN4dJGwxY3Jg2Hk4uc5PE0ZsXZEgF0liwkwMH9wRxzLxPWHKrGJg+peZDNfSP5EzuWFqXqFpWFHP2sNqKU1SWEAR2YnXaU6hngEE2mYYFTk10MTWQxccrI97akYfkD1o4KV8nksLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JAJksGt9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 233A3C4CED1;
+	Fri,  7 Mar 2025 18:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741373698;
+	bh=A1hzyzX2gwYPUPzTsAzIqU0ZPHdzSA6DM3y210R7dIk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=JAJksGt9HFaMvVKhk05lUfdM/thbcWKDfGg60hHxtaNqpCBVufvjBykA7KJgu8wR/
+	 uY8bBE+D+xxTVSTprl/USMEULwpaf/Ux4FtDT2klOPycIeDiVQ5Vbdf2IG1LXU6k6A
+	 U1R3HFaDQHqDtXcI4WTGIu48ZSJriiFNJpcu5zmAjEtIOmAHOfYMfEX8v7oFJmksF/
+	 q3DaP2Lak9B0q9Gbui7RfDIojAiil4c8LYqYzi5Vz0aW9y1+JhNa5B1nbOtF97xnCr
+	 gdIFMr5KAz4QI/4ebdiBBCGiBO6pffvCSiIKWxKtESXPIIzl9bATjeluXg25sPJ9Si
+	 aIahk0EXVGQPQ==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30bf2513a2dso16661951fa.0;
+        Fri, 07 Mar 2025 10:54:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUU2GHHO94ONd39BSyxUk2nZNnVewhkeY35kFbhJ5yEQrbE2xxLdpHW9TdFgLXOE+vPf+Pxg95jPfj6u/I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAE0TOtQ0cASNOREn5VExU00l/mJ/IrtEW3QMHImRXGyqCFX+b
+	tBM9RqcWYzENXZx1Yw9TO2eRU+0EcyC34r5FoOadh97I5oXhu5KF6dBQ190BmM+yBz965ZvbwuL
+	E8Sv1YKznytIyW+uuJcVtPi3Zj4k=
+X-Google-Smtp-Source: AGHT+IGobzWZZjQf8EsgGAX/Rno6nPlMxbZ8WwDAHCshVEV4wF5D7pC3DIDWityzVC2/E4DTVm0cQ8mNqgLiySUNnL8=
+X-Received: by 2002:a05:6512:3da3:b0:545:6fa:bf5f with SMTP id
+ 2adb3069b0e04-54990e2bbd8mr1509102e87.2.1741373696796; Fri, 07 Mar 2025
+ 10:54:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
- <D8A6YVP8B1UB.38AHIB0LMO85Y@proton.me> <CANiq72nW45z7n=38AQF45vpKQxWfrA5pvt2Q5DbjqgYR2ZR09Q@mail.gmail.com>
-In-Reply-To: <CANiq72nW45z7n=38AQF45vpKQxWfrA5pvt2Q5DbjqgYR2ZR09Q@mail.gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 7 Mar 2025 13:28:29 -0500
-X-Gm-Features: AQ5f1JpMZPDizGn72FSW8OPXl4mv7X6WRYEOdOrxHuXDuC2sWhQVwFvPqJqFfzs
-Message-ID: <CAJ-ks9kNVyoE51RxKam16qnaLucsUrTjL_ywLc9BegGmQxNKrQ@mail.gmail.com>
-Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Benno Lossin <benno.lossin@proton.me>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-pci@vger.kernel.org
+References: <20250224132132.1765115-6-ardb+git@google.com> <CAMj1kXHamiZ8u4YO9FnrWhpcotUkAusDF_db_5H2qaVD85qmVA@mail.gmail.com>
+In-Reply-To: <CAMj1kXHamiZ8u4YO9FnrWhpcotUkAusDF_db_5H2qaVD85qmVA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 8 Mar 2025 03:54:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATLf2iXNGi-UKRg=+PRRqgmxry5QQnQ4GUNsuVmDBAnmw@mail.gmail.com>
+X-Gm-Features: AQ5f1Jr9sTgHhTNx_izbjyV6zevV8ooGYcQ_pewlwvwGtKvROwXdXWv-VRUVTAg
+Message-ID: <CAK7LNATLf2iXNGi-UKRg=+PRRqgmxry5QQnQ4GUNsuVmDBAnmw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-kbuild@vger.kernel.org, 
+	Ingo Molnar <mingo@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 7, 2025 at 1:27=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Fri, Mar 7, 2025 at 1:47=E2=80=AFAM Ard Biesheuvel <ardb@kernel.org> wro=
+te:
 >
-> On Fri, Mar 7, 2025 at 5:58=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
-me> wrote:
+> On Mon, 24 Feb 2025 at 14:21, Ard Biesheuvel <ardb+git@google.com> wrote:
 > >
-> > You link to the `ptr_as_ptr` lint though, is this a typo?
+> > From: Ard Biesheuvel <ardb@kernel.org>
+> >
+> > Kbuild supports an architecture specific Makefile.postlink file that is
+> > invoked for the vmlinux target after it has been built. This Makefile
+> > takes 'vmlinux' (which has just been built) as the target, and mangles
+> > the file and/or constructs other intermediate artifacts from it.
+> >
+> > This violates the general philosophy of Make, which is based on rules
+> > and dependencies, and artifacts that are rebuilt only when any of their
+> > dependencies have been updated.
+> >
+> > Instead, the different incarnations of vmlinux that are consumed by
+> > different stages of the build should be emitted as distinct files, wher=
+e
+> > rules and dependencies are used to define one in terms of the other.
+
+
+In my understanding, the build rule of vmlinux is atomic
+because vmlinux embeds a timestamp and a build version.
+
+Now, you are splitting it into two stages.
+
+vmlinux.unstripped (this includes timestamp and the build version)
+  --(cmd_strip_relocs)-->  vmlinux
+
+
+When cmd_strip_relocs is changed, only vmlinux is updated.
+This changes the content of vmlinux, but its timestamp and build version
+remain the same.
+
+So, I am not sure if this is the right direction.
+
+
+You can see more steps for updating vmlinux.
+Do you believe the build rule should be further split into
+more fine-grained stages?
+
+For example,
+
+vmlinux.pre-sort  (this includes timestamp and the build version)
+   --(scripts/sortable)-->
+vmlinux.unstripped
+   --(cmd_strip_relocs)-->
+vmlinux
+
+But, again, even when sorttable is changed,
+the timestamp and the build version remain the same.
+
+
+Yeah, arch/*/Makefile.postlink is a crap
+where arch maintainers build a fence
+and start whatever they want to do.
+
+If they completely disappear, I would love it.
+
+However, this seems a partial clean-up
+within the scope you are interested in.
+(more specifically your motivation is because Linus pointed out
+a failure in arch/x86/Makefile.postlink deleted vmlinux)
+
+
+
+
+
+
+> > This also works around an error observed here [0], where vmlinux is
+> > deleted by Make because a subsequent step that consumes it as input
+> > throws an error.
+> >
+> > So refactor the vmlinux shell scripts and build rules so that
+> > architectures that rely on --emit-relocs to construct vmlinux with
+> > static relocations preserved will get a separate vmlinux.unstripped fil=
+e
+> > carrying those relocations. This removes the need for an imperative
+> > postlink step, given that any rules that depend on the unstripped
+> > vmlinux can now simply depend on vmlinux.unstripped, rather than inject
+> > a build step into Makefile.postlink
+> >
+> > S390 should be able to do the same. MIPS and RISC-V perform some
+> > post-build checks on vmlinux, which is reasonable in principle for a
+> > postlink step, although deleting vmlinux when the check fails is equall=
+y
+> > unhelpful.
+> >
+> > [0] https://lore.kernel.org/all/Z5ARucnUgqjwBnrp@gmail.com/T/#m731ed020=
+6949fc3f39fcc8a7b82fe348a8fc80c4
+> >
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>
+> > Cc: Ingo Molnar <mingo@kernel.org>
+> >
+> > Ard Biesheuvel (4):
+> >   Kbuild/link-vmlinux.sh: Make output file name configurable
+> >   Kbuild: Introduce Kconfig symbol for linking vmlinux with relocations
+> >   Kbuild: Create intermediate vmlinux build with relocations preserved
+> >   x86: Get rid of Makefile.postlink
+> >
 >
-> I think Tamir was following the pattern of commit 3fcc23397628 ("rust:
-> enable `clippy::ignored_unit_patterns` lint"), which I appreciate! :)
+> Ping?
 
-=F0=9F=8E=AF
 
-Imitation is the sincerest form of flattery :)
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
