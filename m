@@ -1,78 +1,78 @@
-Return-Path: <linux-kbuild+bounces-6008-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6009-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E52A5761F
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Mar 2025 00:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FDDA5764D
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Mar 2025 00:40:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D105170CD2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Mar 2025 23:33:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8614017984F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Mar 2025 23:40:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AE6320E014;
-	Fri,  7 Mar 2025 23:33:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B30E212B3E;
+	Fri,  7 Mar 2025 23:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k2kUD9xc"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4vwXPcN9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3121AAA1E
-	for <linux-kbuild@vger.kernel.org>; Fri,  7 Mar 2025 23:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE7320D4FC
+	for <linux-kbuild@vger.kernel.org>; Fri,  7 Mar 2025 23:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741390389; cv=none; b=Y7xbkKK/FrRDtJRFL5k1X4S1Vfy0LSgkRNW1ntM9LraEQFqhczGS0RAzxEJ34F6ZsoyeHRPS5MoO3o+RCxAyTCFGl/0wcg1g0HSYNeA7gUMn5flWraqb0lUZM/VKl1chagZTGiEHokebufnXm8maAxSRpvZTS52ocds8it9XPFI=
+	t=1741390804; cv=none; b=ORsvGBFPKvEbLiW2RsPP3ogtvllloUhprqpgPFh+IRC5BHHdMPfT5OruX4PfcFqwOErq86lsTLPZkwi3RkGZGt+DugGzqlHI9LHlw2pKcf/Z7c/VVNV4b6LUNV5J9MZY3d1D5Y4tkkRS+sGELQXZj7217E8Widzveow+TRG1PgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741390389; c=relaxed/simple;
-	bh=L4aJtPrE2GfnROL3oS1K4BKrQk2bSyTkmLWv+1Ga//g=;
+	s=arc-20240116; t=1741390804; c=relaxed/simple;
+	bh=w436wgjGcjzJ3dyS3A6//n+WNelqPnxFh6A/g8MJI18=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R+KjNW6gXiQNeJcyg8982f4Hcq7Lc5beMshxIKOwYhoBSRdte/+touYEKEdlCdKO/v0XoI+AWjI/BXPlE/UNXmLYrCC497eYjmhT6+v2Rxi0VIrBfCAskx7zeD682yYQZokqL6fDUmo4es5jHes5WgWj2498EP/Zf2nyfzoVDYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k2kUD9xc; arc=none smtp.client-ip=209.85.166.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=MVW4LOKu8e/aU9zR1dwAa/ktiXlMnfh/qCVpkI15tOgJHiO4Rs3WOvzEj/3+xoUeOc33lnY92ja4E0nuX95hj3F9hPWCVmR6qvAZnuybjohBNn2LQlGhT+HbufR0s1SaMFMhJoLdgtY4EeU8jhueCVQPxQfWomsm1htiE5Pe29U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4vwXPcN9; arc=none smtp.client-ip=209.85.166.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-85afd2b911aso67857339f.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Mar 2025 15:33:05 -0800 (PST)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-85ae3310966so67123439f.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Mar 2025 15:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741390385; x=1741995185; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1741390800; x=1741995600; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mHFXO9D6YwhROjoFlwWSesjCYFiKET0NT2Feon19Q6U=;
-        b=k2kUD9xckJ57FamQavIRngz9SRxwGmFBVrm5lTB90cHRqkkg83eegNh0ge0KBCmfIe
-         /QRw4bppDOf14fwz+RBsTHMrCwZiM3OtI9PXu/PH0zun5gk/GVI52Bci+3jX3nTorKb1
-         9ACZb+alUl/YTdI6a9on1h35z8ZvxDEh6isuzEeIPw3vg18G+XkC1plEcmgfaqqGldjM
-         0OHAnnRwtYXUb1o/MncUoYp7RN3ZKyDEjpZ8eXJ6V4BNBfJDQP00hJaFNUyH0gmwz5r0
-         FddyrObyjEBI0OSKCGCmcbIGQxpP46NMk+D+0ZlZRoXKD/qtDRP5BrfCTN+haGvzTGyg
-         Igiw==
+        bh=jDc72lD8Mhnu3NfUsPcD1oy818yB1nERuThSEkGUHkw=;
+        b=4vwXPcN9EGBJ8ArVBWRV4hhuiBxfqvIWxYMwiZbdrqCsMPfdc5jLTlnroiaktJRLbm
+         LTglMy81pePPJdHIi6qUoTDil3fjiSrhxYyDzkhnXFI8V0m8Zc7Br5HQJo2ASz0+8ZIM
+         yaD3t/44crfxvTVhTdlycs1+v1A0W2VIkIvEXoFyHWbejQ37hsCOVtSNQ6TqScOa+C0s
+         LK7ztbCcQnFMyTifJQdOFzoyjrwdOq1iIvZiVSv/tiTE4vMhUwC2blVrh14fiQyIVsfy
+         aRwx8/pM4W3SGR/L1T9smglthFDByAXMQSf+jELc49CjcWOljOlS+uQzHEkKery5Edih
+         ioWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741390385; x=1741995185;
+        d=1e100.net; s=20230601; t=1741390800; x=1741995600;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mHFXO9D6YwhROjoFlwWSesjCYFiKET0NT2Feon19Q6U=;
-        b=trvTJ2ZnXj6IG8rr8W/+et7Q7dBzJW/LrT8QDiFo3I5+MS8mZZ1l6FlRtUt1mtxsA/
-         Ij2kxOcy7ViFE64cC0G/uAyRSm7RVseKMzue3ja7tWSGrME+zpKPstrTTNcYJ7Dkn3uK
-         /IW9FuW8XAr6iCTqjnU4tafj9GwDiYS4NXIFsb/GBGPCTa6Wsw5BJQkuQtTIEPAns09g
-         mIdHvpp1+dL/c49dwMAnSibwY5sfKgboFubGB7/yURo+FdeLmETi4W4ULxO/EUWaBN7F
-         6y5B3XXW1PSyKZm1ais6rGG1inQqT4mvvGuxHKio3q3oYlCsXC/YwUk5NbZ6xDUNedSO
-         n0aA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLVcJc0tZbwyg1qN/Otu1fWs8JC8XvYnXA0tnxZKECSbmeALwBuqg7wQHHbmaQJZAQ3OWgB7L6HJ2Apyk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwGssmlDxdxgDXrLhDYB7APWoa+q2rcJgR58wq2dACJ07zV7O+
-	lc9q4Lb9ORiRQOxwsrXH1D/qFgp0MtAljlnZfee40DvqBpm9BlCmz1+KYOK1fA==
-X-Gm-Gg: ASbGncuGh9dlwhV+z/cMJXX1CD4F98BaGNHCcYYIH9qe1HaB808Fkd/HjhqsWwcWBpR
-	h3aiVIY9//AjUv8ZinORV7objMMzNtm6E+yGMu2TME3OXyBhpLca+/Yldwcg+PG/vLHU+lasR8D
-	4xehr0tNbvVRSBCikyrG1EtbIXY3gJA4vKwUAQsv9w4F1Ha1rDMyyNznrfHxihQq2YPSLdN9VR2
-	qlavzvAI+IvFpZkXVaBu/GlL707UYK5r6EDSB6blhvSLXEK2uG/HKSw1AD2qNwTZ1MJmpAkSIwh
-	MJhEQLaEzrqXaMZ8VzyDYRLZTYNGOryFml1485/jxkANy/4s48tmTlFLeUv3Ysjj6hCHPeiDv68
-	nj9rNsbL0
-X-Google-Smtp-Source: AGHT+IFyRzzf7mMzUIJI4y0Th6wZ9sjI35nBIcnhd9RXwZh9GmhLYqRpDr7OO9MYwGSF0/lxYav2hg==
-X-Received: by 2002:a05:6602:4006:b0:855:ac69:32a4 with SMTP id ca18e2360f4ac-85b1d053032mr663250139f.1.1741390384993;
-        Fri, 07 Mar 2025 15:33:04 -0800 (PST)
+        bh=jDc72lD8Mhnu3NfUsPcD1oy818yB1nERuThSEkGUHkw=;
+        b=N6sGnXeqpdw7tFAwQCa5aIX0+3IbIfRKsWwTC5/mSIbeTrEciChlV7Z312WXzihkmg
+         ypvtPa+0S//JmGTseyUFZGU+fGvUHyXIBJjp4PU8ArIneK9jJt+GP5DoVfmqe8iHh8dy
+         7ITGyMXqS2fD8MMX/ENJdSNV1BxZqUwIuvbJaJ1PM4VhRK1+OK/bW4P6wwq2mXe5CTRN
+         RpPinORsoZgQsG8b56LIDXIuvDrYu3iN+xE9u/RrctKPmTqEN6c/yFjkbAjrs2bDlnka
+         JTeOFL2UGUcCZxHjhbxnOM9bcIUN03jRe5gLU7NGFTNfiJ/O0WonZd4mUh2w79h6FRZA
+         RoRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXiAAdwFNQBMWPdJDisJVnY1NNBbh0T+zKzX1qfjeAPZtXmTissJ0RpftrgA1DthbJF0YY9OK+V2kwX6cE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx46qNGJakB7UP35OlfCJM66CGIsBroK6RIhLVKZesk58BqQGso
+	ypsH5igEhkvvdhqT3R4FjyScNo10q/GK0lgd8iW1l8r8cpmtVyTXAs4SB/4p+Q==
+X-Gm-Gg: ASbGncuTfIw8euC9p8T4o7U9EyHYa2H6W5114N/8HRasrytqPS4gq0pEI/tIcYFQ8lv
+	Fy3DZ3gmiv8tTaZotBFWt/a0bbZrhF0JsA8xfX2RLMSflKrepmx50JFGQq7tLyGR2wBeMlUNTIZ
+	WHopj5hsmxWMkqSXLLHfkWqUUQZ7WAx85iDtcmW5oSNuH4P6As11+fyKd2oFMryqsS+LroNVBpL
+	LzVGgj7nZpxKWDrYLBVlVHN/IkcmRo8tdmcM3ANT1/FEGT6SwsFAckiZZ5/jgY20xdXYxXeN7Fr
+	JdkZlOb9pU9xeIz4gK7EJqDrai529rh0l5B09V2CC5OvfpWq1whgsHukB2IdrVvxOVwD0pxSg1B
+	2GdA+sXlO
+X-Google-Smtp-Source: AGHT+IE5GWqkBP7F2KuCtSZMj3O7YCqwL1LClyQ1d+IKR/y1v4SzZvWajbv9qbfRqrrAzp37TIieCQ==
+X-Received: by 2002:a05:6602:474b:b0:855:9c88:7894 with SMTP id ca18e2360f4ac-85b1d03fb51mr700353139f.11.1741390800315;
+        Fri, 07 Mar 2025 15:40:00 -0800 (PST)
 Received: from google.com (26.80.59.108.bc.googleusercontent.com. [108.59.80.26])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f22079b1dfsm382085173.118.2025.03.07.15.33.03
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f20a06b059sm1193908173.136.2025.03.07.15.39.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 15:33:04 -0800 (PST)
-Date: Fri, 7 Mar 2025 15:33:01 -0800
+        Fri, 07 Mar 2025 15:39:59 -0800 (PST)
+Date: Fri, 7 Mar 2025 15:39:57 -0800
 From: Justin Stitt <justinstitt@google.com>
 To: Kees Cook <kees@kernel.org>
 Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
@@ -88,7 +88,7 @@ Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Alexander Lobakin <aleksander.lobakin@intel.com>, linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 Subject: Re: [PATCH 3/3] ubsan/overflow: Enable ignorelist parsing and add
  type filter
-Message-ID: <upvdnfozcexlpb2x4auimec347adozkl2al4hu2yp3kfagdeyp@dqs2ft6wdmog>
+Message-ID: <52samxs253u3t2cmm5xwbmrwzyof36w7xczpuvbkarqwonwl32@2jbmkagpk7za>
 References: <20250307040948.work.791-kees@kernel.org>
  <20250307041914.937329-3-kees@kernel.org>
 Precedence: bulk
@@ -101,17 +101,11 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20250307041914.937329-3-kees@kernel.org>
 
-Hi,
-
 On Thu, Mar 06, 2025 at 08:19:11PM -0800, Kees Cook wrote:
 > Limit integer wrap-around mitigation to only the "size_t" type (for
 > now). Notably this covers all special functions/builtins that return
 > "size_t", like sizeof(). This remains an experimental feature and is
 > likely to be replaced with type annotations.
-
-For future travelers, track the progress of type annotations over at
-[1]. There's still discussion on how these will be implemented in Clang.
-
 > 
 > Signed-off-by: Kees Cook <kees@kernel.org>
 > ---
@@ -168,22 +162,22 @@ For future travelers, track the progress of type annotations over at
 > +type:*
 > +type:size_t=sanitize
 
-Hi again future travelers, sanitizer special case list support for
-overflow/truncation sanitizers as well as the "=sanitize" comes from a
-new Clang 20 feature allowing SCL's to specify sanitize categories, see [2].
+Forgot to mention this in my intial reply but we have to be careful
+with what types are added here. Kees, I know we're on the same page from
+offline chats but for others: using sanitizer case lists to discriminate
+against types for the purposes of sanitizer instrumentation may not work
+properly through various arithmetic conversions. Mainly, implicit
+promotions which tend to break this particular approach.
+
+Now, for size_t we got kind of "lucky" because there are no implicit
+promotions with size_t, it doesn't get promoted. This is not the case
+for other types. This further necessitates the need for canonical
+wrapping types backed by in-source annotations/qualification -- coming
+soon in Clang.
 
 > -- 
 > 2.34.1
 > 
->
 
-The plumbing looks correct,
-
-Reviewed-by: Justin Stitt <justinstitt@google.com>
-
-[1]: https://discourse.llvm.org/t/rfc-clang-canonical-wrapping-and-non-wrapping-types/84356
-[2]: https://github.com/llvm/llvm-project/pull/107332
-
-Thanks
 Justin
 
