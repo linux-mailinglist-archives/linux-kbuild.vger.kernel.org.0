@@ -1,109 +1,95 @@
-Return-Path: <linux-kbuild+bounces-6019-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6020-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4827FA57C08
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Mar 2025 17:42:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62378A57C15
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Mar 2025 17:48:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2CE8B3B0ED7
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Mar 2025 16:42:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77AD518915D7
+	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Mar 2025 16:48:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5AE47E0E4;
-	Sat,  8 Mar 2025 16:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 301281EB5C8;
+	Sat,  8 Mar 2025 16:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="IOfFjElN"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="tS1cZDZB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96B31E00A0;
-	Sat,  8 Mar 2025 16:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133821DDA2F;
+	Sat,  8 Mar 2025 16:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741452128; cv=none; b=RAggZXxjR71S6lrXAvL1oA7sf8rXYJKM+jC9T5WWE/Z28g/uEJg7JF7hiDm6v30DPu/rChArYLDENLry/MiJOx7b8H7iD8NFn9BUeBB0I6pgjJ/x5MCLVCmzWkQhwKo8lWs30GSCwB8Ghkm2gcYbHA7eiKZ/A5yPCANMyv0tnX8=
+	t=1741452500; cv=none; b=LA5b0imN6DSHt/sy+IsEVNQOZVahoSQNU3WR6baAsRcA9MZpRzUm88wBrSk4lB3T8rm+ktJzpLh7UTdtV215WNMQoVkZ5LfUFKW4ANzdqOyUWHkmv4C95WASxAGarmjOKuU5MGQBgO3kAFW54X7A99EXzIyIaFPbYV11kdAdLZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741452128; c=relaxed/simple;
-	bh=5YQi/yppGT60Qz5ERFnjZXkM8JJB66wQMozBsyrzPnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f609XuNFicbpd3/Lj75LFplfUt98Swgd/2u2rUDy1iQIHVxkB8tSAARhccAG8twqdOZ9NzXvfF2u9ZZROcYYxJbxpOPxvZyafsusnUzqFe84ytPYfUWqtZk8VldCcfO9eCHhLPoyyEWqVfTKQTx6mQbpfGz3JTW2Kd2zw0uhS8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=IOfFjElN; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B11CA40E01D1;
-	Sat,  8 Mar 2025 16:42:04 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id cWGCF3pVqs9c; Sat,  8 Mar 2025 16:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1741452120; bh=o575BGKSgdAGPxICB7ydHGX62H0Z4HV7YhrHC7x8t2I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IOfFjElNS5hEZyQFQ53RZfjNC/MClho1UrzY971aAUYE3RqV2frIZttdyzWtMtVTi
-	 Ptmss/GLFwyJ8HIc57fgH9ZvgJVyuhcp3KBFG48xwbAHA/bADupuU0kwgVZLLqTC++
-	 fhAAzT8iNdkzWbQlHlh+f2FR6sV7vPU5qu2su+yeKMtgi/U5s95o39yaWaR8IE8Xse
-	 oFES3vbHiqL8Rnx9zzz04lj/Hva8absMthaLsG3C86VJ7qz1J/1ONcplB55r6mARf1
-	 wOMG6uC7xTsGQdF9OaghUbrWuOdJov4aO6wPaVU706WZFd7e7hSw6dY5riRMd4bEoy
-	 UQqf+aBt139qdbDXXKRhi6gyyCcGl6ptmt5T0agBruHhcEQd5NVgEJtbnM6mV92i8B
-	 lSyY46bt/4A/hhnobSVqvch0ATXyYxZtteLvFBrxeCtxfNU1+j6mWWGwbZudeR3WHX
-	 ppnGIBBReJwf+8usiCof7LKMbdb54p/wyj5iBgWEHY9u6aD2vbPaUVhWiduAV0vEMl
-	 KUilmEBg87vop1WhHEcS0pSWcZumaJcr7jTVrFyiymNMGKEB2pCq5z/DVX3L/Lf3UO
-	 yRMwX5s1LRRnOlxHeA4/XA/49Rf4Qo/nb6c5xj8GNAetpGyx406NpS+Ql3P5pmX/25
-	 hkA45755cidg0h3XsrEYHHx8=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8020A40E01A0;
-	Sat,  8 Mar 2025 16:41:52 +0000 (UTC)
-Date: Sat, 8 Mar 2025 17:41:51 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	"Xin Li (Intel)" <xin@zytor.com>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
-	sraithal@amd.com
+	s=arc-20240116; t=1741452500; c=relaxed/simple;
+	bh=Mzmh5uAz152L3wEs5lzf3u7CR7G/1Lm/gkTq9VRgpO0=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=i4pWP+xVa9F/1a4kc694vcD8zvafikRvVlmHkJMvDbEnzXYiHrP1Pvm1S8qhjRWpdTnW2mSMeIhvcydai0LhSKU/HjbqzH3LETn6gHQPdhIIzrXAeg/L3jp1E4CVU3m9NWtVFoqOdXeQxoZWEHXKCuXQ4z0mi1almRT/RUfT1XQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=tS1cZDZB; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 528GljFO860265
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Sat, 8 Mar 2025 08:47:46 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 528GljFO860265
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1741452467;
+	bh=cfYhmh7hfT5eY8aPopfdC0CAHsTKij6RMoNpyAJXLyw=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=tS1cZDZBo0yCSEy2CS5qx0cx2UoMq/+C8W+deWU0PPVgknO4WH+5PzdM3yPSrqPka
+	 a7xpbb98dIC7Iwt8vLwbkNGozQlIh/EQ5NqnA/vJl9hQAqqlxu2ij6g0LW5Ti7FlfR
+	 NDE2JOaqlzbsPrj9TuZXrrSdRSrcdhSHY38C/8eVXK7CUK/ld9yDwRNy5K3CNx/OiL
+	 QlAp+FmCpon2Z8PMwz3bm0UxZpMUGNa9t0aAmim+KC4hC8zXcIejmLRQYcLnV58Tsm
+	 uc0wxuwWEkBGTltvny/tXX7jqGHROsqdocpHEnMDk6jbjrM8rOkf+35jy22YwmOYiK
+	 PscFjRrnMkIkg==
+Date: Sat, 08 Mar 2025 08:47:44 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Borislav Petkov <bp@alien8.de>
+CC: Masahiro Yamada <masahiroy@kernel.org>, "Xin Li (Intel)" <xin@zytor.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        nathan@kernel.org, nicolas@fjasle.eu, sraithal@amd.com
 Subject: Re: [PATCH v1 1/1] kbuild: Add "make headers" to "make help" output
-Message-ID: <20250308164151.GFZ8xzTwiNd1JVcMHT@fat_crate.local>
-References: <20250308040451.585561-1-xin@zytor.com>
- <CAK7LNARHvn4Sy-e4hMmjGt0C7TFaWrGJrLq3YvN0BjehZ8QwSg@mail.gmail.com>
- <FAE530F5-B657-4C72-8D69-7ABA2D3209A9@zytor.com>
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250308164151.GFZ8xzTwiNd1JVcMHT@fat_crate.local>
+References: <20250308040451.585561-1-xin@zytor.com> <CAK7LNARHvn4Sy-e4hMmjGt0C7TFaWrGJrLq3YvN0BjehZ8QwSg@mail.gmail.com> <FAE530F5-B657-4C72-8D69-7ABA2D3209A9@zytor.com> <20250308164151.GFZ8xzTwiNd1JVcMHT@fat_crate.local>
+Message-ID: <DC1CB322-2527-4F6A-8EC4-A76DD35CB564@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <FAE530F5-B657-4C72-8D69-7ABA2D3209A9@zytor.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 08, 2025 at 08:01:56AM -0800, H. Peter Anvin wrote:
-> Unfortunately it seems users haven't been following that :(
+On March 8, 2025 8:41:51 AM PST, Borislav Petkov <bp@alien8=2Ede> wrote:
+>On Sat, Mar 08, 2025 at 08:01:56AM -0800, H=2E Peter Anvin wrote:
+>> Unfortunately it seems users haven't been following that :(
+>
+>If by "users haven't been following that" you mean they've been doing
+>
+>make kselftest
+>
+>in order to run selftests and *that* thing builds headers, then yes, you'=
+re
+>right=2E
+>
+>Oh look:
+>
+>PHONY +=3D kselftest
+>kselftest: headers
+>	   ^^^^^^^^
+>        $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
+>
+>:-P
+>
 
-If by "users haven't been following that" you mean they've been doing
-
-make kselftest
-
-in order to run selftests and *that* thing builds headers, then yes, you're
-right.
-
-Oh look:
-
-PHONY += kselftest
-kselftest: headers
-	   ^^^^^^^^
-        $(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
-
-:-P
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+That's not the only one=2E Point being that users have been using it so it=
+ is better to make it official than breaking it=2E
 
