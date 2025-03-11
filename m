@@ -1,117 +1,120 @@
-Return-Path: <linux-kbuild+bounces-6055-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6056-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0166EA5BEE1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 12:25:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 499E8A5C1F3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 14:08:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BC951885F42
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 11:25:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E254E3A5AF4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 13:08:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26BF7253F05;
-	Tue, 11 Mar 2025 11:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6A614502F;
+	Tue, 11 Mar 2025 13:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UnCvqARG"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="bvmEz73A"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D64253B5D;
-	Tue, 11 Mar 2025 11:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563C235973;
+	Tue, 11 Mar 2025 13:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741692325; cv=none; b=c+BJXon8KH/v+2oOrh4WM+2ZmpODhG/Dz3O6V77Vj7Gc+Lyl/Ux7Ufg29FdMU4lj4oS63vpOi+noBcnBnd+HADth8tSls324Ir+k2h+PegX5g6GDohVhsN/y32kav1Ws08ch98GAAXHpK8yACxIS8aIZLwxOPHsB8HIJGufJ47s=
+	t=1741698514; cv=none; b=IqYSN81AqRcOpCoN1K0P9MPtwevJFyC0AHlwl9iiwqPou6A1wuLSSdgihbtR660tQaMRtnan/G0s874GR3ZouaBb0iTglXbFT0XIIDeahVyDdNKgM8jrvm3sJYL32bbt3oFdVwMeE/h7Dlrql9GpNlELfbdngCaxDS6wQex3Z5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741692325; c=relaxed/simple;
-	bh=uZ7Z+RehYAPUxpL5pUcapSesQqtDYnmhf5cqsLhYGO4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qiB47tEROw/ZHmQIfhHqtIyefK6eFMv3435a9nPWdKMd9txr0oyIaYaKSmA6wVBuMdFwMsv+tbDiRsKMInYk2t3N5aIQYf0qj57WSXuLfFztI4UrWP54+MwWbdO9MF0uMHHnNxDaCJlMXDW5mJizsDYjpYrBUBXh2kmvz884j88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UnCvqARG; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22409402574so11109055ad.1;
-        Tue, 11 Mar 2025 04:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741692323; x=1742297123; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uZ7Z+RehYAPUxpL5pUcapSesQqtDYnmhf5cqsLhYGO4=;
-        b=UnCvqARGYsyj6g5rm+NroaRgICgwVFmXARLnIGuewyzRTZqWLgVMetJXN8opQyQsKC
-         J2WpH3u8mP1O4omrAnXE19f9US1YlWhe11gUWPUah+jmmWFU8eovElPmEzPYnlH1XbZ3
-         948ypr+Nai7me7TPqUOS4q8ubwdJGv5JwtkJyFn73eyqpgZNb3b2DPkEli7K1TWF5SKw
-         hdQo8Jwnn+YbEnqN08lzC6afFwNW6xszE73T557vnD+EP4KEvTkX0DB72AWRN9omsLpa
-         tbpFM84BqQ9M+8oim6kcdnNJZ5+cufiuwmMe+r7eMCAedll3SUaQm7l9hC55tofj6knL
-         vr+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741692323; x=1742297123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uZ7Z+RehYAPUxpL5pUcapSesQqtDYnmhf5cqsLhYGO4=;
-        b=AmMNryF9b90WjKH1nItiRo6MTlKs3hzBum4kEppCGarrj/pUlM0nt6FoPWQKBgdXXJ
-         D8AU+4T81cKzlCAXTrZXIk2pQWEuHBMd3FtTRhulpLQD/X2Vh7YLg/OpZ6x2dG1hvNq6
-         msRIAF1G1MExE8VBxPIi0vketfrrDfXuPK/rXsf5cOUkmIhmD0TyA075PadtnN2nkr7A
-         JEBO3KvX/wqVcZfjwX5PBrO1p/EwjSbE7RG7DeVufwBVZp8ZLbsOj98Zf8KKTQZJsKa6
-         MY/kgCMEKfvT7PQznFr9gqA98JA68Wal46R6FqC36cfr27J2FJ8RZMKWMVFo08pAYrAL
-         PUYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdOyHAaByHDK4YKvF+4Pp4f0PgJy/vHBomP5R7oINK9V3wj1LWeL9k1gzzydQVsemyv9fzJWjs2iiFKUk=@vger.kernel.org, AJvYcCUqBiGwnqgk9bvwytL1J/8AipcCRDkR+1usp2i37/cMdliT9bX8as1CwYvw0SUEX+RjvpQgvYOaPpJoi9mtvfk=@vger.kernel.org, AJvYcCV++9E0jlTr2GixSflyyxR3uE6LpIEgWB/MmeB9UFln7khcieodJOZA9JHViKY6TAI1vuVd3V2ZCaxO1o2E@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc7yUe0fX8vpehEI9Gltx9/qBV2UFVQ9YbZGMuCF3F23Gofwh2
-	nDJ23gi63xh6JGVmR8hF5ZZoHhPs/R7iYT455ZqHIf++gvlihJIi6Fjhvgg2I1L5c05yZ98Q5UF
-	26aBqUa45GfNNnYV4eG5pBbQQA3g=
-X-Gm-Gg: ASbGncvhNZVlnxi0snJtk51phY8SUxcYvkHImsA5880AfYdif6vLgPZd3idtj/KDFlc
-	RMhbQfPptPQCvQlnyRChJ5XSR5ptq+qPcuX6d/1UBM3m9xhNVdJzdr4j0Y1VpRUVObfF0Az7ghm
-	8w/nx9C2rSyj+jTB0MvggAwd9N4g==
-X-Google-Smtp-Source: AGHT+IFerWSSRnD9v86YeC/80CVF/PDb0ihirl1213NdB/dcv5ANfOwY/e+8Y9lVWiGeMvAc9tn8g0ooXf5XvUlUiWQ=
-X-Received: by 2002:a17:902:d48d:b0:220:e98e:4f17 with SMTP id
- d9443c01a7336-22541ea9638mr71862085ad.2.1741692322799; Tue, 11 Mar 2025
- 04:25:22 -0700 (PDT)
+	s=arc-20240116; t=1741698514; c=relaxed/simple;
+	bh=ck/zlJNE5eU83nztFEGSZ4ENuEUd6qotY8RuqJUlojk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ROVZHjYgvqHZUCtrETjKhlMeYQY9owEuEN2AHy5uBqnoPizmMRHu3OGTBW9++50FiyH77bLEXIMtyN/bzgifF43sEaOq5yEBE5Eca7S5FiGm4LYDssBuzxByDao1S8iEGD3bYN9frw1x/uBEOq2EOR5b0FEMgn9NYU1I7iFJscY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=bvmEz73A; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1741698503; x=1741957703;
+	bh=blWTqaPziEQ/pUrrx4UHOMKEPZD4HIZJgcQ2dw8xfZQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+	b=bvmEz73A4uNLFvcDdB/Xf4bNFipqifYoxkaBO4jTO0Rjf2gt2XI4K/I/VBbtCF/wn
+	 6NYcVbYN4scD5WY6kOtA7/yH8rXx8eOdp9Hi7YEM5xlr59G/WzD8TYjP9KIzvfZqY5
+	 XbqxJh0HAY/WO4FgWAEA4pzxaqkuyHilWZVtq4JXbQ5hLx2JzKlLyRrWuS4jrRcIHP
+	 cFAFO5+RuGuD5AU7qMXjbNLLZ84AurNtodZBRfJyc0BFb/LhaJuLeUGvSh06F6ER9T
+	 6KXp/xSboTLqtaLLIgyRsMtZ1vCQW1JhTTW21PYUgj/VeVyLUWSljxepU0qGmhFf67
+	 /TKIb21Xfj/dQ==
+Date: Tue, 11 Mar 2025 13:08:19 +0000
+To: Tamir Duberstein <tamird@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, linux-block@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] rust: enable `clippy::as_ptr_cast_mut` lint
+Message-ID: <D8DGL6WY04GZ.207MFVQMKY35G@proton.me>
+In-Reply-To: <20250309-ptr-as-ptr-v2-4-25d60ad922b7@gmail.com>
+References: <20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com> <20250309-ptr-as-ptr-v2-4-25d60ad922b7@gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: f8bf13b601952848b958efec8bb21301139d199a
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
- <CANiq72mcpVL1YXyDFi-PrbQ2Uh0WUA_VNqLZaOeqQnpY5HnX8Q@mail.gmail.com> <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
-In-Reply-To: <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 11 Mar 2025 12:25:10 +0100
-X-Gm-Features: AQ5f1JpdJuaCqSDi_HshZJxMo3vvlLqCilD4cHL1BkIjDHJ8ZAF5-Ex-MPIJtas
-Message-ID: <CANiq72n9Wo6Mf7sVfm2akqiKknGNeTegiMesNtHzbHhWS4iQTQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild, rust: use -fremap-path-prefix to make paths relative
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Ben Hutchings <ben@decadent.org.uk>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	Urgau <urgau@numericable.fr>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 11, 2025 at 12:04=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
+On Sun Mar 9, 2025 at 5:00 PM CET, Tamir Duberstein wrote:
+> In Rust 1.66.0, Clippy introduced the `as_ptr_cast_mut` lint [1]:
 >
-> GCC manual mentions the below about the -fdebug-prefix-map=3Dold=3Dnew
+>> Since `as_ptr` takes a `&self`, the pointer won=E2=80=99t have write
+>> permissions unless interior mutability is used, making it unlikely
+>> that having it as a mutable pointer is correct.
 >
-> "It can also be used to change an absolute path to
-> a relative path by using . for new.
-> This can give more reproducible builds, which are location
-> independent, but may require an extra command to tell GDB
-> where to find the source files."
+> There is only one affected callsite, and the change amounts to replacing
+> `as _` with `.cast_mut().cast()`. This doesn't change the semantics, but
+> is more descriptive of what's going on.
 >
-> I guess "the extra command" might be a bit annoying.
+> Apply this change and enable the lint -- no functional change intended.
+>
+> Link: https://rust-lang.github.io/rust-clippy/master/index.html#as_ptr_ca=
+st_mut [1]
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 
-Ah, so you mean that could be reason for not doing it for the debug
-case -- I see, thanks!
+Reviewed-by: Benno Lossin <benno.lossin@proton.me>
 
+---
 Cheers,
-Miguel
+Benno
+
+> ---
+>  Makefile              | 1 +
+>  rust/kernel/devres.rs | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index c62bae2b107b..bb15b86182a3 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -477,6 +477,7 @@ export rust_common_flags :=3D --edition=3D2021 \
+>  =09=09=09    -Wrust_2018_idioms \
+>  =09=09=09    -Wunreachable_pub \
+>  =09=09=09    -Wclippy::all \
+> +=09=09=09    -Wclippy::as_ptr_cast_mut \
+>  =09=09=09    -Wclippy::ignored_unit_patterns \
+>  =09=09=09    -Wclippy::mut_mut \
+>  =09=09=09    -Wclippy::needless_bitwise_bool \
+> diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+> index 3a9d998ec371..598001157293 100644
+> --- a/rust/kernel/devres.rs
+> +++ b/rust/kernel/devres.rs
+> @@ -143,7 +143,7 @@ fn remove_action(this: &Arc<Self>) {
+>              bindings::devm_remove_action_nowarn(
+>                  this.dev.as_raw(),
+>                  Some(this.callback),
+> -                this.as_ptr() as _,
+> +                this.as_ptr().cast_mut().cast(),
+>              )
+>          };
+> =20
+
+
 
