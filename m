@@ -1,114 +1,146 @@
-Return-Path: <linux-kbuild+bounces-6075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6076-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF91A5D10F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 21:50:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D440BA5D153
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 22:05:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 55BE83B731B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 20:50:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DD27189E88C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 21:05:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02C3B2641F5;
-	Tue, 11 Mar 2025 20:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0280D224AEB;
+	Tue, 11 Mar 2025 21:05:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0bUizCs"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="APt9RGl0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875E62620F9;
-	Tue, 11 Mar 2025 20:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E429222572;
+	Tue, 11 Mar 2025 21:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741726211; cv=none; b=eyj2WYMi/PDrLSm56oZTm+L1Q39OCvBH1d9rTgnrhPaDrLpiSQf0vNMn+n+FHLFlMyWJ37YWSjtPA6ZYIK2D20XIa051L9xFdMfwP9QEceriLwdAne4ELWt1IR2vdLq3C78XNAZkISgA0xZO7MKSF2SkveivLlOcHFHzsNyTGo8=
+	t=1741727100; cv=none; b=aDp1owstudP5gxT0xN5bTyMmpaJo6MZ0mPBpnca2bamRUllOVMIF7Xp/efONZfMeNwKwaVICPKjK9jYX7mnUmq/I82RfYCxJqZu8dXCBY7oAepXmLk1hRGgb5QAmOsZT+ijgTDMNST2cHoghN8qOzGcR40SmwD38TnnTsBO6Pvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741726211; c=relaxed/simple;
-	bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rz6oqNvGCl1MjOKIV73SgOocjmmFLCFeIe0TwjcoQckpXDd4cmNI3wRbUuX2pH5GeVXr9GEjYk8Y16qmNEfB+UcA606ML3/C+mWlz8WqdCNdtbktyriYi7VYhSBGC0j2hz7I0BwAGDzCQxckxesvgzzT9DbyfF9SIWcTelHEnyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H0bUizCs; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2217875d103so13012575ad.3;
-        Tue, 11 Mar 2025 13:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741726210; x=1742331010; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
-        b=H0bUizCs18oHpEp1Olr4prlrkbDaq9aHcupuydxe/XcmmoEqf/S51BUDftog0YS1Yo
-         WLKJTS59n8OBbOrc8WW9S2NDLC12pGy1CxdxNjQFfyUijbG6ovPX2iS/mF97131RfOxB
-         P6VbtbptFVTL/AQ1HYt8YJowL0bK+9XRl1khkERW1Db/Tv/k0qRBr1lIDqM6JRltiHrz
-         0oESvkYcC4vC010JQbEMfokEhQIwN5pkWareD4MXi0IdTHe9nLVdB6XwUZcnOurgqtk/
-         k4jXLIBwSvWramERRs359LKOLq8N2vKFQZq4/1RQ2H82ATxZmFJYTZ93kFjse+75w9Eh
-         Bw3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741726210; x=1742331010;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
-        b=YAdisoZAtERcCK40SWjzkcj3NwhItKnFKWKQ4Rwr2fyduu6JOzdwaZ18a4sPIBM7yX
-         JuUqpxjqZbmATkHgxBfPYbGZL5nhT8H7u2qkB3oosa1nF2MAQbjQJFR1c4eykaEcKhVU
-         UGr9n7ytf8O/ThK1lqJwwkrFdJjiVUMD6N+sHH4Ao7PDq7rq1/d4NxMmteqekH2gzb09
-         5JkfnaLv5+1vofBlSDm/YF1/QJ9kYpjcX+raJ3tdNFWp72yabSt+ve+NzhcWFHpiGnLe
-         baPtgcgSe4XXASfYzg8mWpIrK3aMeZOuI2y6GIYYOiah1sifCzTCw37yKkrtMeP3nkfx
-         OM8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUrv0uUrrDp0Glw68FdgRMfKgLliruCkXqF0ejoxn8i6eBXfW3iximsNAk2JIOsTU6l7C2HvCUwe8aQFjG4LSE=@vger.kernel.org, AJvYcCV1HZZXulFP4keccihcjnABTsSCvdSxdi7Fw2Iru0bwbqiRybYTUKL5OpxA7R9HI0wY0MYxjahnZUv+@vger.kernel.org, AJvYcCV9Q9mSF+IzhDPsOs3r0Qur/nPDR2fJRxMZxcggk1EjGoeGAHH/6mNczdFEwdkgPnpfumyslnTlzzeAAWFxg6zs@vger.kernel.org, AJvYcCVYklpJrhGblkPoYBz+WGBpKVCAPcTU96Vqf78HCdQILVJLZla/ipohoLQcV7COsxB3vbAAGkJ25HAk9UM=@vger.kernel.org, AJvYcCXS7f4TpD+ooRIdlev30yVPIkPE3hovYNJq4VtbaDCt+R+jpF4h3KnYuwmaNHADRE9R7viTtwhEhrELm/OI@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7N1PhtBaaLP44nYGJfMDP1V23IJM/zjDMO0Pw8N/PnvnKmBWg
-	XPKX0rpSSirvthB64mb2UB8MvWSTPkSqPp2qCld5qD3W08ethEwUE+GemZdYcgqaB05Lic6IK2I
-	ADcaXBhgt1WHNIsQkisONoi09IH3Cltc3fLq7hA==
-X-Gm-Gg: ASbGncs29ePX9eiq5F9mOtVI4H800FNQdmwsHewfkA9D1FuqXWHesmt5BHY2WHOYoio
-	OeFxg4MAaoEkq+dsFUDVoRAV/JKGxNUyRbVC54Nn8I+Bh8mNFtHqgSsRahYbERz9sR9qorBWMOz
-	vmq+gwcyQZh3eqOSmuOSq0NWmziw==
-X-Google-Smtp-Source: AGHT+IF6Iu5cJXNrmMcH037VEuQgEw5FQiSeS4rw7qJG+vfgUlX6Z+xe0TEh54YrTrzNEmVy1nOOetWOtZm26Z9qTGA=
-X-Received: by 2002:a17:902:c952:b0:223:659d:ac66 with SMTP id
- d9443c01a7336-22593302b09mr26173505ad.12.1741726209805; Tue, 11 Mar 2025
- 13:50:09 -0700 (PDT)
+	s=arc-20240116; t=1741727100; c=relaxed/simple;
+	bh=PbrbTkpkyfNdlih0/V9VTYpRyWEsPGhl4jbqwjfOzS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gBi3YKsWPK3PFrjnTXcNKbqWB8oizHDY/Vuc/1yRDEpgiXvLSPPQMGcPiX+JOPNsMo+rbVyUhPBNIgSU9CsSFA2dtqOVI9L6nK2iTHZ/XxntvYlLFJJEbO9sDnnxNu8BhY+7ZEvVnWwrCSbuwoSuDro8rqpYGaj2rSO8KSFjUCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=APt9RGl0; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1741727097;
+	bh=PbrbTkpkyfNdlih0/V9VTYpRyWEsPGhl4jbqwjfOzS8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=APt9RGl0K7e6V6tAglj0pmLww/GIZ1pLxh4x5Nw4NaMGTMwMtIk42wJ4Cl8IUoq/I
+	 e1Hb3OINFntBeG99F2S4vY+QG3sIOuhYj43WSQeXZ8u2xIj9fhAHbQQ7c38W7aUznf
+	 opECeFb/PU2LM3mVVpio3JrrhM5Pa5riJ+dXli40=
+Date: Tue, 11 Mar 2025 22:04:56 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Ben Hutchings <ben@decadent.org.uk>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, Urgau <urgau@numericable.fr>
+Subject: Re: [PATCH] kbuild, rust: use -fremap-path-prefix to make paths
+ relative
+Message-ID: <ed6acfb2-f1a0-4713-8401-60b0cfcd2e91@t-8ch.de>
+References: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
+ <CANiq72mcpVL1YXyDFi-PrbQ2Uh0WUA_VNqLZaOeqQnpY5HnX8Q@mail.gmail.com>
+ <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
+ <c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk>
+ <CAK7LNARdPcnsaP-z7tZUQLqAgBXD90XsEWAtTy8aTwDpTqMo9A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
- <202503120332.YTCpFEvv-lkp@intel.com> <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
-In-Reply-To: <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 11 Mar 2025 21:49:56 +0100
-X-Gm-Features: AQ5f1JpxGxSGer3XisukrOBay0DQPLazUdlb5Q5D9ZecG6Ve_YwoPvaVLT-TLE8
-Message-ID: <CANiq72n2cYvAWkz+QwG9++NknaN-A2g=N4AeatADwRZ1pWtk0A@mail.gmail.com>
-Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARdPcnsaP-z7tZUQLqAgBXD90XsEWAtTy8aTwDpTqMo9A@mail.gmail.com>
 
-On Tue, Mar 11, 2025 at 9:44=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> By the way, it would be great if the email also included the rustc versio=
-n used.
+On 2025-03-12 04:07:51+0900, Masahiro Yamada wrote:
+> On Wed, Mar 12, 2025 at 2:36 AM Ben Hutchings <ben@decadent.org.uk> wrote:
+> >
+> > On Tue, 2025-03-11 at 20:03 +0900, Masahiro Yamada wrote:
+> > > On Mon, Feb 17, 2025 at 10:23 PM Miguel Ojeda
+> > > <miguel.ojeda.sandonis@gmail.com> wrote:
+> > > >
+> > > > On Mon, Feb 10, 2025 at 6:11 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > > > >
+> > > > > Remap source path prefixes in all output, including compiler
+> > > > > diagnostics, debug information, macro expansions, etc.
+> > > >
+> > > > Hmm... We don't do all the cases in the C side -- the docs ask to use
+> > > > `KCFLAGS` when one wants to remove them in the debug info:
+> > > >
+> > > >     https://docs.kernel.org/kbuild/reproducible-builds.html#absolute-filenames
+> > > >
+> > > > I am not sure if there is a reason not to cover all cases in C (Cc'ing Ben).
+> >
+> > I think we should use the prefix-map options by default, for both C and
+> > Rust code.
+> 
+> A patch is appreciated.
+> (top-level Makefile change with updates
+> in Documentation/kbuild/reproducible-builds.rst)
 
-Yeah, I think I may have mentioned it at some point... For the moment,
-one can look for it manually in the linked config (i.e.
-`CONFIG_RUSTC_VERSION_TEXT`).
+I'm happy to send a patch.
+The new patch will conflict with the rust patch.
+Could you push the current kbuild tree to git.kernel.org so the new
+patch can be based on top of it?
 
-Cheers,
-Miguel
+> > The default of using absolute filenames only works when the build and
+> > debug systems have their sources in the same absolute directory.  For
+> > some developers this will always be true because they're the same
+> > system.  In the general case, and particularly in production, it's
+> > unlikely to be true.  See below.
+> >
+> > > GCC manual mentions the below about the -fdebug-prefix-map=old=new
+> > >
+> > >
+> > > "It can also be used to change an absolute path to
+> > > a relative path by using . for new.
+> > > This can give more reproducible builds, which are location
+> > > independent, but may require an extra command to tell GDB
+> > > where to find the source files."
+> > >
+> > >
+> > > I guess "the extra command" might be a bit annoying.
+> >
+> > The command in question is "dir <source-root-directory>".  It's not
+> > particulary annoying.  It also isn't needed when invoking gdb with the
+> > kernel source root as its current directory.
+> >
+> > Running that command adds the directory to gdb's source search path,
+> > causing it to look for sources referenced in debug info by:
+> >
+> > 1. Appending the full filename to that directory
+> > 2. Appending the base filename to that directory
+> >
+> > (This is slightly simplified from the docuemntation at:
+> > <https://sourceware.org/gdb/current/onlinedocs/gdb.html/Source-Path.html#Source-Path>.)
+> >
+> > When the debug info has relative filenames, case 1 should always work.
+> >
+> > When the debug info has absolute filenames, case 2 can work if all
+> > sources are in the same directory.  But the kernel has source files
+> > spread across many directories, so there's no general way to make gdb
+> > find them all.
+> >
+> > Ben.
+> >
+> > --
+> > Ben Hutchings
+> > A free society is one where it is safe to be unpopular.
+> >                                                       - Adlai Stevenson
 
