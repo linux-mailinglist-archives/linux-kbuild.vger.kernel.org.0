@@ -1,120 +1,113 @@
-Return-Path: <linux-kbuild+bounces-6056-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6057-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499E8A5C1F3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 14:08:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF66A5C547
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 16:13:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E254E3A5AF4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 13:08:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9239C3A9F49
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 15:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6A614502F;
-	Tue, 11 Mar 2025 13:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C5925D8F9;
+	Tue, 11 Mar 2025 15:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="bvmEz73A"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="vJxnF0Pp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563C235973;
-	Tue, 11 Mar 2025 13:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65412B9CD;
+	Tue, 11 Mar 2025 15:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741698514; cv=none; b=IqYSN81AqRcOpCoN1K0P9MPtwevJFyC0AHlwl9iiwqPou6A1wuLSSdgihbtR660tQaMRtnan/G0s874GR3ZouaBb0iTglXbFT0XIIDeahVyDdNKgM8jrvm3sJYL32bbt3oFdVwMeE/h7Dlrql9GpNlELfbdngCaxDS6wQex3Z5I=
+	t=1741705827; cv=none; b=ZkwQVx/8hOzTYaSpFwXK2mRZOthGm6eOaYmIWAAuWoV/xtt7+MZcY8IYjXJnlQEpktcdVPe9SaR3wNOqWH5bcx/LGWnFVu45bocJrWBozm3j7RP6+gCydkhpQ2lNjp3dw6jZjVgM/j4ZARtS2P34KaImxv1xTL9MfwhTddI7RwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741698514; c=relaxed/simple;
-	bh=ck/zlJNE5eU83nztFEGSZ4ENuEUd6qotY8RuqJUlojk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ROVZHjYgvqHZUCtrETjKhlMeYQY9owEuEN2AHy5uBqnoPizmMRHu3OGTBW9++50FiyH77bLEXIMtyN/bzgifF43sEaOq5yEBE5Eca7S5FiGm4LYDssBuzxByDao1S8iEGD3bYN9frw1x/uBEOq2EOR5b0FEMgn9NYU1I7iFJscY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=bvmEz73A; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1741698503; x=1741957703;
-	bh=blWTqaPziEQ/pUrrx4UHOMKEPZD4HIZJgcQ2dw8xfZQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=bvmEz73A4uNLFvcDdB/Xf4bNFipqifYoxkaBO4jTO0Rjf2gt2XI4K/I/VBbtCF/wn
-	 6NYcVbYN4scD5WY6kOtA7/yH8rXx8eOdp9Hi7YEM5xlr59G/WzD8TYjP9KIzvfZqY5
-	 XbqxJh0HAY/WO4FgWAEA4pzxaqkuyHilWZVtq4JXbQ5hLx2JzKlLyRrWuS4jrRcIHP
-	 cFAFO5+RuGuD5AU7qMXjbNLLZ84AurNtodZBRfJyc0BFb/LhaJuLeUGvSh06F6ER9T
-	 6KXp/xSboTLqtaLLIgyRsMtZ1vCQW1JhTTW21PYUgj/VeVyLUWSljxepU0qGmhFf67
-	 /TKIb21Xfj/dQ==
-Date: Tue, 11 Mar 2025 13:08:19 +0000
-To: Tamir Duberstein <tamird@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, linux-block@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] rust: enable `clippy::as_ptr_cast_mut` lint
-Message-ID: <D8DGL6WY04GZ.207MFVQMKY35G@proton.me>
-In-Reply-To: <20250309-ptr-as-ptr-v2-4-25d60ad922b7@gmail.com>
-References: <20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com> <20250309-ptr-as-ptr-v2-4-25d60ad922b7@gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: f8bf13b601952848b958efec8bb21301139d199a
+	s=arc-20240116; t=1741705827; c=relaxed/simple;
+	bh=uvzLfD2akr36Mr5Q1GJLF1vdsqE4DCbAl38YOf7RmPU=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
+	 References:In-Reply-To; b=FOrmuM80e7wRPLvCLRew/v5exkEVAIgqLmsJqLtW9qb6UJVxvOuDLgJebtuSp2WL+pRzIXrPPAcwR40MORz6LPbhyeqjI/cD6NP4ZQjIOfPUZeH36TU5yNvGSOj/JlAYWpbWpc3WCc+2ekPn17fTtWw7X6az3MMNwWiAwlCHM+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=vJxnF0Pp; arc=none smtp.client-ip=212.42.244.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1741705815; bh=uvzLfD2akr36Mr5Q1GJLF1vdsqE4DCbAl38YOf7RmPU=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=vJxnF0PpneudH/0RUVfqEZD+6rFdtAZkRVlIWfVmlWnNjJkyDVmxIGh03yS/dEqNb
+	 RxXjbZtfxdbFtEh7Xw8NXJKkzaWy9q/SxsTaYMk6KZb3w0zqOZM6NKNL8qxDjUHhGO
+	 xpsLSOFwbmdmmoyTRGJOriSJ/V4fs0unPuEhfejE=
+Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.52.1)
+	(envelope-from <n.schier@avm.de>)
+	id 67d05257-1471-7f0000032729-7f000001d72e-1
+	for <multiple-recipients>; Tue, 11 Mar 2025 16:10:15 +0100
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Tue, 11 Mar 2025 16:10:15 +0100 (CET)
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Tue, 11 Mar 2025 16:10:14 +0100
+Message-Id: <D8DJ6L3FYOBS.2LX1B9RRJVXA4@avm.de>
+Cc: <masahiroy@kernel.org>, <nathan@kernel.org>, <nicolas@fjasle.eu>,
+ <bp@alien8.de>, <hpa@zytor.com>, <sraithal@amd.com>
+Subject: Re: [PATCH v2 1/1] kbuild: Add a help message for "headers"
+From: "Nicolas Schier" <n.schier@avm.de>
+To: "Xin Li (Intel)" <xin@zytor.com>, <linux-kernel@vger.kernel.org>,
+ <linux-kbuild@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+X-Organisation: AVM GmbH, Berlin
+References: <20250311054932.1931853-1-xin@zytor.com>
+In-Reply-To: <20250311054932.1931853-1-xin@zytor.com>
+X-purgate-ID: 149429::1741705815-3C55C9D3-74A5AE16/0/0
+X-purgate-type: clean
+X-purgate-size: 1310
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
 
-On Sun Mar 9, 2025 at 5:00 PM CET, Tamir Duberstein wrote:
-> In Rust 1.66.0, Clippy introduced the `as_ptr_cast_mut` lint [1]:
+On Tue Mar 11, 2025 at 06:49 CET, Xin Li (Intel) wrote:
+> Meanwhile explicitly state that the headers are uapi headers.
 >
->> Since `as_ptr` takes a `&self`, the pointer won=E2=80=99t have write
->> permissions unless interior mutability is used, making it unlikely
->> that having it as a mutable pointer is correct.
->
-> There is only one affected callsite, and the change amounts to replacing
-> `as _` with `.cast_mut().cast()`. This doesn't change the semantics, but
-> is more descriptive of what's going on.
->
-> Apply this change and enable the lint -- no functional change intended.
->
-> Link: https://rust-lang.github.io/rust-clippy/master/index.html#as_ptr_ca=
-st_mut [1]
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-
-Reviewed-by: Benno Lossin <benno.lossin@proton.me>
-
----
-Cheers,
-Benno
-
+> Suggested-by: Borislav Petkov <bp@alien8.de>
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 > ---
->  Makefile              | 1 +
->  rust/kernel/devres.rs | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> Changes in v2:
+> * Revise the help message for "headers" (Masahiro Yamada).
+> * Revise the shortlog (Masahiro Yamada).
+> ---
+>  Makefile | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/Makefile b/Makefile
-> index c62bae2b107b..bb15b86182a3 100644
+> index 70bdbf2218fc..62afeda58080 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -477,6 +477,7 @@ export rust_common_flags :=3D --edition=3D2021 \
->  =09=09=09    -Wrust_2018_idioms \
->  =09=09=09    -Wunreachable_pub \
->  =09=09=09    -Wclippy::all \
-> +=09=09=09    -Wclippy::as_ptr_cast_mut \
->  =09=09=09    -Wclippy::ignored_unit_patterns \
->  =09=09=09    -Wclippy::mut_mut \
->  =09=09=09    -Wclippy::needless_bitwise_bool \
-> diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
-> index 3a9d998ec371..598001157293 100644
-> --- a/rust/kernel/devres.rs
-> +++ b/rust/kernel/devres.rs
-> @@ -143,7 +143,7 @@ fn remove_action(this: &Arc<Self>) {
->              bindings::devm_remove_action_nowarn(
->                  this.dev.as_raw(),
->                  Some(this.callback),
-> -                this.as_ptr() as _,
-> +                this.as_ptr().cast_mut().cast(),
->              )
->          };
-> =20
+> @@ -1659,7 +1659,8 @@ help:
+>  	@echo  '  kernelrelease	  - Output the release version string (use with=
+ make -s)'
+>  	@echo  '  kernelversion	  - Output the version stored in Makefile (use =
+with make -s)'
+>  	@echo  '  image_name	  - Output the image name (use with make -s)'
+> -	@echo  '  headers_install - Install sanitised kernel headers to INSTALL=
+_HDR_PATH'; \
+> +	@echo  '  headers	  - Build read-to-install uapi headers in usr/include=
+'
 
+ready-to-install (a 'y' is missing)
 
+> +	@echo  '  headers_install - Install sanitised kernel uapi headers to IN=
+STALL_HDR_PATH'; \
+
+In documentation and comments, UAPI is written in capital letters.  I=20
+think it would be good to keep it this way here, too.
+
+Kind regards,
+Nicolas
 
