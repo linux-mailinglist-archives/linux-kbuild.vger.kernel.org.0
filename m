@@ -1,136 +1,176 @@
-Return-Path: <linux-kbuild+bounces-6073-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6074-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD44AA5CFFA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 20:54:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0037FA5D0E9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 21:45:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 770E03B9948
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 19:54:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D6F1189431C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 20:45:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4241122256E;
-	Tue, 11 Mar 2025 19:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76008264A9B;
+	Tue, 11 Mar 2025 20:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lGefwrkS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMS6SPfj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AFD23774
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Mar 2025 19:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D07A264A87;
+	Tue, 11 Mar 2025 20:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741722853; cv=none; b=oULfvly+kMIonAWQO9KKF7aa0cJiElN94abaL3YMd4yb7wpAavtgPmGf2d8r5E+Ml08YBPivkx6SZ4T1V3WA+MjdvYxS1crX3GCVOmZzFulTMXKYbWa3INcXf8YE5HNPtB8TlAlXfmOHy0JquQbYHw8dmQKCsnf3kpb0XRBTXcs=
+	t=1741725891; cv=none; b=U37ixX+125PrXaDpBlLpY/5xmU4L+dqED2B/jDs5YbA8Alr1DoBP9UDE840WrxI2gGxMN25pbwKSzKKZfBT4w89obKsnSZLPK/jM37j43+IFNXmYQdtbNjdB0a9jnBt9g2Ua8Kf/yDRB8D1vY3K26LHpuHmmDoDsKK991opebt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741722853; c=relaxed/simple;
-	bh=Entolay+VAXdxyC0CH6yST+s5QzAg2i+syp/vkY4tBc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZhhrsEj293pwjwseTYLdgEPrabO7DKEAfWYgzoQmO3gBn/HE0i3P1lnDZVcLTksiNVWxPXpiyBkAV1EAuI9fsyUOiyQNAo304pMmNRH7K88GsqPWL65cg76WuBFi1EcM7BKFdNZxtssybsGIHXGKS2mYJws3B87H7jVwzv8m1+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lGefwrkS; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52BJ8OCP027051
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Mar 2025 19:54:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8LvrzCoyRcnokqfWsWAyaCE8ZZEx0wnVjTTpDK4H0Gs=; b=lGefwrkSrMT01Brn
-	MZPMWKB8cKXXo3GtRDh6P4ksGFvg0+vM91zxHe2ejzoLIQ03OrGGYOrGTYG/LuHS
-	XRQmUWfMIO/5X6ZNzfR1UonNp49hShVkog6q0ihPi6b/xC68d71qlggu6/HKL9Go
-	jWmQPP/jOxvFTSQmPbzMvUo6yqJGzJWSoEYtZ+aMYHZy6hLlG/z94gJL/TwKHdra
-	cG5xCs5+g/zUA6y43JSRH8SSkn0zxdgnANDYTc9TpcPBPCMJ2AwpZBRpLGJ2g2CI
-	mhQZm6QBX5k67g25JcXceB+gWsvg7kW680D32oVJJolxqZQOlY6cKfsRBi3fqJ9b
-	UTXn6w==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2pr36h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Mar 2025 19:54:10 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-224364f2492so61167365ad.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Mar 2025 12:54:10 -0700 (PDT)
+	s=arc-20240116; t=1741725891; c=relaxed/simple;
+	bh=5L8IANelHOxBjXBUu5dZfDsUSMGYSsqPKkO9bJkFzr8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qCS8iCyku0YWT6kxQWAofvvlQ1oaAiCi0+KXeuasagAYXSIXs3EN3/yIlEf0EgStKC0M6T2rEaDCqhiW8sr6sngk7Zhthcs3OBIIp3Bog7AmrpxDju7qLd7Q3tNAk9CyI3aM9xcfgltsFENMEb42JO5LeBlEOpVo2gSrcdDo6qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMS6SPfj; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30c2d427194so5683591fa.0;
+        Tue, 11 Mar 2025 13:44:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741725888; x=1742330688; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=duEJ7EHRSllGfBF79uawWV3Uy3v+U7kXTNnhgt38XQo=;
+        b=cMS6SPfjoUR38JgDMJ0mS9Qxo/56jkZiDRRvdll9jVI3T9wvqsL2fc0kJAsfsnl1/T
+         Q5lhbRrvatBj1NTno8p3NPXgBTH8ZQ5f08Zz8XIfozlUYA1A0manhu24iGTsMFepJwsW
+         KEQAe4x6Yf0CFe+vFFHs5j+1oI7q9b8kF2oLY2I3Rpq6dS6hfFXviqlc/82wOFITViki
+         J9VZmUNkPM64CV7yHdYYKn9xVsvWRyEDz5kWVykMMFL39qq6MxlpasJH+WkWLwUZgXg5
+         R5uWF+4qzXqYooBnHHwdKDbTmu8Dw8UJj4YfosVu7AkGnvoPAIOz1QfBVqhMvznGihH1
+         iDlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741722850; x=1742327650;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8LvrzCoyRcnokqfWsWAyaCE8ZZEx0wnVjTTpDK4H0Gs=;
-        b=r2ixb9ZvCSsOqPElJzPWba/zAMmrALA+pBBP0W0GVgORkXO/2s9ub1w1vV2RQD+rfS
-         99RwV/R0dS+FasNGV3gCbp023eyFOTp14uCrfxxt2wpVO/wqF0IbT+3NWFyVDa8a4UIO
-         Zuqn2G5Ydyb/oszDIJssVGI8m8OLFZ50yJSAdn85TV+EXa3sC8/nX31vg3BNH1YGlyn4
-         PnllIPCmOLUqlmnTb8J3nd/5ejvr6eXfcGs69ECeHULWFnM0a3uxlIHFdVUX45DxMmaJ
-         GbYJor0G1eC/ALi4K+adJJ4IJJIUWkHvi9McjEINfiP6YaD2F22fSXFKxj0JQLGIiIws
-         ta5Q==
-X-Gm-Message-State: AOJu0YyhLOMgzIbz43wH0YS2vvuNyxPQRKHidKZlPu8K0ZiAeSLs+zES
-	I0efKRQQyyrB/v0KcsP3mFRrGqWyaNLmDEZbuPIoCkOLFr4N4cXo94mDMSWTtNOtPvgs1csZ4ej
-	Ag6Zq0CEQFU4/jqw8XbTg9Y8+8ta2RBMXCLG3JzJxu2pDdJiwdv2KUHuvGw6TsJE=
-X-Gm-Gg: ASbGnctTa12DOBZIdrVHkFwlFkszxWKO8JM5Ng1NW+tA0PPB/nux8a+yWUAox0DUMGv
-	p6N+OjWhQHDE4rYx5KXCnxSHT77IARSW6hkt/L8UvkEqBOFanx1M6tSA8phaJEGgL0NElT5tUTr
-	xoyvF2mTIYX4/FCVTbbHWFihYmPlZcx/7LicBlxyoe/42obPW8hqyD6HmUKdofh0xQnAxmmkOn1
-	oVbkdM9tZAT4RRHk1Z1DPXLUKmHd/3ig/yxKx4ONPa/7qLFUVOpvVYn1A5zAwsH8xmJ7gyf+gIl
-	wgQPNxj6bDjlc6yDmsAJd+EX9oCa4YZDnFZ6xsip62g/so0GJPOq/SX/HAOAyqb8kNSb1iE=
-X-Received: by 2002:a17:903:40cb:b0:224:10b9:357a with SMTP id d9443c01a7336-22428c05724mr298846855ad.32.1741722850018;
-        Tue, 11 Mar 2025 12:54:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IECJkBAlenpxOBydMU08uTw8PQlAnpehdDmaEUFLZl6XGgFg92N2EQoE2/07x+B2J6JCPdWJQ==
-X-Received: by 2002:a17:903:40cb:b0:224:10b9:357a with SMTP id d9443c01a7336-22428c05724mr298846635ad.32.1741722849669;
-        Tue, 11 Mar 2025 12:54:09 -0700 (PDT)
-Received: from [10.227.110.203] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410aa5cdbsm101668195ad.230.2025.03.11.12.54.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Mar 2025 12:54:09 -0700 (PDT)
-Message-ID: <ffa8d0d4-269a-4bae-9dea-adc221819b17@oss.qualcomm.com>
-Date: Tue, 11 Mar 2025 12:54:08 -0700
+        d=1e100.net; s=20230601; t=1741725888; x=1742330688;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=duEJ7EHRSllGfBF79uawWV3Uy3v+U7kXTNnhgt38XQo=;
+        b=ku1UAiWGDF60YwIr491Al1LIIRZ67GANACDI477G+edvNpN5hWQamOi6Wl69VCdt/x
+         odV1DXuiwgSg+UtXMa3KrdMAonR8vd/zRhJYG/Gl21dETkngnso+McUwqCoiEJRUZPEi
+         p+GMlMGvW6ZCMrDw6FaFlKd3zfTaexBSIr8fxOhCf9MJCsqTWa7qzVSiBEqMOyk/q7CH
+         gtVaA2r/1qjFEkHKxTRjCyETXwL8jNWLpFkwFQyDrmZh36VmTa4MExOkvO/Hn+A+wzj9
+         pxcTv0X96mxG1SmsTifQaCWNtpj1hE2/mSkKgrkCa2eqI43x5Xjzu2TVkSeoIcDwQLLN
+         +iJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7+LohHNDG+QrVUV1/uKl3fWiHsztEZzkBoom9oYKZT8lWupwRWNr+/Zma0UKve6ekf/I0DOvnyeFgZ+g=@vger.kernel.org, AJvYcCWAcxUQGgypgzKn/KDWsyn1SUCkOWyuErWCGZXOTtrQTNXTT9mSnVXL3RcF3rg17nbyLUsiaaijGzDVeJtr@vger.kernel.org, AJvYcCWk3AhSB69arKHr7XzmR/BiGIYT0BNfVSEkr1dB7ZidywodNe/nfrLccLs9pPIXaF/sBB3SiXmu+g5z@vger.kernel.org, AJvYcCX2fyPls5/6eqIQxhtenZPF6xgu51IBmYoX1luByMeZ+U9qbO1uofZwGCxKYxF/Xg3ZzC2OE5SWndA250n/1d0=@vger.kernel.org, AJvYcCXLGB7ZlV9ippezhYYaDhQcXK4HnDWkEHjM44uwUcs2durRqPqL8jpKeAaG+OH9RgRNSZXazY1g5RkcfBGjrtk9@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqWRN5PCAKlY41NoYTejbWpt0qkhbKK87HaL5gVkiD0KQLzbXM
+	XjA3aRKQzqyrgfgfRrlzwgoZPCKGp6UBYQCOnvRslhNSEel+fbGZaT0BX1rL9m7V3T0UngI7/pc
+	p1C+Kt9uR3yQQVyQRcuqkTROqSfI=
+X-Gm-Gg: ASbGnctXMEoB841mzhX3k7VeeO59JVb6D/liq0XFxZ0IyHhC+LIltkBF3nU3gz43Zye
+	eUNnISuK8yoCPi6hgBuZiD/YmSlTgah/zCCiOPvd/1ZQUCDfXJovSBSmDBrd3+Dw/1kfUEXbHo3
+	cln8FNIZMfOglhZA0mQnTLJgK48/LIJMKQDygmXWWFCiMseeCBVHjLMFcNalaO
+X-Google-Smtp-Source: AGHT+IG+EedxjC46NaiJ6woC0q3jeU1QYfuO+EC67MspCOQYOYTyXma/NtrOrk8P1gqUOUHGpPUfHHEJRfzzFrm3JYU=
+X-Received: by 2002:a2e:7a0a:0:b0:30b:f52d:148f with SMTP id
+ 38308e7fff4ca-30c20696d86mr19501461fa.18.1741725887429; Tue, 11 Mar 2025
+ 13:44:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] script: modpost: require a MODULE_DESCRIPTION()
-To: Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250311-moddesc-error-v1-1-79adedf48d0e@oss.qualcomm.com>
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20250311-moddesc-error-v1-1-79adedf48d0e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=P506hjAu c=1 sm=1 tr=0 ts=67d094e2 cx=c_pps a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=EUspDBNiAAAA:8 a=s7k5bkaZ1l7C4rbi0KoA:9 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-GUID: eelAQAkLptBoHAaX3Rbpp7RquHKaD3X7
-X-Proofpoint-ORIG-GUID: eelAQAkLptBoHAaX3Rbpp7RquHKaD3X7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-11_05,2025-03-11_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- mlxscore=0 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503110128
+References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com> <202503120332.YTCpFEvv-lkp@intel.com>
+In-Reply-To: <202503120332.YTCpFEvv-lkp@intel.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Tue, 11 Mar 2025 16:44:11 -0400
+X-Gm-Features: AQ5f1Jrp6VrC5oCAzv7mIYSclKLK180WdY1BUpfSs2ZfWgyDm-P9M5sBgjdaKuA
+Message-ID: <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
+Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
+To: kernel test robot <lkp@intel.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/11/2025 12:49 PM, Jeff Johnson wrote:
-> Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
-> description is missing"), a module without a MODULE_DESCRIPTION() has
-> resulted in a warning with make W=1. Since that time, all known
-> instances of this issue have been fixed. Therefore, now make it an
-> error if a MODULE_DESCRIPTION() is not present.
-> 
-> Signed-off-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-> ---
-> did my treewide cleanup for v6.11, Arnd had a few more stragglers that
-> he was going to fix. I hope that by posting, some of the 0-day bots
-> will pick it up and hopefully provide some feedback.
-> 
-> Note: I'm not really sure if *all* of these have been fixed. After I
+On Tue, Mar 11, 2025 at 3:22=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Tamir,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on ff64846bee0e7e3e7bc9363ebad3bab42dd27e24]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/r=
+ust-enable-clippy-ptr_as_ptr-lint/20250308-004557
+> base:   ff64846bee0e7e3e7bc9363ebad3bab42dd27e24
+> patch link:    https://lore.kernel.org/r/20250307-ptr-as-ptr-v1-1-582d065=
+14c98%40gmail.com
+> patch subject: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
+> config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/202=
+50312/202503120332.YTCpFEvv-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
+5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250312/202503120332.YTCpFEvv-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503120332.YTCpFEvv-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> warning: `as` casting between raw pointers without changing its mutabi=
+lity
+>    --> rust/kernel/firmware.rs:64:35
+>    |
+>    64 |         let ret =3D unsafe { func.0(pfw as _, name.as_char_ptr(),=
+ dev.as_raw()) };
+>    |                                   ^^^^^^^^ help: try `pointer::cast`=
+, a safer alternative: `pfw.cast()`
+>    |
+>    =3D help: for further information visit https://rust-lang.github.io/ru=
+st-clippy/master/index.html#ptr_as_ptr
+>    =3D note: requested on the command line with `-W clippy::ptr-as-ptr`
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-guess I should have done another 'b4 send --reflect' after I modified my cover
-letter <blush>
+Indeed missed this one because I wasn't building with
+CONFIG_RUST_FW_LOADER_ABSTRACTIONS. Fixed in v3 by:
 
-Pretend this line is immediately after the cut
+diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+index c5162fdc95ff..74df815d2f4e 100644
+--- a/rust/kernel/firmware.rs
++++ b/rust/kernel/firmware.rs
+@@ -58,10 +58,11 @@ impl Firmware {
+     fn request_internal(name: &CStr, dev: &Device, func: FwFunc) ->
+Result<Self> {
+         let mut fw: *mut bindings::firmware =3D core::ptr::null_mut();
+         let pfw: *mut *mut bindings::firmware =3D &mut fw;
++        let pfw: *mut *const bindings::firmware =3D pfw.cast();
 
+         // SAFETY: `pfw` is a valid pointer to a NULL initialized
+`bindings::firmware` pointer.
+         // `name` and `dev` are valid as by their type invariants.
+-        let ret =3D unsafe { func.0(pfw as _, name.as_char_ptr(),
+dev.as_raw()) };
++        let ret =3D unsafe { func.0(pfw, name.as_char_ptr(), dev.as_raw())=
+ };
+         if ret !=3D 0 {
+             return Err(Error::from_errno(ret));
+         }
+
+By the way, it would be great if the email also included the rustc version =
+used.
 
