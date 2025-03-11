@@ -1,54 +1,54 @@
-Return-Path: <linux-kbuild+bounces-6037-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6038-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382D1A5B695
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 03:18:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3998AA5B69A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 03:19:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D72993AA58E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 02:18:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EB793AD737
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 02:19:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8C31DF25C;
-	Tue, 11 Mar 2025 02:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B521E0E13;
+	Tue, 11 Mar 2025 02:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Tv6dOJ8k"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="kqEs78NT"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43101DE3BA;
-	Tue, 11 Mar 2025 02:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F301DFE00;
+	Tue, 11 Mar 2025 02:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741659502; cv=none; b=CXVKredYk4jyDzhSL7PuNKQbw2HuqK4UMlqOyU41shu9H3Z+DwaEPund4iyENVc/0jb9vb+Umuz57UhvVmoWgbVEb6OSPy/Jiye6wm4GoJs02T9cXn9O3NlLtwjM28t3jGphwePJunFXFYsB0i9Y+kJBsVspVKJf4+iz6skkpjM=
+	t=1741659578; cv=none; b=Pd/19MYr0Z7h8KPkTpm+vvSONs1m/clq4qHemkAKqfbKKYMKjEBZSV9OE7lOp6C+GrRQE2YY1eLN2/MuKbxQogFrcCb/57tva0pMxqpgmJUqjFM5KDUnMArpMSkJ7s7JYbeeWTKV4h95BUvtFrbtXCsl6I+1uESgY55kfXdHQ14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741659502; c=relaxed/simple;
-	bh=Y9N94YMDRPHNKfkLMcJpNVAzTMmQ0xC828hbtgnBiWo=;
+	s=arc-20240116; t=1741659578; c=relaxed/simple;
+	bh=Sth8l67n+uwLQKxCXrukaimfOae11pQFiWD/R/v/SeQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pRsQHKmGNwzbb9RMdYRQQKGKlx4dl0zUWTD81VKmtbjNPCe3XUJihsS4a/hHhzb8Y0PQ7OXFjURdrALLKRHP3rKHfokm00kzJCCYFl26lYKkd1250oviR3zJQvAyF/HGBtZEKp5pQnBlikJnrpNLfFqz3PZ2uFkNdmDRK4QMeO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Tv6dOJ8k; arc=none smtp.client-ip=198.137.202.136
+	 In-Reply-To:Content-Type; b=PoEd7t5SomifJ5EhbXJpdDyQqPg9ffBERk5HR0FH4FraZIMvgrEflHPX8d51L1VKoKULE0Av88kzloCKQ6F92seH1L/bhL9oJQstNPwIN9G+RxMUnBH5yQGio6p02Xv7u7YicML0b7URlKJIH+abwb9UOGD9fIgAdDLOqVqiTvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=kqEs78NT; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Received: from [192.168.7.202] ([71.202.166.45])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52B2HieO1868586
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52B2J6su1869505
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 10 Mar 2025 19:17:45 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52B2HieO1868586
+	Mon, 10 Mar 2025 19:19:07 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52B2J6su1869505
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1741659466;
-	bh=5w+jkPsYj3+xtXaAR1BljtUAktgh1d5yDo9LMS7eY2Y=;
+	s=2025021701; t=1741659548;
+	bh=RRnyrixk4lF11HSwzZsW5tJQgq5fiSSNVV/SDhLEu7c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Tv6dOJ8kWO5nUONDdZcb2E2y9YAiITBfsHh5gSQBja1S0YVWzPNX846oJuXERqBmG
-	 iopBe6zgIgY/+oPAyW6jG04DhUOm72lZ4fYnLdMxVkIstux2NKD9gOnQmHfB2zfnnh
-	 7cNWkupYITVqCHpFr2lcdpNIi4GyARlaWWNdZZo92aVuV/tBWCuCzFNcQj/J9z8fpq
-	 YekxNqnqbCbiTsp4guQ3j1yfvnvKUjbwRlZTFx5cTFfh4wROLC9tKAqkgbklREH3zU
-	 +BIrST5tbZ2ikKiO2nsfTr4Uu3HwdVBYDWrXpJktdSDA4yU+IR+YEviObUjJLErP+F
-	 oR4jk66WhyIYw==
-Message-ID: <8d589cb7-a687-4b99-a19d-67009c4b2ec0@zytor.com>
-Date: Mon, 10 Mar 2025 19:17:43 -0700
+	b=kqEs78NT0RMed9+pWysEdFOMLGaEx67KyyrKHIV9vaUlM8K/7b2JagrU0JiUhV10D
+	 D2A84l8gaejvfUxi9q8Y0x+AU6yF4oc3Zl/rBMTQWzjohefTXmHt4ciwkiigZeRWcv
+	 3lQsi6dTSj/H+gU10FJ0rSymVFMWReEhgmEE/icQkeKg2x6D6xfQYP0V8d4iluT5sf
+	 U/BBAz5tnj97uDN1TTntWhBpvBWXoWxd9Kt2U7ShEX/2kBJllXRF3PNX8fgx18nP0I
+	 Waq3uZUG5yT/v2XBo9l1EzgXIkKUR4+BtEGh6e7zv+wQoYvstiUUsLj7FDVi4eG8a+
+	 rwSNT/Vd1LpDQ==
+Message-ID: <08bbfff0-4aef-4d9e-bbeb-661aedaf3737@zytor.com>
+Date: Mon, 10 Mar 2025 19:19:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,7 +65,6 @@ References: <20250308040451.585561-1-xin@zytor.com>
  <CAK7LNARHvn4Sy-e4hMmjGt0C7TFaWrGJrLq3YvN0BjehZ8QwSg@mail.gmail.com>
  <6149ac51-07da-45e2-863e-1d4418f6b662@zytor.com>
  <CAK7LNATGToVHEfZ-hmJ=3xbQCdHmBZf7x9w2QtQVGV-nMiP2Ag@mail.gmail.com>
- <CAK7LNAQHfOo3+vnqTt5A=X3SQEpMxz2aQBW2Hmvc_g0gg2ohLw@mail.gmail.com>
 Content-Language: en-US
 From: Xin Li <xin@zytor.com>
 Autocrypt: addr=xin@zytor.com; keydata=
@@ -102,62 +101,46 @@ Autocrypt: addr=xin@zytor.com; keydata=
  PYbAkjBbm+tuJ/Sm+5Yp5T/BnKz21FoCS8uvTiziHj2H7Cuekn6F8EYhegONm+RVg3vikOpn
  gao85i4HwQTK9/D1wgJIQkdwWXVMZ6q/OALaBp82vQ2U9sjTyFXgDjglgh00VRAHP7u1Rcu4
  l75w1xInsg==
-In-Reply-To: <CAK7LNAQHfOo3+vnqTt5A=X3SQEpMxz2aQBW2Hmvc_g0gg2ohLw@mail.gmail.com>
+In-Reply-To: <CAK7LNATGToVHEfZ-hmJ=3xbQCdHmBZf7x9w2QtQVGV-nMiP2Ag@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 3/10/2025 7:13 PM, Masahiro Yamada wrote:
-> On Tue, Mar 11, 2025 at 10:52 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On 3/10/2025 6:52 PM, Masahiro Yamada wrote:
+> On Mon, Mar 10, 2025 at 3:23 PM Xin Li <xin@zytor.com> wrote:
 >>
->> On Mon, Mar 10, 2025 at 3:23 PM Xin Li <xin@zytor.com> wrote:
->>>
->>> On 3/8/2025 7:12 AM, Masahiro Yamada wrote:
->>>> On Sat, Mar 8, 2025 at 1:05 PM Xin Li (Intel) <xin@zytor.com> wrote:
->>>>>
->>>>> Meanwhile explicitly state that the headers are uapi headers.
+>> On 3/8/2025 7:12 AM, Masahiro Yamada wrote:
+>>> On Sat, Mar 8, 2025 at 1:05 PM Xin Li (Intel) <xin@zytor.com> wrote:
 >>>>
->>>> There are many internal-use targets, which are not documented in the
->>>> help message.
->>>> I assume this one is the case.
->>>>
->>>> If users want to install UAPI headers, 'headers_install' is
->>>> the user-visible interface and it is already documented.
->>>>
->>>>
+>>>> Meanwhile explicitly state that the headers are uapi headers.
 >>>
->>> hpa and Boris prefer to add it, which I also agree.  But ofc it's your
->>> call :)
+>>> There are many internal-use targets, which are not documented in the
+>>> help message.
+>>> I assume this one is the case.
 >>>
->>> If you don't want to add help for "headers", it probably still makes
->>> sense to explicitly state that the headers are uapi headers, no?
+>>> If users want to install UAPI headers, 'headers_install' is
+>>> the user-visible interface and it is already documented.
 >>>
->>> Thanks!
->>>       Xin
+>>>
 >>
+>> hpa and Boris prefer to add it, which I also agree.  But ofc it's your
+>> call :)
 >>
->> If a help message for "headers" is desired, how about this?
+>> If you don't want to add help for "headers", it probably still makes
+>> sense to explicitly state that the headers are uapi headers, no?
 >>
->>    headers  - Build read-to-install uapi headers in usr/include
+>> Thanks!
+>>       Xin
 > 
 > 
+> If a help message for "headers" is desired, how about this?
 > 
-> 
-> For clarification, the following is the rationale.
-> 
-> 
-> Build                 Installation
-> -------------------------------------
-> vmlinux               install
-> modules               modules_install
-> dtbs                  dtbs_install
-> headers               headers_install
-> 
-> 
-> 
-> In Kbuild, the Build and Installation are separate steps,
-> since the latter usually requires the root permission.
+>    headers  - Build read-to-install uapi headers in usr/include
 > 
 
-Oh, I didn't realize, thanks for making it clear.
+LGTM.
+
+I guess you will make the change right now?
+
+Thanks!
      Xin
 
