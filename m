@@ -1,106 +1,179 @@
-Return-Path: <linux-kbuild+bounces-6044-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6045-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E53A5BBDE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 10:18:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D19A5BCCD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 10:52:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 013AD189667C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 09:18:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 598A31897C04
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 09:53:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 266DB22ACF2;
-	Tue, 11 Mar 2025 09:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09E8B22D7AB;
+	Tue, 11 Mar 2025 09:52:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJGWK4O0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePytkQLl"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E09222572;
-	Tue, 11 Mar 2025 09:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D9F225776;
+	Tue, 11 Mar 2025 09:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741684668; cv=none; b=efNAm0asgg4gzXhfANFNWblEBoyTwe/KMBs1reR44P0zzenSuLbObmtqfxO5vKU9P2cCVoJIqhD0nV90+qrRkX3ikK/Fj762oK8KNGUHfVQ4L8cD6jvsN0cFD1St2YRaLnS4F+fjC4vZs45l+XNPEKyYhrrOjzA63vgWVcU5IZA=
+	t=1741686771; cv=none; b=GWfRvwOh9/ZayJ6OdNBmB+jSq1V3cDSm2mbvcRbERXs0jpfDGPp+MFk9T9g9Xc49iFT1/sp7F1WykA/0VOXIQLQqNE/5ix2QAS9rD7hvWJHp3wnyDVQpM6P1U5Lz7rAw+7ZbyNzZt84/jeGCwws8Ac7MK9zMydCa1+9M1ZBh3TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741684668; c=relaxed/simple;
-	bh=I3wvXEq4ikbk6K4qeOqy4pOSFqJ/9hXqSnnILl+b6SQ=;
+	s=arc-20240116; t=1741686771; c=relaxed/simple;
+	bh=mPq4JlVzua4yzFh1NNNJl4UlOm9bg8+UIsXT4ZUQekE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dkhivHFtmvUqNfwLeNPAJgne63HKpQdDrQIaJTVrPJFNiaHeNQBeAlWd/tJtBBG+nzOQM31pDIwxMtnn0xOsaEh3Cz1xIBT3AG0CDu4R42cB7Mr/kOF6DEDDpi4AAm+3ZevnRiqK25cCpqhLIhHdRsdMYP83BcwgEqDNgwOdScs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJGWK4O0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FBA5C4CEF1;
-	Tue, 11 Mar 2025 09:17:47 +0000 (UTC)
+	 To:Cc:Content-Type; b=W8auBKRM2Jh8UcRAAnWP3OuqpIBVHg3GAoFT1Hi7rjB93sOi9rweg+jlnphjIvOWCeorEGylBSeCvZgEnpeTNAp+Zr7/3m1pKGuJc58lmSJxzmN1Lbmua7whQmykzNjiYExmpYA8UQ+7ATcpLfuxWe/kUYGJvfFEepG9v4Tmh8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePytkQLl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C1FC4CEF2;
+	Tue, 11 Mar 2025 09:52:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741684667;
-	bh=I3wvXEq4ikbk6K4qeOqy4pOSFqJ/9hXqSnnILl+b6SQ=;
+	s=k20201202; t=1741686771;
+	bh=mPq4JlVzua4yzFh1NNNJl4UlOm9bg8+UIsXT4ZUQekE=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EJGWK4O0JvO72MUNTL9fyv6dFbUqrS+QlTHt9NSqPcSEJqsR93Ay3OI6sDys1v5Ps
-	 ZOHEtYwl5HwMHmmalXc8osqgNPVM3DiAsgCavmEAhm8yAj55EqduZIi1MfudAjORht
-	 x37BrIwjmNIZJpJgmBH+B0DoV3sLvdPKMFyBBJuA3HGrvdxypU2BcR9xDf/I172/2v
-	 pa/oAPUJK9OsxoBcXkOwyI4vygXhqaUItZU9VQ4jApa63Z4eAJH4d+dp1mEKFMCbY1
-	 TeeGKPxmFmsmdqmVkPXTMYPA221sp62O4MfsEFVGviIIvn8wPBA8WgsScwPnQpxUHk
-	 3SGIedLzIEaWg==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5498d2a8b89so5252886e87.1;
-        Tue, 11 Mar 2025 02:17:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUkWPk2zSJCTIsUlplIUkICws3HUUaVfSp695Ql3LHi9OwnU/35vAN6RMJD/wv9ZrEJwVknEGnxI7RCLfg=@vger.kernel.org, AJvYcCX66lzLtANeNyf0yCtFKOAsNvagxEwm3hMYrF7KOYSXuEhwNuu7ZMDpzONg367twf3iGIRWPApZg+BJfFUmtQTmTNP4@vger.kernel.org, AJvYcCXTmO/CTv0V30IJl5HGwuZyOmRDU3TELwKme2tIyPEk47zYVgUwwYZxj5vhKin8hQQrUO6ZVcVMCc7C2DgZ9g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrE2q0ZX8OtEfa1qpe/qhDy7iohb00MlMDFAw9j/r9sHXAiHbs
-	zWpB0SAewFjiale5qZxDiR11uCwgpeuIY6ROm03IrclXRqF6Lgew4K0peyO+UFsBm9ZJEL3GCAg
-	DeYcQsQNqRF2J4gmHNBCJLxJSWWg=
-X-Google-Smtp-Source: AGHT+IFNr/MqTS76yOqZHInZldYwY6xgGLGctV3Upe1fjkqrKfD1g+oL+NuiwvAIf/RdlzvPulALp+YL5nPG4/u5HHs=
-X-Received: by 2002:ac2:44c6:0:b0:549:91d3:8e66 with SMTP id
- 2adb3069b0e04-54991d38f57mr3671557e87.8.1741684665913; Tue, 11 Mar 2025
- 02:17:45 -0700 (PDT)
+	b=ePytkQLljKktEzSq4WuTDN2YIKnwA+YstBgG1uJT+DVepSJasylnikQIeQGOgTpH/
+	 r1wDf9DHzV6XOAkYHGoml4HagPuWmqaAqclqnZOXaKHI/Ts7yPBMuq/3sjlGdvrpGO
+	 ncJjq/+S8slzpP+JfTDoCN05gp3kMoedLMQxrSYwj065axTId4mdQZu0zfPU9MkpaR
+	 +7auCu0kK7b166L4OZZo+SjB4i+pNakqx+VgpjVOfXOg3OPJipSEXtb/IA3whzaaud
+	 ss9X7dHOPnLIbN34rvHkRRRNcHZ7GZqxT5NmBGXgQzHOZtRoiUQsAWbeNylk2+Bx1j
+	 wZPtpQ3CORPcA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5499c5d9691so2859216e87.2;
+        Tue, 11 Mar 2025 02:52:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUHo1RUOfE+lYFtAMcpQ1nKx8Uji25+2r04rRZZgVXnQf0jVlIdXXc2o/9bnD1q8CUN0ZrlttkQWdJeR6wz@vger.kernel.org, AJvYcCVhIuRRcBCM2kviUnG5PyANTldohwS/pa8MuvnCRZsfuGfRps/NJ9fTWmCMLswbpyLK7Ro460eBwl5Vdck=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzES+EydBC6G6wEpTqdBscffo6W93+vkMSA4qJHvO++hE1hu3vF
+	/ajyF3LmlG4gVedOgUoCN6BHWL80IWDh8za+ciS1MnZUYQIKKAlCWYtkgD/aKXD/M1+P2+5Euec
+	7MvUChhDAc5r77Hy4orUDqXKVTBE=
+X-Google-Smtp-Source: AGHT+IHk3DfD0lxEQrLyX0Kd/NSo7lFeZ6SZ37YrOVzBPx2qN0PZlB1QgKAq84rh7lAlAYiJ0x3MJ2uVYENGYFub430=
+X-Received: by 2002:a05:6512:3e1e:b0:549:8b24:9891 with SMTP id
+ 2adb3069b0e04-54990e2bfe3mr5761727e87.6.1741686769669; Tue, 11 Mar 2025
+ 02:52:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250305192808.2826336-1-kris.van.hees@oracle.com>
-In-Reply-To: <20250305192808.2826336-1-kris.van.hees@oracle.com>
+References: <20250224132132.1765115-6-ardb+git@google.com> <CAMj1kXHamiZ8u4YO9FnrWhpcotUkAusDF_db_5H2qaVD85qmVA@mail.gmail.com>
+ <CAK7LNATLf2iXNGi-UKRg=+PRRqgmxry5QQnQ4GUNsuVmDBAnmw@mail.gmail.com>
+ <CAMj1kXGVe-R7VF1nHmRx+UB4FuhSjiwMU=n_uWCLC99rTTa5ZQ@mail.gmail.com>
+ <CAK7LNATkaTvAwPmNM3kSOCkCptW-bo9Ko6asWyFVcGYgu5rHtw@mail.gmail.com>
+ <CAMj1kXHCia-gQy7fkVC5SgMyFqz6rRgpVbz6_W7e9jk7ENaQxA@mail.gmail.com>
+ <Z81j8EguDyz_uesu@gmail.com> <CAK7LNATb40pkqXXH+o_CXW6Vf3zavAj8oSeWnpGfXq6SCto4kw@mail.gmail.com>
+ <CAMj1kXEAw7qqRSPCnKj+sO5QEtWsFQ2P7gkxuNQhssWd3E6S=Q@mail.gmail.com>
+In-Reply-To: <CAMj1kXEAw7qqRSPCnKj+sO5QEtWsFQ2P7gkxuNQhssWd3E6S=Q@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 11 Mar 2025 18:17:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASvQJT5rCGGQT+L+JtRX32_amZz05QCn9cvT4W4+uVJuA@mail.gmail.com>
-X-Gm-Features: AQ5f1JrfovPclrUeoRyJ5wu2zI2p6MJIrGdvqeXCG7Sskxj7mqOIUIcKMP8Uwhs
-Message-ID: <CAK7LNASvQJT5rCGGQT+L+JtRX32_amZz05QCn9cvT4W4+uVJuA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: exclude .rodata.(cst|str)* when building ranges
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	Nick Alcock <nick.alcock@oracle.com>, Alan Maguire <alan.maguire@oracle.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Sam James <sam@gentoo.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Jiri Olsa <olsajiri@gmail.com>, 
-	Elena Zannoni <elena.zannoni@oracle.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Jack Vogel <jack.vogel@oracle.com>
+Date: Tue, 11 Mar 2025 18:52:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASE7jn3t23MbB375ma-yJj6FhzqB_Zr+-+8NbeoYxCdmw@mail.gmail.com>
+X-Gm-Features: AQ5f1Jro8cIcIaRSbPbpJsCE7AA_bbfqQxJc2emdJtf4t_5qR7I4umYai8FaMeI
+Message-ID: <CAK7LNASE7jn3t23MbB375ma-yJj6FhzqB_Zr+-+8NbeoYxCdmw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-kbuild@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 6, 2025 at 4:28=E2=80=AFAM Kris Van Hees <kris.van.hees@oracle.=
-com> wrote:
+On Tue, Mar 11, 2025 at 3:40=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wr=
+ote:
 >
-> The .rodata.(cst|str)* sections are often resized during the final
-> linking and since these sections do not cover actual symbols there is
-> no need to include them in the modules.builtin.ranges data.
+> On Tue, 11 Mar 2025 at 03:39, Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
+> >
+> > On Sun, Mar 9, 2025 at 6:48=E2=80=AFPM Ingo Molnar <mingo@kernel.org> w=
+rote:
+> > >
+> > >
+> > > * Ard Biesheuvel <ardb@kernel.org> wrote:
+> > >
+> > > > On Sat, 8 Mar 2025 at 17:17, Masahiro Yamada <masahiroy@kernel.org>=
+ wrote:
+> > > > >
+> > > > ...
+> > > > > I do not think it is broken.
+> > > > > As I mentioned above, I regard vmlinux.relocs as a byproduct
+> > > > > of the atomic build rule of vmlinux. This works.
+> > >
+> > > Except when it doesn't work, such as when an intermediate linking ste=
+p
+> > > fails, and intermediate build products are lost and cannot be recreat=
+ed
+> > > easily (or at all without modifying the source)?
+> > >
+> > > And the thing is, there should be no such thing as an 'atomic build
+> > > rule of vmlinux' if it means lost information when the build is broke=
+n
+> > > at an intermediate step. What purpose does it have?
+> > >
+> > > > There is no make rule for vmlinux.relocs, and so
+> > > >
+> > > > - if it gets deleted, it cannot be rebuilt and even though the buil=
+d
+> > > > does not break, the relocation data is missing from the compressed
+> > > > image, and this could potentially break the kaslr startup code,
+> > > > - it vmlinux.relocs is older than vmlinux for some reason, make wil=
+l
+> > > > not notice and silently reuse the outdated version,
+> > > > - when creating vmlinux.relocs from vmlinux and an error occurs,
+> > > > vmlinux is deleted, making it difficult to diagnose the problem.
+> > > >
+> > > > I think this is badly broken, but if you think this is all working =
+as
+> > > > it should, I am not going to debate this further, and you can consi=
+der
+> > > > the patch series withdrawn.
+> > >
+> > > That's very sad, as both the simplification is substantial:
+> > >
+> > >   19 files changed, 52 insertions(+), 87 deletions(-)
+> > >
+> > > and the increase in debuggability is substantial as well.
+> > >
+> > > Thanks,
+> > >
+> > >         Ingo
+> >
+> > When a byproduct is accidentally lost
+> > (for example, manually deleted), it is not automatically restored.
+> > Running 'rm vmlinux' or 'make clean' is needed.
+> >
 >
-> When these sections were included in processing and resizing occurred,
-> modules were reported with ranges that extended beyond their true end,
-> causing subsequent symbols (in address order) to be associated with
-> the wrong module.
+> Exactly. Make cannot detect this situation, and so the build breaks in so=
+me way.
 >
-> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-> Reviewed-by: Jack Vogel <jack.vogel@oracle.com>
-> ---
+> > vmlinux.relocs is one such byproduct.
+> > Another is the map file when CONFIG_VMLINUX_MAP=3Dy is enabled.
+> >
+>
+> The linker map is not depended upon by other build targets, and is
+> typically for human debug consumption, so while not ideal, it is not
+> as broken as for the unstripped vmlinux.
+>
+>
+> > I am a bit concerned about having more and more
+> > intermediate vmlinux.* files, but maybe only me.
+> > I hope vmlinux.unstripped is the only/last one.
+> >
+>
+> Maybe we should not strip vmlinux at all, but only remove any static
+> relocations when packaging? E.g., tar-pkg, etc
+> >
+> > OK, let's do this.
+> >
+> > Ard, please send v2 with .gitignore and 'clean' target updates.
+> >
+>
+> Thanks, I'll prepare a v2, but in the meantime, can we think about not
+> removing the relocations in the first place?
 
-Applied with the following tag:
+OK, let's try this approach.
 
-Fixes: 5f5e7344322f ("kbuild: generate offset range data for builtin module=
-s")
 
-Please let me know if this is wrong.
-
---=20
+--
 Best Regards
 Masahiro Yamada
 
