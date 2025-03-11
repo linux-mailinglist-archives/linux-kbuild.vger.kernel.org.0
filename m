@@ -1,112 +1,113 @@
-Return-Path: <linux-kbuild+bounces-6034-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6035-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCA6A5A375
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Mar 2025 19:55:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F80A5B659
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 02:53:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB4883AC245
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Mar 2025 18:55:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E96CC3ABE57
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 01:52:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12A42230987;
-	Mon, 10 Mar 2025 18:55:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C791F1E32C3;
+	Tue, 11 Mar 2025 01:52:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="U6avsyvL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GFqGcXH8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.129.162])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEA42222DF
-	for <linux-kbuild@vger.kernel.org>; Mon, 10 Mar 2025 18:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABE81E32D6;
+	Tue, 11 Mar 2025 01:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741632919; cv=none; b=uxCNb2o3+NeEKJB7zBkX2NKOvASrEa6Y8+t+eJo+Bu+E7O/8gro3ccyRo5jM2psEKl+4hOgwrj2OHJe4P8JSq+kCP6o00d/qo+/aG1ixbTXwZcF9+vWxq2tnKFv3Q/ucwybe79lSflWwHK1HDm/LHMXN46txaWQLtYFF/vY4v9c=
+	t=1741657976; cv=none; b=cMpVRFpNUmpJKZs3yG5pVPP1IgXeGMR15SkcNHQWNH4R06JIBOaKk7qGON3dDzKteTWevUatJDSU5myVMcyyhZ/+iib+lEaNX51d/UnOizJIEtwNxH+AZ/dnhYkXhkhQWuekfzqIItTDgbbhs/EpiTvCFQoQKsIg+4crxdOE3IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741632919; c=relaxed/simple;
-	bh=7ookYLrNwrNtolfzFvPur19JqZSBzO+XPKJeVceqMr0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=p8wsLYK4q1ZIz8sG4iSVFn2KhHD0hkGYeC+AzmPcmvtyiAlPLaRTPxLb7KyDnWWyEdbnSatzB8c9jw5hZeTMc5lrdZKySQ7jsyxTsjhp3HNpRd83F3yrfClOR4uDb7AQfDKshZyZ5dUJcwEJkOudHVemL1ucDJeiFrHqSc65AQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=U6avsyvL; arc=none smtp.client-ip=170.10.129.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
-	t=1741632916;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7ookYLrNwrNtolfzFvPur19JqZSBzO+XPKJeVceqMr0=;
-	b=U6avsyvLh3XMf77iRqOvgcBKrfjoRI6hNIFmDD7V9poZhHxlz8pwJiROq3HHM9ytXYtGRM
-	6Bqlvn/knkTUJG2XeFLwLo8whrQt3KDSfDUnvkdblnfE4MLvYZhbc9srYky42LY7u5rJQD
-	mKtieELzV0GALrdQCw6ICxuKnRAibxE=
-Received: from g8t13016g.inc.hp.com (hpifallback.mail.core.hp.com
- [15.72.64.134]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-403-BiBXDuYGNGKcKjyGd3neRA-1; Mon, 10 Mar 2025 14:55:13 -0400
-X-MC-Unique: BiBXDuYGNGKcKjyGd3neRA-1
-X-Mimecast-MFC-AGG-ID: BiBXDuYGNGKcKjyGd3neRA_1741632912
-Received: from g8t13021g.inc.hpicorp.net (g8t13021g.inc.hpicorp.net [15.60.27.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by g8t13016g.inc.hp.com (Postfix) with ESMTPS id 214466002E61;
-	Mon, 10 Mar 2025 18:55:11 +0000 (UTC)
-Received: from localhost.localdomain (unknown [15.53.255.151])
-	by g8t13021g.inc.hpicorp.net (Postfix) with ESMTP id B57826000324;
-	Mon, 10 Mar 2025 18:55:09 +0000 (UTC)
-From: Alexandru Gagniuc <alexandru.gagniuc@hp.com>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	linux-kbuild@vger.kernel.org
-Cc: nicolas@fjasle.eu,
-	linux-kernel@vger.kernel.org,
-	Alexandru Gagniuc <alexandru.gagniuc@hp.com>
-Subject: Re: [PATCH] kbuild: deb-pkg: don't set KBUILD_BUILD_VERSION indiscriminately
-Date: Mon, 10 Mar 2025 18:53:06 +0000
-Message-ID: <20250310185306.2476022-1-alexandru.gagniuc@hp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250307205612.GA2695746@ax162>
-References: <20250305192536.1673099-1-alexandru.gagniuc@hp.com> <Z8sgisZ8FI3wkpfZ@fjasle.eu> <20250307205612.GA2695746@ax162>
+	s=arc-20240116; t=1741657976; c=relaxed/simple;
+	bh=MlTxgVvSZKPsUA1Zh1N2uIlutYs79Ci0sLeczGFxFUM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jUfXBcuefU5t1BZEFkg6XftUeVIdt7/bj8WFje79iXWfz+v9k1S9aALueSlx+9wCZ+R2CD4de89xFM6QGq33Ju+ChFPZJcr+AGTLsT5lOGiP7k7xdVHAmb0JTgIp7EDrpKSj1hexxFki4z+jIkZskTq6EySl8OEUGnagY8jye88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GFqGcXH8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15DE0C4AF09;
+	Tue, 11 Mar 2025 01:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741657976;
+	bh=MlTxgVvSZKPsUA1Zh1N2uIlutYs79Ci0sLeczGFxFUM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GFqGcXH8lkfxZGIXIbqPZ8jPIrnNvJtCSAaBw02o8rRY7cu1wepGppQHE/dN02yCI
+	 Rc7eoLdSCuO6MF2FP/H41JuDb0Oh4CgNR0RmOiGgz/8C808XL8BoF/YcJKVMd3ThJ8
+	 LtXONO1tf53wsqGomouKsw9h3zlydZHdivhgCZSz4ssRpVPw+ePRuCzPhF9kZWtvhu
+	 JmiSYAar6/u5iypC4abzWmtHBcmakDGtC8rxIrAwAwhThSqT3Is1spvKYFkqPyduUz
+	 Z5BuvJ9lYO6ahhMWWNwA3s1H0PGDJ6PDMwLztrw4hknxwD+Y9RnwuivChR6Bp86Q2c
+	 6Irt2XmlDLZww==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5499bd3084aso2466868e87.0;
+        Mon, 10 Mar 2025 18:52:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUiehuhry6iWPb6HP74PyvDeDuSAoBu7RC509GG0S1NLoH+c2LAjfqBU+boXtJP9VMYcMlEN8Q13TDDn10=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyt+EfHZa3+H9kGsz3XmCrJfEh9PkmGMWBNVrA/aljfOkbdSaDx
+	9FzaFYPLo0e11YtXSkXlEP7LR8VqBEeCeWKFwif58hkVVVedtzpztgF8wsdUZloztGRLOVjJst8
+	CpvHonxPoVqNIOItQ4Y1KkDorhlw=
+X-Google-Smtp-Source: AGHT+IGGnGHlIqSrfRtcEhqr52Xmx0BWXlTup0pbx6a/Ct3L/hwQrW+faZtidozO4L57dvcfvv6mw4mQqsv93oXhSwA=
+X-Received: by 2002:a05:6512:3b9b:b0:549:3b4f:4b39 with SMTP id
+ 2adb3069b0e04-54990e298bfmr4957010e87.10.1741657974686; Mon, 10 Mar 2025
+ 18:52:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mutt-References: <20250307205612.GA2695746@ax162>
-X-Mutt-Fcc: ~/sent
-Status: RO
-Lines: 21
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: XoPwBCdreOzUzrTJZ9S0XttnZBTBZTugNxrjQADpCGQ_1741632912
-X-Mimecast-Originator: hp.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Disposition: inline
+References: <20250308040451.585561-1-xin@zytor.com> <CAK7LNARHvn4Sy-e4hMmjGt0C7TFaWrGJrLq3YvN0BjehZ8QwSg@mail.gmail.com>
+ <6149ac51-07da-45e2-863e-1d4418f6b662@zytor.com>
+In-Reply-To: <6149ac51-07da-45e2-863e-1d4418f6b662@zytor.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 11 Mar 2025 10:52:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATGToVHEfZ-hmJ=3xbQCdHmBZf7x9w2QtQVGV-nMiP2Ag@mail.gmail.com>
+X-Gm-Features: AQ5f1Jq2fCkxhFKXJrvYU15EKSnQ6PG1QaNoLvPd4kPHXDt6ZUwememQLl4myXo
+Message-ID: <CAK7LNATGToVHEfZ-hmJ=3xbQCdHmBZf7x9w2QtQVGV-nMiP2Ag@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] kbuild: Add "make headers" to "make help" output
+To: Xin Li <xin@zytor.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	nathan@kernel.org, nicolas@fjasle.eu, bp@alien8.de, hpa@zytor.com, 
+	sraithal@amd.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Nathan and Nicholas,
+On Mon, Mar 10, 2025 at 3:23=E2=80=AFPM Xin Li <xin@zytor.com> wrote:
+>
+> On 3/8/2025 7:12 AM, Masahiro Yamada wrote:
+> > On Sat, Mar 8, 2025 at 1:05=E2=80=AFPM Xin Li (Intel) <xin@zytor.com> w=
+rote:
+> >>
+> >> Meanwhile explicitly state that the headers are uapi headers.
+> >
+> > There are many internal-use targets, which are not documented in the
+> > help message.
+> > I assume this one is the case.
+> >
+> > If users want to install UAPI headers, 'headers_install' is
+> > the user-visible interface and it is already documented.
+> >
+> >
+>
+> hpa and Boris prefer to add it, which I also agree.  But ofc it's your
+> call :)
+>
+> If you don't want to add help for "headers", it probably still makes
+> sense to explicitly state that the headers are uapi headers, no?
+>
+> Thanks!
+>      Xin
 
-On Fri, Mar 07, 2025 at 09:56:12PM +0100, Nathan Chancellor wrote:
-> On Fri, Mar 07, 2025 at 05:36:26PM +0100, Nicolas Schier wrote:
-> > On Wed, Mar 05, 2025 at 07:25:36PM +0000 Alexandru Gagniuc wrote:
-> > > Cc: <stable@vger.kernel.org> # v6.12+
-> >=20
-> > Shouldn't this be v6.8, as 7d4f07d5cb71 got introduced there?
->=20
-> Presumably this is because there are no supported kernel versions
-> between 6.8 and 6.12 anymore but I think the '# v6.12+' is entirely
-> superfluous because there is a fixes tag, so the stable folks will
-> figure out how far to backport it automatically based on that.
->=20
-I'll just remove the '# v6.12+' then.
-> > > Fixes: 7d4f07d5cb71 ("kbuild: deb-pkg: squash scripts/package/deb-bui=
-ld-option to debian/rules")
 
-I agree that "unconditionally" better conveys the idea behind the
-patch. I'll make that change too.
+If a help message for "headers" is desired, how about this?
 
-Alex
+  headers  - Build read-to-install uapi headers in usr/include
 
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
