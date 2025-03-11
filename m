@@ -1,184 +1,117 @@
-Return-Path: <linux-kbuild+bounces-6054-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6055-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED50A5BEB9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 12:18:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0166EA5BEE1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 12:25:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91388170C56
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 11:18:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BC951885F42
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 11:25:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF63D224AF3;
-	Tue, 11 Mar 2025 11:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26BF7253F05;
+	Tue, 11 Mar 2025 11:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Nq/lxou3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UnCvqARG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1FF29A1;
-	Tue, 11 Mar 2025 11:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D64253B5D;
+	Tue, 11 Mar 2025 11:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741691882; cv=none; b=rvQA1+eXSbYLqQQ0fmBChdX90irvavoyPjams7AWJYGJTnbqsYIlBbUxQ9hPXFX+tyuW1uXnhIDhuhgF/kVB9+ghJV45I2MzSKqcLzF35ov7yckudWXeRiScGjRat/gfWtx/NkiF2Z4t0gQIykIWphIwYq7zLLKkZAy/lZqknwo=
+	t=1741692325; cv=none; b=c+BJXon8KH/v+2oOrh4WM+2ZmpODhG/Dz3O6V77Vj7Gc+Lyl/Ux7Ufg29FdMU4lj4oS63vpOi+noBcnBnd+HADth8tSls324Ir+k2h+PegX5g6GDohVhsN/y32kav1Ws08ch98GAAXHpK8yACxIS8aIZLwxOPHsB8HIJGufJ47s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741691882; c=relaxed/simple;
-	bh=ANzMonclTV44VJy9H0c2FCCBJdNL8hQGxAaoWHlCpGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HOMmVYqHXSaImr1DKbS0s0iSWUPPcM53bdT+ckppw1W3sQTm8xbboj1j1yIIcP2ETSbHuA1zo3Bm4lFjUypCVpfQOtBUQCrJjd6sGFURAmV8sUaBR8kpTJel5suTFKMLvuYX6ykTTb8dX3t11S+UKvmcSY7AWl5u0aP9nZ+Rrgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Nq/lxou3; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 41E8440E015D;
-	Tue, 11 Mar 2025 11:17:58 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id H4FL8XNhNoEl; Tue, 11 Mar 2025 11:17:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1741691874; bh=yb4r/vcfCtod52jhxzSeBLW72Dv5xW6kz176PIoHlas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nq/lxou3zOuLduIo8NzTGA8e/nGWIYlfBZMiQ/MMoYw2P/EItP1igQxXFPRPAbIfM
-	 UFjXIklsTecL9f4XKDaZu3v0GFQjpLWOAx47GVERBMcpZ6XWUnnqAHOnFGvl7WTe6j
-	 NLTc3HdXFha8OH0YVvq0JBv3a9SfJ3C+rts2v1D4NwOWy09rX67G1So7uxR4hzpYHF
-	 sfK97sRWc/rnWieacZz5E7LXZ2UbaRmjhFsSjT9NeDCordtUd62sqprwWGR0ikKaIT
-	 71ifHkoxp5dKzSEsDLr7rejdMN97iU6aJsFmoywuQNoaD68oR9c6ar8A8P9w1nFTC+
-	 wzxTG0/hrDO1qmwnd8zY69WhOCe7/wkLjBI2vB35t9hVdxytXu/UunX6d1V2/eOMlp
-	 CgzjPGk28vRFmgiZHODqAiohzsM8L1uE3pKPUDvefl6ND8BDzWH8bXPReQvjWNCSX/
-	 tcQ012GNghPf4pkh1ApIZaQkPFIHsywKntSOiiwnPgy0qQIP+C6srDS6je3LrccQdA
-	 Dguq5aj00ptFCNZ28ioX52ueF9WjLnt5kOOKogG6XLJ+KLoSG4bzCJMuoVgocQpA5A
-	 c2re4QQYz2B/R7rA0t9vPXvhekghYxCIR5DauhBu+YRXnckhy+ApRfuQFV2Tu2/fWz
-	 69WJRxsIqdfGFh0IZE0P1LKA=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3224E40E0218;
-	Tue, 11 Mar 2025 11:17:46 +0000 (UTC)
-Date: Tue, 11 Mar 2025 12:17:45 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	x86@kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>
-Subject: Re: [PATCH v2 4/4] x86: Get rid of Makefile.postlink
-Message-ID: <20250311111745.GDZ9Ab2f6-iHLXmRra@fat_crate.local>
-References: <20250311110616.148682-6-ardb+git@google.com>
- <20250311110616.148682-10-ardb+git@google.com>
+	s=arc-20240116; t=1741692325; c=relaxed/simple;
+	bh=uZ7Z+RehYAPUxpL5pUcapSesQqtDYnmhf5cqsLhYGO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qiB47tEROw/ZHmQIfhHqtIyefK6eFMv3435a9nPWdKMd9txr0oyIaYaKSmA6wVBuMdFwMsv+tbDiRsKMInYk2t3N5aIQYf0qj57WSXuLfFztI4UrWP54+MwWbdO9MF0uMHHnNxDaCJlMXDW5mJizsDYjpYrBUBXh2kmvz884j88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UnCvqARG; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-22409402574so11109055ad.1;
+        Tue, 11 Mar 2025 04:25:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741692323; x=1742297123; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uZ7Z+RehYAPUxpL5pUcapSesQqtDYnmhf5cqsLhYGO4=;
+        b=UnCvqARGYsyj6g5rm+NroaRgICgwVFmXARLnIGuewyzRTZqWLgVMetJXN8opQyQsKC
+         J2WpH3u8mP1O4omrAnXE19f9US1YlWhe11gUWPUah+jmmWFU8eovElPmEzPYnlH1XbZ3
+         948ypr+Nai7me7TPqUOS4q8ubwdJGv5JwtkJyFn73eyqpgZNb3b2DPkEli7K1TWF5SKw
+         hdQo8Jwnn+YbEnqN08lzC6afFwNW6xszE73T557vnD+EP4KEvTkX0DB72AWRN9omsLpa
+         tbpFM84BqQ9M+8oim6kcdnNJZ5+cufiuwmMe+r7eMCAedll3SUaQm7l9hC55tofj6knL
+         vr+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741692323; x=1742297123;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uZ7Z+RehYAPUxpL5pUcapSesQqtDYnmhf5cqsLhYGO4=;
+        b=AmMNryF9b90WjKH1nItiRo6MTlKs3hzBum4kEppCGarrj/pUlM0nt6FoPWQKBgdXXJ
+         D8AU+4T81cKzlCAXTrZXIk2pQWEuHBMd3FtTRhulpLQD/X2Vh7YLg/OpZ6x2dG1hvNq6
+         msRIAF1G1MExE8VBxPIi0vketfrrDfXuPK/rXsf5cOUkmIhmD0TyA075PadtnN2nkr7A
+         JEBO3KvX/wqVcZfjwX5PBrO1p/EwjSbE7RG7DeVufwBVZp8ZLbsOj98Zf8KKTQZJsKa6
+         MY/kgCMEKfvT7PQznFr9gqA98JA68Wal46R6FqC36cfr27J2FJ8RZMKWMVFo08pAYrAL
+         PUYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUdOyHAaByHDK4YKvF+4Pp4f0PgJy/vHBomP5R7oINK9V3wj1LWeL9k1gzzydQVsemyv9fzJWjs2iiFKUk=@vger.kernel.org, AJvYcCUqBiGwnqgk9bvwytL1J/8AipcCRDkR+1usp2i37/cMdliT9bX8as1CwYvw0SUEX+RjvpQgvYOaPpJoi9mtvfk=@vger.kernel.org, AJvYcCV++9E0jlTr2GixSflyyxR3uE6LpIEgWB/MmeB9UFln7khcieodJOZA9JHViKY6TAI1vuVd3V2ZCaxO1o2E@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywc7yUe0fX8vpehEI9Gltx9/qBV2UFVQ9YbZGMuCF3F23Gofwh2
+	nDJ23gi63xh6JGVmR8hF5ZZoHhPs/R7iYT455ZqHIf++gvlihJIi6Fjhvgg2I1L5c05yZ98Q5UF
+	26aBqUa45GfNNnYV4eG5pBbQQA3g=
+X-Gm-Gg: ASbGncvhNZVlnxi0snJtk51phY8SUxcYvkHImsA5880AfYdif6vLgPZd3idtj/KDFlc
+	RMhbQfPptPQCvQlnyRChJ5XSR5ptq+qPcuX6d/1UBM3m9xhNVdJzdr4j0Y1VpRUVObfF0Az7ghm
+	8w/nx9C2rSyj+jTB0MvggAwd9N4g==
+X-Google-Smtp-Source: AGHT+IFerWSSRnD9v86YeC/80CVF/PDb0ihirl1213NdB/dcv5ANfOwY/e+8Y9lVWiGeMvAc9tn8g0ooXf5XvUlUiWQ=
+X-Received: by 2002:a17:902:d48d:b0:220:e98e:4f17 with SMTP id
+ d9443c01a7336-22541ea9638mr71862085ad.2.1741692322799; Tue, 11 Mar 2025
+ 04:25:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250311110616.148682-10-ardb+git@google.com>
+References: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
+ <CANiq72mcpVL1YXyDFi-PrbQ2Uh0WUA_VNqLZaOeqQnpY5HnX8Q@mail.gmail.com> <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
+In-Reply-To: <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 11 Mar 2025 12:25:10 +0100
+X-Gm-Features: AQ5f1JpdJuaCqSDi_HshZJxMo3vvlLqCilD4cHL1BkIjDHJ8ZAF5-Ex-MPIJtas
+Message-ID: <CANiq72n9Wo6Mf7sVfm2akqiKknGNeTegiMesNtHzbHhWS4iQTQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild, rust: use -fremap-path-prefix to make paths relative
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Ben Hutchings <ben@decadent.org.uk>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Urgau <urgau@numericable.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-+ Petr for 9d9173e9ceb6
+On Tue, Mar 11, 2025 at 12:04=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> GCC manual mentions the below about the -fdebug-prefix-map=3Dold=3Dnew
+>
+> "It can also be used to change an absolute path to
+> a relative path by using . for new.
+> This can give more reproducible builds, which are location
+> independent, but may require an extra command to tell GDB
+> where to find the source files."
+>
+> I guess "the extra command" might be a bit annoying.
 
-@Petr, you can find the whole thread on lore.
+Ah, so you mean that could be reason for not doing it for the debug
+case -- I see, thanks!
 
-On Tue, Mar 11, 2025 at 12:06:21PM +0100, Ard Biesheuvel wrote:
-> From: Ard Biesheuvel <ardb@kernel.org>
-> 
-> Instead of generating the vmlinux.relocs file (needed by the
-> decompressor build to construct the KASLR relocation tables) as a
-> vmlinux postlink step, which is dubious because it depends on data that
-> is stripped from vmlinux before the build completes, generate it from
-> vmlinux.unstripped, which has been introduced specifically for this
-> purpose.
-> 
-> This ensures that each artifact is rebuilt as needed, rather than as a
-> side effect of another build rule.
-> 
-> This effectively reverts commit
-> 
->   9d9173e9ceb6 ("x86/build: Avoid relocation information in final vmlinux")
-> 
-> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> ---
->  arch/x86/Makefile.postlink        | 38 --------------------
->  arch/x86/boot/compressed/Makefile |  9 +++--
->  2 files changed, 6 insertions(+), 41 deletions(-)
-> 
-> diff --git a/arch/x86/Makefile.postlink b/arch/x86/Makefile.postlink
-> deleted file mode 100644
-> index 445fce66630f..000000000000
-> --- a/arch/x86/Makefile.postlink
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0
-> -# ===========================================================================
-> -# Post-link x86 pass
-> -# ===========================================================================
-> -#
-> -# 1. Separate relocations from vmlinux into vmlinux.relocs.
-> -# 2. Strip relocations from vmlinux.
-> -
-> -PHONY := __archpost
-> -__archpost:
-> -
-> --include include/config/auto.conf
-> -include $(srctree)/scripts/Kbuild.include
-> -
-> -CMD_RELOCS = arch/x86/tools/relocs
-> -OUT_RELOCS = arch/x86/boot/compressed
-> -quiet_cmd_relocs = RELOCS  $(OUT_RELOCS)/vmlinux.relocs
-> -      cmd_relocs = \
-> -	mkdir -p $(OUT_RELOCS); \
-> -	$(CMD_RELOCS) $@ > $(OUT_RELOCS)/vmlinux.relocs; \
-> -	$(CMD_RELOCS) --abs-relocs $@
-> -
-> -# `@true` prevents complaint when there is nothing to be done
-> -
-> -vmlinux vmlinux.unstripped: FORCE
-> -	@true
-> -ifeq ($(CONFIG_X86_NEED_RELOCS),y)
-> -	$(call cmd,relocs)
-> -endif
-> -
-> -clean:
-> -	@rm -f $(OUT_RELOCS)/vmlinux.relocs
-> -
-> -PHONY += FORCE clean
-> -
-> -FORCE:
-> -
-> -.PHONY: $(PHONY)
-> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-> index 606c74f27459..5edee7a9786c 100644
-> --- a/arch/x86/boot/compressed/Makefile
-> +++ b/arch/x86/boot/compressed/Makefile
-> @@ -117,9 +117,12 @@ $(obj)/vmlinux.bin: vmlinux FORCE
->  
->  targets += $(patsubst $(obj)/%,%,$(vmlinux-objs-y)) vmlinux.bin.all vmlinux.relocs
->  
-> -# vmlinux.relocs is created by the vmlinux postlink step.
-> -$(obj)/vmlinux.relocs: vmlinux
-> -	@true
-> +CMD_RELOCS = arch/x86/tools/relocs
-> +quiet_cmd_relocs = RELOCS  $@
-> +      cmd_relocs = $(CMD_RELOCS) $< > $@;$(CMD_RELOCS) --abs-relocs $<
-> +
-> +$(obj)/vmlinux.relocs: vmlinux.unstripped FORCE
-> +	$(call if_changed,relocs)
->  
->  vmlinux.bin.all-y := $(obj)/vmlinux.bin
->  vmlinux.bin.all-$(CONFIG_X86_NEED_RELOCS) += $(obj)/vmlinux.relocs
-> -- 
-> 2.49.0.rc0.332.g42c0ae87b1-goog
-> 
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Cheers,
+Miguel
 
