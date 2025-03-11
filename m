@@ -1,93 +1,124 @@
-Return-Path: <linux-kbuild+bounces-6058-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6059-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2973A5C8D2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 16:50:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0927A5CA13
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 17:01:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DDA53AB019
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 15:46:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CD6D3A3C0B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 16:01:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3396225E805;
-	Tue, 11 Mar 2025 15:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ABA926039B;
+	Tue, 11 Mar 2025 16:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UWzDjPDp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B8B25EFA9;
-	Tue, 11 Mar 2025 15:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF5725E46E
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Mar 2025 16:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741708018; cv=none; b=oVsXC/r+pZJqYIapbTyeDn3p2svKuxVRuVvRGXnLBZ54wKXHoSdnmFEl5mWIoY3kAS5qMpz5vjLqQ5OUy4VnVoLJBFyaMxTVz8h+khYnldtXKqz//YhhhlzwS/AmuwDYV+qpBe/hDpSF9Bg3AEezBwULaSWsc7EIZuY2VyfBb3M=
+	t=1741708858; cv=none; b=nAkmUM1yHJlb3qyFL8biBisP+cGoncOyEiWMaxrUTXtpd0htLo7jZVqq1GscaJxR762Eu8iEe/t3AqQY/p/BFaNJ4GtSkrM5QNjMxctrtmah46bNivWdH/rIhMTuof1gZAY7EtRPGStZSTO1Oz+aIm+JJSIxY6Kv51o8dGGmeuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741708018; c=relaxed/simple;
-	bh=nk40KUh/QUjBRCuoaYNOFdH3bn8mS8+Y2mowH8reTEY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VafdbfmPPQmE30Zxd6q1JqtP0UpKeJr7IV7Sf6EI7/LS+MGgXrJvE/0oODBzHXthoFbznjumCXM/QpOsvJYcpnHQPE4CrHogFiUIJEeBmLKNZ6+PFPyDxI39l3gN74qsPimuMY3GoJMoDzKfxHbeO8lRaAp7bbLQOcz6vzA1EgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn; spf=pass smtp.mailfrom=ict.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ict.ac.cn
-Received: from localhost.localdomain (unknown [114.245.34.20])
-	by APP-03 (Coremail) with SMTP id rQCowAB3fNjgWtBnqMtEFA--.61900S2;
-	Tue, 11 Mar 2025 23:46:43 +0800 (CST)
-From: Kefan Liu <liukefan24s@ict.ac.cn>
-To: corbet@lwn.net
-Cc: linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kefan Liu <liukefan24s@ict.ac.cn>
-Subject: [PATCH] Documentation/kbuild: Fix indentation in modules.rst example
-Date: Tue, 11 Mar 2025 23:45:35 +0800
-Message-ID: <20250311154535.56560-1-liukefan24s@ict.ac.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1741708858; c=relaxed/simple;
+	bh=IqikE1i2SuwPolJeXPK6e7H+vK85SDXPGjy7nazvKHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fM3c6bilkxzbLviYle2wkYeQVQtCO7SC+kLjKFv0lwox4zX9fn1OmjddhK7xiLqF2c0vU09iAVHvidI8fipSagoCdgWzkKCO6X5HuwnyhbzpETpTgF8XI1NBJSC9h5LtgZSmWfFk7zVdCGK19bMxwgRnBCrwBHQr+568vyRLiWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UWzDjPDp; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso12568625e9.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Mar 2025 09:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1741708855; x=1742313655; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4Rz0Bfl3Q6jjOl+k/zk6qCdCbl0b3aJFNCS5LE6D5lg=;
+        b=UWzDjPDpUS/h0+/xUEbFD+RNw93d9mjj+1rEpzr3+lIIjczkgA5+rEqUeFE85vU3ev
+         m7+ESROWJQH/3YEPQVKkbZvpRslkJ4V4TAlCV2K45GNmO8f8LdSUrObBorkp5lJdxmcH
+         JUKl2Y9FZsPaiX65PaBJf0aPQRCN4uLVyK2MUwoLqkJQvRfZ4N9i84aArkUwHAR7euGc
+         WRvBHYYvA1QiBInMkqKpV6ExP5yNX3uG9qKgHGZ1TOfniRf9/UeTU/sSbMYf+Zd1DW3F
+         Z3qV6ZnXBCAqloYDU1ORcGzb/euJhQYPC1Von7DlP8L4oE9fJc9GnK1njvJTXqYbpLQK
+         PQBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741708855; x=1742313655;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Rz0Bfl3Q6jjOl+k/zk6qCdCbl0b3aJFNCS5LE6D5lg=;
+        b=mAydMIFJztpZWVIhkEtoBMn6UrvLo2qDQQzYVSyLI3aNCa4WOjluDAJw9WVC+yX5Ty
+         kGmtPr5c2d3pLxu50VxMvUtXjFMfhkSR7KaQxgrMUPyjR08vnxqXL9d3RhfC2TchrlU/
+         e04ZQhRtxFfm3/xKDCg5EvN2nFxjAQ11QpHyIgEayacdEDidIL5QkVc8F74XTgNRPq/W
+         Tw+Ft5KWZi6ELOAYfx0/m/Am4J2HUKG7KpcKyoF1LwyhNnIDwnspXllb7+ha6lrbogia
+         EpEH/Y9h6y2SvGx7fCpT2jR+D0Y3eGZBZwSFJh236KnmM4ScEB5MB13rQ8Wb7UTy+GyR
+         V2dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMCRIYW2ATTDzDGjMElb+9KdopDHhnq7GgFmq36RuACTRscuy8SSKUr7HS2HbZMN2FQEs/FcVH5ctoXN8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwM+sWs/+/6uCyBvyevloZpvp2ytPe+39d8dhFticUCHA38YtCe
+	25IxDFbC1gFrD+ojy1sW1J/2HhErCCWzt2LGyHDPXJHbcgj1Q7ZwE6Gt4DL0OxAiSchWnjl9+va
+	a
+X-Gm-Gg: ASbGncvz1/J2AA3RiQXh2+SXdIq4tgOeitK3m3pBF/MdC/CJAiKnhI1v6PiCUDx/I3W
+	6qjwVfdEprUy6G9Fhkqw1h0pK+eXj7LzYfo7BlRMOI40tTdn9pFal1t5Quks2XkiGKkpQ+N+UKY
+	WHCftKiF31A0ui9ApGZvmeE8c0rbQKtgn8uARZ1KTqj31eTuUwvjJqQNFAg1Sm7pwwrfXinFR6H
+	LY/eKSNOT5hj9yFrXKo3hNFQXBWbLLsw4r8xOLOVDv2pIkxtur5LHyFUfIi8BhSdWUTD2+vfBLq
+	PuJtLhjHIZuWtbCm/z6Ps9hP2kDUR2xL1vxpB6ydugTPPUMZ
+X-Google-Smtp-Source: AGHT+IFDL8flg7bvLP4ZA5yhwIFQLqPiE7+pEyM0NkgCqqaSUxbZ8Iu2kecIY3EVTviLUDeRYu+5jg==
+X-Received: by 2002:a05:600c:358f:b0:43b:ca39:6c75 with SMTP id 5b1f17b1804b1-43d01be65cfmr61517325e9.16.1741708854652;
+        Tue, 11 Mar 2025 09:00:54 -0700 (PDT)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43cfe1fbbefsm52422055e9.38.2025.03.11.09.00.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Mar 2025 09:00:54 -0700 (PDT)
+Message-ID: <c441a091-d389-4021-a45e-d6fb36ed57c6@suse.com>
+Date: Tue, 11 Mar 2025 17:00:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAB3fNjgWtBnqMtEFA--.61900S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruryfCr4Dtw4DtF4xXFyUGFg_yoWxCwcE9w
-	1qgFZYka45tw15Aw4DtFn5Jr92vw4IkFs5ArWkAF47A345KwsrA34DX34kZFy8GrsF9ryk
-	Wws0qryDJ3ZrtjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbcAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
-	Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUYNVyDUUUU
-X-CM-SenderInfo: 5olxyvhidqjknv6lu3wodfhubq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
+To: Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>
+Cc: Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-kbuild@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
+References: <20250224132132.1765115-6-ardb+git@google.com>
+ <CAMj1kXHamiZ8u4YO9FnrWhpcotUkAusDF_db_5H2qaVD85qmVA@mail.gmail.com>
+ <CAK7LNATLf2iXNGi-UKRg=+PRRqgmxry5QQnQ4GUNsuVmDBAnmw@mail.gmail.com>
+ <CAMj1kXGVe-R7VF1nHmRx+UB4FuhSjiwMU=n_uWCLC99rTTa5ZQ@mail.gmail.com>
+ <CAK7LNATkaTvAwPmNM3kSOCkCptW-bo9Ko6asWyFVcGYgu5rHtw@mail.gmail.com>
+ <CAMj1kXHCia-gQy7fkVC5SgMyFqz6rRgpVbz6_W7e9jk7ENaQxA@mail.gmail.com>
+ <Z81j8EguDyz_uesu@gmail.com>
+ <CAK7LNATb40pkqXXH+o_CXW6Vf3zavAj8oSeWnpGfXq6SCto4kw@mail.gmail.com>
+ <CAMj1kXEAw7qqRSPCnKj+sO5QEtWsFQ2P7gkxuNQhssWd3E6S=Q@mail.gmail.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <CAMj1kXEAw7qqRSPCnKj+sO5QEtWsFQ2P7gkxuNQhssWd3E6S=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Correct the indentation in an example within the `modules.rst` file
-to improve readability.
+On 3/11/25 07:40, Ard Biesheuvel wrote:
+> On Tue, 11 Mar 2025 at 03:39, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>> I am a bit concerned about having more and more
+>> intermediate vmlinux.* files, but maybe only me.
+>> I hope vmlinux.unstripped is the only/last one.
+>>
+> 
+> Maybe we should not strip vmlinux at all, but only remove any static
+> relocations when packaging? E.g., tar-pkg, etc
 
-Signed-off-by: Kefan Liu <liukefan24s@ict.ac.cn>
----
- Documentation/kbuild/modules.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Distributions typically have their own package recipes. The idea of
+stripping these relocations from vmlinux in one place was that everyone
+would trivially benefit from it. I'm not sure what you have exactly in
+mind implementation-wise here, but I think this would be useful to keep.
 
-diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-index a42f00d8cb90..d0703605bfa4 100644
---- a/Documentation/kbuild/modules.rst
-+++ b/Documentation/kbuild/modules.rst
-@@ -318,7 +318,7 @@ Several Subdirectories
- 		|	|__ include
- 		|	    |__ hardwareif.h
- 		|__ include
--		|__ complex.h
-+			|__ complex.h
- 
- 	To build the module complex.ko, we then need the following
- 	kbuild file::
 -- 
-2.43.0
-
+Thanks,
+Petr
 
