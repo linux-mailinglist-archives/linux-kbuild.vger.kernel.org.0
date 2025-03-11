@@ -1,113 +1,93 @@
-Return-Path: <linux-kbuild+bounces-6057-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6058-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF66A5C547
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 16:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2973A5C8D2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 16:50:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9239C3A9F49
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 15:10:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DDA53AB019
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 15:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C5925D8F9;
-	Tue, 11 Mar 2025 15:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="vJxnF0Pp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3396225E805;
+	Tue, 11 Mar 2025 15:46:58 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65412B9CD;
-	Tue, 11 Mar 2025 15:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B8B25EFA9;
+	Tue, 11 Mar 2025 15:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741705827; cv=none; b=ZkwQVx/8hOzTYaSpFwXK2mRZOthGm6eOaYmIWAAuWoV/xtt7+MZcY8IYjXJnlQEpktcdVPe9SaR3wNOqWH5bcx/LGWnFVu45bocJrWBozm3j7RP6+gCydkhpQ2lNjp3dw6jZjVgM/j4ZARtS2P34KaImxv1xTL9MfwhTddI7RwI=
+	t=1741708018; cv=none; b=oVsXC/r+pZJqYIapbTyeDn3p2svKuxVRuVvRGXnLBZ54wKXHoSdnmFEl5mWIoY3kAS5qMpz5vjLqQ5OUy4VnVoLJBFyaMxTVz8h+khYnldtXKqz//YhhhlzwS/AmuwDYV+qpBe/hDpSF9Bg3AEezBwULaSWsc7EIZuY2VyfBb3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741705827; c=relaxed/simple;
-	bh=uvzLfD2akr36Mr5Q1GJLF1vdsqE4DCbAl38YOf7RmPU=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:Mime-Version:
-	 References:In-Reply-To; b=FOrmuM80e7wRPLvCLRew/v5exkEVAIgqLmsJqLtW9qb6UJVxvOuDLgJebtuSp2WL+pRzIXrPPAcwR40MORz6LPbhyeqjI/cD6NP4ZQjIOfPUZeH36TU5yNvGSOj/JlAYWpbWpc3WCc+2ekPn17fTtWw7X6az3MMNwWiAwlCHM+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=vJxnF0Pp; arc=none smtp.client-ip=212.42.244.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1741705815; bh=uvzLfD2akr36Mr5Q1GJLF1vdsqE4DCbAl38YOf7RmPU=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=vJxnF0PpneudH/0RUVfqEZD+6rFdtAZkRVlIWfVmlWnNjJkyDVmxIGh03yS/dEqNb
-	 RxXjbZtfxdbFtEh7Xw8NXJKkzaWy9q/SxsTaYMk6KZb3w0zqOZM6NKNL8qxDjUHhGO
-	 xpsLSOFwbmdmmoyTRGJOriSJ/V4fs0unPuEhfejE=
-Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.52.1)
-	(envelope-from <n.schier@avm.de>)
-	id 67d05257-1471-7f0000032729-7f000001d72e-1
-	for <multiple-recipients>; Tue, 11 Mar 2025 16:10:15 +0100
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Tue, 11 Mar 2025 16:10:15 +0100 (CET)
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Tue, 11 Mar 2025 16:10:14 +0100
-Message-Id: <D8DJ6L3FYOBS.2LX1B9RRJVXA4@avm.de>
-Cc: <masahiroy@kernel.org>, <nathan@kernel.org>, <nicolas@fjasle.eu>,
- <bp@alien8.de>, <hpa@zytor.com>, <sraithal@amd.com>
-Subject: Re: [PATCH v2 1/1] kbuild: Add a help message for "headers"
-From: "Nicolas Schier" <n.schier@avm.de>
-To: "Xin Li (Intel)" <xin@zytor.com>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>
+	s=arc-20240116; t=1741708018; c=relaxed/simple;
+	bh=nk40KUh/QUjBRCuoaYNOFdH3bn8mS8+Y2mowH8reTEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VafdbfmPPQmE30Zxd6q1JqtP0UpKeJr7IV7Sf6EI7/LS+MGgXrJvE/0oODBzHXthoFbznjumCXM/QpOsvJYcpnHQPE4CrHogFiUIJEeBmLKNZ6+PFPyDxI39l3gN74qsPimuMY3GoJMoDzKfxHbeO8lRaAp7bbLQOcz6vzA1EgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn; spf=pass smtp.mailfrom=ict.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ict.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ict.ac.cn
+Received: from localhost.localdomain (unknown [114.245.34.20])
+	by APP-03 (Coremail) with SMTP id rQCowAB3fNjgWtBnqMtEFA--.61900S2;
+	Tue, 11 Mar 2025 23:46:43 +0800 (CST)
+From: Kefan Liu <liukefan24s@ict.ac.cn>
+To: corbet@lwn.net
+Cc: linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kefan Liu <liukefan24s@ict.ac.cn>
+Subject: [PATCH] Documentation/kbuild: Fix indentation in modules.rst example
+Date: Tue, 11 Mar 2025 23:45:35 +0800
+Message-ID: <20250311154535.56560-1-liukefan24s@ict.ac.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Organisation: AVM GmbH, Berlin
-References: <20250311054932.1931853-1-xin@zytor.com>
-In-Reply-To: <20250311054932.1931853-1-xin@zytor.com>
-X-purgate-ID: 149429::1741705815-3C55C9D3-74A5AE16/0/0
-X-purgate-type: clean
-X-purgate-size: 1310
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAB3fNjgWtBnqMtEFA--.61900S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruryfCr4Dtw4DtF4xXFyUGFg_yoWxCwcE9w
+	1qgFZYka45tw15Aw4DtFn5Jr92vw4IkFs5ArWkAF47A345KwsrA34DX34kZFy8GrsF9ryk
+	Wws0qryDJ3ZrtjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbcAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+	Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUYNVyDUUUU
+X-CM-SenderInfo: 5olxyvhidqjknv6lu3wodfhubq/
 
-On Tue Mar 11, 2025 at 06:49 CET, Xin Li (Intel) wrote:
-> Meanwhile explicitly state that the headers are uapi headers.
->
-> Suggested-by: Borislav Petkov <bp@alien8.de>
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> ---
->
-> Changes in v2:
-> * Revise the help message for "headers" (Masahiro Yamada).
-> * Revise the shortlog (Masahiro Yamada).
-> ---
->  Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 70bdbf2218fc..62afeda58080 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1659,7 +1659,8 @@ help:
->  	@echo  '  kernelrelease	  - Output the release version string (use with=
- make -s)'
->  	@echo  '  kernelversion	  - Output the version stored in Makefile (use =
-with make -s)'
->  	@echo  '  image_name	  - Output the image name (use with make -s)'
-> -	@echo  '  headers_install - Install sanitised kernel headers to INSTALL=
-_HDR_PATH'; \
-> +	@echo  '  headers	  - Build read-to-install uapi headers in usr/include=
-'
+Correct the indentation in an example within the `modules.rst` file
+to improve readability.
 
-ready-to-install (a 'y' is missing)
+Signed-off-by: Kefan Liu <liukefan24s@ict.ac.cn>
+---
+ Documentation/kbuild/modules.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +	@echo  '  headers_install - Install sanitised kernel uapi headers to IN=
-STALL_HDR_PATH'; \
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index a42f00d8cb90..d0703605bfa4 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -318,7 +318,7 @@ Several Subdirectories
+ 		|	|__ include
+ 		|	    |__ hardwareif.h
+ 		|__ include
+-		|__ complex.h
++			|__ complex.h
+ 
+ 	To build the module complex.ko, we then need the following
+ 	kbuild file::
+-- 
+2.43.0
 
-In documentation and comments, UAPI is written in capital letters.  I=20
-think it would be good to keep it this way here, too.
-
-Kind regards,
-Nicolas
 
