@@ -1,146 +1,145 @@
-Return-Path: <linux-kbuild+bounces-6038-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6039-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3998AA5B69A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 03:19:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7252A5B6D4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 03:39:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EB793AD737
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 02:19:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E67871706A5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 02:39:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B521E0E13;
-	Tue, 11 Mar 2025 02:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 172FE1E5B65;
+	Tue, 11 Mar 2025 02:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="kqEs78NT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuE5qKAw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F301DFE00;
-	Tue, 11 Mar 2025 02:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E231C1DE3B1;
+	Tue, 11 Mar 2025 02:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741659578; cv=none; b=Pd/19MYr0Z7h8KPkTpm+vvSONs1m/clq4qHemkAKqfbKKYMKjEBZSV9OE7lOp6C+GrRQE2YY1eLN2/MuKbxQogFrcCb/57tva0pMxqpgmJUqjFM5KDUnMArpMSkJ7s7JYbeeWTKV4h95BUvtFrbtXCsl6I+1uESgY55kfXdHQ14=
+	t=1741660765; cv=none; b=VB6HgaY+OHDmytKw0gZv9rm53IMrj5r5T0BTRTnDj8NF8IYLZRNxMGtzuK4YmYgMiDgqFlwYgQCsYG+cjdMD0Z0VTALiBtRuEAhNm50mjE9rQBHC7Yk8d4+BEyUm2POINdtUo0kz/IEw1kPpBsoaZ4NMKZyVQxyBAS7UsZqCfY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741659578; c=relaxed/simple;
-	bh=Sth8l67n+uwLQKxCXrukaimfOae11pQFiWD/R/v/SeQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PoEd7t5SomifJ5EhbXJpdDyQqPg9ffBERk5HR0FH4FraZIMvgrEflHPX8d51L1VKoKULE0Av88kzloCKQ6F92seH1L/bhL9oJQstNPwIN9G+RxMUnBH5yQGio6p02Xv7u7YicML0b7URlKJIH+abwb9UOGD9fIgAdDLOqVqiTvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=kqEs78NT; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52B2J6su1869505
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 10 Mar 2025 19:19:07 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52B2J6su1869505
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1741659548;
-	bh=RRnyrixk4lF11HSwzZsW5tJQgq5fiSSNVV/SDhLEu7c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kqEs78NT0RMed9+pWysEdFOMLGaEx67KyyrKHIV9vaUlM8K/7b2JagrU0JiUhV10D
-	 D2A84l8gaejvfUxi9q8Y0x+AU6yF4oc3Zl/rBMTQWzjohefTXmHt4ciwkiigZeRWcv
-	 3lQsi6dTSj/H+gU10FJ0rSymVFMWReEhgmEE/icQkeKg2x6D6xfQYP0V8d4iluT5sf
-	 U/BBAz5tnj97uDN1TTntWhBpvBWXoWxd9Kt2U7ShEX/2kBJllXRF3PNX8fgx18nP0I
-	 Waq3uZUG5yT/v2XBo9l1EzgXIkKUR4+BtEGh6e7zv+wQoYvstiUUsLj7FDVi4eG8a+
-	 rwSNT/Vd1LpDQ==
-Message-ID: <08bbfff0-4aef-4d9e-bbeb-661aedaf3737@zytor.com>
-Date: Mon, 10 Mar 2025 19:19:05 -0700
+	s=arc-20240116; t=1741660765; c=relaxed/simple;
+	bh=LnmuzoRtltn2EeudiDcylpdiaUGszUXlXCyPD7IoncI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s8Bf+2KG0yBlUFFZxgwgnFcyLhFhW4oqs9uV9Q+WXMXsktj3X3uD9+0RzLj/uSJsMmNkkgM9/sikJZKqcjufkWHrU16Iq1kyZT1i0KEb4vKzWKquHZpHma1yl4MhvLZlf4tJVtCP7C3ZwNMd9b7/gw8tg0NCj1kLbd3aCu+YpGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuE5qKAw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53535C4CEEE;
+	Tue, 11 Mar 2025 02:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741660764;
+	bh=LnmuzoRtltn2EeudiDcylpdiaUGszUXlXCyPD7IoncI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ZuE5qKAw9dvqbyE1Zg3V2DK4hmbk9HVp/NinPEnMsa6T+PruCmBXLFsL+JAioQmGX
+	 gpQoVbry7USAXeTXZnwgf79Vp8eR0XmhFTuqou79oJg+p03i3A6NKT3km/jDyuSy1r
+	 ylbD7T0ACRpN3xx/fNe92PIN3wKDec9GCN+Cmk4XAx7CCbvjqpD4WsjIX2GDZCZ/zE
+	 lql+SDwttBngNp4gBefXYxCy1A4NhyjTPWfMFVICG6jwDjpaKF/b09JdlenZh77JxL
+	 wCaH357SSxlCj2HJby7H3KlQyVLqaoVxLo5oZXox119FpEXmJfxdQlE+Hn8NBYByBz
+	 fVXOCsDz8kdUA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so5243535e87.2;
+        Mon, 10 Mar 2025 19:39:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVxiRArsHdnaDEJG5J3JwQe2UfBQ3j3yMm6aARTcdu6f0Cs2+rG0uw+KBo7xJ/65DghH0DQtL/IFEhPc1E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVdl/Z4GyP4c793y3/YRV9rY+w3HlhEtO1yXkSgiCqWNNaGiaJ
+	D5uvc1EC2ylIkvX8JAPV6Nzob0iUTaTzHGqJpl9EXzGo6CgFGG1lxfKsX7n/dkFvAWzbYnUo+ad
+	iQ0rJApVRYmD3IRDkJLBhIwQzKc4=
+X-Google-Smtp-Source: AGHT+IGs1BK9/xmuuvL4MZUqWyatSUGU/ZZw7BQeXXcDh6YdPqA2Gwtl7XzWqDMrTeBuOX+vz5BXGu7sl3LfPUOHB/E=
+X-Received: by 2002:a05:6512:4011:b0:545:2f04:31da with SMTP id
+ 2adb3069b0e04-549910cb49emr4751316e87.46.1741660762903; Mon, 10 Mar 2025
+ 19:39:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] kbuild: Add "make headers" to "make help" output
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        nathan@kernel.org, nicolas@fjasle.eu, bp@alien8.de, hpa@zytor.com,
-        sraithal@amd.com
-References: <20250308040451.585561-1-xin@zytor.com>
- <CAK7LNARHvn4Sy-e4hMmjGt0C7TFaWrGJrLq3YvN0BjehZ8QwSg@mail.gmail.com>
- <6149ac51-07da-45e2-863e-1d4418f6b662@zytor.com>
- <CAK7LNATGToVHEfZ-hmJ=3xbQCdHmBZf7x9w2QtQVGV-nMiP2Ag@mail.gmail.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <CAK7LNATGToVHEfZ-hmJ=3xbQCdHmBZf7x9w2QtQVGV-nMiP2Ag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250224132132.1765115-6-ardb+git@google.com> <CAMj1kXHamiZ8u4YO9FnrWhpcotUkAusDF_db_5H2qaVD85qmVA@mail.gmail.com>
+ <CAK7LNATLf2iXNGi-UKRg=+PRRqgmxry5QQnQ4GUNsuVmDBAnmw@mail.gmail.com>
+ <CAMj1kXGVe-R7VF1nHmRx+UB4FuhSjiwMU=n_uWCLC99rTTa5ZQ@mail.gmail.com>
+ <CAK7LNATkaTvAwPmNM3kSOCkCptW-bo9Ko6asWyFVcGYgu5rHtw@mail.gmail.com>
+ <CAMj1kXHCia-gQy7fkVC5SgMyFqz6rRgpVbz6_W7e9jk7ENaQxA@mail.gmail.com> <Z81j8EguDyz_uesu@gmail.com>
+In-Reply-To: <Z81j8EguDyz_uesu@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 11 Mar 2025 11:38:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATb40pkqXXH+o_CXW6Vf3zavAj8oSeWnpGfXq6SCto4kw@mail.gmail.com>
+X-Gm-Features: AQ5f1JqRQONy4dygKtwyr9gpdY9gYEAosA8acpKjKOrbPOod07yZuJNq2-84VFU
+Message-ID: <CAK7LNATb40pkqXXH+o_CXW6Vf3zavAj8oSeWnpGfXq6SCto4kw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
+To: Ingo Molnar <mingo@kernel.org>, Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-kbuild@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/10/2025 6:52 PM, Masahiro Yamada wrote:
-> On Mon, Mar 10, 2025 at 3:23 PM Xin Li <xin@zytor.com> wrote:
->>
->> On 3/8/2025 7:12 AM, Masahiro Yamada wrote:
->>> On Sat, Mar 8, 2025 at 1:05 PM Xin Li (Intel) <xin@zytor.com> wrote:
->>>>
->>>> Meanwhile explicitly state that the headers are uapi headers.
->>>
->>> There are many internal-use targets, which are not documented in the
->>> help message.
->>> I assume this one is the case.
->>>
->>> If users want to install UAPI headers, 'headers_install' is
->>> the user-visible interface and it is already documented.
->>>
->>>
->>
->> hpa and Boris prefer to add it, which I also agree.  But ofc it's your
->> call :)
->>
->> If you don't want to add help for "headers", it probably still makes
->> sense to explicitly state that the headers are uapi headers, no?
->>
->> Thanks!
->>       Xin
-> 
-> 
-> If a help message for "headers" is desired, how about this?
-> 
->    headers  - Build read-to-install uapi headers in usr/include
-> 
+On Sun, Mar 9, 2025 at 6:48=E2=80=AFPM Ingo Molnar <mingo@kernel.org> wrote=
+:
+>
+>
+> * Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> > On Sat, 8 Mar 2025 at 17:17, Masahiro Yamada <masahiroy@kernel.org> wro=
+te:
+> > >
+> > ...
+> > > I do not think it is broken.
+> > > As I mentioned above, I regard vmlinux.relocs as a byproduct
+> > > of the atomic build rule of vmlinux. This works.
+>
+> Except when it doesn't work, such as when an intermediate linking step
+> fails, and intermediate build products are lost and cannot be recreated
+> easily (or at all without modifying the source)?
+>
+> And the thing is, there should be no such thing as an 'atomic build
+> rule of vmlinux' if it means lost information when the build is broken
+> at an intermediate step. What purpose does it have?
+>
+> > There is no make rule for vmlinux.relocs, and so
+> >
+> > - if it gets deleted, it cannot be rebuilt and even though the build
+> > does not break, the relocation data is missing from the compressed
+> > image, and this could potentially break the kaslr startup code,
+> > - it vmlinux.relocs is older than vmlinux for some reason, make will
+> > not notice and silently reuse the outdated version,
+> > - when creating vmlinux.relocs from vmlinux and an error occurs,
+> > vmlinux is deleted, making it difficult to diagnose the problem.
+> >
+> > I think this is badly broken, but if you think this is all working as
+> > it should, I am not going to debate this further, and you can consider
+> > the patch series withdrawn.
+>
+> That's very sad, as both the simplification is substantial:
+>
+>   19 files changed, 52 insertions(+), 87 deletions(-)
+>
+> and the increase in debuggability is substantial as well.
+>
+> Thanks,
+>
+>         Ingo
 
-LGTM.
+When a byproduct is accidentally lost
+(for example, manually deleted), it is not automatically restored.
+Running 'rm vmlinux' or 'make clean' is needed.
 
-I guess you will make the change right now?
+vmlinux.relocs is one such byproduct.
+Another is the map file when CONFIG_VMLINUX_MAP=3Dy is enabled.
 
-Thanks!
-     Xin
+I am a bit concerned about having more and more
+intermediate vmlinux.* files, but maybe only me.
+I hope vmlinux.unstripped is the only/last one.
+
+
+OK, let's do this.
+
+Ard, please send v2 with .gitignore and 'clean' target updates.
+
+
+--
+Best Regards
+Masahiro Yamada
 
