@@ -1,55 +1,92 @@
-Return-Path: <linux-kbuild+bounces-6069-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6070-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E22DA5CF2F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 20:21:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EC1A5CF37
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 20:23:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B0A2817A50A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 19:21:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 752CB1899C15
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 19:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 210B12641D8;
-	Tue, 11 Mar 2025 19:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EDCC263F41;
+	Tue, 11 Mar 2025 19:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QJuBeLjN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1vFLHq4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E941A2641CF;
-	Tue, 11 Mar 2025 19:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41540263C88;
+	Tue, 11 Mar 2025 19:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741720842; cv=none; b=e6vg9c1khBZKNBq/rIvU6T92/UZrN+BrWMhRhmjyM2/GqREU7thvEAnZyrnR+4ZpyhxGU/odxJEYMYltC4esNYYuJHqjPO4ZH3Bi6ZurywPux7D62znKih7VIPBfprZuFXwEf7vSxNryN63ZnrgBymMKnOWp1xQS/s4v+8ZkcTs=
+	t=1741720977; cv=none; b=ff7qcIlit3KsgxGuqFiinpu3LKWmx8dZK6GV8FYVGAQVcoq7uREgcwVFiCnJJR2PnACiZ1QR0UAdWpIEG3PyD0hNu0HYSjvTLP1Rbfx2U1B3fH9e10O85+IMK6FycsJ6XQusIoaWc1nEGZoam/RDGb+4wxxye+ZD4X9ddF/AG0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741720842; c=relaxed/simple;
-	bh=dw1pXNbdvIGlHzr6r+Tj3I/DfsC1dGH9LTUcJvxWMaU=;
+	s=arc-20240116; t=1741720977; c=relaxed/simple;
+	bh=5BQSyaBQxUFZeErA3U7SLVLmiRtJYGd9Vyqr3I7dCeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hEWBICTOovSsp5bCylGF7QUN3xPw32es+dMA4duafa9ZpQsv3XOKkajtfz2aIy/DRbFY+Tpw+kV+yQS+L47QX85jiTvAm6Saxhm18azMQmhBdTCPhMJ4NgnFn3ZJSwM9U9EpN8hJeRJZJzDo59mWANFkAADu9grOLJrSwXMwdzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QJuBeLjN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44181C4CEE9;
-	Tue, 11 Mar 2025 19:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741720840;
-	bh=dw1pXNbdvIGlHzr6r+Tj3I/DfsC1dGH9LTUcJvxWMaU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QJuBeLjNHCpkltZtT4v5FHUrLQW+2NS4YeT4c/gxYqI7EF5P0WGMMdoKlXO3IBBLw
-	 rJGTUhV4TqtJg/kPV60Jn5c3MUXX4QJw7U4OQoYeITcA+co6zlcqd562S7vQhYo9HZ
-	 82Y3tXHr8KFL4SWAt0ogKmMOOGgJyU8MHWOjsbhPZyBq8O6IEyEMO5gu9fpYdYN+Qg
-	 A0Lzobh5lC+CZ+JdTzcwpwL8bBOmVuOnXILZxT80ME+2ztloJY+pr3qXHAUexf9Iqo
-	 0Y/CvFeWiy8f7hPwI2LVmeRxqe0kfIT3zN6PA5xRGe9BxOOpd5NKzIuUgOpD7ezWSD
-	 3yG/LYXVQ2fRQ==
-Date: Tue, 11 Mar 2025 20:20:36 +0100
-From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ben Hutchings <ben@decadent.org.uk>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: deb-pkg: fix versioning for -rc releases
-Message-ID: <20250311192036.GC1958594@ax162>
-References: <20250311190212.634123-1-masahiroy@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHCVk2dag3JlkbIiRuWu0OsmtL3YUji8T8JcedvY5dR3xPGCcp75L3D3vMB7pVtxr/GtxmVC1/8EKXXRXybulEnz+DuTdHndbIHiD32IUslFujaAoHtvhsJfYX8cMwRitb/0z2mtRYTHQX41BL1nPi6Me6eYR/jM9Q8qrG8TYF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1vFLHq4; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741720976; x=1773256976;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5BQSyaBQxUFZeErA3U7SLVLmiRtJYGd9Vyqr3I7dCeE=;
+  b=P1vFLHq44APE7p052VDH4TvOR3gYwmVmcM23o0rOaYG4EqF+/7wj/XHh
+   NatotfSapM6rr9N4hHfYvNzI1DY1DNZfRPWHNxaGV1WL6JuGX0DWELAcG
+   tgteJyczSp8gp+E/77fXNCBAriWE8hMwwxwc8W3I99uK4fbza6U1dMzqL
+   F/qh4H7kO4OL6db89KnkAJmnExmN3SX41TU2hNpGvRLRcl3IFaSYE+/Ix
+   1uXJTjWCTT2ZPit1QWxpLaH+MWFUvsNQgnf0dt2ejD3LTseJS2ENsAW5u
+   sVB0OTBpxlvVPfqexEpJ0/W4oy7F6TBLypIGKPyjMTeNwn+y/REwf1I8w
+   w==;
+X-CSE-ConnectionGUID: jcbTnxD2TfGl3Xm6pRhF2g==
+X-CSE-MsgGUID: Gex8OomZQAmIKWSI248Muw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="68140538"
+X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
+   d="scan'208";a="68140538"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 12:22:55 -0700
+X-CSE-ConnectionGUID: NenFRhsnSMyQfY/xGuDGFQ==
+X-CSE-MsgGUID: YFmv9pF4TY2TRKohK66sOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
+   d="scan'208";a="120913249"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 11 Mar 2025 12:22:49 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ts5Bf-0007m8-0w;
+	Tue, 11 Mar 2025 19:22:47 +0000
+Date: Wed, 12 Mar 2025 03:22:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tamir Duberstein <tamird@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-pci@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
+Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
+Message-ID: <202503120332.YTCpFEvv-lkp@intel.com>
+References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -58,51 +95,39 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311190212.634123-1-masahiroy@kernel.org>
+In-Reply-To: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
 
-On Wed, Mar 12, 2025 at 04:01:33AM +0900, Masahiro Yamada wrote:
-> The version number with -rc should be considered older than the final
-> release.
-> 
-> For example, 6.14-rc1 should be older than 6.14, but to handle this
-> correctly (just like Debian kernel), "-rc" must be replace with "~rc".
-> 
->   $ dpkg --compare-versions 6.14-rc1 lt 6.14
->   $ echo $?
->   1
->   $ dpkg --compare-versions 6.14~rc1 lt 6.14
->   $ echo $?
->   0
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Hi Tamir,
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+kernel test robot noticed the following build warnings:
 
-> ---
-> 
->  scripts/package/mkdebian | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index 193e33bcb989..80ed96561993 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -167,7 +167,9 @@ version=$KERNELRELEASE
->  if [ "${KDEB_PKGVERSION:+set}" ]; then
->  	packageversion=$KDEB_PKGVERSION
->  else
-> -	packageversion=$(${srctree}/scripts/setlocalversion --no-local ${srctree})-$($srctree/scripts/build-version)
-> +	upstream_version=$("${srctree}/scripts/setlocalversion" --no-local "${srctree}" | sed 's/-\(rc[1-9]\)/~\1/')
+[auto build test WARNING on ff64846bee0e7e3e7bc9363ebad3bab42dd27e24]
 
-I don't think there has ever been an -rc10 but would it hurt to make it
-[1-9]+?
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/rust-enable-clippy-ptr_as_ptr-lint/20250308-004557
+base:   ff64846bee0e7e3e7bc9363ebad3bab42dd27e24
+patch link:    https://lore.kernel.org/r/20250307-ptr-as-ptr-v1-1-582d06514c98%40gmail.com
+patch subject: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250312/202503120332.YTCpFEvv-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120332.YTCpFEvv-lkp@intel.com/reproduce)
 
-> +	debian_revision=$("${srctree}/scripts/build-version")
-> +	packageversion=${upstream_version}-${debian_revision}
->  fi
->  sourcename=${KDEB_SOURCENAME:-linux-upstream}
->  
-> -- 
-> 2.43.0
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503120332.YTCpFEvv-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> warning: `as` casting between raw pointers without changing its mutability
+   --> rust/kernel/firmware.rs:64:35
+   |
+   64 |         let ret = unsafe { func.0(pfw as _, name.as_char_ptr(), dev.as_raw()) };
+   |                                   ^^^^^^^^ help: try `pointer::cast`, a safer alternative: `pfw.cast()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
+   = note: requested on the command line with `-W clippy::ptr-as-ptr`
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
