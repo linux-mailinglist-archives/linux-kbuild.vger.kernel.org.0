@@ -1,132 +1,171 @@
-Return-Path: <linux-kbuild+bounces-6061-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6063-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B8AA5CC1D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 18:28:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4548A5CDB7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 19:19:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2074A177C20
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 17:28:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 841963A3EC7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 18:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2B672627E2;
-	Tue, 11 Mar 2025 17:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SwLeDAsr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE4092620E5;
+	Tue, 11 Mar 2025 18:19:49 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [65.21.191.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917522620D1;
-	Tue, 11 Mar 2025 17:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43C525C6F9;
+	Tue, 11 Mar 2025 18:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.21.191.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741714124; cv=none; b=aKixyMGuRFlydO8Iyd0uON9tsfJv20pEN1Wbk0qU5ixUGV6ff+TaoSaVks52lEzXdltDi+OSjHkHdZoQevcWCXLlYE5R20HGnyXmDZShrW2DxfLezl3a8uCgKsRVAE9RMa8s/hGKB9Y7YsSA9QqylCz7O1P00+ih+RqSZP0Y7MI=
+	t=1741717189; cv=none; b=YFOIZVf5uGCvSi+Xyteea9oBPxp8G3Az2LOluSKqlJTYqZyUUD/3BjJZKvt9lRNquA9ysl7I+xN/tVPuAyWy29eRm0l2Hots0DbfwudeVfOtSb28qsEm8aP0uXmBE7wlKnfDi+p/1JWLiT7qsqHdOTttMjPC4ZNeUN8lbnfsBSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741714124; c=relaxed/simple;
-	bh=d8BD4WOnmIjNqhK1wComNzTCrFFiicudBQP2VVmq7Z8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LzpDZhqqnmdxxn5IgMrNbKSNEgFOQH1whq128XKhYaZD3l+FGHJa2Rm1wbhj8maWPoT+dfUNllITQsDiPj5/yZabtPXz5Pbti4t/+3s7hLh6T4/irnukSNiM/2lTB12XiR9bx9T2INmjUGTzqxtu0F8ohCFxO5hgnojRkJf4PXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SwLeDAsr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1465BC4AF0B;
-	Tue, 11 Mar 2025 17:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741714124;
-	bh=d8BD4WOnmIjNqhK1wComNzTCrFFiicudBQP2VVmq7Z8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SwLeDAsrdikx6ereOClwlIDaeHpYUaVCYIdWA/gqU4jEb9otOGjjdZGvIpu9QgrFU
-	 BasH3tSjPtBd6wmXUUXmgtGXJE1c2mXPzeOs5dY12INMsI/tPwBJUSi4YJKLmECtes
-	 TM5UDohghrM4x2jKsArUS5J2Jh/ME+ZxorEGi8wdg/Qhbk5gvSSWtSAyI/PAUsy4Le
-	 zPfJmpwJpspt5Y9mXygKFmynxFUwMwdwlu93nj0LoEg/bOD7NQ94mwt8hicFAJE+JB
-	 WROxkOJm/Xr98WkIyDZQrpXSAOENYiYSOTFinIa11QBYrcNDfZOo/1nUA1Ez3Bu0mX
-	 56ptjUZ6gzRiw==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5499614d3d2so5034557e87.3;
-        Tue, 11 Mar 2025 10:28:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUyYL5vswrvcs1L4DDawe1qUtvfUpA9efcU/hxYKMaxHaiEufKMygCbnGmgJx6QqX8jlKanJeSW@vger.kernel.org, AJvYcCW/VK+oEQbhrtiUpuMPFCeJYcoOLAdo7oZSFlDm+D/e1AMONu69jGYLo2QSVEFnYIqMKtVM0UhRc4Mf9hM=@vger.kernel.org, AJvYcCWI8v/xSmB6sjFYUTcVsxwzb9I5AYP9k/HRoa3l0fM3cMNrOVyUUOkio+t2vUytrGVAke/t2zDtV3EylSudtdnwZQaL@vger.kernel.org, AJvYcCWo4p6E7PDjcdg3k5QZRiMU8xB+YyTVlvo+PWcMzMh66u2SOJiRW71clnyUaptehnkQSvZYSrEZx5COplvRsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwEuDIkczTfCM4S5/BsZXWkPj5N8xDNRXQaj5KDrdoEdKdy5bm
-	sSUXgNoOAP1UrrKzQZIreLdxhH3SB/SMDMMFKDzyi8Da90ffLKd/iYyOCqi9Acq3lBZhiJbMwBe
-	hg46MN5X+nxqhFmuL6S5Pf4ydCfk=
-X-Google-Smtp-Source: AGHT+IFsHDduF+cR7BKl2mu6ZO3HqQftxmEu5BM2vjBQCDt55EMsQyof7sw3rtliSMsgS7q7uQEOkP4A3gh75uedz9s=
-X-Received: by 2002:a05:6512:6cd:b0:545:f9c:a80f with SMTP id
- 2adb3069b0e04-54990e2bf27mr5120145e87.1.1741714122784; Tue, 11 Mar 2025
- 10:28:42 -0700 (PDT)
+	s=arc-20240116; t=1741717189; c=relaxed/simple;
+	bh=MHVyXDoO64HS3559zU6bnpyhretFKohKi5W0Sl1YvqY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tF4vl40xlsbbc2szLjQVmc/Eqy+dpEjH7J6fBo9PTp1UPo+D/dpD/Q6LTP/89d0t5bVuAYKxoKrEigBYLeMPf0T/3DDPh6qiHeHZSzSzlZJdfhLSUkIAl9d4gu0wuir509qJYphfgY/cBv0yhEThtWHT87RvQQB+vW9WEe6pqX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk; spf=pass smtp.mailfrom=decadent.org.uk; arc=none smtp.client-ip=65.21.191.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=decadent.org.uk
+Received: from [2a02:578:851f:1502:391e:c5f5:10e2:b9a3] (helo=deadeye)
+	by maynard with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1ts3Wp-008fZK-2f;
+	Tue, 11 Mar 2025 17:36:30 +0000
+Received: from ben by deadeye with local (Exim 4.98)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1ts3Wn-00000005VjB-3swI;
+	Tue, 11 Mar 2025 18:36:29 +0100
+Message-ID: <c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk>
+Subject: Re: [PATCH] kbuild, rust: use -fremap-path-prefix to make paths
+ relative
+From: Ben Hutchings <ben@decadent.org.uk>
+To: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda
+	 <miguel.ojeda.sandonis@gmail.com>
+Cc: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, Nathan
+ Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel
+ Ojeda <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
+ Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich	 <dakr@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	rust-for-linux@vger.kernel.org, Urgau
+ <urgau@numericable.fr>
+Date: Tue, 11 Mar 2025 18:36:25 +0100
+In-Reply-To: <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
+References: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
+	 <CANiq72mcpVL1YXyDFi-PrbQ2Uh0WUA_VNqLZaOeqQnpY5HnX8Q@mail.gmail.com>
+	 <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-SHz5T4wd+MHzPWqVsRS0"
+User-Agent: Evolution 3.55.3-1 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250307165335.3110476-1-kris.van.hees@oracle.com>
-In-Reply-To: <20250307165335.3110476-1-kris.van.hees@oracle.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 12 Mar 2025 02:28:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQe5ZEd17v=zdP9xNMXFXa=Zjh=YUww2+_4Qerh=CdQOQ@mail.gmail.com>
-X-Gm-Features: AQ5f1Jqd8Dw99Dgh75IrGcKerpY-dzmShj5KMqxECut3Sko0l64ED8VLDnizrPM
-Message-ID: <CAK7LNAQe5ZEd17v=zdP9xNMXFXa=Zjh=YUww2+_4Qerh=CdQOQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: exclude .rodata.(cst|str)* when building ranges
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	Nick Alcock <nick.alcock@oracle.com>, Alan Maguire <alan.maguire@oracle.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Sam James <sam@gentoo.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Jiri Olsa <olsajiri@gmail.com>, 
-	Elena Zannoni <elena.zannoni@oracle.com>, Daniel Gomez <da.gomez@samsung.com>, stable@vger.kernel.org, 
-	Jack Vogel <jack.vogel@oracle.com>
+X-SA-Exim-Connect-IP: 2a02:578:851f:1502:391e:c5f5:10e2:b9a3
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
+
+
+--=-SHz5T4wd+MHzPWqVsRS0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 8, 2025 at 1:54=E2=80=AFAM Kris Van Hees <kris.van.hees@oracle.=
-com> wrote:
->
-> The .rodata.(cst|str)* sections are often resized during the final
-> linking and since these sections do not cover actual symbols there is
-> no need to include them in the modules.builtin.ranges data.
->
-> When these sections were included in processing and resizing occurred,
-> modules were reported with ranges that extended beyond their true end,
-> causing subsequent symbols (in address order) to be associated with
-> the wrong module.
->
-> Fixes: 5f5e7344322f ("kbuild: generate offset range data for builtin modu=
-les")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-> Reviewed-by: Jack Vogel <jack.vogel@oracle.com>
-> ---
+On Tue, 2025-03-11 at 20:03 +0900, Masahiro Yamada wrote:
+> On Mon, Feb 17, 2025 at 10:23=E2=80=AFPM Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
+> >=20
+> > On Mon, Feb 10, 2025 at 6:11=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@we=
+issschuh.net> wrote:
+> > >=20
+> > > Remap source path prefixes in all output, including compiler
+> > > diagnostics, debug information, macro expansions, etc.
+> >=20
+> > Hmm... We don't do all the cases in the C side -- the docs ask to use
+> > `KCFLAGS` when one wants to remove them in the debug info:
+> >=20
+> >     https://docs.kernel.org/kbuild/reproducible-builds.html#absolute-fi=
+lenames
+> >=20
+> > I am not sure if there is a reason not to cover all cases in C (Cc'ing =
+Ben).
 
-Applied to linux-kbuild. Thanks.
+I think we should use the prefix-map options by default, for both C and
+Rust code.
 
->  scripts/generate_builtin_ranges.awk | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/scripts/generate_builtin_ranges.awk b/scripts/generate_built=
-in_ranges.awk
-> index b9ec761b3bef..d4bd5c2b998c 100755
-> --- a/scripts/generate_builtin_ranges.awk
-> +++ b/scripts/generate_builtin_ranges.awk
-> @@ -282,6 +282,11 @@ ARGIND =3D=3D 2 && !anchor && NF =3D=3D 2 && $1 ~ /^=
-0x/ && $2 !~ /^0x/ {
->  # section.
->  #
->  ARGIND =3D=3D 2 && sect && NF =3D=3D 4 && /^ [^ \*]/ && !($1 in sect_add=
-end) {
-> +       # There are a few sections with constant data (without symbols) t=
-hat
-> +       # can get resized during linking, so it is best to ignore them.
-> +       if ($1 ~ /^\.rodata\.(cst|str)[0-9]/)
-> +               next;
-> +
->         if (!($1 in sect_base)) {
->                 sect_base[$1] =3D base;
->
-> --
-> 2.45.2
->
+The default of using absolute filenames only works when the build and
+debug systems have their sources in the same absolute directory.  For
+some developers this will always be true because they're the same
+system.  In the general case, and particularly in production, it's
+unlikely to be true.  See below.
 
+> GCC manual mentions the below about the -fdebug-prefix-map=3Dold=3Dnew
+>=20
+>=20
+> "It can also be used to change an absolute path to
+> a relative path by using . for new.
+> This can give more reproducible builds, which are location
+> independent, but may require an extra command to tell GDB
+> where to find the source files."
+>=20
+>=20
+> I guess "the extra command" might be a bit annoying.
+
+The command in question is "dir <source-root-directory>".  It's not
+particulary annoying.  It also isn't needed when invoking gdb with the
+kernel source root as its current directory.
+
+Running that command adds the directory to gdb's source search path,
+causing it to look for sources referenced in debug info by:
+
+1. Appending the full filename to that directory
+2. Appending the base filename to that directory
+
+(This is slightly simplified from the docuemntation at:
+<https://sourceware.org/gdb/current/onlinedocs/gdb.html/Source-Path.html#So=
+urce-Path>.)
+
+When the debug info has relative filenames, case 1 should always work.
+
+When the debug info has absolute filenames,=C2=A0case 2 can work if all
+sources are in the same directory.  But the kernel has source files
+spread across many directories, so there's no general way to make gdb
+find them all.
+
+Ben.
 
 --=20
-Best Regards
-Masahiro Yamada
+Ben Hutchings
+A free society is one where it is safe to be unpopular.
+                                                      - Adlai Stevenson
+
+--=-SHz5T4wd+MHzPWqVsRS0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmfQdJkACgkQ57/I7JWG
+EQmoUA//bvfMyVxAIIZMWScGpaRq/gpNTlamMQSFtw1CYif6BFsPte+S7LrofDBa
+CsyVy+IMGqUnusl/sSL7EWHBq8egHTxLX3mWytZgiGl9f47rkL4zeVIqOFra1fPi
+bC0xuk2qjRH/TNS3+WIu26v2w8PMM+OWRnxtUiICCbiL/6w2tNjtseXfvpwAbXid
+MmxmELMAC1IwFJTNHiuN4dhGFdBdcWJLh0RrRV81PKXrw/8fpR0aJPmZ4NqhUVxP
+jyRPqJ9g8bMWCKlBYAjVZeWw6Tv280YXppRs4L8t9e+K4p+D0EuIy9PzSLea3kwu
+foYm5R/mPH9OXYWGVvSN1ag5slsWEGQCssi21Yary9/JmQtcKYMbFDPBJ5Euf3bM
+UqOWmsAd3/Dz3Unm4g+EDxY5sz25lhpxCj0m929MHrIJgqj/58AzCc9HrZh0P6G2
+e9G5Kd/0NHpWwOLqRsEn7f18YPfMoxWkjZn3MCQwPQAGGItLlwXFbvro29oX7QPq
+4N6G7jZA9yTKR+1nfLyGS1JAoXJdgPyAPx8UkK+hK60SGatHJkjhznaU4rTAdyi1
+nsLmqnoqe1FolwU6VeSrbU4/fNUxwuYHZ3geLUOiwCNLjbPdnOl5o8Plky4Jxm7n
+7nNEsT72Hvgg6UBmEJHE/jH4bEy4mUHxlKWNP7RjSQ/VMoAzdkU=
+=JjRR
+-----END PGP SIGNATURE-----
+
+--=-SHz5T4wd+MHzPWqVsRS0--
 
