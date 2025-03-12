@@ -1,146 +1,100 @@
-Return-Path: <linux-kbuild+bounces-6076-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6077-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D440BA5D153
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 22:05:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EFAA5D4C5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 04:35:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DD27189E88C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Mar 2025 21:05:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A9BD1793FE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 03:35:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0280D224AEB;
-	Tue, 11 Mar 2025 21:05:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 906A378F44;
+	Wed, 12 Mar 2025 03:35:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="APt9RGl0"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="IDSg4D9t"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E429222572;
-	Tue, 11 Mar 2025 21:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A625679EA;
+	Wed, 12 Mar 2025 03:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741727100; cv=none; b=aDp1owstudP5gxT0xN5bTyMmpaJo6MZ0mPBpnca2bamRUllOVMIF7Xp/efONZfMeNwKwaVICPKjK9jYX7mnUmq/I82RfYCxJqZu8dXCBY7oAepXmLk1hRGgb5QAmOsZT+ijgTDMNST2cHoghN8qOzGcR40SmwD38TnnTsBO6Pvo=
+	t=1741750505; cv=none; b=rSjMM3HKZ8Pm82ZjieiXIXNTWLerOLpvG2O/ONZrDUX2bouPfMDRD/BwGqInVivx1zZrK8BOmEs7I755T9Bw36zuP5diqlR9+ISH21IpAbXhUDlPqC8AR4IycB0kyV13jVsLLJWktdktIFkCcEVsn0KiL977pjE7+mKUSrMyVEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741727100; c=relaxed/simple;
-	bh=PbrbTkpkyfNdlih0/V9VTYpRyWEsPGhl4jbqwjfOzS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gBi3YKsWPK3PFrjnTXcNKbqWB8oizHDY/Vuc/1yRDEpgiXvLSPPQMGcPiX+JOPNsMo+rbVyUhPBNIgSU9CsSFA2dtqOVI9L6nK2iTHZ/XxntvYlLFJJEbO9sDnnxNu8BhY+7ZEvVnWwrCSbuwoSuDro8rqpYGaj2rSO8KSFjUCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=APt9RGl0; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1741727097;
-	bh=PbrbTkpkyfNdlih0/V9VTYpRyWEsPGhl4jbqwjfOzS8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=APt9RGl0K7e6V6tAglj0pmLww/GIZ1pLxh4x5Nw4NaMGTMwMtIk42wJ4Cl8IUoq/I
-	 e1Hb3OINFntBeG99F2S4vY+QG3sIOuhYj43WSQeXZ8u2xIj9fhAHbQQ7c38W7aUznf
-	 opECeFb/PU2LM3mVVpio3JrrhM5Pa5riJ+dXli40=
-Date: Tue, 11 Mar 2025 22:04:56 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Ben Hutchings <ben@decadent.org.uk>, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, Urgau <urgau@numericable.fr>
-Subject: Re: [PATCH] kbuild, rust: use -fremap-path-prefix to make paths
- relative
-Message-ID: <ed6acfb2-f1a0-4713-8401-60b0cfcd2e91@t-8ch.de>
-References: <20250210-rust-path-remap-v1-1-021c48188df1@weissschuh.net>
- <CANiq72mcpVL1YXyDFi-PrbQ2Uh0WUA_VNqLZaOeqQnpY5HnX8Q@mail.gmail.com>
- <CAK7LNATKK4bZCY7izDdEzNcUu60wjH57TK8ESM50QhUG2a4bRw@mail.gmail.com>
- <c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk>
- <CAK7LNARdPcnsaP-z7tZUQLqAgBXD90XsEWAtTy8aTwDpTqMo9A@mail.gmail.com>
+	s=arc-20240116; t=1741750505; c=relaxed/simple;
+	bh=HIxFMT3KC4NSqGNWjQ9kfWLBop+Y5Xq5RRV9Zpj4uvg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VaOSvEaMiswNlLLI2tkXNdz6tf2NlCv7zyV3nIhuo/ykfRwQLLRRi70tk7tx71SF/isp2tj6xznXSMMaAA24V6UQnBL/V+JNisrcuTjilN3ld/tR9hlhN9C/trPrt9kIQciAazGGxFLsFGtRKzjCfqTKSMwoAJzAW/0LX8g4mag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=IDSg4D9t; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52C3YLCE2365211
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Tue, 11 Mar 2025 20:34:25 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52C3YLCE2365211
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1741750467;
+	bh=qHk1sd29R3O16b3aqrjLVVhRLyzf7AZMMPeMDmfqqDI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=IDSg4D9tDh+xh8v3PDa3t9qHaZLZa04psYHIiGXPQorvPLAL6gee6inBI4WPL9ktI
+	 nH/RcObNp2Q5u3U4e3EWXEXNdF1IFJDD7lv9ybPYa7VYtyrJPJTAOBSEk9u10Ehk94
+	 vSo7kk1kZy2JD0Q773HOmD7aQxNjtha8p3dWjZJLoMtQ3i9hDcd5rggco5HMCCzPNT
+	 GxLAqfx1Filsj8+fu7v7lV1M9HmPxY8oA0qW7+GvTUv4Z5hAdniBrz7edIYlgp0LwM
+	 AMJRNXJ6uN3S6Pwf/SvOhMx0KuwbesKcIYvMeyoJmsCtghXdkPrAp7AsEncCiOOsbG
+	 leGJzaLIgW59Q==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu, bp@alien8.de,
+        hpa@zytor.com, sraithal@amd.com, n.schier@avm.de
+Subject: [PATCH v3 1/1] kbuild: Add a help message for "headers"
+Date: Tue, 11 Mar 2025 20:34:21 -0700
+Message-ID: <20250312033421.2365201-1-xin@zytor.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNARdPcnsaP-z7tZUQLqAgBXD90XsEWAtTy8aTwDpTqMo9A@mail.gmail.com>
 
-On 2025-03-12 04:07:51+0900, Masahiro Yamada wrote:
-> On Wed, Mar 12, 2025 at 2:36 AM Ben Hutchings <ben@decadent.org.uk> wrote:
-> >
-> > On Tue, 2025-03-11 at 20:03 +0900, Masahiro Yamada wrote:
-> > > On Mon, Feb 17, 2025 at 10:23 PM Miguel Ojeda
-> > > <miguel.ojeda.sandonis@gmail.com> wrote:
-> > > >
-> > > > On Mon, Feb 10, 2025 at 6:11 PM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > > > >
-> > > > > Remap source path prefixes in all output, including compiler
-> > > > > diagnostics, debug information, macro expansions, etc.
-> > > >
-> > > > Hmm... We don't do all the cases in the C side -- the docs ask to use
-> > > > `KCFLAGS` when one wants to remove them in the debug info:
-> > > >
-> > > >     https://docs.kernel.org/kbuild/reproducible-builds.html#absolute-filenames
-> > > >
-> > > > I am not sure if there is a reason not to cover all cases in C (Cc'ing Ben).
-> >
-> > I think we should use the prefix-map options by default, for both C and
-> > Rust code.
-> 
-> A patch is appreciated.
-> (top-level Makefile change with updates
-> in Documentation/kbuild/reproducible-builds.rst)
+Meanwhile explicitly state that the headers are uapi headers.
 
-I'm happy to send a patch.
-The new patch will conflict with the rust patch.
-Could you push the current kbuild tree to git.kernel.org so the new
-patch can be based on top of it?
+Suggested-by: Borislav Petkov <bp@alien8.de>
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+---
 
-> > The default of using absolute filenames only works when the build and
-> > debug systems have their sources in the same absolute directory.  For
-> > some developers this will always be true because they're the same
-> > system.  In the general case, and particularly in production, it's
-> > unlikely to be true.  See below.
-> >
-> > > GCC manual mentions the below about the -fdebug-prefix-map=old=new
-> > >
-> > >
-> > > "It can also be used to change an absolute path to
-> > > a relative path by using . for new.
-> > > This can give more reproducible builds, which are location
-> > > independent, but may require an extra command to tell GDB
-> > > where to find the source files."
-> > >
-> > >
-> > > I guess "the extra command" might be a bit annoying.
-> >
-> > The command in question is "dir <source-root-directory>".  It's not
-> > particulary annoying.  It also isn't needed when invoking gdb with the
-> > kernel source root as its current directory.
-> >
-> > Running that command adds the directory to gdb's source search path,
-> > causing it to look for sources referenced in debug info by:
-> >
-> > 1. Appending the full filename to that directory
-> > 2. Appending the base filename to that directory
-> >
-> > (This is slightly simplified from the docuemntation at:
-> > <https://sourceware.org/gdb/current/onlinedocs/gdb.html/Source-Path.html#Source-Path>.)
-> >
-> > When the debug info has relative filenames, case 1 should always work.
-> >
-> > When the debug info has absolute filenames, case 2 can work if all
-> > sources are in the same directory.  But the kernel has source files
-> > spread across many directories, so there's no general way to make gdb
-> > find them all.
-> >
-> > Ben.
-> >
-> > --
-> > Ben Hutchings
-> > A free society is one where it is safe to be unpopular.
-> >                                                       - Adlai Stevenson
+Change in v3:
+* Fix a typo and write uapi in capital letters (Nicolas Schier).
+
+Changes in v2:
+* Revise the help message for "headers" (Masahiro Yamada).
+* Revise the shortlog (Masahiro Yamada).
+---
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 70bdbf2218fc..08918088ab35 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1659,7 +1659,8 @@ help:
+ 	@echo  '  kernelrelease	  - Output the release version string (use with make -s)'
+ 	@echo  '  kernelversion	  - Output the version stored in Makefile (use with make -s)'
+ 	@echo  '  image_name	  - Output the image name (use with make -s)'
+-	@echo  '  headers_install - Install sanitised kernel headers to INSTALL_HDR_PATH'; \
++	@echo  '  headers	  - Build ready-to-install UAPI headers in usr/include'
++	@echo  '  headers_install - Install sanitised kernel UAPI headers to INSTALL_HDR_PATH'; \
+ 	 echo  '                    (default: $(INSTALL_HDR_PATH))'; \
+ 	 echo  ''
+ 	@echo  'Static analysers:'
+
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+-- 
+2.48.1
+
 
