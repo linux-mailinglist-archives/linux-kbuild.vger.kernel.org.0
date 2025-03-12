@@ -1,100 +1,127 @@
-Return-Path: <linux-kbuild+bounces-6077-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6078-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EFAA5D4C5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 04:35:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 596D0A5DC8B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 13:26:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A9BD1793FE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 03:35:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC5801899FB3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 12:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 906A378F44;
-	Wed, 12 Mar 2025 03:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10256241C89;
+	Wed, 12 Mar 2025 12:26:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="IDSg4D9t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNMvr/ac"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A625679EA;
-	Wed, 12 Mar 2025 03:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC60F23C8A5;
+	Wed, 12 Mar 2025 12:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741750505; cv=none; b=rSjMM3HKZ8Pm82ZjieiXIXNTWLerOLpvG2O/ONZrDUX2bouPfMDRD/BwGqInVivx1zZrK8BOmEs7I755T9Bw36zuP5diqlR9+ISH21IpAbXhUDlPqC8AR4IycB0kyV13jVsLLJWktdktIFkCcEVsn0KiL977pjE7+mKUSrMyVEc=
+	t=1741782386; cv=none; b=OF5/EDO7C+oLSBQf+JENRsDjiOeqncLavDkIGh/H9y2G63mIZNO3RkpkpYYS9LmrjAG5EdKGSZIEcP7dTKoWYIxNJCRMNNL9DfNNg4RMGJJCoTPIiRZDqI/RZVTiA3XkIYu5fAPdRl1zss2xfKfvkWBfCcKMUiImNo0QiHOHbyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741750505; c=relaxed/simple;
-	bh=HIxFMT3KC4NSqGNWjQ9kfWLBop+Y5Xq5RRV9Zpj4uvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VaOSvEaMiswNlLLI2tkXNdz6tf2NlCv7zyV3nIhuo/ykfRwQLLRRi70tk7tx71SF/isp2tj6xznXSMMaAA24V6UQnBL/V+JNisrcuTjilN3ld/tR9hlhN9C/trPrt9kIQciAazGGxFLsFGtRKzjCfqTKSMwoAJzAW/0LX8g4mag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=IDSg4D9t; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52C3YLCE2365211
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Tue, 11 Mar 2025 20:34:25 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52C3YLCE2365211
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1741750467;
-	bh=qHk1sd29R3O16b3aqrjLVVhRLyzf7AZMMPeMDmfqqDI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=IDSg4D9tDh+xh8v3PDa3t9qHaZLZa04psYHIiGXPQorvPLAL6gee6inBI4WPL9ktI
-	 nH/RcObNp2Q5u3U4e3EWXEXNdF1IFJDD7lv9ybPYa7VYtyrJPJTAOBSEk9u10Ehk94
-	 vSo7kk1kZy2JD0Q773HOmD7aQxNjtha8p3dWjZJLoMtQ3i9hDcd5rggco5HMCCzPNT
-	 GxLAqfx1Filsj8+fu7v7lV1M9HmPxY8oA0qW7+GvTUv4Z5hAdniBrz7edIYlgp0LwM
-	 AMJRNXJ6uN3S6Pwf/SvOhMx0KuwbesKcIYvMeyoJmsCtghXdkPrAp7AsEncCiOOsbG
-	 leGJzaLIgW59Q==
-From: "Xin Li (Intel)" <xin@zytor.com>
-To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu, bp@alien8.de,
-        hpa@zytor.com, sraithal@amd.com, n.schier@avm.de
-Subject: [PATCH v3 1/1] kbuild: Add a help message for "headers"
-Date: Tue, 11 Mar 2025 20:34:21 -0700
-Message-ID: <20250312033421.2365201-1-xin@zytor.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1741782386; c=relaxed/simple;
+	bh=60bX5leRriG/PeHiLZJbUxrTQl+YufpehzKSr66mctg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GMPYFy0GO0j6ZCv0cMeglqOX+C5ua8ovcm0V1z4fq0IGh7/Ssk+r4G0KqRQMrW+1Y5aJ5T2IYU0JEm4qcSOltCwrWakdUn0qtFvbEmSlB2+b/cUe5T1V5Bs7kkE+RAvohdhe7bZ/dGRmxHKyhci38NXokZKKETYvn7fysQD2w7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNMvr/ac; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C3CC4CEEE;
+	Wed, 12 Mar 2025 12:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741782385;
+	bh=60bX5leRriG/PeHiLZJbUxrTQl+YufpehzKSr66mctg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=KNMvr/acQGeA/HLm6Z+vWXcPJ1u8hwYgLNeYP7Gm1gXQLbn+hBMAof8LCTHLneBZz
+	 S8sGj8uvuJbxUrsxqyZIVKIPWG863KyuV945bXCD2C3LxNYT4Qp8yThZxr118bTuTH
+	 oJRvZqYgs0X+VvMMj9opBOqnkbprwMvk396VmAgX0y4qLjvINMowOcy4lCtrR9dyEF
+	 Gba7nhypKj+1jcprxn0mbtYuD1YW+ZPJQnl+kFAmCVsZTWjSkK5wWGnIbJUv4BpKrw
+	 oCFESDa85MjjvS8+oyBmXDmMDffmuKY4gkPOXfsrsU6BRTmFlRg9OhGGKXGX+gkHb0
+	 WRdw365rHpT5A==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54954fa61c8so6924469e87.1;
+        Wed, 12 Mar 2025 05:26:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUOF115/yZ4NgjkdrlBxabeli19E3t4wScF+kYAQF1i3ddegmeZcz+YuQ3Rqlkzoc57MJLDx9twby5xOKc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKnK7mCVN504vOGwbLSOfLxm+ex9fdH4NoOunHGsFdr2+3Aeeq
+	dBNOtqbayqgFfnvq/ZnKktrQaOJB6P8888m5qaVA2pQCwD0qfIBjvmcxhZEt+83GVAyJTQAkoQO
+	s9uIhixlyGUqinQRcvcDD7N/rSc0=
+X-Google-Smtp-Source: AGHT+IEfcz8Z8RBun5aDzMJh/iWeeqlDwaeZQ8mtO44hMbOvcvI/StuAQz9lvME4/cxmWxEJLOgv9z1TSGm4eX6tssM=
+X-Received: by 2002:a05:6512:1597:b0:545:1db5:f224 with SMTP id
+ 2adb3069b0e04-54990e2989dmr7039884e87.11.1741782383985; Wed, 12 Mar 2025
+ 05:26:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250311190212.634123-1-masahiroy@kernel.org> <20250311192036.GC1958594@ax162>
+In-Reply-To: <20250311192036.GC1958594@ax162>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 12 Mar 2025 21:25:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATwnW_uHZr2CPTKMb2ETm9WxOqTGvWN8GHxXuEAP=Po_Q@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp4aTYYfbev7A0r71dgTS2TXIeKs0gpqiNVgyajTXPjL2SsfxA0Wky9G1Q
+Message-ID: <CAK7LNATwnW_uHZr2CPTKMb2ETm9WxOqTGvWN8GHxXuEAP=Po_Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: deb-pkg: fix versioning for -rc releases
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Ben Hutchings <ben@decadent.org.uk>, Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Meanwhile explicitly state that the headers are uapi headers.
+On Wed, Mar 12, 2025 at 4:20=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> On Wed, Mar 12, 2025 at 04:01:33AM +0900, Masahiro Yamada wrote:
+> > The version number with -rc should be considered older than the final
+> > release.
+> >
+> > For example, 6.14-rc1 should be older than 6.14, but to handle this
+> > correctly (just like Debian kernel), "-rc" must be replace with "~rc".
+> >
+> >   $ dpkg --compare-versions 6.14-rc1 lt 6.14
+> >   $ echo $?
+> >   1
+> >   $ dpkg --compare-versions 6.14~rc1 lt 6.14
+> >   $ echo $?
+> >   0
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>
+> > ---
+> >
+> >  scripts/package/mkdebian | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> > index 193e33bcb989..80ed96561993 100755
+> > --- a/scripts/package/mkdebian
+> > +++ b/scripts/package/mkdebian
+> > @@ -167,7 +167,9 @@ version=3D$KERNELRELEASE
+> >  if [ "${KDEB_PKGVERSION:+set}" ]; then
+> >       packageversion=3D$KDEB_PKGVERSION
+> >  else
+> > -     packageversion=3D$(${srctree}/scripts/setlocalversion --no-local =
+${srctree})-$($srctree/scripts/build-version)
+> > +     upstream_version=3D$("${srctree}/scripts/setlocalversion" --no-lo=
+cal "${srctree}" | sed 's/-\(rc[1-9]\)/~\1/')
+>
+> I don't think there has ever been an -rc10 but would it hurt to make it
+> [1-9]+?
 
-Suggested-by: Borislav Petkov <bp@alien8.de>
-Signed-off-by: Xin Li (Intel) <xin@zytor.com>
----
 
-Change in v3:
-* Fix a typo and write uapi in capital letters (Nicolas Schier).
+The current code should work with -rc10 as well.
 
-Changes in v2:
-* Revise the help message for "headers" (Masahiro Yamada).
-* Revise the shortlog (Masahiro Yamada).
----
- Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+$ echo 6.14-rc10 | sed 's/-\(rc[1-9]\)/~\1/'
+6.14~rc10
 
-diff --git a/Makefile b/Makefile
-index 70bdbf2218fc..08918088ab35 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1659,7 +1659,8 @@ help:
- 	@echo  '  kernelrelease	  - Output the release version string (use with make -s)'
- 	@echo  '  kernelversion	  - Output the version stored in Makefile (use with make -s)'
- 	@echo  '  image_name	  - Output the image name (use with make -s)'
--	@echo  '  headers_install - Install sanitised kernel headers to INSTALL_HDR_PATH'; \
-+	@echo  '  headers	  - Build ready-to-install UAPI headers in usr/include'
-+	@echo  '  headers_install - Install sanitised kernel UAPI headers to INSTALL_HDR_PATH'; \
- 	 echo  '                    (default: $(INSTALL_HDR_PATH))'; \
- 	 echo  ''
- 	@echo  'Static analysers:'
 
-base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
--- 
-2.48.1
 
+--=20
+Best Regards
+Masahiro Yamada
 
