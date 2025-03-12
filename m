@@ -1,127 +1,128 @@
-Return-Path: <linux-kbuild+bounces-6078-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6079-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596D0A5DC8B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 13:26:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A48FFA5DCC4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 13:36:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC5801899FB3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 12:26:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FF13189AACE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 12:36:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10256241C89;
-	Wed, 12 Mar 2025 12:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C74224293B;
+	Wed, 12 Mar 2025 12:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNMvr/ac"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KOODt/VI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC60F23C8A5;
-	Wed, 12 Mar 2025 12:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56B523F36C
+	for <linux-kbuild@vger.kernel.org>; Wed, 12 Mar 2025 12:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741782386; cv=none; b=OF5/EDO7C+oLSBQf+JENRsDjiOeqncLavDkIGh/H9y2G63mIZNO3RkpkpYYS9LmrjAG5EdKGSZIEcP7dTKoWYIxNJCRMNNL9DfNNg4RMGJJCoTPIiRZDqI/RZVTiA3XkIYu5fAPdRl1zss2xfKfvkWBfCcKMUiImNo0QiHOHbyA=
+	t=1741782965; cv=none; b=WwXHs/Cnf/JVL1axBH3djXe3OO6eeT1Gz8Dl1doWFe6TyI4NQM8MBzM8+YKvup18tuq+ZROvk/Wu4xfyktJPswAjluB3uLT9VJdowCcBsi8KC2Yt0jDTlfi1gpIq5yONdMBAfDjz7gAYw38JfxYtgleAEtMWyJHro7tdkrDBowE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741782386; c=relaxed/simple;
-	bh=60bX5leRriG/PeHiLZJbUxrTQl+YufpehzKSr66mctg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GMPYFy0GO0j6ZCv0cMeglqOX+C5ua8ovcm0V1z4fq0IGh7/Ssk+r4G0KqRQMrW+1Y5aJ5T2IYU0JEm4qcSOltCwrWakdUn0qtFvbEmSlB2+b/cUe5T1V5Bs7kkE+RAvohdhe7bZ/dGRmxHKyhci38NXokZKKETYvn7fysQD2w7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNMvr/ac; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C3CC4CEEE;
-	Wed, 12 Mar 2025 12:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741782385;
-	bh=60bX5leRriG/PeHiLZJbUxrTQl+YufpehzKSr66mctg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=KNMvr/acQGeA/HLm6Z+vWXcPJ1u8hwYgLNeYP7Gm1gXQLbn+hBMAof8LCTHLneBZz
-	 S8sGj8uvuJbxUrsxqyZIVKIPWG863KyuV945bXCD2C3LxNYT4Qp8yThZxr118bTuTH
-	 oJRvZqYgs0X+VvMMj9opBOqnkbprwMvk396VmAgX0y4qLjvINMowOcy4lCtrR9dyEF
-	 Gba7nhypKj+1jcprxn0mbtYuD1YW+ZPJQnl+kFAmCVsZTWjSkK5wWGnIbJUv4BpKrw
-	 oCFESDa85MjjvS8+oyBmXDmMDffmuKY4gkPOXfsrsU6BRTmFlRg9OhGGKXGX+gkHb0
-	 WRdw365rHpT5A==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54954fa61c8so6924469e87.1;
-        Wed, 12 Mar 2025 05:26:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUOF115/yZ4NgjkdrlBxabeli19E3t4wScF+kYAQF1i3ddegmeZcz+YuQ3Rqlkzoc57MJLDx9twby5xOKc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKnK7mCVN504vOGwbLSOfLxm+ex9fdH4NoOunHGsFdr2+3Aeeq
-	dBNOtqbayqgFfnvq/ZnKktrQaOJB6P8888m5qaVA2pQCwD0qfIBjvmcxhZEt+83GVAyJTQAkoQO
-	s9uIhixlyGUqinQRcvcDD7N/rSc0=
-X-Google-Smtp-Source: AGHT+IEfcz8Z8RBun5aDzMJh/iWeeqlDwaeZQ8mtO44hMbOvcvI/StuAQz9lvME4/cxmWxEJLOgv9z1TSGm4eX6tssM=
-X-Received: by 2002:a05:6512:1597:b0:545:1db5:f224 with SMTP id
- 2adb3069b0e04-54990e2989dmr7039884e87.11.1741782383985; Wed, 12 Mar 2025
- 05:26:23 -0700 (PDT)
+	s=arc-20240116; t=1741782965; c=relaxed/simple;
+	bh=jzP9Aq0KIRIM15I9iHhIMVyyNBjhpDHKZwBXWLV00d4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WZtLeYKleCK2Gn4UK1Yl+w6TyCJEqvbXcTrcuYZEnc1vcepJl5BS+36afYhB5xXXk8GzDAVETp3e5a4iWTujUVSfDEWrJHseGYUmlX8JcX76Aa5gY1Db/Y3JyVWSbDJvCA6uyOng1bZbatq+BRLvtttV8qwxNlALBC7uFitSxO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KOODt/VI; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3912baafc58so5012526f8f.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Mar 2025 05:36:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1741782960; x=1742387760; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kUaq01K0C1+/je1dmxCrLE4FQv+H1WtvZD4zSTTvpMs=;
+        b=KOODt/VIhtxOS9IVgs7PdYITCgVjuTWw8f5jLnUh43UyUCX6Rm+leuOhYhk8jHdiza
+         AJm3XLiR6x7EGm2PrnozkX8kYVJD+fW2XsMdwVe3UMMDsata5Ntz/071qF/cExeDp+Rz
+         vfdM226ww+lUUFQ4aKxpYjeFNlmXHpVH2HGITr8PA1/zlwnq1Q9b34h+JpScxSkcJaxR
+         CIveM1LKf3kIi1bH5lKE9KpLSGJ4OZsqy+z1SoUKoKIYEL3qVskUeiW2qfBEdB6zWIkm
+         EJ84hyO4RBTMgaklIvLRmm9rKkn9eD+djmZnrty5we3+SYajnF78zDDG9sr7io+MbJMu
+         2Ajg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741782960; x=1742387760;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kUaq01K0C1+/je1dmxCrLE4FQv+H1WtvZD4zSTTvpMs=;
+        b=Z5zWSZrj1inoi0HGkh8JdT/INGflvnar3sHHmc1GSfpTSGMTCsGXhIx+kyjSSHOn7j
+         /LVgBqz80cxTTnEi0jeqgNp5xdx+llsHynNysBZ8+vpcvWGJtvDSEyTI92HVkgztVfZW
+         o01R64KckhJoidSjHBXo9ozrAq+Ng+1HKP5iHDVx2TtHuk+ueZGOUqroY8z8rL5RHwTE
+         SqBh2/ci4FpN90dSTW+zsvcWEUJr9Y5zbzXbBI59yV6wZxayInW9H+3w4++/vEsXmxzf
+         1NU0NZl+lj0xynW6dnoZTn3g0uWBVr5bpZqYGqEDwIRjNzYeKS04euo2GADP6fxN/Gbf
+         mMuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXizi9HbmTdxmRP2d75gBqvmVhursoKtJVzxpqdEa6VFSs5rKqUzy99GsbfiTvhjjE+OXbfIyyw/5Puw/k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3k4XDJo++kEwhBlgdjmc/FFkbkwLb39YloVdXOhjU1pURKuUo
+	Th2/MaQ5pFoj5PIGyw/7A4R1h0ilRCM1Ah1nzclSJKmoqq2LM2yETlN38hW3s8w=
+X-Gm-Gg: ASbGncstS6oc2oEhiT30FnnblsVCXaf6ROVGGW6kKA3e4hbxC+NxuDb3ZP/bc9r3PSu
+	Xq4roDW2PZTb92cuiosVhxYKI9uWLTZOcBiVuNp6Kv3UL6/VbAPB6yIet2a0BY/xSkK9TJL8YqT
+	xoTe8FzLRDVqObSoX0FdeU8DHwLgvV0MJVHIhVh/91TjtncIUMHWHmMamHSqIAaglkCvdGBYgSb
+	NglK/nVfX7xrHF6/EvENmLG/p01mv1HXI7dX9Cv3DGmrU9aJzuUypgKJCICQfc1j75o9g0M9vJk
+	5/xIU7tdtLvO3pI2LuLvQ4a6U118B2vuoENrbHmO5GcHrKi88I4LOQOXenE=
+X-Google-Smtp-Source: AGHT+IFrA6tfodlHT/i+OhShiNyminNv57BdVgInFHmYLhpZouf0CKqE982VoKWLQju/Sa45z4pOqQ==
+X-Received: by 2002:a05:6000:1fa4:b0:38f:30a3:51fe with SMTP id ffacd0b85a97d-39132dbb4fbmr16745859f8f.42.1741782959853;
+        Wed, 12 Mar 2025 05:35:59 -0700 (PDT)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912bee262esm20862095f8f.0.2025.03.12.05.35.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Mar 2025 05:35:59 -0700 (PDT)
+Message-ID: <f17b5886-8b46-4edb-9f61-7ff9b60d1b5e@suse.com>
+Date: Wed, 12 Mar 2025 13:35:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250311190212.634123-1-masahiroy@kernel.org> <20250311192036.GC1958594@ax162>
-In-Reply-To: <20250311192036.GC1958594@ax162>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 12 Mar 2025 21:25:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATwnW_uHZr2CPTKMb2ETm9WxOqTGvWN8GHxXuEAP=Po_Q@mail.gmail.com>
-X-Gm-Features: AQ5f1Jp4aTYYfbev7A0r71dgTS2TXIeKs0gpqiNVgyajTXPjL2SsfxA0Wky9G1Q
-Message-ID: <CAK7LNATwnW_uHZr2CPTKMb2ETm9WxOqTGvWN8GHxXuEAP=Po_Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: deb-pkg: fix versioning for -rc releases
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Ben Hutchings <ben@decadent.org.uk>, Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] x86: Get rid of Makefile.postlink
+To: Borislav Petkov <bp@alien8.de>, Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ x86@kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Ingo Molnar <mingo@kernel.org>
+References: <20250311110616.148682-6-ardb+git@google.com>
+ <20250311110616.148682-10-ardb+git@google.com>
+ <20250311111745.GDZ9Ab2f6-iHLXmRra@fat_crate.local>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20250311111745.GDZ9Ab2f6-iHLXmRra@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 12, 2025 at 4:20=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> On Wed, Mar 12, 2025 at 04:01:33AM +0900, Masahiro Yamada wrote:
-> > The version number with -rc should be considered older than the final
-> > release.
-> >
-> > For example, 6.14-rc1 should be older than 6.14, but to handle this
-> > correctly (just like Debian kernel), "-rc" must be replace with "~rc".
-> >
-> >   $ dpkg --compare-versions 6.14-rc1 lt 6.14
-> >   $ echo $?
-> >   1
-> >   $ dpkg --compare-versions 6.14~rc1 lt 6.14
-> >   $ echo $?
-> >   0
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> > ---
-> >
-> >  scripts/package/mkdebian | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> > index 193e33bcb989..80ed96561993 100755
-> > --- a/scripts/package/mkdebian
-> > +++ b/scripts/package/mkdebian
-> > @@ -167,7 +167,9 @@ version=3D$KERNELRELEASE
-> >  if [ "${KDEB_PKGVERSION:+set}" ]; then
-> >       packageversion=3D$KDEB_PKGVERSION
-> >  else
-> > -     packageversion=3D$(${srctree}/scripts/setlocalversion --no-local =
-${srctree})-$($srctree/scripts/build-version)
-> > +     upstream_version=3D$("${srctree}/scripts/setlocalversion" --no-lo=
-cal "${srctree}" | sed 's/-\(rc[1-9]\)/~\1/')
->
-> I don't think there has ever been an -rc10 but would it hurt to make it
-> [1-9]+?
+On 3/11/25 12:17, Borislav Petkov wrote:
+> + Petr for 9d9173e9ceb6
+> 
+> @Petr, you can find the whole thread on lore.
+> 
+> On Tue, Mar 11, 2025 at 12:06:21PM +0100, Ard Biesheuvel wrote:
+>> From: Ard Biesheuvel <ardb@kernel.org>
+>>
+>> Instead of generating the vmlinux.relocs file (needed by the
+>> decompressor build to construct the KASLR relocation tables) as a
+>> vmlinux postlink step, which is dubious because it depends on data that
+>> is stripped from vmlinux before the build completes, generate it from
+>> vmlinux.unstripped, which has been introduced specifically for this
+>> purpose.
+>>
+>> This ensures that each artifact is rebuilt as needed, rather than as a
+>> side effect of another build rule.
+>>
+>> This effectively reverts commit
+>>
+>>   9d9173e9ceb6 ("x86/build: Avoid relocation information in final vmlinux")
+>>
+>> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 
+For what it's worth, the changes look to me as an improvement over the
+previous implementation.
 
-The current code should work with -rc10 as well.
-
-$ echo 6.14-rc10 | sed 's/-\(rc[1-9]\)/~\1/'
-6.14~rc10
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+Thanks,
+Petr
 
