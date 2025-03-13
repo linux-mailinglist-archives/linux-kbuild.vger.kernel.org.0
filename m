@@ -1,117 +1,106 @@
-Return-Path: <linux-kbuild+bounces-6115-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6116-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667C0A5EF71
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 10:21:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB7DA5EF9C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 10:34:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D82B1680DF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 09:21:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0F89178194
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 09:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9FF3206F3D;
-	Thu, 13 Mar 2025 09:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27308230BC2;
+	Thu, 13 Mar 2025 09:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQGBB+6w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uJ3v/KQb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988881FA14E;
-	Thu, 13 Mar 2025 09:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94511FC3;
+	Thu, 13 Mar 2025 09:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741857702; cv=none; b=upoJOjoCBzbm8oR57lHQ4zYCi2IczNZbYJD2AofQVwL1qmqVYdK0qh8UmybPdRhu5tmw5JsHdKk8yWtcq9hh0MMu/waeaDoPXD3D0+21Cj/LhwSbmh+37AoBVz5vKNTLLJuhivBzCcCskW7T/I65xO4UdfgCxV9VgOD3X85ZCL8=
+	t=1741858463; cv=none; b=pMEi45WRAiDIen6ndggbdUArrzuMCVRrO4//+gG5fYEKgVmbp6MpO4PkNRLvg5Yl9VwMpG0ubrwE54ZViETNCU6OIcflNtLdCPqkVrgGzKIlsXW6xwMbS7tasR80oarc+CTHDT+KUr/KDdbn7kO/sEhqZ77wq18twU4KPFjQ+Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741857702; c=relaxed/simple;
-	bh=hCJZTlrjR72fQw95LntGtZB0qmUyY1a+nfigglPfBWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fqOHHHL+YczgOp3Fta5ZtYKEEmioZUfp7tMWEjdfYKifk0pX0RxMJKjEdSi/gbQQaa0PzZ/HGMk5Szek+fMlPUmGqABoB753i3DzeVhTCEZofV16MngRq7XDDp2eBwaJHmKkDBuHBcOlnNR91v4HCkrIfN4u8p71eRC8f9sCCd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQGBB+6w; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741857701; x=1773393701;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hCJZTlrjR72fQw95LntGtZB0qmUyY1a+nfigglPfBWA=;
-  b=nQGBB+6wCqjOtKCOuwJzQ0LBjctVse9Lj5xn6oh5rMGHHjkjKuyTw5bi
-   pYtQdU38JKtYzWJvBf+YD1tKwnCsuBfwfV7lgXaDywFCTkXLzRo8snUFM
-   gDjTQvBPNQZONDrHE4hareQGtT+R8vQ8NhxkkaDfz7l8e2cKiBn69ZY94
-   ntTDYMOHD7bZUlmSoiXF1OiY4UuKcx9Lw76yFrLZu4xDk5GHq47P7XIDM
-   79WOn79ZDgET2avCHJP0EcBxs3OwzTC+W35IOAF+GVWGAWmetS6d2j0Hz
-   eYcg1gc847vaHD9UuWDNBmTIp82M91QNq+sLLL2Z/4lNM6LZlTeLa19OP
-   g==;
-X-CSE-ConnectionGUID: t+WARYvdTZulktqmqOnAHA==
-X-CSE-MsgGUID: Yb7XKHQUTwy6jOIB3iverw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="60364255"
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="60364255"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 02:21:40 -0700
-X-CSE-ConnectionGUID: 8TakgNW9SYepuCpnh98+ew==
-X-CSE-MsgGUID: gulqS8XZQ626iRofm+J3Jg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="125772051"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 13 Mar 2025 02:21:38 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tsekx-0009HE-2N;
-	Thu, 13 Mar 2025 09:21:35 +0000
-Date: Thu, 13 Mar 2025 17:21:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kbuild@vger.kernel.org, x86@kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>
-Subject: Re: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with
- relocations preserved
-Message-ID: <202503131715.Fb6CfjhT-lkp@intel.com>
-References: <20250311110616.148682-9-ardb+git@google.com>
+	s=arc-20240116; t=1741858463; c=relaxed/simple;
+	bh=vZoJDpDTmWHWIWAu2WSeOEgGu9mMhdvsQC0d26Wi4EE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NuIL6pFNSnvQPkJNJBUk6u9ze2HZANGbRyOT8ZX2FHKhw0iWh9Ki+5VuPos0CmoDfV47AxdcYMlCeTaWxD7ECoR036oDWXYrb9v2pUaA/B7rhU4QXGvKkd+GrjxuupOTI0e8tTJgjGfXu4Ao2MYHj7v6CleYrPlrw1b7tEEP1Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uJ3v/KQb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE0FDC4CEDD;
+	Thu, 13 Mar 2025 09:34:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741858462;
+	bh=vZoJDpDTmWHWIWAu2WSeOEgGu9mMhdvsQC0d26Wi4EE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uJ3v/KQbtHiRxiHdK+WMSahSOVWk23CN1xtmsNpXhXafJuxBYtYFCxuKoRD9Zxj7b
+	 SpuM+892PUms50X1x+iLuWZ9qSh+q75FBjEQR3MTUvkPM/plj8a+JjDdroehSku2/J
+	 DjvT4+Zr8mN9qWW1x1WGnuyE2N40p/y6AhCCeCaFkz3WKsx/T3Ae5015PMD2SzP4hY
+	 l95kFUEDO5JwiQ7FMI2/t9fL2+VFjqH2kZ2p8vX/IisjEwVS3uc/LVPPIGKeunOd/b
+	 DRUyKEKW50XBBKK18ItYM9m8SrIVh9Wh+NdatGuHYDSEukc4bc22Y1ZpCvEizd6r6X
+	 FlO4rxUezCgMw==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5499bd3084aso741127e87.0;
+        Thu, 13 Mar 2025 02:34:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVFYMwO04dvnj5wJWPym6cnM8ppsbdcgVg+NaRHSHvxL4HcETk+pI3LKrykL0E25FD0mtXvus6dNGwmi6U=@vger.kernel.org, AJvYcCWXRBLy9AHi6fM4dpO+viwxbzQoWbmrGe6yhYmPHaerR2Z7A8ZiSiY+b72wAciVadbziyz+JnSikiOoRPoa@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywf2swWHrNyrpefE8cyP1IjXtr/I+OUR5ON0+7Q0cfSEVmWUKF1
+	uKfkjCErjMdUVWXoJ1CI2Dwoog6UiJ3ciNhILayjNTfDB/lEZOMnP2MlbbMp73T1tmdDm6zZQR/
+	s2LwHEKrdR+kKGr7o5ED3dIfjeCU=
+X-Google-Smtp-Source: AGHT+IGiizjDd9U50PgmaruU6eXHUHi2xPUqWWSNcGHullv/aaClM9lkBlv5Mu+wibAEsAHWg3V8TSdK+NMBcnDEej4=
+X-Received: by 2002:a05:6512:159a:b0:545:6fa:bf60 with SMTP id
+ 2adb3069b0e04-54990e4a822mr9816194e87.19.1741858461061; Thu, 13 Mar 2025
+ 02:34:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250311110616.148682-9-ardb+git@google.com>
+References: <20250311110616.148682-9-ardb+git@google.com> <202503131715.Fb6CfjhT-lkp@intel.com>
+In-Reply-To: <202503131715.Fb6CfjhT-lkp@intel.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 13 Mar 2025 10:34:09 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGBLV6W7mJcELmsQuDUi0u-DofyD985znmVoHoZKZTuxA@mail.gmail.com>
+X-Gm-Features: AQ5f1JrdY_O-dpd_Fst91bV8iY8Z5VXs88uikfiDeXUEQK3ipIbyhHsPjZh6oPs
+Message-ID: <CAMj1kXGBLV6W7mJcELmsQuDUi0u-DofyD985znmVoHoZKZTuxA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with
+ relocations preserved
+To: kernel test robot <lkp@intel.com>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org, x86@kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ingo Molnar <mingo@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ard,
+On Thu, 13 Mar 2025 at 10:21, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Ard,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on masahiroy-kbuild/for-next]
+> [also build test ERROR on masahiroy-kbuild/fixes tip/x86/core s390/features linus/master v6.14-rc6 next-20250312]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/Kbuild-link-vmlinux-sh-Make-output-file-name-configurable/20250311-190926
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+> patch link:    https://lore.kernel.org/r/20250311110616.148682-9-ardb%2Bgit%40google.com
+> patch subject: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with relocations preserved
+> config: x86_64-randconfig-076-20250313 (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503131715.Fb6CfjhT-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> gawk: scripts/generate_builtin_ranges.awk:82: fatal: cannot open file `vmlinux.map' for reading: No such file or directory
+>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on masahiroy-kbuild/fixes tip/x86/core s390/features linus/master v6.14-rc6 next-20250312]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/Kbuild-link-vmlinux-sh-Make-output-file-name-configurable/20250311-190926
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20250311110616.148682-9-ardb%2Bgit%40google.com
-patch subject: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with relocations preserved
-config: x86_64-randconfig-076-20250313 (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503131715.Fb6CfjhT-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> gawk: scripts/generate_builtin_ranges.awk:82: fatal: cannot open file `vmlinux.map' for reading: No such file or directory
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hmm it seems I missed some things in link-vmlinux.sh - I will take a look.
 
