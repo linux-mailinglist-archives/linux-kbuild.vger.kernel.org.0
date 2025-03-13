@@ -1,162 +1,155 @@
-Return-Path: <linux-kbuild+bounces-6120-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6121-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39816A5F0F4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 11:32:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7A5A5F113
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 11:41:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14ED13A79A0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 10:32:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F24117D78F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 10:41:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDE981D88D0;
-	Thu, 13 Mar 2025 10:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 895EE265CD2;
+	Thu, 13 Mar 2025 10:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s74rCBe2"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PfEt84p1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C503F16BE17;
-	Thu, 13 Mar 2025 10:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF32265CC5
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Mar 2025 10:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741861929; cv=none; b=U+96F2K2L3403TqY0IV+xLfoij0ER6bCeLg4eTSj3lmJLcj6sTl/78tZPU6wyPJnCeCkNSIrs6XQJN9Rg1Pk8nxmG3YaKck0lnbOvjo2ZATYaTGU2gD2noBdRYKR1rmtfXzuVluoWpW4cygLkY3AKu2WaO23UxPk/k/8rldj2I8=
+	t=1741862469; cv=none; b=gfJdfaZCxenX3NYaxB0u44wEcNDTJHgK8m4UOh7cabZBKaDDgOufNKIV4ZfBb37f93sJyGOCIlk6Y5KdfK1dgS05Dy49AUop9JcO645/ispot7kEDbn8AmENpPq6LShZLPp8S3RA/wrlv0ukH2QJ8+mvma/W9HAIAPobSLpeArk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741861929; c=relaxed/simple;
-	bh=vp6bg26NerLSUUazGPvHxcQQKRGzcjqFPiWbFTYAPUg=;
+	s=arc-20240116; t=1741862469; c=relaxed/simple;
+	bh=B4PeGgHerya/ypCQctpvLUdzWEYx1SfxUJjgPQeWpVM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FVgpH3azSYZASpAqg6PrzYKHGKB3qb6SRjbvjwR8EZLpttwrt1f3WpvzrbMamKkCSrzJ7ViaUYKOkqJfVTUtZWirJVZfssWth1dlp4lxpO49+Oh3E0OeooyGo2Gt/xFLEzj/J07Qoff+lefVX4hiO0KxRQ20K7vmSsrYUARzW9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s74rCBe2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE2AC4CEE3;
-	Thu, 13 Mar 2025 10:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741861929;
-	bh=vp6bg26NerLSUUazGPvHxcQQKRGzcjqFPiWbFTYAPUg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=s74rCBe2kZErmamJ64chid1yW8ZYtbFI3u6bw5hIAy0FYbQA2dT2xe+R41Uzxx8Ss
-	 IuceNnTx9WoCV20ZCFUKn6kjMBjhGlvOqCyDeUuEgU0d10e10hiH8XDXDLhPibDzXn
-	 YDa5KCUVCagPFma868xh1L1m87p6AeLitN4UpdF4wVicLSKDk/bWpnRuQXB322FJ1r
-	 5w13FJVyelw+xpMV+h4H0IotkN8R3AqwzlVtowRyFTw8d1yFX9Lvsw8eVy+uRQmxtj
-	 90sKWTIhWgDCONEzKBnmRVXdInZtXHxdoLeGGqbic2TWd3qx3cS27erJ/sPM78SWo+
-	 J+GVPw3OQEl+w==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5499b18d704so816752e87.0;
-        Thu, 13 Mar 2025 03:32:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHT1im+F7Z5NfnuOsnxNCzcYmRMd2+C04AiaWVNHMsC/w/tFLyFnq8YHaZK4LSl7wQQuqyQ4dqT71o7bE=@vger.kernel.org, AJvYcCVOcx+C5Ruu5vdu6ksztX6tTvRlhOFgyfxBn4AaDeODkWi3HFi/l+uDHHQ4xQZSnLZcdmORLTe8oduy+sKO@vger.kernel.org
-X-Gm-Message-State: AOJu0YzapQROo+rwfvgeHzsSNRbo4yk7eioPJYIBCqWjn/Cl6pOA21ul
-	qRNEuN1Bl212v7dS5L44glBGH36H6qw8MBC+vlOZf5kQz8G7m16HNMu2AWfoKd0t8iQlx6qSqLM
-	WC7w/BqXvjSfUQU0G9byoxa32FBI=
-X-Google-Smtp-Source: AGHT+IF2/LdlU/BnRk012EhhZfmR8/aa57N7syCRBT5UlFEM1Nc/v9y1tqWaAAoouuiCXuBEOM+bLfqRMkDtWuyVRpc=
-X-Received: by 2002:a05:6512:3d15:b0:549:78bd:6b9f with SMTP id
- 2adb3069b0e04-54990e676damr9169540e87.30.1741861927881; Thu, 13 Mar 2025
- 03:32:07 -0700 (PDT)
+	 To:Cc:Content-Type; b=rzC3zw9FaQdvMqn7RB8M6r5UQci4MXd+QtK+qGNfD4Zufk+7HGuNzYmKVZyouZri4/33IV5HV9m4LLXkThTT1vC4Eq7e7AJsb/rq7oYR1CLYyalbjD0Nko7V9ZSh0KLRXmE+z5dgBXCXmrrIdNv1vhoHatIf0Og4B2ESfIImszs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PfEt84p1; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3911748893aso445200f8f.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Mar 2025 03:41:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1741862466; x=1742467266; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WG3mrCWjA/jdn3B8Lxgjj/yj35ADNCa7bCKVTgPxU0U=;
+        b=PfEt84p1jV4VPZmqsKvgV9PgAkTNX05R//av5yHs7en0SU0PC7yb14/XJ6d2JCdE51
+         IKNqNL2OPVB+oD7Zui2GVpdFRthvTRSgcFMMES1VUXxFVbXETDtChExN3tC3mOnlI7rl
+         znVFzy+Q+xlEV6a1L9MgprX49YcPS2xxIpKnFfOiNNcvlJVE/4SYpvvRF/gXs7Mhcm4H
+         a4We+/I0cuU06oBQWBpxVc14JKTvHw3GAhZSBtrp9+ZjAbZOgg0cWH9HT2TbPhGtpSS9
+         OgihY3KFsMtRQMDaQ0T2u1PJxWJUiBkNBAFQqvcbhYeEvfPB6uiFBtaA6QCON0mo25V9
+         173g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741862466; x=1742467266;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WG3mrCWjA/jdn3B8Lxgjj/yj35ADNCa7bCKVTgPxU0U=;
+        b=etQ6M2oxISr+MAlcSqyZYCUTyP03g+drTSRvz6n4r9pOyl2V2lreZfK4QgGmpiwPmc
+         iI7kb6jiMgID7XqtyQN309JEDD+MQ38GkLJIFICr5g6Bp25etkiB1Yy3Vrj4/gIn6BkA
+         Jotdi32h1m9+cWiXw2tiWsVY7+o/FMBvNeaemZr0d9arUypaKEdTN3ZlN3kUrVyEUlhO
+         pt1SFdKxaOOQ5+1ZEOusTtBuw4ariqjQfu+Dx2U3fk0S8y/DZ541Pdq/ONV6Sl9x9UJG
+         5TE1DnalyHE3aODfDtE6+XZDyv59lyVKiPKyhVd18u3LCOH9XS3Xt9KuowlJ7od2sJWC
+         R3fg==
+X-Gm-Message-State: AOJu0YzWIU7ew8918T27COxx+GjkMry/FUGTOCm/nX4aiwmVn/PMWqrY
+	WRFrNc0I2WIT6lCbmZqHG+cLR++Wk8wjcAlZXYVe51p5/knH4eTzWITm2NPYteQSbJ+ShgyJrGU
+	L+2jS9IlFC2w+cshhbH5MInFvyFg4pIX8loj+
+X-Gm-Gg: ASbGncvQJ/XaK2y0lZjjpbYkmUc+EZrwyFtN2Ovtmj4KnCMcXsWmhqP2HtFCrrgHCtp
+	DHD8M7E5FhAo4ZeDt7nWhrnO/gFA+F+l/8igU8IZAtBiY/g8M7hqJtm9jbNVK7dupVeYrx1X2Yj
+	S8hGlPcxO049MmeRiFUiqC2Dx+1Q==
+X-Google-Smtp-Source: AGHT+IGp49aBKepNuEzvpjEvmTqHX3EMV9vuhJzotSDGPDAqAgNEYI+FJ2y17HXElqJzyuEjBM3VMBZBmPnVmlrUQco=
+X-Received: by 2002:a05:6000:156e:b0:391:3d97:bd33 with SMTP id
+ ffacd0b85a97d-3913d97be31mr17037810f8f.13.1741862465823; Thu, 13 Mar 2025
+ 03:41:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250224132132.1765115-6-ardb+git@google.com> <CAMj1kXHamiZ8u4YO9FnrWhpcotUkAusDF_db_5H2qaVD85qmVA@mail.gmail.com>
- <CAK7LNATLf2iXNGi-UKRg=+PRRqgmxry5QQnQ4GUNsuVmDBAnmw@mail.gmail.com>
- <CAMj1kXGVe-R7VF1nHmRx+UB4FuhSjiwMU=n_uWCLC99rTTa5ZQ@mail.gmail.com>
- <CAK7LNATkaTvAwPmNM3kSOCkCptW-bo9Ko6asWyFVcGYgu5rHtw@mail.gmail.com>
- <CAMj1kXHCia-gQy7fkVC5SgMyFqz6rRgpVbz6_W7e9jk7ENaQxA@mail.gmail.com>
- <Z81j8EguDyz_uesu@gmail.com> <CAK7LNATb40pkqXXH+o_CXW6Vf3zavAj8oSeWnpGfXq6SCto4kw@mail.gmail.com>
- <CAMj1kXEAw7qqRSPCnKj+sO5QEtWsFQ2P7gkxuNQhssWd3E6S=Q@mail.gmail.com>
-In-Reply-To: <CAMj1kXEAw7qqRSPCnKj+sO5QEtWsFQ2P7gkxuNQhssWd3E6S=Q@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 13 Mar 2025 19:31:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATh=si9Gc6r0_g66YPmoV8qWkqFAbVhLwUbsjTkhRAEbQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JpN9yY182aIhb9AHHOX73O0I8d6jIFYZOgavTeL_hQ5Jy5s66K_fuCwmjA
-Message-ID: <CAK7LNATh=si9Gc6r0_g66YPmoV8qWkqFAbVhLwUbsjTkhRAEbQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] x86/build: Get rid of vmlinux postlink step
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-kbuild@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
+References: <20250313102604.1491732-1-masahiroy@kernel.org>
+In-Reply-To: <20250313102604.1491732-1-masahiroy@kernel.org>
+From: Ard Biesheuvel <ardb@google.com>
+Date: Thu, 13 Mar 2025 11:40:54 +0100
+X-Gm-Features: AQ5f1JrkVfGGQqKaJpeLOnmf-DmZZ5mdNP2AwlW5dbvBeYHSD4cZ2fyycQE6lzA
+Message-ID: <CAGnOC3Y9OYZKB+7aQsDcq5pN4jJYkL8QRwXgH3jpLQkVwD-kTQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: do not generate .tmp_vmlinux*.map when CONFIG_VMLINUX_MAP=y
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Ard Biesheuvel <ardb+git@google.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 11, 2025 at 3:40=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wr=
-ote:
+On Thu, Mar 13, 2025 at 11:26=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
 >
-> On Tue, 11 Mar 2025 at 03:39, Masahiro Yamada <masahiroy@kernel.org> wrot=
-e:
-> >
-> > On Sun, Mar 9, 2025 at 6:48=E2=80=AFPM Ingo Molnar <mingo@kernel.org> w=
-rote:
-> > >
-> > >
-> > > * Ard Biesheuvel <ardb@kernel.org> wrote:
-> > >
-> > > > On Sat, 8 Mar 2025 at 17:17, Masahiro Yamada <masahiroy@kernel.org>=
- wrote:
-> > > > >
-> > > > ...
-> > > > > I do not think it is broken.
-> > > > > As I mentioned above, I regard vmlinux.relocs as a byproduct
-> > > > > of the atomic build rule of vmlinux. This works.
-> > >
-> > > Except when it doesn't work, such as when an intermediate linking ste=
-p
-> > > fails, and intermediate build products are lost and cannot be recreat=
-ed
-> > > easily (or at all without modifying the source)?
-> > >
-> > > And the thing is, there should be no such thing as an 'atomic build
-> > > rule of vmlinux' if it means lost information when the build is broke=
-n
-> > > at an intermediate step. What purpose does it have?
-> > >
-> > > > There is no make rule for vmlinux.relocs, and so
-> > > >
-> > > > - if it gets deleted, it cannot be rebuilt and even though the buil=
-d
-> > > > does not break, the relocation data is missing from the compressed
-> > > > image, and this could potentially break the kaslr startup code,
-> > > > - it vmlinux.relocs is older than vmlinux for some reason, make wil=
-l
-> > > > not notice and silently reuse the outdated version,
-> > > > - when creating vmlinux.relocs from vmlinux and an error occurs,
-> > > > vmlinux is deleted, making it difficult to diagnose the problem.
-> > > >
-> > > > I think this is badly broken, but if you think this is all working =
-as
-> > > > it should, I am not going to debate this further, and you can consi=
-der
-> > > > the patch series withdrawn.
-> > >
-> > > That's very sad, as both the simplification is substantial:
-> > >
-> > >   19 files changed, 52 insertions(+), 87 deletions(-)
-> > >
-> > > and the increase in debuggability is substantial as well.
-> > >
-> > > Thanks,
-> > >
-> > >         Ingo
-> >
-> > When a byproduct is accidentally lost
-> > (for example, manually deleted), it is not automatically restored.
-> > Running 'rm vmlinux' or 'make clean' is needed.
-> >
+> Commit 5cc124720461 ("kbuild: add CONFIG_VMLINUX_MAP expert option")
+> mentioned that "the .map file can be rather large (several MB), and
+> that's a waste of space when one isn't interested in these things."
 >
-> Exactly. Make cannot detect this situation, and so the build breaks in so=
-me way.
+> If that is the case, generating map files for the intermediate
+> tmp_vmlinux* files is also a waste of space. It is unlikely that
+> anyone would be interested in the .tmp_vmlinux.map* files.
 >
-> > vmlinux.relocs is one such byproduct.
-> > Another is the map file when CONFIG_VMLINUX_MAP=3Dy is enabled.
-> >
+> This commit stops passing the -Map=3D option when linking the .tmp_vmlinu=
+x*
+> intermediates.
 >
-> The linker map is not depended upon by other build targets, and is
-> typically for human debug consumption, so while not ideal, it is not
-> as broken as for the unstripped vmlinux.
+> I also hard-coded the file name 'vmlinux.map' instead of ${output}.map
+> because a later commit will introduce vmlinux.unstripped but I want to
+> keep the name of the map file.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Now you learned this statement is wrong.
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
-
---=20
-Best Regards
-Masahiro Yamada
+> ---
+>
+>  scripts/link-vmlinux.sh | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index e55026128e05..7cbbfa3efbca 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -98,8 +98,8 @@ vmlinux_link()
+>                 ldflags=3D"${ldflags} ${wl}--strip-debug"
+>         fi
+>
+> -       if is_enabled CONFIG_VMLINUX_MAP; then
+> -               ldflags=3D"${ldflags} ${wl}-Map=3D${output}.map"
+> +       if [ -n "${generate_map}" ];  then
+> +               ldflags=3D"${ldflags} ${wl}-Map=3Dvmlinux.map"
+>         fi
+>
+>         ${ld} ${ldflags} -o ${output}                                   \
+> @@ -211,6 +211,7 @@ fi
+>  btf_vmlinux_bin_o=3D
+>  kallsymso=3D
+>  strip_debug=3D
+> +generate_map=3D
+>
+>  if is_enabled CONFIG_KALLSYMS; then
+>         true > .tmp_vmlinux0.syms
+> @@ -279,6 +280,10 @@ fi
+>
+>  strip_debug=3D
+>
+> +if is_enabled CONFIG_VMLINUX_MAP; then
+> +       generate_map=3D1
+> +fi
+> +
+>  vmlinux_link "${VMLINUX}"
+>
+>  # fill in BTF IDs
+> --
+> 2.43.0
+>
 
