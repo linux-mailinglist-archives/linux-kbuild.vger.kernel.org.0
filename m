@@ -1,155 +1,192 @@
-Return-Path: <linux-kbuild+bounces-6121-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7A5A5F113
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 11:41:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1E0A5F16C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 11:52:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F24117D78F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 10:41:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FBF517BE7B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 10:52:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 895EE265CD2;
-	Thu, 13 Mar 2025 10:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BF0A267B90;
+	Thu, 13 Mar 2025 10:48:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PfEt84p1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h4B8bsFU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF32265CC5
-	for <linux-kbuild@vger.kernel.org>; Thu, 13 Mar 2025 10:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D230E13C689;
+	Thu, 13 Mar 2025 10:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741862469; cv=none; b=gfJdfaZCxenX3NYaxB0u44wEcNDTJHgK8m4UOh7cabZBKaDDgOufNKIV4ZfBb37f93sJyGOCIlk6Y5KdfK1dgS05Dy49AUop9JcO645/ispot7kEDbn8AmENpPq6LShZLPp8S3RA/wrlv0ukH2QJ8+mvma/W9HAIAPobSLpeArk=
+	t=1741862905; cv=none; b=Lr3ZisLECGo7wdK14ptl/VDG7brBqcpPh7S08vnVOO0BAYs8l3Wj9AC0J4aQa7TLdSlDIlDSIBkTJtWKQgbK8ZRE9+uQgR7Qj7FifMR1Si1wVwNRcXN22GgxtmHjq7jbgSjmlyun4NkkCNW5PQ+20BlnDuL6Uf22/GH75oJSvwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741862469; c=relaxed/simple;
-	bh=B4PeGgHerya/ypCQctpvLUdzWEYx1SfxUJjgPQeWpVM=;
+	s=arc-20240116; t=1741862905; c=relaxed/simple;
+	bh=NTvv7eK4pWA0tU7itqQwNc79CFE8kY/nvAPtwxhpCN8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rzC3zw9FaQdvMqn7RB8M6r5UQci4MXd+QtK+qGNfD4Zufk+7HGuNzYmKVZyouZri4/33IV5HV9m4LLXkThTT1vC4Eq7e7AJsb/rq7oYR1CLYyalbjD0Nko7V9ZSh0KLRXmE+z5dgBXCXmrrIdNv1vhoHatIf0Og4B2ESfIImszs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PfEt84p1; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3911748893aso445200f8f.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Mar 2025 03:41:07 -0700 (PDT)
+	 To:Cc:Content-Type; b=aZp/RaZL4ELDFD5FiIgPskolbzhvF0gQN5upzD8DtalijM4kgNesaTbByggA7Up14JNS2RJ1nQQYqEdT+ERsz5441Cn1181xcsvICysg4bBUcTE3rKRiWPMAlj6A3spDth6XX/hQfqtjGuJKh7W15MRR5l98/IVrNiVX0l5GeOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h4B8bsFU; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30bf1d48843so7199451fa.2;
+        Thu, 13 Mar 2025 03:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741862466; x=1742467266; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1741862901; x=1742467701; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WG3mrCWjA/jdn3B8Lxgjj/yj35ADNCa7bCKVTgPxU0U=;
-        b=PfEt84p1jV4VPZmqsKvgV9PgAkTNX05R//av5yHs7en0SU0PC7yb14/XJ6d2JCdE51
-         IKNqNL2OPVB+oD7Zui2GVpdFRthvTRSgcFMMES1VUXxFVbXETDtChExN3tC3mOnlI7rl
-         znVFzy+Q+xlEV6a1L9MgprX49YcPS2xxIpKnFfOiNNcvlJVE/4SYpvvRF/gXs7Mhcm4H
-         a4We+/I0cuU06oBQWBpxVc14JKTvHw3GAhZSBtrp9+ZjAbZOgg0cWH9HT2TbPhGtpSS9
-         OgihY3KFsMtRQMDaQ0T2u1PJxWJUiBkNBAFQqvcbhYeEvfPB6uiFBtaA6QCON0mo25V9
-         173g==
+        bh=IU4PHlrJ+sa0If2/fuT4pY69xSIqLjUfkdogKvImc9o=;
+        b=h4B8bsFUH1HdLVPKmLXUfYkJEjpFHpsaGPQ+33ZhIJNnLo4eDtkqFSkLVPEz8b9EoL
+         qNOAJb4pxcf87xlLgyEG+ygIThQi6ogQS2ksGD3l2k40csaGV5xlnYbUgNldAz0PROuB
+         ngmPFbt4bM/sJXWfDm/+YrNhM42oUuWN4MqHa0EYIyykhnuXyHzAgpskQG/8PBabqMWD
+         NtrsNubPvd6FhJNVXADyCnlIE4tVCDxrpnZudFotlyCnxQJUGpWwgtyHoDoJigdYrWcY
+         Dh5mp4DIccZrxwZEP2VXamE8vQYgOH+6vqAUce8h+uAsJchZJknvvjzmsGixBEsh172q
+         z/NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741862466; x=1742467266;
+        d=1e100.net; s=20230601; t=1741862901; x=1742467701;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WG3mrCWjA/jdn3B8Lxgjj/yj35ADNCa7bCKVTgPxU0U=;
-        b=etQ6M2oxISr+MAlcSqyZYCUTyP03g+drTSRvz6n4r9pOyl2V2lreZfK4QgGmpiwPmc
-         iI7kb6jiMgID7XqtyQN309JEDD+MQ38GkLJIFICr5g6Bp25etkiB1Yy3Vrj4/gIn6BkA
-         Jotdi32h1m9+cWiXw2tiWsVY7+o/FMBvNeaemZr0d9arUypaKEdTN3ZlN3kUrVyEUlhO
-         pt1SFdKxaOOQ5+1ZEOusTtBuw4ariqjQfu+Dx2U3fk0S8y/DZ541Pdq/ONV6Sl9x9UJG
-         5TE1DnalyHE3aODfDtE6+XZDyv59lyVKiPKyhVd18u3LCOH9XS3Xt9KuowlJ7od2sJWC
-         R3fg==
-X-Gm-Message-State: AOJu0YzWIU7ew8918T27COxx+GjkMry/FUGTOCm/nX4aiwmVn/PMWqrY
-	WRFrNc0I2WIT6lCbmZqHG+cLR++Wk8wjcAlZXYVe51p5/knH4eTzWITm2NPYteQSbJ+ShgyJrGU
-	L+2jS9IlFC2w+cshhbH5MInFvyFg4pIX8loj+
-X-Gm-Gg: ASbGncvQJ/XaK2y0lZjjpbYkmUc+EZrwyFtN2Ovtmj4KnCMcXsWmhqP2HtFCrrgHCtp
-	DHD8M7E5FhAo4ZeDt7nWhrnO/gFA+F+l/8igU8IZAtBiY/g8M7hqJtm9jbNVK7dupVeYrx1X2Yj
-	S8hGlPcxO049MmeRiFUiqC2Dx+1Q==
-X-Google-Smtp-Source: AGHT+IGp49aBKepNuEzvpjEvmTqHX3EMV9vuhJzotSDGPDAqAgNEYI+FJ2y17HXElqJzyuEjBM3VMBZBmPnVmlrUQco=
-X-Received: by 2002:a05:6000:156e:b0:391:3d97:bd33 with SMTP id
- ffacd0b85a97d-3913d97be31mr17037810f8f.13.1741862465823; Thu, 13 Mar 2025
- 03:41:05 -0700 (PDT)
+        bh=IU4PHlrJ+sa0If2/fuT4pY69xSIqLjUfkdogKvImc9o=;
+        b=g2J3zzt+9RgO5hxHNKklt2vXpelt4/53h6BhwVTtqZyB/xWVWjrHoMg2Z9W8O3fs+g
+         TVNBvzzeSuw5bpfiwl5M3Y+2Dw3Ba77hH9C3P++/bID1QzfxyUbBp7XcO70oFwkW/cX1
+         UVvssiQEoabYoYhVw3fmqxAj0UsoDKSA3moVa7BtlCBE57vJM2WGvTN3V/S8Sxtvr7VG
+         Oq8XiZ3yAsQyzNhe0Ax3EQLpXIk9gSzWbY2+Qls7MmoFBXc1c4npeAN+wp7nMzsPD8X+
+         yVmhHiEPIEQH8/edHUSLLQz3NkTbXHJ0LSuVPIIS4tmvfH+1ROOp1x+1C+UvL8PuxbEo
+         il1w==
+X-Forwarded-Encrypted: i=1; AJvYcCURfAwDLehj0CXNB+Zk4vpnbcGTlXijz8ZwlJqrpHV4ei9mEkkPzKiyivtTxG9pJMPBceCTjav7/UdD@vger.kernel.org, AJvYcCUbuoyDgEl5iBNcT3yCkbCCRF8ft7mlNGbiaV1yREFY9HTH6S31ockINFkfnY7Sbef8KJfEV85YeqlDAI4=@vger.kernel.org, AJvYcCUslkPs/gKM/lboKd6jmVol2OIGHG68c5yaPaHxp84in3x+q+ii3vs8S/sglhQXXvp3Z1+8OlPYdLzt7LDSUT0z@vger.kernel.org, AJvYcCVZkuIrA3lecUbvxzqFSWDj+32+ghV7OnWv7j+eUukvHGHwUUHWyc3ygVGeyZFIW25XhAjEf1ap3O+HX3+Ao2M=@vger.kernel.org, AJvYcCVxo5hb1numaXp/a9SldgHcAHGH4OOq+clHfTUj9LRwN0cOci/hohIkdDIbyI3ZYe3rAa5tIwWZxpQ1Ktx5@vger.kernel.org, AJvYcCWLVxTqLYxL/kylYzcHuuTIEoi8P3rB1i+dsTo5DfCiaHr+XEpVM73CCQyoeiUBdc44378h/css/7ORs/Dg@vger.kernel.org, AJvYcCWb2IQ9c7cSMsvg0rK6RG++H2pigxJm1q6OMkuO50gTr8uWtD9TabAiVXiSiUhtH9Y/LRtrs/woWmP3@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUdroeewBK+lzWBPjGLZQtvoze05GwIWimAbE3KE+BvPp/JfGi
+	aCPNvu0RVMQcx6HO5+z1WX5FbTsLg8DgTby4qsRo1usmf+GEHakMdtH5sOH0vrEe2wtccUHnYpx
+	hYod0Wx6ls+EKZlbUUcJhUZqecrQ=
+X-Gm-Gg: ASbGnct4I8y7HS1/oxIfuAA0xCIBpRhC5wDDE05SSykOxbQhPxGDIcx0fT+H9i1BB1u
+	lhreQ0mikg1ani2kMSYeAFyJ8Ui/O5XHmUnEoluNgQfXuZtXOHoqERNvYkNICuooYIhtc2zCmvB
+	6nSI77SQg2wuK6se+EMrgXHkXruziHV+Ba25FidL2/z4ES4TpkGpRwCaj2y4yl
+X-Google-Smtp-Source: AGHT+IGowr6w1dXmTWQTcCHSJ8F0Lzgjpfr6l5SxosTwGeAYfAxqaTTaJIQl2YIbjX0BGAMKbRP0NSO2ddhYR2C1llk=
+X-Received: by 2002:a2e:3517:0:b0:30b:edd8:886 with SMTP id
+ 38308e7fff4ca-30bf451713dmr84066751fa.9.1741862900515; Thu, 13 Mar 2025
+ 03:48:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250313102604.1491732-1-masahiroy@kernel.org>
-In-Reply-To: <20250313102604.1491732-1-masahiroy@kernel.org>
-From: Ard Biesheuvel <ardb@google.com>
-Date: Thu, 13 Mar 2025 11:40:54 +0100
-X-Gm-Features: AQ5f1JrkVfGGQqKaJpeLOnmf-DmZZ5mdNP2AwlW5dbvBeYHSD4cZ2fyycQE6lzA
-Message-ID: <CAGnOC3Y9OYZKB+7aQsDcq5pN4jJYkL8QRwXgH3jpLQkVwD-kTQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: do not generate .tmp_vmlinux*.map when CONFIG_VMLINUX_MAP=y
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Ard Biesheuvel <ardb+git@google.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+References: <20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com>
+ <D8EJM4CJ4HAN.1PB2YV8DB77V7@proton.me> <CAJ-ks9mo-H46Wwcu_LOvDy0ncwMR9ii74Fyf3OX-aWNnrZ397g@mail.gmail.com>
+ <CAJ-ks9kCgATKDE2qAuO3XpQfjVO2jGyq3D4sbUcVKyW6G1vuuQ@mail.gmail.com>
+ <D8EL9QFS1XNT.JBSMRXD4D7GT@proton.me> <CAJ-ks9=TRDg3g=NG7k97P_5jXpZ4K4v0DxrmJFR+uF0-3zJkXw@mail.gmail.com>
+ <CAJ-ks9=hAwOGtVv0zh9CcH7XOxjGnizvK1QOMAi8nKStocKr2Q@mail.gmail.com>
+ <D8ELW7X9796K.2ZGJS34LDTHOP@proton.me> <CAJ-ks9k1gZ=tLSe6OjuKFgg6=QE5R_Ajo0ZJwZJp08_1LMiODw@mail.gmail.com>
+ <D8ENBWTC8UPH.LLEGZ2D4U7KQ@proton.me>
+In-Reply-To: <D8ENBWTC8UPH.LLEGZ2D4U7KQ@proton.me>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Thu, 13 Mar 2025 06:47:43 -0400
+X-Gm-Features: AQ5f1JpvT0pCHkZRvibXqm2vlfPfrKbPxFhR2eEtWGWUHW0BSrI5KdQ4s_SfHLQ
+Message-ID: <CAJ-ks9mJ=2hFxfWEkq+9b=atE89sHXa5NBcdVNRd3az6MSv0pA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] rust: enable `clippy::as_underscore` lint
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
+	devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 13, 2025 at 11:26=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
+On Wed, Mar 12, 2025 at 6:38=E2=80=AFPM Benno Lossin <benno.lossin@proton.m=
+e> wrote:
 >
-> Commit 5cc124720461 ("kbuild: add CONFIG_VMLINUX_MAP expert option")
-> mentioned that "the .map file can be rather large (several MB), and
-> that's a waste of space when one isn't interested in these things."
+> On Wed Mar 12, 2025 at 11:24 PM CET, Tamir Duberstein wrote:
+> > On Wed, Mar 12, 2025 at 5:30=E2=80=AFPM Benno Lossin <benno.lossin@prot=
+on.me> wrote:
+> >>
+> >> On Wed Mar 12, 2025 at 10:10 PM CET, Tamir Duberstein wrote:
+> >> > On Wed, Mar 12, 2025 at 5:04=E2=80=AFPM Tamir Duberstein <tamird@gma=
+il.com> wrote:
+> >> >>
+> >> >> On Wed, Mar 12, 2025 at 5:01=E2=80=AFPM Benno Lossin <benno.lossin@=
+proton.me> wrote:
+> >> >> > Always enable the features, we have `allow(stable_features)` for =
+this
+> >> >> > reason (then you don't have to do this dance with checking if it'=
+s
+> >> >> > already stable or not :)
+> >> >>
+> >> >> It's not so simple. In rustc < 1.84.0 the lints *and* the strict
+> >> >> provenance APIs are behind `feature(strict_provenance)`. In rustc >=
+=3D
+> >> >> 1.84.0 the lints are behind `feature(strict_provenance_lints)`. So =
+you
+> >> >> need to read the config to learn that you need to enable
+> >> >> `feature(strict_provenance_lints)`.
+> >>
+> >> I see... And `strict_provenance_lints` doesn't exist in <1.84? That's =
+a
+> >> bit of a bummer...
+> >>
+> >> But I guess we could have this config option (in `init/Kconfig`):
+> >>
+> >>     config RUSTC_HAS_STRICT_PROVENANCE
+> >>             def_bool RUSTC_VERSION >=3D 108400
+> >>
+> >> and then do this in `lib.rs`:
+> >>
+> >>     #![cfg_attr(CONFIG_RUSTC_HAS_STRICT_PROVENANCE, feature(strict_pro=
+venance_lints))]
+> >
+> > Yep! That's exactly what I did, but as I mentioned up-thread, the
+> > result is that we only cover the `kernel` crate.
 >
-> If that is the case, generating map files for the intermediate
-> tmp_vmlinux* files is also a waste of space. It is unlikely that
-> anyone would be interested in the .tmp_vmlinux.map* files.
->
-> This commit stops passing the -Map=3D option when linking the .tmp_vmlinu=
-x*
-> intermediates.
->
-> I also hard-coded the file name 'vmlinux.map' instead of ${output}.map
-> because a later commit will introduce vmlinux.unstripped but I want to
-> keep the name of the map file.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Ah I see, can't we just have the above line in the other crate roots?
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+The most difficult case is doctests. You'd have to add this to every
+example AFAICT.
 
-> ---
+> >> > Actually this isn't even the only problem. It seems that
+> >> > `-Astable_features` doesn't affect features enabled on the command
+> >> > line at all:
+> >> >
+> >> > error[E0725]: the feature `strict_provenance` is not in the list of
+> >> > allowed features
+> >> >  --> <crate attribute>:1:9
+> >> >   |
+> >> > 1 | feature(strict_provenance)
+> >> >   |         ^^^^^^^^^^^^^^^^^
+> >>
+> >> That's because you need to append the feature to `rust_allowed_feature=
+s`
+> >> in `scripts/Makefile.build` (AFAIK).
+> >
+> > Thanks, that's a helpful pointer, and it solves some problems but not
+> > all. The root Makefile contains this bit:
+> >
+> >> KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo =
+\
+> >> -Zallow-features=3D $(HOSTRUSTFLAGS)
+> >
+> > which means we can't use the provenance lints against these host
+> > targets (including e.g. `rustdoc_test_gen`). We can't remove this
+> > -Zallow-features=3D either because then core fails to compile.
+> >
+> > I'm at the point where I think I need more involved help. Want to take
+> > a look at my attempt? It's here:
+> > https://github.com/tamird/linux/tree/b4/ptr-as-ptr.
 >
->  scripts/link-vmlinux.sh | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index e55026128e05..7cbbfa3efbca 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -98,8 +98,8 @@ vmlinux_link()
->                 ldflags=3D"${ldflags} ${wl}--strip-debug"
->         fi
->
-> -       if is_enabled CONFIG_VMLINUX_MAP; then
-> -               ldflags=3D"${ldflags} ${wl}-Map=3D${output}.map"
-> +       if [ -n "${generate_map}" ];  then
-> +               ldflags=3D"${ldflags} ${wl}-Map=3Dvmlinux.map"
->         fi
->
->         ${ld} ${ldflags} -o ${output}                                   \
-> @@ -211,6 +211,7 @@ fi
->  btf_vmlinux_bin_o=3D
->  kallsymso=3D
->  strip_debug=3D
-> +generate_map=3D
->
->  if is_enabled CONFIG_KALLSYMS; then
->         true > .tmp_vmlinux0.syms
-> @@ -279,6 +280,10 @@ fi
->
->  strip_debug=3D
->
-> +if is_enabled CONFIG_VMLINUX_MAP; then
-> +       generate_map=3D1
-> +fi
-> +
->  vmlinux_link "${VMLINUX}"
->
->  # fill in BTF IDs
-> --
-> 2.43.0
->
+> I'll take a look tomorrow, you're testing my knowledge of the build
+> system a lot here :)
+
+We're guaranteed to learn something :)
 
