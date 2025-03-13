@@ -1,390 +1,200 @@
-Return-Path: <linux-kbuild+bounces-6123-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6124-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D05A5F755
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 15:11:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A649A5FA06
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 16:33:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A3E1C164DCB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 14:11:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 35A2F7AE03F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 15:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34325267B78;
-	Thu, 13 Mar 2025 14:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 852DD26989E;
+	Thu, 13 Mar 2025 15:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="DoZM/Utw"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m7jbwVXT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86858267B65;
-	Thu, 13 Mar 2025 14:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F4D269880
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Mar 2025 15:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741875079; cv=none; b=c4yYAdvikEEU/0qClJHKOmwl45pym31xGF5x6JxjFQAiZgf/WLzYvTw8Zi7BLx9B6LA9cOQM+fDfIs8z57EbVZ3jH5+0Hy1bDkFZ7zgYQnfinDZf5e/00lsSFJAAK1N0U9kHXuxGy8cOXAIHvIWmbL2yE1lPWwoWdUqATFD4/R4=
+	t=1741879809; cv=none; b=HC8+wa0os19M9mFHKq5UfC4d2V3FEJ2IpHn6TVp5xOEK7YImcpos8pKKMUshgXnBji23dnAOG0EZCxtc+Crql6pdUNG62xh7u09V69Zj3a+B/54TRPdL2R6hZHpU+oYUxKX3DaTpSTUZyayECSYocPZGdS1qNzu+9cimHSYlnpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741875079; c=relaxed/simple;
-	bh=IGqisGwCAtyYbOb7OLJfY7Fx7hmscguuf7cCiQCAFiM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rUZOnKojdYYX8HXrumEX2mNJxXlyE51JK4P90Y+QMRs1aD+qwzYNlMkKS5gS6ediYcblqevCxPiOdneOQY+3n6rooI043tQwhdmX56egLzq4Hy88pb17MVPgxOTJ9Ibiu+r1VPX9UwOKMNWQZZMU1mDAnMTMB+cZblzrFNvYyeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=DoZM/Utw; arc=none smtp.client-ip=185.70.40.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1741875073; x=1742134273;
-	bh=Wwjd3F8ZVcLlKooopouWDqOPW0C84gclDWUIL90/JTg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=DoZM/UtwzAz3l+BUaRdDMTlZjnm54wefuEZ9fvJS15jUhGlM4gjWCHQaSCnr+22vu
-	 GAQ3M1/icunF7pBqlZ5NJr+nZu+Ui1lLY9jPcsAXadhrgcVDrgzkPwIGUzmBAIj9fk
-	 xL81b9dlal8eotSV+Vh3HpqG9ZdhQ2ngsUQKK3/UFevwh8mnzfez//1z0xkq3TfHGR
-	 hd20iI8Cb/DMA5BvLx9p5QTXFB/AqVNwTp57TfcELUROxM34vLHNt+78so2hAVyX4z
-	 yjwY4+7OZavEatCLcw8qEu50XDdqo1auGRnKnV0ya/pJhwrQ9zTKkSYXH7JpW8tskF
-	 zfhw3+LTi9GOg==
-Date: Thu, 13 Mar 2025 14:11:06 +0000
-To: Tamir Duberstein <tamird@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] rust: enable `clippy::as_underscore` lint
-Message-ID: <D8F76A4JSEXO.2OKKJLAU5OZN@proton.me>
-In-Reply-To: <CAJ-ks9mJ=2hFxfWEkq+9b=atE89sHXa5NBcdVNRd3az6MSv0pA@mail.gmail.com>
-References: <20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com> <CAJ-ks9kCgATKDE2qAuO3XpQfjVO2jGyq3D4sbUcVKyW6G1vuuQ@mail.gmail.com> <D8EL9QFS1XNT.JBSMRXD4D7GT@proton.me> <CAJ-ks9=TRDg3g=NG7k97P_5jXpZ4K4v0DxrmJFR+uF0-3zJkXw@mail.gmail.com> <CAJ-ks9=hAwOGtVv0zh9CcH7XOxjGnizvK1QOMAi8nKStocKr2Q@mail.gmail.com> <D8ELW7X9796K.2ZGJS34LDTHOP@proton.me> <CAJ-ks9k1gZ=tLSe6OjuKFgg6=QE5R_Ajo0ZJwZJp08_1LMiODw@mail.gmail.com> <D8ENBWTC8UPH.LLEGZ2D4U7KQ@proton.me> <CAJ-ks9mJ=2hFxfWEkq+9b=atE89sHXa5NBcdVNRd3az6MSv0pA@mail.gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 0d8c6066aa79effc9e6ffd556187124ab8df8180
+	s=arc-20240116; t=1741879809; c=relaxed/simple;
+	bh=tqYcp36kSOOENz/soiYs13MgeYzT3g5zF8GJrqqqqOU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ielV3F3Sa+yAg+41sjBtY2WhRS1+upheBYvevJdgekDKltw1S3P5NZvCbg3hnda7XS1YzkSfklc7iSXM61aubJrjcG7UQ4g12i5swz0cC5pVO5ilJPLT2lLfUYxb6o2qcbZOdBvrTOaUVyvDnkYN4dfC6OE75idWU49yoqDpSYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m7jbwVXT; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ff087762bbso1948193a91.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Mar 2025 08:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1741879806; x=1742484606; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=00u7ecFNyPAZ4Z5cOSw/OvdLmibjnRE9ersVFXwW+QE=;
+        b=m7jbwVXTgMrT8qlo5jU2Byj+XHo/ECuMa00iXoxL02g4F93KzNoaZifcVOva4osT+C
+         JCAA87InMV1Wqx4txC5XtAC3LzPFo4eYgsmActaBQ5H2MvhVToBecEVFmkvXkWgVWw5p
+         +zO3UpjCqU34v88Cg3HAKh9zP4iWE1OIbQ+5/QTsnpfzF4ff+jl7LA1HYo9x+MQLP84t
+         Kb3Dgk1VxUDcswj6sN6yR6Sj2f4rqnvcusDbhXApJl0SjzyKPkIuuVT/IgMVCrfKeyIg
+         HL8N0RZQ/9MnU4oz4Ph9gbNCM6d5UAPBvTcHamTc9kKBl2cHUdkDR3VbMe8Enwf3fBSz
+         weUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741879806; x=1742484606;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=00u7ecFNyPAZ4Z5cOSw/OvdLmibjnRE9ersVFXwW+QE=;
+        b=qOL1grjur73SogNJTf4KQOLTk8epWC56Q8tdKyQ8ZA4i82Tvc7vq1RnDRpBh9XQOaD
+         T9xGayCcleZG1W5dt3H8b97cIs1T7aHPM/jZ8bq8m11UIhY5HXfD1CTdhFriqdPT9n3y
+         U62SM08/eG5+llH8nGzPLlv92/QQ3/Grtgis4SBOCYRDyRc31is7ffxthI1iUTSUUEOz
+         fPguEUoh183Upp+q8GET8xtzZVPJWT/jo879U/KCRqO7+VQcbDC8478zUtzVLechwHv8
+         UTgNabfVc+0AL2L6CWBWlUQNAV7TqSvW39+LPXNFLQjC2AgsqSYtOpqoEFdL3Bfk06wk
+         UFpw==
+X-Forwarded-Encrypted: i=1; AJvYcCVrLzHfO+uBmOHyI18dl3m0wZhNNnKiIhIK0M/paraJkrvziCxTvTxanRgUClLGJbr0DY/K+D/q1TwffG8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBJiT6zzNwk3Byv5opCo6xg80yE6s4eV5DfLpp/jsX3rKlr//m
+	iu33Yw/92TiB5J8cdwmcEmJkqq7YEE32+/4EeXI558edmoKvo8bsUm3FlLZ21DFYgs8dCuvEZ5U
+	sZXeYSG9qzmdBYnSN0mdPBfK6YwzvSTvGai15
+X-Gm-Gg: ASbGncvcGhlNCdsoAR/LFC0WOD68t8CaJbQsljFkDAdy0zGf1/2+KKKIgH8pSssCUA4
+	4SePuWM+bb2zJBrEaVxQ5G6w8iRCVBAe+e52iFcueH+derbx/bR9f3LRMfH0Hzv8Bw60QlKkfbX
+	2d1HIu7J3DcOET4w6KbAEsAJiThphRRZoeP0dqew==
+X-Google-Smtp-Source: AGHT+IEv0rtOsQstIMulfJeTHgWikPpW7fu1mPHnescJ1GSms7d/WLQhnr03CyeNMSYLnDPxmDhcIz/mp/0Hr9kM0jc=
+X-Received: by 2002:a17:90b:2741:b0:2ff:7b28:a519 with SMTP id
+ 98e67ed59e1d1-300ff370231mr15211554a91.30.1741879806198; Thu, 13 Mar 2025
+ 08:30:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20250307040948.work.791-kees@kernel.org> <20250307041914.937329-1-kees@kernel.org>
+In-Reply-To: <20250307041914.937329-1-kees@kernel.org>
+From: Marco Elver <elver@google.com>
+Date: Thu, 13 Mar 2025 11:29:29 -0400
+X-Gm-Features: AQ5f1Jo2s3dBQmL6L50YXOekPGf_8rCDFxDD6svVuHOtyM0nHf71JobMTMo6fo0
+Message-ID: <CANpmjNOHSanxX7EyXhia4AuVd+6q5v1mXQMTM_k0Rj20P_ASAA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] ubsan/overflow: Rework integer overflow sanitizer
+ option to turn on everything
+To: Kees Cook <kees@kernel.org>
+Cc: Justin Stitt <justinstitt@google.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Hao Luo <haoluo@google.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, linux-hardening@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-kbuild@vger.kernel.org, 
+	Bill Wendling <morbo@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Tony Ambardar <tony.ambardar@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu Mar 13, 2025 at 11:47 AM CET, Tamir Duberstein wrote:
-> On Wed, Mar 12, 2025 at 6:38=E2=80=AFPM Benno Lossin <benno.lossin@proton=
-.me> wrote:
->>
->> On Wed Mar 12, 2025 at 11:24 PM CET, Tamir Duberstein wrote:
->> > On Wed, Mar 12, 2025 at 5:30=E2=80=AFPM Benno Lossin <benno.lossin@pro=
-ton.me> wrote:
->> >>
->> >> On Wed Mar 12, 2025 at 10:10 PM CET, Tamir Duberstein wrote:
->> >> > On Wed, Mar 12, 2025 at 5:04=E2=80=AFPM Tamir Duberstein <tamird@gm=
-ail.com> wrote:
->> >> >>
->> >> >> On Wed, Mar 12, 2025 at 5:01=E2=80=AFPM Benno Lossin <benno.lossin=
-@proton.me> wrote:
->> >> >> > Always enable the features, we have `allow(stable_features)` for=
- this
->> >> >> > reason (then you don't have to do this dance with checking if it=
-'s
->> >> >> > already stable or not :)
->> >> >>
->> >> >> It's not so simple. In rustc < 1.84.0 the lints *and* the strict
->> >> >> provenance APIs are behind `feature(strict_provenance)`. In rustc =
->=3D
->> >> >> 1.84.0 the lints are behind `feature(strict_provenance_lints)`. So=
- you
->> >> >> need to read the config to learn that you need to enable
->> >> >> `feature(strict_provenance_lints)`.
->> >>
->> >> I see... And `strict_provenance_lints` doesn't exist in <1.84? That's=
- a
->> >> bit of a bummer...
->> >>
->> >> But I guess we could have this config option (in `init/Kconfig`):
->> >>
->> >>     config RUSTC_HAS_STRICT_PROVENANCE
->> >>             def_bool RUSTC_VERSION >=3D 108400
->> >>
->> >> and then do this in `lib.rs`:
->> >>
->> >>     #![cfg_attr(CONFIG_RUSTC_HAS_STRICT_PROVENANCE, feature(strict_pr=
-ovenance_lints))]
->> >
->> > Yep! That's exactly what I did, but as I mentioned up-thread, the
->> > result is that we only cover the `kernel` crate.
->>
->> Ah I see, can't we just have the above line in the other crate roots?
+On Thu, 6 Mar 2025 at 23:19, Kees Cook <kees@kernel.org> wrote:
 >
-> The most difficult case is doctests. You'd have to add this to every
-> example AFAICT.
+> Since we're going to approach integer overflow mitigation a type at a
+> time, we need to enable all of the associated sanitizers, and then opt
+> into types one at a time.
 >
->> >> > Actually this isn't even the only problem. It seems that
->> >> > `-Astable_features` doesn't affect features enabled on the command
->> >> > line at all:
->> >> >
->> >> > error[E0725]: the feature `strict_provenance` is not in the list of
->> >> > allowed features
->> >> >  --> <crate attribute>:1:9
->> >> >   |
->> >> > 1 | feature(strict_provenance)
->> >> >   |         ^^^^^^^^^^^^^^^^^
->> >>
->> >> That's because you need to append the feature to `rust_allowed_featur=
-es`
->> >> in `scripts/Makefile.build` (AFAIK).
->> >
->> > Thanks, that's a helpful pointer, and it solves some problems but not
->> > all. The root Makefile contains this bit:
->> >
->> >> KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo=
- \
->> >> -Zallow-features=3D $(HOSTRUSTFLAGS)
->> >
->> > which means we can't use the provenance lints against these host
->> > targets (including e.g. `rustdoc_test_gen`). We can't remove this
->> > -Zallow-features=3D either because then core fails to compile.
->> >
->> > I'm at the point where I think I need more involved help. Want to take
->> > a look at my attempt? It's here:
->> > https://github.com/tamird/linux/tree/b4/ptr-as-ptr.
-
-With doing `allow(clippy::incompatible_msrv)`, I meant doing that
-globally, not having a module to re-export the functions :)
-
->> I'll take a look tomorrow, you're testing my knowledge of the build
->> system a lot here :)
+> Rename the existing "signed wrap" sanitizer to just the entire topic area:
+> "integer wrap". Enable the implicit integer truncation sanitizers, with
+> required callbacks and tests.
 >
-> We're guaranteed to learn something :)
+> Notably, this requires features (currently) only available in Clang,
+> so we can depend on the cc-option tests to determine availability
+> instead of doing version tests.
+>
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Justin Stitt <justinstitt@google.com>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Hao Luo <haoluo@google.com>
+> Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+> Cc: linux-hardening@vger.kernel.org
+> Cc: kasan-dev@googlegroups.com
+> Cc: linux-kbuild@vger.kernel.org
+> ---
+>  include/linux/compiler_types.h  |  2 +-
+>  kernel/configs/hardening.config |  2 +-
+>  lib/Kconfig.ubsan               | 23 +++++++++++------------
+>  lib/test_ubsan.c                | 18 ++++++++++++++----
+>  lib/ubsan.c                     | 28 ++++++++++++++++++++++++++--
+>  lib/ubsan.h                     |  8 ++++++++
+>  scripts/Makefile.lib            |  4 ++--
+>  scripts/Makefile.ubsan          |  8 ++++++--
+>  8 files changed, 69 insertions(+), 24 deletions(-)
+>
+> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+> index f59393464ea7..4ad3e900bc3d 100644
+> --- a/include/linux/compiler_types.h
+> +++ b/include/linux/compiler_types.h
+> @@ -360,7 +360,7 @@ struct ftrace_likely_data {
+>  #endif
+>
+>  /* Do not trap wrapping arithmetic within an annotated function. */
+> -#ifdef CONFIG_UBSAN_SIGNED_WRAP
+> +#ifdef CONFIG_UBSAN_INTEGER_WRAP
+>  # define __signed_wrap __attribute__((no_sanitize("signed-integer-overflow")))
+>  #else
+>  # define __signed_wrap
+> diff --git a/kernel/configs/hardening.config b/kernel/configs/hardening.config
+> index 3fabb8f55ef6..dd7c32fb5ac1 100644
+> --- a/kernel/configs/hardening.config
+> +++ b/kernel/configs/hardening.config
+> @@ -46,7 +46,7 @@ CONFIG_UBSAN_BOUNDS=y
+>  # CONFIG_UBSAN_SHIFT is not set
+>  # CONFIG_UBSAN_DIV_ZERO is not set
+>  # CONFIG_UBSAN_UNREACHABLE is not set
+> -# CONFIG_UBSAN_SIGNED_WRAP is not set
+> +# CONFIG_UBSAN_INTEGER_WRAP is not set
+>  # CONFIG_UBSAN_BOOL is not set
+>  # CONFIG_UBSAN_ENUM is not set
+>  # CONFIG_UBSAN_ALIGNMENT is not set
+> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+> index 1d4aa7a83b3a..63e5622010e0 100644
+> --- a/lib/Kconfig.ubsan
+> +++ b/lib/Kconfig.ubsan
+> @@ -116,21 +116,20 @@ config UBSAN_UNREACHABLE
+>           This option enables -fsanitize=unreachable which checks for control
+>           flow reaching an expected-to-be-unreachable position.
+>
+> -config UBSAN_SIGNED_WRAP
+> -       bool "Perform checking for signed arithmetic wrap-around"
+> +config UBSAN_INTEGER_WRAP
+> +       bool "Perform checking for integer arithmetic wrap-around"
+>         default UBSAN
+>         depends on !COMPILE_TEST
+> -       # The no_sanitize attribute was introduced in GCC with version 8.
+> -       depends on !CC_IS_GCC || GCC_VERSION >= 80000
+>         depends on $(cc-option,-fsanitize=signed-integer-overflow)
+> -       help
+> -         This option enables -fsanitize=signed-integer-overflow which checks
+> -         for wrap-around of any arithmetic operations with signed integers.
+> -         This currently performs nearly no instrumentation due to the
+> -         kernel's use of -fno-strict-overflow which converts all would-be
+> -         arithmetic undefined behavior into wrap-around arithmetic. Future
+> -         sanitizer versions will allow for wrap-around checking (rather than
+> -         exclusively undefined behavior).
+> +       depends on $(cc-option,-fsanitize=unsigned-integer-overflow)
+> +       depends on $(cc-option,-fsanitize=implicit-signed-integer-truncation)
+> +       depends on $(cc-option,-fsanitize=implicit-unsigned-integer-truncation)
 
-Yep! I managed to get it working, but it is rather janky and
-experimental. I don't think you should use this in your patch series
-unless Miguel has commented on it.
-
-Notable things in the diff below:
-* the hostrustflags don't get the *provenance_casts lints (which is
-  correct, I think, but probably not the way I did it with filter-out)
-* the crates compiler_builtins, bindings, uapi, build_error, libmacros,
-  ffi, etc do get them, but probably shouldn't?
-
----
-Cheers,
-Benno
-
-diff --git a/Makefile b/Makefile
-index 70bdbf2218fc..38a79337cd7b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -473,6 +473,8 @@ export rust_common_flags :=3D --edition=3D2021 \
- =09=09=09    -Astable_features \
- =09=09=09    -Dnon_ascii_idents \
- =09=09=09    -Dunsafe_op_in_unsafe_fn \
-+=09=09=09    -Wfuzzy_provenance_casts \
-+=09=09=09    -Wlossy_provenance_casts \
- =09=09=09    -Wmissing_docs \
- =09=09=09    -Wrust_2018_idioms \
- =09=09=09    -Wunreachable_pub \
-@@ -493,7 +495,7 @@ KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERHOSTCFLAGS) $(HOS=
-T_LFS_CFLAGS) \
- =09=09       $(HOSTCFLAGS) -I $(srctree)/scripts/include
- KBUILD_HOSTCXXFLAGS :=3D -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS) \
- =09=09       -I $(srctree)/scripts/include
--KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo \
-+KBUILD_HOSTRUSTFLAGS :=3D $(filter-out -Wfuzzy_provenance_casts -Wlossy_pr=
-ovenance_casts,$(rust_common_flags)) -O -Cstrip=3Ddebuginfo \
- =09=09=09-Zallow-features=3D $(HOSTRUSTFLAGS)
- KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
- KBUILD_HOSTLDLIBS   :=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)
-diff --git a/init/Kconfig b/init/Kconfig
-index d0d021b3fa3b..82e28d6f7c3f 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -132,6 +132,9 @@ config CC_HAS_COUNTED_BY
- config RUSTC_HAS_COERCE_POINTEE
- =09def_bool RUSTC_VERSION >=3D 108400
-=20
-+config RUSTC_HAS_STABLE_STRICT_PROVENANCE
-+=09def_bool RUSTC_VERSION >=3D 108400
-+
- config PAHOLE_VERSION
- =09int
- =09default $(shell,$(srctree)/scripts/pahole-version.sh $(PAHOLE))
-diff --git a/rust/Makefile b/rust/Makefile
-index ea3849eb78f6..998b57c6e5f7 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -436,7 +436,8 @@ $(obj)/helpers/helpers.o: $(src)/helpers/helpers.c $(re=
-cordmcount_source) FORCE
- $(obj)/exports.o: private skip_gendwarfksyms =3D 1
-=20
- $(obj)/core.o: private skip_clippy =3D 1
--$(obj)/core.o: private skip_flags =3D -Wunreachable_pub
-+$(obj)/core.o: private skip_flags =3D -Wunreachable_pub \
-+    -Wfuzzy_provenance_casts -Wlossy_provenance_casts
- $(obj)/core.o: private rustc_objcopy =3D $(foreach sym,$(redirect-intrinsi=
-cs),--redefine-sym $(sym)=3D__rust$(sym))
- $(obj)/core.o: private rustc_target_flags =3D $(core-cfgs)
- $(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs \
-diff --git a/rust/bindings/lib.rs b/rust/bindings/lib.rs
-index 014af0d1fc70..185bf29e44d9 100644
---- a/rust/bindings/lib.rs
-+++ b/rust/bindings/lib.rs
-@@ -9,6 +9,14 @@
- //! using this crate.
-=20
- #![no_std]
-+#![cfg_attr(
-+    not(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),
-+    feature(strict_provenance)
-+)]
-+#![cfg_attr(
-+    CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE,
-+    feature(strict_provenance_lints)
-+)]
- // See <https://github.com/rust-lang/rust-bindgen/issues/1651>.
- #![cfg_attr(test, allow(deref_nullptr))]
- #![cfg_attr(test, allow(unaligned_references))]
-diff --git a/rust/build_error.rs b/rust/build_error.rs
-index fa24eeef9929..84e24598857f 100644
---- a/rust/build_error.rs
-+++ b/rust/build_error.rs
-@@ -18,6 +18,14 @@
- //! [const-context]: https://doc.rust-lang.org/reference/const_eval.html#c=
-onst-context
-=20
- #![no_std]
-+#![cfg_attr(
-+    not(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),
-+    feature(strict_provenance)
-+)]
-+#![cfg_attr(
-+    CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE,
-+    feature(strict_provenance_lints)
-+)]
-=20
- /// Panics if executed in [const context][const-context], or triggers a bu=
-ild error if not.
- ///
-diff --git a/rust/compiler_builtins.rs b/rust/compiler_builtins.rs
-index f14b8d7caf89..0dcb25a644f6 100644
---- a/rust/compiler_builtins.rs
-+++ b/rust/compiler_builtins.rs
-@@ -21,6 +21,14 @@
-=20
- #![allow(internal_features)]
- #![feature(compiler_builtins)]
-+#![cfg_attr(
-+    not(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),
-+    feature(strict_provenance)
-+)]
-+#![cfg_attr(
-+    CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE,
-+    feature(strict_provenance_lints)
-+)]
- #![compiler_builtins]
- #![no_builtins]
- #![no_std]
-diff --git a/rust/ffi.rs b/rust/ffi.rs
-index 584f75b49862..28a5e9a09b70 100644
---- a/rust/ffi.rs
-+++ b/rust/ffi.rs
-@@ -8,6 +8,14 @@
- //! C ABI. The kernel does not use [`core::ffi`], so it can customise the =
-mapping that deviates from
- //! the platform default.
-=20
-+#![cfg_attr(
-+    not(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),
-+    feature(strict_provenance)
-+)]
-+#![cfg_attr(
-+    CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE,
-+    feature(strict_provenance_lints)
-+)]
- #![no_std]
-=20
- macro_rules! alias {
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 398242f92a96..6fd4fb2176aa 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -13,6 +13,14 @@
-=20
- #![no_std]
- #![feature(arbitrary_self_types)]
-+#![cfg_attr(
-+    not(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),
-+    feature(strict_provenance)
-+)]
-+#![cfg_attr(
-+    CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE,
-+    feature(strict_provenance_lints)
-+)]
- #![cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, feature(derive_coerce_pointee=
-))]
- #![cfg_attr(not(CONFIG_RUSTC_HAS_COERCE_POINTEE), feature(coerce_unsized))=
-]
- #![cfg_attr(not(CONFIG_RUSTC_HAS_COERCE_POINTEE), feature(dispatch_from_dy=
-n))]
-diff --git a/rust/macros/lib.rs b/rust/macros/lib.rs
-index 8c7b786377ee..91450de998d3 100644
---- a/rust/macros/lib.rs
-+++ b/rust/macros/lib.rs
-@@ -2,6 +2,15 @@
-=20
- //! Crate for all kernel procedural macros.
-=20
-+#![cfg_attr(
-+    not(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),
-+    feature(strict_provenance)
-+)]
-+#![cfg_attr(
-+    CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE,
-+    feature(strict_provenance_lints)
-+)]
-+
- // When fixdep scans this, it will find this string `CONFIG_RUSTC_VERSION_=
-TEXT`
- // and thus add a dependency on `include/config/RUSTC_VERSION_TEXT`, which=
- is
- // touched by Kconfig when the version string from the compiler changes.
-diff --git a/rust/uapi/lib.rs b/rust/uapi/lib.rs
-index 13495910271f..84ef3828e0d4 100644
---- a/rust/uapi/lib.rs
-+++ b/rust/uapi/lib.rs
-@@ -8,6 +8,14 @@
- //! userspace APIs.
-=20
- #![no_std]
-+#![cfg_attr(
-+    not(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),
-+    feature(strict_provenance)
-+)]
-+#![cfg_attr(
-+    CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE,
-+    feature(strict_provenance_lints)
-+)]
- // See <https://github.com/rust-lang/rust-bindgen/issues/1651>.
- #![cfg_attr(test, allow(deref_nullptr))]
- #![cfg_attr(test, allow(unaligned_references))]
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 993708d11874..021ee36ae8f2 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -226,7 +226,10 @@ $(obj)/%.lst: $(obj)/%.c FORCE
- # Compile Rust sources (.rs)
- # ------------------------------------------------------------------------=
----
-=20
--rust_allowed_features :=3D asm_const,asm_goto,arbitrary_self_types,lint_re=
-asons
-+# Lints were moved to `strict_provenance_lints` when `strict_provenance` w=
-as stabilized.
-+#
-+# See https://github.com/rust-lang/rust/commit/56ee492a6e7a917b2b3f888e33d=
-d52a13d3ecb64.
-+rust_allowed_features :=3D asm_const,asm_goto,arbitrary_self_types,lint_re=
-asons,$(if $(CONFIG_RUSTC_HAS_STABLE_STRICT_PROVENANCE),strict_provenance_l=
-ints,strict_provenance)
-=20
- # `--out-dir` is required to avoid temporaries being created by `rustc` in=
- the
- # current working directory, which may be not accessible in the out-of-tre=
-e
-
-
+Can these be in 1 cc-option? I know it might look slightly more ugly,
+but having 3 different ones will shell out to the compiler 3 times,
+which is a little less efficient. At some point it might noticeably
+increase the build initialization latency.
 
