@@ -1,130 +1,187 @@
-Return-Path: <linux-kbuild+bounces-6112-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6113-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16943A5E937
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 02:09:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BEDA5E9A0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 03:09:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 815FA3B80ED
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 01:09:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C7211897739
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 02:09:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D89915E90;
-	Thu, 13 Mar 2025 01:09:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA15F1C683;
+	Thu, 13 Mar 2025 02:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2RZfHfx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pakt/yVy"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76802E3391;
-	Thu, 13 Mar 2025 01:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4154D8C8;
+	Thu, 13 Mar 2025 02:09:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741828176; cv=none; b=OxIBjeKd1Ef+ly4Lw3l/JGwOSKVnOkEJgZ+CI2YI1XrkgpKFqq8l4kvTNM8VJUSvhkkgHn93r862k7Y4R+1koQpJ+qJl7Nx1Eb5RU/BuRSak4Oxfbiy3ZC0hxrBcjXZUTA50CMFiv2YfwCw+SMcQZjGWxpip5vOpIudvNP2CTCw=
+	t=1741831745; cv=none; b=ZLyAOwZI8iqyvWRmBsfFxYh9AkHpIkGqsjqMEeXtbzxJEwHWmE5YNt25pCBm5nKsd93byi0/hlWWlqJopr0/S5Ox1oFi/0QkNDB3XGh4bVsDI7HWUycSqoes4onGlpN+3SArbNZGgqnNwOy85KSI1t6AxUl+hEQ8cSNnyhC3ugc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741828176; c=relaxed/simple;
-	bh=B8HwtBeRaBHX5JkhLaSUnbwXsgTX3Q2lYTiyZCaBn8M=;
+	s=arc-20240116; t=1741831745; c=relaxed/simple;
+	bh=GngvFBixUC4blVwet87fsiyD246acHkjhZlmbgI45iY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZfD3VMUkST9fex4mq0sqvJub9YP+nzkiAkLsLpx6bLO+1Ru0IIevd+YMFt29UzpbF6iWEWXkG0epu9GTgkhdblbgDd/gqbd4LeY0BILyNU1UNaxfgZrHBrYT9UGFtADz40K7XC+57jlBg3bqnFpFfjP62/Dh/43hP6d9xWOIwVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2RZfHfx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 641EBC4CEDD;
-	Thu, 13 Mar 2025 01:09:35 +0000 (UTC)
+	 To:Cc:Content-Type; b=X8TsOkgYDKjjXAWi+0rAWzqHonEc/SQaXgDIpYtBMaH6xerRSm6rqxnhhhvNu0Hs6QBavk+gvaW0AQFHpYy1ta6PG6ahDjxVw8/Fo8zm3yv35ryytufwOHvNg3KE9gpt7gk1Jjcp/MsQ8c1IinBUEK8nyUesiO5WsguSerCvfSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pakt/yVy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F16BBC4CEDD;
+	Thu, 13 Mar 2025 02:09:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741828175;
-	bh=B8HwtBeRaBHX5JkhLaSUnbwXsgTX3Q2lYTiyZCaBn8M=;
+	s=k20201202; t=1741831745;
+	bh=GngvFBixUC4blVwet87fsiyD246acHkjhZlmbgI45iY=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Q2RZfHfxspRUmiRDGz1eQYWca14CBctZRqmJ16TJt+kFFcS5rMijsvjUuz6QXnyy6
-	 03om4s121sP8wh4BkrGOBCx1PSYmztOe3U6Zs2MhwXtdyuNL7eMoAGl4GOcyeeT4mG
-	 ZKAj8wEb/IRIsrCvv5tiBt4o1sU+qTTRFOrbzZOVcCIHqnJYIyd0erdB+SNe+CBzyn
-	 e+W7M4vBOwQlkt8577G6sRta4NxBqu62HyUJO+RF9G41aXHpKe9No8hjUFhuAA6+ik
-	 PX3bOwelan9yK0d3uDQcXmKYnuUFDE5+OosGpovScnj4TYxag7SuuTOhPrYnBWDBYg
-	 te/e20T/7s9JA==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54963160818so511420e87.2;
-        Wed, 12 Mar 2025 18:09:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWF0Uu8wfuJflTBVfObuqW88P3NP5WUd2RdQZGglhYov8cpJRjS4Ul27w+gshvj5xwI6XP4Rob8gIliPG4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtgWklIvlCa1STkPj0fiysM8pb2gcJkNz/sulyc/8obfjixn3L
-	jEXcXDQxLw++QJ2zSjZtbMUdQg964ZFG+cNLFzpCL4FhIk0+i3pyiQL5XykFTcQ31wvd2Z2L54P
-	J2Sy7I8+3B8SVelSm0LQHqAmDUgw=
-X-Google-Smtp-Source: AGHT+IFcqvfBK68BflSjEsKvxfdHwOVmP0F1TRkLwGsuRvd3qs57522RPwblzli5/mHmSvGhpUo6BT/N+AoOzkTRGxY=
-X-Received: by 2002:a05:6512:2203:b0:545:22ec:8b6b with SMTP id
- 2adb3069b0e04-54990eadb29mr8212477e87.35.1741828174119; Wed, 12 Mar 2025
- 18:09:34 -0700 (PDT)
+	b=pakt/yVyOntTMO64+noyo0RfpzkTor1fq/f1K2nuE2gnj3T1nIS+2lGwhyf/6eX94
+	 JRGhmAU4k2zY5c8yga4lIfbpi7agWosgVbwxv5nSF704AUw2KDkevMVt3AnBVNbxHV
+	 eMRmu9Ly9xYM07MTwUhuPv31BZH0FMhKGHNdSIPGk467StAi1Bp5/CB93O6KsdSdC9
+	 p3OOxTiU6SyiB/ivg9FJCIMnDXzfl1zzQaCtBCLO7glpW2lAqPMqYLaFnZCnmie0xW
+	 vJvfBCpQ0tDndS/M5tmbDipfWviqXKeOzTe+h1oEFQw5/but1eweSslC2dqmo0tbzq
+	 Ds4y1gUwDHbIw==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54996d30bfbso383273e87.2;
+        Wed, 12 Mar 2025 19:09:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWfs83MwdoEcJcZ5Ym0oL3zu9znUlZB0zGTPwftQSesmr/2SZmnl0W/y/BOgnCDuThrujY8efJ80STh7dw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIx2qjbcLD4Skh5/c3X3djwsIPlrC91RC1ei2rdSWthc2UsnVP
+	mGA7fd5PZpi3xaAvVVtEExRKwGKLjt+WTNOKNDF/pkg6J7Qxo9OxdZ3/GTIvjuxZHVq8W6CoNMj
+	5EPuQB6dqqGIK+yl2KP3jqJ1/t0A=
+X-Google-Smtp-Source: AGHT+IFnp+hSv28hh0jo5RO6feHO0dn8GCX7fME6ezbp/fN64DK7Ijlw7+v6mzJ9xFU+XXy/l/7Fn+eJUdqbeCvZLvE=
+X-Received: by 2002:a05:6512:a93:b0:545:2fa9:8cf5 with SMTP id
+ 2adb3069b0e04-549910b7c6fmr10035130e87.49.1741831743668; Wed, 12 Mar 2025
+ 19:09:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250312033421.2365201-1-xin@zytor.com>
-In-Reply-To: <20250312033421.2365201-1-xin@zytor.com>
+References: <20250311110616.148682-6-ardb+git@google.com> <20250311110616.148682-10-ardb+git@google.com>
+In-Reply-To: <20250311110616.148682-10-ardb+git@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 13 Mar 2025 10:08:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATJ4g3OeD1wo+x=P3ZkkT3mG1JTZCzkuT_3F8eHm5xeig@mail.gmail.com>
-X-Gm-Features: AQ5f1JrPBxNEmEklDdxxiwmQPfFeDBzR-Ujh2xOuHw3dw3B0mYVA2_y8zsc15gY
-Message-ID: <CAK7LNATJ4g3OeD1wo+x=P3ZkkT3mG1JTZCzkuT_3F8eHm5xeig@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] kbuild: Add a help message for "headers"
-To: "Xin Li (Intel)" <xin@zytor.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	nathan@kernel.org, nicolas@fjasle.eu, bp@alien8.de, hpa@zytor.com, 
-	sraithal@amd.com, n.schier@avm.de
+Date: Thu, 13 Mar 2025 11:08:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASxNhDnCmpuf7yEW4Lcz-vRtitx8HPeoZnGNWdb-6pEsA@mail.gmail.com>
+X-Gm-Features: AQ5f1JoS42g00b7qlbesqtGBrGFfhZQ6QifIEYnappwB45I2PgST6Tm8BEsgSzI
+Message-ID: <CAK7LNASxNhDnCmpuf7yEW4Lcz-vRtitx8HPeoZnGNWdb-6pEsA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] x86: Get rid of Makefile.postlink
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, x86@kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, Ingo Molnar <mingo@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 12, 2025 at 12:35=E2=80=AFPM Xin Li (Intel) <xin@zytor.com> wro=
-te:
+On Tue, Mar 11, 2025 at 8:06=E2=80=AFPM Ard Biesheuvel <ardb+git@google.com=
+> wrote:
 >
-> Meanwhile explicitly state that the headers are uapi headers.
+> From: Ard Biesheuvel <ardb@kernel.org>
 >
-> Suggested-by: Borislav Petkov <bp@alien8.de>
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Instead of generating the vmlinux.relocs file (needed by the
+> decompressor build to construct the KASLR relocation tables) as a
+> vmlinux postlink step, which is dubious because it depends on data that
+> is stripped from vmlinux before the build completes, generate it from
+> vmlinux.unstripped, which has been introduced specifically for this
+> purpose.
+>
+> This ensures that each artifact is rebuilt as needed, rather than as a
+> side effect of another build rule.
+>
+> This effectively reverts commit
+>
+>   9d9173e9ceb6 ("x86/build: Avoid relocation information in final vmlinux=
+")
+>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 > ---
+>  arch/x86/Makefile.postlink        | 38 --------------------
+>  arch/x86/boot/compressed/Makefile |  9 +++--
+>  2 files changed, 6 insertions(+), 41 deletions(-)
 >
-
-Applied to linux-kbuild.
-Thanks!
-
-
-
-> Change in v3:
-> * Fix a typo and write uapi in capital letters (Nicolas Schier).
+> diff --git a/arch/x86/Makefile.postlink b/arch/x86/Makefile.postlink
+> deleted file mode 100644
+> index 445fce66630f..000000000000
+> --- a/arch/x86/Makefile.postlink
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0
+> -# =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> -# Post-link x86 pass
+> -# =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> -#
+> -# 1. Separate relocations from vmlinux into vmlinux.relocs.
+> -# 2. Strip relocations from vmlinux.
+> -
+> -PHONY :=3D __archpost
+> -__archpost:
+> -
+> --include include/config/auto.conf
+> -include $(srctree)/scripts/Kbuild.include
+> -
+> -CMD_RELOCS =3D arch/x86/tools/relocs
+> -OUT_RELOCS =3D arch/x86/boot/compressed
+> -quiet_cmd_relocs =3D RELOCS  $(OUT_RELOCS)/vmlinux.relocs
+> -      cmd_relocs =3D \
+> -       mkdir -p $(OUT_RELOCS); \
+> -       $(CMD_RELOCS) $@ > $(OUT_RELOCS)/vmlinux.relocs; \
+> -       $(CMD_RELOCS) --abs-relocs $@
+> -
+> -# `@true` prevents complaint when there is nothing to be done
+> -
+> -vmlinux vmlinux.unstripped: FORCE
+> -       @true
+> -ifeq ($(CONFIG_X86_NEED_RELOCS),y)
+> -       $(call cmd,relocs)
+> -endif
+> -
+> -clean:
+> -       @rm -f $(OUT_RELOCS)/vmlinux.relocs
+> -
+> -PHONY +=3D FORCE clean
+> -
+> -FORCE:
+> -
+> -.PHONY: $(PHONY)
+> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed=
+/Makefile
+> index 606c74f27459..5edee7a9786c 100644
+> --- a/arch/x86/boot/compressed/Makefile
+> +++ b/arch/x86/boot/compressed/Makefile
+> @@ -117,9 +117,12 @@ $(obj)/vmlinux.bin: vmlinux FORCE
 >
-> Changes in v2:
-> * Revise the help message for "headers" (Masahiro Yamada).
-> * Revise the shortlog (Masahiro Yamada).
-> ---
->  Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  targets +=3D $(patsubst $(obj)/%,%,$(vmlinux-objs-y)) vmlinux.bin.all vm=
+linux.relocs
 >
-> diff --git a/Makefile b/Makefile
-> index 70bdbf2218fc..08918088ab35 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1659,7 +1659,8 @@ help:
->         @echo  '  kernelrelease   - Output the release version string (us=
-e with make -s)'
->         @echo  '  kernelversion   - Output the version stored in Makefile=
- (use with make -s)'
->         @echo  '  image_name      - Output the image name (use with make =
--s)'
-> -       @echo  '  headers_install - Install sanitised kernel headers to I=
-NSTALL_HDR_PATH'; \
-> +       @echo  '  headers         - Build ready-to-install UAPI headers i=
-n usr/include'
-> +       @echo  '  headers_install - Install sanitised kernel UAPI headers=
- to INSTALL_HDR_PATH'; \
->          echo  '                    (default: $(INSTALL_HDR_PATH))'; \
->          echo  ''
->         @echo  'Static analysers:'
->
-> base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
-> --
-> 2.48.1
->
+> -# vmlinux.relocs is created by the vmlinux postlink step.
+> -$(obj)/vmlinux.relocs: vmlinux
+> -       @true
+> +CMD_RELOCS =3D arch/x86/tools/relocs
+> +quiet_cmd_relocs =3D RELOCS  $@
+> +      cmd_relocs =3D $(CMD_RELOCS) $< > $@;$(CMD_RELOCS) --abs-relocs $<
+> +
+> +$(obj)/vmlinux.relocs: vmlinux.unstripped FORCE
+> +       $(call if_changed,relocs)
+
+Perhaps, it may make sense to rebuild vmlinux.relocs
+when arch/x86/tools/relocs is changed, but
+I do not see such dependency in the other
+arch/x86/realmode/rm/Makefile.
+
+https://github.com/torvalds/linux/blob/v6.14-rc5/arch/x86/realmode/rm/Makef=
+ile#L61
 
 
---
+So, I decided it is ok.
+If you mind, you can send v3.
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
 
