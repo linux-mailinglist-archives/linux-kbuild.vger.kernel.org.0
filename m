@@ -1,142 +1,132 @@
-Return-Path: <linux-kbuild+bounces-6105-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6106-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC41A5E792
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 23:38:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DD0A5E903
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 01:35:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C074916A1C6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Mar 2025 22:38:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38E9F189C8D5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 00:35:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 700AC1EFFBA;
-	Wed, 12 Mar 2025 22:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 380A12E337D;
+	Thu, 13 Mar 2025 00:35:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Y1PKVIOv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="szJI721i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357B31DE3A4;
-	Wed, 12 Mar 2025 22:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1A0BE49;
+	Thu, 13 Mar 2025 00:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741819095; cv=none; b=ZLzF8KxD9gd9KCO1FzVgyxdbZOIBli+9J3QG+SNpeTWNmGUkL365NuJdXYds3/wS25cHYcK7B9XIDZBnZwjks/ZxcVMQ7Q5m4vCw1/pgS0cKCb2vpmY1vagOZ8gL3ZzYY3LcBDvfzJEKpT6ygCiOZtbajXMKXyxlj//nfjAwgRQ=
+	t=1741826111; cv=none; b=tb8a9kjjSC7ZLmcBH58gsDyQBrBbK2+ut9+LeCmdDU7ajdPAQHAArc4SYa46uuFscAJO1IaXRUPLR5479dZ4UcIHDWPAdfu4hoidD0silT6fgOWBhNqhT7FIa2DcCk7SMObpdSuSu1U6nTxrkUj4ofJyDcEd8zuHkTEWzX3lee8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741819095; c=relaxed/simple;
-	bh=hqMCxV3hHW8yDcWjXKSWU9xjhmxeTFtHqSjy4t4/WAU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RHQUT7lU8ONnqTAHclG4gUUytr7U9vlosnrGcx7+T6vOE7k7q/USIQ0ExExXhpOGS0VCrLjVchaujNJ8UnayXYi88IcVQepvBTjNS4e/2tKzu68BftLReQAEz39L3pMPrMGS2qu3uFKOjwe4TtYNEChvyQ/eRMCAu403iOax4n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Y1PKVIOv; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1741819090; x=1742078290;
-	bh=ptExWFO1L9HF5KrYQKciiDZUKN13vD4sMJnJuckn30M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=Y1PKVIOvKC6EhKkRWZAjDEctvB7RmPNDKkXLW0wv0zkA9TPc7rLcFEzyyjRhf1MAJ
-	 PdCafG9+otGQHW2FGh9pOE5RsLlMfX7fSD4pEZoV0txxlIcNzyfUgpmNfG5oUfjp+T
-	 i/qcbs7aFEZMZ8O40xI9u3n+i4qUKo1Rb8/Yd4HZdpAWVm6h7+be7TdT4Sj6las1+N
-	 8JBX9zRHlFZlQvlLutfADOKxSGjJIAYuN0IPcLJFzN2NUcTNcGenlIrs7ylh5Uehfj
-	 mRmmCP9FOzR0xBLTxBseRHp6sAwiyNl/4m1KPHz05xOcr6F0F7QqtcUMkkNVGiI7KV
-	 8epgMAgAKtEUw==
-Date: Wed, 12 Mar 2025 22:38:03 +0000
-To: Tamir Duberstein <tamird@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] rust: enable `clippy::as_underscore` lint
-Message-ID: <D8ENBWTC8UPH.LLEGZ2D4U7KQ@proton.me>
-In-Reply-To: <CAJ-ks9k1gZ=tLSe6OjuKFgg6=QE5R_Ajo0ZJwZJp08_1LMiODw@mail.gmail.com>
-References: <20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com> <D8EJM4CJ4HAN.1PB2YV8DB77V7@proton.me> <CAJ-ks9mo-H46Wwcu_LOvDy0ncwMR9ii74Fyf3OX-aWNnrZ397g@mail.gmail.com> <CAJ-ks9kCgATKDE2qAuO3XpQfjVO2jGyq3D4sbUcVKyW6G1vuuQ@mail.gmail.com> <D8EL9QFS1XNT.JBSMRXD4D7GT@proton.me> <CAJ-ks9=TRDg3g=NG7k97P_5jXpZ4K4v0DxrmJFR+uF0-3zJkXw@mail.gmail.com> <CAJ-ks9=hAwOGtVv0zh9CcH7XOxjGnizvK1QOMAi8nKStocKr2Q@mail.gmail.com> <D8ELW7X9796K.2ZGJS34LDTHOP@proton.me> <CAJ-ks9k1gZ=tLSe6OjuKFgg6=QE5R_Ajo0ZJwZJp08_1LMiODw@mail.gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: e5e352a766bd924d3132436297fc212a44299c51
+	s=arc-20240116; t=1741826111; c=relaxed/simple;
+	bh=ZNMXClnUZbe+u7N9g4p0/U2o58T3siXKyG+xYh1KNH8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UXRl4WxnLTjlVVcfKA4f54cgFbpqQpleJwTy0+7dxqYtZyyhie86MyM7daCYjt37NPwEIxfhSCq6+Fa9qag4hGa2ci5JK6+thCmIlJn5si8FocmWd6FiKezk2nrU2Ppmad25emtjWb5hbo1qFNEStmyeblUIY/ljXgEW4omVqMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=szJI721i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753E8C4CEEB;
+	Thu, 13 Mar 2025 00:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741826110;
+	bh=ZNMXClnUZbe+u7N9g4p0/U2o58T3siXKyG+xYh1KNH8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=szJI721ijiOwmyHqsOOzxkpLyFXE+rOlu87Xzg0kQcOuJdh2rJh6pTkxHOfEppdPX
+	 XKYnLleHgSCDzLndKsa3GzLTM3hmG8MzxEHel17dcGvTAfgcCnQwP3/qJ5uxpV4mDQ
+	 nWX70u156V1cVteJc0ePeqd9Pfua619gVkwd4jIEuIhjK3nLmZ7Ym5uUaJsfRZ9RB0
+	 omQFlv8x6RAsYrFq928GtWjByY6xLGThdekDrMeoNcjtAHRhwqVu8sy8AE2M1Q6ELV
+	 c+Tt8VDTb6EXflUKiuWhXrup3YxoGXKcA2ZEtmwvWmsUugIWEA0QUPPV0gMN8gYBK2
+	 xOyqr0/H8iM7g==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30bf8632052so4063811fa.0;
+        Wed, 12 Mar 2025 17:35:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+9jChGobUwinU354f5Cf4V3QDuvKf8CzmHnrTOaBlsCfo2WiqFHGJNY+pcZQQcsyHyK6S6tr1JP8EEZA=@vger.kernel.org, AJvYcCVO1hbOFn651p91dssMmLmmgXszdpFVDfwJNBRJnU+NTxcwqTJFPWmgvUBE4acR7b9B0iF022+BKjDnT4YY@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbCW5vwU4gXOuxAcT2B8fE88PKtH2DGcYwMs7TLA3DUOzhXqiL
+	/z4vX7WW+rrp52DEleO9eGDciyvObDCBi8qMjr6R4aEb2t6oQhykdioRHITlzUlIYKczHYIuflV
+	i9ia9WO5Ou75AATnu6ZVPcyuvAj4=
+X-Google-Smtp-Source: AGHT+IGYyXeYfkhDSwHrnAla25ar+VcB90pwC91yOVQMoN+zBq8t5iMIE1/pEMS8tJ0BkbPnYsR6nXBNJHT5Kb2jIXU=
+X-Received: by 2002:a05:6512:b14:b0:545:c89:2bc9 with SMTP id
+ 2adb3069b0e04-549910cb4a9mr9227384e87.43.1741826109127; Wed, 12 Mar 2025
+ 17:35:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20250311-moddesc-error-v1-1-79adedf48d0e@oss.qualcomm.com>
+In-Reply-To: <20250311-moddesc-error-v1-1-79adedf48d0e@oss.qualcomm.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 13 Mar 2025 09:34:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASYFEFFbnqwDuJNf4ngU9uLavJuQqknOimpYeAeHyk1zQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JrQVAU-kF3eCnB0QvYcxVn-E2rNqouk7YLKaG-duzbfrpmut8i_jiufYdk
+Message-ID: <CAK7LNASYFEFFbnqwDuJNf4ngU9uLavJuQqknOimpYeAeHyk1zQ@mail.gmail.com>
+Subject: Re: [PATCH] script: modpost: require a MODULE_DESCRIPTION()
+To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed Mar 12, 2025 at 11:24 PM CET, Tamir Duberstein wrote:
-> On Wed, Mar 12, 2025 at 5:30=E2=80=AFPM Benno Lossin <benno.lossin@proton=
-.me> wrote:
->>
->> On Wed Mar 12, 2025 at 10:10 PM CET, Tamir Duberstein wrote:
->> > On Wed, Mar 12, 2025 at 5:04=E2=80=AFPM Tamir Duberstein <tamird@gmail=
-.com> wrote:
->> >>
->> >> On Wed, Mar 12, 2025 at 5:01=E2=80=AFPM Benno Lossin <benno.lossin@pr=
-oton.me> wrote:
->> >> > Always enable the features, we have `allow(stable_features)` for th=
-is
->> >> > reason (then you don't have to do this dance with checking if it's
->> >> > already stable or not :)
->> >>
->> >> It's not so simple. In rustc < 1.84.0 the lints *and* the strict
->> >> provenance APIs are behind `feature(strict_provenance)`. In rustc >=
-=3D
->> >> 1.84.0 the lints are behind `feature(strict_provenance_lints)`. So yo=
-u
->> >> need to read the config to learn that you need to enable
->> >> `feature(strict_provenance_lints)`.
->>
->> I see... And `strict_provenance_lints` doesn't exist in <1.84? That's a
->> bit of a bummer...
->>
->> But I guess we could have this config option (in `init/Kconfig`):
->>
->>     config RUSTC_HAS_STRICT_PROVENANCE
->>             def_bool RUSTC_VERSION >=3D 108400
->>
->> and then do this in `lib.rs`:
->>
->>     #![cfg_attr(CONFIG_RUSTC_HAS_STRICT_PROVENANCE, feature(strict_prove=
-nance_lints))]
+On Wed, Mar 12, 2025 at 4:49=E2=80=AFAM Jeff Johnson
+<jeff.johnson@oss.qualcomm.com> wrote:
 >
-> Yep! That's exactly what I did, but as I mentioned up-thread, the
-> result is that we only cover the `kernel` crate.
-
-Ah I see, can't we just have the above line in the other crate roots?
-
->> > Actually this isn't even the only problem. It seems that
->> > `-Astable_features` doesn't affect features enabled on the command
->> > line at all:
->> >
->> > error[E0725]: the feature `strict_provenance` is not in the list of
->> > allowed features
->> >  --> <crate attribute>:1:9
->> >   |
->> > 1 | feature(strict_provenance)
->> >   |         ^^^^^^^^^^^^^^^^^
->>
->> That's because you need to append the feature to `rust_allowed_features`
->> in `scripts/Makefile.build` (AFAIK).
+> Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
+> description is missing"), a module without a MODULE_DESCRIPTION() has
+> resulted in a warning with make W=3D1. Since that time, all known
+> instances of this issue have been fixed. Therefore, now make it an
+> error if a MODULE_DESCRIPTION() is not present.
 >
-> Thanks, that's a helpful pointer, and it solves some problems but not
-> all. The root Makefile contains this bit:
->
->> KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo \
->> -Zallow-features=3D $(HOSTRUSTFLAGS)
->
-> which means we can't use the provenance lints against these host
-> targets (including e.g. `rustdoc_test_gen`). We can't remove this
-> -Zallow-features=3D either because then core fails to compile.
->
-> I'm at the point where I think I need more involved help. Want to take
-> a look at my attempt? It's here:
-> https://github.com/tamird/linux/tree/b4/ptr-as-ptr.
+> Signed-off-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+> ---
+> did my treewide cleanup for v6.11, Arnd had a few more stragglers that
+> he was going to fix. I hope that by posting, some of the 0-day bots
+> will pick it up and hopefully provide some feedback.
 
-I'll take a look tomorrow, you're testing my knowledge of the build
-system a lot here :)
 
----
-Cheers,
-Benno
+I pushed this patch to a separate branch,
+so that 0day bot can compile-test it.
 
+If there is no error reported, I will move it to
+the for-next branch.
+
+
+
+
+> Note: I'm not really sure if *all* of these have been fixed. After I
+> ---
+>  scripts/mod/modpost.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index c35d22607978..c0b7a869ed24 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1596,8 +1596,8 @@ static void read_symbols(const char *modname)
+>                                                      namespace);
+>                 }
+>
+> -               if (extra_warn && !get_modinfo(&info, "description"))
+> -                       warn("missing MODULE_DESCRIPTION() in %s\n", modn=
+ame);
+> +               if (!get_modinfo(&info, "description"))
+> +                       error("missing MODULE_DESCRIPTION() in %s\n", mod=
+name);
+>         }
+>
+>         for (sym =3D info.symtab_start; sym < info.symtab_stop; sym++) {
+>
+> ---
+> base-commit: 4d872d51bc9d7b899c1f61534e3dbde72613f627
+> change-id: 20250311-moddesc-error-2ad949dcc6ba
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
