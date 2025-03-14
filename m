@@ -1,130 +1,155 @@
-Return-Path: <linux-kbuild+bounces-6133-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6134-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BC7A60DF7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 10:54:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0177DA61116
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 13:28:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3441416C1C2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 09:53:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E01C1B62782
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 12:27:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 205F01F1523;
-	Fri, 14 Mar 2025 09:53:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D5191FE463;
+	Fri, 14 Mar 2025 12:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZApk60Ws"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bVtusqA6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C171EF0A5;
-	Fri, 14 Mar 2025 09:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A4318EFD4;
+	Fri, 14 Mar 2025 12:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741946031; cv=none; b=gJqS45P/jzAyTS+JYL4/cYZfSVjn14cW9MUP31G3C+kzBPIkVendTP0HIJRC8qUY33SVlBsiX8vIbKIy6LaPSvAAziSBvZDeEle15Fn3yjriwGgZOguhsNH5IWChtfMF1xqLI4h5+527cjGVWGnsB7QqwcYAgC9yPt6tt1uA58E=
+	t=1741955250; cv=none; b=c8MIzFiEz+RazqKrXPCkfcnXbFMpDPL9rZ4dPpWxcJQy5Q+VEgXaprJh8uWz0yZscDW3QDAXCOrsaGS9OnyhSv88YD1cStz9Gv2+plrEwxzzbt2MtrRpmiy7P/62g/Rh3nNDoD4XDkYApoRADQc8NaQt1F+P+lk0BhBYiCH4vlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741946031; c=relaxed/simple;
-	bh=NDKWPSLGvJ3Ug3WTN3vPKlY5C5wF9a4+rp8Xn+Biyiw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YOP3zZB1WcfeXb68/KMNkx/RtbUk7Hox3oLjsodc/H+YcpH7jpRzMMGfXdFko0CiMJSQK6zzLmEwk5ktO36pLuQvQxNunPbr2xMfRzJXAKb2EIsnJn3h28z7wVgBzYLVt7v0XkXLPyZnRY6iNMKFgq50/gOHarxhqa/vboNBJXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZApk60Ws; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE5BEC4CEE3;
-	Fri, 14 Mar 2025 09:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741946031;
-	bh=NDKWPSLGvJ3Ug3WTN3vPKlY5C5wF9a4+rp8Xn+Biyiw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZApk60WsYXJyzXQzBWpQhsm5pwn6Lc+fuLyQAB2khhL41/ql7tpCzuR2WH5yJrh8W
-	 9vB05pupO8wQ4OlN56OmohGT+1wSUVB6D28uUlu4Le9IahGh7CS0ultKH3RHY3yAUY
-	 iACxW/eaLoX8hSrcgIeD1ABdEZGJ+ImHrVA/CsQX+rPhZMoyxvT/vz2N1rWwEaokfu
-	 MkJr8kBwknV5Uylq27Q4lpkEEsd+s97Ay072uEl989Ytw3fdAamQ8N19mZDYlho8HK
-	 nILt6cxoObR1kXi7b2J+B8Gt32mwbIDZg7yb81M1IIe9bzQmdqCsU9MH6tRt/h2DzF
-	 Bkf6phJkwrplA==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Ben Hutchings <ben@decadent.org.uk>,
-	Matt Fleming <matt@readmodwrite.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] deb-pkg: add comment about future removal of KDEB_COMPRESS
-Date: Fri, 14 Mar 2025 18:53:35 +0900
-Message-ID: <20250314095337.2209653-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1741955250; c=relaxed/simple;
+	bh=4AV3UwKKeLK8/P2zg6naYEnpTmcDbmVCSxbXtAHjRV0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HwezfjhRmpmT1y37mAupfMHkTEMkK4zFxIeinHE/PJKxYChbC+/ffqg92gM/IVsLQ7RX2yGChJdIvaCeBg1rrHk+SMN7FIcRxWTRkg6zGexEguUU5i25Ik4xs8t6q38itVVNxIIU70vQdq8c/IKM01Zy7v9pb949cXZpR7iWAts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bVtusqA6; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30c461a45f8so11715101fa.1;
+        Fri, 14 Mar 2025 05:27:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741955246; x=1742560046; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4AV3UwKKeLK8/P2zg6naYEnpTmcDbmVCSxbXtAHjRV0=;
+        b=bVtusqA60eaOdqQGtwVc93tM60aFvBu2q1UIl0EWWu8Vr9OBJ5zpMGXoNgmJ4/Mc7c
+         9eX0HXHXlJFJHWZ9YHyXoTso5LrCcGuVe6gsuyNGkwMibDd3Yu7IILCFIEueItlPND47
+         oUvfJlL7LteDtDbrRzt9bnZP3Bv3ZZkFKVocPx+CyoVSZ4EWTCP9//OOV0sdJaJHcMD+
+         wna9zhIbP2bnQQDOgmOeWQphBb+EnGdVKuuCNqfXHyd1XxzOfXPeCRsf4/AcoHumHefG
+         R9AlOeHd8L3ZH5rLLuQlakRYN0wFFUYF1cc3dV7mJ1Ot5ilCZFywhRdHUM+bZIkLaOJc
+         AswQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741955246; x=1742560046;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4AV3UwKKeLK8/P2zg6naYEnpTmcDbmVCSxbXtAHjRV0=;
+        b=P1IoLhxd+gKswczTTZe9FL5iNkig70/aupQ1rhAU6L4dHAKhumdmZwYvVQRNtAkfHG
+         ZMTU0OKrC8QtnfcfECkiq2x/hegvv8pr4xtG/PidGCN2KizUSYGEfJApv1gWP5mcIQbl
+         06LtFGcBBm20+BLICvGGWBnQdzqVRKpq+iAyF/XkFufUfvp2p6hS8JWKDMBlYt3epm+r
+         89Gp0jw1KEAfM7kNMCrfgBb796LS4SnUqXIHb88EYNA1ytrHCluyEWlwFo8ifABcvmsm
+         48tXBZuuHEQbIWIJPXVN+wII959ZjMMRh59l7P21fn91kOayAuEd6UX3WHyKT+v/6QK/
+         Kz0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUGPOMkrcbVuf+4T+RZsBnwjSmmxuiKoO69Jikxc3Ynorxq5fQe7xAiYQnVDUecO2wPKweIbw0c7FjBdAVG@vger.kernel.org, AJvYcCV+Q/KhjZDTrrhQQ9PD9xb6OyJp+oNiNtB4JHCezB+qyWG8moBkTEi9PZz5sbzwqA2EIWhq9BcZ+6JJWuUSAuY=@vger.kernel.org, AJvYcCV+VFFndnBGvJTpvORCgnj663sMGhc3s3ssVHBfnYuQ3BBE3mDSdeRV8m5eWb3+nmBAXbG45xw2U3Jk@vger.kernel.org, AJvYcCVToTdS+kiKk/+rfeRY4BhosQOHtew4HNEAD7PMkfgeYGJndtqt4p4H34uxZuMbUiufjL6HgDGelbnWYath6+qV@vger.kernel.org, AJvYcCWqkzUmwz4MjP4tlxj5va1jVFfBa1roACqYNQnju+FejZcpkGsoOXN3x8VrEN5Y9ksDpt4AYspXfWOt@vger.kernel.org, AJvYcCXUA4gIWE31vcS9C828JU0l6rboUhDnigrPZdsSNN1gnm2U1pIqyGogQNtlyy/VnoNLQZ9652yU9EAYwWA=@vger.kernel.org, AJvYcCXmAFDT3SyREruNDTN8judfJZByzP1xoQYYTam1gIjc5KHd5gVvuawtUqAVEF3h9iZiOsMJLRZX6LFGqxBQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDaEdr8HuI/9/f1wSqvlH38M2/9dnVseeNjOD5I2GaogIImnHl
+	6p579+IQzsTl1W2nd6L2Z3VloeviloEXTgRhJjlaq4ape7vqMsMIIOxV7qKOipz7wI0hgyVO6Tf
+	asQuiJs5RBVYTlOCQkbBiDjfyRq0=
+X-Gm-Gg: ASbGnctw9iQPXdwUUMlK9weOuUhK/5FB5tbVNABx84X5TePUC/Po7y0MeALrCAml1Kj
+	eSHNevWF03Kx6sYTnEvRI1BGZmh0eKT9oT9y0+xwvvOEu6EgYdn6Oexy2VxwK+LBQ3liAVONfHx
+	flUR0RSqT4BNhyGHTMBmbTlUznE2ZyVi0YKAQxO/eP5x82gvepm5VyiKdaXMBn
+X-Google-Smtp-Source: AGHT+IEKKOnXRbT30S7++IXtH98xYqOrgSQijm1XLQMpNWDgXvnnM4WeGBhsPv4Q9qav2mYGodu2muzBpg4PRWQVFUM=
+X-Received: by 2002:a2e:a417:0:b0:30b:f138:1b9f with SMTP id
+ 38308e7fff4ca-30c4a87a668mr7219251fa.17.1741955245674; Fri, 14 Mar 2025
+ 05:27:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com>
+ <CAJ-ks9=TRDg3g=NG7k97P_5jXpZ4K4v0DxrmJFR+uF0-3zJkXw@mail.gmail.com>
+ <CAJ-ks9=hAwOGtVv0zh9CcH7XOxjGnizvK1QOMAi8nKStocKr2Q@mail.gmail.com>
+ <D8ELW7X9796K.2ZGJS34LDTHOP@proton.me> <CAJ-ks9k1gZ=tLSe6OjuKFgg6=QE5R_Ajo0ZJwZJp08_1LMiODw@mail.gmail.com>
+ <D8ENBWTC8UPH.LLEGZ2D4U7KQ@proton.me> <CAJ-ks9mJ=2hFxfWEkq+9b=atE89sHXa5NBcdVNRd3az6MSv0pA@mail.gmail.com>
+ <D8F76A4JSEXO.2OKKJLAU5OZN@proton.me> <CAJ-ks9n1oGAGSrXYWjvR+_raw8h+skkdfSYpeSuQZ9jEs5q-6Q@mail.gmail.com>
+ <D8FCATTC479L.BDRZBC6TJ51Q@proton.me>
+In-Reply-To: <D8FCATTC479L.BDRZBC6TJ51Q@proton.me>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Fri, 14 Mar 2025 08:26:48 -0400
+X-Gm-Features: AQ5f1Jow9Vznf8dlXUmINTov6itEsoPcxVta92-eK8lvO6ED3NnfFL22pY12X0A
+Message-ID: <CAJ-ks9=Goh4vWq4DqGALhU0aY9AVm4wv1oKiq4jJQfNGRAyRkA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] rust: enable `clippy::as_underscore` lint
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-'man dpkg-deb' describes as follows:
+On Thu, Mar 13, 2025 at 2:12=E2=80=AFPM Benno Lossin <benno.lossin@proton.m=
+e> wrote:
+>
+> On Thu Mar 13, 2025 at 6:50 PM CET, Tamir Duberstein wrote:
+> > On Thu, Mar 13, 2025 at 10:11=E2=80=AFAM Benno Lossin <benno.lossin@pro=
+ton.me> wrote:
+> >>
+> >>
+> >> With doing `allow(clippy::incompatible_msrv)`, I meant doing that
+> >> globally, not having a module to re-export the functions :)
+> >
+> > Yeah, but I think that's too big a hammer. It's a useful warning, and
+> > it doesn't accept per-item configuration.
+>
+> Hmm, I don't think it's as useful. We're going to be using more unstable
+> features until we eventually bump the minimum version when we can
+> disable `RUSTC_BOOTSTRAP=3D1`. From that point onwards, it will be very
+> useful, but before that I don't think that it matters too much. Maybe
+> the others disagree.
 
-    DPKG_DEB_COMPRESSOR_TYPE
-        Sets the compressor type to use (since dpkg 1.21.10).
+I'd rather keep this narrowly scoped for now -- putting the genie back
+in the bottle later is usually harder.
 
-        The -Z option overrides this value.
+> > Why don't we want host programs to have the same warnings applied? Why
+> > don't we want it for all those other crates?
+>
+> I have never looked at the rust hostprogs before, so I'm missing some
+> context here.
+>
+> I didn't enable them, because they are currently being compiled without
+> any unstable features and I thought we might want to keep that. (though
+> I don't really see a reason not to compile them with unstable features
+> that we also use for the kernel crate)
+>
+> > I'd expect we want uniform diagnostics settings throughout which is
+> > why these things are in the Makefile rather than in individual crates
+> > in the first place.
+> >
+> > Your patch sidesteps the problems I'm having by not applying these
+> > lints to host crates, but I think we should.
+>
+> We're probably working on some stuff that Miguel's new build system will
+> do entirely differently. So I wouldn't worry too much about getting it
+> perfect, as it will be removed in a couple cycles.
 
-When commit 1a7f0a34ea7d ("builddeb: allow selection of .deb compressor")
-was applied, dpkg-deb did not support this environment variable.
-
-Later, dpkg commit c10aeffc6d71 ("dpkg-deb: Add support for
-DPKG_DEB_COMPRESSOR_TYPE/LEVEL") introduced support for
-DPKG_DEB_COMPRESSOR_TYPE, which provides the same functionality as
-KDEB_COMPRESS.
-
-KDEB_COMPRESS is still useful for users of older dpkg versions, but I
-would like to remove this redundant functionality in the future.
-
-This commit adds comments to notify users of the planned removal and to
-encourage migration to DPKG_DEB_COMPRESSOR_TYPE where possible.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- lib/Kconfig.debug            | 6 +++---
- scripts/package/debian/rules | 4 ++++
- 2 files changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 17ccd913975d..be9f5af4c05c 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -335,12 +335,12 @@ config DEBUG_INFO_COMPRESSED_ZLIB
- 	  Compress the debug information using zlib.  Requires GCC 5.0+ or Clang
- 	  5.0+, binutils 2.26+, and zlib.
- 
--	  Users of dpkg-deb via scripts/package/builddeb may find an increase in
-+	  Users of dpkg-deb via debian/rules may find an increase in
- 	  size of their debug .deb packages with this config set, due to the
- 	  debug info being compressed with zlib, then the object files being
- 	  recompressed with a different compression scheme. But this is still
--	  preferable to setting $KDEB_COMPRESS to "none" which would be even
--	  larger.
-+	  preferable to setting KDEB_COMPRESS or DPKG_DEB_COMPRESSOR_TYPE to
-+	  "none" which would be even larger.
- 
- config DEBUG_INFO_COMPRESSED_ZSTD
- 	bool "Compress debugging information with zstd"
-diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-index ca07243bd5cd..33bfd00974b3 100755
---- a/scripts/package/debian/rules
-+++ b/scripts/package/debian/rules
-@@ -41,6 +41,10 @@ package = $($(@:binary-%=%-package))
- # which package is being processed in the build log.
- DH_OPTIONS = -p$(package)
- 
-+# Note: future removal of KDEB_COMPRESS
-+# dpkg-deb >= 1.21.10 supports the DPKG_DEB_COMPRESSOR_TYPE environment
-+# variable, which provides the same functionality as KDEB_COMPRESS. The
-+# KDEB_COMPRESS variable will be removed in the future.
- define binary
- 	$(Q)dh_testdir $(DH_OPTIONS)
- 	$(Q)dh_testroot $(DH_OPTIONS)
--- 
-2.43.0
-
+I got it working, but it's pretty messy. Let's discuss on v3.
 
