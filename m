@@ -1,114 +1,230 @@
-Return-Path: <linux-kbuild+bounces-6142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2115A614C3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 16:23:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE90A61B2B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 20:57:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB92F16BD23
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 15:23:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA42B3B3E60
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 19:57:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D96AE20127D;
-	Fri, 14 Mar 2025 15:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81A8D204F64;
+	Fri, 14 Mar 2025 19:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZP7CaNgk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+eFvV4N"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6475A1A83F8;
-	Fri, 14 Mar 2025 15:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F56204C3F;
+	Fri, 14 Mar 2025 19:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741965793; cv=none; b=klda1wqACrD1v1N7QjTZbmJ7cDe6C9XymlATk/5tJDnkz2d9paQLa72EiOMoegD381xbLu7fW46952iAKQvk3AValAMNa05kq8NcEiH1P10XMQOTrXTNdMTdrDVGmeXhpQFcZPmAdAsJfduMNw93d3wcvBtwfwSnKtbm5V8r3+c=
+	t=1741982233; cv=none; b=e2DFpw6r9Du2wDp2lZ0QlR8a5o3A/5d3/pIXCBjiiHicf50luOc3BkU1YSMVwyP8MJHft1H9kzYI2LQLS5XvzokgANXe8PwWDma+gFSMnuhUyGUDqdf7K7gUvy9mD1LzscN9Lq9x9XvZ50EGu/rw9ndV9AmOTs0vk7E07rWDML0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741965793; c=relaxed/simple;
-	bh=onGdMGQ9h5riy+xCuuIEp+wSTHDIPrfRuS2Z7rje+4s=;
+	s=arc-20240116; t=1741982233; c=relaxed/simple;
+	bh=C/ne6vcmKI6OX7I+ZSHTClMRatk/4KOdl9Td/8MPFNE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rNKrizyjjPgz6E5RIcqMIoUorT/3FLt6gk6oLpFySgfnUFSedPS+j/3bc6uNTyBG7Wpb0zFHhZOaj7xPAJwyySFAPPcrbn0kjAvl3mPdeWY/U0beUU1VzUkJZHuwW70/5RhW1bNMZMFh8uAB1ittztT78uTZDzCoeALOp8t1OsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZP7CaNgk; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ff67f44fcaso476856a91.3;
-        Fri, 14 Mar 2025 08:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741965791; x=1742570591; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=onGdMGQ9h5riy+xCuuIEp+wSTHDIPrfRuS2Z7rje+4s=;
-        b=ZP7CaNgkXlB94UHy8o/fwyYaGZ6hXTn75sxImS8eY/8CuIjEIkJFYPSgc3+5jE2uxb
-         jwitLA2cVVfDfxH5gqeU8bBaD9HYQ/kJGe3ihbi/kAdmV1lcsh0cUU7lbYM3AVBn0AXt
-         ra8Hinm0UpVucQuRADkcSK6iWTVUdZoLJjhOeGxKJ4c6anL8+DYVNbLro3tXUUpELpnd
-         ujbSusj4M8U33SKeuzrtqj8EqjsFIwE7wCa4xIRYQ5ZIt/VEaAh215u1lQdQVVolTgRw
-         XgSqZihXSPOBHNWkB7FjAVeMd9je/QFEjY3314JaeKejjvp0PfccCXbIMUgNHfwZ7+fe
-         4v5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741965791; x=1742570591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=onGdMGQ9h5riy+xCuuIEp+wSTHDIPrfRuS2Z7rje+4s=;
-        b=XdcvX7djNxeE6/fv5JJ2PV22Hn+Q/b9BBxdrYIHla3Zwhu6J3+42ChrD94mhLudRM5
-         BhPKevm+MPy2KSBGdIxQyf71UyOPf3DTkzkgUjcf+HQjI5Hizes+1znk8HN6XWRSA3kJ
-         K2N6n6i/9wLZESS6qNFdAneWU7yL7Bb0z2mE7/XAEOk2s3nK6CX6RSTB5hD7Hiy5A9s0
-         cplk4RMdbSCdhWabNBFxXopZKvM72jkcfA65K9NCUnjcefeDqEAeTr2EQbqUTAEA1nGQ
-         /j0iLdqZUaXCMemlDZppRikc3oQs0YayUjmYyIhWmW1DGO7YHUHS8hPKJb02NWfAyD/u
-         KVyA==
-X-Forwarded-Encrypted: i=1; AJvYcCU4s4edLU6Q95dp7BiYznbOwvgtB1q1AJ6EG5ZKiwtQF1uz4mUaf0YDgYCu6GkAsmPzEb91G8CwuPFqIMXM@vger.kernel.org, AJvYcCVxX+QNczOFRaZUkq679HYoalYWVAJzV/AUVLWuzQ/V7Kb+1JJWVd1TmJl4zXNAFEZLFonJYWSb8zjIeWZd5FY=@vger.kernel.org, AJvYcCWAACtGtWJOIzWeVfa4lI8gu1WTwie88CXVwYS9dPghZjmsgnU7rpr2aWkHU/eCuFBLIg8CMZ5FFtwuUq++86zQ@vger.kernel.org, AJvYcCWGN3uCY2SLSSZ3fZUS3jFSJzTHh4Hn6m3Yp0np7pN2BCOSo55M03s1foedyfXnZOfds/U02tY7NKbkBeY=@vger.kernel.org, AJvYcCWsO1/H6BTSnun5SfwDYHVefZtOA4oIWJv1g61B6jz17rZBD+8dGwGb3bIacchSxuVBROizOv78KSjx@vger.kernel.org
-X-Gm-Message-State: AOJu0YxC57NrrdxSA2dDlVo9v5D72d6rVQQ7lzUXo3WV+cu7N0V4gBgA
-	cPsXcCZJZBRn+ryr4Xfl1nuUB2eEtiDH3PMTIXcf3hZ2rIlDGsQ3Qeyd51h6hTG8DqerielRrW5
-	eTHeizDD5SjVUqtB5bHmJj5Yg+lk=
-X-Gm-Gg: ASbGncse2cupqWzHGP7Lkrye/PqmHw03N7MwSeHq/IZmLpgqZgLLaB58g4Xfpd5kV26
-	8G2LEstJr23hTPi7dL4tRYH9c1Da9PGVHtnk4yellpJazhb6Ra3uXMQdo3yffWG+zXscGzha3Z8
-	DN8g0wWxqS8vKHIZNnevx43qPGNg==
-X-Google-Smtp-Source: AGHT+IGXZ+sIMicF7ioYPohSk+0+pI5Y4ZkfdkmKCGHLNPxqRGWFte3NiYQ4N/30XfwYHbA7fFBeZ/NTmqaBLnciMp8=
-X-Received: by 2002:a17:90b:38ce:b0:2ff:6666:529d with SMTP id
- 98e67ed59e1d1-30151d6e1demr1481405a91.6.1741965791659; Fri, 14 Mar 2025
- 08:23:11 -0700 (PDT)
+	 To:Cc:Content-Type; b=gHQ9IHLq5E0nEgqTduxPQnsK63LVFcEYZAeoTns767sDKwmtjTHLUFYis5T77gTZ3brpY+20Ik8w7vlkw5uMldoXqZszfO4yJW0AccJnFNyKprCKQOrgThjhO/bq/UvaFR1VEoZE1Smfz2H1KCs4X2Bljoz3GtkLV5ry8fa+7d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+eFvV4N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6FB8C4CEED;
+	Fri, 14 Mar 2025 19:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741982232;
+	bh=C/ne6vcmKI6OX7I+ZSHTClMRatk/4KOdl9Td/8MPFNE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=R+eFvV4NtGA88LBZUHrnvkCzxg3zH+SCvBsjvCXkIk2lQnC9NMN0bbgpKY8lA/ms/
+	 TQzu1Cwi/dq7rUCZI02OJ0GgAEc5BiVNxDoPF/LMP2XYP+1fOV10PX9qCZ//yh1HbI
+	 J2mqkhjkxIQ7JsNqQS9JJux/Ivm6KS2OfeFptnraODcEjfUGw3kJMh0od1Rhheem6s
+	 uScoumsJH+BNRupW76v9QztIlzqqRA6SZq50F1kJRoLmlG3+1YT0TrPLNpFuDzbbBJ
+	 mBdkQDumz2yqUyAkcTkG1lGsPYJLqJkfO44l6NJM7oy6Wmtg4zS27FV1HGOFr9TDKU
+	 Go0t1/VcWokag==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5495c1e1b63so2960692e87.0;
+        Fri, 14 Mar 2025 12:57:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVudpX1ymHWEwmDu79oTm3QhbQqFwdiqujqqjEo/VAXbVG41gfcyLlynKcP/c/RVAX4Tx7BpHCLxpLcceUp5zR/W8fV@vger.kernel.org, AJvYcCXccL+sx5ghJwjSoB0J4MAiKKtZm05A9OfCh32Oymg8hTDCCPIWKG7K7eBUKfWm8En3GXjnRvctkUysNPg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu4uAf7OAzI6/nPwi0HKKQdUTS32i2Xqh+TAcanLhyE7T1mUfS
+	7UtK5J48a1K65f3hWYndHdqZVyzff+4EKLxqkPRUY+PeYuxJbvKwuyQNoQ/WzsIU7YSVsfz7m8E
+	qCztqa5eVJ8/b+hv3xF96GzRm6bc=
+X-Google-Smtp-Source: AGHT+IG+otLNYQ+ig42Y1BWjES4bCT6/mZauAjCUgwfhV2DY99PBbypCivkkIQ2IddJ5wXxpiv8RDwNPOGnrDEau3v0=
+X-Received: by 2002:a05:6512:2823:b0:548:794f:f9dd with SMTP id
+ 2adb3069b0e04-549c38f1d97mr1269568e87.10.1741982231472; Fri, 14 Mar 2025
+ 12:57:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
- <202503120332.YTCpFEvv-lkp@intel.com> <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
- <CANiq72n2cYvAWkz+QwG9++NknaN-A2g=N4AeatADwRZ1pWtk0A@mail.gmail.com> <Z9Ipko8DBD2cz1nF@rli9-mobl>
-In-Reply-To: <Z9Ipko8DBD2cz1nF@rli9-mobl>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 14 Mar 2025 16:22:59 +0100
-X-Gm-Features: AQ5f1JqAXlG0OSn1ajgmyqsScjagQVuSo381KPk2FBlBxX6zol4hwhDWmTs8x3M
-Message-ID: <CANiq72k8kXeK6C=yh9-LNXbeF=pQitd-7sVP7AsGLBHATfEF7Q@mail.gmail.com>
-Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
-To: Philip Li <philip.li@intel.com>
-Cc: Tamir Duberstein <tamird@gmail.com>, kernel test robot <lkp@intel.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org
+References: <20250210-debuginfo-v1-0-368feb58292a@purestorage.com> <20250210-debuginfo-v1-2-368feb58292a@purestorage.com>
+In-Reply-To: <20250210-debuginfo-v1-2-368feb58292a@purestorage.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 15 Mar 2025 04:56:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQz-BKmWNuw+CWfPHWVmN6x3cpj941_iAp_5xdq+eS1DQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JqwXXZvxlBZJSJi0uCPviVL-QF1FTEoHuzeB3oY02PO7mwhOuBonUR6s1o
+Message-ID: <CAK7LNAQz-BKmWNuw+CWfPHWVmN6x3cpj941_iAp_5xdq+eS1DQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: rpm-pkg: build debuginfo and debugsource RPMs
+To: Uday Shankar <ushankar@purestorage.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-trace-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 13, 2025 at 1:41=E2=80=AFAM Philip Li <philip.li@intel.com> wro=
-te:
+Sorry for the long delay.
+
+
+On Tue, Feb 11, 2025 at 10:12=E2=80=AFAM Uday Shankar <ushankar@purestorage=
+.com> wrote:
+> Note that this feature is incompatible with CONFIG_MODULE_COMPRESS -
+> if it is turned on, the module .ko files are compressed before
+> find-debuginfo.sh sees them, and it will not be able to extract
+> debuginfo from them. There are two potential paths forward here:
+> - teach find-debuginfo.sh to extract debuginfo from compressed kernel
+>   modules
+> - teach the kernel build process to produce split debuginfo and then
+>   package that directly, bypassing find-debuginfo.sh
+
+
+'make bindeb-pkg'  (Debian package) is able to build the debug package with
+CONFIG_MODULE_COMPRESS enabled.
+(see scripts/package/builddeb if you are interested)
+I have not checked if this works for 'make binrpm-pkg' or not.
+If this is a tricky case, I am OK with giving up CONFIG_MODULE_COMPRESS.
+
+
+
+> But leaving CONFIG_MODULE_COMPRESS off seems common, so taking this
+> patch as is still feels useful.
 >
-> Sorry about this, I will implement this to make it clear asap.
+> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+> ---
+>  scripts/package/kernel.spec | 31 +++++++++++++++++++++++++++++--
+>  scripts/package/mkspec      |  3 +++
+>  2 files changed, 32 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index ac3e5ac01d8a4daa031bc9e70b792a68f74c388b..efd7b1f43c64c8324bb0a6e54=
+0f2ba5f77f9de1e 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -2,8 +2,6 @@
+>  %{!?_arch: %define _arch dummy}
+>  %{!?make: %define make make}
+>  %define makeflags %{?_smp_mflags} ARCH=3D%{ARCH}
+> -%define __spec_install_post /usr/lib/rpm/brp-compress || :
+> -%define debug_package %{nil}
+>
+>  Name: kernel
+>  Summary: The Linux Kernel
+> @@ -46,6 +44,24 @@ This package provides kernel headers and makefiles suf=
+ficient to build modules
+>  against the %{version} kernel package.
+>  %endif
+>
+> +%if %{with_debuginfo}
+> +# list of debuginfo-related options taken from distribution spec files
+> +%undefine _include_minidebuginfo
+> +%undefine _find_debuginfo_dwz_opts
+> +%undefine _unique_build_ids
+> +%undefine _unique_debug_names
+> +%undefine _unique_debug_srcs
+> +%undefine _debuginfo_subpackages
+> +%global _find_debuginfo_opts -r
+> +%global _missing_build_ids_terminate_build 1
+> +%global _no_recompute_build_ids 1
+> +%{debug_package}
+> +%endif
+> +# some (but not all) versions of rpmbuild emit %%debug_package with
+> +# %%install. since we've already emitted it manually, that would cause
+> +# a package redefinition error. ensure that doesn't happen
+> +%define debug_package %{nil}
+> +
+>  %prep
+>  %setup -q -n linux
+>  cp %{SOURCE1} .config
+> @@ -89,8 +105,19 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot=
+}/lib/modules/%{KERNELRELEA
+>         echo "%exclude /lib/modules/%{KERNELRELEASE}/build"
+>  } > %{buildroot}/kernel.list
+>
+> +# make modules executable so that find-debuginfo.sh strips them
+> +find %{buildroot}/lib/modules/%{KERNELRELEASE} -name "*.ko" -type f \
+> +       | xargs --no-run-if-empty chmod u+x
 
-The bot is great -- thanks for all the resources you have put so far into i=
-t :)
+This seems necessary and correct.
 
-Cheers,
-Miguel
+One side-effect I noticed is that *.ko under /lib/modules/$(uname -r)/
+now have +x permissions. (Previously, they were non-executables).
+
+I checked Fedora. Modules under /lib/modules/$(uname -r)/
+do not have +x permissions.
+
+Do you know how Fedora's kernel.spec handles this?
+
+
+
+> +
+> +%if %{with_debuginfo}
+> +mkdir -p %{buildroot}/usr/lib/debug/lib/modules/%{KERNELRELEASE}
+> +cp vmlinux %{buildroot}/usr/lib/debug/lib/modules/%{KERNELRELEASE}
+> +%endif
+> +
+>  %clean
+>  rm -rf %{buildroot}
+> +rm -f debugfiles.list debuglinks.list debugsourcefiles.list debugsources=
+.list \
+> +       elfbins.list
+>
+>  %post
+>  if [ -x /usr/bin/kernel-install ]; then
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index 4dc1466dfc815c110eb7206f83dd874b17f5170f..4c96bdca381a2fb4cc57415ca=
+914d14e37e16caa 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -23,6 +23,9 @@ else
+>  echo '%define with_devel 0'
+>  fi
+>
+> +WITH_DEBUGINFO=3D$(grep -c CONFIG_DEBUG_INFO=3Dy include/config/auto.con=
+f)
+> +echo "%define with_debuginfo ${WITH_DEBUGINFO}"
+> +
+
+How about this code?
+
+if grep -q CONFIG_DEBUG_INFO=3Dy include/config/auto.conf; then
+echo '%define with_debuginfo %{?_without_debuginfo: 0}
+%{?!_without_debuginfo: 1}'
+else
+echo '%define with_debuginfo 0'
+fi
+
+This allows users to skip the debuginfo package
+and aligns with the existing code a few lines above.
+
+Also, it is compatible with Fedora's kernel.spec.
+https://src.fedoraproject.org/rpms/kernel/blob/rawhide/f/kernel.spec#_236
+
+
+If you do not support CONFIG_MODULE_COMPRESS,
+you can check it here.
+
+
+>  cat<<EOF
+>  %define ARCH ${ARCH}
+>  %define KERNELRELEASE ${KERNELRELEASE}
+>
+> --
+> 2.34.1
+>
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
