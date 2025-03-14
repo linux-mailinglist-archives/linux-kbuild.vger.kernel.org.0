@@ -1,73 +1,73 @@
-Return-Path: <linux-kbuild+bounces-6148-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6149-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514F7A61FB3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 23:01:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B28BDA62039
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 23:22:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A19F63B6F71
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 22:00:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E60E417D964
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 22:22:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 603CB1A3172;
-	Fri, 14 Mar 2025 22:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90F46205AB3;
+	Fri, 14 Mar 2025 22:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="adP6xDqC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQFlgxAW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121021A317D;
-	Fri, 14 Mar 2025 22:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19B21DE89E;
+	Fri, 14 Mar 2025 22:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741989635; cv=none; b=S9hVMM67H1oFHswGhkLy9RoVhCdvTd4EjTrm0KRfeZTBS+Yp921HRyidosRJoGnhr6TLjRlLnAkd2qF6BwruHviVrsOSgKtX0BbVIRqDhW7gOP4vIBEZtRCAmcpfk8QKHdoRHckkR9IgV3/eDx0Txhcc3hpWZqzogkR7nSQ6l+0=
+	t=1741990899; cv=none; b=e6UKPRRLbyBwDu0GB+AMOaVpWPIgiyhKUCbCW38khlswhdElFJBXE5+nbEXgAt826OZO1XDQZIthFPpnFRPVGl+6e5D7Oc+RuzAoRk81rz6h13lhA8SKmhG1HsCbsEuSuNI+RO6jHO6IkuMAVT9LY0EFYBzHPTmlzE0kJ1MYP08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741989635; c=relaxed/simple;
-	bh=C0kd9aKABRj1QAtLOroFspun/9OddRjZbQKvrKafBuY=;
+	s=arc-20240116; t=1741990899; c=relaxed/simple;
+	bh=bNHo813I0F32BNqKbJfaolMlVwl7tD0FMX9RWCWB8Vc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P5mpvQ03u513eqjPoAejueIlIN1gUkI3fszizLYcPrjvfjfv4yL6x8KsJBOi/ud2r0jeZd28rEIr6oJHY6CoWaYemlNkOscMUEX/2m2EFirR36lzLPFwTSCeWNE2CMIPZM3eyp38spqtAqaJ5nPIMb1R17TeSB9pOI7Y640g0/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=adP6xDqC; arc=none smtp.client-ip=209.85.214.177
+	 To:Cc:Content-Type; b=mgpSMWcpIv0zUfg6KAhRWYETVOe8eu1DBEF41y339JvTd86lri8mthr0YJdJNvkSD8L75QHW2FwAM92MkwBPNtr0czRjiT3JBvTDBCQXwzIyVh5Ud8GOSkc35Imid0Q6IP4kwg2rYnNrOebCYa5L99VUIzBkKceje8ugYKleNaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQFlgxAW; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22403c99457so6142405ad.3;
-        Fri, 14 Mar 2025 15:00:32 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30bf5d7d107so22638701fa.2;
+        Fri, 14 Mar 2025 15:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741989632; x=1742594432; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1741990895; x=1742595695; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C0kd9aKABRj1QAtLOroFspun/9OddRjZbQKvrKafBuY=;
-        b=adP6xDqCZUW7MI0v01FOX/i0qU/lWjv2duJT/Nfhh1Z0jdMmAWXejFYfMlth2U8V/I
-         OrYSlwAL2wKRsT/wVZoqoCfwZdehhSgMP2uB/ZePyx5VXYfMHkNxkYfoL7XRoIUxAyho
-         W/wlgWqq5LISSXJJBX/3Xl6W8kqg0RGg+7aQ6jHRAM+1Eq2mMxofVL04vbDwf7vrx/sW
-         1zCDnMWyOole63nlTa30ieg8RF4lK5OkOmlggbUi/GyAUezIwCfp+vBr30OYyiXU8kSu
-         hf0IuEdBPULrHT+VtvInBS0uOUVz6969QWaZEZOxc8GhQ4ZzXk2pSuW7kQCWVH++t1nO
-         1jkg==
+        bh=bNHo813I0F32BNqKbJfaolMlVwl7tD0FMX9RWCWB8Vc=;
+        b=nQFlgxAWeRyp5XvSJy2I6SI5gWxlRZ9nIwGM8e0QHz2TlNvyKrv6ryAcEve/ZORFyk
+         P/ilmoeKl19f/IKMqVJHqcM5nA8qZUCMF9LfN/VBa0YgdNgk+LqXI+v7sCQGGIz8v1Kl
+         fIVtoIQAti9rB3+9UT43CzD+kvDrTsuhWdVgKsX8lfZORzz+2mhcr+bag8eYogkutnBY
+         /Mm5SIzeVvsSVlfkttqSETNDHqHIV1Sd+PCAwXZQbAzcgz9rP468i07Y075EIeTsG7k5
+         3WDWrsBs+ANjly7Shw93k/kOsOFzDHNFFaT9y4E1fecsdGedpfNy/QKycsD3m9ixtjpM
+         98Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741989632; x=1742594432;
+        d=1e100.net; s=20230601; t=1741990895; x=1742595695;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C0kd9aKABRj1QAtLOroFspun/9OddRjZbQKvrKafBuY=;
-        b=URoi9kT6497PsP7dlh3bi6V0fRZ0PbwRjWujMGeNwXe7RbPY5Xi2o1bayVoCr0EcnQ
-         mxk28UQ2X/JLqdKLQBxpGC3WcWAtCLj3RwNzOpmwsowMo+kdLkJ8J0oW/XsY493z17Lx
-         fEmDCeqE4iIdSnkS/Cz8ynsIg1FUnH4rlcRCM26P2onKss+v0h680X/s9Pn8xi/qADb/
-         WFOPJFdGgLYWP1yQfEKBvrnhy4NtKYCcvUC8eAAHA8eOWeIPqFIVKRwPrQJc+tfZgkMR
-         xoA4ObSJ1SAWvFDVFRvQguwalvAD0ObgGNncOYAGHQ+c/YoViYQGTjP/wZbjNYpP2bfo
-         MVeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9lLgI08nJFM8+A8eShJLPZOrJ8nWAJeOCj0nnfpUEsVBILr85cA0j05KVE1zIEj4mcr7K+A2lpbpI3J8=@vger.kernel.org, AJvYcCUb9NkHXwmEgMytp5I/mW/M+vz8Yl5/xdQIBxXDbHfbgdqvpNP+L/DzpX8SypjUTTR+2m5MjlqxenNf5VCt@vger.kernel.org, AJvYcCVXvNa39NiFcWf1yBjC8v8Lkqv1dkKn92szPOvuuTiy6/I0Y0nvhwGu7M8csQYlHRtp3jBH9UeDnSAN1Rm41ZoG@vger.kernel.org, AJvYcCVjCpnTmdS5H3MiC1BDR7+FiCdeWS3fy2qZGkfEGjYLA+rSgRwfecW9lKPxO0dD08rg5uxhhC6PovQq@vger.kernel.org, AJvYcCWIln/36lfXItxGnLbxMUnm7JPUAFDH0GtFPDRnSb5OhpZBCoGrrFBFRZLjAnjxgX2nROWpEL4DqL+62C1d@vger.kernel.org, AJvYcCX8y5gPsG0UIgDDISsX2mdpNtecKC9MTaNI/7t6HCoQBCO1YQfwCffX41/nqWmyMDZW2uEu7dnDkMWZmyQcK/g=@vger.kernel.org, AJvYcCXVwbdK3JN0gUPdDb3fTWGusiBN/iNuLaCnEYnuaVZj961NI9ug+8xMQIr+f5qyVAUPlzHtWcMMEORN@vger.kernel.org
-X-Gm-Message-State: AOJu0YySgq1Omh/qb2o8OjQ0ehlyCdlJdD/mJAfHSa//AzDEi82U+phg
-	Mq55DOqWfkJv/OjObNunpsTzpBulkwAIEJCcJD/YPHAd88qG+aLpUd4wE6f+rN+PcJmGlhOzu3f
-	276JKkucT22Pq4Zuzr3WwqukDQ1o7KVK204IU2Q==
-X-Gm-Gg: ASbGncvBJstUcwzGGJCZ2Y6qCjgcNiQX7bojcBxr6m+xK0WsHUhpK/ou987eD7hrWQ2
-	pSN624js3Dz6Sb1co3jHE0gLw5x7kEi6JQggDnw7kmqZayIAD2yYabu9UcaCbrYD5qR9ytUuWRJ
-	BHj9zAlIujM5PzJGdmfKOhc/vqcg==
-X-Google-Smtp-Source: AGHT+IGIUg/02s/2JHqPXRDH7/TVhuII4i8lcqJu/RWFW/EJed7lRFJjAAKliqw8+h54oGAl7/TlDjGvEyNR+aIcAyI=
-X-Received: by 2002:a17:903:24f:b0:21f:1365:8bcf with SMTP id
- d9443c01a7336-225e0acca8cmr22208805ad.10.1741989632152; Fri, 14 Mar 2025
- 15:00:32 -0700 (PDT)
+        bh=bNHo813I0F32BNqKbJfaolMlVwl7tD0FMX9RWCWB8Vc=;
+        b=ZjMxqquGARzF63VwxzpQaH7b22yJm2nQKW/IJqrGZl9eBjvLBF36YLldkv0MgjzFJw
+         CprHtIKX0ZD2q+Tm/WNW8vDqnsLS5IxdHnfKWBal6Kyj8j3WOAf2+WBr4vCHX0TG7sp+
+         +Otwbbxvn5UVWJ9RHcg0cBoUBDbXLLeEoR4hWt8uGPMsKD2K7r4T57Gl67KJza9ygk/I
+         IdwEQuVdDj62Bd0V/XvgyYXbvl97j3rC2SV/kGV3XUcz3Y5vtPomPW0ivhwnU+ZRgHPZ
+         7FF5c2Z7n3SQvQCpXx48h2GOwqyYk7Ou8j1ZFbyOsMjnAQvaBhjJ9zq2RM+rXM8ol57R
+         BoIA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEjAlunbZ6VH1RiZgRSDgiTXSbzZM7IbLRopv1Vso8YDRtoIIOl5x+9MMG2frxC82UIxkWVq895pV8XBY=@vger.kernel.org, AJvYcCUoTJqU2YQ2AL40wGxUFMV0G753y7ILO8o7fIxPRRuJcAs4h6TcXcPZPR2bMShggcOxKFOPUq/c4L9y@vger.kernel.org, AJvYcCUttC/SF0b+KHZ8/jOHpeipn046y22zFKBiTqUm1vUfuvINSZY9S2VAOxFg7La+sH+ObbV29uzrXkbTPhAt@vger.kernel.org, AJvYcCWTZC6OZFsB2iLW8pdedud66Pt82QGwCkahpM8w6R+S/hAbTs+3jMr/wJ01GX84Y/JBkHv0zKXGOCRYyWqbxBQ=@vger.kernel.org, AJvYcCXBKXgNeFSfSo6kFIOdF7XqA+k3AXjH+T9aSlyERoJ/G4RV8c8TMMLfAbPNw5kBgmaGoB4cGc26Y0AzoXjO@vger.kernel.org, AJvYcCXPPHcjmHg1Xw10vUdsrwjlcIBtfaVE3ja+MpuglEMmYVSsDFniBkSR/Ds++1dygyle84JqnRfAaJh5icSIf2MR@vger.kernel.org, AJvYcCXo13tZhrrRBQcMFCzy+2RCRoVqKKPftkDR5PlZ/nWLWt96YlllTD/n2toj6zZzRJHL9n7iPiPKLGTr@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNCR48cdAiaMU0gYfxgmmYn79HRsAk/HObcZsWlcQei/cBr34q
+	jXXMXRtInm7JNvUwspxjtnSQb+XNxW7Iq9+S3tsNXcUEh0fIgcrAQZNu3GnSr4sWgcExx/cYODc
+	hgUo+u5Y/aro7qml/stYPT2L6td0=
+X-Gm-Gg: ASbGncudvqn4RzoEjVNw7axKkbecSbvjXSS10Kjq96ZRhLha60z+h0Q7aFFcO0fxcNg
+	oZ0z5byUS3qsURxm9QYajejBrvYzJexecJAlTDeIwqUzKwFrERXn8eFz78oMDrTgkijZP64W+5B
+	UZH82lZ00Fez5FT0bpzgEZgts7qmdfG8taa8u1OLLH4otZP9fGqk3DDWw+SWWa
+X-Google-Smtp-Source: AGHT+IGyBV9m3L4w8t2OrUSMAwxoyxvAW/4fi81XmciRP3/5Az2O5GNUknnICX9axlKWv4h/L/9eWm6e7JTJiZoyVC4=
+X-Received: by 2002:a05:651c:a0b:b0:30b:d562:c154 with SMTP id
+ 38308e7fff4ca-30c4a875fe6mr14747691fa.19.1741990895355; Fri, 14 Mar 2025
+ 15:21:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -76,14 +76,15 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250314-ptr-as-ptr-v3-0-e7ba61048f4a@gmail.com>
  <20250314-ptr-as-ptr-v3-6-e7ba61048f4a@gmail.com> <D8G9LZCS7ETL.9UPPQ73CAUQM@proton.me>
-In-Reply-To: <D8G9LZCS7ETL.9UPPQ73CAUQM@proton.me>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 14 Mar 2025 23:00:20 +0100
-X-Gm-Features: AQ5f1JpGXNTQUt_9OGK-niix7_yVJl6KGktSOGjR233jaFdbDnqZxcfMo88tqPc
-Message-ID: <CANiq72=JCgdmd+h4_2VguOO9kxdx3OuTqUmpLix3mTLLHLKbZw@mail.gmail.com>
+ <CANiq72=JCgdmd+h4_2VguOO9kxdx3OuTqUmpLix3mTLLHLKbZw@mail.gmail.com>
+In-Reply-To: <CANiq72=JCgdmd+h4_2VguOO9kxdx3OuTqUmpLix3mTLLHLKbZw@mail.gmail.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Fri, 14 Mar 2025 18:20:59 -0400
+X-Gm-Features: AQ5f1Jp7KldemuJS7KUxPUxPs7sBfWHcTu3t4bd_hn0YFX45gGFgXjsgYG75HQw
+Message-ID: <CAJ-ks9=Ec0xLg81GUYJ07uDzwtwhFkoEdxaa3kNtV6xSjZ57MQ@mail.gmail.com>
 Subject: Re: [PATCH v3 6/6] rust: use strict provenance APIs
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Tamir Duberstein <tamird@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Benno Lossin <benno.lossin@proton.me>, Masahiro Yamada <masahiroy@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
 	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
 	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
@@ -101,35 +102,41 @@ Cc: Tamir Duberstein <tamird@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 14, 2025 at 9:18=E2=80=AFPM Benno Lossin <benno.lossin@proton.m=
-e> wrote:
+On Fri, Mar 14, 2025 at 6:00=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> I don't know when we'll be bumping the minimum version. IIRC 1.85.0 is
-> going to be in debian trixie, so eventually we could bump it to that,
-> but I'm not sure what the time frame will be for that.
+> On Fri, Mar 14, 2025 at 9:18=E2=80=AFPM Benno Lossin <benno.lossin@proton=
+.me> wrote:
+> >
+> > I don't know when we'll be bumping the minimum version. IIRC 1.85.0 is
+> > going to be in debian trixie, so eventually we could bump it to that,
+> > but I'm not sure what the time frame will be for that.
+> >
+> > Maybe we can salvage this effort by gating both the lint and the
+> > unstable features on the versions where it works? @Miguel, what's your
+> > opinion?
+> >
+> > We could even make it simple, requiring 1.84 and not bothering with the
+> > older versions.
 >
-> Maybe we can salvage this effort by gating both the lint and the
-> unstable features on the versions where it works? @Miguel, what's your
-> opinion?
+> Regarding Debian Trixie: unknown, since my understanding is that it
+> does not have a release date yet, but apparently mid May is the Hard
+> Freeze and then it may take e.g. a month or two to the release.
 >
-> We could even make it simple, requiring 1.84 and not bothering with the
-> older versions.
+> And when it releases, we may want to wait a while before bumping it,
+> depending on how much time has passed since Rust 1.85.0 and depending
+> on whether we managed to get e.g. Ubuntu LTSs to provide a versioned
+> package etc.
+>
+> If something simple works, then let's just go for that -- we do not
+> care too much about older versions for linting purposes, since people
+> should be testing with the latest stable too anyway.
 
-Regarding Debian Trixie: unknown, since my understanding is that it
-does not have a release date yet, but apparently mid May is the Hard
-Freeze and then it may take e.g. a month or two to the release.
+It's not going to be simple because `rust_common_flags` is defined
+before the config is read, which means I'll have to sprinkle
+conditional logic in even more places to enable the lints.
 
-And when it releases, we may want to wait a while before bumping it,
-depending on how much time has passed since Rust 1.85.0 and depending
-on whether we managed to get e.g. Ubuntu LTSs to provide a versioned
-package etc.
-
-If something simple works, then let's just go for that -- we do not
-care too much about older versions for linting purposes, since people
-should be testing with the latest stable too anyway.
-
-Thanks!
-
-Cheers,
-Miguel
+The most minimal version of this patch would drop all the build system
+changes and just have conditionally compiled polyfills for the strict
+provenance APIs. Are folks OK with that?
 
