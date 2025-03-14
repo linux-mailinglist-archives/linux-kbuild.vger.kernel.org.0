@@ -1,208 +1,206 @@
-Return-Path: <linux-kbuild+bounces-6131-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6132-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15E6A5FEF5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 19:14:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A615CA60662
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 01:04:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED0A23B5E99
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Mar 2025 18:14:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04BCB3BCEF5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Mar 2025 00:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0901EBFE2;
-	Thu, 13 Mar 2025 18:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A8412E3368;
+	Fri, 14 Mar 2025 00:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Vjde6D3e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="taviz52E"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C4F1EFFBE;
-	Thu, 13 Mar 2025 18:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4AC79F5;
+	Fri, 14 Mar 2025 00:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741889540; cv=none; b=FWtqxCc1NHpxYXz8nPLDRzv5bu5i/8AQeDTvgC8npJLTH0C+Lo7Xy3ofNoYSoQUSYrhQKROsBvjJ/5zEsRfdchRvY37ZzPyFAJQOCmI3/y2pUDzKgJK4BpVyo/8dSUAnpbsQIr+hshWMEISrIZs2ZaenA3T0f1m0BYs7+bfbNOo=
+	t=1741910669; cv=none; b=ZIh4SGyEF1+lLRpxcELOqlNvijaebs/81FOXNcEUJ6kMJ+wGuKDfr3MqkID7KmWwXWGMFYOIKM2nLXfBc73bDVYTqlH7GTZOHU49xKfgmoiGCpTTGRrVw9t2S02Of9Im8pKi9hf85waZe3PtV7I3WBkBDLPKA70znEz2mRFCAzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741889540; c=relaxed/simple;
-	bh=8Zqt9zi/FnC7k8GuHDy1ukGq3CUt3k0moSNlURadgLI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Vf0W4VqmZg8ccsN0PnXjSRWgZwVrJUxqaLclrYApKMMmjBfj8tEzWK8yltW5ELM5e0/Y/lhuzcfYEd9HK1hEOfuPrVhhbQh8ER1wtHOoKBFogNnFPpQXMz90RkGXcz04lZEcBJB++JLMlQJqZWP3F9WdQoTZqshDBAK8/iYaSc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Vjde6D3e; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1741889533; x=1742148733;
-	bh=srZ9dMa1whdbkDsfnTWuQVdrHW1c6weSBgLs5X2xzXk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=Vjde6D3es+FZD2i6nszzd+Hgukt8o27vgDDfWp2jm96W+oLCnogjSWy9m1JzHPVJX
-	 1irYvVn3fp2UlTepZj4LPqame5PkF1jsA/iUl3OWvTXt9hYSi8UiXKaUQ99JEn/DEz
-	 fo2oDRmOFgswdoLgpDm5x+Ei8G2KeWGyHF3tYcWIgv8mZVR3cvzX8aEGShpo2vcghX
-	 vN6eboR5Md26RDXfVYE5uFKUhR/68AYzFJsEnXn97LUFJnEnlo1zgi4n1lY2E+/sIC
-	 QJaAeDw3MssC1B7ZprfH0fReKBb8747T8wWsl/TQKPc4bW24dWbtRN3QQ4SzLYD6Vz
-	 ZekcLQszuPFXg==
-Date: Thu, 13 Mar 2025 18:12:08 +0000
-To: Tamir Duberstein <tamird@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] rust: enable `clippy::as_underscore` lint
-Message-ID: <D8FCATTC479L.BDRZBC6TJ51Q@proton.me>
-In-Reply-To: <CAJ-ks9n1oGAGSrXYWjvR+_raw8h+skkdfSYpeSuQZ9jEs5q-6Q@mail.gmail.com>
-References: <20250309-ptr-as-ptr-v2-0-25d60ad922b7@gmail.com> <CAJ-ks9=TRDg3g=NG7k97P_5jXpZ4K4v0DxrmJFR+uF0-3zJkXw@mail.gmail.com> <CAJ-ks9=hAwOGtVv0zh9CcH7XOxjGnizvK1QOMAi8nKStocKr2Q@mail.gmail.com> <D8ELW7X9796K.2ZGJS34LDTHOP@proton.me> <CAJ-ks9k1gZ=tLSe6OjuKFgg6=QE5R_Ajo0ZJwZJp08_1LMiODw@mail.gmail.com> <D8ENBWTC8UPH.LLEGZ2D4U7KQ@proton.me> <CAJ-ks9mJ=2hFxfWEkq+9b=atE89sHXa5NBcdVNRd3az6MSv0pA@mail.gmail.com> <D8F76A4JSEXO.2OKKJLAU5OZN@proton.me> <CAJ-ks9n1oGAGSrXYWjvR+_raw8h+skkdfSYpeSuQZ9jEs5q-6Q@mail.gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: d74d9f9fe6f44074994f0914e725607f21a3708b
+	s=arc-20240116; t=1741910669; c=relaxed/simple;
+	bh=iy+/mlqotFK2+b4LNmaNTDTHCIY1kqn2/OKiI6vljG4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Wfv2qxqcmQSwglNitYlDpNlqUkJIb4Kis94ieL35TBU/IA0/8unWQe+n9qA9J7ozytNRwlc/JkS0UyVLCzaIkl1XxJAot+QqAqnawf0hQUT0MnTN5Kcl9db6Cj7jMAG9YJWkKn1C1574jLpx4PnZloMdDkk38yAkno5zOzV7PFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=taviz52E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CB50C4CEEE;
+	Fri, 14 Mar 2025 00:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741910668;
+	bh=iy+/mlqotFK2+b4LNmaNTDTHCIY1kqn2/OKiI6vljG4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=taviz52EpSNtJVagcI+yCCzKxm6FB4u4RfEbyIqy1BLal+gFZD2oMKObljY1aoCPx
+	 IBPkTHn2SC6TmJZgZmH0s/gXFH9PINYlc7Aq9beg6qTsRUp0z1jnHGyJjyNrZKYSJo
+	 wCGiHFon2jtd4tS+c+aBCufo5qPL7FB1zut4Zn3yuwxbuz2sE8seUrVRwXuxJIpknO
+	 c3Jahtu2V758ParqSaNmFILHgs4wGwPMjiVrkFzfW9bbjTm1GIhimQ2NPAOvTIw0ky
+	 ZZSJOwcTg1qyIFL1Bsr3foy05TYgfJABQshAlOFIp+eVaITP5YXeuLtISG++vm6zmu
+	 h57x+8LIv8AWQ==
+Date: Thu, 13 Mar 2025 17:04:24 -0700
+From: Kees Cook <kees@kernel.org>
+To: Marco Elver <elver@google.com>
+CC: Justin Stitt <justinstitt@google.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Miguel Ojeda <ojeda@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Hao Luo <haoluo@google.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
+ linux-kbuild@vger.kernel.org, Bill Wendling <morbo@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Tony Ambardar <tony.ambardar@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Jan Hendrik Farr <kernel@jfarr.cc>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_1/3=5D_ubsan/overflow=3A_Rework_integer_?=
+ =?US-ASCII?Q?overflow_sanitizer_option_to_turn_on_everything?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CANpmjNOHSanxX7EyXhia4AuVd+6q5v1mXQMTM_k0Rj20P_ASAA@mail.gmail.com>
+References: <20250307040948.work.791-kees@kernel.org> <20250307041914.937329-1-kees@kernel.org> <CANpmjNOHSanxX7EyXhia4AuVd+6q5v1mXQMTM_k0Rj20P_ASAA@mail.gmail.com>
+Message-ID: <2AACDA6E-F7EF-4962-937A-C9511E4E2930@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu Mar 13, 2025 at 6:50 PM CET, Tamir Duberstein wrote:
-> On Thu, Mar 13, 2025 at 10:11=E2=80=AFAM Benno Lossin <benno.lossin@proto=
-n.me> wrote:
+
+
+On March 13, 2025 8:29:29 AM PDT, Marco Elver <elver@google=2Ecom> wrote:
+>On Thu, 6 Mar 2025 at 23:19, Kees Cook <kees@kernel=2Eorg> wrote:
 >>
->> On Thu Mar 13, 2025 at 11:47 AM CET, Tamir Duberstein wrote:
->> > On Wed, Mar 12, 2025 at 6:38=E2=80=AFPM Benno Lossin <benno.lossin@pro=
-ton.me> wrote:
->> >>
->> >> On Wed Mar 12, 2025 at 11:24 PM CET, Tamir Duberstein wrote:
->> >> > On Wed, Mar 12, 2025 at 5:30=E2=80=AFPM Benno Lossin <benno.lossin@=
-proton.me> wrote:
->> >> >>
->> >> >> On Wed Mar 12, 2025 at 10:10 PM CET, Tamir Duberstein wrote:
->> >> >> > On Wed, Mar 12, 2025 at 5:04=E2=80=AFPM Tamir Duberstein <tamird=
-@gmail.com> wrote:
->> >> >> >>
->> >> >> >> On Wed, Mar 12, 2025 at 5:01=E2=80=AFPM Benno Lossin <benno.los=
-sin@proton.me> wrote:
->> >> >> >> > Always enable the features, we have `allow(stable_features)` =
-for this
->> >> >> >> > reason (then you don't have to do this dance with checking if=
- it's
->> >> >> >> > already stable or not :)
->> >> >> >>
->> >> >> >> It's not so simple. In rustc < 1.84.0 the lints *and* the stric=
-t
->> >> >> >> provenance APIs are behind `feature(strict_provenance)`. In rus=
-tc >=3D
->> >> >> >> 1.84.0 the lints are behind `feature(strict_provenance_lints)`.=
- So you
->> >> >> >> need to read the config to learn that you need to enable
->> >> >> >> `feature(strict_provenance_lints)`.
->> >> >>
->> >> >> I see... And `strict_provenance_lints` doesn't exist in <1.84? Tha=
-t's a
->> >> >> bit of a bummer...
->> >> >>
->> >> >> But I guess we could have this config option (in `init/Kconfig`):
->> >> >>
->> >> >>     config RUSTC_HAS_STRICT_PROVENANCE
->> >> >>             def_bool RUSTC_VERSION >=3D 108400
->> >> >>
->> >> >> and then do this in `lib.rs`:
->> >> >>
->> >> >>     #![cfg_attr(CONFIG_RUSTC_HAS_STRICT_PROVENANCE, feature(strict=
-_provenance_lints))]
->> >> >
->> >> > Yep! That's exactly what I did, but as I mentioned up-thread, the
->> >> > result is that we only cover the `kernel` crate.
->> >>
->> >> Ah I see, can't we just have the above line in the other crate roots?
->> >
->> > The most difficult case is doctests. You'd have to add this to every
->> > example AFAICT.
->> >
->> >> >> > Actually this isn't even the only problem. It seems that
->> >> >> > `-Astable_features` doesn't affect features enabled on the comma=
-nd
->> >> >> > line at all:
->> >> >> >
->> >> >> > error[E0725]: the feature `strict_provenance` is not in the list=
- of
->> >> >> > allowed features
->> >> >> >  --> <crate attribute>:1:9
->> >> >> >   |
->> >> >> > 1 | feature(strict_provenance)
->> >> >> >   |         ^^^^^^^^^^^^^^^^^
->> >> >>
->> >> >> That's because you need to append the feature to `rust_allowed_fea=
-tures`
->> >> >> in `scripts/Makefile.build` (AFAIK).
->> >> >
->> >> > Thanks, that's a helpful pointer, and it solves some problems but n=
-ot
->> >> > all. The root Makefile contains this bit:
->> >> >
->> >> >> KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebugi=
-nfo \
->> >> >> -Zallow-features=3D $(HOSTRUSTFLAGS)
->> >> >
->> >> > which means we can't use the provenance lints against these host
->> >> > targets (including e.g. `rustdoc_test_gen`). We can't remove this
->> >> > -Zallow-features=3D either because then core fails to compile.
->> >> >
->> >> > I'm at the point where I think I need more involved help. Want to t=
-ake
->> >> > a look at my attempt? It's here:
->> >> > https://github.com/tamird/linux/tree/b4/ptr-as-ptr.
+>> Since we're going to approach integer overflow mitigation a type at a
+>> time, we need to enable all of the associated sanitizers, and then opt
+>> into types one at a time=2E
 >>
->> With doing `allow(clippy::incompatible_msrv)`, I meant doing that
->> globally, not having a module to re-export the functions :)
+>> Rename the existing "signed wrap" sanitizer to just the entire topic ar=
+ea:
+>> "integer wrap"=2E Enable the implicit integer truncation sanitizers, wi=
+th
+>> required callbacks and tests=2E
+>>
+>> Notably, this requires features (currently) only available in Clang,
+>> so we can depend on the cc-option tests to determine availability
+>> instead of doing version tests=2E
+>>
+>> Signed-off-by: Kees Cook <kees@kernel=2Eorg>
+>> ---
+>> Cc: Justin Stitt <justinstitt@google=2Ecom>
+>> Cc: "Gustavo A=2E R=2E Silva" <gustavoars@kernel=2Eorg>
+>> Cc: Andrew Morton <akpm@linux-foundation=2Eorg>
+>> Cc: Marco Elver <elver@google=2Ecom>
+>> Cc: Andrey Konovalov <andreyknvl@gmail=2Ecom>
+>> Cc: Andrey Ryabinin <ryabinin=2Ea=2Ea@gmail=2Ecom>
+>> Cc: Masahiro Yamada <masahiroy@kernel=2Eorg>
+>> Cc: Nathan Chancellor <nathan@kernel=2Eorg>
+>> Cc: Nicolas Schier <nicolas@fjasle=2Eeu>
+>> Cc: Miguel Ojeda <ojeda@kernel=2Eorg>
+>> Cc: Nick Desaulniers <ndesaulniers@google=2Ecom>
+>> Cc: Hao Luo <haoluo@google=2Ecom>
+>> Cc: Przemek Kitszel <przemyslaw=2Ekitszel@intel=2Ecom>
+>> Cc: linux-hardening@vger=2Ekernel=2Eorg
+>> Cc: kasan-dev@googlegroups=2Ecom
+>> Cc: linux-kbuild@vger=2Ekernel=2Eorg
+>> ---
+>>  include/linux/compiler_types=2Eh  |  2 +-
+>>  kernel/configs/hardening=2Econfig |  2 +-
+>>  lib/Kconfig=2Eubsan               | 23 +++++++++++------------
+>>  lib/test_ubsan=2Ec                | 18 ++++++++++++++----
+>>  lib/ubsan=2Ec                     | 28 ++++++++++++++++++++++++++--
+>>  lib/ubsan=2Eh                     |  8 ++++++++
+>>  scripts/Makefile=2Elib            |  4 ++--
+>>  scripts/Makefile=2Eubsan          |  8 ++++++--
+>>  8 files changed, 69 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/include/linux/compiler_types=2Eh b/include/linux/compiler_=
+types=2Eh
+>> index f59393464ea7=2E=2E4ad3e900bc3d 100644
+>> --- a/include/linux/compiler_types=2Eh
+>> +++ b/include/linux/compiler_types=2Eh
+>> @@ -360,7 +360,7 @@ struct ftrace_likely_data {
+>>  #endif
+>>
+>>  /* Do not trap wrapping arithmetic within an annotated function=2E */
+>> -#ifdef CONFIG_UBSAN_SIGNED_WRAP
+>> +#ifdef CONFIG_UBSAN_INTEGER_WRAP
+>>  # define __signed_wrap __attribute__((no_sanitize("signed-integer-over=
+flow")))
+>>  #else
+>>  # define __signed_wrap
+>> diff --git a/kernel/configs/hardening=2Econfig b/kernel/configs/hardeni=
+ng=2Econfig
+>> index 3fabb8f55ef6=2E=2Edd7c32fb5ac1 100644
+>> --- a/kernel/configs/hardening=2Econfig
+>> +++ b/kernel/configs/hardening=2Econfig
+>> @@ -46,7 +46,7 @@ CONFIG_UBSAN_BOUNDS=3Dy
+>>  # CONFIG_UBSAN_SHIFT is not set
+>>  # CONFIG_UBSAN_DIV_ZERO is not set
+>>  # CONFIG_UBSAN_UNREACHABLE is not set
+>> -# CONFIG_UBSAN_SIGNED_WRAP is not set
+>> +# CONFIG_UBSAN_INTEGER_WRAP is not set
+>>  # CONFIG_UBSAN_BOOL is not set
+>>  # CONFIG_UBSAN_ENUM is not set
+>>  # CONFIG_UBSAN_ALIGNMENT is not set
+>> diff --git a/lib/Kconfig=2Eubsan b/lib/Kconfig=2Eubsan
+>> index 1d4aa7a83b3a=2E=2E63e5622010e0 100644
+>> --- a/lib/Kconfig=2Eubsan
+>> +++ b/lib/Kconfig=2Eubsan
+>> @@ -116,21 +116,20 @@ config UBSAN_UNREACHABLE
+>>           This option enables -fsanitize=3Dunreachable which checks for=
+ control
+>>           flow reaching an expected-to-be-unreachable position=2E
+>>
+>> -config UBSAN_SIGNED_WRAP
+>> -       bool "Perform checking for signed arithmetic wrap-around"
+>> +config UBSAN_INTEGER_WRAP
+>> +       bool "Perform checking for integer arithmetic wrap-around"
+>>         default UBSAN
+>>         depends on !COMPILE_TEST
+>> -       # The no_sanitize attribute was introduced in GCC with version =
+8=2E
+>> -       depends on !CC_IS_GCC || GCC_VERSION >=3D 80000
+>>         depends on $(cc-option,-fsanitize=3Dsigned-integer-overflow)
+>> -       help
+>> -         This option enables -fsanitize=3Dsigned-integer-overflow whic=
+h checks
+>> -         for wrap-around of any arithmetic operations with signed inte=
+gers=2E
+>> -         This currently performs nearly no instrumentation due to the
+>> -         kernel's use of -fno-strict-overflow which converts all would=
+-be
+>> -         arithmetic undefined behavior into wrap-around arithmetic=2E =
+Future
+>> -         sanitizer versions will allow for wrap-around checking (rathe=
+r than
+>> -         exclusively undefined behavior)=2E
+>> +       depends on $(cc-option,-fsanitize=3Dunsigned-integer-overflow)
+>> +       depends on $(cc-option,-fsanitize=3Dimplicit-signed-integer-tru=
+ncation)
+>> +       depends on $(cc-option,-fsanitize=3Dimplicit-unsigned-integer-t=
+runcation)
 >
-> Yeah, but I think that's too big a hammer. It's a useful warning, and
-> it doesn't accept per-item configuration.
+>Can these be in 1 cc-option? I know it might look slightly more ugly,
+>but having 3 different ones will shell out to the compiler 3 times,
+>which is a little less efficient=2E At some point it might noticeably
+>increase the build initialization latency=2E
 
-Hmm, I don't think it's as useful. We're going to be using more unstable
-features until we eventually bump the minimum version when we can
-disable `RUSTC_BOOTSTRAP=3D1`. From that point onwards, it will be very
-useful, but before that I don't think that it matters too much. Maybe
-the others disagree.
+Yeah, good point=2E I could probably just test the most recently added opt=
+ion, as it implies all the rest, too=2E I'll send an update!
 
->> >> I'll take a look tomorrow, you're testing my knowledge of the build
->> >> system a lot here :)
->> >
->> > We're guaranteed to learn something :)
->>
->> Yep! I managed to get it working, but it is rather janky and
->> experimental. I don't think you should use this in your patch series
->> unless Miguel has commented on it.
->>
->> Notable things in the diff below:
->> * the hostrustflags don't get the *provenance_casts lints (which is
->>   correct, I think, but probably not the way I did it with filter-out)
->> * the crates compiler_builtins, bindings, uapi, build_error, libmacros,
->>   ffi, etc do get them, but probably shouldn't?
->
-> Why don't we want host programs to have the same warnings applied? Why
-> don't we want it for all those other crates?
+-Kees
 
-I have never looked at the rust hostprogs before, so I'm missing some
-context here.
 
-I didn't enable them, because they are currently being compiled without
-any unstable features and I thought we might want to keep that. (though
-I don't really see a reason not to compile them with unstable features
-that we also use for the kernel crate)
-
-> I'd expect we want uniform diagnostics settings throughout which is
-> why these things are in the Makefile rather than in individual crates
-> in the first place.
->
-> Your patch sidesteps the problems I'm having by not applying these
-> lints to host crates, but I think we should.
-
-We're probably working on some stuff that Miguel's new build system will
-do entirely differently. So I wouldn't worry too much about getting it
-perfect, as it will be removed in a couple cycles.
-
----
-Cheers,
-Benno
-
+--=20
+Kees Cook
 
