@@ -1,96 +1,136 @@
-Return-Path: <linux-kbuild+bounces-6180-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6181-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05D9A63133
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 19:01:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FF5A63214
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 20:41:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E26193B15BF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 18:00:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3FF61895850
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 19:41:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27571204C25;
-	Sat, 15 Mar 2025 18:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A69D8199935;
+	Sat, 15 Mar 2025 19:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="YQBSNm5r"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H1qYZBlI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0001F790C;
-	Sat, 15 Mar 2025 18:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E1E1917E4;
+	Sat, 15 Mar 2025 19:40:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742061661; cv=none; b=rqSf1tVkz4MT7b9XTGbormzBRXbhRCmYsTRNya+QGwRDGW7MPgPCuqCdkc7JnVLUYmF6AmxSm8fgmm1BACDM0r67KqrVeXBNhfASDq5pQw7ouKplCOV8+6XPLh9qpme33f+gNBarB3ZYvzWrE3BfxREv0E134IUUsRLm7eathrs=
+	t=1742067659; cv=none; b=IQX9i+6KV34R9s4dD2ja81X2zNx6UOP+YPEZgkCLxk127JEWhO4Qg4s9LGBpaD0Nd/+841TCQj5FzgQwWasNes5ZAv2qw3TAgIcCg81E4kp9cYgsRd6u1pqyLgGyCa6Wqd16pH22spB5gexAabEY2HRJWrwkOlOpeXQOIaegEII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742061661; c=relaxed/simple;
-	bh=AQGvhnW+89joQbtnIYgMqzkrKefUsN/EBiBpxqMXD3M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S6mQoDE+dhchrxROIzDimsAE3dGIidNYTcpJcccNwFmL0ZKBUhps0obYu2EoFTTnHUN+sHdT/xw/YNSIdtoJRMIuHGiWcZcxCGQbPdDSX0KknMkCpxLCM5cQvYKTvLkf7R6P21F7cI2y7fxSydK/wJ3NyCYW6ZuRnzcH3oq99kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=YQBSNm5r; arc=none smtp.client-ip=185.70.40.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1742061656; x=1742320856;
-	bh=AQGvhnW+89joQbtnIYgMqzkrKefUsN/EBiBpxqMXD3M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=YQBSNm5rm3zDSkda26bpQz4cz3kOmYU0eTl0lth9UKvCZXGjSGzd6PsjFfUKKMy3J
-	 GrYoFmqDIXnYxh6q/bn2zQJdg3uA9rkmXmBHe5Tdyoc6rpYBojJlYDHrjGyIe2kR4t
-	 +EZ56x1KZ+F86WXa1sZThE/dGYNe/VVb2Ba8ITYCCd32Obp+P9T8bKEoZyUsv9k2M8
-	 ztNaBlLgOiveGrJphf+wqT8fq9AOcc2L/Iee/wIICoez++0FIyC7FUq8Kslmk+I8Lz
-	 PA+VltRu0qSquuI4YM48XtMZvBm6we7E28qwveNZlP5uQZvUZT963yorq5xNXTFwVP
-	 ch5qzW3cxAUmA==
-Date: Sat, 15 Mar 2025 18:00:50 +0000
-To: Boqun Feng <boqun.feng@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Tamir Duberstein <tamird@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] rust: use strict provenance APIs
-Message-ID: <D8H1B8HT45UJ.OQ8N8YS92UL5@proton.me>
-In-Reply-To: <Z9V0jSfuhqWi_t52@Mac.home>
-References: <20250314-ptr-as-ptr-v3-0-e7ba61048f4a@gmail.com> <20250314-ptr-as-ptr-v3-6-e7ba61048f4a@gmail.com> <67d4a57f.c80a0220.16ff45.9cf1@mx.google.com> <D8GQJQFGKB8C.DZBUZT4IJIM0@proton.me> <Z9V0jSfuhqWi_t52@Mac.home>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: e83c3409294cafcbb4ff1e1cee286a3ff1c398c1
+	s=arc-20240116; t=1742067659; c=relaxed/simple;
+	bh=laZAIbEZVXCBq3fZOiRaGSFxCaavR5HOBVJ9LIzb2q8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qxKo402wI1tL+y78+2quAxmia3IoudHlxb+F57G2JOKFI/zeMVtjHuDD5rYPaby70qKXcQ09IFB0lY/3lrBXgcbY1xeNcrEHSp1wVHK5QS35m92nOeXpkaOVVAJ4trEnBUpUKvAHKxGhBtXnSW368F0lAHfg4WdkLsU40/Lo3xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H1qYZBlI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3C6C4CEE5;
+	Sat, 15 Mar 2025 19:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742067658;
+	bh=laZAIbEZVXCBq3fZOiRaGSFxCaavR5HOBVJ9LIzb2q8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=H1qYZBlIMNjF3EdiBtzLFp4vbmq9Uz9BMYWCJeFP6JRlMk2CcFsRtMMIkyCJjefqx
+	 6J273h+GaDISyfFYvsPL5x4gF/eo690xAAnXZdbzzsnB7hF+2CfcIrlbMWhHtXVRcx
+	 /mHr3OtZpKkUQyHFL1x4oxKGX3y79ibBJupH3IEawknSQTqYQlMypNT2SFkR4eXGa7
+	 yFmESW+HC3EbEQfhb5fOvetiPNTQCaA3WZMm3PpC1y/we+TXKqd1xTOv9VhJMMGWoV
+	 s23zE68GkQ1RwhC5YqrWtrCCKRPiUNATwcYDL8dhNq8eoXVSP5AH5ZeWjmLOMfNlmU
+	 x3vo8ckKkzJPQ==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: [PATCH v2] rust: kbuild: skip `--remap-path-prefix` for `rustdoc`
+Date: Sat, 15 Mar 2025 20:40:45 +0100
+Message-ID: <20250315194045.2353200-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat Mar 15, 2025 at 1:37 PM CET, Boqun Feng wrote:
-> On Sat, Mar 15, 2025 at 09:34:42AM +0000, Benno Lossin wrote:
-> [...]
->> > The rest Rust code changes look good to me. Although I would suggest y=
-ou
->> > to split this patch into several patches: you can do the conversion fr=
-om
->> > "as" pattern to provenance API one file by one file, and this make it
->> > easier for people to review. And after the conversions are done, you c=
-an
->> > introduce the Makefile changes.
->>=20
->> I think it's fine to do several of the `as` conversions in a single
->
-> Well, "fine" !=3D "recommended", right? ;-) If the patch was split,
-> reviewers would be able to give Reviewed-by to individual patches that
-> looks fine trivially. Then it's easier to make progress every iteration,
-> and also allows partially applying the changes. Of course it doesn't
-> have to be file-by-file.
+`rustdoc` only recognizes `--remap-path-prefix` starting with
+Rust 1.81.0, which is later than on minimum, so we cannot pass it
+unconditionally. Otherwise, we get:
 
-While I see your point, in this case splitting file-by-file is too much.
-v4 has: 9 files changed, 82 insertions(+), 27 deletions(-). I've seen
-much bigger changes that do smaller things like this patch.
+    error: Unrecognized option: 'remap-path-prefix'
 
-At around 150 lines added + deleted I find it more and more difficult.
+Note that `rustc` (the compiler) does recognize the flag since a long
+time ago (1.26.0).
 
+Moreover, `rustdoc` since Rust 1.82.0 ICEs in out-of-tree builds when
+using `--remap-path-prefix`. The issue has been reduced and reported
+upstream [1].
+
+Thus workaround both issues by simply skipping the flag when generating
+the docs -- it is not critical there anyway.
+
+The ICE does not reproduce under `--test`, but we still need to skip
+the flag as well for `RUSTDOC TK` since it is not recognized.
+
+Fixes: 6b5747d07138 ("kbuild, rust: use -fremap-path-prefix to make paths relative")
+Link: https://github.com/rust-lang/rust/issues/138520 [1]
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
-Cheers,
-Benno
+v2:
+  - Skip the flag also in `RUSTDOC TK`. The ICE does not apply there,
+    but we still need to skip the flag.
 
+ rust/Makefile | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/rust/Makefile b/rust/Makefile
+index ea3849eb78f6..089473a89d46 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -57,10 +57,14 @@ endif
+ core-cfgs = \
+     --cfg no_fp_fmt_parse
+
++# `rustc` recognizes `--remap-path-prefix` since 1.26.0, but `rustdoc` only
++# since Rust 1.81.0. Moreover, `rustdoc` ICEs on out-of-tree builds since Rust
++# 1.82.0 (https://github.com/rust-lang/rust/issues/138520). Thus workaround both
++# issues skipping the flag. The former also applies to `RUSTDOC TK`.
+ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+       cmd_rustdoc = \
+ 	OBJTREE=$(abspath $(objtree)) \
+-	$(RUSTDOC) $(filter-out $(skip_flags),$(if $(rustdoc_host),$(rust_common_flags),$(rust_flags))) \
++	$(RUSTDOC) $(filter-out $(skip_flags) --remap-path-prefix=%,$(if $(rustdoc_host),$(rust_common_flags),$(rust_flags))) \
+ 		$(rustc_target_flags) -L$(objtree)/$(obj) \
+ 		-Zunstable-options --generate-link-to-definition \
+ 		--output $(rustdoc_output) \
+@@ -171,7 +175,7 @@ quiet_cmd_rustdoc_test_kernel = RUSTDOC TK $<
+ 	rm -rf $(objtree)/$(obj)/test/doctests/kernel; \
+ 	mkdir -p $(objtree)/$(obj)/test/doctests/kernel; \
+ 	OBJTREE=$(abspath $(objtree)) \
+-	$(RUSTDOC) --test $(rust_flags) \
++	$(RUSTDOC) --test $(filter-out --remap-path-prefix=%,$(rust_flags)) \
+ 		-L$(objtree)/$(obj) --extern ffi --extern kernel \
+ 		--extern build_error --extern macros \
+ 		--extern bindings --extern uapi \
+
+base-commit: bc5431693696b3f928b0b7acf8d7a120127db7a4
+--
+2.49.0
 
