@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-6161-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6162-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471DFA62BDA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 12:31:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4ADA62BDE
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 12:34:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51B76189C913
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 11:32:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C888189A409
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 11:34:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7DFD1E8346;
-	Sat, 15 Mar 2025 11:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E76571F5859;
+	Sat, 15 Mar 2025 11:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NpT3ZBCb"
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NFTaNFnX"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9119917BED0;
-	Sat, 15 Mar 2025 11:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3701E7C0A;
+	Sat, 15 Mar 2025 11:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742038309; cv=none; b=rFki+aI6DcQbw3ky9s2Mwuywc3MyMDfenqZzPvhWLp2EAlN671roqJhaDLEW3NWtOWL4Wu0Mmk8BQyDQ1zGRQGD0VPQpl+OTZoyecbVYExImv0ttix+8ogKb6Yf+yU1kbVzC4U7HZqdkX4Og80Lka7wYtjrDmR+a4L8UqV3rqzQ=
+	t=1742038466; cv=none; b=phewRNmoT/51aOT77qo7IGd/xdfG3swCXLhnbOo64gbjw0L2lzIEu5Cb389gZrNdPc0XDXLF6p6Iv5gCQrJpaR08H6uABFIoamenLDCmFFOJxtOB2k4wuXEttRmdjALm1W1iFXnV4xy0rZZt/IeJAEawx7WFmYo5BTFdyGfOqvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742038309; c=relaxed/simple;
-	bh=K9d1kJdz5yq0Uq48u99qCb0bbHMNcF6bAMCyt1AqpQU=;
+	s=arc-20240116; t=1742038466; c=relaxed/simple;
+	bh=rAr/1XOPL6FtqBP7vv5nuWJT+lCTu+U480Yk0OYPEbQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AoEeY80CgBuwwrjF67DPAQV9W/Ltcj6hOAjyYgw7IRUuFUL/75qY7X4325P+JhSU5ePoJ9X1Dg44/ZiXKRLTPIoYlr1ti9/keL6NUCUuNS87v5kRwyYbBvRo5d07WO8aHf/wDH0fwBzuFne7GPB1c+PC1qGmwErVAfkg40CCXPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NpT3ZBCb; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=EZSeFXjECuyuTYviJrfBq93aJkjPeD/xOOLAbj/5exootU/LatWhux57nnOHpJQGHhxuDxx4E+rEwqkkJdLjX9Equc701F+ekQCkfYYpSlJ6s8yNRsYscutXqoBBr+mTt4YbwxDysAsdRpaNW0KxLhEE5M8gPfhXJSKP/MpFq8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NFTaNFnX reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8E09540E0216;
-	Sat, 15 Mar 2025 11:31:36 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4432D40E0196;
+	Sat, 15 Mar 2025 11:34:21 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id NXNqFkrviatE; Sat, 15 Mar 2025 11:31:32 +0000 (UTC)
+	with ESMTP id 8hxDFu0D7Fcd; Sat, 15 Mar 2025 11:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1742038291; bh=PsScqUSoVeEoPv6a4o4GiQ6cvtqVSTt7NDZ7hyVEc9k=;
+	t=1742038456; bh=gSgNTrF/QbgbsMwtMJwfKMFZleoPJK4pQUmP758rID4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NpT3ZBCbloM/6/t5/a2Lk8TI/CAULwCoOTdUVrJzkp6sepF8am53gjQmudlzDnXCL
-	 CYMoGe0xwGmYSMHnh32oMyegdzR0PdzxxlCuU8PZ7/nLgPcmqouEFvVQsgzrKtsMew
-	 JU1FuMgR35eUbLfPgMeHRLZqtx4Jpw1219HpssgUFmAQLRk87/yHzwwaXstJ6+zrVw
-	 wyv2X/1BJiGgVHH4OvYUuiAd+HcrtyyTsSwiSKRjEsTBWygf3FNGCCGQmTnNv8nz7q
-	 LtReE02rw//Qc9lJvAIhVGXkmTLT4xEBepzGwjXlQdeD7I32K2C3mZE9fsD5p5+wJU
-	 uUeDlyxBibRlgsPEsjBReOml6r+8UMoytO8B80bLkB7NM4LfuK3mCPyLTCT2Es9uKh
-	 Ynkf50eTveRQNT7gjwqKGRbq+hmEcHhgeOkAePclEeY33e3M38EjTIhxOngatMYaOW
-	 8yz2+mYOm3J1Tq49AwOD35/G6zlM52Az99C7xKdgYlpUUCqSACJP4Nq2BJk6synqWD
-	 s4xCf+BeYjMPnSGB6Q6tLtf1R2oS7jltRNJUW6LZslLchbjsVxA0v47wfT/E5TzlAB
-	 zgQC6yS7lsbBT6At3suxnROyUVNnc9EjB39zEFICtBXqzLB7YjYoAfaNKHKbPDmdFZ
-	 3dc3FXL63HSQ19OOMWFqPMhk=
+	b=NFTaNFnXZu8gdd3lmhmwHKKY80bmsVlFIKp8X4xobVPQp/fskNrr3xVJLi4/MIGKF
+	 vpxvmjvjuYWPKBZtAEksOP71kOwnBEHE8OIqKNLuFRhY4h2nOuFcL22EK024MoZjAu
+	 agG66/ZLG30Z3KDAXezZvQkjpsGXEgAvikFdbxxmAH2vU+uiBHHu1hGiwNP/e0lT1y
+	 Yfqw75n6mgteMJEAh/vdElQ1MqeKFiCL4OaokG5FHYRd1JHlrhuuRqSfasatXZz1T+
+	 /vftDQWftmtC38r8FsMA2cuuXUeE9GQdQ9h49O0jpMCPpb4rRGBur+wspujvlBOW3E
+	 kd/DAnnOP8fOtGI4bvv4thxHAH6UqJTYQjdTJ4QVFaF2hz8oUuHvdn0ynzofnnXwAW
+	 hxXrM/9LcYmnuJcjZTpGFKso3CS3RAriU9g2VF0+LgXG2Qh0CFpksqRhseGEQDn4o7
+	 HgRxEnwu/sGKMLAYXmTvLyRFITGXcXNsxV5wg7AUrOhxrJn7kV014tgLovY4pZotpJ
+	 sBMVrXobTawJywQ4NbUVKdkzMRPcSLbKuGlpeVZN8ZXO7piLLnhmqTqfJNwof5ldel
+	 GXGWsgKWw5KaQrwHDl7rCQ2hCUKven6PRsP83BZk8lfJr2wWGvLjoUHsLQURFKBwmp
+	 P4y4JU8BvXlVW3yE9daJKp38=
 Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 06CFF40E00C9;
-	Sat, 15 Mar 2025 11:31:16 +0000 (UTC)
-Date: Sat, 15 Mar 2025 12:31:09 +0100
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E3AC540E0216;
+	Sat, 15 Mar 2025 11:34:01 +0000 (UTC)
+Date: Sat, 15 Mar 2025 12:34:00 +0100
 From: Borislav Petkov <bp@alien8.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -73,11 +73,10 @@ Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
 	"H. Peter Anvin" <hpa@zytor.com>,
 	Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/4] x86/boot: Switch to -ffile-prefix-map
-Message-ID: <20250315113109.GAZ9Vk_eqcYNzgPcy4@fat_crate.local>
+Subject: Re: [PATCH 0/4] kbuild: make all file references relative to source
+ root
+Message-ID: <20250315113400.GBZ9VlqIBVsVdzlRAb@fat_crate.local>
 References: <20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net>
- <20250313-kbuild-prefix-map-v1-3-38cea8448c5f@weissschuh.net>
- <CAK7LNAQ695Ur3tvq+W67zgkRuw_wnRJpoAsmpEUgVLyFx8USNg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -86,21 +85,37 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQ695Ur3tvq+W67zgkRuw_wnRJpoAsmpEUgVLyFx8USNg@mail.gmail.com>
+In-Reply-To: <20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net>
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 15, 2025 at 05:15:33PM +0900, Masahiro Yamada wrote:
-> Hi X86 maintainers,
-> 
-> Is it OK to pick up this to kbuild tree?
-> Ack is appreciated.
+On Thu, Mar 13, 2025 at 04:59:08PM +0100, Thomas Wei=C3=9Fschuh wrote:
+> -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+> Other references, for example in debug information, is not affected.
+> This makes handling of file references in the compiler output harder to
+> use and creates problems for reproducible builds.
+>=20
+> Switch to -ffile-prefix map which affects all references.
+>=20
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+> Thomas Wei=C3=9Fschuh (4):
+>       kbuild: make all file references relative to source root
+>       kbuild: doc: reproducible-builds: drop section "Absolute filename=
+s"
+>       x86/boot: Switch to -ffile-prefix-map
+>       x86/boot/compressed: Switch to -ffile-prefix-map
 
-For both:
+Btw, I don't see why those are 4 patches - it is a single logical change =
+that
+converts to this new compiler switch.
 
-Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+So why are they 4?
+
+Masahiro, might as well merge them into one...
 
 Thx.
 
--- 
+--=20
 Regards/Gruss,
     Boris.
 
