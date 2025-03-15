@@ -1,189 +1,186 @@
-Return-Path: <linux-kbuild+bounces-6174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60580A62D17
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 13:59:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9734CA62D65
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 14:20:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2B427A4FBD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 12:58:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDD8F1781CA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 13:20:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 914B21F9F7C;
-	Sat, 15 Mar 2025 12:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08E411DC9BE;
+	Sat, 15 Mar 2025 13:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D2D/3uEs"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="JNEWAJLP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB301E7C20;
-	Sat, 15 Mar 2025 12:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD49B188012;
+	Sat, 15 Mar 2025 13:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742043575; cv=none; b=fBqAybqY0Ek+yyZZ2U3qJc3EtUP0ZVurEZeLOAxuXZKNpadfxUkzvLy+pNA4NWUNEM1Dq1+pjPMIn9UoVugxVgs0Y9i5Gafidlyo+2jh2wE6bvxgT9gWAVx3WCKPx8HXNZcQ5qs5/WQ2wWDuLWm/2m6wVRae51xquvIaWmer2MU=
+	t=1742044828; cv=none; b=g6Sx1h0xxpAViDKD1jEY4mJxxh9YKxaIK0c/APOZGpg/nXvBVFWZgIvLDIUz5ySPPCSUS/JbWTCVKXflkdp92c40+9kF7kXO5CDo90JBXxIOE9Cv1pW6VM/i2SLwvFhGylUJkTPJg6qcmaOIfwYhlK2xLWAdU5nZbfI3wRioosE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742043575; c=relaxed/simple;
-	bh=Ecv+iNkGFfi9tUIlY/rwyQCIyEj65xXadpmlroL1C4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bgslsZelC7xjRSMYG6hvosC2QlvDZhjGWZLpS1xlKrwRALJQrLgG7BqeYGe9xndYcc5OdpKUeaNhOALpTeKLjrrW6e8Z3sGWHHJWPPsCwpF4SMH5JHTEV7Aiy8r5cPyfd+/T51VA18tWxHmtFCEwVEu5SHun09lW3f14xopzZgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D2D/3uEs; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c3c4ff7d31so378266485a.1;
-        Sat, 15 Mar 2025 05:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742043573; x=1742648373; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=3sz3C7TI4DPvSlkchso2NNuBOnisGdY3eDfJJKlUEcw=;
-        b=D2D/3uEsHIf3XX5YuMp9i/yQyYhQ/7r4gpEp/Qk1f5dNkWC1DNsWpc66U2TOwKkQO4
-         BwtMJt9nWmvkrpPsUZdhhJr6lchNFfE4K4ce7XX/oarvMISVYAPJWzlTEWlBW0vuoSjF
-         BipqvF5Uy+GPZf8iKlLsRopBSnAa1SzzD2nxAkVyZ02isCQdv3S4AOCtjcGdKytYFm4a
-         4rO4ZoXotO3gwO8LmC6bnacDTdw5tVUs7ZtM2iiNv3iqT9jYVg5HRAcxg3QC8tiqP3zZ
-         meoPBQynHP/QIhL9VXrCDaGgR6Ebzm8JO8gFsS/eTQm/25ib8GX1NYOrQXR81Yfxvwrf
-         Lwnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742043573; x=1742648373;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3sz3C7TI4DPvSlkchso2NNuBOnisGdY3eDfJJKlUEcw=;
-        b=EpbNAPOluy9HL2U1L+L5oZc9fzxO07ot5kCH10ES8RHzkcTFWYj6XPfscRm7dipVC/
-         dAq6F+JMLEVH+OmiTRa+S8YBDDyi7O+MoM7EV/XrVJwagVSW5T7awOb83oetbbKkZ4aL
-         q8KX4MvtfIUNx7fc1til/EmZYBjZY5k6NRVYZvDRQ8qq/XyNLX/7bcJrUMnnKRwzIN2k
-         p9GBSfvvHtABfE+wQFWLo/dn7yDkl1Yw/kTIiG3cG4dVck7NuuMqngCqc4xQF0N5fEyp
-         plN4+tlS/WhZYUBju0txF2vHi7o2aDeD0xclqsXNWziHgXhE1xr2Nn+I6rBl7FxAf2IV
-         zFrg==
-X-Forwarded-Encrypted: i=1; AJvYcCU9maMFDC46Y5ToPXIlKFCpDTwrjDMsjk3p3dtJuYOzOV0xi4+c7pUddubHS+SmeKX7bRGrZXvqU6AW6mLy@vger.kernel.org, AJvYcCUHpLd+kfoZyB20niGchOlOc74fYQ/xjcy+qx12Nta4xKEQwA3b6VPE7ToRAFPvyrLFD524kjuwll87sJ0ayr8=@vger.kernel.org, AJvYcCVD9g56bCXpTnYQegweqjsJ7fJs3NTKQaPAzrsXylMvE3xcBTcUVTXGhWbjXLRj5E/HKZZWF/LtZLIK@vger.kernel.org, AJvYcCVtH0ohIjCK3XWyw7lMSp1/fimD+hTqNXnvi0MgK4Q0vLCWacrCDFIQ0IcGufZdDoPWZH4gWy2yuH38@vger.kernel.org, AJvYcCWW/zpJd/WnPTkYOUG4+x6EDLTazEczdk1JH19q07CHM5xGNSrZVEKY8sNuPoyOOeAfvyWIlEFzOCeVIJFq@vger.kernel.org, AJvYcCWgF/YWCVUIpi2J6YJZYlzW365jnh8O7Bj3p9vgfUYKBYJAFhpCFD21/HDhlTXALnHTG5uDDsrBXM4gaWD2UCwl@vger.kernel.org, AJvYcCXcYmgAOOCLt8ijHsHZvASFTlehXRl9U3KuRvK8oNHPat1WWmyD2qFCuGw3k/XDmYD5DpHZYj6nsAjp45o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQUYf4m+cXK8Gdg5B1KCDlJBG09EuRSi8It1vY68vLrxjmBysN
-	I6IpTlaAvw0FP09nswqMQ1GenxTzfe+n4byYF/b7Fk7QlSUHvUUz
-X-Gm-Gg: ASbGncvpg/Qo25CiiC3E2apKAZSPXy40Ci1q6/sLWtacaSA1AOMlYQqdmgLqcAiTepr
-	0ixp8CYlu1ukYKE+4nSoYWSpFu07yoaXhPatMrWIL4sEeTdwvHaGApGP05JZB16Omqw17w4FvxM
-	pGw8DG3tOaMZcTi88wZi3WGBYsLSB5QJIhQslPu9Qm+q+4j82+EBDch5uaVZtICra1hxVpNmOoT
-	A8fzToRIWm53dhkVIb47VP/eZnS2iS6PUoOtEVMSdmPoDCbEDhYhFrTHcLBpM20w+lvBYXmRV9z
-	+VMJBrmi4P5F/lfyCFXUKktm01eGN1jmRM2Jwp59fpaoAA1mqiCkiRpZ1TcNN1acDBa+xfVEJDa
-	OLIEYaaaZLA8LQk75C8zx1j1RavSbgGtf/jM=
-X-Google-Smtp-Source: AGHT+IEpbbxMYi7EBT1EpTmd88snq+U0V3yFRIPptelZUz7jiwwoiDRCLnSaptxPR29bV7X4h0Mpwg==
-X-Received: by 2002:a05:620a:444d:b0:7c5:58b0:42c1 with SMTP id af79cd13be357-7c57c810e96mr650223585a.34.1742043572800;
-        Sat, 15 Mar 2025 05:59:32 -0700 (PDT)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573c9ddacsm374895885a.54.2025.03.15.05.59.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Mar 2025 05:59:32 -0700 (PDT)
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfauth.phl.internal (Postfix) with ESMTP id A10EC120007C;
-	Sat, 15 Mar 2025 08:59:31 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Sat, 15 Mar 2025 08:59:31 -0400
-X-ME-Sender: <xms:s3nVZ8TdeqsmhV7UVIaGrrgzTLRzzVaVHK404GklawqDuqmLzeWN_g>
-    <xme:s3nVZ5ygNBeWaTrB25Kh6mbqtrGaDWmNhx9EW6GezrBDHJUHfQJdttYPggPyelQ0e
-    S_DHs85hIZIZkE64Q>
-X-ME-Received: <xmr:s3nVZ53i5Hi3M9gJghxNbkTSCqGS3BQTkAJLssJdEL0mDX_fr46ponHE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeefjeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrg
-    hilhdrtghomheqnecuggftrfgrthhtvghrnhepvefghfeuveekudetgfevudeuudejfeel
-    tdfhgfehgeekkeeigfdukefhgfegleefnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhn
-    rghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpe
-    epghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopeefvddp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthgrmhhirhgusehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepsggvnhhnohdrlhhoshhsihhnsehprhhothhonhdrmhgvpdhrtghp
-    thhtohepmhgrshgrhhhirhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgrth
-    hhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihgtohhlrghssehfjhgrshhl
-    vgdrvghupdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    eprghlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopehgrghrhies
-    ghgrrhihghhuohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegpghhhsehprhhothhonh
-    hmrghilhdrtghomh
-X-ME-Proxy: <xmx:s3nVZwD3rHARBzffMwEo8y5Gj0UgqGvgIWncmE4VxNcjL1f7aKoavw>
-    <xmx:s3nVZ1jv0k-EA8DcHnDKPwNvS4HCVAvWdleIUGgEgTRphYprSMukYg>
-    <xmx:s3nVZ8qU3_V62dVihs6JImUnjbPjbz7RDz0qCLJDX8zlCOiBOnyYzw>
-    <xmx:s3nVZ4hntVgpm3x2UQaRwfixWs2bfmTblOP8Fqrs1jVnmDrzvoF_vA>
-    <xmx:s3nVZ8QRUioK8FjOwuLJwK7CW6U3LykcFm8XcERBRFGe79knaO8nrmOw>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 15 Mar 2025 08:59:31 -0400 (EDT)
-Date: Sat, 15 Mar 2025 05:59:30 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Benno Lossin <benno.lossin@proton.me>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,	linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org,	rust-for-linux@vger.kernel.org,
- linux-kselftest@vger.kernel.org,	kunit-dev@googlegroups.com,
- linux-pci@vger.kernel.org,	linux-block@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] rust: use strict provenance APIs
-Message-ID: <Z9V5srg9h73ufu3G@Mac.home>
-References: <20250314-ptr-as-ptr-v3-0-e7ba61048f4a@gmail.com>
- <20250314-ptr-as-ptr-v3-6-e7ba61048f4a@gmail.com>
- <67d4a57f.c80a0220.16ff45.9cf1@mx.google.com>
- <D8GQJQFGKB8C.DZBUZT4IJIM0@proton.me>
- <Z9V0jSfuhqWi_t52@Mac.home>
- <CAJ-ks9k+5c-MYNaxv412Ri1LDAxvkdSQQfKEgQtTu6aEsS-XFA@mail.gmail.com>
+	s=arc-20240116; t=1742044828; c=relaxed/simple;
+	bh=5aAd5kxEgpNv9jP73xNPFCtdSg1gvVxKex9LF+vIYYw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YWYYhct9xrUNsL6SAxEk7mlYb0PldU4BoFbiUkSOmHPX4WmuJSQtEKyhyyYYlKK/K4TW8XWJO8vzcumWeWU6GtVHEA3Gg1CoQkCxkiE341UdI12NgzM/NOaMjDjKt1n6+68/W+j8vpq8ygRt2NzI2ADi3ArIGXLn8WfaNUQpLZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=JNEWAJLP; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1742044815;
+	bh=5aAd5kxEgpNv9jP73xNPFCtdSg1gvVxKex9LF+vIYYw=;
+	h=From:Date:Subject:To:Cc:From;
+	b=JNEWAJLPlUzVtGxCp29wNfCDRhMalaQWu+6aecq00TgXZ+l9MhyLECCR2qrjWiqVa
+	 DT+Q0B3YDmcLwbR8QBqnoE0ZJ4NAvHasZcfwt0x5/ugfaem+JflYOacAxfcbKQU7LQ
+	 /65g5Nb3YksnKV+IHn638Ayf8ue6tronYP8KLjHw=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sat, 15 Mar 2025 14:20:14 +0100
+Subject: [PATCH v2] kbuild: make all file references relative to source
+ root
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ-ks9k+5c-MYNaxv412Ri1LDAxvkdSQQfKEgQtTu6aEsS-XFA@mail.gmail.com>
+Message-Id: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAI1+1WcC/22NwQ6CMBBEf4Xs2TWlgKAn/8NwqGWxG7WQLqCG8
+ O9WjDePbybzZgahwCRwSGYINLFw5yPoTQLWGX8h5CYyaKULlaUar+eRbw32gVp+4t30WBgqd1a
+ rPZUG4u5brc5THdmxDF14rRdT+kl/tuyPbUpRYVZZMlWeV7Zojw9iEbFudFtPA9TLsrwBhu/yR
+ bcAAAA=
+X-Change-ID: 20250312-kbuild-prefix-map-5ae76c209e7a
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1742044815; l=4983;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=5aAd5kxEgpNv9jP73xNPFCtdSg1gvVxKex9LF+vIYYw=;
+ b=poDRjIhb/G41s9ptBZZyGL7Io6BzUYTI2xwX2fLZnHNV98APDZltVsyMujL4CeZ8EJU1iSOvX
+ Nb9yOhd8/OuB9OPa5cbcmpvkynmaPdMCqqVeeIyaLcQSBUSdPf0geKK
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Sat, Mar 15, 2025 at 08:41:49AM -0400, Tamir Duberstein wrote:
-> On Sat, Mar 15, 2025 at 8:37 AM Boqun Feng <boqun.feng@gmail.com> wrote:
-> >
-> > On Sat, Mar 15, 2025 at 09:34:42AM +0000, Benno Lossin wrote:
-> > [...]
-> > > > The rest Rust code changes look good to me. Although I would suggest you
-> > > > to split this patch into several patches: you can do the conversion from
-> > > > "as" pattern to provenance API one file by one file, and this make it
-> > > > easier for people to review. And after the conversions are done, you can
-> > > > introduce the Makefile changes.
-> > >
-> > > I think it's fine to do several of the `as` conversions in a single
-> >
-> > Well, "fine" != "recommended", right? ;-) If the patch was split,
-> > reviewers would be able to give Reviewed-by to individual patches that
-> > looks fine trivially. Then it's easier to make progress every iteration,
-> > and also allows partially applying the changes. Of course it doesn't
-> > have to be file-by-file.
-> 
-> I sent v4 a little while ago, hopefully the resulting complexity is
-> manageable now that the build system is untouched.
-> 
+-fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+Other references, for example in debug information, are not affected.
+This makes handling of file references in the compiler outputs harder to
+use and creates problems for reproducible builds.
 
-I have fun plans today (skiing!), so won't be able to take another
-detailed look. What I was trying to say is that: should you split the
-patches, I would have already given some Reviewed-bys ;-) But as Benno
-said, it's fine, so don't worry, I will take another look later. Thanks!
+Switch to -ffile-prefix map which affects all references.
 
-Regards,
-Boqun
+Also drop the documentation section advising manual specification of
+-fdebug-prefix-map for reproducible builds, as it is not necessary
+anymore.
 
-> Cheers.
-> 
-> Tamir
+Suggested-by: Ben Hutchings <ben@decadent.org.uk>
+Link: https://lore.kernel.org/lkml/c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk/
+Acked-by: Borislav Petkov (AMD) <bp@alien8.de> # arch/x86/
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- Pick up Ack from Borislav
+- Merge all changes into single patch
+- Also drop link to KCFLAGS from docs
+- Link to v1: https://lore.kernel.org/r/20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net
+---
+ Documentation/kbuild/reproducible-builds.rst | 17 -----------------
+ Makefile                                     |  2 +-
+ arch/x86/boot/Makefile                       |  2 +-
+ arch/x86/boot/compressed/Makefile            |  2 +-
+ 4 files changed, 3 insertions(+), 20 deletions(-)
+
+diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+index f2dcc39044e66ddd165646e0b51ccb0209aca7dd..a7762486c93fcd3eba08b836bed622a41e829e41 100644
+--- a/Documentation/kbuild/reproducible-builds.rst
++++ b/Documentation/kbuild/reproducible-builds.rst
+@@ -46,21 +46,6 @@ The kernel embeds the building user and host names in
+ `KBUILD_BUILD_USER and KBUILD_BUILD_HOST`_ variables.  If you are
+ building from a git commit, you could use its committer address.
+ 
+-Absolute filenames
+-------------------
+-
+-When the kernel is built out-of-tree, debug information may include
+-absolute filenames for the source files.  This must be overridden by
+-including the ``-fdebug-prefix-map`` option in the `KCFLAGS`_ variable.
+-
+-Depending on the compiler used, the ``__FILE__`` macro may also expand
+-to an absolute filename in an out-of-tree build.  Kbuild automatically
+-uses the ``-fmacro-prefix-map`` option to prevent this, if it is
+-supported.
+-
+-The Reproducible Builds web site has more information about these
+-`prefix-map options`_.
+-
+ Generated files in source packages
+ ----------------------------------
+ 
+@@ -131,7 +116,5 @@ See ``scripts/setlocalversion`` for details.
+ 
+ .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
+ .. _KBUILD_BUILD_USER and KBUILD_BUILD_HOST: kbuild.html#kbuild-build-user-kbuild-build-host
+-.. _KCFLAGS: kbuild.html#kcflags
+-.. _prefix-map options: https://reproducible-builds.org/docs/build-path/
+ .. _Reproducible Builds project: https://reproducible-builds.org/
+ .. _SOURCE_DATE_EPOCH: https://reproducible-builds.org/docs/source-date-epoch/
+diff --git a/Makefile b/Makefile
+index 5c333682dc9142b1aacfe454a5c77f5923554b7d..4f920187cee658ae4d1b807fca365f6994274828 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1067,7 +1067,7 @@ endif
+ 
+ # change __FILE__ to the relative path to the source directory
+ ifdef building_out_of_srctree
+-KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
++KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
+ KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/=
+ endif
+ 
+diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+index 9cc0ff6e9067d574488a35573eff4d0f8449e398..f500f82864aae80deb74faa3df9a8b6333d6c4ca 100644
+--- a/arch/x86/boot/Makefile
++++ b/arch/x86/boot/Makefile
+@@ -54,7 +54,7 @@ targets += cpustr.h
+ 
+ KBUILD_CFLAGS	:= $(REALMODE_CFLAGS) -D_SETUP
+ KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
+-KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
++KBUILD_CFLAGS	+= $(call cc-option,-ffile-prefix-map=$(srctree)/=)
+ KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
+ KBUILD_CFLAGS	+= $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
+ 
+diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+index 5edee7a9786c67e13c295473751b82387bcbd67e..ad324978b2e5b1b6f8be82647769c99db8257ac7 100644
+--- a/arch/x86/boot/compressed/Makefile
++++ b/arch/x86/boot/compressed/Makefile
+@@ -38,7 +38,7 @@ KBUILD_CFLAGS += -fno-stack-protector
+ KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
+ KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
+ KBUILD_CFLAGS += -Wno-pointer-sign
+-KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
++KBUILD_CFLAGS += $(call cc-option,-ffile-prefix-map=$(srctree)/=)
+ KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
+ KBUILD_CFLAGS += -D__DISABLE_EXPORTS
+ # Disable relocation relaxation in case the link is not PIE.
+
+---
+base-commit: a57512d6cd88eba04cdc1fb83832c00d248bd0d1
+change-id: 20250312-kbuild-prefix-map-5ae76c209e7a
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
 
