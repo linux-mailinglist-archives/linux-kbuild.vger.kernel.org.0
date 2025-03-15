@@ -1,145 +1,127 @@
-Return-Path: <linux-kbuild+bounces-6176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6177-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5313A62E71
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 15:53:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CF1A62EF1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 16:15:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D58381753A7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 14:53:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D0793B9503
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 15:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D63A1FC7CF;
-	Sat, 15 Mar 2025 14:52:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C72719049B;
+	Sat, 15 Mar 2025 15:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="StvcQOfM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="se5ntyMM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB8D366;
-	Sat, 15 Mar 2025 14:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AF217995E;
+	Sat, 15 Mar 2025 15:15:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742050379; cv=none; b=Y6d/nyIhQ4E6BP1ygzv4XJTovo8iWqEhZWfpauxbXxzDqNBqJqxM3Ma06iHA2QLDkBPROxPlCsSQkOJEAUTOEwVRM+3GefG+q+cma8U8GLI6nT3wyFutK/voIQZL2LnXCpBI5zt/rYnLjYCqHr1MW/fxRe2UrtS1lwETamO+T0E=
+	t=1742051727; cv=none; b=hpubzHF7WcevpPzcOp79w0L/Njf6icEy2oCTZ0nmII88M4o23eA86+uEF1/KzLDVZgrcLnW6yVXARx6sevoW8UEnI2/kRVRa53M+R8I/WSJasLwIvyIPi/ZdzEdkcrYvzlQN7GcyoRw52bS+wkfIF3NaU8nFm/p2UtqMMtk1Mf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742050379; c=relaxed/simple;
-	bh=25toXEF63pIyQ4BAaA3+SY0YWyKwqbXfkZDOS2yXEXk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VnCTsJxWce/saO4H4G1xIF+bruSQpVI7Mt9l6Ha7+AduThmfVvlxe3c5cUmYbdSaBkExWX246BuLLjsIMe3whicBziJHkNGjuNLKBuUv4AkL0zJAEJhDBn9sDtKV6axk5RY04F0LolslkmVrpEt9hCzPag67k1KAlECq3bIubZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=StvcQOfM; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30bfe0d2b6dso33088531fa.3;
-        Sat, 15 Mar 2025 07:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742050375; x=1742655175; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=25toXEF63pIyQ4BAaA3+SY0YWyKwqbXfkZDOS2yXEXk=;
-        b=StvcQOfMZsabErV8DBV42/ODW+fZVGzMk6ecV7FxwXVw42S841I1tZU8/AliKU21SC
-         onStk8UzRf98iVsvmfof/3NXahDXUpF14uZRvEtCr0fzf5M+V0Zu76kodD2PJUBlJo10
-         ePqc9KTHbH50ePsIXoFfXWsSh2Jxk7mJ/5uQ+nF5+33/kQohzqrymxxkFQAbdPBSpA7H
-         Eb51sPtaVMWtdkhArfwd8d8T3uMZ7qVHHLXgneaqPSQjB/1J53OfyA/HpwMCmlO+a7Zz
-         72ftThHpt4nnO7auws+3bGo/zj13TkR/JnenMJrAdcEZFyGQ+9bhDNtfHuBNjmXwxG7j
-         G9wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742050375; x=1742655175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=25toXEF63pIyQ4BAaA3+SY0YWyKwqbXfkZDOS2yXEXk=;
-        b=oDRFvimbc/PV0sf3a8G+JVUXjTp3A/1qSgPkVt4TdqrPSZ0USHknEp9LE8kFEcudfg
-         D9sJiNYM2tEqE/OQ0cNjFerfuO0LyCqUlSnfN2ATh2oXkjwRVcRPigawENnzfnmLUBAb
-         LjXfv4EOiwW3ZLDhor9LE5ACs3uuES64Qgs4o5cIFr2vHsFrdU9eqn0CbNyzS304rC7D
-         cjWCCZhkgTAol6RtONC056etkbcH9wgg+0EKmAS9lHeWrV3e/pfRlKdQuMMUAiC2/0PI
-         /PhiYeUx1uA6fjDHIvBde2q0Cm90sZB7ikLmKd4kYOlV5Dc7rkHY8ESG+j78OpCXPB8C
-         8Nrw==
-X-Forwarded-Encrypted: i=1; AJvYcCU49P0qTcugGp834alFLslbPFzgf1LNLd5fc45Sj5fRhNdasQ/S8rOtvUkVLYkrDXO8tUTmWrwOOKk1wux6sWU=@vger.kernel.org, AJvYcCUqjk3SS8y0FMT/NDIIqn1u78Bih9i2mIg8V9omMEUzS+RTc9leT+neo4EaDrlK4AYnEwTefBJkB4+u@vger.kernel.org, AJvYcCVEVka0Ne7qSzHvGUS7WOuExFbfeq0RXy1VYq8nqSyYkflrxCWHlr05AIsESadjihY83DzURndSv0lOJxVZ@vger.kernel.org, AJvYcCVZfGy9qp5Jd2PwzVYvQ84rT0ATzuXG8qSHKDfcU8a5h1sihVFi2cIwEXe1kBrGWk09hifPkS7G3wucSA2Q@vger.kernel.org, AJvYcCWNNLK++edMZp26SclQxVV+lpaCRihB8T54kZRmuTDe0LdJ3NeKLcD1zYsrRBH8GXpH+kcJsP6fRGKw5dcyOCWC@vger.kernel.org, AJvYcCWPt+KkLOwXZo4c7m4oX26rv8vkBaBhvleRn018WPdT3dQMoxlqIEq+ELWw1xbWGq0CQ9iDtzhPUoWN@vger.kernel.org, AJvYcCXQa7u+65f6iOTPqbH3PrjlVRRMo5xedYmVh5ylEh3hxBsuedmmpVQy2Kxcc+hQFrMGDu7cCzDiqJOgbC8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yykqka6F8FZIRml26Qb9+uDS0SvJ9ZryrC+tZqx+Iv1ylb6DBjE
-	BMrwdRdAUgTX+YI93kz6SQ8bkSyKaEpRfd37N3AbVe5vzH0ENifjB5iLBEdw0o/0pcfrJ/lTh9R
-	SZopoAN5oT5mg8U6Zuzgkbx5XHfo=
-X-Gm-Gg: ASbGncue3kp7EAAXrths7o1VlElVYuHb5/lIKl4ozpko6HfNIudHmTBsFT2EpXIOvFY
-	tf6Sr+U/GiIiJ+SCQ4om1zDLpBrEQscUXOoj47yMwTIwOKkEFFuG6HnPylKE2h5uFSobCcmodpN
-	Pkhc+muC0ISEypzMeMQaQRnh3g20mG+v5hhILNlBqB0rKKA23rcArotMMO/MW5
-X-Google-Smtp-Source: AGHT+IH8nC0TpYa6om1KJkuvMAniWm5KQw6dxG84o6l4T8qWuLbPOUtyA3zl+ap3w3tC9KO/f//DCnawBJXOvMWsW2o=
-X-Received: by 2002:a2e:2413:0:b0:30c:514c:55d4 with SMTP id
- 38308e7fff4ca-30c514c562cmr12196061fa.16.1742050375070; Sat, 15 Mar 2025
- 07:52:55 -0700 (PDT)
+	s=arc-20240116; t=1742051727; c=relaxed/simple;
+	bh=wMDkFlOEMkADkhwlpU4LQIA7ztRZxNdc4osh9N2ewzw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q7ycBI9nbmseup43Y8SgRpmu8JyaRNkYyHg01181QjNTPV9IHb/dRCmGN9SwHtJZYdNqL+LOgDSOsgEcXMAwGbt2D7BVSkf56BLiv9KovReUqaJankjFDxkSew8kweIUl4nVkFSXS3hCl/jzJOawKsbVHvnmaAa2g8LqSeDEaZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=se5ntyMM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDA3EC4CEE5;
+	Sat, 15 Mar 2025 15:15:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742051726;
+	bh=wMDkFlOEMkADkhwlpU4LQIA7ztRZxNdc4osh9N2ewzw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=se5ntyMMW7rOeIwJdFwrDz4s0ByDnJdY5V8hy0gv9tk6T2qpLXFR0e4R/aeS/Ge7a
+	 gbAL8kt2VRTS+uKiO2CFTifGq6dOZxZYYTTro8sKe2H6ODrAU7dG0wGXM7MtNVm8Nb
+	 8zmOR3KzXHCpoqdLEY3TqGGRVJaw/0383XZDtf0ZkAGSx849CfTuRj13WtRAfcgXZI
+	 ukg/CnkNPJEUTZzrdXBTP+AnpXU6vraYO9rTy094K3bvvaWJx6lenjxwyJ0hkGbzj9
+	 cu5doeDVdXUPPEwIfr1q1EQR1A7jJrH3wQV5IP7yU2TOgGprbrzP8keHde1nxifoKV
+	 95q4kAFIFousQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Christian Heusel <christian@heusel.eu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH] kbuild: pacman-pkg: hardcode module installation path
+Date: Sun, 16 Mar 2025 00:15:20 +0900
+Message-ID: <20250315151522.2766939-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250314-ptr-as-ptr-v3-0-e7ba61048f4a@gmail.com>
- <20250314-ptr-as-ptr-v3-6-e7ba61048f4a@gmail.com> <67d4a57f.c80a0220.16ff45.9cf1@mx.google.com>
- <D8GQJQFGKB8C.DZBUZT4IJIM0@proton.me> <Z9V0jSfuhqWi_t52@Mac.home>
- <CAJ-ks9k+5c-MYNaxv412Ri1LDAxvkdSQQfKEgQtTu6aEsS-XFA@mail.gmail.com> <Z9V5srg9h73ufu3G@Mac.home>
-In-Reply-To: <Z9V5srg9h73ufu3G@Mac.home>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Sat, 15 Mar 2025 10:52:18 -0400
-X-Gm-Features: AQ5f1JqjwDEWbdaR9Dml9SSN-lD5tP8ZfiC2uWZ_VNOu30cX7hVl5zfkNy74Ccw
-Message-ID: <CAJ-ks9=23BLX_eo9QYESHFR6JCWJg6AL2Bmg45GAS=wHqAZw4w@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] rust: use strict provenance APIs
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Benno Lossin <benno.lossin@proton.me>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
-	Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 15, 2025 at 8:59=E2=80=AFAM Boqun Feng <boqun.feng@gmail.com> w=
-rote:
->
-> On Sat, Mar 15, 2025 at 08:41:49AM -0400, Tamir Duberstein wrote:
-> > On Sat, Mar 15, 2025 at 8:37=E2=80=AFAM Boqun Feng <boqun.feng@gmail.co=
-m> wrote:
-> > >
-> > > On Sat, Mar 15, 2025 at 09:34:42AM +0000, Benno Lossin wrote:
-> > > [...]
-> > > > > The rest Rust code changes look good to me. Although I would sugg=
-est you
-> > > > > to split this patch into several patches: you can do the conversi=
-on from
-> > > > > "as" pattern to provenance API one file by one file, and this mak=
-e it
-> > > > > easier for people to review. And after the conversions are done, =
-you can
-> > > > > introduce the Makefile changes.
-> > > >
-> > > > I think it's fine to do several of the `as` conversions in a single
-> > >
-> > > Well, "fine" !=3D "recommended", right? ;-) If the patch was split,
-> > > reviewers would be able to give Reviewed-by to individual patches tha=
-t
-> > > looks fine trivially. Then it's easier to make progress every iterati=
-on,
-> > > and also allows partially applying the changes. Of course it doesn't
-> > > have to be file-by-file.
-> >
-> > I sent v4 a little while ago, hopefully the resulting complexity is
-> > manageable now that the build system is untouched.
-> >
->
-> I have fun plans today (skiing!), so won't be able to take another
-> detailed look. What I was trying to say is that: should you split the
-> patches, I would have already given some Reviewed-bys ;-) But as Benno
-> said, it's fine, so don't worry, I will take another look later. Thanks!
+'make pacman-pkg' for architectures with device tree support (i.e., arm,
+arm64, etc.) shows logs like follows:
 
-Have fun! =E2=9B=B7=EF=B8=8F
+  Installing dtbs...
+    INSTALL /home/masahiro/linux/pacman/linux-upstream/pkg/linux-upstream/usr//lib/modules/6.14.0-rc6+/dtb/actions/s700-cubieboard7.dtb
+    INSTALL /home/masahiro/linux/pacman/linux-upstream/pkg/linux-upstream/usr//lib/modules/6.14.0-rc6+/dtb/actions/s900-bubblegum-96.dtb
+    INSTALL /home/masahiro/linux/pacman/linux-upstream/pkg/linux-upstream/usr//lib/modules/6.14.0-rc6+/dtb/airoha/en7581-evb.dtb
+      ...
+
+The double slashes ('//') between 'usr' and 'lib' are somewhat ugly.
+
+Let's hardcode the module installation path because the package contents
+should remain unaffected even if ${MODLIB} is overridden. Please note that
+scripts/packages/{builddeb,kernel.spec} also hardcode the module
+installation path.
+
+With this change, the log will look better, as follows:
+
+  Installing dtbs...
+    INSTALL /home/masahiro/linux/pacman/linux-upstream/pkg/linux-upstream/usr/lib/modules/6.14.0-rc6+/dtb/actions/s700-cubieboard7.dtb
+    INSTALL /home/masahiro/linux/pacman/linux-upstream/pkg/linux-upstream/usr/lib/modules/6.14.0-rc6+/dtb/actions/s900-bubblegum-96.dtb
+    INSTALL /home/masahiro/linux/pacman/linux-upstream/pkg/linux-upstream/usr/lib/modules/6.14.0-rc6+/dtb/airoha/en7581-evb.dtb
+      ...
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/package/PKGBUILD | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+index 0cf3a55b05e1..452374d63c24 100644
+--- a/scripts/package/PKGBUILD
++++ b/scripts/package/PKGBUILD
+@@ -53,7 +53,7 @@ build() {
+ _package() {
+ 	pkgdesc="The ${pkgdesc} kernel and modules"
+ 
+-	local modulesdir="${pkgdir}/usr/${MODLIB}"
++	local modulesdir="${pkgdir}/usr/lib/modules/${KERNELRELEASE}"
+ 
+ 	_prologue
+ 
+@@ -81,7 +81,7 @@ _package() {
+ _package-headers() {
+ 	pkgdesc="Headers and scripts for building modules for the ${pkgdesc} kernel"
+ 
+-	local builddir="${pkgdir}/usr/${MODLIB}/build"
++	local builddir="${pkgdir}/usr/lib/modules/${KERNELRELEASE}/build"
+ 
+ 	_prologue
+ 
+@@ -114,7 +114,7 @@ _package-debug(){
+ 	pkgdesc="Non-stripped vmlinux file for the ${pkgdesc} kernel"
+ 
+ 	local debugdir="${pkgdir}/usr/src/debug/${pkgbase}"
+-	local builddir="${pkgdir}/usr/${MODLIB}/build"
++	local builddir="${pkgdir}/usr/lib/modules/${KERNELRELEASE}/build"
+ 
+ 	_prologue
+ 
+-- 
+2.43.0
+
 
