@@ -1,109 +1,101 @@
-Return-Path: <linux-kbuild+bounces-6157-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6158-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16530A62924
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 09:39:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60718A62A28
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 10:35:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55FB617CCE6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 08:39:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9426B3B4563
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Mar 2025 09:34:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B511E7C20;
-	Sat, 15 Mar 2025 08:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2575C1F5826;
+	Sat, 15 Mar 2025 09:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYoMAtNz"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="lLYkVZ7W"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1FD1DF993
-	for <linux-kbuild@vger.kernel.org>; Sat, 15 Mar 2025 08:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D221F55EF;
+	Sat, 15 Mar 2025 09:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742027984; cv=none; b=cbw8rxE/9JVFIZjuw4J9e78rLuHAPEqD49K+6UmHrBTgpepypNjg5/2gpdZAoWddtaUF2bNhIVr4av3PaNxBfTvZk37ll0uDrVs1AVtieWtvkZZW+GtBQ+XY1YobHizCNni3zN5Ph874JvZyuUDxCP1AT4qo03mpHaARhxnHDYE=
+	t=1742031297; cv=none; b=VaWPWVEVH1S6IwYH6lKVZ7sG7XxgZPxtNKzPlnJ2JxvyJVbe3TiXYH3m/YKbX7En/k8x9PQM7L5FhqsdZEkQTnDNQT3CuF02iiTW7s88guyQGL/gZYlRbl4d1J+v3kDDn1yKyvcCZYZ5Ra/JrrCm6e582LGDMkA062qbPRFXujE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742027984; c=relaxed/simple;
-	bh=5LqvU/cJQx/1TIRoWiOkrdkCMIi9f/CjyroRp+0LRNs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KrtRKd78vsG+Py4HVy8nduPL+PBrMGD0YlBZM3pp9JA4hi135gUYJOKwMwg1gpSRDcfyj1cGu8GW1wwATVrN3u4JNnrrNKr37ePWBnnGnfAD4XkcA4e6s7STnzyU1TMUGA91Z84ceKuJVFfIQjEtVg474Bdh1CoN0dLo2wwtPl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYoMAtNz; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ff611f2ed1so119817a91.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 15 Mar 2025 01:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742027982; x=1742632782; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zU+utGiUYn/lWu8TMh9PRW1LdrPW+WIyNxx2vVUsNOY=;
-        b=mYoMAtNz8qBm7/lpRfeij88F4N1SlaAeF/WrmY5V3sEfD4xLtfPjsSevbeSI7v3zIy
-         9IxUwfd16KPcCkC7SebleD+7sxAawW74HL6ZZ+TxEGJVBnGdRFjA1vBq6saqGMarFvpO
-         SPZjkLUlt5cVmoQV0caipwDTStMOe1PIpUrk8QZvSkZJySxb39n/ZUQPI/RYYHUoq5/P
-         r91jT6iAU3CFBININWP9k240OnASbGW8fFjCuCmlsKsO1wkfF5gehw4IQUHNf3g0/1md
-         Ha8fotAb3ses9wDSTyrY/uOHzQxeqG7PbYufYZmhr/6lm0pEA+NuYa5a6jJekeVXbcJv
-         nE4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742027982; x=1742632782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zU+utGiUYn/lWu8TMh9PRW1LdrPW+WIyNxx2vVUsNOY=;
-        b=F3SqG/bQWM26iupWwYbdBXdrgE+IlrE2iuopenmuvyOn/Rd+5J1iwdRnj1ocSo5r2l
-         8H+rG2fpJ+ywbWSaWY8RhG5Op6PgJgujb0Vhs7pzNjiVe7kRW6QWSdu8zoOAP9RzGhTN
-         hHLTyhSiHT7o/vkiY97los04tWrj5aQT7wfScUq29dzko+tAwZjn8s2VYN4g3kR8oXMI
-         qNzsGAQjb5RXoxGF+YZRv5c0Hx8MUsQ2UDKfKUQy7a91G172W0PWQmwSwE4zmys238sT
-         49x5T2g8APIHg8r6CS8F7pU9b1ywTSb8N1IIu0MG0SP+FK/rsEWq49tcPGvBK3K91pud
-         /wPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNZq83B4hOkRHqnqKKfb7bQtrJi+lI8fjNu7Jjy0GsmwSaDz0isAEZC24pIyGS0qbbTK33uGi7JmU/uoE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTZTmX5wrPNAjLXbwi7tv8HUi1g7CjQKC08p2aWBiJVX24wOzT
-	0uM0w+ZgFFfqYf+tSLOhnx03t+socSbsuSiszq91yfG1/hQ44irF5YIYw6ins9C5gwuJIY0V3+C
-	9bbQ5igDHW/yqfYXZK8CDmlzmQ1U=
-X-Gm-Gg: ASbGncsb+/b7Bs0N1KEINy60+cqWQbLb26KtOZpx0eRIJ4GpTT9e5gelk5LKwbEZqoH
-	hbpqLD9XCj4waHItqWqbpX/bQXfAYWCmY/mgwpsv94AK61XRB7Us22ex+D/CKHMPuSKKMh4v0uk
-	wzBUHxE2oJkq3arYxX5EyuDhI9ug==
-X-Google-Smtp-Source: AGHT+IEiDB4t+c598d3Rq4swU0Mc2iQEwpq/fpeMERuc6Zu1/Nz/gU10ofBwL1zy26MHqx+aHZR0uleLUhg1IqlQRug=
-X-Received: by 2002:a17:90b:3850:b0:2ff:6941:9b6a with SMTP id
- 98e67ed59e1d1-30151d40343mr2609242a91.3.1742027982134; Sat, 15 Mar 2025
- 01:39:42 -0700 (PDT)
+	s=arc-20240116; t=1742031297; c=relaxed/simple;
+	bh=hNzSGeM9w6XNPYNUplk+W0RxLfc6Ek9uwsXvUt0eEuQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p3RT39zBDVRHx3akc4TVFvGD+lxVd+dDYZE+8kt9n1R7glaPPQq9aqAYQuTwpjyuXRR0/X+YZIZfcGQWnWyE0T1LHpHornn8d8UfxkeModJi1/Zefpq7MPZLzpGGV2HsKd7pWspVqN9WM8PlAM++nlg3cW63wbsp/rqf21o/N4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=lLYkVZ7W; arc=none smtp.client-ip=79.135.106.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1742031287; x=1742290487;
+	bh=2YpOaSrR4hSpqfGZqahP1NQlMMYBu1x+CopCGLc8TCw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+	b=lLYkVZ7WsxbKWWPw215MDyByXyYk2sMT04se/nnfaXXROFTTQ2IrlSeAE0ztiAqqn
+	 OAJMwAJKmCPp7LzaOH3hgyMk2JpZ5qM7ODp9RHPOETqJBtRgGmfxmM6jSPhWW2dBum
+	 QdU/uZrPPrxz19dkDlwNQyB4lOvKT939syCP5SzdMyrqHac41JwAmDEz0W9IsFOj2u
+	 G/OcKTUAbrQ2BBAKsmalD23hOSXZpRBnaHqNPvE2yLBp7VKj9cXBjPwthnAoQecDmX
+	 qSzdOY1s8MdTQOTACXkRtiPRb/ZJv1Viox8Of0hdoBQlaeVTq6grwpXwBwJu9Bl6oM
+	 1Q/HO8GpE0V+A==
+Date: Sat, 15 Mar 2025 09:34:42 +0000
+To: Boqun Feng <boqun.feng@gmail.com>, Tamir Duberstein <tamird@gmail.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
+	linux-block@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 6/6] rust: use strict provenance APIs
+Message-ID: <D8GQJQFGKB8C.DZBUZT4IJIM0@proton.me>
+In-Reply-To: <67d4a57f.c80a0220.16ff45.9cf1@mx.google.com>
+References: <20250314-ptr-as-ptr-v3-0-e7ba61048f4a@gmail.com> <20250314-ptr-as-ptr-v3-6-e7ba61048f4a@gmail.com> <67d4a57f.c80a0220.16ff45.9cf1@mx.google.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 5e603b89734b66f978da35e7885d24202eac65c5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <Z9IsEPOnC+MGSAEA@rli9-mobl> <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
-In-Reply-To: <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 15 Mar 2025 09:39:30 +0100
-X-Gm-Features: AQ5f1JoLQONECP0PuXiZH1IsoZyMhazVY9AyCX57H_XAEH9AnCNINSRLMFnffeA
-Message-ID: <CANiq72md8yWAHdZeJFWAQFxb_9ftTFMiQciK+ZGf+3Lp_Jxa8g@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:kbuild 15/20] error: Unrecognized option: 'remap-path-prefix'
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 15, 2025 at 8:45=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Fri Mar 14, 2025 at 10:54 PM CET, Boqun Feng wrote:
+> On Fri, Mar 14, 2025 at 08:28:10AM -0400, Tamir Duberstein wrote:
+> [...]
+>> --- a/rust/kernel/alloc.rs
+>> +++ b/rust/kernel/alloc.rs
+>> @@ -217,7 +217,7 @@ unsafe fn free(ptr: NonNull<u8>, layout: Layout) {
+>> =20
+>>  /// Returns a properly aligned dangling pointer from the given `layout`=
+.
+>>  pub(crate) fn dangling_from_layout(layout: Layout) -> NonNull<u8> {
+>> -    let ptr =3D layout.align() as *mut u8;
+>> +    let ptr =3D crate::with_exposed_provenance_mut(layout.align());
 >
-> Do you see this?
+> Dangling pointers don't have provenance, neither has its provenance been
+> exposed. I think should use `without_provenance_mut()` here:
 >
-> I tried to reproduce it on commit
-> 6b5747d07138f8109b1a150830f1d138de146ac2,
-> but I did not observe the reported error.
+> =09https://doc.rust-lang.org/std/ptr/fn.without_provenance_mut.html
+>
+> see also the source of core::ptr::dangling().
 
-This is probably:
+Good catch.
 
-    https://lore.kernel.org/rust-for-linux/CANiq72ntZj10H1DBqRyX=3DuLertMw5=
-9e=3DPM7ESVJ0zWfu_ECnnA@mail.gmail.com/
-    https://lore.kernel.org/rust-for-linux/20250314213333.2230670-1-ojeda@k=
-ernel.org/
+> The rest Rust code changes look good to me. Although I would suggest you
+> to split this patch into several patches: you can do the conversion from
+> "as" pattern to provenance API one file by one file, and this make it
+> easier for people to review. And after the conversions are done, you can
+> introduce the Makefile changes.
 
+I think it's fine to do several of the `as` conversions in a single
+patch, but splitting off the makefile changes is a good idea.
+
+---
 Cheers,
-Miguel
+Benno
+
 
