@@ -1,148 +1,135 @@
-Return-Path: <linux-kbuild+bounces-6192-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6193-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815CDA6363D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 16:28:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB87A63725
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 20:09:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73F0A188EAEE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 15:28:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC4FB16C54D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 19:09:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC18B4430;
-	Sun, 16 Mar 2025 15:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ihu+uw4N"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E760A1AAA2F;
+	Sun, 16 Mar 2025 19:09:21 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [65.21.191.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8761A1AB6F1
-	for <linux-kbuild@vger.kernel.org>; Sun, 16 Mar 2025 15:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E0F1A840A;
+	Sun, 16 Mar 2025 19:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.21.191.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742138903; cv=none; b=fSYM8jTWiWaJI1md2Ayzlo2p+K/tmvNqYb9bBqBR/3v999lW8IXignlcXm5yS/i564zzSLPMuCaxL9to9I+JzNGsyBfh9qrbdjtcNr6+HHSl0D0IXJH4D3TySOrZs2csdP7GSoTJVFh8ddSRP9EGJzcUZwQrxMbecVYqbyrcRj4=
+	t=1742152161; cv=none; b=VrYFY6o83052eRFM7TB+wdmXriAcwH7WtonIZDILBakz+2gwTTh4a0xd8FdsxbrybRG2cmuJ1k95VYxr8nU5sIYrbgf2NFvQeNIigz5Ao+owdRQdWOpvO1KU2qPJIWuwx5lMZeZDYFRiNd4zK5X5XRcIMHSSM0J3b3igTi2YqQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742138903; c=relaxed/simple;
-	bh=vNFIcfTzkV5HNpQWF5fiB0x3n1TkSfLen+jXEaLkoaU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HDdi4dgTV9DLrfPFV8LQw2qDzvu2cMIY2jDV2Ia3uzKG/DroYBnBR232fxzfn25z0OmAN81SAoCQrrPC9qyeSnN/VzA9SVPhRe/sf6Xj8wl/inrsSGq5ghd87F83gdVPEHuNjmX+fSqmZzXpHQB19N51jXBGYmjupJa1wxvIGEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ihu+uw4N; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1364BC4CEDD
-	for <linux-kbuild@vger.kernel.org>; Sun, 16 Mar 2025 15:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742138903;
-	bh=vNFIcfTzkV5HNpQWF5fiB0x3n1TkSfLen+jXEaLkoaU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ihu+uw4NVrI3VGioO3HJt0RrTmRmLKbMN1Mvikqk+VhT1F9yePzBV6bM/p5mL/Jif
-	 TfJghxNKoaaQLm5CFXx4uPxftH/LQdtuZzptF1lWEnvpiURrRpUqWdeAP94+smC6I1
-	 ksnj7kFCtLxoGFoc7sHjJT5C3TxG3XkZWFq6x032McraqNUzkAswrUZBuWWc+ITkfn
-	 nFVcW5HfS3XwxpkGtWxJPcFKqCqpTZv+n7toUeWjo46bIQtIx8m6M57WYkRd9D55gE
-	 EgEGR3PwMNY/10IXXCvyl/ypic19UM3s1d3GR7XjF2cPFCaXjjiS5IQYpLjOAw01YB
-	 AMKKHn/5Ubdaw==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5498c742661so3919518e87.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 16 Mar 2025 08:28:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXPslQBMYxNwvd6poEvmgEOCBGqgO6cvhPtkBNDcQtwQNhTphRlcjKPGRfjGedc2zm3iNhoTNRqvVnfDqo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydbbqR7FXBj2+ew+8nq0UeWnlfnb3vnwsp4id0B/wOhW04BYUZ
-	4XITYYqrKoRrvBhTiUwIYvcRD0tKek6CF2HqpkjyncxP30O/H+J4QD+vUoB0FhckQ8SEzGxjqjv
-	rptAZS9dyjEg1mbKJTIFZa9TEgAY=
-X-Google-Smtp-Source: AGHT+IF0Dt/laO7zegcvare8prIKHkNI8ibK0zBaerP9xH93a7mlsM62yg1nkaUMORLNbgZvlejJ+P64c8Z98vSiZ/4=
-X-Received: by 2002:a05:6512:1115:b0:545:576:cbd2 with SMTP id
- 2adb3069b0e04-549c38eacbdmr4026754e87.10.1742138901595; Sun, 16 Mar 2025
- 08:28:21 -0700 (PDT)
+	s=arc-20240116; t=1742152161; c=relaxed/simple;
+	bh=7K0CKKSEQCj2Z31ffJIY+LQcS/jTWa6MowDTW+qfLiI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BN4rjwvnDAkXG607Wh/YoslLLannK58lqMzHqi2WgSsXtBIX3W9CvzvD91A2WEEQ9mDgUPgLnNC8REyBbHKkBhvyr63ZjSyKFCGKOQBC9TZhqqrZXlFNayLmgyFjJeTPrLwGb8ZPIG7L3oOAhaqNejCXhof3vn/6hi4LJTkrf9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk; spf=pass smtp.mailfrom=decadent.org.uk; arc=none smtp.client-ip=65.21.191.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=decadent.org.uk
+Received: from [2a02:578:851f:1502:391e:c5f5:10e2:b9a3] (helo=deadeye)
+	by maynard with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1tttLn-009DD6-1E;
+	Sun, 16 Mar 2025 19:08:43 +0000
+Received: from ben by deadeye with local (Exim 4.98)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1tttLm-00000002R5p-12M0;
+	Sun, 16 Mar 2025 20:08:42 +0100
+Message-ID: <d250e864d6d81cc02e2599f710872f72d58a3c29.camel@decadent.org.uk>
+Subject: Re: [PATCH v2] kbuild: make all file references relative to source
+ root
+From: Ben Hutchings <ben@decadent.org.uk>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, Masahiro
+ Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier	 <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner	 <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov	 <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin"	 <hpa@zytor.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Sun, 16 Mar 2025 20:08:37 +0100
+In-Reply-To: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-CLWj+1c9T7wgjA6qpkHc"
+User-Agent: Evolution 3.55.3-1 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202503161833.ytx1ivfu-lkp@intel.com> <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
-In-Reply-To: <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 17 Mar 2025 00:27:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASkwp3zecQ0=NQ7FNPD1pO-a+RvJwA_O-whWgMhvLnqqQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JqOtuPZIF1zzaDqY6ahVhL15CrS9kVkzOE7SbAbWWYxP20TDdkaQblTtS4
-Message-ID: <CAK7LNASkwp3zecQ0=NQ7FNPD1pO-a+RvJwA_O-whWgMhvLnqqQ@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:kbuild 25/35] FAILED cannot open vmlinux: No
- such file or directory
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org
+X-SA-Exim-Connect-IP: 2a02:578:851f:1502:391e:c5f5:10e2:b9a3
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
+
+
+--=-CLWj+1c9T7wgjA6qpkHc
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 16, 2025 at 11:09=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> w=
-rote:
->
-> On Sun, 16 Mar 2025 at 11:20, kernel test robot <lkp@intel.com> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
--kbuild.git kbuild
-> > head:   e3de46f775ec29a17f671523798c28222a4ce818
-> > commit: cac289e2b2b0909b52c0a694c4469a9ad9f03764 [25/35] kbuild: Create=
- intermediate vmlinux build with relocations preserved
-> > config: i386-buildonly-randconfig-001-20250316 (https://download.01.org=
-/0day-ci/archive/20250316/202503161833.ytx1ivfu-lkp@intel.com/config)
-> > compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24=
-a30daaa559829ad079f2ff7f73eb4e18095f88)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250316/202503161833.ytx1ivfu-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202503161833.ytx1ivfu-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> > >> FAILED cannot open vmlinux: No such file or directory
-> >
->
-> We need the below - Masahiro, would you like me to send this is a
-> follow-up patch?
->
->
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -185,7 +185,7 @@ cleanup()
->  {
->         rm -f .btf.*
->         rm -f System.map
-> -       rm -f vmlinux
-> +       rm -f "${VMLINUX}"
+On Sat, 2025-03-15 at 14:20 +0100, Thomas Wei=C3=9Fschuh wrote:
+> -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+> Other references, for example in debug information, are not affected.
+> This makes handling of file references in the compiler outputs harder to
+> use and creates problems for reproducible builds.
+>=20
+> Switch to -ffile-prefix map which affects all references.
 
-This is wrong because the target vmlinux is not passed
-during 'make clean'.
+This appears to cover all the C sources, but not quite all the assembly
+sources:
 
-https://github.com/torvalds/linux/blob/v6.14-rc5/Makefile#L1583
+[...]
 
+> --- a/arch/x86/boot/Makefile
+> +++ b/arch/x86/boot/Makefile
+> @@ -54,7 +54,7 @@ targets +=3D cpustr.h
+> =20
+>  KBUILD_CFLAGS	:=3D $(REALMODE_CFLAGS) -D_SETUP
+>  KBUILD_AFLAGS	:=3D $(KBUILD_CFLAGS) -D__ASSEMBLY__
+> -KBUILD_CFLAGS	+=3D $(call cc-option,-fmacro-prefix-map=3D$(srctree)/=3D)
+> +KBUILD_CFLAGS	+=3D $(call cc-option,-ffile-prefix-map=3D$(srctree)/=3D)
+[...]
 
+I think this addition to KBUILD_CFLAGS needs to be done before the
+assignment to KBUILD_AFLAGS.
 
->         rm -f vmlinux.map
->  }
->
-> @@ -288,12 +288,12 @@ vmlinux_link "${VMLINUX}"
->
->  # fill in BTF IDs
->  if is_enabled CONFIG_DEBUG_INFO_BTF; then
-> -       info BTFIDS vmlinux
-> +       info BTFIDS "${VMLINUX}"
->         RESOLVE_BTFIDS_ARGS=3D""
->         if is_enabled CONFIG_WERROR; then
->                 RESOLVE_BTFIDS_ARGS=3D" --fatal_warnings "
->         fi
-> -       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
-> +       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} "${VMLINUX}"
+Also, in some older versions of gcc the -ffile-prefix-map option didn't
+affect assembly sources - gas only understands --debug-prefix-map and
+gcc did not do the necessary conversion.  But this works properly since
+at least gcc 12, so I wouldn't worry too much about it.
 
-These two changes  are correct.
-
-I will squash.
-
+Ben.
 
 --=20
-Best Regards
-Masahiro Yamada
+Ben Hutchings
+Lowery's Law:
+        If it jams, force it. If it breaks, it needed replacing anyway.
+
+--=-CLWj+1c9T7wgjA6qpkHc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmfXIbUACgkQ57/I7JWG
+EQk/QxAAp1QI6wF/LXIDuaISL+X/2y+Le4q0YYynsOz3YXaov9KeE4yBzGl40w2Y
+eEtVRYpDF1v8q3ZI/0fNDNm2xiQVZGmQwrNhGNvxb3eSd3ISkaKid4vMYCo1s/+i
+ON2CWMxAO9JUQBTekvTSF8swzxHgHXoLZS4jgZdd8MKhTsrBHiUMLqNY1HVmkIEf
+utkrapxDtB63Qw8y0O8nXTtqvDmoyhPl4+Rzra9IjWu8f9v+Dni3h5CVGhLm8xXX
+rgb5MgT/pkGURqbJKAMsT2KqTuIqdg0iwFOjUko/Qg3hXNP/a1Fp6z04/UtWjmJj
+KVYLAD9NuagraWlNMqT/1ekfBUergLpphCnHeeT5wdvgkWFfWcdz+UZbhN6GGaOU
+KLYgjkH7/Szs8Fl7+Qu2IYImSNDMFzaYrVQV8DttRjbGHajHHHDj73EHxADCXFXu
+9zh02iX1MWvLR27lAr8INlLVuQSwoloSqm5FCmmkaZHRG1GzhrhtTtYMDm/XB/4/
+fj1Q0uNDkoy0hBieu/qsXb/Q8tiBDj2FY1rC0ksAgX/cd6VHKunwUAWl8cCqE6Wn
+CjMLkq+4axSgdjp/46uzePRgD0RzdfdEo4bq/b8A4/Nw07Sxr0uzVybDodwdY4Sh
+aekBTPuTDDEKnY50M3WAlD52ONd1PNOQl5WfmTh+1X4S5b4jXE0=
+=mQGT
+-----END PGP SIGNATURE-----
+
+--=-CLWj+1c9T7wgjA6qpkHc--
 
