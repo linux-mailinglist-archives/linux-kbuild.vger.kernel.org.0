@@ -1,127 +1,123 @@
-Return-Path: <linux-kbuild+bounces-6190-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6191-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E64AA635AF
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 13:54:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63649A635FD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 15:09:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8979616EAF6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 12:54:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B16A1891895
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Mar 2025 14:09:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E31F786348;
-	Sun, 16 Mar 2025 12:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71CC55C603;
+	Sun, 16 Mar 2025 14:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzJ1ozKn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCtv1fGO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A581A3166;
-	Sun, 16 Mar 2025 12:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D54854673
+	for <linux-kbuild@vger.kernel.org>; Sun, 16 Mar 2025 14:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742129687; cv=none; b=ZxuiMdypxbs/nQPX0Jxx4td7FWOyrZ+pdwMq+44cxnwVGJ8bRIaenTH2vJPDADjgjU4QnwonXO33StdQ/SzA8uPi11bJjkWz01rxp4Mdwk/qDiOzvxXTyc+4xgOtYbnW1ZfjYDgaa+V4TC0oGQiEMyiYUrcqJF7PGaJgJDDWRxY=
+	t=1742134157; cv=none; b=JPldJDmyzf15iHrUBfGqEBYGaivwZ9zGxqRcNjbQ61XF4yZSOj3HH2xoLsbb4fDWPYNznprR4FWmvdzIGX3UjYovXLfXFvYQVw98ZDrjnjijOP3RNBxEV6EGjKG6pOWQna3zrqLnXV0XaYvZH1LPpF96ySw2kmUL+u0kM7cLC+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742129687; c=relaxed/simple;
-	bh=la8iWv4aKLDOW0r7llYW7xIb+W8ddGrURAKkkeCgcDE=;
+	s=arc-20240116; t=1742134157; c=relaxed/simple;
+	bh=wU+h1/mGkI0Ouvm0JG9pmOItT73sOENrMQWYhRMeZiY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rBzYuUnF0zwciAfol2TuLr5ae7KTemmsk6LnurUkY0+jrGi2rYrbJ3DBYmCoawDkL0jHm5ecssn+7crO7UB4DcuSl5Au2E0AwuDJSPn8zNfO2WNljVhMVW1EdR3IXypm+A598d0bAWeA3I35jK5MUPdCaMKoYezzFEyGg50sofI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzJ1ozKn; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30bae572157so36825201fa.3;
-        Sun, 16 Mar 2025 05:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742129683; x=1742734483; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m72Ysl4ko4hY5HZYX4qrB+VwpHKR3dQw5Vbh4xYJNfA=;
-        b=LzJ1ozKnTBK3Nuks3YCvLJW7/Z/EgJgIT+3DVVjlxG0cEo3AjIIqyITHuNZcgCvdNG
-         ckvoPbVH7s4LIV+Eb8W42Y0RmHfkOOQrgDG7eH4m5REbTCfONTLexr77qTPXjBT0X2uK
-         C8tNEWxvNiWNIIsL1FYCr1FVPeTbabcOsEzbqkCe/KofTBJlpObvczW5n8gCbQAqbXYA
-         ni1gAVBY6EiwWvYD8SUTOyyUTfnLnUSb/4byMTJOl+yJKGzzbtD7G6yDHRKR3cbannAI
-         tYpMNrEyuHng7ezK4ZbMPndMnNYgKyY8D3dwdt2H7fe+zUTSCZTfLKTIGtg/6rrjXJ51
-         eXuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742129683; x=1742734483;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m72Ysl4ko4hY5HZYX4qrB+VwpHKR3dQw5Vbh4xYJNfA=;
-        b=gv99bfCGwAGJvDkbgP26SE+bgfjfIlIBiWAk4lA7pto2km5SXytDRbzz2cgvIWVZg3
-         mortDva990284TCukzWVZqbC6UA6J9eujJxQe4UUmamZ5T6c2DwL3X6s59MxmqpFnyCK
-         +5fFqA9U0rURglxrQyNnG22fLpMebPbqf1SxJtW7AQVMeV/7wyLh7iZeLlMD5muGFGwy
-         f68WXrtx0UMsC9/vB/+Q81RmrfR2WmVJq3+ZHI0JirmOEr4NQyf80gEqxwXregLK4uE4
-         VzOnFI2esBGU7/vfYlZsbzRhxkBBzVAhEqx9DOWiAN5l9tXIhQ5sp/yjFkCaDdjn2uDS
-         p6Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2dhLCV85wGtXu3yEePIZK4bNWZvQxnPh7dq8U/gHcndt/CliEvlUUjNCUhshx37/KElPv/pI/LA98Vi4=@vger.kernel.org, AJvYcCV/U53Oo/PSiZEmtbzR/nK5raK8kyocbCWtZjLSLRFjh51qO/FpKtRt2ZmXOZssHRlNKuOkBpzypY5G@vger.kernel.org, AJvYcCV6pxQlOQzoiEB53tuH+MlSNik8GKAQmhyjRYJnDyqOkvuia3x6olG6EpTNdm30Q0ee3Nx6fHYUborDlkb5GUeQ@vger.kernel.org, AJvYcCVID1K3veLYfT7XuVDwnywSuxbs3rcH4z59WP4InNShqnwi9Fg2O3XHhJtBNUchF5uGoOf7ueITjqjcpYNN@vger.kernel.org, AJvYcCXLk2pifFd39Im7duj+7xtz+Y30iLga6qVyU+OYs5aEZlbO8AuCofT+v+SwiEOy6UgwmUzcxf+2MVf4@vger.kernel.org, AJvYcCXVfAkKd75cOvtRCJPaW3d+dGAwIFhMTlnppWRoWZwGOHtgG0v+Hzrjan2AVHTyIz+Fl223DGJbtyQWPsIOBXo=@vger.kernel.org, AJvYcCXaS39X6QebQQr7K6IGzJgLEY6n6/ZkKygkXmym4LPwBtbV2WYxj6aPMrhbJNNRBf2I5n/JVgYfh0LM2Mi2@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxy521CC1DqjXoztkQSjYqGM8frgwcgske38ps3FBv1OsbgBDDo
-	T7mTmhYAov8aq0WlPE9/Xe9hrn0BSLQFJn6S/ESvA+xGflocp8PtkAhwWLslq7hmQ7tKbprg49t
-	0C0cx5qUEeJQ0r+6rzjOFr0jtOPI=
-X-Gm-Gg: ASbGnctES8i5UEnZ4poeOrMM8Kk7QcpYB3zmDMCjL63nAD7esNbwhzWMEM1xx2kMDjD
-	5sAOwTdW2jpQ6bPSTyFk87z/rp/1jR07aVq2PFWX9TJW2nzmQGV2VfZyupIcwIww3qT6BbXhrtz
-	EqhoI01rDkxNgc2dnBzLsB+fxtVZzPYaCuZGFci2KuwmNIihMex9HpyKpy+lmF
-X-Google-Smtp-Source: AGHT+IE6iBXWS50nKSAYwo5FCXBdnhbNHVXtxORgs/RwlrM4JXF7GGDHtXE0EnpBEkJ1e6Y0/wbpMEdDeSo/iTCQCcY=
-X-Received: by 2002:a2e:a98e:0:b0:30b:d17b:269a with SMTP id
- 38308e7fff4ca-30c4a749070mr42282761fa.7.1742129682837; Sun, 16 Mar 2025
- 05:54:42 -0700 (PDT)
+	 To:Cc:Content-Type; b=a9J12ZfeGwH+QeGNhsRhYKWFDz8P1SnlENIWQNl+k5LHFJxb0WMaBTL9CxIliUlPAumoPRqQUBhkdoyHvIziSSIf60YYVWrGDapyI+t64G6wVH8Kj5SE6/E3XfyOYd7mgWU9Hx2TI2JH7nfdIaEJsrjHKoaDua+cntz27QzXmZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCtv1fGO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0724C4AF09
+	for <linux-kbuild@vger.kernel.org>; Sun, 16 Mar 2025 14:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742134156;
+	bh=wU+h1/mGkI0Ouvm0JG9pmOItT73sOENrMQWYhRMeZiY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kCtv1fGO9QNHVcZi4x4y4ImTAM6wE5nEJW5Ytru/5JP6QBhwBSy5H2qZREfy1MmMV
+	 p2cLPbYM4uaCqHWZIcFw9qZOioTjhvNvAujn3D7NmuqnheHk6G9fNgk2TKKYollVPz
+	 08ZD9V2oKFZrhbLe3fXZsW7XEjRK6tyrsr+PZH1FblLCqCGw+rjYauK0iK+ZC3kNr9
+	 D6XeoklWghUNNa2zFCWjbcasxtZ42FVsgRzq4WBRS5O+S7QGZKg8PphX99AMCGxqSG
+	 tEgGIeZvkooEC5/S4AXR99IaOVlyN310JR8FoORIaA08ImhZ8yvFMPnS2gKLAhAkJI
+	 XbX7aRSe1kkXg==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-549b159c84cso3585354e87.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 16 Mar 2025 07:09:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW8hj3mS4lXRatJ7ov5pmC+Tj7wAwmXVO9kSAZy1+ZV8HKD4rF3SSdvWExtfuRojsndK4VjailmKY9BOQ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQU218MC8Ax5nIgObo535OobhexPvL+cbsW07HXpclc5Th8XAd
+	1xfeCBHXV2nfsGoVAZg2iJ6Q5OCWHU15me2fT9ZWMQYYa+do03FSKovUu1uLTrm/0aiwo/4fLeG
+	hZcwMKi24eFggrDTEPLxVAJR4FJc=
+X-Google-Smtp-Source: AGHT+IFgNHoODEqrbgYbZjTrUA96HByHMipMHG1JH0Qy/JfS82gDVHqymv/IEyd2BapSAOqx+WW3C2rTJ1Fil2Vi9C8=
+X-Received: by 2002:a05:6512:1286:b0:545:10eb:1ab2 with SMTP id
+ 2adb3069b0e04-549c398d167mr3611216e87.33.1742134155097; Sun, 16 Mar 2025
+ 07:09:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250315-ptr-as-ptr-v4-0-b2d72c14dc26@gmail.com>
- <20250315-ptr-as-ptr-v4-6-b2d72c14dc26@gmail.com> <Z9ZbNY2XR10vt3Ro@Mac.home>
-In-Reply-To: <Z9ZbNY2XR10vt3Ro@Mac.home>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Sun, 16 Mar 2025 08:54:06 -0400
-X-Gm-Features: AQ5f1Jq4oEInzEsIP6AyCUxxntLRsaKIunWuOaZj1h8pyzZQkrJrV4gfLymNygE
-Message-ID: <CAJ-ks9ntUhnD2D1qUCosrKk2bEYHXFDLEanznpNn51d6CbD6aw@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] rust: use strict provenance APIs
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
-	devicetree@vger.kernel.org
+References: <202503161833.ytx1ivfu-lkp@intel.com>
+In-Reply-To: <202503161833.ytx1ivfu-lkp@intel.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Sun, 16 Mar 2025 15:09:04 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
+X-Gm-Features: AQ5f1JonePai-5_ejUylzciYQE_fCI-n5gOvfA2mN3w1Tt00Tosys_ftHKke75M
+Message-ID: <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
+Subject: Re: [masahiroy-kbuild:kbuild 25/35] FAILED cannot open vmlinux: No
+ such file or directory
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 16, 2025 at 1:01=E2=80=AFAM Boqun Feng <boqun.feng@gmail.com> w=
-rote:
+On Sun, 16 Mar 2025 at 11:20, kernel test robot <lkp@intel.com> wrote:
 >
-> On Sat, Mar 15, 2025 at 08:17:30AM -0400, Tamir Duberstein wrote:
-> [...]
-> > diff --git a/rust/kernel/of.rs b/rust/kernel/of.rs
-> > index 40d1bd13682c..f9459694cbdc 100644
-> > --- a/rust/kernel/of.rs
-> > +++ b/rust/kernel/of.rs
-> > @@ -22,7 +22,7 @@ unsafe impl RawDeviceId for DeviceId {
-> >      const DRIVER_DATA_OFFSET: usize =3D core::mem::offset_of!(bindings=
-::of_device_id, data);
-> >
-> >      fn index(&self) -> usize {
-> > -        self.0.data as usize
-> > +        crate::expose_provenance(self.0.data)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+> head:   e3de46f775ec29a17f671523798c28222a4ce818
+> commit: cac289e2b2b0909b52c0a694c4469a9ad9f03764 [25/35] kbuild: Create intermediate vmlinux build with relocations preserved
+> config: i386-buildonly-randconfig-001-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161833.ytx1ivfu-lkp@intel.com/config)
+> compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503161833.ytx1ivfu-lkp@intel.com/reproduce)
 >
-> Even though of_device_id::data was defined as `void *`, but in Rust we
-> use it to store index, see kernel::device_id::{IdTable::info(),
-> IdArray::new()}. Hence we should use self.0.data.addr() here.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503161833.ytx1ivfu-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> FAILED cannot open vmlinux: No such file or directory
+>
 
-Good point, thanks.
+We need the below - Masahiro, would you like me to send this is a
+follow-up patch?
+
+
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -185,7 +185,7 @@ cleanup()
+ {
+        rm -f .btf.*
+        rm -f System.map
+-       rm -f vmlinux
++       rm -f "${VMLINUX}"
+        rm -f vmlinux.map
+ }
+
+@@ -288,12 +288,12 @@ vmlinux_link "${VMLINUX}"
+
+ # fill in BTF IDs
+ if is_enabled CONFIG_DEBUG_INFO_BTF; then
+-       info BTFIDS vmlinux
++       info BTFIDS "${VMLINUX}"
+        RESOLVE_BTFIDS_ARGS=""
+        if is_enabled CONFIG_WERROR; then
+                RESOLVE_BTFIDS_ARGS=" --fatal_warnings "
+        fi
+-       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
++       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} "${VMLINUX}"
+ fi
+
+ mksysmap "${VMLINUX}" System.map
 
