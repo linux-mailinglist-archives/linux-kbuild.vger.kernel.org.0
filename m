@@ -1,150 +1,168 @@
-Return-Path: <linux-kbuild+bounces-6235-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6236-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253ADA673E3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 13:29:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DECC9A675FF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 15:10:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3D9D3AD80D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 12:29:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DA3D3B8B9C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 14:09:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC7120C03F;
-	Tue, 18 Mar 2025 12:29:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6475A20E039;
+	Tue, 18 Mar 2025 14:09:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zrZ7WPLp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsXGJRTZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BC520C03C
-	for <linux-kbuild@vger.kernel.org>; Tue, 18 Mar 2025 12:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C1920DD5C;
+	Tue, 18 Mar 2025 14:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742300965; cv=none; b=QdqErX2DFTWBtO+jY9cgckWWEWXuXH9nav1kltDkwtzpHHKNME8/lKnOHFnoE2rNCY8+Q8k/9AC2T5vQtH4HQHmJqMyza2ezsJsJP09f4NEVc/99yMpE+vwmiVCoccqMMiEfF2eAzabFdp9n+cndVpE/VkPOFWuyjbyxf1IbzMI=
+	t=1742306958; cv=none; b=QIaLGfggaD/iwpJOB5I0/hwtyi6/08d5ewoSxMCNbkInOYZIVB3+A3AQsbvSleas1B3Ga8/JfkWh5J/mreW/nflxOFtN779klEI5UYk5KSWKXN5toAtwlMa9RXp3zycrOk2QvGmgdr9GbVRz2vv4vI1B8fYbX0xFOeYkIn5B2wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742300965; c=relaxed/simple;
-	bh=uZRIezSswVRQdoQoNwW4Q2XSahT1LKLGtDiBt3hrg0o=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nH7B4c0MTVQoavGjnFINp05RN4Bndrm40qEv7RoAmSNfBAcxt0gOG3hj+FAGMmrSogIYjJ5nIjrFfcUkxbHfwKjPI6zq8RyH2DoThBeEgANoeTYQkt4zQxCFc5RgRvL6Ee0UNItuKpBX2GqJ/bYSILoixbVU8RpUW6iAJfZE0C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zrZ7WPLp; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-43d0830c3f7so28110305e9.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Mar 2025 05:29:23 -0700 (PDT)
+	s=arc-20240116; t=1742306958; c=relaxed/simple;
+	bh=FPLOeGmswPNA6gj/GxUZMLB4rXeT/EXYqMBZlMgddeM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SabyosLE6mcybPemIlFbzzW8sT3rFILodadHfqlOnktcTVawSlcR7Zg6Wvm5o5DiEWIiSrZAt+dTtAUgUzVVj+kp7SNzMPVCX1k82v277DsWFhi/4uTs0m13u0Rw8FhF377wsS2djYhxzphvY0kmtwMl/0fMLZjhEymXsZn/4/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NsXGJRTZ; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30beedb99c9so51477071fa.3;
+        Tue, 18 Mar 2025 07:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1742300962; x=1742905762; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/4uc8oPSchxzVAiGTdez6IXx9stCzB5Vsutmi4LBJv0=;
-        b=zrZ7WPLprDfFC8OnWq1nuAuLdF1rZ/sbdlPk2AZSSfhBgH5s9j1ppfj3rYyyZm+vEm
-         oc94VmJ5XQ15KMR5hxuciuU/Rz4Qc1ThgEJNgAB5gJx/aTWW7ake86GJr12Emz/BBdHd
-         RG1zl3V7T9NI9dPw9j3RZtsKHxdDgFtwvw40ksa2x2mWtqnA2OTd65TjqOij71K/s1MB
-         HqL+w7t+levlmsuLI/BIqHwHqFOrUdj2lJsTg3nn2V60pkm51o/0Vh/cGBqq3vsOTfmx
-         xlFswVwBCMh9PhIqarCLGc5QKgq/Z1DeHoM1h4rGd0FeKX8QnSNWN6F6lIs4S74EPghY
-         Bftw==
+        d=gmail.com; s=20230601; t=1742306954; x=1742911754; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XR3QmdTlX82CLNbiCjBnydKIXsFQoeJ3c+u1awJ7NeY=;
+        b=NsXGJRTZGEg2AC/EzaTj9CA8WlTV1eDmbGE4dObHLPTKxcLmR7NAcy8pzuW2KE2xjv
+         GPdyEvHMKHFVrqYgFT2wMbjQyIeMC3+jeImh37NY16KDEUdYslnCEv3EYPHcBBrUZ5G8
+         X9L2OQCIjK6Blyov+YnutOuOjUjoZGGe1FVg2U6QcLEVe8peDBidLNq0lO9CVQ75iU6x
+         zjz4iYokGP6MrPxeSIUvo4YYNVlDqV1BXkwHz+6Fq+8NF+2t4J5tCczFUEV8V/2GgRQT
+         25q86K9ad6zhumVpZOaKZe5ePxyHgANHPHvyEDnbbHO76pxjq9CmmQvV3fkQAtCPnX7e
+         NQ0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742300962; x=1742905762;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/4uc8oPSchxzVAiGTdez6IXx9stCzB5Vsutmi4LBJv0=;
-        b=fXHYNi7YLKXiiHSHumOGqCM11tB/fAGK24sF2AAaRVU2cUYfhiTjcvJRXh+L42JPTC
-         1WEpkRrjI5LXyfQbBcIW2clKqJ5P1dtVLnBhlYHJ4B5j9kD8mQWKqJ1Whc6n14IMjhMj
-         7Wj7FCJhGDJts8R/WZvv68VoH0EVIpAh4F2/2GPV6yOx57ZUAa5cOb7bwkwB0jrv8TR5
-         D5b+HZjjIOe7TFUuUfPneypMVSkrc0izyO6Y1bzUWQyrMtijMbe5HCLoil2frPKo2/NE
-         tVBLf//aFAGxXJIIJbA0dz6l0g7XEQ1epeM5+Gl3mP0XB6IbqSExZjZM1PlzhX0scrlw
-         fzVg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/f4tQBT++Oc5G0Yk6rf0QTDvbxMIzRNQWIuFoWI2eQYgD9GVDQnARnAhhjHybNMoui3dHPRKBBvGg12o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymrkVsrgiZbHk/IFx5cxuGGqOhLBvVBRx3zLA5OimgVYnDbcQq
-	Te8rBX3fGo1MVu9+amcuXkDR8wT3zJ5YPn3YND0icBmdIP1nS4cqsbWqLrVemhmhL8UXA+hMDgV
-	5WIWV4eROq+JP9w==
-X-Google-Smtp-Source: AGHT+IHTdWcjIEfhg6CLJJR2Oh32b985bMj+lx8iegeOAnBxJWcU7FmV4nt7+fy40gQUf7LkXWpBlfKNqoAPp/E=
-X-Received: from wmbep22.prod.google.com ([2002:a05:600c:8416:b0:43b:c9cc:b9b3])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:490a:b0:43c:f64c:447f with SMTP id 5b1f17b1804b1-43d3ca66b73mr14926245e9.29.1742300961982;
- Tue, 18 Mar 2025 05:29:21 -0700 (PDT)
-Date: Tue, 18 Mar 2025 12:29:20 +0000
-In-Reply-To: <20250317-ptr-as-ptr-v5-6-5b5f21fa230a@gmail.com>
+        d=1e100.net; s=20230601; t=1742306954; x=1742911754;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XR3QmdTlX82CLNbiCjBnydKIXsFQoeJ3c+u1awJ7NeY=;
+        b=hLScdTO7YEuJ0TjEdd84CQpOVuPJvObG9g1IDhrMVml2PElwcBClEeHB/31rGZaB9l
+         czh5WuSxTk5yVYbRH5LJtqNMf7TgDMa9zReIMVa8R/zHXcY79lFvDvcqW/d/gjp5lwni
+         JoRs5w8vDrM9tTC+fJg64T4LoIreC9ZN7bAztjtBF0KXKtZCxy1QU8erPGqdFu2yfJtO
+         8ofKXn7OBobWtBxG2HAb81N8dhrOje3yjenfKfgz+KVN+P1Gz/dQtPQoI7qW7RRD2UQS
+         z1S+11r0uHnTLUw8sdHZQ856r7tRFImADAkfjINOBsy91WF+VeGJxsyfHQptOpqC5dYr
+         AGGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUB9LvThrVVfn4mPoVmvnOLeIPqDxKGPB/2pZesJwnckost+PGovH8CxJZaHRNWrN8G3d1bpBXM7Xh/QWJD@vger.kernel.org, AJvYcCUKQ+VMiNOltvB0v58jU8x0ZD+Bk7VR4lBQkgG6wRGmxtzuRD7moPyyAKsjiYbnkSOJiP7NtI/t/PuvbW8MJ1en@vger.kernel.org, AJvYcCUPpVKEjIIcl8+791LucEBdnVSPScZnGCd6y+H9rstFwUFrpvu7QzHhBHqhiZXBPpPqgnOeLeq3Ax6Y@vger.kernel.org, AJvYcCUXzSEaGpE7dsBHRlmDLvBMtIdNGOv5GuYyV21oOtju/tA49ppqGSlgUgUXdSFy1snZqiOcJ81EXdTP8oo=@vger.kernel.org, AJvYcCWz4g0l/YRc9QogetayS3RMaAB1xW3gfhG2FgxgYpXjlhD+i/K85pI5pYkHHOhy5nY/TbSox8zN7wxZoyIP@vger.kernel.org, AJvYcCX07O0yWFsq//bgpA1DezHsZLIWrq02qYIsH+gMCiWdGuQiEuRLD34lvzNa5Mh35BI+eUW8RelGkobL@vger.kernel.org, AJvYcCX6kD+rK23Gl4WOLRUsmvp5eyuO1Dh0SDOyHf1HcnkbmDfdNZbxa6yAzod4weKF1dXjDD/4GQkLo12Xye2Hfsk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxC9ldYRsW83v3Y7OQAJyjPCqjeJL/yi0iiTxLkn3rJhOikWo2l
+	3BdaBpiOkcWUl15y3XWxCpARL5FQ2gMyk3CInlbFWE2afiNVrMprd07KkC+LLOyYUpNQRmVIlwg
+	8mGwWD3nuXe1Ql01ueTsYKlmZwW8=
+X-Gm-Gg: ASbGnctFV/jwijM7RM158Lit/ZX4wEn+1R5oN65cc0uzmXHm1PqKaYPRpjQR5cssEhe
+	SJg0Y24LMqgSTmrOCE0cwRiYI+5Aiw47464Z81XEMCr3BeH2WE2Ef6J0XoJlVw720VBeBCQbvt0
+	fgL5IttFxQdEaCw79F07+12vaU3oNQ01P1Acgm3u8EhA==
+X-Google-Smtp-Source: AGHT+IFxpjLk/MoadRODdmp6sMkrXqEk5zu/R6whmoxUeanggxj1j1wQ9JCQLIxNBupqBoSdrmyU8Q9aU/YaFrU7328=
+X-Received: by 2002:a2e:bd09:0:b0:30c:160b:c76c with SMTP id
+ 38308e7fff4ca-30c9755de18mr33340731fa.17.1742306953725; Tue, 18 Mar 2025
+ 07:09:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250317-ptr-as-ptr-v5-0-5b5f21fa230a@gmail.com> <20250317-ptr-as-ptr-v5-6-5b5f21fa230a@gmail.com>
-Message-ID: <Z9lnIJCcVSza6UVo@google.com>
+MIME-Version: 1.0
+References: <20250317-ptr-as-ptr-v5-0-5b5f21fa230a@gmail.com>
+ <20250317-ptr-as-ptr-v5-6-5b5f21fa230a@gmail.com> <Z9lnIJCcVSza6UVo@google.com>
+In-Reply-To: <Z9lnIJCcVSza6UVo@google.com>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Tue, 18 Mar 2025 10:08:37 -0400
+X-Gm-Features: AQ5f1JqOYVk7nD9z0cLpiPEdxTeWINnN4TjRzqE0nN_LBkIs9bu7CUDTA0sD4FE
+Message-ID: <CAJ-ks9k5XZUN_vuH648rr6-e+v0my_dR2zo+986rzx+A5ZLxng@mail.gmail.com>
 Subject: Re: [PATCH v5 6/6] rust: use strict provenance APIs
-From: Alice Ryhl <aliceryhl@google.com>
-To: Tamir Duberstein <tamird@gmail.com>
+To: Alice Ryhl <aliceryhl@google.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
 	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
 	Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
 	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
 	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
 	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 17, 2025 at 10:23:56AM -0400, Tamir Duberstein wrote:
-> Throughout the tree, use the strict provenance APIs stabilized in Rust
-> 1.84.0[1]. Retain backwards-compatibility by introducing forwarding
-> functions at the `kernel` crate root along with polyfills for rustc <
-> 1.84.0.
-> 
-> Use `#[allow(clippy::incompatible_msrv)]` to avoid warnings on rustc <
-> 1.84.0 as our MSRV is 1.78.0.
-> 
-> In the `kernel` crate, enable the strict provenance lints on rustc >=
-> 1.84.0; do this in `lib.rs` rather than `Makefile` to avoid introducing
-> compiler flags that are dependent on the rustc version in use.
-> 
-> Link: https://blog.rust-lang.org/2025/01/09/Rust-1.84.0.html#strict-provenance-apis [1]
-> Suggested-by: Benno Lossin <benno.lossin@proton.me>
-> Link: https://lore.kernel.org/all/D8EIXDMRXMJP.36TFCGWZBRS3Y@proton.me/
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+On Tue, Mar 18, 2025 at 8:29=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> w=
+rote:
+>
+> On Mon, Mar 17, 2025 at 10:23:56AM -0400, Tamir Duberstein wrote:
+> > Throughout the tree, use the strict provenance APIs stabilized in Rust
+> > 1.84.0[1]. Retain backwards-compatibility by introducing forwarding
+> > functions at the `kernel` crate root along with polyfills for rustc <
+> > 1.84.0.
+> >
+> > Use `#[allow(clippy::incompatible_msrv)]` to avoid warnings on rustc <
+> > 1.84.0 as our MSRV is 1.78.0.
+> >
+> > In the `kernel` crate, enable the strict provenance lints on rustc >=3D
+> > 1.84.0; do this in `lib.rs` rather than `Makefile` to avoid introducing
+> > compiler flags that are dependent on the rustc version in use.
+> >
+> > Link: https://blog.rust-lang.org/2025/01/09/Rust-1.84.0.html#strict-pro=
+venance-apis [1]
+> > Suggested-by: Benno Lossin <benno.lossin@proton.me>
+> > Link: https://lore.kernel.org/all/D8EIXDMRXMJP.36TFCGWZBRS3Y@proton.me/
+> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+>
+> I'm not convinced that the pros of this change outweigh the cons. I
+> think this is going to be too confusing for the C developers who look at
+> this code.
+>
+> > diff --git a/rust/kernel/uaccess.rs b/rust/kernel/uaccess.rs
+> > index 719b0a48ff55..96393bcf6bd7 100644
+> > --- a/rust/kernel/uaccess.rs
+> > +++ b/rust/kernel/uaccess.rs
+> > @@ -226,7 +226,9 @@ pub fn read_raw(&mut self, out: &mut [MaybeUninit<u=
+8>]) -> Result {
+> >          }
+> >          // SAFETY: `out_ptr` points into a mutable slice of length `le=
+n`, so we may write
+> >          // that many bytes to it.
+> > -        let res =3D unsafe { bindings::copy_from_user(out_ptr, self.pt=
+r as *const c_void, len) };
+> > +        let res =3D unsafe {
+> > +            bindings::copy_from_user(out_ptr, crate::with_exposed_prov=
+enance(self.ptr), len)
+> > +        };
+> >          if res !=3D 0 {
+> >              return Err(EFAULT);
+> >          }
+> > @@ -264,7 +266,7 @@ pub fn read<T: FromBytes>(&mut self) -> Result<T> {
+> >          let res =3D unsafe {
+> >              bindings::_copy_from_user(
+> >                  out.as_mut_ptr().cast::<c_void>(),
+> > -                self.ptr as *const c_void,
+> > +                crate::with_exposed_provenance(self.ptr),
+> >                  len,
+> >              )
+> >          };
+>
+> That's especially true for cases like this. These are userspace pointers
+> that are never dereferenced. It's not useful to care about provenance
+> here.
+>
+> Alice
 
-I'm not convinced that the pros of this change outweigh the cons. I
-think this is going to be too confusing for the C developers who look at
-this code.
-
-> diff --git a/rust/kernel/uaccess.rs b/rust/kernel/uaccess.rs
-> index 719b0a48ff55..96393bcf6bd7 100644
-> --- a/rust/kernel/uaccess.rs
-> +++ b/rust/kernel/uaccess.rs
-> @@ -226,7 +226,9 @@ pub fn read_raw(&mut self, out: &mut [MaybeUninit<u8>]) -> Result {
->          }
->          // SAFETY: `out_ptr` points into a mutable slice of length `len`, so we may write
->          // that many bytes to it.
-> -        let res = unsafe { bindings::copy_from_user(out_ptr, self.ptr as *const c_void, len) };
-> +        let res = unsafe {
-> +            bindings::copy_from_user(out_ptr, crate::with_exposed_provenance(self.ptr), len)
-> +        };
->          if res != 0 {
->              return Err(EFAULT);
->          }
-> @@ -264,7 +266,7 @@ pub fn read<T: FromBytes>(&mut self) -> Result<T> {
->          let res = unsafe {
->              bindings::_copy_from_user(
->                  out.as_mut_ptr().cast::<c_void>(),
-> -                self.ptr as *const c_void,
-> +                crate::with_exposed_provenance(self.ptr),
->                  len,
->              )
->          };
-
-That's especially true for cases like this. These are userspace pointers
-that are never dereferenced. It's not useful to care about provenance
-here.
-
-Alice
+Let's just drop this last patch. It can be revisited later or not at
+all. Perhaps in the future I need to be more willing to say no to
+scope creep.
 
