@@ -1,129 +1,198 @@
-Return-Path: <linux-kbuild+bounces-6231-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6232-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B31A66406
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 01:42:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 140E1A66DE4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 09:18:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0444718961D7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 00:42:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 29E61188C66C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Mar 2025 08:18:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 903AA29D05;
-	Tue, 18 Mar 2025 00:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF971EFFAB;
+	Tue, 18 Mar 2025 08:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qw7StJyc"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CmzPNPa8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0130D528;
-	Tue, 18 Mar 2025 00:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794BF1E98F8;
+	Tue, 18 Mar 2025 08:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742258528; cv=none; b=qX6ghlp4UZ9MRc3uChxEPMfvJxhvyAo3R1cWu6s37wt+EJh/F6Qzvy6UGL/+Rmio/HNhjMNH5nMlC1mKgNTFMYhSRIn7A93wuxrLzjwz769R9BxlpC64pbRZqERAiHRxNpf1atvJX3DJc7mdCS7VQiJRkwblOxNRbG06A/9FYY8=
+	t=1742285898; cv=none; b=bkbFxOha/azGTsRj5RJ5pBkRzinqRBd3Tc5YIRnzn4qE+ukQ9zPsLEszd5cB303VaGp/aTdd8jU0H7o9BZREl5eVMrzTxF+Enxrx3flTAgdJgX7GEjkhVQBTBbI2JvPZ+8bb1Q8wjdeuzyMtcHTm+uHEQA8v3kkf98lktKmqq1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742258528; c=relaxed/simple;
-	bh=PgzC/F33BYAA53t0eSb8TLPna6imarmpm+vWugeqXCY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dzdwmsK40zrzZvBlTHMQ8tvKvCnGciukIoHtyeAM9KoJOKit5lh0rQXiz14FLJKxOElEK3k183lq+Uy/7uG0YkQCBRW3xwZegBnDAZv0V4u35hp6f0rrdwRL1ta7ByXmikgNdgRa2lQF+V8LhN02MpD3sBzF8d1xZMXpRBqMoNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qw7StJyc; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30795988ebeso52112181fa.3;
-        Mon, 17 Mar 2025 17:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742258525; x=1742863325; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B7IfKOPhAlS//llZDZ8iu5ShHju61/9HzEhonjMXx+s=;
-        b=Qw7StJycBI7mWjgQpc6ky6N7gIAmD3ev7RIaMuDfW7ioBGCk4pWfFo+tGqnCYIy6Ax
-         Ijh+TWl/48z78hJ6QfsHpPZ9lzWZFTNPqpw5AGGECHVsDwVvPxa7otrcO+8sfh5JWiyP
-         5xSHz9KjTKQNU9ZoZpsGWzpfdbOjhO+O42dV/n/HqKtKB6HmccORC/XHZX2dvmNjU/6v
-         jh6ZZK+t6urhPGu7tq9Sjq+xjwKqXXPpwJ7gdheUyO/WC0ZhLL/x90I8svKkVrnHYsw1
-         HDeCyYCQ0yQf1iFJZwpNGmlERbxzxPRsULqix160gxkrzMxvFffSsM45R6cx+miDy/j0
-         0DAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742258525; x=1742863325;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B7IfKOPhAlS//llZDZ8iu5ShHju61/9HzEhonjMXx+s=;
-        b=Qm4e3bQpi4U/4T5QC8EjrqzIEZF4JjiIV4x3XBB+dp6YODxv14NWfubFQdyapFFGEg
-         36AU7+cXeJYpSrpw9kioh9CEo+eplZ0j9E9N8mowKzljr5tyrKBvX8iOmIN9JKHp9GXW
-         djBgRGdbTJSDMUW/LtXp+ZPr+ussc2YvWsiz6G/X3WVuw/qbeUrFsr68JnXrnAVTRzNp
-         Aoi+/HcbAmIsNkh1XwMJoBpLvmcO7mRMifBA1BbqhAsi/oXmVVa1tpYMUyI7TLpn9zJg
-         ARzOWIRjty5uxykf+D2txuWd9o7b6vAi3+7vuF+3mBEc4HEGcQu9WLTeH08rzmrF8sr8
-         fUBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUO5KwCEsYD35cZzdIQNEbwZa78SS+Ra/obJt0ERJ+2j9+P8QwCJ3FGQByuXKcrJA+I52nW5kdWzcuLtqMm@vger.kernel.org, AJvYcCVYkMozWUZk1m2CFAfIKdU/Vnp+2InnFolnwHc0QE3+5zDDcVIHjzAnhZx2ZvqHYN+RJu6q69qa1OadYQpAoq0=@vger.kernel.org, AJvYcCVtR64EvI8P7O5FNn8SyHjhjyM4M4YY5zZDAT38VOwj2xMLOXsf9FOiTN8OQJo6sHbpvCj5GRwB76Iuues=@vger.kernel.org, AJvYcCW0lxuQpcVrCWASUtPxhf3fnpkvtKzdn2PJwKNbvD1P5BYJgkKDVGQWzwheZcgpwrCRPSvUoXmjhBPlfPkDIzY8@vger.kernel.org, AJvYcCWATtWO76muUPyfGFgwi+FYoDC/yTDVBan9CZY9AzZOeQDlyn+5ze5eotmbNvkuoIqocCsqvcsV7i7tTRdL@vger.kernel.org, AJvYcCXah9vW6lD6Jp4QqbooTx8HeSNtPHNRDldHHjeuWOJMrGZiAEQa7XFBLasD0ng8uEbxa/iZNTXLTzVl@vger.kernel.org, AJvYcCXo2tst5mLk8G+JHcoiysN9la+s9zLuTiChJq8ldYOKYcUkJjjr1YED4KkVQIM2p0g8pFXP/BP3rE+b@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/3sw9BkEf8Y9pqIRm3jTqAe5mo5WNOKpn22MR671ajjjSsFXO
-	HyafM8WxMdqjh8HArlksxQZkIn0yneZwPEyfOloHNJU9TQZOomm6xcyCc4JCHXp35K+KutIFxq1
-	PfYPbdwtQE1gySoWEgCIalvHHejA=
-X-Gm-Gg: ASbGncsy+cQC59TxL2XQIcvGv2hPBqB8DkaUOFnnreIjGAq5oUcH5JheOtfZZ+eVUeR
-	0inYcDaThjbvsrcJrQqlQjxStCA04qcnchqP478zrj32rmG/G1W/bAGdkSBXL6w5rV9Mf2d6BHZ
-	tuBhBVhhCM38wz9wlLoxpg28M2/wNp3II5lrTcNDeoXkQ5jll6rQUtLSDmI0N+LToDND9Repk=
-X-Google-Smtp-Source: AGHT+IF5vCiDQ8UvKh1Yne26mi3NIgR+bYUhG99rsvoK4CRqZFLHBICrHc5mvPXVOh74lH0hTvVBsz+mo/B6+Mv42Wo=
-X-Received: by 2002:a05:651c:2108:b0:300:5c57:526b with SMTP id
- 38308e7fff4ca-30c4a861dc9mr89186201fa.11.1742258524555; Mon, 17 Mar 2025
- 17:42:04 -0700 (PDT)
+	s=arc-20240116; t=1742285898; c=relaxed/simple;
+	bh=t04MAH+UhhpC0J5z8qiHct9TTh5qM5An2PgxUxXai5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TYUTvd370f+ARsZUgYFV1fJO09OOxoem0mSuKnfXqcMNVqeKWKdBl03Xz8WX2H+imYG7ivU57g3Ay9onTmjUB/4scO5FqBpr9DrclyTLQqR9SaCquFLABMepbdlrOQFUtIfUo1OHmAvhgi046YXRG3gqrBYWAib2HasJ9JGuddE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CmzPNPa8; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I0ZVnc022169;
+	Tue, 18 Mar 2025 08:18:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Bnc9Gc
+	ntkEuPFQxxhHvkX3kp/NDGrPSgZwjvt8T+kPo=; b=CmzPNPa8bXgPdnSIy8vBa+
+	l3BJHrplLjQldScjk3Hk/KnRybThKgj7hZlztyJqd0mY7cgWSHC0E8epUND2Pv+I
+	3ttb0E08+19Es7Xi7A8rB3liOBK2wDQD68WEJ2HbSdRMrwDNWxaDoSeDswR9eoKA
+	s8vJY/UeHUSe0S++hQo0FiCXvMSBFmCwM2hNyYFxMzCxs2lk3TrfC9EYY6YW/+w0
+	zbukag+uRafgUxyABhXwmg4Q2yVrlPREh2nM0lRxd6KuByegSy6vqOkOA9oUsEoR
+	Ytq2veLsormhBn0Qr8jdr0Cw+Y1h9GzDsFc9vSWMzoqgsFlAWDWhvdztCNE5+tgA
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45eks9cvfk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 08:18:01 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52I8B4Gs027486;
+	Tue, 18 Mar 2025 08:18:00 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45eks9cvff-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 08:18:00 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52I79v91012347;
+	Tue, 18 Mar 2025 08:17:59 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45dmvntsg0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 08:17:59 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52I8HtLw55640324
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Mar 2025 08:17:55 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 890132004D;
+	Tue, 18 Mar 2025 08:17:55 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5A38420043;
+	Tue, 18 Mar 2025 08:17:55 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.60])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 18 Mar 2025 08:17:55 +0000 (GMT)
+Date: Tue, 18 Mar 2025 09:17:53 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, kernel test robot <lkp@intel.com>,
+        Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        Ingo Molnar <mingo@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
+        linux-next@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with
+ relocations preserved
+Message-ID: <20250318081753.8448Abd-hca@linux.ibm.com>
+References: <20250311110616.148682-9-ardb+git@google.com>
+ <202503131715.Fb6CfjhT-lkp@intel.com>
+ <CAMj1kXGBLV6W7mJcELmsQuDUi0u-DofyD985znmVoHoZKZTuxA@mail.gmail.com>
+ <CAMj1kXEZccymq1OhXErSK+prS3L7sygm7_5_1v+j2cypncQuzA@mail.gmail.com>
+ <CAK7LNAT_NRio2pkR1Km5Nq8KM38zYF7VCoGP0OjEP_Owg-ukpQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <67d864b2.0c0a0220.39fb6f.4df4@mx.google.com> <CAJ-ks9n8mwt5q9unqfkfSHj9=ELJHtqsXM-xQ8jsbXeJX6Uyfg@mail.gmail.com>
- <67d8671d.050a0220.3305ab.6372@mx.google.com> <CAJ-ks9=uHjJrzM0ruvm4v4wr8LygRMP-1orWBy_9OiNNeQr0ow@mail.gmail.com>
- <CAJ-ks9=Qcmvbm=YGJ=jrX_+YdMsftk=FAimszYZB1OUuV4diZw@mail.gmail.com>
- <67d885ff.0c0a0220.111215.5644@mx.google.com> <CAJ-ks9kYB1b4XsQcFb=NScPq+R+13U+Sv-6opi-yp6=ZjuLD_g@mail.gmail.com>
- <67d88a1d.050a0220.2cdacf.4adf@mx.google.com> <CAJ-ks9kg4Br=56HT7T5sWpoMKhRqT_2x+cpQAWoyrEG3qyqQ6Q@mail.gmail.com>
- <67d895cc.050a0220.99d33.5adc@mx.google.com> <67d8ba3e.050a0220.39b3b5.753c@mx.google.com>
-In-Reply-To: <67d8ba3e.050a0220.39b3b5.753c@mx.google.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Mon, 17 Mar 2025 20:41:28 -0400
-X-Gm-Features: AQ5f1JoEGp_5o1WcOYKQ7KQIGBB5nqYglySnTY7b-xENR_n0SAcUGZzOBrzhgus
-Message-ID: <CAJ-ks9n57P=NnMAAvLr9dnZhs2zT8cvD_gdLkSmnFtSQR4b-Jw@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] rust: use strict provenance APIs
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAT_NRio2pkR1Km5Nq8KM38zYF7VCoGP0OjEP_Owg-ukpQ@mail.gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: CTVFYbQKTgOn8pGuvcVrtpB-AeXhCMnM
+X-Proofpoint-ORIG-GUID: t44MaBqoh1vpfI3A1JPRgvZrlaqjnX3B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-18_03,2025-03-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 clxscore=1011 spamscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 phishscore=0 impostorscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503180056
 
-On Mon, Mar 17, 2025 at 8:11=E2=80=AFPM Boqun Feng <boqun.feng@gmail.com> w=
-rote:
->
-> diff --git a/scripts/rustdoc_test_gen.rs b/scripts/rustdoc_test_gen.rs
-> index 036635fb1621..331ed32adc35 100644
-> --- a/scripts/rustdoc_test_gen.rs
-> +++ b/scripts/rustdoc_test_gen.rs
-> @@ -224,6 +224,8 @@ macro_rules! assert_eq {{
->          BufWriter::new(File::create("rust/doctests_kernel_generated.rs")=
-.unwrap()),
->          r#"//! `kernel` crate documentation tests.
->
-> +#![allow(clippy::incompatible_msrv)]
+On Thu, Mar 13, 2025 at 07:29:41PM +0900, Masahiro Yamada wrote:
+> On Thu, Mar 13, 2025 at 7:18 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> > On Thu, 13 Mar 2025 at 10:34, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > On Thu, 13 Mar 2025 at 10:21, kernel test robot <lkp@intel.com> wrote:
+> > > > kernel test robot noticed the following build errors:
+> > > >
+> > > > [auto build test ERROR on masahiroy-kbuild/for-next]
+> > > > [also build test ERROR on masahiroy-kbuild/fixes tip/x86/core s390/features linus/master v6.14-rc6 next-20250312]
+> > > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > > And when submitting patch, we suggest to use '--base' as documented in
+> > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > >
+> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/Kbuild-link-vmlinux-sh-Make-output-file-name-configurable/20250311-190926
+> > > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+> > > > patch link:    https://lore.kernel.org/r/20250311110616.148682-9-ardb%2Bgit%40google.com
+> > > > patch subject: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with relocations preserved
+> > > > config: x86_64-randconfig-076-20250313 (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/config)
+> > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/reproduce)
+> > > >
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202503131715.Fb6CfjhT-lkp@intel.com/
+> > > >
+> > > > All errors (new ones prefixed by >>):
+> > > >
+> > > > >> gawk: scripts/generate_builtin_ranges.awk:82: fatal: cannot open file `vmlinux.map' for reading: No such file or directory
+> > > >
+> > >
+> > > Hmm it seems I missed some things in link-vmlinux.sh - I will take a look.
+> >
+> > We'd need something like the below applied on top - shall I send a v3?
+> 
+> I will insert this before you patch set.
+> https://lore.kernel.org/linux-kbuild/20250313102604.1491732-1-masahiroy@kernel.org/T/#u
+...
+> > --- a/scripts/link-vmlinux.sh
+> > +++ b/scripts/link-vmlinux.sh
+...
+> > -vmlinux_link "${VMLINUX}"
+> > +vmlinux_link "${VMLINUX}" vmlinux.map
+> >
+> >  # fill in BTF IDs
+> >  if is_enabled CONFIG_DEBUG_INFO_BTF; then
 
-Ah, this is the reason this works for you (and the one in the kernel
-root). When I said it didn't work, I was referring to not being able
-to convincingly avoid these lints without disabling the check
-altogether. Let's see what Miguel thinks. I agree that the options
-are: extension trait + stubs/reexports + suppressing
-`incompatible_msrv` or just dropping the last patch until MSRV bump.
+Building linux-next breaks on s390 with DEBUG_INFO_BTF enabled because
+of this; just where your addon patch ends:
+
+  LD      vmlinux.unstripped
+  BTFIDS  vmlinux
+FAILED cannot open vmlinux: No such file or directory
+make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux.unstripped] Error 255
+make[2]: *** Deleting file 'vmlinux.unstripped'
+make[1]: *** [/home/builder/linux-next/Makefile:1239: vmlinux] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+I guess _something_ like below is needed to fix this (works for
+me(tm)):
+
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 4949d0c8c267..51367c2bfc21 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -286,12 +286,12 @@ vmlinux_link "${VMLINUX}"
+ 
+ # fill in BTF IDs
+ if is_enabled CONFIG_DEBUG_INFO_BTF; then
+-	info BTFIDS vmlinux
++	info BTFIDS "${VMLINUX}"
+ 	RESOLVE_BTFIDS_ARGS=""
+ 	if is_enabled CONFIG_WERROR; then
+ 		RESOLVE_BTFIDS_ARGS=" --fatal_warnings "
+ 	fi
+-	${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
++	${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} "${VMLINUX}"
+ fi
+ 
+ mksysmap "${VMLINUX}" System.map
 
