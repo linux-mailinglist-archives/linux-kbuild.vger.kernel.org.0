@@ -1,109 +1,200 @@
-Return-Path: <linux-kbuild+bounces-6258-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6259-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5B1A6A1E2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 09:54:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B48A6A39C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 11:27:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC45F1893B0D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 08:54:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75D3816EEB7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 10:27:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2982121ABA2;
-	Thu, 20 Mar 2025 08:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31EF1224884;
+	Thu, 20 Mar 2025 10:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJAl2gYF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JhsvhQfJ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED79A215162;
-	Thu, 20 Mar 2025 08:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38F2224253;
+	Thu, 20 Mar 2025 10:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742460854; cv=none; b=K4UX5W4RpouqPD3bvBPtqH4rjQEqVfMRgKJa276nzF+mtpovdmQOFqH4XCyJuzrVNLfO4amPtCjZWCwd+Qe6ojCK+V2m7aS/jCdLb2g7LAYOF1YxVtBihWjwLFGorovm66LYb/SA58gYU5Wm9FBtOdOYG/3Nz8ELo23BIpRfHcc=
+	t=1742466414; cv=none; b=OyXLbVgttAHRI952fjUsdwUapRfe7VDlQgt/TGkqZ9ewZmGEeZ3xgbpfX4FhfIR+CDoIc60qtWlY2CqvOii9FJOgjDEE5ipz9+boS7pjSiLH1S6cN3n3OBrZ3WQ1q1WrVrlt1EreVZ8tx1IHQHljLt0LCwBOL7U+9UbO30weutI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742460854; c=relaxed/simple;
-	bh=F55ugxVH5lNvnYmcUAixAJ8y/QoIFHaC+YlixKioZyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XCua+9yx25WLiB+9trNgm48bM2TcPf5ZRurBKGXYwMJs6LM4+CjqioQC6BVJSc4o1Oi3yNsPMLo3WY69m+cauKAfvgo4fjSF/IPYwsMPaMZCrYA+81lJjoTauM2HT2UjJ7OK2io8r1QyZgfInEjJwYTrqRZoy4tHaEYAC8XfVY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJAl2gYF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDFEDC4CEDD;
-	Thu, 20 Mar 2025 08:54:12 +0000 (UTC)
+	s=arc-20240116; t=1742466414; c=relaxed/simple;
+	bh=2INiMlEgtKjR+OIVK8ORlyTWDnWHNjO8BiiHuQYIXlU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HNTkT4qNAB4WfO5S+XDnAsH6xQUSlbzdQDM3ilW6WBmC+Cdb3NDbGBLsxgJt3asbQx/ys30Y8AH5wJXnUushKmAMwuFQJq+oIFEmB0irbYqwWVOP2zlIEyV8KAJOoYFxBscvfMRl3/lT9ZSxYOaUFKMXrDZMy66BaUNqNDKio/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JhsvhQfJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF74FC4CEDD;
+	Thu, 20 Mar 2025 10:26:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742460853;
-	bh=F55ugxVH5lNvnYmcUAixAJ8y/QoIFHaC+YlixKioZyM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BJAl2gYFIZV5wPyhf3FaQZcfrMy00B6eSZGPHh0y5cAkaHkEZfLX69dPmlg6N1huu
-	 20wai01+6nkllBGBUjGp3oZ0HaoJ2SJU/faJXornK+ckGpG4KIPFyXsLys7dia7RJ/
-	 isu3SFKPqwf+3mHq06v2p8LsrTCbOs8GmL4USTJULfwRNbhGz0o4wZtwZfx8okAXmH
-	 13x4BjHncNaFywu29DCMGlP9HByYGIa/ubhP/SL5AGhUCIxSbpyytYxm/DS5DReG+x
-	 ko6ueCQIFdk7YOJuDlqZQCLAFCpXHx9vCmhJBF/WQCCkcbqvwp+GgGEQe3CVO5MjlD
-	 J1/6/+v0PPzqg==
-Date: Thu, 20 Mar 2025 09:54:11 +0100
-From: Daniel Gomez <da.gomez@kernel.org>
-To: Andreas Hindborg <a.hindborg@kernel.org>,
-	R@macos.smtp.subspace.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Greg KH <gregkh@linuxfoundation.org>, 
-	Fiona Behrens <me@kloenk.dev>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	linux-modules@vger.kernel.org
-Subject: Re: [PATCH v8 7/7] modules: add rust modules files to MAINTAINERS
-Message-ID: <cdudbtd7qkspxgglsdfjmd665cqij7u57sdvakyj3wudobsqzm@t7lpbrc3byqy>
+	s=k20201202; t=1742466413;
+	bh=2INiMlEgtKjR+OIVK8ORlyTWDnWHNjO8BiiHuQYIXlU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JhsvhQfJVfPOA1EoFHN3t8VuXSJ4eRZfNzUeSFZMtkHbROzRIn4dpCSZDfSyU4dkz
+	 JlDpEtYKrBKpc7x6kGh9zeBT1h6YVYY+HzHpFlNO2Ab2c/qdpk8sZff1tj5YPtJ81g
+	 zlPEYDbKQmOLfGmk3U2trUuByJVu1We0UlN+5K03XOeCXAGevGaEgOvyhz4CPna4MJ
+	 vDSaItWbqD9ve/fmZE41TmKT115ASYSsPK9Ow2cVySIWvJVIhvG/gfHlvPrdVvByyi
+	 sF8doRPHMmY5c7IuFme3ktgNdTZPm81Z+1sDUYETQPY9DkRzC6MpuQdbNhUBh84Jbr
+	 w2kWKuqs0g2DA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Daniel Gomez" <da.gomez@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
+  "Alex Gaynor" <alex.gaynor@gmail.com>,  "Boqun Feng"
+ <boqun.feng@gmail.com>,  "Gary Guo" <gary@garyguo.net>,  =?utf-8?Q?Bj?=
+ =?utf-8?Q?=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Benno Lossin" <benno.lossin@proton.me>,
+  "Alice Ryhl" <aliceryhl@google.com>,  "Masahiro Yamada"
+ <masahiroy@kernel.org>,  "Nathan Chancellor" <nathan@kernel.org>,
+  "Nicolas Schier" <nicolas@fjasle.eu>,  "Luis Chamberlain"
+ <mcgrof@kernel.org>,  "Trevor Gross" <tmgross@umich.edu>,  "Adam
+ Bratschi-Kaye" <ark.email@gmail.com>,  <rust-for-linux@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-kbuild@vger.kernel.org>,  "Sami
+ Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
+ <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
+ KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
+  "Daniel Almeida" <daniel.almeida@collabora.com>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v8 0/7] rust: extend `module!` macro with integer
+ parameter support
+In-Reply-To: <nh23cbbpf5yk6mafn7gz7urlau22egilideytnnh7paagusaih@t7y7q7jha4fz>
+	(Daniel Gomez's message of "Thu, 20 Mar 2025 09:41:58 +0100")
 References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
- <20250227-module-params-v3-v8-7-ceeee85d9347@kernel.org>
+	<Q_mSCTsSMDQ6DylWZTrkH1Wru3fQ1LFIiuk1pHElSsTc12fDdaCrgzWvEEQRE2_WBxOBzPuCE-qBJjw7LhHbjQ==@protonmail.internalid>
+	<nh23cbbpf5yk6mafn7gz7urlau22egilideytnnh7paagusaih@t7y7q7jha4fz>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Thu, 20 Mar 2025 11:26:40 +0100
+Message-ID: <87frj8dmlb.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227-module-params-v3-v8-7-ceeee85d9347@kernel.org>
+Content-Type: text/plain
 
-On Thu, Feb 27, 2025 at 03:38:13PM +0100, Andreas Hindborg wrote:
-> The module subsystem people agreed to maintain rust support for modules
-> [1]. Thus, add entries for relevant files to modules entry in MAINTAINERS.
-> 
-> Link: https://lore.kernel.org/all/0d9e596a-5316-4e00-862b-fd77552ae4b5@suse.com/ [1]
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+"Daniel Gomez" <da.gomez@kernel.org> writes:
 
-And this is what we signed up for here:
+> Hi,
+> On Thu, Feb 27, 2025 at 03:38:06PM +0100, Andreas Hindborg wrote:
+>> Extend the `module!` macro with support module parameters. Also add some string
+>> to integer parsing functions and updates `BStr` with a method to strip a string
+>> prefix.
+>>
+>> Based on code by Adam Bratschi-Kaye lifted from the original `rust` branch [1].
+>>
+>> Link: https://github.com/Rust-for-Linux/linux/tree/bc22545f38d74473cfef3e9fd65432733435b79f [1]
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>
+> I've tested this series including the following patches from Andreas' tree [1]
+> as dependency for module testing parameters with the Rust Null Block driver:
+>
+> [1] https://web.git.kernel.org/pub/scm/linux/kernel/git/a.hindborg/linux.git/log/?h=rnull-v6.14-rc1
+>
+> 51d304103b7f rust: refactor: rename `RawWriter` to `BufferWriter`
+> 544811b24574 LIST: [PATCH v2 1/3] rust: sync: change `<Arc<T> as ForeignOwnable>::PointedTo` to `T`
+> 3f097abd58de LIST: [PATCH v15 1/3] rust: types: add `ForeignOwnable::PointedTo`
+> 0525eda0ff8d LIST: [PATCH v7 3/14] rust: sync: add `Arc::as_ptr`
+> ce7343b48e63 LIST: [PATCH v2 2/3] rust: configfs: introduce rust support for configfs
+> 6efae1a9a226 rust: rnull: add module parameter support
+> b6545e0eaf94 rust: rnull: enable configuration via `configfs`
+> 6a3bc0dc31d0 rust: rnull: move driver to separate directory
+>
+> * modinfo
+> sudo modinfo rnull_mod
+> filename:       /lib/modules/6.14.0-rc6-00015-g51d304103b7f/kernel/drivers/block/rnull/rnull_mod.ko
+> author:         Andreas Hindborg
+> description:    Rust implementation of the C null block driver
+> license:        GPL v2
+> name:           rnull_mod
+> intree:         Y
+> depends:
+> vermagic:       6.14.0-rc6-00015-g51d304103b7f mod_unload modversions
+> parm:           nr_devices:Number of devices to register (u64)
+> parm:           bs:Block size (in bytes) (u32)
+> parm:           rotational:Set the rotational feature for the device (0 for false, 1 for true). Default: 0 (u8)
+> parm:           gb:Device capacity in MiB (u64)
+>
+> * Testing nr_devices parameter:
+> sudo modprobe rnull_mod nr_devices=100
+>
+> sudo ls /dev/rnullb* | wc -l
+> 100
+>
+> * Testing block size and capacity parameters:
+> sudo rmmod rnull_mod
+> sudo modprobe rnull_mod nr_devices=1 bs=512 gb=1024
+>
+> sudo fdisk -l /dev/rnullb0
+> Disk /dev/rnullb0: 1 GiB, 1073741824 bytes, 2097152 sectors
+> Units: sectors of 1 * 512 = 512 bytes
+> Sector size (logical/physical): 512 bytes / 512 bytes
+> I/O size (minimum/optimal): 512 bytes / 512 bytes
+>
+> * Testing block size with fio and blkalgn [1] (tool for validating driver block
+> size):
+>
+> [1] blkalgn is an eBPF-based tool for tracing block operations that also reports
+> block granularity and alignment histograms:
+> https://github.com/dkruces/bcc/tree/blkalgn
+>
+> Install:
+> https://github.com/dkruces/bcc/releases/latest/download/blkalgn-$(uname -m) \
+> --output /usr/sbin/blkalgn \
+> && sudo chmod +x /usr/sbin/blkalgn
+>
+> sudo modprobe rnull_mod nr_devices=1 bs=1024 gb=1024
+> sudo curl --location \
+>
+> sudo blkalgn --disk=rnullb0 --ops=Write
+> sudo fio --name=test --direct=1 --rw=write --bs=1024 --size=512k \
+> --filename=/dev/rnullb0 --loop=1000
+>
+> I/O Granularity Histogram for Device rnullb0 (lbads: 10 - 1024 bytes)
+> Total I/Os: 10748
+>      Bytes         : count    distribution
+>         1024       : 10748    |****************************************|
+>
+> I/O Alignment Histogram for Device rnullb0
+>      Bytes               : count    distribution
+>          0 -> 1          : 0        |                                        |
+>          2 -> 3          : 0        |                                        |
+>          4 -> 7          : 0        |                                        |
+>          8 -> 15         : 0        |                                        |
+>         16 -> 31         : 0        |                                        |
+>         32 -> 63         : 0        |                                        |
+>         64 -> 127        : 0        |                                        |
+>        128 -> 255        : 0        |                                        |
+>        256 -> 511        : 0        |                                        |
+>        512 -> 1023       : 0        |                                        |
+>       1024 -> 2047       : 10748    |****************************************|
+>
+> Tested-by: Daniel Gomez <da.gomez@samsung.com>
+>
+>
+> Andreas, Petr, Miguel,
+>
+> Based on the discussion in v7, it seems that all these patches will go through
+> the Rust tree. Is that correct? What would be missing from the module's side?
+>
+> I agree with Petr in that thread that if the changes are mostly limited to
+> rust-module files, they can go through the module's tree. However, that is not
+> the case yet.
 
-https://lore.kernel.org/all/ZsPANzx4-5DrOl5m@bombadil.infradead.org/
+As far as I understand, Miguel would take patch 1-5 for v6.15 and
+modules would take patch 6-7 for v6.16. At least that is my
+understanding from [1], @Petr and @Miguel please correct me if I am
+wrong.
 
-Acked-by: Daniel Gomez <da.gomez@samsung.com>
 
-> ---
->  MAINTAINERS | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 896a307fa065..ff65178f6e06 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15991,6 +15991,8 @@ F:	include/linux/kmod.h
->  F:	include/linux/module*.h
->  F:	kernel/module/
->  F:	lib/test_kmod.c
-> +F:	rust/kernel/module_param.rs
-> +F:	rust/macros/module.rs
->  F:	scripts/module*
->  F:	tools/testing/selftests/kmod/
->  
-> 
-> -- 
-> 2.47.0
-> 
-> 
+Best regards,
+Andreas Hindborg
+
+[1] https://lore.kernel.org/all/CANiq72mW94Y-bsJFMHqF8fbXhvAizEn7-NnxawTW+5brbxJHBg@mail.gmail.com
+
+
 
