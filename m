@@ -1,292 +1,156 @@
-Return-Path: <linux-kbuild+bounces-6252-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6253-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F51A69AFA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Mar 2025 22:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D972A69E0B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 03:08:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 198697B21E8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Mar 2025 21:33:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15F8F7A3386
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 02:07:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93FC8158538;
-	Wed, 19 Mar 2025 21:34:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22C491CDFC1;
+	Thu, 20 Mar 2025 02:08:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="P2hu026i"
+	dkim=pass (2048-bit key) header.d=byte-forge-io.20230601.gappssmtp.com header.i=@byte-forge-io.20230601.gappssmtp.com header.b="UFjO01R8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022117.outbound.protection.outlook.com [52.101.96.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C076C20C47C;
-	Wed, 19 Mar 2025 21:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.117
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742420070; cv=fail; b=SQLVjHAFVoqSI0IKCHbaQbQkap5ytRzKcq9P0qACZXOEmsctArbkmT3u6PWjc9a9w2Kavblf3JhXP+aMkiU4t4O5E28cQNQHAdrjsEU0r5k1uJYZp7bgjPXzV3I3L5XYEKdq8gw5Q3I9tgpWYIaUzTey4r8oyayomXXH1swuzOw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742420070; c=relaxed/simple;
-	bh=QznfKk7kph6RFO4iMP5Whja53EEoED7G+rq9VX4WDuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pJevpRacBxxoapITeKy7uRepkASrkbN5njrj46dpdQlbdA6HbEZT4uPEuImkq3emPjIEfAajCkKm27zJPH1fS7d5CXUGul0qk0mYjamDgyXHmZxUycGg+U8iL0WbrqUl4XEUoBz1Gy3JBwiCHHw7/8nLaPFeDqlfBsd2zmSUln4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=P2hu026i; arc=fail smtp.client-ip=52.101.96.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ofxO39YVtXawB7FQKo17x1xYminYYDeKRPese6qfpLL3NQ56zdCqhiGD1+yOvPJ8MneAt7X1TcEnkSTbwEMGzEpUdn5zPCdTAYfYCf3szHAN+Ioe1JDFsp5oCKpyWXc0YRhSOBx1QdL17ZppdIVd7KMKKtwIgwYx4fpG/6eHqzhSpu6dqxGFU7XpxgPcyNXbXja9YpwUM9iKWyak07H0rtz5Syjdmd+SxVkn+svNnR6uUQ467QXl4mTnHiTFoqVxaAoHCPrYp9pNn8/2G0UnQbsBw1ZpFbjb9feHaEbIC+cUG8n/4uQO5B9W3KEpeXCjhCfJJlc45orlC9y4sjPg3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N6yRp9ybCbZmFcZkpyqH61iVq9KHqYw0ASIfm3V1Yq4=;
- b=tcy36gWPokLFcYKttdxfbiuY57uqxUC52bzKvPNTxWS7U3gPogA57mFFvFEY1TkKY1bO0JkUMV/srUDDzyOduPGr+OjBv6IfpPRoRp2T+pvaHGnrxKFqWlYXjci31NCGX/F7sl5urRCgQ/sm5ZL+h5OFVWrakCEOWni3430nYX4N+f84yMkzuq5KlgmZlCHWRTX2w6tffWTEdHygZDCFTgoP0GGX/5W7GAIaVkmJ29Kd/Ni3wfrKi8FAVSksrg59qHXC5bXwspt+uvnIMiZpI4d2ysBnRE+6o5AQ60Be6BKOkIsYyHsFg9G0hy6TFRcuroFpuGxQvilh6ydWqtIjJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N6yRp9ybCbZmFcZkpyqH61iVq9KHqYw0ASIfm3V1Yq4=;
- b=P2hu026iTmrb20I0U1nA3KX5UMQ//QAHjBIrz9OkeCECcUzTsohcbgfFeFn1J4pzWYcPB6IzSV0qH7yxHGL7uFOOo4+6/KSboqE9Fe6PKHqPkkuirCGu6dXcD8TKgLYT+LzFBszvxLZHjl1uR2q9tPSnHORB7ZjDALXfYL3GaLQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by LO0P265MB3306.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:16e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Wed, 19 Mar
- 2025 21:34:25 +0000
-Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1818:a2bf:38a7:a1e7]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1818:a2bf:38a7:a1e7%4]) with mapi id 15.20.8534.031; Wed, 19 Mar 2025
- 21:34:25 +0000
-Date: Wed, 19 Mar 2025 21:31:29 +0000
-From: Gary Guo <gary@garyguo.net>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
- Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
- Gross <tmgross@umich.edu>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Andrew Morton
- <akpm@linux-foundation.org>, Dirk Behme <dirk.behme@de.bosch.com>,
- Christian Brauner <brauner@kernel.org>, Martin Rodriguez Reboredo
- <yakoyoku@gmail.com>, Paul Moore <paul@paul-moore.com>, Wedson Almeida
- Filho <wedsonaf@gmail.com>, "Steven Rostedt (Google)"
- <rostedt@goodmis.org>, Matt Gilbride <mattgilbride@google.com>, Danilo
- Krummrich <dakr@kernel.org>, Eder Zulian <ezulian@redhat.com>, Filipe
- Xavier <felipe_life@live.com>, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev, Kees Cook <kees@kernel.org>, Daniel Xu
- <dxu@dxuuu.xyz>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] kbuild: rust: provide an option to inline C
- helpers into Rust
-Message-ID: <20250319213129.09e268d7.gary@garyguo.net>
-In-Reply-To: <CAJ-ks9m=qYHr7Vm+9o3GBm6V=sZUY5o-aKnx5oDF9kK2F-b55A@mail.gmail.com>
-References: <20250105194054.545201-1-gary@garyguo.net>
-	<20250105194054.545201-3-gary@garyguo.net>
-	<CAJ-ks9m=qYHr7Vm+9o3GBm6V=sZUY5o-aKnx5oDF9kK2F-b55A@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR02CA0072.eurprd02.prod.outlook.com
- (2603:10a6:802:14::43) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:253::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C2370807
+	for <linux-kbuild@vger.kernel.org>; Thu, 20 Mar 2025 02:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742436484; cv=none; b=go36aJdU5PxzSqotovhPu9Qh08xeOBZ5rzn6RvzGJXpqjOIZWXOJ9FT1kisg1F+ukITP4KBHDWEWIRleStdkxADNudsQ4ysm+dIebfZ0+TUxm8Dj+wJgTPaGQxea1HCLDWxkOuhh0N3hGx/uiur0P/dIm+OOcmPqyJ6/55tWREQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742436484; c=relaxed/simple;
+	bh=m42DtURYMZCXyWHkUzDgb3x5mmA/f+mhAyyGrxqczQo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HEa+jigDIMMTO8Q3uH5iIa7seaQs0d/TjcH+Q9w57HqxuVTJb9nW+GHZSSF0Y9V5yasbR5pa6yHM3kuujFuhIqixPK71pDvSiq/2gZNFSgUFbe0fRBm0uQJoeYGYZ/2yriwZSwVtTMyXgZ2WRGmK4Jww7Za42xA/jx2gI0pRk5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=antoniohickey.com; spf=pass smtp.mailfrom=byte-forge.io; dkim=pass (2048-bit key) header.d=byte-forge-io.20230601.gappssmtp.com header.i=@byte-forge-io.20230601.gappssmtp.com header.b=UFjO01R8; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=antoniohickey.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=byte-forge.io
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6ff27ad48beso2618547b3.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Mar 2025 19:08:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=byte-forge-io.20230601.gappssmtp.com; s=20230601; t=1742436481; x=1743041281; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wYfvvRu1GHzIQ/b+4BIBn6FA6Z0KJrVipVcw92I95Mo=;
+        b=UFjO01R82Phi/zsptuvfQSn/vE7R8p+3ZHT+VM7PZml6YajaixBZq6427VCHKWAEr8
+         Hwl3FyfNnZ0MqYP55JVL/ZlP1tEcHr7nRI1M/1RuJo0UhgtJRQkWVQSGhHYGZeTxCL9b
+         /uhSvSzb2XwEzu44MgzIxVRVyzDlxi0rrtSJXtJYY9cqx5LXnwC7F2KRZyHuCMjzebPg
+         /X/+cK13kTiL5Jbu303EXMpJaGhR77Yri1hKjCZJOJF0c4z3Omk+PhJBmaZhfLwwg6J6
+         f8KcR5rEtkT3oTY8PWkVGb2dXKvkFAPflJT+nZt8KmNGVZKQuWSluSd8J5vBnGLNvmEf
+         KCCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742436481; x=1743041281;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wYfvvRu1GHzIQ/b+4BIBn6FA6Z0KJrVipVcw92I95Mo=;
+        b=D+uP1riWuFAp1QlpyLomfCQv/tBGlm1MpnBcMs+BFwDgCpjWqx4CvPMz/Eyuyr1Sh+
+         jiKqCnIylLNTSJycN0eP/TpNJ7Mu0BDMcd45Ulo2+CM3Whhm99VQgk4YzGs00c0lEFfg
+         VESmPaXJ+EL1MCSKssAbOotoLedigt6eDkpxb7mSt/TgpuwdgRChFBlT81N3mL45lZRs
+         h0wX0GlJ3qXxvbUZAglFhmBzYwC3zziFYKHAhVNsy3stfX/xxcl3ntrKhNWex0gp76KO
+         E9LJnpRRGliyh/SsLnGbIpLCS9xDVH47uRcLLLAJDVzoDDpU1PR+N/xRha+VuhRnXt90
+         xATQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWlvCc1dagsZoIqmXO1plNRfFii2E5iC7pGi7Dn4SA00nXLiLjI8ARqgrGheDeDm5th2wdh3nUI1psDVn0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrGUkKe9/uh8umEmy2QEjlKaIbSW+BjacjIRmZMVPHM45+2OoR
+	x+tjiWi4sERAg1IxUf27eo9bT1y1kLhklW/QxJDrl+K+XSDc6XEoRcGs/j3HsCI=
+X-Gm-Gg: ASbGnctMP4CbQGuRNYosbtMK7s9k7XV1Zu9S5ktonc0z2qQflTUSqjpMvJi8QU2dKJ7
+	c9xRxgt5bG5tnilMEkQbW0dmLYhQKk7M5Hr+6ZGdv70vtFLxdMvV6rmZGvU0dNCOquLajsAtqdF
+	qqGpGW/YOhzwyJrv8wjFWeNhiu5Ye2hbhhrpCoZ8VAZ/d97avbfLg0arj8DUiJOyV+E1XlHnaol
+	P3ozTc2wVB5Jge+lQGMXRndrJjBKH6pFl/Yaw6VfjiiNuqdwmHMdVoiW12+8jDIY/VFZHOqCaag
+	mavxgT6x6F7pRLYYCXVkOz4TuRcKg13mMXlwIXV1J1gi763TjHDqDu63lEU4YxkFsOmTF95ni6p
+	i2YuV3TD1Db1ZWdHpQQgJWTxeTQI79A==
+X-Google-Smtp-Source: AGHT+IFDVdDbb9X/ieVCAhVOJq33/2ZkRWOn2SMlUCHTT1LWFdTkxTojsuUWjAEuoUU3PICEQ5tJdw==
+X-Received: by 2002:a05:690c:2093:b0:700:a63c:641a with SMTP id 00721157ae682-700a63c6433mr37471867b3.0.1742436481396;
+        Wed, 19 Mar 2025 19:08:01 -0700 (PDT)
+Received: from Machine.lan (107-219-75-226.lightspeed.wepbfl.sbcglobal.net. [107.219.75.226])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6ff32cb598asm32826357b3.111.2025.03.19.19.08.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 19:08:01 -0700 (PDT)
+From: Antonio Hickey <contact@antoniohickey.com>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Cc: Antonio Hickey <contact@antoniohickey.com>,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH v5 01/17] rust: enable `raw_ref_op` feature
+Date: Wed, 19 Mar 2025 22:07:20 -0400
+Message-ID: <20250320020740.1631171-2-contact@antoniohickey.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250320020740.1631171-1-contact@antoniohickey.com>
+References: <20250320020740.1631171-1-contact@antoniohickey.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO0P265MB3306:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ced1875-71b2-4ad1-9215-08dd672dd22b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|10070799003|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tgzfNNtGssC7Q2WscB8UVBISkII3gIHFw1cnFNWDugWHWaRA3DGDu4AaMaRD?=
- =?us-ascii?Q?sJb7bHWXTr1UCHpmAFie/tkwafLJg4hyZ9Uq3vFcinIorLm+/QN7N2ODUcrd?=
- =?us-ascii?Q?EUcbX9iKWBivjeUGY2JZWu7pyb1mqxHl6WlYA0mI49H3y19EyMfYX0xcEsXe?=
- =?us-ascii?Q?mq5pDT0dRZKH6C1V6/CTfjDaikHAoYZNuA0j/gczl2o3Z1zjU+OH1Ft4xC2e?=
- =?us-ascii?Q?xC8jrQcC3c3PD/7y1oDLrZ0uj1fcrtC/lpTK5uLTviY+hJtumK4y5/lK9qPm?=
- =?us-ascii?Q?aQ9pjG1e1mHVbuW9JjO5aIdc9EbTm0mKXTDEyoF9wP2H7xV+XEogQEWfv2xv?=
- =?us-ascii?Q?rqS95szewj9Q2AtLjzzew2X1wFCX9QFlzEM36E7SHo1B9+vATq2TqyL964nU?=
- =?us-ascii?Q?z+ptirax50jrgzGXzuIaB84pwHaYnvZVoF6Ox8wGCOdK+zh1kpvxjSE55Aj8?=
- =?us-ascii?Q?MPpwR7NmJYbH//umYlUbA4ZlgpGkWUz9tpkjBRccF0kj45sCXCp83eLqcxab?=
- =?us-ascii?Q?8wyw4gBBymhaMBY5cGWBtQfAeXstB4AIfOhA/6DITRr0y86LPAQOn68hagRS?=
- =?us-ascii?Q?GdqJfFcpmoxpjc59RGxEp9Tw96APDdKHn9gj2ZcpFhRZcmD3mYhS7V5VwOWg?=
- =?us-ascii?Q?yjMSgDZhkPYqN5ygdpsonJKq2laHVJ42W7dwI1NgQqvY9IWcNWNvMUimh8bK?=
- =?us-ascii?Q?b+Hjhk4pUKcH8Wqu/ctwtmmZXC70kaQY+gE293DKRpzF3eIJIIcQ+7cNmskG?=
- =?us-ascii?Q?dOBW3iv06LE6VZHU9rXsG94jkO7kAae+RNeqaPMxtFQYxvMhhFu1/k0bm8E3?=
- =?us-ascii?Q?7ZAh/+h+8Q2/OXZYlUyp1G7X7kVithbgMRSnxleDcROlW04j6HWLUzHz3B9K?=
- =?us-ascii?Q?qqH7PZkj3o8D8Yus6BoOCym9K235LrfBe/CeQ0qc5W3CanMkJHXnbq453Kq0?=
- =?us-ascii?Q?IRB5guYSGdMpdYVgIQ0XmvAdsr86KTatb65zf7zTuXhyZmB6Q87z/ch44P44?=
- =?us-ascii?Q?Vqm3wCUvYCnNucgHeARdK/c6I9li8IAXk0aGbaedUU2/ua9amR/LC0NmCnxD?=
- =?us-ascii?Q?RLsA1TNsokbqKDe90iZb/DWThS/FQlWt5Xo4N+JBgmGch0FaJ/ZJ/V5pHLMK?=
- =?us-ascii?Q?qZv9vJSJQqXJCb7Q5jNR8iLjDgxxgYUZmE4xhpf3cXX0Mt8EomCeeKhBkNIb?=
- =?us-ascii?Q?i+do4gWvA84YsLvbWqCcGL9D0g8NF6KNlKuJ/5WI57lRft09JkLXcjmfg6wt?=
- =?us-ascii?Q?NZqhdA+CNUQnnijWyCpYhACK4993peSbhbsMdbaOyzLFwni5TNf2IIP8TlWq?=
- =?us-ascii?Q?EPUnPFifsPDUoTBII7+dIOnyAVf1FoYWPP0GqIhEefYWhxBnMcwLL6hkzd9z?=
- =?us-ascii?Q?xIRD2rRmOncRxoqB9pkBwrOogVTF?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(7416014)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Duv4iIXZ8YcmWNCtnAXgqwt6Qq1ZHglKvEABRuMibmozEyeJJ3j8bT4DFcYW?=
- =?us-ascii?Q?kw1i1codkHZak1qJ4sXtHK32E74ZwLtQXlGDGKs1SdTGO6F4BfdAbVe7gb/E?=
- =?us-ascii?Q?yCFRmwNMhLzoreXbWBAvWAp9KAMSzp2RpbM4PeLR7N4Ago+Yy67FgZne3yS1?=
- =?us-ascii?Q?50H+wfuRGVfUi2EK4uvoZKu/tsyfI7t1lStdwBf/B2VXJp6Zn9TMOdk/60kd?=
- =?us-ascii?Q?vgHbA9+4oJkxK6Oe91SOGzy5zzXVywYbR4aYzdQXN4aDAY2aM69tfIub9CkW?=
- =?us-ascii?Q?KTnwuY0Cp6UtrqQBJi+FVWRtEkG2h9EMfd69SpJkphI/LWMCOxrLs3lqImKp?=
- =?us-ascii?Q?tC7bVi5+a3TdKSvE3qBjqrVS//+CLsMjZDwFtAAdctlto9w1wE8X9pRkalfg?=
- =?us-ascii?Q?O7Dul/L5gi6lI79uOSWN7F6Mfzkv8zfRaif46vXM5Q9bADwvOHl70ArDV4P5?=
- =?us-ascii?Q?MyUy8YqTGlYrBEr9F0u7KxkYNERrcOzJs8taXYbFLdmlNt3Fyl1dxY5ukP1+?=
- =?us-ascii?Q?LyZPh/r9w9yE8m5mPKK0vS7CPkKSEzTvwyG9LKUgtzLbBs8Lpn/c6cp4bF7c?=
- =?us-ascii?Q?2zJ5GQDogv+C9CYwEtWGcNLwMkD0xAinGiYDvQvNKgOke16LFREEjnthUS3/?=
- =?us-ascii?Q?OAe028PATxVWsBPY+9yEfgeBugBuUbZXAcSKOk10qwUh+63VxVR7y/PG6iEV?=
- =?us-ascii?Q?e9ONcHCIqo8wIrZdXh2fdoVh5VYojygqbU1q6ralGKJHVl2hXY4VPse/oFFn?=
- =?us-ascii?Q?Vx1CjEXxCUFJpJ3mchS2kjK1vjCjfupMHUz1TRdpVztDTPpwJlGLURVQGrcF?=
- =?us-ascii?Q?3vR/QGPb8jspAV/Vty4JJ1Xl8NuaAQm6ibZgWTi9/C3Q/qG24SxBwg+JTdj6?=
- =?us-ascii?Q?141SWcF12jfq+GxyH8/SjU/MYGLv/v5dnsSzpX2DJlzUHKtjec7PAFTBxUJC?=
- =?us-ascii?Q?D+aNSrbru8bvsY2lmxLxRYxxB1ODSyWzJe9r0LC7daPYzoZw4t/hVmSm4IWj?=
- =?us-ascii?Q?RaTu87aGMirScZYZ7wg6CLXbKDvPbF8k5XhWCIT0F67qYQbw/0vnr3f0HNAy?=
- =?us-ascii?Q?NSE3sG1IdX+Fu2nyGb+VwTz/Gvk+StFzCrL7dtxSvNVw6CdP5aToCzRNb7NX?=
- =?us-ascii?Q?kgWDMuTf/IxnHD3PADCCb3Yd08tFfoxRNGt1co1yMUt7mkusF2nQkAKgaSCB?=
- =?us-ascii?Q?2DsQEFNF7Ru3Z9rVq6FaRcfh/DZB5PRlRFuiCi1aiAbynrEvqG9zT+KSJtmj?=
- =?us-ascii?Q?j0vuVT2YS3nekHmyTwliygBNwVUU+bNGVLY9B9E8JgES4siBKx9dJY9H2wYD?=
- =?us-ascii?Q?/YfeZamjWgEVYqDOprZVMO3ZmoRxvhZB8NE1cMIH1IbLDNip9KYDciLUaKpP?=
- =?us-ascii?Q?2kYvrIKQfzokXmtwaCJfhFNq992T8vlf6iL4BIvdRWqwMYNKNVLfiDT1+iYH?=
- =?us-ascii?Q?AM41BEzOUqE+jxxQSmS7kgA54+ec1DqeNCmOMOtQZkFTVnDPP5w5GcM77O5K?=
- =?us-ascii?Q?iQrujdykqA3dLmhDmwoaL+KtSLIepuSbhZZEPfLli3gwwEnB87aWJFDVdpQy?=
- =?us-ascii?Q?YsUvMki+4dr+Bv97bAxfMNaMfK0xIkEYrHTDoVLosm4xeLDsuyBBT9hzhHY7?=
- =?us-ascii?Q?MQ=3D=3D?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ced1875-71b2-4ad1-9215-08dd672dd22b
-X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 21:34:25.5908
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A89cN59X5WaItKH36raYB2fUY/6D8qDgvEJt3Gf9yMmTXRaoSKxkDDsjsiCAwnYKv7qqHoh2d8xQhReVwzj4/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB3306
+Content-Transfer-Encoding: 8bit
 
-On Thu, 6 Mar 2025 18:00:10 -0500
-Tamir Duberstein <tamird@gmail.com> wrote:
+Since Rust 1.82.0 the `raw_ref_op` feature is stable.
 
-> > Some caveats with the option:
-> > * clang and Rust doesn't have the exact target string. Manual inspection
-> >   shows that they should be compatible, but since they are not exactly
-> >   the same LLVM seems to prefer not inlining them. This is bypassed with
-> >   `--ignore-tti-inline-compatible`.  
-> 
-> Do we know why the target strings aren't the same? Are there citations
-> that could be included here?
+By enabling this feature we can use `&raw const place` and
+`&raw mut place` instead of using `addr_of!(place)` and
+`addr_of_mut!(place)` macros.
 
-I've added an explaination in new patch series.
+Allowing us to reduce macro complexity, and improve consistency
+with existing reference syntax as `&raw const`, `&raw mut` are
+similar to `&`, `&mut` making it fit more naturally with other
+existing code.
 
-> 
-> >   okay since this is one of the hardening features and we shouldn't have
-> >   null pointer dereferences in these helpers.  
-> 
-> Is the implication that kernel C is compiled with this flag, but Rust
-> code isn't? Do we know why?
+Suggested-by: Benno Lossin <benno.lossin@proton.me>
+Link: https://github.com/Rust-for-Linux/linux/issues/1148
+Signed-off-by: Antonio Hickey <contact@antoniohickey.com>
+---
+ rust/kernel/lib.rs     | 2 ++
+ scripts/Makefile.build | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-ABI is compatible with and without this. I've added a short
-explaination in the new version.
-
-> > The checks can also be bypassed with force inlining (`__always_inline`)
-> > but the behaviour is the same with extra options.  
-> 
-> If the behavior is the same, wouldn't it be better to use
-> `__always_inline`? Otherwise LLVM's behavior might change such that
-> inlining is lost and we won't notice.
-
-If everything works as expected, then the behaviour is the same, but
-not focing inline can be used to detect mistakes, e.g. when an inline
-function gets too large.
-
-Most C side don't use `__always_inline` but rather just `inline` so I
-want to keep helpers the same.
-
-> >
-> > +config RUST_INLINE_HELPERS
-> > +    bool "Inline C helpers into Rust crates"
-> > +    depends on RUST && RUSTC_CLANG_LLVM_COMPATIBLE
-> > +    help
-> > +        Links C helpers into with Rust crates through LLVM IR.
-> > +
-> > +        If this option is enabled, instead of generating object files directly,
-> > +        rustc is asked to produce LLVM IR, which is then linked together with
-> > +        the LLVM IR of C helpers, before object file is generated.  
-> 
-> s/IR/bitcode/g
-> 
-> Right?
-
-I'd rather keep "IR" here as it's a more general concept.
-
-Bitcode generation is an implementation detail really and user
-shouldn't care. If we remove bitcode steps then the whole idea still
-works as expected.
-
-> >  # Missing prototypes are expected in the helpers since these are exported
-> >  # for Rust only, thus there is no header nor prototypes.
-> > -obj-$(CONFIG_RUST) += helpers/helpers.o
-> >  CFLAGS_REMOVE_helpers/helpers.o = -Wmissing-prototypes -Wmissing-declarations  
-> 
-> Should this also move up into the else branch above?
-> 
-> > +       $(LLVM_AS) $(patsubst %.bc,%.ll,$@) -o $@
-> > +
-> > +$(obj)/helpers/helpers.bc: $(obj)/helpers/helpers.c FORCE
-> > +       +$(call if_changed_dep,rust_helper)  
-> 
-> Should all these rules be defined iff CONFIG_RUST_INLINE_HELPERS?
-> Always defining them seems like it could lead to subtle bugs, but
-> perhaps there's Makefile precedent I'm not aware of.
-
-I don't think that's needed the way Kbuild works. For all C source
-files, we have targets for all .o files regardless if a config is
-enabled (enabling a config merely adds the corresponding .o to obj-y).
-So I don't think this is needed for helpers either.
-
-> > +ifdef CONFIG_RUST_INLINE_HELPERS
-> > +$(obj)/kernel.o: private link_helper = 1
-> > +$(obj)/kernel.o: $(obj)/helpers/helpers.bc
-> > +endif  
-> 
-> Can this be combined with the other `ifdef CONFIG_RUST_INLINE_HELPERS`?
-
-I want all kernel.o related lines to be closer together.
-
-> > +#ifndef RUST_HELPERS_H
-> > +#define RUST_HELPERS_H
-> > +
-> > +#include <linux/compiler_types.h>
-> > +
-> > +#ifdef __BINDGEN__
-> > +#define __rust_helper
-> > +#else
-> > +#define __rust_helper inline
-> > +#endif  
-> 
-> Could you mention this in the commit message? It's not obvious to me
-> what this does and why it depends on __BINDGEN__ rather than
-> CONFIG_RUST_INLINE_HELPERS.
-
-I explained about the bindgen part in the new patch.
-
-For CONFIG_RUST_INLINE_HELPERS, I don't think I have a good place to
-fit it into the commit message, so I'll explain here:
-
-`inline` in kernel is not the C `inline`. It's actually the GNU89
-legacy inline, which both compiles as a standalone function (strong
-external linkage) and provide inlining definition, so this works if
-CONFIG_RUST_INLINE_HELPERS is not enabled.
-
-Best,
-Gary
-
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 398242f92a96..1d078f69bb19 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -19,6 +19,8 @@
+ #![cfg_attr(not(CONFIG_RUSTC_HAS_COERCE_POINTEE), feature(unsize))]
+ #![feature(inline_const)]
+ #![feature(lint_reasons)]
++// Stable in Rust 1.82
++#![feature(raw_ref_op)]
+ // Stable in Rust 1.83
+ #![feature(const_maybe_uninit_as_mut_ptr)]
+ #![feature(const_mut_refs)]
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 993708d11874..a73aaa028e34 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -224,9 +224,9 @@ $(obj)/%.lst: $(obj)/%.c FORCE
+ 	$(call if_changed_dep,cc_lst_c)
+ 
+ # Compile Rust sources (.rs)
+-# ---------------------------------------------------------------------------
++# --------------------------------------------------------------------------------------
+ 
+-rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons
++rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,raw_ref_op
+ 
+ # `--out-dir` is required to avoid temporaries being created by `rustc` in the
+ # current working directory, which may be not accessible in the out-of-tree
 
