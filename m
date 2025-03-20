@@ -1,161 +1,120 @@
-Return-Path: <linux-kbuild+bounces-6268-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6269-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECB5A6AEE6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 21:00:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 226D6A6AF10
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 21:21:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 677DE189175A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 20:00:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9FD2A983ADF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 20:21:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9BD22687A;
-	Thu, 20 Mar 2025 20:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60238207DE2;
+	Thu, 20 Mar 2025 20:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1Qsj5N9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jPxKrVSp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46C52288E3;
-	Thu, 20 Mar 2025 20:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26692A1A4;
+	Thu, 20 Mar 2025 20:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742500807; cv=none; b=dr/Ds6osCuvkAQVTWNU1kgmDnGklGpWa/+uzqQrhBlOvSN+kZ/SmJVVtPtinq+pSSs4tNfAqBPiCKX17l7DRPlIGgY8o9c9RUrYPRbmXm2/D/x7LmQyLvxPH8rgv8WxWJxLumxHI1GqtzWuYpN995XQNmZf9rQ/Y426hmX6npTk=
+	t=1742502114; cv=none; b=ncuhcBUVd4O7TcVqHlEczZHvzXwVMbEWMBa6L9E5rdCV8NRXUp1dnI2mwrUTHr9ICUjj+YG3dk5adsHVcZachc3o7mMMEdno3a/pJ0fh6yjE3iX7y5395eN0TlqfpPYaep6xGE1OnAJVpgn9y2G30DRT7UBbinVPqWurMD3L5P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742500807; c=relaxed/simple;
-	bh=B2+84pr0As28UqPgTHxbMJThWkwRS5HQW3sICoYcfYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PUY9ouIQWhuwE71U5HxOwzsKNGOgxzBC5gcZD5FQizu1oGOWyD4C1jed2fB4MnuoT+VjC+mPj8Zt0tPywE5hgzPJKFMWKy3EQCn/Ket8Grk6Ns+CQejQ8UubHXRImMUjPimM9f7JsKtkSSBunCr4F06l8STOmntc2nvPiWxh1OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1Qsj5N9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C020C4CEDD;
-	Thu, 20 Mar 2025 20:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742500807;
-	bh=B2+84pr0As28UqPgTHxbMJThWkwRS5HQW3sICoYcfYI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f1Qsj5N99wE2VbpsSwiJ3x6D+9w6jlOdnAGH0jvdz/+UslpTe/VvvWXmpSVb78x0R
-	 85+88DAgn4DSVInCEJWIPEEpbpNh3fi6+RDkwxFXpjyaG1SUS2DBfkQufpe384nKT0
-	 rQCKrm1k4bCfbn8V2J3nfxi3Efdgk2JhxNgCqsrBo+RPklH24SMVc8teg76FJlso+K
-	 U164jPyITezwZu4JWbLl513Ks1nRROAeTzFrNGJ7ybrXkBST3GmzT5ZudnrZ3dpF07
-	 nD3bVNNwVkbsfPlI1W8UgbAor5WxvYugNjAdQbo93I41517vg4bvy+DDi1wHy6B6Xo
-	 ZuY6F7gIlo+5w==
-Date: Thu, 20 Mar 2025 21:00:02 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>,
-	Ard Biesheuvel <ardb+git@google.com>, linux-kbuild@vger.kernel.org,
-	brgerst@gmail.com, x86@kernel.org, masahiroy@kernel.org,
-	nathan@kernel.org, linux-kernel@vger.kernel.org, nogikh@google.com,
-	syzbot+06fd1a3613c50d36129e@syzkaller.appspotmail.com
-Subject: Re: [PATCH] gendwarfksyms: define __GENKSYMS__ when processing
- asm-protoypes.h
-Message-ID: <Z9xzwpBiIEJGQk0g@gmail.com>
-References: <20250320070746.101552-2-ardb+git@google.com>
- <CABCJKuc3zZOG4qgoFca_g80GMkzviVRemGLJB8GaA88u27Mt8A@mail.gmail.com>
- <CAMj1kXFZFgYp40xD72s0oMThgxK7J-yyCYUQkkBQjh3xR+fNeQ@mail.gmail.com>
- <CABCJKueFujwW_=JMZHTf+Y3qN9=uvQYSoDcg_6v=9svUYTsMGQ@mail.gmail.com>
- <CAMj1kXHCX9oinqQ6xSMgKHdVqp16svPrs9bZu0tX_iD6h76NtA@mail.gmail.com>
+	s=arc-20240116; t=1742502114; c=relaxed/simple;
+	bh=P5DePDaFaNYcmCmVtIiaeGKEzygWPc1oyekgDR1gbLs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L2lzJJonRzx9g44R/k8S3gvxF/6/D0iQlg6r8y4lObMeql7c2JKlu7kSLXP84lGMbe3bWiYR/hv2ODoniN42PzIn1kSheK4TWsjmwcRWBPYSoB6MxpuFj3RrcCoqHMT6+CchMym+LtShgFvGWm7NCen+QAVJkUNK8hXHml4ZGwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jPxKrVSp; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-224104a9230so3300145ad.1;
+        Thu, 20 Mar 2025 13:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742502112; x=1743106912; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ghMmqyEsNey8h9uPANFS5l6mT/T528d7V08nzimupro=;
+        b=jPxKrVSp+sBlJcqpEqCVAgWETUJmKWRJLCOJ6DrA/rk0GMOp9++NK/c4/nc0W699MH
+         WjlKxGz6uPE5xBWf24uSoDsqZQuNB8f6+bYlwaHxx93UoRs02n32zQ49prNnv6jgUjFq
+         LlItuz9Q3eh4XiPYEUbjT6vwLCdUz1Ojfv31zJ+fMT9PMyN8gfwfZPx9bFsO6KVGHolW
+         1mOu8WFT57KdxP21qB7AAo0+aAgFS1CizminA30UCZkm71JK8aYfpUpbp09GlTzt1A5i
+         haRW0VW6+wJJYOR5DU6QPu/0YyMMUiK/W66qyTJIMX9zY9uU5MA/GT7n23m6GwPw1kxV
+         1sBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742502112; x=1743106912;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ghMmqyEsNey8h9uPANFS5l6mT/T528d7V08nzimupro=;
+        b=jgrZUGxanVlqo49Mr0t8E4uEuISHaQy7u4yAC8f88eIzuFSGIUDOem0BO0Ujh5C5wJ
+         QjlmudngK0/RBoGW3Ee4UfuG8pGLLJop805RNLcaGklzyuCNyXGx1gsQmKygHhTWJK8V
+         I2TEpc1pCmHfqX9hpG2bNzC1LN/UDLxVoGIaqg3Z6ZkYL7H4HMEDOnMsEgSAXJPiQNYp
+         WuD3NDAkWlY9vICRkKcY6eAQjN5U1Cay1vk2gE6Tp58rqndKIXdTNJaZEqR3gK8fVKCY
+         Gq0MIFie1PCPwvBgKIhYpR6XgxVrf5V0j53wV1uKrsGNOudc9aMg5fD0nepKoSi1p5wB
+         Bd5A==
+X-Forwarded-Encrypted: i=1; AJvYcCU+Vq1wVz8ddW3hx6KbmlvROOojRfX2Wdo2vp1IH1Ir0A0D7By3FnN+WXVJgOlGmKHAQZL9RxL1oS0BibU=@vger.kernel.org, AJvYcCU9ZeOiAhgIRr/b8B2nYkfwpiM8VjoLUX0mKBRWLB9wsUs4xy5NIepSSdphGZnpqkcLfL4mlc7Ahk3bjdjy@vger.kernel.org, AJvYcCWiEenKqQ3lfCEz1355Zo73eCxhPEykKCv+N2W5unmuypZjRJw47Zd11P4nRnUbBhUNTT8KNlrkmRrIK4amG7Q=@vger.kernel.org, AJvYcCWvD/LYYgpeSY/SV2muNC8o4Ei6uDJ6DK+0vfIru0sjhvoJdCFz0BSF6h3RMnKzm2nKWu/AMZR5+KgXQOoZEA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpiafL71QE03KXqEtpKC0Px5Ku6Llo5l2AcTdsaiaj2ifGD1Wv
+	pUJszoINH8uJ7cubg+h+0gE7FIOHvL8ObEu2lo1lcErj1OCCF+Mlmfb4o+GGXmgpNNKRZLK7g/0
+	FLqlI75t/xK9EXTYkwYW4QcF+80o=
+X-Gm-Gg: ASbGnct76GM6fNDGazqgxR/ghNCI0t3ritOAqpeVYisBI7XN7/8E4/ZKkZKdBVSxKbv
+	FbNIo/FQ1du6vG/ozyLwnUxGEoYqNq+4C452chT3Xx/S8npdyElanZNucm0YT5kfeohDkOOXiJ0
+	nXoJ1OROoznwYaa1Y9+Ehk11bofw==
+X-Google-Smtp-Source: AGHT+IFHJmgf4jBxMNmrXn7Ub5lSsoBMIS5NnJWFQIb2lG7JavHQT1RlOCL48M2GyUh556YEEQBRazGNSLi5NEg8GeA=
+X-Received: by 2002:a17:902:dad0:b0:223:f9a4:dc25 with SMTP id
+ d9443c01a7336-22780e359acmr4042725ad.14.1742502112120; Thu, 20 Mar 2025
+ 13:21:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMj1kXHCX9oinqQ6xSMgKHdVqp16svPrs9bZu0tX_iD6h76NtA@mail.gmail.com>
+References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org> <20250227-module-params-v3-v8-5-ceeee85d9347@kernel.org>
+In-Reply-To: <20250227-module-params-v3-v8-5-ceeee85d9347@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 20 Mar 2025 21:21:39 +0100
+X-Gm-Features: AQ5f1Jo4O5s2MBqh_XLGvRCYvhod2ITUxJyYm57Tsmfb5Nvy__-4KyEcsCyexBo
+Message-ID: <CANiq72kGzB2CdGMcaftfg2eYvu_rBtH2_gxqVt7KE7RQxCgz8Q@mail.gmail.com>
+Subject: Re: [PATCH v8 5/7] rust: str: add radix prefixed integer parsing functions
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Luis Chamberlain <mcgrof@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Feb 27, 2025 at 3:39=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
+.org> wrote:
+>
+> +                    // SAFETY: We checked that `val` will fit in `Self` =
+above.
+> +                    let val: Self =3D unsafe { val.try_into().unwrap_unc=
+hecked() };
 
-* Ard Biesheuvel <ardb@kernel.org> wrote:
+This is wrong -- `val` can be the maximum, and thus it does not fit
+since it is 2's complement, even if later the complement would.
 
-> On Thu, 20 Mar 2025 at 17:22, Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
-> > On Thu, Mar 20, 2025 at 9:09 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > >
-> > > On Thu, 20 Mar 2025 at 15:48, Sami Tolvanen <samitolvanen@google.com> wrote:
-> > > >
-> > > > Hi Ard,
-> > > >
-> > > > On Thu, Mar 20, 2025 at 12:07 AM Ard Biesheuvel <ardb+git@google.com> wrote:
-> > > > >
-> > > > > From: Ard Biesheuvel <ardb@kernel.org>
-> > > > >
-> > > > > Ensure that __GENKSYMS__ is #define'd when passing asm/asm-prototypes.h
-> > > > > through the compiler to capture the exported symbols. This ensures that
-> > > > > exported symbols such as __ref_stack_chk_guard on x86, which is declared
-> > > > > conditionally, is visible to the tool.
-> > > > >
-> > > > > Otherwise, an error such as the below may be raised, breaking the build
-> > > > > when CONFIG_GENDWARFKSYMS=y
-> > > > >
-> > > > >   <stdin>:4:15: error: use of undeclared identifier '__ref_stack_chk_guard'
-> > > > >
-> > > > > Cc: Sami Tolvanen <samitolvanen@google.com>
-> > > > > Reported-by: syzbot+06fd1a3613c50d36129e@syzkaller.appspotmail.com
-> > > > > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> > > > > ---
-> > > > >  scripts/Makefile.build | 1 +
-> > > > >  1 file changed, 1 insertion(+)
-> > > > >
-> > > > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > > > > index 993708d11874..7855cdc4e763 100644
-> > > > > --- a/scripts/Makefile.build
-> > > > > +++ b/scripts/Makefile.build
-> > > > > @@ -305,6 +305,7 @@ $(obj)/%.rs: $(obj)/%.rs.S FORCE
-> > > > >  getasmexports =                                                                \
-> > > > >     { echo "\#include <linux/kernel.h>" ;                               \
-> > > > >       echo "\#include <linux/string.h>" ;                               \
-> > > > > +     echo "\#define  __GENKSYMS__" ;                                   \
-> > > > >       echo "\#include <asm/asm-prototypes.h>" ;                         \
-> > > > >       $(call getexportsymbols,EXPORT_SYMBOL(\1);) ; }
-> > > >
-> > > > This works with gendwarfksyms since __GENKSYMS__ is defined after the
-> > > > EXPORT_SYMBOL() definition, but I'm now getting warnings with
-> > > > genksyms:
-> > > >
-> > > >   AS      arch/x86/lib/clear_page_64.o
-> > > > <stdin>:3:10: warning: "__GENKSYMS__" redefined
-> > > > <command-line>: note: this is the location of the previous definition
-> > > >
-> > >
-> > > Oops.
-> > >
-> > > Do you think the fix below should be sufficient?
-> > >
-> > > --- a/scripts/Makefile.build
-> > > +++ b/scripts/Makefile.build
-> > > @@ -314,7 +314,7 @@
-> > >  else
-> > >  cmd_gensymtypes_S =                                                    \
-> > >         $(getasmexports) |                                              \
-> > > -       $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
-> > > +       $(CPP) $(c_flags) -xc - | $(genksyms)
-> > >  endif # CONFIG_GENDWARFKSYMS
-> > >
-> > >  quiet_cmd_cpp_s_S = CPP $(quiet_modtag) $@
-> >
-> > EXPORT_SYMBOL() has a different definition when __GENKSYMS__ is
-> > defined, so I think with genksyms we actually do need this on the
-> > command line. I suppose you could wrap the getasmexports definition in
-> > #ifndef __GENKSYMS__ to avoid the warning, or just use
-> > __GENDWARFKSYMS__ like you suggested earlier.
-> >
-> 
-> Yeah, on second thought, we could just do what Masahiro suggested, and
-> drop the conditional from asm/asm-prototypes.h
-> 
-> The issue in question only affects definitions, not declarations, and
-> so having the declaration visible shouldn't be a problem.
-> 
-> Ingo, mind dropping this patch again? We'll do the below instead (I'll
-> send out the patch in a minute)
+In fact, it is caught by the doctest when run with debug assertions enabled=
+:
 
-Yeah, done & thanks!
+   /// assert_eq!(Ok(-128), i8::from_str(b_str!("-128")));
 
-	Ingo
+We try to put 128 into `i8`, which of course does not work...
 
-
+Cheers,
+Miguel
 
