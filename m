@@ -1,122 +1,131 @@
-Return-Path: <linux-kbuild+bounces-6260-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6261-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F464A6A5BC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 13:04:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28937A6A66E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 13:48:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91DE98A056C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 12:00:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A25167A47D3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 12:47:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7182C221704;
-	Thu, 20 Mar 2025 12:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3817156CA;
+	Thu, 20 Mar 2025 12:48:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jjBrpQx0"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PvKhbGaB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0238F22172B;
-	Thu, 20 Mar 2025 12:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4309134A8
+	for <linux-kbuild@vger.kernel.org>; Thu, 20 Mar 2025 12:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742472033; cv=none; b=jS0qvvEBhABI6YeZqDV88JRFcsRMIfA8H8PvL1gH7V5QHlFU2m4OMZXnUmhR2S2C3n2DHVoC3ltWGYKeLozo/T5O6y+LKJKYzOd84DEQBq6TYJXgO96fT+hx3Sy6fcFU1Lhlool9tXwkXUPkbmgkmHEixeQdmPq3FdN98kSiA3Q=
+	t=1742474883; cv=none; b=Ep5EdoDQbEjyJ1i+P167BkqRniuhzHCHIKIyWqixiPNNeTjX32ya78Rxsvchrp148sKhu0FuQAk6rCxI5hawqe1QmImq685taIrqZVt8RsAexLodbgJLzfgMVuu0RHKgRH3Tm6OdgYizqtKo9dfcanPpCE6UGS/dxEADYrMs9fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742472033; c=relaxed/simple;
-	bh=+JpqTZlUDUYwRI2Af2UJVSssidKLH53a8o68argLTeo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HHJZA5/kWUZFLg6XXv/NTOYcGh79wtJG3AjsPu+nX9ANFRB2P0c9CZEiXhI/S8xGI5mQF67f9guVgyQyM4T1TQlGVhpAN2OIqOi+G17Fl0Bo2Uh1yuks4wFZsliLO7ikK6faW9Hq8u8MLx9REwYeh/KoNzRl0VEXpId54j6qs7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jjBrpQx0; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-30144a72db9so165559a91.1;
-        Thu, 20 Mar 2025 05:00:31 -0700 (PDT)
+	s=arc-20240116; t=1742474883; c=relaxed/simple;
+	bh=IDXJl1i8J/l2RNFsvY0vgM0l739CZxYxycHd2ToDpb0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cdm89Snjwf2mXjlck3M+Vmr5W4N/ZoEsioEmydU9wu5cdiXNQGXscRkKidrlxwb/v0Bl+lulRLsEQuuos9MO8P1dfeO8tEaEeJ6t93/CBwHHtZA91QsNqhiVfqsPvakLZfaqRAJ0MnYVUawI2RB0g9ptzC+T46Rgiti6o6MPXzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PvKhbGaB; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cf034d4abso7932245e9.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Mar 2025 05:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742472031; x=1743076831; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+JpqTZlUDUYwRI2Af2UJVSssidKLH53a8o68argLTeo=;
-        b=jjBrpQx0XwE4t13JwPSpuKEQ+CWt8ARiWNUyWj24H0JhGmtVZ7R1Tcuzkym03laZ19
-         NGwV6zIkxySIsccdbm/uOofp2tM3Cj0hdIBc2HqXsgMoECXYkWUbVfq7UFd6Q72vvHPa
-         RypwT7+98nIlmN15rXAaQeM+/zQugZuYXpaMMlDswzI1vb2aDFhAcQSTebD8xOuMfmp+
-         7FtrRraTqS0tXBCqSI91COVdOXC8yneITQnH52scu2iWi7rQY1BmHiGp76ApfX9/yGZU
-         OqccOwtskBOusqwEB0Y/HegA4Eb4QxoufBjhgFmNoqJpdCeW/d7ERXqIFMwkg392gX9/
-         NUkQ==
+        d=suse.com; s=google; t=1742474880; x=1743079680; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yRTmEzyfg+Wz6HIOSkkIOgmGqmh0KFaXiwIBIUrCw2k=;
+        b=PvKhbGaBGw+zOo34+cdp03/WbjbcwwhOEEjLib/s6Zx3BkvkhBWFlTSK5iMHfsSLbb
+         WD1skXKZBqhuAMl5ONYxYizUvavv/FCOUDxyvpARuf2OXA5X5NyVTNYtSd0zvkX66zru
+         ie2tV3jQdzZTFSUkZbtxpNhgxR1xY7P+hH80RdWf3COONqCcirJj9sJ5ObTRLSxnJz0n
+         1XNkyT6jZiIzJ8+OUtqiX67lywSQ4s/05Ok9TNi2f2KYQYlMCSKyIbRQfV7oBAqnDD7U
+         eiSWkdppj4ea4m2LjW2OXkkSB8pM9W7HrX8LX/Zb8/7i7VEN8Eb/SwAm6ZIMysj4J0NX
+         Wo6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742472031; x=1743076831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+JpqTZlUDUYwRI2Af2UJVSssidKLH53a8o68argLTeo=;
-        b=DYhRBXIZN8lQeyQ/hqIUd0N7XxjlJJQ4yoWmXOPh6wh8/NTXosgkGSNAanZDnUqqsA
-         SAsZBA8PCBtEvUTEUIdfXcdA4IQjMaxpbs3k4Mg8EzRlrOArs6K5X/GyxuPY8S2JZuC8
-         OpohG/pFFV3g0JB5nMeZBgYzoTO9WMSB507WJNcV9A58S05IY8jpf9krkPaLC90XDzZn
-         pl97k/uM5Ns+fYrHOc+U68a+EM9AjTezDr/mRbTFZGkUrIGGdmFePXy5L5ZB/o72G4AS
-         KRDrCWKVMN++xrBdUJtkShv4BiVhNtuw9WPxAZDJU8FQ/1kffB84wuPsvhUGmHxuiYDB
-         jToQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZjn9NgStZxV/BdmP6oCjwCeYU3lfM+wtxjyhc3NvMiIasTqZey1HnKI1NGXEqjrhr9NdfxR1IMcYrbeFhMg==@vger.kernel.org, AJvYcCVN8M7etE/Cv3GHbTTlkwLQ4262774Db6OOMj3Ruvdx7eM3LoKhZibVj+TMgLS4iIe+pV9UF1VofQUQCqw=@vger.kernel.org, AJvYcCWV4/Gvnbx22P8aOMGVftQ/5pGfjmE7lIT2XICGUYTYtCeNf53jC1jFUzNOx2w+QpY5zKlo/XyDe6MoDpVD/KI=@vger.kernel.org, AJvYcCWippg9bRZ/yuBGHx7uJBnmm7BszaJC8KZNEpKBf5GwOT+IVVFlnhZP+5qdHKieBh351rNuOS048VqF3Ls6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyc5OJzcB7SESW8M9RTO7wI9uyuuGipsZEsXNEQUutiygnx5Zns
-	19j+s4BdtQU0h8RUpBdsp6F2Hzlc8hkQG/+Vnlf4P12edV1QEWFQWf9C/BlODlW5K+fo16lN5rb
-	WS20aavDSCuaVQ7OBsmVRZCOT928=
-X-Gm-Gg: ASbGnctSw8QT8P/ya7o5RVD/q5QXrp15yMswBSNZfbMMJstOSOWUj991VbK8MQeraR3
-	/tLXShSujVbRe/WDWEYpYFcatFd9bbmPoECM+ZWZFU/mLdYGOvkltE/roL6pfmiiqjVUePoNuQ3
-	9x23VYLiSn5Ko4a9IdO/KvROgN6A==
-X-Google-Smtp-Source: AGHT+IGLnHem81pSy849Xj5e5pWE83gWruoVX126M+G8/5J8tR1iaCU2Org4jEG9DcYNth8MQP8v31q+vtP6uB3x6JE=
-X-Received: by 2002:a17:90b:4a03:b0:2ff:682b:b754 with SMTP id
- 98e67ed59e1d1-301bfbd457fmr3463081a91.2.1742472031169; Thu, 20 Mar 2025
- 05:00:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742474880; x=1743079680;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yRTmEzyfg+Wz6HIOSkkIOgmGqmh0KFaXiwIBIUrCw2k=;
+        b=vDPe7vVxFMp4UguJl70arrhftGKqgmsqr83WZ1yBCKP6I1QrNKyUCD2ymJz6GhxyCl
+         QRrYXBJkXMRJPkdCr+V7qsQ25ufyHyWKBOvTe+i6qMDB0kAauEc0m5D87BfNZXhzfO52
+         JJdr3OGjuOofE0de6ftCkY8ZQnGbe2fJaq4U05HalwXtEA+2tpJ+1M4bs2qLjBXu0EGO
+         v+CzY5ZLSrrteOvTwDhzAGB/Y3RSaRdh+EKS8gphB6silXZKrQ9rJXuZ4m2oXcw+Rg/F
+         c5tFLmclHRmilUuX7naM+lBXxZY3CmRyhf5Wtb+i6+SNRYZ2FMWcI091QYXpn6FI51Cf
+         uzQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVVzmYzJNybbe4EvZcLIv81TI1egIvDZIWCYF4uSCRuVI/W7n7+tXARRu3dx9x22DP4965EsOUTb/YFuXw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/TKLGXGfyLKcp+CMAK+UvoH7sdil/JNIKttWAOlfAnXk+rq5V
+	MFd5EFLK6IZbsKQ80U1Vrq5n/PbzJBjRJAzPC8dIpwkqYAamzOok+gxm0DP5d6g=
+X-Gm-Gg: ASbGncuwIpOb1q1sdDINHZqAmQTW7+kJ2z7yRPdRL7mCstALXIWWIwyb19m3fVmXX9X
+	iU0+lv7cifD8tiJ7a610O+KAQtjGFB4ffw+xzpBVvaBnEziOm0eiF0Gu+cy2OPGsfrovHffTEXG
+	UWqsDVVqodxnO9Q6iXhIXA/UVBpEUyKZP0Zqrit29SPUDjXkebRBYPzIMVK+f3aLGUHPoJ+40Ie
+	AHeKlTh5rDWnSo12WKrd9Zr/goVgaW9xv9GkwynT3bxRj0xT5DQksv4OxCyOf1oOeL79PcUNhld
+	+te/YTclSjk9l7N5LQF82LC/meuu2PC083HCYcZgvYZHMbqF
+X-Google-Smtp-Source: AGHT+IFK8cnKd03UI58c58N9tTUhbs8lTuMEB2+nvwJxneGk0ZnWe422V+Lm7Z/j4ELAov50+NMyvQ==
+X-Received: by 2002:a05:600c:3b92:b0:43d:1824:aadc with SMTP id 5b1f17b1804b1-43d438a1d8bmr63258995e9.29.1742474880123;
+        Thu, 20 Mar 2025 05:48:00 -0700 (PDT)
+Received: from [10.100.51.161] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d43f589bfsm47675145e9.22.2025.03.20.05.47.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Mar 2025 05:47:59 -0700 (PDT)
+Message-ID: <efc4dde0-66f0-45fd-8018-00e94c3497b8@suse.com>
+Date: Thu, 20 Mar 2025 13:47:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
- <Q_mSCTsSMDQ6DylWZTrkH1Wru3fQ1LFIiuk1pHElSsTc12fDdaCrgzWvEEQRE2_WBxOBzPuCE-qBJjw7LhHbjQ==@protonmail.internalid>
- <nh23cbbpf5yk6mafn7gz7urlau22egilideytnnh7paagusaih@t7y7q7jha4fz> <87frj8dmlb.fsf@kernel.org>
-In-Reply-To: <87frj8dmlb.fsf@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 20 Mar 2025 13:00:19 +0100
-X-Gm-Features: AQ5f1JqT0bJ1nCq6lcjr_QnPneXhQ7sT5zkUrLM9y47BNLBzjIHnH9YbYE6UIy0
-Message-ID: <CANiq72kyAx=wbvYWBTmPb4eppfvGuFsjVMa49nZBrXGbLEDiCw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v8 0/7] rust: extend `module!` macro with integer
  parameter support
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Daniel Gomez <da.gomez@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Luis Chamberlain <mcgrof@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Greg KH <gregkh@linuxfoundation.org>, 
-	Fiona Behrens <me@kloenk.dev>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	linux-modules@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Daniel Gomez <da.gomez@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Luis Chamberlain <mcgrof@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
+References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
+ <Q_mSCTsSMDQ6DylWZTrkH1Wru3fQ1LFIiuk1pHElSsTc12fDdaCrgzWvEEQRE2_WBxOBzPuCE-qBJjw7LhHbjQ==@protonmail.internalid>
+ <nh23cbbpf5yk6mafn7gz7urlau22egilideytnnh7paagusaih@t7y7q7jha4fz>
+ <87frj8dmlb.fsf@kernel.org>
+ <CANiq72kyAx=wbvYWBTmPb4eppfvGuFsjVMa49nZBrXGbLEDiCw@mail.gmail.com>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <CANiq72kyAx=wbvYWBTmPb4eppfvGuFsjVMa49nZBrXGbLEDiCw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 20, 2025 at 11:26=E2=80=AFAM Andreas Hindborg <a.hindborg@kerne=
-l.org> wrote:
->
-> As far as I understand, Miguel would take patch 1-5 for v6.15 and
-> modules would take patch 6-7 for v6.16. At least that is my
-> understanding from [1], @Petr and @Miguel please correct me if I am
-> wrong.
+On 3/20/25 13:00, Miguel Ojeda wrote:
+> On Thu, Mar 20, 2025 at 11:26 AM Andreas Hindborg <a.hindborg@kernel.org> wrote:
+>>
+>> As far as I understand, Miguel would take patch 1-5 for v6.15 and
+>> modules would take patch 6-7 for v6.16. At least that is my
+>> understanding from [1], @Petr and @Miguel please correct me if I am
+>> wrong.
+> 
+> So I offered that as an option -- I assume it is OK since nobody said
+> anything (please correct me if I am wrong), and it would help get
+> things moving.
+> 
+> So I will take 1-5 later today or tomorrow unless someone shouts.
 
-So I offered that as an option -- I assume it is OK since nobody said
-anything (please correct me if I am wrong), and it would help get
-things moving.
+Yep, looks good to me.
 
-So I will take 1-5 later today or tomorrow unless someone shouts.
-
-Thanks!
-
-Cheers,
-Miguel
+-- 
+Thanks,
+Petr
 
