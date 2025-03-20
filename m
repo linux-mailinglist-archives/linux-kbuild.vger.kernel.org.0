@@ -1,125 +1,137 @@
-Return-Path: <linux-kbuild+bounces-6270-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6271-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6EBA6B193
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Mar 2025 00:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E421EA6B1A7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Mar 2025 00:28:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F34A4865A3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 23:24:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5AA1948672A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Mar 2025 23:28:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E50C022A7EA;
-	Thu, 20 Mar 2025 23:24:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D96C822A7FF;
+	Thu, 20 Mar 2025 23:28:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fRwV9ZeF"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MaSTqBvV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D731F5F6;
-	Thu, 20 Mar 2025 23:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA0622256A
+	for <linux-kbuild@vger.kernel.org>; Thu, 20 Mar 2025 23:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742513046; cv=none; b=mi3JtaTxLmupmXWz1GIC8mH1K16Dfs2IFiloP7V6jgHSZMPrfZY50qet5W0bnqJt9LcscyUnEPGJK5Pcc/Cgk6Su7xdK07k/pqaNpWFWfnTlTVIsENPgGINkQK4sbrW2eX28+mSlNIVOyYGXRm34hnHHHc7tBF+yfvtdy10HQ6A=
+	t=1742513285; cv=none; b=Yyy1hopL3jk3QGJPfnad2+7SFTzEjuldQMzcFrbcoC2OsfbMyMeOrU5gNJdH5Uj/T12cDTUMS5PV5CzTLxbg+7X7PXZ1Wv7jaV711/7kESN94khQ0u6e/Tv9dbxDFFR5SOrmlg5cTrBtybjPZQB+0Q5ogQcMXwl4Y6zYLLKrkdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742513046; c=relaxed/simple;
-	bh=W8uyn4r11WjWx6rPaEdn+7zFfeY+5yijNLO6XpQjZV0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dpqhq5HwFVdxY53l5ubJZRVwBhCwh0UDnXTg9z8jQ61q2HetpQLdb0d4kpAkfPyj/MJVcrC5m88nn0pDMYH4LvcPjB/1IoDiS71MMg79kcuvHpq3vrE3REoUOXIcLlU5OYZdO71bP6/lDMtw+/6llajBsJ83WYoBQyGrTKHsvnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fRwV9ZeF; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22400301e40so2933585ad.1;
-        Thu, 20 Mar 2025 16:24:05 -0700 (PDT)
+	s=arc-20240116; t=1742513285; c=relaxed/simple;
+	bh=sTzT5PtwQSPHGFOm3VurrDvsdk8Mjq6EUX9qB/8ft9M=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LalT/UABhacVnGyisGZT16zOVhqkU5hjKhOdyq5OLoYXDz+4esYhHkEtexL0B9d5TMiXMC9wDeevt8pp7ZJ9TMlx7a6jbXK8HBgYbQu+jwmzTcXOF/NR1oUQspk6n4RRkKG5Z4GDklB0UtdKJzD9jOGugzOeRbMYVo5WdGwCuKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MaSTqBvV; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2ff53a4754aso3632466a91.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Mar 2025 16:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742513045; x=1743117845; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=78UJncGiTadhrD6Xoh05yr4EEiB6STPqGdF7/vPmhI4=;
-        b=fRwV9ZeFFJ1wYX8snSEo9Mr/tBYadfxxww1e1utZ6dJ2DaXZu+RcAfOzojukJ9e4Xo
-         hSskOQTgIlOFmfH2OZFGKcKLbcWM2ZYFH1Ks0mrQavj4DKR/vab5/QTS7qWK1jquXtpO
-         HgrhYWl2ss1LwMzYhYgzYYg+VtGdpvRQqO3kVSQaG4FPBuq2pk9KkYtAyqiti5tziIxf
-         MiaP44FvARfWU1xURrGE/Aj9CI3G6sq0HSNlRp75jvLCLYArTBTPk8iXxUVvD4ARMtyn
-         xMKEiPj/0U19nlRfhd0BZKwnc5vzJXHN0DMi7LCJzbufiBnrxqX392360TTzxqj8N2Gp
-         GdUA==
+        d=google.com; s=20230601; t=1742513284; x=1743118084; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kzKhceJYkAUqAvfvyFb46En6N7ik17gmHG0Ft959/Ys=;
+        b=MaSTqBvVlvd8QmrxkuM4IcrQwPmDyczMhD4BOENlrUXSO7ORTweuil9G5IkpK8Z4yO
+         QX7iP93UA/RXBSgAK0BETlkZuJR6XBjLJxj9N2oq+es+/xgxiSFewfEyKLIVNDVIHOM+
+         2v18BjEpsCqjHU2lFMgia5rSn5iqn3haADyl9AENK+GUdXTEz3PYPKOlw0rLAJkhl+w9
+         zrpzSbj0rCt0iQJgamPhz5iE4saJqL1L4yI+01FjKA9Un/UMHlf9FYYdHG1uiNXf0oBW
+         G/HUERmg5OLRSxTneZElq6VH8UHs+ThHQ3Qgd3lyk9INqBZwjNgfWR6xcKWW5nOwp7s/
+         B7qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742513045; x=1743117845;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=78UJncGiTadhrD6Xoh05yr4EEiB6STPqGdF7/vPmhI4=;
-        b=Zmok8Sn+emwEJso3m329sYjodO1eUbjdLsW6ly8u+9t5ZIZoGdAvspzVLzgbORLLZI
-         09uQbfDeRgStNfR3G6M7c08HkNoMxeNMX3/GjwiuTkddVRQcgI7tuWaSGxQtK2Xffnqt
-         lo2sAOVoj9hdSYIGCle4zt1bu1rhWO66UJhdYXX2yZKdBj+nEBM6uFN5qEHya0ZcPvgi
-         eyke5o3ZlFCUEhf/2MRkFPw3zP2HOONcV0fQ8SlsaQiufiPVKC2tZS6cupEsuBMmZsJk
-         PFePT2hpZzQf49bdFfGJFQwlKCG5cwI9cR7XY9rossU0WE9UfrSVJW+KFl2EUFNz58qE
-         VP9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUBFjWPhPb69GfLkB676I2hoySz0M1i7u7bLip0PIcfVnYc7TyIHHF5Zz4J5vGtqwnuRrVMELHVY1mVfK2JkMU=@vger.kernel.org, AJvYcCUxvnQOWHd3Z1KENhU3ylIrx2m3nxazZBV29dYv0tijtNd0iaY9qRieAryXb9nMuj0H7wXXTpyXGU1yPR5I@vger.kernel.org, AJvYcCWAgsMfx6wtVPU6TvlcyX/2B0cf/GjULlnlA6NwLfKTpnHaQ3nAAtyPRLvxPMVmIgnuSDufsX9WZ90PTQZAWg==@vger.kernel.org, AJvYcCWjFKE4IqVoBs9r2BEHxwaaAm0aSYJHpaYBGTr6vQnv1amvV7DmlF9MIJPcceZcpPNjf7ruvwJZwCF3FFQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYA7lYx1yXH988p8XRCPJ9eINc5RRIRgWzw64W66MPb/DMVQCF
-	QSw/9qRdnDDktQifglN0F3PNGTlC7udSplq5K5QF0N1q+OlrSqCZlFAOfQLB43sdFW+kjn2tqqO
-	9pTCf7EFDMMYMuq69BBFojxtppUI=
-X-Gm-Gg: ASbGncvJ4tAJ26kKVCkgEpcG3kljeoq7TvOJmSpJiaWwQk5Qf7LLWMPS7yX8j8j2TSh
-	NWISG1APXVWKu0Kj90w1E74vDrEMFC9m07cZuPJLrtDJM7qqQg159h7ew5/btl17sXibN0y6y1D
-	arfAl/YHL1lVjhrfdMwXCqsfR/xQ==
-X-Google-Smtp-Source: AGHT+IGWcw7ORKtOYVJClKluL8nolATENO4O9yVP8mhgL3334V4Sm9uTXwtZCL5NZynw5a04Z6B31v2ztFvhC4kR5eA=
-X-Received: by 2002:a17:902:fc48:b0:21f:1365:8bcf with SMTP id
- d9443c01a7336-22780de63a0mr8497675ad.10.1742513044776; Thu, 20 Mar 2025
- 16:24:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742513284; x=1743118084;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kzKhceJYkAUqAvfvyFb46En6N7ik17gmHG0Ft959/Ys=;
+        b=ujnKcn9WxzQjQwdv3b2CyH/N+xeKwXEfGolKbWeTT+YdqFtJxTAF604CQ9zzvKVisX
+         HTCiGF8F38lU2yBwn1rNnXUIFd8qz2ve/KYAls4IlkO3gNDESuRa2ja1OmtMJLyvNIX1
+         DXsAYzLCOFtUIjPNLFOZjCIof3LYv/QTx8DKX595amgR+c0btxop3b9hrSmhDycVJk/U
+         mtGnqeB6Ey+IxzauQW2MHv21WsL6S9RBA7kN7wrXNSTlgDqLeLN2OmQBAz3iHUXOrUfN
+         MgH4HJi7u2S8HnphN36GG0ssXBWd6a9XeCJ3T5VMqh/CsCYlDe4OGBqXTfjVOoEh/LrC
+         7jng==
+X-Forwarded-Encrypted: i=1; AJvYcCXHa5bPqYmHXncl/qi0v8Upx2WW8xBZcbUxm787anqrrpCg6R02NYpU5EP8ghkkLhyj/ROyWl1XeOlBppk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySKyQ5CrFVG+N/pTCdtxpasAXUwMJmBtPR+xovxgvKt7JKk3qE
+	PEifaGCkyDRQYk+QcK4DLWZMhPtFWMvTAnp3r2QWz2Nz/lO4jQG1+3SItZou6iRLM+kfVLAYsMq
+	b8GhxPYonFQcZKpHV2Pw8bRCmDA==
+X-Google-Smtp-Source: AGHT+IHnAupWokYIK22X9v/qMVPuyMFNnXuVjx1FMSGpF61YwN2ljJRb873YXI9hUKxhoK14+Ih+q/r8UQu7GQopifg=
+X-Received: from pjbpq9.prod.google.com ([2002:a17:90b:3d89:b0:2fa:a101:755])
+ (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:2551:b0:2ee:d193:f3d5 with SMTP id 98e67ed59e1d1-3030fe595c0mr2031878a91.7.1742513283758;
+ Thu, 20 Mar 2025 16:28:03 -0700 (PDT)
+Date: Thu, 20 Mar 2025 23:27:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
-In-Reply-To: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 21 Mar 2025 00:23:50 +0100
-X-Gm-Features: AQ5f1Jq6P6370em5rW3xTAKNPORSy5LT2z6OT2b1hTDzjQB4Ly6uKjhiWGGrWlM
-Message-ID: <CANiq72mQe-WBmFRNaLT=yCHb2x2Uyi7MsxThCs9S6Vmp6yVSpw@mail.gmail.com>
-Subject: Re: [PATCH v8 0/7] rust: extend `module!` macro with integer
- parameter support
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Luis Chamberlain <mcgrof@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
+Mime-Version: 1.0
+X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2029; i=samitolvanen@google.com;
+ h=from:subject; bh=sTzT5PtwQSPHGFOm3VurrDvsdk8Mjq6EUX9qB/8ft9M=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDOl3ltT2hVutY8g1/PDl6u6AP4GND2d9CpBU873Zs17EK
+ yOh9uTmjlIWBjEOBlkxRZaWr6u37v7ulPrqc5EEzBxWJpAhDFycAjCRskiG/9F5Px3Ot6o136w5
+ fDv7eqJv8iR3w0YZT3Nv0Xldn2/su8LIcJpxm8H6V2m6thEKRncv5XZu3y67Qsar1+CK8aGe+Xw beQA=
+X-Mailer: git-send-email 2.49.0.395.g12beb8f557-goog
+Message-ID: <20250320232757.2283956-2-samitolvanen@google.com>
+Subject: [PATCH] kbuild: Require pahole >v1.29 with GENDWARFKSYMS and BTF on X86
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sami Tolvanen <samitolvanen@google.com>, Paolo Pisati <paolo.pisati@canonical.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 27, 2025 at 3:39=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
->
-> Extend the `module!` macro with support module parameters. Also add some =
-string
-> to integer parsing functions and updates `BStr` with a method to strip a =
-string
-> prefix.
->
-> Based on code by Adam Bratschi-Kaye lifted from the original `rust` branc=
-h [1].
->
-> Link: https://github.com/Rust-for-Linux/linux/tree/bc22545f38d74473cfef3e=
-9fd65432733435b79f [1]
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+With CONFIG_GENDWARFKSYMS, __gendwarfksyms_ptr variables are added
+to the kernel in EXPORT_SYMBOL() to ensure DWARF type information
+is available for exported symbols in the TUs where they're actually
+exported. These symbols are dropped when linking vmlinux, but
+dangling references to them remain in DWARF.
 
-Applied (1-4) to `rust-next` -- thanks everyone!
+With CONFIG_DEBUG_INFO_BTF enabled on X86, pahole versions
+before commit 9810758003ce ("btf_encoder: Verify 0 address
+DWARF variables are in ELF section") place these symbols in the
+.data..percpu section, which results in an "Invalid offset" error in
+btf_datasec_check_meta() during boot, as all the variables are at
+zero offset and have non-zero size. If CONFIG_DEBUG_INFO_BTF_MODULES
+is enabled, this also results in a failure to load modules with:
 
-    [ Pluralized section name. Hid `use`. - Miguel ]
+  failed to validate module [$module] BTF: -22
 
-For the moment, I skipped 5 due to the UB I found.
+The pahole commit that adds 0 address DWARF variable verification
+was merged after v1.29 was released, so later versions of pahole
+shouldn't have this issue. Require pahole >v1.29 when GENDWARFKSYMS
+is enabled with DEBUG_INFO_BTF on X86.
 
-Cheers,
-Miguel
+Reported-by: Paolo Pisati <paolo.pisati@canonical.com>
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+---
+ kernel/module/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+index d7762ef5949a..7c75832aa1af 100644
+--- a/kernel/module/Kconfig
++++ b/kernel/module/Kconfig
+@@ -192,6 +192,10 @@ config GENDWARFKSYMS
+ 	depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
+ 	# Requires ELF object files.
+ 	depends on !LTO
++	# Requires pahole commit 9810758003ce ("btf_encoder: Verify 0 address
++	# DWARF variables are in ELF section") on X86 to avoid conflicts with
++	# __gendwarfksyms_ptr symbols.
++	depends on !X86 || !DEBUG_INFO_BTF || PAHOLE_VERSION > 129
+ 	help
+ 	  Calculate symbol versions from DWARF debugging information using
+ 	  gendwarfksyms. Requires DEBUG_INFO to be enabled.
+
+base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
+-- 
+2.49.0.395.g12beb8f557-goog
+
 
