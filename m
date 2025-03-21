@@ -1,112 +1,114 @@
-Return-Path: <linux-kbuild+bounces-6272-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6273-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E944A6B400
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Mar 2025 06:22:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6D4A6B589
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Mar 2025 08:54:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59F8E7A6E3D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Mar 2025 05:21:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2099B3B44B7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Mar 2025 07:54:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D00DB664;
-	Fri, 21 Mar 2025 05:22:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EE81EE02F;
+	Fri, 21 Mar 2025 07:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="snLL6CxI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bdhqTBW5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C601876;
-	Fri, 21 Mar 2025 05:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C603715820C;
+	Fri, 21 Mar 2025 07:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742534536; cv=none; b=WJ5Cz3LsZwnutZ6zhRopdiIgUkK5BNQmZgoK82aQ1BDHKS9jZReLv2AMKeSn1xpsXWh2vuKGlX76xFoAqep8riYJQNM3lHRbZk5G1NuKB035VPu1qPWAKN/6hz1ix0LCjFFpUlZmeB/jcZcxytCWl5K7eNa6ZgkeJZ0tqFZS25Q=
+	t=1742543653; cv=none; b=ZsVdBCHk09D5VsJC78WbQdT7E6THpTuhHfHCVm4M5eHlWnqt6Utb/snMlO3D5zX27JNq+DdQ23DUzsLP4Da1GG57fYrEBgEdRzsIr5fJlk2TolbqV71aJWOF09SvHZ0QXwQnjyeFFayAorvemtXYk/A5bhx3kxcD8fqz/zGcAZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742534536; c=relaxed/simple;
-	bh=D0Pei1toekIKyJ/MVpUeBKX12yw54PAwd6J9pJFnZCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h0mzCbA8iTvKXHjg8mvoV+wrVcDm1uv7qu/Djjgzlg5jyze16qr8H50VutIA8lAXoZ35RPC/Md79tIPq2I6sIhAZHCjIgqQ+D1xSVGb84Q+j0WElDqoQapm1HZs0xseiwZqMRTnTLyKzbwYsU6U1pZqXDteqwip3m72CnypB5cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=snLL6CxI; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Fri, 21 Mar 2025 06:22:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1742534530;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W3Cb0w4pXl6oKydKmRWXmTfgUw0p6eRvj8lJ0OG3Czg=;
-	b=snLL6CxI6mv8IwgsVERISDFNRPjP/XjxLsGS1tM9r06dFp9rnuBGbU8MDUEZorMaDomMX9
-	JSZFu6tD/7ZjP/5Zk/mp0Z67uJ6X0Q4t/NAeDHG3i466Su6N4uYU12SPcipu7nmcflrzL9
-	nYcj5cA9lnJIN2DUQ3KHihZhu5Bzh+c=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ben Hutchings <ben@decadent.org.uk>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] kbuild: deb-pkg: require debian_revision when creating
- source package
-Message-ID: <20250321-proud-serious-kakapo-a6cdec@bergen>
-References: <20250311190124.634007-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1742543653; c=relaxed/simple;
+	bh=vcghkUr7zjsU1J59DBnO3HcwXjT6KN5LxU6KUTtpxXA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lQ98KmBlAe/emexQH/x77H5E1gDuN3LS/NX/jx8ICUzSK+2O2zeqD4NoR3NwRUwBa24m/ZitBLQX2yJzj+kLr0LqJq4hbye4B9uVkXvxKhEyFlMPOCyHi2V5AKRnn+hXiwlj7trs/EZUuPWlCV9DEUiRrLmJW/M/h4NrXhSwMwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bdhqTBW5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C154C4CEE3;
+	Fri, 21 Mar 2025 07:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742543653;
+	bh=vcghkUr7zjsU1J59DBnO3HcwXjT6KN5LxU6KUTtpxXA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=bdhqTBW5PCwYIb83MM5cg32UOOJrwYf78YzfIQKNQI1wP6PrHHj3QKOuwxlFUOF8s
+	 Cn31hJNnXJ+VsZLgKcsTsL0oS6oTT/CoprixfM6Wo/FD+2AfswYzYW6KuNh9I/v7o8
+	 NfRuygHQouOxjwPPdswYAuoxuUsOPoxquvrd/cczvO6ocXaNzQGA8VJqrhRvdwGHKU
+	 Q6Qkh+YAGoEYsOXuvA7CFN3Ewcyfd9Tbxk5f5fAeyJTZBJgPiADbxopShA/UGPvRLy
+	 2rRKpT53Rh5c2IfRr0N4IQSkS9R9Wje8uJYmChjgdfYGKg/L5dXxmdZeChEIsFWQ1j
+	 1gLsoYjtREhaQ==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Benno
+ Lossin" <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,
+  "Masahiro Yamada" <masahiroy@kernel.org>,  "Nathan Chancellor"
+ <nathan@kernel.org>,  "Nicolas Schier" <nicolas@fjasle.eu>,  "Luis
+ Chamberlain" <mcgrof@kernel.org>,  "Trevor Gross" <tmgross@umich.edu>,
+  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
+  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
+  "Sami Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
+ <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
+ KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
+  "Daniel Almeida" <daniel.almeida@collabora.com>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v8 5/7] rust: str: add radix prefixed integer parsing
+ functions
+In-Reply-To: <CANiq72kGzB2CdGMcaftfg2eYvu_rBtH2_gxqVt7KE7RQxCgz8Q@mail.gmail.com>
+ (Miguel
+	Ojeda's message of "Thu, 20 Mar 2025 21:21:39 +0100")
+References: <20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org>
+	<20250227-module-params-v3-v8-5-ceeee85d9347@kernel.org>
+	<AQOXp6PZFJn4kOjCa-G_hK-4cOZLQSA-N588Hvd0Gjwu0jriKwODiCpAuczfyNQ3iHgJLjEVqO105YjH_xE9aw==@protonmail.internalid>
+	<CANiq72kGzB2CdGMcaftfg2eYvu_rBtH2_gxqVt7KE7RQxCgz8Q@mail.gmail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Fri, 21 Mar 2025 08:53:59 +0100
+Message-ID: <87zfheddk8.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250311190124.634007-1-masahiroy@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 12, 2025 at 04:00:26AM +0900, Masahiro Yamada wrote:
-> Debian Policy [1] specifies the version format as follows:
-> 
->     [epoch:]upstream_version[-debian_revision]
-> 
-> Here, the presence of the debian_revision part indicates a non-native
-> package, while its absence indicates a native package.
-> 
-> Kbuild adopts the source format 3.0 (quilt), meaning the kernel is a
-> non-native package and therefore requires the revision portion.
-> 
-> This commit prevents the creation of an invalid source package when
-> KDEB_PKGVERSION contains no hyphen.
-> 
-> [1]: https://www.debian.org/doc/debian-policy/ch-controlfields.html#version
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  scripts/package/mkdebian | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index b6dd98ca860b..193e33bcb989 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -94,6 +94,14 @@ set_debarch() {
->  # Create debian/source/ if it is a source package build
->  gen_source ()
->  {
-> +	# The Debian Policy requires -debian_revision portion in the version.
-> +	# Since the source format 3.0 (quilt) is used here, a hyphen is
-> +	# required in the version.
-> +	if [ "${KDEB_PKGVERSION:+set}" ] && ! echo "${KDEB_PKGVERSION}" | grep -- '-..*'; then
+"Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com> writes:
 
-Thanks.  At first, I thought that the check pattern could be enhanced,
-but testing with '--' as version suffix led to 
+> On Thu, Feb 27, 2025 at 3:39=E2=80=AFPM Andreas Hindborg <a.hindborg@kern=
+el.org> wrote:
+>>
+>> +                    // SAFETY: We checked that `val` will fit in `Self`=
+ above.
+>> +                    let val: Self =3D unsafe { val.try_into().unwrap_un=
+checked() };
+>
+> This is wrong -- `val` can be the maximum, and thus it does not fit
+> since it is 2's complement, even if later the complement would.
+>
+> In fact, it is caught by the doctest when run with debug assertions enabl=
+ed:
+>
+>    /// assert_eq!(Ok(-128), i8::from_str(b_str!("-128")));
+>
+> We try to put 128 into `i8`, which of course does not work...
 
-    dpkg-buildpackage: warning:     debian/changelog(l1): version '6.14rc5+me--' is invalid: revision cannot be empty
-    LINE: linux-upstream (6.14rc5+avm--) trixie; urgency=low
-    dpkg-buildpackage: info: source package linux-upstream
-    dpkg-buildpackage: info: source version unknown
-    dpkg-buildpackage: error: version number does not start with digit
+Thanks for catching this! I have to start running tests with debug
+assertions, it makes no sense not to do so.
 
-thus this is great as it is.
+I'll send a new version now, hope it will make the cut.
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+Best regards,
+Andreas Hindborg
+
+
+
 
