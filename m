@@ -1,85 +1,86 @@
-Return-Path: <linux-kbuild+bounces-6302-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6303-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2BBA6CC79
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 21:45:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 245C3A6CC7C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 21:48:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F94E189067D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 20:44:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 880CB189B4D7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 20:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2313235374;
-	Sat, 22 Mar 2025 20:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C38AE1F8BBD;
+	Sat, 22 Mar 2025 20:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="GQieJjcr"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Hizt800X"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE9D23535E
-	for <linux-kbuild@vger.kernel.org>; Sat, 22 Mar 2025 20:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E201A1B0F20
+	for <linux-kbuild@vger.kernel.org>; Sat, 22 Mar 2025 20:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742676266; cv=none; b=D82GQdZWR4ePhTpLCfk2QGOUd4VmFqzDTf4BddL3R9/1ddv2z8jkNe3Vvx2xqiJJM9X5Xj5AyS35PcB49PC/lA1TW8H84fBDshEDC6GmGeKlibPCB31u4blv0+9s303TPheRndmUwMOd5EKHwHqEraTrSfmDcYiULYR8SUgAUkA=
+	t=1742676507; cv=none; b=JF5Z8tmJty0h8nYbqFPxexDcAUX0EDxDJcasf04g9KdctqY9iUZuWlBbOBrK/p2KN/G+vXuCrKMXCKv2DljcV2Ww0uwhDPSbsCKf83FsxD0et9NVzfCmJ8j+Iw4jytuvnAQFYiViUFOWKXPbP2Gi6wtfag7ueJvEhY9Ty4szdlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742676266; c=relaxed/simple;
-	bh=UKlciIrjeezvhboHb0wpfeljhOCf1ywpYrDH4+tDbI4=;
+	s=arc-20240116; t=1742676507; c=relaxed/simple;
+	bh=ay9fevNY0hFn8/QGn3/YRuwGGPrGYObaNbTRDw64xOA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nmMFolZ3F114Vredsx6GfnKU06sU18uUq53gGXlyZMPIMs2uULezkMDucwRmGQGm/sPvFO8bsedHIGeeds66kRLntjx+2M89UGPFnHVHL85qUnQfEZYcePY8+JBY7VaBNUc5simANYDjr9R6SNBqC0uJyG3a5YlMLq+QFIohFho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=GQieJjcr; arc=none smtp.client-ip=209.85.128.169
+	 To:Cc:Content-Type; b=bfoZab+tAevKiCMt+3+MnTYYwSNbunl3tEQy550eJXzrQ98k3ZOKIzi1TTTSLr7ajaYdzoSwxN99rIzBJjyQazJd3cbHjPb9RTcLVOXHhcw/+k6kZ1YoAKmxLYZx4vxJHhBhugVYztUvQHCKx/nf5yG/UPmPDmyRk8fyq/jy25g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Hizt800X; arc=none smtp.client-ip=209.85.219.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6f768e9be1aso39792907b3.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 22 Mar 2025 13:44:24 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e637edaa652so2281425276.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 22 Mar 2025 13:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1742676264; x=1743281064; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1742676505; x=1743281305; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W+vTxWBkSi57+4WfhJ24nlBMfZiKcsmbPvtMMRe99nY=;
-        b=GQieJjcrcWmiEj5M05POaTOS17Jp9Q0qocinbVA6c9w5Ejje9YXldSOf/9G0cp4Pc9
-         7maup0mffpTRwLL9FZx5bN/iBR1nxNDsMOBmU9n4qjqvBg6Ot8LsttV94D0Y2U/k/G9L
-         F62InBFMOJ8rXWyhpgJOplGNLR2sagMJdL9RWacXvz+qzGHaHnqGQO7jxBZPIgKz0wpW
-         5VozKYI5YUaCI+YkiP9hM1e7rVOrCVpnE/N3DjZQ6odMXkWyyB96HRji6UdE90pgb9hE
-         XiEAezRM4c1Q/SbN0jWp4BM89vKK//gdp+hVwKPvulYlAaze4TM3Ubuc2Oe9KYKuqrBs
-         0bUA==
+        bh=ay9fevNY0hFn8/QGn3/YRuwGGPrGYObaNbTRDw64xOA=;
+        b=Hizt800XY/+T63lsoBnEiCzXCwN2ZwXOzqk14BmBwg74o/C+kohco3gD81xwG6/i+N
+         /Wb48AuLXsldPGHDuy8oERR1k1CvOdjCMrKoP6teHROWLEc7qnI9QihUitcaEUEcO+Z8
+         vS+pbclRjOX+s+PgBNVH+N90mksTCC7UwraI3scPSfEc8lxpM/vlK8Qt8fzPFs6fSOsV
+         S/d5G2PiD8ozyBh7dSynljv5f+yjjukred2Rl3JJywrpombFDHT7B/4LK29yMka/7UyG
+         r8wMLiPdTrpXoVz6Elmq24ExxTeabxUzr4mr/WqoFzcI77mYaArIWDlqa4DgsG0TgerG
+         Pc+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742676264; x=1743281064;
+        d=1e100.net; s=20230601; t=1742676505; x=1743281305;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W+vTxWBkSi57+4WfhJ24nlBMfZiKcsmbPvtMMRe99nY=;
-        b=JNFUI1dOps14GNcFQRNKIc2XciADhzhWodMogYwWRirO1zikPkiN75CNoRl/vuZ3GQ
-         j1OT9/HZ/yaUr/3npJjU2O+TdeOmAFNCA6I9N6cTJ0dqtDFhOFFQyAh7dmnEGEPWq2/r
-         75lTrZUI+vzBJnF7FB4CTDpJLki++ys0spChR2b88FIpCNKrVB3IleWFd1Eo4bQghP7W
-         wVQvnai1Z6KcYZocT0nD1h+k4G6UsTI6/XntxL+xHZyHkBeuNdqm84Z1DGmeHW0bY638
-         gMJaBpyvTCTYPAfYzpe9v7hRmoNFtoIcForNm7IqqAH+w9szyREKEaoVzoQy4ekYzoOK
-         trXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXi7xvbWBPRw0qoFk8p9mEjaGAxVTUpbi/VY+KtV8KdcGYuXjcdyrDYTdN3ea5A4EB5nuV3OoCqdLx/jNo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzrwf2gSB7v65NcztnUMUQezF95KbCq9fO4n7bY3MKPHE5bZJYq
-	YQe+b/oqFg/DEVbJJzJkos0J3xmy9jBpIBOCxo1EwRNNJGsDPv2qZ4g38BKyHGh+a14JcN2oIxS
-	5WCPVWuN8fVLuBf2t4ZOZ65XDyZ2x3ybry0dq
-X-Gm-Gg: ASbGncsc3vZyq5IiGUMcwQ1VDYolT6RyrslQSOBTjpHj2Kf1aBoucEhHdYNBVXmeaq6
-	U6TChMtzszQMZz3cuFSv8gKggs8lE47dXxkDgjwS3vgthf9sr/JzjZ7gyq0tSwBGlT+26N9CEkf
-	nh7ibWLmsE8h9lLYdFn3UD7WuEaQ==
-X-Google-Smtp-Source: AGHT+IFcKv9scbpPRaXEmfEq8UTNsrOWBSBmEAVu84IGUkNbStpZPTP0X6nSe1KdmVF1IIRaxjZIWblNbdfkJkrFAUw=
-X-Received: by 2002:a05:690c:290f:b0:6fe:5dba:b190 with SMTP id
- 00721157ae682-700ab33324cmr140033307b3.11.1742676263726; Sat, 22 Mar 2025
- 13:44:23 -0700 (PDT)
+        bh=ay9fevNY0hFn8/QGn3/YRuwGGPrGYObaNbTRDw64xOA=;
+        b=SB2WeS+7X384zNz8W8CqKefCRhXK8YaMUqBLacytREV3+RaT5KDqJzWu7rZWTHYZkk
+         Fdz5eylbcbvkjLlQZ48FyAGjMLpODYK2K+cwCuLTdAkjGH/U9EELI2Gr7siUErAOMZb1
+         JWExTY4UpiSLQ13H0/32edSFXI/jY7mFqhuUQGlgUCxE2FcyxvhNII6LbImxZsIGfYi4
+         7t+mBsHb86bsR2cFqeyYlEUTiQmP+yazICfpS9JkySgul1MvU7REHGzM/C9Nv7ferMhY
+         0UZv2v0L+X9dLyRXnDlx3Yk6VqXg2jqyX/fqwpnX9wOOEavkat+rSZtItUIbhNerWNFB
+         fWcw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnag8etRV3rJPb4t3HcqjxxLdC9c8WC3qdi9KXqF2pC9KQfXYOL0DrzZw3aK8WYiPRhmaVvS0KJwPx+xE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0aN/sR4+5mXVgoD0uN5UI6gKdl0MOcd6kfij6sNsCDnnYU6DG
+	Z3BFBg/mY7a7u/8hn3MFoCrHEz5nZTxx+Ou7UB6N+nOvHF7P6LyaRqxRCs5pwbVJBi5CLOnKWKA
+	XRWVpBtVAHLvLo9aKZy29FYqsJbt3k/Xhcez5
+X-Gm-Gg: ASbGnct7M4WIx3UcwvfFpDI2Q/Klwaw9GSbAsTiBlZAlE89w2YH0J/jMmwtDVwBGOdU
+	hokquG3rsgQ9GK7yqzeyqMo8z6FsWHQb2XakHUVady2lRDM29wOGeOh8DmzQJXYHs/b2zBzGLGa
+	+IbzT45g8Y97bdwgqI/Mp9W0a71w==
+X-Google-Smtp-Source: AGHT+IGCHUgYHj8FnbhbXd2f6u0nMs1qNJ4El5oL87Cb1hpfEP0T9cT3d8s0LxRDBkc/UszGgdVndU3eZ48ic7LA2Uc=
+X-Received: by 2002:a05:690c:2501:b0:6fe:c040:8eda with SMTP id
+ 00721157ae682-700babfd59bmr94340957b3.4.1742676504841; Sat, 22 Mar 2025
+ 13:48:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com> <Z97xvUul1ObkmulE@kernel.org>
-In-Reply-To: <Z97xvUul1ObkmulE@kernel.org>
+References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
+ <Z97xvUul1ObkmulE@kernel.org> <CAHC9VhQ4a4Dinq+WLxM88KqJF8ruQ_rOdQx7UNrKcJqTpGGG+w@mail.gmail.com>
+In-Reply-To: <CAHC9VhQ4a4Dinq+WLxM88KqJF8ruQ_rOdQx7UNrKcJqTpGGG+w@mail.gmail.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Sat, 22 Mar 2025 16:44:13 -0400
-X-Gm-Features: AQ5f1JqeAnjTq6zKFyRLTvg80Cofo3Oa1gVwBdukxtEf_asDyE42Nwb-Nf9BM5s
-Message-ID: <CAHC9VhQ4a4Dinq+WLxM88KqJF8ruQ_rOdQx7UNrKcJqTpGGG+w@mail.gmail.com>
+Date: Sat, 22 Mar 2025 16:48:14 -0400
+X-Gm-Features: AQ5f1JqDeHoEYBZnZnhU14MZ_ha_8yis_y2VRPgUfTr12KfbQKKoHE7FmctARms
+Message-ID: <CAHC9VhSfPz4fYU-YxxQ++3OP_hqtiD=J9fJXyUHmcj8NHd1pZQ@mail.gmail.com>
 Subject: Re: [RFC PATCH security-next 0/4] Introducing Hornet LSM
 To: Jarkko Sakkinen <jarkko@kernel.org>
 Cc: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -100,47 +101,61 @@ Cc: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 22, 2025 at 1:22=E2=80=AFPM Jarkko Sakkinen <jarkko@kernel.org>=
- wrote:
-> On Fri, Mar 21, 2025 at 09:45:02AM -0700, Blaise Boscaccy wrote:
-> > This patch series introduces the Hornet LSM.
+On Sat, Mar 22, 2025 at 4:44=E2=80=AFPM Paul Moore <paul@paul-moore.com> wr=
+ote:
+>
+> On Sat, Mar 22, 2025 at 1:22=E2=80=AFPM Jarkko Sakkinen <jarkko@kernel.or=
+g> wrote:
+> > On Fri, Mar 21, 2025 at 09:45:02AM -0700, Blaise Boscaccy wrote:
+> > > This patch series introduces the Hornet LSM.
+> > >
+> > > Hornet takes a simple approach to light-skeleton-based eBPF signature
 > >
-> > Hornet takes a simple approach to light-skeleton-based eBPF signature
+> > Can you define "light-skeleton-based" before using the term.
+> >
+> > This is the first time in my life when I hear about it.
 >
-> Can you define "light-skeleton-based" before using the term.
+> I was in the same situation a few months ago when I first heard about it =
+:)
 >
-> This is the first time in my life when I hear about it.
+> Blaise can surely provide a much better answer that what I'm about to
+> write, but since Blaise is going to be at LSFMMBPF this coming week I
+> suspect he might not have a lot of time to respond to email in the
+> next few days so I thought I would do my best to try and answer :)
+>
+> An eBPF "light skeleton" is basically a BPF loader program and while
+> I'm sure there are several uses for a light skeleton, or lskel for
+> brevity, the single use case that we are interested in here, and the
+> one that Hornet deals with, is the idea of using a lskel to enable
+> signature verification of BPF programs as it seems to be the one way
+> that has been deemed acceptable by the BPF maintainers.
+>
+> Once again, skipping over a lot of details, the basic idea is that you
+> take your original BPF program (A), feed it into a BPF userspace tool
+> to encapsulate the original program A into a BPF map and generate a
+> corresponding light skeleton BPF program (B), and then finally sign
+> the resulting binary containing the lskel program (B) and map
+> corresponding to the original program A.
 
-I was in the same situation a few months ago when I first heard about it :)
+Forgive me, I mixed up my "A" and "B" above :/
 
-Blaise can surely provide a much better answer that what I'm about to
-write, but since Blaise is going to be at LSFMMBPF this coming week I
-suspect he might not have a lot of time to respond to email in the
-next few days so I thought I would do my best to try and answer :)
+> At runtime, the lskel binary
+> is loaded into the kernel, and if Hornet is enabled, the signature of
+> both the lskel program A and original program B is verified.
 
-An eBPF "light skeleton" is basically a BPF loader program and while
-I'm sure there are several uses for a light skeleton, or lskel for
-brevity, the single use case that we are interested in here, and the
-one that Hornet deals with, is the idea of using a lskel to enable
-signature verification of BPF programs as it seems to be the one way
-that has been deemed acceptable by the BPF maintainers.
+... and I did again here
 
-Once again, skipping over a lot of details, the basic idea is that you
-take your original BPF program (A), feed it into a BPF userspace tool
-to encapsulate the original program A into a BPF map and generate a
-corresponding light skeleton BPF program (B), and then finally sign
-the resulting binary containing the lskel program (B) and map
-corresponding to the original program A.  At runtime, the lskel binary
-is loaded into the kernel, and if Hornet is enabled, the signature of
-both the lskel program A and original program B is verified.  If the
-signature verification passes, lskel program A performs the necessary
-BPF CO-RE transforms on BPF program A stored in the BPF map and then
-attempts to load the original BPF program B, all from within the
-kernel, and with the map frozen to prevent tampering from userspace.
+> If the
+> signature verification passes, lskel program A performs the necessary
+> BPF CO-RE transforms on BPF program A stored in the BPF map and then
+> attempts to load the original BPF program B, all from within the
+> kernel, and with the map frozen to prevent tampering from userspace.
 
-Hopefully that helps fill in some gaps until someone more
-knowledgeable can provide a better answer and/or correct any mistakes
-in my explanation above ;)
+... and once more here because why not? :)
+
+> Hopefully that helps fill in some gaps until someone more
+> knowledgeable can provide a better answer and/or correct any mistakes
+> in my explanation above ;)
 
 --=20
 paul-moore.com
