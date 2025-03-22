@@ -1,161 +1,108 @@
-Return-Path: <linux-kbuild+bounces-6291-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6292-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9C4A6CB1B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 16:05:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E98A6CB45
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 16:46:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3000A163C4E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 15:02:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86F88189AC2C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 15:46:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5177322AE5D;
-	Sat, 22 Mar 2025 15:02:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5D1E1FA15E;
+	Sat, 22 Mar 2025 15:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=byte-forge-io.20230601.gappssmtp.com header.i=@byte-forge-io.20230601.gappssmtp.com header.b="O1fL6+eG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jefi2Hly"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBC722D79A
-	for <linux-kbuild@vger.kernel.org>; Sat, 22 Mar 2025 15:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD7C4A05;
+	Sat, 22 Mar 2025 15:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742655765; cv=none; b=NCszc1O5JAkm9q1UPwln80g1+NihlKP+B9D3P3x7aqrbzgx1AlKJjYXQWYw2WhuUY0lXBfrNbcLK2eQ9FzwQvvOIBIPGwWlXICocd4qcdOyICyYOqr6aJYOCa7u5G788r+2qJyKC42zXzFKEbXkpLDHpyGu1ogO6mzy3Jf1qveA=
+	t=1742658392; cv=none; b=H5QaaYNFIeuHhUAn1MRMuQdWjiM0/9AVZzGPNeOzXTbd82/uqQT5PkZfXMVMZoNCcEH5JaGNiQKG006TSzJvxyYXSLv5FqF5Y0ln4C9oo+SGCILulAURbmURak4FoCJknRRr/bCZ8ysLxTsUcqc/QB+kln0c//Do6969JUeU1lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742655765; c=relaxed/simple;
-	bh=xmaBHHV+pBO1cdNj9lOsTobDcjk4fT7ScUbArphMew4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U/LEk0YmqDBdt5gtDVmxBZQ5txO/ESw3xTFZ5Pf8tHgBK3PA2WekwW54YDO9DBgQoMUrQOz7seVdbeU0DSWPqBdpI58i4yM8JZSBviQf+pt1y2XKJIqGFR06W0cQiQ7zHGi1Wtv3X+fZuL+erSoER8j0PUSkwyBtg7xtJ4uu4RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=antoniohickey.com; spf=pass smtp.mailfrom=byte-forge.io; dkim=pass (2048-bit key) header.d=byte-forge-io.20230601.gappssmtp.com header.i=@byte-forge-io.20230601.gappssmtp.com header.b=O1fL6+eG; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=antoniohickey.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=byte-forge.io
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6f768e9be1aso38427907b3.0
-        for <linux-kbuild@vger.kernel.org>; Sat, 22 Mar 2025 08:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=byte-forge-io.20230601.gappssmtp.com; s=20230601; t=1742655762; x=1743260562; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oFV0r1ify5HIIcyLd8ZfZYsL133OkFOEjRPT1PjsIps=;
-        b=O1fL6+eG7WedNBGfCyX6/ec/mBPCCb788J+BJh7tB8p3zVmQ7INQcPc45cFSPplr9N
-         QBp6FJpA4MRSt8veEfCsYPJQUSvALQz/uAdsxcNRtPoc4ydzj4g8REAZt/olEW9YBK68
-         1aPxSdWBeL4/F09EQEx7TJ14dQ6kMl+vxw16I07bgjapgHdsnhx7agg4LSWWKGMNd+eU
-         l++CCrhQanhHnIKfaf0AzPG/6Yn17kCebG7d94Z1oh8DRTSGKXwe0IIrgflr6OQ5p4Vk
-         j1iNBn8wUNxWpyDrL61eNZNxUSxzBjasg4/YcHt3kV0eciGx9kw6l+poNDi6KNKints7
-         aJTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742655762; x=1743260562;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oFV0r1ify5HIIcyLd8ZfZYsL133OkFOEjRPT1PjsIps=;
-        b=pzOcYE2lQPKUITJyVoqFbAUuz0PeoVOHuAC+ZWi8AEq1VoU8i3PGM5fPp/uL9bYvn6
-         WbLXQVfh5V1tPZW2LLven37ZU77N9905GkLnJMzY7gkb/ZDCVOoC5FdC/IqY9P8xndZG
-         6KU4tRLTIJ5JSNMA+1PLk3DMyO9Q/+v0MsI2c17AdpE1HHDoiXlGiE4r9kk8ukOU9bNA
-         RMZWzCdK7bLoqZDJaESJSGHatwnJSOgbpY31JRIDGcJ5XeOckqbTsx20sdmNq3NvDH4N
-         SkjuWJ2Q8op8d4nYpjuP5Cds58yoQCDXVyUfah9Ok+6U/2x0XOSUPT0XHVfNJNBFBwHa
-         nC1A==
-X-Forwarded-Encrypted: i=1; AJvYcCXaHbNAtVIp6/7HnUQ5lpBhaRDAEOU6VYAYsjBmhDxxlxcBlRdONTqH6YAG4ycmxGE0j1zeKx49IIFlj1U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKVLYoXJyRpBIY2oUgTeEQRACtB1QvabNi1tJxg8rdcShKNzd6
-	x/lUhQ7trtdB+IWlIA/xCzd6Ut8cgVs2PTxTHulKUDb/Ln+5Lq3eIQW5EP3Hvps=
-X-Gm-Gg: ASbGncvrfjN3+NAlK9Y6vSb/ZHsDcZVc67L0xEE/tIpof2Fvwpz+zdtZptPdhFbEW8n
-	whYBNoPE616CbYbonQxLvmXhc8EXMD6fcIrroJ7tuB0vGW9G6k2jpCmwQhY9jU65FxQo6oc4bIO
-	K9/2z/MT8NaHAApayRNEfr4bJCMGMUbgGGvvK6MnhPdbVU3Dsymjq1ySicHRnGDVx0JhxDlqssv
-	B9mWyS16gyzHA64RDpNGxU6knsH0qGUssWEx84FleNiPQw2pnEvruBOfGoCA4/7VpM367GSEoDP
-	Im/BnGIQG3lqddZkxIui+EtuaLLK3rKRxogl2WrMINuFar0ykBRx23oQOO52N+5mrPvM0ZFnLPb
-	+CHnHW1oDQgpHwTFV4RdFL4RmjQgdDq51aAtD4HWy
-X-Google-Smtp-Source: AGHT+IF2ZG+6e1bR4Awen52wPxMIUEY8IX43biiu2wKoBJJwjGEumXzrFQv+3RyxSGDzYPrMHT7LBg==
-X-Received: by 2002:a05:690c:6c8e:b0:6ea:8901:dad8 with SMTP id 00721157ae682-700ba305d15mr106328367b3.3.1742655762158;
-        Sat, 22 Mar 2025 08:02:42 -0700 (PDT)
-Received: from Machine.lan (107-219-75-226.lightspeed.wepbfl.sbcglobal.net. [107.219.75.226])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-700ba73d085sm7897807b3.15.2025.03.22.08.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Mar 2025 08:02:41 -0700 (PDT)
-From: Antonio Hickey <contact@antoniohickey.com>
-To: benno.lossin@proton.me
-Cc: a.hindborg@kernel.org,
-	alex.gaynor@gmail.com,
-	aliceryhl@google.com,
-	bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com,
-	contact@antoniohickey.com,
-	dakr@kernel.org,
-	gary@garyguo.net,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu,
-	ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	tmgross@umich.edu
-Subject: Re: [PATCH v5 01/17] rust: enable `raw_ref_op` feature 
-Date: Sat, 22 Mar 2025 11:02:35 -0400
-Message-ID: <20250322150235.1851241-1-contact@antoniohickey.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <D8MPT9V5JAEN.JZ5APEZ4TYPA@proton.me>
-References: <D8MPT9V5JAEN.JZ5APEZ4TYPA@proton.me>
+	s=arc-20240116; t=1742658392; c=relaxed/simple;
+	bh=XXbDFIx29aMLjfpj/7JWyxtg4oa7yjJE0pcef4MAIFM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cFP/v+OYD7FZ8SnOMTAJkA+tqg78Ku4Ea/tihebV3bl1bS9G12IAJLwWB+6amW2Ggnefs0a+ZrsCYbiK8w614Sreysl1s1OFZrMBYY6q3mcjIh+XxSbdEB23/AdPUuoGxIrOOe0Uaa9HKR2BLIprx+KAxTSsSNrsN5cLoQ3pfD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jefi2Hly; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24AA0C4CEDD;
+	Sat, 22 Mar 2025 15:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742658392;
+	bh=XXbDFIx29aMLjfpj/7JWyxtg4oa7yjJE0pcef4MAIFM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Jefi2Hly3SGho9fmr0TTAaVFe5z4i8RNqyWyBYx+qm30ORkfK2lLEqP3Q65fM4pC2
+	 hHrrLdNkbaxUj9J9ltyyDKG5eRzAtY39DejFabtFcDpScXcivboeoRhZWoQbL/Lcgl
+	 BUoD0jNvE8GcjvNUvPGTM5TF3MxdE3uRorHfXk6zDRP3fJRkEqWSSAI9XQf/FoVuCJ
+	 CO0lILjZK1V1nqlHLOowaWA0pX8wzaMkKWIxArUoCNOmOsjQAjrc3vBaKRB6yNaFHi
+	 5m3nuzJ7h+kfKPD+noWkKCU6VVN9QXZfzG50/YG1T83C25kbvt+XqYHgY4Vsx1n6qn
+	 6rRX9SM2Yp0NA==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30beedb99c9so29545351fa.3;
+        Sat, 22 Mar 2025 08:46:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVnQ5IJqkhshfx1MS2taQ5Xj/NlBos4syWATwhEUfE+csvvJ2FZ+CxjecW1HUzDWVQqDvHxtTWJiOfWFtRz@vger.kernel.org, AJvYcCW25qzcbFaN/DY4mYsQNmRPxdZEN30B4y6USGrQlgYQhaIWrehg2k0muL28cdMg9+d9oiK3rb48aKYFJC4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV6BZpglV17sfAmFj91mS5QkQLtDI5fCpvPPiluVvvpqiAtjwl
+	f8IGtbQyC8e90YPO5URZ6KZvDGiM2ejSsoeS4LQYNng7eHI6S23xu8ro9jyX1GYgVMtWb8bU7OJ
+	diOD0ckn4qGqfXsDjhcCXI3sgIio=
+X-Google-Smtp-Source: AGHT+IG4OpWVkpTPVkIM5P/6i78csCRcHirWW0I4sYThZn2lb6mP6HgI/MUCcqw/j8bpulugWirtQLNT8OFaGeePHmg=
+X-Received: by 2002:a05:6512:31c3:b0:549:9044:94ac with SMTP id
+ 2adb3069b0e04-54ad648ee45mr3060451e87.23.1742658390836; Sat, 22 Mar 2025
+ 08:46:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250311-moddesc-error-v1-1-79adedf48d0e@oss.qualcomm.com> <CAK7LNASYFEFFbnqwDuJNf4ngU9uLavJuQqknOimpYeAeHyk1zQ@mail.gmail.com>
+In-Reply-To: <CAK7LNASYFEFFbnqwDuJNf4ngU9uLavJuQqknOimpYeAeHyk1zQ@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 23 Mar 2025 00:45:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARi0gF9dr+bU8nhovBWygsghB7CD_pWUgb3KBH4C1StyQ@mail.gmail.com>
+X-Gm-Features: AQ5f1Jro2ostLXtsJURSYO2vWefMV__2XA8fEQYnTYnNEZwzeN5B1j6WacESAyA
+Message-ID: <CAK7LNARi0gF9dr+bU8nhovBWygsghB7CD_pWUgb3KBH4C1StyQ@mail.gmail.com>
+Subject: Re: [PATCH] script: modpost: require a MODULE_DESCRIPTION()
+To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 22, 2025 at 10:16:01AM +0000, Benno Lossin wrote:
-> On Thu Mar 20, 2025 at 3:07 AM CET, Antonio Hickey wrote:
-> > Since Rust 1.82.0 the `raw_ref_op` feature is stable.
-> >
-> > By enabling this feature we can use `&raw const place` and
-> > `&raw mut place` instead of using `addr_of!(place)` and
-> > `addr_of_mut!(place)` macros.
-> >
-> > Allowing us to reduce macro complexity, and improve consistency
-> > with existing reference syntax as `&raw const`, `&raw mut` are
-> > similar to `&`, `&mut` making it fit more naturally with other
-> > existing code.
-> >
-> > Suggested-by: Benno Lossin <benno.lossin@proton.me>
-> > Link: https://github.com/Rust-for-Linux/linux/issues/1148
-> > Signed-off-by: Antonio Hickey <contact@antoniohickey.com>
-> 
-> Reviewed-by: Benno Lossin <benno.lossin@proton.me>
-> 
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 993708d11874..a73aaa028e34 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -224,9 +224,9 @@ $(obj)/%.lst: $(obj)/%.c FORCE
-> >  	$(call if_changed_dep,cc_lst_c)
-> >  
-> >  # Compile Rust sources (.rs)
-> > -# ---------------------------------------------------------------------------
-> > +# --------------------------------------------------------------------------------------
-> 
-> Not sure about this change.
-
-This change is so I could enable the `raw_ref_op` feature for doctests
-since the minimum Rust version 1.78 still has `raw_ref_op` as an
-expiramental feature, and will throw errors at compile if a doctest uses
-it. Is there a better way to do this?
-
-Thanks,
-Antonio
-
-> 
-> ---
-> Cheers,
-> Benno
-> 
-> >  
-> > -rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons
-> > +rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,raw_ref_op
-> >  
-> >  # `--out-dir` is required to avoid temporaries being created by `rustc` in the
-> >  # current working directory, which may be not accessible in the out-of-tree
-> 
+On Thu, Mar 13, 2025 at 9:34=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
+> On Wed, Mar 12, 2025 at 4:49=E2=80=AFAM Jeff Johnson
+> <jeff.johnson@oss.qualcomm.com> wrote:
+> >
+> > Since commit 1fffe7a34c89 ("script: modpost: emit a warning when the
+> > description is missing"), a module without a MODULE_DESCRIPTION() has
+> > resulted in a warning with make W=3D1. Since that time, all known
+> > instances of this issue have been fixed. Therefore, now make it an
+> > error if a MODULE_DESCRIPTION() is not present.
+> >
+> > Signed-off-by: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+> > ---
+> > did my treewide cleanup for v6.11, Arnd had a few more stragglers that
+> > he was going to fix. I hope that by posting, some of the 0-day bots
+> > will pick it up and hopefully provide some feedback.
+>
+>
+> I pushed this patch to a separate branch,
+> so that 0day bot can compile-test it.
+>
+> If there is no error reported, I will move it to
+> the for-next branch.
+
+I have not got any build error report.
+Moved to for-next.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
