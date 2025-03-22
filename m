@@ -1,156 +1,197 @@
-Return-Path: <linux-kbuild+bounces-6289-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6290-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E4AA6CB15
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 16:02:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F271A6CB14
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 16:02:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 720CC8A849C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 14:51:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF3CF8A28BE
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Mar 2025 14:52:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2193122D79A;
-	Sat, 22 Mar 2025 14:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EE2C22DFAC;
+	Sat, 22 Mar 2025 14:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BSAxla3m"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zz/9oNGo"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB1B1B21AD;
-	Sat, 22 Mar 2025 14:47:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C9622D7A1;
+	Sat, 22 Mar 2025 14:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742654865; cv=none; b=V3L6FpKDhiANicBkbfH9jP/XC0qljqbR9dyv8aOhickkH8fO0CqVI0j82AOBXK8QG3IQoTETB7VlFqsGMGaG9Fmw292KOE2/+Jdgvgen4DWGXgGbLR5F+w+iYpJatXJk/mu6gvZeDjMsA0XuNvCp4nx39hlIXgctbFXTpH03hVY=
+	t=1742655047; cv=none; b=Br1L1zj9waR1vh9tmGfQvfdjMy+ybGJJQIxoHdT8Hig1v6PfTdnmMX2xZCU+Xsochm5Tw3RqvRF9N3z9/VWKKFtUU2gfcmltc37axsI7dUFHvzUmRBSlg815Vj00CigQwKaZCUnE+0YU3zMA9awVJoWHsBBmwrTslE1jkVFWF7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742654865; c=relaxed/simple;
-	bh=HMjVCUa3JwVw1Tv3r9wblS2PZkI9aR8/EYJChBBqnC4=;
+	s=arc-20240116; t=1742655047; c=relaxed/simple;
+	bh=MRoAVc2GDCJCO/s0k4oaM7vuQUpM1BiL16QTCzZwOdQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P+EjNRmcq6eM3zk+Wwvz/bRDFyXLh9Lx/An7Xft2Wmb/UsAIkdDVwSFSYN8lT+VdC17BM1Hvr/W0bhcHtqHLu7Q+EnNgn9zCwk9z/ytbY0O7hOSY9N3/FQ3hBvC0BuiI7UGOz0CYY+ems0HdTbzjdZ7u5gpc/IKkLID/H7JcOB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BSAxla3m; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73231C4CEEC;
-	Sat, 22 Mar 2025 14:47:43 +0000 (UTC)
+	 To:Cc:Content-Type; b=Q1q0fAvkouzcxYBKcZvTrKC1moDavkb39WxBS89U2LVDySWGaFYbiXGuP8pTspc/SfrWiPvYVZdwIWYLsAdOtSfR4A84FiRmtyXYKqP6vrSzdxu4n7ChoI5HNmjdx+ZydcaiScdQgapPKruBvZCG4v3wNQ2uMeCGx+Qh8pJMaU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zz/9oNGo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A150EC4CEDD;
+	Sat, 22 Mar 2025 14:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742654863;
-	bh=HMjVCUa3JwVw1Tv3r9wblS2PZkI9aR8/EYJChBBqnC4=;
+	s=k20201202; t=1742655046;
+	bh=MRoAVc2GDCJCO/s0k4oaM7vuQUpM1BiL16QTCzZwOdQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=BSAxla3mG2O3HMKk6PuuPMpzCfgHHz0Zk95rMhijvY1IurrLhhvDUtXrzKFpkVnJB
-	 IkhqCfuFU9mkXG/SArQ+0YesbLIhUz3JKDn5C2vnR0rSXumgdEoKSXH9ttuxeghNxC
-	 pwCy78IIeSTJYB5VVcNrmUhUZUU9z3DbFU3au7tJQvwZQhduJo5yBxnQtXpxh2eyUC
-	 hkWxaaVYkzTFG7JWWxe/1XLvf/vOiJ1HmtQEORY9DvJiym3X8JjAXI9232q5QVEsFr
-	 Bz20U5eA6nw96ddqDn9sXZzLdNpb+I4YfmGI6kHFPT8gfW4p84wcUy6jVrNO0B/Osw
-	 kZsKjK5A2Nxqw==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5499d2134e8so3727032e87.0;
-        Sat, 22 Mar 2025 07:47:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU7SToY4kWpCjySoIcd3jS/miF0VEUhuNdklblDHz/EA2DXNfQGBWBqPBNlZmEeY4Q3VvL+YWUBG6ZwHNo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbwC8vsmCNGtlsZC8oKDE0YGEHDNdE5wph7Nv/YRwlQocCh5BN
-	AtgOAE3wpYjJN+bLa3obplNV8ZIcVMUl73m70HHIJJR8QmrZi1gqpL5/5XwA3VVRZGG0zKkJja0
-	joMvavzif05llcPOfgEhSLpSFIpY=
-X-Google-Smtp-Source: AGHT+IFmaT97THmqSQLLjh2ht+hdYUlbwjE3AX/JLdiH1WTAYSzgmMbCZLNSd45QmabpNASWYmgqLa3R7/5Sbo13W20=
-X-Received: by 2002:a05:6512:2206:b0:549:58db:6e9c with SMTP id
- 2adb3069b0e04-54ad64ef3afmr2682443e87.39.1742654862096; Sat, 22 Mar 2025
- 07:47:42 -0700 (PDT)
+	b=Zz/9oNGodvJX6CxhRbiX/ESk4X/siHPrlbtUTAz6w+P/AZgwBRmrPu2UMFlgXKKDm
+	 UYmoV1TXRAdZY0oRbQNM3qXXvkfSXEcL90fmNFe9IPUdWfYdZ6h09QUy5gLLIefdXk
+	 ai5Wtl/+hmefJhy2HBZDjTyy5koN5Ne1w2x0jcU9UvCHPhtODjLzUlcdBzQng1WIIa
+	 LLVY9CfYyFRdPZV5tOTzbZtftcYD5mtAtFM35SvvhzVhStAGm9o8c+qkjDy32FGUU+
+	 McFfO+ojOmdnhwqhDRTegI82KYM+c171UA3dBV11bnfOGP3sE6WcBwxVPmdVg9gpPO
+	 UOiz1kGlFLPuw==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30c2d427194so31489201fa.0;
+        Sat, 22 Mar 2025 07:50:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVPicXoo76ptE1b++5Hj+qgFnW/1WDx0GUt+bFzq8uQhGBL4P5aSwlvHHFAxDej6iVeQzE=@vger.kernel.org, AJvYcCVzruTomzDCyl6XXXLjDAv2fSwR4tRansT7y1+VDsgVeWMOq2SCsFXPCqvnFMs+uoNiKwEybE/5cgAvxj1n@vger.kernel.org, AJvYcCW/AowKlxuc6x0qAldQUCEzbE7KYw+G3WUql7hiF2p0hPlujRHJwcZcNhbVZHSlPqxThoWMhay4CjIu+NwD@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTLPzoQWkMAiEx6Pfe0uHbimQRoFKT+JS1m2KnRl12u+51jUy/
+	DfEw2yQUxkZ4y8ft0pnxQfVzr6AfLhlZnXF+koMDoXRraqLK/i/LsrRqjNIqVUAcPMts5pOyxp/
+	J0+P5+NPqwJjMiO0lrx+oPv3HCxA=
+X-Google-Smtp-Source: AGHT+IEPyO40RHCkLyep+QoZo8ZSD7sl3b6ajVdYBN9FpCfSyatfhQvpbVV5r8atteZQ5BPsfIfnbfg4mVa5S/o2PPU=
+X-Received: by 2002:a2e:a595:0:b0:30c:4be7:1d42 with SMTP id
+ 38308e7fff4ca-30d7e2226b8mr23222091fa.12.1742655045343; Sat, 22 Mar 2025
+ 07:50:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250311190124.634007-1-masahiroy@kernel.org> <20250321-proud-serious-kakapo-a6cdec@bergen>
-In-Reply-To: <20250321-proud-serious-kakapo-a6cdec@bergen>
+References: <20250211002930.1865689-1-masahiroy@kernel.org> <CAD=FV=V19pgzU8NSyWwHSEs85kU_Fbofcn8uJVj-TE2DNKfUHQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=V19pgzU8NSyWwHSEs85kU_Fbofcn8uJVj-TE2DNKfUHQ@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 22 Mar 2025 23:47:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT5ZR-vMf-dOVEe15E+Wg7vxt+cms6d5nA54qALQsUaHA@mail.gmail.com>
-X-Gm-Features: AQ5f1JptLRvdGyMC3Q66pnFqUcriFQ4ahVzXCmvI4BI7pqduYgzt8AJOkyGnnqg
-Message-ID: <CAK7LNAT5ZR-vMf-dOVEe15E+Wg7vxt+cms6d5nA54qALQsUaHA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: deb-pkg: require debian_revision when creating
- source package
-To: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Ben Hutchings <ben@decadent.org.uk>, Nathan Chancellor <nathan@kernel.org>
+Date: Sat, 22 Mar 2025 23:50:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQX03w=AVkntA=8KmSAmX91Z3BdB4Z8H5oDt3iPsJNXfg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp60oEhyRreLddsPUneE01Rm0Mr3qS0ImcRA2yELUdXSRJR5g-xQkGj3ys
+Message-ID: <CAK7LNAQX03w=AVkntA=8KmSAmX91Z3BdB4Z8H5oDt3iPsJNXfg@mail.gmail.com>
+Subject: Re: [PATCH] tools: fix annoying "mkdir -p ..." logs when building
+ tools in parallel
+To: Doug Anderson <dianders@chromium.org>
+Cc: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	linux-kernel@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>, 
+	Borislav Petkov <bp@suse.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Stephen Boyd <swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 21, 2025 at 2:22=E2=80=AFPM Nicolas Schier <nicolas.schier@linu=
-x.dev> wrote:
+On Wed, Mar 19, 2025 at 1:41=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
 >
-> On Wed, Mar 12, 2025 at 04:00:26AM +0900, Masahiro Yamada wrote:
-> > Debian Policy [1] specifies the version format as follows:
+> Hi,
+>
+> On Mon, Feb 10, 2025 at 4:30=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
 > >
-> >     [epoch:]upstream_version[-debian_revision]
+> > When CONFIG_OBJTOOL=3Dy or CONFIG_DEBUG_INFO_BTF=3Dy, parallel builds
+> > show awkward "mkdir -p ..." logs.
 > >
-> > Here, the presence of the debian_revision part indicates a non-native
-> > package, while its absence indicates a native package.
+> >   $ make -j16
+> >     [ snip ]
+> >   mkdir -p /home/masahiro/ref/linux/tools/objtool && make O=3D/home/mas=
+ahiro/ref/linux subdir=3Dtools/objtool --no-print-directory -C objtool
+> >   mkdir -p /home/masahiro/ref/linux/tools/bpf/resolve_btfids && make O=
+=3D/home/masahiro/ref/linux subdir=3Dtools/bpf/resolve_btfids --no-print-di=
+rectory -C bpf/resolve_btfids
 > >
-> > Kbuild adopts the source format 3.0 (quilt), meaning the kernel is a
-> > non-native package and therefore requires the revision portion.
+> > Defining MAKEFLAGS=3D<value> on the command line wipes out command line
+> > switches from the resultant MAKEFLAGS definition, even though the comma=
+nd
+> > line switches are active. [1]
 > >
-> > This commit prevents the creation of an invalid source package when
-> > KDEB_PKGVERSION contains no hyphen.
+> > The first word of $(MAKEFLAGS) is a possibly empty group of characters
+> > representing single-letter options that take no argument. However, this
+> > breaks if MAKEFLAGS=3D<value> is given on the command line.
 > >
-> > [1]: https://www.debian.org/doc/debian-policy/ch-controlfields.html#ver=
-sion
+> > The tools/ and tools/% targets set MAKEFLAGS=3D<value> on the command
+> > line, which breaks the following code in tools/scripts/Makefile.include=
+:
 > >
+> >     short-opts :=3D $(firstword -$(MAKEFLAGS))
+> >
+> > If MAKEFLAGS really needs modification, it should be done through the
+> > environment variable, as follows:
+> >
+> >     MAKEFLAGS=3D<value> $(MAKE) ...
+> >
+> > That said, I question whether modifying MAKEFLAGS is necessary here.
+> > The only flag we might want to exclude is --no-print-directory, as the
+> > tools build system changes the working directory. However, people might
+> > find the "Entering/Leaving directory" logs annoying.
+> >
+> > I simply removed the offending MAKEFLAGS=3D.
+> >
+> > [1]: https://savannah.gnu.org/bugs/?62469
+> >
+> > Fixes: a50e43332756 ("perf tools: Honor parallel jobs")
 > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > > ---
 > >
-> >  scripts/package/mkdebian | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> > index b6dd98ca860b..193e33bcb989 100755
-> > --- a/scripts/package/mkdebian
-> > +++ b/scripts/package/mkdebian
-> > @@ -94,6 +94,14 @@ set_debarch() {
-> >  # Create debian/source/ if it is a source package build
-> >  gen_source ()
-> >  {
-> > +     # The Debian Policy requires -debian_revision portion in the vers=
-ion.
-> > +     # Since the source format 3.0 (quilt) is used here, a hyphen is
-> > +     # required in the version.
-> > +     if [ "${KDEB_PKGVERSION:+set}" ] && ! echo "${KDEB_PKGVERSION}" |=
- grep -- '-..*'; then
+> >  Makefile | 9 ++-------
+> >  1 file changed, 2 insertions(+), 7 deletions(-)
 >
-> Thanks.  At first, I thought that the check pattern could be enhanced,
-> but testing with '--' as version suffix led to
+> I happened to sync up to mainline today and noticed that my build was
+> broken. I bisected it to this change and reverting this change fixes
+> my build on mainline.
 >
->     dpkg-buildpackage: warning:     debian/changelog(l1): version '6.14rc=
-5+me--' is invalid: revision cannot be empty
->     LINE: linux-upstream (6.14rc5+avm--) trixie; urgency=3Dlow
->     dpkg-buildpackage: info: source package linux-upstream
->     dpkg-buildpackage: info: source version unknown
->     dpkg-buildpackage: error: version number does not start with digit
+> In my case I'm building in a ChromeOS environment and using clang as
+> my compiler. I'm also cross-compiling an arm64 kernel on x86 host.
+> ...but the pure mainline kernel should work there. Presumably the
+> environment is a bit different compared to the typical one, though?
 >
-> thus this is great as it is.
-
-Good point.
-
-The debian tool already rejects incorrect version format.
-So, we could simplify the version check to:
-
-  grep -- -
-
-
-However, on second thought, this patch might be unnecessary
-because it is better to leave all the version checks
-up to the debian tools.
-
-
-When KDEB_PKGVERSION does not contain a hyphen,
-this warning is shown:
-
-  dpkg-source: warning: non-native package version does not contain a revis=
-ion
-
-It still produces a source package.
-If this is just a warning instead of an error, it is fine.
-
+> The error comes up when doing a clean build and the first error messages =
+are:
 >
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> In file included from libbpf.c:36:
+> .../tools/include/uapi/linux/bpf_perf_event.h:14:21: error: field has
+> incomplete type
+>       'bpf_user_pt_regs_t' (aka 'struct user_pt_regs')
+>    14 |         bpf_user_pt_regs_t regs;
+>       |                            ^
+> .../tools/include/../../arch/arm64/include/uapi/asm/bpf_perf_event.h:7:16=
+:
+> note: forward
+>       declaration of 'struct user_pt_regs'
+>     7 | typedef struct user_pt_regs bpf_user_pt_regs_t;
+>       |                ^
+>
+> btf_dump.c:1860:10: error: cast to smaller integer type 'uintptr_t'
+> (aka 'unsigned int') from 'const void *'
+>       [-Werror,-Wvoid-pointer-to-int-cast]
+>  1860 |         return ((uintptr_t)data) % alignment =3D=3D 0;
+>       |                 ^~~~~~~~~~~~~~~
+> btf_dump.c:2045:4: error: format specifies type 'ssize_t' (aka 'long')
+> but the argument has type 'ssize_t' (aka 'int')
+>       [-Werror,-Wformat]
+>  2044 |                 pr_warn("unexpected elem size %zd for array
+> type [%u]\n",
+>       |                                               ~~~
+>       |                                               %d
+>  2045 |                         (ssize_t)elem_size, id);
+>       |                         ^~~~~~~~~~~~~~~~~~
+> ./libbpf_internal.h:171:52: note: expanded from macro 'pr_warn'
+>   171 | #define pr_warn(fmt, ...)       __pr(LIBBPF_WARN, fmt, ##__VA_ARG=
+S__)
+>       |                                                   ~~~    ^~~~~~~~=
+~~~
+>
+>
+> I don't have time to dig right now, but I figured I'd at least post in
+> case the problem is obvious to someone else.
 
-Thanks for the review.
+I do not understand how to reproduce this.
+
+Your build machine is Chrome OS, or other distributions?
+Did you build the upstream kernel or downstream one?
+What is the build command?  Just "make" ?
+
+
+
+
+
+
+
+
 
 --=20
 Best Regards
