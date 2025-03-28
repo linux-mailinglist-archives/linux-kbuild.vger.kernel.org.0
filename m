@@ -1,153 +1,164 @@
-Return-Path: <linux-kbuild+bounces-6363-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6364-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D50A740A7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Mar 2025 23:17:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF48A744D6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Mar 2025 08:55:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB26A189E4DB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Mar 2025 22:17:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDBB03BCAD8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Mar 2025 07:55:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CD21DE3DE;
-	Thu, 27 Mar 2025 22:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670C021018A;
+	Fri, 28 Mar 2025 07:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=proton.me header.i=@proton.me header.b="jic0rZP8"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="I7T4ot0G"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD161C6FED;
-	Thu, 27 Mar 2025 22:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E880211A23
+	for <linux-kbuild@vger.kernel.org>; Fri, 28 Mar 2025 07:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743113842; cv=none; b=G7FH4APpwoFIt39hWpKwVT41nGngMPqn3ay4dGCKTbaDfd+CQn17ZNGv3qLGovtplAHY5gmUrAtz5L5hsa1a3H4ERJfGiLX8fSGMKI+e6cCErpjtYZr6RYCaTU3eLqCVI8lrzfHfyQczX4ceN+IuMNiWJZqmjOR5U+5WfoEvyvU=
+	t=1743148543; cv=none; b=T5VYIgZVQgmnBjnENa0wOKAflNYIQtfxT3Qw3QS2JItLH4m7czg1lgD+z7QgKyhu2zq1eE5ybLwrPTCK2/Vpv0jOF+VJ699e0RYcTNrjle+THWompG0iKwcm9Y1EBgZ4EFI5LiGm1v7yPRb1gYQlJWHqb4TRilf083AIDevPzBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743113842; c=relaxed/simple;
-	bh=89psVsuhmLnpB0D1Kli4UHQLPn+imufHphtlmAmXIs0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yj1jiFYyPNoKQl+l+O+b07F1z86xYEMDAGueip+THKLPuwU85vKsUxH0oxueoiDnTWO/XfUV6VjTXd+EbMJgeTElPUnDAhNwoyIC+ZhiRge+GXJQEkZWqdADZ8GFqTU0feCecPqyzxNL8C0Xs6JKcrIiwXO6mqx+EPYVBwe2GEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=jic0rZP8; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1743113838; x=1743373038;
-	bh=pOr0DNwW22udl+QjNXdk6JXxuaFTQiZdJAYlJD9wBnM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=jic0rZP8jIRDUlYJVFn/WyH0SzSXhx/zI69q9kX7QeIHgrcfENJqk0J8WRHjnVLi8
-	 NYQ1OQjEs2l7GGNjObJEnLrPxDYndr08EDpfs5TYJPPr+lShwi3LeLeDuagfKMTX0v
-	 UXJnlwsDLJtsylUVLqPjRLZYRG8dDGGuGYSii/uS3sv0xX1IDXSgSC7+Wz31lLkvL2
-	 5BnTTLJTUPFluto7iYwREkzHvpTxJGSFCr0IhBxuyRScrQ9B5ClXkGkU0BdIv7WVEx
-	 65PCUwy1qRK0ngPc/CSLFvWJ2GfvoP8cmalbSSqimzg1t97SUicTxDSvJk0LsHlwll
-	 zekMJyBpIF4Pg==
-Date: Thu, 27 Mar 2025 22:17:13 +0000
-To: Tamir Duberstein <tamird@gmail.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, FUJITA Tomonori <fujita.tomonori@gmail.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, linux-block@vger.kernel.org, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v7 7/7] rust: enable `clippy::ref_as_ptr` lint
-Message-ID: <D8REA6VW7QFS.Y5195VX38USO@proton.me>
-In-Reply-To: <CAJ-ks9n3BdKkfCpMXhE8M8Sx4B5rASoNvbmA4zPU3rmPQwZCiQ@mail.gmail.com>
-References: <20250325-ptr-as-ptr-v7-0-87ab452147b9@gmail.com> <CAJ-ks9nKT2PUDm6=b4AB1QUWwwvcqPn7Vz60=c0B+uFMZrqPew@mail.gmail.com> <D8QDOBUM6NF0.CGJY7ZA5KD9S@proton.me> <CAJ-ks9ntTxBM=c5nUZWGv3MoRt-LveBchn-c1Xy-DGap7fLVRA@mail.gmail.com> <D8QI804Q3DAS.2BV4WSL81H52Z@proton.me> <CAJ-ks9mA5QDeZ3EvOD3THayFt4TtDysgm0jp2aiSF2mQCrhWiQ@mail.gmail.com> <D8QJMH5UR6VG.2OT5MXJJQU5QT@proton.me> <CAJ-ks9m96vf_HxttuopuC_UfNGJbHHNdEGS2er6nZZG38pe3HQ@mail.gmail.com> <CAJ-ks9n3BdKkfCpMXhE8M8Sx4B5rASoNvbmA4zPU3rmPQwZCiQ@mail.gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 82a53baabf13e0ce95fda485724e51f17f7c7368
+	s=arc-20240116; t=1743148543; c=relaxed/simple;
+	bh=5gE0+pWhFHRz9btaJL/6qjKTWiYWX32cx+TvHAe5OBU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=asHILFZ6BFU37SVZ9zxwjBBFZ5IvuCXMLkyLizTHbq0SW1V1+veP/Met5GV/C07RXsD3Sm8p59I/C2kL6szGbem8ZpzOO6ZPnINz/Lze+/ttVHEODewEQ7CS2oWwjYK5kc/dtFvq6kxxaGKVLUMhxzUHDv6p188IOyIjX9MnrNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=I7T4ot0G; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3914a5def6bso942080f8f.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Mar 2025 00:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1743148540; x=1743753340; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8qmXH6tUdBhyxCuOKPx5cChdmd3dLaKjPLtkEvOC6Z4=;
+        b=I7T4ot0GBMZ+jADxZa/s1qcO5CG4NBo1dlWugsZSd+6LHk450rVlbJAt+8TjFIsBLB
+         oDezXvb7jXbO41pXlf1pgtQhwWDYvTumDfTCWs6DQd43usimvyNYPBHiaYqsAtFo9NLO
+         2pLY91Zs4YTyobC9s0YAj5KPczBd1nhUdbTch9bFgaKHD7viEzZYh9rzmYB95Oe5PaH2
+         jBXU7aQgdCOTgsMLM/K9F4LE6wggz6dD4WZoki3MeVRDPFqEAvIdmlBfbatJBgKA+GBy
+         qlV9cUWIuLgP5QjOs7evyYDGV/1ppypBaUcxHvwdcc1NLBwXJkg5P33Pw7dy1ULL3KL7
+         Sj/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743148540; x=1743753340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8qmXH6tUdBhyxCuOKPx5cChdmd3dLaKjPLtkEvOC6Z4=;
+        b=bLFGzSFBTX14HjR4aEJp4dWf0yZ+elCYln6EKuOlnWzNAM0VjcayLQBw8s3WaaX4ja
+         U61cKzRHOzgfBcG2XpkERHp3v33G+tDhFz1v53oe+NZEz0esJmzp/tzzTsGcDtXiOju/
+         nEGofnBrpvrg+LHU0YbSnDfhmpFcv8p79bsCUbJoJbEueaZhhr8REcjzDl44+TCdEDTq
+         Idv5M1iXdLGcJsOuPcWqR2am2aF2V7coLx3ndkFGvmUzPcSXaXop0o3FXatfaiiQPjoJ
+         JrZdxIWi8eJJmTUNa3nOQ2w9FqoUkmbW8jiLaYTA1rWd38eAWDf1AKp7GYp0WqE7xOPk
+         WI2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ+1EoHXQZZVSvGJHxn2NOMHo3R3yDDsZYU+VP4VdtTjzQNN1bxFBqlpaaKMPWnQdznLJ27PEJVbJ/B9A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqHm19YsUue4W/zBrOhXjE8vReRvdQ66YsIaa4qmUtvDt6MRu2
+	c+6VM16eecifWuxNhxnRIIPnNYTnKxNGIed+jwok88Qf/eJxVKSi2kVxLzma9PI=
+X-Gm-Gg: ASbGncs+ZnLzyHHSZCGXRyK8woIiEy+7K433qZpSgXESP/Lt16zhTrvCgW+WoWAp+Wm
+	ADyTYZdHio1QtZQOdeC7iBrvitl41glBUgCixSLZMapgrTVS5xGiHswjLJbXYTQtlRxrYAfrdMK
+	0X0G4gR3Id/CK6oWs4rLNH/Xcu4+DSQUxSeqqRU/K21yHtnLCX14Rw3aPG4BvnJkPafrkDJeV6Q
+	cgl4dAl5Dc1KOB65vz3JPKyli4lTZHb56omfgJ+R+5uDNSO/OJVPZmHMgXDM7X9b6PbDpHAYDU0
+	K1DjzqjAA4a0iZk0YMJMK6M3xJGC7MLctgcxW2c//36QTUOa/RmFuxwEag0nj/BReRQ=
+X-Google-Smtp-Source: AGHT+IHCOMN8uZ+u+tWvAykTfDphcLmw89KftNnGG3qlRnjiUHtvL5LGK6mVPNUfynbX4LuKd5+uqA==
+X-Received: by 2002:a5d:6488:0:b0:391:2f2f:836 with SMTP id ffacd0b85a97d-39ad174bf52mr5128871f8f.17.1743148539525;
+        Fri, 28 Mar 2025 00:55:39 -0700 (PDT)
+Received: from alex-rivos.ba.rivosinc.com ([193.33.57.199])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b7a3d66sm1799249f8f.81.2025.03.28.00.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Mar 2025 00:55:39 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kbuild@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH] scripts: Introduce ARCH_WANTS_RELA_DYN to avoid stripping .rela.dyn section
+Date: Fri, 28 Mar 2025 08:55:36 +0100
+Message-Id: <20250328075536.238782-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu Mar 27, 2025 at 8:44 PM CET, Tamir Duberstein wrote:
-> On Thu, Mar 27, 2025 at 10:15=E2=80=AFAM Tamir Duberstein <tamird@gmail.c=
-om> wrote:
->> On Wed, Mar 26, 2025 at 6:15=E2=80=AFPM Benno Lossin <benno.lossin@proto=
-n.me> wrote:
->> > On Wed Mar 26, 2025 at 11:09 PM CET, Tamir Duberstein wrote:
->> > > On Wed, Mar 26, 2025 at 5:09=E2=80=AFPM Benno Lossin <benno.lossin@p=
-roton.me> wrote:
->> > >> On Wed Mar 26, 2025 at 8:06 PM CET, Tamir Duberstein wrote:
->> > >> > On Wed, Mar 26, 2025 at 1:36=E2=80=AFPM Benno Lossin <benno.lossi=
-n@proton.me> wrote:
->> > >> >> On Wed Mar 26, 2025 at 5:57 PM CET, Tamir Duberstein wrote:
->> > >> >> >
->> > >> >> > Yeah, we should do this - but again: not relevant in this disc=
-ussion.
->> > >> >>
->> > >> >> I think it's pretty relevant.
->> > >> >
->> > >> > It's not relevant because we're no longer talking about transmuti=
-ng
->> > >> > pointer to pointer. The two options are:
->> > >> > 1. transmute reference to reference.
->> > >> > 2. coerce reference to pointer, `as` cast pointer to pointer (tri=
-ggers
->> > >> > `ptr_as_ptr`), reborrow pointer to reference.
->> > >> >
->> > >> > If anyone can help me understand why (2) is better than (1), I'd
->> > >> > certainly appreciate it.
->> > >>
->> > >> I am very confident that (2) is correct. With (1) I'm not sure (see
->> > >> above), so that's why I mentioned it.
->> > >
->> > > Can you help me understand why you're confident about (2) but not (1=
-)?
->> >
->> > My explanation from above explains why I'm not confident about (1):
->> >
->> >     For ptr-to-int transmutes, I know that they will probably remove
->> >     provenance, hence I am a bit cautious about using them for ptr-to-=
-ptr or
->> >     ref-to-ref.
->> >
->> > The reason I'm confident about (2) is that that is the canonical way t=
-o
->> > cast the type of a reference pointing to an `!Sized` value.
->>
->> Do you have a citation, other than the transmute doc?
+riscv uses the .rela.dyn section to relocate the kernel at runtime but
+that section is stripped from vmlinux. That prevents kexec to
+successfully load vmlinux since it does not contain the relocations info
+needed.
 
-Not that I am aware of anything.
+Fix this by introducing a new config ARCH_WANTS_RELA_DYN that prevents
+.rela.dyn to be stripped.
 
-> Turns out this appeases clippy:
->
-> diff --git a/rust/kernel/uaccess.rs b/rust/kernel/uaccess.rs
-> index 80a9782b1c6e..7a6fc78fc314 100644
-> --- a/rust/kernel/uaccess.rs
-> +++ b/rust/kernel/uaccess.rs
-> @@ -240,9 +240,10 @@ pub fn read_raw(&mut self, out: &mut
-> [MaybeUninit<u8>]) -> Result {
->      /// Fails with [`EFAULT`] if the read happens on a bad address,
-> or if the read goes out of
->      /// bounds of this [`UserSliceReader`]. This call may modify
-> `out` even if it returns an error.
->      pub fn read_slice(&mut self, out: &mut [u8]) -> Result {
-> +        let out: *mut [u8] =3D out;
->          // SAFETY: The types are compatible and `read_raw` doesn't
-> write uninitialized bytes to
->          // `out`.
-> -        let out =3D unsafe { &mut *(out as *mut [u8] as *mut
-> [MaybeUninit<u8>]) };
-> +        let out =3D unsafe { &mut *(out as *mut [MaybeUninit<u8>]) };
->          self.read_raw(out)
->      }
-
-Seems like your email client auto-wrapped that :(
-
-> Benno, would that work for you? Same in str.rs, of course.
-
-For this specific case, I do have a `cast_slice_mut` function I
-mentioned in the other thread, but that is still stuck in the untrusted
-data series, I hope that it's ready tomorrow or maybe next week. I'd
-prefer if we use that (since its implementation also doesn't use `as`
-casts :). But if you can't wait, then the above is fine.
-
+Fixes: 71d815bf5dfd ("kbuild: Strip runtime const RELA sections correctly")
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
-Cheers,
-Benno
+ arch/Kconfig         | 7 +++++++
+ arch/riscv/Kconfig   | 1 +
+ scripts/Makefile.lib | 4 +++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index b8a4ff365582..d93f50ecb8f9 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -1544,6 +1544,13 @@ config HAVE_ARCH_PREL32_RELOCATIONS
+ 	  architectures, and don't require runtime relocation on relocatable
+ 	  kernels.
+ 
++config ARCH_WANTS_RELA_DYN
++	bool
++	depends on RELOCATABLE
++	help
++	  This prevents the .rela.dyn section to be stripped from vmlinux since
++	  it is needed to relocate the kernel at runtime.
++
+ config ARCH_USE_MEMREMAP_PROT
+ 	bool
+ 
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 7612c52e9b1e..d58053efa4e4 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -84,6 +84,7 @@ config RISCV
+ 	select ARCH_WANT_OPTIMIZE_DAX_VMEMMAP
+ 	select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
+ 	select ARCH_WANTS_NO_INSTR
++	select ARCH_WANTS_RELA_DYN if RELOCATABLE
+ 	select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
+ 	select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
+ 	select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index cad20f0e66ee..e59210a9fde0 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -376,8 +376,10 @@ quiet_cmd_ar = AR      $@
+ quiet_cmd_objcopy = OBJCOPY $@
+ cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
+ 
++objcopy-args-$(CONFIG_ARCH_WANTS_RELA_DYN) += --remove-section=!.rela.dyn
++
+ quiet_cmd_strip_relocs = RSTRIP  $@
+-cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $@
++cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $(objcopy-args-y) $@
+ 
+ # Gzip
+ # ---------------------------------------------------------------------------
+-- 
+2.39.2
 
 
