@@ -1,67 +1,68 @@
-Return-Path: <linux-kbuild+bounces-6380-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6381-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18482A77AA5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Apr 2025 14:19:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 874D5A77AAB
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Apr 2025 14:20:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EACF816ADF2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Apr 2025 12:19:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 77CB43A8934
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Apr 2025 12:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D6C202C56;
-	Tue,  1 Apr 2025 12:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EAF61FC0F3;
+	Tue,  1 Apr 2025 12:19:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UaIexSN6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e96vg1qO"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C61D202965;
-	Tue,  1 Apr 2025 12:18:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E185202965;
+	Tue,  1 Apr 2025 12:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743509935; cv=none; b=IL9SwfR5AZULaJoi0FLDD0klVyKkPmuiwhbspZMwm/voWyHKuExf5cZ6p4fq2cKockB3rzXGsZBT4W8kJmpc0UIeFTTVrZcgKvnNQBUMnwFl0L0rlVds0s+0a+bruLYmq8LXiZ7AdCsR5sozm1qikA7CwkUHeCgdZ5jMAp4+KMM=
+	t=1743509942; cv=none; b=P4+bXO1kWAGpy93VJhuv6ZFvS8frrxm9ZDGlPj6+1b58CgDXlXNY/ni0ox9UeL+tBCzUpnoC5RlB4zaqqO7CMQEkAzlUQHgGc9580VYRgDBql4G8/GnniaOlHgGpfe5e+nzhGYV3JkGKb8P9E2MxuVov6pIHM+T5OC7vgaTBBw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743509935; c=relaxed/simple;
-	bh=qMks4yyxcsdFFFFIp4ZE81kxinfaQlXtFyDSszriyh8=;
+	s=arc-20240116; t=1743509942; c=relaxed/simple;
+	bh=jT6ExL+POLRIZkDCDeOJqvP819AIWXO6Td1/S/GF2sE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sBa+tkuWw/QZBte0fvjvVmc7Vrfnae0A/LisIbbVUXcOVnThPXtNA7T2Fh/MP/Fh485ioRrk1SQegAFubd9wcpjb3caX6RlEJPHrJDTDPaMECR3hRp5O3LJqlG5bTs33N6l3nHh6dxowZmyDyBqP0zO/88KIXtViltA6t6w/Ztk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UaIexSN6; arc=none smtp.client-ip=192.198.163.7
+	 MIME-Version; b=W0odqNivQEFAkOrqL8zJo8Jdb0xRHg/XeIcygU2JpYzwqZAqKFK0gJMAKTrMJq6k4o0tr9FmJUmIV2a0GhDshPK4HZ+NYHJ2wQ7fttDZSGKt4cv09HpKVFAsM+y6nNaVzvkso+7sNQSSQfS3CiER4OQovzF3DD9DeE3b7s2uImA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e96vg1qO; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743509933; x=1775045933;
+  t=1743509940; x=1775045940;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qMks4yyxcsdFFFFIp4ZE81kxinfaQlXtFyDSszriyh8=;
-  b=UaIexSN6OeOWsIR56cs7Zmb+0+uYN55BbxyqmByUZ8HV5Jvyoxz2jje8
-   TkYCrcOOPdTqUSCuaYfWxOgdskNNdt4gnfNqTHJy4tBoH4A5raiOioclc
-   aEa3AwL1S/Y82GDfNMSI3vSvD8mvNH2aXM5B5bYZgcWaAFWJ6986Bg7Xd
-   GJDhGZGItw9RZXXTt9uQQ5mg5tAFCe81y+zcaIKiejP0KA36XhF76Ra4u
-   BVhClXqyR52kD19yrm3gGwgTT9v9FBjdsJy8Lkp4Nz3yI70TJeg0C2CAH
-   nugIwna6/Z8sfIArXQZqfcbPOxmZfKNf42l2z0uB0MzPX4t9kL1jWW+7I
-   w==;
-X-CSE-ConnectionGUID: hJyn4n5QSKGIIvesj7nO+Q==
-X-CSE-MsgGUID: j/gxMD51TMiIXM6K16fl3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="70186945"
+  bh=jT6ExL+POLRIZkDCDeOJqvP819AIWXO6Td1/S/GF2sE=;
+  b=e96vg1qOnf+yI08bnplalZT5109ylK+NHpEgbclOLcYu+xFzKooLupgj
+   D3gzRC7tGTjd56ZVvKTg5QvnIOpILeDfhgGHzH6zr4OWCwcT4nB0+58QD
+   WMi1e4j8ZZV1MTE1EMJaxohYXNkvWmmWog//J8Kd22jicHT24cc6lEbVi
+   g8OQ03V3wFnl0WqmaTw/pivypKQzVnwoECoLySwH1tRESQDqN4tj6izLR
+   I0LVbzU2KSfas4CIRwKzAQAQiR5UkZqJzT/IN9I4Ag7iRI+N+ew9LWktq
+   VzUD+ZUtcOl+jHXs0YDGKP/xLnNZdKp0+sjz+MESC/o2FKh8jHaPLit4w
+   A==;
+X-CSE-ConnectionGUID: 7RlreNkMRUWBb9AjImlOyQ==
+X-CSE-MsgGUID: ZtRMCsfHTQmnFVWGcl0UDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11391"; a="70186971"
 X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="70186945"
+   d="scan'208";a="70186971"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 05:18:53 -0700
-X-CSE-ConnectionGUID: FLKO6xFIRkSTSCD4li7oKw==
-X-CSE-MsgGUID: /zPIWQYITWqWdiJYY+cBCA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 05:19:00 -0700
+X-CSE-ConnectionGUID: 2eNsLzwHTH2xvgeR6joxnA==
+X-CSE-MsgGUID: 0OVOkFVaQSKzuJtY65XBNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="131373417"
+   d="scan'208";a="131373437"
 Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.7])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 05:18:49 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 05:18:56 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-kernel@vger.kernel.org
 Cc: jani.nikula@intel.com,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	David Airlie <airlied@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>,
@@ -69,9 +70,9 @@ Cc: jani.nikula@intel.com,
 	dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/5] drm: place header test files in .hdrtest subdirectories
-Date: Tue,  1 Apr 2025 15:18:26 +0300
-Message-Id: <20250401121830.21696-2-jani.nikula@intel.com>
+Subject: [PATCH 2/5] drm/xe: place header test files in .hdrtest subdirectories
+Date: Tue,  1 Apr 2025 15:18:27 +0300
+Message-Id: <20250401121830.21696-3-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250401121830.21696-1-jani.nikula@intel.com>
 References: <20250401121830.21696-1-jani.nikula@intel.com>
@@ -102,7 +103,8 @@ Makefiles and kbuild to descend to each of them.
 
 Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
 Closes: https://lore.kernel.org/r/CAHk-=wjMrqzuUmH-mFbR_46EWEFS=bB=J7h9ABMVy56Vi81PKQ@mail.gmail.com
-Fixes: 62ae45687e43 ("drm: ensure drm headers are self-contained and pass kernel-doc")
+Fixes: dd08ebf6c352 ("drm/xe: Introduce a new DRM driver for Intel GPUs")
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
@@ -115,54 +117,29 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: intel-xe@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/Makefile | 6 +++---
- include/drm/Makefile     | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/xe/Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ed54a546bbe2..1666ea55bd24 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -230,14 +230,14 @@ hdrtest-files := \
- 	$(shell cd $(src) && find display lib -name '*.h')
+diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+index 9699b08585f7..2029c3b5aa5c 100644
+--- a/drivers/gpu/drm/xe/Makefile
++++ b/drivers/gpu/drm/xe/Makefile
+@@ -327,12 +327,12 @@ ifneq ($(CONFIG_DRM_XE_DISPLAY),y)
+ endif
  
- always-$(CONFIG_DRM_HEADER_TEST) += \
--	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
-+	$(patsubst %.h,.hdrtest/%.hdrtest, $(hdrtest-files))
+ always-$(CONFIG_DRM_XE_WERROR) += \
+-	$(patsubst %.h,%.hdrtest, $(shell cd $(src) && find * -name '*.h' $(hdrtest_find_args)))
++	$(patsubst %.h,.hdrtest/%.hdrtest, $(shell cd $(src) && find * -name '*.h' $(hdrtest_find_args)))
  
- # Include the header twice to detect missing include guard.
 -quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
 +quiet_cmd_hdrtest = HDRTEST $<
-       cmd_hdrtest = \
- 		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
- 		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
- 		touch $@
+       cmd_hdrtest = $(CC) -DHDRTEST $(filter-out $(CFLAGS_GCOV), $(c_flags)) -S -o /dev/null -x c /dev/null -include $<; touch $@
  
 -$(obj)/%.hdrtest: $(src)/%.h FORCE
 +$(obj)/.hdrtest/%.hdrtest: $(src)/%.h FORCE
  	$(call if_changed_dep,hdrtest)
-diff --git a/include/drm/Makefile b/include/drm/Makefile
-index a7bd15d2803e..a7593987909b 100644
---- a/include/drm/Makefile
-+++ b/include/drm/Makefile
-@@ -5,14 +5,14 @@ hdrtest-files := \
- 	$(shell cd $(src) && find * -name '*.h' 2>/dev/null)
  
- always-$(CONFIG_DRM_HEADER_TEST) += \
--	$(patsubst %.h,%.hdrtest, $(hdrtest-files))
-+	$(patsubst %.h,.hdrtest/%.hdrtest, $(hdrtest-files))
- 
- # Include the header twice to detect missing include guard.
--quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-+quiet_cmd_hdrtest = HDRTEST $<
-       cmd_hdrtest = \
- 		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
- 		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
- 		touch $@
- 
--$(obj)/%.hdrtest: $(src)/%.h FORCE
-+$(obj)/.hdrtest/%.hdrtest: $(src)/%.h FORCE
- 	$(call if_changed_dep,hdrtest)
+ uses_generated_oob := $(addprefix $(obj)/, $(xe-y))
 -- 
 2.39.5
 
