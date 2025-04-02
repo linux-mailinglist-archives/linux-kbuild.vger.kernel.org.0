@@ -1,176 +1,139 @@
-Return-Path: <linux-kbuild+bounces-6387-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6388-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CD0A78280
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Apr 2025 20:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E1BA78EF3
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Apr 2025 14:48:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B86C23A9566
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Apr 2025 18:56:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20EE23AE1BE
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Apr 2025 12:47:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44152211299;
-	Tue,  1 Apr 2025 18:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0410E23A560;
+	Wed,  2 Apr 2025 12:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QapRp3OK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crKExMJN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 920F51F09B8;
-	Tue,  1 Apr 2025 18:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D274123A984;
+	Wed,  2 Apr 2025 12:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743533812; cv=none; b=ri6zdFOCHpaGek3SCddGsZNG+a2z73I2YAqhS7AsBSZfZx4rF2pcdtSPTCkc4iPfuIa2hi5+eUWCNvk+hjrOyyJ5x4fQO02TY5XVUA4zPmNTKPLp3MS7QRqYnOEzPNL69NveDvFrGSSL6mzy4uZi0UhIuHTJCCbpMv7PskZ/6Ew=
+	t=1743598033; cv=none; b=bbFEDBzjSSLhHQ0nD9Ghym/6rnItoEtrhqkCGiVo8xzlCZXG6XX2DM4uEcTbEXu3Vzdm7ykOgN4Km8AEa8+BWfkpanzVA/gizTjc830AdPcQ5YbME0bJm2mPKksaAAQGcLL/N3WeR4+2JColLZoW25DdHplOXJGha8OHmb7/1Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743533812; c=relaxed/simple;
-	bh=bzA5yQlxM5CYAzByNShEGHGrcQhOK5tsk1smItcbPvw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dRbhQBPZItq3GylKxd8EgGzKQD3OzKY/Fcui8lYvjJuiju3N/RLPacnpOAdnsTfdICJFCI1yNGvEA4byZBlVRYpYU6+IuRVbQvQswQl8oDz2OHvq/LZPs/9BsOaXaiyMlJWJSPiu3abQLir5Yy1o1tXKConZbAx1YoRJpGq6SLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QapRp3OK; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from narnia (unknown [167.220.2.28])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DE23920412F8;
-	Tue,  1 Apr 2025 11:56:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DE23920412F8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1743533810;
-	bh=nghUxCgd3Rj3zORPScI3SKHVRg60ZkC2fKZvDytP/2E=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QapRp3OKW3zygfnH/WRQRfu0u/vCRTJXMpGbSZvyiA818p11IAQoJN61iog+1P/sm
-	 gCtLH8qYoJ9tTiU7yIgFxpeZVYM05PLTHgDXbzkOmyZI4Tp/r5hR1VF4NeerLlWozD
-	 qUVTlal3A+XPQ8mlFolSwwPpKu7U/qXbdRRRDGhs=
-From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
- <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
- <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
- =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
- <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
- Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Jan Stancek <jstancek@redhat.com>,
- Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com,
- teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
-Subject: Re: [RFC PATCH security-next 0/4] Introducing Hornet LSM
-In-Reply-To: <Z-wLKhlfJ5EQqvJC@kernel.org>
-References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
- <Z97xvUul1ObkmulE@kernel.org> <871puc7wb8.fsf@microsoft.com>
- <Z-wLKhlfJ5EQqvJC@kernel.org>
-Date: Tue, 01 Apr 2025 11:56:40 -0700
-Message-ID: <87friru2vr.fsf@microsoft.com>
+	s=arc-20240116; t=1743598033; c=relaxed/simple;
+	bh=Gj2aB2JqBmqXPO78uNKvPd/l2jxWVWHHMd/bVheBitA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hEx2TLlCSgddCu+BxrZ9AKoCtTqtFNtFf9/CrMOJQhBjnIfal8RCbrF9BjWe7YvhG0Mk5hzK9K4aL+Q/Zj/1aLeKEtHUOS2tC68QaYvPRGBY9lt8If0Qmg3c0ED2kZv9manSAfrIguaHlWmpO2mSvV9ctjCR3KNh8DG/ChiYGog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crKExMJN; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743598032; x=1775134032;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Gj2aB2JqBmqXPO78uNKvPd/l2jxWVWHHMd/bVheBitA=;
+  b=crKExMJNpdG7L2HgKhXEHICfSSc4GioVkXOrJl2ORe4d1X9H0KZcaEem
+   1DrIR6VJ3DPhtMcp4vN2kzCGl4qrny3ie29nOd46X8I2is/m9IQd0sLAK
+   fAmn3BpR+6Wfl9iUFjNC/GMPS7LlzNjgMYjRX9/kkT5D1/Q8c6gPKG/UP
+   65zpava5oklBP8vaXtYm9qwINiCYFLYGT5n3ajJHlLGM4b/n57YTPA8Ly
+   A5kMh27LgusJPv+j1TV6eKfx2/4bqL+qYWobP/ilojl2FscR9mClDaTEs
+   6xDc3kqEDtYq41+924a7T2E50rPvlUfkr/dxKXwkGT3sgSz8FvcLiLR/c
+   Q==;
+X-CSE-ConnectionGUID: jOauTDryR6aLOG6ACu8KXg==
+X-CSE-MsgGUID: T98rO5pyQWqHSNXeV2V6CQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="55953435"
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; 
+   d="scan'208";a="55953435"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 05:47:11 -0700
+X-CSE-ConnectionGUID: gPJlNXYbQLS1e6N7A65cbg==
+X-CSE-MsgGUID: xLyK4DAQQ6S0hlKPTGmchw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,182,1739865600"; 
+   d="scan'208";a="127180570"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.73])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 05:47:07 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org
+Cc: jani.nikula@intel.com,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	linux-kbuild@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/4] kbuild: resurrect generic header check facility
+Date: Wed,  2 Apr 2025 15:46:52 +0300
+Message-Id: <20250402124656.629226-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-Jarkko Sakkinen <jarkko@kernel.org> writes:
+Another go at hiding the turds.
 
-> On Mon, Mar 31, 2025 at 01:57:15PM -0700, Blaise Boscaccy wrote:
->> There are two flavors of skeletons, normal skeletons, and light
->> skeletons. Normal skeletons utilize relocation logic that lives in
->> libbpf, and the relocations/instruction rewriting happen in userspace.
->> The second flavor, light skeletons, uses a small eBPF program that
->> contains the relocation lookup logic. As it's running in in the kernel,
->> it unpacks the target program, peforms the instruction rewriting, and
->> loads the target program. Light skeletons are currently utilized for
->> some drivers, and BPF_PRELOAD functionionality since they can operate
->> without userspace.
->> 
->> Light skeletons were recommended on various mailing list discussions as
->> the preffered path to performing signature verification. There are some
->> PoCs floating around that used light-skeletons in concert with
->> fs-verity/IMA and eBPF LSMs. We took a slightly different approach to
->> Hornet, by utilizing the existing PCKS#7 signing scheme that is used for
->> kernel modules.
->
-> Right, because in the normal skeletons relocation logic remains
-> unsigned?
->
+In v1 [1] I hid the build artifacts under .hdrtest subdirectories, one in each
+$(obj) directory, but the feedback from Linus [2] was to have one top level
+directory for this.
 
-Yup, Exactly. 
+This is not possible without turning the whole thing back into a generic header
+check facility. Personally, I think this is a good thing. Just look at patches
+2-4, it's great.
 
-> I have to admit I don't fully cope how the relocation process translates
-> into eBPF program but I do get how it is better for signatures if it
-> does :-)
->
->> 
->> >> verification. Signature data can be easily generated for the binary
->> >
->> > s/easily//
->> >
->> > Useless word having no measure.
->> >
->> 
->> Ack, thanks.
->> 
->> 
->> >> data that is generated via bpftool gen -L. This signature can be
->> >
->> > I have no idea what that command does.
->> >
->> > "Signature data can be generated for the binary data as follows:
->> >
->> > bpftool gen -L
->> >
->> > <explanation>"
->> >
->> > Here you'd need to answer to couple of unknowns:
->> >
->> > 1. What is in exact terms "signature data"?
->> 
->> That is a PKCS#7 signature of a data buffer containing the raw
->> instructions of an eBPF program, followed by the initial values of any
->> maps used by the program. 
->
-> Got it, thanks. This motivates to refine my TPM2 asymmetric keys
-> series so that TPM2 could anchor these :-)
->
-> https://lore.kernel.org/linux-integrity/20240528210823.28798-1-jarkko@kernel.org/
->
->
+The main reason we've been doing this in the subsystem/driver level at all is
+the opposition from the kbuild maintainer. We'd very much like for Masahiro to
+support us in our efforts, but without that support, we're limited to hacking in
+the subsystem/driver Makefiles.
 
-Oooh. That would be very nice :) 
+BR,
+Jani.
 
->> 
->> > 2. What does "bpftool gen -L" do?
->> >
->> 
->> eBPF programs often have 2 parts. An orchestrator/loader program that
->> provides load -> attach/run -> i/o -> teardown logic and the in-kernel
->> program.
->> 
->> That command is used to generate a skeleton which can be used by the
->> orchestrator prgoram. Skeletons get generated as a C header file, that
->> contains various autogenerated functions that open and load bpf programs
->> as decribed above. That header file ends up being included in a
->> userspace orchestrator program or possibly a kernel module.
->
-> I did read the man page now too, but thanks for the commentary!
->
->> 
->> > This feedback maps to other examples too in the cover letter.
->> >
->> > BR, Jarkko
->> 
->> 
->> I'll rework this with some definitions of the eBPF subsystem jargon
->> along with your suggestions.
->
-> Yeah, you should be able to put the gist a factor better to nutshell :-)
->
->> 
->> -blaise
->
-> BR, Jarkko
+
+[1] https://lore.kernel.org/r/20250401121830.21696-1-jani.nikula@intel.com
+
+[2] https://lore.kernel.org/r/CAHk-=wiP0ea7xq2P3ryYs6xGWoqTw1E4jha67ZbJkaFrjqUdkQ@mail.gmail.com
+
+
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: linux-kbuild@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+
+
+Jani Nikula (4):
+  kbuild: add generic header check facility
+  drm: switch to generic header check facility
+  drm/i915: switch to generic header check facility
+  drm/xe: switch to generic header check facility
+
+ drivers/gpu/drm/Kconfig           |  2 +-
+ drivers/gpu/drm/Makefile          | 15 +--------------
+ drivers/gpu/drm/i915/Makefile     | 14 ++------------
+ drivers/gpu/drm/xe/Makefile       | 10 ++--------
+ drivers/gpu/drm/xe/xe_pcode_api.h |  4 ++++
+ include/drm/Makefile              | 15 +--------------
+ init/Kconfig                      | 25 +++++++++++++++++++++++++
+ scripts/Makefile.build            | 13 +++++++++++++
+ scripts/Makefile.lib              |  7 +++++++
+ 9 files changed, 56 insertions(+), 49 deletions(-)
+
+-- 
+2.39.5
+
 
