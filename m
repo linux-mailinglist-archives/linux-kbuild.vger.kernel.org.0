@@ -1,127 +1,155 @@
-Return-Path: <linux-kbuild+bounces-6398-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6399-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F84A7A602
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 17:11:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2873A7A71F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 17:41:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C50018955E5
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 15:11:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A88691889D69
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 15:40:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F334E2505B3;
-	Thu,  3 Apr 2025 15:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C5A24C080;
+	Thu,  3 Apr 2025 15:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rg+elceH"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="QeQXEowk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88CD2505AE;
-	Thu,  3 Apr 2025 15:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE36924EF7E
+	for <linux-kbuild@vger.kernel.org>; Thu,  3 Apr 2025 15:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743693086; cv=none; b=TmshCc+2mVdPsQ5c5jKoe0T0yr/JfBsh2oX0fSSaJwB4JHA2Lcte4zDaFE5x4sjdkbASbmNGDCDyzKUc6BdacQMIX9bEhzhuJ08ImOq9f9Ecn4PielfDIlDn6yoYL2/AaIg4FTdMNZFaGd0qPh9ip2x+ePBDR8MF2xh/obHCphY=
+	t=1743694835; cv=none; b=LJIH09X6bsoMSb+d3TA0D+qsYwrasyYXbF/WItKGoC7jZem250sI6N3ORcSBVVvdMfAAj/0xXCR7xxr+sDL6q8As3J93WLvQCO2zn3pOrL4uMillRCEC9fQARhgAQaBTfd2b+dcoKRmIwZ7VUiBO25f5iFFxo4w+O4SjWB5UioE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743693086; c=relaxed/simple;
-	bh=NIvLpPfAXrTuXtMOMB/pagZd8SPTLCI7I/aXMEmuZks=;
+	s=arc-20240116; t=1743694835; c=relaxed/simple;
+	bh=LLyahjp8dUbS0PTJb6Wv/3FQc531IuBzGwgR5Q4UtNA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ht9EBlgBLHeBD0Jy2qXQSAAFLAnOj4tQ5KywXxNOy3b1OfICkFtAviphZ0oqGOou3vkWb2jR0SS7zO0aGyAMIDKldgrL0C105hienGJKNRchi8pfiLCUMlwRxxigemKCnBXjmw7uAPgR0pUicZlHR/AU46BVZ7A4vmzB/7JRQ4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rg+elceH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 447E7C4CEEC;
-	Thu,  3 Apr 2025 15:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743693086;
-	bh=NIvLpPfAXrTuXtMOMB/pagZd8SPTLCI7I/aXMEmuZks=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=rg+elceHnlADL1mNP5zqvH3MnNX1SQTBq0g1DCEixGhxkvzyh0bOPFJCkL0ALZKyt
-	 +VCgmEkvQMtKdswZTk0K56LU+TDECxM85B1covP7XNz/If7qqhoT5TvDrn7HLoN9pz
-	 Rl9qHuAxeZTqau7PVURw/Zhr6jlYiMbZFHuIQSXA7XwEXkvzOzZN8Bs4mvEwYi1P9h
-	 JCZmfN1+807U9Eh1iCW6I1FgfnputbMkqPL5r4VEmr2pLWoLP5E32HPSY3oWk8JCW7
-	 k/ven923jDB2Khmp8j0mO9NxvC06cxe1YwAFAJ+x7vwn3GtSsLLGjIG3Wr999oHAce
-	 Bzw+vV9ZBS2qg==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5499c5d9691so1191795e87.2;
-        Thu, 03 Apr 2025 08:11:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUbM1lb2geESVF6jeqF5aWwtQJNfEv1lewfzicwOYIXPXydGnyMK3BV10zWefbVvaHZALHdmDVyGHVHmsk=@vger.kernel.org, AJvYcCVBRffez3cfrTeTRPLU84N90/PQe8mKC1wmW6aHydn1Am7eFBdufIvVdWGsJd6t+MWyV77eYIHWqYxXbakV@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXs3c399O3E4NZg4Pp8azrR/fCRCC1cozJq1qhGIb0XnmFS5tK
-	I2LUX0k21x7c61WBVKRVBveyYKPq50Cmfvq7qirMXJVauSSO3nGk9vIm2cqJy3GuCZAKj2VkIQf
-	6xscxmbcI1YUGVEqaoOJ+f+KQrsQ=
-X-Google-Smtp-Source: AGHT+IGHaE5sR5WjLPaAAsOgHiAcSbArxim9/nuGpNofJcAx2t/1OKmIKbXzElP29VwvJc0LcNAX9hLMl1nwdhodQks=
-X-Received: by 2002:a05:6512:3b13:b0:549:5b54:2c5b with SMTP id
- 2adb3069b0e04-54c1d8a6e03mr1065423e87.24.1743693084626; Thu, 03 Apr 2025
- 08:11:24 -0700 (PDT)
+	 To:Cc:Content-Type; b=Yxy6RSavCqqyFnXt7jaZXw4XhBtBunqcS3KGmtKyyJrztpyILYd7tHtWIdUKIsFbsw5JxxA7Pyr+woYItknMfhg/vSs0iOj6SdnU05XuRAxmx1Mb+Aa+9Zgm1pfkKBRmrCsBbgG1GtNaEpPx8/y+ZxO7DeIC3St6WwjXE3H5vu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=QeQXEowk; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e6e09fb66c7so784717276.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Apr 2025 08:40:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1743694831; x=1744299631; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/pTVLra0u+1FpM17aNh7S4PmJQcdVxjLqXOG1m/fwvo=;
+        b=QeQXEowk7VwrlECW0aMxDJtXbk4ovJZAPkYUVLhmOxhnJythwjDdY3DDTVTsBjoJ6R
+         jdG682+EQksSL2X2YeVbDOKy+k3To6cG8vkVBxitxmqo8s/09wO4Yc4rXgU0U+97rRAl
+         l7AlSgyFDKKINJd3mljwcFzeq39lSFDDZ+DMaH62ao9spGSKGJqfTfUUGjPYy8bwhd+a
+         FvcRRITt/gsqdM22I3FjbPNqsUl0SN9LAA1Wy6+uEbl/bYUEB8uiYdSD0DZbtDUkKExy
+         wj/3Ij2PEIZNlpyKLOsYSvAwPs14fu+iKWG1Rg1Rsq/B++BAR4gfyFXGALtx2GtC50tm
+         qrDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743694831; x=1744299631;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/pTVLra0u+1FpM17aNh7S4PmJQcdVxjLqXOG1m/fwvo=;
+        b=b9J+dFhMn5pImD8GSH0zvuyqYR12Du4Zhlnp9qM2HN8ejtv8PazbKbGRXtL+SokGUR
+         L3Zf4za3deQGMJFFcFyQk7EPvg0SeiOfItbD8XOrd+biASaSh2zSxcis+V3P18zrskuw
+         Oyr4dqk99wWtqRYzRWPSxfP0tbU8gmmWv8Yx5jhyr/TvBHCUv5LCAphLVRlbkbLbRZ4G
+         WmgZM1skIYnFM49kKdlIfuXtiM0oDOnHhZfw2yX8TQ0FOmabq90QFqmaK6Kn07N6iLaM
+         cjCdZnsNa3S3R7ib23pjOwdMNoezHkLq83HLA93cmKPl7GFfCO/EzVxTkynvazr8Q4jh
+         AaBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVvSdaw9/w/mKuAx1ll9knonJwosL09rfP5VttdDgAMK7eMEip9qt7zRPJKN4N4YHxzVU35bgB0V4PPoQw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhnWhX2PuIUfRR9PNR4ORoMoYZQtZmWzg/Ws/P2Cqk6Zu3lNwp
+	He6h3CQTAsQfL3SlLFhX72ai7PsrWBEZ/xkXSXpnNYSh3M36BfP1G2igaYbkul5XhG6lh5HsT0b
+	c3Ci+xu9/SHs4al75dapnvyoadfndaGUeVJPX
+X-Gm-Gg: ASbGnctWRqN9oMpdL6wRdqS6W4CXU8WeUe57QTe1luHlmIUi0ZCtaUCrwwnVQlWqHI8
+	OHMrRviZ9+GP9KH0nX/MQ8SH5ea4j6SMutjTuGlfcjKpqhdtfi1lvTeDo7zodVahBAd8CMCOrWz
+	fYkrmYhf6YSivxNI3RytMxy06HeQ==
+X-Google-Smtp-Source: AGHT+IE5YGq8DRNeSsm9U1iNJDEvoCJMUq0s3fKOzK6HVx45MwQM6mHF9XCGCBw2DL/ytY3QnYWSaOU0LU4h9G7Y1qw=
+X-Received: by 2002:a05:6902:1a49:b0:e65:450f:47b4 with SMTP id
+ 3f1490d57ef6-e6e1c2c0d02mr83229276.21.1743694831610; Thu, 03 Apr 2025
+ 08:40:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250403134200.385077-1-alexghiti@rivosinc.com>
-In-Reply-To: <20250403134200.385077-1-alexghiti@rivosinc.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 3 Apr 2025 18:11:13 +0300
-X-Gmail-Original-Message-ID: <CAMj1kXGzrn6i20LvUBnz_mGi946=GCogNHHUL=mNsv513qYv7A@mail.gmail.com>
-X-Gm-Features: AQ5f1JoKfhV3MERR1uNecpsdZk0_Zd-PQo949ieFdRrYe-B6KsP3bxkK_BwZ46w
-Message-ID: <CAMj1kXGzrn6i20LvUBnz_mGi946=GCogNHHUL=mNsv513qYv7A@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts: Do not strip .rela.dyn section
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Alexandre Ghiti <alex@ghiti.fr>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com> <20250321164537.16719-2-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20250321164537.16719-2-bboscaccy@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 3 Apr 2025 11:40:20 -0400
+X-Gm-Features: ATxdqUFIj4dyrFJX231ICUhqYjHRv0Gra_aYTiiiEKPjs4MluovUd6s356bhD14
+Message-ID: <CAHC9VhR6J+G7MqBSBQemwQsYXdatEhhKCDJ2o13fpXpMgfY66g@mail.gmail.com>
+Subject: Re: [RFC PATCH security-next 1/4] security: Hornet LSM
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
 	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Charlie Jenkins <charlie@rivosinc.com>, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org
+	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com, 
+	teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 3 Apr 2025 at 16:42, Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+On Fri, Mar 21, 2025 at 12:46=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
 >
-> riscv uses the .rela.dyn section to relocate the kernel at runtime but
-> that section is stripped from vmlinux. That prevents kexec to
-> successfully load vmlinux since it does not contain the relocations info
-> needed.
+> This adds the Hornet Linux Security Module which provides signature
+> verification of eBPF programs.
 >
-
-Maybe explain that .rela.dyn contains runtime relocations, which are
-only emitted if they are actually needed - as opposed to the static
-relocations that are not emitted as SHF_ALLOC sections, and are not
-considered to be part of the runtime image in the first place. It
-would be nice if we could use --remove-relocations= here, which only
-removes static relocations, but unfortunately, llvm-objcopy does not
-support this.
-
-Also, I wonder if this should apply to all of .rel.dyn, .rela.dyn and
-.relr.dyn, as they all carry runtime relocations.
-
-Finally, I'd be curious to know why RISC-V relies on --emit-relocs in
-the first place? Is the relocs check really needed? If not, it would
-be a nice opportunity to get rid of Makefile.postlink entirely.
-
-In any case, for this change, or a variation along the lines of what I
-wrote above,
-
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-
-
-> Fixes: 71d815bf5dfd ("kbuild: Strip runtime const RELA sections correctly")
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Hornet uses a similar signature verification scheme similar to that of
+> kernel modules. A pkcs#7 signature is appended to the end of an
+> executable file. During an invocation of bpf_prog_load, the signature
+> is fetched from the current task's executable file. That signature is
+> used to verify the integrity of the bpf instructions and maps which
+> where passed into the kernel. Additionally, Hornet implicitly trusts any
+> programs which where loaded from inside kernel rather than userspace,
+> which allows BPF_PRELOAD programs along with outputs for BPF_SYSCALL
+> programs to run.
+>
+> Hornet allows users to continue to maintain an invariant that all code
+> running inside of the kernel has been signed and works well with
+> light-skeleton based loaders, or any statically generated program that
+> doesn't require userspace instruction rewriting.
+>
+> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
 > ---
->  scripts/Makefile.lib | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index cad20f0e66ee..0a1f1e67a0ed 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -377,7 +377,7 @@ quiet_cmd_objcopy = OBJCOPY $@
->  cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
->
->  quiet_cmd_strip_relocs = RSTRIP  $@
-> -cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $@
-> +cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' --remove-section=!.rela.dyn $@
->
->  # Gzip
->  # ---------------------------------------------------------------------------
-> --
-> 2.39.2
->
+>  Documentation/admin-guide/LSM/Hornet.rst |  51 +++++
+>  crypto/asymmetric_keys/pkcs7_verify.c    |  10 +
+>  include/linux/kernel_read_file.h         |   1 +
+>  include/linux/verification.h             |   1 +
+>  include/uapi/linux/lsm.h                 |   1 +
+>  security/Kconfig                         |   3 +-
+>  security/Makefile                        |   1 +
+>  security/hornet/Kconfig                  |  11 ++
+>  security/hornet/Makefile                 |   4 +
+>  security/hornet/hornet_lsm.c             | 239 +++++++++++++++++++++++
+>  10 files changed, 321 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+>  create mode 100644 security/hornet/Kconfig
+>  create mode 100644 security/hornet/Makefile
+>  create mode 100644 security/hornet/hornet_lsm.c
+
+A reminder that you'll need to take responsibility for maintaining
+Hornet and provide a corresponding entry in the MAINTAINERS file too.
+I'm not nice enough to maintain Hornet for you ;)  If you have any
+questions about any of the fields, let me know.
+
+I believe you've seen this already, but as a general FYI we do have
+some guidelines for new LSMs:
+
+https://web.git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git/tree/RE=
+ADME.md
+
+--=20
+paul-moore.com
 
