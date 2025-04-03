@@ -1,182 +1,152 @@
-Return-Path: <linux-kbuild+bounces-6394-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6395-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5030A79A4F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 05:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AEDA79C34
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 08:39:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 49EF1171D73
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 03:07:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 464D41715B7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Apr 2025 06:39:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 030E414EC73;
-	Thu,  3 Apr 2025 03:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0002A1A0BCF;
+	Thu,  3 Apr 2025 06:38:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="BRl/HrHH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjcG3lq1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5C71854;
-	Thu,  3 Apr 2025 03:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4B51A08A3;
+	Thu,  3 Apr 2025 06:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743649617; cv=none; b=LVyxpG15QkPWXddaeuMjyqF9SVnT6nmCmBOt2JcmruPSzBUbq4wgcfbn9lHnH7KS4agaAxMRZNfdCH2dJeWypM6EFyNnM3IA5/D1zjM/Ac5RMfMVBZratyc6+WgWgy1cV9aQt7Bzcs79Zhyr/UiTD1VmM1/9cuRtOBsBoePyJBU=
+	t=1743662332; cv=none; b=HSl+vCPOn3FdMjqGG7H7pO2+j3BGBjrA5j3Ob12ohzA2DaTdeEa0jkqaT5bq7mWqfDzeXBnL66FgpgmSMbffmlUkNfkmWGfdTwbY3KsdMj0GruRJ838qWDd/ECK7mHgqPh4ivg5xesSOUhlKbiWPlv2EkxBbWblF8Xbyl/Sls3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743649617; c=relaxed/simple;
-	bh=rLITyRfuG4belOwBKg3TPRziIg6FbQl4SzE1StqCq8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eFj4JEegZdTs1cOIBBDZN0dOPg6rrp4jGUH2amJUZWsgaaOqdY9EkgTGws/WaxU2v3fzxtIhzmtcSZCiBGxRIjrsFPiBG7VFYTtaGpNxla3sdXdm3mdMLfR3FVQfIQThZvgzJ/2liw74ERZoxzuyhvsfwXXpCy3t+iepz5As9qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=BRl/HrHH; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1743648351;
-	bh=rLITyRfuG4belOwBKg3TPRziIg6FbQl4SzE1StqCq8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=BRl/HrHHDpAA1ScdOhwK1YzHrUowwbbrtIESjvn9rbuHRYZWiD+dd7DxW38qFYlna
-	 4E685x01bIqoGjtdvC9UEtBjLtd4PGbjszVhNEW/SXTkS1+jA/dh5rE/hZFlLhYhXy
-	 RRWituptaG/j+wMHeop60B/cZt0S99E6cHisLMYI=
-X-QQ-mid: bizesmtpip3t1743648313t5yaiik
-X-QQ-Originating-IP: RFtzrLpKnP/K71HWrxjfeOmzO8W6e3p+ikpskL0q4h0=
-Received: from [IPV6:240e:668:120a::212:156] ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 03 Apr 2025 10:45:11 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10175989082792756746
-EX-QQ-RecipientCnt: 10
-Message-ID: <F0F0E660A98E4FA3+de115480-b3ee-4f33-b90f-a8f3badc97de@uniontech.com>
-Date: Thu, 3 Apr 2025 10:45:11 +0800
+	s=arc-20240116; t=1743662332; c=relaxed/simple;
+	bh=2/tAIarhHMgZpqgml0rAXbaj403ah+N1dDuDl5YUD4g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ff/nNtXlEnGiD0mTzb009J4WsSUmtmL4eQe5BPk2Wm5Iiu2uihEzl972qB5r3w6rnkRZIWbeJj6Ynz4wYrzT6Yx84YKUK86IduOKgSbSnQ5unOGMzOLf0Gvw7qsxCyMJ8VU2QbX28gtTWdKHf8Ac3LW4Ke4aDMR6F2yEowb09bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjcG3lq1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358A3C4AF0C;
+	Thu,  3 Apr 2025 06:38:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743662332;
+	bh=2/tAIarhHMgZpqgml0rAXbaj403ah+N1dDuDl5YUD4g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jjcG3lq1WkVbTto5R6Sr0OQQAtu+hmbuYvbwt/TWvMAr2jk3HFuXk7vvaRqZ1NjCy
+	 rFwRBDVcphMkMwnBb+/1x37s/eGqUNjdl8SL9LhRY0gimuLuQLIfCTExGcZXe1doJV
+	 A2Atovl9RzyOD8Q41JU2PbIc5s6OH/7994AUW/P7GnFcBgxxf0QQC+iisJu4qRGyan
+	 f2ir04R+NLdjQWg1Bz4Dg0uXN5nXOvdlvqfV5MBTcekIVentKU7+DdG84NY66TROVG
+	 SvnQOI/SEnnbO0AzNPVxJpwjWTp/lxwzVsPv9bNeyQ9wE4xf494VG6s3/Wl5Ycay6T
+	 j0ycWugI+HlFQ==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5493b5bc6e8so692412e87.2;
+        Wed, 02 Apr 2025 23:38:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUprjdQBsPlZMS2GOQdSdaxNvUzw3K8oGgzuvVOLtvZCTLTZWO8kR6fgvdh3HHzE9zu4Az0nnT4GPdf1KY=@vger.kernel.org, AJvYcCXhJoosHgPk7fag8BazbRSZfY7T+2wd1+pdDUgLKIvf6FO2fwCMEUKOMN1GuTlo9tldbk9v+FVBSd9WbjHg@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/JlLCpT032BmehqLOswus15tdOHvcqDHWaEz01jqRZiMLbYHm
+	IH9R1vym+pM59cMNhrekoV0jp5nJ52jgtx5mDnw1fh+Blr5Pfc35ruYsNCYD03u+iibTvrxgzkK
+	Nt2QT6bXGzWf8jTQ5H6yYfj04ky0=
+X-Google-Smtp-Source: AGHT+IE4yQD8rhYnVSRXOnS3Y6pofP5obI3okmQ0iC4wJLgbKdsBb0CIGQU6+0Kd5+8+3okm+rb8AazhaZjHp1lAMRE=
+X-Received: by 2002:a05:6512:1149:b0:545:3031:40aa with SMTP id
+ 2adb3069b0e04-54b10db738dmr6083399e87.9.1743662330387; Wed, 02 Apr 2025
+ 23:38:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kbuild: deb-pkg: Add libdw-dev:native to
- Build-Depends-Arch
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- samitolvanen@google.com, zhanjun@uniontech.com, niecheng1@uniontech.com,
- guanwentao@uniontech.com
-References: <39FF69551D01924F+20250326174156.390126-1-wangyuli@uniontech.com>
- <3e52d80d-0c60-4df5-8cb5-21d4b1fce7b7@suse.com>
-Content-Language: en-US
-From: WangYuli <wangyuli@uniontech.com>
-Autocrypt: addr=wangyuli@uniontech.com; keydata=
- xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
- IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
- qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
- 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
- 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
- VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
- DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
- o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
-In-Reply-To: <3e52d80d-0c60-4df5-8cb5-21d4b1fce7b7@suse.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------GT5Iwsqm6RPcnXW9aW5iCtlm"
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: Ny/zgNEl+21dx8wQrtloB49pQdi+iTZUNi9WpUaMz4ut56wpVTXdx18t
-	+FNE24niNyQvaLqFVnnM5ylzkB3OWFQbCz1ShnyDOI+D/rIBR0J2rddorsz8L0IqfOXnkTy
-	XcpqJ6sOcRsJX+f55zM/xnogl6ikQR+4X2wjl2+G1MnoMYcOtHFGxTlNP/arbxbxslSly5l
-	LpgDJ/2AuB83acCU6WrD3aMudUzZ3h8IWSnlM4p6RiwghhdAmnttnzMsejlgVxTUkMqFAfS
-	hF0DG0uYS3Pc3s07h6H3XZMHwQEyxRPZmhT3+DlB0mY9wl07z2b+JrgraJfIYUkoEfNx8PY
-	zLoyUe/TDaKD1zztHpyCfTaxI+PS97PCzD7lWZSLtEIjpt7sUQhSzizi+td68RHHYt+xWtU
-	IGMObV1J0P5IC0Kp2Hin9qd1/YAaM8EYh2eCgaGvP8v1Bwo3HWQHC9vMuYIn7ymEEDdUT8D
-	tcGCwc05z60f8Xqi1S5h6sSozwCxf+u2G9qHdj4FT61rH5ZWHU3VQEJaigGWW5+JauFzUdA
-	Guoj2N2NlmQi0F8SguosSv6c/TNkKDGkQ+g4QKDEU7XotEIfamzTXIrOq9qjB4q1MdULm76
-	1aWc2eZmle/9/nCpBDBCOSiebL/wPrs5LMun20rKduYWHgvSrrN5VyJAvhV9e7s0KWGFEZS
-	PVe0QI7+6kJ0goo6Fa+N+lMDSYNxK4KrDGx2K4Z0EIIEhXSR2J1fDilJr8OFBCN5Jk1CDt1
-	ppbJr4aMQWd56Vyged++ZTjrj3/eoT8XPAi+S6GuyboaI1O2rMSI2tM8TsOGtQJgewAZXio
-	sdzfIsvrZc0QyDQ49qT1s2iW7fFcP8TJyGJZ7ee7xIYT1csRYljRNRHr521bvCZgw+yU0qH
-	OpVglE4KlEvvsDZkM5+W5NJD+KIx/SyU2cU8F90Z32q6BVedfaY2Oay9BFjTiVr8qWelPtD
-	tvfIOBYso5Vjw9+fuL3BPi4/32BiQ7jxov1m7OIR0IrDUWRgV1UEUTca5jzssrf5QWQ8ScH
-	Hg0AaLCA==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+References: <20250328075536.238782-1-alexghiti@rivosinc.com>
+In-Reply-To: <20250328075536.238782-1-alexghiti@rivosinc.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 3 Apr 2025 09:38:39 +0300
+X-Gmail-Original-Message-ID: <CAMj1kXGaUZZoKUMEJtv4Fvckub_kRcHBZbpMxet-skqOLD7SNw@mail.gmail.com>
+X-Gm-Features: AQ5f1JokvVmdXrd19nwvBkB35c-v0phYNi9QPm4nTBBdR2jkB4tn0Cxxj2EhIIw
+Message-ID: <CAMj1kXGaUZZoKUMEJtv4Fvckub_kRcHBZbpMxet-skqOLD7SNw@mail.gmail.com>
+Subject: Re: [PATCH] scripts: Introduce ARCH_WANTS_RELA_DYN to avoid stripping
+ .rela.dyn section
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Alexandre Ghiti <alex@ghiti.fr>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Charlie Jenkins <charlie@rivosinc.com>, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------GT5Iwsqm6RPcnXW9aW5iCtlm
-Content-Type: multipart/mixed; boundary="------------jtuHwCs0RCXavlm8oMPuv05q";
- protected-headers="v1"
-From: WangYuli <wangyuli@uniontech.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- samitolvanen@google.com, zhanjun@uniontech.com, niecheng1@uniontech.com,
- guanwentao@uniontech.com
-Message-ID: <de115480-b3ee-4f33-b90f-a8f3badc97de@uniontech.com>
-Subject: Re: [PATCH] kbuild: deb-pkg: Add libdw-dev:native to
- Build-Depends-Arch
-References: <39FF69551D01924F+20250326174156.390126-1-wangyuli@uniontech.com>
- <3e52d80d-0c60-4df5-8cb5-21d4b1fce7b7@suse.com>
-In-Reply-To: <3e52d80d-0c60-4df5-8cb5-21d4b1fce7b7@suse.com>
+On Fri, 28 Mar 2025 at 08:55, Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+>
+> riscv uses the .rela.dyn section to relocate the kernel at runtime but
+> that section is stripped from vmlinux. That prevents kexec to
+> successfully load vmlinux since it does not contain the relocations info
+> needed.
+>
+> Fix this by introducing a new config ARCH_WANTS_RELA_DYN that prevents
+> .rela.dyn to be stripped.
+>
+> Fixes: 71d815bf5dfd ("kbuild: Strip runtime const RELA sections correctly")
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 
---------------jtuHwCs0RCXavlm8oMPuv05q
-Content-Type: multipart/mixed; boundary="------------RmFQqNnw4Ux1a3iITTA7H1NT"
+Apologies for the breakage.
 
---------------RmFQqNnw4Ux1a3iITTA7H1NT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
 
-SGkgUGV0ciwNCg0KT24gMjAyNS8zLzI4IDE4OjE5LCBQZXRyIFBhdmx1IHdyb3RlOg0KPiBJ
-ZiBzY3JpcHRzL3BhY2thZ2UvbWtkZWJpYW4gaXMgdXBkYXRlZCBpbiB0aGlzIHdheSB0aGVu
-IEkgdGhpbmsNCj4gc2NyaXB0cy9wYWNrYWdlL21rc3BlYyAtPiBzY3JpcHRzL3BhY2thZ2Uv
-a2VybmVsLnNwZWMgc2hvdWxkIGJlIGFkanVzdGVkDQo+IGFzIHdlbGwgZm9yIGNvbnNpc3Rl
-bmN5Lg0KPg0KPiBGaWxlIHNjcmlwdHMvcGFja2FnZS9rZXJuZWwuc3BlYyBjb250YWluczoN
-Cj4gQnVpbGRSZXF1aXJlczogKGVsZnV0aWxzLWxpYmVsZi1kZXZlbCBvciBsaWJlbGYtZGV2
-ZWwpIGZsZXgNCj4NCj4gZWxmdXRpbHMtbGliZWxmLWRldmVsIGlzIGZvciBGZWRvcmEvUkgg
-ZGlzdHJvcywgbGliZWxmLWRldmVsIGlzIGZvcg0KPiAob3BlbilTVVNFLg0KPg0KPiBJZiBJ
-J20gbG9va2luZyBjb3JyZWN0bHksIGEgbmV3IGRlcGVuZGVuY3kgdG8gbWFrZSBkd2FyZi5o
-IGF2YWlsYWJsZSBmb3INCj4gYm90aCB3b3VsZCBiZToNCj4gQnVpbGRSZXF1aXJlczogZWxm
-dXRpbHMtZGV2ZWwgb3IgbGliZHctZGV2ZWwNCj4NCkFscmlnaHQsIHRoYW5rIHlvdSBmb3Ig
-dGhlIGZlZWRiYWNrLg0KQnV0IGl0IGFwcGVhcnMgdGhhdCB0aGUgZGVwZW5kZW5jeSBwYWNr
-YWdlIGlzIG5hbWVkIGRpZmZlcmVudGx5IG9uIA0KRmVkb3JhIGFuZCBvcGVuU1VTRS4NCkkg
-d2lsbCBleHBhbmQgbXkgdGVzdGluZyBzY29wZSB0byBhZGRyZXNzIHRoaXMgaW4gdGhlIHBh
-dGNoIGFuZCB3aWxsIA0KcmVzdWJtaXQgaXQgb25jZSB0aGUgbWVyZ2Ugd2luZG93IGhhcyBj
-bG9zZWQuDQoNClRoYW5rcywNCi0tIA0KV2FuZ1l1bGkNCg==
---------------RmFQqNnw4Ux1a3iITTA7H1NT
-Content-Type: application/pgp-keys; name="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+> ---
+>  arch/Kconfig         | 7 +++++++
+>  arch/riscv/Kconfig   | 1 +
+>  scripts/Makefile.lib | 4 +++-
+>  3 files changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index b8a4ff365582..d93f50ecb8f9 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -1544,6 +1544,13 @@ config HAVE_ARCH_PREL32_RELOCATIONS
+>           architectures, and don't require runtime relocation on relocatable
+>           kernels.
+>
+> +config ARCH_WANTS_RELA_DYN
 
-xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSK
-P+nX39DNIVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAx
-FiEEa1GMzYeuKPkgqDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMB
-AAAKCRDF2h8wRvQL7g0UAQCH3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfP
-bwD/SrncJwwPAL4GiLPEC4XssV6FPUAY0rA68eNNI9cJLArOOARmgSyJEgorBgEE
-AZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7VTL0dvPDofBTjFYDAQgHwngE
-GBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIbDAAKCRDF2h8wRvQL
-7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkUo9ERi7qS
-/hbUdUgtitI89efbY0TVetgDsyeQiwU=3D
-=3DBlkq
------END PGP PUBLIC KEY BLOCK-----
+I don't think we need this - just preserve .rela.dyn in all cases.
 
---------------RmFQqNnw4Ux1a3iITTA7H1NT--
-
---------------jtuHwCs0RCXavlm8oMPuv05q--
-
---------------GT5Iwsqm6RPcnXW9aW5iCtlm
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZ+32NwUDAAAAAAAKCRDF2h8wRvQL7jai
-AP4n2fC6x7vxBTlSUqHb/nouRPoqWlBdVzRUmSy6oebBAgD/ZVJtpAQheoAHN7HcDdr+vrL90Gmh
-QWxuOGkI9FGG8Qc=
-=/wjx
------END PGP SIGNATURE-----
-
---------------GT5Iwsqm6RPcnXW9aW5iCtlm--
+> +       bool
+> +       depends on RELOCATABLE
+> +       help
+> +         This prevents the .rela.dyn section to be stripped from vmlinux since
+> +         it is needed to relocate the kernel at runtime.
+> +
+>  config ARCH_USE_MEMREMAP_PROT
+>         bool
+>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 7612c52e9b1e..d58053efa4e4 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -84,6 +84,7 @@ config RISCV
+>         select ARCH_WANT_OPTIMIZE_DAX_VMEMMAP
+>         select ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
+>         select ARCH_WANTS_NO_INSTR
+> +       select ARCH_WANTS_RELA_DYN if RELOCATABLE
+>         select ARCH_WANTS_THP_SWAP if HAVE_ARCH_TRANSPARENT_HUGEPAGE
+>         select ARCH_WEAK_RELEASE_ACQUIRE if ARCH_USE_QUEUED_SPINLOCKS
+>         select BINFMT_FLAT_NO_DATA_START_OFFSET if !MMU
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index cad20f0e66ee..e59210a9fde0 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -376,8 +376,10 @@ quiet_cmd_ar = AR      $@
+>  quiet_cmd_objcopy = OBJCOPY $@
+>  cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
+>
+> +objcopy-args-$(CONFIG_ARCH_WANTS_RELA_DYN) += --remove-section=!.rela.dyn
+> +
+>  quiet_cmd_strip_relocs = RSTRIP  $@
+> -cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $@
+> +cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $(objcopy-args-y) $@
+>
+>  # Gzip
+>  # ---------------------------------------------------------------------------
+> --
+> 2.39.2
+>
 
