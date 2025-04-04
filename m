@@ -1,148 +1,105 @@
-Return-Path: <linux-kbuild+bounces-6407-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6408-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82487A7BD09
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 14:56:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A5FA7BD1D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 15:01:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E46221887C7E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 12:56:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DEE623B5B3D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 13:01:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 896101E1DEE;
-	Fri,  4 Apr 2025 12:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A3C9E56F;
+	Fri,  4 Apr 2025 13:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afy9mEVT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Igs74AJL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4E52E62B6;
-	Fri,  4 Apr 2025 12:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DC42C9D
+	for <linux-kbuild@vger.kernel.org>; Fri,  4 Apr 2025 13:01:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743771378; cv=none; b=Sc+4+YA5HU10K1zF6Zy5Uyzr79OPBwxgWduTOUfd9rvh08rZWirUwmOLuwHXzBfvtPXaz9KO0xI7zAP8PcCF7BjZjnC7aMd1+n5ArPhsxOWjWhSVLnLQdEQremlEgBSM0PnsBG1UUNi2sviun8lGLA94RO30IWgBxaVtFcLcCRU=
+	t=1743771679; cv=none; b=mmlD8LgZI5oBxGlMG6CMbRRy9XIXAzmYbdMLN+nLq4pVuDHkghc+yzCcRtERaBp0iumDZ1lqixDBuQdGLeiB0ivvN5pMORq3ERCzRujvGXBpG8I4122pqb0hIjSvJdXRQcqJM5mpTtnsvBwuA7+1+7YN20Hf0RGXqvV29WPjJ4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743771378; c=relaxed/simple;
-	bh=yWmWSKvCkVDqwMJt8fOWjKGejnFB5xdZvxUlov2u7Fs=;
+	s=arc-20240116; t=1743771679; c=relaxed/simple;
+	bh=ukvaDg/r+KEN9ByoXMgaiv5W5dYSErRX1Ou/ZV7leto=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZXq8M1w+68MEvdriV5JWD9x8Zg/nUDSCE911Eu3q7FDQcNzwkfh3yr86/Cy1ei1HM3F8NXhs7RcsFKrKYpbpt8EIjstT2BCcAFAYdvSlIgQiL50OXwD3LCAuseLJzYGSYvOOxRIt8Y+jgJ/DuxWr7nd9kC7V5Gh/GQq9dDl7z10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afy9mEVT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7836C4CEEA;
-	Fri,  4 Apr 2025 12:56:16 +0000 (UTC)
+	 To:Cc:Content-Type; b=cb27yTMRhSUsQYuEsj1HvrnEXKy7wUDNjZi5N4xEZflGJsYJjZzlWF1ZukelhwJRp+DgJookDPMYCE+XEX7HhD0KUDHlRwT8dWJGhZN4hfsAyXjkwBuyOJhfDzq4BnHKJXUxnErwtmJgcoZ8g/U5ZHflOFHE8LyKWHOMr4bpc08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Igs74AJL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D40B6C4CEE9
+	for <linux-kbuild@vger.kernel.org>; Fri,  4 Apr 2025 13:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743771376;
-	bh=yWmWSKvCkVDqwMJt8fOWjKGejnFB5xdZvxUlov2u7Fs=;
+	s=k20201202; t=1743771677;
+	bh=ukvaDg/r+KEN9ByoXMgaiv5W5dYSErRX1Ou/ZV7leto=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=afy9mEVThT7rykLmDBs+vrKD10DZo4FddfFQaRnn9zsQDRb26JrctU99IW0zBTwVH
-	 ak3ERQuLgwjc3d7PusuSMpUwIz/hsDoXHhaGDy7qhaLJl5tp8lCSarKkPQOxn6youw
-	 ttOp5MgOMy4iV/w8Q2UcXPv8SKXf8aBEBNWiP6aNqSafqX5MOVh1TfHd/b24Pdpfpa
-	 epBYjp0ZaIwmuIy7wacYIesr6oqTJMr3qvg1wypevlBfF8fwtwiDzD3DT6GosaJsnS
-	 0V7nmmJ6EMwCUOMJcRwK2WwaiYHNIucE8iR+tS3KOI/0mKUH5m5HIVepU3yh4CsvgM
-	 pQHRNEtUJjE8g==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54b166fa41bso2136521e87.0;
-        Fri, 04 Apr 2025 05:56:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV4ZR8Z1DWtNWfTG5q0Wr9pJH9BIPjZnxAh25bapkNjo8VT74Kp+v3GabgGdPky8YT7Sxx6ZlSjSAgFTr0=@vger.kernel.org, AJvYcCVKqXJrKsYmngDXYvNPO5F4EDETS4guSLiaJKGKJdXNigFmz3TwOgd7oXhjYL5liiGmBz/7g22Cd30CGM6d@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd/M2SCAhi2x2GAB1Q+YLTbMYvj3/E1TgEiC83Z8r426iWcKu+
-	SOxeBfEIlUtw302/66QcceA9rHZCqhqzvvCLb32nFWc6NHulggnNMsLxdGzq6z7tZI6h5Ru+NGW
-	IkXXLvj2NK8021nWg7SMnURn6wE0=
-X-Google-Smtp-Source: AGHT+IGWZ2KQ6RGegADZhXoZyqRnIm6k4Z0hbxrDaxJ1XGncP2EGYs9EI4Rpzb7UKgS4uKNskWSnUgmaP8fh6T/OYj8=
-X-Received: by 2002:a05:6512:224f:b0:549:7c13:e88f with SMTP id
- 2adb3069b0e04-54c232fb89cmr681005e87.30.1743771375372; Fri, 04 Apr 2025
- 05:56:15 -0700 (PDT)
+	b=Igs74AJLtO53TMkb+VRf/J4EvuhBzg/5YEweD3BIdlaGVw9yNkK9O/j2VBTeQo/BF
+	 rTQAjFUkNgLR9HGYYwaPdYWp3P0qDvDg9Pj1kEm2/B1m8sl5vMtywYh7HQfq7S2F4b
+	 zXbDaUjwuafdN88yVSfEfjvisv9lLveMuL7uLpmVyCN27QFG0tEZMEpx1EyOWWt8yq
+	 Iw9m9+PxxtLSC0hqGfNMVaeDK8mQ4kLg7C9OB4JEUPfjykHPN6RZVc8QEYBNYGZyO+
+	 +hc17v8j3nh5q0o3+tXdJvsyDpe0F7qBhVVHe2qcfTvvE7VnF9vJa8e+86ITsW0J/I
+	 7RQXaJDos8qIw==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30db1bd3bebso18121891fa.2
+        for <linux-kbuild@vger.kernel.org>; Fri, 04 Apr 2025 06:01:17 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxG3p1MQo5jVgQ4v4J7lKLuJTn7XlnXnYMD2VJcrFMl3bUYltgY
+	pmhuZl4ZLO20BL9GOxUzmBmW1K9L52MgWyF55gzLgmQ5dncywI6LPL+OQZRTyAzx++8Mh1xHTBM
+	/idIZp2OYDNOvfanJ9qcVUWig9Xc=
+X-Google-Smtp-Source: AGHT+IG00naJZZH6dEx1p7p3bEvbKQS75IqRH3WK71KC58LaMJki9CmtK5Gf93y1SahRV0eewH+A2vXKf39rujgiBio=
+X-Received: by 2002:a2e:be86:0:b0:30b:c479:4017 with SMTP id
+ 38308e7fff4ca-30f0a0ef05bmr12258451fa.8.1743771676539; Fri, 04 Apr 2025
+ 06:01:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404102535.705090-1-ubizjak@gmail.com>
-In-Reply-To: <20250404102535.705090-1-ubizjak@gmail.com>
+References: <DS0PR10MB7317103847A838A01154D836EFA12@DS0PR10MB7317.namprd10.prod.outlook.com>
+ <CAK7LNASc7jmzmW5HbvH6N=gZw2M5o=iSkk1revZAp_8P9-e9zA@mail.gmail.com> <DS0PR10MB73173D13E7322C77B6F10C3BEFAD2@DS0PR10MB7317.namprd10.prod.outlook.com>
+In-Reply-To: <DS0PR10MB73173D13E7322C77B6F10C3BEFAD2@DS0PR10MB7317.namprd10.prod.outlook.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 4 Apr 2025 21:55:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATO1RfACvWhHJuLi-FYWMnSn6+Tp67-EZtVWNk+RCSTVQ@mail.gmail.com>
-X-Gm-Features: ATxdqUFVHv9_meyIYTai6ja747eC0V8wBRIBoDeHve1E31B7rvOALDCMCdaluaM
-Message-ID: <CAK7LNATO1RfACvWhHJuLi-FYWMnSn6+Tp67-EZtVWNk+RCSTVQ@mail.gmail.com>
-Subject: Re: [PATCH] compiler.h: Avoid the usage of __typeof_unqual__() when
- __GENKSYMS__ is defined
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>, 
-	Sami Tolvanen <samitolvanen@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Date: Fri, 4 Apr 2025 22:00:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATWKW8zBdtJvi1L3QvZXRq=+HWRc1M3CYmnK8rq0dpkHQ@mail.gmail.com>
+X-Gm-Features: ATxdqUGjTVg1XU5Twk2xAdk9lzIRbzC0xeAWq5B3RS5B8d6kYVK-x2VYsZOJY2k
+Message-ID: <CAK7LNATWKW8zBdtJvi1L3QvZXRq=+HWRc1M3CYmnK8rq0dpkHQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_=E2=9A=A0=EF=B8=8F_Re=3A_kbuild=3A_deb=2Dpkg=3A_Does_the_deb=2Dpkg_tar?=
+	=?UTF-8?Q?get_discard_multi=2Dcore_compilation_options=3F?=
+To: Richard Bastos Higuera <richard.bastos@smartmatic.com>
+Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 4, 2025 at 7:25=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wrot=
-e:
+On Tue, Apr 1, 2025 at 5:44=E2=80=AFAM Richard Bastos Higuera
+<richard.bastos@smartmatic.com> wrote:
 >
-> Current version of genksyms doesn't know anything about __typeof_unqual__=
-()
-> operator.  Avoid the usage of __typeof_unqual__() with genksyms to preven=
-t
-> errors when symbols are versioned.
+> Hello Masahiro Yamada.
 >
-> There were no problems with gendwarfksyms.
+> However, the deb-pkg target seems to discard multi-core compilation. It c=
+reates the DSC source package and rebuilds the debian/control and debian/ru=
+les using scripts/package/mkdebian.
 >
-> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-> Fixes: ac053946f5c40 ("compiler.h: introduce TYPEOF_UNQUAL() macro")
-> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> Closes: https://lore.kernel.org/lkml/81a25a60-de78-43fb-b56a-131151e1c035=
-@molgen.mpg.de/
-> Cc: Sami Tolvanen <samitolvanen@google.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> ---
-
-
-Why don't you add it to the genksyms keyword table?
-
-
-diff --git a/scripts/genksyms/keywords.c b/scripts/genksyms/keywords.c
-index b85e0979a00c..901baf632ed2 100644
---- a/scripts/genksyms/keywords.c
-+++ b/scripts/genksyms/keywords.c
-@@ -17,6 +17,7 @@ static struct resword {
-        { "__signed__", SIGNED_KEYW },
-        { "__typeof", TYPEOF_KEYW },
-        { "__typeof__", TYPEOF_KEYW },
-+       { "__typeof_unqual__", TYPEOF_KEYW },
-        { "__volatile", VOLATILE_KEYW },
-        { "__volatile__", VOLATILE_KEYW },
-        { "__builtin_va_list", VA_LIST_KEYW },
-
-
-
-
-
-
->  include/linux/compiler.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Unfortunately, the build-arch and binary-arch targets compile the kernel =
+sources using only a single core.
+> I would like to avoid patching scripts/package/mkdebian to enable multi-c=
+ore compilation. Could you kindly suggest an alternative way to activate mu=
+lti-core compilation on the target dep-pkg? I'm trying to avoid wasting tim=
+e searching for solutions that aren't practical.
 >
-> diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-> index 27725f1ab5ab..98057f93938c 100644
-> --- a/include/linux/compiler.h
-> +++ b/include/linux/compiler.h
-> @@ -229,10 +229,10 @@ void ftrace_likely_update(struct ftrace_likely_data=
- *f, int val,
->  /*
->   * Use __typeof_unqual__() when available.
->   *
-> - * XXX: Remove test for __CHECKER__ once
-> - * sparse learns about __typeof_unqual__().
-> + * XXX: Remove test for __GENKSYMS__ once "genksyms" handles
-> + * __typeof_unqual__(), and test for __CHECKER__ once "sparse" handles i=
-t.
->   */
-> -#if CC_HAS_TYPEOF_UNQUAL && !defined(__CHECKER__)
-> +#if CC_HAS_TYPEOF_UNQUAL && !defined(__GENKSYMS__) && !defined(__CHECKER=
-__)
->  # define USE_TYPEOF_UNQUAL 1
->  #endif
->
-> --
-> 2.49.0
->
->
+> Your recommendation carries significant weight for me.
+
+
+In my testing, "make deb-pkg -j<N>" builds the kernel in parallel.
+
+
+Please provide me with the exact steps to reproduce the issue.
+
+Perhaps, you and I might be doing something different.
+
+
+
+
 
 
 --=20
