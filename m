@@ -1,226 +1,130 @@
-Return-Path: <linux-kbuild+bounces-6404-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6405-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5611AA7B986
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 11:03:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A69A7BAAD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 12:25:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CEE87A6C34
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 09:02:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 882791765AD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 10:25:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9371A00FA;
-	Fri,  4 Apr 2025 09:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E479F1A23BA;
+	Fri,  4 Apr 2025 10:25:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRpSeJbQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfE5x3dG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E9817A2FD;
-	Fri,  4 Apr 2025 09:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288B019DF66;
+	Fri,  4 Apr 2025 10:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743757366; cv=none; b=Ek5wfLwZEkBHfiAHaVuwjWAPDYGt4LOFkZyti31JIGGSZLxJ3x7+ZNVJoXMtoEqhPzDsO71oYqqGXh0my/P6qultH5mj0q1iXMdXZPa8VOVsaaH0nY647IfVX9BwUQWshrvrlbST1+Hn4PyyRxrt7KD1e+jCxsTBl52uyPf1+Sw=
+	t=1743762342; cv=none; b=bGud1fEKC4adZgHGN3LdQbJbWh+i9+iRTVMjQbPfm0Oyz6VsGvNmo4IBj3viZRFkWbQhvRl45Oz/h6z1h9pnAFivms1/BpCZ7uXXa9q5SqF4XkNbhGG7bHfvEHDhL6bwhZXvlMIiCTQ91Acn8afiNCAAwjYkdXbtAEV8yNLyWKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743757366; c=relaxed/simple;
-	bh=ybEN/+MVdR+Z2PVAWEdlwJhHO/+OPFI6MPFsScL0VXE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TG5nhyklGWt013IJ8Q5Cod+Atu/Imjr/5WANrNYvcdyjxnUwpPjCDD2HL6LViE0q9KnRffsr0dfk9d1kiYcdMf8WwHI/2FEvY26B9LbSOt0LnEcHzQHnIwsZlYjeIzHtJdheWtTWVrkhy+vMRv2Wnzj6mbH3GOY/oSqGNtA6gbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRpSeJbQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6413EC4CEDD;
-	Fri,  4 Apr 2025 09:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743757365;
-	bh=ybEN/+MVdR+Z2PVAWEdlwJhHO/+OPFI6MPFsScL0VXE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WRpSeJbQKyuUDx2u4/NBlEpMuDV/UdjF5FHUt3By62mCTZoxme/SHhrG6BbERJ0zx
-	 Kof6f0CY1hxQaF/WesKXZtA5v+7A3j3iyDEHX8M0sXd2vqWLopQ4a/bY6Xt2Y4znkp
-	 oJgMFe5EacASyH8B6OzUHtBKQDBonSdW9xKfnP/Wio/YQJRc46+ZnWca6/RZatvaRI
-	 VG0OI4XVlqnP8XswbgdFQ17mO3nBlzS9wk398lkuvjacZseOtXUSZNv49TOwMIKuOU
-	 WR8bBi9ICnN4KXmZqPaG0SgtO4BkI381g3caWZe9OpeTRPihcamc0kDvdAm3FqcvZk
-	 DPeN4GJZhQW2A==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-54b0d638e86so2067591e87.1;
-        Fri, 04 Apr 2025 02:02:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVXSNjQ4EZ33y0z8jXWHkTaMujjAILTmA1xJNR3MeOeT6/aczLt8eF72Y0Hps84OMMwmbNR+QZcAEJ+NOg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrr6FS5dk6ht1tCd5NXeH9VrnKZLA919e/UuVVq9CHgwWxeTpP
-	G5dh1dsDBil+zr+DuPfKCncXHAcl/AbKLPsdqUdUQAoUFt5wB5lWDBsaRsmxC1YjqX+JwWf36Bv
-	cVMmkZvQFfw8XZMnpTt+pkhHBNlc=
-X-Google-Smtp-Source: AGHT+IGRSm4+WIzfAJTm1OSKhZC/IeUbIYyKP9KJP535p52PaGbZjoxnmCrpbPjYHOjts4LtDqBtd/M8IfKquiiVqSE=
-X-Received: by 2002:a05:6512:10d1:b0:54b:117c:8ef6 with SMTP id
- 2adb3069b0e04-54c22801108mr538868e87.57.1743757364003; Fri, 04 Apr 2025
- 02:02:44 -0700 (PDT)
+	s=arc-20240116; t=1743762342; c=relaxed/simple;
+	bh=CvbGy7Z16ghRJXEw/ksfJ9bwdxdQWqPDwcg8Knj4S3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mX6jOtfx288jrusptWcXdcxDPh4wrjJs2++tm8rK/j4VJgsCWBzBKevSiCFF+A96OvldaQSaDXyRSRInp/cGhb1+Znw+mA/3ARRGmxsGLqhQ3+j7M8X3n9oI82GIrjkKTfxNbCn1CwlnIEiGg0Qyg3blwYrvJ8gMlp3eCPz3guI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfE5x3dG; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so2697631a12.3;
+        Fri, 04 Apr 2025 03:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743762338; x=1744367138; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C5ogAbF9QL+rVm6LLuZIaFrwHDUu4iwqiP2lyV1/P5c=;
+        b=FfE5x3dGoBgEJCwPu8xyLOKjl2CuFskAKqS5JRYk+0XUgX/KtTVRrymnrbvzkspv7/
+         fvtOy83IHXA37uzr3v+Lei0R2SYaWSLXtXh7IOQ7MTI6DYFXN6JLQGTzWREhT2hj32T7
+         3inqxq2zkcftkgy9JwGjZ5KXxxBWe2IM0nvpYieJzqtEgan4092Zxc/wgiLCfvxdoguw
+         Dac4RMqPs6wdXca9gOaEsCO+RSWACcGWF5EyiODuadxb5h8LpEUyHEucyKGJ87i7UV7F
+         A5O/8xBpwjYgKilPlVXb2S7mYmyNDtcyscK0PNRA5T5ENXsk7PZ1/CLwwBAX/16swdTy
+         UKvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743762338; x=1744367138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C5ogAbF9QL+rVm6LLuZIaFrwHDUu4iwqiP2lyV1/P5c=;
+        b=Sv+MJ3YKLFGigkvSc7u6bSWdu70t9RMzdyfjQ9JePnXpmccsIG78uSbCuyk1LDPgSL
+         M1D4GvmtnLjTg3TolM10bz+t5geryjS6kxD8ee+5bKXLeB2HtIrTbsQy3yc7fOoPNOl4
+         qLOHniaUZdHfHEydC7KyiZdAJvw1YbysHcIQhKcRhbO5C+lE9nipL1Znxa8v0o+uaTof
+         lzJULpZ50KXs4S/7i9qAJ+Lw2xEqIZJNh+NxNVXnKAg+GEm7VZP1wz1/SiljymIGKPOn
+         h2uZMUcWkPNxyKZqXaaf1l8aRjNdm4rnPOJsitfTl/+5TkENrATbiqIwbkeLjnfmB6Ft
+         e1hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUMFETTDE+xiyK7riQWePhqcWO8BUBoAaORIzax9dkWCvuYnEwuiBkSZ+HwhIRkj8cmQX05wcjZCIGnxzkP@vger.kernel.org, AJvYcCXd1HTDNcFWHpg/Cf1CMWgW6M6qRh1MmNy9mFKHhoDh5w5+8gzXKqP6mcAvvcq7CvviciXxtYPswv50S0E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQpXlZKpg5M+CA5f4QbNFIwvFLGWtMwipBa1xcgSaYot1Qnu4M
+	1/7qoZFme01H+Y7PY41IoOn3F3JbcRvXsWXfILZrr0EacXRCeUxBTKnjVYxt
+X-Gm-Gg: ASbGnctBq6IsnZTlC8LK5KYVTAqinOPMcRBXr6L3WfftE1v4P+3NmWFYazNvT2o2/Xn
+	8inTRxrWtdbq3zw5nrW3zzkJoNqfexOOnlPtKJWC+JlEV+j3dw2a0dI0pdzt0IbuvtC3yAyk/ZV
+	XsmReCCf/0JB5EQrxg7qO1XA72J6iILoTPT2ldIMT0BlAEqnj7hhIko9lGOHoycUeXEhHTLzn5i
+	xq/TI7jcEbsjjY4xsD3SvbAE79EQNtE3NKGVxAvdpi9E5gcph5DdlR24lPglvnAs9CPm0K84tdo
+	fzZfbCLpzZmilfyOd5IEa+kOncAV7Qea0LB0
+X-Google-Smtp-Source: AGHT+IFJz9EUmGvviMmCcJ4sYh2QDGdjf3KeKXbFYEjls/uDEMgd7PgUg/7XN4ICoBXBM2b96EJe7w==
+X-Received: by 2002:a17:907:7ea6:b0:ac2:a5c7:7fc9 with SMTP id a640c23a62f3a-ac7d6e93599mr182313766b.51.1743762338226;
+        Fri, 04 Apr 2025 03:25:38 -0700 (PDT)
+Received: from fedora.. ([193.77.86.199])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7bfee46f0sm229142466b.86.2025.04.04.03.25.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 03:25:37 -0700 (PDT)
+From: Uros Bizjak <ubizjak@gmail.com>
+To: linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Uros Bizjak <ubizjak@gmail.com>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] compiler.h: Avoid the usage of __typeof_unqual__() when __GENKSYMS__ is defined
+Date: Fri,  4 Apr 2025 12:24:37 +0200
+Message-ID: <20250404102535.705090-1-ubizjak@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250328-fix-merge-config-v1-1-ee78797d1302@samsung.com>
-In-Reply-To: <20250328-fix-merge-config-v1-1-ee78797d1302@samsung.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 4 Apr 2025 18:02:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASs5p0+YShD7HBFQmxEObr0px8gZmjLajAJrTLGc1uPkg@mail.gmail.com>
-X-Gm-Features: AQ5f1JrC8YpOlyN2707XKMupNR7R4GAn2J78BuVec6mV6BfLKc6orPOh3gqzuU8
-Message-ID: <CAK7LNASs5p0+YShD7HBFQmxEObr0px8gZmjLajAJrTLGc1uPkg@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: merge_config: use an empty file as initfile
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Daniel Gomez <da.gomez@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 28, 2025 at 11:29=E2=80=AFPM Daniel Gomez <da.gomez@kernel.org>=
- wrote:
->
-> From: Daniel Gomez <da.gomez@samsung.com>
->
-> The scripts/kconfig/merge_config.sh script requires an existing
-> $INITFILE (or the $1 argument) as a base file for merging Kconfig
-> fragments. However, an empty $INITFILE can serve as an initial starting
-> point, later referenced by the KCONFIG_ALLCONFIG Makefile variable
-> if -m is not used. This variable can point to any configuration file
-> containing preset config symbols (the merged output) as stated in
-> Documentation/kbuild/kconfig.rst. When -m is used $INITFILE will
-> contain just the merge output requiring the user to run make (i.e.
-> KCONFIG_ALLCONFIG=3D<$INITFILE> make <allnoconfig/alldefconfig> or make
-> olddefconfig).
->
-> Instead of failing when `$INITFILE` is missing, create an empty file and
-> use it as the starting point for merges.
->
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-> ---
+Current version of genksyms doesn't know anything about __typeof_unqual__()
+operator.  Avoid the usage of __typeof_unqual__() with genksyms to prevent
+errors when symbols are versioned.
 
+There were no problems with gendwarfksyms.
 
-You still could do 'touch .config' in advance, but
-I do not have a strong option.
+Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
+Fixes: ac053946f5c40 ("compiler.h: introduce TYPEOF_UNQUAL() macro")
+Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Closes: https://lore.kernel.org/lkml/81a25a60-de78-43fb-b56a-131151e1c035@molgen.mpg.de/
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+---
+ include/linux/compiler.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Applied to linux-kbuild. Thanks.
+diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+index 27725f1ab5ab..98057f93938c 100644
+--- a/include/linux/compiler.h
++++ b/include/linux/compiler.h
+@@ -229,10 +229,10 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
+ /*
+  * Use __typeof_unqual__() when available.
+  *
+- * XXX: Remove test for __CHECKER__ once
+- * sparse learns about __typeof_unqual__().
++ * XXX: Remove test for __GENKSYMS__ once "genksyms" handles
++ * __typeof_unqual__(), and test for __CHECKER__ once "sparse" handles it.
+  */
+-#if CC_HAS_TYPEOF_UNQUAL && !defined(__CHECKER__)
++#if CC_HAS_TYPEOF_UNQUAL && !defined(__GENKSYMS__) && !defined(__CHECKER__)
+ # define USE_TYPEOF_UNQUAL 1
+ #endif
+ 
+-- 
+2.49.0
 
-I quoted $INITFILE in order to fix a shellcheck warning.
-
-
-
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config=
-.sh
-index ad35a60de350..79c09b378be8 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -113,7 +113,7 @@ shift;
-
- if [ ! -r "$INITFILE" ]; then
-        echo "The base file '$INITFILE' does not exist. Creating one..." >&=
-2
--       touch $INITFILE
-+       touch "$INITFILE"
- fi
-
- MERGE_LIST=3D$*
-
-
-
-
-> Commit b9fe99c5b994 ("kbuild: mergeconfig: move an error check
-> to merge_config.sh") moves the check for .config to exist from
-> scripts/kconfig/Makefile to the scripts/kconfig/merge_config.sh.
-> But this is no longer necessary.
->
-> This avoid having to run a make <target> to create a first .config file.
-> Workflow:
->
-> ./scripts/kconfig/merge_config.sh \
-> -m .config \
-> <fragment list>
->
-> make olddefconfig
->
-> Here the logs with upstream scripts/kconfig/merge_config.sh (to show
-> .config is created with tinyconfig).
->
-> make tinyconfig V=3D1
-> {..}
-> make -f ./scripts/Makefile.build obj=3Dscripts/kconfig tinyconfig
-> KCONFIG_ALLCONFIG=3Dkernel/configs/tiny-base.config make -f ./Makefile al=
-lnoconfig
-> make -f ./scripts/Makefile.build obj=3Dscripts/basic
-> make -f ./scripts/Makefile.build obj=3Dscripts/kconfig allnoconfig
-> scripts/kconfig/conf  --allnoconfig Kconfig
->
-> configuration written to .config
->
-> make -f ./Makefile tiny.config
-> make -f ./scripts/Makefile.build obj=3Dscripts/basic
-> make -f ./scripts/Makefile.build obj=3Dscripts/kconfig tiny.config
-> cmd_merge_fragments tiny.config
->   ./scripts/kconfig/merge_config.sh -m .config
-> ./kernel/configs/tiny.config ./arch/x86/configs/tiny.config
-> Using .config as base
-> Merging ./kernel/configs/tiny.config
-> Value of CONFIG_CC_OPTIMIZE_FOR_SIZE is redefined by fragment
-> ./kernel/configs/tiny.config:
-> Previous value: # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
-> New value: CONFIG_CC_OPTIMIZE_FOR_SIZE=3Dy
->
-> Value of CONFIG_KERNEL_XZ is redefined by fragment
-> ./kernel/configs/tiny.config:
-> Previous value: # CONFIG_KERNEL_XZ is not set
-> New value: CONFIG_KERNEL_XZ=3Dy
->
-> Value of CONFIG_SLUB_TINY is redefined by fragment
-> ./kernel/configs/tiny.config:
-> Previous value: # CONFIG_SLUB_TINY is not set
-> New value: CONFIG_SLUB_TINY=3Dy
->
-> Merging ./arch/x86/configs/tiny.config
-> Value of CONFIG_UNWINDER_GUESS is redefined by fragment
-> ./arch/x86/configs/tiny.config:
-> Previous value: # CONFIG_UNWINDER_GUESS is not set
-> New value: CONFIG_UNWINDER_GUESS=3Dy
->
-> merged configuration written to .config (needs make)
->
-> make -f ./Makefile olddefconfig
-> make -f ./scripts/Makefile.build obj=3Dscripts/basic
-> make -f ./scripts/Makefile.build obj=3Dscripts/kconfig olddefconfig
-> scripts/kconfig/conf  --olddefconfig Kconfig
->
-> configuration written to .config
-> ---
->  scripts/kconfig/merge_config.sh | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_conf=
-ig.sh
-> index 0b7952471c18f6882b8978f839f3170bb41fb01f..ad35a60de350ae1c5b60d39bf=
-752115d27276f52 100755
-> --- a/scripts/kconfig/merge_config.sh
-> +++ b/scripts/kconfig/merge_config.sh
-> @@ -112,8 +112,8 @@ INITFILE=3D$1
->  shift;
->
->  if [ ! -r "$INITFILE" ]; then
-> -       echo "The base file '$INITFILE' does not exist.  Exit." >&2
-> -       exit 1
-> +       echo "The base file '$INITFILE' does not exist. Creating one..." =
->&2
-> +       touch $INITFILE
->  fi
->
->  MERGE_LIST=3D$*
->
-> ---
-> base-commit: e21edb1638e82460f126a6e49bcdd958d452929c
-> change-id: 20250328-fix-merge-config-87fe109017e9
->
-> Best regards,
-> --
-> Daniel Gomez <da.gomez@samsung.com>
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
