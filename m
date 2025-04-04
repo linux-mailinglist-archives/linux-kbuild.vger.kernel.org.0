@@ -1,149 +1,121 @@
-Return-Path: <linux-kbuild+bounces-6427-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6428-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 405C4A7BEA9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 16:05:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E20A7BEB5
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 16:07:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6945F189B698
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 14:04:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4855E189A2A8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 14:07:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B56B31F3D52;
-	Fri,  4 Apr 2025 14:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D7271F12E8;
+	Fri,  4 Apr 2025 14:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OpYP4YRT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pL/f2y9N"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D7C1F3B94;
-	Fri,  4 Apr 2025 14:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0341EDA34;
+	Fri,  4 Apr 2025 14:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743775437; cv=none; b=Xae6fobLSy8QK28SzvVx6uEDkqh/EnWyVbir/WSW/yU+1nuU3rWkHwOvMJccn8TuQagdFaxqs8FdNgXcL0yMj4mSJywOloNXS+9xRqRkeUb9i/hmJD9632COSzOsj7f7gWHGvi4KqGM6bix4WFbX12wOC2JZ3gOxNYsA6ai89as=
+	t=1743775611; cv=none; b=tL2i7kYHVbwmvRahvLPQfr87KeVuu6xnHgiSzHsfEIb5gyZmf2EJGXugxtBLJ95W2olYYn/DHQ/ZCNvS/7pn8w9N3shm15+rs3lQcp6/sRzsnHUfWO+fojFEmdpswJEZ7mkKYwMwyJHUcFwVgTRtb9Z9HHKVOVcozBQZXdC6Xhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743775437; c=relaxed/simple;
-	bh=fsDCjIqE/uH5EfB13lToVBy9ZGTsmykBW2Tc3WXBROI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aU8Gc7G7u3pnixrnvtukHJKDKq92+OrS9atPmHJprnrzIrwPVOfc2Nd8zVmgNZpm/NfDfIWlk5Q2v85t2UoOPE3jcb/KkGRH9ZVpUXXnJbrb0Tgbi1exlATUiZDvM9wQtcfcD0tDRn8aesC0LUZNvGQHxky84SuNJO8Ux47XP98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OpYP4YRT; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1743775434;
-	bh=fsDCjIqE/uH5EfB13lToVBy9ZGTsmykBW2Tc3WXBROI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=OpYP4YRTHlzPRKwvb1eifKvVm+3uDVB8L0YZrHJGtJrKYfyDfn03xin3haj8xsTLb
-	 whxWDbp/Ha1GR99vh00JtkFsAAyd8KuAgxf1zz5TQst0USWmsCXcJnLN9P+2Oe3+gN
-	 ZBpNSVWUCNsUNCBerhRs04L5ye7GkBp56/OXyD0I40se8ZtCwBv5gL8olfhkyl/+JO
-	 xeLWmIF3p6JH+WBz49tTEiHQ8ZwSppK3HCsmVvcPFiqfMyACOJ5FQzVkmexKZSTPTn
-	 LiybGaf3eKMkgN7rIXw96/DIqO6Jh9pu3awlX2zbAJn5B3p30Kj59/y+pGbfEsvZa7
-	 gneLRDr2hoe1w==
-Received: from [192.168.1.63] (unknown [70.107.117.78])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5C53117E0FC3;
-	Fri,  4 Apr 2025 16:03:52 +0200 (CEST)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Fri, 04 Apr 2025 10:02:53 -0400
-Subject: [PATCH RFC 2/2] docs: automarkup: Cross-reference CONFIG_ symbols
+	s=arc-20240116; t=1743775611; c=relaxed/simple;
+	bh=dlTMdTr2De1XmJ58WqL6zRxnciJjXRMN5Yowymzujsg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tS+Jgx9dPuNbpQZJsN5bhuu/FkFsInsZZzUGPtGVUrEfpnukSOesEAiX6GBUqlRBpbYCE9C8Q/H6M1ghvm4k+aONiuuw23BZNEEPzE+jkaC68Z4zH+OYxHeaIv26gxs6Y9GAlSMvcW4mn6zDNgdqwadI+XLTmEUthBOPfYY1xRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pL/f2y9N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2D38C4CEEB;
+	Fri,  4 Apr 2025 14:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743775610;
+	bh=dlTMdTr2De1XmJ58WqL6zRxnciJjXRMN5Yowymzujsg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pL/f2y9NS0JveX+yUNgzMZsq/Dw3sjV6c0L0YMEePQpJqijExu0Mcy7pw4gyIZ88Z
+	 I+/7kQDj2cmLg7Xba3geV8KcFpJUJwAa+bwdLqYtoIwthH0AYySCjLQlODb6omCbNz
+	 3XVjOqKIjopfxwIu52QcBjwx7uoyq87IKkLwDtYu8lykxqkKYOVk2dkv85oq7XNcot
+	 g8pRnUWLbkNl7pD0FNResy0bBvd1JuOeULOEzltobE/43rnBuYwkOJfDI6C6KpjxnT
+	 NkRqqBCPGzyAuQmCyxH7T/uBhwEJNA9etKiTT9aJ4/XVne9Lne3mIhPbzazkuTAjuw
+	 rtCfQqHXnGuxg==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54af20849adso2020050e87.1;
+        Fri, 04 Apr 2025 07:06:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVybzw1F4OOCghWhGu5Lg3AA1YFrhhgxvVtZMLTg6E76lL7JrgPi2nhYIuWL0OAs6ZBQuXsB+x0+c0ZYOc=@vger.kernel.org, AJvYcCXl/dxz/VN8aCh5OxizlXpC+Rz2po2uue+EYC2o9sEtz5gZ3xCFhM66GT+imRejMXi3kevACX5QhY9CVvR9@vger.kernel.org
+X-Gm-Message-State: AOJu0YyO7OHmbEmXKP5o770MtJoSIp6rHkw/lEfz+nfqEtkPnNceXBp4
+	EiCGybq9Rhyie4ibhqn/MXgY6kF5lp15/5zUQgPisvsZ0wmnJqu73uWapAAoZrHkJTUw4T4B2RE
+	WcHOK6WiQntvyeggYpRvlQP2gMbE=
+X-Google-Smtp-Source: AGHT+IGzHPV4Ijvg/jSgwoi9Iou6eeQJHKq9kJXztvRO6Qu67pds9mGYv2PPcXBm554NzEkkqjpbU0NmHVi5sbNEGNA=
+X-Received: by 2002:a05:6512:3697:b0:549:91bd:2d86 with SMTP id
+ 2adb3069b0e04-54c1ca8c075mr2266422e87.26.1743775609214; Fri, 04 Apr 2025
+ 07:06:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250404-kconfig-docs-v1-2-4c3155d4ba44@collabora.com>
-References: <20250404-kconfig-docs-v1-0-4c3155d4ba44@collabora.com>
-In-Reply-To: <20250404-kconfig-docs-v1-0-4c3155d4ba44@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>
-Cc: kernel@collabora.com, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-X-Mailer: b4 0.14.2
+References: <20250404102535.705090-1-ubizjak@gmail.com> <CAK7LNATO1RfACvWhHJuLi-FYWMnSn6+Tp67-EZtVWNk+RCSTVQ@mail.gmail.com>
+ <CAFULd4bx9BGKo_4kn14rsVr44otpdjpjn_o6=zMp8iu98f9Upg@mail.gmail.com>
+In-Reply-To: <CAFULd4bx9BGKo_4kn14rsVr44otpdjpjn_o6=zMp8iu98f9Upg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 4 Apr 2025 23:06:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATnactfA2U0CB2VcoE1eDc+bj=Jjye-Khsc3xG-iZ2XVQ@mail.gmail.com>
+X-Gm-Features: ATxdqUEgEcjlrExqyVXX21WPPkwTmuO9oioeIgrH53vKuTzP8mVQPSUDIMgFn-Y
+Message-ID: <CAK7LNATnactfA2U0CB2VcoE1eDc+bj=Jjye-Khsc3xG-iZ2XVQ@mail.gmail.com>
+Subject: Re: [PATCH] compiler.h: Avoid the usage of __typeof_unqual__() when
+ __GENKSYMS__ is defined
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>, 
+	Sami Tolvanen <samitolvanen@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that Kconfig symbols are part of the Documentation and have sections
-that can be referenced, extend automarkup to automatically
-cross-reference CONFIG_ strings to those sections.
+On Fri, Apr 4, 2025 at 10:11=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wro=
+te:
+>
+> On Fri, Apr 4, 2025 at 2:56=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+> >
+> > On Fri, Apr 4, 2025 at 7:25=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> =
+wrote:
+> > >
+> > > Current version of genksyms doesn't know anything about __typeof_unqu=
+al__()
+> > > operator.  Avoid the usage of __typeof_unqual__() with genksyms to pr=
+event
+> > > errors when symbols are versioned.
+> > >
+> > > There were no problems with gendwarfksyms.
+> > >
+> > > Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
+> > > Fixes: ac053946f5c40 ("compiler.h: introduce TYPEOF_UNQUAL() macro")
+> > > Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> > > Closes: https://lore.kernel.org/lkml/81a25a60-de78-43fb-b56a-131151e1=
+c035@molgen.mpg.de/
+> > > Cc: Sami Tolvanen <samitolvanen@google.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > ---
+> >
+> >
+> > Why don't you add it to the genksyms keyword table?
+>
+> It doesn't work, even if I patch it with an even more elaborate patch
+> (attached).
+>
+> I guess some more surgery will be needed, but for now a fallback works
+> as expected.
+>
+> Uros.
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- Documentation/sphinx/automarkup.py | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+The attached patch looks good to me.
 
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index ecf54d22e9dc6ab459a91fde580c1cf161f054ed..dd940baca480634180a58c209aaed0cd1a16319a 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -47,6 +47,8 @@ RE_abi_symbol = re.compile(r'(\b/(sys|config|proc)/[\w\-/]+)')
- 
- RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
- 
-+RE_kconfig = re.compile(r'CONFIG_[A-Za-z0-9_]+')
-+
- #
- # Reserved C words that we should skip when cross-referencing
- #
-@@ -88,7 +90,8 @@ def markup_refs(docname, app, node):
-                            RE_union: markup_c_ref,
-                            RE_enum: markup_c_ref,
-                            RE_typedef: markup_c_ref,
--                           RE_git: markup_git}
-+                           RE_git: markup_git,
-+                           RE_kconfig: markup_kconfig_ref}
- 
-     match_iterators = [regex.finditer(t) for regex in markup_func]
-     #
-@@ -260,6 +263,37 @@ def markup_doc_ref(docname, app, match):
-     else:
-         return nodes.Text(match.group(0))
- 
-+#
-+# Try to replace a kernel config reference of the form CONFIG_... with a
-+# cross reference to that kconfig's section
-+#
-+def markup_kconfig_ref(docname, app, match):
-+    stddom = app.env.domains['std']
-+    #
-+    # Go through the dance of getting an xref out of the std domain
-+    #
-+    target = match.group(0).lower()
-+    xref = None
-+    pxref = addnodes.pending_xref('', refdomain = 'std', reftype = 'ref',
-+                                  reftarget = target, modname = None,
-+                                  classname = None, refexplicit = False)
-+    #
-+    # XXX The Latex builder will throw NoUri exceptions here,
-+    # work around that by ignoring them.
-+    #
-+    try:
-+        xref = stddom.resolve_xref(app.env, docname, app.builder, 'ref',
-+                                   target, pxref, None)
-+    except NoUri:
-+        xref = None
-+    #
-+    # Return the xref if we got it; otherwise just return the plain text.
-+    #
-+    if xref:
-+        return xref
-+    else:
-+        return nodes.Text(match.group(0))
-+
- #
- # Try to replace a documentation reference for ABI symbols and files
- # with a cross reference to that page
 
--- 
-2.49.0
 
+--=20
+Best Regards
+Masahiro Yamada
 
