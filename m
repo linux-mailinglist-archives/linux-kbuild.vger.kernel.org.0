@@ -1,189 +1,150 @@
-Return-Path: <linux-kbuild+bounces-6432-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6433-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5ABA7C145
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 18:07:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC38A7C17C
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 18:24:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CDC0188510D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 16:07:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C0203A5F6B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 16:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EAE8207A22;
-	Fri,  4 Apr 2025 16:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B018520ADD1;
+	Fri,  4 Apr 2025 16:24:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7OT17KM"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="F8n8v1x4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FC4207A07;
-	Fri,  4 Apr 2025 16:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468F0209F5D;
+	Fri,  4 Apr 2025 16:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743782819; cv=none; b=q6DezYM2ugFddDIJRv3h9WzhJt2BXzJPxPcAV2Tlj/Q5CyFmVIhK0D7wKkCi0YAGTHHe+zH1qRd6YFbQwNCEb9pnJK0+bDFIh3RcICE9JDuA/GyKe0w6RhoyQYJeTVqfCmEN22e1eu298ONRCxUjniBB5tFvUJfI6Bn89YTU4F4=
+	t=1743783878; cv=none; b=IzKwML0bIVWXoHwVGpp+eJGeFkqbSzzY5Uf8tw/qusvT9ko948czLwv38F7hVkq0VEpnQrs9XXmlPy35Se7J6SxEO2SbMYV6eu08LeEFs14VvjGAP4HIQStrWjSLjPiXP0n63bRRyzbmVsYyA+PUERrilu0lfM7PqrboTV1x7Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743782819; c=relaxed/simple;
-	bh=iXVoP3wKEH70qKx98Hhc6Wogu3HSHe/ZVCwkUx8UtjI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vlo1hvTxPC8BHRBLkXIlTfsYYbZis6U6pZEEBSP8bbNQ4JokpF0tYveWqDwnWoBT7C3bW9NCwhm+abPf0RhR3/wDOIkW0mO/uvkVW1/sUAGGfJN3VxdNiniRAmDx81pNJ40dzzs56sYVEAbJSPS0V0KI117qiIfnELlVahMwp3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7OT17KM; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743782818; x=1775318818;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=iXVoP3wKEH70qKx98Hhc6Wogu3HSHe/ZVCwkUx8UtjI=;
-  b=E7OT17KMCacw7nK9NnU+dHudIPOHltMbLEaGJxiuSFdYxw07MPTRja8A
-   KHUZFOXAs98V0CR4zrLux8oX6IDzuTB1CU0uvYcsyACC41gGMBaMwRmrF
-   zKlAJurRTsGbCwCnOfo1LKIsEWgkjrYnOK4FlZQjyNG1tD8r9lMmz0NtQ
-   DGVm0u1md23CbUAWPZvWJjSHZfFHXybkwgl6z+7z9CexxKgD+LTluRNYu
-   SE8A37+vgagqCGGzgyXZ5iUcDszWXJmTcgQ4tVlzlq0p0R1J8GA6QA36O
-   5E233rgl+4JGKkQ0vMfcn5mgtiKb8RryyPt3ICcC5dzAADex0FBvUieoQ
-   g==;
-X-CSE-ConnectionGUID: FOCoGt6BTnewDSG3rh80bw==
-X-CSE-MsgGUID: WA4HGncaTZuAboHpsCdtIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="49022881"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="49022881"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:06:57 -0700
-X-CSE-ConnectionGUID: cO+Z9NzfR/u/1zgGGwdspw==
-X-CSE-MsgGUID: 96Ikxg4US7+bKvi55n+CVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="164554384"
-Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.124.223.29]) ([10.124.223.29])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:06:54 -0700
-Message-ID: <3fd46452-fc96-4d50-9c40-a8a453d58f40@intel.com>
-Date: Fri, 4 Apr 2025 09:06:51 -0700
+	s=arc-20240116; t=1743783878; c=relaxed/simple;
+	bh=rmAXbeL39KcgujpR7v+ECJwqUp5fyRbRVOREMgRk6Sw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dMvZzVKqJAC4w95H7JzNaIi4zsGk82dW5RZhVeMofJozUp/tJcm2t4vFay0klDU+JqChUGzK6FNO6AYjgDslC3CbrbPPG6e2rz5cZe7PBZzsxPiWW8ZC3Zc4zerTgeXWGcKioouSGKlj0+vDQnDGZR5oSbDBVCg+baofEn4w0rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=F8n8v1x4; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1743783874;
+	bh=rmAXbeL39KcgujpR7v+ECJwqUp5fyRbRVOREMgRk6Sw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F8n8v1x4Erm6xVCeoU3Al3ZneYj/AXdDULwzuyz6bwUgqoPNafFzSf8EFnXUwU3mS
+	 5SE31Gxi6XaLhVzwT8Uligtxyod/AAHQTqtW3890vc/YTdnPZ1c9tHzgphejkNs0jV
+	 h3A0S+Ia8pTsnZNJtbOu/hgQtrjhZdho+6Tk8NZegfHLBrE7soiKGsg+7Eez50YXlm
+	 T/SbTPma+UrzB6e5sxIulQAp74SMC52n+jWKGb1qJZPF0DTZnbuX4MqLAyt45uyGya
+	 7xyuqK9dVhwfeNsM6cleyPgvS8y5RCQoK7UJeVUgN8z5ORC2vqP2CPbFZnOpsFmkzv
+	 dPlKhQ7DCX+XA==
+Received: from notapiano (unknown [70.107.117.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6066B17E1017;
+	Fri,  4 Apr 2025 18:24:32 +0200 (CEST)
+Date: Fri, 4 Apr 2025 12:24:27 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>, kernel@collabora.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH RFC 0/2] Add Kconfig pages and cross-references to
+ Documentation
+Message-ID: <6b019d76-1a8f-4e8d-8b9b-05094a014689@notapiano>
+References: <20250404-kconfig-docs-v1-0-4c3155d4ba44@collabora.com>
+ <8734eogfqw.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/14] x86: Add arch specific kasan functions
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, hpa@zytor.com,
- hch@infradead.org, nick.desaulniers+lkml@gmail.com,
- kuan-ying.lee@canonical.com, masahiroy@kernel.org,
- samuel.holland@sifive.com, mingo@redhat.com, corbet@lwn.net,
- ryabinin.a.a@gmail.com, guoweikang.kernel@gmail.com, jpoimboe@kernel.org,
- ardb@kernel.org, vincenzo.frascino@arm.com, glider@google.com,
- kirill.shutemov@linux.intel.com, apopple@nvidia.com,
- samitolvanen@google.com, kaleshsingh@google.com, jgross@suse.com,
- andreyknvl@gmail.com, scott@os.amperecomputing.com, tony.luck@intel.com,
- dvyukov@google.com, pasha.tatashin@soleen.com, ziy@nvidia.com,
- broonie@kernel.org, gatlin.newhouse@gmail.com, jackmanb@google.com,
- wangkefeng.wang@huawei.com, thiago.bauermann@linaro.org, tglx@linutronix.de,
- kees@kernel.org, akpm@linux-foundation.org, jason.andryuk@amd.com,
- snovitoll@gmail.com, xin@zytor.com, jan.kiszka@siemens.com, bp@alien8.de,
- rppt@kernel.org, peterz@infradead.org, pankaj.gupta@amd.com,
- thuth@redhat.com, andriy.shevchenko@linux.intel.com,
- joel.granados@kernel.org, kbingham@kernel.org, nicolas@fjasle.eu,
- mark.rutland@arm.com, surenb@google.com, catalin.marinas@arm.com,
- morbo@google.com, justinstitt@google.com, ubizjak@gmail.com,
- jhubbard@nvidia.com, urezki@gmail.com, dave.hansen@linux.intel.com,
- bhe@redhat.com, luto@kernel.org, baohua@kernel.org, nathan@kernel.org,
- will@kernel.org, brgerst@gmail.com
-Cc: llvm@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
-References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <e06c7c0fdbad7044f150891d827393665c5742fd.1743772053.git.maciej.wieczor-retman@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <e06c7c0fdbad7044f150891d827393665c5742fd.1743772053.git.maciej.wieczor-retman@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8734eogfqw.fsf@trenco.lwn.net>
 
-On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
-> +static inline const void *__tag_set(const void *addr, u8 tag)
-> +{
-> +	u64 __addr = (u64)addr & ~__tag_shifted(KASAN_TAG_KERNEL);
-> +	return (const void *)(__addr | __tag_shifted(tag));
-> +}
+On Fri, Apr 04, 2025 at 08:31:35AM -0600, Jonathan Corbet wrote:
+> Nícolas F. R. A. Prado <nfraprado@collabora.com> writes:
+> 
+> > This series adds Kconfig pages (patch 1) to the Documentation, and
+> > automarkups CONFIG_* text as cross-references to those pages (patch 2).
+> >
+> > There is a huge change in build time with this series, so we'd either
+> > have to so some optimization and/or put this behind a flag in make so it
+> > is only generated when desired (for instance for the online
+> > documentation):
+> >
+> >   (On an XPS 13 9300)
+> >   
+> >   Before:
+> >   
+> >   real	6m43.576s
+> >   user	23m32.611s
+> >   sys	1m48.220s
+> >   
+> >   After:
+> >   
+> >   real	11m56.845s
+> >   user	47m40.528s
+> >   sys	2m27.382s
+> >
+> > There are also some issues that were solved in ad-hoc ways (eg the
+> > sphinx warnings due to repeated Kconfigs, by embedding the list of
+> > repeated configs in the script). Hence the RFC.
+> 
+> I'm still digging out from LSFMM, so have only glanced at this ... I can
+> see the appeal of doing this, but nearly doubling the docs build time
+> really isn't going to fly.  Have you looked to see what is taking all of
+> that time?  The idea that it takes as long to process KConfig entries as
+> it does to build the entire rest of the docs seems ... a bit wrong.
 
-This becomes a lot clearer to read if you separate out the casting from
-the logical bit manipulation. For instance:
+I have not yet. Thought I'd get some feedback before looking into the
+performance. But I agree with the sentiment.
 
-static inline const void *__tag_set(const void *__addr, u8 tag)
-{
-	u64 addr = (u64)__addr;
+> 
+> I wonder what it would take to create a Sphinx extension that would
+> simply walk the source tree and slurp up the KConfig entries directly?
+> That would be nicer than adding a separate script in any case.
 
-	addr &= ~__tag_shifted(KASAN_TAG_KERNEL);
-	addr |= __tag_shifted(tag);
+That is what is currently done for the ABI, AFAIK, so definitely seems doable.
 
-	return (const void *)addr;
-}
+The key difference between the ABI approach and this here, is that my goal was
+to reflect the Kconfig file hierarchy in the Documentation. So each Kconfig
+file gets its own documentation page, while the ABI approach collects the
+contents of all ABI files into just a few documentation pages (stable, testing,
+etc). (So there's a non-constant number of .rst files, which means they have to
+be generated and can't be a sphinx plugin in this approach).
 
-Also, unless there's a good reason for it, you might as well limit the
-places you need to use "__".
+I went for this approach because the filesystem hierarchy seemed the most
+logical way to group the Kconfig symbols. Also Kconfig files have directives like
+'menu' that should be present in the documentation in the same order they appear
+in the file to fully describe dependencies of the symbols, and having all of
+that in the same page seems like it would be confusing. But given the potential
+benefits it's worth a try for sure.
 
-Now that we can read this, I think it's potentially buggy. If someone
-went and changed:
+Now that I think about it, seems quite likely that a lot of the time spent comes
+from creating a subshell and running the script for every Kconfig file. So
+making a single script or sphinx extension that itself handles iterating over
+all the files would likely greatly reduce the run time. I'll test that.
 
-#define KASAN_TAG_KERNEL	0xFF
+Thanks,
+Nícolas
 
-to, say:
-
-#define KASAN_TAG_KERNEL	0xAB
-
-the '&' would miss clearing bits. It works fine in the arm64 implementation:
-
-	u64 __addr = (u64)addr & ~__tag_shifted(0xff);
-
-because they've hard-coded 0xff. I _think_ that's what you actually want
-here. You don't want to mask out KASAN_TAG_KERNEL, you actually want to
-mask out *ANYTHING* in those bits.
-
-So the best thing is probably to define a KASAN_TAG_MASK that makes it
-clear which are the tag bits.
+> 
+> I'll try to look closer, but I'll remain a bit distracted for a little
+> while yet.
+> 
+> Thanks,
+> 
+> jon
 
