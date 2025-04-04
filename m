@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-6422-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6423-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D91BA7BD8B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 15:18:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E85B8A7BD8E
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 15:18:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2ACAC17BEAA
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 13:18:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA9C47A72DD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 13:17:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F0491EDA34;
-	Fri,  4 Apr 2025 13:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77B101EF096;
+	Fri,  4 Apr 2025 13:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVs/QSzm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TxAEQ/4R"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8661E8351;
-	Fri,  4 Apr 2025 13:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3001C84BB;
+	Fri,  4 Apr 2025 13:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743772670; cv=none; b=oernxWYX+G+UqM4meuIMKxdTquiDLw0bI3Qc+CbXX//01Tcp0wnGRZNOIxNAAteUTRmzlIEkF1PpInNGaCgV/BeDK+hrb4iixozQj3eYrE1CrPeE6j1Wcj6Xrm9M+ggz/GG5ToSJPXT8LQZBgOmGE7ZkxQzFtL76/AudoILDIfw=
+	t=1743772685; cv=none; b=FdmCqr9OURZ10RCxrJ+hty5dID230I5cUBlebPQcfBea5HtWs/pQ+598qdPjgtmxU+axX0unN3RCoXu5nG2D6MwIRNnIeMZGLJeDgEzhhXLTRDLH1cVwnwkBfa+RUaPi104Yq9pSaN+XGwZQLDE0gQEB7aJmjhYNXI9BwDIL37Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743772670; c=relaxed/simple;
-	bh=kLMkp6bZDxIMJX1kOLifwD1KQicNBp9kwQEWVdEeDAs=;
+	s=arc-20240116; t=1743772685; c=relaxed/simple;
+	bh=ZsxDv6qG66vEKuwTwHaEtrjd9tBd4kf+DSHvVgMU/8M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DMbnaczVf0RUk+tVZLEeU13PLNBYKwvXDaPdFzn+L6VDBDxCoCZ8rZyPG3IkvuZUNi3G26g1uAAheHvK3tLf8Xm2k0LFHWKPcDWk2j/biKp2G7ZWiiM9vMtsazOmwptKeoKVUHNQlA7k4F+nnH/8gWVeYxRZLpuxXGfwx+zti5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVs/QSzm; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=hyg06oaxCxwwgObVk8f0Yu7v7PRqC5ZMS1e2MhXtOzoObqUR0b+HB86vtmppWYBYHIkIZ6hmNSpiQOISevEvf+f837XpGRdXMcmOxXuFY5DbY5z4F1ZyFMPZ3FO9p9SioYJh9yY6kPhzyR/wVm3k7EBAoX3CzNJ9Fc7IxA7XMmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TxAEQ/4R; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743772669; x=1775308669;
+  t=1743772684; x=1775308684;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=kLMkp6bZDxIMJX1kOLifwD1KQicNBp9kwQEWVdEeDAs=;
-  b=EVs/QSzm9D4YytQD6hZqACYqVwQ77DWRo/IbVOZ2jX+q2RwteuDnQqgW
-   E2LP9ZYq/UdHXSDVat2/8gj2HoTwYErxo89HHUB3QuNpe84cCpwXebiYs
-   GlXsg0zzfL371Am4hn8qLW/xfnxWGvAzeFa27RrMZUlZbNRfSwWPnsKYL
-   iG6fvSthuNuwRqXTKwB2nlNaAjXtNgX+kFf3KWnvomTo/Ittxt36RfP6e
-   Oudc/AIdeGyW2mECy1gwSLZ9z8B95jKNK2aWE68vQnA4DdIEx8mbf9hpw
-   4owKTyT3L75yoUxdQ9o/9MUGFCVx75gVfg8dnXO6pFL1S7eOY/AC2ZWjq
+  bh=ZsxDv6qG66vEKuwTwHaEtrjd9tBd4kf+DSHvVgMU/8M=;
+  b=TxAEQ/4R18hnxXB6PEObElYLuxXH3ldaq2s30PWyVF7aCpiTgCw1juN7
+   rD2+Np3y3zsn116thisjH1UGyxtyoJwYwcr03QIzRc223kencs57Fz/BD
+   tebWBeblRYOX3/KQbYxGlRo88MPCnpI1sLyvlJLlqpydTIh5YX66nAVyy
+   nOefgasHKas7DGJNf9+7vr7YET0NW2ZYyqIEWdrhVRtBSvhPSmkPrOMcF
+   pOiofdiAwxX2SggAWMUjXz3mHqD+5Su4C/nqqDJi5+jnzahqAZtscwOa7
+   g3s20NlmLbJmmW+nS8PrnF6z11G7UKEOSflOz1YPC9SfEzTlf1HLt63M4
    Q==;
-X-CSE-ConnectionGUID: r4wNFFKPR0WgpG5NeGoCBQ==
-X-CSE-MsgGUID: UjMCsYedQ3OwoHye5ld1ag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="55402023"
+X-CSE-ConnectionGUID: i0RY0CfRRYu185alh2o7uw==
+X-CSE-MsgGUID: /qq0/LSnTJyu0BnAkBd+vQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="55402059"
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="55402023"
+   d="scan'208";a="55402059"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:17:48 -0700
-X-CSE-ConnectionGUID: /KZBOILGRPaVrrMli4Itpg==
-X-CSE-MsgGUID: T+1IKqSwRheE1ok0gd7jhQ==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:18:03 -0700
+X-CSE-ConnectionGUID: vtMsu7eRSsCTmkinYXKa3w==
+X-CSE-MsgGUID: mneJnZk0QlShqxm/wu1ARw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="128157374"
+   d="scan'208";a="128157400"
 Received: from opintica-mobl1 (HELO wieczorr-mobl1.intel.com) ([10.245.245.50])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:17:33 -0700
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:17:48 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: hpa@zytor.com,
 	hch@infradead.org,
@@ -129,9 +129,9 @@ Cc: llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	x86@kernel.org
-Subject: [PATCH v3 12/14] kasan: Fix inline mode for x86 tag-based mode
-Date: Fri,  4 Apr 2025 15:14:16 +0200
-Message-ID: <9a8862c380805ac6c2fc137e8edb1d2e70ee2812.1743772053.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v3 13/14] mm: Unpoison pcpu chunks with base address tag
+Date: Fri,  4 Apr 2025 15:14:17 +0200
+Message-ID: <61033ef5b70277039ceeb8f6173e8b3fbc271c08.1743772053.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
 References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
@@ -143,45 +143,105 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The LLVM compiler uses hwasan-instrument-with-calls parameter to setup
-inline or outline mode in tag-based KASAN. If zeroed, it means the
-instrumentation implementation will be copied into each relevant
-location along with appropriate constants during compilation. If set to
-one, all function instrumentation will be done with function calls
-instead.
+The problem presented here is related to NUMA systems and tag-based
+KASAN mode. Getting to it can be explained in the following points:
 
-The default hwasan-instrument-with-calls value for the x86 architecture
-in the compiler is "1", which is not true for other architectures.
-Because of this enabling inline mode in software tag-based KASAN doesn't
-work on x86 as the kernel script doesn't zero out the parameter.
+	1. A new chunk is created with pcpu_create_chunk() and
+	   vm_structs are allocated. On systems with one NUMA node only
+	   one is allocated, but with more NUMA nodes at least a second
+	   one will be allocated too.
 
-Explicitly zero out hwasan-instrument-with-calls when enabling inline
-mode in tag-based KASAN.
+	2. chunk->base_addr is assigned the modified value of
+	   vms[0]->addr and thus inherits the tag of this allocated
+	   structure.
+
+	3. In pcpu_alloc() for each possible cpu pcpu_chunk_addr() is
+	   executed which calculates per cpu pointers that correspond to
+	   the vms structure addresses. The calculations are based on
+	   adding an offset from a table to chunk->base_addr.
+
+Here the problem presents itself since for addresses based on vms[1] and
+up, the tag will be different than the ones based on vms[0] (base_addr).
+The tag mismatch happens and an error is reported.
+
+Unpoison all the vms[]->addr with the same tag to resolve the mismatch.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
 Changelog v3:
-- Add this patch to the series.
+- Remove last version of this patch that just resets the tag on
+  base_addr and add this patch that unpoisons all areas with the same
+  tag instead.
 
- scripts/Makefile.kasan | 3 +++
- 1 file changed, 3 insertions(+)
+ include/linux/kasan.h | 10 ++++++++++
+ mm/kasan/shadow.c     | 11 +++++++++++
+ mm/vmalloc.c          |  3 +--
+ 3 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-index 693dbbebebba..2c7be96727ac 100644
---- a/scripts/Makefile.kasan
-+++ b/scripts/Makefile.kasan
-@@ -76,8 +76,11 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress
- RUSTFLAGS_KASAN := -Zsanitizer=kernel-hwaddress \
- 		   -Zsanitizer-recover=kernel-hwaddress
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 54481f8c30c5..bd033b2ba383 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -613,6 +613,13 @@ static __always_inline void kasan_poison_vmalloc(const void *start,
+ 		__kasan_poison_vmalloc(start, size);
+ }
  
-+# LLVM sets hwasan-instrument-with-calls to 1 on x86 by default. Set it to 0
-+# when inline mode is enabled.
- ifdef CONFIG_KASAN_INLINE
- 	kasan_params += hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
-+	kasan_params += hwasan-instrument-with-calls=0
- else
- 	kasan_params += hwasan-instrument-with-calls=1
- endif
++void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms);
++static __always_inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
++{
++	if (kasan_enabled())
++		__kasan_unpoison_vmap_areas(vms, nr_vms);
++}
++
+ #else /* CONFIG_KASAN_VMALLOC */
+ 
+ static inline void kasan_populate_early_vm_area_shadow(void *start,
+@@ -637,6 +644,9 @@ static inline void *kasan_unpoison_vmalloc(const void *start,
+ static inline void kasan_poison_vmalloc(const void *start, unsigned long size)
+ { }
+ 
++static inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
++{ }
++
+ #endif /* CONFIG_KASAN_VMALLOC */
+ 
+ #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 88d1c9dcb507..9496f256bc0f 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -582,6 +582,17 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
+ 	kasan_poison(start, size, KASAN_VMALLOC_INVALID, false);
+ }
+ 
++void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
++{
++	int area;
++
++	for (area = 0 ; area < nr_vms ; area++) {
++		kasan_poison(vms[area]->addr, vms[area]->size,
++			     arch_kasan_get_tag(vms[0]->addr), false);
++		arch_kasan_set_tag(vms[area]->addr, arch_kasan_get_tag(vms[0]->addr));
++	}
++}
++
+ #else /* CONFIG_KASAN_VMALLOC */
+ 
+ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 61981ee1c9d2..fbd56bf8aeb2 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -4783,8 +4783,7 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+ 	 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
+ 	 */
+ 	for (area = 0; area < nr_vms; area++)
+-		vms[area]->addr = kasan_unpoison_vmalloc(vms[area]->addr,
+-				vms[area]->size, KASAN_VMALLOC_PROT_NORMAL);
++		kasan_unpoison_vmap_areas(vms, nr_vms);
+ 
+ 	kfree(vas);
+ 	return vms;
 -- 
 2.49.0
 
