@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-6414-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6415-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB0CA7BD6D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 15:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6522A7BD70
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 15:16:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB6357A8D2B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 13:15:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F18B47A8BAF
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 13:15:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDEC01EBFE2;
-	Fri,  4 Apr 2025 13:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3AAE1EB191;
+	Fri,  4 Apr 2025 13:16:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jm3qMcgT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJ+W1eEw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCBA1EEA30;
-	Fri,  4 Apr 2025 13:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4534D1EDA0F;
+	Fri,  4 Apr 2025 13:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743772549; cv=none; b=SjnlriMt3Z1m+mbdVZmh+I0x+cu1h21U1H8l9TqMr4SfbxzOaShpUP+RuLPgfg++Kvi4xZFxTUYbaVzOy0qGqrQIrkVSCIDmTblZ9iez49LZavclR/WTukG2i/6hyUUBI8+UdHUvgstdn4HhRIyyVLNEDlS+Ug+bFqmtyyElRPo=
+	t=1743772564; cv=none; b=Gk4FxKZdybqDkVyTUpEygtCs7oxXNZN06FlrIcQBFBegE5Q+Mj3cqup5tlldD4PfB9qznIBiKgDx+lRJoFT4ud0aEw8YDJcfQwdROIvSv4FXy3gSnONK/akmCW2BJ0fUkFfYkswqw6E3o2FPNJH4LeZQCVhMe7zkAQq0jNKo0D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743772549; c=relaxed/simple;
-	bh=D4i7JF8uDEtWP2nuK8uzBgD8AmJabmAUNQ+XaZEoObg=;
+	s=arc-20240116; t=1743772564; c=relaxed/simple;
+	bh=ikWUalPb1GKrXc7zL0s3gnRneZOpXlSFYbJqx1DBgFU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=meET6e6AVSmSSV2YFPcfnqRLtz+0iaaWuqBGdUxB5fufQH3TyetnGyEJChS5sO3hAiYU/nDHk8yjl5bOvDKKZjFrHXexLr0nw7svafEjK3BKVwVGTlKbjOB6JYRrX8l4WfdVF4IuFZdFirC2XMVEahFxI+8rQlH9idgd+mstEeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jm3qMcgT; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=D7s5eDKQqywOj5hEzAD3kHk6uB2oJX8v8kKHHEq27LYWQmZOx4MO+OYHvRhRGfMZlqrPMoEnYYnZ6GULqRVNe3a2HWcq9FQxJ7iO0GqxqUth396ms3evFJhzrw+erKi4ohfwbSs3QM/r5sPqgtQQ6TLuGAC6htjLSpO4diJD++0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJ+W1eEw; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743772548; x=1775308548;
+  t=1743772563; x=1775308563;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=D4i7JF8uDEtWP2nuK8uzBgD8AmJabmAUNQ+XaZEoObg=;
-  b=jm3qMcgT0kb+u0jquic47Kmvu1lcu195DqUIP53a2UtgizwVkJAFXdxc
-   OWO/J9r5kLRYqvRYeKaDdLtyM3ni5PjMg/AcJYmaAgzQpsgdA4ttYHLRU
-   RIfeGVXbv7U1PuXdg1R3w5wGKMI+jjimhEWd69zgIAilEI9hHSzgH/IBe
-   akpcDI0HmwOZg1EnNwVVmaDoelCVelpOy5oVBFWEfp1j2Wp8Sv1kU8bSw
-   c5Ybaz+O6jSmcQJr/QHa45/mfvh7JVTMN93bzgTqd2zEmqyJCYQJZyLjh
-   CcCONj0E8BVr+4KS3ceyNVINbr1AX5We3PRVQXEYSTNDch+Z+OE6WA3n6
-   w==;
-X-CSE-ConnectionGUID: 7K4GnFMFQWSql9AwQo9ZYw==
-X-CSE-MsgGUID: 4Lv44mtQShe/1QEW/QgC5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="55401684"
+  bh=ikWUalPb1GKrXc7zL0s3gnRneZOpXlSFYbJqx1DBgFU=;
+  b=GJ+W1eEwuA4PzDLscJ27oFVUj4dxFheMecvHwyMU0CSizTA0MrQkwTQr
+   aQNw1+2Nhy93AZivvWCpKcF9i9PYCH9xNXaqVSLBTPYP5stkVLdQ4OUL7
+   gqgfWrJS95u0XUAdpTZ+uwK213ydPh7RyQaJmVJLXDsxSiA2Dx4KNwZ7p
+   c4nFYqXK+pNMS+vDVLB1RucALSqChyQViT+VAxQjhuL5o9Yh3VUVjgLkp
+   EEDl9hS3uvhtZFdnDo0IyYm1L52YJ40Zxtv9D/RhAdEQir6/ii7r1yT4Y
+   Gc6dmmIXseAzXh+3YFl5e8Si2aNmA8XmUdxAJbktIRaSnShgqx4pIU9/0
+   A==;
+X-CSE-ConnectionGUID: lcQ4svMuQUmXeCowcimi3g==
+X-CSE-MsgGUID: xSnTBHdhSDiC2xJ0f85AOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="55401733"
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="55401684"
+   d="scan'208";a="55401733"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:15:47 -0700
-X-CSE-ConnectionGUID: pzanETZmQhSdtpOzW63ogA==
-X-CSE-MsgGUID: Fj7gxPnqRE6y35rxD0gliw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:16:02 -0700
+X-CSE-ConnectionGUID: /v4yemxXRNCf9yxykbmk+A==
+X-CSE-MsgGUID: DvwOzQD2QMSbRSno4tJp0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="128157039"
+   d="scan'208";a="128157141"
 Received: from opintica-mobl1 (HELO wieczorr-mobl1.intel.com) ([10.245.245.50])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:15:32 -0700
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:15:47 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: hpa@zytor.com,
 	hch@infradead.org,
@@ -129,9 +129,9 @@ Cc: llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	x86@kernel.org
-Subject: [PATCH v3 04/14] kasan: arm64: x86: Make special tags arch specific
-Date: Fri,  4 Apr 2025 15:14:08 +0200
-Message-ID: <716de282b80fe47895ebc876885e31e344c676cc.1743772053.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v3 05/14] x86: Reset tag for virtual to physical address conversions
+Date: Fri,  4 Apr 2025 15:14:09 +0200
+Message-ID: <a8332a2dc5b21bd8533ea38da258c093fb9f2fe2.1743772053.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
 References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
@@ -143,175 +143,96 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-KASAN's tag-based mode defines multiple special tag values. They're
-reserved for:
-- Native kernel value. On arm64 it's 0xFF and it causes an early return
-  in the tag checking function.
-- Invalid value. 0xFE marks an area as freed / unallocated. It's also
-  the value that is used to initialize regions of shadow memory.
-- Max value. 0xFD is the highest value that can be randomly generated
-  for a new tag.
+Any place where pointer arithmetic is used to convert a virtual address
+into a physical one can raise errors if the virtual address is tagged.
 
-Metadata macro is also defined:
-- Tag width equal to 8.
-
-Tag-based mode on x86 is going to use 4 bit wide tags so all the above
-values need to be changed accordingly.
-
-Make native kernel tag arch specific for x86 and arm64.
-
-Replace hardcoded kernel tag value and tag width with macros in KASAN's
-non-arch specific code.
+Reset the pointer's tag by sign extending the tag bits in macros that do
+pointer arithmetic in address conversions. There will be no change in
+compiled code with KASAN disabled since the compiler will optimize the
+__tag_reset() out.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
-Changelog v2:
-- Remove risc-v from the patch.
+ arch/x86/include/asm/page.h    | 17 +++++++++++++----
+ arch/x86/include/asm/page_64.h |  2 +-
+ arch/x86/mm/physaddr.c         |  1 +
+ 3 files changed, 15 insertions(+), 5 deletions(-)
 
- MAINTAINERS                         | 2 +-
- arch/arm64/include/asm/kasan-tags.h | 9 +++++++++
- arch/x86/include/asm/kasan-tags.h   | 9 +++++++++
- include/linux/kasan-tags.h          | 8 +++++++-
- include/linux/kasan.h               | 4 +++-
- include/linux/mm.h                  | 6 +++---
- include/linux/page-flags-layout.h   | 7 +------
- 7 files changed, 33 insertions(+), 12 deletions(-)
- create mode 100644 arch/arm64/include/asm/kasan-tags.h
- create mode 100644 arch/x86/include/asm/kasan-tags.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d5dfb9186962..e6c0a6fff9f9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12728,7 +12728,7 @@ L:	kasan-dev@googlegroups.com
- S:	Maintained
- B:	https://bugzilla.kernel.org/buglist.cgi?component=Sanitizers&product=Memory%20Management
- F:	Documentation/dev-tools/kasan.rst
--F:	arch/*/include/asm/*kasan.h
-+F:	arch/*/include/asm/*kasan*.h
- F:	arch/*/mm/kasan_init*
- F:	include/linux/kasan*.h
- F:	lib/Kconfig.kasan
-diff --git a/arch/arm64/include/asm/kasan-tags.h b/arch/arm64/include/asm/kasan-tags.h
-new file mode 100644
-index 000000000000..8cb12ebae57f
---- /dev/null
-+++ b/arch/arm64/include/asm/kasan-tags.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_KASAN_TAGS_H
-+#define __ASM_KASAN_TAGS_H
-+
-+#define KASAN_TAG_KERNEL	0xFF /* native kernel pointers tag */
-+
-+#define KASAN_TAG_WIDTH		8
-+
-+#endif /* ASM_KASAN_TAGS_H */
-diff --git a/arch/x86/include/asm/kasan-tags.h b/arch/x86/include/asm/kasan-tags.h
-new file mode 100644
-index 000000000000..68ba385bc75c
---- /dev/null
-+++ b/arch/x86/include/asm/kasan-tags.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_KASAN_TAGS_H
-+#define __ASM_KASAN_TAGS_H
-+
-+#define KASAN_TAG_KERNEL	0xF /* native kernel pointers tag */
-+
-+#define KASAN_TAG_WIDTH		4
-+
-+#endif /* ASM_KASAN_TAGS_H */
-diff --git a/include/linux/kasan-tags.h b/include/linux/kasan-tags.h
-index e07c896f95d3..ad5c11950233 100644
---- a/include/linux/kasan-tags.h
-+++ b/include/linux/kasan-tags.h
-@@ -2,7 +2,13 @@
- #ifndef _LINUX_KASAN_TAGS_H
- #define _LINUX_KASAN_TAGS_H
+diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
+index 9265f2fca99a..e37f63b50728 100644
+--- a/arch/x86/include/asm/page.h
++++ b/arch/x86/include/asm/page.h
+@@ -7,6 +7,7 @@
+ #ifdef __KERNEL__
  
--#include <asm/kasan.h>
-+#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
-+#include <asm/kasan-tags.h>
-+#endif
-+
-+#ifndef KASAN_TAG_WIDTH
-+#define KASAN_TAG_WIDTH		0
-+#endif
+ #include <asm/page_types.h>
++#include <asm/kasan.h>
  
- #ifndef KASAN_TAG_KERNEL
- #define KASAN_TAG_KERNEL	0xFF /* native kernel pointers tag */
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index b396feca714f..54481f8c30c5 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -40,7 +40,9 @@ typedef unsigned int __bitwise kasan_vmalloc_flags_t;
- 
- #ifdef CONFIG_KASAN_SW_TAGS
- /* This matches KASAN_TAG_INVALID. */
--#define KASAN_SHADOW_INIT 0xFE
-+#ifndef KASAN_SHADOW_INIT
-+#define KASAN_SHADOW_INIT KASAN_TAG_INVALID
-+#endif
- #else
- #define KASAN_SHADOW_INIT 0
+ #ifdef CONFIG_X86_64
+ #include <asm/page_64.h>
+@@ -41,7 +42,7 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
+ #define __pa(x)		__phys_addr((unsigned long)(x))
  #endif
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index beba5ba0fd97..610f6af6daf4 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1815,7 +1815,7 @@ static inline u8 page_kasan_tag(const struct page *page)
  
- 	if (kasan_enabled()) {
- 		tag = (page->flags >> KASAN_TAG_PGSHIFT) & KASAN_TAG_MASK;
--		tag ^= 0xff;
-+		tag ^= KASAN_TAG_KERNEL;
- 	}
+-#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(x))
++#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(__tag_reset(x)))
+ /* __pa_symbol should be used for C visible symbols.
+    This seems to be the official gcc blessed way to do such arithmetic. */
+ /*
+@@ -65,9 +66,17 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
+  * virt_to_page(kaddr) returns a valid pointer if and only if
+  * virt_addr_valid(kaddr) returns true.
+  */
+-#define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
++
++#ifdef CONFIG_KASAN_SW_TAGS
++#define page_to_virt(x)	({									\
++	__typeof__(x) __page = x;								\
++	void *__addr = __va(page_to_pfn((__typeof__(x))__tag_reset(__page)) << PAGE_SHIFT);	\
++	(void *)__tag_set((const void *)__addr, page_kasan_tag(__page));			\
++})
++#endif
++#define virt_to_page(kaddr)	pfn_to_page(__pa((void *)__tag_reset(kaddr)) >> PAGE_SHIFT)
+ extern bool __virt_addr_valid(unsigned long kaddr);
+-#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long) (kaddr))
++#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long)(__tag_reset(kaddr)))
  
- 	return tag;
-@@ -1828,7 +1828,7 @@ static inline void page_kasan_tag_set(struct page *page, u8 tag)
- 	if (!kasan_enabled())
- 		return;
- 
--	tag ^= 0xff;
-+	tag ^= KASAN_TAG_KERNEL;
- 	old_flags = READ_ONCE(page->flags);
- 	do {
- 		flags = old_flags;
-@@ -1847,7 +1847,7 @@ static inline void page_kasan_tag_reset(struct page *page)
- 
- static inline u8 page_kasan_tag(const struct page *page)
+ static __always_inline void *pfn_to_kaddr(unsigned long pfn)
  {
--	return 0xff;
-+	return KASAN_TAG_KERNEL;
+@@ -81,7 +90,7 @@ static __always_inline u64 __canonical_address(u64 vaddr, u8 vaddr_bits)
+ 
+ static __always_inline u64 __is_canonical_address(u64 vaddr, u8 vaddr_bits)
+ {
+-	return __canonical_address(vaddr, vaddr_bits) == vaddr;
++	return __canonical_address(vaddr, vaddr_bits) == __tag_reset(vaddr);
  }
  
- static inline void page_kasan_tag_set(struct page *page, u8 tag) { }
-diff --git a/include/linux/page-flags-layout.h b/include/linux/page-flags-layout.h
-index 4f5c9e979bb9..b2cc4cb870e0 100644
---- a/include/linux/page-flags-layout.h
-+++ b/include/linux/page-flags-layout.h
-@@ -3,6 +3,7 @@
- #define PAGE_FLAGS_LAYOUT_H
- 
- #include <linux/numa.h>
-+#include <linux/kasan-tags.h>
- #include <generated/bounds.h>
- 
- /*
-@@ -72,12 +73,6 @@
- #define NODE_NOT_IN_PAGE_FLAGS	1
+ #endif	/* __ASSEMBLER__ */
+diff --git a/arch/x86/include/asm/page_64.h b/arch/x86/include/asm/page_64.h
+index d3aab6f4e59a..44975a8ae665 100644
+--- a/arch/x86/include/asm/page_64.h
++++ b/arch/x86/include/asm/page_64.h
+@@ -33,7 +33,7 @@ static __always_inline unsigned long __phys_addr_nodebug(unsigned long x)
+ extern unsigned long __phys_addr(unsigned long);
+ extern unsigned long __phys_addr_symbol(unsigned long);
+ #else
+-#define __phys_addr(x)		__phys_addr_nodebug(x)
++#define __phys_addr(x)		__phys_addr_nodebug(__tag_reset(x))
+ #define __phys_addr_symbol(x) \
+ 	((unsigned long)(x) - __START_KERNEL_map + phys_base)
  #endif
+diff --git a/arch/x86/mm/physaddr.c b/arch/x86/mm/physaddr.c
+index fc3f3d3e2ef2..7f2b11308245 100644
+--- a/arch/x86/mm/physaddr.c
++++ b/arch/x86/mm/physaddr.c
+@@ -14,6 +14,7 @@
+ #ifdef CONFIG_DEBUG_VIRTUAL
+ unsigned long __phys_addr(unsigned long x)
+ {
++	x = __tag_reset(x);
+ 	unsigned long y = x - __START_KERNEL_map;
  
--#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
--#define KASAN_TAG_WIDTH 8
--#else
--#define KASAN_TAG_WIDTH 0
--#endif
--
- #ifdef CONFIG_NUMA_BALANCING
- #define LAST__PID_SHIFT 8
- #define LAST__PID_MASK  ((1 << LAST__PID_SHIFT)-1)
+ 	/* use the carry flag to determine if x was < __START_KERNEL_map */
 -- 
 2.49.0
 
