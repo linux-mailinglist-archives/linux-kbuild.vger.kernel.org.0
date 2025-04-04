@@ -1,65 +1,65 @@
-Return-Path: <linux-kbuild+bounces-6434-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6435-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E95A7C1B1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 18:43:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DABA7C1EC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 18:57:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 678E23BBA6B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 16:42:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F4F818974E7
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 16:56:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368FD20E30F;
-	Fri,  4 Apr 2025 16:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D5420E30F;
+	Fri,  4 Apr 2025 16:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lxatC83k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KYgTyC9y"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13AB20C47A;
-	Fri,  4 Apr 2025 16:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5660920E70F;
+	Fri,  4 Apr 2025 16:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743784987; cv=none; b=rQPKkJeYO8T0WuYH+/rw4vzpspAG2VRzA+ajh22PhQuj+kWB3PEuR+Ejox9yScJ+s+NttTDBGZ8INlxZ9RBg7GCPTSAWB0qoKHpr9iNeOAID0S0UBtHp64E3M1tJJKqlp7k8JuPjIewS7OKFj3FDUs8pE2xysEIcvGafb0rpuJ0=
+	t=1743785798; cv=none; b=r8IdnY0OLS20DTaRpagR8um4a65s2K/ssk/6sqWeDWnZens4N4bufTxUlH2H45LFjjkMw0JfFyxkTVb0v4lxahv4/f6TwIUU2BnJGbgS8pGYxUzFXeCcyomZy6D48SYqJlLtC+cV4IwA1N35z4ywPoxGeUEDmyfqnhCjznJOFts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743784987; c=relaxed/simple;
-	bh=ayFfjprWbAEYcS3LTd7+T5khf0vhzbC7c/TA3bU+bmo=;
+	s=arc-20240116; t=1743785798; c=relaxed/simple;
+	bh=uSI/mNDOWuv8z6wXM4ATudMQnMeI2qrBbdXzg2XE6UM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gi5ZQQ/ULa2mPTUvm0zr7OZ6pfaO2YjcmMy6r5UB2LOD5cBqpFDzJM8nOAhl/XbbKvF0S9wRF5t4MFL84B55mYKgDis1h+eStm3WhwwmZ7BmAVC1TPPR/yxjSXYXoCU1ZJz0Z1Zj1Xze3b/+O5rEnXGAlR9hIXCaa9JvV49EK7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lxatC83k; arc=none smtp.client-ip=198.175.65.10
+	 In-Reply-To:Content-Type; b=C9Hg+Mo2JyUMsKJzk4nYmD3j7mKqgChmzex4BUOqVctca87bKxWrELdzGGE7wFfjL9D+rBPVf70/zaDeMfrT7NpSsBt4sTnDiLxq6gduLXV2wouXJppQvM1CrULSVGp4WQP4GeR75hRL3JAK8hxj9ip4odfEI+7i2R5Q3eNHLJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KYgTyC9y; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743784985; x=1775320985;
+  t=1743785798; x=1775321798;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=ayFfjprWbAEYcS3LTd7+T5khf0vhzbC7c/TA3bU+bmo=;
-  b=lxatC83kcd6Ob7PcGlbGvmpI44y75SAjgZ+vsH4c7P3Iarb08F0DwjxQ
-   zdzKoJF9XTHedlmQsoO3bl7J7Re9yRsS2ptvT80wH0Ft2INjrib4dFRft
-   ZbpjYNsT6U0L/ktXWIEQQmwywr8drQEKWOtf8KSIhhkoDVfG/3Z5S9fGW
-   iXr8xnBgBKUeRxpyDm0qrl9KgEMiQGMcVswLzXrjh1V41Iu11agJmFUVT
-   E49IWLtAfUzKKoiuK05k8DoS3A1wgErGipGTUOzXvnTZR+Si/mVPHo361
-   lSl9surpw2V/S0vxBem4zKbpXlI/uznmPrGcJIjDgK3ZOmFopDmdSHYoV
-   Q==;
-X-CSE-ConnectionGUID: vLB8CuB1TGSfT5g6aXDQEw==
-X-CSE-MsgGUID: RtUtNF8bRVydtFzn52jdXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="62631332"
+  bh=uSI/mNDOWuv8z6wXM4ATudMQnMeI2qrBbdXzg2XE6UM=;
+  b=KYgTyC9yLwEzfNVDW0NT/L6DMb+ynxK1z1J6ZkxnjgNcJLUkRMDfVGFR
+   xyTGqv08NXIgsO8x681lTQJCajogsHT7Wf061XxfZLIAZkdx3mT3+50uS
+   5kSZehNDKi5qFajz1LnQRhV5jr0/ruilTH9q3wKKbnl1LvbYvwnNnxzQK
+   QCgsYxNYwaRTbXfn9HDsCJ8RAoLWAdk4geViFkUYbdi2W3NfeQ+3BTIwS
+   Le/BceXlRePKs+PaiInZEDcf/1PeL7vA20riYnMexEnr4A/+fOGp0VOUX
+   71FbpQq3HoAKO0UwzmifKpKATULosyx4hbNmFvEtHLLmiS0RBK4apK/jI
+   A==;
+X-CSE-ConnectionGUID: ZfCUF+d1Q+WLJ+xEVN1bqg==
+X-CSE-MsgGUID: evlkveYDQ/i8mmSGDEoGvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="47944691"
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="62631332"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:43:04 -0700
-X-CSE-ConnectionGUID: PNDCImh2SwmUq/OXMReN8A==
-X-CSE-MsgGUID: 2z30JdBbQJeAh01BitZsnQ==
+   d="scan'208";a="47944691"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:56:36 -0700
+X-CSE-ConnectionGUID: Y7QpnuiMSQu9Veya9py4Qg==
+X-CSE-MsgGUID: 5LEvsRX7R6CbR5uFxiPhsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="127247176"
+   d="scan'208";a="127875138"
 Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.124.223.29]) ([10.124.223.29])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:42:57 -0700
-Message-ID: <257b39a5-69bf-4e6d-844b-576e9c9d2e7d@intel.com>
-Date: Fri, 4 Apr 2025 09:42:55 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:56:33 -0700
+Message-ID: <c4971a5e-1c17-4daf-8af4-804d07902fe4@intel.com>
+Date: Fri, 4 Apr 2025 09:56:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -67,8 +67,8 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/14] x86: Reset tag for virtual to physical address
- conversions
+Subject: Re: [PATCH v3 06/14] x86: Physical address comparisons in
+ fill_p*d/pte
 To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, hpa@zytor.com,
  hch@infradead.org, nick.desaulniers+lkml@gmail.com,
  kuan-ying.lee@canonical.com, masahiroy@kernel.org,
@@ -95,7 +95,7 @@ Cc: llvm@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
  linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
 References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <a8332a2dc5b21bd8533ea38da258c093fb9f2fe2.1743772053.git.maciej.wieczor-retman@intel.com>
+ <926742095b7e55099cc48d70848ca3c1eff4b5eb.1743772053.git.maciej.wieczor-retman@intel.com>
 From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -141,59 +141,17 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <a8332a2dc5b21bd8533ea38da258c093fb9f2fe2.1743772053.git.maciej.wieczor-retman@intel.com>
+In-Reply-To: <926742095b7e55099cc48d70848ca3c1eff4b5eb.1743772053.git.maciej.wieczor-retman@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +#define page_to_virt(x)	({									\
-> +	__typeof__(x) __page = x;								\
-> +	void *__addr = __va(page_to_pfn((__typeof__(x))__tag_reset(__page)) << PAGE_SHIFT);	\
-> +	(void *)__tag_set((const void *)__addr, page_kasan_tag(__page));			\
-> +})
-> +#endif
+> +		if (__pa(p4d) != (pgtable_l5_enabled() ?
+> +				  (unsigned long)pgd_val(*pgd) & PTE_PFN_MASK :
+> +				  __pa(pgd)))
+>  			printk(KERN_ERR "PAGETABLE BUG #00! %p <-> %p\n",
 
-Is this #ifdef needed?
-
-I thought there were stub versions of all of those tag functions. So it
-should be harmless to use this page_to_virt() implementation with or
-without KASAN. Right?
-
-I'm also confused by the implementation. This is one reason why I rather
-dislike macros. Why does this act like the type of 'x' is variable?
-Isn't it always a 'struct page *'? If so, then why all of the
-__typeof__()'s?
-
-Are struct page pointers _ever_ tagged? If they are, then doesn't
-page_to_pfn() need to handle untagging as well? If they aren't, then
-there's no reason to __tag_reset() in here.
-
-What was the thinking behind this cast:
-
-	(const void *)__addr
-
-?
-
-Are any of these casts _doing_ anything? I'm struggling to find anything
-wrong with:
-
-#define page_to_virt(x)	({													
-	void *__addr = __va(page_to_pfn(__page) << PAGE_SHIFT);
-	__tag_set(__addr, page_kasan_tag(x))
-})
-
-... which made me look back at:
-
-	static inline const void *__tag_set(const void *addr, u8 tag)
-
-from patch 3. I don't think the 'const' makes any sense on the return
-value here. Surely the memory pointed at by a tagged pointer doesn't
-need to be const. Why should the tag setting function be returning a
-const pointer?
-
-I can see why it would *take* a const pointer since it's not modifying
-the memory, but I don't see why it is returning one.
-
-
+This one is pretty fugly. But I guess it's just one place and it
+probably isn't worth refactoring this and the other helpers just for a
+debug message.
 
