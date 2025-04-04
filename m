@@ -1,136 +1,183 @@
-Return-Path: <linux-kbuild+bounces-6441-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6442-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A220AA7C3B0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 21:14:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF17A7C5D5
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 23:55:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8326D3B8752
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 19:14:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DFB0189F2A3
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 21:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACEC61EB5E5;
-	Fri,  4 Apr 2025 19:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34A2E1A5BBB;
+	Fri,  4 Apr 2025 21:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qUmaRHyI"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="djoVFmCJ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F00713D531;
-	Fri,  4 Apr 2025 19:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7407619DF4F;
+	Fri,  4 Apr 2025 21:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743794055; cv=none; b=gXD78OLe5/f1yfwgwfvS66rMVzGHznCwtzHhBA/37x45Zakp5dakZPXaLQRZ89uywEyB7ZHoykNMGh+ngcLcuBDWnzzMGtodw2UaUL4IycKZTCu9EktWp82mNe4G7alNpNtPf1TM0WGtpAxz36rv7M0kTGlCWqDalfct/EgOHr4=
+	t=1743803747; cv=none; b=BuFj7e6pKqH/sETRAsdm3lhBoS8BGJgpXWhUfU2w/yAEe01qB1Z0KxF/PDXYGdMo/yVvo2RK7slGM0vlyIud3geiA3VxSyxeAgouHA8r04G0JnKDjLAPBANucNUaPYufpq/j9XhmgZ9FGXi8Yx69EzqpYAFiacRKQCBVJP28TZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743794055; c=relaxed/simple;
-	bh=GK+D2xH4mkrxRKPj7PvUUgbKX8MxtbEYJKBgNsU0E5U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A8g3onYDWI1WMTczpboHGVL5ncXbhdgZBtlwoy66FIsMYqD7eMW74uJ325pxQJ7UJM991FvnXR6I2IKjLRzZoBAD5Enmxf93rKqbLyJL46eZ8oRIHEzI3kwu83JijrSHcXTuhQXf0hDPs5ChUVkGIP0ILaPyvM5sk9wlRHAbeKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qUmaRHyI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5799C4CEE4;
-	Fri,  4 Apr 2025 19:14:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743794054;
-	bh=GK+D2xH4mkrxRKPj7PvUUgbKX8MxtbEYJKBgNsU0E5U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qUmaRHyItvJ8EJ+roxxHS5ngiJEPJy7E70pySwNt0yNmDmyh+MZS8x4cS5MCysGoX
-	 LZcaEB4/h43lwEI3J9qO3tVnjgaoEJIlnb6DWbaoNEABqg7zlNtpmi4rmN0ZZahBsE
-	 pNgCACpxrcTxx0s8OFKdKyBXxrDmeyd8kHAJyDWv0yPw5Q/pNR5pHc5FMlIv3Se0BV
-	 0zAA3xqQQhKYqCGqqz2zGKmoqdVnKd3PFlxyJLuwhisf0+cZbtlWiB/oJPFuwNtB4E
-	 FYvxOydZoorTtEoTZ5RGzp5fL9ZPLjdA680incHxM1QvXac4ohr43aK+VbRje6ttY8
-	 RzqInD3laftmg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54c090fc7adso2723753e87.2;
-        Fri, 04 Apr 2025 12:14:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU+epOPttJm3DWs7Z6Cz6+XwEN8xodcVuSr+XwSQdPmyZikCmMCygwkdFmk+fSFIQDrg93Rac8xUr5SBxc=@vger.kernel.org, AJvYcCV3OCUz/AxwS4w+MqBtnlbUcRue8BBTzbrcxKCf+PzD2hTntUHcTetXVuUtSGXcYOFK99Dq0AQLY5bWwp3J@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZh09qtzoR1nSCOfMqIZMSgQ4dXVIP0IzwXxKk0ZAIv4pfu9jE
-	6GpEjPUaIy1Al0z1ML2/xrS9SIo9qyG5zpWpnxfoLA8f8Z4zAF3QOdOQ8c/Z22lE+TBG9RHtHR1
-	r2F9/jBPHiqqyIbg9xDGIPz73Pjg=
-X-Google-Smtp-Source: AGHT+IHo8Zqk50+G/P2S5Zi88hZgN1tRYEpbqnYOoFkbSvSmjZn7bFkhRjH/37/ERpHR7IE42aQ9+wiL+E1VemAHEvY=
-X-Received: by 2002:a05:6512:1092:b0:545:1e2d:6b73 with SMTP id
- 2adb3069b0e04-54c232de6e0mr1113271e87.13.1743794053586; Fri, 04 Apr 2025
- 12:14:13 -0700 (PDT)
+	s=arc-20240116; t=1743803747; c=relaxed/simple;
+	bh=J78We6J2HcLadsfXet7EQXvV5nbB4sqDTC5iteeMCc8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=gyV2eTLOPbzFRpkJsiRdSMZJ/XF7I357AF9+57mWObHMDJlRYFj512r5NhSfK+DKMhaR3oDUc2BpapGhS5OJn/0hXz3mc9y5d1WX3lG7Jd4NHuyUrwIUrvchjzH+j3f0aMropiSQkFcy2lAdYt7krpn6ODs+2R4ywCyPJ9hj5w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=djoVFmCJ; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from narnia.corp.microsoft.com (unknown [167.220.2.28])
+	by linux.microsoft.com (Postfix) with ESMTPSA id F10C32025659;
+	Fri,  4 Apr 2025 14:55:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F10C32025659
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1743803744;
+	bh=FeA9Cf0c1PZ+ws0Z5CDTTAR7q+ny173QHBHM7KBUgtI=;
+	h=From:To:Subject:Date:From;
+	b=djoVFmCJ6IiEUFCgcnHVMYL2uhJrxONZOMEeqCPPJZ29Mlkcp78CX0ZSdnxS/9o9l
+	 /fEb2VwO218boC8jjcffL5aTL62YId6BQ+gtUABHGlFJVKoARLb7cmHkfO5z3oAVzy
+	 cYOkLZolxJNlLg45S5YOiA9ok749zp8yA2qASojw=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	David Howells <dhowells@redhat.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Shuah Khan <shuah@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jan Stancek <jstancek@redhat.com>,
+	Neal Gompa <neal@gompa.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org,
+	llvm@lists.linux.dev,
+	nkapron@google.com,
+	teknoraver@meta.com,
+	roberto.sassu@huawei.com,
+	xiyou.wangcong@gmail.com
+Subject: [PATCH v2 security-next 0/4] Introducing Hornet LSM
+Date: Fri,  4 Apr 2025 14:54:49 -0700
+Message-ID: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404102535.705090-1-ubizjak@gmail.com> <CAK7LNATO1RfACvWhHJuLi-FYWMnSn6+Tp67-EZtVWNk+RCSTVQ@mail.gmail.com>
- <CAFULd4bx9BGKo_4kn14rsVr44otpdjpjn_o6=zMp8iu98f9Upg@mail.gmail.com>
- <CAK7LNATnactfA2U0CB2VcoE1eDc+bj=Jjye-Khsc3xG-iZ2XVQ@mail.gmail.com> <CAFULd4b25r5wf31DJputSOZhhMTrejQ_3-2P5rpeOL8H=4_mcA@mail.gmail.com>
-In-Reply-To: <CAFULd4b25r5wf31DJputSOZhhMTrejQ_3-2P5rpeOL8H=4_mcA@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 5 Apr 2025 04:13:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQVbwnnX5TJLmEShtmUtLCwr=rnZgwX9NoAke+PqzsqiA@mail.gmail.com>
-X-Gm-Features: ATxdqUFMOH72JyC-qPh1E-3hdWpTn9ObjU69eNYz1Gu2sxaIJ7P9ql1xkBZcGqQ
-Message-ID: <CAK7LNAQVbwnnX5TJLmEShtmUtLCwr=rnZgwX9NoAke+PqzsqiA@mail.gmail.com>
-Subject: Re: [PATCH] compiler.h: Avoid the usage of __typeof_unqual__() when
- __GENKSYMS__ is defined
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>, 
-	Sami Tolvanen <samitolvanen@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 4, 2025 at 11:37=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wro=
-te:
->
-> On Fri, Apr 4, 2025 at 4:06=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> > > > > Current version of genksyms doesn't know anything about __typeof_=
-unqual__()
-> > > > > operator.  Avoid the usage of __typeof_unqual__() with genksyms t=
-o prevent
-> > > > > errors when symbols are versioned.
-> > > > >
-> > > > > There were no problems with gendwarfksyms.
-> > > > >
-> > > > > Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-> > > > > Fixes: ac053946f5c40 ("compiler.h: introduce TYPEOF_UNQUAL() macr=
-o")
-> > > > > Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> > > > > Closes: https://lore.kernel.org/lkml/81a25a60-de78-43fb-b56a-1311=
-51e1c035@molgen.mpg.de/
-> > > > > Cc: Sami Tolvanen <samitolvanen@google.com>
-> > > > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > > > ---
-> > > >
-> > > >
-> > > > Why don't you add it to the genksyms keyword table?
-> > >
-> > > It doesn't work, even if I patch it with an even more elaborate patch
-> > > (attached).
-> > >
-> > > I guess some more surgery will be needed, but for now a fallback work=
-s
-> > > as expected.
-> > >
-> > > Uros.
-> >
-> > The attached patch looks good to me.
->
-> FAOD - do you refer to the submitted one for compiler.h or to the one
-> for scripts/genksyms/keywords.c? (The latter doesn't fix the warning,
-> though).
+This patch series introduces the Hornet LSM. The goal of Hornet is to
+provide a signature verification mechanism for eBPF programs.
+
+eBPF has similar requirements to that of modules when it comes to
+loading: find symbol addresses, fix up ELF relocations, some struct
+field offset handling stuff called CO-RE (compile-once run-anywhere),
+and some other miscellaneous bookkeeping. During eBPF program
+compilation, pseudo-values get written to the immediate operands of
+instructions. During loading, those pseudo-values get rewritten with
+concrete addresses or data applicable to the currently running system,
+e.g., a kallsyms address or an fd for a map. This needs to happen
+before the instructions for a bpf program are loaded into the kernel
+via the bpf() syscall. Unlike modules, an in-kernel loader
+unfortunately doesn't exist. Typically, the instruction rewriting is
+done dynamically in userspace via libbpf. Since the relocations and
+instruction modifications are happening in userspace, and their values
+may change depending upon the running system, this breaks known
+signature verification mechanisms.
+
+Light skeleton programs were introduced in order to support early
+loading of eBPF programs along with user-mode drivers. They utilize a
+separate eBPF program that can load a target eBPF program and perform
+all necessary relocations in-kernel without needing a working
+userspace. Light skeletons were mentioned as a possible path forward
+for signature verification.
+
+Hornet takes a simple approach to light-skeleton-based eBPF signature
+verification. A PKCS#7 signature of a data buffer containing the raw
+instructions of an eBPF program, followed by the initial values of any
+maps used by the program is used. A utility script is provided to
+parse and extract the contents of autogenerated header files created
+via bpftool. That payload can then be signed and appended to the light
+skeleton executable.
+
+Maps are frozen to prevent TOCTOU bugs where a sufficiently privileged
+user could rewrite map data between the calls to BPF_PROG_LOAD and
+BPF_PROG_RUN. Additionally, both sparse-array-based and
+fd_array_cnt-based map fd arrays are supported for signature
+verification.
 
 
+References:
+  [1] https://lore.kernel.org/bpf/20220209054315.73833-1-alexei.starovoitov@gmail.com/
+  [2] https://lore.kernel.org/bpf/CAADnVQ+wPK1KKZhCgb-Nnf0Xfjk8M1UpX5fnXC=cBzdEYbv_kg@mail.gmail.com/
 
-You are still seeing the warnings because __typeof_unqual__
-is not only the issue.
+Change list:
+- v1 -> v2
+  - Jargon clarification, maintainer entry and a few cosmetic fixes
 
-Hint:
-
-$ make -s KCFLAGS=3D-D__GENKSYMS__  arch/x86/kernel/setup_percpu.i
-$ grep  'this_cpu_off;'  arch/x86/kernel/setup_percpu.i
-
-
+Revisions:
+- v1
+  https://lore.kernel.org/bpf/20250321164537.16719-1-bboscaccy@linux.microsoft.com
 
 
---
-Best Regards
-Masahiro Yamada
+Blaise Boscaccy (4):
+  security: Hornet LSM
+  hornet: Introduce sign-ebpf
+  hornet: Add a light-skeleton data extactor script
+  selftests/hornet: Add a selftest for the Hornet LSM
+
+ Documentation/admin-guide/LSM/Hornet.rst     |  53 +++
+ Documentation/admin-guide/LSM/index.rst      |   1 +
+ MAINTAINERS                                  |   9 +
+ crypto/asymmetric_keys/pkcs7_verify.c        |  10 +
+ include/linux/kernel_read_file.h             |   1 +
+ include/linux/verification.h                 |   1 +
+ include/uapi/linux/lsm.h                     |   1 +
+ scripts/Makefile                             |   1 +
+ scripts/hornet/Makefile                      |   5 +
+ scripts/hornet/extract-skel.sh               |  29 ++
+ scripts/hornet/sign-ebpf.c                   | 411 +++++++++++++++++++
+ security/Kconfig                             |   3 +-
+ security/Makefile                            |   1 +
+ security/hornet/Kconfig                      |  11 +
+ security/hornet/Makefile                     |   4 +
+ security/hornet/hornet_lsm.c                 | 239 +++++++++++
+ tools/testing/selftests/Makefile             |   1 +
+ tools/testing/selftests/hornet/Makefile      |  51 +++
+ tools/testing/selftests/hornet/loader.c      |  21 +
+ tools/testing/selftests/hornet/trivial.bpf.c |  33 ++
+ 20 files changed, 885 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+ create mode 100644 scripts/hornet/Makefile
+ create mode 100755 scripts/hornet/extract-skel.sh
+ create mode 100644 scripts/hornet/sign-ebpf.c
+ create mode 100644 security/hornet/Kconfig
+ create mode 100644 security/hornet/Makefile
+ create mode 100644 security/hornet/hornet_lsm.c
+ create mode 100644 tools/testing/selftests/hornet/Makefile
+ create mode 100644 tools/testing/selftests/hornet/loader.c
+ create mode 100644 tools/testing/selftests/hornet/trivial.bpf.c
+
+-- 
+2.48.1
+
 
