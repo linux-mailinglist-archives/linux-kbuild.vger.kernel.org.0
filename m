@@ -1,65 +1,65 @@
-Return-Path: <linux-kbuild+bounces-6437-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6438-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38CBA7C29D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 19:39:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C839DA7C2F8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 19:56:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C27EE17DFEC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 17:38:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9DB067A7674
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 17:55:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62BE2215045;
-	Fri,  4 Apr 2025 17:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B59F921A45D;
+	Fri,  4 Apr 2025 17:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LoGWg2zc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cS5RBcX8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D222080D2;
-	Fri,  4 Apr 2025 17:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E9521B9D4;
+	Fri,  4 Apr 2025 17:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743788315; cv=none; b=DRyCff0rptZlAKB45+JGCIsz5MLgH867/QoRGLrmCy507WnBx7BFh6a2vd42m51Hpj3P7IoYnHrMCud4VYQPGBle5FOG3sMDmMQ1IidOE9pbFWmKFNhlC0KMKTqasbMiM0nnOELHgrINbBN5/flI2o31IbgZRO8/X29Aq44vb+k=
+	t=1743789317; cv=none; b=SUXFwKfOj5AAwShGlTAkfcSYy0G6w8oqmRjOnZG0nBbNRjJMM0KEGUUdZLnlLLO+Am4LeFIJyKuRvWbA2IO6xPm4fthO0qq1VlJNat17qDyh9srpWXoCSaUMk7tOLvkGaiIro+4AaT9ftgNgqz0tdP5wDToCea9+z+48+ImYKHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743788315; c=relaxed/simple;
-	bh=g+uO3D1xVb3e3yklJX3PTIFd83TRp4sbPtUUCMweR8c=;
+	s=arc-20240116; t=1743789317; c=relaxed/simple;
+	bh=pIENLeWzTVJaaXaUldVebDEO8Uq2auKXJ/zTuKpRGc0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K12wAyx80Ek88GvxArTox9v58Ru0UVp2VxfxVwfcrV7mpE9HEyElwGEiF0cIxvnOr3C6h2oQf8rLriEa5tOYL9gIRCFNsJPH/Cs2kJhrA0/tdbcrmo4NJh66JVn5HZpRYSmRrjANU8wD1km3Vxe9rdaMPk9DV1IWtTl/9NEX5wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LoGWg2zc; arc=none smtp.client-ip=192.198.163.8
+	 In-Reply-To:Content-Type; b=c2VU/7AZR0zctPcXM65kesR369bik6ffmobTmvJ3ImFTrCE76yMFjtA/SP6hyIHRZKyV+EJfqCXhtpt5PBFv3KnCyUU4xzKTCz8bplh6Bkc6XxBfoT2DxHQsLL842LK61x5AnQp5BZKqc24ime2BvosDvqawSKjaFiwG/aWPRKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cS5RBcX8; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743788313; x=1775324313;
+  t=1743789315; x=1775325315;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=g+uO3D1xVb3e3yklJX3PTIFd83TRp4sbPtUUCMweR8c=;
-  b=LoGWg2zc85L3MtCW9M0RnRjYeUjfCfc0SbdjTpMnIE4ilWbDbrYdn4SJ
-   f8d7yHR8nIsgdvhl0i6ulaL/+I3ihAi9p9eyzeJ0/o+q843oefIrWKMGa
-   ycv8sGLfCjxiNKRfQtUNRCB58bqRSoxsM/oguUrwOfYjtBxDFx/tGCQCa
-   4eDfXKoIjJLmr7Set3KB8NnuJfrs8HZ2jnzcJ8Usnmq95ky1EQvkfgH8e
-   OWeOmxuGU54NHhP4fgu2sYtW5o9g/mkDdKDJUnrm18j5N8/w1EUmLfPnG
-   4qxesSKnpj/h9eDurB6pil5DZTAdt37Py8ixB8XqIGPuyKAPn+Sd10wKV
-   g==;
-X-CSE-ConnectionGUID: Fxrpikc1Rh+WP1ouzgzrGw==
-X-CSE-MsgGUID: FOd7TFfBRd6acvYzub51Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="62773792"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="62773792"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:38:32 -0700
-X-CSE-ConnectionGUID: 3jueK+bYQvGsWn/SgG7b1Q==
-X-CSE-MsgGUID: vVkKM15nSt2oK2nSl/uuYA==
+  bh=pIENLeWzTVJaaXaUldVebDEO8Uq2auKXJ/zTuKpRGc0=;
+  b=cS5RBcX8WVQOf/JI3BbiZgxYeiEAgULmmu2NSzvq4yZ312VY93PDul9S
+   GWAo6FN2Tz1iF84duz1eS7C2kLL0Ne4wAb/4w5iUyNN7iFnCR3GewTOpC
+   JUrv0DGH4ffj2RY62mk+lQa4mQrf+PMQidr3FiuS947599PDdP8AfbHOD
+   FzID3hJpPW5/Ok3nwqXADYU9PKj39eRD8b1wwp/x+dLipq3abhOHt5fh0
+   mhxdLY2tnXPMpCwUEXUBk/wge3nOyTz5mXi74R9d7qUEPag5XWdClGDHh
+   E4Njzr3W9CgNayo3fI1FC2STBQ6k8SjHqzneYrAJ8WQmPN45O3T/Z2kU9
+   w==;
+X-CSE-ConnectionGUID: mFr2Ue2BTP2EZsE/gSOwjA==
+X-CSE-MsgGUID: lyQ3Vt/uQrOCJkcJTIGOsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="45379454"
+X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
+   d="scan'208";a="45379454"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:55:14 -0700
+X-CSE-ConnectionGUID: XcFkPhxZTJWIrLqhXG8wPg==
+X-CSE-MsgGUID: DQH8Q7APT5qgIEL6nrV9GQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="128215225"
+X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
+   d="scan'208";a="131512363"
 Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.124.223.29]) ([10.124.223.29])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:37:54 -0700
-Message-ID: <8416848c-700a-4ff0-8a22-aa62579d60cd@intel.com>
-Date: Fri, 4 Apr 2025 10:37:53 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:55:10 -0700
+Message-ID: <c797714b-4180-4439-8a02-3cfacd42dafe@intel.com>
+Date: Fri, 4 Apr 2025 10:55:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/14] x86: Update the KASAN non-canonical hook
+Subject: Re: [PATCH v3 11/14] x86: Handle int3 for inline KASAN reports
 To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, hpa@zytor.com,
  hch@infradead.org, nick.desaulniers+lkml@gmail.com,
  kuan-ying.lee@canonical.com, masahiroy@kernel.org,
@@ -94,7 +94,7 @@ Cc: llvm@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
  linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
 References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <c37c89e71ed5a8e404b24b31e23457af12f872f2.1743772053.git.maciej.wieczor-retman@intel.com>
+ <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
 From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -140,172 +140,131 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <c37c89e71ed5a8e404b24b31e23457af12f872f2.1743772053.git.maciej.wieczor-retman@intel.com>
+In-Reply-To: <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
-> The kasan_non_canonical_hook() is useful in pointing out that an address
-> which caused some kind of error could be the result of
-> kasan_mem_to_shadow() mapping. Currently it's called only in the general
-> protection handler code path but can give helpful information also in
-> page fault oops reports.
+> When a tag mismatch happens in inline software tag-based KASAN on x86 an
+> int3 instruction is executed and needs proper handling.
+
+Does this mean "inline software"? Or "inline" functions? I'm not quite
+parsing that. I think it needs some more background.
+
+> Call kasan_report() from the int3 handler and pass down the proper
+> information from registers - RDI should contain the problematic address
+> and RAX other metadata.
 > 
-> For example consider a page fault for address 0xffdefc0000000000 on a
-> 5-level paging system. It could have been accessed from KASAN's
-> kasan_mem_to_shadow() called on 0xfef0000000000000 address. Without the
-> kasan_non_canonical_hook() in the page fault case it might be hard to
-> figure out why an error occurred.
-> 
-> Add kasan_non_canonical_hook() to the beginning of show_fault_oops().
-> 
-> Update kasan_non_canonical_hook() to take into account the possible
-> memory to shadow mappings in the software tag-based mode of x86.
-> 
-> Patch was tested with positive results by accessing the following
-> addresses, causing #GPs and #PFs.
-> 
-> Valid mappings (showing kasan_non_canonical_hook() message):
-> 	0xFFFFFFFF8FFFFFFF
-> 	0xFEF0000000000000
-> 	0x7FFFFF4FFFFFFFFF
-> 	0x7EF0000000000000
-> Invalid mappings (not showing kasan_non_canonical_hook() message):
-> 	0xFFFFFFFFF8FFFFFF
-> 	0xFFBFFC0000000000
-> 	0x07EFFC0000000000
-> 	0x000E000000000000
-> 
-> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> ---
-> Changelog v3:
-> - Move the report.c part from first patch in the series to this new
->   patch to have x86 changes in one place.
-> - Add the call in fault oops.
-> - Extend the comment in report.c with a graphical representation of what
->   addresses are valid and invalid in memory to shadow mapping.
-> 
->  arch/x86/mm/fault.c |  2 ++
->  mm/kasan/report.c   | 36 +++++++++++++++++++++++++++++++++++-
->  2 files changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index 697432f63c59..16366af60ae5 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -511,6 +511,8 @@ show_fault_oops(struct pt_regs *regs, unsigned long error_code, unsigned long ad
->  	if (!oops_may_print())
->  		return;
+> Also early return from the int3 selftest if inline KASAN is enabled
+> since it will cause a kernel panic otherwise.
+...
+> diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
+> index bf82c6f7d690..ba277a25b57f 100644
+> --- a/arch/x86/kernel/alternative.c
+> +++ b/arch/x86/kernel/alternative.c
+> @@ -1979,6 +1979,9 @@ static noinline void __init int3_selftest(void)
+>  	};
+>  	unsigned int val = 0;
 >  
-> +	kasan_non_canonical_hook(address);
+> +	if (IS_ENABLED(CONFIG_KASAN_INLINE))
+> +		return;
+
+Comments, please. This is a total non sequitur otherwise.
+
+>  	BUG_ON(register_die_notifier(&int3_exception_nb));
+>  
+>  	/*
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index 9f88b8a78e50..32c81fc2d439 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+...
+> @@ -849,6 +850,51 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+>  	cond_local_irq_disable(regs);
+>  }
+>  
+> +#ifdef CONFIG_KASAN_SW_TAGS
 > +
->  	if (error_code & X86_PF_INSTR) {
->  		unsigned int level;
->  		bool nx, rw;
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index f24f11cc644a..135307c93c2c 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -700,7 +700,7 @@ void kasan_non_canonical_hook(unsigned long addr)
->  	 * operation would overflow only for some memory addresses. However, due
->  	 * to the chosen KASAN_SHADOW_OFFSET values and the fact the
->  	 * kasan_mem_to_shadow() only operates on pointers with the tag reset,
-> -	 * the overflow always happens.
-> +	 * the overflow always happens (for both x86 and arm64).
->  	 *
->  	 * For arm64, the top byte of the pointer gets reset to 0xFF. Thus, the
->  	 * possible shadow addresses belong to a region that is the result of
-> @@ -715,6 +715,40 @@ void kasan_non_canonical_hook(unsigned long addr)
->  			return;
->  	}
->  
-> +	 /*
-> +	  * For x86-64, only the pointer bits [62:57] get reset, and bits #63
-> +	  * and #56 can be 0 or 1. Thus, kasan_mem_to_shadow() can be possibly
-> +	  * applied to two regions of memory:
-> +	  * [0x7E00000000000000, 0x7FFFFFFFFFFFFFFF] and
-> +	  * [0xFE00000000000000, 0xFFFFFFFFFFFFFFFF]. As the overflow happens
-> +	  * for both ends of both memory ranges, both possible shadow regions
-> +	  * are contiguous.
-> +	  *
-> +	  * Given the KASAN_SHADOW_OFFSET equal to 0xffeffc0000000000, the
-> +	  * following ranges are valid mem-to-shadow mappings:
-> +	  *
-> +	  * 0xFFFFFFFFFFFFFFFF
-> +	  *         INVALID
-> +	  * 0xFFEFFBFFFFFFFFFF - kasan_mem_to_shadow(~0UL)
-> +	  *         VALID   - kasan shadow mem
-> +	  *         VALID   - non-canonical kernel virtual address
-> +	  * 0xFFCFFC0000000000 - kasan_mem_to_shadow(0xFEUL << 56)
-> +	  *         INVALID
-> +	  * 0x07EFFBFFFFFFFFFF - kasan_mem_to_shadow(~0UL >> 1)
-> +	  *         VALID   - non-canonical user virtual addresses
-> +	  *         VALID   - user addresses
-> +	  * 0x07CFFC0000000000 - kasan_mem_to_shadow(0x7EUL << 56)
-> +	  *         INVALID
-> +	  * 0x0000000000000000
-> +	  */
-> +	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) && IS_ENABLED(CONFIG_X86_64)) {
+> +#define KASAN_RAX_RECOVER	0x20
+> +#define KASAN_RAX_WRITE	0x10
+> +#define KASAN_RAX_SIZE_MASK	0x0f
+> +#define KASAN_RAX_SIZE(rax)	(1 << ((rax) & KASAN_RAX_SIZE_MASK))
 
-One overall comment on this series: there's a lot of unnecessary
-complexity. Case in point:
+This ABI _looks_ like it was conjured out out of thin air. I assume it's
+coming from the compiler. Any pointers to that ABI definition in or out
+of the kernel would be appreciated.
 
-	config ADDRESS_MASKING
-	        depends on X86_64
+> +static bool kasan_handler(struct pt_regs *regs)
+> +{
+> +	int metadata = regs->ax;
+> +	u64 addr = regs->di;
+> +	u64 pc = regs->ip;
+> +	bool recover = metadata & KASAN_RAX_RECOVER;
+> +	bool write = metadata & KASAN_RAX_WRITE;
+> +	size_t size = KASAN_RAX_SIZE(metadata);
 
-and
+"metadata" is exactly the same length as "regs->ax", so it seems a
+little silly. Also, please use vertical alignment as a tool to make code
+more readable. Isn't this much more readable?
 
-	select HAVE_ARCH_KASAN_SW_TAGS		if ADDRESS_MASKING
+	bool recover = regs->ax & KASAN_RAX_RECOVER;
+	bool write   = regs->ax & KASAN_RAX_WRITE;
+	size_t size  = KASAN_RAX_SIZE(regs->ax);
+	u64 addr     = regs->di;
+	u64 pc       = regs->ip;
 
-and
+> +	if (!IS_ENABLED(CONFIG_KASAN_INLINE))
+> +		return false;
+> +
+> +	if (user_mode(regs))
+> +		return false;
+> +
+> +	kasan_report((void *)addr, size, write, pc);
+> +
+> +	/*
+> +	 * The instrumentation allows to control whether we can proceed after
+> +	 * a crash was detected. This is done by passing the -recover flag to
+> +	 * the compiler. Disabling recovery allows to generate more compact
+> +	 * code.
+> +	 *
+> +	 * Unfortunately disabling recovery doesn't work for the kernel right
+> +	 * now. KASAN reporting is disabled in some contexts (for example when
+> +	 * the allocator accesses slab object metadata; this is controlled by
+> +	 * current->kasan_depth). All these accesses are detected by the tool,
+> +	 * even though the reports for them are not printed.
+> +	 *
+> +	 * This is something that might be fixed at some point in the future.
+> +	 */
 
-	config KASAN_SW_TAGS
-        	depends on HAVE_ARCH_KASAN_SW_TAGS ...
+Can we please find a way to do this that doesn't copy and paste a rather
+verbose comment?
 
+What if we passed 'recover' into kasan_report() and had it do the die()?
 
-So you can't have CONFIG_KASAN_SW_TAGS set without CONFIG_X86_64.
+> +	if (!recover)
+> +		die("Oops - KASAN", regs, 0);
+> +	return true;
+> +}
+> +
+> +#endif
+> +
+>  static bool do_int3(struct pt_regs *regs)
+>  {
+>  	int res;
+> @@ -863,6 +909,12 @@ static bool do_int3(struct pt_regs *regs)
+>  	if (kprobe_int3_handler(regs))
+>  		return true;
+>  #endif
+> +
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +	if (kasan_handler(regs))
+> +		return true;
+> +#endif
+I won't get _too_ grumbly about ti since there's another culprit right
+above, but the "no #fidefs in .c files" rule still applies. The right
+way to do this is with a stub kasan_handler() in a header with the
+#ifdef in the header.
 
-> +		if ((addr < (u64)kasan_mem_to_shadow((void *)(0x7E UL << 56)) ||
-> +		     addr > (u64)kasan_mem_to_shadow((void *)(~0UL >> 1))) &&
-> +		    (addr < (u64)kasan_mem_to_shadow((void *)(0xFE UL << 56)) ||
-> +		     addr > (u64)kasan_mem_to_shadow((void *)(~0UL))))
-> +			return;
-> +	}
-This isn't looking great.
-
-I'd much rather have those kasan_mem_to_shadow() arguments be built up
-programmatically.
-
-I'm also not following the description of where these ranges come from:
-
-	[0x7E00000000000000, 0x7FFFFFFFFFFFFFFF]
-	[0xFE00000000000000, 0xFFFFFFFFFFFFFFFF]
-
-I obviously recognize the top kernel and top userspace addresses, but
-there do 0x7E... and 0xFE... come from? Is that because both of them
-only have 56 actual bits of address space?
-
-Wouldn't we be better off writing that as, say:
-
-#define HIGHEST_KER_ADDR (void *)0xFFFFFFFFFFFFFFFF
-// ^ we probably have some macro for that already
-#define LOWEST_KERN_ADDR (void *)(HIGHEST_KERNEL_ADDRESS - \
-					(1<<56) + 1)
-// ^ or can this be calculated by tag manipulation?
-
-which yields:
-
-   void *_addr = (u64)addr;
-   ...
-
-   in_kern_shadow = (_addr >= kasan_mem_to_shadow(LOWEST_KERN_ADDR) ||
-		    (_addr <= kasan_mem_to_shadow(HIGHEST_KERN_ADDR);
-   in_user_shadow = (_addr >= kasan_mem_to_shadow(LOWEST_USER_ADDR) ||
-		    (_addr <= kasan_mem_to_shadow(HIGHEST_USER_ADDR);
-
-   if (!in_kern_shadow &&
-       !in_user_shadow)
-	return;
-
-I _think_ that's the same logic you have. Isn't it slightly more readable?
+Actually, ditto on the kasan_handler() #ifdef. I suspect it can go away
+too and be replaced with a IS_ENABLED(CONFIG_KASAN_SW_TAGS) check.
 
