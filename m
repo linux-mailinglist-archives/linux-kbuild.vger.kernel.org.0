@@ -1,65 +1,65 @@
-Return-Path: <linux-kbuild+bounces-6438-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6439-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C839DA7C2F8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 19:56:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A503FA7C312
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 20:08:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9DB067A7674
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 17:55:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63BE73B9083
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Apr 2025 18:08:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B59F921A45D;
-	Fri,  4 Apr 2025 17:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4798B212FA7;
+	Fri,  4 Apr 2025 18:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cS5RBcX8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3NhHwOL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E9521B9D4;
-	Fri,  4 Apr 2025 17:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2C12144DC;
+	Fri,  4 Apr 2025 18:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743789317; cv=none; b=SUXFwKfOj5AAwShGlTAkfcSYy0G6w8oqmRjOnZG0nBbNRjJMM0KEGUUdZLnlLLO+Am4LeFIJyKuRvWbA2IO6xPm4fthO0qq1VlJNat17qDyh9srpWXoCSaUMk7tOLvkGaiIro+4AaT9ftgNgqz0tdP5wDToCea9+z+48+ImYKHM=
+	t=1743790101; cv=none; b=F3NYZgidhLAbjWobaE79Z/ulN2+UC/V2mjBf9YPlSFsedBQ2vQhoKqIP0qG9cgtzBkjIP0GfTiGSoCvNQqihfoXiMWPBjNc/sKhSCIbxJWKzsK3Ue9bqOPbSp9CqGOBbOsNZ5xIXeByXvskd0NPe4tO6t+fKJgpQrpEf1xZ9GTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743789317; c=relaxed/simple;
-	bh=pIENLeWzTVJaaXaUldVebDEO8Uq2auKXJ/zTuKpRGc0=;
+	s=arc-20240116; t=1743790101; c=relaxed/simple;
+	bh=6cHkeL6FETpmpby8P+Sxg8uzoqLOjkiDsJMX9VjwYsE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c2VU/7AZR0zctPcXM65kesR369bik6ffmobTmvJ3ImFTrCE76yMFjtA/SP6hyIHRZKyV+EJfqCXhtpt5PBFv3KnCyUU4xzKTCz8bplh6Bkc6XxBfoT2DxHQsLL842LK61x5AnQp5BZKqc24ime2BvosDvqawSKjaFiwG/aWPRKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cS5RBcX8; arc=none smtp.client-ip=198.175.65.18
+	 In-Reply-To:Content-Type; b=s6NC7d8JGyuBPTkDvpw985wHqt8eFlFg40fOKXiJ6RgRI6HvJaQGfCw0EbUaYefJBEp90+3KFFl+Hhx5i4kSOIEr8MGSwDUI+8KywJoJKxaIKelur8JBN0nhCPl1vgQPwgx+27/F5TH60Px5hvU3v3y9s1pZqjnRoZFvxP40o2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3NhHwOL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743789315; x=1775325315;
+  t=1743790099; x=1775326099;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=pIENLeWzTVJaaXaUldVebDEO8Uq2auKXJ/zTuKpRGc0=;
-  b=cS5RBcX8WVQOf/JI3BbiZgxYeiEAgULmmu2NSzvq4yZ312VY93PDul9S
-   GWAo6FN2Tz1iF84duz1eS7C2kLL0Ne4wAb/4w5iUyNN7iFnCR3GewTOpC
-   JUrv0DGH4ffj2RY62mk+lQa4mQrf+PMQidr3FiuS947599PDdP8AfbHOD
-   FzID3hJpPW5/Ok3nwqXADYU9PKj39eRD8b1wwp/x+dLipq3abhOHt5fh0
-   mhxdLY2tnXPMpCwUEXUBk/wge3nOyTz5mXi74R9d7qUEPag5XWdClGDHh
-   E4Njzr3W9CgNayo3fI1FC2STBQ6k8SjHqzneYrAJ8WQmPN45O3T/Z2kU9
-   w==;
-X-CSE-ConnectionGUID: mFr2Ue2BTP2EZsE/gSOwjA==
-X-CSE-MsgGUID: lyQ3Vt/uQrOCJkcJTIGOsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="45379454"
+  bh=6cHkeL6FETpmpby8P+Sxg8uzoqLOjkiDsJMX9VjwYsE=;
+  b=W3NhHwOLfXYkB/+Ppt1xWwrHkc79DerF4jXJp6r/eWSGlDTvmtgSWTKY
+   LI3Iazw9E76EZqRW0+CRrG3Ja4CsJjz55lOOSc9SbeHG9zMeiwe0mDSlB
+   BmBLdTNBVzabgjdHI3vw2dawwZHSpnqdNHqn79uodBMTvu/lAkNAFca9D
+   rCBuVjNV1a/yrLBhODyBr6GIKmq/03LKm+f8H88AJB8KWUKHPmy6J7g+c
+   eOnIuMr/tilYIhbSUlOyVn7aeOXK6Wf8EOiB6YYDAv1QeWoPOSE9RfrqO
+   Voz5KybKfmkbK9RC5kl9pyCCwyGl/vyZoQjqGbLmwl09p4XgXHxl8IoSF
+   g==;
+X-CSE-ConnectionGUID: pC6FJsy6Tca89XZ/o20xDw==
+X-CSE-MsgGUID: Ubw7taCmRX2W1VVbgKOxFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="55871731"
 X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="45379454"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:55:14 -0700
-X-CSE-ConnectionGUID: XcFkPhxZTJWIrLqhXG8wPg==
-X-CSE-MsgGUID: DQH8Q7APT5qgIEL6nrV9GQ==
+   d="scan'208";a="55871731"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 11:08:18 -0700
+X-CSE-ConnectionGUID: 2p8hjetBSImgAuDysM4x7Q==
+X-CSE-MsgGUID: RysEYU0yQnqd7KpAb9OCrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,189,1739865600"; 
-   d="scan'208";a="131512363"
+   d="scan'208";a="158354509"
 Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.124.223.29]) ([10.124.223.29])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 10:55:10 -0700
-Message-ID: <c797714b-4180-4439-8a02-3cfacd42dafe@intel.com>
-Date: Fri, 4 Apr 2025 10:55:09 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 11:08:14 -0700
+Message-ID: <fb0d5f33-4636-4de0-82f4-93a9def63a26@intel.com>
+Date: Fri, 4 Apr 2025 11:08:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/14] x86: Handle int3 for inline KASAN reports
+Subject: Re: [PATCH v3 13/14] mm: Unpoison pcpu chunks with base address tag
 To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, hpa@zytor.com,
  hch@infradead.org, nick.desaulniers+lkml@gmail.com,
  kuan-ying.lee@canonical.com, masahiroy@kernel.org,
@@ -94,7 +94,7 @@ Cc: llvm@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
  linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
 References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
+ <61033ef5b70277039ceeb8f6173e8b3fbc271c08.1743772053.git.maciej.wieczor-retman@intel.com>
 From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
 Autocrypt: addr=dave.hansen@intel.com; keydata=
@@ -140,131 +140,119 @@ Autocrypt: addr=dave.hansen@intel.com; keydata=
  MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
  hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
  vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
+In-Reply-To: <61033ef5b70277039ceeb8f6173e8b3fbc271c08.1743772053.git.maciej.wieczor-retman@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
-> When a tag mismatch happens in inline software tag-based KASAN on x86 an
-> int3 instruction is executed and needs proper handling.
-
-Does this mean "inline software"? Or "inline" functions? I'm not quite
-parsing that. I think it needs some more background.
-
-> Call kasan_report() from the int3 handler and pass down the proper
-> information from registers - RDI should contain the problematic address
-> and RAX other metadata.
+> The problem presented here is related to NUMA systems and tag-based
+> KASAN mode. Getting to it can be explained in the following points:
 > 
-> Also early return from the int3 selftest if inline KASAN is enabled
-> since it will cause a kernel panic otherwise.
-...
-> diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
-> index bf82c6f7d690..ba277a25b57f 100644
-> --- a/arch/x86/kernel/alternative.c
-> +++ b/arch/x86/kernel/alternative.c
-> @@ -1979,6 +1979,9 @@ static noinline void __init int3_selftest(void)
->  	};
->  	unsigned int val = 0;
->  
-> +	if (IS_ENABLED(CONFIG_KASAN_INLINE))
-> +		return;
+> 	1. A new chunk is created with pcpu_create_chunk() and
+> 	   vm_structs are allocated. On systems with one NUMA node only
+> 	   one is allocated, but with more NUMA nodes at least a second
+> 	   one will be allocated too.
+> 
+> 	2. chunk->base_addr is assigned the modified value of
+> 	   vms[0]->addr and thus inherits the tag of this allocated
+> 	   structure.
+> 
+> 	3. In pcpu_alloc() for each possible cpu pcpu_chunk_addr() is
+> 	   executed which calculates per cpu pointers that correspond to
+> 	   the vms structure addresses. The calculations are based on
+> 	   adding an offset from a table to chunk->base_addr.
+> 
+> Here the problem presents itself since for addresses based on vms[1] and
+> up, the tag will be different than the ones based on vms[0] (base_addr).
+> The tag mismatch happens and an error is reported.
+> 
+> Unpoison all the vms[]->addr with the same tag to resolve the mismatch.
 
-Comments, please. This is a total non sequitur otherwise.
+I think there's a bit too much superfluous information in there. For
+instance, it's not important to talk about how or why there can be more
+than one chunk, just say there _can_ be more than one.
 
->  	BUG_ON(register_die_notifier(&int3_exception_nb));
->  
->  	/*
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 9f88b8a78e50..32c81fc2d439 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-...
-> @@ -849,6 +850,51 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->  	cond_local_irq_disable(regs);
+	1. There can be more than one chunk
+	2. The chunks are virtually contiguous
+	3. Since they are virtually contiguous, the chunks are all
+	   addressed from a single base address
+	4. The base address has a tag
+	5. The base address points at the first chunk and thus inherits
+	   the tag of the first chunk
+	6. The subsequent chunks will be accessed with the tag from the
+	   first chunk
+	7. Thus, the subsequent chunks need to have their tag set to
+	   match that of the first chunk.
+
+Right?
+
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 54481f8c30c5..bd033b2ba383 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -613,6 +613,13 @@ static __always_inline void kasan_poison_vmalloc(const void *start,
+>  		__kasan_poison_vmalloc(start, size);
 >  }
 >  
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +
-> +#define KASAN_RAX_RECOVER	0x20
-> +#define KASAN_RAX_WRITE	0x10
-> +#define KASAN_RAX_SIZE_MASK	0x0f
-> +#define KASAN_RAX_SIZE(rax)	(1 << ((rax) & KASAN_RAX_SIZE_MASK))
-
-This ABI _looks_ like it was conjured out out of thin air. I assume it's
-coming from the compiler. Any pointers to that ABI definition in or out
-of the kernel would be appreciated.
-
-> +static bool kasan_handler(struct pt_regs *regs)
+> +void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms);
+> +static __always_inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
 > +{
-> +	int metadata = regs->ax;
-> +	u64 addr = regs->di;
-> +	u64 pc = regs->ip;
-> +	bool recover = metadata & KASAN_RAX_RECOVER;
-> +	bool write = metadata & KASAN_RAX_WRITE;
-> +	size_t size = KASAN_RAX_SIZE(metadata);
-
-"metadata" is exactly the same length as "regs->ax", so it seems a
-little silly. Also, please use vertical alignment as a tool to make code
-more readable. Isn't this much more readable?
-
-	bool recover = regs->ax & KASAN_RAX_RECOVER;
-	bool write   = regs->ax & KASAN_RAX_WRITE;
-	size_t size  = KASAN_RAX_SIZE(regs->ax);
-	u64 addr     = regs->di;
-	u64 pc       = regs->ip;
-
-> +	if (!IS_ENABLED(CONFIG_KASAN_INLINE))
-> +		return false;
-> +
-> +	if (user_mode(regs))
-> +		return false;
-> +
-> +	kasan_report((void *)addr, size, write, pc);
-> +
-> +	/*
-> +	 * The instrumentation allows to control whether we can proceed after
-> +	 * a crash was detected. This is done by passing the -recover flag to
-> +	 * the compiler. Disabling recovery allows to generate more compact
-> +	 * code.
-> +	 *
-> +	 * Unfortunately disabling recovery doesn't work for the kernel right
-> +	 * now. KASAN reporting is disabled in some contexts (for example when
-> +	 * the allocator accesses slab object metadata; this is controlled by
-> +	 * current->kasan_depth). All these accesses are detected by the tool,
-> +	 * even though the reports for them are not printed.
-> +	 *
-> +	 * This is something that might be fixed at some point in the future.
-> +	 */
-
-Can we please find a way to do this that doesn't copy and paste a rather
-verbose comment?
-
-What if we passed 'recover' into kasan_report() and had it do the die()?
-
-> +	if (!recover)
-> +		die("Oops - KASAN", regs, 0);
-> +	return true;
+> +	if (kasan_enabled())
+> +		__kasan_unpoison_vmap_areas(vms, nr_vms);
 > +}
 > +
-> +#endif
+>  #else /* CONFIG_KASAN_VMALLOC */
+>  
+>  static inline void kasan_populate_early_vm_area_shadow(void *start,
+> @@ -637,6 +644,9 @@ static inline void *kasan_unpoison_vmalloc(const void *start,
+>  static inline void kasan_poison_vmalloc(const void *start, unsigned long size)
+>  { }
+>  
+> +static inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+> +{ }
 > +
->  static bool do_int3(struct pt_regs *regs)
->  {
->  	int res;
-> @@ -863,6 +909,12 @@ static bool do_int3(struct pt_regs *regs)
->  	if (kprobe_int3_handler(regs))
->  		return true;
->  #endif
+>  #endif /* CONFIG_KASAN_VMALLOC */
+>  
+>  #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
+> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+> index 88d1c9dcb507..9496f256bc0f 100644
+> --- a/mm/kasan/shadow.c
+> +++ b/mm/kasan/shadow.c
+> @@ -582,6 +582,17 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
+>  	kasan_poison(start, size, KASAN_VMALLOC_INVALID, false);
+>  }
+>  
+> +void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+> +{
+> +	int area;
 > +
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +	if (kasan_handler(regs))
-> +		return true;
-> +#endif
-I won't get _too_ grumbly about ti since there's another culprit right
-above, but the "no #fidefs in .c files" rule still applies. The right
-way to do this is with a stub kasan_handler() in a header with the
-#ifdef in the header.
+> +	for (area = 0 ; area < nr_vms ; area++) {
+> +		kasan_poison(vms[area]->addr, vms[area]->size,
+> +			     arch_kasan_get_tag(vms[0]->addr), false);
+> +		arch_kasan_set_tag(vms[area]->addr, arch_kasan_get_tag(vms[0]->addr));
+> +	}
+> +}
 
-Actually, ditto on the kasan_handler() #ifdef. I suspect it can go away
-too and be replaced with a IS_ENABLED(CONFIG_KASAN_SW_TAGS) check.
+-ENOCOMMENTS
+
+>  #else /* CONFIG_KASAN_VMALLOC */
+>  
+>  int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 61981ee1c9d2..fbd56bf8aeb2 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -4783,8 +4783,7 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+>  	 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
+>  	 */
+>  	for (area = 0; area < nr_vms; area++)
+> -		vms[area]->addr = kasan_unpoison_vmalloc(vms[area]->addr,
+> -				vms[area]->size, KASAN_VMALLOC_PROT_NORMAL);
+> +		kasan_unpoison_vmap_areas(vms, nr_vms);
+>  
+>  	kfree(vas);
+>  	return vms;
+
+So, the right way to do this is refactor, first, then add your changes
+after. This really wants to be two patches.
 
