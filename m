@@ -1,156 +1,180 @@
-Return-Path: <linux-kbuild+bounces-6480-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6481-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCF3A7D69D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 09:47:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA9DA7D77D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 10:18:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 116A91722D5
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 07:45:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 98FDA7A3794
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 08:17:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B7C222B8C1;
-	Mon,  7 Apr 2025 07:43:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B6C6226D03;
+	Mon,  7 Apr 2025 08:15:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RVJtXjbw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="muD2AkzR"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="YYwi1oc0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DA1229B37;
-	Mon,  7 Apr 2025 07:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F2D211A0B
+	for <linux-kbuild@vger.kernel.org>; Mon,  7 Apr 2025 08:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744011789; cv=none; b=pgcVRkCdtvk0AwsApj61ouK6jEXYKf4RmvaYj+QkKY98pXDxox/+v4JuqIYNRpu9ImCP19XNRWUoBBMChKR2qTJ33GHMik6ED5dz0YzQM1Ftcsh3zDVjD85L4FDlLODmM6wo360tBbbiiamVAoQWLb24TLTzq4hCIYxB8R2EOuY=
+	t=1744013726; cv=none; b=Qx0HxqvxvmgFwVn/oxfsKco6ystWS4l4kyi0TL0ymqz2SD176bOnm4AjTvycjNTKlvJHx3aiJdV71F9nO204we77hSF3+TBDRLNgBjRsB8FTC/nG3H847tUpREnd5PlzyZ84xwIKcaftomnaKzvLhc1AK5uKGsOscJzMIfnsz9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744011789; c=relaxed/simple;
-	bh=Xu0nGb1RBd1CDhyD0m7yCE3cioNquNLySTJFGTDwjao=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E0KQmyMLG3BH8eX5t3Dxdb1/rxXhY7YQPor2oambFViVBGmNJnfjq5CqpDqSTpYRd8eh3t5BuUoHEDL21k9SWdRr8tGV6oWTjUrGhdeoeVxBj9pAq+lk0vmLPxHp1T9Jr5glJWwe3qPw+hnDNJ17NUrGppJN0SqFd6sHex0Xz6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RVJtXjbw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=muD2AkzR; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1744011783;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fh2unyChEPBf9y7CX/RyBwfskSXNSGnqSQiwlf+aj58=;
-	b=RVJtXjbwy7sozind3uDpXZ4nMXH19nxGBDnFxlf2qZ5bawYGkIAmc4G9hM1Kx5gz+nfp2f
-	TCG49yZb6ECoLcr1tSqaQCo4BpH2MclAOXlhJIR7e9tSO7vW7IgUakh03Pyuoo4QSAx/Lk
-	8xoLgvWl3DMabRfNqL30TiMHGHh3lNIpRQpzUnq4vMl4SBlXtzvERa27DvH5w8ssfiA6ig
-	CRgwoIOy/eGz1Bnkn4AXa3FL5khH2Tjt9ZoUQiAhob1tLxmHwcFexiUcDZn5E60XwMvgEQ
-	whS99NQavWc3JwywfirrRZeOh4SaxZNpCmPnAvQFpe+KgLZOjvgr0P/3+AHyzQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1744011783;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fh2unyChEPBf9y7CX/RyBwfskSXNSGnqSQiwlf+aj58=;
-	b=muD2AkzRJwItNBC+oQNRwwODIMyO4dMt1xuUZ2OqMSAKU8Tcbyy76kUgbVQsCHKjsxgKCT
-	sgP9XK6XYWiyybCg==
-Date: Mon, 07 Apr 2025 09:42:48 +0200
-Subject: [PATCH v2 11/11] kunit: uapi: Validate usability of /proc
+	s=arc-20240116; t=1744013726; c=relaxed/simple;
+	bh=7eKwR+8NelLDqbmRwgY2SrOwJJmgSMiDGnzt6L51nLU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I5pvv2SFFCHZ3yr2YxOR9N+ItCBfHLSoT/1kp7i7gsbF8pTWXRUGKaw+oUUCTx9gNbVBGyBJr/X0HWVsDatNZSiuMDiyJx7g0yrNyzRSXJSrUczByG6NoXVYQl0hqSrghjDFnCEIGaSmr+5E/pOEXoJU0wLYVNFg+IDT9zoX+gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=YYwi1oc0; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e8be1bdb7bso6648374a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 07 Apr 2025 01:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1744013722; x=1744618522; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rxhNXhmOXrXU9cn3uuap3d3f1w/9DGD5pG/vOAg+GCU=;
+        b=YYwi1oc0edop/Av6fSOshDK2XvLhHx/X1pdYQfkv3n0Mtd7JUFaxmTBkwfnIgtUINR
+         EayPdUV46tfcXzwNS32vprlnmr25IvKLSDb5eEpaINdTlE3nmrv5kw0pfIIpASzfX7vU
+         AtP0bwpTELTB0xfR6oG4yLF+v4Cl318a5797Zb78XX4UkcqpBo+bnu+L4lMMBeP9VqOf
+         n6eT1JnePywHVn25oQij55/2jVwORFV62hV+NjxQz+ZM0ggcICSQZWMPEX0bOWLA0N3D
+         +i9QeX9bncGroT5P+aGd2bhnWGpw5VN2oi1LsaNITE0PQV1pc8MTGBtLJSA9ULPuqUDD
+         ID+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744013722; x=1744618522;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rxhNXhmOXrXU9cn3uuap3d3f1w/9DGD5pG/vOAg+GCU=;
+        b=mh0B2yijHaGMFcetP9dSVT9IBkh4cwWAQmP/5N7zgo2xoIArryo0jSbztOJ35eZnNi
+         aPxRkLgF3skhUIIPF3WOZBwYC5YCb4pT20uQyzUXNp8tmlQl+3/R1ubY5/uT2bSg5dwK
+         Qtjd/GOTs0z3pauyGtV90upVej5MMlFwKzNCulg/2puZ0gXz70b9Rnmtu/kZR27W/eOE
+         ke6ur+NY9iPM3m+3wNx0oMPcpMUgt8kLRpgjGj0w245THp/SKivNSVXEM7m3r3IH3UCZ
+         uwMer/hdT2r+7O9kU7xg/KDHF7eTfCMl34MgBSdn57dCvGtXs56ZFdnGmQWa+O2+5MH1
+         vWFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUVbCZ5ef0oX23vQD38XBMF2pv7G0KMYPROg6e14JsuMSi/3TzqBATJwn5G9/1GtunC4lg2hiBQ1y41FjE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIrJDZNSvMuLeekq7NEVcrOg2UGx68+O6G2Eo2zkZxY5+j2kBE
+	hvjJ3LHMyATTLqjBsrhJj/6sfGPHZYy5dUPrluxL03yn6Ve9pVvjxD37ewDMgkG2Iv8djUPwk9O
+	BcY9c7pyU+MTgp3gs0UNp2UellZzgtE01CZSiAA==
+X-Gm-Gg: ASbGnctJmamlrTbUBBWkOgH+2JPgoitTyU/YPuZXGXFV7mfUFMqK47JyD5dGqt3vpvP
+	o8loIL5xTUR6/grfUwtp1htadj5J3vUyYOgNsUD+n3ML5xV5Uvd+s4MgSbPS+S+5d3D6Hc0eueJ
+	kWnNOj6OmXd3ezrUFklkUodszOdjCRpNqASYpDbMd5193FynEmDx/+EMFe
+X-Google-Smtp-Source: AGHT+IGgzEsWY+FDt77Og8y5aNWXUnnOo8nRCNX9z9AS6T2kxW12Ew+hSRh5KhztpZghUinGFQgeBKUpUrZ7kM/dDF0=
+X-Received: by 2002:a05:6402:3489:b0:5de:c9d0:6742 with SMTP id
+ 4fb4d7f45d1cf-5f0db80a5ebmr5551794a12.9.1744013722372; Mon, 07 Apr 2025
+ 01:15:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250407-kunit-kselftests-v2-11-454114e287fd@linutronix.de>
-References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
-In-Reply-To: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744011776; l=1637;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=Xu0nGb1RBd1CDhyD0m7yCE3cioNquNLySTJFGTDwjao=;
- b=9+Ci04x9JPHWfBiiC85eaitNDlilTzJtZJ7o0CBVN3RWJtjvGW+OUEyH06U2XAd4V8XpX5u8Q
- G1PdRLPg325C8zFfrPvccqNtmTdS1mG4GzXWe6c2tH38ic27egE5NLB
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+References: <20250403134200.385077-1-alexghiti@rivosinc.com>
+ <CAMj1kXGzrn6i20LvUBnz_mGi946=GCogNHHUL=mNsv513qYv7A@mail.gmail.com>
+ <2874fc20-9135-4b13-b825-43fb350ce552@ghiti.fr> <CAK7LNAT5sDhh1v3U2xUuVnrbhNXp3SJ_ngxSqAgwmZL0E2QGpA@mail.gmail.com>
+In-Reply-To: <CAK7LNAT5sDhh1v3U2xUuVnrbhNXp3SJ_ngxSqAgwmZL0E2QGpA@mail.gmail.com>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Mon, 7 Apr 2025 10:15:11 +0200
+X-Gm-Features: ATxdqUF5a3kGXRp3r7uxE0Bhe9AOdQ046v-EZyv9hJ2EImaWyVHa56ABPSTHfBg
+Message-ID: <CAHVXubgZ+Dwx70vU03R9MZ7BjkzbdR21y-Ort6pBngFmFYs-uw@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts: Do not strip .rela.dyn section
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Ard Biesheuvel <ardb@kernel.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Charlie Jenkins <charlie@rivosinc.com>, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Show that the selftests are executed from a fairly "normal"
-userspace context.
+Hi Masahiro,
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- lib/kunit/kunit-example-uapi.c | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+On Fri, Apr 4, 2025 at 5:25=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+>
+> On Fri, Apr 4, 2025 at 12:45=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr> w=
+rote:
+> >
+> > Hi Ard,
+> >
+> > On 03/04/2025 17:11, Ard Biesheuvel wrote:
+> > > On Thu, 3 Apr 2025 at 16:42, Alexandre Ghiti <alexghiti@rivosinc.com>=
+ wrote:
+> > >> riscv uses the .rela.dyn section to relocate the kernel at runtime b=
+ut
+> > >> that section is stripped from vmlinux. That prevents kexec to
+> > >> successfully load vmlinux since it does not contain the relocations =
+info
+> > >> needed.
+> > >>
+> > > Maybe explain that .rela.dyn contains runtime relocations, which are
+> > > only emitted if they are actually needed - as opposed to the static
+> > > relocations that are not emitted as SHF_ALLOC sections, and are not
+> > > considered to be part of the runtime image in the first place.
+> >
+> >
+> > Ok I'll do.
+> >
+> >
+> > > It
+> > > would be nice if we could use --remove-relocations=3D here, which onl=
+y
+> > > removes static relocations, but unfortunately, llvm-objcopy does not
+> > > support this.
+> > >
+> > > Also, I wonder if this should apply to all of .rel.dyn, .rela.dyn and
+> > > .relr.dyn, as they all carry runtime relocations.
+> >
+> >
+> > Ok, I'll add them to the next version.
+> >
+> >
+> > >
+> > > Finally, I'd be curious to know why RISC-V relies on --emit-relocs in
+> > > the first place? Is the relocs check really needed? If not, it would
+> > > be a nice opportunity to get rid of Makefile.postlink entirely.
+> >
+> >
+> > So I had to check and it happens that this was an issue with the
+> > toolchain, I should check if that still happens with newer ones.
+> >
+> > commit 559d1e45a16dcf1542e430ea3dce9ab625be98d0
+> > Author: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > Date:   Wed Mar 29 06:53:29 2023 +0200
+> >
+> >      riscv: Use --emit-relocs in order to move .rela.dyn in init
+>
+>
+>
+>
+> So,
+>
+> Fixes: 559d1e45a16d ("riscv: Use --emit-relocs in order to move
+> .rela.dyn in init")
+>
+> Is this the correct tag?
 
-diff --git a/lib/kunit/kunit-example-uapi.c b/lib/kunit/kunit-example-uapi.c
-index 4ce657050dd4a576632a41ca0309c4cb5134ce14..d121c4620716aadddc38a1d5845e4b51e721fb67 100644
---- a/lib/kunit/kunit-example-uapi.c
-+++ b/lib/kunit/kunit-example-uapi.c
-@@ -8,13 +8,47 @@
-  * This is *userspace* code.
-  */
- 
-+#ifndef NOLIBC
-+#include <fcntl.h>
-+#endif
-+#include <unistd.h>
-+#include <string.h>
-+
- #include "../../tools/testing/selftests/kselftest.h"
- 
-+static void test_procfs(void)
-+{
-+	char buf[256];
-+	ssize_t r;
-+	int fd;
-+
-+	fd = open("/proc/self/comm", O_RDONLY);
-+	if (fd == -1) {
-+		ksft_test_result_fail("procfs: open() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	r = read(fd, buf, sizeof(buf));
-+	close(fd);
-+
-+	if (r == -1) {
-+		ksft_test_result_fail("procfs: read() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	if (r != 16 || strncmp("kunit-example-u\n", buf, 16) != 0) {
-+		ksft_test_result_fail("procfs: incorrect comm\n");
-+		return;
-+	}
-+
-+	ksft_test_result_pass("procfs\n");
-+}
-+
- int main(void)
- {
- 	ksft_print_header();
- 	ksft_set_plan(4);
--	ksft_test_result_pass("userspace test 1\n");
-+	test_procfs();
- 	ksft_test_result_pass("userspace test 2\n");
- 	ksft_test_result_skip("userspace test 3: some reason\n");
- 	ksft_test_result_pass("userspace test 4\n");
+This is the initial culprit yes, but if we use this tag, the fix won't
+apply. So I decided to pick Ard's patch so that this fix can be easily
+backported to 6.14, and I'll come up with a new version for previous
+releases. Is that ok with you?
 
--- 
-2.49.0
+Thanks,
 
+Alex
+
+>
+>
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
