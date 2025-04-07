@@ -1,189 +1,220 @@
-Return-Path: <linux-kbuild+bounces-6467-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6468-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C55A7D24D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 05:06:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5FDA7D585
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 09:22:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B30D716A00E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 03:06:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE3BA3BD5A6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Apr 2025 07:19:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1768D212FA5;
-	Mon,  7 Apr 2025 03:06:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2CF2226CFF;
+	Mon,  7 Apr 2025 07:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uIBlcF9O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lW6RmWZ+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D912F212F8A;
-	Mon,  7 Apr 2025 03:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63EA226CFE;
+	Mon,  7 Apr 2025 07:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743995184; cv=none; b=rD6EmVgzPBchO2+JRLtsAg9H6fOVE2KBbQwlO/+HLXJyuDTv23dMCfKZtENvcdhcB2O7QVGi0znNxGV16ThYcy9s7HysljKBqUa0eOYllHU6btSVp8UJsVw/xfFOURh7f0NL7PPsl9U83+04rJdayEQxV0bJS7KTrwgSZmQvYrg=
+	t=1744010269; cv=none; b=EF8teyFr5ZXxH1YsZIyJMT3SjDOk2CZuYNk2RsVZVmYqflBA8ybysoGMdKbPfNqBdgW5ov2jGb0j+zUUo8Tdo+SfjjIKlJ70mwcXQAEYDeo3ug0/NiKtngldRxOpjHw3+i6QMKFBiKGd0w9LQJFfLzSnyUYc9B9e8Pq2tZytXUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743995184; c=relaxed/simple;
-	bh=/wb7EDPZuLlPLl9Q+LhNHF1Q9Bp6fgQ8+43O6aKa+Ag=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zt6XEOfjepBCKll/AaZyzWrEHamo/GxjNhOX3AsXbKmSQIdQJN0fFsgTxH98q2JKYpyEWmNYHoP7cHE6y4X5J+LwyVmYsS0DCoLp5WyZ4E+d2/ZrrACHybSNQHrcALwLy8w1VZYK6X9H1ygGF95ASs8x2qIeCXUQaBJZOimjiAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uIBlcF9O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB61BC4CEE3;
-	Mon,  7 Apr 2025 03:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743995183;
-	bh=/wb7EDPZuLlPLl9Q+LhNHF1Q9Bp6fgQ8+43O6aKa+Ag=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uIBlcF9OHqkecTKw7PX4U2PZa2gaQr/6pdSNQsDO8HiIM3oC3W+R6ofuDjT4XvP3e
-	 KG9Y2BPUmD0AMdQNdR4b7exWNW4c1t/5zZHAe4RV7d7PRHKA52iN0dz2MomJSyc4ib
-	 kih0xao8dW4cEWpqKvTywVjUq4nueAx8pTJsabrcPTZ1ESTBe1Z22SpWjfF8w1nDrh
-	 hQ3pBffWFADBHw9471ifGjPSNfgu6yL8FsJJaIRsKHs42JUlT1ZH0tJ1jgzocD9xuu
-	 JHl5FdzLocnEK6JXCQ2YWmElEOp7jk58p26LN143dS52ePkhdsjlnMlKbll9vg7NSH
-	 YXW5qO4IbmI4A==
-Date: Mon, 7 Apr 2025 11:06:13 +0800
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@collabora.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas.schier@linux.dev>, kernel@collabora.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH RFC 0/2] Add Kconfig pages and cross-references to
- Documentation
-Message-ID: <20250407110347.087497be@sal.lan>
-In-Reply-To: <6b019d76-1a8f-4e8d-8b9b-05094a014689@notapiano>
-References: <20250404-kconfig-docs-v1-0-4c3155d4ba44@collabora.com>
-	<8734eogfqw.fsf@trenco.lwn.net>
-	<6b019d76-1a8f-4e8d-8b9b-05094a014689@notapiano>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1744010269; c=relaxed/simple;
+	bh=XA8lnQcE0ouvfuzyiI1j3jvd3iAkaYmuoqLOg4BNbYU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Vdg8dFVC1ekcU5VM3Vd4F64Gcp1gLp/VfM1h9hzA/ZdzoLDvaFPGvKSLxHvZFkifiOhCtzpq8zBaHv3czq07fVd+vTD/dwIcvQSDVKbuRkqI9QGjMnnIT14TG6ZQ6zpWiDr7HIFoucTHth2uPjiOwtuykIb9crP2i0FfObd18No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lW6RmWZ+; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744010268; x=1775546268;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=XA8lnQcE0ouvfuzyiI1j3jvd3iAkaYmuoqLOg4BNbYU=;
+  b=lW6RmWZ+wXW3dNdCvB87z4tMWoMJ8X0d21g6nDskE2hj2sZGp6HIR6Qe
+   Y4uc5VoB7p42TNp98OJR3Ppy/9y4JkjeCiWvRxAApxFReW5rO7mrHJQgJ
+   niedBKbmrrTCLdyU20YBdwNYmuYnXPKevKeJ/L20iF28+M/TeCo6ohiqg
+   uobLxSHAB8XYBn8q9kiV5E5I/tgPeX6yVJjDHUVAhHnILamwTYTi+aNUn
+   u5ec3egIIfNC27Lwnvwk/aqPFy30OE+RRbQZwI8VXo1WV0CckzZnayG/d
+   isbanZT3m3WHjODJ45YGOI2vT/ttymYPdg+ZNewCqo+tlAvaPoQJihigj
+   Q==;
+X-CSE-ConnectionGUID: 6zKPLC9uQVajJFjiicIRiw==
+X-CSE-MsgGUID: 1LrXzt01R2C86XnMW3b63w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="48093718"
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="48093718"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 00:17:47 -0700
+X-CSE-ConnectionGUID: ba+i4eG2SK2sumghvQt8Xw==
+X-CSE-MsgGUID: Ij/6vasiTuWTBDiU4lA9XA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
+   d="scan'208";a="127846702"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.51])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 00:17:43 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/4] kbuild: resurrect generic header check facility
+In-Reply-To: <CAK7LNAS6o_66bUB6-qj6NnaTRNKvu5ycxOP+kGfizYVBNjZAyw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250402124656.629226-1-jani.nikula@intel.com>
+ <CAK7LNAS6o_66bUB6-qj6NnaTRNKvu5ycxOP+kGfizYVBNjZAyw@mail.gmail.com>
+Date: Mon, 07 Apr 2025 10:17:40 +0300
+Message-ID: <878qoczbhn.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Em Fri, 4 Apr 2025 12:24:27 -0400
-N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com> escreveu:
+On Fri, 04 Apr 2025, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Wed, Apr 2, 2025 at 9:47=E2=80=AFPM Jani Nikula <jani.nikula@intel.com=
+> wrote:
+>>
+>> Another go at hiding the turds.
+>>
+>> In v1 [1] I hid the build artifacts under .hdrtest subdirectories, one i=
+n each
+>> $(obj) directory, but the feedback from Linus [2] was to have one top le=
+vel
+>> directory for this.
+>>
+>> This is not possible without turning the whole thing back into a generic=
+ header
+>> check facility. Personally, I think this is a good thing. Just look at p=
+atches
+>> 2-4, it's great.
+>>
+>> The main reason we've been doing this in the subsystem/driver level at a=
+ll is
+>> the opposition from the kbuild maintainer. We'd very much like for Masah=
+iro to
+>> support us in our efforts, but without that support, we're limited to ha=
+cking in
+>> the subsystem/driver Makefiles.
+>>
+>> BR,
+>> Jani.
+>>
+>>
+>> [1] https://lore.kernel.org/r/20250401121830.21696-1-jani.nikula@intel.c=
+om
+>>
+>> [2] https://lore.kernel.org/r/CAHk-=3DwiP0ea7xq2P3ryYs6xGWoqTw1E4jha67Zb=
+JkaFrjqUdkQ@mail.gmail.com
+>>
+>>
+>> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>
+>
+> NACK.
+>
+> This does not solve any real issue, except making Linus happy
+> - Sure, he is happy as long as he no longer has to see the turds.
+>
+> This patch merely hides the turds by moving all the
+> header-test build artifacts under the .header-check/
+> and introducing CONFIG_HEADER_CHECK_DISABLE.
+> Yes, Linus advised us to hide all the turds because he cares
+> about the TAB-completion.
+>
+> But to me, from the Kbuild perspective, this is not a solution at all.
+> What is worse, Jani is pushing his workaround into the common
+> Kbuild Makefiles, which I maintain, and he is even make this
+> broken feature widely accessible.
+>
+> I agree with Jason.
+> His idea sounds better, although I do not have enough time
+> for investigating it further or implementing it now.
+>
+>
+> At least, this patchset is not something we should rush into.
 
-> On Fri, Apr 04, 2025 at 08:31:35AM -0600, Jonathan Corbet wrote:
-> > N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com> writes:
-> >  =20
-> > > This series adds Kconfig pages (patch 1) to the Documentation, and
-> > > automarkups CONFIG_* text as cross-references to those pages (patch 2=
-).
-> > >
-> > > There is a huge change in build time with this series, so we'd either
-> > > have to so some optimization and/or put this behind a flag in make so=
- it
-> > > is only generated when desired (for instance for the online
-> > > documentation):
-> > >
-> > >   (On an XPS 13 9300)
-> > >  =20
-> > >   Before:
-> > >  =20
-> > >   real	6m43.576s
-> > >   user	23m32.611s
-> > >   sys	1m48.220s
-> > >  =20
-> > >   After:
-> > >  =20
-> > >   real	11m56.845s
-> > >   user	47m40.528s
-> > >   sys	2m27.382s
-> > >
-> > > There are also some issues that were solved in ad-hoc ways (eg the
-> > > sphinx warnings due to repeated Kconfigs, by embedding the list of
-> > > repeated configs in the script). Hence the RFC. =20
-> >=20
-> > I'm still digging out from LSFMM, so have only glanced at this ... I can
-> > see the appeal of doing this, but nearly doubling the docs build time
-> > really isn't going to fly.  Have you looked to see what is taking all of
-> > that time?  The idea that it takes as long to process KConfig entries as
-> > it does to build the entire rest of the docs seems ... a bit wrong. =20
->=20
-> I have not yet. Thought I'd get some feedback before looking into the
-> performance. But I agree with the sentiment.
+I expect much better rationale for NAKs than this.
 
-My feeling is that the issue is using :glob" and a lot of wildcards
-inside Sphinx. Instead, you should use something similar to what
-I've done to get *.[ch] for the new kernel-doc.py implementation.
+The shortcoming in this series is that it offloads the decision *which*
+header files to check to the subsystems and drivers that actually opt-in
+to having the header files to be checked. Because you have to opt-in
+anyway, because not everyone wants this.
 
-Placing it as an extension on a similar way to what i did with
-get_abi.py would likely help as well.
+This makes concrete forward progress, and enables subsystems (like drm)
+and drivers (like i915 and xe) have their headers checked the way they
+want. It converts the local hacks into a generic solution. And does not
+block future improvements.
 
-> > I wonder what it would take to create a Sphinx extension that would
-> > simply walk the source tree and slurp up the KConfig entries directly?
-> > That would be nicer than adding a separate script in any case. =20
->=20
-> That is what is currently done for the ABI, AFAIK, so definitely seems do=
-able.
+Even with Jason's idea [1], you *still* have to start small and opt-in
+(i.e. the patch series at hand). You can't just start off by testing
+every header in one go, because it's a flag day switch. There'll be so
+many warnings that it's useless. This series only spotted one omission
+of header guards, because we've gradually cleaned stuff up. Oh, and
+there's the small detail that the idea is not backed up by any code or
+testing.
 
-Yes, doing that via an extension is doable. If done right, it can also be
-fast.
+I fully expect sharp and concrete technical review, but handwavy "does
+not solve any real issue", "workaround", and "broken feature" comments
+don't help anyone.
 
-> The key difference between the ABI approach and this here, is that my goa=
-l was
-> to reflect the Kconfig file hierarchy in the Documentation. So each Kconf=
-ig
-> file gets its own documentation page, while the ABI approach collects the
-> contents of all ABI files into just a few documentation pages (stable, te=
-sting,
-> etc). (So there's a non-constant number of .rst files, which means they h=
-ave to
-> be generated and can't be a sphinx plugin in this approach).
+With this type of antagonistic rather than encouraging attitude towards
+contributions, there's just no way I can justify to myself (or my
+employer) spending more time on what looks like a wild goose chase. I
+have zero confidence that no matter what I do I'd get approval from you.
 
-Actually, get-api.py (the new version, merged for 6.15) generates a dict
-just once. Then, Sphinx rst files filters part of the doc, but I see your
-point: for every entry, we would need a .rst file if we follow the same
-approach.
+And this is the primary reason subsystems and drivers hack up stuff in
+their little corners of the kernel instead of sticking their necks out
+and trying to generalize anything.
 
-That's said, it may have a way to tell Sphinx to threat Kconfig files
-on a similar way it handles ".txt" and ".rst" files. Something like the
-extension to handle markdown works:
-
-	https://www.sphinx-doc.org/en/master/usage/markdown.html
-
-Another alternative would be to use:
-
-	https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-incl=
-ude_patterns
-
-but this would require Sphinx 5.1, which is above our current minimal
-version. That's said, nothing prevents to only enable generating such
-documentatation if the Sphinx version supports it.
+BR,
+Jani.
 
 
-> I went for this approach because the filesystem hierarchy seemed the most
-> logical way to group the Kconfig symbols. Also Kconfig files have directi=
-ves like
-> 'menu' that should be present in the documentation in the same order they=
- appear
-> in the file to fully describe dependencies of the symbols, and having all=
- of
-> that in the same page seems like it would be confusing. But given the pot=
-ential
-> benefits it's worth a try for sure.
->=20
-> Now that I think about it, seems quite likely that a lot of the time spen=
-t comes
-> from creating a subshell and running the script for every Kconfig file. So
-> making a single script or sphinx extension that itself handles iterating =
-over
-> all the files would likely greatly reduce the run time. I'll test that.
->=20
-> Thanks,
-> N=C3=ADcolas
->=20
-> >=20
-> > I'll try to look closer, but I'll remain a bit distracted for a little
-> > while yet.
-> >=20
-> > Thanks,
-> >=20
-> > jon =20
+[1] https://lore.kernel.org/r/20250401191455.GC325917@nvidia.com
+
+
+>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+>> Cc: linux-kbuild@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: intel-xe@lists.freedesktop.org
+>> Cc: intel-gfx@lists.freedesktop.org
+>>
+>>
+>> Jani Nikula (4):
+>>   kbuild: add generic header check facility
+>>   drm: switch to generic header check facility
+>>   drm/i915: switch to generic header check facility
+>>   drm/xe: switch to generic header check facility
+>>
+>>  drivers/gpu/drm/Kconfig           |  2 +-
+>>  drivers/gpu/drm/Makefile          | 15 +--------------
+>>  drivers/gpu/drm/i915/Makefile     | 14 ++------------
+>>  drivers/gpu/drm/xe/Makefile       | 10 ++--------
+>>  drivers/gpu/drm/xe/xe_pcode_api.h |  4 ++++
+>>  include/drm/Makefile              | 15 +--------------
+>>  init/Kconfig                      | 25 +++++++++++++++++++++++++
+>>  scripts/Makefile.build            | 13 +++++++++++++
+>>  scripts/Makefile.lib              |  7 +++++++
+>>  9 files changed, 56 insertions(+), 49 deletions(-)
+>>
+>> --
+>> 2.39.5
+>>
+
+--=20
+Jani Nikula, Intel
 
