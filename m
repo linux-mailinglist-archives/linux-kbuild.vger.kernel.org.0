@@ -1,141 +1,167 @@
-Return-Path: <linux-kbuild+bounces-6505-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6506-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83474A7F63C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 09:29:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FC8A7F709
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 09:49:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74FA0188B683
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 07:29:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B62074231DF
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 07:44:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CAEA2248AE;
-	Tue,  8 Apr 2025 07:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E722638BD;
+	Tue,  8 Apr 2025 07:43:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="aJs7kKSl"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="BnAb3b5P";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yw4K4gV0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1DB10E0
-	for <linux-kbuild@vger.kernel.org>; Tue,  8 Apr 2025 07:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8501FECDF;
+	Tue,  8 Apr 2025 07:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744097338; cv=none; b=MY3DgiFu3KAmhZvJCujhygqI42gS1NS1EJToNayolssMy7uf6zKHKvEWwPEUHzmUvft6W4MOWUwe1pR53CCtwLYFL35WBeQ5007N8Ml7SuyFsuPVL+8BWc8DkFeQjiI/FGB7sF5KHQxp6NkGI+xHl935HjGGRdm8S02bFNrCpXY=
+	t=1744098236; cv=none; b=uk6M7TTG4Z1e7fRyQLOlzf1bn4Kywi8vUtWYCBLJl87MVvYeVPVsL+3CgqVgZlI56gmmjdQvtw6+IbK8APQvri3eW/HpioHXm6irJmCHcrQnr5htZnYUEZEocJxGMznKGuppEm+VGoedt0tn5Qs1SyF0AuIEGJLlm5mOb4NFWYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744097338; c=relaxed/simple;
-	bh=Pn0FY6CElyCYc5B9NO953XBLE4Mc/rR+/JOccRSUwKk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NIG9EelDogTv1RVAc1ygDPMAti5zCzkJSaIvOA7LN1ysyoqGPk2czGMc+XuFXt8dzDdOYYVwEI/F45HZt3WUh+nS99t9xH03w4KnkRdc7NGRicx3esZkHyGypEzF1lVmsQlP2NifnTTp2jTM3J9V0PMmNp1j1rYg4vJTyxHTanI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=aJs7kKSl; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3995ff6b066so2824419f8f.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Apr 2025 00:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1744097335; x=1744702135; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C0cTQmfSj1JKjmotOYm2ZctqRJNrdyoR/IHdMM1ZjqE=;
-        b=aJs7kKSlr5LcGrLZFzxWW+O9pACPwPD27FtPUt2syJC7m8pG1EdU09UjBSwyYMzZDD
-         BzRT5cqPxbvIwPM/vAKTuEeAY31geaLMKmjohUG6DHh7E7z6c9ghvzL8T4mub9TP3LQ9
-         e4aRIqhQfnbeX4trQAu/XWW6G0tatOJdBtDHhE7TtVtqsqMT/71tl9G0tiBLGCZFtio0
-         rz51750qAcgBqurs4eh8zUcOtJa14pjkopYzyuYqwm+b9aReTNzlXZOWYlHFzeD2JVYc
-         6fFSPd0NEdoxkoaj4uHFXMuCc/wtgYkKal2Fuc68UVZU5E8O+izoxQ/4EEFTu50mglDf
-         aV4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744097335; x=1744702135;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C0cTQmfSj1JKjmotOYm2ZctqRJNrdyoR/IHdMM1ZjqE=;
-        b=qaiQEoM8lXDeHv7FckX+hBntHXWX83az5+Q6PphkOAI598tJWGQRNOjCfGrXDVZGwA
-         +u56r5XZ6gjLzzTMahtHe6z5y9EIsydO8O2cx5QbF20CcO3ta2YAFopf+L6cxAVAAgQY
-         v2t+KHuqNnhOCEudHbX2z/Q5e8tcb5MDLuzitatVfc6d93jjs2Ugpe2eAihBqDOBrA0P
-         aA5+6tIP/kTJk0iFq0RJVPPXhKnC8ZbelXbJNueDdrUVrSAqRsLKPX5aAqCt1keZ8JOU
-         sy1mNE1LtuFPlOVgFWwagZPQbhdJtJsn5sUIEIB9o45Y30ZNvjMI+6RerJvUPcAKkleI
-         y6dw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7V9hEzy6u2w6X3AqWdbnNbx4xcsJEv3uoDQfN+qMI7Wi+k2tEWFYJkTANLPNAYBbVXgIV1prquVWEROM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysPFk0jMO07bDJQ8jAegbNt0HM9WM6IeLzmL/R1/BBvtxwKOMs
-	SGCsjNXuzwvUs8/9IUot09jLVd4cpUt7X5UybUIHcOSuebRrEL8D0Vy0yDnPnko=
-X-Gm-Gg: ASbGncsF0lJXyRtsASHvXsOZQ/zSexKkSTBqvz3oLdFsO+9df1ZuymWa6f09I8mpVT+
-	Uan8xtUN/ONhrUY2lgxzyW2UfFcYa6q5kFoSwcf/cnYdWdzi1C8K4PibefVL+GavBqOGD5bilQv
-	Rl9J0r1kfQ5BrgysmtjE2flAgwOvTDPqqMpsJxO+1jb0fl45BPAIA+3kz9OLiPIcGU9FKsSn94d
-	fgnYiwg34KL8bLXjGHyZtwT71KbPNdmOjQ32e2vxQBAmoGlCF3ULROhqaBxmgQ5Iwwd7XiEB9Wd
-	S+8OQWFdkxrV7Q4qHD0rxdetbQ9LM734l9phZ/BLZ2Cye5vgvcss3wjVtMaMnZN6Z+14i7k=
-X-Google-Smtp-Source: AGHT+IFz/8BWGlvn1oOub9ouIswew5ujgXC35R9BzFfnCHHdvTVfj960TEGZ4R6A4fumlfb695WeYg==
-X-Received: by 2002:a05:6000:40da:b0:39c:3122:ad55 with SMTP id ffacd0b85a97d-39cb359703fmr12528490f8f.18.1744097335011;
-        Tue, 08 Apr 2025 00:28:55 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com ([2001:861:3382:ef90:5b46:8918:c917:7872])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30226da7sm14444737f8f.98.2025.04.08.00.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 00:28:54 -0700 (PDT)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kbuild@vger.kernel.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v3] scripts: Do not strip .rela.dyn section
-Date: Tue,  8 Apr 2025 09:28:51 +0200
-Message-Id: <20250408072851.90275-1-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1744098236; c=relaxed/simple;
+	bh=6bh0qyU+r+JuXFXJKhwKfbhcKQy6IuZgXqrPKNG5G/A=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bvhyGK+mI66vMnRO6AFDpkGvyXg9iABqrWhzgLZ7qde8+9qHqWjrr5spug4qETkin7lcxvIYbIVmvzdzVv81zAcNyfR0meWIXmpfGE6x3C2ihE1LK8GNhCTpvPdIFjzo7qZOr64dVW7KhqTniFMi7XWj1LY3duqYkfkvlKlqUO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=BnAb3b5P; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Yw4K4gV0; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6C5C41140146;
+	Tue,  8 Apr 2025 03:43:52 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-12.internal (MEProxy); Tue, 08 Apr 2025 03:43:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1744098232;
+	 x=1744184632; bh=ewx83j9qElYFHGyCDMW6mla9eXeOChmIosrMTe0/WBs=; b=
+	BnAb3b5PIUXSgS0G5av5ieSA92df8uJv1AQC8Wex2ZKSql0hMzUhSD3bKsLw3/Lz
+	Tkzaldn1CIIm/GUZxxFsO6Hi/YYI0OjTYBDuZQU3zblAPsH2060iYU01zl50so4U
+	tK2IQ0UFSc4iYBd1c1GzsdMwEz1BRkZ1czwbZgfPY3xE1nQPIXNOTPyaDYtpd3Dy
+	wM/PsRlzglvRNMMVwHQiIxDOdBvml9vIkF+NUeX5S2dJHesq3W8S/FjBwgJYwBV5
+	/wK67ZZNz7tR6vin4xqwgQgM31DVHVebh/vh1Pv2VhQOFbHWL5QgPtFCQoIkaBk+
+	llv8o7ihgpvX833cgLTXlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744098232; x=
+	1744184632; bh=ewx83j9qElYFHGyCDMW6mla9eXeOChmIosrMTe0/WBs=; b=Y
+	w4K4gV0Mh+I8g3s9TfAoNlJ80Xbr/keyzEPnpZdjTgOiODKlOoXcM3SmHGSFf13c
+	E/VR345nVDXCC9dTm3vxF6KmmXEevx4RVz+qg7cscxqBsZc7QsYnphbZWrdxyE/l
+	SOjGsVFY1hxPk9ZV067C+0lZVS7h7JSDZaaCyPZy8wcJIWl572xpZF1Xn64fqZkO
+	D1m/pyE+2u2almsE5VBDNr8bZJytO+Qtn49yBHIVZNG9psjoyR/yXf6tJD2MwJth
+	ldGnFN80ogvzUerKLJq/mw0tgMf2s3c++2TNUNizb2VbIDfeMQqS6eSzdipc2UDH
+	VxWXFVUricWQzD7rIcqvw==
+X-ME-Sender: <xms:t9P0Z2FFd6HeiNkUYIqhP0IIvt6RrqTsYoyhdfuVxRsgBUsVXSpa8Q>
+    <xme:t9P0Z3XMf0PVXL1OwRmQ6BrtpFwAJefsD1XPE73J32Uczij87YmouPt6sQ8UV7qlf
+    YEwJJuHBIbKVz-zsFg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddvheduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhepfeffleeludehheeljedthfehgedtffehtdff
+    ieelheekteffvedtgeehudfhiedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpgh
+    hithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdejpdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdguvgdprhgtphht
+    thhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepmh
+    grrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtghpthhtohepnhhitgholhgrshes
+    fhhjrghslhgvrdgvuhdprhgtphhtthhopegsrhhgvghrshhtsehgmhgrihhlrdgtohhmpd
+    hrtghpthhtohepuhgsihiijhgrkhesghhmrghilhdrtghomhdprhgtphhtthhopehhvghr
+    sggvrhhtsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtoheprghrug
+    gssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:t9P0ZwKEV3h0A9U4abhdgosqJR81_XlNNlrBOoMMv90RDY_A0HxFAQ>
+    <xmx:t9P0ZwFtmJBtAwUERosEmNCeDPYn_gPoNBoNxaIonqBE9WNn3Tv96g>
+    <xmx:t9P0Z8UTBRpwm3xoL__t3pweGd4k75DJPhLsM22xTtb5m_RaAsJkMA>
+    <xmx:t9P0ZzMFbzQ9KVEEOAgweQRtkE-SF-hm6e1ingTAWEwE9sAou3S_gQ>
+    <xmx:uNP0Z4rFIQyEeeeBln6uug9CpMZmT-HDuAUYTmQqmy6JF1T7gKshVYlF>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E50952220073; Tue,  8 Apr 2025 03:43:50 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-ThreadId: T46c1ceb211c7c949
+Date: Tue, 08 Apr 2025 09:43:10 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Eric Biggers" <ebiggers@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ "Ard Biesheuvel" <ardb@kernel.org>, "Borislav Petkov" <bp@alien8.de>,
+ "Brian Gerst" <brgerst@gmail.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>, "Ingo Molnar" <mingo@redhat.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Marc Zyngier" <maz@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, "Takashi Iwai" <tiwai@suse.com>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Uros Bizjak" <ubizjak@gmail.com>,
+ "Will Deacon" <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, x86@kernel.org
+Message-Id: <0d087503-88d5-4d66-aa52-161ca6e0df06@app.fastmail.com>
+In-Reply-To: <20250407164151.GB2536@sol.localdomain>
+References: <20250407094116.1339199-1-arnd@kernel.org>
+ <20250407164151.GB2536@sol.localdomain>
+Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-The .rela.dyn section contains runtime relocations and is only emitted
-for a relocatable kernel.
+On Mon, Apr 7, 2025, at 18:41, Eric Biggers wrote:
+> On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
+>
+> This is intended to supersede the patches from Uros that removed checks for
+> binutils < 2.25, right?  See:
+>
+> * 
+> https://lore.kernel.org/linux-crypto/20250404074135.520812-1-ubizjak@gmail.com/
+> * 
+> https://lore.kernel.org/linux-crypto/20250404074135.520812-2-ubizjak@gmail.com
+> * 
+> https://lore.kernel.org/linux-crypto/20250404074135.520812-3-ubizjak@gmail.com/
 
-riscv uses this section to relocate the kernel at runtime but that section
-is stripped from vmlinux. That prevents kexec to successfully load vmlinux
-since it does not contain the relocations info needed.
+I missed these, but it does sounds we easy to work out, either
+by rebasing my patch or dropping Uros' version.
 
-Fixes: 559d1e45a16d ("riscv: Use --emit-relocs in order to move .rela.dyn in init")
-Tested-by: Björn Töpel <bjorn@rivosinc.com>
-Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
+> If we can indeed bump up the requirement to 2.30, that would be great.
+>
+> Just a note though: I recently added VAES and VPCLMULQDQ instructions to
+> BoringSSL, which increased the binutils requirement of building BoringSSL to
+> 2.30, and this caused issues in a downstream project; e.g. see
+> https://github.com/briansmith/ring/issues/2463.  Specifically people complained
+> about being unable to build on Amazon Linux 2 and CentOS/RHEL/Oracle Linux 7.
+>
+> So I just thought I'd mention that, based on past experience with this sort of
+> thing, those are the specific cases where it seems people are most likely to be
+> trying to use binutils < 2.30.
+>
+> But if those distros are not going to be supported any longer (without
+> installing newer tools on them), or even are already unsupported due to the gcc
+> requirement, bumping up the binutils requirement to 2.30 sounds good to me.
 
-Changes in v3:
-- Rebase on top of 6.15-rc1
-- Change the fixes tag
+RHEL7 comes wit gcc-4.8.5, which is already too old to build the kernel,
+so I'm not worried about it at all. RHEL8 and Debian 10 have gcc-8,
+which is why that makes sense as a new minimum version.
 
-Changes in v2:
-- Changelog modification (Ard)
-- Remove ARCH_WANTS_RELA_DYN (Ard)
+SLES-15 (gcc-7), Debian 9 (gcc-6), and Ubuntu 18.05 (gcc-7) are the
+ones that can currently build mainline kernels but are broken by this
+change. SLES-15 is the only one of those that are still supported, but
+they do ship with add-on compilers.
 
- scripts/Makefile.vmlinux | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index b0a6cd5b818c..85d60d986401 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -13,7 +13,7 @@ ifdef CONFIG_ARCH_VMLINUX_NEEDS_RELOCS
- vmlinux-final := vmlinux.unstripped
- 
- quiet_cmd_strip_relocs = RSTRIP  $@
--      cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $< $@
-+      cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' --remove-section=!'.rel*.dyn' $< $@
- 
- vmlinux: $(vmlinux-final) FORCE
- 	$(call if_changed,strip_relocs)
--- 
-2.39.2
-
+     Arnd
 
