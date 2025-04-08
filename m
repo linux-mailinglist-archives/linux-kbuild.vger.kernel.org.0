@@ -1,46 +1,45 @@
-Return-Path: <linux-kbuild+bounces-6502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6503-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE85A7F1C3
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 02:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B00A7F1C6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 02:55:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1169C1897785
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 00:54:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 974931897C09
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 00:55:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DA3F25F97C;
-	Tue,  8 Apr 2025 00:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B461B25F7A2;
+	Tue,  8 Apr 2025 00:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WiZ6IHMY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N56u2zpX"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B0725F979;
-	Tue,  8 Apr 2025 00:53:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BC825F7A1;
+	Tue,  8 Apr 2025 00:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744073634; cv=none; b=Gr4L8xEz/Dcqs3lKQqwONO0+zIKff1cIQIIX28ZPEeiqG17nCaTJLUP+gzJ5b03Mm+BRQ/E/HOiPtW9ZMYzheBkEM+rv0Wqtc9UG/gV9diTv1xw0k4g5cp7nCGcPyw0dA+X1OutaYg/ocB+j9CGyNgrc95j62fhSlMo2i18jSNA=
+	t=1744073643; cv=none; b=jAu5Wbr4FDvL5zW/yurMNFBO6BiaDRjZCkDIDek+8myA0SsckbJFvcVbtwPbSP4pwTuq9SOnzG+JPTS/onK33YUPrTLJ7MpGc7n1Ha5Y6utk+hYTDJ4KybzphGGS+IWSwcPuCffGwqiN+xwG88lXi63v3j05xUUF7iI3o50kqeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744073634; c=relaxed/simple;
-	bh=5shCUpL32JQ0J0p2ImZRworI9Ip01R6iAdj+DvbED4I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f2RaPFBDN0CXvwmLNKaHd3KnWGaKVaewXnu29Rncwqj9EikroRE2/do0ga/56pmDtLO8iBMKUW0i1p1ITDdc4KEaJQ9LBg4C5thxtjczBcC5Xa0jt4TRoQCz2cWDxXHrZKqPN0BbOJBgF+Jt5h4eW3vUUXAgj7n0s0fqysfbrFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WiZ6IHMY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BBDAC4CEE9;
-	Tue,  8 Apr 2025 00:53:52 +0000 (UTC)
+	s=arc-20240116; t=1744073643; c=relaxed/simple;
+	bh=0kTEpk9P6j3NjzoQKYrL3gZ5oj7C2kRlUkSqokABmLY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kVGYlIAiYcNPZ3Y0Sf8kwyvqRRAyBi5YR3cX3+yeWA2zuQMASfBejIMSgRxisL2QyNoslx/CqcwXY9770tm2CKj02TxBeTwB5VFN180S1e7x0oQ+H605Da0pyMEZuvAQeLx76YJrX62Rx+EocMEXyt2dP62SpOnghf8uDDBK5YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N56u2zpX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B2D6C4CEDD;
+	Tue,  8 Apr 2025 00:54:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744073633;
-	bh=5shCUpL32JQ0J0p2ImZRworI9Ip01R6iAdj+DvbED4I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WiZ6IHMYN6sGh+TsXJ+eKDLU71UiMAkElZbiTXxovO4v8Y1BML8iXcmeastnOzj3p
-	 pOTmoK5E4M1DC8G4M69rcvXpdKV9US6V/VamdbdqciFEQtL1cuP2o5jFI1Q/QLXyAa
-	 t+9KktOHY3l/5EZPHqdkGEp3sQ5djnTlYo8h9ix2W9ELC5bhcTXNDuab+4PiTDgCB+
-	 HdhnoEjq79UJklcLagIXXQyEKNJT7kYe/F4n6hUXN798ZL1J7aKMVod+bgAA0EebSP
-	 1F/kucvP3Jq9wuL1/OtzCwoWI4CaYYWPq3RlnZVnTP7p4zgoyDnRPLUWOU7XzawRFp
-	 LjPRR2/VIJO6g==
+	s=k20201202; t=1744073643;
+	bh=0kTEpk9P6j3NjzoQKYrL3gZ5oj7C2kRlUkSqokABmLY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=N56u2zpXfAAwfOJHvBkRrW5PEiaTBiPJZQkkzoTA6gEsmfAEnKZugFaLzj8Y93gl1
+	 trPCXwy07wETmCCE8uMUCDCLfiSqyC8fZtKb+wtMsN7l+aw3H2UYckUyHsdCvwE9uk
+	 5LE6jGtWcafU67OyXH0QkXXBSldYTS+Q3ViBuvzQPuHYeG2hUq8Ckl7AgGCei6p/Sf
+	 n0D5RE1cqt4WoW8NZFFTPGKW49nhOuz+VfkJOE9SJtVTux0FXWWiCLtE0jyKzEFvYN
+	 4XlOKxafm8lPYGbkeTvwniI6HFdSq47pJeslTNONk4mxKiBI1NVVUbI17pEri45eqE
+	 pxUbYsDOUDhlA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,12 +48,10 @@ Cc: Xi Ruoyao <xry111@xry111.site>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 2/3] kbuild: add dependency from vmlinux to sorttable
-Date: Mon,  7 Apr 2025 20:53:46 -0400
-Message-Id: <20250408005347.3334681-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 1/2] kbuild: add dependency from vmlinux to sorttable
+Date: Mon,  7 Apr 2025 20:53:56 -0400
+Message-Id: <20250408005357.3334801-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250408005347.3334681-1-sashal@kernel.org>
-References: <20250408005347.3334681-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -63,7 +60,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.10
+X-stable-base: Linux 6.12.22
 Content-Transfer-Encoding: 8bit
 
 From: Xi Ruoyao <xry111@xry111.site>
@@ -83,12 +80,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 873caaa553134..fb79fd6b24654 100644
+index 1284f05555b97..0c2494ffcaf87 100644
 --- a/scripts/Makefile.vmlinux
 +++ b/scripts/Makefile.vmlinux
-@@ -79,6 +79,10 @@ ifdef CONFIG_DEBUG_INFO_BTF
- vmlinux: $(RESOLVE_BTFIDS)
- endif
+@@ -33,6 +33,10 @@ targets += vmlinux
+ vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
+ 	+$(call if_changed_dep,link_vmlinux)
  
 +ifdef CONFIG_BUILDTIME_TABLE_SORT
 +vmlinux: scripts/sorttable
