@@ -1,90 +1,141 @@
-Return-Path: <linux-kbuild+bounces-6504-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6505-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919A6A7F303
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 05:06:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83474A7F63C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 09:29:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5EAC3B49A2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 03:04:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74FA0188B683
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 07:29:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FD121AA7BA;
-	Tue,  8 Apr 2025 03:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CAEA2248AE;
+	Tue,  8 Apr 2025 07:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="aJs7kKSl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20C53FB1B;
-	Tue,  8 Apr 2025 03:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1DB10E0
+	for <linux-kbuild@vger.kernel.org>; Tue,  8 Apr 2025 07:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744081473; cv=none; b=oIXPlrkQCc6KnQX3M2FqZ9Ls92MhhUGaJz6nuaX4ZaVKXdarja2ggrfeT2sXiep2z8phTiYAsBwZueE+3qHlKFLGOivmkfdkoLg6ixAh3tG/bZCZuUYATDIyhjsmTAjhu8cWhh+u6vPfbpStL7JI37DlYN0GQqj8TsowmQNSCo8=
+	t=1744097338; cv=none; b=MY3DgiFu3KAmhZvJCujhygqI42gS1NS1EJToNayolssMy7uf6zKHKvEWwPEUHzmUvft6W4MOWUwe1pR53CCtwLYFL35WBeQ5007N8Ml7SuyFsuPVL+8BWc8DkFeQjiI/FGB7sF5KHQxp6NkGI+xHl935HjGGRdm8S02bFNrCpXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744081473; c=relaxed/simple;
-	bh=VfnRq1oKSfUnhZQg4yKYM/OaeRV0QmfAoOuhpbQZ6dw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IA7/g0uhtTO/vfiOcR691YKOMYEY8+shOrTQv9hxzgOwAH402mQrMbThHerjL724bL0hHYvAVSNp9N02gjQtTyAqADCXKl7Mk6tG1BpWxnt7VnZsy481yU/m2stOqxhdP7xPIoyBnoLgMjCQvBls/fR1lsWdMdaA2GkJ/zNC0qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from mop.sam.mop (unknown [82.8.138.118])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sam)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id DF37234307D;
-	Tue, 08 Apr 2025 03:04:28 +0000 (UTC)
-From: Sam James <sam@gentoo.org>
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: dwarves@vger.kernel.org,  da.gomez@samsung.com,
-  linux-kbuild@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-modules@vger.kernel.org,  masahiroy@kernel.org,  mcgrof@kernel.org,
-  paolo.pisati@canonical.com,  petr.pavlu@suse.com,
-  samitolvanen@google.com,  Matthias Schwarzott <zzam@gentoo.org>
-Subject: Re: [PATCH] kbuild: Require pahole >v1.29 with GENDWARFKSYMS and
- BTF on X86
-In-Reply-To: <7b0bd9be-c3ef-40d4-9465-92f3e69a07d1@oracle.com>
-Organization: Gentoo
-References: <87o6x8idk1.fsf@gentoo.org>
-	<7b0bd9be-c3ef-40d4-9465-92f3e69a07d1@oracle.com>
-User-Agent: mu4e 1.12.9; emacs 31.0.50
-Date: Tue, 08 Apr 2025 04:04:26 +0100
-Message-ID: <87semj4amd.fsf@gentoo.org>
+	s=arc-20240116; t=1744097338; c=relaxed/simple;
+	bh=Pn0FY6CElyCYc5B9NO953XBLE4Mc/rR+/JOccRSUwKk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NIG9EelDogTv1RVAc1ygDPMAti5zCzkJSaIvOA7LN1ysyoqGPk2czGMc+XuFXt8dzDdOYYVwEI/F45HZt3WUh+nS99t9xH03w4KnkRdc7NGRicx3esZkHyGypEzF1lVmsQlP2NifnTTp2jTM3J9V0PMmNp1j1rYg4vJTyxHTanI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=aJs7kKSl; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3995ff6b066so2824419f8f.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Apr 2025 00:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1744097335; x=1744702135; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C0cTQmfSj1JKjmotOYm2ZctqRJNrdyoR/IHdMM1ZjqE=;
+        b=aJs7kKSlr5LcGrLZFzxWW+O9pACPwPD27FtPUt2syJC7m8pG1EdU09UjBSwyYMzZDD
+         BzRT5cqPxbvIwPM/vAKTuEeAY31geaLMKmjohUG6DHh7E7z6c9ghvzL8T4mub9TP3LQ9
+         e4aRIqhQfnbeX4trQAu/XWW6G0tatOJdBtDHhE7TtVtqsqMT/71tl9G0tiBLGCZFtio0
+         rz51750qAcgBqurs4eh8zUcOtJa14pjkopYzyuYqwm+b9aReTNzlXZOWYlHFzeD2JVYc
+         6fFSPd0NEdoxkoaj4uHFXMuCc/wtgYkKal2Fuc68UVZU5E8O+izoxQ/4EEFTu50mglDf
+         aV4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744097335; x=1744702135;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C0cTQmfSj1JKjmotOYm2ZctqRJNrdyoR/IHdMM1ZjqE=;
+        b=qaiQEoM8lXDeHv7FckX+hBntHXWX83az5+Q6PphkOAI598tJWGQRNOjCfGrXDVZGwA
+         +u56r5XZ6gjLzzTMahtHe6z5y9EIsydO8O2cx5QbF20CcO3ta2YAFopf+L6cxAVAAgQY
+         v2t+KHuqNnhOCEudHbX2z/Q5e8tcb5MDLuzitatVfc6d93jjs2Ugpe2eAihBqDOBrA0P
+         aA5+6tIP/kTJk0iFq0RJVPPXhKnC8ZbelXbJNueDdrUVrSAqRsLKPX5aAqCt1keZ8JOU
+         sy1mNE1LtuFPlOVgFWwagZPQbhdJtJsn5sUIEIB9o45Y30ZNvjMI+6RerJvUPcAKkleI
+         y6dw==
+X-Forwarded-Encrypted: i=1; AJvYcCX7V9hEzy6u2w6X3AqWdbnNbx4xcsJEv3uoDQfN+qMI7Wi+k2tEWFYJkTANLPNAYBbVXgIV1prquVWEROM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysPFk0jMO07bDJQ8jAegbNt0HM9WM6IeLzmL/R1/BBvtxwKOMs
+	SGCsjNXuzwvUs8/9IUot09jLVd4cpUt7X5UybUIHcOSuebRrEL8D0Vy0yDnPnko=
+X-Gm-Gg: ASbGncsF0lJXyRtsASHvXsOZQ/zSexKkSTBqvz3oLdFsO+9df1ZuymWa6f09I8mpVT+
+	Uan8xtUN/ONhrUY2lgxzyW2UfFcYa6q5kFoSwcf/cnYdWdzi1C8K4PibefVL+GavBqOGD5bilQv
+	Rl9J0r1kfQ5BrgysmtjE2flAgwOvTDPqqMpsJxO+1jb0fl45BPAIA+3kz9OLiPIcGU9FKsSn94d
+	fgnYiwg34KL8bLXjGHyZtwT71KbPNdmOjQ32e2vxQBAmoGlCF3ULROhqaBxmgQ5Iwwd7XiEB9Wd
+	S+8OQWFdkxrV7Q4qHD0rxdetbQ9LM734l9phZ/BLZ2Cye5vgvcss3wjVtMaMnZN6Z+14i7k=
+X-Google-Smtp-Source: AGHT+IFz/8BWGlvn1oOub9ouIswew5ujgXC35R9BzFfnCHHdvTVfj960TEGZ4R6A4fumlfb695WeYg==
+X-Received: by 2002:a05:6000:40da:b0:39c:3122:ad55 with SMTP id ffacd0b85a97d-39cb359703fmr12528490f8f.18.1744097335011;
+        Tue, 08 Apr 2025 00:28:55 -0700 (PDT)
+Received: from alex-rivos.ba.rivosinc.com ([2001:861:3382:ef90:5b46:8918:c917:7872])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30226da7sm14444737f8f.98.2025.04.08.00.28.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 00:28:54 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kbuild@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH v3] scripts: Do not strip .rela.dyn section
+Date: Tue,  8 Apr 2025 09:28:51 +0200
+Message-Id: <20250408072851.90275-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Alan Maguire <alan.maguire@oracle.com> writes:
+The .rela.dyn section contains runtime relocations and is only emitted
+for a relocatable kernel.
 
-> On 07/04/2025 09:25, Sam James wrote:
->> [with regard to
->> https://lore.kernel.org/linux-kbuild/20250320232757.2283956-2-samitolvanen@google.com/]
->> 
->> Would it be possible to have a new release with that fix, to avoid
->> distros all having to cherrypick the fix commit?
->> 
->> Thanks in advance,
->> sam
->> 
->
-> We're planning to release 1.30 shortly to follow the recent 6.14 kernel
-> release - hopefully this week, or perhaps early next week if any bugs
-> are discovered during final testing.
->
-> If folks can help by testing the next branch of
->
-> https://git.kernel.org/pub/scm/devel/pahole/pahole.git
->
-> ...prior to that, that would be great. Thanks!
+riscv uses this section to relocate the kernel at runtime but that section
+is stripped from vmlinux. That prevents kexec to successfully load vmlinux
+since it does not contain the relocations info needed.
 
-Will do, thanks!
+Fixes: 559d1e45a16d ("riscv: Use --emit-relocs in order to move .rela.dyn in init")
+Tested-by: Björn Töpel <bjorn@rivosinc.com>
+Reviewed-by: Björn Töpel <bjorn@rivosinc.com>
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
 
->
-> Alan
+Changes in v3:
+- Rebase on top of 6.15-rc1
+- Change the fixes tag
+
+Changes in v2:
+- Changelog modification (Ard)
+- Remove ARCH_WANTS_RELA_DYN (Ard)
+
+ scripts/Makefile.vmlinux | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index b0a6cd5b818c..85d60d986401 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -13,7 +13,7 @@ ifdef CONFIG_ARCH_VMLINUX_NEEDS_RELOCS
+ vmlinux-final := vmlinux.unstripped
+ 
+ quiet_cmd_strip_relocs = RSTRIP  $@
+-      cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' $< $@
++      cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' --remove-section=!'.rel*.dyn' $< $@
+ 
+ vmlinux: $(vmlinux-final) FORCE
+ 	$(call if_changed,strip_relocs)
+-- 
+2.39.2
+
 
