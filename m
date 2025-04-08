@@ -1,150 +1,172 @@
-Return-Path: <linux-kbuild+bounces-6520-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6521-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C2BA81359
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 19:17:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34525A814E4
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 20:43:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD1328A1869
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 17:16:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8C811BC091D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 18:43:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32196235BF8;
-	Tue,  8 Apr 2025 17:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E121F23E359;
+	Tue,  8 Apr 2025 18:42:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kAKER9WG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kxASuWul"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XAiEur8+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425D3234979;
-	Tue,  8 Apr 2025 17:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373542405EB;
+	Tue,  8 Apr 2025 18:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744132593; cv=none; b=MjYBv+ugPVFMWcr257dOl8baMPpdxBZ9M1P0D2a/Podb2X9GoF480u3V0GUoEjc83dK4cYKOvVQXeFflHkA802TJsZjy4f3vIhNQrs2mUngVFfONJNlAFMdQMKdaU9HFYhMW7ucNtVefeaI0txuKCJIgK5Yim3MJow8iEhlcsE8=
+	t=1744137772; cv=none; b=UAZNvwAifMGW5MwTfZUz2TwYrcHkvpqdLh6hm1TkNKH+CRiu81t0A1V5QS+t/7HGlILZImp+4K2cWw26Yy9HqiUcwPH8RIPSD+kBzNOTATd24OxGz81LI9RHNgb9Vdv98NH4cubnMHUe9wQrPKm4KUdYeLRjZJnwNG4syTcmj48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744132593; c=relaxed/simple;
-	bh=5sVm7Ccq5DFzle8yTbs1g/hLQHzfJVombqZ3QUUwX+Y=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=pCcwJa2akv2wmtCd0ACoCc6CdVNsrBmOzFEhNpSnyLU2MA13DNaNPy/Xz7mDJCuHdJksHRYu8Pcr/MNmcw1BmAoyTPK5vqXFKcVIuG4R0IZ/gOdakYspLA3LgLom1aNC8xE3NuwOXc4YCf/Xm4Bn8L1IzUbSDhyG/C3JZBnB+Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kAKER9WG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kxASuWul; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 301A611400B6;
-	Tue,  8 Apr 2025 13:16:28 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-12.internal (MEProxy); Tue, 08 Apr 2025 13:16:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1744132588;
-	 x=1744218988; bh=ZusC4j88iZDe7cKmTzZPwEEcBckZyU9z5JAnaD7npYo=; b=
-	kAKER9WG8clrJgdPv5KjhGSlW0MTMk5KT4ZUk7Kw0BFGACZ5jol0penH71/1gQAN
-	5qjpXbVzNbMs9sqso3a55c0mhxatEOgnBlPFswaXbqQVXVuL2b5qa602yQCMJ9Tg
-	C/VVYD9yetDD4NvMjEZRNne8hAFU+Dl7BqDOCFuyobL44dg6iyb60EKsZnC+fm7A
-	u0Ik2rTGasA0fSEjYMnN8h5f0Tbt9X/0Ikpuy4r+fJd3WolKh736R69sUkxgNcQv
-	GvCPiGiFWVaxQXUnxdnQNxTA90CCMynLszA2i7jkuVjgDkgGEtVAEq+b/vqBMwZ0
-	LzXKhjxzgHF6qODoQUzlQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744132588; x=
-	1744218988; bh=ZusC4j88iZDe7cKmTzZPwEEcBckZyU9z5JAnaD7npYo=; b=k
-	xASuWulBPJTSShQgUfSKwnoLD8ec+A277BzKDuxEnJzp8ZzNq4MdXk/KoUVv6jvB
-	GMb+Llj/jrPu2WhV16RwgIFBSTChgTX14A3Y/Y7dEVGL6qoCYjUlDpPA0851RWje
-	gw0idm5agye/vmHe/LSXchEkPiyoHcCSsDWA7lyl6hN6U76nBVxIM9HcNaXQqPPR
-	2e3y+Rtwa4q+qm50bpWXvaxipmdCC2wcTQgdy1aLlSpt23iaDnPdo+CI4IdUfHLb
-	ZR5w/enAAEe1T96W8TFXkKb+rzLSz16dQr29S287m9i7ftHNci8O3roNlTk9gL3T
-	TOZPxW5NWjLteT6xc52ww==
-X-ME-Sender: <xms:6Vn1ZzgSipKPFrG6IuVoqX5aC0B3zsJ03TwguC7t67ub6IzI064pWg>
-    <xme:6Vn1ZwAuvhR3fDsZ5YZ1Y1k607MrfdkQysMrhL0JsIj5HLd9Ng1ogrHZkwqRYKAbs
-    llOE7mlyo4sQ9Q2Jgw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefieeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhepteeutddtheffkedttdduiefgffefkefhgfeu
-    ieetjeehteeludefleffieevffdtnecuffhomhgrihhnpeduiedrnhhonecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggs
-    rdguvgdpnhgspghrtghpthhtohepvdeipdhmohguvgepshhmthhpohhuthdprhgtphhtth
-    hopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhn
-    rghssegrrhhmrdgtohhmpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrd
-    gtohhmpdhrtghpthhtohepnhhitgholhgrshesfhhjrghslhgvrdgvuhdprhgtphhtthho
-    pegsrhhgvghrshhtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepuhgsihiijhgrkhesgh
-    hmrghilhdrtghomhdprhgtphhtthhopehhvghrsggvrhhtsehgohhnughorhdrrghprghn
-    rgdrohhrghdrrghupdhrtghpthhtoheprghruggssehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopegrrhhnugeskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:6Vn1ZzHurRHuHgzee5gnc6zzuDyC99eqxxcG0Rd-a83_k91ZjMjq6g>
-    <xmx:6Vn1ZwTdHSNtQ4IwxNAhwiTCO_unZ12OFl0sjgDX-1QoynU850u4GQ>
-    <xmx:6Vn1Zwx3PDyMl3hQZQb01ThSkhjNY3lKUTI6KycfntiEaYR15s-G7A>
-    <xmx:6Vn1Z24UqqDehkMC3wjyPDDqgGzgMI5XFgUZNLhnHBQDEILM7AC05Q>
-    <xmx:7Fn1Z3TC_xAheqDni-VD8_gghQnO4lzwgRrKNmcct4VKq6wG0MRxZT47>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 0A5352220073; Tue,  8 Apr 2025 13:16:24 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1744137772; c=relaxed/simple;
+	bh=Gk2fzlQjUCLt/ACS0iGbHiEoJLXRFDn3gd/CajWFMrU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ge+irbr/Iu4UPFUpG9659ktjF6KoA7MMV8vL8VEDqvzjyju0Ge/Zu/fw5r7v/kOsqWdHYQEYBOxALjxotzXTKg9UzO8RxuXsRmLVFQ3FNAPTMKZuiiTaoMi2k3CFkecr7/3JqrOouUH0eT7ZinKgBaLCqZrhECUbjZ4wit8BDGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XAiEur8+; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744137768; x=1775673768;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=Gk2fzlQjUCLt/ACS0iGbHiEoJLXRFDn3gd/CajWFMrU=;
+  b=XAiEur8+bMJxl0SGqvqVVclJW0icILoQa3T+d5eUD6jK1dV7CHB62jTv
+   qbx2LMVTgU8Jyjh8ioEZZ6n5NYq8v3KaeRywZ0byGNEA7Q78SAq+VBNvi
+   vxp14MITvrB8AvOj4/JDaP3TG5ajazXkVmCxGrLtNdGuZIVwWfAPVhFbO
+   Ur57QCVg5a+US/EFlS0gotoQWsvAqaYBDIiXNib+XvBDvp2YIV2gXWCSq
+   E7AKOtGFnnLyeNX9i3vKBzg1V6zeRsMKM8L9a3paVoygFzmmDB9VUUTUT
+   JHogCxdCKX0J8ccbgyAxWSNLaFT231ozg629tkWUqjJPx1hT0GOVXwG8k
+   A==;
+X-CSE-ConnectionGUID: jYnr3wSlSuuX+cJrwHMvnw==
+X-CSE-MsgGUID: q9OmKM67Q+GsfSKxdMqi0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49385085"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="49385085"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 11:42:43 -0700
+X-CSE-ConnectionGUID: iCCNA21DQBKQORjCd8kn8A==
+X-CSE-MsgGUID: bvmlVMOTTxaX/KP11+a2QA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="133219858"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.137])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 11:42:39 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ linux-kbuild@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/4] kbuild: resurrect generic header check facility
+In-Reply-To: <20250408160127.GD1778492@nvidia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250402124656.629226-1-jani.nikula@intel.com>
+ <CAK7LNAS6o_66bUB6-qj6NnaTRNKvu5ycxOP+kGfizYVBNjZAyw@mail.gmail.com>
+ <878qoczbhn.fsf@intel.com> <20250407171209.GJ1557073@nvidia.com>
+ <871pu3ys4x.fsf@intel.com> <20250408160127.GD1778492@nvidia.com>
+Date: Tue, 08 Apr 2025 21:42:36 +0300
+Message-ID: <87friixzoj.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T46c1ceb211c7c949
-Date: Tue, 08 Apr 2025 19:16:04 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Mark Rutland" <mark.rutland@arm.com>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- "Ard Biesheuvel" <ardb@kernel.org>, "Borislav Petkov" <bp@alien8.de>,
- "Brian Gerst" <brgerst@gmail.com>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "Herbert Xu" <herbert@gondor.apana.org.au>, "Ingo Molnar" <mingo@redhat.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Marc Zyngier" <maz@kernel.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>, "Takashi Iwai" <tiwai@suse.com>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Uros Bizjak" <ubizjak@gmail.com>,
- "Will Deacon" <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, x86@kernel.org
-Message-Id: <37ac1bd5-580c-4980-98fa-653dfe3eb768@app.fastmail.com>
-In-Reply-To: <Z_Uwxe46_o5nYkMB@J2N7QTR9R3.cambridge.arm.com>
-References: <20250407094116.1339199-1-arnd@kernel.org>
- <Z_Uwxe46_o5nYkMB@J2N7QTR9R3.cambridge.arm.com>
-Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 8, 2025, at 16:20, Mark Rutland wrote:
-> On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
+On Tue, 08 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> On Tue, Apr 08, 2025 at 11:27:58AM +0300, Jani Nikula wrote:
+>> On Mon, 07 Apr 2025, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> > On Mon, Apr 07, 2025 at 10:17:40AM +0300, Jani Nikula wrote:
+>> >
+>> >> Even with Jason's idea [1], you *still* have to start small and opt-in
+>> >> (i.e. the patch series at hand). You can't just start off by testing
+>> >> every header in one go, because it's a flag day switch. 
+>> >
+>> > You'd add something like 'make header_check' that does not run
+>> > automatically. Making it run automatically after everything is fixed
+>> > to keep it fixed would be the flag day change. It is how we have
+>> > managed to introduce other warning levels in the past.
 >> 
->> x86 already requires gcc-8.1 since linux-6.15-rc1, which led me to
->> actually go through all  version checks and make this is the minimum
->> for all architectures.
+>> That approach does not help *me* or drm, i915 and xe in the least. They
+>> are already fixed, and we want a way to keep them fixed. This is how all
+>> of this got started.
 >
-> I am very much in favour of this, so for the series:
+> I imagine you'd include a way to have the 'make header_check' run on
+> some subset of files only, then use that in your CI for the interm.
 >
-> Acked-by: Mark Rutland <mark.rutland@arm.com>
+>> Your goal may be to make everything self-contained, but AFAICS there is
+>> no agreement on that goal. As long as there's no buy-in to this, it's
+>> not possible fix everything, it's an unreachable goal.
 >
-> Is the aim to get this in for v6.15?
->
-> I believe this will permit a number of further cleanups for arm64, and
-> if it's possible to get this in for v6.15, it'd be a bit easier to start
-> preparing those for v6.16. No big problem if that's not the case.
+> I didn't see that. I saw technical problems with the implementation
+> that was presented. I'd be shocked if there was broad opposition to
+> adding missing includes and forward declaration to most headers. It is
+> a pretty basic C thing. :\
 
-I wasn't planning to push it for 6.15, as we've discussed this change
-for a long time already, I don't think there is any rush now, though
-I agree it would have helped to have it earlier.
+Unless I'm mistaken, both Linus and Masahiro have said they disagree
+with headers having to be self-contained as a general rule, regardless
+of the issues with kconfig and the build artifacts.
 
-I already found another follow-up, removing support for the sancov
-gcc plugin that is no longer needed, I'm sure there is more.
+We actually had header checks back in 2019 but it was reverted basically
+without discussion with commit fcbb8461fd23 ("kbuild: remove header
+compile test"). Sure, there were issues, but still removed without an
+attempt to address the issues. Since then it's been skunkworks in
+i915. There's a reason this has felt like an uphill battle, and why I'm
+reluctant to putting effort into much more than small incremental steps
+at a time.
 
-     Arnd
+> Until someone sends a series trying to add missing includes and
+> forward declarations we can't really know..
+>
+>> Arguably the situation is similar to W=1 builds. We can't run W=1 in our
+>> CI, because of failures outside of the drivers we maintain. 
+>
+> You can run W=1 using a subdirectory build just for your drivers.
+
+I don't think there's a way to build the entire kernel while limiting
+W=1 warnings to a subdirectory, is there? Mixing W=1 and regular builds
+causes everything to be rebuilt due to dependencies. It's not only for
+CI, it's also for developers.
+
+>> Even if I put in the effort to generalize this the way you prefer, I
+>> guess a few kernel releases from now, it still would not do what we have
+>> already in place in i915 and xe. And, no offense, but I think your
+>> proposal is technically vague to start with. I really don't know where
+>> the goal posts are.
+>
+> Well, I spent a little bit and wrote a mock up and did some looking at
+> how much work is here. Focusing on allnoconfig as a starting point,
+> 293 out of 1858 headers failed to build, and with some fiddling I got
+> it down to 150, a couple of hours would get patches made for the vast
+> majority of it.
+>
+> https://github.com/jgunthorpe/linux/commits/hdrcheck/
+>
+> I don't see the same dire view as you do, it seems reasonable and doable.
+
+Thanks for the proof-of-concept. It's just that I don't see how that
+could be bolted to kbuild, with dependency tracking. I don't want to
+have to rebuild the world every time something changes.
+
+Say, I'm refactoring stuff, and I want to ensure headers are okay every
+step of the way. git rebase -i origin -x 'make header_check'. How do you
+only check the headers whose dependencies were changed since the
+previous commit? That requires looking at the .cmd again.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
 
