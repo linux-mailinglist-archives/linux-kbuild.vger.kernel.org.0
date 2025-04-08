@@ -1,104 +1,139 @@
-Return-Path: <linux-kbuild+bounces-6507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6509-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB5CA7F788
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 10:17:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB5CA7F7B1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 10:22:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D2A11893667
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 08:16:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9A37189063D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Apr 2025 08:21:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD78A263F31;
-	Tue,  8 Apr 2025 08:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD872263C97;
+	Tue,  8 Apr 2025 08:21:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mTbuCqJe"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Z+rahwGH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9FE263F2C;
-	Tue,  8 Apr 2025 08:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC0F2627F7;
+	Tue,  8 Apr 2025 08:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.184.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744100173; cv=none; b=L7cZZknYNveORG+iJucD6Uqp2wWzUF+j1JUh4ygad3ouykpiKj4NqpJGt9wwNNQfI4HRYiMx4QY/ziq7oLLDeu4YqVTq+6u7QpGTcd0SgtGL+ak7kHG/fKLcZNfWEEMIt4CsH9ogPU85VclZM+bDwgptEKEcIqSR5HLjOVDXd2Q=
+	t=1744100466; cv=none; b=ku/3j8Vc0ExZNxQlAFVHt8Hc1uTbiowqfhzu2F08TmIbeky6biWoY3U6qPt7Xqp1PUoGPxTCLXfBudWIbDEX1w0NWNyv7tGfS4fkaKyylLLbD0QuMk+0MXabesIb24XH1YinBT0QRaPa7YqobTx46tNQINQLzglnj+YHnPgVPKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744100173; c=relaxed/simple;
-	bh=a0cHsypMDGBoj1KQFM5mwYajqEJrx4jAOqxJNpZ+kzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pnBDIA0zWGDA2LWw462ZZEkp4tXLgKL20UFew2y92LT1UbhThKLv3sgC9I3by2wlCDjGeioMcTrxF1085IeeHoIGg0Huifr1ALZCSbABWPBdIXqRgKQpWXOQ2Q+nOKfW4pUg5kWyyy/NYXK/BDYLZiLJAw4Jpx/N7ZRioStpaKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mTbuCqJe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1ED2C4CEEB;
-	Tue,  8 Apr 2025 08:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744100173;
-	bh=a0cHsypMDGBoj1KQFM5mwYajqEJrx4jAOqxJNpZ+kzU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mTbuCqJetua5Pl89eRSq+KlSTASP0RslqlF95iKaZ1238IoDHob5PfyjcI9b1TjzW
-	 oRS9ccNNBVgaFxO6Xn0/xrrYjvwRF67tgr2Q/lVjc52IBDfXbp9/+bS1RZ1DsbfIOr
-	 M3XEap2gKGIDF8vSkJU3YvnVVWMMlKpuA6S7jBu1K6Md7TQJ7y6UKAny/rt8JYyxdx
-	 IFdTX4ONhmFkxnvg+N5Kx+cNhc4Bjv9jVsoXS/WZuoZfo5uzB+bSpRnInEiXNEiMqo
-	 Dq4QZuYjQq/kE4ajtkQ+kbMFU1g5rKcVGLFsuMFtWZLCTz2qJdF2fxoi/fLxxkUgoL
-	 zB+LZD52kI6nQ==
-Date: Tue, 8 Apr 2025 10:16:04 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-	linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Brian Gerst <brgerst@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Takashi Iwai <tiwai@suse.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uros Bizjak <ubizjak@gmail.com>, Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-raid@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
-Message-ID: <Z_TbRGgRTDvyQyfs@gmail.com>
-References: <20250407094116.1339199-1-arnd@kernel.org>
- <20250407164151.GB2536@sol.localdomain>
- <0d087503-88d5-4d66-aa52-161ca6e0df06@app.fastmail.com>
+	s=arc-20240116; t=1744100466; c=relaxed/simple;
+	bh=6ki7wwnbd0iJIqYsMQ720ooSclqxW4cwHDC/Qr/GbNQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fXIAvwA7MzER7LZdSXlb2fV+zWbdY+LUjF+z12owM7UcAstS1NKflPheO2aJzBucJebhNjvJsYnjB/yOb38c53KHoQlizwIqTEu0b+qBuabLRY03xXC47t+Y17M2g+L8BGF+jjbqnHWFhNpPHZLNjoYYCKVhVcfBWNK+wiTK+NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Z+rahwGH; arc=none smtp.client-ip=15.184.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1744100410;
+	bh=b6IWeKG1BkK4Y1s87lilRqJW63rz32/KnqydxcNNCEU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Z+rahwGH37/wSxxhMpj/AppGIm/+Yb/rDooUweTJH4AJQ0vdhAlXH7I0w38sQff1Q
+	 RhIjVOmB29xFTUV2hHcSgItMJ9QoqbF4wjdbA1tStNpfr1ZHaWjFFWctzA3q0w9vSZ
+	 pCPCnITJTXbX2tbhcD/zbns5EuJ71R6lLZek6g+A=
+X-QQ-mid: bizesmtpip2t1744100367t2572ab
+X-QQ-Originating-IP: ZDF2WWtYGPTNUlyWdYctajdkAvgL5Ku/jo8RLgt5jb0=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 08 Apr 2025 16:19:25 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 755028381633869798
+EX-QQ-RecipientCnt: 11
+From: WangYuli <wangyuli@uniontech.com>
+To: wangyuli@uniontech.com
+Cc: guanwentao@uniontech.com,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas.schier@linux.dev,
+	niecheng1@uniontech.com,
+	petr.pavlu@suse.com,
+	samitolvanen@google.com,
+	zhanjun@uniontech.com
+Subject: [PATCH v2 1/2] kbuild: deb-pkg: Add libdw-dev:native to Build-Depends-Arch
+Date: Tue,  8 Apr 2025 16:19:20 +0800
+Message-ID: <F4939E0696099A5A+20250408081921.63040-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <215802BA292C2DF6+20250408081441.61776-1-wangyuli@uniontech.com>
+References: <215802BA292C2DF6+20250408081441.61776-1-wangyuli@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0d087503-88d5-4d66-aa52-161ca6e0df06@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OQX3ZGb4rLLOj2buYa5d+YtV5988SnwPEIEOxNjbdzJ2yOhzrPrQ9Kwb
+	AZ+bynG9a/M6KUASPiC+p5+EtYv7phtD9s34y5VkcUHeNHH0s3/+VEU6ieSEOJ5CGjeytOl
+	FAVWn9fxy8MkCOjCva220i95I74cD2SDhKk4g9FOYil1FpZ6hNbu8nWPnlvO2GFiNEuvQpE
+	au7U+gnfIxu5M0vLwhSZLKcRJBK+YQ6JROJ5Lcqff+6/5NpCgtnAPxZl1TPgB2CBcFXs9xi
+	Qu3wxHjnKypXgxuU1wtJnpPvIOiIoUP4FAIZhpYi3fnUdgYisETo7BFQy5vdWFkp1Bttod3
+	anOKzpN1x79yx6wX3WMqnRwHe366EmCvkRcPo1ft5jpOvB0ObxFF/X/tbMgtMfufvW8RwA0
+	q7V6g5Qxn5UErmwXmS7Q3yngIF1EESpNwnkE+/weToVITKYsmWZLzu3AjL4rpmeblSjpJ1O
+	NdQQyQPVwNB21m5h9VWmNvSrlvskN2ZL+cHjwDUox3Fs8zDxd2NzWHclOO/XLg46XDCigTJ
+	xCBj2YK4SDKB8SRVnvYVaiXdwMJaL9aQaqQJfoHP8KfOIN/mztPpg28Cf//FXubEBmIA4tR
+	3K72I74QcuOuBJ6rK/nr8mhsD8DgT83XPeVbv/ZHpypDGVslDwqGYGHYZw2L/Js9Lu4Unv9
+	KFl+/W/CtV09+U1MNQFAA2Cv3n1Zize5c5Y3gYZjySWdR3MaMqRYdWyUpfBTmq0EQvS4WZn
+	/nKs+e3L+F33UTs+dsTHqfG/KuAvALCbBeh0Gk5fNCvADAW3lCk/pMAr3Ney1UqxhNJM8Sx
+	iCqpKt9m5CLFWzecHpJB6m+CYYPEAooo/Zg278QuZKWhJ7/CIPptfNtKThlBJjQb2hD7RPG
+	xPWPGMcZg6rKnoSXLoh73gCSHE1+aea9Iok2K8lgNm0aAFmScK36UoGx+zi1wSQMfvnVlMu
+	R/AjDAuHZ/EvNhtIeS8kt7Y7+f+T/RV5hXYxL/ojvMYqZs191FV5EiuPInKMKn0uuDgc=
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
+X-QQ-RECHKSPAM: 0
 
+The dwarf.h header, which is included by
+scripts/gendwarfksyms/gendwarfksyms.h, resides within the libdw-dev
+package.
 
-* Arnd Bergmann <arnd@arndb.de> wrote:
+This portion of the code is compiled under the condition that
+CONFIG_GENDWARFKSYMS is enabled.
 
-> On Mon, Apr 7, 2025, at 18:41, Eric Biggers wrote:
-> > On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
-> >
-> > This is intended to supersede the patches from Uros that removed checks for
-> > binutils < 2.25, right?  See:
-> >
-> > * 
-> > https://lore.kernel.org/linux-crypto/20250404074135.520812-1-ubizjak@gmail.com/
-> > * 
-> > https://lore.kernel.org/linux-crypto/20250404074135.520812-2-ubizjak@gmail.com
-> > * 
-> > https://lore.kernel.org/linux-crypto/20250404074135.520812-3-ubizjak@gmail.com/
-> 
-> I missed these, but it does sounds we easy to work out, either
-> by rebasing my patch or dropping Uros' version.
+Consequently, add libdw-dev to Build-Depends-Arch to prevent
+unforeseen compilation failures.
 
-It's a trivial conflict resolution AFAICS, already done in today's 
--next.
+Fix follow possible error:
+  In file included from scripts/gendwarfksyms/symbols.c:6:
+  scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: 'dwarf.h' file not found
+      6 | #include <dwarf.h>
+        |          ^~~~~~~~~
 
-Thanks,
+Fixes: f28568841ae0 ("tools: Add gendwarfksyms")
+Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+Changelog:
+ *v1 -> v2:
+    1. Correct the commit log.
+    2. Add Sami Tolvanen's "Reviewed-by" tag.
+---
+ scripts/package/mkdebian | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	Ingo
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index 744ddba01d93..d4b007b38a47 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -210,7 +210,7 @@ Rules-Requires-Root: no
+ Build-Depends: debhelper-compat (= 12)
+ Build-Depends-Arch: bc, bison, flex,
+  gcc-${host_gnu} <!pkg.${sourcename}.nokernelheaders>,
+- kmod, libelf-dev:native,
++ kmod, libdw-dev:native, libelf-dev:native,
+  libssl-dev:native, libssl-dev <!pkg.${sourcename}.nokernelheaders>,
+  python3:native, rsync
+ Homepage: https://www.kernel.org/
+-- 
+2.49.0
+
 
