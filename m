@@ -1,367 +1,204 @@
-Return-Path: <linux-kbuild+bounces-6540-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6541-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA76A82919
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 17:00:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1308A8294B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 17:06:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADE99178F79
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 14:55:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA11A173C43
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 14:59:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F0E426E15B;
-	Wed,  9 Apr 2025 14:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC14726B0BE;
+	Wed,  9 Apr 2025 14:54:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewEuy+Pn"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SmByAWa+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3237B267381;
-	Wed,  9 Apr 2025 14:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744210189; cv=fail; b=PrpS6DeGlm67M8yNcrlyD8y42pQXUd4JZITml9oh9LCyeKpdke9ytQeDlx+Bv1Acixq2nQkHd0ZvA/c1XKkGdE7Vo/OxhqDK/r/zu1GA1yOGbaPUag2NvBW4utVrgUPEYDGxJiJy+JRAR7We1eL/9tv+h0bW/lBWxrDiG64YHRk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744210189; c=relaxed/simple;
-	bh=2jEOSg+5YCjvgmfMeEh/tK2w2NmxGdSnnNSS5YqpaOQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=XXBfRlz6P6JYbt7Yk1v+DkLYtzJHdztZ1tx89DsCrkWIlbOR60aYNWUiAGtyJinTf1lE+6JAyvnwt9VbZ1jrZUe0AtIhPnng6L4oYjF771i+jO5/iZk1RhHbv7z4L6n7WMOY9Y3rrm2QaQARocrfJmnPkz7DaneUrVwWYASRopc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewEuy+Pn; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744210186; x=1775746186;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=2jEOSg+5YCjvgmfMeEh/tK2w2NmxGdSnnNSS5YqpaOQ=;
-  b=ewEuy+PnrQGs9U9evBVkA+HgTsIMmfuqljkUgWqBD2LIV6RXhHEYhH4V
-   RjrboStBRYgS6DSf6JyGDy0USkCSHuKw5fmf5RiT+ZZBHwqKGeBT99itG
-   ZK/uGH0KFIhaeCMg3Q87N9eAIQaxgcLOTOMMg+2Pm3GIu25zGOVKllVn2
-   b9lLQvXW8TCX7C7IHx+NU662H+fFn1LwpcpfSQrMPiTQxij+HpEn1DZR8
-   IS7Pz+KRsXrRVePi867q4hLqPqcDuD71bmxtqGFqHPiQtNobIpnM73v2s
-   r3iHs7aSghLxZ/qrFhNORnMAznP9I5MQnWWXNotvflGHUXHAz+3lb4kHM
-   Q==;
-X-CSE-ConnectionGUID: 64zot+yNTXKjqfqvhG6ksQ==
-X-CSE-MsgGUID: bl9dWC5UQ+qE5J/PP9FY5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="33296493"
-X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="33296493"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 07:49:45 -0700
-X-CSE-ConnectionGUID: u5odJqvvRgeBIOQHgKQwKQ==
-X-CSE-MsgGUID: T5RBdYERQW+b4byDn7WdWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
-   d="scan'208";a="159583328"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 07:49:43 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 9 Apr 2025 07:49:43 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Wed, 9 Apr 2025 07:49:43 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 9 Apr 2025 07:49:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xx2hpfYSGWugqdX+bKg741aN6wueI/M0U314uzCqAc7QE9kBFHDDFtHPqnETLxYSw5ObuQXWHU/E2oFpsKhETDWbbP7dS8qsGeoaG/3FXyj+Zk0bDtXUA2/GFRsg5g7qhxt1RdqCvjvRg6012QrC1uyxRbSobAG+NwH4AJjYg5cwphWEj46TwyxWXQ6iNjZMQ1SFb43eMbDtkPJO2ZMfJzE9sUisgdk5G5LuDn03AcsnGov1FSRkRfUdb9FEXwbjd8rjsMLtyDrO/IO5gdzYFwFXECwFQT5b1qZ5WMok/+qABjEqoKDHWMpgjcETcMLkaNmoM75JXJKKCLkWURnlpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FzG3cYdBwO72PLSDMRXLfAigdevmFWr/6L+gdLn8tDY=;
- b=DUfveKKgzqGTH6hzXxgmdPY5SiV4UY6a0ISju+TDG58cIq20Wq63e8FrUuZZUs/aHSGcHARwhaENo23XbyXw/xG3sNb9RPidtf3f7xF/s5VnE2IJpt6yWBLibNO/1bfxNgP2Kece8Co40cgfY3mJXe1sbvEQkema6kbpxIFid+sKUP0o4wfIIDtLujenp9me5sA6bNahgkrozcx9wwk/SttU53Lt/kmcVtc0imJtVzLV3X7olU+PHUM/nRF3u/3Kb+qSQE72tC97ke00RBMn3p/Jqyhi31h0L4yMO19VZmZ8NC3ZrgUTWjMRmHhdfi9B5L29iuc2Li2z7B+YRYcIow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
- by IA0PR11MB7863.namprd11.prod.outlook.com (2603:10b6:208:40c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.21; Wed, 9 Apr
- 2025 14:49:11 +0000
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8606.029; Wed, 9 Apr 2025
- 14:49:11 +0000
-Date: Wed, 9 Apr 2025 16:48:58 +0200
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Dave Hansen <dave.hansen@intel.com>
-CC: <hpa@zytor.com>, <hch@infradead.org>, <nick.desaulniers+lkml@gmail.com>,
-	<kuan-ying.lee@canonical.com>, <masahiroy@kernel.org>,
-	<samuel.holland@sifive.com>, <mingo@redhat.com>, <corbet@lwn.net>,
-	<ryabinin.a.a@gmail.com>, <guoweikang.kernel@gmail.com>,
-	<jpoimboe@kernel.org>, <ardb@kernel.org>, <vincenzo.frascino@arm.com>,
-	<glider@google.com>, <kirill.shutemov@linux.intel.com>, <apopple@nvidia.com>,
-	<samitolvanen@google.com>, <kaleshsingh@google.com>, <jgross@suse.com>,
-	<andreyknvl@gmail.com>, <scott@os.amperecomputing.com>,
-	<tony.luck@intel.com>, <dvyukov@google.com>, <pasha.tatashin@soleen.com>,
-	<ziy@nvidia.com>, <broonie@kernel.org>, <gatlin.newhouse@gmail.com>,
-	<jackmanb@google.com>, <wangkefeng.wang@huawei.com>,
-	<thiago.bauermann@linaro.org>, <tglx@linutronix.de>, <kees@kernel.org>,
-	<akpm@linux-foundation.org>, <jason.andryuk@amd.com>, <snovitoll@gmail.com>,
-	<xin@zytor.com>, <jan.kiszka@siemens.com>, <bp@alien8.de>, <rppt@kernel.org>,
-	<peterz@infradead.org>, <pankaj.gupta@amd.com>, <thuth@redhat.com>,
-	<andriy.shevchenko@linux.intel.com>, <joel.granados@kernel.org>,
-	<kbingham@kernel.org>, <nicolas@fjasle.eu>, <mark.rutland@arm.com>,
-	<surenb@google.com>, <catalin.marinas@arm.com>, <morbo@google.com>,
-	<justinstitt@google.com>, <ubizjak@gmail.com>, <jhubbard@nvidia.com>,
-	<urezki@gmail.com>, <dave.hansen@linux.intel.com>, <bhe@redhat.com>,
-	<luto@kernel.org>, <baohua@kernel.org>, <nathan@kernel.org>,
-	<will@kernel.org>, <brgerst@gmail.com>, <llvm@lists.linux.dev>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kbuild@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
-	<x86@kernel.org>
-Subject: Re: [PATCH v3 11/14] x86: Handle int3 for inline KASAN reports
-Message-ID: <tqlfdijmks6fjcqvfkl75u7dt2ysjak5uqvyco2h6c3qwldcx4@2xuqtek33vaj>
-References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
- <c797714b-4180-4439-8a02-3cfacd42dafe@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c797714b-4180-4439-8a02-3cfacd42dafe@intel.com>
-X-ClientProxiedBy: DUZPR01CA0069.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c2::12) To MN0PR11MB6231.namprd11.prod.outlook.com
- (2603:10b6:208:3c4::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A58C26B094
+	for <linux-kbuild@vger.kernel.org>; Wed,  9 Apr 2025 14:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744210455; cv=none; b=tSUEbCU97s43bVnCIzf3Eklep4ESAvHSRBsvYTfTDn3bbIYX3Bs4LV+GcZqTdgZgMkFFsZuY2hUs69BoEnhcMMAYIdJG0ISV2vbvYMQE0jWoW+jCVPJDg7AuZPM2sX9J+UM9iAsmkCMWjr8je9+lQYnOFk8Fg1HIGZAFqu4gp8M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744210455; c=relaxed/simple;
+	bh=6g0TfWDuvigbnJLDqJYb2R4PL8SRBJ82ihr5x2bmHek=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fTt5kviow5mWBu9r73QxJiDnuMQxFlY1SqF/4ArRQTgbDhC1nloz+5TsLZVfqKG3SFPu42nAKrSaM7gT4F6LJQU2jmutHycD3Djv1FmqOY2u6lTdtw3i5PNnQFjhXPAQNhrV2pjRCk1drRZAMdcwr/KXHruTaWd2l9q+Hp5Aoow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SmByAWa+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5398W3cZ022927
+	for <linux-kbuild@vger.kernel.org>; Wed, 9 Apr 2025 14:54:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2e+zhortkq1PPVBPRYcJak6GvfMLkq1x12up5ZcdsG0=; b=SmByAWa+1AfXtVKW
+	kW7NxtxG4xNKWwjKtwsoXDRknfKrd0cOocRlx/ZRWIKIALZyUZO6ev74eZtaEz8J
+	xHSw3qj7m0wyc2QaL/KMHZaTzMiFg321kMfnnwqPqJ1IGG51YE58+cc1wNmdTfGR
+	3ZBCbW/h9f00z2qK+UwPzT1U+8vG0Rf2WiVQkTuv3IoCenouGJOdl9V5rAX5MvlP
+	H/f99YsjRpjz6r971m7juzNyEPQ23qICulBfVU/MiiR/gvvzT+CgrOSrySFjEJWy
+	bNHaAzU8A1uKsKhT8Q18IiX3YOzn8gHx5Jh6SZbXnNjJiMv6CesYI4A+qjc60OZD
+	MfNUUA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd03u1f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-kbuild@vger.kernel.org>; Wed, 09 Apr 2025 14:54:12 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c552802e9fso167187085a.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 09 Apr 2025 07:54:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744210452; x=1744815252;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2e+zhortkq1PPVBPRYcJak6GvfMLkq1x12up5ZcdsG0=;
+        b=O5DJB4TqtJbJtow9msj8wXlgQYWbBEfdFUvCYp+uFWhy0GWWOkdYnwB26eEL1SrFq5
+         DFq4iRQdhCtqjuK24jgp9BoKJZyIoEr6xxTBbuzXPA0ZJ7dTo+lIzTLKTo4jTnsONZDU
+         MS0xA0fx0PU/OtBpsMbqVPhDsO7JOO6Pb/BR8+DuPqkpsaKHbtMZ/581kuuqamTpvY3R
+         O9i8MOaOJpwCvxsexAO6nbfxBBTlDwxQ+zpGIjpKvK9mNXYASXW/E/Li0dYMPhs/qIkw
+         C9MGIJnaTnNC+14wznEMf9Lpfin+hPWfWlwDS5pIEPmZbhOfHYYke/LrX2oWjrobSVPi
+         i7Og==
+X-Forwarded-Encrypted: i=1; AJvYcCWqJDfXLkuFJzqTral27Feff+09uw20dKJNrBEfLRQeUbN8sp28i1X5tVq4sCY25BJrS7EX+ULK+tzJJSU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRzSzkA4VAstDKt8GpbWPPD3/m3/xELW4MHAh36PDMuuD6SLEQ
+	YF66i4PNB3fKTaJCneMelzKgwK37UJDmq3jpeVxJ6jZmhCq12HZt85/r6Y+fEcpVI6j3BoAr1S5
+	qHObjDxdGclKtEx5QmBf1EPo7Qxa9Vjx5kKgd5SkN7ECDydUtxuPpuwhQVj3RakA=
+X-Gm-Gg: ASbGncs6N0m+tu5tq2Y54Q4zqWsrDwsOptP+ySkB0ERsNqcrXnOSBTmVkHoPMuf+Qpw
+	5UAg0xWdjS70JW31hmqzv4J/1aIH4UQPuVw5FcZVa78dXey/jB5E2IbkcNKBNM/RHMUotnaa3Xx
+	GDES+EWXxX4o4wJwYqDT9UZ3Qn4zeevMvAxCOBRdfhxvKcqCsvd6xarOdrwcOWibkzK+osPyoiR
+	D853GBYdhwejIy1jF2jMREe4fCUQO5TQvM24eKKLDHiHr/0KNQq/gvOnbP21QEUHsU6ao4Jd93S
+	8WESvR75BflLCqHJJy3fC1TpU1+1DdlBvLptaYf7WgD/sG9PjbGBLcTVAcNRN5J60w==
+X-Received: by 2002:a05:620a:d8d:b0:7c3:c814:591d with SMTP id af79cd13be357-7c79cbcad39mr181546785a.1.1744210451937;
+        Wed, 09 Apr 2025 07:54:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkhEFX9jW2lxjwZtZRt5wSID+lKfDUWjDhK7POIeIFuD1YPW0A5mtnATcnc6+c78jlhAPyDg==
+X-Received: by 2002:a05:620a:d8d:b0:7c3:c814:591d with SMTP id af79cd13be357-7c79cbcad39mr181545185a.1.1744210451558;
+        Wed, 09 Apr 2025 07:54:11 -0700 (PDT)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1cb4142sm108209666b.101.2025.04.09.07.54.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Apr 2025 07:54:10 -0700 (PDT)
+Message-ID: <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
+Date: Wed, 9 Apr 2025 16:54:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|IA0PR11MB7863:EE_
-X-MS-Office365-Filtering-Correlation-Id: 704d1a6b-4b64-4316-ec9f-08dd7775b04f
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?8vRvKgG1umdUecJDh7V3c9yquLeFZ0tWoCVRHmT9pAAvXgWwadOH7b5BPT?=
- =?iso-8859-1?Q?t/h6mcAf3vd8wHMgQRn5ty/JUIN6CpgHVVAoS5k1RiA+zK60otScWzRZge?=
- =?iso-8859-1?Q?dQSivIdxl2FbVVdXVEbioTq6D2g7OlhHefS6azMQmuSb9w4MWg08OIfbVc?=
- =?iso-8859-1?Q?FTd7vhrt26trUf0+fazlYtW7+vCP0k/jZc91yXCuPlmF0CSJu5rlIhnc6u?=
- =?iso-8859-1?Q?VEVq0qHMH9Tyw3wGh84zLzPw7j8/KVklb2F0ycRyrx3cN4PfG0CH4H/Hzg?=
- =?iso-8859-1?Q?WswIUpHQnWjLPxdFfE/60nAy9bbulM/3g90dT4fpTK0vZV0TMB20UEi3Pm?=
- =?iso-8859-1?Q?jiYRMDZRr+qxCjmLtUIJgr96yUgvrmMeFbODrUfBeQE3+FqPhFi8m4mn9j?=
- =?iso-8859-1?Q?7ImGwqeXdfvV9A3Nu2ZxQ6nD/sfJ1XRFif7t1uD4SzXhy4rEbJhPY8r9cz?=
- =?iso-8859-1?Q?l1Uy8BnpHguXe4x2gMZ9vQwXhpJw5oGEHiGc5jJ85mfnOl0+ZiEs1s/CP1?=
- =?iso-8859-1?Q?WOLQxnIyGERphVgNgMtDvZA2HqAvu8HjkplCU+7C5FDBrw7t8tbuNXwBmJ?=
- =?iso-8859-1?Q?ZoU/OZFJtbROJ86Fhst9hbUsajbu1o2Mrmd874iRkXrthzZG7a5zVlNtAo?=
- =?iso-8859-1?Q?LXQoI61zKtv+x3/2EBgJnp8Q3FsIr2hjbIytCKwv3UTk7CyGNVd7sX11cU?=
- =?iso-8859-1?Q?u/O1PSqWmbHxa08a6t0jg80x8jmWlDuWLIUzL5GEHtwSvyfdkYutzC9I+6?=
- =?iso-8859-1?Q?UvxN1MicZK98Qrlp3qKjrNchIfYyg2ug4k8ZYqKhHoOrHs+oGn/tKaB04V?=
- =?iso-8859-1?Q?4DZF5LHl9r5ZxBSDQBYIqSox3by/x+ingA5qqJwCV9UW67wb9cTRLRzRXB?=
- =?iso-8859-1?Q?Eg8F5zTgYEyif+ElS6yTakTXwrKYX0ajZ0g+6vPeC0f1HIUNBom7mutHAN?=
- =?iso-8859-1?Q?jwl26NOuYXNMqhxqHC58seCinEsDoA3jrlCjkEZ4s9VJh0lasQwidCv8PB?=
- =?iso-8859-1?Q?P+x+ndUy4MXCW7qfD5+/qXOmkCCL7xHQzkIGcumq7BpSsLASB6v/mIsV9G?=
- =?iso-8859-1?Q?qytO8LGOXKfErLbGWXNtW6x/736DE2dRfQn3Bpdg+usCECARe0olJWTRC7?=
- =?iso-8859-1?Q?mVtSYC6aMZO0iuhi/oXiM+DP5iP65RslSEFl6eucA0/IYeCpG3fnGsLVXj?=
- =?iso-8859-1?Q?9f876Qr63b1k8xm4tL1r+VK0M7cxFrH2PIjstpJlYIz+WqqKukUHqBuMv5?=
- =?iso-8859-1?Q?gVpusHS1gzt/pR9sXuvRoXzBLg9Q0JN4ZPbFuxWBYZh9JpeAkdzlkmmQ8i?=
- =?iso-8859-1?Q?5G9xWjEYTHPyvRGFPI8SdoOf2K2N0Qn4l0+hw2J3snkT4ECboeAIHBgo8+?=
- =?iso-8859-1?Q?LjFvse0uZviplxE8aKghm0lT6ZUz4i4DFo1H0hiw4awNyN9Wu9hN8chjc/?=
- =?iso-8859-1?Q?FgBv/fA73tIHIDEkFF6Pm43dvZDHu89eiaAwhRYVF8vambH/pOFWRELb/O?=
- =?iso-8859-1?Q?U=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?8DTpMCOxKcC9zCHyOQn9sBmRqRE9gi+cQ+yWG6XoacgjQKckzdhxwkt1Ze?=
- =?iso-8859-1?Q?+bstmi4qBJzHALSC3/Zby88Q2blz2ehMozYkDB/ipvRWgOpZjx2cKapGtQ?=
- =?iso-8859-1?Q?YlLqLN8SM/1KBooD7PrBGF7TuJijs0IZYx5MpTdocR2oZd9z70FS0/AoOD?=
- =?iso-8859-1?Q?U+rpTNFZx6ODOvVvt2Mjxh8/Pinu3KpCC5nDIjfEeB540GCoBQ4p+kGAKF?=
- =?iso-8859-1?Q?uHx3QoiWTQ3aR1uUJ9i4SQ5sHkuVNYowMfOWTapb78xV6JrZjeRf54Mdct?=
- =?iso-8859-1?Q?QP2Umxx6SvjERNTuUIjDihRcbheFiDCg3Zh6/FIQOU+iMzk7P8awlxZGTk?=
- =?iso-8859-1?Q?O7iIGBQCpBeiSDU/vQ7UfRmUDS0KVd3RsAwz7hwgHScta6027uELZV3oO0?=
- =?iso-8859-1?Q?/ft9y61mFKykUh8b7en1bbLjiF1y9VpbG/hgw0NhpH1v+iyiklExuDn9do?=
- =?iso-8859-1?Q?TM40uJ/ilQyPqfSgbi2CaQf3ZLZHrmFD7UeoH1B+vJFn62JXLHd1og50QY?=
- =?iso-8859-1?Q?ab/shhP7hT0L5X0ZIb2ht113T0Pr2WaJxGIDsPzWs7ajy7Tlg/uS4EzmuB?=
- =?iso-8859-1?Q?evWdW0yil5T4l4UQrmvrAPXv8kEbH+eKjukGeEsnh3vrW1DOAYGbitYKZ9?=
- =?iso-8859-1?Q?PciKcq6vM9gTIlqLX+r+j2IukaxpI9kIBBIUSWVhs6UZKZxBVRHPUy3cfB?=
- =?iso-8859-1?Q?c+2QZPm7B+S8xk/Z0RoKQee1JuYhT/enCG15x2IA+4h5ltv9PhYSYezjjN?=
- =?iso-8859-1?Q?EQh+jzrzOhAV0JGj0vEvc14rY333HFVwLzApdz3bEnA9YUhLcjeGniDdad?=
- =?iso-8859-1?Q?QHYiFiD1xluy0k2DOWkZxaRMCFbqWgnDjavzTizZVRNXanlQY35usvBqKr?=
- =?iso-8859-1?Q?ZvX0O4KWhuV6DHC0QGWy3Qtlq8zqEMX+iba5FaY7BRfGN6NFUFm4JLq+Ro?=
- =?iso-8859-1?Q?0BfFoGTKSDxTY9x3HfCKWO8PhALmpRfH/7i2h8FhSk5tx+6JLvz2RDmBCr?=
- =?iso-8859-1?Q?5gxdt+cYZa24TJKFdaE7iU79IppEZn7U5sZ8P25aptRJZTpxIXB7xe4pNE?=
- =?iso-8859-1?Q?6uR8ind0d6DGuvVmlDgh0rYdC7bpBArhRYFbCyCz8dXAZDKqIxbTg4gLyw?=
- =?iso-8859-1?Q?3PnreJM6Y894XeP8/SfGk9AKRGWVBhkBp2GNH0bUz+7bUBYP7ivYeOsN0j?=
- =?iso-8859-1?Q?csEEzfnDqTe/5k6A6and5Khx/HCOz2GNxbklxz22UQn2QZSbb+8MDtrFGr?=
- =?iso-8859-1?Q?5bT2IZ0ASVN1BsEMd5jl/EQBsHzNcOudYhuZUABl1U+KUHfDEF6Cippg7t?=
- =?iso-8859-1?Q?hd3GTrNbos42kux8eRs4fmzefMwaQZnD9zLQ2HbsKzUYd26c+DhxLuLXJT?=
- =?iso-8859-1?Q?cbwXgWoLTvhXMK7AVnIg2T+Lllpyv9pu0uULsk86R6YKb7flFtVjVvNqbt?=
- =?iso-8859-1?Q?GM62Gujd/2O6lYM7HR3CVgKUjHoeHwDOvD+dDvQodFjo9ezNUJ+sZOhBrn?=
- =?iso-8859-1?Q?+C06BZwVCSB0fIUfS9UBWa5GDZD4Vp/+e7pWJsbvtYJoFAfaXadcY/aJcA?=
- =?iso-8859-1?Q?GWkDTyT+hp6ICWfaobw9ro4d1NVYHSlt74im5TOB8nSDvuWB5eojhqWe/7?=
- =?iso-8859-1?Q?Xwvib7S0e2Uj+U+upuXVkLz08TUxApGMf6/I92OoduAC7P9WwbE1yhHCtx?=
- =?iso-8859-1?Q?Q6nuK98vtGOAusdBKk0=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 704d1a6b-4b64-4316-ec9f-08dd7775b04f
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 14:49:11.1393
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ElTqV2GOykO6W8MNVcTeIulNL2XFhe4QRmb72/uKGyEIgqpCWH1/m67aO6zSkAtwlOjSoD6d3L0w5ciimM7mB/pauAHeyEu5MfiVb+KQSNY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7863
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and
+ instance to QRTR instance
+To: Yassine Oudjana <y.oudjana@protonmail.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas.schier@linux.dev>,
+        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Sean Nyekjaer <sean@geanix.com>,
+        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        Antoniu Miclaus <antoniu.miclaus@analog.com>,
+        Ramona Gradinariu <ramona.gradinariu@analog.com>,
+        "Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+        Danila Tikhonov <danila@jiaxyga.com>,
+        Antoni Pokusinski <apokusinski01@gmail.com>,
+        Vasileios Amoiridis <vassilisamir@gmail.com>,
+        Petar Stoykov <pd.pstoykov@gmail.com>,
+        shuaijie wang <wangshuaijie@awinic.com>,
+        Yasin Lee <yasin.lee.x@gmail.com>,
+        "Borislav Petkov (AMD)" <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Ingo Molnar <mingo@kernel.org>
+Cc: Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20250406140706.812425-1-y.oudjana@protonmail.com>
+ <20250406140706.812425-3-y.oudjana@protonmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250406140706.812425-3-y.oudjana@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: CpBGiVYtd03CKTJyUSg5zXPPM0pXSyPR
+X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f68a14 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=sfOm8-O8AAAA:8 a=PIWKGJPQcB-H7wabpAUA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=TvTJqdcANYtsRzA46cdi:22
+X-Proofpoint-GUID: CpBGiVYtd03CKTJyUSg5zXPPM0pXSyPR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-09_05,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1011 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504090093
 
-On 2025-04-04 at 10:55:09 -0700, Dave Hansen wrote:
->On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
->> When a tag mismatch happens in inline software tag-based KASAN on x86 an
->> int3 instruction is executed and needs proper handling.
->
->Does this mean "inline software"? Or "inline" functions? I'm not quite
->parsing that. I think it needs some more background.
+On 4/6/25 4:07 PM, Yassine Oudjana wrote:
+> Move QRTR instance conversion from qmi_interface into a new macro in order
+> to reuse it in QRTR device ID tables.
+> 
+> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> ---
+>  drivers/soc/qcom/qmi_interface.c | 5 +++--
+>  include/linux/soc/qcom/qrtr.h    | 2 ++
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/soc/qcom/qmi_interface.c b/drivers/soc/qcom/qmi_interface.c
+> index bc6d6379d8b1..cb57b7e1f252 100644
+> --- a/drivers/soc/qcom/qmi_interface.c
+> +++ b/drivers/soc/qcom/qmi_interface.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/workqueue.h>
+>  #include <trace/events/sock.h>
+>  #include <linux/soc/qcom/qmi.h>
+> +#include <linux/soc/qcom/qrtr.h>
+>  
+>  static struct socket *qmi_sock_create(struct qmi_handle *qmi,
+>  				      struct sockaddr_qrtr *sq);
+> @@ -173,7 +174,7 @@ static void qmi_send_new_lookup(struct qmi_handle *qmi, struct qmi_service *svc)
+>  	memset(&pkt, 0, sizeof(pkt));
+>  	pkt.cmd = cpu_to_le32(QRTR_TYPE_NEW_LOOKUP);
+>  	pkt.server.service = cpu_to_le32(svc->service);
+> -	pkt.server.instance = cpu_to_le32(svc->version | svc->instance << 8);
+> +	pkt.server.instance = cpu_to_le32(QRTR_INSTANCE(svc->version, svc->instance));
+>  
+>  	sq.sq_family = qmi->sq.sq_family;
+>  	sq.sq_node = qmi->sq.sq_node;
+> @@ -236,7 +237,7 @@ static void qmi_send_new_server(struct qmi_handle *qmi, struct qmi_service *svc)
+>  	memset(&pkt, 0, sizeof(pkt));
+>  	pkt.cmd = cpu_to_le32(QRTR_TYPE_NEW_SERVER);
+>  	pkt.server.service = cpu_to_le32(svc->service);
+> -	pkt.server.instance = cpu_to_le32(svc->version | svc->instance << 8);
+> +	pkt.server.instance = cpu_to_le32(QRTR_INSTANCE(svc->version, svc->instance));
+>  	pkt.server.node = cpu_to_le32(qmi->sq.sq_node);
+>  	pkt.server.port = cpu_to_le32(qmi->sq.sq_port);
+>  
+> diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom/qrtr.h
+> index 4d7f25c64c56..10c89a35cbb9 100644
+> --- a/include/linux/soc/qcom/qrtr.h
+> +++ b/include/linux/soc/qcom/qrtr.h
+> @@ -13,6 +13,8 @@ struct qrtr_device {
+>  
+>  #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
+>  
+> +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qmi_instance << 8)
 
-Both software KASAN modes (generic and tag-based) have an inline and outline
-variant. So I was referring to the inline mode in software tag-based mode. I'm
-mentioning "software" since there is also the "hardware" mode.
+Please use FIELD_PREP + GENMASK to avoid potential overflows
 
->
->> Call kasan_report() from the int3 handler and pass down the proper
->> information from registers - RDI should contain the problematic address
->> and RAX other metadata.
->> 
->> Also early return from the int3 selftest if inline KASAN is enabled
->> since it will cause a kernel panic otherwise.
->...
->> diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
->> index bf82c6f7d690..ba277a25b57f 100644
->> --- a/arch/x86/kernel/alternative.c
->> +++ b/arch/x86/kernel/alternative.c
->> @@ -1979,6 +1979,9 @@ static noinline void __init int3_selftest(void)
->>  	};
->>  	unsigned int val = 0;
->>  
->> +	if (IS_ENABLED(CONFIG_KASAN_INLINE))
->> +		return;
->
->Comments, please. This is a total non sequitur otherwise.
-
-Sure, will add.
-
->
->>  	BUG_ON(register_die_notifier(&int3_exception_nb));
->>  
->>  	/*
->> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
->> index 9f88b8a78e50..32c81fc2d439 100644
->> --- a/arch/x86/kernel/traps.c
->> +++ b/arch/x86/kernel/traps.c
->...
->> @@ -849,6 +850,51 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->>  	cond_local_irq_disable(regs);
->>  }
->>  
->> +#ifdef CONFIG_KASAN_SW_TAGS
->> +
->> +#define KASAN_RAX_RECOVER	0x20
->> +#define KASAN_RAX_WRITE	0x10
->> +#define KASAN_RAX_SIZE_MASK	0x0f
->> +#define KASAN_RAX_SIZE(rax)	(1 << ((rax) & KASAN_RAX_SIZE_MASK))
->
->This ABI _looks_ like it was conjured out out of thin air. I assume it's
->coming from the compiler. Any pointers to that ABI definition in or out
->of the kernel would be appreciated.
-
-I'll put a comment that it's related to compilare ABI and I'll add a link to the
-relevant compiler file in the patch message.
-
->
->> +static bool kasan_handler(struct pt_regs *regs)
->> +{
->> +	int metadata = regs->ax;
->> +	u64 addr = regs->di;
->> +	u64 pc = regs->ip;
->> +	bool recover = metadata & KASAN_RAX_RECOVER;
->> +	bool write = metadata & KASAN_RAX_WRITE;
->> +	size_t size = KASAN_RAX_SIZE(metadata);
->
->"metadata" is exactly the same length as "regs->ax", so it seems a
->little silly. Also, please use vertical alignment as a tool to make code
->more readable. Isn't this much more readable?
->
->	bool recover = regs->ax & KASAN_RAX_RECOVER;
->	bool write   = regs->ax & KASAN_RAX_WRITE;
->	size_t size  = KASAN_RAX_SIZE(regs->ax);
->	u64 addr     = regs->di;
->	u64 pc       = regs->ip;
->
-
-Thanks, I'll apply this.
-
->> +	if (!IS_ENABLED(CONFIG_KASAN_INLINE))
->> +		return false;
->> +
->> +	if (user_mode(regs))
->> +		return false;
->> +
->> +	kasan_report((void *)addr, size, write, pc);
->> +
->> +	/*
->> +	 * The instrumentation allows to control whether we can proceed after
->> +	 * a crash was detected. This is done by passing the -recover flag to
->> +	 * the compiler. Disabling recovery allows to generate more compact
->> +	 * code.
->> +	 *
->> +	 * Unfortunately disabling recovery doesn't work for the kernel right
->> +	 * now. KASAN reporting is disabled in some contexts (for example when
->> +	 * the allocator accesses slab object metadata; this is controlled by
->> +	 * current->kasan_depth). All these accesses are detected by the tool,
->> +	 * even though the reports for them are not printed.
->> +	 *
->> +	 * This is something that might be fixed at some point in the future.
->> +	 */
->
->Can we please find a way to do this that doesn't copy and paste a rather
->verbose comment?
->
->What if we passed 'recover' into kasan_report() and had it do the die()?
-
-If that doesn't conflict somehow with how the kasan_report() is envisioned to
-work I think it's a good idea. Since risc-v will soon add this too I imagine? So
-it'd be copied in three places.
-
->
->> +	if (!recover)
->> +		die("Oops - KASAN", regs, 0);
->> +	return true;
->> +}
->> +
->> +#endif
->> +
->>  static bool do_int3(struct pt_regs *regs)
->>  {
->>  	int res;
->> @@ -863,6 +909,12 @@ static bool do_int3(struct pt_regs *regs)
->>  	if (kprobe_int3_handler(regs))
->>  		return true;
->>  #endif
->> +
->> +#ifdef CONFIG_KASAN_SW_TAGS
->> +	if (kasan_handler(regs))
->> +		return true;
->> +#endif
->I won't get _too_ grumbly about ti since there's another culprit right
->above, but the "no #fidefs in .c files" rule still applies. The right
->way to do this is with a stub kasan_handler() in a header with the
->#ifdef in the header.
->
->Actually, ditto on the kasan_handler() #ifdef. I suspect it can go away
->too and be replaced with a IS_ENABLED(CONFIG_KASAN_SW_TAGS) check.
-
-Okay, thanks for pointing it out, I'll add the stub and IS_ENABLED().
-
--- 
-Kind regards
-Maciej Wieczór-Retman
+Konrad
 
