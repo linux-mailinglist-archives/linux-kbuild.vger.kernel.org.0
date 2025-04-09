@@ -1,47 +1,47 @@
-Return-Path: <linux-kbuild+bounces-6559-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6560-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965AEA831D2
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 22:22:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F109A831D7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 22:22:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85D7D16B704
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 20:22:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD3D17A5196
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 20:21:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10BB7202F6D;
-	Wed,  9 Apr 2025 20:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB88211476;
+	Wed,  9 Apr 2025 20:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nFWm9V9/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dOnDX4dL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D312512CDAE;
-	Wed,  9 Apr 2025 20:22:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2841D1E1E13;
+	Wed,  9 Apr 2025 20:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744230124; cv=none; b=eTTANAAVcyIV05X+qckcJKq1xd3Z2dFeCO+vaaMWqzFn0J6YfqImlXPzgHjvtkIPOKkJvyMwlx9JhKxAWNPuXsR3la9+SEnKoOkus1VlHuI5CoEtbHcanGnIDRKcdoJf75WSxEIQh9C5iKzd2Fltu+YaZnwZbehPrNzCtpV+7ZU=
+	t=1744230154; cv=none; b=nJozpLyQGprHZP0YTCanNGRPx/ilK3LqRuBGaLMD1GiDdIuHkvpF1eioQUprQgKUUFt0T+etMNHDzZI+vxMonx4Gireqryeobuiu9jnqElCqEJqomLfgdkHghGa6vj0R8t6J88TjTwXDcPM+3qLEjIdqXByLOFT7jMVGs3ty0lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744230124; c=relaxed/simple;
-	bh=MMRz+vb2BOjUdmlOeFEN6bQcotKDYU5qJMLFpB9ja5A=;
+	s=arc-20240116; t=1744230154; c=relaxed/simple;
+	bh=OW/xgC8e9ub8XpLbqZUYjYmRTQcN1mckVDqHGAKK35E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j640I2JBTVlrmZiJFD+Adce5QdTg+/+FF16BgH+1BY1srI+MyGRM2hIHfPzNB6k4lS44XLFCgO4S/ODkSDuGaMfnIvP7DkDtu7vq38RMKX9dqffa6iHx9W5v33giKsz5J/6zsXypYVYxn6DVFu1n13X2At7um40bWTvvzJJwhqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nFWm9V9/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4306FC4CEE2;
-	Wed,  9 Apr 2025 20:22:03 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=WobBbLA4zUabhL2xH3rkmplom3b5z5k5tTfyKzxTefQxcx6Q6DbwK4QMAiv9ohSuwXXxmmD0WAYPXPiRSbfdyCU0XJ1e+++auD3xXfMZCSMoKWM6bXnV+w2w0ezOKh4TaP0ipMaS/W2tWI66ctVuEwW/fwIq+zGsPZr8W0YuSiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dOnDX4dL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9ABEC4CEE2;
+	Wed,  9 Apr 2025 20:22:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744230123;
-	bh=MMRz+vb2BOjUdmlOeFEN6bQcotKDYU5qJMLFpB9ja5A=;
+	s=k20201202; t=1744230154;
+	bh=OW/xgC8e9ub8XpLbqZUYjYmRTQcN1mckVDqHGAKK35E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nFWm9V9/vljEHrS7yFn71GZuBhNtsIXQ7+61FViNslTyatO8/0Z/PYGhsEHXovUeB
-	 gzcX7FVGJcRsZHh0vkr/fMylokgBA4WvVxLNfemgVJZKsNXx3clbhKwjEukBPKTvCM
-	 NI9Fm+6Z+HO2VvQfolN5BpO1S+cc+sx38gQ095iRAtRTQeIzgn9FkPE4Ksj9pc/reS
-	 egS1kF9BVqxdry7cc+Yr2E8bhe24S3lXFmFurRS/DPk6CIFW2iPIVe9bUINzEnmrzZ
-	 LhRzysJnA0DtFDgfCOMHh1IngaNELcKaTOuSQ1O4MERJl8YWSW5jvBOBvmBnjUCnGf
-	 fpZiRJcaDTGkA==
-Date: Wed, 9 Apr 2025 13:21:58 -0700
+	b=dOnDX4dL4SGLCjmmI5inCI3tky45vog+GW7BluujDFAGcIzuLliJeKM9oA+gETqCj
+	 xevYQkZCw4EQXDdGCXJmii80h4myJYR6Zqfo1x3MIRxXWW/Ik8gfQaj2yYvlpNY5/h
+	 E7bf+8AmbVtJQPEhzvrbTFwB7oTwhM+AGvnQo1LGeo1gUqY82R89jO2rvNJxeYGAk1
+	 KwVRAa/fiyE9akNpveePfCzwQEysT3hEmNJO80bpNxfDCMeYX4tqwjzi84Bv4SUsPC
+	 jsnImVEqcdy451PBjJPJF5P4BfsRsbizhnr5ll8bzyVFx/3Jc2PXipTHGYcqP8rUnJ
+	 KwfCxpBPV52eQ==
+Date: Wed, 9 Apr 2025 13:22:28 -0700
 From: Kees Cook <kees@kernel.org>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -55,7 +55,7 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
 	llvm@lists.linux.dev
 Subject: Re: [PATCH] gcc-plugins: Remove SANCOV plugin
-Message-ID: <202504091321.2B7E95FE@keescook>
+Message-ID: <202504091322.A6EBAC8B@keescook>
 References: <20250409160251.work.914-kees@kernel.org>
  <32bb421a-1a9e-40eb-9318-d8ca1a0f407f@app.fastmail.com>
  <202504090919.6DE21CFA7A@keescook>
@@ -93,7 +93,8 @@ On Wed, Apr 09, 2025 at 09:28:22PM +0200, Arnd Bergmann wrote:
 > 
 > Shall I include the patch to remove the structleak plugin as well?
 
-No, structleak needs to stay for now.
+Sorry, I misread, *stackleak* needs to stay. structleak can go. I'll
+carry that.
 
 -- 
 Kees Cook
