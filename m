@@ -1,87 +1,65 @@
-Return-Path: <linux-kbuild+bounces-6541-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6542-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1308A8294B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 17:06:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 073C3A82A4E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 17:29:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA11A173C43
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 14:59:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43259189378C
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 15:24:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC14726B0BE;
-	Wed,  9 Apr 2025 14:54:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87DA22676C1;
+	Wed,  9 Apr 2025 15:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SmByAWa+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MrLAR2j2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A58C26B094
-	for <linux-kbuild@vger.kernel.org>; Wed,  9 Apr 2025 14:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0001DFFD;
+	Wed,  9 Apr 2025 15:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744210455; cv=none; b=tSUEbCU97s43bVnCIzf3Eklep4ESAvHSRBsvYTfTDn3bbIYX3Bs4LV+GcZqTdgZgMkFFsZuY2hUs69BoEnhcMMAYIdJG0ISV2vbvYMQE0jWoW+jCVPJDg7AuZPM2sX9J+UM9iAsmkCMWjr8je9+lQYnOFk8Fg1HIGZAFqu4gp8M=
+	t=1744212260; cv=none; b=SFpiWzav0eP1Mk+sZm2e3EyOuvf8h4R9btf84S/HR96UQEkujbmK+fA02eaguWux8RT4nwW/C3lk5YNuMWBrwELyfF6D6jipq6XYXTDq/2SgSM9O2OzdEHeMLnieeYO0QnHx+vWm52HT1wu0DkzWi09q3uhoW24izgkQCiitHnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744210455; c=relaxed/simple;
-	bh=6g0TfWDuvigbnJLDqJYb2R4PL8SRBJ82ihr5x2bmHek=;
+	s=arc-20240116; t=1744212260; c=relaxed/simple;
+	bh=sIIpfXuBk1MC8hc55Mz681lzegKE5XjPEjM6JSmS6wg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fTt5kviow5mWBu9r73QxJiDnuMQxFlY1SqF/4ArRQTgbDhC1nloz+5TsLZVfqKG3SFPu42nAKrSaM7gT4F6LJQU2jmutHycD3Djv1FmqOY2u6lTdtw3i5PNnQFjhXPAQNhrV2pjRCk1drRZAMdcwr/KXHruTaWd2l9q+Hp5Aoow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SmByAWa+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5398W3cZ022927
-	for <linux-kbuild@vger.kernel.org>; Wed, 9 Apr 2025 14:54:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2e+zhortkq1PPVBPRYcJak6GvfMLkq1x12up5ZcdsG0=; b=SmByAWa+1AfXtVKW
-	kW7NxtxG4xNKWwjKtwsoXDRknfKrd0cOocRlx/ZRWIKIALZyUZO6ev74eZtaEz8J
-	xHSw3qj7m0wyc2QaL/KMHZaTzMiFg321kMfnnwqPqJ1IGG51YE58+cc1wNmdTfGR
-	3ZBCbW/h9f00z2qK+UwPzT1U+8vG0Rf2WiVQkTuv3IoCenouGJOdl9V5rAX5MvlP
-	H/f99YsjRpjz6r971m7juzNyEPQ23qICulBfVU/MiiR/gvvzT+CgrOSrySFjEJWy
-	bNHaAzU8A1uKsKhT8Q18IiX3YOzn8gHx5Jh6SZbXnNjJiMv6CesYI4A+qjc60OZD
-	MfNUUA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd03u1f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-kbuild@vger.kernel.org>; Wed, 09 Apr 2025 14:54:12 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c552802e9fso167187085a.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 09 Apr 2025 07:54:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744210452; x=1744815252;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2e+zhortkq1PPVBPRYcJak6GvfMLkq1x12up5ZcdsG0=;
-        b=O5DJB4TqtJbJtow9msj8wXlgQYWbBEfdFUvCYp+uFWhy0GWWOkdYnwB26eEL1SrFq5
-         DFq4iRQdhCtqjuK24jgp9BoKJZyIoEr6xxTBbuzXPA0ZJ7dTo+lIzTLKTo4jTnsONZDU
-         MS0xA0fx0PU/OtBpsMbqVPhDsO7JOO6Pb/BR8+DuPqkpsaKHbtMZ/581kuuqamTpvY3R
-         O9i8MOaOJpwCvxsexAO6nbfxBBTlDwxQ+zpGIjpKvK9mNXYASXW/E/Li0dYMPhs/qIkw
-         C9MGIJnaTnNC+14wznEMf9Lpfin+hPWfWlwDS5pIEPmZbhOfHYYke/LrX2oWjrobSVPi
-         i7Og==
-X-Forwarded-Encrypted: i=1; AJvYcCWqJDfXLkuFJzqTral27Feff+09uw20dKJNrBEfLRQeUbN8sp28i1X5tVq4sCY25BJrS7EX+ULK+tzJJSU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRzSzkA4VAstDKt8GpbWPPD3/m3/xELW4MHAh36PDMuuD6SLEQ
-	YF66i4PNB3fKTaJCneMelzKgwK37UJDmq3jpeVxJ6jZmhCq12HZt85/r6Y+fEcpVI6j3BoAr1S5
-	qHObjDxdGclKtEx5QmBf1EPo7Qxa9Vjx5kKgd5SkN7ECDydUtxuPpuwhQVj3RakA=
-X-Gm-Gg: ASbGncs6N0m+tu5tq2Y54Q4zqWsrDwsOptP+ySkB0ERsNqcrXnOSBTmVkHoPMuf+Qpw
-	5UAg0xWdjS70JW31hmqzv4J/1aIH4UQPuVw5FcZVa78dXey/jB5E2IbkcNKBNM/RHMUotnaa3Xx
-	GDES+EWXxX4o4wJwYqDT9UZ3Qn4zeevMvAxCOBRdfhxvKcqCsvd6xarOdrwcOWibkzK+osPyoiR
-	D853GBYdhwejIy1jF2jMREe4fCUQO5TQvM24eKKLDHiHr/0KNQq/gvOnbP21QEUHsU6ao4Jd93S
-	8WESvR75BflLCqHJJy3fC1TpU1+1DdlBvLptaYf7WgD/sG9PjbGBLcTVAcNRN5J60w==
-X-Received: by 2002:a05:620a:d8d:b0:7c3:c814:591d with SMTP id af79cd13be357-7c79cbcad39mr181546785a.1.1744210451937;
-        Wed, 09 Apr 2025 07:54:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEkhEFX9jW2lxjwZtZRt5wSID+lKfDUWjDhK7POIeIFuD1YPW0A5mtnATcnc6+c78jlhAPyDg==
-X-Received: by 2002:a05:620a:d8d:b0:7c3:c814:591d with SMTP id af79cd13be357-7c79cbcad39mr181545185a.1.1744210451558;
-        Wed, 09 Apr 2025 07:54:11 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1cb4142sm108209666b.101.2025.04.09.07.54.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Apr 2025 07:54:10 -0700 (PDT)
-Message-ID: <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
-Date: Wed, 9 Apr 2025 16:54:05 +0200
+	 In-Reply-To:Content-Type; b=pfN1OQuydfD80QcVk3C6ev7heqYIKUwducHThOsj7U5fpBK6lih8bDKFBmKfJs6a+0ltpYnWXVre062XSvvMIy2HSP3zquHnuQBCjwGK/mIg0eabLf/2Fnr4nTfSvf8oBIWoQ+G+x3qoX7bsE7twXFHIhJLGMsZBtdiReRw0ynw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MrLAR2j2; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744212259; x=1775748259;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=sIIpfXuBk1MC8hc55Mz681lzegKE5XjPEjM6JSmS6wg=;
+  b=MrLAR2j24AjvLMoCbuOzshguSBehqJc2buNJ61eGwkCCEXwy9Dy1W+pK
+   zKnCM0VXcybKDaZnrcl6Z0jfs7Y0fjORRvY19iyRUDrU59wjHh4IX71jl
+   Dso+Gk15CBifGkn9rRTrVjiF4jKz3IbGNrwdxWFqd4h5TtNUQvBrRHp2e
+   BL5pXKo0bc5ZRr2siPAmbplgJZZgziV2I34Llo3zxGHYuRYSI1/VxN2zY
+   1DZFemSEjeyMHbBTQBhu2oD4VtUyBwb68SIZAInw8hnutVPGC+woBPdDY
+   gpeaL5cWfRpe/+oao496GrvY05Cwm+miq4gMAAvDLQ7vmah62lCTuH0fW
+   g==;
+X-CSE-ConnectionGUID: TgvWkDpJRr2MdRR7QYZ6gQ==
+X-CSE-MsgGUID: rEqQ1yTAQ1SVtdkDXJp5CA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="71071412"
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="71071412"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 08:24:16 -0700
+X-CSE-ConnectionGUID: djvQwLdiSIOUrXyaz6HO3w==
+X-CSE-MsgGUID: GE/MdNfoTNa8pIrfVyB5NQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="151793818"
+Received: from sramkris-mobl1.amr.corp.intel.com (HELO [10.124.220.195]) ([10.124.220.195])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 08:24:14 -0700
+Message-ID: <0770a3d4-c8ff-4172-9eda-c9debfee6d03@intel.com>
+Date: Wed, 9 Apr 2025 08:24:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -89,116 +67,99 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and
- instance to QRTR instance
-To: Yassine Oudjana <y.oudjana@protonmail.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas.schier@linux.dev>,
-        Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-        Sean Nyekjaer <sean@geanix.com>,
-        Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Antoniu Miclaus <antoniu.miclaus@analog.com>,
-        Ramona Gradinariu <ramona.gradinariu@analog.com>,
-        "Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
-        Danila Tikhonov <danila@jiaxyga.com>,
-        Antoni Pokusinski <apokusinski01@gmail.com>,
-        Vasileios Amoiridis <vassilisamir@gmail.com>,
-        Petar Stoykov <pd.pstoykov@gmail.com>,
-        shuaijie wang <wangshuaijie@awinic.com>,
-        Yasin Lee <yasin.lee.x@gmail.com>,
-        "Borislav Petkov (AMD)" <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Ingo Molnar <mingo@kernel.org>
-Cc: Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20250406140706.812425-1-y.oudjana@protonmail.com>
- <20250406140706.812425-3-y.oudjana@protonmail.com>
+Subject: Re: [PATCH v3 09/14] x86: Minimal SLAB alignment
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: hpa@zytor.com, hch@infradead.org, nick.desaulniers+lkml@gmail.com,
+ kuan-ying.lee@canonical.com, masahiroy@kernel.org,
+ samuel.holland@sifive.com, mingo@redhat.com, corbet@lwn.net,
+ ryabinin.a.a@gmail.com, guoweikang.kernel@gmail.com, jpoimboe@kernel.org,
+ ardb@kernel.org, vincenzo.frascino@arm.com, glider@google.com,
+ kirill.shutemov@linux.intel.com, apopple@nvidia.com,
+ samitolvanen@google.com, kaleshsingh@google.com, jgross@suse.com,
+ andreyknvl@gmail.com, scott@os.amperecomputing.com, tony.luck@intel.com,
+ dvyukov@google.com, pasha.tatashin@soleen.com, ziy@nvidia.com,
+ broonie@kernel.org, gatlin.newhouse@gmail.com, jackmanb@google.com,
+ wangkefeng.wang@huawei.com, thiago.bauermann@linaro.org, tglx@linutronix.de,
+ kees@kernel.org, akpm@linux-foundation.org, jason.andryuk@amd.com,
+ snovitoll@gmail.com, xin@zytor.com, jan.kiszka@siemens.com, bp@alien8.de,
+ rppt@kernel.org, peterz@infradead.org, pankaj.gupta@amd.com,
+ thuth@redhat.com, andriy.shevchenko@linux.intel.com,
+ joel.granados@kernel.org, kbingham@kernel.org, nicolas@fjasle.eu,
+ mark.rutland@arm.com, surenb@google.com, catalin.marinas@arm.com,
+ morbo@google.com, justinstitt@google.com, ubizjak@gmail.com,
+ jhubbard@nvidia.com, urezki@gmail.com, dave.hansen@linux.intel.com,
+ bhe@redhat.com, luto@kernel.org, baohua@kernel.org, nathan@kernel.org,
+ will@kernel.org, brgerst@gmail.com, llvm@lists.linux.dev,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
+References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
+ <173d99afea37321e76e9380b49bd5966be8db849.1743772053.git.maciej.wieczor-retman@intel.com>
+ <ceade208-c585-48e7-aafe-4599b1a06b81@intel.com>
+ <czzcsmwaf42v47arvmwgrh4p7h3misoarremtc7r2cme2ceuud@yya5jfuqhuye>
+From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250406140706.812425-3-y.oudjana@protonmail.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <czzcsmwaf42v47arvmwgrh4p7h3misoarremtc7r2cme2ceuud@yya5jfuqhuye>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: CpBGiVYtd03CKTJyUSg5zXPPM0pXSyPR
-X-Authority-Analysis: v=2.4 cv=Q4vS452a c=1 sm=1 tr=0 ts=67f68a14 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=sfOm8-O8AAAA:8 a=PIWKGJPQcB-H7wabpAUA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=TvTJqdcANYtsRzA46cdi:22
-X-Proofpoint-GUID: CpBGiVYtd03CKTJyUSg5zXPPM0pXSyPR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-09_05,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 spamscore=0 clxscore=1011 phishscore=0
- bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504090093
 
-On 4/6/25 4:07 PM, Yassine Oudjana wrote:
-> Move QRTR instance conversion from qmi_interface into a new macro in order
-> to reuse it in QRTR device ID tables.
+On 4/9/25 05:49, Maciej Wieczor-Retman wrote:
+> The differences looked mostly like noise, sometimes the higher alignment would
+> use up a little bit less memory, sometimes a little bit more. I looked at all
+> values in "cat /proc/meminfo".
 > 
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> ---
->  drivers/soc/qcom/qmi_interface.c | 5 +++--
->  include/linux/soc/qcom/qrtr.h    | 2 ++
->  2 files changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/soc/qcom/qmi_interface.c b/drivers/soc/qcom/qmi_interface.c
-> index bc6d6379d8b1..cb57b7e1f252 100644
-> --- a/drivers/soc/qcom/qmi_interface.c
-> +++ b/drivers/soc/qcom/qmi_interface.c
-> @@ -14,6 +14,7 @@
->  #include <linux/workqueue.h>
->  #include <trace/events/sock.h>
->  #include <linux/soc/qcom/qmi.h>
-> +#include <linux/soc/qcom/qrtr.h>
->  
->  static struct socket *qmi_sock_create(struct qmi_handle *qmi,
->  				      struct sockaddr_qrtr *sq);
-> @@ -173,7 +174,7 @@ static void qmi_send_new_lookup(struct qmi_handle *qmi, struct qmi_service *svc)
->  	memset(&pkt, 0, sizeof(pkt));
->  	pkt.cmd = cpu_to_le32(QRTR_TYPE_NEW_LOOKUP);
->  	pkt.server.service = cpu_to_le32(svc->service);
-> -	pkt.server.instance = cpu_to_le32(svc->version | svc->instance << 8);
-> +	pkt.server.instance = cpu_to_le32(QRTR_INSTANCE(svc->version, svc->instance));
->  
->  	sq.sq_family = qmi->sq.sq_family;
->  	sq.sq_node = qmi->sq.sq_node;
-> @@ -236,7 +237,7 @@ static void qmi_send_new_server(struct qmi_handle *qmi, struct qmi_service *svc)
->  	memset(&pkt, 0, sizeof(pkt));
->  	pkt.cmd = cpu_to_le32(QRTR_TYPE_NEW_SERVER);
->  	pkt.server.service = cpu_to_le32(svc->service);
-> -	pkt.server.instance = cpu_to_le32(svc->version | svc->instance << 8);
-> +	pkt.server.instance = cpu_to_le32(QRTR_INSTANCE(svc->version, svc->instance));
->  	pkt.server.node = cpu_to_le32(qmi->sq.sq_node);
->  	pkt.server.port = cpu_to_le32(qmi->sq.sq_port);
->  
-> diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom/qrtr.h
-> index 4d7f25c64c56..10c89a35cbb9 100644
-> --- a/include/linux/soc/qcom/qrtr.h
-> +++ b/include/linux/soc/qcom/qrtr.h
-> @@ -13,6 +13,8 @@ struct qrtr_device {
->  
->  #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
->  
-> +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qmi_instance << 8)
+> Is there some slab/slub benchmark for the kernel that would make sense to
+> checkout here?
 
-Please use FIELD_PREP + GENMASK to avoid potential overflows
+You don't need to benchmark anything. Just mention that it will waste
+memory and also give *some* ballpark estimate on how much. Just looking
+at your laptop's /proc/slabinfo would be a good start.
 
-Konrad
+Oh, and it wouldn't hurt to find out when and why the minimal slab
+alignment got dropped down to 8 bytes. I _thought_ it was higher at some
+point. Presumably there was a good reason for it and you're now undoing
+part of it.
 
