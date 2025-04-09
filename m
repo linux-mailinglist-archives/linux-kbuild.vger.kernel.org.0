@@ -1,164 +1,142 @@
-Return-Path: <linux-kbuild+bounces-6556-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6557-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1578BA82EAC
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 20:29:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1707A8308B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 21:29:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EABB4462E13
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 18:29:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4B2F1B802FF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 19:29:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A822B2777EC;
-	Wed,  9 Apr 2025 18:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E24CF1E5201;
+	Wed,  9 Apr 2025 19:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vde3W33F"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SZVS2X+S";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MGt2wZC/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEDF27703F;
-	Wed,  9 Apr 2025 18:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F7E165F1A;
+	Wed,  9 Apr 2025 19:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744223378; cv=none; b=t6V/hfB7/vc0Ztx+4JYcPgRSDga/2HaEEEy4kjjFP1yHNMD391oE/BXMtDkEJEOLwB/2b02h2gqPm13oCRU1y1jIPvroBd0KYYtgul4hUBdarbC0HToOzeA+87/QsM4HsIny+Nl1hnvcMdnqHt8wKSIKjC2Cx18SZYlRR62Zd6M=
+	t=1744226974; cv=none; b=hXWPSlxBOvygZmx7zTvoiOS6sljet0ZFkkF3hMbkaXxl/BG+hc1P+VnvtWtwiWoMGU/ip/9aOICMKw80Zz/qMOoQV55mAX36KYm/O2+QzPbBJiojYNgX+9lt1kB6GibIVHBvZ5EdwKJbJFDkJqS8qNebR88EW/lrw9+U2j3YpT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744223378; c=relaxed/simple;
-	bh=XjMuS67xjDtuXFVkxS/Yl4HEwhfGPgBq+HWzq93mKC0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=stw8Mf7XGDhYD+tdtJL9vhJPI1HRX5Qnqeffb6mwNPrCSNHnPfcPdP0rCUWlnk5f0kLStehsjEon2ta3z3ff+kfZkC5ej1FU5XqiQqoLi8uH8ILfZyjlUJb6AaVY7Rxwr3Ce249ApZXSDBMRmJgB4YhJWDOcXuTec8kQ6jPkDvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vde3W33F; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744223377; x=1775759377;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=XjMuS67xjDtuXFVkxS/Yl4HEwhfGPgBq+HWzq93mKC0=;
-  b=Vde3W33FEI7qtxiGQs9NXFo2njzVF/jygrPG1oi+sHEU3JOu5nxd/gxj
-   BffomcyMH0s6e6OgaGKn4UlE+WBxQXP731af9/L1tTlGtcQXPbgp2qftH
-   e5xTB29Eu0o1vhxuf6tllOUdQOIQKsewPBHKxF9q0txIy7feMlZ51/3Ak
-   8bFUFscSy0+ynDpr3xG7kSXMo7De19LKYXtCoPreGFIDHUk1lIw/yKIoR
-   +G2Mf295K20/zIhfIoMyuollbSWlroGyxSxSTjRvf5jUcOch187QAby62
-   hs+rL84VeqXjbh8EpkjRNmgSjJVVSLKiVvk1+SHoJ6X2X9wA/bTAu1UDX
-   w==;
-X-CSE-ConnectionGUID: Wj5WYw0cSYqZ6NpAgFljVA==
-X-CSE-MsgGUID: wdv1jgvzR7uJuMl1CjcnzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="45429971"
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="45429971"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 11:29:36 -0700
-X-CSE-ConnectionGUID: OYu0cAbzScCswQ/sr0tt1w==
-X-CSE-MsgGUID: Wx9F5wsaQd2PJHrJj+iwYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
-   d="scan'208";a="159629133"
-Received: from sramkris-mobl1.amr.corp.intel.com (HELO [10.124.220.195]) ([10.124.220.195])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 11:29:32 -0700
-Message-ID: <fe8192a9-02ba-40c9-9ba9-8582547cd3f4@intel.com>
-Date: Wed, 9 Apr 2025 11:29:30 -0700
+	s=arc-20240116; t=1744226974; c=relaxed/simple;
+	bh=/33JDmW+PxsRyF3vd7Wh4tmmtBi36TC/ft8P/UrztgY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=SYXH4jG4yxkoF6EGSZmoOSXqCuwWCxTqnEUaIbjF2r9eEtd8h1dJomHZ0q6pwSEoqaeiqBlSO32TX09FpjNMHpKZTvi/vYWcYX4tFXmdLvVbejc0aVRGgJieb9bF1l/U6SSOR8INF3Lkvo5hpPnVMljnpdPfnLKdjGpY/53Gd2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SZVS2X+S; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MGt2wZC/; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 54F9D11401DF;
+	Wed,  9 Apr 2025 15:29:32 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-12.internal (MEProxy); Wed, 09 Apr 2025 15:29:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1744226972;
+	 x=1744313372; bh=7LeM8fTejAmZLunIFrf51zCFnY/PxkuNIPidaV8t9E8=; b=
+	SZVS2X+SXF/xI6ETW3YUrp1+nOPW3P3YCOXZsI99XSr4Oq0Bx+9o7wOiPyN9BUf5
+	QTTHK6Q5a30QD2kDE1P5bPi7NwKIepgeEyVeIlW7EaXedIJtXBITlVxx/88PHYH1
+	/pxoUji0xkGcF1viRLTQr3Wx7O8rRFgr7iup/SYaSgjn+8UWE6HpivjnTcbg57Bd
+	309apBy/Tzg/R5lJ/dxRZikefqgcx13YFwERlPRWVu0F+sCxAHM3QlynzVpj3K3a
+	UjCRcOD2FplJBSsDIVmz6RiTzqadQJcUf3XyqXWPSQjZZ0+sArIIflMj0+OqO10F
+	bBG9mB82FLJx72sGPDKVcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744226972; x=
+	1744313372; bh=7LeM8fTejAmZLunIFrf51zCFnY/PxkuNIPidaV8t9E8=; b=M
+	Gt2wZC/Vedbg9H8OvDlh2J9HdQS9iF+dB5FYV520GjIY5bCcUKhBIejDGcL3YPwN
+	g0cPxl8uOwJaQ9OXZj1dep4PSZ2TZIJRJfPsIlSwwK7J7PkIR0EsTfZggMJDLaVb
+	5vvqLlchL5Mdqk1BNazl0+hXk25oyc8wtXkzFJ2lusR+jtKgryNfRyZiJL63q1Ah
+	A5K461r4GiDKHIYmaeg0e86RTU8lpnbt4Pwjiri0xRIYkrzj2PcXp1Qeh2uCDhrq
+	tIbYZsoCqrFLZV6zSZFU4OBx6muOKrCDkv9BeoLhIyJDFuggQtsXpQmj7PgvNLmr
+	V4E7gVKSY5tXEd8K5wykQ==
+X-ME-Sender: <xms:m8r2Z4IDKxBcEDfYGDYslx0jUkXueEdDQvXueMqzKLgGxpukJDjZLA>
+    <xme:m8r2Z4JmRcd0bWpheClZBW7M-qrnMDGY_tTENCYN2lm3Ttlyo4W2PVq_dGT2jclFj
+    M34ezDpy7nx5I609no>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeikeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
+    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
+    udegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehnihgtohhlrghssehfjhgrsh
+    hlvgdrvghupdhrtghpthhtoheprghnughrvgihkhhnvhhlsehgmhgrihhlrdgtohhmpdhr
+    tghpthhtohepughvhihukhhovhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepjhhush
+    htihhnshhtihhtthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepmhhorhgsohesghho
+    ohhglhgvrdgtohhmpdhrtghpthhtohepkhgrshgrnhdquggvvhesghhoohhglhgvghhroh
+    huphhsrdgtohhmpdhrtghpthhtohepkhgvvghssehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnrghthh
+    grnheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:m8r2Z4vJ3WXAHXrvKXd5B3xKv4UAtE2V-BrbJEZAyq1B4dzTfpijvA>
+    <xmx:m8r2Z1YeiT1XCtilSnIsx6V2-MzbggW-b6mGOWfQy9AEZpRDFmlT5A>
+    <xmx:m8r2Z_byLixda4QM1ei16kxOQ2Y7JUi5RRFxBC3Vzf0ThsHM5YccDg>
+    <xmx:m8r2ZxAT9c3e6CGKtCSEv5jY1K8fvNyLiQKw-tehgk1U77NzNctBFg>
+    <xmx:nMr2Z5lFihtWtcgwl8O9IIHMPAftIujBP4HeUpKPp9ywwLH-kGjpPnka>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7B78D2220073; Wed,  9 Apr 2025 15:29:31 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/14] x86: Update the KASAN non-canonical hook
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: hpa@zytor.com, hch@infradead.org, nick.desaulniers+lkml@gmail.com,
- kuan-ying.lee@canonical.com, masahiroy@kernel.org,
- samuel.holland@sifive.com, mingo@redhat.com, corbet@lwn.net,
- ryabinin.a.a@gmail.com, guoweikang.kernel@gmail.com, jpoimboe@kernel.org,
- ardb@kernel.org, vincenzo.frascino@arm.com, glider@google.com,
- kirill.shutemov@linux.intel.com, apopple@nvidia.com,
- samitolvanen@google.com, kaleshsingh@google.com, jgross@suse.com,
- andreyknvl@gmail.com, scott@os.amperecomputing.com, tony.luck@intel.com,
- dvyukov@google.com, pasha.tatashin@soleen.com, ziy@nvidia.com,
- broonie@kernel.org, gatlin.newhouse@gmail.com, jackmanb@google.com,
- wangkefeng.wang@huawei.com, thiago.bauermann@linaro.org, tglx@linutronix.de,
- kees@kernel.org, akpm@linux-foundation.org, jason.andryuk@amd.com,
- snovitoll@gmail.com, xin@zytor.com, jan.kiszka@siemens.com, bp@alien8.de,
- rppt@kernel.org, peterz@infradead.org, pankaj.gupta@amd.com,
- thuth@redhat.com, andriy.shevchenko@linux.intel.com,
- joel.granados@kernel.org, kbingham@kernel.org, nicolas@fjasle.eu,
- mark.rutland@arm.com, surenb@google.com, catalin.marinas@arm.com,
- morbo@google.com, justinstitt@google.com, ubizjak@gmail.com,
- jhubbard@nvidia.com, urezki@gmail.com, dave.hansen@linux.intel.com,
- bhe@redhat.com, luto@kernel.org, baohua@kernel.org, nathan@kernel.org,
- will@kernel.org, brgerst@gmail.com, llvm@lists.linux.dev,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
-References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <c37c89e71ed5a8e404b24b31e23457af12f872f2.1743772053.git.maciej.wieczor-retman@intel.com>
- <8416848c-700a-4ff0-8a22-aa62579d60cd@intel.com>
- <ycsp2mypsnnwcvmogvbxgpmw7hia4y5rvywa2xbam7lbuhnbx6@adg6uaasx6ci>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <ycsp2mypsnnwcvmogvbxgpmw7hia4y5rvywa2xbam7lbuhnbx6@adg6uaasx6ci>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: T654dc7563e4388c4
+Date: Wed, 09 Apr 2025 21:28:22 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Kees Cook" <kees@kernel.org>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, "Dmitry Vyukov" <dvyukov@google.com>,
+ "Andrey Konovalov" <andreyknvl@gmail.com>, linux-kbuild@vger.kernel.org,
+ linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Message-Id: <6f7e3436-8ae8-473d-be64-c962366ca5c8@app.fastmail.com>
+In-Reply-To: <202504090919.6DE21CFA7A@keescook>
+References: <20250409160251.work.914-kees@kernel.org>
+ <32bb421a-1a9e-40eb-9318-d8ca1a0f407f@app.fastmail.com>
+ <202504090919.6DE21CFA7A@keescook>
+Subject: Re: [PATCH] gcc-plugins: Remove SANCOV plugin
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 4/9/25 07:34, Maciej Wieczor-Retman wrote:
-> Yes, I like it more than just generating the addresses in the parenthesis. What
-> do you think about this naming? KASAN prefix and [k/u]addr since it's not really
-> the lowest/highest address in the whole LA, just in this KASAN compiler scheme.
-> And I changed 1<<56 to 2<<56 so it generates 0xFE00000000000000 instead of
-> 0xFF00000000000000.
-> 
-> 	#define KASAN_HIGHEST_KADDR (void *)0xFFFFFFFFFFFFFFFF
-> 	#define KASAN_LOWEST_KADDR (void *)(KASAN_HIGHEST_KADDR - \
-> 						(2<<56) + 1)
-> 	#define KASAN_HIGHEST_UADDR (void *)0x7FFFFFFFFFFFFFFF
-> 	#define KASAN_LOWEST_UADDR (void *)(KASAN_HIGHEST_UADDR - \
-> 						(2<<56) + 1)
+On Wed, Apr 9, 2025, at 18:19, Kees Cook wrote:
+> On Wed, Apr 09, 2025 at 06:16:58PM +0200, Arnd Bergmann wrote:
+>> On Wed, Apr 9, 2025, at 18:02, Kees Cook wrote:
+>> 
+>> >  config KCOV
+>> >  	bool "Code coverage for fuzzing"
+>> >  	depends on ARCH_HAS_KCOV
+>> > -	depends on CC_HAS_SANCOV_TRACE_PC || GCC_PLUGINS
+>> > +	depends on CC_HAS_SANCOV_TRACE_PC
+>> 
+>> So this dependency would also disappear. I think either way is fine.
+>> 
+>> The rest of the patch is again identical to my version.
+>
+> Ah! How about you keep the patch as part of your gcc-8.1 clean up, then?
+> That seems more clear, etc.
 
-Yes, that is much better.
+Sure, I can probably keep that all in a branch of the asm-generic
+tree, or alternatively send it through the kbuild tree.
+
+Shall I include the patch to remove the structleak plugin as well?
+
+       Arnd
 
