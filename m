@@ -1,108 +1,93 @@
-Return-Path: <linux-kbuild+bounces-6526-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6527-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC332A819C8
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 02:15:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACF0A81AC3
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 03:59:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 812F94479FA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 00:15:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 423D3467F2A
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 01:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C98102A1C9;
-	Wed,  9 Apr 2025 00:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B5D214F104;
+	Wed,  9 Apr 2025 01:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JH0EQjwN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cYus8xA7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD47125B9
-	for <linux-kbuild@vger.kernel.org>; Wed,  9 Apr 2025 00:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617B72940F;
+	Wed,  9 Apr 2025 01:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744157719; cv=none; b=G5FL2BN2ocpBFyMQcTjXexR9o8YMhkMNQs1hjBZ3ibW4bg2/GuuJthD0JjvwPsUpeIB73syq+uoYJHU+s+4CgwRI9O7FoF19EgePWpmZiBby82tCMCkbe8pyqyzPLH4URDQmZ3l+KO5p+gQ/2z39ye5wxNlfJerOCu+bWQ5FMqY=
+	t=1744163934; cv=none; b=oGOK3t/yqYxoCXbxTrRUZbGyxo5g5L6RD6l7EYH3Zw48w+piTBfXjhLckfFRyWHrGrUHqLUHfSs7jvbKMHTrUORLOJJJ+mlmZVznTgBS4kQT7p4DZABQQiLHGcOSfXuG/duGIoR4qKrtxUTFB/1BVLq4ldDZvUjM/oFkXkR9NF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744157719; c=relaxed/simple;
-	bh=kzUr1f5PApCyyaQsNWZA+8T6s6ncUwpR5rXya9vt64M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gmx7mIHchkWFX9h/EH/5lPNBjW3X2htywE+CdtX5n+NI4kTg3AaEkLu+3x+Q9bqhfh48w3M/MiIQQEMNcz6PwfnanI1k/+j5IueLKGxevS+G3OjhAsPo/uSC4LZ8+35KY16YIzsIQTo/80m0tyB/iT8ETws3g2OAX3aMu4qCX3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JH0EQjwN; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9eb1eso375125a12.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Apr 2025 17:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1744157714; x=1744762514; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=y7RB+y2EUGP8TtBqM/TIRDMB8wrdZCpt37v8TqudoNA=;
-        b=JH0EQjwNRFiiR9JKTZT+2Qv+Ww6e7i6GrQHvblVDi9+fC8FBVkInJt+GVzLagbBIrU
-         HO/VfWR1x28xrQuTLH79O1Hh9qlAEW/7Iq3zI0WwXdFz2lTR4PcTsdmzgZLE2Ujix/tj
-         hrA4V9DHwfmIihNomYXAdvXc4OZFx2BGy+1Gs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744157714; x=1744762514;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y7RB+y2EUGP8TtBqM/TIRDMB8wrdZCpt37v8TqudoNA=;
-        b=syNulcqkiUZZh7JcBGfie3GiIcyadbi2fXXBQ9NRisxLCJErKolxhA9UJiJjJkve93
-         rVEldVwpKejJt06MTu+6olK6vnQ8sYnQP12RcqL9ok8ArOVJNoSq1CYXxkojztW8M6Ec
-         NVNMCvg8Vo7MNgxhvGRsNFapGX9pFZ2ziAwHDJNRo6MdH5lR0itV6fOZqb8HsQtoa+CB
-         LWngmx2ijFbdt7CkeSSPJMzoVvLRZC7GKVPzyw8JwDq/icCDR7o6Rt0NCjh+FRKtleMR
-         cML7PxhtWpiLbC+TaQdKbrYqvRifxmEYWKHVtdaHWIGYXcDKU4zbv531WJprgtRKYykh
-         eCHw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2A/hni7+XopgIjODGOwKuyaGUb4ihNYpydCQy4OgSgo6fA+FYVx4KiPXSIA+CS0lCW6eBXC9PX6HEUdA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzf4kIl+iwGP9P8CJHZZ7ModdgxJ59uIxqzlQ61l3fE1caqDMP
-	uN/BMUDKs2nWL78mkvD2bzbrLNVa7snGYbvud+aOHMtGDH2UFOAs4cfm9Cf8qtJW4S/LaTN2gbY
-	DBKI=
-X-Gm-Gg: ASbGncvrfI1jLtks/URVT4DRwbVd1T6Mjq4Dv7S4vOIENGpft/RZ8pyqRV5OQ+O1pvd
-	sz5X3XjXii1QacHxiZH8Rw5+q2WgzEOt1Cj4X+wsHQjnbFAFsZ2bG4GZMDegut00Xyoxa1P9+qj
-	N+j8l1zLUimgX30F69GryetmLxHBMQp+tRVQSLisp2UmVjs37kINqiw6dlVlGj4CYA0uFvsrYjf
-	1FkifP7h9IFvK2OISs7EEx8OP+t5/+t0tMhZhdmyFBDX6wMtZI4HP79/bryFxMTp5RiHJDQ/blt
-	WbRWe+Z0wTBXyNhdqgbAk0V6cc3C39ZJFcAG3RlvxqdUtZq16vw46YRFFrEYpDzFCOmnvobqJns
-	jy4RRpo5/KjAZK/UGUkw=
-X-Google-Smtp-Source: AGHT+IGEoIUBlVVqe0bhtbwa7Oa/KPTs2dXHaIutpXZzryHFSH44zjoQSa0m6JSWYhvBaBeoReuN4g==
-X-Received: by 2002:a05:6402:4415:b0:5e4:d52b:78a2 with SMTP id 4fb4d7f45d1cf-5f1f4808cb2mr4564365a12.15.1744157713951;
-        Tue, 08 Apr 2025 17:15:13 -0700 (PDT)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f087ed1c1csm8754434a12.22.2025.04.08.17.15.11
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 17:15:12 -0700 (PDT)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac7bd86f637so40888266b.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Apr 2025 17:15:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXICe5HZePEmLbLozXRTDUihAB41D3w0Osdf9SFOAQMPE8ZUzeCkDH9OrBz3KIknCm3NAoSUvaMoF79+3U=@vger.kernel.org
-X-Received: by 2002:a17:907:97ca:b0:ac3:ef17:f6f0 with SMTP id
- a640c23a62f3a-aca9bfb0d37mr81837666b.5.1744157710814; Tue, 08 Apr 2025
- 17:15:10 -0700 (PDT)
+	s=arc-20240116; t=1744163934; c=relaxed/simple;
+	bh=PtgBP6zEsA6YsxYnc/Q4fIwjwx+7QJDP4Jr2jAjNwos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oUAXzF1iSXmnbGXJ++c+mummWtcaNHIbmhO8JSfP3UfDcpUybvJNUObQPSEv4YoofDlgqazv0nIai2hWQM7kfNqY/RGlsiqKzQtG0kwK/7yfGgrdCM7XY0BKQQBnrpdmNyB6SfxPhBKQSDrzoi6AxELBrVoq2AI5CQ9PRgz/REM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cYus8xA7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5550BC4CEE5;
+	Wed,  9 Apr 2025 01:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744163933;
+	bh=PtgBP6zEsA6YsxYnc/Q4fIwjwx+7QJDP4Jr2jAjNwos=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cYus8xA7LMm0lmkGqzebV49qB9QFBm4rUS6aWxfo+HX7wpZ8lmS5l1FqtZohBc/6s
+	 HGB2nUuh4AMD0jvW3f9fOTI9wU/+TfloctiIkxHIoxGdONE6C2vivk6o4yYS3Da8+b
+	 3r+2yvhHd6+BDyjD563pimFhwg3jkDTGuAh1A/4UFb29CQ5yUn3Vgd/i7eiL88qq66
+	 q6+8k5bVEujoAtEV1F8FlrSZq9qyjgJwkAg60fC1eAx4drmS/F2Qsw5Iy+hd3CEY16
+	 UnMen7sKOW4AMMcOQIphJA3/mb7fxDWRqpkQuIoqS+Ty3OQJe6Gocu1g/SF5dJ2mH6
+	 CDo7NML7KpDsA==
+Date: Tue, 8 Apr 2025 18:58:49 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Rae Moar <rmoar@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	Sergio =?utf-8?B?R29uesOhbGV6?= Collado <sergio.collado@gmail.com>, David Gow <davidgow@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Mostafa Saleh <smostafa@google.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH] scripts/mksysmap: skip objtool __pfx_ symbols
+Message-ID: <ycgbf7jcq7nc62ndqiynogt6hkabgl3hld4uyelgo7rksylf32@oysq7jpchtp4>
+References: <20250328112156.2614513-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407-fno-builtin-wcslen-v1-1-6775ce759b15@kernel.org> <202504081632.00837E7921@keescook>
-In-Reply-To: <202504081632.00837E7921@keescook>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 8 Apr 2025 17:14:53 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiN62aoWPkgRutvjKpxbXJdvgNNY0DqDc=9_r5FGUjfNA@mail.gmail.com>
-X-Gm-Features: ATxdqUEzxdv_c924M2x5edBsLVmXTsnFzfYKX1p8a7EiZ3toGIQu_4WxIx108FY
-Message-ID: <CAHk-=wiN62aoWPkgRutvjKpxbXJdvgNNY0DqDc=9_r5FGUjfNA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add '-fno-builtin-wcslen'
-To: Kees Cook <kees@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250328112156.2614513-1-arnd@kernel.org>
 
-On Tue, 8 Apr 2025 at 16:33, Kees Cook <kees@kernel.org> wrote:
-> Since I have stuff queued for -rc2, do you want me to snag this too?
+On Fri, Mar 28, 2025 at 11:48:19AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The recently added testcase for overly long symbols triggers when
+> CONFIG_FUNCTION_PADDING_CFI is set:
+> 
+> Symbol __pfx_snnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n too long for kallsyms (517 >= 512).
+> Please increase KSYM_NAME_LEN both in kernel and kallsyms.c
+> 
+> Change the mksymtab table so the prefixed symbols are not included
+> in kallsyms.
+> 
+> Fixes: c104c16073b7 ("Kunit to check the longest symbol length")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Well, since I felt so strongly about this one, I already took it...
+I'm not sure we want to remove the __pfx_ symbols from kallsyms. There
+can be actual code there.
 
-           Linus
+For example, FineIBT writes code in the __pfx area which can trigger an
+#UD.  And we'd want a sane backtrace for that.
+
+Maybe objtool should error out when trying to prefix a function with a
+name longer than (KSYM_NAME_LEN - 6).  And the kunit test could be
+adjusted accordingly for CONFIG_PREFIX_SYMBOLS.
+
+-- 
+Josh
 
