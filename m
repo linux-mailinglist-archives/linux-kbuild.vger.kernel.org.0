@@ -1,126 +1,195 @@
-Return-Path: <linux-kbuild+bounces-6564-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6565-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0757A833B9
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 23:54:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45969A83C25
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Apr 2025 10:11:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C1838A61CD
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Apr 2025 21:53:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 38D457A49F6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Apr 2025 08:10:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FAB1217734;
-	Wed,  9 Apr 2025 21:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D871D5CFE;
+	Thu, 10 Apr 2025 08:11:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mIpD+3Zs"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="bpcE7JJx"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D304215787;
-	Wed,  9 Apr 2025 21:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6716838F80;
+	Thu, 10 Apr 2025 08:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744235595; cv=none; b=QwPUn6QjrsnPkISjeBmSg3+KPqj0ymm2OEepFZPJMd0o6t9PSktyuUXHqc4XsrhqE/LJqsfkz/TxYNtHEwcJ2nibsMcND/M3T8mMdyh8e2TbqwxaHrqXZTf6S5yQ26oy1p0RArNdm7AnImwC5JvbYDRxQnTCEuN+laZMZqQKQ0M=
+	t=1744272695; cv=none; b=Pl3YfOEJdp6BYge+8RR/bCiaYJZog8UAQRViNAcjg7KO9qD5avKdh1EyIdQm8lsbN1pE6jGpcDzvLn+qQNfTJPLh70YZ98dIXYIKnZpCcR8ozuTOD9Qq0hDO51oAoeRM/q8n5DsRK9rVZTg+okjP78YSZU34ZMHdyLoX9ijfeuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744235595; c=relaxed/simple;
-	bh=FDKPD1lNkys1gBdpLGebFxEB5tYdC6/xm01UvetLAMQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ezyfE45aC8A168pVul1yGTM6Wg6Dogs4kI+SFtCq/GqaBPuUUoOOFu4Zf5quvkYOHJaCOBqiHAqIemX/2lrjSqk77HUx86U6V7Lk9W4Tw+aM2NCBv8OCyNEXvtVOI6RyQ7NX9XqXigq1jyF/qrOyIUkgVhYxjzPzI6UQzeGNh5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mIpD+3Zs; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ff6ce72844so22529a91.2;
-        Wed, 09 Apr 2025 14:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744235593; x=1744840393; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FDKPD1lNkys1gBdpLGebFxEB5tYdC6/xm01UvetLAMQ=;
-        b=mIpD+3ZsDu9JXbB2gAqxN2Hv0iOu1B9up1Ap0k1+/zjr3ZSIDpDavsS8sdqDJVDold
-         MIpphuruXS7p1V4Ce5dMrgZ/uzWaWTPNojfRtaPukBVLl2EbNVtVzJB8PREq9Yqj6Nv2
-         X8u3wgzx/bOkGZPCwGguDqd5itbDPo+zbNyDNfPoob42c8mrbRSm1LGWyd8BuskjJS+u
-         5MZ+3QH1/HFZY59wsmRY3sfM6Cvb4vElRUVJ26uFu+meDWT7Q/7vatOG9VCPOWJMRZDH
-         qx2NOV9Y6Sxhu6xMf5jzcnGO8QgB3BseP/kVJc47Z3Je2pyDooQ+eqx5F9ykmoTcZBOC
-         eUAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744235593; x=1744840393;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FDKPD1lNkys1gBdpLGebFxEB5tYdC6/xm01UvetLAMQ=;
-        b=U6dF1X7opZgnw/QRGq6FGtL+qUH+NNg5b4NJhPFhE+Vo0hUZWz/0hsAfszY2H1ccA5
-         igQ5Nbm5XS4/DbqWl+vmxo6X5kZFg2bOgmW/qhv9luW9s1muLQQNE09pWF3L89NZRQmZ
-         jztts1EIzjkoXoTaEwxzmJ4DhPzgGeDEUQ2ShoVhLSRKjXrvPXx8YI7jtQPWiYILAI9N
-         bx01CFb0iPXh6cMP9dtG81FMKVTLFO18KXHi4KhWNiVoQ4r0jTbA01w4Ct4dwHr0GsIb
-         NaVjLYcACf9PSRUorKag2JjX6R57M1VUEKUmSUc8weoWGK0UcxveQ89Y2Z/2W8FhXX1E
-         AgFw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7yn1lNBArXU/QFnJLEsFtoqQPWZaNEueavEgTjr2Sw67T/Rn5ANUz6nX94tBGePFpjyOoKlVATlyWBRJ6@vger.kernel.org, AJvYcCUsJXoYGwL3EcLhY7nOhgP/Tvrok/v/GPuuT63sAAiukmuTjqicxnhsh/f1O47JUzf8ewHtyAIL@vger.kernel.org, AJvYcCXLZV+I+vpYOsJuTkmkWi5sx6+guEU5z0WqAtq9t9a2JnjAhnND72PTKhpfHy8OUX+VLva/+WBOSoY8cpc=@vger.kernel.org, AJvYcCXTI62LxZwWBDw6mBYq0vbN9r20v1+5EKA2S/2If5uegeC3iJgo43ZrG+3pdzilTQ14cQXbwFKHxiYSgesi7qg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz34jQuDSSYXMOictVgH5UHG6TNEpZ+t69UBIzNC/1COIk+Zcx
-	ryJ50txZ6X9VMNshBhM/RbAIUdllY3aWhj2qxf75WHZ0vSQtrq0tBDwkN1v/6+2455/sTvGAhfj
-	0jGwt9OuvVIh+JJcwZ9hnNEqVdWs=
-X-Gm-Gg: ASbGncskcwNUM8qMzzq8zao22/wKLVt+jy1cO0Vgpwo+JF5nbwaQWyG7PmCZ/5yX2zD
-	fyWeCtvpvN9MLXh8ZmrgmD0jvZMahukha9je3f52tohnamSkgSu77L2n+b0nHh3yFDJixZAqWfv
-	ScrXvOkCmMR03igrkKXzWWbQ==
-X-Google-Smtp-Source: AGHT+IFiuhaY/Oly3F84cyX5S5R8FUrNDPu5Xzylln3EzIuMjB3WyRn7MtyfEuyKE/ITRvwSR7ZCmrBzmJQr0cXhyI4=
-X-Received: by 2002:a17:90b:3b4e:b0:2fe:b77a:2eba with SMTP id
- 98e67ed59e1d1-306dd32267fmr2318847a91.1.1744235593163; Wed, 09 Apr 2025
- 14:53:13 -0700 (PDT)
+	s=arc-20240116; t=1744272695; c=relaxed/simple;
+	bh=h1003F0QZGmGgkXcaTbt5rlum3PQM14c1jtQvYoOmmI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=cfEAmOapjhBiE9EuCEud+WbQkmDEq6C7DlYUCMI0M7DjMdA5yCL1e0sreCTRQIF/K060wl2fbq3GOaAMHjgiFr98phU0tkxCzUTpDtlKA28FyK7psdeOP3tBbctSpXKyApR18PW4Rz3WL8Kal9uzdrkOxUJQ5VB8+MxQ90VVmX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=bpcE7JJx; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1744272681;
+	bh=h1003F0QZGmGgkXcaTbt5rlum3PQM14c1jtQvYoOmmI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To;
+	b=bpcE7JJxIpSd5+0jpfAsuh2U8z7XdXYORpfbkIquMRKZmqHkNIwfcyv4/QAhyhpwl
+	 Paz7P56V7en7X9wqF3lZPwGHTjDCI9atb59t694EHXc/JFSsxhbqnTSLINWtV6Ubnv
+	 DyeqOxMqgb3Pw31jb9KL8cMAN0WV5pjEOIjl5CMc=
+X-QQ-mid: bizesmtpip2t1744272677ta87555
+X-QQ-Originating-IP: /h+wDAVJUlffUr78bBdsbBCNBZWqYQOKuYblzmS2FuQ=
+Received: from [IPV6:240e:668:120a::212:232] ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 10 Apr 2025 16:11:15 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 11749788466428975768
+Message-ID: <337D5D4887277B27+3c677db3-a8b9-47f0-93a4-7809355f1381@uniontech.com>
+Date: Thu, 10 Apr 2025 16:11:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250408220311.1033475-1-ojeda@kernel.org> <CAGSQo00QxBbUb8AxwqtRKXy96na_HUVmAG9nWmX=cVvozqwWaA@mail.gmail.com>
-In-Reply-To: <CAGSQo00QxBbUb8AxwqtRKXy96na_HUVmAG9nWmX=cVvozqwWaA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 9 Apr 2025 23:53:01 +0200
-X-Gm-Features: ATxdqUEHQeM8b7saMWZkuyDOWEJ-eHfp3twazwBDYlb872_Qrhvs9x-AXSKsD9A
-Message-ID: <CANiq72niPycmVwHBfqttgD+X1qvg2L_P-=X79YEREUGLitqoaA@mail.gmail.com>
-Subject: Re: [PATCH] rust: kasan/kbuild: fix missing flags on first build
-To: Matthew Maurer <mmaurer@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	kasan-dev@googlegroups.com, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Sami Tolvanen <samitolvanen@google.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: WangYuli <wangyuli@uniontech.com>
+Subject: [Bug Report] A compilation failure occurs when landlock and
+ RANDSTRUCT are combined with GCC 14.2.0.
+Autocrypt: addr=wangyuli@uniontech.com; keydata=
+ xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
+ IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
+ qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
+ 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
+ 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
+ VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
+ DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
+ o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
+To: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com, kees@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, nicolas@fjasle.eu
+Cc: linux-security-module@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------rkKKFJ8ZZADublAHtF5vsiAg"
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MQZ/dZQlO/THh3UJCihfMz999YL5l1BQuSyINAyHgpSlKiWJfEk7vjv/
+	yRGpmgRqJlQ3f80UqRxQadksN6SmlIeb04Kc+jCbIq3CdN2CR3uXrzK8E5C//hVLKuoqH+f
+	YXXzoggknlrQ7hnIeQvlx4QBg+blpjhSSNMYSgpN282yODrOFYcUtNRaCckQHa8iTcn/X9z
+	zsRjpjFn9gOHblIdKbwjU7/YI2sPxt9Ui3wsY/2gRmhHOFXPx0Hld9zPUjIjxlV550ON1NP
+	O8Amgv6cVuLcJVp1BFF6GoGWCbnqjQsci9acKtt20JqFkYeY4bYgZa5p5uwgvuaJLGSXrNn
+	Gp8lnCdCZ7eE8HHHF1EsXzs7xrYy+qLEnOWMCRo9S1Umj7OBEvzrlnexONr7wpQKKrazLDW
+	IldUzbjeaacGwPVlEtaugu62PsmERoPjmcYSXc2WAfL/LjcLUrSh0MgP+7YnKPK3feeyO2+
+	W5u6XBLedG2zENiN+k+OM+SsB2tz53dNUugswtxttZsKEBEvg9LY5r3/ptq+enVeoa8Tpr8
+	o4OsLcM0xLY8L0oz43F3eMe34qudrFwUdSbAw+C60YjtKsZgvRf3h5rSGX8JYx28Dp/cs3I
+	xr/tUkS0jnc3SFBMtVgp0gszHShhB8OBC36M9cScZCu0B0N6mwuyUAJy7qAUb0E33law8Gg
+	plLt0n4FAKvw8t/07TEsRhj0BfYlBN+JxgcnS/2Bsl/gicYcYGUj9LaKHQj7+M91IPc1x16
+	nN3PstUvzTn4L+ugKOtigcwORXFNY/GuJ/fB5kGZB41FdtMBmBVvXThMNnWzU44IDhciDYA
+	4oHEaVmRTgAiIHUNkytr0U/DEDI82rypS/YHVaQSSNp/UCxUNAg05lB98NBJ2b+xZB7dz7S
+	Ld0c1erqilw0Mpg65r80/GrDjTx+kHrUp5LXRUY07KeV9DpaS8a4WjJlbK/1Mo6pqlobpcO
+	9jouSZaxGKQrlPoh2bYcV4jlWBkLwbI6Z+84bh1kIHPKCYpmYnVs0WvqO
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------rkKKFJ8ZZADublAHtF5vsiAg
+Content-Type: multipart/mixed; boundary="------------4e5rwFPgEBCozYnellBD9s8v";
+ protected-headers="v1"
+From: WangYuli <wangyuli@uniontech.com>
+To: mic@digikod.net, gnoack@google.com, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com, kees@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, nicolas@fjasle.eu
+Cc: linux-security-module@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
+Message-ID: <3c677db3-a8b9-47f0-93a4-7809355f1381@uniontech.com>
+Subject: [Bug Report] A compilation failure occurs when landlock and
+ RANDSTRUCT are combined with GCC 14.2.0.
+
+--------------4e5rwFPgEBCozYnellBD9s8v
+Content-Type: multipart/mixed; boundary="------------zGPahLwRiqRp0uKPNCcbdmlY"
+
+--------------zGPahLwRiqRp0uKPNCcbdmlY
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+WyBDb21waWxhdGlvbiBmYWlsdXJlIGxvZzogXQ0KDQoqKiogV0FSTklORyAqKiogdGhlcmUg
+YXJlIGFjdGl2ZSBwbHVnaW5zLCBkbyBub3QgcmVwb3J0IHRoaXMgYXMgYSBidWcgDQp1bmxl
+c3MgeW91IGNhbiByZXByb2R1Y2UgaXQgd2l0aG91dCBlbmFibGluZyBhbg0KeSBwbHVnaW5z
+Lg0KRXZlbnTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgfCBQbHVnaW5zDQpQTFVHSU5fRklOSVNIX1RZUEXCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHwgcmFuZG9taXplX2xheW91dF9wbHVnaW4NClBMVUdJTl9GSU5JU0hf
+REVDTMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCByYW5kb21pemVfbGF5b3V0X3Bs
+dWdpbg0KUExVR0lOX0FUVFJJQlVURVPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+fCBsYXRlbnRfZW50cm9weV9wbHVnaW4gDQpyYW5kb21pemVfbGF5b3V0X3BsdWdpbg0KUExV
+R0lOX1NUQVJUX1VOSVTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCBsYXRlbnRf
+ZW50cm9weV9wbHVnaW4gc3RhY2tsZWFrX3BsdWdpbg0KUExVR0lOX0FMTF9JUEFfUEFTU0VT
+X1NUQVJUwqDCoMKgwqDCoCB8IHJhbmRvbWl6ZV9sYXlvdXRfcGx1Z2luDQpzZWN1cml0eS9s
+YW5kbG9jay9mcy5jOkluIGZ1bmN0aW9uIOKAmGhvb2tfZmlsZV9pb2N0bF9jb21tb27igJk6
+DQpzZWN1cml0eS9sYW5kbG9jay9mcy5jOjE3NDU6NjE6aW50ZXJuYWwgY29tcGlsZXIgZXJy
+b3I6IGluIA0KY291bnRfdHlwZV9lbGVtZW50cywgYXQgZXhwci5jYzo3MDc1DQoxNzQ1IHzC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnUub3Ag
+PSAmKHN0cnVjdCBsc21faW9jdGxvcF9hdWRpdCkgew0KIMKgwqDCoMKgIHzCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgXg0KMHg3ZjI3ZmE2YmRjYTcgX19saWJjX3N0YXJ0X2NhbGxfbWFpbg0KIMKgwqDCoMKg
+wqDCoCAuLi9zeXNkZXBzL25wdGwvbGliY19zdGFydF9jYWxsX21haW4uaDo1OA0KMHg3ZjI3
+ZmE2YmRkNjQgX19saWJjX3N0YXJ0X21haW5faW1wbA0KIMKgwqDCoMKgwqDCoCAuLi9jc3Uv
+bGliYy1zdGFydC5jOjM2MA0KUGxlYXNlIHN1Ym1pdCBhIGZ1bGwgYnVnIHJlcG9ydCwgd2l0
+aCBwcmVwcm9jZXNzZWQgc291cmNlIChieSB1c2luZyANCi1mcmVwb3J0LWJ1ZykuDQpQbGVh
+c2UgaW5jbHVkZSB0aGUgY29tcGxldGUgYmFja3RyYWNlIHdpdGggYW55IGJ1ZyByZXBvcnQu
+DQpTZWUgPGZpbGU6Ly8vdXNyL3NoYXJlL2RvYy9nY2MtMTQvUkVBRE1FLkJ1Z3M+IGZvciBp
+bnN0cnVjdGlvbnMuDQptYWtlWzRdOiAqKiogW3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6MjAz
+OiBzZWN1cml0eS9sYW5kbG9jay9mcy5vXSBFcnJvciAxDQptYWtlWzNdOiAqKiogW3Njcmlw
+dHMvTWFrZWZpbGUuYnVpbGQ6NDYxOiBzZWN1cml0eS9sYW5kbG9ja10gRXJyb3IgMg0KbWFr
+ZVsyXTogKioqIFtzY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjQ2MTogc2VjdXJpdHldIEVycm9y
+IDINCg0KDQoNClsgUmVwcm9kdWNpbmcgc3RlcHM6IF0NCg0Kb3MtcmVsZWFzZTogRGViaWFu
+IEdOVS9MaW51eCB0cml4aWUvc2lkDQoNCkNvbXBpbGVyOiBnY2MgdmVyc2lvbiAxNC4yLjAg
+KERlYmlhbiAxNC4yLjAtMTkpDQoNClRhcmdldDogeDg2XzY0LWxpbnV4LWdudQ0KDQpTdGVw
+OiBtYWtlIGFsbG1vZGNvbmZpZyAmJiBtYWtlIC1qJChucHJvYykNCg0KDQoNClsgRnVsbCBj
+b25maWcgXQ0KDQpXaWxsIGJlIHJlcGlsZWQgdG8gdGhpcyBtYWlsLg0KDQoNCg0KVGhhbmtz
+LA0KDQotLSANCg0KV2FuZ1l1bGkNCg==
+--------------zGPahLwRiqRp0uKPNCcbdmlY
+Content-Type: application/pgp-keys; name="OpenPGP_0xC5DA1F3046F40BEE.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xC5DA1F3046F40BEE.asc"
+Content-Description: OpenPGP public key
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 9, 2025 at 11:35=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
- wrote:
->
-> The problem with this change is that some `rustc` flags will only be
-> valid on some platforms. For example, if we check if a
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-Indeed -- this limitation is acknowledged in the commit message. The
-priority is fixing the issue, not future features/needs, so I went
-with this.
+xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSK
+P+nX39DNIVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAx
+FiEEa1GMzYeuKPkgqDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMB
+AAAKCRDF2h8wRvQL7g0UAQCH3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfP
+bwD/SrncJwwPAL4GiLPEC4XssV6FPUAY0rA68eNNI9cJLArOOARmgSyJEgorBgEE
+AZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7VTL0dvPDofBTjFYDAQgHwngE
+GBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIbDAAKCRDF2h8wRvQL
+7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkUo9ERi7qS
+/hbUdUgtitI89efbY0TVetgDsyeQiwU=3D
+=3DBlkq
+-----END PGP PUBLIC KEY BLOCK-----
 
-In any case, if we need to test a flag that requires the target, it is
-likely we can do the check based on the Rust version, the
-architecture, the Rust's LLVM version, etc.
+--------------zGPahLwRiqRp0uKPNCcbdmlY--
 
-As for `target.json`s, the plan is indeed to get rid of them, since
-they are permanently unstable. So any features used by the
-`target.json`s need to be requested to upstream Rust (e.g. flags) so
-that we can do the same without a custom target specification, so that
-eventually we can remove all of them (and thus `rustc-option` will
-work in all cases again).
+--------------4e5rwFPgEBCozYnellBD9s8v--
 
-Thanks for taking a look!
+--------------rkKKFJ8ZZADublAHtF5vsiAg
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-Cheers,
-Miguel
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZ/d9IwUDAAAAAAAKCRDF2h8wRvQL7tE7
+AQDZyqgD8aXHYKfx+cF74l182O189kgmRS9eNUrD4P5RTgD+PcQjU8QZ48YNG+PaCWj1HIrLv9wB
+dLzgpl4Tiru/uQA=
+=G0nq
+-----END PGP SIGNATURE-----
+
+--------------rkKKFJ8ZZADublAHtF5vsiAg--
 
