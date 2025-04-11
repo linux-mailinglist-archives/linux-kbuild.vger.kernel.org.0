@@ -1,175 +1,194 @@
-Return-Path: <linux-kbuild+bounces-6572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6573-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18BCA84C1C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Apr 2025 20:32:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C044A851B9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Apr 2025 04:51:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A91E11B8032F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Apr 2025 18:32:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 295941BA336F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Apr 2025 02:51:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5FC1EFFB9;
-	Thu, 10 Apr 2025 18:32:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A8B27BF91;
+	Fri, 11 Apr 2025 02:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AulYPUUG"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="YUQJq/7I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F161EE7DD;
-	Thu, 10 Apr 2025 18:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A22AD5E;
+	Fri, 11 Apr 2025 02:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744309944; cv=none; b=Ws88Oa3gH6TG6xunHhiVLOmJw57xekdV6ONyDK+rJWo3Mw6Twg/Pc7pOYJQBvOadoY6m6op8PZgCTn9VV4/X5Fd4p3VYLh66OoKI+b97YS+KCzfoarvCSprp3U81QAy7iOLcWRemXsU0Vi7iQLlXQjOSNaPa8u8rjEtOz3tOvA0=
+	t=1744339869; cv=none; b=rdBPrZtkkPjciNCirQk2c3A4/zu4Qc7Fbkr7Sa1sOCp/CHwGFfoc2vQAV7iQng0B70jjjRorHhOE4vOxCemd1QUcUpUkCuDmAr7JJMe2CT7y5HwPWlJShNJ0X+fOntLN+4af/jv/nCUC9ASNzU4afZNcIteaLI/oCgWqAaT7t0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744309944; c=relaxed/simple;
-	bh=rhq98F1oAt15i089HgDHKF8FTORTwBNqnGhkaUMvkGE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ij3MLisIZ59CQxFUIb3UNkVlyvt+ukcouNXs2JvE2LPo+w0tgx+suixciuMt7eP0Uot/HFCq4Gz73tVFoSQtUT9UNDyOBMVWLqbqjFPw3tWczMPvksAdkaWfttKevY6iW1X0eerQP40dpFe8Lda896BW7zm+lWE0ZvqQ2qV2brw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AulYPUUG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB60BC4CEE9;
-	Thu, 10 Apr 2025 18:32:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744309943;
-	bh=rhq98F1oAt15i089HgDHKF8FTORTwBNqnGhkaUMvkGE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=AulYPUUGsOPhwa+Kt6zt/bF4SQ+MXk286rhsVsmpe2mlfpPgF70lZBTSnsR5ntMwT
-	 ZkZ1ToXf/gNg5d0kTQ3LaxQHhZ/OV8AyMKmXZAXIySY6/dt80IAZs/Dq4S7TCaD1RG
-	 oibILCU7xUCwRzh85baDrWOsnoswhPJvtEXC2U0GJngapQVeRRPBUuBcfovgE7X6WP
-	 xWeGG90XHGWZ76vzkeD0FhF3cQxYlBMQnGKXJx+X4Gs55Pqxu6zXwRTUYNyNRPLgrp
-	 AKAEj6NwSrvd65oWn/btbRNM+RkN6o/0/d3P2d3KfgpG9Ra5zNqi63peDg7+DHZKtA
-	 fZfxddu2IO8/Q==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30bef9b04adso11403061fa.1;
-        Thu, 10 Apr 2025 11:32:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV8zpenzvHWUa5mxLiZLRzMr4+7ZTI9sj0QnFBG/V9J3Vo/xvq102hmIUu76b6w8yvvZCCITHcuml/VLo0N@vger.kernel.org, AJvYcCXN4ZWAu6XVlVYo6xk1PV/5O5R5Hj22ndgx2y+aXuwFQ0bxLoeJFN0ClcMQc0UPd6s6/5OOkhfJHkvnSzY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzsb+XunjRHuSN4EFjuxhoSM3MEUVaggMsuxwp+1l5VVJ/r3QeU
-	7sIb5ophz6ho+FVmK2AveNk0qdxTgDllkyHvJZghIs5mjEiom/JE6wiC301D9MB5lJgCKdwbqnc
-	rzNJ8Y5bPr1FF/20tjhayxZSbRXI=
-X-Google-Smtp-Source: AGHT+IGGRB7Ex6YVXi0NvNO+40T2HkvRuSGCeSMU/GnQkY0sfugEXhoQVsAzbBNrtu6Y5hVIAnWVcOlNqjOfW1Ob5aU=
-X-Received: by 2002:a05:651c:2118:b0:30b:cb10:3a20 with SMTP id
- 38308e7fff4ca-30faccb2938mr17777751fa.32.1744309940933; Thu, 10 Apr 2025
- 11:32:20 -0700 (PDT)
+	s=arc-20240116; t=1744339869; c=relaxed/simple;
+	bh=fgryNa5zKi0ubunnKee26qgUsuQa2NNmIwewh06CCgs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X1rNmXQPZGWuGYZyxJv95T6awm6ygihYApVGdrWRL0sM03BZMDryA7JHhixaMlrn68rW2+bUgvEvCnEi4Eh8iWv27Zqmwc9Puwr8koGS7RxmygfRCfvOTBsGD6N3M/nhmFLOfzYDRTLsSYcM0CCGxRis0cmJl8M3m+uJmOu/tBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=YUQJq/7I; arc=none smtp.client-ip=18.194.254.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1744339858;
+	bh=fgryNa5zKi0ubunnKee26qgUsuQa2NNmIwewh06CCgs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=YUQJq/7IJCN60T8VvoYp5xIxY37lgeXEj7Sl9yiqGvB7Y9jM0vZt6mepp2ZYKIwkx
+	 GifV+wUmaAVGtongz2iiCBo1+Hh7F5pCIA9F0mUkBVIfOn3ZWHRwK5DaDSNeDQMJ/Y
+	 wnTxzZZmoBKRlKF3p0xbIvc2EZ5kmtaVU2b4ItIs=
+X-QQ-mid: bizesmtpip3t1744339815t829151
+X-QQ-Originating-IP: LC/XEJPQIUQsCRmlXxovOrl/EJd+6nGplA2WrNLXio0=
+Received: from [IPV6:240e:668:120a::212:232] ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 11 Apr 2025 10:50:12 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 12992929127869699408
+EX-QQ-RecipientCnt: 18
+Message-ID: <A8ED9B14F380E4B2+7fc9a2e8-5661-4344-9ac2-481da95cc6f8@uniontech.com>
+Date: Fri, 11 Apr 2025 10:50:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250403134200.385077-1-alexghiti@rivosinc.com>
- <CAMj1kXGzrn6i20LvUBnz_mGi946=GCogNHHUL=mNsv513qYv7A@mail.gmail.com>
- <2874fc20-9135-4b13-b825-43fb350ce552@ghiti.fr> <CAK7LNAT5sDhh1v3U2xUuVnrbhNXp3SJ_ngxSqAgwmZL0E2QGpA@mail.gmail.com>
- <CAHVXubgZ+Dwx70vU03R9MZ7BjkzbdR21y-Ort6pBngFmFYs-uw@mail.gmail.com> <e760a42c-1147-4fe8-9c65-6c4919f15fff@ghiti.fr>
-In-Reply-To: <e760a42c-1147-4fe8-9c65-6c4919f15fff@ghiti.fr>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 11 Apr 2025 03:31:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATik6YPYZ5H2n9NXcG=WP3ThvCHpN=azAULmvUEMs5R3A@mail.gmail.com>
-X-Gm-Features: ATxdqUFhBy0hx4SI9K9tecnkTRNiTM5aHBLCMene6OVtrID6RDX8fCW86LYQ_CA
-Message-ID: <CAK7LNATik6YPYZ5H2n9NXcG=WP3ThvCHpN=azAULmvUEMs5R3A@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts: Do not strip .rela.dyn section
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Charlie Jenkins <charlie@rivosinc.com>, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Bug Report] A compilation failure occurs when landlock and
+ RANDSTRUCT are combined with GCC 14.2.0.
+To: =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+ =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack3000@gmail.com>
+Cc: gnoack@google.com, paul@paul-moore.com, jmorris@namei.org,
+ serge@hallyn.com, kees@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+ nicolas@fjasle.eu, linux-security-module@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ =?UTF-8?B?6ZmI6bqf6L2p?= <chenlinxuan@uniontech.com>,
+ =?UTF-8?B?5Y2g5L+K?= <zhanjun@uniontech.com>, =?UTF-8?B?6IGC6K+a?=
+ <niecheng1@uniontech.com>, =?UTF-8?B?5YWz5paH5rab?=
+ <guanwentao@uniontech.com>
+References: <337D5D4887277B27+3c677db3-a8b9-47f0-93a4-7809355f1381@uniontech.com>
+ <20250410.926dbc57c00b@gnoack.org> <20250410.Ahkoo7ihae8a@digikod.net>
+Content-Language: en-US
+From: WangYuli <wangyuli@uniontech.com>
+Autocrypt: addr=wangyuli@uniontech.com; keydata=
+ xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
+ IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
+ qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
+ 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
+ 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
+ VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
+ DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
+ o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
+In-Reply-To: <20250410.Ahkoo7ihae8a@digikod.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------AcCCyMoaNchApTkF4A5pC4gu"
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: MXE8fio8DejkOlTwN+HkZ2iRb50HfFI3px6ZyfQzXOPtaPlK2G8WiPh+
+	Mmut3ttxebf81MRnB9ee5hmdmmDVk8byzPsJWOgAjp0HXr3EISgJpykB6YlMYxgrLP3/J/c
+	O2WvJRkwqCE8PI4SBOIQ8P2Sk16jrRtHGo9Lk5mEiQdK8zux+0Q/Xr4LaP+Nd51TB2mAIdJ
+	1sojo69I6DqJkxHNKPtRgfDU0UWy8vzgo2mrkB/VlrzMUL+Br2bMcFMsb3gSfHGOkP9MCSf
+	mHinVAUaD5j9/MEu+ROmhISvZoqtby8REBks1sc9Tj/202A/y+yfs6vRS/ayYmNHEVQLje6
+	sfZ8JkkNkD7s7hDd6Gi1oRGeA6dL1+9s74nMlZbdBbwZPCqizT+w9u9gVnQwfEfV94Umw7b
+	o6J3IjnroOY//BPtiTd+RJX4MSDCq/WmloC/G+skbCczZdvEpuXT1/uG2hGkBvBhYgt68nb
+	jMEHDCoD3W2lvypcieHHLSnJH5aeSLTaNF9DBjo3vWLypZ4+j9ORBURxaEIJ8x37ehpHERZ
+	/OUEwXh9uXLU7HUFJy4gh5DQjLHGYNP1ug3Lx8UXNiyHfOgDLtj3rPj1oDUAyvgFsPoE+gM
+	xSQYw+zEy1FA+3+FUJfThB6ECnUFkP4wjhxLt6yyYWFLG/eOrwVAjeIe0hYZICycKimx7Y2
+	+R/FgF2JkAZA6pZx2raQbdNUUlL1qM4Xxlx1CH7eOZMywJV54jDwCZwSW2vrfOqSawRbf6e
+	/KhxQ1PjqY/0o0h28J5RFrquUda8oXqzwPCiRoNOJfkqJOKvMCbalqqEymFj+GO/nefjR95
+	20NsdWUUuGTO8tNhPRAQQvbCYkAqXPBlh9tLxaxAPi7j+mxHK/ceEXIXayYEh3pa4uHnVGi
+	XKu9BEBHB8YDEWzk6FuvQ3NvC5/lJAaCAbjTo0rJqeI81IqtGsu4fh5+4e65BJaEBToy+pW
+	m0THyCYURT+sUOaBaZP/Sj1kRkeckRcZ0UI9SJZPGoe3HZjPGgS5p6JNLpeBLCGqEcY3f5S
+	CPVDeZP504CF2XFV1F
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------AcCCyMoaNchApTkF4A5pC4gu
+Content-Type: multipart/mixed; boundary="------------FLHyHPO1D30HsUP8vKO5gYtQ";
+ protected-headers="v1"
+From: WangYuli <wangyuli@uniontech.com>
+To: =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+ =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack3000@gmail.com>
+Cc: gnoack@google.com, paul@paul-moore.com, jmorris@namei.org,
+ serge@hallyn.com, kees@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+ nicolas@fjasle.eu, linux-security-module@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ =?UTF-8?B?6ZmI6bqf6L2p?= <chenlinxuan@uniontech.com>,
+ =?UTF-8?B?5Y2g5L+K?= <zhanjun@uniontech.com>, =?UTF-8?B?6IGC6K+a?=
+ <niecheng1@uniontech.com>, =?UTF-8?B?5YWz5paH5rab?=
+ <guanwentao@uniontech.com>
+Message-ID: <7fc9a2e8-5661-4344-9ac2-481da95cc6f8@uniontech.com>
+Subject: Re: [Bug Report] A compilation failure occurs when landlock and
+ RANDSTRUCT are combined with GCC 14.2.0.
+References: <337D5D4887277B27+3c677db3-a8b9-47f0-93a4-7809355f1381@uniontech.com>
+ <20250410.926dbc57c00b@gnoack.org> <20250410.Ahkoo7ihae8a@digikod.net>
+In-Reply-To: <20250410.Ahkoo7ihae8a@digikod.net>
+
+--------------FLHyHPO1D30HsUP8vKO5gYtQ
+Content-Type: multipart/mixed; boundary="------------tnDSPJ2ztk0RQK4ARmV9VKjf"
+
+--------------tnDSPJ2ztk0RQK4ARmV9VKjf
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkgR8O8bnRoZXIgYW5kIE1pY2thw6tsIFNhbGHDvG4sDQoNCk9uIDIwMjUvNC8xMSAwMTow
+NSwgTWlja2HDq2wgU2FsYcO8biB3cm90ZToNCj4+IFRoaXMgaXMgaW4gbXkgdW5kZXJzdGFu
+ZGluZyBhIGR1cGxpY2F0ZSBvZiB0aGUgZGlzY3Vzc2lvbiBpbg0KPj4gaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvYWxsLzIwMjUwNDA3LWtidWlsZC1kaXNhYmxlLWdjYy1wbHVnaW5zLXYx
+LTEtNWQ0NmFlNTgzZjVlQGtlcm5lbC5vcmcvDQo+IFllcywgYSBuZXcgcGF0Y2ggaGFzIGJl
+ZW4gc3VibWl0dGVkOg0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNTA0MDkx
+NTExNTQud29yay44NzIta2Vlc0BrZXJuZWwub3JnLw0KDQpUaGFuayB5b3UgYm90aCBmb3Ig
+dGhlIHJlbWluZGVyIQ0KDQpCdXQgSSdtIHN0aWxsIGEgYml0IGxvc3QuDQoNCldpdGggR0ND
+IDE0LCBJIGNhbiByZXByb2R1Y2UgdGhpcyBwcm9ibGVtIGJ5IG1lcmVseSBlbmFibGluZyBs
+YW5kbG9jayANCmFuZCBSQU5EU1RSVUNUIG9uIHRvcCBvZiB0aGUgYmFzZSB4ODZfNjRfZGVm
+Y29uZmlnLg0KDQpJdCBkb2Vzbid0IGFwcGVhciB0aGF0IG1ha2luZyBHQ0NfUExVR0lOUyBk
+ZXBlbmQgb24gIUNPTVBJTEVfVEVTVCBvciANCnJlc3RyaWN0aW5nIFJBTkRTVFJVQ1QgdG8g
+b25seSBiZSBlbmFibGVkIHdoZW4gQ0NfSEFTX1JBTkRTVFJVQ1QgaXMgc2V0IA0KYWN0dWFs
+bHkgYWRkcmVzc2VzIHRoZSByb290IGNhdXNlLg0KDQpJJ20gcXVpdGUgY3VyaW91cyB0byBr
+bm93IHdoYXQgdGhlIGFjdHVhbCBkaXJlY3QgY2F1c2Ugb2YgdGhpcyBpbnRlcm5hbCANCkdD
+QyBlcnJvciBpcy4NCg0KVGhhbmtzLA0KLS0gDQpXYW5nWXVsaQ0K
+--------------tnDSPJ2ztk0RQK4ARmV9VKjf
+Content-Type: application/pgp-keys; name="OpenPGP_0xC5DA1F3046F40BEE.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xC5DA1F3046F40BEE.asc"
+Content-Description: OpenPGP public key
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 7, 2025 at 5:43=E2=80=AFPM Alexandre Ghiti <alex@ghiti.fr> wrot=
-e:
->
->
-> On 07/04/2025 10:15, Alexandre Ghiti wrote:
-> > Hi Masahiro,
-> >
-> > On Fri, Apr 4, 2025 at 5:25=E2=80=AFPM Masahiro Yamada <masahiroy@kerne=
-l.org> wrote:
-> >> On Fri, Apr 4, 2025 at 12:45=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr=
-> wrote:
-> >>> Hi Ard,
-> >>>
-> >>> On 03/04/2025 17:11, Ard Biesheuvel wrote:
-> >>>> On Thu, 3 Apr 2025 at 16:42, Alexandre Ghiti <alexghiti@rivosinc.com=
-> wrote:
-> >>>>> riscv uses the .rela.dyn section to relocate the kernel at runtime =
-but
-> >>>>> that section is stripped from vmlinux. That prevents kexec to
-> >>>>> successfully load vmlinux since it does not contain the relocations=
- info
-> >>>>> needed.
-> >>>>>
-> >>>> Maybe explain that .rela.dyn contains runtime relocations, which are
-> >>>> only emitted if they are actually needed - as opposed to the static
-> >>>> relocations that are not emitted as SHF_ALLOC sections, and are not
-> >>>> considered to be part of the runtime image in the first place.
-> >>>
-> >>> Ok I'll do.
-> >>>
-> >>>
-> >>>> It
-> >>>> would be nice if we could use --remove-relocations=3D here, which on=
-ly
-> >>>> removes static relocations, but unfortunately, llvm-objcopy does not
-> >>>> support this.
-> >>>>
-> >>>> Also, I wonder if this should apply to all of .rel.dyn, .rela.dyn an=
-d
-> >>>> .relr.dyn, as they all carry runtime relocations.
-> >>>
-> >>> Ok, I'll add them to the next version.
-> >>>
-> >>>
-> >>>> Finally, I'd be curious to know why RISC-V relies on --emit-relocs i=
-n
-> >>>> the first place? Is the relocs check really needed? If not, it would
-> >>>> be a nice opportunity to get rid of Makefile.postlink entirely.
-> >>>
-> >>> So I had to check and it happens that this was an issue with the
-> >>> toolchain, I should check if that still happens with newer ones.
-> >>>
-> >>> commit 559d1e45a16dcf1542e430ea3dce9ab625be98d0
-> >>> Author: Alexandre Ghiti <alexghiti@rivosinc.com>
-> >>> Date:   Wed Mar 29 06:53:29 2023 +0200
-> >>>
-> >>>       riscv: Use --emit-relocs in order to move .rela.dyn in init
-> >>
-> >>
-> >>
-> >> So,
-> >>
-> >> Fixes: 559d1e45a16d ("riscv: Use --emit-relocs in order to move
-> >> .rela.dyn in init")
-> >>
-> >> Is this the correct tag?
-> > This is the initial culprit yes, but if we use this tag, the fix won't
-> > apply. So I decided to pick Ard's patch so that this fix can be easily
-> > backported to 6.14, and I'll come up with a new version for previous
-> > releases. Is that ok with you?
->
->
-> And I have just looked at 6.15-rc1 and noticed that the relocation
-> stripping was moved to Makefile.vmlinux, so this fix won't apply to 6.14
-> neither.
->
-> I'll then use the initial culprit, which is Fixes: 559d1e45a16d ("riscv:
-> Use --emit-relocs in order to move.rela.dyn in init").
->
-> Sorry for the noise,
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-You do not need to worry about whether this commit can be cleanly
-back-ported to the stable kernels or not.
+xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSK
+P+nX39DNIVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAx
+FiEEa1GMzYeuKPkgqDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMB
+AAAKCRDF2h8wRvQL7g0UAQCH3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfP
+bwD/SrncJwwPAL4GiLPEC4XssV6FPUAY0rA68eNNI9cJLArOOARmgSyJEgorBgEE
+AZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7VTL0dvPDofBTjFYDAQgHwngE
+GBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIbDAAKCRDF2h8wRvQL
+7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkUo9ERi7qS
+/hbUdUgtitI89efbY0TVetgDsyeQiwU=3D
+=3DBlkq
+-----END PGP PUBLIC KEY BLOCK-----
 
-If the fix cleanly applies, the process should be easy (and almost automati=
-c).
+--------------tnDSPJ2ztk0RQK4ARmV9VKjf--
 
-If not, we can modify the patch context and submit to the stable ML.
-This needs manual modification, but is still possible.
+--------------FLHyHPO1D30HsUP8vKO5gYtQ--
 
+--------------AcCCyMoaNchApTkF4A5pC4gu
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
---=20
-Best Regards
-Masahiro Yamada
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZ/iDZAUDAAAAAAAKCRDF2h8wRvQL7k4R
+AP9d0MMFidIuBt7QMhq+wOU60bUHjNOTKTNdPGrY5IOV2wD8D3aj3NLa9eLjBSKVcNvyIZ/6MGXU
+cRwiiHlC0kHpLAg=
+=rFvs
+-----END PGP SIGNATURE-----
+
+--------------AcCCyMoaNchApTkF4A5pC4gu--
 
