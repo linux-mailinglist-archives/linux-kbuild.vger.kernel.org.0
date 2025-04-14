@@ -1,79 +1,79 @@
-Return-Path: <linux-kbuild+bounces-6597-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6598-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD42FA88586
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 16:45:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DC6A88554
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 16:41:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7166817F0C5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 14:41:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D86D17A8425
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 14:40:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44DA8274FE4;
-	Mon, 14 Apr 2025 14:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6755025394E;
+	Mon, 14 Apr 2025 14:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Tj76nPcf"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UPj5d4iD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6B3275114
-	for <linux-kbuild@vger.kernel.org>; Mon, 14 Apr 2025 14:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5592472B3
+	for <linux-kbuild@vger.kernel.org>; Mon, 14 Apr 2025 14:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744640563; cv=none; b=EAe+guG3GaIiBJeOo3zrhUsH3/YsqhD6JF0LFPT1uTI2IA/pwBF1r8nY02r+8aPuO4Y3R82dgFh013a+h/rCycJI99IJKDAu4b1HuPoiX26J5iZkfzOj/AazldL864dWhTXJGORre53MZ8gcYz/yzPNrGH3C6mj12BIzp0/DhsU=
+	t=1744640619; cv=none; b=LzGuwMPEmG5oDTcwORaQuhwGJ65epUWhsJpDQ9ePs4V7nLOt7/PGmzQBTH1+aeQPVGXnunUtRz/L/He2ouSJKoMD+cpz/jSqIH6gpTkbgAZ/2QX3pC9pcLGqzfCJemuhFdPWur1esaziRapEIwvJqpEGsufJlv9BchXlL7Mq/6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744640563; c=relaxed/simple;
-	bh=xx6uWN8s5ku8r03CWkc238xZYS+l5IgarCkezAtVCj4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=l33byKsUPZlEhOJwXtMZdS0IrVzpWTlsrOpvd7Rr615AFZbCJhS8Twky4hk8zd3x3IkybnlEPSCeCcHA0zmMBRtfECPBtUKDEwAAK0o2FQpXZI6QmWPmoMZkaAyxIJlSwu7OrwHIpLU0NK4rA5Pef0aCJGnmEjmQ/KlbkXLP980=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Tj76nPcf; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1744640619; c=relaxed/simple;
+	bh=K9G0q37TrNlcPjquPSmr/+t2PTZHQOzDgLf1kGmag2A=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=Z95To7wtNaLl+fbuwHwpeFkCO9feq7c3B+6QBfHhWX/a6/jk4w61za4UOWRNvWPLxNY7CtQCPMZn+6d1Sa8sUz5YuRDAT60hbGRbZ/tJAVkJ6IHKJyQj58PIVN6Oey9UkDaGH8n7VkPW93yQ3DuqNSM4NgEdO96Gw8W+Ph0wcmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UPj5d4iD; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38f2f391864so2454261f8f.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 14 Apr 2025 07:22:40 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43edb40f357so37299665e9.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 14 Apr 2025 07:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1744640559; x=1745245359; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5WvErva8RE1Xl0CS0JpCsCufYwnWymF0ErrsF7qxVK4=;
-        b=Tj76nPcfh3n6MKMQBo+Df25/qTKL4jInFWLG2AbvkRchY5hU65g6VGdOCMnXflUWND
-         PhxgHJbk/TosMNPaJYkESEBmPsUCSr6n50L/e1wGA0Xm8mwivO4F5BA2/THUKpAGaY3K
-         HArT/ng6DggDE949z2Rb0sf1x2ideYJysKvK7dIU2wUZ4xuJjymPnkTFdAWqbb3VkT6y
-         JJLJEBzxFhYcf64HM8y8SWXAQLvZ6y5v11KeV+ny3hQLvARelvzxzNJqziofdxHrJYKp
-         W6981Dldlao0oDzeurdPcpUeWUUDR+iu7onvR32Zo+Uy6bNV6IMi409iZ899fhk/LdAr
-         FDwQ==
+        d=suse.com; s=google; t=1744640615; x=1745245415; darn=vger.kernel.org;
+        h=content-transfer-encoding:autocrypt:content-language:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2F3dZ3hLtdrOuYWIrvH0DOfPMALIT7wBtRZFKoHIv64=;
+        b=UPj5d4iDS8EvvGbqlsKf4muTHc7b2k5g2ep09HnBMdKaWBXZD7r2OS0Aip6VCXzU1W
+         zv+vRxjYVk+6RCl13jZF2C495NJfHbAV95OqBC4O6E/LkmBn7OGehRpnin4YFaHSr1lX
+         ArOx9+dZPd9SrxQc19PEp5+n9JhOddxkTWBWsNT4BFeiGeDFCiEMBAqqfTFSAMS/buy+
+         heSycF+vmPUr2O2MWzGYXgOvhPrXBIlnFpZWXeALQ5JanwARSJiaWeO7Rk5lHWS3CiVV
+         WSQBaVA5oUcCVXvRvePHftZlhNnizBdeE9R4Tb39S7lpaCEepscMKQZhBQwKePfAEKV6
+         FB+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744640559; x=1745245359;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WvErva8RE1Xl0CS0JpCsCufYwnWymF0ErrsF7qxVK4=;
-        b=Omvx5T5MA0258JKrDK5ZhhOK7y7wDDtM+xuB20AbyyrHIo+bncbp/EU9YT8ospuG5v
-         GHXMcGVT6FQzvQPbdsKnuPqZaa+txo0n60OL9OogVylIyA7mUL94Wzqc7rcOR5fm2o53
-         eBzuls0kmGlZT9h4Z6C7JX7vkP1d41OkB4lxa60BeAdCAOQw7g9lXjJ1gjHhK5NXn4Y5
-         Ry147WRHMJ+fliNLD5SvBY2J/fp7BnMqvpOg8p+3tF2t8iRF0UAskAi2qAzWB7Vzkijb
-         rvlicPHQ9XGvcJnxDyq59kpdAy2hs1LPS445iwdy8khdHNwqL3C2Pc48htbXY5bCk7gN
-         xYkw==
-X-Gm-Message-State: AOJu0YyqDLErBroOf/Kh0VEJSBc25HMfw1wskZh4+zyeDxjI9fEER6F6
-	XAddYFtyOH3On1yXH5dMzLpRo8FV77jJcwRk5Wmc5v2cSlLTYB97GaLfMdR6nEFZP5QY1ZNihQk
+        d=1e100.net; s=20230601; t=1744640615; x=1745245415;
+        h=content-transfer-encoding:autocrypt:content-language:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2F3dZ3hLtdrOuYWIrvH0DOfPMALIT7wBtRZFKoHIv64=;
+        b=Hfv7/2AW7Q0wx4XE1QpwvFhgU5L7eUmnITWmkOEbMQ0Tlt4kxOUNN79OCqCCHP9d+L
+         uX/mItntHZmUKmlxB5ITk/gOdxxfKjYx/zH4vBZBpf9deMcpixaroa6uOhJnLqLnW8zx
+         cWHDMN+XmI4O9knz6LbhKrwn6F2tIpzImJxKL1Po1WuYT0rxbkzo/RKSCm5klZ+uglsR
+         DacWPrzpVAsna3BOdBXPQHPek4Be2Qr8uX+vZ/kTTsh6+STH/z4ruc8u948z1oZ14MjX
+         APXnb5RE9qrnDqoMiT3ius6ATjvvf4k+dCUyjwTtlMMUIuJ6qEPDhhlpdHaiSWmkY1UI
+         sllg==
+X-Gm-Message-State: AOJu0YyqKboA7BsefBl4K25bYjkZd7EmPjh+I+LBaT0sWrp+c2GATLq7
+	KwlYRazaGkKFnWXScciCC2wS4cUQJ54ezaw1T17Sr8AL6OJfcf1WiKKW9SmGMdjPc698H4qLV/o
 	=
-X-Gm-Gg: ASbGncvU6LnaXfxuYT1rDFbvIaG74mMl2Ha6j0fDOkBKrl7ELimdXTz3YksMJIqwmat
-	r4wACs9zL9DpjnDTjSCjrU3x3PhWYCS/RR4zgcYhJs4XbkPXNIET/SXETyqAJLuuX1KbBViMXeK
-	R6/gt2SCy7wiC4TuuQRda5CyJ/QLTSZY4WlxgmqfCHmdO+66ZT4KmDcpnRJuGPdz5eJdgFr+rIB
-	fDQyZhCnRnEfb/MqiREXPtS+HlS75mmAd1VjafijbkWCCk2EMMq0vg6cSk0J7QyYqrvNc5+3XlL
-	TP2VKCittd3t43SnGX24Hzw2kZY/mmoxholY2b4e9UOBq5RJejvnL0yHLexyL1XSSM/0Dxg/6dh
-	zOUqAg+aIDouMcueB3GTQ8qolBWGkB5Hy1fFk
-X-Google-Smtp-Source: AGHT+IHmobykP660N+whqxZFfNFt8txRryPjcIAGFOI18Hkg1o4s8k7YZhhX3BqfgFzIms7oLrxGCg==
-X-Received: by 2002:a05:6000:2906:b0:391:29f:4f87 with SMTP id ffacd0b85a97d-39eaaed2345mr8329993f8f.49.1744640559100;
-        Mon, 14 Apr 2025 07:22:39 -0700 (PDT)
+X-Gm-Gg: ASbGncsR3eyaMPj8THKFGVcJdAIfURQ7I8JIfzUMpPHIMCQv1VH/5TLaKMKsmZEfMF1
+	QVhjrEhJBmr+28t8lQbgse+DEj0xyVzooeEmPGkIlEpbj1z/naeLEONHEcbkf4BemrgLyUqgewa
+	/ZASz6Bv90W/c6BYu0LG4BwVkAmoFwSueip23VATTS9HSAohwqCNG8WduQh2w+1nx0cGuAYeftX
+	4LCXaj+41+fBQ9DTpdeXIZhD0edeWyEmZlLc/yVe4wmWcZTATz/V6tQc4Bds9JD1/ZbxQ6IXZbi
+	TG+zmh8t/7PCmw5qb1N07W1vMEjdsTB4Mwm/vkt2ktZr1YCgyDhgPrFLY/0+SOPLzvBn17VTDY1
+	tU2vl9nFmG6s7OYEUc+hj5FjSAA==
+X-Google-Smtp-Source: AGHT+IEWoQsME/5G4pvikKkYaajHiXzdRiXdPMI80/GtBJM4cr8u34ugVeQmiBycIJcEfsBHsWCouw==
+X-Received: by 2002:a05:600c:810b:b0:43c:f0ae:da7 with SMTP id 5b1f17b1804b1-43f3a92877bmr92406855e9.7.1744640615303;
+        Mon, 14 Apr 2025 07:23:35 -0700 (PDT)
 Received: from [10.156.60.236] (ip-037-024-206-209.um08.pools.vodafone-ip.de. [37.24.206.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96407esm11261088f8f.17.2025.04.14.07.22.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f23572d43sm174165305e9.31.2025.04.14.07.23.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Apr 2025 07:22:38 -0700 (PDT)
-Message-ID: <4b19fae4-ba5d-45b6-ae4a-8b59c178f529@suse.com>
-Date: Mon, 14 Apr 2025 16:22:40 +0200
+        Mon, 14 Apr 2025 07:23:34 -0700 (PDT)
+Message-ID: <10b1ebd8-5d32-41a2-9454-1b40e98d5187@suse.com>
+Date: Mon, 14 Apr 2025 16:23:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -81,12 +81,12 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+From: Jan Beulich <jbeulich@suse.com>
+Subject: [PATCH] correct disabling of -Wshift-negative-value
 To: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
  Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-From: Jan Beulich <jbeulich@suse.com>
-Subject: [PATCH] correct disabling of -Wstringop-overflow
+Content-Language: en-US
 Autocrypt: addr=jbeulich@suse.com; keydata=
  xsDiBFk3nEQRBADAEaSw6zC/EJkiwGPXbWtPxl2xCdSoeepS07jW8UgcHNurfHvUzogEq5xk
  hu507c3BarVjyWCJOylMNR98Yd8VqD9UfmX0Hb8/BrA+Hl6/DB/eqGptrf4BSRwcZQM32aZK
@@ -113,21 +113,21 @@ Autocrypt: addr=jbeulich@suse.com; keydata=
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-As was done up to 6.5, disabling of warnings needs to probe for the
-positive command line option. Hence why there is cc-disable-warning.
+The warning is supported only from gcc6 onwards, hence its disabling
+needs probing that the (positive) option is actually supported.
 
-Fixes: a5e0ace04fbf ("init: Kconfig: Disable -Wstringop-overflow for GCC-11")
+Fixes: 1344794a59db ("Kbuild: add -Wno-shift-negative-value where -Wextra is used")
 Signed-off-by: Jan Beulich <jbeulich@suse.com>
 
---- a/Makefile
-+++ b/Makefile
-@@ -1054,7 +1054,7 @@ NOSTDINC_FLAGS += -nostdinc
- KBUILD_CFLAGS += $(call cc-option, -fstrict-flex-arrays=3)
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -154,7 +154,7 @@ else
+ # The following turn off the warnings enabled by -Wextra
+ KBUILD_CFLAGS += -Wno-missing-field-initializers
+ KBUILD_CFLAGS += -Wno-type-limits
+-KBUILD_CFLAGS += -Wno-shift-negative-value
++KBUILD_CFLAGS += $(call cc-disable-warning,shift-negative-value)
  
- #Currently, disable -Wstringop-overflow for GCC 11, globally.
--KBUILD_CFLAGS-$(CONFIG_CC_NO_STRINGOP_OVERFLOW) += $(call cc-option, -Wno-stringop-overflow)
-+KBUILD_CFLAGS-$(CONFIG_CC_NO_STRINGOP_OVERFLOW) += $(call cc-disable-warning,stringop-overflow)
- KBUILD_CFLAGS-$(CONFIG_CC_STRINGOP_OVERFLOW) += $(call cc-option, -Wstringop-overflow)
- 
- # disable invalid "can't wrap" optimizations for signed / pointers
+ ifdef CONFIG_CC_IS_CLANG
+ KBUILD_CFLAGS += -Wno-enum-enum-conversion
 
