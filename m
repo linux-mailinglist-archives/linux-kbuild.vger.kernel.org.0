@@ -1,206 +1,161 @@
-Return-Path: <linux-kbuild+bounces-6602-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6603-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82F5A88CD5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 22:11:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCB7A88CF1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 22:19:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0417D7A87CF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 20:10:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B84A13B3A30
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Apr 2025 20:19:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 759091DC185;
-	Mon, 14 Apr 2025 20:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D74A1C6FF6;
+	Mon, 14 Apr 2025 20:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DGcER8U0"
+	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="aKc51wK9";
+	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="WqpbmyFD";
+	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="SgW9pEy3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F651B4233;
-	Mon, 14 Apr 2025 20:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from e2i427.smtp2go.com (e2i427.smtp2go.com [103.2.141.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71C21C1F12
+	for <linux-kbuild@vger.kernel.org>; Mon, 14 Apr 2025 20:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.141.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744661482; cv=none; b=SSaPIGZuTq4vMCqqzvoXITgrHKqMpsYGTL95QisvEYClYwHTTOTaB18vaqYONcaEOGf1+siOe/LLK68t/A/l61lKaX6SKyC7EtuRIH+LMhfBQzz0tcBEcLhJkZno3MNR7RxK0y0Wo+UxrmzIeEWieKOV57rxg0dEsH6Yg7xg1kw=
+	t=1744661966; cv=none; b=OL5JXDmggkDis8IaQmuywwzS/VucjR+Em0j29eOKng/PJrG8wPAxB9bCswolGpks0c6+4GswNvs6oy3IIxlzCYfbllog/TjG+6GphrJim94j8Tx2ph6G84zJRfr8L2cQv/pVjpsAQaKdqs2h4GG1q5RzSiOpOLrHgq14t+EoVU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744661482; c=relaxed/simple;
-	bh=m9gUHGSqqjzXCUNW6X/n+Ri/iJ5aMnBxw6nMVp+5E6M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QyURcX1XBSpvhS+UJvbqehcfgTXb6BQ4mMUaOdHE4NQqX9u2R2hDLjWYFfPZLY5Zie0EoRNhX1Xt0kMhb3Z3wrDYiV5aD+WHXrilxvO0d8t7QZ5TbPn5IZlpGf+o7Ly4oS5m8ZNIZloLVt003zBZ3Rn+7qOLRS2t21XaT1HP7bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=DGcER8U0; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from narnia (unknown [167.220.2.28])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3E98D210C426;
-	Mon, 14 Apr 2025 13:11:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3E98D210C426
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744661480;
-	bh=P556LurTOELheJsvrtJpXaQl7rF2eMtCrBpdxv4c0g8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DGcER8U0Lp6LIp5x8dw8dW/kKK1vADezhCEhZACHXla6ONsZ/FiK3dfjlQd/DeITL
-	 6lyD6wH7iWHkvv5LbIiMagDI/VQwjUWpO/P+F21KKUt2eFOC3eYPU3j6gOs5oqok7S
-	 SMP1E1bth48QsO3rcIBsYXqH09fmAhbiTS24RlfI=
-From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
- <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
- <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
- =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
- <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
- Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen
- <jarkko@kernel.org>, Jan Stancek <jstancek@redhat.com>, Neal Gompa
- <neal@gompa.dev>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- llvm@lists.linux.dev, nkapron@google.com, teknoraver@meta.com,
- roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-In-Reply-To: <Z/lo3iVcJgB2pfQX@redbud>
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
- <Z/lo3iVcJgB2pfQX@redbud>
-Date: Mon, 14 Apr 2025 13:11:09 -0700
-Message-ID: <87lds2jyg2.fsf@microsoft.com>
+	s=arc-20240116; t=1744661966; c=relaxed/simple;
+	bh=XleZMG7I0hBKpWBBZ30vgWlJ3X7D9YnR4f8NvVxN7ZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WQ+87uFsc2M5rKtl/J2vtJMa8uvB0ilIcB5oW6etSNbEXVp026WqRxHNzGz+/xP/wI8FtbK/zftbKprf1ENRQtcE/sp7zajasXLJWU2RXyD4rxas2EC8WV8OHse1giWWQVkBMUhOnyH1S2woE5gT+FD2sctJATCDy3pF1EGceNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=aKc51wK9 reason="unknown key version"; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=WqpbmyFD; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=SgW9pEy3; arc=none smtp.client-ip=103.2.141.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1744662855; h=Feedback-ID:
+	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
+	List-Unsubscribe:List-Unsubscribe-Post;
+	bh=DBHs10rDRwWakJ+0FNRVX8rLj2BxosVKCp/U+3H5D8k=; b=aKc51wK9jgdX5x++9RT3wFC3Zz
+	AGCHNzvfM1aioJ58sWMK0ageJXw/S+xf9XlA5cpYfIYIsE/kiz7Inp8jzAv6EPC87Pck/MXk2W5YW
+	tYkHi+v+QAU+JK+UPEXXFBRhUsbuq2FaWJPqym3E76at0qJA0EdGGYlF+Uc5hnoVoKZwsk55xlu3N
+	Lo3hoHZQD1HGAU2PZtEv9kASlTVfbOoVEyBqZHMyh81SXyfPzugKqkr0N6dE7PIWjruKrRMkGOsLs
+	/CLnGxidtrabuqfo/k0bqYzbVhwtHVIgeTpkJMv08cbcopfDFCs1t5HC7SkVIXrINOwgOi/9De2Ap
+	+6BcMupg==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
+ i=@fjasle.eu; q=dns/txt; s=s1174286; t=1744661955; h=from : subject :
+ to : message-id : date;
+ bh=DBHs10rDRwWakJ+0FNRVX8rLj2BxosVKCp/U+3H5D8k=;
+ b=WqpbmyFDj7juw2fRcnv1oAxK9LwWDUSDCK6yJBPEBgv4XOQor74tbmVQifzaqoqcXhrQq
+ kT1yfvKhK8/BIiObCCAWeTw04YRj4WnXbvzVgdB+6IcxFkTPsWHPLbwb/Fx6XFJvpH7D3D0
+ JgXe5gwwoXx4jpOBAr48NGFgaRTF8NcOTVUd4nHJIzy8XJgYsoeFz21Fg6EeZajHm0P/Ups
+ ajASzx9jsmZUGhj3Ll3Zm1jMdBldWGtlKnAm6AP7TWulrW6C2+o2UDi33LzUaXoSVN+p0vg
+ 77WB2kJVfGLFSZCuXvK21jKtXFLO0WxVJTuPv9uNrlxeCOCyHtBr54jf9dFQ==
+Received: from [10.172.233.58] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1u4QFI-TRjwtI-IS; Mon, 14 Apr 2025 20:17:32 +0000
+Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
+ by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.97.1-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1u4QFH-FnQW0hPuS5z-lIjL; Mon, 14 Apr 2025 20:17:32 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+ t=1744661848; bh=XleZMG7I0hBKpWBBZ30vgWlJ3X7D9YnR4f8NvVxN7ZQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SgW9pEy3RvEhKOAWcSympA8YWxTr9kdBVMh8OHIPWoLR2eXOIXdcilDMCyUHvC6uC
+ mFBwyCLvJfZi2HP3NNPNmFFD9umMjBxCOonKwrwTO1wTyArzylURFLDHqlrUSB3izX
+ bVBTVt0qWj3/rJBV+nksjCukEGxSSd+DFjaiCo8Q=
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+ id 546994973C; Mon, 14 Apr 2025 22:17:28 +0200 (CEST)
+Date: Mon, 14 Apr 2025 22:17:28 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] rust: kbuild: use `pound` to support GNU Make < 4.3
+Message-ID: <Z_1tWOkpW_d_OlOW@fjasle.eu>
+References: <20250414171241.2126137-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250414171241.2126137-1-ojeda@kernel.org>
+X-Smtpcorp-Track: LH0UJnISmlzh.cg_VAxZwlu7j.BPgqRA0NuUF
+Feedback-ID: 1174286m:1174286a9YXZ7r:1174286s7UJPYc9yz
+X-Report-Abuse: Please forward a copy of this message, including all headers,
+ to <abuse-report@smtp2go.com>
 
-Tyler Hicks <code@tyhicks.com> writes:
-
-> On 2025-04-04 14:54:50, Blaise Boscaccy wrote:
->> +static int hornet_verify_lskel(struct bpf_prog *prog, struct hornet_maps *maps,
->> +			       void *sig, size_t sig_len)
->> +{
->> +	int fd;
->> +	u32 i;
->> +	void *buf;
->> +	void *new;
->> +	size_t buf_sz;
->> +	struct bpf_map *map;
->> +	int err = 0;
->> +	int key = 0;
->> +	union bpf_attr attr = {0};
->> +
->> +	buf = kmalloc_array(prog->len, sizeof(struct bpf_insn), GFP_KERNEL);
->> +	if (!buf)
->> +		return -ENOMEM;
->> +	buf_sz = prog->len * sizeof(struct bpf_insn);
->> +	memcpy(buf, prog->insnsi, buf_sz);
->> +
->> +	for (i = 0; i < maps->used_map_cnt; i++) {
->> +		err = copy_from_bpfptr_offset(&fd, maps->fd_array,
->> +					      maps->used_idx[i] * sizeof(fd),
->> +					      sizeof(fd));
->> +		if (err < 0)
->> +			continue;
->> +		if (fd < 1)
->> +			continue;
->> +
->> +		map = bpf_map_get(fd);
+On Mon, Apr 14, 2025 at 07:12:41PM +0200 Miguel Ojeda wrote:
+>GNU Make 4.3 changed the behavior of `#` inside commands in commit
+>c6966b323811 ("[SV 20513] Un-escaped # are not comments in function
+>invocations"):
 >
-> I'm not very familiar with BPF map lifetimes but I'd assume we need to have a
-> corresponding bpf_map_put(map) before returning.
+>    * WARNING: Backward-incompatibility!
+>      Number signs (#) appearing inside a macro reference or function invocation
+>      no longer introduce comments and should not be escaped with backslashes:
+>      thus a call such as:
+>        foo := $(shell echo '#')
+>      is legal.  Previously the number sign needed to be escaped, for example:
+>        foo := $(shell echo '\#')
+>      Now this latter will resolve to "\#".  If you want to write makefiles
+>      portable to both versions, assign the number sign to a variable:
+>        H := \#
+>        foo := $(shell echo '$H')
+>      This was claimed to be fixed in 3.81, but wasn't, for some reason.
+>      To detect this change search for 'nocomment' in the .FEATURES variable.
 >
->> +		if (IS_ERR(map))
->> +			continue;
->> +
->> +		/* don't allow userspace to change map data used for signature verification */
->> +		if (!map->frozen) {
->> +			attr.map_fd = fd;
->> +			err = kern_sys_bpf(BPF_MAP_FREEZE, &attr, sizeof(attr));
->> +			if (err < 0)
->> +				goto out;
->> +		}
->> +
->> +		new = krealloc(buf, buf_sz + map->value_size, GFP_KERNEL);
->> +		if (!new) {
->> +			err = -ENOMEM;
->> +			goto out;
->> +		}
->> +		buf = new;
->> +		new = map->ops->map_lookup_elem(map, &key);
->> +		if (!new) {
->> +			err = -ENOENT;
->> +			goto out;
->> +		}
->> +		memcpy(buf + buf_sz, new, map->value_size);
->> +		buf_sz += map->value_size;
->> +	}
->> +
->> +	err = verify_pkcs7_signature(buf, buf_sz, sig, sig_len,
->> +				     VERIFY_USE_SECONDARY_KEYRING,
->> +				     VERIFYING_EBPF_SIGNATURE,
->> +				     NULL, NULL);
->> +out:
->> +	kfree(buf);
->> +	return err;
->> +}
->> +
->> +static int hornet_check_binary(struct bpf_prog *prog, union bpf_attr *attr,
->> +			       struct hornet_maps *maps)
->> +{
->> +	struct file *file = get_task_exe_file(current);
+>Unlike other commits in the kernel about this issue, such as commit
+>633174a7046e ("lib/raid6/test/Makefile: Use $(pound) instead of \#
+>for Make 4.3"), that fixed the issue for newer GNU Makes, in our case
+>it was the opposite, i.e. we need to fix it for the older ones: someone
+>building with e.g. 4.2.1 gets the following error:
 >
-> We should handle get_task_exe_file() returning NULL. I don't think it is likely
-> to happen when passing `current` but kernel_read_file() doesn't protect against
-> it and we'll have a NULL pointer dereference when it calls file_inode(NULL).
+>    scripts/Makefile.compiler:81: *** unterminated call to function 'call': missing ')'.  Stop.
 >
->> +	const unsigned long markerlen = sizeof(EBPF_SIG_STRING) - 1;
->> +	void *buf = NULL;
->> +	size_t sz = 0, sig_len, prog_len, buf_sz;
->> +	int err = 0;
->> +	struct module_signature sig;
->> +
->> +	buf_sz = kernel_read_file(file, 0, &buf, INT_MAX, &sz, READING_EBPF);
+>Thus use the existing variable to fix it.
 >
-> We are leaking buf in this function. kernel_read_file() allocates the memory
-> for us but we never kfree(buf).
+>Reported-by: moyi geek
+>Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/291565/topic/x/near/512001985
+>Cc: stable@vger.kernel.org
+>Fixes: e72a076c620f ("kbuild: fix issues with rustc-option")
+>Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+>---
+> scripts/Makefile.compiler | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >
->> +	fput(file);
->> +	if (!buf_sz)
->> +		return -1;
->> +
->> +	prog_len = buf_sz;
->> +
->> +	if (prog_len > markerlen &&
->> +	    memcmp(buf + prog_len - markerlen, EBPF_SIG_STRING, markerlen) == 0)
->> +		prog_len -= markerlen;
+>diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+>index 7ed7f92a7daa..f4fcc1eaaeae 100644
+>--- a/scripts/Makefile.compiler
+>+++ b/scripts/Makefile.compiler
+>@@ -79,7 +79,7 @@ ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+> # Usage: MY_RUSTFLAGS += $(call __rustc-option,$(RUSTC),$(MY_RUSTFLAGS),-Cinstrument-coverage,-Zinstrument-coverage)
+> # TODO: remove RUSTC_BOOTSTRAP=1 when we raise the minimum GNU Make version to 4.4
+> __rustc-option = $(call try-run,\
+>-	echo '#![allow(missing_docs)]#![feature(no_core)]#![no_core]' | RUSTC_BOOTSTRAP=1\
+>+	echo '$(pound)![allow(missing_docs)]$(pound)![feature(no_core)]$(pound)![no_core]' | RUSTC_BOOTSTRAP=1\
+> 	$(1) --sysroot=/dev/null $(filter-out --sysroot=/dev/null --target=%,$(2)) $(3)\
+> 	--crate-type=rlib --out-dir=$(TMPOUT) --emit=obj=- - >/dev/null,$(3),$(4))
 >
-> Why is the marker optional? Looking at module_sig_check(), which verifies the
-> signature on kernel modules, I see that it refuses to proceed if the marker is
-> not found. Should we do the same and refuse to operate on any unexpected input?
+>
+>base-commit: a3cd5f507b72c0532c3345b6913557efab34f405
+>-- 
+>2.49.0
 >
 
-Looking at this again, there doesn't seem to be a good reason to have an
-optional marker. I'll get that fixed in v3 along with the rest of these
-suggestions. 
-
->> +
->> +	memcpy(&sig, buf + (prog_len - sizeof(sig)), sizeof(sig));
->
-> We should make sure that prog_len is larger than sizeof(sig) prior to this
-> memcpy(). It is probably not a real issue in practice but it would be good to
-> ensure that we can't be tricked to copy and operate on any bytes proceeding
-> buf.
->
-> Tyler
->
->> +	sig_len = be32_to_cpu(sig.sig_len);
->> +	prog_len -= sig_len + sizeof(sig);
->> +
->> +	err = mod_check_sig(&sig, prog->len * sizeof(struct bpf_insn), "ebpf");
->> +	if (err)
->> +		return err;
->> +	return hornet_verify_lskel(prog, maps, buf + prog_len, sig_len);
->> +}
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
