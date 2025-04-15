@@ -1,125 +1,272 @@
-Return-Path: <linux-kbuild+bounces-6612-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6613-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B24A897EB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Apr 2025 11:27:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D4AA8A345
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Apr 2025 17:45:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EE973A46F2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Apr 2025 09:27:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6491A7A541E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Apr 2025 15:44:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E87292820DA;
-	Tue, 15 Apr 2025 09:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7945419F11E;
+	Tue, 15 Apr 2025 15:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TTscjFax"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BLgKTF0Q"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C020D284691
-	for <linux-kbuild@vger.kernel.org>; Tue, 15 Apr 2025 09:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A98B526296;
+	Tue, 15 Apr 2025 15:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744709249; cv=none; b=MYh0GqMRLsjr0qCvroZkbNVgXH8kMHzSjSDBN/n29NavL3oQx434MFoU7aXpo2yOGq+YCkZEePZejbARz2mX6dVdOFVUjl0W3RDpe0Ptx05QLrv1fopsM5W09eJKGJSgdol4RYDOLGvmMF+lI1ZcYHJShIYURUmYT08i7k0k+gM=
+	t=1744731939; cv=none; b=tMUtChBT3VbCvbWxbK876WYT24f1CR8FAoogie1UBVSPul3+Jy9FLpNfSfYv28cmR6LfNdaBRscbfjtd/Nfxag3cIo7eqqXTLTEyNpw3BpRhkkWTb8mfikcRrMVmizTXeho8CIcT368p3KJsT0dE4y5X0Z5OaDkWh09yXFgIIcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744709249; c=relaxed/simple;
-	bh=ACQuDtLySJGUDdPySwcX9laZ30nm6+nLm5qXV88Hr4g=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=BItx8VGlAMQpnJuu66qOBs7w4wd39WW2wFGba2nYrZHYyeDWAvU/waDKDrdf6gMw7wjWCrm3P4P1By5HhASC3dn7tEQL2NnvTmAnhARs5yT86MwZvpqWJsYWg0xxoa26lpa2lKYhZvxEMQJ5MPk/Vml9I1MYiQ36/A6OtRLC2ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TTscjFax; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-43d0830c3f7so40257195e9.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 15 Apr 2025 02:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744709246; x=1745314046; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xNqTolRYwEdQ0xZi5RcJyGoxOrWsQ0mEIGkr1N9o2c4=;
-        b=TTscjFaxJJTBmBvktlTtVNPIhW4kOtmlmtVfJDUya0+0QptH5G6TO616jAkxIYgWzS
-         VI/HF3KEb5k4gwdMtOubR51cHOTkl1SH03800okzDCgX2fj5lte064eD9JqOno+O+yuF
-         A0MWFpMghyouF4Xj30Jjc0WXNd+iG84x94okp2IL7OEmND9nNAwlawQzB+cnoSsSAzTg
-         dynNN2//ZE9c7Kge33bJihgvJyW9OX3J4XWIKFMdJyAM5AymCN/Qz5VFBgbwA/e+xsEs
-         16EjoYYAfV2lBEbKQzXQceIdSBEcE01ozo9KvyYahcbovRGrFmlzEj9lQGIE1YbQYsxr
-         HxUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744709246; x=1745314046;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xNqTolRYwEdQ0xZi5RcJyGoxOrWsQ0mEIGkr1N9o2c4=;
-        b=eFNAAYH/vTYBUQ3j+c1HzAgNkIRxJNjHwecOMFUYOPGiCTT4y9cVznVrDJUGe/SoX/
-         McmxI5FcfLR4/23WyR588Lh9ps227SnE01t2v64yb/pLThbnSbKE2DAwxLnBV6pwDPGK
-         exz5gyV4r/22RTqMG1tEL2n0m7lVDHZgNlyI3xmkoaIy3zpGtQmkdPoRWcS+pdFSZawF
-         pTIHS6J6otC9JShPzpBmnn2qWRrZWNPvZBmP3SNlFjm8DCeArHbb2CpCFn4Ks68ECKCp
-         GSk85mzVHXF7YhVCZj24ohnb1FoTnCYcZQRI26FNBC2/l9Q6I0wtGOi2gkKYIkKDebql
-         QzoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVlSviS9ct2Z0BNYMdOFg3d8TLbfSUyBDu4QWdlVJtINN2N05e9LVD7pxw+VGzllIHLRYOpzP+sxTrYEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0NEEtblDi3PoMrpP833pxw4LDNJ67geOpisq1FLL4yLd7RD30
-	/DILxdvmRpB91DcHZISCvfFvUKIfCLIQmtHtqgxYVHndkCOxF/0Isuld1j2e6X0PpwVrXgsH3t5
-	X9Z6dLNKECdrvAg==
-X-Google-Smtp-Source: AGHT+IGNOnYD9JWXHsjrfEKTxmUhjAQDAgXAWdeq5XqvcbzsPrWDx2ckJ/DQU+m/oiKaf2kSydGbCqfW3XxRxAo=
-X-Received: from wmbz6.prod.google.com ([2002:a05:600c:c086:b0:43d:4ba5:b5d6])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3b86:b0:43d:db5:7b21 with SMTP id 5b1f17b1804b1-43f3a9b4865mr111301865e9.28.1744709246233;
- Tue, 15 Apr 2025 02:27:26 -0700 (PDT)
-Date: Tue, 15 Apr 2025 09:27:24 +0000
-In-Reply-To: <20250414171241.2126137-1-ojeda@kernel.org>
+	s=arc-20240116; t=1744731939; c=relaxed/simple;
+	bh=o0Eg9TfT7BJvamHuPbuu03I8bpxbABShuJ3X8yYmfcI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SNKCabfjrPcgqDUMyAKlaaC2ojelHMm88g/lHrtzniC4LOXeyhSlGx7Y4A+erlxYBpHmZCcVyClhoI+x4+YAoJc2YxGUtF68qZr3whRXl7WLQSFq+hH4nI3ZrubQQ/AeKB5oiZEh970vv1qYln/ZFmchFbCYsJMhnAJz6LRUwpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BLgKTF0Q; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from narnia (unknown [167.220.2.28])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A3E9A210C443;
+	Tue, 15 Apr 2025 08:45:27 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A3E9A210C443
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1744731937;
+	bh=QuJyjod+PaXXHNfCMhPGMW9mLvFTWCWAv7e+voj8vdo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BLgKTF0QYGwhBiUKzBI83CwLp6uOuqH/rY3yqMfbDQX4A4kaUL3UWtisXJDrRAnDR
+	 mOrfD3P30AUwXj+9OBwC3yLw9XRi0+CidxFNAOizuUezj6gsmGYe4ZnSuUO8GlsZjy
+	 mW0p4dYmbkkAV5SouL1VVFtRwgjmhvezJoV+fGAw=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
+ =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
+ <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
+ Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen
+ <jarkko@kernel.org>, Jan Stancek <jstancek@redhat.com>, Neal Gompa
+ <neal@gompa.dev>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, keyrings@vger.kernel.org, Linux
+ Crypto Mailing List <linux-crypto@vger.kernel.org>, LSM List
+ <linux-security-module@vger.kernel.org>, Linux Kbuild mailing list
+ <linux-kbuild@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
+ <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+ clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, Matteo Croce
+ <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, Cong Wang
+ <xiyou.wangcong@gmail.com>
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+In-Reply-To: <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+ <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
+ <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
+ <87semdjxcp.fsf@microsoft.com>
+ <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
+ <87friajmd5.fsf@microsoft.com>
+ <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+Date: Tue, 15 Apr 2025 08:45:25 -0700
+Message-ID: <87a58hjune.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250414171241.2126137-1-ojeda@kernel.org>
-Message-ID: <Z_4mfK2MK2xclvbW@google.com>
-Subject: Re: [PATCH] rust: kbuild: use `pound` to support GNU Make < 4.3
-From: Alice Ryhl <aliceryhl@google.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 14, 2025 at 07:12:41PM +0200, Miguel Ojeda wrote:
-> GNU Make 4.3 changed the behavior of `#` inside commands in commit
-> c6966b323811 ("[SV 20513] Un-escaped # are not comments in function
-> invocations"):
-> 
->     * WARNING: Backward-incompatibility!
->       Number signs (#) appearing inside a macro reference or function invocation
->       no longer introduce comments and should not be escaped with backslashes:
->       thus a call such as:
->         foo := $(shell echo '#')
->       is legal.  Previously the number sign needed to be escaped, for example:
->         foo := $(shell echo '\#')
->       Now this latter will resolve to "\#".  If you want to write makefiles
->       portable to both versions, assign the number sign to a variable:
->         H := \#
->         foo := $(shell echo '$H')
->       This was claimed to be fixed in 3.81, but wasn't, for some reason.
->       To detect this change search for 'nocomment' in the .FEATURES variable.
-> 
-> Unlike other commits in the kernel about this issue, such as commit
-> 633174a7046e ("lib/raid6/test/Makefile: Use $(pound) instead of \#
-> for Make 4.3"), that fixed the issue for newer GNU Makes, in our case
-> it was the opposite, i.e. we need to fix it for the older ones: someone
-> building with e.g. 4.2.1 gets the following error:
-> 
->     scripts/Makefile.compiler:81: *** unterminated call to function 'call': missing ')'.  Stop.
-> 
-> Thus use the existing variable to fix it.
-> 
-> Reported-by: moyi geek
-> Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/291565/topic/x/near/512001985
-> Cc: stable@vger.kernel.org
-> Fixes: e72a076c620f ("kbuild: fix issues with rustc-option")
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> On Mon, Apr 14, 2025 at 5:32=E2=80=AFPM Blaise Boscaccy
+> <bboscaccy@linux.microsoft.com> wrote:
+>>
+>> Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+>>
+>> > On Sat, Apr 12, 2025 at 6:58=E2=80=AFAM Blaise Boscaccy
+>> > <bboscaccy@linux.microsoft.com> wrote:
+>> >>
+>> >> TAlexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+>> >>
+>> >> > On Fri, Apr 4, 2025 at 2:56=E2=80=AFPM Blaise Boscaccy
+>> >> > <bboscaccy@linux.microsoft.com> wrote:
+>> >> >> +
+>> >> >> +static int hornet_find_maps(struct bpf_prog *prog, struct hornet_=
+maps *maps)
+>> >> >> +{
+>> >> >> +       struct bpf_insn *insn =3D prog->insnsi;
+>> >> >> +       int insn_cnt =3D prog->len;
+>> >> >> +       int i;
+>> >> >> +       int err;
+>> >> >> +
+>> >> >> +       for (i =3D 0; i < insn_cnt; i++, insn++) {
+>> >> >> +               if (insn[0].code =3D=3D (BPF_LD | BPF_IMM | BPF_DW=
+)) {
+>> >> >> +                       switch (insn[0].src_reg) {
+>> >> >> +                       case BPF_PSEUDO_MAP_IDX_VALUE:
+>> >> >> +                       case BPF_PSEUDO_MAP_IDX:
+>> >> >> +                               err =3D add_used_map(maps, insn[0]=
+.imm);
+>> >> >> +                               if (err < 0)
+>> >> >> +                                       return err;
+>> >> >> +                               break;
+>> >> >> +                       default:
+>> >> >> +                               break;
+>> >> >> +                       }
+>> >> >> +               }
+>> >> >> +       }
+>> >> >
+>> >> > ...
+>> >> >
+>> >> >> +               if (!map->frozen) {
+>> >> >> +                       attr.map_fd =3D fd;
+>> >> >> +                       err =3D kern_sys_bpf(BPF_MAP_FREEZE, &attr=
+, sizeof(attr));
+>> >> >
+>> >> > Sorry for the delay. Still swamped after conferences and the merge =
+window.
+>> >> >
+>> >>
+>> >> No worries.
+>> >>
+>> >> > Above are serious layering violations.
+>> >> > LSMs should not be looking that deep into bpf instructions.
+>> >>
+>> >> These aren't BPF internals; this is data passed in from
+>> >> userspace. Inspecting userspace function inputs is definitely within =
+the
+>> >> purview of an LSM.
+>> >>
+>> >> Lskel signature verification doesn't actually need a full disassembly,
+>> >> but it does need all the maps used by the lskel. Due to API design
+>> >> choices, this unfortunately requires disassembling the program to see
+>> >> which array indexes are being used.
+>> >>
+>> >> > Calling into sys_bpf from LSM is plain nack.
+>> >> >
+>> >>
+>> >> kern_sys_bpf is an EXPORT_SYMBOL, which means that it should be calla=
+ble
+>> >> from a module.
+>> >
+>> > It's a leftover.
+>> > kern_sys_bpf() is not something that arbitrary kernel
+>> > modules should call.
+>> > It was added to work for cases where kernel modules
+>> > carry their own lskels.
+>> > That use case is gone, so EXPORT_SYMBOL will be removed.
+>> >
+>>
+>> I'm not following that at all. You recommended using module-based lskels
+>> to get around code signing requirements at lsfmmbpf and now you want to
+>> nuke that entire feature? And further, skel_internal will no longer be
+>> usable from within the kernel and bpf_preload is no longer going to be
+>> supported?
+
+The eBPF dev community has spent what, 4-5 years on this, with little to
+no progress. I have little faith that this is going to progress on your
+end in a timely manner or at all, and frankly we (and others) needed
+this yesterday. Hornet has zero impact on the bpf subsystem, yet you
+seem viscerally opposed to us doing this. Why are you trying to stop us
+from securing our cloud?
+
+>
+> It was exported to modules to run lskel-s from modules.
+> It's bpf internal api, but seeing how you want to abuse it
+> the feature has to go. Sadly.
+>
+
+Are we in preschool again? You don't like how others are playing with
+your toys so you want to take them away from everyone. Forever.=20
+
+>> >> Lskels without frozen maps are vulnerable to a TOCTOU
+>> >> attack from a sufficiently privileged user. Lskels currently pass
+>> >> unfrozen maps into the kernel, and there is nothing stopping someone
+>> >> from modifying them between BPF_PROG_LOAD and BPF_PROG_RUN.
+>> >>
+>> >> > The verification of module signatures is a job of the module loadin=
+g process.
+>> >> > The same thing should be done by the bpf system.
+>> >> > The signature needs to be passed into sys_bpf syscall
+>> >> > as a part of BPF_PROG_LOAD command.
+>> >> > It probably should be two new fields in union bpf_attr
+>> >> > (signature and length),
+>> >> > and the whole thing should be processed as part of the loading
+>> >> > with human readable error reported back through the verifier log
+>> >> > in case of signature mismatch, etc.
+>> >> >
+>> >>
+>> >> I don't necessarily disagree, but my main concern with this is that
+>> >> previous code signing patchsets seem to get gaslit or have the goalpo=
+sts
+>> >> moved until they die or are abandoned.
+>> >
+>> > Previous attempts to add signing failed because
+>> > 1. It's a difficult problem to solve
+>> > 2. people only cared about their own narrow use case and not
+>> > considering the needs of bpf ecosystem as a whole.
+>> >
+>> >> Are you saying that at this point, you would be amenable to an in-tree
+>> >> set of patches that enforce signature verification of lskels during
+>> >> BPF_PROG_LOAD that live in syscall.c,
+>> >
+>> > that's the only way to do it.
+>> >
+>>
+>> So the notion of forcing people into writing bpf-based gatekeeper progra=
+ms
+>> is being abandoned? e.g.
+>>
+>> https://lore.kernel.org/bpf/bqxgv2tqk3hp3q3lcdqsw27btmlwqfkhyg6kohsw7lwd=
+gbeol7@nkbxnrhpn7qr/#t
+>> https://lore.kernel.org/bpf/61aae2da8c7b0_68de0208dd@john.notmuch/
+>
+> Not abandoned.
+> bpf-based tuning of load conditions is still necessary.
+> The bpf_prog_load command will check the signature only.
+> It won't start rejecting progs that don't have a signature.
+> For that a one liner bpf-lsm or C-based lsm would be needed
+> to address your dont-trust-root use case.
+>
+
+Since this will require an LSM no matter what, there is zero reason for
+us not to proceed with Hornet. If or when you actually figure out how to
+sign an lskel and upstream updated LSM hooks, I can always rework Hornet
+to use that instead.
+
+>>
+>> >> without adding extra non-code
+>> >> signing requirements like attachment point verification, completely
+>> >> eBPF-based solutions, or rich eBPF-based program run-time policy
+>> >> enforcement?
+>> >
+>> > Those are secondary considerations that should also be discussed.
+>> > Not necessarily a blocker.
+>>
+>> Again, I'm confused here since you recently stated this whole thing
+>> was "questionable" without attachment point verification.
+>
+> Correct.
+> For fentry prog type the attachment point is checked during the load,
+> but for tracepoints it's not, and anyone who is claiming that
+> their system is secure because the tracepoint prog was signed
+> is simply clueless in how bpf works.
+
+No one is making that claim, although I do appreciate the lovely
+ad-hominem attack and absolutist standpoint. It's not like we invented
+code signing last week. All we are trying to do is make our cloud
+ever-so-slightly more secure and share the results with the community.
+
+The attack vectors I'm looking at are things like CVE-2021-33200. ACLs
+for attachment points do nothing to stop that whereas code signing is a
+possible countermeasure. This kind of thing is probably a non-issue with
+your private cloud, but it's a very real issue with publicly accessible
+ones.=20=20
 
