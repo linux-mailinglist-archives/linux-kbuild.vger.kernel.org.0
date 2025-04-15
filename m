@@ -1,153 +1,288 @@
-Return-Path: <linux-kbuild+bounces-6625-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6626-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0C6A8AA61
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Apr 2025 23:48:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D63D3A8ABBF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 01:03:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9476F17DABB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Apr 2025 21:48:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C3341903512
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Apr 2025 23:03:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC381255228;
-	Tue, 15 Apr 2025 21:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C63812D869E;
+	Tue, 15 Apr 2025 23:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UIzhDmRX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hqEzR59W"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30081256C7A;
-	Tue, 15 Apr 2025 21:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03A529DB90;
+	Tue, 15 Apr 2025 23:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744753719; cv=none; b=LKeRWwdOHqEZGWFcKa5F+pCULpiiwWUAiVLQ771A0l67tBG1KP95e9dL74jbA8M/8whbGe1ylUbVQrA8Z3wpZuOz307u5Zs49oL3zTJ48DomNXKU7gjuRW4hXAAu2M/1b8uJtpZm1sz1czzwjfTmk+ZmbT+LGenpn9owEOFo/Zw=
+	t=1744758188; cv=none; b=Uxj2CdNy7OBLBSVbFxGjWFg81pKk0vWoeSxzHa22v1XXqcuwQiSOhC3X2fPnI6DfoJFu7pKNgd3/TytoVVbU0rzTSwVMAi4YxD5PS/2tVqi+amPBWq7S97Qq6K5FFsp0xJl3SzmI2Jd2+srUUiWEu8If+C7Ysj/ktf70w96twEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744753719; c=relaxed/simple;
-	bh=bDUCnKz7jvBuxw+pBQ6fXlAerwaY3e5AwmiudA8kAZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QDdShDuRLevS32UltDruJe9DwLffWQFSn5T0Fj1TvRdafXbq3W68x1FSvB3VRYL+iTcgeIRCzftlLq+/CQ6D9sbGtA+Z4tyYEE0KWC6/PFNtHgj9dJa+q8ehdihIFm0AnuiYiN6UCROqBS+PtY6JjCNNJUcovUa0l4fcCKiKN/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UIzhDmRX; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1744758188; c=relaxed/simple;
+	bh=JZRovcjiwQ33A3xUCMsFycF3ql2BDyl9qeX4yMmp6bA=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iKRSftGgBYL2CMwfWhz9pFK4Ebk0wqaTNX0NzIJfTNoNsd1rFxhbF52wq8ixlzS6g6Sct8YgdBRvVyiO841Y51yFubDQ+t7wVfuqegLa0x5QsgPo3r1mK19PaCHaVVqwGfMcT0/GasJa/8LcvQ9s+Kfx2LFxBU86oL91aB3liAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hqEzR59W; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c1efc457bso4094539f8f.2;
-        Tue, 15 Apr 2025 14:48:37 -0700 (PDT)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7c54b651310so816908785a.0;
+        Tue, 15 Apr 2025 16:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744753716; x=1745358516; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1744758186; x=1745362986; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:feedback-id:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bDUCnKz7jvBuxw+pBQ6fXlAerwaY3e5AwmiudA8kAZE=;
-        b=UIzhDmRXF5Tz1DvLt++5m5X+28qnagMvVtoHaBD81Y4m6M4BO9O7scHbT1N4NgWPh2
-         LLV3K+OQH9TznqbP8atdpXB5YA+8F5kUbNA7hu/rZ2e+RO8OKqJ/T0InssQPkIebTtX2
-         pqR6MB8+l76jcoFokNbUVAc7sgliTx6ZWHzSDWNiCgGsA8aPC1RH85Qy8eeJEgmPFez3
-         oav3/tb2PCSoqsZtXCa+5oSSOUSEurXQNdwlg9jxdRHKPbZNpYmsLefz03uEK9vvn6sH
-         rwE5JZ/WUcxV88pl6FeuEVwBWemXH9kZRTZsBIccq0AMfpM4qhyHuuDgzbbz/Fpr1kO+
-         OiYQ==
+        bh=Q21DKRIHxJEvdt+r1VLoxzAfD1ZQ4fXtiMyb7UHuaZI=;
+        b=hqEzR59W4HhSxePeWOTGxNpwgJPYr/WM4A62sqbNmUn1QQi5g1OHicjbKDu4+i0Pd4
+         RbXKvJLmezjtTZFBgvcZBxS27uuzmbIfkwA1iQsbiFJteBc/G1UorqUF5BfImvV7v74I
+         vApbt1ha5+Q3GexZp/b+gVWwo9vCm9/QN3h0RqNe6Lp7eqv2gtd1/9B0OgNbE/YLvy5l
+         j1LRvjKj51QHZ5r6nfF8GUeu8D37w4jsOj4pl6Ks88Qx29s80a7g17cu5i7BTswtaV7E
+         rlw4REa8iIf/Pi1jgwR5JE/+WY72fXW5FJrV+aOS6PCmiZXQVuIjT38qGaWXyIpEUyWa
+         Brqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744753716; x=1745358516;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1744758186; x=1745362986;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:feedback-id:message-id:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bDUCnKz7jvBuxw+pBQ6fXlAerwaY3e5AwmiudA8kAZE=;
-        b=ta9VMhR/rwewI8BE3dgu3ifzZ34YGydRrmRlSYnh1BwrSMPeWCTfk9jKLy9J38rXVQ
-         FxtLXpLT8AkcvNfsy++ni004JT9gJdRtH0nOxu3nBkrPqivqaezF766xbaeqwc73blyW
-         XdTL6w3nBT6Mc0HLjZRwnbx7F57c7cluYXSiZ6PfL81RCltIypl2Oxr938TRDmBbHKQM
-         zULIyLQDrPGsYcZ/85DhaK8LraIm4w/oIDfVzuziBcTv2Hqq//GKuDAFO5YD2hB4hMUn
-         4+GQScNBjVK1C63fwhgmskpO1ulVs2qIRQkrjeiHwKaXR7FfQw4/GbFvCU/x2TeegBFW
-         WdhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFma4BXBmz7Nu22C/6QVtaPfN2KSb+P0NCKb7DD0KxWT7WUTkT3QlGsslWA7R3ZZuoUU7RfWhhThrg@vger.kernel.org, AJvYcCUO7nwAzN8tSFVq4aaxm2KWZm9pVKBx3OtAQwIycEq2R4lwiZzwExmQY3tc/M5lZnUyP0uinTrgleU=@vger.kernel.org, AJvYcCUZmkAVfuPisXN0jfubNQNmgZkCwsfQk3BFca5Gr5X/isH+UNEJCHrDHcs0S9iah3m7VHvkLgc0D2HMDgIm@vger.kernel.org, AJvYcCUjIv8ovlezhHzZQxX29uBXfK8DmVdGvwu5T1Ba42OegxFxSwPqoQxKVQOMHkkfU4yE56E=@vger.kernel.org, AJvYcCV5wS9UO2uOzzJOSsqSUI24HKLXXRJsisqeMcG6GxujdeF6gKBo1DKA+FhBQo2diyLKJLMbzu65MiMYabiW@vger.kernel.org, AJvYcCVbPGs9ahdORgeLVkjSQUvwN0/uVt3K/FAY+3qHIr1exsLgJqwj3GcYAcvzkk2sYBpcrfUH+VycJWPjD76yjiw+2FJJUggk@vger.kernel.org, AJvYcCVe0zaDr1WdRh0zs4oJ5L5eSUmfsBytkHpni9jiQX0js40nKI6CnBokMvKdPEOk2hRuMe8x2FZAd83yhdnX7D9S@vger.kernel.org, AJvYcCWHmjwboInoyYU1WSbDQXV1sMRRvYE+COn7Tfus3JDbQFoGsoiKk3Ltu+Tydvrr5GOqdbe5drQn+60LJjco@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+ADIjeoIqe1TG8zNL+ziqSqWQObasaXslRYgmMgzx6RcCCFjw
-	B6wgun7r/BRlsFiUdWvhNfGz9UJLF2FPzqa+sXtqIMVGzUIs8r6cUAHpX4BESGz3LLuUaHL+NdB
-	YeQ+fgAoAmIpIsZvPSRrefydTgys=
-X-Gm-Gg: ASbGncvDm6W/qLFoiT2w8OqW8yQ/rY1wm5cQsmplw42m8akbYJ59OudbQN75Bej0Gkd
-	qPuuEvFKnHdcKXTDpPYF+7N18te4sCaxtFWdTkpXO8KSn1UQ5/fQ9n63Dbo/xN+uYVy/WqHKNEE
-	KB1DuCkUphBBvxSu8QWDEvbJQXvfj/YnS2HyO0EA==
-X-Google-Smtp-Source: AGHT+IGGvZX4RMVGIBW2ATOMhdA1FNXZL7oI8sJ+361tymECy+71f84VHdCSfBxdvsipmbp6Ulc15gt+XS9d+glagyk=
-X-Received: by 2002:a5d:64ed:0:b0:39b:ede7:8906 with SMTP id
- ffacd0b85a97d-39ee2737c5amr829452f8f.19.1744753716233; Tue, 15 Apr 2025
- 14:48:36 -0700 (PDT)
+        bh=Q21DKRIHxJEvdt+r1VLoxzAfD1ZQ4fXtiMyb7UHuaZI=;
+        b=mUrwMpiecvYnYgEkm2uyRDqwqCSEeSOrGEhO3LE4icQw0SeVDicrfpgGch5Rq169x+
+         IHSTf9UUAWA5H1UGrHRTgiZKkEBA9Uq5C7q4QR0hQkisMxRyodJWlbkyFCCtQHjoSpjV
+         ei5yOdhtBi56GdQyAamSqiHzkI+coeBvNGnJ9tu+P61fAU8fBSVurYUfUOMyvddfl1Of
+         xY5C2a/KDP7vyUtVJ6DGeMWJjVzX9usEg1PDqNrYDo5v3kirG7BQI6sx7APpB3XYO7EM
+         BFCYXocmpkN6hJCEBwqI079O5iM8ZQAwoy1n3SxpkQqJYC/9XnBAlgej2RH0joDMNqAN
+         Ywhw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Ijq2ErJCo3hETPn3rVmSttq4vXKMCL9sWYf+ZREC/Mjdb0cUvbVnhJ2nJfkIe0I8g1GIBtVm7NV5egg=@vger.kernel.org, AJvYcCU8GEY4P1jVp0TtmilVzbzJA07UGRo7izGNcCm+/+G9VmYzZbO4RhQVtv90A2Nj9lG4yFHc44b42KwS@vger.kernel.org, AJvYcCUUtGH8qh/J5DM2zPkM67X0tnqowLGkaJJE1zHPlaKmkkZF285hLSsIBUThNYAD7vawuzqR7M0MjInwmj8Zntdr@vger.kernel.org, AJvYcCV9SwtRrS53UjNZvz4WSWrrcYia6tPrPjBoFChGHW1HnVVyc4s8lvZo6uFVtDLPLi9IUdazlPay7L3ShTNw@vger.kernel.org, AJvYcCWPBjMqqu76ifmHVYufb8A8ndS3NAr+kNZmk4sxiQ1dVPW/HLmTHp8PrQBiJdwsjuqdA1oVy2beyCzR@vger.kernel.org, AJvYcCWyfFwA2Hg/NtHFkMIpvcAjfYEfwEEyIFoRvk+cujRPRMxeMe6y/j0mHTjFDLNOHm4ehQ76vLt9FiQ7PjfZG5U=@vger.kernel.org, AJvYcCWzlaNeGQc9TDqP8v2lPZpubzry4eAnn0ibyqxKS1B3vNfU7pul8oe7KZ5SRLQI9vnkcob0ZiY63HDcFFMF@vger.kernel.org, AJvYcCXHcL9ZikTZFzIoWTKhVshXHQ2VXRKOozsEP+CayaxkcG/gB6FM0E5aqW2Hw7nB3PuLXqA4OghN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe5047ksgl1xC6hXsQqhjwSlnq1oW1P4JaE53yomeaHUQruZVR
+	UZj6ytotYT/rQWl6KG6J/sCQMPd53YCEKkZG0JF+9khhAW0VDD1m
+X-Gm-Gg: ASbGnctxY7Ie9ks5Lwcuz7daJSGS0eTIzHSyLZbkW2nWYzBcDCPYhG4w2j4MaGXbkRW
+	jDT9dOibMajY+SgXTwbON45ex1mYuu5NOrhF9fCyZmC46uoxKrm0ARcXGmTixUnwhZuhqwNDPWL
+	jq5qfGchLRmiS3TJ2vfoLHSgPGXrqEbghloO4LYTqplctoIFHLds3jzPb1wCN8zGaNFaXhlNd8U
+	SUZQd/U1LrYC31cXzFvaXIKz/Ms/0xFDUacTcc7c7RU8wlJ6+n/DBrWliOyick3qUR+/MI4ZrDW
+	8596+y2a3lEo4DCk8HjxxLcNggA+/dz+9w83u/tlpPys+5MvXlWB9w6fFoUy01FzywxcX8MeW7z
+	8yvF+bobI4+ThwQoojlL0Rpn5N2LPfQI=
+X-Google-Smtp-Source: AGHT+IFD/29vIxMjxOFxQ8BkiE/LEbZtqORNAZrDSp4aJ594XboCIC4xgBiV7FVPqr3EbX3zcQVpqw==
+X-Received: by 2002:a05:620a:459f:b0:7c5:4c6d:7fa5 with SMTP id af79cd13be357-7c91428098amr221292185a.48.1744758185614;
+        Tue, 15 Apr 2025 16:03:05 -0700 (PDT)
+Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7a896a708sm969451385a.58.2025.04.15.16.03.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 16:03:05 -0700 (PDT)
+Message-ID: <67fee5a9.050a0220.25fe78.76d2@mx.google.com>
+X-Google-Original-Message-ID: <Z_7lpfy3H74dI1Ad@winterfell.>
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id C4F0F1200043;
+	Tue, 15 Apr 2025 19:03:03 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Tue, 15 Apr 2025 19:03:03 -0400
+X-ME-Sender: <xms:p-X-Zz3WUcQHo5SPerJTk_Pdw6EezJuTH-lYjWN5uKuxBZn4sbkqSQ>
+    <xme:p-X-ZyEihct8Y5-jYRn-hwKhJNfUEQet1OPd2N-am8r60UUrmWLlmSgr1LcjP_tKs
+    b9VG5Lbohie4BDeIg>
+X-ME-Received: <xmr:p-X-Zz6GJVAyNj9lTiZEOMLtdkuSmnFOQWBwbEVDi79-oJdfu-HslPmbdD8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdegjeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
+    vdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrih
+    hlrdgtohhmqeenucggtffrrghtthgvrhhnpeehudejhfekieevvddvgeehhfdutdeggfel
+    gedugfejhffggeelkeeuffdthfetgeenucffohhmrghinhepihgushdrrghspdhkvghrnh
+    gvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvge
+    ehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhm
+    sehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepgeejpdhmohguvgepshhmthhpoh
+    huthdprhgtphhtthhopehtrghmihhrugesghhmrghilhdrtghomhdprhgtphhtthhopehm
+    rghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnrghthhgrnheskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhope
+    hgrghrhiesghgrrhihghhuohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegpghhhsehp
+    rhhothhonhhmrghilhdrtghomhdprhgtphhtthhopegsvghnnhhordhlohhsshhinhesph
+    hrohhtohhnrdhmvgdprhgtphhtthhopegrrdhhihhnuggsohhrgheskhgvrhhnvghlrdho
+    rhhg
+X-ME-Proxy: <xmx:p-X-Z41IoaAkSc3EBgjWc6FXL709swaRQ4uUE1JmJ7uwRMFyWIM8qw>
+    <xmx:p-X-Z2FWGrBqGBVjFOLFXxauA-nSn0cOk80DjxXcxIfFi4pNOTsFBw>
+    <xmx:p-X-Z5-JJOXIKKn2Ask5SGKUS8sj6aH_plq-OmVqa5Dc4Y2gCsioRQ>
+    <xmx:p-X-ZzkEZZfroB1PnsAsuNes8k_rpPpUslzDA-16Zho9eYd0LiRujQ>
+    <xmx:p-X-ZyHPCpMV7Nst1ncTZ1st-JDeh20IBOZOttD2KMdbEi0SFLxqXbnu>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Apr 2025 19:03:02 -0400 (EDT)
+Date: Tue, 15 Apr 2025 16:03:01 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,	Lyude Paul <lyude@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
+	linux-block@vger.kernel.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v8 6/6] rust: enable `clippy::ref_as_ptr` lint
+References: <20250409-ptr-as-ptr-v8-0-3738061534ef@gmail.com>
+ <20250409-ptr-as-ptr-v8-6-3738061534ef@gmail.com>
+ <67fe9975.c80a0220.1b5785.66e7@mx.google.com>
+ <CAJ-ks9mzyfvsxkyud_wLXfhLD_zP95bivCQ9i2aC-3ea=Y7+0A@mail.gmail.com>
+ <67fea2d6.050a0220.8fa7f.6690@mx.google.com>
+ <CAJ-ks9=G1ajyT8gwLHyvHW09Z2gG=Geg7LDS6iyRyqx_wyp5Sg@mail.gmail.com>
+ <67fec6c1.0c0a0220.f907e.c6dd@mx.google.com>
+ <CAJ-ks9mZ4qqRwQTWyGYgPy9kf3=od=zbvX67ELVgctU0t6qHuQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
- <87semdjxcp.fsf@microsoft.com> <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
- <87friajmd5.fsf@microsoft.com> <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
- <87a58hjune.fsf@microsoft.com>
-In-Reply-To: <87a58hjune.fsf@microsoft.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 15 Apr 2025 14:48:25 -0700
-X-Gm-Features: ATxdqUErECmwoqEuL6CX7Ju8rfNledrvqrqzcf3Vfcvy2kBD9Sk5E3enWPn-LJw
-Message-ID: <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
-	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ-ks9mZ4qqRwQTWyGYgPy9kf3=od=zbvX67ELVgctU0t6qHuQ@mail.gmail.com>
 
-On Tue, Apr 15, 2025 at 8:45=E2=80=AFAM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
->
-> The eBPF dev community has spent what, 4-5 years on this, with little to
-> no progress. I have little faith that this is going to progress on your
-> end in a timely manner or at all, and frankly we (and others) needed
-> this yesterday.
+On Tue, Apr 15, 2025 at 04:59:01PM -0400, Tamir Duberstein wrote:
+[...]
+> > > > > > > diff --git a/rust/kernel/device_id.rs b/rust/kernel/device_id.rs
+> > > > > > > index 4063f09d76d9..37cc03d1df4c 100644
+> > > > > > > --- a/rust/kernel/device_id.rs
+> > > > > > > +++ b/rust/kernel/device_id.rs
+> > > > > > > @@ -136,7 +136,8 @@ impl<T: RawDeviceId, U, const N: usize> IdTable<T, U> for IdArray<T, U, N> {
+> > > > > > >      fn as_ptr(&self) -> *const T::RawType {
+> > > > > > >          // This cannot be `self.ids.as_ptr()`, as the return pointer must have correct provenance
+> > > > > > >          // to access the sentinel.
+> > > > > > > -        (self as *const Self).cast()
+> > > > > > > +        let this: *const Self = self;
+> > > > > >
+> > > > > > Hmm.. so this lint usually just requires to use a let statement instead
+> > > > > > of as expression when casting a reference to a pointer? Not 100%
+> > > > > > convinced this results into better code TBH..
+> > > > >
+> > > > > The rationale is in the lint description and quoted in the commit
+> > > > > message: "Using `as` casts may result in silently changing mutability
+> > > > > or type.".
+> > > > >
+> > > >
+> > > > Could you show me how you can silently change the mutability or type? A
+> > > > simple try like below doesn't compile:
+> > > >
+> > > >         let x = &42;
+> > > >         let ptr = x as *mut i32; // <- error
+> > > >         let another_ptr = x as *const i64; // <- error
+> > >
+> > > I think the point is that the meaning of an `as` cast can change when
+> > > the type of `x` changes, which can happen at a distance. The example
+> >
+> > So my example shows that you can only use `as` to convert a `&T` into a
+> > `*const T`, no matter how far it happens, and..
+> 
+> I don't think you're engaging with the point I'm making here. Suppose
+> the type is `&mut T` initially and `as _` is being used to convert it
+> to `*mut T`; now if the type of `&mut T` changes to `*const T`, you have
+> completely different semantics.
+> 
 
-History repeats itself.
-1. the problem is hard.
-2. you're only interested in addressing your own use case.
-There is no end-to-end design here and no attempt to
-think it through how it will work for others.
+You're right, I had some misunderstanding, the "`_`" part of `as _`
+seems to be a red herring, the problematic code snippet you meant can be
+shown as (without a `as _`):
 
-> Hornet has zero impact on the bpf subsystem, yet you
-> seem viscerally opposed to us doing this.
+	f(x as *mut T); // f() takes a `*mut T`.
 
-Hacking into bpf internal objects like maps is not acceptable.
+where it compiles with `x` being either a `&mut T` or `*const T`, and
+`as` has different meanings in these cases.
 
-> Why are you trying to stop us
-> from securing our cloud?
+> >
+> > > shown in the clippy docs uses `as _`, which is where you get into real
+> > > trouble.
+> > >
+> >
+> > ... no matter whether `as _` is used or not. Of course once you have a
+> > `*const T`, using `as` can change it to a different type or mutability,
+> > but that's a different problem. Your argument still lacks convincing
+> > evidences or examples showing this is a real trouble. For example, if
+> > you have a `x` of type `&i32`, and do a `x as _` somewhere, you will
+> > have a compiler error once compilers infers a type that is not `*const
+> > i32` for `_`. If your argument being it's better do the
+> > reference-to-pointer conversion explicitly, then that makes some sense,
+> > but I still don't think we need to do it globablly.
+> 
+> Can you help me understand what it is I need to convince you of? There
+> was prior discussion in
+> https://lore.kernel.org/all/D8PGG7NTWB6U.3SS3A5LN4XWMN@proton.me/,
+> where it was suggested to use this lint.
+> 
+> I suppose in any discussion of a chance, we should also enumerate the
+> costs -- you're taking the position that the status quo is preferable,
+> yes? Can you help me understand why?
+> 
 
-Keep your lsm hack out-of-tree, please.
+In this case the status quo is not having the lint, which allows users
+to convert a raw pointer from a reference with `as`. What you proposed
+in patch is to do the conversion with a stand-alone let statement, and
+that IMO doesn't suit all the cases: we are dealing with C code a lot,
+that means dealing raw pointers a lot, it's handy and logically tight if
+we have an expression that converts a Rust location into a raw pointer.
+And forcing let statements every time is not really reasonble because of
+this.
 
-> Since this will require an LSM no matter what, there is zero reason for
-> us not to proceed with Hornet. If or when you actually figure out how to
-> sign an lskel and upstream updated LSM hooks, I can always rework Hornet
-> to use that instead.
+Also I didn't get the problematic code the lint can prevent as well
+until very recent discussion in this thread.
 
-You can do whatever you want out-of-tree including re-exporting kern_sys_bp=
-f.
+I would not say the status quo is preferable, more like your changes in
+this patch complicate some simple patterns which are reasonable to me.
+And it's also weird that we use a lint but don't use its suggestion.
 
-> code signing last week. All we are trying to do is make our cloud
-> ever-so-slightly more secure and share the results with the community.
+So in short, I'm not against this lint, but if we only use let-statement
+resolution, I need to understand why and as you said, we need to
+evaluate the cost.
 
-You're pushing for a custom microsoft specific hack while
-ignoring community feedback.
+> >
+> > > > also from the link document you shared, looks like the suggestion is to
+> > > > use core::ptr::from_{ref,mut}(), was this ever considered?
+> > >
+> > > I considered it, but I thought it was ugly. We don't have a linter to
+> > > enforce it, so I'd be surprised if people reached for it.
+> > >
+> >
+> > I think avoiding the extra line of `let` is a win, also I don't get why
+> > you feel it's *ugly*: having the extra `let` line is ugly to me ;-)
+> 
+> I admit it's subjective, so I'm happy to change it. But I've never
+> seen that syntax used, and we lack enforcement for either one, so I
+> don't find much value in arguing over this.
+> 
 
-> The attack vectors I'm looking at are things like CVE-2021-33200.
+If the original code use "as" for conversion purposes, I think it's good
+to be consistent and using from_ref() or from_mut(): they are just
+bullet-proof version of conversions, and having a separate let statement
+looks like a distraction to me. If for new code, and the author has a
+reason for let statement, then it's fine.
 
-4 year old bug ? If your kernels are so old you have lots of
-other vulnerabilities.
+Regards,
+Boqun
 
