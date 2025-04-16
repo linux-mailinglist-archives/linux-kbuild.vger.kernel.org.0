@@ -1,129 +1,203 @@
-Return-Path: <linux-kbuild+bounces-6664-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6665-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42C4A90ADA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 20:06:49 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD316A90C67
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 21:34:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C57831890B24
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 18:06:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 77D987A67CE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 19:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79F75221703;
-	Wed, 16 Apr 2025 18:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FCEF22422C;
+	Wed, 16 Apr 2025 19:34:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cC7883lH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+A0oHTS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC18622154D
-	for <linux-kbuild@vger.kernel.org>; Wed, 16 Apr 2025 18:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E2121146F;
+	Wed, 16 Apr 2025 19:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744826730; cv=none; b=WBZAZ1rjR4MlxkpMHjm5C/5ulNTk4u9bI/g36kPJlyTTwOIOh4bwKvmHIEuM/L0FVqis8jSrK+ohaGI/qN5PwWS5fcC/NpbYU5Nrg6a8oAi+2Xr7F97XyL7+j7CuDve5/yw/OGMtmu4Jn6lg4Q8XSJohEb8e8Um/2nLEYDqcwwE=
+	t=1744832061; cv=none; b=g/EU9kR9cxKz8UEWbZP8AcluyV37kk73JbLtlhw4Bpqtug9xCkSExDlqDU5Ga/T8BRYNrb4LyrPgYhQ5bLrrA2mw5Mrl8uLil16alG8ejJqRBkxW45s/dlbE8oKOQLWSwMT97BO77cu+MjG6yCJQjRCVsQPI3LmE0zJder1tuSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744826730; c=relaxed/simple;
-	bh=YF46acwvxQZbvh+RKbVxSqYbt3n7AeN8CBy/samnYi8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=loBmxf4plpAbEkrfyEp27Jv18JxOTaSR0dBKJUaOq5Cu912XgpmtxvDXmJbrn0WzRoYiKtdKRQd1vZg09BGTNTzNyfCVLUMkCc162tBXDjejWyobA9+UocvuT4d3XWFXTmm54IY5E4XdpumqZnh8mZcGOStr+dv4lCS5xX2Ni00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cC7883lH; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-43e9b0fd00cso5570765e9.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Apr 2025 11:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744826726; x=1745431526; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xO8p3wWnMTFzkHmEwWDOeYMg/xjqFsfP9HNTtGIh/qY=;
-        b=cC7883lHchJz5AIkmC44j1rVv/r6Bw0NPOcQ1H5ZyOvmAcWVDQbM5vjbnN56z2QpGt
-         cthSuDEUo8FNq26kjHgIzeZRqRlGlnZTnuMM83e0uCjjK4gIsqTW8JUvVqxO2M9i6zA9
-         1RR8Kin0REtCRasGEQ7s/OJf65oEmFOh4QW1zuoSmzUHpxPXgvlf/fMg7WWPcjndob1m
-         inXL26z767k60cOHd/45GA1WqGDkEdskt+tENXh9rY6DRXVvbqm5MP4lo3VZaV1IL3rs
-         kNzImyGxAFZidg1rkTaUkAMMm0CYOXD02MvDBIp/UO/AjG1zBDaJ8JeDqCmgfG1yiOGT
-         XhOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744826726; x=1745431526;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xO8p3wWnMTFzkHmEwWDOeYMg/xjqFsfP9HNTtGIh/qY=;
-        b=kN+weT9hlE6aI6U00YrW3YYV+VnG1K48uZfpOqLh0AbHPvxR2a05SLcnxnI3N5I/3q
-         +68Vna6bN1gvrgEMqatV1835NrRMY2ZiRUjFmEfXeb2DmhiWc7wFYUldOvLI1a0MJz7f
-         07iix9F9wQ8rdLsVO+n2DxPaFN9PBEv911JOMFHPiD595xRPHybe24A7pt1mJz2SGxXR
-         M4mtzcDlfSLxCeKMZQpbKFm8uG/mLDhaLQOcWDWc4uh959FpMkSuF13okKL7CPKXBicB
-         u5rJ8GXi0FbWnm0YUyutbK7b2UI7b9sDM21NvXhkW7OUomhHnQs2ZyAJYUILDgwFpTJo
-         5Pjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZv1edkbgmsIMLymfrtZ2KpV/ZOLDUDHreqZzSOy2aJ7F6ZJdVRnipIux+SjcA4x4TO+Mq6el/ITdlHko=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1JCQCPW+myFA0Zcx/1I9NX4Cf5IJ6BJOPG+Wt64847+kap1me
-	0dlzDAX3fKK146A7A6b+dl5kM7SsrQrL7pBifvucy5qVTr6VvFmNlhzCSvzejimQJAemvay5tac
-	Z7bKwDz5nnQ==
-X-Google-Smtp-Source: AGHT+IFu4srZxpATOjlO2rI6vko1n4XKZtERHwJbfnOezh1jE9LHVVBUHBqm8Y3anm1ST1HCKXtYf3N4xz9VaA==
-X-Received: from wmbh25.prod.google.com ([2002:a05:600c:a119:b0:43d:586a:9bcb])
- (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:a4b:b0:43b:4829:8067 with SMTP id 5b1f17b1804b1-44062421bd7mr3209925e9.6.1744826726256;
- Wed, 16 Apr 2025 11:05:26 -0700 (PDT)
-Date: Wed, 16 Apr 2025 18:04:34 +0000
-In-Reply-To: <20250416180440.231949-1-smostafa@google.com>
+	s=arc-20240116; t=1744832061; c=relaxed/simple;
+	bh=geLExcJtOAjXjEY3nYZsjfpMc2TX5ES0OBy8m9gKC/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yy005nBXdkAaHF1EwwQ8c0y9rp28Uo/T6FLQCmdaPAixt0MRl71W9muINEfO3tWan1DW7GfofxbeyYqcEsSTfbWbt0YFNf9c3yJCLJ5VZT1AiUPYf61FB/TDFjmvxDXOSIsXPCMIE1x1BYLlxFxn1W61cJz6FYTFwRbxKOi/doY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+A0oHTS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E34AC4CEE2;
+	Wed, 16 Apr 2025 19:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744832059;
+	bh=geLExcJtOAjXjEY3nYZsjfpMc2TX5ES0OBy8m9gKC/k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T+A0oHTSymTtL9IlRxP2X49sZVIM+qKZykeUc2U1jckOh7Fab2nVwAlbNWbp/XYXH
+	 72yCmdRJgMazizkaUaoxG0Wn7KFWs6aHcG6OfFWYy+IW8oFbj4GScY3vpMq0460m83
+	 znneUQQNp70DChBAFipuLJMTCbl0QPbJuB9t45gg34S2XEtV2Xy7YIWXsmuR4MnGoB
+	 ONm30k/EW8IhlQTZhxZ/RMNIYfZyo3oG6WmJH2ox1m2hZrI+VEcIhKMAYk9WTZNjB/
+	 RizhkamT1QOnRjMZK46AjXuFi1Hwlokh2lbPLIBWcjDTJ5LJe25/TXY4xyWLb6lIOf
+	 LWfCobji2UGcQ==
+Date: Wed, 16 Apr 2025 22:34:16 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: chenlinxuan@uniontech.com
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-integrity@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+	Winston Wen <wentao@uniontech.com>,
+	Changbin Du <changbin.du@intel.com>
+Subject: Re: [PATCH RFC v2 4/5] tpm: add __always_inline for
+ tpm_is_hwrng_enabled
+Message-ID: <aAAGOIN-IsnTK2gm@kernel.org>
+References: <20250416-noautoinline-v2-0-e69a2717530f@uniontech.com>
+ <20250416-noautoinline-v2-4-e69a2717530f@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250416180440.231949-1-smostafa@google.com>
-X-Mailer: git-send-email 2.49.0.777.g153de2bbd5-goog
-Message-ID: <20250416180440.231949-5-smostafa@google.com>
-Subject: [PATCH 4/4] KVM: arm64: Handle UBSAN faults
-From: Mostafa Saleh <smostafa@google.com>
-To: kvmarm@lists.linux.dev, kasan-dev@googlegroups.com, 
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, 
-	broonie@kernel.org, catalin.marinas@arm.com, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, kees@kernel.org, elver@google.com, andreyknvl@gmail.com, 
-	ryabinin.a.a@gmail.com, akpm@linux-foundation.org, yuzenghui@huawei.com, 
-	suzuki.poulose@arm.com, joey.gouly@arm.com, masahiroy@kernel.org, 
-	nathan@kernel.org, nicolas.schier@linux.dev, 
-	Mostafa Saleh <smostafa@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250416-noautoinline-v2-4-e69a2717530f@uniontech.com>
 
-As now UBSAN can be enabled, handle brk64 exits from UBSAN.
-Re-use the decoding code from the kernel, and panic with
-UBSAN message.
+On Wed, Apr 16, 2025 at 05:44:50PM +0800, Chen Linxuan via B4 Relay wrote:
+> From: Winston Wen <wentao@uniontech.com>
+> 
+> Presume that kernel is compiled for x86_64 with gcc version 13.3.0:
+> 
+>   make defconfig
+>   ./scripts/kconfig/merge_config.sh .config <(
+>     echo CONFIG_TCG_TPM=y
+>     echo CONFIG_HW_RANDOM=m
+>   )
+>   make KCFLAGS="-fno-inline-small-functions -fno-inline-functions-called-once"
+> 
+> This results a link error:
+> 
+>   ld: vmlinux.o: in function `tpm_add_hwrng':
+>   tpm-chip.c:(.text+0x6c5924): undefined reference to `hwrng_register'
+>   ld: vmlinux.o: in function `tpm_chip_unregister':
+>   (.text+0x6c5bc9): undefined reference to `hwrng_unregister'
+>   ld: vmlinux.o: in function `tpm_chip_register':
+>   (.text+0x6c5c9b): undefined reference to `hwrng_unregister'
+> 
+> With `CONFIG_TCG_TPM=y` and `CONFIG_HW_RANDOM=m`,
+> the functions `tpm_add_hwrng`, `tpm_chip_unregister`, and
+> `tpm_chip_register` are compiled into `vmlinux.o`
+> and reference the symbols `hwrng_register` and `hwrng_unregister`.
+> These symbols, however, are compiled into `rng-core.ko`, which results
+> in the linking error.
+> 
+> I am not sure but I think this weird linking error only arises when
+> auto inlining is disabled because of some dead code elimination.
+> 
+> `CONFIG_TCG_TPM=y` and `CONFIG_HW_RANDOM=m` set `CONFIG_HW_RANDOM_TPM=n`.
+> This causes the function `tpm_is_hwrng_enabled` to always return
+> `false`, as shown below:
+> 
+>   static bool tpm_is_hwrng_enabled(struct tpm_chip *chip)
+>   {
+>       if (!IS_ENABLED(CONFIG_HW_RANDOM_TPM))
+>           return false;
+>       if (tpm_is_firmware_upgrade(chip))
+>           return false;
+>       if (chip->flags & TPM_CHIP_FLAG_HWRNG_DISABLED)
+>           return false;
+>       return true;
+>   }
+> 
+> When `tpm_is_hwrng_enabled` is inlined, dead code elimination
+> optimizations are applied and the reference to the `hwrng_*` functions
+> will been removed.
+> For instance, in the `tpm_chip_unregister` function:
+> 
+>   void tpm_chip_unregister(struct tpm_chip *chip)
+>   {
+>   #ifdef CONFIG_TCG_TPM2_HMAC
+>       int rc;
+> 
+>       rc = tpm_try_get_ops(chip);
+>       if (!rc) {
+>           tpm2_end_auth_session(chip);
+>           tpm_put_ops(chip);
+>       }
+>   #endif
+> 
+>       tpm_del_legacy_sysfs(chip);
+>       if (tpm_is_hwrng_enabled(chip))
+>           hwrng_unregister(&chip->hwrng);
+>       tpm_bios_log_teardown(chip);
+>       if (chip->flags & TPM_CHIP_FLAG_TPM2 && !tpm_is_firmware_upgrade(chip))
+>           tpm_devs_remove(chip);
+>       tpm_del_char_device(chip);
+>   }
+> 
+> When `tpm_is_hwrng_enabled` is inlined and always returns `false`,
+> the call to `hwrng_unregister` is effectively part of a `if (false)`
+> block, which I guess that will be then optimized out.
+> 
+> However, when the `-fno-inline-small-functions` and
+> `-fno-inline-functions-called-once` flags are used,
+> tpm_is_hwrng_enabled is not inline.
+> 
+> And this optimization some how cannot occur,
+> leading to the undefined reference errors during linking.
+> 
+> Adding the `__always_inline` attribute ensures that
+> `tpm_is_hwrng_enabled` is inlined regardless of the compiler flags.
+> This allows the dead code elimination to proceed as expected,
+> resolving the linking issue.
+> 
+> Co-developed-by: Chen Linxuan <chenlinxuan@uniontech.com>
+> Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
+> Signed-off-by: Winston Wen <wentao@uniontech.com>
+> ---
+>  drivers/char/tpm/tpm-chip.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/char/tpm/tpm-chip.c b/drivers/char/tpm/tpm-chip.c
+> index e25daf2396d37bcaeae8a96267764df0861ad1be..48cc74d84247e258a39f2118e03aa10d0cbb066a 100644
+> --- a/drivers/char/tpm/tpm-chip.c
+> +++ b/drivers/char/tpm/tpm-chip.c
+> @@ -534,7 +534,7 @@ static int tpm_hwrng_read(struct hwrng *rng, void *data, size_t max, bool wait)
+>  	return tpm_get_random(chip, data, max);
+>  }
+>  
+> -static bool tpm_is_hwrng_enabled(struct tpm_chip *chip)
+> +static __always_inline bool tpm_is_hwrng_enabled(struct tpm_chip *chip)
+>  {
+>  	if (!IS_ENABLED(CONFIG_HW_RANDOM_TPM))
+>  		return false;
+> 
+> -- 
+> 2.48.1
+> 
+> 
+> 
 
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
----
- arch/arm64/kvm/handle_exit.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thank you.
 
-diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
-index b73dc26bc44b..5c49540883e3 100644
---- a/arch/arm64/kvm/handle_exit.c
-+++ b/arch/arm64/kvm/handle_exit.c
-@@ -10,6 +10,7 @@
- 
- #include <linux/kvm.h>
- #include <linux/kvm_host.h>
-+#include <linux/ubsan.h>
- 
- #include <asm/esr.h>
- #include <asm/exception.h>
-@@ -474,6 +475,11 @@ void __noreturn __cold nvhe_hyp_panic_handler(u64 esr, u64 spsr,
- 			print_nvhe_hyp_panic("BUG", panic_addr);
- 	} else if (IS_ENABLED(CONFIG_CFI_CLANG) && esr_is_cfi_brk(esr)) {
- 		kvm_nvhe_report_cfi_failure(panic_addr);
-+	} else if (IS_ENABLED(CONFIG_UBSAN_KVM_EL2) &&
-+		   ESR_ELx_EC(esr) == ESR_ELx_EC_BRK64 &&
-+		   esr_is_ubsan_brk(esr)) {
-+		print_nvhe_hyp_panic(report_ubsan_failure(esr & UBSAN_BRK_MASK),
-+				     panic_addr);
- 	} else {
- 		print_nvhe_hyp_panic("panic", panic_addr);
- 	}
--- 
-2.49.0.604.gff1f9ca942-goog
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 
+
+BR, Jarkko
 
