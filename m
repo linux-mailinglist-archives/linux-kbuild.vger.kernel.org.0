@@ -1,197 +1,163 @@
-Return-Path: <linux-kbuild+bounces-6659-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6660-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272EDA90A9F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 19:59:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB33A90AD1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 20:05:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DB9319078F5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 17:59:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81EAA3A9D7A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Apr 2025 18:05:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23A35218EAB;
-	Wed, 16 Apr 2025 17:58:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CC1D21B9D4;
+	Wed, 16 Apr 2025 18:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HztGQ7p2"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4ccveUvO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6FB17A302;
-	Wed, 16 Apr 2025 17:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A8E217F35
+	for <linux-kbuild@vger.kernel.org>; Wed, 16 Apr 2025 18:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744826335; cv=none; b=usY6Y5mePVLQLahN3Z8U92HsaIy3M7+/nIH0rFBIpZEnfXyf+EaDgHEWHxwPL7oFIZU7SiyWQd/2jO1ESGtIqQ0IJi3nAgD4njXhFIu5omGSsl7i1nrtcmbur0hn1ZRuTPDooow7r2NNzg5nwyhGV4RXNSbmwpb2FnbuH/qom/k=
+	t=1744826721; cv=none; b=dgeZj6JQ6oaGjzKQfti4K2WcJql3/F/LnBB1OCt+FJjCbMwoi+1HybFIkpBbvON6/0B/bPwncG5A2Q0pBvQRP0DSshpj9JRFhG7kyMZRZXWCPV1spGnnRZxU6s2c13cUQsthbkY2h+gPhD+OfKdTmFPkkACc/2X2fNDTwElxXFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744826335; c=relaxed/simple;
-	bh=rRCvsVISaYgyOEMdyMHVJ5dpbrk5VpNt9UzpD7TowbY=;
-	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VVS3EbQpmm8fm1Qxc8w4gMUS+Kmsnj7eCim5gcmg+SWRNIAw5oAXYUf9dRXRGaHjg6zsRckH3TK2gfljharJF8EbEhItiknTBYGdlhn+ZZmK55v+bMTBLZSWbX/X1NdSvNVSUMMnUuVqpDijPOrqffJCKasDmrSH8UAzz/gQ8eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HztGQ7p2; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7c55b53a459so743737585a.3;
-        Wed, 16 Apr 2025 10:58:53 -0700 (PDT)
+	s=arc-20240116; t=1744826721; c=relaxed/simple;
+	bh=mwforEguNwh38hMZjlrNS8MyeAClbrwYJZ9ftBkHh9E=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=fJuV1pu/Q4jXhV5pI4JByp4GFodx9cACdsI9+fPDow7wycxQDOjVbAvqbS4BvAb4Wmijb///IppENrcds9Bz/1Z4ejRU9hfeW42nP3nMIAwTxDfD3db6OhoXyBzDbLQpHerhqZRTwiXXpGR3jgZMYZUsJ7CG4TRX8fj3nRKZ7BA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4ccveUvO; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-43d51bd9b41so56165865e9.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Apr 2025 11:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744826332; x=1745431132; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:feedback-id
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xw162kgFschDiIV5cGynK2BOAJTwtOVScNTTzDVE1U8=;
-        b=HztGQ7p2GsD7D8j12wqZYIXD7CfLEdQ6A2bg0+tMDwuwKPS0QyuFpVjkniei4qD6ur
-         8/Z9UuXCCpMq9Guc0Z/KIgRl3ur46kmy5c/WE4BtFAmNd++KwNaWT2kQSs8f+Y/M0mCr
-         +U2+wdn+IUpFaphXDCW1Sc+yJD4WG665nFe8m6LV0xGkdInUyIrv3Z4Kcl8BPzFUAhYZ
-         bBk/UUld4N4KlEylgiWEMkQ54N047QXGXSz8j+vryixHrHp4/bzMqXzRmC654Sn7zweG
-         2hApZXap/+UBgvFR0CQzIuA4G+GWVy8AT1dweTBO2fCQE1iDuKLqtadyYrugfgJpYuYl
-         YdXQ==
+        d=google.com; s=20230601; t=1744826717; x=1745431517; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4zrBJJLCZeJhENR6VmafxLFJBE/IGwmNNec6pbe9xA=;
+        b=4ccveUvOiBwOPn0uDqEmaB7W5LeeSUTOYLJ/vmPh/zaKnzABhIDT4fqjW4X/cNfjsw
+         eV+RQ0v//aXWmQptHR13fxBvqjfU0YP+7NOQ5SG5jX+c/gb+cUsRKA1UsItB6skcKW5o
+         W8KwDBpc/TnejASWv7zPXDIs9rJtnavPqjeBC/Ao3l+VwnH+f8AmPAIvPm+Ftl3EXEJY
+         LPthhpOvJ8BPIxNl6RjUD6/zRHiQi+06UhZc6VRmYiMelorISSj6m1vf/rMTn1MAWUHM
+         bh4YV4TrTHz2jQlpVd/DDJJRfor1gWIHZIy7+R8KmsIrCQI1G/ZHswlESTud8JcHQqRW
+         U9og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744826332; x=1745431132;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:subject:cc:to:from:date:feedback-id
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xw162kgFschDiIV5cGynK2BOAJTwtOVScNTTzDVE1U8=;
-        b=Jr9VYmX7OqJ/QS4PVkIuIWXRmM72Pcy+YvD0/y0BTP6BFAWbaRiVLXcE4SxL53Jik/
-         YKGgonpfsaF9wnHvO7/tr0VGjEa7PH/W6gYyXLGWWcAd5Z4xc/8yZsd3bTwmtEJJ0l2a
-         eKZdcKOY/28y7+frUzZ94c8lKM0nX/2AtW7eob9wURDwxviD40e7muRpq3OqziQTqCwk
-         WngiQqKOQlisIlm+WN0e/Vsv8c8rlpixdVXMjk4PmjmCmzRARh+YCzACwM2WbTu+x8Mt
-         GFR6jbNyoJ4iwIJTcA3zfHy7IRspbpV7M7gjvwMsIx1tUlcB0QT/4/HoXTWNf/XHklLB
-         1Elg==
-X-Forwarded-Encrypted: i=1; AJvYcCUK/HthZDtU0PMLzESCteKCybmf/u0uxm4G9mvUqatWXgX0KwnF+Pc/RzDZzST0XzNLKabUZsTi@vger.kernel.org, AJvYcCUNwClOhRbJM1a6ASoSx6s7WzohhzFmb4wnoMlVx6vjsDYkAtGDK5ktIbUynGFo8FSH7drE5lI2/um1hFo/Jus=@vger.kernel.org, AJvYcCUhqzikcnEqBqpLOsNjD/QMGWS0iteU91mSutp5kizU1Xa8XbjVq/E3l5WU+AfTFaxLovX8YTetmt32R9A=@vger.kernel.org, AJvYcCV6yvM8oCbg+vAh/+Tf63Qh682qzloWi622EVem5UAuNhsVq4DgySSQQZt5xPRE8be0+K1rmlzrtlH+JqAk@vger.kernel.org, AJvYcCVTUdXNxmvqHePyaLNmHOEoW2Ig3cBJ6CRaOffHjWScutAoDPrIbdaIEcln8cAR86ce+GqihqhQ8KW8f2UG@vger.kernel.org, AJvYcCVrpo8FkXZM0DVo6rSntZuHjsl1Y6Xy9IYiD/S4umPQCpyWH9PAfnkRYqi44YZYrzoFuUc/3IB10Jm3x1JFav/2@vger.kernel.org, AJvYcCW+Yi7BWf6rHVkU5uUU+NKxHE9nX/CdTnpkfDnkNS+4SlwOb2NJRQXYTz8qz63FSRxzNGOAlkZD/5O7@vger.kernel.org, AJvYcCWPhMYXSHK5xCUUIgyonUxM/i7hEvPkwJw6cU1DspZ0p2VZvq03NkeNTARrpARU7EjyyX4Um+1TkFGs@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLOaqKJ9l84Gv8oYhTAEr3XVrQGJ5JsQuS3Pa2T/yA3A8r8wkF
-	GhyHObIXMxkOSMgMRHpo0OuFJyvYyCBKS0u7WTvyJjAPakOwHN/S
-X-Gm-Gg: ASbGncuiYAQfo1qhYxMcH5yghMNcgh5Z/dfhrQWBQ79+8aBLurhIVUlFle2P9N7S1dF
-	VnzeE/3t0WvOW1wMtmJZbp5RAx1PmnEK5uU6vRLL+2Iw+klaZAPUk4xnWo6GPoWYmMHx0e9K9k3
-	NR4+nEiJPojTOq26bkQbyzOnZbmDVdzxkAgqNf2DjPNvaC2tUlZJ/MYaVHQbhaWFSvntDZPra28
-	ryARO9yS6olDc8y2PN6hWttqEXzOzgz3V0Rg+Hfd6LAuIVOIaBgl19zGxIJyNdG/B/QjDfLfkt7
-	FPnGTM2iCcr0c0f9R1v3UEcAx0xO+LUxyCe7T0kVP6eBQ0hFcfezThHg16hzQ4dCtk9gal1sT9C
-	Jl+evDM+z4ZE+Q3RsxtFMeiYILb3eL9M=
-X-Google-Smtp-Source: AGHT+IG2xgMUSPM66Q42gFKXA+8KAt65yWia1nfFwf2fIYwzoFAy7Rqdy1Qgw0W9zJEn9qMHB/aQBQ==
-X-Received: by 2002:a05:620a:318f:b0:7c5:a513:1fd2 with SMTP id af79cd13be357-7c918fce4c8mr432709285a.6.1744826332212;
-        Wed, 16 Apr 2025 10:58:52 -0700 (PDT)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7a8a0dc9fsm1083506885a.96.2025.04.16.10.58.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 10:58:51 -0700 (PDT)
-Message-ID: <67ffefdb.e90a0220.61a9e.ae40@mx.google.com>
-X-Google-Original-Message-ID: <Z__v2fIvInI7C5po@winterfell.>
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id C82631200043;
-	Wed, 16 Apr 2025 13:58:50 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Wed, 16 Apr 2025 13:58:50 -0400
-X-ME-Sender: <xms:2u__Z-6e9bwRfBqXn5ZV5KAPHX2Erzyf2g9lCPuzWusdcJVI92JRyQ>
-    <xme:2u__Z36bvFCsweDpyolBa0bQ1sjrqLNn_EADA-OlYnY0YPOLBn4A_CbOC0Iu_6BkE
-    9dYeox8dGIx2g735w>
-X-ME-Received: <xmr:2u__Z9fAiWc4vPjhZzUtI2Of0WLaEHNUYVAgVs94XRZGi9JwR07HuAXTOw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdejtdefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnegoufhushhpvggtthffohhmrghinhculdegledmnecujfgu
-    rhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeeuohhquhhnuc
-    fhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthht
-    vghrnhepkeekheeuudefgeelfedthfduheehkeellefhleegveeljeduheeufeelkeejie
-    egnecuffhomhgrihhnpehgihhthhhusgdrihhopdhkvghrnhgvlhdrohhrghenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvg
-    hsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheeh
-    hedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-    dpnhgspghrtghpthhtohepgeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeht
-    rghmihhrugesghhmrghilhdrtghomhdprhgtphhtthhopehmrghsrghhihhrohihsehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrd
-    hgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhu
-    ohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegpghhhsehprhhothhonhhmrghilhdrtg
-    homhdprhgtphhtthhopegsvghnnhhordhlohhsshhinhesphhrohhtohhnrdhmvgdprhgt
-    phhtthhopegrrdhhihhnuggsohhrgheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:2u__Z7Kx_1V_DGAuo7rklz4-YXbV9iH6ZLmsAEXvUKvN65NZ_gXY_A>
-    <xmx:2u__ZyJZ4L9Rw_LxO7hsWD8QSr-EAsu1YlQLSWQ5wRvqPcAvOWsBPQ>
-    <xmx:2u__Z8wb2Wq1I1vj43mGXf3hSkxSiNKUMtFUY0H_8DLETvV3GsyL3Q>
-    <xmx:2u__Z2KvF4iMjtFKev_1qUqJlGoO2GUd2iZaEbJY2NRkmC-t818okA>
-    <xmx:2u__Z5aFsOy6LALo_VQ9BGXCOVtcyZn2dgILL7wK0bjLLbI-qFf-__Ot>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Apr 2025 13:58:50 -0400 (EDT)
-Date: Wed, 16 Apr 2025 10:58:49 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,	Lyude Paul <lyude@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
-	linux-block@vger.kernel.org, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v9 6/6] rust: enable `clippy::ref_as_ptr` lint
-References: <20250416-ptr-as-ptr-v9-0-18ec29b1b1f3@gmail.com>
- <20250416-ptr-as-ptr-v9-6-18ec29b1b1f3@gmail.com>
- <67ffee16.c80a0220.1dbd15.c3ad@mx.google.com>
- <CAJ-ks9n-5Gkp61ODfBbf3==fYp1AbexANLZaQpsGj_mj1WRfkA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1744826717; x=1745431517;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l4zrBJJLCZeJhENR6VmafxLFJBE/IGwmNNec6pbe9xA=;
+        b=SBHsDBAoiZuXYpAK1le5a7YqktPf4odWnDaTmbcDDIVTR4v5NZrg1TwDsjqkoHlkgH
+         VKkqrVg1F96PCZiiTg7ySJFR72l7OmBvUeQAsQlmgTnu/fgKtOt9OCwdbmPcIixIUx3a
+         1JEs2GGr72HCUeWfpyGB+tanzkjw7K5daVkbnmZX4fHP/fSWyGyla8LjU4KcgpF9d2jE
+         zMEYNOWcHp7WF7lrZ4YFuomMZzQNSZTn+0przd/+qxbUo+5ewakpa1OmPnT7us8cWNHw
+         MtlF8d3xGe0EFQvQRyzXqy/pg0F4eqb3262Ihb78YJ4XKzn/2yaKwMS8SBRsaWVSeLS/
+         zXmA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSZ/NWIO2iAT+2scd+XSPGE/Ureuyw16Ym4tOjlzQGLE8cvb+694Eo+vxaT7gL6Z0Sueixit0pM2yw4E8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0aWocxvz8UQX8LjYVVBcPIjHUTFWZMjN/Mipe7IyzxNd22EJ3
+	z+zdjG7U/gpqdYcO5f/D0bfWlTS0G8mOE2czhaEAJ/K1O8rmhEMl7dZHZIaI0vQwbCgAATpQV3t
+	HthuBZD0s4A==
+X-Google-Smtp-Source: AGHT+IG37/jJdPo16ODppABBlkwhdau6i150sm+0uUTYuYiDLU7nXYICCYXasqDCVq/D4SyObvt76W48aTqKsA==
+X-Received: from wmbbi11.prod.google.com ([2002:a05:600c:3d8b:b0:43b:bf16:d6be])
+ (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1ca3:b0:43c:fe85:e4ba with SMTP id 5b1f17b1804b1-4405d637b49mr28449355e9.15.1744826717658;
+ Wed, 16 Apr 2025 11:05:17 -0700 (PDT)
+Date: Wed, 16 Apr 2025 18:04:30 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ-ks9n-5Gkp61ODfBbf3==fYp1AbexANLZaQpsGj_mj1WRfkA@mail.gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.777.g153de2bbd5-goog
+Message-ID: <20250416180440.231949-1-smostafa@google.com>
+Subject: [PATCH 0/4] KVM: arm64: UBSAN at EL2
+From: Mostafa Saleh <smostafa@google.com>
+To: kvmarm@lists.linux.dev, kasan-dev@googlegroups.com, 
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, 
+	broonie@kernel.org, catalin.marinas@arm.com, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, kees@kernel.org, elver@google.com, andreyknvl@gmail.com, 
+	ryabinin.a.a@gmail.com, akpm@linux-foundation.org, yuzenghui@huawei.com, 
+	suzuki.poulose@arm.com, joey.gouly@arm.com, masahiroy@kernel.org, 
+	nathan@kernel.org, nicolas.schier@linux.dev, 
+	Mostafa Saleh <smostafa@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 16, 2025 at 01:53:34PM -0400, Tamir Duberstein wrote:
-> On Wed, Apr 16, 2025 at 1:51 PM Boqun Feng <boqun.feng@gmail.com> wrote:
-> >
-> > On Wed, Apr 16, 2025 at 01:36:10PM -0400, Tamir Duberstein wrote:
-> > > In Rust 1.78.0, Clippy introduced the `ref_as_ptr` lint [1]:
-> > >
-> > > > Using `as` casts may result in silently changing mutability or type.
-> > >
-> > > While this doesn't eliminate unchecked `as` conversions, it makes such
-> > > conversions easier to scrutinize.  It also has the slight benefit of
-> > > removing a degree of freedom on which to bikeshed. Thus apply the
-> > > changes and enable the lint -- no functional change intended.
-> > >
-> > > Link: https://rust-lang.github.io/rust-clippy/master/index.html#ref_as_ptr [1]
-> > > Suggested-by: Benno Lossin <benno.lossin@proton.me>
-> > > Link: https://lore.kernel.org/all/D8PGG7NTWB6U.3SS3A5LN4XWMN@proton.me/
-> > > Reviewed-by: Benno Lossin <benno.lossin@proton.me>
-> > > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> >
-> > Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
-> >
-> > Thanks!
-> 
-> Thank you! I updated the earlier patches as well.
+Many of the sanitizers the kernel supports are disabled when running
+in EL2 with nvhe/hvhe/proctected modes, some of those are easier
+(and makes more sense) to integrate than others.
+Last year, kCFI support was added in [1]
 
-Yeah, those look good to me in a quick look, I do plan to take a deep
-look and provide Reviewed-bys later.
+This patchset adds support for UBSAN in EL2.
+UBSAN can run in 2 modes:
+  1) =E2=80=9CNormal=E2=80=9D (CONFIG_UBSAN_TRAP=3Dn): In this mode the com=
+piler will
+  do the UBSAN checks and insert some function calls in case of
+  failures, it can provide more information(ex: what is the value of
+  the out of bound) about the failures through those function arguments,
+  and those functions(implemented in lib/ubsan.c) will print a report with
+  such errors.
 
-Regards,
-Boqun
+  2) Trap (CONFIG_UBSAN_TRAP=3Dy): This is a minimal mode, where similarly,
+  the compiler will do the checks, but instead of doing function calls,
+  it would do a =E2=80=9Cbrk #imm=E2=80=9D (for ARM64) with a unique code w=
+ith the failure
+  type, but without any extra information (ex: only print the out-bound lin=
+e
+  but not the index)
+
+For nvhe/hvhe/proctected modes, #2 would be suitable, as there is no way to
+print reports from EL2, so similarly to kCFI(even with permissive) it would
+cause the hypervisor to panic.
+
+But that means that for EL2 we need to compile the code with the same optio=
+ns
+as used by =E2=80=9CCONFIG_UBSAN_TRAP=E2=80=9D independently from the kerne=
+l config.
+
+This patch series adds a new KCONFIG for ARM64 to choose to enable UBSAN
+separately for the modes mentioned.
+
+The same logic decoding the kernel UBSAN is reused, so the messages from
+the hypervisor will look similar as:
+[   29.215332] kvm [190]: nVHE hyp UBSAN: array index out of bounds at: [<f=
+fff8000811f2344>] __kvm_nvhe_handle___pkvm_init_vm+0xa8/0xac!
+
+In this patch set, the same UBSAN options(for check types) are used for bot=
+h
+EL1/EL2, although a case can be made to have separate options (leading to
+totally separate CFLAGS) if we want EL2 to be compiled with stricter checks
+for something as protected mode.
+However, re-using the current flags, makes code re-use easier for
+report_ubsan_failure() and  Makefile.ubsan
+
+[1] https://lore.kernel.org/all/20240610063244.2828978-1-ptosi@google.com/
+
+
+Mostafa Saleh (4):
+  arm64: Introduce esr_is_ubsan_brk()
+  ubsan: Remove regs from report_ubsan_failure()
+  KVM: arm64: Introduce CONFIG_UBSAN_KVM_EL2
+  KVM: arm64: Handle UBSAN faults
+
+ arch/arm64/include/asm/esr.h     | 5 +++++
+ arch/arm64/kernel/traps.c        | 4 ++--
+ arch/arm64/kvm/handle_exit.c     | 6 ++++++
+ arch/arm64/kvm/hyp/nvhe/Makefile | 6 ++++++
+ arch/x86/kernel/traps.c          | 2 +-
+ include/linux/ubsan.h            | 6 +++---
+ lib/Kconfig.ubsan                | 9 +++++++++
+ lib/ubsan.c                      | 8 +++++---
+ scripts/Makefile.ubsan           | 5 ++++-
+ 9 files changed, 41 insertions(+), 10 deletions(-)
+
+--=20
+2.49.0.604.gff1f9ca942-goog
+
 
