@@ -1,100 +1,129 @@
-Return-Path: <linux-kbuild+bounces-6701-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6702-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AD2A94076
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Apr 2025 01:52:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 852FEA9446F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Apr 2025 18:15:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A33A08E2BB3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Apr 2025 23:51:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48E2B1894360
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Apr 2025 16:15:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 046ED248193;
-	Fri, 18 Apr 2025 23:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B98C1DF26F;
+	Sat, 19 Apr 2025 16:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8D7Ijsy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpswxk4u"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6141FF1C9;
-	Fri, 18 Apr 2025 23:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769E78F77;
+	Sat, 19 Apr 2025 16:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745020318; cv=none; b=c1pGkyiE0XXSrlq133pA6pVbCCsQbz9BLdWb/AhYxiFcVkNmuA7BylGnJ+v5sz/Ox7RUM/FOhnCOoOcpKGCAOv/W416jb92y6aS0Db8k353Zq/iKF0jyrpKv2CuG83Z2hy1mzIwmEBPl9pwFqNJ+Lep5TAaqAKtp0vjfwXOds2I=
+	t=1745079303; cv=none; b=YMwrUyFAx6CgyZtRdbsqiJ/jertatyS/X2gRe+jSESH0LVe4kiDNGceLSqNA67Xy+t+R/w+Y+TsyhcGAlDZnXWOlaDf/pgZf7TLw6A1gzlz5glp2xryIZRPNyyj0fMovLvVKyiPPXHhXeX0K0pkj1OWv35ztwlhbNNZ5KZPrBnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745020318; c=relaxed/simple;
-	bh=wLPohTXGJoWF6jYaqWx8ve/2ZkRtBlSg3hR6/76xmgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fRuCaZ7BCVIJup29bLJk5OHG6530eU3HRRQro3S48VIZc9V+woD6sygwywR+L0j5pT1EpieWgJoxtj6uThknv2wgXLHzbB67y24suBftsML9awtrJ9TM+7fZqaFVK2goahYwVWLoBVEXJB9EQs1XhOMSGhBwZLy/LZZCFmIBJaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8D7Ijsy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77690C4CEE2;
-	Fri, 18 Apr 2025 23:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745020318;
-	bh=wLPohTXGJoWF6jYaqWx8ve/2ZkRtBlSg3hR6/76xmgQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J8D7Ijsy0qGDz3jclp8CIAWOAySfgRsIfiJV8hl6byKyn8/wmiDBAUt56cga94/KY
-	 bVC6ZLpkjUyF7VVbwVaMxUvVuw5oNJpxM60tAWGd8j7mbDM3To16egN2ZvBE5J3Sxj
-	 u2nJe1b/Ig1SFrBzkfXIX8B0L6cXJBXDoRRbi30AO8FG6Tsjs2061GjMpjJyvgNc+R
-	 pgGOnkAtychBl+BNoda9QGbmO+xOsB0R2OEY+CmSTrafq9aXaUlnavl4NH56S4Vzmv
-	 eAfg9P/IKwQiEASwUshViSDppakdmJzlYaPUXaIUOm8QLmQm3HMjh2KUSkFQPfsbB9
-	 9H9zgZAQl+79A==
-Date: Sat, 19 Apr 2025 07:51:41 +0800
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Airlie
- <airlied@gmail.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
- <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
-Message-ID: <20250419075141.720970a8@sal.lan>
-In-Reply-To: <Z_97SbBwVp29MNzL@smile.fi.intel.com>
-References: <cover.1744789777.git.mchehab+huawei@kernel.org>
-	<4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
-	<87tt6opks7.fsf@intel.com>
-	<20250416171917.0985c0eb@sal.lan>
-	<20250416172901.60104103@sal.lan>
-	<20250416173811.71c3c345@sal.lan>
-	<Z_97SbBwVp29MNzL@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1745079303; c=relaxed/simple;
+	bh=1lL19XfUqEwKIcHE307+MGee0gbFnU3PXLODld9yEr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gDoiUHcBRiq4E0enJcVEhYjQzCklTiNWbP7fUshB62dP1j1rEiPiEp72rWrO6YXLH7Jkb4mVpxCQ9wnUlM06lEDTY71w/f+YzNw9HFADhR7IUcsJyAOq17+RrHX8tEfOg7d2t4AGqLfpfWeeWO0L2SRSxi3p1OEylkmJveXovyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpswxk4u; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745079302; x=1776615302;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1lL19XfUqEwKIcHE307+MGee0gbFnU3PXLODld9yEr4=;
+  b=cpswxk4uvpxeFH8nVzdWNb/IRFHHfjT6citcEIHf0wDqKdQZ6zfYbdwQ
+   j74UXCpkFbH+f79YCRqKxg2CqYKXis0Vh9q3aUBgJhJgxZwLXpMpOmOON
+   mnude6Nr2u8RfTaP4wM2fuWHhNjgct9WzfsuOFwoMOpu3h+lXYjGpqgmU
+   vVpT1PPoQuboe4vHbb4FfIbKgaJ87VNJfy0Fxyis6PS2gfr4162jyemM3
+   ybr8v49MfPLUGYhdX+MfMQZ1NglVvnvaZZrC0Blf4dy6RDMLuJfOmGx/p
+   vX57S0uOqcUfIg3CVXp5TtJU5tAZ9JTRhCUYZo/OOofrAVqjZdeBz72Ta
+   Q==;
+X-CSE-ConnectionGUID: HYs6uEQFROyYyH2dQQ1wYg==
+X-CSE-MsgGUID: W5cW4sGMTTy3x//Ep9pCxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="58059149"
+X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
+   d="scan'208";a="58059149"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 09:15:01 -0700
+X-CSE-ConnectionGUID: 8p+RqmlBQMuXCyHFW50Q4g==
+X-CSE-MsgGUID: fVr3TMPGT+u/BT4PcUDyEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
+   d="scan'208";a="131920411"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa007.jf.intel.com with ESMTP; 19 Apr 2025 09:14:56 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 2B1A9170; Sat, 19 Apr 2025 19:14:54 +0300 (EEST)
+Date: Sat, 19 Apr 2025 19:14:54 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	David Airlie <airlied@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] Don't create Python bytecode when building the
+ kernel
+Message-ID: <aAPL_hKx8cxypHe6@black.fi.intel.com>
+References: <cover.1745019660.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1745019660.git.mchehab+huawei@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Andy,
-
-Em Wed, 16 Apr 2025 12:41:29 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> escreveu:
-
-> On Wed, Apr 16, 2025 at 05:38:11PM +0800, Mauro Carvalho Chehab wrote:
-> > Em Wed, 16 Apr 2025 17:29:01 +0800
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:  
+On Sat, Apr 19, 2025 at 07:50:01AM +0800, Mauro Carvalho Chehab wrote:
+> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
+> when W=1. Due to Python's normal behavior, its JIT compiler will create
+> a bytecode and store it under scripts/lib/*/__pycache__.  As one may be using
+> O= and even having the sources on a read-only mount point, disable its
+> creation during build time.
 > 
-> ...
+> This is done by adding PYTHONDONTWRITEBYTECODE=1 on every place
+> where the script is called within Kbuild and when called via another script.
+>  
+> This only solves half of the issue though, as one may be manually running
+> the script by hand, without asking Python to not store any bytecode.
+> This should be OK, but afterwards, git status will list the __pycache__ as
+> not committed. To prevent that, add *.pyc to .gitignore.
 > 
-> > Heh, trying to quickly write a patch before calling it a day is
-> > usually not a good idea ;-)
-> > 
-> > I'll send a fix tomorrow.  
+> This series contain 4 patches:
 > 
-> Take your time, we still have a couple or so weeks to address this.
+> - patch 1 adjusts a variable that pass extra data to scripts/kerneldoc.py;
+> - patch 2moves scripts/kernel-doc location to the main makefile
+>   and exports it, as scripts/Makefile.build will need it;
+> - patch 3 disables __pycache__ generation and ensure that the entire Kbuild
+>   will use KERNELDOC var for the location of kernel-doc;
+> - patch 4 adds *.pyc at the list of object files to be ignored.
 
-Sent a v3. Please check.
+This one works for me, thanks!
+Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Regards,
-Mauro
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
