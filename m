@@ -1,129 +1,164 @@
-Return-Path: <linux-kbuild+bounces-6702-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6703-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852FEA9446F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Apr 2025 18:15:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DFA0A9448E
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Apr 2025 18:21:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48E2B1894360
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Apr 2025 16:15:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 49774163EC3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Apr 2025 16:21:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B98C1DF26F;
-	Sat, 19 Apr 2025 16:15:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E775A1DF26B;
+	Sat, 19 Apr 2025 16:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpswxk4u"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="MZfZtyqH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769E78F77;
-	Sat, 19 Apr 2025 16:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78F51DF244
+	for <linux-kbuild@vger.kernel.org>; Sat, 19 Apr 2025 16:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745079303; cv=none; b=YMwrUyFAx6CgyZtRdbsqiJ/jertatyS/X2gRe+jSESH0LVe4kiDNGceLSqNA67Xy+t+R/w+Y+TsyhcGAlDZnXWOlaDf/pgZf7TLw6A1gzlz5glp2xryIZRPNyyj0fMovLvVKyiPPXHhXeX0K0pkj1OWv35ztwlhbNNZ5KZPrBnA=
+	t=1745079699; cv=none; b=pWhWALqduqZ3cV+L8hXe2JAutlVEIE7KBRmQTFzxyPq2qi5yL/MaN5MtDSm5WQ2yeHlMsFcue0FLRAcNS8AGwOPortYt4Pn/yAo9wi5tDkB3MXtyvG9cJe1OHC8DBbseyPfE27Dq+jbG/efWNa6SsqaWb/jnbYYA5vFONgQo5rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745079303; c=relaxed/simple;
-	bh=1lL19XfUqEwKIcHE307+MGee0gbFnU3PXLODld9yEr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gDoiUHcBRiq4E0enJcVEhYjQzCklTiNWbP7fUshB62dP1j1rEiPiEp72rWrO6YXLH7Jkb4mVpxCQ9wnUlM06lEDTY71w/f+YzNw9HFADhR7IUcsJyAOq17+RrHX8tEfOg7d2t4AGqLfpfWeeWO0L2SRSxi3p1OEylkmJveXovyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpswxk4u; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745079302; x=1776615302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1lL19XfUqEwKIcHE307+MGee0gbFnU3PXLODld9yEr4=;
-  b=cpswxk4uvpxeFH8nVzdWNb/IRFHHfjT6citcEIHf0wDqKdQZ6zfYbdwQ
-   j74UXCpkFbH+f79YCRqKxg2CqYKXis0Vh9q3aUBgJhJgxZwLXpMpOmOON
-   mnude6Nr2u8RfTaP4wM2fuWHhNjgct9WzfsuOFwoMOpu3h+lXYjGpqgmU
-   vVpT1PPoQuboe4vHbb4FfIbKgaJ87VNJfy0Fxyis6PS2gfr4162jyemM3
-   ybr8v49MfPLUGYhdX+MfMQZ1NglVvnvaZZrC0Blf4dy6RDMLuJfOmGx/p
-   vX57S0uOqcUfIg3CVXp5TtJU5tAZ9JTRhCUYZo/OOofrAVqjZdeBz72Ta
-   Q==;
-X-CSE-ConnectionGUID: HYs6uEQFROyYyH2dQQ1wYg==
-X-CSE-MsgGUID: W5cW4sGMTTy3x//Ep9pCxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11408"; a="58059149"
-X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="58059149"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2025 09:15:01 -0700
-X-CSE-ConnectionGUID: 8p+RqmlBQMuXCyHFW50Q4g==
-X-CSE-MsgGUID: fVr3TMPGT+u/BT4PcUDyEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,224,1739865600"; 
-   d="scan'208";a="131920411"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa007.jf.intel.com with ESMTP; 19 Apr 2025 09:14:56 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 2B1A9170; Sat, 19 Apr 2025 19:14:54 +0300 (EEST)
-Date: Sat, 19 Apr 2025 19:14:54 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	David Airlie <airlied@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] Don't create Python bytecode when building the
- kernel
-Message-ID: <aAPL_hKx8cxypHe6@black.fi.intel.com>
-References: <cover.1745019660.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1745079699; c=relaxed/simple;
+	bh=+Auhi+fhizwmRtmPtgmlior927TsrK0KO7qctAT2pis=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HClemjBrbHiNvbSZ5cQhI71XAKDC5AREuYT+plUTsG3PXXTasgVS/X8Zhk0D03ufuHQWl9RyDNm1xVZwCz73LGAsmgwdBB9jwYa8dfOpy7TSv2DsaPGUwtKPP2QATkl2q3JNMTTYWSDMBtT0ACsSlvssnXWvV4772OXnt7c6gcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=MZfZtyqH; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6ff37565154so24465247b3.3
+        for <linux-kbuild@vger.kernel.org>; Sat, 19 Apr 2025 09:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1745079697; x=1745684497; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SK42IqE6wVyUSsq1mCB2tip52MeUpuaz6h1iIgyehRY=;
+        b=MZfZtyqHgqxtktoo7cYhykkt9iBF8PdOAfLyuhm6XYm8SU9AoTG2vsQa2i4ptrwdr8
+         XYoV1WQ+4SWzy/K03ngmY2GsflAAIDlSyDqFF6iSc1Vczpl5XelCYXTxXnGha9cf0YXE
+         /jf8QGo7PUPRhlFOoTNkgfDVvz59oj/tLDcdY5+J82lfE3O5q2VXoU2Er7BhGwJRQ5SN
+         TK7/0HNGp+7tPfTcQrvU2xaMZGlJGs3aVTfiNSt0qELF2gbIioJoi3iMv5gz3q+CDgXP
+         nP3jPWFGuX/Kj8IdBZY4d3ck6vleu1XF9TY6Vd4nmXs5Ait49vHuE9ftpglQdV2+k87D
+         0zQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745079697; x=1745684497;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SK42IqE6wVyUSsq1mCB2tip52MeUpuaz6h1iIgyehRY=;
+        b=E2HsgisetqO2qmrhPzhOYHu7NhszAxciZPM3j/lv4S3Pait6dGsLJhKcDkoU/ssMkk
+         mvOjmDzpwQ56VdlC6UXwSb+D8OGZvD8BghQvLriwWOQ1UV6LRbt+OW4IEtukX7HhVwaT
+         aHBr2C5kRKrOLnM19EiFcnmCd8Dm6iQf3JykOKS5dSelM6ISq4jxhR1qAJRDJyIDHozw
+         LMNGmKR591gCA1aexiQS+5+UvgTO9TwacIKQn5p2g0mIbm/zkwytzzYf6r4ObmbLG8d3
+         CBe7OwJnDQkvRaUPdqtjLoZHSoGhPKqywwUdBz4He4J9TfFgB6slFOd9vZHvAzrisJI3
+         llEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWVNhD1d7kneqskR+vgZNTXJ0ZPGIdBGD1sBU9XSx3jldynY1WE4J5Pw8CwtEcOfj4yh6YulbnxQBC9vkM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNaQ029gUZ77mAra2Bb7jYyoj9/DeY2ri60M3c4zRFyLdz4C33
+	Y65XzNEZ8HjtXHBbSqkkl6IjYhYNXVacDUnodMvRniQjYy1TwsvVmcPiI4ecD8zx/pucPwFOt0O
+	I5Ly5joL4IuSCKaeHk9tD285GaY3kirLSwJaa
+X-Gm-Gg: ASbGncsKAYVoruIkzf0Ue3vEgPhL/qbbj5culTOPy1EM0bBW+Tbn+dOsNRBod/fsanc
+	9txCjPaTOWFreYypB0mVL7BFb8qTNev8tiWC4z/PXTtcS6GJop+8OPUTz3Vs2aRbScEEXnLHPmT
+	25FJ483jVQ5af6+Ot8x/T7ZdsuwnocrA==
+X-Google-Smtp-Source: AGHT+IE3BicjHYyc+GSidJ22/CQRjgbN53OMD/7E3kl6FAHBfatlg7CLbuNJlbDtFKxiZ4CU+uMFqEhJREhcjE8lbJE=
+X-Received: by 2002:a05:690c:74c2:b0:703:b0e3:bd86 with SMTP id
+ 00721157ae682-706ccdf5d35mr99562277b3.25.1745079696848; Sat, 19 Apr 2025
+ 09:21:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1745019660.git.mchehab+huawei@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+ <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
+ <87semdjxcp.fsf@microsoft.com> <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
+ <87friajmd5.fsf@microsoft.com> <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+ <87a58hjune.fsf@microsoft.com> <874iypjl8t.fsf@microsoft.com>
+In-Reply-To: <874iypjl8t.fsf@microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Sat, 19 Apr 2025 12:21:25 -0400
+X-Gm-Features: ATxdqUG75P_ck3eo9mR9xrxf8isa1cXorXFN2bYVLnlyY_vUbbDdQ0hrTgMAh-o
+Message-ID: <CAHC9VhRduum5_6fOFs3C7Mn153Fg7VM1HnJfdtKgA-6OUvd82Q@mail.gmail.com>
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	keyrings@vger.kernel.org, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
+	LSM List <linux-security-module@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
+	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Cong Wang <xiyou.wangcong@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 19, 2025 at 07:50:01AM +0800, Mauro Carvalho Chehab wrote:
-> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
-> when W=1. Due to Python's normal behavior, its JIT compiler will create
-> a bytecode and store it under scripts/lib/*/__pycache__.  As one may be using
-> O= and even having the sources on a read-only mount point, disable its
-> creation during build time.
-> 
-> This is done by adding PYTHONDONTWRITEBYTECODE=1 on every place
-> where the script is called within Kbuild and when called via another script.
->  
-> This only solves half of the issue though, as one may be manually running
-> the script by hand, without asking Python to not store any bytecode.
-> This should be OK, but afterwards, git status will list the __pycache__ as
-> not committed. To prevent that, add *.pyc to .gitignore.
-> 
-> This series contain 4 patches:
-> 
-> - patch 1 adjusts a variable that pass extra data to scripts/kerneldoc.py;
-> - patch 2moves scripts/kernel-doc location to the main makefile
->   and exports it, as scripts/Makefile.build will need it;
-> - patch 3 disables __pycache__ generation and ensure that the entire Kbuild
->   will use KERNELDOC var for the location of kernel-doc;
-> - patch 4 adds *.pyc at the list of object files to be ignored.
+On Tue, Apr 15, 2025 at 3:08=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
+> ... would you be ammenable to a simple patch in
+> skel_internal.h that freezes maps? e.g
 
-This one works for me, thanks!
-Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+I have limited network access at the moment, so it is possible I've
+missed it, but I think it would be helpful to get a verdict on the
+RFC-esque patch from Blaise below.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> diff --git a/tools/lib/bpf/skel_internal.h b/tools/lib/bpf/skel_internal.=
+h
+> index 4d5fa079b5d6..51e72dc23062 100644
+> --- a/tools/lib/bpf/skel_internal.h
+> +++ b/tools/lib/bpf/skel_internal.h
+> @@ -263,6 +263,17 @@ static inline int skel_map_delete_elem(int fd, const=
+ void *key)
+>         return skel_sys_bpf(BPF_MAP_DELETE_ELEM, &attr, attr_sz);
+>  }
+>
+> +static inline int skel_map_freeze(int fd)
+> +{
+> +       const size_t attr_sz =3D offsetofend(union bpf_attr, map_fd);
+> +       union bpf_attr attr;
+> +
+> +       memset(&attr, 0, attr_sz);
+> +       attr.map_fd =3D fd;
+> +
+> +       return skel_sys_bpf(BPF_MAP_FREEZE, &attr, attr_sz);
+> +}
+> +
+>  static inline int skel_map_get_fd_by_id(__u32 id)
+>  {
+>         const size_t attr_sz =3D offsetofend(union bpf_attr, flags);
+> @@ -327,6 +338,13 @@ static inline int bpf_load_and_run(struct bpf_load_a=
+nd_run_opts *opts)
+>                 goto out;
+>         }
+>
+> +       err =3D skel_map_freeze(map_fd);
+> +       if (err < 0) {
+> +               opts->errstr =3D "failed to freeze map";
+> +               set_err;
+> +               goto out;
+> +       }
+> +
+>         memset(&attr, 0, prog_load_attr_sz);
+>         attr.prog_type =3D BPF_PROG_TYPE_SYSCALL;
+>         attr.insns =3D (long) opts->insns;
+>
 
-
+--=20
+paul-moore.com
 
