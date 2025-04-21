@@ -1,221 +1,171 @@
-Return-Path: <linux-kbuild+bounces-6707-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6708-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21978A94C62
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 08:06:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B487A94E2F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 10:39:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 120FD3AE4F0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 06:06:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D4B927A4E8F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 08:37:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40CC01A00FE;
-	Mon, 21 Apr 2025 06:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F36FB13C3F6;
+	Mon, 21 Apr 2025 08:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mhU2q7K+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693C2262A6;
-	Mon, 21 Apr 2025 06:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701C820E306
+	for <linux-kbuild@vger.kernel.org>; Mon, 21 Apr 2025 08:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745215583; cv=none; b=dxzahRMM9rZo9RB6JaVgTmXkSdXymQlQjmgCgprn9zm7FIQEwgfhixmkVOvsGcsV1nWF+FBwdWmMcRpOKJiDgxG4KTSKaKd0e7tiNz0OlyymV7nAiFVUGOvJQIiKNR+308Cc5n6Ed+PXQ64Z4r4LkHPsPyxVXedqK+Int8iCUhU=
+	t=1745224733; cv=none; b=V5dlb+nhfwmhZ9nO0gJ4XQmjjiWT0xKtQoFjfDJPoC8p/r1JxWClwTvWOCjaDMbuQJgkxrMMcR7hGVCDmKDalN/NAOSvB1w/aTIf+NbSkXTuAm58bUbqcb97Yq6DZqQYdJXBua82thGYGJ15OTs8T2TIhU0/T9Lgwywh7X6P9EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745215583; c=relaxed/simple;
-	bh=hxUYmdprB8whlKzdlCmOqGWaVVwqb45yoD9TgT0gIq4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=NpWIc+V8sAmbvx424Q8/FtqxgOufNKyfhZ/zoJDDM5XQ+J2Idz9X4tLDyY6XRFWkhSyaflhSrh9mmu63tBQJEXOT/BQL/C9AbW6J5/J5OzIOiCfoEWbCSrzoSFHyEBpQ6LhFaOr0+cNwyDngKCV2hVPvJ6Ry3gAM/BEeeleTnr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7A1601FCE7;
-	Mon, 21 Apr 2025 06:06:06 +0000 (UTC)
-Message-ID: <c14fc927-a70f-445d-ad38-e7b9a7ebc857@ghiti.fr>
-Date: Mon, 21 Apr 2025 08:06:05 +0200
+	s=arc-20240116; t=1745224733; c=relaxed/simple;
+	bh=km2N/aIMMbRDxvHbAp9P3zMBkknYXReMVu/F4dMDeys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=doPnxekV//0oADyfs6zyonubPeQv9iLMRixQuSC2PXBlkBmVZ+oKFgwUVTnfCll/N1NYGUbOeCBErK3HWf8lXDiNC4ZSCQU31YcYjv8pEY5lPq0Vh1plE8wj0IN3ukD/wS4uhfHKApiLSYAsTOTso+uroEqipyUFxfPCTXmwMZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mhU2q7K+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53KMPNKc006750
+	for <linux-kbuild@vger.kernel.org>; Mon, 21 Apr 2025 08:38:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ax4toDTbfRew2W1ICEa9lIo8
+	jWxUgyyjE5FmJLig2p4=; b=mhU2q7K+FNgdKXEFmaZ4R/muJD4mgBJpHgcj6HtW
+	yCoqqxIyoqAqD+ymHBhjMkWAvhahHWO+Xa1a1D2bXFL7PUF427kMMIB6soLeYBIE
+	SIWeDHdcW9yK+lVhQMo4++ZbkxcZw6SdNh1ipVilEhB5XBCM1JXyIa/QhSXKYt4z
+	taZJL1NzvFnUP9IWA7XgBLE8bg8NMEafsHeorssxfU2gv8E0ZRWXnjHKsTmN3g41
+	3H3wIxAVX9m43dYhnCsS6mI8IkyVuhJ3DjQuvutC4uzTwMPCtSdVTbuWM8BDr5cT
+	0i42wS5GhC8Br761eEmU9xmAqONlxferBMx/CSURFAqGqw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46435jbndu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-kbuild@vger.kernel.org>; Mon, 21 Apr 2025 08:38:51 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6e913e1cf4aso103423566d6.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Apr 2025 01:38:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745224730; x=1745829530;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ax4toDTbfRew2W1ICEa9lIo8jWxUgyyjE5FmJLig2p4=;
+        b=GLTcBMPN26TIMjMZAdRCvp6GtJFcz2A43BZAD892EiLnXMjKLLr4wOu838//yc7Lpj
+         FMcc7logLu+DgWoyaEsk2j6aC2/OXu0HTxU7XXR7WSZCdMdsL8iXhMV8TOIxuwcwlnr7
+         G+TD2bbnlEenwKIMJsv1noRRM+emn2CPV4xrXAoBWzmCjnVMKt43lmBC1VkwABUsXIcT
+         vmaLC0bFLq+RNWE6V+50DUE8S0OTjUypBDOU+oEYOMxI88yNJ47W3OGptVI4lMnA3As+
+         xmlnwv8foBv4C0gDGpI3z+LRBhy9JuHHiePpgVtuUjFIR8KnvGYkH5SD3GhKZkQfmBlv
+         QxKA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0lsrVHz55bSFZlXVYD+zOCvZ1i5IKrS6U0Kxa6VNu66yCU/QGbBDjNz4XQBh5Xni9o4ODaCZNXmfBuUI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzorsK88zQYYy7J0/KJqBCkMZnrUxL8OUNhXlwESOkQcb4kbYJ3
+	ePnW0PHoPrKGcVnBTPHIqopCAy2xgTTf6w1X6d1oNaI3BsfnETDHqeVz1cTADKEMNpYD6IqYFd2
+	HTwlovWf9XKSSyf/l+F1ywkRMp0DtUlCRx1J+B3lhcLeDk4QTbyDkFjDyawu+bL4=
+X-Gm-Gg: ASbGncs1eCLFVU2JUGMTmSpIMsQc9V1U5mNe+1YPgVNhB0DgDeBn5krE/DeGO+tQ9Y8
+	+3pZd9J5+tpcDoR+RD5Ee+7GRU0pPeQb2PPyG1mKkEwFq9CAKmDygbh1phBOJ8tL5TtissCJ4lf
+	KZ3yJv7W2a/cnuKV+dJ+AdMx41BiD+q6Ved8SHtmUDEa2D6SWV8wktDfP93wclYwIgrNEP2MlBl
+	T6DszIepGpQ53ZHnPAR11f2lGwc2s+vnUtXpc6cXDVFfsxjGo18ew2p62nRAm7PSKtiyBacO8WW
+	PlYNLG0ApX0RKL2ZXqFnuuMcGCUpGF10MLEQ0+SPpZiWLD8boUXQkR4dvAKFcX2puaxQSVcWYiY
+	=
+X-Received: by 2002:ad4:5f8e:0:b0:6e8:fa38:46aa with SMTP id 6a1803df08f44-6f2c46527b9mr206777766d6.33.1745224730313;
+        Mon, 21 Apr 2025 01:38:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF40++SY6SyUhHgwohwJQP/ezAB2infSDy3w/t56HhaTqCSHraLVTK/mrG5s/kw5dQ9HIHYIg==
+X-Received: by 2002:ad4:5f8e:0:b0:6e8:fa38:46aa with SMTP id 6a1803df08f44-6f2c46527b9mr206777386d6.33.1745224729825;
+        Mon, 21 Apr 2025 01:38:49 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-310907a68c3sm11769241fa.50.2025.04.21.01.38.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Apr 2025 01:38:48 -0700 (PDT)
+Date: Mon, 21 Apr 2025 11:38:47 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas.schier@linux.dev>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tvrtko Ursulin <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
+ kernel
+Message-ID: <4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
+References: <cover.1744789777.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kbuild: Use --strip-unneeded with INSTALL_MOD_STRIP
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-To: Masahiro Yamada <masahiroy@kernel.org>,
- Charlie Jenkins <charlie@rivosinc.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas@fjasle.eu>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <20250122-strip_unneeded-v1-1-ac29a726cb41@rivosinc.com>
- <20250131035245.GA47826@ax162> <Z5xzkwwZAWRRLCdj@ghost>
- <CAK7LNAR=1sNs+hOW8gL=7xOs=gHLToTAnAUTF1SizroYoui8sg@mail.gmail.com>
- <Z51BpVEkmVCg7gTX@ghost>
- <CAK7LNATs=c4J7mR69ec3scPqw6PK4SKTs-ixrQM_eRiz=EhS8A@mail.gmail.com>
- <Z6JcgeDmt63MupyW@ghost>
- <CAK7LNAS5RVtm078rLFJNxQwPf+1VH+zf12dQJ1Xh-Wc4_qFGTw@mail.gmail.com>
- <28018be2-eabc-4d6f-9bb1-913a1f0515db@ghiti.fr>
-In-Reply-To: <28018be2-eabc-4d6f-9bb1-913a1f0515db@ghiti.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgedttdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvvehfjggtgfesthekredttddvjeenucfhrhhomheptehlvgigrghnughrvgcuifhhihhtihcuoegrlhgvgiesghhhihhtihdrfhhrqeenucggtffrrghtthgvrhhnpeetudeugffhhefgvddvleehvedvfeetueekieegteeguddvveelfffhfeetheehffenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmedufhehjeemvgdutggumedukegutdemtgdtvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmedufhehjeemvgdutggumedukegutdemtgdtvdekpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmedufhehjeemvgdutggumedukegutdemtgdtvdekngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegthhgrrhhlihgvsehrihhvohhsihhntgdrtghomhdprhgtphhtthhopehnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpt
- hhtohepnhhitgholhgrshesfhhjrghslhgvrdgvuhdprhgtphhtthhopehprghulhdrfigrlhhmshhlvgihsehsihhfihhvvgdrtghomhdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhopegrohhusegvvggtshdrsggvrhhkvghlvgihrdgvughupdhrtghpthhtoheplhhinhhugidqkhgsuhhilhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1744789777.git.mchehab+huawei@kernel.org>
+X-Authority-Analysis: v=2.4 cv=EOYG00ZC c=1 sm=1 tr=0 ts=6806041b cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=gjwTPFk3WlCVuFmdJm8A:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: p6Btxc8vNpptZD78IdWLFTIQjn0EBNUL
+X-Proofpoint-ORIG-GUID: p6Btxc8vNpptZD78IdWLFTIQjn0EBNUL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-21_04,2025-04-21_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 mlxscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504210066
 
-Hi Masahiro,
+On Wed, Apr 16, 2025 at 03:51:03PM +0800, Mauro Carvalho Chehab wrote:
+> 
+> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
+> when W=1. Due to Python's normal behavior, its JIT compiler will create
+> a bytecode and store it under scripts/lib/*/__pycache__. 
+> 
+> As one may be using O= and even having the sources on a read-only mount
+> point, disable its creation during build time.
 
-On 03/04/2025 17:07, Alexandre Ghiti wrote:
-> Hi Masahiro,
->
-> On 05/02/2025 16:00, Masahiro Yamada wrote:
->> On Wed, Feb 5, 2025 at 3:29 AM Charlie Jenkins <charlie@rivosinc.com> 
->> wrote:
->>> On Tue, Feb 04, 2025 at 01:04:26PM +0900, Masahiro Yamada wrote:
->>>> On Sat, Feb 1, 2025 at 6:33 AM Charlie Jenkins 
->>>> <charlie@rivosinc.com> wrote:
->>>>> On Sat, Feb 01, 2025 at 12:10:02AM +0900, Masahiro Yamada wrote:
->>>>>> On Fri, Jan 31, 2025 at 3:54 PM Charlie Jenkins 
->>>>>> <charlie@rivosinc.com> wrote:
->>>>>>> On Thu, Jan 30, 2025 at 08:52:45PM -0700, Nathan Chancellor wrote:
->>>>>>>> On Wed, Jan 22, 2025 at 07:17:26PM -0800, Charlie Jenkins wrote:
->>>>>>>>> On riscv, kernel modules end up with a significant number of 
->>>>>>>>> local
->>>>>>>>> symbols. This becomes apparent when compiling modules with 
->>>>>>>>> debug symbols
->>>>>>>>> enabled. Using amdgpu.ko as an example of a large module, on 
->>>>>>>>> riscv the
->>>>>>>>> size is 754MB (no stripping), 53MB (--strip-debug), and 21MB
->>>>>>>>> (--strip-unneeded). ON x86, amdgpu.ko is 482MB (no stripping), 
->>>>>>>>> 21MB
->>>>>>>>> (--strip-debug), and 20MB (--strip-unneeded).
->>>>>>>>>
->>>>>>>>> Use --strip-unneeded instead of --strip-debug to strip modules so
->>>>>>>>> decrease the size of the resulting modules. This is particularly
->>>>>>>>> relevant for riscv, but also marginally aids other architectures.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
->>>>>>>> Is there any sort of regression risk with this patch? If so, 
->>>>>>>> another
->>>>>>>> option may be to give another level to INSTALL_MOD_STRIP like 2 
->>>>>>>> so that
->>>>>>>> INSTALL_MOD_STRIP=1 continues to behave as before but people 
->>>>>>>> can easily
->>>>>>>> opt into this option. No strong opinion because I am not sure 
->>>>>>>> but was
->>>>>>>> not sure if it was considered.
->>>>>>> I do not believe this would cause regressions. The description 
->>>>>>> on gnu
->>>>>>> strip is:
->>>>>>>
->>>>>>> "Remove all symbols that are not needed for relocation 
->>>>>>> processing in
->>>>>>> addition to debugging symbols and sections stripped by 
->>>>>>> --strip-debug."
->>>>>>>
->>>>>>> The description on llvm-strip is:
->>>>>>>
->>>>>>> "Remove from the output all local or undefined symbols that are not
->>>>>>> required by relocations. Also remove all debug sections."
->>>>>>>
->>>>>>> gnu strip --strip-unneeded strips slightly more aggressively but 
->>>>>>> it does
->>>>>>> not appear this causes any issues.
->>>>>>>
->>>>>>>> Regardless:
->>>>>>>>
->>>>>>>> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->>>>>>> Thanks!
->>>>>>>
->>>>>>
->>>>>> It is true --strip-unneeded drops a lot of compiler-generated 
->>>>>> symbols, but
->>>>>> it also drops real symbols that originate in the source code.
->>>>>>
->>>>>> So, this would give user-visible changes for kallsyms at least.
->>>>> Adding INSTALL_MOD_STRIP="--strip-unneeded" would be sufficient for
->>>>> riscv. However, this has the downside that riscv will require 
->>>>> different
->>>>> flags than other architectures to get reasonably sized modules.
->>>> You can use INSTALL_MOD_STRIP=--strip-unneeded for all architecture 
->>>> if you like.
->>>>
->>>> I assume this is a riscv issue. Specifically, riscv gcc.
->>>> With LLVM=1, I see much smaller riscv modules using 
->>>> INSTALL_MOD_STRIP=1.
->>>>
->>>> --strip-unneeded is needlessly aggressive for other architectures,
->>>> and I do not see a good reason to change the default.
->>> Yes it is primarily an issue with riscv GCC. I was hoping for something
->>> more standardized so that other people using riscv GCC wouldn't
->>> encounter this. Would it be reasonable to add this flag by default only
->>> for the riscv architecture, or do you think it's just better to 
->>> leave it
->>> up to the user's choice?
->> The latter.
->>
->> INSTALL_MOD_STRIP=1 passes --strip-debug.
->> This is clearly documented in Documentation/kbuild/makefiles.rst
->> and it has worked like that for many years, with no exception.
->>
->> If users want it to work differently, the flexibility is already there.
->>
->> If INSTALL_MOD_STRIP=1 worked differently, silently only for riscv,
->> I would regard it as insane behavior.
->>
->>
->
-> I find it a bit "harsh" for users to know that on riscv, they need to 
-> set INSTALL_MOD_STRIP to have modules with a "normal" size.
->
-> So I'd rather have it set by default for riscv, would the following be 
-> acceptable for you?
->
-> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> index 13fbc0f942387..c49b9dda20cd1 100644
-> --- a/arch/riscv/Makefile
-> +++ b/arch/riscv/Makefile
-> @@ -6,6 +6,8 @@
->  # for more details.
->  #
->
-> +INSTALL_MOD_STRIP := --strip-unneeded
-> +
->  LDFLAGS_vmlinux := -z norelro
->  ifeq ($(CONFIG_RELOCATABLE),y)
->         LDFLAGS_vmlinux += -shared -Bsymbolic -z notext --emit-relocs
-> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> index 1628198f3e830..e60895761b73b 100644
-> --- a/scripts/Makefile.modinst
-> +++ b/scripts/Makefile.modinst
-> @@ -77,6 +77,8 @@ quiet_cmd_install = INSTALL $@
->  # are installed. If INSTALL_MOD_STRIP is '1', then the default option
->  # --strip-debug will be used. Otherwise, INSTALL_MOD_STRIP value will 
-> be used
->  # as the options to the strip command.
-> +# Read arch-specific Makefile to set INSTALL_MOD_STRIP as needed.
-> +include $(srctree)/arch/$(SRCARCH)/Makefile
->  ifdef INSTALL_MOD_STRIP
->
->  ifeq ($(INSTALL_MOD_STRIP),1)
->
->
-> Thanks,
->
-> Alex
+Would it be possible to properly support O= and create pyc / pycache
+inside the object/output dir?
 
+> 
+> This only solves half of the issue though, as one may be manually running
+> the script by hand, without asking Python to not store any bytecode.
+> This should be OK, but afterwards, git status will list the __pycache__ as
+> not committed. To prevent that, add *.pyc to .gitignore.
+> 
+> ---
+> 
+> v3:
+>  - changed the order of PYTHONDONTBYTECODE;
+>  - patched also scripts/Makefile
+> 
+> Mauro Carvalho Chehab (2):
+>   scripts/kernel-doc.py: don't create *.pyc files
+>   .gitignore: ignore Python compiled bytecode
+> 
+>  .gitignore                    | 1 +
+>  drivers/gpu/drm/Makefile      | 2 +-
+>  drivers/gpu/drm/i915/Makefile | 2 +-
+>  include/drm/Makefile          | 2 +-
+>  scripts/Makefile.build        | 2 +-
+>  scripts/find-unused-docs.sh   | 2 +-
+>  6 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> -- 
+> 2.49.0
+> 
+> 
 
-Any thoughts on this? I'd really like to merge this for riscv.
-
-Thanks,
-
-Alex
-
-
->
->
+-- 
+With best wishes
+Dmitry
 
