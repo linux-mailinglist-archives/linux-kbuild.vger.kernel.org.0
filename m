@@ -1,105 +1,93 @@
-Return-Path: <linux-kbuild+bounces-6711-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6712-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C16A95460
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 18:37:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CE9A954D8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 18:47:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3228B188D913
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 16:37:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 34D6B174358
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Apr 2025 16:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 517C01E7C02;
-	Mon, 21 Apr 2025 16:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3D0A1E5B68;
+	Mon, 21 Apr 2025 16:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="aSwWbdmJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ecXGgq2l"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A009C1EB19B;
-	Mon, 21 Apr 2025 16:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED7A1E3769;
+	Mon, 21 Apr 2025 16:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745253340; cv=none; b=Y50Pftm1J0X1sIi5/4VFKvkJrvLdTCbyGKexQHuqGZ5Ld7vHDBYSK3yf3VIcXmxNjY8ptAom4U6UWZOtrT+T5PG058QerNsH2cWH8mOzcorDjkUJ6oKf2rEImc1KSY96HUZzv+gAbvib/IjWwvffXkfHX2PplwNSr/n+ntBk0w8=
+	t=1745253790; cv=none; b=HDMHdTsQa1NgSaJbFJtepCCGM5VYbzMsjFYWiSktEgw2juXbUPPF64FlRV+k5m6dWS2SvVLDG8s9wlTv1XSMV5PZpynaRyvufnwzHd3XHd7LbnRsJhs5ZBbdgfloq6UWuegOiKP8JQ8JigXvd9KZRSGcg1LL4OiEy6DNf1Ke8hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745253340; c=relaxed/simple;
-	bh=cVuVFgejEbyTS0iQROEmWdR2zVlqJcSF1BQuDGnHbi8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Fs7NpiS9mYNeeXnpY5prtbOlhSI7qSoARQq59Ap5H0JVxb56mZEsrwrHpLuAZ5i5dQRM6t43LE0PFGFAapGaLipSEY8ocpdae5q9f6jKPOYZo4YpwW0FmArbuTapSm6qInqz6LbH7Z8/Y18A6dtxQO1aAi8yHW90Ua9v0ux2R9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=aSwWbdmJ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1DBF741060
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1745253330; bh=gxGq9sDQzTilFhNI+sgogQzrTLgAysNYCMUBWj3Hgkk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=aSwWbdmJJYHlULeQRqmIZiBkTXpcuPN9ZRV82SfV4CHb3MYZCZjYv+zeQz79Sr2GS
-	 9KknI8nxQs92hOToWkh4alhfHM9NZdOcXHTrfqxSnxe1M0+elhQktvbrW3mwuCmB24
-	 cO28qpPPqc0wEZM8RUenc5GRruiIiiTUXLTHUW7hjkOBHZwTtx/qVdXMY82k+kzvBr
-	 p33+deEZilo2NWQF9jXjz3aEoCdtZfho6XG//atJ+fWewga0vH3dFzkIKwXpmVSFCL
-	 oCeEzKDxbZ5vSChkApWLnHdkxmx5ad8KZZLLhVHLCoB+3z/k/MXsaHIZlXKxGWB/y6
-	 pFG8rChiQj9AQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1DBF741060;
-	Mon, 21 Apr 2025 16:35:30 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, Andy Shevchenko
- <andriy.shevchenko@intel.com>, David Airlie <airlied@gmail.com>, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
- <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
- kernel
-In-Reply-To: <4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
-References: <cover.1744789777.git.mchehab+huawei@kernel.org>
- <4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
-Date: Mon, 21 Apr 2025 10:35:29 -0600
-Message-ID: <87bjspzd4e.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1745253790; c=relaxed/simple;
+	bh=nU2NB+tnAZnt1MsC8/QTTW/qtrU+1eXEvM7zijUvmBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t0G3SuZO0JeVZumqw5/R0qgK3icZuuK804Awk/TaLKhpSuuthDTEGQfOn4pwCFtiw5cnnNwPhBFuguMeJ2XHH3Uuzqag43GnnYingZjZtm1bcjikfi2Rbwlbd0rWKuCp7Jm8OIpjxlMxUK+8VBqPhHGmUS7VK69XeDQUpxy8tpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ecXGgq2l; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA3E2C4CEE4;
+	Mon, 21 Apr 2025 16:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745253789;
+	bh=nU2NB+tnAZnt1MsC8/QTTW/qtrU+1eXEvM7zijUvmBA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ecXGgq2lx4aAuRbCi5U79Qj0tVT7lYsxum+Siq7PjrHVJOkbtHk9fb3/TfTGfjHdd
+	 3KHPMLY2eZtQHzRJEAvetJIwJOKLQyffRLKZQfFzJKfOelyje1/JPDYHlqTwh9nsZq
+	 k5InamI1EivEJyXYRQTy0IwezLCbwd7w2igBDjBrICBsfkZWRqd/0mpldv/Kusglzo
+	 qRApxCnUSZdvtLlfCvvAPLIEGYbwRwMJQGh5yOgy3tc82QhgGeIOoRZxbbmjSNv9LC
+	 aeF1NNYpNTFhSXxxK1uBbcZ9OHL/bdZ1utxz5f+dtjPUmTLzKwyWd4FSLk31pF+/as
+	 /5OOVmtLL9DGQ==
+Date: Mon, 21 Apr 2025 09:43:06 -0700
+From: Kees Cook <kees@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-sparse@vger.kernel.org,
+	luc.vanoostenryck@gmail.com
+Subject: Re: [PATCH] kbuild: Switch from -Wvla to -Wvla-larger-than=0
+Message-ID: <202504210940.8B3E06C4F7@keescook>
+References: <20250418213235.work.532-kees@kernel.org>
+ <20250421091233.GA21118@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250421091233.GA21118@lst.de>
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+On Mon, Apr 21, 2025 at 11:12:33AM +0200, Christoph Hellwig wrote:
+> Looks good:
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
+> Note that sparse currently also can't cope with VLAs including the
+> prototype syntax, which also needs addressing.
 
-> On Wed, Apr 16, 2025 at 03:51:03PM +0800, Mauro Carvalho Chehab wrote:
->> 
->> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
->> when W=1. Due to Python's normal behavior, its JIT compiler will create
->> a bytecode and store it under scripts/lib/*/__pycache__. 
->> 
->> As one may be using O= and even having the sources on a read-only mount
->> point, disable its creation during build time.
->
-> Would it be possible to properly support O= and create pyc / pycache
-> inside the object/output dir?
+Hm, it looks like it's been over a year since a commit to the sparse
+git.
 
-I have to confess, I've been wondering if we should be treating the .pyc
-files like we treat .o files or other intermediate products.  Rather
-than trying to avoid their creation entirely, perhaps we should just be
-sure they end up in the right place and are properly cleaned up...?
+Luc, are function prototypes with VLAs likely to be supported by sparse
+soon?
 
-To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
-should do the trick?
-
-Thanks,
-
-jon
+-- 
+Kees Cook
 
