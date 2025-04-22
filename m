@@ -1,67 +1,70 @@
-Return-Path: <linux-kbuild+bounces-6721-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6722-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B079A96687
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Apr 2025 12:51:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB1FA96696
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Apr 2025 12:55:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCAE63A6727
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Apr 2025 10:51:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18E3B189C2B5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Apr 2025 10:55:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2BEF20E306;
-	Tue, 22 Apr 2025 10:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF02F20D51F;
+	Tue, 22 Apr 2025 10:55:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="lWPThEFE"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="XFW5uybK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EB21E1E06;
-	Tue, 22 Apr 2025 10:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620A320CCC9;
+	Tue, 22 Apr 2025 10:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745319076; cv=none; b=fhiPV2/olFpm3ea46tsyOM7LSAthx6BsnSnZwUqj+e1zd681VX+UynUFolVc0KsqhS5s1vO+/ml9poIED7+z6QTRlHBJXK5ZH+CvuTFzR3w9yp9mkryeGeJFMkKaSh/WGWZgJ5N9tiFv7/HTPs0nMmzL7szlPMeV+Er9PSNA2w8=
+	t=1745319338; cv=none; b=m1HPTYNF+wFaK5B1BWFIgim4cJiXyELvZLeFfjgrKWH525evnhXhLD8A8/SdRI+J+ALL+yZ8FH3OvMjv+ib6WbcRPSkX6SunpJUhSWBxDgib81sPiE/eynYWdd3wX0XW5VV6GKgizGXYzbbN98TQKN4k/U5GWOkW8vozDWqTdxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745319076; c=relaxed/simple;
-	bh=nbBbF0Jg4cZ5Sn6fjGW6ZGEG+8/S6TbzRWXfA3yIJ2E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VhxkkMT3hkrd4N+Te8T/A2G3nRHOYH0GPYU2fZQLSYO+yfq2BHyrR5yQiyR7js5wUMJcxXWao0aukdIFU1NxBBUsDP7DlUOjAgQ0ifLsWPY6OgHlIMgRBAirwuSe1W6XpKzxGukYYKrfUW1bmthyOfaRIcbFcDNd3U0QMomPQEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=lWPThEFE; arc=none smtp.client-ip=54.254.200.92
+	s=arc-20240116; t=1745319338; c=relaxed/simple;
+	bh=H6B/LNi9Lw2EdZ+PMJUbrpuN1GGHt7wf9C5cOyHXv44=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=csxScqWVid6/PEQJX84wmkhD7yjA/ZS5aVepFfzsTZV4DD9dYUOV3xqw+Cd3PD5OGSti0kqbGXhd6Wg6RojuxUGrNoS+admCwKufJsiLnJ9sWiMAfYTQibZKrZMR3wi1Lzg210QoSc9g1wMjppvzVnq7puHVXZeDKPeir1W6sGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=XFW5uybK; arc=none smtp.client-ip=54.254.200.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1745319017;
-	bh=Exa51jfDHbvKVso57ILq4/BOFn87BMtt+Gf94W+Yzlk=;
+	s=onoh2408; t=1745319297;
+	bh=uD57WdS9tns5/9hKZ1o0HyNywAO6e71tUd0l2mx2sTU=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=lWPThEFE6S0tUoZCCbOc3LFdt/yEegN5FBYojMAlSN43cXeiIX9vuG3j6rN5MUZUI
-	 AM4TNMy39OWQk2nlPJ+PRmcrJMuEXJENaKfjphVbmtq9F6YVGzG7ORJGX2dVDpMiB2
-	 hrvBCr4xgLL3YGvuD7EUS7Y6jycN6lkbyJMZtki8=
-X-QQ-mid: zesmtpip4t1745318973t8805d772
-X-QQ-Originating-IP: 88cgF5eAqW2bJeVoCIsbNo9saB5M7Jx6BvND+lWGGVI=
+	b=XFW5uybKtTP/fmpVJ5uAksevtsJpICfWFiZLhsNoj4qdURZhEMZxDp7xnP4BblyLQ
+	 Jt0GDIYLhT57/utAwEE1tHa4quzyOp6CVlHc7BDgDGRl7XV3ELuPBibSp8WFnqaLb4
+	 PLxKMuB24kx0RqY+BN3ijVeWmIr1Osm5CmvwtLPc=
+X-QQ-mid: zesmtpip2t1745319248t43ddaf76
+X-QQ-Originating-IP: dFKMxt+BNwprxv8/aVmCdKiRp9WYbThVZ1EjuvjOXsY=
 Received: from localhost.localdomain ( [localhost])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 22 Apr 2025 18:49:31 +0800 (CST)
+	id ; Tue, 22 Apr 2025 18:54:06 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2096148517215923259
+X-BIZMAIL-ID: 1616688773469971445
 EX-QQ-RecipientCnt: 11
 From: WangYuli <wangyuli@uniontech.com>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas.schier@linux.dev
-Cc: linux-kbuild@vger.kernel.org,
+To: wangyuli@uniontech.com
+Cc: guanwentao@uniontech.com,
+	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	samitolvanen@google.com,
-	petr.pavlu@suse.com,
-	zhanjun@uniontech.com,
+	masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas.schier@linux.dev,
 	niecheng1@uniontech.com,
-	guanwentao@uniontech.com,
-	WangYuli <wangyuli@uniontech.com>
-Subject: [PATCH v3 0/2] kbuild: Support gendwarfksyms
-Date: Tue, 22 Apr 2025 18:49:27 +0800
-Message-ID: <79C925DCE2E963FF+20250422104927.144252-1-wangyuli@uniontech.com>
+	petr.pavlu@suse.com,
+	samitolvanen@google.com,
+	zhanjun@uniontech.com
+Subject: [PATCH v3 1/2] kbuild: deb-pkg: Add libdw-dev:native to Build-Depends-Arch
+Date: Tue, 22 Apr 2025 18:54:01 +0800
+Message-ID: <70C0FECF7A9A7B62+20250422105402.145635-1-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <79C925DCE2E963FF+20250422104927.144252-1-wangyuli@uniontech.com>
+References: <79C925DCE2E963FF+20250422104927.144252-1-wangyuli@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -71,44 +74,62 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: OJo/U4CJ+9g1zljg5EdhZRXMkwThYw6jHYTkXlFAAMkxtByQ+p1EnzxI
-	5Z9nzGYFLoEAVBhmCcAI8Lni1kdytgFEvwAmmbFV6d9PNCbFFjBDU91qUJ73mtmzrRsZ+fL
-	wyA4rRodFD0fsVMEe/nGj+xA6jnz/9h883gnUo9CrW4cP8b+ceLkqpymENb0++6KRgFfTQs
-	oPECSsJXUoEhX1ZAmERnJQF5wW2epMR12CqAiYaMP+oJvSlppBYQBksegSq7LOeILKaKch2
-	5pLBA1RZ6Ljg+iGq6esRYMuK998t/80OU0oqSHkf+NC9CD1NASmc/k5s4U75798Gz530jfK
-	uGO07AwS/SFcbsnkQl4eZ6/Uo3vtnbsHVD1sZJ7I02jlCSUGzeV+zLUUHvQzD1MacXGrL+/
-	W3jAvIYnFuZDuPxIa5J/GfS5Lwi5pRZZ8Y8/a819suLaSvhm075i7qL7HIe8+Iy5+Ib06uT
-	jvKfjlu/ImevlG5kmr7a4S8COVkyjQb7TDSec4mehrG3J3m133H6NTyJTmUKesIKauk+mTV
-	Iz+iBZkUadJ1znYyPT03a65lJm85mxM0QURdntR4/og97/6+1g+WksTX/Y1jovCHgTIR+1f
-	7lxBjNn5qlrL2LKFAipvQcVcNxk9CM5T1O0OE/QN4634NYvmer4pHhu9gI9b1Krk1Z42BJS
-	pLsTRaHHW0mHZMQyhPxiqe29OYgtuFRik3LdrRfDWb4lfedL5ZoTkfnOcFJxZ+DMBwurE7u
-	bkPzOTGdsJj2FacGHOdxdc6OhuMGFiFysfxMsrvaXodUYdJow5fSkogVgWuHFoDmnlZIKjf
-	aHWn3wQMf3hFdVS4BWJfJYJdTtXsp4IAbll/bBIi8Fs2Zpkk9g7Q0scWSZBAHIB+cfI5rmz
-	USu3zrYojQTS6A+9rKINXGQFvYJfp0Qr0uVB+RhlyvfXUALkxgkc0ogkWlEORITpEWw5oD8
-	haa4N2lDxhpYCtlNDJjvFbRwMT5O6QcF9J+wT6zKqGcNowuuotLd4JM27YIPspzQoBU/qkq
-	3ci4Ca3EEod+QrJ7Vhxp75x75C9dchk58oWTfA3fRblaCWQAXDmAT+H7tUloZ/wsFk8T9BN
-	KRUmTA//ZydXt+wYH2ULy4=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-XMAILINFO: MRw/zKT/0BpPMuPyGpuHpH72OmhcERvxLSZrFW8vAozhtnxq97/gL0AV
+	CaEyvHd+KrTd6tD5YyRLHv84mRVE/RMDNLEnIS8VEErFEw+P2bySh0as8GdAtkclwAzLHUC
+	0UHeYT3YB0ZImnmJ6+rBJd1/Vf5qR9fVey+8Fl7thN5t/DMquAX4eR5BoVpPSYrGINCzu7K
+	XR18cp+abB5yTkA/R21JtQ6yQakynjME/nsMdVDCv+vpSW7yNsriMxiVKkiZStf2TaihkII
+	MhUUBun0qzlrj6KHsXqBBQnmz13Us7JxoyrOB1WQEn/55jCGV5OlxgD1XaNfCGqeGwenPNp
+	j/aw+UgcA9/RAViEaS3Sq176W8Pnnx63QMOntqpdyKPm2pXVk39RttIqVCPfm4EsudXO9Dv
+	5OYpOs/DKPnDduFR1BmElBiApqlcC47JCx6whvW2GeWaiDXyaFX+ma9ttarClc+A2jDAFpo
+	ccB2eCnQ4BpldSOwgdVV7gDTmOlHApdGlb+U7i3zwNIs7kgdLoodA6MYu9IK2tKSOJnZ9dB
+	j2itMv43RFtXBhomGAaWWe6fp3YrsUvVUUgdLF7Yo0iGYuLb87dtvj50NozPX2sZWASPjj/
+	WnTtpI5lYr+6yI96cW9EV9vtCni3GdRwmb4G2GYQUGD2heMaFtayLlHkhfuy1XUCJWdeZkO
+	nMWtH++4+M6sATsFyGMJsiO61f0QLpIShP/zb31Urf/Jr9Mtu7U9Cs8dI5AqZIgoQBD8DO+
+	8hy3kRU6H66EpTTsLLcV3ZWcH4N+IYyvng/cIGtxpJhHjB7fwbNjbMgaAOAW/8CCuupeAlP
+	SwFj1BA6CG5gzs5M+WWO6ED1IXeSMEFQxfBPrjfRvW+EvJoWHkFfwaEe1BRY6qrZKBSd3tB
+	jiw0qd+bs3NErAw+z/uP0xCtXyC8Z2VFrk1DjvC6Riez12oOcDpsCFfK4JST/Qrt3b/+pev
+	j85P670rSpPoy7RIMOXDTV29Ulmmv9Bx5oxhpO24uv+Sw+KXELWQD30ufFA3dapdNc2773N
+	lepNNSfwN3Qfwa82XHtKLYc+whTBLxu80HWmq1Tq545VJokuvxwFygwbv01eBxMZBKAwcaq
+	wpvSQZNcAYoQ26Oakd3G6k=
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
 X-QQ-RECHKSPAM: 0
 
-Commit f28568841ae0 ("tools: Add gendwarfksyms") adds a
-gendwarfksyms tool but did not add build depends for kbuild.
+The dwarf.h header, which is included by
+scripts/gendwarfksyms/gendwarfksyms.h, resides within the libdw-dev
+package.
 
-Add the package who provides the dwarf.h header.
+This portion of the code is compiled under the condition that
+CONFIG_GENDWARFKSYMS is enabled.
 
-NOTE:
-There is no need to alter scripts/package/PKGBUILD as the
-libelf package, which provides dwarf.h for Arch Linux, is
-already listed in makedepends.
+Consequently, add libdw-dev to Build-Depends-Arch to prevent
+unforeseen compilation failures.
 
-WangYuli (2):
-  kbuild: deb-pkg: Add libdw-dev:native to Build-Depends-Arch
-  kbuild: rpm-pkg: Add (elfutils-devel or libdw-devel) to BuildRequires
+Fix follow possible error:
+  In file included from scripts/gendwarfksyms/symbols.c:6:
+  scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: 'dwarf.h' file not found
+      6 | #include <dwarf.h>
+        |          ^~~~~~~~~
 
- scripts/package/kernel.spec | 1 +
- scripts/package/mkdebian    | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Fixes: f28568841ae0 ("tools: Add gendwarfksyms")
+Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ scripts/package/mkdebian | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index 744ddba01d93..d4b007b38a47 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -210,7 +210,7 @@ Rules-Requires-Root: no
+ Build-Depends: debhelper-compat (= 12)
+ Build-Depends-Arch: bc, bison, flex,
+  gcc-${host_gnu} <!pkg.${sourcename}.nokernelheaders>,
+- kmod, libelf-dev:native,
++ kmod, libdw-dev:native, libelf-dev:native,
+  libssl-dev:native, libssl-dev <!pkg.${sourcename}.nokernelheaders>,
+  python3:native, rsync
+ Homepage: https://www.kernel.org/
 -- 
 2.49.0
 
