@@ -1,138 +1,131 @@
-Return-Path: <linux-kbuild+bounces-6727-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6728-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF40FA9858B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Apr 2025 11:31:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F8AA98C7D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Apr 2025 16:12:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 439331B65C30
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Apr 2025 09:31:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD28744433D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Apr 2025 14:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6DAA190472;
-	Wed, 23 Apr 2025 09:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 249EE27933E;
+	Wed, 23 Apr 2025 14:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8ygT4bg"
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="sxLeTY3K"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A89925C81E;
-	Wed, 23 Apr 2025 09:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8931B278E44;
+	Wed, 23 Apr 2025 14:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745400655; cv=none; b=QfGB/2E5wioFFxY7Io5Q/7me6ifSqWoPVVyJw/F91lp2ZRIvbNfFKZILC3UEqD76SLPnHk00dvI8vJRAQB9bHJU70ZQEiNzbKPtD+tepKMZkSQ7Cy7UrBGBCTbjDMtpTXKR3/Nfnfy28PP4XGT1qxYsPZmbg6k/J8kt1QJb3d7o=
+	t=1745417533; cv=none; b=KfUSeVFlVPxw4fR+7zudI8kCjpduJG/OUXnycyLV/zI2EVu1v0nFj38mpXJ6CMSTW2y4YLWHWvISOM6kkPedC1x3lAjiR5JYJNngiB39IY+xqftyCCdkSEGvBZLZvaocZ9F+LWsG7OWt3bw0RFXu5AXDYZJbbA8grphnS8lQ4hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745400655; c=relaxed/simple;
-	bh=dETYs6PNtbqc+HtknRC8dknf43oYws7PKuhbwZxPIoo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=gtc0lh1cci+ZRIaHzeDlANvaJvDEe1i5X8foDNu89ksT56jZ8hvr79DUSg06wyrLHTD0mnhQnRY/tPg9yko704lfiPq1XpOZrNk0cFRkpa2VYHc330MbJn6lQl0Ki5Lj607bzBckz3fbqqoifHD7fWV08EiS1e7wgr7sqBQPjmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l8ygT4bg; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2279915e06eso64075595ad.1;
-        Wed, 23 Apr 2025 02:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745400653; x=1746005453; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=muxam2SUiy8I7jXTK3ORRV5V0hJy9KAAZUT8IGI2dzg=;
-        b=l8ygT4bgyOH/Pbkq7haLSXy/uY31VS2VyQ7yW/zjfDn6fiddXG+gO1w0dUDis599jf
-         VZEUyTmCXEmtQU00XmN5OWlGv96dqvlKQbASSoIk0bBeBvw2khDw+pk15UT8VJYqfmID
-         /7Zm5QEaVdgrmtSRBEYLtRHkAiZVZaskbxhI0dBS9csCnASWvUozhfhewp+VJTliAxV4
-         v7IEVeFri0aDOmpst/UyZuizBUaqoMKys9e+L/OV/bF7xmX4iEq6iiOorrzAOkiT6fl8
-         r2aB9DNIhRdB8kNzuKXsyjm5hHcEupkD/esq7sD9AUfHBFG+RCBV3Fg/Fw3BQzv9o3ux
-         16lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745400653; x=1746005453;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=muxam2SUiy8I7jXTK3ORRV5V0hJy9KAAZUT8IGI2dzg=;
-        b=XvbZqk0+Oj8KJalRZKkwnVPvRnHzw+nX7pj4X47qCwUKhi5LeoS6Fq6Y6oGQencI0Z
-         V/L1M5Y0wBVv1sR/npjYi0nddgf9bKDgEE8EbwAOsYIkz7OOTwwp2ZdAkvr9hL0C/l88
-         Q5XjdVYjUv31rovg14Nb3q25uLJ4JOxZrDSdlUtTKSuLVo2xjbMmIzH8UcYNBks0A8BA
-         5h7FCDigSrzLZJav+vsxbZ7XAEOZRMjVFxqHM6leQ/hhxawy8UliC1cbuyq//jbGcpEY
-         UUDY1EakhgRdeHw/IHxVwALhLYbA63hu+VbEEtklUVtgjHU/VR7n0uwuCBuvJQjssuKT
-         Lftw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQu2BdOdZiozwvRe4AkPYmtPeTEAKHA9Rb0YhkTu0scnwpRPYPzbQ5FClYaIpj7XQdBeSfjoNYERQ=@vger.kernel.org, AJvYcCWT9JxuNLEd1MxCZHtx0w6GYsKOFFuloKsVBqec6E65ACG/h4biMxJ3K0HJt3XvqL0xj1Uj25ccTQg8XPd/@vger.kernel.org, AJvYcCX5bHMFeR/+lH+SGlUzXP/IA/EFBS6aEXxspGbzGvnU0zUIi3HcZ7/B3TtdeX11sC8Y7FIs5Lwa8Y1JX7Z3@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY+RvOMgcnofJlqF+Vix84cIVroMYi8MEvLQ38alRmhYc53uyS
-	gh3LRCiAvQ/9mr9//4x5OpH+iZreZQToI1WKgJ/BvEMN3AU9dNUw
-X-Gm-Gg: ASbGncu6fKngRrWGx6izUqZtMVlck36/8nJ6T2FgNjIyDd05CN6DHCh/tQtLg5WJHLx
-	Qqka0EmlWFlsypzkYdnlZ1NTqSg5UA/bij8I8qm0qvfz8pcKgSz8bNSkiclsTFE3/xsyqC0/qxs
-	lI6196JOoHB7Mi4Y4nNQokP0Wb5dzmIuCwZZ6nvD5RoHXqhXNk5ZFglQ/3URBh3HMDiNgrC07/b
-	XZBDFggFHYlCefl1HdPrKr+ajD6f+GA4COK55/vvvoq28tjaZlPaKVQB/xmYG8emLhR6qdOI8B+
-	3zPtzUsATaWAJpcOqz55+4uvz0SmQyPcmkAbcOTEjhIgiOoD0hK94/aqWHQ+JME52LfTeqrwpgX
-	uy8oZMeXk9fM=
-X-Google-Smtp-Source: AGHT+IG88n4B+Zz7jvsF/amnEc51F/XmSyRSZhLIy5SSMySrK3N+aaQMKVm7LW4VWbvpbZndJX7ocw==
-X-Received: by 2002:a17:903:98c:b0:224:1780:c1ec with SMTP id d9443c01a7336-22c5360dc12mr325231335ad.35.1745400653408;
-        Wed, 23 Apr 2025 02:30:53 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50eb64fbsm99667675ad.158.2025.04.23.02.30.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Apr 2025 02:30:52 -0700 (PDT)
-Message-ID: <5cc4d9dd-496e-4512-a683-272b1b84d98b@gmail.com>
-Date: Wed, 23 Apr 2025 18:30:48 +0900
+	s=arc-20240116; t=1745417533; c=relaxed/simple;
+	bh=PgSnKh8AEc/BlZebuyDsWHMlwgMJf/opyEbGRKOxu4k=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Trfr7ebanAQOHfb01/Zi39KCVrnbUmBv2FNudIILqKiRn8wWAgjo2ZtAc4QpgBgzFWXASVJSL26NDjQ1rFZnTmNi0M4MWgXE/s3ksrL9p9lCfUPd21aVp+MejCWb3ROSPDYPDJw66mIy5ck477LW9XgsK/aJJC1P2GH2LCif4zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=sxLeTY3K; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1745417529;
+	bh=PgSnKh8AEc/BlZebuyDsWHMlwgMJf/opyEbGRKOxu4k=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=sxLeTY3KdvSkeDFWrUc36f6EQ2ePLTba1rMhxaQlR/Ez6nbr8jlu2hI49MqIzn4g5
+	 cpJDgN2gi5DtPuz3ueKMrlueLgKC7r2aaICWQ46obvjJ1rBZgTTamoF+dBT/yqE/0l
+	 PA8KLQBcl4Yl+yWak5Te+fLRqVzqWgtet8RHJZQc=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 4031A1C0283;
+	Wed, 23 Apr 2025 10:12:08 -0400 (EDT)
+Message-ID: <2bd95ca78e836db0775da8237792e8448b8eec62.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Blaise Boscaccy
+	 <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>,
+ =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>, 
+ =?ISO-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>,  Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+  Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML
+ <linux-kernel@vger.kernel.org>,  keyrings@vger.kernel.org, Linux Crypto
+ Mailing List <linux-crypto@vger.kernel.org>, LSM List
+ <linux-security-module@vger.kernel.org>,  Linux Kbuild mailing list
+ <linux-kbuild@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
+ <linux-kselftest@vger.kernel.org>,  bpf <bpf@vger.kernel.org>,
+ clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com,  Matteo Croce
+ <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, Cong Wang
+ <xiyou.wangcong@gmail.com>
+Date: Wed, 23 Apr 2025 10:12:07 -0400
+In-Reply-To: <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+	 <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
+	 <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
+	 <87semdjxcp.fsf@microsoft.com>
+	 <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
+	 <87friajmd5.fsf@microsoft.com>
+	 <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+	 <87a58hjune.fsf@microsoft.com>
+	 <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
+	 <87y0w0hv2x.fsf@microsoft.com>
+	 <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: andriy.shevchenko@intel.com
-Cc: airlied@gmail.com, corbet@lwn.net, dmitry.baryshkov@oss.qualcomm.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- masahiroy@kernel.org, mchehab+huawei@kernel.org, mripard@kernel.org,
- nathan@kernel.org, nicolas.schier@linux.dev, rodrigo.vivi@intel.com,
- simona@ffwll.ch, tursulin@ursulin.net, tzimmermann@suse.de
-References: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
-Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
- kernel
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Andy,
-
-On Tue, 22 Apr 2025 10:57:33 +0300, Andy Shevchenko wrote:
-> On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
->> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+On Mon, 2025-04-21 at 13:12 -0700, Alexei Starovoitov wrote:
 [...]
+> Calling bpf_map_get() and
+> map->ops->map_lookup_elem() from a module is not ok either.
 
->> > Would it be possible to properly support O= and create pyc / pycache
->> > inside the object/output dir?
->> 
->> I have to confess, I've been wondering if we should be treating the .pyc
->> files like we treat .o files or other intermediate products.  Rather
->> than trying to avoid their creation entirely, perhaps we should just be
->> sure they end up in the right place and are properly cleaned up...?
->> 
->> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
->> should do the trick?
-> 
-> It's not so easy. The Python is written in a way that it thinks it will never
-> runs object files separately from the source. Hence that variable sets only
-> the folder per script as _home_ for the cache. It's completely unusable. They
-> took it wrong. It still can be _painfully_ used, but it will make Makefiles
-> uglier.
+I don't understand this objection.  The program just got passed in to
+bpf_prog_load() as a set of attributes which, for a light skeleton,
+directly contain the code as a blob and have the various BTF
+relocations as a blob in a single element array map.  I think everyone
+agrees that the integrity of the program would be compromised by
+modifications to the relocations, so the security_bpf_prog_load() hook
+can't make an integrity determination without examining both.  If the
+hook can't use the bpf_maps.. APIs directly is there some other API it
+should be using to get the relocations, or are you saying that the
+security_bpf_prog_load() hook isn't fit for purpose and it should be
+called after the bpf core has loaded the relocations so they can be
+provided to the hook as an argument?
 
-But, PYTHONPYCACHEPREFIX can be set as an environment variable.
-
-For example, try:
-
-    export PYTHONPYCACHEPREFIX="$HOME/.cache/__pycache__"
-
-Wouldn't it be good enough for you?
+The above, by the way, is independent of signing, because it applies to
+any determination that might be made in the security_bpf_prog_load()
+hook regardless of purpose.
 
 Regards,
-Akira
+
+James
 
 
