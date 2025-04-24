@@ -1,172 +1,133 @@
-Return-Path: <linux-kbuild+bounces-6733-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6734-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2C5A99CB2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Apr 2025 02:18:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B15A99D03
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Apr 2025 02:31:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7014A5A515A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Apr 2025 00:17:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E89B016E311
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Apr 2025 00:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 317F360DCF;
-	Thu, 24 Apr 2025 00:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A7277E9;
+	Thu, 24 Apr 2025 00:31:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWlTdRev"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GnazM4dL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0411C5A79B;
-	Thu, 24 Apr 2025 00:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1252701BF;
+	Thu, 24 Apr 2025 00:31:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745453845; cv=none; b=MmXXwOKjI2z3r5X3Tser+p6dxjPfaXvvrkRJGJ9gk/qqws6LUYsNtqk/Rwc6MTn2Y3Q2T9RKRo2k26RfPQ7+xUHEhjvKOUj/vfNYrh5QQrx++pIh5tG1pHy2JOeISxleyKf2s+/slsCSa/AVXKd2ZNAA/B+ysHykAcTR5FIWwec=
+	t=1745454700; cv=none; b=a12943dyPNley1qGKB6ANoNHWlg1JS/+YIM3AbZ4seunq5l7PhRHiX1o7HM46pIXXOl3Q+9De73t7zCn7dPQ4Uh37VDDJUBkPXMCCJO0MpOjDgY3kNKaBSz4ITiazYJ+LQcZIZ0ZccHM0KgMYgirR/oyQuwimfzULzxFvMvzqEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745453845; c=relaxed/simple;
-	bh=8dGEYgfrt2cILb+HcehoPNS3YrZDE5G2Fa+vM33+Uws=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WRbdhy8l28S0coUzyjtWRDI/kcGUY1CGxLkQvIbtTpMR1mG+z5PyoINnC/SRGUFxbj+Om09EKspjXZK5GTdwuLhs/fy8H4dFV7BntNQ04JscWK7FTQbmjeGpvAE1/OTLDl9Xixm3o0mKauKdy9JBPsD5A/5Qp3XNO7W7Q6n//H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWlTdRev; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A57BC4CEE2;
-	Thu, 24 Apr 2025 00:17:24 +0000 (UTC)
+	s=arc-20240116; t=1745454700; c=relaxed/simple;
+	bh=Ga4t6ugV8zqmuUfvWiT3IWeSKoulLQekoUS3Y/ImDnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rhDNu5t9RdhWLsocDd11Q9AoO9Uq+UVcsfqZWdmimIi25BCxKJf+Ldlhjs04rvxse11I8fisseEvYPhP7ZD8mBstcZtJM0vUB2j7qooM3o1jYy0Z5qg2zaqzTQUE3ADz2GnHESq1jPs9GHQ06r/PPTpz8bQsN+oo3UXQYGGN7Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GnazM4dL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39655C4CEE2;
+	Thu, 24 Apr 2025 00:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745453844;
-	bh=8dGEYgfrt2cILb+HcehoPNS3YrZDE5G2Fa+vM33+Uws=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VWlTdRev+mTVE3JVAWfpvDUvVUPHJZlj8UwBubvoz0A3hCt/Sw/ZNfzBcUQUEu+TG
-	 Luoi1iLPxRBRQz+kV5LuM6FNPX7NiMwvNQhQAIaresDknj/nIWtZH94RgcKJnn9f6/
-	 8yyhN2M/aa2DXD02+Gd9QBRcZgI8LrG31Vfl/3TFtynV1Fg34fwGw0/N7HgOWirh0x
-	 9RWxu0COnFdIw2k3omzJ6PaHx/8V7KA5rq5u/CWp9XcQZFhrDFFwSLKWXVaPtKHJiO
-	 qY5GxNudnCyV1aHVfTkI8tgtthdjwDSDtuKGwZZ04An3gdR2vz1fXZVSDBmlHMVSyK
-	 pKlZ+q5ALDayQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1u7kH5-0000000049Z-2A0z;
-	Thu, 24 Apr 2025 08:17:07 +0800
+	s=k20201202; t=1745454699;
+	bh=Ga4t6ugV8zqmuUfvWiT3IWeSKoulLQekoUS3Y/ImDnw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GnazM4dLMIjk4TycpzjmVcI8buSnuluUwvELckUC+JcLXF4FJp9NN8Q19dYGaAKfh
+	 F6nSySL6sJVbyKsO3wEAjDckE2Mu4HwUunCv23iHZE4G2cACYXkJtypWqXGk2tb3FV
+	 VgwLCTDQbAg2u2Vxp5403v3d/v8XhUSqJ2pkZJP6aImJQJ2m2gk253fpguC1wF1RRH
+	 IWrJ2vvM1zyCur3ESuqbHIoib7LW04pNhuqrMoNOPy3D+d6iCUVIrWsVPaSsFX53/U
+	 KSCffp0OUuZG37aY5Pvih6Z/dS4fwnZWXaeUdDCkxGOCmRZF7tiCzi8q3H8Ivoh1Fu
+	 mXhAzMRnlNZTw==
+Date: Thu, 24 Apr 2025 08:31:25 +0800
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v4 3/4] scripts/kernel-doc.py: don't create *.pyc files
-Date: Thu, 24 Apr 2025 08:16:23 +0800
-Message-ID: <158b962ed7cd104f7bbfe69f499ec1cc378864db.1745453655.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1745453655.git.mchehab+huawei@kernel.org>
-References: <cover.1745453655.git.mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Andy
+ Shevchenko <andriy.shevchenko@intel.com>, David Airlie <airlied@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>, Nathan
+ Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
+ kernel
+Message-ID: <20250424083125.1c8a0d24@sal.lan>
+In-Reply-To: <87bjspzd4e.fsf@trenco.lwn.net>
+References: <cover.1744789777.git.mchehab+huawei@kernel.org>
+	<4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
+	<87bjspzd4e.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-As reported by Andy, kernel-doc.py is creating a __pycache__
-directory at build time.
+Em Mon, 21 Apr 2025 10:35:29 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Disable creation of __pycache__ for the libraries used by
-kernel-doc.py, when excecuted via the build system or via
-scripts/find-unused-docs.sh.
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+> 
+> > On Wed, Apr 16, 2025 at 03:51:03PM +0800, Mauro Carvalho Chehab wrote:  
+> >> 
+> >> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
+> >> when W=1. Due to Python's normal behavior, its JIT compiler will create
+> >> a bytecode and store it under scripts/lib/*/__pycache__. 
+> >> 
+> >> As one may be using O= and even having the sources on a read-only mount
+> >> point, disable its creation during build time.  
+> >
+> > Would it be possible to properly support O= and create pyc / pycache
+> > inside the object/output dir?  
+> 
+> I have to confess, I've been wondering if we should be treating the .pyc
+> files like we treat .o files or other intermediate products.  Rather
+> than trying to avoid their creation entirely, perhaps we should just be
+> sure they end up in the right place and are properly cleaned up...?
 
-Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Closes: https://lore.kernel.org/linux-doc/Z_zYXAJcTD-c3xTe@black.fi.intel.com/
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/gpu/drm/Makefile      | 2 +-
- drivers/gpu/drm/i915/Makefile | 2 +-
- include/drm/Makefile          | 2 +-
- scripts/Makefile.build        | 2 +-
- scripts/find-unused-docs.sh   | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+I sent a v4 of the series disabling *.pyc creation, basically placing
+*.pyc at the right place on .gitignore.
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ed54a546bbe2..d21d0cd2c752 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -236,7 +236,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
- quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-       cmd_hdrtest = \
- 		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
--		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-+		 PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
- 		touch $@
- 
- $(obj)/%.hdrtest: $(src)/%.h FORCE
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index ed05b131ed3a..ab6b89a163e7 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -408,7 +408,7 @@ obj-$(CONFIG_DRM_I915_GVT_KVMGT) += kvmgt.o
- #
- # Enable locally for CONFIG_DRM_I915_WERROR=y. See also scripts/Makefile.build
- ifdef CONFIG_DRM_I915_WERROR
--    cmd_checkdoc = $(srctree)/scripts/kernel-doc -none -Werror $<
-+    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none -Werror $<
- endif
- 
- # header test
-diff --git a/include/drm/Makefile b/include/drm/Makefile
-index a7bd15d2803e..1df6962556ef 100644
---- a/include/drm/Makefile
-+++ b/include/drm/Makefile
-@@ -11,7 +11,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
- quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
-       cmd_hdrtest = \
- 		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
--		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-+		PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
- 		touch $@
- 
- $(obj)/%.hdrtest: $(src)/%.h FORCE
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 13dcd86e74ca..884dc86ce04e 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -83,7 +83,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
- endif
- 
- ifneq ($(KBUILD_EXTRA_WARN),)
--  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $(KDOCFLAGS) \
-+  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(KDOCFLAGS) \
-         $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
-         $<
- endif
-diff --git a/scripts/find-unused-docs.sh b/scripts/find-unused-docs.sh
-index ee6a50e33aba..d6d397fbf917 100755
---- a/scripts/find-unused-docs.sh
-+++ b/scripts/find-unused-docs.sh
-@@ -54,7 +54,7 @@ for file in `find $1 -name '*.c'`; do
- 	if [[ ${FILES_INCLUDED[$file]+_} ]]; then
- 	continue;
- 	fi
--	str=$(scripts/kernel-doc -export "$file" 2>/dev/null)
-+	str=$(PYTHONDONTWRITEBYTECODE=1 scripts/kernel-doc -export "$file" 2>/dev/null)
- 	if [[ -n "$str" ]]; then
- 	echo "$file"
- 	fi
--- 
-2.49.0
+That's said, I agree that the best would be to use PYTHONPYCACHEPREFIX,
+placing the intermediate products altogether with O= results. There is
+however something we need to deal with. To follow our building system
+to the letter, if we have *.py files at scripts/lib/kdoc, the intermediate
+files should be at: either:
 
+	- {outdir}/scripts/lib/kdoc; or: 
+	- {outdir}/scripts/lib/kdoc/__pycache__ 
+
+The same shall happen for all other places including Documentation/sphinx.
+In the specific case of Sphinx extensions, it would mean that it would
+produce *.pyc for both scripts/lib/*/*.py and Documentation/sphinx.
+No idea how to make Python to do that without doing some horrible tricks.
+
+An alternate approach would be to store all of them at the same place, like:
+
+	- {outdir}/__pycache__ 
+
+The problem is that, if we end having two scripts with the same name, and
+using PYTHONPYCACHEPREFIX would place both of them at the same place, we'll
+have troubles.
+
+IMO, let's apply this series first, and then see if we can replace patch 3
+with another one using PYTHONPYCACHEPREFIX, after we're sure that there's
+a way for it to do the right thing.
+
+> 
+> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
+> should do the trick?
+
+Regards,
+Mauro
 
