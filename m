@@ -1,152 +1,220 @@
-Return-Path: <linux-kbuild+bounces-6744-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6745-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28BDA9D0BE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Apr 2025 20:49:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C76A9D467
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Apr 2025 23:45:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8960B7B126A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Apr 2025 18:48:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F2AF1BC78B8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Apr 2025 21:45:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D477C18C008;
-	Fri, 25 Apr 2025 18:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8148F225A3C;
+	Fri, 25 Apr 2025 21:44:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="3froQTV7";
-	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="QOLNGeUe";
-	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="OKMDd0Wr"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VVfli0Z9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from e2i427.smtp2go.com (e2i427.smtp2go.com [103.2.141.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2537C188596
-	for <linux-kbuild@vger.kernel.org>; Fri, 25 Apr 2025 18:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.141.171
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C68EA21CC49;
+	Fri, 25 Apr 2025 21:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745606976; cv=none; b=oaFPtdtKMNgHksBIkFc6tTPqZxqzekY96Ul/Kp4ss7UQvWnd3jHjVTsyPehi3lLc63gX63MIRdU4rdVTqOWOhBGqdibA4dXNSDwDJQ1riAsIoMOiTP6x27pX2dq/b8wHZMoZaog0k9/jop02eWAWeADRlqmpkMA7tSN8V5hs2xk=
+	t=1745617494; cv=none; b=k2ztJtthrrQ3Yi64HfONB9zPZI93wrf6STc5TQeFMsmLVFGVc3oaeMnD49dx+anpzYyJ9+BRrOsCfG3NYJOL7P7YyokhjhKOXomdbEuQpc6RGTVMyQMEC1G6tzGcw0KEO8j0+au+azMErLBleISUnP+SDuje9dQrMuNXb+O0MU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745606976; c=relaxed/simple;
-	bh=0ia0+nAnI/nsJasJHb5V2/gXM9qZLGD5ziz3qvpGdgU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lac0zk1r8K+vG0dH1dJdGd7qLKEUPYW0V1SA7gSFJ6N5TuaRjrJCg3FVox6+Tq3GnYnELNvWlIicJxDU20/CH/UeY/HCUzLPCmvykTE0v1gQC+uxgkGNL8+PwUI5O2BQnaKsyyGIRTg4FVHfVUXDW5JB74mxF09+kDbU40zdEe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=3froQTV7 reason="unknown key version"; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=QOLNGeUe; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=OKMDd0Wr; arc=none smtp.client-ip=103.2.141.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1745607862; h=Feedback-ID:
-	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
-	List-Unsubscribe:List-Unsubscribe-Post;
-	bh=owWeXA2qFbSxDa+WbGesCQaKVfTlr2DxYaRhX4/qnBw=; b=3froQTV7VR2UyTihfFWjGDYSmC
-	3zYN7i2P1+V2tEjPb7dBE2W/71sey9UNK9/78VES4FtXZbWTR4BbZatMepHyLHkLx+gAwRvPHpFC8
-	TupCNSxiYq8p2+pNzPGdhFLHVuJUNRucEncLXejQSYHppLDICuSPhBzmvrKvlLmQ7osT1wvlG820U
-	YtR2uS4DVsdJI52kHr+hG92wB74mIQ18PwyQ1FJ7bzCQer2omTw6dwUueSCegwmG5hUAuSHbRoD0W
-	oX1za6yb/Z9SkYxhW74xdPZOGz/fBJM4HfmCgGkwOG6e99P2JNsxj6xOB0ZEl0mq0MeZlAZ0bSs/E
-	1HsTl90w==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
- i=@fjasle.eu; q=dns/txt; s=s1174286; t=1745606962; h=from : subject :
- to : message-id : date;
- bh=owWeXA2qFbSxDa+WbGesCQaKVfTlr2DxYaRhX4/qnBw=;
- b=QOLNGeUeEyzhkP8H8asvg069fq5Qg/nKeuRqUXMTIM5WfPQBjuB28D//VP0KHR+8o14od
- Tp+ZiSYcEnPloiKJT2UQB8kQBBvXp4rcF+lEuRk8ikUTakRnZN23WMHn2DvEs4CVDI7lgHP
- lQgzR2+A+UEO+pEKqczqy/bBxNGZf2W8CNbCnu+HSc/p8UN8Fr/CEgzBVWyH9vbCNbh/1uT
- nDCPO/X0Oejv9tEtlYWEP/VATB+E1izr4+917eBU8rA591184iSIndOTR60NgX5FrUtdfuA
- 1kvDAzyOXQ8dr+ZtfED/cemf6QFMdHjTb/5TRcUBzJl0Q4T9Ce1FFProrcfw==
-Received: from [10.172.233.58] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1u8O4V-TRk3EO-H4; Fri, 25 Apr 2025 18:46:48 +0000
-Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
- by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.97.1-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1u8O4U-FnQW0hQ0D58-lO44; Fri, 25 Apr 2025 18:46:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
- t=1745606802; bh=0ia0+nAnI/nsJasJHb5V2/gXM9qZLGD5ziz3qvpGdgU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OKMDd0WrcBwM6g/L2ydRl++BzlqOyGND91Q+5n+Aa5UgL0vJpqZn49aozb/Xay0sA
- w74dEmdiMz3xybwg2bqnIOrHyzhXUQAa5YwBI6q5j97tQgBe5Yecjp+F97ndaWrunp
- BwHDDOTQ3EBRsd5R0TJ09Y3VzdNKZuJHQYZ6Hx18=
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
- id 17F0A49A5F; Fri, 25 Apr 2025 20:46:41 +0200 (CEST)
-Date: Fri, 25 Apr 2025 20:46:41 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 3/4] scripts/kernel-doc.py: don't create *.pyc files
-Message-ID: <aAvYkchT7RISfxsX@fjasle.eu>
-References: <cover.1745453655.git.mchehab+huawei@kernel.org>
- <158b962ed7cd104f7bbfe69f499ec1cc378864db.1745453655.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1745617494; c=relaxed/simple;
+	bh=1vYY0G6paJDxqTAFql3Fe/ZoYlYAWMsKFG17ZpHlpB4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=usXlNaPpU+GGl3BJAqPCxJek93fQharcQEjuc5B6y8OY6sujyw4qgEffhQiS0vXtI4FqWJ0V9pQWMvmDK1R3A0eAWBtgRQ9pB5mYhQtSn8Ewp4izbXJ54NygdB0nayp1QJIapjLrccSyMIIF8wI4plnRx3jrrhx6aqEVsWqIt4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VVfli0Z9; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from narnia (unknown [172.172.34.12])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0FD7420BCAD1;
+	Fri, 25 Apr 2025 14:44:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0FD7420BCAD1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1745617492;
+	bh=RLcGrvY/Ji6RfwBGa0SDop5ZSdaFF8Vony2mUDrwhz8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=VVfli0Z9/uOSWmD2zYfgd/ELGgJQhQObtxaSQgX4AL7uZlqTSEwxa/QkcFRUrFG4L
+	 KJe067jmKGvAEhgwx3y2k+RRnXnuiRFkSXZNrkzp+VuQoskURv0DCiZeNXTaiElj12
+	 7XOVymm5fhm6nTTtITxxB973eE6OhvwrFoFeXnVA=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: James Bottomley <James.Bottomley@HansenPartnership.com>, Alexei
+ Starovoitov <alexei.starovoitov@gmail.com>, KP Singh <kpsingh@google.com>,
+ Paul Moore <paul@paul-moore.com>, Daniel Borkmann <daniel@iogearbox.net>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
+ <jmorris@namei.org>, "Serge
+ E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=
+ <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?=
+ Noack <gnoack@google.com>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen
+ <jarkko@kernel.org>, Jan Stancek <jstancek@redhat.com>, Neal Gompa
+ <neal@gompa.dev>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, keyrings@vger.kernel.org, Linux
+ Crypto Mailing List <linux-crypto@vger.kernel.org>, LSM List
+ <linux-security-module@vger.kernel.org>, Linux Kbuild mailing list
+ <linux-kbuild@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
+ <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+ clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, Matteo Croce
+ <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, Cong Wang
+ <xiyou.wangcong@gmail.com>
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+In-Reply-To: <6e086e29d258839e42ef7a83b38571d1882eb77d.camel@HansenPartnership.com>
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+ <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
+ <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
+ <87semdjxcp.fsf@microsoft.com>
+ <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
+ <87friajmd5.fsf@microsoft.com>
+ <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+ <87a58hjune.fsf@microsoft.com>
+ <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
+ <87y0w0hv2x.fsf@microsoft.com>
+ <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
+ <2bd95ca78e836db0775da8237792e8448b8eec62.camel@HansenPartnership.com>
+ <CAADnVQJ6SRePz7yc5x3BAz7q-e8DVYq=vRdahxCZ4XzpWtnYpQ@mail.gmail.com>
+ <6e086e29d258839e42ef7a83b38571d1882eb77d.camel@HansenPartnership.com>
+Date: Fri, 25 Apr 2025 14:44:10 -0700
+Message-ID: <87bjsjlxw5.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <158b962ed7cd104f7bbfe69f499ec1cc378864db.1745453655.git.mchehab+huawei@kernel.org>
-X-Smtpcorp-Track: NdMz5J-iyOJ7.T6trQ_26fb7W.QumwGgZq-S-
-Feedback-ID: 1174286m:1174286a9YXZ7r:1174286ss-2np7oAv
-X-Report-Abuse: Please forward a copy of this message, including all headers,
- to <abuse-report@smtp2go.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 24, 2025 at 08:16:23AM +0800 Mauro Carvalho Chehab wrote:
-> As reported by Andy, kernel-doc.py is creating a __pycache__
-> directory at build time.
-> 
-> Disable creation of __pycache__ for the libraries used by
-> kernel-doc.py, when excecuted via the build system or via
-> scripts/find-unused-docs.sh.
-> 
-> Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Closes: https://lore.kernel.org/linux-doc/Z_zYXAJcTD-c3xTe@black.fi.intel.com/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/gpu/drm/Makefile      | 2 +-
->  drivers/gpu/drm/i915/Makefile | 2 +-
->  include/drm/Makefile          | 2 +-
->  scripts/Makefile.build        | 2 +-
->  scripts/find-unused-docs.sh   | 2 +-
->  5 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index ed54a546bbe2..d21d0cd2c752 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -236,7 +236,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
->  quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
->        cmd_hdrtest = \
->  		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
-> -		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-> +		 PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
+James Bottomley <James.Bottomley@HansenPartnership.com> writes:
 
-Did someone check if we could add
+> On Thu, 2025-04-24 at 16:41 -0700, Alexei Starovoitov wrote:
+>> On Wed, Apr 23, 2025 at 7:12=E2=80=AFAM James Bottomley
+>> <James.Bottomley@hansenpartnership.com> wrote:
+>> > On Mon, 2025-04-21 at 13:12 -0700, Alexei Starovoitov wrote:
+>> > [...]
+>> > > Calling bpf_map_get() and
+>> > > map->ops->map_lookup_elem() from a module is not ok either.
+>> >=20
+>> > I don't understand this objection.
+>>=20
+>> Consider an LSM that hooks into security_bprm_*(bprm),
+>> parses something in linux_binprm, then
+>> struct file *file =3D
+>> fd_file(fdget(some_random_file_descriptor_in_current));
+>> file->f_op->read(..);
+>>=20
+>> Would VFS maintainers approve such usage ?
+>
+> This is a bit off topic from the request for clarification but:
+>
+> It's somewhat standard operating procedure for LSMs.  Some do make
+> decisions entirely within the data provided by the hook, but some need
+> to take external readings, like selinux or IMA consulting the policy in
+> the xattr or apparmor the one in the tree etc.
+>
+> Incidentally, none of them directly does a file->f_op->read(); they all
+> use the kernel_read_file() API which is exported from the vfs for that
+> purpose.
+>
+>> More so, your LSM does
+>> file =3D get_task_exe_file(current);
+>> kernel_read_file(file, ...);
+>>=20
+>> This is even worse.
+>> You've corrupted the ELF binary with extra garbage at the end.
+>> objdump/elfutils will choke on it and you're lucky that binfmt_elf
+>> still loads it.
+>> The whole approach is a non-starter.
+>
+> It's the same approach we use to create kernel modules: ELF with an
+> appended signature.  If you recall the kernel summit discussions about
+> it, the reason that was chosen for modules is because it's easy and the
+> ELF processor simply ignores any data in the file that's not described
+> by the header (which means the ELF tools you refer to above are fine
+> with this if you actually try them).
+>
+> But it you really want the signature to be part of the ELF,  then the
+> patch set can do what David Howells first suggested for modules: it can
+> simply put the appended signature into an unloaded ELF section.
+>
+>> > The program just got passed in to bpf_prog_load() as a set of
+>> > attributes which, for a light skeleton, directly contain the code
+>> > as a blob and have the various BTF relocations as a blob in a
+>> > single element array map.=C2=A0 I think everyone agrees that the
+>> > integrity of the program would be compromised by modifications to
+>> > the relocations, so the security_bpf_prog_load() hook can't make an
+>> > integrity determination without examining both.=C2=A0 If the hook can't
+>> > use the bpf_maps.. APIs directly is there some other API it should
+>> > be using to get the relocations, or are you saying that the
+>> > security_bpf_prog_load() hook isn't fit for purpose and it should
+>> > be called after the bpf core has loaded the relocations so they can
+>> > be provided to the hook as an argument?
+>>=20
+>> No. As I said twice already the only place to verify program
+>> signature is a bpf subsystem itself.
+>
+> The above argument is actually independent of signing.  However,
+> although we have plenty of subsystems that verify their own signatures,
+> it's perfectly valid for a LSM to do it as well: IMA is one of the
+> oldest LSMs and it's been verifying signatures over binaries and text
+> files since it was first created.
+>
+>> Hacking into bpf internals from LSM, BPF-LSM program,
+>> or any other kernel subsystem is a no go.
+>
+> All LSMs depend to some extent on the internals of the subsystem where
+> the hook is ... the very structures passed into them are often internal
+> to that subsystem.  The problem you didn't address was that some of the
+> information necessary to determine the integrity properties in the bpf
+> hook is in a map file descriptor.  Since the map merely wraps a single
+> blob of data, that could easily be passed in to the hook instead of
+> having the LSM extract it from the map.  How the hook gets the data is
+> an internal implementation detail of the kernel that can be updated
+> later.
+>
+>> > The above, by the way, is independent of signing, because it
+>> > applies to any determination that might be made in the
+>> > security_bpf_prog_load() hook regardless of purpose.
+>>=20
+>> security_bpf_prog_load() should not access bpf internals.
+>> That LSM hook sees the following:
+>> security_bpf_prog_load(struct bpf_prog *prog, union bpf_attr *attr,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct bpf_tok=
+en *token, bool kernel);
+>>=20
+>> LSM can look into uapi things there.
+>
+> Is that the misunderstanding? That's not how LSMs work: they are not
+> bound by only the UAPI, they are in kernel and have full access to the
+> kernel API so they can introspect stuff and make proper determinations.
+>
+>> Like prog->sleepable, prog->tag, prog->aux->name,
+>> but things like prog->aux->jit_data or prog->aux->used_maps
+>> are not ok to access.
+>> If in doubt, ask on the mailing list.
+>
+> I am aren't I? At least the bpf is one of the lists cc'd on this.
+>
+> Regards,
+>
+> James
 
-  sys.dont_write_bytecode = True
+I think we may be in the weeds here a bit and starting to get a little
+off-topic. Let's try to back up some and take a different tack. We are
+going to rework this effort into a set of patches that target the bpf
+subsystem and it's tooling directly, performing optional signature
+verification of the inputs to bpf_prog_load, using signature data
+passed in via bpf_attr, which should enough provide metadata so that it
+can be consumed by interested parties to enforce policy decisions around
+code signing and data integrity.
 
-to the script itself instead of cluttering PYTHONDONTWRITEBYTECODE
-everywhere [1]?
-
-Kind regards,
-Nicolas
-
-
-[1]: https://docs.python.org/3/library/sys.html#sys.dont_write_bytecode
+-blaise
 
