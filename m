@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-6758-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6759-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F311A9DC38
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Apr 2025 18:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13722A9DC3D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Apr 2025 18:20:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFE4C5A6FD5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Apr 2025 16:19:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 69B039A042F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Apr 2025 16:19:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64FE725DCFB;
-	Sat, 26 Apr 2025 16:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5354525E45A;
+	Sat, 26 Apr 2025 16:18:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAdH+ZFy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahkBZ2VG"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B21825DD13;
-	Sat, 26 Apr 2025 16:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2085C25E451;
+	Sat, 26 Apr 2025 16:18:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745684332; cv=none; b=VhWHNpaiXBB0YWzBh8S/bVnktkn9oE1+9o3MalPx6zBOPHCN27c83GZdON9o5n5GfFZGMPWbfCpOg182QQs3BEu2zH534R2GKEDzNllCwsjPuY6axNrbNDxzbfXKMlGHgBbZ0RyHD1YXqzjDxW45zHSOoih6HRmNqC20iLv+zTM=
+	t=1745684335; cv=none; b=HOmYgJ2Vq/3IFfTTnuLyhb0e5lgLv8fOGjpq4PQz6xPVqJEzQL6S2KFwjJAkjv88mGuNt6n6fE8zWM3965QFRzYBO770C8auPyfUioMlW942c6B7Lb5htk6VSYonUSGnguG5kcqvkIxPrY34ayJPDZMwVmoI+lUk57UuiWZv8BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745684332; c=relaxed/simple;
-	bh=VpdxUksVEEWXN7gV5SmhieXumztwaT1Jbewjkh76gSc=;
+	s=arc-20240116; t=1745684335; c=relaxed/simple;
+	bh=VB+M5vAwIzWGp+MpkOLUXHL28PE4kRrexHY6v8U4zLU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kmcITF7CVwdX1dvU3OaSOOiOW3qg/C/rDQlokVxNkf9menhDJgQHXX1rmNOijB9yAJjUOtYXx9NXsKNKrcqMPk+/unMaCUVXwmNFZ7dvkV1DKcWHXVQlIHuXlz9OJepEwBkD75lSFycARvuhes6186XlhV/weFeiMKyF2wDdZTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAdH+ZFy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4FBC4CEE2;
-	Sat, 26 Apr 2025 16:18:49 +0000 (UTC)
+	 MIME-Version; b=Pa7UsGy+2eramv1jb2RT4VmfSU1ICd3ViNzQn5OcUoU/lrlQdy/DfzGDjAhun0nzANnk9zz4NzDfkCOP5tV0UgGC6spD31mU3lBanBDvjO6Q2j0wjnnEZnsl2anSwgrzEF1Hy3sO4iXMP/ZDY5jCRRLGg4w1pI34JgU3VhBI4+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahkBZ2VG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326BAC4CEEB;
+	Sat, 26 Apr 2025 16:18:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745684331;
-	bh=VpdxUksVEEWXN7gV5SmhieXumztwaT1Jbewjkh76gSc=;
+	s=k20201202; t=1745684334;
+	bh=VB+M5vAwIzWGp+MpkOLUXHL28PE4kRrexHY6v8U4zLU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fAdH+ZFyaYOsUWLAHmAJKlUxbi3ewgVmsJEW2t1Xqzg3UyXpa4lrFRwgG+tKZcd6M
-	 S8/hjBf6flROdadfQmf4F2f7tAHkZ2z/o17pCBZqgMF4Tu65CWjfgWhUL/RukOANMN
-	 Phh9TFfCucqDUKP2zOtU/DBlQTHJlhzt17LqpawL7nDXYT3osQQJe6NlVDlZcLbPO1
-	 BRH+HBgd4b7OXn1XixMhOlIGmIAkHIWGXb7LUVp0X8+ulWeuu0ifnogrBGRg8v0S3T
-	 fMPe4HDWPOW4LQm7XAp3ku4ZfIsCTjavE6VRGYQi1s+4mvLn/IPwjUlg7WA4pYuUl0
-	 3yTWdlm28SvMA==
+	b=ahkBZ2VG8KOYJCSIaJNvshkA2tLT4y/Nsa2VbPsM2W8BIT18sr84FZIzv/7QM5MdP
+	 De/cB2J/s0iOM2JwkxniJZG9/6HkJBs1fErLjz+eTM/vl3o/CTUfMgwjlHzOIK4iua
+	 5DvyHDrkFzfyXVATEM8QbG+Sv3nsMSFgOCfx0c4UnKulC/i2mFgYwt6DnvuPS0+dmQ
+	 OjcskL/xAmT0914Cudq/Pwtobvk0JGMAPowg12rNsTCcoalOCZBHMetodJHTnSgK8n
+	 Q9ZbqWXrxQGHT76HKKsG3lN2a909uT4brC2xD0jWQ+ie+ob/1Kkw8i7N8sOtsdrZxG
+	 lGKUgtUg3b9RQ==
 From: Alexey Gladkov <legion@kernel.org>
 To: Luis Chamberlain <mcgrof@kernel.org>,
 	Petr Pavlu <petr.pavlu@suse.com>,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v1 6/7] kbuild: Move modules.builtin.modinfo to another makefile
-Date: Sat, 26 Apr 2025 18:16:37 +0200
-Message-ID: <b31fe393315a452fc6ea63c0ed4b937ab82143df.1745591072.git.legion@kernel.org>
+Subject: [PATCH v1 7/7] kbuild: Create modules.builtin.modinfo for modpost results
+Date: Sat, 26 Apr 2025 18:16:38 +0200
+Message-ID: <16dc06bb9edc122a2067a882701f5257d9c5d4e0.1745591072.git.legion@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1745591072.git.legion@kernel.org>
 References: <cover.1745591072.git.legion@kernel.org>
@@ -67,96 +67,68 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The creation of modules.builtin.modinfo is going to depend on
-.vmlinux.export.o so it is worth moving its creation closer to it.
+Create modules.builtin.modinfo as a combination of modinfo from vmlinux
+and the result of generating modalias by modpost.
 
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 ---
- scripts/Makefile.vmlinux   | 26 ++++++++++++++++++++++++++
- scripts/Makefile.vmlinux_o | 26 +-------------------------
- 2 files changed, 27 insertions(+), 25 deletions(-)
+ scripts/Makefile.vmlinux | 30 +++++++++++++++++++++++++++---
+ 1 file changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index b0a6cd5b818c..033c22c807b5 100644
+index 033c22c807b5..7a3a21040c4c 100644
 --- a/scripts/Makefile.vmlinux
 +++ b/scripts/Makefile.vmlinux
-@@ -97,6 +97,32 @@ ifdef CONFIG_BUILDTIME_TABLE_SORT
+@@ -70,6 +70,18 @@ endif
+ ifdef CONFIG_MODULES
+ targets += .vmlinux.export.o
+ $(vmlinux-final): .vmlinux.export.o
++
++# .module.builtin.modinfo.modpost
++# ---------------------------------------------------------------------------
++__default: .modules.builtin.modinfo.modpost
++
++OBJCOPYFLAGS_.modules.builtin.modinfo.modpost := -j .modinfo -O binary
++
++targets += .modules.builtin.modinfo.modpost
++.modules.builtin.modinfo.modpost: .vmlinux.export.o FORCE
++	$(call if_changed,objcopy)
++
++modules.builtin.modinfo: .modules.builtin.modinfo.modpost
+ endif
+ 
+ ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
+@@ -97,15 +109,27 @@ ifdef CONFIG_BUILDTIME_TABLE_SORT
  vmlinux: scripts/sorttable
  endif
  
-+# module.builtin.modinfo
++# .module.builtin.modinfo.vmlinux
 +# ---------------------------------------------------------------------------
-+__default: modules.builtin.modinfo
++__default: .modules.builtin.modinfo.vmlinux
 +
-+OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
++OBJCOPYFLAGS_.modules.builtin.modinfo.vmlinux := -j .modinfo -O binary
 +
-+targets += modules.builtin.modinfo
-+modules.builtin.modinfo: vmlinux.o FORCE
++targets += .modules.builtin.modinfo.vmlinux
++.modules.builtin.modinfo.vmlinux: vmlinux.o FORCE
 +	$(call if_changed,objcopy)
 +
-+# module.builtin
-+# ---------------------------------------------------------------------------
-+__default: modules.builtin
-+
-+# The second line aids cases where multiple modules share the same object.
-+
-+quiet_cmd_modules_builtin = GEN     $@
-+      cmd_modules_builtin = \
-+	tr '\0' '\n' < $< | \
-+	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
-+	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
-+
-+targets += modules.builtin
-+modules.builtin: modules.builtin.modinfo FORCE
-+	$(call if_changed,modules_builtin)
-+
- # module.builtin.ranges
+ # module.builtin.modinfo
  # ---------------------------------------------------------------------------
- ifdef CONFIG_BUILTIN_MODULE_RANGES
-diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-index 938c7457717e..23c8751285d7 100644
---- a/scripts/Makefile.vmlinux_o
-+++ b/scripts/Makefile.vmlinux_o
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
+ __default: modules.builtin.modinfo
  
- PHONY := __default
--__default: vmlinux.o modules.builtin.modinfo modules.builtin
-+__default: vmlinux.o
- 
- include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
-@@ -73,30 +73,6 @@ vmlinux.o: $(initcalls-lds) vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
- 
- targets += vmlinux.o
- 
--# module.builtin.modinfo
--# ---------------------------------------------------------------------------
--
 -OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
--
--targets += modules.builtin.modinfo
++quiet_cmd_modules_builtin_modinfo = GEN     $@
++      cmd_modules_builtin_modinfo = \
++	cat $< $(wildcard .modules.builtin.modinfo.modpost) > $@
+ 
+ targets += modules.builtin.modinfo
 -modules.builtin.modinfo: vmlinux.o FORCE
 -	$(call if_changed,objcopy)
--
--# module.builtin
--# ---------------------------------------------------------------------------
--
--# The second line aids cases where multiple modules share the same object.
--
--quiet_cmd_modules_builtin = GEN     $@
--      cmd_modules_builtin = \
--	tr '\0' '\n' < $< | \
--	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
--	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
--
--targets += modules.builtin
--modules.builtin: modules.builtin.modinfo FORCE
--	$(call if_changed,modules_builtin)
--
- # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
- # ---------------------------------------------------------------------------
++modules.builtin.modinfo: .modules.builtin.modinfo.vmlinux FORCE
++	$(call if_changed,modules_builtin_modinfo)
  
+ # module.builtin
+ # ---------------------------------------------------------------------------
 -- 
 2.49.0
 
