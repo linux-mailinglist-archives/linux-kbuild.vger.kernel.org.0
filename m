@@ -1,132 +1,161 @@
-Return-Path: <linux-kbuild+bounces-6762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6763-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341DFA9E48A
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Apr 2025 22:09:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC410A9E96E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Apr 2025 09:35:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 594C13BAFC8
-	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Apr 2025 20:09:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 540BD16945A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Apr 2025 07:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D5811DED57;
-	Sun, 27 Apr 2025 20:09:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9EE81A2390;
+	Mon, 28 Apr 2025 07:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XNlFUp2Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/o+5q3/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6133A8BEE;
-	Sun, 27 Apr 2025 20:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34F982866;
+	Mon, 28 Apr 2025 07:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745784564; cv=none; b=lCwUpzijZeDZmVdKJP9L2hUwUVPpfN9OgLhXfwBbjfKdfjskqvYj/2Ih7laEZfQk5+d+MMA/rJOyArsfhvfo2xr3usuuKAFzwIjiOZOQh9mnG6ZImHIFX6+07HZ6r4LnhRsDCuLjvs73AoUkVU8tlFmHHmjSg2k96qOFcpqsgN4=
+	t=1745825727; cv=none; b=Ote06Oc9hPQTPUe+sdDwFyR0iBnRa14kczG/dt696pn5bUkDgmvj8hCJQ6RgDC4fHyFNxMijLOfB0lBdvuPJsrYyFwSe3XRfIcoBOJi9trNtSDOBU3nG7PGtwkqfdPwWRxqkhenzsMDs8goIL9qBBp+vaNo3DI+Kw53lp+1mbM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745784564; c=relaxed/simple;
-	bh=cyAWRy1ZItg2HcrNetKV+vqy8St8eP2ZUjTcuYHJSuE=;
+	s=arc-20240116; t=1745825727; c=relaxed/simple;
+	bh=mxdki93guRrPUqMnNg4vPPRG6mXLaz09PPXd+0S8V6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hNi7JHAbugVHq0Z1/rD4PGlENWjktb6wj5cpvf41NR6bn2ne1J7gBl0HF6XLATvQUQ6io8xcZRVmMgT2QdexCJGMv2CwL9b2Ix9k3gNnNtjd3PzxZ3Wfk4M5R+BraVRdo+8qCSQMumcgPfbZQ5LGt8El9OPnw8Uw+RfB4aubL4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XNlFUp2Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F41C4CEE3;
-	Sun, 27 Apr 2025 20:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745784562;
-	bh=cyAWRy1ZItg2HcrNetKV+vqy8St8eP2ZUjTcuYHJSuE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XNlFUp2Z/aHDfUR9EcugJDhm6avbnRDcqssCOsKkEWGUJChDTURDuskwMVd7B4tKZ
-	 RgLHmyI5w0h/NzWB/ggewk25bwxUfq1Hw0bASvmIk7nSLs/+UaX44Vsv2z7Q9kwg64
-	 IQcHyx5hR3dAzbrRdKyrjp1fi4z3+8oW3kzRhxQsekbW2zmBxd1V/FQ/bTUKGJfx7+
-	 cqWUtIAyANF3UOcpGQM5WkzEbNcNwBSgy/4xAVPCBjm5fdSBX03U6FKav/ZYYVqsHZ
-	 yLqmEI1RbG3gthaN5RmSB0VgD8HGKXUtxO5pdvW/XVxPQ3x4cd0zasXQoQHGfAfn7u
-	 GjcNkllx2ccVA==
-Date: Sun, 27 Apr 2025 16:09:16 -0400
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sergio =?iso-8859-1?Q?Gonz=E1lez?= Collado <sergio.collado@gmail.com>
-Cc: David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, rust-for-linux@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, x86@kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kunit: fix longest symbol length test
-Message-ID: <20250427200916.GA1661412@ax162>
-References: <20250427191009.6179-1-sergio.collado@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLNibOVDvuxfTln550qTIflM5NkQJdaA377rYCqE+t9pDfcI8zov/LX7KDP+xIAaJe06CWFaUr+hGRLe4eZJzGELL+EM7aXniM4Hi3jwe2gHQ4wQ6K9xrpideK6/3Mp6wm7CZUDTMk06Xb64w1k+Ngxo/3AdyLLsD96RFXZ4lGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/o+5q3/; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745825726; x=1777361726;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mxdki93guRrPUqMnNg4vPPRG6mXLaz09PPXd+0S8V6E=;
+  b=K/o+5q3/oZSZ9H2GvLBUCgsdkIhrr7HyGZSiYuhvZJpMHF61piITfezC
+   6PTJXhm/EY6HscEGeMpWku0d+EylG+7DAqiUE6HxhQe2bFtraR4hhnU0P
+   M0t3goahERIA3ioUvKmqQwAbF8WIG4y07OyuhUoxZ16mUlcrjwX8ME7ug
+   lX6LJFk3Spn6IJQTbsvlXDr3gdeeJfL32PZYtewemEbYYWqTk6ZVNg4hG
+   /K3BNFt+/4drPHLb9vbPtW5iMNDfhg8stsijFlNe0Kkjxdh2AkC4tZWmZ
+   AJvA2QpWUS+/fXtrmwgITvjzjfgW4ualidysPT9mJn8HiOxsfElkk4lUI
+   Q==;
+X-CSE-ConnectionGUID: jcHnSpGGT5G2SK6lT6dfAA==
+X-CSE-MsgGUID: pY3iLgfvTimKgtxNqFkubg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="50058862"
+X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
+   d="scan'208";a="50058862"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:35:24 -0700
+X-CSE-ConnectionGUID: tFG6ORSjTd2nkwZlwgLrJA==
+X-CSE-MsgGUID: vdPhjXp7RgOB/g6AJCI/RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
+   d="scan'208";a="137491544"
+Received: from smile.fi.intel.com ([10.237.72.55])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:35:19 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u9J1I-000000011Cw-0lnE;
+	Mon, 28 Apr 2025 10:35:16 +0300
+Date: Mon, 28 Apr 2025 10:35:15 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>, airlied@gmail.com, corbet@lwn.net,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+	masahiroy@kernel.org, mripard@kernel.org, nathan@kernel.org,
+	nicolas.schier@linux.dev, rodrigo.vivi@intel.com, simona@ffwll.ch,
+	tursulin@ursulin.net, tzimmermann@suse.de
+Subject: Re: [PATCH v4 0/4] Don't create Python bytecode when building the
+ kernel
+Message-ID: <aA8vs8gw75aAfwYb@smile.fi.intel.com>
+References: <cover.1745453655.git.mchehab+huawei@kernel.org>
+ <22d7bca2-cdfb-4e06-acb2-41363ba13333@gmail.com>
+ <20250426205708.4f90a83d@sal.lan>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250427191009.6179-1-sergio.collado@gmail.com>
+In-Reply-To: <20250426205708.4f90a83d@sal.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Sergio,
-
-On Sun, Apr 27, 2025 at 09:10:09PM +0200, Sergio González Collado wrote:
-> The kunit test that checks the longests symbol length [1], has triggered
-> warnings in some CI pilelines when symbol prefixes are used [2]. The test
-> is adjusted to depend on !CONFIG_PREFIX_SYMBOLS as sujested in [3].
+On Sat, Apr 26, 2025 at 08:57:08PM +0800, Mauro Carvalho Chehab wrote:
+> Em Sat, 26 Apr 2025 11:39:05 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
 > 
-> [1] https://lore.kernel.org/rust-for-linux/CABVgOSm=5Q0fM6neBhxSbOUHBgNzmwf2V22vsYC10YRBT=kN1g@mail.gmail.com/T/#t
-> [2] https://lore.kernel.org/all/20250328112156.2614513-1-arnd@kernel.org/T/#u
-> [3] https://lore.kernel.org/all/ycgbf7jcq7nc62ndqiynogt6hkabgl3hld4uyelgo7rksylf32@oysq7jpchtp4/
+> > Bothering with might-become-incompatilbe-in-the-future python environment
+> > variables in kernel Makefiles looks over-engineering to me.
+> > Also, as Mauro says in 3/4, it is incomplete in that it does not cover
+> > the cases where those scripts are invoked outside of kernel build.
+> > And it will interfere with existing developers who want the benefit of
+> > bytecode caching.
+> > 
+> > I'm not precluding the possibility of incoherent bytecode cache; for example
+> > by using a shared kernel source tree among several developers, and only
+> > one of them (owner) has a write permission of it.  In that case, said
+> > owner might update the tree without running relevant python scripts.
+> > 
+> > I don't know if python can notice outdated cache and disregard it.
+> > 
+> > In such a situation, setting PYTHONPYCACHEPREFIX as an environment
+> > variable should help, for sure, but only in such special cases.
+> > 
+> > Andy, what do you say if I ask reverts of 1/4, 2/4/, and 3/4?
 > 
-> Fixes: c104c16073b7 ("Kunit to check the longest symbol length")
-> Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
-> ---
->  lib/Kconfig.debug                | 2 +-
->  lib/tests/longest_symbol_kunit.c | 3 +--
->  2 files changed, 2 insertions(+), 3 deletions(-)
+> Patches 1 and 2 are, IMO, needed anyway, as they fix a problem:
+> KERNELDOC environment is not used consistently.
 > 
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index f9051ab610d5..6937dedce04d 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -2885,7 +2885,7 @@ config FORTIFY_KUNIT_TEST
->  
->  config LONGEST_SYM_KUNIT_TEST
->  	tristate "Test the longest symbol possible" if !KUNIT_ALL_TESTS
-> -	depends on KUNIT && KPROBES
-> +	depends on KUNIT && KPROBES && !CONFIG_PREFIX_SYMBOLS
-
-This should be !PREFIX_SYMBOLS, otherwise it would be looking for a
-CONFIG_CONFIG_PREFIX_SYMBOLS not to exist, which will always be true.
-
-This solution does not appear to take into account Peter's comment
-around how kCFI will prefix these symbols as well? Should it depend on
-!CFI_CLANG as well?
-
-https://lore.kernel.org/20250411065054.GM9833@noisy.programming.kicks-ass.net/
-
->  	default KUNIT_ALL_TESTS
->  	help
->  	  Tests the longest symbol possible
-> diff --git a/lib/tests/longest_symbol_kunit.c b/lib/tests/longest_symbol_kunit.c
-> index e3c28ff1807f..b183fb92d1b2 100644
-> --- a/lib/tests/longest_symbol_kunit.c
-> +++ b/lib/tests/longest_symbol_kunit.c
-> @@ -3,8 +3,7 @@
->   * Test the longest symbol length. Execute with:
->   *  ./tools/testing/kunit/kunit.py run longest-symbol
->   *  --arch=x86_64 --kconfig_add CONFIG_KPROBES=y --kconfig_add CONFIG_MODULES=y
-> - *  --kconfig_add CONFIG_RETPOLINE=n --kconfig_add CONFIG_CFI_CLANG=n
-> - *  --kconfig_add CONFIG_MITIGATION_RETPOLINE=n
-> + *  --kconfig_add CONFIG_CPU_MITIGATIONS=n
->   */
->  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> Now, patch 3 is the one that may require more thinking.
 > 
-> base-commit: f1a3944c860b0615d0513110d8cf62bb94adbb41
-> -- 
-> 2.39.2
+> I agree with Andy that, when O=<dir> is used, nothing shall be
+> written to source dir.
 > 
+> There are a couple of reasons for that:
+> 
+> 1. source dir may be read only;
+> 2. one may want to do cross compilation and use multiple output
+>    directories, one for each version;
+> 3. the source dir could be mapped via NFS to multiple machines
+>    with different architectures.
+> 
+> For (3), it could mean that multiple machines may have different
+> Python versions, so, sharing the Python bytecode from source dir doesn't
+> sound a good idea. Also, I'm not sure if the pyc from different archs
+> would be identical.
+> 
+> With that, there are two options:
+> 
+> a. disable cache;
+> b. set PYTHONCACHEPREFIX.
+
+Thanks, Mauro, for replying. I'm with you on all of it.
+
+> We're currently doing (a). I guess everybody agrees that this is
+> is not ideal.
+
+Yes, I also prefer to have cache working if it's possible. The only BUT here is
+that users should not suffer from it.
+
+> So, ideally, we should move to (b). For Spinx, the easiest solution
+> is just to place it under Documentation/output, but this is not
+> generic enough: ideally, we should revert patch 3 and set
+> PYTHONCACHEPREFIX when O is used. Eventually, we can apply my
+> patch for Documentation/output, while we craft such logic.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
