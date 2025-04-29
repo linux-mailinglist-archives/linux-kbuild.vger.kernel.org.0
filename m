@@ -1,226 +1,201 @@
-Return-Path: <linux-kbuild+bounces-6776-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6777-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CF3AA0138
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 06:07:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B57DAA0726
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 11:28:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B93525A447D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 04:06:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1553F189C726
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 09:27:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FBFA274658;
-	Tue, 29 Apr 2025 04:06:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546642BE0FA;
+	Tue, 29 Apr 2025 09:25:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JE0vEjoK"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ANFeMDFn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86122741C2;
-	Tue, 29 Apr 2025 04:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202A62BD5BF
+	for <linux-kbuild@vger.kernel.org>; Tue, 29 Apr 2025 09:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745899578; cv=none; b=AD+WZrqWIz73bswLr1jw5ILxq1fqdXD4PSDDlTQ+cdNNNO2KEtv2Xu+Q8y+HNOfRLRt+VnXipYaVCPMjAfgzCUzqXY1IM/9QSnNkw2FfX1JFHcX44rdo+prluvbiG5C8cXyNJav1eeMAnJf9+6OCf/0pJjtEqBE0F1od613QzYg=
+	t=1745918753; cv=none; b=t8O3vp5z7lyD7J/gEowIH6CtlIg0KcuH1bJiD7aSQ0ZF1AvMqmHEQOoLhBcHeowmiOJnU9a2M33WelEcSKrkenf6vVniFbjsjP2xHiY8hADRQJxGudBbu7jYP9tcpdaGt1ZKo451e5XEUT+p7pHnPI7qopQQ3bEK5Lh6UYDA4O0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745899578; c=relaxed/simple;
-	bh=I3qZ450wr0Q9CAPbI9DMJdfFZ5c1+02YMYdsGYpKCO4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ue+oEsvHSxwCu+IKP/oQYK+5mqilH1/XxEaP84h++etsYrUvISPnq2RI9gTbvHqbc0ezLejkkeqvCLzp7IIhTzVfGZOYyNanSef6hUSCxkY3OL2RyXQQbJ+e0XETXy/HoZ0tPpJbMZtd/qu+2vzHCiQNRMOMgvyYRrIbm7s+jNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JE0vEjoK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 58FE1C4CEFF;
-	Tue, 29 Apr 2025 04:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745899577;
-	bh=I3qZ450wr0Q9CAPbI9DMJdfFZ5c1+02YMYdsGYpKCO4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=JE0vEjoKdI3aoLXySgz46sIqLxGHS10+ctvdryhzIzUS4HhXuF3Tl298hubpjKFM/
-	 w6TK/WAFgLyiSvmTT0C7btzFR8/sJwuEVJ7dvhLp/FopZjfp4F38JZxjFbjWToxx+2
-	 ZOs3hbeOeMzuD9W/l6w5BjAZ2TP8rnJk5mpj6qfsfebVTmp5WeguGbLar2dJg+54Ta
-	 BQeBNnkwOGxnWBYdRi+L77qoR8Ib+Sgt4uGR4FMtkCWkIFE7JcS9361sDdnaf8uzpI
-	 5PpYZSpLvvidhBYF+z1LHu2vN47VszMgmkxuY95ZwPxZ0LohS1hnrc8xtucx7pzmvs
-	 64lF44iLXmi+w==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C8CFC3ABA8;
-	Tue, 29 Apr 2025 04:06:17 +0000 (UTC)
-From: Chen Linxuan via B4 Relay <devnull+chenlinxuan.uniontech.com@kernel.org>
-Date: Tue, 29 Apr 2025 12:06:12 +0800
-Subject: [PATCH RFC v3 8/8] lib/Kconfig.debug: introduce
- CONFIG_NO_AUTO_INLINE
+	s=arc-20240116; t=1745918753; c=relaxed/simple;
+	bh=f7pDvu6ECsrsgKYQON9e4/9xdDrHgFQnB0lkO8B+Jvw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dIs8vCRhE5cZWQSsBjWKoWnMmW7JWkFEDdTFarxZC2A8cVQoRo5SlenK55wbKbARBbY5nDOQNxj/kXR+4417Hb5MgPgyMiXfvxYwBZSmr0pBIsmreNRH/osDj0CWMRJU3JAc8Ti0DSql3klEHJ9pfKVdmtLtA6wOIh9rv0IGcIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ANFeMDFn; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac2963dc379so842842166b.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Apr 2025 02:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1745918748; x=1746523548; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5ElOoSWZpM3ikc1lzKjU4ubLyP5Lg55VfCDoToohcAo=;
+        b=ANFeMDFnUZ9pZMC2WwJnUSeW+cB9AbQht4pnAUVrwa75Di0bV4qxEboKarEi3nng+/
+         0dhOhW/zE2BuMCAXXvli9vySzDLi1mxuhhTZK2dqDrSu6hP2ugWwJ69sOgTb44S3Iljs
+         lhKWVhKf2OAcbnBQiBVRU+kLfF+ke3FlG69HGQdVL3yzEBB1KPQWTUmBMhMuBXVMSysp
+         mOyE+XP2sQIgp0IhZvyIxGE8LAO6oarVdRbaU/mgv98EVPE84V4dbGMXqXjAO8al03J/
+         GWv0uCuFl9BSeoQv/FwveK3rZ1+0I1cGYEYiqf39KzC7h8qZfYoDTk3ij/r1Z6LzVEfi
+         Tcxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745918748; x=1746523548;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ElOoSWZpM3ikc1lzKjU4ubLyP5Lg55VfCDoToohcAo=;
+        b=BrrJHYnyQgelhkORSp3vv4Yrv+dvRW4Y21NMXxTO4EKQqrk4KvKAKI0S2pv0tGa+jA
+         SyzeZss8j6nfy0j9xClAjp3qQCelRg86r2RV7j/CaadEle/B/9X5hsNS4Dzylx5K87fX
+         xJYS+WMNQtZh3kxv49yAbncMqLngKyqtWIGstVRHrFIRpDDTkaubRDe5tLNw5C+BFbp/
+         lJmYjlgYYL4XNJIrdynKOD/Tt6oRipegCq/+Ar+rcV42ejEOev3ITQg70Iet0Tf13a9l
+         z4IlQNxUTK27KlzKReA94bWnYUfsZQz0w2fBXy4bj4NRZgHozJjJmwt5HIMzI757mwzM
+         3R+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWb/9Fub41iMjwgVbXls89M4DAZZP0g3gSX4NzaL1sar7a4vGayQMC8Tkdq5wGjviPlGnbk3h3h6TCImGU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6YWH81TFMkh2CcLQDYh+vFPo9WzDRT9JWHE6sP4qO/usuQunK
+	S9eGjSkn0BcyB216KU47lr9Qb31nbuJHJXka24EkJwxbXFRMGa6ZbOrdEJ6KzrU=
+X-Gm-Gg: ASbGncvEeIwExj09QwJVgA6Aa/VXxoXmN9Jhv7ryCKLq4orxec4gp9Vx7lIBD/5cSTJ
+	vXg+u+8vnQMzPOu4xFGtJkxdVK54BisDOnOHZqw0cbCVUaU7m5WHeZkuE8C1RxV+2hcmW9zMQDz
+	Vixe8PGMvAT8IFR0BkK7xFRhaNP/O2CsQEylN+PppThcGOUEbw2ekPDRcp3YofL1aPyReCqQCGA
+	jddE0u1VtRgUxm8eE79cJ1Y+zm68XTDh6K9km2BCJTl/qT3p/2Sj7mW+NXluFp6p9jrW7eke4h9
+	qsHoAQReEpKlYJq+GI6nty730/uLCjZYXmfRv2SdSrA=
+X-Google-Smtp-Source: AGHT+IFVTRdbb47gFd4dQ11iXGeiIng/kvnJTSM3K0lql6xfI+bbFj82/8CO5oL3FIVEmuzn0vU+WA==
+X-Received: by 2002:a17:907:3e05:b0:ace:8398:b772 with SMTP id a640c23a62f3a-ace848f183amr1218151666b.14.1745918748343;
+        Tue, 29 Apr 2025 02:25:48 -0700 (PDT)
+Received: from [10.100.51.48] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6e41bbc3sm752256966b.3.2025.04.29.02.25.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Apr 2025 02:25:47 -0700 (PDT)
+Message-ID: <cf3ff619-6177-42e1-8f64-74cf4cbb8672@suse.com>
+Date: Tue, 29 Apr 2025 11:25:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 5/7] modpost: Create modalias for builtin modules
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <cover.1745591072.git.legion@kernel.org>
+ <bb0d887760a474e5e7f9db0e9933eee81a5d9ea3.1745591072.git.legion@kernel.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <bb0d887760a474e5e7f9db0e9933eee81a5d9ea3.1745591072.git.legion@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-noautoinline-v3-8-4c49f28ea5b5@uniontech.com>
-References: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
-In-Reply-To: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
-To: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, 
- Kevin Tian <kevin.tian@intel.com>, 
- Alex Williamson <alex.williamson@redhat.com>, 
- Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
- Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Vlastimil Babka <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Peter Zijlstra <peterz@infradead.org>, 
- "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
- Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
- Juergen Gross <jgross@suse.com>, 
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, kvm@vger.kernel.org, virtualization@lists.linux.dev, 
- linux-integrity@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- llvm@lists.linux.dev, Winston Wen <wentao@uniontech.com>, 
- kasan-dev@googlegroups.com, xen-devel@lists.xenproject.org, 
- Chen Linxuan <chenlinxuan@uniontech.com>, 
- Changbin Du <changbin.du@intel.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4279;
- i=chenlinxuan@uniontech.com; h=from:subject:message-id;
- bh=Bd93x7WuEFeV0iOsS3dMjqDGQS+n9awf6aimsKD9UOk=;
- b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBoEFA1dN0rUHGv15CSgUAacYmKqLp9Xxxon6yon
- c7TiGmprM+JAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCaBBQNQAKCRB2HuYUOZmu
- i55nD/9Z3vTJGmV0EjUhmeI4qXKmcdAMAq1X/bMvCKKqJb8nDqxr3XzOsrgtlGbWtGbSRpAcMRC
- kIBZwz/EFrXdSky2mgTEfswE2JzuHKo+Mt434POfvbTmTZzfhinHk2rveNLn14K6QQxOZNTHzoq
- DY3XtiBsr5/6XiSk58sFs0UB2do+v1RDxbRgPVRbwakBRf2EpGtYK+ZkSVPourJzkqG7PrIvHKY
- FyKSLRcxh2ehQ+zdjfMyhxbXKMW3rLF6KyReLohSbuPnAZH9vBG07d85cT+hlqayZ2VFrTJWayX
- ogvHBmQbs0jd6kEOOcqxulI9+HLWeFHpLWXkscXCbtKYFnN3of88CFc5dM1NBfTsa2bE/5c69eS
- TXaS9CEvSaJLZP2bguKxeYXuKMcX7aCIEmkb5ywt+zXQ2sBHHXVo62B2vH+ZEPTvJ0JBvREoDHA
- Z07bh3e0yi+U/gCk96uDLgnOmSkQUjen6r/WDp03CqP8r46lIU2aWAN8mPN0/bL6Leb+yx3Y5Gf
- MfHerWdPEqYeBh6stf8GRI22HdoAjnaigM4iGlYaLrvgjiuVjR2tHFFGtnPEviP7O+74W7AnPTn
- n9vHmKNe5H9AurNLXL/K7j5eRYSPpaBVROMuUUngVLHw7qljfnSQMwRNYonB6pGCO3WTd5AnIHj
- tq2/DJ+5MgngDcg==
-X-Developer-Key: i=chenlinxuan@uniontech.com; a=openpgp;
- fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
-X-Endpoint-Received: by B4 Relay for chenlinxuan@uniontech.com/default with
- auth_id=380
-X-Original-From: Chen Linxuan <chenlinxuan@uniontech.com>
-Reply-To: chenlinxuan@uniontech.com
 
-From: Chen Linxuan <chenlinxuan@uniontech.com>
+On 4/26/25 18:16, Alexey Gladkov wrote:
+> For some modules, modalias is generated using the modpost utility and
+> the section is added to the module file.
+> 
+> When a module is added inside vmlinux, modpost does not generate
+> modalias for such modules and the information is lost.
+> 
+> As a result kmod (which uses modules.builtin.modinfo in userspace)
+> cannot determine that modalias is handled by a builtin kernel module.
+> 
+> $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
+> pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+> 
+> $ modinfo xhci_pci
+> name:           xhci_pci
+> filename:       (builtin)
+> license:        GPL
+> file:           drivers/usb/host/xhci-pci
+> description:    xHCI PCI Host Controller Driver
+> 
+> Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
+> modpost if the module is built separately.
+> 
+> To fix this it is necessary to generate the same modalias for vmlinux as
+> for the individual modules. Fortunately '.vmlinux.export.o' is already
+> generated from which '.modinfo' can be extracted in the same way as for
+> vmlinux.o.
+> 
+> Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> ---
+>  include/linux/module.h   |  4 ----
+>  scripts/mod/file2alias.c | 13 ++++++++++++-
+>  scripts/mod/modpost.c    | 21 ++++++++++++++++++---
+>  scripts/mod/modpost.h    |  7 ++++++-
+>  4 files changed, 36 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/module.h b/include/linux/module.h
+> index 7250b4a527ec..6225793ddcd4 100644
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -257,14 +257,10 @@ extern void cleanup_module(void);
+>  	__PASTE(type,			\
+>  	__PASTE(__, name)))))))
+>  
+> -#ifdef MODULE
+>  /* Creates an alias so file2alias.c can find device table. */
+>  #define MODULE_DEVICE_TABLE(type, name)			\
+>  extern typeof(name) __mod_device_table(type, name)	\
+>    __attribute__ ((unused, alias(__stringify(name))))
+> -#else  /* !MODULE */
+> -#define MODULE_DEVICE_TABLE(type, name)
+> -#endif
+>  
+>  /* Version of form [<epoch>:]<version>[-<extra-version>].
+>   * Or for CVS/RCS ID version, everything but the number is stripped.
+> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> index dff1799a4c79..0fa3f031b904 100644
+> --- a/scripts/mod/file2alias.c
+> +++ b/scripts/mod/file2alias.c
+> @@ -1471,7 +1471,8 @@ static const struct devtable devtable[] = {
+>  /* Create MODULE_ALIAS() statements.
+>   * At this time, we cannot write the actual output C source yet,
+>   * so we write into the mod->dev_table_buf buffer. */
+> -void handle_moddevtable(struct module *mod, struct elf_info *info,
+> +void handle_moddevtable(struct list_head *modules,
+> +			struct module *mod, struct elf_info *info,
+>  			Elf_Sym *sym, const char *symname)
+>  {
+>  	void *symval;
 
-Add a new kernel hacking option CONFIG_NO_AUTO_INLINE that prevents the
-compiler from auto-inlining functions not explicitly marked with the
-'inline' keyword.
+The new modules parameter is unused.
 
-This enhancement improves function tracer capabilities as it can only
-trace functions that haven't been inlined by the compiler.
+> @@ -1509,6 +1510,16 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+>  	typelen = name - type;
+>  	name += strlen("__");
+>  
+> +	if (mod->is_vmlinux) {
+> +		struct module *builtin_mod;
+> +
+> +		builtin_mod = new_module(modname, modnamelen);
+> +		builtin_mod->is_vmlinux = mod->is_vmlinux;
+> +		builtin_mod->dump_file = MODULE_BUILTIN_FNAME;
 
-Previous discussions:
+The module.dump_file member is described in scripts/mod/modpost.h as
+"path to the .symvers file if loaded from a file". However, that is not
+the case here.
 
-Link: https://lore.kernel.org/all/20181028130945.23581-3-changbin.du@gmail.com/
+Similarly, the module struct in scripts/mod/modpost.h is commented as
+"represent a module (vmlinux or *.ko)", but this patch expands its scope
+to also include builtin modules.
 
-This patch is modified from commit 917fad29febd ("kernel hacking: add a
-config option to disable compiler auto-inlining") which can be founded
-in linux-next-history:
+I'm not sure it's best to overload this data in this way. I think mixing
+actual files and "logical" modules in the modules list is somewhat
+confusing.
 
-Link: https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next-history.git/commit/?id=917fad29febd
-
-Cc: Changbin Du <changbin.du@gmail.com>
-Co-developed-by: Winston Wen <wentao@uniontech.com>
-Signed-off-by: Winston Wen <wentao@uniontech.com>
-Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
----
- Makefile          | 16 ++++++++++++++++
- lib/Kconfig.debug | 21 +++++++++++++++++++++
- lib/Makefile      |  3 +++
- 3 files changed, 40 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index 5aa9ee52a765b7aed27f44028cdcc34a90979acb..60dec6c123543150a3332a9a819fa6933e94db4f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1073,6 +1073,22 @@ endif
- # Ensure compilers do not transform certain loops into calls to wcslen()
- KBUILD_CFLAGS += -fno-builtin-wcslen
- 
-+ifdef CONFIG_NO_AUTO_INLINE
-+# -fno-inline-functions behaves differently between gcc and clang.
-+# With gcc, it prevents auto-inlining of functions but still considers functions
-+# explicitly marked with "inline" for inlining. However, with clang, the flag
-+# prevents inlining of all functions, including those explicitly marked with
-+# inline. Clang provides the "-finline-hint-functions" option, which
-+# specifically allows inlining of functions marked with "inline".
-+#
-+# In summary, to achieve equivalent behavior across compilers:
-+# -fno-inline-functions (gcc) = -fno-inline-functions + -finline-hint-functions (clang)
-+KBUILD_CFLAGS   += -fno-inline-functions \
-+		   $(call cc-option, -finline-hint-functions) \
-+		   $(call cc-option, -fno-inline-small-functions) \
-+		   $(call cc-option, -fno-inline-functions-called-once)
-+endif
-+
- # change __FILE__ to the relative path to the source directory
- ifdef building_out_of_srctree
- KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index f9051ab610d54358b21d61c141b737bb345b4cee..56530f0145c885e9846dae1d2f8c6125c610d25b 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -436,8 +436,29 @@ config GDB_SCRIPTS
- 	  instance. See Documentation/process/debugging/gdb-kernel-debugging.rst
- 	  for further details.
- 
-+
- endif # DEBUG_INFO
- 
-+config NO_AUTO_INLINE
-+	bool "Disable compiler auto-inline optimizations (EXPERIMENTAL)"
-+	default n
-+	help
-+	  This will prevent the compiler from optimizing the kernel by
-+	  auto-inlining functions not marked with the inline keyword.
-+	  With this option, only functions explicitly marked with
-+	  "inline" will be inlined. This will allow the function tracer
-+	  to trace more functions because it only traces functions that
-+	  the compiler has not inlined.
-+
-+	  Note that Clang with -O2 optimization does not fully support
-+	  disabling all inline-related optimizations,
-+	  as Clang does not support options like
-+	  -fno-inline-small-functions and -fno-inline-functions-called-once
-+	  that gcc does.
-+	  Some functions without the inline keyword may still be inlined.
-+
-+	  If unsure, select N.
-+
- config FRAME_WARN
- 	int "Warn for stack frames larger than"
- 	range 0 8192
-diff --git a/lib/Makefile b/lib/Makefile
-index f07b24ce1b3f8db28796e461db1324d97133fdd5..2ac97f0856a12f66e6c3825af6aabafa61869262 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -87,6 +87,9 @@ obj-$(CONFIG_TEST_BITMAP) += test_bitmap.o
- ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_KASAN),yy)
- # FIXME: Clang breaks test_bitmap_const_eval when KASAN and GCOV are enabled
- GCOV_PROFILE_test_bitmap.o := n
-+# FIXME:
-+# Clang breaks test_bitmap_const_eval when NO_AUTO_INLINE and KASAN are enabled
-+CFLAGS_test_bitmap.o += -finline-functions
- endif
- 
- obj-$(CONFIG_TEST_UUID) += test_uuid.o
+An alternative would be to keep a single module struct for vmlinux and
+record the discovered aliases under it?
 
 -- 
-2.43.0
-
-
+Thanks,
+Petr
 
