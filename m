@@ -1,537 +1,119 @@
-Return-Path: <linux-kbuild+bounces-6789-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6793-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E70AAA0CCF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 15:06:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE7BAA0D3E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 15:16:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F9144853DB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 13:06:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD5E0189A2DE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 13:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D8322D3A87;
-	Tue, 29 Apr 2025 13:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 693142C2AD2;
+	Tue, 29 Apr 2025 13:11:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UOiQVgPr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gb6Xbg6o"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75E42D29A7;
-	Tue, 29 Apr 2025 13:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2888BEE;
+	Tue, 29 Apr 2025 13:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745931891; cv=none; b=UXai3DBTUzRf1wYt4rFGYHAMudaT8AVFslwLvp9LXsaQJ66G0SCGk0NoSwFi8lHzIBjuh67CLSlUIAmH7r5r3clpJmzwoUrFebAZdHFfe5+ny4d/d0IO4AlUoIlIWgpc6Fg7c97P+WlQSNnIBGg5BwXbQ0lSiJAG0cZKLDMys60=
+	t=1745932318; cv=none; b=iHuagFis7/4LOAgvosc4MWedEB0PjAFsAwqN5gAQaDlrS361EK0/SVJ0MgLEQwcMNon2aQ1fVkIF5DMPT53U/UlB+SZGpB/X0BZjjj38zX6PgdjVIzbtWF+3rrdWfSioEkXqpf0PQSr+vQZYNaWJNkK+c1xXis5JCbEb74qrxH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745931891; c=relaxed/simple;
-	bh=l2dt6UnEWldajLPbUgoG/aPR9rbJ2ThISvj2I7Wsi9Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TTmOl9Fbyzyhwa70OJuYSqvTjYY5aZRGUavKs0eCMxM5oYngukD3Pvng2koemgp72AnFSCdysdhMnCeJrQG9O6LC/mPS+4GAdNhqoDKOmE0EvHr/WbBlGBSiafB/TRLjlKgoH2UAOq4a11XWDXwAvpcMkWy76aDqrVpCINHwNlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UOiQVgPr; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1745931875;
-	bh=l2dt6UnEWldajLPbUgoG/aPR9rbJ2ThISvj2I7Wsi9Q=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UOiQVgPrIT3u4dsR01kf0pJC1XJC8mkPAcB0nLMFFlQTFZaxKHaR6KRMHUV8FyTIV
-	 M+jO1PRuMis+9kGlkSwDkVCEgKF3FQh2k1gklniv90JPfuLY9KbveiMXd3JcEEgw6W
-	 GxByvlLKPVIoA9Lgd4ikGVnue3WPZtbbKB/1E/S0=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 29 Apr 2025 15:04:36 +0200
-Subject: [PATCH v3 9/9] module: Introduce hash-based integrity checking
+	s=arc-20240116; t=1745932318; c=relaxed/simple;
+	bh=W0nWnrPzLDrG8cZECSn+fC2yohEG2rWvuQPpI5s95bU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D7pVcvrCO6NSodNtp+1F+eByJpOnmFpoEAaYxFxtybN2XpMnYM4x4r2y58U4de48Kv422OTHNJrf9nQ6ttZivr37qrUi5KhpvYTJveNkRt01k6R4bMK2Q+cRwos/JajvQbEMpJ0rxl1Nngj/7hDMMKfxbf/zbSi0RuHfLgR20kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gb6Xbg6o; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3032a9c7cfeso613827a91.1;
+        Tue, 29 Apr 2025 06:11:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745932316; x=1746537116; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=umQgHyre2tiOiZl8qW8J0femlvihd42d02KPN7CGp1E=;
+        b=Gb6Xbg6oL5Ck9/UvVkktgRWBugPcvT4830mtILZwjbjWQnCHDxD+mAwRTQwaxIt5Co
+         5652ejlZgSskJ/eguSU9CR9DAUEgdflpnT9YwmHR7B5mAFdTwc9GMulwOFBD0sEvq/hL
+         ivJHP6rplShA8P3jACZtJLZOY2ZKBbxNZ/ZF0WtBooUHir0sY/xh5bhbYbb9WM+Qyob/
+         4RmWVXhcWa/FpeKi1T7H8oFWV912DQwCHN3eXB6n4ls/GlliGo95dIcUuHc1K14w+05w
+         7TA5z9USuuQX2+UHMuxER1/Z6YLMIiOIfJK39+ad4J7nj2EvTh9mJXt+G/om/vzgQyrN
+         C4iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745932316; x=1746537116;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=umQgHyre2tiOiZl8qW8J0femlvihd42d02KPN7CGp1E=;
+        b=Wsb52JLBaQ3a+2xPKjZvReHyK1VxWm6zbwNDDawI4t0uqgsx/3ObwYlrm0aqeAsokx
+         aDOv03dZdWu23IYUx/9HLmuEf+iuRvTNK4u3fLvY13my1XtukkXCJy/SmllufoHK5kir
+         RGoG2ROKuPqcbsedV0pjHqfdJ8QEZZPPLjOJJLLfqeAugYLfeekRxS+xP5MpNVNYp1W8
+         kuClh72UN8D86OLREYpno2tMep387pOmwNE4x1ZGFoDhbwaEqmj0xJ7xbl1zoMeAaqvT
+         BbMtgra85ThkqG0mQrzL5TQ3KSdHOJqs0hwPQZi/iO5kqe/v/Rf19krXq/eWGosA7yDt
+         Su6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUICkUWij+uVXGly4SGL+tp91fT4nP9hYJufYNhn4o5N5L71ALSvGtiSRBoaVE4rIkgxKpUHfnUNvl5+0oDtjQ=@vger.kernel.org, AJvYcCVbiI9W1wb9IvpOrhdYrT7M6pFWqsPH0xMNt+i2LUyR7yyj0iNkxS/se0OX8jSEzBo0fq+8bKupegPO7HRb@vger.kernel.org, AJvYcCW5TlQSVeu5GSMaOpE+S1Sy3ZfUnp9lczM29bDXThbLhxKv9QHlUGckoZ7bbklL+/drDGR8VX4FtwGXv5nNlDg=@vger.kernel.org, AJvYcCW9UbcE6lYmhFPHNo3FCfRnMQfuRk97214geVi/uho2/+uKuU93yKM6HqdIbEdjA3t8JQfyr0GpOYi11kFW@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzvzq9VAQQyoC8sI+cVpztGn7Xft0U0oOl292LPMNEUFCzOeRp4
+	HCTG8ZmQ+6/9jH9eCk4KslBEW1IUqxgcukobLAPkF6A8lRZKUsgcw0anbo5+9LKHIMC7IO8gMfG
+	6dlPgExbSnlOzuYiWQkIW/w94yc0=
+X-Gm-Gg: ASbGnctissz95ftZMhJ0LtyR1iw/kJOWytnEpxh5SqXUsXD1KljQ3MclIXhCmFYIHTM
+	cTRDGiAYufyd976tJVXnzxoaDQr7rEXEr5gUHnfzbB1oT+ldVX137Td3Ajq6oEgQZ/aWmiGMkFq
+	5ldKYnCBczCvAl3/RAx0rnyXhybD/ngAY4
+X-Google-Smtp-Source: AGHT+IFvNh6FYW0Q6QQ2aHh2nvJkzrPHR2X/BnAtoaKgSyWdJLiF6HNVtbUTddRoJR2HgdrhRcU1oXuddB3KnCzYJyM=
+X-Received: by 2002:a17:90b:38c9:b0:2ff:4be6:c5bd with SMTP id
+ 98e67ed59e1d1-309f7ec76f5mr8492166a91.8.1745932315976; Tue, 29 Apr 2025
+ 06:11:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250429-module-hashes-v3-9-00e9258def9e@weissschuh.net>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
-In-Reply-To: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Sami Tolvanen <samitolvanen@google.com>, 
- Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
- Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Nicolas Schier <nicolas.schier@linux.dev>
-Cc: =?utf-8?q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
- kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>, 
- =?utf-8?q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745931873; l=16340;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=l2dt6UnEWldajLPbUgoG/aPR9rbJ2ThISvj2I7Wsi9Q=;
- b=G6+C/ycUNVhyZQ01uIVjVykLd1AbePRl3V0+iox5JkKzd6+0VbbkDBFh0cPRoA7/9PVHLetGe
- OPNJKEtREraC0wuMXMEAoiPO6cHePh+1QloP9z1JuYsx26EeVxXPLFz
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+References: <20250429-rebuild-on-randstruct-seed-changes-v1-1-16a74fe65538@avm.de>
+In-Reply-To: <20250429-rebuild-on-randstruct-seed-changes-v1-1-16a74fe65538@avm.de>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 29 Apr 2025 15:11:43 +0200
+X-Gm-Features: ATxdqUFAsiIlFf1IXb2fAukN7QwlMmMJqoiiI4yhCrjomEu6uiKCMCJAawHA7GY
+Message-ID: <CANiq72mwYbg_L8u9NEfRD0Fp9E_zhCi=t=U2jyjsZe_Ls306hw@mail.gmail.com>
+Subject: Re: [PATCH] randstruct: Rebuild completely if randstruct.seed changes
+To: Nicolas Schier <n.schier@avm.de>
+Cc: Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The current signature-based module integrity checking has some drawbacks
-in combination with reproducible builds:
-Either the module signing key is generated at build time, which makes
-the build unreproducible, or a static key is used, which precludes
-rebuilds by third parties and makes the whole build and packaging
-process much more complicated.
-Introduce a new mechanism to ensure only well-known modules are loaded
-by embedding a list of hashes of all modules built as part of the full
-kernel build into vmlinux.
+On Tue, Apr 29, 2025 at 2:59=E2=80=AFPM Nicolas Schier <n.schier@avm.de> wr=
+ote:
+>
+> As I have no rust experience at all, yet: Do we have to consider
+> something for rust?
 
-Non-builtin modules can be validated as before through signatures.
+It cannot be enabled yet together with Rust, so no worries, but I need
+to remember to update this patch:
 
-Normally the .ko module files depend on a fully built vmlinux to be
-available for modpost validation and BTF generation.
-With CONFIG_MODULE_HASHES, vmlinux now depends on the modules
-to embed their hashes.
-This introduces a dependency cycle which does not work.
-Work around this by building the modules during link-vmlinux.sh,
-after vmlinux is complete enough for modpost and BTF but before the
-final module hashes are added to vmlinux.
+    https://lore.kernel.org/rust-for-linux/20241119185747.862544-1-ojeda@ke=
+rnel.org/
 
-This mechanism increases the size of vmlinux by 32 bytes,
-one sha256 digest, per module.
-On a general-purpose distro kernel with ~6k modules this means a total
-increase of memory usage of ~200KiB.
+So I will reply there with a backlink to this.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- .gitignore                                   |  1 +
- Documentation/kbuild/reproducible-builds.rst |  5 ++-
- Makefile                                     |  8 +++-
- include/asm-generic/vmlinux.lds.h            | 11 ++++++
- include/linux/module_hashes.h                | 17 +++++++++
- kernel/module/Kconfig                        | 17 ++++++++-
- kernel/module/Makefile                       |  1 +
- kernel/module/hashes.c                       | 56 ++++++++++++++++++++++++++++
- kernel/module/internal.h                     |  1 +
- kernel/module/main.c                         |  5 ++-
- scripts/Makefile.modfinal                    |  6 +++
- scripts/Makefile.modinst                     |  4 ++
- scripts/Makefile.vmlinux                     |  5 +++
- scripts/link-vmlinux.sh                      | 25 ++++++++++++-
- scripts/module-hashes.sh                     | 26 +++++++++++++
- security/lockdown/Kconfig                    |  2 +-
- 16 files changed, 184 insertions(+), 6 deletions(-)
+I guess since we need to rebuild even `core`, I may need to add
+something like the `fixdep` workaround we have to rebuild on
+`RUSTC_VERSION_TEXT` changes.
 
-diff --git a/.gitignore b/.gitignore
-index f2f63e47fb88686d5d5ab17d480c9301184134a9..ed55ce77be64a9769da7cc103ef56039648b8759 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -29,6 +29,7 @@
- *.gz
- *.i
- *.ko
-+*.ko.hash
- *.lex.c
- *.ll
- *.lst
-diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-index a7762486c93fcd3eba08b836bed622a41e829e41..013265e9766c88e04fc775bbbb6d3de90c7346e4 100644
---- a/Documentation/kbuild/reproducible-builds.rst
-+++ b/Documentation/kbuild/reproducible-builds.rst
-@@ -64,7 +64,10 @@ generate a different temporary key for each build, resulting in the
- modules being unreproducible.  However, including a signing key with
- your source would presumably defeat the purpose of signing modules.
- 
--One approach to this is to divide up the build process so that the
-+Instead ``CONFIG_MODULE_HASHES`` can be used to embed a static list
-+of valid modules to load.
-+
-+Another approach to this is to divide up the build process so that the
- unreproducible parts can be treated as sources:
- 
- 1. Generate a persistent signing key.  Add the certificate for the key
-diff --git a/Makefile b/Makefile
-index 38689a0c36052b4ea6541bff8b36048e9689578a..1d04a584d6993a33f7ceefa1bb52727919bb83d0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1551,8 +1551,10 @@ endif
- # is an exception.
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- KBUILD_BUILTIN := 1
-+ifndef CONFIG_MODULE_HASHES
- modules: vmlinux
- endif
-+endif
- 
- modules: modules_prepare
- 
-@@ -1933,7 +1935,11 @@ modules.order: $(build-dir)
- # KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
- # This is solely useful to speed up test compiles.
- modules: modpost
--ifneq ($(KBUILD_MODPOST_NOFINAL),1)
-+ifdef CONFIG_MODULE_HASHES
-+ifeq ($(MODULE_HASHES_MODPOST_FINAL), 1)
-+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
-+endif
-+else ifneq ($(KBUILD_MODPOST_NOFINAL),1)
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
- endif
- 
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index 58a635a6d5bdf0c53c267c2a3d21a5ed8678ce73..b45b2950c443a62f6086ed209851421c511e078b 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -490,6 +490,8 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- 									\
- 	PRINTK_INDEX							\
- 									\
-+	MODULE_HASHES							\
-+									\
- 	/* Kernel symbol table: Normal symbols */			\
- 	__ksymtab         : AT(ADDR(__ksymtab) - LOAD_OFFSET) {		\
- 		__start___ksymtab = .;					\
-@@ -899,6 +901,15 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- #define PRINTK_INDEX
- #endif
- 
-+#ifdef CONFIG_MODULE_HASHES
-+#define MODULE_HASHES							\
-+	.module_hashes : AT(ADDR(.module_hashes) - LOAD_OFFSET) {	\
-+	BOUNDED_SECTION_BY(.module_hashes, _module_hashes)		\
-+	}
-+#else
-+#define MODULE_HASHES
-+#endif
-+
- /*
-  * Discard .note.GNU-stack, which is emitted as PROGBITS by the compiler.
-  * Otherwise, the type of .notes section would become PROGBITS instead of NOTES.
-diff --git a/include/linux/module_hashes.h b/include/linux/module_hashes.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..5f2f0546e3875e6bc73bdd53aebaada7371b7f79
---- /dev/null
-+++ b/include/linux/module_hashes.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+
-+#ifndef _LINUX_MODULE_HASHES_H
-+#define _LINUX_MODULE_HASHES_H
-+
-+#include <linux/compiler_attributes.h>
-+#include <linux/types.h>
-+#include <crypto/sha2.h>
-+
-+#define __module_hashes_section __section(".module_hashes")
-+#define MODULE_HASHES_HASH_SIZE SHA256_DIGEST_SIZE
-+
-+extern const u8 module_hashes[][MODULE_HASHES_HASH_SIZE];
-+
-+extern const typeof(module_hashes[0]) __start_module_hashes, __stop_module_hashes;
-+
-+#endif /* _LINUX_MODULE_HASHES_H */
-diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-index a3146e9378fcd3292a756a2a7ea5241524cbc408..54702f24ace4cbd18ffaa6cf7fdb2936ebe8505d 100644
---- a/kernel/module/Kconfig
-+++ b/kernel/module/Kconfig
-@@ -267,7 +267,7 @@ config MODULE_SIG
- 
- config MODULE_SIG_POLICY
- 	def_bool y
--	depends on MODULE_SIG
-+	depends on MODULE_SIG || MODULE_HASHES
- 
- config MODULE_SIG_FORCE
- 	bool "Require modules to be validly signed"
-@@ -404,6 +404,21 @@ config MODULE_DECOMPRESS
- 
- 	  If unsure, say N.
- 
-+config MODULE_HASHES
-+	bool "Module hash validation"
-+	depends on $(success,openssl dgst -sha256 -binary /dev/null)
-+	select CRYPTO_LIB_SHA256
-+	help
-+	  Validate modules by their hashes.
-+	  Only modules built together with the main kernel image can be
-+	  validated that way.
-+
-+	  This is a reproducible-build compatible alternative to a build-time
-+	  generated module keyring, as enabled by
-+	  CONFIG_MODULE_SIG_KEY=certs/signing_key.pem.
-+
-+	  Also see the warning in MODULE_SIG about stripping modules.
-+
- config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
- 	bool "Allow loading of modules with missing namespace imports"
- 	help
-diff --git a/kernel/module/Makefile b/kernel/module/Makefile
-index d9e8759a7b05c2d716ab258ae3b55591f869cd52..b3c0bb7d327806726ab8a23d791513e1a0f92706 100644
---- a/kernel/module/Makefile
-+++ b/kernel/module/Makefile
-@@ -25,3 +25,4 @@ obj-$(CONFIG_KGDB_KDB) += kdb.o
- obj-$(CONFIG_MODVERSIONS) += version.o
- obj-$(CONFIG_MODULE_UNLOAD_TAINT_TRACKING) += tracking.o
- obj-$(CONFIG_MODULE_STATS) += stats.o
-+obj-$(CONFIG_MODULE_HASHES) += hashes.o
-diff --git a/kernel/module/hashes.c b/kernel/module/hashes.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..67481b1bb24eb61d364e802d2ab019a9b7f07348
---- /dev/null
-+++ b/kernel/module/hashes.c
-@@ -0,0 +1,56 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/* Module hash-based integrity checker
-+ *
-+ * Copyright (C) 2025 Thomas Weißschuh <linux@weissschuh.net>
-+ */
-+
-+#define pr_fmt(fmt) "module/hash: " fmt
-+
-+#include <linux/int_log.h>
-+#include <linux/module_hashes.h>
-+#include <linux/module.h>
-+#include <crypto/sha2.h>
-+#include "internal.h"
-+
-+static inline size_t module_hashes_count(void)
-+{
-+	return (__stop_module_hashes - __start_module_hashes) / MODULE_HASHES_HASH_SIZE;
-+}
-+
-+static __init __maybe_unused int module_hashes_init(void)
-+{
-+	size_t num_hashes = module_hashes_count();
-+	int num_width = num_hashes ? (intlog10(num_hashes) >> 24) + 1 : 0;
-+	size_t i;
-+
-+	pr_debug("Known hashes (%zu):\n", num_hashes);
-+
-+	for (i = 0; i < num_hashes; i++)
-+		pr_debug("%*zu %*phN\n", num_width, i,
-+			 (int)sizeof(module_hashes[i]), module_hashes[i]);
-+
-+	return 0;
-+}
-+
-+#if IS_ENABLED(CONFIG_MODULE_DEBUG)
-+early_initcall(module_hashes_init);
-+#endif
-+
-+int module_hash_check(struct load_info *info, int flags)
-+{
-+	u8 digest[MODULE_HASHES_HASH_SIZE];
-+	size_t i;
-+
-+	sha256((const u8 *)info->hdr, info->len, digest);
-+
-+	for (i = 0; i < module_hashes_count(); i++) {
-+		if (memcmp(module_hashes[i], digest, MODULE_HASHES_HASH_SIZE) == 0) {
-+			pr_debug("allow %*phN\n", (int)sizeof(digest), digest);
-+			info->sig_ok = true;
-+			return 0;
-+		}
-+	}
-+
-+	pr_debug("block %*phN\n", (int)sizeof(digest), digest);
-+	return -ENOKEY;
-+}
-diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-index 42fbc53c6af66a1b531fcad08997742d838eb481..f0ecf7761760cc01e8ec42cde1b5d491be0ee4e3 100644
---- a/kernel/module/internal.h
-+++ b/kernel/module/internal.h
-@@ -326,6 +326,7 @@ int module_enforce_rwx_sections(Elf_Ehdr *hdr, Elf_Shdr *sechdrs,
- 				char *secstrings, struct module *mod);
- 
- int module_sig_check(struct load_info *info, int flags);
-+int module_hash_check(struct load_info *info, int flags);
- 
- #ifdef CONFIG_DEBUG_KMEMLEAK
- void kmemleak_load_module(const struct module *mod, const struct load_info *info);
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 1c353ece05fd1d2d709204e4d5fa44ecb8832bfa..0daf19b494d3748a6156d0cb4c8eccfcff9154da 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -3251,7 +3251,10 @@ static int module_integrity_check(struct load_info *info, int flags)
- {
- 	int err = 0;
- 
--	if (IS_ENABLED(CONFIG_MODULE_SIG))
-+	if (IS_ENABLED(CONFIG_MODULE_HASHES))
-+		err = module_hash_check(info, flags);
-+
-+	if (!info->sig_ok && IS_ENABLED(CONFIG_MODULE_SIG))
- 		err = module_sig_check(info, flags);
- 
- 	if (err)
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 527f6b27baff9db94d31c15447de445a05bc0634..cf915acba7ce457f4188415c1d8924922fcc3393 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -43,6 +43,9 @@ quiet_cmd_btf_ko = BTF [M] $@
- 		$(RESOLVE_BTFIDS) -b $(objtree)/vmlinux.unstripped $@;		\
- 	fi;
- 
-+quiet_cmd_cksum_ko =
-+      cmd_cksum_ko = openssl dgst -sha256 -binary $@ > $@.hash
-+
- # Same as newer-prereqs, but allows to exclude specified extra dependencies
- newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
- 
-@@ -57,6 +60,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- endif
-+ifdef CONFIG_MODULE_HASHES
-+	$(call cmd,cksum_ko)
-+endif
- 
- targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) .module-common.o
- 
-diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-index 1628198f3e8309845adb48d5dbf66b700f9b6ebb..b2e207bacbac9437955d361cab91acdafaf8295f 100644
---- a/scripts/Makefile.modinst
-+++ b/scripts/Makefile.modinst
-@@ -79,6 +79,10 @@ quiet_cmd_install = INSTALL $@
- # as the options to the strip command.
- ifdef INSTALL_MOD_STRIP
- 
-+ifdef CONFIG_MODULE_HASHES
-+$(error CONFIG_MODULE_HASHES and INSTALL_MOD_STRIP are mutually exclusive)
-+endif
-+
- ifeq ($(INSTALL_MOD_STRIP),1)
- strip-option := --strip-debug
- else
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index b0a6cd5b818c9fe19d20f5ddf4908eb14b888ea9..0024a0de1f325daa21170b68a017ebb35b2a630a 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -97,6 +97,11 @@ ifdef CONFIG_BUILDTIME_TABLE_SORT
- vmlinux: scripts/sorttable
- endif
- 
-+ifdef CONFIG_MODULE_HASHES
-+vmlinux: $(srctree)/scripts/module-hashes.sh
-+vmlinux: modules.order
-+endif
-+
- # module.builtin.ranges
- # ---------------------------------------------------------------------------
- ifdef CONFIG_BUILTIN_MODULE_RANGES
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 5f060787ce3fbcbcfdca0c95789d619e2a1c7b72..e60762f2a1655cb0acabd8fd7d5299ad5389796d 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -105,7 +105,7 @@ vmlinux_link()
- 	${ld} ${ldflags} -o ${output}					\
- 		${wl}--whole-archive ${objs} ${wl}--no-whole-archive	\
- 		${wl}--start-group ${libs} ${wl}--end-group		\
--		${kallsymso} ${btf_vmlinux_bin_o} ${arch_vmlinux_o} ${ldlibs}
-+		${kallsymso} ${btf_vmlinux_bin_o} ${module_hashes_o} ${arch_vmlinux_o} ${ldlibs}
- }
- 
- # generate .BTF typeinfo from DWARF debuginfo
-@@ -214,6 +214,7 @@ fi
- 
- btf_vmlinux_bin_o=
- kallsymso=
-+module_hashes_o=
- strip_debug=
- generate_map=
- 
-@@ -222,6 +223,17 @@ if is_enabled CONFIG_KALLSYMS; then
- 	kallsyms .tmp_vmlinux0.syms .tmp_vmlinux0.kallsyms
- fi
- 
-+if is_enabled CONFIG_MODULE_HASHES; then
-+	# At this point the hashes are still wrong.
-+	# This step reserves the exact amount of space for the objcopy step
-+	# after BTF generation.
-+	${srctree}/scripts/module-hashes.sh prealloc > .tmp_module_hashes.c
-+	module_hashes_o=.tmp_module_hashes.o
-+	info CC ${module_hashes_o}
-+	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} ${KBUILD_CFLAGS} \
-+		${KBUILD_CFLAGS_KERNEL} -c -o "${module_hashes_o}" ".tmp_module_hashes.c"
-+fi
-+
- if is_enabled CONFIG_KALLSYMS || is_enabled CONFIG_DEBUG_INFO_BTF; then
- 
- 	# The kallsyms linking does not need debug symbols, but the BTF does.
-@@ -310,6 +322,17 @@ if is_enabled CONFIG_BUILDTIME_TABLE_SORT; then
- 	fi
- fi
- 
-+if is_enabled CONFIG_MODULE_HASHES; then
-+	info MAKE modules
-+	${MAKE} -f Makefile MODULE_HASHES_MODPOST_FINAL=1 modules
-+	${srctree}/scripts/module-hashes.sh > .tmp_module_hashes.c
-+	info CC ${module_hashes_o}
-+	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} ${KBUILD_CFLAGS} \
-+		${KBUILD_CFLAGS_KERNEL} -fno-lto -c -o "${module_hashes_o}" ".tmp_module_hashes.c"
-+	${OBJCOPY} --dump-section .module_hashes=.tmp_module_hashes.bin ${module_hashes_o}
-+	${OBJCOPY} --update-section .module_hashes=.tmp_module_hashes.bin ${VMLINUX}
-+fi
-+
- # step a (see comment above)
- if is_enabled CONFIG_KALLSYMS; then
- 	if ! cmp -s System.map "${kallsyms_sysmap}"; then
-diff --git a/scripts/module-hashes.sh b/scripts/module-hashes.sh
-new file mode 100755
-index 0000000000000000000000000000000000000000..120ce924105c51cdd7a704cbec7e5fa356f9ce1a
---- /dev/null
-+++ b/scripts/module-hashes.sh
-@@ -0,0 +1,26 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+set -e
-+set -u
-+set -o pipefail
-+
-+prealloc="${1:-}"
-+
-+echo "#include <linux/module_hashes.h>"
-+echo
-+echo "const u8 module_hashes[][MODULE_HASHES_HASH_SIZE] __module_hashes_section = {"
-+
-+for mod in $(< modules.order); do
-+	mod="${mod/%.o/.ko}"
-+	if [ "$prealloc" = "prealloc" ]; then
-+		modhash=""
-+	else
-+		modhash="$(cat "$mod".hash | hexdump -v -e '"0x" 1/1 "%02x, "')"
-+	fi
-+	echo -e "\t/* $mod */"
-+	echo -e "\t{ $modhash},"
-+	echo
-+done
-+
-+echo "};"
-diff --git a/security/lockdown/Kconfig b/security/lockdown/Kconfig
-index 155959205b8eac2c85897a8c4c8b7ec471156706..60b240e3ef1f9609e3f3241befc0bbc7e4a3db74 100644
---- a/security/lockdown/Kconfig
-+++ b/security/lockdown/Kconfig
-@@ -1,7 +1,7 @@
- config SECURITY_LOCKDOWN_LSM
- 	bool "Basic module for enforcing kernel lockdown"
- 	depends on SECURITY
--	depends on !MODULES || MODULE_SIG
-+	depends on !MODULES || MODULE_SIG || MODULE_HASHES
- 	help
- 	  Build support for an LSM that enforces a coarse kernel lockdown
- 	  behaviour.
+Thanks!
 
--- 
-2.49.0
-
+Cheers,
+Miguel
 
