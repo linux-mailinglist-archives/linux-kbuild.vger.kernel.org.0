@@ -1,126 +1,281 @@
-Return-Path: <linux-kbuild+bounces-6794-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6795-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7862AA0E1D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 16:05:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A473FAA0E89
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 16:17:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2547B46111B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 14:05:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3A911BA0743
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Apr 2025 14:15:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BACF12D29BE;
-	Tue, 29 Apr 2025 14:05:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5941C212B28;
+	Tue, 29 Apr 2025 14:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="JHCPk2oH"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="g45me7DC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5697121ABA0;
-	Tue, 29 Apr 2025 14:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD8F3987D
+	for <linux-kbuild@vger.kernel.org>; Tue, 29 Apr 2025 14:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745935510; cv=none; b=IM8QhNwl/SimV6AK7x0VE3IVfITvrDlXiQE9X3FI32ftRw30GvSjdlVvClQYhc7Gqn6rpV/MdMIR8SN3BVml4Vz8QEznF+c8jbt1aZne0+gPvKeNk39kIVB+pf09oOUxYEJCyIorb3Vgu69nF/Am8NqU/OTSEtuOwCCYQtEdV08=
+	t=1745936060; cv=none; b=X0XBv0E1EAFbDL8at5O6PpUMqIt8EjduZknvf4zKvZkMu7HSE1MMaNKpH3X87vv8cpqsNPZNMWQ/c7yh7xokSb1M9pueX0gkYef3z8IJ7yypo1/151H0iDFBwrOD7OH6Wu47K5s0dcWkO/+fYoVWXf3Wy9+7ECus52tHUB97snE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745935510; c=relaxed/simple;
-	bh=nzXiUfNZMmuLbqaCBNtnPA60Q8Kh3P+3Zgi8Zh5FvE8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=upDon51rjGjVZej1xusORAAdLOukvIEt6zT6jd3qrPtPCRzqdJQWl0R5X7jsgfhDBU+rJMTxffU673dqW36ZLuEh06KrYzVc8stXGjivF654vayDYyscfmn64+M+L/0cooBVMQUzbkH2SW0qRxh66QAtNgUxz6z7WjvOO/OP8eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=JHCPk2oH; arc=none smtp.client-ip=198.37.111.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1745935506;
-	bh=nzXiUfNZMmuLbqaCBNtnPA60Q8Kh3P+3Zgi8Zh5FvE8=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=JHCPk2oHNSuxitTC8kG8+f2JSfu09D+pX/q7wYwQNJbVy/4Bwu1VZkW2lcGWtF4Lq
-	 z023DrOzty7Po/ME4rbwXFQKUkrj9tKTiMc7o5xrkT/K2HtfMWdzj//Qik5BMJXAUv
-	 Dvk29zJ6x+YihGqii15CGeWQUVLiB3RQ/2YhaJro=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id AC72D1C0353;
-	Tue, 29 Apr 2025 10:05:05 -0400 (EDT)
-Message-ID: <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
-Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, Masahiro
- Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu
- <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, Daniel
- Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, James
- Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jonathan
- Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao
- <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
- <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier
- <nicolas.schier@linux.dev>
-Cc: Fabian =?ISO-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>, 
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
- kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>, 
- =?ISO-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Date: Tue, 29 Apr 2025 10:05:04 -0400
-In-Reply-To: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
-Autocrypt: addr=James.Bottomley@HansenPartnership.com;
- prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	s=arc-20240116; t=1745936060; c=relaxed/simple;
+	bh=/Bic5tMQbn4e9l13Gx+2H4VKZnvHe4be2dvQJf6n6vc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fAQz8eF++TMMr7eijHGQ2DOtc7ZVFZjTvcKvqNAO01WqouzfML8O1hBugnXtgs16cr3AakidK5QAF46CpSGkSPYO5QJ87MY1JvXNidEndJ2q9V9tGMlMWcAnB9C7cUCQldaNtuG+OwNoodUFzN+AgZofhroK6PbpzVhhJ7/p/0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=g45me7DC; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac34257295dso1030585666b.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Apr 2025 07:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1745936055; x=1746540855; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QU733MoFmkvJlcQMMp1av039eQ89ojsIQoVLgnbBgjE=;
+        b=g45me7DCtmyhpCozfisO74fstponHUSjvYPtdw9SohFiaGmk6Mt3KuE+201uVYEsrm
+         dihDcB5uhwkSZVpx+6ZPg/wyW4KvFGwdedFWfgNJoE3Ma3CfIZ9kkxfjkMLnjY+SMQQ0
+         jUJkUsxNbx+f6lv8hExnyYnLhY1i830kRya2nSuKevZ5EnFupA5fXiMglpjuwed1WxyZ
+         cFYOd0fXTcLGBwhnoqGUbJN8eal0/8Ay9n1tpq+qdOuyE/8V1VFciAoSUWBwY2tJ/HI2
+         U5KL/GsfS14VvxOV9tae/tmBGQFk+B6KnhBwOqzmyQROItxC/8Zbqi2GaLO7N26dFGkg
+         uHpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745936055; x=1746540855;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QU733MoFmkvJlcQMMp1av039eQ89ojsIQoVLgnbBgjE=;
+        b=QlwJbbFbXU8up26lfey+Pw4FJkgUKZ03scYFl5jp1zf54nsp+lj14+vBTTXWkvuJYF
+         K12hd//ttF8HXyZA+CyoILrz7VdHc1mzzcGbqG27Rf4a99aXtxLExXUiLXyK7Y/rSjAd
+         3zgkWDsPa9ulGYEBpu+jNDDy9/hU9K3Rcd2PZEFLmW7ghuCtNwrXG5IUZfc4JpFjgf/l
+         FjIMmD/uy2VBXvMGI889h7O+XdFXZqnBSeMFtqq3uWDwUY/KH7hkqe50GigOj83M00wH
+         C6P29oBDRMBKZ6U/GDZaNbAPCG3f/5jzst7GlaEapAiRNMk9LZ+IsR7v+WUDGA6k1AIn
+         lU5w==
+X-Forwarded-Encrypted: i=1; AJvYcCUENbS19hbQ+uymYM1J/H5CM4g8P+yZQc/ZWMTyVheBZKx0A8CE8VjTHq6udC+Qc+hOt5Je99NH3nnLIhs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlcunCfNPB886dAhDkMjQIgdVFDLySDUsQGCJRQVbzBmocoOAy
+	hx1xSOKB3Oc/iBF+CA3XtwnX6+eWrTXZJ8E+hJ/V2n/x+6DjvPSkDmI6iobP9AU=
+X-Gm-Gg: ASbGnctHJP79TzOvGVUs0j1+fR0v2GoapIgM24btW7hPedOk/7L4GcPMpHBOwJC3nR6
+	3wq+HVBRItrxRMSl8nXURsBZhpMR4U2Y/pmU8TQqFL8I2mc1X9kOt6vM0dplTFJvC9eXNX/i/NE
+	3MonS3bhF7KoxwjqJ9qsXrfFbETjE5SHgtMe/nBDNkY/lz7JhtsuKbBr/pLZWryb4OZrFmOr9zt
+	6oONbgaZv7FFHRbZPm6F5hLg1hBDS1WgV7YetFvatS2N2HAHGKu29MS+Ig9h5YC4QMwFojaPskk
+	p/IPpkqdB5/HJCuf2OinnLy59LskyTFZTi43m1NqRDY=
+X-Google-Smtp-Source: AGHT+IEP+h6/ELvWESlBbC9Pz4Pr39fyYlZm3Lx8N+sfkjC9Cz4qRUIr4fHaPTtWKEstTwDU0myT1w==
+X-Received: by 2002:a17:907:2d2c:b0:ac2:baab:681c with SMTP id a640c23a62f3a-acec4e41bb2mr443404066b.28.1745936055090;
+        Tue, 29 Apr 2025 07:14:15 -0700 (PDT)
+Received: from [10.100.51.48] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acec9e47497sm112320666b.160.2025.04.29.07.14.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Apr 2025 07:14:14 -0700 (PDT)
+Message-ID: <7b13da9f-39f2-4007-931b-519d8e7d1ab6@suse.com>
+Date: Tue, 29 Apr 2025 16:14:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 5/7] modpost: Create modalias for builtin modules
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <cover.1745591072.git.legion@kernel.org>
+ <bb0d887760a474e5e7f9db0e9933eee81a5d9ea3.1745591072.git.legion@kernel.org>
+ <cf3ff619-6177-42e1-8f64-74cf4cbb8672@suse.com>
+ <aBCkNh0Q2hwpMchj@example.org> <aBDK0G6OUUcEmzvZ@example.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <aBDK0G6OUUcEmzvZ@example.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2025-04-29 at 15:04 +0200, Thomas Wei=C3=9Fschuh wrote:
-> The current signature-based module integrity checking has some
-> drawbacks in combination with reproducible builds:
-> Either the module signing key is generated at build time, which makes
-> the build unreproducible,
+On 4/29/25 14:49, Alexey Gladkov wrote:
+> On Tue, Apr 29, 2025 at 12:04:44PM +0200, Alexey Gladkov wrote:
+>>> I'm not sure it's best to overload this data in this way. I think mixing
+>>> actual files and "logical" modules in the modules list is somewhat
+>>> confusing.
+>>>
+>>> An alternative would be to keep a single module struct for vmlinux and
+>>> record the discovered aliases under it?
+>>
+>> It is possible to extend struct module_alias and add the module name. The
+>> problem is that alias is added by module_alias_printf() and we will have
+>> to add the module name to the arguments to each do_entry handler in
+>> addition to struct module where there is already a name (but in our case
+>> it is vmlinux).
+>>
+>> I can do that if you think it's a better way.
+> 
+> If I don't add separate entries for each builtin module, the patch will
+> look like this:
+> [...]
 
-I don't believe it does: as long as you know what the key was, which
-you can get from the kernel keyring, you can exactly reproduce the core
-build (it's a public key after all and really equivalent to built in
-configuration).  Is the fact that you have to boot the kernel to get
-the key the problem?  In which case we could insist it be shipped in
-the kernel packaging.
+I see, that didn't turn out as well as I envisioned. One more approach
+would be to track builtin modules separately. A patch is below. I'm not
+sure if it's better.
 
->  or a static key is used, which precludes rebuilds by third parties
-> and makes the whole build and packaging process much more
-> complicated.=20
 
-No, it's the same as above ... as long as you have the public key you
-can reproduce the core build with the same end to end hash.
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 7250b4a527ec..6225793ddcd4 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -257,14 +257,10 @@ extern void cleanup_module(void);
+ 	__PASTE(type,			\
+ 	__PASTE(__, name)))))))
+ 
+-#ifdef MODULE
+ /* Creates an alias so file2alias.c can find device table. */
+ #define MODULE_DEVICE_TABLE(type, name)			\
+ extern typeof(name) __mod_device_table(type, name)	\
+   __attribute__ ((unused, alias(__stringify(name))))
+-#else  /* !MODULE */
+-#define MODULE_DEVICE_TABLE(type, name)
+-#endif
+ 
+ /* Version of form [<epoch>:]<version>[-<extra-version>].
+  * Or for CVS/RCS ID version, everything but the number is stripped.
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index dff1799a4c79..28a4c045f66c 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -1471,8 +1471,8 @@ static const struct devtable devtable[] = {
+ /* Create MODULE_ALIAS() statements.
+  * At this time, we cannot write the actual output C source yet,
+  * so we write into the mod->dev_table_buf buffer. */
+-void handle_moddevtable(struct module *mod, struct elf_info *info,
+-			Elf_Sym *sym, const char *symname)
++void handle_moddevtable(struct module *mod, struct elf_info *info, Elf_Sym *sym,
++			const char *symname)
+ {
+ 	void *symval;
+ 	char *zeros = NULL;
+@@ -1509,6 +1509,10 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 	typelen = name - type;
+ 	name += strlen("__");
+ 
++	if (mod->is_vmlinux)
++		// XXX Check if the module doesn't already exist?
++		mod = new_module(modname, modnamelen, true);
++
+ 	/* Handle all-NULL symbols allocated into .bss */
+ 	if (info->sechdrs[get_secindex(info, sym)].sh_type & SHT_NOBITS) {
+ 		zeros = calloc(1, sym->st_size);
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index be89921d60b6..f39e3456e021 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -168,9 +168,12 @@ char *get_line(char **stringp)
+ 	return orig;
+ }
+ 
+-/* A list of all modules we processed */
++/* A list of all modules (vmlinux or *.ko) we processed */
+ LIST_HEAD(modules);
+ 
++/* A list of all builtin modules we processed */
++LIST_HEAD(builtin_modules);
++
+ static struct module *find_module(const char *filename, const char *modname)
+ {
+ 	struct module *mod;
+@@ -183,7 +186,7 @@ static struct module *find_module(const char *filename, const char *modname)
+ 	return NULL;
+ }
+ 
+-static struct module *new_module(const char *name, size_t namelen)
++struct module *new_module(const char *name, size_t namelen, bool is_builtin)
+ {
+ 	struct module *mod;
+ 
+@@ -207,7 +210,10 @@ static struct module *new_module(const char *name, size_t namelen)
+ 	 */
+ 	mod->is_gpl_compatible = true;
+ 
+-	list_add_tail(&mod->list, &modules);
++	if (is_builtin)
++		list_add_tail(&mod->list, &builtin_modules);
++	else
++		list_add_tail(&mod->list, &modules);
+ 
+ 	return mod;
+ }
+@@ -1573,7 +1579,7 @@ static void read_symbols(const char *modname)
+ 	}
+ 
+ 	/* strip trailing .o */
+-	mod = new_module(modname, strlen(modname) - strlen(".o"));
++	mod = new_module(modname, strlen(modname) - strlen(".o"), false);
+ 
+ 	/* save .no_trim_symbol section for later use */
+ 	if (info.no_trim_symbol_len) {
+@@ -2021,11 +2027,23 @@ static void write_if_changed(struct buffer *b, const char *fname)
+ static void write_vmlinux_export_c_file(struct module *mod)
+ {
+ 	struct buffer buf = { };
++	struct module_alias *alias, *next;
+ 
+ 	buf_printf(&buf,
+-		   "#include <linux/export-internal.h>\n");
++		   "#include <linux/export-internal.h>\n"
++		   "#include <linux/module.h>\n");
+ 
+ 	add_exported_symbols(&buf, mod);
++
++	list_for_each_entry(mod, &builtin_modules, list) {
++		list_for_each_entry_safe(alias, next, &mod->aliases, node) {
++			buf_printf(&buf, "MODULE_ALIAS_MODNAME(\"%s\", \"%s\");\n",
++					mod->name, alias->str);
++			list_del(&alias->node);
++			free(alias);
++		}
++	}
++
+ 	write_if_changed(&buf, ".vmlinux.export.c");
+ 	free(buf.p);
+ }
+@@ -2114,7 +2132,7 @@ static void read_dump(const char *fname)
+ 
+ 		mod = find_module(fname, modname);
+ 		if (!mod) {
+-			mod = new_module(modname, strlen(modname));
++			mod = new_module(modname, strlen(modname), false);
+ 			mod->dump_file = fname;
+ 		}
+ 		s = sym_add_exported(symname, mod, gpl_only, namespace);
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 9133e4c3803f..f2b6d25f00ff 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -107,7 +107,7 @@ struct module_alias {
+ };
+ 
+ /**
+- * struct module - represent a module (vmlinux or *.ko)
++ * struct module - represent a module (vmlinux, a builtin module, or *.ko)
+  *
+  * @dump_file: path to the .symvers file if loaded from a file
+  * @aliases: list head for module_aliases
+@@ -199,6 +199,8 @@ static inline bool is_valid_name(struct elf_info *elf, Elf_Sym *sym)
+ 	return !is_mapping_symbol(name);
+ }
+ 
++struct module *new_module(const char *name, size_t namelen, bool is_builtin);
++
+ /* symsearch.c */
+ void symsearch_init(struct elf_info *elf);
+ void symsearch_finish(struct elf_info *elf);
 
-However, is there also a corresponding question of how we verify
-reproduceability of kernel builds (and the associated modules ... I
-assume for the modules you do strip the appended signature)?  I assume
-you're going by the secure boot hash (authenticode hash of the efi stub
-and the compressed payload which includes the key).  However, if we had
-the vmlinux.o we could do a much more nuanced hash to verify the build,
-say by placing the keyring data in a section that isn't hashed.
-
-Regards,
-
-James
-
+-- 
+Cheers,
+Petr
 
