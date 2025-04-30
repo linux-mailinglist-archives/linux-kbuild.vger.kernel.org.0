@@ -1,84 +1,87 @@
-Return-Path: <linux-kbuild+bounces-6820-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6821-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35802AA578D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Apr 2025 23:41:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2FFAA578F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Apr 2025 23:41:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1F4A1C06C36
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Apr 2025 21:41:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D484174D60
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Apr 2025 21:41:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D850283FD7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE8122C032A;
 	Wed, 30 Apr 2025 21:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f3ei+D/N"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0JkSnkMe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2912222A0
-	for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 21:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42850270EB8
+	for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 21:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746049257; cv=none; b=R/XZhGhsDmtTNfavrlEG4IpVAUu/vcwzaVUmDLfy64KONFI5yk8Tf2mvnUhPvR3irTK179/03V6nyO+GwEMzOKjc9XMIQDUAZyQoRtS2fsYWQBaiE3lk8avBEZ7WDEoKj0qqya+lTvetqFNu7WdDx4mdxd5/tshdw10H/2P9hAY=
+	t=1746049258; cv=none; b=cDimoeLAfHvCpykVQZlq5GV11Q5gf4BADwx3ojl4USH2yCuCAg1UZUW8nmCWJTejsz33zuOdpbA9cGTwaKW1vSA90ps0Rb4ElVzV5ju3B5SeqX3vhAkUIRc7xWS1eq0jECY67S2WfEXQ97r1mou0eOwjJ/H2byCN1jfTtpVs+NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746049257; c=relaxed/simple;
-	bh=FbnolmAa1ihzTPwaP2gNpvYM8Cq8h/hbym23Rvf/YdI=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=GmuhN4XY/CFRMDD1d1uQ3IHr0Bl/+NVegZxuJFZ48MWgxLuUiEnNU+Jb0Swv5zcdnsrYpC/ACHnU8pKA+MCAUB9xBQLXnrbBPJAhQ/NDgD37TYldDhElfcPOJBv4wXVKroDGHAy1esCbWoc9KlfFNLDcpC+15nEEAvS3WxjUTuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f3ei+D/N; arc=none smtp.client-ip=209.85.216.73
+	s=arc-20240116; t=1746049258; c=relaxed/simple;
+	bh=lVxGh1Tg5qZOItTVY+YP5B9couXEWcM6CbGBMFoCOD8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=OcHi2zDSoGh5B3Cqazpxz4itemdA+WrNPUzMvlXpw6L+j306QjhgHqYbejCZVjKEQZwUZZH8/tsEvCBdNeX7WYpllH1H+7k2Af2UA3jfgIyENHsDa09vlbW1+ZUeCncsLjnAOFaK3xVGyTNCy4cslJNWFBbs3NgqGwJEIgo7VF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0JkSnkMe; arc=none smtp.client-ip=209.85.210.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3055f2e1486so495459a91.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 14:40:55 -0700 (PDT)
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-739525d4d7bso247513b3a.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 14:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746049255; x=1746654055; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ltTv4znqsFQ85Lzp8jrl6i/DISWTecXsf7/GiAae7us=;
-        b=f3ei+D/Nik7TI4zx8EFgb27snP7VJstw6HjDKfke3GuxbplEYqEUM08B0bpMlAbbY/
-         k9ZTI/VTUtThc9zWi/UNgl9hnzkCbkBSB7r3hGOsMH63DXfleS6TFhjLhoTVNMaNU2rd
-         jWII2AopLfdn+btxmr2+7WnkyQWo1ihjNtGjBYJQHl/RYs+pjG7wXwSdnisQ55CKnKVa
-         hiqhfAuSvZmC6eZapZJM3lrzIMKcG/BmueFs5mmw+8+LLywFQYH2ppUX3YlaSo3mH5lF
-         NAbZJZkwTHC+6MIS0qqRfd4kztsVw9qZeax8GdSvIqxkxyUxuSxGnvisZaju9Pgy0oki
-         1mRw==
+        d=google.com; s=20230601; t=1746049256; x=1746654056; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PwsYz8d681oyODeIoah8TShz0oIpsZYiEqpJ1PpWgd0=;
+        b=0JkSnkMeKVfsPbCZ4Md7Oq3OCLB0zuXdbtNcq0enO2R3Bx732s/61uTCN1AkNJPVdY
+         Y4F4BU90isrByXsTEASwBqY00JagGYW2sWMk1i3NxWJrCYN+nauc9Y1qSDR292R/tMoK
+         ZWKUpv8RncTJjto6u4S967zqTdrY4Hi8XDH7nxlWC560mi5zGsPu28c7FS8W/N3+uwq+
+         s96aYZzeZK5ohFd6R5SYKVnPAkCOgJLvx8y/0XVQO3m80B4/Z7JkG/8qnkQK1f12AsDX
+         JNzHvKR2OKL0EjR3Nfy3tR4GzQD7rwU1MSH5ZB0pQWMERRH0EitMdDsFI2jVjHOfWskP
+         LT2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746049255; x=1746654055;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ltTv4znqsFQ85Lzp8jrl6i/DISWTecXsf7/GiAae7us=;
-        b=pZDtx6FKhCqk6tsgwq5kpKexHZS9LRU78dZyuq9EjaLJN5PtwXi4qvdBnsADDRCzWd
-         QuTd/jImm0QGyxmuup3umVWSV3MQ1O2ns3ca+ndfocNym34IReiPaAGkSoKHHufjMbK6
-         dRj9Eh20XGM06bu0bQqcYQLNOWSEleLxJSFalCRxCo0hltjwIFOEp1pKLzDK9x+htcjA
-         HEYo3+RZxY2SR1QDP/COZ+ybRq7oO9TTKs1FM+U7BG9cerHuCw3bScXub/X+QJMv+pNv
-         i/B0T0cqxennQ7z8L0+BEkYE7J5WROCyoio/fGeHoEmht36kDxfAMuf8Nk2/gT4EgbrQ
-         g+HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMvGGNpeTi+Ybl7rbOJPBMHP0UhmUP4NxPeVbCd/UTYLRk4SghB7suHGQGqakv9zznUBqwj8qcYd3niZA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrSzCJX4o5loZzZ8R88zYWD9f9hLkGmNOSvuUe+A0Kmr34npPB
-	DaH7IX2fbOGaq9Ofy0B7yhk7oCyPHL0gNh4ya0vACiv5FX8+XwE5ZUtMaKHXS5hJFI5W3U7a9iT
-	6d+I96ST09HaPsaN6Snft/6I0iQ==
-X-Google-Smtp-Source: AGHT+IHOigGLKmP0bsX9ImdviZNTFg2SnFjPl4mnMIE6/Erbd6Dr1d6kRq9Sy7Ge7gO2BpFsO/mUA7OMoOWGCp+XeY4=
-X-Received: from pjbnw8.prod.google.com ([2002:a17:90b:2548:b0:2fa:a101:755])
+        d=1e100.net; s=20230601; t=1746049256; x=1746654056;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PwsYz8d681oyODeIoah8TShz0oIpsZYiEqpJ1PpWgd0=;
+        b=WiGj1U1TfJYNlVwfnpLgC7d02X1ixPx4dtX6Fnx0zILVOLLrmh/BNZaAt32HIiakCL
+         dY9njLjdYHsyHPHUhyj2IkqUUvals7B4Ghoqv9uOPP+t1uQKIpphmhC73/+127i6gtpr
+         n/SzEeMyBb/u8vHAKBm4NvdE7TVOmyk+Jm8CbqNTqfIlJaOEcKT0XRaKGzBpVHzGJNST
+         /BAv4qU5n/6TzkiDn73vStAF1D1thbMNflAjTnG+uPLtdk9lOmDV1wX0tWn/begFg6wM
+         CE2UeSqYS/7iN/7Xq0t65OwXL1Z8VWK73Ut8HfTZbTMrQEy434RsyPp/yPprmG8F5K0r
+         nZyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUj7GTtGlU1LiA9vauhaDXxLGGwiEDUsKK5dKvvUTymXV0ib4r/h5Os5NeCZfCyngxniJvTJdKCucb2hhI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlofiIViBKkoDguqI6me+27yWT/dxLZuejHALKMLPGXiMgvieo
+	hHA0F/pVTJC+XKN1ycjmcdBqRTc5bwv1HvpNRDvzaGJFwvDecAwlYvjRozZlp0lXXBuCkuKkrvd
+	lJq29GmNhE4euN6IwSOGyyC+OwQ==
+X-Google-Smtp-Source: AGHT+IH+89xWZb8Xbnsxtd0BCqDPM754+OwOdR/0Y0+acRvMkTR/2yTU2G9VVFNxNl9dFxKF9iUAE+KkoTKUo2oMBVo=
+X-Received: from pfble21.prod.google.com ([2002:a05:6a00:4fd5:b0:732:858a:729f])
  (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:2dc2:b0:2ee:74a1:fba2 with SMTP id 98e67ed59e1d1-30a344217cemr6007965a91.20.1746049254932;
- Wed, 30 Apr 2025 14:40:54 -0700 (PDT)
-Date: Wed, 30 Apr 2025 21:40:50 +0000
+ 2002:a05:6a00:1149:b0:736:ab1e:7775 with SMTP id d2e1a72fcca58-7404764c42bmr691100b3a.0.1746049256424;
+ Wed, 30 Apr 2025 14:40:56 -0700 (PDT)
+Date: Wed, 30 Apr 2025 21:40:51 +0000
+In-Reply-To: <20250430214049.2658716-6-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20250430214049.2658716-6-samitolvanen@google.com>
 X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=samitolvanen@google.com;
- h=from:subject; bh=FbnolmAa1ihzTPwaP2gNpvYM8Cq8h/hbym23Rvf/YdI=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDBlCMx4GKL7vEF2bPrtkEQfv1EXfPAxi2h7J8B7JcDs1p
- U9kxV6ejlIWBjEOBlkxRZaWr6u37v7ulPrqc5EEzBxWJpAhDFycAjAROS1Ghvdmq58a7jbavC5V
- zVZ7ncbiVZIiGuWvfpe/MrK9fSX48lKGvyIxWcXNT1mrgu8nSCzisd6e17umJ/W0aX9Ykku498k f/AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3880; i=samitolvanen@google.com;
+ h=from:subject; bh=lVxGh1Tg5qZOItTVY+YP5B9couXEWcM6CbGBMFoCOD8=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDBlCMx5+MvrBfN+dmaH1iLOYWZyrTWFB5UzrsNXSCve+p
+ 87LtajqKGVhEONgkBVTZGn5unrr7u9Oqa8+F0nAzGFlAhnCwMUpABPRbWVkuCeW/nvl6Yc7KoR/
+ xWco3GzTaZJrXWW2OoAxyDng9/JfQYwMvTqsNYGn7s53atr9tD/ASnXltoSTJzN3X17LVZRvUX6 HBwA=
 X-Mailer: git-send-email 2.49.0.906.g1f30a19c02-goog
-Message-ID: <20250430214049.2658716-6-samitolvanen@google.com>
-Subject: [PATCH 0/4] gendwarfksyms: Add more kABI rules
+Message-ID: <20250430214049.2658716-7-samitolvanen@google.com>
+Subject: [PATCH 1/4] gendwarfksyms: Clean up kABI rule look-ups
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
@@ -87,43 +90,155 @@ Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
 	Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Reduce code duplication by moving kABI rule look-ups to separate
+functions.
 
-While looking deeper into the genksyms hacks that have been
-needed during Android's 5.10 and 5.15 GKI lifecycles so far,
-we found a few instances that are not covered by the existing
-gendwarfksyms kABI stability rules. The first case involved
-appending new members to a partially opaque data structure, and
-the second case completely changing opaque types due to a large
-backport that was necessary for both stability and security.
-
-These patches add rules that allow distribution maintainers
-to deal with structure size changes, and as a last resort, to
-completely override a type string used for version calculation.
-
-Sami
-
-
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 ---
+ scripts/gendwarfksyms/kabi.c | 101 +++++++++++++++--------------------
+ 1 file changed, 44 insertions(+), 57 deletions(-)
 
-Sami Tolvanen (4):
-  gendwarfksyms: Clean up kABI rule look-ups
-  gendwarfksyms: Add a kABI rule to override byte_size attributes
-  gendwarfksyms: Add a kABI rule to override type strings
-  Documentation/kbuild: Add new gendwarfksyms kABI rules
-
- Documentation/kbuild/gendwarfksyms.rst   | 103 ++++++++++++++--
- scripts/gendwarfksyms/dwarf.c            |  14 ++-
- scripts/gendwarfksyms/examples/kabi.h    |  21 +++-
- scripts/gendwarfksyms/examples/kabi_ex.c |   7 ++
- scripts/gendwarfksyms/examples/kabi_ex.h | 101 +++++++++++++++-
- scripts/gendwarfksyms/gendwarfksyms.h    |   2 +
- scripts/gendwarfksyms/kabi.c             | 143 ++++++++++++++---------
- scripts/gendwarfksyms/types.c            | 141 +++++++++++++++++++---
- 8 files changed, 452 insertions(+), 80 deletions(-)
-
-
-base-commit: b4432656b36e5cc1d50a1f2dc15357543add530e
+diff --git a/scripts/gendwarfksyms/kabi.c b/scripts/gendwarfksyms/kabi.c
+index 66f01fcd1607..badf8d46b154 100644
+--- a/scripts/gendwarfksyms/kabi.c
++++ b/scripts/gendwarfksyms/kabi.c
+@@ -222,33 +222,55 @@ void kabi_read_rules(int fd)
+ 	check(elf_end(elf));
+ }
+ 
+-bool kabi_is_declonly(const char *fqn)
++static char *get_enumerator_target(const char *fqn, const char *field)
++{
++	char *target = NULL;
++
++	if (asprintf(&target, "%s %s", fqn, field) < 0)
++		error("asprintf failed for '%s %s'", fqn, field);
++
++	return target;
++}
++
++static struct rule *find_rule(enum kabi_rule_type type, const char *target)
+ {
+ 	struct rule *rule;
+ 
+ 	if (!stable)
+-		return false;
+-	if (!fqn || !*fqn)
+-		return false;
++		return NULL;
++	if (!target || !*target)
++		return NULL;
+ 
+ 	hash_for_each_possible(rules, rule, hash,
+-			       rule_values_hash(KABI_RULE_TYPE_DECLONLY, fqn)) {
+-		if (rule->type == KABI_RULE_TYPE_DECLONLY &&
+-		    !strcmp(fqn, rule->target))
+-			return true;
++			       rule_values_hash(type, target)) {
++		if (rule->type == type && !strcmp(target, rule->target))
++			return rule;
+ 	}
+ 
+-	return false;
++	return NULL;
+ }
+ 
+-static char *get_enumerator_target(const char *fqn, const char *field)
++static struct rule *find_enumerator_rule(enum kabi_rule_type type,
++					 const char *fqn, const char *field)
+ {
+-	char *target = NULL;
++	struct rule *rule;
++	char *target;
+ 
+-	if (asprintf(&target, "%s %s", fqn, field) < 0)
+-		error("asprintf failed for '%s %s'", fqn, field);
++	if (!stable)
++		return NULL;
++	if (!fqn || !*fqn || !field || !*field)
++		return NULL;
+ 
+-	return target;
++	target = get_enumerator_target(fqn, field);
++	rule = find_rule(type, target);
++
++	free(target);
++	return rule;
++}
++
++bool kabi_is_declonly(const char *fqn)
++{
++	return !!find_rule(KABI_RULE_TYPE_DECLONLY, fqn);
+ }
+ 
+ static unsigned long get_ulong_value(const char *value)
+@@ -267,58 +289,23 @@ static unsigned long get_ulong_value(const char *value)
+ 
+ bool kabi_is_enumerator_ignored(const char *fqn, const char *field)
+ {
+-	bool match = false;
+-	struct rule *rule;
+-	char *target;
+-
+-	if (!stable)
+-		return false;
+-	if (!fqn || !*fqn || !field || !*field)
+-		return false;
+-
+-	target = get_enumerator_target(fqn, field);
+-
+-	hash_for_each_possible(
+-		rules, rule, hash,
+-		rule_values_hash(KABI_RULE_TYPE_ENUMERATOR_IGNORE, target)) {
+-		if (rule->type == KABI_RULE_TYPE_ENUMERATOR_IGNORE &&
+-		    !strcmp(target, rule->target)) {
+-			match = true;
+-			break;
+-		}
+-	}
+-
+-	free(target);
+-	return match;
++	return !!find_enumerator_rule(KABI_RULE_TYPE_ENUMERATOR_IGNORE, fqn,
++				      field);
+ }
+ 
+ bool kabi_get_enumerator_value(const char *fqn, const char *field,
+ 			       unsigned long *value)
+ {
+-	bool match = false;
+ 	struct rule *rule;
+-	char *target;
+ 
+-	if (!stable)
+-		return false;
+-	if (!fqn || !*fqn || !field || !*field)
+-		return false;
+-
+-	target = get_enumerator_target(fqn, field);
+-
+-	hash_for_each_possible(rules, rule, hash,
+-			       rule_values_hash(KABI_RULE_TYPE_ENUMERATOR_VALUE,
+-						target)) {
+-		if (rule->type == KABI_RULE_TYPE_ENUMERATOR_VALUE &&
+-		    !strcmp(target, rule->target)) {
+-			*value = get_ulong_value(rule->value);
+-			match = true;
+-			break;
+-		}
++	rule = find_enumerator_rule(KABI_RULE_TYPE_ENUMERATOR_VALUE, fqn,
++				    field);
++	if (rule) {
++		*value = get_ulong_value(rule->value);
++		return true;
+ 	}
+ 
+-	free(target);
+-	return match;
++	return false;
+ }
+ 
+ void kabi_free(void)
 -- 
 2.49.0.906.g1f30a19c02-goog
 
