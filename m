@@ -1,122 +1,151 @@
-Return-Path: <linux-kbuild+bounces-6840-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6841-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7007DAA60F5
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 17:51:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3538AA618C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 18:49:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 136C87AF00D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 15:50:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96EB43A86F3
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 16:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4465B20AF87;
-	Thu,  1 May 2025 15:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B87A320C47C;
+	Thu,  1 May 2025 16:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Vvw1f1nb"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="GKucUTUN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9124F2045AD;
-	Thu,  1 May 2025 15:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337391C173F;
+	Thu,  1 May 2025 16:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746114665; cv=none; b=cn+t00PWne9+QunekA65rTmH8ySSyhV2SChyGEd6pb0Vl0f1cfeByxGVhyRDkHCCGWfYUlZbDegaF7Rd4jcRC+Emfqg8ihEZkaPlkq5ABl47UJamvWkayP2Tl/sOszSiazbin71yOh/cIx2VUbZBvjww6tZWx5B+RbC3svX+A10=
+	t=1746118139; cv=none; b=ny/53gPZHmF1TFfQgMIG+RwUJlI6cgBKONqbnnaCbJkXHBXx2GwykFq63FHX1J/2gTgbmiq2pwwz+5Ooe0QNHL5YL1AwL04zJLE7YJVBWweE06x5p0xk7jszEeY/SPsbKEG735fljMd6C71kj8U5178T/ARIaVolk5y6MYxLutc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746114665; c=relaxed/simple;
-	bh=P3VRTKEBNLquqRhFZYT5aVzDoqfQbBS2lj2/Gfm1dd8=;
+	s=arc-20240116; t=1746118139; c=relaxed/simple;
+	bh=n+rp/1cfKWUVbAn2ayQIlXtUE0b/J4JdBnNRkRwb6x8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+csb2EvG4omLqV+RSBICk21IOsq1QQalox5TOATTEQU9tJDtKotCU9mQeUI67dKt/i8jCBWLGwbyUo54RXzZ2sZaJEIZAsMujO+003Z7e19lPLYkdhtpyTFEZy0nxdPXHo6hDQgLaBRsbKDB0ILgzqzhWTeyxhJud3CsHK5UA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Vvw1f1nb; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=P3VRTKEBNLquqRhFZYT5aVzDoqfQbBS2lj2/Gfm1dd8=; b=Vvw1f1nb4tZTNYWo7mO6z9pHzV
-	MDmnoqAqu2hmb0i0BZCMhG/WDMQlC58Cw73kwpES9YsUR9uVYBATrwEJOHRNIo/+tiKLtb+lnOGfX
-	3RQDTcQJHo8yw/zOwlj2RzWNFYXhC2VQIUF/gJjLBZWYPMdo4SndGy1x8v2X1nLPEmzP9XY04eDER
-	6wiFSA1LKBYitCkX2q34LCGcLleraMkw5CpiczInfDqlRcnA1DkoaezY3MLQ7ZnDpb3tBsrvLAH0S
-	h83K01vh+L05Z2s0lZBeMEnAZ2cFAgQ3S5nprdKJg8w8nz2cckeve7tiH0FBgOln3Yo1AMJl2OmyX
-	jjUfpXpQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uAWBP-00000000vWm-1k5y;
-	Thu, 01 May 2025 15:50:43 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 04927300642; Thu,  1 May 2025 17:50:43 +0200 (CEST)
-Date: Thu, 1 May 2025 17:50:42 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Christoph Hellwig <hch@lst.de>, chenlinxuan@uniontech.com,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	kvm@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-integrity@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev, Winston Wen <wentao@uniontech.com>,
-	kasan-dev@googlegroups.com, xen-devel@lists.xenproject.org,
-	Changbin Du <changbin.du@intel.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH RFC v3 0/8] kernel-hacking: introduce
- CONFIG_NO_AUTO_INLINE
-Message-ID: <20250501155042.GR4198@noisy.programming.kicks-ass.net>
-References: <20250429-noautoinline-v3-0-4c49f28ea5b5@uniontech.com>
- <20250429123504.GA13093@lst.de>
- <D9KW1QQR88EY.2TOSTVYZZH5KN@google.com>
- <20250501150229.GU4439@noisy.programming.kicks-ass.net>
- <D9KXE2YX8R2M.3L7Q6NVIXKPE9@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmZAr/Wtw052OELEaKT/8jRtgNHE5Va96xaUmwOklI4cjNL+omoBBPKSn/8EpG6rHXVoNaS5xZNBRpHTXUnzFM4/K2D0+a3UTKAdYGUKMQLyIgTAhJtk9JB5LKusv4rEGtghixM+agoz5+u/Rwrh3xeTFcN48I2EpoA9AShb0bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=GKucUTUN; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1746118134;
+	bh=n+rp/1cfKWUVbAn2ayQIlXtUE0b/J4JdBnNRkRwb6x8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GKucUTUNMeD2bPB11ZzjZiqIVgo4OjcUcIqicF632tFjAi8qs9kmxPN6wwBxRtzAj
+	 9naGTZeY9bn+2boxu52Z/zGFxoKe48WMyR92EdspNOUfVwzRToN5Y7VVNMewbE9XtJ
+	 4Zk7wE8EZshmiKS8cyGJLqMsaKSQnUggdfIQsg3g=
+Date: Thu, 1 May 2025 18:48:52 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Ben Hutchings <ben@decadent.org.uk>, Peter Oberparleiter <oberpar@linux.ibm.com>, 
+	MPTCP Linux <mptcp@lists.linux.dev>
+Subject: Re: [PATCH v2] kbuild: make all file references relative to source
+ root
+Message-ID: <e3ccb1ef-1b7a-4069-960f-a6fc5353c1ce@t-8ch.de>
+References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+ <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <D9KXE2YX8R2M.3L7Q6NVIXKPE9@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
 
-On Thu, May 01, 2025 at 03:22:55PM +0000, Brendan Jackman wrote:
+Hi Matthieu,
 
-> Whereas enlarging the pool of functions that you can _optionally target_
-> for tracing, or nice reliable breakpoints in GDB, and disasm that's
-> easier to mentally map back to C, seems like a helpful improvement for
-> test builds. Personally I sometimes spam a bunch of `noinline` into code
-> I'm debugging so this seems like a way to just slap that same thing on
-> the whole tree without dirtying the code, right?
+On 2025-04-29 18:12:29+0200, Matthieu Baerts wrote:
+> Hi Thomas, Masahiro,
+> 
+> +Cc Peter Oberparleiter, MPTCP ML
+> 
+> On 15/03/2025 14:20, Thomas Weißschuh wrote:
+> > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+> > Other references, for example in debug information, are not affected.
+> > This makes handling of file references in the compiler outputs harder to
+> > use and creates problems for reproducible builds.
+> > 
+> > Switch to -ffile-prefix map which affects all references.
+> > 
+> > Also drop the documentation section advising manual specification of
+> > -fdebug-prefix-map for reproducible builds, as it is not necessary
+> > anymore.
+> > 
+> > Suggested-by: Ben Hutchings <ben@decadent.org.uk>
+> > Link: https://lore.kernel.org/lkml/c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk/
+> > Acked-by: Borislav Petkov (AMD) <bp@alien8.de> # arch/x86/
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> 
+> Thank you for having worked on that!
+> 
+> (...)
+> 
+> > diff --git a/Makefile b/Makefile
+> > index 5c333682dc9142b1aacfe454a5c77f5923554b7d..4f920187cee658ae4d1b807fca365f6994274828 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1067,7 +1067,7 @@ endif
+> >  
+> >  # change __FILE__ to the relative path to the source directory
+> >  ifdef building_out_of_srctree
+> > -KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
+> > +KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
+> >  KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/=
+> >  endif
+> 
+> Today, I noticed that my CI for the MPTCP subsystem couldn't produce
+> code coverage files like before: the source files are not found. A 'git
+> bisect' pointed me to this patch. Reverting it seems to fix the issue.
+> 
+> 
+> My CI is building the kernel out of the source tree, in ".virtme/build".
+> Before and after this patch, GCOV seems to do its job properly.
+> Capturing GCOV data with this lcov command seems OK too:
+> 
+>   lcov --capture --keep-going -j "${INPUT_CPUS}" \
+>      --rc geninfo_unexecuted_blocks=1 \
+>      --include '/net/mptcp/' \
+>      --function-coverage --branch-coverage \
+>      -b "${PWD}/.virtme/build" -o kernel.lcov
+> 
+> But after this patch, lcov complains some files are not found, e.g.
+> 
+>   ERROR: (source) unable to open
+> ${WORKDIR}/.virtme/build/net/mptcp/ctrl.c: No such file or directory
+> 
+> 
+> The output file is different: the path to the source file is wrong
+> because it points to the build dir. Instead of ...
+> 
+>   SF:${WORKDIR}/net/mptcp/ctrl.c
+> 
+> ... now I have ...
+> 
+>   SF:${WORKDIR}/.virtme/build/net/mptcp/ctrl.c
+> 
+> 
+> Are there modifications needed on GCOV side to adapt to the behaviour
+> change introduced by this patch? Or something else needed on the
+> userspace side?
 
-Dunno, I'm more of the printk school of debugging. Very rarely do I
-bother with GDB (so rare in fact that I have to look up how to even do
-this).
+I'd like to focus on the report from Ville Syrjälä [0] first.
+While it is easier to reproduce and investigate, I suspect the solution
+found there will also work for your usecase.
 
+
+Thomas
+
+[0] https://lore.kernel.org/lkml/aBEttQH4kimHFScx@intel.com/
 
