@@ -1,113 +1,242 @@
-Return-Path: <linux-kbuild+bounces-6827-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6828-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E47AA5988
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 03:58:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBFBAA5BAE
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 09:55:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9A2D3B35A6
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 01:57:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 992F54C3FE2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 07:55:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 459BC22DF85;
-	Thu,  1 May 2025 01:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612B3277036;
+	Thu,  1 May 2025 07:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BGzyitI6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vCUxrJTF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1810135893
-	for <linux-kbuild@vger.kernel.org>; Thu,  1 May 2025 01:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3C527700B;
+	Thu,  1 May 2025 07:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746064675; cv=none; b=eIWQ4hwlv+ztCJiuosORHjufFzCp9Vl4vNnjJOSPANakV1XPAkSUqb0SvLu5/uZLFYLZwRoivTMsrBBHvcYPc1WhVyQ2WKE3HIea3LhXjjkaAo9Jy1q5YPsNvT4x/bUQQ+r6Z+vb97t1DNCD+/S2ofq6U+ulsFZqwe4TE8v3n1M=
+	t=1746086094; cv=none; b=nlbEejNpovSP01+DBSdbuaEMfQZgsped52CQRn29m6WBRcS95FlisaHlWzCb6+rhM5XjZrmgYC5usoJL2psB4b2DwGrIy/DEwZUJcLdbeaO4BLFDoz+cxApBY+01KZ39G+RTiaFyhQFBWn8xxrToLYVSy5lpNgf4dUGWCxjK7cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746064675; c=relaxed/simple;
-	bh=vNNOALAKojuc1IVmn4YDr6ggA0d46EQHEfPXL/A816s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IpWblfbqD3s8p6py1IP5QBKc8rcCRKvznkVjhFaK5y/wqD3+5N4Q/a7i2YDbT8yEnFKVrN7xtlG6E8NjM91p4PrHDoH6xPE5eaArIrdOfDql07E62vk/zzUmanJ14pn6kLGTaY+9bZyY5FJODzzhqlvLUj8WyZX6CkMgr355JZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=BGzyitI6; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5e6f4b3ebe5so931523a12.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 18:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1746064671; x=1746669471; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WydL3B0dnp8hxEJArR4oBSH0m050M1di9pDwlQ1+3BI=;
-        b=BGzyitI6ozCHnhv+OQNFwqhSBNFD69OaFSNft6SaqFrl8mUDURT2YHzlFQxF66De2x
-         fWKFYDOCPcqvVFhEdakqmJ2FaOAx0F4ycMv0FbenfGKXI2hI0W8vOGqXxl2jmePMHZol
-         HYiXj7sieNj3xisZo9v3kNyxHganRIpnnsDS8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746064671; x=1746669471;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WydL3B0dnp8hxEJArR4oBSH0m050M1di9pDwlQ1+3BI=;
-        b=bPEJJT1Kg5WBCv4D7bdcFbCTbAbNk9xLYlrbliysxnQVu9Mjc81eEu9K62McrI9g83
-         Jz9qzkVT8DTNntZRirGZkcDSiwD3s+xZ7eBDbWGIwPSZeGegsRxyqgWkgNsEz1hwpBsx
-         zIE+zUAPMAUcNAn9fnUIgHtsp7ZObMK6ayloB76kOEaNYIGGDm5bnExSYRuXmvzz6y9q
-         PMbNeZ+KuzZFu6VnRPXJE5f7P/VLIYEfMwbGTk7Cj4ticxXqDDFa0qZ6SPgf2DocjpNF
-         E6i9lOmT9dLWPdEDKDD7x1D/PMsXnJ5Sm3cKkubUcaz4YynfqWhXwtCSO7bsy8zOE8TK
-         TxgA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6O96j1demrTuKBq+3ra1JdZu7GbZtS/7+S1VKRPYlPGCsUi6TmBccXkDo7DqdaZgPB1vjYajxqNSv2EM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycI2zq2R3FojmpDiGP9yIFVgAlt/yzjIrGcP5SEM8so6kaZTRI
-	ZvBePQGG87ISKBV7nma/OlCytceuxbFen7yQETsez0F8/6U+oKzcNR2ROjgwjHPW11I/fUJcxce
-	px2k=
-X-Gm-Gg: ASbGncvh7EoVl5JKCfRjcZgHdVrPs08KDNVfKfQpCWcjR03paAjyQwDINa9xzK/9jR9
-	zlc8eLqQqd/M+T8y8HC88zvt1QY5un1IyPkipoFer8etxHFtgKlOGhaAaX1oVlZyNqN8Rh+cYW2
-	K3W6GUlnuVqBbcknIBa34/SsOPyEC/dK9lU7LrSMtj+SaVf40fQyC127wueMpSEWcnO8DH8mYmX
-	GCUK37cJtFpiHxSoLRIbk5cS9UTxnFIA6oSeYxQl5XoCJXytxpzAONtW0DcKJetD0OOgTLoN9G7
-	ER2Y+nvYb8QkkJ4RcWWYbkodH7VzdfFoAzjclRD8C6YqHyzlzozJN4Iu6SUNpJHTqqmm9G7fPQV
-	IhX1+CE9du33uM6Q=
-X-Google-Smtp-Source: AGHT+IH48aY8LEq9K5ki18hqmGGDw/NtMoNjWi+FKgelOzdHXWCc47OsO6tZphcUIix30VdE6iqIlA==
-X-Received: by 2002:a05:6402:1e95:b0:5f4:9017:c6a1 with SMTP id 4fb4d7f45d1cf-5f91350a9a6mr1139297a12.25.1746064671168;
-        Wed, 30 Apr 2025 18:57:51 -0700 (PDT)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f7013ff812sm9833979a12.25.2025.04.30.18.57.49
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 18:57:50 -0700 (PDT)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac339f53df9so102243866b.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 18:57:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVK0Et8xSzSLcS0OyhYgKQgzmuk40eLYfQ0udwXM505wI8L5Ye5Qhb9CL+8j1bnJMIOzLajuwaXglH3dzQ=@vger.kernel.org
-X-Received: by 2002:a17:907:86a4:b0:ac3:5c8e:d3f5 with SMTP id
- a640c23a62f3a-acef4299d67mr153004566b.27.1746064668786; Wed, 30 Apr 2025
- 18:57:48 -0700 (PDT)
+	s=arc-20240116; t=1746086094; c=relaxed/simple;
+	bh=ZucPlAzXlvyE5gmDzndkAzXDoCFWRluH9j0zb6OrssA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cVP1lUKviHEfp8fHrqImgZPV6+IUSVIRPKip5t7cj/KbusdoxAS2WwUXN/5Ons/LjyrvtGy28OtlKhk1G6d4FEncx7uvyaf0ctn4qQAoDLzdJFvO/DcOXzdlZXvVVNY6dwLYCiEZ7H5NjnX8AofnrofM4gdmtSKBeRv5sI+9AuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vCUxrJTF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD4D3C4CEE3;
+	Thu,  1 May 2025 07:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746086093;
+	bh=ZucPlAzXlvyE5gmDzndkAzXDoCFWRluH9j0zb6OrssA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=vCUxrJTFb6fIgWPlBFwFBWKdIYDKEqDQdInpCV7BMT2s9tnoguye3UUo4rhK9p1yy
+	 bs9nP+uI144TvXjMv6SG9+lm0u9EOXaNv/J4tfyRu3PCce6h1higq/AfAEoaMCdlQF
+	 weEUK21796OeG9F39w4tkdUvxWPcj1GutrXLoXssO4orSHRbSl1Q0iKZS+X4hWkG4+
+	 5EMTSi/qxvYD+vVhM24vPD25rxZqeYzC3d375MiDCUO08FtelQ4dOTf7A6Qu6PfBAK
+	 33Xp7QCY4DFGIbZh0ppKyXUgyC4sr19fPDG8V5c84dSEsz4ErfA50pMRxKxTPO1Uke
+	 w8wKv16n9gu+g==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Subject: [PATCH v10 0/3] rust: extend `module!` macro with integer
+ parameter support
+Date: Thu, 01 May 2025 09:53:36 +0200
+Message-Id: <20250501-module-params-v3-v10-0-4da485d343d5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250430-unterminated-string-init-clang-v1-1-10eab729bf3d@kernel.org>
-In-Reply-To: <20250430-unterminated-string-init-clang-v1-1-10eab729bf3d@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 30 Apr 2025 18:57:32 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiHt40bxkx=1-2iecw32h5i8GXi=zpD0nUVdZxfh2k8mg@mail.gmail.com>
-X-Gm-Features: ATxdqUFgZ1ZDKZdSgMYuRCt9GwTeRVMgI6qtOB7_7i5pEIVOBrqHEKYehH_TDJc
-Message-ID: <CAHk-=wiHt40bxkx=1-2iecw32h5i8GXi=zpD0nUVdZxfh2k8mg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Properly disable -Wunterminated-string-initialization
- for clang
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIAoE2gC/23SzW7DIAwA4FepOI+JPwey095j2oEf06K1SUfaa
+ FPVdx/pVjUTIC625A/Z5kImzAkn8rK5kIxzmtI4lICzpw3xOztskaZQEkQwobjgnB7GcN4jPdp
+ sDxOdJbWoEbwJxoElpeyYMaavm/n2XuJdmk5j/r49Mcsle8dkjZXLqDJgGQfrhY+vH5gH3D+Pe
+ UsWbVZ3ARhnfUNQRfCCGeejQ85rAR6CYKohQBFcBCyK4p2ASuhWQmskc1cEoZzodQheyVAJei2
+ YhqCLAMhttM5bz10lmJUgdEMwyxywHAOhl0pXQv8QpGh10S9dGNcziAKl+j+H6++qM36ey685/
+ e37ev0BAkuY7VMCAAA=
+X-Change-ID: 20241211-module-params-v3-ae7e5c8d8b5a
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, Alice Ryhl <aliceryhl@google.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Trevor Gross <tmgross@umich.edu>, 
+ Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ linux-modules@vger.kernel.org, Andreas Hindborg <a.hindborg@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6807; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=ZucPlAzXlvyE5gmDzndkAzXDoCFWRluH9j0zb6OrssA=;
+ b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBoEyiaiMLBBV6ZEjTMa3zUUUNz68rqGWNzlnude
+ qOqU5ehr3+JAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaBMomgAKCRDhuBo+eShj
+ d/o0EACTYXUv6d0BVoEvjNHyIBO0SmN7ENiHBchNzwSs1GvgQvyGHAaq7jk1XJFXv7YHlJVEnIq
+ qwhqyG0tmm5hvqjECZQpeiOXxaQ+WPd9Fw4luH930mTuWu/NHMm0auClmTx1MEMCaQXTnsUd1uY
+ iz0Kb/0PR2kY8TcRs0RVDZYrXm45TR8V7EyJVzMbQpZVr2yzD4Sr9lEu0XR+rVWSWd4nrekWc19
+ rJ50OysaLjfK0OJo4lU8tEGXBdslS0fgyx9oxWl7F2tKDa69s5+RqU+vcZK0GAV8cHQYiJOw2to
+ ZbLMDmAOE4DFTiHWlyVM+dLLRzaruCQFIPd9MRJPQI9J7up9xZPn5uIw79ZIP2hY6hqXdejrDvj
+ 1otADfTlZiSs/SsBx5eTm9T6uH148WMbGfNU2kwriLItu/4enuFO5VBm4a76jepRPzeFkWbItk6
+ QQc9zNcsaS2ZKvgsy5zI9UaAeSJ2V4Y8kSVHS0zRUAqgMSSt3JdYU6bMFF5heXJdixNwgUxScMq
+ dUt9QACmZIAweUAXb/t7wQAyaTl/b4iLx2DlneDA/QK1xPrlTy/z+x/EoKOBgDBC/DWCgPTeCBl
+ oVa98xg9oPN+n4bGTKqF5RxvrONlUsNS9jfh44aewpVJ6q20V2/RZvgdUXq9BvLvGAyzf0lR8c4
+ 6ws1c82opeuXZ6w==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-On Wed, 30 Apr 2025 at 15:56, Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Clang and GCC have different behaviors around disabling warnings
-> included in -Wall and -Wextra and the order in which flags are
-> specified
+Extend the `module!` macro with support module parameters. Also add some string
+to integer parsing functions and updates `BStr` with a method to strip a string
+prefix.
 
-Ahh, ok. The clang behavior makes sense, even if it's obviously not
-how gcc does it.
+Based on code by Adam Bratschi-Kaye lifted from the original `rust` branch [1].
 
-Will apply. Thanks,
+Link: https://github.com/Rust-for-Linux/linux/tree/bc22545f38d74473cfef3e9fd65432733435b79f [1]
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+Changes in v10:
+- Apply fixups from Miguel:
+  - Add integer type suffixes to `assert!` in tests.
+  - Fix links to docs.kernel.org.
+  - Applyy markdown and intra-doc links where possible.
+  - Change to `///` for `mod` docs.
+  - Slightly reword a comment.
+  - Pluralize "Examples" section name.
+  - Hide `use`s in example.
+  - Removed `#[expect]` for the `rusttest` target.
+- Link to v9: https://lore.kernel.org/r/20250321-module-params-v3-v9-0-28b905f2e345@kernel.org
 
-                 Linus
+Changes in v9:
+- Remove UB when parsing the minimum integer values.
+- Make `FromStr` trait unsafe, since wrong implementations can cause UB.
+- Drop patches that were applied to rust-next.
+- Link to v8: https://lore.kernel.org/r/20250227-module-params-v3-v8-0-ceeee85d9347@kernel.org
+
+Changes in v8:
+- Change print statement in sample to better communicate parameter name.
+- Use imperative mode in commit messages.
+- Remove prefix path from `EINVAL`.
+- Change `try_from_param_arg` to accept `&BStr` rather than `&[u8]`.
+- Parse integers without 128 bit integer types.
+- Seal trait `FromStrRadix`.
+- Strengthen safety requirement of `set_param`.
+- Remove comment about Display and `PAGE_SIZE`.
+- Add note describing why `ModuleParamAccess` is pub.
+- Typo and grammar fixes for documentation.
+- Update MAINTAINERS with rust module files.
+- Link to v7: https://lore.kernel.org/r/20250218-module-params-v3-v7-0-5e1afabcac1b@kernel.org
+
+Changes in v7:
+- Remove dependency on `pr_warn_once` patches, replace with TODO.
+- Rework `ParseInt::from_str` to avoid allocating.
+- Add a comment explaining how we parse "0".
+- Change trait bound on `Index` impl for `BStr` to match std library approach.
+- Link to v6: https://lore.kernel.org/r/20250211-module-params-v3-v6-0-24b297ddc43d@kernel.org
+
+Changes in v6:
+- Fix a bug that prevented parsing of negative default values for
+  parameters in the `module!` macro.
+- Fix a bug that prevented parsing zero in `strip_radix`. Also add a
+  test case for this.
+- Add `AsRef<BStr>` for `[u8]` and `BStr`.
+- Use `impl AsRef<BStr>` as type of prefix in `BStr::strip_prefix`.
+- Link to v5: https://lore.kernel.org/r/20250204-module-params-v3-v5-0-bf5ec2041625@kernel.org
+
+Changes in v5:
+- Fix a typo in a safety comment in `set_param`.
+- Use a match statement in `parse_int::strip_radix`.
+- Add an implementation of `Index` for `BStr`.
+- Fix a logic inversion bug where parameters would not be parsed.
+- Use `kernel::ffi::c_char` in `set_param` rather than the one in `core`.
+- Use `kernel::c_str!` rather than `c"..."` literal in module macro.
+- Rebase on v6.14-rc1.
+- Link to v4: https://lore.kernel.org/r/20250109-module-params-v3-v4-0-c208bcfbe11f@kernel.org
+
+Changes in v4:
+- Add module maintainers to Cc list (sorry)
+- Add a few missing [`doc_links`]
+- Add panic section to `expect_string_field`
+- Fix a typo in safety requirement of `module_params::free`
+- Change `assert!` to `pr_warn_once!` in `module_params::set_param`
+- Remove `module_params::get_param` and install null pointer instead
+- Remove use of the unstable feature `sync_unsafe_cell`
+- Link to v3: https://lore.kernel.org/r/20241213-module-params-v3-v3-0-485a015ac2cf@kernel.org
+
+Changes in v3:
+- use `SyncUnsafeCell` rather than `static mut` and simplify parameter access
+- remove `Display` bound from `ModuleParam`
+- automatically generate documentation for `PARAM_OPS_.*`
+- remove `as *const _ as *mut_` phrasing
+- inline parameter name in struct instantiation in  `emit_params`
+- move `RacyKernelParam` out of macro template
+- use C string literals rather than byte string literals with explicit null
+- template out `__{name}_{param_name}` in `emit_param`
+- indent template in `emit_params`
+- use let-else expression in `emit_params` to get rid of an indentation level
+- document `expect_string_field`
+- move invication of `impl_int_module_param` to be closer to macro def
+- move attributes after docs in `make_param_ops`
+- rename `impl_module_param` to impl_int_module_param`
+- use `ty` instead of `ident` in `impl_parse_int`
+- use `BStr` instead of `&str` for string manipulation
+- move string parsing functions to seperate patch and add examples, fix bugs
+- degrade comment about future support from doc comment to regular comment
+- remove std lib path from `Sized` marker
+- update documentation for `trait ModuleParam`
+- Link to v2: https://lore.kernel.org/all/20240819133345.3438739-1-nmi@metaspace.dk/
+
+Changes in v2:
+- Remove support for params without values (`NOARG_ALLOWED`).
+- Improve documentation for `try_from_param_arg`.
+- Use prelude import.
+- Refactor `try_from_param_arg` to return `Result`.
+- Refactor `ParseInt::from_str` to return `Result`.
+- Move C callable functions out of `ModuleParam` trait.
+- Rename literal string field parser to `expect_string_field`.
+- Move parameter parsing from generation to parsing stage.
+- Use absolute type paths in macro code.
+- Inline `kparam`and `read_func` values.
+- Resolve TODO regarding alignment attributes.
+- Remove unnecessary unsafe blocks in macro code.
+- Improve error message for unrecognized parameter types.
+- Do not use `self` receiver when reading parameter value.
+- Add parameter documentation to `module!` macro.
+- Use empty `enum` for parameter type.
+- Use `addr_of_mut` to get address of parameter value variable.
+- Enabled building of docs for for `module_param` module.
+- Link to v1: https://lore.kernel.org/rust-for-linux/20240705111455.142790-1-nmi@metaspace.dk/
+
+---
+Andreas Hindborg (3):
+      rust: str: add radix prefixed integer parsing functions
+      rust: add parameter support to the `module!` macro
+      modules: add rust modules files to MAINTAINERS
+
+ MAINTAINERS                  |   2 +
+ rust/kernel/lib.rs           |   1 +
+ rust/kernel/module_param.rs  | 221 +++++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/str.rs           | 172 ++++++++++++++++++++++++++++++++-
+ rust/macros/helpers.rs       |  25 +++++
+ rust/macros/lib.rs           |  31 ++++++
+ rust/macros/module.rs        | 195 ++++++++++++++++++++++++++++++++++----
+ samples/rust/rust_minimal.rs |  10 ++
+ 8 files changed, 636 insertions(+), 21 deletions(-)
+---
+base-commit: b4432656b36e5cc1d50a1f2dc15357543add530e
+change-id: 20241211-module-params-v3-ae7e5c8d8b5a
+
+Best regards,
+-- 
+Andreas Hindborg <a.hindborg@kernel.org>
+
+
 
