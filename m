@@ -1,151 +1,119 @@
-Return-Path: <linux-kbuild+bounces-6841-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6845-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3538AA618C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 18:49:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 719E0AA6441
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 21:48:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96EB43A86F3
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 16:48:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9C7617D544
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 19:48:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B87A320C47C;
-	Thu,  1 May 2025 16:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D52D4235068;
+	Thu,  1 May 2025 19:48:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="GKucUTUN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YzGLO6k6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337391C173F;
-	Thu,  1 May 2025 16:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B55A231827;
+	Thu,  1 May 2025 19:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746118139; cv=none; b=ny/53gPZHmF1TFfQgMIG+RwUJlI6cgBKONqbnnaCbJkXHBXx2GwykFq63FHX1J/2gTgbmiq2pwwz+5Ooe0QNHL5YL1AwL04zJLE7YJVBWweE06x5p0xk7jszEeY/SPsbKEG735fljMd6C71kj8U5178T/ARIaVolk5y6MYxLutc=
+	t=1746128909; cv=none; b=Cu4D+U6iujYmvS41JlCvM/duU8eBzQYLtrpBSSIbOaQButOMcc47xm4ygEKgwXyBEoVtvJJhFMSrmGYVoytTNzPzPRCLt7YTxwqlAf7J3a+rWKDRdfEA3sMqdSNmpE4gbGHDyHPsXhK7ZEqej1G54tbtKw0ms5bIUIUE2JJg0Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746118139; c=relaxed/simple;
-	bh=n+rp/1cfKWUVbAn2ayQIlXtUE0b/J4JdBnNRkRwb6x8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LmZAr/Wtw052OELEaKT/8jRtgNHE5Va96xaUmwOklI4cjNL+omoBBPKSn/8EpG6rHXVoNaS5xZNBRpHTXUnzFM4/K2D0+a3UTKAdYGUKMQLyIgTAhJtk9JB5LKusv4rEGtghixM+agoz5+u/Rwrh3xeTFcN48I2EpoA9AShb0bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=GKucUTUN; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1746118134;
-	bh=n+rp/1cfKWUVbAn2ayQIlXtUE0b/J4JdBnNRkRwb6x8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GKucUTUNMeD2bPB11ZzjZiqIVgo4OjcUcIqicF632tFjAi8qs9kmxPN6wwBxRtzAj
-	 9naGTZeY9bn+2boxu52Z/zGFxoKe48WMyR92EdspNOUfVwzRToN5Y7VVNMewbE9XtJ
-	 4Zk7wE8EZshmiKS8cyGJLqMsaKSQnUggdfIQsg3g=
-Date: Thu, 1 May 2025 18:48:52 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ben Hutchings <ben@decadent.org.uk>, Peter Oberparleiter <oberpar@linux.ibm.com>, 
-	MPTCP Linux <mptcp@lists.linux.dev>
-Subject: Re: [PATCH v2] kbuild: make all file references relative to source
- root
-Message-ID: <e3ccb1ef-1b7a-4069-960f-a6fc5353c1ce@t-8ch.de>
-References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
- <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
+	s=arc-20240116; t=1746128909; c=relaxed/simple;
+	bh=nDhsL2XJXp4sGdblMuXDz6J+s9arRNEgRYmTCyaexrQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GVgNfLo6k+qP90pXbP0axSWdIG3gRZLS2sGq/4NWqbzKcU34y68Knk740D7/7ovbS1z1zrozMlPiY6bOeQdYb5FI3o73NhIYhmoDqLWOZiZx5BxNTVwmoEEK1jFHWCIYzYC9iKr23W53yP5Q3wI9BlXeDmMzLsCr0GWteltCI9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YzGLO6k6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18920C4CEE4;
+	Thu,  1 May 2025 19:48:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746128909;
+	bh=nDhsL2XJXp4sGdblMuXDz6J+s9arRNEgRYmTCyaexrQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YzGLO6k68UgR7+Nm00Bh3qiCYfJLGugqXN0nydwslcnTbRQL7jRNxuzYJwO2DL7nK
+	 tHUMwOWxVi1ZKRa2ONDBvRpY102ZaOxwW9yk5t/bA8XU+tunCUjcDlk8Ppu8wFPrjl
+	 Dgg8S9wTYSoCLPhnubONMUhq9GsPhbW9rywFw9abiBJSL2odSdcNE1vHRv2v7J3WYv
+	 2L/b7w6RDqK74h2pUhfLslnjBiTmu20VeiBLr7gvF/QWCRGBemHxRtXP9ezSWhuHtA
+	 H9K8FiJZyqPPWhr1XJufYGW/3/v3JjLJsKLseg6/XHAxH8v3giC3W5Kazz0jQ7/7Ac
+	 k0RbRd9Ap4Ykg==
+From: Kees Cook <kees@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Justin Stitt <justinstitt@google.com>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Subject: [PATCH 0/3] Detect changed compiler dependencies for full rebuild
+Date: Thu,  1 May 2025 12:48:15 -0700
+Message-Id: <20250501193839.work.525-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1927; i=kees@kernel.org; h=from:subject:message-id; bh=nDhsL2XJXp4sGdblMuXDz6J+s9arRNEgRYmTCyaexrQ=; b=owGbwMvMwCVmps19z/KJym7G02pJDBnCFxh2/PXlvaehL1H6dc75Bx/zNktbhx09/FdmltqcI 0HqoR7HO0pZGMS4GGTFFFmC7NzjXDzetoe7z1WEmcPKBDKEgYtTACYy4wAjw2mV5XtjyvZEd0dd O3P41KcpP2eIZ6esbruk8vGX2Bsf0ekMf4WEFA8eXy5n9yd9Q8DhFWJR9nNPKmfrP4owctS5oT/ 5IgMA
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
 
-Hi Matthieu,
+Hi,
 
-On 2025-04-29 18:12:29+0200, Matthieu Baerts wrote:
-> Hi Thomas, Masahiro,
-> 
-> +Cc Peter Oberparleiter, MPTCP ML
-> 
-> On 15/03/2025 14:20, Thomas Weißschuh wrote:
-> > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
-> > Other references, for example in debug information, are not affected.
-> > This makes handling of file references in the compiler outputs harder to
-> > use and creates problems for reproducible builds.
-> > 
-> > Switch to -ffile-prefix map which affects all references.
-> > 
-> > Also drop the documentation section advising manual specification of
-> > -fdebug-prefix-map for reproducible builds, as it is not necessary
-> > anymore.
-> > 
-> > Suggested-by: Ben Hutchings <ben@decadent.org.uk>
-> > Link: https://lore.kernel.org/lkml/c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk/
-> > Acked-by: Borislav Petkov (AMD) <bp@alien8.de> # arch/x86/
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> 
-> Thank you for having worked on that!
-> 
-> (...)
-> 
-> > diff --git a/Makefile b/Makefile
-> > index 5c333682dc9142b1aacfe454a5c77f5923554b7d..4f920187cee658ae4d1b807fca365f6994274828 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1067,7 +1067,7 @@ endif
-> >  
-> >  # change __FILE__ to the relative path to the source directory
-> >  ifdef building_out_of_srctree
-> > -KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
-> > +KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
-> >  KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/=
-> >  endif
-> 
-> Today, I noticed that my CI for the MPTCP subsystem couldn't produce
-> code coverage files like before: the source files are not found. A 'git
-> bisect' pointed me to this patch. Reverting it seems to fix the issue.
-> 
-> 
-> My CI is building the kernel out of the source tree, in ".virtme/build".
-> Before and after this patch, GCOV seems to do its job properly.
-> Capturing GCOV data with this lcov command seems OK too:
-> 
->   lcov --capture --keep-going -j "${INPUT_CPUS}" \
->      --rc geninfo_unexecuted_blocks=1 \
->      --include '/net/mptcp/' \
->      --function-coverage --branch-coverage \
->      -b "${PWD}/.virtme/build" -o kernel.lcov
-> 
-> But after this patch, lcov complains some files are not found, e.g.
-> 
->   ERROR: (source) unable to open
-> ${WORKDIR}/.virtme/build/net/mptcp/ctrl.c: No such file or directory
-> 
-> 
-> The output file is different: the path to the source file is wrong
-> because it points to the build dir. Instead of ...
-> 
->   SF:${WORKDIR}/net/mptcp/ctrl.c
-> 
-> ... now I have ...
-> 
->   SF:${WORKDIR}/.virtme/build/net/mptcp/ctrl.c
-> 
-> 
-> Are there modifications needed on GCOV side to adapt to the behaviour
-> change introduced by this patch? Or something else needed on the
-> userspace side?
+This is my attempt to introduce dependencies that track the various
+compiler behaviors that may globally change the build that aren't
+represented by either compiler flags nor the compiler version
+(CC_VERSION_TEXT). Namely, this is to detect when the contents of a
+file the compiler uses changes. We have 3 such situations currently in
+the tree:
 
-I'd like to focus on the report from Ville Syrjälä [0] first.
-While it is easier to reproduce and investigate, I suspect the solution
-found there will also work for your usecase.
+- If any of the GCC plugins change, we need to rebuild everything that
+  was built with them, as they may have changed their behavior and those
+  behaviors may need to be synchronized across all translation units.
+  (The most obvious of these is the randstruct GCC plugin, but is true
+  for most of them.)
 
+- If the randstruct seed itself changes (whether for GCC plugins or
+  Clang), the entire tree needs to be rebuilt since the randomization of
+  structures may change between compilation units if not.
 
-Thomas
+- If the integer-wrap-ignore.scl file for Clang's integer wrapping
+  sanitizer changes, a full rebuild is needed as the coverage for wrapping
+  types may have changed, once again cause behavior differences between
+  compilation units.
 
-[0] https://lore.kernel.org/lkml/aBEttQH4kimHFScx@intel.com/
+The best way I found to deal with this is to use a -include argument
+for each of the above cases, which causes fixdep to pick up the file and
+naturally depend on it causing the build to notice any date stamp changes.
+Each case updates its .h file when its internal dependencies change.
+
+-Kees
+
+Kees Cook (3):
+  gcc-plugins: Force full rebuild when plugins change
+  randstruct: Force full rebuild when seed changes
+  integer-wrap: Force full rebuild when .scl file changes
+
+ include/linux/vermagic.h     |  1 -
+ scripts/Makefile.gcc-plugins |  2 +-
+ scripts/Makefile.randstruct  |  3 ++-
+ scripts/Makefile.ubsan       |  1 +
+ scripts/basic/Makefile       | 20 +++++++++++++++-----
+ scripts/gcc-plugins/Makefile |  8 ++++++++
+ 6 files changed, 27 insertions(+), 8 deletions(-)
+
+-- 
+2.34.1
+
 
