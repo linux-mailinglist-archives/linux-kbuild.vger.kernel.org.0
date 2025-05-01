@@ -1,127 +1,113 @@
-Return-Path: <linux-kbuild+bounces-6826-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6827-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91076AA594D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 03:20:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E47AA5988
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 03:58:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0ACAE4A4F24
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 01:20:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9A2D3B35A6
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 01:57:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A46C01E8331;
-	Thu,  1 May 2025 01:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 459BC22DF85;
+	Thu,  1 May 2025 01:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J9UPb7O1"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BGzyitI6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D5E2F3E;
-	Thu,  1 May 2025 01:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1810135893
+	for <linux-kbuild@vger.kernel.org>; Thu,  1 May 2025 01:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746062426; cv=none; b=sZaFBgUJEVb4LIYtigfeGrvXUXs2KUPp2MP2lOvkPWJa4Q50zK35XIbxnNsGGYdibj91O7fhGg5vMBli2gyS0JTCIjj2GSWZKnRscufHpKJlPqK8ebiXQ9NoGJsac12LAmW7zuirJEC9XZzwYjajAuDI1X3brFsRcUIHMfBHR58=
+	t=1746064675; cv=none; b=eIWQ4hwlv+ztCJiuosORHjufFzCp9Vl4vNnjJOSPANakV1XPAkSUqb0SvLu5/uZLFYLZwRoivTMsrBBHvcYPc1WhVyQ2WKE3HIea3LhXjjkaAo9Jy1q5YPsNvT4x/bUQQ+r6Z+vb97t1DNCD+/S2ofq6U+ulsFZqwe4TE8v3n1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746062426; c=relaxed/simple;
-	bh=3IyZpzgUFuYEN0HmGWoxBd+Pp4s52MegKxt/UbLbtvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EHH5HBLOvtTWB+rvg5AJ3n0s/dQ0lkDJ2XPg5aBKyOJ0N/U58TytEEp4ry+7it/0B96/lAHtXsZJzhoSVQhyUKbsZSFx63UwHhmw5uZpds3Hxg2mKjeGaTtr2uBoIWADRaErB/HB2vWfEYsfChTFqCYsx7GiHyFU0AAj8vjotSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J9UPb7O1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545A9C4CEE7;
-	Thu,  1 May 2025 01:20:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746062426;
-	bh=3IyZpzgUFuYEN0HmGWoxBd+Pp4s52MegKxt/UbLbtvA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J9UPb7O1+IshFa6WZXkApQ+FAeIYpgBX1gm3DnzTRPPQniIbPxJ0mnpDgNXksCSiw
-	 EiJIpHndVFV8TFZZCn6y2qiQZH1kVyjHWdpHdppasynomKAKRbF4h5DqAK5w9+Zm60
-	 QriVa44hdz8SuzrcePVcBIwga5odCZZ6gD5julo/1T0vNwHonX11BZMgwXxZ+oayVh
-	 khxVRgiJoOOawXBjR2NBlKgczD0G5fJZAPypc7ef60eeVLmIQf/Hb9nJeWAcMWJbsZ
-	 /VDKz6t8/rfltnt5CKqzQ6S+9RLALBQytoDgEg7IrJyKEYk7FBml01PKKNc0i6CJ6w
-	 nmofEm/B5nCvQ==
-Date: Wed, 30 Apr 2025 18:20:19 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Rong Xu <xur@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Stafford Horne <shorne@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Teresa Johnson <tejohnson@google.com>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] kbuild: distributed build support for Clang ThinLTO
-Message-ID: <20250501012019.GB3762678@ax162>
-References: <20250420010214.1963979-1-xur@google.com>
- <CAF1bQ=RWmNt1xnnoQrsBG6-TXzSiqX6e-_Squ22UOSmUi-Tr8w@mail.gmail.com>
+	s=arc-20240116; t=1746064675; c=relaxed/simple;
+	bh=vNNOALAKojuc1IVmn4YDr6ggA0d46EQHEfPXL/A816s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IpWblfbqD3s8p6py1IP5QBKc8rcCRKvznkVjhFaK5y/wqD3+5N4Q/a7i2YDbT8yEnFKVrN7xtlG6E8NjM91p4PrHDoH6xPE5eaArIrdOfDql07E62vk/zzUmanJ14pn6kLGTaY+9bZyY5FJODzzhqlvLUj8WyZX6CkMgr355JZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=BGzyitI6; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5e6f4b3ebe5so931523a12.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 18:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1746064671; x=1746669471; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WydL3B0dnp8hxEJArR4oBSH0m050M1di9pDwlQ1+3BI=;
+        b=BGzyitI6ozCHnhv+OQNFwqhSBNFD69OaFSNft6SaqFrl8mUDURT2YHzlFQxF66De2x
+         fWKFYDOCPcqvVFhEdakqmJ2FaOAx0F4ycMv0FbenfGKXI2hI0W8vOGqXxl2jmePMHZol
+         HYiXj7sieNj3xisZo9v3kNyxHganRIpnnsDS8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746064671; x=1746669471;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WydL3B0dnp8hxEJArR4oBSH0m050M1di9pDwlQ1+3BI=;
+        b=bPEJJT1Kg5WBCv4D7bdcFbCTbAbNk9xLYlrbliysxnQVu9Mjc81eEu9K62McrI9g83
+         Jz9qzkVT8DTNntZRirGZkcDSiwD3s+xZ7eBDbWGIwPSZeGegsRxyqgWkgNsEz1hwpBsx
+         zIE+zUAPMAUcNAn9fnUIgHtsp7ZObMK6ayloB76kOEaNYIGGDm5bnExSYRuXmvzz6y9q
+         PMbNeZ+KuzZFu6VnRPXJE5f7P/VLIYEfMwbGTk7Cj4ticxXqDDFa0qZ6SPgf2DocjpNF
+         E6i9lOmT9dLWPdEDKDD7x1D/PMsXnJ5Sm3cKkubUcaz4YynfqWhXwtCSO7bsy8zOE8TK
+         TxgA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6O96j1demrTuKBq+3ra1JdZu7GbZtS/7+S1VKRPYlPGCsUi6TmBccXkDo7DqdaZgPB1vjYajxqNSv2EM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycI2zq2R3FojmpDiGP9yIFVgAlt/yzjIrGcP5SEM8so6kaZTRI
+	ZvBePQGG87ISKBV7nma/OlCytceuxbFen7yQETsez0F8/6U+oKzcNR2ROjgwjHPW11I/fUJcxce
+	px2k=
+X-Gm-Gg: ASbGncvh7EoVl5JKCfRjcZgHdVrPs08KDNVfKfQpCWcjR03paAjyQwDINa9xzK/9jR9
+	zlc8eLqQqd/M+T8y8HC88zvt1QY5un1IyPkipoFer8etxHFtgKlOGhaAaX1oVlZyNqN8Rh+cYW2
+	K3W6GUlnuVqBbcknIBa34/SsOPyEC/dK9lU7LrSMtj+SaVf40fQyC127wueMpSEWcnO8DH8mYmX
+	GCUK37cJtFpiHxSoLRIbk5cS9UTxnFIA6oSeYxQl5XoCJXytxpzAONtW0DcKJetD0OOgTLoN9G7
+	ER2Y+nvYb8QkkJ4RcWWYbkodH7VzdfFoAzjclRD8C6YqHyzlzozJN4Iu6SUNpJHTqqmm9G7fPQV
+	IhX1+CE9du33uM6Q=
+X-Google-Smtp-Source: AGHT+IH48aY8LEq9K5ki18hqmGGDw/NtMoNjWi+FKgelOzdHXWCc47OsO6tZphcUIix30VdE6iqIlA==
+X-Received: by 2002:a05:6402:1e95:b0:5f4:9017:c6a1 with SMTP id 4fb4d7f45d1cf-5f91350a9a6mr1139297a12.25.1746064671168;
+        Wed, 30 Apr 2025 18:57:51 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f7013ff812sm9833979a12.25.2025.04.30.18.57.49
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Apr 2025 18:57:50 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac339f53df9so102243866b.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Apr 2025 18:57:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVK0Et8xSzSLcS0OyhYgKQgzmuk40eLYfQ0udwXM505wI8L5Ye5Qhb9CL+8j1bnJMIOzLajuwaXglH3dzQ=@vger.kernel.org
+X-Received: by 2002:a17:907:86a4:b0:ac3:5c8e:d3f5 with SMTP id
+ a640c23a62f3a-acef4299d67mr153004566b.27.1746064668786; Wed, 30 Apr 2025
+ 18:57:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF1bQ=RWmNt1xnnoQrsBG6-TXzSiqX6e-_Squ22UOSmUi-Tr8w@mail.gmail.com>
+References: <20250430-unterminated-string-init-clang-v1-1-10eab729bf3d@kernel.org>
+In-Reply-To: <20250430-unterminated-string-init-clang-v1-1-10eab729bf3d@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 30 Apr 2025 18:57:32 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiHt40bxkx=1-2iecw32h5i8GXi=zpD0nUVdZxfh2k8mg@mail.gmail.com>
+X-Gm-Features: ATxdqUFgZ1ZDKZdSgMYuRCt9GwTeRVMgI6qtOB7_7i5pEIVOBrqHEKYehH_TDJc
+Message-ID: <CAHk-=wiHt40bxkx=1-2iecw32h5i8GXi=zpD0nUVdZxfh2k8mg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Properly disable -Wunterminated-string-initialization
+ for clang
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Rong,
+On Wed, 30 Apr 2025 at 15:56, Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Clang and GCC have different behaviors around disabling warnings
+> included in -Wall and -Wextra and the order in which flags are
+> specified
 
-On Tue, Apr 29, 2025 at 01:34:00PM -0700, Rong Xu wrote:
-> Just wanted to gently follow up on this patch that I sent previously.
-> 
-> From a toolchain and compiler perspective, I genuinely believe that
-> kernel ThinLTO builds should use this. I really want to get some feedback
-> and reviews on this patch.
+Ahh, ok. The clang behavior makes sense, even if it's obviously not
+how gcc does it.
 
-My apologies for some radio silence, other regressions and issues have
-been higher priority until now. I will try to take a closer look at this
-soon but I do have one comment based on your comment above and the
-Kconfig help text...
+Will apply. Thanks,
 
-> On Sat, Apr 19, 2025 at 6:02 PM <xur@google.com> wrote:
-...
-> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > index b0adb665041f1..cbeeeb9b076d8 100644
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -810,6 +810,18 @@ config LTO_CLANG_THIN
-> >             https://clang.llvm.org/docs/ThinLTO.html
-> >
-> >           If unsure, say Y.
-> > +
-> > +config LTO_CLANG_THIN_DIST
-> > +       bool "Clang ThinLTO in distributed mode (EXPERIMENTAL)"
-> > +       depends on HAS_LTO_CLANG && ARCH_SUPPORTS_LTO_CLANG_THIN
-> > +       select LTO_CLANG
-> > +       help
-> > +         This option enables Clang's ThinLTO in distributed build mode.
-> > +         In this mode, the linker performs the thin-link, generating
-> > +         ThinLTO index files. Subsequently, the build system explicitly
-> > +         invokes ThinLTO backend compilation using these index files
-> > +         and pre-linked IR objects. The resulting final object files
-> > +         are with the .final_o suffix.
-> >  endchoice
-
-This says what the option does but it does not really say why the user
-would want to use this over CONFIG_LTO_CLANG_THIN_DIST; even as someone
-relatively familiar with these technologies, I am not sure what this
-means for the build or resulting kernel. Is there any reason why a user
-would want to use in-process ThinLTO instead of distributed? You seem to
-make the case above and in Discourse that the kernel would benefit from
-this, so should we just wholesale replace in-process ThinLTO with the
-distributed one?
-
-Cheers,
-Nathan
+                 Linus
 
