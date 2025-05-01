@@ -1,49 +1,50 @@
-Return-Path: <linux-kbuild+bounces-6847-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6848-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075D3AA66CF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 01:01:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D056AA66CA
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 01:01:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7609B9A402A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 23:00:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DFBC4A474F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 May 2025 23:01:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EB6F267738;
-	Thu,  1 May 2025 23:00:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 420CF26B2D0;
+	Thu,  1 May 2025 23:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e98t5CLZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arfs+wlp"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE4F2676C2;
-	Thu,  1 May 2025 23:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D17626C386;
+	Thu,  1 May 2025 23:00:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746140443; cv=none; b=f7eSns0gt438g9Xx1nksiVmlq8eQ6Ul8VmdtbGvRXozd10CRRrBj7CA54ox2rB7UCejRW1nMCvSk6+7KYObBhaimGjbH99bMpNrvVbs2/pEALbM0KqUSyKoolxKO+6e0tNIJgdr1g0F/zCALCwnwqujqrkYQxxudT7caeVYBUQo=
+	t=1746140446; cv=none; b=i7CPFMURtYed2o0MHBUk0G2XSTFSYGs7Kw2wpE1BcCcftc62MclB81ED+ZFzmmw10TuOMoZr1xbqOVFCNStKyugL2FQU+cNgqLHl61uOy7WanDGm+POeb8a3JdDUHIm339i6ZhI3ZZnp4xPA35Dw8p31qybrF94Z41wPb056DDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746140443; c=relaxed/simple;
-	bh=8FQkbRPJy0zvwunwc1ySRH0Q3DDXGhnAmdLyOpwrQt8=;
+	s=arc-20240116; t=1746140446; c=relaxed/simple;
+	bh=682lfWiGOY5H1gQ7Q6kvG5sTLVNVS+CC8Ch3D7YMRiM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TRk2abBJq4xjjarJdeq/to+eENxiYDV4IM+IiiUr0sxeeSp02D4nMjyJDZVFHWVPh8Rk+2eXQNyJ4RTEXSpwbspRTM+1pHvePieDa+FakEl74x6zaDeAsHVCO3mO1UGAhnnaGHT5mEkB+kBZtCJvUrZXom5zSkulDbafHt1fpIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e98t5CLZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0122C4CEEE;
-	Thu,  1 May 2025 23:00:39 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=I3cv6T4Kq0GBnJWOYt5jwUYEFHFcyrW3SOJdj+I0ZcP5J/feWEkGTQri7X3q5qZxYojG+kNbiL8lh3WIh1q8PKBepqKjPZlY9SKNKijS4hKyGLfUM/g69oq8D9cEIoCdXLDg+HyK61MnOGt1CmeBBS4ypkYgYRUl9rxHvu+/U88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arfs+wlp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3033C4CEE3;
+	Thu,  1 May 2025 23:00:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746140442;
-	bh=8FQkbRPJy0zvwunwc1ySRH0Q3DDXGhnAmdLyOpwrQt8=;
+	s=k20201202; t=1746140445;
+	bh=682lfWiGOY5H1gQ7Q6kvG5sTLVNVS+CC8Ch3D7YMRiM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=e98t5CLZVBcdq9gVdHTrsQvCgC39vIIKgCEg1fESt1HwoyJAB+xdXJH78i5i1twB6
-	 4qbGr2nmUZrhBlgv+3YfkBwO8hch37IcBb5Qlp9KU4RJS9JcQ2yv4jYoulIv0H+x70
-	 ni/u7vhqvyAEICDgYD3Jm9ZrJm6Y3B+QFgugAcEnn/xLMDcFEmg56yqrqbjxp2+QPA
-	 q/fZGRWJiEC4BBWmaph6ULKh2adz5PDTZUU5Oi3vmB1qyP+hLmSKgMx3hhVjFTUUSj
-	 YOfeU5315iPpdGQ/fdgQLaV/TATdpQ7QtCB6tmL6gcyiRTAQf2rmRHQo19wfXjQVuW
-	 RLeeTrwLORv3A==
+	b=arfs+wlpYC/W0ZHftpIoRuBshfg+xOZfycRoUWvd4zyHScAnILO79L2ZnowU6mlKm
+	 bXeDJZsjj8kyZ/Or1UxI48ec/Sbpy0LuWQh2gQSOSusWv2WEzspumFKArRzCNL1olt
+	 4u+ZeEa5m9Shk3BEbmMUag+02rvhCGnoCocnt6Mu4/2a0XHLFfaxqx7EJW6byLkWUd
+	 uZJWJJS1X13m7UOctHHOh24Tm4p/smc+u3M9pHVx3wcJMefWd6hizkRdE+IlbhBhQv
+	 504srBdxVVtdnRvrGRwbLb7MzVFa3VOidJHP9JwJad2oEtf1rdS5PCN8P/5jz95EeF
+	 YWDjW3momFzBw==
 From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 01 May 2025 16:00:21 -0700
-Subject: [PATCH 1/2] kbuild: Disable -Wdefault-const-init-field-unsafe
+Date: Thu, 01 May 2025 16:00:22 -0700
+Subject: [PATCH 2/2] include/linux/typecheck.h: Zero initialize dummy
+ variables
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250501-default-const-init-clang-v1-1-3d2c6c185dbb@kernel.org>
+Message-Id: <20250501-default-const-init-clang-v1-2-3d2c6c185dbb@kernel.org>
 References: <20250501-default-const-init-clang-v1-0-3d2c6c185dbb@kernel.org>
 In-Reply-To: <20250501-default-const-init-clang-v1-0-3d2c6c185dbb@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -68,81 +69,71 @@ Cc: Nicolas Schier <nicolas.schier@linux.dev>,
  Marcus Seyfarth <m.seyfarth@gmail.com>, 
  Nathan Chancellor <nathan@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4144; i=nathan@kernel.org;
- h=from:subject:message-id; bh=8FQkbRPJy0zvwunwc1ySRH0Q3DDXGhnAmdLyOpwrQt8=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDBnCf0Uu7n60XkqwSYDJdLFd0yHLsrOryphOOi1el2DRd
- ifmRFhiRykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZhIQRjDH76oDPl09vA4/2Ut
- JrufG8anaep8YlD9XbHoaXudmvyZ9wx/OCZmXpTIW1iw/yjj7mqNm5MNM55Oj/nc7aLPfuS8YGw
- bFwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2895; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=682lfWiGOY5H1gQ7Q6kvG5sTLVNVS+CC8Ch3D7YMRiM=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDBnCf0W6u1VOX9z+XGNdXAi/xfz8SZpGb2LeKrnE2txmt
+ WfbXdfZUcrCIMbFICumyFL9WPW4oeGcs4w3Tk2CmcPKBDKEgYtTACaSLcfIMK3kgUj7oftcM7Ms
+ M2xmyDydMfnmwcougXN/nVfN3jLR6isjwzVx6blxv8Rn2Aow+S+r4pm2KOx4wt9n8z6fK7JZErn
+ ClB0A
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-A new on by default warning in clang [1] flags several places within the
-kernel where a const member of an aggregate type appears to be
-uninitialized:
+A new on by default warning in clang [1] aims to flags instances where
+const variables without static or thread local storage are not
+initialized because it can lead to an indeterminate value. The __dummy
+variables in the typecheck() macro are the only places within the kernel
+where this warning currently occurs.
 
-  include/linux/list.h:409:27: warning: default initialization of an object of type 'union (unnamed union at include/linux/list.h:409:27)' with const member leaves the object uninitialized and is incompatible with C++ [-Wdefault-const-init-field-unsafe]
-    409 |         struct list_head *next = smp_load_acquire(&head->next);
-        |                                  ^
-  include/asm-generic/barrier.h:176:29: note: expanded from macro 'smp_load_acquire'
-    176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-        |                             ^
-  arch/arm64/include/asm/barrier.h:164:59: note: expanded from macro '__smp_load_acquire'
-    164 |         union { __unqual_scalar_typeof(*p) __val; char __c[1]; } __u;   \
-        |                                                                  ^
-  include/linux/list.h:409:27: note: member '__val' declared 'const' here
+  drivers/gpu/drm/i915/gt/intel_ring.h:62:2: error: default initialization of an object of type 'typeof (ring->size)' (aka 'const unsigned int') leaves the object uninitialized and is incompatible with C++ [-Werror,-Wdefault-const-init-var-unsafe]
+     62 |         typecheck(typeof(ring->size), next);
+        |         ^
+  include/linux/typecheck.h:10:9: note: expanded from macro 'typecheck'
+     10 | ({      type __dummy; \
+        |              ^
 
-  crypto/scatterwalk.c:66:22: error: default initialization of an object of type 'struct scatter_walk' with const member leaves the object uninitialized and is incompatible with C++ [-Werror,-Wdefault-const-init-field-unsafe]
-     66 |         struct scatter_walk walk;
-        |                             ^
-  include/crypto/algapi.h:112:15: note: member 'addr' declared 'const' here
-    112 |                 void *const addr;
-        |                             ^
+  include/net/ip.h:478:14: error: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized and is incompatible with C++ [-Werror,-Wdefault-const-init-var-unsafe]
+    478 |                 if (mtu && time_before(jiffies, rt->dst.expires))
+        |                            ^
+  include/linux/jiffies.h:138:26: note: expanded from macro 'time_before'
+    138 | #define time_before(a,b)        time_after(b,a)
+        |                                 ^
+  include/linux/jiffies.h:128:3: note: expanded from macro 'time_after'
+    128 |         (typecheck(unsigned long, a) && \
+        |          ^
+  include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+     11 |         typeof(x) __dummy2; \
+        |                   ^
 
-  fs/hugetlbfs/inode.c:733:24: error: default initialization of an object of type 'struct vm_area_struct' with const member leaves the object uninitialized and is incompatible with C++ [-Werror,-Wdefault-const-init-field-unsafe]
-    733 |         struct vm_area_struct pseudo_vma;
-        |                               ^
-  include/linux/mm_types.h:803:20: note: member 'vm_flags' declared 'const' here
-    803 |                 const vm_flags_t vm_flags;
-        |                                  ^
-
-In all audited cases, the members are either not used in the particular
-call path, modified through other means such as memset() / memcpy()
-because the containing object is not const, or are within a union with
-other non-const members. Since these are technically false positives,
-the warning was split out from its main group [2] to allow the kernel to
-disable it while keeping the variable aspect of the warning enabled.
+Zero initialize the variables to silence the warning while not impacting
+the final code generation because the comparison only matters at compile
+time, as suggested on the PR of [1] by the clang maintainer.
 
 Cc: stable@vger.kernel.org
 Link: https://github.com/llvm/llvm-project/commit/576161cb6069e2c7656a8ef530727a0f4aefff30 [1]
-Link: https://github.com/llvm/llvm-project/commit/00f9ef282c7482754a0fea497417604d1deca9fa [2]
 Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 Closes: https://lore.kernel.org/CA+G9fYuNjKcxFKS_MKPRuga32XbndkLGcY-PVuoSwzv6VWbY=w@mail.gmail.com/
 Reported-by: Marcus Seyfarth <m.seyfarth@gmail.com>
 Closes: https://github.com/ClangBuiltLinux/linux/issues/2088
 Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- scripts/Makefile.extrawarn | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/linux/typecheck.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index d88acdf4085524b672c69fb75148ee87c30f88d8..b4d8265e587082687bc1d3de3fcc70e4a3f4f50d 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -37,6 +37,13 @@ KBUILD_CFLAGS += -Wno-gnu
- # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111219
- KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow-non-kprintf)
- KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation-non-kprintf)
-+
-+# clang emits a warning when a const member of an aggregate type is not
-+# initialized but there are several places in the kernel where this is
-+# intentional because the field is never used within a particular call path,
-+# the field is within a union with other non-const members, or the containing
-+# object is not const so the field can be modified via memcpy() / memset().
-+KBUILD_CFLAGS += $(call cc-disable-warning, default-const-init-field-unsafe)
- else
- 
- # gcc inanely warns about local variables called 'main'
+diff --git a/include/linux/typecheck.h b/include/linux/typecheck.h
+index 46b15e2aaefb4e7a4d21c8797ec4d1578998981c..5b473c9905ae7fce58b7226b57b668f9ddaccaca 100644
+--- a/include/linux/typecheck.h
++++ b/include/linux/typecheck.h
+@@ -7,8 +7,8 @@
+  * Always evaluates to 1 so you may use it easily in comparisons.
+  */
+ #define typecheck(type,x) \
+-({	type __dummy; \
+-	typeof(x) __dummy2; \
++({	type __dummy = {}; \
++	typeof(x) __dummy2 = {}; \
+ 	(void)(&__dummy == &__dummy2); \
+ 	1; \
+ })
 
 -- 
 2.49.0
