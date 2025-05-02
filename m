@@ -1,133 +1,154 @@
-Return-Path: <linux-kbuild+bounces-6856-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6857-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385BEAA68D1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 04:36:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 182B0AA6B0F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 08:53:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4DF45A5B63
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 02:36:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A288A7B5CDD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 06:52:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6B5384A2B;
-	Fri,  2 May 2025 02:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845F6266581;
+	Fri,  2 May 2025 06:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gvxly764"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="CxKUsKab"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3F34689;
-	Fri,  2 May 2025 02:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACC81D554;
+	Fri,  2 May 2025 06:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746153413; cv=none; b=qaHR44GznOaQzubA7LEf18JDw0veYavzvLr2p80DGAb5H8hAnmhjwgaNKtmXHwTS5SSBXRA6vqQjAmcBGp/MokXTnf9Lm6jo3PW1e2baTQjaNVYzocUBxqov/sLLwBB40z+AYw9MnNsU6sbQS9Agh18VBjoUgTqSTQMcJTdayNw=
+	t=1746168798; cv=none; b=qVvAvWmfh0pGb1v+56+tEfcByZW96ygD2dE7c4N0C+cHK0fpawi/xWvbWEt6dSJ1F39hFRmA8KFdXCEuXvYvu2T6HE68UKr+LgdRJPiWCBkLZFYHa2ovHfppaU7QTemObD4dC5mbiPxn9DsizOc+Ot5A7T8TO0FXsAiUucotPbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746153413; c=relaxed/simple;
-	bh=kGjqdNL6uWTxYXfoihhELmFCGnZqUTkDeX57TXY79HE=;
+	s=arc-20240116; t=1746168798; c=relaxed/simple;
+	bh=AEdRU+ogQrE6gQAgP/rybtN8TOhshZ7X86ciQDX554g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=usFmv94pQ/P80ogU19Nim2IKSmFbtCJ6UvVnoP2uee8Zhv80vh5g0edYuMIWJW9FYHyvFoenCdT75simxZMbWL7eSy+W3CUK3NgHUnEmOLQRPudh50N6YowhB6+y2hdsMZnb5BOE9ipSADlnqyHgb0pBjEOVtvL4L1wRSrc5MMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gvxly764; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EDF0C4CEE3;
-	Fri,  2 May 2025 02:36:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746153413;
-	bh=kGjqdNL6uWTxYXfoihhELmFCGnZqUTkDeX57TXY79HE=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=msPR/UMfLyCejRg06M6wo+pKtRMNTiBPAxVkHPQTXjXgNqa/A0sDLR1ZSn1JoD+K/BaqeNhvAsfAznKTLTdSYA/2F+aEJr6nmcjtkucmwXRXzBCdtYDui6NGPKHNntdiYKgsWfCCr64P+ity25p5dfglEUvekY2F//o9YL3hTAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=CxKUsKab; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1746168790;
+	bh=AEdRU+ogQrE6gQAgP/rybtN8TOhshZ7X86ciQDX554g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gvxly764wJbgzP9snvgCvOl2pbOzHoX4FAL21k1/SmWVDnmwm7Muxgc2uMhdtoYBI
-	 er2RlDHi8pKyojvj0RFjRrlPAt1EwEpMcmpzdGWy6dOeb/kALWD9dsGkJWmcH2C7xw
-	 RL4wTkqSvJz1M/p2zACHb3aBMMM2LvTTbK/PeIRaSmmU5CKU0IJSL8RSRrn2SaP+n9
-	 KC6ZKmzwztSvOW6lwDpOeqJAJbtFo1lHL5LVUm9K8mRN53cCRdzBnjrtBUNpty6shX
-	 0qtm/durPsaBGrDJA1EmDApizIxI/xpw6QfFi6eVIu2mEEvJK2NZDSFIG+LmC2UuoF
-	 X1vIvfnnfZmOg==
-Date: Thu, 1 May 2025 19:36:47 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	patches@lists.linux.dev, stable@vger.kernel.org,
-	Linux Kernel Functional Testing <lkft@linaro.org>,
-	Marcus Seyfarth <m.seyfarth@gmail.com>
-Subject: Re: [PATCH 2/2] include/linux/typecheck.h: Zero initialize dummy
- variables
-Message-ID: <20250502023647.GC1744689@ax162>
-References: <20250501-default-const-init-clang-v1-0-3d2c6c185dbb@kernel.org>
- <20250501-default-const-init-clang-v1-2-3d2c6c185dbb@kernel.org>
- <CAHk-=whL8rmneKbrXpccouEN1LYDtEX3L6xTr20rkn7O_XT4uw@mail.gmail.com>
- <20250502012449.GA1744689@ax162>
- <20250502020534.GU2023217@ZenIV>
+	b=CxKUsKabvVQtCyoctO8MV2iUdgbSXO1OeNK+W2RsL9m4NVcoUrzpeI7zuNg2eC3IS
+	 ZL0Jz4TZ9bVREPe8YN+Ocj0q2Hc+biSc2XfA95gtj8Z+2GrX2G118bp/uIjQ0QmRMk
+	 XDnIezQvPUDxsyD5F02EsfUCEVYsV3PK2uLBkSiQ=
+Date: Fri, 2 May 2025 08:53:09 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>, 
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
+	Christian Heusel <christian@heusel.eu>, =?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
+Message-ID: <840b0334-71e4-45b1-80b0-e883586ba05c@t-8ch.de>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250502020534.GU2023217@ZenIV>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
 
-On Fri, May 02, 2025 at 03:05:34AM +0100, Al Viro wrote:
-> On Thu, May 01, 2025 at 06:24:49PM -0700, Nathan Chancellor wrote:
+Hi James,
+
+On 2025-04-29 10:05:04-0400, James Bottomley wrote:
+> On Tue, 2025-04-29 at 15:04 +0200, Thomas Weißschuh wrote:
+> > The current signature-based module integrity checking has some
+> > drawbacks in combination with reproducible builds:
+> > Either the module signing key is generated at build time, which makes
+> > the build unreproducible,
 > 
-> > > How long has that been valid? Because this is certainly new to the
-> > > kernel, and sparse does complain about this initializer.
-> > 
-> > As you noted, brace initialization for scalars appears to always be
-> > valid (at least in my testing) but as Al points out, empty braces for
-> > scalars is only supported in GCC 13+ and Clang 17+ (I think [1] was the
-> > clang commit), so that is not going to fly...
+> I don't believe it does: as long as you know what the key was, which
+> you can get from the kernel keyring, you can exactly reproduce the core
+> build (it's a public key after all and really equivalent to built in
+> configuration).  Is the fact that you have to boot the kernel to get
+> the key the problem?  In which case we could insist it be shipped in
+> the kernel packaging.
+
+See below.
+
+> >  or a static key is used, which precludes rebuilds by third parties
+> > and makes the whole build and packaging process much more
+> > complicated. 
 > 
-> From some digging around it looks like
-> 	* {} for compounds had been an extension for quite a while
-> 	* C++11 got it into standard, with semantics defined as "same
-> value you get for static-duration variables of that type without an
-> explicit initializer".  For scalar types as well, with the same
-> semantics.
-> 	* On C side that happened (again, with scalar types allowed)
-> in 2022; N2912 is the first draft with that change already merged,
-> N2913 is the corresponding editor's report, saying that change in question
-> (N2900) got merged in January/February virtual meeting.
-> 	IOW, C23 has it, no previous versions do.  For C17 this syntax
-> is an error, and AFAICS you need at least -std=c2x or -std=gnu2x to have
-> it acceptable.
+> No, it's the same as above ... as long as you have the public key you
+> can reproduce the core build with the same end to end hash.
 
-Neat, thanks for digging around.
+While the scheme you propose does allow verification of rebuildability,
+it does not satisfy the requirements for a reproducible build as
+understood by the general reproducible builds community:
 
-> We can make sparse accept it (either unconditionally or with sufficient
-> -std in arguments), but that won't do a damn thing for cc(1).  Does
-> clang (any version) really accept it with -std=gnu11?
+	When is a build reproducible?
 
-Yes, it appears that both GCC and clang accept it even with -std=gnu89:
-https://godbolt.org/z/GYKrKhTdf
+	A build is reproducible if given the same source code, build environment
+	and build instructions, any party can recreate bit-by-bit identical
+	copies of all specified artifacts.
 
-The clang commit mentions that this is exposed to older C modes like the
-GNU extension was.
+	The relevant attributes of the build environment, the build instructions
+	and the source code as well as the expected reproducible artifacts are
+	defined by the authors or distributors. The artifacts of a build are the
+	parts of the build results that are the desired primary output.
 
-I guess another option to locally silence the warning would be to insert
-something like
+https://reproducible-builds.org/docs/definition/
 
-  #if defined(__clang__) && __clang_major__ >= 21
-  #define typecheck_init = {}
-  #else
-  #define typecheck_init
-  #endif
+Specifically the output of a previous build (the public key, module
+signatures) is not available during the rebuild or verification.
 
-  #define typecheck(type,x) \
-  ({    type __dummy typecheck_init; \
-        typeof(x) __dummy2 typecheck_init; \
-        (void)(&__dummy == &__dummy2); \
-        1; \
-  })
+> However, is there also a corresponding question of how we verify
+> reproduceability of kernel builds (and the associated modules ... I
+> assume for the modules you do strip the appended signature)?
 
-but maybe that is just too ugly or worthless.
+Currently distros either don't enforce the reproducibility of the
+kernel package at all or disable MODULE_SIG.
+With the proposed scheme there would be no signatures on builtin modules.
 
-Cheers,
-Nathan
+> I assume
+> you're going by the secure boot hash (authenticode hash of the efi stub
+> and the compressed payload which includes the key).  However, if we had
+> the vmlinux.o we could do a much more nuanced hash to verify the build,
+> say by placing the keyring data in a section that isn't hashed.
+
+The currently existing tooling does not have any nuance in its
+verifications. It just compares bit-by-bit.
+I think this is intentional as any bespoke per-package logic would
+introduce possible failure modes and stand in the way of implementing
+multiple completely independent verification toolsets.
+While bespoke tools like diffoscope exist, these are only for
+development and debugging. Not not for the reproducibiliy check itself.
+
+How to handle secure-boot with distro keys is not yet clearly defined.
+I see two possibilities, which should be possible with the proposed
+scheme, both starting with the build of an unsigned kernel package.
+Then a signature would be computed on private infrastructure and either
+* shipped in a standalone package, to be combined with the kernel when
+  that is installed to the ESP/flash etc.
+* used as input of a signed kernel package where it is combined with the
+  unsigned kernel image.
+
+
+Thomas
 
