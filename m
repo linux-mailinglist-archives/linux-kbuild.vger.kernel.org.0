@@ -1,55 +1,55 @@
-Return-Path: <linux-kbuild+bounces-6880-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6878-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E09AA74F8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 16:28:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC289AA74E5
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 16:26:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 97E2B7B2722
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 14:25:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C00EE4C4CF0
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 14:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79E7E255F5E;
-	Fri,  2 May 2025 14:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80B652566C4;
+	Fri,  2 May 2025 14:26:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GgT39S32"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QpXStV5Y"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C409256C9B;
-	Fri,  2 May 2025 14:26:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6976E2561C7;
+	Fri,  2 May 2025 14:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746195971; cv=none; b=Ot/aTKbMzPwsXBoUuHbq+WkjQvvh0gM1adWOyJrqxmaDLVrbM0Ri1q+dQ202DiTxRbu2umT8eHNjrSL+7UEd/RC4eS3izjn36L6eXtNXln4it33C2rq6k547vVVQrllCm0nVnCXv0YmDYSLmwvniBUuswDdFjDDuPaCg9+5WLbQ=
+	t=1746195961; cv=none; b=LofyoGBIBCp53XjHPnqWkbfhBBFiN2spLvTlC4+zsENgK4FYmRPP2mJV7LLENXjCJ/ugE9V/VPEg6k/aeiZ81/NvKWFrTlCJQ50n+IfVOmIoTFS9c2gL0/fWAfyzsMnclY1usf9Zq1m0iWun0n4B2U2xZOXbj1mDhyP6+X3lWAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746195971; c=relaxed/simple;
-	bh=r7bJ04rxm1egxZUxKBy0DaRcOzZy9pv4ih3VucjjqiQ=;
+	s=arc-20240116; t=1746195961; c=relaxed/simple;
+	bh=REB2eBCK+R9hPD7UeAqPnHnHhVOyXX6Q/mLp4WgtHlA=;
 	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type; b=sjFh3T5p5BIRX2tHFqAu+MKJfAmzD22MmTsyETTng4nQqqI7eYyDV97JanRnLdb+R5MAAgkVhzeJPcAXUHQdEICXqOcxJMw7G+hfShefUezU+HWqCmcIoJ+xDryKubbj1F8PGKprWOHnC4mk4UL697Yta0qFh/j7BGs185OI8Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GgT39S32; arc=none smtp.client-ip=90.155.50.34
+	 Content-Type; b=LZUbpChxspsH733MbNuvVjV8BJF1CiCjH5LVeB0OyEITOTs9G6AWpDzgzWwUb+RkmJIfvo7xFWXKfdad9NapkKurG7NUtTx2cMNl4Cil6zmAGA6wtTmyJqh76ktTQ4bQJ8VlT7U8Ouqm2JxUNwV0OQK7PpLbM/6p1JqdWh8nsjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QpXStV5Y; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=9/d9HGSmnu1K8plMQ/z7T8XUHN+iiRR+u0jykNWAszU=; b=GgT39S32uyjySX0HPX7e53L9DP
-	AvRt81KovfDOhWpovtyAUNYEVYV/JjQQzre1FzF9JgXabkYzt1IQZtRyZaQ/6maBbwZ4Pl97yboaV
-	odume75X6YelhfWEXof2oNUHJzTAahD6ebnv0NggIE7LlHyO1424l+2KtiD4pyI735wWQQFSPruKC
-	D8ZTo3W9ILct4rrJnPd72KWodSRBe2yQo/o8WBdVLGSINUYasjWF6tuZarfGVEUnvCoM/CyJHBWKW
-	JsNeMjyjUROqI9APYnebo7AYIqV7CWFqh8wBmzpAg8zxBd+lxCz0bu3P8euWp+5PzzwzUUGlEb8y0
-	xqw0TNLA==;
+	bh=/UvIJyPu4PFnUbnZPb6KkO/nGn6jmjyInuZMnh8rDj0=; b=QpXStV5YToMC6plCNaJSXQHB4K
+	YeJQE2XoMrdquYIoXPUBk+07E3YFIRiR03BC6Sl3g/96xyck/qYGSG7l8DfopcijtmaXCUQtphmQu
+	EqLGsV38TUMPW3xfkKjbPFtRmJ9yBxHSVlg0csvlcx0rEPzv4mPiVHaq4pQL0qxWD86DNaIRXYX8v
+	5Ei5pBUEkorSP81YRVxhNB81C4BbTs3K1+pcqn4d6CPuNuC9a/Gt6hWH6uikwTzoKaY/U/T3OFXqu
+	Oheu+VX0aL4eHbqTcbRle78lAfD5kPneD/1doeEmlUDhYLXjtIKXLGcjv6JO1HMRm8HRlbj04WsUS
+	ON6yzVxg==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uArKE-00000002iJh-3iXp;
-	Fri, 02 May 2025 14:25:16 +0000
+	id 1uArKD-00000002iJj-3aSK;
+	Fri, 02 May 2025 14:25:14 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 0)
-	id EBEDD30078C; Fri,  2 May 2025 16:24:59 +0200 (CEST)
-Message-ID: <20250502141844.154517322@infradead.org>
+	id F16A830081F; Fri,  2 May 2025 16:24:59 +0200 (CEST)
+Message-ID: <20250502141844.263611823@infradead.org>
 User-Agent: quilt/0.66
-Date: Fri, 02 May 2025 16:12:07 +0200
+Date: Fri, 02 May 2025 16:12:08 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: mcgrof@kernel.org
 Cc: x86@kernel.org,
@@ -66,8 +66,9 @@ Cc: x86@kernel.org,
  hch@infradead.org,
  gregkh@linuxfoundation.org,
  roypat@amazon.co.uk,
+ Sean Christopherson <seanjc@google.com>,
  "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Subject: [PATCH v3 3/5] module: Extend the MODULE_ namespace parsing
+Subject: [PATCH v3 4/5] module: Account for the build time module name mangling
 References: <20250502141204.500293812@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -77,115 +78,61 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 
-Instead of only accepting "module:${name}", extend it with a comma
-separated list of module names and add tail glob support.
+Sean noted that scripts/Makefile.lib:name-fix-token rule will mangle
+the module name with s/-/_/g.
 
-That is, something like: "module:foo-*,bar" is now possible.
+Since this happens late in the build, only the kernel needs to bother
+with this, the modpost tool still sees the original name.
 
+Reported-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Tested-by: Sean Christopherson <seanjc@google.com>
 ---
- kernel/module/main.c  |   36 ++++++++++++++++++++++++++++++++++--
- scripts/mod/modpost.c |   36 ++++++++++++++++++++++++++++++++++--
- 2 files changed, 68 insertions(+), 4 deletions(-)
+ kernel/module/main.c |   26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -1083,12 +1083,44 @@ static char *get_modinfo(const struct lo
- 	return get_next_modinfo(info, tag, NULL);
+@@ -170,6 +170,30 @@ static inline void add_taint_module(stru
  }
  
-+/**
-+ * verify_module_namespace() - does @modname have access to this symbol's @namespace
-+ * @namespace: export symbol namespace
-+ * @modname: module name
-+ *
-+ * If @namespace is prefixed with "module:" to indicate it is a module namespace
-+ * then test if @modname matches any of the comma separated patterns.
-+ *
-+ * The patterns only support tail-glob.
+ /*
++ * Like strncmp(), except s/-/_/g as per scripts/Makefile.lib:name-fix-token rule.
 + */
- static bool verify_module_namespace(const char *namespace, const char *modname)
- {
-+	size_t len, modlen = strlen(modname);
- 	const char *prefix = "module:";
-+	const char *sep;
-+	bool glob;
- 
--	return strstarts(namespace, prefix) &&
--	       !strsmp(namespace + strlen(prefix), modname);
-+	if (!strstarts(namespace, prefix))
-+		return false;
++static int mod_strncmp(const char *str_a, const char *str_b, size_t n)
++{
++	for (int i = 0; i < n; i++) {
++		char a = str_a[i];
++		char b = str_b[i];
++		int d;
 +
-+	for (namespace += strlen(prefix); *namespace; namespace = sep) {
-+		sep = strchrnul(namespace, ',');
-+		len = sep - namespace;
++		if (a == '-') a = '_';
++		if (b == '-') b = '_';
 +
-+		glob = false;
-+		if (sep[-1] == '*') {
-+			len--;
-+			glob = true;
-+		}
++		d = a - b;
++		if (d)
++			return d;
 +
-+		if (*sep)
-+			sep++;
-+
-+		if (strncmp(namespace, modname, len) == 0 && (glob || len == modlen))
-+			return true;
++		if (!a)
++			break;
 +	}
 +
-+	return false;
- }
++	return 0;
++}
++
++/*
+  * A thread that wants to hold a reference to a module only while it
+  * is running can call this to safely exit.
+  */
+@@ -1116,7 +1140,7 @@ static bool verify_module_namespace(cons
+ 		if (*sep)
+ 			sep++;
  
- static int verify_namespace_is_imported(const struct load_info *info,
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1682,12 +1682,44 @@ void buf_write(struct buffer *buf, const
- 	buf->pos += len;
- }
+-		if (strncmp(namespace, modname, len) == 0 && (glob || len == modlen))
++		if (mod_strncmp(namespace, modname, len) == 0 && (glob || len == modlen))
+ 			return true;
+ 	}
  
-+/**
-+ * verify_module_namespace() - does @modname have access to this symbol's @namespace
-+ * @namespace: export symbol namespace
-+ * @modname: module name
-+ *
-+ * If @namespace is prefixed with "module:" to indicate it is a module namespace
-+ * then test if @modname matches any of the comma separated patterns.
-+ *
-+ * The patterns only support tail-glob.
-+ */
- static bool verify_module_namespace(const char *namespace, const char *modname)
- {
-+	size_t len, modlen = strlen(modname);
- 	const char *prefix = "module:";
-+	const char *sep;
-+	bool glob;
- 
--	return strstarts(namespace, prefix) &&
--	       !strcmp(namespace + strlen(prefix), modname);
-+	if (!strstarts(namespace, prefix))
-+		return false;
-+
-+	for (namespace += strlen(prefix); *namespace; namespace = sep) {
-+		sep = strchrnul(namespace, ',');
-+		len = sep - namespace;
-+
-+		glob = false;
-+		if (sep[-1] == '*') {
-+			len--;
-+			glob = true;
-+		}
-+
-+		if (*sep)
-+			sep++;
-+
-+		if (strncmp(namespace, modname, len) == 0 && (glob || len == modlen))
-+			return true;
-+	}
-+
-+	return false;
- }
- 
- static void check_exports(struct module *mod)
 
 
 
