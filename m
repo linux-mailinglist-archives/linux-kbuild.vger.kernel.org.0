@@ -1,215 +1,112 @@
-Return-Path: <linux-kbuild+bounces-6894-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6895-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72A4AA79E8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 21:02:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E425CAA7AFB
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 22:39:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 378477B9C8B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 19:01:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B18491C02A92
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 20:39:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A21701F4C90;
-	Fri,  2 May 2025 19:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAE91F1511;
+	Fri,  2 May 2025 20:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jB1YOX/W"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTrMoDC2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133631EFFB9;
-	Fri,  2 May 2025 19:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007CF1EF368;
+	Fri,  2 May 2025 20:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746212493; cv=none; b=GiPxur3aLVJ/cYld5z+k6uYPeYXpeN+PKUZy1OnHqMgzwHp8IoSdv0kTmy2tuREWFWGhOdOK1EQyn0HfVUk6FP4VOWob3hWf+Py3s6dPSitkUwCXC7RU+AlGOHi6OfUUwT9wx0TjOiQR7g/T2YM79X+/ifWCu/mLq399TKa1JO8=
+	t=1746218359; cv=none; b=STZ9apGupWe1QzS9Z9ifMVXsAz0HFUf5Y6WxKZOsMYTDwioSyuz/Cp07OqWqg+8YazaGTPWiW7MUYRStlfGE9tNfyVwUjVu2tKDjmNlMAwWmilrZJ7koOrI7YVV2sgeh++mce3GAWCKgLnBblg8Ky9v0nZY9yiWCi0gUjbQBtTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746212493; c=relaxed/simple;
-	bh=OArrhviC9XaQ7OlcTfKqQMGsnz4armduOY/WBMGcbsA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OyK38LUdMSeADJotum82NgzCMrBGwTMw/Hpp2DN7U0Lbce6fJqRp0JJD/eRhaCUjn/xqulfWZsC9TrDfb/D8K1sxvPJ7N+gcI5vg5dB8rc361AjOH/vg5SS1jq5R6/xq4hDu0tvYmueZaJKXHSqDZNVCAS4nc6zmRklUS4vJ94k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jB1YOX/W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA19C4CEED;
-	Fri,  2 May 2025 19:01:32 +0000 (UTC)
+	s=arc-20240116; t=1746218359; c=relaxed/simple;
+	bh=09D95fCeGz8N6sLjtZzo4KLfz4fUqg335kqDi+c6Y2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YnhIETetY6Q5ZHzUatMi1frIYYgGmtFbpc1Kn9EBLhETIBW/RID011VvUg5SvccjS7TbCZqy17BB/7CLBvOrQ1fxsCnYAXlh16jS3PgHLcBPnhBdpkPKvbJXTNvVFwRKdX40HDxEHWYwYI4XrRErbUp4pfeR3Xks8TM+16Q5FAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTrMoDC2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D769C4CEE4;
+	Fri,  2 May 2025 20:39:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746212492;
-	bh=OArrhviC9XaQ7OlcTfKqQMGsnz4armduOY/WBMGcbsA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jB1YOX/WblarlM1ru+chkUcRI7n9ViNaZEATHHCcZU9HKHkXtQaiFa1ADnnNSHEfn
-	 pxV/EexqPW/iO2BUs8r2oHGwy/9Wh+oNp1A5atSmV+xAncgPjqT8RJGnFSSHtmQkzE
-	 UPmqFqbQ6KKii/W31CNxWg7FeU4snGvlYrWtTP21uUUHLpcqwPtQxofl5x4yxEQWCa
-	 HwLSZcaV963TrPrvt3cOAxbzFvO38HxPRoaEke92VS2avjAcALnb+UJqHMA74Tz/D8
-	 JUZIkKnmwrX/2Jemco5btqwU2P3ADx4coHH+136JT/FvbSfjWd+ts9cd4ecXPSUgg3
-	 HONZP1ma8mZfQ==
+	s=k20201202; t=1746218358;
+	bh=09D95fCeGz8N6sLjtZzo4KLfz4fUqg335kqDi+c6Y2w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GTrMoDC2PIy9CmJMxenavNUOlDO0Z8z9EwJnnTucOt/5Asv3wwOTWwDdpH0cuCIAd
+	 lHXpSNPhGg6JiAr8FDnBKc58b1QpGC5+++jzO9nlBtxr0k/V66lap+62fi7lArj39a
+	 iJ0yeGbJczFtwlr1RBWCsHCaWvupI4BIJSZk1B3ZtwPbFvaeN7wZP1txpj38gnY/i5
+	 demqVTSCq3/HpCMNA2R/Vq//RhJAu3JZHTzb83Fe1j2QCt11dXBjERWmTswNg1HzLb
+	 r60CF+MfxhuOInbkdSuE13dNqeJ7+uJu30FpCGS9xO/ySvvLdpzNxRjOj4wjwJzekV
+	 3iFRD59/+LFeg==
+Date: Fri, 2 May 2025 13:39:15 -0700
 From: Kees Cook <kees@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Kees Cook <kees@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Justin Stitt <justinstitt@google.com>,
 	Marco Elver <elver@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Hou Wenlong <houwenlong.hwl@antgroup.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kbuild@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH RFC 4/4] stackleak: Support Clang stack depth tracking
-Date: Fri,  2 May 2025 12:01:27 -0700
-Message-Id: <20250502190129.246328-4-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250502185834.work.560-kees@kernel.org>
-References: <20250502185834.work.560-kees@kernel.org>
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH 1/3] gcc-plugins: Force full rebuild when plugins change
+Message-ID: <202505021337.DCC59E49@keescook>
+References: <20250501193839.work.525-kees@kernel.org>
+ <20250501194826.2947101-1-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4716; i=kees@kernel.org; h=from:subject; bh=OArrhviC9XaQ7OlcTfKqQMGsnz4armduOY/WBMGcbsA=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmiYm0eHYd/KD+/YrfhHLPdHAslHi9Fd//IiqqD/4I25 j38J1nZUcrCIMbFICumyBJk5x7n4vG2Pdx9riLMHFYmkCEMXJwCMBGBJYwMGxO93eMPrlt+5Jzt Oot7p+4nLPDlKnhnYFtxdhXvk+VS/Ax/Bd/vvaSguOh3WEFqRfyd1+x1/pxfFHj2REh++SY+fVI 9DwA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250501194826.2947101-1-kees@kernel.org>
 
-Wire up stackleak to Clang's proposed[1] stack depth tracking callback
-option. While __noinstr already contained __no_sanitize_coverage, it was
-still needed for __init and __head section markings. This is needed to
-make sure the callback is not executed in unsupported contexts.
+On Thu, May 01, 2025 at 12:48:16PM -0700, Kees Cook wrote:
+> There was no dependency between the plugins changing and the rest of the
+> kernel being built. Enforce this by including a synthetic header file
+> when using plugins, that is regenerated any time the plugins are built.
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nicolas Schier <nicolas.schier@linux.dev>
+> Cc: <linux-hardening@vger.kernel.org>
+> Cc: <linux-kbuild@vger.kernel.org>
+> ---
+>  scripts/Makefile.gcc-plugins | 2 +-
+>  scripts/gcc-plugins/Makefile | 8 ++++++++
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
+> index 5b8a8378ca8a..b0d2b9ccf42c 100644
+> --- a/scripts/Makefile.gcc-plugins
+> +++ b/scripts/Makefile.gcc-plugins
+> @@ -38,7 +38,7 @@ export DISABLE_STACKLEAK_PLUGIN
+>  
+>  # All the plugin CFLAGS are collected here in case a build target needs to
+>  # filter them out of the KBUILD_CFLAGS.
+> -GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
+> +GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y)) -include $(objtree)/scripts/gcc-plugins/deps.h
 
-Link: https://github.com/llvm/llvm-project/pull/138323 [1]
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: <x86@kernel.org>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Marco Elver <elver@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: Kai Huang <kai.huang@intel.com>
-Cc: Hou Wenlong <houwenlong.hwl@antgroup.com>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: <linux-kbuild@vger.kernel.org>
-Cc: <kasan-dev@googlegroups.com>
-Cc: <linux-hardening@vger.kernel.org>
-Cc: <linux-security-module@vger.kernel.org>
----
- arch/x86/include/asm/init.h |  2 +-
- include/linux/init.h        |  4 +++-
- scripts/Makefile.ubsan      | 12 ++++++++++++
- security/Kconfig.hardening  |  5 ++++-
- 4 files changed, 20 insertions(+), 3 deletions(-)
+This doesn't work[1] because CFLAGS_REMOVE and so many other places use
+filter-out (instead of subst) to remove flags, thinking flags are
+singular. But adding "-include path.h" means "-include" gets removed in
+a "$(filter-out $GCC_PLUGINS_CFLAGS, ...)" case. :(
 
-diff --git a/arch/x86/include/asm/init.h b/arch/x86/include/asm/init.h
-index 8b1b1abcef15..6bfdaeddbae8 100644
---- a/arch/x86/include/asm/init.h
-+++ b/arch/x86/include/asm/init.h
-@@ -5,7 +5,7 @@
- #if defined(CONFIG_CC_IS_CLANG) && CONFIG_CLANG_VERSION < 170000
- #define __head	__section(".head.text") __no_sanitize_undefined __no_stack_protector
- #else
--#define __head	__section(".head.text") __no_sanitize_undefined
-+#define __head	__section(".head.text") __no_sanitize_undefined __no_sanitize_coverage
- #endif
- 
- struct x86_mapping_info {
-diff --git a/include/linux/init.h b/include/linux/init.h
-index ee1309473bc6..c65a050d52a7 100644
---- a/include/linux/init.h
-+++ b/include/linux/init.h
-@@ -49,7 +49,9 @@
- 
- /* These are for everybody (although not all archs will actually
-    discard it in modules) */
--#define __init		__section(".init.text") __cold  __latent_entropy __noinitretpoline
-+#define __init		__section(".init.text") __cold __latent_entropy	\
-+						__noinitretpoline	\
-+						__no_sanitize_coverage
- #define __initdata	__section(".init.data")
- #define __initconst	__section(".init.rodata")
- #define __exitdata	__section(".exit.data")
-diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-index 9e35198edbf0..cfb3ecde07dd 100644
---- a/scripts/Makefile.ubsan
-+++ b/scripts/Makefile.ubsan
-@@ -22,3 +22,15 @@ ubsan-integer-wrap-cflags-$(CONFIG_UBSAN_INTEGER_WRAP)     +=	\
- 	-fsanitize=implicit-unsigned-integer-truncation		\
- 	-fsanitize-ignorelist=$(srctree)/scripts/integer-wrap-ignore.scl
- export CFLAGS_UBSAN_INTEGER_WRAP := $(ubsan-integer-wrap-cflags-y)
-+
-+ifdef CONFIG_CC_IS_CLANG
-+stackleak-cflags-$(CONFIG_STACKLEAK)	+=	\
-+	-fsanitize-coverage=stack-depth		\
-+	-fsanitize-coverage-stack-depth-callback-min=$(CONFIG_STACKLEAK_TRACK_MIN_SIZE)
-+export STACKLEAK_CFLAGS := $(stackleak-cflags-y)
-+ifdef CONFIG_STACKLEAK
-+    DISABLE_STACKLEAK		:= -fno-sanitize-coverage=stack-depth
-+endif
-+export DISABLE_STACKLEAK
-+KBUILD_CFLAGS += $(STACKLEAK_CFLAGS)
-+endif
-diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
-index edcc489a6805..e86b61e44b33 100644
---- a/security/Kconfig.hardening
-+++ b/security/Kconfig.hardening
-@@ -158,10 +158,13 @@ config GCC_PLUGIN_STRUCTLEAK_VERBOSE
- 	  initialized. Since not all existing initializers are detected
- 	  by the plugin, this can produce false positive warnings.
- 
-+config CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
-+	def_bool $(cc-option,-fsanitize-coverage-stack-depth-callback-min=1)
-+
- config STACKLEAK
- 	bool "Poison kernel stack before returning from syscalls"
- 	depends on HAVE_ARCH_STACKLEAK
--	depends on GCC_PLUGINS
-+	depends on GCC_PLUGINS || CC_HAS_SANCOV_STACK_DEPTH_CALLBACK
- 	help
- 	  This option makes the kernel erase the kernel stack before
- 	  returning from system calls. This has the effect of leaving
+Ugh.
+
+-Kees
+
+[1] https://lore.kernel.org/r/202505021403.blhkPRXG-lkp@intel.com/
+
 -- 
-2.34.1
-
+Kees Cook
 
