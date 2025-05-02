@@ -1,112 +1,151 @@
-Return-Path: <linux-kbuild+bounces-6895-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6896-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E425CAA7AFB
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 22:39:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0F5AA7B33
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 23:00:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B18491C02A92
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 20:39:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A54AF3A2693
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 21:00:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAE91F1511;
-	Fri,  2 May 2025 20:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E03BE1F7910;
+	Fri,  2 May 2025 21:00:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTrMoDC2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ExgqAER2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007CF1EF368;
-	Fri,  2 May 2025 20:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90315376;
+	Fri,  2 May 2025 21:00:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746218359; cv=none; b=STZ9apGupWe1QzS9Z9ifMVXsAz0HFUf5Y6WxKZOsMYTDwioSyuz/Cp07OqWqg+8YazaGTPWiW7MUYRStlfGE9tNfyVwUjVu2tKDjmNlMAwWmilrZJ7koOrI7YVV2sgeh++mce3GAWCKgLnBblg8Ky9v0nZY9yiWCi0gUjbQBtTo=
+	t=1746219647; cv=none; b=phzoEtbcGEGn3mUDUBB7FwD/KfaAWIwxUUTuIKSBWSpeiufcXldLRtVGCIur6591Hm9az0EGrbVAAXAo1besStUOWwAQwktSGpkEJbDxHBCOcX/ACqL45TGQ2W+T8LF56OcdBKha0BKJD32TvmjRkCNaIksPQkfR7KP/NkvjiCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746218359; c=relaxed/simple;
-	bh=09D95fCeGz8N6sLjtZzo4KLfz4fUqg335kqDi+c6Y2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YnhIETetY6Q5ZHzUatMi1frIYYgGmtFbpc1Kn9EBLhETIBW/RID011VvUg5SvccjS7TbCZqy17BB/7CLBvOrQ1fxsCnYAXlh16jS3PgHLcBPnhBdpkPKvbJXTNvVFwRKdX40HDxEHWYwYI4XrRErbUp4pfeR3Xks8TM+16Q5FAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTrMoDC2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D769C4CEE4;
-	Fri,  2 May 2025 20:39:18 +0000 (UTC)
+	s=arc-20240116; t=1746219647; c=relaxed/simple;
+	bh=QV74l1IOGVbOqoSkpgRlO6NEjTmym0E/wjU2qkQ32fw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KO0Zaakx+DGRRTjtd+4TylIF+aoWeOynM2ZrvbgROptKx2KbvkZMV5B6R0SDbL1L63EJuIGE5f+RbFgh1B4t3B8Fw4yNcCuaudHf3EIFNmTCl6YwQha9XUu3tsNJnZmFecTN8i4ECzrpt4KRS1/cLZQ0dzWbsMk5XzYY3pkIpCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ExgqAER2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DCBAC4CEE4;
+	Fri,  2 May 2025 21:00:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746218358;
-	bh=09D95fCeGz8N6sLjtZzo4KLfz4fUqg335kqDi+c6Y2w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GTrMoDC2PIy9CmJMxenavNUOlDO0Z8z9EwJnnTucOt/5Asv3wwOTWwDdpH0cuCIAd
-	 lHXpSNPhGg6JiAr8FDnBKc58b1QpGC5+++jzO9nlBtxr0k/V66lap+62fi7lArj39a
-	 iJ0yeGbJczFtwlr1RBWCsHCaWvupI4BIJSZk1B3ZtwPbFvaeN7wZP1txpj38gnY/i5
-	 demqVTSCq3/HpCMNA2R/Vq//RhJAu3JZHTzb83Fe1j2QCt11dXBjERWmTswNg1HzLb
-	 r60CF+MfxhuOInbkdSuE13dNqeJ7+uJu30FpCGS9xO/ySvvLdpzNxRjOj4wjwJzekV
-	 3iFRD59/+LFeg==
-Date: Fri, 2 May 2025 13:39:15 -0700
-From: Kees Cook <kees@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Justin Stitt <justinstitt@google.com>,
-	Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH 1/3] gcc-plugins: Force full rebuild when plugins change
-Message-ID: <202505021337.DCC59E49@keescook>
-References: <20250501193839.work.525-kees@kernel.org>
- <20250501194826.2947101-1-kees@kernel.org>
+	s=k20201202; t=1746219647;
+	bh=QV74l1IOGVbOqoSkpgRlO6NEjTmym0E/wjU2qkQ32fw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ExgqAER2CsxrCnnAMm6jRg6gINgp9LGlOtbpHezQgKA+SlqChKBhWB5JTT3F8BKcz
+	 WyBu8J75GKcBiBoM493HVF8pnLHXaYp6WJzC0Sbxf8kv72/jKkJsmWg37D3/E6DH9x
+	 AVMJ/pp3eIG8LdZs9D/W1CiAOFAC3NhB8+3+QS2zaYnHn+HpmNaNfYeALRPcqkW/8K
+	 dVgYMpGiSWtxAIENr8F9WMYO1YCTIdNL3WBIxgpMQPFCzktf4xO/PaZtyphqAiNU9n
+	 3OzuLYfo5zx6WMa/dh7nLZo3pf9Love+B/Ys5wJLPmSUhMMraXMrOReDrSZuvwz5Li
+	 L/yI/DomKf2lw==
+From: KP Singh <kpsingh@kernel.org>
+To: bboscaccy@linux.microsoft.com
+Cc: James.Bottomley@hansenpartnership.com,
+	bpf@vger.kernel.org,
+	code@tyhicks.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	dhowells@redhat.com,
+	gnoack@google.com,
+	herbert@gondor.apana.org.au,
+	jarkko@kernel.org,
+	jmorris@namei.org,
+	jstancek@redhat.com,
+	justinstitt@google.com,
+	keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	llvm@lists.linux.dev,
+	masahiroy@kernel.org,
+	mic@digikod.net,
+	morbo@google.com,
+	nathan@kernel.org,
+	neal@gompa.dev,
+	nick.desaulniers+lkml@gmail.com,
+	nicolas@fjasle.eu,
+	nkapron@google.com,
+	paul@paul-moore.com,
+	roberto.sassu@huawei.com,
+	serge@hallyn.com,
+	shuah@kernel.org,
+	teknoraver@meta.com,
+	xiyou.wangcong@gmail.com,
+	KP Singh <kpsingh@kernel.org>
+Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
+Date: Fri,  2 May 2025 23:00:34 +0200
+Message-ID: <20250502210034.284051-1-kpsingh@kernel.org>
+X-Mailer: git-send-email 2.49.0.906.g1f30a19c02-goog
+In-Reply-To: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
+References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250501194826.2947101-1-kees@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 01, 2025 at 12:48:16PM -0700, Kees Cook wrote:
-> There was no dependency between the plugins changing and the rest of the
-> kernel being built. Enforce this by including a synthetic header file
-> when using plugins, that is regenerated any time the plugins are built.
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nicolas.schier@linux.dev>
-> Cc: <linux-hardening@vger.kernel.org>
-> Cc: <linux-kbuild@vger.kernel.org>
-> ---
->  scripts/Makefile.gcc-plugins | 2 +-
->  scripts/gcc-plugins/Makefile | 8 ++++++++
->  2 files changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
-> index 5b8a8378ca8a..b0d2b9ccf42c 100644
-> --- a/scripts/Makefile.gcc-plugins
-> +++ b/scripts/Makefile.gcc-plugins
-> @@ -38,7 +38,7 @@ export DISABLE_STACKLEAK_PLUGIN
->  
->  # All the plugin CFLAGS are collected here in case a build target needs to
->  # filter them out of the KBUILD_CFLAGS.
-> -GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
-> +GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y)) -include $(objtree)/scripts/gcc-plugins/deps.h
+> This patch series introduces the Hornet LSM. The goal of Hornet is to provide
+> a signature verification mechanism for eBPF programs.
+>
 
-This doesn't work[1] because CFLAGS_REMOVE and so many other places use
-filter-out (instead of subst) to remove flags, thinking flags are
-singular. But adding "-include path.h" means "-include" gets removed in
-a "$(filter-out $GCC_PLUGINS_CFLAGS, ...)" case. :(
+[...]
 
-Ugh.
+>
+> References: [1]
+> https://lore.kernel.org/bpf/20220209054315.73833-1-alexei.starovoitov@gmail.com/
+> [2]
+> https://lore.kernel.org/bpf/CAADnVQ+wPK1KKZhCgb-Nnf0Xfjk8M1UpX5fnXC=cBzdEYbv_kg@mail.gmail.com/
+>
+> Change list: - v2 -> v3 - Remove any and all usage of proprietary bpf APIs
 
--Kees
+BPF APIs are not proprietary, but you cannot implement BPF program signing
+for BPF users without aligning with the BPF maintainers and the community.
+Signed programs are a UAPI and a key part of how developers experience BPF
+and this is not how we would like signing to be experienced by BPF users.
 
-[1] https://lore.kernel.org/r/202505021403.blhkPRXG-lkp@intel.com/
+Some more feedback (which should be pretty obvious) but explicitly:
 
--- 
-Kees Cook
+* Hacks like if (current->pid == 1) return 0; also break your threat model
+  about root being untrusted. This is all the more reason I think signing
+  should be integrated into other LSMs, only a proper LSM policy can breathe
+  life into the root / kernel boundary. 
+
+* You also did not take the feedback into account:
+
+   new = map->ops->map_lookup_elem(map, &key);
+
+  This is not okay without having the BPF maintainers aligned, the same way as 
+
+  https://patchwork.kernel.org/project/netdevbpf/patch/20240629084331.3807368-4-kpsingh@kernel.org/#25928981
+
+  was not okay. Let's not have double standards.
+
+* And you copy pasted tools/testing/selftests/hornet/frozen_skel.h which
+  is what you expect users to do? Not acceptable either.
+
+So for this approach, it's a:
+
+Nacked-by: KP Singh <kpsingh@kernel.org>
+
+Now if you really care about the use-case and want to work with the maintainers
+and implement signing for the community, here's how we think it should be done:
+
+* The core signing logic and the tooling stays in BPF, something that the users
+  are already using. No new tooling.
+* The policy decision on the effect of signing can be built into various
+  existing LSMs. I don't think we need a new LSM for it.
+* A simple UAPI (emphasis on UAPI!) change to union bpf_attr in uapi/bpf.h in
+  the BPF_PROG_LOAD command:
+
+__aligned_u64 signature; 
+__u32 signature_size;
+
 
