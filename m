@@ -1,58 +1,84 @@
-Return-Path: <linux-kbuild+bounces-6884-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6885-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F402DAA78A0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 19:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163DFAA7960
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 20:44:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97CDA1B68175
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 17:25:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6D761C049EC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 18:44:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FE6F26156E;
-	Fri,  2 May 2025 17:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C44FA267709;
+	Fri,  2 May 2025 18:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tM64lHtg"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZebQyXQN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4854A32;
-	Fri,  2 May 2025 17:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C69E376;
+	Fri,  2 May 2025 18:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746206702; cv=none; b=AEK0qDt+AqYdkXdlAav2Af+uQQaw5rZRoTWQU0ZmjDuH03C7XfXGVeX1KtIbT6dthCWb7gxWqoHdIx+masx0UiRbYzXZTn+j4IU918i/61HCDI5YF7Ja6POJ//DoKuplEKWmXumFkiDPUaMHLb8v9y4cvCuSe2ayvqtfLtgn4xY=
+	t=1746211474; cv=none; b=u3u86x7ofDZziWrhPLKlRKmdrOIvhnb0uuBisTSLE/svA9b3FRf1zDGl0A5QIWLVyLWTc5fCzaD4i/tQCcXJ2sGQcG+ULxy1PO06t5gAhapkS8mDZyMxV/JY+4rz9KDxGkhwtxWKyz+kiy/abzJHXuR1xWVl32EAwtobsLjou0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746206702; c=relaxed/simple;
-	bh=2cGLsKah/POrdc4clt/UyRsunwEB/yKQBASlqHtH9KM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Azflk/10zau2TGHFBiwhJBDHejTEOnBqchal4Ykb30IgUsiWZZwNpxnU1FXgVqs55p095HkVfg2HqRqcfe1UY1FCzcr+j9pUul0rpiF2mxxnSLDo/L2qGQiN89azarh4NFZbHi/vnDwQcIgle0OnDsKtBvo2A5OJjdhMH9dti/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tM64lHtg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39609C4CEE4;
-	Fri,  2 May 2025 17:25:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1746206701;
-	bh=2cGLsKah/POrdc4clt/UyRsunwEB/yKQBASlqHtH9KM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tM64lHtgaSfwvXo8jexwrAKozvGBRLCgRO3RgS05BGSJOUVaOLufohC1+pr0f0DOZ
-	 Lm5zvZ3aOoKCDbqAG8N5NkXAR4N5/+s+vBqujq8orRi1kbriywsWZa0MUlGElNk8j/
-	 mD27RYxQm1HNZX451I0tesXS10GkBXfNmZuzau8o=
-From: Shuah Khan <skhan@linuxfoundation.org>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas.schier@linux.dev
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	brendan.higgins@linux.dev,
-	davidgow@google.com,
-	rmoar@google.com,
-	linux-kbuild@vger.kernel.org,
+	s=arc-20240116; t=1746211474; c=relaxed/simple;
+	bh=LWm2Mewi0nFsm/A6RwwDy26RvhP0+n0VoXoQ4yv8rig=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=e/pjH2iw6VUElVu2h28WRYK2lx/dKLYyAsPLal7eToKdsE4kRSRc6a3VyX0s9T2rKKC74oREr6QCihxXu0Fpka3EDuwoyfbnfmrsewVa5dCg0bJRTFM5vwDM9Dt+QFKKv6UFybuH/tF4fye8jcEukcQsWgoO/Zo4K6RAVVFMZyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZebQyXQN; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from narnia.corp.microsoft.com (unknown [40.78.12.133])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C2C212111574;
+	Fri,  2 May 2025 11:44:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C2C212111574
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1746211472;
+	bh=aEe0PfwCQ3p3kPpyx+RuNZSjsrvOc2pL1wXnh7jwV18=;
+	h=From:To:Subject:Date:From;
+	b=ZebQyXQNFVO/se60BdDeY4wGv06VFo7Ggfizpn795gClnXruqrZ2LZWKTCxrAvIx7
+	 EsftJAIyCwyPDU/Fxjd5QombyTS2FTw3NBrVGIVAtxI3Rqv+JPjlvgEMDKg4I/Jj4Y
+	 o3mmqY9LLD8zmV/n5/QyvRTHOGmkyZAf/fZMO5+4=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	David Howells <dhowells@redhat.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Shuah Khan <shuah@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jan Stancek <jstancek@redhat.com>,
+	Neal Gompa <neal@gompa.dev>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH] kbuild: use ARCH from compile.h in unclean source tree msg
-Date: Fri,  2 May 2025 11:24:56 -0600
-Message-ID: <20250502172459.14175-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.47.2
+	keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org,
+	llvm@lists.linux.dev,
+	nkapron@google.com,
+	teknoraver@meta.com,
+	roberto.sassu@huawei.com,
+	xiyou.wangcong@gmail.com,
+	Tyler Hicks <code@tyhicks.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: [PATCH v3 0/4] Introducing Hornet LSM
+Date: Fri,  2 May 2025 11:44:06 -0700
+Message-ID: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -61,93 +87,114 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When make finds the source tree unclean, it prints a message to run
-"make ARCH=x86_64 mrproper" message using the ARCH from the command
-line. The ARCH specified in the command line could be different from
-the ARCH of the existing build in the source tree.
+This patch series introduces the Hornet LSM. The goal of Hornet is to
+provide a signature verification mechanism for eBPF programs.
 
-This could cause problems in regular kernel build and kunit workflows.
+eBPF has similar requirements to that of modules when it comes to
+loading: find symbol addresses, fix up ELF relocations, some struct
+field offset handling stuff called CO-RE (compile-once run-anywhere),
+and some other miscellaneous bookkeeping. During eBPF program
+compilation, pseudo-values get written to the immediate operands of
+instructions. During loading, those pseudo-values get rewritten with
+concrete addresses or data applicable to the currently running system,
+e.g., a kallsyms address or an fd for a map. This needs to happen
+before the instructions for a bpf program are loaded into the kernel
+via the bpf() syscall. Unlike modules, an in-kernel loader
+unfortunately doesn't exist. Typically, the instruction rewriting is
+done dynamically in userspace via libbpf. Since the relocations and
+instruction modifications are happening in userspace, and their values
+may change depending upon the running system, this breaks known
+signature verification mechanisms.
 
-Regular workflow:
+Light skeleton programs were introduced in order to support early
+loading of eBPF programs along with user-mode drivers. They utilize a
+separate eBPF program that can load a target eBPF program and perform
+all necessary relocations in-kernel without needing a working
+userspace. Light skeletons were mentioned as a possible path forward
+for signature verification.
 
-- Build x86_64 kernel
-	$ make ARCH=x86_64
-- Try building another arch kernel out of tree with O=
-	$ make ARCH=um O=/linux/build
-- kbuild detects source tree is unclean
+Hornet takes a simple approach to light-skeleton-based eBPF signature
+verification. A PKCS#7 signature of a data buffer containing the raw
+instructions of an eBPF program, followed by the initial values of any
+maps used by the program is used. A utility script is provided to
+parse and extract the contents of autogenerated header files created
+via bpftool. That payload can then be signed and appended to the light
+skeleton executable.
 
-  ***
-  *** The source tree is not clean, please run 'make ARCH=um mrproper'
-  *** in /linux/linux_srcdir
-  ***
+Maps are checked that they are frozen to prevent TOCTOU bugs where a
+sufficiently privileged user could rewrite map data between the calls
+to BPF_PROG_LOAD and BPF_PROG_RUN. Additionally, both
+sparse-array-based and fd_array_cnt-based map fd arrays are supported
+for signature verification.
 
-- Clean source tree as suggested by kbuild
-	$ make ARCH=um mrproper
-- Source clean appears to be clean, but it leaves behind generated header
-  files under arch/x86
- 	arch/x86/realmode/rm/pasyms.h
+References:
+  [1] https://lore.kernel.org/bpf/20220209054315.73833-1-alexei.starovoitov@gmail.com/
+  [2] https://lore.kernel.org/bpf/CAADnVQ+wPK1KKZhCgb-Nnf0Xfjk8M1UpX5fnXC=cBzdEYbv_kg@mail.gmail.com/
 
-A subsequent x86_64e build fails with
-  "undefined symbol sev_es_trampoline_start referenced ..."
+Change list:
+- v2 -> v3
+  - Remove any and all usage of proprietary bpf APIs
+  - Add optional systemd/pid1 whitelisting
+  - Minor Makefile cleanup
+  - Fixed buffer leak
+  - Handled null current task
+  - Made magic number required
+  - Defensive checks against invalid buffer signature reads
 
-kunit workflow runs into this issue:
+- v1 -> v2
+  - Jargon clarification, maintainer entry and a few cosmetic fixes
 
-- Build x86_64 kernel
-- Run kunit tests:  it tries to build for user specified ARCH or uml
-  as default:
-	$ ./tools/testing/kunit/kunit.py run
+Revisions:
+- v1
+  https://lore.kernel.org/bpf/20250321164537.16719-1-bboscaccy@linux.microsoft.com
+- v2
+  https://lore.kernel.org/linux-security-module/20250404215527.1563146-1-bboscaccy@linux.microsoft.com
 
-- kbuild detects unclean source tree
+Blaise Boscaccy (4):
+  security: Hornet LSM
+  hornet: Introduce sign-ebpf
+  hornet: Add a light skeleton data extractor script
+  selftests/hornet: Add a selftest for the Hornet LSM
 
-  ***
-  *** The source tree is not clean, please run 'make ARCH=um mrproper'
-  *** in /linux/linux_6.15
-  ***
+ Documentation/admin-guide/LSM/Hornet.rst      |  65 +++
+ Documentation/admin-guide/LSM/index.rst       |   1 +
+ MAINTAINERS                                   |   9 +
+ crypto/asymmetric_keys/pkcs7_verify.c         |  10 +
+ include/linux/kernel_read_file.h              |   1 +
+ include/linux/verification.h                  |   1 +
+ include/uapi/linux/lsm.h                      |   1 +
+ scripts/Makefile                              |   1 +
+ scripts/hornet/Makefile                       |   5 +
+ scripts/hornet/extract-skel.sh                |  29 ++
+ scripts/hornet/sign-ebpf.c                    | 411 ++++++++++++++++++
+ security/Kconfig                              |   3 +-
+ security/Makefile                             |   1 +
+ security/hornet/Kconfig                       |  24 +
+ security/hornet/Makefile                      |   4 +
+ security/hornet/hornet_lsm.c                  | 250 +++++++++++
+ security/selinux/hooks.c                      |  12 +-
+ security/selinux/include/classmap.h           |   2 +-
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/hornet/Makefile       |  58 +++
+ tools/testing/selftests/hornet/fail_loader.sh |   3 +
+ tools/testing/selftests/hornet/frozen_skel.h  | 393 +++++++++++++++++
+ tools/testing/selftests/hornet/loader.c       |  22 +
+ tools/testing/selftests/hornet/trivial.bpf.c  |  33 ++
+ 24 files changed, 1336 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+ create mode 100644 scripts/hornet/Makefile
+ create mode 100755 scripts/hornet/extract-skel.sh
+ create mode 100644 scripts/hornet/sign-ebpf.c
+ create mode 100644 security/hornet/Kconfig
+ create mode 100644 security/hornet/Makefile
+ create mode 100644 security/hornet/hornet_lsm.c
+ create mode 100644 tools/testing/selftests/hornet/Makefile
+ create mode 100755 tools/testing/selftests/hornet/fail_loader.sh
+ create mode 100644 tools/testing/selftests/hornet/frozen_skel.h
+ create mode 100644 tools/testing/selftests/hornet/loader.c
+ create mode 100644 tools/testing/selftests/hornet/trivial.bpf.c
 
-- Clean source tree as suggested by kbuild
-	$ make ARCH=um mrproper
-- Source clean appears to be clean, but it leaves behind generated header
-  files under arch/x86
-
-The problem shows when user tries to run tests on ARCH=x86_64:
-
-	$ ./tools/testing/kunit/kunit.py run ARCH=x86_64
-
-	"undefined symbol sev_es_trampoline_start referenced ..."
-
-Build trips on arch/x86/realmode/rm/pasyms.h left behind by a prior
-x86_64 build.
-
-Problems related to partially cleaned source tree are hard to debug.
-Change Makefile to unclean source logic to use ARCH from compile.h
-UTS_MACHINE string. With this change kbuild prints:
-
-	$ ./tools/testing/kunit/kunit.py run
-
-  ***
-  *** The source tree is not clean, please run 'make ARCH=x86_64 mrproper'
-  *** in /linux/linux_6.15
-  ***
-
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index 5aa9ee52a765..7ee29136b4da 100644
---- a/Makefile
-+++ b/Makefile
-@@ -674,7 +674,7 @@ ifeq ($(KBUILD_EXTMOD),)
- 		 -d $(srctree)/include/config -o \
- 		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
- 		echo >&2 "***"; \
--		echo >&2 "*** The source tree is not clean, please run 'make$(if $(findstring command line, $(origin ARCH)), ARCH=$(ARCH)) mrproper'"; \
-+		echo >&2 "*** The source tree is not clean, please run 'make ARCH=$(shell grep UTS_MACHINE $(srctree)/include/generated/compile.h | cut -d '"' -f 2) mrproper'"; \
- 		echo >&2 "*** in $(abs_srctree)";\
- 		echo >&2 "***"; \
- 		false; \
 -- 
-2.47.2
+2.48.1
 
 
