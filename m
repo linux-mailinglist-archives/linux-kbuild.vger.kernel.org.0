@@ -1,174 +1,126 @@
-Return-Path: <linux-kbuild+bounces-6911-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6912-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0D2AA8193
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 18:14:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8FDAA81D5
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 19:26:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF325170296
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 16:14:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39540189F011
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 17:26:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1659B26656A;
-	Sat,  3 May 2025 16:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 522A7264F88;
+	Sat,  3 May 2025 17:26:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z5pXMkVa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JdNJhVm6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5A7EAC6;
-	Sat,  3 May 2025 16:14:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CBB199938;
+	Sat,  3 May 2025 17:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746288844; cv=none; b=B6YcDbkphI/KUHW8fmO/uc8vEQGSAqAWmyYlHo3WWnHgmj/GHfDxeUBF4B+kQYFgtsdN1E2Ib5okKq17aV70emCM4HyMDdlAlFgk+H5KHlCpBYSTjE2om0rv/lZ7MH48dwe6DJBCuc0xC2mlnFrvQ37LrIcKIUu08cQltGn4YIg=
+	t=1746293160; cv=none; b=FtaIvkjdx9xjreN+YPU7zI9M6U5ym4ELRClpDBL2oQxh9bMJ4Xwb6vlO12QVUzVeFM3WntOet+qKQCjdpyunB1QiVAbfnq5gtsAEkOJBhAMbrAQI3vXi1OrYVCw3JvAc9I77IrRBWxG8RVJjsVWRww8CkZegMVmbgeuXO3lwV2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746288844; c=relaxed/simple;
-	bh=dQFlsrCTZJJhnxlBv9NIjwv4jFi5kwKvclce/AdCPNY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Huk/CGGX0rbpts1BHJAcozxwTps2hsBlWvfX+Gwd6Wuxeh1e1ua97rzVjuxstb5/Xvu7IqXqSyG44p4T3ixOS5ovSTH+N3mGUuqZcTO0kW8CPt/aVDCoCPZl3Q7p+2zYBvYEm1qvuexwb+K413B/TbKYQv5tjci1adDSUql5lic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z5pXMkVa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F2F5C4CEE9;
-	Sat,  3 May 2025 16:14:03 +0000 (UTC)
+	s=arc-20240116; t=1746293160; c=relaxed/simple;
+	bh=1aNojnjh6f9aU4lE8/vPeP3Xp57U1BRGOjwQrSWxDeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UVcm6yOzoIvfRIg/ph+NSMIesC7pM9tiDHvKcJk5kdPGyQWgBAyutxd9yW30jVnP3q81YIA4gczhOWO53kb8watZcK7rM3hlBkYJhcdaDnn05xlLXSIM9Drr/ECa4aHKj/1X6cf9yRJwrVP+1XzN2XPgjtJtiJiRDXxNU7X2WZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JdNJhVm6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80E39C4CEE3;
+	Sat,  3 May 2025 17:25:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746288843;
-	bh=dQFlsrCTZJJhnxlBv9NIjwv4jFi5kwKvclce/AdCPNY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Z5pXMkVaJpl7FUJLdZa5bZq3J/xwQm0DrDrF7mGZqLAA6P7+gpnwhePcxqI8lJjIN
-	 VK9S74bfrEisYKF2IwEr1LLdXI9Q5TWXPrg8IMTTLsDb1Tam6ePoFlGOIjV9+lcZr/
-	 rp0LxH8lb54BW7g0lqBM0SmnBb2Aw0XIJUbpxKLxuTk1MvuLPNJNGLGIaNQQR2Xkn6
-	 scMQXm4MGtV2nlce1pyvF88QdOMn1hgw+LFob35i+6LBaP6jJOm/+jg/2uUNth6TwT
-	 qascuWscFZAreSZmbQhQmTp5jwBt02QQ/5pbRo6B7TLEQfoMw6dLxD2rSxzH82f5jO
-	 S8AU8298zi/iw==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3105ef2a06cso27672241fa.2;
-        Sat, 03 May 2025 09:14:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUiEEyBVWm73EOAEdMKYyy0DO7IGoBqNW8PeCIhJRK+6SLJlWarzIMur2gvBX8jUDdIvdxLysIwcDVGDDc=@vger.kernel.org, AJvYcCXXu0V0PJEJUzaM5iyQw8PjOLF24kNTbGsCzPAsV04gujaryWzH3hWwavTTqndUfo9/pnTgQ2+ARFcrygQe1pU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxILvLo8KPDPdk/7Ay/Lc8fQlbTqgjG6wgRp4NbdWDE63lMRjlk
-	g+4YWKOlnGrtzRQ5v5IEIpBA2Dvx83OfoYC8SS5AVULHus6E4jdW5zkAgvw+d44WgYAL35ELNYM
-	mVYiEAH3qYIkAqp6XPKs71XFK0zI=
-X-Google-Smtp-Source: AGHT+IEaWaMALwU7NzK8uQ2sCWOt9yd++wv1jm1Y1Ewfwbc1zccZJPC8McJkleTjD1tJKMlZpF2V/oj3r1+7nu3Gpo4=
-X-Received: by 2002:a2e:ad93:0:b0:30c:40d6:5cdb with SMTP id
- 38308e7fff4ca-321daedda8amr9465411fa.11.1746288841953; Sat, 03 May 2025
- 09:14:01 -0700 (PDT)
+	s=k20201202; t=1746293159;
+	bh=1aNojnjh6f9aU4lE8/vPeP3Xp57U1BRGOjwQrSWxDeU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JdNJhVm6jdIKAVlpABA8UMGIS8+VUrbTFo5CUu7dgwPhmWSYSYKfXJKKXj4K1S2g7
+	 Uqs08o5DPnzAMA6R1xzjtUyDfs1gcOUs3kv6HcIjJAdxMxc8dcCY0hw29/r1F5V7mG
+	 rDbTnKkslrFMEGYI8UeS5XgghGCc6pBWGbU5fmuz0Z1XUXDlxKLX6UqEC3p69eDtGg
+	 QW7dcHB1Rs6aCsi9DHe8nImjWWi0OjTYSzTLxXRyERcHCshNiCU/b/zFaFQQ6hHXrt
+	 5xgtnE6RDWzSaroCCZIUkb0w+na1w4fZhxnVxN1n5cnlTx/cwi1qLQuG/5t14gupN5
+	 tGHSIclpEysNw==
+Date: Sat, 3 May 2025 10:25:57 -0700
+From: Kees Cook <kees@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Justin Stitt <justinstitt@google.com>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-um@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] gcc-plugins: Force full rebuild when plugins
+ change
+Message-ID: <202505031023.BC44DC842@keescook>
+References: <20250502224512.it.706-kees@kernel.org>
+ <20250502225416.708936-1-kees@kernel.org>
+ <CAK7LNATs4uHnNHgESXcUEjpONZra=GvkuHMaDwsx0hbyUGY99w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250426030815.1310875-1-rdunlap@infradead.org> <CAK7LNASww7Zyeg7G0R9US-_MWtFmBF-P5JiwZkgGBBrfoivi5A@mail.gmail.com>
-In-Reply-To: <CAK7LNASww7Zyeg7G0R9US-_MWtFmBF-P5JiwZkgGBBrfoivi5A@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 4 May 2025 01:13:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQpZvXREY5+4H_WA4UOgYpYoTLS=bpb_Gkb+SyetKh_tw@mail.gmail.com>
-X-Gm-Features: ATxdqUGb7qfS5TSIqD7ON7k9RYxn59Gp78YZNa9UVZ7M1cO4MoSPCA2KL2bo4k4
-Message-ID: <CAK7LNAQpZvXREY5+4H_WA4UOgYpYoTLS=bpb_Gkb+SyetKh_tw@mail.gmail.com>
-Subject: Re: [PATCH] usr/include: openrisc: don't HDRTEST bpf_perf_event.h
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonas Bonn <jonas@southpole.se>, 
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
-	linux-openrisc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATs4uHnNHgESXcUEjpONZra=GvkuHMaDwsx0hbyUGY99w@mail.gmail.com>
 
-On Sun, May 4, 2025 at 1:01=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> On Sat, Apr 26, 2025 at 12:08=E2=80=AFPM Randy Dunlap <rdunlap@infradead.=
-org> wrote:
-> >
-> > Since openrisc does not support PERF_EVENTS, omit the HDRTEST of
-> > bpf_perf_event.h for arch/openrisc/.
-> >
-> > Fixes a build error:
-> > usr/include/linux/bpf_perf_event.h:14:28: error: field 'regs' has incom=
-plete type
->
->
->
-> Where can I get openrisc compiler that enables CONFIG_CC_CAN_LINK?
+On Sat, May 03, 2025 at 03:12:23PM +0900, Masahiro Yamada wrote:
+> On Sat, May 3, 2025 at 7:54 AM Kees Cook <kees@kernel.org> wrote:
+> > +quiet_cmd_gcc_plugins_updated = UPDATE  $@
+> > +      cmd_gcc_plugins_updated = echo '/* $^ */' > $(obj)/gcc-plugins-deps.h
+> 
+> I think 'touch' should be enough.
+> 
+> If some plugins are disabled, it is detected by the normal if_changed rule.
 
-Never mind.
-I downloaded a one from
-https://github.com/stffrdhrn/or1k-toolchain-build/releases
+I kind of likely having the active plugins show up in there, but yes,
+"touch" is enough (it's what I started with originally).
 
-Hmm, I did not observe an error like that.
-
-Instead, I got a different error message.
-
-  HDRTEST usr/include/linux/bpf_perf_event.h
-In file included from <command-line>:
-./usr/include/linux/bpf_perf_event.h:15:9: error: unknown type name '__u64'
-   15 |         __u64 sample_period;
-      |         ^~~~~
-./usr/include/linux/bpf_perf_event.h:16:9: error: unknown type name '__u64'
-   16 |         __u64 addr;
-      |         ^~~~~
-
-
-
-
-diff --git a/include/uapi/linux/bpf_perf_event.h
-b/include/uapi/linux/bpf_perf_event.h
-index eb1b9d21250c..61264bdda988 100644
---- a/include/uapi/linux/bpf_perf_event.h
-+++ b/include/uapi/linux/bpf_perf_event.h
-@@ -8,6 +8,7 @@
- #ifndef _UAPI__LINUX_BPF_PERF_EVENT_H__
- #define _UAPI__LINUX_BPF_PERF_EVENT_H__
-
-+#include <linux/types.h>
- #include <asm/bpf_perf_event.h>
-
- struct bpf_perf_event_data {
-
-
-
-
-
-
-
-
-
-
-
->
->
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Jonas Bonn <jonas@southpole.se>
-> > Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
-> > Cc: Stafford Horne <shorne@gmail.com>
-> > Cc: linux-openrisc@vger.kernel.org
-> > Cc: linux-kbuild@vger.kernel.org
-> > ---
-> >  usr/include/Makefile |    4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > --- linux-next-20250424.orig/usr/include/Makefile
-> > +++ linux-next-20250424/usr/include/Makefile
-> > @@ -59,6 +59,10 @@ ifeq ($(SRCARCH),arc)
-> >  no-header-test +=3D linux/bpf_perf_event.h
-> >  endif
-> >
-> > +ifeq ($(SRCARCH),openrisc)
-> > +no-header-test +=3D linux/bpf_perf_event.h
-> > +endif
+> > +$(obj)/gcc-plugins-deps.h: $(plugin-single) $(plugin-multi) FORCE
+> > +       $(call if_changed,gcc_plugins_updated)
 > > +
-> >  ifeq ($(SRCARCH),powerpc)
-> >  no-header-test +=3D linux/bpf_perf_event.h
-> >  endif
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+> > +always-y += gcc-plugins-deps.h
+> > --
+> > 2.34.1
+> >
+> 
+> 
+> I think it is simpler to place the header
+> in include/generated/.
 
+I couldn't figure out how to do this, but thankfully you did! :)
 
+> I attached my suggestion below:
+> [...]
+> -quiet_cmd_gcc_plugins_updated = UPDATE  $@
+> -      cmd_gcc_plugins_updated = echo '/* $^ */' > $(obj)/gcc-plugins-deps.h
+> +quiet_cmd_gcc_plugins_updated = TOUCH   $@
+> +      cmd_gcc_plugins_updated = touch $@
+> 
+> -$(obj)/gcc-plugins-deps.h: $(plugin-single) $(plugin-multi) FORCE
+> +$(obj)/../../include/generated/gcc-plugins-deps.h: $(plugin-single)
+> $(plugin-multi) FORCE
+>         $(call if_changed,gcc_plugins_updated)
+> 
+> -always-y += gcc-plugins-deps.h
+> +always-y += ../../include/generated/gcc-plugins-deps.h
 
---=20
-Best Regards
-Masahiro Yamada
+Aaagh, thank you! I didn't even consider trying ".." for targets!
+
+Yes, this is SO much better! I will read your other replies and work on
+v3...
+
+-- 
+Kees Cook
 
