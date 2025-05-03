@@ -1,50 +1,53 @@
-Return-Path: <linux-kbuild+bounces-6918-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6915-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDC8AA81FB
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 20:46:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE59AA81F8
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 20:46:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BBEC3189EEE3
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 18:46:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2191F3B2125
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 18:46:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561B727E7E2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E46D27E1C7;
 	Sat,  3 May 2025 18:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HX/h4kW+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/5UvviY"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E64318DB26;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E54E1624E9;
 	Sat,  3 May 2025 18:46:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746297987; cv=none; b=rLcsXZIXkCLKjqyR6sdVzWpyV9w+mOJ0eHPmtUVDDR9Bdqaow5LgEPOhliXKVoKRKIXdu/G3o9KRGWf+MlhoQL4uWAG+nBhUuxf2QhUQ8eiNJsuyDl9Aw6gldGjnP+vGhlA+PXEG0/XS+RQDXUpBZ7gj1aYHrtckzNFl3j7tdYQ=
+	t=1746297987; cv=none; b=LUjjTFRMGXGF7k9tKC5r6eluXz2Cv0/8uVOKD1MLw2nzSEfR0k9iYUmgFot3fDAooqa9wGQylgxlEXb5BQqi5VqrId8IdHyD5LIN3lsHjzqzuDLoJbBfVUxLfVTJvbHPtdb09qNpwkzO9Sx77Q04MMe6BSQYtsGmoQIPxC3cTzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746297987; c=relaxed/simple;
-	bh=cmrsue879i0SFR336+VtZOxozOZsiQ5dawHHXzQfCT4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T9AhQnonm/GNlmUaroFxPOEU+gGetMB4MrXqVyKoQ607UrNUeNyQW4T5QJAiDdHxx240nFNY8xUYOlVbyw0Xf/TqBS19Qc2zFQhwiv2olwGs7FssotVytrpQUlDoRhyZ4tnfWyZhMCVWrG+8K0JCaXUb9/w/WOi4F/BvV0aWiEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HX/h4kW+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E05C4AF0C;
+	bh=vcmcNB9M/mnVV0u1TxfACvPzuwlKwH4U0CbHSsTxvvI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=LTV9uPovcfUVpx0R0fNBn8a6AZnVPuNXlr4YIg0hS/I0w6ORPbyxAbFMS2pAL95YpjjFEqLtOSNtfnMeBMWPeHQZ2/ee+EbiZcRiAcdF0QKyqQLYRXvjs4acVJfrDdSHkIS0zDc6FjeXokPKVeQ95Q1wuF+YSXES2Blq3+whyiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/5UvviY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80319C4AF0B;
 	Sat,  3 May 2025 18:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1746297986;
-	bh=cmrsue879i0SFR336+VtZOxozOZsiQ5dawHHXzQfCT4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HX/h4kW+u8OZY9JS4fM+MlUY7L/Ak8WJyQo+O4GNTudETJI8GY5bBDV6qOrAkkb+0
-	 Wr4tfa64vxTlZLrGbKjCrFW0iyj9i07s/alc81j6pkgGawterXu8/CQQ4GznnafBPU
-	 eZ2J200gjP/oOKTGn/kQd9QMjx8wzdMXqmU5RZc/X0at/kS/dyJGIICuRtEC1NBKPW
-	 JFZ6/jeCpkj/V1m+xefEsgh/iAzgMSA0lGdKwsdYNOLaR2Uzv3NX+o8TMqLE0j6jHI
-	 FMeJpetJqfdQO+/L6UD2nRDK/8g6nwdzrq449L8pKbebcS/vQQ5o90clk3Z3dHNNRl
-	 iIBWfwlc8lBAw==
+	bh=vcmcNB9M/mnVV0u1TxfACvPzuwlKwH4U0CbHSsTxvvI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=E/5UvviYXd4M/OBy3fCYKWszd1r5TVBDxzzXa7gIW6vO6mFVvSMi54bi4L3Uwhs1g
+	 PLzjB05PAVxHMjRVuzOHqmdYVq4m5w7qJrugDaGHCthgNxITLShvMcjsSNJrNG5tIn
+	 Tsvbg55gZqviiFr4CixWjxeEH65ktOuo79s19KniMgtvIG6c8rA5JDn6aFdQ4RACmX
+	 3hxFSp7SDdxrhq28NWPPIatdxubInTKge/hEATyNT0ghtVG173sO6TSKjDKuq+6SSa
+	 rfiX9QESpHzV8mIM/SdJ4UoN2CFpw5tA4fIHuzXcdey1KFJlUcwgkMHGYwmpzQ0fF7
+	 a21e4Ah5ghrUA==
 From: Kees Cook <kees@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Kees Cook <kees@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
 	Nathan Chancellor <nathan@kernel.org>,
+	linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
 	Petr Pavlu <petr.pavlu@suse.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Justin Stitt <justinstitt@google.com>,
@@ -54,87 +57,124 @@ Cc: Kees Cook <kees@kernel.org>,
 	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
 	Bill Wendling <morbo@google.com>,
 	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	llvm@lists.linux.dev
-Subject: [PATCH v3 0/3] Detect changed compiler dependencies for full rebuild
-Date: Sat,  3 May 2025 11:46:17 -0700
-Message-Id: <20250503184001.make.594-kees@kernel.org>
+Subject: [PATCH v3 1/3] gcc-plugins: Force full rebuild when plugins change
+Date: Sat,  3 May 2025 11:46:18 -0700
+Message-Id: <20250503184623.2572355-1-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250503184001.make.594-kees@kernel.org>
+References: <20250503184001.make.594-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2613; i=kees@kernel.org; h=from:subject:message-id; bh=cmrsue879i0SFR336+VtZOxozOZsiQ5dawHHXzQfCT4=; b=owGbwMvMwCVmps19z/KJym7G02pJDBliKex5Glf6uqY79um+fzhV7e/G6CI/q6v1Lx66z1du+ s798NWZjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgInM72L4nxz345rV9LzVEx9G C8dp7Dd573ZI0O22kPspF4NEW7NvPxkZTh+XTkr8kxx4LV9zV9vpe5JsjydbFx5Njs65wCubOOc mCwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4099; i=kees@kernel.org; h=from:subject; bh=vcmcNB9M/mnVV0u1TxfACvPzuwlKwH4U0CbHSsTxvvI=; b=owGbwMvMwCVmps19z/KJym7G02pJDBliyftYMz0PPeCzUN3AeedYZIn/ro+vFtTaZi1jryxji P75JD6uo5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCI9nQx/eAXnbl5/btvnlRlX neQ7dc5/2MPWInTRLi1CKTM3dB1fOyPDsRulL/9NuPHAXNpf6bDhB6OrK7VcI7jMZ5xn+2H9ye0 kLwA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
- v3: move to include/generated, add touch helper
- v2: https://lore.kernel.org/lkml/20250502224512.it.706-kees@kernel.org/
- v1: https://lore.kernel.org/lkml/20250501193839.work.525-kees@kernel.org/
+There was no dependency between the plugins changing and the rest of the
+kernel being built. This could cause strange behaviors as instrumentation
+could vary between targets depending on when they were built.
 
-Hi,
+Generate a new header file, gcc-plugins.h, any time the GCC plugins
+change. Include the header file in compiler-version.h when its associated
+feature name, GCC_PLUGINS, is defined. This will be picked up by fixdep
+and force rebuilds where needed.
 
-This is my attempt to introduce dependencies that track the various
-compiler behaviors that may globally change the build that aren't
-represented by either compiler flags nor the compiler version
-(CC_VERSION_TEXT). Namely, this is to detect when the contents of a
-file the compiler uses changes. We have 3 such situations currently in
-the tree:
+Add a generic "touch" kbuild command, which will be used again in
+a following patch. Add a "normalize_path" string helper to make the
+"TOUCH" output less ugly.
 
-- If any of the GCC plugins change, we need to rebuild everything that
-  was built with them, as they may have changed their behavior and those
-  behaviors may need to be synchronized across all translation units.
-  (The most obvious of these is the randstruct GCC plugin, but is true
-  for most of them.)
-
-- If the randstruct seed itself changes (whether for GCC plugins or
-  Clang), the entire tree needs to be rebuilt since the randomization of
-  structures may change between compilation units if not.
-
-- If the integer-wrap-ignore.scl file for Clang's integer wrapping
-  sanitizer changes, a full rebuild is needed as the coverage for wrapping
-  types may have changed, once again cause behavior differences between
-  compilation units.
-
-The current solution is to:
-- Touch a .h file in include/generated that is updated when the specific
-  dependencies change.
-  e.g.: randstruct_hash.h depends on randstruct.seed
-
-- Add a conditional -D argument for each separate case
-  e.g.: RANDSTRUCT_CFLAGS += -DRANDSTRUCT
-
-- Include the .h file from compiler-version.h through an #ifdef for the define
-  e.g.:
-  #ifdef RANDSTUCT
-  #include <generated/randstruct_hash.h>
-  #endif
-
-This means that all targets gain the dependency (via fixdep), but only
-when the defines are active, which means they are trivially controlled
-by the existing CFLAGS removal mechanisms that are already being used
-to turn off each of the above features.
-
--Kees
-
-Kees Cook (3):
-  gcc-plugins: Force full rebuild when plugins change
-  randstruct: Force full rebuild when seed changes
-  integer-wrap: Force full rebuild when .scl file changes
-
- include/linux/compiler-version.h | 10 ++++++++++
- include/linux/vermagic.h         |  1 -
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: <linux-hardening@vger.kernel.org>
+Cc: <linux-kbuild@vger.kernel.org>
+---
+ include/linux/compiler-version.h |  4 ++++
  scripts/Makefile.gcc-plugins     |  2 +-
  scripts/Makefile.lib             | 18 ++++++++++++++++++
- scripts/Makefile.ubsan           |  1 +
- scripts/basic/Makefile           |  5 +++++
  scripts/gcc-plugins/Makefile     |  4 ++++
- 7 files changed, 39 insertions(+), 2 deletions(-)
+ 4 files changed, 27 insertions(+), 1 deletion(-)
 
+diff --git a/include/linux/compiler-version.h b/include/linux/compiler-version.h
+index 573fa85b6c0c..74ea11563ce3 100644
+--- a/include/linux/compiler-version.h
++++ b/include/linux/compiler-version.h
+@@ -12,3 +12,7 @@
+  * and add dependency on include/config/CC_VERSION_TEXT, which is touched
+  * by Kconfig when the version string from the compiler changes.
+  */
++
++#ifdef GCC_PLUGINS
++#include <generated/gcc-plugins.h>
++#endif
+diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
+index 5b8a8378ca8a..e50dc931be49 100644
+--- a/scripts/Makefile.gcc-plugins
++++ b/scripts/Makefile.gcc-plugins
+@@ -38,7 +38,7 @@ export DISABLE_STACKLEAK_PLUGIN
+ 
+ # All the plugin CFLAGS are collected here in case a build target needs to
+ # filter them out of the KBUILD_CFLAGS.
+-GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
++GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y)) -DGCC_PLUGINS
+ export GCC_PLUGINS_CFLAGS
+ 
+ # Add the flags to the build!
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 2fe73cda0bdd..6fc2a82ee3bb 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -296,6 +296,19 @@ $(foreach m, $1, \
+ 	$(addprefix $(obj)/, $(call suffix-search, $(patsubst $(obj)/%,%,$m), $2, $3))))
+ endef
+ 
++# Remove ".." and "." from a path, without using "realpath"
++# Usage:
++#   $(call normalize_path,path/to/../file)
++define normalize_path
++$(strip $(eval elements :=) \
++$(foreach elem,$(subst /, ,$1), \
++	$(if $(filter-out .,$(elem)), \
++	     $(if $(filter ..,$(elem)), \
++		  $(eval elements := $(wordlist 2,$(words $(elements)),x $(elements))), \
++		  $(eval elements := $(elements) $(elem))))) \
++$(subst $(space),/,$(elements)))
++endef
++
+ # Build commands
+ # ===========================================================================
+ # These are shared by some Makefile.* files.
+@@ -343,6 +356,11 @@ quiet_cmd_copy = COPY    $@
+ $(obj)/%: $(src)/%_shipped
+ 	$(call cmd,copy)
+ 
++# Touch a file
++# ===========================================================================
++quiet_cmd_touch = TOUCH   $(call normalize_path,$@)
++      cmd_touch = touch $@
++
+ # Commands useful for building a boot image
+ # ===========================================================================
+ #
+diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+index 320afd3cf8e8..05b14aba41ef 100644
+--- a/scripts/gcc-plugins/Makefile
++++ b/scripts/gcc-plugins/Makefile
+@@ -66,3 +66,7 @@ quiet_cmd_plugin_cxx_o_c = HOSTCXX $@
+ 
+ $(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
+ 	$(call if_changed_dep,plugin_cxx_o_c)
++
++$(obj)/../../include/generated/gcc-plugins.h: $(plugin-single) $(plugin-multi) FORCE
++	$(call if_changed,touch)
++always-y += ../../include/generated/gcc-plugins.h
 -- 
 2.34.1
 
