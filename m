@@ -1,173 +1,274 @@
-Return-Path: <linux-kbuild+bounces-6902-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6903-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B065AA7D84
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 01:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1735AA7EC3
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 08:13:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC1B71C046BA
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 May 2025 23:52:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BDE81B63F6F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 06:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98310270545;
-	Fri,  2 May 2025 23:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35AD01A2381;
+	Sat,  3 May 2025 06:13:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="Qhic4OLm";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="pWUXN2ba"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qigHuDaL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7665226520;
-	Fri,  2 May 2025 23:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FC71993A3;
+	Sat,  3 May 2025 06:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746229901; cv=none; b=tayGBmVgxmEcvQBYSEgddNvxkgOhz7zQX6mPf5OthjK3lJCTXivAAlUQZXUILJGcaG338/VuWIzxUSr9bjxuzZPFeqrcTeLxUGhgINGp8oZB25zgZiyYayZ8J7jlOPv9iyk97SngqDClFnTksZ1Lclr6QQcc2AFCOiOv0hIImhg=
+	t=1746252783; cv=none; b=iWq1P2PRp1LDlr5LYFJsMyKdcLpOGSiuwcUb/T9ZFKYGTPBONckzBEhxkBT0Tqpm9gzRCmowHs9vq+Tr8+cEG3dQ0Atd8Q4ao9EnyxR/ctwy9qmKW/UH8U8NQ/AAhdlBmwAICLupteoAGucysAv/uW1z/pvUF/EL1ZrH4IH8YBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746229901; c=relaxed/simple;
-	bh=njf1WV3cKpBGYTHc6siAE3sCl8ClWU7pG5cQt3nhjw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T5yfz+dguWXDVL5vPL3ljwiaLweUBX/3vwIR5R58fXpsRoD96NG2RdcuL2GudNzOga7AdqtNTBky5/vEx+ifCz24hl1sGuBYdq4sLrDMpeLb++LN4YUkW7Cbq7TAeE0kRQNIP+txtSYERa8xnlApB/pqKxzlTweKYvSnYRwTPGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=Qhic4OLm; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=pWUXN2ba; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
-Message-ID: <bf3f2f1c-1852-449f-993f-71848d190db6@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1746229390;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VputJNPvBl9XACh4x8s207ghVEizyjJrRTUadxhl7W0=;
-	b=Qhic4OLmfnzDZAcpigNu7UrqLK5mWgcMPgKRWpfhdAXeZIqHXIBZVqEkrh8YlxeTSpOAbU
-	tEuR8Hl86L0vi7auXrHzDR7/KmPsUpinbZ6VHAEwk64QsAe3+IL9ANV64KxMfw8/rHMGgA
-	k1oSNM/QKKyilECNEb2JnruO5orD5/JCByNXVkBX1nuiBoTkhgZwex6wBzMz5CRSETtJvX
-	/umQNjYFjOrleljhVtUZ9guk5XJ1MM7kE4yK9nqbZV6g1W4jd+u7mfzQmEYib+v/q0/liU
-	WrAmO2uRMsrM+RRe9W4EYzVK5ED0kYo+jbIvZ4+vcjsRe38jBnBekYZNWY00XPOeplaiIK
-	BvfFWmFZ9L9f7xIdxoz2sbnQEkhHVAFJ2xtZtsi6uLCneWRxBGBxT/ADPT0BOgRfPYAjwB
-	atSK/tKeP4kcfOVS+t9AnSyV7obHcia28DSrHnsRMH7Lv/QJJshLghDJskgLHh3whAbBDd
-	DQCPx6yylwF6AkLygj4FnEbHcMJj5bxz+NgHNKJP+wecgVU15BfLDeH/obVkNIOP3tW5zZ
-	0FVGN0Ypnkope2InCXnrS0Ur0MWb8/RXNPdJHlLzgmkElM21+hmtrbSvl8ve0yGWoyf2sH
-	ah7STOBC/NiCplBj5M1Z4RrvTRTHDEkZh7gcxt9ZubblsWPjOvH+w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1746229390;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VputJNPvBl9XACh4x8s207ghVEizyjJrRTUadxhl7W0=;
-	b=pWUXN2baJ+rjBIqdcBKhyMfxHT1Z/KrJMyTIFAemXV1CBDzl8/qFRMzDBOovLcR/C95F5U
-	Iyd1qkopp9pOBkCg==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=kpcyrd smtp.mailfrom=kpcyrd@archlinux.org
-Date: Sat, 3 May 2025 01:43:06 +0200
+	s=arc-20240116; t=1746252783; c=relaxed/simple;
+	bh=NaQZ7bbv79mG6P+jkuEVPApfvGx/xtNmR1UQ1YJDtMA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jekWCPQ1nIzolNnl5rnpAEcfs/ZZIYuq70ZWRjt7NJnzqmO2e/SwgMm+qHtYi72bGBtyu9xnNdkvlSDgzsjwxYsKz9gjTp9rPssOzg90X7X9FBGFS3yCY7J/S1v9eHd4FCdiVcElY3NmaJBXR7AgYLX6BEPg6Phkr8r+LbZgnlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qigHuDaL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A97BC4CEF1;
+	Sat,  3 May 2025 06:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746252782;
+	bh=NaQZ7bbv79mG6P+jkuEVPApfvGx/xtNmR1UQ1YJDtMA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=qigHuDaLq5DGGtMVLjtwRDUf7PPky2auXx+kObP18wvHNCVY4q/nCHnHrTEv5hUfC
+	 sQo+5dffCaUNFRpap6rxH7bom7ddwL1qZtH9Q9E5Lmk0yhRjkiNUJ8V0uONF6Azajj
+	 qGqXHjJsC0ZP/0Dp/kNyf44fj/w7Oe1ATMlU8fCGu4gkhpJENDHNYMg3Wqr1FBNnuh
+	 bL94zT/Hn20IiXxf3OwzlZVB3swn6OgB5byWaquJvFu7EBY+TMau4BPoOkBIqOc4WZ
+	 G30NDn255J0Tz3lEW4hhg0eFn4NgjoJvYxFWzcA79ZXb9tpFz/ku8HhoDvzeoN7TZH
+	 +VwAaPs4eOJqQ==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30de488cf81so26266931fa.1;
+        Fri, 02 May 2025 23:13:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV2Xniu/2+bYWZFGfvgxx6G0sX+KqSpqPzlPEIlj6dS0qh07mFrFOs/yEwihwtI4VCNKmEDMrfvxGQim4Nz@vger.kernel.org, AJvYcCW0OGo0941IC7/63UxpvMsPMZaJXmD7RkIvSIy65ANAtHF7df+TNccWJ6O3RGxu/EPKXkEqG6pn37Jib2ua@vger.kernel.org, AJvYcCXLU6uKE7qVZrYC8z0A1Jo+2oQZJbcw3sWZ5ErMuWomfZh8M+5SaA5JZKxPNjtOUQ5MS46ckQMoKQ6YPIkqV/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsR+9/4kY/sldyQ+PaobJK620E8EsHmqzycZ9vcokdMPVnApfQ
+	vtoURU2buJ+0CTLehaB1sqzCyTZqI4dRhYe7GziirdGT6IAysLDhDs1OmWMlcL1zSF3cYRi4AzC
+	K4dCiC3VyLrv3jdOQ1X8xkm7xEo0=
+X-Google-Smtp-Source: AGHT+IHs+9+uKWMML3785NkqOrGSNqHHn/CseeK7TkqnuzI1WriQXi9bnCO1cjchwLaDIvxI94Ddg12T61K2M2peG6c=
+X-Received: by 2002:a05:6512:3c98:b0:54e:8fbb:8f0 with SMTP id
+ 2adb3069b0e04-54eb2418f82mr329651e87.1.1746252780980; Fri, 02 May 2025
+ 23:13:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
-To: James Bottomley <James.Bottomley@HansenPartnership.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
- <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
- Christian Heusel <christian@heusel.eu>, =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?=
- <mcaju95@gmail.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-integrity@vger.kernel.org
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
- <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
- <840b0334-71e4-45b1-80b0-e883586ba05c@t-8ch.de>
- <b586e946c8514cecde65f98de8e19eb276c09703.camel@HansenPartnership.com>
-Content-Language: de-DE, en-US
-From: kpcyrd <kpcyrd@archlinux.org>
-In-Reply-To: <b586e946c8514cecde65f98de8e19eb276c09703.camel@HansenPartnership.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250502224512.it.706-kees@kernel.org> <20250502225416.708936-1-kees@kernel.org>
+In-Reply-To: <20250502225416.708936-1-kees@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 3 May 2025 15:12:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATs4uHnNHgESXcUEjpONZra=GvkuHMaDwsx0hbyUGY99w@mail.gmail.com>
+X-Gm-Features: ATxdqUH1iIL3mgv0unyzF1cI5PCLwIrui50f8zRG3vA14o59y1H3vTcwLXDcJy0
+Message-ID: <CAK7LNATs4uHnNHgESXcUEjpONZra=GvkuHMaDwsx0hbyUGY99w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] gcc-plugins: Force full rebuild when plugins change
+To: Kees Cook <kees@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Justin Stitt <justinstitt@google.com>, Marco Elver <elver@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/2/25 3:30 PM, James Bottomley wrote:
-> Under a your interpretation of the above, any signed binary isn't
-> "reproducible" even if the underlying build was, which means any secure
-> boot kernel would never be reproducible because it also has to be a
-> signed binary.  The solution is simple: can you strip the signature and
-> reproduce the build?  If yes, then the build is reproducible and even
-> fits with the "any party can recreate ..." above.   This is the
-> interpretation pretty much everyone else has been using.  It's why
-> people like Intel with source only availability and Intel build only
-> signing tout reproduceability: they only issue signed confidential VM
-> firmware, but you can technically reproduce the build of the firmware
-> minus the signature but you can never sign it.
+On Sat, May 3, 2025 at 7:54=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+>
+> There was no dependency between the plugins changing and the rest of the
+> kernel being built. Enforce this by including a synthetic header file
+> when using plugins, that is regenerated any time the plugins are built.
+>
+> This cannot be included via '-include ...' because Makefiles use the
+> "filter-out" string function, which removes individual words. Removing
+> all instances of "-include" from the CFLAGS will cause a lot of
+> problems. :)
+>
+> Instead, use -I to include the gcc-plugins directory, and depend on the
+> new -DGCC_PLUGINS_ENABLED flag to include the generated header file via
+> include/linux/compiler-version.h, which is already being used to control
+> full rebuilds. The UM build requires that the -I be explicitly added.
+>
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nicolas Schier <nicolas.schier@linux.dev>
+> Cc: <linux-hardening@vger.kernel.org>
+> Cc: <linux-kbuild@vger.kernel.org>
+> ---
+>  arch/um/Makefile                 | 1 +
+>  include/linux/compiler-version.h | 4 ++++
+>  scripts/Makefile.gcc-plugins     | 2 +-
+>  scripts/gcc-plugins/Makefile     | 8 ++++++++
+>  4 files changed, 14 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/um/Makefile b/arch/um/Makefile
+> index 1d36a613aad8..8cc0f22ebefa 100644
+> --- a/arch/um/Makefile
+> +++ b/arch/um/Makefile
+> @@ -72,6 +72,7 @@ USER_CFLAGS =3D $(patsubst $(KERNEL_DEFINES),,$(patsubs=
+t -I%,,$(KBUILD_CFLAGS))) \
+>                 $(ARCH_INCLUDE) $(MODE_INCLUDE) $(filter -I%,$(CFLAGS)) \
+>                 -D_FILE_OFFSET_BITS=3D64 -idirafter $(srctree)/include \
+>                 -idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__ =
+\
+> +               -I$(objtree)/scripts/gcc-plugins \
+>                 -include $(srctree)/include/linux/compiler-version.h \
+>                 -include $(srctree)/include/linux/kconfig.h
+>
+> diff --git a/include/linux/compiler-version.h b/include/linux/compiler-ve=
+rsion.h
+> index 573fa85b6c0c..08943df04ebb 100644
+> --- a/include/linux/compiler-version.h
+> +++ b/include/linux/compiler-version.h
+> @@ -12,3 +12,7 @@
+>   * and add dependency on include/config/CC_VERSION_TEXT, which is touche=
+d
+>   * by Kconfig when the version string from the compiler changes.
+>   */
+> +
+> +#ifdef GCC_PLUGINS_ENABLED
+> +#include "gcc-plugins-deps.h"
+> +#endif
+> diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
+> index 5b8a8378ca8a..468bb8faa9d1 100644
+> --- a/scripts/Makefile.gcc-plugins
+> +++ b/scripts/Makefile.gcc-plugins
+> @@ -38,7 +38,7 @@ export DISABLE_STACKLEAK_PLUGIN
+>
+>  # All the plugin CFLAGS are collected here in case a build target needs =
+to
+>  # filter them out of the KBUILD_CFLAGS.
+> -GCC_PLUGINS_CFLAGS :=3D $(strip $(addprefix -fplugin=3D$(objtree)/script=
+s/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
+> +GCC_PLUGINS_CFLAGS :=3D $(strip $(addprefix -fplugin=3D$(objtree)/script=
+s/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y)) -I$(objtree)/scrip=
+ts/gcc-plugins -DGCC_PLUGINS_ENABLED
 
-The secure-boot signature is easier to deal with, I also think there'd 
-be one package that contains just the unsigned kernel+modules (with the 
-modules being pinned by a cryptographic hashset), and a second one that 
-takes the kernel secure-boot signature as a source-code input, that is 
-calculated after the first package was successfully built.
 
-Arch Linux has also considered patching the module-signing-script into 
-some kind of oracle that doesn't use any private key and instead selects 
-the right pre-computed signature for the given content, but:
+This still relies on no-space after the -I option.
 
-- that would be terribly annoying to maintain/operate
-- any reproducible builds regression would make the build fail, because 
-the kernel wouldn't be bootable
 
-> You just strip the signatures before verifying reproducibility.
-> 
-[...]
-> 
-> If you take off the appended signature off the module, you can verify
-> reproduceability.
-> 
-[...]
-> 
-> So you think stripping signatures is failure prone?  If that were the
-> case then so would be verifying signatures upon which our whole secure
-> boot and signed module loading is based.
-> 
-[...]
-> 
-> Or you simply ship tools to remove the signature;
-> 
-> sbattach --remove <signed efi variable>
-> 
-> already does this for you ...
 
-It reads like you assume somebody sits down and explicitly looks at the 
-linux package manually, but the reproducible builds tooling considers 
-the package content to be fully opaque and doesn't have any 
-special-casing of any package:
+>  export GCC_PLUGINS_CFLAGS
+>
+>  # Add the flags to the build!
+> diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+> index 320afd3cf8e8..24671d39ec90 100644
+> --- a/scripts/gcc-plugins/Makefile
+> +++ b/scripts/gcc-plugins/Makefile
+> @@ -66,3 +66,11 @@ quiet_cmd_plugin_cxx_o_c =3D HOSTCXX $@
+>
+>  $(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
+>         $(call if_changed_dep,plugin_cxx_o_c)
+> +
+> +quiet_cmd_gcc_plugins_updated =3D UPDATE  $@
+> +      cmd_gcc_plugins_updated =3D echo '/* $^ */' > $(obj)/gcc-plugins-d=
+eps.h
 
-https://github.com/archlinux/archlinux-repro
-https://salsa.debian.org/debian/devscripts/-/blob/main/scripts/debrebuild.pl?ref_type=heads
+I think 'touch' should be enough.
 
-I'd rather not deal with the consequences of weakening the comparison 
-and possibly introducing exploitable loop-holes in any of the layers we 
-wouldn't be able to bit-for-bit compare anymore (like e.g. tar).
+If some plugins are disabled, it is detected by the normal if_changed rule.
 
-It would also break the concept of `f(source) -> binary`, "you can 
-deterministically derive the binary packages from the documented build 
-inputs", and instead you'd always need to fuzzy-match against what 
-somebody else built.
 
-cheers,
-kpcyrd
+> +
+> +$(obj)/gcc-plugins-deps.h: $(plugin-single) $(plugin-multi) FORCE
+> +       $(call if_changed,gcc_plugins_updated)
+> +
+> +always-y +=3D gcc-plugins-deps.h
+> --
+> 2.34.1
+>
+
+
+I think it is simpler to place the header
+in include/generated/.
+
+I attached my suggestion below:
+
+
+
+
+
+
+
+
+
+
+diff --git a/arch/um/Makefile b/arch/um/Makefile
+index 8cc0f22ebefa..1d36a613aad8 100644
+--- a/arch/um/Makefile
++++ b/arch/um/Makefile
+@@ -72,7 +72,6 @@ USER_CFLAGS =3D $(patsubst
+$(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
+                $(ARCH_INCLUDE) $(MODE_INCLUDE) $(filter -I%,$(CFLAGS)) \
+                -D_FILE_OFFSET_BITS=3D64 -idirafter $(srctree)/include \
+                -idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__ \
+-               -I$(objtree)/scripts/gcc-plugins \
+                -include $(srctree)/include/linux/compiler-version.h \
+                -include $(srctree)/include/linux/kconfig.h
+
+diff --git a/include/linux/compiler-version.h b/include/linux/compiler-vers=
+ion.h
+index 08943df04ebb..ea3d533dc04a 100644
+--- a/include/linux/compiler-version.h
++++ b/include/linux/compiler-version.h
+@@ -14,5 +14,5 @@
+  */
+
+ #ifdef GCC_PLUGINS_ENABLED
+-#include "gcc-plugins-deps.h"
++#include <generated/gcc-plugins-deps.h>
+ #endif
+diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
+index 67b045a66157..f9b51c2c2158 100644
+--- a/scripts/Makefile.gcc-plugins
++++ b/scripts/Makefile.gcc-plugins
+@@ -44,7 +44,7 @@ export DISABLE_ARM_SSP_PER_TASK_PLUGIN
+
+ # All the plugin CFLAGS are collected here in case a build target needs to
+ # filter them out of the KBUILD_CFLAGS.
+-GCC_PLUGINS_CFLAGS :=3D $(strip $(addprefix
+-fplugin=3D$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y))
+$(gcc-plugin-cflags-y)) -I$(objtree)/scripts/gcc-plugins
+-DGCC_PLUGINS_ENABLED
++GCC_PLUGINS_CFLAGS :=3D $(strip $(addprefix
+-fplugin=3D$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y))
+$(gcc-plugin-cflags-y)) -DGCC_PLUGINS_ENABLED
+ export GCC_PLUGINS_CFLAGS
+
+ # Add the flags to the build!
+diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+index 24671d39ec90..b354c0f9f66d 100644
+--- a/scripts/gcc-plugins/Makefile
++++ b/scripts/gcc-plugins/Makefile
+@@ -67,10 +67,10 @@ quiet_cmd_plugin_cxx_o_c =3D HOSTCXX $@
+ $(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
+        $(call if_changed_dep,plugin_cxx_o_c)
+
+-quiet_cmd_gcc_plugins_updated =3D UPDATE  $@
+-      cmd_gcc_plugins_updated =3D echo '/* $^ */' > $(obj)/gcc-plugins-dep=
+s.h
++quiet_cmd_gcc_plugins_updated =3D TOUCH   $@
++      cmd_gcc_plugins_updated =3D touch $@
+
+-$(obj)/gcc-plugins-deps.h: $(plugin-single) $(plugin-multi) FORCE
++$(obj)/../../include/generated/gcc-plugins-deps.h: $(plugin-single)
+$(plugin-multi) FORCE
+        $(call if_changed,gcc_plugins_updated)
+
+-always-y +=3D gcc-plugins-deps.h
++always-y +=3D ../../include/generated/gcc-plugins-deps.h
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
