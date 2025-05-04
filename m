@@ -1,149 +1,226 @@
-Return-Path: <linux-kbuild+bounces-6921-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6922-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606B4AA8353
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 May 2025 01:32:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6878FAA8731
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 May 2025 17:03:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 987B817C056
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 May 2025 23:32:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C1D83B48CF
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 May 2025 15:02:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C24B21AD403;
-	Sat,  3 May 2025 23:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888A31C84BD;
+	Sun,  4 May 2025 15:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z2ZPhU4A"
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="a/1jX6U9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AEC23CE;
-	Sat,  3 May 2025 23:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E88101FF
+	for <linux-kbuild@vger.kernel.org>; Sun,  4 May 2025 15:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746315149; cv=none; b=Y8IDxNrT53/JnKre0+IQFEinjaUh//eSrphmf85IRa8Vb07DzB2J48zrV1YEvXFISouIaxpnE85Ht8tVtAG13ij/gf3J5u0GJ7q3/SHrMg3QgUVTpWUdPgHtuQNWGFUE6Cv0C01sC1fNuOBnvqr3J6wdTWMmfg65I7t65E4TmHY=
+	t=1746370987; cv=none; b=qMSuak8eLczs3upjIwpPxJ+Pp2hFEuBTEkV9adfwX4zzMnUYYJJZa9+Al5RIpTgjAgmR/9QGUpvWZsEl2Ia40XhJwzK9EV7cL/SRPJf8RlE+GOynwh8j7QpP5E4x3OhhFUwRBF1AnkRdpBuEKSwzCP4rOGoYLvS61+SGn0cbKwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746315149; c=relaxed/simple;
-	bh=xc9lKabqS+jgFsgzNP92VOzP/IKd1xqVek/iWg7fBfc=;
+	s=arc-20240116; t=1746370987; c=relaxed/simple;
+	bh=N4cxeiFuZJq4ZkwPC0chJf/hRnNW/GZ4UmSHUGiYz/o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lTSD8s0QrBg8RF0QfksmPaWfVSnWzoOFMMz8VEdcA9RoBONkLJKuV/4z3L7TJ4quC9hbZ0eUMU6Kr/20M2Wajpz/m2geWvn4MPT75kmufUwlnsb1kNtH8acOh+5zgJU9pA1C4iOdhqKTJ6ulFjF4NNoEt1uf0rYrdmTgs71ky00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z2ZPhU4A; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A0DC4AF09;
-	Sat,  3 May 2025 23:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746315148;
-	bh=xc9lKabqS+jgFsgzNP92VOzP/IKd1xqVek/iWg7fBfc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Z2ZPhU4AFoMGxgkjdg/ETnjMODG07ZCxzqC9/viO4VzqnKjH8qO/RjwWsqpKx1pZu
-	 uADCtlAsgO1bMUY8XzRSVC4d2+FVPMXF+09m/rkw6PsoT25AaCFq4ndHtlVeuSOSnV
-	 dweFxOqVpix8EX8EtTXnRk8ZAznaG9DAvPWphPjgmlpvxKLusfiA2z15AZmytS328T
-	 rdGQCSN5PrUQZHyNFOzlxVTAZjC6oU7wgvTt141m4ol/iAVLarsQE7O9yF0vkXNZwY
-	 K3YDR3cKPKaGaWCwT2iiov1CK3ald2zDs2ZpPDlLy+hW4qnwiEfruwgIulLvhU9Z1e
-	 IWvTWTwtwQ2RA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-317f68d0dffso35463711fa.2;
-        Sat, 03 May 2025 16:32:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWH/jeF/vT0uVz0nkx/HWuLe+EOiNl6yXGpJ7fsVJbZp6Uhl/aZweLGVYjZ3D4hcQfHWDJ0eTFsR0bF5sEYYGU=@vger.kernel.org, AJvYcCXYmGeqL+tpMzcdNHqxB9sNIh+qeczeVuujc3RehrnAFefkdvWOxfjsrd5Ai541SjcsWbtuzlIMq1q8d/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzbsu3FR/gBT+GZICpvtybTW9oV358DRGvvaGhTSSj/sJhlzk7a
-	sQPEzcaurglpnZQxVXI4Sec8QD/G6gDdmgjsCa5e+4/pjqe1zk0vt5CsuFU+ALvNj3lVA3vWcEF
-	gBb3jA5/NpJhBZa89MgdC6fqHFZk=
-X-Google-Smtp-Source: AGHT+IGvF3oxJxZ+72vhJNwD/Ed2BC5iPDJFBrwGVhBr18BPc/0R9QJfGTwEMQoO/exDkH6p0dkRgS6jcRTZ4wkopJY=
-X-Received: by 2002:a2e:bc26:0:b0:31b:4770:4932 with SMTP id
- 38308e7fff4ca-321daae5e2fmr11400511fa.3.1746315147459; Sat, 03 May 2025
- 16:32:27 -0700 (PDT)
+	 To:Cc:Content-Type; b=NBOwI74XT0VTFTC8sKEBkg0yOZKMDuyKgTEn4HhwyHj7hROLZaOFVVvCQAFPKu1Ams1WL7D9MSaJlclumx22/JoRv5nDznPMaYsDPWAV4xTn3oKWL9vwMfxogdbiqeRBqL6hS/8JZwl5cAPa1HEasotoAauXUNIOm7Tugdt44Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=a/1jX6U9; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-702628e34f2so30420197b3.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 04 May 2025 08:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1746370983; x=1746975783; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bFW+c/pzu01ksPogBDsF0yztuQICEpFi/6JnX1ys5aQ=;
+        b=a/1jX6U9Mk/1hp0jwVQ5K0EiUFfjEsjyng/VBVauQtE6aVEojFUxWONgfZRmQbUR0Y
+         76I01tdvkumZxzZVbP7XRxfuD7csuX+Ybc55U5/0xlfkKsszs+zvNErTFIUj2kB6xuEZ
+         fsi9Qpz1nvA5Kg3zB04N8tWXbyfyU4B4B7J7QhpWHrEjaoqF2XHhTV9qydcEn/J30TtS
+         kR43YqtmKU6cD5wZ87IAabT7muvhlQ/fX3taxpQ3EmV5ERlAiI1c/G1dTQkmIRDzoelA
+         +tbENm7Z0ITGIKWVITwy9sLtNdgAyvci8DEfUHYbMZRjPNoMwGFIkAHcbTbA2fzSLNIy
+         AwwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746370983; x=1746975783;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bFW+c/pzu01ksPogBDsF0yztuQICEpFi/6JnX1ys5aQ=;
+        b=K++df2vUTMAlRB4+/IlHXJR7HT7rJMJL4B66R9r4JrdVTLDlL16qXvJVXhyGwMawCC
+         ovrH0FWvqMN1wyShYfR0ffrGIfyjcHHIO93xab1pcjW9gjy6kiBmxn2R97GE8YOtcCOY
+         D6D2aZT5jvMhuu8XTyRwFWZi1XJXZMId8fGd4ta60KG4R7NkxUi0YZXbNwunASg32p8s
+         SP/lyVC+Cqwe9bdibFbnu0eFSvmKwjmSEBd71RaJCLgC703Ta7zQjdI4K7Cemb+Nj2k5
+         iM8a/2ou1fb+BlOjQNeFZxiarp1dxsLjZaeOHggbEbeRaZKrP/eHDNB9zPxKUUANQWoJ
+         vLSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVpPGpIvC1OdqbQuV3V6f0J/65HteeODqy+9SlpmdkFCJB6CwL5AaGnuTRaLRdnnU9hQJOxKxJkS5g9dc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsfhMhW8QLfVo50d78K5WiPuBv1K7wvxeDkFiYdT4W1OqRPyyN
+	N4XDr4MMnqWGbu1l8qJWz/OTZhJdBIIu26+I3sRWn8P+psFWHr349aaUOwoOKJoIdjcWAZfxgWZ
+	555TK0I3EuOhzonjLTaWSgLwBSl8Vx96ejBUv
+X-Gm-Gg: ASbGncuqG6mWYBRIzq6AD2WxiZn7cjeeyB1GS6BjP227rlGBYPbGnvX4vTRqUlylya1
+	Wyw+3i7QAtPoBGk3HI9/XEy7A5Fk6vobjcHTshE7WEqSqthBORT87GE/h64Xm8Bp1kzen5SafDO
+	E1kjRqM8JGSe0Y8RZWVmaZlw==
+X-Google-Smtp-Source: AGHT+IGh+tKAyMeigoarPIi+V1deYWycva3XdHdZPQu9YAQ/LoyQ/7QaDDfIn1SlXnCdq3yX/3xBVxLxcxwerl1v8k0=
+X-Received: by 2002:a05:690c:3682:b0:705:edab:f36d with SMTP id
+ 00721157ae682-708bcf63de9mr169594707b3.16.1746370983565; Sun, 04 May 2025
+ 08:03:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250426030815.1310875-1-rdunlap@infradead.org>
- <CAK7LNASww7Zyeg7G0R9US-_MWtFmBF-P5JiwZkgGBBrfoivi5A@mail.gmail.com>
- <CAK7LNAQpZvXREY5+4H_WA4UOgYpYoTLS=bpb_Gkb+SyetKh_tw@mail.gmail.com> <21182762-30b9-49e5-aa6c-a0f967d81529@infradead.org>
-In-Reply-To: <21182762-30b9-49e5-aa6c-a0f967d81529@infradead.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 4 May 2025 08:31:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQr9Ceb36R44Kqvn6bj5qAB3BxSW5-RKXaaejoAQEubPA@mail.gmail.com>
-X-Gm-Features: ATxdqUHzITCAN2Lk5xLfFOJwrpa-3QKeVyYoHGkm5Yr2q7Kdr4cE4LFkAz6vAUc
-Message-ID: <CAK7LNAQr9Ceb36R44Kqvn6bj5qAB3BxSW5-RKXaaejoAQEubPA@mail.gmail.com>
-Subject: Re: [PATCH] usr/include: openrisc: don't HDRTEST bpf_perf_event.h
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonas Bonn <jonas@southpole.se>, 
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
-	linux-openrisc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com> <20250502184421.1424368-2-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20250502184421.1424368-2-bboscaccy@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Sun, 4 May 2025 11:02:52 -0400
+X-Gm-Features: ATxdqUF_SJM_Ksnl9ID37yfRWwOX1K9UN729WFbsKoyMwbuKaeF0TYKGFD4cZ_k
+Message-ID: <CAHC9VhQi2m19pJvUiTbzaNqh3omYGCVC43_G7H8EvZsPaOzevQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] security: Hornet LSM
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com, 
+	teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com, 
+	Tyler Hicks <code@tyhicks.com>, James Bottomley <James.Bottomley@hansenpartnership.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 4, 2025 at 8:23=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
+On Fri, May 2, 2025 at 2:44=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
 >
+> This adds the Hornet Linux Security Module which provides signature
+> verification of eBPF programs. This allows users to continue to
+> maintain an invariant that all code running inside of the kernel has
+> been signed.
 >
+> The primary target for signature verification is light-skeleton based
+> eBPF programs which was introduced here:
+> https://lore.kernel.org/bpf/20220209054315.73833-1-alexei.starovoitov@gma=
+il.com/
 >
-> On 5/3/25 9:13 AM, Masahiro Yamada wrote:
-> > On Sun, May 4, 2025 at 1:01=E2=80=AFAM Masahiro Yamada <masahiroy@kerne=
-l.org> wrote:
-> >>
-> >> On Sat, Apr 26, 2025 at 12:08=E2=80=AFPM Randy Dunlap <rdunlap@infrade=
-ad.org> wrote:
-> >>>
-> >>> Since openrisc does not support PERF_EVENTS, omit the HDRTEST of
-> >>> bpf_perf_event.h for arch/openrisc/.
-> >>>
-> >>> Fixes a build error:
-> >>> usr/include/linux/bpf_perf_event.h:14:28: error: field 'regs' has inc=
-omplete type
-> >>
-> >>
-> >>
-> >> Where can I get openrisc compiler that enables CONFIG_CC_CAN_LINK?
-> >
-> > Never mind.
-> > I downloaded a one from
-> > https://github.com/stffrdhrn/or1k-toolchain-build/releases
-> >
-> > Hmm, I did not observe an error like that.
-> >
-> > Instead, I got a different error message.
-> >
-> >   HDRTEST usr/include/linux/bpf_perf_event.h
-> > In file included from <command-line>:
-> > ./usr/include/linux/bpf_perf_event.h:15:9: error: unknown type name '__=
-u64'
-> >    15 |         __u64 sample_period;
-> >       |         ^~~~~
-> > ./usr/include/linux/bpf_perf_event.h:16:9: error: unknown type name '__=
-u64'
-> >    16 |         __u64 addr;
-> >       |         ^~~~~
-> >
+> eBPF programs, before loading, undergo a complex set of operations
+> which transform pseudo-values within the immediate operands of
+> instructions into concrete values based on the running
+> system. Typically, this is done by libbpf in
+> userspace. Light-skeletons were introduced in order to support
+> preloading of bpf programs and user-mode-drivers by removing the
+> dependency on libbpf and userspace-based operations.
 >
-> Does HDRTEST use the #include files from the header that is being tested?
+> Userpace modifications, which may change every time a program gets
+> loaded or runs on a slightly different kernel, break known signature
+> verification algorithms. A method is needed for passing unadulterated
+> binary buffers into the kernel in-order to use existing signature
+> verification algorithms. Light-skeleton loaders with their support of
+> only in-kernel relocations fit that constraint.
 >
-> usr/include/linux/bpf_perf_event.h #includes <asm/bpf_perf_event.h>
-> (from usr/include/ ??) which #includes <asm-generic/bpf_perf_event.h>
-> (from usr/include/ ??) which #includes <linux/ptrace.h> (from usr/include=
-/ ??)
-> which #includes <linux/types.h>.  I don't see this problem in my builds.
+> Hornet employs a signature verification scheme similar to that of
+> kernel modules. A signature is appended to the end of an
+> executable file. During an invocation of the BPF_PROG_LOAD subcommand,
+> a signature is extracted from the current task's executable file. That
+> signature is used to verify the integrity of the bpf instructions and
+> maps which were passed into the kernel. Additionally, Hornet
+> implicitly trusts any programs which were loaded from inside kernel
+> rather than userspace, which allows BPF_PRELOAD programs along with
+> outputs for BPF_SYSCALL programs to run.
 >
-> I do still continue to see this failure:
+> The validation check consists of checking a PKCS#7 formatted signature
+> against a data buffer containing the raw instructions of an eBPF
+> program, followed by the initial values of any maps used by the
+> program. Maps are verified to be frozen before signature verification
+> checking to stop TOCTOU attacks.
 >
->   HDRTEST usr/include/linux/bpf_perf_event.h
-> In file included from <command-line>:
-> ./usr/include/linux/bpf_perf_event.h:14:28: error: field 'regs' has incom=
-plete type
->    14 |         bpf_user_pt_regs_t regs;
->       |                            ^~~~
-> make[5]: *** [../usr/include/Makefile:85: usr/include/linux/bpf_perf_even=
-t.hdrtest] Error 1
+> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+> ---
+>  Documentation/admin-guide/LSM/Hornet.rst |  65 ++++++
+>  Documentation/admin-guide/LSM/index.rst  |   1 +
+>  MAINTAINERS                              |   9 +
+>  crypto/asymmetric_keys/pkcs7_verify.c    |  10 +
+>  include/linux/kernel_read_file.h         |   1 +
+>  include/linux/verification.h             |   1 +
+>  include/uapi/linux/lsm.h                 |   1 +
+>  security/Kconfig                         |   3 +-
+>  security/Makefile                        |   1 +
+>  security/hornet/Kconfig                  |  24 +++
+>  security/hornet/Makefile                 |   4 +
+>  security/hornet/hornet_lsm.c             | 250 +++++++++++++++++++++++
+>  security/selinux/hooks.c                 |  12 +-
+>  security/selinux/include/classmap.h      |   2 +-
+>  14 files changed, 380 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+>  create mode 100644 security/hornet/Kconfig
+>  create mode 100644 security/hornet/Makefile
+>  create mode 100644 security/hornet/hornet_lsm.c
 
+...
 
-Sorry, my local issue.
+> +Configuration Options
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Hornet provides a kconfig knob
+> +CONFIG_SECURITY_HORNET_WHITELIST_PID_ONE.  Enabling this will allow
+> +bpf programs to be loaded from pid 1 without undergoing a signature
+> +verification check. This option is not recommened for production
+> +systems.
 
-Applied now.
+...
 
+> +config SECURITY_HORNET_WHITELIST_PID_ONE
+> +       bool "Whiltelist unsigned eBPF programs from PID 1"
+> +       depends on SECURITY_HORNET
+> +       default n
+> +       help
+> +         Selecting this will configure Hornet to allow eBPF loaded from =
+pid 1
+> +         to load without a verification check.
+> +         Further information can be found in
+> +         Documentation/admin-guide/LSM/Hornet.rst.
+> +
+> +         If you are unsure how to answer this question, answer N.
 
+...
+
+> +static int hornet_bpf_prog_load(struct bpf_prog *prog, union bpf_attr *a=
+ttr,
+> +                               struct bpf_token *token, bool is_kernel)
+> +{
+> +       if (is_kernel)
+> +               return 0;
+> +#ifdef CONFIG_SECURITY_HORNET_WHITELIST_PID_ONE
+> +       if (current->pid =3D=3D 1)
+> +               return 0;
+> +#endif
+
+Two quick comments on the build-time conditional above.  First, unless
+there is some subtle reason why you only want the exception above to
+apply to a single thread in the init process, I would suggest using
+task_tgid_nr() instead of current->pid as I believe you want the init
+exception to apply to all threads running within the init process.
+Second, I think it would be helpful to rename the Kconfig knob to
+CONFIG_SECURITY_HORNET_PIDONE_TRANSITION, or similar, to help indicate
+that this is a transitional configuration option designed to make it
+easier for developers to move to a system with signed BPF programs
+without excessive warnings/errors from systemd in the beginning.  I
+would highlight the transitory intent of this Kconfig knob both in the
+Kconfig description as well as the Hornet.rst doc, a brief explanation
+of the drawback for enabling this long term or on "production" systems
+in the Hornet.rst section would also be a good idea.
 
 --=20
-Best Regards
-Masahiro Yamada
+paul-moore.com
 
