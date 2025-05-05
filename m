@@ -1,45 +1,45 @@
-Return-Path: <linux-kbuild+bounces-6955-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6956-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A01AAAFC0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 05:23:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C0FAAB293
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 06:24:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9DBAB16FDD9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 03:23:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F4126188C271
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 04:24:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC86C300A2C;
-	Mon,  5 May 2025 23:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D242936BA5F;
+	Tue,  6 May 2025 00:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5IEoz/d"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2/XiBUd"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1146F3AA15B;
-	Mon,  5 May 2025 23:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D778B36BA30;
+	Mon,  5 May 2025 22:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746487102; cv=none; b=FRGgflkam7SReT7WWq2HU3IRpGlazMt2vr57gZRarK1SmiplyoMtbcLyP9bgBK2JUlo2w8G+QGMDhUgDxvpQngiX4g38PB9vGFIoNFO4PQRXwdFtw1lAMkSI/5CNIgL7m1Q8/TxwR1k+delm8+eBjkLETC5nKMKJdoL/x83PMDo=
+	t=1746485799; cv=none; b=udpD6/p/iEj0k6VAsI2N3v2mxx+4GvQAsNm8JPRsm5mgZnb5JMLhLM7uErmgryTcBnOm6CMW57mQHh2G5Mu3Wbh6eaY2RdM2E36dUf02mDxhevEDLRc5tMh7CwxS185DmcEJXasQTONaqox1HGrWD6OXy8vTDSBkBo9k6XEnFBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746487102; c=relaxed/simple;
-	bh=D7yTrFE188wv1sO2UwjIZZtfQPAmYQjWziJlrOLJbv8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y6OcoAHX/aq9GU25roqCTtQqJWXvttyJC4IceNXFlRJ9Aold/Av8vfp6tNrA1mDafVIPy2qk5gStferBu93ruh+0YPYb4yO7zZqWdpsDJGHcW9yPwFrCttg4i4u4JtWnq34vXL9FRQk5VWQAIrN8hDP1vOTl/Q8NnPiQPWXbuco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5IEoz/d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD86C4CEE4;
-	Mon,  5 May 2025 23:18:21 +0000 (UTC)
+	s=arc-20240116; t=1746485799; c=relaxed/simple;
+	bh=JCdTVHeAiF0SMN4hqWeIRsGnSNa8+AKoDVxqQWbHrto=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f+1fbrmhqzDAb6hMtBlGNMRQES1xjk3tNmzsX3cbLLfLj4cYFRFWf1qFB2HImtD9FdXpXGznPlTuJfhW/1HUJPnqIrRsa4ok0VM9QhV0gzFiEmeleKzQH/vhtPLvlQlzNbPiOq0F/iD+qt4CkXuOihpkFe8f4nepmYZT0tIVHXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2/XiBUd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A0B9C4CEE4;
+	Mon,  5 May 2025 22:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746487101;
-	bh=D7yTrFE188wv1sO2UwjIZZtfQPAmYQjWziJlrOLJbv8=;
+	s=k20201202; t=1746485799;
+	bh=JCdTVHeAiF0SMN4hqWeIRsGnSNa8+AKoDVxqQWbHrto=;
 	h=From:To:Cc:Subject:Date:From;
-	b=d5IEoz/dKUdE6YumbVaQSCpi8ok0eiUJeMczX6EZ3b5k9rDiziozV8ANrLEJGF/5J
-	 v/r/t2O6/AqFcJ+Mt74t6MFyD3PBJOdoM0n726szHeXT45FmCugrKpcFQZmtuG1vlX
-	 nLDrz/N1aeRcHYtU7yqy72l3xzJ96rescpG2UTnVjJD2i48IRI/5ViM3UpvZgjOidF
-	 IRyr17QMx1PGDjYH8IpYnmAfeTGQiTVBaYPpCf0HjKo3UOIOApHrhXmSbfgqiZqhKL
-	 /trSk0SZ+F4ODIe2ADX2JFKM9XrRpJkaW2YUJExczDI4MhVpDjMrxBRg37gNtq/IVc
-	 xSg+Rz+zj0YgQ==
+	b=j2/XiBUdvdi0HNLkKt5p/rtdeM7tK/7f6LbZGUJmErItlsQ+8NxM8COpF+KqVSJKP
+	 dlv11sl81EuykE0EwnfnKjyLbME1HhNUmqEucbiJT3KXMc6ZCJ2JhzS+ADsNlLgha+
+	 cnQIOofE9yMqtTU7XQFoB3l9EDDr/LeKC5VaI+P8VjtfVIUrLOJaSiZcYGB+NiX20l
+	 iBYofWnSjXqMXSPZBhDXdNUkBYuhFafYkTKkfoOhPCfKAQ0RhGO8Zx74lTVI3tO3eU
+	 SDQOPbTrx4rKbh4+d6pNX35qTEbP9P93dQ/ring9ldZqQQLXLNU9HCkqyon2BgoAJU
+	 CMBDITGgySTog==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -47,9 +47,9 @@ Cc: Daniel Gomez <da.gomez@samsung.com>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 001/114] kconfig: merge_config: use an empty file as initfile
-Date: Mon,  5 May 2025 19:16:24 -0400
-Message-Id: <20250505231817.2697367-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 001/294] kconfig: merge_config: use an empty file as initfile
+Date: Mon,  5 May 2025 18:51:41 -0400
+Message-Id: <20250505225634.2688578-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.237
+X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
 From: Daniel Gomez <da.gomez@samsung.com>
@@ -88,10 +88,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index d7d5c58b8b6aa..557f37f481fdf 100755
+index 0b7952471c18f..79c09b378be81 100755
 --- a/scripts/kconfig/merge_config.sh
 +++ b/scripts/kconfig/merge_config.sh
-@@ -98,8 +98,8 @@ INITFILE=$1
+@@ -112,8 +112,8 @@ INITFILE=$1
  shift;
  
  if [ ! -r "$INITFILE" ]; then
