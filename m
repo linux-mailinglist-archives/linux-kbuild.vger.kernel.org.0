@@ -1,119 +1,277 @@
-Return-Path: <linux-kbuild+bounces-6925-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6926-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46A2AA8BE8
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 07:59:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCC6AA8BFD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 08:04:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 618B216F47B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 05:59:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 357307A2F84
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 06:02:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8923919F462;
-	Mon,  5 May 2025 05:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9C91B4259;
+	Mon,  5 May 2025 06:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UZoU+o4H"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0sYehYto"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE88F1B87E9
-	for <linux-kbuild@vger.kernel.org>; Mon,  5 May 2025 05:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C35C1D5CD1
+	for <linux-kbuild@vger.kernel.org>; Mon,  5 May 2025 06:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746424772; cv=none; b=NdSQy662TlTgbpo/hqKX0Imout+g62fOFWjNqPkRxGdlPcaftLhz/hqeJ7QtUUCMnB0HORkXHJdHscAroNT6FsS/fix6QJCMtLBnyP1HactQ+khv+/kc0yz5u2QvtuvX8IsHsb0nlkyQRpAqwm3EJdcG7090CMi0ZfieXuZjN6Y=
+	t=1746424986; cv=none; b=b50Wysl+NovcLxCgvab/brXcwayp2ildgSSq5ickVgXIUJreYsNMSt05sVjCwuNByHtrJ8Drtj0Gsuw73V1EFYWogSiHLQioSYvkLDZn9pB/ZKghV9/f3T68FesuNNHaiPXfOrrHiULAwo8F/fZTm5QrmUykrFkLLF1nTYLNTp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746424772; c=relaxed/simple;
-	bh=dKbHiB4RZA41z9Ie8R/mefcD/M19yRwwyT/XOpBK3WM=;
+	s=arc-20240116; t=1746424986; c=relaxed/simple;
+	bh=fFqrHVr+V73LrZQXMY4xOLkI72ZxviGnnYm/BZHWivs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qmnf3hSlMBPrl2BZ2lg7AedHYlPNyNAf4tqO5t7W+xAbmkZ5BW3//ylIt06bFsXfo/gC4SUlFWCxmFHpgf89QNByoCOHDEoCz++027NW0HMsleA4AR7n+oz5ZUtzucGc3t3WIrL/3wZbzttQe9K/F8YCjYjleenU4mTFiUOw84A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UZoU+o4H; arc=none smtp.client-ip=209.85.208.172
+	 To:Cc:Content-Type; b=WFJOlcq0/EYSU97PnPOhXr+QRRcGPdazgMWke51nE4vDzORXbbzHVxsRcOiIaGI+Ayo7sKhGrNLCmSvulkwHt22tuNL/SGPmnjTmCGfFXF0KEUkihpMCNDOmF26o/35hSBrebXSyKjN1hGQElkCsnjYrilQkjkqZQBM6qaEd8xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0sYehYto; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30bfc8faef9so33502911fa.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 04 May 2025 22:59:30 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c55500d08cso444183485a.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 04 May 2025 23:03:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746424769; x=1747029569; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dKbHiB4RZA41z9Ie8R/mefcD/M19yRwwyT/XOpBK3WM=;
-        b=UZoU+o4HWvakX2nxmiB9eKOzNpzeS2xKKeVbm1wrONUXlfK+Hyb6JkBP5aS2thQouu
-         vI/mJ2/dK1oDKJkn3BCsoMMzN0k3C2dG4qT0E0U6KemwFOOo2NxpDEyIoVVqZnbuKcdO
-         VoM6jIiMGWvfCszwv6Rwd2Vsq4UuBAwpwEEfHeKctkptM9g11or6SlBb7mrb/QkTH/ED
-         l8AyUeV7Sz7XOUxejmJiNYkv/2RAbNBfkh3cuZGjwgTsiPJpCDXeJBLZdkbPQ1GtFuXT
-         b/3dtTIt/9nHROwnmuM/KJkTovXhbZGnxasysqCGdPRaxahnWJrjRdVkudOWLPJsw+Kj
-         r9dg==
+        d=google.com; s=20230601; t=1746424983; x=1747029783; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=w+R/DR5nS9Y/adlJxrVN88RE6GnCu1XrYSgqVzcLM9Y=;
+        b=0sYehYtoUPfOZsbOdVtVNGmV+9CM5BPZTIsDoJXZWGGeYBq5HTfr4SkRfcfikoI6RN
+         1l+rJDL3dv2KOPkUdfNDMCJfCJfz43BGE5qyufsNtIU7vOokJy+i7uS6I5qRlNYhQ1NC
+         U2DKsstpGleV2mRbJUcajjHNe8/KakE8UhZ4BmY+htaLh6ED2P8JNmX50kB2VGIMnlCD
+         coBrTFPI/8Jt38HRUn8XkaEuQR8SuApBG6PrMjQuvXBPzY/KOVreciEMLnzwMI5R580J
+         yYm0T6C4leJOWkDibhHbndu9G8sx7deWBjqWR6sSW2fjm0OGhyEq9MhdfpTrr4qtVcHI
+         zhLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746424769; x=1747029569;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dKbHiB4RZA41z9Ie8R/mefcD/M19yRwwyT/XOpBK3WM=;
-        b=MfFx1I0podVsRsiDEXJJbwYgYDF8vC06YQJDnQS0d3wbl7EqhUWoRyqNH/A/XDnPLr
-         0pLquJ6eW5CdIySNFXJm5AHQS88aIphZnYHbBVVA4JZq58B4BYmLmpO6ryiIrWBlJk4i
-         d8CY2BF1KXiODmWRAg9VehvTQyeLhCC40dQ55mHgml0GfGjkEYAkNywE5JMuD0oxmBPI
-         zsitiRUm1DI7kHimM6/X9N1scsVTHiG4+PUIwdiFuzrSLhrkNLQJK6cSdueWsgwkaiDn
-         Uhwex+Sb3LKwhum+3pDFLfyrBi5Yi2vBQ6FXOfeM8CG49u/I6Xmnu3cEx8SPjLDP/x2e
-         RJxA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHRcdGkBKobHcxkC9EtwpLn9rmYU5Q+v1a0fyshxzphbBOC3Ch4hTzaRBfoFO77Ujem87ouVplrLgMNFY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcbAqGCFAto/qmzhb42Usi1WdqjV0wc3jRiYuo8aGPyvuy8dpX
-	w9YCopg8Ja6qR7uGhZ3PR9GB8ZFc5UsGysaF9QLH+8HMzJF4GH2c102Vcojq8GrgtRAqHEdAaL5
-	1+6jxIyecd/CtJlhCaDIkDYA59FthtkCgcqsZ
-X-Gm-Gg: ASbGncvrGF/7R5DFFbiKZeL1yBPY5UuNyrwy4tmIBHC+NL/4J+QGpt7CmqopKNLK8R2
-	0F2cYf4+/Wd92qTTUF05oQHduUr0/qHttPhl6OhQVBZ/HrWbd1VpKTSxYh9dGpZ1DF30lSnpi94
-	g/sSt+1ZFevT0QPxFrMYtqr4sL7mgtXDTZXa1q/DzXXO690q1dkU+X6Q==
-X-Google-Smtp-Source: AGHT+IFD2StGXXU4LRBTieMiBl1477i7opw2k6zaQzZpZT7Xzqji9FSBQHuj++vQYVldHnNlC03ywPxgJw7rDH3n0w8=
-X-Received: by 2002:a2e:a585:0:b0:30c:12b8:fb8a with SMTP id
- 38308e7fff4ca-3233ebe48fdmr15610161fa.0.1746424768540; Sun, 04 May 2025
- 22:59:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746424983; x=1747029783;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w+R/DR5nS9Y/adlJxrVN88RE6GnCu1XrYSgqVzcLM9Y=;
+        b=ZaaHqpVgSqGcLdUo193DwLMDVsgNG5PitiBoYud5iW5zIypXW7IHWlzHK3+PbwUqC8
+         j8Zn5qT8gKGfRzlhVL1NPo5VCyYb+d2/4bNLpjPNbQ0G1nCvI28DSdh8FpIzNPZHRkwM
+         qUeg9UjmgsUL40Z1B9qWSbAhtjWehXTMPmrFt6Spbjb+ll2CS/Kr7TBc3MiAcbFQeBxp
+         GFBP7InReCvAqyvf+lc4mRnMQQcEFNOFxvFarQwS3rcoxr5l84OZe79J/fiPmharztHK
+         1BeAyN0leRjMMkeerFFjk9UnHg0HH+OO5rB4PWL0r3IqkNV/hFzb4QsOALLa9BQL5f92
+         iHWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVaTYtKc2p1hIs4wRbHpyJCX6EJVYl3hpaIo/2lbYpfuQ+c2rkrgkTFnpUj5U/ShXEwv0ZfhIhvMCsd2qY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7z346BDAoc7dn3V6C3bwUf0WXnOmdrilxuZXp11nhNXcuD/yq
+	bk++s6ydPAqlFflOskBZsB8GvlNDQQwRzumVC9X9TGSCBbBjoz6kV+qsWMTWwiUfjYbFFHt4xH6
+	y/S4pjkUqXSxxB6xTtjXYgrAPLAsKF9E4jlwO
+X-Gm-Gg: ASbGncvLtK99YnxWxPA/uZCz6+q1uEaZHfQ6QuKPyGYc83xDYS1q3mxA9TitI4kJLyE
+	sMn3aKjdiPbVBRflrQD98AJSqmLv3hPqG4w3WHToBZ5WCIUNlbjjdBphOJzalTkzYZ2gMz75AlG
+	mzAQDqtvDYQn/eQivQ62YfChE=
+X-Google-Smtp-Source: AGHT+IH8g7ImerDBSxOboHoBPQcGP9wlwdTQbMMeBILHYZ7QA9s7UXVKzKHRdL1v/6NO8hsad206wvuhez4QMz2l88s=
+X-Received: by 2002:a05:6214:2509:b0:6e6:591b:fa62 with SMTP id
+ 6a1803df08f44-6f523725879mr136920846d6.5.1746424983121; Sun, 04 May 2025
+ 23:03:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250501-rust-kcov-v2-1-b71e83e9779f@google.com>
- <CANp29Y41LKZg-kSP+j5hjUKMNeWnPsVd8VvDnOpN8+4WHHjEgQ@mail.gmail.com> <CANiq72m7GAZ4gfgiU5bXSb86R3-UMG2vsvi5J1Ua1EpVV5EdAQ@mail.gmail.com>
-In-Reply-To: <CANiq72m7GAZ4gfgiU5bXSb86R3-UMG2vsvi5J1Ua1EpVV5EdAQ@mail.gmail.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Mon, 5 May 2025 07:59:17 +0200
-X-Gm-Features: ATxdqUE_jDd0HC0IONKRAtQ24jV76OHs3LwnQnbNgHzz6cgeJxyFcYPBg_mcEL4
-Message-ID: <CACT4Y+Yavh4GkocO01GSP+0hWXZNVBEaD4-9W2V452Z5+C+kZA@mail.gmail.com>
-Subject: Re: [PATCH v2] kcov: rust: add flags for KCOV with Rust
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Aleksandr Nogikh <nogikh@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
-	Matthew Maurer <mmaurer@google.com>, Alexander Potapenko <glider@google.com>
+References: <20250502172459.14175-1-skhan@linuxfoundation.org>
+In-Reply-To: <20250502172459.14175-1-skhan@linuxfoundation.org>
+From: David Gow <davidgow@google.com>
+Date: Mon, 5 May 2025 14:02:51 +0800
+X-Gm-Features: ATxdqUEOFbaKQ5-k-iDPtcXV4ssda5KgtLHNB_FKJVJq9iGd9UirXfm6UpmFVI0
+Message-ID: <CABVgOSkUEaGnsCY5g4EJnvJhJ1PkCjfC7dDs41HjWhT-WLdfyg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: use ARCH from compile.h in unclean source tree msg
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev, 
+	brendan.higgins@linux.dev, rmoar@google.com, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-kselftest@vger.kernel.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000c74a7a06345d4023"
+
+--000000000000c74a7a06345d4023
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2 May 2025 at 15:47, Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Sat, 3 May 2025 at 01:25, Shuah Khan <skhan@linuxfoundation.org> wrote:
 >
-> On Fri, May 2, 2025 at 2:36=E2=80=AFPM Aleksandr Nogikh <nogikh@google.co=
-m> wrote:
-> >
-> > Thanks for incorporating the core.o change!
-> > I've tested the v2 patch on my local setup and it works well.
-> >
-> > Tested-by: Aleksandr Nogikh <nogikh@google.com>
+> When make finds the source tree unclean, it prints a message to run
+> "make ARCH=x86_64 mrproper" message using the ARCH from the command
+> line. The ARCH specified in the command line could be different from
+> the ARCH of the existing build in the source tree.
 >
-> Thanks for testing, very much appreciated.
+> This could cause problems in regular kernel build and kunit workflows.
 >
-> Dmitry/Andrey: I guess you may want this to go through your tree
-> (although I don't see a `M:` there), but if not, please let me know:
+> Regular workflow:
+>
+> - Build x86_64 kernel
+>         $ make ARCH=x86_64
+> - Try building another arch kernel out of tree with O=
+>         $ make ARCH=um O=/linux/build
+> - kbuild detects source tree is unclean
+>
+>   ***
+>   *** The source tree is not clean, please run 'make ARCH=um mrproper'
+>   *** in /linux/linux_srcdir
+>   ***
+>
+> - Clean source tree as suggested by kbuild
+>         $ make ARCH=um mrproper
+> - Source clean appears to be clean, but it leaves behind generated header
+>   files under arch/x86
+>         arch/x86/realmode/rm/pasyms.h
+>
+> A subsequent x86_64e build fails with
+>   "undefined symbol sev_es_trampoline_start referenced ..."
+>
+> kunit workflow runs into this issue:
+>
+> - Build x86_64 kernel
+> - Run kunit tests:  it tries to build for user specified ARCH or uml
+>   as default:
+>         $ ./tools/testing/kunit/kunit.py run
+>
+> - kbuild detects unclean source tree
+>
+>   ***
+>   *** The source tree is not clean, please run 'make ARCH=um mrproper'
+>   *** in /linux/linux_6.15
+>   ***
+>
+> - Clean source tree as suggested by kbuild
+>         $ make ARCH=um mrproper
+> - Source clean appears to be clean, but it leaves behind generated header
+>   files under arch/x86
+>
+> The problem shows when user tries to run tests on ARCH=x86_64:
+>
+>         $ ./tools/testing/kunit/kunit.py run ARCH=x86_64
+>
+>         "undefined symbol sev_es_trampoline_start referenced ..."
+>
+> Build trips on arch/x86/realmode/rm/pasyms.h left behind by a prior
+> x86_64 build.
+>
+> Problems related to partially cleaned source tree are hard to debug.
+> Change Makefile to unclean source logic to use ARCH from compile.h
+> UTS_MACHINE string. With this change kbuild prints:
+>
+>         $ ./tools/testing/kunit/kunit.py run
+>
+>   ***
+>   *** The source tree is not clean, please run 'make ARCH=x86_64 mrproper'
+>   *** in /linux/linux_6.15
+>   ***
+>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
 
-KCOV does not have its own tree, it's merged via MM tree with MM
-maintainers effectively serving as final accepting maintainers.
+
+Thanks very much! This is much better, and has given the right message
+on all of the architecture in-/out-of-tree build combinations I've
+thrown at it.
+
+Reviewed-by: David Gow <davidgow@google.com<
+
+Cheers,
+-- David
+
+--000000000000c74a7a06345d4023
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIUnQYJKoZIhvcNAQcCoIIUjjCCFIoCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
+4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
+mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
+KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
+VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
+ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
+vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
+BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
+OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
+1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
+ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
+BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
+18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
+bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
+AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
+BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
+A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
+MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
+jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
+0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
+jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
+jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
+C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
+NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
+zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
+A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
+hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
+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
+YE9NAgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
+/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFHgsCGkO2Hex
+N6ybc+GeQEb6790qMFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
+BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
+MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
+LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
+bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
+FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
+c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQAs
+exV05yVDmPhHRqOq9lAbfWOUvEf8zydxabZUHna6bayb83jD2eb9nMGGEprfuNBRmFg35sgF1TyN
++ieuQakvQYmY8tzK49hhHa2Y3qhGCTqYTHO3ypHvhHsZiGbL0gmdgB9P8ssVIws//34ae99GUOxo
+XKTxPwwsQ5Arq42besv3/HXAW+4nRAT8d3ht5ZWCHc5rjL/vdGzu7PaYo3u0da69AZ8Sh4Gf5yoc
+QANr2ZkMrxXbLmSmnRvbkQrzlZp2YbTFnczx46429D6q75/FNFOL1vAjxtRAPzkyACvW0eKvchza
+TMvvD3IWERLlcBL5yXpENc3rI8/wVjqgAWYxlFg1b/4b/TCgYe2MZC0rx4Uh3zTIbmPNiHdN6QZ9
+oDiYzWUcqWZ5jCO4bMKNlVJXeCvdANLHuhcC8FONj5VzNgYXs6gWkp9/Wt6XnQPX4dF4JBa8JdL/
+cT46RJIzoiJHEx/8syO5FparZHIKbkunoq6niPsRaQUGeqWc56H4Z1sQXuBJN9fhqkIkG0Ywfrwt
+uFrCoYIRlx4rSVHpBIKgnsgdm0SFQK72MPmIkfhfq9Fh0h8AjhF73sLO7K5BfwWkx1gwMySyNY0e
+PCRYr6WEVOkUJS0a0fui693ymMPFLQAimmz8EpyFok4Ju066StkYO1dIgUIla4x61auxkWHwnzGC
+Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
+BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAcDMKctW1GQKDKqEUSh4
+pjANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg3X3HoZJb3UQrZ4tNJScQMKXLmJjG
+mjxZzzvQklR7xPIwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+NTA1MDYwMzAzWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
+AQEBBQAEggEAbP/vTr/ysmcXMdSLMw6J9D5uwgh//Tau0tx6k6oF9cAQ9U5vnqt/dwim/cKcUnVj
+M5SZyHgmC98dLj2cCKSDAAe4vPSEB1NbjnaRvW+fB2VCWcniQVEr39qCS+a4kKjmuJ9hL7eZJPnU
+bmUlfsP0j9WoJBWznbEcTH1xaHmeu1vZwEhEwxxjnMlU72FzY1Q/NbCwQnwvikQ6p/bWxhzvolrO
+BbViX4RkQre1oESHnvYZFp4AI7PCuQxrJMhIoBeBI+nKvdObZwPzJYJcNqa6GONmrZ7o0GNa9PiA
+WUTqvEDg9PJ/nNxoyJSOjIFbru/UfjNR71oeq2vAiV+COwjayw==
+--000000000000c74a7a06345d4023--
 
