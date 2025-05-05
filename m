@@ -1,132 +1,152 @@
-Return-Path: <linux-kbuild+bounces-6936-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6937-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B38AA98B6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 18:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4B8AA9A3A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 19:16:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 892361883A78
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 16:22:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 270C31899D48
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 17:16:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3200258CD3;
-	Mon,  5 May 2025 16:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 024411A00ED;
+	Mon,  5 May 2025 17:16:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="d/aZ2g9q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ny1zzinf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37551A2632
-	for <linux-kbuild@vger.kernel.org>; Mon,  5 May 2025 16:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A081F4188
+	for <linux-kbuild@vger.kernel.org>; Mon,  5 May 2025 17:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746462139; cv=none; b=NxlBUAGubYHbx+JvKDA6hQGmS65ElcQziderUKmWMaet+0FLHS1iKgEg9R3MwAMr0CUZsmPvTseHu8pKnsm1HM3dgF9FuKGxBrJchwtspOfbXfsl65KOWSHJtAlt77+bPmdL54qIiSSZ4vA36B5xsmrH35CoO2Zj3a7HMRBS3Q8=
+	t=1746465382; cv=none; b=DnpYf/VusivC6JYItaG5h0gRmXJj7PSLBrI+vD1npJh9S5ysB+j0LJ99nNT0n5KIPFlrQ3V2f29Cg3rbomurQ7ir8mrIqoa74zHbDUcvh2pGe/8IH2S8YxZrEk1qqotu0y5GZvndubWOvCaFte0FyQeG3bDkiLoJaSKnGKhjOj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746462139; c=relaxed/simple;
-	bh=dx+0A0+zGYkg14I6OBkj3/ss6kuJ7p0HznjIA0M5sBw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ugXmM+NeR73nYyXFCR0ldNqSsVX6TEX4ZBXaY37ruYwmvU5wOm5ne95LVKE5mGrp6L1z5h7yfCBiL0sWJgmvDiWbvtpVOfTEmmK5ec9GmVb2Qh5CyETUKekrW6fgBL1hazpKiuX7lIL/dHERVbos36FcRLXMM/Y7Ta7n32MFrco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=d/aZ2g9q; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6ff37565154so39541417b3.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 05 May 2025 09:22:17 -0700 (PDT)
+	s=arc-20240116; t=1746465382; c=relaxed/simple;
+	bh=xLPWOwur5lZyTIFQhKJgCuS3vM2v4fZ1AeSleNLa7T0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oETxZ5WT4Z0ehBLLKoNXj4NBuPzrANvezM8JUXLy3lQr7wYhvVAWjsZNlKMdlDDxdbREGmM067E7sNbn4Sg81Y0IyOEU+5XCdSa8/lW4hqITlUbAGcABL9TiIFgjXBuuRvbHQ2bY2gMD0BqyCVPLNpPaVlnZmCcIu+E4U9eI1tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ny1zzinf; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43690d4605dso33668215e9.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 05 May 2025 10:16:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1746462137; x=1747066937; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BUSGTKlbA5H24+yBQN4jIkG58T5ExeiJA4eFJ+JNTtQ=;
-        b=d/aZ2g9q4bY9fC5ic82QjW2gNn84oN08nKwoGcD2su899FBEW/oaxzkyoC/rX5BDWT
-         7WtVn/VgA4O6UlDBrtXJI0KzzYRjd5O/Fce5mGCyT0iQrp1+3Qct2UdcDGQk2qCbTJ4J
-         qLt9+T11iy68OREJTQJHK7tHvhe3nmKHUuQUdGWsdRANAQlIaS+zo0X2QSstvtQ9iwQG
-         wb6sxZk+TB59/B/z3u1H+oYg1d7qmU2NciHyaucXTz4rGDNeDHJH7W1Qh3XDdhFdP13m
-         Ilf/DtHSyKqqa92kCbzcfyM2PfEAaoRuNCM+kKeLuJc/eJWX8ZjrGcO25vuT0p60nZvs
-         +N5g==
+        d=gmail.com; s=20230601; t=1746465378; x=1747070178; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsWZnuzRPjzvjOn98WGp9+L8/QX752dDvG+p5I6ytmo=;
+        b=Ny1zzinfJT83chmS8kpkV7BsupLHIGcuiPyY+a7uQ0s4XAiiZYtQSkMmeU2sL36SEj
+         kISZVLqlDPU6ZRRqZGz/g7HZl7OAqtC1zFqoSIs6Xv+J46tbqwgm+yfBj/W+rpg2aBK5
+         dNeh1Hdns7cZ9PYbAnhqBaMN3bWkyWmck8IcGfgedBCjlB7jEO1dcES30PTRDfUbajrM
+         4GacfZ7Q0Qfm8J22xVfZmvxMkKdOXX2hhmYqs9cA03z4e0EIA+cGL8JhgL1jGNa2zfgp
+         Tuj/zJbk9tYlyIPU0acE5iJJaQyaLyBksKzVlY3fPD8sAC7VUqyh/ihMjNp2smMrn4lU
+         tbQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746462137; x=1747066937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BUSGTKlbA5H24+yBQN4jIkG58T5ExeiJA4eFJ+JNTtQ=;
-        b=Xi/v/HN3LCzj16QorRQXajqU4vMNNrGvRq86jmmtady1bKCvkqvg+AFPe9r+GJDmnj
-         Cj0oR7JHUIdgJjUcdcrpW5D206FHF+sOwVO/tA3KGFUaUo1QFoh5DI6KwlKeveWsaSSj
-         mXLCTWEEZE8I7zvo0WOiRhM5zra2zh0+Ny7Vniq3Rq3plF0biIhalNko2sfOc43wkjq3
-         IXgmzmfy0EOC0NUC8Bo9ZqtqQTInPdoYDj92irk+St0v9fBnnvjHLvkbfvTnz44ONQbk
-         /ERRtwmUntW5YTrBTaLjmp8coKauJVwwcyLu+I40zlpB0ymL9iKIgrUORe4ePpSBIgLL
-         FAFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrpGvOlQvGqRYN4e6J2PgwFL3130Yjcc1c2EpnaUcxxFj/a6c6feFQph/Glyto9Qy6wzZa5TLKC9SL9VA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3Ki/IN7oDdrPZm7dZnQjqsBaxL+DJ7NKYKYoHNjwV6ev+yrYW
-	BxsjzXEGPiz2+dcdYmR27pdXITK4G3+dpsgXhZzhCAW+zFHXLTtS++g5g6M+ORBmY3NQYNIHmL3
-	3hdTOS84Aaa6X9GCsz3Gmw6hdzsCqDg5Mbgbp
-X-Gm-Gg: ASbGncvPz/TqaaaWi/PBTOLhtszrlMd4VjY/IZL0pVaCMpBuGEhEo1c+5pfU6DiyhOc
-	iJuZPh1R2jbYNP0c2uweaWgpgOT5uvDsU+wkjjC1J0/Mzd/6w/gsPYhCIm0cuCRMMbiLhyERPiW
-	Rgj2eH27NISAxeyuJwi+HFDg==
-X-Google-Smtp-Source: AGHT+IH2DUE5HVNEg2bSjlLOWtDIRC8IZyXb2mE2mCyNBUhFsO4FmPL69/3p57Fob2eoRjHd/ddHHp962kCkNWER8p8=
-X-Received: by 2002:a05:690c:6504:b0:702:537b:dca8 with SMTP id
- 00721157ae682-708e119b266mr116732617b3.4.1746462136818; Mon, 05 May 2025
- 09:22:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746465378; x=1747070178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NsWZnuzRPjzvjOn98WGp9+L8/QX752dDvG+p5I6ytmo=;
+        b=NfVFVK/Nnmdn5QzREkx8dGwmbPk2inpT3V4STAd2/4RUCRP6Epkpr/baG3bzkcpoau
+         I2OUGg+83pWhm9mvW2ezbJdIxML6S0RLjYNphNpiVIvVb86iOaDD4jYjtMkC7QzaAx70
+         fnnKslP1xQ58WrS14+z+6+iqTw3B3d4ftAeS5lm59XNaL1obJxQX/lDOQ0gqu4abGnLI
+         57Fp6wXYj0c9eERY7OPc42JXN83PtIINBTO3m+GaNvVUyXA8DQGI+EoYHFpTomQhlkYt
+         krJpfZfKwYHEQaVxrPrZmvN6cYn0QvHOKhzxVYyqZlo+Cp7MvGuyn95cLm29nKLa0qg6
+         yEew==
+X-Forwarded-Encrypted: i=1; AJvYcCXWbSCKHa1fImQGNjbfep11aH3041uSbzVR4AU3y566TYD/9BEc7iHh32XZrDMgz9MIMNinKDkDDuNbVtU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2P+EdGw3Nbi6KoqKrqLfMYRZBT6C2YuLzumB5euJUns5NyEs7
+	VvWiK9XznJ2qSsibJ4CIpI8SURADMNMVWQGMb6TeWEB1EZXkRwNZ
+X-Gm-Gg: ASbGncvyTgGe2bA0a0LXL4kIM85UwZtB4FCw88QjpLcR0sZ3SxxuW0/ovNClp8HuxRK
+	fNkx4SEgI+gZKQWGpJOtSJ0ENldyvpnxygKd7LqtceGO55n80UqVwW4lbABD99tl5TN2af0L/Yw
+	lJ0UuuNZ1E7kbECa2oai+lfFivalqOwMTjxgA82RpA8wpQtKFnXhJPWewgS+xcn4PVXPN4niKa7
+	Bl/BNZfS8wk5328XdX5Volb0RrrY4NFLR+3Ypqn7WrhhJVfgwlQC/YMpLhCYrWmLQv4x75bt0Xu
+	byPQ7ZGsjbBXa+EHoI1/wtSat/ik+0JJEhIf5vnNRKMTxg==
+X-Google-Smtp-Source: AGHT+IFCq2btCpfZlVx3JCBuqw2azmNFSGuiBrqSE6YszRoEi1DMpySnZTXXWbMIN1RPLRsKmYHK1g==
+X-Received: by 2002:a05:600c:a45:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-441c48bc863mr79292155e9.10.1746465377969;
+        Mon, 05 May 2025 10:16:17 -0700 (PDT)
+Received: from azouny-H610M.. ([154.178.16.64])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b8a3113csm138652245e9.33.2025.05.05.10.16.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 May 2025 10:16:16 -0700 (PDT)
+From: Omar el Azouny <omarlazouny@gmail.com>
+To: omarlazouny@gmail.com
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	Masahiro Yamada <yamada.masahiro@socionext.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Michal Marek <michal.lkml@markovi.net>,
+	Kees Cook <keescook@chromium.org>,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: Globally enable fall-through warning
+Date: Mon,  5 May 2025 20:14:30 +0300
+Message-ID: <20250505171430.133971-1-omarlazouny@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
- <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
-In-Reply-To: <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 5 May 2025 12:22:05 -0400
-X-Gm-Features: ATxdqUHVSCLwU25t9Nh-Eb-QNfhRN532QIA5RHPtIkiKO7hREbMXnOdoRrxJisQ
-Message-ID: <CAHC9VhRf2gBDGFBW1obwCaGzK4RdH+ft_J-HXV6U7x7yiCJn5g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: KP Singh <kpsingh@kernel.org>
-Cc: bboscaccy@linux.microsoft.com, James.Bottomley@hansenpartnership.com, 
-	bpf@vger.kernel.org, code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, 
-	dhowells@redhat.com, gnoack@google.com, herbert@gondor.apana.org.au, 
-	jarkko@kernel.org, jmorris@namei.org, jstancek@redhat.com, 
-	justinstitt@google.com, keyrings@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	llvm@lists.linux.dev, masahiroy@kernel.org, mic@digikod.net, morbo@google.com, 
-	nathan@kernel.org, neal@gompa.dev, nick.desaulniers+lkml@gmail.com, 
-	nicolas@fjasle.eu, nkapron@google.com, roberto.sassu@huawei.com, 
-	serge@hallyn.com, shuah@kernel.org, teknoraver@meta.com, 
-	xiyou.wangcong@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 4, 2025 at 7:25=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrote:
-> On Sun, May 4, 2025 at 7:36=E2=80=AFPM Paul Moore <paul@paul-moore.com> w=
-rote:
-> > On Fri, May 2, 2025 at 5:00=E2=80=AFPM KP Singh <kpsingh@kernel.org> wr=
-ote:
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 
-...
+Now that all the fall-through warnings have been addressed in the
+kernel, enable the fall-through warning globally.
 
-> > > ... here's how we think it should be done:
-> > >
-> > > * The core signing logic and the tooling stays in BPF, something that=
- the users
-> > >   are already using. No new tooling.
-> >
-> > I think we need a more detailed explanation of this approach on-list.
-> > There has been a lot of vague guidance on BPF signature validation
-> > from the BPF community which I believe has partly led us into the
-> > situation we are in now.  If you are going to require yet another
-> > approach, I think we all need to see a few paragraphs on-list
-> > outlining the basic design.
->
-> Definitely, happy to share design / code.
+Also, update the deprecated.rst file to include implicit fall-through
+as 'deprecated' so people can be pointed to a single location for
+justification.
 
-At this point I think a quick paragraph or two on how you believe the
-design should work would be a good start, I don't think code is
-necessary unless you happen to already have something written.
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ Documentation/process/deprecated.rst | 14 ++++++++++++++
+ Makefile                             |  3 +++
+ 2 files changed, 17 insertions(+)
 
---=20
-paul-moore.com
+diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
+index 49e0f64a3427..053b24a6dd38 100644
+--- a/Documentation/process/deprecated.rst
++++ b/Documentation/process/deprecated.rst
+@@ -119,3 +119,17 @@ array may exceed the remaining memory in the stack segment. This could
+ lead to a crash, possible overwriting sensitive contents at the end of the
+ stack (when built without `CONFIG_THREAD_INFO_IN_TASK=y`), or overwriting
+ memory adjacent to the stack (when built without `CONFIG_VMAP_STACK=y`)
++
++Implicit switch case fall-through
++---------------------------------
++The C language allows switch cases to "fall through" when
++a "break" statement is missing at the end of a case. This,
++however, introduces ambiguity in the code, as it's not always
++clear if the missing break is intentional or a bug. As there
++have been a long list of flaws `due to missing "break" statements
++<https://cwe.mitre.org/data/definitions/484.html>`_, we no longer allow
++"implicit fall-through". In order to identify an intentional fall-through
++case, we have adopted the marking used by static analyzers: a comment
++saying `/* Fall through */`. Once the C++17 `__attribute__((fallthrough))`
++is more widely handled by C compilers, static analyzers, and IDEs, we can
++switch to using that instead.
+diff --git a/Makefile b/Makefile
+index 9be5834073f8..bdf8eac51b07 100644
+--- a/Makefile
++++ b/Makefile
+@@ -843,6 +843,9 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+ # warn about C99 declaration after statement
+ KBUILD_CFLAGS += -Wdeclaration-after-statement
+ 
++# Warn about unmarked fall-throughs in switch statement.
++KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough=3,)
++
+ # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+ KBUILD_CFLAGS += -Wvla
+ 
+-- 
+2.43.0
+
 
