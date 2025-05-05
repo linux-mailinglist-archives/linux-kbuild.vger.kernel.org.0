@@ -1,269 +1,205 @@
-Return-Path: <linux-kbuild+bounces-6930-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6931-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B987EAA8FF7
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 11:46:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 679D0AA9058
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 11:55:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 88E2E189809F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 09:46:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CB4301898380
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 May 2025 09:56:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AB331C1AB4;
-	Mon,  5 May 2025 09:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A914B1F790F;
+	Mon,  5 May 2025 09:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d+mMqabc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lIG6OFKK"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCA2249F9;
-	Mon,  5 May 2025 09:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783E11DE3AF;
+	Mon,  5 May 2025 09:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746438387; cv=none; b=OMSE/Es4NNE5yonPBH6PH+pacylI6FBEoylX3ykgoTEi+IWx+YnfeRPIcLdnMEMD1T6cZT4teQZoHyj/b+y053fNzbFsvs4n7gjpVMK/4iZrcr2xrPcI1SivahCh96bqin+TP2HgGj3AvBeMQ771m0aOiy+G6kodBQwdjOUReXw=
+	t=1746438945; cv=none; b=E5IBC+opG1V12WxDcg5dmoojFHR8SNncUXGhf7mAVEWHF+oR4CKzj1VatAjyPJKASusFnMuUeZnkl2mGLF4RQic97eOIkWCIaQVUcnK1rv4BZwjbh4o0EkXCDeB1iZlunSOrrCHuUECriRubB0RaakjxoeuCBA0pUlbVuHdl9lM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746438387; c=relaxed/simple;
-	bh=UIH5JSP4tb5O+YYw9nvsN/xpMiimsjcLY/Sq6JGo1rU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=japCRHcsoaPQp4OAs2QWM4hqxC5TBQ3amvnBIijoyNsp6TsjJorjWPesSYXG9YxlypCtK2YqtjBVifuyLKF0zheRJtnqCQsIc4gYL2MedmacAyxUu95AO5FZkfObGUXaA5hw/8ZtcAZvH2OYF42NxAzjQwFVj7Gk+76dH46XWBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d+mMqabc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68450C4CEF0;
-	Mon,  5 May 2025 09:46:24 +0000 (UTC)
+	s=arc-20240116; t=1746438945; c=relaxed/simple;
+	bh=C+qofN41T9ZGZV/Yauz2+1+PKYZmi9DihY6aLigOKSI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kvN5/jnEA0Q2i+sOqYyTd8iwS8bIBErs4UAIlIrZbkPjG3P5SR3ZnWglPaoRDVEKnStHpcXQVtXdnRvgRuSU3NdArTcZP/Nlt4sI9iny/qyHGz8L6tmb4KrwyWbAENvXTRUi3MEAvJdcVPqsyk4B2LzujebhexYKEhhNn2Qy+nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lIG6OFKK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC56C4CEE4;
+	Mon,  5 May 2025 09:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746438386;
-	bh=UIH5JSP4tb5O+YYw9nvsN/xpMiimsjcLY/Sq6JGo1rU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d+mMqabcZPXEMSQ4l+2nRswkHIGh3AUbUehE72H9h1EAU9MjZZHCWV5IfaPmo/0FG
-	 Qbm+++Y5QTOF706JU0r2XV9crrx7BTB5NeO0rupYv2fmlVe82VIpGWZ9XQWvGaVWWO
-	 OjM+1KiaDsVr8VQ9seoQ0ZLMOGBFmiwZOOszHsjo2WVBYx0gvoA4XMLF9mszNrODlT
-	 RhbPnNgh5x+GNXsjDV09q4V+cV67iIumFcD4mlRKKjapZ9TVvRbBubSecLXqlUnE4r
-	 qv+BTv3uC0HEfVclSF29lUnBkvJLAlmu6r9p8vJ7sFbnNaqoemHRaKqc72B07wJfwV
-	 Vc0Rqzpam5HfQ==
-Date: Mon, 5 May 2025 11:46:20 +0200
-From: Alexey Gladkov <legion@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 5/7] modpost: Create modalias for builtin modules
-Message-ID: <aBiI7Iv2LtQJUWG4@example.org>
-References: <efd64a6f-d6e5-4790-96b6-0776cd3a7f5a@suse.com>
- <20250505093830.25688-1-legion@kernel.org>
+	s=k20201202; t=1746438945;
+	bh=C+qofN41T9ZGZV/Yauz2+1+PKYZmi9DihY6aLigOKSI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lIG6OFKKuZoF45Xa5t+XOx2zCpIrNGnvG4tQ+MSOPD8cmpNfuqXBeXEQJCQvzV+Tr
+	 TVb9iR3kx5r/nLo6Ivm3btPA3XlQ1WlJcKlQqOVMIlcMTrRvwmjmMdJuvInwuiCPPZ
+	 j8/qiNiZSyf80yMW3JYb2+5Jlr3gxr2/Mfow6l+49fECTvMk6Q2I0ypz0+JQrlAxho
+	 m1CyDA2fbsGuf3vuEmN7m4xX165tSxjwDG616sOdZ1kPN3eRCQ1k9Z188xhX/3gZw9
+	 MdcMGURjj6qG05hThenfkuXn/UuLCyj0UebROnk9llUV1GLIsasAYQwNUqb9Agw06X
+	 q3+FbTdn7wyzw==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Benno
+ Lossin" <benno.lossin@proton.me>,  "Masahiro Yamada"
+ <masahiroy@kernel.org>,  "Nathan Chancellor" <nathan@kernel.org>,  "Luis
+ Chamberlain" <mcgrof@kernel.org>,  "Danilo Krummrich" <dakr@kernel.org>,
+  "Nicolas Schier" <nicolas.schier@linux.dev>,  "Trevor Gross"
+ <tmgross@umich.edu>,  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
+  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
+  "Sami Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
+ <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
+ KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
+  "Daniel Almeida" <daniel.almeida@collabora.com>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v11 2/3] rust: add parameter support to the `module!` macro
+In-Reply-To: <aBTMMHWNXS7wK7zS@google.com> (Alice Ryhl's message of "Fri, 02
+	May 2025 13:44:16 +0000")
+References: <20250502-module-params-v3-v11-0-6096875a2b78@kernel.org>
+	<20250502-module-params-v3-v11-2-6096875a2b78@kernel.org>
+	<WroEJHY8a-y8vbSQkUvGJJs7yTQGKMsHJqmWFYGkz5bZ_PsiE8GAozjSaNpWjWina1XanjVNpV0Av3woiaUtJg==@protonmail.internalid>
+	<aBTMMHWNXS7wK7zS@google.com>
+User-Agent: mu4e 1.12.7; emacs 30.1
+Date: Mon, 05 May 2025 11:55:33 +0200
+Message-ID: <878qnbxtyi.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250505093830.25688-1-legion@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 05, 2025 at 11:38:29AM +0200, Alexey Gladkov wrote:
-> For some modules, modalias is generated using the modpost utility and
-> the section is added to the module file.
-> 
-> When a module is added inside vmlinux, modpost does not generate
-> modalias for such modules and the information is lost.
-> 
-> As a result kmod (which uses modules.builtin.modinfo in userspace)
-> cannot determine that modalias is handled by a builtin kernel module.
-> 
-> $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
-> pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
-> 
-> $ modinfo xhci_pci
-> name:           xhci_pci
-> filename:       (builtin)
-> license:        GPL
-> file:           drivers/usb/host/xhci-pci
-> description:    xHCI PCI Host Controller Driver
-> 
-> Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
-> modpost if the module is built separately.
-> 
-> To fix this it is necessary to generate the same modalias for vmlinux as
-> for the individual modules. Fortunately '.vmlinux.export.o' is already
-> generated from which '.modinfo' can be extracted in the same way as for
-> vmlinux.o.
-> 
-> Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> ---
-> 
-> v2: As Petr Pavlu suggested, I separated the builtin modules from the external
->     modules. I've also added a search for duplicate modules.
-> 
-> ---
->  include/linux/module.h   |  4 ----
->  scripts/mod/file2alias.c |  5 +++++
->  scripts/mod/modpost.c    | 35 +++++++++++++++++++++++++++--------
->  scripts/mod/modpost.h    | 15 ++++++++++++++-
->  4 files changed, 46 insertions(+), 13 deletions(-)
-> 
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index 7250b4a527ec..6225793ddcd4 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -257,14 +257,10 @@ extern void cleanup_module(void);
->  	__PASTE(type,			\
->  	__PASTE(__, name)))))))
->  
-> -#ifdef MODULE
->  /* Creates an alias so file2alias.c can find device table. */
->  #define MODULE_DEVICE_TABLE(type, name)			\
->  extern typeof(name) __mod_device_table(type, name)	\
->    __attribute__ ((unused, alias(__stringify(name))))
-> -#else  /* !MODULE */
-> -#define MODULE_DEVICE_TABLE(type, name)
-> -#endif
->  
->  /* Version of form [<epoch>:]<version>[-<extra-version>].
->   * Or for CVS/RCS ID version, everything but the number is stripped.
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index dff1799a4c79..be221923f582 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -1509,6 +1509,11 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
->  	typelen = name - type;
->  	name += strlen("__");
->  
-> +	if (mod->is_vmlinux) {
-> +		mod = find_module(NULL, modname, modnamelen);
-> +		mod = mod ?: new_builtin_module(modname, modnamelen);
-> +	}
-> +
->  	/* Handle all-NULL symbols allocated into .bss */
->  	if (info->sechdrs[get_secindex(info, sym)].sh_type & SHT_NOBITS) {
->  		zeros = calloc(1, sym->st_size);
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index be89921d60b6..db3c172d4528 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -168,22 +168,26 @@ char *get_line(char **stringp)
->  	return orig;
->  }
->  
-> -/* A list of all modules we processed */
-> +/* A list of all modules (vmlinux or *.ko) we processed */
->  LIST_HEAD(modules);
->  
-> -static struct module *find_module(const char *filename, const char *modname)
-> +/* A list of all builtin modules we processed */
-> +LIST_HEAD(builtin_modules);
-> +
-> +struct module *find_module(const char *filename, const char *name, size_t namelen)
->  {
->  	struct module *mod;
->  
->  	list_for_each_entry(mod, &modules, list) {
-> -		if (!strcmp(mod->dump_file, filename) &&
-> -		    !strcmp(mod->name, modname))
-> +		if ((mod->dump_file && !strcmp(mod->dump_file, filename)) &&
-> +		    namelen != strlen(mod->name) &&
+"Alice Ryhl" <aliceryhl@google.com> writes:
 
-Of course there has to be an '==' here. I'll fix it if this patch fits.
+> On Fri, May 02, 2025 at 02:16:35PM +0200, Andreas Hindborg wrote:
+>> Add support for module parameters to the `module!` macro. Implement read
+>> only support for integer types without `sysfs` support.
+>>
+>> Acked-by: Petr Pavlu <petr.pavlu@suse.com> # from modules perspective
+>> Tested-by: Daniel Gomez <da.gomez@samsung.com>
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>
+>> +unsafe extern "C" fn set_param<T>(
+>> +    val: *const kernel::ffi::c_char,
+>> +    param: *const crate::bindings::kernel_param,
+>> +) -> core::ffi::c_int
+>> +where
+>> +    T: ModuleParam,
+>> +{
+>> +    // NOTE: If we start supporting arguments without values, val _is_ =
+allowed
+>> +    // to be null here.
+>> +    if val.is_null() {
+>> +        // TODO: Use pr_warn_once available.
+>> +        crate::pr_warn!("Null pointer passed to `module_param::set_para=
+m`");
+>> +        return EINVAL.to_errno();
+>> +    }
+>> +
+>> +    // SAFETY: By function safety requirement, val is non-null and
+>> +    // null-terminated. By C API contract, `val` is live and valid for =
+reads
+>> +    // for the duration of this function.
+>> +    let arg =3D unsafe { CStr::from_char_ptr(val) };
+>> +
+>> +    crate::error::from_result(|| {
+>> +        let new_value =3D T::try_from_param_arg(arg)?;
+>> +
+>> +        // SAFETY: `param` is guaranteed to be valid by C API contract
+>> +        // and `arg` is guaranteed to point to an instance of `T`.
+>> +        let old_value =3D unsafe { (*param).__bindgen_anon_1.arg as *mu=
+t T };
+>> +
+>> +        // SAFETY: `old_value` is valid for writes, as we have exclusive
+>> +        // access. `old_value` is pointing to an initialized static, and
+>> +        // so it is properly initialized.
+>> +        unsafe { core::ptr::replace(old_value, new_value) };
+>
+> You don't use the return value of this, so this is equivalent to
+> unsafe { *old_value =3D new_value };
 
-> +		    !strncmp(mod->name, name, namelen))
->  			return mod;
->  	}
->  	return NULL;
->  }
->  
-> -static struct module *new_module(const char *name, size_t namelen)
-> +struct module *create_module(const char *name, size_t namelen, bool is_builtin)
->  {
->  	struct module *mod;
->  
-> @@ -207,7 +211,10 @@ static struct module *new_module(const char *name, size_t namelen)
->  	 */
->  	mod->is_gpl_compatible = true;
->  
-> -	list_add_tail(&mod->list, &modules);
-> +	if (is_builtin)
-> +		list_add_tail(&mod->list, &builtin_modules);
-> +	else
-> +		list_add_tail(&mod->list, &modules);
->  
->  	return mod;
->  }
-> @@ -2021,11 +2028,23 @@ static void write_if_changed(struct buffer *b, const char *fname)
->  static void write_vmlinux_export_c_file(struct module *mod)
->  {
->  	struct buffer buf = { };
-> +	struct module_alias *alias, *next;
->  
->  	buf_printf(&buf,
-> -		   "#include <linux/export-internal.h>\n");
-> +		   "#include <linux/export-internal.h>\n"
-> +		   "#include <linux/module.h>\n");
->  
->  	add_exported_symbols(&buf, mod);
-> +
-> +	list_for_each_entry(mod, &builtin_modules, list) {
-> +		list_for_each_entry_safe(alias, next, &mod->aliases, node) {
-> +			buf_printf(&buf, "MODULE_ALIAS_MODNAME(\"%s\", \"%s\");\n",
-> +					mod->name, alias->str);
-> +			list_del(&alias->node);
-> +			free(alias);
-> +		}
-> +	}
-> +
->  	write_if_changed(&buf, ".vmlinux.export.c");
->  	free(buf.p);
->  }
-> @@ -2112,7 +2131,7 @@ static void read_dump(const char *fname)
->  			continue;
->  		}
->  
-> -		mod = find_module(fname, modname);
-> +		mod = find_module(fname, modname, strlen(modname));
->  		if (!mod) {
->  			mod = new_module(modname, strlen(modname));
->  			mod->dump_file = fname;
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 9133e4c3803f..1d0dd4ee944a 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -107,7 +107,7 @@ struct module_alias {
->  };
->  
->  /**
-> - * struct module - represent a module (vmlinux or *.ko)
-> + * struct module - represent a module (vmlinux, a builtin module, or *.ko)
->   *
->   * @dump_file: path to the .symvers file if loaded from a file
->   * @aliases: list head for module_aliases
-> @@ -199,6 +199,19 @@ static inline bool is_valid_name(struct elf_info *elf, Elf_Sym *sym)
->  	return !is_mapping_symbol(name);
->  }
->  
-> +struct module *find_module(const char *filename, const char *name, size_t namelen);
-> +struct module *create_module(const char *name, size_t namelen, bool is_builtin);
-> +
-> +static inline struct module *new_module(const char *name, size_t namelen)
-> +{
-> +	return create_module(name, namelen, false);
-> +}
-> +
-> +static inline struct module *new_builtin_module(const char *name, size_t namelen)
-> +{
-> +	return create_module(name, namelen, true);
-> +}
-> +
->  /* symsearch.c */
->  void symsearch_init(struct elf_info *elf);
->  void symsearch_finish(struct elf_info *elf);
-> -- 
-> 2.49.0
-> 
+Thanks.
 
--- 
-Rgrds, legion
+>
+>> +macro_rules! make_param_ops {
+>> +    ($ops:ident, $ty:ty) =3D> {
+>> +        ///
+>> +        /// Static [`kernel_param_ops`](srctree/include/linux/modulepar=
+am.h)
+>> +        /// struct generated by `make_param_ops`
+>> +        #[doc =3D concat!("for [`", stringify!($ty), "`].")]
+>> +        pub static $ops: $crate::bindings::kernel_param_ops =3D $crate:=
+:bindings::kernel_param_ops {
+>> +            flags: 0,
+>> +            set: Some(set_param::<$ty>),
+>> +            get: None,
+>> +            free: Some(free::<$ty>),
+>
+> You could potentially only include `free` if
+> `core::mem::needs_drop::<T>()` as an optimization.
+
+Right, nice =F0=9F=91=8D
+
+>
+>> +    fn emit_params(&mut self, info: &ModuleInfo) {
+>> +        let Some(params) =3D &info.params else {
+>> +            return;
+>> +        };
+>> +
+>> +        for param in params {
+>> +            let ops =3D param_ops_path(&param.ptype);
+>> +
+>> +            // Note: The spelling of these fields is dictated by the us=
+er space
+>> +            // tool `modinfo`.
+>> +            self.emit_param("parmtype", &param.name, &param.ptype);
+>> +            self.emit_param("parm", &param.name, &param.description);
+>> +
+>> +            write!(
+>> +                self.param_buffer,
+>> +                "
+>> +                    pub(crate) static {param_name}:
+>> +                        ::kernel::module_param::ModuleParamAccess<{para=
+m_type}> =3D
+>> +                            ::kernel::module_param::ModuleParamAccess::=
+new({param_default});
+>
+> Is this global accessible to the user?
+
+Yes.
+
+> It would be a use-after-free to
+> access it during module teardown. For example, what if I access this
+> static during its own destructor? Or during the destructor of another
+> module parameter?
+
+Yes, that is a problem.
+
+We can get around it for now by just not calling `free` for now. We only
+support simple types that do not need drop. I think we would have to
+seal the `ModuleParam` trait for this.
+
+For a proper solution, we could
+ - Require a token to read the parameter.
+ - Synchronize on a module private field and return an option from the
+   parameter getter. This would require module exit to run before param
+   free. I think this is the case, but I did not check.
+ - Use a `Revocable` and revoke the parameter in `free`.
+
+Any other ideas or comments on the outlined solutions?
+
+
+Best regards,
+Andreas Hindborg
+
 
 
