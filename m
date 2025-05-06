@@ -1,108 +1,168 @@
-Return-Path: <linux-kbuild+bounces-6958-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6959-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8760EAAB5ED
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 07:39:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92990AAB935
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 08:52:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2A333A131C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 05:32:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46F2C7AABE6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 06:51:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5EE029B8C8;
-	Tue,  6 May 2025 00:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6326F28A407;
+	Tue,  6 May 2025 04:01:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hvAPqnuF"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="kafLiDKX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE02F37EA72;
-	Mon,  5 May 2025 23:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F5328D8C2;
+	Tue,  6 May 2025 02:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746487317; cv=none; b=JmV+q33VyJJaMxjGPJBYgKZLFAwPmDykjOt5Vk3pELBqNQNl4g6hzcnwV2c/p5616bGen0rAge20viWMXfsh/rxjA/vzY7s8+JHi9fJxrbbGpqDy0eBdViwkcx15QG7eZXz9njOamTkQB1xW2Rurr60h6Tv0RseZttn4OMgT7kQ=
+	t=1746498798; cv=none; b=ta2hOfWbDHpLOSPz6U+4wr5UnN6VhMZHVlIK1KTKOtO64Nn2asaB58adCBvxvqnM3qyFDeFZ7+SbTbDv2egAoZ+sBQAvo4qd/wZnoweJhlw0vyevZIsKZgjZrpT76zdTM9PMqsLdhncKcRwHKQCP8rSAOlIcAQlh2YiNDjoKATM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746487317; c=relaxed/simple;
-	bh=D7yTrFE188wv1sO2UwjIZZtfQPAmYQjWziJlrOLJbv8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q2NgCI6kJOArkEqwuyGZ9BzGt8e7vKmQAPBz/EpFgXonZEwNQBxKkvoCfHmVUOOUlArOUrkTwcT1FlAPefyNZXCizS/jphWJU5iL0GroAgkYn76YvBPWSHHVEd4//fmBrMMhst2u5d8kLguNqE+47Y+bTKZnYbvRosTBwNcKLjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hvAPqnuF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE31C4CEE4;
-	Mon,  5 May 2025 23:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746487316;
-	bh=D7yTrFE188wv1sO2UwjIZZtfQPAmYQjWziJlrOLJbv8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hvAPqnuFE2IaBSPX0HQH1FbKNmuDPHas5hitzGTv2jpFYTwkppVnA5oakg7/yLIIj
-	 vUqGoXTtkRZrwMxU0edC8VuyIuDkg0eftsOLE8MdaKFP9i8D5Hegu2fgYztflrADKF
-	 dkFbCR3IRhgSBpOWWNcCczPJehqIeWPCef9w+jc8D22bdrqJpx9Xr6g3dc6jDCLjXh
-	 Q5/JgJ0lvyXzjJJCevv2s/Nt2Ir1msiHo5LjDMv+Aq/sf+o0iqC3QSmL1Def/GhWoP
-	 dFNBMEbOrZvqXxGljfeNm8NK4T3neALNeAESY1dYYuTjREVSSPn1E0yT/uX6eVVPCw
-	 3GqXfkJ4t3ZUQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Daniel Gomez <da.gomez@samsung.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/79] kconfig: merge_config: use an empty file as initfile
-Date: Mon,  5 May 2025 19:20:33 -0400
-Message-Id: <20250505232151.2698893-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1746498798; c=relaxed/simple;
+	bh=RK8CB/ILucoxkojMLroxyaAqpj6rXkr8cb1h0tuO+FM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AF2zqg+naWnQFIpLDRWgQtRF1ubUTQDYm41gkj2Z+Af6YUU0osTZ9X2Y+vtSWLtlBFfFIoeD8xsqtsAA+LA9PdxPDpl4f7iGVfrT+iio9rGNNOlo5+p5G7dyRkNDybKk52JmnGqX6gkOX9f8jfjGMmSLknAhHoS9DWSrXkgJ5fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=kafLiDKX; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1746498699;
+	bh=RK8CB/ILucoxkojMLroxyaAqpj6rXkr8cb1h0tuO+FM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=kafLiDKXS816BmywaQFx+/F9Y6knLlHjegnJC8EOCpdTsnxr/e1yaY6y4wWVWU5Cc
+	 pEmJcSIFvrEg1Nxq/uND+kyneyz+lm4cL848VLV2wWlvOab3SEPuOTkyOQdSj+ClQW
+	 LZ+Ex6H0L9ikuOIyZud7Tr25Wd3PVQAdT9G4v3o8=
+X-QQ-mid: esmtpsz17t1746498663t4c1b9905
+X-QQ-Originating-IP: 2vhUXsJq6NqiLO1Htm0IxhFYAPx746WeA0MvTVyM9nk=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 06 May 2025 10:30:59 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1353101163767275647
+EX-QQ-RecipientCnt: 52
+From: Chen Linxuan <chenlinxuan@uniontech.com>
+To: hch@lst.de
+Cc: akpm@linux-foundation.org,
+	alex.williamson@redhat.com,
+	andreyknvl@gmail.com,
+	axboe@kernel.dk,
+	boqun.feng@gmail.com,
+	boris.ostrovsky@oracle.com,
+	bp@alien8.de,
+	changbin.du@intel.com,
+	chenlinxuan@uniontech.com,
+	dave.hansen@linux.intel.com,
+	dvyukov@google.com,
+	hannes@cmpxchg.org,
+	hpa@zytor.com,
+	jackmanb@google.com,
+	jarkko@kernel.org,
+	jgg@ziepe.ca,
+	jgross@suse.com,
+	justinstitt@google.com,
+	kasan-dev@googlegroups.com,
+	kbusch@kernel.org,
+	kevin.tian@intel.com,
+	kvm@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-nvme@lists.infradead.org,
+	llvm@lists.linux.dev,
+	masahiroy@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mhocko@suse.com,
+	mingo@redhat.com,
+	morbo@google.com,
+	nathan@kernel.org,
+	nick.desaulniers+lkml@gmail.com,
+	nicolas.schier@linux.dev,
+	paulmck@kernel.org,
+	peterhuewe@gmx.de,
+	peterz@infradead.org,
+	sagi@grimberg.me,
+	shameerali.kolothum.thodi@huawei.com,
+	surenb@google.com,
+	tglx@linutronix.de,
+	torvalds@linux-foundation.org,
+	vbabka@suse.cz,
+	virtualization@lists.linux.dev,
+	wentao@uniontech.com,
+	x86@kernel.org,
+	xen-devel@lists.xenproject.org,
+	yishaih@nvidia.com,
+	ziy@nvidia.com
+Subject: Re: [PATCH RFC v3 0/8] kernel-hacking: introduce CONFIG_NO_AUTO_INLINE
+Date: Tue,  6 May 2025 10:30:53 +0800
+Message-ID: <AB2D78307A5FD403+20250506023053.541751-1-chenlinxuan@uniontech.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250429123504.GA13093@lst.de>
+References: <20250429123504.GA13093@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.293
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: NYwvw9/V3eZZYpedOr8jwZgzIt+Nn0Burlbno8RYLO+9Fuq2TsAj+tZX
+	bCFNFygJ3Swd5s8Jo4yUIDF8Pq//PsZoXmckP0HGuXmwE1diSBpDRVd+qMkJxRpB5LmNOcq
+	Sen+lMxflHr/OXP/REeL6nstqNFJMWUc4yaJZldbeeybf45r5u8JloooYAwB3mTNCgs3qsr
+	cuHELjO0Jp43LeqVUrgMNVzTWsApLN365ZHE67sMM4PcD5ts7cDFGmoGBxFGgwEuYv8dA2E
+	zACoWzjPrjTOcJ9JfVRexWtsK618S5CFE66Fl/1x7gHmXVzSsq0GcDgCR2GPN+spDgDKDDc
+	aIXYepkT3ti1mTqay5fINjwzjORtN0HHpasIC82QGVNXCJHHQz5CIxX9EYa8GD65yKErZ3e
+	rkMS5Wj7GycTiIZosuInTgRyOeLE/c8sA1GYeus1acnrPiBOJh1ICo/NJH3M4P3TJBYEecu
+	ROWHVRkgAS48TTcheSGqOOQDTe/L6B008otdAsKTQm0lcDcz81woANxd0PkD6rkBsEeAWIX
+	0M1krjBUmbWAqzLknZNotIb5LfXHbalBZrix8OuednLPQK9CSEvSbK6KjuYWvTOzdurHFw6
+	L4SOzRhNxpVhBFWEClOxVMve4lpkBntr4pbD/U7/vdTbZQjMQ6xptzY1ISkCUr34lWm1UDc
+	b18zUjUpWmr5WnA3KXfUq/VrLyEtj0WbNqfLprSxbmgwrG79OoMnAmViO5N9DamWCcuDcLv
+	Hl00leM6/grk9Hnhd8tX+h2KSSzdWWngf2tpwGYe8eLcsq1ssJ28NSAlmrTwNAxkAr5ZZsA
+	bZXW3QTR9cU+pV5g+st2AsY33FmZubXPTmI6C1FTHnA6SzWa3N9WhiLdMro7WtCY2h7pafB
+	/JhCot0ZuiGDm5/WkvZXn08uNMH9poQC5ABs9GLZlKRf0q/AjIVp8l5RsZ+nVM3JlKWCerZ
+	7/cp1495nrc22umlv0oW0ZsLrI9glSjBz1xF1VMPCUOaKUQFyZw0W6v4rWZD4i98Juaehm/
+	lsfQbjOX+5vl1GFmCw/S4b256ZsrY=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-RECHKSPAM: 0
 
-From: Daniel Gomez <da.gomez@samsung.com>
+On Tue, 29 Apr 2025 14:35:04 +0200 Christoph Hellwig wrote:
 
-[ Upstream commit a26fe287eed112b4e21e854f173c8918a6a8596d ]
+> On Tue, Apr 29, 2025 at 12:06:04PM +0800, Chen Linxuan via B4 Relay wrote:
+>
+> > This series introduces a new kernel configuration option NO_AUTO_INLINE,
+> > which can be used to disable the automatic inlining of functions.
+> >
+> > This will allow the function tracer to trace more functions
+> > because it only traces functions that the compiler has not inlined.
+>
+> This still feels like a bad idea because it is extremely fragile.
 
-The scripts/kconfig/merge_config.sh script requires an existing
-$INITFILE (or the $1 argument) as a base file for merging Kconfig
-fragments. However, an empty $INITFILE can serve as an initial starting
-point, later referenced by the KCONFIG_ALLCONFIG Makefile variable
-if -m is not used. This variable can point to any configuration file
-containing preset config symbols (the merged output) as stated in
-Documentation/kbuild/kconfig.rst. When -m is used $INITFILE will
-contain just the merge output requiring the user to run make (i.e.
-KCONFIG_ALLCONFIG=<$INITFILE> make <allnoconfig/alldefconfig> or make
-olddefconfig).
+I'm not entirely sure if we're on the same page regarding this issue.
+However, I'd like to address the concerns about the fragility of NO_AUTO_INLINE.
 
-Instead of failing when `$INITFILE` is missing, create an empty file and
-use it as the starting point for merges.
+Maintaining NO_AUTO_INLINE to function correctly is indeed challenging,
+and I share some reservations about whether it should exist as a Kbuild option,
+which is precisely why this patch series is submitted as an RFC.
+I cannot even guarantee that I've addressed all existing issues in the current
+kernel repository with this patch series, as testing all possible compilation
+configurations is beyond my capabilities.
 
-Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/kconfig/merge_config.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Looking at the functions where I've added __always_inline in this patch series,
+nearly all of them require inlining specifically because their calls need to be
+resolved at compile time.
 
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index d7d5c58b8b6aa..557f37f481fdf 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -98,8 +98,8 @@ INITFILE=$1
- shift;
- 
- if [ ! -r "$INITFILE" ]; then
--	echo "The base file '$INITFILE' does not exist.  Exit." >&2
--	exit 1
-+	echo "The base file '$INITFILE' does not exist. Creating one..." >&2
-+	touch "$INITFILE"
- fi
- 
- MERGE_LIST=$*
--- 
-2.39.5
-
+The fundamental source of this fragility stems from the fact that compiler
+auto-inlining decisions aren't well-defined. If these functions were to change
+in the future for unrelated reasons - for example, if they became longer - and
+the compiler consequently decided not to automatically inline them, these same
+issues would surface regardless.
 
