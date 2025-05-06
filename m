@@ -1,128 +1,133 @@
-Return-Path: <linux-kbuild+bounces-6966-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6967-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07876AABD6B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 10:37:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFE2AABE46
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 11:06:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A15A7B3ED5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 08:35:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 963ED3B850B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 09:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 407D124886F;
-	Tue,  6 May 2025 08:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C9026462B;
+	Tue,  6 May 2025 09:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2RqhqDT"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FWXVjT44"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAAD19D892;
-	Tue,  6 May 2025 08:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D323264A96
+	for <linux-kbuild@vger.kernel.org>; Tue,  6 May 2025 09:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746520608; cv=none; b=L+ZJha/DPauISbBv7FThQMncn/1pC4vgf8dzOJgM+89cZQ7/O8qm6V4BU5AkydaSkTmpceEPu56XK/ZHrgy3OplYu1u4ke9u2GRC+XkmuCYwNNR5ZOOl8/7OvBpFZD2mz7BkOU5zr4mGuW6caHMFJfv4YkI6NFDaGstsFB7YzMw=
+	t=1746522284; cv=none; b=I4q8biRrLV3TegCEnN5uT7DyRe6Ixg5H1nDPF+i7Itd9bVCB1CD3/dKHKpUY4TylxvhmUnnfasN1gku4m+4BwPBR+9rPci6pDcNdfq+LpJp5EjEsn4QeFsduBQuIVed1GUkL4f9ro0/XWXbeVoZNdkA40WAAORckAj2MKFb7x/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746520608; c=relaxed/simple;
-	bh=9VOMYTlC6ALS5IdAgzBAWP1xvgjsjQLiqbJ2O0ZhVHc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CNztpUsBHipjkw6DyCBfSg2tEsysDazJ01wSGYNsyShSU2ahL5YzRMROz/UG19xPdrq2ij3SFuukrksbboGWIDZlQMEBuzSS8LJFOruTL/sUdP2HVE3iBFCxaxkrgrx7gw0aIAI5G6ldT+ogPztxvSIeMwkQLfoijlVEcDNJ0P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2RqhqDT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65BFFC4CEE4;
-	Tue,  6 May 2025 08:36:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746520607;
-	bh=9VOMYTlC6ALS5IdAgzBAWP1xvgjsjQLiqbJ2O0ZhVHc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=G2RqhqDT+gZcdaDr4WlZdP0vofL3oNiEIDADXbadpArkaiurY9O2NUT46rZO3n8HL
-	 jheqZY23TyYhxAdGoyvOBgunYrbJggEAmbLA6prLdruFjdxUVZK+Fdj4BLg+/be53X
-	 ljTpmaR8UBdsVD0pU8pxIlLg2i+N/VYk06hW7XmwZB8a7kC58GIBqOxd90gR3K15t4
-	 mZS8hULgWZ050J/nBHpd3DhBjt2ikA0BHa1pZbWQDcIkT/0j5oRrxDepWyb2lqQWk7
-	 wpKD8UXmWU7x5bd1cFOUj72v+j9pbH3QdzheDN1EVmX9M899aGKEM9buy6Yewu3pjJ
-	 UhkhI1czrIBAw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uCDnA-00C97H-GY;
-	Tue, 06 May 2025 09:36:45 +0100
-Date: Tue, 06 May 2025 09:36:44 +0100
-Message-ID: <86h61ygmoz.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Mostafa Saleh <smostafa@google.com>,
-	kvmarm@lists.linux.dev,
-	kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	will@kernel.org,
-	oliver.upton@linux.dev,
-	broonie@kernel.org,
-	catalin.marinas@arm.com,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	elver@google.com,
-	andreyknvl@gmail.com,
-	ryabinin.a.a@gmail.com,
-	akpm@linux-foundation.org,
-	yuzenghui@huawei.com,
-	suzuki.poulose@arm.com,
-	joey.gouly@arm.com,
-	masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas.schier@linux.dev
-Subject: Re: [PATCH v2 0/4] KVM: arm64: UBSAN at EL2
-In-Reply-To: <202504301131.3C1CBCA8@keescook>
-References: <20250430162713.1997569-1-smostafa@google.com>
-	<202504301131.3C1CBCA8@keescook>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1746522284; c=relaxed/simple;
+	bh=zplIZDClt/oDvQt+VX9oxdqDzXOTjh065Vyto2PWUMI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=bvtYEJyieBMRu3FW/9pCdbXr6cDDPWCUagHrt7v4cA8TDh7OxyjRLFgx0O3E52kHBXrVKxah62AUjLrX8r61Sdk7puqaxW3ly0YIc8+htw0vsHoeidcOoneAyJPZmNXuxNj+4pCRGddrlYQ4JI52mpVJZ6THxHoQxF8ySntD+1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FWXVjT44; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-3913aea90b4so1697294f8f.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 06 May 2025 02:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1746522281; x=1747127081; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u5jSM0Mw112x9yT1bwLIWs6RgX4XTv762zGBPx0kiRc=;
+        b=FWXVjT44DXE5k/we1wEEt7sgJLyrTkZLHBh7ksjKQaCvA/WKiUhxt9XKJ+V7P+jcQH
+         OVoDLy+zH8gE/reWBMxK4CrarCXi4BbdwGjE6PsX5ZU2FjFsbH93LgTERuvGRqLWXicP
+         f6yaUzrfxEG8JrN67ujxgvqcrheox38iv+7cxS9Tp7ukfM6bzGOP6rr5mKrG6A+D8Dlk
+         My7Xxm5+Vz0WoZwVxCxEZkl8LfVSKHnOcb3VUsNmNXThBNK0my830DzmK9nPvg5vLtyn
+         YtzHVy09p86K/x2jah8HXt4/JK20jssSYARYL0JqZODJVhnhl5REVYz7KaCA+ZQuVdtg
+         udlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746522281; x=1747127081;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u5jSM0Mw112x9yT1bwLIWs6RgX4XTv762zGBPx0kiRc=;
+        b=YWH16GhZ8chxAzm//VDYyNbQZEFXiS/NDL1uDL+AuiRcvma/uvnBMNUC62e4x8ZxwE
+         3tuU2uXnoSfsuku8IfIl2iMuv7zmriZwM4VpebBOxz8vQvDNtvRYG25GQi2wmmaEQ2To
+         5T1LLQX5gOmoG9mKxn9faO97ATEwlLu5krduLeTBjh72Vv2ua5pnhVuLq9ueCWI8s6Ii
+         6HjQNGgzAEvZxXeuiyZ1AgELP8vfMVQmA0G8fTHyGgd22iXlfwAwC6kEKPS7946CqT+7
+         y9SuVsfl3EeKPwLrp/tOn32vfoJopGu1su3nGWUjrDudvtNr9Jyrl0d3AT5NrqfxXH6h
+         aDDg==
+X-Forwarded-Encrypted: i=1; AJvYcCXb9KRo9SQpiFIMSAfe2Mx6N9/ejCSujmYVvZ8i+4uCuxqEDV+5T1+1AyyMh6JAO4v+QjLV2u0YGAwKzXY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylEsGz8D2iqu6LS8VR9appnS5n+knVpq+dSy87yk3PNSJK/nt7
+	PCPwsYaUFAubZ87JufNgPDh1SSwvGJoM0rkRcGRhWawnTwgjIyyJ167KsgMe8QGfthQwBIW19w2
+	/MaNH9wzcpwO3TQ==
+X-Google-Smtp-Source: AGHT+IEwc008DIjIQQmGrUFg5u+PpfGLKjFm4m3GYeWDBHRyDcFWy4+2lh4YOz+u1AorrP0PE1ytj85FjprTXE4=
+X-Received: from wrbfa7.prod.google.com ([2002:a05:6000:2587:b0:39a:bdcb:1ed9])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:2506:b0:3a0:b203:450f with SMTP id ffacd0b85a97d-3a0b2034714mr566902f8f.22.1746522281087;
+ Tue, 06 May 2025 02:04:41 -0700 (PDT)
+Date: Tue, 6 May 2025 09:04:37 +0000
+In-Reply-To: <878qnbxtyi.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: kees@kernel.org, smostafa@google.com, kvmarm@lists.linux.dev, kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, will@kernel.org, oliver.upton@linux.dev, broonie@kernel.org, catalin.marinas@arm.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, elver@google.com, andreyknvl@gmail.com, ryabinin.a.a@gmail.com, akpm@linux-foundation.org, yuzenghui@huawei.com, suzuki.poulose@arm.com, joey.gouly@arm.com, masahiroy@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Mime-Version: 1.0
+References: <20250502-module-params-v3-v11-0-6096875a2b78@kernel.org>
+ <20250502-module-params-v3-v11-2-6096875a2b78@kernel.org> <WroEJHY8a-y8vbSQkUvGJJs7yTQGKMsHJqmWFYGkz5bZ_PsiE8GAozjSaNpWjWina1XanjVNpV0Av3woiaUtJg==@protonmail.internalid>
+ <aBTMMHWNXS7wK7zS@google.com> <878qnbxtyi.fsf@kernel.org>
+Message-ID: <aBnQpWJeiRKIMJ5D@google.com>
+Subject: Re: [PATCH v11 2/3] rust: add parameter support to the `module!` macro
+From: Alice Ryhl <aliceryhl@google.com>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Trevor Gross <tmgross@umich.edu>, 
+	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, 30 Apr 2025 19:32:23 +0100,
-Kees Cook <kees@kernel.org> wrote:
+On Mon, May 05, 2025 at 11:55:33AM +0200, Andreas Hindborg wrote:
+> "Alice Ryhl" <aliceryhl@google.com> writes:
 > 
-> On Wed, Apr 30, 2025 at 04:27:07PM +0000, Mostafa Saleh wrote:
-> > Many of the sanitizers the kernel supports are disabled when running
-> > in EL2 with nvhe/hvhe/proctected modes, some of those are easier
-> > (and makes more sense) to integrate than others.
-> > Last year, kCFI support was added in [1]
-> > 
-> > This patchset adds support for UBSAN in EL2.
+> > On Fri, May 02, 2025 at 02:16:35PM +0200, Andreas Hindborg wrote:
+> > It would be a use-after-free to
+> > access it during module teardown. For example, what if I access this
+> > static during its own destructor? Or during the destructor of another
+> > module parameter?
 > 
-> This touches both UBSAN and arm64 -- I'm happy to land this via the
-> hardening tree, but I expect the arm64 folks would rather take it via
-> their tree. What would people like to have happen?
+> Yes, that is a problem.
+> 
+> We can get around it for now by just not calling `free` for now. We only
+> support simple types that do not need drop. I think we would have to
+> seal the `ModuleParam` trait for this.
+> 
+> For a proper solution, we could
+>  - Require a token to read the parameter.
+>  - Synchronize on a module private field and return an option from the
+>    parameter getter. This would require module exit to run before param
+>    free. I think this is the case, but I did not check.
+>  - Use a `Revocable` and revoke the parameter in `free`.
+> 
+> Any other ideas or comments on the outlined solutions?
 
-I don't mind either way, but in any case I'd like a stable branch with
-that code so that I can merge it if any conflict occurs in -next.
+I think the simplest you can do right now is
 
-Alternatively, I can take it via the kvmarm tree, and publish a stable
-branch for anyone to pick and resolve conflicts ahead of the merge
-window.
+trait ModuleParam: Copy
 
-Thanks,
+so that it can't contain any non-trivial values. That way you don't need
+Drop either.
 
-	M.
+Long term, I think we need a way to detect whether it's safe to access
+module globals. The exact same problem applies to the existing global
+for the module itself - except it's worse there because we can't access
+that one during init either.
 
--- 
-Without deviation from the norm, progress is not possible.
+Alice
 
