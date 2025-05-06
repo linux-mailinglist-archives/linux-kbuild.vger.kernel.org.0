@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-6963-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6965-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FF3AABC83
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 10:05:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF90AABC4A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 10:00:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69C6EB21205
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 07:58:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAEAB506163
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 08:00:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A43822A4EB;
-	Tue,  6 May 2025 07:47:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3229621D5B5;
+	Tue,  6 May 2025 07:51:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ru7w9Xcv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcrDvkpi"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628BF22A1D5;
-	Tue,  6 May 2025 07:47:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E304B1E6B;
+	Tue,  6 May 2025 07:51:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746517645; cv=none; b=aZ4p35gqOf5ZA+mM9Yd4iU4DcXNyzCbp8AcGCB0K6JyTwKJzlsPRShjamfSX2k4qkTOIEzAkr8TXlFNOLZacswybjjDOLE8IVqAZTBETaP9kaCRaC5fbNjzxjcW7Vppgrso+NWKgpQS0QxaCgFjF2+pKYZ9V/75il4ykgrwsFcs=
+	t=1746517861; cv=none; b=hlOgQTEP8wcZAQfuB5zEwSaCY10ZLlCKnZtKD8hLTwqzVBjsRvFLGvPQtoUZFj4RkoJvhvZalXKyUzZ4zGI0Uckf9kgYuQx1GprH/m3X/Ph69ZtW5GlaXlvN44moGay89+eYnRyiGYVUGRZuNe/pDNHA3SdZJ3Oj0dXHE86U3Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746517645; c=relaxed/simple;
-	bh=hGFu6CV6qBx92/vlDq2cxoUHe+DraBOLfT+WjIwOKjo=;
+	s=arc-20240116; t=1746517861; c=relaxed/simple;
+	bh=CiWo4tHmSCuZxPGbxlsgtwSE8g8q6sXdBq2GUKBlkH4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I9lUiUeZuZxJtSnY+9KYq7eTI4tmEx9v0cnHeG1CKu/iNJcfcTf17foYH6cSQ2tUGWbrjv2Yzr0uzlRDlOb2v3jEd0rCsCQ2N7rtxNLXgXoc1PGLXPyEcQawqNgkSzQVSiwBpn3LnmOdHHgynGoegh4DCyZBBrOaaD5cLwW/rvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ru7w9Xcv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB552C4AF09;
-	Tue,  6 May 2025 07:47:24 +0000 (UTC)
+	 To:Cc:Content-Type; b=GAm3HTlWMOAoNGrNU8CDi04Lei9+2Nb5ra8blj/TMFyOJUwMH8l+2h5U3mkSBXZktZtuJ2knIL6IslpbP7HVR7gOeIrslrZ9x8oAVcgdPVIcyypOUbWH57IWduKbwIac0rHCS4koNVsfhihJGwvjBLQP4t6HxoSVjQtn6pRswUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcrDvkpi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7283CC4CEED;
+	Tue,  6 May 2025 07:51:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746517644;
-	bh=hGFu6CV6qBx92/vlDq2cxoUHe+DraBOLfT+WjIwOKjo=;
+	s=k20201202; t=1746517860;
+	bh=CiWo4tHmSCuZxPGbxlsgtwSE8g8q6sXdBq2GUKBlkH4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ru7w9XcvcVY2nG6aeZ/paT4Xf2pXCWLsQFY2rOSCb+SLldqK6UsR9IxU0Q27lI3Wt
-	 ElWp2qUhi0LHMk1hhcBn9SIkdjXN9cfIIIj0rNk4/BB+SFDDLXMvu1gTcHG0Vm+8zu
-	 4Vkr4ubgkUa6bbhzieCLb+5BfhBCpVNjWif+FyjTJjNBPA2U7avsOo9ZDO8na5LvDV
-	 VdwxJX8zR15z93Dr8y2JQYYSIQ3o+wCLXGtuQ4IaN7R/6rj3vau6ggwrKNnFwmwSBA
-	 vUE6pWvHG9EdEizQ+jDBo6aX2FOY5HjF2ySK3Ld1ca8sOrgJo9FBq/82gIAsvD92+S
-	 5v/GfiDjnkH6w==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-548409cd2a8so5951135e87.3;
-        Tue, 06 May 2025 00:47:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXEpVd5XsvzTfP9ItDTzt16DGtdQyCV0BwIwWTzxL6ddPntJQLOozXr2No6D29Q6Lo/2UJDK5C6uegLbpk=@vger.kernel.org, AJvYcCXqO/iL55txSjN7Jm+tMQTAZ4Gz8H5bTO3STRsWun2y+l27r1tadoaF+/gPp5FI38byIp+u+KGJDkbI14zN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy79IuTj+eB8Bqyu71SXHCx/ks+HySyAEyLEjEgTfUXWYcy2pkY
-	eBUdsmPQkIbfZ+Q9uAvlP4Xbymu0X138uFpO1HSJEDMC1qWy9i2jnz7aq5jUrJW7GkzJ9joci0h
-	QWwF/+MDD41eKAkmMX6GCfWFwT+k=
-X-Google-Smtp-Source: AGHT+IEMcQysez1GUopl8isxaYY0umLEuT6DPb7pr6cNTVDu4sBd95dTBe2aGDFiOc+rDPYxbI9lPt+T3vDNnzSPWpE=
-X-Received: by 2002:a05:6512:2509:b0:549:b0f3:439e with SMTP id
- 2adb3069b0e04-54f9efcc466mr2954137e87.19.1746517643514; Tue, 06 May 2025
- 00:47:23 -0700 (PDT)
+	b=hcrDvkpi8oXvWPuyFNgGbSCm1E46NiLcwjEuIkxTQf9QPpRYLTnnnvaNzt0395CaG
+	 1gVff77rttYoTE10sAJjHXnNrjVeiujumvBY4I6VC5tgGYoyb9/V0LgbbpZvPLjjou
+	 0rXK9mWyKWwgKiGUox1GQOSsPaHANOBFaRyqDYpeFfbOBdrduyyNypTiULmcoPJ8Vr
+	 9yaXKBZhnMU0mNruwq+NCTRiXjRcZo3uOmZX8NLBj6n0qLvOtmRjw7kRgMyFcgVEPN
+	 bbxD5z4Bi9kXGxKq8CcXsSdudppc/AlWwgbL9+bUx3cU5Uty44Ix76yRJ4bHQJ/Eeb
+	 px7gjk9tQ5gkQ==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30de488cf81so54757231fa.1;
+        Tue, 06 May 2025 00:51:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVubpHoqEB9hFWZcP1gNMkiOV4hksP7rGmpm1eNZmfSvBWeVVBzh/CxmneBjfayBIcnKukZSxZMB534VbM=@vger.kernel.org, AJvYcCXfJZSd9akJ3A4y9CFffullmVzV7GlSiN9PYsvj+pxMTb9x9HM7xsdktPCUCYW5MlyHqwNUz9XXUEYjStrB@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywgp2N34tgp0K0LbqaS5BevkX2RrWOtEt+IX+uYbV1sbMo7OAcV
+	EPOQpmTonS7UmQhQxwS2sn2mpyXBuhh+adBkPX5Hu2QuMt0G2luWHaihkeHPdgYE7ss4ISSv/wk
+	c4BsniEiz9OqQXBdTYaEbyskE5GQ=
+X-Google-Smtp-Source: AGHT+IHsrtKAgEh9ZdN0GLbxFeIjywak6bphQQylGI5PYxQjY4XXC09pHpt2Oin/zpnBbFLlFoHZ4cXNeP3NC14Fp+o=
+X-Received: by 2002:a2e:be06:0:b0:30b:d656:1485 with SMTP id
+ 38308e7fff4ca-3266cc05b9emr6724851fa.32.1746517859167; Tue, 06 May 2025
+ 00:50:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <215802BA292C2DF6+20250408081441.61776-1-wangyuli@uniontech.com> <F4939E0696099A5A+20250408081921.63040-1-wangyuli@uniontech.com>
-In-Reply-To: <F4939E0696099A5A+20250408081921.63040-1-wangyuli@uniontech.com>
+References: <79C925DCE2E963FF+20250422104927.144252-1-wangyuli@uniontech.com> <70C0FECF7A9A7B62+20250422105402.145635-1-wangyuli@uniontech.com>
+In-Reply-To: <70C0FECF7A9A7B62+20250422105402.145635-1-wangyuli@uniontech.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 6 May 2025 16:46:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQeNetCPTxQ53J89SH1KD7jDB+HxjOmj_03QgA0nXK99A@mail.gmail.com>
-X-Gm-Features: ATxdqUGhHsPLFHoIW5Tw3Fk7UbO50jbGBQ2ruk81MOA0BibD0fM-ycgasynDCrg
-Message-ID: <CAK7LNAQeNetCPTxQ53J89SH1KD7jDB+HxjOmj_03QgA0nXK99A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kbuild: deb-pkg: Add libdw-dev:native to Build-Depends-Arch
+Date: Tue, 6 May 2025 16:50:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQSMaz32vQPRr4tCkSLoDzwh6Z+A0KPvE9ig8ofwk2DHQ@mail.gmail.com>
+X-Gm-Features: ATxdqUGxD0mhajBqiO0ocZNOivk_QYJg2X6X_VnV44mXXKR7x48ZtwSWjbzIE7Q
+Message-ID: <CAK7LNAQSMaz32vQPRr4tCkSLoDzwh6Z+A0KPvE9ig8ofwk2DHQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] kbuild: deb-pkg: Add libdw-dev:native to Build-Depends-Arch
 To: WangYuli <wangyuli@uniontech.com>
 Cc: guanwentao@uniontech.com, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, nathan@kernel.org, nicolas.schier@linux.dev, 
@@ -73,8 +73,8 @@ Cc: guanwentao@uniontech.com, linux-kbuild@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 8, 2025 at 5:20=E2=80=AFPM WangYuli <wangyuli@uniontech.com> wr=
-ote:
+On Tue, Apr 22, 2025 at 7:55=E2=80=AFPM WangYuli <wangyuli@uniontech.com> w=
+rote:
 >
 > The dwarf.h header, which is included by
 > scripts/gendwarfksyms/gendwarfksyms.h, resides within the libdw-dev
@@ -103,11 +103,6 @@ Thanks.
 
 
 
-> Changelog:
->  *v1 -> v2:
->     1. Correct the commit log.
->     2. Add Sami Tolvanen's "Reviewed-by" tag.
-> ---
 >  scripts/package/mkdebian | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
