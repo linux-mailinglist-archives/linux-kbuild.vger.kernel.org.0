@@ -1,148 +1,131 @@
-Return-Path: <linux-kbuild+bounces-6962-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6963-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F92AABC6F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 10:03:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6FF3AABC83
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 10:05:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7401D3B1A39
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 07:44:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69C6EB21205
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 May 2025 07:58:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542012046B3;
-	Tue,  6 May 2025 07:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A43822A4EB;
+	Tue,  6 May 2025 07:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cy8dYRUX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ru7w9Xcv"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F3A12B93;
-	Tue,  6 May 2025 07:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628BF22A1D5;
+	Tue,  6 May 2025 07:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746515079; cv=none; b=qnTG+nD8mOE8ikR5VWCfnHPrLjdTVSwq9AueGlW0SdHIkNC8CZ+1rQURzDK5c0wLpJG+O53GWHNUdO1v5dizWHdGNR+z9dbHbWHPjzx2JGcj7QxzZohd3gIlkxCd1134nG18fdOuf055cppSxHa+Tr4bz3gN3yCr1GC32qt25Is=
+	t=1746517645; cv=none; b=aZ4p35gqOf5ZA+mM9Yd4iU4DcXNyzCbp8AcGCB0K6JyTwKJzlsPRShjamfSX2k4qkTOIEzAkr8TXlFNOLZacswybjjDOLE8IVqAZTBETaP9kaCRaC5fbNjzxjcW7Vppgrso+NWKgpQS0QxaCgFjF2+pKYZ9V/75il4ykgrwsFcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746515079; c=relaxed/simple;
-	bh=U7vPQzIh/TPqjXhn3LlZrogq0OsLAzFu5cmMvri3CzI=;
+	s=arc-20240116; t=1746517645; c=relaxed/simple;
+	bh=hGFu6CV6qBx92/vlDq2cxoUHe+DraBOLfT+WjIwOKjo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QkIgQd+MMrmDqk78J8ZTOSqcygBqV5nFgjDN+Ll7z9fPuF3oBO64i7wfcpVB0j4UH7c9LqZzXmcilDetRe064ymbvyjR0l9chSvFXALKBgO8KDVasMh7ntQ4orMnIo6lstGRbjcNecRWFD+UoDJdI7JZGUqLDQwDjCDtZmkjGCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cy8dYRUX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992D4C4CEE4;
-	Tue,  6 May 2025 07:04:38 +0000 (UTC)
+	 To:Cc:Content-Type; b=I9lUiUeZuZxJtSnY+9KYq7eTI4tmEx9v0cnHeG1CKu/iNJcfcTf17foYH6cSQ2tUGWbrjv2Yzr0uzlRDlOb2v3jEd0rCsCQ2N7rtxNLXgXoc1PGLXPyEcQawqNgkSzQVSiwBpn3LnmOdHHgynGoegh4DCyZBBrOaaD5cLwW/rvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ru7w9Xcv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB552C4AF09;
+	Tue,  6 May 2025 07:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746515078;
-	bh=U7vPQzIh/TPqjXhn3LlZrogq0OsLAzFu5cmMvri3CzI=;
+	s=k20201202; t=1746517644;
+	bh=hGFu6CV6qBx92/vlDq2cxoUHe+DraBOLfT+WjIwOKjo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Cy8dYRUXdLag9ya92zrbGqsEiENiuJSOTOmJFKpBuSyjlrwv4jYknsg9HpjV0EH6e
-	 xwXDbiu8CuRRMGVHNk/DeariGcxDqOB9nfB2gRD5UinXfuwEEMstx1IxElrVOxl5Gt
-	 ndIoINPzjzjpPv2Lm2e0NwiykfFZSNGCYo3Pfqyvm3qt0FWef2M7MK94ibZrmI3/oj
-	 ycmAhmDwIaH5Pmhjs+x/JZStSG8goaXxjj1b7NQCjfvUoWYchJN54v/GzzHFQaQgX0
-	 urRqcKJcZhS59yJPden2VjKAT4ad2rNb8ZNZziC4+3jmZ5jxbHUoHb2gx735G+4ZS9
-	 LxFglxlqjfzeA==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54d65cb6e8aso6681858e87.1;
-        Tue, 06 May 2025 00:04:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU3dDhjEvXgRDNdNlKq1dG7My0mP05BGsoNWVU8or0GrOV08MjhqWZfA1Knh3Y9Vwa2QtE/MzybhF2zDL79@vger.kernel.org, AJvYcCW3uU2nEG21f5twj7RpunBBR9Ee9b+a0u4mqLyjIlAV+ACb2J73N40oXYYTaS4fkI7YUnf3YwQF1gkhvbtZ3w==@vger.kernel.org, AJvYcCXAyaFOQQvfC5PxMoB9uNSYh927pckCivCEbh1EFi0UHAMjZ4JbXk+cM7IPiHL0triTc1GrLnD5wKffyuE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhizR9Cv/R0Rcj/ww6FV650BTEaHwz1sinktAdjuiY0oiwa8mE
-	9zN06NauSE3LbIporpiFsbiZb5SKa5en9TWgMR7lNxrU4gta2zcPe2q+7DB7GfgJ8ANcLQsblC1
-	/laWA//JFGJydEr980/6jj2JCjmI=
-X-Google-Smtp-Source: AGHT+IGY075FvxCyQwotSzfgDZIEaPEf40nFfkQvQ3BK2NzlWcurXunCQmDPuAjgxC94sIVjzvnCIuyFOtnIV5m20xI=
-X-Received: by 2002:a05:6512:1087:b0:54b:117b:dc9d with SMTP id
- 2adb3069b0e04-54fb4aa2c32mr631166e87.55.1746515077321; Tue, 06 May 2025
- 00:04:37 -0700 (PDT)
+	b=Ru7w9XcvcVY2nG6aeZ/paT4Xf2pXCWLsQFY2rOSCb+SLldqK6UsR9IxU0Q27lI3Wt
+	 ElWp2qUhi0LHMk1hhcBn9SIkdjXN9cfIIIj0rNk4/BB+SFDDLXMvu1gTcHG0Vm+8zu
+	 4Vkr4ubgkUa6bbhzieCLb+5BfhBCpVNjWif+FyjTJjNBPA2U7avsOo9ZDO8na5LvDV
+	 VdwxJX8zR15z93Dr8y2JQYYSIQ3o+wCLXGtuQ4IaN7R/6rj3vau6ggwrKNnFwmwSBA
+	 vUE6pWvHG9EdEizQ+jDBo6aX2FOY5HjF2ySK3Ld1ca8sOrgJo9FBq/82gIAsvD92+S
+	 5v/GfiDjnkH6w==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-548409cd2a8so5951135e87.3;
+        Tue, 06 May 2025 00:47:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXEpVd5XsvzTfP9ItDTzt16DGtdQyCV0BwIwWTzxL6ddPntJQLOozXr2No6D29Q6Lo/2UJDK5C6uegLbpk=@vger.kernel.org, AJvYcCXqO/iL55txSjN7Jm+tMQTAZ4Gz8H5bTO3STRsWun2y+l27r1tadoaF+/gPp5FI38byIp+u+KGJDkbI14zN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy79IuTj+eB8Bqyu71SXHCx/ks+HySyAEyLEjEgTfUXWYcy2pkY
+	eBUdsmPQkIbfZ+Q9uAvlP4Xbymu0X138uFpO1HSJEDMC1qWy9i2jnz7aq5jUrJW7GkzJ9joci0h
+	QWwF/+MDD41eKAkmMX6GCfWFwT+k=
+X-Google-Smtp-Source: AGHT+IEMcQysez1GUopl8isxaYY0umLEuT6DPb7pr6cNTVDu4sBd95dTBe2aGDFiOc+rDPYxbI9lPt+T3vDNnzSPWpE=
+X-Received: by 2002:a05:6512:2509:b0:549:b0f3:439e with SMTP id
+ 2adb3069b0e04-54f9efcc466mr2954137e87.19.1746517643514; Tue, 06 May 2025
+ 00:47:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407230843.1952850-2-samitolvanen@google.com>
-In-Reply-To: <20250407230843.1952850-2-samitolvanen@google.com>
+References: <215802BA292C2DF6+20250408081441.61776-1-wangyuli@uniontech.com> <F4939E0696099A5A+20250408081921.63040-1-wangyuli@uniontech.com>
+In-Reply-To: <F4939E0696099A5A+20250408081921.63040-1-wangyuli@uniontech.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 6 May 2025 16:03:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARSsMF2E57fTNk6jYfb3OocB1RYgZKShfPoEDYdU_fQoA@mail.gmail.com>
-X-Gm-Features: ATxdqUGJb3RnUBCvP04tim1O15c5qPAMrbUKSntNdzalPfODIJxEsDgAcdt7S2E
-Message-ID: <CAK7LNARSsMF2E57fTNk6jYfb3OocB1RYgZKShfPoEDYdU_fQoA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Require pahole <v1.28 or >v1.29 with
- GENDWARFKSYMS on X86
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Paolo Pisati <paolo.pisati@canonical.com>
+Date: Tue, 6 May 2025 16:46:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQeNetCPTxQ53J89SH1KD7jDB+HxjOmj_03QgA0nXK99A@mail.gmail.com>
+X-Gm-Features: ATxdqUGhHsPLFHoIW5Tw3Fk7UbO50jbGBQ2ruk81MOA0BibD0fM-ycgasynDCrg
+Message-ID: <CAK7LNAQeNetCPTxQ53J89SH1KD7jDB+HxjOmj_03QgA0nXK99A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: deb-pkg: Add libdw-dev:native to Build-Depends-Arch
+To: WangYuli <wangyuli@uniontech.com>
+Cc: guanwentao@uniontech.com, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nathan@kernel.org, nicolas.schier@linux.dev, 
+	niecheng1@uniontech.com, petr.pavlu@suse.com, samitolvanen@google.com, 
+	zhanjun@uniontech.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 8, 2025 at 8:08=E2=80=AFAM Sami Tolvanen <samitolvanen@google.c=
-om> wrote:
+On Tue, Apr 8, 2025 at 5:20=E2=80=AFPM WangYuli <wangyuli@uniontech.com> wr=
+ote:
 >
-> With CONFIG_GENDWARFKSYMS, __gendwarfksyms_ptr variables are
-> added to the kernel in EXPORT_SYMBOL() to ensure DWARF type
-> information is available for exported symbols in the TUs where
-> they're actually exported. These symbols are dropped when linking
-> vmlinux, but dangling references to them remain in DWARF.
+> The dwarf.h header, which is included by
+> scripts/gendwarfksyms/gendwarfksyms.h, resides within the libdw-dev
+> package.
 >
-> With CONFIG_DEBUG_INFO_BTF enabled on X86, pahole versions after
-> commit 47dcb534e253 ("btf_encoder: Stop indexing symbols for
-> VARs") and before commit 9810758003ce ("btf_encoder: Verify 0
-> address DWARF variables are in ELF section") place these symbols
-> in the .data..percpu section, which results in an "Invalid
-> offset" error in btf_datasec_check_meta() during boot, as all
-> the variables are at zero offset and have non-zero size. If
-> CONFIG_DEBUG_INFO_BTF_MODULES is enabled, this also results in a
-> failure to load modules with:
+> This portion of the code is compiled under the condition that
+> CONFIG_GENDWARFKSYMS is enabled.
 >
->   failed to validate module [$module] BTF: -22
+> Consequently, add libdw-dev to Build-Depends-Arch to prevent
+> unforeseen compilation failures.
 >
-> As the issue occurs in pahole v1.28 and the fix was merged
-> after v1.29 was released, require pahole <v1.28 or >v1.29 when
-> GENDWARFKSYMS is enabled with DEBUG_INFO_BTF on X86.
+> Fix follow possible error:
+>   In file included from scripts/gendwarfksyms/symbols.c:6:
+>   scripts/gendwarfksyms/gendwarfksyms.h:6:10: fatal error: 'dwarf.h' file=
+ not found
+>       6 | #include <dwarf.h>
+>         |          ^~~~~~~~~
 >
-> Reported-by: Paolo Pisati <paolo.pisati@canonical.com>
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Fixes: f28568841ae0 ("tools: Add gendwarfksyms")
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+> Signed-off-by: WangYuli <wangyuli@uniontech.com>
 > ---
->
 
 Applied to linux-kbuild.
-
 Thanks.
 
 
 
-> Changes in v2:
-> - Also allow pahole <v1.28.
-> - Update comment to include the affected commit range.
->
+> Changelog:
+>  *v1 -> v2:
+>     1. Correct the commit log.
+>     2. Add Sami Tolvanen's "Reviewed-by" tag.
 > ---
->  kernel/module/Kconfig | 5 +++++
->  1 file changed, 5 insertions(+)
+>  scripts/package/mkdebian | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index d7762ef5949a..39278737bb68 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -192,6 +192,11 @@ config GENDWARFKSYMS
->         depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
->         # Requires ELF object files.
->         depends on !LTO
-> +       # To avoid conflicts with the discarded __gendwarfksyms_ptr symbo=
-ls on
-> +       # X86, requires pahole before commit 47dcb534e253 ("btf_encoder: =
-Stop
-> +       # indexing symbols for VARs") or after commit 9810758003ce ("btf_=
-encoder:
-> +       # Verify 0 address DWARF variables are in ELF section").
-> +       depends on !X86 || !DEBUG_INFO_BTF || PAHOLE_VERSION < 128 || PAH=
-OLE_VERSION > 129
->         help
->           Calculate symbol versions from DWARF debugging information usin=
-g
->           gendwarfksyms. Requires DEBUG_INFO to be enabled.
->
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index 744ddba01d93..d4b007b38a47 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -210,7 +210,7 @@ Rules-Requires-Root: no
+>  Build-Depends: debhelper-compat (=3D 12)
+>  Build-Depends-Arch: bc, bison, flex,
+>   gcc-${host_gnu} <!pkg.${sourcename}.nokernelheaders>,
+> - kmod, libelf-dev:native,
+> + kmod, libdw-dev:native, libelf-dev:native,
+>   libssl-dev:native, libssl-dev <!pkg.${sourcename}.nokernelheaders>,
+>   python3:native, rsync
+>  Homepage: https://www.kernel.org/
 > --
-> 2.49.0.504.g3bcea36a83-goog
+> 2.49.0
 >
 
 
