@@ -1,108 +1,141 @@
-Return-Path: <linux-kbuild+bounces-7022-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7023-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC72AAEEDC
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 00:59:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583EDAAEF19
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 01:14:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 322C51BA7C9E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 May 2025 22:59:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 549B29C5251
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 May 2025 23:13:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1FA291146;
-	Wed,  7 May 2025 22:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37622291175;
+	Wed,  7 May 2025 23:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sugdTwtC"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tbav+TuQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC77193062
-	for <linux-kbuild@vger.kernel.org>; Wed,  7 May 2025 22:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951AA72626
+	for <linux-kbuild@vger.kernel.org>; Wed,  7 May 2025 23:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746658749; cv=none; b=XiY5nOQulAImDRM4BUDIjuusgigFFg/tI+90yXg1nwXaEYur+11GL6tIsGxmpl/qxNPmvCu4aONXkSNUry4+X8kj5ePJAAqLY7yGdWyhOUWM4NnskdyiseTrZFzshT3Y5oggQJulR8Px9UZbyeSCmWYFapWBX3BCvMj0t6pPXR4=
+	t=1746659652; cv=none; b=EdvFRkB7SmqSdeTH/BnJ9NoHllJC9mBTZB8fAlYF70lqWaHYgu4wYqBg1C/wECDndZtmFPgykuR2zmYqsevF/8SaS3li9RXvy+MVeBVCu8RH+hsx9szACUUYKNmNVZHQl3BGVrFZKUcKGFVpPN8Y8vf658PjaMVljdjXOyEhbRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746658749; c=relaxed/simple;
-	bh=4qznrIQd9heCD85pUFAjDNFme4Ro9HM6p9y3geLJfT8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MEQzPRqtThfLMZGD3mPmD1KSw+p1ravywgbGpvfHaViG3IX0AblY5Cl7vnNuR8UdWpIVKHmas6Ktttl2JKFzyGfrhznMrd64zbgi2QGisXFOrP6v/nLEG4sLul15XSPGw/p1qLMwb4OBH0NQPOs2SOJM+vO4WDllVVbfVURH1zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sugdTwtC; arc=none smtp.client-ip=209.85.208.41
+	s=arc-20240116; t=1746659652; c=relaxed/simple;
+	bh=HzW110DidE0q9odbugPFCNeNJcGViYPf4XhsZU8Eg7M=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=fN3NViHT1XLIafUdeFiTvzBAH380K109SlRh2MjIKudPdEOuBxvh9avgCGyADE0PR4nSX6EA7kRXZZWLD9cdTWNXms8rhB85Upj4KpXLf2faNCm3Fy56XJ/jcjnaObl0xDGLRPvpJltBI3TOnYHjszkvq0U4bGDXH6hGfs2MEIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Tbav+TuQ; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5fab85c582fso4479a12.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 07 May 2025 15:59:07 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7377139d8b1so340733b3a.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 07 May 2025 16:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746658746; x=1747263546; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4qznrIQd9heCD85pUFAjDNFme4Ro9HM6p9y3geLJfT8=;
-        b=sugdTwtCFYvGjVFdweSDSrE0kpQ09IL+Jip36nQTXjB0TdLKr/tZJIlN7jt8ukf2DY
-         w5SO2yNGzy7Q4cVWIoqnlLt/nAwaSgVFsKijS2XZ8MFyTKTZvkSX5hm9qVvpmzJ6l38q
-         tVrBuI13GAl/r2paHdv1EaskwPtkqV5GUMdcoitnQ7YNAH0+V/u9R7akJQwpV+dRHlwE
-         qpeStstt3hwxwfGfcjBu+yAEOlRFfmAUcKDLNJzA06JHw7OGCF6GQM4Eyn+9huMvoL7d
-         Ff1Va48luWQMwjfeOJJfDP3eCLkFedKXU72xcNr4DvlzCKuPO5PFfbcgbzl0gvlLFEWT
-         aQgA==
+        d=google.com; s=20230601; t=1746659650; x=1747264450; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GqiMgQ71QQLoB/rsJPzh4QUTzLVQw3NwrkPuAkl+72E=;
+        b=Tbav+TuQe2ayLlZ7h3cCyoz/I4Dmjpn6TXycnge3F6lE+SIA0sQXCiNmST5DVwpun/
+         +Z/PJHwhTpcZ3z8yfrFlU/iktEC5RrB8j8jnkpAr+VnagZ7Lk8Dq+s73SHDIK2bVJ+x7
+         jBzvJD9eHb67Y7NvfxNpyDWMsiPdDMak2UeDIcLZFYapqTL4AtHkLwwANMNKl8ttxZ+z
+         87gExwOHdprrZA/+Pt/2WGIiH0EASK9jndVcsutpCfP9aKwt/zjHX96LhI9BeVtkJezP
+         6YM1wPSEMzNNUrxfaL5C+1rw5jyxAEhKEBi6DwwvZP7F33AolqZkluDw1L18pEZg25T8
+         L12A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746658746; x=1747263546;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4qznrIQd9heCD85pUFAjDNFme4Ro9HM6p9y3geLJfT8=;
-        b=fMGChUX8eSd9Fu6g4g7dMAtdsO2zvRVoBNFWCNr0xkFZO0qHZIiOvsyAOmzsry+t3Q
-         nIFO+WrYGPgafifkTYH3VP0uS1/rpGF27O7qY3btiwufr6PAXWxrY2609+TxzA01j/iP
-         uexqTy37kqeoZlyo10yMCgxRPVCB1/kBw9nTkmWweNiyAsDBM+qajSkGfoKsgt3E5lNI
-         tl+ODldDEs1CdrpX12IfFuZcTHvdyjCcAY/pwYQKO4nzgNTQ+1KWGEn2Hv3dPxzn1M20
-         f0aBPz9qoFTvxeEY2Y1xV+lHsderrjn/VkQCd9pZPbOJjqRB6ZtRrx+GPXM6UAaMEo30
-         XjEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZLxBu/R1GTNy+Y/aBVFljUJ8V/FxXlwClauge0P6VvWhE51VJM5kztQQvMcBpRoIX2fLOLIGDdJIm6js=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxF1sTjHJE1lDkYhV7KIkqq9DnwbBy9y2KUt17058VRxNFbVaOI
-	C3RAUMTvcpHTupwezZaFT3wjdBhgA/Wf7Aht48zTR06nX5mVNP6h5ux6Ip4f6Y3vK/7GNGFq4j9
-	hcipSIsE+4OH0vNh9g5hiNhJgz0Fy4ryaLkzk
-X-Gm-Gg: ASbGnctw2ruejuZ/HVuKn0hcAL+4wCpJ7Kc4lqbHj9pmpUfvZ4Qh4SqU1vcyM4Xg9y1
-	tNoZa5aRoVkmFPqzslmVNhwF1NiMyggxLivtDvXJen281CxqemS/wKL8UGkz+y8Ij+X3xSgE2HT
-	odGZB0/boCWPxTcwqPJI0ylxc7sAoPGl7ES9G3X/ZtFJSae/NA9A==
-X-Google-Smtp-Source: AGHT+IG5UM76A79+IbRtPyKJbFmyzXpMUKCWJ9hqDVsiMGpyhjFhDGSChhn6i9wySXk6B9CqU0BGHm8UgBUgVRm87Zg=
-X-Received: by 2002:a05:6402:1a27:b0:5fb:ee5d:b5a2 with SMTP id
- 4fb4d7f45d1cf-5fc6d4d522dmr15802a12.3.1746658746142; Wed, 07 May 2025
- 15:59:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746659650; x=1747264450;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GqiMgQ71QQLoB/rsJPzh4QUTzLVQw3NwrkPuAkl+72E=;
+        b=Ur3NGxI5uvJ5nKZTxN4RQIf9/uRUABb4Y4pJOhIgILzaZuWgJnr2jjPWfHWU5cdSX5
+         0pA72P6ghwCQj3yhyctvaYxCLuCFEA55/X/zQHa859A5MGwBmzA280COu1qTqpj73ZWu
+         55s9SDt+84nJb52vY9QRcTkCRiuLkn8+U36r7p78YA6dNO7vPDtYIaDDt/EQxRmi07yZ
+         upmAVJ323XQEa3EH4cciyi8UoPvuAyKv/agK3bPK7fh664t1dXQBU0VZJ1FonugP3+l4
+         WFf7z/UkU9nWYY14JZnv/0hjj2jBz+LyYjsVz9oEW0C6PjeWjAo6LPkSP6YXxUZxXWDt
+         NdHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCVdFxVcIZNHyraXaqFhH1cQMAT4SiqP0vyWIYovENMU562LUTU73XQB8baKfvQSBUl674r0sqHTRil4E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx141xGfIgFeIhzUpjhAgizkb1r2GAv/iaPWuquuGN3aUM+CrVe
+	pdYWTvFPnreNpCn6axnEJGoSEmaceK2GR/8VcLKH1eWHSqbRx5upG5EsmNrk4Xt4RNnsn7saYjM
+	DBiuePdQRyYfB7lQ7QqQx6AZUxQ==
+X-Google-Smtp-Source: AGHT+IE5w9gyOvZa0TkPolWInYeuHi8tBwzNliv+OPal777LWG0jHAD3kn/yNXRmhJhmW69s8987op1exG0N1kXygcY=
+X-Received: from pfht21.prod.google.com ([2002:a62:ea15:0:b0:730:7e2d:df69])
+ (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a21:174d:b0:1fe:5921:44f2 with SMTP id adf61e73a8af0-2159af89b5cmr1396801637.20.1746659649702;
+ Wed, 07 May 2025 16:14:09 -0700 (PDT)
+Date: Wed,  7 May 2025 23:14:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250505212401.3379699-6-samitolvanen@google.com>
- <20250505212401.3379699-10-samitolvanen@google.com> <CAK7LNAS0Obe-ye1ba06EfZ+mgmc6ter+xMa+mKCw6aRM14L35Q@mail.gmail.com>
-In-Reply-To: <CAK7LNAS0Obe-ye1ba06EfZ+mgmc6ter+xMa+mKCw6aRM14L35Q@mail.gmail.com>
+Mime-Version: 1.0
+X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1922; i=samitolvanen@google.com;
+ h=from:subject; bh=HzW110DidE0q9odbugPFCNeNJcGViYPf4XhsZU8Eg7M=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDBnSL63fn3gVtPfQ/J9L784M96p5tbRVWobtpnrk0p7+z
+ 7uELVwFOkpZGMQ4GGTFFFlavq7euvu7U+qrz0USMHNYmUCGMHBxCsBEPt1l+M3iKrvM3nNltKJW
+ 9xPdW9Nu83ZW31sz1+1Do9zy2Vs4YhYy/OEKzeCbuOaygsH1LTxzFGwP+f9LkeoW4ezS8vq4wkk /lx8A
+X-Mailer: git-send-email 2.49.0.987.g0cc8ee98dc-goog
+Message-ID: <20250507231403.377725-7-samitolvanen@google.com>
+Subject: [PATCH v3 0/5] gendwarfksyms: Add more kABI rules
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 7 May 2025 22:58:28 +0000
-X-Gm-Features: ATxdqUH75sjGKquTsxZiAfvNfjaDztMLHXgmmKdCV2-0xtfGeIwBKHIdY6DuK4s
-Message-ID: <CABCJKueJ2+TpUyJsLOuy3_Q324iOhmKm50vf4UvRot51Hbi87A@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] Documentation/kbuild: Add new gendwarfksyms kABI rules
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
 	Daniel Gomez <da.gomez@samsung.com>, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Masahiro,
+Hi,
 
-On Wed, May 7, 2025 at 12:28=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Hmm, renumbering is annoying.
->
-> Maybe, better to stop managing section numbers?
->
-> For example, see this commit
-> 1a4c1c9df72ec266f94631edc59f9f2a9dc5aa8c
+While looking deeper into the genksyms hacks that have been
+needed during Android's 5.10 and 5.15 GKI lifecycles so far,
+we found a few instances that are not covered by the existing
+gendwarfksyms kABI stability rules. The first case involved
+appending new members to a partially opaque data structure, and
+the second case completely changing opaque types due to a large
+backport that was necessary for both stability and security.
 
-Agreed, that looks much better. I'll send v3 that drops the section numbers=
-.
+These patches add rules that allow distribution maintainers
+to deal with structure size changes, and as a last resort, to
+completely override a type string used for version calculation.
 
 Sami
+
+---
+
+v3:
+- Added a patch to drop documentation section numbers based
+  on Masahiro's suggestion.
+
+v2: https://lore.kernel.org/r/20250505212401.3379699-6-samitolvanen@google.com/
+- Cleaned up type string parsing based on Petr's feedback.
+
+v1: https://lore.kernel.org/r/20250430214049.2658716-6-samitolvanen@google.com/
+
+---
+
+Sami Tolvanen (5):
+  gendwarfksyms: Clean up kABI rule look-ups
+  gendwarfksyms: Add a kABI rule to override byte_size attributes
+  gendwarfksyms: Add a kABI rule to override type strings
+  Documentation/kbuild: Drop section numbers
+  Documentation/kbuild: Add new gendwarfksyms kABI rules
+
+ Documentation/kbuild/gendwarfksyms.rst   | 141 +++++++++++++++++-----
+ scripts/gendwarfksyms/dwarf.c            |  14 ++-
+ scripts/gendwarfksyms/examples/kabi.h    |  21 +++-
+ scripts/gendwarfksyms/examples/kabi_ex.c |   7 ++
+ scripts/gendwarfksyms/examples/kabi_ex.h | 101 +++++++++++++++-
+ scripts/gendwarfksyms/gendwarfksyms.h    |   2 +
+ scripts/gendwarfksyms/kabi.c             | 143 ++++++++++++++---------
+ scripts/gendwarfksyms/types.c            | 140 +++++++++++++++++++---
+ 8 files changed, 470 insertions(+), 99 deletions(-)
+
+
+base-commit: 92a09c47464d040866cf2b4cd052bc60555185fb
+-- 
+2.49.0.987.g0cc8ee98dc-goog
+
 
