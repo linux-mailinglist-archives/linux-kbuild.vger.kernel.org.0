@@ -1,61 +1,64 @@
-Return-Path: <linux-kbuild+bounces-6988-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-6989-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02851AADC92
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 May 2025 12:35:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD941AADC96
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 May 2025 12:35:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F5A54652BA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 May 2025 10:35:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1D4DB7A0306
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 May 2025 10:34:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D4C8213E6A;
-	Wed,  7 May 2025 10:35:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159222147EE;
+	Wed,  7 May 2025 10:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="quH70Q9F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/dPc3wQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5655120E315;
-	Wed,  7 May 2025 10:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD605213E81;
+	Wed,  7 May 2025 10:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746614122; cv=none; b=Mx81mwva/oyJTTW9Ewm0MaxerSkFpMqz5aEaakfCRIHG3yNFISkOXV78k8la3PIW8K9Cjvzal1mVPY+t/KzRKmr5FTOUZZn0Cd0kK82EBIPvZNQfO2NoX2EqAQcx40H+lZECHpu2FdYsYoWkyzkuq4Vbc/nbR1mTWHigSVX32kU=
+	t=1746614141; cv=none; b=WvGLyls8ckEU53L/YQQE3cA+Phrfm7o4EDC7riJWbEmYdNgMvyNSWQ2IGoBhM8VrfRm6FYWTSZ++jo4c6vfWZ2xy00PJsfveWfIUiaX89JYgzKCbvojt7H/kUbSBY1M5UwC6zdvZADQTCEBSkMVfPmp2IHhd9n5Fcv9C1Z81UXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746614122; c=relaxed/simple;
-	bh=C42TwOzo4bEYHYaWCns3jFUDVHKAdqG/MYS13QYBCAw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iZjd4vRughvpvhPwqP/A2yqzIJ5+GNMrirTwGGQnYDZSNss6JZ/hX/gdIChocyovyoS+32B4DIFX06NZ09ivgzxjTKwnijJ8++Y4SotXPh4ExiVcCzYk13SlQ0sZ+pH1wpyAyurAP7U/nC31Ns5oUw/Hxu8SEmnk1y5cSS6TUcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=quH70Q9F; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2307C4CEE7;
-	Wed,  7 May 2025 10:35:21 +0000 (UTC)
+	s=arc-20240116; t=1746614141; c=relaxed/simple;
+	bh=tu66qTU2z+OXLJ3ipG26fFZ5ySa2WIiXpHQgahyVSpo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aeU4PhBBx2Fb4uep8xNyWDXO4rfjJELCP5MBjksrPqzlYRbbWLmtxB1aC1nP7MbcNJFRzN/CKqJKmtCjjRQDPICEwVOrZQOkgp/z+xvic7pWGacb9y6OmDcThLKHBOTywiuhlxegkGMmSyse+dctRegs+tB9y38b1k/ChrR2uZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/dPc3wQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29164C4CEE7;
+	Wed,  7 May 2025 10:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746614121;
-	bh=C42TwOzo4bEYHYaWCns3jFUDVHKAdqG/MYS13QYBCAw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=quH70Q9Fpoe9vAziyUtIBxQQtxnGpYfbU6W/Eirh09Tjozp544MEEIwc3HkLxjgV2
-	 Lw7lITivj0HEGdf/mp9ZcZaxzGBdP8eboO50fRe3YrGaAFZUnz2CASP0N3BCr4noSs
-	 ZxLIta2lC0oGZHTAzym8G0Ch+qZPrboV6sjEQpHIkKuLtQP/822WW9vlr1v5M6/VwT
-	 pqSbEthg5ytcaacEqU++prwb0MNRQutN4BQI0Ra8vPhIADzNAr7LCa3CszncwaQwf0
-	 21nIG2zwDWI9PO2SFG0Tep1s+UnE/HFk7450PhNVQgmhGU9idWpIvG6YZagXHSd15s
-	 NlgN/n3U/arhw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	s=k20201202; t=1746614141;
+	bh=tu66qTU2z+OXLJ3ipG26fFZ5ySa2WIiXpHQgahyVSpo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=K/dPc3wQEcDHMCirx0HwQf68RsBh8NRUk0YcBrAkRjZLow/Hb5uTiHxzB/F5BHJc+
+	 YJ0o3bXEsW9nlzaLUJRWCZJwkKbVEVAIRrl7MQBAsxp5D9GUix3VRMxulsXaw7juME
+	 WdkgJprtRZ5I95NB08WiGKQzVvOFAuu3LraHW+KEYHuhqqx7/nfTxkQTE0PRblNXiU
+	 C0JEM48wA37bn/xOBtGvn7AwvZI3Qbr70yUGrE0UhTpPGhZDut23PviS5fEn81u/NB
+	 BUNt5P1wpXfrwMO+R8gRcQA7NaoGPxZsW+dbvzSz6ImbHmVFFpavPUZl/nlYzMkbrX
+	 l9PBmkPk2fzwQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
 	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.95)
 	(envelope-from <maz@kernel.org>)
-	id 1uCc7T-00CZoF-93;
-	Wed, 07 May 2025 11:35:19 +0100
+	id 1uCc7n-00CZos-0Z;
+	Wed, 07 May 2025 11:35:39 +0100
+Date: Wed, 07 May 2025 11:35:38 +0100
+Message-ID: <868qn8hfnp.wl-maz@kernel.org>
 From: Marc Zyngier <maz@kernel.org>
-To: kvmarm@lists.linux.dev,
+To: Kees Cook <kees@kernel.org>
+Cc: Mostafa Saleh <smostafa@google.com>,
+	kvmarm@lists.linux.dev,
 	kasan-dev@googlegroups.com,
 	linux-hardening@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	Mostafa Saleh <smostafa@google.com>
-Cc: will@kernel.org,
+	will@kernel.org,
 	oliver.upton@linux.dev,
 	broonie@kernel.org,
 	catalin.marinas@arm.com,
@@ -65,7 +68,6 @@ Cc: will@kernel.org,
 	dave.hansen@linux.intel.com,
 	x86@kernel.org,
 	hpa@zytor.com,
-	kees@kernel.org,
 	elver@google.com,
 	andreyknvl@gmail.com,
 	ryabinin.a.a@gmail.com,
@@ -77,57 +79,48 @@ Cc: will@kernel.org,
 	nathan@kernel.org,
 	nicolas.schier@linux.dev
 Subject: Re: [PATCH v2 0/4] KVM: arm64: UBSAN at EL2
-Date: Wed,  7 May 2025 11:35:13 +0100
-Message-Id: <174661410588.354102.12581614598575589637.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20250430162713.1997569-1-smostafa@google.com>
+In-Reply-To: <202504301131.3C1CBCA8@keescook>
 References: <20250430162713.1997569-1-smostafa@google.com>
+	<202504301131.3C1CBCA8@keescook>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: kvmarm@lists.linux.dev, kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, smostafa@google.com, will@kernel.org, oliver.upton@linux.dev, broonie@kernel.org, catalin.marinas@arm.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, kees@kernel.org, elver@google.com, andreyknvl@gmail.com, ryabinin.a.a@gmail.com, akpm@linux-foundation.org, yuzenghui@huawei.com, suzuki.poulose@arm.com, joey.gouly@arm.com, masahiroy@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev
+X-SA-Exim-Rcpt-To: kees@kernel.org, smostafa@google.com, kvmarm@lists.linux.dev, kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, will@kernel.org, oliver.upton@linux.dev, broonie@kernel.org, catalin.marinas@arm.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, elver@google.com, andreyknvl@gmail.com, ryabinin.a.a@gmail.com, akpm@linux-foundation.org, yuzenghui@huawei.com, suzuki.poulose@arm.com, joey.gouly@arm.com, masahiroy@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev
 X-SA-Exim-Mail-From: maz@kernel.org
 X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Wed, 30 Apr 2025 16:27:07 +0000, Mostafa Saleh wrote:
-> Many of the sanitizers the kernel supports are disabled when running
-> in EL2 with nvhe/hvhe/proctected modes, some of those are easier
-> (and makes more sense) to integrate than others.
-> Last year, kCFI support was added in [1]
+On Wed, 30 Apr 2025 19:32:23 +0100,
+Kees Cook <kees@kernel.org> wrote:
 > 
-> This patchset adds support for UBSAN in EL2.
-> UBSAN can run in 2 modes:
->   1) “Normal” (CONFIG_UBSAN_TRAP=n): In this mode the compiler will
->   do the UBSAN checks and insert some function calls in case of
->   failures, it can provide more information(ex: what is the value of
->   the out of bound) about the failures through those function arguments,
->   and those functions(implemented in lib/ubsan.c) will print a report with
->   such errors.
+> On Wed, Apr 30, 2025 at 04:27:07PM +0000, Mostafa Saleh wrote:
+> > Many of the sanitizers the kernel supports are disabled when running
+> > in EL2 with nvhe/hvhe/proctected modes, some of those are easier
+> > (and makes more sense) to integrate than others.
+> > Last year, kCFI support was added in [1]
+> > 
+> > This patchset adds support for UBSAN in EL2.
 > 
-> [...]
+> This touches both UBSAN and arm64 -- I'm happy to land this via the
+> hardening tree, but I expect the arm64 folks would rather take it via
+> their tree. What would people like to have happen?
 
-Applied to next, thanks!
+FWIW, I have now taken this in kvmarm/next. A stable branch is
+available at [1] for anyone to pull and resolve potential conflicts.
 
-[1/4] arm64: Introduce esr_is_ubsan_brk()
-      commit: dc1fd37a7f501731e488c1c6f86b2f591632a4ad
-[2/4] ubsan: Remove regs from report_ubsan_failure()
-      commit: d683a8561889c1813fe2ad6082769c91e3cb71b3
-[3/4] KVM: arm64: Introduce CONFIG_UBSAN_KVM_EL2
-      commit: 61b38f7591fb434fce326c1d686a9793c7f418bc
-[4/4] KVM: arm64: Handle UBSAN faults
-      commit: 446692759b0732ef2d9a93b7e6730aa762ccf0ab
-
-Cheers,
+Thanks,
 
 	M.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log/?h=kvm-arm64/ubsan-el2
+
 -- 
 Without deviation from the norm, progress is not possible.
-
-
 
