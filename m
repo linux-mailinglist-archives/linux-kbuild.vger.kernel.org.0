@@ -1,168 +1,217 @@
-Return-Path: <linux-kbuild+bounces-7049-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7050-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5D7AB05E1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 00:15:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CADAB0668
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 01:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7CD797AB392
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 22:13:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 900C24C1463
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 23:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF40D227B8E;
-	Thu,  8 May 2025 22:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CD7222F17A;
+	Thu,  8 May 2025 23:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="J1ymQxiY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X22twWfq"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CBC224AFE
-	for <linux-kbuild@vger.kernel.org>; Thu,  8 May 2025 22:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D9A22E41D;
+	Thu,  8 May 2025 23:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746742486; cv=none; b=DVOlRaj48VXyTAV+POydiLO9KditsPxlfwbAgB5MlXmhoDfn9BapUmOAY30N5fN2SwP4h3/OdfiXybJcv+o6rzHvV58A3KqAQIk6Omg2oTiDYbg1R9/IGBZ0O7rqKjIXL2N88DeRqepc4qKoV/gRFbH6UU4s1gcj3e7UCNmCe4o=
+	t=1746746037; cv=none; b=Ox02LLvexvXkdpd0aiazW8qI+/36FTJe0jIUD0dqAHB3lDZx+sBfqzDVo7v/IA4QaqrUZR1YHLNVwl0PdToRwALrvJ3aeYoOcv2bzBvF4/Vhj0pNTau8lyMOVV8hlo2Qo7/27kxY7gGc2O1zdCk6NKhnqPDxTmxMMoGr2k/lf1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746742486; c=relaxed/simple;
-	bh=oQhDfKn0pMpd3jEaJ5ukmAhurZ7x+QJ/lmdMNdMwE2Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NIw26S448Ie57C0YqqVVODPBQOVaFoa3A7PfYIav3HeJv/K7i9snh28y7205ixa9Pr7YymWdAeWJRa7MXrxIt/mLQ3PeKGCaMGoeJUIF0Cv8bkJC25uxUVB4i4AngCF9mubuCmkgbmAbPA/zE9gcQuuBATxHSly1MmnmL4A9YYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=J1ymQxiY; arc=none smtp.client-ip=209.85.166.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-86135ac9542so60323439f.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 08 May 2025 15:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1746742483; x=1747347283; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9CK1elPKWXClSLPdRPqW5P03MZNYsbIZRsBDl9jKU4I=;
-        b=J1ymQxiY/w1ewYwN/07QPFeUtNMbMZfNC1cym//JUkwdy774nrgj5V7IvLoj6MKgvR
-         iTDaBoDAF1PO8M2qXz0nHUAhzf5jfG0VXShJMVwxhJGnFVv5fDji+kA1KUIqXNSPy9Zx
-         vw+ZGwdvOpNk2+4uHsTKLMdU0mmQ0UEzVX0vI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746742483; x=1747347283;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9CK1elPKWXClSLPdRPqW5P03MZNYsbIZRsBDl9jKU4I=;
-        b=AHGlcCatUwDJPq4q7EFXCcPBvZBg9jlHw/RfxPULK6gmybZxFWAoocD/JXVWRZ+qEp
-         sZR6NWnzlnUOjMexexG6vYkzYCPxTVknyoUaWmy6EjdqFkE7eYSotsfRkByIkojXTTqW
-         WPL4ZLPxu/sz6S9KhZDxQGEz2tHf08lwI7owbFk1I22GPeqaq5C3cOfasqM8OAyyNxfv
-         f5uo5HSgTInTyoV6tWjs2pRDpiHXAJ9qcaWDve24KjgdTeYggYrc9AofJExa+/mkbgyV
-         JdpJ1t1VI52ybmzF8fPldcknH/Rbts7M1f4asEqLQUSRdJRwiBiwY/uYP4Qc+HvGZ7xv
-         Y42Q==
-X-Gm-Message-State: AOJu0Yz5IOC145hVziSIjlEOEjLqWcISkb+mo3ToCmJGBdleetkZuojt
-	kysdGXIYljwn4LCrVtZguSbbT3n9vjN8bsZGAC+oyz7qcFTf0xCpKFU18RqOt4w=
-X-Gm-Gg: ASbGncuWAS2z2BaoPwEuNgEi8D1nE8OLLVn009e9UQn/Uoo2CilOIc2xuwmfucHg2d/
-	6UijYz1ZGWmTdI74P53o4AyPB02s9cT6CGQIINbj26hugD6TM/8Ye6tr5E9o6oG3/qhePI79USn
-	KZXoy7gs4lGHtIpqXDKTcanKXljBFYTxbO0a6UaAcWkjyDQkA2v4sRSCmXDNBTbMp0xMZXRJDP2
-	jeGzHrir1Hz84+4VYAF+mowNGkEb1Q5Pnk7AgPNWkGeVADD0aZXhvdUDUYtgso+s7e2gPA61PqL
-	Ssi8O4Krq5VeLCubDoR1eanasF4Ph4fbNIeKOjmDmiQfusXnLNs=
-X-Google-Smtp-Source: AGHT+IH5MQwed+065d9LOVuxEKO6ubkA9Ob6pEePe9HD+g9AN4JF3g2On82Lij+nTEGd4vyd0n7qaQ==
-X-Received: by 2002:a05:6602:1401:b0:867:c17:a6ff with SMTP id ca18e2360f4ac-86764496f6fmr113977539f.8.1746742483142;
-        Thu, 08 May 2025 15:14:43 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-867636e0efdsm15990639f.29.2025.05.08.15.14.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 May 2025 15:14:42 -0700 (PDT)
-Message-ID: <a4558815-f400-41c9-973d-90680ceb3ede@linuxfoundation.org>
-Date: Thu, 8 May 2025 16:14:41 -0600
+	s=arc-20240116; t=1746746037; c=relaxed/simple;
+	bh=hjPlZNVH1QsTW+M1ibi+er/DnxeysWRGy0qKT0ckYOM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hz2th+yhjSiIHVbDlGEPzuYlbhJKIzqU34smcllrw5wKbvYbmP63ZaGU8zpbKIN+3zjfe9jLyKuBKJlu/V4LhNsV6tsQ8JUGNMJDnfVlhn2njNDzp6Bt++Pk6Mi9napHJ3eBuUKcAhAfNh//FXx5HZalotYxGIgBteXzVPidxP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X22twWfq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64CC9C4AF0B;
+	Thu,  8 May 2025 23:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746746036;
+	bh=hjPlZNVH1QsTW+M1ibi+er/DnxeysWRGy0qKT0ckYOM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=X22twWfqpG/sexlXNvqcCxlAW9uJ79XhHp4dG+/sdAiHQso1qB7pv6RIgcn3pOoQp
+	 RpAacMWsrPVTImWA47j99b63RKUeobPa/JwWeBGiT1144He1IzOYBdA7SARMGmKrYX
+	 65EJZ7d90Cp6E9iiHwEs0z6T/BpU+q99yjhDPHIX6351IRF+mtGYIYJWJE72V5X3sN
+	 B0pLO92w7nyRLhjlVobOl5IPwEHUofH4wsG+hGsl92jVFuW9AhckxAmi3AO7unuZ73
+	 1Lgy2FbvbzB/tsRSxjQksdOMh7ZrVku6saq5wF7NZ4tUJuGJo4UkndrE8aZ5ZcIH0+
+	 4kzXGXA6VLbEw==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54d65cb6e8aso1930584e87.1;
+        Thu, 08 May 2025 16:13:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU3nMTR72MHBo9LEWcSWPn+u1eUuXTtzARiNdj2RoCQ//SexhOiHB2gEReV7cBVuf/2qWVBeXGcnf1Dlbcj1LQ=@vger.kernel.org, AJvYcCUT++TYQxQqw3HfC1RCsFSeqQba4jc2T6npHRhDtkzgSY9XI0CXnMywdtg1h9R+O3TIh+LvsaEGwAcVCQBB@vger.kernel.org, AJvYcCVyYKwT9WXTmrB7V8blFone1iSIIvjTB1g5RJUDDL5+N6GDj6JGQTWr48tCDjrChCQlSMsAIDIg+fAly0vk@vger.kernel.org
+X-Gm-Message-State: AOJu0YznBxj5fik5Qht+fI32CEPIQ9QK6aY6aHvuuyZ4ZfE0W8vs4X3y
+	MK+ZRTKyLnWE5lgf2iSKMySBPLW3KE+gdxFmfmg2kZmlTviCbKiGNeckk9ytKzxBuYodCbIHjuA
+	G3IKF5qeZPCvtgsA6C3RnXAO3epI=
+X-Google-Smtp-Source: AGHT+IEu52aNEDzMGo5FyZKwbvtEiRvPDMJolT/k9kW20bfY6GvKL48TekDncNdE3idOerShQ5l7uSs7KgVNI0hwK08=
+X-Received: by 2002:a05:6512:4201:b0:54e:81ec:2c83 with SMTP id
+ 2adb3069b0e04-54fc67c2180mr349351e87.18.1746746035073; Thu, 08 May 2025
+ 16:13:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] um: let 'make clean' properly clean underlying SUBARCH as
- well
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Richard Weinberger <richard@nod.at>, linux-um@lists.infradead.org,
- David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20250507074936.486648-1-masahiroy@kernel.org>
- <9ec50ce0-f60b-4d87-bc44-adaf2a1a97a1@linuxfoundation.org>
- <CAK7LNARF=ANEEeENSwcWeayympi6Svci+ScWGpWQimyWm8xUzA@mail.gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <CAK7LNARF=ANEEeENSwcWeayympi6Svci+ScWGpWQimyWm8xUzA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250502224512.it.706-kees@kernel.org> <CAK7LNAQCZMmAGfPTr1kgp5cNSdnLWMU5kC_duU0WzWnwZrqt2A@mail.gmail.com>
+ <202505031028.7022F10061@keescook> <CAK7LNAQehmFgB3kJtrkVhUKM1NEXGQrfJ3v3piToh7YV7-3ccw@mail.gmail.com>
+ <202505080953.789B3381@keescook>
+In-Reply-To: <202505080953.789B3381@keescook>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 9 May 2025 08:13:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQpGXmWNhoE9wLoP01dn2o7KjhedoqHXm474CoCgwHp2Q@mail.gmail.com>
+X-Gm-Features: ATxdqUFSFahQS2gL_GajBAPbhaxcYoPZIWvSTLFfjfLaxGsmrigaOf0HpL69dgs
+Message-ID: <CAK7LNAQpGXmWNhoE9wLoP01dn2o7KjhedoqHXm474CoCgwHp2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Detect changed compiler dependencies for full rebuild
+To: Kees Cook <kees@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Justin Stitt <justinstitt@google.com>, Marco Elver <elver@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-um@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/7/25 17:49, Masahiro Yamada wrote:
-> On Thu, May 8, 2025 at 6:38 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
->>
->> On 5/7/25 01:49, Masahiro Yamada wrote:
->>> Building the kernel with O= is affected by stale in-tree build artifacts.
->>>
->>> So, if the source tree is not clean, Kbuild displays the following:
->>>
->>>     $ make ARCH=um O=build defconfig
->>>     make[1]: Entering directory '/.../linux/build'
->>>     ***
->>>     *** The source tree is not clean, please run 'make ARCH=um mrproper'
->>>     *** in /.../linux
->>>     ***
->>>     make[2]: *** [/.../linux/Makefile:673: outputmakefile] Error 1
->>>     make[1]: *** [/.../linux/Makefile:248: __sub-make] Error 2
->>>     make[1]: Leaving directory '/.../linux/build'
->>>     make: *** [Makefile:248: __sub-make] Error 2
->>>
->>> Usually, running 'make mrproper' is sufficient for cleaning the source
->>> tree for out-of-tree builds.
->>>
->>> However, building UML generates build artifacts not only in arch/um/,
->>> but also in the SUBARCH directory (i.e., arch/x86/). If in-tree stale
->>> files remain under arch/x86/, Kbuild will reuse them instead of creating
->>> new ones under the specified build directory.
->>>
->>> This commit makes 'make ARCH=um clean' recurse into the SUBARCH directory.
->>>
->>> Reported-by: Shuah Khan <skhan@linuxfoundation.org>
->>> Closes: https://lore.kernel.org/lkml/20250502172459.14175-1-skhan@linuxfoundation.org/
->>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>
->> It doesn't solve the problem. I still see arch/x86/realmode/rm/pasyms.h
->> after running make ARCH=um mrproper
-> 
-> 
-> Why not?
-> 
-> This patch allows 'make ARCH=um mrproper'
-> to clean up both arch/um and arch/x86/.
-> 
-> It is really simple to test the behavior.
-> 
-> 
-> [Without this patch]
-> 
-> masahiro@zoe:~/workspace/linux-kbuild(master)$ touch
-> arch/x86/realmode/rm/pasyms.h
-> masahiro@zoe:~/workspace/linux-kbuild(master)$ make ARCH=um mrproper
-> masahiro@zoe:~/workspace/linux-kbuild(master)$ ls arch/x86/realmode/rm/pasyms.h
-> arch/x86/realmode/rm/pasyms.h
-> 
-> [With this patch]
-> 
-> masahiro@zoe:~/workspace/linux-kbuild(kbuild)$ touch
-> arch/x86/realmode/rm/pasyms.h
-> masahiro@zoe:~/workspace/linux-kbuild(kbuild)$ make ARCH=um mrproper
->    CLEAN   arch/x86/realmode/rm
-> masahiro@zoe:~/workspace/linux-kbuild(kbuild)$ ls arch/x86/realmode/rm/pasyms.h
-> ls: cannot access 'arch/x86/realmode/rm/pasyms.h': No such file or directory
-> 
+On Fri, May 9, 2025 at 1:56=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+>
+> On Fri, May 09, 2025 at 01:44:09AM +0900, Masahiro Yamada wrote:
+> > On Sun, May 4, 2025 at 2:37=E2=80=AFAM Kees Cook <kees@kernel.org> wrot=
+e:
+> > >
+> > > On Sat, May 03, 2025 at 06:39:28PM +0900, Masahiro Yamada wrote:
+> > > > On Sat, May 3, 2025 at 7:54=E2=80=AFAM Kees Cook <kees@kernel.org> =
+wrote:
+> > > > >
+> > > > >  v2:
+> > > > >   - switch from -include to -I with a -D gated include compiler-v=
+ersion.h
+> > > > >  v1: https://lore.kernel.org/lkml/20250501193839.work.525-kees@ke=
+rnel.org/
+> > > >
+> > > >
+> > > > What do you think of my patch as a prerequisite?
+> > > > https://lore.kernel.org/linux-kbuild/20250503084145.1994176-1-masah=
+iroy@kernel.org/T/#u
+> > > > Perhaps, can you implement this series more simply?
+> > > >
+> > > > My idea is to touch a single include/generated/global-rebuild.h
+> > > > rather than multiple files such as gcc-plugins-deps.h, integer-wrap=
+.h, etc.
+> > > >
+> > > > When the file is touched, the entire kernel source tree will be reb=
+uilt.
+> > > > This may rebuild more than needed (e.g. vdso) but I do not think
+> > > > it is a big deal.
+> > >
+> > > This is roughly where I started when trying to implement this, but I
+> > > didn't like the ergonomics of needing to scatter "touch" calls all ov=
+er,
+> > > which was especially difficult for targets that shared a build rule b=
+ut
+> > > may not all need to trigger a global rebuild. But what ultimately pus=
+hed
+> > > me away from it was when I needed to notice if a non-built source fil=
+e
+> > > changed (the Clang .scl file), and I saw that I need to be dependency
+> > > driven rather than target driven. (Though perhaps there is a way to
+> > > address this with your global-rebuild.h?)
+> > >
+> > > As far as doing a full rebuild, if it had been available last week, I
+> > > probably would have used it, but now given the work that Nicolas, you=
+,
+> > > and I have put into this, we have a viable way (I think) to make this
+> > > more specific. It does end up being a waste of time/resources to rebu=
+ild
+> > > stuff that doesn't need to be (efi-stub, vdso, boot code, etc), and t=
+hat
+> > > does add up when I'm iterating on something that keeps triggering a f=
+ull
+> > > rebuild. We already have to do the argument filtering for targets tha=
+t
+> > > don't want randstruct, etc, so why not capitalize on that and make th=
+e
+> > > rebuild avoid those files too?
+> >
+> >
+> > efi-stub, vdso are very small.
+> >
+> > Unless this turns out to be painful, I prefer
+> > a simpler implementation.
+> >
+> > You will see how .scl file is handled.
+> >
+> > See the below code:
+> >
+> >
+> > diff --git a/Kbuild b/Kbuild
+> > index f327ca86990c..85747239314c 100644
+> > --- a/Kbuild
+> > +++ b/Kbuild
+> > @@ -67,10 +67,20 @@ targets +=3D $(atomic-checks)
+> >  $(atomic-checks): $(obj)/.checked-%: include/linux/atomic/%  FORCE
+> >         $(call if_changed,check_sha1)
+> >
+> > +rebuild-$(CONFIG_GCC_PLUGINS)          +=3D $(addprefix
+> > scripts/gcc-plugins/, $(GCC_PLUGIN))
+> > +rebuild-$(CONFIG_RANDSTRUCT)           +=3D include/generated/randstru=
+ct_hash.h
+>
+> These are in $(objtree)
 
-I ran another controlled test starting from a totally clean repo
-and the building - looks good to me.
+Yes.
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> > +rebuild-$(CONFIG_UBSAN_INTEGER_WRAP)   +=3D scripts/integer-wrap-ignor=
+e.scl
+>
+> This is in $(srctree)
 
-thanks,
--- Shuah
+Yes.
 
+> > +
+> > +quiet_cmd_touch =3D TOUCH   $@
+> > +      cmd_touch =3D touch $@
+> > +
+> > +include/generated/global-rebuild.h: $(rebuild-y)
+> > +       $(call cmd,touch)
+>
+> Is this rule going to find the right versions of the dependencies?
+
+I think so, but please test it.
+
+
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -558,7 +558,8 @@ USERINCLUDE    :=3D \
+> >                 -I$(srctree)/include/uapi \
+> >                 -I$(objtree)/include/generated/uapi \
+> >                  -include $(srctree)/include/linux/compiler-version.h \
+> > -                -include $(srctree)/include/linux/kconfig.h
+> > +                -include $(srctree)/include/linux/kconfig.h \
+> > +                -include $(objtree)/include/generated/global-rebuild.h
+>
+> Instead of adding a new file, why not just touch compiler-version.h?
+
+Because the compiler-version.h is in $(srctree), which might be
+in the read-only file system.
+
+
+> But whatever the case, sure, I can live with this. :)
+>
+> -Kees
+>
+> --
+> Kees Cook
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
