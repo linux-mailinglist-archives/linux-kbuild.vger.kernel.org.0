@@ -1,170 +1,187 @@
-Return-Path: <linux-kbuild+bounces-7036-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7037-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C910AAF55A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 10:18:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A364CAAF9C3
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 14:23:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8BED1BA2E0A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 08:18:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0A4C9C702E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 May 2025 12:23:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2514226D05;
-	Thu,  8 May 2025 08:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C5C6227E87;
+	Thu,  8 May 2025 12:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TI3lhddp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E0821D596;
-	Thu,  8 May 2025 08:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C57F225403
+	for <linux-kbuild@vger.kernel.org>; Thu,  8 May 2025 12:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746692242; cv=none; b=jVvICV5oHRRDfNTHHn+fsDHomlSZ4aiYdPkIF/+NClINreqQ4Z3qeKeLlGtmycGMUTFOWn/628jxuWYsfdYL0/w3iob2L9SSFVWn9nUPuo8fbWrnTfdx07fEhgePoPg2bsn52rF4FppTL/NM3H9R+NVjR7Vq4Y274mx98582ITY=
+	t=1746707008; cv=none; b=VAu/BZH4lYCFA5RVL87tTTXoJMzVb687ZTkgA3n6g/Bb6cYk7sl3ahEZwjldiwVxcclSnUapMYeFv0oCYmk9SQBFJUYBxzXbl5PeVDfx1NGfVofxryNSHLTwZ0fUGP8L6+MamcZBhRIP8DnY1iA5hF26n+6L1nxIqrp3LI2JeHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746692242; c=relaxed/simple;
-	bh=DQtLfoiwndRcIQmPR0VA4whVgw14Q74a05o6iBstBRA=;
+	s=arc-20240116; t=1746707008; c=relaxed/simple;
+	bh=n1DaNBSAbwSjqMNiKl3ZhnzGUtTOnVJb3kD0pUQSCf4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IL+3xCWXcRzR80I7aHWRaDpmYcMH5z7oukHWN/eYKyt+wS1u2+bW8Rk1KBuKUDQ3OR7Z3bjZd1AiHt35pZkN4czzUuZMvNwo2DsDIEkof6B2WTaFLamu/SCEcZdSkbscAY/WOOBqAUZrib2fTTrcgHwFKf4Y8V2kCwqyjhj4lig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-525da75d902so212244e0c.3;
-        Thu, 08 May 2025 01:17:19 -0700 (PDT)
+	 To:Cc:Content-Type; b=fL29eBfTKp2a7BxaAwKMVsuYmeaShsXpraKoVf/IYsnYdYPMzP7Nl0aX6wa8Ihv8mG0mnBMzpIcRjbV29+xr/60vIC5/cD5BNWBCNT3Ix5qgu5ax3PLEmStrfmiarhdLwesIfYjH88VGPjQsgbNLLq7mF3OnwOfKLIVbHjVh8nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TI3lhddp; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22e09f57ed4so21939005ad.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 08 May 2025 05:23:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1746707004; x=1747311804; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YHzGR2TH3f5PkiaDuIeNupqLtaLoSxh32TBcttsiE58=;
+        b=TI3lhddpzOnan2Fj4PlAoxEtdyJhilTH0aEryFC51JWmDuTJqRXV9M9IpaZ+0Bi+Vj
+         W4IclAy3ed3oqSMRsFsQ/7rDqJHPHn6hDmRpvatvoz76F3ImVAIbE/b/2fDJjw/x6QcL
+         3O/1m4LuvMiwZncuB8KnqTiSYuh0wLDUyMZzOtiRaeUXJyb1BuhHSG0B9o050imPA/jx
+         /oD8Sj9+JsdcdPoyuu4mBZ2icyKxv4pQutD0UucwckkYnO1t0lN1NezzwlhggBGxt8jN
+         XyMZDkQwIe7C7pddABjhAdfBNSvfEtF4plZ2v0nLH43gPd7YW12ARPAGdV9pw9cUJSgE
+         QDcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746692238; x=1747297038;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ow+3EqpCvuYbhqRJAc9aX8aHDpymXtE4VZzdnm2dvZE=;
-        b=gxiH6AUlYdDOMN0hZDH8U5nbKPAxp7t0HtPOyjwpOxbnO7w31GoWSS3h7UU3pk1daN
-         znCk6Lz2QijluQ/QDtoABA7bZJcqFA84YFE83ICnKYHgSKEHztsDsmE1KhMXXuR7V6Nj
-         FmseUG7VrkySzHB7B3Xw5ZIKYgNy/U7LDFQVrdyvdC37uYoWmIYeJOlLAoG7ZRX6r2bD
-         JooJ8QCZX2XQcNZ1uNpuXUUf3bUVWhGrroZzRU5q7crNSQ0QFLIbo8zauiKXE+KJFBmG
-         ic6UVfMDt2cfqSIOMlpLAXItvRTdRqFiVKmBZjDybqtijm6u8JjAJq/H3yTrbyde5k/l
-         jLGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVSFakYPLTHSvO9K1ePkYWyVW6pXzQHl2+OziXxAvKpzEgAxInC0flYlnzTdoYkl5IKjNPkmHgusWRZr1U=@vger.kernel.org, AJvYcCWcLeJW3WQVSETU9nCesNzy2mDgPEIsYJ3S7sJt4ELlsIMD2SXtQcBUTL1fUbHcDW59k1cKa1V9oLdeGsOF@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHmbVnNHkeS6V2uk1Xr2a9jY5BYzwKUaMHXzUP9pJG8tf052H8
-	zhwgUaiE2H9FivUOjUyWO82Uz5vf0cRkRGemMzJtLSDCLDkD07bpFtJfcOt6
-X-Gm-Gg: ASbGncuBS8fRKuBPwTxOuZiU4h+meiZtbLb83ev7JRl0VbcjOWvDw47Jdz/GOUdwE/X
-	RePEisZiT2UT/TKt/3Uz29vYVYEmgIF3J2y0vpLxyjsa5XM73DF5LJN6j87DiisWQih7NVxn4gS
-	QDGbW07qnqXzIVsXpCnWeXzFf00wqeWozXmWUdwL+WpFo8dnTwYZbe6GRJ7POtxPBojFQDIPAWT
-	Mb8zYnPn3glqfxKy3yuBFghfAVzXstfnDAeLGYKXCReKcwQFb9bUYzMXNQv8SHDEc4txsygJyrF
-	nL9UIuPkfvjmVxduv1q32ekee74Mu8NZP1kWNSqtQny3xTDY9kOe6+0Nmq0xueBfhUgA5WI6ZtY
-	KZ6yBSZ0=
-X-Google-Smtp-Source: AGHT+IEelZ//mgmVbB5DujUfPdUMi9KvJwGgb5sWRWLEttzilS93LSMTspAUVXAYM1BmIcZ3al55PQ==
-X-Received: by 2002:a05:6122:3102:b0:529:f50:7904 with SMTP id 71dfb90a1353d-52c37ab9322mr4843957e0c.9.1746692237755;
-        Thu, 08 May 2025 01:17:17 -0700 (PDT)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52ae41f2070sm3121543e0c.45.2025.05.08.01.17.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 May 2025 01:17:17 -0700 (PDT)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-523dc190f95so274013e0c.1;
-        Thu, 08 May 2025 01:17:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU8/jrKnQuGjr8b7fufYR3C3HaL/GIlBA6v7GCXuFLSQ5WoZq2LALN/41lr+nSdDqrq3p5IIZz5Y+JGZUk/@vger.kernel.org, AJvYcCVE01VPWwtJ96k6pL3v6CSNSLiiGn4IDX0okBH26O9IKs2TGX8CShoA2gS+rG+ZrTci7VZ372RqhBx7N30=@vger.kernel.org
-X-Received: by 2002:a67:e9ca:0:b0:4dd:ad20:a337 with SMTP id
- ada2fe7eead31-4ddad20aba7mr1331118137.7.1746692236562; Thu, 08 May 2025
- 01:17:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746707004; x=1747311804;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YHzGR2TH3f5PkiaDuIeNupqLtaLoSxh32TBcttsiE58=;
+        b=shLMtEydcJtn8RkA7EQPPc4019hgP9HuCQ7cTkn+7QJ41s3ewDTx0+aYHU9yfRjYQI
+         usDCW80z62xSaKgQoW2fQDtrj2H2gL1HTmwHQJl0syJ1stMDixt9BjgYoXmZkRoy21VO
+         8FxCP0M9LLOub4xMrAFCg3jQg0XghXbKqL1198qbyTRvWkHAhhpgAAtdJs1ROXkZrZYB
+         o2Vrdim6HVVPiUfHvFbvtlG/i9yY6B7N5gQz414BrrLsZz563yXh+LS5jSxo8CcDYCZU
+         JX/tUnN2qF9YHoXJYVziJo/oIjAbYo1NvEXlc3aG81i/DrssNLics3UKUG/+Nge45v7S
+         EoeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVe2JTDEd/PZAOvS5YKuUogD2fVAyJO/iy+vENqt5Be3vJDZgRSoNYi/3jrPZuVToM6Gl89wuQQiRGnDA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKi+HC0lTLtBnqLT9bMGKIks85FkIQ4jYL+OLbx8n0A6xJ/xS4
+	OtCEyjU0z/bVGY0ZdurcAhjDl2ET4RfHdl2BK/4KsPvmRxdXinYhZNAG4kQ0CAzOtl1zek5CCET
+	BZrdYdpnywf+/oThjuNVXhLgBycjRLnWc+9eL
+X-Gm-Gg: ASbGncuXnNjNYnjs8y0+CPZvzrQUMha77SZ+MTcj+ECAUtHF7CA85jmpfXaJlDpV1X1
+	GQW1HL+hr+1KzXdSEifufvCOhoyZMAjo+X4y1eS6JoMK2vtIGLx6gxbbQAaPXTgcX52/9Ztl2MM
+	otZXgB8nM0CbbBVlCcmlOSORwYMma1sQyqsVg8nKqDRXe8eqmUVeJzetccHRZyX5I=
+X-Google-Smtp-Source: AGHT+IGuazhS9joimxHTMGiamVK9GxUm2CRwvQi3+Gq6fqxsbfAnr7up4McbBtUROkgn62zEFRcy/K/C2EzHqfHG+xw=
+X-Received: by 2002:a17:90b:4b8c:b0:2fa:1d9f:c80 with SMTP id
+ 98e67ed59e1d1-30adbf6d05amr4939913a91.17.1746707003520; Thu, 08 May 2025
+ 05:23:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250507074936.486648-1-masahiroy@kernel.org> <9ec50ce0-f60b-4d87-bc44-adaf2a1a97a1@linuxfoundation.org>
- <b1e4e83c0965e10f2fe59826d19eaf131ec7aef9.camel@sipsolutions.net>
- <CAMuHMdUwE7btR+ebG8-gvPb8GPnxUGPWw3yKR4qM4Uc_mYcHhg@mail.gmail.com> <CAK7LNAT_m+R3Keyys2NpmQWRmZzHNv9FM_ALv=vn_WMzTSWhyw@mail.gmail.com>
-In-Reply-To: <CAK7LNAT_m+R3Keyys2NpmQWRmZzHNv9FM_ALv=vn_WMzTSWhyw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 8 May 2025 10:17:04 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVuQNi02KTCKnsS6V=POsz9X=2003b+CWxwCc=23ULuYQ@mail.gmail.com>
-X-Gm-Features: ATxdqUGI8nxoRV_vYCzmDMnRSJwD-zAQCeANtCnK3wswgqflfW4cB8GVMqBaQt0
-Message-ID: <CAMuHMdVuQNi02KTCKnsS6V=POsz9X=2003b+CWxwCc=23ULuYQ@mail.gmail.com>
-Subject: Re: [PATCH] um: let 'make clean' properly clean underlying SUBARCH as well
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Johannes Berg <johannes@sipsolutions.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Richard Weinberger <richard@nod.at>, 
-	linux-um@lists.infradead.org, David Gow <davidgow@google.com>
+References: <20250507180852.work.231-kees@kernel.org> <20250507181615.1947159-2-kees@kernel.org>
+In-Reply-To: <20250507181615.1947159-2-kees@kernel.org>
+From: Marco Elver <elver@google.com>
+Date: Thu, 8 May 2025 14:22:47 +0200
+X-Gm-Features: ATxdqUHttH2gHvJKzLvMz7fkEuSC2xFFktBrniyRJYj71k93n_Rm8LTTobDJ7fU
+Message-ID: <CANpmjNPcYPvnQzMT3p+Vc2=EiEbR1WnykUEjuYc0bH2HOFi6HQ@mail.gmail.com>
+Subject: Re: [PATCH 2/8] init.h: Disable sanitizer coverage for __init and __head
+To: Kees Cook <kees@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, Aleksandr Nogikh <nogikh@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Hou Wenlong <houwenlong.hwl@antgroup.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	kasan-dev@googlegroups.com, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Christoph Hellwig <hch@lst.de>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	sparclinux@vger.kernel.org, llvm@lists.linux.dev, 
+	syzkaller <syzkaller@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Yamada-san,
++Cc KCOV maintainers
 
-On Thu, 8 May 2025 at 10:14, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> On Thu, May 8, 2025 at 4:38=E2=80=AFPM Geert Uytterhoeven <geert@linux-m6=
-8k.org> wrote:
-> > On Thu, 8 May 2025 at 07:29, Johannes Berg <johannes@sipsolutions.net> =
-wrote:
-> > > On Wed, 2025-05-07 at 15:38 -0600, Shuah Khan wrote:
-> > > > My workflow:
-> > > >
-> > > > - Build kernel on x86_64 with CONFIG_AMD_MEM_ENCRYPT enabled
-> > > >
-> > > > - Check for arch/x86/realmode/rm/pasyms.h
-> > > >    ls arch/x86/realmode/rm/pasyms.h
-> > > >       arch/x86/realmode/rm/pasyms.h
-> > > >
-> > > > - make ARCH=3Dum O=3D/linux/build
-> > > >
-> > > >    This patch cleans the source tree, but doesn't remove
-> > > >    arch/x86/realmode/rm/pasyms.h
-> > > >
-> > > > - ls arch/x86/realmode/rm/pasyms.h
-> > > >       arch/x86/realmode/rm/pasyms.h
-> > >
-> > > Is that even _expected_ to work? If you have x86 built first, I'd alm=
-ost
-> > > expect you to have to do "make ARCH=3Dx86 mrproper" before building
-> > > another ARCH. I don't see how ARCH=3Dum would know how to do a full c=
-lean
-> > > up of ARCH=3Dx86, unless this is somehow arch-independent?
-> > >
-> > > Or maybe that's not an issue with other architectures because UML is
-> > > special in that it uses parts of x86?
-> >
-> > Probably.
-> > I only use my linux-next source tree for fixing reported build issues o=
-n
-> > various architectures, and I never use make clean/mrproper.  Works fine=
-.
-> >
-> > > Though I guess the patch here should make it do that, more or less, b=
-ut
-> > > it can't, likely because you're also switching from in-tree build to =
-O=3D
-> > > build?
-> >
-> > Yeah, mixing in-tree and out-of-tree builds causes issues.
-> > Never build in-tree in a source tree you use with O=3D (except for
-> > e.g. "make tags").
+On Wed, 7 May 2025 at 20:16, Kees Cook <kees@kernel.org> wrote:
 >
-> I argue this.
+> While __noinstr already contained __no_sanitize_coverage, it needs to
+> be added to __init and __head section markings to support the Clang
+> implementation of CONFIG_STACKLEAK. This is to make sure the stack depth
+> tracking callback is not executed in unsupported contexts.
 >
-> You can start out-of-tree builds after running 'make mrproper'
-> for the architecture you want to build the kernel for.
+> The other sanitizer coverage options (trace-pc and trace-cmp) aren't
+> needed in __head nor __init either ("We are interested in code coverage
+> as a function of a syscall inputs"[1]), so this appears safe to disable
+> for them as well.
+
+@ Dmitry, Aleksandr - Will this produce some unwanted side-effects for
+syzbot? I also think it's safe, but just double checking.
+
+> Link: https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/kcov.c?h=v6.14#n179 [1]
+> Signed-off-by: Kees Cook <kees@kernel.org>
+
+Acked-by: Marco Elver <elver@google.com>
+
+> ---
+> Cc: Marco Elver <elver@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: <x86@kernel.org>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Cc: Hou Wenlong <houwenlong.hwl@antgroup.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Sami Tolvanen <samitolvanen@google.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: <kasan-dev@googlegroups.com>
+> ---
+>  arch/x86/include/asm/init.h | 2 +-
+>  include/linux/init.h        | 4 +++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 >
-> Hence, Kbuild suggests to do so when it determines
-> the source tree is not clean enough.
-
-Sorry, I meant "without mrproper" (which wipes my tags file).
-
-> Unfortunately, "make mrproper ARCH=3Dum" did not clean the tree
-> deeply enough.   Hence, this patch.
-
-Thanks, fine!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> diff --git a/arch/x86/include/asm/init.h b/arch/x86/include/asm/init.h
+> index 8b1b1abcef15..6bfdaeddbae8 100644
+> --- a/arch/x86/include/asm/init.h
+> +++ b/arch/x86/include/asm/init.h
+> @@ -5,7 +5,7 @@
+>  #if defined(CONFIG_CC_IS_CLANG) && CONFIG_CLANG_VERSION < 170000
+>  #define __head __section(".head.text") __no_sanitize_undefined __no_stack_protector
+>  #else
+> -#define __head __section(".head.text") __no_sanitize_undefined
+> +#define __head __section(".head.text") __no_sanitize_undefined __no_sanitize_coverage
+>  #endif
+>
+>  struct x86_mapping_info {
+> diff --git a/include/linux/init.h b/include/linux/init.h
+> index ee1309473bc6..c65a050d52a7 100644
+> --- a/include/linux/init.h
+> +++ b/include/linux/init.h
+> @@ -49,7 +49,9 @@
+>
+>  /* These are for everybody (although not all archs will actually
+>     discard it in modules) */
+> -#define __init         __section(".init.text") __cold  __latent_entropy __noinitretpoline
+> +#define __init         __section(".init.text") __cold __latent_entropy \
+> +                                               __noinitretpoline       \
+> +                                               __no_sanitize_coverage
+>  #define __initdata     __section(".init.data")
+>  #define __initconst    __section(".init.rodata")
+>  #define __exitdata     __section(".exit.data")
+> --
+> 2.34.1
+>
 
