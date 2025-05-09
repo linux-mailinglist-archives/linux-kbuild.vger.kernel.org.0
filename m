@@ -1,135 +1,126 @@
-Return-Path: <linux-kbuild+bounces-7066-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7067-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A64AAB1ACC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 18:44:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC8BAB1ACD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 18:44:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F39361C24C40
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 16:44:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05E787B265F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 16:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1C723BD05;
-	Fri,  9 May 2025 16:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2782237165;
+	Fri,  9 May 2025 16:44:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sa0otFOD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lV1v+cf7"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413FB23BCFA;
-	Fri,  9 May 2025 16:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D2386352;
+	Fri,  9 May 2025 16:44:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746809030; cv=none; b=qKGgl3b2eJfI2f8IpcAM/yvokKcIY56pgE6/selh6mNaUJTs+YwUZE2sk8asCNAGtJXdkAFsI1tF9Hc+R2DmjU0PCSd9k/C4gEDlV1a0BXns3OFWPw2Qcw0BpdUFRuI5C4EAUD7tergGC41/L1Lk01aCpstWtvDgO1vzGNtWCv0=
+	t=1746809060; cv=none; b=GnykbbOExsDxaeLJ5Vpj7zG0oWPdiJJHMF+4IHa5xj/4ZQo3J1KWUUjuQ+IP63OspdMAol9hARRtk6XBassT5VUyWVtKrRuFjxv0V2SaT9vV+MNO7cDIEnT+vz3jETIOnrWuoYjqCRIZp09KKdNSRSVJkNWRbxR4TrCoOujh1aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746809030; c=relaxed/simple;
-	bh=VB+M5vAwIzWGp+MpkOLUXHL28PE4kRrexHY6v8U4zLU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W6fWBLUnsD20AFKMoOE3lEvRugPz+i6nbHqD01bsI+3ydYNVka9KzcSkszZgz8GTBgk0lHijXJtrYIToiirTDefkAwaynWyA1kKUHXRawMz7mL7PHH+13guyFtCz4Xje+Ky00Menqsw/W0oYUkDKyDkhVqF70CSTxFpKE+YPk4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sa0otFOD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7BDC4CEEE;
-	Fri,  9 May 2025 16:43:47 +0000 (UTC)
+	s=arc-20240116; t=1746809060; c=relaxed/simple;
+	bh=OrTNaCqTg7Wb7eMC4CKBGXhU7TgUADg/DO19JPUXwU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GbUqbOk2s8vW9AoeJ0aNGxPP1ltFYZIjrhqhwK5RYuDIAnXpp9dk6BdLAxzYGriu2MbSVigJ+1P4FJ5+EA/7aRjR/PPonX0XMPUbgUn+pc4x3FIGkVYgCbDBlJq19/hdXAw8YFC7+KZb0Nw8yzt6sfI/nwizVTv5gfPWScQ+Hus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lV1v+cf7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1AD8C4CEE4;
+	Fri,  9 May 2025 16:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746809029;
-	bh=VB+M5vAwIzWGp+MpkOLUXHL28PE4kRrexHY6v8U4zLU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sa0otFODOt8Nvv6jJ84Qe0YxJP12vjMXMFZUKA9YT8I7iHFkTaOL9aXouljzZNVvl
-	 xxsjJZoVivQkoNluoqS03wdvm6YSR4lMMbZ0l1VBRQzB6BEDoN6UtRdej/A35CaL9V
-	 T8ZuThaYGbcNovwENBDut1YreYFPoW0NtmC2WpsfraLhAPBBS//vaZSH9gbwwyIGl5
-	 Lxu3pKDkbn/sIiL97sH0c2j9WoAhX+c7z8dLXnpSVdX+hkI6J4YjrJ394L20Kizc17
-	 qB6QeXneJl9+5ID8246xvCfpyYMk8OEnPaIDPtYlALp0Wj90484pE8uLzYp15CPox/
-	 IH98TZTDtTf4g==
+	s=k20201202; t=1746809059;
+	bh=OrTNaCqTg7Wb7eMC4CKBGXhU7TgUADg/DO19JPUXwU0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lV1v+cf72fQB087lLvvCenKTqn7huyMihzvEETU5ZtRrcU3mqqTGUinHYjf1qHRla
+	 Y0U4c/d4Q4FmelPFoNstuctW+TP/eyDt8Rc5pskC2WQmg7ixmTZ9j/6rRYpFB5v8EV
+	 qn4flEjSzN8N6863HeKZqmxe5Yf2JFTcjdWkqewTe2lvl9Udryrk0qkSJDDuKeTPQD
+	 +OSLt84NKaEF1CrFBl1Nc0YJQM5mv2lKlO4moCVfQFMglHn2gMDM9kH1gMkKKKGbVI
+	 D1yCnVhOG2nA7Hp9JyOZWuJbv8/qT2gbGgv7qsrGn5nUQyR6Pyx2jLam8+VNU7GuZn
+	 69LgY5rDIDt9A==
+Date: Fri, 9 May 2025 18:44:14 +0200
 From: Alexey Gladkov <legion@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
 	Sami Tolvanen <samitolvanen@google.com>,
 	Daniel Gomez <da.gomez@samsung.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>
-Cc: linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v2 6/6] kbuild: Create modules.builtin.modinfo for modpost results
-Date: Fri,  9 May 2025 18:42:37 +0200
-Message-ID: <20250509164237.2886508-7-legion@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1745591072.git.legion@kernel.org>
-References: <cover.1745591072.git.legion@kernel.org>
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 5/7] modpost: Create modalias for builtin modules
+Message-ID: <aB4w3jYu8lavZl3E@example.org>
+References: <efd64a6f-d6e5-4790-96b6-0776cd3a7f5a@suse.com>
+ <20250505093830.25688-1-legion@kernel.org>
+ <CAK7LNARzreJXDX6X_L2iTfb86pKgk7jkFrAp-8UdktZm7BqObg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARzreJXDX6X_L2iTfb86pKgk7jkFrAp-8UdktZm7BqObg@mail.gmail.com>
 
-Create modules.builtin.modinfo as a combination of modinfo from vmlinux
-and the result of generating modalias by modpost.
+On Fri, May 09, 2025 at 12:42:39AM +0900, Masahiro Yamada wrote:
+> On Mon, May 5, 2025 at 6:39 PM Alexey Gladkov <legion@kernel.org> wrote:
+> >
+> > For some modules, modalias is generated using the modpost utility and
+> > the section is added to the module file.
+> >
+> > When a module is added inside vmlinux, modpost does not generate
+> > modalias for such modules and the information is lost.
+> >
+> > As a result kmod (which uses modules.builtin.modinfo in userspace)
+> > cannot determine that modalias is handled by a builtin kernel module.
+> >
+> > $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
+> > pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+> >
+> > $ modinfo xhci_pci
+> > name:           xhci_pci
+> > filename:       (builtin)
+> > license:        GPL
+> > file:           drivers/usb/host/xhci-pci
+> > description:    xHCI PCI Host Controller Driver
+> >
+> > Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
+> > modpost if the module is built separately.
+> >
+> > To fix this it is necessary to generate the same modalias for vmlinux as
+> > for the individual modules. Fortunately '.vmlinux.export.o' is already
+> > generated from which '.modinfo' can be extracted in the same way as for
+> > vmlinux.o.
+> >
+> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
+> > ---
+> >
+> > v2: As Petr Pavlu suggested, I separated the builtin modules from the external
+> >     modules. I've also added a search for duplicate modules.
+> >
+> 
+> 
+> 
+> > ---
+> >  include/linux/module.h   |  4 ----
+> >  scripts/mod/file2alias.c |  5 +++++
+> >  scripts/mod/modpost.c    | 35 +++++++++++++++++++++++++++--------
+> >  scripts/mod/modpost.h    | 15 ++++++++++++++-
+> >  4 files changed, 46 insertions(+), 13 deletions(-)
+> 
+> 
+> I can implement this with less code change.
+> 
+> I attached my patch.
 
-Signed-off-by: Alexey Gladkov <legion@kernel.org>
----
- scripts/Makefile.vmlinux | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+That is a good point. I'm gonna do it this way. Thanks!
 
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 033c22c807b5..7a3a21040c4c 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -70,6 +70,18 @@ endif
- ifdef CONFIG_MODULES
- targets += .vmlinux.export.o
- $(vmlinux-final): .vmlinux.export.o
-+
-+# .module.builtin.modinfo.modpost
-+# ---------------------------------------------------------------------------
-+__default: .modules.builtin.modinfo.modpost
-+
-+OBJCOPYFLAGS_.modules.builtin.modinfo.modpost := -j .modinfo -O binary
-+
-+targets += .modules.builtin.modinfo.modpost
-+.modules.builtin.modinfo.modpost: .vmlinux.export.o FORCE
-+	$(call if_changed,objcopy)
-+
-+modules.builtin.modinfo: .modules.builtin.modinfo.modpost
- endif
- 
- ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
-@@ -97,15 +109,27 @@ ifdef CONFIG_BUILDTIME_TABLE_SORT
- vmlinux: scripts/sorttable
- endif
- 
-+# .module.builtin.modinfo.vmlinux
-+# ---------------------------------------------------------------------------
-+__default: .modules.builtin.modinfo.vmlinux
-+
-+OBJCOPYFLAGS_.modules.builtin.modinfo.vmlinux := -j .modinfo -O binary
-+
-+targets += .modules.builtin.modinfo.vmlinux
-+.modules.builtin.modinfo.vmlinux: vmlinux.o FORCE
-+	$(call if_changed,objcopy)
-+
- # module.builtin.modinfo
- # ---------------------------------------------------------------------------
- __default: modules.builtin.modinfo
- 
--OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
-+quiet_cmd_modules_builtin_modinfo = GEN     $@
-+      cmd_modules_builtin_modinfo = \
-+	cat $< $(wildcard .modules.builtin.modinfo.modpost) > $@
- 
- targets += modules.builtin.modinfo
--modules.builtin.modinfo: vmlinux.o FORCE
--	$(call if_changed,objcopy)
-+modules.builtin.modinfo: .modules.builtin.modinfo.vmlinux FORCE
-+	$(call if_changed,modules_builtin_modinfo)
- 
- # module.builtin
- # ---------------------------------------------------------------------------
 -- 
-2.49.0
+Rgrds, legion
 
 
