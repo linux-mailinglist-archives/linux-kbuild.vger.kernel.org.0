@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7063-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7064-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5125AB1ACE
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 18:44:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 428FBAB1AC9
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 18:44:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CD9716B912
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 16:44:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F9D47AEC68
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 May 2025 16:43:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231CA23817A;
-	Fri,  9 May 2025 16:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D50F239E66;
+	Fri,  9 May 2025 16:43:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GrhYqGKR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhghHEEB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7F5F9C1;
-	Fri,  9 May 2025 16:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43863239085;
+	Fri,  9 May 2025 16:43:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746809023; cv=none; b=SnkkFRw99RuL8PdONRrST4oMt/33l5iwoOTKktpAFmwnRGS+V0o0xfX/ZhJhjUWZxyH7VEy3zIVfFeKSFxN1gfMfcc8K5jEn7qSxe/geE3DarBaW4MTG6PNFXJSYQmugLVa993lsmDpgB0SeXyIPwTvXgWa7eRv0eCFz4rN8h1w=
+	t=1746809024; cv=none; b=bvUPG2+WlbXA5NiZ1BrZfVqwcJGnLbmT8ZojGHWu5gn3amyws8EavSEC+X4QCB5M1lkQEiXKzk41wotNXf5p0TeddO7E8YbaxcxXGKQrVmmpLX05Xi/UMODd1frVBvkJUg4Z90forKTqj4eC0BIiCj+HSgCrjEdqXY1rq9xCcyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746809023; c=relaxed/simple;
-	bh=RYLKPhewo+pQLbsEeVEVyqMLKlwFhIzqJZBOv9JiJWI=;
+	s=arc-20240116; t=1746809024; c=relaxed/simple;
+	bh=MqLt72NbV0WYuDvCjbfFRnilM/7OjYL1Z4TBFF38kms=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bOsaRn05ggmUti/GOsPhchgYlyXyWkRb/s8gD7aVVnal/kJHp2jYpJp07ySKGEZWf5JDqxGnJijM/xqpteZCliq5LzvQeyMtUd+Fu9O2RtpyvQD1hxmcaflGhBismQk78SN764j6oDQAF/tuNZX3mTxnVMihPkC1GqCOly4iKBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GrhYqGKR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07164C4CEED;
-	Fri,  9 May 2025 16:43:38 +0000 (UTC)
+	 MIME-Version; b=bc/niShmtQdsDbXktJ6JgnGpwMRGeEoHsAQ6FSWZcpLP8hKdbSaFGimh2pl7JkUa+/gbtkvNW1+7dhyRjXKP8La5PstunJwZWYc7eZ7DQ9fQgMLK2hjMbcQs/FcQWK+JtMA3D+toPEPJqvVvLpck7bG1Fu+4c3Chu7dTySmNg5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhghHEEB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C659DC4CEE4;
+	Fri,  9 May 2025 16:43:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746809021;
-	bh=RYLKPhewo+pQLbsEeVEVyqMLKlwFhIzqJZBOv9JiJWI=;
+	s=k20201202; t=1746809024;
+	bh=MqLt72NbV0WYuDvCjbfFRnilM/7OjYL1Z4TBFF38kms=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GrhYqGKRdIJw1LR5DmYsay1iOFGTuIp1ZLPFO8h8n0yEtgGZ8ZjmUMt1ptCW7MTsq
-	 lPz6ZRaAvENFjG7G6guSuw8GWE8OFKYGUb5j3wzz/lvgNkxrgUqGlg2Ww3gadB9Hqm
-	 VZmF8NeO9rE0EM6TGBuXZBdmEKN5bm2yduR/CD9QA9BBcJwSujzVkhbnZvLqqGFXKC
-	 CcOFu6Y8eClJzPf14HvyRxQf4uA04n9ReOwc55LFo6E8BPhiayM0Lr7Nfc6I0W1u5B
-	 DdKA84or5CioLaJtRE7LOtpl0Cqis9EvO9QwP1pWO3/1lfcFiUgE71CnoBKlvrSWP9
-	 VhoS10hSLPaJA==
+	b=LhghHEEBld3AW1ff59FiFLvsMTjt2nWBEh4rEFF1VcLnFoIka9z4d06DQYOMy0UVI
+	 KyfUFY8tLA7JlYH71G4r3Kwg9BWOSpY62Z7krZmHOUjUu6cDn1vKJehMILFJHRiByp
+	 dHLR/juNAfN1AsuYBSsP51tKO/IQO2v5c8sAzmELFqFDiRX8sl0NfEYI2c5wMDrbrL
+	 UpDJBo6/PNcic8jmWhzzQIMDFC1nNe3x3jmE3+8ZUOhMLu90uwuuaF3XRsqtGdYpYF
+	 5w5GUeWgHLn3vKmV8RBCwuqRX2VxbnqKylnDa1mhYbmedDjBq8wCow/axzJU1hLcm8
+	 RWbgnb6HqWYLw==
 From: Alexey Gladkov <legion@kernel.org>
 To: Petr Pavlu <petr.pavlu@suse.com>,
 	Luis Chamberlain <mcgrof@kernel.org>,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v2 3/6] modpost: Make mod_device_table aliases more unique
-Date: Fri,  9 May 2025 18:42:34 +0200
-Message-ID: <20250509164237.2886508-4-legion@kernel.org>
+Subject: [PATCH v2 4/6] modpost: Create modalias for builtin modules
+Date: Fri,  9 May 2025 18:42:35 +0200
+Message-ID: <20250509164237.2886508-5-legion@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1745591072.git.legion@kernel.org>
 References: <cover.1745591072.git.legion@kernel.org>
@@ -67,80 +67,132 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In order to avoid symbol conflicts if they appear in the same binary, a
-more unique alias identifier can be generated.
+For some modules, modalias is generated using the modpost utility and
+the section is added to the module file.
 
+When a module is added inside vmlinux, modpost does not generate
+modalias for such modules and the information is lost.
+
+As a result kmod (which uses modules.builtin.modinfo in userspace)
+cannot determine that modalias is handled by a builtin kernel module.
+
+$ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
+pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+
+$ modinfo xhci_pci
+name:           xhci_pci
+filename:       (builtin)
+license:        GPL
+file:           drivers/usb/host/xhci-pci
+description:    xHCI PCI Host Controller Driver
+
+Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
+modpost if the module is built separately.
+
+To fix this it is necessary to generate the same modalias for vmlinux as
+for the individual modules. Fortunately '.vmlinux.export.o' is already
+generated from which '.modinfo' can be extracted in the same way as for
+vmlinux.o.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 ---
- include/linux/module.h   | 14 ++++++++++++--
- scripts/mod/file2alias.c | 18 ++++++++++++++----
- 2 files changed, 26 insertions(+), 6 deletions(-)
+ include/linux/module.h   |  4 ----
+ scripts/mod/file2alias.c | 16 ++++++++++++++++
+ scripts/mod/modpost.c    | 13 ++++++++++++-
+ scripts/mod/modpost.h    |  2 ++
+ 4 files changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/module.h b/include/linux/module.h
-index de0da7c7cf03..01fceca47a5b 100644
+index 01fceca47a5b..17e69e4a1802 100644
 --- a/include/linux/module.h
 +++ b/include/linux/module.h
-@@ -249,10 +249,20 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
- /* What your module does. */
- #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _description)
+@@ -259,14 +259,10 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
+ 	__PASTE(type,			\
+ 	__PASTE(__, name)))))))
  
-+/* Format: __mod_device_table__<counter>__kmod_<modname>__<type>__<name> */
-+#define __mod_device_table(type, name)	\
-+	__PASTE(__mod_device_table__,	\
-+	__PASTE(__COUNTER__,		\
-+	__PASTE(__,			\
-+	__PASTE(__KBUILD_MODNAME,	\
-+	__PASTE(__,			\
-+	__PASTE(type,			\
-+	__PASTE(__, name)))))))
-+
- #ifdef MODULE
+-#ifdef MODULE
  /* Creates an alias so file2alias.c can find device table. */
--#define MODULE_DEVICE_TABLE(type, name)					\
--extern typeof(name) __mod_device_table__##type##__##name		\
-+#define MODULE_DEVICE_TABLE(type, name)			\
-+extern typeof(name) __mod_device_table(type, name)	\
+ #define MODULE_DEVICE_TABLE(type, name)			\
+ extern typeof(name) __mod_device_table(type, name)	\
    __attribute__ ((unused, alias(__stringify(name))))
- #else  /* !MODULE */
- #define MODULE_DEVICE_TABLE(type, name)
+-#else  /* !MODULE */
+-#define MODULE_DEVICE_TABLE(type, name)
+-#endif
+ 
+ /* Version of form [<epoch>:]<version>[-<extra-version>].
+  * Or for CVS/RCS ID version, everything but the number is stripped.
 diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 00586119a25b..dff1799a4c79 100644
+index dff1799a4c79..d42f2c742fd6 100644
 --- a/scripts/mod/file2alias.c
 +++ b/scripts/mod/file2alias.c
-@@ -1476,8 +1476,8 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+@@ -1527,5 +1527,21 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 		}
+ 	}
+ 
++	if (mod->is_vmlinux) {
++		struct module_alias *alias;
++
++		/*
++		 * If this is vmlinux, record the name of the builtin module.
++		 * Traverse the linked list in the reverse order, and set the
++		 * builtin_modname unless it has already been set in the
++		 * previous call.
++		 */
++		list_for_each_entry_reverse(alias, &mod->aliases, node) {
++			if (alias->builtin_modname)
++				break;
++			alias->builtin_modname = xstrndup(modname, modnamelen);
++		}
++	}
++
+ 	free(zeros);
+ }
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index be89921d60b6..c7c601c6f82d 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2021,11 +2021,22 @@ static void write_if_changed(struct buffer *b, const char *fname)
+ static void write_vmlinux_export_c_file(struct module *mod)
  {
- 	void *symval;
- 	char *zeros = NULL;
--	const char *type, *name;
--	size_t typelen;
-+	const char *type, *name, *modname;
-+	size_t typelen, modnamelen;
- 	static const char *prefix = "__mod_device_table__";
+ 	struct buffer buf = { };
++	struct module_alias *alias, *next;
  
- 	/* We're looking for a section relative symbol */
-@@ -1488,10 +1488,20 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
- 	if (ELF_ST_TYPE(sym->st_info) != STT_OBJECT)
- 		return;
+ 	buf_printf(&buf,
+-		   "#include <linux/export-internal.h>\n");
++		   "#include <linux/export-internal.h>\n"
++		   "#include <linux/module.h>\n");
  
--	/* All our symbols are of form __mod_device_table__<type>__<name>. */
-+	/* All our symbols are of form __mod_device_table__<counter>__kmod_<modname>__<type>__<name>. */
- 	if (!strstarts(symname, prefix))
- 		return;
--	type = symname + strlen(prefix);
+ 	add_exported_symbols(&buf, mod);
 +
-+	modname = strstr(symname, "__kmod_");
-+	if (!modname)
-+		return;
-+	modname += strlen("__kmod_");
++	list_for_each_entry_safe(alias, next, &mod->aliases, node) {
++		buf_printf(&buf, "MODULE_ALIAS_MODNAME(\"%s\", \"%s\");\n",
++			   alias->builtin_modname, alias->str);
++		list_del(&alias->node);
++		free(alias->builtin_modname);
++		free(alias);
++	}
 +
-+	type = strstr(modname, "__");
-+	if (!type)
-+		return;
-+	modnamelen = type - modname;
-+	type += strlen("__");
+ 	write_if_changed(&buf, ".vmlinux.export.c");
+ 	free(buf.p);
+ }
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 9133e4c3803f..2aecb8f25c87 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -99,10 +99,12 @@ buf_write(struct buffer *buf, const char *s, int len);
+  * struct module_alias - auto-generated MODULE_ALIAS()
+  *
+  * @node: linked to module::aliases
++ * @modname: name of the builtin module (only for vmlinux)
+  * @str: a string for MODULE_ALIAS()
+  */
+ struct module_alias {
+ 	struct list_head node;
++	char *builtin_modname;
+ 	char str[];
+ };
  
- 	name = strstr(type, "__");
- 	if (!name)
 -- 
 2.49.0
 
