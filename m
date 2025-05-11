@@ -1,121 +1,132 @@
-Return-Path: <linux-kbuild+bounces-7071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7072-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4276AAB262E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 04:14:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2706AB2653
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 05:37:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 189F67A6B37
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 02:13:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 337DE178B52
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 03:37:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11A501465AE;
-	Sun, 11 May 2025 02:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF8C7166F1A;
+	Sun, 11 May 2025 03:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1IW0YD1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ns54DvY4"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D970844C7C
-	for <linux-kbuild@vger.kernel.org>; Sun, 11 May 2025 02:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8D417BB6;
+	Sun, 11 May 2025 03:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746929672; cv=none; b=e9cr9c03LzAEH0epbif2bOmRSvBYpt8kMzS2ciHBxcPVQcXYe3dHxtjTCCK4wsT9oFeeqe0I1CNu+qVpnXLAircRjv5vlpmud09lm6jWlDYx/d2bWOR80lyqHhGN3myypr0E2/PBET5TXcFR7OrmMAZWpespxXbG2orDrfISu9s=
+	t=1746934661; cv=none; b=ky+s3qmgigPxnO739XvdhFxSibkVAL77Wr3neA6D3ERULMZfjPw+tRzXNQmRnUU8mU5TDGuYE5jcejw6u0i7JIDK+OzCXR3sLD58KhqJrm91onKnC37qvA5ZRITwuwBSVuS099cMDqh/w7X9j3b0qpc72LiQh3b7ytb325pHNv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746929672; c=relaxed/simple;
-	bh=ErdE1KVMfWPkKsMxBdbzTAnSvWDLWI4LLjWjznFIFAE=;
+	s=arc-20240116; t=1746934661; c=relaxed/simple;
+	bh=tv8sM48QUQnYFuWY8j3But9w9+nOTUysCQCeSSq/cvI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Is7yoIyGvarogT+mTOfdpZArla+MG67YeTwrF/P01nhTfzGCSOadJLT9QaocM9jzPEGuLB1OXOxTb91x73zEpaZgl68XUyyFvmhmvTir802doOD7laxmTQuZpBf07sTUIU3EEghkwfJVNe96iAjLc9HyfRi/8TIppnrEgu6ulEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1IW0YD1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38B8FC4CEEB
-	for <linux-kbuild@vger.kernel.org>; Sun, 11 May 2025 02:14:32 +0000 (UTC)
+	 To:Cc:Content-Type; b=Aqhjp7bBGgEG5/YbQ8c3Rx5TaXkhfFbHlbSSqj1S4L8luqmui6wfUtBJBdtdOZAiwRyIX0iOLDUG4/UppLavOzgWc+lhmnJc58X6PoRNNApQL8BckwIPtQv9N9+tARpwFWoxtYk3etNNOgGPp/JD7REKieN7NNSLeA2cnbuSaDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ns54DvY4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B92C4CEEF;
+	Sun, 11 May 2025 03:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746929672;
-	bh=ErdE1KVMfWPkKsMxBdbzTAnSvWDLWI4LLjWjznFIFAE=;
+	s=k20201202; t=1746934659;
+	bh=tv8sM48QUQnYFuWY8j3But9w9+nOTUysCQCeSSq/cvI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=D1IW0YD1PWiJE7OexRFET8O5OoDdN/n+H+arvcGWRYzDPMBLnLwS7wBDNnB5yAxhL
-	 ylfsP9uxJzMd0NTxXPAeXHqq1kycZyDThZpY7qV0bJNBtaByGa3Gi+w6CUcx4TvJ7Q
-	 DN5kneaArqhcJFZ9EFuoR9zWEkxh2laX1LhLrZ5PTtbMKgWbdR5vO4pvI4rU0Cljeh
-	 SoL6hb+EFl+I94+/CrjFVOzvQPhkXkl5ucRcMwjXldZ4a8UuCqNzktPwx7j3xeUKyl
-	 96YqxHULEPy323MNYOsLGWDN0jh2e+XwlPuC93HfCvn4PTjDwQeLQ9yMvJcVAulu+4
-	 7bUct8jdLE4fQ==
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5fcab0243b5so2887212a12.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 May 2025 19:14:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWvBG0SNFPdmawfFxcF9joDodYK8Xz1T1kCPgsQfRlPHAEqRd78rxJwXpbbxdpWwOOzdU8OmMI8pQZXfls=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDXjpC+95lWpv08VBYsEHqEHMaRlwhW89fXohCxIeZu2LdFR8T
-	cdvQIScEJOH4RNeO/aX2vVfFjT/Ju+TTHQJ0sa1+aajcG1gAMtFNqU3HCENgqFAhsOVCIeBOTbP
-	mDfNz3MlFfLnmncthYWnDNn+rbI5CPR2orHKg
-X-Google-Smtp-Source: AGHT+IExXmbIf+BhGVnj7doD3WnX7s+dvlTY3FdrciBuDVwzwOxxJvaT9GkVsNX9nEvSMBd0KFEz7jYxBN5tsLhkF2M=
-X-Received: by 2002:a05:6402:2396:b0:5fc:a51a:9c03 with SMTP id
- 4fb4d7f45d1cf-5fca51a9f9fmr4891240a12.0.1746929670732; Sat, 10 May 2025
- 19:14:30 -0700 (PDT)
+	b=ns54DvY4gvSO9qsL5HASYEdHS9OUC7FVnssa1PKYaFW1X41pR/9MgyiPhSPJUqYTp
+	 lqp6Xoi918hJJ0NgxdPIR42kXa9xaKNNgwgwJLn3sb94Zw+F/+Q2pMM0xhnX0NS8am
+	 u2dakWRe9tUtf7N+YXNBNvrBbavqjOUpCKoVWcu/OwQCcIC+mL0/ExpTBd8hZFf1PA
+	 nd52e6fNiplcfzqDpI26/YTSifi8PCqvZSBbNKQmMhe+OFTX+D70oxOfE/F3cy61dN
+	 VvRBHqHUVOixeYZL2zyEk0OZnXJ15HgEmbHSNkJ7eJUea6XbrEDTcNbU8fx4YMC2Va
+	 HaezDWyEj40IQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30db3f3c907so32230081fa.1;
+        Sat, 10 May 2025 20:37:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVWLa2VKc8sxqnMkcYDoI0dfH4/s6XQleadH6gd/J9BCRENZ64VaNHsoVby350wjmJGKXkfXFB/hZD7mspX@vger.kernel.org, AJvYcCXNF4hLkc64DiQcbkEvtpuHMMusJ79ubeUcxFgQQljx1MXjUB5TDd+h1Y3C9rCMNoDQUSI87CojdLMgb0dm@vger.kernel.org, AJvYcCXf3jRGacVuWFGeaSZm2j/lahZ6FvjdwoTGhjRj8Vhyu9LXU52Azonb2vsnaZ1S/k7Tig1dLpmYdwE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvPKcAonqISm9PeqR0t7O4d1/3FUJ8SwC0iFxOPdDXYE6VC6Uc
+	pixJ7nuBO5nVR00StRxLWl8TXPruQpSMpk7c+cgRjq0Ct2QjQOPx9cNsSriJ8S+Lopk79H7xr13
+	Ax6+3ZbnPjHUBpb0zVrwzM4hHURc=
+X-Google-Smtp-Source: AGHT+IGohHgR0c/CYoeV3cjcOvlGcK+kydJ3ZkZAGhP4m7AtpnaLaFHRSvPHsKGfxQxrD43XKQcTaTGGM6xMsn75eTQ=
+X-Received: by 2002:a05:651c:158c:b0:2ff:56a6:2992 with SMTP id
+ 38308e7fff4ca-326c46ae922mr34320631fa.37.1746934658486; Sat, 10 May 2025
+ 20:37:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <87o6w7ge3o.fsf@microsoft.com>
- <CACYkzJ7Ur4kFaGZTDvcFJpn0ZwJ9V+=3ZefUURtkrQGfa68zLg@mail.gmail.com>
- <5dbc2a55a655f57a30be3ff7c6faa1d272e9b579.camel@HansenPartnership.com>
- <CAHC9VhSPLsi+GBtjJsQ8LUqPQW4aHtOL6gOqr9jfpR0i1izVZA@mail.gmail.com>
- <CAADnVQ+C2KNR1ryRtBGOZTNk961pF+30FnU9n3dt3QjaQu_N6Q@mail.gmail.com> <CAHC9VhRjKV4AbSgqb4J_-xhkWAp_VAcKDfLJ4GwhBNPOr+cvpg@mail.gmail.com>
-In-Reply-To: <CAHC9VhRjKV4AbSgqb4J_-xhkWAp_VAcKDfLJ4GwhBNPOr+cvpg@mail.gmail.com>
-From: KP Singh <kpsingh@kernel.org>
-Date: Sun, 11 May 2025 04:14:20 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ528JBKbhiw1HNfv1kDBYv_C76cFB8a_Wa6DSqZp5_XuA@mail.gmail.com>
-X-Gm-Features: AX0GCFtRm2U2Z08Q-5iN5TPSVkChFMpfYbeWxPh5iWXOgSo5pdg9_y4ozgwfcPs
-Message-ID: <CACYkzJ528JBKbhiw1HNfv1kDBYv_C76cFB8a_Wa6DSqZp5_XuA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: Paul Moore <paul@paul-moore.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Blaise Boscaccy <bboscaccy@linux.microsoft.com>, bpf <bpf@vger.kernel.org>, code@tyhicks.com, 
-	Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
-	David Howells <dhowells@redhat.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	James Morris <jmorris@namei.org>, Jan Stancek <jstancek@redhat.com>, 
-	Justin Stitt <justinstitt@google.com>, keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nicolas@fjasle.eu>, nkapron@google.com, 
-	Roberto Sassu <roberto.sassu@huawei.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Shuah Khan <shuah@kernel.org>, Matteo Croce <teknoraver@meta.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, kysrinivasan@gmail.com
+References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+ <aBEttQH4kimHFScx@intel.com> <5e996ded-2325-48b5-9cde-972b70e0934a@t-8ch.de>
+In-Reply-To: <5e996ded-2325-48b5-9cde-972b70e0934a@t-8ch.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 11 May 2025 05:37:02 +0200
+X-Gmail-Original-Message-ID: <CAK7LNAR8pRJXCPaiEjUAQs9L-FM3p3yv5wTfSjw5FN616hqDYQ@mail.gmail.com>
+X-Gm-Features: AX0GCFvrHv49d4NNQEfir1SoZpA39P5wX2n4q3mpmv5akjX7zL-kQAsb_Q060yk
+Message-ID: <CAK7LNAR8pRJXCPaiEjUAQs9L-FM3p3yv5wTfSjw5FN616hqDYQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: make all file references relative to source root
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[...]
+On Mon, May 5, 2025 at 9:30=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weisssc=
+huh.net> wrote:
+>
+> On 2025-04-29 22:51:17+0300, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > On Sat, Mar 15, 2025 at 02:20:14PM +0100, Thomas Wei=C3=9Fschuh wrote:
+> > > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+> > > Other references, for example in debug information, are not affected.
+> > > This makes handling of file references in the compiler outputs harder=
+ to
+> > > use and creates problems for reproducible builds.
+> > >
+> > > Switch to -ffile-prefix map which affects all references.
+> > >
+> > > Also drop the documentation section advising manual specification of
+> > > -fdebug-prefix-map for reproducible builds, as it is not necessary
+> > > anymore.
+> >
+> > Hi,
+> >
+> > This broke 'objdump -S' completely for me.
+> >
+> > I see the following difference in the debug info:
+> > -    <12>   DW_AT_name        : (indirect line string, offset: 0): driv=
+ers/gpu/drm/i915/i915_config.c
+> > -    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x23): /=
+home/.../src/linux-2.6/build
+> > +    <12>   DW_AT_name        : (indirect line string, offset: 0): ../d=
+rivers/gpu/drm/i915/i915_config.c
+> > +    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x26): /=
+home/.../src/linux-2.6/build
+> >
+> > Looks like I can work around it with some combination of --prefix and
+> > --prefix-strip, but that seems far too tedious to have to do every
+> > time I need to decode an oops.
+>
+> Yeah the --prefix and --prefix-strip mechanism is only an ugly
+> workaround.
+> Unfortunately I don't see a nice for this issue at the moment.
+>
+> Masahiro, could you revert this commit for now?
+> I'll try to come up with something better.
 
-> Blaise started this most recent effort by attempting to address the
-> concerns brought up in previous efforts, you and others rejected this
-> first attempt and directed Blaise towards a light skeleton and LSM
-> based approach, which is where he is at with Hornet.  Once again, you
-> reject this approach with minimal guidance on what would be
-> acceptable, and our response is to ask for clarification on your
-> preferred design.  We're not asking for a full working solution,
-> simply a couple of paragraphs outlining the design with enough detail
-> to put forward a working solution that isn't immediately NACK'd.
-> We've made this request multiple times in the past, most recently this
-> past weekend, where KP replied that he would be "happy" to share
+Could you submit a patch
+with a commit description?
 
-Here's the proposed design:
-
-https://lore.kernel.org/bpf/CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com/#t
+Thanks.
 
 
-> designs/code.  Unfortunately, since then all we've received from
-> either you or KP since then has been effectively just a list of your
-> objections on repeat; surely typing out a couple of paragraphs
-> outlining a design would have been quicker, easier, and more
-> constructive then your latest reply?
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
