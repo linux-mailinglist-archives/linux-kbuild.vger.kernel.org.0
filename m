@@ -1,105 +1,126 @@
-Return-Path: <linux-kbuild+bounces-7078-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7079-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6D9AB2715
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 09:54:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C04CAB2B3F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 22:59:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 461077A3CEF
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 07:53:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E42D0189677E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 20:59:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BD691A0731;
-	Sun, 11 May 2025 07:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA8625E45A;
+	Sun, 11 May 2025 20:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W+AB8vmh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IxMX8Rs6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E82014A09C;
-	Sun, 11 May 2025 07:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35389258CE7;
+	Sun, 11 May 2025 20:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746950088; cv=none; b=LYOJdFqusj4R84kYDk4JN6V2HDb1mZDHzaKJ4Eza9ue+gcoKzFHEroXpKkyKrUyEbmZHc8ixeeeBXd7dO/9kDC1oHcwbrE5YwPP9/Bi/GNsmnhskVowcxaCEnb1txjYnO/cMFOucaq9rgNAFvzAsdrsmze3YKI2u2xK9BcsjDnQ=
+	t=1746997146; cv=none; b=nR6VOzLlS+GywoZYdubPW38acu8gxYpfc1DJg5pBZNdSUux43lEn1lZOmbr8sYh3KuRtidHHT4RIraqLUn6gv+uQrMPDRWdyEKO5k3+ksHn5jsN6+zYEFOdHKKwlvPKeUK+ztTfW+fZpa8QuxgP7XB70Kt/Of20dyeeqZGtUPdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746950088; c=relaxed/simple;
-	bh=KgvWuLu5TUpF+XEUjnoVatiRAl9NxuEB+3LgfTLZt0E=;
+	s=arc-20240116; t=1746997146; c=relaxed/simple;
+	bh=I+7mTqz9bA7cqWlrqsmkwHvyBbp/D75ty5hCJzxapuQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z2hwBuRpFhdyIrhOpjlnXaM0piEm6mrWt9AtvX4/Laega8iUyUtKJOjmXzpJ0wI9IReXj1yLHD7XB/aVgDbUPQGwUOpZ3wVfNG0KR1FwelycoBjVzOkmuS58b5URoDPR/S1rJB99lDiDmu35YCSYOlb2MmfkjpsyngrZmbTJku8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W+AB8vmh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 984A8C4CEEF;
-	Sun, 11 May 2025 07:54:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746950087;
-	bh=KgvWuLu5TUpF+XEUjnoVatiRAl9NxuEB+3LgfTLZt0E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=W+AB8vmhAS10vF7ZQJGfehbpaGSDo+4xQcdkgE1ph2fpDBH9JqF4AqIO3tWi2+M4r
-	 jMXKEGyGB94+om9QNfq//2CmSK/8iKKiNuA9mFF8IO67lHZMHXjMjO+YgQGEJAorKT
-	 JPtJ0jGfz9pILBkXCS5lARw2cp4XhQSmDLokKsWn8MBQ1Txb26IWzQWeHfzsedwOVT
-	 aXAJKgMkhad8g7tnbukc0ePf4zud5LlguZf0Mu/wysTCOkGs2sejNiHORcrBCfYT2+
-	 k6KFb87Tfx8m7+UngBng83OURL6iSH0WzwWOc2vu/b+9Is5a9ZC9S549xeIdYf4dNP
-	 h8Zod+xyGqLRg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-549b116321aso3577672e87.3;
-        Sun, 11 May 2025 00:54:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUfmxdKjT4BgaplFp2O8IUmCvkMh66CfPEeStfaoaQBxJMZhgg1IvOsHhozlBDSnGTm8TT3OfYFnq1lg2M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdkWzC+3yMIjCZgGiB3JSFmwqR4Q/H4YKSzdDwYRFzSfKNSEzA
-	RoSBRDwHmcDEtux+fdkYrHAF2bK+FexgA/+AKZCrbHRzj8u7S/ot5tZkf8D1H2Td+YGPmr6Wsyl
-	pziMYOBvwgM4oV2il/8EDCGKm034=
-X-Google-Smtp-Source: AGHT+IHWqK7uziKxehVAuu+xWXBOVRtMOYO+3UKxvXp9XsUD/fQJaHzCoHvZdBJbTbKh84o/BsLBo/ohoUyYKCILdGY=
-X-Received: by 2002:a05:651c:1464:b0:308:e54d:6195 with SMTP id
- 38308e7fff4ca-326c461945dmr33682671fa.24.1746950085976; Sun, 11 May 2025
- 00:54:45 -0700 (PDT)
+	 To:Cc:Content-Type; b=hQnqAmnSS9tPT2QT9yN8W6sz9CA+MuIFCkKp3DFR/OaUhZ2uQJeCpjpXpXoqMfg/Jr0erMPp4lvXoOaZO4EP0tksgMB9VfyTZtkU9kkx/GmfxhFV6SkJI3khg/GgTBx1GnB3oq16xB/fW8vquQGemb1ckgtarimSBCvgQK1eH5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IxMX8Rs6; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22fa82144bfso2748615ad.1;
+        Sun, 11 May 2025 13:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746997144; x=1747601944; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I+7mTqz9bA7cqWlrqsmkwHvyBbp/D75ty5hCJzxapuQ=;
+        b=IxMX8Rs6wxkL59yGauijt1+D3H9ej0mN6n1AhSU9S5Kpa74Ehaocm0X/1Vhcajl1rt
+         wZILrTd36WkUuNIeUxHV7bLBFyvLZXMeETI9Vv8NCVazlfwnu0HA+74w+yApE1OSauQJ
+         E0U5y5jujyRuQ77RiAgBO+Vek0mVjnbdzvMBo+WxvR6MiJGRCc6A/gf/MDCsWwxcwt9h
+         avau2d604zPgts6K905VIA5YSGTAVaFO/yirCx0Tzgh6Fep0Wc3leDyhchRfE/YfrN4d
+         v/apP8m+5ZkRCuf7enPX7uJ4udcDyWeuJcWBqkooNSMn23iBfthzrV/QQz9Q+aS/2pJQ
+         W/Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746997144; x=1747601944;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I+7mTqz9bA7cqWlrqsmkwHvyBbp/D75ty5hCJzxapuQ=;
+        b=kO5G8Gqwy83DkJea0m9QVwjrW/OhYBGm56hO2vweDn22lQW6xOnKMCj+La+Qptj8XM
+         ZB85niPOh3kDuBphi2jm4rXUcz5rVH7IldFP+yZPYEbYVBfdKML5dyavqUaa/X7vLsqJ
+         Teaw9TFMCl933uigzqzM5kMFxKTo6/fcjNqgXTyYlaORYPB+ado0OHTCbG9rR96P0BDx
+         pLFyLIewuR+ar268jfaxddxsPX076jtopxoTF+jmZ+NVsbdMwNW0DTATPLMHdji6GTn/
+         q8PzXTQAOBbOAhKAXi7zQHA87LOimWoJx3eAnYJKvIeFlIVyfFAnsQhWY7L1rzUI5as9
+         Vibw==
+X-Forwarded-Encrypted: i=1; AJvYcCVdocL/AuJBEJ8OJz2kI0bnveyO6KMdHTxHzRFNTBbdFyPuhBbzNoooQl7Uw6shub8IJ08MQXw4tUopZQuk6JI=@vger.kernel.org, AJvYcCWu7I7Bp2falV5PLOu0nx1iu8aHB1e0sXsssGeExhYdDJBUKzzi19Rxv+hi2llgljUNa4an1wpL10VzvBqY@vger.kernel.org, AJvYcCXJemPjDDWFOZI1Ms97W7UQ6KEMm7w01vHKiHCxsflDtJebq061brnYn14HB/lvUeeWWNEzZA6yp9M=@vger.kernel.org, AJvYcCXQbCLFNYRAk2PuOcD8ysjuQvI42/gxEb5i60dbXYTR2IFVBzwifQY7xDoAuR1kA//pa4hAz98mteFeYvcL@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR4hcUw4lWnLlqtX+dzISIku6JDlDGY+3APE+XrZPx0c+yALKT
+	VZFYWMJt0anDGNOWwIa8POzSrCbG4tQIH4EgdSj9RKdgC4APge2rfpTChFtiVHQH6K7VsQYjxRQ
+	APSWJSiofOfIct4Jn1gfNaJjbYEk=
+X-Gm-Gg: ASbGncvVBBqTCKWzVLWanWui1gNg5ASig++Mw4MmCttBrJKlVTLU7htkEx7enbHVvPc
+	fgoYRGWrDSL/laEhAg04b/tvacfc+GhYxveB4rHWGXX60lBd4n4WUXoYFNFESxlBo6cUa6rp5ca
+	/oXHiLmcz6XLscsp8qODlmh0hsctWg8Enr
+X-Google-Smtp-Source: AGHT+IGSrGXIc0eSPEVvfwMhPcBBnCBF0LQtW092lfGKgpi8JT+asR257TaRW1aiJIpUZmH6wwrGx5MuoNcO58snZeQ=
+X-Received: by 2002:a17:902:ced0:b0:224:216e:38bd with SMTP id
+ d9443c01a7336-22fc8b3b40fmr68532115ad.5.1746997144342; Sun, 11 May 2025
+ 13:59:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250511035522.62273-1-masahiroy@kernel.org>
-In-Reply-To: <20250511035522.62273-1-masahiroy@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Sun, 11 May 2025 09:54:34 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXH6M=f=8=MmTjQ6GJCPsywCkozvkfJAf7hK0c8m3QkXGA@mail.gmail.com>
-X-Gm-Features: AX0GCFssYGfTPeovmMh1KrZExwzhtI6Kl50uGSrj5QAng_jWgkFRGx23Ih-P3OE
-Message-ID: <CAMj1kXH6M=f=8=MmTjQ6GJCPsywCkozvkfJAf7hK0c8m3QkXGA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix dependency on sorttable
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>
+References: <20250511-kbuild-revert-file-prefix-map-v1-0-9ba640c8411e@weissschuh.net>
+ <20250511-kbuild-revert-file-prefix-map-v1-2-9ba640c8411e@weissschuh.net>
+In-Reply-To: <20250511-kbuild-revert-file-prefix-map-v1-2-9ba640c8411e@weissschuh.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 11 May 2025 22:58:52 +0200
+X-Gm-Features: AX0GCFuCunDLzYkVoSEQffxotswvcpVe2KNib0F5mLDPZUIE28H55TOFXZWjOEc
+Message-ID: <CANiq72mrXv8JfsOE3vERAZCVhXs5JPsMRu3jAPPoNzFao2qdjQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Revert "kbuild, rust: use -fremap-path-prefix to make
+ paths relative"
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Matthieu Baerts <matttbe@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 11 May 2025 at 05:55, Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sun, May 11, 2025 at 8:02=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weisss=
+chuh.net> wrote:
 >
-> Commit ac4f06789b4f ("kbuild: Create intermediate vmlinux build with
-> relocations preserved") missed replacing one occurrence of "vmlinux"
-> that was added during the same development cycle.
->
-> Fixes: ac4f06789b4f ("kbuild: Create intermediate vmlinux build with relocations preserved")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Fixes: Fixes: dbdffaf50ff9 ("kbuild, rust: use -fremap-path-prefix to mak=
+e paths relative")
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Double "Fixes:"
 
-> ---
->
->  scripts/Makefile.vmlinux | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-> index b0a6cd5b818c..d14ab3409da6 100644
-> --- a/scripts/Makefile.vmlinux
-> +++ b/scripts/Makefile.vmlinux
-> @@ -94,7 +94,7 @@ $(vmlinux-final): $(RESOLVE_BTFIDS)
->  endif
->
->  ifdef CONFIG_BUILDTIME_TABLE_SORT
-> -vmlinux: scripts/sorttable
-> +$(vmlinux-final): scripts/sorttable
->  endif
->
->  # module.builtin.ranges
-> --
-> 2.43.0
->
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+
+Hmm... could you please give a bit of detail on what workflow breaks?
+I quickly tried to open a C and a Rust object file with gdb and it
+seemed fine. I can try later on after some travel.
+
+In any case, Masahiro: if you need to revert, then please feel free to add:
+
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+
+(We can keep commit 2c8725c1dca3 ("rust: kbuild: skip
+`--remap-path-prefix` for `rustdoc`") since it just filters out; and
+that way we don't forget re-adding it if needed).
+
+Thanks!
+
+Cheers,
+Miguel
 
