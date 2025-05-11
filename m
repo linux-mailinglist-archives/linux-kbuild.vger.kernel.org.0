@@ -1,113 +1,334 @@
-Return-Path: <linux-kbuild+bounces-7069-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7070-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3DAAB2473
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 May 2025 17:40:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E8FAB261A
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 04:01:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 270F017D90F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 May 2025 15:40:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 277187AE30F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 May 2025 02:00:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E0122D4D4;
-	Sat, 10 May 2025 15:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0C0913BC35;
+	Sun, 11 May 2025 02:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lxm.se header.i=@lxm.se header.b="PptzLYqb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SknmlYj2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.outgoing.loopia.se (smtp.outgoing.loopia.se [93.188.3.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B1B4B1E57
-	for <linux-kbuild@vger.kernel.org>; Sat, 10 May 2025 15:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.188.3.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B803136988
+	for <linux-kbuild@vger.kernel.org>; Sun, 11 May 2025 02:01:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746891638; cv=none; b=TCIgwXWNqsM3DahFZaM90C0xioMlLCNdclARxg1W2PxO+KfPv1lyqweXGZg/3NGBRT8B9tCp5bXsZEc/mzw5PIJsjCjfNGCT5WWVGeFOJ5sbm29//zuqTVJX5oLV2RILLzs2ln4vEby718DZiyrrwQKWKpB8wlXfQHoufI8LxT4=
+	t=1746928898; cv=none; b=UNjAVHDNmVUfP8E00S6oMXHNyqI2cLt54qV9r+m4y1X6vh/G0tmAPY7ivCgDlRsqF0H8YEXKLrnQOqY+IlzIJRxEDDtCpEGXV+RIrsh2Lulw/oXatp69ugpD0N7cOBob7dzuhrJOQYW8XAE0OISEvrTYkk9/Uj3FogJSbid/c40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746891638; c=relaxed/simple;
-	bh=KQnU/8biptC1lyMJGcNts0DIV/7C76t6ScF3y+7ePT0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=lkhkmjbhgJOXeWBU91Xm4YlRYiTLbkCI46n+Jgkl2iI7uoWBIc7Q/Uqq22zqdc2Ao2vzgv6W4VCzEndZZ0lnJpSyhkIoguuOEcXdkpOZ7dJyeHLLsV+VtGFvXMAtZ302dbAOHi3ozzJk0Ie3TyM0Rjb87HeNpXM1a472y9TX4F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lxm.se; spf=pass smtp.mailfrom=lxm.se; dkim=pass (2048-bit key) header.d=lxm.se header.i=@lxm.se header.b=PptzLYqb; arc=none smtp.client-ip=93.188.3.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lxm.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lxm.se
-Received: from s807.loopia.se (localhost [127.0.0.1])
-	by s807.loopia.se (Postfix) with ESMTP id 5B412328922
-	for <linux-kbuild@vger.kernel.org>; Sat, 10 May 2025 17:33:51 +0200 (CEST)
-Received: from s934.loopia.se (unknown [172.22.191.6])
-	by s807.loopia.se (Postfix) with ESMTP id 40F62326E58;
-	Sat, 10 May 2025 17:33:51 +0200 (CEST)
-Received: from s474.loopia.se (unknown [172.22.191.5])
-	by s934.loopia.se (Postfix) with ESMTP id 37AE27CE9FA;
-	Sat, 10 May 2025 17:33:51 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-X-Spam-Flag: NO
-X-Spam-Score: -1.2
-X-Spam-Level:
-Authentication-Results: s474.loopia.se (amavisd-new); dkim=pass (2048-bit key)
- header.d=lxm.se
-Received: from s979.loopia.se ([172.22.191.6])
- by s474.loopia.se (s474.loopia.se [172.22.190.14]) (amavisd-new, port 10024)
- with LMTP id vG2lrLdINikH; Sat, 10 May 2025 17:33:50 +0200 (CEST)
-X-Loopia-Auth: user
-X-Loopia-User: henrik@lxm.se
-X-Loopia-Originating-IP: 92.35.16.29
-Received: from pc.arpa.home (c-92-35-16-29.bbcust.telenor.se [92.35.16.29])
-	(Authenticated sender: henrik@lxm.se)
-	by s979.loopia.se (Postfix) with ESMTPSA id 9AE1410BC394;
-	Sat, 10 May 2025 17:33:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lxm.se;
-	s=loopiadkim1708025221; t=1746891230;
-	bh=dGzqMlkGrM/RG1QWaZUTpamCo8a7h4gI2wxn4xA3pJw=;
-	h=From:To:Cc:Subject:Date;
-	b=PptzLYqbrSG951A+OIcWhz7KaS6qGgb4EiULRKlRyYTYZDU7MjrJJCuzgBEDnYxiP
-	 b0/iZivq3HMEFzYOb8KOQDFybbY6/9/w1A9rxWs0bmvIV35+d8s4vlBBN/wnbbjs8o
-	 Ve7yzFLJ+PCYwmOck3+gFcNd94Da+7yWbeRpzPpCxJMCL2RlVP2WOTtbyjjMnCOZOh
-	 uc/JbGSq+dWUwXoUiNDjxpY/ROYAJAAwdXULOOgthaUgvI1LdCuQYZw2QXrWkvFJJL
-	 hb+hyu8QMVmkAva54vfMJMjoCOsWWp1XNZTzxC35X83/1AdqDiuA5rQrf05wUhCrJW
-	 IOuboXLs15GaA==
-From: =?UTF-8?q?Henrik=20Lindstr=C3=B6m?= <henrik@lxm.se>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas.schier@linux.dev
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Henrik=20Lindstr=C3=B6m?= <henrik@lxm.se>
-Subject: [PATCH] Makefile: remove dependency on archscripts for header installation
-Date: Sat, 10 May 2025 17:32:04 +0200
-Message-Id: <20250510153204.11052-1-henrik@lxm.se>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1746928898; c=relaxed/simple;
+	bh=Uud/c+M6EfwYviLXv3JhG9QXpJjkB+v/1YKSMnhuxYs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=meyCxWZOl2wsKznuaGAbyNRomuLeR8Jp3FpDNWrf3eh/vKkKBL/g+wWjL+9yUSdRfkrWQhxyPTK4R9qmbvdXuYO3fS50hBAevRMA8XEjhq/FfTd9KgjCt5X8qt1dqUl+VZ4jAi2EdRpEu1Erya14C4ejlN786rPe/51x6sq7lQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SknmlYj2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148ACC4CEFF
+	for <linux-kbuild@vger.kernel.org>; Sun, 11 May 2025 02:01:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746928898;
+	bh=Uud/c+M6EfwYviLXv3JhG9QXpJjkB+v/1YKSMnhuxYs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SknmlYj2WWl0gmygOMQ462CEdJe1IMriWCMG4DDLJhTgeRoQh4ODOu2dMUdrccTuQ
+	 CA6pPxS9fLzPjzPokhWdOZa56uhku9XM3FW/1pQFiU25spAaaIXhrBhRDlyB9px4LG
+	 j5Fou3qIi1Pimuy8bJ/xKtnSiH0BmG4k8yIfJn44ZjHqAMvkjkNe0KNAvJ0gdBYWiR
+	 Zetb/OjfXg5lANmS+9bETEreAQLBB+CE6wUhYodPMcG9iavZMgZPLtO1b1VdmK8bjL
+	 SAk5twBmBWhF77iiBcC0QW2BefAOFAyBWMz+0EQ+EV1m4SrlWstyOwgI95x4d7ebM+
+	 Mzm1k2LaJAFHg==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5fcf1dc8737so1576105a12.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 10 May 2025 19:01:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWOxEZIQ55VtXR59do1gWkt577dsUamxG63UKIoKgDq6rYYSHWqpwTVcJ3HrY2rjLNUZTR5U9ZdhpkmEdk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwmZpp3zjy5m4Z59Vu2FEIzOvIMbg66GAYkyaw3CpEwIoImaw+
+	2Oav7Q/mddXcPdyHkuUdKGAg+MO6x1Xq4+EV26E275IbrvFXrp1Xo2eC+1DNOmY1cbrSwYRLyWS
+	fk3+HRN46VjGw5y/8xn5UR+AkJFWOdrPY8z9d
+X-Google-Smtp-Source: AGHT+IEndbWplSJxFGd74VrtGrhFU2hW9QCIiBQIkWd6Wv+M3EzLZDUhAbkzCtB+Hip0tzqQSM6gufYVYT1/8EGDpuY=
+X-Received: by 2002:a05:6402:2688:b0:5fd:1972:99da with SMTP id
+ 4fb4d7f45d1cf-5fd19729aa8mr1758195a12.23.1746928896391; Sat, 10 May 2025
+ 19:01:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
+ <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
+ <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
+In-Reply-To: <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
+From: KP Singh <kpsingh@kernel.org>
+Date: Sun, 11 May 2025 04:01:25 +0200
+X-Gmail-Original-Message-ID: <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
+X-Gm-Features: AX0GCFvon_jvokApR2EuF7DFGQb8hyY-4kxy54yUF6qWCWTtHAsfnnk2ydLvo-Y
+Message-ID: <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
+To: Paul Moore <paul@paul-moore.com>
+Cc: bboscaccy@linux.microsoft.com, James.Bottomley@hansenpartnership.com, 
+	bpf@vger.kernel.org, code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, 
+	dhowells@redhat.com, gnoack@google.com, herbert@gondor.apana.org.au, 
+	jarkko@kernel.org, jmorris@namei.org, jstancek@redhat.com, 
+	justinstitt@google.com, keyrings@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	llvm@lists.linux.dev, masahiroy@kernel.org, mic@digikod.net, morbo@google.com, 
+	nathan@kernel.org, neal@gompa.dev, nick.desaulniers+lkml@gmail.com, 
+	nicolas@fjasle.eu, nkapron@google.com, roberto.sassu@huawei.com, 
+	serge@hallyn.com, shuah@kernel.org, teknoraver@meta.com, 
+	xiyou.wangcong@gmail.com, kysrinivasan@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There doesn't seem to be any purpose behind this dependency, and it prevents
-installing x86 and mips headers on non Linux systems. Doing so is useful when
-building a cross compiler targetting Linux, which requires the header files.
+> > I think we need a more detailed explanation of this approach on-list.
+> > There has been a lot of vague guidance on BPF signature validation
+> > from the BPF community which I believe has partly led us into the
+> > situation we are in now.  If you are going to require yet another
+> > approach, I think we all need to see a few paragraphs on-list
+> > outlining the basic design.
+>
+> Definitely, happy to share design / code.
 
-Signed-off-by: Henrik Lindström <henrik@lxm.se>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Here=E2=80=99s the design that Alexei and I have been discussing. It's
+extensible, independent of ELF formats, handles all identified
+use-cases, paves the way for signed unprivileged eBPF, and meets the
+requirements of anyone who wants to run signed eBPF programs.
 
-diff --git a/Makefile b/Makefile
-index b29cc321ffd9..0234faafe8f0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1366,7 +1366,7 @@ PHONY += archheaders archscripts
- hdr-inst := -f $(srctree)/scripts/Makefile.headersinst obj
- 
- PHONY += headers
--headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders archscripts
-+headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders
- ifdef HEADER_ARCH
- 	$(Q)$(MAKE) -f $(srctree)/Makefile HEADER_ARCH= SRCARCH=$(HEADER_ARCH) headers
- else
--- 
-2.39.5
+# Trusted Hash Chain
 
+The key idea of the design is to use a signing algorithm that allows
+us to integrity-protect a number of future payloads, including their
+order, by creating a chain of trust.
+
+Consider that Alice needs to send messages M_1, M_2, ..., M_n to Bob.
+We define blocks of data such that:
+
+    B_n =3D M_n || H(termination_marker)
+
+(Each block contains its corresponding message and the hash of the
+*next* block in the chain.)
+
+    B_{n-1} =3D M_{n-1} || H(B_n)
+    B_{n-2} =3D M_{n-2} || H(B_{n-1})
+
+  ...
+
+    B_2 =3D M_2 || H(B_3)
+    B_1 =3D M_1 || H(B_2)
+
+Alice does the following (e.g., on a build system where all payloads
+are available):
+
+  * Assembles the blocks B_1, B_2, ..., B_n.
+  * Calculates H(B_1) and signs it, yielding Sig(H(B_1)).
+
+Alice sends the following to Bob:
+
+    M_1, H(B_2), Sig(H(B_1))
+
+Bob receives this payload and does the following:
+
+    * Reconstructs B_1 as B_1' using the received M_1 and H(B_2)
+(i.e., B_1' =3D M_1 || H(B_2)).
+    * Recomputes H(B_1') and verifies the signature against the
+received Sig(H(B_1)).
+    * If the signature verifies, it establishes the integrity of M_1
+and H(B_2) (and transitively, the integrity of the entire chain). Bob
+now stores the verified H(B_2) until it receives the next message.
+    * When Bob receives M_2 (and H(B_3) if n > 2), it reconstructs
+B_2' (e.g., B_2' =3D M_2 || H(B_3), or if n=3D2, B_2' =3D M_2 ||
+H(termination_marker)). Bob then computes H(B_2') and compares it
+against the stored H(B_2) that was verified in the previous step.
+
+This process continues until the last block is received and verified.
+
+Now, applying this to the BPF signing use-case, we simplify to two messages=
+:
+
+    M_1 =3D I_loader (the instructions of the loader program)
+    M_2 =3D M_metadata (the metadata for the loader program, passed in a
+map, which includes the programs to be loaded and other context)
+
+For this specific BPF case, we will directly sign a composite of the
+first message and the hash of the second. Let H_meta =3D H(M_metadata).
+The block to be signed is effectively:
+
+    B_signed =3D I_loader || H_meta
+
+The signature generated is Sig(B_signed).
+
+The process then follows a similar pattern to the Alice and Bob model,
+where the kernel (Bob) verifies I_loader and H_meta using the
+signature. Then, the trusted I_loader is responsible for verifying
+M_metadata against the trusted H_meta.
+
+From an implementation standpoint:
+
+# Build
+
+bpftool (or some other tool in the user's build environment) knows
+about the metadata (M_metadata) and the loader program (I_loader). It
+first calculates H_meta =3D H(M_metadata). Then it constructs the object
+to be signed and computes the signature:
+
+    Sig(I_loader || H_meta)
+
+# Loader
+
+bpftool generates the loader program. The initial instructions of this
+loader program are designed to verify the SHA256 hash of the metadata
+(M_metadata) that will be passed in a map. These instructions
+effectively embed the precomputed H_meta as immediate values.
+
+    ld_imm64 r1, const_ptr_to_map // insn[0].src_reg =3D=3D BPF_PSEUDO_MAP_=
+IDX
+    r2 =3D *(u64 *)(r1 + 0);
+    ld_imm64 r3, sha256_of_map_part1 // constant precomputed by
+bpftool (part of H_meta)
+    if r2 !=3D r3 goto out;
+
+    r2 =3D *(u64 *)(r1 + 8);
+    ld_imm64 r3, sha256_of_map_part2 // (part of H_meta)
+    if r2 !=3D r3 goto out;
+
+    r2 =3D *(u64 *)(r1 + 16);
+    ld_imm64 r3, sha256_of_map_part3 // (part of H_meta)
+    if r2 !=3D r3 goto out;
+
+    r2 =3D *(u64 *)(r1 + 24);
+    ld_imm64 r3, sha256_of_map_part4 // (part of H_meta)
+    if r2 !=3D r3 goto out;
+    ...
+
+This implicitly makes the payload equivalent to the signed block (B_signed)
+
+    I_loader || H_meta
+
+bpftool then generates the signature of this I_loader payload (which
+now contains the expected H_meta) using a key (system or user) with
+new flags that work in combination with bpftool -L
+
+This signature is stored in bpf_attr, which is extended as follows for
+the BPF_PROG_LOAD command:
+
+    __aligned_u64 signature;
+    __u32 signature_size;
+    __u32 user_keyring_serial;
+    __u64 system_keyring_id;
+
+# New BPF Commands
+
+## BPF_MAP_GET_HASH args: (map_fd, &sha256_output, output_size)
+
+This command instructs the kernel to compute the SHA256 hash of the
+map's data. If sha256_output is non-NULL, the hash is returned to
+userspace. (While not strictly needed for this specific signing
+use-case to function, it's a useful utility for userspace debugging or
+other applications.)
+
+The kernel also stores this computed hash internally within its struct bpf_=
+map:
+
+    struct bpf_map {
+    +   u64 sha[4];
+        const struct bpf_map_ops *ops;
+        struct bpf_map *inner_map_meta;
+    };
+
+## BPF_MAP_MAKE_EXCLUSIVE args: (map_fd, sha256_of_future_prog)
+
+Exclusivity ensures that the map can only be used by a future BPF
+program whose SHA256 hash matches sha256_of_future_prog.
+
+First, bpf_prog_calc_tag() is updated to compute the SHA256 instead of
+SHA1, and this hash is stored in struct bpf_prog_aux:
+
+    @@ -1588,6 +1588,7 @@ struct bpf_prog_aux {
+         int cgroup_atype; /* enum cgroup_bpf_attach_type */
+         struct bpf_map *cgroup_storage[MAX_BPF_CGROUP_STORAGE_TYPE];
+         char name[BPF_OBJ_NAME_LEN];
+    +    u64 sha[4];
+         u64 (*bpf_exception_cb)(u64 cookie, u64 sp, u64 bp, u64, u64);
+         // ...
+    };
+
+Once BPF_MAP_MAKE_EXCLUSIVE is called with map_fd and the target
+program's SHA256 hash, the kernel marks the map as exclusive. When a
+BPF program is subsequently loaded, if it attempts to use this map,
+the kernel will compare the program's own SHA256 hash against the one
+registered with the map, if matching, it will be added to
+prog->used_maps[]. The program load will fail if the hashes do not
+match or if the map is already in use by another (non-matching)
+exclusive program.
+
+Any program with a different SHA256 will fail to load if it attempts
+to use the exclusive map.
+
+NOTE: Exclusive maps cannot be added as inner maps.
+
+# Light Skeleton Sequence (Userspace Example)
+
+    // Create and populate the metadata map
+
+    map_fd =3D skel_map_create(BPF_MAP_TYPE_ARRAY, "__loader.map", 4,
+opts->data_sz, 1);
+    skel_map_update_elem(map_fd, &key, opts->data, 0);
+
+    // Freeze the map to prevent further userspace modifications.
+    // This makes its content immutable from userspace.
+
+    skel_map_freeze(map_fd);
+
+    // Make the map exclusive to the intended loader program.
+    // sha256_of_loader_prog is the hash of the I_loader binary
+    skel_map_make_exclusive(map_fd, sha256_of_loader_prog);
+
+    skel_map_get_hash(map_fd, NULL, 0);
+
+    // Load the loader program (I_loader) with its signature.
+    opts.ctx =3D (struct bpf_loader_ctx *)skel;
+    opts.data_sz =3D sizeof(opts_data) - 1;
+    opts.data =3D (void *)opts_data;
+    opts.insns_sz =3D sizeof(opts_insn) - 1;
+    opts.insns =3D (void *)opts_insn;
+
+    opts.signature =3D =E2=80=A6 signature of the opts_insn[] bytes=E2=80=
+=A6
+    opts.signature_size =3D sizeof(..);
+    opts. system_keyring_id  =3D ...
+
+    OR
+
+    opts.user_keyring_serial =3D =E2=80=A6 depending on what flag was used =
+in bpftool.
+    err =3D bpf_load_and_run(&opts);
+
+The kernel verifier will:
+
+    * Compute the hash of the provided I_loader bytecode.
+    * Verify the signature against this computed hash.
+    * Check if the metadata map (now exclusive) is intended for this
+program's hash.
+
+The signature check in the verifier (during BPF_PROG_LOAD):
+
+    verify_pkcs7_signature(prog->aux->sha, sizeof(prog->aux->sha),
+sig_from_bpf_attr, =E2=80=A6);
+
+This ensures that the loaded loader program (I_loader), including the
+embedded expected hash of the metadata (H_meta), is trusted.
+Since the loader program is now trusted, it can be entrusted to verify
+the actual metadata (M_metadata) read from the (now exclusive and
+frozen) map against the embedded (and trusted) H_meta. There is no
+Time-of-Check-Time-of-Use (TOCTOU) vulnerability here because:
+
+    * The signature covers the I_loader and its embedded H_meta.
+    * The metadata map M_metadata is frozen before the loader program
+is loaded and associated with it.
+    * The map is made exclusive to the specific (signed and verified)
+loader program.
 
