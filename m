@@ -1,80 +1,79 @@
-Return-Path: <linux-kbuild+bounces-7087-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7088-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E604AB3B56
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 May 2025 16:51:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B37AB3B5B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 May 2025 16:52:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 01B4C7AF873
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 May 2025 14:50:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6474A3B2CCD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 May 2025 14:52:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6FB1E503C;
-	Mon, 12 May 2025 14:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7E321ABCF;
+	Mon, 12 May 2025 14:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="R7BTSxSh"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="C+kdhAh6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1873E217704
-	for <linux-kbuild@vger.kernel.org>; Mon, 12 May 2025 14:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C783C1AA791
+	for <linux-kbuild@vger.kernel.org>; Mon, 12 May 2025 14:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747061469; cv=none; b=NgKcFX/+X2pvSqROaVW3TzpPKJsOUtegpFJhgiBAIWQm25S2P7C3DyhH82cd0cM7/fqOyIcL2ve8Zk0amStyZOY2Pe3bIYi70W8b14QcdvRB3bcPI+LWpQ0sw790Nci4BdvFUOxUnuYDo5KCaY7VDcjmn6BSlW0tiAtuw2GDjvw=
+	t=1747061554; cv=none; b=fDDZqaAC4/1p749eU2uXDrCxKV8Q/Vsv+bv275hO/B8HW0tNTqcu3Se1u/mll8WK3fjuD5/4yBOXOHEh6ASGIHMcSYiQptYVco+aZ/nOj/AVMZpZ1Z0z+BUm9jLYmi7H2vFQ1FUWojPBQLYYFWk29+W8TK9v0tYrLb9GX66XK30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747061469; c=relaxed/simple;
-	bh=D8ERM3wxNy4SIqS55lDq5eZ7zd9yV+0Q1RkUN1uIjB8=;
+	s=arc-20240116; t=1747061554; c=relaxed/simple;
+	bh=YxitOD7J5I/UtmC0dH1Zgo6JjFI+JvFFNRDPbpGHmgo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PMrqRzL1wzNLqMqwWewYFS9gvZBqrDsH8rXov1ILV0kvUzekuAHXYQsMgYpgNE3fMh5iE5u9PqEHEMATSykWZeVxp+9U+x0BkAT/Zk0KtHEL+dQpJ8GsWz1QiiBam/uwl0ph+g4HOM7ahptlQ08ILwYqt7yt6Pjza9gN/5N84UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=R7BTSxSh; arc=none smtp.client-ip=209.85.208.44
+	 In-Reply-To:Content-Type; b=GF40JfcZsBT62U5LU3w0X+/FPXdgreSjudU+LM4xNw4JT1Akn3nXPt7vTFWxZPYevE5zu8FSoFZegNsWihp66Ad36TTGR/EiAkdbd8y+K3CRM+j7W8YaQ6f6geN9izEsJQbFOg2MOsrl2vE/XbkpctYBxGYT0df4Ln697kctWa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=C+kdhAh6; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5fbe7a65609so7431741a12.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 May 2025 07:51:06 -0700 (PDT)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5f5bef591d6so9550126a12.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 May 2025 07:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1747061465; x=1747666265; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1747061551; x=1747666351; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Lu0Ka+btw04+FB5hra+I3uxj0tOrSX2sD4d9HHszObc=;
-        b=R7BTSxShnp1HCUpcRfNPaal36O0Gyi6CYe9RgmOIcW1R1ReGctNVyla2//Jf7hr8Ol
-         V9EArf5W0YJvRXMyyCQuPj3JdIV4BNPrDjL2vCcnFNpTAq2kJlsvtkKwc7aMLmWCgX5Y
-         Df588aGPLk3/j3gvDT8GfsIZW82eUzdd7P+OE/NdPLoaFXcDZjYq7Z1KwjP9sfueBr75
-         iWXOMAleKBbX/aRTQ0u9W6tRtZKDgdW4t5l3hhqUkwkFsnVBo70rGYmP3D4dvkQApcGd
-         M9Z2C+V2f4vJlIHafUTxLGHcBuUix9839MFzdZY1xCfL4oKVz/XfAqCkXCNP+aUeFCsX
-         n5QQ==
+        bh=sL36AD5JIr2gOBFJxdoW/HqoISwrQ7JPwgG6VNc1uf0=;
+        b=C+kdhAh69DteB2BlK49StjkovVk5QGefpdiIDMppJH8Roh88hmkOLxPnR2DFzMTA49
+         px7Zge4kUxF1RoVICBL5j8NHQJAs6CpfCFF3r+fCpcrjp0YdQcZwNbgzLA07AACn8b6G
+         FT2bJSDP9JhssTniyiEShJ0+sBG+2wsGV8OwUsnnR8pM3k1GbXXjLs323ZTRvdZJTVpi
+         LYMkPqQ+4n/851xe2A47BY/MEZ+wcGNctxvI9pDXiJuYYxKK7yC0Pm5y/esfaeoAshbt
+         7VKFudT42eWaQhoI0x32XIDpW41zCvmYDEJfya8i5mu4WD/bqry2FSZQD07rtiAsSMVR
+         qyKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747061465; x=1747666265;
+        d=1e100.net; s=20230601; t=1747061551; x=1747666351;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lu0Ka+btw04+FB5hra+I3uxj0tOrSX2sD4d9HHszObc=;
-        b=sp4l9+lCaYoL9LY7j5pugcY+HhQyjvInWz3aqQPqhz+lEw8do1J/V1fLj4y6efblxG
-         fQAV8hApHV2czvRM6ucTkezmzQ9d6QFMLP3jDek4Sle+AuyeafZAvjKvQALZK3TGEx0y
-         dI5qdcXQwjlA3oWxUmz8EEKvt8FLtMrA/+MKNopaI7BLiUClAOLKsq2x//VpN6vNW9uc
-         zXj92jb1YPDOmGEdNR0NVe1h+ruq0u59AEVLW14dTiF9vK59JzBS8qbUfbbd9kHA97aB
-         t2ktiLE1n2ph/o4vnU3Q3545DctEF6Sd39gLM18wil6cwidC2EpovRkKtp2SbqeYuLqD
-         CEJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW+fNLTPK9b7Gr/NBY238w9a8DYI4hrq0A6VKPLX24cA9PFpdWyy1hVm/jTmV40wjIBd/4GsNT48mLPOcE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9mWm1s9bxMoXOaQBy5CoqLjtL99H7bDwlU1PgG6PYk6tfWU3m
-	kAxJSjUl4Lo2dr8vkLZ4VhKksUDLbOxoKeM41x6X879UDlxdRMGKO0G0wIGmJ15/vxDHrGYCPq3
-	Z
-X-Gm-Gg: ASbGncu4Ggfomgwdsnrzsp3kRdn41GHW9OOJ7W3dYF3IvLw8O+JykjBT60mZSZkMdxL
-	mC9JqhltOPzrFFwXPBaZfd58Tb6P99FlCv5AQW9+YJJ6pLs7GddolWQKZr2JH7XrGeEq5OsS+zj
-	uEgIH8mwoNeu10x5awSSyM17lTY9rEP2EqkCVHDO6m7HQADbGR7aGSkA7TP0BOAo5V19OSPlKgO
-	GWxWzRWelpSjyNuesXzaVDhrqWSoKFCsLGtAIuIUXFM3aNkljUPGUKOfwmVr1UOq+k5YvkOkBTg
-	GEgxXki+NEwdkfgyGluM/doB8tAvzk6Smn7ljcFore1pUZ0gpthWQA==
-X-Google-Smtp-Source: AGHT+IE2/toU+HufXX22qwPZasaD7jOUf2RnZh1MyhP01PfRZenyqlX4Nm3L0S8HlwQimighlo0svA==
-X-Received: by 2002:a05:6402:1ecc:b0:5fb:1bd5:f73c with SMTP id 4fb4d7f45d1cf-5fca07eb6dbmr10848327a12.22.1747061465297;
-        Mon, 12 May 2025 07:51:05 -0700 (PDT)
+        bh=sL36AD5JIr2gOBFJxdoW/HqoISwrQ7JPwgG6VNc1uf0=;
+        b=dmrBqH2hcKjX60XPnXLhbcLV2fwlOz1HKQ+Q0css1pkpEENMuckSh2RNHbm434Ccej
+         /dgYub+rtOh8DwimWI2syxH7YCySwaSjrJTgD2pfB3/0jMgIhP3CpYwQ2ChFq1U64dJz
+         OGONEf3dJRxMQqzctie69Ljyja+n8u6H5wDj6UBaguVv8QkLxyjiDAZ7VItn/+QnIfKs
+         fVtWcJwjFVkg+ei7haid48Ajd86ebjMP9V2l3N6P6180lVb+Wl9JId0iVVyVd2M3WKf0
+         hQD8vTX5AIJDh6w77uLUnfH/TIKnhLVKtbm3GXrUsv6zLXKhyWne/JXvSlOPHARarXF3
+         R0QQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXpMnWvm3KxKCEWehNZAudwA20a0Q2488KA0i+jz2U5sIqPxTW+H1lDNYMEWcjkGPOMjvv2AOJXXBkP0zQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4E6ReyyWFpc9IugcvlVVQwaw71d6uGpQMiqilyW2fC+lSK6RO
+	lG5hlh/Og54gkyHmvy91epOo+zy/5ntPrbyNM6iK1jhjRMv0ft1M7ObA+3Y9MnU=
+X-Gm-Gg: ASbGncvyAzjkqVAZ/O99ilv7mSgD1EDGIIyHkDe2T36hr1krTu6Qh3trEW40YZsLcki
+	Mm2M55Bcaq5V7afdGCFN1sG4d7UUOjlTl+4dFYHPTb1wRL8lBLB/7Go6t78+kJCvNnd/K6N3qis
+	rYYqynSHt5UsaJsvKJxbNUcAvQlr0Hwa4RHaIhmzrMKayqxjDUd7dQ4nN+M0cTbYlU3jYF7x5eh
+	N2sKuZNT1azqkCC0mVZkARVafuwJfb687TWtSALkkPv3Oi8Fcw6yrPSobyfOvtj2pNIDCuBQaBi
+	Y5h0UH07TLlnfpczoy6BDTXYLqPCqzJByKCqc6GDj//ePebeV1m2tg==
+X-Google-Smtp-Source: AGHT+IE/pkPyU+0I7L6tAz+2K5JYCY+Yzm4eb6rt65pfdv4WcrCBgFVGHp5u/6We4LlRpbOxpUQzww==
+X-Received: by 2002:a05:6402:510d:b0:5ee:497:89fc with SMTP id 4fb4d7f45d1cf-5fca081ad13mr11822462a12.33.1747061550973;
+        Mon, 12 May 2025 07:52:30 -0700 (PDT)
 Received: from [10.100.51.48] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fc9d701394sm5775759a12.52.2025.05.12.07.51.04
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5fd0142152bsm3717001a12.19.2025.05.12.07.52.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 07:51:05 -0700 (PDT)
-Message-ID: <27d93a59-5542-4b5f-bc08-25aa7bff21a3@suse.com>
-Date: Mon, 12 May 2025 16:51:04 +0200
+        Mon, 12 May 2025 07:52:30 -0700 (PDT)
+Message-ID: <66feb171-f528-44e8-990a-ad0c85fa52fd@suse.com>
+Date: Mon, 12 May 2025 16:52:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -82,7 +81,7 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] modpost: Make mod_device_table aliases more unique
+Subject: Re: [PATCH v2 4/6] modpost: Create modalias for builtin modules
 To: Alexey Gladkov <legion@kernel.org>
 Cc: Luis Chamberlain <mcgrof@kernel.org>,
  Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
@@ -91,17 +90,42 @@ Cc: Luis Chamberlain <mcgrof@kernel.org>,
  Nicolas Schier <nicolas.schier@linux.dev>, linux-kernel@vger.kernel.org,
  linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org
 References: <cover.1745591072.git.legion@kernel.org>
- <20250509164237.2886508-4-legion@kernel.org>
+ <20250509164237.2886508-5-legion@kernel.org>
 Content-Language: en-US
 From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20250509164237.2886508-4-legion@kernel.org>
+In-Reply-To: <20250509164237.2886508-5-legion@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 5/9/25 18:42, Alexey Gladkov wrote:
-> In order to avoid symbol conflicts if they appear in the same binary, a
-> more unique alias identifier can be generated.
+> For some modules, modalias is generated using the modpost utility and
+> the section is added to the module file.
 > 
+> When a module is added inside vmlinux, modpost does not generate
+> modalias for such modules and the information is lost.
+> 
+> As a result kmod (which uses modules.builtin.modinfo in userspace)
+> cannot determine that modalias is handled by a builtin kernel module.
+> 
+> $ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
+> pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+> 
+> $ modinfo xhci_pci
+> name:           xhci_pci
+> filename:       (builtin)
+> license:        GPL
+> file:           drivers/usb/host/xhci-pci
+> description:    xHCI PCI Host Controller Driver
+> 
+> Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
+> modpost if the module is built separately.
+> 
+> To fix this it is necessary to generate the same modalias for vmlinux as
+> for the individual modules. Fortunately '.vmlinux.export.o' is already
+> generated from which '.modinfo' can be extracted in the same way as for
+> vmlinux.o.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > Signed-off-by: Alexey Gladkov <legion@kernel.org>
 
 Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
