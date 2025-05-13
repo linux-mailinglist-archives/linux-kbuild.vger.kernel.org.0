@@ -1,188 +1,157 @@
-Return-Path: <linux-kbuild+bounces-7093-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7094-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E130AB52A5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 May 2025 12:34:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15ED4AB5752
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 May 2025 16:39:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06D8A1B66F62
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 May 2025 10:31:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A01FB169C3F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 May 2025 14:39:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71274253933;
-	Tue, 13 May 2025 10:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 148051B2194;
+	Tue, 13 May 2025 14:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UpudO2y8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B46125393D;
-	Tue, 13 May 2025 10:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43271AF0A7
+	for <linux-kbuild@vger.kernel.org>; Tue, 13 May 2025 14:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747131272; cv=none; b=Ie3TDpRoLqAlCxxIsKpDWWQ8vwAvIdYLg1n3JhFR9oV5pb2XoWhKhZNKMkB91V6EePFORfoDHIGc7g0pIyg5ba1UFKGXMIm98QDF6oY3fjLBXCa6FZLfCoIKwKkSbl6s3o7PLWK+Tn2vQMRfa9FYHRpW5RCWfU+iJzdlE1KlUQg=
+	t=1747147147; cv=none; b=q/EiaS8WSFsjdTNXWwulpSp19qDwOB5q2IOcBfj1vOzL+v6MA/8wB063IhQmbm4+XO2zQkCWP+/tjdI+mXgHv1lYC6+eR27s6XAFp+DAmtv4mTvKrxb7k8yS7K64XBb5yYpGvpcgUH/yccAoVEdNm8ZVDQMNr3qnxF/k13bVnSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747131272; c=relaxed/simple;
-	bh=OJ5FIOcpAaEVIMWQCdFSHi7h7oeCiUO0xWA9T+9LplE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RE48ZNof8otdqo5FSTcl+iMTkbvEopVshFr/3sOWTbTu48msIMrskW0uJtzRNH/wXflFIwJiUdtygo5OwUY7VG9i73Hzvbx8dSgfQYY2c4xtREJ8vWCMsxqGmSSI+tqsLThfnoMOqbFMFWBgSmVnE9poG6B7l6YYEDjggZekQ7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn; spf=pass smtp.mailfrom=smail.nju.edu.cn; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=smail.nju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smail.nju.edu.cn
-X-QQ-mid: zesmtpsz3t1747131226td9801c64
-X-QQ-Originating-IP: jCZAM53cAG3vpG/2hV17YiSk1mUo2IDzWNaEy81zy9Q=
-Received: from localhost.localdomain ( [114.212.81.69])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 13 May 2025 18:13:43 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10312789656265926078
-EX-QQ-RecipientCnt: 17
-From: Xizhe Yin <xizheyin@smail.nju.edu.cn>
-To: linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	xizheyin <xizheyin@smail.nju.edu.cn>
-Subject: [PATCH] rust: rename expanded Rust file extension from .rsi to .expanded.rs
-Date: Tue, 13 May 2025 18:11:06 +0800
-Message-ID: <9AE2FD1B8A570866+20250513101106.28584-1-xizheyin@smail.nju.edu.cn>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1747147147; c=relaxed/simple;
+	bh=BFeP1d5kh0IR1RuTn3H/klwzxZV7RjEJ82t7QxBUhvc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pws5nFsbSSIU9k90l8cf/rYriThEaI9DNMCoOrxbr5DVcyBLaCKLLRnWddtrlTRfyZWBEpM7Ux5NrGd/CiBHrzaU8mILvkIC1BmNphE1y2FLycrmGDNbxQea/AZbBvC3KMlkb0YJbrPKIRbBY74tuA0M+t+hsfl7twkCYWv+xLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UpudO2y8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C00B1C4CEE4
+	for <linux-kbuild@vger.kernel.org>; Tue, 13 May 2025 14:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747147146;
+	bh=BFeP1d5kh0IR1RuTn3H/klwzxZV7RjEJ82t7QxBUhvc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=UpudO2y84JoSCWBptmNodloeTPdADrdqjznUUg0Fxx2grnfThXGe9s3uJnvhk1Pa2
+	 tohdxiozG45AKFemPwQzUWFpX3yRFtwxEy6673nA597qEQu5TZs5FVAtfikS7ZRVfu
+	 Dsmd5UCbX0Qawzo6nDy/kpJqBx1YZE4Zk1Vc5dJHy05uvOPFJEMX9G8vDhHroihZ4T
+	 2nIBF1D1nO6fIqovchmbT2TbnL64L+F2MonEA68gmnMzSdL6n5bQ2pc7omix9klp45
+	 qPUuRex81l596t3vQC3QFtFkAGWF/oxmdAGWY929HkrC9KOBO31nizyOBbdWpisDjj
+	 GroCsnvNxJWow==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54fc36323c5so5211770e87.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 May 2025 07:39:06 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy88OPrge2bvtvgoHjDtK+ZFTllw1Fu1Lpukc7giF/z85ExN4gb
+	NL4EiJEWJQfzxYxEtFVf/WXruf8k4+Slln02qXaIJ03L5pSK4zF1taFBNRFvMDiR8OGq4e5jtDB
+	p4WKmwCJEe6lgFISi2Cet8y2nNOg=
+X-Google-Smtp-Source: AGHT+IHuiOemV0KkmjUuG7Dx0ImsieEtaKFTjM5OwPxCIUvQqCqERXahhgUYRcufHBbDOxL1JJ9gmAna4f2Ro/Cxvj4=
+X-Received: by 2002:a05:6512:3191:b0:54f:bdbb:1dc1 with SMTP id
+ 2adb3069b0e04-550d0bfae0dmr1274279e87.18.1747147145470; Tue, 13 May 2025
+ 07:39:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:smail.nju.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: OccmtviHNKX2I3Js/cjybR17nTMAqvWiuY3pXrUbNdi9gb79GaHieZt6
-	AZoLRKgYHcru6S/4/Ghr+I1/oXU16568Zjl8WSeUwaQRU3lnOeT6J3FGXNxctu7/vRapQC4
-	V4aiOV9obIEs4FCkI4pxLVq0i9mAraeoNO/YS/huD+JvdRCobYbCjVjxyDqKKBMz4ldHsCs
-	fA5dAr7xud2FsaFmOMVAq2sFFYcGeQP5osUi2YnfoNfNy5giwUYsy86c2WM6fjC018UVStc
-	Luw0o4radhiFK3XbOtbYaeln2cHvi+aVr32MVRfKLBZZO1bZ5Pkmylj5L6ucNMOwNDfNGeD
-	eHoBZM7XkEPb2ku5XW+2l3gncqiMMtjU/IB81E9SvdoKEQZAfKba707Sj+I1gObzUWlSHtM
-	mW+0NccANLbHSO9g8793z+kIrMxKfQoWNMjusW82mWJ5c5szSobfwoqJlWJBZc4mPfmZ+vk
-	WAf3Qd5dOj8naSyp8Rk/aUtja1ETH0adR5UAJ2xN9mZ3gKDQC2Nn/AtrTExFBc42RrgUHL6
-	MOCUy0To2+ftuiSAsT7LhuAYK3lx0xz6lyUP8WAs3JRYfzNQcURcIp0jxCLSB96g4krSzcJ
-	KdNhqvSMD64zzHoowjItpGPTGnHad8A1t4UyfIuOslX4W6r8rOH7aBAXWsJsHURiwvoTDEK
-	9LOor3rRjqeVUFq5T+ni0Wf+iUuQPhxuAAe6VP4CBwPZ4H7EI1whXFXbzt7es/W87geapW/
-	OMntahrKkcHCztKjjVgNonvuhlXO884SRgsK5RQB2RflBXA2b6FwvInkPp1toXSR3QZE5YA
-	S4hBnjjqI3Lw8tjviGLE3cdabsjtmejDnwknyhfG9fx8svGLadebya2tYFfRPHzdBl5XmA+
-	xGe4sWCbR8vxJpO0SrdUWyGq0OqfvrYlfIVr3O+SPurKrSDrMykXUrj8inK3GOzJB132X5F
-	ISXHqGPjH/OgJjFYMk5t57F3WOGdrbsI11Z6pWyO7hQt8JIwBugzMBwa/
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+References: <20250513040409.147881-1-vince@underview.tech>
+In-Reply-To: <20250513040409.147881-1-vince@underview.tech>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 13 May 2025 23:38:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQw0KH-yaGTYi7Efy-NpkYuC8qyMfB04pq2DkS6FTQkeg@mail.gmail.com>
+X-Gm-Features: AX0GCFtV3uzT6AtNev7ESNpSq8eXHsHS3gNa8C9mOmHxb2d7JEQ07uU07mcB1dQ
+Message-ID: <CAK7LNAQw0KH-yaGTYi7Efy-NpkYuC8qyMfB04pq2DkS6FTQkeg@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: add KCFLAGS to build with Yocto SDK
+To: Vincent Davis Jr <vince@underview.tech>
+Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org, nicolas@fjasle.eu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: xizheyin <xizheyin@smail.nju.edu.cn>
+On Tue, May 13, 2025 at 1:04=E2=80=AFPM Vincent Davis Jr <vince@underview.t=
+ech> wrote:
+>
+> When running
+>
+> make -C \
+> "${SDKTARGETSYSROOT}/lib/modules/<kernel version>/build" \
+> modules_prepare
 
-The build system currently uses .rsi as the extension for expanded
-Rust files. This extension comes from the C/assembly world and is not
-recognized as a Rust file, making it both unintuitive and hard to
-remember.
+This is not the correct way to build an external module.
+Do not run modules_prepare.
 
-Rename the extension to .expanded.rs, which clearly indicates the file
-contains expanded Rust code. Use source file basename for --crate-name
-to prevent rustc from treating .expanded as part of the crate name.
 
-Link: https://github.com/Rust-for-Linux/linux/issues/1158
-Closes: https://github.com/Rust-for-Linux/linux/issues/1158
-Suggested-by: Benno Lossin <benno.lossin@proton.me>
-Signed-off-by: xizheyin <xizheyin@smail.nju.edu.cn>
----
- .gitignore             |  2 +-
- Makefile               |  6 +++---
- scripts/Makefile.build | 10 +++++-----
- 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index f2f63e47fb88..c6786f5d5d24 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -42,7 +42,7 @@
- *.patch
- *.rmeta
- *.rpm
--*.rsi
-+*.expanded.rs
- *.s
- *.so
- *.so.dbg
-diff --git a/Makefile b/Makefile
-index 64c514f4bc19..443719123eb5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -298,7 +298,7 @@ no-dot-config-targets := $(clean-targets) \
- 			 outputmakefile rustavailable rustfmt rustfmtcheck
- no-sync-config-targets := $(no-dot-config-targets) %install modules_sign kernelrelease \
- 			  image_name
--single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %/
-+single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.expanded.rs %.s %/
- 
- config-build	:=
- mixed-build	:=
-@@ -1714,7 +1714,7 @@ help:
- 	@echo  '  rust-analyzer	  - Generate rust-project.json rust-analyzer support file'
- 	@echo  '		    (requires kernel .config)'
- 	@echo  '  dir/file.[os]   - Build specified target only'
--	@echo  '  dir/file.rsi    - Build macro expanded source, similar to C preprocessing.'
-+	@echo  '  dir/file.expanded.rs    - Build macro expanded source, similar to C preprocessing.'
- 	@echo  '                    Run with RUSTFMT=n to skip reformatting if needed.'
- 	@echo  '                    The output is not intended to be compilable.'
- 	@echo  '  dir/file.ll     - Build the LLVM assembly file'
-@@ -2011,7 +2011,7 @@ $(clean-dirs):
- clean: $(clean-dirs)
- 	$(call cmd,rmfiles)
- 	@find . $(RCS_FIND_IGNORE) \
--		\( -name '*.[aios]' -o -name '*.rsi' -o -name '*.ko' -o -name '.*.cmd' \
-+		\( -name '*.[aios]' -o -name '*.expanded.rs' -o -name '*.ko' -o -name '.*.cmd' \
- 		-o -name '*.ko.*' \
- 		-o -name '*.dtb' -o -name '*.dtbo' \
- 		-o -name '*.dtb.S' -o -name '*.dtbo.S' \
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index da2d720c964a..77b4a54ae2eb 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -244,7 +244,7 @@ rust_common_cmd = \
- 	-Zcrate-attr='feature($(rust_allowed_features))' \
- 	-Zunstable-options --extern pin_init --extern kernel \
- 	--crate-type rlib -L $(objtree)/rust/ \
--	--crate-name $(basename $(notdir $@)) \
-+	--crate-name $(basename $(notdir $<)) \
- 	--sysroot=/dev/null \
- 	--out-dir $(dir $@) --emit=dep-info=$(depfile)
- 
-@@ -267,13 +267,13 @@ endef
- $(obj)/%.o: $(obj)/%.rs FORCE
- 	+$(call if_changed_rule,rustc_o_rs)
- 
--quiet_cmd_rustc_rsi_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
--      cmd_rustc_rsi_rs = \
-+quiet_cmd_rustc_expanded_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-+      cmd_rustc_expanded_rs = \
- 	$(rust_common_cmd) -Zunpretty=expanded $< >$@; \
- 	command -v $(RUSTFMT) >/dev/null && $(RUSTFMT) $@
- 
--$(obj)/%.rsi: $(obj)/%.rs FORCE
--	+$(call if_changed_dep,rustc_rsi_rs)
-+$(obj)/%.expanded.rs: $(obj)/%.rs FORCE
-+	+$(call if_changed_dep,rustc_expanded_rs)
- 
- quiet_cmd_rustc_s_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-       cmd_rustc_s_rs = $(rust_common_cmd) --emit=asm=$@ $<
--- 
-2.49.0
 
+> Issue that are encountered include
+>
+> make -f ./Makefile syncconfig
+> make -f ./scripts/Makefile.build obj=3Dscripts/basic
+>    92 | #include <sys/types.h>
+>       |          ^~~~~~~~~~~~~
+> compilation terminated.
+>
+> ld: cannot find Scrt1.o: No such file or directory
+> ld: cannot find crti.o: No such file or directory
+> ld: cannot find crtbeginS.o: No such file or directory
+> ld: cannot find -lgcc: No such file or directory
+> ld: cannot find -lgcc_s: No such file or directory
+> ld: cannot find -lc: No such file or directory
+> ld: cannot find -lgcc: No such file or directory
+> ld: cannot find -lgcc_s: No such file or directory
+> ld: cannot find crtendS.o: No such file or directory
+> ld: cannot find crtn.o: No such file or directory
+>
+> Solved by setting KCFLAGS as the yocto project SDK
+> KCFLAGS is set to --sysroot=3D"${SDKTARGETSYSROOT}".
+>
+> Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+> ---
+>  Makefile | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 64c514f4bc19..bbe7b0503841 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -459,7 +459,7 @@ HOSTRUSTC =3D rustc
+>  HOSTPKG_CONFIG =3D pkg-config
+>
+>  KBUILD_USERHOSTCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prototype=
+s \
+> -                        -O2 -fomit-frame-pointer -std=3Dgnu11
+> +                        -O2 -fomit-frame-pointer -std=3Dgnu11 $(KCFLAGS)
+
+
+Sorry, I do not understand what you are trying to achieve.
+
+KCFLAGS is meant to specify compiler flags for the kernel-space,
+not userspace host programs.
+
+
+
+
+>  KBUILD_USERCFLAGS  :=3D $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
+>  KBUILD_USERLDFLAGS :=3D $(USERLDFLAGS)
+>
+> @@ -491,7 +491,7 @@ KBUILD_HOSTCXXFLAGS :=3D -Wall -O2 $(HOST_LFS_CFLAGS)=
+ $(HOSTCXXFLAGS) \
+>                        -I $(srctree)/scripts/include
+>  KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo \
+>                         -Zallow-features=3D $(HOSTRUSTFLAGS)
+> -KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+> +KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS) $(KCFLAGS)
+>  KBUILD_HOSTLDLIBS   :=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+>  KBUILD_PROCMACROLDFLAGS :=3D $(or $(PROCMACROLDFLAGS),$(KBUILD_HOSTLDFLA=
+GS))
+>
+> --
+> 2.43.0
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
