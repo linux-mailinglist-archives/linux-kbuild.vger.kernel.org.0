@@ -1,152 +1,273 @@
-Return-Path: <linux-kbuild+bounces-7099-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7100-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E8AAB610F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 05:06:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C97AB6287
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 07:46:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A24C7B0565
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 03:05:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33C811884868
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 05:46:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0065C1E9B06;
-	Wed, 14 May 2025 03:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCA91E5716;
+	Wed, 14 May 2025 05:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="FNhhNUjr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2EY8j/a"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ECB1DEFDA
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 03:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930CE101DE;
+	Wed, 14 May 2025 05:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747191992; cv=none; b=P3nxtab+2rif1wDeeI31TT5Tpvrrhl3pAnINUgjtNq8bQyb+rNcU6fHkt/lPaQO53mLGo8Rro/jOwxwnXBfNQ8U3H7HWrodF4e+/snQ8G8VCYwlHDpbfGcbAt81fHOmPUFS4GDt3TD5Qc9wMIcWNidNrHzCwmq/PrdyZ2f2kFu4=
+	t=1747201602; cv=none; b=aChZS3o4PCsc8MYZ3R3GsI7bcOAbvP1P/Z+vVtAECYRIbQjsuqBh+yeUDWbE4JZaiZUfn5ui8SJuKk/KRPF0ws54kpYjK4Tv1gFVbpXSOTNHxltqfMTS93t3a7E5iMUEqt6l/EnRCfQM6cWgx7PTKU6Y8OfVXryfek2u14pNInw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747191992; c=relaxed/simple;
-	bh=QJlpMcodJFABVCXdqNlhN3+5p9vJ34o3HcUPNXekMzU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnTVcnDlH5rUPv0f5ympKhr/UycStaq1HM3f2qHYYlHBtUPqhA/ZENA4xxsCGpwKPh9fUIHL6BhzJyYECcUzQO2mGnKeX6+CiEURfBbkeNaVMvtSILmN8nOy2vcCX3B4+CdD3o6FunDxvdvD+z5/NIRl3Cw+IhLOdV7TG9I9zGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=FNhhNUjr; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7099bc957d9so55243747b3.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 May 2025 20:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1747191990; x=1747796790; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tmR0DV4kjICn6tOrrkeV1rJdypEVd85y6xmhHZSq2oM=;
-        b=FNhhNUjrSx+AJS72l115atQjxUP4IWUNhyviHRegB2IcJIe4ENlgd2ir+F7sS/piRz
-         6e+NeTRDx6lOapnzX4Zpni2YEQzz4b1YsLz5AGv6NG8kvi1gsisFfac9XCbpKYD+B8Xn
-         W+XwhJEW044rXo85B1YBqQ3ZLzafj225fXZeNWrx1UF7eoeLmqfySND+MaaIHgfjzUtF
-         1TDK8NdtQS9lFZgCzFtWiF8sZmDVI6nqVrtfjLTzjt+t2PcaHQvDvqceqC2SUrMMMJzU
-         IpSiBdeW4UNGs+UcG9+JpSjTEZvkuGWBuTvOzmkgvlfjLEVEGUJLq3L0kW1S0ZofGX0J
-         zzBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747191990; x=1747796790;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tmR0DV4kjICn6tOrrkeV1rJdypEVd85y6xmhHZSq2oM=;
-        b=CUQbXDxKjmmnyvJA/Ssn87upIKwk7H46i4pN5ZE5TuV66jHnXHSuJgNx22F3UU4rOP
-         s9Kcd64ma3IY7cawQD/d5JApwDT41HSIR6/BQoI3yqV/rzXK8WWJ3R8N/H+eeh45pFHW
-         0jnLrfroKwY4t/gHz5bTUHoSLH5ZjrrQkIUBDG8o1yMvJQBqHQe3s7gtPU9YXAIP59O+
-         2WWfiGjmD2OeGLiZG63g7BvAkS5XHfL7I76vmrgvgLVfZak2R1Q3zJwrL9TRWMVuZhOn
-         D/Ot1gl7jDs2MD2CDW0uBUg6vcpOntjRU5GVtg0wkvWyB2s82F3flPDo/5VzUiUyaJrW
-         13Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0ynSjwZ8gNuQLEQ+1/IYoV2uJmAM37RsywfQCeTfO4oNFWOb5Wk8w0iiJni2/9zZHTlhoXcUQSajhKD8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywn37RC3aFGq1OzhRrZyCbWbkJw3dFR3yf/CeQdv3jR2J3b4nGP
-	axpVtyLIjhZ4mvHKiNIxMv3Q0oTcF+F4TCL/eFX3FzpYG2twjcteN1n1MLr9pmdXi56l1kZpijF
-	JQDW4TKJZOv+yk/YXBryMvQ8oQMHgM8gd7RIn
-X-Gm-Gg: ASbGncsYkMw/DNTuJXPqq3jEzvHLmhH+4bkOrhSKBCLgbuHqitInE046bm0qDsk3zCy
-	NrcjNMsDWF+eQ61LgYn86TuUX41JIDg3dcYR/1aVj+nLGzGfddJP2JggnX251E7TeXNW2E8zDCR
-	osZT5V/Cqzcjql9bgMOlKv+vSZ9fmdNyVp
-X-Google-Smtp-Source: AGHT+IHoF4lWdSffdXGrv/OfRi9mN4zsQKU0Wx09452hnzxCArs6kDfkdHSQP63wj5stxfEFYGHGU4RZ0y2yDDB9wL0=
-X-Received: by 2002:a05:690c:6809:b0:708:b7c4:89d9 with SMTP id
- 00721157ae682-70c7f12b587mr29661517b3.11.1747191989825; Tue, 13 May 2025
- 20:06:29 -0700 (PDT)
+	s=arc-20240116; t=1747201602; c=relaxed/simple;
+	bh=Qtt2l3MpQEO0rnXc/D0BJQ8VZXVj0i27W9KXpRamOr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gb9DYSMG9YOPh+paFPPwRVvN/lqLBNovCXL1F79Ei/75nIg7V/4ikthKVcvIqEHSL+3O8I52wi0RTa5W8MnbzZJQFK42QKfzLujDCxyUxUtOQrSm1R1fnXQ/0SJInRuAcmJN9jJQVzXehdLwGhPSvZZ3JSGEH45BsHmPnsny3Oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2EY8j/a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1457C4CEEB;
+	Wed, 14 May 2025 05:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747201602;
+	bh=Qtt2l3MpQEO0rnXc/D0BJQ8VZXVj0i27W9KXpRamOr4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U2EY8j/afd8yVzA/D8keFSaYNtw+rNJ/kMez3t/UUTOk6LEh+L0k49yNpp7CejQ8s
+	 hS2ko53ZmOQ82ks8hkHt1SSs0Q25x10dhVOe4vM1yBZQf0NcGruRgbADJ7x+h6qKM7
+	 tuc0+NYvgkRk3t5Ye0hPt5NAuGx9XFnXvhvWiqqBf4USna7sDWorJD6+fR9hRyA1M2
+	 +xrNN48WvSfXPLm8qpfch7NeQEfZB08wP8wz8lW/ps7akzmrlEepBfpnpfQ0fUm/vI
+	 Ia/vtcL6kQZr8IbEaIuTBtxMWO1Jdl5h+L2D7hyDgRUcpWiDg0Yd2HiiivVJusjCYm
+	 /j20uXQ3ApJHw==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Subject: [PATCH] kbuild: move kbuild syntax processing to scripts/Makefile.build
+Date: Wed, 14 May 2025 14:46:33 +0900
+Message-ID: <20250514054635.93577-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
- <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com> <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
-In-Reply-To: <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 13 May 2025 23:06:18 -0400
-X-Gm-Features: AX0GCFtmtl8iZvt0__SZY16ZDtDEOONW5PvqEMj_YT203ANGlWr4B8M9PmCIO_o
-Message-ID: <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: KP Singh <kpsingh@kernel.org>
-Cc: bboscaccy@linux.microsoft.com, James.Bottomley@hansenpartnership.com, 
-	bpf@vger.kernel.org, code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, 
-	dhowells@redhat.com, gnoack@google.com, herbert@gondor.apana.org.au, 
-	jarkko@kernel.org, jmorris@namei.org, jstancek@redhat.com, 
-	justinstitt@google.com, keyrings@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	llvm@lists.linux.dev, masahiroy@kernel.org, mic@digikod.net, morbo@google.com, 
-	nathan@kernel.org, neal@gompa.dev, nick.desaulniers+lkml@gmail.com, 
-	nicolas@fjasle.eu, nkapron@google.com, roberto.sassu@huawei.com, 
-	serge@hallyn.com, shuah@kernel.org, teknoraver@meta.com, 
-	xiyou.wangcong@gmail.com, kysrinivasan@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 10, 2025 at 10:01=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrot=
-e:
->
+scripts/Makefile.lib is included by the following Makefiles:
 
-...
+  scripts/Makefile.build
+  scripts/Makefile.modfinal
+  scripts/Makefile.package
+  scripts/Makefile.vmlinux
+  scripts/Makefile.vmlinux_o
 
-> The signature check in the verifier (during BPF_PROG_LOAD):
->
->     verify_pkcs7_signature(prog->aux->sha, sizeof(prog->aux->sha),
-> sig_from_bpf_attr, =E2=80=A6);
+However, the last four do not need to process Kbuild syntax such as
+obj-*, lib-*, subdir-*, etc.
 
-I think we still need to clarify the authorization aspect of your
-proposed design.
+Move the relevant code to scripts/Makefile.build.
 
-Working under the assumption that the core BPF kernel code doesn't
-want to enforce any restrictions, or at least as few as possible, I'm
-expecting that the BPF kernel code would want to adopt an "allow all"
-policy when it comes to authorizing signed and unsigned BPF programs,
-delegating any additional restrictions to the LSM.  With that in mind
-I think we need to agree on a way for the BPF verifier to indicate
-that it has verified the signature is correct to the LSM, and we need
-a new LSM hook which runs *after* the verifier so that it can inspect
-the results of the signature verification.  While it might be tempting
-to relocate the existing security_bpf_prog_load() hook, I believe it
-makes sense to leave that hook before the verifier for those LSMs that
-wish control access prior to the verifier's inspection using criteria
-other than signatures.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-With respect to the LSM hook, since it appears that the signature is
-going to be included in the bpf_attr struct, and I'm *guessing* the
-best way for the verifier to indicate the result of the signature
-verification is via a field inside bpf_prog_aux, this means the hook
-could look something like this:
+ scripts/Makefile.build | 84 ++++++++++++++++++++++++++++++++++++++++++
+ scripts/Makefile.lib   | 84 ------------------------------------------
+ 2 files changed, 84 insertions(+), 84 deletions(-)
 
-  int security_bpf_prog_verified(bpf_prog, bpf_attr);
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 13dcd86e74ca..8d8252229895 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -37,6 +37,90 @@ include $(srctree)/scripts/Makefile.compiler
+ include $(kbuild-file)
+ include $(srctree)/scripts/Makefile.lib
+ 
++# flags that take effect in current and sub directories
++KBUILD_AFLAGS += $(subdir-asflags-y)
++KBUILD_CFLAGS += $(subdir-ccflags-y)
++KBUILD_RUSTFLAGS += $(subdir-rustflags-y)
++
++# Figure out what we need to build from the various variables
++# ===========================================================================
++
++# When an object is listed to be built compiled-in and modular,
++# only build the compiled-in version
++obj-m := $(filter-out $(obj-y),$(obj-m))
++
++# Libraries are always collected in one lib file.
++# Filter out objects already built-in
++lib-y := $(filter-out $(obj-y), $(sort $(lib-y) $(lib-m)))
++
++# Subdirectories we need to descend into
++subdir-ym := $(sort $(subdir-y) $(subdir-m) \
++			$(patsubst %/,%, $(filter %/, $(obj-y) $(obj-m))))
++
++# Handle objects in subdirs:
++# - If we encounter foo/ in $(obj-y), replace it by foo/built-in.a and
++#   foo/modules.order
++# - If we encounter foo/ in $(obj-m), replace it by foo/modules.order
++#
++# Generate modules.order to determine modorder. Unfortunately, we don't have
++# information about ordering between -y and -m subdirs. Just put -y's first.
++
++ifdef need-modorder
++obj-m := $(patsubst %/,%/modules.order, $(filter %/, $(obj-y)) $(obj-m))
++else
++obj-m := $(filter-out %/, $(obj-m))
++endif
++
++ifdef need-builtin
++obj-y		:= $(patsubst %/, %/built-in.a, $(obj-y))
++else
++obj-y		:= $(filter-out %/, $(obj-y))
++endif
++
++# Expand $(foo-objs) $(foo-y) etc. by replacing their individuals
++suffix-search = $(strip $(foreach s, $3, $($(1:%$(strip $2)=%$s))))
++# List composite targets that are constructed by combining other targets
++multi-search = $(sort $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $m)))
++# List primitive targets that are compiled from source files
++real-search = $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $(call suffix-search, $m, $2, $3), $m))
++
++# If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a composite object
++multi-obj-y := $(call multi-search, $(obj-y), .o, -objs -y)
++multi-obj-m := $(call multi-search, $(obj-m), .o, -objs -y -m)
++multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
++
++# Replace multi-part objects by their individual parts,
++# including built-in.a from subdirectories
++real-obj-y := $(call real-search, $(obj-y), .o, -objs -y)
++real-obj-m := $(call real-search, $(obj-m), .o, -objs -y -m)
++
++always-y += $(always-m)
++
++# hostprogs-always-y += foo
++# ... is a shorthand for
++# hostprogs += foo
++# always-y  += foo
++hostprogs += $(hostprogs-always-y) $(hostprogs-always-m)
++always-y += $(hostprogs-always-y) $(hostprogs-always-m)
++
++# userprogs-always-y is likewise.
++userprogs += $(userprogs-always-y) $(userprogs-always-m)
++always-y += $(userprogs-always-y) $(userprogs-always-m)
++
++# Add subdir path
++
++ifneq ($(obj),.)
++extra-y		:= $(addprefix $(obj)/, $(extra-y))
++always-y	:= $(addprefix $(obj)/, $(always-y))
++targets		:= $(addprefix $(obj)/, $(targets))
++obj-m		:= $(addprefix $(obj)/, $(obj-m))
++lib-y		:= $(addprefix $(obj)/, $(lib-y))
++real-obj-y	:= $(addprefix $(obj)/, $(real-obj-y))
++real-obj-m	:= $(addprefix $(obj)/, $(real-obj-m))
++multi-obj-m	:= $(addprefix $(obj)/, $(multi-obj-m))
++subdir-ym	:= $(addprefix $(obj)/, $(subdir-ym))
++endif
++
+ ifndef obj
+ $(warning kbuild: Makefile.build is included improperly)
+ endif
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 2fe73cda0bdd..2d3a8470cf39 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -1,89 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-# flags that take effect in current and sub directories
+-KBUILD_AFLAGS += $(subdir-asflags-y)
+-KBUILD_CFLAGS += $(subdir-ccflags-y)
+-KBUILD_RUSTFLAGS += $(subdir-rustflags-y)
+-
+-# Figure out what we need to build from the various variables
+-# ===========================================================================
+-
+-# When an object is listed to be built compiled-in and modular,
+-# only build the compiled-in version
+-obj-m := $(filter-out $(obj-y),$(obj-m))
+-
+-# Libraries are always collected in one lib file.
+-# Filter out objects already built-in
+-lib-y := $(filter-out $(obj-y), $(sort $(lib-y) $(lib-m)))
+-
+-# Subdirectories we need to descend into
+-subdir-ym := $(sort $(subdir-y) $(subdir-m) \
+-			$(patsubst %/,%, $(filter %/, $(obj-y) $(obj-m))))
+-
+-# Handle objects in subdirs:
+-# - If we encounter foo/ in $(obj-y), replace it by foo/built-in.a and
+-#   foo/modules.order
+-# - If we encounter foo/ in $(obj-m), replace it by foo/modules.order
+-#
+-# Generate modules.order to determine modorder. Unfortunately, we don't have
+-# information about ordering between -y and -m subdirs. Just put -y's first.
+-
+-ifdef need-modorder
+-obj-m := $(patsubst %/,%/modules.order, $(filter %/, $(obj-y)) $(obj-m))
+-else
+-obj-m := $(filter-out %/, $(obj-m))
+-endif
+-
+-ifdef need-builtin
+-obj-y		:= $(patsubst %/, %/built-in.a, $(obj-y))
+-else
+-obj-y		:= $(filter-out %/, $(obj-y))
+-endif
+-
+-# Expand $(foo-objs) $(foo-y) etc. by replacing their individuals
+-suffix-search = $(strip $(foreach s, $3, $($(1:%$(strip $2)=%$s))))
+-# List composite targets that are constructed by combining other targets
+-multi-search = $(sort $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $m)))
+-# List primitive targets that are compiled from source files
+-real-search = $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -), $(call suffix-search, $m, $2, $3), $m))
+-
+-# If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a composite object
+-multi-obj-y := $(call multi-search, $(obj-y), .o, -objs -y)
+-multi-obj-m := $(call multi-search, $(obj-m), .o, -objs -y -m)
+-multi-obj-ym := $(multi-obj-y) $(multi-obj-m)
+-
+-# Replace multi-part objects by their individual parts,
+-# including built-in.a from subdirectories
+-real-obj-y := $(call real-search, $(obj-y), .o, -objs -y)
+-real-obj-m := $(call real-search, $(obj-m), .o, -objs -y -m)
+-
+-always-y += $(always-m)
+-
+-# hostprogs-always-y += foo
+-# ... is a shorthand for
+-# hostprogs += foo
+-# always-y  += foo
+-hostprogs += $(hostprogs-always-y) $(hostprogs-always-m)
+-always-y += $(hostprogs-always-y) $(hostprogs-always-m)
+-
+-# userprogs-always-y is likewise.
+-userprogs += $(userprogs-always-y) $(userprogs-always-m)
+-always-y += $(userprogs-always-y) $(userprogs-always-m)
+-
+-# Add subdir path
+-
+-ifneq ($(obj),.)
+-extra-y		:= $(addprefix $(obj)/,$(extra-y))
+-always-y	:= $(addprefix $(obj)/,$(always-y))
+-targets		:= $(addprefix $(obj)/,$(targets))
+-obj-m		:= $(addprefix $(obj)/,$(obj-m))
+-lib-y		:= $(addprefix $(obj)/,$(lib-y))
+-real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
+-real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
+-multi-obj-m	:= $(addprefix $(obj)/, $(multi-obj-m))
+-subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
+-endif
+-
+ # Finds the multi-part object the current object will be linked into.
+ # If the object belongs to two or more multi-part objects, list them all.
+ modname-multi = $(sort $(foreach m,$(multi-obj-ym),\
+-- 
+2.43.0
 
-... and be called immediately after bpf_check() in bpf_prog_load().
-As far as the new field in bpf_prog_aux is concerned, I think we can
-probably start off with a simple bool to indicate whether a signature
-was verified or not, with an understanding that we can move to a
-richer construct in the future if we find it necessary.  Neither of
-these are directly visible to userspace so we have the ability to
-start simple and modify as needed.
-
-Does this sound reasonable to everyone?  Does anyone have any other
-thoughts on the authorization aspect of BPF signature verification?
-
---=20
-paul-moore.com
 
