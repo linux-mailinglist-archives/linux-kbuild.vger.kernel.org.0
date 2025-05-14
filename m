@@ -1,144 +1,260 @@
-Return-Path: <linux-kbuild+bounces-7096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A47FAB5D98
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 May 2025 22:18:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5A1AB6089
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 03:47:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0E291B44CE9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 May 2025 20:18:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A01327AC714
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 01:46:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5856F1E5734;
-	Tue, 13 May 2025 20:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 121D11B4F08;
+	Wed, 14 May 2025 01:47:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g7ClsNqZ"
+	dkim=pass (2048-bit key) header.d=underview.tech header.i=@underview.tech header.b="dWN0wZZ0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90BD53365
-	for <linux-kbuild@vger.kernel.org>; Tue, 13 May 2025 20:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F032828EC
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 01:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747167492; cv=none; b=i5wZyEDCPnCMS+Qzdlp2ezQ/Su+UNoWKOaI6A/ENOEXk9b+40pz3LUv1w4TJbBBoh/ngw6RoORPTJwCVlQA7P4mEX6SsaFhtPRpHZqUPTnUwwzi8F0QLnDjOcS2r3cGRFveu2S9TNoC5s6b38+IHLn/iT3vwDUf2UzQb5Mn/yao=
+	t=1747187268; cv=none; b=uH+pQLkAnuM1ZxVZxuG7vT5Izp5PRgeAzLSbWuAq+s/zOOz7GB8pveuBQ+E2NH3MM2hS3crSicP/z/01/Aeppw+uLQAZwggXV7iF9Ie+cgVWDfOpc9DifhEjMq5Lt8ZvDoHxN/Ws2l1yOugNqSFbBZvNBZpqISAq07s9dh9uEqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747167492; c=relaxed/simple;
-	bh=OJwf1gtrdOmEhHBqP9wFleegBTEbOGMxB+QBp4GPBy4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=gt/eKdL0Z10J9dN5oP48bwT4yjmqmQZm+/5WwC1S2ZwxxsjrvjSBKe6Sk/fuarJ1N0+ASQtbkwi6w0Dh/VQRJPXmhCmuVP5QM4mrpmbPdh6TiPBFnZLh4XVCRS2u4uZaT3YJRIzBkrbRZhGJc9nNxa60VcHny9CogL4ZCrX3AIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g7ClsNqZ; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-48b7747f881so7981cf.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 May 2025 13:18:10 -0700 (PDT)
+	s=arc-20240116; t=1747187268; c=relaxed/simple;
+	bh=wj5wh9ID2lPhxAhS8aQurIWTy4JIFjei898rvS5iptM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=F4qSwGOOHH9NpEBEQ+j8jJBuKh26PtuR65Brpj6YPVlNhiCeWfRbNuqrqwJiwH+aqXlUCjdoC0374LoQ6tAixqifQTcGkrp/Hr1N0Mz9gue59oTKh7RnGCbMKHMw9xjxjOev4Trc22Cc5lPn+0QEhhaZ7OCrQzPRhn96qwo65lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=underview.tech; spf=pass smtp.mailfrom=underview.tech; dkim=pass (2048-bit key) header.d=underview.tech header.i=@underview.tech header.b=dWN0wZZ0; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=underview.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=underview.tech
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43cf848528aso54637565e9.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 May 2025 18:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747167489; x=1747772289; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QKsWC1u9X6eSVEPOec0CVbM42qOzgIx89b27GhS8NEI=;
-        b=g7ClsNqZyUsh/xx4wbXrLm/9fNlPsNHpufguCXw0ABTf4D10RsHqZ6Ws5EPT9mZtPi
-         zi1W0sg+0biKXaPSjNCfk05BZ2YCwNI984EC4mJt4VELpg1GKOGBwtYaxDJ7l0nQldRF
-         HaSKwiIUy521NASaxJgGW9vSlA8uGohkekhN6hDyKiehJyoFat0M4BT20C6l58Mq9lnt
-         XYEiCTTUjArAuXGBgOsWyD+kjnEyr1ylMn5KhKnFO0JCcgK/TmFFhEeAHM21RcK8xb7Y
-         GSE8MoMBd7Mn4HwcJFIPtq2VD9fi5pINtH80Pv4lE9KhkoihFA7uBPVA/dfqDjLPDZDW
-         GihQ==
+        d=underview.tech; s=google; t=1747187260; x=1747792060; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/zDu+Eyb3fQ+Lm0BoSCJUEmgXi2uNrlxCFDLroTO47I=;
+        b=dWN0wZZ09oEidWCzoZ9nYpfppEHJphWlXImvmawG2L6oE16JdLSX78/E1XOCrIPIlT
+         tTC6BKd2AXvj/ppGqH6IVWgk0ppiWlyJyixMgCFOgyR94ypz8A8HxzQg/ThZFimrTbOS
+         IRaLKCN1e937/O7o5J0C6zohdUFPO5hZgx7SP9YkgGjJS43qHF9PHKrvREIfONSvMHny
+         nfV2Te/ZRmlzjbwe95ybQA9IDQMZn0ZhQUx8L/bEYXISI5FgdnTIUexHX6CTBEXJz7hT
+         4LMJFF3gJsa713bk/pbgQkfJ6qbMAT1dW3FPg0Kd2tRoAxnxhadfFrUvODop8l0NCEh9
+         LEAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747167489; x=1747772289;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QKsWC1u9X6eSVEPOec0CVbM42qOzgIx89b27GhS8NEI=;
-        b=qamKYIi/GA5CsA/KJyzblEWFlt6FyEorWxAdZFZhwXZdqvIhq8WZadxVrKfYuhzLCX
-         VePd0LeItyuNgFA9HoxHAox97usLlm/s3/mamwmdBXhKLfbvnK7CPBawZ+PEub2sJ+Ix
-         QLplHkqlUHoJaFkDEcQHAPXjSrncP144MnjB0vwzhTU0FTjPG40ebcLWQl4FRrhQX2O4
-         WHFceA3M2ebErTS1RRrn0er0jsC4vQBJlKW5/e1ybRKAc/rIhMPLHJJzB7/p8mgr2VbH
-         vKFp2s6PWZoazuCwuC4vxLblHoPRaFZHUanA+oI+0BQ2smQdrW8NoryEw+IHbDTY7mDi
-         DQOg==
-X-Gm-Message-State: AOJu0YynsFLrYmdxPd0/JZYJzVfkBJs0KmzCE14gpokFy6Fiuu9LiH4t
-	K2OJCCt6HWLC+9K6SQWzbhBkeIvqzspO3dQTvhF1WBtcPF38N6M4gppYhy3unElukoTxpBHaCX7
-	Jq+eKPN2MBdmieBrtseHgBPQKzJPERm4cDehLvs8vX5nd5eZK0sdGsaIkjwY=
-X-Gm-Gg: ASbGncs3v5IkXVt32Vnse+pgYT6KXFx675d1K0Q1g92zojs9Uw8Mij0DsyFG/tcGYL4
-	jdh2gqWVxRX0dIUSFlH9jhaLSzp/EqEnyaIkkOzPMdivWyQW4ck4OV6AtBBRrK0IzFyt1ieOKsT
-	aNu7ytcr7mvbfU39LucUz4ZcrgstgdPOtYAPomioNHdiwvLB//SVjnsIKtshgbQmg=
-X-Google-Smtp-Source: AGHT+IGEtUrn9XfdTBXRqAN2YkrqX6c6hwoMmWOXAJ+dYk39cUO+JymlWd0u0hNCUeCe28uXlvLjHIF9E0I3gGOsgjY=
-X-Received: by 2002:a05:622a:486:b0:474:fb73:6988 with SMTP id
- d75a77b69052e-49496168ee5mr1047121cf.24.1747167488798; Tue, 13 May 2025
- 13:18:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747187260; x=1747792060;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/zDu+Eyb3fQ+Lm0BoSCJUEmgXi2uNrlxCFDLroTO47I=;
+        b=I7pSSQ+dVEExjrDlQtAH4Rmk81rllcVAfppa1Hb8AWlcGDItfaMch969dHomqxSyUp
+         BTLffwc7sgVzIlFPgRFlIT0CEqycZjDgz66pohCHDE11UxIZOBBj5eTt+AONDlqAptOR
+         dgKc+ql3N+NTPggaWX4+MHb+cbv5eDYjZ6wO0f1wlGYseaSMedU6nCsypZlCj6zSlg4W
+         zqQInPeQaVO5BCIhAzgYuN5/mLbJGkMLQ3Tj9tLDUJ1FJyAyqhexkYSnf6ldoOVEKWUe
+         NqVej2afFyMM8EJMMl2hZ7T/rhdtiH5Bf+NjPI4aOTpJF8/FXzmYob3XXonk1jin8cJH
+         nysA==
+X-Gm-Message-State: AOJu0YzJyWF4LGMC1jgHGkIMdvQB4G4NyuA1LN0MrJWS0JOVrEQp0mUX
+	2cvPRILyTnKsqzoBkKmUMJshWQeDs375mXo3hjtlHqTgsS2cagk3Hl4sFlWplKOgLtNSSqQstM5
+	GJbncZ+WC43VsfLx6WzDwhJmS6XnGXlBbH2n0kI5nXJw7YFGNmWA=
+X-Gm-Gg: ASbGncswyh6RWNQtMiI4BXWtWdv0cu8WWEM4lif5sZlPgAP5AgZeSqWNmifRdFfInRs
+	ngOiTJ8QZF9fDadGKcxtTxo04t/6eLOMvw/uQOkisfYQlUqabDAYzVxeUjfNhcrXF9d/g5ODhGl
+	TTfOBRgpnXJavgfZU5NUaPfBlFWvtmJuMVWlffJKuRUh4NQZTa2OCjygHHsMFXhtO4DMYsi6F2K
+	g==
+X-Google-Smtp-Source: AGHT+IF7RnWMGMaZDvCKKiBxQcI37VJxwQ++xZjD1slpsDZ0ad9x6GH6JtKkZtsC+HeyHWKGbHqkNBWajHT04iGx8QE=
+X-Received: by 2002:a05:600c:6692:b0:43c:e7a7:aea0 with SMTP id
+ 5b1f17b1804b1-442f2168c36mr10172025e9.26.1747187260283; Tue, 13 May 2025
+ 18:47:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Juan Yescas <jyescas@google.com>
-Date: Tue, 13 May 2025 13:17:57 -0700
-X-Gm-Features: AX0GCFtnQh3cBk6lPh07x_W0a0iviqJ84geEfWk1lHFPPqHMzAlD04cGac9wdIk
-Message-ID: <CAJDx_rjX4Z3QvoFDnQ7qH06x+Q+pTP3bAyLv2GD2C+CoWu9haQ@mail.gmail.com>
-Subject: Kconfig for range is being ignored
+References: <20250513040409.147881-1-vince@underview.tech> <CAK7LNAQw0KH-yaGTYi7Efy-NpkYuC8qyMfB04pq2DkS6FTQkeg@mail.gmail.com>
+In-Reply-To: <CAK7LNAQw0KH-yaGTYi7Efy-NpkYuC8qyMfB04pq2DkS6FTQkeg@mail.gmail.com>
+From: Vincent Davis <vince@underview.tech>
+Date: Tue, 13 May 2025 21:47:29 -0400
+X-Gm-Features: AX0GCFuifi53uGAQFBXnodud9nrBdgOxhznrC5IN_t5NQPWmLIByqpGgZxCpI9o
+Message-ID: <CAPQx_gO-HqcAPES8TGwM=uUNF_OOkNSAi6C8Z5=5K4-ODb9OsQ@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: add KCFLAGS to build with Yocto SDK
 To: linux-kbuild@vger.kernel.org
-Cc: Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Kalesh Singh <kaleshsingh@google.com>, Isaac Manjarres <isaacmanjarres@google.com>, 
-	Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Hildenbrand <david@redhat.com>, 
-	Mike Rapoport <rppt@kernel.org>, Minchan Kim <minchan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Kbuild team,
+Hello,
 
-In the patch from below, I am adding a new configuration that depends
-on ARCH_FORCE_MAX_ORDER.
+Sorry I should have given a better description. First kernel patch.
 
-https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
+There appears to be a userspace program called fixdep.c.
+That won't compile when you utilize the yocto project SDK
+cross compilers. Problems are described in the original patch.
 
-When ARCH_FORCE_MAX_ORDER is defined, the max value of PAGE_BLOCK_ORDER has
-to be ARCH_FORCE_MAX_ORDER.
+We have to run make modules_prepare as there's limits with the
+Yocto project kernel-devsrc package that gets included in the SDK.
 
-mm/Kconfig
+After SDK extraction, developers have to first prepare the SDK's
+kernel source tree to be able to build any out of tree drivers with
+the SDK's cross-compilers. This wasn't achievable without the
+submitted patch.
 
-config ARCH_FORCE_MAX_ORDER
-      int
-config PAGE_BLOCK_ORDER
-       int "Page Block Order"
-       range 1 10 if !ARCH_FORCE_MAX_ORDER
-       default 10 if !ARCH_FORCE_MAX_ORDER
-       range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
-       default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
+Sorry for poor timing. I am going on vacation and can't respond
+due to emails needing to be in plain text. Please don't ignore
+future patches.
 
-This configuration works on ARM64, however, on powerpc, the restriction is
-not being respected.
+For instance if I run bellow commands
 
-The main difference that I see between arch/arm64/Kconfig and
-arch/powerpc/Kconfig
-is that powerpc/Kconfig is using ranges, but not in arm64/Kconfig
+$ ./x86_64-0.1.0-underview.sh
+Underview SDK installer version 0.1.0
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Enter target directory for SDK (default: .): extract-sdk
+You are about to install the SDK to "/home/vince/extract-sdk". Proceed [Y/n=
+]? Y
+Extracting SDK.............................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...............................................done
+Setting it up...done
+SDK has been successfully set up and is ready to be used.
+Each time you wish to use the SDK in a new shell session, you need to
+source the environment setup script e.g.
+ $ . /home/vince/extract-sdk/environment-setup-zen1-underview-linux
 
-https://elixir.bootlin.com/linux/v6.14.6/source/arch/arm64/Kconfig#L1637
-config ARCH_FORCE_MAX_ORDER
-int
-default "13" if ARM64_64K_PAGES
-default "11" if ARM64_16K_PAGES
-default "10"
+ $ source /home/vince/extract-sdk/environment-setup-zen1-underview-linux
 
-https://elixir.bootlin.com/linux/v6.14.6/source/arch/powerpc/Kconfig#L918
-config ARCH_FORCE_MAX_ORDER
-int "Order of maximal physically contiguous allocations"
-range 7 8 if PPC64 && PPC_64K_PAGES
-default "8" if PPC64 && PPC_64K_PAGES
-range 12 12 if PPC64 && !PPC_64K_PAGES
-default "12" if PPC64 && !PPC_64K_PAGES
-range 8 10 if PPC32 && PPC_16K_PAGES
+$ cd /home/vince/extract-sdk
+ $ ls sysroots/zen1-underview-linux/usr/lib/modules/6.6.9-amd-standard/buil=
+d/
+arch   certs   Documentation  fs       init      ipc     Kconfig  lib
+     mm              net   samples  security
+System.map-6.6.9-amd-standard  usr
+block  crypto  drivers        include  io_uring  Kbuild  kernel
+Makefile  Module.symvers  rust  scripts  sound     tools
+           virt
 
-How to reproduce it
- $ ARCH=powerpc make allmodconfig
- $ cat .config | grep MAX_ORDER
-CONFIG_ARCH_FORCE_MAX_ORDER=8
- $ cat .config | grep PAGE_BLOCK
-CONFIG_PAGE_BLOCK_ORDER=10.   -> This should be 8, NOT 10.
+ $ make -C sysroots/zen1-underview-linux/usr/lib/modules/6.6.9-amd-standard=
+/build
+modules_prepare
+make: Entering directory
+'/home/vince/extract-sdk/sysroots/zen1-underview-linux/usr/lib/modules/6.6.=
+9-amd-standard/build'
+  SYNC    include/config/auto.conf
+  HOSTCC  scripts/basic/fixdep
+scripts/basic/fixdep.c:92:10: fatal error: sys/types.h: No such file
+or directory
+   92 | #include <sys/types.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[3]: *** [scripts/Makefile.host:114: scripts/basic/fixdep] Error 1
+make[2]: *** [Makefile:633: scripts_basic] Error 2
+make[1]: *** [/home/vince/extract-sdk/sysroots/zen1-underview-linux/usr/lib=
+/modules/6.6.9-amd-standard/build/Makefile:798:
+include/config/auto.conf] Error 2
+make[1]: *** [include/config/auto.conf] Deleting file
+'include/generated/rustc_cfg'
+make[1]: *** [include/config/auto.conf] Deleting file
+'include/generated/autoconf.h'
+make: *** [Makefile:234: __sub-make] Error 2
+make: Leaving directory
+'/home/vince/extract-sdk/sysroots/zen1-underview-linux/usr/lib/modules/6.6.=
+9-amd-standard/build'
 
-Is the Kconfig in this change
-https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
-configured properly? What needs to be changed?
+Hopefully makes sense
 
-Thanks
-Juan
+
+On Tue, May 13, 2025 at 10:39=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> On Tue, May 13, 2025 at 1:04=E2=80=AFPM Vincent Davis Jr <vince@underview=
+.tech> wrote:
+> >
+> > When running
+> >
+> > make -C \
+> > "${SDKTARGETSYSROOT}/lib/modules/<kernel version>/build" \
+> > modules_prepare
+>
+> This is not the correct way to build an external module.
+> Do not run modules_prepare.
+>
+>
+>
+>
+> > Issue that are encountered include
+> >
+> > make -f ./Makefile syncconfig
+> > make -f ./scripts/Makefile.build obj=3Dscripts/basic
+> >    92 | #include <sys/types.h>
+> >       |          ^~~~~~~~~~~~~
+> > compilation terminated.
+> >
+> > ld: cannot find Scrt1.o: No such file or directory
+> > ld: cannot find crti.o: No such file or directory
+> > ld: cannot find crtbeginS.o: No such file or directory
+> > ld: cannot find -lgcc: No such file or directory
+> > ld: cannot find -lgcc_s: No such file or directory
+> > ld: cannot find -lc: No such file or directory
+> > ld: cannot find -lgcc: No such file or directory
+> > ld: cannot find -lgcc_s: No such file or directory
+> > ld: cannot find crtendS.o: No such file or directory
+> > ld: cannot find crtn.o: No such file or directory
+> >
+> > Solved by setting KCFLAGS as the yocto project SDK
+> > KCFLAGS is set to --sysroot=3D"${SDKTARGETSYSROOT}".
+> >
+> > Signed-off-by: Vincent Davis Jr <vince@underview.tech>
+> > ---
+> >  Makefile | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 64c514f4bc19..bbe7b0503841 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -459,7 +459,7 @@ HOSTRUSTC =3D rustc
+> >  HOSTPKG_CONFIG =3D pkg-config
+> >
+> >  KBUILD_USERHOSTCFLAGS :=3D -Wall -Wmissing-prototypes -Wstrict-prototy=
+pes \
+> > -                        -O2 -fomit-frame-pointer -std=3Dgnu11
+> > +                        -O2 -fomit-frame-pointer -std=3Dgnu11 $(KCFLAG=
+S)
+>
+>
+> Sorry, I do not understand what you are trying to achieve.
+>
+> KCFLAGS is meant to specify compiler flags for the kernel-space,
+> not userspace host programs.
+>
+>
+>
+>
+> >  KBUILD_USERCFLAGS  :=3D $(KBUILD_USERHOSTCFLAGS) $(USERCFLAGS)
+> >  KBUILD_USERLDFLAGS :=3D $(USERLDFLAGS)
+> >
+> > @@ -491,7 +491,7 @@ KBUILD_HOSTCXXFLAGS :=3D -Wall -O2 $(HOST_LFS_CFLAG=
+S) $(HOSTCXXFLAGS) \
+> >                        -I $(srctree)/scripts/include
+> >  KBUILD_HOSTRUSTFLAGS :=3D $(rust_common_flags) -O -Cstrip=3Ddebuginfo =
+\
+> >                         -Zallow-features=3D $(HOSTRUSTFLAGS)
+> > -KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+> > +KBUILD_HOSTLDFLAGS  :=3D $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS) $(KCFLAGS)
+> >  KBUILD_HOSTLDLIBS   :=3D $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+> >  KBUILD_PROCMACROLDFLAGS :=3D $(or $(PROCMACROLDFLAGS),$(KBUILD_HOSTLDF=
+LAGS))
+> >
+> > --
+> > 2.43.0
+> >
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
