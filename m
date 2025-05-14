@@ -1,56 +1,56 @@
-Return-Path: <linux-kbuild+bounces-7115-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7116-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246F1AB7475
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 20:36:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 974BDAB74B7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 20:48:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A608817B0D5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 18:36:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC2DC8C34D8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 18:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F16128850D;
-	Wed, 14 May 2025 18:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE1B289E00;
+	Wed, 14 May 2025 18:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLf/ZzIx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mg0Eqts1"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4729E2882DE
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A92289820
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747247765; cv=none; b=a9PXoewsFzHAfcY/Vmpks4vilBsAJv+pPJfu9xKHaF812wMkp/2V1y6rYbCi4pnX5G8QbRaijnAM54WCIln6krRbqmpTUuhxzubDC+2gqKOYUd53vSNnAA2j1liI5dXIYoKl925zymVOuAYSWXQNY5ARfXEzuMpZVlOU8NC1ePY=
+	t=1747248517; cv=none; b=h5Fybq210Lrqx5QpD8r/IQ7gc5K/1JpTMxr4iIuXg//OmG2Tcj0hBoXzZOlgghOvxenGgLWkUAAeW7Irch4vWMfSzsORRFIsZrJMtvR+R6Q0lwArYJLQhou6Oq/PHkRt7QT3BT8s7tU+5JXXfKZBy0osUk4RUIGKXTCZB2+8ASY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747247765; c=relaxed/simple;
-	bh=n8OkFEtK5qsGzPSQCw/DDyQkU2+NMxIA/bfzisKk5nk=;
+	s=arc-20240116; t=1747248517; c=relaxed/simple;
+	bh=1dL3jkRxFC0P91egx6YqWf3eBdBVV0GfaxQZDGn2glA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qRUZ5S9fM9t0UBtSkZMmRGZzIdlqu32/wzR/cH9F/9WPlF0JRZb/lcixNl2eaKUIWIvfT1s4gteiv2gVimc28eGilStixyfFe8ScXhpSVSCSM6P8vSaAfnrbKFd49Y9CyKKd2ZwYuNYqpEqGbl9cOAiNEZl8bs41da1ZgRdY8Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLf/ZzIx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2408C4CEF8
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:36:04 +0000 (UTC)
+	 To:Cc:Content-Type; b=QPinDklVP/0r8QHa3+E//SI0ohdAHMRQP7VKsu53baAhIei+0hVwTXkB3CDp14GBbqlZh9S2yKoqlxA2qeqjogO9agff5Kf1Hzr8lHZcjnxQWkf0zUknHdhaOHV1SZQOUiFC/CGJhpQ4Lo22kE8vCgIdVcPQMUNMLXYpQXWHzIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mg0Eqts1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9085C4CEF4
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747247764;
-	bh=n8OkFEtK5qsGzPSQCw/DDyQkU2+NMxIA/bfzisKk5nk=;
+	s=k20201202; t=1747248516;
+	bh=1dL3jkRxFC0P91egx6YqWf3eBdBVV0GfaxQZDGn2glA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ZLf/ZzIxh8IseGODUssUebbqG1ehGKseB3b7TNDvqXd5kl/9WyCr8UyQjYcqfPLb8
-	 V4sU17GiaUExqt2iFNJySI5ZDrYptTMEyMj7ii4yOcFr1DeaEiC8PLnTgdj+SweOqh
-	 0k4qpQc4mmhvPoJ0m0lr9dRjhXDFdBP2aAeLh8h9+xrO/tqCPFRM9x/6ebJAlRRld2
-	 oqTNdH4iTWXEUM3+e3wErPj+Y5tziGfJKxCTrAbvCUpugzOhSX5aa73D+oTXiM33z+
-	 /7mbR76sYDx8NQCQWnSwv5fP2OPt2Fg7LknMYjkAJE787Xh+wiaJzIbpPNrsyDMHOM
-	 bjMTwF5QI9FDw==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5f62d3ed994so262373a12.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 11:36:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWuCRx1U4ucClg7o2rfGG6ARa/De5nCS24QxXHby0GOADIBWMuXCTZr1N7mkBWKTcm6tw1SvDb4BAYz1W8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTgpC48a5OmVgwjodHJs3XQBd9C+k1yrdZmHkljWVPW2+oDLm1
-	d0fctBF5u40Gwa+ndnaji8OrXTB+bYdeyJG9ccp884p8E+ppGCVz6BEtsMNyyWCdb3Tsjkb1351
-	0JfvEV85I0BjX7XYIuh7TY2uBeiJSF+9DrSOy
-X-Google-Smtp-Source: AGHT+IEl1DvbEMw+yk3rpe5pcQRnRkHqw0yaLyS5yFKtqEhmO+OtJFCYu+dq/Tfw47wLhCLzInlT++c1q0uIAPTLVjI=
-X-Received: by 2002:a17:907:6ea9:b0:abf:7453:1f1a with SMTP id
- a640c23a62f3a-ad4f71830f3mr476336466b.36.1747247763222; Wed, 14 May 2025
- 11:36:03 -0700 (PDT)
+	b=Mg0Eqts14L0guJ1PrWLkAfuX/ZsaMTsrYXMFSHFlNruLkORmCsrtCY27SoCSv+jcI
+	 3nWIW/6lqTJ9yMqMA9edrIqDNSVgX15wVLZY3tuaR7FXreCx0G+UFG9C+uItT+oNvg
+	 qQcslNN7F0tjiJcbmW1jqYLf+hw6wPCqFTbUDKP+S1Wtfn5Sjy5N5opXjhL1V0OeHu
+	 FQUu5eAdGWpW3o5Ew42+l6LrC1bB8ryawB9yzrw9aLuWKlr5cNce0KJF2lovkbfzba
+	 1Xp5XRsSP8XD1aZcjL83xxac4Vqh0dcNm2z9rRlYZyrjGI8SOdbZn/GNVahMsv0iR4
+	 5l9PTkoPx6H+w==
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5fbee929e56so301702a12.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 11:48:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWbVsPbP0txKSDb+9N7vNvQyroG9ttj1N7pvbPvVnJitZiKCubXOMt0bJ6YeSy99MjKPvpN8TOKMn3OZZ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0SDar/TZQmA6RqBFRJSobqBFzGk23K1dOUUwt0vAKA3gNomVr
+	uwP3mVNxDtBfkL16sWqZOIzLTTRWZ5KNcGq3OoJB6jW1Vl0whR/pzmSGGa4IV6POoJzfbsZB4mD
+	riYqyC6akjcZu8i39Jn4pYzvxUc6vNlaMaw4J
+X-Google-Smtp-Source: AGHT+IEwYBrqLp5B8yM7DCtv9E2xaKltpmN2IE70cuY0GgkncCn02p6VNhOoZ0q8F3xgtHCoLYzieRnXkf+m1JsA3pw=
+X-Received: by 2002:a05:6402:2709:b0:5e7:8501:8c86 with SMTP id
+ 4fb4d7f45d1cf-5ff989141c5mr3783098a12.22.1747248514758; Wed, 14 May 2025
+ 11:48:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,142 +60,96 @@ MIME-Version: 1.0
 References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
  <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
  <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
- <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
- <beaa81748cf1325df67930bf74ea87e6cdcb3e46.camel@HansenPartnership.com>
- <CACYkzJ5XJOj08+hKheWDcqbPrFAwa+fFvOw+4QPAHBz1u2HgAg@mail.gmail.com>
- <4f92fcfaeffd179ff6ae265822dc79856310d6a3.camel@HansenPartnership.com> <CACYkzJ7Oh62u7bHwQ_nOLG54qnhyNU9msF5mWV_vFrBXw1oZqw@mail.gmail.com>
-In-Reply-To: <CACYkzJ7Oh62u7bHwQ_nOLG54qnhyNU9msF5mWV_vFrBXw1oZqw@mail.gmail.com>
+ <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com> <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
+In-Reply-To: <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
 From: KP Singh <kpsingh@kernel.org>
-Date: Wed, 14 May 2025 20:35:52 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ6hduH4X1wZywodNa3c13QVV=68CmxbpLK1MonuPwPtqw@mail.gmail.com>
-X-Gm-Features: AX0GCFvQMwapX4sf8TH_Zpj6o_q2i6iz_d_Lqjg6GnsG2H4aFquhRDphCLnKoWs
-Message-ID: <CACYkzJ6hduH4X1wZywodNa3c13QVV=68CmxbpLK1MonuPwPtqw@mail.gmail.com>
+Date: Wed, 14 May 2025 20:48:23 +0200
+X-Gmail-Original-Message-ID: <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
+X-Gm-Features: AX0GCFuIZdNpfAM0OCZ1PfMQ_hYGIe9IvTF-jFPpzRbhWO4tNX6gFXEj5lMCve4
+Message-ID: <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
 Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Paul Moore <paul@paul-moore.com>, bboscaccy@linux.microsoft.com, bpf@vger.kernel.org, 
-	code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, dhowells@redhat.com, 
-	gnoack@google.com, herbert@gondor.apana.org.au, jarkko@kernel.org, 
-	jmorris@namei.org, jstancek@redhat.com, justinstitt@google.com, 
-	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, llvm@lists.linux.dev, 
-	masahiroy@kernel.org, mic@digikod.net, morbo@google.com, nathan@kernel.org, 
-	neal@gompa.dev, nick.desaulniers+lkml@gmail.com, nicolas@fjasle.eu, 
-	nkapron@google.com, roberto.sassu@huawei.com, serge@hallyn.com, 
-	shuah@kernel.org, teknoraver@meta.com, xiyou.wangcong@gmail.com, 
-	kysrinivasan@gmail.com, Linus Torvalds <torvalds@linux-foundation.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: bboscaccy@linux.microsoft.com, James.Bottomley@hansenpartnership.com, 
+	bpf@vger.kernel.org, code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, 
+	dhowells@redhat.com, gnoack@google.com, herbert@gondor.apana.org.au, 
+	jarkko@kernel.org, jmorris@namei.org, jstancek@redhat.com, 
+	justinstitt@google.com, keyrings@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	llvm@lists.linux.dev, masahiroy@kernel.org, mic@digikod.net, morbo@google.com, 
+	nathan@kernel.org, neal@gompa.dev, nick.desaulniers+lkml@gmail.com, 
+	nicolas@fjasle.eu, nkapron@google.com, roberto.sassu@huawei.com, 
+	serge@hallyn.com, shuah@kernel.org, teknoraver@meta.com, 
+	xiyou.wangcong@gmail.com, kysrinivasan@gmail.com, 
+	Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 14, 2025 at 8:35=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrote=
-:
+On Wed, May 14, 2025 at 5:06=E2=80=AFAM Paul Moore <paul@paul-moore.com> wr=
+ote:
 >
-> On Wed, May 14, 2025 at 7:45=E2=80=AFPM James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
-> >
-> > On Wed, 2025-05-14 at 19:17 +0200, KP Singh wrote:
-> > > On Wed, May 14, 2025 at 5:39=E2=80=AFPM James Bottomley
-> > > <James.Bottomley@hansenpartnership.com> wrote:
-> > > > On Sun, 2025-05-11 at 04:01 +0200, KP Singh wrote:
-> > [...]
-> > > > > This implicitly makes the payload equivalent to the signed block
-> > > > > (B_signed)
-> > > > >
-> > > > >     I_loader || H_meta
-> > > > >
-> > > > > bpftool then generates the signature of this I_loader payload
-> > > > > (which now contains the expected H_meta) using a key (system or
-> > > > > user) with new flags that work in combination with bpftool -L
-> > > >
-> > > > Could I just push back a bit on this.  The theory of hash chains
-> > > > (which I've cut to shorten) is about pure data structures.  The
-> > > > reason for that is that the entire hash chain is supposed to be
-> > > > easily independently verifiable in any environment because anything
-> > > > can compute the hashes of the blocks and links.  This independent
-> > > > verification of the chain is key to formally proving hash chains to
-> > > > be correct.  In your proposal we lose the easy verifiability
-> > > > because the link hash is embedded in the ebpf loader program which
-> > > > has to be disassembled to do the extraction of the hash and verify
-> > > > the loader is actually checking it.
-> > >
-> > > I am not sure I understand your concern. This is something that can
-> > > easily be built into tooling / annotations.
-> > >
-> > >     bpftool -S -v <verification_key> <loader> <metadata>
-> > >
-> > > Could you explain what's the use-case for "easy verifiability".
-> >
-> > I mean verifiability of the hash chain link.  Given a signed program,
-> > (i.e. a .h file which is generated by bpftool) which is a signature
-> > over the loader only how would one use simple cryptographic operations
-> > to verify it?
+> On Sat, May 10, 2025 at 10:01=E2=80=AFPM KP Singh <kpsingh@kernel.org> wr=
+ote:
 > >
 >
-> I literally just said it above the hash can be extracted if you really
-> want offline verification. Are you saying this code is hard to write?
-> or is the tooling hard to write? Do you have some definition of
-> "simple cryptographic operations".  All operations use tooling.
+> ...
 >
+> > The signature check in the verifier (during BPF_PROG_LOAD):
 > >
-> > >
-> > > > I was looking at ways we could use a pure hash chain (i.e.
-> > > > signature over loader and real map hash) and it does strike me that
-> > > > the above ebpf hash verification code is pretty invariant and easy
-> > > > to construct, so it could run as a separate BPF fragment that then
-> > > > jumps to the real loader.  In that case, it could be constructed on
-> > > > the fly in a trusted environment, like the kernel, from the link
-> > > > hash in the signature and the signature could just be Sig(loader ||
-> > > > map hash) which can then be
-> > >
-> > > The design I proposed does the same thing:
-> > >
-> > >     Sig(loader || H_metadata)
-> > >
-> > > metadata is actually the data (programs, context etc) that's passed
-> > > in the map. The verification just happens in the loader program and
-> > > the loader || H_metadata is implemented elegantly to avoid any
-> > > separate payloads.
-> >
-> > OK, so I think this is the crux of the problem:  In formal methods
-> > proving the validity of a data based hash link is an easy set of
-> > cryptographic operations.  You can assert that's equivalent to a
-> > signature over a program that verifies the hash, but formally proving
-> > it requires a formal analysis of the program to show that 1) it
-> > contains the correct hash and 2) it correctly checks the hash against
-> > the map.  That makes the task of someone receiving the .h file
-> > containing the signed skeleton way harder: it's easy to prove the
-> > signature matches the loader instructions, but they still have to prove
-> > the instructions contain and verify the correct map hash.
-> >
+> >     verify_pkcs7_signature(prog->aux->sha, sizeof(prog->aux->sha),
+> > sig_from_bpf_attr, =E2=80=A6);
 >
-> I don't see this as a problem for 2 reasons:
+> I think we still need to clarify the authorization aspect of your
+> proposed design.
 >
-> 1. It's not hard
-> 2. Your typical user does not want to do formal verification and
-> extract signatures etc.
->
-> [1] alone is enough.
->
-> The key user journey is:
->
-> * Build the program and the metadata
-> * Sign the blob once (as explained)
-> * A simple API to verify the sequence of operations.
->
-> The user builds a program and signs the blob, they sign it because it
-> contains the hash of the metadata. It seems like you are optimizing
-> for the formal researcher but not for the tooling. The user just needs
+> Working under the assumption that the core BPF kernel code doesn't
+> want to enforce any restrictions, or at least as few as possible, I'm
 
-I meant not for the user.
+The assumption is not true, I should have clarified it in the original
+design. With the UAPI / bpf_attr the bpf syscall is simply denied if
+the signature does not verify, so we don't need any LSM logic for
+this. There is really no point in continuing as signature verification
+is a part of the API contract when the user passes the sig, keyring in
+the bpf syscall.
 
-> good tooling and a simple API which is exactly what was proposed.
+Also, since we have a solid grasp on the design and its implementation
+being contained, it will be much simpler for us to actually implement
+the patches. We will keep you posted.
+
+- KP
+
+> expecting that the BPF kernel code would want to adopt an "allow all"
+> policy when it comes to authorizing signed and unsigned BPF programs,
+> delegating any additional restrictions to the LSM.  With that in mind
+> I think we need to agree on a way for the BPF verifier to indicate
+> that it has verified the signature is correct to the LSM, and we need
+> a new LSM hook which runs *after* the verifier so that it can inspect
+> the results of the signature verification.  While it might be tempting
+> to relocate the existing security_bpf_prog_load() hook, I believe it
+> makes sense to leave that hook before the verifier for those LSMs that
+> wish control access prior to the verifier's inspection using criteria
+> other than signatures.
 >
-> - KP
+> With respect to the LSM hook, since it appears that the signature is
+> going to be included in the bpf_attr struct, and I'm *guessing* the
+> best way for the verifier to indicate the result of the signature
+> verification is via a field inside bpf_prog_aux, this means the hook
+> could look something like this:
 >
-> > Regards,
-> >
-> > James
-> >
-> >
+>   int security_bpf_prog_verified(bpf_prog, bpf_attr);
+>
+> ... and be called immediately after bpf_check() in bpf_prog_load().
+> As far as the new field in bpf_prog_aux is concerned, I think we can
+> probably start off with a simple bool to indicate whether a signature
+> was verified or not, with an understanding that we can move to a
+> richer construct in the future if we find it necessary.  Neither of
+> these are directly visible to userspace so we have the ability to
+> start simple and modify as needed.
+>
+> Does this sound reasonable to everyone?  Does anyone have any other
+> thoughts on the authorization aspect of BPF signature verification?
+>
+> --
+> paul-moore.com
 
