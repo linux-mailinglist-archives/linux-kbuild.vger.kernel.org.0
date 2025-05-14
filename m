@@ -1,89 +1,120 @@
-Return-Path: <linux-kbuild+bounces-7101-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7102-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B12AB62C9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 08:12:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A28AB6614
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 10:34:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19CE5189DD30
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 06:13:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3A083BF61E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 08:34:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16CC91F9F73;
-	Wed, 14 May 2025 06:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 739E221CC41;
+	Wed, 14 May 2025 08:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6GM90dt"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SrUIcqaP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0BE1F9A8B;
-	Wed, 14 May 2025 06:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356E427454
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 08:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747203169; cv=none; b=ezatxbR602nHnpWGHTwZbWMpTN4YNej6vV8FJcfhwo/OW+T/rdhHj1Dg2drNc1TNDdf3UAI35deCpS9iHzzyk1oljmoJ496npNd901dkZUp4QJeC7t1Izy8QXT+YEDExAImuR4QI56EEny3yVvIoDigjL94+4+eK5kbP2qLsM8Y=
+	t=1747211677; cv=none; b=NoW8LIwYy3c8VVu8syW0/+/mRJMbzSHdwCkzoQhrr6GTlzG9dzVNUfUouaA4koHyXDrU9Gnx2S4HvcN6HTvPOIdvP1TuMLnJyebvuzkNLe2ETtnQXB6FSPERT38bSSJHtp3B5RKz3ViRSfCXdvzYwTDlnW9tYOHYL9lS3Tfqj5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747203169; c=relaxed/simple;
-	bh=MbKXwjmaiYScSHrm+SxxJd9acFzoJ4VdbPHk3vs5hhM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ze8W/YkVW33URug8IzxMBp3UV/I4jsaDdfzJ8jh5ntuu38pryIbzAj0XL8nD7EPv8v1rM9G1PbtjCwPsCI9YNyRHCPPlwAg2KnqfxBTrJ34QG4MJUGXcnZq0XKATEZmN4OCIJ1skvN551pGS+VJ60hO6WJL7f/A2/IOD6Qt6TbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6GM90dt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467CBC4CEF1;
-	Wed, 14 May 2025 06:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747203168;
-	bh=MbKXwjmaiYScSHrm+SxxJd9acFzoJ4VdbPHk3vs5hhM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=B6GM90dtSVJKerKJ3NbZ8dO7dGwlu3/fzlsq2Rlgu6vk53sYPeSDuKknUbwXeSDrt
-	 zX9tC4jVD8hFfKZ89Ur0823xCZVsSjcHLy3SplGFJKroAKkJ1Txa+qZUc8d4Nl6AYZ
-	 MjTwkSl0ctCe0C4YZpfehadJv1c/94vnbIODXbSreq0xh0AtJnMMvsp7ezSN7S2Aza
-	 EgLnh0cag4E/B0Jvy2my/vFJapFzvI3BuW2cxns1U5+42KQ4DQts3v49RLzz+SMhCT
-	 x8KLf3CU5D3zwWhdJISOYy2buI/w5z6GglsajqK7Lz9/l4cPo+rgaLilX7IMowAAGP
-	 H3ZPVeUz3uNVA==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-326b49bed68so65474621fa.3;
-        Tue, 13 May 2025 23:12:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV76OLFQIZIslFO1dOFqm6X6jJbH3drrcZlFPNcNaSFgiSV1b8np9hBOYTVDC+mptiie4TPXJb0lMpdqpE=@vger.kernel.org, AJvYcCVo/2hgsptCFjIvKLGBJfc2lbVV1sIvgfmNdN0XqnAlSC+lON4kFWMGW05zrqcKXEEX88h3XlbycIPbeY1k@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgR1XmjtSxR9Dv5TSPnCKD6hgucdX5P4OAA6lSoTa0HZ1rOYWE
-	zpL7Y8H2fARnnr1vg8sJ0AEOlP0l8LIPtAi9OuRYeroniga/QFiRbtTMaQ8kNRdFXc0TdwzcuCZ
-	F3Tn9ykM5AwsuO8IuvHt9dhpOW8E=
-X-Google-Smtp-Source: AGHT+IE7DHAZQj4/Ereixflgo3F4NNkUTgRVWPRf2qjeU/KsJr+A3dpr6FzsR7MAZQBC+dbm0hi3E8kBOwaN1yV4u5c=
-X-Received: by 2002:a05:6512:440b:b0:54f:c101:4c04 with SMTP id
- 2adb3069b0e04-550d5fe9641mr766678e87.46.1747203166981; Tue, 13 May 2025
- 23:12:46 -0700 (PDT)
+	s=arc-20240116; t=1747211677; c=relaxed/simple;
+	bh=413HM5eboYj1vCQAGypKKKAbvRddV4u80mvB/tL2F9Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OzGM9JmtxPi2DU2knJzVRmt5zIrbNdOhU8Nlwg38vrdfc49wM997BXDgwaxBRsg0erPwS7rQ40f6nrK7xCWU3g7WO5rbyZ0iNT1RUPLiOgpibaPFmZsjW/cr09LuvBxCnUIbdQp5EZVhT3x0YF/9lMza8NsUREq9QeUwRsivQ84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SrUIcqaP; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a0bdcd7357so4612595f8f.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 01:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1747211673; x=1747816473; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pmPxzvplp27sf0Mh5TNQ3UmGJf69Of2vzLV4ej7YVkA=;
+        b=SrUIcqaPODojagnPoRW+EgNHSzbIpuBYPruB6ViPMGqoWp97FIvecSlIJ9uDylMavK
+         c+Gv4QFDYTXd5PTeupnbsBREDXj15BaTcDV9YTCvz2N98yQFV3v6M6oqsFqpsPkIslFJ
+         sIHjtvuuwsVzmNrfa9xXRCLBUL2k1YQ3EAl1bP0fBAgdEAVHsZ04GzYB0WHio/Gdv0PC
+         eLErMCCqLjeyEI6VCzzS+rKWhX8k4Uydyd/aCZLbhk4js22y1x9+oUULlKNqaq4+/l/7
+         4Xu2OMObHFjrvR4UEADeMmgGj0+2CoGpO5yUOvVIydLvWp8HmUq9LGZPHCiHNfI4Rs5X
+         xrYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747211673; x=1747816473;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pmPxzvplp27sf0Mh5TNQ3UmGJf69Of2vzLV4ej7YVkA=;
+        b=g94gcPGBNUwTzTUg0oHNjTMZUZNbxqLE8ekUYJq3/OT3xmdclprBmBfNBi4rAIBqkw
+         5xblX3keaGfgX2o6/i8fGQB5SPic7+hw14JB5EjLDmMlQHl1T9K8koAXbyCz4g0yWl3K
+         Vd0jM10IDY3wu1ubPcbPiMxHkOFcMuxOH/7UfurPqAqNdgHLH+8zEVzK0I3pYNMt/7KH
+         wkkqQlbm7Kq6FPqJDBQ480L8ula0bvL15nc6OqL4O+eCYElkCxx5b2+Fa8X0W97DaEe2
+         +wURS0lFLhlZqu4VqOIf/pLncQpfP7QgaIe+MXxn1QKG1X4v3VwXLqRMWG3iea9w42Oj
+         JzyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTlPXSsdKkIqxmAO+oJBP+mD5FdMFkCJ7L/5HlfgPVnwNtm4Nr7y7UtMhXH5FEalV8ZDBeRPhPBAH3EFI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2QatndIY1zgpKAb6H8YAHBhoSfHyToZfrxZxCaUCOIcRoh2gJ
+	GdihJeTGln77y1KfuLFuH5LJKtSokkoYQqsV1SAsN/0stcxjmRNsugobTJZlPZ0=
+X-Gm-Gg: ASbGnctobUfle7jepqIvlFYzYTpRIhjjy/ST4Bo1FLnUpUay8EwBBprXxv4t5dx7UlC
+	poGMD6M+qp2+QAoVbpZpewS81717c0g/HjmuvDhpTWD2hwmI0VfRXDf+mSVEkqLXN/lGpWL7mJW
+	euHj7P67ACxU5xtT7RxT3VO2QDz0TiM8L0neDPgj19twYsEqZIef+7mlhRfby8sm0kS+gDeqX6t
+	8ZN2KGccnFnt1JsQyhZ4EhcgDOP4oYpUy171tLMU1Fu4sU7WMEZ18t4YoA3t3NZCpe8dYji4wa6
+	cjhlz0v269uBKT/a6taJJfVvRqOWFNYjfPe0E1We6iolIQmowDeumg==
+X-Google-Smtp-Source: AGHT+IGMrizPwMYXPEGeYJfqWtlgiQDVjgsMQKbEsCq+MVhFWOKzPY77w7J6frRmGyePbOUN4M6Vhw==
+X-Received: by 2002:a05:6000:2dc4:b0:3a0:bb2b:14e3 with SMTP id ffacd0b85a97d-3a3496e7095mr1945171f8f.33.1747211673499;
+        Wed, 14 May 2025 01:34:33 -0700 (PDT)
+Received: from [10.100.51.48] ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-879f6297d9esm8160828241.28.2025.05.14.01.34.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 May 2025 01:34:33 -0700 (PDT)
+Message-ID: <81444b38-e0af-4278-89ad-e25cfe08179d@suse.com>
+Date: Wed, 14 May 2025 10:34:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250512161006.7787-1-henrik@lxm.se>
-In-Reply-To: <20250512161006.7787-1-henrik@lxm.se>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 14 May 2025 15:12:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQoe6iOGyOkuda365mra+TYJs4aeh03pBd5xB-PFuY2EA@mail.gmail.com>
-X-Gm-Features: AX0GCFtyccKWid9sCDJZLAXpRyIaoaKkhuYgu1aOIdkqy1bVLT1M2p58eskh9As
-Message-ID: <CAK7LNAQoe6iOGyOkuda365mra+TYJs4aeh03pBd5xB-PFuY2EA@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile: remove dependency on archscripts for header installation
-To: =?UTF-8?Q?Henrik_Lindstr=C3=B6m?= <henrik@lxm.se>
-Cc: nathan@kernel.org, nicolas.schier@linux.dev, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/5] module: Add module specific symbol namespace
+ support
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com,
+ samitolvanen@google.com, da.gomez@samsung.com, masahiroy@kernel.org,
+ nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ hch@infradead.org, gregkh@linuxfoundation.org, roypat@amazon.co.uk
+References: <20250502141204.500293812@infradead.org>
+ <20250502141844.046738270@infradead.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20250502141844.046738270@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 13, 2025 at 1:11=E2=80=AFAM Henrik Lindstr=C3=B6m <henrik@lxm.s=
-e> wrote:
->
-> archscripts has nothing to do with headers_install.
->
-> Signed-off-by: Henrik Lindstr=C3=B6m <henrik@lxm.se>
-> ---
+On 5/2/25 16:12, Peter Zijlstra wrote:
+> Designate the "module:${modname}" symbol namespace to mean: 'only
+> export to the named module'.
+> 
+> Notably, explicit imports of anything in the "module:" space is
+> forbidden.
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-Applied with Reviewed-by: Nicolas Schier <n.schier@avm.de>
-Thanks.
+Sorry, I thought this was already reviewed from the modules perspective,
+but I'll make it explicit.
 
+Looks ok to me, besides the already mentioned "strsmp" typo. I can fix
+it when picking up the series.
 
---=20
-Best Regards
-Masahiro Yamada
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+
+-- 
+Thanks,
+Petr
 
