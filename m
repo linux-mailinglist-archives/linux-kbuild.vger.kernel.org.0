@@ -1,122 +1,202 @@
-Return-Path: <linux-kbuild+bounces-7106-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7107-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CB9AB6665
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 10:48:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CABD4AB6F42
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 17:13:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CA74464B37
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 08:48:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 228521B65913
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 15:12:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C32C21B9C6;
-	Wed, 14 May 2025 08:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA4862797AB;
+	Wed, 14 May 2025 15:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="W9tfoLf2"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="EDeEF4IO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52B056B81
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 08:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C01E278163;
+	Wed, 14 May 2025 15:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747212492; cv=none; b=IWR75ZfqFqatcqhuQNldureKKKjrtJqEPTW14NDU7izL5zy2ceQ4GAMhUDgIMKRmLT9DnWge13AVYua+uxXVJYmlu9kKuyngkCNlKEvcqAu+L6zh80dUDIxqTLeKT5Xmp2tfQVMs9RN4dgKSLUrTBvaFLBTzVWaFtboddYHfstA=
+	t=1747235477; cv=none; b=iTfLaWXqNOvDtY17lT3hUHLSyNO4oMY7Pbq8qHN9pY5xkgQtei9Q457y1m7RE6rkiV7Hm54Ao+uqadNbxQp+NPouSciBsdus30bQCAOKCvdLrrB6+gNBK9XoSCiSc3/Inm+fyKMdfpGdc6mydpS0vlFaUeaoJ0n/pqSrTPN04Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747212492; c=relaxed/simple;
-	bh=Ccun/NTDw+CoIytlHzHrLFFVWreSfKk2Ou4w0xRSMe8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ApLVGN1sJIj12tk6yXHkulkcftK2gvPYCSYRbBEYf+yIB9lcHFctyDffXuw44R+Pjiz3UAkzD9iLnmQQR3XESYxTxWEJ8J60vYTRJta2cFiPSgb4LzcNhddppjhVHqz+jKpwqH7QODkdT4/xBYaftK4Q5hTk60w7e6oQWcypsvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=W9tfoLf2; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a0b9625735so3506675f8f.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 01:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1747212488; x=1747817288; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J11Tm9IxpteDcvYogIFayM49cQbKfAspMtr3deGbdkA=;
-        b=W9tfoLf2xYNRKWZP1aNpy6x1Ak0IIVXZNp8OdSkUPnUAQ9cu3tBIIyXt6ZRbHQ4wCP
-         guEKGSImsK0Ije+ViSzRdSrmNsATpQQNqXoPxs3beWfTn81F0vtNu1fapVT7ONLmVeXv
-         Ux3064Ec4kccPCjNS6q4/YEgNHY0eGb8pL/A4qVm9MA99dLHaXbZ3GNSPZoxRuizOc7H
-         CyM6uFPfQ68y9glgOo7d2dtBjbfZwGV5xwYAFPyihO5rdqeE0C8SRGzfV67LtjpFD8C4
-         ZLGF7ZPhmeR2pVej5briPiQwV9/H8ayyiw2QMNqzQycQfVvvBtwNfZnDO/FW8gytQzSW
-         um7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747212488; x=1747817288;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J11Tm9IxpteDcvYogIFayM49cQbKfAspMtr3deGbdkA=;
-        b=f923Y7/Od8ynj36GX/43lyP9aPSZOhL3e8SxBaaLTr9PoTLBMVs1irYvVu6sBEYpK6
-         Z7HxsRRCrLN2zdELGAGfj//T+8ibB10RR0PDKbiYeoTNDaUOP+VAETK/KJ6om0Iyg+PE
-         YXDfOfH0hlFNfsfMyoXGSzR8QZw/K4PmOFAiNxSsczfX99sc9wZBKKEgjpFgNHenAIxh
-         wA15Jh25MDZrvn5/g3gmC2foN8q8N9wrkrs6x7Jc0u/9Imvh17xTPYwfQG851tRWRZl8
-         A9hIQ0QkmdSkVjgMLeQ4AW/2kZEzgf9BZ2QJ6t3+mXbHKHodP2K8z1A2bYtlSHvyIdLI
-         FL0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVVo1aoSUC3AKh96CAHoL982S8JSoQQ8DYxWcHwuDt0Nzhcybm+Z24K/RdMTiiGJ3RlPxTis3p9NFlCsFc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1gmxNQ3NZN5vIDwsQK8+rB2AQkMl9Y18cESYqFvcLV0xWxibN
-	20Hvp87uvRn7ilBgWRJLoPYFZr6Y9xr3mNRrMq6lgZocMLsH9f6SXycHYxSRckw=
-X-Gm-Gg: ASbGncv26U3+AjMyHSCzbX3RpBCx5uqGFVROvq3w4hJ8f3fbeZEQr0U8nRZQcjtz+Q5
-	rx0XawRhjqIppaQuk3Vc3UdiNZQwSSDPLkvAdUkCWXY6LWTUv1W7lpfUXzzW1/djzzZFoEqd4sy
-	EGE6t4FiQOwYtHnYhayeZ/YhjaRcoAf85SSjbw0MB9LiU3JZ9pCQAld97yKtN5bP7wqjYJ3pKAI
-	IDif64ynwlCOW5OW1qKDZ7hxDdJDxbhm0Rm5R851hGLCgDtDMYp4VWX3LiFzCtXP3L1h9vBuiyU
-	EW7idbAKxsDmNkQjcVr3ObEicAdzAYIav6/iLr93QoBrlBs1xUE3OA==
-X-Google-Smtp-Source: AGHT+IG6Ygt895dWK6xd2go5hH299uW3ziCrAKGblKyG0md7su1tSRFeV1oXO46fD6Q1GE1oUd21Ng==
-X-Received: by 2002:a05:6000:2583:b0:3a0:b977:b6da with SMTP id ffacd0b85a97d-3a3496c36bfmr1777692f8f.24.1747212488190;
-        Wed, 14 May 2025 01:48:08 -0700 (PDT)
-Received: from [10.100.51.48] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52c63b717c5sm7334835e0c.9.2025.05.14.01.48.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 May 2025 01:48:07 -0700 (PDT)
-Message-ID: <49b63a7c-d323-4b13-8a1d-11ec8f0a3152@suse.com>
-Date: Wed, 14 May 2025 10:47:57 +0200
+	s=arc-20240116; t=1747235477; c=relaxed/simple;
+	bh=ODl9UQqPd95AnZ5qIfWScfOTC8V1uuA2mDhjBIjFohc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=e7FSjojR3VJwNHhm8hL6te1SKc2ETwRwySCgftDKCVTEJNYg2j/1io1mxY6tvBfqJdAxR4FI7DDGavXlxnqN7fZixddUzHayvFwDZb+aosRd/+DkdIuUIesePW/UDpMAXXIKo9RCszhGrIoUnZi/BOD+huJQ1ywDQyKX/mIdW9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=EDeEF4IO; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54EEn9jI025341;
+	Wed, 14 May 2025 15:09:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=SGLS4m
+	X8Cr6nBhXohVGb4hxEdStSi2AhSRa+lOkd6Rc=; b=EDeEF4IOYx2AE+f7lPQiyF
+	IRyvtU0UyyfLRz/m/EGB2YPnrJj9LgYYnyKusAffnlttd89Nis4X+sz92EjzQjpd
+	jwWTsThw+Y5GLOMoGOaVRMfV0OIZuKKtHGSOKF/3U3aCRx6MlSPpa8KnmJhef1VP
+	aN0cNxncPfkE7KPekD8F3idZQdgoQUBsveGNHXvz7wwQbEnYCE8lqtt4iwtDXWi4
+	CRAafK2tdRSH6gutURszp7nStU4k4ZayI86IjkNBuD7e4q5LDAL/8q+NRhvdodVD
+	z0xzgPw0UIRz+jrbwxRGYTycmQN76r39KZq4wMWTuDGk5HgF+HaIttAexs8pYn9Q
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46mbs6mygm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 May 2025 15:09:21 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 54EF3ppg015552;
+	Wed, 14 May 2025 15:09:20 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46mbs6mygh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 May 2025 15:09:20 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 54EDIrZ4026656;
+	Wed, 14 May 2025 15:09:19 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 46mbfpcun1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 May 2025 15:09:19 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 54EF9JUY61669786
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 May 2025 15:09:19 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F3F885805D;
+	Wed, 14 May 2025 15:09:18 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F2A225805C;
+	Wed, 14 May 2025 15:09:15 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.139.222])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 14 May 2025 15:09:15 +0000 (GMT)
+Message-ID: <10ca077d6d51fac10e56c94db4205a482946d15f.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 2/9] ima: efi: Drop unnecessary check for
+ CONFIG_MODULE_SIG/CONFIG_KEXEC_SIG
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Masahiro
+ Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Petr Pavlu
+ <petr.pavlu@suse.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Daniel
+ Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
+        James
+ Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Jonathan
+ Corbet <corbet@lwn.net>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael
+ Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Naveen N Rao
+ <naveen@kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Dmitry
+ Kasatkin <dmitry.kasatkin@gmail.com>,
+        Eric Snowberg
+ <eric.snowberg@oracle.com>,
+        Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Fabian =?ISO-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
+        Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
+        kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>,
+        =?ISO-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Date: Wed, 14 May 2025 11:09:15 -0400
+In-Reply-To: <20250429-module-hashes-v3-2-00e9258def9e@weissschuh.net>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+	 <20250429-module-hashes-v3-2-00e9258def9e@weissschuh.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] module: Strict per-modname namespaces
-To: masahiroy@kernel.org
-Cc: Peter Zijlstra <peterz@infradead.org>, mcgrof@kernel.org, x86@kernel.org,
- hpa@zytor.com, samitolvanen@google.com, da.gomez@samsung.com,
- nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
- hch@infradead.org, gregkh@linuxfoundation.org, roypat@amazon.co.uk
-References: <20250502141204.500293812@infradead.org>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20250502141204.500293812@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE0MDEzNSBTYWx0ZWRfXxHBh49BiMB+Z MOVdYBkj3WfGeCvyIQdcjIWtbvhdgBJDYmtH6aIKRjRnMJBKYgzpPmkHWOOqemh7EtoawfXuMN4 eKKgq7Ry6EeCtJw7jp7/S2fYItn19YaPW+hBVQRi+4t3a5UAZNQ5UPInke8w30g5b8se68ZT7Ax
+ uyX1Mp5KfZEBF1+6kD3JyFEbD6Ba5ORKHBGX2UYN+mA+u9b5PNgiZ4CrEnefA6hvAWwSLzSGVz5 lfZsKkS3N4Z5aAyu4/uL9doUnd4OJRE2qSwiQt6qWZvzc77oDfFAmcU2G+ATyRKgE9IvpviTCgs UWQHCPNHhWFnBgTjcLgT6zGCCSV8LvhiQkuSOBWZC40lmYxl/++p50z0pqMJ3qtG/nPGT+SAqw5
+ AgDBYLW1PLqYSYudLSRYQO3vcficUjVtjVwE+OfIpvmnKwF2qJ8sxjnazQ4TXbapLUyVp0K4
+X-Proofpoint-ORIG-GUID: j22mpxTFY4WP2OwphhpcY-gxyz0D7Xyv
+X-Authority-Analysis: v=2.4 cv=d5f1yQjE c=1 sm=1 tr=0 ts=6824b221 cx=c_pps a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VTue-mJiAAAA:8 a=GYJFTEJjVrNzjNUGXfAA:9 a=QEXdDO2ut3YA:10
+ a=S9YjYK_EKPFYWS37g-LV:22
+X-Proofpoint-GUID: DQ7JcpUJJQk_GINm-Q0_GETzDy7ehAm2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-14_04,2025-05-14_03,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ spamscore=0 clxscore=1011 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=0 phishscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505140135
 
-On 5/2/25 16:12, Peter Zijlstra wrote:
-> Hi!
-> 
-> Implement means for exports to be available to an explicit list of named
-> modules. By explicitly limiting the usage of certain exports, the abuse
-> potential/risk is greatly reduced.
-> 
-> Changes since v2:
-> 
->  - switch to "module:" prefix (Masahiro)
->  - removed some patch noise (Masahiro)
->  - strstarts() and strlen() usage for prefixes (Masahiro)
->  - simpler ___EXPORT_SYMBOL() changes (Masahiro)
-> 
-> Not making using of glob_match() / fnmatch(); this would result in more
-> complicated code for very little gain.
+On Tue, 2025-04-29 at 15:04 +0200, Thomas Wei=C3=9Fschuh wrote:
+> When configuration settings are disabled the guarded functions are
+> defined as empty stubs, so the check is unnecessary.
+> The specific configuration option for set_module_sig_enforced() is
+> about to change and removing the checks avoids some later churn.
+>=20
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+>=20
+> ---
+> This patch is not strictly necessary right now, but makes looking for
+> usages of CONFIG_MODULE_SIG easier.
+> ---
+> =C2=A0security/integrity/ima/ima_efi.c | 6 ++----
+> =C2=A01 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/security/integrity/ima/ima_efi.c b/security/integrity/ima/im=
+a_efi.c
+> index
+> 138029bfcce1e40ef37700c15e30909f6e9b4f2d..a35dd166ad47beb4a7d46cc3e8fc604=
+f57e03ecb
+> 100644
+> --- a/security/integrity/ima/ima_efi.c
+> +++ b/security/integrity/ima/ima_efi.c
+> @@ -68,10 +68,8 @@ static const char * const sb_arch_rules[] =3D {
+> =C2=A0const char * const *arch_get_ima_policy(void)
+> =C2=A0{
+> =C2=A0	if (IS_ENABLED(CONFIG_IMA_ARCH_POLICY) && arch_ima_get_secureboot(=
+)) {
+> -		if (IS_ENABLED(CONFIG_MODULE_SIG))
+> -			set_module_sig_enforced();
+> -		if (IS_ENABLED(CONFIG_KEXEC_SIG))
+> -			set_kexec_sig_enforced();
+> +		set_module_sig_enforced();
+> +		set_kexec_sig_enforced();
+> =C2=A0		return sb_arch_rules;
 
-@Masahiro, please let me know if you're still reviewing the modpost or
-other changes, or the series now looks good to you. I'd like to take it
-for v6.16-rc1.
+Hi Thomas,
 
--- 
-Thanks,
-Petr
+I'm just getting to looking at this patch set.  Sorry for the delay.
+
+Testing whether CONFIG_MODULE_SIG and CONFIG_KEXEC_SIG are configured gives=
+ priority
+to them, rather than to the IMA support.  Without any other changes, both s=
+ignature
+verifications would be enforced.  Is that the intention?
+
+Mimi
+
+> =C2=A0	}
+> =C2=A0	return NULL;
+>=20
+
 
