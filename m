@@ -1,155 +1,160 @@
-Return-Path: <linux-kbuild+bounces-7116-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7117-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974BDAB74B7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 20:48:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5993AB75D6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 21:25:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC2DC8C34D8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 18:48:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D476A863CEB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 19:24:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE1B289E00;
-	Wed, 14 May 2025 18:48:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E59F28E616;
+	Wed, 14 May 2025 19:24:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mg0Eqts1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O40zK9QH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A92289820
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB4F28C863;
+	Wed, 14 May 2025 19:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747248517; cv=none; b=h5Fybq210Lrqx5QpD8r/IQ7gc5K/1JpTMxr4iIuXg//OmG2Tcj0hBoXzZOlgghOvxenGgLWkUAAeW7Irch4vWMfSzsORRFIsZrJMtvR+R6Q0lwArYJLQhou6Oq/PHkRt7QT3BT8s7tU+5JXXfKZBy0osUk4RUIGKXTCZB2+8ASY=
+	t=1747250678; cv=none; b=V5B4Y2XgoCs24HkztA6QVLWKXaWvkUgf6Fy756Uwb+bvqQC0t143H2MK5uPOruO3e22dAanj5FNYwahsWvl2r9dWtGgP9JRBWTI73WuAeRKoSNubGWs31aGMqbK0qE8ZczQQFP4xVyg05EFHeYoCweSVY/SE1Cne51NMEzZ89ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747248517; c=relaxed/simple;
-	bh=1dL3jkRxFC0P91egx6YqWf3eBdBVV0GfaxQZDGn2glA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QPinDklVP/0r8QHa3+E//SI0ohdAHMRQP7VKsu53baAhIei+0hVwTXkB3CDp14GBbqlZh9S2yKoqlxA2qeqjogO9agff5Kf1Hzr8lHZcjnxQWkf0zUknHdhaOHV1SZQOUiFC/CGJhpQ4Lo22kE8vCgIdVcPQMUNMLXYpQXWHzIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mg0Eqts1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9085C4CEF4
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747248516;
-	bh=1dL3jkRxFC0P91egx6YqWf3eBdBVV0GfaxQZDGn2glA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Mg0Eqts14L0guJ1PrWLkAfuX/ZsaMTsrYXMFSHFlNruLkORmCsrtCY27SoCSv+jcI
-	 3nWIW/6lqTJ9yMqMA9edrIqDNSVgX15wVLZY3tuaR7FXreCx0G+UFG9C+uItT+oNvg
-	 qQcslNN7F0tjiJcbmW1jqYLf+hw6wPCqFTbUDKP+S1Wtfn5Sjy5N5opXjhL1V0OeHu
-	 FQUu5eAdGWpW3o5Ew42+l6LrC1bB8ryawB9yzrw9aLuWKlr5cNce0KJF2lovkbfzba
-	 1Xp5XRsSP8XD1aZcjL83xxac4Vqh0dcNm2z9rRlYZyrjGI8SOdbZn/GNVahMsv0iR4
-	 5l9PTkoPx6H+w==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5fbee929e56so301702a12.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 11:48:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbVsPbP0txKSDb+9N7vNvQyroG9ttj1N7pvbPvVnJitZiKCubXOMt0bJ6YeSy99MjKPvpN8TOKMn3OZZ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0SDar/TZQmA6RqBFRJSobqBFzGk23K1dOUUwt0vAKA3gNomVr
-	uwP3mVNxDtBfkL16sWqZOIzLTTRWZ5KNcGq3OoJB6jW1Vl0whR/pzmSGGa4IV6POoJzfbsZB4mD
-	riYqyC6akjcZu8i39Jn4pYzvxUc6vNlaMaw4J
-X-Google-Smtp-Source: AGHT+IEwYBrqLp5B8yM7DCtv9E2xaKltpmN2IE70cuY0GgkncCn02p6VNhOoZ0q8F3xgtHCoLYzieRnXkf+m1JsA3pw=
-X-Received: by 2002:a05:6402:2709:b0:5e7:8501:8c86 with SMTP id
- 4fb4d7f45d1cf-5ff989141c5mr3783098a12.22.1747248514758; Wed, 14 May 2025
- 11:48:34 -0700 (PDT)
+	s=arc-20240116; t=1747250678; c=relaxed/simple;
+	bh=sya+8JjGJHbFscoxWgUm22pBcbKnQ+x9xicjbxzjARs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=u17HLKpRi1nk7r7diZ6924pSi+3YPV1Wzl8a8bFxD3CyZfroKNpMCxS56/kZxQRRMFHzc21jPMw7YI+H10lIM90iD887nPJsgFkvkoNrXOBwlBHEbij1HysbRs8TVK3cAP+Zuuk3VCo/IhVHY/nWo9JygyGqJDSZpa2w1dmYUc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O40zK9QH; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a0adcc3e54so84788f8f.1;
+        Wed, 14 May 2025 12:24:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747250674; x=1747855474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Ym2VjItfmlQR+4MFTtDnGlE59abfrw+zWC9kBxVcBU=;
+        b=O40zK9QHF9j4t8YbnbiJRVeG3mCNhTa5R8WDom7MGZ7KdQl41i4LiGQVpnIYNUZGW9
+         NlSrBxhuveBjpMOODADz0qdJRng6d3zQA7UDL1jqv8iZNPfDGfJTMy4Kv9qcyQaEwPw7
+         NCUqeRuULdInHuHj0P/zJs5CQTbUSyTJNOlH0rPJBr4B5dP5p1JSza3ukXw6u0vcYYmS
+         Lj0ZfZvUJHJufA22xwZUo2LUuSOIUC6XaQE6Kpxg/NC++HGPn9BwO/C3z6U3pIb9wjIg
+         QKhY2mZogsxzXgQcN9RYR4+ABxEab3oP7/ovCEvb2NXhyIM9TuyPlKPhPallDtBacY8Q
+         Be9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747250674; x=1747855474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7Ym2VjItfmlQR+4MFTtDnGlE59abfrw+zWC9kBxVcBU=;
+        b=UxN2+etvyp29/pHKNMBEmfxlkza+kJusx+GMUvpyeREZdkpS55yBX1mceZliQ8yHyb
+         G5YMXM8xAzs6cjOfkcX6M+V/qxZFhv15jMLM1JH5Lic4v8ly+80Nwr+6fBjRYPsFh3Q5
+         AHxNP/Yiysm2eSIQpOkX3T0HK+BD/VZMBRb1zaNw9zIbqzThvi7x8KzZdpJTE3JM/71s
+         8m99JKXN8vszm3dBzETxcuE0Ap+NQu8K9E3TzuBpp4cEJe334rrEkHXmIuVzthNOf+XN
+         gzpMBFweIi8u2llU3CSs5/Tix3kOqfPvslFpaXWwewEcoaBnJt7Zouwct1YxgRAAy7JS
+         cXGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUt8LZ06nYYJuS2kx7UC2bYB1ZxDEvOkGSgfwfjIDSpf/Q7CCkmic1U7l0anJU1om7DOoG9P7/L5Vrb2+o=@vger.kernel.org, AJvYcCVyXJl+kvIOqaA2x5o/zOODzrO8cZ5VeD0wCJgfJw8glE3d68mdu5PN1MgGVs+OcU465QnU2B09MjlfFpkuMgmM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8eQ/1+nDLGtjU3bVDkoqWocJmNcXgbWLTj2Vxr9HdRaF+9Kal
+	phYdM4TC+WgZ7On+3QZ8J66WX7cZfkax6Lh9LVBWsM+V/dGa4ffY
+X-Gm-Gg: ASbGncsrsw2l/czyaQE5hqTH34TS99VXvbHz/lqVxy40Tzdo+IvaHeJ2Eyy1RaSJr+L
+	1urdbTiB7h5Ru2R9A/d3LIgFHmWRPqu149MrEpzj1gUbinr/4ONz0sNpnU3LIERkLj+a1ir1P5Y
+	QiM+GKXVCYHV9/cSd9hTw/VywlFGr8dcK5+d3km1cCRnV9MWCWyedSfTKQldthiedmQhsDPHOVX
+	krmLEcuIQM6UbSTjrZQLwmE9s6NMqjGY6vUgrkPgjYPVxljRcGaIhvqTz4HeU9Knw6W4Hcm18KR
+	U6uK43e/F+0WXnseVHX/mBJz/Xcp3hZB221R8M4XdOs+cKKlOMfU/LQPepZKN577lDvYh0Ss/jt
+	rYst3TseKJHn9Uas=
+X-Google-Smtp-Source: AGHT+IHtyTAbb12nHg9iq1Qfx2ymhpqGsQF2bMASvRtPni01++HQHUO/z+Hi7IH3R0Q7InFaI68IdA==
+X-Received: by 2002:a05:6000:40dc:b0:3a0:bcb0:f69c with SMTP id ffacd0b85a97d-3a34969ac5amr4163564f8f.3.1747250674296;
+        Wed, 14 May 2025 12:24:34 -0700 (PDT)
+Received: from laptop.home (178.75.217.87.dynamic.jazztel.es. [87.217.75.178])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4c5d6sm20341715f8f.83.2025.05.14.12.24.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 May 2025 12:24:33 -0700 (PDT)
+From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+To: David Gow <davidgow@google.com>,
+	Rae Moar <rmoar@google.com>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: rust-for-linux@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+	x86@kernel.org,
+	linux-kbuild@vger.kernel.org,
+	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+Subject: [PATCH v3] kunit: fix longest symbol length test
+Date: Wed, 14 May 2025 21:24:16 +0200
+Message-Id: <20250514192416.12635-1-sergio.collado@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
- <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
- <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com> <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
-In-Reply-To: <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
-From: KP Singh <kpsingh@kernel.org>
-Date: Wed, 14 May 2025 20:48:23 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
-X-Gm-Features: AX0GCFuIZdNpfAM0OCZ1PfMQ_hYGIe9IvTF-jFPpzRbhWO4tNX6gFXEj5lMCve4
-Message-ID: <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: Paul Moore <paul@paul-moore.com>
-Cc: bboscaccy@linux.microsoft.com, James.Bottomley@hansenpartnership.com, 
-	bpf@vger.kernel.org, code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, 
-	dhowells@redhat.com, gnoack@google.com, herbert@gondor.apana.org.au, 
-	jarkko@kernel.org, jmorris@namei.org, jstancek@redhat.com, 
-	justinstitt@google.com, keyrings@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	llvm@lists.linux.dev, masahiroy@kernel.org, mic@digikod.net, morbo@google.com, 
-	nathan@kernel.org, neal@gompa.dev, nick.desaulniers+lkml@gmail.com, 
-	nicolas@fjasle.eu, nkapron@google.com, roberto.sassu@huawei.com, 
-	serge@hallyn.com, shuah@kernel.org, teknoraver@meta.com, 
-	xiyou.wangcong@gmail.com, kysrinivasan@gmail.com, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 14, 2025 at 5:06=E2=80=AFAM Paul Moore <paul@paul-moore.com> wr=
-ote:
->
-> On Sat, May 10, 2025 at 10:01=E2=80=AFPM KP Singh <kpsingh@kernel.org> wr=
-ote:
-> >
->
-> ...
->
-> > The signature check in the verifier (during BPF_PROG_LOAD):
-> >
-> >     verify_pkcs7_signature(prog->aux->sha, sizeof(prog->aux->sha),
-> > sig_from_bpf_attr, =E2=80=A6);
->
-> I think we still need to clarify the authorization aspect of your
-> proposed design.
->
-> Working under the assumption that the core BPF kernel code doesn't
-> want to enforce any restrictions, or at least as few as possible, I'm
+The kunit test that checks the longests symbol length [1], has triggered
+warnings in some pilelines when symbol prefixes are used [2][3]. The test
+will to depend on !PREFIX_SYMBOLS and !CFI_CLANG as sujested in [4] and
+on !GCOV_KERNEL.
 
-The assumption is not true, I should have clarified it in the original
-design. With the UAPI / bpf_attr the bpf syscall is simply denied if
-the signature does not verify, so we don't need any LSM logic for
-this. There is really no point in continuing as signature verification
-is a part of the API contract when the user passes the sig, keyring in
-the bpf syscall.
+[1] https://lore.kernel.org/rust-for-linux/CABVgOSm=5Q0fM6neBhxSbOUHBgNzmwf2V22vsYC10YRBT=kN1g@mail.gmail.com/T/#t
+[2] https://lore.kernel.org/all/20250328112156.2614513-1-arnd@kernel.org/T/#u
+[3] https://lore.kernel.org/rust-for-linux/bbd03b37-c4d9-4a92-9be2-75aaf8c19815@infradead.org/T/#t
+[4] https://lore.kernel.org/linux-kselftest/20250427200916.GA1661412@ax162/T/#t
 
-Also, since we have a solid grasp on the design and its implementation
-being contained, it will be much simpler for us to actually implement
-the patches. We will keep you posted.
+Reviewed-by: Rae Moar <rmoar@google.com>
+Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
+---
+v2 -> v3: added dependency on !GCOV_KERNEL (to avoid __gcov_ prefix)
+---
+v1 -> v2: added dependency on !CFI_CLANG as suggested in [3], removed
+	CONFIG_ prefix
+---
+ lib/Kconfig.debug                | 1 +
+ lib/tests/longest_symbol_kunit.c | 3 +--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-- KP
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index f9051ab610d5..e55c761eae20 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2886,6 +2886,7 @@ config FORTIFY_KUNIT_TEST
+ config LONGEST_SYM_KUNIT_TEST
+ 	tristate "Test the longest symbol possible" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT && KPROBES
++	depends on !PREFIX_SYMBOLS && !CFI_CLANG && !GCOV_KERNEL
+ 	default KUNIT_ALL_TESTS
+ 	help
+ 	  Tests the longest symbol possible
+diff --git a/lib/tests/longest_symbol_kunit.c b/lib/tests/longest_symbol_kunit.c
+index e3c28ff1807f..9b4de3050ba7 100644
+--- a/lib/tests/longest_symbol_kunit.c
++++ b/lib/tests/longest_symbol_kunit.c
+@@ -3,8 +3,7 @@
+  * Test the longest symbol length. Execute with:
+  *  ./tools/testing/kunit/kunit.py run longest-symbol
+  *  --arch=x86_64 --kconfig_add CONFIG_KPROBES=y --kconfig_add CONFIG_MODULES=y
+- *  --kconfig_add CONFIG_RETPOLINE=n --kconfig_add CONFIG_CFI_CLANG=n
+- *  --kconfig_add CONFIG_MITIGATION_RETPOLINE=n
++ *  --kconfig_add CONFIG_CPU_MITIGATIONS=n --kconfig_add CONFIG_GCOV_KERNEL=n
+  */
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
-> expecting that the BPF kernel code would want to adopt an "allow all"
-> policy when it comes to authorizing signed and unsigned BPF programs,
-> delegating any additional restrictions to the LSM.  With that in mind
-> I think we need to agree on a way for the BPF verifier to indicate
-> that it has verified the signature is correct to the LSM, and we need
-> a new LSM hook which runs *after* the verifier so that it can inspect
-> the results of the signature verification.  While it might be tempting
-> to relocate the existing security_bpf_prog_load() hook, I believe it
-> makes sense to leave that hook before the verifier for those LSMs that
-> wish control access prior to the verifier's inspection using criteria
-> other than signatures.
->
-> With respect to the LSM hook, since it appears that the signature is
-> going to be included in the bpf_attr struct, and I'm *guessing* the
-> best way for the verifier to indicate the result of the signature
-> verification is via a field inside bpf_prog_aux, this means the hook
-> could look something like this:
->
->   int security_bpf_prog_verified(bpf_prog, bpf_attr);
->
-> ... and be called immediately after bpf_check() in bpf_prog_load().
-> As far as the new field in bpf_prog_aux is concerned, I think we can
-> probably start off with a simple bool to indicate whether a signature
-> was verified or not, with an understanding that we can move to a
-> richer construct in the future if we find it necessary.  Neither of
-> these are directly visible to userspace so we have the ability to
-> start simple and modify as needed.
->
-> Does this sound reasonable to everyone?  Does anyone have any other
-> thoughts on the authorization aspect of BPF signature verification?
->
-> --
-> paul-moore.com
+base-commit: 1a80a098c606b285fb0a13aa992af4f86da1ff06
+-- 
+2.39.2
+
 
