@@ -1,79 +1,79 @@
-Return-Path: <linux-kbuild+bounces-7104-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7105-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B89DAB662C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 10:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F33AB6634
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 10:40:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59A09864E48
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 08:38:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4071A8658CD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 08:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 365AD3BBF2;
-	Wed, 14 May 2025 08:38:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4CD421C9F9;
+	Wed, 14 May 2025 08:40:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZhkZAO55"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZDmZZybQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F7820FAB9
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 08:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AD91FF60E
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 08:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747211895; cv=none; b=T9wJoMmot/McFELEE5ft3ObA39npYOxlANwn8Pbq+c2vOpccPZWpRfSuIVZ3hbhmKXX0Fnrj7zzp7u7XqPzNTM4jXsJVLVMkhTRJwnpoKX+Oq0RRN3U3n3nM/zqskCwss7VOwlB7baaqknuzfDR0q4kFHT8InrpIWw+zh+h8DRs=
+	t=1747212037; cv=none; b=ltSNbHulgd5nvKjW6eoUbqRcx3FjshHvK+F0WEKRb0eE6CaekVmLHuwSjpNubV3leKxhHwVAycBny1onfk5/N419+8gV9KOK+vtLDjR/mJDhSo+XUrwzZoWTRerLBbDJhPpEvRPCZrz8JA3cRYaglyke26UZvUD0y0+EVe5DZIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747211895; c=relaxed/simple;
-	bh=v3bAcO92mgzkH7OCDOt9w7M93EuoBxmV5z7loDAnBuE=;
+	s=arc-20240116; t=1747212037; c=relaxed/simple;
+	bh=bOvlpJgB38yWtB6iHmH6Tk5IzM3ygnlwVf/ZOxmrdgk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uaIVkxVACAvTHO1DAIBvKdgBj11yf21Htn6H92fuKBy0ehRp9SCv/GDA9B8sf0s4LATzEBexJxWdO8oU+X8CqWNMNqFGRYEzfSRry908HC7rDDGTs6Gn8gXjzuoP1nqnuBwvKHoISiHu7pOf9H2bW2u4ZcTA5KsN+pZtbkE/ksY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZhkZAO55; arc=none smtp.client-ip=209.85.221.47
+	 In-Reply-To:Content-Type; b=aIA3A5AF773E9Drx4sJ64pqNsJXOWlk4w7PrKjtQGeSPq6TiZpJIANQ4Txfl06s0/r85qngxMmE5a8dQA8HVIJp8H24E/GsXRlXyQWbRMViRpN19Oibyvlbrc3qkV+MURyxJPsiUN5biokBvEFl00v/0qalaIlwB/ZaXH6P6zcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZDmZZybQ; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a1fb18420aso4573397f8f.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 01:38:12 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a1f9791a4dso2944773f8f.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 01:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1747211891; x=1747816691; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1747212034; x=1747816834; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=QuS3rpk01oe59tAY91l0mlGNbZV+w+wwZIkg9yAUzvM=;
-        b=ZhkZAO55n0ryFMXrDFb5HKYgvgQrxFx08NgE0N9VgVSgn1fTXBJF49j7xxaxuvw0yR
-         zmSxBFTZt5XBasUGK8+AiBC6RZjuFRJuMM7mhJOTRjyvWrP8qYYnrpWjv2Io9ZzZCYsv
-         tyfvLjkIF6vH4DRrZQlKfivRVZ2Luxj1E91w8LboCLQ0XzJuUrk5rq/3DrIFsUiVa1xI
-         6x5mtZTL/bRt/ZpJTP0js+3qw5cDujZQJeB6nRJ+qZG1W9d9C27ngzJd2pN8h/TfcuxG
-         EvmrmPhE+NBdQ2eUM1EoHpWNCof2ntx9+gHv4nBndQBjzbflpsafmVOPaL7t9vF91S0t
-         sUXA==
+        bh=XUZ+TWBCEumVyKUR1t0gEvLsedm10yxyAulY/94k4bA=;
+        b=ZDmZZybQav+Ly9/LFyPILWry6DnnrY7Uj2P8/t3fZ/8N6MlvjwPOq8ochp2fYz5Xjf
+         dgWsby0IOuX+FJsM9VGytDmIRBtmPx+lpjgqFDOdam3M9q1L+onH3PauIvfnHSpBJ6LX
+         p0EBhBcBNdj3QoGi76bdIVf+Hh6vTLUG2tcLdMaeG0J5P855WrBo1AplITse9EmmDWnq
+         X2eert3ic6eWEpMyTC1vXimz+wpJWgBq7kB9HYrB/f/1OXBwEV1ul3Hdt/XvvEk96r3v
+         NQwPJcj00AtxHQF4by7aLMCaTG1GPtyylCvykwd6bg+Z2AOyM6HNVtE6MfkjGF5/8ETs
+         Jd0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747211891; x=1747816691;
+        d=1e100.net; s=20230601; t=1747212034; x=1747816834;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QuS3rpk01oe59tAY91l0mlGNbZV+w+wwZIkg9yAUzvM=;
-        b=l44YUhapTghMgljxTgRKgdWKIquSBi39QKYbGDyGQn00Mv7WrRUoFpABWjl892HlmL
-         G85OYuTDqFe5oPWuYTPe9R8TeOeFFRoL2lsfSfDTl7glXNnpjzyuWp8ZYlS8VZL+VDe+
-         IX0AR7D1tP7lq0TOVJuAvcv4E56iZ3gzXAI7VU5UIJiuxF1efsdAjLV/2Pfq8Crnha73
-         hg7NmS9E9JpXmUnifZrf1MiJWE71f7haGx/5kO8o+6yZ1eIbvwZXDteYAXripLc3/Tae
-         2ymZSXcScGAWpqUwlg+lLbb1wuKMV47MYabZ3un40YOi9KLPQ7deHj+SSCLDjhVQmUGI
-         copA==
-X-Forwarded-Encrypted: i=1; AJvYcCVuZH9kr/Q07Mmqr/Bo2Qs2Lkf+as73NN0mkXpI3SlubG+if9k2EXRWUXeLJXYMPB2NYygjx3cYaDR12X4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzks0feqWi9O+xut5nP1BS6kiB44BoEajqHjrWrB+mE50jpYZf8
-	5eCQcb8rZIIjAf6DxnNRSdxI+8iArShnt7LoswO1550CR+bo2mLqtoWR/S0UJGM=
-X-Gm-Gg: ASbGncsS55WBy1ROJflkrFgQeHbWvDHUDdU0DofulA5nH0Mgl5OKj3rVun8y4n6rHfa
-	OGF7xlcBlgJxPqO33l6Bq1/ChV6EVXiXaVGyyyZeG9fuDwSuFVBgaEfK7KzxZjICPXIfFA7lVVO
-	DiGP/fCoPBhEwzmWJftJ6BW6bVBRyHj6ug7G98mRUAOSjjb4qpm8ZZJfNeCQpHccH93tOTa3PTd
-	q/zwkd56Z1+/HLzO8p2ZwkaWWZWD+H8BUKlEHJNRdKqjl/TH9XfMCmDzhNhT+kcNEQ4IIGbyk3y
-	4J0eBydO10kjhQm1qUqfUcLkETepV8FSbjCt8fLgl9unY104TVSa1Q==
-X-Google-Smtp-Source: AGHT+IHyTzdduROE+Wg2w8XB61vo2bG33XhlahD4daZpMp6hYwmVe0Tbz/IVhZE17N/e//M2fErR6A==
-X-Received: by 2002:a5d:64c6:0:b0:3a0:b84c:52b4 with SMTP id ffacd0b85a97d-3a349695581mr2013629f8f.10.1747211891494;
-        Wed, 14 May 2025 01:38:11 -0700 (PDT)
+        bh=XUZ+TWBCEumVyKUR1t0gEvLsedm10yxyAulY/94k4bA=;
+        b=OVrCN5lTOLvpOn21a7C/PsR3pVn/VZxr+ngM6d+OPEpBUt6h867p8qp9Ge2z4pM2sm
+         C4okbRGdzYJktc8GaMdTlq6qg+JWL03Y/bFItedK+Zj2qBB6UpKTwoH3hGXNE/E7RgFR
+         4HizQ8pybM7STHZ588Yskm90/H9TVuy0UsTyVa508EMgg3+eIFr+XgNHAjU9zmzmmOtT
+         wjUGvL8t0w8dAGQTSjSvUlv5N5nRzfkB9pydM6S35HBOs2KwCNdhPQjak5idrlXbJxbi
+         jImH55C/DYiCLoEFFXzCgJ9cHamWFxjAaY917q3EJs8wNPChvrZTuBYSCaIm0m/ewTeU
+         Gj9w==
+X-Forwarded-Encrypted: i=1; AJvYcCW06fOGhX6zVIo25pSFnXGhEaEpGEWGeoR7UqVvNC9p64BfYnfk3Ua+d3l64Hw0Z/xnVuVa+SFw/iMHSJE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYssoRzM0nFlw/oPt9UzUJquYHKKt1mDqkC2vMomqgh7sB6NCw
+	IHrzO6qlU7jWJKUmQB0q15kkBxwO5GKkmcJL2qKzz7aQy6PmvRCM+zP/UJL83PA=
+X-Gm-Gg: ASbGncsGn3eVfhlov6N+2cZh38PeJLJeZffEyYeT+v8oZy4oYDt4iIEaqW+tmq6XO/m
+	e8T+GcRJAeJ2m+ex5juPgfCJ0XvDS1EeQFSw5ohstSKHqOSOO57+zBBhAl5uh08/TWGrw9lz6WS
+	TST5LBZX+mouqc0kQFcj9h7S4GEmiE9HVkQLUlesGbsbixrO1Oa8U3P/tgNAy/03p6O/0uF1ms9
+	0ndUqRBNWhKTCozXMMnryAMlHRX76/1fmKmqid3G1O8oixLm4ZXbqPJ5a7oa0pi8GzvvN2JFjB1
+	3amPqqxt3B/4GOj68aApzyMq3KaHMcrwhNVStqS4y0HXfocBv67F9Q==
+X-Google-Smtp-Source: AGHT+IFF2gEltVWksw/7sMuSeu0VYvts2lcQdv0P/daOYEJ1wwTuGxfg8BHv9/A6qpkaqat5IeIqJg==
+X-Received: by 2002:a05:6000:4284:b0:3a0:7f85:1905 with SMTP id ffacd0b85a97d-3a3493dada6mr2246544f8f.0.1747212034024;
+        Wed, 14 May 2025 01:40:34 -0700 (PDT)
 Received: from [10.100.51.48] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dea8580188sm8048020137.4.2025.05.14.01.38.03
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4dea857f729sm7994896137.1.2025.05.14.01.40.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 May 2025 01:38:11 -0700 (PDT)
-Message-ID: <0dff052c-3857-4af3-a809-30ba124c4686@suse.com>
-Date: Wed, 14 May 2025 10:38:00 +0200
+        Wed, 14 May 2025 01:40:33 -0700 (PDT)
+Message-ID: <3b8dad35-5af2-41f3-aea2-07db9761dd4a@suse.com>
+Date: Wed, 14 May 2025 10:40:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -81,74 +81,75 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] module: Account for the build time module name
- mangling
+Subject: Re: [PATCH v3 5/5] module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES()
+ helper
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com,
  samitolvanen@google.com, da.gomez@samsung.com, masahiroy@kernel.org,
  nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
  linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
- hch@infradead.org, gregkh@linuxfoundation.org, roypat@amazon.co.uk,
- Sean Christopherson <seanjc@google.com>
+ hch@infradead.org, gregkh@linuxfoundation.org, roypat@amazon.co.uk
 References: <20250502141204.500293812@infradead.org>
- <20250502141844.263611823@infradead.org>
+ <20250502141844.369838967@infradead.org>
 Content-Language: en-US
 From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20250502141844.263611823@infradead.org>
+In-Reply-To: <20250502141844.369838967@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 5/2/25 16:12, Peter Zijlstra wrote:
-> Sean noted that scripts/Makefile.lib:name-fix-token rule will mangle
-> the module name with s/-/_/g.
+> Helper macro to more easily limit the export of a symbol to a given
+> list of modules.
 > 
-> Since this happens late in the build, only the kernel needs to bother
-> with this, the modpost tool still sees the original name.
+> Eg:
 > 
-> Reported-by: Sean Christopherson <seanjc@google.com>
+>   EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm");
+> 
+> will limit the use of said function to kvm.ko, any other module trying
+> to use this symbol will refure to load (and get modpost build
+> failures).
+> 
+> Requested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Requested-by: Christoph Hellwig <hch@infradead.org>
 > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Tested-by: Sean Christopherson <seanjc@google.com>
 > ---
->  kernel/module/main.c |   26 +++++++++++++++++++++++++-
->  1 file changed, 25 insertions(+), 1 deletion(-)
-> 
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -170,6 +170,30 @@ static inline void add_taint_module(stru
->  }
+> [...]
+> --- a/include/linux/export.h
+> +++ b/include/linux/export.h
+> @@ -24,11 +24,17 @@
+>  	.long sym
+>  #endif
 >  
->  /*
-> + * Like strncmp(), except s/-/_/g as per scripts/Makefile.lib:name-fix-token rule.
+> -#define ___EXPORT_SYMBOL(sym, license, ns)		\
+> +/*
+> + * LLVM integrated assembler cam merge adjacent string literals (like
+> + * C and GNU-as) passed to '.ascii', but not to '.asciz' and chokes on:
+> + *
+> + *   .asciz "MODULE_" "kvm" ;
 > + */
-> +static int mod_strncmp(const char *str_a, const char *str_b, size_t n)
-> +{
-> +	for (int i = 0; i < n; i++) {
 
-Nit: This could be 'size_t i' for consistency. I can adjust it when
-picking up the series.
+Typo: "cam" -> "can't". I can correct it when picking up the series.
 
 Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
 -- Petr
 
-> +		char a = str_a[i];
-> +		char b = str_b[i];
-> +		int d;
+> +#define ___EXPORT_SYMBOL(sym, license, ns...)		\
+>  	.section ".export_symbol","a"		ASM_NL	\
+>  	__export_symbol_##sym:			ASM_NL	\
+>  		.asciz license			ASM_NL	\
+> -		.asciz ns			ASM_NL	\
+> +		.ascii ns "\0"			ASM_NL	\
+>  		__EXPORT_SYMBOL_REF(sym)	ASM_NL	\
+>  	.previous
+>  
+> @@ -85,4 +91,6 @@
+>  #define EXPORT_SYMBOL_NS(sym, ns)	__EXPORT_SYMBOL(sym, "", ns)
+>  #define EXPORT_SYMBOL_NS_GPL(sym, ns)	__EXPORT_SYMBOL(sym, "GPL", ns)
+>  
+> +#define EXPORT_SYMBOL_GPL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
 > +
-> +		if (a == '-') a = '_';
-> +		if (b == '-') b = '_';
-> +
-> +		d = a - b;
-> +		if (d)
-> +			return d;
-> +
-> +		if (!a)
-> +			break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> [...]
+>  #endif /* _LINUX_EXPORT_H */
+> 
+> 
 
