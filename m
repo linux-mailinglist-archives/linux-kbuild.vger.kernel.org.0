@@ -1,152 +1,194 @@
-Return-Path: <linux-kbuild+bounces-7113-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7114-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672F7AB7454
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 20:25:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811C7AB7470
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 20:36:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7EA7F8C238E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 18:25:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E54A87AD53B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 May 2025 18:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DF222820CD;
-	Wed, 14 May 2025 18:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 841972882B6;
+	Wed, 14 May 2025 18:35:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="sr0OtqzI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CzFXTm6p"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98DF28136B;
-	Wed, 14 May 2025 18:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5DB2882B0
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747247149; cv=none; b=stuAlaM4LMPj1ji1pH3hKpONmbODhQ2Rn4+NfSzANSIjvkt9qzDOaIrOk1dIaS68wzz5KX4QyKNFVoUvsC6rHIYkQdTezXWMcnUA+swNG6QlC50e8hhUXspHHlZj63MYo2Na/qC0R11ez0LNduXgL8w7CWFikyLNAj8MU/st4CA=
+	t=1747247754; cv=none; b=fO7qpdespOeMqsqV1CRBNBsAa/blmapSWCxZzFkZExytGyYFnnj92kbFM2zAF0ZTdtfr18nzvPiSUV/ND/w5dWM7MgsFJM0k/rpqGhHIrNeJFyBTTjYkGPvH0IEA0egKhjK8JXshG2uwUn8/WwQG6/esDeaUQKe2KgRapogK9HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747247149; c=relaxed/simple;
-	bh=Sk6K50SJwRVBX41TpMia1ozjSbtn+RFQ/xSJZ1d8+m0=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=P2aDFl6UO8r1Os/8zQzWvLV1tYA2ZM5MoMX0pX4p3+JlvOWctF0YaVZiHDS5fXdgQ5VtdA+XSaYzF4VFXK82H0k8KzBi6wvowM26k8QHYcsMLTsaAVrVwkv2Y1465riSpZepVFckb7FTSMGrfVPNncbuTGHKnRF3QEjFrAy1mJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=sr0OtqzI; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1747247137;
-	bh=Sk6K50SJwRVBX41TpMia1ozjSbtn+RFQ/xSJZ1d8+m0=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=sr0OtqzImkjWIiWULL7qcXg/qcMho0hs2xaNucwcAreBWQ2E45Z4IIQOyS+7+B/9Z
-	 wMiLLhMsWTW9FAwOJzQDW7ieAtsPf/Rs2zUIKJPVF3ajqcQxESgMoxyM8ON+2GcBW1
-	 L8qZcUsSGEIr4hfmDvc1N8xI98e0pDP4tIuKtUls=
-Date: Wed, 14 May 2025 20:25:34 +0200 (GMT+02:00)
-From: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	=?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Message-ID: <17aaa56b-5ee7-4a7f-a3c1-206e2114645d@weissschuh.net>
-In-Reply-To: <edeb23e7884e94006d560898b7f9d2dd257a275e.camel@linux.ibm.com>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net> <20250429-module-hashes-v3-2-00e9258def9e@weissschuh.net> <10ca077d6d51fac10e56c94db4205a482946d15f.camel@linux.ibm.com> <edeb23e7884e94006d560898b7f9d2dd257a275e.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 2/9] ima: efi: Drop unnecessary check for
- CONFIG_MODULE_SIG/CONFIG_KEXEC_SIG
+	s=arc-20240116; t=1747247754; c=relaxed/simple;
+	bh=FXR+yoHky+nwxXWGDuzeNtD0Pl66EDMCJYYq1hhFKLE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QDo5qP9Ktgq0OqgV9DxPdC2PnUHGl7IFM/fb6n0J6WAlWd42qlATwX7BsfW8pyvPzzG5Ve6X44rjui8WFbvn2YLTDGBq7gr1DB8yRoasz2PIY14zmL41ubIa5RwlZKFoSyL+TCrWOViM+aVP79FMaOxWCh8DE+d4tgkf+4e4QjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CzFXTm6p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF467C4CEED
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 18:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747247752;
+	bh=FXR+yoHky+nwxXWGDuzeNtD0Pl66EDMCJYYq1hhFKLE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=CzFXTm6pYTm3IvFXuLGBNTrojvDZ4pcyUIX/pniAZRBOfJIUdCk0nVWmfzi0m5TgT
+	 nOsOV+uLSOiTCgJcA7Ey208+W5NAFvE5v3OpSg1O7e7KtSduzo1K1RHjJ3HMO6Trej
+	 hyGN4OY1HiyBWHZbcThBH3f4ibd99Jjn5p0T7ELy/XJH8sml9xFDczT6GsYyTDnkMR
+	 NW7az8rjYgR3YqCPqNOInJzDSiOJ/xM5huA43kuwW6WciZfacZtThoOIkfKnjfAVnh
+	 pnAm+gZgzhY96ILzfg6OdszsrSCRM1eTcolG9UIn3XEFAJT4k6KaZWWdOZwGw8rm3G
+	 5an1Jlur3hW6A==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ad1d1f57a01so21066666b.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 May 2025 11:35:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXt1mowSf9hUicT0fvlOdGs0mdiBuN8cL9WIrCFSPRzDVI21wGkjFzy3ISa7JVBooiUc5DbRDBx4vPX8Rg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSChLh0aCnd4n42Y94s0Hsqwe6ktypR5cXEYtks9IRQDfq+SLu
+	fnYszBZJi6atdxKPKEJholDfyG4Y00lUrH5j7GJSn6IS+NnGBODllgcQXXgQ8and0Dma6mk7i7L
+	ADJoRIEmT5kjc+FgNKVXTC7ChrnScUXLi7q9G
+X-Google-Smtp-Source: AGHT+IFtQMXy9LFulSzKje1GuSuGBtYynlXEWPAAMjiUP2194GFK8Vq6VYTuT87LMKZh7Uff3AMO5FsjIgB/BYZJ9Bw=
+X-Received: by 2002:a05:6402:2553:b0:5fc:3f48:a673 with SMTP id
+ 4fb4d7f45d1cf-5ff98897f75mr3681731a12.2.1747247739543; Wed, 14 May 2025
+ 11:35:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
+ <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
+ <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
+ <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
+ <beaa81748cf1325df67930bf74ea87e6cdcb3e46.camel@HansenPartnership.com>
+ <CACYkzJ5XJOj08+hKheWDcqbPrFAwa+fFvOw+4QPAHBz1u2HgAg@mail.gmail.com> <4f92fcfaeffd179ff6ae265822dc79856310d6a3.camel@HansenPartnership.com>
+In-Reply-To: <4f92fcfaeffd179ff6ae265822dc79856310d6a3.camel@HansenPartnership.com>
+From: KP Singh <kpsingh@kernel.org>
+Date: Wed, 14 May 2025 20:35:28 +0200
+X-Gmail-Original-Message-ID: <CACYkzJ7Oh62u7bHwQ_nOLG54qnhyNU9msF5mWV_vFrBXw1oZqw@mail.gmail.com>
+X-Gm-Features: AX0GCFu6wgKt8ns7B4WmAYl1fFIsHpTPOSXa547IdWuqOMoeu6YVbaSdA5YH5n0
+Message-ID: <CACYkzJ7Oh62u7bHwQ_nOLG54qnhyNU9msF5mWV_vFrBXw1oZqw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Paul Moore <paul@paul-moore.com>, bboscaccy@linux.microsoft.com, bpf@vger.kernel.org, 
+	code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, dhowells@redhat.com, 
+	gnoack@google.com, herbert@gondor.apana.org.au, jarkko@kernel.org, 
+	jmorris@namei.org, jstancek@redhat.com, justinstitt@google.com, 
+	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, llvm@lists.linux.dev, 
+	masahiroy@kernel.org, mic@digikod.net, morbo@google.com, nathan@kernel.org, 
+	neal@gompa.dev, nick.desaulniers+lkml@gmail.com, nicolas@fjasle.eu, 
+	nkapron@google.com, roberto.sassu@huawei.com, serge@hallyn.com, 
+	shuah@kernel.org, teknoraver@meta.com, xiyou.wangcong@gmail.com, 
+	kysrinivasan@gmail.com, Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <17aaa56b-5ee7-4a7f-a3c1-206e2114645d@weissschuh.net>
 
-May 14, 2025 19:39:37 Mimi Zohar <zohar@linux.ibm.com>:
-
-> On Wed, 2025-05-14 at 11:09 -0400, Mimi Zohar wrote:
->> On Tue, 2025-04-29 at 15:04 +0200, Thomas Wei=C3=9Fschuh wrote:
->>> When configuration settings are disabled the guarded functions are
->>> defined as empty stubs, so the check is unnecessary.
->>> The specific configuration option for set_module_sig_enforced() is
->>> about to change and removing the checks avoids some later churn.
->>>
->>> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->>>
->>> ---
->>> This patch is not strictly necessary right now, but makes looking for
->>> usages of CONFIG_MODULE_SIG easier.
->>> ---
->>> =C2=A0security/integrity/ima/ima_efi.c | 6 ++----
->>> =C2=A01 file changed, 2 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/security/integrity/ima/ima_efi.c b/security/integrity/ima/=
-ima_efi.c
->>> index
->>> 138029bfcce1e40ef37700c15e30909f6e9b4f2d..a35dd166ad47beb4a7d46cc3e8fc6=
-04f57e03ecb
->>> 100644
->>> --- a/security/integrity/ima/ima_efi.c
->>> +++ b/security/integrity/ima/ima_efi.c
->>> @@ -68,10 +68,8 @@ static const char * const sb_arch_rules[] =3D {
->>> =C2=A0const char * const *arch_get_ima_policy(void)
->>> =C2=A0{
->>> =C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_IMA_ARCH_POLICY) && arch_ima_g=
-et_secureboot()) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_MODULE_SIG)=
-)
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_modul=
-e_sig_enforced();
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_KEXEC_SIG))
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_kexec=
-_sig_enforced();
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_module_sig_enforced();
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_kexec_sig_enforced();
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return sb_arch_rules;
->>
->> Hi Thomas,
->>
->> I'm just getting to looking at this patch set.=C2=A0 Sorry for the delay=
-.
->>
->> Testing whether CONFIG_MODULE_SIG and CONFIG_KEXEC_SIG are configured gi=
-ves priority
->> to them, rather than to the IMA support.=C2=A0 Without any other changes=
-, both signature
->> verifications would be enforced.=C2=A0 Is that the intention?
+On Wed, May 14, 2025 at 7:45=E2=80=AFPM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
 >
-> Never mind, got it.
+> On Wed, 2025-05-14 at 19:17 +0200, KP Singh wrote:
+> > On Wed, May 14, 2025 at 5:39=E2=80=AFPM James Bottomley
+> > <James.Bottomley@hansenpartnership.com> wrote:
+> > > On Sun, 2025-05-11 at 04:01 +0200, KP Singh wrote:
+> [...]
+> > > > This implicitly makes the payload equivalent to the signed block
+> > > > (B_signed)
+> > > >
+> > > >     I_loader || H_meta
+> > > >
+> > > > bpftool then generates the signature of this I_loader payload
+> > > > (which now contains the expected H_meta) using a key (system or
+> > > > user) with new flags that work in combination with bpftool -L
+> > >
+> > > Could I just push back a bit on this.  The theory of hash chains
+> > > (which I've cut to shorten) is about pure data structures.  The
+> > > reason for that is that the entire hash chain is supposed to be
+> > > easily independently verifiable in any environment because anything
+> > > can compute the hashes of the blocks and links.  This independent
+> > > verification of the chain is key to formally proving hash chains to
+> > > be correct.  In your proposal we lose the easy verifiability
+> > > because the link hash is embedded in the ebpf loader program which
+> > > has to be disassembled to do the extraction of the hash and verify
+> > > the loader is actually checking it.
+> >
+> > I am not sure I understand your concern. This is something that can
+> > easily be built into tooling / annotations.
+> >
+> >     bpftool -S -v <verification_key> <loader> <metadata>
+> >
+> > Could you explain what's the use-case for "easy verifiability".
 >
-> Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+> I mean verifiability of the hash chain link.  Given a signed program,
+> (i.e. a .h file which is generated by bpftool) which is a signature
+> over the loader only how would one use simple cryptographic operations
+> to verify it?
+>
 
-Thanks for the review!
+I literally just said it above the hash can be extracted if you really
+want offline verification. Are you saying this code is hard to write?
+or is the tooling hard to write? Do you have some definition of
+"simple cryptographic operations".  All operations use tooling.
 
-Given that this series has no chance
-of getting into the next merge window,
-would it be possible to take the two IMA preparation patches
-through the IMA tree to have them out of the way?
+>
+> >
+> > > I was looking at ways we could use a pure hash chain (i.e.
+> > > signature over loader and real map hash) and it does strike me that
+> > > the above ebpf hash verification code is pretty invariant and easy
+> > > to construct, so it could run as a separate BPF fragment that then
+> > > jumps to the real loader.  In that case, it could be constructed on
+> > > the fly in a trusted environment, like the kernel, from the link
+> > > hash in the signature and the signature could just be Sig(loader ||
+> > > map hash) which can then be
+> >
+> > The design I proposed does the same thing:
+> >
+> >     Sig(loader || H_metadata)
+> >
+> > metadata is actually the data (programs, context etc) that's passed
+> > in the map. The verification just happens in the loader program and
+> > the loader || H_metadata is implemented elegantly to avoid any
+> > separate payloads.
+>
+> OK, so I think this is the crux of the problem:  In formal methods
+> proving the validity of a data based hash link is an easy set of
+> cryptographic operations.  You can assert that's equivalent to a
+> signature over a program that verifies the hash, but formally proving
+> it requires a formal analysis of the program to show that 1) it
+> contains the correct hash and 2) it correctly checks the hash against
+> the map.  That makes the task of someone receiving the .h file
+> containing the signed skeleton way harder: it's easy to prove the
+> signature matches the loader instructions, but they still have to prove
+> the instructions contain and verify the correct map hash.
+>
 
+I don't see this as a problem for 2 reasons:
 
-Thomas
+1. It's not hard
+2. Your typical user does not want to do formal verification and
+extract signatures etc.
+
+[1] alone is enough.
+
+The key user journey is:
+
+* Build the program and the metadata
+* Sign the blob once (as explained)
+* A simple API to verify the sequence of operations.
+
+The user builds a program and signs the blob, they sign it because it
+contains the hash of the metadata. It seems like you are optimizing
+for the formal researcher but not for the tooling. The user just needs
+good tooling and a simple API which is exactly what was proposed.
+
+- KP
+
+> Regards,
+>
+> James
+>
+>
 
