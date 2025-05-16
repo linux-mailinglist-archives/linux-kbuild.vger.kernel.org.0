@@ -1,137 +1,232 @@
-Return-Path: <linux-kbuild+bounces-7127-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7128-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E78AB9739
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 May 2025 10:14:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9646AAB9CFA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 May 2025 15:11:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D29CB1B6773B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 May 2025 08:14:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8521E17BEE2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 May 2025 13:10:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C0141F866B;
-	Fri, 16 May 2025 08:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA1A242D67;
+	Fri, 16 May 2025 13:10:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="052ekoYV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="drdAYO9a"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FRRC8cF6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9sUu26EW";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FRRC8cF6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9sUu26EW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976BA22C32D;
-	Fri, 16 May 2025 08:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5031242D6A
+	for <linux-kbuild@vger.kernel.org>; Fri, 16 May 2025 13:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747383276; cv=none; b=HpZlzM2gfW1PzC+UzTnmAS8QVNFZJmluXAbF4Ck8Dh1dNZWcpMPlCpT2FdDWVTWxtC0TU/WdF+t9oRDDoaQPqD76qYGb5lLwYIHkU5fHdG564WjDukLpLAoslt/57OCBWih43SMAv3vHh1MpVvjrBiTbRBQOQ3Wu50oYM9LOiSs=
+	t=1747401036; cv=none; b=orEar2TsStnHy5/Scu9TPEijI6Dky4QjjVnart1kkMzrFFPIEPYtWMshxHr56UkeWdfzS4NE7knj5DPqjFgggRumD9/erSXULM30AH0hKmb4Nw2OqSOyi2fpHx+73VEyzOqo5aFLyQB0RMHytM3rToWX1Nv5Mb6jnBmETl9UkiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747383276; c=relaxed/simple;
-	bh=5o8u9UI3qSzHKBb8msf+BmnRXu2vA5xfWjWzupRBzf0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=dsJOAuSFgpFb+jGW4cIKJKUesyR6An0gICyBUuKLmbBeiB85oMWASighWyd3ZcAvA8N/ZbAayNrhCyQAuZlzoeXVhZ/PnqzmUHIcxgvTJguy4U/tPhiUvtW1rkK0AKHIWHJ4vE4eV2TfD0prNf166FDdkPhCAyYXpwell78zT0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=052ekoYV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=drdAYO9a; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 42FFD11400EF;
-	Fri, 16 May 2025 04:14:31 -0400 (EDT)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-05.internal (MEProxy); Fri, 16 May 2025 04:14:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1747383271;
-	 x=1747469671; bh=TNQAy/3v/9QLSLFFH92xpmcRe2YVjxYAjNqCMFTN3Ec=; b=
-	052ekoYV6RayiTa2DxfUFA6HabKwskEGS2Tqtj0/bs7nkYANgSbIAuf727TX1cQ6
-	P928iyqi3au10lYINrEVu3QH8QD6qV5f+sR+dtRqm7ky+fs/1y28AEXystFF8z34
-	7GNVCn45I+AHO7nT7mOlBSsSw8hKr+TV0vwS8hRljWxrQuAnMGvyDCspzMD9faTH
-	auoWsAyhNzl9qkXt/ko3JnNS0tz8h+uC8uu+PerXcTS95OUE3pBq2T2dKW0LMsZt
-	/YPA85CGUUla92Kg0hFUlZlR5wJi6iu3B7EtntsGwjmqAAdr3rPANPOca9KV8hZk
-	zMj3RTNXU4PWdF5phr1aAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747383271; x=
-	1747469671; bh=TNQAy/3v/9QLSLFFH92xpmcRe2YVjxYAjNqCMFTN3Ec=; b=d
-	rdAYO9ahRidVZ+oA9KDWOKxoWfMZjU4euDQQmdqiwe/fw/2l5reWmiMlPUKgtORN
-	A4ac3uesbCs66B392kXrrhNbF2KvTqNfLTGldWKeKj9WmMhlNUOzqIAMnm7+DFcN
-	pB9TnP0ndwgdv+haN5uzaTa7bHFuVDkoJW7iuq8/uiLYh8aXsyapHn10xVIW2a70
-	1GyiHByZWdegATwuB1qbTcErcui7fNZo/twFLnBOlF7M27RPE1Z7RptkyCAGJUpi
-	lCGkdshhXWZVTLSLkDcrVi19M6UE1Ltk/YFfeBWR+zrHoy4zEy/eEV0Tqpw8pWp6
-	242ywdHunbRspJTC7Hg+Q==
-X-ME-Sender: <xms:5vMmaGaxVnX6-ZGYTswN4aSmYLmQ-lMxCwBc4hvycnecD5YvZAXPQA>
-    <xme:5vMmaJZISR81F_TkRhU9DLiwVhxx6qkv0nlzj8Ofn59spVch-MXn_aa35eRjIm_eb
-    Vtp7G-9t3ZhPBb7OXQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvvdehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
-    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    vdejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdguvg
-    dprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghp
-    thhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtghpthhtohepnhhitg
-    holhgrshesfhhjrghslhgvrdgvuhdprhgtphhtthhopegsrhhgvghrshhtsehgmhgrihhl
-    rdgtohhmpdhrtghpthhtohepuhgsihiijhgrkhesghhmrghilhdrtghomhdprhgtphhtth
-    hopehhvghrsggvrhhtsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthht
-    oheprghruggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugeskhgvrhhnvg
-    hlrdhorhhg
-X-ME-Proxy: <xmx:5vMmaA8EEx-OxskfKuRjr9KqwyscGaSynjNvYYLiCrwTmbWD-bToJw>
-    <xmx:5vMmaIqgdVU4_r5WTwAPfvdbHYn3RYDW3ij-ah7orJFBFDb_ec2hGQ>
-    <xmx:5vMmaBobzfhKEgME9i6MR7L-msBVA1kr6N4cGHyO6v-shXK68N8ERA>
-    <xmx:5vMmaGSCjD70OA_GBpm2DaKQJhs2uNV6k2rokbq8YEFk3LnNyAWwuQ>
-    <xmx:5_MmaH_50-jHxQd0krYUtVXnXcC7JhRQ2lGKO5MUdnKqV1cmrQSgd23Q>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 0AD69106005E; Fri, 16 May 2025 04:14:30 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1747401036; c=relaxed/simple;
+	bh=6YXteyblXnxrChf3daUg7VodS7B9CbzBaq8O6TtADOQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ktAQ1hb44IOP2xF1vJYjHNyBbOgmKUiH6DvyU+boqzU9OiBQ4IhoaM7R6yV13l99M9iCmqzVVkPGboxzzZeMB0CGSktyTFwc46baRG58owYY1QqhLtGuGtqw4yamXvqunxfp8857Fz6Vpd+wQC9zLS9xarKOnOcHU/qiybPkkTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FRRC8cF6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9sUu26EW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FRRC8cF6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9sUu26EW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8E24A219FF;
+	Fri, 16 May 2025 13:10:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747401032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8rgL5XOFCaHWG5gSyPt5Zu0LOsU1CW5frqzvIuPZZE=;
+	b=FRRC8cF6U1k3JTQXaJFqjOHcbKqBQ3zTkZH9D/RqE2hG3HPoxjagMz9vaIA6ugp8djG93H
+	+KvwwLaAcdy9e9gYQR76Wd0QLg7GrI6BWyoURz37fTw2PGT2bNuXHAw6Qs+zjuox42AZvE
+	cyo+bNR4Xi3CGCloqxUpyZFpTULkiS0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747401032;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8rgL5XOFCaHWG5gSyPt5Zu0LOsU1CW5frqzvIuPZZE=;
+	b=9sUu26EW0h8F6FtyQ6+raJaj7pvR7naYL3Dr9/uFjf16LdmDx21TKZocZxFPwdPaj4AL2Q
+	1CLs/pryW6nj9RDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FRRC8cF6;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=9sUu26EW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747401032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8rgL5XOFCaHWG5gSyPt5Zu0LOsU1CW5frqzvIuPZZE=;
+	b=FRRC8cF6U1k3JTQXaJFqjOHcbKqBQ3zTkZH9D/RqE2hG3HPoxjagMz9vaIA6ugp8djG93H
+	+KvwwLaAcdy9e9gYQR76Wd0QLg7GrI6BWyoURz37fTw2PGT2bNuXHAw6Qs+zjuox42AZvE
+	cyo+bNR4Xi3CGCloqxUpyZFpTULkiS0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747401032;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8rgL5XOFCaHWG5gSyPt5Zu0LOsU1CW5frqzvIuPZZE=;
+	b=9sUu26EW0h8F6FtyQ6+raJaj7pvR7naYL3Dr9/uFjf16LdmDx21TKZocZxFPwdPaj4AL2Q
+	1CLs/pryW6nj9RDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 710F613411;
+	Fri, 16 May 2025 13:10:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 07I1G0g5J2h2NQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 16 May 2025 13:10:32 +0000
+Message-ID: <e6f335a4-c981-4bb1-8ea4-70e9efc56ae3@suse.cz>
+Date: Fri, 16 May 2025 15:10:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T1c7885e3064aa147
-Date: Fri, 16 May 2025 10:14:08 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Eric Biggers" <ebiggers@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- "Ard Biesheuvel" <ardb@kernel.org>, "Borislav Petkov" <bp@alien8.de>,
- "Brian Gerst" <brgerst@gmail.com>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "Herbert Xu" <herbert@gondor.apana.org.au>, "Ingo Molnar" <mingo@redhat.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Marc Zyngier" <maz@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>, "Takashi Iwai" <tiwai@suse.com>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Uros Bizjak" <ubizjak@gmail.com>,
- "Will Deacon" <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, x86@kernel.org
-Message-Id: <77dca5eb-74d6-4363-9d8b-e7b0d449dcb7@app.fastmail.com>
-In-Reply-To: <20250515182806.GD1411@quark>
-References: <20250407094116.1339199-1-arnd@kernel.org>
- <20250407094116.1339199-2-arnd@kernel.org> <20250515182806.GD1411@quark>
-Subject: Re: [PATCH 1/4] kbuild: require gcc-8 and binutils-2.30
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: Kconfig for range is being ignored
+Content-Language: en-US
+To: Juan Yescas <jyescas@google.com>, linux-kbuild@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, Kalesh Singh
+ <kaleshsingh@google.com>, Isaac Manjarres <isaacmanjarres@google.com>,
+ Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+ Minchan Kim <minchan@kernel.org>
+References: <CAJDx_rjX4Z3QvoFDnQ7qH06x+Q+pTP3bAyLv2GD2C+CoWu9haQ@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CAJDx_rjX4Z3QvoFDnQ7qH06x+Q+pTP3bAyLv2GD2C+CoWu9haQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 8E24A219FF
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:mid,suse.cz:dkim,bootlin.com:url];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Score: -4.51
 
-On Thu, May 15, 2025, at 20:28, Eric Biggers wrote:
-> On Mon, Apr 07, 2025 at 11:41:13AM +0200, Arnd Bergmann wrote:
->
-> Later in this file, there's another mention of the binutils version that needs
-> to be updated.  (Or maybe removed since it's redundant with the table?)
->
->     Binutils 2.25 or newer is needed to build the kernel.
+On 5/13/25 22:17, Juan Yescas wrote:
+> Hi Kbuild team,
+> 
+> In the patch from below, I am adding a new configuration that depends
+> on ARCH_FORCE_MAX_ORDER.
+> 
+> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
+> 
+> When ARCH_FORCE_MAX_ORDER is defined, the max value of PAGE_BLOCK_ORDER has
+> to be ARCH_FORCE_MAX_ORDER.
+> 
+> mm/Kconfig
+> 
+> config ARCH_FORCE_MAX_ORDER
+>       int
+> config PAGE_BLOCK_ORDER
+>        int "Page Block Order"
+>        range 1 10 if !ARCH_FORCE_MAX_ORDER
+>        default 10 if !ARCH_FORCE_MAX_ORDER
+>        range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
+>        default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
+> 
+> This configuration works on ARM64, however, on powerpc, the restriction is
+> not being respected.
+> 
+> The main difference that I see between arch/arm64/Kconfig and
+> arch/powerpc/Kconfig
+> is that powerpc/Kconfig is using ranges, but not in arm64/Kconfig
+> 
+> https://elixir.bootlin.com/linux/v6.14.6/source/arch/arm64/Kconfig#L1637
+> config ARCH_FORCE_MAX_ORDER
+> int
+> default "13" if ARM64_64K_PAGES
+> default "11" if ARM64_16K_PAGES
+> default "10"
 
-Thanks for noticing, I've fixed both the English and Italian documentation
-files now.
+I've changed this default "10" to default "8" and
 
-     Arnd
+> ARCH=arm64 make allmodconfig
+> grep ORDER .config
+CONFIG_ARCH_FORCE_MAX_ORDER=8
+CONFIG_PAGE_BLOCK_ORDER=10
+
+So I'd say it has the same issue as powerpc, just not obvious due to the
+different default.
+
+Poking a bit I found this interesting bit in arch/Kconfig:
+
+# Note: arch/$(SRCARCH)/Kconfig needs to be included first so that it can
+# override the default values in this file.
+#
+source "arch/$(SRCARCH)/Kconfig"
+
+Thus I've tried to move the whole config PAGE_BLOCK_ORDER thing from
+mm/Kconfig to arch/Kconfig. But to my surprise it didn't change anything.
+
+AFAICS "config ARCH_MMAP_RND_BITS" is doing very similar stuff than we're
+trying with "config PAGE_BLOCK_ORDER" but it seems to work? I'm puzzled.
+
+> https://elixir.bootlin.com/linux/v6.14.6/source/arch/powerpc/Kconfig#L918
+> config ARCH_FORCE_MAX_ORDER
+> int "Order of maximal physically contiguous allocations"
+> range 7 8 if PPC64 && PPC_64K_PAGES
+> default "8" if PPC64 && PPC_64K_PAGES
+> range 12 12 if PPC64 && !PPC_64K_PAGES
+> default "12" if PPC64 && !PPC_64K_PAGES
+> range 8 10 if PPC32 && PPC_16K_PAGES
+> 
+> How to reproduce it
+>  $ ARCH=powerpc make allmodconfig
+>  $ cat .config | grep MAX_ORDER
+> CONFIG_ARCH_FORCE_MAX_ORDER=8
+>  $ cat .config | grep PAGE_BLOCK
+> CONFIG_PAGE_BLOCK_ORDER=10.   -> This should be 8, NOT 10.
+> 
+> Is the Kconfig in this change
+> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
+> configured properly? What needs to be changed?
+> 
+> Thanks
+> Juan
+
 
