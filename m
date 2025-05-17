@@ -1,65 +1,65 @@
-Return-Path: <linux-kbuild+bounces-7142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B4FABABE7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 20:42:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50A6ABABE8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 20:47:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4956C3BF33E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 18:42:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6743617E942
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 18:47:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 473A817A5BE;
-	Sat, 17 May 2025 18:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A48E2136358;
+	Sat, 17 May 2025 18:46:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sExcSeeG"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BoVPMVVu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2061.outbound.protection.outlook.com [40.107.220.61])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2063.outbound.protection.outlook.com [40.107.236.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6302F43
-	for <linux-kbuild@vger.kernel.org>; Sat, 17 May 2025 18:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93F08F58
+	for <linux-kbuild@vger.kernel.org>; Sat, 17 May 2025 18:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.63
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747507373; cv=fail; b=ca6hSCiUEh9aqulk3W+oV9KQMjZfciCTfItVctO+1m4xrhlDGWO2CVMWGNgAvVsT5Xqf51MgRPpdZBSZJ8ZRx/9WA2WRMC+3NSe93vA6j2yXAF/9SnqOqk5y+aQnVGFFxnnxiQgsGdY4FtkBCWkWIIlKUW0dz2E2VTGLG60Wzpo=
+	t=1747507616; cv=fail; b=Zio0KZBlmdap5fyzpmTtFfZuctSPy7eOmyH+aTFQhLb/X/bZWgw3yjbJgztg1Bm3rcvJT66WsR+ywtS7ykIN+luU/zWLFDBU9zHG8PsNDMpirX+dZHawvux4EBAu3jJ8+WxKtlc75yj3y/932siW43oi0wp+X4A0zD3nng1xa8w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747507373; c=relaxed/simple;
-	bh=FgKopEfodDYuGwdhKaGJ5u0lkmChyf3AF3zSaAFmjRE=;
+	s=arc-20240116; t=1747507616; c=relaxed/simple;
+	bh=sW018HUvwX7xTZVrM5fW7VdQ11gB28byIo/mLjKR4D0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qsaoIDN/NO5gSgz8QwaA9YQ9zq4XzBppn7NBK24Pey5iVy2gdv1wwZLGf9bkSwKwIjpM5ATez+vy8NSheUp5/Odnk+IdU+gNCFdeI+oAC5ShIpp6rvhBJ1uiNWlCMX2ZA+mgvYHzffw5RG5HkLgEqX7QKbKBj4XYH/zTlWeQu68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sExcSeeG; arc=fail smtp.client-ip=40.107.220.61
+	 Content-Type:MIME-Version; b=nfz+LRAoFyOgtQ6SogABAuYpUuFy7byfTRdYMolSb9sKmrJKHgRKQPNLEs0A7RebXMMuKMYavJniKU9sS1ssqnk6v5bweO5VUlppM86D0ztDqNY4i3XoyG2fPCGy300VhrI08XQaWiKUYLj6PVU9LOFRN01cwXK9mC/6kKAE8Rk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BoVPMVVu; arc=fail smtp.client-ip=40.107.236.63
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=chyMWgwci5UEkjTMVO36KB8vdykHv4HU3Rdkm9j6kKLzvf9q4bv85oe+KSSL4MDyQbLEN/1/KUkRmnlEsRcDShs/9tYwDTnLctwdK0goCxQkCsSLtqhcqh+z/C3d5Dn0gxOffqzkK0oFHlbVawBNXV7IXCxcFbkbYtaZ3yanY44hrQanpiqPcZMgOd2y6FQaclRKPovmb29OdrhCRaACHgR0oD25WsQy9IsyG5o/owbtlT6NDA2H/C5gqYjDW9qlvOF5LY/Pnfp1xmVEBi9yKcDCuKpGSeEYp/mmCtam3kKtzu3muciU/tgCJjgWCSmwbCrxg2YqTUZLUSiQOfIrmQ==
+ b=Sd2bpcwGOeYRp4W7F4aWLIT/22BPJzk6SaRWazwIWciavI7Cb56cIIudsShjTY3yvKtrnwxEaQKYPtSQNXfAYb6MEz5bvDjYblad8giqx3q4MMQl5X3yzoynC5wacAZGCLixqrAh8b1G/hd+Oxr/fha45jdZqJZJI75O/zCHX6ldKaE3RRME0iLCetD9NzmqJMWtpafx6HfzCds3GVFMlKaFGox3iBQjg/LEMEItYhGM4yKbUSmBMEil/4UkcQSoGyRpotQYMobsUMqGOBw6WlCl+Rg8GN21TAcJ8x+jNptfX5ORqVsJ3YDQYiHQATpeMLbNJWmecIc9/JdjbFOg9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5tWARhkabNZj+bySMdQXr/7BxAqCDAQZDAUPiJnlv5M=;
- b=r1R/MzmIcM6z0hAByti2wNATdbkBw2eI2IWsfZdObDb4z8bnQ+6qiS3yUq2P7lmdzltSbTCV7AnnwL8dX3fNUmzDysAtdQnsAkXxdP4QEAYux3rEl1QcRQ9LTkPCGUfSekn0ZsdKxDJlE5v7CIas42wnhq+zchw3l41OmCRVD1owvRT82Hm+xiLqT0oVCZoJl1NCj1RtQ8rRui2VQzpUFC6VMUDG0TkOxkfxlXQacGz0dMlEsyu9sfjdX3tXt06Tu9HatwL3dkPdCSKkuAyosDwTrf2IA1ExejQLwj+AKwcAiW1yqwByP++Bo9AZ9+Z26QyB3u1GkmbG8cIEiFeVwQ==
+ bh=8Y+7QX2ksDNTLXpvsu6qpfSKmyYLVJkVlb7f0wSRM9Q=;
+ b=Px/BMwMnYfK9ZHK9MYziLFrh/22S7RRbymzyRtFmGgikl9YenFoVWgCUgfK9pdXYI14g8ycUIVfNGZpPD3YPDrxtefbVL0PF3RIE+GlQp3NZBxq6MfwRGDmKbiJUKILpcLNezIpA17GuTo5Q5/HpZfvtsYJAjfIMAGKIyw/Bp3K8M8Aredxqup+T/bYIAEElIDI9Vb8cAu88I9TwPIJIOBPYJ/tRz251EExSh6QyRFdjU4EfDEGv5trgunMTSQIjVnoULSh6NJbDNM2ZExbO3J2gXm75LcITsnGhneou/ddmz94l1zHz0blQTevJsMGIgJnpCAC7kBVALYKCS3PoUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5tWARhkabNZj+bySMdQXr/7BxAqCDAQZDAUPiJnlv5M=;
- b=sExcSeeGVsm1s2lZDMUaeHb0WzkU7zzq8M0xSK1i2j4Pta3NMjFIEvEkdvt4fNkSyBPcweWFsQTpLtSZJMKzND+gutprLCK3EYgxewBtZ99rMH43w2EnIUfGTTms1G/CEFdNtRXkJaLC8ec5bTIkUFY2KJGBLoXphVd6bBpoPbpN90oUjy6XdCbfsYvsa/vCMI2Pu3jE+JIca6S4ulmQF9QAzDj7hd08NE2oo3qrOwTHgZins7IRANcDJt0ki7mvzIdsqx6Bfj+awbD+GRwcS7zxwUWWnsvpI/L4BulFP+fx1Hr1lCraTLihUD0DH3kSd5ut1/s19y4fsFNvyjz3Ng==
+ bh=8Y+7QX2ksDNTLXpvsu6qpfSKmyYLVJkVlb7f0wSRM9Q=;
+ b=BoVPMVVuMBQErisG9A8UQZx1Lef2PGz+6dGVipsgfzi0bbmETH9bgpa5ICkLWtQIV5LFCR4d4OjfQX2dE39ZXWil/dQF4pwEUXYgPKyrHj2pyz0fNQgxngdijUtLSVf4x+OQhU7YTMSPMR5iomXlYmwIbV29oX5nLo3WxlFoETexlnwYP9LSyx5rtDvWVonOrLGOEMv0KZCgd4Zmc7uT08dX0FSkdOb4hcXAs9FV7eFonzuP+LCgG/X4PS3VbUaLuyR0fnhCiCquzq+5pIsLh5CXZbqLEG611ckIH3qdYISA9NDsGsQWyfquSDwByY1oRKTyRUTbZx4Zt7VBP/+l8Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
  BY5PR12MB4196.namprd12.prod.outlook.com (2603:10b6:a03:205::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Sat, 17 May
- 2025 18:42:48 +0000
+ 2025 18:46:51 +0000
 Received: from DS7PR12MB9473.namprd12.prod.outlook.com
  ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
  ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8722.031; Sat, 17 May 2025
- 18:42:47 +0000
+ 18:46:51 +0000
 From: Zi Yan <ziy@nvidia.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Juan Yescas <jyescas@google.com>, linux-kbuild@vger.kernel.org,
+Cc: Juan Yescas <jyescas@google.com>, <linux-kbuild@vger.kernel.org>,
  Suren Baghdasaryan <surenb@google.com>,
  "T.J. Mercier" <tjmercier@google.com>, Kalesh Singh <kaleshsingh@google.com>,
  Isaac Manjarres <isaacmanjarres@google.com>,
@@ -69,16 +69,17 @@ Cc: Juan Yescas <jyescas@google.com>, linux-kbuild@vger.kernel.org,
  David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
  Minchan Kim <minchan@kernel.org>
 Subject: Re: Kconfig for range is being ignored
-Date: Sat, 17 May 2025 14:42:44 -0400
+Date: Sat, 17 May 2025 14:46:49 -0400
 X-Mailer: MailMate (2.0r6255)
-Message-ID: <438DD530-00EA-4F7E-9CC0-A1274400DD84@nvidia.com>
-In-Reply-To: <CAK7LNASeN7za4eq2rsTO255y2A6m9uzxec-MSn=TyM=qD1iEOQ@mail.gmail.com>
+Message-ID: <86B954BA-2AF7-46F8-8C56-966D24889139@nvidia.com>
+In-Reply-To: <438DD530-00EA-4F7E-9CC0-A1274400DD84@nvidia.com>
 References: <CAJDx_rjX4Z3QvoFDnQ7qH06x+Q+pTP3bAyLv2GD2C+CoWu9haQ@mail.gmail.com>
  <CAK7LNASeN7za4eq2rsTO255y2A6m9uzxec-MSn=TyM=qD1iEOQ@mail.gmail.com>
+ <438DD530-00EA-4F7E-9CC0-A1274400DD84@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR15CA0016.namprd15.prod.outlook.com
- (2603:10b6:208:1b4::29) To DS7PR12MB9473.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0264.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::29) To DS7PR12MB9473.namprd12.prod.outlook.com
  (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -88,190 +89,201 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|BY5PR12MB4196:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9aaeb0d3-ddd9-4dfd-d963-08dd95729e1f
+X-MS-Office365-Filtering-Correlation-Id: 848f6a6a-5020-44ea-b629-08dd95732fe5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bmFFYlNPSHFwMnZIU2QrZXdQVmk4enFzY1JCSHBxQStBbG0rNDg1Wml0aFZs?=
- =?utf-8?B?QXNHaFZYZUNQUFVUdk5pZkM4cGIxMXdVOUJHaU9aU3JidncrRHh2VS9GeFR1?=
- =?utf-8?B?aHdpaHpmNkJIRE15SVFWMWxhb1I3KzMvTmJ2cCt3Z2dmbjRLS2c5SEJLRjFV?=
- =?utf-8?B?ZjdrQ0xwRnJ4U0d6bmRqNFUrM0N5K3lhb1d5dlVQQ0RZaUJIQm1DcFdiSWlV?=
- =?utf-8?B?MDVFWlNmaW1oczJMNFZTUnlnUWk4cWRYODBiOFZYTGNsQ1pUZnc3Vm5tMitZ?=
- =?utf-8?B?ZFRVQnJGR2EwUkVFdGpISmxUZmg2aWJQck15MEZHYmlTMXpTcXVra0xDQllr?=
- =?utf-8?B?NzVyUGk2RG9EK1VTVS82R0VIdldZYlNaeXdkQjE2YmdvMnRkUXlON3RselZQ?=
- =?utf-8?B?UTl1S1JmV2lGK1hoSVRJU3duMHh1NlFFcVd2VFkvUnBoMjRjd0JjaUVkVFZj?=
- =?utf-8?B?ZFBaQ01pVURRTFJQTkoyNUZVTTlJODltaVZMdnlSdDVaZmJZMSsvYXE2UnZZ?=
- =?utf-8?B?bzVybG41OWN6dG5qOHVIQy8weFRodjFGT1FubGtETFRhOHRKd2QwYk5lMzB1?=
- =?utf-8?B?TFBBb2F4ODE2WlRoeXA3dGx3MnVqQWpuMWloVHZ5RTYrT05VTnY0eEo2VUtp?=
- =?utf-8?B?RmFUb2hrZzl5dy9odFZqRFRuYlpCYVN3Z0pNZCtZbXVaQTEzNkFDZGxzYXpV?=
- =?utf-8?B?TkdqTkNFR2hQVG12dmtXcmhxT2F0cXpYMEZGTVJ1b2hXQ0g5UW5kTmpTVklZ?=
- =?utf-8?B?QTh1ZFZSYUxZQUcvUy9OU09HUkJQNHhpc3k2YVpEeGZ3N3BHeFZRWkJ0eHFj?=
- =?utf-8?B?QXpEb3ZSMjdWVGhjYWNObHJGSDZTZWxmYVVEcUR5QVdtUTZDaWFkWHVzWHVx?=
- =?utf-8?B?SDd3TUpnMnZWQXY5Z24rMEFSQ3hYN1ZEZHZ0TTdUd2p4bUxUZ0x5bDZFUzRS?=
- =?utf-8?B?TEJWTjllSTgvT3RwQndxeFZ5cENxcFE0R2VRSHp3enVoUE1NeENMNko2bmVR?=
- =?utf-8?B?M0xEREZBTnZCRkRwMHJOQ2l1T2IxMjFsb1ZrbDFUM0NtWmRkWVMyZDJEWlM0?=
- =?utf-8?B?RGxFREwrRVFUWXFDRVU5YkxYcXVXLy8wWXdUaUJUb21SSzhwOFNQcmFqamVl?=
- =?utf-8?B?QmdLWkRvbGg5WjgrRkQ2WHJtMmZ5ZHVRSnRzY2h2aWNBTDFqNFRkNm5CQ2sy?=
- =?utf-8?B?dFVzZytUOG84alIydGFRRytSSXN3aUhFUHZGL00wbW9vWHZ3SUhwVHRiWXUx?=
- =?utf-8?B?TEp4M1U0Z0FpdmtsbTFMbkE2MmppdXBzdzhjSmJ0amx5SmRrS0hwOGtqVkJp?=
- =?utf-8?B?ZnUrcWEzOXo1UGVPWHdQalVVS2ZVUjB5TnVISXNiakYxL2hjbHF6Sm9qY1JG?=
- =?utf-8?B?ZUtpUERlYmx4eFFlOWZPNjFsblNvWnZPNkFRQmxBTFVTVW5Xd2hUbzFQRjlK?=
- =?utf-8?B?VTUybDBNWGd4SFFId2FZQ3N2ZmkwZUxJNFZrSHJ1SmlrcVRYR21mc0ZmSkhn?=
- =?utf-8?B?Y216dUI5QWxwQ2FxODUyR3NMUVFBek9lSzJJKyt0R2l6aEtkcXo2bFNDYkdk?=
- =?utf-8?B?OTlnR1dqNmtqODFQRmQxMm9yNFlzUlNneDE0U0ltV0FmVXFoOUlNTnVYTzJH?=
- =?utf-8?B?SWVNbGpHOFRCRkZrNlZWYmpUaUNBUEtGT0dxaUZjNkJKOGp0QWcycnowL2xD?=
- =?utf-8?B?RUxDOVErQmFsY0FkUm5YQkxPU1lrdVBwS0hWTGRodWpaY2l6aTNVR0FhYmdm?=
- =?utf-8?B?Ulc1b2NMcHJ6NGRnUWJFQzhGWktvbml2WnVxUGVYTS9MMHI0NWF0QVdvYnJw?=
- =?utf-8?B?NzhQYnNaaFYzdkFDZS9aMkg4THh6Q0h0VGRha0hKdVRXWC9GRmZPeGo2RDkv?=
- =?utf-8?B?eDFCZURzcjAvUnl4eGt4bnhQRVI5Kzl3MkNBQmpLa1hnSEpEV0JhWjVuRm42?=
- =?utf-8?Q?th5krUEIDhk=3D?=
+	=?utf-8?B?cVEreDNZVkR3OTh5RTBmcXMrRlhFOUF6VXhkRmMvVkpIY2hnSnZwaTc2c2xG?=
+ =?utf-8?B?OHI5SEg4dXR0b09ZWEtZcTBNaVZLeFRJQnBNaExsekdLeC9rM3ZWZEFhcDRl?=
+ =?utf-8?B?aTBZcCswUm45UEJmNDAvWWJLWmlaK0h3U1UzQjNubkNXaVN1ZzlSTDlCaVpx?=
+ =?utf-8?B?T3lyNjk2WGlRZjk4ak5xdjVSSEtqVmNqMERpUVAvamVmTDhTUXR3Q2dvYkI0?=
+ =?utf-8?B?dEYvckdab2hUQXJsMlQrSEc2SlA4cEg0SkEybEYxV2dOa0FRN0M3d0NpeVor?=
+ =?utf-8?B?d1E1SWpZd2xobW5oR0dDMXhYdlFzMWVuYWQyQnVlNXNBT1RIY25URUUxSHlF?=
+ =?utf-8?B?MTNheW1WejNlSks4UllGY2JQbCtmYWpxVzhaNEMxVS9UZ1Y2anRpQUJjSHNx?=
+ =?utf-8?B?Mkh5TjI4RWxGRGQ3elVEaWtjWlBJcU1pQXVLanNZcDU3UEdGV3NpU05ST29W?=
+ =?utf-8?B?eUdHQmhkd2VpRUxUWTZsdWpXVVpxbWlRb21OZm8zZW1xaFNIN3FHYjlFUm5a?=
+ =?utf-8?B?MDk4bW1ZVzlRZmRjVzdWL2dpRGhTei9FOTRFOWZjMWpqaTFZVHpuOGpjTGhB?=
+ =?utf-8?B?OHZkNi9jY0RHVEw4WEtkTnBxQ0p0N0hWekJ3SGlIc2x4a0xBRWMwZ3puWWlt?=
+ =?utf-8?B?OURsM0ZhdjZhM3EyZnNueVFLeVcxbFhlcjVQYWJZWlhRUUdhWXIrcGVPM215?=
+ =?utf-8?B?dytrcWtDbms1M0R4OVBGK0ZzbVdVdG5tRFcxdi9QaUJERncxcmFBc3hJUVY1?=
+ =?utf-8?B?ejNvM3Q0YzlZbE5qZjZoeCtOaHMwUzYyTmJCTENhZ2x6UEU0MDM1ZWI5RzAx?=
+ =?utf-8?B?RGVoVllyWkZtSy9GM25iMGJwRDdwdWRJNkYxcHNkZkJ4VVF6Y1M0VDBsVFJq?=
+ =?utf-8?B?MGlkTWJkNXc5OFhpcFU1WnpGNTdnYUNKRVZnVERhTzEwaWkrRVo4OGxKU1Vl?=
+ =?utf-8?B?N1UrVnloekZPUEoyYUlJQkhGRkNaYjUwbURnbHYySXhvZFJ6cm9Ec1FQUU1z?=
+ =?utf-8?B?bjF2azVSYmdpSmpVNEdVUjg4UkQzazMxOU52UVdreG92ZThlcEpiYmdIYzVF?=
+ =?utf-8?B?U0ZrVHh0SUlsbDRuK2lrdzJqOVVlWnVZNTlxN3k0bTVyRWJ3K0dvZS9FWGdj?=
+ =?utf-8?B?RG1GUDZic01uS2VMVU9nb0k5V1cwUlBQRGNTMWlwaHVpd2pnWTZyMElJd09T?=
+ =?utf-8?B?bys2ckdCejA2dmRVbGp6MDRvajhKZ0l5S09rTlJCeXR6VXFtc2pJSDV6QVd1?=
+ =?utf-8?B?djJlZTNDMC9zdmJpcitYZmVxM3lmTzQyYzE2RUYxWEs5L0lrbUpmalAxWVNG?=
+ =?utf-8?B?NUYzeDZONWNxUCtyL2EyMmpEQkpBQXpTM0pGZXYyUDQ1bEFmMXhaTVZIcWpR?=
+ =?utf-8?B?cU5wZXdaWEMrd2JYQnZVa2ZNSVZlRTB1SmxHaDVISnVWNCtaT1dCanRGQUlm?=
+ =?utf-8?B?NCtJNjFKL2ZKMlQ5dGpWd3l0RE44UHl4RDRlMFBzaWxZREp4VkJiKzRsOFFZ?=
+ =?utf-8?B?ZTVEelZRa2JnUWp5THkrUTllOCtKamFvVHdLbGU5c3NlM05qd011OVVQK251?=
+ =?utf-8?B?Qm83TzJnNDZhbE1ocWExZVpRc0dUNVI3Y1N4N3FkLy9GUjdsWWY2NHdmTFZD?=
+ =?utf-8?B?VGJNc2JHc1BqRTJXcmhIV0dOdWhVODRjSEVNaHpiV3RjZzkvbWI3UnArb2Jq?=
+ =?utf-8?B?d2NKelF1Y1VIWW1pd1JvVzVEdlVWQ1pBdWZDRW16SVI5c0pudlJya0k3dFMw?=
+ =?utf-8?B?aFFJdlp3YlRJdjV3SDFOb3JwOUQ4bUxFbms5UDVTN1lTNU1JZ1ZzYTQ0M1R4?=
+ =?utf-8?B?dUNkaDNrYWlmU2xSMTdvendPTXFnZW1sL2JJaUh0RXJMdlVIVmI1ZVFoNEVy?=
+ =?utf-8?B?TGVqaURsWXlqUUk2RGIwZFJpeE1qR3RBb1lQQVNuUGVKOS9hVVpjaWFqTjRF?=
+ =?utf-8?Q?vENvpefL/SE=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dURnQlpkWmJiaE9RZnliYk1BaEtpNE1HVXBTTVZrWGxaaTZIeW4xaTJSQXRN?=
- =?utf-8?B?L1RDMG5qaHZzQVdKcUVzaDBPb0RjN2t1NWU3eEp6RmdBb3ZjNDF6aVUxckd3?=
- =?utf-8?B?KzNOY1RsUDRZK2dGbUN3RmRMaWZnaXJqS0JDcFdoaFBqZW1FdGZaa3FzdGNn?=
- =?utf-8?B?U0tiaG40cmZQbEN0Y2o2cHBhUVBOMnMwaWpXdWd2ZzVUUnBJSGhKdHYybWEr?=
- =?utf-8?B?QTJwamtHSkw5Tk9nWHJmVm1hclBNNThEL2N1MlpjbEplemVCV2dhSllqU1Np?=
- =?utf-8?B?cXNWczZKZ01xdUpsbXJQUlZ6VUMxWWtBZUJmNHVlanBiNC9QbThGL0ZKVTU1?=
- =?utf-8?B?b2tLaDBDRlQwUmNka1FmQ0VEWlJWeTJVdElRQmhKb3hjeTd3MmtIUHpmQWtu?=
- =?utf-8?B?dHhKSlZOeE5VVTl2Mk1oRW4wUkhzQzZhT2hFdkZhd1dQdUEvN1JnSVFLQkVB?=
- =?utf-8?B?N1NnbUhJdHgxdUFoQ2h1SWIyUGx6NllYcVhpdWtodU5GdUZXcVVBcFM5a0hW?=
- =?utf-8?B?eEZKSEV1S3lRa2JzaE5PTUYwSlNZT0o5bGdONjcxTThpcTQ1Yk5UVmUvWTY4?=
- =?utf-8?B?d1Y5NTZnYWtIamVKMlhTNkVPdW1nOUlwMU82dlpldys1SStOZndaRFJvWEE0?=
- =?utf-8?B?QXFWbWYxYlZ4L0psdkNYeW1leDNuMDhMbHZ1VDV3czhNUEVMY1ZZMEUrMUd0?=
- =?utf-8?B?bU8rOExOSkJudzM0U3R2aTNwVEtDaE1ZVlJUSy8xRUdqd1VaRkVsdmZLS2hS?=
- =?utf-8?B?SzJzYVF4SlZ1emFxNWZWL2JsbzI5QWJqUGI4M1YzYVUvWmd3eGlBejVGdXRM?=
- =?utf-8?B?MjJ5dENURmw5MDBoN3Nic3JPam1yd3M0Y3pzbTNlNGNvY0NWYTBYWC8rNU5a?=
- =?utf-8?B?Vms0M05jbFI1NEQ1SjluNHozeWZMU0xkVU9kbmNZQXhMdkVLMGVJUkFSRkZL?=
- =?utf-8?B?c2tyUlJ2eTB2TVZZeEU4VXZLU1l2b1kxamdpcVhHYTZZOEc1R2xocEdnbXNu?=
- =?utf-8?B?ajlBREhhWFY4ZExDZkdwNlBFNkFYb1hNdk9TRmpzc1JvV2lFZlVLWVVWT0Zk?=
- =?utf-8?B?dWMzS2RwWGRPNHpUakRYcVlnbUkxUWoxYXJaUDVXcmhiWHp4Z0E1NkRBZXBF?=
- =?utf-8?B?MWJyRnRzRnBKQVNNM3NBaUxSQXFEWjBPS3ljd1RLeFoyZUs0WGRVdGxRdjhB?=
- =?utf-8?B?WEJHMURpQ3JITnJrZ05HMVpnT1AzMHBsVU1xNm9YeTFHUWJpS1V1SlY5UFJY?=
- =?utf-8?B?U25janBXb3dLdFNmNHZLVmJzNVpEL0hkN3hsN2VKQlFNVnhPSEp0eUNXTDV3?=
- =?utf-8?B?cFJ6YVUrRW1aQVpPczNqOGt4ajg4TjEyQXFnK0JKWmIwdXhmUWUwK3RyNGxY?=
- =?utf-8?B?ckVmYzVJMXJKTTdjR2s4VDJma0d1MFpSRTRXbWREZVUrWHpGaFBhaFBQcTR1?=
- =?utf-8?B?K3l6NjgwMWhKWklKZ3I1WktXVDRtSWUxYWVMUmVXMFAzTTBFd3RhcE9lU0NI?=
- =?utf-8?B?Yk1kdXo1RlJKdzZwdVZUbUZ4dk55dkJhL0xDUW0wZ1Y3R0FKdnU1dTNVZmp3?=
- =?utf-8?B?RGpadTR4SmFTekJ4MTJ4QzgyU2tRbTdLdWJhUlRtMUk1MGVrYWk5WUdGYUxK?=
- =?utf-8?B?ZjB1dXRkWUFaREViZ2tCQ045eEkwazZsTGw3N280aXFYMkhUQ3lSQ2FsNGJ6?=
- =?utf-8?B?NzA0VC92ZHVhd3JCWllhVlJLdUV4SzE1OE8yYWhacnNHTk1DbUg4WWRCTEZz?=
- =?utf-8?B?Y29qRW4wcnlXcDBzQm8rL3Z0TDBVSkVvd290elJVRnpkMHJkT0JVdFBDVnFS?=
- =?utf-8?B?NUxTUE1rV3NQMFJ3Mkd4bWR4QmRiWWFaZDhlS0huSm5qN2VObTBVc2JCdCtq?=
- =?utf-8?B?cjBiOUpHMVhYK3IxMGpMN1BMTkMzeUVhaWx0R1VnUE5xazFJUU9FazJadWUz?=
- =?utf-8?B?QkZDN0R5OUY2NUFnWit4TFVMNzRya0U2SVJqdzhYcWxjSFQ3TFhUZ084a20v?=
- =?utf-8?B?cEdnWjJaMTNFN210RmZzTGl3aE8wMTIxdDNld25jREZZYXVobUdpYWxHL0Nt?=
- =?utf-8?B?OTF5emZvak5sQU1iUy9zVlY1WkJkTkpzMkl0anBTOHJ3cHZKQ0tCT2JpOU0v?=
- =?utf-8?Q?DZOfhjGPsIQDqkhERfUFtSDqB?=
+	=?utf-8?B?RFVISStkSEpjOFJFZlRFYW9hTzJoZVM1MUs4bmN2eUlTTWRnbHVYYkt3Qndj?=
+ =?utf-8?B?dkppYUZkRkg3VG5lT2dpb3MyL3p6MWt6c0dBQ2VWcWZJUnh3aEVoRXJrOWtQ?=
+ =?utf-8?B?ZWhSN1I1QkVvano2cEtnaG1FMm5DUnNSUUNGMk4xNGl6d2ZHdnlFK1c1Mzcv?=
+ =?utf-8?B?TW44TnlybUUrSWZCbGUxQ0IybUlVaDZOUXo3NVR6dmFWVEtpanFRUzJVNm9F?=
+ =?utf-8?B?Q2pjd3VwSTNGbjJLS3UxQ1VrSHBZTi9ZNFgvTzZIbzdTekxLVTliaXVLZkNo?=
+ =?utf-8?B?RHBsWHpLWXVTWTlwM2tuL2VvK3ExQU8zMmlabU9Xa25jaVhqcEJnaHBBV0ZS?=
+ =?utf-8?B?ajdNbGlMeFZXWkhLZjBGL3B3aHd2NzRCVjZhWURUK1VONzF0YUJ1SjBZMk0y?=
+ =?utf-8?B?eEt4Sk42TENQNlkvVzVpRFlmVU1TbEtXdkIvWUFoNjlNN1VuQlVzMjQvYlFK?=
+ =?utf-8?B?Rml1REdpMXRZTGRyUDJMdEpRZnFucjF3RXFnQUZ1Mi9ZZmZuMTRxUWprR0Iy?=
+ =?utf-8?B?RWxjczdpMXlxZ1BwZCthVS9KRldLM1hmUkk3RGNaQXRkZ2h1UDZoRjBFMlM5?=
+ =?utf-8?B?cFEwc2tZejc1c25LVFBncUVqWERXNzAwVmVSZ05FNHR2Mm9Udzd4RjMydU1I?=
+ =?utf-8?B?RHBic3dQMzBKcUVUUlZyS0FyQnVHbEhNbUlNT2VkalBXc0IxQjRMV05rNSt3?=
+ =?utf-8?B?UUpXK3VQeUU3cHRaZ25MM25vVGIyeUhwSU9JTDE3Snd4dnZvZFhNeG9RY210?=
+ =?utf-8?B?ai8vNVNWZFFZZGRIcWRPaXIvcDArSldsbW1FUW00ejFMajJzaXIrak51dlZC?=
+ =?utf-8?B?QzBlWE9yanhqZ1UrNTRSdXNoTlUvRUN1bG9nUGVaUS83akJkem11V1hSOW5O?=
+ =?utf-8?B?L3FkeFg2djBhK2o2aC9HaGZJOGNWRSsvZkF3MEV4Z3U4UEYyMDhoOS96UUdV?=
+ =?utf-8?B?b3BTQ3BuSWZVYnR0cWpDeEJMYzJzUmJ2T0M2cDhiQXdYUktZcDQ5Z0NEVkIz?=
+ =?utf-8?B?UmJwaWZyYlo1NDZ1NzY1a0FkajJSenNrRFRjelNycEhvSDdIRkZ5SmxDeStw?=
+ =?utf-8?B?Vk5oV3FZcGZQcnE2WkNiSlNrUjY3RkZNQ3lycEpnVzlhVk1SLytjYVhicGRk?=
+ =?utf-8?B?dHUyYXA1YWprbGM2RlBBeHcrRk9TaHZoSWJTVHZYQ2FmNFJWMThBVjF2TUsr?=
+ =?utf-8?B?bDVsTHpuek5zSE9HTlE5dlo3V21vL3NEREF0dFFhRDZMWTFBdjdCVU8zOVJR?=
+ =?utf-8?B?Wjl0cHhHTS9nVGtwczkzdlNDWWFVYmNFS3JrbXd1NlFLbUUvL0lLYmkzRjRU?=
+ =?utf-8?B?Q3hzb0FPeDd5Sk8wMlBaUGNnZmFjNWZtL3F0dGtjaEFyQVVsTkhUQlZDRHUv?=
+ =?utf-8?B?aDRLWWd5SHc0aGthZUcyZ215NWI4MGFuc3R4b2l3RnVGUDFQQlRBMzhVeWZV?=
+ =?utf-8?B?c1Zwb3RrM09VcUNUVnhDdGpOUWd3a0dHVk5PRlVVL2lTamhRc3dPbFMzalJU?=
+ =?utf-8?B?TmgxTTZGRkx5QmJTMkZyU1BJb1paYUdvTlhnOC9FSzRNUEZoUGVQUFJwTG5K?=
+ =?utf-8?B?YzJUckVYQzYxdVl0R1ptVjdtT2hQUHRpYTFXZm5zZ0ZTSkFXN2NiOTBzbXNT?=
+ =?utf-8?B?ZjBWbkxURE1mUkxIK0pIYmtEZytVUjUveHN6TnhOdUhoYTVadWR5YnZ0enhS?=
+ =?utf-8?B?ZEQwZ1RhVURlVzBNaUFjQmVTTnNkeHZJU3c0enBxMHA3S2pIeTdFcVc4a2t1?=
+ =?utf-8?B?Ky9iZmVzRXY5amt4QW1YbUR4UndZbjg5eHZ1Wmc3cVRSOFkxVjdFM29kOWxS?=
+ =?utf-8?B?dFovaERXVzNJSWlPOFY0Zk01SFA4amd4OXJveXRhMWljS0wzUmQvNm1Obk4z?=
+ =?utf-8?B?bUloV01Rb2tPSnVwcXVPMC96V1krTFhYSjhRY1B6UDZRRmJaUldMS3ZGNlBy?=
+ =?utf-8?B?bHpGejVNTCtYSHBhLzdoTVVEakhKT0V5eUQvajJycmpGQ243L0sxTHRseHd2?=
+ =?utf-8?B?WWFQOWVEMytWZ05oRTBUTzVOdUVHR2UrYy85TlNwNFF5eGw4NkR6bXU3NExo?=
+ =?utf-8?B?K1Jhdkp3Nitac3NTa2FiWGh2ZWpFZXBCL2JreURhbTlodkU5UXI4cGphdnNR?=
+ =?utf-8?Q?QbOcY2seC/wXPdgD5UiGD2vjq?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9aaeb0d3-ddd9-4dfd-d963-08dd95729e1f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 848f6a6a-5020-44ea-b629-08dd95732fe5
 X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2025 18:42:46.9308
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2025 18:46:51.4791
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2pFFjmW9Tt28pSCgMc4xWuPUbrtXt6K0meKyziqLZBwQw9DY6bTWtVpQb6hqwILU
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dwl9zBwgBsW7plMRykRDSeB8u1Me/DFOlHL9MrLLt38YDX6YxmXN2zvSGFvs2+Yr
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4196
 
-On 17 May 2025, at 2:45, Masahiro Yamada wrote:
+On 17 May 2025, at 14:42, Zi Yan wrote:
 
-> On Wed, May 14, 2025 at 5:18 AM Juan Yescas <jyescas@google.com> wrote:
->>
->> Hi Kbuild team,
->>
->> In the patch from below, I am adding a new configuration that depends
->> on ARCH_FORCE_MAX_ORDER.
->>
->> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
->>
->> When ARCH_FORCE_MAX_ORDER is defined, the max value of PAGE_BLOCK_ORDER has
->> to be ARCH_FORCE_MAX_ORDER.
->>
->> mm/Kconfig
->>
->> config ARCH_FORCE_MAX_ORDER
->>       int
->> config PAGE_BLOCK_ORDER
->>        int "Page Block Order"
->>        range 1 10 if !ARCH_FORCE_MAX_ORDER
->>        default 10 if !ARCH_FORCE_MAX_ORDER
+> On 17 May 2025, at 2:45, Masahiro Yamada wrote:
 >
+>> On Wed, May 14, 2025 at 5:18 AM Juan Yescas <jyescas@google.com> wrote:
+>>>
+>>> Hi Kbuild team,
+>>>
+>>> In the patch from below, I am adding a new configuration that depends
+>>> on ARCH_FORCE_MAX_ORDER.
+>>>
+>>> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
+>>>
+>>> When ARCH_FORCE_MAX_ORDER is defined, the max value of PAGE_BLOCK_ORDER has
+>>> to be ARCH_FORCE_MAX_ORDER.
+>>>
+>>> mm/Kconfig
+>>>
+>>> config ARCH_FORCE_MAX_ORDER
+>>>       int
+>>> config PAGE_BLOCK_ORDER
+>>>        int "Page Block Order"
+>>>        range 1 10 if !ARCH_FORCE_MAX_ORDER
+>>>        default 10 if !ARCH_FORCE_MAX_ORDER
+>>
+>>
+>> The logical calculations such as "!", "if"
+>> are allowed for bool and tristate types.
+>>
+>> Here, ARCH_FORCE_MAX_ORDER is "int".
+>>
+>> So, I do not understand what
+>> "!ARCH_FORCE_MAX_ORDER" is intended for.
 >
-> The logical calculations such as "!", "if"
-> are allowed for bool and tristate types.
->
-> Here, ARCH_FORCE_MAX_ORDER is "int".
->
-> So, I do not understand what
-> "!ARCH_FORCE_MAX_ORDER" is intended for.
+> It is intended for when ARCH_FORCE_MAX_ORDER is not set
+> in arch/*/Kconfig and has value 0. Would
+> if ARCH_FORCE_MAX_ORDER == 0 work?
 
-It is intended for when ARCH_FORCE_MAX_ORDER is not set
-in arch/*/Kconfig and has value 0. Would
-if ARCH_FORCE_MAX_ORDER == 0 work?
+if ARCH_FORCE_MAX_ORDER = 0 and if ARCH_FORCE_MAX_ORDER != 0
+work.
 
 >
->
-> You are doing what is not supposed to work.
->
->
->
->
->
->
->
->
->
->>        range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
->>        default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
 >>
->> This configuration works on ARM64, however, on powerpc, the restriction is
->> not being respected.
 >>
->> The main difference that I see between arch/arm64/Kconfig and
->> arch/powerpc/Kconfig
->> is that powerpc/Kconfig is using ranges, but not in arm64/Kconfig
+>> You are doing what is not supposed to work.
 >>
->> https://elixir.bootlin.com/linux/v6.14.6/source/arch/arm64/Kconfig#L1637
->> config ARCH_FORCE_MAX_ORDER
->> int
->> default "13" if ARM64_64K_PAGES
->> default "11" if ARM64_16K_PAGES
->> default "10"
 >>
->> https://elixir.bootlin.com/linux/v6.14.6/source/arch/powerpc/Kconfig#L918
->> config ARCH_FORCE_MAX_ORDER
->> int "Order of maximal physically contiguous allocations"
->> range 7 8 if PPC64 && PPC_64K_PAGES
->> default "8" if PPC64 && PPC_64K_PAGES
->> range 12 12 if PPC64 && !PPC_64K_PAGES
->> default "12" if PPC64 && !PPC_64K_PAGES
->> range 8 10 if PPC32 && PPC_16K_PAGES
 >>
->> How to reproduce it
->>  $ ARCH=powerpc make allmodconfig
->>  $ cat .config | grep MAX_ORDER
->> CONFIG_ARCH_FORCE_MAX_ORDER=8
->>  $ cat .config | grep PAGE_BLOCK
->> CONFIG_PAGE_BLOCK_ORDER=10.   -> This should be 8, NOT 10.
 >>
->> Is the Kconfig in this change
->> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
->> configured properly? What needs to be changed?
 >>
->> Thanks
->> Juan
 >>
+>>
+>>
+>>
+>>>        range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
+>>>        default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
+>>>
+>>> This configuration works on ARM64, however, on powerpc, the restriction is
+>>> not being respected.
+>>>
+>>> The main difference that I see between arch/arm64/Kconfig and
+>>> arch/powerpc/Kconfig
+>>> is that powerpc/Kconfig is using ranges, but not in arm64/Kconfig
+>>>
+>>> https://elixir.bootlin.com/linux/v6.14.6/source/arch/arm64/Kconfig#L1637
+>>> config ARCH_FORCE_MAX_ORDER
+>>> int
+>>> default "13" if ARM64_64K_PAGES
+>>> default "11" if ARM64_16K_PAGES
+>>> default "10"
+>>>
+>>> https://elixir.bootlin.com/linux/v6.14.6/source/arch/powerpc/Kconfig#L918
+>>> config ARCH_FORCE_MAX_ORDER
+>>> int "Order of maximal physically contiguous allocations"
+>>> range 7 8 if PPC64 && PPC_64K_PAGES
+>>> default "8" if PPC64 && PPC_64K_PAGES
+>>> range 12 12 if PPC64 && !PPC_64K_PAGES
+>>> default "12" if PPC64 && !PPC_64K_PAGES
+>>> range 8 10 if PPC32 && PPC_16K_PAGES
+>>>
+>>> How to reproduce it
+>>>  $ ARCH=powerpc make allmodconfig
+>>>  $ cat .config | grep MAX_ORDER
+>>> CONFIG_ARCH_FORCE_MAX_ORDER=8
+>>>  $ cat .config | grep PAGE_BLOCK
+>>> CONFIG_PAGE_BLOCK_ORDER=10.   -> This should be 8, NOT 10.
+>>>
+>>> Is the Kconfig in this change
+>>> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
+>>> configured properly? What needs to be changed?
+>>>
+>>> Thanks
+>>> Juan
+>>>
+>>
+>>
+>> -- 
+>> Best Regards
+>> Masahiro Yamada
 >
 >
-> -- 
-> Best Regards
-> Masahiro Yamada
+> --
+> Best Regards,
+> Yan, Zi
 
 
 --
