@@ -1,163 +1,113 @@
-Return-Path: <linux-kbuild+bounces-7136-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7137-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF377ABA886
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 08:45:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C41ABA88F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 08:48:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04F551BA4626
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 06:45:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA2DC4A5703
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 May 2025 06:48:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2186F2E628;
-	Sat, 17 May 2025 06:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B19AA1B0F1E;
+	Sat, 17 May 2025 06:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qo0tKQ8p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I+r5A+5k"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15B72AD0C
-	for <linux-kbuild@vger.kernel.org>; Sat, 17 May 2025 06:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856FA1B0402;
+	Sat, 17 May 2025 06:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747464342; cv=none; b=T5pI1Nl2ve5m/cx7JlEV2VbB19Lu22ocdK5rZ8VZ9OV+99N82+Tdu6QSHus5WQaGoBY+cDpBWRXTuNUbJqE474vZ6TU5gPn4BTHstTTkmLHg1AVVedTwUJTGJi9ybOWxrcEdBZGI35G8M2E+FuWoVEjj0cdnhpz2oGHb5fJd7rU=
+	t=1747464526; cv=none; b=Wi9w3MtiRzcO5vF4HRSkEXmbVlWIPunWHFPs01SLZ36JDl9GKFk85rLK1dXmSOxHJu3Qucg8adGg8IICjfka6PiUqA1j6VZJiLjNlsq0ehWJwZX/1Wh+6v0rbCYUnkrxru9CT86d3nSMIUgFwmxWDP9vtEbKKY6+Cgr0zXV8ZeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747464342; c=relaxed/simple;
-	bh=bVvgw2FKPHAUKA7FJKx1pTMT+oH3aZGzPXkvJmfx+vg=;
+	s=arc-20240116; t=1747464526; c=relaxed/simple;
+	bh=aLOa1Y1BIjOIRN5PiEFqnYYz97jK143J9No/tB+OW98=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ze1RgKi+H7JpGiQdsCR3l7M0fN1E1isZ4Am4ri0M9SsENIQy6elyx6JnxrnYJ71p8uw9KjvW9SFeGrL2IouOjW4QROrh9CseDxq+Oci4MkTcASHQEZS6E74E+LGwKrzd6vOSW+yug5CZYyc13lYU5HC6egRhsjN/z9Z/yRmYoCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qo0tKQ8p; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62A36C4CEEB
-	for <linux-kbuild@vger.kernel.org>; Sat, 17 May 2025 06:45:41 +0000 (UTC)
+	 To:Cc:Content-Type; b=jM8G8jj/kFU4QXHbib9uLJzTE4EGRgPr6LTgDKTh2Jw6CcrE5dDqNLC3nL3eBDZNk6jeqGAYxE/1Q3oJ6aS1TkqZ/TXcp01E7rSAUjoKojLaNFaTal35YlgvMTHIlGol4EmsLDLhfJ4ZW//548OmoxK5w/2rzVdDlsrS386wL9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I+r5A+5k; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03391C4CEF0;
+	Sat, 17 May 2025 06:48:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747464341;
-	bh=bVvgw2FKPHAUKA7FJKx1pTMT+oH3aZGzPXkvJmfx+vg=;
+	s=k20201202; t=1747464526;
+	bh=aLOa1Y1BIjOIRN5PiEFqnYYz97jK143J9No/tB+OW98=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qo0tKQ8pi2dLMNRbHdufhZsH1lze22Bo7//Xrkbhrsb3KKyKtH5I+1ccUOlEO8v1n
-	 Vwwne0/8fbSQI1TgOn/IjkhMpp5NWBxaETGblCYzDu75BC3kqbEbl6gzxvIB+E7R8V
-	 7TKGv4fWFEbYPOyyRdYwwFbtrCNqRm/JzvhhoFO384ocyVyEntQo1Fe/CWJpZeUoRi
-	 4h8nIrH18O+KY92UHP3AkdqjBUKMtaE0ax2vW1q/KO/i7hqQChPAyKfg1IzO7Ns+HZ
-	 OJOMSUOvOSwVLulxaVTkwS8NF6AVRK19F9y7poPN+UgTnpSYnhVjyOvk2dVdqcZQqy
-	 b0W/v3y1lYIBQ==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54fd1650afdso3569403e87.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 16 May 2025 23:45:41 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yws8M4SXQ1pVmreNez6nXAJ2TxSNY8zDgZLwuAXzSojg3sjr8GV
-	RLRLykmIDEfOUspe9XqBkU6lHQK8HFv0OiwVvDvbvjyv7f8jc4TtAvm3Uhvr3JG6YJ+G9UdPB6l
-	obM1eagBPduAB7iSGKgVswmeLd04CmsY=
-X-Google-Smtp-Source: AGHT+IEYsPtTSk/9kH8QWyDXVnxp9e7hPjV4cvCSWGrF7mWR2pJLbhKXG1If0cVmRfMbUKjTApCYeilftrtcBIM1G/I=
-X-Received: by 2002:a05:6512:640f:b0:545:60b:f38c with SMTP id
- 2adb3069b0e04-550e98fbe63mr1772941e87.41.1747464340082; Fri, 16 May 2025
- 23:45:40 -0700 (PDT)
+	b=I+r5A+5kmVuR63BVtWKC6uehwsKDlzSm2fIe1r+C7kfqkFg8xG1eIVB6haLV9vLls
+	 6qb5Fx1iu9UjY4GAuQIIYXKusPG2QSpZiY5x98pRzVplBa2K4w1f17+OS29aGofbmV
+	 m+rad0Dw892Q0F+xUqevorA6qjoI0XG20HVb2Xs9JVN63VxIfpKnnDOvcAy2gCzUOc
+	 2vvH7MblNdMOxYflji1K1d/BrUo6UeOhAhad2ohdR/v4vyxL5ZJYYOo2PGmc3uknHa
+	 gEJ1UT2ygzWLr04i6CpQIf4ubdPuCh7er5zo+OpTZGakehglJkAKImJS0FPXMDjVGl
+	 aXrHQMNEZwj3w==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-549b116321aso3088020e87.3;
+        Fri, 16 May 2025 23:48:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU1WAbUuZIWd7Ys6rAUHvTbG0VZ0PZKD6/AfccGC2Xzz+YLESlObRNEVD1NjpopB4LU0AsHeWZuD6sZ6U8=@vger.kernel.org, AJvYcCWHIQDrLJJYyjwSUUWTAChJwxjCC+7Yuv8kmahXKu+H5PvjS8WP/6VuDqgr2YNcWlE9BvaDnDTA+GGQ+9Fx4Q==@vger.kernel.org, AJvYcCXBPn6E3qPe2Hux97WdWd75M4EqCXogbGULA/vgChdD8ilzH+xKnJ2enK4HNIOOoUSZwV7KTH8AnTU1ETb0@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUQsXPs6dQ1RbOPOFkEze7U7dwUvRl9fKVTqD3bPXZrlD3w2I4
+	i0Zm7RI0ichZmxTcV1/sqBNyqDihb8RvVko1Sq5FTYNvVd8pwzwHwff1m/MvK1VWxkjpkhpfo6c
+	9zYKURORyU72iMA0He2J3pIpjLYoc9Xs=
+X-Google-Smtp-Source: AGHT+IG3nj+1xWmyXBbr4RQOBkUesab7q/d22rPuqa4yE+7QLiofsO/xkQ6CddMfu/pSFEO4kYCAK+IjxaH64uvgGtg=
+X-Received: by 2002:a05:6512:a92:b0:549:39ca:13fc with SMTP id
+ 2adb3069b0e04-550e9938627mr1358345e87.49.1747464524723; Fri, 16 May 2025
+ 23:48:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJDx_rjX4Z3QvoFDnQ7qH06x+Q+pTP3bAyLv2GD2C+CoWu9haQ@mail.gmail.com>
-In-Reply-To: <CAJDx_rjX4Z3QvoFDnQ7qH06x+Q+pTP3bAyLv2GD2C+CoWu9haQ@mail.gmail.com>
+References: <20250502141204.500293812@infradead.org> <49b63a7c-d323-4b13-8a1d-11ec8f0a3152@suse.com>
+In-Reply-To: <49b63a7c-d323-4b13-8a1d-11ec8f0a3152@suse.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 17 May 2025 15:45:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASeN7za4eq2rsTO255y2A6m9uzxec-MSn=TyM=qD1iEOQ@mail.gmail.com>
-X-Gm-Features: AX0GCFuzuXFHg1Zh3FahIED0ji5QxdeOTXjS7TMJyBN1PoRim00E0dZyKQXnHag
-Message-ID: <CAK7LNASeN7za4eq2rsTO255y2A6m9uzxec-MSn=TyM=qD1iEOQ@mail.gmail.com>
-Subject: Re: Kconfig for range is being ignored
-To: Juan Yescas <jyescas@google.com>
-Cc: linux-kbuild@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Kalesh Singh <kaleshsingh@google.com>, 
-	Isaac Manjarres <isaacmanjarres@google.com>, Zi Yan <ziy@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>, Minchan Kim <minchan@kernel.org>
+Date: Sat, 17 May 2025 15:48:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATX3qGFfLASWivOTWVqRAFCcSsgwG4b2yBuXc+0YUfH_Q@mail.gmail.com>
+X-Gm-Features: AX0GCFtaK0xZ3kjP6EKrdBjWFKHrUGf2zKNzdWHSCVrDNnhxZ_an07Agj41hMjc
+Message-ID: <CAK7LNATX3qGFfLASWivOTWVqRAFCcSsgwG4b2yBuXc+0YUfH_Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] module: Strict per-modname namespaces
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com, 
+	samitolvanen@google.com, da.gomez@samsung.com, nathan@kernel.org, 
+	nicolas@fjasle.eu, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	hch@infradead.org, gregkh@linuxfoundation.org, roypat@amazon.co.uk
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 14, 2025 at 5:18=E2=80=AFAM Juan Yescas <jyescas@google.com> wr=
+On Wed, May 14, 2025 at 5:48=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
 ote:
 >
-> Hi Kbuild team,
+> On 5/2/25 16:12, Peter Zijlstra wrote:
+> > Hi!
+> >
+> > Implement means for exports to be available to an explicit list of name=
+d
+> > modules. By explicitly limiting the usage of certain exports, the abuse
+> > potential/risk is greatly reduced.
+> >
+> > Changes since v2:
+> >
+> >  - switch to "module:" prefix (Masahiro)
+> >  - removed some patch noise (Masahiro)
+> >  - strstarts() and strlen() usage for prefixes (Masahiro)
+> >  - simpler ___EXPORT_SYMBOL() changes (Masahiro)
+> >
+> > Not making using of glob_match() / fnmatch(); this would result in more
+> > complicated code for very little gain.
 >
-> In the patch from below, I am adding a new configuration that depends
-> on ARCH_FORCE_MAX_ORDER.
->
-> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
->
-> When ARCH_FORCE_MAX_ORDER is defined, the max value of PAGE_BLOCK_ORDER h=
-as
-> to be ARCH_FORCE_MAX_ORDER.
->
-> mm/Kconfig
->
-> config ARCH_FORCE_MAX_ORDER
->       int
-> config PAGE_BLOCK_ORDER
->        int "Page Block Order"
->        range 1 10 if !ARCH_FORCE_MAX_ORDER
->        default 10 if !ARCH_FORCE_MAX_ORDER
+> @Masahiro, please let me know if you're still reviewing the modpost or
+> other changes, or the series now looks good to you. I'd like to take it
+> for v6.16-rc1.
 
 
-The logical calculations such as "!", "if"
-are allowed for bool and tristate types.
+The first patch was applied to linux-kbuild.
 
-Here, ARCH_FORCE_MAX_ORDER is "int".
+I think I can take it.
 
-So, I do not understand what
-"!ARCH_FORCE_MAX_ORDER" is intended for.
-
-
-You are doing what is not supposed to work.
+Peter did not use the common API for glob matching.
+I will check this part.
 
 
-
-
-
-
-
-
-
->        range 1 ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
->        default ARCH_FORCE_MAX_ORDER if ARCH_FORCE_MAX_ORDER
->
-> This configuration works on ARM64, however, on powerpc, the restriction i=
-s
-> not being respected.
->
-> The main difference that I see between arch/arm64/Kconfig and
-> arch/powerpc/Kconfig
-> is that powerpc/Kconfig is using ranges, but not in arm64/Kconfig
->
-> https://elixir.bootlin.com/linux/v6.14.6/source/arch/arm64/Kconfig#L1637
-> config ARCH_FORCE_MAX_ORDER
-> int
-> default "13" if ARM64_64K_PAGES
-> default "11" if ARM64_16K_PAGES
-> default "10"
->
-> https://elixir.bootlin.com/linux/v6.14.6/source/arch/powerpc/Kconfig#L918
-> config ARCH_FORCE_MAX_ORDER
-> int "Order of maximal physically contiguous allocations"
-> range 7 8 if PPC64 && PPC_64K_PAGES
-> default "8" if PPC64 && PPC_64K_PAGES
-> range 12 12 if PPC64 && !PPC_64K_PAGES
-> default "12" if PPC64 && !PPC_64K_PAGES
-> range 8 10 if PPC32 && PPC_16K_PAGES
->
-> How to reproduce it
->  $ ARCH=3Dpowerpc make allmodconfig
->  $ cat .config | grep MAX_ORDER
-> CONFIG_ARCH_FORCE_MAX_ORDER=3D8
->  $ cat .config | grep PAGE_BLOCK
-> CONFIG_PAGE_BLOCK_ORDER=3D10.   -> This should be 8, NOT 10.
->
-> Is the Kconfig in this change
-> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
-> configured properly? What needs to be changed?
->
-> Thanks
-> Juan
->
 
 
 --=20
