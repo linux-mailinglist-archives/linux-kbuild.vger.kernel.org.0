@@ -1,73 +1,70 @@
-Return-Path: <linux-kbuild+bounces-7152-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7153-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D40ABCB32
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 00:59:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D68EABCB41
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 01:01:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F19DF1B6813D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 May 2025 22:59:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 602FB7ABD03
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 May 2025 23:00:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF2521FF26;
-	Mon, 19 May 2025 22:59:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E501F21FF29;
+	Mon, 19 May 2025 23:01:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="fkFXWMWP"
+	dkim=pass (1024-bit key) header.d=riotgames.com header.i=@riotgames.com header.b="kDgEZLfI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A8A21E097
-	for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 22:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB51220E32F
+	for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 23:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747695547; cv=none; b=s5E3JdX+Uhcg+k6QQszOKSwQw+juIbu2KIuOT1IHs+ztr/WPK+mFwGwVSVa0vraejDWzSFxpezKMg38+iAFny8Kzx8SaPo+DirgMEfm9/YrpJemkACvrYYVH0iP7LZBjYTQnblyZHUuInh/0yrzUuR+OI7QdVSfI9/4do2rZD7g=
+	t=1747695670; cv=none; b=FevbrZh0pIKmLVdP//G4+bO1PoD4ST3fqSbdftf9JFmn5dPzYaS08UEdVFrDQVlcFNaUKS3MfSHT+hy5PVxKhMnhUL4GkJHXQPMciRIQX0/fdWR/kdPW5CUVkjqfUmxx2hpOL4icwNnTP7navCFpNDLmN45dYbthI3qO0isQdJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747695547; c=relaxed/simple;
-	bh=kjwn2ds7cCMY6u8Wc4J5VzC7zaszlbkpn9nqAdYGxDc=;
+	s=arc-20240116; t=1747695670; c=relaxed/simple;
+	bh=ATNfJvLN2RdaN37+gdMKwi/xRzkT0JCaUkz0KtZ8TQ8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XLi6Ui4Dubtz3FfIicQJicTdB2wdrNWWLamDYrDV1oAotUGuh5QI3bTTzQr0vLUnseJFniwfwitzxhIAvr4NcFGlfp068HGdVqV1DTQjDeQiMjqlG/mRvSH0O1h47BQxoIxBtZ35vkzN+cDET1yw3a7E5MLDjSjFTyUEMIOfFr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=fkFXWMWP; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-70ccb7effb0so13275237b3.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 15:59:05 -0700 (PDT)
+	 To:Cc:Content-Type; b=rfUbETTjkNCdfQ3/Yt1Js5FEMXl1+AZ/blhJlT6N35E0P2YWe+T2VrJUectWvaz3UIbiU09obKfokWXfO3OtpqkuUvjVq44/iCX4XmxtJwXVuyJsTb1s/40tk9zaX1ksWsa1gpgMCW8IvwyuINbt96wms7JH0kFGMi0BQwUwCLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riotgames.com; spf=pass smtp.mailfrom=riotgames.com; dkim=pass (1024-bit key) header.d=riotgames.com header.i=@riotgames.com header.b=kDgEZLfI; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riotgames.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riotgames.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b27015122c4so1520629a12.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 16:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1747695544; x=1748300344; darn=vger.kernel.org;
+        d=riotgames.com; s=riotgames; t=1747695668; x=1748300468; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p/RrrGUvS6xBKIaPYnBpsLPZNCZLvh9OPRpykB0Ulvk=;
-        b=fkFXWMWP+yIpMcz3/yLRTMSF7KTizTvEe/1IMUwI59Galoy+CCGn3uSpuTHianl9pO
-         I/qgZV5I35wpxgHkphUEYeObqMQnvBP++kkzVnYZOe9+lpgr1nrLt9TmqX/BT6EU8CfL
-         NbrHe5U3+tJdb6yV4rmXX1YO4FBeHYpS+2NuiUZxyHKcOgC1ZrzkkeRrFmvVDmSy7Hkw
-         OTgq8l49gun3sDfiqu0wWmwQtP9N+hDnFf+F9fyFgdKZQhtfUVMFUzrd2TeJHpECNber
-         1eVc8FF6HZZADKUTU5AbB9rhzvskwxDGXDgoDqz9QSepKUJEXP9WDkU8M5BBBHvHcGxh
-         tFKg==
+        bh=waKOIo5gUpaOrddr0SeUUhd92poB67UKhg23Qr5hz4U=;
+        b=kDgEZLfIPPqxh3mPPkkQc8tiIaXyWhglgExZyHVdEBDXSWK2BpCtfJuEQQ1agNk+MK
+         k6S2YIdCaI+SAFllgi7KB14FRvdRkl97XrgJQtVDvQBeD6fI5Rzgx07mFuLLozbshxQg
+         dIBpNXPXWti20/K/dq+hApSSUwKPVm0qHqNCU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747695544; x=1748300344;
+        d=1e100.net; s=20230601; t=1747695668; x=1748300468;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p/RrrGUvS6xBKIaPYnBpsLPZNCZLvh9OPRpykB0Ulvk=;
-        b=TPRl4gLdS7IhFR/TWeMsxO3mUWj04uMNVvdTZAc62o72n5Xv2e+DTyWyYvGsCNE2RF
-         Lgi1uJMSJE/prRyJNsl77mCyFUXbY+2VvC29kyycwfXLBYjcZa2UBkL5S4sLSNa6DAeT
-         StHwOKpcpxdE+Eu/bGEPFYGrMs2y4O/o7CJOEJeYqNju0ucwKFAbmDuKwcloCxZd+4qj
-         uTtnPkaE8ORn8VeNPmYERsW+33Wg8uBRxqgkyiiyTAM/bo9ddksfBgp5sSPemT5F+ZBk
-         Nk3hqTHSzhNAfH/zP6b0GgTA8J0CFPW9j/KtYT16ur+mbEf6autJCyQ7m2O6nam3qBhY
-         /wUw==
-X-Forwarded-Encrypted: i=1; AJvYcCX3dlfUmJWVBG2mpJ66d4RvcunSduQTArOlOL4SuYnuXp8Y8k9VHDaTXLaVb4fiDkPRQng7poK8C5SM5Pk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjdfiiqeuafF5FYYzpE1FNzA4mUT77LT4/dvP//rLOrGJcFpKo
-	tWm+iPGTdqK+QMOK7WFroANNI1eDVhD1Y5pbjuk8CPi1aoSYpJgFNJRNU4gUNGQReEM7zXggQHv
-	xsmYJVa+A+GG1YkQbf1n8wInjlyaueZ48Uic68scN
-X-Gm-Gg: ASbGncvWSj5PjJDLTHM/sj7dcdu1m13Wl73xtju0cYXYrihM4lyfnOgEDODTdU7I57f
-	pC62vOCZ8bLtwjcoPZZSlpwK1soauntL0i3YmXC3VuKLRIiSEtswBwxNbR/IWruYSOIL3jX2dH+
-	QDg38xA3W7wzRJsnYjH6T/Bs5N7FCy34Fw
-X-Google-Smtp-Source: AGHT+IFgdXMx0++rCnS34CKw8hZgyEs80zXpEEvuAIv/c65tdIdqmkcl1gyVl8f56p6dX5jzkRw5EVPCF2N2N1x3l0g=
-X-Received: by 2002:a05:690c:4910:b0:70c:cbef:df27 with SMTP id
- 00721157ae682-70ccbefe1f2mr105461797b3.14.1747695544492; Mon, 19 May 2025
- 15:59:04 -0700 (PDT)
+        bh=waKOIo5gUpaOrddr0SeUUhd92poB67UKhg23Qr5hz4U=;
+        b=ifBc2ff1jkTIyThebSq3VgbyAGqw8dd+jCOhWlazmVaeVKZFLOobuFCkaqVI8xY/U1
+         H2F9EmZRFEc50/x5MMnltmU+2SOAVOLmgqp1Na3arF3AOpvckHoLpcqSjQBz3gnEVd7n
+         jzLy9gCj6wGAGG12m8f95oLffc9BdvuLquWsQuXcOziSlB7c+2QQ0UqirwEOsZi1Rvmg
+         U8RHv/JpUmK4C3khJgAGwooQPKhSH1WV1tSeQxY7aP1QSbnOd+QHT1lsCUdRjk2KGIDY
+         6zCKU7YRIaNpnq7bh0D1/8oMcrQNBONOpIz6hU7Zey3eURnWVVEAbiWXeOaaiuv4Q/QA
+         O80A==
+X-Forwarded-Encrypted: i=1; AJvYcCXFV7PkVQ6aeiAjygt8xYCExuW/Ehq07WLBV3cQH2B+osdq3oTeZTe7p8FzRhQLqLfM/YDparwsJxSxSxg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+ndW+hf243R3A8ghISFy6iyDzpfmZs25yBudfVlO9fgkc292/
+	ea6OJ1/MnE0hWHjoZzxdz8EzA18f0cfgPrsqVVWH45J6z4gbMXZr2k/gEOXIHYwpO8KxUg47a4d
+	uCbW/uOJn7HkIIbhbqk6q5nfOmbcghC5Am8ayUOIYIg==
+X-Gm-Gg: ASbGncv5pBnsIW/PjnOVmtN8cR2a1uJIlmKEksMpsI2/KjFx9Ws9WKdwuFecH/fXr2l
+	h8X3BOBlVbR6hfHUStyH61Q7esxOYQ6Aj/ettg8H4FGUxd/J3i9J4jNZvoA+OWVfLTvJ51gKLZ+
+	KGg63ir1/Hln521qN4bxDycO354SbmpdEo
+X-Google-Smtp-Source: AGHT+IGqGkiGQXKjNuOS/Jzhro9EPxplPI4zYl45YFPAd3e+QPi6agsft/NyAicfvCJMfzlVT/0v96mFansDA2bGSpo=
+X-Received: by 2002:a17:902:da86:b0:220:cb1a:da5 with SMTP id
+ d9443c01a7336-231d4596c6cmr217126845ad.40.1747695667964; Mon, 19 May 2025
+ 16:01:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -88,13 +85,13 @@ References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
  <CAADnVQ+=2PnYHui2L0g0brNc+NqV8MtaRaU-XXpoXfJoghXpww@mail.gmail.com>
  <CAHC9VhRKZdEia0XUMs2+hRVC7oDzkBfkk5FPMD+Fq5V7mAk=Vg@mail.gmail.com> <CACYkzJ7oxFA3u9eKDpKgCsZsYsBojVJPHVeHZnVaYQ5e9DavmQ@mail.gmail.com>
 In-Reply-To: <CACYkzJ7oxFA3u9eKDpKgCsZsYsBojVJPHVeHZnVaYQ5e9DavmQ@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 19 May 2025 18:58:53 -0400
-X-Gm-Features: AX0GCFuNK2GlgjCzp9NuXPlW8VAedGQJmwklDdgcpEoZxd4pfb2_T3t5Jc58lno
-Message-ID: <CAHC9VhQ7Rr1jJm=HY2ixUWpsRuwCxjOq5OTMfn5k5hRzxTCz-Q@mail.gmail.com>
+From: Zvi Effron <zeffron@riotgames.com>
+Date: Mon, 19 May 2025 16:00:56 -0700
+X-Gm-Features: AX0GCFsSVZRnQmnvW7OAmjsIttCmabXOOvUXwiDYzPKxxMnJVpGcvnqs-JPLKgE
+Message-ID: <CAC1LvL2F_WbObrdcumVZCKc7yLeq4e9PQhYHrLiyVzpzf=V_Xg@mail.gmail.com>
 Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
 To: KP Singh <kpsingh@kernel.org>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+Cc: Paul Moore <paul@paul-moore.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
 	Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
 	James Bottomley <James.Bottomley@hansenpartnership.com>, bpf <bpf@vger.kernel.org>, 
 	code@tyhicks.com, Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
@@ -118,10 +115,12 @@ Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 19, 2025 at 6:20=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrote=
+On Mon, May 19, 2025 at 3:20=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrote=
 :
+>
 > On Sun, May 18, 2025 at 11:34=E2=80=AFPM Paul Moore <paul@paul-moore.com>=
  wrote:
+> >
 > > On Sun, May 18, 2025 at 11:52=E2=80=AFAM Alexei Starovoitov
 > > <alexei.starovoitov@gmail.com> wrote:
 > > > On Sat, May 17, 2025 at 10:49=E2=80=AFPM Paul Moore <paul@paul-moore.=
@@ -232,24 +231,28 @@ ation
 > * What the LSM can specify a policy for is when a signature is not
 > passed, for this, it does not need an aux field or a signature or the
 > new hook, existing hooks are sufficient.
+>
 
-When the kernel performs a security relevant operation, such as
-verifying the signature on a BPF program, where the result of the
-operation serves as input to a policy decision, system measurement,
-audit event, etc. the LSM hook needs to be located after the security
-relevant operation takes place so that the hook is able to properly
-take into account the state of the event/system and record the actual
-result as opposed to an implied result (this is critical for auditing,
-measurement, attestation, etc.).
+What about wanting to create a policy that requires signatures under certai=
+n
+situations and allowing the lack of a signature under others? How is that
+implemented with the existing hooks?
+As I understand it, all the existing hooks know (would know) is that _if_ t=
+here
+is a signature _then_ it will be enforced. There is no way to know _whether=
+_
+there is a signature.
 
-You explained why you believe the field/hook is not required, but I'm
-asking for your *technical*objections*.  I understand that you believe
-these changes are not required, but as described above, I happen to
-disagree and therefore it would be helpful to understand the technical
-reasons why you can't accept the field/hook changes.  Is there a
-technical reason which would prevent such changes, or is it simply a
-rejection of the use case and requirements above?
+An example policy I can think of is that most users (with CAP_BPF) must sub=
+mit
+signed programs but some users are exempted. Would that policy be able to b=
+e
+made with the current hooks?
 
---=20
-paul-moore.com
+> - KP
+>
+> >
+> > --
+> > paul-moore.com
+>
 
