@@ -1,131 +1,117 @@
-Return-Path: <linux-kbuild+bounces-7149-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7150-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2982EABC7AE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 May 2025 21:19:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1599ABC7EB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 May 2025 21:35:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DD1A7A3FAA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 May 2025 19:19:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FBB616EF4F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 May 2025 19:35:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BDF279FE;
-	Mon, 19 May 2025 19:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14D171EB18A;
+	Mon, 19 May 2025 19:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oySq7fz1"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pxkBk1IV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86FA20E700
-	for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 19:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50791E0E00
+	for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 19:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747682371; cv=none; b=Huyy/lPtuVf/i8ItFqmivAtmu3sUSoBxShCLmhKQBc766ZdIVMfl7XUc1y/JIzgFMBQDIQ5raGFmCBDf4xtI16RHpRzGpVztX52AdvH/m60lUEeTtq5aFLnpgUfBd5W+5k2hWjNBxVsQ1EVVehbLiPT6Rvs1ocuRQz7/9HGvwXk=
+	t=1747683337; cv=none; b=hnNHhlr/S4uSBNHcLY4dpunkE7mLqcAxBTk04BXK6ojy0PFhlqoNenZJhN7FxZo6LpywGJxay8ZbDj8NvWLBtVgR5xpRVGUieXKi0g1BmPf+a6c0wV/zG1e1UqvJrMufYAIjsTaEAsGmX7RXULjsJSuVfcjpqfXsX4yv0UPLT5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747682371; c=relaxed/simple;
-	bh=hqGVACYICyhYbUsEavZ2fotAVSVDAVizoXkfdIKl3eY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p2Dh+ihtgMjJcbLxWoj2Hs22dI3CEmzoHhiJhc1O08PEN2EYOdWzsvWTzV4Jiq8jk4PM+xkLpkxJ20kdNj7alx4E0R2Y0BifQZfV71diR3mFqQsyWkWY1G/3DpDBrrkPcGyyY5uewnpXvf2SGpm+NlhQk7XNA1UptUNQYza0tw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=oySq7fz1; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=Jb1jpP7JqUA9AJMqCEE3mWhTB62xW6cuMLNB/LLlwH0=; b=oySq7fz11DssZBz+BXpRzkKZ1+
-	r+/zDkS8NEklJpiiwN9mrjPiPFFAEv3ZAeDtiqh3NyWRSbjgvueeUZwAYm2U0WHQPfzcEMEttLhUJ
-	nHreaUVam8iA2+TLkmuO0XFOPb8Vb1os63l798QoGXpGx5y0V0SDT5xWfkg91SzWg8K7wOuFALu2k
-	uRkEPgQKEEzkBJ4ZfHxBAbT5d3sfJcchXm73SU32w/MM37ZjHI4vMgdCh+hIQWstCb7LQuM+pt/Y8
-	Y6IrpPaCVoMUT6xKXi6pClGDD3ZTXRfw2uZcWhgWU4aQv2SuIRwtqbfDo5d9flvCpCeuCiIflJwmK
-	yMsaIFUQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uH617-00000002FmW-2tKG;
-	Mon, 19 May 2025 19:19:17 +0000
-Message-ID: <04edc215-c75a-48d4-906b-a9412c3dec52@infradead.org>
-Date: Mon, 19 May 2025 12:19:07 -0700
+	s=arc-20240116; t=1747683337; c=relaxed/simple;
+	bh=dNKjosJLueeqCShW3qsGQWVuvaNE5ktvOIjXBgJjtaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TvdbfPpCHpeS5NxsIIzbeBqQTzHLt7CSvRBhcrX23YHu0+tTx7aeARcNJ6uk2CCHpIgDeaeFdDxVMGN1YKVj8jstfQI0rih6JScxysv8xIfP5VjjvKcnXUKEjop1nHngaualv3L95JGMFI/eonfgrmfI5rfya1Ec7zAzHnrj3S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pxkBk1IV; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Mon, 19 May 2025 21:35:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1747683322;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n+wW+OjTf7KzE0AEC1/HTE1v3dpfIn3575ctYuyIKZg=;
+	b=pxkBk1IVqhFPQ8DCK4cE32LRKaCYMrdxTzbtiXA9K4Zt9LzNRCLKTEY1P2DrFS6NxkuQMW
+	5hR8Szekm9tutnhrOqoKcf/d91wa9OKJyDmM2J/PSPaQcGsrDs8S5VJybNtUUOTQMjSWxl
+	rjqNP6Gn+T5olB5JE3jdiX6gQG4CZ4s=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Subject: Re: [PATCH] kbuild: move kbuild syntax processing to
+ scripts/Makefile.build
+Message-ID: <20250519-impartial-puzzling-limpet-73dff9@bergen>
+References: <20250514054635.93577-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Kconfig for range is being ignored
-To: Vlastimil Babka <vbabka@suse.cz>, Masahiro Yamada <masahiroy@kernel.org>,
- Juan Yescas <jyescas@google.com>
-Cc: linux-kbuild@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, Kalesh Singh
- <kaleshsingh@google.com>, Isaac Manjarres <isaacmanjarres@google.com>,
- Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
- Minchan Kim <minchan@kernel.org>
-References: <CAJDx_rjX4Z3QvoFDnQ7qH06x+Q+pTP3bAyLv2GD2C+CoWu9haQ@mail.gmail.com>
- <CAK7LNASeN7za4eq2rsTO255y2A6m9uzxec-MSn=TyM=qD1iEOQ@mail.gmail.com>
- <592eafcc-6460-4461-bab7-3c709e13d3c0@suse.cz>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <592eafcc-6460-4461-bab7-3c709e13d3c0@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="UpJDNWE8uQy8XWDr"
+Content-Disposition: inline
+In-Reply-To: <20250514054635.93577-1-masahiroy@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
 
+--UpJDNWE8uQy8XWDr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 5/19/25 12:01 AM, Vlastimil Babka wrote:
-> On 5/17/25 08:45, Masahiro Yamada wrote:
->> On Wed, May 14, 2025 at 5:18 AM Juan Yescas <jyescas@google.com> wrote:
->>>
->>> Hi Kbuild team,
->>>
->>> In the patch from below, I am adding a new configuration that depends
->>> on ARCH_FORCE_MAX_ORDER.
->>>
->>> https://lore.kernel.org/all/20250510010338.3978696-1-jyescas@google.com/
->>>
->>> When ARCH_FORCE_MAX_ORDER is defined, the max value of PAGE_BLOCK_ORDER has
->>> to be ARCH_FORCE_MAX_ORDER.
->>>
->>> mm/Kconfig
->>>
->>> config ARCH_FORCE_MAX_ORDER
->>>       int
->>> config PAGE_BLOCK_ORDER
->>>        int "Page Block Order"
->>>        range 1 10 if !ARCH_FORCE_MAX_ORDER
->>>        default 10 if !ARCH_FORCE_MAX_ORDER
->>
->>
->> The logical calculations such as "!", "if"
->> are allowed for bool and tristate types.
->>
->> Here, ARCH_FORCE_MAX_ORDER is "int".
->>
->> So, I do not understand what
->> "!ARCH_FORCE_MAX_ORDER" is intended for.
-> 
-> A kernel developer used to program in C can easily assume hat it means
-> "== 0" :)
-> 
->> You are doing what is not supposed to work.
-> 
-> It would be great, if kconfig either behaved like C here ("cast" int to
-> bool), or warn/error out. Silently treating such tests as false isn't great
-> IMHO. Wonder how many other buggy instances we have now. At least
+On Wed, May 14, 2025 at 02:46:33PM +0900, Masahiro Yamada wrote:
+> scripts/Makefile.lib is included by the following Makefiles:
+>=20
+>   scripts/Makefile.build
+>   scripts/Makefile.modfinal
+>   scripts/Makefile.package
+>   scripts/Makefile.vmlinux
+>   scripts/Makefile.vmlinux_o
+>=20
+> However, the last four do not need to process Kbuild syntax such as
+> obj-*, lib-*, subdir-*, etc.
+>=20
+> Move the relevant code to scripts/Makefile.build.
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>=20
+>  scripts/Makefile.build | 84 ++++++++++++++++++++++++++++++++++++++++++
+>  scripts/Makefile.lib   | 84 ------------------------------------------
+>  2 files changed, 84 insertions(+), 84 deletions(-)
+>=20
 
-Exactly. I would prefer to make it a warning/error and not change the kconfig
-language.
+Reviewed-by: Nicolas Schier <nicolas.schier@linux.dev>
 
-> ARCH_MMAP_RND_BITS_DEFAULT handling is also broken then, as Juan has shown.
-> 
+--UpJDNWE8uQy8XWDr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-~Randy
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmgrh/cACgkQB1IKcBYm
+Emm2Og/9FUHs3iPOJkjwrIajPAj063lJ1K4mc/+wqOS0NAaUYolZusOiLv5zf2Y5
+Q0C9JQlGbq1k5GK9wiXQSLaTjrWWA52ZATbviFMomozkvCwNF3nCyirFl3PVaEHB
+IW/WAI7w6gg54px9whJlnZMf4P6cgfuqJXByO1QuGgyeHgagzkAzwtkIwjPa6otI
+3Xw9qyC7h2xxIWuGCCIbqIuVpB49cETOHAwpvctoDNDKfVM3O7tijTyFD8MZ5yRU
+QhX/1Uxi9xH+gzHXBLWjWt7OZherF22rFJcABbfiLTg6+FVMKNTfyhBqvk2gnUSI
+KANpixAJnVw2HsGJLC3i+QatSNvnEFOZd/w53uJi11qWDwZPU3RzLEBAMYq+5vhi
+pQjVfM5C2xwK6MC+zgM8k5xxbpHsqn+E5rLONpmZEdlC2B4gNT7maCaYsv19pDTq
+Wpk+3LLhYPnQ8MG3qFNaupiQGTYzahpCmrUna4IUTQXh/8fvepUYBPxMte1WyNTT
+jo7oei6NU2/qI4VUVh2zUwnfs3iDApHonpf3ORO91XDVfhj4kCFFgqKcFDArXMrD
+eYT6FKkCqrgsNHamWAQtlKjWRp6KSQULW5Esh/mWS5j4RVFKEC8pQdxDf5vGik5O
+noPeP6nWZOTEp9rcSWWNuurNyEmsWtmA2nA7g5Obpk1gf3u4W+s=
+=/0lX
+-----END PGP SIGNATURE-----
 
+--UpJDNWE8uQy8XWDr--
 
