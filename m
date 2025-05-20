@@ -1,59 +1,61 @@
-Return-Path: <linux-kbuild+bounces-7175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7176-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3E6ABDD0A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 16:32:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84585ABDDC5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 16:50:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78A9D1897E01
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 14:31:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8C493B5A3D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 14:50:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB1F22D794;
-	Tue, 20 May 2025 14:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1806C24A06A;
+	Tue, 20 May 2025 14:50:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vPYfX/Wh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPXdAy6A"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317E51AF0C8;
-	Tue, 20 May 2025 14:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE760248895;
+	Tue, 20 May 2025 14:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747751469; cv=none; b=UXdRxnOIxyOn7r64WiywDASYQkdnSI1ciNTNkvUlYXugt15GM/17OJCXaP6BFK0kTKpZMb91XK8NHWKHAU752MaKkMLyoe/Kyh12MTHsIT87TeIFZK9P/muAkjWAI7NFLyfq+0JZpdMZFOQMV1uo43bAm0jVVfwVlqPC6UtZ4Ok=
+	t=1747752632; cv=none; b=rPGkAK/D93nGk0o7BxDWemENulLrNa1+YnbYudp2WXbo9YknKFXXAe57AzK2I9WKRYaSXKrUqP7DQ2Sy1Nni/9kee+ygsJAoboVYh3/AW13Szdps4+Hv5J6EW3rFs4M4R/y/+vrlh7DQsbu2hZS6GsKL02D+vC/o9mo+kOT7pK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747751469; c=relaxed/simple;
-	bh=f3Bm+vGkam2mdGleQTX64PuwPT5vvIv85wSu6+MtV1Y=;
+	s=arc-20240116; t=1747752632; c=relaxed/simple;
+	bh=vSFkFDNoruSqIw3vqssboHhOnvSYTX8hKjBoIt8fao4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EyNiD5HH3zMLrB29bASkqQsHRUQ1CwxEmWHnKeJ3OMx13ViUaoIgSKI4IpblD81nssv13u6NysTZj6WSApH2gNN7kXx6enHSiGFxEm0rZNbOAjGItMn2ODJPOYKN2xbV1Nu0PMnF5/BpbpjJzTZQr+00HWtcTTqZbMwroPsZ9Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vPYfX/Wh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 189BCC4CEE9;
-	Tue, 20 May 2025 14:31:05 +0000 (UTC)
+	 MIME-Version:Content-Type; b=nh1ykcLR9hTzuP3yetDuuvGReFT0cOZEmz8w7Xph1IxvZ1QSBCHP0i1APxjqr55NdYO2LPA0OISGCv8lcFrXI/u7C3pC+QWx+bFLhZQ2WajVoemLcn8w0srDlQx9GxrvDS9jC+xTKTkdoU6eapvFm6gO/4uVymjYwNMwDc0+tPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPXdAy6A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B79AEC4CEE9;
+	Tue, 20 May 2025 14:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747751468;
-	bh=f3Bm+vGkam2mdGleQTX64PuwPT5vvIv85wSu6+MtV1Y=;
+	s=k20201202; t=1747752631;
+	bh=vSFkFDNoruSqIw3vqssboHhOnvSYTX8hKjBoIt8fao4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=vPYfX/WhBietxhN+xIRkqpvjTo3DEPuqzYYkcDLb/01fglMmQ37cxRho4+sTsmICK
-	 3g8jFY1Z36/TjVXnMAwxq7VvauZLGm5wNG2gQGQbRaY4tyVxCQp8uJxW3Vx1+TUils
-	 cn0uFd2j+PiFX35K3vhtKpC4ducSY5BBRHwymOhFFLBqy4dKaiMY0lV4kR4l1HNCra
-	 FoeUv3/3aMjIroMN++g6MA4SI7DLRXjJqlI7p6sGZ5dlZo88/WWTgDYPzjJ08sfwB0
-	 iK1DervVsrkl3U9xPg7AH6XVs5BMQwYYpxy2l/F+esuQqt9d8s4NE7Pd/K5PKIAJ2r
-	 wbdJzl69LdVIQ==
-Date: Tue, 20 May 2025 16:31:02 +0200
+	b=aPXdAy6AZkJChuRAVnyusFfBy5YT4MWiFXdoDwUBiK+Np1pPUETvCOHt1TI5XsvHT
+	 w9A/TR2XvRjto2JAkpAieUZvdLq0ZLAyJbQglLaJWvcA0/HUE1oEgTHc/fBUXt0RIB
+	 uBYkypKlkPpS8VL9w5jYUhI7N+jhslFIEni1670DFhanDIP2gTM+QT1JYIKyaQ0TGq
+	 au6bFF3qlsRCdO4oJ32y7+3BeGCAT+y0Pu02rh+kZ6+pneUzbpXMDMfkMcEtwWiZPt
+	 nQRo+06t8rbBQL8pGORcquVgBvhCawsAh4JCRK/cXM/9g1bfvaO6vk70tQFE5/CMht
+	 /wn04XeOmlqeg==
+Date: Tue, 20 May 2025 16:50:24 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Stephen Rothwell
- <sfr@canb.auug.org.au>, Nicolas Schier <nicolas.schier@linux.dev>, Akira
- Yokosawa <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+Cc: Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Randy Dunlap
+ <rdunlap@infradead.org>, Stephen Rothwell <sfr@canb.auug.org.au>, Kees Cook
+ <kees@kernel.org>, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Some kernel-doc fixes
-Message-ID: <20250520163102.611cecc6@sal.lan>
-In-Reply-To: <aCyPFAKhSQIFR_lJ@smile.fi.intel.com>
+Subject: Re: [PATCH 3/4] docs: kerneldoc.py: add try/except blocks for
+ kernel-doc class errors
+Message-ID: <20250520165024.7447a107@sal.lan>
+In-Reply-To: <aCyQIwBnSiPLPrDo@smile.fi.intel.com>
 References: <cover.1747747695.git.mchehab+huawei@kernel.org>
-	<aCyPFAKhSQIFR_lJ@smile.fi.intel.com>
+	<064bac2f462c13f56154891d8f3fb788db94f325.1747747695.git.mchehab+huawei@kernel.org>
+	<aCyQIwBnSiPLPrDo@smile.fi.intel.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -64,57 +66,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Tue, 20 May 2025 17:17:56 +0300
+Em Tue, 20 May 2025 17:22:27 +0300
 Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
 
-> On Tue, May 20, 2025 at 03:33:05PM +0200, Mauro Carvalho Chehab wrote:
-> > Hi Jon,
-> > 
-> > Let me consolidate some patches on a single PR to make life simpler
-> > for you. Those should address Stephen and Akira's concerns with
-> > regards to KernelDoc class usage via sphinx kerneldoc.py extension.
-> > 
-> > Patch 1:	don't let Sphinx suppress errors/warnings;
-> > Patch 2:	fix a KeyError when trying to acess data from non-existing files;
-> > Patch 3:	add try/except blocks to avoid crashes when handling bad
-> > 	kernel-doc markups;
-> > Patch 4:	makes Lore and kernel-doc ML receive patches related
-> > 	to kernel-doc.py and get_abi.py.
-> > 
-> > Patches 1 to 3 were already submitted on separate series. Patch 4 is new.  
+> On Tue, May 20, 2025 at 03:33:08PM +0200, Mauro Carvalho Chehab wrote:
+> > Replicate the same behavior as what's done with kernel-doc.pl:
+> > continue building docs even when there are exceptions.  
 > 
-> Can we actually utilise CONFIG_WERROR to fail the build. If yes, the build will
-> be failed. This is in align with the warnings in the C code.
+> ...
+> 
+> > +            logger.warning("kernel-doc '%s' processing failed with: %s" %
+> > +                           (cmd_str(cmd), str(e)))  
+> 
+> > +                logger.warning("kernel-doc '%s' processing failed with: %s" %
+> > +                               (cmd_str(cmd), str(e)))  
+> 
+> The prefix of the message is the same for different (semantically) places.
+> Is it okay? (I would expect them to slightly differ, but I dunno if
+> cmd here is the same, perhaps that's enough for distinguishing the two.)
 
-It makes sense to me - either to use CONFIG_WERROR or to have something like:
-
-	make SPHINX_WERROR=1 htmldocs
-
-Btw, kernel-doc.pl (*) and kernel-doc.py have several command-line parameters
-to control warnings:
-
-  $ ./scripts/kernel-doc --help
-  ... 
-  -Wreturn, --wreturn   Warns about the lack of a return markup on functions.
-  -Wshort-desc, -Wshort-description, --wshort-desc
-                        Warns if initial short description is missing
-  -Wcontents-before-sections, --wcontents-before-sections
-                        
-                        Warns if there are contents before sections (deprecated).
-                        
-                        This option is kept just for backward-compatibility, but it does nothing,
-                        neither here nor at the original Perl script.
-  -Wall, --wall         Enable all types of warnings
-  -Werror, --werror     Treat warnings as errors.
-  ...
-
-(*) from the above, only -Werror is documented at the Perl version.
-
-In the future, I'm planning to do some work to improve it - including
-removing the deprecated -Wcontents-before-sections.
-
-But anyway this is out of the scope of this series, as we're aiming
-to be bug-compatible with kernel-doc.pl. The crashes were unintended.
+I guess it should be OK, as the "%s" variables are the ones that will
+actually help to provide a hint about the issue. See, in practice, if
+one wants to check what crashed, the procedure would likely be to run 
+the command line, given by "cmd_str(cmd)" and see what output was produced.
 
 Regards,
 Mauro
