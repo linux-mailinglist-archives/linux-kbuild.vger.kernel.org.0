@@ -1,147 +1,155 @@
-Return-Path: <linux-kbuild+bounces-7158-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7157-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB72ABCEA7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 07:32:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD0FABCE9B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 07:28:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 703173BB7C8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 05:31:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E9A23A3405
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 05:27:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31631EE021;
-	Tue, 20 May 2025 05:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01D5E2571D8;
+	Tue, 20 May 2025 05:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="VdGuVQ/G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7CFES0W"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA0219259F;
-	Tue, 20 May 2025 05:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EE5BE49;
+	Tue, 20 May 2025 05:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747719128; cv=none; b=LI+3RoJBTnLi7hroGA0qZbcsfPsEcXdm5EZyOMt2mGc2u9WEmZxFFiZ78UMBUZkxiHSJB7GU7DN914E3HCx05GjYkVg5B/EFoxJ8nTDCE/FGbsvj/5YkEn94a8jX2fvwLED0dYi8S2C5bLmfYz1Tghef+Fop7ZAmVlelIfr7KC4=
+	t=1747718881; cv=none; b=hMEdqgIKc6IFzRifm+Bbi7MX8SFO8y270wm9z+poNWvMi1N5W0dDXSnSQ8q7OiuLw1IRWHrEASwQdOrhxmRlrVsdZfNYJ35QF/zevLlIQ7AgdTBDD+ad/4M+AJER44CUU/mr7XG/6RNT7Mths9wstJSykbIKRxj1wTwtJrB/v8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747719128; c=relaxed/simple;
-	bh=v4q0Gk8P5oFHzr7Kz+il+G+hoCCYfCJwrgES5RPGDhM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=taEArpAbF8+RDqUcQWDZF4dZzSFtHmo3XRv7Q28HkS3eLtwC5JNrmworwKJJl4VCmq49rTvVRHkAd0k6eKZCybNVjMBj+d50xSLkIsGKSU7fAZyUwenkyy4aVi3EVpw/+eAwQ+KFlf/Ue7VdhBlHgwlTptN+IBLMuGHt2WJk2p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=VdGuVQ/G; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CEF9C2839B9;
-	Tue, 20 May 2025 07:22:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1747718550; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=FDyLwH77vg3CASVyQv8HrTOuhW5BbUUEY0GojGOfT9s=;
-	b=VdGuVQ/GW/N3jorqXQYofNoumohsvZ8E2lw/od1w4WVTp3oo9LoZ6O582RGLbAQAKRZbGD
-	/ePXlI7jNr2ZoBUQZXDQSIh3Qmhc75wXortexycOkHM2a64R18dlsERdrEN+Gf6ucdse4L
-	UsZ2GjLtQn1r8e0lsvaNvnIGjq8QZtpoqu9hpa2oXSqoIbisJSB08OSgrSdXiwa3n6F+Lz
-	V+IP0jmonLqd/GneN4zH8tl6n7qbAwMBsjufZbpfYrxAS3pYnzcsvQ0zbTZHvijkCPWn64
-	5OcpZuKRuWnSgK9KpSCQh39hPvHNcCxvcEdXLkrJV7yMNDdZnW8E2MAHJlvRVA==
-Message-ID: <a2db22a3-6d66-481d-9432-b38b83e17183@cachyos.org>
-Date: Tue, 20 May 2025 13:22:15 +0800
+	s=arc-20240116; t=1747718881; c=relaxed/simple;
+	bh=fjU7eHOpFbWozBHG2+7uIYALD+UBvajS8eM7dABToY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eg4SF/djx9QRsCI94peLAhNccgt3qA4rNxzls8O4oqhD0zDBl9YiTvYgRnsw88QErygEqfIzc+VMPdHrCBqp8dLuQ2Mc4QPOPjS365xtOUH6IZeAe+oU823LJP5/6zC6nR3X1RrpUdvWcyzUbGKJEsAfqoO/C5d0DmZzJpqF444=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7CFES0W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D622DC4CEE9;
+	Tue, 20 May 2025 05:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747718881;
+	bh=fjU7eHOpFbWozBHG2+7uIYALD+UBvajS8eM7dABToY8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=h7CFES0WmupxLXhItzZrDa7TKBZ9wMvyb804EDGIEvXXzLcnTrx+BGHIHIJHM/oxF
+	 f98xMjRCSKxzJdYlX+MSsxob9iric7D2l95DQZYY3XLeC5ELb/1fg8ad9cxFL3Rdm6
+	 OaSjqTRZGs48l9pilQUVNqacQBEvpO+Xdrb+770cGQLmjU2WNQ1kdxRbF//BsQlitV
+	 Y+GCjb9ATCYUkXsiwBa6iXmU5dBMcwJ3mMXD2Fpqb3mz3dEx2H+aeIGt4pYqhKC2sG
+	 xxR5CMR3+dHfNotrenCq7NEU4IlCs1UbaOf5r7XrXym1/r03BZ102O0QQpbClRrZJp
+	 wigJDH/ZmZdIg==
+Date: Tue, 20 May 2025 07:27:55 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Masahiro
+ Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Makefile: Get back to kernel-doc.pl as KERNELDOC
+ default
+Message-ID: <20250520072755.2d72cf5c@foz.lan>
+In-Reply-To: <d9d0ff79-a243-456e-a7ed-eaca69d2eca7@gmail.com>
+References: <d9d0ff79-a243-456e-a7ed-eaca69d2eca7@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] kbuild: distributed build support for Clang ThinLTO
-To: xur@google.com, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Alice Ryhl <aliceryhl@google.com>, Sami Tolvanen <samitolvanen@google.com>,
- "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Stafford Horne <shorne@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Teresa Johnson <tejohnson@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- llvm@lists.linux.dev
-References: <20250507205504.2017028-1-xur@google.com>
-Content-Language: en-US
-From: Eric Naim <dnaim@cachyos.org>
-In-Reply-To: <20250507205504.2017028-1-xur@google.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Rong Xu,
+Em Tue, 20 May 2025 09:08:51 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-On 5/8/25 04:55, xur@google.com wrote:
-> From: Rong Xu <xur@google.com>
+> Recent conversion of kernel-doc into python has resulted in a couple of
+> glitches in "make htmldocs" [1, 2, 3].
 > 
-> Add distributed ThinLTO build support for the Linux kernel.
-> This new mode offers several advantages: (1) Increased
-> flexibility in handling user-specified build options.
-> (2) Improved user-friendliness for developers. (3) Greater
-> convenience for integrating with objtool and livepatch.
+> This is because the python version has not gone through extensive tests
+> such as fault-injection of erroneous kernel-doc comments and/or
+> kernel-doc:: directives.
 > 
-> Note that "distributed" in this context refers to a term
-> that differentiates in-process ThinLTO builds by invoking
-> backend compilation through the linker, not necessarily
-> building in distributed environments.
+> Python kernel-doc as it is does not meet the usual expectation of
+> backward-compatibility with its perl predecessor.
 > 
-> Distributed ThinLTO is enabled via the
-> `CONFIG_LTO_CLANG_THIN_DIST` Kconfig option. For example:
->  > make LLVM=1 defconfig
->  > scripts/config -e LTO_CLANG_THIN_DIST
->  > make LLVM=1 oldconfig
->  > make LLVM=1 vmlinux -j <..>
+> Get back to the perl version as KENRELDOC default for now.
 > 
-> The implementation changes the top-level Makefile with a
-> macro for generating `vmlinux.o` for distributed ThinLTO
-> builds. It uses the existing Kbuild infrastructure to
-> perform two recursive passes through the subdirectories.
-> The first pass generates LLVM IR object files, similar to
-> in-process ThinLTO. Following the thin-link stage, a second
-> pass compiles these IR files into the final native object
-> files. The build rules and actions for this two-pass process
-> are primarily implemented in `scripts/Makefile.build`.
-> 
-> Currently, this patch focuses on building the main kernel
-> image (`vmlinux`) only. Support for building kernel modules
-> using this method is planned for a subsequent patch.
-> 
-> Tested on the following arch: x86, arm64, loongarch, and
-> riscv.
-> 
-> Some implementation details can be found here:
-> https://discourse.llvm.org/t/rfc-distributed-thinlto-build-for-kernel/85934
-> 
-> Signed-off-by: Rong Xu <xur@google.com>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Link: https://lore.kernel.org/20250508182504.418552ef@canb.auug.org.au/ [1]
+> Link: https://lore.kernel.org/20250516193436.09bdf8cc@canb.auug.org.au/ [2]
+> Link: https://lore.kernel.org/20250516200350.63be46cd@canb.auug.org.au/ [3]
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> Changelog since v1:
-> - Updated the description in arch/Kconfig based on feedback
->   from Nathan Chancellor
-> - Revised file suffixes: .final_o -> .o.thinlto.native, and
->   .final_a -> .a.thinlto.native
-> - Updated list of ignored files in .gitignore
-> ---
->  .gitignore                        |  2 ++
->  MAINTAINERS                       |  5 +++
->  Makefile                          | 40 ++++++++++++++++++++---
->  arch/Kconfig                      | 19 +++++++++++
->  scripts/Makefile.build            | 52 +++++++++++++++++++++++++++---
->  scripts/Makefile.lib              |  7 +++-
->  scripts/Makefile.vmlinux_o        | 16 +++++++---
->  scripts/Makefile.vmlinux_thinlink | 53 +++++++++++++++++++++++++++++++
->  scripts/head-object-list.txt      |  1 +
->  9 files changed, 180 insertions(+), 15 deletions(-)
->  create mode 100644 scripts/Makefile.vmlinux_thinlink
+> This one-liner is just a workaround, hence no Fixes: or Closes: tags.
 > 
+> Jon, it looks like we are running out of time for the upcoming merge window.
+> Let's take another development cycle for stabilizing kernel-doc in python.
+> 
+> Additional notes on glitches reported so far.
+> 
+> * Depending on the version of Sphinx, the crashing message can be useless
+>   for finding out what is going on [1, 2].
+>   With up-to-date Sphinx, the message even suggests a *bug* somewhere in
+>   Sphinx and includes a traceback to be reported as an issue at upstream
+>   Sphinx [4].
+> 
+> * The python version of kernel-doc fails to produce warnings on innocuous
+>   issues under Sphinx runs [3], which have been available with the perl
+>   version.
+> 
+> [4]: https://lore.kernel.org/879b49f5-7350-48e8-a84e-2c580a5b0ca8@gmail.com/
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 2a05988740a9..c2c9f5af4986 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -460,7 +460,7 @@ HOSTPKG_CONFIG	= pkg-config
+>  
+>  # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
+>  # has a logic to call it
+> -KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+> +KERNELDOC       = $(srctree)/scripts/kernel-doc.pl
 
-I noticed that both Makefile.autofdo and Makefile.propeller add extra linker flags when building with ThinLTO. Did you miss updating that or is the omission there intentional? 
+If I understood well, the only issue is with regards to Sphinx
+hiding logs. If that's the case, better to apply instead just
+the single-line change to make kerneldoc.py extension to not
+use Sphinx own logger filters.
 
--- 
-Regards,
-  Eric
+Thanks,
+Mauro
+
+---
+
+[PATCH] docs: kerneldoc.py: don't use Sphinx logger
+
+Unfortunately, currently Sphinx logger is suppressing too much, not
+allowing warnings to be displayed. Disable it.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index b713a2c4a615..687121300291 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -311,7 +311,7 @@ def setup_kfiles(app):
+     if kerneldoc_bin and kerneldoc_bin.endswith("kernel-doc.py"):
+         print("Using Python kernel-doc")
+         out_style = RestFormat()
+-        kfiles = KernelFiles(out_style=out_style, logger=logger)
++        kfiles = KernelFiles(out_style=out_style)
+     else:
+         print(f"Using {kerneldoc_bin}")
+ 
+
+
 
