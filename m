@@ -1,133 +1,113 @@
-Return-Path: <linux-kbuild+bounces-7182-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7183-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BB7ABE428
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 21:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267C7ABE431
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 21:56:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7637D8A4EDC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 19:53:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 931408A2E49
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 19:55:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 027B528369D;
-	Tue, 20 May 2025 19:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEB4D28313A;
+	Tue, 20 May 2025 19:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FKeIdF3Z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZuDv6bt/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F45283FF3;
-	Tue, 20 May 2025 19:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533AE24677A;
+	Tue, 20 May 2025 19:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747770837; cv=none; b=qmPbxzerUkEFutczKGznU0wYZkGO9YmuE35KdzKoGS7Fd5Y0X0tyECZeSGNrBBr8vyZWQ4J7acDWypGc6j7OJNZokaAPpsbLfKLVlvNXEGYupxNJRsr1jfYv0VMoYhW9Th2wSUrGOO0SKZjGhAW5uZ1zNvdkJNwXTlgONxW5JEk=
+	t=1747770973; cv=none; b=HBTWv8Ws+pYhJOiE6m4ByBvwgK2tePxUMQ2vfDYGzdKZ5JJh+lK+ut8GGEWpkRjwWDf88RcQqw0Rqrc819JQDSYcfMD2eQa+fq5N5REjcEj2zFyBg/1QA6K42qCRsKbDPVzG0Os92d8sqlVYfitO0/SWtPlsrw/1VGX3jbDQieE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747770837; c=relaxed/simple;
-	bh=VxB9dZNjaO/CQfaln8AMXdGqbympMTXUc6XWHCuYKIo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RDL4PSL50X8QG1DARaqPouxu+DQlOzFmIEFStyIh4+bjH7+cjmhGgZtlUh4hDYEooax2sG239MQxt0jwvGQZYXC5NR62d1FdhslZUeBBRdqzp2MvS96/2L6MSt0cUrWdpwphHIODqSHvBqVPvLELHU88CPaUT/7XNhh1FPd7gbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FKeIdF3Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5113C4CEE9;
-	Tue, 20 May 2025 19:53:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747770837;
-	bh=VxB9dZNjaO/CQfaln8AMXdGqbympMTXUc6XWHCuYKIo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FKeIdF3ZRzsVCO7fCWbmyehAqD4H8nwF7AXfcoNX2CIpI+5dS558KzCVHoS+9flwY
-	 McSy+OMqElInL4SHyicS9HDd/Z2VR0IQNVyAzSw0LPmXbe3aASgtm+vXG5ve8tqpN3
-	 7f4ndOHqQS5m2ZMkzL51hnPaUjxguPxlActqXboDDJZ8tltmodnCyrOPYWeQZCvmzR
-	 gZ0iBz9D3RoGLQ4bKK+i2eSUzx7eeJw9YY8vM3Du3UOn2vz0l1Z8Jpto31z/MpABsR
-	 r8a40qeqmTdK89Ey2RZiqtgX62Yex82z1SUrgra7WxWa/N/6aEDXcvgaQviYbcFPU+
-	 6mmOYnYGv29kA==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	rust-for-linux@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	stable@vger.kernel.org,
-	Tamir Duberstein <tamird@gmail.com>
-Subject: [PATCH v2] rust: kbuild: rebuild if `.clippy.toml` changes
-Date: Tue, 20 May 2025 21:53:45 +0200
-Message-ID: <20250520195345.905374-1-ojeda@kernel.org>
+	s=arc-20240116; t=1747770973; c=relaxed/simple;
+	bh=5rxbJNyob37QGi62KumFHH2u1FmRDF19BAX10oWgC7g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AC6zKf2vNE6shVf+US1E/s14V0DWR1rW8Dsle5IOb53bvpKNBWIRdr14Gk0zhE7SLzWpMTOES7oDne8V6vanZD2Jiqm9gbDqgpognhEyZx8QGfqdGgWtp4MQWqru8rhrFEYc4aZ64PecEXbpp+woRCJFahoNGpoXF6pnFUYMeZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZuDv6bt/; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b078bb16607so420543a12.2;
+        Tue, 20 May 2025 12:56:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747770971; x=1748375771; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yRXK3+jUaFquyfrpafb1v4VMZEAhC0R7dGXYOJ0ETTQ=;
+        b=ZuDv6bt/ZjeKvmGJNY4EGSMtQGGiD6waD7zaRH2t8CCL/2U35U4kxEM3NEeydK5kDG
+         CI202NFOu64Xn4YhTYPX7fT9uqdnZTt2tZma6Gre+gdLIgsvLnFvDKXO9gtFYRfGIcvP
+         DbtDWEkpsbUdH9w3ECXWs18YxcljNZ8g5/qxHu4aLusvUuR3CkiU9Mlbpe00yBWoM5vN
+         ju+fCJDbnNXeg26wNQzIptJcZ9YZbblDoK4dk9QX2wrOpm+9nHSpkJ3VubSEgNaqcOCT
+         b2kSJoKJlM5qfB3tXS1jAIlXBgqDDQq87oD/LmWEqeR/uH02SeOeyVgLmzfT4gK4B0pE
+         lRYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747770971; x=1748375771;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yRXK3+jUaFquyfrpafb1v4VMZEAhC0R7dGXYOJ0ETTQ=;
+        b=D9Xop5oMnMY6N3Eriw01uEacw6GUgbLFG3jXNG5YJne1QzHz5vWr80S7eU7wxoXjoS
+         ERsjaDjc7lU2qewv5HOsZnlwGZcPWYDKFP6qbV0lBGFZnIY1RxZTWxfeJetUkguLDmip
+         AvvxbntjKMuxyesVla00dVTqSXSUIa6A75EMShjn2LGUDg2e1JIcAFlwvpms7gz6rccI
+         RL9biOzvfYHdBsW55jELS/bOnw+GrPL9n7dqqMtpU+TiIJkO/T68rOofZ9l0PJ6R6ErV
+         rWidOOf31DuYmPYhQCZTuEHgaTUuqoh5HZ5g6EWFiHU76/e4bBMab4kUnHH6Cs+zbSVO
+         BD0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUCPy9N5xf5ieVQ5amPnlu9Yif4hOWz/4/uwJJktYHrttlu9/IG5PBY6Z4U1DF8EF4k41UBccN+@vger.kernel.org, AJvYcCURxsE/wJrgq23U4xkKp33rooRQZxnv2tXrw7eK3d/BGG//tMAoyjN7yZQknlCq8WXaRwRRjNP9xexWWgZUOJY=@vger.kernel.org, AJvYcCW5Mteu0RLFZg8LdcHGgJMhViA+xs2mCL7nAeIvr8qG8yDCngzQ5gYPFQr6TjxPGnR4efrDehBEcj9Jq9Y=@vger.kernel.org, AJvYcCWmRMgkaGh9WG4mgFLAj15Xk9sY7++UUukUY2f+VO3tu41uKrpBVx3WWV6BGrl50A+Tccc//am/0BmezwUq@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEvpg+ORJKv3NM2AmHOztiJ0g+Z48S34cOYwUthyw28SmeJ5vi
+	lp3xFW9b/q7QQdEQZn1PJqLwBvDDahCQ0glYIqt8S1mbtuBbBblkTUtHEzTEY2iV+JrX5rjZtJq
+	q5vLOj7pRur02CjAa499Nq0xn9ptMDEI=
+X-Gm-Gg: ASbGnctkM7kvnYIdP3ET/Zwb7BBzzAofIE/xMxwJORowK2xRElbDoL1IMvGK5VLaGw5
+	YYBibicSDPWS0H4Rg7BW1EUJex8sdCo1+1KYaS1o3a23iNeLrOzFcbhn23BebvmEsvMH8NoXsdQ
+	oXR59tvxccK8ZuZst6GyvN149Xsm2Pv8gc
+X-Google-Smtp-Source: AGHT+IHMBgCvJ0ltoJP8XtyEBtuP89NjkLllHvz/zazFd2sBhpBWXHheguiDfnpgLDlesaU0sRxIYGwKHYkjm3yfw88=
+X-Received: by 2002:a17:902:ea0d:b0:224:1579:b347 with SMTP id
+ d9443c01a7336-231d43c6220mr96308575ad.7.1747770971470; Tue, 20 May 2025
+ 12:56:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250520195345.905374-1-ojeda@kernel.org>
+In-Reply-To: <20250520195345.905374-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 20 May 2025 21:55:58 +0200
+X-Gm-Features: AX0GCFslC1rHS0JBz-WpDnFZ7XYTlMemOVnCBI8Wl1ZLSvxJ1ZydC6LVz9_6R4g
+Message-ID: <CANiq72krCWthBMDe8XEJP6knDS9dHn3jSkTBhF-CPBUgmL4oDQ@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: kbuild: rebuild if `.clippy.toml` changes
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org, 
+	Tamir Duberstein <tamird@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We rarely modify `.clippy.toml`, but currently we do not rebuild if that
-happens, thus it is easy to miss possible changes in lints.
+On Tue, May 20, 2025 at 9:53=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> +ifeq ($(KBUILD_CLIPPY),1)
+> +       clippy_toml :=3D $(srctree)/.clippy.toml
+> +endif
 
-Thus rebuild in case of changes.
+Not sure if this is worth it (see v1), but I think it works, at least
+from light testing.
 
-Cc: stable@vger.kernel.org
-Reported-by: Tamir Duberstein <tamird@gmail.com>
-Closes: https://github.com/Rust-for-Linux/linux/issues/1151
-Fixes: 7d56786edcbd ("rust: introduce `.clippy.toml`")
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- rust/Makefile | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+More testing for v2 is welcome (v1 is "obviously correct").
 
-diff --git a/rust/Makefile b/rust/Makefile
-index 3aca903a7d08..107299c32065 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -57,6 +57,10 @@ rustdoc_test_quiet=--test-args -q
- rustdoc_test_kernel_quiet=>/dev/null
- endif
- 
-+ifeq ($(KBUILD_CLIPPY),1)
-+	clippy_toml := $(srctree)/.clippy.toml
-+endif
-+
- core-cfgs = \
-     --cfg no_fp_fmt_parse
- 
-@@ -405,11 +409,12 @@ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
- 		--crate-name $(patsubst lib%.$(libmacros_extension),%,$(notdir $@)) $<
- 
- # Procedural macros can only be used with the `rustc` that compiled it.
--$(obj)/$(libmacros_name): $(src)/macros/lib.rs FORCE
-+$(obj)/$(libmacros_name): $(src)/macros/lib.rs $(clippy_toml) FORCE
- 	+$(call if_changed_dep,rustc_procmacro)
- 
- $(obj)/$(libpin_init_internal_name): private rustc_target_flags = --cfg kernel
--$(obj)/$(libpin_init_internal_name): $(src)/pin-init/internal/src/lib.rs FORCE
-+$(obj)/$(libpin_init_internal_name): $(src)/pin-init/internal/src/lib.rs \
-+    $(clippy_toml) FORCE
- 	+$(call if_changed_dep,rustc_procmacro)
- 
- quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L $@
-@@ -495,7 +500,8 @@ endif
- 
- $(obj)/compiler_builtins.o: private skip_gendwarfksyms = 1
- $(obj)/compiler_builtins.o: private rustc_objcopy = -w -W '__*'
--$(obj)/compiler_builtins.o: $(src)/compiler_builtins.rs $(obj)/core.o FORCE
-+$(obj)/compiler_builtins.o: $(src)/compiler_builtins.rs $(obj)/core.o \
-+    $(clippy_toml) FORCE
- 	+$(call if_changed_rule,rustc_library)
- 
- $(obj)/pin_init.o: private skip_gendwarfksyms = 1
+Thanks!
 
-base-commit: 22c3335c5dcd33063fe1894676a3a6ff1008d506
--- 
-2.49.0
-
+Cheers,
+Miguel
 
