@@ -1,175 +1,157 @@
-Return-Path: <linux-kbuild+bounces-7154-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7155-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0A2ABCBAB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 01:42:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 733DBABCBE8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 02:09:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA7823BED22
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 May 2025 23:42:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C499160389
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 May 2025 00:09:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29F182206BF;
-	Mon, 19 May 2025 23:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A341B78F3;
+	Tue, 20 May 2025 00:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TcQWP80d"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nnO8P6ZZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048B87261B
-	for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 23:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66130B644;
+	Tue, 20 May 2025 00:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747698140; cv=none; b=BgrXTDzZRK+Tb7SFDuFCAjbNXNmbLNIc8zo+TTfvrB8bN1qaMKtqVzk2YS7O4ahpRI5awjEfdH4YLtj19vX1csMMDsn1o0B2oAcVmgLaisbSkToiYTZU1XTTz5Yla7aQNmx3zenwjeuBkzh9PeMKK+7J1IfDyJeUL6Z5YsdLlKI=
+	t=1747699737; cv=none; b=ZcUwjf+e8OlUUjvcfWy00hwBhnOQBngAOHmxf4cMhnrSo62OtUYVB+yIN0PeV+H4o2JrKR+pHMRnjYFrlzpwap5TccWQ2OB+fPob4N7Q+KX/d8UkQMtrhfXCVoTadVfStBbW0RFoE8kezwI9tUPjMQT4QlHLN4NdsOLiFDYeCS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747698140; c=relaxed/simple;
-	bh=ZKYV4DZqCzOu7XtrDoRxpxOQ2X8r++kTwWByKtXDhrI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lotK0sOBErJoigV0siaHUYb8Y+LBlnjvCbDQ1ck6RgjVry+WXa5Z1X4v9xq8XQeF7fa43PHA0tbc63t8qVVYUgXxjIDiF/F5AAkYNy4YykMTJzGXX14Lb1nGGZ+OtLQ2Eq9ae2qYe9/1MGfRW79CvonTjn5y4JZ3NITOysew8tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TcQWP80d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D97F1C4CEF1
-	for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 23:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747698139;
-	bh=ZKYV4DZqCzOu7XtrDoRxpxOQ2X8r++kTwWByKtXDhrI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TcQWP80dqZf6wsvV46hfhbTO/IwcHkluZg9gwlAJFqA4nPRc6j1YFLmQJtaAY+re1
-	 r6KwA0YpngRxsaYwDegU8IRBmfb2DX/xHbQYWRDtiZtUMl3K0+wv3kCs/BNHL8XKVo
-	 ygRM0Dj8edMrC3lEXrMqVpKFHE8jPUzI9twSqdjyHF1ekm8EtSeC/ylD8vXIwTpwnm
-	 AaqU/swIMCkJHDGVuJ7yxk/8AYDS6T7xHiBImEzyOo11qLtzeZOlZAjh8G94L8btBT
-	 OaXfds5P5StEhfx+AaUM5UvfuSIhfq6IckwMm2CLKYDJSF2XVgUha6NZ5uurJ7VCWV
-	 ++9nrEevi9YKw==
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-476f4e9cf92so38649501cf.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 May 2025 16:42:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXqDPGB1QClFC/jTOSKkwtlRvKgeQ4s4h97ifmAC6F96nzi45KzvCJ0MZPAe/s3L+RZTS+nL1r6f+9U4gg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzslpLh+sYsKd5EZgiUmIsE7AZTmgSgsy7HLnd4ahSmHGTwEK66
-	Wqo9FBJp2Q0GKycse+jR5ieNyftUw1wjIvPaejRD/V6GkA5M9yOS+u+qGtA704hTNqBnpBKbNZ6
-	KunzD4iIfZ0EBXJ9KVNx5bu3We9ILwExU+czh9zVr
-X-Google-Smtp-Source: AGHT+IF3yXeBG7TOl1OWLmx6UHDF/3YbnaTG/HjinvwYXZmduyt29cvicBww1a9vAZvlcO0xk5OSvjlLpQi0hnBcD0E=
-X-Received: by 2002:ac8:5654:0:b0:494:af82:7804 with SMTP id
- d75a77b69052e-494af8278f4mr201668631cf.29.1747698137942; Mon, 19 May 2025
- 16:42:17 -0700 (PDT)
+	s=arc-20240116; t=1747699737; c=relaxed/simple;
+	bh=rQJND3zRGI/bhZQWN9vYbpanxR/d2/v+qroESA4G6EQ=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=U4dD8tekkul+b30iwGe/3KJQX/zz+t6Pd0gQNTgyr8hvcpA4Aod6B6t2QrxPT1fNTQ6kG95bOPxJnT6vkGg2uzxgwALwGUZOmLWXE6HguOZqT99J4oIyP69ynhii+a6cKPRD413+2Q7a/n4e6FbMLo5YIraNGR8nheYS/91HKNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nnO8P6ZZ; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-74068f95d9fso4560162b3a.0;
+        Mon, 19 May 2025 17:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747699735; x=1748304535; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g+I/XtX5UL4QjFc3rQ1Mg+38x+bvcwlpWsXePaJ4Tl0=;
+        b=nnO8P6ZZHV4cgg9XDq4HN5phomdxsAzEP00s4G7NXPasA04EEGeTble86bVy9Bs8Pe
+         CRhmzVXUtkcWZ6xDXZXaKcbEWlBXnym0zo89pSxnGWb2pgIjBQIHU0SF2eVUbMbTfP6Q
+         r+Azupm2S5RNziaPZ3xRHvD7YoteylHQsevpo72dqhvsKMqZScEcdKBBjGRC+KYw/CJE
+         BI1tFsVMCMSqXb8NypDbzl78wINBIRWS6CSivgjdMBBx6k3R4oAWtK4wqMUt7gdmUgvO
+         yI8l2mXq8YP4/BlU1NToWBPfbaZg1iDFLmxXATcWG/hQBeWcJvEkcu4GF3ZykkE700/C
+         0P7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747699735; x=1748304535;
+        h=content-transfer-encoding:cc:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=g+I/XtX5UL4QjFc3rQ1Mg+38x+bvcwlpWsXePaJ4Tl0=;
+        b=Gy+8lCXvxRHaqYmUrgS4/AJKU963DgWaKYtNgFsgnADwBDQlyScgWMaiYGbvU36n+F
+         X+ofD521TF8rJOU0284FwwjHrMUZq1erXtwjBhRpkuLg53kby+wruGAyQhxNoAN/0AvZ
+         /Wda/I+hKKCpBTmz0wvQn2oKm06TTgKQgRRxGjLzsQNb5mUxCZ/CRP5XGP3V5lnNRY4w
+         j98Qu/SID5TTr7TBQ+FNHrSdZV27r2K8pjbCPaHMssc7u80b06cTSaA7l4aUMXOQetgj
+         QlwtyJ/MwYLgPnx1AWOWfZHKHTYA3d/PcKeBhMsyyYOIOnpQl1hvMQqGrZpawAgYu1rb
+         k4gg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFJEN+fhp8mf4OdkrjILhQkVexuyX6k5psG2OZqZqLWGcjtKK2NAHpr8Io8FGyDBsG69MTbI5d9PI4vhTP@vger.kernel.org, AJvYcCVHd9K4pcbSEhWMxfSaNtv6vkHIljWbpkcYcP3aieMcNfvS9eDpepFQApQ3/YKFMpKYhBycqvo7zWg=@vger.kernel.org, AJvYcCWTowBh3ayLf5PHgUWzWXzmDMP5abQ2dMlMins0mhMWRL/xXT6nSEsMiQjonivRZSz9Dyao7bVzZqDf9G/h@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS2MvBNqCyjwgEsp3reR7qTBnrxs4SphiO1tXf0pIMk3s5n2SG
+	h3eKHnNLDpQxOVdEJGT0m04ueFeQ7zEPAD1s5Ldv7mmrLlwVR/yJWZ8V
+X-Gm-Gg: ASbGncuazji+rN6FAZ5Tk125hvoAyjDxzUnxaxAMcYM1G7KuxMPM6peLrLTX3i6e6tB
+	UHdqDq7Rltc5P+13utUjc+axEexJigeeqMx19Zn3JmvO0IPdZqNzxwN2DjbvDkwiWMXQbd2x/Gb
+	iNgIFYMUCnvfUrgzKIRocE4W03ZsOFTBxAkz2qqJNQnHT34/hTc7/Wai54C114QS3WnOZQO0dWz
+	xaXGWRWiMpi76Hr3k6Ayprw3ICFVBznzaBZALno3nix8ddgeAnrYZBz2iFgri3S7lMcycK/UMO+
+	fMm5B1bTeIKkoMSXl71rhh5aLZIqZKwIzBsvGx/U00OhVyvS1pR+HC8Hi/P6YcEfNF9cBi+nEMS
+	pZwLViUiv/je/L2p37+iz7g==
+X-Google-Smtp-Source: AGHT+IHlTR91hd6ZzG26vEXQSvwMiQD8RFbYpAkHs1v0OVNua0WTHI4LzdtzC330roI18jGKppfCJg==
+X-Received: by 2002:a05:6a00:990:b0:73f:e8c:1aac with SMTP id d2e1a72fcca58-742acc8e959mr19480802b3a.2.1747699735481;
+        Mon, 19 May 2025 17:08:55 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a96dfafbsm6798967b3a.4.2025.05.19.17.08.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 May 2025 17:08:55 -0700 (PDT)
+Message-ID: <d9d0ff79-a243-456e-a7ed-eaca69d2eca7@gmail.com>
+Date: Tue, 20 May 2025 09:08:51 +0900
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
- <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
- <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
- <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
- <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
- <CAHC9VhTeFBhdagvw4cT3EvA72EYCfAn6ToptpE9PWipG9YLrFw@mail.gmail.com>
- <CAADnVQJ4GDKvLSWuAMdwajA0V2DEw5m-O228QknW8Eo9jxhyig@mail.gmail.com>
- <CAHC9VhTJcV1mqBpxVUtpLhrN4Y9W_BGgB_La5QCqObGheK28Ug@mail.gmail.com>
- <CAADnVQ+wE5cGhy6tgmWgUwkNutueEsrhh6UR8N2fzrZjt-vb4g@mail.gmail.com>
- <196e1f03128.28a7.85c95baa4474aabc7814e68940a78392@paul-moore.com>
- <CAADnVQ+=2PnYHui2L0g0brNc+NqV8MtaRaU-XXpoXfJoghXpww@mail.gmail.com>
- <CAHC9VhRKZdEia0XUMs2+hRVC7oDzkBfkk5FPMD+Fq5V7mAk=Vg@mail.gmail.com>
- <CACYkzJ7oxFA3u9eKDpKgCsZsYsBojVJPHVeHZnVaYQ5e9DavmQ@mail.gmail.com> <CAC1LvL2F_WbObrdcumVZCKc7yLeq4e9PQhYHrLiyVzpzf=V_Xg@mail.gmail.com>
-In-Reply-To: <CAC1LvL2F_WbObrdcumVZCKc7yLeq4e9PQhYHrLiyVzpzf=V_Xg@mail.gmail.com>
-From: KP Singh <kpsingh@kernel.org>
-Date: Tue, 20 May 2025 01:42:06 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ43yJRMS+e-7LefYts_v2ZH7_FCbw_LfG3mYfu6q6VD0g@mail.gmail.com>
-X-Gm-Features: AX0GCFuKLMZDwuoCJgohVN01wRXVU9M-dpj2qXdRHi2W4iwOU0W5kASpMuAgI_I
-Message-ID: <CACYkzJ43yJRMS+e-7LefYts_v2ZH7_FCbw_LfG3mYfu6q6VD0g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: Zvi Effron <zeffron@riotgames.com>
-Cc: Paul Moore <paul@paul-moore.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, bpf <bpf@vger.kernel.org>, 
-	code@tyhicks.com, Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
-	David Howells <dhowells@redhat.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	James Morris <jmorris@namei.org>, Jan Stancek <jstancek@redhat.com>, 
-	Justin Stitt <justinstitt@google.com>, keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nicolas@fjasle.eu>, nkapron@google.com, 
-	Roberto Sassu <roberto.sassu@huawei.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Shuah Khan <shuah@kernel.org>, Matteo Croce <teknoraver@meta.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, kysrinivasan@gmail.com, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] Makefile: Get back to kernel-doc.pl as KERNELDOC default
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> > > > > > No. New hook is not needed.
+Recent conversion of kernel-doc into python has resulted in a couple of
+glitches in "make htmldocs" [1, 2, 3].
 
-[...]
+This is because the python version has not gone through extensive tests
+such as fault-injection of erroneous kernel-doc comments and/or
+kernel-doc:: directives.
 
-> > > > >
-> > > > > It would be good for you to explain how the existing LSM hook is sufficient
-> > > > > to authorize the loading of a BPF program using the signature validation
-> > > > > state determined in the BPF verifier.
-> > > >
-> > > > I already explained:
-> > > > .. a job of trivial LSM:
-> > > > if (prog_attr doesn't have signature &&
-> > > >    (task == .. || task is under certain cgroup || whatever))
-> > > >   disallow.
-> > >
-> > > I read that earlier reply as an example that covers a sample use case,
-> > > I didn't realize you were asserting that was the only approach you
-> > > were considering.  Perhaps that was the source of confusion earlier,
-> > > we may disagree, but I don't intentionally "twist" words; not only is
-> > > that rude, it's just stupid in public, archived discussions.
-> > >
-> > > As I mentioned previously, we really need to see an explicit yes/no
-> > > flag from the BPF verifier to indicate that the signature on the BPF
-> > > program has been validated.  It really should be as simple as adding a
-> > > bool to bpf_prog_aux which the BPF verifier sets to true upon
-> > > successful signature validation, and then an LSM can use this flag as
-> > > input to an access control decision in a hook placed after the
-> > > verifier.  Are you objecting to the addition of a flag in the
-> > > bpf_prog_aux struct (or some other struct tightly coupled to the BPF
-> > > program), the LSM hook after the verifier, or both?  It would also be
-> > > helpful if you can elaborate on the technical reasons behind these
-> > > objections.
-> >
-> > Neither the aux field, nor the hook are required because:
-> >
-> > * If the signature is passed, it will be enforced, there are no
-> > "runtime aspects" that need to be configurable here.
-> > * What the LSM can specify a policy for is when a signature is not
-> > passed, for this, it does not need an aux field or a signature or the
-> > new hook, existing hooks are sufficient.
-> >
->
-> What about wanting to create a policy that requires signatures under certain
-> situations and allowing the lack of a signature under others? How is that
-> implemented with the existing hooks?
-> As I understand it, all the existing hooks know (would know) is that _if_ there
-> is a signature _then_ it will be enforced. There is no way to know _whether_
-> there is a signature.
->
+Python kernel-doc as it is does not meet the usual expectation of
+backward-compatibility with its perl predecessor.
 
-The signature is passed in bpf_attr and if there is a signature the
-LSM's job is done.
+Get back to the perl version as KENRELDOC default for now.
 
-   https://elixir.bootlin.com/linux/v6.14.7/source/kernel/bpf/syscall.c#L5771
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Link: https://lore.kernel.org/20250508182504.418552ef@canb.auug.org.au/ [1]
+Link: https://lore.kernel.org/20250516193436.09bdf8cc@canb.auug.org.au/ [2]
+Link: https://lore.kernel.org/20250516200350.63be46cd@canb.auug.org.au/ [3]
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+This one-liner is just a workaround, hence no Fixes: or Closes: tags.
 
- It will be enforced.
+Jon, it looks like we are running out of time for the upcoming merge window.
+Let's take another development cycle for stabilizing kernel-doc in python.
 
+Additional notes on glitches reported so far.
 
-- KP
+* Depending on the version of Sphinx, the crashing message can be useless
+  for finding out what is going on [1, 2].
+  With up-to-date Sphinx, the message even suggests a *bug* somewhere in
+  Sphinx and includes a traceback to be reported as an issue at upstream
+  Sphinx [4].
 
-> An example policy I can think of is that most users (with CAP_BPF) must submit
-> signed programs but some users are exempted. Would that policy be able to be
-> made with the current hooks?
->
-> > - KP
-> >
-> > >
-> > > --
-> > > paul-moore.com
-> >
+* The python version of kernel-doc fails to produce warnings on innocuous
+  issues under Sphinx runs [3], which have been available with the perl
+  version.
+
+[4]: https://lore.kernel.org/879b49f5-7350-48e8-a84e-2c580a5b0ca8@gmail.com/
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 2a05988740a9..c2c9f5af4986 100644
+--- a/Makefile
++++ b/Makefile
+@@ -460,7 +460,7 @@ HOSTPKG_CONFIG	= pkg-config
+ 
+ # the KERNELDOC macro needs to be exported, as scripts/Makefile.build
+ # has a logic to call it
+-KERNELDOC       = $(srctree)/scripts/kernel-doc.py
++KERNELDOC       = $(srctree)/scripts/kernel-doc.pl
+ export KERNELDOC
+ 
+ KBUILD_USERHOSTCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
+
+base-commit: a556bd882b9482f1b7ea00fcf07f9bc169f404c8
+-- 
+2.43.0
+
 
