@@ -1,108 +1,115 @@
-Return-Path: <linux-kbuild+bounces-7202-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7203-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C879ABF15D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 12:19:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AF5ABF2BB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 13:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E4791897140
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 10:20:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 273838E088B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 11:24:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28C45253942;
-	Wed, 21 May 2025 10:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F1CA25A2CB;
+	Wed, 21 May 2025 11:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KLbvwtRd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YhCqSeWR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708FC23D285;
-	Wed, 21 May 2025 10:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10ED923498F;
+	Wed, 21 May 2025 11:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747822781; cv=none; b=jdBZvBQDlAacb8Rm9B6PfCTPUC5On8PYH4DwQZt29zgkmRF8prGFyTFgRisrpgcDwluF/X9Kbewl4qtCGkajpDZCm6rYafbXIM6heU7TcNbQBw/LbocMPbsMrRR2YyVvkTmFB001dxyJLKk9JUCZwHk+6OfudKvu7nHHZk8SuOE=
+	t=1747826709; cv=none; b=iWTqFTu15knErdIYfzde5BvbbyPNywoJg6GYDoevl2YCdT25Nw2O2j/w8sHcnEQ+Dywd0QVjYy5n7y8DWHv9ITGbNCKIfobKXID2/56kdN4Wg/WZiygbj78Lc4gIZTM0LY1vLROPcoj8iKmpq7M8onmNJoAgcb4QlJb+kotVehM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747822781; c=relaxed/simple;
-	bh=+iFhBXf0vbCbL+XqEy89NDjV9grPFRpL54vjJA7X/Ew=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pC5ztnyrxCe3Fn8oxVfRF41AZy0xs9XWzg2zsiEfs7zqQ7CFokcB4mwZn5jke3EZ//LwbPD4Q0cxYRHafT/njOlwaX5sKbHMT60cxozr/SsqG0ai5FLEsC/fAsbVNAiiAEpPj7xFZk+KjNIpCmLP6Y9M+5WdCThFYfOuLW8CFDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KLbvwtRd; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E368A41A9E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1747822773; bh=4Rpc61MxhtsPFZeepnU8k+b9p0Cplh44VpM/YqieauU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KLbvwtRd8red76Ln7sMFAksJUB3m0CxUDf2hBjNbowmRIxxxj6y/ENGapzU+nKtfy
-	 VX1FErAjt/DFgbda6zW3WDqIuhIilvsO9ZLg2rR9QuAuckRq7NddDhNhDWfZr4j5WH
-	 WYOzfPL0fkcV7QRy++XN01D45b1TcT5Fs3ZMfBV3BtdiGtwbDxFrUGMSPpvWaZYJuv
-	 fYIffx4yAh06T9lOZGBfHbI8HGdNphT/pXBSeOFl0bAPbCHrbLpbD9b3TtZl7PFXst
-	 QVDFwqlNNV9tL7Y5mp5lS569TEVXV4z4rDrQIuiw8mRFoy3/+NaF7uDXLXqt9KRAIL
-	 Fx/mcnGBdU2Og==
-Received: from localhost (unknown [93.187.88.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E368A41A9E;
-	Wed, 21 May 2025 10:19:32 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa
- <akiyks@gmail.com>, linux-doc@vger.kernel.org, Masahiro Yamada
- <mchehab+huawei@kernel.org>, Nathan Chancellor
- <mchehab+huawei@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Stephen Rothwell
- <sfr@canb.auug.org.au>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Some kernel-doc fixes
-In-Reply-To: <cover.1747817887.git.mchehab+huawei@kernel.org>
-References: <cover.1747817887.git.mchehab+huawei@kernel.org>
-Date: Wed, 21 May 2025 04:19:29 -0600
-Message-ID: <875xhugtam.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1747826709; c=relaxed/simple;
+	bh=uTd7GhTLIz5+DxHTwAgNehFyUM7n+s0sXNYes37XIuA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HY73H27GDzR85fb9Yh6QsNQ8hbWftxGV/D9LHDn7R80Yad4O7nZ+yTvT/vYfHW9hT6Wz/dZOBAJmpQlqKoxECGUC/cEjkCOCfOSfW0h6jDRNEma3F1h1q9ofiSDcpgd6bNShM4MAc+4yPHirVlO5iZCL0R+adyaRTPY9wrYgPEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YhCqSeWR; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e740a09eae0so5939602276.1;
+        Wed, 21 May 2025 04:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747826707; x=1748431507; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TXyesZCoIswIbtLJ6qYZr+d21vajyiv4f0JIKWqbSfU=;
+        b=YhCqSeWRHxhlPw/MiYjA1DinJy0/r8ex+I70lMZzbYRTu+pbm5eJEG+Pg+XNBWGOYY
+         8IZRKN0Q8NBbHAmJEBp0F7UetSrj8FldKdpN1yVNLkDaKtYNjcXItlvs+tVnHM2F4xzl
+         GhDrJng4cTjHWJLvRpVsxkZfLWkxs4lcVlZAFIXctUOxE5Ft8rsmzPE8g3lCsS40lynX
+         OunFtoXLwl5Jp8D2Eu7aGMrKXeCN5jF1vSFWP6JEnNUJ+tUGUNfblSh3xKBKdFvWqIXC
+         zEdyPxc9nornLuwC+nGFJv2l5O+5APRfnn9OvSWPp8ddFIld9so8ix6q+QARxI/NMxJX
+         vJMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747826707; x=1748431507;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TXyesZCoIswIbtLJ6qYZr+d21vajyiv4f0JIKWqbSfU=;
+        b=rEl/MnoRPJx9mA8QrelaHFkJIxDXykHrGDmwpujySC1ykeFHsXmaG0e9CEtvazXvjY
+         rU8cxUsyA/1SKzGjpcNedDUam1BIEX/X0bG1KXGHhiLdFqDBHLdlLuEB2K70PcdODGjS
+         tFmKcVpFgiHnO/dAmgcFhk502ZZcyp5rQ0g3DtwvyVUiYxkKlhDrf9lqcN9L+LaGT9J1
+         XOZkbehC7qplHBA24Ff7FpKqXEAQ3XyQtWVVlZYEgaSPrgw9dEzb4Hr+YzqE5iA3jlAS
+         ta0bXySGTwXN1hJXBb/bgmohfnlWcsHJpdm6+b4ydnXtPC5u5hGuucdnT0AE5dVAvA9N
+         3h7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUykLMKtq8Iyh6ZAVJRPCFMRGx49nLjwkIvq+rCSJM3sxKb2wmAWAJ0wlkTtq+V0NYQ32BY4/1ZAGLUoT8a@vger.kernel.org, AJvYcCXKiWvxxcE+DIysIG8JBAk6QfHCxDe+VvKH2Z6OveIgohitHD2ssf+Jz1u0s53pXw8P9ZkvH0Rz3Sea+oE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysEE1rk/XtqnoXtNek0tpLkdLnVQSrGXnnTu/zBGs5SRkavXjV
+	H0nDJELknnUL2nNhVe967p5QmPlE8rFN8W/BkMQlBnveJNLGGXicKZ1c
+X-Gm-Gg: ASbGnculcRapwZK7rD/44lAMAYQvyfSQtBhvniF4vue4wB/KIYd+54ZpHmQSSiVRSHY
+	j0Sz413LRm4OJkUtHaX8Ptjbq0v0WpBQstpQCv0+6yefMKZsrOhJI9PT8g0YKgnSJMN8k8Ymvwb
+	OiZiOv0Xyxd22XpmpNkmc9kLyV9DeEPD+2qOWgT+8K+zBzwJKNPIO89WO31qs8Q0Yhs3jfTt+Nj
+	u2W0UU/gsHPvhJjcYPFkrtyw3jRTgK/4z/v/Qp+vVps+mnHY+b1AwWyYPOEJA6fYz7BKXss7nPq
+	JjRhY2f7LPVRAoETHFWxdiT6wEkobf14HpaCJZGGZ4aHuAszZXv1e2yx6E6+Mrk=
+X-Google-Smtp-Source: AGHT+IFMhLkFOWNu7fR8zHKCoDWQmlmxOBqQStwfNUxXq2aoXa7CkceTeF+6VU8t8r9+DaLwmRvaDQ==
+X-Received: by 2002:a05:6902:124b:b0:e7b:9763:6673 with SMTP id 3f1490d57ef6-e7b97636a55mr16633916276.13.1747826706681;
+        Wed, 21 May 2025 04:25:06 -0700 (PDT)
+Received: from Gentoo.localdomain ([154.16.192.116])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e7b6adaa721sm3928538276.44.2025.05.21.04.25.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 May 2025 04:25:06 -0700 (PDT)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas.schier@linux.dev,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] scripts: Correct the function name in comment
+Date: Wed, 21 May 2025 16:53:03 +0530
+Message-ID: <20250521112425.20218-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Simple correction about the function name to match in the comment section.
 
-> Hi Jon,
->
-> That's the third version of the kernel-doc fixup patch series.
->
-> It address the root cause why Sphinx logger was not working: there
-> was a call there for logger.verbose(). According with:
->
-> 	https://www.sphinx-doc.org/en/master/extdev/logging.html
->
-> This is a valid call, but it doesn't verbose messages. Instead, it is
-> crashing with modern Sphinx versions, causing the log to not work.
->
-> I got rid of it, replacing by logger.info().  I took the time to also
-> address an issue pointed by Andy: not having the same log message
-> placed everywhere. With such change, we can keep using Sphinx
-> logger (which produces colored messages) inside kernel-doc
-> classes.
->
-> With that, we have:
->
-> Patch 1:	makes Lore and kernel-doc ML receive patches related
-> 	to kernel-doc.py and get_abi.py.
-> Patch 2:	cleanup try/except logic and get rid of logger.verbose();
-> Patch 3:	fix a KeyError when trying to acess data from non-existing files;
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ scripts/link-vmlinux.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-OK, I've applied the series, thanks.
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 51367c2bfc21..6ff23a77bf96 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -165,7 +165,7 @@ sysmap_and_kallsyms()
+ }
 
-Sorry for my relative absence through all of this - I've been out of the
-country and poorly connected for the last three weeks; done with that
-now.
+ # Create map file with all symbols from ${1}
+-# See mksymap for additional details
++# See mksysmap for additional details
+ mksysmap()
+ {
+ 	info NM ${2}
+--
+2.49.0
 
-Thanks,
-
-jon
 
