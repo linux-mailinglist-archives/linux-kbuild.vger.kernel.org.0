@@ -1,118 +1,166 @@
-Return-Path: <linux-kbuild+bounces-7206-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7207-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607C4ABF724
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 16:06:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67303ABF780
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 16:14:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 027BB3A10B6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 14:06:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 617E61BA468F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 May 2025 14:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7B814F117;
-	Wed, 21 May 2025 14:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 180EC194080;
+	Wed, 21 May 2025 14:11:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZJosEJv"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="UvgZO2tu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PHH2Z+0c"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BF318BBB0
-	for <linux-kbuild@vger.kernel.org>; Wed, 21 May 2025 14:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76ED1A3177;
+	Wed, 21 May 2025 14:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747836367; cv=none; b=aKQRD0iFV4RP1cZns2EXawxo8mgl2bv4vtovVY6s4B1n8p23BA6z3yAm2M7JHJkcRXEKVO9j8rWwhTy20vPWd3DAvAVPKjzg5BCw2QJnvP4EB/gF9A6w/1JUhfIdQG3m0wh4b3maGeI9mlmovFOEzHrXSWM/+NK+xz2Bo0J0xR4=
+	t=1747836701; cv=none; b=eQaM6kh2sqdcqBIAqZ3VElCpx0gjuD5jYIBt2+LklWJW7Ws/WrSee9y118SUcyVi9hpcBhsxU8uurkSTxlCTOs/mrWrg8bHzSB7jBBrhhgliQRpC5AjH4OdaAdIwDjprJ5dUJcEM1fHn3ILTHd5+rxupfv0iH394RZWaYDCcfzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747836367; c=relaxed/simple;
-	bh=hFL2ujEDC0/s9FC+jBgqp1Pu6tyNrz9PxLzmZTyHSTo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oJHYFN05xRho3j6FukFYzF/GnamLYZUj40eeqmzmx/drJ6d2RY2MRmSe3TQoZOjVTiQG0Iaa96jOi5HXl11hzJoRldwbempufEhTByEws6g+UKezDeQi+rsnR0bfLbZ1rspgpybbz+pPivy4bqh7hHlM4eD9Ed8x5qIWOQXzYBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZJosEJv; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-232054aa4ebso33855515ad.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 May 2025 07:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747836365; x=1748441165; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a0D+OBx+qbfyLpoP20h2tdqwb3jyc+nYmjgOaV1nr5g=;
-        b=IZJosEJvVFPnNXaCPOOOUMLRioFflDNVfxoAMo1AAH+57S/UciW+vXoE6iW6Fql2wP
-         ioPgZ473i6Jqe6UykuYEJT8fsaR1xccH9bQU7+h0JYcOAbekojci8ia4YjlsxGN7NUyH
-         d9zWzhuUf8fKu507Q9SItexH9bRfRsTh74rwF8dWZHx9QyI78ZGTtZIS0oLVc22RmMGw
-         hchYuMXVtPyNKzO9hlpY64fnTweN/insBSGePnW86vaXrLAXG/yq2Z8UWLuJGJJ2D+mw
-         0RalHs3Dczt4JIPxc42Lv/v8Qnmn0jY39DpUobmIQ421T6241ZN2/joBsGHlldW7k4vM
-         s6YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747836365; x=1748441165;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a0D+OBx+qbfyLpoP20h2tdqwb3jyc+nYmjgOaV1nr5g=;
-        b=GqAH4hQS5PXxpo/L656iWdFYLPyN0L3CxCm6NnbfLW4YbcIVArDUq3ljFzAIQQK77n
-         SLwbG3yUR+kRecqN5sNxnRlZZuVRJNNl5MRiXaPmVUE8A3s4I7hTf8/lDlD69vNr+Vhn
-         jWA7ntA3MeWlDe8N/f940zqfSDWShc9nJNz0ln4p+BeZgqgDHM+TsKCaW1fIOlr88kEi
-         RX69i1zk1c7HHrKnTSuFs4ZTR8sPXNIPELL2afhgYvFG9rrINCUWC824q63Sny4uQVK3
-         XxV1kPRWq8hSyBN64d+veiuqxe8dRU6INHx6DGmahvvd0n37SRbOBni5DzkjIYXXeHSZ
-         Wowg==
-X-Gm-Message-State: AOJu0YwnSaIzjV0TroDfkwWSuCz1XX85LLkcOGYx4CguUjF1Dq2jXSe9
-	EHf6j6U3yjIy/cI6j8f+yMaSmqSQD6KWaHH04D1cDDeR89s+VwQXSbDyeWRFcjSD
-X-Gm-Gg: ASbGnctRunac1HGAK+Z2jABp1L+eJAyIrEUe5B0CfPJu9ApXftibuJ7LhzxGh4X7gKS
-	nNczG/COE9pE+Y2Dw9VHreqwoKugGAMmdI4xdW8halEe2JoOrHi33LYFUVBEFrSlVd5/tLk7v3E
-	1QrOPpOrF8O/9KHNpzSHiaECIc8M3tEH/AwZyL6YsVXWVDQu2R84rE0YZOTuFaHlSQgJPWYchRq
-	VtTsxLbOCnmNf1RtxsPSZN5+2G+t6mcrjwQZ7OplPzt/5uNT2k9psNMKZMNW+jXA4jqt1lVnfJb
-	O7rKkD4LY73n0yamsbBr+w2y8vk5E659Eabku4I41d1nGJKDq7KRINJezNWGKqXQasI=
-X-Google-Smtp-Source: AGHT+IGZ86dZEM6TtFaNaWkZYHkphvdwC893FwIQG+ozIbf+NqbM5vQZXc88JuM6WP/8vuTKeMXbmg==
-X-Received: by 2002:a17:902:da86:b0:220:cb1a:da5 with SMTP id d9443c01a7336-231d4596c6cmr314162295ad.40.1747836365073;
-        Wed, 21 May 2025 07:06:05 -0700 (PDT)
-Received: from shankari-IdeaPad.. ([103.24.60.247])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4ed276csm93164275ad.229.2025.05.21.07.06.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 07:06:04 -0700 (PDT)
-From: Shankari Anand <shankari.ak0208@gmail.com>
-To: linux-kbuild@vger.kernel.org
-Cc: masahiroy@kernel.org,
-	skhan@linuxfoundation.org,
-	Shankari Anand <shankari.ak0208@gmail.com>
-Subject: [PATCH] kconfig/nconf: Replace deprecated strncpy() with strscpy()
-Date: Wed, 21 May 2025 19:35:54 +0530
-Message-Id: <20250521140554.3551487-1-shankari.ak0208@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1747836701; c=relaxed/simple;
+	bh=Y9XHxQdDuto4VFvmv60457dHtHcsuL8SXMzckPVOcq8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=OH/NzDYhhnMrWa5mXxt3AC+nMhaUQ282l7fIPYf0bhuFOdcQ6hpNbSRoBXw3k72mDI+XslowLZs4PXsOxEjGEALvOzxU7PnVSqK5OSACO+Vpvr53EfgDieHBFVyE8Bl1Z03Y7C9WOaE2s/djc7ovvRnDu/8N0wfIz2sRy16qq1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=UvgZO2tu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PHH2Z+0c; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id D28781140115;
+	Wed, 21 May 2025 10:11:37 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-05.internal (MEProxy); Wed, 21 May 2025 10:11:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1747836697;
+	 x=1747923097; bh=HWI5tsYR82od73rLR1d73ZRHNmjGxzPzzskX0QA3T0s=; b=
+	UvgZO2tuvBQw0TC0wLcBMbIaCmRLaSFsHa9/dTz5feuYKCBVr2qs9zTLlOteaAiD
+	AnK0QeKl55BD1Cc+2oP3kjHyd0XO0n/gE4GvWixz+NrDkPRg7/oBuupv7RyfFNWM
+	z6ufvltMUieFZn6MSUmykUgK63xgRebVTFFiZJF48wnrX52ZGDNxMDfy0ssCmiNa
+	wjpc4aDVg8LBW5n4heQX6Aj4jiyhinE3JOwFuW/MOjC6aj4z4yKCazndrFcRAn30
+	WI4RpC7pU4u604aaj3vA2lQWcfSWJgJiLn5H8a9e891M9pCoSWrkuD8uysJEL8Tl
+	rJr5o8jiVVX5J2PlCvMzKg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747836697; x=
+	1747923097; bh=HWI5tsYR82od73rLR1d73ZRHNmjGxzPzzskX0QA3T0s=; b=P
+	HH2Z+0ctNahlhotZlDeSc1bTLxfrVE4EcA+rEHwZy9z3TSz2EgCo1osS0T0ypwfE
+	qJAIakV2j6kf4UC7/gpjXi8cxucb3HodxJIqCeUdnlOBxCQ1sPsGJlOiJLs7lkXZ
+	OGCM0KEA3niKf1i3MhrjKTRLroeIsgPX++HWC/eTtFi0mkwbY+lbd70pZOZMUpBQ
+	d1m46EH5u/thhMIqmD4ehuC5qge2C2j9xK/dmwy0gIZMjjV7cf+rOQX8HidRlJZg
+	XsYFnKKJB00Bqy0isV3JyrsLId2I9j3QMF4wowQHPgJm5dVA3ZdT8Y9o9f19aNKC
+	7O/rY3DYjJPuyDrvGBP8g==
+X-ME-Sender: <xms:Gd8taNJRtpAdQ1fn-VeX5nac47719thOgFLRag1XBeSrdxlOyv0erg>
+    <xme:Gd8taJKesTwfbHvYI8A1xdnyFnZ9agrTWGaukmHKpGYOew9OozAxVXfqWXw9dwwhd
+    yGvEscWXCy0BtXYisQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdefvdelucdltddurdegfedvrddttd
+    dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgf
+    nhhsuhgsshgtrhhisggvpdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttd
+    enucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgj
+    fhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuc
+    eorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnhepvdfhvdekueduveff
+    ffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleejnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdp
+    nhgspghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrnh
+    gurhgvhihknhhvlhesghhmrghilhdrtghomhdprhgtphhtthhopeguvhihuhhkohhvsehg
+    ohhoghhlvgdrtghomhdprhgtphhtthhopehglhhiuggvrhesghhoohhglhgvrdgtohhmpd
+    hrtghpthhtohepkhgrshgrnhdquggvvhesghhoohhglhgvghhrohhuphhsrdgtohhmpdhr
+    tghpthhtohepmhgrshgrhhhirhhohieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnh
+    grthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmmheskhhv
+    rggtkhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhioh
+    hnrdhorhhgpdhrtghpthhtohepnhhitgholhgrshdrshgthhhivghrsehlihhnuhigrdgu
+    vghv
+X-ME-Proxy: <xmx:Gd8taFsIEC4GZHg5Hu8aA7VK2AQdHWupCHisjiHUC3T0zlNw_s2Ngw>
+    <xmx:Gd8taOa8HOf2g3NcRGP0_xBQfcS9_TSIBx7K163Y20Yr9_0EAxZp6w>
+    <xmx:Gd8taEbWPg1yILveN5vwcjTQY_Ex6Ob0CL8hRXtBlz3DivwI3SnrEA>
+    <xmx:Gd8taCC8stVoZjthgL3MSSmcYhqAY8sFJ-iTkMYG3TfDeLI_3diEsg>
+    <xmx:Gd8taK__j3JZ5GSiiKeqVDaDJGlTkAZ-3rraLt143UlbS8opPORdVkoQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 32C301060060; Wed, 21 May 2025 10:11:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: T2ad347d80e1d0ee9
+Date: Wed, 21 May 2025 16:10:47 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Alexander Potapenko" <glider@google.com>,
+ "Linux Memory Management List" <linux-mm@kvack.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>
+Cc: "Nathan Chancellor" <nathan@kernel.org>,
+ "Lukas Bulwahn" <lbulwahn@redhat.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nicolas Schier" <nicolas.schier@linux.dev>,
+ "Andrey Konovalov" <andreyknvl@gmail.com>, linux-kbuild@vger.kernel.org,
+ kasan-dev@googlegroups.com, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Lukas Bulwahn" <lukas.bulwahn@redhat.com>,
+ "Dmitry Vyukov" <dvyukov@google.com>
+Message-Id: <61db74cd-2d6c-4880-8e80-12baa338a727@app.fastmail.com>
+In-Reply-To: 
+ <CAG_fn=XTLcqa8jBTQONNDEWFMJaMTKYO+rxjoWMHESWaYVYbgA@mail.gmail.com>
+References: <20250507133043.61905-1-lukas.bulwahn@redhat.com>
+ <20250508164425.GD834338@ax162>
+ <CACT4Y+a=FLk--rrN0TQiKcQ+NjND_vnSRnwrrg1XzAYaUmKxhw@mail.gmail.com>
+ <CAG_fn=XTLcqa8jBTQONNDEWFMJaMTKYO+rxjoWMHESWaYVYbgA@mail.gmail.com>
+Subject: Re: [PATCH] Makefile.kcov: apply needed compiler option unconditionally in
+ CFLAGS_KCOV
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The use of strncpy() does not guarantee null-termination and is deprecated in the kernel.
-This change replaces it with strscpy(), which ensures null-termination and returns a
-value indicating truncation.
+On Wed, May 21, 2025, at 12:02, Alexander Potapenko wrote:
+> On Tue, May 20, 2025 at 4:57=E2=80=AFPM 'Dmitry Vyukov' via kasan-dev
+> <kasan-dev@googlegroups.com> wrote:
+>>
+>> On Thu, 8 May 2025 at 18:44, Nathan Chancellor <nathan@kernel.org> wr=
+ote:
+>> >
+>> > On Wed, May 07, 2025 at 03:30:43PM +0200, Lukas Bulwahn wrote:
+>> > > From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+>> > >
+>> > > Commit 852faf805539 ("gcc-plugins: remove SANCOV gcc plugin") rem=
+oves the
+>> > > config CC_HAS_SANCOV_TRACE_PC, as all supported compilers include=
+ the
+>> > > compiler option '-fsanitize-coverage=3Dtrace-pc' by now.
+>> > >
+>> > > The commit however misses the important use of this config option=
+ in
+>> > > Makefile.kcov to add '-fsanitize-coverage=3Dtrace-pc' to CFLAGS_K=
+COV.
+>> > > Include the compiler option '-fsanitize-coverage=3Dtrace-pc' unco=
+nditionally
+>> > > to CFLAGS_KCOV, as all compilers provide that option now.
+>> > >
+>> > > Fixes: 852faf805539 ("gcc-plugins: remove SANCOV gcc plugin")
+>> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+>> >
+>> > Good catch.
+>> >
+>> > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>>
+>> Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
+>>
+>> Thanks for fixing this!
+>
+> @akpm, could you please take this patch at your convenience?
 
-In this case, padding the destination buffer is not necessary since the string is used
-in a UI context as a null-terminated string. Therefore, strscpy() is a safer and more
-efficient replacement. See: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcpy
+I have applied it on the asm-generic tree now, as this contains
+the original broken commit. Sorry for missing it earlier.
 
-Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
----
- scripts/kconfig/nconf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-index c0b2dabf6c89..67ee33fe16ef 100644
---- a/scripts/kconfig/nconf.c
-+++ b/scripts/kconfig/nconf.c
-@@ -589,7 +589,7 @@ static void item_add_str(const char *fmt, ...)
- 	va_end(ap);
- 	snprintf(tmp_str, sizeof(tmp_str), "%s%s",
- 			k_menu_items[index].str, new_str);
--	strncpy(k_menu_items[index].str,
-+	strscpy(k_menu_items[index].str,
- 		tmp_str,
- 		sizeof(k_menu_items[index].str));
- 
--- 
-2.34.1
-
+      Arnd
 
