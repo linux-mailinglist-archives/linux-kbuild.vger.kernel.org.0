@@ -1,234 +1,111 @@
-Return-Path: <linux-kbuild+bounces-7214-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7215-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35777AC0407
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 May 2025 07:33:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0537EAC0575
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 May 2025 09:17:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 612491B641C7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 May 2025 05:33:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2D1F4A4D48
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 May 2025 07:17:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12BA1188580;
-	Thu, 22 May 2025 05:33:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ADFE1DAC92;
+	Thu, 22 May 2025 07:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nUPdWyGb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c/HExBbR"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94D864D;
-	Thu, 22 May 2025 05:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11996176ADE;
+	Thu, 22 May 2025 07:17:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747892000; cv=none; b=HFQtD1bXehPLBEiG9f/y4j8Sh+bMaxAQ7IeVwwgZvVobhmj3NuUSBmgIO4dW0nLbK1sSDK/1fHaUWoM8eFPKA3oo5tdm4rit+WPpSXTH64r89rgC4K8+Q6WTUdGmeoU9cvl8CF373C8JjJUUeWyBAlaeeM6LpQrhFbb9yRVEicc=
+	t=1747898271; cv=none; b=AOztbt3YXtY3puw6aQXHtXHDYlOMTfpLd5daO2nI/F12JkCO0TM5ohllybOOtXYy2zI/3VnBV9m/6nM16YIrgFTekVBM+bEHbQMgJyaGJXByuaMzTYiTWwNqw28CHTbS7T8uxZIxYOvtBweGafb2+ekUzu13nTTfuO9R5SUcKiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747892000; c=relaxed/simple;
-	bh=P24lbx1zgSXstAP68/dvihvlSpdqP8saTMnnzUeHzks=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dbsGWxVMbTmL7yxy/WZgJ0lccyEB35rY24/YtsqjJbebfAM0fyO/F+GNJFWStqoXTIFXAi88iVy9M9UKF8a3PSQ4L2nD4lGR3I5yFU+4JuTeFalxtrHK22c7wc8yey8o2IngLLk5BlDlLuy66EP7mfTCXrBnxIkLmmvuI2KK7j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nUPdWyGb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC91C4AF0D;
-	Thu, 22 May 2025 05:33:19 +0000 (UTC)
+	s=arc-20240116; t=1747898271; c=relaxed/simple;
+	bh=2molLP2ELmkImS8AzK2bLFsj2uDwj+GneJ39C7PQ3kI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GdBk+QuL7Y0+nXsu8vHtpPm0OAptIb0xu9BaSJ2B8zxFGQ/YNIZDNxFkMs9ZpTF6oZ7dG7YDLoiEaqAzqm6arNJICIgl7ZbEM/qGUfnK4sF/iR6IXlUJ2lkq8m7Dz7eFR9/IT2emZRDPKLypeHe48sigZNbv2Lcp+T+dPboZSp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c/HExBbR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3485EC4CEE4;
+	Thu, 22 May 2025 07:17:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747891999;
-	bh=P24lbx1zgSXstAP68/dvihvlSpdqP8saTMnnzUeHzks=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nUPdWyGb3LvlLl+r0+6L07iTbKEPBDhKmvTNTKqqInxT4D1mbnWgeOh3SMlSqswmK
-	 I95SSXEkzyl6MDGk196qAES8rb+sGH3Ru7AG+5urxqr17Y7ycBxaOvIEBQyMNsKxLy
-	 s/Ncgr04/cTseg4dbMeDLV8YwQV04Iz+bqj4uBZs+ANZL3nbZA84d8GSPD0YB0HPDi
-	 ILzMQosQBo8TNsfKIvrXhg9E0A8M//BsSIpdaVxdZ0iBvC6TSIBnshq/7XeLn6Hmzz
-	 /ezmmKFUHTcdi9G9hiFlT+vvaLD76w5hhaDGJtgfM/X1RKB8R1Abcnk6lPxQMWZ19K
-	 zoQojH8WhWyFw==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-549b116321aso9077969e87.3;
-        Wed, 21 May 2025 22:33:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUe/S3jjk3OmGMyxfgpRx9+09Q1haotKJK3tcaXalvY4+hztiiDloy6FELrn03/bShV51jkZI82Uj26wvlw7A==@vger.kernel.org, AJvYcCVZcuZ+QUX8OqDY8aePd9wlOwinP+PyWX77DvI7meNumoGunlAJpSK7DsKT8AOQW9jl2/Q4sV/faT6sMZ+j@vger.kernel.org, AJvYcCX+qGhibwdelQPg0Y08HMHFSw8cHU9BO1A6MbEt5Kp5GiE+gGe0qFEuurKFFJHDbM1mQ3Kpz0KSBdKtAb4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzS3sz28PvYivgPHr+iLzWg3IM56GjuQuTatQzlgKdAA5N9cK9+
-	ocYtdrxryvgFrqGz+EPKMC3kZfpVseGacHlTRkC8UBbUXS2MYvNeWT94cJjvCYF4ESp/NNo86hY
-	8ssmKN51B6TDxJLpajiCcLwr+EkUP+fI=
-X-Google-Smtp-Source: AGHT+IHZDqyLJOXkrXwS8eZ8I6oDLQP+Gs406Hx8xuUtIdab/wBLCO38obO2SVga2NYSJ4Jj8SVv+RPFCufccVL6kAs=
-X-Received: by 2002:a05:6512:22d3:b0:551:fe53:3c8b with SMTP id
- 2adb3069b0e04-551fe533f05mr2659636e87.31.1747891998020; Wed, 21 May 2025
- 22:33:18 -0700 (PDT)
+	s=k20201202; t=1747898270;
+	bh=2molLP2ELmkImS8AzK2bLFsj2uDwj+GneJ39C7PQ3kI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=c/HExBbRI7+DEpwuPrvym+grc3HzKqS69HvXuCSbblBkntosULw2JF8/CEPw+7Pk0
+	 l2QvMqRXjgKaXzsP47pch//aYP4XyCo8f7Ph1tZE2WQtbxRD+z5oNnlx4ZpfKmqN7d
+	 aY+Fo6k8c2XUGgkaHwSzaw9A6FkjxyYAfVVKkrg+S+I63Ja2k1v9jtUx9zWQ3WcJUv
+	 9i4bfP9tI7/Zjdtm1F9D/Gkk4AWYIJOzCrQ/k7Y3n4/UGDS7LlblGywjc195kx49Gr
+	 rSaA6NyHOeZGsBqPa/mn9vJYnz7VIEPNudSviG7Wf3yxoMRtopJUD0BKVeUiUNb19r
+	 V4ghn9RsSt7cQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Subject: [PATCH 1/3] modpost: check forbidden MODULE_IMPORT_NS("module:") at compile time
+Date: Thu, 22 May 2025 16:17:20 +0900
+Message-ID: <20250522071744.2362563-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502141204.500293812@infradead.org> <20250502141844.154517322@infradead.org>
- <CAK7LNATHQ2b3mA0rYM2vX0-6BwOEj4tU_MBQ9FNa_uZ9_q17zg@mail.gmail.com>
-In-Reply-To: <CAK7LNATHQ2b3mA0rYM2vX0-6BwOEj4tU_MBQ9FNa_uZ9_q17zg@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 22 May 2025 14:32:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASykmj0h3Tvf-XFjZYj33X0M_Wnr4ZLdtom5G5dKt8inw@mail.gmail.com>
-X-Gm-Features: AX0GCFvvDrMlFoBVlFW-M_iEI03ghj4UNiRPVdSKqaRJc2Ze7WRSHeRousCmMoU
-Message-ID: <CAK7LNASykmj0h3Tvf-XFjZYj33X0M_Wnr4ZLdtom5G5dKt8inw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] module: Extend the MODULE_ namespace parsing
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: mcgrof@kernel.org, x86@kernel.org, hpa@zytor.com, petr.pavlu@suse.com, 
-	samitolvanen@google.com, da.gomez@samsung.com, nathan@kernel.org, 
-	nicolas@fjasle.eu, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	hch@infradead.org, gregkh@linuxfoundation.org, roypat@amazon.co.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 21, 2025 at 9:08=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> I think the patch subject is stale.
->
-> MODULE_ was the prefix in the previous v2 series.
->
-> Now, the prefix part is module:
+Explicitly adding MODULE_IMPORT_NS("module:...") is not allowed.
 
+Currently, this is only checked at run time. That is, when such a
+module is loaded, an error message like the following is shown:
 
-I will apply with the subject fixed, as "MODULE_" prefix does not make
-sense any more.
+  foo: module tries to import module namespace: module:bar
 
+Obviously, checking this at compile time improves usability.
 
-"module: Extend the module namespace parsing"
+In such a case, modpost will report the following error at compile time:
 
+  ERROR: modpost: foo: explicitly importing namespace "module:bar" is not allowed.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/mod/modpost.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
->
->
-> On Fri, May 2, 2025 at 11:25=E2=80=AFPM Peter Zijlstra <peterz@infradead.=
-org> wrote:
-> >
-> > Instead of only accepting "module:${name}", extend it with a comma
-> > separated list of module names and add tail glob support.
-> >
-> > That is, something like: "module:foo-*,bar" is now possible.
-> >
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > ---
-> >  kernel/module/main.c  |   36 ++++++++++++++++++++++++++++++++++--
-> >  scripts/mod/modpost.c |   36 ++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 68 insertions(+), 4 deletions(-)
-> >
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -1083,12 +1083,44 @@ static char *get_modinfo(const struct lo
-> >         return get_next_modinfo(info, tag, NULL);
-> >  }
-> >
-> > +/**
-> > + * verify_module_namespace() - does @modname have access to this symbo=
-l's @namespace
-> > + * @namespace: export symbol namespace
-> > + * @modname: module name
-> > + *
-> > + * If @namespace is prefixed with "module:" to indicate it is a module=
- namespace
-> > + * then test if @modname matches any of the comma separated patterns.
-> > + *
-> > + * The patterns only support tail-glob.
-> > + */
-> >  static bool verify_module_namespace(const char *namespace, const char =
-*modname)
-> >  {
-> > +       size_t len, modlen =3D strlen(modname);
-> >         const char *prefix =3D "module:";
-> > +       const char *sep;
-> > +       bool glob;
-> >
-> > -       return strstarts(namespace, prefix) &&
-> > -              !strsmp(namespace + strlen(prefix), modname);
-> > +       if (!strstarts(namespace, prefix))
-> > +               return false;
-> > +
-> > +       for (namespace +=3D strlen(prefix); *namespace; namespace =3D s=
-ep) {
-> > +               sep =3D strchrnul(namespace, ',');
-> > +               len =3D sep - namespace;
-> > +
-> > +               glob =3D false;
-> > +               if (sep[-1] =3D=3D '*') {
-> > +                       len--;
-> > +                       glob =3D true;
-> > +               }
-> > +
-> > +               if (*sep)
-> > +                       sep++;
-> > +
-> > +               if (strncmp(namespace, modname, len) =3D=3D 0 && (glob =
-|| len =3D=3D modlen))
-> > +                       return true;
-> > +       }
-> > +
-> > +       return false;
-> >  }
-> >
-> >  static int verify_namespace_is_imported(const struct load_info *info,
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -1682,12 +1682,44 @@ void buf_write(struct buffer *buf, const
-> >         buf->pos +=3D len;
-> >  }
-> >
-> > +/**
-> > + * verify_module_namespace() - does @modname have access to this symbo=
-l's @namespace
-> > + * @namespace: export symbol namespace
-> > + * @modname: module name
-> > + *
-> > + * If @namespace is prefixed with "module:" to indicate it is a module=
- namespace
-> > + * then test if @modname matches any of the comma separated patterns.
-> > + *
-> > + * The patterns only support tail-glob.
-> > + */
-> >  static bool verify_module_namespace(const char *namespace, const char =
-*modname)
-> >  {
-> > +       size_t len, modlen =3D strlen(modname);
-> >         const char *prefix =3D "module:";
-> > +       const char *sep;
-> > +       bool glob;
-> >
-> > -       return strstarts(namespace, prefix) &&
-> > -              !strcmp(namespace + strlen(prefix), modname);
-> > +       if (!strstarts(namespace, prefix))
-> > +               return false;
-> > +
-> > +       for (namespace +=3D strlen(prefix); *namespace; namespace =3D s=
-ep) {
-> > +               sep =3D strchrnul(namespace, ',');
-> > +               len =3D sep - namespace;
-> > +
-> > +               glob =3D false;
-> > +               if (sep[-1] =3D=3D '*') {
-> > +                       len--;
-> > +                       glob =3D true;
-> > +               }
-> > +
-> > +               if (*sep)
-> > +                       sep++;
-> > +
-> > +               if (strncmp(namespace, modname, len) =3D=3D 0 && (glob =
-|| len =3D=3D modlen))
-> > +                       return true;
-> > +       }
-> > +
-> > +       return false;
-> >  }
-> >
-> >  static void check_exports(struct module *mod)
-> >
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 16a69a129805..5ca7c268294e 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -28,6 +28,8 @@
+ #include "modpost.h"
+ #include "../../include/linux/license.h"
+ 
++#define MODULE_NS_PREFIX "module:"
++
+ static bool module_enabled;
+ /* Are we using CONFIG_MODVERSIONS? */
+ static bool modversions;
+@@ -1597,8 +1599,13 @@ static void read_symbols(const char *modname)
+ 
+ 		for (namespace = get_modinfo(&info, "import_ns");
+ 		     namespace;
+-		     namespace = get_next_modinfo(&info, "import_ns", namespace))
++		     namespace = get_next_modinfo(&info, "import_ns", namespace)) {
++			if (strstarts(namespace, MODULE_NS_PREFIX))
++				error("%s: explicitly importing namespace \"%s\" is not allowed.\n",
++				      mod->name, namespace);
++
+ 			add_namespace(&mod->imported_namespaces, namespace);
++		}
+ 
+ 		if (!get_modinfo(&info, "description"))
+ 			warn("missing MODULE_DESCRIPTION() in %s\n", modname);
+-- 
+2.43.0
 
-
-
---=20
-Best Regards
-Masahiro Yamada
 
