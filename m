@@ -1,148 +1,134 @@
-Return-Path: <linux-kbuild+bounces-7250-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7251-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED25AC2CC2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 May 2025 02:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1E5AC2CC7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 May 2025 02:49:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 444E24E5F5A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 May 2025 00:35:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 442C1540FE1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 24 May 2025 00:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76EA2167DB7;
-	Sat, 24 May 2025 00:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A0551C84B3;
+	Sat, 24 May 2025 00:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="y8zr+2VT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TS6R/Nnd"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EA4AD23
-	for <linux-kbuild@vger.kernel.org>; Sat, 24 May 2025 00:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2B441C71;
+	Sat, 24 May 2025 00:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748046943; cv=none; b=exh2dqnUDmggqFewqnpGfCRZifYQAcIRKUH4vHsujKtJMNFgRh4WxcEqlC+KvZH+ntV8fCgFU3OanBsK1BkA3CQnNgru1DKsjv6cvw8p18l3161B0sdSa5QzPR9RpvdwxDzRB+PxAkx+DOzAnIkMWAsYhtA8ckKPhjBhxwYhTiA=
+	t=1748047754; cv=none; b=SmghQnTTSJgkR71b72pWHoRDthmUrnK8xXKNybjrnfeCZYcEzkmGgQ1+lzhQ7zza+EJhs4ZQef66NeaMPBNJSvTXoMxyZ8elAnLyefnxy/SfOgTVGz1YqaQwGLuJAEIpeA9Vcf8JMnq/54n7PVYmF5fx9MQ+ruKVMeSCpaahUD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748046943; c=relaxed/simple;
-	bh=zYGyIK9NVY/25bRw2E3+fN76lGbRzZz30IN/ZoYMvIM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hUxKVbpNjReyz7ModBVqosXl3//yRkyZaac1b9zyE+TybhAnNR/QYVMd9r+EilW3rQADBNoRPrlsZfrEs6g10zZOMydiyV+72CS3wnJ6UE5oXIJIPGRMFz2sumPKihbAVFko3OSn70kMO1UO8pLspvaF92eDdnlmrYMLLQThVKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=y8zr+2VT; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso57038166b.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 23 May 2025 17:35:41 -0700 (PDT)
+	s=arc-20240116; t=1748047754; c=relaxed/simple;
+	bh=xSvxiBLso91jGsngxigLpcK9seComB2lnzzpkTzcFms=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=TcHbf9PYNMfIxAE6z6qdxiavdzJQx/HkgVr6eRviz6EjRrAbsZHr9r9TTWdQroxTttfqbnVe8XymupmHZrMm1G+992xNJPa4W2NrB+bPgfJr/k7zr89WsOU0K9ZDmCy5/5dyUZFpdm2WesJEy8CezidawPd5A3mDEm273Qq3p5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TS6R/Nnd; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3feaedb4085so317404b6e.0;
+        Fri, 23 May 2025 17:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1748046940; x=1748651740; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0myy5A0H8CZ/tHTIcBrkkpPXZ1U3g2SY6VD7SEMtej0=;
-        b=y8zr+2VTlK356YLRKIx/I4w4EB7+dxnZ+tpQSgZlJNJ3w5DyfNzWMFaGc7x+FoZgvA
-         y1WxQNfkHpgilOjV5p0O1nyfPSFo1WmVKUxTkpiVsAAL0uBzA7E3d3/9Olx9mPwr+lbP
-         Tz0QzrpQ2I1vvFZo3zCi8FGEG7BtWJ+DCmIn5F7OBIetgxu9OMDdk/MQXL4Ggh1YcsmY
-         c/WMrxA6F1QVSzSHSz3G5URRTFWp64rg4Jp7HV6nk7r0BgRuqPoyGQb1EiGFe6qf28jN
-         oLyfAKz1GSaiDIF6f9kxUQyT3dSll7k9IRbn6VMuPmlJa79zmIj/FoZA6vBBrPq+0Uvc
-         YfMA==
+        d=gmail.com; s=20230601; t=1748047752; x=1748652552; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+6db6paId9+GbKHHJChm9bnYXe9inpg043b90OKEyOU=;
+        b=TS6R/Nnd0KfpN8PxxgbXUH8tgBlmpTCI16zdi4ewKdfgFRZE/duYYhYXkEX4ESAP/j
+         LTVkoCxR+YJXBprTrwei+qeUmcgCViOpD/Uhb7wXe5+n64LQjUGPCVEkRC1mHPwxEEQ7
+         f49To25qUM/kumcw3/DcyY/IBWPI6c7i1lizJgE9FAzsl3j1I3bjxgGdDQCZtsS4498P
+         ZJWU2OkFpm8EtY2oqlqOG3VLaF6prvF3ESEGunM1wMacfectfzrGiTsIH6lQh+jtaafE
+         StyZczDNPEhhb9zXmqOLOzEnTL+TBCGDnNxozlDBFgKrJrx/MRvxzhy2jOoaZhuCLPsx
+         j9IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748046940; x=1748651740;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0myy5A0H8CZ/tHTIcBrkkpPXZ1U3g2SY6VD7SEMtej0=;
-        b=tKtpEB96XKpcVN8SwiHOjJziI7nanJn4rJsNPxhlOqaWZ64/PSt1bGxdbpheWvr42N
-         kRYb7HdKDKcQyWuGNrfX/NYE92KPsR1lYeG7qhtVuaZdiCRZbWU0XhKROosn1qBuQb4/
-         uulyYKR9auUJVFJpNSrw721WzkVzKbtcMHrnhJNP71F7OFrrf+Gh5cncLyAWfjqtpaPt
-         EDXbwFqhfa3PVpgdDmMRx/BbrJCpmHYQ4kScPjl7ZSiEcivxZGUZMeEo8ncxrq2CTToA
-         IOSpCLpbN8bhDFFoLoey+Dz8UPLMZeM2nTTazw0ApL+lRzKCnOBIFi+PvCy+5nUslHhl
-         YY7w==
-X-Forwarded-Encrypted: i=1; AJvYcCXpKLSK3QZJB4KnaVPbeuoxgMhCNSOBws7vkzfGT6N1jsmMLsGH9DVNPLnduUMs8SzcIwxiqeHXK0OZ6fE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUFZRekS9wcG8H7T3wxH4va1Xherb811X/bOmhRi89O2DRPfSg
-	UhYfz6F1JpkbUdbHEuwTNBc7dt3pPXkES2dfXHIO+IUbwceMco5LHLyBSlb90Wm+4NF8E7eN4r4
-	/Twyo1wykyAVvz2JrYvIy0HnNNgRk5c7g+ZhCawM=
-X-Gm-Gg: ASbGncvyJdHLTyewDXvI3Sv0wsxg/57PYm46rz+Smq7NeT9NCiyOF/2AJTH6CqpgWnS
-	1WAWV5M8zdDqi+vokVJJfoRXWWYFM3FQTHfCzINrBiOM7KlQT832NuDB7aunZYdid1dbXWJMKXJ
-	QGVitIrBbaVpfz7hhS2qwNhHO5cWn+NZ0dCSwUlr/hEEijC294uhA=
-X-Google-Smtp-Source: AGHT+IH19xqd0tlHmy23sQkbaDTtvVOEjv+V8a3crAU7xcBuKeF+Hm0/MGHLQd7t1JJNK4xgTN2tD4Kxp7eJLOcQxfY=
-X-Received: by 2002:a17:907:96a8:b0:ad2:3f1f:7970 with SMTP id
- a640c23a62f3a-ad85b0b290dmr101017666b.2.1748046939805; Fri, 23 May 2025
- 17:35:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748047752; x=1748652552;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+6db6paId9+GbKHHJChm9bnYXe9inpg043b90OKEyOU=;
+        b=rtdmR34q38ejgyp9cFHxQwSdlj3lYe5D3oLcxd+P7H/ZI+8eRCojKielxYTGxOENQD
+         jmFUWkv1JLJmjqBoe6oJ4H9SeInNjI7qRZ42toWOKfaMy5DPH635dBLZbKHum6/R2Vsv
+         OuNSHhQo1Nhz2z0jJuDWxsuynslBPsEPPNUQyD4xKNIBhrKP072EXhPGPCRy+QrfeOuU
+         OWWeC3lzb7Rx2nQVPUS7ceA7meYneLh3pm3hnIsP5UD9yXoAY7c4GpFxiTMFqn3lLqC2
+         4JP99NTlQR7r2NL8lWNAwGeSnP/CRSEHaWP7CziRlWH5N7swotiAL+xkr1zcwtItVctm
+         a6Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCUv9gAiM9KRuvFRyV86d2e1hlgbQJ3WcQkssCzwgLSfgR6mdlVFxPfd+mlnfJl0Oh7Fe4g2bOeOM4lWZWo=@vger.kernel.org, AJvYcCWrfMyMYMu/aSD0G/AoUbU7N2AIOZy5+t/UCHOjpl+mZkILM+NuSU/exgbuPX6Ij9/SbNbyBvuMXaOBpJnR@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAIMe7jtETT3LpfwDswMrfyI32hK7JJde6WpoT5Ffx66oiQn/F
+	E43/ZjHK51piAvGJVyAwdgm4vLeLdCG+xRd4dOM59DtAzgOUXb+Tb46g
+X-Gm-Gg: ASbGncvq4Z4kbJJOMAT8FSiHWRUYeHQ6f7bDhhQ0A/lrHf0lGdop5BCM4psxfsWI0pT
+	Qv/5N2WW50/k1B8A3pm2mwykvtT7Qjr6ntS0zYUKQ/LuQlGBBWCZKSIpRt/zaY01dA12EFvX7bB
+	IWjEVFkvrD+anUB5HZEwxCKGvE5kb64SBuzlmd5ttv4YiOhUOBkVpjKDx+mCzbwJqzl9jKQo4y8
+	vsgreVRHHMGybQm/gYWZ/gEM8UVp77V9RyF5OY2bEV2hh8bAv42sKXAGUhmbwNnkWr9JOp3cLIY
+	tga+WB/SpIls6HXdnD8+xSXp1S5bO3xYxs6OzzLopXRb6/sWN/JUDPgtKRzzD1SAE+yW+M/SCEa
+	FuGeOy0OGxU5nzIjor6SH
+X-Google-Smtp-Source: AGHT+IFgmPRSw7Q6ERORJeluUcpn0Y8teAuBrGOpBe0+GIsg983oxXFX99ieTlJu6rLNh19DONomUg==
+X-Received: by 2002:a05:6808:2347:b0:401:e6b9:8893 with SMTP id 5614622812f47-40646813ebfmr486017b6e.7.1748047751836;
+        Fri, 23 May 2025 17:49:11 -0700 (PDT)
+Received: from [10.0.0.9] (104-50-4-201.lightspeed.sntcca.sbcglobal.net. [104.50.4.201])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-404d97d62aasm3178300b6e.5.2025.05.23.17.49.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 May 2025 17:49:11 -0700 (PDT)
+Message-ID: <27de0526-0b19-4e14-8c51-1e8b0ddcf490@gmail.com>
+Date: Fri, 23 May 2025 17:49:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v3] kconfig: check for a NULL pointer before access
+To: Bill Wendling <morbo@google.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>
 References: <CAGG=3QU5Yi2AfHS_poi8SgmatedRg-X8Ct74FOCJUc9iJNPnhg@mail.gmail.com>
- <2f6201d1-4e18-43ab-aadd-27643d57dab6@infradead.org> <CAGG=3QXQkJ6n0J1gZcgxfEb68NWN2y200ZCuxxDtqPRgWPci=A@mail.gmail.com>
- <998f5987-12ea-4bdc-b86a-35b904a34acf@infradead.org>
-In-Reply-To: <998f5987-12ea-4bdc-b86a-35b904a34acf@infradead.org>
-From: Bill Wendling <morbo@google.com>
-Date: Fri, 23 May 2025 17:35:23 -0700
-X-Gm-Features: AX0GCFuR50JfWgLwPLNRmXhPGcsCUrEnP4cdjht7KlfTFEqM79_KuWvZq2WljCs
-Message-ID: <CAGG=3QVa6BgdtRknf3zY3tkguC1=FcMvNvz3fM8Ngywp0g_aRg@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: check for a NULL pointer before access
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAGG=3QVw5+4-7f+gMJSanb0ixC=SujDQyA1=CPRvR+a6+c0U_Q@mail.gmail.com>
+Content-Language: en-US
+From: Bill Wendling <isanbard@gmail.com>
+In-Reply-To: <CAGG=3QVw5+4-7f+gMJSanb0ixC=SujDQyA1=CPRvR+a6+c0U_Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 23, 2025 at 4:48=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
-> On 5/23/25 3:56 PM, Bill Wendling wrote:
-> > On Thu, May 22, 2025 at 5:16=E2=80=AFPM Randy Dunlap <rdunlap@infradead=
-.org> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On 5/22/25 5:07 PM, Bill Wendling wrote:
-> >>> The call to 'prop_get_symbol' may return NULL in some cases. The if-t=
-hen
-> >>> statement accesses the returned value without checking if it's
-> >>> non-NULL. After inlining, the compiler may treat the conditional as
-> >>> 'undefined behavior', which the compiler may take the opportunity to =
-do
-> >>> whatever it wants with the UB path. This patch simply adds a check to
-> >>> ensure that 'def_sym' is non-NULL to avoid this behavior.
-> >>>
-> >>> Signed-off-by: Bill Wendling <morbo@google.com>
-> >>> ---
-> >>> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> >>> Cc: linux-kbuild@vger.kernel.org
-> >>> Cc: linux-kernel@vger.kernel.org
-> >>> ---
-> >>>  scripts/kconfig/symbol.c | 2 +-
-> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> >>> index d57f8cbba291..9c5068225328 100644
-> >>> --- a/scripts/kconfig/symbol.c
-> >>> +++ b/scripts/kconfig/symbol.c
-> >>> @@ -272,7 +272,7 @@ struct symbol *sym_choice_default(struct menu *ch=
-oice)
-> >>>   if (prop->visible.tri =3D=3D no)
-> >>>   continue;
-> >>>   def_sym =3D prop_get_symbol(prop);
-> >>> - if (def_sym->visible !=3D no)
-> >>> + if (def_sym && def_sym->visible !=3D no)
-> >>>   return def_sym;
-> >>>   }
-> >>>
-> >>
-> >> The patch is missing the source file's indentation.
-> >> (spaces/tabs are lost)
-> >>
-> > Crud! My mailer borked. I sent v2 and it looks to have kept the whitesp=
-aces.
->
-> I don't think v2 worked either.
-> See  https://lore.kernel.org/linux-kbuild/CAGG=3D3QXQkJ6n0J1gZcgxfEb68NWN=
-2y200ZCuxxDtqPRgWPci=3DA@mail.gmail.com/T/#mf64c7afd19235d3dee4e572f96ff769=
-36f921c6e
->
-Goddamnit! I'll try again...
+The call to 'prop_get_symbol' may return NULL in some cases. The if-then
+statement accesses the returned value without cheecking if it's
+non-NULL. After inlining, the compiler may treat the conditional as
+'undefined behavior', which the compiler may take the opportunity to do
+whatever it wants with the UB path. This patch simply adds a check to
+ensure that 'def_sym' is non-NULL to avoid this behavior.
 
--bw
+Signed-off-by: Bill Wendling <isanbard@gmail.com>
+---
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+v3:
+  - Fix whitespace for real now.
+  - Patch from another email account so that the whitespace is retained.
+v2:
+  - Fix whitespace
+---
+  scripts/kconfig/symbol.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index d57f8cbba291..9c5068225328 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -272,7 +272,7 @@ struct symbol *sym_choice_default(struct menu *choice)
+  		if (prop->visible.tri == no)
+  			continue;
+  		def_sym = prop_get_symbol(prop);
+-		if (def_sym->visible != no)
++		if (def_sym && def_sym->visible != no)
+  			return def_sym;
+  	}
+
+-- 
+2.49.0.1164.gab81da1b16-goog
+
 
