@@ -1,152 +1,199 @@
-Return-Path: <linux-kbuild+bounces-7259-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7260-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E67AC35B9
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 May 2025 18:40:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29450AC371E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 May 2025 23:53:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9ABB7A8724
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 May 2025 16:39:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE393173168
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 May 2025 21:53:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D90619D09C;
-	Sun, 25 May 2025 16:40:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F05631B424D;
+	Sun, 25 May 2025 21:53:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="esiQ+9SU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceT//yHx"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD3C481A3
-	for <linux-kbuild@vger.kernel.org>; Sun, 25 May 2025 16:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA4C19CC3D;
+	Sun, 25 May 2025 21:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748191235; cv=none; b=lqoApB0/zKJd40ftp5tl9jNOyGuwA++H9wzKjmRcxjneZyq4ItSwXyv6JPjnoiTLR4GUKL0bMf81NnvrqjCfawnpOG+hJHOiFx7tmHkE7EVf7JLn69UWUR0j5anwWVuvHWK969atw1B1sjmbgOF3Fh8qG2eucdUVUtqG/KuLog4=
+	t=1748210015; cv=none; b=mSEPmm4Jjlnlo1Tqrphlq8aCTHWadcFVyjaKeQu+hV7EtLJS4KkUMQi/+DGphSacqnVcOPEuYWuMGnTXsuOs2qreM/JRz8eFq0GIisjqLq/Sw9OkJJ/ybdUzs5SQjEXC/LbkDo32/KBji46736+ERETKDqby/qE4F73LwsmWsSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748191235; c=relaxed/simple;
-	bh=L7RI9xTWiqXwzOXwkF8NYM+0+67yKexHCEGsQErub/A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XL7iO0FEDZlRKCA7+OVwRKTRD2KkECF+1cI0dSPCzkEK35EmT3UKuUijYTw/+6u2nR8Ypc0p3atkOqoQm9EMN3aN5YSG+nsxccloGDOUWDcIPKGZVBdTBvzqWSsa13YgSjCuFmH92rrG4POoLJU4KtSGl3Wezm4JCn1M4yNzolY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=esiQ+9SU; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-742c2ed0fe1so1353441b3a.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 25 May 2025 09:40:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748191232; x=1748796032; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TI24cX0J3zBqtkzlqqgWgj7by8Nng9PYNQ78S+6NnSg=;
-        b=esiQ+9SUTG7eRWXqblVD/uVVGPWz2colbpEOyFPlXNJ7tINYK0udEpKAzPbEew7JA8
-         bk6a54Y538aqdhz1YswJs+j+JE+QPnRaiXWHD2x9Gr934PJc366MQLoXxiAC4aiLxNVh
-         JhYrNyE7IXG6XURlNozORtyU+Q+36xRmE6skQqjqteqUke24bG0thzXfCovaiw3Hsam7
-         3wpTp6xhEYFuWKSOrFhHNaw1bDocWlXAy2BkD5RqftVr4Yg8suwwun5GOBwP72RlsGgq
-         KnYFsBDAd2x7Y4oVNKkPc7mgYajv479TXvGQ3RdY9Jl545NNDW5cPS/wT8fCT1kdJQOm
-         YnCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748191232; x=1748796032;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TI24cX0J3zBqtkzlqqgWgj7by8Nng9PYNQ78S+6NnSg=;
-        b=fXEgcre/LkloOAIAh2IEXVjC7ANy4T57wYKK/2TXiLs3U14gXExO33Y1M9IrTnrgMM
-         vVHt8loRKvN1fmqHpLyXuC0kq6VzPRC7PLccXv146lGlQy+iakeUUYjraJn++MZHycIy
-         78MTq0GDDYvrAvzJzmFyGNrdVXMSfJI7oCygD/pNSWxnk3hL5tY8brRfKqf5KXMoQ/M3
-         HFMEiLZFgq++yOOlfC7HZbSS8T7Kve4hLvaowTEs4FVbaD+QPlq25YFBTjZKsBrueMVN
-         6BlLJt2Uq3e9egDSJVa3w3lEeiQTzUoGua5LzI06ZxCbePt1nMq2dp2YsyOq4i6mQJ5t
-         iC6w==
-X-Gm-Message-State: AOJu0Ywt7HN67SE/zNcJVm5J9K5dk3fUMp0blQDs9T3iXmUKzsQqUcbs
-	Cvm46WNlSex8XiSA5DT6pK9QiHB2qzr8C8Z64J0tRnsNf4155j1IpBmIeEnH+g==
-X-Gm-Gg: ASbGnctqDzCJO6WxLHebgphgkAHrxc/jeGt3RzVWdzV4+0aAj324FZM3r3RwNuDyh8P
-	Q6gM/PyrwaKbVVWPO0rF9k2WBBDVA2k6smnAy0E6S+5xM3e/Ys3F/UXnxa4m+qaDTn1blNKy7Nm
-	uPl9bT9VRrxN2x1IIwImm8GFeJJzkH+DLRU8w8v6h8RnW8LGeiFqxX1opZcGEw9/FTy9IxSc6QY
-	Nl6h1O9RvuEgLevjbGcBNsnkSOa3wFd0TqdwzaX8qkDblo/fUNsntuir2jTxcYLr11tnnH9fCPt
-	Jo8KUb9otq0St4IwfIq0gU3ofWWx9dyCuGO4VGQzoaOh033JVXSA9OgG3FBFU7j9Dj4=
-X-Google-Smtp-Source: AGHT+IGgV3n2FyAmW+cctCvStG3jjB09cn5WLZCJ0w8Vo2ft1M+KFaj9L7ooEDbRfRFhvwZTPcUoVg==
-X-Received: by 2002:a05:6a00:1149:b0:73d:b1ff:c758 with SMTP id d2e1a72fcca58-745fe0515b7mr10905336b3a.18.1748191232526;
-        Sun, 25 May 2025 09:40:32 -0700 (PDT)
-Received: from shankari-IdeaPad.. ([103.24.60.247])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a98a471bsm15688359b3a.180.2025.05.25.09.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 May 2025 09:40:32 -0700 (PDT)
-From: Shankari Anand <shankari.ak0208@gmail.com>
-To: linux-kbuild@vger.kernel.org
-Cc: masahiroy@kernel.org,
-	skhan@linuxfoundation.org,
-	Shankari Anand <shankari.ak0208@gmail.com>
-Subject: [PATCH v2] kconfig/nconf: Replace strncpy() with snprintf() for safe string copy
-Date: Sun, 25 May 2025 22:10:14 +0530
-Message-Id: <20250525164014.1558750-1-shankari.ak0208@gmail.com>
-X-Mailer: git-send-email 2.34.1
-Reply-To: <CAK7LNAQgb5u-+FEp1PjSxT7whNbW8YoiYt41m01M6yrt+=PXrA@mail.gmail.com>
+	s=arc-20240116; t=1748210015; c=relaxed/simple;
+	bh=y5rT2ewj429hL1YZNClBKAuoapp2CjjiHYqsoHYBDa8=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ivfXgqeQQawE+Act3qu6cJPHXlg2C9Rr1WGWgN2cmDTcH+gUfTWq62Qp8eMh/+ZnjW7AXEjyT46xzM9pNAuFWqcxakVkLnSozkfH4KzYT5OBLjeHBpSkk+9kYid/0nB+RzdPGzEQq3Gr4+SkcwfTCUC29R/FajMtoLLjIhKMqyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceT//yHx; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748210014; x=1779746014;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=y5rT2ewj429hL1YZNClBKAuoapp2CjjiHYqsoHYBDa8=;
+  b=ceT//yHx7F0JqM4+bzORHTA3Hi0DK9vzfTD1ChrJRaNLXIhJqaQrPXuV
+   jeTpNhnEGDPaw8H78PwGHktNfpPl6dAdZnMrVh6xm1h0OeNOrtjXYgAQP
+   HYJvVZ8LewX/ce74CBC3V2xjHqrvNUpVDNL6sJy8F3rmaul/SA3qqMHai
+   2894vABY/4tUZ5uOvuNyUXGwk9+lY+VakC1LK4rQ/xwTjuuYThHsIEazu
+   MYeuZPolTV3eA+ejC3fihWhKEDYqtSrkTEPhz6SgE0HplDA2/xcMU0C6H
+   ve00bhfgJ3wnSFXHsbgX+rFdoGEUqCKzyEaz8CigT+qrPQKOHfw4ry55i
+   A==;
+X-CSE-ConnectionGUID: HQGD0TEPSUq8fOLusNMwCQ==
+X-CSE-MsgGUID: NdAAS2XBR6u4/DLqkNH5Dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="60435792"
+X-IronPort-AV: E=Sophos;i="6.15,314,1739865600"; 
+   d="scan'208";a="60435792"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 14:53:32 -0700
+X-CSE-ConnectionGUID: srkUUk2LSiS9AVRoLfAP+A==
+X-CSE-MsgGUID: abYToWTKQVe6L6ZrKUUaNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,314,1739865600"; 
+   d="scan'208";a="141991367"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2025 14:53:16 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 26 May 2025 00:53:13 +0300 (EEST)
+To: Kees Cook <kees@kernel.org>
+cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>, 
+    Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+    Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+    "H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+    Vitaly Kuznetsov <vkuznets@redhat.com>, 
+    Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
+    Hans de Goede <hdegoede@redhat.com>, 
+    "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+    Masami Hiramatsu <mhiramat@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
+    Mike Rapoport <rppt@kernel.org>, 
+    Michal Wilczynski <michal.wilczynski@intel.com>, 
+    Juergen Gross <jgross@suse.com>, 
+    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+    "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, 
+    Roger Pau Monne <roger.pau@citrix.com>, 
+    David Woodhouse <dwmw@amazon.co.uk>, Usama Arif <usama.arif@bytedance.com>, 
+    "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
+    Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>, 
+    kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
+    platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org, 
+    linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+    linux-mm@kvack.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+    Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>, 
+    Andrey Konovalov <andreyknvl@gmail.com>, 
+    Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+    Masahiro Yamada <masahiroy@kernel.org>, 
+    Nathan Chancellor <nathan@kernel.org>, 
+    Nicolas Schier <nicolas.schier@linux.dev>, 
+    Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+    Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+    LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com, 
+    linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+    kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org, 
+    linux-s390@vger.kernel.org, linux-hardening@vger.kernel.org, 
+    linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org, 
+    linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org, 
+    llvm@lists.linux.dev
+Subject: Re: [PATCH v2 04/14] x86: Handle KCOV __init vs inline mismatches
+In-Reply-To: <20250523043935.2009972-4-kees@kernel.org>
+Message-ID: <ba4f4fd0-1bcf-3d84-c08e-ba0dd040af16@linux.intel.com>
+References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-4-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; BOUNDARY="8323328-965883235-1748206555=:933"
+Content-ID: <8656ab6c-8f8d-81d1-5dfa-740e7f21544c@linux.intel.com>
 
-This patch replaces deprecated strncpy() calls with snprintf() in nconf.c and nconf.gui.c,
-which are part of the userspace Kconfig frontend.
-The affected functions are: item_add_str() in nconf.c, fill_window() and dialog_inputbox() in nconf.gui.c
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-strscpy() is not available in userspace; using snprintf() ensures safe, null-terminated string copying
-while avoiding undefined behavior. This improves code safety and maintains compatibility with userspace builds.
+--8323328-965883235-1748206555=:933
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <fa62886f-fdfb-f2a5-84db-475ce3a46169@linux.intel.com>
 
-Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
----
+On Thu, 22 May 2025, Kees Cook wrote:
 
-Tested with:
-make nconfig
-Verified successful build of the nconf binary and usage in the menu configuration UI.
-Also confirmed no compiler warnings related to string copy functions.
+> When KCOV is enabled all functions get instrumented, unless the
+> __no_sanitize_coverage attribute is used. To prepare for
+> __no_sanitize_coverage being applied to __init functions, we have to
+> handle differences in how GCC's inline optimizations get resolved. For
+> x86 this means forcing several functions to be inline with
+> __always_inline.
+>=20
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: <x86@kernel.org>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Cc: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: "Ilpo J=E4rvinen" <ilpo.jarvinen@linux.intel.com>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Michal Wilczynski <michal.wilczynski@intel.com>
+> Cc: Juergen Gross <jgross@suse.com>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Cc: Roger Pau Monne <roger.pau@citrix.com>
+> Cc: David Woodhouse <dwmw@amazon.co.uk>
+> Cc: Usama Arif <usama.arif@bytedance.com>
+> Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Brian Gerst <brgerst@gmail.com>
+> Cc: <kvm@vger.kernel.org>
+> Cc: <ibm-acpi-devel@lists.sourceforge.net>
+> Cc: <platform-driver-x86@vger.kernel.org>
+> Cc: <linux-acpi@vger.kernel.org>
+> Cc: <linux-trace-kernel@vger.kernel.org>
+> Cc: <linux-efi@vger.kernel.org>
+> Cc: <linux-mm@kvack.org>
+> ---
 
- scripts/kconfig/nconf.c     | 6 +++---
- scripts/kconfig/nconf.gui.c | 5 ++---
- 2 files changed, 5 insertions(+), 6 deletions(-)
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/=
+thinkpad_acpi.c
+> index e7350c9fa3aa..0518d5b1f4ec 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -559,12 +559,12 @@ static unsigned long __init tpacpi_check_quirks(
+>  =09return 0;
+>  }
+> =20
+> -static inline bool __pure __init tpacpi_is_lenovo(void)
+> +static __always_inline bool __pure tpacpi_is_lenovo(void)
+>  {
+>  =09return thinkpad_id.vendor =3D=3D PCI_VENDOR_ID_LENOVO;
+>  }
+> =20
+> -static inline bool __pure __init tpacpi_is_ibm(void)
+> +static __always_inline bool __pure tpacpi_is_ibm(void)
+>  {
+>  =09return thinkpad_id.vendor =3D=3D PCI_VENDOR_ID_IBM;
+>  }
 
-diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-index 67ee33fe16ef..42a78f0baf16 100644
---- a/scripts/kconfig/nconf.c
-+++ b/scripts/kconfig/nconf.c
-@@ -589,9 +589,9 @@ static void item_add_str(const char *fmt, ...)
- 	va_end(ap);
- 	snprintf(tmp_str, sizeof(tmp_str), "%s%s",
- 			k_menu_items[index].str, new_str);
--	strscpy(k_menu_items[index].str,
--		tmp_str,
--		sizeof(k_menu_items[index].str));
-+	snprintf(k_menu_items[index].str,
-+		sizeof(k_menu_items[index].str),
-+		"%s", tmp_str);
- 
- 	free_item(curses_menu_items[index]);
- 	curses_menu_items[index] = new_item(
-diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
-index a1306fafd07f..d55518268f45 100644
---- a/scripts/kconfig/nconf.gui.c
-+++ b/scripts/kconfig/nconf.gui.c
-@@ -176,8 +176,7 @@ void fill_window(WINDOW *win, const char *text)
- 		char tmp[x+10];
- 		const char *line = get_line(text, i);
- 		int len = get_line_length(line);
--		strscpy(tmp, line, min(len, x));
--		tmp[len] = '\0';
-+		snprintf(tmp, sizeof(tmp), "%.*s", min(len, x), line);
- 		mvwprintw(win, i, 0, "%s", tmp);
- 	}
- }
-@@ -358,7 +357,7 @@ int dialog_inputbox(WINDOW *main_window,
- 	y = (lines-win_lines)/2;
- 	x = (columns-win_cols)/2;
- 
--	strscpy(result, init, *result_len);
-+	snprintf(result, *result_len, "%s", init);
- 
- 	/* create the windows */
- 	win = newwin(win_lines, win_cols, y, x);
--- 
-2.34.1
+Hi Kees,
 
+What's your plan on upstreaming route/timeline for this? I'd prefer to=20
+retain full control over this file as we were planning on some=20
+reorganization of files into lenovo/ subdir.
+
+
+--=20
+ i.
+--8323328-965883235-1748206555=:933--
 
