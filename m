@@ -1,56 +1,56 @@
-Return-Path: <linux-kbuild+bounces-7255-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7256-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AF7AC30E7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 May 2025 20:15:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAB6AC334D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 May 2025 10:59:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F124317CD41
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 May 2025 18:15:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 246177A5EE1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 May 2025 08:58:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127DB3BBF2;
-	Sat, 24 May 2025 18:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 046C019C558;
+	Sun, 25 May 2025 08:59:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVaYRSpI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lWHS1gjr"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE6928382;
-	Sat, 24 May 2025 18:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE9015F41F;
+	Sun, 25 May 2025 08:59:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748110538; cv=none; b=DOuYAb1f+RsjFKd7AOZYJzvsWa5x2k927bdzYi9IHZVa8iEO05n/IH5xI5oXnADar67N+6UW8LXx92DBlG3nMKaogZ9M6WOnLl2t8QnSEnPDU1Csn4G/zC6cy/vQ6NNUl/0zSW2kc1xu8rKZbjp/962lUABq7aqfZi3IhW0dJIs=
+	t=1748163578; cv=none; b=exWIOoqXl9Q06CZTEj+2YNWTmBldrADREEiRgYdu394DkpTeDswdpl3j1007u8cLTba1zfc+CSsdAnlBAPGQjUVruGnLJakE8OMuXBuBxAtvGUe2+bFpxjyeDkaLnARpwwmOk0qgQpLbMak0VaVpT3JqZVI6A2vbAzncHILV9wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748110538; c=relaxed/simple;
-	bh=tokj9AdNZcLys6KcBCEI+LF8zfoInkg01RXsmtGF97U=;
+	s=arc-20240116; t=1748163578; c=relaxed/simple;
+	bh=/fqy1LOyy1qIvykdgD5PBfm1oY2mkOjokUzRSmwl4w0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X0KoHkk1c89BJ+Y8+beguOYmEEieyNJVMpu4o99vaNCoMqop3axqcD3oeO21ga2xBBK0ttq9tv/levPminnoinMFA7LCSueFRaLUbrN0ILq4GwBM85v1DFnnWDYk01iBNHJ0CemuLHn9SQyMPIHO9bxW3CfXLq0isMMbxVsAcbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVaYRSpI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31FD3C4CEF4;
-	Sat, 24 May 2025 18:15:37 +0000 (UTC)
+	 To:Cc:Content-Type; b=NoCPoRk9LzilpT27BDdbWAbUULfxYM4bqxRordsPd921C3BP3p+ItEr/T/bR0JMKB0TIG1sJdaj00UFh+f8McaJJ6lkarKWO7rLzwLr2XJC3w6DgQVT6auxTUrGd1Ab8iPspD6598cZ7DoQEeNg+INc8J4FQmcb4YS/KwdVDRPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lWHS1gjr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211A3C4CEF3;
+	Sun, 25 May 2025 08:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748110537;
-	bh=tokj9AdNZcLys6KcBCEI+LF8zfoInkg01RXsmtGF97U=;
+	s=k20201202; t=1748163578;
+	bh=/fqy1LOyy1qIvykdgD5PBfm1oY2mkOjokUzRSmwl4w0=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WVaYRSpI3jkPtyOwnWeImKMWeKs6DxW7Z0GW2JFjqhBYRxXPkFj8V8dFljxKLXP2J
-	 7CxbZi+1/tCVygPPoFDAhBPHmBP4N+RjPGZ/k8n9LyrBP0CEJokEOZ0WestB62+lQo
-	 Q19JntsmsRq73xaWbrMsf+kfFrY01CvzT7FdYqevEqiXHRhkTeul4luac5L8rXHqHA
-	 kTrL6mtVek9nOse554Xqe1vGXB7EqyW26a+wxiM2pqsBwtns85Zd9OcpDNvvUfiZiR
-	 nf48Y2ORaOB5TIwDFfE8an3qQEBfpIkpnDc6yYGUx4A9ZlOqMw7GgYogG5uSQCrEyg
-	 siOMMui6zH72g==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3105ef2a071so9403911fa.1;
-        Sat, 24 May 2025 11:15:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU8fl5/K68W5LhikuSDW+r9qfv+pzODljEca/arsUuC/7GADOIuUcN6lZo9R++zIcSJlLamtHV/ORU2QJM=@vger.kernel.org, AJvYcCX+R/lZNF9EyrlDVxLUJVFnoKwKm5d05lHz4Sws/YdN8ijLt85HLxGHbQXIpkxaxTzKF3HLYtj1PjQwBEEO@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8HJRCC7Llh8J+uRbLi+F6WxsrI9AbtBc+95/uZ3clloshpABh
-	IfFR2oLrv4M44a+peJTgVPlUcHHnYvbGz54ZUbDw8vcKtS5QE6s2iZyABnh6gHhS3lxy6kXEYIX
-	7/39nFKfaNSWeHdgNQJWv6j+Vcsbe9T8=
-X-Google-Smtp-Source: AGHT+IG2OLZdIjG367/4RRpP9r6ghaIgdEJR336gJlUQLdBIT9sYxE23kbv2q0CRuj8usbifAtReQZ/L3pAtgYth3AY=
-X-Received: by 2002:a05:651c:31d1:b0:329:25dd:72ce with SMTP id
- 38308e7fff4ca-3295ba84fbfmr6493111fa.35.1748110535529; Sat, 24 May 2025
- 11:15:35 -0700 (PDT)
+	b=lWHS1gjr9kiMIUJzlLYjjrZ2iOm7XJj/8Jm7tm+4q01usAWD98Evj/6t8lKlRd0eV
+	 0+Fd8P81prYKJOzRWs/EqHjBNgXqtEKKMrATDey2ROYE2n9OcmXXe+3Uqci3nVnYGM
+	 XdREHhrt3Dj1k3vuruPRPvlIhq3usrnfM+YCSJRUUnP10oJghekwN6KZpgm0et0WWk
+	 1LZv+mTvZ0DMgLFPhqmp79eoD1mCO3jtJiP/ibmt3p9DzLVeU2BEC+g023HjYpdJDP
+	 eCJDbPiZxToh8d+IsUnDfR4J3KrW2++kpBubrhFI/q/fkxnsLzsaxwmYu+R9IQ3wUn
+	 /XacaAiSd0m+Q==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54e7967cf67so1572616e87.0;
+        Sun, 25 May 2025 01:59:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUbJRh65MmPz0zEmqGhv64KENyOdJQIvT6piMCQhhcIeTitZhrOSpeIb/AkI16CtKbk4iEppxSSPWYGzP4=@vger.kernel.org, AJvYcCV3AnaZc4ydCa9vY/q/fyQk/ZVwdJE5WKjb2gkg3ZIfd9OtlAt/Z4mWQgGGuv1wyqK0vzwLDUvIHzoaszfO@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2/E380eHBFhwAwoJTGoxYGEdy/7u8VEzVE704uyln6bunKpDB
+	nrApA+HBJUUg8CYDrLBncn0h9l7ugjRQ2BfU0oExft04VxcMG0XDfuzqnl/StefODZEjflZg6aM
+	sKCUNZsqxcAaHtTcakFPWVrMK4LwRdqo=
+X-Google-Smtp-Source: AGHT+IFHrIED3EELGxDM5SP3d+XJroyEHmfTwlmKAlqxssTLhpYRLGXp1BM2ZGN5E8jsX15M1JguwvXq/YGlQQ8LfXI=
+X-Received: by 2002:a05:6512:224b:b0:550:e4f5:741 with SMTP id
+ 2adb3069b0e04-5521c7a8422mr1506599e87.9.1748163576581; Sun, 25 May 2025
+ 01:59:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,10 +60,10 @@ MIME-Version: 1.0
 References: <20250521213534.3159514-1-xur@google.com>
 In-Reply-To: <20250521213534.3159514-1-xur@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 25 May 2025 03:14:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT5Jy-us4pc725bb_LyHAP3b9D7Z0Jp=krOFujmnYmZXg@mail.gmail.com>
-X-Gm-Features: AX0GCFsSIqrrUUwix6ProBaZwka9mt9diJwawOE6SyAqaw0ixCAkfHKFanL0HUk
-Message-ID: <CAK7LNAT5Jy-us4pc725bb_LyHAP3b9D7Z0Jp=krOFujmnYmZXg@mail.gmail.com>
+Date: Sun, 25 May 2025 17:58:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ1wTet=KNMbaypgYHZY1xAf7F=PRas6aq0OogHC8SMmQ@mail.gmail.com>
+X-Gm-Features: AX0GCFs5Ip-Hpqc75DyyQWo_BoosYMeW73ZbYO-rJsf1-UsOdZiNdHzkOMZmdf0
+Message-ID: <CAK7LNAQ1wTet=KNMbaypgYHZY1xAf7F=PRas6aq0OogHC8SMmQ@mail.gmail.com>
 Subject: Re: [PATCH v3] kbuild: distributed build support for Clang ThinLTO
 To: xur@google.com
 Cc: Nathan Chancellor <nathan@kernel.org>, Eric Naim <dnaim@cachyos.org>, 
@@ -89,14 +89,19 @@ On Thu, May 22, 2025 at 6:35=E2=80=AFAM <xur@google.com> wrote:
 > (2) Improved user-friendliness for developers. (3) Greater
 > convenience for integrating with objtool and livepatch.
 
-I did not understand any of these benefits
-despite a lot of added complexity.
+I did not set up for a distributed build environment, but
+does CC=3D'distcc clang' work to process thin LTO
+on back-end build machines?
+
+
+You mentioned the benefits (3), but you did not touch
+anything about objtool.
+
+How will this patch change the objtool integration?
 
 
 
-
-
-
+>
 > Note that "distributed" in this context refers to a term
 > that differentiates in-process ThinLTO builds by invoking
 > backend compilation through the linker, not necessarily
@@ -122,11 +127,6 @@ despite a lot of added complexity.
 > Currently, this patch focuses on building the main kernel
 > image (`vmlinux`) only. Support for building kernel modules
 > using this method is planned for a subsequent patch.
-
-The announcement of the future plan is even scary,
-especially after looking at your implementation.
-
-
 >
 > Tested on the following arch: x86, arm64, loongarch, and
 > riscv.
@@ -150,18 +150,7 @@ especially after looking at your implementation.
 >   works as intended.
 > - Tested the patch with AutoFDO and Propeller.
 > ---
->  .gitignore                        |  3 ++
->  MAINTAINERS                       |  5 +++
->  Makefile                          | 40 ++++++++++++++++++++---
->  arch/Kconfig                      | 19 +++++++++++
->  scripts/Makefile.build            | 52 +++++++++++++++++++++++++++---
->  scripts/Makefile.lib              |  7 +++-
->  scripts/Makefile.vmlinux_o        | 16 +++++++---
->  scripts/Makefile.vmlinux_thinlink | 53 +++++++++++++++++++++++++++++++
->  scripts/head-object-list.txt      |  1 +
->  9 files changed, 181 insertions(+), 15 deletions(-)
->  create mode 100644 scripts/Makefile.vmlinux_thinlink
->
+
 > diff --git a/.gitignore b/.gitignore
 > index f2f63e47fb886..b83a68185ef46 100644
 > --- a/.gitignore
@@ -171,6 +160,9 @@ especially after looking at your implementation.
 >  .*
 >  *.a
 > +*.a_thinlto_native
+
+This is unneeded.
+
 >  *.asn1.[ch]
 >  *.bin
 >  *.bz2
@@ -179,6 +171,14 @@ especially after looking at your implementation.
 >  *.o
 >  *.o.*
 > +*.o_thinlto_native
+
+I would rename this to *.thinlto-native.o
+so we do not need to touch .gitignore at all.
+
+
+
+
+
 >  *.patch
 >  *.rmeta
 >  *.rpm
@@ -220,6 +220,18 @@ gn kernelrelease \
 > +single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.=
 o_thinlto_native \
 > +                 %.a_thinlto_native %.o.thinlto.bc %/
+
+
+You are adding all new suffixes, but in my understanding there is no way
+to generate %.o.thinlto.bc as a single target.
+
+
+
+
+
+
+
+
 >
 >  config-build   :=3D
 >  mixed-build    :=3D
@@ -259,19 +271,6 @@ _VMLINUX_OBJS))
 > +define rule_gen_vmlinux.a_thinlto_native
 > +       +$(Q)$(MAKE) $(build)=3D. need-builtin=3D1 thinlto_final_pass=3D1=
  need-modorder=3D1 built-in.a_thinlto_native
-
-
-I really do not understand why this needs the second
-recursion, as you already know the list of objects
-by 'ar t vmlinux.a'.
-
-
-
-
-
-
-
-
 > +       $(call cmd_and_savecmd,ar_vmlinux.a_thinlto_native)
 > +endef
 > +
@@ -586,9 +585,39 @@ pl \
 > +quiet_cmd_ld_vmlinux.thinlink =3D LD      $@
 > +      cmd_ld_vmlinux.thinlink =3D \
 > +       $(AR) t vmlinux.a > .vmlinux_thinlto_bc_files; \
+
+
+Question: Is this a workaround for a linker bug?
+
+I wonder why we cannot directly pass vmlinux.a just like
+
+$(LD) ... --thinlto-index-only vmlinux.a
+
+
+
+
 > +       $(LD) ${KBUILD_LDFLAGS} -r $(addprefix -T , $(initcalls-lds)) \
 > +       --thinlto-index-only @.vmlinux_thinlto_bc_files; \
 > +       touch vmlinux.thinlink
+
+
+Instead of 'touch', I think it is better to use
+
+--thinlto-index-only=3D$@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 > +
 > +vmlinux.thinlink: vmlinux.a $(initcalls-lds) FORCE
 > +       $(call if_changed,ld_vmlinux.thinlink)
@@ -617,11 +646,6 @@ built.
 > index 7274dfc65af60..90710b87a3877 100644
 > --- a/scripts/head-object-list.txt
 > +++ b/scripts/head-object-list.txt
-
-Adding a new entry to this file is NACK.
-
-
-
 > @@ -18,6 +18,7 @@ arch/arm/kernel/head.o
 >  arch/csky/kernel/head.o
 >  arch/hexagon/kernel/head.o
@@ -636,7 +660,7 @@ Adding a new entry to this file is NACK.
 >
 
 
---=20
+--
 Best Regards
 Masahiro Yamada
 
