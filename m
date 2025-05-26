@@ -1,119 +1,419 @@
-Return-Path: <linux-kbuild+bounces-7264-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7265-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A455AC3C64
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 11:08:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A16C0AC4011
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 15:12:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A136618942B8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 09:08:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62D081608BC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 13:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A152D1F03D8;
-	Mon, 26 May 2025 09:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E02AE1FFC4B;
+	Mon, 26 May 2025 13:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ixS11m5v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G1fx9kZc"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F3A1EFFBB;
-	Mon, 26 May 2025 09:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B636A1EC014;
+	Mon, 26 May 2025 13:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748250501; cv=none; b=AMJLfDYkULX8n2LWyii6+GZmvC2cGFaUPv4gi9M4t+7fWDVk0KvrfO9h52FvFyWrOttvHL9sLxHyFrULt8C/UVL3EX/DAK4wOBK7OClLPWxFATnNZo6Vr4Cz/5AqFIH8/UxcDPp9gGNOz+wNG3+qvZhCqiqq0DCct61Hz9o+SMU=
+	t=1748265150; cv=none; b=aDDspCAcYUWj7Zx2jXIWEwlTS6haVLpu50OxBXn8AxF0cMcRw0pI2jRLojA77wbetDb1suFV+8+flAlpaBuvMsK48yWCAte49ZFaRm5hf/yM9W6PbfjWc1kfMn56HweESBj7idrrHTHjCxKXqDctjKJe0mJ1jBioBRWcjq2dHso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748250501; c=relaxed/simple;
-	bh=r4vpfhgdTadsX6mz1zhFSBmVO2ukjTVGrtilLo/HSbg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dYGQS9eCNC4eshV8beeQo4HudbRGG+M0lnKu1rvPOok3RfaLMEH1k9+Q4F7hcVFukvzv7n59Y/yYu7haFMnVs0mHSKPfUSFFc2bGGKuHqOfwaSlNXef+GCQxO138HerR6pWpMHIPXFQRv2o1cnO3ME8W6WWBjcpiF8Xi2A+TFak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ixS11m5v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C2B2C4CEE7;
-	Mon, 26 May 2025 09:08:20 +0000 (UTC)
+	s=arc-20240116; t=1748265150; c=relaxed/simple;
+	bh=z9dY07EQnSlqvZ+Z4TKYcbdmJWT/FUFIU3ARCSjfzpA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qW+D2a0OVLyIyLo+zeUPqvTWEBmcFAY2CDnYkol6huSnU6jdmoG0zE5BWvg0IMLh2Y31PkHV2/sOfpXKyN8rT0HQDvfKBQVQnheUYzQwriospNGE7rDzDTrcoteQHiTyw3hSIkJ6utKsuucgjK5DT9OvK0VKY1k7Z34DTD2UzKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G1fx9kZc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1622FC4AF0C;
+	Mon, 26 May 2025 13:12:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748250501;
-	bh=r4vpfhgdTadsX6mz1zhFSBmVO2ukjTVGrtilLo/HSbg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ixS11m5vNBl+x1MjxaJahoecwMd1genvJH/NwfkxBBjBjE9NeBR3l5Wmt6IlGzrcl
-	 0osT2yl/BYb548NG8iPJ5/2p+4ubluyPUkAb3+2tlexh8Uco45vrvS6q0xE8E+2bRP
-	 LYLiBhKn+ffXxVmzow/otwuuPXyStfDpD7sZ7G37UNTFeD7rQ4nV5Q+p3vxhVR+Qb0
-	 Q96m2vRik4uDzOktYUzKEWbThORuzYiW/BVWO7uAHTwLHtKy4nro/j23nVbBepnhDQ
-	 MX1h0bsEVXa+fkkmdn2do4d+17pkH3UUeH4y282m8aqqPQCyWWhEYWbYUfDA0UPaz1
-	 In5mWs7UMgamA==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>
-Subject: [PATCH 2/2] kbuild: link lib-y objects to vmlinux forcibly even when CONFIG_MODULES=n
-Date: Mon, 26 May 2025 18:07:52 +0900
-Message-ID: <20250526090815.416922-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250526090815.416922-1-masahiroy@kernel.org>
-References: <20250526090815.416922-1-masahiroy@kernel.org>
+	s=k20201202; t=1748265150;
+	bh=z9dY07EQnSlqvZ+Z4TKYcbdmJWT/FUFIU3ARCSjfzpA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=G1fx9kZcGZ+h7e8tpvU83/VVqYgVDrPyZHUQkc/8jZjE7n94IeFWTPPUV07yatRy6
+	 N+Mhk/sePw3LPZT6WZGEed0b46FPXBgHd6FFDtCFk0iocTVgeK7X6hjrFj/C/eizNA
+	 tjGzK665/pd5FAFX5D00bmezhCm1SItFnF4n4TnsSaITq24MyT5jC0oIpxeQjQlvTB
+	 NTb/cS2HlfBooffUfB1RrfsiBoFJrI0R3tc3AsC9bh6G77J/HMDzO5NficVVzeXVga
+	 XGUSOXBH3mJYskE7g8+anWRqu9hIgiop375yUWdbLads0T3EEbZ+8gOnR/TLaI3ZrD
+	 2uhaSlHjsQ1YA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-553246e975fso647963e87.0;
+        Mon, 26 May 2025 06:12:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWDfKPrd4PgKXxYSuGQuDKs8TlmdG44N9l3SpiG2kJreGTsQAn7uVtaPu5o83f4wZYf9a49Q8tfqyOlkxI=@vger.kernel.org, AJvYcCXbSkgcjZup121uzLyX2SHpOvUG+szIOyruGbscekSMFH4+jYC1wFmdG/vlz5CrhXaCgzqXm8uQqXkgbH33@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbY/bg9lceXf8YvMAitTMwZpGHMZrls8ues/Bii6lJkhuM2kPV
+	juWvJCu94TDOMVHIut0BbUBm9ANb7RUJrxk7hXcxSske6TqdwOw5FIKbOsCAQqFOQXOlRKXcpYH
+	kWTclcetYWUHKZy9dUnEBYT5eCH2cEvo=
+X-Google-Smtp-Source: AGHT+IG0xQ3iaZVHRj9JW8FxkYr68mgiZJrQmO4w8TbwOwqbyzO0+ua9OGsEYi8XuG95iLcQujpLvl8j0GjKNIjraDY=
+X-Received: by 2002:a05:6512:159a:b0:54f:c101:4bf7 with SMTP id
+ 2adb3069b0e04-5521c9b48d4mr2103369e87.52.1748265148655; Mon, 26 May 2025
+ 06:12:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250521213534.3159514-1-xur@google.com>
+In-Reply-To: <20250521213534.3159514-1-xur@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 26 May 2025 22:11:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS4Ys-ekzjrRdfwKh5tEU=FKe1tE2-orj6LTs7EknZCZg@mail.gmail.com>
+X-Gm-Features: AX0GCFuZNCUXN10NDN3cSOcOURJ_RHzn7h0xC-2K0hCnmI8JFV12MJXg9rJDWwk
+Message-ID: <CAK7LNAS4Ys-ekzjrRdfwKh5tEU=FKe1tE2-orj6LTs7EknZCZg@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: distributed build support for Clang ThinLTO
+To: xur@google.com
+Cc: Nathan Chancellor <nathan@kernel.org>, Eric Naim <dnaim@cachyos.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Teresa Johnson <tejohnson@google.com>, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: multipart/mixed; boundary="00000000000028cce8063609b318"
 
-Since commit 7273ad2b08f8 ("kbuild: link lib-y objects to vmlinux
-forcibly when CONFIG_MODULES=y"), all objects from lib-y have been
-forcibly linked to vmlinux when CONFIG_MODULES=y.
+--00000000000028cce8063609b318
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To simplify future changes, this commit makes all objects from lib-y
-be linked regardless of the CONFIG_MODULES setting.
+On Thu, May 22, 2025 at 6:35=E2=80=AFAM <xur@google.com> wrote:
+>
+> From: Rong Xu <xur@google.com>
+>
+> Add distributed ThinLTO build support for the Linux kernel.
+> This new mode offers several advantages: (1) Increased
+> flexibility in handling user-specified build options.
+> (2) Improved user-friendliness for developers. (3) Greater
+> convenience for integrating with objtool and livepatch.
+>
+> Note that "distributed" in this context refers to a term
+> that differentiates in-process ThinLTO builds by invoking
+> backend compilation through the linker, not necessarily
+> building in distributed environments.
+>
+> Distributed ThinLTO is enabled via the
+> `CONFIG_LTO_CLANG_THIN_DIST` Kconfig option. For example:
+>  > make LLVM=3D1 defconfig
+>  > scripts/config -e LTO_CLANG_THIN_DIST
+>  > make LLVM=3D1 oldconfig
+>  > make LLVM=3D1 vmlinux -j <..>
+>
+> The implementation changes the top-level Makefile with a
+> macro for generating `vmlinux.o` for distributed ThinLTO
+> builds. It uses the existing Kbuild infrastructure to
+> perform two recursive passes through the subdirectories.
+> The first pass generates LLVM IR object files, similar to
+> in-process ThinLTO. Following the thin-link stage, a second
+> pass compiles these IR files into the final native object
+> files. The build rules and actions for this two-pass process
+> are primarily implemented in `scripts/Makefile.build`.
+>
+> Currently, this patch focuses on building the main kernel
+> image (`vmlinux`) only. Support for building kernel modules
+> using this method is planned for a subsequent patch.
+>
+> Tested on the following arch: x86, arm64, loongarch, and
+> riscv.
+>
+> Some implementation details can be found here:
+> https://discourse.llvm.org/t/rfc-distributed-thinlto-build-for-kernel/859=
+34
+>
+> Signed-off-by: Rong Xu <xur@google.com>
+> ---
+> Changelog since v1:
+> - Updated the description in arch/Kconfig based on feedback
+>   from Nathan Chancellor
+> - Revised file suffixes: .final_o -> .o.thinlto.native, and
+>   .final_a -> .a.thinlto.native
+> - Updated list of ignored files in .gitignore
+>
+> Changelog since v2:
+> - Changed file suffixes: .o.thinlto.native -> .o_thinlto_native,
+>   and .a.thinlto.native -> .a_thinlto_native so that basename
+>   works as intended.
+> - Tested the patch with AutoFDO and Propeller.
+> ---
+>  .gitignore                        |  3 ++
+>  MAINTAINERS                       |  5 +++
+>  Makefile                          | 40 ++++++++++++++++++++---
+>  arch/Kconfig                      | 19 +++++++++++
+>  scripts/Makefile.build            | 52 +++++++++++++++++++++++++++---
+>  scripts/Makefile.lib              |  7 +++-
+>  scripts/Makefile.vmlinux_o        | 16 +++++++---
+>  scripts/Makefile.vmlinux_thinlink | 53 +++++++++++++++++++++++++++++++
+>  scripts/head-object-list.txt      |  1 +
+>  9 files changed, 181 insertions(+), 15 deletions(-)
+>  create mode 100644 scripts/Makefile.vmlinux_thinlink
 
-Most use cases (CONFIG_MODULES=y) are not affected by this change.
+I re-implemented the Makefiles to avoid
+the second recursion and hacky ifdefs.
+Attached.
 
-The vmlinux size with ARCH=arm allnoconfig, where CONFIG_MODULES=n,
-increases as follows:
+The topic branch is available in
 
-   text    data     bss     dec     hex filename
-1368644  835104  206288 2410036  24c634 vmlinux.before
-1379440  837064  206288 2422792  24f808 vmlinux.after
+git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+thinlto-dist-refactor
 
-We no longer benefit from using static libraries, but the impact is
-mitigated by supporting CONFIG_LD_DEAD_CODE_DATA_ELIMINATION.
+I only compile and boot tested on x86 QEMU.
 
-For example, the size of vmlinux remains almost the same with ARCH=arm
-tinyconfig, where CONFIG_MODULES=n and
-CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=y.
 
-   text    data     bss     dec     hex filename
- 455316   93404   15472  564192   89be0 vmlinux.before
- 455312   93404   15472  564188   89bdc vmlinux.after
+--=20
+Best Regards
+Masahiro Yamada
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+--00000000000028cce8063609b318
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-kbuild-move-vmlinux.a-build-rule-to-scripts-Makefile.patch"
+Content-Disposition: attachment; 
+	filename="0001-kbuild-move-vmlinux.a-build-rule-to-scripts-Makefile.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mb53t43h0>
+X-Attachment-Id: f_mb53t43h0
 
- Makefile | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+RnJvbSAzZWUxOTViMTg5MzI4NzBkMmZiODVhYjU2ZDMwNjg2YTRjYWNhNGE2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXNhaGlybyBZYW1hZGEgPG1hc2FoaXJveUBrZXJuZWwub3Jn
+PgpEYXRlOiBNb24sIDI2IE1heSAyMDI1IDE1OjMyOjIyICswOTAwClN1YmplY3Q6IFtQQVRDSCAx
+LzJdIGtidWlsZDogbW92ZSB2bWxpbnV4LmEgYnVpbGQgcnVsZSB0bwogc2NyaXB0cy9NYWtlZmls
+ZS52bWxpbnV4X2EKCk1vdmUgdGhlIGJ1aWxkIHJ1bGUgZm9yIHZtbGludXguYSB0byBhIHNlcGFy
+YXRlIGZpbGUgaW4gcHJlcGFyYXRpb24KZm9yIHN1cHBvcnRpbmcgZGlzdHJpYnV0ZWQgYnVpbGRz
+IHdpdGggQ2xhbmcgVGhpbkxUTy4KClNpZ25lZC1vZmYtYnk6IE1hc2FoaXJvIFlhbWFkYSA8bWFz
+YWhpcm95QGtlcm5lbC5vcmc+Ci0tLQogTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgfCAxNiAr
+KysrKy0tLS0tLS0tCiBzY3JpcHRzL01ha2VmaWxlLnZtbGludXhfYSB8IDQ2ICsrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrCiAyIGZpbGVzIGNoYW5nZWQsIDUyIGluc2VydGlv
+bnMoKyksIDEwIGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IHNjcmlwdHMvTWFrZWZp
+bGUudm1saW51eF9hCgpkaWZmIC0tZ2l0IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQppbmRleCBiOGQ5
+NGM3ZmU0YWYuLmVmOTQwOWMxYzlkOSAxMDA2NDQKLS0tIGEvTWFrZWZpbGUKKysrIGIvTWFrZWZp
+bGUKQEAgLTExODcsNyArMTE4Nyw3IEBAIGV4cG9ydCBBUkNIX0RSSVZFUlMJOj0gJChkcml2ZXJz
+LXkpICQoZHJpdmVycy1tKQogS0JVSUxEX1ZNTElOVVhfT0JKUyA6PSBidWlsdC1pbi5hICQocGF0
+c3Vic3QgJS8sICUvbGliLmEsICQoZmlsdGVyICUvLCAkKGxpYnMteSkpKQogS0JVSUxEX1ZNTElO
+VVhfTElCUyA6PSAkKGZpbHRlci1vdXQgJS8sICQobGlicy15KSkKIAotZXhwb3J0IEtCVUlMRF9W
+TUxJTlVYX0xJQlMKK2V4cG9ydCBLQlVJTERfVk1MSU5VWF9PQkpTIEtCVUlMRF9WTUxJTlVYX0xJ
+QlMKIGV4cG9ydCBLQlVJTERfTERTICAgICAgICAgIDo9IGFyY2gvJChTUkNBUkNIKS9rZXJuZWwv
+dm1saW51eC5sZHMKIAogaWZkZWYgQ09ORklHX1RSSU1fVU5VU0VEX0tTWU1TCkBAIC0xMTk2LDE2
+ICsxMTk2LDEyIEBAIGlmZGVmIENPTkZJR19UUklNX1VOVVNFRF9LU1lNUwogS0JVSUxEX01PRFVM
+RVMgOj0gMQogZW5kaWYKIAotIyAnJChBUikgbVBpJyBuZWVkcyAtLXRoaW4gdG8gd29ya2Fyb3Vu
+ZCB0aGUgYnVnIG9mIGxsdm0tYXIgPD0gMTQKLXF1aWV0X2NtZF9hcl92bWxpbnV4LmEgPSBBUiAg
+ICAgICRACi0gICAgICBjbWRfYXJfdm1saW51eC5hID0gXAotCXJtIC1mICRAOyBcCi0JJChBUikg
+Y0RQclMgLS10aGluICRAICQoS0JVSUxEX1ZNTElOVVhfT0JKUyk7IFwKLQkkKEFSKSBtUGkgLS10
+aGluICQkKCQoQVIpIHQgJEAgfCBzZWQgLW4gMXApICRAICQkKCQoQVIpIHQgJEAgfCBncmVwIC1G
+IC1mICQoc3JjdHJlZSkvc2NyaXB0cy9oZWFkLW9iamVjdC1saXN0LnR4dCkKK1BIT05ZICs9IHZt
+bGludXhfYQordm1saW51eF9hOiAkKEtCVUlMRF9WTUxJTlVYX09CSlMpIHNjcmlwdHMvaGVhZC1v
+YmplY3QtbGlzdC50eHQgRk9SQ0UKKwkkKFEpJChNQUtFKSAtZiAkKHNyY3RyZWUpL3NjcmlwdHMv
+TWFrZWZpbGUudm1saW51eF9hCiAKLXRhcmdldHMgKz0gdm1saW51eC5hCi12bWxpbnV4LmE6ICQo
+S0JVSUxEX1ZNTElOVVhfT0JKUykgc2NyaXB0cy9oZWFkLW9iamVjdC1saXN0LnR4dCBGT1JDRQot
+CSQoY2FsbCBpZl9jaGFuZ2VkLGFyX3ZtbGludXguYSkKK3ZtbGludXguYTogdm1saW51eF9hCisJ
+QDoKIAogUEhPTlkgKz0gdm1saW51eF9vCiB2bWxpbnV4X286IHZtbGludXguYSAkKEtCVUlMRF9W
+TUxJTlVYX0xJQlMpCmRpZmYgLS1naXQgYS9zY3JpcHRzL01ha2VmaWxlLnZtbGludXhfYSBiL3Nj
+cmlwdHMvTWFrZWZpbGUudm1saW51eF9hCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAw
+MDAwMDAwMC4uOTc3NGYwMmI0M2IyCi0tLSAvZGV2L251bGwKKysrIGIvc2NyaXB0cy9NYWtlZmls
+ZS52bWxpbnV4X2EKQEAgLTAsMCArMSw0NiBAQAorIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
+R1BMLTIuMC1vbmx5CisKK1BIT05ZIDo9IF9fZGVmYXVsdAorX19kZWZhdWx0OiB2bWxpbnV4LmEK
+KworaW5jbHVkZSBpbmNsdWRlL2NvbmZpZy9hdXRvLmNvbmYKK2luY2x1ZGUgJChzcmN0cmVlKS9z
+Y3JpcHRzL0tidWlsZC5pbmNsdWRlCitpbmNsdWRlICQoc3JjdHJlZSkvc2NyaXB0cy9NYWtlZmls
+ZS5saWIKKworIyBMaW5rIG9mIGJ1aWx0LWluLWZpeHVwLmEKKyMgLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+CisKKyMgJyQoQVIpIG1QaScgbmVlZHMgLS10aGluIHRvIHdvcmthcm91bmQgdGhlIGJ1ZyBvZiBs
+bHZtLWFyIDw9IDE0CitxdWlldF9jbWRfYXJfYnVpbHRpbl9maXh1cCA9IEFSICAgICAgJEAKKyAg
+ICAgIGNtZF9hcl9idWlsdGluX2ZpeHVwID0gXAorCXJtIC1mICRAOyBcCisJJChBUikgY0RQclMg
+LS10aGluICRAICQoS0JVSUxEX1ZNTElOVVhfT0JKUyk7IFwKKwkkKEFSKSBtUGkgLS10aGluICQk
+KCQoQVIpIHQgJEAgfCBzZWQgLW4gMXApICRAICQkKCQoQVIpIHQgJEAgfCBncmVwIC1GIC1mICQo
+c3JjdHJlZSkvc2NyaXB0cy9oZWFkLW9iamVjdC1saXN0LnR4dCkKKwordGFyZ2V0cyArPSBidWls
+dC1pbi1maXh1cC5hCitidWlsdC1pbi1maXh1cC5hOiAkKEtCVUlMRF9WTUxJTlVYX09CSlMpIHNj
+cmlwdHMvaGVhZC1vYmplY3QtbGlzdC50eHQgRk9SQ0UKKwkkKGNhbGwgaWZfY2hhbmdlZCxhcl9i
+dWlsdGluX2ZpeHVwKQorCisjIHZtbGludXguYQorIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKwordGFy
+Z2V0cyArPSB2bWxpbnV4LmEKK3ZtbGludXguYTogYnVpbHQtaW4tZml4dXAuYSBGT1JDRQorCSQo
+Y2FsbCBpZl9jaGFuZ2VkLGNvcHkpCisKKyMgQWRkIEZPUkNFIHRvIHRoZSBwcmVyZXF1aXNpdGVz
+IG9mIGEgdGFyZ2V0IHRvIGZvcmNlIGl0IHRvIGJlIGFsd2F5cyByZWJ1aWx0LgorIyAtLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0KKworUEhPTlkgKz0gRk9SQ0UKK0ZPUkNFOgorCisjIFJlYWQgYWxsIHNhdmVk
+IGNvbW1hbmQgbGluZXMgYW5kIGRlcGVuZGVuY2llcyBmb3IgdGhlICQodGFyZ2V0cykgd2UKKyMg
+bWF5IGJlIGJ1aWxkaW5nIGFib3ZlLCB1c2luZyAkKGlmX2NoYW5nZWR7LF9kZXB9KS4gQXMgYW4K
+KyMgb3B0aW1pemF0aW9uLCB3ZSBkb24ndCBuZWVkIHRvIHJlYWQgdGhlbSBpZiB0aGUgdGFyZ2V0
+IGRvZXMgbm90CisjIGV4aXN0LCB3ZSB3aWxsIHJlYnVpbGQgYW55d2F5IGluIHRoYXQgY2FzZS4K
+KworZXhpc3RpbmctdGFyZ2V0cyA6PSAkKHdpbGRjYXJkICQoc29ydCAkKHRhcmdldHMpKSkKKwor
+LWluY2x1ZGUgJChmb3JlYWNoIGYsJChleGlzdGluZy10YXJnZXRzKSwkKGRpciAkKGYpKS4kKG5v
+dGRpciAkKGYpKS5jbWQpCisKKy5QSE9OWTogJChQSE9OWSkKLS0gCjIuNDMuMAoK
+--00000000000028cce8063609b318
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0002-kbuild-distributed-build-support-for-Clang-ThinLTO.patch"
+Content-Disposition: attachment; 
+	filename="0002-kbuild-distributed-build-support-for-Clang-ThinLTO.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mb53t43w1>
+X-Attachment-Id: f_mb53t43w1
 
-diff --git a/Makefile b/Makefile
-index 682a8002b7a1..b8d94c7fe4af 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1184,13 +1184,8 @@ export ARCH_LIB		:= $(filter %/, $(libs-y))
- export ARCH_DRIVERS	:= $(drivers-y) $(drivers-m)
- # Externally visible symbols (used by link-vmlinux.sh)
- 
--KBUILD_VMLINUX_OBJS := ./built-in.a
--ifdef CONFIG_MODULES
--KBUILD_VMLINUX_OBJS += $(patsubst %/, %/lib.a, $(filter %/, $(libs-y)))
-+KBUILD_VMLINUX_OBJS := built-in.a $(patsubst %/, %/lib.a, $(filter %/, $(libs-y)))
- KBUILD_VMLINUX_LIBS := $(filter-out %/, $(libs-y))
--else
--KBUILD_VMLINUX_LIBS := $(patsubst %/,%/lib.a, $(libs-y))
--endif
- 
- export KBUILD_VMLINUX_LIBS
- export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
--- 
-2.43.0
-
+RnJvbSBjOTk0NDQ0NWViNzQ4OTZiYzAwNDRhZGEzM2M4NjU3NTRmMjQ2MGM2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBSb25nIFh1IDx4dXJAZ29vZ2xlLmNvbT4KRGF0ZTogV2VkLCAy
+MSBNYXkgMjAyNSAxNDozNTozNCAtMDcwMApTdWJqZWN0OiBbUEFUQ0ggMi8yXSBrYnVpbGQ6IGRp
+c3RyaWJ1dGVkIGJ1aWxkIHN1cHBvcnQgZm9yIENsYW5nIFRoaW5MVE8KCkFkZCBkaXN0cmlidXRl
+ZCBUaGluTFRPIGJ1aWxkIHN1cHBvcnQgZm9yIHRoZSBMaW51eCBrZXJuZWwuClRoaXMgbmV3IG1v
+ZGUgb2ZmZXJzIHNldmVyYWwgYWR2YW50YWdlczogKDEpIEluY3JlYXNlZApmbGV4aWJpbGl0eSBp
+biBoYW5kbGluZyB1c2VyLXNwZWNpZmllZCBidWlsZCBvcHRpb25zLgooMikgSW1wcm92ZWQgdXNl
+ci1mcmllbmRsaW5lc3MgZm9yIGRldmVsb3BlcnMuICgzKSBHcmVhdGVyCmNvbnZlbmllbmNlIGZv
+ciBpbnRlZ3JhdGluZyB3aXRoIG9ianRvb2wgYW5kIGxpdmVwYXRjaC4KCk5vdGUgdGhhdCAiZGlz
+dHJpYnV0ZWQiIGluIHRoaXMgY29udGV4dCByZWZlcnMgdG8gYSB0ZXJtCnRoYXQgZGlmZmVyZW50
+aWF0ZXMgaW4tcHJvY2VzcyBUaGluTFRPIGJ1aWxkcyBieSBpbnZva2luZwpiYWNrZW5kIGNvbXBp
+bGF0aW9uIHRocm91Z2ggdGhlIGxpbmtlciwgbm90IG5lY2Vzc2FyaWx5CmJ1aWxkaW5nIGluIGRp
+c3RyaWJ1dGVkIGVudmlyb25tZW50cy4KCkRpc3RyaWJ1dGVkIFRoaW5MVE8gaXMgZW5hYmxlZCB2
+aWEgdGhlCmBDT05GSUdfTFRPX0NMQU5HX1RISU5fRElTVGAgS2NvbmZpZyBvcHRpb24uIEZvciBl
+eGFtcGxlOgogPiBtYWtlIExMVk09MSBkZWZjb25maWcKID4gc2NyaXB0cy9jb25maWcgLWUgTFRP
+X0NMQU5HX1RISU5fRElTVAogPiBtYWtlIExMVk09MSBvbGRjb25maWcKID4gbWFrZSBMTFZNPTEg
+dm1saW51eCAtaiA8Li4+CgpUaGUgaW1wbGVtZW50YXRpb24gY2hhbmdlcyB0aGUgdG9wLWxldmVs
+IE1ha2VmaWxlIHdpdGggYQptYWNybyBmb3IgZ2VuZXJhdGluZyBgdm1saW51eC5vYCBmb3IgZGlz
+dHJpYnV0ZWQgVGhpbkxUTwpidWlsZHMuIEl0IHVzZXMgdGhlIGV4aXN0aW5nIEtidWlsZCBpbmZy
+YXN0cnVjdHVyZSB0bwpwZXJmb3JtIHR3byByZWN1cnNpdmUgcGFzc2VzIHRocm91Z2ggdGhlIHN1
+YmRpcmVjdG9yaWVzLgpUaGUgZmlyc3QgcGFzcyBnZW5lcmF0ZXMgTExWTSBJUiBvYmplY3QgZmls
+ZXMsIHNpbWlsYXIgdG8KaW4tcHJvY2VzcyBUaGluTFRPLiBGb2xsb3dpbmcgdGhlIHRoaW4tbGlu
+ayBzdGFnZSwgYSBzZWNvbmQKcGFzcyBjb21waWxlcyB0aGVzZSBJUiBmaWxlcyBpbnRvIHRoZSBm
+aW5hbCBuYXRpdmUgb2JqZWN0CmZpbGVzLiBUaGUgYnVpbGQgcnVsZXMgYW5kIGFjdGlvbnMgZm9y
+IHRoaXMgdHdvLXBhc3MgcHJvY2VzcwphcmUgcHJpbWFyaWx5IGltcGxlbWVudGVkIGluIGBzY3Jp
+cHRzL01ha2VmaWxlLmJ1aWxkYC4KCkN1cnJlbnRseSwgdGhpcyBwYXRjaCBmb2N1c2VzIG9uIGJ1
+aWxkaW5nIHRoZSBtYWluIGtlcm5lbAppbWFnZSAoYHZtbGludXhgKSBvbmx5LiBTdXBwb3J0IGZv
+ciBidWlsZGluZyBrZXJuZWwgbW9kdWxlcwp1c2luZyB0aGlzIG1ldGhvZCBpcyBwbGFubmVkIGZv
+ciBhIHN1YnNlcXVlbnQgcGF0Y2guCgpUZXN0ZWQgb24gdGhlIGZvbGxvd2luZyBhcmNoOiB4ODYs
+IGFybTY0LCBsb29uZ2FyY2gsIGFuZApyaXNjdi4KClNvbWUgaW1wbGVtZW50YXRpb24gZGV0YWls
+cyBjYW4gYmUgZm91bmQgaGVyZToKaHR0cHM6Ly9kaXNjb3Vyc2UubGx2bS5vcmcvdC9yZmMtZGlz
+dHJpYnV0ZWQtdGhpbmx0by1idWlsZC1mb3Ita2VybmVsLzg1OTM0CgpTaWduZWQtb2ZmLWJ5OiBS
+b25nIFh1IDx4dXJAZ29vZ2xlLmNvbT4KQ28tZGV2ZWxvcGVkLWJ5OiBNYXNhaGlybyBZYW1hZGEg
+PG1hc2FoaXJveUBrZXJuZWwub3JnPgpTaWduZWQtb2ZmLWJ5OiBNYXNhaGlybyBZYW1hZGEgPG1h
+c2FoaXJveUBrZXJuZWwub3JnPgotLS0KIC5naXRpZ25vcmUgICAgICAgICAgICAgICAgIHwgIDIg
+KysKIE1ha2VmaWxlICAgICAgICAgICAgICAgICAgIHwgIDkgKysrKystLS0tCiBhcmNoL0tjb25m
+aWcgICAgICAgICAgICAgICB8IDE5ICsrKysrKysrKysrKysrKysrKysKIHNjcmlwdHMvTWFrZWZp
+bGUudGhpbmx0byAgIHwgMzggKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysK
+IHNjcmlwdHMvTWFrZWZpbGUudm1saW51eF9hIHwgMzcgKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKwogc2NyaXB0cy9tb2QvbW9kcG9zdC5jICAgICAgfCAxNSArKysrKysrKysr
+KystLS0KIDYgZmlsZXMgY2hhbmdlZCwgMTEzIGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0p
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgc2NyaXB0cy9NYWtlZmlsZS50aGlubHRvCgpkaWZmIC0tZ2l0
+IGEvLmdpdGlnbm9yZSBiLy5naXRpZ25vcmUKaW5kZXggZjJmNjNlNDdmYjg4Li5kYzFkZmQ2NzJh
+ZWYgMTAwNjQ0Ci0tLSBhLy5naXRpZ25vcmUKKysrIGIvLmdpdGlnbm9yZQpAQCAtNTQsNiArNTQs
+NyBAQAogKi56c3QKIE1vZHVsZS5zeW12ZXJzCiBkdGJzLWxpc3QKK2J1aWx0aW4ub3JkZXIKIG1v
+ZHVsZXMub3JkZXIKIAogIwpAQCAtNjUsNiArNjYsNyBAQCBtb2R1bGVzLm9yZGVyCiAvdm1saW51
+eC4zMgogL3ZtbGludXgubWFwCiAvdm1saW51eC5zeW12ZXJzCisvdm1saW51eC50aGlubHRvLWlu
+ZGV4CiAvdm1saW51eC51bnN0cmlwcGVkCiAvdm1saW51eC1nZGIucHkKIC92bWxpbnV6CmRpZmYg
+LS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlCmluZGV4IGVmOTQwOWMxYzlkOS4uNjFmNGU3NjYy
+MTkyIDEwMDY0NAotLS0gYS9NYWtlZmlsZQorKysgYi9NYWtlZmlsZQpAQCAtOTkxLDEwICs5OTEs
+MTAgQEAgZXhwb3J0IENDX0ZMQUdTX1NDUwogZW5kaWYKIAogaWZkZWYgQ09ORklHX0xUT19DTEFO
+RwotaWZkZWYgQ09ORklHX0xUT19DTEFOR19USElOCi1DQ19GTEFHU19MVE8JOj0gLWZsdG89dGhp
+biAtZnNwbGl0LWx0by11bml0Ci1lbHNlCitpZmRlZiBDT05GSUdfTFRPX0NMQU5HX0ZVTEwKIEND
+X0ZMQUdTX0xUTwk6PSAtZmx0bworZWxzZQorQ0NfRkxBR1NfTFRPCTo9IC1mbHRvPXRoaW4gLWZz
+cGxpdC1sdG8tdW5pdAogZW5kaWYKIENDX0ZMQUdTX0xUTwkrPSAtZnZpc2liaWxpdHk9aGlkZGVu
+CiAKQEAgLTE1NjEsNiArMTU2MSw3IEBAIGVuZGlmICMgQ09ORklHX01PRFVMRVMKIENMRUFOX0ZJ
+TEVTICs9IHZtbGludXguc3ltdmVycyBtb2R1bGVzLW9ubHkuc3ltdmVycyBcCiAJICAgICAgIG1v
+ZHVsZXMuYnVpbHRpbiBtb2R1bGVzLmJ1aWx0aW4ubW9kaW5mbyBtb2R1bGVzLm5zZGVwcyBcCiAJ
+ICAgICAgIG1vZHVsZXMuYnVpbHRpbi5yYW5nZXMgdm1saW51eC5vLm1hcCB2bWxpbnV4LnVuc3Ry
+aXBwZWQgXAorCSAgICAgICB2bWxpbnV4LnRoaW5sdG8taW5kZXggYnVpbHRpbi5vcmRlciBcCiAJ
+ICAgICAgIGNvbXBpbGVfY29tbWFuZHMuanNvbiBydXN0L3Rlc3QgXAogCSAgICAgICBydXN0LXBy
+b2plY3QuanNvbiAudm1saW51eC5vYmpzIC52bWxpbnV4LmV4cG9ydC5jIFwKICAgICAgICAgICAg
+ICAgIC5idWlsdGluLWR0YnMtbGlzdCAuYnVpbHRpbi1kdGIuUwpAQCAtMjAwMiw3ICsyMDAzLDcg
+QEAgY2xlYW46ICQoY2xlYW4tZGlycykKIAkkKGNhbGwgY21kLHJtZmlsZXMpCiAJQGZpbmQgLiAk
+KFJDU19GSU5EX0lHTk9SRSkgXAogCQlcKCAtbmFtZSAnKi5bYWlvc10nIC1vIC1uYW1lICcqLnJz
+aScgLW8gLW5hbWUgJyoua28nIC1vIC1uYW1lICcuKi5jbWQnIFwKLQkJLW8gLW5hbWUgJyoua28u
+KicgXAorCQktbyAtbmFtZSAnKi5rby4qJyAtbyAtbmFtZSAnKi5vLnRoaW5sdG8uYmMnIFwKIAkJ
+LW8gLW5hbWUgJyouZHRiJyAtbyAtbmFtZSAnKi5kdGJvJyBcCiAJCS1vIC1uYW1lICcqLmR0Yi5T
+JyAtbyAtbmFtZSAnKi5kdGJvLlMnIFwKIAkJLW8gLW5hbWUgJyouZHQueWFtbCcgLW8gLW5hbWUg
+J2R0YnMtbGlzdCcgXApkaWZmIC0tZ2l0IGEvYXJjaC9LY29uZmlnIGIvYXJjaC9LY29uZmlnCmlu
+ZGV4IGIwYWRiNjY1MDQxZi4uMWMyZGRiMWI3MjFkIDEwMDY0NAotLS0gYS9hcmNoL0tjb25maWcK
+KysrIGIvYXJjaC9LY29uZmlnCkBAIC04MTAsNiArODEwLDI1IEBAIGNvbmZpZyBMVE9fQ0xBTkdf
+VEhJTgogCSAgICBodHRwczovL2NsYW5nLmxsdm0ub3JnL2RvY3MvVGhpbkxUTy5odG1sCiAKIAkg
+IElmIHVuc3VyZSwgc2F5IFkuCisKK2NvbmZpZyBMVE9fQ0xBTkdfVEhJTl9ESVNUCisJYm9vbCAi
+Q2xhbmcgVGhpbkxUTyBpbiBkaXN0cmlidXRlZCBtb2RlIChFWFBFUklNRU5UQUwpIgorCWRlcGVu
+ZHMgb24gSEFTX0xUT19DTEFORyAmJiBBUkNIX1NVUFBPUlRTX0xUT19DTEFOR19USElOCisJc2Vs
+ZWN0IExUT19DTEFORworCWhlbHAKKwkgIFRoaXMgb3B0aW9uIGVuYWJsZXMgQ2xhbmcncyBUaGlu
+TFRPIGluIGRpc3RyaWJ1dGVkIGJ1aWxkIG1vZGUuCisJICBJbiB0aGlzIG1vZGUsIHRoZSBsaW5r
+ZXIgcGVyZm9ybXMgdGhlIHRoaW4tbGluaywgZ2VuZXJhdGluZworCSAgVGhpbkxUTyBpbmRleCBm
+aWxlcy4gU3Vic2VxdWVudGx5LCB0aGUgYnVpbGQgc3lzdGVtIGV4cGxpY2l0bHkKKwkgIGludm9r
+ZXMgVGhpbkxUTyBiYWNrZW5kIGNvbXBpbGF0aW9uIHVzaW5nIHRoZXNlIGluZGV4IGZpbGVzCisJ
+ICBhbmQgcHJlLWxpbmtlZCBJUiBvYmplY3RzLiBUaGUgcmVzdWx0aW5nIG5hdGl2ZSBvYmplY3Qg
+ZmlsZXMKKwkgIGFyZSB3aXRoIHRoZSAudGhpbmx0by1uYXRpdmUubyBzdWZmaXguCisKKwkgIFRo
+aXMgYnVpbGQgbW9kZSBvZmZlcnMgaW1wcm92ZWQgdmlzaWJpbGl0eSBpbnRvIHRoZSBUaGluTFRP
+CisJICBwcm9jZXNzIHRocm91Z2ggZXhwbGljaXQgc3ViY29tbWFuZCBleHBvc3VyZS4gSXQgYWxz
+byBtYWtlcworCSAgZmluYWwgbmF0aXZlIG9iamVjdCBmaWxlcyBkaXJlY3RseSBhdmFpbGFibGUs
+IGJlbmVmaXRpbmcKKwkgIHRvb2xzIGxpa2Ugb2JqdG9vbCBhbmQga3BhdGNoLiBBZGRpdGlvbmFs
+bHksIGl0IHByb3ZpZGVzCisJICBjcnVjaWFsIGdyYW51bGFyIGNvbnRyb2wgb3ZlciBiYWNrLWVu
+ZCBvcHRpb25zLCBlbmFibGluZworCSAgbW9kdWxlLXNwZWNpZmljIGNvbXBpbGVyIG9wdGlvbnMs
+IGFuZCBzaW1wbGlmaWVzIGRlYnVnZ2luZy4KIGVuZGNob2ljZQogCiBjb25maWcgQVJDSF9TVVBQ
+T1JUU19BVVRPRkRPX0NMQU5HCmRpZmYgLS1naXQgYS9zY3JpcHRzL01ha2VmaWxlLnRoaW5sdG8g
+Yi9zY3JpcHRzL01ha2VmaWxlLnRoaW5sdG8KbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAw
+MDAwMDAwMDAwLi5lYzk4ZmEyZWFkM2IKLS0tIC9kZXYvbnVsbAorKysgYi9zY3JpcHRzL01ha2Vm
+aWxlLnRoaW5sdG8KQEAgLTAsMCArMSwzOCBAQAorUEhPTlkgOj0gX19kZWZhdWx0CitfX2RlZmF1
+bHQ6CisKK2luY2x1ZGUgaW5jbHVkZS9jb25maWcvYXV0by5jb25mCitpbmNsdWRlICQoc3JjdHJl
+ZSkvc2NyaXB0cy9LYnVpbGQuaW5jbHVkZQoraW5jbHVkZSAkKHNyY3RyZWUpL3NjcmlwdHMvTWFr
+ZWZpbGUubGliCisKK25hdGl2ZS1vYmpzIDo9ICQocGF0c3Vic3QgJS5vLCUudGhpbmx0by1uYXRp
+dmUubywkKGNhbGwgcmVhZC1maWxlLCB2bWxpbnV4LnRoaW5sdG8taW5kZXgpKQorCitfX2RlZmF1
+bHQ6ICQobmF0aXZlLW9ianMpCisKKyMgR2VuZXJhdGUgLnRoaW5sdG8tbmF0aXZlLm8gKG9iaikg
+ZnJvbSAubyAoYml0Y29kZSkgYW5kIC50aGlubHRvLmJjIChzdW1tYXJ5KSBmaWxlcworIyAtLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0KK3F1aWV0X2NtZF9jY19vX2JjID0gQ0MgJChxdWlldF9tb2R0YWcpICAk
+QAorICAgICAgY21kX2NjX29fYmMgPSBcCisgICAgICAkKENDKSAkKF9jX2ZsYWdzKSAtZm5vLWx0
+byAtV25vLXVudXNlZC1jb21tYW5kLWxpbmUtYXJndW1lbnQgXAorICAgICAgLWZ0aGlubHRvLWlu
+ZGV4PSQod29yZCAyLCAkXikgLWMgLW8gJEAgJDwKKwordGFyZ2V0cyArPSAkKG5hdGl2ZS1vYmpz
+KQorJChuYXRpdmUtb2Jqcyk6ICUudGhpbmx0by1uYXRpdmUubzogJS5vICUuby50aGlubHRvLmJj
+ICAgRk9SQ0UKKwkkKGNhbGwgaWZfY2hhbmdlZCxjY19vX2JjKQorCisjIEFkZCBGT1JDRSB0byB0
+aGUgcHJlcmVxdWlzaXRlcyBvZiBhIHRhcmdldCB0byBmb3JjZSBpdCB0byBiZSBhbHdheXMgcmVi
+dWlsdC4KKyMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisKK1BIT05ZICs9IEZPUkNFCitGT1JDRToKKwor
+IyBSZWFkIGFsbCBzYXZlZCBjb21tYW5kIGxpbmVzIGFuZCBkZXBlbmRlbmNpZXMgZm9yIHRoZSAk
+KHRhcmdldHMpIHdlCisjIG1heSBiZSBidWlsZGluZyBhYm92ZSwgdXNpbmcgJChpZl9jaGFuZ2Vk
+eyxfZGVwfSkuIEFzIGFuCisjIG9wdGltaXphdGlvbiwgd2UgZG9uJ3QgbmVlZCB0byByZWFkIHRo
+ZW0gaWYgdGhlIHRhcmdldCBkb2VzIG5vdAorIyBleGlzdCwgd2Ugd2lsbCByZWJ1aWxkIGFueXdh
+eSBpbiB0aGF0IGNhc2UuCisKK2V4aXN0aW5nLXRhcmdldHMgOj0gJCh3aWxkY2FyZCAkKHNvcnQg
+JCh0YXJnZXRzKSkpCisKKy1pbmNsdWRlICQoZm9yZWFjaCBmLCQoZXhpc3RpbmctdGFyZ2V0cyks
+JChkaXIgJChmKSkuJChub3RkaXIgJChmKSkuY21kKQorCisuUEhPTlk6ICQoUEhPTlkpCmRpZmYg
+LS1naXQgYS9zY3JpcHRzL01ha2VmaWxlLnZtbGludXhfYSBiL3NjcmlwdHMvTWFrZWZpbGUudm1s
+aW51eF9hCmluZGV4IDk3NzRmMDJiNDNiMi4uMzgyY2ViZTFlZTU3IDEwMDY0NAotLS0gYS9zY3Jp
+cHRzL01ha2VmaWxlLnZtbGludXhfYQorKysgYi9zY3JpcHRzL01ha2VmaWxlLnZtbGludXhfYQpA
+QCAtMjEsNiArMjEsNDEgQEAgdGFyZ2V0cyArPSBidWlsdC1pbi1maXh1cC5hCiBidWlsdC1pbi1m
+aXh1cC5hOiAkKEtCVUlMRF9WTUxJTlVYX09CSlMpIHNjcmlwdHMvaGVhZC1vYmplY3QtbGlzdC50
+eHQgRk9SQ0UKIAkkKGNhbGwgaWZfY2hhbmdlZCxhcl9idWlsdGluX2ZpeHVwKQogCitpZmRlZiBD
+T05GSUdfTFRPX0NMQU5HX1RISU5fRElTVAorCitxdWlldF9jbWRfYnVpbHRpbi5vcmRlciA9IEdF
+TiAgICAgJEAKKyAgICAgIGNtZF9idWlsdGluLm9yZGVyID0gJChBUikgdCAkPCA+ICRACisKK3Rh
+cmdldHMgKz0gYnVpbHRpbi5vcmRlcgorYnVpbHRpbi5vcmRlcjogYnVpbHQtaW4tZml4dXAuYSBG
+T1JDRQorCSQoY2FsbCBpZl9jaGFuZ2VkLGJ1aWx0aW4ub3JkZXIpCisKK3F1aWV0X2NtZF9sZF90
+aGlubHRvX2luZGV4ID0gTEQgICAgICAkQAorICAgICAgY21kX2xkX3RoaW5sdG9faW5kZXggPSBc
+CisJJChMRCkgJChLQlVJTERfTERGTEFHUykgLXIgLS10aGlubHRvLWluZGV4LW9ubHk9JEAgQCQ8
+CisKK3RhcmdldHMgKz0gdm1saW51eC50aGlubHRvLWluZGV4Cit2bWxpbnV4LnRoaW5sdG8taW5k
+ZXg6IGJ1aWx0aW4ub3JkZXIgRk9SQ0UKKwkkKGNhbGwgaWZfY2hhbmdlZCxsZF90aGlubHRvX2lu
+ZGV4KQorCitxdWlldF9jbWRfYXJfdm1saW51eC5hID0gR0VOICAgICAkQAorICAgICAgY21kX2Fy
+X3ZtbGludXguYSA9CQkJCQlcCisJcm0gLWYgJEA7CQkJCQkJXAorCXdoaWxlIHJlYWQgLXIgb2Jq
+OyBkbwkJCQkJXAorCQlpZiBncmVwIC1xICQke29ian0gJCh3b3JkIDIsICReKTsgdGhlbgkJXAor
+CQkJZWNobyAkJHtvYmolLm99LnRoaW5sdG8tbmF0aXZlLm87CVwKKwkJZWxzZQkJCQkJCVwKKwkJ
+CWVjaG8gJCR7b2JqfTsJCQkJXAorCQlmaTsJCQkJCQlcCisJZG9uZSA8ICQ8IHwgeGFyZ3MgJChB
+UikgY0RQclMgLS10aGluICRACisKK3RhcmdldHMgKz0gdm1saW51eC5hCit2bWxpbnV4LmE6IGJ1
+aWx0aW4ub3JkZXIgdm1saW51eC50aGlubHRvLWluZGV4IEZPUkNFCisJJChRKSQoTUFLRSkgLWYg
+JChzcmN0cmVlKS9zY3JpcHRzL01ha2VmaWxlLnRoaW5sdG8KKwkkKGNhbGwgaWZfY2hhbmdlZCxh
+cl92bWxpbnV4LmEpCisKK2Vsc2UKKwogIyB2bWxpbnV4LmEKICMgLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+CiAKQEAgLTI4LDYgKzYzLDggQEAgdGFyZ2V0cyArPSB2bWxpbnV4LmEKIHZtbGludXguYTogYnVp
+bHQtaW4tZml4dXAuYSBGT1JDRQogCSQoY2FsbCBpZl9jaGFuZ2VkLGNvcHkpCiAKK2VuZGlmCisK
+ICMgQWRkIEZPUkNFIHRvIHRoZSBwcmVyZXF1aXNpdGVzIG9mIGEgdGFyZ2V0IHRvIGZvcmNlIGl0
+IHRvIGJlIGFsd2F5cyByZWJ1aWx0LgogIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIApkaWZmIC0tZ2l0
+IGEvc2NyaXB0cy9tb2QvbW9kcG9zdC5jIGIvc2NyaXB0cy9tb2QvbW9kcG9zdC5jCmluZGV4IDVj
+YTdjMjY4Mjk0ZS4uOGIwMTc0NmM5Y2U2IDEwMDY0NAotLS0gYS9zY3JpcHRzL21vZC9tb2Rwb3N0
+LmMKKysrIGIvc2NyaXB0cy9tb2QvbW9kcG9zdC5jCkBAIC0xNDczLDEzICsxNDczLDIyIEBAIHN0
+YXRpYyB2b2lkIGV4dHJhY3RfY3Jjc19mb3Jfb2JqZWN0KGNvbnN0IGNoYXIgKm9iamVjdCwgc3Ry
+dWN0IG1vZHVsZSAqbW9kKQogCWNoYXIgY21kX2ZpbGVbUEFUSF9NQVhdOwogCWNoYXIgKmJ1Ziwg
+KnA7CiAJY29uc3QgY2hhciAqYmFzZTsKLQlpbnQgZGlybGVuLCByZXQ7CisJaW50IGRpcmxlbiwg
+YmFzZWxlbl93aXRob3V0X3N1ZmZpeCwgcmV0OwogCiAJYmFzZSA9IGdldF9iYXNlbmFtZShvYmpl
+Y3QpOwogCWRpcmxlbiA9IGJhc2UgLSBvYmplY3Q7CiAKLQlyZXQgPSBzbnByaW50ZihjbWRfZmls
+ZSwgc2l6ZW9mKGNtZF9maWxlKSwgIiUuKnMuJXMuY21kIiwKLQkJICAgICAgIGRpcmxlbiwgb2Jq
+ZWN0LCBiYXNlKTsKKwliYXNlbGVuX3dpdGhvdXRfc3VmZml4ID0gc3RybGVuKG9iamVjdCkgLSBk
+aXJsZW4gLSBzdHJsZW4oIi5vIik7CisKKwkvKgorCSAqIFdoZW4gQ09ORklHX0xUT19DTEFOR19U
+SElOX0RJU1Q9eSwgdGhlIEVMRiBpcyAqLnRoaW5sdG8tbmF0aXZlLm8KKwkgKiBidXQgdGhlIHN5
+bWJvbCBDUkNzIGFyZSByZWNvcmRlZCBpbiAqLm8uY21kIGZpbGUuCisJICovCisJaWYgKHN0cmVu
+ZHMob2JqZWN0LCAiLnRoaW5sdG8tbmF0aXZlLm8iKSkKKwkJYmFzZWxlbl93aXRob3V0X3N1ZmZp
+eCAtPSBzdHJsZW4oIi50aGlubHRvLW5hdGl2ZSIpOworCisJcmV0ID0gc25wcmludGYoY21kX2Zp
+bGUsIHNpemVvZihjbWRfZmlsZSksICIlLipzLiUuKnMuby5jbWQiLAorCQkgICAgICAgZGlybGVu
+LCBvYmplY3QsIGJhc2VsZW5fd2l0aG91dF9zdWZmaXgsIGJhc2UpOwogCWlmIChyZXQgPj0gc2l6
+ZW9mKGNtZF9maWxlKSkgewogCQllcnJvcigiJXM6IHRvbyBsb25nIHBhdGggd2FzIHRydW5jYXRl
+ZFxuIiwgY21kX2ZpbGUpOwogCQlyZXR1cm47Ci0tIAoyLjQzLjAKCg==
+--00000000000028cce8063609b318--
 
