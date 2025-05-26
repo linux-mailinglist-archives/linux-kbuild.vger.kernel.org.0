@@ -1,129 +1,219 @@
-Return-Path: <linux-kbuild+bounces-7261-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7262-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD196AC3B28
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 10:08:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E797AC3C57
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 11:05:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E2B3174553
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 08:08:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D2733ACE50
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 May 2025 09:05:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B283B1E492D;
-	Mon, 26 May 2025 08:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF39D1E3762;
+	Mon, 26 May 2025 09:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZdUq+2D"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="THVST7+O"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4DA1E1DE0;
-	Mon, 26 May 2025 08:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FF31D63C0;
+	Mon, 26 May 2025 09:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748246901; cv=none; b=nT6yoinAgxOovoyBgaCWITLhNfPfkjRHNavHttTEZwb27aO+/+WEjEL1Y8vsRcH1Oi0q7oeodWhJ+ppZ7TPOuqmHNx7RRq/INjVADOlqGzBqg8I9fFLdmkJlQ1UTOLDoZzEtxn6NhSlqRE1mwf2++o4CZYpLYUFJRtmwrJi/JLc=
+	t=1748250347; cv=none; b=MsBGxNhvkKLFb6bPLubOumNyWIkKct978B/IJMiYBIeQRL3VTy5I9f2bn/quJFfSymd85yt0aBALJtcuc6pDVvtfX26qgtA+JFCeGKXL2MURnOQXRbTqX7HY2iNr0WP4pnHMlghlFcUGP8xpWvBkYaO6lOWehqWEWMGJRM11iHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748246901; c=relaxed/simple;
-	bh=8Q0TqPpgyELDBtvVUMwLRgpXMyfs4Zf3sAWQ0I20ce4=;
+	s=arc-20240116; t=1748250347; c=relaxed/simple;
+	bh=9wOnLXxDZ1Wrs3rYtiViGhzn6NOmefjdvruILugUX0s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fNYedgBtZLmiwkeZdc5hHnthoI2h8oksxwgRpb9m/76f70cYP6/qHWBzvj4hseHgILjBeYYGTNtrC3hHePBf60mzJwWNQY/GefD6NzMdyO1BcU9mYsWixnNgwwPR3ITeG3RDEMFBZmUjoJsbb7fsyzM91b/IxMc9ZCipLlnrEVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZdUq+2D; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2dfe2913a4bso483543fac.1;
-        Mon, 26 May 2025 01:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748246898; x=1748851698; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Q0TqPpgyELDBtvVUMwLRgpXMyfs4Zf3sAWQ0I20ce4=;
-        b=AZdUq+2DGx2DjWCYnI8AS7Nh7loMsjW6gwh5QXnQQvaguK3y5iLh4FPGOZAibBEVce
-         zdk3069erDD06OG2Wk6qAlr+Cvh/vJxSthrFXJ02I0f6uj8BGBx0MoPvrsB8iaimx2bi
-         1iNdJo7Lu9CcrbtpOOaK3/bpixqqNHlpBMRHXfLnek+LbN5tQGrp3emIJhkMZ+bdkTBR
-         h1q1LeHG7VvzvSxhhIQ42wFYzAF/7HhVHRJlAVkcm/9Y9LHP5huzJsPVIFndcakWklKZ
-         42jf+uLIjT2NJyKFD+cEKdTldzqX95X2CkdIM+Cpingt4MhP0/svzihKjMaKrFFaozQL
-         5tuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748246898; x=1748851698;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Q0TqPpgyELDBtvVUMwLRgpXMyfs4Zf3sAWQ0I20ce4=;
-        b=ZKzpHQ7JLxChp/zJe2aRa4cLIQmzBPmqH10UOKcHJtvUrWltU1TUH/6AqZY3+F93M3
-         1m86tyyhkSIBaRvAvwg+EhRFzihmR2Zvh3HeduCcq1bms1liHeQG+plVxevO7NoBfNNR
-         B5yh3m38LCg/TCxmbxb+OBrCD8RJD0J0VhLAFGzISkM8VnlEvp8sE2EGQ+6YAC124dT9
-         UW7eGqqXMES3TpY5t2T6j0HLSbquCLgvZpbRHB80FUuhKtZEfnmokms0zYKVjJSPlr3t
-         w8myVrXulq53MsiiWARkPCpXA6tvzlhZtfvEpxBfVO2pIz2zJPaE3RNghD/6taRFemUB
-         PIug==
-X-Forwarded-Encrypted: i=1; AJvYcCWelnr+e+/hjKMkjndmk2VpS7qwmCOIPqyBFvAw9e6h59lwMDEs+tmYQb0QfsOmvI6CeS2GC7i8E3CUTTY=@vger.kernel.org, AJvYcCXvjrFHw8D1VRMu57BajZ7ZUQupfPC7cLrvpZO+qA4hwxEhBatxjlGLPuplqMU4j7Lfgk0qPNDMlN9tZnBe@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmOOo0Kk8A1VqKdkW0aD3sYEPjHLBEK8oiwiwH/8YXtwCAb1Um
-	J94nY+CYwB2OZZCCkzZGjehupznLqfTHQG39/Kd7e7ysB5J/CqqfG7pW7IhcqjXOLou553nXnbt
-	EPEGX3mKUMl8lT1g209+UawTV0qpfLj8=
-X-Gm-Gg: ASbGncuLqMoF1XFE9UWR5gvotLz5R0mxK1Pi9ScPdOn8XnBbysfzDC9y69z++TB/1mW
-	Wpv/6abPX9qBA5jG1vZ6aYymnnSys6yh1T84WdaMBhjSIZJAoSwY/Kt+eDiHIH8rhwyEfIYcYiY
-	4TnchVI+d9TtfSqSXnpKmdojjfmJdHJ3M=
-X-Google-Smtp-Source: AGHT+IGxNiJ2JN9yQaaNmhzBJ4exMZFiM1orR0HsJgV8LTuslVDwxXw8qKaRDg0MyPI7W9BYifpPey/SXK/CXMI1Uig=
-X-Received: by 2002:a05:6870:9126:b0:2d4:ce45:6993 with SMTP id
- 586e51a60fabf-2e862051001mr3658252fac.30.1748246897938; Mon, 26 May 2025
- 01:08:17 -0700 (PDT)
+	 To:Cc:Content-Type; b=gtzrXFF6VKOrKsl9w1btCAAyNHgLZUHm3s2Ge5Wsvdi8rtej/vTXKAVASZRBNIwX05hiAbE65QTS8pceVT2zMeRm2Kr8J+C6NApojGCEIYcWA4WQ0lAVhP/UdqzKQYG7JItCWYLZkNoVcuaVAqNSWcMJBaFU1feUfDGu3aHe55Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=THVST7+O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71403C4CEF9;
+	Mon, 26 May 2025 09:05:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748250347;
+	bh=9wOnLXxDZ1Wrs3rYtiViGhzn6NOmefjdvruILugUX0s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=THVST7+OqS6hcwQJIQhahpJnTzgKRYCr83Ycszm4Ea6j7DWmmznU32Xc40HsHQy1K
+	 7xLxsmk0Afy6gcf62l8ixFP+NtrxsVHGfJPnukE0i3hLRWA8KnO5xTjKe0n/DU/xcC
+	 C0wOQmIovp5xpc8Pzw4QYsLUtnfGFMMJNNbt21s4QUR44btKn783+v0zXcSAXChzAz
+	 INYcSAe93dct1j0n+BfDUwlhPd5EILmhLEGmBSgxfPFum2JQRdiKby6UsAqWScFAlJ
+	 9aE1+LX/Zj+XimzkYGxNwet/E3uPTc/I7gNcNEsqt5Xmdf1h1lu1MJo1kujYRReqvR
+	 aVADljZD+6Xow==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553241d30b3so477798e87.3;
+        Mon, 26 May 2025 02:05:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVjlFPAHBX30RVVI0qBWMBY7/U3mhyGIoAwleWPAEueMw5EjNG7yfvvsy/aIkl8yUAPS6wz8JOtYB/ZJmQ=@vger.kernel.org, AJvYcCWEbnUtfBh9DNwp8P7kgccXllhjr8vYrkmy7a+xs470XvaFcpYSxbZWJsfY8c/xUZ0R6wqvqECJh/xZEDRP@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVgkP/g5x2pzQVBzsjD0hSbkjZCEFHFVUq6DPHPfCl95VvbaOs
+	hplWUIACCd3DF6ZLbeWllqEBGfh79rZGOeveMrQm9G4VMdC38EMRahh4JS6onehBOrEiHvq58Nx
+	g1idIqGNpkpXLegcnEd1js0eO4Uv9HIQ=
+X-Google-Smtp-Source: AGHT+IGP1zNG8g+dyj8JR+p9XFl9imx6sdyc9r10JnXWp1rsRNGoGVcKfyiZqSpSr/Z/JXBUdoUqqMCxQDoH9kjC5UA=
+X-Received: by 2002:ac2:4e06:0:b0:54d:68d3:eeec with SMTP id
+ 2adb3069b0e04-5521cbb5e02mr1896414e87.52.1748250345929; Mon, 26 May 2025
+ 02:05:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAGG=3QU5Yi2AfHS_poi8SgmatedRg-X8Ct74FOCJUc9iJNPnhg@mail.gmail.com>
- <CAGG=3QVw5+4-7f+gMJSanb0ixC=SujDQyA1=CPRvR+a6+c0U_Q@mail.gmail.com>
- <27de0526-0b19-4e14-8c51-1e8b0ddcf490@gmail.com> <CAK7LNAQAoPhZrbY=5iBSCxWegSaoqsdtY=3zK+u+ZrgevidAsw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQAoPhZrbY=5iBSCxWegSaoqsdtY=3zK+u+ZrgevidAsw@mail.gmail.com>
-From: Bill Wendling <isanbard@gmail.com>
-Date: Mon, 26 May 2025 01:08:06 -0700
-X-Gm-Features: AX0GCFvABg0Oy4QBciPdw3oAuT7SDVaQ11met7fEnftYSd7Nx1ImszWK7jvl_w4
-Message-ID: <CAEzuVAdu3bDXUGgi4U-XY4dRmBxKaCA_OjKrvK-2ftOWWwVEYA@mail.gmail.com>
-Subject: Re: [PATCH v3] kconfig: check for a NULL pointer before access
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Bill Wendling <morbo@google.com>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>
+References: <20250521213534.3159514-1-xur@google.com>
+In-Reply-To: <20250521213534.3159514-1-xur@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 26 May 2025 18:05:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ6jy7FfNZqJ89UyvO4BbbbcFUne-aG3cmw58ucZWoHTg@mail.gmail.com>
+X-Gm-Features: AX0GCFvxxHytwfz5OLNa5ao2UsLmkBZ8Z_9nLP-82KsHhHQz8UnPtBU5G6MI8qI
+Message-ID: <CAK7LNAQ6jy7FfNZqJ89UyvO4BbbbcFUne-aG3cmw58ucZWoHTg@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: distributed build support for Clang ThinLTO
+To: xur@google.com
+Cc: Nathan Chancellor <nathan@kernel.org>, Eric Naim <dnaim@cachyos.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Alice Ryhl <aliceryhl@google.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Rafael Aquini <aquini@redhat.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Stafford Horne <shorne@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Teresa Johnson <tejohnson@google.com>, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 24, 2025 at 10:08=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> On Sat, May 24, 2025 at 9:49=E2=80=AFAM Bill Wendling <isanbard@gmail.com=
-> wrote:
-> >
-> > The call to 'prop_get_symbol' may return NULL in some cases. The if-the=
-n
-> > statement accesses the returned value without cheecking if it's
-> > non-NULL. After inlining, the compiler may treat the conditional as
-> > 'undefined behavior', which the compiler may take the opportunity to do
-> > whatever it wants with the UB path. This patch simply adds a check to
-> > ensure that 'def_sym' is non-NULL to avoid this behavior.
-> >
-> > Signed-off-by: Bill Wendling <isanbard@gmail.com>
->
-> Same reaction to this patch
->
-> https://lore.kernel.org/linux-kbuild/20250212154537.235297-1-ant.v.moryak=
-ov@gmail.com/
->
-I apologize for the whitespace problems. My mailer is crap and
-sendmail isn't available on my local machine (it's a long story).
+On Thu, May 22, 2025 at 6:35=E2=80=AFAM <xur@google.com> wrote:
 
-> Please attach a test case
-> that causes a segfault with NULL pointer dereference.
->
-I don't have a testcase. I discovered this while working on a Clang
-feature to isolate paths with undefined behavior. (GCC already has
-this pass.) The compiler notices that, after inlining, the path has
-UB. It's not necessarily important whether the current compiler messes
-up the code path, it's more a matter of *when* the compiler will mess
-up the code path, as marking UB paths as "not executable therefore not
-executed" is a common trope for some compiler developers.
+> +ifdef CONFIG_LTO_CLANG_THIN_DIST
+> +# Generate .o_thinlto_native (obj) from .o (bitcode) file
+> +# ----------------------------------------------------------------------=
+-----
+> +quiet_cmd_cc_o_bc =3D CC $(quiet_modtag) $@
+> +
+> +cmd_cc_o_bc      =3D $(if $(filter bitcode, $(shell file -b $<)),$(CC) \
+> +                  $(filter-out -Wp% $(LINUXINCLUDE) %.h.gch %.h -D% \
+> +                  -flto=3Dthin, $(c_flags)) \
 
--bw
+I think this filter-out is fragile.
+
+I think it is better to use $(_c_flags), like this:
+
+    $(filter-out -flto=3Dthin, $(_c_flags))
+
+
+
+
+
+
+
+
+
+
+
+
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 2fe73cda0bddb..9cfd23590334d 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -34,8 +34,13 @@ else
+>  obj-m :=3D $(filter-out %/, $(obj-m))
+>  endif
+>
+> +builtin_suffix :=3D $(if $(filter %.a_thinlto_native, $(MAKECMDGOALS)),.=
+a_thinlto_native,.a)
+> +ifeq ($(thinlto_final_pass),1)
+> +        builtin_suffix :=3D.a_thinlto_native
+> +endif
+> +
+>  ifdef need-builtin
+> -obj-y          :=3D $(patsubst %/, %/built-in.a, $(obj-y))
+> +obj-y          :=3D $(patsubst %/, %/built-in$(builtin_suffix), $(obj-y)=
+)
+>  else
+>  obj-y          :=3D $(filter-out %/, $(obj-y))
+>  endif
+> diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
+> index b024ffb3e2018..f9abc45a68b36 100644
+> --- a/scripts/Makefile.vmlinux_o
+> +++ b/scripts/Makefile.vmlinux_o
+> @@ -9,6 +9,14 @@ include $(srctree)/scripts/Kbuild.include
+>  # for objtool
+>  include $(srctree)/scripts/Makefile.lib
+>
+> +ifeq ($(thinlto_final_pass),1)
+> +vmlinux_a :=3D vmlinux.a_thinlto_native
+> +vmlinux_libs :=3D $(patsubst %.a,%.a_thinlto_native,$(KBUILD_VMLINUX_LIB=
+S))
+> +else
+> +vmlinux_a :=3D vmlinux.a
+> +vmlinux_libs :=3D $(KBUILD_VMLINUX_LIBS)
+> +endif
+> +
+>  # Generate a linker script to ensure correct ordering of initcalls for C=
+lang LTO
+>  # ----------------------------------------------------------------------=
+-----
+>
+> @@ -18,7 +26,7 @@ quiet_cmd_gen_initcalls_lds =3D GEN     $@
+>         $(PERL) $(real-prereqs) > $@
+>
+>  .tmp_initcalls.lds: $(srctree)/scripts/generate_initcall_order.pl \
+> -               vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
+> +               $(vmlinux_a) $(vmlinux_libs) FORCE
+>         $(call if_changed,gen_initcalls_lds)
+>
+>  targets :=3D .tmp_initcalls.lds
+> @@ -59,8 +67,8 @@ quiet_cmd_ld_vmlinux.o =3D LD      $@
+>         $(LD) ${KBUILD_LDFLAGS} -r -o $@ \
+>         $(vmlinux-o-ld-args-y) \
+>         $(addprefix -T , $(initcalls-lds)) \
+> -       --whole-archive vmlinux.a --no-whole-archive \
+> -       --start-group $(KBUILD_VMLINUX_LIBS) --end-group \
+> +       --whole-archive $(vmlinux_a) --no-whole-archive \
+> +       --start-group $(vmlinux_libs) --end-group \
+>         $(cmd_objtool)
+>
+>  define rule_ld_vmlinux.o
+> @@ -68,7 +76,7 @@ define rule_ld_vmlinux.o
+>         $(call cmd,gen_objtooldep)
+>  endef
+>
+> -vmlinux.o: $(initcalls-lds) vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
+> +vmlinux.o: $(initcalls-lds) $(vmlinux_a) $(vmlinux_libs) FORCE
+>         $(call if_changed_rule,ld_vmlinux.o)
+>
+>  targets +=3D vmlinux.o
+> diff --git a/scripts/Makefile.vmlinux_thinlink b/scripts/Makefile.vmlinux=
+_thinlink
+> new file mode 100644
+> index 0000000000000..13e4026c7d45b
+> --- /dev/null
+> +++ b/scripts/Makefile.vmlinux_thinlink
+> @@ -0,0 +1,53 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +PHONY :=3D __default
+> +__default: vmlinux.thinlink
+> +
+> +include include/config/auto.conf
+> +include $(srctree)/scripts/Kbuild.include
+> +
+> +
+> +# Generate a linker script to ensure correct ordering of initcalls for C=
+lang LTO
+> +# ----------------------------------------------------------------------=
+-----
+> +
+> +quiet_cmd_gen_initcalls_lds =3D GEN     $@
+> +      cmd_gen_initcalls_lds =3D \
+> +       $(PYTHON3) $(srctree)/scripts/jobserver-exec \
+> +       $(PERL) $(real-prereqs) > $@
+
+
+This is a copy-paste from scripts/Makefile.vmlinux_o.
+
+Is this linker script critical when generating the index file?
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
