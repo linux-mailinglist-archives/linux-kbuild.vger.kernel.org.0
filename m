@@ -1,185 +1,137 @@
-Return-Path: <linux-kbuild+bounces-7295-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7296-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C871AC50C7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 16:23:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BABAC5152
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 16:52:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB49E1BA0B58
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 14:24:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 105707A7F15
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 14:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 175B0278768;
-	Tue, 27 May 2025 14:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C85C2797B7;
+	Tue, 27 May 2025 14:51:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bI9fyVba"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wdY3kauB";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1iMWerTV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3C527144A
-	for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 14:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4591276050;
+	Tue, 27 May 2025 14:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748355826; cv=none; b=G9KmUrte0Zh9RG5bk8wSvs/NGgTz4HKzksk+gC0dlx6mmli40Tuz8RTbD4sevKJOsO/8awZA0rdH7q5EbY3mgldVV/yUdYko/449gIk3Uf7RpuJ8IS/FR4lA2MZ2cDMlTtA2PmKd1rmxlP5jUixf3mhHjCIK8Uw+RfKMTpZrrFs=
+	t=1748357516; cv=none; b=S9PimCnmnGcA7JXVKQ5/B7K7s4sw7MyZw2j+vX23X/ggeFY3kNnxCNFFBNyKKpv3m00otwY/iHirzXaGwDrnN7U2WwQbLwi++YBzKs2zGwo+lcZqA5yJJpymn0AwlcpvRtfB438ke8Ufqd1h4FVBcryU91/PJSqy0+I/UY0XpiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748355826; c=relaxed/simple;
-	bh=1b2v/c0DKM/AjXvU+XYHFgHzNKVCeFNe8WzHm7DLXTU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S9c3ri9uMMLBMl2+mdteUGlGlp63x41I6hxGZTIPfiPf+beOu6Qzs8NpCLDzU8shyNfNBkx7dSwfdl0ObBNjP0ZeQmg6d9tFQPy+bpnIML7Qr/8nA6Pn+kj+rSasda371g9TDjfPSL85u0Jhe/mJev9+gQUYzJiy40Nyfnr71EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bI9fyVba; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so32002445e9.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 07:23:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1748355821; x=1748960621; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6n1uaYpmB1kOr6JIFMyXy+K3N7piDSdguvD1FRtdHTo=;
-        b=bI9fyVbaB8ZfsKj2gRTdDuSX7t/6BLWjPsHS8ScCaBJn0sGxVWN0tR5Bu+2Vbfh3py
-         Domz8EA7qqN4PmVHQ7QD9T9Ibb1/cm/Wy4hYI18zgfNoSX2uDtkmKDslv0km33QKwU53
-         sAPhyktjvtroSOcS2oklRdNfsfDTVHVHSo8BVix4QDYQQXCzOG5pcTJ+46qXlxxXSGx4
-         1b/D6nI9q39iyzoAFG5fGb9HFbqWUs2Zs63X3l2kSDXxFoSDLb6xISpGfvFDvSY6Jczq
-         9LIaSqqNHVRV7p/3LWToot+jEU8QlWnV9M+PkqYPMqYZw8gcUpryxPCPegw5ujcZkowd
-         qajw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748355821; x=1748960621;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6n1uaYpmB1kOr6JIFMyXy+K3N7piDSdguvD1FRtdHTo=;
-        b=SATsY+d0EQfYxO0PT1TaXVuoC5ZpK0bLum+XjrVa1V18WknXnGYtNXjy/2zw4ov+12
-         WNehJ93aHe59e57TPinBaQOmSJ1g7WpOgiv1SPxdXLWuYtBN/IRTvJx6+6sHKCt3Hmak
-         R2/WLmResH4dIb4uNEo66CSpUT1KQs33LaWE0tTV3guDDwTe3tnAjRp1Zh8ie7Lz9/p3
-         XuCG/g/lF0DoDx3jCkg+4glfx4iO59brlHD3Yrx7LuNnZCGl6wfWc0TIrL8BGBvyoYJ4
-         TOp0+YtW6cRaR0iyViBBBeDCr8waFM9e+UPdqr8oVoQFmhIBaQyLH2uVexTfrW4+aGkL
-         nfpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXq9ctzjIMhw0RzKHgHicIc113IcSzmj6SCvqfJs9Pmc5sZh5aIiLAZwZcH8trjHAZjhX4pW/bo4xw4RdM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5F+rrBtstIQGkKFvk6RmfLH1KJngU1HO7FTASfGBHbqkPBwyX
-	Cgvqd4eg8NbVknA6F2B+RsJrkyOQmU+LSiFciujXn0GUdBa0jE/TZsyv45Vk7Xp8Tss=
-X-Gm-Gg: ASbGnctRrWvM0860eQdikQxf0EDfyrgWxksewAXNUs5nfaC2IZLQaO18hGvocdBrn2N
-	MeAMes1BZfS0avXUQaSGhlYHaZ4TqrezaMEjUBynYS0YB3OydkI91yTYZMyNRLRRiL/X1jf3F1R
-	gFok2O1dbKAZFbfOKSQFLteVANzDikZpDb52PxtbIrtBq6TRXfdD3fvLCxw91qFPLamToxpcUzM
-	DBsEeCp5ObWGY2WX6tZ/kmMakjnYIWe0RSG5HhExO6sP+ENjJkL99gifArqFBjWL4VGWvdmmUhD
-	myymcZdqIDh6J0aLlF0V6iAOElWwNg7Ky2ZAonVR6B0SbQBBYxuiFw==
-X-Google-Smtp-Source: AGHT+IELC1IttHHKpQxPobF04n1BxV0zFn5416xOB8lAZHST6vgiJpJWp1f8e/ECPlHN8aFnCXiRFw==
-X-Received: by 2002:a05:6000:250f:b0:3a4:cfbf:51c3 with SMTP id ffacd0b85a97d-3a4cfbf5539mr11042240f8f.10.1748355820879;
-        Tue, 27 May 2025 07:23:40 -0700 (PDT)
-Received: from dhcp48.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4c73a4284sm12100719f8f.85.2025.05.27.07.23.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 07:23:40 -0700 (PDT)
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Petr Pavlu <petr.pavlu@suse.com>
-Subject: [PATCH] genksyms: Fix enum consts from a reference affecting new values
-Date: Tue, 27 May 2025 16:22:11 +0200
-Message-ID: <20250527142318.14175-1-petr.pavlu@suse.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1748357516; c=relaxed/simple;
+	bh=cmWVBXyCnDhgtaqPxFZD0Z5OdQ75nRbRM5ot30LJH88=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ob48WrOcEKxzQjDlwaBq+oNL6Ve+QwvxDCepAiMlvJ17ptQqbY0mqH0tbaGnS/YTk8yuf9GufwuwEBkik+CEO1ymUomApVQO57AXnaiQjKVoraHJQOMuYlZHYGR3SFea77MGR3H4cfmKunJoHtfLzeqVSPOucWUPrdJHN+xQjpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wdY3kauB; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1iMWerTV; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Tue, 27 May 2025 16:51:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1748357510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BLLddXy0LKyaYi11oTN10X4v2tluFuR5tW4jJF8R+Xo=;
+	b=wdY3kauBDESuhaepipwXdJdgLTkWmkFa9CQ/5nbSYokghUU/PYCjiw4zc2k9p4cgDT7bqQ
+	YWCSK5Xeq74PvsjJpif9AstmIaS0d6DvW89DIIfBG9wBrnboG6p5jC5Jae8WStSAkoqXsi
+	NyRl5qMujotsvzQ/YwFabxxxDaavmHa2XIkLcDhjosta+FX5hWwza8Rw9ugUm0hmrdphIw
+	Rzk1K/Fs9+UrTMLiEpGXx13X7iLnRwh6EwgvQQSvtHGypCkXQMvJQDbU/S2ReB1s8x+8/x
+	s8TXCKqTsDxvM+3I6ZqTxLciCikNlqiATIjXyQGB2y6UTDSTF708GHfSfr/0sQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1748357510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BLLddXy0LKyaYi11oTN10X4v2tluFuR5tW4jJF8R+Xo=;
+	b=1iMWerTV4u9O+OZ2CvRWA5izDulQijwZXuRVry3Qbczp+j+ZeBmhTjEm+guXnYhJ2C1PPl
+	h4TW8EVhEb+wZTBg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 09/11] kunit: uapi: Add example for UAPI tests
+Message-ID: <20250527164906-a0121867-5b6d-43ae-9263-ca2bebf44d99@linutronix.de>
+References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
+ <20250407-kunit-kselftests-v2-9-454114e287fd@linutronix.de>
+ <20250526-marvellous-abstract-koala-317cb4@l-nschier-aarch64>
+ <20250526164038-12259c68-586f-4a24-a814-8ffed5778742@linutronix.de>
+ <20250527-dark-uakari-from-pluto-fbc8ae@l-nschier-aarch64>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250527-dark-uakari-from-pluto-fbc8ae@l-nschier-aarch64>
 
-Enumeration constants read from a symbol reference file can incorrectly
-affect new enumeration constants parsed from an actual input file.
+On Tue, May 27, 2025 at 03:56:17PM +0200, Nicolas Schier wrote:
+> On Mon, May 26, 2025 at 04:50:19PM +0200, Thomas Weiﬂschuh wrote:
+> > On Mon, May 26, 2025 at 04:22:02PM +0200, Nicolas Schier wrote:
+> > > On Mon, Apr 07, 2025 at 09:42:46AM +0200, Thomas Weiﬂschuh wrote:
+> > > > Extend the example to show how to run a userspace executable.
+> > > > 
+> > > > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> > > > ---
+> > > >  lib/kunit/.kunitconfig         |  2 ++
+> > > >  lib/kunit/Makefile             |  9 ++++++++-
+> > > >  lib/kunit/kunit-example-test.c | 15 +++++++++++++++
+> > > >  lib/kunit/kunit-example-uapi.c | 22 ++++++++++++++++++++++
+> > > >  4 files changed, 47 insertions(+), 1 deletion(-)
+> > > 
+> > > 
+> > > Adding this diff allows 'make clean' to clean up the UAPI test binary:
+> > > 
+> > > 
+> > > diff --git a/lib/Makefile b/lib/Makefile
+> > > --- a/lib/Makefile
+> > > +++ b/lib/Makefile
+> > > @@ -112,8 +112,6 @@ CFLAGS_REMOVE_test_fpu_impl.o += $(CC_FLAGS_NO_FPU)
+> > >  # Some KUnit files (hooks.o) need to be built-in even when KUnit is a module,
+> > >  # so we can't just use obj-$(CONFIG_KUNIT).
+> > > -ifdef CONFIG_KUNIT
+> > > -obj-y += kunit/
+> > > -endif
+> > > +obj-$(if $(CONFIG_KUNIT),y) += kunit/
+> > 
+> > Wouldn't the following be sufficient?
+> > 
+> > obj-y += kunit/
+> > 
+> > The the kunit Makefile doesn't do anything if CONFIG_KUNIT=y and AFAIK for
+> > directories obj-m and obj-y should do the same.
+> 
+> that's wrong.  In lib/kunit/Makefile there is
+> 
+>     obj-y += hooks.o
+> 
+> thus, lib/kunit/hooks.o would then be built unconditionally (even w/o 
+> CONFIG_KUNIT).
 
-Example:
+Indeed, thanks for the hint.
 
- $ cat test.c
- enum { E_A, E_B, E_MAX };
- struct bar { int mem[E_MAX]; };
- int foo(struct bar *a) {}
- __GENKSYMS_EXPORT_SYMBOL(foo);
+> Iff we would add 'obj-y += kunit/' in lib/Makefile we'd have to adjust the 
+> hooks.o line in lib/kunit/Makefile appropriately.
 
- $ cat test.c | ./scripts/genksyms/genksyms -T test.0.symtypes
- #SYMVER foo 0x070d854d
+I'll go with the 'obj-y += kunit/' solution for now.
+It keeps the special logic for hook.o in a single place, gets rid of a
+duplicate comment and is easier to understand.
 
- $ cat test.0.symtypes
- E#E_MAX 2
- s#bar struct bar { int mem [ E#E_MAX ] ; }
- foo int foo ( s#bar * )
-
- $ cat test.c | ./scripts/genksyms/genksyms -T test.1.symtypes -r test.0.symtypes
- <stdin>:4: warning: foo: modversion changed because of changes in enum constant E_MAX
- #SYMVER foo 0x9c9dfd81
-
- $ cat test.1.symtypes
- E#E_MAX ( 2 ) + 3
- s#bar struct bar { int mem [ E#E_MAX ] ; }
- foo int foo ( s#bar * )
-
-The __add_symbol() function includes logic to handle the incrementation of
-enumeration values, but this code is also invoked when reading a reference
-file. As a result, the variables last_enum_expr and enum_counter might be
-incorrectly set after reading the reference file, which later affects
-parsing of the actual input.
-
-Fix the problem by splitting the logic for the incrementation of
-enumeration values into a separate function process_enum() and call it from
-__add_symbol() only when processing non-reference data.
-
-Fixes: e37ddb825003 ("genksyms: Track changes to enum constants")
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
----
- scripts/genksyms/genksyms.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/genksyms/genksyms.c b/scripts/genksyms/genksyms.c
-index 8b0d7ac73dbb..d05c01eb721b 100644
---- a/scripts/genksyms/genksyms.c
-+++ b/scripts/genksyms/genksyms.c
-@@ -181,13 +181,9 @@ static int is_unknown_symbol(struct symbol *sym)
- 			strcmp(defn->string, "{") == 0);
- }
- 
--static struct symbol *__add_symbol(const char *name, enum symbol_type type,
--			    struct string_list *defn, int is_extern,
--			    int is_reference)
-+static struct string_list *process_enum(const char *name, enum symbol_type type,
-+					struct string_list *defn)
- {
--	unsigned long h;
--	struct symbol *sym;
--	enum symbol_status status = STATUS_UNCHANGED;
- 	/* The parser adds symbols in the order their declaration completes,
- 	 * so it is safe to store the value of the previous enum constant in
- 	 * a static variable.
-@@ -225,6 +221,23 @@ static struct symbol *__add_symbol(const char *name, enum symbol_type type,
- 			return NULL;
- 	}
- 
-+	return defn;
-+}
-+
-+static struct symbol *__add_symbol(const char *name, enum symbol_type type,
-+			    struct string_list *defn, int is_extern,
-+			    int is_reference)
-+{
-+	unsigned long h;
-+	struct symbol *sym;
-+	enum symbol_status status = STATUS_UNCHANGED;
-+
-+	if ((type == SYM_ENUM_CONST || type == SYM_ENUM) && !is_reference) {
-+		defn = process_enum(name, type, defn);
-+		if (defn == NULL)
-+			return NULL;
-+	}
-+
- 	h = crc32(name);
- 	hash_for_each_possible(symbol_hashtable, sym, hnode, h) {
- 		if (map_to_ns(sym->type) != map_to_ns(type) ||
-
-base-commit: 914873bc7df913db988284876c16257e6ab772c6
--- 
-2.43.0
-
+<snip>
 
