@@ -1,117 +1,108 @@
-Return-Path: <linux-kbuild+bounces-7288-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7289-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAB0AC4F01
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 14:58:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D0DAC4F7A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 15:17:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F506168BFF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 12:58:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E6917AA2EC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 13:15:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF64D212B0C;
-	Tue, 27 May 2025 12:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B705F26A08C;
+	Tue, 27 May 2025 13:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HtsUKHsQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HhvOlfHu"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D356C2ED;
-	Tue, 27 May 2025 12:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887B1192D87;
+	Tue, 27 May 2025 13:17:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748350701; cv=none; b=u2Lyh7CMHjhRV+myQ1O9F5GNLj8BELKsvxI/DbdWbk6/4UVxImu4bChmHiTqNwpNhC8QE8bF1OO4djujVpH4d8U4wnLWmnyo4E9P4+/j85fgm26gUCWkMcy5xv6j8eS17aPdUj/DbTqy86xzacI5wXeM3J1ovn6icm2U/bC054E=
+	t=1748351820; cv=none; b=TFo8lAWGEiF75s5hUS38PuFt0Hi59omm9aswxGVV5dL4M2N9aXUrTbzujx4ydOJvjnNqOrUeHS7Jb8NVUTLeRVHl+ICjF/f4kpeT57g3VbcfsSP3js3S2lFvJoI9GFpPjmOJVLzEUmNCCb2ZpQ4dQegwtgig1FpfHeW+1ng9+NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748350701; c=relaxed/simple;
-	bh=8fNDXQ9wNkxnXTzRMl64ky9f5IhJbEJPvtSA4rQu8oo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCNOg56tk8oyMOWkyGlr5Xvb8VySdhez1tYX3OC8OupF2Rh0DSg4iDye+wWR4++uoMg8HyR0uv+O/n3h961bbXJJBLyV8ccGsR97ljwDj+TsThuM4GbdiRRv88IhXOkrNP/QmOs0hX7H+3rIFBUWy/EsMKr0r2cCNClQUh7RPpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HtsUKHsQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21406C4CEE9;
-	Tue, 27 May 2025 12:58:17 +0000 (UTC)
+	s=arc-20240116; t=1748351820; c=relaxed/simple;
+	bh=n/H8Wa7Ftb0H4j1QNhebHw57Ogax0FKs1fXVb4lhuj4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dRmsrITM+4CasV8IQivDSO1s0TIdmc/fxY8/6AW4UpYM/AidLuY6Id2ZJaiqJymvtJCy3z8kmX27wjq6XYuuaXkQ78ASWk1hTDOGlNRkE+l7qTr8+X5Gpv/SdmxXHxIEY2MxSJp29vuwpH5rBtsAMc5ikdPtOLnzT5ebE/UtObo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HhvOlfHu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0312C4CEE9;
+	Tue, 27 May 2025 13:16:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748350701;
-	bh=8fNDXQ9wNkxnXTzRMl64ky9f5IhJbEJPvtSA4rQu8oo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HtsUKHsQ7+VxZL8ojRcD/mnflUdEpiNYKZwYClWneoIiTZD/aUWHMkdelCAb2cz0f
-	 qZFQlbZ5nGCug/ibS2U1yGRciENLlTLfMeSevBY7Dhwt1DDQrWcysjcKHCLkiu5teZ
-	 j0IUQfeQy6w/GdTg0o+Z2QBahfhMcYoAtgRsB5hsqePLuD3PBhdbY1UAe+dgNJSYtd
-	 ma3gC2EbBX/fRguzBM1jtW/WgzI4VBn+DD+DXg/KZcauI/3zNoayBB8Ms7/LyeDGTC
-	 XJnapivJ+nwrYwYC2Eu9BBhaIU/TNNvt98pjYcQtA2X+7dtarrGw80S9Nk51JITyYV
-	 cIVHhwsQAZB3w==
-Date: Tue, 27 May 2025 14:58:14 +0200
+	s=k20201202; t=1748351820;
+	bh=n/H8Wa7Ftb0H4j1QNhebHw57Ogax0FKs1fXVb4lhuj4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HhvOlfHun5eWDOutHEK8j3nc/KMUkcJkrhBYNOzh/fWupluJQqOw3m0iDqlrHeL47
+	 2GkHK98Km3bB4Ew5ABQYgufA8eoUWV01ox21ePYM7KH4zXcppG19a2NWL6Sk5yr12d
+	 mwlyJy4ek9R1cep8okRA2oNYKNGCradFPRRz2cBz0fNIo3x2zRLfKPM5Ut7cI+qjI6
+	 0ROMPJNI6o2TGeDhKd5O85aOFVrxf9I1Ijvfda1eak3k6aSEUyrcdSVK4/hFdO9xzh
+	 7b5F2P9IKpM7m8f8ZAsz/731rwQpHnCnfjjTNIfRXFQGcI3RULLceCKEuYPdK9ifYl
+	 MJFdDRsnFrQDA==
 From: Alexey Gladkov <legion@kernel.org>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
+To: James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
 	Sami Tolvanen <samitolvanen@google.com>,
 	Daniel Gomez <da.gomez@samsung.com>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, Khalid Aziz <khalid@gonehiking.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-scsi <linux-scsi@vger.kernel.org>
-Subject: Re: [PATCH v3 1/6] scsi: Define MODULE_DEVICE_TABLE only if necessary
-Message-ID: <aDW25htH2tMzqtqH@example.org>
+	Khalid Aziz <khalid@gonehiking.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Alexey Gladkov <legion@kernel.org>
+Subject: [PATCH v3 7/6] scsi: Always define MODULE_DEVICE_TABLE
+Date: Tue, 27 May 2025 15:15:44 +0200
+Message-ID: <20250527131544.63330-1-legion@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1748335606.git.legion@kernel.org>
 References: <cover.1748335606.git.legion@kernel.org>
- <628e85f1b7e9d0423a8b83ac3150b3e151c9c4e3.1748335606.git.legion@kernel.org>
- <f361faffc1863358e8fda98f994f6a49b6f0d4c9.camel@HansenPartnership.com>
- <aDWoCU2YrxaCBi42@example.org>
- <65d96116e06d73fe4e219a595820d610e74290c9.camel@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <65d96116e06d73fe4e219a595820d610e74290c9.camel@HansenPartnership.com>
 
-On Tue, May 27, 2025 at 07:58:27AM -0400, James Bottomley wrote:
-> On Tue, 2025-05-27 at 13:54 +0200, Alexey Gladkov wrote:
-> > On Tue, May 27, 2025 at 07:28:59AM -0400, James Bottomley wrote:
-> > > On Tue, 2025-05-27 at 11:07 +0200, Alexey Gladkov wrote:
-> > > > Define MODULE_DEVICE_TABLE only if a structure is defined for it.
-> > > > 
-> > > > drivers/scsi/BusLogic.c:3735:26: error: use of undeclared
-> > > > identifier
-> > > > 'blogic_pci_tbl'
-> > > >  3735 | MODULE_DEVICE_TABLE(pci, blogic_pci_tbl);
-> > > 
-> > > Well, a) need to cc the scsi list
-> > 
-> > Sorry. I miss it.
-> > 
-> > > and b) how is this possible when MODULE_DEVICE_TABLE() has an empty
-> > > definition if MODULE isn't defined (so the guard you move should be
-> > > over an empty statement)?
-> > 
-> > In the next patch:
-> > 
-> > [PATCH v3 4/6] modpost: Create modalias for builtin modules
-> > 
-> > I remove this condition for the MODULE_DEVICE_TABLE macro and it will
-> > be always defined.
-> 
-> Well, why?  If there's a reason for the table to always exist, wouldn't
-> the best fix then be to remove the module guards from the PCI table in
-> the buslogic ... they only really exist to prevent a defined but not
-> used error which it sounds like you're getting rid of?
+Since MODULE_DEVICE_TABLE no longer depends on whether the module is
+built separately or compiled into the kernel, it now makes sense to
+always define DEVICE_TABLE. In this case, even if the module is in the
+kernel, correct module.builtin.modaliases will be generated.
 
-I wanted to keep the original logic and remove the build error. Before my
-changes blogic_pci_tbl was only used when the module was built separately
-(MODULE case).
+Suggested-by: James Bottomley <James.Bottomley@HansenPartnership.com>
+Signed-off-by: Alexey Gladkov <legion@kernel.org>
+---
+ drivers/scsi/BusLogic.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-But yes, you are right. In this case, it would be more appropriate to
-remove the MODULE condition at all since MODULE_DEVICE_TABLE always
-makes sense after my changes.
-
+diff --git a/drivers/scsi/BusLogic.c b/drivers/scsi/BusLogic.c
+index 8ce2ac9293a3..08e12a3d6703 100644
+--- a/drivers/scsi/BusLogic.c
++++ b/drivers/scsi/BusLogic.c
+@@ -3715,7 +3715,6 @@ static void __exit blogic_exit(void)
+ 
+ __setup("BusLogic=", blogic_setup);
+ 
+-#ifdef MODULE
+ /*static const struct pci_device_id blogic_pci_tbl[] = {
+ 	{ PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_MULTIMASTER,
+ 	  PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+@@ -3732,7 +3731,6 @@ static const struct pci_device_id blogic_pci_tbl[] = {
+ 	{0, },
+ };
+ MODULE_DEVICE_TABLE(pci, blogic_pci_tbl);
+-#endif
+ 
+ module_init(blogic_init);
+ module_exit(blogic_exit);
 -- 
-Rgrds, legion
+2.49.0
 
 
