@@ -1,204 +1,109 @@
-Return-Path: <linux-kbuild+bounces-7293-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7294-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C260AC5072
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 16:02:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E174FAC5081
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 16:06:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 409473AF19F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 14:02:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1B787AEA27
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 14:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58C3E2750F6;
-	Tue, 27 May 2025 14:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B4F3277806;
+	Tue, 27 May 2025 14:06:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BAk2Pbd/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkeFT7iW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541801A256B;
-	Tue, 27 May 2025 14:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B34253F3D;
+	Tue, 27 May 2025 14:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748354540; cv=none; b=nthi1xdodQF/iP8xT6FtA2MwiA+SEGYZG4fEEAq9bWx0ksm7aBZOd9PpDDwecSWbQbzTNfvN/1Fi4q7qXZML4EYGw/hUumc0TIDKWFL5wn5WDZVHezDOQK13cmVVzd7cu0RVcehIuyEIT/dJ1fhKeybNt8xF3vrIOeYV5RfdvmA=
+	t=1748354804; cv=none; b=hWVQoeLqfvxU8o9eB8IOR1CCyjCNLw0J5KuRx4WoHqmzAhW0UO/ytqB6hmrKphmrWsk+/g+DJsoWDwK9Z24HJxZfoP8WNcmyMqGJG+0DKkYSDzY5e4/+RWw62LIfM7JYc0/z+2jx7dtmt31HHQ+RBVC6/Ab/UvDtAKPIAraJ5WQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748354540; c=relaxed/simple;
-	bh=yo0oZBlfMtOYp40SB2fAqqqKfsg0rNIT7m84sU2j4s4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CmpCMbGWxst5hJwcD0vDftKIeQpdcdxl0Jjqw39o/Qq89S6CbjKTokTGLL9ss9J+GQHSeA+W8eX/7jZCNVMJ46jcUzE4bgn8Lr8y6xhA4g5b+8UkLTmey7t2ZK5oPrgtC0AVYhaUQ+ksEDmqCqsfW9a1/o9zIKVZ4wK6W6aAcaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BAk2Pbd/; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Tue, 27 May 2025 16:01:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1748354526;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1RLjeN+B9ynhfLIpwmZXtdB5HF0huSI0hOjSO/VoOEo=;
-	b=BAk2Pbd/JJPysmSNfFdWpiFzw1ZbscmqwYi0OO5P4uUbbl/cxRm+cE67R9CUmG77lSWEKN
-	OIVxcR42DttYY+yGY3ybCgCJFgSCcRgI8cMZvgho5su03pe8ri6GZRqnaWb6SeVn/uRWGy
-	JEB9XIELPgnKUhyf/iGlS86pm8X460E=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	s=arc-20240116; t=1748354804; c=relaxed/simple;
+	bh=cXATu5WHYSddNew6hPBjs/f3aIkMJ3j64KCP2miazbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CK35B81fNZzS0uKNx6xA9mftv/yKSkwpUwlx52x43BjkpSX5wnCOS8n72SYYtCTAWY1g389QG45Cflr/cXg9L0mTudg1ifT7UXA0hU/yVoufLA4EQWZPuQUyxqsWPyDjEBEnQ5DpRZ5fvNk07CIaPIcDlTvz8n15HKx+R2ghzgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkeFT7iW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8331C4CEE9;
+	Tue, 27 May 2025 14:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748354802;
+	bh=cXATu5WHYSddNew6hPBjs/f3aIkMJ3j64KCP2miazbo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IkeFT7iW8HfmGs5YBA0pl5ucKIivrXEuZAtNoB4MNXAYf2gUKKzg88bCYwXGHYx92
+	 GiWYdxtkJOoE+mxPSWU3r0YVnvKPw5vl769zaYv4CxRdRBz8a1Kor+oMNlVPRezhTo
+	 PdERM0T/KJIRhiMVG8gsyZK51zeZXLSo5u365g4LNKo2U54cOz85lgFctGZGOD8WCK
+	 K+GsQ+H3ZdPofxp4pU6AEAKY4pSS7rRYuzbIYvllhj4wo/x9vA00a6k3/6craqz0+Y
+	 nJa/Frgr3fF7xLwKowxOMHjL3oTkJIGlqaYT6RrSjPwGFXLD1mYZO2pjVAIPtf7xr4
+	 kalPgBtISkNWA==
+From: Alexey Gladkov <legion@kernel.org>
+To: James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] kbuild: userprogs: add nolibc support
-Message-ID: <20250527-fearless-impala-of-poetry-8acc3a@l-nschier-aarch64>
-References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
- <20250407-kunit-kselftests-v2-1-454114e287fd@linutronix.de>
- <20250522-fluorescent-liberal-pigeon-0404ed@l-nschier-aarch64>
- <20250526163610-88b7aae6-7be4-4a02-be20-ec7fe74cbf31@linutronix.de>
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Khalid Aziz <khalid@gonehiking.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Alexey Gladkov <legion@kernel.org>
+Subject: [PATCH v4 1/6] scsi: Always define blogic_pci_tbl structure
+Date: Tue, 27 May 2025 16:06:06 +0200
+Message-ID: <20250527140606.68526-1-legion@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <628e85f1b7e9d0423a8b83ac3150b3e151c9c4e3.1748335606.git.legion@kernel.org>
+References: <628e85f1b7e9d0423a8b83ac3150b3e151c9c4e3.1748335606.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250526163610-88b7aae6-7be4-4a02-be20-ec7fe74cbf31@linutronix.de>
-Organization: AVM GmbH
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, May 26, 2025 at 04:40:17PM +0200, Thomas Weißschuh wrote:
-> On Mon, May 26, 2025 at 04:19:53PM +0200, Nicolas Schier wrote:
-> > On Mon, Apr 07, 2025 at 09:42:38AM +0200, Thomas Weißschuh wrote:
-> > > Userprogs are built with the regular kernel compiler $CC.
-> > > A kernel compiler does not necessarily contain a libc which is required
-> > > for a normal userspace application.
-> > > However the kernel tree does contain a minimal libc implementation
-> > > "nolibc" which can be used to build userspace applications.
-> > > 
-> > > Introduce support to build userprogs against nolibc instead of the
-> > > default libc of the compiler, which may not exist.
-> > > 
-> > > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> > > 
-> > > ---
-> > > This could probably be moved out of the generic kbuild makefiles.
-> > > I think the ergonimics would suffer and this functionality could be
-> > > used by other users of userprogs.
-> > > 
-> > > Also this does currently not support out-of-tree builds.
-> > 
-> > (out-of-tree == external kmods;  out-of-source == build-dir != source-dir)
-> > 
-> > you probably meant out-of-source.
-> 
-> I *did* mean out-of-tree.
-> 
-> Out-of-source already works with the current patchset. It is the default setup of kunit.py.
-> 
-> > > For that tools/include/nolibc/*.h and usr/include/*.h would need to be
-> > > installed into the build directory.
-> > 
-> > Out-of-source builds could be achieved by adding 'headers' as 
-> > dependency, see below.
-> > 
-> > > ---
-> > >  Documentation/kbuild/makefiles.rst | 12 ++++++++++++
-> > >  scripts/Makefile.userprogs         | 16 +++++++++++++---
-> > >  2 files changed, 25 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> > > index 3b9a8bc671e2e92126857059e985d6e5b2c43fd4..f905a6f77c965311c491cfd7ab3103185af7e82e 100644
-> > > --- a/Documentation/kbuild/makefiles.rst
-> > > +++ b/Documentation/kbuild/makefiles.rst
-> > > @@ -970,6 +970,18 @@ When linking bpfilter_umh, it will be passed the extra option -static.
-> > >  
-> > >  From command line, :ref:`USERCFLAGS and USERLDFLAGS <userkbuildflags>` will also be used.
-> > >  
-> > > +Bulding userprogs against nolibc
-> > 
-> > Bulding -> Building
-> 
-> Ack.
-> 
-> > > +--------------------------------
-> > > +
-> > > +Not all kernel toolchains provide a libc.
-> > > +Simple userprogs can be built against a very simple libc call "nolibc" provided
-> > > +by the kernel source tree.
-> > > +
-> > > +Example::
-> > > +
-> > > +  # lib/kunit/Makefile
-> > > +  uapi-preinit-nolibc := $(CONFIG_ARCH_HAS_NOLIBC)
-> > > +
-> > >  When userspace programs are actually built
-> > >  ------------------------------------------
-> > >  
-> > > diff --git a/scripts/Makefile.userprogs b/scripts/Makefile.userprogs
-> > > index f3a7e1ef3753b54303718fae97f4b3c9d4eac07c..a1447c02b948901631098b585f5cf4d3ea383a57 100644
-> > > --- a/scripts/Makefile.userprogs
-> > > +++ b/scripts/Makefile.userprogs
-> > > @@ -16,10 +16,20 @@ user-csingle	:= $(addprefix $(obj)/, $(user-csingle))
-> > >  user-cmulti	:= $(addprefix $(obj)/, $(user-cmulti))
-> > >  user-cobjs	:= $(addprefix $(obj)/, $(user-cobjs))
-> > >  
-> > > +user-libgcc     := $(call try-run,$(CC) -Werror $(KBUILD_USERCFLAGS) -lgcc -x c -shared /dev/null -o "$$TMP",-lgcc)
-> > > +
-> > > +user_nolibc_ccflags := -nostdlib -nostdinc -static -fno-ident -fno-asynchronous-unwind-tables \
-> > > +		      -ffreestanding -fno-stack-protector \
-> > > +		      -isystem $(objtree)/usr/include -include $(srctree)/tools/include/nolibc/nolibc.h -isystem $(srctree)/tools/include/nolibc/
-> > > +user_nolibc_ldflags := -nostdlib -nostdinc -static
-> > > +user_nolibc_ldlibs  := $(user-libgcc)
-> > > +
-> > >  user_ccflags	= -Wp,-MMD,$(depfile) $(KBUILD_USERCFLAGS) $(userccflags) \
-> > > -			$($(target-stem)-userccflags)
-> > > -user_ldflags	= $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags)
-> > > -user_ldlibs	= $(userldlibs) $($(target-stem)-userldlibs)
-> > > +			$($(target-stem)-userccflags) $(if $($(target-stem)-nolibc),$(user_nolibc_ccflags))
-> > > +user_ldflags	= $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags) \
-> > > +			$(if $($(target-stem)-nolibc),$(user_nolibc_ldflags))
-> > > +user_ldlibs	= $(userldlibs) $($(target-stem)-userldlibs) \
-> > > +			$(if $($(target-stem)-nolibc),$(user_nolibc_ldlibs))
-> > >  
-> > >  # Create an executable from a single .c file
-> > >  quiet_cmd_user_cc_c = CC [U]  $@
-> > 
-> > Adding another hunk for scripts/Makefile.userprogs would allow to build
-> > out-of-source:
-> > 
-> > @@ -39,5 +49,5 @@ $(call multi_depend, $(user-cmulti), , -objs)
-> >  # Create .o file from a .c file
-> >  quiet_cmd_user_cc_o_c = CC [U]  $@
-> >        cmd_user_cc_o_c = $(CC) $(user_ccflags) -c -o $@ $<
-> > -$(user-cobjs): $(obj)/%.o: $(src)/%.c FORCE
-> > +$(user-cobjs): $(obj)/%.o: $(src)/%.c headers FORCE
-> >         $(call if_changed_dep,user_cc_o_c)
-> > 
-> > But I am unsure if it is ok to add 'headers' as a build dependency for 
-> > userprogs.  For me, it feels a bit odd, but I think it really makes 
-> > sense here.
-> 
-> Currently this dependency is encoded in Kconfig.
-> If CONFIG_HEADERS_INSTALL=y then the headers are installed in the 'prepare'
-> phase and already available when building any userprog.
-> To me this seems like the easier and nicer implementation.
+The blogic_pci_tbl structure is used by the MODULE_DEVICE_TABLE macro.
+There is no longer a need to protect it with the MODULE condition, since
+this no longer causes the compiler to warn about an unused variable.
 
-I am sure, I had an out-of-source test build that failed due to missing 
-header files -- but I can't reproduce it any more and yes, 
-CONFIG_HEADERS_INSTALL should really be enough and better in several 
-ways.
+Cc: Khalid Aziz <khalid@gonehiking.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Suggested-by: James Bottomley <James.Bottomley@HansenPartnership.com>
+Signed-off-by: Alexey Gladkov <legion@kernel.org>
+---
+ drivers/scsi/BusLogic.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Sorry for the noice.
+diff --git a/drivers/scsi/BusLogic.c b/drivers/scsi/BusLogic.c
+index 1f100270cd38..08e12a3d6703 100644
+--- a/drivers/scsi/BusLogic.c
++++ b/drivers/scsi/BusLogic.c
+@@ -3715,7 +3715,6 @@ static void __exit blogic_exit(void)
+ 
+ __setup("BusLogic=", blogic_setup);
+ 
+-#ifdef MODULE
+ /*static const struct pci_device_id blogic_pci_tbl[] = {
+ 	{ PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_MULTIMASTER,
+ 	  PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+@@ -3731,7 +3730,6 @@ static const struct pci_device_id blogic_pci_tbl[] = {
+ 	{PCI_DEVICE(PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_FLASHPOINT)},
+ 	{0, },
+ };
+-#endif
+ MODULE_DEVICE_TABLE(pci, blogic_pci_tbl);
+ 
+ module_init(blogic_init);
+-- 
+2.49.0
 
-Kind regards,
-Nicolas
 
