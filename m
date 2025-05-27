@@ -1,184 +1,228 @@
-Return-Path: <linux-kbuild+bounces-7275-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7276-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C218AC46CC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 05:31:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC360AC486B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 08:28:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1E6F16B472
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 03:31:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D2113BA08A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 06:27:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5CD91A5BA6;
-	Tue, 27 May 2025 03:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F141EF0B9;
+	Tue, 27 May 2025 06:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDpCasoc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGsdrame"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BF78F5E;
-	Tue, 27 May 2025 03:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0D11E51E1;
+	Tue, 27 May 2025 06:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748316656; cv=none; b=BkAoTSY7oPxTj22whIgesem09KbHz0sz4yKkAmbhHl+vaI4OG/EzqLtVUSyb+y4NO+ec6SpV0z82XFzUaGvOd/wlxrZMgXaZmkqfuFeYG6VZQRTY5I9DzIG39w07WI4x++9qivMurScmmviEzOydti47tAg6LnxynDc0J1+JW+c=
+	t=1748327282; cv=none; b=kbvhDACsQRXySnk2GetaMMYvHeGouhtxbHfsgHBJzofxas/CBAUMCPh68gDADaYmW2QCPAvzgSGBvY2jx1XmBCdepAaBphQiz41v3BnD0PIRrHb5XiplItLjfG/BVq7CdPIUx7P7d0d5XYcYR65WYdvg5uaqny97U4qiXtzsBgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748316656; c=relaxed/simple;
-	bh=4+1dYOsA3kHiY8rIfLnjAgd8wOHuIeN0O4AklhVQ26M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tNgPsuz+bFx9p4F0t8inlF8y/5XUgtuJWyWiqw1UWQ9oGu6l6IO65YMF0CREu1OjL3Ep3yJ46a6AMQJRjElZoTmOoio1FfNbYDqdGQeYu3oRKjtivEtMl4AgB1ll4ehm2YLqpTirZM2ZqP1bkAXKVCAmB1Afo+54aksJr/hfP5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDpCasoc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4DDFC4CEEB;
-	Tue, 27 May 2025 03:30:55 +0000 (UTC)
+	s=arc-20240116; t=1748327282; c=relaxed/simple;
+	bh=LnppPxxgT4dG94wpbP0vtD3nP0ZmSru6h5mdvKc8aW8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ugrQx2V6VWpTQf6uV5EpwKnQ6PKlUmIdZgz2d0KnJcPdUBT35+PSlixQRzxRVnPQQ75fxIlsJXKsKoCLGd+mtGOpYgPC7xdk2+VgZ/c2XSlHLUguE93axSLMnDam4JaFUOxF3RYgzC6wtWk0XCFbbHGHx1MtvYa2KxymdGmpbws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGsdrame; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E003C4CEEA;
+	Tue, 27 May 2025 06:28:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748316655;
-	bh=4+1dYOsA3kHiY8rIfLnjAgd8wOHuIeN0O4AklhVQ26M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PDpCasocKfbRpFVO+Gva5E2erDIv83oOIdsyR75Vq2GGa56oNa5MOdQa5qay1G54y
-	 S3D805nuKzNhvN1MGkOcNzDYg75XhUCqp/yL2uAtapUbK1S3n1G1UqKFxjn4ntxa2t
-	 CxK7rnXc/L95iZlTUmMOfPm+tWQHp0eHX8ylQn1MLkMLwWEVbEIqOGdVT8vlbCWjXx
-	 1q7/F23sOsIArXHlRGvPt/BGFksZoRCqKz9JnzG/1PYvusJQ1vfQN1bIMcZcy537wE
-	 EtK8ERnZ0Vf1prle9VJ/upLUeNrvka0s29uYXbrEKAL1WDGe39ZbtoexMTV0Oi8rty
-	 ACZ9lz8fPa0vg==
-Date: Mon, 26 May 2025 20:30:52 -0700
-From: Kees Cook <kees@kernel.org>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-	Michal Wilczynski <michal.wilczynski@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Usama Arif <usama.arif@bytedance.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v2 04/14] x86: Handle KCOV __init vs inline mismatches
-Message-ID: <202505262028.E5B7A7E8@keescook>
-References: <20250523043251.it.550-kees@kernel.org>
- <20250523043935.2009972-4-kees@kernel.org>
- <ba4f4fd0-1bcf-3d84-c08e-ba0dd040af16@linux.intel.com>
+	s=k20201202; t=1748327281;
+	bh=LnppPxxgT4dG94wpbP0vtD3nP0ZmSru6h5mdvKc8aW8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hGsdrameumAcNqhfM/r2r1oES0/wsbhk7Cf2phXlhTPnmSj/mB+nC8JylyRoJiC0w
+	 gTdawvbnhd2H9i28nsFzV2JoaXB1bzUL2E2B8KxLDHY4wXy8MhiyGt9d19C/KWf1Eu
+	 JWED6mB759JilHQ5kcxPLrqj4TvYkfLPFuAhsFpPmGnaBcUKfS3u8eJzoYBwkREd+D
+	 NBxZ0yS1xQ21KgWgghsjSf7WPQt5EZCIrZJe6m+/+Tz77kkYK3zMQEPjdYhAZZLc2J
+	 uijqsgWvwyyZNcKvzm3wdenn+8QYA3oha+H1j+CPh4D08gZo12TeG7EmyBvsyfTh62
+	 9gSKVsxY7wsNw==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-551ed0038a0so3532787e87.2;
+        Mon, 26 May 2025 23:28:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW6i9VmXp6pSLUuKYu/I0FOBJPzyGrQ5txatSUfM/GXeR1Wmr4Z92f1C2ZD1WFHreFQRFDF3cQTH7/1JbI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8ycMwikuosUBQ+RU0boTh6i7J6VbGprpcaI3fY1PV5H27oKDA
+	vFTwoNeSFmFEh3SVrcI+0H8KdwLJUAy9v8beio9xv5L2CnMvyZMsfSJQgKvn4dO0noE+jDT9BR5
+	NiDEq61KX2UUFlLApT0VWw+t5hkFdVCg=
+X-Google-Smtp-Source: AGHT+IHFajMl+cbuBYWjKakvHh/KZC0ATcnwByllYeL/vRGm7w+D5kukx+zGWciy3qfzWPMcitmahGZgrrrwANYUsEk=
+X-Received: by 2002:a05:6512:2387:b0:553:268e:5006 with SMTP id
+ 2adb3069b0e04-553268e525cmr716356e87.55.1748327280309; Mon, 26 May 2025
+ 23:28:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba4f4fd0-1bcf-3d84-c08e-ba0dd040af16@linux.intel.com>
+References: <CAK7LNAQezLBpYLqJ+=ONqoYKwdaw0_eywN9O26LTnifGq_g+tg@mail.gmail.com>
+ <CAHk-=wg2YAc1TrqWB9HhKDWHGzrqeP9=uiW9hzU5p1oApcdAKA@mail.gmail.com>
+In-Reply-To: <CAHk-=wg2YAc1TrqWB9HhKDWHGzrqeP9=uiW9hzU5p1oApcdAKA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 27 May 2025 15:27:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARY48483tOLUf01-d_VnQh+K=-e+SLEeAqMaZfZC0YjLA@mail.gmail.com>
+X-Gm-Features: AX0GCFuaORFQD2UseF9ROv_TH5PbEp7tLDpp4aCRUC1SW9KccEsh4m49_eWci6w
+Message-ID: <CAK7LNARY48483tOLUf01-d_VnQh+K=-e+SLEeAqMaZfZC0YjLA@mail.gmail.com>
+Subject: Re: [GIT PULL] Kbuild fixes for v6.15-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 26, 2025 at 12:53:13AM +0300, Ilpo Järvinen wrote:
-> On Thu, 22 May 2025, Kees Cook wrote:
-> 
-> > When KCOV is enabled all functions get instrumented, unless the
-> > __no_sanitize_coverage attribute is used. To prepare for
-> > __no_sanitize_coverage being applied to __init functions, we have to
-> > handle differences in how GCC's inline optimizations get resolved. For
-> > x86 this means forcing several functions to be inline with
-> > __always_inline.
-> > 
-> > Signed-off-by: Kees Cook <kees@kernel.org>
-> > ---
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: Borislav Petkov <bp@alien8.de>
-> > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > Cc: <x86@kernel.org>
-> > Cc: "H. Peter Anvin" <hpa@zytor.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-> > Cc: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Cc: Len Brown <lenb@kernel.org>
-> > Cc: Masami Hiramatsu <mhiramat@kernel.org>
-> > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > Cc: Mike Rapoport <rppt@kernel.org>
-> > Cc: Michal Wilczynski <michal.wilczynski@intel.com>
-> > Cc: Juergen Gross <jgross@suse.com>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > Cc: Roger Pau Monne <roger.pau@citrix.com>
-> > Cc: David Woodhouse <dwmw@amazon.co.uk>
-> > Cc: Usama Arif <usama.arif@bytedance.com>
-> > Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-> > Cc: Thomas Huth <thuth@redhat.com>
-> > Cc: Brian Gerst <brgerst@gmail.com>
-> > Cc: <kvm@vger.kernel.org>
-> > Cc: <ibm-acpi-devel@lists.sourceforge.net>
-> > Cc: <platform-driver-x86@vger.kernel.org>
-> > Cc: <linux-acpi@vger.kernel.org>
-> > Cc: <linux-trace-kernel@vger.kernel.org>
-> > Cc: <linux-efi@vger.kernel.org>
-> > Cc: <linux-mm@kvack.org>
-> > ---
-> 
-> > diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> > index e7350c9fa3aa..0518d5b1f4ec 100644
-> > --- a/drivers/platform/x86/thinkpad_acpi.c
-> > +++ b/drivers/platform/x86/thinkpad_acpi.c
-> > @@ -559,12 +559,12 @@ static unsigned long __init tpacpi_check_quirks(
-> >  	return 0;
-> >  }
-> >  
-> > -static inline bool __pure __init tpacpi_is_lenovo(void)
-> > +static __always_inline bool __pure tpacpi_is_lenovo(void)
-> >  {
-> >  	return thinkpad_id.vendor == PCI_VENDOR_ID_LENOVO;
-> >  }
-> >  
-> > -static inline bool __pure __init tpacpi_is_ibm(void)
-> > +static __always_inline bool __pure tpacpi_is_ibm(void)
-> >  {
-> >  	return thinkpad_id.vendor == PCI_VENDOR_ID_IBM;
-> >  }
-> 
-> Hi Kees,
-> 
-> What's your plan on upstreaming route/timeline for this? I'd prefer to 
-> retain full control over this file as we were planning on some 
-> reorganization of files into lenovo/ subdir.
+Hi Linus,
 
-I'm not in a big rush. I'm hoping to have this all in place for v6.17,
-but the Clang feature won't be in a released compiler version until
-September. :) I can send this bit separately for your tree.
+On Tue, May 27, 2025 at 3:16=E2=80=AFAM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Masahiro,
+>
+> On Wed, 14 May 2025 at 22:15, Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
+> >
+> > Please pull some Kbuild fixes.
+>
+> So this isn't actually about your latest kbuild fixes, but more a
+> generic kbuild thing now that the merge window has opened..
+>
+> My build times have gone up by a *lot* lately (and by "lately" I don't
+> mean very recently, but in the last month or so), to the point that
+> I'm now finding it to be a real annoyance due to it slowing down the
+> merge window for me.
+>
+> I did a profile on the load just to check, and it's all just gcc
+> (well, cc1 mainly), so it's not that something else like ccache got
+> enabled.
+>
+> (Things like ccache can speed up builds in other scenarios, but I've
+> also seen it slow things down a lot for the worst-case sitation when
+> header files change, so I wanted to verify that it's not just that)
+>
+> So it's just that we're spending a lot more time in the compiler.
+>
+> I haven't tried to bisect it, and now I'm too busy to, but the two
+> main suspects are either that KASAN is now enabled and that just makes
+> the builds a lot slower (if so, it's my own fault - introduced by me
+> in commit 6f110a5e4f99 "Disable SLUB_TINY for build testing").
+>
+> Or it's just that I upgraded to F42 and gcc-15 itself is perhaps just
+> that much slower.
+>
+> Anyway, I'm emailing you exactly because I'm busy with the merge
+> window and this is causing issues for me but I don't have time to
+> figure it out - and so I'm going "maybe Masahiro is aware of this
+> already"
 
-Thanks for taking a look!
+I am not aware of the slowness you mentioned.
 
--- 
-Kees Cook
+I compared v6.15-rc1 and v6.15-1972-g914873bc7df9
+(today's latest), but I did not see noticable slowness.
+
+masahiro@oscar:~/ref/linux((HEAD detached at v6.15-rc1))$ git describe
+v6.15-rc1
+masahiro@oscar:~/ref/linux((HEAD detached at v6.15-rc1))$ git clean
+-fdx && time make -j24 defconfig all
+ [ snip ]
+real 1m46.444s
+user 27m59.363s
+sys 4m47.092s
+
+
+masahiro@oscar:~/ref/linux(master)$ git describe
+v6.15-1972-g914873bc7df9
+masahiro@oscar:~/ref/linux(master)$ git clean -fdx && time make -j24
+defconfig all
+[snip]
+real 1m45.410s
+user 28m11.197s
+sys 4m45.550s
+
+
+However, building the kernel in Fedora 42 is 30% slower
+than in Fedora 41.
+
+So, maybe, this is because you recently upgraded your OS to Fedora 42.
+
+
+
+
+[In Fedora 41 Docker container]
+
+[masahiro@495de5a516cc linux]$ gcc --version | head -n1
+gcc (GCC) 14.3.1 20250523 (Red Hat 14.3.1-1)
+[masahiro@495de5a516cc linux]$ git clean -fdx && time make -j24 defconfig a=
+ll
+  [snip]
+ real 2m25.794s
+user 25m18.131s
+sys 5m56.074s
+
+
+
+[In Fedora 42 Docker container]
+
+[masahiro@a55a26dda811 linux]$ gcc --version | head -n1
+gcc (GCC) 15.1.1 20250521 (Red Hat 15.1.1-2)
+[masahiro@a55a26dda811 linux]$ git clean -fdx && time make -j24 defconfig a=
+ll
+  [snip]
+real 3m12.714s
+user 35m59.299s
+sys 9m10.699s
+
+
+
+
+
+
+
+> I also did notice while timing things that the final module link time
+> seems to have limited threading
+>
+> For the rest of the build, I have load averages in the 100+ range
+> (because I build with "-j128"), but then the last few minutes it
+> starts dropping a lot when it's in the
+>
+>   CC [M] ...
+>
+> stage, and when it hits that Makefile.modfinal stage and we get
+>
+>   LD [M] ...
+>
+> stage it seems to have serialized completely and just spends 100% of
+> time in one single 'make' instance.
+>
+> But that may be an effect of the link being so fast that 'ps' and
+> 'top' just don't tend to pick them out at all, of course. But I do
+> note that the LD [M] phase seems to be entirely serialized with the
+> 'CC [M]' phase. Does it really have to be?
+>
+>                Linus
+
+The last CC[M] and LD[M] stages are very fast, because
+the auto-generated *.mod.c files are tiny.
+
+
+
+CC [M]     foo.mod.o
+CC [M]     bar.mod.o
+
+can be compiled in parallel.
+
+
+LD [M]     foo.o
+LD [M]     bar.o
+
+can be linked in parallel.
+
+
+So, I believe we can benefit from parallel building.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
