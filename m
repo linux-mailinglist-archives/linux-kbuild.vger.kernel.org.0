@@ -1,86 +1,86 @@
-Return-Path: <linux-kbuild+bounces-7299-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7300-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A54AC5AC3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 21:33:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CF0AC5AFE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 21:53:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D4D57A0631
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 19:32:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C9514A5457
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 19:53:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE9127FD78;
-	Tue, 27 May 2025 19:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12D901FF60A;
+	Tue, 27 May 2025 19:53:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0OP0x7KA"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LxEtZNif"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EF712B93
-	for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 19:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6644E1FDA92
+	for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 19:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748374418; cv=none; b=DJL+2mHGhb7c14Nxde4ugdrOXgrqIu+bRq47dcocgEUnAW9XfbuqzOABp5X//oopOyV+k/spqxlGQf3jVfDxnTj9ex8SHsCClYI1+T5y5FSTPfMqxzwpI/inYbsGzK6+fG7P21N8uUdhP+W7bpUjx/3JrVZ+fnG9tVHcOw6ZyFY=
+	t=1748375615; cv=none; b=NsXCP1eCBTYgn901flPFsUlzEdIKVrFgbfcHNu9kOB79kz2k2ruDcF3bwzbpVZqIZMxU1ROokWxeYkaJ8sZGJrf/MS4NMuy1tU0LaNCB5q0fZW9uN1PhListXznHWN/cH1OKUDkEwikd5LoMuL/euK5oGIypSm4w4eqOYJ237lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748374418; c=relaxed/simple;
-	bh=qujUhwqtxYaesCJ8aFIar0jk6NutdAvQK7kqjuIdj+Y=;
+	s=arc-20240116; t=1748375615; c=relaxed/simple;
+	bh=0aRxxkr3ufOF/tONYtyc+3pJ+ADiXzBB+ss3D+XTeTM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XXzPVFfyYR4BfMaLb+uKlnfQrGwdfkmnvdpJGkHW2lDLW0s0DS+hiNwdeeRf1B3byis0kw9UvtpnZaJcpFoe4kGrtKyWyTCxphljtkEYJHUmbEUSCOTEb9aEtZwKMenv3Hp1SV3JDsstP3orjdpTEFkCTKNkVxAwnL6MqoFoiqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0OP0x7KA; arc=none smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=FGJkNeSi9PLcsjbKJHSU8WD5uT5cF/1qIbATuanuJs+TgcohnywPMBk7ofHwFuGK2XOnDv2/4ZIym37v8J3mYGNIbsAZu8TYyKFDd91bRF3PlYRt6MohWjvPtLEsZsV0fbe91KVvoYubufGy1icmsGTBvcEQgjes5jCsfODXi/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LxEtZNif; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6000791e832so87a12.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 12:33:35 -0700 (PDT)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6024087086dso2681a12.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 12:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1748374414; x=1748979214; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1748375611; x=1748980411; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CMpAgp8nnBu9AVEPcv+O7iIG3dhqLGHcSzhcSY2bUWo=;
-        b=0OP0x7KAQL8OduxP91sBAr0wDgQZ2PPZN44nW9s6OvHPT+UiH8gQmbAUzOrxA5TRgK
-         /aQFVUshrnZmTIsVo4nukHJRG6LSR1paPg+5PJ2tUCD4jSU9f64MvHsZhmiGwB7yt9ha
-         xIIDUnkIPFMXuVzfVxtMr4aFx6cBINCIlj+PH+Eodz09OsHr17Ud9BX9g7JIIbou5beQ
-         6pCbYkZ4Lc5irdZl7sIUTyU/wS7JbwZU2wyus+dv7I33JrAeTQkov+YlLzkxNErTzIvm
-         I8GUkxKhZ4niItF1Om9fCs43uvjHrINSA5Qrs90MC7k8kIp/R6qxcGo616Jw7LaiSbvr
-         ExnA==
+        bh=XzCiowGRYG7isRhjKQlAEOAZ7lYADH0DVq6EcGz7qU8=;
+        b=LxEtZNif+WDD3nYjO13eGLXUiVJRpy47qgAgkp+efJTQkJqlnckkRK2FqZ4jGCfkF7
+         lN1qE7DeRBPv4byblgKHf39zNK7NxsJdy+QHngiI7BlAH3p51TbNJnCBhoZBStaYWL6D
+         nAk90RaLn5ywPPCaKJpzO3mkCQAuJTZNxJqmZcnRKT1lUqseoehKsZra3I8inMFPOoSf
+         bMHMAXa3R0CuWrsFiVLNuoRYzVOti6dF9Zw8+iTgk4qxM5bU6u0Q/Ds2PfEPt5KeWVWZ
+         ReiyykettXiAckQcwtjFhVlBWALLd60FhQGUkycaO+czKm2UK90GssGYekKKX8MEKQ3y
+         HpaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748374414; x=1748979214;
+        d=1e100.net; s=20230601; t=1748375611; x=1748980411;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CMpAgp8nnBu9AVEPcv+O7iIG3dhqLGHcSzhcSY2bUWo=;
-        b=jF4XJ/vr6z0qEzflL1iBltaX7EsIRc17dLO13K6eAzLjxlFb+HbTMUpethmeVHeaUi
-         kFKtbhKxy1weDXjKyjxsTspoRQpnym8PAp+8vaJjj13nwAFTmgO+iUEtTTW716VPnvOM
-         Cs5lZF1OS4s8qNv0htk2aT4HHpkTX7YAAI4hl6EoxAyu/8glnIGpK5jCL1V027mLlxqF
-         VIvN2D5C9j+28eprAYfPOMlNJMO4V4mDEecf0bD2Ynl3gETPOKKUAjqpOx4pp/+ti1xh
-         O5XAe3rXdneYjeo5RNup3Vnfvnwk1HTWI52O5uM4D3pMwcdM2LMyF1uoRTHIfqsyFpFd
-         zfGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXUjfdZtWpeHpolrZPx/G9TjlLsr2+VMv/2VinNdhphMwB3OvcH6IawomSJo3WtFYLgZnV40XzLg+MVeUk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWORhXauqteA8FUU/lHqW0Ulrylwsi7fPzmgAKkBC5l5DSEo8x
-	2xkgDpfCqabHuiOQu2qPx38ry+4lkMzZ/0m4P3wtmgEC64P/pI9MK+phbqjMinMwVnQCml1B1uX
-	6fyPD7XE/S9SftByrTe3zyMFte2/psd0MoIPSP2tZ
-X-Gm-Gg: ASbGncssdLq63bS/vOezhUtrjFnYJMdJUTKugqMyQ/jTV366PfMH2F9u8gMfu8ITHcm
-	By+nIVdWWgv9P4JxAf+KLh5wthU3uxjl1F2GYaUMp2fR5jQMXc2nkazP9/zRA6etNDHiiGSoPyy
-	TxONlGRJRBWKe4Gjjp03C0QLkAY0Zk8WBQeisNvObBGSekvjiwKeAkzSZ7rjVVNdq2SvK7tlwEH
+        bh=XzCiowGRYG7isRhjKQlAEOAZ7lYADH0DVq6EcGz7qU8=;
+        b=k68sdFuY6tQP8jAYGHbF2Ysjj351gfBJwfxUyyFwKYRho8tihLVyLFbK+yOpHskmMD
+         qZtvcuVzyDF/v6fnvVpPFnQcYn8/PNa05dklY9702/DG0fiAVjLpcYVDkMvyIbQEh4N8
+         2MsHxBFpn/v6tvRlUpeaZYNv9HuL9+VV09gfjWQQ3mVBieN03zGmmGKJJLMt8oRo+4fc
+         dallZlNmWpilo4P68xeOKrkeXeIwuIisJfQVfoNxCVJnE/ZvypkWZuT2L4lp7C5QyRXX
+         3++yF/3xJG4rA/pHbADiXJgUzIGupD3vVcVAJ5EOqiYdhsB+2wZ0FNhwc266LJV1vgWs
+         lgbA==
+X-Forwarded-Encrypted: i=1; AJvYcCXGwFaewaDw/yK4yM4b9aOQ6+lF6v2MqxqIwc/fwgGxerEAfVNSM7DU+bI3ktoIwxLRJCbyt0tzk0ANbAU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyphFcB366tOoKWmeEWB2ZapEIBIZLNpgDtitvrbgIFHV9zUHcb
+	rQdUHTDLfpayZkwYqjSCsJMREr9VJnBmm6SLMnd2p9dfAKlwVbwrGXTp4O/nz5BSTZqAhrb5M2Y
+	W5JVUznOwXf/XmXCLh+kpvSL+u7OMfJ3iG/M8g5H/
+X-Gm-Gg: ASbGnct5gnDg11XH8DM7ucCIeo40140UrtOheSuG3X/cfw57CqNd1f6CMkVWSbrR4gD
+	tpz6ueb6/zc0YzyKSXiNQ40K1pBVC919cZFJccPBEgxqB9/pL01TH8X1kM/by88zIC0GWgWxssX
+	wcF+fWObs561fURQZNtSArxDPB3OPuTHo6Hwsz8VEcLkr3x01bxPFlE7Y66WntNMMGUB4yCo/FN
 	A==
-X-Google-Smtp-Source: AGHT+IG1l8NJ4KxPTLzvNjZXTiypgXJ/6EXFeev3t1CCVktsGrQScJdUIs4HtNVjZrpexn5YJkCFcOx1mZTggoVru7g=
-X-Received: by 2002:aa7:df83:0:b0:601:f23b:a377 with SMTP id
- 4fb4d7f45d1cf-6051594407dmr21163a12.6.1748374413443; Tue, 27 May 2025
- 12:33:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGL47GSdQbOgkYhZdZwJlR+lhuXIxEWj0+MrFV3ig2/ULN8tkZmpTHaidUGYU06i+ueD4ztMKZ8unUEUKbCOH4=
+X-Received: by 2002:a05:6402:1656:b0:5fc:e6a6:6a34 with SMTP id
+ 4fb4d7f45d1cf-6051592fcf5mr12906a12.6.1748375610284; Tue, 27 May 2025
+ 12:53:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250521213534.3159514-1-xur@google.com> <CAK7LNAT5Jy-us4pc725bb_LyHAP3b9D7Z0Jp=krOFujmnYmZXg@mail.gmail.com>
-In-Reply-To: <CAK7LNAT5Jy-us4pc725bb_LyHAP3b9D7Z0Jp=krOFujmnYmZXg@mail.gmail.com>
+References: <20250521213534.3159514-1-xur@google.com> <CAK7LNAQ1wTet=KNMbaypgYHZY1xAf7F=PRas6aq0OogHC8SMmQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ1wTet=KNMbaypgYHZY1xAf7F=PRas6aq0OogHC8SMmQ@mail.gmail.com>
 From: Rong Xu <xur@google.com>
-Date: Tue, 27 May 2025 12:33:21 -0700
-X-Gm-Features: AX0GCFs0eSxx4GmwTH6E_fXUzaFtgPTENfPhJ7-Iie9_Vo16AgfgRpfrM0qrKKU
-Message-ID: <CAF1bQ=S8zc8f7b34H=uyH93NeyaM_yQnpxQxifCkOX0u8wfKJA@mail.gmail.com>
+Date: Tue, 27 May 2025 12:53:18 -0700
+X-Gm-Features: AX0GCFsuSoRRiGgMdQqR5Lh9ElaabYRRmde_tj3F-G-KGQhAtK7xCcVhnMMHpsY
+Message-ID: <CAF1bQ=RDEPvPvQ4byacTOag4ripc4h6VnTHtr+0Cgmhx39P5Kg@mail.gmail.com>
 Subject: Re: [PATCH v3] kbuild: distributed build support for Clang ThinLTO
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, Eric Naim <dnaim@cachyos.org>, 
@@ -96,8 +96,8 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Eric Naim <dnaim@cachyos.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 24, 2025 at 11:15=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
+On Sun, May 25, 2025 at 1:59=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
 > On Thu, May 22, 2025 at 6:35=E2=80=AFAM <xur@google.com> wrote:
 > >
@@ -109,17 +109,33 @@ org> wrote:
 > > (2) Improved user-friendliness for developers. (3) Greater
 > > convenience for integrating with objtool and livepatch.
 >
-> I did not understand any of these benefits
-> despite a lot of added complexity.
-I'm sorry you felt this way. For someone with my background in
-compilers, especially with extensive work in ThinLTO, distributed
-ThinLTO is unquestionably the superior choice.
+> I did not set up for a distributed build environment, but
+> does CC=3D'distcc clang' work to process thin LTO
+> on back-end build machines?
+
+I'm sure I get the question. I don't think "distcc clang" works with
+in-process ThinLTO build. But I think it works with distributed
+ThinLTO (I did not
+try myself).
+
+>
+>
+> You mentioned the benefits (3), but you did not touch
+> anything about objtool.
+
+I fixed some bugs in objtool for ThinLTO in some early 5.xx kernel.
+
+>
+> How will this patch change the objtool integration?
+
+I haven't looked into the details. But will the availability of native obje=
+cts
+help here?
+
 >
 >
 >
->
->
->
+> >
 > > Note that "distributed" in this context refers to a term
 > > that differentiates in-process ThinLTO builds by invoking
 > > backend compilation through the linker, not necessarily
@@ -145,14 +161,6 @@ ThinLTO is unquestionably the superior choice.
 > > Currently, this patch focuses on building the main kernel
 > > image (`vmlinux`) only. Support for building kernel modules
 > > using this method is planned for a subsequent patch.
->
-> The announcement of the future plan is even scary,
-> especially after looking at your implementation.
-
-I'm sure this patch can be improved (or rewritten).
-
->
->
 > >
 > > Tested on the following arch: x86, arm64, loongarch, and
 > > riscv.
@@ -176,18 +184,7 @@ I'm sure this patch can be improved (or rewritten).
 > >   works as intended.
 > > - Tested the patch with AutoFDO and Propeller.
 > > ---
-> >  .gitignore                        |  3 ++
-> >  MAINTAINERS                       |  5 +++
-> >  Makefile                          | 40 ++++++++++++++++++++---
-> >  arch/Kconfig                      | 19 +++++++++++
-> >  scripts/Makefile.build            | 52 +++++++++++++++++++++++++++---
-> >  scripts/Makefile.lib              |  7 +++-
-> >  scripts/Makefile.vmlinux_o        | 16 +++++++---
-> >  scripts/Makefile.vmlinux_thinlink | 53 +++++++++++++++++++++++++++++++
-> >  scripts/head-object-list.txt      |  1 +
-> >  9 files changed, 181 insertions(+), 15 deletions(-)
-> >  create mode 100644 scripts/Makefile.vmlinux_thinlink
-> >
+>
 > > diff --git a/.gitignore b/.gitignore
 > > index f2f63e47fb886..b83a68185ef46 100644
 > > --- a/.gitignore
@@ -197,6 +194,10 @@ I'm sure this patch can be improved (or rewritten).
 > >  .*
 > >  *.a
 > > +*.a_thinlto_native
+>
+> This is unneeded.
+ack.
+>
 > >  *.asn1.[ch]
 > >  *.bin
 > >  *.bz2
@@ -205,6 +206,15 @@ I'm sure this patch can be improved (or rewritten).
 > >  *.o
 > >  *.o.*
 > > +*.o_thinlto_native
+>
+> I would rename this to *.thinlto-native.o
+> so we do not need to touch .gitignore at all.
+ack.
+>
+>
+>
+>
+>
 > >  *.patch
 > >  *.rmeta
 > >  *.rpm
@@ -247,6 +257,19 @@ sign kernelrelease \
 > > +single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s =
 %.o_thinlto_native \
 > > +                 %.a_thinlto_native %.o.thinlto.bc %/
+>
+>
+> You are adding all new suffixes, but in my understanding there is no way
+> to generate %.o.thinlto.bc as a single target.
+You are correct. they are generated in batch.
+>
+>
+>
+>
+>
+>
+>
+>
 > >
 > >  config-build   :=3D
 > >  mixed-build    :=3D
@@ -286,22 +309,6 @@ F -f $(srctree)/scripts/head-object-list.txt)
 > > +define rule_gen_vmlinux.a_thinlto_native
 > > +       +$(Q)$(MAKE) $(build)=3D. need-builtin=3D1 thinlto_final_pass=
 =3D1 need-modorder=3D1 built-in.a_thinlto_native
->
->
-> I really do not understand why this needs the second
-> recursion, as you already know the list of objects
-> by 'ar t vmlinux.a'.
-
-The second recursion is to get the per-file cflags reliably.
-
->
->
->
->
->
->
->
->
 > > +       $(call cmd_and_savecmd,ar_vmlinux.a_thinlto_native)
 > > +endef
 > > +
@@ -620,9 +627,46 @@ r.pl \
 > > +quiet_cmd_ld_vmlinux.thinlink =3D LD      $@
 > > +      cmd_ld_vmlinux.thinlink =3D \
 > > +       $(AR) t vmlinux.a > .vmlinux_thinlto_bc_files; \
+>
+>
+> Question: Is this a workaround for a linker bug?
+
+You can call it a bug as clang does not handle this.
+
+>
+> I wonder why we cannot directly pass vmlinux.a just like
+>
+> $(LD) ... --thinlto-index-only vmlinux.a
+
+I also think tt should be this way. But currently it does not work.
+
+>
+>
+>
+>
 > > +       $(LD) ${KBUILD_LDFLAGS} -r $(addprefix -T , $(initcalls-lds)) \
 > > +       --thinlto-index-only @.vmlinux_thinlto_bc_files; \
 > > +       touch vmlinux.thinlink
+>
+>
+> Instead of 'touch', I think it is better to use
+>
+> --thinlto-index-only=3D$@
+ack.
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
 > > +
 > > +vmlinux.thinlink: vmlinux.a $(initcalls-lds) FORCE
 > > +       $(call if_changed,ld_vmlinux.thinlink)
@@ -653,14 +697,6 @@ t
 > > index 7274dfc65af60..90710b87a3877 100644
 > > --- a/scripts/head-object-list.txt
 > > +++ b/scripts/head-object-list.txt
->
-> Adding a new entry to this file is NACK.
-
-Then this platform cannot use LTO?
-
->
->
->
 > > @@ -18,6 +18,7 @@ arch/arm/kernel/head.o
 > >  arch/csky/kernel/head.o
 > >  arch/hexagon/kernel/head.o
