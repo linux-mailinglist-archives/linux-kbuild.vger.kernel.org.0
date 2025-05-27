@@ -1,122 +1,154 @@
-Return-Path: <linux-kbuild+bounces-7291-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7292-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C873AC5022
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 15:45:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F188AC5051
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 15:56:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E635F171CB6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 13:45:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A4C2189DFCB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 13:56:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 631042750F0;
-	Tue, 27 May 2025 13:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55B09134CB;
+	Tue, 27 May 2025 13:56:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTu9jXPy"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DBPEPISB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E73F274FF5;
-	Tue, 27 May 2025 13:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EBA276036
+	for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 13:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748353506; cv=none; b=RqfYZq+lJrJ1IMIbF9gvGqhEQj5BI6ocurOAFqdb1Keuto6HEsFadqgJigyTE0JceImyY5Q44lry+c0Nsup5oF1p8FEHUDm9fGgLkZ2sVaeLQ1kRuXFcLfD63HpyfhcFdGqhNY1wqtPF4lk+FbIgnf6mc+LEkaNWc5LYWNqbeQY=
+	t=1748354189; cv=none; b=ha8BCwcSpHg4aW+oxGRguKZGh44S4lGixYPc85ztiB3ClXMJ5LxWjfEuLW9xt0PCfdEgZsvoZRIird0xOuMdmXPHvnW50geoxjl2SULVzeht5qoy5yuHluZi81pn5pz79U9jTt0NXH0xXAIobXJ2IRss2cjaHHj+BJoIc2eIuGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748353506; c=relaxed/simple;
-	bh=hdVwWIIFhOiVZNi5/WCVrh8jRCyoHJRKWRlgG03/Qi0=;
+	s=arc-20240116; t=1748354189; c=relaxed/simple;
+	bh=DR0eII5fbH35C4esC9dtXj1fUTepV7Btut4D7Bi+Yo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kDfTDudj+4e6uzZgZN1AWL5fORw/lFMnPcFfzpLXf6hwH/Dy/vLsbSFFNkPYeW3Tel36IBewRLpgSySDMcpZdjpJIr/bHeLksDty1EMQqXv/c2UOsSZPIQ5K9rwOg7OOUS0kKlZWDYYaDldREzib82LIaoTa9kieys9ZhZrprHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTu9jXPy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 923DFC4CEE9;
-	Tue, 27 May 2025 13:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748353505;
-	bh=hdVwWIIFhOiVZNi5/WCVrh8jRCyoHJRKWRlgG03/Qi0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZTu9jXPy0GS4Qz6kfxF6VYwzqX/NmeEQW43rMCFhzPiVuY3240M8R0OHJN14dktqi
-	 TeN+54/YHND2H3eMrhHvscDfTMbkolnlJnjyuDU0OShz5xsCAVjKyh5Wk0qDFZdC3o
-	 JHrPpxU9EBgpzJhtmLkXR88Ah/A6tDQYLgTkQ9YBOP22fHpF2nas2gg3DzHqSnyBm6
-	 LFaa3hymFqRF0woyehWHF1sxvbovBea5FqoRI/Ozigo6VSZmNR+ApoInIcwV76dKw0
-	 dZduOtGkXAtB/ITy+9MCTJW0FBYG9yePFM7I3ULDAgeGhx/O65ibjXwsjlVC6AlpTW
-	 bQ6NhV0VDXfYg==
-Date: Tue, 27 May 2025 15:44:59 +0200
-From: Alexey Gladkov <legion@kernel.org>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=X7+bOx/dZ3sSQRzvbweqjvLPcICBSG7zF0irzJWwo8w+d8hUY2AaFAumTwakOa1Jb+9G+KEO7wDMeVKFqQGw2AXL4xKpBzMlcGM1BF883prGfHdZRv3RxKcXeuUDN6rpjjxnf+56efyprKYa3r30DoEsCVd8OLHnAgakmwHLnSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DBPEPISB; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 27 May 2025 15:56:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1748354181;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FLl9VxDhC/oIjgX+m65ElyBei2vf8OKiPQtUyOdtfwU=;
+	b=DBPEPISBgfSQ0+cpOKL9TKTUzheLNL5fUFFpah1KlDRHiP+f2RorQQ12kUmuwzhQ3hM9/+
+	aXep8APlTJpGUUHdgMd5UD3XQpN1rq/czK2GzFIPWQMP6UbWVUynRwWcU27FqS8a/hnsPf
+	8Qhj4uKdcBfmBLcbqA62M1shAHCWV1g=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Khalid Aziz <khalid@gonehiking.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v3 7/6] scsi: Always define MODULE_DEVICE_TABLE
-Message-ID: <aDXB27Pesn7RJAtZ@example.org>
-References: <cover.1748335606.git.legion@kernel.org>
- <20250527131544.63330-1-legion@kernel.org>
- <9b1a69dd12531299dcc9b077d065ebbaa6e14c51.camel@HansenPartnership.com>
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 09/11] kunit: uapi: Add example for UAPI tests
+Message-ID: <20250527-dark-uakari-from-pluto-fbc8ae@l-nschier-aarch64>
+References: <20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de>
+ <20250407-kunit-kselftests-v2-9-454114e287fd@linutronix.de>
+ <20250526-marvellous-abstract-koala-317cb4@l-nschier-aarch64>
+ <20250526164038-12259c68-586f-4a24-a814-8ffed5778742@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b1a69dd12531299dcc9b077d065ebbaa6e14c51.camel@HansenPartnership.com>
+In-Reply-To: <20250526164038-12259c68-586f-4a24-a814-8ffed5778742@linutronix.de>
+Organization: AVM GmbH
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, May 27, 2025 at 09:22:09AM -0400, James Bottomley wrote:
-> On Tue, 2025-05-27 at 15:15 +0200, Alexey Gladkov wrote:
-> > Since MODULE_DEVICE_TABLE no longer depends on whether the module is
-> > built separately or compiled into the kernel, it now makes sense to
-> > always define DEVICE_TABLE. In this case, even if the module is in
-> > the
-> > kernel, correct module.builtin.modaliases will be generated.
+On Mon, May 26, 2025 at 04:50:19PM +0200, Thomas Wei√üschuh wrote:
+> On Mon, May 26, 2025 at 04:22:02PM +0200, Nicolas Schier wrote:
+> > On Mon, Apr 07, 2025 at 09:42:46AM +0200, Thomas Wei√üschuh wrote:
+> > > Extend the example to show how to run a userspace executable.
+> > > 
+> > > Signed-off-by: Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
+> > > ---
+> > >  lib/kunit/.kunitconfig         |  2 ++
+> > >  lib/kunit/Makefile             |  9 ++++++++-
+> > >  lib/kunit/kunit-example-test.c | 15 +++++++++++++++
+> > >  lib/kunit/kunit-example-uapi.c | 22 ++++++++++++++++++++++
+> > >  4 files changed, 47 insertions(+), 1 deletion(-)
 > > 
-> > Suggested-by: James Bottomley <James.Bottomley@HansenPartnership.com>
-> > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> > ---
-> > †drivers/scsi/BusLogic.c | 2 --
-> > †1 file changed, 2 deletions(-)
 > > 
-> > diff --git a/drivers/scsi/BusLogic.c b/drivers/scsi/BusLogic.c
-> > index 8ce2ac9293a3..08e12a3d6703 100644
-> > --- a/drivers/scsi/BusLogic.c
-> > +++ b/drivers/scsi/BusLogic.c
-> > @@ -3715,7 +3715,6 @@ static void __exit blogic_exit(void)
-> > †
-> > †__setup("BusLogic=", blogic_setup);
-> > †
-> > -#ifdef MODULE
-> > †/*static const struct pci_device_id blogic_pci_tbl[] = {
-> > †	{ PCI_VENDOR_ID_BUSLOGIC,
-> > PCI_DEVICE_ID_BUSLOGIC_MULTIMASTER,
-> > †	† PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
-> > @@ -3732,7 +3731,6 @@ static const struct pci_device_id
-> > blogic_pci_tbl[] = {
-> > †	{0, },
-> > †};
-> > †MODULE_DEVICE_TABLE(pci, blogic_pci_tbl);
-> > -#endif
+> > Adding this diff allows 'make clean' to clean up the UAPI test binary:
+> > 
+> > 
+> > diff --git a/lib/Makefile b/lib/Makefile
+> > --- a/lib/Makefile
+> > +++ b/lib/Makefile
+> > @@ -112,8 +112,6 @@ CFLAGS_REMOVE_test_fpu_impl.o += $(CC_FLAGS_NO_FPU)
+> >  # Some KUnit files (hooks.o) need to be built-in even when KUnit is a module,
+> >  # so we can't just use obj-$(CONFIG_KUNIT).
+> > -ifdef CONFIG_KUNIT
+> > -obj-y += kunit/
+> > -endif
+> > +obj-$(if $(CONFIG_KUNIT),y) += kunit/
 > 
-> You don't need to do this in two steps.  The original problem of
-> defined but not used table stopped being a problem when the structure
-> was converted to static const over ten years ago (the compiler doesn't
-> warn about unused static consts).
+> Wouldn't the following be sufficient?
+> 
+> obj-y += kunit/
+> 
+> The the kunit Makefile doesn't do anything if CONFIG_KUNIT=y and AFAIK for
+> directories obj-m and obj-y should do the same.
 
-Ah. Ok, I will recreate this patch shortly.
+that's wrong.  In lib/kunit/Makefile there is
 
-Basically my original plan was to fix compilation errors as a first step,
-and second step make MODULE_DEVICE_TABLE be used independently of MODULE.
-Because there are a bunch of modules that also use MODULE_DEVICE_TABLE
-only if MODULE is defined.
+    obj-y += hooks.o
 
--- 
-Rgrds, legion
+thus, lib/kunit/hooks.o would then be built unconditionally (even w/o 
+CONFIG_KUNIT).
 
+Iff we would add 'obj-y += kunit/' in lib/Makefile we'd have to adjust the 
+hooks.o line in lib/kunit/Makefile appropriately.
+
+> 
+> >  
+> >  ifeq ($(CONFIG_DEBUG_KOBJECT),y)
+> >  CFLAGS_kobject.o += -DDEBUG
+> > 
+> > 
+> > 
+> > plus the 'clean-files' addition below.
+> 
+> <snip>
+> 
+> > > diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> > > index 989933dab9ad2267f376db470b876ce2a88711b4..1b6be12676f89cafa34f0093d8136b36f4cf5532 100644
+> > > --- a/lib/kunit/Makefile
+> > > +++ b/lib/kunit/Makefile
+> > > @@ -30,4 +30,11 @@ obj-$(CONFIG_KUNIT_TEST) +=		string-stream-test.o
+> > >  obj-$(CONFIG_KUNIT_TEST) +=		assert_test.o
+> > >  endif
+> > >  
+> > > -obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=	kunit-example-test.o
+> > > +userprogs +=				kunit-example-uapi
+> > 
+> > clean-files +=				kunit-example-uapi
+> 
+> This shouldn't be necessary as $(userprogs) is automatically added to
+> __clean-files in scripts/Makefile.clean.
+
+oh yes, you're right.  Please do not any of these 'clean-files' lines.
+
+Kind regards,
+Nicolas
 
