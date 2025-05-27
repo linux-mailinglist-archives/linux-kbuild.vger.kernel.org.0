@@ -1,116 +1,208 @@
-Return-Path: <linux-kbuild+bounces-7297-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7298-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2577AC5177
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 16:59:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED28FAC5965
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 19:56:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19AE43A129A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 14:58:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B04921BC3896
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 17:56:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5830E278E62;
-	Tue, 27 May 2025 14:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DFB627FD64;
+	Tue, 27 May 2025 17:56:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="E0sBSGU7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5D1Fj32"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63A919005E
-	for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 14:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425652566;
+	Tue, 27 May 2025 17:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748357933; cv=none; b=QDmhtVuLmPd9LjaR68+lWn0EU41qvY0fFCQPvgAY+aZgPY+eqyfJRhUlYT4iOcSeUGhAUiRmGY9j2dSjiYUe2yvlzAikSkB6AIXQpwhQm0j7QfSvZdBxQ4s/HM4hhCLVky9GLVzLKHGy1+7zGrpfUnM3S8NhjatrF/0Odq3I04U=
+	t=1748368581; cv=none; b=LUWsPu3Y9Uur/owOtO8OqMRKWbf+zQZJXcqPM4EeKHTKWFMazLq/h13w0UxO5UqpuJh489PFwQ5TNTWlmbhP2UUpihBlqp67MVzVj0KI4hnwAzb1SbVPa3YhanZjzK2+3ugG8DKR8X87BwOzkDLUkno+tIDAkksWXCAKzzj/PZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748357933; c=relaxed/simple;
-	bh=msfafbvKH8k+6WrHApRJMu1ZHQUoHobjRRMKVSbWuVM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GJxdUSmn9sxxtursse5xsHIxHeQky2G3EoWVYQwtoqULvstp1TMibP/whsX/fXDSJoFx8Pmbm4AuaF1uML2nuyDTMmyKMBzlbXGhIX0p8rJrZRg7qQ/O0zCl2BFk9J53/M/FG2nWj1BX0Tmz1kWo/QFq9kb1JWmc9laQygeUvKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=E0sBSGU7; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-604bde84d0fso2961992a12.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 07:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1748357929; x=1748962729; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xn/HpegMj8KBA7WUvuVnYcNPpUCOy6S5/PQDziNope8=;
-        b=E0sBSGU7cZdsRIMiHupdAEb7/+qLB3YoqYVSPfTJG17Ry0oj/fV58mTPzNPKhoxOin
-         Dhqs7BZ+GnJHcTj7/F9C4iVZmaerMZpXyBZkkL6pVG1NEuDCoMxb41fWxpmqlQgegjqo
-         YLRfKaVCNZkwrlNQ62YE1vbU2ZtgmLn58EwU8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748357929; x=1748962729;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xn/HpegMj8KBA7WUvuVnYcNPpUCOy6S5/PQDziNope8=;
-        b=Y9LDKAjX2sYE5tMYo8rECE2mYTclM3T6BHVvQb2uDwKH5HsngB+t2MD6MWWfDjQsRn
-         Qp/9LpsqRjip4dCCOTaWNbUrbFCO+VQ8yS6CQdh472+d+FLMG6dnyxNlivbxd8n8YWkf
-         PMbUmoecj1s9FrXgIwVej6dA0/QmsMNBm0cyd4+kaN0mBkc6XFntTPwysIs/fGrZsNBc
-         0MJ8FvIhAFQ5kcwwy+FGCcH6/QVTElz2enAnx3SeoV6fZUwK+TJeDjqMzts/Ni9N3QDM
-         j+oSY496CY96UHMb7k+z2M+KsSZWnyiR4mhAcP8vdUUS7bH2sJWgtSS7puRw83H1bdjS
-         ttnw==
-X-Forwarded-Encrypted: i=1; AJvYcCWHJla+7kFta/OClwyGE7zOI64rf8nD6UBQQTGbGxNu4RGiOk4Yp4x2b3R4i5YYK1IgbrsIzBzhU3yOceI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXS+wsps881qNuBxGWMqOdp8ezveO/tIjsWmWkUMGZDPkCVeUz
-	r9OC/fqEzTLxFHRnQP2I9VRflgC8xQ7bL1KTq/IBrVVdEOKqO+iRoE9arzgkNMNz2NFUpNBlf32
-	iyerQFnE=
-X-Gm-Gg: ASbGncsmTPjM/cV56GrfZ+8rXHVFZG50luofYb1M95rEX1zIlwmakug6xyxCqEj6Bt6
-	r/uZwl+HOB4ZJQhdMtzaU8Bn8X0AwU1lD1yDYPx4+1Nm2ZQ2DutXSjP81paE4s7yqI0VnjY7FNl
-	BjZC+iacrUPZVam4FyB60w1QFbToq+qPAnsV2eNshFX9dwUysyMWdV6D1gQfgWo8VHYVjoiQngl
-	H3O1Mb/1Cx0HLOIGWLTkPKRigyItgRDSU7QkBDR/9ckHO9chm8gEASR7CCoxWpinEui3/IxEspe
-	/y1sh8xqhm4GfJr+jSCW0CMqeY7kZoxyiB8jmfeZYvBqYpvDDjoBu4KVEEb26F3nRaDAB6ECvko
-	C7Yze/uMNmqHA60cLs5ZdafCtIg==
-X-Google-Smtp-Source: AGHT+IGNeBOUHICgM+3+yedaJktrSZ8o+Cae/Ql6kHLRy/O+XxamB8mKaJjE3Wt1kCR9iuaELRwK6g==
-X-Received: by 2002:a17:907:d644:b0:ace:d710:a8d1 with SMTP id a640c23a62f3a-ad85b14e20emr1139178166b.24.1748357928781;
-        Tue, 27 May 2025 07:58:48 -0700 (PDT)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d04e674sm1850386266b.24.2025.05.27.07.58.48
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 May 2025 07:58:48 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-604b9c53f6fso4113954a12.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 May 2025 07:58:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXsVcUUcPfPjEUNvu9oC6mkZxtgVrY5A1VA0mke3n11K+uNQdpu5YkmXoqv6j7AmhMDrcqbT2XA5WaEBQM=@vger.kernel.org
-X-Received: by 2002:a05:6402:350e:b0:601:89d4:969f with SMTP id
- 4fb4d7f45d1cf-602db4b1b2cmr10652767a12.32.1748357927364; Tue, 27 May 2025
- 07:58:47 -0700 (PDT)
+	s=arc-20240116; t=1748368581; c=relaxed/simple;
+	bh=eG389LQ+Xp78SjC4Ihx0dxZG+lEE3vE/NvkzUBfztsM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nksTc6VpR16cG8081VvdXSb34DTA1KrWXWRP3xgD0nFxs6kT5KLuvfATpiyYxeQPZbfK8hCBr9wRolF3Gxk+3rDiv8MyYgVj1e4KsbIeFieWcrHvhNITb+SWt4HJF3De048sSyIcvJ757ahWuEeg946T6HFsOIVkwk+d+I1a45o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5D1Fj32; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A16AC4CEE9;
+	Tue, 27 May 2025 17:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748368581;
+	bh=eG389LQ+Xp78SjC4Ihx0dxZG+lEE3vE/NvkzUBfztsM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=F5D1Fj32VEUl3B6sNEwIPhTfO1xnxcw6t0cKI2opKKyIOBremDZgnT0mZx0kni2vd
+	 7RxuW+QnS9LAo8AHydgrVQvXFr2KfKDMuPuTdft0lO17rM/syFfkzRrp5KrtfOPJ2G
+	 xYn1NsX8xPYgitF9yx8X/QLJm2JgGVgVVqR/h5qNW2jc0OdKFEzuDCDxCeAzE9RGsC
+	 XnNLkReQHBuIddieg7Z8lYO+wqOiMZo//+Iz79NJXNibG7H453s9CAr6ij2f1+lh1s
+	 MlQV95bPPKOYGPInuQmdMo/mIKhAd3avTN3l0F7osZzXKUKWP9va17NOwGC2SpCgWr
+	 L/99FuX0cKWBQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] kconfig: introduce menu type enum
+Date: Wed, 28 May 2025 02:56:15 +0900
+Message-ID: <20250527175616.2450667-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNAQezLBpYLqJ+=ONqoYKwdaw0_eywN9O26LTnifGq_g+tg@mail.gmail.com>
- <CAHk-=wg2YAc1TrqWB9HhKDWHGzrqeP9=uiW9hzU5p1oApcdAKA@mail.gmail.com> <CAK7LNARY48483tOLUf01-d_VnQh+K=-e+SLEeAqMaZfZC0YjLA@mail.gmail.com>
-In-Reply-To: <CAK7LNARY48483tOLUf01-d_VnQh+K=-e+SLEeAqMaZfZC0YjLA@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 27 May 2025 07:58:31 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiSDWVRT6A1cTkzVFaodhnVPmbtnDtaOe573y=HsDHkzg@mail.gmail.com>
-X-Gm-Features: AX0GCFs_p7G6msogOW1YvWXgUShzebeCrbjAaYZ9oPQ1gVzmAtgd8KBOQ0T1aqs
-Message-ID: <CAHk-=wiSDWVRT6A1cTkzVFaodhnVPmbtnDtaOe573y=HsDHkzg@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild fixes for v6.15-rc7
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 26 May 2025 at 23:28, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> However, building the kernel in Fedora 42 is 30% slower
-> than in Fedora 41.
->
-> So, maybe, this is because you recently upgraded your OS to Fedora 42.
+Currently, menu->prompt->type is checked to distinguish "comment"
+(P_COMMENT) and "menu" (P_MENU) entries from regular "config" entries.
+This is odd because P_COMMENT and P_MENU are not properties.
 
-Yeah, so that explains all - or at least most - of it.
+This commit introduces menu type enum to distinguish menu types more
+naturally.
 
-There's probably a small amount of "the kernel keeps growing, so build
-inevitably slow down anyway", but yeah, it's probably just the slower
-compiler that is what I notice.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Thanks for checking for me,
+ scripts/kconfig/expr.h   | 11 +++++++++++
+ scripts/kconfig/lkc.h    |  2 +-
+ scripts/kconfig/menu.c   |  5 +++--
+ scripts/kconfig/parser.y | 12 ++++++------
+ 4 files changed, 21 insertions(+), 9 deletions(-)
 
-               Linus
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index 21578dcd4292..fe2231e0e6a4 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -205,15 +205,26 @@ struct property {
+ 	for (st = sym->prop; st; st = st->next) \
+ 		if (st->text)
+ 
++enum menu_type {
++	M_CHOICE,  // "choice"
++	M_COMMENT, // "comment"
++	M_IF,      // "if"
++	M_MENU,    // "mainmenu", "menu", "menuconfig"
++	M_NORMAL,  // others, i.e., "config"
++};
++
+ /*
+  * Represents a node in the menu tree, as seen in e.g. menuconfig (though used
+  * for all front ends). Each symbol, menu, etc. defined in the Kconfig files
+  * gets a node. A symbol defined in multiple locations gets one node at each
+  * location.
+  *
++ * @type: type of the menu entry
+  * @choice_members: list of choice members with priority.
+  */
+ struct menu {
++	enum menu_type type;
++
+ 	/* The next menu node at the same level */
+ 	struct menu *next;
+ 
+diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+index b8ebc3094a23..fbc907f75eac 100644
+--- a/scripts/kconfig/lkc.h
++++ b/scripts/kconfig/lkc.h
+@@ -81,7 +81,7 @@ void _menu_init(void);
+ void menu_warn(const struct menu *menu, const char *fmt, ...);
+ struct menu *menu_add_menu(void);
+ void menu_end_menu(void);
+-void menu_add_entry(struct symbol *sym);
++void menu_add_entry(struct symbol *sym, enum menu_type type);
+ void menu_add_dep(struct expr *dep);
+ void menu_add_visibility(struct expr *dep);
+ struct property *menu_add_prompt(enum prop_type type, const char *prompt,
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 6587ac86d0d5..7d48a692bd27 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -15,7 +15,7 @@
+ 
+ static const char nohelp_text[] = "There is no help available for this option.";
+ 
+-struct menu rootmenu;
++struct menu rootmenu = { .type = M_MENU };
+ static struct menu **last_entry_ptr;
+ 
+ /**
+@@ -65,12 +65,13 @@ void _menu_init(void)
+ 	last_entry_ptr = &rootmenu.list;
+ }
+ 
+-void menu_add_entry(struct symbol *sym)
++void menu_add_entry(struct symbol *sym, enum menu_type type)
+ {
+ 	struct menu *menu;
+ 
+ 	menu = xmalloc(sizeof(*menu));
+ 	memset(menu, 0, sizeof(*menu));
++	menu->type = type;
+ 	menu->sym = sym;
+ 	menu->parent = current_menu;
+ 	menu->filename = cur_filename;
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index 68372d3ff325..e9c3c664e925 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -139,7 +139,7 @@ stmt_list_in_choice:
+ 
+ config_entry_start: T_CONFIG nonconst_symbol T_EOL
+ {
+-	menu_add_entry($2);
++	menu_add_entry($2, M_NORMAL);
+ 	printd(DEBUG_PARSE, "%s:%d:config %s\n", cur_filename, cur_lineno, $2->name);
+ };
+ 
+@@ -173,7 +173,7 @@ config_stmt: config_entry_start config_option_list
+ 
+ menuconfig_entry_start: T_MENUCONFIG nonconst_symbol T_EOL
+ {
+-	menu_add_entry($2);
++	menu_add_entry($2, M_MENU);
+ 	printd(DEBUG_PARSE, "%s:%d:menuconfig %s\n", cur_filename, cur_lineno, $2->name);
+ };
+ 
+@@ -246,7 +246,7 @@ choice: T_CHOICE T_EOL
+ {
+ 	struct symbol *sym = sym_lookup(NULL, 0);
+ 
+-	menu_add_entry(sym);
++	menu_add_entry(sym, M_CHOICE);
+ 	menu_set_type(S_BOOLEAN);
+ 	INIT_LIST_HEAD(&current_entry->choice_members);
+ 
+@@ -315,7 +315,7 @@ default:
+ if_entry: T_IF expr T_EOL
+ {
+ 	printd(DEBUG_PARSE, "%s:%d:if\n", cur_filename, cur_lineno);
+-	menu_add_entry(NULL);
++	menu_add_entry(NULL, M_IF);
+ 	menu_add_dep($2);
+ 	$$ = menu_add_menu();
+ };
+@@ -338,7 +338,7 @@ if_stmt_in_choice: if_entry stmt_list_in_choice if_end
+ 
+ menu: T_MENU T_WORD_QUOTE T_EOL
+ {
+-	menu_add_entry(NULL);
++	menu_add_entry(NULL, M_MENU);
+ 	menu_add_prompt(P_MENU, $2, NULL);
+ 	printd(DEBUG_PARSE, "%s:%d:menu\n", cur_filename, cur_lineno);
+ };
+@@ -376,7 +376,7 @@ source_stmt: T_SOURCE T_WORD_QUOTE T_EOL
+ 
+ comment: T_COMMENT T_WORD_QUOTE T_EOL
+ {
+-	menu_add_entry(NULL);
++	menu_add_entry(NULL, M_COMMENT);
+ 	menu_add_prompt(P_COMMENT, $2, NULL);
+ 	printd(DEBUG_PARSE, "%s:%d:comment\n", cur_filename, cur_lineno);
+ };
+-- 
+2.43.0
+
 
