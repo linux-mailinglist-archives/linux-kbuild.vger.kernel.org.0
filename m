@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7280-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7281-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD96CAC4B28
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 11:09:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E77AC4B27
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 11:09:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6CC387A147F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 09:07:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D146517D159
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 May 2025 09:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D44B72512D7;
-	Tue, 27 May 2025 09:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F535253944;
+	Tue, 27 May 2025 09:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OKOduVeI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TzYY1JSB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CB42505CE;
-	Tue, 27 May 2025 09:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639AF253931;
+	Tue, 27 May 2025 09:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748336897; cv=none; b=GMigSALsbVs/uqDAffBbO8PJ0BnzFy1AbiD4KVW8addMQ/WIgrJCNwNYV+dTapagyZqBpp6PhOTmljY06kLAgu6//xJQ+uK8ycSnvpekF5tTAiLJ7Nb2WrgkSCZ/yuSDrr9XpIB/h4VhPtO1xAmCGcD5JEKfgwXflpNQ0pPCNtM=
+	t=1748336901; cv=none; b=XhJKkdWtfcp7Vra/vXh4fzgfPlpWwZq18zIrgmXziPgCcNyBhoLyCQVuWccF9ukkgA3YZoWUTAqQN6dCL8PiTWL0esHYXwa5Yv/k8rQKeP6p+97x+oTNEe2PKso7czxzw6GKcUmfSCLZtu06RDjFGQS8uNBj5jIvax1WnNlBA+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748336897; c=relaxed/simple;
-	bh=hX/12tgr8auIKj10dYH9wCEnSPJXZ5bPUlkNsw0TL8c=;
+	s=arc-20240116; t=1748336901; c=relaxed/simple;
+	bh=DKOaNGI5NZtDaEHT/OdeqlteuIvyX6aHBbn+vBanltk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AF2I5mBUXlAkWxRYRgEpN1jRZYUL4SZojcLRGsT7uJ0ZhbCWYunDk2+GJmeX1SQQcNMUVvXix7SOESJVFOt/cBrxP5q0zCerXsjjHA4VbXTJJif2o+DOpzyuxZcU1GqKKEImbo8pFfRjtHySfFogKStGACXuyDZLCA7fhsIr+9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OKOduVeI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C38E5C4CEE9;
-	Tue, 27 May 2025 09:08:14 +0000 (UTC)
+	 MIME-Version; b=Szv8BEzuJ8P2N2WW88Dzgr5ZBj4Ce5T0RPO7WeUrOKK9RxreKbIbkgkgy6y701xbbA4NLg/L9Ouh49Q0lb+8t3Q6OKczVSjqgLAsGZdChX4s0XF4rrIGOAK1xd/7Xu1e+ezQ6rS4FgzYGCKOyr1RrzFkEgxkMfFZCcO3YT3708A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TzYY1JSB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 895F5C4CEF2;
+	Tue, 27 May 2025 09:08:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748336897;
-	bh=hX/12tgr8auIKj10dYH9wCEnSPJXZ5bPUlkNsw0TL8c=;
+	s=k20201202; t=1748336899;
+	bh=DKOaNGI5NZtDaEHT/OdeqlteuIvyX6aHBbn+vBanltk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OKOduVeI4QYRoItNfElW3TQcXzqPt5ow67PnTpFJAYi+b7+6/734v0+VADKsU3IsJ
-	 yANcp17yZsMCEhSkE0Mx3BSarzR7PiYlb26bcfEWcuEJSZmX064ZItgmjh7XjJ6j9/
-	 5if7Z3/12uG4h7N19XVpjF1dRJDweT+aa8jIgEJwBlBaJ1zcUZMN1+GLddsCHoL0SB
-	 K19SFYO3+7jC35w9jYKFSJuBA0vYZ2epCX1iyK6GGhlVThpfxMZIEvsySI6MUc+Ozi
-	 JuZvoqTKQJt6ww1qTD4spUl0l+xRD2p9XVS0HlXUoNHnaOhvtLEOQvDoWZm6cdZqRO
-	 3u6frEKb/55yw==
+	b=TzYY1JSBNdNZDfLr+3/hyd/HKQCOFSWycptt2HyAW20dv1AYXyV8EoFsmPjOOVdck
+	 QuqqiMTgTFNZ1pNNfIpY1Uljg3Hy7bXoXgUjm6XZ7hC9lXsQgQvceW8voiEvW1Gwqv
+	 mHRy9k7Cxc2wlRZilBpcSWZYUyS1Hv3QeTrWAT5GxlskP7w4oYY6iSoxovBSHE6bme
+	 sYkM4oDps5fLC/C+DbNbzzMRiWDplx1myP3nEchWryJooNFzuBybJkaxyaP1rqe1U9
+	 Cbis8Q3ssTf5oLqGqa4cIDAnuIWEJKO3ymj9Uid0C4B3xju9zR1Qg/B/16MNkTVUXC
+	 o2o9CwDiz838g==
 From: Alexey Gladkov <legion@kernel.org>
 To: Petr Pavlu <petr.pavlu@suse.com>,
 	Luis Chamberlain <mcgrof@kernel.org>,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v3 2/6] modules: Add macros to specify modinfo prefix
-Date: Tue, 27 May 2025 11:07:56 +0200
-Message-ID: <5cd53f6a4bca5186d3c9c47c070883131826c5eb.1748335606.git.legion@kernel.org>
+Subject: [PATCH v3 3/6] modpost: Make mod_device_table aliases more unique
+Date: Tue, 27 May 2025 11:07:57 +0200
+Message-ID: <ecf0ebdda5bcf82464ed1cebbf50afdcd8b5b23a.1748335606.git.legion@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1748335606.git.legion@kernel.org>
 References: <cover.1748335606.git.legion@kernel.org>
@@ -67,54 +67,81 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The __MODULE_INFO macros always use __MODULE_INFO_PREFIX. The only way
-to use a different prefix is to override __MODULE_INFO_PREFIX, which is
-not very useful.
-
-The new macro will be used in file2alias.c to generate modalias for
-builtin modules.
+In order to avoid symbol conflicts if they appear in the same binary, a
+more unique alias identifier can be generated.
 
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 ---
- include/linux/module.h      | 3 +++
- include/linux/moduleparam.h | 7 +++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ include/linux/module.h   | 14 ++++++++++++--
+ scripts/mod/file2alias.c | 18 ++++++++++++++----
+ 2 files changed, 26 insertions(+), 6 deletions(-)
 
 diff --git a/include/linux/module.h b/include/linux/module.h
-index 8050f77c3b64..88048561360f 100644
+index 88048561360f..e7506684069d 100644
 --- a/include/linux/module.h
 +++ b/include/linux/module.h
-@@ -170,6 +170,9 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
- /* For userspace: you can also call me... */
- #define MODULE_ALIAS(_alias) MODULE_INFO(alias, _alias)
+@@ -249,10 +249,20 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
+ /* What your module does. */
+ #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _description)
  
-+#define MODULE_ALIAS_MODNAME(_modname, _alias) \
-+	__MODULE_INFO_WITH_PREFIX(_modname ".", alias, alias, _alias)
++/* Format: __mod_device_table__<counter>__kmod_<modname>__<type>__<name> */
++#define __mod_device_table(type, name)	\
++	__PASTE(__mod_device_table__,	\
++	__PASTE(__COUNTER__,		\
++	__PASTE(__,			\
++	__PASTE(__KBUILD_MODNAME,	\
++	__PASTE(__,			\
++	__PASTE(type,			\
++	__PASTE(__, name)))))))
 +
- /* Soft module dependencies. See man modprobe.d for details.
-  * Example: MODULE_SOFTDEP("pre: module-foo module-bar post: module-baz")
-  */
-diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
-index bfb85fd13e1f..3f819fc67c43 100644
---- a/include/linux/moduleparam.h
-+++ b/include/linux/moduleparam.h
-@@ -20,10 +20,13 @@
- /* Chosen so that structs with an unsigned long line up. */
- #define MAX_PARAM_PREFIX_LEN (64 - sizeof(unsigned long))
+ #ifdef MODULE
+ /* Creates an alias so file2alias.c can find device table. */
+-#define MODULE_DEVICE_TABLE(type, name)					\
+-extern typeof(name) __mod_device_table__##type##__##name		\
++#define MODULE_DEVICE_TABLE(type, name)			\
++extern typeof(name) __mod_device_table(type, name)	\
+   __attribute__ ((unused, alias(__stringify(name))))
+ #else  /* !MODULE */
+ #define MODULE_DEVICE_TABLE(type, name)
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index 00586119a25b..dff1799a4c79 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -1476,8 +1476,8 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ {
+ 	void *symval;
+ 	char *zeros = NULL;
+-	const char *type, *name;
+-	size_t typelen;
++	const char *type, *name, *modname;
++	size_t typelen, modnamelen;
+ 	static const char *prefix = "__mod_device_table__";
  
--#define __MODULE_INFO(tag, name, info)					  \
-+#define __MODULE_INFO_WITH_PREFIX(prefix, tag, name, info)		  \
- 	static const char __UNIQUE_ID(name)[]				  \
- 		__used __section(".modinfo") __aligned(1)		  \
--		= __MODULE_INFO_PREFIX __stringify(tag) "=" info
-+		= prefix __stringify(tag) "=" info
+ 	/* We're looking for a section relative symbol */
+@@ -1488,10 +1488,20 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 	if (ELF_ST_TYPE(sym->st_info) != STT_OBJECT)
+ 		return;
+ 
+-	/* All our symbols are of form __mod_device_table__<type>__<name>. */
++	/* All our symbols are of form __mod_device_table__<counter>__kmod_<modname>__<type>__<name>. */
+ 	if (!strstarts(symname, prefix))
+ 		return;
+-	type = symname + strlen(prefix);
 +
-+#define __MODULE_INFO(tag, name, info)					  \
-+	__MODULE_INFO_WITH_PREFIX(__MODULE_INFO_PREFIX, tag, name, info)
++	modname = strstr(symname, "__kmod_");
++	if (!modname)
++		return;
++	modname += strlen("__kmod_");
++
++	type = strstr(modname, "__");
++	if (!type)
++		return;
++	modnamelen = type - modname;
++	type += strlen("__");
  
- #define __MODULE_PARM_TYPE(name, _type)					  \
- 	__MODULE_INFO(parmtype, name##type, #name ":" _type)
+ 	name = strstr(type, "__");
+ 	if (!name)
 -- 
 2.49.0
 
