@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7308-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7309-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9589AC8E62
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 May 2025 14:50:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CAAAC8EE3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 May 2025 14:59:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF04250145B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 May 2025 12:50:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32D3D3A951D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 May 2025 12:55:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F84D24DCF1;
-	Fri, 30 May 2025 12:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BADB25F795;
+	Fri, 30 May 2025 12:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVfDX+8v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYoBpKie"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529CE24DCEC;
-	Fri, 30 May 2025 12:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8F025E815;
+	Fri, 30 May 2025 12:40:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748608805; cv=none; b=rFIaiD+4a/n7NV8696p7RKKBTnN7pVWn5h1GlY8HurVvptahMcZowg+DQLeD6ms8IC2ikYqBDWXRKYysoNKIsiSdSeXJzDkhHV36uolT5GXZgvjqLX1oJgMMV77tvy4EqaOv/Y1JxSQLDqugXR45rBx+e62BzZjk2X8E4sH4tog=
+	t=1748608841; cv=none; b=fxJ5UbKe9Losy6ltdFV0T/JwN3mVyYc9Ks5ri3dWYjiqm7a+8qpoHZcVdQT7jN0+HCxFb5l7RXJ5zjehcfNdHZQgDCSc4kqGTCmThM/sbTtLLear94880eWpM1J7VVMt/clB8L3Kwl3vC3z8QCtz1R2PTgOy77hUkJrjxeltChk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748608805; c=relaxed/simple;
-	bh=aHQQXdOO2PHwiDTFzfr9oEkcl86CV1w4kkyPQA3L+kk=;
+	s=arc-20240116; t=1748608841; c=relaxed/simple;
+	bh=Kyd6GZj0aDDajKRkJsp++xp2HI2M7ZQ1iP5ZrHnlXjw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jUI4X3DzZZV2SXBeiEeDmXVjEMGBTOJrJE7mPX7jOSdFHNP1JLeiobZlCn9uxeaifUQrH/SpsEXJEKqE1JxNvyRLjyxI5hzSQOughV5cNg24DgF1Z3mTuNF7S1Wj8QNSWZqeS7VgMH34UaNajZGMSI3fldrIqWaHknUGSGSc00Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVfDX+8v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8350AC4CEE9;
-	Fri, 30 May 2025 12:40:03 +0000 (UTC)
+	 MIME-Version:Content-Type; b=P+/Kttzh8rrroifmsug3zZCKyX1d/1xX4EDSE+0zfyNmzKZFKD0Mb5nksmSH03HyX31dytzEYCj2W+p1FmA0GpXrBJd6YkmXHcjlFeYtuqHXuqoXImWlh+4dEiXENR7+LbMP5rqwrK5aPTQQSk4PqId4xtky0f2m6Nox/6m4XFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYoBpKie; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED8FC4CEEA;
+	Fri, 30 May 2025 12:40:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748608804;
-	bh=aHQQXdOO2PHwiDTFzfr9oEkcl86CV1w4kkyPQA3L+kk=;
+	s=k20201202; t=1748608840;
+	bh=Kyd6GZj0aDDajKRkJsp++xp2HI2M7ZQ1iP5ZrHnlXjw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KVfDX+8vhidcytTKc7s1IaKpODPrVwxEBQ68bhHIV2DQJ/roTQtfmrjiAHVYQjM9q
-	 o+saO2KHExcvC5UvQAuTuTaQZTzNx+N/0uIY6GL8wKDRy7FqrX6WoOLuF0cg1wa1va
-	 r8eNiMNUDLYsgfEdD+PTqSQgylAZD0YrgXnJj0VLWrEDg4AwZvNebSXk0FrgLQIOl0
-	 C2MZmm9bJisOawho8JfZM5+mSMBwNCnmZS8K3nlCFYJTbG3WBVS1wl78ZkZcLjRHcH
-	 IEzuGfcz6U2eMQH8adcNYErQzXQADK/RceC5HFohoOB2Wzg95tdD3RS25g/KYmA3J1
-	 S+kLMtct56AEw==
+	b=DYoBpKietEb6R1FN/6PIfPAj18GqV02HU9O6bkSRooplCsHDoPGPQUa2OWmiX18C7
+	 Gmmr9f/usc7XN7NmibvR/gTQAabrfi+n4e+7xGulCzouE5oGYarxJuicXepNmiS6ch
+	 fknR3Yq1LbKes/zAqwjQNN07vNAF5s6mquAgV2qd9t7OS3ju+B24vkK2NnTkKJOnmK
+	 AUmaRJ7l5D0sTR8/YBJ98F+VvvPOKrQOgin3H70d2EvQfW+b+J/bTnwp5mnrkgMsxV
+	 s9FiacPq7x+W1DNEIH7LMwXvUBm+xp0vA5u53exNoEJI6499QWN9xa4gRy3x7MhgBa
+	 Ar8JoeYLKGXaQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -56,12 +56,12 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	michal.lkml@markovi.net,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 23/28] Make 'cc-option' work correctly for the -Wno-xyzzy pattern
-Date: Fri, 30 May 2025 08:39:29 -0400
-Message-Id: <20250530123934.2574748-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 21/26] Make 'cc-option' work correctly for the -Wno-xyzzy pattern
+Date: Fri, 30 May 2025 08:40:07 -0400
+Message-Id: <20250530124012.2575409-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250530123934.2574748-1-sashal@kernel.org>
-References: <20250530123934.2574748-1-sashal@kernel.org>
+In-Reply-To: <20250530124012.2575409-1-sashal@kernel.org>
+References: <20250530124012.2575409-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -71,7 +71,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.9
+X-stable-base: Linux 6.12.31
 Content-Transfer-Encoding: 8bit
 
 From: Linus Torvalds <torvalds@linux-foundation.org>
@@ -159,7 +159,7 @@ functionality.
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index 75356d2acc0b5..47ab407f73ec2 100644
+index c6cd729b65cbf..05685b3df9e5e 100644
 --- a/scripts/Makefile.compiler
 +++ b/scripts/Makefile.compiler
 @@ -43,7 +43,7 @@ as-instr = $(call try-run,\
