@@ -1,79 +1,113 @@
-Return-Path: <linux-kbuild+bounces-7315-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7316-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BC4AC9B88
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 May 2025 17:32:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8972DAC9C51
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 May 2025 20:32:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DB9B1BA515A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 31 May 2025 15:30:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AA0C9E2E87
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 May 2025 18:32:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D27E13790B;
-	Sat, 31 May 2025 15:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A73194094;
+	Sat, 31 May 2025 18:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVF4UGyj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lVqZ5KXr"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718D079D0;
-	Sat, 31 May 2025 15:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EB217A30A;
+	Sat, 31 May 2025 18:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748705386; cv=none; b=ZGwaCDQTNt3LW42QrmzDviXjJMI1rz3OpKFW9zSZfbIK5zSh2Ut7nYTyS9XvqngwZyIvTN7W+vEHoWWIWEKNUgU0Fnn+LQm3uoQjjT3QHKgMrmDJOMDwrmXadKpqAjj8WK2PgvpFZ3gFn2wY0SaBDljj+8ZDzKPNCf7af6wtqgI=
+	t=1748716342; cv=none; b=czZbGLw0nSo+eFlOLbagZooVQRWvInQOLEE1h9pogFryxF05TFUCjnrsWF1w59V19PU8eOAIWirzMLAesCqyd0DTM+K/7Hh46BDiHZI90je2V3SxzYqdcTkyGg3mpXSVsbZ4ubPeuqYGPI1Mpz/Oyc4bXOpMjF+F9hilZeHjtEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748705386; c=relaxed/simple;
-	bh=faSEr/ZDlFC0XgCH0YCQ45nbWzlbbpXlLkx4FVTW9ow=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=AjsCOlgrEySlZuGEyUnpIS5d+e3Z9iWNsqLYHYU1xgn+TynkY/6ZwJ+wB5ThrLkoHQSOxCwlgVyZDwag8FD/avYD5HPJqLRZpiyI7AmplR9z4D/s+HwJR+gf7dUvpPZcExg7WdHKItFvVu93sdhHapae6nSH/bozW4EoLBzDQKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVF4UGyj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 474D2C4CEE3;
-	Sat, 31 May 2025 15:29:46 +0000 (UTC)
+	s=arc-20240116; t=1748716342; c=relaxed/simple;
+	bh=/ZsJND5fzftc2cszq8cTexT6uJOrDy350bh50M3G9XI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kxset2yzQ+FZs1ZcTJbUVdp4zGL5HjjvAQlFHKffOGbxokR8P504XKaiv0FvPaOmbwZl2zMntlFIOWWLDYjAMyogLA5CWOJfMu8OQxhtnnA2GLDpQXgjsMwMyTJrrfO4X5GO0YHWRdRh+v9or7D+p5/KPaUwez9t3du451Oq2s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lVqZ5KXr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C96C4CEE3;
+	Sat, 31 May 2025 18:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748705386;
-	bh=faSEr/ZDlFC0XgCH0YCQ45nbWzlbbpXlLkx4FVTW9ow=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=IVF4UGyjqp38xG73gTpKgMsAM0G+XV0xRgm9aflQKAULcw8EEQvLGdwteSBlNasDk
-	 E0DIC3YVvveVp1q07UWoIpgEk6ZW4GmcD3Pt/3I7YvBgjbcF1Tyw6f2FUfmQaOrLi1
-	 O4J4Jz8K0HsFTy/T+k2R8nOu4SgBrlUUDh0xhvNRiPMin/2pwfzAQSv0Pw1p12gtYr
-	 ET6dPdHl/QTJz9tnhSt+PDCDB0oAjpXnj11qRUIUsgolJ7TwJCiJbxN8DGJFDtvD6v
-	 dH0pNTXVUh6JLdWl9tiofV/SIeQBj+kv7SssnEtT8cmXtIUkzCxS6aOcWRnMAloTGi
-	 Dfbl96mgzChsA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE38C380AA70;
-	Sat, 31 May 2025 15:30:20 +0000 (UTC)
-Subject: Re: [GIT PULL] require gcc-8 and binutils-2.30
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <feab370a-3857-4ae9-a22d-1ab6d992c73c@app.fastmail.com>
-References: <feab370a-3857-4ae9-a22d-1ab6d992c73c@app.fastmail.com>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <feab370a-3857-4ae9-a22d-1ab6d992c73c@app.fastmail.com>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git tags/gcc-minimum-version-6.16
-X-PR-Tracked-Commit-Id: 582847f9702461b0a1cba3efdb2b8135bf940d53
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: dee264c16a6334dcdbea5c186f5ff35f98b1df42
-Message-Id: <174870541922.163157.8980112873932103512.pr-tracker-bot@kernel.org>
-Date: Sat, 31 May 2025 15:30:19 +0000
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, linux-kbuild@vger.kernel.org, Kees Cook <kees@kernel.org>, x86@kernel.org, linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org
+	s=k20201202; t=1748716342;
+	bh=/ZsJND5fzftc2cszq8cTexT6uJOrDy350bh50M3G9XI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lVqZ5KXr50KIpfplEhXEEbk6uKOMzFjlDex50pREjKKAabcu+alI/eoz+jAj5tgUq
+	 kKfzt5WMad19h2qNT9P3HNc7RYFwhVB3q+fsdsfPIi9Aw6GFNLMcmC5wEoiZa92YhZ
+	 lzNnlyMVNfqSgY0mdDrBYnV35mJYwNaqX+PHhNK9qf3HNHPls4PZdgKXvUE6/FRr8/
+	 G+kQtlbV6ZmHlZGs/Rxc4SbYwCUU6x5FgPZXW/YlGNyOULt9bYrOzH0ZRa5cX/thh8
+	 psL60XkTFPpwusRc1y1soaNEc4dIswm3FOBDIXK3OsVkDEa5j1sZNqWg/pQP939B+r
+	 qc/ZmBYeM4e9Q==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Subject: [PATCH 1/3] kbuild: move W=1 check for scripts/misc-check to top-level Makefile
+Date: Sun,  1 Jun 2025 03:28:20 +0900
+Message-ID: <20250531183217.3844357-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Sat, 31 May 2025 11:09:53 +0200:
+This script is executed only when ${KBUILD_EXTRA_WARN} contains 1.
+Move this check to the top-level Makefile to allow more checks to be
+easily added to this script.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git tags/gcc-minimum-version-6.16
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/dee264c16a6334dcdbea5c186f5ff35f98b1df42
+ Makefile           | 3 +++
+ scripts/misc-check | 9 +--------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-Thank you!
-
+diff --git a/Makefile b/Makefile
+index 61f4e7662192..7a52be3a4b80 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1824,9 +1824,12 @@ rustfmtcheck: rustfmt
+ # Misc
+ # ---------------------------------------------------------------------------
+ 
++# Run misc checks when ${KBUILD_EXTRA_WARN} contains 1
+ PHONY += misc-check
++ifneq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
+ misc-check:
+ 	$(Q)$(srctree)/scripts/misc-check
++endif
+ 
+ all: misc-check
+ 
+diff --git a/scripts/misc-check b/scripts/misc-check
+index d40d5484e0c5..f37b2f6931cc 100755
+--- a/scripts/misc-check
++++ b/scripts/misc-check
+@@ -3,15 +3,8 @@
+ 
+ set -e
+ 
+-# Detect files that are tracked but ignored by git. This is checked only when
+-# ${KBUILD_EXTRA_WARN} contains 1, git is installed, and the source tree is
+-# tracked by git.
++# Detect files that are tracked but ignored by git.
+ check_tracked_ignored_files () {
+-	case "${KBUILD_EXTRA_WARN}" in
+-	*1*) ;;
+-	*) return;;
+-	esac
+-
+ 	git -C ${srctree:-.} ls-files -i -c --exclude-per-directory=.gitignore 2>/dev/null |
+ 		sed 's/$/: warning: ignored by one of the .gitignore files/' >&2
+ }
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+
 
