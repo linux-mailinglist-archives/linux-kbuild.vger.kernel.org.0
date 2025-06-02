@@ -1,145 +1,188 @@
-Return-Path: <linux-kbuild+bounces-7350-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7351-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40B9ACBA98
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 20:00:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE05ACBAEB
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 20:13:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 050191893EBC
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 18:01:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 141901645D3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 18:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACC9F142E86;
-	Mon,  2 Jun 2025 18:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96EE214EC60;
+	Mon,  2 Jun 2025 18:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JgFclT2x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YfSTEG0N"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734EB2C3258;
-	Mon,  2 Jun 2025 18:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A493EAF9;
+	Mon,  2 Jun 2025 18:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748887245; cv=none; b=Ip8WzxrCyQaa6tcZO8EYwHfL99q93e9MysGZX+WbSrlnNsU5knVtv7wMVyDGgF/iN6UqT86kW45ZhX6dopHcMsxTpFgraX93OKoji4awDMTKzn2yH8SOAZU9QWHIlIH6XvRJrPXndmCZ23A8I3MQzAralRR1/PRdgYO6Hd6UrK8=
+	t=1748887982; cv=none; b=MA/7xkwK12vbBcbf8hMz3a6tYW3m6qO5yP29mCUJA96hEKJNgvwZVXrDZPymd6nzr8Cx2ki5hbUL0YUXYgipKOkkj+oAYA0jeI2BomXKCVmkLxrh1t/UhGUyFpxpi0k+m8DZisVLko85JmzGsUwf6TlFODXdprCKlv35ghND1xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748887245; c=relaxed/simple;
-	bh=Qa2OkhSnMZSYH2ELOGQ4nB8clbKtymHyAHw10lLMd0A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AXFsw/DAIguGdOmY5UqG3nmMJJrj5p5wKVhNLVuC4bDmP8/8pMyBSTDv1qosHontCKiCzX4nWcnOtNKvkaRhFng3HzRa8XWpsONzSHk2mxDIxrNmUnGfH6q8axV9pofab5XSH7hpjJcqBBsKd2DBS7onwrFfvoMwrtPNtBdHiCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JgFclT2x; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1CF6C4AF09;
-	Mon,  2 Jun 2025 18:00:44 +0000 (UTC)
+	s=arc-20240116; t=1748887982; c=relaxed/simple;
+	bh=RJ6rpSrXvLz6wxOJiN/tjv+raRLD1U4SGsl5aeK5i88=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fD9LkDfWldKjIBK9XS9QnmwdV2Kgk9Ys+lcpH2NZ9s675Zdmj8W1UcG336qjFkoLzfgX+7I9JJN3jqfB6+/UzF4PobvxLcFHBSVcRxYzD0rS649NwhTZJ0ohjkzoEa98v/+BcMjdgkq9X3QbBVSR1QdUMlKK9m+hCsmA4pPeBZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YfSTEG0N; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF336C4CEEB;
+	Mon,  2 Jun 2025 18:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748887245;
-	bh=Qa2OkhSnMZSYH2ELOGQ4nB8clbKtymHyAHw10lLMd0A=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JgFclT2xOTmrVmEBR+d0M7Gc3WFoCUOSnGBSFGu7T3etc/mtpJPUzgqAZH0R3jPlI
-	 oC1FN+a4py4l2FUvrHScHV5JvVeMzwr9g0VPo6lNfpy7GKjEerhSn3RUiaF8Bd1VOw
-	 y9uXHWjsVqDGFUhI+mztD/FK08KEnwAGRUpRtWAn0KudQTbdFzuiW5NwjuyneVK4IN
-	 JAYwKJmKVuz0ECbUHLKc97FP0mk4F7GbKm7N8RCERxnEFxfSSujLacgbWhXCUdR49i
-	 3WeZRYuCBO99IUmtirSqljlcYLofJP6FZudJ3U0+v782dLOaBBkW5YBZA4Wry8HpPd
-	 woqnRUZMds0uQ==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-55350d0eedeso737915e87.2;
-        Mon, 02 Jun 2025 11:00:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUky/jIZ1ttY5bfi7VzYz7cPdWHNn5UEfMa7qA7l4Q7d7gbkq4ggZSOnLFwznvBCBZmayfBSi/GQxD1uHI=@vger.kernel.org, AJvYcCUqCtoGXaea3K1byveUr4SeOOU7xK1IV8JrSQ2YizZuBitCRAtenj8yX+iQsvB62FIlpsQpq0Vl12mNWw+SdQ==@vger.kernel.org, AJvYcCVxmt2703UBl9bh+A7csz7uMDq2HUHfRYYTnPnCUs7pLNd26pYqcpwyWAzkQnJlvbpwopiFwIiKK26/QR0O@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNXDug/4nEigApUYco2oMnIOqYznbbV0ZhWIFxMimjKfXMcH2q
-	xEVcInQuFuBqIhDUZaOwGCE2Z9CSoyJQ0Zk5RsZVe9q5Uc/x+zI1ciTXCeIsDV7VXWL847X8peJ
-	a1SqUgK+neUKdrOCjTi0s9v40E7YLfjQ=
-X-Google-Smtp-Source: AGHT+IFNQCEcSQZV4bUWEALU6sDPgPvVroQDQlVEeG5QOiq2iMSYY1wt/Uuw7Dtsy9H4xj3o7pUMIy/J3NGhdRumzjQ=
-X-Received: by 2002:a05:6512:1597:b0:553:252f:adf8 with SMTP id
- 2adb3069b0e04-5533d161022mr3306598e87.9.1748887243643; Mon, 02 Jun 2025
- 11:00:43 -0700 (PDT)
+	s=k20201202; t=1748887982;
+	bh=RJ6rpSrXvLz6wxOJiN/tjv+raRLD1U4SGsl5aeK5i88=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YfSTEG0NwLNuaU45TiJIyjBBoZat5sHcaoWzPUjSgGlk89/55C9lUqHLagCZ+fiyD
+	 aBDAfI9FVYv6zpYeht+0xcIcDb7PC7nltnWBtVq3R+zj7u/nZiFGLsQMqy/FgZ7lnn
+	 DqWgrzAJjBHa5Dafhqvrpa6JRh/FJuFZPZmA3duH5NFgEMoFo3o1wTW19uG3zjPudM
+	 Kg8V0qPjtr2xMb5eMa5R/9i5UDE79bSofeDPGJa45iMcZIOh17JTYT/aJmXxItEpEq
+	 WKShleM+BK8zgVY/nyzG+J+y596WI2hetOFJzDiMkr64sibg20EFr9eQ+c5/ifWk2c
+	 aPTirCAocqI7w==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: set y instead of 1 to KBUILD_{BUILTIN,MODULES}
+Date: Tue,  3 Jun 2025 03:12:53 +0900
+Message-ID: <20250602181256.529033-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1748335606.git.legion@kernel.org> <ecf0ebdda5bcf82464ed1cebbf50afdcd8b5b23a.1748335606.git.legion@kernel.org>
- <CAK7LNARm1+L0CrE8TYrFaipfOX4pjEJ7Uz7dn=3g+26PER6jNg@mail.gmail.com> <aD1f0CZfbsMR61OX@example.org>
-In-Reply-To: <aD1f0CZfbsMR61OX@example.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 3 Jun 2025 03:00:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATt+=k3sYU4FWM22aJzzH_a7_1FkO5S=LW7L-Z7K4CQhQ@mail.gmail.com>
-X-Gm-Features: AX0GCFv4XyoMc9AKkgN2V11p6K3I7FTU363_6Jv-xy-pmr_5i5pQfTpVERgKYjk
-Message-ID: <CAK7LNATt+=k3sYU4FWM22aJzzH_a7_1FkO5S=LW7L-Z7K4CQhQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] modpost: Make mod_device_table aliases more unique
-To: Alexey Gladkov <legion@kernel.org>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 2, 2025 at 5:24=E2=80=AFPM Alexey Gladkov <legion@kernel.org> w=
-rote:
->
-> On Mon, Jun 02, 2025 at 04:52:36PM +0900, Masahiro Yamada wrote:
-> > On Tue, May 27, 2025 at 6:08=E2=80=AFPM Alexey Gladkov <legion@kernel.o=
-rg> wrote:
-> > >
-> > > In order to avoid symbol conflicts if they appear in the same binary,=
- a
-> > > more unique alias identifier can be generated.
-> > >
-> > > Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> > > Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-> > > ---
-> > >  include/linux/module.h   | 14 ++++++++++++--
-> > >  scripts/mod/file2alias.c | 18 ++++++++++++++----
-> > >  2 files changed, 26 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/include/linux/module.h b/include/linux/module.h
-> > > index 88048561360f..e7506684069d 100644
-> > > --- a/include/linux/module.h
-> > > +++ b/include/linux/module.h
-> > > @@ -249,10 +249,20 @@ struct module_kobject *lookup_or_create_module_=
-kobject(const char *name);
-> > >  /* What your module does. */
-> > >  #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _d=
-escription)
-> > >
-> > > +/* Format: __mod_device_table__<counter>__kmod_<modname>__<type>__<n=
-ame> */
-> >
-> > This format relies on module-name mangling, but
-> > I hope we will be able to stop doing it some day.
->
-> I didn't like this approach either when I found out how it was
-> implemented.
+KBUILD_BUILTIN is set to 1 unless you are building only modules.
 
-Yeah, I dislike it.
+KBUILT_MODULES is set to 1 when you are building only modules
+(a typical use case is "make modules").
 
-I hope we can stop this historical mistake:
-https://lore.kernel.org/lkml/20250602130609.402581-1-masahiroy@kernel.org/
+It is more useful to set them to 'y' instead, so we can do
+something like:
 
-Once we stop doing that, __KBUILD_MODNAME will not match to KBUILD_MODNAME.
+    always-$(KBUILD_BUILTIN) += vmlinux.lds
 
+This works equivalently to:
 
-Also, you need to be careful about the rust side, as
-you did not take care of it.
+    extra-y                  += vmlinux.lds
 
-https://github.com/torvalds/linux/blob/v6.15/rust/kernel/device_id.rs#L157
+This allows us to deprecate extra-y. extra-y and always-y are quite
+similar, and we do not need both.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Documentation/kbuild/makefiles.rst |  8 ++++++--
+ Makefile                           | 16 ++++++++--------
+ 2 files changed, 14 insertions(+), 10 deletions(-)
 
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 3b9a8bc671e2..264b83182509 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -273,8 +273,8 @@ It is good practice to use a ``CONFIG_`` variable when assigning directory
+ names. This allows kbuild to totally skip the directory if the
+ corresponding ``CONFIG_`` option is neither "y" nor "m".
+ 
+-Non-builtin vmlinux targets - extra-y
+--------------------------------------
++Non-builtin vmlinux targets - extra-y (DEPRECATED)
++--------------------------------------------------
+ 
+ extra-y specifies targets which are needed for building vmlinux,
+ but not combined into built-in.a.
+@@ -291,6 +291,10 @@ Example::
+   # arch/x86/kernel/Makefile
+   extra-y	+= vmlinux.lds
+ 
++extra-y is now deprecated because this is equivalent to:
++
++  always-$(KBUILD_BUILTIN) += vmlinux.lds
++
+ $(extra-y) should only contain targets needed for vmlinux.
+ 
+ Kbuild skips extra-y when vmlinux is apparently not a final goal.
+diff --git a/Makefile b/Makefile
+index 7a52be3a4b80..72e75a0caa32 100644
+--- a/Makefile
++++ b/Makefile
+@@ -749,7 +749,7 @@ targets :=
+ # Normally, just do built-in.
+ 
+ KBUILD_MODULES :=
+-KBUILD_BUILTIN := 1
++KBUILD_BUILTIN := y
+ 
+ # If we have only "make modules", don't compile built-in objects.
+ ifeq ($(MAKECMDGOALS),modules)
+@@ -761,11 +761,11 @@ endif
+ # Just "make" or "make all" shall build modules as well
+ 
+ ifneq ($(filter all modules nsdeps compile_commands.json clang-%,$(MAKECMDGOALS)),)
+-  KBUILD_MODULES := 1
++  KBUILD_MODULES := y
+ endif
+ 
+ ifeq ($(MAKECMDGOALS),)
+-  KBUILD_MODULES := 1
++  KBUILD_MODULES := y
+ endif
+ 
+ export KBUILD_MODULES KBUILD_BUILTIN
+@@ -1193,7 +1193,7 @@ export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
+ ifdef CONFIG_TRIM_UNUSED_KSYMS
+ # For the kernel to actually contain only the needed exported symbols,
+ # we have to build modules as well to determine what those symbols are.
+-KBUILD_MODULES := 1
++KBUILD_MODULES := y
+ endif
+ 
+ PHONY += vmlinux_a
+@@ -1529,7 +1529,7 @@ all: modules
+ # the built-in objects during the descend as well, in order to
+ # make sure the checksums are up to date before we record them.
+ ifdef CONFIG_MODVERSIONS
+-  KBUILD_BUILTIN := 1
++  KBUILD_BUILTIN := y
+ endif
+ 
+ # Build modules
+@@ -1538,7 +1538,7 @@ endif
+ # *.ko are usually independent of vmlinux, but CONFIG_DEBUG_INFO_BTF_MODULES
+ # is an exception.
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+-KBUILD_BUILTIN := 1
++KBUILD_BUILTIN := y
+ modules: vmlinux
+ endif
+ 
+@@ -1855,7 +1855,7 @@ filechk_kernel.release = echo $(KERNELRELEASE)
+ 
+ # We are always building only modules.
+ KBUILD_BUILTIN :=
+-KBUILD_MODULES := 1
++KBUILD_MODULES := y
+ 
+ build-dir := .
+ 
+@@ -1983,7 +1983,7 @@ endif
+ 
+ single-goals := $(addprefix $(build-dir)/, $(single-no-ko))
+ 
+-KBUILD_MODULES := 1
++KBUILD_MODULES := y
+ 
+ endif
+ 
+-- 
+2.43.0
 
->
-> We can only add the module name to the structure to which the alias is
-> made. But the problem with this is that right now there is no common
-> structure for DEVICE_TABLE. Each module comes up with its own.
->
-> It is possible to add a common structure, but that would be a big
-> refactoring.
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
 
