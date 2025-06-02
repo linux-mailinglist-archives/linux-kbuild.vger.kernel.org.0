@@ -1,88 +1,119 @@
-Return-Path: <linux-kbuild+bounces-7348-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7349-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4656ACB9C6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 18:42:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FCCACBA0B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 19:09:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF0DD3BD1BF
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 16:42:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AEFF3BEC20
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 17:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D147223708;
-	Mon,  2 Jun 2025 16:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 750421DF25C;
+	Mon,  2 Jun 2025 17:09:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TppKBZLU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sGFEkQHw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74312C3258
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Jun 2025 16:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B71E6ADD;
+	Mon,  2 Jun 2025 17:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748882545; cv=none; b=CaRPGPcuMQ/opd/GjRFkRb124zhX8FJ1+FuMaT+zEznm0uKx0iGWLdqT7Lfe8gTS4vpAsBi1Od8/WJUGu5tk/w18o0jT8bDlkl0max5908MaDQBYPisFsy1qp6ZGUt3K/gLtCY1lql/atbxkH9OXlnuqs1dUunipfzB90RVZ3Vc=
+	t=1748884172; cv=none; b=GMR+1QMTgVEi4h3Dw88QYB3mlpv2MWElIE0xWlE+lVKbayfkjYBaE9lIAM6I3tbZI53g0Dc8tOeC40ywQuzXxI9V77m4aMX/X62SF0h6fz868wi/uWfDvzEa+K2DAQdU/AjSQGsps0gc5XuCdIig5CtjYpY2NA/KcOfi+Iwy9qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748882545; c=relaxed/simple;
-	bh=Vd7FI6O5kICiS9vGTUB0qyLqgUOGEaiJ4PMlw1fw+uA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zgawn7Ugu++9SnfQm82cay51tVGN5Dxxr4CRgJOei104adKA0hcVTLAV6Qe8xNjqSjJoX0fo1dCvgSzVffQsP3ChSbVEdm9/hGVTkP2oiIPfIrSs8cWXOMRJRFeFB6pCC7wQtzFaedzvHEGw75lqqmQkgZFMWOII3H+mFPwUmDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TppKBZLU; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=0aV+7hKzYhk2Xl4roWDwRCrpBPTL6WLMWZrKCiPNYrk=; b=TppKBZLUumYV8EKwFZ5rbJG6Ro
-	PCPTYxEOwOhfzGMCg/8xnocLRMsJZXWidOBgVUA3aFyYf2PhwbWdBmiK9Yztmel63Ksizw2QXttoc
-	wpDZcm1PRfkYKLfL+vRvcJ9A7syXGzAzSUodlR8xvqTR06Z+KEJCWGHF2xPJicl5n2T2RqnqDcu2P
-	E7hsQXjSEIC8LLHjIu4jiEM4kHsMHpkyWFz/ulRuDSq1meZ+1+vZ7MLKDTL4OfaB1gWXcVdstuNrX
-	5278tFfBzEUusPhlLZiOEIz+wN9V1Cdr7ayE2Y9HF7DfXIlMT/cMJvKsLkqN/sual/z+jnzv0Ph/X
-	IWulJbGA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uM8Ev-0000000183l-2Djv;
-	Mon, 02 Jun 2025 16:42:21 +0000
-Message-ID: <897e8a0b-2d86-4c24-b4fd-6d3a3bb1e78a@infradead.org>
-Date: Mon, 2 Jun 2025 09:42:19 -0700
+	s=arc-20240116; t=1748884172; c=relaxed/simple;
+	bh=n4G8cLLjdWhr4e4qI7+x9BnZNiru6KmV1+k7R3AAlMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H/PIPnXmBPJh+crQ0vVEJ+o1UHqu4jhxvP2fXi5H9w5HDNCUwn2dlZL3abniC/PwZhJ1OL9SM8IIDOR6MDHu/Cd70b7UKINJJdcSgSOYft/Ss2zNGU1thB7sjapBrOG4kzPuk0S2e762Bt7bbozA0hlPDrDw1aYOJNt5YVb0tV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sGFEkQHw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B733C4CEEB;
+	Mon,  2 Jun 2025 17:09:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748884171;
+	bh=n4G8cLLjdWhr4e4qI7+x9BnZNiru6KmV1+k7R3AAlMM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sGFEkQHwV8owV5qQ0ZL4r7AOXme9L9olE8N51lKUsDwih6NcEBm3YPjsXixSCjtYD
+	 fGGJ2CUxdr1MLrpKxpoxKGCqbDKyFPihK7bDzObIt6SAArwO5MrokbZNfjeeBVfue5
+	 wsphzUrvkMdwFPs9mQ4herj48IneGuNzq0CwLjM7/1N9lXSmfmRyBDTC0+FaNBkzgz
+	 IEJNPtf5B/zBGWrYv6JViXNW+6Di4M4EZARhXE/rku8tCLahTJtszyisnmHB6BJpWe
+	 olcGrozb8/oPAilRRf+EmxkZYgIk6GeVOpBEbQS09Cg6qEzVzkycbgBYf2r/YC7i2w
+	 iaUHghQuS9Abw==
+Date: Mon, 2 Jun 2025 19:09:25 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 3/6] modpost: Make mod_device_table aliases more unique
+Message-ID: <aD3axclxzkOAA-Sf@example.org>
+References: <cover.1748335606.git.legion@kernel.org>
+ <ecf0ebdda5bcf82464ed1cebbf50afdcd8b5b23a.1748335606.git.legion@kernel.org>
+ <CAK7LNARkhc40UfrmmqsqmqkCn60=7zHc=pDFGR4o=k2p7CsABA@mail.gmail.com>
+ <aD1bozP0l67f_wbs@example.org>
+ <CAK7LNAQmQtvB4PfmH4MkRM123wySON6cF6TG79fi0WER1sz4Gw@mail.gmail.com>
+ <aD2vSnZhofEPilcL@example.org>
+ <CAK7LNATfUzCXmCb5kKOJOKOw=CJvk7viGgYtrGLwbSAkq7VtyA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] Kconfig: Added compare capabilities for mconf
-To: Franco Martelli <martellif67@gmail.com>, masahiroy@kernel.org
-Cc: linux-kbuild@vger.kernel.org
-References: <20250601184049.368419-1-martellif67@gmail.com>
- <20250601184049.368419-2-martellif67@gmail.com>
- <2e8cb14e-abb7-4850-a1fe-31bad55bb04b@infradead.org>
- <ddf7c0be-48ce-47d5-acc6-2e9e5aae64b4@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ddf7c0be-48ce-47d5-acc6-2e9e5aae64b4@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATfUzCXmCb5kKOJOKOw=CJvk7viGgYtrGLwbSAkq7VtyA@mail.gmail.com>
 
-
-
-On 6/2/25 6:41 AM, Franco Martelli wrote:
-> On 02/06/25 at 02:59, Randy Dunlap wrote:
->>
->>
->> On 6/1/25 11:40 AM, Franco Martelli wrote:
->>
->> Missing patch description/justification here.....
+On Tue, Jun 03, 2025 at 01:18:25AM +0900, Masahiro Yamada wrote:
+> On Mon, Jun 2, 2025 at 11:04 PM Alexey Gladkov <legion@kernel.org> wrote:
+> >
+> > On Mon, Jun 02, 2025 at 07:58:41PM +0900, Masahiro Yamada wrote:
+> > > On Mon, Jun 2, 2025 at 5:07 PM Alexey Gladkov <legion@kernel.org> wrote:
+> > > >
+> > > > On Mon, Jun 02, 2025 at 04:45:36PM +0900, Masahiro Yamada wrote:
+> > > > > On Tue, May 27, 2025 at 6:08 PM Alexey Gladkov <legion@kernel.org> wrote:
+> > > > > >
+> > > > > > In order to avoid symbol conflicts if they appear in the same binary, a
+> > > > > > more unique alias identifier can be generated.
+> > > > >
+> > > > > Why must this be unique?
+> > > > >
+> > > > > What problem would happen if the same symbol names
+> > > > > appear in MODULE_DEVICE_TABLE()?
+> > > >
+> > > > Before these patches this was not a problem as non-unique characters are
+> > > > in separate object files when the module is compiled separately.
+> > > >
+> > > > But when the modules are compiled into the kernel, there is a symbol
+> > > > conflict when linking vmlinuz. We have modules that export multiple device
+> > > > tables from different object files.
+> > >
+> > > This is because the __mod_device_table__* symbols are global, but
+> > > I suspect they do not need to be.
+> > >
+> > > Let's test this
+> > > https://lore.kernel.org/lkml/20250602105539.392362-1-masahiroy@kernel.org/T/#u
+> >
+> > I tested this patch with the config:
+> >
+> > make allmodconfig
+> > make mod2yesconfig
+> >
+> > and it works.
 > 
-> Have you run a specific "git" command or simply edited the patch body before sending?
-> 
+> Good.
+> Then, __COUNTER__ is unnecessary.
 
-I just edited the patch body.
+I will send a new version asap. Thanks!
 
 -- 
-~Randy
+Rgrds, legion
 
 
