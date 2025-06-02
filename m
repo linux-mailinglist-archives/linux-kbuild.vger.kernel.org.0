@@ -1,115 +1,187 @@
-Return-Path: <linux-kbuild+bounces-7344-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7345-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E583ACAFB1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 15:53:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BE5ACAFE3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 15:58:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2C1E17FCDB
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 13:53:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC85A3B1C53
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 13:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DC6E222580;
-	Mon,  2 Jun 2025 13:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 350EA21FF39;
+	Mon,  2 Jun 2025 13:57:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BlJGTDgq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EoHco7Hz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5997222561
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Jun 2025 13:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B4E1F4165
+	for <linux-kbuild@vger.kernel.org>; Mon,  2 Jun 2025 13:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748872347; cv=none; b=HQ4LaVHGkE1Fqsqsn+IONH5CYSorCKom3Bda1oNx6zJWAC1jLsooCtuDy3dXWfW+meJgPifg4FlSGsuX1AtKS5vvkr2CMKooxSD0FHC9N33VhvlV8q8Au3olCDH2GU8YSWhv76fc6I2UYlcqdO7AapWn0GxNWN+ifYPxhLcLW6w=
+	t=1748872677; cv=none; b=rrF/nVMldfwSvSu77renIDt/81wUe2rP7OhOdqZWlZ51Sm4+ZT+4xLnecXVJlcuIz0H9L/ndBqQDO5q7pRMyTg74GIQwrumVVlf1doX8IjwxAI8LZAX8E++cz0/yO8BNM7eoZdiypdSxXJTbngtRwKW+ry45D6Fr47GSu649MP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748872347; c=relaxed/simple;
-	bh=LZYzZ+cUHj6P2mamQuY6l6cqdt+/CFqIRXzHbO0TqBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L3MB9elFZ9YyzIZimNeHTvm0uA0ZR2cUjvIsXradzwRwqOdX7rW1HC13lRAdzQC5vmsgjU4cnbfLDUdO35m9G9NQk2Alq6vU+b4eZmkn6waZ1mNtz+PP/Y2Lbds1ZHdSIUBzTM9/5wINgIMiQLANm6kjX3bYr2UePF4c/Phnc4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BlJGTDgq; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1748872677; c=relaxed/simple;
+	bh=GrlsIvDzXln21iGEWPRSxSXHKdrF0QNc/cVh4oj6Hiw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VeeFs2B2i8UPLdhCiOu/DLf2C8cO09Z6Z6kCejrZl2Y+5ok4t5TAlFHczUFdGEdkezUkghFMukuVgJpZrABzYhZEDIaA3Yijz9zXdt1ahvO4JJMj3jikYGby/5+1WoVYZtZwfwuJ2F7DMg7/UUvcqsGXJfsqYT/0i+cQmw4KhX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EoHco7Hz; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b2eeada3df1so67660a12.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Jun 2025 06:52:25 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ad883afdf0cso848143166b.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Jun 2025 06:57:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748872345; x=1749477145; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LZYzZ+cUHj6P2mamQuY6l6cqdt+/CFqIRXzHbO0TqBY=;
-        b=BlJGTDgqCpdvwdqOcp23kVoLcHYSk3wdDEbMmF1Ml7DxtLjlnzV0Zhmw11ki3R4OEu
-         CoC/2q5WZurgLqyyYA27gVCcQTE4V4f9sLsP0D2hRwkLGXy7FrW8KY300QuzzwNaht93
-         cOV8duAKhqr/SRv/UoDn7UiSE9dZktNFh3fbtsQRqFm17ttlJweYc5yLwfyfAzl+Hr5+
-         v3KSqWgXXF/mqlLQldW7ELOvCOSc33xJIL3N5yXrE4dz4iKsURlEpTDh/HpOV4eZ55ok
-         pkxDzJk1cV9gel77A33gzF3NFiSowV2Pi3Pzyw0ak9/Ko7k+fmRY+7tyPU3717tRvrhf
-         zAzw==
+        d=gmail.com; s=20230601; t=1748872674; x=1749477474; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=eiXVz8/CddBm1jEBymmK9x488W+BJQmfHbv6Nj8A7+I=;
+        b=EoHco7HzQMTz9+LqWvTz5PKXOg1cvs1/BWu2MyX9VZtF2LtKGZsoF964c172jIZKCM
+         CLlmICyVsIIkXnhzxEBOFIZswiKlkJuBqnCAIp7ouJ9aTrnxW5GYODxvNsLy3Z5YT7q0
+         0iJPnsbijztKp4SM5rqjrwMkv7mnjs945gQZeMNSXWdQdfpvmeuhzEPa9UNrdhdesrsq
+         nRtli4cHY4jj1gz8tuCnaoxpanMqGpvsMKpIupTUGzd75XBzbmQF9PiDj+6/EwBWoWSs
+         aZFT478P9ylyXPrKYmKu452wnq9pKVPfHDuYu895BNkaZ3bYZwxhWsaCYxmGDlVDHLEM
+         Jxuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748872345; x=1749477145;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LZYzZ+cUHj6P2mamQuY6l6cqdt+/CFqIRXzHbO0TqBY=;
-        b=JInUZ38jn2ylz9KvGunRC2zcZqyCkbAjRBBZlBDk0n+2utWTNhSNuHP3BnYUvY0VFD
-         5f7BJkM3LgdRBpBuwI3M53qi2tatwl90rGc/mx3AiWlEvV7eVx2hiLOPqp554N897J6U
-         PV1qcyY+g+ud31PQDgKno6/IlXl4CEoLSTDKHkBJ5eS6WUykz0k142pMQuJNAAkrqg32
-         fU/ba+HeSSjYhNdVAQsrCQBBxUDo9AWAFsKOXXQjSmEwo92NR1lErMYL6lKS76WT9Hyv
-         OMUMMiqCOushTCUTiBbxmGVIfk6ZFwrBpDptHuvZmxDldtWgsYFLdlD/U5zZbdRn3oMe
-         0h3g==
-X-Forwarded-Encrypted: i=1; AJvYcCWioUQlCm1rtBcZTFo1FjzXBfyXLcxCFpdiqQ855vKVFiShs/b5+6hoci5UOed9GXPvV01feUZLVzJ+nkk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/9pMLnXutyWc2oJq6lbOO+mKf9O2V+q+6odjvt1r5V37DeTvC
-	nQBsSqvfw2VLsVLWwqmAT7MN82wVDE18/lKQgIlE1PYey47qQpnxhiRKxu0jSWcs/ivJZLClZpf
-	4X1u6XZlLyFJ/RtK8/8/V3/JsKKPYtEo=
-X-Gm-Gg: ASbGncuJSmchuPP0tk1cAjmeO45JIER/Sw2hrom3mUZuArd0u7o3ZzBXdKuyD3WsEUf
-	95k3OUUi5kD/tz3DOzDWx7Ljv4DOBqTD5WRQ+HEx7WsBZoLT28JLjA5WSR81AaWSysbsWN8fhAU
-	Yz2qagWzGCrtO2kWRmna9fMDh4uz0xgMDj
-X-Google-Smtp-Source: AGHT+IEz/LnFOV+A6ZDrNuOcUpwGnyPWj7aa1r3nviHqTuU/wWJHN9yCqVJBzgYiZydmFNTtAnI1IUs/ruLXCpmSY6I=
-X-Received: by 2002:a17:90b:3d44:b0:311:a314:c2dd with SMTP id
- 98e67ed59e1d1-3124db04d6fmr7948094a91.4.1748872344921; Mon, 02 Jun 2025
- 06:52:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748872674; x=1749477474;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eiXVz8/CddBm1jEBymmK9x488W+BJQmfHbv6Nj8A7+I=;
+        b=iFkjuLJXL7neSx8WwbREgz9j8FPzr2gfnLMDCs+SkuzxosbdTY5WeB8WB8Q+iyYgsP
+         gwTXd89JrTHyOkY8Rmc5Ki4gGOc/tqJxMaUi1MG3XH0KiFwdBx0/xe6prSNjpmHG6FSA
+         1Tjd/W4GaVc2Zz3G5xmHo9y9dF5gAWqj0NimIBfs7F0GeSN4rFHFjLN04ZpQZLpP4Tv3
+         BkRX9HwfOMJ+Cz3d/HxvzAwzR1CvVqYlGRh3I5jznkVcO7LfcXH9kzFCHeYYjc3Zz8NE
+         EtEmXf0JhPzop16+7++xHATjZ9bODTgf0q3Iwwvh9TNGH+eSMUlwKl8Qcmi4DJ+1joHv
+         7i8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUi1rvkZIUC62HV3wg75xh2uoRTBhRDc7/y2i4kl1YldACuSILmrHgdrCbPYztLsxEV19Nzba2ZrbKO85E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxIdxDsgDnTHxJt3UKKEu2Lf+GoPMrvAEjHvzVkh2WmAmbrsPo
+	Tj9y9nYKwq4bAv5YFXJvkKsxZlKdYjQ+gJ0AsXg8UyUd78oXx0SK1ssyAVHludpe
+X-Gm-Gg: ASbGncuKf9fOYMx42nNDBS2vJki1GMDQLIhjKvuIxohIGOXO+G6tfScBcKFAolZpnG1
+	oDShjUvRQDviEffw6ARLASxzJ0LkKJq4iCVtflF4iG5cp1HmhWz8iFOW8mhVbI0KL29KJsiku0q
+	FKbrdHaAFXuKWYkKtbCfkVgR3I4ggCKwrooWbY1v+/bRg4nhYkB3IES5MGikRHKq5wU45Su8H3z
+	MdOAcWB5wmgMiSpMHtCxyQsexQHQavOW3QRjpwgeI+1kpSdxCnkFZsEW4cXqyB6Tk0GY7yA3wzO
+	khQm3XRRZ22nuPuF9dMJMjw7BPti2awEa0DKbc8a3AgFguznE1gtrbLB4sPRwapdcldHn2Iv1Sg
+	Waqg7Q1nHrLs48HcwsDwjfAI=
+X-Google-Smtp-Source: AGHT+IEd6PthiQcqVer48FErEw7dadrWWpwjnKFnSDqTal3jTJ9kYbvZ2faBAyILvPZC/9jnLA9nJg==
+X-Received: by 2002:a17:907:1c18:b0:ad5:2e5b:d16b with SMTP id a640c23a62f3a-adb36b4ce84mr1148923966b.27.1748872673419;
+        Mon, 02 Jun 2025 06:57:53 -0700 (PDT)
+Received: from [192.168.0.3] (mob-5-90-139-122.net.vodafone.it. [5.90.139.122])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d84e76csm794054466b.86.2025.06.02.06.57.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jun 2025 06:57:51 -0700 (PDT)
+Message-ID: <4b267dd1-2fb2-43d8-bac1-910f3fe8868a@gmail.com>
+Date: Mon, 2 Jun 2025 15:57:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250601184049.368419-1-martellif67@gmail.com>
- <20250601184049.368419-2-martellif67@gmail.com> <2e8cb14e-abb7-4850-a1fe-31bad55bb04b@infradead.org>
- <ddf7c0be-48ce-47d5-acc6-2e9e5aae64b4@gmail.com>
-In-Reply-To: <ddf7c0be-48ce-47d5-acc6-2e9e5aae64b4@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 2 Jun 2025 15:52:12 +0200
-X-Gm-Features: AX0GCFs4wBDPW1qadWj7aJJrTZi8l82GwTb3JzipKlaW8fTcCbnF3VDPe6tZO7g
-Message-ID: <CANiq72=1zoNj52YNVjnFjTgnOhz_HidnFT19JFThTNXB4fdA=A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Kconfig: Added compare capabilities for mconf
-To: Franco Martelli <martellif67@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, masahiroy@kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kconfig/nconf: Replace strncpy() with snprintf() for
+ safe string copy
+To: Shankari Anand <shankari.ak0208@gmail.com>,
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: CAK7LNAQgb5u-+FEp1PjSxT7whNbW8YoiYt41m01M6yrt+=PXrA@mail.gmail.com,
+ linux-kbuild@vger.kernel.org, skhan@linuxfoundation.org
+References: <20250525164014.1558750-1-shankari.ak0208@gmail.com>
+ <CAK7LNATZUUupYq88bhLKCQLdSt+_-9AigiNmbvsmXjOFcN3Gog@mail.gmail.com>
+ <CAPRMd3=yWe_b9==eSCOrzC7v_Bnb2bQgxqrL+jCtfeSCm=Y3_Q@mail.gmail.com>
+Content-Language: en-US
+From: Franco Martelli <martellif67@gmail.com>
+Autocrypt: addr=martellif67@gmail.com; keydata=
+ xjMEXwx9ehYJKwYBBAHaRw8BAQdA8CkGKYFI/MK9U3RPhzE5H/ul7B6bHu/4BIhTf6LLO47N
+ J0ZyYW5jbyBNYXJ0ZWxsaSA8bWFydGVsbGlmNjdAZ21haWwuY29tPsKWBBMWCAA+FiEET9sW
+ 9yyU4uM6QbloXEn0O0LcklAFAl8MfXoCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
+ F4AACgkQXEn0O0LcklBgAwEAhdX5TbxGOmMhlJUi9AkDACN2ZemI8Tz2jSZPDlOQoE0A/3Tq
+ SPaEkb6kvK4xw626+AUDrfIzwzBscgpkDo4zCW0DzjgEXwx9ehIKKwYBBAGXVQEFAQEHQNP5
+ V2q0H0oiJu89h1SSPgQDtkixXvUvRf1rNLLIcNpPAwEIB8J+BBgWCAAmFiEET9sW9yyU4uM6
+ QbloXEn0O0LcklAFAl8MfXoCGwwFCQlmAYAACgkQXEn0O0LcklCMtgEAuCcSolf8LBIB4WTI
+ 4YGKiN7qBXfW0QTbPO+bPXQLxfEBAJuoVm3BlyMHoNG6UEZ2TcqfV8k6oRqwr/c0IXwJqEkK
+In-Reply-To: <CAPRMd3=yWe_b9==eSCOrzC7v_Bnb2bQgxqrL+jCtfeSCm=Y3_Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 2, 2025 at 3:41=E2=80=AFPM Franco Martelli <martellif67@gmail.c=
-om> wrote:
->
-> Now how to deal with those typos? Should I git amend the commit and send
-> a new version 2 of the patch? Sorry but I'm new in the kernel's process
-> patching.
+On 02/06/25 at 09:15, Shankari Anand wrote:
 
-Yeah, you should amend it and send a new version, tagged with v2 with
-e.g. the `-v2` flag or similar. In other words, new versions should
-not depend on the previous ones -- patch series are "rebased" in that
-sense, rather than "stacked".
+>>> Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
+>>> ---
+>>>
+>>> Tested with:
+>>> make nconfig
+>>> Verified successful build of the nconf binary and usage in the menu configuration UI.
+>>> Also confirmed no compiler warnings related to string copy functions.
+>>
+>> But, you did not verify if this patch is applicable.
+>>
+>>
+>>
+>>
+>>>
+>>>   scripts/kconfig/nconf.c     | 6 +++---
+>>>   scripts/kconfig/nconf.gui.c | 5 ++---
+>>>   2 files changed, 5 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+>>> index 67ee33fe16ef..42a78f0baf16 100644
+>>> --- a/scripts/kconfig/nconf.c
+>>> +++ b/scripts/kconfig/nconf.c
+>>> @@ -589,9 +589,9 @@ static void item_add_str(const char *fmt, ...)
+>>>          va_end(ap);
+>>>          snprintf(tmp_str, sizeof(tmp_str), "%s%s",
+>>>                          k_menu_items[index].str, new_str);
+>>> -       strscpy(k_menu_items[index].str,
+>>> -               tmp_str,
+>>> -               sizeof(k_menu_items[index].str));
+>>> +       snprintf(k_menu_items[index].str,
+>>> +               sizeof(k_menu_items[index].str),
+>>> +               "%s", tmp_str);
+>>>
+>>>          free_item(curses_menu_items[index]);
+>>>          curses_menu_items[index] = new_item(
+>>> diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
+>>> index a1306fafd07f..d55518268f45 100644
+>>> --- a/scripts/kconfig/nconf.gui.c
+>>> +++ b/scripts/kconfig/nconf.gui.c
+>>> @@ -176,8 +176,7 @@ void fill_window(WINDOW *win, const char *text)
+>>>                  char tmp[x+10];
+>>>                  const char *line = get_line(text, i);
+>>>                  int len = get_line_length(line);
+>>> -               strscpy(tmp, line, min(len, x));
+>>> -               tmp[len] = '\0';
+>>> +               snprintf(tmp, sizeof(tmp), "%.*s", min(len, x), line);
+>>>                  mvwprintw(win, i, 0, "%s", tmp);
+>>>          }
+>>>   }
+>>> @@ -358,7 +357,7 @@ int dialog_inputbox(WINDOW *main_window,
+>>>          y = (lines-win_lines)/2;
+>>>          x = (columns-win_cols)/2;
+>>>
+>>> -       strscpy(result, init, *result_len);
+>>> +       snprintf(result, *result_len, "%s", init);
 
-For new versions, you should also provide a changelog, after the first
-`---` line, before the diffstat.
+You can omit the format specifier of snprintf(…) when you use a single 
+variable:
++       snprintf(result, *result_len, init);
 
-By the way, ideally you also pass `format-patch` the `--base` flag to
-provide a base commit for all patch series, so that it is clearer for
-both humans and tooling :)
+>>>
+>>>          /* create the windows */
+>>>          win = newwin(win_lines, win_cols, y, x);
+>>> --
+>>> 2.34.1
+>>>
+>>
+>>
+>> --
+>> Best Regards
+>> Masahiro Yamada
+> 
 
-Thanks!
-
-Cheers,
-Miguel
+-- 
+Franco Martelli
 
