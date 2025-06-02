@@ -1,98 +1,115 @@
-Return-Path: <linux-kbuild+bounces-7339-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7340-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1200ACACD1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 12:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB45ACACE5
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 12:59:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AF5717E701
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 10:56:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 247E117E90D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 10:59:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CFD4204C2F;
-	Mon,  2 Jun 2025 10:55:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED181FF61E;
+	Mon,  2 Jun 2025 10:59:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WiUdmHzH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlYHi/A7"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27841E0083;
-	Mon,  2 Jun 2025 10:55:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B3B4C92;
+	Mon,  2 Jun 2025 10:59:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748861755; cv=none; b=FKYbsvG3aH3db8Zya3HWUZr+ta1IsjiyBeVj1WOrzRgeSPmHsmzmHZeDr861XADFpckgiMMZYdZx6L/UCS5NsQgu1kTbpJPCFdmg2NBFb8TsmjlqWq4iRFv3DsiUve8Y02T2dNRV1t7dyQ7oWDr+KFaodljd95yPSh8Zu4OSAjE=
+	t=1748861959; cv=none; b=eFyFPsdbZCDNCiR3C+kSEYn8ID6T5VfDKtmPDOWYfy4h3uJcHlb+HwwMhzpM8EaxGvQZbVj8RIYKYFHkKQZHhoXi7Gq/eDYCRNQHszP4S5Kvu0BhgTzmyN6tECdG6pq5xir2n0E5ilL7Xm8jA8+PbpjKh+pZ1thnXsjWaLGt5gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748861755; c=relaxed/simple;
-	bh=diBNoycsWZbCPBMZfTRaPIyrQ7LdBRUIphqw7oH8gMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G2wO5SKDjGUr9wn5aieWOcomPx+czBOE77lOnibXB23kwuPAW8thhmsKL0gLXuaUi2i4Ce8mBu/y5/HtM/CNmf3lb2I0fD1uuNyZ5BmqtSjQgiUfNUKSlR8gAZivtKXxcaocb+fUGl9a5D50cjcP33lRnyWWi+dzM7iDf5AxoOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WiUdmHzH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FE6BC4CEF1;
-	Mon,  2 Jun 2025 10:55:52 +0000 (UTC)
+	s=arc-20240116; t=1748861959; c=relaxed/simple;
+	bh=2VEo2hMZzwdhi+wgZfkvsTKcIzhkMWVMAWCJSwtXtlo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OusBSSyPEFLIPvE19/uf020g2eUhxYxau0q8BAC/txA4/cxxrMLHus2iFwRYwNEV2ZcRR7x+0zn9kUk5YBDiklKjk6NI4q1mQ+1UEuNpUJ/h9MMmiP5jf6hC0dLQRSyvukKtAMUJDIIhLb+MHCJg2R4jEcsIUBCEqmywAS3T26g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlYHi/A7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8E5C4CEF3;
+	Mon,  2 Jun 2025 10:59:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748861754;
-	bh=diBNoycsWZbCPBMZfTRaPIyrQ7LdBRUIphqw7oH8gMA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WiUdmHzHMnlzDKAatkPMxSfGyT1+SVwfSelfW5s4tOZPTI4F22FTo/Hwo91tS+lps
-	 K+M/M6VYUhmL+8R4irbKwgMLTnh1Jf5SRj1y1pHxVVaI6AbHI1HvRGvnEFs/GKQgZY
-	 H6spbHBOCQ1gT6QnJ7B6Knl8d/NzqT7PqFqpQbWiiOhIUaqIcxg4rOF0tog4dtcd49
-	 SFZUe3NA5NyUwAdvPS8EhaS0wSwTmUSRNGDUxLLnxn/JEIEysrb/3UqTwCmRVaDY3N
-	 Hg0arEASBkTbc8GTYh7fQ0lOmDUG2m9IEIGSUBYZiVWMzDD4B7kHW5jdWSA67WdNEV
-	 sE7u3/bcFgkDg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	linux-modules@vger.kernel.org
-Subject: [PATCH] module: make __mod_device_table__* symbols static
-Date: Mon,  2 Jun 2025 19:55:36 +0900
-Message-ID: <20250602105539.392362-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1748861959;
+	bh=2VEo2hMZzwdhi+wgZfkvsTKcIzhkMWVMAWCJSwtXtlo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dlYHi/A7rMw3XokgajrCkMO+rVaNnlgrlBK+W55zIECxXMenuTd/muPtNw6KrpmFz
+	 dWQl2fgo4ygxuhsHpX2xNvskMMqzaPjAbNUb4GuQXJ/rJx0qjS0VhcdbJ1DsbwP55I
+	 TGp0ruu6ZY/+43avy9ALNZOvYy/hNvvC4z45xVAcvXkhCcV8XgSu+AFRg6P34rucxt
+	 7vp1iMvlaSOoPGP8YClB0FvYuwnTSfwtgJsJiG5mouvSHzxa/fFuVaU8JOlTVorV02
+	 kq+71gkSai1nsBucaM0OBJlYiLdfXFkDaOdNtO1Im0MNO7AOgQCd9T9mcOusPjrEn2
+	 eZrig+ybeeZxA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54e7967cf67so5069560e87.0;
+        Mon, 02 Jun 2025 03:59:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU6HhoXACZT3dH/cXYYvRxJKxtrNQAoAX38nNhgK2K0PuZI/TsHXehwTpwvCp3HuO16qBLy+ZbjvYNZ5faP@vger.kernel.org, AJvYcCVOdbEUiWSW32YKc9OGHBSHhvchGGKEq36Ln+nK7Z6dgD3TjaJqw3Nq/ihFe3IE14spSttCk0Lto6Zd4ggXYg==@vger.kernel.org, AJvYcCWC/bZVxBWBSIRlthrQ92Tw9p0kgySBuL0bVvyFldHu8rdf5i5Ki6qCEgyNpOTW1YwatPGrGsqwZL7zm+M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydqSmQbfv0VUwkVO1ictSlbQEtVtJm8T1vM4cOcllcM8Wul3En
+	BqzMs6C6ekoH75Kx8Do/+M40QYOh8bDTYtOSPhsH7WcFD6kJgAoiqpfiBN583JwvybZC3A1VywV
+	4ACLCJU4Zgut7ayCW0thFBXuqtDWX934=
+X-Google-Smtp-Source: AGHT+IEOgCfgH7IcYMl7oqdLZ5WGrqkp9giDUV05KwH5YZl0aU1XpTeJCMpsIuO62wHRQ0ujeoffva1bKg4zb1r6hfQ=
+X-Received: by 2002:a05:6512:4023:b0:553:2645:4e90 with SMTP id
+ 2adb3069b0e04-5534318e377mr1817747e87.52.1748861958159; Mon, 02 Jun 2025
+ 03:59:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1748335606.git.legion@kernel.org> <ecf0ebdda5bcf82464ed1cebbf50afdcd8b5b23a.1748335606.git.legion@kernel.org>
+ <CAK7LNARkhc40UfrmmqsqmqkCn60=7zHc=pDFGR4o=k2p7CsABA@mail.gmail.com> <aD1bozP0l67f_wbs@example.org>
+In-Reply-To: <aD1bozP0l67f_wbs@example.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 2 Jun 2025 19:58:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQmQtvB4PfmH4MkRM123wySON6cF6TG79fi0WER1sz4Gw@mail.gmail.com>
+X-Gm-Features: AX0GCFvAZfsItMIePqVADcifMZhyGwMHA0rsh6EXENQAN-lX6_h-ON-2R3Ep-tU
+Message-ID: <CAK7LNAQmQtvB4PfmH4MkRM123wySON6cF6TG79fi0WER1sz4Gw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] modpost: Make mod_device_table aliases more unique
+To: Alexey Gladkov <legion@kernel.org>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The __mod_device_table__* symbols are only parsed by modpost to generate
-MODULE_ALIAS() entries from MODULE_DEVICE_TABLE().
+On Mon, Jun 2, 2025 at 5:07=E2=80=AFPM Alexey Gladkov <legion@kernel.org> w=
+rote:
+>
+> On Mon, Jun 02, 2025 at 04:45:36PM +0900, Masahiro Yamada wrote:
+> > On Tue, May 27, 2025 at 6:08=E2=80=AFPM Alexey Gladkov <legion@kernel.o=
+rg> wrote:
+> > >
+> > > In order to avoid symbol conflicts if they appear in the same binary,=
+ a
+> > > more unique alias identifier can be generated.
+> >
+> > Why must this be unique?
+> >
+> > What problem would happen if the same symbol names
+> > appear in MODULE_DEVICE_TABLE()?
+>
+> Before these patches this was not a problem as non-unique characters are
+> in separate object files when the module is compiled separately.
+>
+> But when the modules are compiled into the kernel, there is a symbol
+> conflict when linking vmlinuz. We have modules that export multiple devic=
+e
+> tables from different object files.
 
-Therefore, these symbols do not need to be globally visible, or globally
-unique.
+This is because the __mod_device_table__* symbols are global, but
+I suspect they do not need to be.
 
-If they are in the global scope, we would worry about the symbol
-uniqueness, but modpost is fine with parsing multiple symbols with the
-same name.
+Let's test this
+https://lore.kernel.org/lkml/20250602105539.392362-1-masahiroy@kernel.org/T=
+/#u
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- include/linux/module.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 8050f77c3b64..92e1420fccdf 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -249,8 +249,8 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
- #ifdef MODULE
- /* Creates an alias so file2alias.c can find device table. */
- #define MODULE_DEVICE_TABLE(type, name)					\
--extern typeof(name) __mod_device_table__##type##__##name		\
--  __attribute__ ((unused, alias(__stringify(name))))
-+static typeof(name) __mod_device_table__##type##__##name		\
-+  __attribute__ ((used, alias(__stringify(name))))
- #else  /* !MODULE */
- #define MODULE_DEVICE_TABLE(type, name)
- #endif
--- 
-2.43.0
 
+--=20
+Best Regards
+Masahiro Yamada
 
