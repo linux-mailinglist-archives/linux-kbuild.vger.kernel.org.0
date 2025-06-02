@@ -1,115 +1,147 @@
-Return-Path: <linux-kbuild+bounces-7340-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7341-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB45ACACE5
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 12:59:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C56ACAEA0
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 15:09:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 247E117E90D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 10:59:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 584BA1891A80
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 13:09:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED181FF61E;
-	Mon,  2 Jun 2025 10:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9871224893;
+	Mon,  2 Jun 2025 13:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlYHi/A7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qGOPujj8"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B3B4C92;
-	Mon,  2 Jun 2025 10:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8C822424C;
+	Mon,  2 Jun 2025 13:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748861959; cv=none; b=eFyFPsdbZCDNCiR3C+kSEYn8ID6T5VfDKtmPDOWYfy4h3uJcHlb+HwwMhzpM8EaxGvQZbVj8RIYKYFHkKQZHhoXi7Gq/eDYCRNQHszP4S5Kvu0BhgTzmyN6tECdG6pq5xir2n0E5ilL7Xm8jA8+PbpjKh+pZ1thnXsjWaLGt5gU=
+	t=1748869611; cv=none; b=TmOrdkypOKYbEfkS76XzfLTJEzxsbsv7uom/TX28NAo47q62UnJKDIz2qf26Uz+HVRwoZc+6wLYwe1FpWoUJA61Q83TFraafDJkXaCv8/cR6jtUjlF8Zrai3k4mN0LY5HzuIxZvcJMANa67bMwyLA3vacAzSazvT5MDq/O+2Pts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748861959; c=relaxed/simple;
-	bh=2VEo2hMZzwdhi+wgZfkvsTKcIzhkMWVMAWCJSwtXtlo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OusBSSyPEFLIPvE19/uf020g2eUhxYxau0q8BAC/txA4/cxxrMLHus2iFwRYwNEV2ZcRR7x+0zn9kUk5YBDiklKjk6NI4q1mQ+1UEuNpUJ/h9MMmiP5jf6hC0dLQRSyvukKtAMUJDIIhLb+MHCJg2R4jEcsIUBCEqmywAS3T26g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlYHi/A7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8E5C4CEF3;
-	Mon,  2 Jun 2025 10:59:19 +0000 (UTC)
+	s=arc-20240116; t=1748869611; c=relaxed/simple;
+	bh=ADbnYsa65bvXTe9eG8sDy/Kp7GEJDwl9jGtzi10wXjs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p83JmR9I0S+6LEp6GYd7V2LeQPMLbFSdqO4IfclvAE2jZ4z7KE+M1h7u6bl9HC6cb/0GBHYyr++6PZubbidN8voGKcmrbAVBm1IqCcauPvXp9kflo1HT04Qc75tKlRc8cufJnPcfP3qkOKgEn32EFeTuZPFdEg15hmTEuZNyEf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qGOPujj8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E786FC4CEF3;
+	Mon,  2 Jun 2025 13:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748861959;
-	bh=2VEo2hMZzwdhi+wgZfkvsTKcIzhkMWVMAWCJSwtXtlo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dlYHi/A7rMw3XokgajrCkMO+rVaNnlgrlBK+W55zIECxXMenuTd/muPtNw6KrpmFz
-	 dWQl2fgo4ygxuhsHpX2xNvskMMqzaPjAbNUb4GuQXJ/rJx0qjS0VhcdbJ1DsbwP55I
-	 TGp0ruu6ZY/+43avy9ALNZOvYy/hNvvC4z45xVAcvXkhCcV8XgSu+AFRg6P34rucxt
-	 7vp1iMvlaSOoPGP8YClB0FvYuwnTSfwtgJsJiG5mouvSHzxa/fFuVaU8JOlTVorV02
-	 kq+71gkSai1nsBucaM0OBJlYiLdfXFkDaOdNtO1Im0MNO7AOgQCd9T9mcOusPjrEn2
-	 eZrig+ybeeZxA==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54e7967cf67so5069560e87.0;
-        Mon, 02 Jun 2025 03:59:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU6HhoXACZT3dH/cXYYvRxJKxtrNQAoAX38nNhgK2K0PuZI/TsHXehwTpwvCp3HuO16qBLy+ZbjvYNZ5faP@vger.kernel.org, AJvYcCVOdbEUiWSW32YKc9OGHBSHhvchGGKEq36Ln+nK7Z6dgD3TjaJqw3Nq/ihFe3IE14spSttCk0Lto6Zd4ggXYg==@vger.kernel.org, AJvYcCWC/bZVxBWBSIRlthrQ92Tw9p0kgySBuL0bVvyFldHu8rdf5i5Ki6qCEgyNpOTW1YwatPGrGsqwZL7zm+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydqSmQbfv0VUwkVO1ictSlbQEtVtJm8T1vM4cOcllcM8Wul3En
-	BqzMs6C6ekoH75Kx8Do/+M40QYOh8bDTYtOSPhsH7WcFD6kJgAoiqpfiBN583JwvybZC3A1VywV
-	4ACLCJU4Zgut7ayCW0thFBXuqtDWX934=
-X-Google-Smtp-Source: AGHT+IEOgCfgH7IcYMl7oqdLZ5WGrqkp9giDUV05KwH5YZl0aU1XpTeJCMpsIuO62wHRQ0ujeoffva1bKg4zb1r6hfQ=
-X-Received: by 2002:a05:6512:4023:b0:553:2645:4e90 with SMTP id
- 2adb3069b0e04-5534318e377mr1817747e87.52.1748861958159; Mon, 02 Jun 2025
- 03:59:18 -0700 (PDT)
+	s=k20201202; t=1748869611;
+	bh=ADbnYsa65bvXTe9eG8sDy/Kp7GEJDwl9jGtzi10wXjs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qGOPujj8rbuPfdNJjqeofvAKW6x8xdVNIfLO5ycjZLdaMWmEhIz8o+nvSr+l7s25g
+	 6hb+YZmasJf99KJ42h3KvLU1wQYcdPFmPRgETB4gaoOVsdhL00v+tNS05gtWBYL2DG
+	 zkhYQX7oc5gB7u+yktAOcgRVhFFrjOj1ByZxiwmCOxxf7IztLpAOqC/iq4YuvXmUY8
+	 UiymrO/+O0QxpJV10OT54V6bagM5CiqsioXsiVjF18n6ffgOa2peyU1xSYldeotI5a
+	 V9Z+SDA7rjVmwJZ8zIxOWRLNf/0WsAYHcdzbCBUDVSqdB3Hqo73wxqCWTOyAHTD4Qb
+	 cq/UMDxcuxHyA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Lucas De Marchi <lucas.de.marchi@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-modules@vger.kernel.org
+Subject: [PATCH] kbuild: stop module name mangling
+Date: Mon,  2 Jun 2025 22:06:02 +0900
+Message-ID: <20250602130609.402581-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1748335606.git.legion@kernel.org> <ecf0ebdda5bcf82464ed1cebbf50afdcd8b5b23a.1748335606.git.legion@kernel.org>
- <CAK7LNARkhc40UfrmmqsqmqkCn60=7zHc=pDFGR4o=k2p7CsABA@mail.gmail.com> <aD1bozP0l67f_wbs@example.org>
-In-Reply-To: <aD1bozP0l67f_wbs@example.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 2 Jun 2025 19:58:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQmQtvB4PfmH4MkRM123wySON6cF6TG79fi0WER1sz4Gw@mail.gmail.com>
-X-Gm-Features: AX0GCFvAZfsItMIePqVADcifMZhyGwMHA0rsh6EXENQAN-lX6_h-ON-2R3Ep-tU
-Message-ID: <CAK7LNAQmQtvB4PfmH4MkRM123wySON6cF6TG79fi0WER1sz4Gw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] modpost: Make mod_device_table aliases more unique
-To: Alexey Gladkov <legion@kernel.org>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 2, 2025 at 5:07=E2=80=AFPM Alexey Gladkov <legion@kernel.org> w=
-rote:
->
-> On Mon, Jun 02, 2025 at 04:45:36PM +0900, Masahiro Yamada wrote:
-> > On Tue, May 27, 2025 at 6:08=E2=80=AFPM Alexey Gladkov <legion@kernel.o=
-rg> wrote:
-> > >
-> > > In order to avoid symbol conflicts if they appear in the same binary,=
- a
-> > > more unique alias identifier can be generated.
-> >
-> > Why must this be unique?
-> >
-> > What problem would happen if the same symbol names
-> > appear in MODULE_DEVICE_TABLE()?
->
-> Before these patches this was not a problem as non-unique characters are
-> in separate object files when the module is compiled separately.
->
-> But when the modules are compiled into the kernel, there is a symbol
-> conflict when linking vmlinuz. We have modules that export multiple devic=
-e
-> tables from different object files.
+In the old days, KBUILD_MODNAME was passed to C without double quotes,
+and then handled by __stringify() on the C side. This was the reason
+why KBUILD_MODNAME was mangled: characters such as commas (,) and
+hyphens (-) are not allowed in C identifiers, so they were replaced
+with underscores (_) in Kbuild.
 
-This is because the __mod_device_table__* symbols are global, but
-I suspect they do not need to be.
+Since commit f83b5e323f57 ("kbuild: set correct KBUILD_MODNAME when
+using well known kernel symbols as module names"), KBUILD_MODNAME has
+been passed to C as a string literal, which allows any characters.
 
-Let's test this
-https://lore.kernel.org/lkml/20250602105539.392362-1-masahiroy@kernel.org/T=
-/#u
+Aside from this historical behavior in the build system, there is no
+longer a reason for mangling. In fact, it is rather annoying, as we
+now need to convert between hyphens and underscores in some places,
+but not in others. See commit 0267cbf297bf ("module: Account for the
+build time module name mangling").
 
+This commit eliminates that oddity, so the module name will now match
+the filename. For example, the module name of "foo-bar.ko" will be
+"foo-bar", not "foo_bar".
 
+However, this oddity persisted for so long and also affected the
+userspace. To adapt to this behavior, when a user runs "rmmod foo-bar",
+kmod converts hyphens to underscores, and passes "foo_bar" to the
+delete_module syscall.
 
+Therefore, the mod_strncmp() needs to remain in find_module_all(),
+otherwise, we cannot unload modules.
 
---=20
-Best Regards
-Masahiro Yamada
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ kernel/module/main.c | 8 ++++++--
+ scripts/Makefile.lib | 4 ++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index b8440b0887e3..1fa90a95e0c5 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -410,7 +410,11 @@ struct module *find_module_all(const char *name, size_t len,
+ 				lockdep_is_held(&module_mutex)) {
+ 		if (!even_unformed && mod->state == MODULE_STATE_UNFORMED)
+ 			continue;
+-		if (strlen(mod->name) == len && !memcmp(mod->name, name, len))
++		/*
++		 * For historical reasons, kmod passes a module name with
++		 * a hyphen replaced with an underscore.
++		 */
++		if (!mod_strncmp(mod->name, name, len))
+ 			return mod;
+ 	}
+ 	return NULL;
+@@ -1135,7 +1139,7 @@ static bool module_match(const char *modname, const char *patterns)
+ 		if (*sep)
+ 			sep++;
+ 
+-		if (mod_strncmp(patterns, modname, len) == 0 && (glob || len == modlen))
++		if (strncmp(patterns, modname, len) == 0 && (glob || len == modlen))
+ 			return true;
+ 	}
+ 
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 336fb0d763c7..e37e2db5f528 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -18,8 +18,8 @@ target-stem = $(basename $(patsubst $(obj)/%,%,$@))
+ # end up in (or would, if it gets compiled in)
+ name-fix-token = $(subst $(comma),_,$(subst -,_,$1))
+ name-fix = $(call stringify,$(call name-fix-token,$1))
+-basename_flags = -DKBUILD_BASENAME=$(call name-fix,$(basetarget))
+-modname_flags  = -DKBUILD_MODNAME=$(call name-fix,$(modname)) \
++basename_flags = -DKBUILD_BASENAME=$(call stringify,$(basetarget))
++modname_flags  = -DKBUILD_MODNAME=$(call stringify,$(modname)) \
+ 		 -D__KBUILD_MODNAME=kmod_$(call name-fix-token,$(modname))
+ modfile_flags  = -DKBUILD_MODFILE=$(call stringify,$(modfile))
+ 
+-- 
+2.43.0
+
 
