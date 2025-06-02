@@ -1,305 +1,115 @@
-Return-Path: <linux-kbuild+bounces-7343-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7344-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2810AACAF3E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 15:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E583ACAFB1
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 15:53:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7FCB166C11
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 13:41:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2C1E17FCDB
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Jun 2025 13:53:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC92220685;
-	Mon,  2 Jun 2025 13:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DC6E222580;
+	Mon,  2 Jun 2025 13:52:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Foj7xX7A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BlJGTDgq"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFCA2AD1C
-	for <linux-kbuild@vger.kernel.org>; Mon,  2 Jun 2025 13:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5997222561
+	for <linux-kbuild@vger.kernel.org>; Mon,  2 Jun 2025 13:52:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748871681; cv=none; b=nkuIaIhAq3oi//s3IFflEgNliMmOdDJHd8WeENPGVZRo5ezwlTrBqDRKuQawiFIVIrhk4o7HKOAtEMZN7jwc1q3HJiX/SaaUMQbqBf1kFrHo6voi3g0Ps6PrRcF5WUq8Ly2XD2JvmgdwOhHrOhJxdzPCMADhrSlV3vhjbtQZQTg=
+	t=1748872347; cv=none; b=HQ4LaVHGkE1Fqsqsn+IONH5CYSorCKom3Bda1oNx6zJWAC1jLsooCtuDy3dXWfW+meJgPifg4FlSGsuX1AtKS5vvkr2CMKooxSD0FHC9N33VhvlV8q8Au3olCDH2GU8YSWhv76fc6I2UYlcqdO7AapWn0GxNWN+ifYPxhLcLW6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748871681; c=relaxed/simple;
-	bh=17b6rkLqiVYT+k5HNRACtSFcfYPm20GeWHYC+TmvPOU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TBs9yp7oMYkJoQC0Z3UdtMuU47ZZw26miYofKLToyL5ft/fYvo7g4zUWiCIkc6dKz8TnbJvfZRFQ6N661FaT8KMtNwCXf4qh3n4JtC/VnzP5yo8zqczFtx1yyS9t9trynK6uMyub0JZu44xG0mzxawMcDgoZZyF/smBJ+NysNU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Foj7xX7A; arc=none smtp.client-ip=209.85.218.41
+	s=arc-20240116; t=1748872347; c=relaxed/simple;
+	bh=LZYzZ+cUHj6P2mamQuY6l6cqdt+/CFqIRXzHbO0TqBY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L3MB9elFZ9YyzIZimNeHTvm0uA0ZR2cUjvIsXradzwRwqOdX7rW1HC13lRAdzQC5vmsgjU4cnbfLDUdO35m9G9NQk2Alq6vU+b4eZmkn6waZ1mNtz+PP/Y2Lbds1ZHdSIUBzTM9/5wINgIMiQLANm6kjX3bYr2UePF4c/Phnc4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BlJGTDgq; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-adb2e9fd208so705662266b.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Jun 2025 06:41:16 -0700 (PDT)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b2eeada3df1so67660a12.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Jun 2025 06:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748871675; x=1749476475; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=i09FXagDchB8oJdCa1RVA2Rh2QP/Ovzip5+s9LK+Ifc=;
-        b=Foj7xX7AdnurADumUL7Mlykt8y8Zpb1LXhm+57ERiYXjgariYOSu/gJi9QL1fNTjz4
-         Kg0QzNeYLegzB+Tq5ct/p1g25+n5w/ChbeialY1oSiV5GZSjZhmVNpTquV1LYtWH/P32
-         Gw55KJHYez+tkuBqW+slAcNGprfT72ygigHeMTVmUNkhU+RVdgEXwK78bLXaYEb2ULmG
-         QcofdsbdgOkVYwvjma/VFw5+YEIZHgFpQHa4gTetWerwYQijPqNP3HCLc8uI+JQXPt12
-         WxBBLgTivW9vKdcO1VNN4Fkxjp1V4n/Gqpd/U2dCE+eM+5gq1Al9ephm7PoM7TzGTVD2
-         FhWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748871675; x=1749476475;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1748872345; x=1749477145; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i09FXagDchB8oJdCa1RVA2Rh2QP/Ovzip5+s9LK+Ifc=;
-        b=PkVXp/MOokFhlGqb8Mi58jmMYMC2QwTf4pTmu30Hf+lWHT8JfU7plOdbGghTIJNasY
-         5ydjjFyqKZOqgz+rZjLLRdDfZA863aAAqZzYoEUP2dsfJu2oG1GbmKG21PRmAiik/o8U
-         1o7NAP+yU4JlG7gnjwtJE0bc9j0j0tPEMoUrB9E+405cURFfiubaaQO4N3se5ixEHY4z
-         /KTJPlhiqptr/lxqmaVOpBJzZM+nRWblRe0ZQx/rTjIpMpySN1EvRVL2jntp14EXmru8
-         hihyzOZhpg2TeKZnc6h1kgneak9fiOCfjsW3w6TLCF5Rusw/2YL8mqwl2EMdz/CB7yG7
-         rJjw==
-X-Gm-Message-State: AOJu0Ywx+hvKxiJh/w0COObp9saiatrUKFq2eGWARIdms3BJGy8pIbE4
-	2YZ1kMzQy7Ry4/J3D3yUB0RFt6A7OdhRw55YAgO1E0uYfY5NrRvRYLG1
-X-Gm-Gg: ASbGncsp66tW+gWuaI1RlA62QlN6nYNF6RbkwBpVF6W/hHlxX3f5PAJvx+VwKaYq7xv
-	T0M0pWftCj7JlQypdwEZkWl4jFVpXyQr3rqO4plOwkCnfWPBOlBSGDgOEx/rSHfvYf4hW+311r8
-	VstOn/XKrcktsF2CkoL7RUKMGpaBU8WHYuIk4rpPeqyvRoV85C7/xWE+KCDH6K7E2Xk8p1DQnxC
-	oNW01eyHz9GN8KpfE+8zPdlaS6CllIB2OCyHt5uYAFt8wCdwypuMapYONPxAApYMRa6UbgE020j
-	OUdLru6G7xBVrqYBordgSKpSmRjQ6BEqzuCWMJZN7oQFlLr0PX9uE2x1HEDfWFU49/m+coY3PEO
-	onzLHVWcLdAyf
-X-Google-Smtp-Source: AGHT+IHlD8uN2QLOuitO69TD4/7ufPxbq1wG43jO639MYXPfbSmve0tg8RWXE8owjDXUhTPkzehEPg==
-X-Received: by 2002:a17:907:3e1f:b0:ad5:d7bc:6623 with SMTP id a640c23a62f3a-adb32264a08mr1281275566b.7.1748871674873;
-        Mon, 02 Jun 2025 06:41:14 -0700 (PDT)
-Received: from [192.168.0.3] (mob-5-90-139-122.net.vodafone.it. [5.90.139.122])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d84f389sm790962566b.82.2025.06.02.06.41.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Jun 2025 06:41:14 -0700 (PDT)
-Message-ID: <ddf7c0be-48ce-47d5-acc6-2e9e5aae64b4@gmail.com>
-Date: Mon, 2 Jun 2025 15:41:13 +0200
+        bh=LZYzZ+cUHj6P2mamQuY6l6cqdt+/CFqIRXzHbO0TqBY=;
+        b=BlJGTDgqCpdvwdqOcp23kVoLcHYSk3wdDEbMmF1Ml7DxtLjlnzV0Zhmw11ki3R4OEu
+         CoC/2q5WZurgLqyyYA27gVCcQTE4V4f9sLsP0D2hRwkLGXy7FrW8KY300QuzzwNaht93
+         cOV8duAKhqr/SRv/UoDn7UiSE9dZktNFh3fbtsQRqFm17ttlJweYc5yLwfyfAzl+Hr5+
+         v3KSqWgXXF/mqlLQldW7ELOvCOSc33xJIL3N5yXrE4dz4iKsURlEpTDh/HpOV4eZ55ok
+         pkxDzJk1cV9gel77A33gzF3NFiSowV2Pi3Pzyw0ak9/Ko7k+fmRY+7tyPU3717tRvrhf
+         zAzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748872345; x=1749477145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LZYzZ+cUHj6P2mamQuY6l6cqdt+/CFqIRXzHbO0TqBY=;
+        b=JInUZ38jn2ylz9KvGunRC2zcZqyCkbAjRBBZlBDk0n+2utWTNhSNuHP3BnYUvY0VFD
+         5f7BJkM3LgdRBpBuwI3M53qi2tatwl90rGc/mx3AiWlEvV7eVx2hiLOPqp554N897J6U
+         PV1qcyY+g+ud31PQDgKno6/IlXl4CEoLSTDKHkBJ5eS6WUykz0k142pMQuJNAAkrqg32
+         fU/ba+HeSSjYhNdVAQsrCQBBxUDo9AWAFsKOXXQjSmEwo92NR1lErMYL6lKS76WT9Hyv
+         OMUMMiqCOushTCUTiBbxmGVIfk6ZFwrBpDptHuvZmxDldtWgsYFLdlD/U5zZbdRn3oMe
+         0h3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWioUQlCm1rtBcZTFo1FjzXBfyXLcxCFpdiqQ855vKVFiShs/b5+6hoci5UOed9GXPvV01feUZLVzJ+nkk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/9pMLnXutyWc2oJq6lbOO+mKf9O2V+q+6odjvt1r5V37DeTvC
+	nQBsSqvfw2VLsVLWwqmAT7MN82wVDE18/lKQgIlE1PYey47qQpnxhiRKxu0jSWcs/ivJZLClZpf
+	4X1u6XZlLyFJ/RtK8/8/V3/JsKKPYtEo=
+X-Gm-Gg: ASbGncuJSmchuPP0tk1cAjmeO45JIER/Sw2hrom3mUZuArd0u7o3ZzBXdKuyD3WsEUf
+	95k3OUUi5kD/tz3DOzDWx7Ljv4DOBqTD5WRQ+HEx7WsBZoLT28JLjA5WSR81AaWSysbsWN8fhAU
+	Yz2qagWzGCrtO2kWRmna9fMDh4uz0xgMDj
+X-Google-Smtp-Source: AGHT+IEz/LnFOV+A6ZDrNuOcUpwGnyPWj7aa1r3nviHqTuU/wWJHN9yCqVJBzgYiZydmFNTtAnI1IUs/ruLXCpmSY6I=
+X-Received: by 2002:a17:90b:3d44:b0:311:a314:c2dd with SMTP id
+ 98e67ed59e1d1-3124db04d6fmr7948094a91.4.1748872344921; Mon, 02 Jun 2025
+ 06:52:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] Kconfig: Added compare capabilities for mconf
-To: Randy Dunlap <rdunlap@infradead.org>, masahiroy@kernel.org
-Cc: linux-kbuild@vger.kernel.org
 References: <20250601184049.368419-1-martellif67@gmail.com>
- <20250601184049.368419-2-martellif67@gmail.com>
- <2e8cb14e-abb7-4850-a1fe-31bad55bb04b@infradead.org>
-Content-Language: en-US
-From: Franco Martelli <martellif67@gmail.com>
-Autocrypt: addr=martellif67@gmail.com; keydata=
- xjMEXwx9ehYJKwYBBAHaRw8BAQdA8CkGKYFI/MK9U3RPhzE5H/ul7B6bHu/4BIhTf6LLO47N
- J0ZyYW5jbyBNYXJ0ZWxsaSA8bWFydGVsbGlmNjdAZ21haWwuY29tPsKWBBMWCAA+FiEET9sW
- 9yyU4uM6QbloXEn0O0LcklAFAl8MfXoCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
- F4AACgkQXEn0O0LcklBgAwEAhdX5TbxGOmMhlJUi9AkDACN2ZemI8Tz2jSZPDlOQoE0A/3Tq
- SPaEkb6kvK4xw626+AUDrfIzwzBscgpkDo4zCW0DzjgEXwx9ehIKKwYBBAGXVQEFAQEHQNP5
- V2q0H0oiJu89h1SSPgQDtkixXvUvRf1rNLLIcNpPAwEIB8J+BBgWCAAmFiEET9sW9yyU4uM6
- QbloXEn0O0LcklAFAl8MfXoCGwwFCQlmAYAACgkQXEn0O0LcklCMtgEAuCcSolf8LBIB4WTI
- 4YGKiN7qBXfW0QTbPO+bPXQLxfEBAJuoVm3BlyMHoNG6UEZ2TcqfV8k6oRqwr/c0IXwJqEkK
-In-Reply-To: <2e8cb14e-abb7-4850-a1fe-31bad55bb04b@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20250601184049.368419-2-martellif67@gmail.com> <2e8cb14e-abb7-4850-a1fe-31bad55bb04b@infradead.org>
+ <ddf7c0be-48ce-47d5-acc6-2e9e5aae64b4@gmail.com>
+In-Reply-To: <ddf7c0be-48ce-47d5-acc6-2e9e5aae64b4@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 2 Jun 2025 15:52:12 +0200
+X-Gm-Features: AX0GCFs4wBDPW1qadWj7aJJrTZi8l82GwTb3JzipKlaW8fTcCbnF3VDPe6tZO7g
+Message-ID: <CANiq72=1zoNj52YNVjnFjTgnOhz_HidnFT19JFThTNXB4fdA=A@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Kconfig: Added compare capabilities for mconf
+To: Franco Martelli <martellif67@gmail.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, masahiroy@kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 02/06/25 at 02:59, Randy Dunlap wrote:
-> 
-> 
-> On 6/1/25 11:40 AM, Franco Martelli wrote:
-> 
-> Missing patch description/justification here.....
+On Mon, Jun 2, 2025 at 3:41=E2=80=AFPM Franco Martelli <martellif67@gmail.c=
+om> wrote:
+>
+> Now how to deal with those typos? Should I git amend the commit and send
+> a new version 2 of the patch? Sorry but I'm new in the kernel's process
+> patching.
 
-Have you run a specific "git" command or simply edited the patch body 
-before sending?
+Yeah, you should amend it and send a new version, tagged with v2 with
+e.g. the `-v2` flag or similar. In other words, new versions should
+not depend on the previous ones -- patch series are "rebased" in that
+sense, rather than "stacked".
 
-> 
-> 
->> Signed-off-by: Franco Martelli <martellif67@gmail.com>
->> ---
->>   scripts/kconfig/confdata.c         | 165 ++++++++++++++++++++++++-
->>   scripts/kconfig/expr.h             |   9 ++
->>   scripts/kconfig/lkc.h              |  11 ++
->>   scripts/kconfig/lkc_proto.h        |   4 +
->>   scripts/kconfig/lxdialog/menubox.c |  13 +-
->>   scripts/kconfig/mconf.c            | 192 ++++++++++++++++++++++++++---
->>   6 files changed, 376 insertions(+), 18 deletions(-)
->>
->> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
->> index ac95661a1c9d..078d058c01d7 100644
->> --- a/scripts/kconfig/confdata.c
->> +++ b/scripts/kconfig/confdata.c
->> @@ -257,7 +257,7 @@ static int conf_set_sym_val(struct symbol *sym, int def, int def_flags, char *p)
->>   			sym->flags |= def_flags;
->>   			break;
->>   		}
->> -		if (def != S_DEF_AUTO)
->> +		if (def != S_DEF_AUTO && def != S_DEF_COMP)
->>   			conf_warning("symbol value '%s' invalid for %s",
->>   				     p, sym->name);
->>   		return 1;
->> @@ -386,6 +386,7 @@ int conf_read_simple(const char *name, int def)
->>   	def_flags = SYMBOL_DEF << def;
->>   	for_all_symbols(sym) {
->>   		sym->flags &= ~def_flags;
->> +		sym->comp_is_avail = false;
->>   		switch (sym->type) {
->>   		case S_INT:
->>   		case S_HEX:
->> @@ -445,6 +446,8 @@ int conf_read_simple(const char *name, int def)
->>   
->>   		sym = sym_find(sym_name);
->>   		if (!sym) {
->> +			if (def == S_DEF_COMP)
->> +				continue;
->>   			if (def == S_DEF_AUTO) {
->>   				/*
->>   				 * Reading from include/config/auto.conf.
->> @@ -462,6 +465,9 @@ int conf_read_simple(const char *name, int def)
->>   			continue;
->>   		}
->>   
->> +		if (def == S_DEF_COMP)
->> +			sym->comp_is_avail = true;
->> +
->>   		if (sym->flags & def_flags)
->>   			conf_warning("override: reassigning to symbol %s", sym->name);
->>   
->> @@ -529,6 +535,91 @@ int conf_read(const char *name)
->>   	return 0;
->>   }
->>   
->> +const char sym_get_comp_tristate_char(struct symbol *sym)
->> +{
->> +	char ch = '#';
->> +
->> +	if (sym_get_comp_is_avail(sym))
->> +		switch (sym_get_comp_tristate_value(sym)) {
->> +		case yes: ch = '*'; break;
->> +		case mod: ch = 'M'; break;
->> +		case no:  ch = '_'; break;
->> +		}
->> +
->> +	return ch;
->> +}
->> +
->> +static char * masked_xrealloc(char *s, size_t len, size_t *size)
-> 
->     static char *mask_xrealloc(...
-> (no space after '*')
-> 
->> +{
->> +	char *ls = s;
->> +
->> +	if (s == NULL)
->> +		*size = 0;
->> +	if (len > *size)
->> +		ls = xrealloc(s, (*size = ((len / SYMBOL_MAXLENGTH) + 1) * SYMBOL_MAXLENGTH));
->> +
->> +	return ls;
->> +}
->> +
->> +#define LINE_LENGTH	(SYMBOL_MAXLENGTH +32)
->> +
->> +char * comp_get_list_diff(void)
-> 
-> ditto.
-> 
->> +{
-> 
->> +}
-> 
->> @@ -801,6 +892,78 @@ int conf_write_defconfig(const char *filename)
->>   	return 0;
->>   }
->>   
->> +bool conf_write_comp(const char *name)
->> +{
->> +	FILE *fptemp, *fplist;
->> +	char *list = NULL, f_old[PATH_MAX +1],  tmpfile[] = "file_XXXXXX";
->> +	int ch;
->> +
->> +	if (!name)
->> +		return false;
->> +
->> +	if (is_present(name)) {
->> +		if (is_dir(name))
->> +			return false;
->> +		snprintf(f_old, PATH_MAX, "%s.old", name);
->> +		if (rename(name, f_old)) {
->> +			fprintf(stderr, "Failed to rename file: %s to %s\n", name, f_old);
->> +			return false;
->> +		}
->> +	}
->> +
->> +	list = comp_get_list_diff();
->> +	int tmpfd = mkstemp(tmpfile);
->> +
->> +	if (tmpfd < 0) {
->> +		fprintf( stderr, "Failed to create temporary file.\n" );
->> +		return false;
->> +	}
->> +
->> +	if ((fptemp = fdopen(tmpfd, "w")) == NULL) {
->> +		remove(tmpfile);
->> +		fprintf(stderr, "Failed to open a stream for the temporary file: %s\n", tmpfile);
->> +		return false;
->> +	}
->> +
->> +	if ((fplist = fmemopen(list, strlen(list), "r")) == NULL ) {
->> +		fclose(fptemp);
->> +		remove(tmpfile);
->> +		fprintf( stderr, "Failed to open a stream for fplist.\n" );
->> +		if (list)
->> +			free(list);
->> +		return false;
->> +	}
->> +
->> +	while ((ch = fgetc(fplist)) != EOF)
->> +		fputc(ch, fptemp);
->> +
->> +	if (ferror(fptemp)) {	/* checks whether fputc has encountered errors while writing the file */
->> +		fclose(fptemp);
->> +		fclose(fplist);
->> +		if (list)
->> +			free(list);
->> +		fprintf( stderr, "An error occured when writing the file: %s", tmpfile);
-> 
-> 		                           occurred
-> 
->> +		return false;
->> +	}
->> +
->> +	if (rename(tmpfile, name)) {
->> +		fprintf(stderr, "Failed to rename file: %s to %s\n", tmpfile, name);
->> +		fclose(fptemp);
->> +		fclose(fplist);
->> +		if (list)
->> +			free(list);
->> +		remove(tmpfile);
->> +		return false;
->> +	}
->> +
->> +	fclose(fptemp);
->> +	fclose(fplist);
->> +	if (list)
->> +		free(list);
->> +
->> +	return true;
->> +}
->> +
->>   int conf_write(const char *name)
->>   {
->>   	FILE *out;
-> 
-> 
+For new versions, you should also provide a changelog, after the first
+`---` line, before the diffstat.
 
-Sadly I forgot to run ./scripts/checkpatch.pl before sending the patch, 
-sorry, my mistake.
-Now how to deal with those typos? Should I git amend the commit and send 
-a new version 2 of the patch? Sorry but I'm new in the kernel's process 
-patching.
+By the way, ideally you also pass `format-patch` the `--base` flag to
+provide a base commit for all patch series, so that it is clearer for
+both humans and tooling :)
 
--- 
-Franco Martelli
+Thanks!
+
+Cheers,
+Miguel
 
