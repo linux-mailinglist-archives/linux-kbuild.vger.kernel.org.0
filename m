@@ -1,85 +1,91 @@
-Return-Path: <linux-kbuild+bounces-7362-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7363-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866C8ACC73D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Jun 2025 15:02:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D8DACD132
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Jun 2025 02:53:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DDB3418937C2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Jun 2025 13:02:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EC303A742E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Jun 2025 00:51:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D84FD22D9F3;
-	Tue,  3 Jun 2025 13:02:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 817711531D5;
+	Wed,  4 Jun 2025 00:51:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DtNCXBCr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZRPfEF5L"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A7D22A1D5
-	for <linux-kbuild@vger.kernel.org>; Tue,  3 Jun 2025 13:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBB414A4F9;
+	Wed,  4 Jun 2025 00:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748955752; cv=none; b=pFhO1je1qiFMpznaq9vwXUUbrrC+Vj8us7cxzGTBZspzWOnxkr2D1hhsqtW/yqIUQGE5hCBwJ+NvF4P5jw2/KQq/UjTtvPBeBRgsji7bJaWhVCSxZa5kF+Qf1Ngt9EzVnSyaiJA+LfLCsaeQx29mCsL7Kx1aYrZNxebyoKL0zCE=
+	t=1748998278; cv=none; b=FrjPVFxYTv8woQc5h7r3+EEN3ybASTg9Zak1ihtIJC5NPdlJXb6u9AqFJB2YsiY5hbXraAKdhl0OE8k0fPZyATm/BkZ2IVKtlCWnFOLDUcU+E6NYcUXo3lOcBTy2Kxjint5txyVIoiMyd0q+Ln79XEzc3zzwl44w8isZiOvuHkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748955752; c=relaxed/simple;
-	bh=a3Bth044JkzqN+I5E9h2Xqk3MI2Efz0GhU3HzldcUTA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n4c1/Dol4LPIlWwnq+c4T9z1ufVuRiFJet/SCpf3XsIhtMQ0HxaZOeYroII/5P9lOhjs6jOi2RoXRO7wX34ioSlwXUdcDj1wFcikBIIvd/nSv2B4zUMWXEYrENj2LfjnI5YnqYy9ZARREneW4I9diiIbANDU8jHzZ7DHTn0+Vbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DtNCXBCr; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so64847315e9.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 Jun 2025 06:02:30 -0700 (PDT)
+	s=arc-20240116; t=1748998278; c=relaxed/simple;
+	bh=qBzNwBzfolO2/LfeGfIOJHvjCQIIBYm7a0UQHpcr9gs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PsSv1pqNlEr/fuWTT9GquoocKnIIrFVaWlTEO72yu/58Lk0zcpSGXnS894Odr3tHsZZLvXdBov7DVl2U5Qh1jlGF6mMnunJSU/GdA9+zvPD1Fn5KL/W30oLUqspL0N1xvigDhhe/8I9BdyBZ8JoTYOcExd1SQ8DUkxAPH9c6tfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZRPfEF5L; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so4784641b3a.0;
+        Tue, 03 Jun 2025 17:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1748955749; x=1749560549; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1748998276; x=1749603076; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FgV8WmPpyYwIlY3KXqCGoTrUxLSUVlDIjanFlbv2iSQ=;
-        b=DtNCXBCrHfH+PifPJAfuY4/xz4TS1AH3JMkfEjUwLxfa+GWVRbq0VPpePlqOhymPVl
-         pD4TQQ5y1d9Jli2irl0wfF7vmaYO7ArBc+lXR+WoJQU1T6bjW0uYFdrt8+/A4aW6omRe
-         nMuXjNItCndUx8H3Ocf0gFh3t61DL6q0dAt55UsPHv+MyGO6mMjxM3M+uRtJXcR+AXS9
-         yWWgZ7a3W+fnVWb2u1bUWI2rjFzPHQhmMd6ZLSTgZe6UWh0v9pYpXniADyw0ZEXRxR5v
-         YZYE11253/VED3yMTWZPleJFJ9hriBfVi1NlFNoMLaKdk90RclrtGxibwPI1ew7TmDgG
-         Q67Q==
+        bh=fWmlyCAlnT2OdldqgB6HsoakV73qVZDwnZszdKB+GK8=;
+        b=ZRPfEF5Lm+Ji2lM3kWk4k6iAWn8HJr4PIuXgrijSGd1/ERHgG9EXETjKEJqr22G0Om
+         K/4220Z/1zAAqOgC+WFqzBo8k1k0UAMKEqTSLsBonWiM+kf8d24E5TNo2LNsuK1Avg0X
+         RmArVvYQFx6pXVHeemzSbFXp+WpcDLJuMs8c8AGM+A4fl08fTaxfUx7kncR6UORYO0ys
+         R5WxQKuUJ0KNS4MxO6rxl8li5fsx2g2ZiK0kzXoagbREod6+E0qhcRsmrKuez9TmmH65
+         xBA8wTZcunEGwkac35qPFU8KpiVi3z5hJkCYu7G+LETYdiHixDUS47bcAgq7U0oxBQ+V
+         E4rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748955749; x=1749560549;
+        d=1e100.net; s=20230601; t=1748998276; x=1749603076;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FgV8WmPpyYwIlY3KXqCGoTrUxLSUVlDIjanFlbv2iSQ=;
-        b=xNsiKH/qg4hyoHowf3dkCNDgPTcxw4oeQohhyOcyIog7Hml5T3cm8yfr53Rm3XaMhR
-         5096cNZ75FiI25FzQxt9Av76wp6VHnsyX6gin33V654RB8apjiuaWhs2O4N33mJIM7xG
-         LfSPPtfYw1/1R9Izk4IgCU+fllZ3fdZ33JCGh9K8ZDTFvNgfhY/fIf1y+46fMdOosTyr
-         oVgnSTDwB4gs/7l7x9St4sRXSnqCn5+mb4gRX2eiEvkMhI0wsJk6RvsK5rnPW8IND+dp
-         smB32LKhk/pyCLDUgNgPWN4o8tEgItujA6QjCAnz+1OSeeuApO7p0iO66FG5BWUtCmQH
-         Yxmg==
-X-Forwarded-Encrypted: i=1; AJvYcCXgTAqswxcYIkhh3JaAmS83VJsYPSOdHroLymqthUEIUQhNy8JduUPREZ8p5vyE+Jb0iJdsekseWsDgcMQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4Hd1LAxePvCUsYOrF0Wxn2yfLP+ZVIkR77yW1NYZIM6tTsBiC
-	ST0iiMlkTs4Dn3dqhKnCO2s5j3BqQ7o39ZiErKyKylsOmcrDX33na3TCHw36rsrzJTk=
-X-Gm-Gg: ASbGncu+/o4jZPw31JDXE6P2DWlMUoBb8JtzMUZd6BiF91VDESzsirF1Fl9CwBdvvk+
-	w95keNrMBOHJ/Khz6eyLYTFF6b0tsipPcJDMAOpV8t7KF0nhHxkXj1CwkVz6jUuvw7+yZVa1CpZ
-	8A1M5azqTuWEtbRQo/rCFLlBC90pQgcOB1O7F7mdJw2UPBoGfH5UeQwgnBf391FcpWB5i3aVv4r
-	wzbP0DghTsu3RILI0inIXi4sXa+iGJLhteldMgpTbrLQUF441yUzKAKAXY31cnbZxW4JbjdObgo
-	o2uB7sYp48DSspmd3gYb1KEWA07KXZhETULrfWmI4ZbVHakijBc=
-X-Google-Smtp-Source: AGHT+IFWiSmBVfdSIw0x/8GQR722JBV1AamyNmhPw9KmRDkbnQ7doRl6M042da4l9DkvncHLB16wTA==
-X-Received: by 2002:a05:600c:8b0f:b0:43c:f63c:babb with SMTP id 5b1f17b1804b1-4511ecbbdc4mr99459095e9.1.1748955748613;
-        Tue, 03 Jun 2025 06:02:28 -0700 (PDT)
-Received: from zovi.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d7f8eed4sm158634485e9.4.2025.06.03.06.02.27
+        bh=fWmlyCAlnT2OdldqgB6HsoakV73qVZDwnZszdKB+GK8=;
+        b=kXCq1p29sONQjiCMDmQZwAHZibF+SVu1gUabXEuqdNLjt5foR3pKVICXRnLTsn2G1h
+         FPLosbEzIe9dpT6J9O2ehAVWuV2S55Qi6PDZnS7UY9/k+pMIFUf5Hd0LS2G9dynRsCOf
+         Cdd1g4y/hYWwazZvP/YXkukUZMkeReVIZEwRQph/ZvAq4yVxn+RsgiXDYnJfZPh9U5TK
+         GwqJocE7Kd6wh4pWIXCyBk7rqyKutaHkeDOznjNI93A6JB59UC9wtQZ8TjsY/njN+IHV
+         KO+YT+Pt2BebwBKRqTbHbHgJoIfUzC4zpRp0sJNiIM9icZ3j3Zltml0iI3CNiJuPeesc
+         A3sA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgj3H2UjArU9L/bo+C9OzId2pP8Av3jwlt8c4f8TP/nBI2HZdhr9fUzqzg2GopkCDPw7molIaUVonpAW6v@vger.kernel.org, AJvYcCWdkBnPNb1HyF9z9gMWce57QfcZHgKigF6jB82Tsxwca5/mBllzGUI6GybyBsbeZjniSxrQxRQ7YBo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWEPGsxeCJXS4xOIO/1OWvWRnYssPCMJ9Sw86iPD5RREL7hhd8
+	FzNlgqKYjwXhA+8n6ax55YqNvRSV0+Hi1b4ObI3tj3wEP0OujfZxM6Tn
+X-Gm-Gg: ASbGncsS0YOYpJsNSwuHpVL5TpWWUQrjQfY4JOAvpA1NEQiDJWBF3Ku/WK4xyrpuZOu
+	zCY/LQoRvL77yZa3162j9+A4M7s7YfXfVjR5p8WA7/q1pyCkDx68NQAp2n711vgt1ZzhYfZ+/n8
+	WSH/DKVVhntfqgTpfHNq3mQmHelGxkwnz8PJUOtI3OcJD44UvNKmqtrmLbGtX+PI4prV/g2LxFu
+	42e8HmXsc6I5X53IJ7eCCrsKhppL3zh+rmwmhXbGZQMZO0lCLyzdLalnCaV/6XOFv57ZPhMcbSb
+	kiDygarT0tTDRM6oKXJYQFSP445jlZBxvU0SU0kVnIeFDqtWIUg=
+X-Google-Smtp-Source: AGHT+IF159HmD5hepvxivJRJH4JtIaxvmo53Xo/sR+42O6QZd7/fg8pOX20EevUWqTdRNYyeLTI7XA==
+X-Received: by 2002:a17:902:ea08:b0:235:6aa:1675 with SMTP id d9443c01a7336-235e120f8d4mr9973865ad.52.1748998275999;
+        Tue, 03 Jun 2025 17:51:15 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-235069fa2c7sm92607795ad.0.2025.06.03.17.51.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 06:02:27 -0700 (PDT)
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Petr Pavlu <petr.pavlu@suse.com>
-Subject: [PATCH v2] genksyms: Fix enum consts from a reference affecting new values
-Date: Tue,  3 Jun 2025 15:02:09 +0200
-Message-ID: <20250603130213.338518-1-petr.pavlu@suse.com>
+        Tue, 03 Jun 2025 17:51:15 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 7A5B94209E8D; Wed, 04 Jun 2025 07:51:12 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Build System <linux-kbuild@vger.kernel.org>
+Cc: Matthias Maennich <maennich@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] module: Wrap EXPORT_SYMBOL_GPL_FOR_MODULES() example in literal code block
+Date: Wed,  4 Jun 2025 07:51:09 +0700
+Message-ID: <20250604005110.13040-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -87,114 +93,42 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=bagasdotme@gmail.com; h=from:subject; bh=qBzNwBzfolO2/LfeGfIOJHvjCQIIBYm7a0UQHpcr9gs=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn20z/+60rY9kOxaPbm9vOz7ZN9QwQauu1mtiyw7uuXy r6/YlZyRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACYSpMXIMM1k1vk34Ze+Hee1 ZpJft8TQ440LE/evDvd1ZXLTlt84dpDhf8KmsvlcN80iKv7dWd0j8csg1XJig/BqxbtTJud4GQU 48QMA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Enumeration constants read from a symbol reference file can incorrectly
-affect new enumeration constants parsed from an actual input file.
+Stephen Rothwell reports htmldocs warning:
 
-Example:
+Documentation/core-api/symbol-namespaces.rst:90: WARNING: Inline emphasis start-string without end-string. [docutils]
 
- $ cat test.c
- enum { E_A, E_B, E_MAX };
- struct bar { int mem[E_MAX]; };
- int foo(struct bar *a) {}
- __GENKSYMS_EXPORT_SYMBOL(foo);
+Fix the warning by wrapping EXPORT_SYMBOL_GPL_FOR_MODULES() example in
+literal code block, just like other examples in symbol namespaces
+documentation.
 
- $ cat test.c | ./scripts/genksyms/genksyms -T test.0.symtypes
- #SYMVER foo 0x070d854d
-
- $ cat test.0.symtypes
- E#E_MAX 2
- s#bar struct bar { int mem [ E#E_MAX ] ; }
- foo int foo ( s#bar * )
-
- $ cat test.c | ./scripts/genksyms/genksyms -T test.1.symtypes -r test.0.symtypes
- <stdin>:4: warning: foo: modversion changed because of changes in enum constant E_MAX
- #SYMVER foo 0x9c9dfd81
-
- $ cat test.1.symtypes
- E#E_MAX ( 2 ) + 3
- s#bar struct bar { int mem [ E#E_MAX ] ; }
- foo int foo ( s#bar * )
-
-The __add_symbol() function includes logic to handle the incrementation of
-enumeration values, but this code is also invoked when reading a reference
-file. As a result, the variables last_enum_expr and enum_counter might be
-incorrectly set after reading the reference file, which later affects
-parsing of the actual input.
-
-Fix the problem by splitting the logic for the incrementation of
-enumeration values into a separate function process_enum() and call it from
-__add_symbol() only when processing non-reference data.
-
-Fixes: e37ddb825003 ("genksyms: Track changes to enum constants")
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+Fixes: 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250526180350.06b825de@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
+ Documentation/core-api/symbol-namespaces.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes since v1 [1]:
-- Remove the unnecessary condition 'type == SYM_ENUM' in process_enum().
-
-[1] https://lore.kernel.org/linux-kbuild/20250527142318.14175-1-petr.pavlu@suse.com/
-
- scripts/genksyms/genksyms.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/genksyms/genksyms.c b/scripts/genksyms/genksyms.c
-index 8b0d7ac73dbb..83e48670c2fc 100644
---- a/scripts/genksyms/genksyms.c
-+++ b/scripts/genksyms/genksyms.c
-@@ -181,13 +181,9 @@ static int is_unknown_symbol(struct symbol *sym)
- 			strcmp(defn->string, "{") == 0);
- }
+diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+index f7cfa7b73e974d..32fc73dc5529e8 100644
+--- a/Documentation/core-api/symbol-namespaces.rst
++++ b/Documentation/core-api/symbol-namespaces.rst
+@@ -85,7 +85,7 @@ namespace cannot be imported.
+ The macro takes a comma separated list of module names, allowing only those
+ modules to access this symbol. Simple tail-globs are supported.
  
--static struct symbol *__add_symbol(const char *name, enum symbol_type type,
--			    struct string_list *defn, int is_extern,
--			    int is_reference)
-+static struct string_list *process_enum(const char *name, enum symbol_type type,
-+					struct string_list *defn)
- {
--	unsigned long h;
--	struct symbol *sym;
--	enum symbol_status status = STATUS_UNCHANGED;
- 	/* The parser adds symbols in the order their declaration completes,
- 	 * so it is safe to store the value of the previous enum constant in
- 	 * a static variable.
-@@ -216,7 +212,7 @@ static struct symbol *__add_symbol(const char *name, enum symbol_type type,
- 				defn = mk_node(buf);
- 			}
- 		}
--	} else if (type == SYM_ENUM) {
-+	} else {
- 		free_list(last_enum_expr, NULL);
- 		last_enum_expr = NULL;
- 		enum_counter = 0;
-@@ -225,6 +221,23 @@ static struct symbol *__add_symbol(const char *name, enum symbol_type type,
- 			return NULL;
- 	}
+-For example:
++For example::
  
-+	return defn;
-+}
-+
-+static struct symbol *__add_symbol(const char *name, enum symbol_type type,
-+			    struct string_list *defn, int is_extern,
-+			    int is_reference)
-+{
-+	unsigned long h;
-+	struct symbol *sym;
-+	enum symbol_status status = STATUS_UNCHANGED;
-+
-+	if ((type == SYM_ENUM_CONST || type == SYM_ENUM) && !is_reference) {
-+		defn = process_enum(name, type, defn);
-+		if (defn == NULL)
-+			return NULL;
-+	}
-+
- 	h = crc32(name);
- 	hash_for_each_possible(symbol_hashtable, sym, hnode, h) {
- 		if (map_to_ns(sym->type) != map_to_ns(type) ||
+   EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
+ 
 
-base-commit: 546b1c9e93c2bb8cf5ed24e0be1c86bb089b3253
+base-commit: 85c4f3d89b17f569e9b718df6b6e19d6081f01c7
 -- 
-2.49.0
+An old man doll... just what I always wanted! - Clara
 
 
