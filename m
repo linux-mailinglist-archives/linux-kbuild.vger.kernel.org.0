@@ -1,134 +1,207 @@
-Return-Path: <linux-kbuild+bounces-7363-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7364-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D8DACD132
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Jun 2025 02:53:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1846BACD750
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Jun 2025 06:53:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EC303A742E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Jun 2025 00:51:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE3D87A91F8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Jun 2025 04:52:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 817711531D5;
-	Wed,  4 Jun 2025 00:51:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1BAA132122;
+	Wed,  4 Jun 2025 04:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZRPfEF5L"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UeXXy0Xx"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBB414A4F9;
-	Wed,  4 Jun 2025 00:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FCE52F88;
+	Wed,  4 Jun 2025 04:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998278; cv=none; b=FrjPVFxYTv8woQc5h7r3+EEN3ybASTg9Zak1ihtIJC5NPdlJXb6u9AqFJB2YsiY5hbXraAKdhl0OE8k0fPZyATm/BkZ2IVKtlCWnFOLDUcU+E6NYcUXo3lOcBTy2Kxjint5txyVIoiMyd0q+Ln79XEzc3zzwl44w8isZiOvuHkk=
+	t=1749012797; cv=none; b=mrhk2akGirNjjrc+fWRWmnFdH2RdW/vnf8XXAiKzuRVtoucwXUW16k/vjgGwxz1TfVSIETj3B6fWwGnSQG0KulgArjJ+k8yLlOs0rjZNaXu5Aaxjb1m2t6qgm67Th3+25jvYzLpoTArPN4f9JYonJtxtqunXHl00gNVcuGrFMZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998278; c=relaxed/simple;
-	bh=qBzNwBzfolO2/LfeGfIOJHvjCQIIBYm7a0UQHpcr9gs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PsSv1pqNlEr/fuWTT9GquoocKnIIrFVaWlTEO72yu/58Lk0zcpSGXnS894Odr3tHsZZLvXdBov7DVl2U5Qh1jlGF6mMnunJSU/GdA9+zvPD1Fn5KL/W30oLUqspL0N1xvigDhhe/8I9BdyBZ8JoTYOcExd1SQ8DUkxAPH9c6tfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZRPfEF5L; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so4784641b3a.0;
-        Tue, 03 Jun 2025 17:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748998276; x=1749603076; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fWmlyCAlnT2OdldqgB6HsoakV73qVZDwnZszdKB+GK8=;
-        b=ZRPfEF5Lm+Ji2lM3kWk4k6iAWn8HJr4PIuXgrijSGd1/ERHgG9EXETjKEJqr22G0Om
-         K/4220Z/1zAAqOgC+WFqzBo8k1k0UAMKEqTSLsBonWiM+kf8d24E5TNo2LNsuK1Avg0X
-         RmArVvYQFx6pXVHeemzSbFXp+WpcDLJuMs8c8AGM+A4fl08fTaxfUx7kncR6UORYO0ys
-         R5WxQKuUJ0KNS4MxO6rxl8li5fsx2g2ZiK0kzXoagbREod6+E0qhcRsmrKuez9TmmH65
-         xBA8wTZcunEGwkac35qPFU8KpiVi3z5hJkCYu7G+LETYdiHixDUS47bcAgq7U0oxBQ+V
-         E4rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748998276; x=1749603076;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fWmlyCAlnT2OdldqgB6HsoakV73qVZDwnZszdKB+GK8=;
-        b=kXCq1p29sONQjiCMDmQZwAHZibF+SVu1gUabXEuqdNLjt5foR3pKVICXRnLTsn2G1h
-         FPLosbEzIe9dpT6J9O2ehAVWuV2S55Qi6PDZnS7UY9/k+pMIFUf5Hd0LS2G9dynRsCOf
-         Cdd1g4y/hYWwazZvP/YXkukUZMkeReVIZEwRQph/ZvAq4yVxn+RsgiXDYnJfZPh9U5TK
-         GwqJocE7Kd6wh4pWIXCyBk7rqyKutaHkeDOznjNI93A6JB59UC9wtQZ8TjsY/njN+IHV
-         KO+YT+Pt2BebwBKRqTbHbHgJoIfUzC4zpRp0sJNiIM9icZ3j3Zltml0iI3CNiJuPeesc
-         A3sA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgj3H2UjArU9L/bo+C9OzId2pP8Av3jwlt8c4f8TP/nBI2HZdhr9fUzqzg2GopkCDPw7molIaUVonpAW6v@vger.kernel.org, AJvYcCWdkBnPNb1HyF9z9gMWce57QfcZHgKigF6jB82Tsxwca5/mBllzGUI6GybyBsbeZjniSxrQxRQ7YBo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWEPGsxeCJXS4xOIO/1OWvWRnYssPCMJ9Sw86iPD5RREL7hhd8
-	FzNlgqKYjwXhA+8n6ax55YqNvRSV0+Hi1b4ObI3tj3wEP0OujfZxM6Tn
-X-Gm-Gg: ASbGncsS0YOYpJsNSwuHpVL5TpWWUQrjQfY4JOAvpA1NEQiDJWBF3Ku/WK4xyrpuZOu
-	zCY/LQoRvL77yZa3162j9+A4M7s7YfXfVjR5p8WA7/q1pyCkDx68NQAp2n711vgt1ZzhYfZ+/n8
-	WSH/DKVVhntfqgTpfHNq3mQmHelGxkwnz8PJUOtI3OcJD44UvNKmqtrmLbGtX+PI4prV/g2LxFu
-	42e8HmXsc6I5X53IJ7eCCrsKhppL3zh+rmwmhXbGZQMZO0lCLyzdLalnCaV/6XOFv57ZPhMcbSb
-	kiDygarT0tTDRM6oKXJYQFSP445jlZBxvU0SU0kVnIeFDqtWIUg=
-X-Google-Smtp-Source: AGHT+IF159HmD5hepvxivJRJH4JtIaxvmo53Xo/sR+42O6QZd7/fg8pOX20EevUWqTdRNYyeLTI7XA==
-X-Received: by 2002:a17:902:ea08:b0:235:6aa:1675 with SMTP id d9443c01a7336-235e120f8d4mr9973865ad.52.1748998275999;
-        Tue, 03 Jun 2025 17:51:15 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-235069fa2c7sm92607795ad.0.2025.06.03.17.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 17:51:15 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7A5B94209E8D; Wed, 04 Jun 2025 07:51:12 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Build System <linux-kbuild@vger.kernel.org>
-Cc: Matthias Maennich <maennich@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] module: Wrap EXPORT_SYMBOL_GPL_FOR_MODULES() example in literal code block
-Date: Wed,  4 Jun 2025 07:51:09 +0700
-Message-ID: <20250604005110.13040-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1749012797; c=relaxed/simple;
+	bh=SrbhwDJ+nDiTeZtiQ2Xu90AmIf8S7vfq2Mx1a4BsWOE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ByfKNTT5wYfA44qRilg19mVTOt+xZmdGnm4rij/a9seNAFSIjxFMQqFBgEEKuhbhBf4V7rzhSkjNpSrBMZUlg7GQL7056sFbcz8wueG1UpdkPQq6AxAuOAB+0Nyp0g46SAeQI69bSlZOUoxGF5czXieQ34cHKfVlGde3E5Sh7a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UeXXy0Xx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7CFC4CEE7;
+	Wed,  4 Jun 2025 04:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749012795;
+	bh=SrbhwDJ+nDiTeZtiQ2Xu90AmIf8S7vfq2Mx1a4BsWOE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=UeXXy0Xx0YTxNjZS3OiXi/uS+SXd+/008O56xAO3O7wxAK1FvNy5QIgdQVDYclGAp
+	 +f4PT3AmzoMCuIjSxHERufBI/B/X7GRA/Ix2cNOy0V0BRuwvu/We8cJ3r0fyy/8Y2+
+	 Bq45WVKuM90ETJBnkV+u1z/IVtNY5YO8xqaeo5FfdMUQo3ZgFKBt5toyfLFFOxs4Mk
+	 Oqj8U/ZIctQzLA7q6QW4lG/ONxH0rehm+NvN2yLkBHesFcAcLKPbDLPpuyuaQIi6JR
+	 T1cghqzvev+SOGmi2xatmmuNDD9gHQa65rpzOvTMzZAoqQE0go7b4jVpq7Q8VKPG5N
+	 fj8NECJ0us7yA==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54acc0cd458so7849403e87.0;
+        Tue, 03 Jun 2025 21:53:14 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwzvhphjAlu474jO9cO+P09t4/MnVXKcOTHOYu0S1ZuO9Cwo6cu
+	b7OOWYHU9s7p8Nl3GGfeps/8GP6qduclKVwj265j6PEqPv/cVz0+IKDoQjivLkZEL4ko1v63DJh
+	sgnB631JPtfCwJWKEGUgy87iHdMOkogs=
+X-Google-Smtp-Source: AGHT+IGQJyq7onKIxKh9qDRFyhxty3f5kTIY0Fs3AHW9pl2tG2XFZjxqQ/dccU5w9D8Ql4+zyfEBLpeCkUs5tMjG9Jk=
+X-Received: by 2002:a05:6512:2399:b0:553:2ca4:39e2 with SMTP id
+ 2adb3069b0e04-55356df2526mr350087e87.52.1749012793583; Tue, 03 Jun 2025
+ 21:53:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=bagasdotme@gmail.com; h=from:subject; bh=qBzNwBzfolO2/LfeGfIOJHvjCQIIBYm7a0UQHpcr9gs=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn20z/+60rY9kOxaPbm9vOz7ZN9QwQauu1mtiyw7uuXy r6/YlZyRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACYSpMXIMM1k1vk34Ze+Hee1 ZpJft8TQ440LE/evDvd1ZXLTlt84dpDhf8KmsvlcN80iKv7dWd0j8csg1XJig/BqxbtTJud4GQU 48QMA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20250601133230.4085512-1-masahiroy@kernel.org> <20250601133230.4085512-3-masahiroy@kernel.org>
+In-Reply-To: <20250601133230.4085512-3-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 4 Jun 2025 13:52:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATH7Lewi+-3T3R5X1CVRbBGGsVQEdLJ2FqQP+8RRAOHkw@mail.gmail.com>
+X-Gm-Features: AX0GCFv7SIfQaRCDgH4byQtWjC0CW1agBSw-Knm4H8zESxxOrlMOItTFOns_5M4
+Message-ID: <CAK7LNATH7Lewi+-3T3R5X1CVRbBGGsVQEdLJ2FqQP+8RRAOHkw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] scripts/misc-check: check missing #include
+ <linux/export.h> when W=1
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Stephen Rothwell reports htmldocs warning:
+On Sun, Jun 1, 2025 at 10:32=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> The problem was described in commit 5b20755b7780 ("init: move THIS_MODULE
+> from <linux/export.h> to <linux/init.h>").
+>
+> To summarize it again here: <linux/export.h> is included by most C files,
+> even though only some of them actually export symbols. This is because
+> some headers, such as include/linux/{module.h,linkage}, needlessly
+> include <linux/export.h>.
+>
+> I have added a more detailed explanation in the comments of
+> scripts/misc-check.
+>
+> This problem will be fixed in two steps:
+>
+>  1. Add #include <linux/export.h> to C files that use EXPORT_SYMBOL()
+>  2. Remove #include <linux/export.h> from header files that do not use
+>     EXPORT_SYMBOL()
+>
+> This commit addresses step 1; scripts/misc-check will warn about *.[ch]
+> files that use EXPORT_SYMBOL() but do not include <linux/export.h>.
+> This check is only triggered when the kernel is built with W=3D1.
+>
+> We need to fix 4000+ files. I hope others will help with this effort.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> Changes in v2:
+>  - Fix out-of-tree build
+>
+>  scripts/misc-check | 43 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>
+> diff --git a/scripts/misc-check b/scripts/misc-check
+> index 21551d721079..edc0e44d96de 100755
+> --- a/scripts/misc-check
+> +++ b/scripts/misc-check
+> @@ -9,4 +9,47 @@ check_tracked_ignored_files () {
+>                 sed 's/$/: warning: ignored by one of the .gitignore file=
+s/' >&2
+>  }
+>
+> +# Check for missing #include <linux/export.h>
+> +#
+> +# The rule for including <linux/export.h> is very simple:
+> +# Include <linux/export.h> only when you use EXPORT_SYMBOL(). That's it.
+> +#
+> +# However, some headers include <linux/export.h> even though they are co=
+mpletely
+> +# unrelated to EXPORT_SYMBOL().
+> +#
+> +# One example is include/linux/module.h. Please note <linux/module.h> an=
+d
+> +# <linux/export.h> are orthogonal. <linux/module.h> should be included b=
+y files
+> +# that can be compiled as modules. In other words, <linux/module.h> shou=
+ld be
+> +# included by EXPORT_SYMBOL consumers. In contrast, <linux/export.h> sho=
+uld be
+> +# included from EXPORT_SYMBOL providers, which may or may not be modular=
+.
+> +# Hence, include/linux/module.h should *not* include <linux/export.h>.
+> +#
+> +# Another example is include/linux/linkage.h, which is completely unrela=
+ted to
+> +# EXPORT_SYMBOL(). Worse, it is included by most C files, which means, m=
+ost C
+> +# files end up including <linux/export.h>, even though only some of them
+> +# actually export symbols. Hence, include/linux/linkage.h should *not* i=
+nclude
+> +# <linux/export.h>.
+> +#
+> +# Before fixing such headers, we must ensure that C files using EXPORT_S=
+YMBOL()
+> +# include <linux/export.h> directly, since many C files currently rely o=
+n
+> +# <linux/export.h> being included indirectly (likely, via <linux/linkage=
+> etc.).
+> +#
+> +# Therefore, this check.
+> +#
+> +# The problem is simple - the warned files use EXPORT_SYMBOL(), but do n=
+ot
+> +# include <linux/export.h>. Please add #include <linux/export.h> to them=
+.
+> +#
+> +# If the included headers are sorted alphabetically, please insert
+> +# <linux/export.h> in the appropriate position to maintain the sort orde=
+r.
+> +# For this reason, this script only checks missing <linux/export.h>, but
+> +# does not automatically fix it.
+> +check_missing_include_linux_export_h () {
+> +
+> +       git -C "${srctree:-.}" grep --files-with-matches -E 'EXPORT_SYMBO=
+L((_NS)?(_GPL)?|_GPL_FOR_MODULES)\(.*\)' \
+> +           -- '*.[ch]' :^tools/ :^include/linux/export.h |
+> +       xargs git -C "${srctree:-.}" grep --files-without-match '#include=
+[[:space:]]*<linux/export\.h>' |
+> +       xargs printf "%s: warning: EXPORT_SYMBOL() is used, but #include =
+<linux/export.h> is missing\n" >&2
 
-Documentation/core-api/symbol-namespaces.rst:90: WARNING: Inline emphasis start-string without end-string. [docutils]
 
-Fix the warning by wrapping EXPORT_SYMBOL_GPL_FOR_MODULES() example in
-literal code block, just like other examples in symbol namespaces
-documentation.
+xargs needs the -r option.
 
-Fixes: 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250526180350.06b825de@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/core-api/symbol-namespaces.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-index f7cfa7b73e974d..32fc73dc5529e8 100644
---- a/Documentation/core-api/symbol-namespaces.rst
-+++ b/Documentation/core-api/symbol-namespaces.rst
-@@ -85,7 +85,7 @@ namespace cannot be imported.
- The macro takes a comma separated list of module names, allowing only those
- modules to access this symbol. Simple tail-globs are supported.
- 
--For example:
-+For example::
- 
-   EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
- 
 
-base-commit: 85c4f3d89b17f569e9b718df6b6e19d6081f01c7
--- 
-An old man doll... just what I always wanted! - Clara
+diff --git a/scripts/misc-check b/scripts/misc-check
+index 51a5841673f7..c421c6cad476 100755
+--- a/scripts/misc-check
++++ b/scripts/misc-check
+@@ -47,8 +47,8 @@ check_missing_include_linux_export_h () {
 
+        git -C "${srctree:-.}" grep --files-with-matches -E
+'EXPORT_SYMBOL((_NS)?(_GPL)?|_GPL_FOR_MODULES)\(.*\)' \
+            -- '*.[ch]' :^tools/ :^include/linux/export.h |
+-       xargs git -C "${srctree:-.}" grep --files-without-match
+'#include[[:space:]]*<linux/export\.h>' |
+-       xargs printf "%s: warning: EXPORT_SYMBOL() is used, but
+#include <linux/export.h> is missing\n" >&2
++       xargs -r git -C "${srctree:-.}" grep --files-without-match
+'#include[[:space:]]*<linux/export\.h>' |
++       xargs -r printf "%s: warning: EXPORT_SYMBOL() is used, but
+#include <linux/export.h> is missing\n" >&2
+ }
+
+ # If you do not use EXPORT_SYMBOL(), please do not include <linux/export.h=
+>.
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
