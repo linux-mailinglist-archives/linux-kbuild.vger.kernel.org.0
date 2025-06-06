@@ -1,120 +1,156 @@
-Return-Path: <linux-kbuild+bounces-7385-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7386-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536EEAD0460
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Jun 2025 17:01:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A98AD0668
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Jun 2025 18:06:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1763D1651F1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Jun 2025 15:01:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CD68188DCBC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Jun 2025 16:07:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77EB8C11;
-	Fri,  6 Jun 2025 15:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430881DE2BD;
+	Fri,  6 Jun 2025 16:06:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iyM1GQb4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ggG20+VT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEB18460
-	for <linux-kbuild@vger.kernel.org>; Fri,  6 Jun 2025 15:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB38614AD2B
+	for <linux-kbuild@vger.kernel.org>; Fri,  6 Jun 2025 16:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749222076; cv=none; b=V9v4T/KyPcKYzHxBJFTmVBcdT/r9zbg80dm3X+/FuKSPglThpPoPlw7APvOdfTJyC7Xv6NkbGXVVFY1oViUQOxZvvGQLxW7I/BSoY3la6Mw/FCUl+LJ6yrpWbuASKXBZydVuIq2ABkp3CMO0g7Hw59JraHmp3gJlUOecO4HCnXU=
+	t=1749226002; cv=none; b=NvcsPwJzaerD8ziGtVCXwUoLjolMVjIeydYIBQ/Z9/8Qg7lyRatmlufxGJuKG88L1VALPBAf1kE7bKs4KbMeYze+QJY8f7/I8mXco+/dheB4DJA24GofAvvvaB/gLmHNr9FmsY82Gle2GLR+wOxbc4Nr10PfEiTF7mHSc0Bb3jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749222076; c=relaxed/simple;
-	bh=b8fZI/p5cF6b8d5Bk6U3TNLy1IODz751Alv5CtnWLRM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jOT8oWRVu3FneYuz0WlNrnYDWjmJsyoefehfGGMhMArEZ5Oo9NK1Kr/JLZ2ItnjHuWd/nRQFL2KdzMosK/sx5eBQfMKgQR+gApB64A8Jd+P+u/9AOKNnxSZP6PaZxERwn4gZ9c4rtb4ZAHmRmE5Tbu7dc4b+0ergmt0BYnlzRvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iyM1GQb4; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23519817b57so2599705ad.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 06 Jun 2025 08:01:15 -0700 (PDT)
+	s=arc-20240116; t=1749226002; c=relaxed/simple;
+	bh=LKdBO63sIvnKo0SoLVGTMLUEgo8cUHzl1SXzymedqbk=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=akOlcs7F/zMXP5D3potmE+iTsI+J6DmdOhUEBuiziJ8ktdMS09ih7C1Dg2cr+J58XeBM5dCNk+LzF75td9P9ueAjSkYu+KXm8TaGVhH7It7RMoR0oCP/qRlzYyiGNo7GffTHFzqPrkp1BTMZzWpPepNAQwb8ezaWJZz2wfeXsr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ggG20+VT; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-235e389599fso269185ad.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Jun 2025 09:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749222074; x=1749826874; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JZ7hX0uxk76AgVVYxd3LS7BMClVtvMDK5NDnflpXUis=;
-        b=iyM1GQb4RSO0RXVBekKWHoQbotjYZik+x5bOlJntyG390j2PeMN8puLyW1cFzszZfC
-         ngvD97OgsGecx4uwVIX2R9y8abeEfsihcP8zQXuN8xFQzSa62Tys8zLAM052xeNOSW9/
-         2OJdClFNlWzkHw+uvVFmzGsjsLpMwIqg5W7nhJhF7bmdJQ3SM+uL3FGlEATpjG+DxoSa
-         qo8wTFeWFBQNjQcJ0/kGs5qRHdrFCUv1Pt1Q2YgYzTot1GyZYRpyAMLXgHy62DUoxzXQ
-         Cwcbvl+C3pDMGw+XsOVw/dX9xv2DyI/eAdVtyma0vpwHzGZgvShUG4E9+StFDORJPJDf
-         Iaaw==
+        d=google.com; s=20230601; t=1749226000; x=1749830800; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yTKdu5aL/9ZsYpub978sOVY3e3OCJrYQ4VVZY1nfnZA=;
+        b=ggG20+VTx17+iPR2ZeF/hs5q/aXub0QmcUDTttodq+lBIzF0fZH6hneun6/zWwlG7B
+         cTnViE9sN75zaoFSNYpjpv28HnUBEV5IMnkI8wRiC7TmAiu/xshhwJWAgf/8szoMtJ0S
+         9anga8/z4VADmLd553mMqP6EUuDB3zduQkaxLAOL5TiYPYXGyO4acvGpkOYHX4FKapXq
+         aOcJ58dHSKLW+q8+G+DblMHbUvCqmLQwJDhGdPfiDEoCyevHn7lPcIrNB46xU3YQqDAZ
+         mmRWDzCc4r/i/ySyTHC+no8xsFO1HiaItFaKTwdvbNw8+sb48hAWGO8+5VZXN58XG5Ut
+         4kpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749222074; x=1749826874;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JZ7hX0uxk76AgVVYxd3LS7BMClVtvMDK5NDnflpXUis=;
-        b=fg9eP60fx6Q2M1SIKL1jW5tlNJtu0rUD06dIMnpfguZOiodbp4DFk5Z2IOFuspWzrd
-         a9K5FagKm4gYkhQ3VRFjQHNA6Ha00lFV3HuH78ueaJhSfa04rHsacriyfvfwXepiCG3D
-         mxTQmvf5PltANeL79tqWskTUcTRg7kVENJPt3M6nEqnuHzkT7DOMUrWLdyENzFrKc98f
-         1i9yz5AkwOVXlNlzeau+qdaAE1NqeSydaV0Ge2yLAw3Bx317GLAeTIoa5y5DivNmj1ig
-         sIDqcsjnlN2tveYsilFe1j8NhPNVsE4YKcfOyaN6u/kWf99JeBlJbUWJpd84nCMaDmH9
-         GaJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVedac79XFonPejQhS7dfqHZPhQ3jiKWB1hADKrVE5N1GeXlO51ODJp2E/yrWATLahjpYi/zfuOvBRu5Kg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEHtzX243BPQNCBmeuP/HtCHRw5WuT2zi/J7f4whktYjMCOMXy
-	VpS0K2LVeObXq9GEYdQGQwlUHyaWrSsbpQ9Mt8VtwwSHYN0vNIzRleUr2YsDagFQMPKBlk2zypK
-	UkxW0HyW6TnyAGPZOG63c8DJjznO4+g+J+1pT
-X-Gm-Gg: ASbGnctJTbaGU6LOb0mcD23NZuk90kxOZxfNqZjHtE7qr648kZicbLgohPNtSzBDbZO
-	4DhO9A5LhjBIbuKhQslhOwh1GExCiqdebFEd2mxLvFlreJUOfYC/TaCVLyvxLOuXWjWzS8vBofY
-	0mVMFV3e8ZsSRgJYSwtRhv9tYxUqQHBMe9
-X-Google-Smtp-Source: AGHT+IFBy6RJ9Z5laY4La282j7lSl34eVskp6Uwbww1S2NPsiySiAKOZ0U6r36MNE8LyJJIBmRaGZu7C6avfNY6ws8I=
-X-Received: by 2002:a17:903:1cb:b0:235:225d:308f with SMTP id
- d9443c01a7336-23604025e72mr14741995ad.4.1749222072622; Fri, 06 Jun 2025
- 08:01:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749226000; x=1749830800;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yTKdu5aL/9ZsYpub978sOVY3e3OCJrYQ4VVZY1nfnZA=;
+        b=QynUZisuwjETaLjQ/2KCZQGvipeb4DcXrB9YVAMkJEO9MyDNcVAGEQOUHGDlUP0Hzz
+         9iZXJVePZnEQb5Z7vuG56nLlhcn6au5L3tiVvFcWjI+SfSYNKywb/4TgP7Q8THz323HZ
+         +1yQ+YsyWsNe6D9KGDrR+OtdPgmmIob2MSqmXqFZHEV+UaCF9l7Z7/E+YCss48hbyYtp
+         CVFbG5KRUs+Ws0drGsV2qRjOCVHGABho4G2PYIKMOYmTZvra/4QAh+Mc7VgX4UTEvJNq
+         qc7jkHB8Nfj9D/qxLLOkmMuM9u++Gi+WxPWWSZ74zkJFJ/ohtKtJKHFr9xgdPKje640e
+         sXgg==
+X-Gm-Message-State: AOJu0YyTis9ytPkw+UG23m5OJb3s9VVRWyFbhGPevpxvzRskew2ZrR3/
+	uf+h8GcO4SPRIMoAWBl53r2gocXJawIGTBxj+wumlmBsChtaLmKFSoG19HWK71Dtbvi09jpQTMx
+	ewEwX01QEawreQWXo46lZUf7pADT4vLHdlMIBXj1BL9wirvP8GMz6jaZhHds=
+X-Gm-Gg: ASbGncu2bl3qf7+r9VjS6/dVo6mwL/MHPWngJkq/5IEtOzyaykOeIBapu1uWOuwmiIi
+	pNETlOvz04kNDA3xOCMQEp4fTcLk9OnavNpOD4Ysu0xDagFMfXzrxyJQnSuhQW34UQLCZQ8wKfV
+	GnbmuFnxhKp959ThdZt7Wa8Ip4+18tSvYH2AQSvhaWKClsqD73Et46EolPRymW2/hNfZpk2Jmm3
+	g==
+X-Google-Smtp-Source: AGHT+IG4B+anGhEc1D932dA4ErU+MaECF0MiQ0hFqaNsVUDkRogmJqW3YubeAqxvir7AAAWAFiTp4yi8tpMDGcRALAM=
+X-Received: by 2002:a17:903:188:b0:235:e8da:8e1 with SMTP id
+ d9443c01a7336-23602350955mr3629455ad.18.1749225999284; Fri, 06 Jun 2025
+ 09:06:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604183539.425053-1-martellif67@gmail.com>
- <CANiq72m48ixGdMSpr7bWVBBn3ckHmj4pfy9GU0ndVefYXQEzSA@mail.gmail.com> <05174d44-ce14-4577-bece-723661100810@gmail.com>
-In-Reply-To: <05174d44-ce14-4577-bece-723661100810@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 6 Jun 2025 17:01:00 +0200
-X-Gm-Features: AX0GCFtwHCbnG96zWzua5ecJv-nqmZQA3qXAuyirdObivS-esOxU2VAfJWNKiDw
-Message-ID: <CANiq72nNNzXQSMYKee0sAZZFB1k9sQ=XFeA8nUp_piO-2zedGA@mail.gmail.com>
-Subject: Re: [PATCH v2] Kconfig: Added compare capabilities for mconf Ver. 2
-To: Franco Martelli <martellif67@gmail.com>
-Cc: masahiroy@kernel.org, linux-kbuild@vger.kernel.org
+From: Anish Moorthy <amoorthy@google.com>
+Date: Fri, 6 Jun 2025 09:05:00 -0700
+X-Gm-Features: AX0GCFugPi-c3ss--TlcdRp9X8H9e39vYI8ayy0b0vseDWpKaOtdSYcjVqSEFjI
+Message-ID: <CAF7b7mo6g46zJMPPBfiUrNosBC+t3TKwWCBCUkh55f+6MiYQBA@mail.gmail.com>
+Subject: Generating .cmd files without actually building the kernel?
+To: linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 5, 2025 at 9:33=E2=80=AFPM Franco Martelli <martellif67@gmail.c=
-om> wrote:
->
-> The commit message is the subject of the email, I used git to send the
-> email, this is the command:
+Does anyone know/have ideas on how to do this? I'd like to be able to
+generate compile_commands.json and browse the kernel code without
+having to build the whole thing.
 
-I am not sure what you mean, but empty commits are generally not
-allowed, and Git commands will send the commit message that a commit
-has.
+It seems to me that the basic change/hack should be something like
+[1]. But of course, it's not that simply just applying that patch and
+then running "make defconfig; make" runs into an error pretty quickly
 
-> This is a pain for me, English isn't my native language so I'm not
-> fluent with it :( sure that the patch can't be accepted?
+> $ make defconfig
+> $ make
+> ...
+> ./scripts/basic/fixdep scripts/mod/.empty.o.d scripts/mod/empty.o '${GCC_COMMAND_HERE}' > scripts/mod/.empty.o.cmd; rm -f scripts/mod/.empty.o.d
+>fixdep: error opening file: scripts/mod/.empty.o.d: No such file or directory
+  HOSTCC  scripts/mod/mk_elfconfig
+  MKELF   scripts/mod/elfconfig.h
+> /bin/sh: line 1: scripts/mod/empty.o: No such file or directory
+> make[2]: *** [scripts/mod/Makefile:25: scripts/mod/elfconfig.h] Error 1
+> make[1]: *** [/usr/local/google/home/amoorthy/linux/Makefile:1271: prepare0] Error 2
+> make: *** [Makefile:251: __sub-make] Error 2
 
-It is up to the maintainers, but please see:
+I take it the gcc command itself is generating the .d files, which I
+guess makes sense given the existence of gcc's -MF flag (though grep's
+not good enough for me to figure out where we're setting thins). I
+tried
 
-    https://docs.kernel.org/process/submitting-patches.html#describe-your-c=
-hanges
+> $ make CFLAGS="-E"
 
-> Does the attachment file satisfy your requirement?
+too under the theory that this would generate the .o.d files, but this
+just dies elsewhere
 
-I would suggest avoiding attachments, especially compressed ones.
-Instead, I would suggest waiting for some more feedback and then
-sending a new version.
+>  exec-cmd.c:2:10: fatal error: linux/compiler.h: No such file or directory
+    2 | #include <linux/compiler.h>
+      |          ^~~~~~~~~~~~~~~~~~
+> compilation terminated.
 
-> Thank you very much for your feedback (and patience) :)
+Anyways, I've spent a fair chunk of time trying to understand the
+system at this point, but I'm really still just fumbling around:
+figured I'd try asking for help.
 
-You're welcome!
 
-Cheers,
-Miguel
+
+[1]
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 8c311b997e24..a17cdfa7ab72 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -208,6 +208,10 @@ cmd_and_fixdep =
+                           \
+        $(objtree)/scripts/basic/fixdep $(depfile) $@ '$(make-cmd)' >
+$(dot-target).cmd;\
+        rm -f $(depfile)
+
++savecmd_and_fixdep =
+           \
++       $(objtree)/scripts/basic/fixdep $(depfile) $@ '$(make-cmd)' >
+$(dot-target).cmd;\
++       rm -f $(depfile)
++
+ # Usage: $(call if_changed_rule,foo)
+ # Will check if $(cmd_foo) or any of the prerequisites changed,
+ # and if so will execute $(rule_foo).
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 4d543054f723..9fcb41f96d89 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -318,7 +318,7 @@ quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
+                $(cmd_objtool)
+
+ define rule_cc_o_c
+-       $(call cmd_and_fixdep,cc_o_c)
++       $(call savecmd_and_fixdep,cc_o_c)
+        $(call cmd,checksrc)
+        $(call cmd,checkdoc)
+        $(call cmd,gen_objtooldep)
 
