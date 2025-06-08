@@ -1,79 +1,98 @@
-Return-Path: <linux-kbuild+bounces-7392-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7393-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006BCAD0EF9
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jun 2025 21:07:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFD1AD128E
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jun 2025 16:13:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E61643A3E64
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Jun 2025 19:06:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D74637A2B37
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jun 2025 14:11:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DE8D217F33;
-	Sat,  7 Jun 2025 19:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="freZi6eH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0116420AF62;
+	Sun,  8 Jun 2025 14:12:55 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477091FF1D1;
-	Sat,  7 Jun 2025 19:06:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E8617741;
+	Sun,  8 Jun 2025 14:12:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749323209; cv=none; b=RPuVhAKF9iJ4P6RIXUoX/YEkWUhc39U/2EmVu4+bVHL25pA9Go5r8kzB75FRlqQt2nFF6biTRilZkhkvlGaIER7jG+CYWQa5VJnf4M1COY7xV8UPDZz73918kzxPCIte2lTDuDj+IFSL/kjDNEjjl4rd+Zhc055ER5KgVYNlyj8=
+	t=1749391974; cv=none; b=jCR1t68TCFtN4Wcvj2pjpsp3g9qGhT3Oo589nrAnv1XNp1O+BVBxWtR5LUXeQ70FdVHtO/2vO9zW0uRNbLs9/HL+tZjux3B2Hv5Er+Wqy1wRx4hTHrCkKuTEOhAG7jlmMkr+CwcYBcpkb2sIjWtMCugY90viB76hEr4KdWhPxFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749323209; c=relaxed/simple;
-	bh=nSRqcFqOHlvP1tYvNAWX84xol0W+4lUh9kVCRnkLdEQ=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=VDwDk2+HejuXMvcLjBwkX0UpgkVZQc38+dZkNsDd3iqF+NOu0yfl3qyE/TErASFw5KDciWs9iydbWwjA2x/Ct0DP5O0G9u26ELENNHQmaOeF+n/RZ7DlpX5laihe8/TqnQ0F9Hp5xFHSC2ATefG5RTiATv+rvrGEq7M28KEYhBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=freZi6eH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A638C4CEE4;
-	Sat,  7 Jun 2025 19:06:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749323209;
-	bh=nSRqcFqOHlvP1tYvNAWX84xol0W+4lUh9kVCRnkLdEQ=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=freZi6eHR6540tejlwpuBwlIlGEHkskTp4QMl8jSBtmhpgbsdhqRFlZZUfMZ2U6xN
-	 +RzXA42lYh3rc3AYrcmMkWTZCbTXCGsOFZUQrJlU6S1H83DRC5pemg6koiGOiLfSXC
-	 gJoi/0ii6wf+48GgH+KRtHRQA/33SH/guB6UgJjxWbGn3ptSRqW2c1kHSDUvQjmpPy
-	 rkzSyKiMg8ocW3jIwVrOsCXlgMQzg51akPlvPslo8DbqxYaBi/PWIReLDfhBQBbAhU
-	 38wecJwf19Jfsjtg8jFekGBYa02RPFgI+TaCWU94IOb0JDDEDsi4QAYdjJUL8YnTpI
-	 GACWa6+H4Uc5w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADCDC3806649;
-	Sat,  7 Jun 2025 19:07:21 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild updates for v6.16-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
-References: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.16
-X-PR-Tracked-Commit-Id: c50a04f8f45c7f13972f9097622d1d929033ea8c
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8630c59e99363c4b655788fd01134aef9bcd9264
-Message-Id: <174932324029.115837.17716299217862228487.pr-tracker-bot@kernel.org>
-Date: Sat, 07 Jun 2025 19:07:20 +0000
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+	s=arc-20240116; t=1749391974; c=relaxed/simple;
+	bh=kC/sASmRgK5SCYGUslW8znSv3cW++TJt6arw/fl8sO8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g3dhiqhF8A8sF6AX9NvUQkGie8F6xatjrAzuhnGzriyEQAk7lj9uuXxSp35Up6ZBfoxLniWvSY8nAVGDGeokEuXI1rSY/1qZTt/9ANuPsPUsZHe8VG7KZkSepW+Pbj89otCrZeoa5Ih0f9AQQYvypKBl16JVc7Z0SF3KZPzOTow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 564FFC4CEEE;
+	Sun,  8 Jun 2025 14:12:51 +0000 (UTC)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Cc: chenhuacai@kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH] init: Fix build warnings about export.h
+Date: Sun,  8 Jun 2025 22:12:35 +0800
+Message-ID: <20250608141235.155206-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Sun, 8 Jun 2025 01:41:18 +0900:
+After commit a934a57a42f64a4 ("scripts/misc-check: check missing #include
+<linux/export.h> when W=1") and 7d95680d64ac8e836c ("scripts/misc-check:
+check unnecessary #include <linux/export.h> when W=1"), we get some build
+warnings with W=1:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.16
+init/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+init/initramfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8630c59e99363c4b655788fd01134aef9bcd9264
+So fix these build warnings for the init code.
 
-Thank you!
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ init/initramfs.c | 1 +
+ init/main.c      | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 72bad44a1d41..097673b97784 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/init.h>
+ #include <linux/async.h>
++#include <linux/export.h>
+ #include <linux/fs.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+diff --git a/init/main.c b/init/main.c
+index 2cf5e9ea84d8..bfdf0fd76eb3 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -12,7 +12,8 @@
+ 
+ #define DEBUG		/* Enable initcall_debug */
+ 
+ #include <linux/types.h>
++#include <linux/export.h>
+ #include <linux/extable.h>
+ #include <linux/module.h>
+ #include <linux/proc_fs.h>
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.47.1
+
 
