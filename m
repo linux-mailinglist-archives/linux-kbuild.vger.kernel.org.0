@@ -1,188 +1,244 @@
-Return-Path: <linux-kbuild+bounces-7420-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7421-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A032AD2025
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 15:54:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C674CAD22ED
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 17:49:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E8423B34A8
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 13:49:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82D1116A195
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 15:49:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C36025D91B;
-	Mon,  9 Jun 2025 13:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FAF20CCCA;
+	Mon,  9 Jun 2025 15:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJ21jPQo"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LTV1pVZp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AE725D8F5;
-	Mon,  9 Jun 2025 13:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8971641C69
+	for <linux-kbuild@vger.kernel.org>; Mon,  9 Jun 2025 15:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749476909; cv=none; b=Y1ddC0fKscwWx5e5EIfeGoSh4TXognsHXhC5QSjIKKP0+YdldzQuk4jjKNxCpV68ZmPmJEfKtauweWX8VJkna4uahX+Gsfr7tRkdJqPEE+PgawA6QbwdopfJGb7XL+dvPZzgxbaYM3JRZ8g2LJjahMmDdDFIyuHYTqY2TAcKGdU=
+	t=1749484172; cv=none; b=GwCzVUad7E2Q62333R2QVqFgbFoiL4rsOo/WQalK8MJZ9b/MjkKepaTrFs+6FynyFfBBI8a5R8zv2/S62lP4//tZvExMEVj4QZ/0kPWm+vWMAciJ38UmExuQZPN1vfJTidgdxTYByZyHP4QPhd9usN5vvhtbxRD/XXkwPQtjBH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749476909; c=relaxed/simple;
-	bh=qrZpZsMrsU1gfoQb0W7EnINpdzrBuhVDdB9nntc+yHM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Q9k+4wb7t36kq9UpN83lOUAn5Lee5WaUp0gUIM3PBZlvbWjXBx9Zig3S6kCcJr9Qbpe8v0cTjADsRUaXsTWI7sF/l1vmusOB9W+Pnywm5X7yfc3uWfnmaWwSh1I9RdQMjfm5PvMrK1FEHut3nclPTUBNbACaO46SSu/ipqgpqJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJ21jPQo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CE01C4CEED;
-	Mon,  9 Jun 2025 13:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749476909;
-	bh=qrZpZsMrsU1gfoQb0W7EnINpdzrBuhVDdB9nntc+yHM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KJ21jPQogzMlvwoE75oezqa27IvaUdk6CutCpvvh/TDRj7ZQwdvRiGxOun9PdfVP5
-	 faz/n7JnZf18KH5CSU4fhzX+DpRFKlPse+DyUW8Z4nW1ol8Q+h5//lqMXaAHOpwglb
-	 SaUUrJqS2wUvVlrXH9j/zdzwvaGhNGgJsqsVUfh+pLsX+sPCaHAdRsdAIYcglkW6V8
-	 58XLlXk6v7wIYykgyyXsdLmqNaMnIniDxPGFEMQl9w/3pRioMgXASbfDQIMmFYlFDZ
-	 3LPFnrptXKF1/4mTpV8QbcOvuhYbrU6YbzdcYz2lw9WEUQHbN3u7PfGH/lC2DKWyDV
-	 abYpVtAjCHfFw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Sami Tolvanen <samitolvanen@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org,
-	kernel test robot <lkp@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 5.10 4/9] um: Add cmpxchg8b_emu and checksum functions to asm-prototypes.h
-Date: Mon,  9 Jun 2025 09:48:15 -0400
-Message-Id: <20250609134820.1345562-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250609134820.1345562-1-sashal@kernel.org>
-References: <20250609134820.1345562-1-sashal@kernel.org>
+	s=arc-20240116; t=1749484172; c=relaxed/simple;
+	bh=O16/i8ImN1omRqIDkVizfBKxq029hgU/VoUr9M+AMV4=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=JrHRcK/IQFeIad4kqmPVzpE4FB0z1f37gR4BviBttrmz0xXZUmLlbo0fqzC9Zg/GFWlxU40qT1QX5JQSy/BPaDFgjmBDoIraaCRyEf0ezxWRDNcwZlFaLWEAxjtM7BKfXIHWqjCsFNofMdfkuxov1hlyuYeV95/uaPxkbXYd8f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LTV1pVZp; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b2c36951518so4172672a12.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Jun 2025 08:49:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1749484170; x=1750088970; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GbDXTAZxIXygNZLsCst7kpU0mT+2twAyV2birPGbUuE=;
+        b=LTV1pVZpd7OAOhKmd1jfLcoQ/EA0VPa0tvaxCJ7K732qTLPQV+6pS0dpXHKtuE6CFa
+         ZlO0ElWWkKHIsFe/rdWtr8gk4UbGtvKp1EkoRkREkqV/92daXLBawKqSh2rZOhzFo3q0
+         MJzIljsNv325bTPJQL4ucAMvGKYtyzDDvKGjVXKT7EfIClsiMWOm11WfG732D0erVeZD
+         GVdekJExKYJSQw87c7RE+E4SmdNU/l98ZYcuzttUSR81hSLeQNFz1NJgT8XrrQRISP8k
+         5Lz9iL+nxIhIoTj2Y1NAxVH84w/GqoT91enekMgU4HdH7315WPwPLzTWvVaB3M9ORQvd
+         eSSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749484170; x=1750088970;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GbDXTAZxIXygNZLsCst7kpU0mT+2twAyV2birPGbUuE=;
+        b=KE8jB4oNcLb3iRgXQ3eN1q5rwIU+XwILRrJhPc3poITV6541lCE7AbhzDXvu5wHrTk
+         syIxvkoEhwclO1RKzPWplMFQWgSrFxf+ErpN7DEQ6CK9vW5k9AyCG0E64a/1pv8Dqjux
+         JhFP/C0wvB4C8kCe6lb3VEuiQ1dnu/KtPcctiyBi0l9TLU9QMjdCopQjE0kcjvleIbK6
+         xBIwO/R9cbA6wfLhoG9Yei8/d8t7I+1tbEDJAMC68mlESqsS9/KNd5GZsdvvhn/woy9M
+         xVjHdTN4oclu0YYBk6kl08VLg/WuBeoqI5cQOrh/BKFIMxfSEk9uH9o4Nr1bfKPuqSV4
+         cI5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVBXxf1H4m8N1ex/jnboaYZSyDJvBg+2KiIesMWTFyEhR7vArCoK0i0lIS/CPptyb89Jljkl1dKqoShh4g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEVmk7STqEAf640bNTezwFGta4UXqsWRVstowmZmFU7Yc66gaw
+	ocbMU53odg46O0A/TiRJU2jXbrXDda9yf5NgUgRbQclyxbDACGmLFe+7+lBubbwbw7cjZ4QUFqi
+	xT8vJy57T43LXRMBpa0hWwKw78Ipehg==
+X-Google-Smtp-Source: AGHT+IFrXkiR8WR8iG3nbOmJqUxBsjH3gTSS4afmh9YumbsXjLp04RKCNCIYb7Enm3IB8vOPOnUJONfHpnLgUPk2lAo=
+X-Received: from pfbdw27.prod.google.com ([2002:a05:6a00:369b:b0:747:a8e8:603e])
+ (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a21:9203:b0:1f5:8622:5ed5 with SMTP id adf61e73a8af0-21ee24e1c1cmr23128880637.3.1749484169917;
+ Mon, 09 Jun 2025 08:49:29 -0700 (PDT)
+Date: Mon,  9 Jun 2025 15:49:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.238
-Content-Transfer-Encoding: 8bit
-
+Mime-Version: 1.0
+X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4947; i=samitolvanen@google.com;
+ h=from:subject; bh=O16/i8ImN1omRqIDkVizfBKxq029hgU/VoUr9M+AMV4=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDBnuTG2Xpn3ULs9iaeX6fGIX85sQl4Rttj6+Atx9574xM
+ qX8ZN3ZUcrCIMbBICumyNLydfXW3d+dUl99LpKAmcPKBDKEgYtTACbyZCUjw/eYyw5Lr3l4F0rw
+ 7Dw31y/ntubxo15fE+5mGyxpEU05lc7wP3Lt/ZXTfKTy5m278shFOeD70azNMa/2SOUY3pf4ppD tzQYA
+X-Mailer: git-send-email 2.50.0.rc0.604.gd4ff7b7c86-goog
+Message-ID: <20250609154926.1237033-2-samitolvanen@google.com>
+Subject: [PATCH] gendwarfksyms: Fix structure type overrides
 From: Sami Tolvanen <samitolvanen@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sami Tolvanen <samitolvanen@google.com>, Giuliano Procida <gprocida@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-[ Upstream commit 674d03f6bd6b0f8327f1a4920ff5893557facfbd ]
+As we always iterate through the entire die_map when expanding
+type strings, recursively processing referenced types in
+type_expand_child() is not actually necessary. Furthermore,
+the type_string kABI rule added in commit c9083467f7b9
+("gendwarfksyms: Add a kABI rule to override type strings") can
+fail to override type strings for structures due to a missing
+kabi_get_type_string() check in this function.
 
-With CONFIG_GENDWARFKSYMS, um builds fail due to missing prototypes
-in asm/asm-prototypes.h. Add declarations for cmpxchg8b_emu and the
-exported checksum functions, including csum_partial_copy_generic as
-it's also exported.
+Fix the issue by dropping the unnecessary recursion and moving
+the override check to type_expand(). Note that symbol versions
+are otherwise unchanged with this patch.
 
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202503251216.lE4t9Ikj-lkp@intel.com/
+Fixes: c9083467f7b9 ("gendwarfksyms: Add a kABI rule to override type strings")
+Reported-by: Giuliano Procida <gprocida@google.com>
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Link: https://patch.msgid.link/20250326190500.847236-2-samitolvanen@google.com
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+ scripts/gendwarfksyms/types.c | 65 ++++++++++-------------------------
+ 1 file changed, 19 insertions(+), 46 deletions(-)
 
-**YES**
-
-This commit should be backported to stable kernel trees based on the
-following analysis:
-
-## Analysis
-
-### Purpose and Context
-This commit fixes a build failure in the User Mode Linux (UM)
-architecture when `CONFIG_GENDWARFKSYMS` is enabled. The
-`CONFIG_GENDWARFKSYMS` feature is a new kernel build system enhancement
-for generating DWARF-based symbol versioning, which requires proper
-prototypes in `asm-prototypes.h` files to generate correct CRCs for
-exported symbols.
-
-### Code Changes Analysis
-
-**File 1: `arch/um/include/asm/asm-prototypes.h`**
-- **Before**: Only included the generic asm-prototypes.h
-- **After**: Added includes for `<asm/checksum.h>` and conditional
-  declaration of `cmpxchg8b_emu()` for `CONFIG_UML_X86`
-
-**File 2: `arch/x86/um/asm/checksum.h`**
-- **Before**: Only declared `csum_partial()` function
-- **After**: Added declaration for `csum_partial_copy_generic()` with a
-  comment explaining it's for export type visibility
-
-### Why This Should Be Backported
-
-1. **Fixes Important Build Failures**: This directly addresses build
-   failures when `CONFIG_GENDWARFKSYMS` is enabled for UM architecture,
-   as confirmed by the kernel test robot report.
-
-2. **Minimal Risk Changes**:
-   - Only adds function declarations, no implementation changes
-   - Changes are confined to UM architecture headers
-   - No behavioral changes to existing code paths
-
-3. **Follows Established Patterns**: Similar commits in the reference
-   history (Similar Commit #1 and #5) that add missing prototypes to
-   `asm-prototypes.h` files were marked as "YES" for backporting. This
-   follows the exact same pattern.
-
-4. **Critical Infrastructure Fix**: The `asm-prototypes.h`
-   infrastructure is essential for proper symbol versioning. Missing
-   prototypes can cause genksyms to segfault during build, making this a
-   critical build system fix.
-
-5. **Architecture-Specific Scope**: Changes are limited to UM
-   architecture, reducing risk of regressions in other subsystems.
-
-6. **Self-Contained**: The fix includes both the missing `cmpxchg8b_emu`
-   prototype (conditional on `CONFIG_UML_X86`) and the checksum function
-   declarations, making it complete.
-
-### Comparison to Reference Commits
-- **Similar to Commit #1**: Adds missing prototypes for genksyms CRC
-  generation (Status: YES)
-- **Similar to Commit #5**: Fixes missing prototypes causing build
-  issues with symbol versioning (Status: YES)
-- **Unlike Commits #2, #3, #4**: This is not just a comment update or
-  cleanup, but fixes actual build failures
-
-The fix addresses a concrete build failure affecting users who enable
-`CONFIG_GENDWARFKSYMS` with UM, making it an important bugfix that meets
-stable tree criteria for backporting.
-
- arch/um/include/asm/asm-prototypes.h | 5 +++++
- arch/x86/um/asm/checksum.h           | 3 +++
- 2 files changed, 8 insertions(+)
-
-diff --git a/arch/um/include/asm/asm-prototypes.h b/arch/um/include/asm/asm-prototypes.h
-index 5898a26daa0dd..408b31d591279 100644
---- a/arch/um/include/asm/asm-prototypes.h
-+++ b/arch/um/include/asm/asm-prototypes.h
-@@ -1 +1,6 @@
- #include <asm-generic/asm-prototypes.h>
-+#include <asm/checksum.h>
-+
-+#ifdef CONFIG_UML_X86
-+extern void cmpxchg8b_emu(void);
-+#endif
-diff --git a/arch/x86/um/asm/checksum.h b/arch/x86/um/asm/checksum.h
-index b07824500363f..ddc144657efad 100644
---- a/arch/x86/um/asm/checksum.h
-+++ b/arch/x86/um/asm/checksum.h
-@@ -20,6 +20,9 @@
-  */
- extern __wsum csum_partial(const void *buff, int len, __wsum sum);
+diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
+index 39ce1770e463..7bd459ea6c59 100644
+--- a/scripts/gendwarfksyms/types.c
++++ b/scripts/gendwarfksyms/types.c
+@@ -333,37 +333,11 @@ static void calculate_version(struct version *version,
+ 	cache_free(&expansion_cache);
+ }
  
-+/* Do not call this directly. Declared for export type visibility. */
-+extern __visible __wsum csum_partial_copy_generic(const void *src, void *dst, int len);
+-static void __type_expand(struct die *cache, struct type_expansion *type,
+-			  bool recursive);
+-
+-static void type_expand_child(struct die *cache, struct type_expansion *type,
+-			      bool recursive)
+-{
+-	struct type_expansion child;
+-	char *name;
+-
+-	name = get_type_name(cache);
+-	if (!name) {
+-		__type_expand(cache, type, recursive);
+-		return;
+-	}
+-
+-	if (recursive && !__cache_was_expanded(&expansion_cache, cache->addr)) {
+-		__cache_mark_expanded(&expansion_cache, cache->addr);
+-		type_expansion_init(&child);
+-		__type_expand(cache, &child, true);
+-		type_map_add(name, &child);
+-		type_expansion_free(&child);
+-	}
+-
+-	type_expansion_append(type, name, name);
+-}
+-
+-static void __type_expand(struct die *cache, struct type_expansion *type,
+-			  bool recursive)
++static void __type_expand(struct die *cache, struct type_expansion *type)
+ {
+ 	struct die_fragment *df;
+ 	struct die *child;
++	char *name;
+ 
+ 	list_for_each_entry(df, &cache->fragments, list) {
+ 		switch (df->type) {
+@@ -379,7 +353,12 @@ static void __type_expand(struct die *cache, struct type_expansion *type,
+ 				error("unknown child: %" PRIxPTR,
+ 				      df->data.addr);
+ 
+-			type_expand_child(child, type, recursive);
++			name = get_type_name(child);
++			if (name)
++				type_expansion_append(type, name, name);
++			else
++				__type_expand(child, type);
 +
- /**
-  * csum_fold - Fold and invert a 32bit checksum.
-  * sum: 32bit unfolded sum
+ 			break;
+ 		case FRAGMENT_LINEBREAK:
+ 			/*
+@@ -397,12 +376,17 @@ static void __type_expand(struct die *cache, struct type_expansion *type,
+ 	}
+ }
+ 
+-static void type_expand(struct die *cache, struct type_expansion *type,
+-			bool recursive)
++static void type_expand(const char *name, struct die *cache,
++			struct type_expansion *type)
+ {
++	const char *override;
++
+ 	type_expansion_init(type);
+-	__type_expand(cache, type, recursive);
+-	cache_free(&expansion_cache);
++
++	if (stable && kabi_get_type_string(name, &override))
++		type_parse(name, override, type);
++	else
++		__type_expand(cache, type);
+ }
+ 
+ static void type_parse(const char *name, const char *str,
+@@ -416,8 +400,6 @@ static void type_parse(const char *name, const char *str,
+ 	if (!*str)
+ 		error("empty type string override for '%s'", name);
+ 
+-	type_expansion_init(type);
+-
+ 	for (pos = 0; str[pos]; ++pos) {
+ 		bool empty;
+ 		char marker = ' ';
+@@ -478,7 +460,6 @@ static void type_parse(const char *name, const char *str,
+ static void expand_type(struct die *cache, void *arg)
+ {
+ 	struct type_expansion type;
+-	const char *override;
+ 	char *name;
+ 
+ 	if (cache->mapped)
+@@ -504,11 +485,7 @@ static void expand_type(struct die *cache, void *arg)
+ 
+ 	debug("%s", name);
+ 
+-	if (stable && kabi_get_type_string(name, &override))
+-		type_parse(name, override, &type);
+-	else
+-		type_expand(cache, &type, true);
+-
++	type_expand(name, cache, &type);
+ 	type_map_add(name, &type);
+ 	type_expansion_free(&type);
+ 	free(name);
+@@ -518,7 +495,6 @@ static void expand_symbol(struct symbol *sym, void *arg)
+ {
+ 	struct type_expansion type;
+ 	struct version version;
+-	const char *override;
+ 	struct die *cache;
+ 
+ 	/*
+@@ -532,10 +508,7 @@ static void expand_symbol(struct symbol *sym, void *arg)
+ 	if (__die_map_get(sym->die_addr, DIE_SYMBOL, &cache))
+ 		return; /* We'll warn about missing CRCs later. */
+ 
+-	if (stable && kabi_get_type_string(sym->name, &override))
+-		type_parse(sym->name, override, &type);
+-	else
+-		type_expand(cache, &type, false);
++	type_expand(sym->name, cache, &type);
+ 
+ 	/* If the symbol already has a version, don't calculate it again. */
+ 	if (sym->state != SYMBOL_PROCESSED) {
+
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
 -- 
-2.39.5
+2.50.0.rc0.604.gd4ff7b7c86-goog
 
 
