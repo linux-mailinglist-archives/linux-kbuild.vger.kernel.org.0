@@ -1,140 +1,102 @@
-Return-Path: <linux-kbuild+bounces-7403-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7404-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0AEAD1486
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jun 2025 23:17:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3D9AD164C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 02:37:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 127D116967E
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Jun 2025 21:17:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0829C188AFB7
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 00:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0AA1E1E1C;
-	Sun,  8 Jun 2025 21:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 571C62F37;
+	Mon,  9 Jun 2025 00:37:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F42ytKTF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kp2qfJcs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2920254852;
-	Sun,  8 Jun 2025 21:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4101362;
+	Mon,  9 Jun 2025 00:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749417375; cv=none; b=ET1YQpfB47zBr7K3KAjkSOtZhdPSFizmrxeK64n1CGcYhucZaEPngbACQU9ngjh4sKGL2OjkXv2kBvYSTvmmoWMB2DSeSWszAvYAxTitxGhLOCk3zrrp+zuHWNofEc/0wx1nRc3/jC+O4djrnN59Ey24rvgDsSgJNJI9vRScBJM=
+	t=1749429431; cv=none; b=klcx0xNhzlKi/3HufC7jQLTOmVo1Fo+Gyks/sRqczN3T5rK3MZOW940kpZOYnBnWbZ64C/ZSUTW+qvOeYy7LdVthUO6risC28GeiDWIy4nPu3QwUl3IJ0w/eevp+C7uvUxpHGZTQo4doDhYKjf1GyoLm+FFxr2YRC/ZlVEmdFtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749417375; c=relaxed/simple;
-	bh=ROMnbxB2A/F6Fvu/BM6R9kuzlo9+xJJX8W2nDVs24Gc=;
+	s=arc-20240116; t=1749429431; c=relaxed/simple;
+	bh=8r/HNm1RfbBUFPcHvzmhj/4Jnskygu46VHjqqp+Cgbo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nloNUrstlEjnS0q642pixFXWajeoKVkBT0ETi/97hFCe1pmt96cZAp/ibxjKSS5g7kOT4yvc2IYuekqs4uakv1v/wNYOiMILspHlk8doEdtyE2Q8LL2etqQNwXI8XOJr5GOE7lvHEIPrM82hMVBO2niiErEDgavr4uQfo6z2MeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F42ytKTF; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-31306794b30so699029a91.2;
-        Sun, 08 Jun 2025 14:16:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749417373; x=1750022173; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ROMnbxB2A/F6Fvu/BM6R9kuzlo9+xJJX8W2nDVs24Gc=;
-        b=F42ytKTF/oQgtoz8Bpapn6xX3Cy0wFjRg4Qc2WoCuhhrJnUq3ayfepn9KQ1u3bpQy3
-         J75UgHNPSv3HYDIMt4U9RJqvGcrsVLiK8oJSrFAEL8UvbwN21pS25hMFHZsKAVg8PA4F
-         P+kNyLye1CVl0fRJn3sQxIGY8U53ZkrnMaZ5IYvbqtWgt4WyqdhkKLIHEmYVEH7e8/Mj
-         R6KFp//sctTh4v3tfzVnddCtfXwwfXWGmYnNsMNIRqOP0VO0szy2hPW4P/n7GkcrOaqE
-         q8pAjaR9+8XMtVX9YSBdLdV9UGPijpDsiBCym/6LeseoWlvmgGAWb35uzolw7c1mZeZI
-         rvFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749417373; x=1750022173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ROMnbxB2A/F6Fvu/BM6R9kuzlo9+xJJX8W2nDVs24Gc=;
-        b=aFdKTwFsdAmPAIQx5mW+hud9i7C3QiWtCmt9WYkCbU+StXDRSsCzwK0awZt+CMwZDI
-         yzJDVjfl1m/vcqrsgeMOBeAeKWYwnGYAWcrTMbcp8d7ZiR2f5ot5ELPabgeLqWp0LK3j
-         IdS3wEefuoWjASg7SGelIXv7XWJUWs8zZT0ofjm4BQKv71TFwD/PuOlyjfUd6ABXr6Uo
-         gzt26+VIYjuvHEvs/oLXrz8Oe5o3pErybJ6J6LeV995MAFrFMEhB8oZIT3Do31X9J1UK
-         ziyhg3ibj5ch8Vk6wPLdbw12TCnV+7eNFU2TRUZr23C0JU/kj9j1LpnOXgODjg1jIY6E
-         pYIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUyB8mJrCIUdTF34dWWVEziewMdPqGedKlZLUPkwbB0pEV3XAgTTyzXnyfwQqtUbSGhaVY5vg5ojRTe@vger.kernel.org, AJvYcCVB92/2m//n9o7JpnH2T4Rbd8f0xDgOxESjzLh8bZXguaEFKfz7DJynKTc4pA1tEh/bBiJLTQlvEUecy4AK0Xr1@vger.kernel.org, AJvYcCVgsiBaaPhPC5UtQTXsBtKNf0tuDacxXe2jnv+D1VbUPd7yCapp6ZMiCGIHA0lpVv874qIku+ro1xf936Jr@vger.kernel.org, AJvYcCW4Bz++acQJtaCql2FLXnwKG95pTC8P7GAEws1TzAK4xBWJS/p2cM2aCQbC7xpOqig1ul6csdCwneMpEaIuFgs=@vger.kernel.org, AJvYcCWXczlquP3wUag/KtdImK+qZUmqpfXe0Ah2DxDhIqV3ljLvqmajqrPOiVPJGqJRQXnIv1Ka5tRIKx2D@vger.kernel.org, AJvYcCXLzw8KPCzrnFR26+Z7PF4uVsBMEpWirJDsBcEy9hfOZKDfUgHZgs/1stlBSuRrZzcqJr7tOyRxDY8PS3wV@vger.kernel.org, AJvYcCXPjT5Nb6XPyGiBRff7jiDF8e+BojPAmiQS+S5zGzq9PZ5MxBpYxe8Cn22GVzqAZOKYHQT5esuh8gFYgLY=@vger.kernel.org, AJvYcCXn+ETdiWYuEqc5OlFNyGTJDhqlfn45EE2qpX4h3bGmrYKHgRpaiOTCdCuslwQgkqu3KnRsxFnp@vger.kernel.org
-X-Gm-Message-State: AOJu0YysjLWQvvuSfKMbPC2xy/Cez+k1BULMLGdOANqzrp3fCT9tyM1n
-	WwIJ0HEAuOylNX9/KTe1v/WHQR999beiVlfz8WSpwy/2OyoR/ucyswjlSATWJc8Buf+yLgnO94C
-	IM0TdxsBZvDQ6HLBH5nhGAheq6BUS+sc=
-X-Gm-Gg: ASbGncs41ZQYYEEp68K/V5FVheZMxnBjMIHD9S3LDE95SxwOcrO+xRAb0bgbvYeGgyP
-	AmPtS9cMV9BV/qi57ObZMJHlA0brxiCqvaQXLOOSV5aOzaQtv2MfmuFlMBdRmvfg6bA1xNXnFDa
-	5QUntoX9GGZusiy1fU+SH/iq2+brH5d8QoHDEnHzct5ac=
-X-Google-Smtp-Source: AGHT+IHcnKxE4P/cFhuEWZW0D4lMoOaOrfEZtsoCHwxA4JPSsZt+wbEk5r3gKugcA90wbKi32QwaTUF3LYa15AmI+uM=
-X-Received: by 2002:a17:90b:3c89:b0:310:cf92:7899 with SMTP id
- 98e67ed59e1d1-31347506b75mr5866067a91.3.1749417372649; Sun, 08 Jun 2025
- 14:16:12 -0700 (PDT)
+	 To:Cc:Content-Type; b=JH7t90bvo7u7eJ8EcVqOsGQkAsX4hawnCiea36WarEEO0j77d87Upt1Dr4jUtd/QyCMfY8ky5Du3OFbGNfDeVbXtomWFF+GSQAD4HFKvAcNOlLNiI4T3o2LMYZL198b1Uo2vwOTLSQwAOIhTmG7LheNMBYI2yI2eo2XnrDYWWxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kp2qfJcs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 999FAC4CEF4;
+	Mon,  9 Jun 2025 00:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749429430;
+	bh=8r/HNm1RfbBUFPcHvzmhj/4Jnskygu46VHjqqp+Cgbo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Kp2qfJcsVN3UOcZDSnWFqFy45O71a/MR2g4c8EhUhSXuf4IxRM9iQzkYAH48DFofn
+	 vleiB08dk6PP0zY2iVUvQ4mOynfllC+JBKLndYnLudn8TX3DSqE3sTX8DMbOFhHUVP
+	 DrYbluj3F+4nwYAVEEw+pA8oC02dEr5I8aBBUvqwihg/EMSy1av5Ba8d8qMJc0cSIZ
+	 cfeO+TlHQvzNG0Xmj7nfxN4o5BXj1nu10PWo65Ufw66clwhsDC51IZfPAATL6gbqyK
+	 2F2cLOdK2C3gUB9jCVN8A7jb5K5JxYl7Sj+tURc6dy0GF7mxnQC63qSfMNpjDF/47f
+	 YE5IPWJXETnrw==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5534f3722caso4261884e87.0;
+        Sun, 08 Jun 2025 17:37:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWFBHZCMvz5BJwFZkICXkkFnu9IS/HDUee9l+o6TORISm91a1Zs5WM/Ru7Yve5cDC4MewZoJwMP9JoB/oo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhTC68PUfrQr3J45GbmyqwkEH/voPAXlOmvm+i6L7t+9Eo9CZg
+	vHP8k8WbNCkxnD7BGIlGModMJsJC+ydcYO92lP7R/+LIGCSBBwInb1YyQ3LPVXdNcSPvPeRLITa
+	O2O4dKzjmM0WM1wgqR7nfY43QntiNBLs=
+X-Google-Smtp-Source: AGHT+IFPcZnz2iCnNxG4gygy3dtbgjEgouklohEOg6mNjWs2f5g4n8VM2SZTiA/fn08xgqAnpUQLdjsX5VW7+5Eavg4=
+X-Received: by 2002:a05:6512:3d27:b0:553:24bf:2287 with SMTP id
+ 2adb3069b0e04-55366bd09a7mr2704792e87.11.1749429429230; Sun, 08 Jun 2025
+ 17:37:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250418-ptr-as-ptr-v10-0-3d63d27907aa@gmail.com>
-In-Reply-To: <20250418-ptr-as-ptr-v10-0-3d63d27907aa@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 8 Jun 2025 23:15:58 +0200
-X-Gm-Features: AX0GCFu7kEGuuhs8xaCtkzWNC6Znk5oSHyCpfKw_qD8poEL7ZBxhU_Wo9Kw_iYo
-Message-ID: <CANiq72km=RmQcVAkTcs3UoZzSUXKthW0ru8UH4r0KFFmUSjwgQ@mail.gmail.com>
-Subject: Re: [PATCH v10 0/6] rust: reduce `as` casts, enable related lints
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, 
-	linux-block@vger.kernel.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, netdev@vger.kernel.org
+References: <20250608141235.155206-1-chenhuacai@loongson.cn>
+In-Reply-To: <20250608141235.155206-1-chenhuacai@loongson.cn>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 9 Jun 2025 09:36:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASzLkVzt7k41vdLCjJb5hET6QRkOE6e6o-onzmyYG6c+w@mail.gmail.com>
+X-Gm-Features: AX0GCFtN1Vbzed5M6Umh1IAuoaotE9YmRISqhpfmD4jGfHvUXlYefuZWx2nx2To
+Message-ID: <CAK7LNASzLkVzt7k41vdLCjJb5hET6QRkOE6e6o-onzmyYG6c+w@mail.gmail.com>
+Subject: Re: [PATCH] init: Fix build warnings about export.h
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: linux-kbuild@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	chenhuacai@kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 18, 2025 at 5:37=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
+On Sun, Jun 8, 2025 at 11:12=E2=80=AFPM Huacai Chen <chenhuacai@loongson.cn=
+> wrote:
 >
-> This started with a patch that enabled `clippy::ptr_as_ptr`. Benno
-> Lossin suggested I also look into `clippy::ptr_cast_constness` and I
-> discovered `clippy::as_ptr_cast_mut`. This series now enables all 3
-> lints. It also enables `clippy::as_underscore` which ensures other
-> pointer casts weren't missed.
+> After commit a934a57a42f64a4 ("scripts/misc-check: check missing #include
+> <linux/export.h> when W=3D1") and 7d95680d64ac8e836c ("scripts/misc-check=
+:
+> check unnecessary #include <linux/export.h> when W=3D1"), we get some bui=
+ld
+> warnings with W=3D1:
 >
-> As a later addition, `clippy::cast_lossless` and `clippy::ref_as_ptr`
-> are also enabled.
+> init/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export=
+.h> is missing
+> init/initramfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/e=
+xport.h> is missing
 >
-> This series depends on "rust: retain pointer mut-ness in
-> `container_of!`"[1].
+> So fix these build warnings for the init code.
 >
-> Link: https://lore.kernel.org/all/20250409-container-of-mutness-v1-1-64f4=
-72b94534@gmail.com/ [1]
->
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 
-Now that -rc1 is out, could you please spin a v11? There are some new
-ones in configfs, drm/device, cpufreq, nova-core and mm/virt.
+Thank you for your contribution.
 
-(Please also see my comments in the underscore one).
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks!
 
-Cheers,
-Miguel
+--=20
+Best Regards
+Masahiro Yamada
 
