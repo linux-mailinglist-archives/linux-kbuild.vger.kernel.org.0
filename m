@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7417-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7418-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006BAAD1FDB
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 15:50:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E55AD1FC0
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 15:49:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F8283B0357
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 13:47:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADE21188F9C1
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Jun 2025 13:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E77B413CF9C;
-	Mon,  9 Jun 2025 13:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6347A8F5B;
+	Mon,  9 Jun 2025 13:47:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xl6BWzI1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGmlajFG"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4148BFF;
-	Mon,  9 Jun 2025 13:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD03259CBE;
+	Mon,  9 Jun 2025 13:47:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749476824; cv=none; b=An67D/sMLj30hm/2CmHKMSAD1j/H844l7Pm3fICnw+dZX5x8I2GdmsS7RZ8u7lg6q5+3JtMH8AyVu3VqHSVxTs5bOGw22puWKOE0vLM+o7Onf8Ljy4Vtg9YqGUerMUG9V3lDSjKtpxHIZVu/JyHZEGAAay12INFlSdkPXAdOaxc=
+	t=1749476856; cv=none; b=G5EnTGXk7ufCmgoVTo29nG8/GBEB/qBIGtK0qg4iHC1wwrAr8OkhOysasb3eODO8Gvmt4crsyXJT18KV/ayq+yQgPfczQjAT6Q1IMEQlMYpIa5GzRFtnOtm8kSBLyqdfBog8ay5/w+o4DLgRGHvbTFh50GX5sQ6DgjDs8Gc0MxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749476824; c=relaxed/simple;
+	s=arc-20240116; t=1749476856; c=relaxed/simple;
 	bh=qrZpZsMrsU1gfoQb0W7EnINpdzrBuhVDdB9nntc+yHM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GoT+D86ghOIHs7cix3JDolZcmlBMv7+npzPvBL9SWBajZpo3EjKSbhimEwkv4RR2L3/x+gMUOjSyIFcrVjdtYLS9fIvsuBSeqcPnEsNHbcCAZeRGhz6kj2Cp0qVrmiMWkXUg+zsJcozO77Gci7baN7pyudPN0zsLuPKTekt/i4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xl6BWzI1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A93C4CEEB;
-	Mon,  9 Jun 2025 13:47:03 +0000 (UTC)
+	 MIME-Version; b=igJ0vSA9UXn/KbSNkJYcAX7O4SDo3thBtUe1cDmzVwoAGvUZoBsVXydrPZeVxZFn2dSN2rMgibopJR8QG9S7KEncx5WOKQbB4OIJbD3++zKTbpFN8NAlmYO537ytrK/VVx+nbH3vobhirjGdjvWavjyY8pmRk2LbOOGNEDzSYrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGmlajFG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C09C4CEEB;
+	Mon,  9 Jun 2025 13:47:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749476824;
+	s=k20201202; t=1749476856;
 	bh=qrZpZsMrsU1gfoQb0W7EnINpdzrBuhVDdB9nntc+yHM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xl6BWzI1V7sML4quOPwfSBAdFqC5Vejah1LJEoQCoBqPRMUP7z4tOGJ7r+FZvZGe9
-	 DeKkWWUbu6OxeURd24oTuqfOw+Gf3U97wl5vNFQuWBCXTiziWaA45C885GpZCVWgQT
-	 7HYXvIqQsds7SKtnoEmjCC3+eq+7pHhsrZ8AmVB/QAFUm5IhbL1iW8m1jh1t31bPlF
-	 RtrYeDER9ETRQPAZkhJR+G/t87xjGhrxay68IiOUrKWFDjfGhC4+HozuS3cAcjT39i
-	 E/IauLv2j5trMOlADsxcX6NoZ23EKyMdeQv368MxCHIj8/LDn9sJa3tglKtqPQ4k//
-	 voPGS6UNcWOoA==
+	b=oGmlajFGSLCULwYYSLzfcD+Y2XjaP3p3QaWn3F8pNn2QjzfxbYOfg9afMEoObRyWp
+	 7YwyJ/7nP+UDLzgfRWeVAqg6TaA+wClc1ljoalGihhKYCjcqYmS5s2/E4yUfuS7on3
+	 1s4Yb+AgY8JNi3Jw9XV+UeK7WlqiTuGLcT0x2jwRi4nDwTsEOqS86agflDdhUgq7f4
+	 3W7CqulQOOl718aEOYw2gVgL3GpnsOiyWoy8wwqETR3Mvdf90FHdlhba7GjvtRGPDe
+	 pTKzRVDKMcdvTQuXjXgF4TUu/FI5zZtRRdMyvroYBq6znik7mXvvakS3i5Ep/TFIGo
+	 mrhDbtZrXBq8A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -50,12 +50,12 @@ Cc: Sami Tolvanen <samitolvanen@google.com>,
 	kernel test robot <lkp@intel.com>,
 	Johannes Berg <johannes.berg@intel.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 6.6 06/18] um: Add cmpxchg8b_emu and checksum functions to asm-prototypes.h
-Date: Mon,  9 Jun 2025 09:46:40 -0400
-Message-Id: <20250609134652.1344323-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 05/16] um: Add cmpxchg8b_emu and checksum functions to asm-prototypes.h
+Date: Mon,  9 Jun 2025 09:47:14 -0400
+Message-Id: <20250609134725.1344921-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250609134652.1344323-1-sashal@kernel.org>
-References: <20250609134652.1344323-1-sashal@kernel.org>
+In-Reply-To: <20250609134725.1344921-1-sashal@kernel.org>
+References: <20250609134725.1344921-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -64,7 +64,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.93
+X-stable-base: Linux 6.1.141
 Content-Transfer-Encoding: 8bit
 
 From: Sami Tolvanen <samitolvanen@google.com>
