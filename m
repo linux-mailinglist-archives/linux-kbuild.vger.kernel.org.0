@@ -1,135 +1,260 @@
-Return-Path: <linux-kbuild+bounces-7424-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7425-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B495AD3EEA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jun 2025 18:29:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 751D3AD4D0F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 09:38:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E05D17C170
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Jun 2025 16:29:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 837281BC11C3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 07:38:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DA492459D0;
-	Tue, 10 Jun 2025 16:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A244A231A24;
+	Wed, 11 Jun 2025 07:38:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJ1f2Y7N"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ztIvbMWq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9TOXAu3T"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B8024166B;
-	Tue, 10 Jun 2025 16:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C83A2206BE;
+	Wed, 11 Jun 2025 07:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749572889; cv=none; b=N3/2lJnIY02UVZgxjMqRzEHCY+RY4TTJ3LN+XhfnP3S6109zEamIbWOLmlfdmGgC7M2tm+VyPR60PazJpE83t2366uh0FwYVV2Xdt+3uLoVtd2AjAlaO4MNTTjYXB5C6lLkChM/mThOv2YabC1duX18SVSKS0ItHXSADx+jZydw=
+	t=1749627514; cv=none; b=p6wQG3OCH1gMuLQPxMfUvGa590OBLAKHgJRcVTAJhQXmRWSUoUPNmRKPAoUGMFp29taz9E/zO+JbuF1F6l7bQUfo8IwSvOi1nwk2T/j+vDD/ElvqAIrX1egYEajhvc3ZtlK4sK9IU4+peSZQrzs9WQKqCGv5p9xCc0Bm0F0kV6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749572889; c=relaxed/simple;
-	bh=VGaA2UjcATw5usDRARWAGHoyvA3nRCcXodZF/+d4fPQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=cRL7VOGtrA/8IooI67lQAjAprtTkDPiTx4O/41+GvUl8+VEw7vM6ER/AI6HbVFIkTa2jxIllHPB2aNTZ4Ce/JFppjOd657tuePT1QPUl+aBL1ETTcqyYKXnJxawLT859Tzm16ccrs0zdCq5AFXKKEHhbBfeuxuqSrqTm4YHYfZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJ1f2Y7N; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89E19C4CEF0;
-	Tue, 10 Jun 2025 16:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749572889;
-	bh=VGaA2UjcATw5usDRARWAGHoyvA3nRCcXodZF/+d4fPQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=JJ1f2Y7NQSd54tSszQLRiQIl7dD277rRFw5CD03cct8JsOIa9MeckGxwgeTNERJbY
-	 /Aq7k/QdxMobJHlLVMWLaBVYiO7WUz7b5oZF8aZHHmpn5SGMFxfrabCx4zi/NelVA7
-	 9tpmie/ZR7eRtm/GQUxR12kWA/MXW8KxThnLlIuGSON9FK96/TttZtzzrp91aMtCTf
-	 nkrgxszvlyVUm0gGo8/i60pLDKogQxJCIy6qqOtv6fYwtbh3P8fqWAcjVqLwJncDb0
-	 2wdFJTUv8YDSR+ksvQyqg1NCDe5af7sVQqmJb6cWow02fsajDICno0naOHZ+D1dFYd
-	 UMToThilj3zfw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D5B39D6540;
-	Tue, 10 Jun 2025 16:28:41 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1749627514; c=relaxed/simple;
+	bh=6UMiXcyoIq9M4FKEOo43nM5aQWsXH6QWlxEFJpS01j4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pvNjKDwsDYmlRGQiXDiZDzDN1qxf2yZp4heN2a1jIzm/UdKY27XFe8xfdkCmicQiqMfyryd15wVN9UkvAKbtde4PrZE6qhby6CjvW5LGGb4oMn+qaNh6JoKhINtufVcFGmktSvh6W5L6+hj7LkgA4Gx4fskU56jYA9M9jxWboTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ztIvbMWq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9TOXAu3T; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1749627510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8zSLyZYo3ihzjC5JPibnrIQcHyWB1lKmlNba6ZPoZzI=;
+	b=ztIvbMWqVWSgNjkbrJXoKdI7hUTZHor6f97gBCi+H/iLxBYg6JO5/BI+B9zcvIxRoLLOPX
+	T2Y1WucFoQST4fiqptCky6bLHPiI8E0NbFHetjwuMDWTdJZZwdmKynlkOW48xg717w+SSO
+	e8aOiFRHgVpaArBdBObvDiAsFEiS++JST7XvcQk47x9zVLgiWFB+e4kfm9NXuFDxQuu2uW
+	9q7ChHh7VRWwY1fXeH5hhw7h+WPSlwCsgoPh9/nLnuiFhI3DvBqRJqbAugrRop9qZL2OOx
+	YHCsUkG2Z4iHUcZuMNgwzoVMO+GzxY+IDLFVKJMN549xFv9beiqoeMPm52i6Gg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1749627510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8zSLyZYo3ihzjC5JPibnrIQcHyWB1lKmlNba6ZPoZzI=;
+	b=9TOXAu3TR8e8oxSGMK/Ns27pNDTHuN31oWDLNtT93C0RhlkuzZlo2KJQF2HU70uk+Sk6og
+	5xG+toq8rpm3sgDQ==
+Subject: [PATCH v3 00/16] kunit: Introduce UAPI testing framework
+Date: Wed, 11 Jun 2025 09:38:06 +0200
+Message-Id: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 2/2] arch: use always-$(KBUILD_BUILTIN) for vmlinux.lds
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <174957291974.2454024.16546912662876416180.git-patchwork-notify@kernel.org>
-Date: Tue, 10 Jun 2025 16:28:39 +0000
-References: <20250602181256.529033-2-masahiroy@kernel.org>
-In-Reply-To: <20250602181256.529033-2-masahiroy@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org,
- aou@eecs.berkeley.edu, agordeev@linux.ibm.com, alex@ghiti.fr,
- andreas@gaisler.com, anton.ivanov@cambridgegreys.com, bp@alien8.de,
- bcain@kernel.org, catalin.marinas@arm.com, chris@zankel.net,
- borntraeger@linux.ibm.com, christophe.leroy@csgroup.eu,
- dave.hansen@linux.intel.com, davem@davemloft.net, dinguyen@kernel.org,
- geert@linux-m68k.org, guoren@kernel.org, hpa@zytor.com, hca@linux.ibm.com,
- deller@gmx.de, chenhuacai@kernel.org, mingo@redhat.com,
- James.Bottomley@HansenPartnership.com, johannes@sipsolutions.net,
- glaubitz@physik.fu-berlin.de, jonas@southpole.se, maddy@linux.ibm.com,
- mattst88@gmail.com, jcmvbkbc@gmail.com, mpe@ellerman.id.au, monstr@monstr.eu,
- naveen@kernel.org, npiggin@gmail.com, palmer@dabbelt.com,
- paul.walmsley@sifive.com, dalias@libc.org, richard.henderson@linaro.org,
- richard@nod.at, linux@armlinux.org.uk, shorne@gmail.com,
- stefan.kristiansson@saunalahti.fi, svens@linux.ibm.com,
- tsbogend@alpha.franken.de, tglx@linutronix.de, gor@linux.ibm.com,
- vgupta@kernel.org, kernel@xen0n.name, will@kernel.org,
- ysato@users.sourceforge.jp, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
- sparclinux@vger.kernel.org, x86@kernel.org
+X-B4-Tracking: v=1; b=H4sIAF4ySWgC/3WOzQrCMBAGX0VyNpJsNlY8+R7ioT9buyipJGmpl
+ L67TRGEqsdZmNlvFIE8UxDHzSg89Ry4dTOY7UaUTe6uJLmaWYAC1EpbeescR3kLdK8jhRik3UN
+ mihIVIohZe3iqeViS58vMDYfY+ufyodfpmmJWgTbfsV5LJfPCZOZQ2dxqOt3ZddG3joddRan/l
+ rM/MkKBFrA0hcpXclrTw2cBql8RSBGLWiPBIaurdWSaphdQFecDNgEAAA==
+X-Change-ID: 20241015-kunit-kselftests-56273bc40442
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ workflows@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1749627510; l=7808;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=6UMiXcyoIq9M4FKEOo43nM5aQWsXH6QWlxEFJpS01j4=;
+ b=18VMEmLrljDcRsOhGwao/W03s2JLnOkTRGlPyVZ2UXmujK255AvlJ9B3925MhMULIPUW4p0IV
+ /2I5SrvLM4wD37E6h3AQ96/aSnhCRr/PmR9v2JjFVANaPos3sCpuTZf
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Hello:
+Currently testing of userspace and in-kernel API use two different
+frameworks. kselftests for the userspace ones and Kunit for the
+in-kernel ones. Besides their different scopes, both have different
+strengths and limitations:
 
-This patch was applied to riscv/linux.git (fixes)
-by Masahiro Yamada <masahiroy@kernel.org>:
+Kunit:
+* Tests are normal kernel code.
+* They use the regular kernel toolchain.
+* They can be packaged and distributed as modules conveniently.
 
-On Tue,  3 Jun 2025 03:12:54 +0900 you wrote:
-> The extra-y syntax is deprecated. Instead, use always-$(KBUILD_BUILTIN),
-> which behaves equivalently.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  arch/alpha/kernel/Makefile      | 2 +-
->  arch/arc/kernel/Makefile        | 2 +-
->  arch/arm/kernel/Makefile        | 2 +-
->  arch/arm64/kernel/Makefile      | 2 +-
->  arch/csky/kernel/Makefile       | 2 +-
->  arch/hexagon/kernel/Makefile    | 2 +-
->  arch/loongarch/kernel/Makefile  | 2 +-
->  arch/m68k/kernel/Makefile       | 2 +-
->  arch/microblaze/kernel/Makefile | 2 +-
->  arch/mips/kernel/Makefile       | 2 +-
->  arch/nios2/kernel/Makefile      | 2 +-
->  arch/openrisc/kernel/Makefile   | 2 +-
->  arch/parisc/kernel/Makefile     | 2 +-
->  arch/powerpc/kernel/Makefile    | 2 +-
->  arch/riscv/kernel/Makefile      | 2 +-
->  arch/s390/kernel/Makefile       | 2 +-
->  arch/sh/kernel/Makefile         | 2 +-
->  arch/sparc/kernel/Makefile      | 2 +-
->  arch/um/kernel/Makefile         | 2 +-
->  arch/x86/kernel/Makefile        | 2 +-
->  arch/xtensa/kernel/Makefile     | 2 +-
->  21 files changed, 21 insertions(+), 21 deletions(-)
+Kselftests:
+* Tests are normal userspace code
+* They need a userspace toolchain.
+  A kernel cross toolchain is likely not enough.
+* A fair amout of userland is required to run the tests,
+  which means a full distro or handcrafted rootfs.
+* There is no way to conveniently package and run kselftests with a
+  given kernel image.
+* The kselftests makefiles are not as powerful as regular kbuild.
+  For example they are missing proper header dependency tracking or more
+  complex compiler option modifications.
 
-Here is the summary with links:
-  - [2/2] arch: use always-$(KBUILD_BUILTIN) for vmlinux.lds
-    https://git.kernel.org/riscv/c/e21efe833eae
+Therefore kunit is much easier to run against different kernel
+configurations and architectures.
+This series aims to combine kselftests and kunit, avoiding both their
+limitations. It works by compiling the userspace kselftests as part of
+the regular kernel build, embedding them into the kunit kernel or module
+and executing them from there. If the kernel toolchain is not fit to
+produce userspace because of a missing libc, the kernel's own nolibc can
+be used instead.
+The structured TAP output from the kselftest is integrated into the
+kunit KTAP output transparently, the kunit parser can parse the combined
+logs together.
 
-You are awesome, thank you!
+Further room for improvements:
+* Call each test in its completely dedicated namespace
+* Handle additional test files besides the test executable through
+  archives. CPIO, cramfs, etc.
+* Compatibility with kselftest_harness.h (in progress)
+* Expose the blobs in debugfs
+* Provide some convience wrappers around compat userprogs
+* Figure out a migration path/coexistence solution for
+  kunit UAPI and tools/testing/selftests/
+
+Output from the kunit example testcase, note the output of
+"example_uapi_tests".
+
+$ ./tools/testing/kunit/kunit.py run --kunitconfig lib/kunit example
+...
+Running tests with:
+$ .kunit/linux kunit.filter_glob=example kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
+[11:53:53] ================== example (10 subtests) ===================
+[11:53:53] [PASSED] example_simple_test
+[11:53:53] [SKIPPED] example_skip_test
+[11:53:53] [SKIPPED] example_mark_skipped_test
+[11:53:53] [PASSED] example_all_expect_macros_test
+[11:53:53] [PASSED] example_static_stub_test
+[11:53:53] [PASSED] example_static_stub_using_fn_ptr_test
+[11:53:53] [PASSED] example_priv_test
+[11:53:53] =================== example_params_test  ===================
+[11:53:53] [SKIPPED] example value 3
+[11:53:53] [PASSED] example value 2
+[11:53:53] [PASSED] example value 1
+[11:53:53] [SKIPPED] example value 0
+[11:53:53] =============== [PASSED] example_params_test ===============
+[11:53:53] [PASSED] example_slow_test
+[11:53:53] ======================= (4 subtests) =======================
+[11:53:53] [PASSED] procfs
+[11:53:53] [PASSED] userspace test 2
+[11:53:53] [SKIPPED] userspace test 3: some reason
+[11:53:53] [PASSED] userspace test 4
+[11:53:53] ================ [PASSED] example_uapi_test ================
+[11:53:53] ===================== [PASSED] example =====================
+[11:53:53] ============================================================
+[11:53:53] Testing complete. Ran 16 tests: passed: 11, skipped: 5
+[11:53:53] Elapsed time: 67.543s total, 1.823s configuring, 65.655s building, 0.058s running
+
+Based on v6.15-rc1.
+
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Changes in v3:
+- Reintroduce CONFIG_CC_CAN_LINK_STATIC
+- Enable CONFIG_ARCH_HAS_NOLIBC for m68k and SPARC
+- Properly handle 'clean' target for userprogs
+- Use ramfs over tmpfs to reduce dependencies
+- Inherit userprogs byte order and ABI from kernel
+- Drop now unnecessary "#ifndef NOLIBC"
+- Pick up review tags
+- Drop usage of __private in blob.h,
+  sparse complains and it is not really necessary
+- Fix execution on loongarch when using clang
+- Drop userprogs libgcc handling, it was ugly and is not yet necessary
+- Link to v2: https://lore.kernel.org/r/20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de
+
+Changes in v2:
+- Rebase onto v6.15-rc1
+- Add documentation and kernel docs
+- Resolve invalid kconfig breakages
+- Drop already applied patch "kbuild: implement CONFIG_HEADERS_INSTALL for Usermode Linux"
+- Drop userprogs CONFIG_WERROR integration, it doesn't need to be part of this series
+- Replace patch prefix "kconfig" with "kbuild"
+- Rename kunit_uapi_run_executable() to kunit_uapi_run_kselftest()
+- Generate private, conflict-free symbols in the blob framework
+- Handle kselftest exit codes
+- Handle SIGABRT
+- Forward output also to kunit debugfs log
+- Install a fd=0 stdin filedescriptor
+- Link to v1: https://lore.kernel.org/r/20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de
+
+---
+Thomas Weißschuh (16):
+      kbuild: userprogs: avoid duplicating of flags inherited from kernel
+      kbuild: userprogs: also inherit byte order and ABI from kernel
+      init: re-add CONFIG_CC_CAN_LINK_STATIC
+      kbuild: userprogs: add nolibc support
+      kbuild: introduce CONFIG_ARCH_HAS_NOLIBC
+      kbuild: doc: add label for userprogs section
+      kbuild: introduce blob framework
+      kunit: tool: Add test for nested test result reporting
+      kunit: tool: Don't overwrite test status based on subtest counts
+      kunit: tool: Parse skipped tests from kselftest.h
+      kunit: Always descend into kunit directory during build
+      kunit: qemu_configs: loongarch: Enable LSX/LSAX
+      kunit: Introduce UAPI testing framework
+      kunit: uapi: Add example for UAPI tests
+      kunit: uapi: Introduce preinit executable
+      kunit: uapi: Validate usability of /proc
+
+ Documentation/dev-tools/kunit/api/index.rst        |   5 +
+ Documentation/dev-tools/kunit/api/uapi.rst         |  12 +
+ Documentation/kbuild/makefiles.rst                 |  38 ++-
+ MAINTAINERS                                        |   2 +
+ Makefile                                           |   7 +-
+ include/kunit/uapi.h                               |  24 ++
+ include/linux/blob.h                               |  31 +++
+ init/Kconfig                                       |   7 +
+ lib/Makefile                                       |   4 -
+ lib/kunit/Kconfig                                  |  10 +
+ lib/kunit/Makefile                                 |  20 +-
+ lib/kunit/kunit-example-test.c                     |  15 ++
+ lib/kunit/kunit-example-uapi.c                     |  54 ++++
+ lib/kunit/uapi-preinit.c                           |  63 +++++
+ lib/kunit/uapi.c                                   | 294 +++++++++++++++++++++
+ scripts/Makefile.blobs                             |  19 ++
+ scripts/Makefile.build                             |   6 +
+ scripts/Makefile.clean                             |   2 +-
+ scripts/Makefile.userprogs                         |  13 +-
+ scripts/blob-wrap.c                                |  27 ++
+ tools/include/nolibc/Kconfig.nolibc                |  15 ++
+ tools/testing/kunit/kunit_parser.py                |  13 +-
+ tools/testing/kunit/kunit_tool_test.py             |   9 +
+ tools/testing/kunit/qemu_configs/loongarch.py      |   2 +
+ .../test_is_test_passed-failure-nested.log         |  10 +
+ .../test_data/test_is_test_passed-kselftest.log    |   3 +-
+ 26 files changed, 686 insertions(+), 19 deletions(-)
+---
+base-commit: f07a3558c4a5d76f3fea004075e5151c4516d055
+change-id: 20241015-kunit-kselftests-56273bc40442
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
 
