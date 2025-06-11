@@ -1,129 +1,94 @@
-Return-Path: <linux-kbuild+bounces-7457-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7458-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B63AD571D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 15:33:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 750B6AD5797
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 15:53:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC93D1888413
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 13:33:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 166AB7A3CE9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 13:52:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5D1028A70C;
-	Wed, 11 Jun 2025 13:33:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4483228AAE1;
+	Wed, 11 Jun 2025 13:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="izdWAQ9y"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WYdAW6iz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F14535897;
-	Wed, 11 Jun 2025 13:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701C52882A5
+	for <linux-kbuild@vger.kernel.org>; Wed, 11 Jun 2025 13:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749648785; cv=none; b=pDNoS2qdDDPN3bMTJp8HLL/hgWJ778RSIB6FdqrvXk4BY95GKDJPSoz8PTuE1N1cDUtqL01EeCrj18eJRnwBL0+okEp2DX1oKjzJSo/q4w/0YVlD23I7rOd4qrBE0B4YqbxdBdUB6C8ntUDbKo68HiH4xZddXbrR7D/IJROU4Pw=
+	t=1749650005; cv=none; b=eVdMJ9rOTeRZwTLAcn+02k+eRXCUOEvGWFAaJ/I7q68B183v5NDZg2HOwL1gWx+V8pz3Q4aYu8O3bYwGO9OhOqKDlnf8BNyHvxGQ8po1u/8tnp49gnxkrXcw/7gKlwOxp9BzS3aksOK/jZq1qfg58ZHV8DfR+qOPEXHDwo8d24k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749648785; c=relaxed/simple;
-	bh=joeF+vcWw9jF2hVUV2wLUIYdu3wA0qlKcnITq1MB8Ng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OnYP8A6lz5ga0tiM+EYACq9VpMVseBu+CwwPTZlO0PNi8eXKboBLJMgY5AraS4kGfBJgoTOcjMxm7leRmsHHcSoRE7yJ8cQC5/NLseYgtTsX+IP6deNtEgVQWmgms7qlSIqkBdjyFmU3BWAetxEfLWOKTkg79n26u/biNzI1ZDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=izdWAQ9y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0996DC4CEF0;
-	Wed, 11 Jun 2025 13:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749648785;
-	bh=joeF+vcWw9jF2hVUV2wLUIYdu3wA0qlKcnITq1MB8Ng=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=izdWAQ9yIMMRAb8osi6/jac08Tcx8sCXgwCZvX4vZoN3SbZZdt0B40+r+hvncRUAk
-	 dAy+VTSEh8uSGAShYdZUW0htisB0HAj9mjs43tlVgj9TVvf3Ydyp+oCwx248mGFXOI
-	 l+6im02n+Cyiz6/3ZIK5ff7HQPZwjtr0eGmXQXItkddBT/AMIgeiAv5OsGuAo9s3DL
-	 9v0C58abDmdDvFJE8r2GUX+SgK9b7FN9l4G6ns/XpQ1FW7K/J+ysDg3Dne5A/6AAvf
-	 0RM+TbyilD8bXCZNjkDud1DJo6ASBggonSicmTvUlTFJaNpAlnhMYIX1JFhG3ObuGr
-	 jreZDT3VBwqDw==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-55351af2fc6so8030513e87.0;
-        Wed, 11 Jun 2025 06:33:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVU1D6+/8TiRWiqZCN220tvnIrHKxH27ckErJxa8q45TXIQM8GLDV+F4v7yaZkjlDGp/amG3bqb+Zun3r8=@vger.kernel.org, AJvYcCWp7/m//vc+Mqo6Q8QfHzBE+Nl5hDHBaNg8xxhKVihYl/Kwn8b0SF4azdli7KEXPsieRviHOB6u58fpnU9g@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyqw8j40xCsARjIRfoGsrJDNFhgH+0ZoGEooFG2ICr+O4YboS/W
-	cfL7pF8F/uAWU9FaDKn/6D+gHsJz1FN0nCPpyt4YtwJR/mW/f5pD3sOh/F8MpNToiy/g8hMz2lV
-	Tb+98KrRF6QhY0KWqN/bq0xMPOqkfyzc=
-X-Google-Smtp-Source: AGHT+IFNVUN7XuIjpfYPJwgta4Gjv8qv2eyOJbAM/h6iUR3e1inIgTF4rSFilLfAOPCrklG0evUg7R4g3PK9YR6GrL8=
-X-Received: by 2002:a05:6512:3e22:b0:553:20f2:2e77 with SMTP id
- 2adb3069b0e04-5539d55dc4cmr801852e87.55.1749648783718; Wed, 11 Jun 2025
- 06:33:03 -0700 (PDT)
+	s=arc-20240116; t=1749650005; c=relaxed/simple;
+	bh=9SIdAh840g6tydo2JznT4GeDVA5YXlZf24fa0jmn9oM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xz00mNSvEN2zRH29yqKK/bbQ36rBOPOL51JzjJ+PoSjWloGxNPOB3l/+Qyk9tKHHCZ/JVQ3J9H92qabWkZ/6VFaB8O2GbdgCmNJaKaFz/yH0dC4cSCh4a8pM0Qv1DElSGYSxBkUiOruKYG//NxSDobETfBEs/AxL55dKnrXJOH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WYdAW6iz; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 11 Jun 2025 15:52:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1749649990;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4zq30Zx1gm5+DnliSP1IJP9mnbwAcrHCYpwo6PmyzBc=;
+	b=WYdAW6izimj/1gDUnPW+moaf3Nr5+ezwcwuLHSc4IvraMglv8YBB9VUujsatvLjE7apE7p
+	u9v5WzRBHxvmN01qtvUkfX2q9urcqWHuzQ2J9T3qKK3D1YvTQTqQ18DDnJz95VqMnpFJVF
+	LrIlkoskO2W4MhCJ1lY8fuv0ZUIvBeA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v3 01/16] kbuild: userprogs: avoid duplicating of flags
+ inherited from kernel
+Message-ID: <20250611-overjoyed-vengeful-goshawk-0aaf8c@l-nschier-aarch64>
+References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
+ <20250611-kunit-kselftests-v3-1-55e3d148cbc6@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
- <20250611075533.8102A57-hca@linux.ibm.com>
-In-Reply-To: <20250611075533.8102A57-hca@linux.ibm.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 11 Jun 2025 22:32:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASSeuZWAXS6tDGL1T8S1N9fmg4DND616BL6uco4gnYFqA@mail.gmail.com>
-X-Gm-Features: AX0GCFv0jbbR-vbqIHzHbknTnj-UPv7EfuyqK0wlyWTgl-XQejmGq6KCE6rdppc
-Message-ID: <CAK7LNASSeuZWAXS6tDGL1T8S1N9fmg4DND616BL6uco4gnYFqA@mail.gmail.com>
-Subject: Re: [GIT PULL] Kbuild updates for v6.16-rc1
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250611-kunit-kselftests-v3-1-55e3d148cbc6@linutronix.de>
+Organization: AVM GmbH
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jun 11, 2025 at 4:55=E2=80=AFPM Heiko Carstens <hca@linux.ibm.com> =
-wrote:
->
-> On Sun, Jun 08, 2025 at 01:41:18AM +0900, Masahiro Yamada wrote:
-> > Kbuild updates for v6.16
-> >
-> >  - Add support for the EXPORT_SYMBOL_GPL_FOR_MODULES() macro, which exp=
-orts a
-> >    symbol only to specified modules
-> >
-> >  - Improve ABI handling in gendwarfksyms
-> >
-> >  - Forcibly link lib-y objects to vmlinux even if CONFIG_MODULES=3Dn
-> >
-> >  - Add checkers for redundant or missing <linux/export.h> inclusion
->
-> As you write in commit a934a57a42f6 ("scripts/misc-check: check missing
-> #include <linux/export.h> when W=3D1") this adds now 4000+ extra warnings
-> for W=3D1 builds, which makes such builds more or less useless for me.
->
-> Also the commit only describes what you want to achieve, but not why.
-> I can only guess that you want to reduce header dependencies(?).
+On Wed, Jun 11, 2025 at 09:38:07AM +0200, Thomas Weißschuh wrote:
+> The duplication makes maintenance harder. Changes need to be done in two
+> places and the lines will grow overly long.
+> 
+> Use an intermediary variable instead.
+> 
+> Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> ---
+>  Makefile | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
 
-Yes.
-
-Here, more numbers.
-There are around 32000 *.c files in the tree, but only about 6000 of them
-actually export symbols.
-However, most of them end up including <linux/export.h>,
-even though only 20% of them truly need it.
-
-Header dependency cleanup is necessary.
-Many a little makes a mickle.
-
-> Don't get me wrong, I can address all of this trivial churn for s390, how=
-ever
-> enforcing so many extra warnings to everyone with W=3D1 builds doesn't lo=
-ok like
-> the right approach to me.
-
-This is what W=3D1 is for.
-0day bot detects a new W=3D1 warning, so we can avoid new warnings coming i=
-n.
-
-People do not know which headers should be included when.
-So, this warning must exist at least until we can get rid of
-#include <linux/export.h> from include/linux/module.h,
-include/linux/linkage.h etc.
-
-
---=20
-Best Regards
-Masahiro Yamada
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
