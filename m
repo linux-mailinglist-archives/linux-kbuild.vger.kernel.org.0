@@ -1,158 +1,128 @@
-Return-Path: <linux-kbuild+bounces-7441-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7442-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41B7AD4D52
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 09:42:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D83AD4DB0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 09:57:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F22191BC1C9A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 07:41:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A140C1708EA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Jun 2025 07:57:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F4F9248F45;
-	Wed, 11 Jun 2025 07:38:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61F28236445;
+	Wed, 11 Jun 2025 07:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oZwKLG8I";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Wu9FsCQI"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="g7rMibP0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF92242D9D;
-	Wed, 11 Jun 2025 07:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4AC2356C7;
+	Wed, 11 Jun 2025 07:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749627522; cv=none; b=od3NPQ1Gj9rNuXPqRdKtMN88LUJGR/E6MuqFc6NDt1QIWjl6UuQgeh7oIh8ngyWkujnBE5EdbZc10qGTAUk3fxuvKycKo+DpL4WjkCbIDxnTSP3Wniki8UP9bufNU+d9cpZtv45UP1qHFc91clgd6IgYISkvXyLTSbAI96j3RB8=
+	t=1749628550; cv=none; b=a9FAwpfh5W9UxbiagKN7NLsrhtINLv/gdf9H0/y+tu7fWSDqvqR9ZJOab7BEqOog6xWh/7txRIYcyxOIZP0S3+GKiMPtChG/oCmskbCuCWdassijXpDseADWXX6CGptbLjZzFsfyaS5i+dL7v1Mr2wHPM4K6WjiIPkUzsVBJVXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749627522; c=relaxed/simple;
-	bh=bI9Z3Z4OikY2vHRcbYfX3N2odvEeMwzFe2AM1aXY+bg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Aw7K3iCfDIucYGuoieIGqkNGvY1NgfSBTLjJyqsyvbNStJWUhpXdomV76KJ/UdW5kM2wymU1vLLoNAIzF2F/+dvy452vo+ui5ResupgypezRDkiKdQ35cqP/kO39IyfZvw+tJlZR96Zt63wzLlTF6WhMuxs+oIeL6Dme7fvEc8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oZwKLG8I; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Wu9FsCQI; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1749627518;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dTxmS6W6qZRqdjglNd/91xq5t0Sf7lvKNn22lds3tBg=;
-	b=oZwKLG8IUYTuUtRD28FKxeMMdCaTX/U77iFBOswUdySXxbVT0aDEE12rgFAxHJCdJ7Tm2U
-	j6NkHDdUdtsgxon12m0mDq8uGHOm6NbZH9Wbi8QU0k7qSuW6trogSG6s6qz86EhOh1od19
-	EGXzQh4JsW4Y2bflXKGr3DuGTzNmqMU8nmrZQ4ve6JTaAL5koDWhDLxSwQPz3bSPy63zFR
-	MTqLMd0CNemfTcflrIwpcgZj/z0ITqLcGZ4FSTgUhKXBbpB4/m9EQJ+v34ck3A4Bg9hqbq
-	x0QK8ENEZh104a9oRpzVdBpWgJKwvbgWBntL+tJDDmxIYSks5Dw6ZfZ9TtiB9Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1749627518;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dTxmS6W6qZRqdjglNd/91xq5t0Sf7lvKNn22lds3tBg=;
-	b=Wu9FsCQIrzyRPV9W4FVqoM9fMCPZfkB3SrqeMepwTJ5K0yPoPDHGsRbu3xfz8QlRFhndmH
-	eC2CiW8jpb6AobAw==
-Date: Wed, 11 Jun 2025 09:38:22 +0200
-Subject: [PATCH v3 16/16] kunit: uapi: Validate usability of /proc
+	s=arc-20240116; t=1749628550; c=relaxed/simple;
+	bh=4uFcfbX4N79oywxH3f10w8cbGt3GEjQ8hikeWJcknoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uVuNpukZQdTqnP3cJrS33w03uIHIOfeXlCWUjf2FlZE2ililGWh3vjPseSj8yQ7qbOZ44HUzVTq2yyZ4Q9LpNCzClsVE1aJG3jaw0Rm8FRCvcmkcThi146vDawXBU2B/F34O+l03DHHlkM0DBQqkdzmyttl0nvpfe8hnOgHsxlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=g7rMibP0; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55B52J04009764;
+	Wed, 11 Jun 2025 07:55:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=s/xeX/ZHC2YFdCQvG289q3fjkClIi9
+	AGgxg09fdLCVg=; b=g7rMibP0MZ3FVdlNW3b2ZQseid6EtWfmh64lHnamWLN1/l
+	+XeQSDqCV9FKbJYjj3YIycKGJJiVSTXGpAJe5buIt79PSkG2vRe3PHpRkbaLHTGo
+	wtlMn36qJ886tcaLdoG4v7nd1XlEb4y66FocTh4qu3PM6KkHtEoW1D3t2Td8wMNM
+	5k/VeBkPSkyQEoxUWZBhVw3e+ytoa0I7UjWuMVmF8N1bYzQJQcE4SnWEFa/+p287
+	Iu/0xovM2eYv3R4d5PJhRbHAn7rR6XnFoR4AYs/7LLUiTkvodPU4kBFJUOE3Lb1B
+	Qy9cggmdVY0IMW0LAip5+whbpu3Z6Kjb2jZlG7aA==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 474dv7k1cw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Jun 2025 07:55:37 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55B4NCsU021908;
+	Wed, 11 Jun 2025 07:55:36 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 47504yxstm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Jun 2025 07:55:36 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55B7tYvY54132994
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Jun 2025 07:55:34 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A84E82004F;
+	Wed, 11 Jun 2025 07:55:34 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7698D2004E;
+	Wed, 11 Jun 2025 07:55:34 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.133])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 11 Jun 2025 07:55:34 +0000 (GMT)
+Date: Wed, 11 Jun 2025 09:55:33 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [GIT PULL] Kbuild updates for v6.16-rc1
+Message-ID: <20250611075533.8102A57-hca@linux.ibm.com>
+References: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250611-kunit-kselftests-v3-16-55e3d148cbc6@linutronix.de>
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
-In-Reply-To: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Nicolas Schier <nicolas.schier@linux.dev>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
- workflows@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749627510; l=1609;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=bI9Z3Z4OikY2vHRcbYfX3N2odvEeMwzFe2AM1aXY+bg=;
- b=BvsjK8jQfTlN3RKliodcN6Wpr2QQ8UHWYzK87A9Ed7LZXQp5P1ASKEUXcxymrizK7ceed/oo0
- tW6g6ftHi92ABxOyphlY05wObpqRI2GKkfZjkxgZImTBYuS2FOV2ylS
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iqjTWxYcFco5o65jSEyFjkTVSdRcA3mh
+X-Proofpoint-GUID: iqjTWxYcFco5o65jSEyFjkTVSdRcA3mh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjExMDA2OCBTYWx0ZWRfX8eEF7+xFBqVR N90QTYiFjwpTByJTI0dawiV8yF+xD7JP1yJayZwWpZscV0qiWkEDPvsWk2yfs977SwFKxmKy+Qp lxScm5TPHyORJrfGtDYmNxKrsQ/MOvIhk6hVHNGB/tMGqa2I/NDnvXYvYdAD31+8d8Pj1wo2cld
+ Xn8aktyHspmMs/VcdrIqa1CMVWLkG3RbS9bDL0iee08/8/zeOKpAuTE+jbOsRl3W8+q0gNINs81 hpuqDWqnlFKIgD2J0oMf0zzfCJhT+ddUWEdxAcpXNZ+4guas1bgEInuIwkMO+L8IRFnkIdhMU3C FdE5U2zrhENL+5veiPCMHuqwA31jLKOn9h03+GvPJD5v2orRJHizxKHh+gxSfb5yrWG6rqgGDrb
+ pGi9OqekCvF/QuwTi/XWusSUCV6EdmIZu2XGq/bJu8G8DMQmCmeh5Vkif/0Fi8MTbdx5YN0y
+X-Authority-Analysis: v=2.4 cv=CfMI5Krl c=1 sm=1 tr=0 ts=6849367a cx=c_pps a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17 a=kj9zAlcOel0A:10 a=6IFa9wvqVegA:10 a=qGWf7Qon23mMiXRqvLsA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-11_03,2025-06-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=878 adultscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506110068
 
-Show that the selftests are executed from a fairly "normal"
-userspace context.
+On Sun, Jun 08, 2025 at 01:41:18AM +0900, Masahiro Yamada wrote:
+> Kbuild updates for v6.16
+> 
+>  - Add support for the EXPORT_SYMBOL_GPL_FOR_MODULES() macro, which exports a
+>    symbol only to specified modules
+> 
+>  - Improve ABI handling in gendwarfksyms
+> 
+>  - Forcibly link lib-y objects to vmlinux even if CONFIG_MODULES=n
+> 
+>  - Add checkers for redundant or missing <linux/export.h> inclusion
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
----
- lib/kunit/kunit-example-uapi.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+As you write in commit a934a57a42f6 ("scripts/misc-check: check missing
+#include <linux/export.h> when W=1") this adds now 4000+ extra warnings
+for W=1 builds, which makes such builds more or less useless for me.
 
-diff --git a/lib/kunit/kunit-example-uapi.c b/lib/kunit/kunit-example-uapi.c
-index 4ce657050dd4a576632a41ca0309c4cb5134ce14..5e7a0f3b68f182c42b03e667567e66f02d8c2b86 100644
---- a/lib/kunit/kunit-example-uapi.c
-+++ b/lib/kunit/kunit-example-uapi.c
-@@ -8,13 +8,45 @@
-  * This is *userspace* code.
-  */
- 
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <string.h>
-+
- #include "../../tools/testing/selftests/kselftest.h"
- 
-+static void test_procfs(void)
-+{
-+	char buf[256];
-+	ssize_t r;
-+	int fd;
-+
-+	fd = open("/proc/self/comm", O_RDONLY);
-+	if (fd == -1) {
-+		ksft_test_result_fail("procfs: open() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	r = read(fd, buf, sizeof(buf));
-+	close(fd);
-+
-+	if (r == -1) {
-+		ksft_test_result_fail("procfs: read() failed: %s\n", strerror(errno));
-+		return;
-+	}
-+
-+	if (r != 16 || strncmp("kunit-example-u\n", buf, 16) != 0) {
-+		ksft_test_result_fail("procfs: incorrect comm\n");
-+		return;
-+	}
-+
-+	ksft_test_result_pass("procfs\n");
-+}
-+
- int main(void)
- {
- 	ksft_print_header();
- 	ksft_set_plan(4);
--	ksft_test_result_pass("userspace test 1\n");
-+	test_procfs();
- 	ksft_test_result_pass("userspace test 2\n");
- 	ksft_test_result_skip("userspace test 3: some reason\n");
- 	ksft_test_result_pass("userspace test 4\n");
+Also the commit only describes what you want to achieve, but not why.
+I can only guess that you want to reduce header dependencies(?).
 
--- 
-2.49.0
-
+Don't get me wrong, I can address all of this trivial churn for s390, however
+enforcing so many extra warnings to everyone with W=1 builds doesn't look like
+the right approach to me.
 
