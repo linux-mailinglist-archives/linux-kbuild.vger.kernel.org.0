@@ -1,124 +1,204 @@
-Return-Path: <linux-kbuild+bounces-7470-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7471-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F52DAD6CE0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 11:59:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4A4AD6E92
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 13:05:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EB973AD961
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 09:59:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48DF71894DAB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 11:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE6F022E3F7;
-	Thu, 12 Jun 2025 09:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24143239E92;
+	Thu, 12 Jun 2025 11:05:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="tDJJkjCS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qDdWQQHx"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2BB222D9ED;
-	Thu, 12 Jun 2025 09:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F6A234971;
+	Thu, 12 Jun 2025 11:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749722298; cv=none; b=rg74puPt14FCE24/z0GzDuCAKw0b/4fPSyWc1lkfP6Qv0XN4Pn6RUxkW7AliBMwnjCNkauDS62OOrf3/tXXUz3VHekWEvD1HHZ2cPm9SGGJ4r6JINlrw0PTOxwt+60Oi1dgzirNJyod8pqNeYdb3Qj08kNYZecOw0R+U8Zq0Z5c=
+	t=1749726343; cv=none; b=ELiBgyTCT7bgNHpI01z7nILYPPKc/YKVeMLsXbj9c222DqLzvaUsukKJvrK5VlEGwpuBfuYIj9CF/u6MB08jjDJSvg8Sq2xu4iCdM610oqo3o8V+u2NJg1MI3rFSvZRupgV26teE8ApJaH4wuS5OCV5fVoyDmN0f4yGbdScFI7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749722298; c=relaxed/simple;
-	bh=5lm3CROQoCKhao5Ca1yh00q3aQ56aGBHBbVoD/37i5w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Aep6nx+HiXaeP7DVpy+gRxz8M311au0h4TdiEQ4Q2vyWinogz1umqlybWn27+my1Z05PYxFjmqSJylBmeXFZ2dU2EAv3+YGb4ZF7kBCxnFaqz/d5Y4QthUkbBLbkTjj4rJBtSjik9dEzdlMWlrK9b0ZA0McCUqair4WVf6NRvwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=tDJJkjCS; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Received: from [100.79.224.160] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 91B9A201C768;
-	Thu, 12 Jun 2025 02:57:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 91B9A201C768
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1749722295;
-	bh=eV3A+ddBcibHRVaqFJxwXvFIGtWcCdCwh7KjLBme/sQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tDJJkjCSRPy1hYNPAJtUISF1WSrCFZjdUEcEOdGWKAqv01iv5hJcEcllquwSVNAjF
-	 q6us+/HaBIBYi1tNhaYqZ9/ZpX81sTqUj9rNVlp0pkdgFUWydBJs/cT+uNCqPNoGR6
-	 7cUs3sg09Mbn3wLax4jFUWttwF/QfkOeeZy88ftA=
-Message-ID: <42abc705-bdb5-4be0-9fe7-b49d0a0d9507@linux.microsoft.com>
-Date: Thu, 12 Jun 2025 15:27:55 +0530
+	s=arc-20240116; t=1749726343; c=relaxed/simple;
+	bh=nLSFvNhhkH/i0AW4xZZyeVQQGE39E68tSVlCKIweu8U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qecp6fc5ByBtxrjn44cgLbaxqJj9dK2td29uwJYb8QxJMBys4JsNVc/md1AxIQ7hAi4yPMzrbSZv4jLKtgW20wi9qIflLb3POXlDinLbtu9l5sdP3WMVcsTHfpUMs/o4Dj/n9omeE9+UiH6nLS0w5r0D4e7Im/WzrDWSUxCrOXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qDdWQQHx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DCAC4CEEA;
+	Thu, 12 Jun 2025 11:05:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749726342;
+	bh=nLSFvNhhkH/i0AW4xZZyeVQQGE39E68tSVlCKIweu8U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qDdWQQHxflEwGgvLGrA7yFYTJaUyXMY2fWh33EJgxUQf54sqNCRzWvq76JLo+wqKI
+	 wi3//16+vXlwMPBe+pMBxdCoW1pvfstM/90sFC6bYA4GKXJ/DLO/RZxmYHp9Lno0w+
+	 2R937/rFXe/6yomj5pTMk1Gf1JtK2KJ4KfIspUApGy4+FMb0U0+QsZ1bRhrt14Bc3h
+	 fBgKSF5Qnm0sXp8MqYuolV1Z1evNWPWq5k7aTJd+f3igWa3/8h9n/DO2UJvUXfWCap
+	 d/WkhRasnbpjeKRrIuV4W1x2gm694q5S79rMhRutgVESoT516W6GsN0lhDFbFaINY/
+	 uS4LAnQAnBqOA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Benno Lossin" <lossin@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Benno
+ Lossin" <benno.lossin@proton.me>,  "Alice Ryhl" <aliceryhl@google.com>,
+  "Masahiro Yamada" <masahiroy@kernel.org>,  "Nathan Chancellor"
+ <nathan@kernel.org>,  "Luis Chamberlain" <mcgrof@kernel.org>,  "Danilo
+ Krummrich" <dakr@kernel.org>,  "Nicolas Schier"
+ <nicolas.schier@linux.dev>,  "Trevor Gross" <tmgross@umich.edu>,  "Adam
+ Bratschi-Kaye" <ark.email@gmail.com>,  <rust-for-linux@vger.kernel.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-kbuild@vger.kernel.org>,  "Petr
+ Pavlu" <petr.pavlu@suse.com>,  "Sami Tolvanen" <samitolvanen@google.com>,
+  "Daniel Gomez" <da.gomez@samsung.com>,  "Simona Vetter"
+ <simona.vetter@ffwll.ch>,  "Greg KH" <gregkh@linuxfoundation.org>,  "Fiona
+ Behrens" <me@kloenk.dev>,  "Daniel Almeida"
+ <daniel.almeida@collabora.com>,  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v12 2/3] rust: add parameter support to the `module!` macro
+In-Reply-To: <DAKE43J2GFVF.18KWPFWPZKDM@kernel.org> (Benno Lossin's message of
+	"Thu, 12 Jun 2025 09:52:30 +0200")
+References: <20250506-module-params-v3-v12-0-c04d80c8a2b1@kernel.org>
+	<20250506-module-params-v3-v12-2-c04d80c8a2b1@kernel.org>
+	<D9PW1NI2S6FV.8LA53J87VCML@kernel.org> <87plfazi13.fsf@kernel.org>
+	<V29kiTfRcPU-AK3Dk6vAhU4ERR2auWVQO6PRp1TJrOmq3AgagkEMmShjxYAQSx9IkfVtHEVwhYM93UQQhiElJA==@protonmail.internalid>
+	<DAKE43J2GFVF.18KWPFWPZKDM@kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 12 Jun 2025 13:05:31 +0200
+Message-ID: <87ikl1xls4.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] x86: Fix build warnings about export.h
-To: Zhenghan Cheng <chengzhenghan@uniontech.com>,
- herbert@gondor.apana.org.au, davem@davemloft.net, peterz@infradead.org,
- acme@kernel.org, namhyung@kernel.org, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- rafael@kernel.org, jgross@suse.com, Jason@zx2c4.com, mhiramat@kernel.org,
- ebiggers@kernel.org, masahiroy@kernel.org
-Cc: linux-kernel@vger.kernel.org, mark.rutland@arm.com,
- alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
- adrian.hunter@intel.com, kan.liang@linux.intel.com, lenb@kernel.org,
- ajay.kaher@broadcom.com, alexey.makhalov@broadcom.com,
- bcm-kernel-feedback-list@broadcom.com, ppaalanen@gmail.com,
- boris.ostrovsky@oracle.com, nathan@kernel.org, nicolas@fjasle.eu,
- ilpo.jarvinen@linux.intel.com, usamaarif642@gmail.com, ubizjat@gmail.com,
- dyoung@redhat.com, myrrhperiwinkle@qtmlabs.xyz, guoweikang.kernel@gmail.com,
- graf@amazon.com, chao.gao@intel.com, chang.seok.bae@intel.com,
- sohil.mehta@intel.com, vigbalas@amd.com, aruna.ramakrishna@oracle.com,
- zhangkunbo@huawei.com, fvdl@google.com, gatlin.newhouse@gmail.com,
- snovitoll@gmail.com, bjohannesmeyer@gmail.com, glider@google.com,
- david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- shivankg@amd.com, peterx@redhat.com, dan.j.williams@intel.com,
- dave.jiang@intel.com, kevin.brodsky@arm.com, willy@infradead.org,
- linux@treblig.org, Neeraj.Upadhyay@amd.com, wangyuli@uniontech.com,
- linux-crypto@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>,
- Zhenghan Cheng <your_email@example.com>
-References: <20250612093021.7187-1-chengzhenghan@uniontech.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20250612093021.7187-1-chengzhenghan@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+"Benno Lossin" <lossin@kernel.org> writes:
+
+> On Wed Jun 11, 2025 at 12:31 PM CEST, Andreas Hindborg wrote:
+>> "Benno Lossin" <lossin@kernel.org> writes:
+>>> On Tue May 6, 2025 at 3:02 PM CEST, Andreas Hindborg wrote:
+>>>> diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
+>>>> index a3ee27e29a6f..16d300ad3d3b 100644
+>>>> --- a/rust/macros/helpers.rs
+>>>> +++ b/rust/macros/helpers.rs
+>>>> @@ -10,6 +10,17 @@ pub(crate) fn try_ident(it: &mut token_stream::Into=
+Iter) -> Option<String> {
+>>>>      }
+>>>>  }
+>>>>
+>>>> +pub(crate) fn try_sign(it: &mut token_stream::IntoIter) -> Option<cha=
+r> {
+>>>> +    let peek =3D it.clone().next();
+>>>> +    match peek {
+>>>> +        Some(TokenTree::Punct(punct)) if punct.as_char() =3D=3D '-' =
+=3D> {
+>>>
+>>> Should we also allow a leading `+`?
+>>
+>> I would argue no, because rust literals cannot start with `+`.
+>
+> Makes sense.
+>
+>>>> +            let _ =3D it.next();
+>>>> +            Some(punct.as_char())
+>>>> +        }
+>>>> +        _ =3D> None,
+>>>> +    }
+>>>> +}
+>>>> +
+>>>>  pub(crate) fn try_literal(it: &mut token_stream::IntoIter) -> Option<=
+String> {
+>>>>      if let Some(TokenTree::Literal(literal)) =3D it.next() {
+>>>>          Some(literal.to_string())
+>>>> @@ -86,3 +97,17 @@ pub(crate) fn function_name(input: TokenStream) -> =
+Option<Ident> {
+>>>>      }
+>>>>      None
+>>>>  }
+>>>> +
+>>>> +/// Parse a token stream of the form `expected_name: "value",` and re=
+turn the
+>>>> +/// string in the position of "value".
+>>>> +///
+>>>> +/// # Panics
+>>>> +///
+>>>> +/// - On parse error.
+>>>> +pub(crate) fn expect_string_field(it: &mut token_stream::IntoIter, ex=
+pected_name: &str) -> String {
+>>>> +    assert_eq!(expect_ident(it), expected_name);
+>>>> +    assert_eq!(expect_punct(it), ':');
+>>>> +    let string =3D expect_string(it);
+>>>> +    assert_eq!(expect_punct(it), ',');
+>>>
+>>> This won't allow omitting the trailing comma.
+>>
+>> This is in line with the rest of the module macro.
+>
+> Then we should change that:
+>
+>     https://github.com/Rust-for-Linux/linux/issues/1172
+>
+>>>> +    string
+>>>> +}
+>>>
+>>> [...]
+>>>
+>>>> @@ -186,33 +336,35 @@ pub(crate) fn module(ts: TokenStream) -> TokenSt=
+ream {
+>>>>      let info =3D ModuleInfo::parse(&mut it);
+>>>>
+>>>>      let mut modinfo =3D ModInfoBuilder::new(info.name.as_ref());
+>>>> -    if let Some(author) =3D info.author {
+>>>> -        modinfo.emit("author", &author);
+>>>> +    if let Some(author) =3D &info.author {
+>>>> +        modinfo.emit("author", author);
+>>>>      }
+>>>> -    if let Some(authors) =3D info.authors {
+>>>> +    if let Some(authors) =3D &info.authors {
+>>>>          for author in authors {
+>>>> -            modinfo.emit("author", &author);
+>>>> +            modinfo.emit("author", author);
+>>>>          }
+>>>>      }
+>>>> -    if let Some(description) =3D info.description {
+>>>> -        modinfo.emit("description", &description);
+>>>> +    if let Some(description) =3D &info.description {
+>>>> +        modinfo.emit("description", description);
+>>>>      }
+>>>>      modinfo.emit("license", &info.license);
+>>>> -    if let Some(aliases) =3D info.alias {
+>>>> +    if let Some(aliases) =3D &info.alias {
+>>>>          for alias in aliases {
+>>>> -            modinfo.emit("alias", &alias);
+>>>> +            modinfo.emit("alias", alias);
+>>>>          }
+>>>>      }
+>>>> -    if let Some(firmware) =3D info.firmware {
+>>>> +    if let Some(firmware) =3D &info.firmware {
+>>>>          for fw in firmware {
+>>>> -            modinfo.emit("firmware", &fw);
+>>>> +            modinfo.emit("firmware", fw);
+>>>
+>>> I don't like that you have to change all of these.
+>>
+>> Why not? If I was to write this code in the first place, I would have
+>> used a reference rather than pass by value.
+>
+> That's fine, but do it in a separate commit then.
+
+OK, I can do that =F0=9F=91=8D
 
 
+Best regards,
+Andreas Hindborg
 
-On 6/12/2025 3:00 PM, Zhenghan Cheng wrote:
-> After commit a934a57a42f64a4 ("scripts/misc-check:
-> check missing #include <linux/export.h> when W=1")
-> and commit 7d95680d64ac8e836c ("scripts/misc-check:
-> check unnecessary #include <linux/export.h> when W=1"),
-> we get some build warnings with W=1,such as:
-> 
-> arch/x86/coco/sev/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-> arch/x86/crypto/aria_aesni_avx2_glue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-> arch/x86/kernel/unwind_orc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-> arch/x86/kvm/hyperv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-> arch/x86/events/intel/core.c: warning: EXPORT_SYMBOL() is not used, but #include <linux/export.h> is present
-> arch/x86/events/zhaoxin/core.c: warning: EXPORT_SYMBOL() is not used, but #include <linux/export.h> is present
-> arch/x86/kernel/crash.c: warning: EXPORT_SYMBOL() is not used, but #include <linux/export.h> is present
-> arch/x86/kernel/devicetree.c: warning: EXPORT_SYMBOL() is not used, but #include <linux/export.h> is present
-> 
-> so fix these build warnings for x86.
-> 
-> Signed-off-by: "Zhenghan Cheng" <chengzhenghan@uniontech.com>
-> Suggested-by: "Huacai Chen" <chenhuacai@loongson.cn>
-> 
-
-
-Thanks for sharing.
-
-FYI, I sent a patch to fix these warnings in Hyper-V related drivers
-here:
-https://lore.kernel.org/all/20250611100459.92900-1-namjain@linux.microsoft.com/
-
-Some of the files are common to the ones in your patch.
-
-Regards,
-Naman
 
 
 
