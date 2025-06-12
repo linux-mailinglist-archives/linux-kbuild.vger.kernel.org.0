@@ -1,157 +1,175 @@
-Return-Path: <linux-kbuild+bounces-7479-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7480-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BF7AD73D5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 16:29:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA277AD76DA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 17:48:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A57333B0F54
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 14:29:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CA363BC184
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 15:41:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A61592288C6;
-	Thu, 12 Jun 2025 14:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE7EF298999;
+	Thu, 12 Jun 2025 15:39:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="XRNeFAgV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V10LlDub"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1477B23D280;
-	Thu, 12 Jun 2025 14:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957DB1A265E;
+	Thu, 12 Jun 2025 15:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749738590; cv=none; b=nxhtlGPzbFQyGKLv7O68YQ1bWI6KcHsDVYFd3fbZDClTWoATnIM8VXECnyBir6TCb9DB1+XXXSqBCmZThReBMA+v0mmiIqyiDIw2kAeqrc9TJy98yLwgXmHYaoT3fMNCTHzRMYG1AAOfOO/zDLTBqGquG/uQ4rjUFxQBk1VQzdk=
+	t=1749742785; cv=none; b=PtfCBOKM/vsyq0AHQrIXrhpjVcgFDv28aLBLdT44itnWtLjYfj4FktM2vak4C2gdK3Aho/rgTsQU01O0+3/x7i8SwcaNTJo1BOanoZoAjScXfuXSKAc368ME1mQSw/xRQHgXnu+l8UhqK0FbIDjHWq9QYXVrMvzawPfjaKGKeUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749738590; c=relaxed/simple;
-	bh=2ivIe9cA+y2/A8ucogahDCpvK9L55rSf2ctW9ePpjCc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FeT4ohXstY+jlB1DI8q6mffDqqHpHQr9ij8sUOqUn0ZSePJhBJtRpHVYcP2xoZKx98TyZeIryyZjLQP5tC+S22/rlMATKm/9nzs/o5PfHaVWh8SHSUWUiPKB6eVtYUe8ZZwbpOf3frGbvydy4O+tp9JFrjt8NtpJ0acz2nw9i8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=XRNeFAgV; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55C9IVfQ002510;
-	Thu, 12 Jun 2025 14:29:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=WMotBE
-	ljuZFLWU6NvngZaj3RWQ3KulBL/Jyq/MKojFo=; b=XRNeFAgVa5eWYTCOa4yz5O
-	y/ZmRfu8udu/Juc3MCMbS87sCpaHFv/usq1eoiRjPwh1AFwzUoBms+QKlMl8PQXT
-	ToUWxDfX8MsqYa8DqsoKgWm9MwZpVzU80una2sm/YSOn43Ozn4WHqxyOi5tK5zrP
-	TJoVAvmcWAPkUR7XHf89H7BTIiOPJOBBQuBb/SUfB1YFfabCJ+a3uS3i5o2ZlLgv
-	L0ag0XfxPJzLq8W9tpvo7SwNcoILDsBfeFmh7K0C4WQpyeCLEtoDrfUmbwcMs1z9
-	sWvUbpN27Ri4cEe9u+WOFUDpDyJEKmbnjdiaXuzrMB2sEG6ROiWQ8mP3CI0aYlTA
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4769x002es-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Jun 2025 14:29:43 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 55CENf4w012834;
-	Thu, 12 Jun 2025 14:29:43 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4769x002ek-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Jun 2025 14:29:43 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 55CB3w9f027928;
-	Thu, 12 Jun 2025 14:29:41 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 47518mn3w6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Jun 2025 14:29:41 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 55CETdBQ42205600
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 12 Jun 2025 14:29:39 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C31C92004B;
-	Thu, 12 Jun 2025 14:29:39 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6C29720040;
-	Thu, 12 Jun 2025 14:29:39 +0000 (GMT)
-Received: from osiris (unknown [9.87.144.171])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 12 Jun 2025 14:29:39 +0000 (GMT)
-Date: Thu, 12 Jun 2025 16:29:38 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sean Christopherson <seanjc@google.com>
-Subject: Re: [GIT PULL] Kbuild updates for v6.16-rc1
-Message-ID: <20250612142938.10868H90-hca@linux.ibm.com>
-References: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
- <20250611075533.8102A57-hca@linux.ibm.com>
- <CAK7LNASSeuZWAXS6tDGL1T8S1N9fmg4DND616BL6uco4gnYFqA@mail.gmail.com>
- <8992766a-cc96-40bb-b8c2-60931ad0f065@app.fastmail.com>
- <CAK7LNAShTuuxL6+foeQBTg4Nf581Q3vy38XGuXRk4hFvEAWjig@mail.gmail.com>
- <38a08452-4db2-43e0-afdc-b7d696da5454@app.fastmail.com>
+	s=arc-20240116; t=1749742785; c=relaxed/simple;
+	bh=kql/68pdZM78tfHESpUFtGAG253otQkry8EKhBsHpQ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bFhESgFB0rrG4MPq/+ll5u+zMd5jQjwaCFFgofOlxwa4kXGKggK65//a+9YyxSE4dltIsFtN+KhfQuhkRnBMRXp6GpPJmV1/si2wkpwdF7Ppb6m4vYXqBxsLv2H/fBAm2D/Dg4Ufpc+faXQrUm2obrzG/h4V06JNl8nZIg7vNZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V10LlDub; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 183CAC4CEEA;
+	Thu, 12 Jun 2025 15:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749742785;
+	bh=kql/68pdZM78tfHESpUFtGAG253otQkry8EKhBsHpQ0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=V10LlDub+VHqlA5ixOqtYjEnEMX0oLZoITvIBMJKwrUTQBiOnGJJIkfHy9d7WXD+u
+	 57JrjqMBuhe6az73OLfIvzzWL04vXyC0vhxmcjri86AA+pBZdrct3yE9Sdv9doT4Ba
+	 stDpdJS1V8W9EKceuG4g8pPbSKFnScf8W0RZpqpKtBGXJ0oYRIs9mBh66vQaOkA5XT
+	 OzkBwU1yEhMfxdaPWGhiBI8cupBC79gQq6dKOHMJwPi3WzGD83Qz74V83r3WHSosmP
+	 87qeQbY/Cl987QkI8XzbFzjfUctOnQyPlbEGYHx8kCOVsYkItH3IYBDTCFuorLZRF6
+	 GDjf05tupfbxg==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-551fc6d4a76so1059483e87.0;
+        Thu, 12 Jun 2025 08:39:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVTnRuGJlIwHt4SGr5zCYR1pQuuHkAKvPH7OL/zDCm2AgKDouG/7de96CVzvnGNAne8Q9qec99JXDBmTALp@vger.kernel.org, AJvYcCWT3G2k6m3+E50QKdy9uOpskvUbhWJ2f9R+MWUP0qZvPOkp+uvLPhF2f0QcQHv02Cx5K6YNyLnA1qG/kHk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx69eDiHpjXJczvnOyOAhBBdHyhxRUY78guebg3JqYrpEvyVmDe
+	ENGfaCg4kghIHoJSbA1n5zLozcc+PJC30hoonvYOaOtd2IlFzvdY5SlgrPbgYUAqZv7EemnIlgX
+	EbqPoMXcWVJwE55bvmyJI7BX+pRe+U44=
+X-Google-Smtp-Source: AGHT+IFCn4cy8C3+uiWTpUl/bd4P8YsEsu+4izukKFuLL6PKg/Lb5ciTZY8OYnsP8L0vp4VZAkEInbX/v51sLL36k8M=
+X-Received: by 2002:a05:6512:4025:b0:553:2f50:5dff with SMTP id
+ 2adb3069b0e04-553a5599d7fmr1294722e87.17.1749742783743; Thu, 12 Jun 2025
+ 08:39:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
+ <20250611075533.8102A57-hca@linux.ibm.com> <CAK7LNASSeuZWAXS6tDGL1T8S1N9fmg4DND616BL6uco4gnYFqA@mail.gmail.com>
+ <8992766a-cc96-40bb-b8c2-60931ad0f065@app.fastmail.com> <CAK7LNAShTuuxL6+foeQBTg4Nf581Q3vy38XGuXRk4hFvEAWjig@mail.gmail.com>
+ <38a08452-4db2-43e0-afdc-b7d696da5454@app.fastmail.com>
 In-Reply-To: <38a08452-4db2-43e0-afdc-b7d696da5454@app.fastmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: MErt9JqV-ov7It4oOzL8olw2YTZJ0KBs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEyMDExMCBTYWx0ZWRfXwzJcH+x3Cc+M BF1rpnQDAb3IcvsAwm7DDCFW+0+ODC225GMrAIK5huQSH/R7VwW19k+ipaQ7P4g7UX0eDc5zp4Y L8+YvbnTdhtRMeF6ecFnZNuDeTuzPuXd/usLEJHynhCtyUAJRzlFDnxNBUfEp28tXEY6gQQFZ99
- fVF5UHsYjiWOiMvXd5P4ZTKyZGEjIYJYl94y2D90M4MYl4DfAXnzNJ6coER/Dy8QlO0iym5RKaE 5dKFXhppL9Ok0dcH3MCpVK3e2P8Xm0IirRKHgdbly2XKB0zrMcjkNG1ZytnTzNwIqwwfYpb++ld xB7gNE+7ZYpSW2SiubmQo4OkyJTuGcocWqcE5+VnsQb3PIT1+vKwBdK3jGrEkzIx7usOqBpEUL8
- 6v/BdD/1A4cQ6Fmb9aE72KfM/zVgchjUI8K9KmQnycG42TfZbguGOXIdL8DrVsuebs1JT36O
-X-Authority-Analysis: v=2.4 cv=YKGfyQGx c=1 sm=1 tr=0 ts=684ae457 cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=FNyBlpCuAAAA:8 a=1XWaLZrsAAAA:8 a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8
- a=1zRJjgceaNzd3rGIBQoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=RlW-AWeGUCXs_Nkyno-6:22
-X-Proofpoint-GUID: OTtD2y-1wGwqE0qH2ozv69aEKaioSqlY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-12_09,2025-06-12_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- malwarescore=0 bulkscore=0 priorityscore=1501 phishscore=0 mlxscore=0
- lowpriorityscore=0 impostorscore=0 adultscore=0 mlxlogscore=588
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506120110
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 13 Jun 2025 00:39:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARzWWrQQb3C5hXQ91GED6-7A3eG8WzeFDvcqQeA15hZrA@mail.gmail.com>
+X-Gm-Features: AX0GCFuubVFMo5O9hAdzt9MUjZOnvHvlasTNzdZAHWJ9mz6H1COFBdQ9RnKyH9A
+Message-ID: <CAK7LNARzWWrQQb3C5hXQ91GED6-7A3eG8WzeFDvcqQeA15hZrA@mail.gmail.com>
+Subject: Re: [GIT PULL] Kbuild updates for v6.16-rc1
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Heiko Carstens <hca@linux.ibm.com>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 12, 2025 at 10:01:00AM +0200, Arnd Bergmann wrote:
+On Thu, Jun 12, 2025 at 5:01=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
 > On Thu, Jun 12, 2025, at 03:42, Masahiro Yamada wrote:
-> > On Wed, Jun 11, 2025 at 11:24 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Wed, Jun 11, 2025 at 11:24=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
+wrote:
 > >> On Wed, Jun 11, 2025, at 15:32, Masahiro Yamada wrote:
-> >> > On Wed, Jun 11, 2025 at 4:55 PM Heiko Carstens <hca@linux.ibm.com> wrote:
+> >> > On Wed, Jun 11, 2025 at 4:55=E2=80=AFPM Heiko Carstens <hca@linux.ib=
+m.com> wrote:
 > >> I think this makes sense in general, but the output here is
-> >> excessive if it leads to users no longer wanting to enable W=1.
+> >> excessive if it leads to users no longer wanting to enable W=3D1.
 > >>
 > >> There are other warnings that I think should be enabled at the
-> >> W=1 level (e.g. -Wformat-security) and eventually by default,
+> >> W=3D1 level (e.g. -Wformat-security) and eventually by default,
 > >> but that are still too noisy at that level.
 > >>
 > >> My own cutoff would be at a few hundred warnings in allmodconfig
 > >> builds if there is an effort to reduce it further, but it seems
 > >> that this one is still at a few thousand, which does not seem ok.
 > >
-> > Then, what to do?  Downgrade to W=2?
+> > Then, what to do?  Downgrade to W=3D2?
 > >
-> > I think nobody cares about W=2 builds,
-> 
+> > I think nobody cares about W=3D2 builds,
+>
 > I think the first step would be mass-cleanup patches to get
 > the initial numbers down. A lot of this can be scripted.
+>
+> > and the problem of all C files including <linux/export.h>
+> > would remain forever.
+>
+> I'm missing a bit of background here, and I don't see this
+> explained in the 5b20755b7780 ("init: move THIS_MODULE
+> from <linux/export.h> to <linux/init.h>") changelog text
+> either
 
-I'm not sure this should be separate patches which would then be sent for
-review. This is way too much churn for something trivial like this. Only very
-few patches have been posted yet, and discussions started:
+I explained in 5b20755b7780 and also in the comment lines
+in scripts/misc-check.
 
-https://lore.kernel.org/all/aEjwqtotEEH8QMHB@gondor.apana.org.au
-https://lore.kernel.org/all/aEl9kO81-kp0hhw0@google.com
-https://lore.kernel.org/all/CAHp75Vc7AO_sRgB1Nj6CevbseMFyv5ku8ZS3PwzAuAgysKVxNg@mail.gmail.com
 
-This looks like the start of an immense waste of developer time.
+<linux/module.h> is included by modular (i.e. tristate) code,
+which is symbol _consumers_.
 
-Can't this be scripted and be addressed with a single commit shortly
-after/before the next merge window closes?
+<linux/export.h> is included by symbol _providers_.
+
+These are independent, or in other words, orthogonal.
+
+Therefore, there is no reason for <linux/module.h>
+to include <linux/export.h>.
+
+It is standard to split consumers and providers,
+since they are included by different files.
+See <linux/clk.h> vs <linux/clk-providers.h> as another example.
+
+
+
+
+
+> What is the purpose of cleaning the linux/export.h inclusions,
+> and what makes this one more important than others?
+> I obviously understand that indirect header inclusions are
+> a giant mess and that any such cleanup helps, but linux/export.h
+> seems particularly small compared to many others. It was
+> originally introduced so a lot of files would no longer have
+> to pull in linux/module.h if they only care about using
+> EXPORT_SYMBOL() and THIS_MODULE, so linux/module.h could
+> eventually become private to kernel/module/*.c.
+
+I believe <linux/module.h> will remain, as modules must
+define MODULE_LICENSE().
+
+
+> Is this something you are trying to continue, or are you
+> doing something else here?
+>
+> FWIW, I compared the preprocessed sizes of linux/export.h
+> (~2000) and linux/module.h (~120,000), and it seems that almost
+> none of those are needed by most of the files including
+> linux/module.h. The one part that is commonly required is
+> MODULE_{INFO,AUTHOR,LICENSE,DESCRIPTION}, so maybe there would
+> be a chance to clean this up at the same time if you are
+> planning some large-scale reshuffling of #include statements
+> around export.h.
+>
+>      Arnd
+
+Split <linux/module.h> into public and private is good,
+but it is beyond the scope of this work.
+
+Regardless of the file size, if a file does not need to
+include <linux/export.h>, the open syscall can be avoided.
+80 % of *.c files do not need to include it.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
