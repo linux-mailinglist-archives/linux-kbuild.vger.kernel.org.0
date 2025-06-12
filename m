@@ -1,50 +1,49 @@
-Return-Path: <linux-kbuild+bounces-7477-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7475-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952F6AD729D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 15:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF887AD7289
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 15:49:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1D841C208C9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 13:44:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB4651C2443B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 13:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 327AE25A2DE;
-	Thu, 12 Jun 2025 13:41:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 211D3255E27;
+	Thu, 12 Jun 2025 13:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgUR1uNB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zve+8Us0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037D4246BD6;
-	Thu, 12 Jun 2025 13:41:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E561429405;
+	Thu, 12 Jun 2025 13:41:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749735715; cv=none; b=ua0gIJX0Ewhb7IQH2eAg4Fdov4CHJiOqOmHNG8v5R/1alZ6OJ/ozBuu+Mk33AxPk0OABLLZ9xjdNbKfkQIeOAuHve+ifC9H5hcQ9QT6mdghX+smnKP2imKYdgCLsXucfWCNeYBIi9uj5nQdJdMBbHG2KdXpOWQcZENQnTiLV4WU=
+	t=1749735704; cv=none; b=jvk1GBWWlaS6D3cZuWC3NsWQ8ZLPolOns2Jy4FOHHGImIeVNgXUCgT9UalbrcG8wAKek/DDkjdaX649h0yS2gIifPzvZTc1xwL7CeIqgWSWiAwS0nBPYY0BnPnUp8R0wFyEvIsTT3di4SNOCWmgkSQ76Atqz3ZUqKXeqfKiBAC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749735715; c=relaxed/simple;
-	bh=93O4r+kmKDFCOxEuHQOYGOvJph9EXJLBbFPup2aAaiw=;
+	s=arc-20240116; t=1749735704; c=relaxed/simple;
+	bh=PtuTc4hQCwkPkaeEcx5FuCImo6u7nfEiFFeDuVcRi+8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pJpaRwpK7bnouCAV+T7pG+QNyjUmO9ZZdBAadiVFcvY/KRphOZI2g2OwAGHrY8GmHqoR9RH7wtN7bQG7R2JiQWcbxfBGslzu5JMecWLTauj7h5OnOipxN2JoBKYF6eIMd8n7Ln2ACeB8aTlzNghhmENLdfL6ktjB4/PITl5e85k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgUR1uNB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6608C4CEEA;
-	Thu, 12 Jun 2025 13:41:49 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=scS38d9ACMRZD5/NQ1JJmStVPd4sm8Kt54oLAkinRX3Fiu+MIkq15f0F38BsZSCOadIreYCGT79GuRlVEiq6CjU5GOtV2AX014Lr2A9m6vfV4/4gJ595WXx1CBQdwO8Gl/P9kafLIX3kWCDbg/Tu0h383X7gLoLQRg7cHrKRZ6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zve+8Us0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD919C4CEF3;
+	Thu, 12 Jun 2025 13:41:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749735714;
-	bh=93O4r+kmKDFCOxEuHQOYGOvJph9EXJLBbFPup2aAaiw=;
+	s=k20201202; t=1749735703;
+	bh=PtuTc4hQCwkPkaeEcx5FuCImo6u7nfEiFFeDuVcRi+8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UgUR1uNBDrsb0LYLj6wKDMtlcK9go+5fkWHxGNZrGWWcmVxhmGb4PBQGQEWDzQwf9
-	 TMfpEY4ugwSp5GiWEvNCHrXPP9TgTlfqfaS1b77xFXE3JAny+rBfCF9VTpJgHj6MiO
-	 cmER3CsQpJavQxyLCUYucOGLgDzMFX2B0xz1MDI7PKwLoybRZUsqvwOdgsWM/VqzHD
-	 hynjsTUVz8ghHnrpftwUDcq3vT4//3bB3OnX4QNYQyrvpNStu3JPMMmFrJggBQKGqC
-	 FeJLi7JPCeuxLGEcC5Lv9vqbmOYBuELhi8UUzxihvSIzrnFUhdayMBq/XJZ8SNrBB/
-	 pERZD/fZkylSQ==
+	b=Zve+8Us0w5wjasu/XWomWd5hMM8F6wniPNtUHEY44FW0R+Y3sQrnFv625tpuFP41+
+	 txzXWxSKvH5MV2P+7ZcCrZr8ex2+I2QEvzcNcSaERgNUNr6+8AbRIUu9G3ey4RnbLg
+	 1kWUZM3GgTKHCg9AwhLMEpq8U0dHrIekbnr5dKLzCu48fXl/8iFLLSj5xOH2axaufb
+	 i4jG1lnWrxab0PgafLygvevOmtv6cCwPVpgQy94lZ4iggQP8KTlGmL7d1CBwnNqAqW
+	 ftbpYZqM49g0a8KAJOFsaaOf0KEteuzhNTePhDLzqUECmusLEM+5MDtB9nbpvlaqm1
+	 iO5u+QlhvW9Mw==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Thu, 12 Jun 2025 15:40:06 +0200
-Subject: [PATCH v13 5/6] rust: samples: add a module parameter to the
- rust_minimal sample
+Date: Thu, 12 Jun 2025 15:40:07 +0200
+Subject: [PATCH v13 6/6] modules: add rust modules files to MAINTAINERS
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -53,7 +52,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250612-module-params-v3-v13-5-bc219cd1a3f8@kernel.org>
+Message-Id: <20250612-module-params-v3-v13-6-bc219cd1a3f8@kernel.org>
 References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
 In-Reply-To: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -72,59 +71,47 @@ Cc: Trevor Gross <tmgross@umich.edu>,
  Daniel Almeida <daniel.almeida@collabora.com>, 
  linux-modules@vger.kernel.org, Andreas Hindborg <a.hindborg@kernel.org>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1217; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=93O4r+kmKDFCOxEuHQOYGOvJph9EXJLBbFPup2aAaiw=;
- b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBoSti6KC9qPLWJ8930ZgrcjFzngIpyDLpikU0UG
- vLM3onGBEyJAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaErYugAKCRDhuBo+eShj
- d0B9EACrkqVn40B92a0VhRagql+NDwZY5jE8WoFDiLVLlnJa9t5rb3HCpnYqZFng/dfgUtKWC2M
- 6SbzbVuaWw/DxtgLGNfiJ2MGzBg6yy1ekiAJbeXhAiIeVkjmAxp8NPgvMPyypK6DAGlnZQ4lRcy
- 2ngi7ek7CNnASahd3mDl7O4F/n8bgEiJ1XX58iU5nvLSReUiA78I7pEV0c+P+Lwl7fWPwxx40jS
- QMVOnrmI1/wQiEN+PaEym+l2dAu4P1W89/4sYhJ4Mp7+szLcV50yTPFu6H0AjKdGp56yOuE7F9d
- ziPEJ67RZhQ1RyTyzV47YxyaItyT8S3lbv9t7+macjEUA/GLv7bzl9CmsP+7eKtN6lpfs0Cdec/
- iFqw0/d8YyvhC+HYgMx/3p+K43PlEoNpEqDRdWeeHOgSW0qfGsSd1gm1YAJJMNVPoYQTBsHetCc
- sPKwfqBcaj5+tOurY0xZJMBF+e8KXD6PYcN1JvklizYTNNVxPY4GDu4ekoECKpvKIMaUJkOVtVn
- 3MsRxN5xykmQyx859tWDGyYsOIsAdZVicg7p7xN1hAHRd8WqqAhAqzODwpU0HXXnGc6quC6e3q/
- +ljVzeoaiSYJz5ntE033FYJFgek6Ff/W6zcXNiMH0duuPvRCOrukDLsHtSgxQql/C7Azm5xDk6y
- hJ7LvHpnKYyk87g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=808; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=PtuTc4hQCwkPkaeEcx5FuCImo6u7nfEiFFeDuVcRi+8=;
+ b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBoSti7f7BsTFkFbFOskmVS4/+QcJ4aUaQYBbQjc
+ u8+JpR5o2mJAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaErYuwAKCRDhuBo+eShj
+ d2pNEACnbI0d469VxHqJtVI1ZNarSPJeilQVW6J6dQh5JvBNAIkcUK5AZEBQsV/OGQG9suT42g7
+ +Q5LB5BgS8yKbKE2eDWN+zzdqyGzsno/unTxk+KOPXyw3wsnhv9N7WYIL0z0bRYsni2gyWem+1C
+ 2NiVyuU50OBTR/930EnWbhdU6aVJjJSfDT3/RAFWeJXU46RZnB8w+z7fAFyDVI7YfhWxbk/FfyF
+ mydPez6cGLpS8G9VBJVfyx+XvLsCXzELL49z+pNOj46Ah80QTzBbA13CmRYgQOCmi1hDTO3n2W+
+ lNg4nYZB40m/nqXI2cGpw+F3ECX38Y3z31NPlW8wvoXbafwSGxK2AF3VeeClEVD6f5u7BFZgjM9
+ T9dvRlj/gymgVtlNYUHI3+bQ6a8xDprgsrJQweiZxlhfukuOV1/oOT2AuYivIar2TMaRwcfml2N
+ V6paR5z9uuI8KU4vF6o1S9K6eal5FfPTloW/pskhaU6h92QFKHohse/H4LMDKWuemYw0qiF2stP
+ vOftpBfMsQwTUolE1kaftrVY0cV72g/7hiGI0V/rbgw7p4SRQB16j2TPEko8WMLwgt9ukl+srfO
+ deEtA9WYjFHYGRk+uPwTjKAMeghe7e+EI4wEOdBzEPGAya0g0czzJDRBnZT4en/YCd3qLDm1Spm
+ cNZlXPvQdrnhYdQ==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Showcase the rust module parameter support by adding a module parameter to
-the `rust_minimal` sample.
+The module subsystem people agreed to maintain rust support for modules
+[1]. Thus, add entries for relevant files to modules entry in MAINTAINERS.
 
+Link: https://lore.kernel.org/all/0d9e596a-5316-4e00-862b-fd77552ae4b5@suse.com/ [1]
+
+Acked-by: Daniel Gomez <da.gomez@samsung.com>
 Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- samples/rust/rust_minimal.rs | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/samples/rust/rust_minimal.rs b/samples/rust/rust_minimal.rs
-index 1fc7a1be6b6d..c04cc07b3249 100644
---- a/samples/rust/rust_minimal.rs
-+++ b/samples/rust/rust_minimal.rs
-@@ -10,6 +10,12 @@
-     authors: ["Rust for Linux Contributors"],
-     description: "Rust minimal sample",
-     license: "GPL",
-+    params: {
-+        test_parameter: i64 {
-+            default: 1,
-+            description: "This parameter has a default of 1",
-+        },
-+    },
- }
- 
- struct RustMinimal {
-@@ -20,6 +26,10 @@ impl kernel::Module for RustMinimal {
-     fn init(_module: &'static ThisModule) -> Result<Self> {
-         pr_info!("Rust minimal sample (init)\n");
-         pr_info!("Am I built-in? {}\n", !cfg!(MODULE));
-+        pr_info!(
-+            "test_parameter: {}\n",
-+            *module_parameters::test_parameter.get()
-+        );
- 
-         let mut numbers = KVec::new();
-         numbers.push(72, GFP_KERNEL)?;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a92290fffa16..e3f43583c9c6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16794,6 +16794,8 @@ F:	include/linux/module*.h
+ F:	kernel/module/
+ F:	lib/test_kmod.c
+ F:	lib/tests/module/
++F:	rust/kernel/module_param.rs
++F:	rust/macros/module.rs
+ F:	scripts/module*
+ F:	tools/testing/selftests/kmod/
+ F:	tools/testing/selftests/module/
 
 -- 
 2.47.2
