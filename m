@@ -1,203 +1,171 @@
-Return-Path: <linux-kbuild+bounces-7466-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7467-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59249AD6993
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 09:52:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F04CAD69D1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 10:01:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24735169263
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 07:52:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B837B7A6852
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Jun 2025 08:00:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E85221D3F8;
-	Thu, 12 Jun 2025 07:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD316221DA8;
+	Thu, 12 Jun 2025 08:01:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nvsXXCC7"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Djdn65SD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q1Hun9oF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2701A2C27;
-	Thu, 12 Jun 2025 07:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2401920F069;
+	Thu, 12 Jun 2025 08:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749714757; cv=none; b=foKKwFZ4/8AQYFLS60UDWq19gwrZJbesLVScs4sPlg+yzicHipzMUv7FLxcpzTCVlMiA1wHIovsBBEq5txkFxuR/KIITaATzczSWzssBziO05vsIugInQLlNPHibvdcilMBk6yMBT1Xk+FJBXepx5fdjZ0iN3fv166HsFG64uuo=
+	t=1749715285; cv=none; b=WMNCF6xA1qq/LtIFwLiKPn4oouUnmDbOtx5/kpjqZ7p2OSieDwsjdgc9T8Nf+hHt0cRdqWcxF+ERg2xAj6qsi9d0/LW/HVO/ddYhy7+D7CqL/njvZtugAtTqBVO1olcYi88ddl1BIaOtVcdhAh29CEZb9KgWF4yZxrFtgxe7mq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749714757; c=relaxed/simple;
-	bh=XDYpiXL0YgJGP5OYcuDOmZzd3y95TyZawtDgvIGv3Gs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=XhfzyyeVer++Nf8DgBkBtdaw9BDE6gFRe4wBEEStkTF0mGfYZRmvVEhGtw+orFCAgFEZCZfsVS2YD2tBYnnzt+58xtfXdAjmVbzRdzy8MlZq6GjSrf7OOJnw+vvepCkHv5yhPHV94DwxUB9I+O2r1M7ThLV2D1gtthmtUQJDjYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nvsXXCC7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46155C4CEEA;
-	Thu, 12 Jun 2025 07:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749714756;
-	bh=XDYpiXL0YgJGP5OYcuDOmZzd3y95TyZawtDgvIGv3Gs=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=nvsXXCC7wOvekjkL2fqe1+gNHcZZJhVlIQxY9H25drq6mmIufm+EmSvAWgj1BfViE
-	 DTS8nrp86IfrxVCimYwZKtpefyALf6a8m66g62CNdZ7fYxryw9kJFVPIpeIPOzDwxm
-	 ffa6Nu8+pM/YNuFiIm9oyAr5yJECdktEpbgRi/B84Bk/Dno6C/5BQiT4Q4jKIsm+On
-	 rty18bxoRCafn3iXIuUjGDpboVfiHmoVzaSDc0zCAA5g6Itrhy+qeS81ijraDDmr0n
-	 p3x3Wrjcynk3X1mL9qV2v7vSmi6QLEYqLp7tHdcKmbGEfzgNHjUUGNk6D6a0cF7ET5
-	 gZXZVUvyJWRug==
+	s=arc-20240116; t=1749715285; c=relaxed/simple;
+	bh=m2zs+8VpRJtc+aR6SbZTkUZULAfTzFK7CScj34oxfVE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=HxU7Z+pkZONC6t+Y+dy2oIljdi4SPPXYGl47dc67g9jSbwlbDSYAY8y9lYQPwrDwHV5es5mrTzjhkwhTI4CH7S6pfj7BgdBVnS+qfn/opE1ghp34zHI59je92xCmtqadGFDaVxv3jzjss3NBcdem39dmCM7EEnnB+vap5fhIAGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Djdn65SD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q1Hun9oF; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E2DC911401DC;
+	Thu, 12 Jun 2025 04:01:21 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Thu, 12 Jun 2025 04:01:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1749715281;
+	 x=1749801681; bh=ESXbHeJFagXQn1CJAp2zXfESHZ5BTFgFyg2i6iJTqKY=; b=
+	Djdn65SDtIlM/HGxUXWA4JU/IBnKZKcpgxCoTJfE6OKBEcC/IctIF/W0MFCe9G2l
+	8TOIaHxzFiddQA32Q1UMmccrF1bhYgd1Big/emUnHWzQd5z9NPcdel4cfIbodiZ/
+	E489BJK0VmL1FiHg9AKMYXKtSxXzaza0iNPbS6mRSgHHwPXwqj+nN3d88/ShvBl6
+	Umzx5ZcZv7eSS+QVynNxhFzitXlC+PlCqQvdnG71ssxgOln8CD9NpY4TfpzlpkpA
+	hNMW9GG+kif+ThMzMq+cVtooc3w1+8x6Nws45+L5gOUSwBHB+4tvqMlCobKGT/eA
+	mGVRiAPKy2VRenL3rOgHZQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749715281; x=
+	1749801681; bh=ESXbHeJFagXQn1CJAp2zXfESHZ5BTFgFyg2i6iJTqKY=; b=Q
+	1Hun9oF/DwhBK8vo6mO3j5lQ1qT1G+QGPE5s23kLkDPW5fclhpox2bt4PkRl5Mij
+	hrFsotl3nCxWANsF8tlFF3bYA2I39LoD80Ux6RLkOeO9ruWLuIgUbJyEqbsjKtbT
+	CAeAdvmalAWLWOqSKZbu02O98m1mNYw4yachgdCs4M32Pz3rCet1oXOXUoZrsu+9
+	RSDNdaPmSny44x3TjwcE05F5EC/0TJ94a93JPWPvsqm1RLQ82FUbqhYNzMQ6u4UD
+	jNxvwhjdIlckCy5iCUAsz7+fxho/hOsBr2WDSjlkUF9dbDz+qjW+cb8FX5vtH/a0
+	xLgAy28jO8LDBEmz+y37A==
+X-ME-Sender: <xms:UYlKaEjLfviqKKR4d3KgfhQErMHW_tIsvJ_tGYO5cQwzuwdB7IyXLw>
+    <xme:UYlKaNBZ9dbNtqp7OZhgCIvjQn2pQn6O-SsmIfN6NA6Apr8onfr-zmN7r8WY1vEy5
+    FqQcux8XLUCsdECFN8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddugeehfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
+    jeenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpedvhfdvkeeuudevfffftefgvdevfedvleehvddv
+    geejvdefhedtgeegveehfeeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeh
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrghsrghhihhrohihsehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehtohhrvhgrlhgusheslhhinhhugidqfhhouhhnuggr
+    thhiohhnrdhorhhgpdhrtghpthhtohephhgtrgeslhhinhhugidrihgsmhdrtghomhdprh
+    gtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:UYlKaMF1SBiKQcf9DMKPWwawPbd4wPAUybvkuxRiBZr_jkifx-y-XA>
+    <xmx:UYlKaFT1dKGkTp8qcj3PdHS2Na0Cg5QDrLPws6pe4GQ3bnEsFfDSBA>
+    <xmx:UYlKaByx6RB9tjJ5nLqo9YHNUy3J9A-EFXq7EyrL9ArYHgY8bI69ng>
+    <xmx:UYlKaD4tVjeXCPmm8M9GGeQrC-GgOmSqYWTUi-eufeuKFq2uUfA8Bw>
+    <xmx:UYlKaCrVdbYyeJd28tAqFoK72V3iqSer_DTZiUk60LYiwDdG4on562_A>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 8A636700063; Thu, 12 Jun 2025 04:01:21 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+X-ThreadId: T11a455a1e4054318
+Date: Thu, 12 Jun 2025 10:01:00 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Masahiro Yamada" <masahiroy@kernel.org>
+Cc: "Heiko Carstens" <hca@linux.ibm.com>,
+ "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>
+Message-Id: <38a08452-4db2-43e0-afdc-b7d696da5454@app.fastmail.com>
+In-Reply-To: 
+ <CAK7LNAShTuuxL6+foeQBTg4Nf581Q3vy38XGuXRk4hFvEAWjig@mail.gmail.com>
+References: 
+ <CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com>
+ <20250611075533.8102A57-hca@linux.ibm.com>
+ <CAK7LNASSeuZWAXS6tDGL1T8S1N9fmg4DND616BL6uco4gnYFqA@mail.gmail.com>
+ <8992766a-cc96-40bb-b8c2-60931ad0f065@app.fastmail.com>
+ <CAK7LNAShTuuxL6+foeQBTg4Nf581Q3vy38XGuXRk4hFvEAWjig@mail.gmail.com>
+Subject: Re: [GIT PULL] Kbuild updates for v6.16-rc1
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Jun 2025 09:52:30 +0200
-Message-Id: <DAKE43J2GFVF.18KWPFWPZKDM@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <benno.lossin@proton.me>, "Alice
- Ryhl" <aliceryhl@google.com>, "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>, "Luis Chamberlain"
- <mcgrof@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Nicolas Schier"
- <nicolas.schier@linux.dev>, "Trevor Gross" <tmgross@umich.edu>, "Adam
- Bratschi-Kaye" <ark.email@gmail.com>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Sami Tolvanen" <samitolvanen@google.com>,
- "Daniel Gomez" <da.gomez@samsung.com>, "Simona Vetter"
- <simona.vetter@ffwll.ch>, "Greg KH" <gregkh@linuxfoundation.org>, "Fiona
- Behrens" <me@kloenk.dev>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH v12 2/3] rust: add parameter support to the `module!`
- macro
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20250506-module-params-v3-v12-0-c04d80c8a2b1@kernel.org>
- <20250506-module-params-v3-v12-2-c04d80c8a2b1@kernel.org>
- <D9PW1NI2S6FV.8LA53J87VCML@kernel.org> <87plfazi13.fsf@kernel.org>
-In-Reply-To: <87plfazi13.fsf@kernel.org>
 
-On Wed Jun 11, 2025 at 12:31 PM CEST, Andreas Hindborg wrote:
-> "Benno Lossin" <lossin@kernel.org> writes:
->> On Tue May 6, 2025 at 3:02 PM CEST, Andreas Hindborg wrote:
->>> diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
->>> index a3ee27e29a6f..16d300ad3d3b 100644
->>> --- a/rust/macros/helpers.rs
->>> +++ b/rust/macros/helpers.rs
->>> @@ -10,6 +10,17 @@ pub(crate) fn try_ident(it: &mut token_stream::IntoI=
-ter) -> Option<String> {
->>>      }
->>>  }
->>> =20
->>> +pub(crate) fn try_sign(it: &mut token_stream::IntoIter) -> Option<char=
-> {
->>> +    let peek =3D it.clone().next();
->>> +    match peek {
->>> +        Some(TokenTree::Punct(punct)) if punct.as_char() =3D=3D '-' =
-=3D> {
+On Thu, Jun 12, 2025, at 03:42, Masahiro Yamada wrote:
+> On Wed, Jun 11, 2025 at 11:24=E2=80=AFPM Arnd Bergmann <arnd@arndb.de>=
+ wrote:
+>> On Wed, Jun 11, 2025, at 15:32, Masahiro Yamada wrote:
+>> > On Wed, Jun 11, 2025 at 4:55=E2=80=AFPM Heiko Carstens <hca@linux.i=
+bm.com> wrote:
+>> I think this makes sense in general, but the output here is
+>> excessive if it leads to users no longer wanting to enable W=3D1.
 >>
->> Should we also allow a leading `+`?
+>> There are other warnings that I think should be enabled at the
+>> W=3D1 level (e.g. -Wformat-security) and eventually by default,
+>> but that are still too noisy at that level.
+>>
+>> My own cutoff would be at a few hundred warnings in allmodconfig
+>> builds if there is an effort to reduce it further, but it seems
+>> that this one is still at a few thousand, which does not seem ok.
 >
-> I would argue no, because rust literals cannot start with `+`.
-
-Makes sense.
-
->>> +            let _ =3D it.next();
->>> +            Some(punct.as_char())
->>> +        }
->>> +        _ =3D> None,
->>> +    }
->>> +}
->>> +
->>>  pub(crate) fn try_literal(it: &mut token_stream::IntoIter) -> Option<S=
-tring> {
->>>      if let Some(TokenTree::Literal(literal)) =3D it.next() {
->>>          Some(literal.to_string())
->>> @@ -86,3 +97,17 @@ pub(crate) fn function_name(input: TokenStream) -> O=
-ption<Ident> {
->>>      }
->>>      None
->>>  }
->>> +
->>> +/// Parse a token stream of the form `expected_name: "value",` and ret=
-urn the
->>> +/// string in the position of "value".
->>> +///
->>> +/// # Panics
->>> +///
->>> +/// - On parse error.
->>> +pub(crate) fn expect_string_field(it: &mut token_stream::IntoIter, exp=
-ected_name: &str) -> String {
->>> +    assert_eq!(expect_ident(it), expected_name);
->>> +    assert_eq!(expect_punct(it), ':');
->>> +    let string =3D expect_string(it);
->>> +    assert_eq!(expect_punct(it), ',');
->>
->> This won't allow omitting the trailing comma.
+> Then, what to do?  Downgrade to W=3D2?
 >
-> This is in line with the rest of the module macro.
+> I think nobody cares about W=3D2 builds,
 
-Then we should change that:
+I think the first step would be mass-cleanup patches to get
+the initial numbers down. A lot of this can be scripted.
 
-    https://github.com/Rust-for-Linux/linux/issues/1172
+> and the problem of all C files including <linux/export.h>
+> would remain forever.
 
->>> +    string
->>> +}
->>
->> [...]
->>
->>> @@ -186,33 +336,35 @@ pub(crate) fn module(ts: TokenStream) -> TokenStr=
-eam {
->>>      let info =3D ModuleInfo::parse(&mut it);
->>> =20
->>>      let mut modinfo =3D ModInfoBuilder::new(info.name.as_ref());
->>> -    if let Some(author) =3D info.author {
->>> -        modinfo.emit("author", &author);
->>> +    if let Some(author) =3D &info.author {
->>> +        modinfo.emit("author", author);
->>>      }
->>> -    if let Some(authors) =3D info.authors {
->>> +    if let Some(authors) =3D &info.authors {
->>>          for author in authors {
->>> -            modinfo.emit("author", &author);
->>> +            modinfo.emit("author", author);
->>>          }
->>>      }
->>> -    if let Some(description) =3D info.description {
->>> -        modinfo.emit("description", &description);
->>> +    if let Some(description) =3D &info.description {
->>> +        modinfo.emit("description", description);
->>>      }
->>>      modinfo.emit("license", &info.license);
->>> -    if let Some(aliases) =3D info.alias {
->>> +    if let Some(aliases) =3D &info.alias {
->>>          for alias in aliases {
->>> -            modinfo.emit("alias", &alias);
->>> +            modinfo.emit("alias", alias);
->>>          }
->>>      }
->>> -    if let Some(firmware) =3D info.firmware {
->>> +    if let Some(firmware) =3D &info.firmware {
->>>          for fw in firmware {
->>> -            modinfo.emit("firmware", &fw);
->>> +            modinfo.emit("firmware", fw);
->>
->> I don't like that you have to change all of these.
->
-> Why not? If I was to write this code in the first place, I would have
-> used a reference rather than pass by value.
+I'm missing a bit of background here, and I don't see this
+explained in the 5b20755b7780 ("init: move THIS_MODULE
+from <linux/export.h> to <linux/init.h>") changelog text
+either
 
-That's fine, but do it in a separate commit then.
+What is the purpose of cleaning the linux/export.h inclusions,
+and what makes this one more important than others?
+I obviously understand that indirect header inclusions are
+a giant mess and that any such cleanup helps, but linux/export.h
+seems particularly small compared to many others. It was
+originally introduced so a lot of files would no longer have
+to pull in linux/module.h if they only care about using
+EXPORT_SYMBOL() and THIS_MODULE, so linux/module.h could
+eventually become private to kernel/module/*.c.
 
->> Can't you just take a
->> `&[Parameter]` argument in `emit_params` instead of the whole
->> `ModuleInfo` struct?
->
-> I don't think that is a nice solution. I would have to pass the name
-> field as well, increasing the number of parameters to the function.
+Is this something you are trying to continue, or are you
+doing something else here?
 
-Ah right makes sense.
+FWIW, I compared the preprocessed sizes of linux/export.h
+(~2000) and linux/module.h (~120,000), and it seems that almost
+none of those are needed by most of the files including
+linux/module.h. The one part that is commonly required is
+MODULE_{INFO,AUTHOR,LICENSE,DESCRIPTION}, so maybe there would
+be a chance to clean this up at the same time if you are
+planning some large-scale reshuffling of #include statements
+around export.h.
 
----
-Cheers,
-Benno
+     Arnd
 
