@@ -1,414 +1,192 @@
-Return-Path: <linux-kbuild+bounces-7498-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7499-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675B1AD8FDA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jun 2025 16:43:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54058AD943E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jun 2025 20:15:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 98F7717E204
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jun 2025 14:43:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 477371BC180B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Jun 2025 18:15:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864731A01C6;
-	Fri, 13 Jun 2025 14:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A54B21EC018;
+	Fri, 13 Jun 2025 18:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rc/SufIb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FAC1A76AE;
-	Fri, 13 Jun 2025 14:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DD42E11AE;
+	Fri, 13 Jun 2025 18:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749825774; cv=none; b=JMl4OyKtpL3iI6pslp17eYRVQ6H1U9ZzemFNTcmepBwfi07gfdyYFBVYWV6A3UesNQHNy75ZzTKHn8Hq4In5UFaK7MjykhHL82t1Jm35JRuutt0iABfc6eK4yx+CQBiqjBe52btbeHQP4f3Ql5hd9w0ARKkiHWu9vQbM2eojJas=
+	t=1749838496; cv=none; b=hZpy1UqtiNA9PbJnsQ5GbbY+nlDxcFGq+GkZpB64snhGt0JTaRoHTEzv+aZvcswDf7LDdzdYP+5WYZy8i35V3hLYrAnavNhb2jlIpQ8r37wakvT43V5O11/iOce/A8jVZlTEJ5+t/lqQylB3ASDhe0FqzVxPVY9NtO1zbR1tK48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749825774; c=relaxed/simple;
-	bh=zNSItPiMcI4v/nvELFQJ9buQognVR0LRfdwUYdA7JTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kdBbhFmz9QmjJeO0n/YjD/isNILwyO4vL2bQP87Awvt0P1IyERre7P99zgBtaerjZs7qGaUNyaDmDUHqi62AqPx6BClFLbkRmH6r29QnWjOA6GCMiRxB1nWvIVzkxVr/19jC+9j0wzlO/Upas4lgzrNYtIr6PtyBa3XnQ9AKMrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 4AD61BB03F;
-	Fri, 13 Jun 2025 14:42:44 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf12.hostedemail.com (Postfix) with ESMTPA id 630861C;
-	Fri, 13 Jun 2025 14:42:41 +0000 (UTC)
-Date: Fri, 13 Jun 2025 10:42:40 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- llvm@lists.linux.dev
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas.schier@linux.dev>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 0/5] tracepoints: Add warnings for unused tracepoints
- and trace events
-Message-ID: <20250613104240.509ff13c@batman.local.home>
-In-Reply-To: <20250613102834.539bd849@batman.local.home>
-References: <20250612235827.011358765@goodmis.org>
-	<20250613102834.539bd849@batman.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1749838496; c=relaxed/simple;
+	bh=KjYY4bsTZUm05TpfR2l4YdrK8TqDiMRSIg8azQwn+r8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r+0tKsyQuv/00ta0/2TInysyq5G2CgcwIj3etfFSF+IczCuuZ1H++h1oA9SWGTY9mrRu888y50JAomGCPGbJw3/VjGL7YVvLgAhhgU69guF1kJLLdQIH5ekqea8cORi3QjO4B/JFDLBgm0gMI5QUJed/zJu+x0n7hZjihbc39Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rc/SufIb; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-235a6b89dfaso3343005ad.3;
+        Fri, 13 Jun 2025 11:14:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749838494; x=1750443294; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wF4gp/2m+krKdbuHM8VFo8aUcpegmRfbsaqd6bWd3zs=;
+        b=Rc/SufIbtuMmpD6Mno48+Skl8X3xzck1mg4EWxe6804WHz7pH+EKgPkswvbcEreSu5
+         55oqAjn/WPxKlODXvgqYjSkFBCqL1PKYy600xyIsvMHPH1REnw8Ojtr/BDShRpubjeJN
+         ChUiAy3pCMUuKVUJof1Md+byZ9whV3SJxm7JwR/1509jvdE1gjBNJHIdSLnFdoRJ9/LO
+         9gEr1lBKgiqaa9Jp+3R/RP+TjyjPzLG6jSJXMRfcZPUlO3V3d3vCyyDb5fRGHECh5BQj
+         8ItRs+1gNF+br83shz+NqLHQiRChLMODrK1bmne9LMXgfjFawxW454wsP6mutWOOOI86
+         XPpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749838494; x=1750443294;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wF4gp/2m+krKdbuHM8VFo8aUcpegmRfbsaqd6bWd3zs=;
+        b=a1nh24khltTWa4mq05V0VzYI57drDu/r8guM0wAOrPkxvvSoLE69Rj4ChrKjmLdVyR
+         //hLa/Efx2F1Qmr1HIwOBV/5RxTD8bA7dHmGLiNs6D+Xld3gMC3iLkd0keR0f5wTchVP
+         damEV7SwcZhLOQPWvvq14wZyF4AolRuSx7nhOdElbEabZBs7yPGxJziNsa6Gwlng1Rzl
+         qBvTOkWOZFgZiuSQhgi1zpmvALOrXafvyxQME7CBzNNAY25Wrd9zRSNk7LpWDnxBOxxH
+         2gyTDSZ7GUpOXTib6lJfR7ScPsF1MOJM7Lkc5g/X5vzERBI5QkFO4UzV69GW+QYN/xgv
+         IldA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3LN9yfgUSWIJHmnl8PNaFAmvjXZk3bcW457RiAKzEBiQ68wmU5SzrBjQA73MBBbv4xgrlVXaSZMGe@vger.kernel.org, AJvYcCUHdPdao90MhiLwLKsAwfVqHpmXqGlgVTMFtmSNd+eL93lbVdR24OLce0dymDr3LqcjwNYcVLgO@vger.kernel.org, AJvYcCUPaoZiGpnoKO4M72G3wLUM28MVs/1Fnrbfduv+rnqymyOhIXeO5It7dUOHpWAp1D3jH68pxI16SfK5wZQ=@vger.kernel.org, AJvYcCUzM1y4jq8dbckYTzfQgVanNb98jKiF7T4PB9AAHhmpfalKuY6gsjeWD+a4RHXyplrZ7IW/yv2kW7MixE4S@vger.kernel.org, AJvYcCVhXaiv16f12Fl5+p9ZAuu/cBk/u2Ndk90zp6hmkclL09yM5xwTUwgKQVKQtsb/Cc7WXm/Jmh1cD6LPVEDJiSY=@vger.kernel.org, AJvYcCW/6sPwSn0aJXdOaSH9OOT5wp3BYbITyCZgVDn/VB3qQMOfe+STW3AyL99n2SraDQBNQeDok7v5rUl9Tjh0@vger.kernel.org, AJvYcCWb2K0JENWU1RB1FxUR/0SMZ9RfuULepOHJUw5IimNlklWCiR2eTZiAm3tjMQfgXnWtaShyimVgwshb@vger.kernel.org, AJvYcCXZhCj3LEzW4HlFMEEA3xlCJmf1p5VezLoZGJuwb6hZ5nInK7KF0MMlKoQ8NktyIO1jcC43gIUgSrHGLb67BwKv@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywqd+YBtiMxx7BsSJ/M5sHvCtilN4OrfwatALPNxn3Ygy5Efjz4
+	qIHmkoLMatb55QfBME9BxxU/x66CVXSxxPVYAQiqldGEq8ZAxZyZm1kWZeYhbT92R+NgFnKqG5q
+	aadVQaRdXX52b3AlwbnXma/9VwLbUJUY=
+X-Gm-Gg: ASbGnctTTRR7XYh0Ygs0sWzTsWBS55j+naRltlgMTgeBbp7l20bOQ972SXXRs15/tUv
+	Ib9FkNxMiUp+eOsk9vjFK8dZ7mLKHtVoaspcQyXqnzljU3tcovx7+DN9qSopHuRxK7BiSMGBP3T
+	5RTBQZwqOTHOs/LKZrSQcoOWQ6LcONv6QLdo8km5vUGxQ=
+X-Google-Smtp-Source: AGHT+IFYalb1OTW7qnfDKSlOci9VWDAXekpMbN5b2vtf3GW8ZUpuOTwRiHQFxL1wuWQtjgsw7eVkO7CajlLxN6YkM2A=
+X-Received: by 2002:a17:902:d48d:b0:234:d14c:50ff with SMTP id
+ d9443c01a7336-2366b00ba59mr2634725ad.6.1749838494222; Fri, 13 Jun 2025
+ 11:14:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/xB7r9y84J_G.DlS_P53lw5b"
-X-Rspamd-Queue-Id: 630861C
-X-Stat-Signature: omq3hajmpzo3ob4drj5o4h13adurdfe6
-X-Rspamd-Server: rspamout05
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19doMhSzneEzGuG6B8X7pg0zB3jxon5srI=
-X-HE-Tag: 1749825761-133021
-X-HE-Meta: U2FsdGVkX1+xSdW4RT4iCL3xaAa4KmDyXuBqJMj3ZV6NY1gosoLvuIj4UG51QLMtlTI/gwH4pOn0Nuq2rt+7m1GWGgmUFhz/dohTzI4b1RNUWYXq7Hl+ppWhmkCv4TKDdnhRAr6moOjtlgIG8UcL0BmNq/y5nAqE/ezK/2snNCIw/NsN1vilgo8HhxN0D0TME1eFsgXeKvtneZzDk2qWQNGTxbBP58CT4zTkgyhTrx9gB4IA4N9j6+quoko7j9oBAoto302Ys1yfRRsnr/X4A10L1Iz/3sv0dqWnTcYxx5I0z6zo92kjwA87H8p+dD0VM3/VGINtYoki6uEwCoLy78aP2ezGRfB0d+HSgBX7okQFTZE36isYl6t8aJlmHzX5EXnoVkHaOoY=
+References: <20250611-ptr-as-ptr-v11-0-ce5b41c6e9c6@gmail.com>
+In-Reply-To: <20250611-ptr-as-ptr-v11-0-ce5b41c6e9c6@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 13 Jun 2025 20:14:41 +0200
+X-Gm-Features: AX0GCFtsUq0DPj-o5G6erQ-PfWcX7A0QtacSDQOlDe1Lx8EsxSkeObOaFNw6_Co
+Message-ID: <CANiq72m1ZWxPgCda1C-8X5XOvEq9Z9JfJZqhU4ZUzZ64=N+2fQ@mail.gmail.com>
+Subject: Re: [PATCH v11 0/6] rust: reduce `as` casts, enable related lints
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	FUJITA Tomonori <fujita.tomonori@gmail.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+	Benno Lossin <lossin@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, 
+	linux-block@vger.kernel.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---MP_/xB7r9y84J_G.DlS_P53lw5b
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+On Wed, Jun 11, 2025 at 12:23=E2=80=AFPM Tamir Duberstein <tamird@gmail.com=
+> wrote:
+>
+> This series depends on "rust: retain pointer mut-ness in
+> `container_of!`"[1].
 
-On Fri, 13 Jun 2025 10:28:34 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+Not anymore! :)
 
-> And each DEFINE_EVENT() is approximately 1296 bytes.
->   ((19559 - 2069) - 5819) / 9
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 
-Interesting enough, just raw tracepoints are not much better. I updated
-the header file (attached) to have 10 of these, and compiled that.
+Thanks for rebasing, Tamir, I appreciate it.
 
-DECLARE_TRACE(size_event_1,
-        TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-        TP_ARGS(A, B));
+This has a bunch of hits in configfs, cpufreq and Nova [1]. I guess
+you built without those enabled.
 
-The result is:
+Could you please fix those? Since this affects other maintainers that
+we need to ask the Acked-by to, let's try to at least give them the
+final state.
 
-   text    data     bss     dec     hex filename
-    629    1440       0    2069     815 no-events.ko
-  44837   15424       0   60261    eb65 trace-events.ko
-  11495    8064       0   19559    4c67 define-events.ko
-  10865    4408       0   15273    3ba9 declare-trace.ko
+Thanks!
 
-Where each DECLARE_TRACE() ends up being 1320 bytes.
-  (15273 - 2069) / 10
+Cheers,
+Miguel
 
-This is slightly bigger than a DEFINE_EVENT(), but that's also because
-the DEFINE_EVENT() shares some of the tracepoint creation in the
-DECLARE_EVENT_CLASS(), where as that work is done fully in the
-DECLARE_TRACE().
+[1]
 
--- Steve
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:429:9
 
---MP_/xB7r9y84J_G.DlS_P53lw5b
-Content-Type: text/x-chdr
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=size_events.h
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:467:9
 
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:479:9
 
-/* SPDX-License-Identifier: GPL-2.0 */
-#undef TRACE_SYSTEM
-#define TRACE_SYSTEM event-sizes 
+warning: `as` casting between raw pointers without changing their constness
+   --> rust/kernel/configfs.rs:564:48
 
-#undef TRACE_SYSTEM_VAR
-#define TRACE_SYSTEM_VAR event_sizes
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:721:39
 
-#if !defined(_SIZE_EVENT_H) || defined(TRACE_HEADER_MULTI_READ)
-#define _SIZE_EVENT_H
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:764:35
 
-#include <linux/tracepoint.h>
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:783:35
 
-#ifndef SIZE_EVENT_DEFINED
-#define SIZE_EVENT_DEFINED
-struct size_event_struct {
-	unsigned long a;
-	unsigned long b;
-};
-#endif
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:764:35
 
-#define DEFINE_EVENT_SIZES 0
-#define DEFINE_FULL_EVENTS 0
-#define DEFINE_JUST_TRACEPOINTS 1
+warning: reference as raw pointer
+   --> rust/kernel/configfs.rs:783:35
 
-#if DEFINE_EVENT_SIZES
+warning: using `as _` conversion
+   --> rust/kernel/cpufreq.rs:650:45
 
-TRACE_EVENT(size_event_1,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
+warning: `as` casting between raw pointers without changing their constness
+   --> rust/kernel/cpufreq.rs:650:45
 
-#if DEFINE_FULL_EVENTS
-TRACE_EVENT(size_event_2,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_3,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_4,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_5,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_6,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_7,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_8,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_9,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-TRACE_EVENT(size_event_10,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B),
-	TP_STRUCT__entry(
-		__field(	unsigned long,	Aa)
-		__field(	unsigned long,	Ab)
-		__field(	unsigned long,	Ba)
-		__field(	unsigned long,	Bb)
-	),
-	TP_fast_assign(
-		__entry->Aa = A->a;
-		__entry->Ab = A->b;
-		__entry->Ba = B->a;
-		__entry->Bb = B->b;
-	),
-	TP_printk("Aa=%ld Ab=%ld Ba=%ld Bb=%ld",
-		__entry->Aa, __entry->Ab, __entry->Ba, __entry->Bb)
-);
-#else /* !DEFINE_FULL_EVENTS */
-DEFINE_EVENT(size_event_1, size_event_2,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
+warning: using `as _` conversion
+  --> drivers/gpu/nova-core/driver.rs:22:64
 
-DEFINE_EVENT(size_event_1, size_event_3,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
+warning: casts from `u8` to `u32` can be expressed infallibly using `From`
+   --> drivers/gpu/nova-core/regs/macros.rs:267:26
 
-DEFINE_EVENT(size_event_1, size_event_4,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
+warning: casts from `u8` to `u32` can be expressed infallibly using `From`
+   --> drivers/gpu/nova-core/regs/macros.rs:267:26
 
-DEFINE_EVENT(size_event_1, size_event_5,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
+warning: casts from `u8` to `u32` can be expressed infallibly using `From`
+   --> drivers/gpu/nova-core/regs/macros.rs:267:26
 
-DEFINE_EVENT(size_event_1, size_event_6,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
+warning: casts from `u8` to `u32` can be expressed infallibly using `From`
+   --> drivers/gpu/nova-core/regs/macros.rs:267:26
 
-DEFINE_EVENT(size_event_1, size_event_7,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
+warning: casts from `u8` to `u32` can be expressed infallibly using `From`
+   --> drivers/gpu/nova-core/regs/macros.rs:267:26
 
-DEFINE_EVENT(size_event_1, size_event_8,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DEFINE_EVENT(size_event_1, size_event_9,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DEFINE_EVENT(size_event_1, size_event_10,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-#endif /* !DEFINE_FULL_EVENTS */
-
-#elif DEFINE_JUST_TRACEPOINTS
-
-DECLARE_TRACE(size_event_1,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_2,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_3,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_4,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_5,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_6,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_7,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_8,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_9,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-
-DECLARE_TRACE(size_event_10,
-	TP_PROTO(struct size_event_struct *A, struct size_event_struct *B),
-	TP_ARGS(A, B));
-#endif /* DEFINE_EVENT_SIZES && DEFINE_JUST_TRACEPOINTS */
-
-#endif
-
-/***** NOTICE! The #if protection ends here. *****/
-
-
-#undef TRACE_INCLUDE_PATH
-#undef TRACE_INCLUDE_FILE
-#define TRACE_INCLUDE_PATH .
-#define TRACE_INCLUDE_FILE size_events 
-#include <trace/define_trace.h>
-
---MP_/xB7r9y84J_G.DlS_P53lw5b--
+warning: casts from `u8` to `u32` can be expressed infallibly using `From`
+  --> drivers/gpu/nova-core/regs.rs:35:65
 
