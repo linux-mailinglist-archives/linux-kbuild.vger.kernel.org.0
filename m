@@ -1,111 +1,283 @@
-Return-Path: <linux-kbuild+bounces-7501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148BEAD9941
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jun 2025 02:54:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74231AD994A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jun 2025 02:55:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEFA74A1C2A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jun 2025 00:54:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CEC44A1D01
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jun 2025 00:55:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5533E1802B;
-	Sat, 14 Jun 2025 00:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3546A24B26;
+	Sat, 14 Jun 2025 00:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WezgbJk0"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TaqFkdfS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9379A921
-	for <linux-kbuild@vger.kernel.org>; Sat, 14 Jun 2025 00:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1D5AD2D
+	for <linux-kbuild@vger.kernel.org>; Sat, 14 Jun 2025 00:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749862467; cv=none; b=lFCgxF7yq4TUM85I/VSjZ0t5TtoFcVhQ9sIC+zHwtJb/vmt/SGnp+7YGu6TDb8eLdGKfYbcBP5APITB4tSdCrOuaAro11zGQZdvRjwMio/8XHnyiGPB9zvfTMd1IJWCnh7CHEwAAFoZZzzeq+GjuLggCprnvdp51IWn1FbxuFZY=
+	t=1749862545; cv=none; b=R11+ysy5+AInsv4gKn5hJAUhZJh3IEmGnNUvYkunAsGER27PJREIcbUcyZ3ppkwcqn7fwejjBWg/v/OSdT6Mfz5Gic0TbpRlPx3pXr+ZvhoFWCYdwvDwPmUHO4utZRENPcPu/gfusqFQRvzjN5AAumKFLX0wR5M3v8RgxMWcp/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749862467; c=relaxed/simple;
-	bh=dbg3c1BYh2RqngzJb5eNWzqDUU5+7bNmKWGAXK29fkM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ejp33bup16FDIhAV6A+nt96ICTQnXjpDeolktiKsuPkAkhFeM565wKHdLP/n7RCkHq6IxMAOtoFsrAeyNy6AGVpb23mLmJUq4hm+DMKBTcvRHjWjl8+ETegRR9Zo1fJMQk+s4Nw7HF1rZxS5dFs9N+xXKbO/28dsqm+tlm4xOU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WezgbJk0; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1749862545; c=relaxed/simple;
+	bh=W9uiRdZxIscpcrYYnkRSlg+ZO9b1JTinVLNqKvo7yrQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=c5iRwtr2/UXpz6ZIimXmFzkou41Qf9UpyWWbCdU88C5xZMKr9lYNoPB8y5DUJIIU4dAIhJHO5XrPyU8Ia3NZAYsiZpZGnVmv4YAzcVXBIeW8l22MRAJY6vdgecwq4/cqCgEfGI6MgphjzMWP8OiSFBOBKVYUSITAPxBXQMsWZL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TaqFkdfS; arc=none smtp.client-ip=209.85.216.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2348ac8e0b4so40935ad.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Jun 2025 17:54:25 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-311d670ad35so2557194a91.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 13 Jun 2025 17:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749862465; x=1750467265; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dbg3c1BYh2RqngzJb5eNWzqDUU5+7bNmKWGAXK29fkM=;
-        b=WezgbJk0dtNUYgx24URetCr6EXq91Ga38mytsbVMSvQi3xAQnTtIvKvc1AjVq1GNEL
-         UodO33phXhFGQouhEwYlWk2BhgrbOBJMRgN9mxMdKZ97o49a0IQIJpAv4MDo5Hk46PgH
-         eAkkILbbUz1J1ezLysvMlv5ElzF6WaRVn4Ub9EiGorspTF/vytjkNvFG/RFPH4a/dRbR
-         OTs+O4QmXqsqTPt05pM5jedM8u/uvv1p79t9RGpaxjhHEbyUgIcA7i9Dx+dt28KzMK4f
-         MD9FQo+ZG+tOoahB+S1zTfA+8g/5vGIJ7v678WlCNtMvYytRYSO5WRzvrbX1mEyNiEsE
-         P+Mg==
+        d=google.com; s=20230601; t=1749862542; x=1750467342; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ja6SZkqXOek9VkK6m25wDZDPiDBPTxpH5lik8ktGlnw=;
+        b=TaqFkdfS8RMHxd/RtolmGdegj4zgt94Iz/2VSAjOmgtU0qRX7+tsPRt3kEK5TY5ZIS
+         saaHYdeWgfM+eb7hR9Oi3kssx4E2cfmmRB6DuC69mLPSeNnLbgiJQm3ME9di0qaevIC2
+         hZcjnZUDYGJIVl5mJj/Kcets/iiQzmhq7ftkYfKdpy9BoH01ZHXUyAwkGJ+yOFsXxg5O
+         tqiuQFiBHblFNSqiQw81uYRTKcFWL/NM69nQTCor+RJnE/KxVxb1eHe6EyjC76HpyDaR
+         KdykKNMgobCW6VeusTHOoXm7IVyC0au4i4Io6bb4uFViyAYXtDrYUPR091aIR3N1LGuO
+         t3Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749862465; x=1750467265;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dbg3c1BYh2RqngzJb5eNWzqDUU5+7bNmKWGAXK29fkM=;
-        b=OS0/5syYRiFAWoGK0evYOjtWF9eO+sMfL/CYXGQ7F2f1MKs/tvTT5sxn5JIsxglFkq
-         pd5Bjyb8EXDgutX07C2jj2NethOrDbKgCNQUG1FWwPvaioycbsK84nDjMhFR092WI+W0
-         vO7tBDqdePJ3fWguOwcGpc7a919oMpi1uREkxms2I8D8MCHFROFYF41m4BG8pVsx+52l
-         C+PyeNPIdhmGzO/ZJR28+1iHpOJc2M1RYeB7wPmve2cvY6XKPaZVn4VeOavkEw7R4qnO
-         A3nIeSgDupC6HsdkBPRdxUB8EvgV+8tzcUGuw+O8VdxQZfeMKAFmbl9JLGhcvgqJ/W+N
-         6cDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWkXJJRTZm77EWxBfeI6sCir6VsTHR7yPBtUVEeY8DNcH/lkBWJx+9nM2zLu3lieDVqjVNIpHo8+p9KIg8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzava39TAFujLerNZlNfRbM6fNiEfc+T2r8yZfZk6e6uyFMgZuE
-	UbXzwjMS0kRlD77NKrdWdSm9VT7HG3tec8gQQlPrmsns3JGT/Mwu3a0dp4SAug2JqBXySmNF5B+
-	swh5ZEx/eRoJvgUl7MC+QdMmOiXq0OdrggC/c+2tl
-X-Gm-Gg: ASbGnctI5J4R3h7wtMjOYAfr15/G8w6vC80YPGhWOuhtRhu1CdANSx5+MRyBDbwMJrt
-	/qxv9n52z6YaXrwL3UDOxGsNoT/CcdAjrxfFGyalKBjV+gHhUQSSsFrLf8n0KoeiHhZGTM6eTeC
-	cCM7XH2cQx7n1aoeIan398gh3uM8CUnTuys4VZnRe8BCpBUB/7OAE=
-X-Google-Smtp-Source: AGHT+IF5JrVHVbiN/102jVBcJgf8pP7Edb6rcI75OIdKcC6Rl/eoRwukBdcUmUcOznU3bQiIsNg7MVhxwBLn+Nvp0Wc=
-X-Received: by 2002:a17:903:1107:b0:234:afcf:d9de with SMTP id
- d9443c01a7336-2366f01c6f8mr325645ad.29.1749862464820; Fri, 13 Jun 2025
- 17:54:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749862542; x=1750467342;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ja6SZkqXOek9VkK6m25wDZDPiDBPTxpH5lik8ktGlnw=;
+        b=EhmJOZkaJkWALQA3kiUAJ2ABG7ySKDk1lQ5IbtzLtaSVAdAHYTixtP2qOpwJ/VpJg1
+         Z8rd8jbwowql7mS8BMqdadqpdV0LOz60cZmSVW5Aj1mCcgE4GEnSrdc3l0jF8dsgqW4f
+         wlig8cb4Cbb6rFfCRaf1/G9F9+m7t/h16QmfnYTiUrvVYEWzz3P72M5ItLKoRHQCDpgg
+         sTGS3LUFnPKhFwOhaE5R+sBsGk8G38Fas0kdhBln6JTNdGO+3E9yjUOhIZB6S3eITLdG
+         F853PFoPZyMGKTQ7L8jwsfgjyRkcPWgpwdRd8/4E8kOkHJjMwcnbbp11LpxyJRFAP1nR
+         yYsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVp+xDDv5Q6TWXZcqiYksBb7IYR6oQrWdBgcpMTAwD9ogCmxL6+E3XDS3c8g/JdbA5J+4LzSEXgkKvmFuA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXw+T0jKwKLx7sy3HZbpZL9g7Io+CiQ22etsKkoi7Coc/v0+eW
+	bvnW8anXtPLFGxtEVgkPg51egk0CUNHwpK/qMHf2OL1mLgmKBBTgvQs+6P37Jb2rcu+ukPIkBL4
+	A7yqO096W2cR6VkRYCiRsbztix39Tvw==
+X-Google-Smtp-Source: AGHT+IEmiUV1YJNJXcUU7ffFPfNdMtt2ArTci9/pcqysiHrOP5C0wnwZLiWncL6SbtG1shmlIHtmn9ewTe65yS8WIeE=
+X-Received: from pjtd4.prod.google.com ([2002:a17:90b:44:b0:311:a4ee:7c3d])
+ (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:4e84:b0:313:dcf4:37bc with SMTP id 98e67ed59e1d1-313f1dd74acmr1796128a91.34.1749862542029;
+ Fri, 13 Jun 2025 17:55:42 -0700 (PDT)
+Date: Sat, 14 Jun 2025 00:55:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250609154926.1237033-2-samitolvanen@google.com> <dec42b04-b76f-4a2e-b060-9ac999fe1462@suse.com>
-In-Reply-To: <dec42b04-b76f-4a2e-b060-9ac999fe1462@suse.com>
+Mime-Version: 1.0
+X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6233; i=samitolvanen@google.com;
+ h=from:subject; bh=W9uiRdZxIscpcrYYnkRSlg+ZO9b1JTinVLNqKvo7yrQ=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDBk+J1piFPM+8duHcHx4HrjuwNRokye5Hx6+/zA/47WEv
+ erW7pqgjlIWBjEOBlkxRZaWr6u37v7ulPrqc5EEzBxWJpAhDFycAjCRR9cZGR6Uv3Tpa/6r/0Np
+ 4mzDukobY2GNlL3luqdaOE2U7scfO8nI0HzlummSovkxcekDCWIXOJVvXlR16Du0TLYx0OBP0Dk 3PgA=
+X-Mailer: git-send-email 2.50.0.rc1.591.g9c95f17f64-goog
+Message-ID: <20250614005532.1370072-2-samitolvanen@google.com>
+Subject: [PATCH v2] gendwarfksyms: Fix structure type overrides
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Fri, 13 Jun 2025 17:53:47 -0700
-X-Gm-Features: AX0GCFvhflmbUjvvF_yAMLbU4RfChKb2aHfDzBXIK7IMhzB8uMQ9kdWUKlDyi7o
-Message-ID: <CABCJKuctMAeD0HjnH5D8ji-g1ZKoev-u6ni-UiDL3qtQhpfbZA@mail.gmail.com>
-Subject: Re: [PATCH] gendwarfksyms: Fix structure type overrides
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
 	Daniel Gomez <da.gomez@samsung.com>, linux-modules@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Giuliano Procida <gprocida@google.com>
+	Sami Tolvanen <samitolvanen@google.com>, Giuliano Procida <gprocida@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Petr,
+As we always iterate through the entire die_map when expanding
+type strings, recursively processing referenced types in
+type_expand_child() is not actually necessary. Furthermore,
+the type_string kABI rule added in commit c9083467f7b9
+("gendwarfksyms: Add a kABI rule to override type strings") can
+fail to override type strings for structures due to a missing
+kabi_get_type_string() check in this function.
 
-On Fri, Jun 13, 2025 at 12:52=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> w=
-rote:
->
-> Nit: This code was the only user of __cache_was_expanded() and
-> __cache_mark_expanded(). It is now possible to merge
-> __cache_was_expanded() into cache_was_expanded() and
-> __cache_mark_expanded() into cache_mark_expanded().
+Fix the issue by dropping the unnecessary recursion and moving
+the override check to type_expand(). Note that symbol versions
+are otherwise unchanged with this patch.
 
-Nice catch. I'll send v2 with these dropped.
+Fixes: c9083467f7b9 ("gendwarfksyms: Add a kABI rule to override type strings")
+Reported-by: Giuliano Procida <gprocida@google.com>
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+---
+v2:
+- Dropped the now unused __cache_*_expanded() functions per
+  Petr's suggestion.
 
-> Looks ok to me otherwise, feel free to add:
->
-> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+v1: https://lore.kernel.org/r/20250609154926.1237033-2-samitolvanen@google.com/
 
-Thanks!
+ scripts/gendwarfksyms/gendwarfksyms.h | 14 +-----
+ scripts/gendwarfksyms/types.c         | 65 ++++++++-------------------
+ 2 files changed, 21 insertions(+), 58 deletions(-)
 
-Sami
+diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
+index 7dd03ffe0c5c..d9c06d2cb1df 100644
+--- a/scripts/gendwarfksyms/gendwarfksyms.h
++++ b/scripts/gendwarfksyms/gendwarfksyms.h
+@@ -216,24 +216,14 @@ int cache_get(struct cache *cache, unsigned long key);
+ void cache_init(struct cache *cache);
+ void cache_free(struct cache *cache);
+ 
+-static inline void __cache_mark_expanded(struct cache *cache, uintptr_t addr)
+-{
+-	cache_set(cache, addr, 1);
+-}
+-
+-static inline bool __cache_was_expanded(struct cache *cache, uintptr_t addr)
+-{
+-	return cache_get(cache, addr) == 1;
+-}
+-
+ static inline void cache_mark_expanded(struct cache *cache, void *addr)
+ {
+-	__cache_mark_expanded(cache, (uintptr_t)addr);
++	cache_set(cache, (unsigned long)addr, 1);
+ }
+ 
+ static inline bool cache_was_expanded(struct cache *cache, void *addr)
+ {
+-	return __cache_was_expanded(cache, (uintptr_t)addr);
++	return cache_get(cache, (unsigned long)addr) == 1;
+ }
+ 
+ /*
+diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
+index 39ce1770e463..7bd459ea6c59 100644
+--- a/scripts/gendwarfksyms/types.c
++++ b/scripts/gendwarfksyms/types.c
+@@ -333,37 +333,11 @@ static void calculate_version(struct version *version,
+ 	cache_free(&expansion_cache);
+ }
+ 
+-static void __type_expand(struct die *cache, struct type_expansion *type,
+-			  bool recursive);
+-
+-static void type_expand_child(struct die *cache, struct type_expansion *type,
+-			      bool recursive)
+-{
+-	struct type_expansion child;
+-	char *name;
+-
+-	name = get_type_name(cache);
+-	if (!name) {
+-		__type_expand(cache, type, recursive);
+-		return;
+-	}
+-
+-	if (recursive && !__cache_was_expanded(&expansion_cache, cache->addr)) {
+-		__cache_mark_expanded(&expansion_cache, cache->addr);
+-		type_expansion_init(&child);
+-		__type_expand(cache, &child, true);
+-		type_map_add(name, &child);
+-		type_expansion_free(&child);
+-	}
+-
+-	type_expansion_append(type, name, name);
+-}
+-
+-static void __type_expand(struct die *cache, struct type_expansion *type,
+-			  bool recursive)
++static void __type_expand(struct die *cache, struct type_expansion *type)
+ {
+ 	struct die_fragment *df;
+ 	struct die *child;
++	char *name;
+ 
+ 	list_for_each_entry(df, &cache->fragments, list) {
+ 		switch (df->type) {
+@@ -379,7 +353,12 @@ static void __type_expand(struct die *cache, struct type_expansion *type,
+ 				error("unknown child: %" PRIxPTR,
+ 				      df->data.addr);
+ 
+-			type_expand_child(child, type, recursive);
++			name = get_type_name(child);
++			if (name)
++				type_expansion_append(type, name, name);
++			else
++				__type_expand(child, type);
++
+ 			break;
+ 		case FRAGMENT_LINEBREAK:
+ 			/*
+@@ -397,12 +376,17 @@ static void __type_expand(struct die *cache, struct type_expansion *type,
+ 	}
+ }
+ 
+-static void type_expand(struct die *cache, struct type_expansion *type,
+-			bool recursive)
++static void type_expand(const char *name, struct die *cache,
++			struct type_expansion *type)
+ {
++	const char *override;
++
+ 	type_expansion_init(type);
+-	__type_expand(cache, type, recursive);
+-	cache_free(&expansion_cache);
++
++	if (stable && kabi_get_type_string(name, &override))
++		type_parse(name, override, type);
++	else
++		__type_expand(cache, type);
+ }
+ 
+ static void type_parse(const char *name, const char *str,
+@@ -416,8 +400,6 @@ static void type_parse(const char *name, const char *str,
+ 	if (!*str)
+ 		error("empty type string override for '%s'", name);
+ 
+-	type_expansion_init(type);
+-
+ 	for (pos = 0; str[pos]; ++pos) {
+ 		bool empty;
+ 		char marker = ' ';
+@@ -478,7 +460,6 @@ static void type_parse(const char *name, const char *str,
+ static void expand_type(struct die *cache, void *arg)
+ {
+ 	struct type_expansion type;
+-	const char *override;
+ 	char *name;
+ 
+ 	if (cache->mapped)
+@@ -504,11 +485,7 @@ static void expand_type(struct die *cache, void *arg)
+ 
+ 	debug("%s", name);
+ 
+-	if (stable && kabi_get_type_string(name, &override))
+-		type_parse(name, override, &type);
+-	else
+-		type_expand(cache, &type, true);
+-
++	type_expand(name, cache, &type);
+ 	type_map_add(name, &type);
+ 	type_expansion_free(&type);
+ 	free(name);
+@@ -518,7 +495,6 @@ static void expand_symbol(struct symbol *sym, void *arg)
+ {
+ 	struct type_expansion type;
+ 	struct version version;
+-	const char *override;
+ 	struct die *cache;
+ 
+ 	/*
+@@ -532,10 +508,7 @@ static void expand_symbol(struct symbol *sym, void *arg)
+ 	if (__die_map_get(sym->die_addr, DIE_SYMBOL, &cache))
+ 		return; /* We'll warn about missing CRCs later. */
+ 
+-	if (stable && kabi_get_type_string(sym->name, &override))
+-		type_parse(sym->name, override, &type);
+-	else
+-		type_expand(cache, &type, false);
++	type_expand(sym->name, cache, &type);
+ 
+ 	/* If the symbol already has a version, don't calculate it again. */
+ 	if (sym->state != SYMBOL_PROCESSED) {
+
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+-- 
+2.50.0.rc1.591.g9c95f17f64-goog
+
 
