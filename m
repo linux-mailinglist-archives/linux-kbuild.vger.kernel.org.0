@@ -1,283 +1,156 @@
-Return-Path: <linux-kbuild+bounces-7502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7503-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74231AD994A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jun 2025 02:55:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3314ADA1F9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Jun 2025 15:59:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CEC44A1D01
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Jun 2025 00:55:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1DD91890804
+	for <lists+linux-kbuild@lfdr.de>; Sun, 15 Jun 2025 14:00:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3546A24B26;
-	Sat, 14 Jun 2025 00:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D11AF1A5BAE;
+	Sun, 15 Jun 2025 13:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TaqFkdfS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X8k+Y3bA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1D5AD2D
-	for <linux-kbuild@vger.kernel.org>; Sat, 14 Jun 2025 00:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F14EBA53;
+	Sun, 15 Jun 2025 13:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749862545; cv=none; b=R11+ysy5+AInsv4gKn5hJAUhZJh3IEmGnNUvYkunAsGER27PJREIcbUcyZ3ppkwcqn7fwejjBWg/v/OSdT6Mfz5Gic0TbpRlPx3pXr+ZvhoFWCYdwvDwPmUHO4utZRENPcPu/gfusqFQRvzjN5AAumKFLX0wR5M3v8RgxMWcp/Q=
+	t=1749995992; cv=none; b=aWE00Y6unx5ywZQt1UlasP2F0ZI5E+I7RFBUw9blQXAAcr6G2rpahlrksC9sWaIziqXAJ1pFFDFKdg2gTGrPk0XFfj5NEiiC874jRtK75e45RL5nQcFdL0ejiwD4uhCA5LCX3PNKxwTJNNGVzL7K8X+iKpVopcMLHeU8V3oZFC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749862545; c=relaxed/simple;
-	bh=W9uiRdZxIscpcrYYnkRSlg+ZO9b1JTinVLNqKvo7yrQ=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=c5iRwtr2/UXpz6ZIimXmFzkou41Qf9UpyWWbCdU88C5xZMKr9lYNoPB8y5DUJIIU4dAIhJHO5XrPyU8Ia3NZAYsiZpZGnVmv4YAzcVXBIeW8l22MRAJY6vdgecwq4/cqCgEfGI6MgphjzMWP8OiSFBOBKVYUSITAPxBXQMsWZL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TaqFkdfS; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-311d670ad35so2557194a91.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Jun 2025 17:55:42 -0700 (PDT)
+	s=arc-20240116; t=1749995992; c=relaxed/simple;
+	bh=WmNsQfip4vrfN7hlnNXAYAFu5sigfQqIQkVm2jibIow=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=f8jN31XRgyFNogKXsPFB00UIHrV1hR8Two8zf+N5JnScxrKn8SPa6bt97qgfaOMbIXsx+6W/s5Xqqp9xgkFifBH/TQONA6MnRobb7RTaeuSGa+KX4ubKQXw3DeeFCjjOaJZ/RPoMWXEX9hU9H3oBumDg4NhZttI26DwkhJ21NY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X8k+Y3bA; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6fad4a1dc33so38443916d6.1;
+        Sun, 15 Jun 2025 06:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1749862542; x=1750467342; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+        d=gmail.com; s=20230601; t=1749995990; x=1750600790; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=ja6SZkqXOek9VkK6m25wDZDPiDBPTxpH5lik8ktGlnw=;
-        b=TaqFkdfS8RMHxd/RtolmGdegj4zgt94Iz/2VSAjOmgtU0qRX7+tsPRt3kEK5TY5ZIS
-         saaHYdeWgfM+eb7hR9Oi3kssx4E2cfmmRB6DuC69mLPSeNnLbgiJQm3ME9di0qaevIC2
-         hZcjnZUDYGJIVl5mJj/Kcets/iiQzmhq7ftkYfKdpy9BoH01ZHXUyAwkGJ+yOFsXxg5O
-         tqiuQFiBHblFNSqiQw81uYRTKcFWL/NM69nQTCor+RJnE/KxVxb1eHe6EyjC76HpyDaR
-         KdykKNMgobCW6VeusTHOoXm7IVyC0au4i4Io6bb4uFViyAYXtDrYUPR091aIR3N1LGuO
-         t3Bg==
+        bh=OnIqrqg12Nadpw9uFLKyOVdTtgRw1WyMs6J3V1XnBis=;
+        b=X8k+Y3bAQQHviMbSXOVNqPKUwsuIrxuhQWrA25QP+W3+XiEWvQrVpx8UkZBz+476ok
+         tD32zNx14GBvetpaVDnovsC4iaDhnZJpw6LmrjBh7tkuPkTU4Ds+iFJZJuu11L9eT+C5
+         E58Bjw81CVlhLIb3qGzr1x0ZG9od6S7GIzC1aaqTy4kgv1Qq7gT9CDMSuCaXI8DBtiYc
+         nQcE2qiFF+p6tMhb7uddtNptjBHYFIx/ZTvxklCQEk1S1GAJepFPZ+RtLqJzBsFW5mD0
+         xaSR/uFsRJR0g5zOyXCf7djA2n3VUtUvDK1V0AxwI58NB/VwhXdlvC03d4dAbHTmb4Nx
+         Es0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749862542; x=1750467342;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+        d=1e100.net; s=20230601; t=1749995990; x=1750600790;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ja6SZkqXOek9VkK6m25wDZDPiDBPTxpH5lik8ktGlnw=;
-        b=EhmJOZkaJkWALQA3kiUAJ2ABG7ySKDk1lQ5IbtzLtaSVAdAHYTixtP2qOpwJ/VpJg1
-         Z8rd8jbwowql7mS8BMqdadqpdV0LOz60cZmSVW5Aj1mCcgE4GEnSrdc3l0jF8dsgqW4f
-         wlig8cb4Cbb6rFfCRaf1/G9F9+m7t/h16QmfnYTiUrvVYEWzz3P72M5ItLKoRHQCDpgg
-         sTGS3LUFnPKhFwOhaE5R+sBsGk8G38Fas0kdhBln6JTNdGO+3E9yjUOhIZB6S3eITLdG
-         F853PFoPZyMGKTQ7L8jwsfgjyRkcPWgpwdRd8/4E8kOkHJjMwcnbbp11LpxyJRFAP1nR
-         yYsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVp+xDDv5Q6TWXZcqiYksBb7IYR6oQrWdBgcpMTAwD9ogCmxL6+E3XDS3c8g/JdbA5J+4LzSEXgkKvmFuA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXw+T0jKwKLx7sy3HZbpZL9g7Io+CiQ22etsKkoi7Coc/v0+eW
-	bvnW8anXtPLFGxtEVgkPg51egk0CUNHwpK/qMHf2OL1mLgmKBBTgvQs+6P37Jb2rcu+ukPIkBL4
-	A7yqO096W2cR6VkRYCiRsbztix39Tvw==
-X-Google-Smtp-Source: AGHT+IEmiUV1YJNJXcUU7ffFPfNdMtt2ArTci9/pcqysiHrOP5C0wnwZLiWncL6SbtG1shmlIHtmn9ewTe65yS8WIeE=
-X-Received: from pjtd4.prod.google.com ([2002:a17:90b:44:b0:311:a4ee:7c3d])
- (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:4e84:b0:313:dcf4:37bc with SMTP id 98e67ed59e1d1-313f1dd74acmr1796128a91.34.1749862542029;
- Fri, 13 Jun 2025 17:55:42 -0700 (PDT)
-Date: Sat, 14 Jun 2025 00:55:33 +0000
+        bh=OnIqrqg12Nadpw9uFLKyOVdTtgRw1WyMs6J3V1XnBis=;
+        b=TWRvlbMwzx8nRDMxV4e26Y96JfroIs4hmslCwOSPgS+rAOVzY70tQb3HFAN2dvj5Nd
+         98VlGMUuIQdfgKVCObIob7v8l3fLTCuwP1e9l98IY9vjrQ32cPm2wLA1CElsheWvbEtU
+         2Aee+ohR8gsp3ZoM9lMI+ddVjwf9fzN5us/BNI1N59GbbDOD/VH/qLJ1cu6zjLovjZGY
+         XaPpueZoNr/eiOJTBcEgC58olakRsKRtnT+bcXO/vx2cDfGizrNa69khrrniIVVKW+JI
+         KykWL/6pmBJVkRgh9km/VMECF9jt+H2Eylj4vOXo1k8eb3vJhmYAuyg/NG3rtGgrDsUg
+         RzcA==
+X-Gm-Message-State: AOJu0Yx/HptcuGwqyfyA84lvExCqGqOYS9ojbYxPLkJtc7LV6kzyVFGq
+	LfKdyM46/Kcjgnjg2VgsqFl+pdSH4SlsasyY/3oLsu88QU+PvCAHcJGGhYOGbi94HTwvmrEdm79
+	CRN5slYT1DjjSFxmqC2yy07V8j3F39qKV7Q==
+X-Gm-Gg: ASbGncsvzu8RRL1GmiH+NxWD+s0P2ycymvRD0DiFQYCUwjCmjE4I8bCzZBGKUhsbeZo
+	xxdNIaBg+CC57GWTBFNNQfJctdIqYBJ6or+x9j4aPgRQGvpz+iRalBn9+jLPEdSu/L/GOTeNIoj
+	9gc095LTUZd5gVWj1qq0BD2qGOVZPi07t34dpRHAXmvDwTCxMhJvPyivjdo1i41252xurbM6dkI
+	aSF
+X-Google-Smtp-Source: AGHT+IHwHm33jlN0eJ0HcvP3RXQJDvgo5OAHhmoaKXndIuBHT04eo4UJ+AJV22DgjSDFkAwJDLM1AaFuOpTpf2hOK7M=
+X-Received: by 2002:a05:6214:570d:b0:6e8:fbb7:6760 with SMTP id
+ 6a1803df08f44-6fb47725d95mr90875686d6.1.1749995989917; Sun, 15 Jun 2025
+ 06:59:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6233; i=samitolvanen@google.com;
- h=from:subject; bh=W9uiRdZxIscpcrYYnkRSlg+ZO9b1JTinVLNqKvo7yrQ=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDBk+J1piFPM+8duHcHx4HrjuwNRokye5Hx6+/zA/47WEv
- erW7pqgjlIWBjEOBlkxRZaWr6u37v7ulPrqc5EEzBxWJpAhDFycAjCRR9cZGR6Uv3Tpa/6r/0Np
- 4mzDukobY2GNlL3luqdaOE2U7scfO8nI0HzlummSovkxcekDCWIXOJVvXlR16Du0TLYx0OBP0Dk 3PgA=
-X-Mailer: git-send-email 2.50.0.rc1.591.g9c95f17f64-goog
-Message-ID: <20250614005532.1370072-2-samitolvanen@google.com>
-Subject: [PATCH v2] gendwarfksyms: Fix structure type overrides
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sami Tolvanen <samitolvanen@google.com>, Giuliano Procida <gprocida@google.com>
+MIME-Version: 1.0
+From: Z-Script Zs <zscript.team.zs@gmail.com>
+Date: Sun, 15 Jun 2025 19:29:38 +0530
+X-Gm-Features: AX0GCFuwwd9pNdjUSEl7E1VKoPVNrh5-POQo9MXAqQNy4tY4XFlZgPerkxzShow
+Message-ID: <CABGL3xcfdhDVt27MJCNs-2EhAnQ5EHm_W7RhE81YKhaq+j76=g@mail.gmail.com>
+Subject: kconfig: include <strings.h> to fix bcmp build error on Clang
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, masahiroy@kernel.org
+Content-Type: multipart/mixed; boundary="000000000000567afd06379cb1ef"
+
+--000000000000567afd06379cb1ef
+Content-Type: multipart/alternative; boundary="000000000000567afc06379cb1ed"
+
+--000000000000567afc06379cb1ed
 Content-Type: text/plain; charset="UTF-8"
 
-As we always iterate through the entire die_map when expanding
-type strings, recursively processing referenced types in
-type_expand_child() is not actually necessary. Furthermore,
-the type_string kABI rule added in commit c9083467f7b9
-("gendwarfksyms: Add a kABI rule to override type strings") can
-fail to override type strings for structures due to a missing
-kabi_get_type_string() check in this function.
+Hi,
 
-Fix the issue by dropping the unnecessary recursion and moving
-the override check to type_expand(). Note that symbol versions
-are otherwise unchanged with this patch.
+This patch fixes a build error caused by missing <strings.h> when compiling
+with Clang in strict ISO C environments such as Termux or Android.
 
-Fixes: c9083467f7b9 ("gendwarfksyms: Add a kABI rule to override type strings")
-Reported-by: Giuliano Procida <gprocida@google.com>
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
----
-v2:
-- Dropped the now unused __cache_*_expanded() functions per
-  Petr's suggestion.
+The function 'bcmp' is used in scripts/kconfig/confdata.c, but without
+including <strings.h>, the build fails under strict C99 rules due to an
+implicit declaration.
 
-v1: https://lore.kernel.org/r/20250609154926.1237033-2-samitolvanen@google.com/
+I'm 12 years old and just starting to learn Linux kernel development.
+This is my first patch submission. I'd be very grateful for any feedback or
+corrections.
 
- scripts/gendwarfksyms/gendwarfksyms.h | 14 +-----
- scripts/gendwarfksyms/types.c         | 65 ++++++++-------------------
- 2 files changed, 21 insertions(+), 58 deletions(-)
+Thank you for your time and for maintaining this incredible project.
 
-diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
-index 7dd03ffe0c5c..d9c06d2cb1df 100644
---- a/scripts/gendwarfksyms/gendwarfksyms.h
-+++ b/scripts/gendwarfksyms/gendwarfksyms.h
-@@ -216,24 +216,14 @@ int cache_get(struct cache *cache, unsigned long key);
- void cache_init(struct cache *cache);
- void cache_free(struct cache *cache);
- 
--static inline void __cache_mark_expanded(struct cache *cache, uintptr_t addr)
--{
--	cache_set(cache, addr, 1);
--}
--
--static inline bool __cache_was_expanded(struct cache *cache, uintptr_t addr)
--{
--	return cache_get(cache, addr) == 1;
--}
--
- static inline void cache_mark_expanded(struct cache *cache, void *addr)
- {
--	__cache_mark_expanded(cache, (uintptr_t)addr);
-+	cache_set(cache, (unsigned long)addr, 1);
- }
- 
- static inline bool cache_was_expanded(struct cache *cache, void *addr)
- {
--	return __cache_was_expanded(cache, (uintptr_t)addr);
-+	return cache_get(cache, (unsigned long)addr) == 1;
- }
- 
- /*
-diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
-index 39ce1770e463..7bd459ea6c59 100644
---- a/scripts/gendwarfksyms/types.c
-+++ b/scripts/gendwarfksyms/types.c
-@@ -333,37 +333,11 @@ static void calculate_version(struct version *version,
- 	cache_free(&expansion_cache);
- }
- 
--static void __type_expand(struct die *cache, struct type_expansion *type,
--			  bool recursive);
--
--static void type_expand_child(struct die *cache, struct type_expansion *type,
--			      bool recursive)
--{
--	struct type_expansion child;
--	char *name;
--
--	name = get_type_name(cache);
--	if (!name) {
--		__type_expand(cache, type, recursive);
--		return;
--	}
--
--	if (recursive && !__cache_was_expanded(&expansion_cache, cache->addr)) {
--		__cache_mark_expanded(&expansion_cache, cache->addr);
--		type_expansion_init(&child);
--		__type_expand(cache, &child, true);
--		type_map_add(name, &child);
--		type_expansion_free(&child);
--	}
--
--	type_expansion_append(type, name, name);
--}
--
--static void __type_expand(struct die *cache, struct type_expansion *type,
--			  bool recursive)
-+static void __type_expand(struct die *cache, struct type_expansion *type)
- {
- 	struct die_fragment *df;
- 	struct die *child;
-+	char *name;
- 
- 	list_for_each_entry(df, &cache->fragments, list) {
- 		switch (df->type) {
-@@ -379,7 +353,12 @@ static void __type_expand(struct die *cache, struct type_expansion *type,
- 				error("unknown child: %" PRIxPTR,
- 				      df->data.addr);
- 
--			type_expand_child(child, type, recursive);
-+			name = get_type_name(child);
-+			if (name)
-+				type_expansion_append(type, name, name);
-+			else
-+				__type_expand(child, type);
-+
- 			break;
- 		case FRAGMENT_LINEBREAK:
- 			/*
-@@ -397,12 +376,17 @@ static void __type_expand(struct die *cache, struct type_expansion *type,
- 	}
- }
- 
--static void type_expand(struct die *cache, struct type_expansion *type,
--			bool recursive)
-+static void type_expand(const char *name, struct die *cache,
-+			struct type_expansion *type)
- {
-+	const char *override;
-+
- 	type_expansion_init(type);
--	__type_expand(cache, type, recursive);
--	cache_free(&expansion_cache);
-+
-+	if (stable && kabi_get_type_string(name, &override))
-+		type_parse(name, override, type);
-+	else
-+		__type_expand(cache, type);
- }
- 
- static void type_parse(const char *name, const char *str,
-@@ -416,8 +400,6 @@ static void type_parse(const char *name, const char *str,
- 	if (!*str)
- 		error("empty type string override for '%s'", name);
- 
--	type_expansion_init(type);
--
- 	for (pos = 0; str[pos]; ++pos) {
- 		bool empty;
- 		char marker = ' ';
-@@ -478,7 +460,6 @@ static void type_parse(const char *name, const char *str,
- static void expand_type(struct die *cache, void *arg)
- {
- 	struct type_expansion type;
--	const char *override;
- 	char *name;
- 
- 	if (cache->mapped)
-@@ -504,11 +485,7 @@ static void expand_type(struct die *cache, void *arg)
- 
- 	debug("%s", name);
- 
--	if (stable && kabi_get_type_string(name, &override))
--		type_parse(name, override, &type);
--	else
--		type_expand(cache, &type, true);
--
-+	type_expand(name, cache, &type);
- 	type_map_add(name, &type);
- 	type_expansion_free(&type);
- 	free(name);
-@@ -518,7 +495,6 @@ static void expand_symbol(struct symbol *sym, void *arg)
- {
- 	struct type_expansion type;
- 	struct version version;
--	const char *override;
- 	struct die *cache;
- 
- 	/*
-@@ -532,10 +508,7 @@ static void expand_symbol(struct symbol *sym, void *arg)
- 	if (__die_map_get(sym->die_addr, DIE_SYMBOL, &cache))
- 		return; /* We'll warn about missing CRCs later. */
- 
--	if (stable && kabi_get_type_string(sym->name, &override))
--		type_parse(sym->name, override, &type);
--	else
--		type_expand(cache, &type, false);
-+	type_expand(sym->name, cache, &type);
- 
- 	/* If the symbol already has a version, don't calculate it again. */
- 	if (sym->state != SYMBOL_PROCESSED) {
+Best regards,
+Abhigyan Ghosh
+zscript.team.zs@gmail.com
 
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
--- 
-2.50.0.rc1.591.g9c95f17f64-goog
+--000000000000567afc06379cb1ed
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto">Hi,<div dir=3D"auto"><br></div><div dir=3D"auto">This pat=
+ch fixes a build error caused by missing &lt;strings.h&gt; when compiling=
+=C2=A0</div><div dir=3D"auto">with Clang in strict ISO C environments such =
+as Termux or Android.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Th=
+e function &#39;bcmp&#39; is used in scripts/kconfig/confdata.c, but withou=
+t</div><div dir=3D"auto">including &lt;strings.h&gt;, the build fails under=
+ strict C99 rules due to an</div><div dir=3D"auto">implicit declaration.</d=
+iv><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;m 12 years old and j=
+ust starting to learn Linux kernel development.=C2=A0=C2=A0</div><div dir=
+=3D"auto">This is my first patch submission. I&#39;d be very grateful for a=
+ny feedback or corrections.</div><div dir=3D"auto"><br></div><div dir=3D"au=
+to">Thank you for your time and for maintaining this incredible project.</d=
+iv><div dir=3D"auto"><br></div><div dir=3D"auto">Best regards,=C2=A0=C2=A0<=
+/div><div dir=3D"auto">Abhigyan Ghosh=C2=A0=C2=A0</div><div dir=3D"auto"><a=
+ href=3D"mailto:zscript.team.zs@gmail.com">zscript.team.zs@gmail.com</a></d=
+iv></div>
+
+--000000000000567afc06379cb1ed--
+--000000000000567afd06379cb1ef
+Content-Type: text/x-diff; charset="US-ASCII"; 
+	name="0001-kconfig-include-strings.h-to-fix-bcmp-build-error-on.patch"
+Content-Disposition: attachment; 
+	filename="0001-kconfig-include-strings.h-to-fix-bcmp-build-error-on.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <19773e36d0d438af17e1>
+X-Attachment-Id: 19773e36d0d438af17e1
+
+RnJvbSA4YjE3ZmY1ZmUwOTE2MDUwYTNmZTI3OWJlZmIzMDE4OTliZWY4M2IwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBYmhpZ3lhbiBHaG9zaCA8enNjcmlwdC50ZWFtLnpzQGdtYWls
+LmNvbT4KRGF0ZTogU3VuLCAxNSBKdW4gMjAyNSAxODo1MToyMSArMDUzMApTdWJqZWN0OiBbUEFU
+Q0hdIGtjb25maWc6IGluY2x1ZGUgPHN0cmluZ3MuaD4gdG8gZml4IGJjbXAgYnVpbGQgZXJyb3Ig
+b24gQ2xhbmcKCkZpeGVzIGJ1aWxkIGZhaWx1cmUgd2hlbiBjb21waWxpbmcgd2l0aCBDbGFuZyBp
+biBzdHJpY3QgQzk5IGVudmlyb25tZW50cwpzdWNoIGFzIFRlcm11eCBvciBBbmRyb2lkLCB3aGVy
+ZSAnYmNtcCcgaXMgbm90IGRlY2xhcmVkIHVubGVzcwo8c3RyaW5ncy5oPiBpcyBpbmNsdWRlZC4K
+ClNpZ25lZC1vZmYtYnk6IEFiaGlneWFuIEdob3NoIDx6c2NyaXB0LnRlYW0uenNAZ21haWwuY29t
+PgotLS0KIHNjcmlwdHMva2NvbmZpZy9jb25mZGF0YS5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvc2NyaXB0cy9rY29u
+ZmlnL2NvbmZkYXRhLmMgYi9zY3JpcHRzL2tjb25maWcvY29uZmRhdGEuYwppbmRleCBhYzk1NjYx
+YTEuLjA2YTZjZDc3YyAxMDA2NDQKLS0tIGEvc2NyaXB0cy9rY29uZmlnL2NvbmZkYXRhLmMKKysr
+IGIvc2NyaXB0cy9rY29uZmlnL2NvbmZkYXRhLmMKQEAgLTIsNyArMiw3IEBACiAvKgogICogQ29w
+eXJpZ2h0IChDKSAyMDAyIFJvbWFuIFppcHBlbCA8emlwcGVsQGxpbnV4LW02OGsub3JnPgogICov
+Ci0KKyNpbmNsdWRlIDxzdHJpbmdzLmg+CiAjaW5jbHVkZSA8c3lzL21tYW4uaD4KICNpbmNsdWRl
+IDxzeXMvc3RhdC5oPgogI2luY2x1ZGUgPHN5cy90eXBlcy5oPgotLSAKMi40OS4wCgo=
+--000000000000567afd06379cb1ef--
 
