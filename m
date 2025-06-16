@@ -1,147 +1,83 @@
-Return-Path: <linux-kbuild+bounces-7521-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7522-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12373ADB64E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Jun 2025 18:11:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADB7ADB92B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Jun 2025 20:57:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1213C163565
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Jun 2025 16:09:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6BB393AD81E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Jun 2025 18:57:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B47FB2206AA;
-	Mon, 16 Jun 2025 16:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4E9928983A;
+	Mon, 16 Jun 2025 18:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHkvQ2uh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEB6720AF67;
-	Mon, 16 Jun 2025 16:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8385C204C1A;
+	Mon, 16 Jun 2025 18:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750090190; cv=none; b=SKiQ/FLt+8wHE52yLqUccZ89pwyfQCOTopSdNYtPjkFvhwiGISOVqY9U8i4bEy/cVHBLK//KuylabeP8dQdcZ0raEX53NC5bfZkR7t29FrFP2KeE0hsDgdQdPjfcu28f+YMhKdvK+fcI0j2xpNuA2vPV6KFChULEGHp0odj1Z9A=
+	t=1750100260; cv=none; b=tKOUQJk8kLIIg8I6uu77y9xUdwPCr99ZEh1R0UXXAcu0kxGmI48AT1gWx10b7v2vx+jmlWffAgMf8skybaGrUH9sEVF9yPrZcEYw7klb4T80sO+V5sOL98IOCO7sUjEu7yUcPMn3BgeCFdWPllCxoUawltG/XoIpVTMuyzDZBRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750090190; c=relaxed/simple;
-	bh=hupPpB5C7hsOujbd0CaSC1f/KBFOevySlxxsM3jXnA8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DyWF7bVxGjkWUKCWxaU6wp3JvkhSy2k8sYq8QmMvzuKviJjF3naOg8Sp72HcxThAi4fkpNbJqgLd8Hfvzcv4YJPVTk0O0+XpV4VYB2bACAA5yFllgLqMzVh36sX7OolPPEqcy2bZrdVLCSY0+BRPMh7QDY2AFfKwdEe8sCYo0G0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B05A6150C;
-	Mon, 16 Jun 2025 09:09:26 -0700 (PDT)
-Received: from [192.168.20.57] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C883B3F673;
-	Mon, 16 Jun 2025 09:09:47 -0700 (PDT)
-Message-ID: <14f2329f-e110-4f3f-976b-acb38d255798@arm.com>
-Date: Mon, 16 Jun 2025 11:07:08 -0500
+	s=arc-20240116; t=1750100260; c=relaxed/simple;
+	bh=O3cwjLR1nWA9GzL+14mlgq2jH/1IszF/eakSRYB/Kgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hTNAPjvm66va9zv0E9Eas3j0E/d4QKH08HvUidVLpmw/slHH4IKe0U/x6+Ocz9d8ksGXRSGbR0WxescFPZxKJYDEHygyNrf2gE6xkmBQfLUxPRSIfLbKDB4jKW4ZpFkpVRWDKxNj/0nDLZtmvi4dr/Th0DdK2P7Ccu5lbTwVriY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHkvQ2uh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42F2C4CEEA;
+	Mon, 16 Jun 2025 18:57:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750100260;
+	bh=O3cwjLR1nWA9GzL+14mlgq2jH/1IszF/eakSRYB/Kgw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BHkvQ2uhb8xOzRj67T0Ov8ofLgTpkGDaoUNNrMhfYFye/9O7CmbrCPLfpN+CG8q9U
+	 VfMDagsOvJJFE/EfZOxStyLqGFCUmgjdZ0B2Hf1Ylp6Z7YyZUOp2M+GvAFXE/or+tU
+	 ZoqFCe6WW9Ly7ZglrCHd/fS93xB5dRE1wxsTHRqNYAm47n2Kr6WrqWkc4QMtj3oIC0
+	 GZbROuonYGM0HjsgU3pII6STo2vI3HlbuTVfYDOBz4nfmXJZ7YKN0nuS7mw04uK7B5
+	 Mj9T2gSVyCEi3Cme1b4saNTSylUhGIzYa2STGvZS9jtBMYpnpjzehljcSE1LhvkI3N
+	 vxa77LjNKkuvA==
+Date: Mon, 16 Jun 2025 18:57:37 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev,
+	Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] LoongArch: Fix build warnings about export.h
+Message-ID: <20250616185737.GA23807@google.com>
+References: <20250608141509.157300-1-chenhuacai@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts: add zboot support to extract-vmlinux
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org,
- nicolas.schier@linux.dev, linux-kernel@vger.kernel.org,
- Ard Biesheuvel <ardb@kernel.org>
-References: <20250522172941.1669424-1-jeremy.linton@arm.com>
- <CAK7LNAQzkh+DO7ZBVEgLu63k0H5qB-etV_jpo67k+itLWGAosA@mail.gmail.com>
-Content-Language: en-US
-From: Jeremy Linton <jeremy.linton@arm.com>
-In-Reply-To: <CAK7LNAQzkh+DO7ZBVEgLu63k0H5qB-etV_jpo67k+itLWGAosA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250608141509.157300-1-chenhuacai@loongson.cn>
 
-Hi,
+On Sun, Jun 08, 2025 at 10:15:09PM +0800, Huacai Chen wrote:
+> diff --git a/arch/loongarch/lib/crc32-loongarch.c b/arch/loongarch/lib/crc32-loongarch.c
+> index b37cd8537b45..db22c2ec55e2 100644
+> --- a/arch/loongarch/lib/crc32-loongarch.c
+> +++ b/arch/loongarch/lib/crc32-loongarch.c
+> @@ -11,6 +11,7 @@
+>  
+>  #include <asm/cpu-features.h>
+>  #include <linux/crc32.h>
+> +#include <linux/export.h>
+>  #include <linux/module.h>
+>  #include <linux/unaligned.h>
 
-Thanks for looking at this.
+You can drop the change to crc32-loongarch.c, as it would conflict with
+https://lore.kernel.org/r/20250601224441.778374-8-ebiggers@kernel.org/ and
+https://lore.kernel.org/r/20250612183852.114878-1-ebiggers@kernel.org/ which are
+in crc-next for 6.17 and already handle this issue.
 
-On 6/7/25 11:04 AM, Masahiro Yamada wrote:
-> On Fri, May 23, 2025 at 2:29 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
->>
->> Zboot compressed kernel images are used for arm kernels on various
->> distros.
-> 
-> Are you talking about arm 32 bit here?
-> (arch/arm/boot/zImage)
-
-No, it should be arm64.
-
-> 
->> extract-vmlinux fails with those kernels because the wrapped image is
->> another PE. While this could be a bit confusing, the tools primary
->> purpose of unwrapping and decompressing the contained vmlinux image
->> makes it the obvious place for this functionality.
->>
->> Add a 'file' check in check_vmlinux() that detects a contained PE
->> image before trying readelf. Recent file implementations output
->> something like:
->>
->> "Linux kernel ARM64 boot executable Image, little-endian, 4K pages"
-> 
-> Are you talking about arm64 here?
-> 
-> I am confused, as arm64 adopts a simple-compressed image.
-
-No, there is a CONFIG_EFI_ZBOOT, which is a EFI/PE image which self 
-decompresses a contained kernel similar to x86, but is for !x86 EFI 
-architectures. This patch extends this utility to work for those images 
-as well.
-
-
-> 
-> 
-> Apparently, this patch did not work for me.
-> 
-> $ ./scripts/extract-vmlinux  arch/arm/boot/zImage
-> extract-vmlinux: Cannot find vmlinux.
-> 
-> The 'file' command says, it is "data".
-> Is my 'file' command too old?
-> 
-> $ file arch/arm/boot/Image
-> arch/arm/boot/Image: data
-> 
-> 
->> Which is also a stronger statement than readelf provides so drop that
->> part of the comment. At the same time this means that kernel images
->> which don't appear to contain a compressed image will be returned
->> rather than reporting an error. Which matches the behavior for
->> existing ELF files.
->>
->> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
->> Cc: Ard Biesheuvel <ardb@kernel.org>
->> ---
->>   scripts/extract-vmlinux | 9 +++++----
->>   1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/scripts/extract-vmlinux b/scripts/extract-vmlinux
->> index 8995cd304e6e..edda1abe226c 100755
->> --- a/scripts/extract-vmlinux
->> +++ b/scripts/extract-vmlinux
->> @@ -12,10 +12,11 @@
->>
->>   check_vmlinux()
->>   {
->> -       # Use readelf to check if it's a valid ELF
->> -       # TODO: find a better to way to check that it's really vmlinux
->> -       #       and not just an elf
->> -       readelf -h $1 > /dev/null 2>&1 || return 1
->> +       file $1 |grep 'Linux kernel.*boot executable Image' > /dev/null
->> +       if [ "$?" -ne "0" ]; then
->> +               # Use readelf to check if it's a valid ELF, if 'file' fails
->> +               readelf -h $1 > /dev/null 2>&1 || return 1
->> +       fi
->>
->>          cat $1
->>          exit 0
->> --
->> 2.49.0
->>
-> 
-> 
-
+- Eric
 
