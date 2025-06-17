@@ -1,154 +1,124 @@
-Return-Path: <linux-kbuild+bounces-7526-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7527-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13B9ADC3D6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 09:59:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7C6ADDCDD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 22:04:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB2D73B8390
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 07:58:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E688E188A1E0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 20:04:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBEA28F92F;
-	Tue, 17 Jun 2025 07:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3692E54D0;
+	Tue, 17 Jun 2025 20:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="riuj8blw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3dlU8pnc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nFoLuLhi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AC028ECCD;
-	Tue, 17 Jun 2025 07:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71902E3AF8;
+	Tue, 17 Jun 2025 20:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750147151; cv=none; b=nzpRFkFMYZeWjba0C+U4Z6ghAmg6I3+O5CV9E/IwckRdRoQBIA8Sit6QF8uYgfbty+FUoGhVMM/8cCxQFP3Nqc96Ja/V4QaRJgCWtheMuqTp+FttPXept50jd4G35EjqNpzkFw5mKvqeyPFkYhGicPkXT3ZJrmAlv/fJkgAqL6Y=
+	t=1750190650; cv=none; b=eQHc91cK+QIrkcqHWGoAa4wPL3BcaYq0wxXUaAw/KzA9PcLSOOyETS7FfOBFCUa2EfUXNlSu4dEMz7L1TiIwMLLC9DmUjqaSOM0d9zf7Nw0MzHqHJpYtbBZ81uDBr/uftBF+fVUvQNwBRO9o5agRLikiG4kWwiuI3/Hn2b4fcxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750147151; c=relaxed/simple;
-	bh=NIgJ6S2IMm67sNgLluaxm/t93R9SpN5EK5tTKzscYko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rg8UqNTLUtGw/5zPkUs1SpKD2yxfxptljTPMIbHfOgIUbBzA1fj9ASL6FfJCkH6m9EtZ5o71AeT1Bbn8b9ecoV5Qa9keC+5QdC19TTKDdqC+hKVgZj0sMFhnmGwwdkl6ryuyUx56+8NpSfL1EfAF1yylnBVCSwqAvnu02gPaQVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=riuj8blw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3dlU8pnc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Tue, 17 Jun 2025 09:59:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750147148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hj2LJB5Pz+vjWi8da/Iv2JkklxNhs1V6axP5pIrqxJM=;
-	b=riuj8blwvDOsP6wUDdP3Ci9HXHbVoAlg32Weak2qNVuiCsD1ol6m/pAdmc6Wz+nOKmmqKg
-	3IeYSlbgY2321vJgf0z88CN2TJeN2qF5hfUcRL4jBlVM2dUs3HE7qD16NAvAmHP/2Q0Tiu
-	Bv4zf2GgxWNfyv3tMCpI3wG2QM2gYLo0w2MiidaFYgj1M6iVe1g6wxrJ1VTkOJvr9Jf1rH
-	cXvYeuXURM43LbebVBKLsOIftA5ESr5OIcgKGY3NSdHi38sICPCCjfkEXkqUUNYg//cVI+
-	+91Qelw5eKrsAUCwxPXvtbH9iLIk+rBeQm+lUtOKp6N02yrLbZppHMyNUJ3vEQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750147148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hj2LJB5Pz+vjWi8da/Iv2JkklxNhs1V6axP5pIrqxJM=;
-	b=3dlU8pncy0paXbKmJi5ztkGhzw3FggNzV5ZHCn4tYoW6SfRQ/nfHyS2G+ZITRQ05Cj+PIu
-	F15f2+z9rzshWKDQ==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+	s=arc-20240116; t=1750190650; c=relaxed/simple;
+	bh=pGjplF3VV7f7WBNYLa3u+BbCGJciyZq1HNlyXp3mq4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GpWxELCzVA1x2BeUeH1QqvbJPBcHzgjSaC1c52/m8DNPKgWlhyujpGehOBrQ64JQRp4Qibg1/WfbfNIiIarFKeoBGQbjZYUuIMf/iVEMq73LdhjFnN58Jo5BqLBf9yLUO6YuoYa8a2aQVbCqR3ZYdIonajIRI7vGpm5ZbrK9W5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nFoLuLhi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42536C4CEE3;
+	Tue, 17 Jun 2025 20:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750190650;
+	bh=pGjplF3VV7f7WBNYLa3u+BbCGJciyZq1HNlyXp3mq4g=;
+	h=Date:From:To:Cc:Subject:From;
+	b=nFoLuLhi7ViutAtgg+glKMXV6bKjaxoHVsC3uK+dwzUebTq8BI19iUouQlQY2tj+c
+	 e+6Bmf1fK0m4x6NegQ1y8ZQ5SBqGbszHJLxjhdPGYIj4y10XCJQDhmgX8t7sjHI/1y
+	 p+5vVxigSyKwvPFICIEteKCoOq8X9w7sTdEQtyS0qNwWeB8JJwcmvtre5/eRXMqcFJ
+	 xde65K5abt5viLM9vvf1YRCVx1/QMojLkHI7y9WKqCTZeprLqOEZiDzFLTHPzgeTo/
+	 U/BbEEb49YphiO+3xiGa+hp0SNmi1/6Ebg8lVXMcmLbcPij78qQNntmOH20KhIF/DK
+	 0hHX/yP5agzpg==
+Date: Tue, 17 Jun 2025 13:04:06 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v3 04/16] kbuild: userprogs: add nolibc support
-Message-ID: <20250617095102-d3df1c46-3d51-4f77-af0a-8299f5e71ad9@linutronix.de>
-References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
- <20250611-kunit-kselftests-v3-4-55e3d148cbc6@linutronix.de>
- <CAK7LNAQUN3hWYh_1=LMzVp1Ddbq3W=yGHZ5__LbcfBajfuhscg@mail.gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>
+Subject: as-instr in Kbuild broken for arch/arm
+Message-ID: <20250617200406.GA3636948@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQUN3hWYh_1=LMzVp1Ddbq3W=yGHZ5__LbcfBajfuhscg@mail.gmail.com>
 
-On Tue, Jun 17, 2025 at 12:35:07AM +0900, Masahiro Yamada wrote:
-> On Wed, Jun 11, 2025 at 4:38 PM Thomas Weißschuh
-> <thomas.weissschuh@linutronix.de> wrote:
-> >
-> > Userprogs are built with the regular kernel compiler $CC.
-> > A kernel compiler does not necessarily contain a libc which is required
-> > for a normal userspace application.
-> > However the kernel tree does contain a minimal libc implementation
-> > "nolibc" which can be used to build userspace applications.
-> >
-> > Introduce support to build userprogs against nolibc instead of the
-> > default libc of the compiler, which may not exist.
-> >
-> > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> >
-> > ---
-> > This could probably be moved out of the generic kbuild makefiles.
-> > I think the ergonimics would suffer and this functionality could be
-> > used by other users of userprogs.
-> >
-> > Also this does currently not support out-of-tree builds.
-> > For that tools/include/nolibc/*.h and usr/include/*.h would need to be
-> > installed into the build directory.
+Hi Masahiro,
 
-<snip>
+I backported commit d5c8d6e0fa61 ("kbuild: Update assembler calls to use
+proper flags and language target") to 5.4 due to an upstream clang
+change that necessitates this [1] but it causes a failure for as-instr
+with arm [2] because arch/arm/Makefile uses '-include asm/unified.h' for
+KBUILD_AFLAGS but LINUXINCLUDE is not present in the as-instr command,
+resulting in
 
-> > --- a/scripts/Makefile.userprogs
-> > +++ b/scripts/Makefile.userprogs
-> > @@ -16,10 +16,17 @@ user-csingle        := $(addprefix $(obj)/, $(user-csingle))
-> >  user-cmulti    := $(addprefix $(obj)/, $(user-cmulti))
-> >  user-cobjs     := $(addprefix $(obj)/, $(user-cobjs))
-> >
-> > +user_nolibc_ccflags := -nostdlib -nostdinc -static -fno-ident -fno-asynchronous-unwind-tables \
-> > +                     -ffreestanding -fno-stack-protector \
-> > +                     -isystem $(objtree)/usr/include -include $(srctree)/tools/include/nolibc/nolibc.h -isystem $(srctree)/tools/include/nolibc/
-> 
-> The tools/ directory is a different world, and Kbuild scripts do not know
-> anything about it.
+  <built-in>:1:10: fatal error: 'asm/unified.h' file not found
+      1 | #include "asm/unified.h"
+        |          ^~~~~~~~~~~~~~~
+  1 error generated.
 
-Ack.
+There does not appear to be any uses of as-instr within Kbuild (as
+opposed to Kconfig) for arch/arm after commit 541ad0150ca4 ("arm: Remove
+32bit KVM host support") in 5.7 but as far as I can tell, it is still
+possible to hit this issue in upstream if one were to be added.
 
-How does this statement affect the next patch which creates
-tools/include/nolibc/Kconfig.nolibc ?
-Is it fine to create the Kconfig file in tools/ or should I move it?
-I do want to maintain this file as part of nolibc and not KUnit.
-The possibilities I see are init/Kconfig.nolibc or lib/Kconfig.nolibc.
+I see two obvious solutions but I am not sure what you would prefer.
 
-> And, you do not need to implement this in scripts/Makefile.userprogs
-> because you can move this to lib/kunit/Makefile.kunit-uapi or somewhere.
+1. Add LINUXINCLUDE to the as-instr invocation, which would ensure
+relative '-include' flags can always be interpreted correctly, but I am
+unsure if this has other implications.
 
-Understood. This is not unexpected, as hinted in the commit message.
+diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+index ef91910de265..3dc814f0cae8 100644
+--- a/scripts/Makefile.compiler
++++ b/scripts/Makefile.compiler
+@@ -38,7 +38,7 @@ as-option = $(call try-run,\
+ # Usage: aflags-y += $(call as-instr,instr,option1,option2)
+ 
+ as-instr = $(call try-run,\
+-	printf "%b\n" "$(1)" | $(CC) -Werror $(CLANG_FLAGS) $(KBUILD_AFLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o "$$TMP" -,$(2),$(3))
++	printf "%b\n" "$(1)" | $(CC) -Werror $(CLANG_FLAGS) $(LINUXINCLUDE) $(KBUILD_AFLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o "$$TMP" -,$(2),$(3))
+ 
+ # __cc-option
+ # Usage: MY_CFLAGS += $(call __cc-option,$(CC),$(MY_CFLAGS),-march=winchip-c6,-march=i586)
 
-> > +user_nolibc_ldflags := -nostdlib -nostdinc -static
-> > +
-> >  user_ccflags   = -Wp,-MMD,$(depfile) $(KBUILD_USERCFLAGS) $(userccflags) \
-> > -                       $($(target-stem)-userccflags)
-> > -user_ldflags   = $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags)
-> > -user_ldlibs    = $(userldlibs) $($(target-stem)-userldlibs)
-> > +                       $($(target-stem)-userccflags) $(if $($(target-stem)-nolibc),$(user_nolibc_ccflags))
-> > +user_ldflags   = $(KBUILD_USERLDFLAGS) $(userldflags) $($(target-stem)-userldflags) \
-> > +                       $(if $($(target-stem)-nolibc),$(user_nolibc_ldflags))
-> > +user_ldlibs    = $(userldlibs) $($(target-stem)-userldlibs) \
-> > +                       $(if $($(target-stem)-nolibc),$(user_nolibc_ldlibs))
-> >
-> >  # Create an executable from a single .c file
-> >  quiet_cmd_user_cc_c = CC [U]  $@
+2. Turn 'asm/unified.h' into an absolute path, which easily fixes this
+particular instance but does not prevent it from occurring again. It
+seems unlikely that it would because '-include' does not appear to be
+too common across the tree but I am always leery of silent failures like
+this.
 
+diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+index 4808d3ed98e4..e31e95ffd33f 100644
+--- a/arch/arm/Makefile
++++ b/arch/arm/Makefile
+@@ -149,7 +149,7 @@ endif
+ # Need -Uarm for gcc < 3.x
+ KBUILD_CPPFLAGS	+=$(cpp-y)
+ KBUILD_CFLAGS	+=$(CFLAGS_ABI) $(CFLAGS_ISA) $(arch-y) $(tune-y) $(call cc-option,-mshort-load-bytes,$(call cc-option,-malignment-traps,)) -msoft-float -Uarm
+-KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) -Wa,$(arch-y) $(tune-y) -include asm/unified.h -msoft-float
++KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) -Wa,$(arch-y) $(tune-y) -include $(srctree)/arch/arm/include/asm/unified.h -msoft-float
+ KBUILD_RUSTFLAGS += --target=arm-unknown-linux-gnueabi
+ 
+ CHECKFLAGS	+= -D__arm__
 
-Thomas
+[1]: https://lore.kernel.org/20250604233141.GA2374479@ax162/
+[2]: https://lore.kernel.org/CACo-S-1qbCX4WAVFA63dWfHtrRHZBTyyr2js8Lx=Az03XHTTHg@mail.gmail.com/
+
+Cheers,
+Nathan
 
