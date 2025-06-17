@@ -1,59 +1,59 @@
-Return-Path: <linux-kbuild+bounces-7524-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7525-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FB0ADC391
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 09:39:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82465ADC3B7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 09:51:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04C507A7245
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 07:38:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3570017309F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Jun 2025 07:51:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0DF228C85A;
-	Tue, 17 Jun 2025 07:39:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D94D28CF65;
+	Tue, 17 Jun 2025 07:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LQqR6ibE";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FHtGhuDp"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pBHIXIA2";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xRnqx39l"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9C7289803;
-	Tue, 17 Jun 2025 07:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6F61514F6;
+	Tue, 17 Jun 2025 07:51:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750145955; cv=none; b=TjXaIInNeAChWc1ptTG7ZULLuhezTwZgTSF2tCJs390jYF+KKZoihDcjzeYJX6djgoP2Bo5lMnFvzcQfjVyubE7s2mKgmDay2cCJDGAs+xpBi+Cux4Z/EXrehfNSCwQ5q8NBqJYo9qVENaT7kiOIp3K3LQ/A/tY1Jt2ibuBsa5k=
+	t=1750146666; cv=none; b=hOtPZeNnB4oMuUgpdHW8vU6EH5FJ2CraroOooucn0nVXCUvUs02LAxH8ywj+BmkTutaJKWtO1IPzNmR2Y4sQcRmKf6Rx3Oi3tRWRLS04wiJnZFp3jAHaC2hP0GxIlzy40LRRbbtMyOOlD5beI8lkoIVAvsaRQ9e3OIAKqZ1k/Nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750145955; c=relaxed/simple;
-	bh=ZqChbIHl8eFApjqdf88u+0LzeRDCHv9CNT33A4cC8W8=;
+	s=arc-20240116; t=1750146666; c=relaxed/simple;
+	bh=3R2Ct9P8uSiWej39XY31EtkiX1q4iVyamAFGh/y8KTA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hwT+UoRo/7MM9Fc16UCySaqh78fOrAaIbkuzMOwSS1OHZ4wnx+yAuI8VQJDLiXoHsR74YtVeIGdrOAdWaFmqORqbCEK7esakg6oXGpMUdgd2RNqIjJOd330oc0ax4TtZU0oHo8wfW1s0dj/hiM6HMmAjXAecGT05/jwehJDLEA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LQqR6ibE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FHtGhuDp; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=r2CQoX22eBjGK7Kmalo15hMrcvAiOBTSUkL0uEbrBrIfJWoRXlPKkarWes61GOM5Wevac2gmX61g31uOyP4D2WJtuf5e5M0u/VVeZfdpox1Qjoen/Vd77SqcrduzpHtIlBnSnPvlRVBu9iAyaG7mqDjVvFaIFBq6uPW2B/nhYms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pBHIXIA2; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xRnqx39l; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Tue, 17 Jun 2025 09:39:11 +0200
+Date: Tue, 17 Jun 2025 09:50:58 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750145952;
+	s=2020; t=1750146659;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AUjG6+JFxLZDStRNnT8ioKp8RqTOmg0bGcH75TxHJOo=;
-	b=LQqR6ibEuyBEC7uwHHtnbVzvvooJNrTvO3oXqLrInJhDVXhZtr/gNdtPqVlrTxlenvdbRZ
-	RnHN7iVlyBuYyZiSaE1AIArJAPtizX2fRnqAhJe6uiUXXlFZOQ729I9/gS4GVU7O7ePnd6
-	Brh+HSm4WXshRLvZoWd5xxBzlMQKduMd/6lGt5nw6MqflQ2v4FTgWVregP7xTNLP+Yuzc+
-	ybhMgXXRgjtX5mfxmcebXoLmfXe1IgbHqGynqe6AGe/XwzUdMLF35HWuR/RCpmEnyerE6H
-	aO31q/Nd9xiou/f5+oOoRBHfBajKMQfD+n3V5gkOUNEUDwQTphRJe5Pr2eYMig==
+	bh=4Jjhcx//IthYr9wU93G8syVel3LsyenN2WbCDiVNpHY=;
+	b=pBHIXIA2nUIPMhiTRpILN2iiHLnKHbbNOTd5eK+f4jnkTY+5JJ+Pli9LRwvybuZ1QZG1A9
+	cC+UAO4NUUvP56+oDc8fS6rJ2ph99eF4qymy3EvZsgZ1p3Ng8XXI9Rj5j/V9BIc7GFDgGs
+	duA6fGScmpCs0+tI57iR2FcX/aKxnly843Fkpo327i3ERWN7/Rim0zmnJauu1JQz3ohnsu
+	RYruqZ2USvkZYHksf1WvQU7oV2YQ2PHzeYj6c8k8pFvW3XVYpXyM0maj7YyUP9UxF06+9u
+	YtpfrAP3/nIKC8l6cbCdMzKliKKXGUSrissi1upq4pYYDdmXpzAF5OuREbbchw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750145952;
+	s=2020e; t=1750146659;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AUjG6+JFxLZDStRNnT8ioKp8RqTOmg0bGcH75TxHJOo=;
-	b=FHtGhuDpN/5Xuy91ovmc3tSQjnTi2R4gYX20+L0rJCOATaiEhbU7vlEdMIy3pGCokkZDf5
-	Tyyjyt1nxeTJX1Ag==
+	bh=4Jjhcx//IthYr9wU93G8syVel3LsyenN2WbCDiVNpHY=;
+	b=xRnqx39lvyi7u9ydJO6RVHBz2TCIhyj7pF1uF1yldbEVwrjwDqsDwva3GHf7laAkyuCP4h
+	ZO5ooLUM92HS36Dw==
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Nathan Chancellor <nathan@kernel.org>, 
@@ -66,12 +66,11 @@ Cc: Nathan Chancellor <nathan@kernel.org>,
 	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
 	linux-riscv@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v3 02/16] kbuild: userprogs: also inherit byte order and
- ABI from kernel
-Message-ID: <20250617093523-e7f54d95-96d0-4411-92d6-dd80fe84ee98@linutronix.de>
+Subject: Re: [PATCH v3 07/16] kbuild: introduce blob framework
+Message-ID: <20250617094327-373f046c-4010-4939-bd07-51365b665cdd@linutronix.de>
 References: <20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de>
- <20250611-kunit-kselftests-v3-2-55e3d148cbc6@linutronix.de>
- <CAK7LNATuk_tpDAq07e5oSU4FptRO_88Oxh2=W=3YmBotbGuU5g@mail.gmail.com>
+ <20250611-kunit-kselftests-v3-7-55e3d148cbc6@linutronix.de>
+ <CAK7LNARYXKq9KyCczcY_VjwQG3QWEufV1McayHDnavvuU+JEhQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -81,51 +80,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATuk_tpDAq07e5oSU4FptRO_88Oxh2=W=3YmBotbGuU5g@mail.gmail.com>
+In-Reply-To: <CAK7LNARYXKq9KyCczcY_VjwQG3QWEufV1McayHDnavvuU+JEhQ@mail.gmail.com>
 
-On Mon, Jun 16, 2025 at 11:49:41PM +0900, Masahiro Yamada wrote:
+On Tue, Jun 17, 2025 at 12:38:21AM +0900, Masahiro Yamada wrote:
 > On Wed, Jun 11, 2025 at 4:38 PM Thomas Weißschuh
 > <thomas.weissschuh@linutronix.de> wrote:
 > >
-> > Make sure the byte order and ABI of the userprogs matches the one of the
-> > kernel, similar to how the bit size is handled.
-> > Otherwise the userprogs may not be executable.
-> > This happens for example on powerpc little endian, or riscv32.
+> > Various subsystems embed non-code build artifacts into the kernel,
+> > for example the initramfs, /proc/config.gz, vDSO image, etc.
+> > Currently each user has their own implementation for that.
 > >
+> > Add a common "blob" framework to provide this functionality.
+> > It provides standard kbuild and C APIs to embed and later access non-code
+> > build artifacts into the kernel image or modules.
+> >
+> > Reviewed-by: Nicolas Schier <n.schier@avm.de>
 > > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> > ---
-> >  Makefile | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index c4293cf91e968ca8ee64452841fb266e24df63f6..b9aa1058321dabd3b3dd5610e45a2807dfa257f4 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1129,8 +1129,8 @@ ifneq ($(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS),)
-> >  LDFLAGS_vmlinux        += --emit-relocs --discard-none
-> >  endif
-> >
-> > -# Align the bit size of userspace programs with the kernel
-> > -USERFLAGS_FROM_KERNEL := -m32 -m64 --target=%
-> > +# Align the bit size, byte order and architecture of userspace programs with the kernel
-> > +USERFLAGS_FROM_KERNEL := -m32 -m64 -mlittle-endian -mbig-endian --target=% -march=% -mabi=%
-> >  KBUILD_USERCFLAGS  += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
-> >  KBUILD_USERLDFLAGS += $(filter $(USERFLAGS_FROM_KERNEL), $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
 > 
+> Kbuild provides only a small set of syntaxes, yet it's flexible enough
+> to allow each Makefile to implement what it needs.
+> I aim to keep Kbuild scripts as simple as possible and avoid over-engineering.
 > 
-> Why didn't you do like this?
-> 
-> USERFLAGS_FROM_KERNEL := $(filter -m32 -m64 -mlittle-endian
-> -mbig-endian --target=% -march=% -mabi=%, $(KBUILD_CPPFLAGS)
-> $(KBUILD_CFLAGS))
-> KBUILD_USERCFLAGS  += $(USERFLAGS_FROM_KERNEL)
-> KBUILD_USERLDFLAGS += $(USERFLAGS_FROM_KERNEL)
+> Instead, you can implement this in lib/kunit/Makefile.kunit-uapi or somewhere.
+> That way, I do not have to be worried about what you do.
 
-The idea was to keep the USERFLAGS_FROM_KERNEL line free of clutter, as it is
-probably going to change more often. To improve reviewability and gain some
-available horizontal space in case it should be needed at some point.
+The goal was to have a framework that can be used independently of KUnit,
+for the usecases listed in the commit message (and a few unlisted ones).
+But I can go with a more specific solution, too.
 
-If you prefer the other layout I'll be happy to switch it around.
+> Also, your separate blob approach looks questionable to me.
+
+> In your approach, the blob (kunit-example-uapi.blob.o)
+> and the entry point (kunit-example-test.o) can be separate modules.
+
+Indeed, however I don't see the issue for this specific point.
+
+> The entry point would be a small amount of boilerplate.
+> I would keep the user-program blob and its entry point in the same C file.
+
+A Makefile dependency between the C file and blob payload is also necessary.
+
+> (and I may consider writing a macro for populating a blob + knit entry)
+
+That is what I had in during my early development,
+and I guess I'll go with it again.
 
 
 Thomas
