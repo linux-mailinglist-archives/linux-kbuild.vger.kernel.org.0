@@ -1,127 +1,147 @@
-Return-Path: <linux-kbuild+bounces-7549-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7550-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E84ADF54E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 20:00:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D48ADF651
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 20:55:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 165D51885FE7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 17:59:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 637B23A5595
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 18:54:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73E6A3085CF;
-	Wed, 18 Jun 2025 17:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E1E2F4314;
+	Wed, 18 Jun 2025 18:55:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vto60moL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUBZxz9O"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2133085A6;
-	Wed, 18 Jun 2025 17:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845F72F49E0
+	for <linux-kbuild@vger.kernel.org>; Wed, 18 Jun 2025 18:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750269529; cv=none; b=pydl5UcEKjxaw7xsEBR0qP6fe5k94XL0ReP63VObUW/OTNcXK0MzaLGB8buwP+aNJ2sHveJ9KMcMEB4uuKFpOgLoropHNOmPTidSzKgyKHq4ao5JiEMEyLB/imIh15il/2zokhfH0sFLrdOMYLHD/PX1yKOpfxwL6WCP6xI37FI=
+	t=1750272915; cv=none; b=lvYgj15qFkEdW9JpxyzGpTnTMn/Y/qAfHgXK1x+1efSCax9ojfXApV0NT2ZCJL8wv/jfrCtOWBbLfKN4hFboqxeaukmoykRJUxWQeOIrUsQCdElw3fRpjucMrZgknRTNckKyY0yghh5QyanCxFf6UY1L0aAO0f+zZjqO8d4WEdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750269529; c=relaxed/simple;
-	bh=FkPigFeNGfIgRpgDFtGW/mxVfhQYOSm7TXujD5qRUiQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e63KoK8kRZ1ZCBz4xLEhK0QpsORa6N1/waTx7Gnofv3aBMYhzba9oHE0+JStpcT5EsbY43+9FgjoeTnljSy9AUjotuW1eQXUz9svqMbIRymNzuqr3ftrQ9ECkM63t9GevA0xhVzHwM7+ud1Mn1D1T7BFFTpmmJQuvjVDe8ZM4v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vto60moL; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1750272915; c=relaxed/simple;
+	bh=l+sofPI0a4H9EXu998eR23hCXF88jut6G/66kBd7ucg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=onAfXQRgh6WpLT2H80545p6ECkOQ4S5ehLzJsrtu+bJwy5SnayJkjS08LpLoZ/tMw3ZilUuydNAlwpvv6faeBDZfTyLpDEH6YZcGStxDPkLqQ0P//0l41qXfR0mn5I20J2q2a3CGbPpTg6rBfMOSNSo/yCz90GXqZA8+gPw+Mw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUBZxz9O; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-313dc7be67aso961995a91.0;
-        Wed, 18 Jun 2025 10:58:47 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6099d89a19cso4300051a12.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Jun 2025 11:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750269527; x=1750874327; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FkPigFeNGfIgRpgDFtGW/mxVfhQYOSm7TXujD5qRUiQ=;
-        b=Vto60moLlnn/zs6BMbeqILB9ZNBikcpH5c+AaRXyAZfhOfLLgpkYNHr1eCTfHmdb4W
-         1qWewAlkKBVmXMB83eZa1avjnSkM9ed12I4EW8A3qasLZ7XfcKxiPWvhcjhahMKtrgUC
-         WaLWXWbFPKpCB0b8dmm+wZ84sd6KyL9p9OFWU+zA9dzSkCa3OmhFPGj4EM+kFHnr42uN
-         lbuA2UwmPuI/H9FIGmbRoYI2h0hw+rKsNOpwVLmiC/Ap7Skwig7svOU31Trx3/Gd51rC
-         BhLzho8dJioqMemtMyNPGu3fuloknLiyadAOhrTZltNtt7uI6pt7OsMzDIvZE4nCas5c
-         9YpA==
+        d=gmail.com; s=20230601; t=1750272912; x=1750877712; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=UYo69dGKwxkvZVYFGXMZv6iD++4zKKpxx8tLjZ8T8QQ=;
+        b=jUBZxz9OKCF+h2AxjCWGsGVArfx+9daGF4E2OsnHgQFjUWRya0OgPl0RaBt0CllWlI
+         CmCYCbYWep31fOrSRBDzYdTBczkk2jJvcrirQ8V3BqE++EbKXQA78wl025/OJHVbqFwO
+         j6piZl/kIEOBp2Rn7OZPVRdKCjZqBzcwmZLuxyBeR0epXIAMYS52aw0x0MmO66XI2Weq
+         NaSX6IdywsviJd7Lsk9gyrGSdK55Lolb2SA8MPEC8ROMU/yLVxMbIUssF8t1tzAMcGnp
+         e4aXlaJPzqDbiPEWf3+Bi23XU0u6NyXNTGokDpQNWnVFBTp07Mjd1vf9cVhItg4EWObK
+         oKbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750269527; x=1750874327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FkPigFeNGfIgRpgDFtGW/mxVfhQYOSm7TXujD5qRUiQ=;
-        b=oVTAP4qSI0PDy33kfakHUo+NlEvYvCQ8wvm+i5BrDYeqvxEIgwIVeBtrU5Xgcru55E
-         reJhX21lG7PTkjv7f8siFGyn4yNwQNnN5MQPdPBO4SQoFo3W3L510Khu4/mZyXTS7cCL
-         RldWs9L2obd+B75XDKsRKOli1DJc1R8i+6g4DQIyHxGKZEghPEHmY6qCYvDeomEjeXTg
-         OQDRBLJFhWoRkL4qX5EfL2VMbGfDAJ4WkbDWuPWDwxP3pOej3gi2jfKr/TCE/Bs8dylS
-         XpesMe0aF37811lqYzjlZGBYSmLVIgKJDua8cF4+wKK9AMtzlvdgO19Xj2GtZUW+LyQU
-         pspg==
-X-Forwarded-Encrypted: i=1; AJvYcCUS76uIXmHwAnBQid60bKclvnzhAQqlegk9aNIfL1iBDIVb3pbO66HXjICt+IZMwOm3yLlPxayxlww=@vger.kernel.org, AJvYcCVD3/mHQb5H8cx83aJwa3S7QBtFntLHd4JG3+Bps6xZlzb+cDQt8SRAzxuPGmDDVymcoUYudQAVG7ihttBG@vger.kernel.org, AJvYcCVNb2IZwYHMCLUUhXlCUx6l5ApZ4TVEDz+B3lT4+edBucbC9WMXd8PfJVi3ZNHuwRHwDVjriDqDAN6e@vger.kernel.org, AJvYcCVV3TUkHMFEKNvlyuDbX08QwS3Jr6UrRDqnVo1yS7gEUe/nqOK9bv7sbYCBhXBPYuMKEVOuAuEJJt49y4tF@vger.kernel.org, AJvYcCVWHqjLxO5jYihPJ8e2ceNVtMrIimQLpNxeFh+gb13aqS7qh9vQLmGcPxgYUWUTor4qLv5Kwo1c@vger.kernel.org, AJvYcCW17TbONPYAVDUWCDsGpzHT7Rxanii1AQA5YGAA0uAHHdOmlNMZt98a/4+HnpAfiXbB+LUcXcc3u1ma2ulKxT/+@vger.kernel.org, AJvYcCW6XIxDnclduBDt3FQwf3d6P3DqNB5RMy9b2CR9mmk7dRsfiSnrVfZNXxV4KP22o7dEddu7qJnN4gnu@vger.kernel.org, AJvYcCWVOvGcVpCg4OXjVpqLGzhf4MF27YJvhHJibLfHSHLiXe4LnsdJPzCNty0fNh1CJOKGB/btsioGXkVI7pg=@vger.kernel.org, AJvYcCWxy+eqU0cLX9IAveOWm+SCfCHssEOVZntwPHj3rRlB5gcc3cXh+FLsLwWoPHKMQtIjbTk9IOEaVEGT4NyRg8o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4i29aunI4mGEujP4+v5WnMBnEkM7Y8h6pSL6FX+WLBqAQ6f2G
-	xx668rvJ6Ge1AenwFslne5pkdFhuDOW1m3rykzgKJm4F6AcKIZWC6QU4B2i99GpMPiPN5BlesRU
-	EgMTb9CpyqwYUyKEculKi4aTZWj44YNM=
-X-Gm-Gg: ASbGncuutzGXcqzRmRG1wea7rztNz2eGmXaFbzpVGD29Vyx755z0T7PLnYXgGZb9xRk
-	bxbLsW1P2UP37pbT2QP6goPGBWVSNxnhE99hw+9Yp1juDuP+I+RxvujX0T8M8Zzb6OGd0+jSd2I
-	cSh5aYZcPZDAkFk+elSq4fjDCtO4ZO3lJJ77rXINlmSGY=
-X-Google-Smtp-Source: AGHT+IHQA2vB+4lILhLPisOadhxH9fnkiGb8fP5PoJh3YCmrD5jDUJpuN04m9Eq8KLRXTUak2OObg3c6xBn/ciPLwLY=
-X-Received: by 2002:a17:90b:2889:b0:312:db8:dbd3 with SMTP id
- 98e67ed59e1d1-3158bfeae60mr147244a91.6.1750269527292; Wed, 18 Jun 2025
- 10:58:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750272912; x=1750877712;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UYo69dGKwxkvZVYFGXMZv6iD++4zKKpxx8tLjZ8T8QQ=;
+        b=Yuft/Pp0+O7e85GgUxqliwNtxzMmHxK0G+Tl+8bocOWYOosUXH6f/n9GXbPagwoTbf
+         /Iv/w+/mbxpztfPQIqtZbjtQSooJ4894jbQU7ZaGw2j1KiZ8BVfr/mjeSjwku3TQI0Ak
+         NAoEjsZakrWM5BAMTHOdR4Ya3ljUObpWc0+Lt14Zcn7DaZmMTTB1LIAXKddrv/ae0EXV
+         Ms9YcRfpq/okenJHvcWwhqHUgfY9tmEtaO0a9hfdL8xwUQc7yBJAjVjzfdY8UtVWJyeA
+         WS4UqM+EMi/vMy2KssQvU0Xc4ZcvZhh9HYea6bcWuO3pQbTb9jJA2ujDXv6Omy8aTArh
+         aDSQ==
+X-Gm-Message-State: AOJu0Yz+r2/hjfImwMkxIN31w48/UTRLuYV7YfMmi5gNNzroc91OfyIK
+	kwpnc0ehK3herieIgPDLsjyRq3c2otF3hhQ3NE0m3e/XWmy7AM15qT8T
+X-Gm-Gg: ASbGncuUntzJIHLf2DCfMOPyA2ghkuoKY/Z4vcwj0MZuaYZW7+9Rp0pNLQKRx5AjiUs
+	MZxRawBYVYc4MoWkLNBDSjdPIh5tEk77onyOWD6UB6L4kzWC2QV81Yq7JOqT0Oj6XOr7hSgKCWS
+	owZQq8jTEUW6oSdLxlQefZE4jmvOccYjdbFmGiVsT2wwTuQsA6akBxGozDf6qpoYnJCvfXbf1KP
+	pz9fihR6vcX30rrNFWatQZZBVzO70B82pO1KZkutGImiwGCuo4sbzdmh+WGtd6eUg3+P5vf+PGB
+	5We5n3bcjNsxFsqu41zWGfq60gNfLymtwUexJrr7y4FlphHz10/cXBq8z/Mb0n5o
+X-Google-Smtp-Source: AGHT+IExCXPPz+aIkbdgn2e6ZXZYlHW+L9/Suinx85GYUmGTSPlpYhxuC859Ft14ftutwl+HUNdFZQ==
+X-Received: by 2002:a05:6402:5109:b0:604:bbd2:7c6c with SMTP id 4fb4d7f45d1cf-608d097cdfbmr19243162a12.27.1750272911572;
+        Wed, 18 Jun 2025 11:55:11 -0700 (PDT)
+Received: from [192.168.0.3] ([91.80.31.228])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b48a9db9sm10182464a12.16.2025.06.18.11.55.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Jun 2025 11:55:10 -0700 (PDT)
+Message-ID: <64d93af1-b602-4dba-ad4b-a2b9a493c800@gmail.com>
+Date: Wed, 18 Jun 2025 20:55:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250615-ptr-as-ptr-v12-0-f43b024581e8@gmail.com>
- <20250615-ptr-as-ptr-v12-4-f43b024581e8@gmail.com> <de30bc80-3dc9-4fac-afe8-bf6b0df42ea9@kernel.org>
- <CANiq72mOHbxt3xOJw8f=j184TRYs9y3wvcopH-h6P2SLe4jVNQ@mail.gmail.com> <CAJ-ks9nnNjBfzCasOtFZGXBj=UKqZxuyh3-Emj3yFrz=9f8tmg@mail.gmail.com>
-In-Reply-To: <CAJ-ks9nnNjBfzCasOtFZGXBj=UKqZxuyh3-Emj3yFrz=9f8tmg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 18 Jun 2025 19:58:35 +0200
-X-Gm-Features: Ac12FXyGUkldbEIksi1ogTddUr_YiD6acvLXBSTJ1-Ey0i-LXdAiD6xde1bhgwA
-Message-ID: <CANiq72=9VyakSh_bXJjPPeXJP80OtB7iqKBM-p3bEMX3TYF5WQ@mail.gmail.com>
-Subject: Re: [PATCH v12 4/6] rust: enable `clippy::as_underscore` lint
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Anna-Maria Behnsen <anna-maria@linutronix.de>, 
-	Benno Lossin <lossin@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Breno Leitao <leitao@debian.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, 
-	linux-block@vger.kernel.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Kconfig: Added compare capabilities for mconf Ver. 2
+From: Franco Martelli <martellif67@gmail.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Franco Martelli <martellif67@gmail.com>
+References: <20250604183539.425053-1-martellif67@gmail.com>
+ <CAK7LNAROMO2686KPbt+ZquymcZC-RLr0aX5x477uF1DaesUkCQ@mail.gmail.com>
+ <9aaea19f-cd15-44fe-8d61-984f7ff316b7@gmail.com>
+Content-Language: en-US
+Autocrypt: addr=martellif67@gmail.com; keydata=
+ xjMEXwx9ehYJKwYBBAHaRw8BAQdA8CkGKYFI/MK9U3RPhzE5H/ul7B6bHu/4BIhTf6LLO47N
+ J0ZyYW5jbyBNYXJ0ZWxsaSA8bWFydGVsbGlmNjdAZ21haWwuY29tPsKWBBMWCAA+FiEET9sW
+ 9yyU4uM6QbloXEn0O0LcklAFAl8MfXoCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
+ F4AACgkQXEn0O0LcklBgAwEAhdX5TbxGOmMhlJUi9AkDACN2ZemI8Tz2jSZPDlOQoE0A/3Tq
+ SPaEkb6kvK4xw626+AUDrfIzwzBscgpkDo4zCW0DzjgEXwx9ehIKKwYBBAGXVQEFAQEHQNP5
+ V2q0H0oiJu89h1SSPgQDtkixXvUvRf1rNLLIcNpPAwEIB8J+BBgWCAAmFiEET9sW9yyU4uM6
+ QbloXEn0O0LcklAFAl8MfXoCGwwFCQlmAYAACgkQXEn0O0LcklCMtgEAuCcSolf8LBIB4WTI
+ 4YGKiN7qBXfW0QTbPO+bPXQLxfEBAJuoVm3BlyMHoNG6UEZ2TcqfV8k6oRqwr/c0IXwJqEkK
+In-Reply-To: <9aaea19f-cd15-44fe-8d61-984f7ff316b7@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 18, 2025 at 7:56=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> Miguel, would you mind taking care of this on apply? Quite a big
-> series to send again.
+On 16/06/25 at 15:44, Franco Martelli wrote:
+> On 16/06/25 at 15:04, Masahiro Yamada wrote:
+>> On Thu, Jun 5, 2025 at 3:36 AM Franco Martelli <martellif67@gmail.com> 
+>> wrote:
+>>>
+>>> Signed-off-by: Franco Martelli <martellif67@gmail.com>
+>>> ---
+>>>
+>>> Dear Linux hacker,
+>>>
+>>> I've written a patch that allows to compare the tristate value of two
+>>> .config files inline, symbol by symbol, in mconf (make menuconfig) only.
+>>
+>>
+>> I do not understand why this needs to be implemented in
+>> menuconfig.
+>> scripts/diffconfig is already available.
 
-Yeah, of course.
+> When a new stable release of a distribution is available, in the Linux
+> kernel many things has changed, this patch comes in help in this
+> situations, it allows to easily compare the customized .config file
+> built for the previous version of the distribution, with the one
+> provided by the new software distribution, used as reference.
+> Generally it can be helpful when the differences between .config files
+> are huge, because you can navigate across them in the menu window.
 
-Cheers,
-Miguel
+>>
+>> I think the comparison mode is rather distracting.
+>>
+
+A solution to improve readability of the comparison mode could
+be to skip symbols without differences, so leaving those menu
+entries untouched. This will shrink the amounts of characters
+displayed significantly.
+
+I can send a version 3 of the patch changed accordingly, if
+you don't reply to this email I will assume yes, but if you
+are definitely against to this patch, please let me to know.
+
+Kind regards,
+-- 
+Franco Martelli
 
