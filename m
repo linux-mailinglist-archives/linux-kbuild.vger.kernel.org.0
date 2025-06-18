@@ -1,165 +1,127 @@
-Return-Path: <linux-kbuild+bounces-7551-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7552-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A47ADF6BC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 21:20:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F40AADF6DD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 21:29:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8A78561C44
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 19:19:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E20B83A76AA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 19:28:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0A2420CCD0;
-	Wed, 18 Jun 2025 19:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79A8120FA94;
+	Wed, 18 Jun 2025 19:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="a7HkDahI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jd4czJbq"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CF71A2632;
-	Wed, 18 Jun 2025 19:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0B93085A0;
+	Wed, 18 Jun 2025 19:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750274393; cv=none; b=fH+8ZhcnV0GVfD8WQi75GzDVIm8vajiXVxck7NndaXbODnEZqnhGpSeKoXaaDsvSaIC26X+jGvo/di7Dl79Tts0iBwJVOt6bgtkcEXLDBlMwiQ+M64QkfsAhn0qTKrToOAA291GuaXZM1XCLyKGlStaep7JkQBihmDqc8HsFrjM=
+	t=1750274954; cv=none; b=ZPvxvR3KVvwgxe+94ZtTjir5zZRwh2PnEgkooaDCqNeNL5XEL2FYhteFsRNW0HQpF3ylWp6A+CBEF4Ex2yb1L3y5W+YSYaDsTTOM8zmHTiEFt0eFS+TNIa2QVcJZ7kcTpDoaZNrC/6gVSgXyC0xG2hVv9Ez7bDDBsVWIMUDL7/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750274393; c=relaxed/simple;
-	bh=l+CGLaIk4eVguzrZZFsUdEtSHXK3ZjcP7ggXpAQ0o8w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BhpTFSNppSOwVAHwuS5NX1HTOP9hZQyMlLB6/7o+Keii12yK11ZlBOiJeThXksuMls4a3onv5LgKigHReTbT8cFP/vmUFaYHlwNF0w/ASNC2VyzVZTilwlXevuwVSaTTj21tsvCSgAAqEYkyuAjhOCI9S/wPQnLFNn7JnEcxwxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=a7HkDahI; arc=none smtp.client-ip=128.199.32.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
-	t=1750274383; bh=l+CGLaIk4eVguzrZZFsUdEtSHXK3ZjcP7ggXpAQ0o8w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=a7HkDahICdgPiRTpNg1HTPNq5u+XQyHBc8SKqAd/jak7dPWPOY0f5KQXCP0JF9LkR
-	 406IVwmhHOjhKffoYccr40dotXqjdddNrw+xg5DKmjqEvT+sp3GHYu8dTmsbf3wB8+
-	 xanZWfpue4k/l74iwyWnPFICi9MaTQYX06Oav0Oc=
-Message-ID: <ea183f5a-b4c8-4dc0-960f-dba0db5a5abb@lucaweiss.eu>
-Date: Wed, 18 Jun 2025 21:19:42 +0200
+	s=arc-20240116; t=1750274954; c=relaxed/simple;
+	bh=db/nmU5G6ALn8w6ZNs2pM1XeBWieETxE4h87P5JvRfs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=cPiIQ2iCQ1cmvpUTKD2jLhk3G8bRvrcsv7Ay0GEAg6+2tqCVy660u0l8UMismkYZ8TZx8t5I3UDAnQig8vuIHWOIpYZOwvuaGjL/bGOApo4Ylz4v1aJIYML6RC9Lqurh9fwqX28fPVhRtgaj1xPWmJl23lbwggn7z4pneWzAr+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jd4czJbq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57860C4CEE7;
+	Wed, 18 Jun 2025 19:29:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750274953;
+	bh=db/nmU5G6ALn8w6ZNs2pM1XeBWieETxE4h87P5JvRfs=;
+	h=From:Date:Subject:To:Cc:From;
+	b=jd4czJbqw4lInFqHIc9vlDHolDLedomxUEEGNc8XP7/zYSrfZ+ALmfQZA01qmkaX/
+	 SKttlTHgApd4mp4omSjZwiyHaOC5XCscKlCndjgza7BcOAHBuYKFRZWM1jhyYT+eKJ
+	 T2Pvk8oUaLNMBgfxQqJgZrTiMbIL5c5x3IP+WmWFzPbmNBP/Uz+SuvKd3WHoZqOUiR
+	 l6UR5gMFnIlPAOYDGFakt0BLrXCfed9tzWHFIOWigdW505HY0JVqCHgUzoNJrJCHsz
+	 fU3H9MegzSzefU7O+QQHKOqRmV5bK9QETzaIjtyk7wV06vJn9OQZ7PMJuJn9e91XV6
+	 8bT7Ft9El0o4Q==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Wed, 18 Jun 2025 12:29:09 -0700
+Subject: [PATCH] ARM: Use an absolute path to unified.h in KBUILD_AFLAGS
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] iio: Add Qualcomm Sensor Manager drivers
-Content-Language: en-US
-To: Yassine Oudjana <y.oudjana@protonmail.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Sverdlin <alexander.sverdlin@gmail.com>,
- Sean Nyekjaer <sean@geanix.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Ramona Gradinariu <ramona.gradinariu@analog.com>,
- "Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
- Danila Tikhonov <danila@jiaxyga.com>,
- Antoni Pokusinski <apokusinski01@gmail.com>,
- Vasileios Amoiridis <vassilisamir@gmail.com>,
- Petar Stoykov <pd.pstoykov@gmail.com>,
- shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>,
- "Borislav Petkov (AMD)" <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Ingo Molnar <mingo@kernel.org>
-Cc: Yassine Oudjana <yassine.oudjana@gmail.com>,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-References: <20250406140706.812425-1-y.oudjana@protonmail.com>
- <20250406140706.812425-4-y.oudjana@protonmail.com>
-From: Luca Weiss <luca@lucaweiss.eu>
-In-Reply-To: <20250406140706.812425-4-y.oudjana@protonmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250618-arm-expand-include-unified-h-path-v1-1-aef6eb4c44ca@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAIQTU2gC/x3NQQqDMBBG4avIrDuQCAbpVUoXQ+a3GbBpSGoRx
+ Lsbuvw27x3UUA2N7sNBFT9r9skd/jZQTJJfYNNuGt04ueBnlvpm7EWysuW4bgresi0G5cRFvom
+ DQ5hEo4oH9U6pWGz/Px7P87wAGq/Kg3MAAAA=
+X-Change-ID: 20250618-arm-expand-include-unified-h-path-60e65adcda1e
+To: Russell King <linux@armlinux.org.uk>, 
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, stable@vger.kernel.org, 
+ KernelCI bot <bot@kernelci.org>, Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2325; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=db/nmU5G6ALn8w6ZNs2pM1XeBWieETxE4h87P5JvRfs=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDBnBwu0NotVRxoyTe/xvzsw2Ct5S8jM0ZEY7e5/+u+OJ9
+ 91TtZQ6SlkYxLgYZMUUWaofqx43NJxzlvHGqUkwc1iZQIYwcHEKwEQytjL895M3c52s0uJlZh9/
+ x0uY26BHeL1fVfWnPxbn00yEPuXWMDK0vHHKtH9yXl7w+4vIcw5r8vO5jnEkvt1ytjrmtdUBhjR
+ uAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-Hi Yassine!
+After commit d5c8d6e0fa61 ("kbuild: Update assembler calls to use proper
+flags and language target"), which updated as-instr to use the
+'assembler-with-cpp' language option, the Kbuild version of as-instr
+always fails internally for arch/arm with
 
-On 06-04-2025 4:08 p.m., Yassine Oudjana wrote:
-> Add drivers for sensors exposed by the Qualcomm Sensor Manager service,
-> which is provided by SLPI or ADSP on Qualcomm SoCs. Supported sensors
-> include accelerometers, gyroscopes, pressure sensors, proximity sensors
-> and magnetometers.
-> 
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+  <command-line>: fatal error: asm/unified.h: No such file or directory
+  compilation terminated.
 
-<snip>
+because '-include' flags are now taken into account by the compiler
+driver and as-instr does not have '$(LINUXINCLUDE)', so unified.h is not
+found.
 
-> +static const char *const qcom_smgr_sensor_type_platform_names[] = {
-> +	[SNS_SMGR_SENSOR_TYPE_ACCEL] = "qcom-smgr-accel",
-> +	[SNS_SMGR_SENSOR_TYPE_GYRO] = "qcom-smgr-gyro",
-> +	[SNS_SMGR_SENSOR_TYPE_MAG] = "qcom-smgr-mag",
-> +	[SNS_SMGR_SENSOR_TYPE_PROX_LIGHT] = "qcom-smgr-prox-light",
-> +	[SNS_SMGR_SENSOR_TYPE_PRESSURE] = "qcom-smgr-pressure",
-> +	[SNS_SMGR_SENSOR_TYPE_HALL_EFFECT] = "qcom-smgr-hall-effect"
-> +};
-> +
-> +static void qcom_smgr_unregister_sensor(void *data)
-> +{
-> +	struct platform_device *pdev = data;
-> +
-> +	platform_device_unregister(pdev);
-> +}
-> +
-> +static int qcom_smgr_register_sensor(struct qcom_smgr *smgr,
-> +				     struct qcom_smgr_sensor *sensor)
-> +{
-> +	struct platform_device *pdev;
-> +	const char *name = qcom_smgr_sensor_type_platform_names[sensor->type];
+This went unnoticed at the time of the Kbuild change because the last
+use of as-instr in Kbuild that arch/arm could reach was removed in 5.7
+by commit 541ad0150ca4 ("arm: Remove 32bit KVM host support") but a
+stable backport of the Kbuild change to before that point exposed this
+potential issue if one were to be reintroduced.
 
-On msm8226 lg-lenok I get NULL here leading to a crash with the next call.
+Follow the general pattern of '-include' paths throughout the tree and
+make unified.h absolute using '$(srctree)' to ensure KBUILD_AFLAGS can
+be used independently.
 
-I get sensor->type=0 for some heart rate sensor on that watch. I've 
-added this patch on top to fix that (excuse the formatting):
+Cc: stable@vger.kernel.org
+Fixes: d5c8d6e0fa61 ("kbuild: Update assembler calls to use proper flags and language target")
+Reported-by: KernelCI bot <bot@kernelci.org>
+Closes: https://lore.kernel.org/CACo-S-1qbCX4WAVFA63dWfHtrRHZBTyyr2js8Lx=Az03XHTTHg@mail.gmail.com/
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ arch/arm/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-<snip>
+diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+index 4808d3ed98e4..e31e95ffd33f 100644
+--- a/arch/arm/Makefile
++++ b/arch/arm/Makefile
+@@ -149,7 +149,7 @@ endif
+ # Need -Uarm for gcc < 3.x
+ KBUILD_CPPFLAGS	+=$(cpp-y)
+ KBUILD_CFLAGS	+=$(CFLAGS_ABI) $(CFLAGS_ISA) $(arch-y) $(tune-y) $(call cc-option,-mshort-load-bytes,$(call cc-option,-malignment-traps,)) -msoft-float -Uarm
+-KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) -Wa,$(arch-y) $(tune-y) -include asm/unified.h -msoft-float
++KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) -Wa,$(arch-y) $(tune-y) -include $(srctree)/arch/arm/include/asm/unified.h -msoft-float
+ KBUILD_RUSTFLAGS += --target=arm-unknown-linux-gnueabi
+ 
+ CHECKFLAGS	+= -D__arm__
 
-> diff --git a/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h b/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h
-> new file mode 100644
-> index 000000000000..a741dfd87452
-> --- /dev/null
-> +++ b/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h
-> @@ -0,0 +1,163 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +
-> +#ifndef __SSC_SNS_SMGR_H__
-> +#define __SSC_SNS_SMGR_H__
-> +
-> +#include <linux/iio/common/qcom_smgr.h>
-> +#include <linux/soc/qcom/qmi.h>
-> +#include <linux/types.h>
-> +
-> +/*
-> + * The structures of QMI messages used by the service were determined
-> + * purely by watching transactions between proprietary Android userspace
-> + * components and SSC. along with comparing values reported by Android APIs
-> + * to values received in response messages. Due to that, the purpose or
-> + * meaning of many fields remains unknown. Such fields are named "val*",
-> + * "data*" or similar. Furthermore, the true maximum sizes of some messages
-> + * with unknown array fields may be different than defined here.
-> + */
-> +
-> +#define SNS_SMGR_QMI_SVC_ID			0x0100
-> +#define SNS_SMGR_QMI_SVC_V1			1
-> +#define SNS_SMGR_QMI_INS_ID			50
-This instance ID needs to be 0 on msm8974 and msm8226, so I assume we 
-don't want to make this a define but just add the 50 and the 0 as-is to 
-the match table?
+---
+base-commit: e04c78d86a9699d136910cfc0bdcf01087e3267e
+change-id: 20250618-arm-expand-include-unified-h-path-60e65adcda1e
 
-Regards
-Luca
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
+
 
