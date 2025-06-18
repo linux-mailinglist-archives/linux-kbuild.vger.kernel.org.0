@@ -1,147 +1,165 @@
-Return-Path: <linux-kbuild+bounces-7550-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7551-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D48ADF651
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 20:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A47ADF6BC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 21:20:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 637B23A5595
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 18:54:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8A78561C44
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Jun 2025 19:19:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E1E2F4314;
-	Wed, 18 Jun 2025 18:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0A2420CCD0;
+	Wed, 18 Jun 2025 19:19:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jUBZxz9O"
+	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="a7HkDahI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845F72F49E0
-	for <linux-kbuild@vger.kernel.org>; Wed, 18 Jun 2025 18:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CF71A2632;
+	Wed, 18 Jun 2025 19:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750272915; cv=none; b=lvYgj15qFkEdW9JpxyzGpTnTMn/Y/qAfHgXK1x+1efSCax9ojfXApV0NT2ZCJL8wv/jfrCtOWBbLfKN4hFboqxeaukmoykRJUxWQeOIrUsQCdElw3fRpjucMrZgknRTNckKyY0yghh5QyanCxFf6UY1L0aAO0f+zZjqO8d4WEdM=
+	t=1750274393; cv=none; b=fH+8ZhcnV0GVfD8WQi75GzDVIm8vajiXVxck7NndaXbODnEZqnhGpSeKoXaaDsvSaIC26X+jGvo/di7Dl79Tts0iBwJVOt6bgtkcEXLDBlMwiQ+M64QkfsAhn0qTKrToOAA291GuaXZM1XCLyKGlStaep7JkQBihmDqc8HsFrjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750272915; c=relaxed/simple;
-	bh=l+sofPI0a4H9EXu998eR23hCXF88jut6G/66kBd7ucg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=onAfXQRgh6WpLT2H80545p6ECkOQ4S5ehLzJsrtu+bJwy5SnayJkjS08LpLoZ/tMw3ZilUuydNAlwpvv6faeBDZfTyLpDEH6YZcGStxDPkLqQ0P//0l41qXfR0mn5I20J2q2a3CGbPpTg6rBfMOSNSo/yCz90GXqZA8+gPw+Mw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jUBZxz9O; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6099d89a19cso4300051a12.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Jun 2025 11:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750272912; x=1750877712; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=UYo69dGKwxkvZVYFGXMZv6iD++4zKKpxx8tLjZ8T8QQ=;
-        b=jUBZxz9OKCF+h2AxjCWGsGVArfx+9daGF4E2OsnHgQFjUWRya0OgPl0RaBt0CllWlI
-         CmCYCbYWep31fOrSRBDzYdTBczkk2jJvcrirQ8V3BqE++EbKXQA78wl025/OJHVbqFwO
-         j6piZl/kIEOBp2Rn7OZPVRdKCjZqBzcwmZLuxyBeR0epXIAMYS52aw0x0MmO66XI2Weq
-         NaSX6IdywsviJd7Lsk9gyrGSdK55Lolb2SA8MPEC8ROMU/yLVxMbIUssF8t1tzAMcGnp
-         e4aXlaJPzqDbiPEWf3+Bi23XU0u6NyXNTGokDpQNWnVFBTp07Mjd1vf9cVhItg4EWObK
-         oKbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750272912; x=1750877712;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UYo69dGKwxkvZVYFGXMZv6iD++4zKKpxx8tLjZ8T8QQ=;
-        b=Yuft/Pp0+O7e85GgUxqliwNtxzMmHxK0G+Tl+8bocOWYOosUXH6f/n9GXbPagwoTbf
-         /Iv/w+/mbxpztfPQIqtZbjtQSooJ4894jbQU7ZaGw2j1KiZ8BVfr/mjeSjwku3TQI0Ak
-         NAoEjsZakrWM5BAMTHOdR4Ya3ljUObpWc0+Lt14Zcn7DaZmMTTB1LIAXKddrv/ae0EXV
-         Ms9YcRfpq/okenJHvcWwhqHUgfY9tmEtaO0a9hfdL8xwUQc7yBJAjVjzfdY8UtVWJyeA
-         WS4UqM+EMi/vMy2KssQvU0Xc4ZcvZhh9HYea6bcWuO3pQbTb9jJA2ujDXv6Omy8aTArh
-         aDSQ==
-X-Gm-Message-State: AOJu0Yz+r2/hjfImwMkxIN31w48/UTRLuYV7YfMmi5gNNzroc91OfyIK
-	kwpnc0ehK3herieIgPDLsjyRq3c2otF3hhQ3NE0m3e/XWmy7AM15qT8T
-X-Gm-Gg: ASbGncuUntzJIHLf2DCfMOPyA2ghkuoKY/Z4vcwj0MZuaYZW7+9Rp0pNLQKRx5AjiUs
-	MZxRawBYVYc4MoWkLNBDSjdPIh5tEk77onyOWD6UB6L4kzWC2QV81Yq7JOqT0Oj6XOr7hSgKCWS
-	owZQq8jTEUW6oSdLxlQefZE4jmvOccYjdbFmGiVsT2wwTuQsA6akBxGozDf6qpoYnJCvfXbf1KP
-	pz9fihR6vcX30rrNFWatQZZBVzO70B82pO1KZkutGImiwGCuo4sbzdmh+WGtd6eUg3+P5vf+PGB
-	5We5n3bcjNsxFsqu41zWGfq60gNfLymtwUexJrr7y4FlphHz10/cXBq8z/Mb0n5o
-X-Google-Smtp-Source: AGHT+IExCXPPz+aIkbdgn2e6ZXZYlHW+L9/Suinx85GYUmGTSPlpYhxuC859Ft14ftutwl+HUNdFZQ==
-X-Received: by 2002:a05:6402:5109:b0:604:bbd2:7c6c with SMTP id 4fb4d7f45d1cf-608d097cdfbmr19243162a12.27.1750272911572;
-        Wed, 18 Jun 2025 11:55:11 -0700 (PDT)
-Received: from [192.168.0.3] ([91.80.31.228])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b48a9db9sm10182464a12.16.2025.06.18.11.55.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 11:55:10 -0700 (PDT)
-Message-ID: <64d93af1-b602-4dba-ad4b-a2b9a493c800@gmail.com>
-Date: Wed, 18 Jun 2025 20:55:09 +0200
+	s=arc-20240116; t=1750274393; c=relaxed/simple;
+	bh=l+CGLaIk4eVguzrZZFsUdEtSHXK3ZjcP7ggXpAQ0o8w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BhpTFSNppSOwVAHwuS5NX1HTOP9hZQyMlLB6/7o+Keii12yK11ZlBOiJeThXksuMls4a3onv5LgKigHReTbT8cFP/vmUFaYHlwNF0w/ASNC2VyzVZTilwlXevuwVSaTTj21tsvCSgAAqEYkyuAjhOCI9S/wPQnLFNn7JnEcxwxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=a7HkDahI; arc=none smtp.client-ip=128.199.32.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
+	t=1750274383; bh=l+CGLaIk4eVguzrZZFsUdEtSHXK3ZjcP7ggXpAQ0o8w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=a7HkDahICdgPiRTpNg1HTPNq5u+XQyHBc8SKqAd/jak7dPWPOY0f5KQXCP0JF9LkR
+	 406IVwmhHOjhKffoYccr40dotXqjdddNrw+xg5DKmjqEvT+sp3GHYu8dTmsbf3wB8+
+	 xanZWfpue4k/l74iwyWnPFICi9MaTQYX06Oav0Oc=
+Message-ID: <ea183f5a-b4c8-4dc0-960f-dba0db5a5abb@lucaweiss.eu>
+Date: Wed, 18 Jun 2025 21:19:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Kconfig: Added compare capabilities for mconf Ver. 2
-From: Franco Martelli <martellif67@gmail.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Franco Martelli <martellif67@gmail.com>
-References: <20250604183539.425053-1-martellif67@gmail.com>
- <CAK7LNAROMO2686KPbt+ZquymcZC-RLr0aX5x477uF1DaesUkCQ@mail.gmail.com>
- <9aaea19f-cd15-44fe-8d61-984f7ff316b7@gmail.com>
+Subject: Re: [PATCH 3/3] iio: Add Qualcomm Sensor Manager drivers
 Content-Language: en-US
-Autocrypt: addr=martellif67@gmail.com; keydata=
- xjMEXwx9ehYJKwYBBAHaRw8BAQdA8CkGKYFI/MK9U3RPhzE5H/ul7B6bHu/4BIhTf6LLO47N
- J0ZyYW5jbyBNYXJ0ZWxsaSA8bWFydGVsbGlmNjdAZ21haWwuY29tPsKWBBMWCAA+FiEET9sW
- 9yyU4uM6QbloXEn0O0LcklAFAl8MfXoCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
- F4AACgkQXEn0O0LcklBgAwEAhdX5TbxGOmMhlJUi9AkDACN2ZemI8Tz2jSZPDlOQoE0A/3Tq
- SPaEkb6kvK4xw626+AUDrfIzwzBscgpkDo4zCW0DzjgEXwx9ehIKKwYBBAGXVQEFAQEHQNP5
- V2q0H0oiJu89h1SSPgQDtkixXvUvRf1rNLLIcNpPAwEIB8J+BBgWCAAmFiEET9sW9yyU4uM6
- QbloXEn0O0LcklAFAl8MfXoCGwwFCQlmAYAACgkQXEn0O0LcklCMtgEAuCcSolf8LBIB4WTI
- 4YGKiN7qBXfW0QTbPO+bPXQLxfEBAJuoVm3BlyMHoNG6UEZ2TcqfV8k6oRqwr/c0IXwJqEkK
-In-Reply-To: <9aaea19f-cd15-44fe-8d61-984f7ff316b7@gmail.com>
+To: Yassine Oudjana <y.oudjana@protonmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Sean Nyekjaer <sean@geanix.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Ramona Gradinariu <ramona.gradinariu@analog.com>,
+ "Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Danila Tikhonov <danila@jiaxyga.com>,
+ Antoni Pokusinski <apokusinski01@gmail.com>,
+ Vasileios Amoiridis <vassilisamir@gmail.com>,
+ Petar Stoykov <pd.pstoykov@gmail.com>,
+ shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>,
+ "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Ingo Molnar <mingo@kernel.org>
+Cc: Yassine Oudjana <yassine.oudjana@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20250406140706.812425-1-y.oudjana@protonmail.com>
+ <20250406140706.812425-4-y.oudjana@protonmail.com>
+From: Luca Weiss <luca@lucaweiss.eu>
+In-Reply-To: <20250406140706.812425-4-y.oudjana@protonmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 16/06/25 at 15:44, Franco Martelli wrote:
-> On 16/06/25 at 15:04, Masahiro Yamada wrote:
->> On Thu, Jun 5, 2025 at 3:36 AM Franco Martelli <martellif67@gmail.com> 
->> wrote:
->>>
->>> Signed-off-by: Franco Martelli <martellif67@gmail.com>
->>> ---
->>>
->>> Dear Linux hacker,
->>>
->>> I've written a patch that allows to compare the tristate value of two
->>> .config files inline, symbol by symbol, in mconf (make menuconfig) only.
->>
->>
->> I do not understand why this needs to be implemented in
->> menuconfig.
->> scripts/diffconfig is already available.
+Hi Yassine!
 
-> When a new stable release of a distribution is available, in the Linux
-> kernel many things has changed, this patch comes in help in this
-> situations, it allows to easily compare the customized .config file
-> built for the previous version of the distribution, with the one
-> provided by the new software distribution, used as reference.
-> Generally it can be helpful when the differences between .config files
-> are huge, because you can navigate across them in the menu window.
+On 06-04-2025 4:08 p.m., Yassine Oudjana wrote:
+> Add drivers for sensors exposed by the Qualcomm Sensor Manager service,
+> which is provided by SLPI or ADSP on Qualcomm SoCs. Supported sensors
+> include accelerometers, gyroscopes, pressure sensors, proximity sensors
+> and magnetometers.
+> 
+> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
 
->>
->> I think the comparison mode is rather distracting.
->>
+<snip>
 
-A solution to improve readability of the comparison mode could
-be to skip symbols without differences, so leaving those menu
-entries untouched. This will shrink the amounts of characters
-displayed significantly.
+> +static const char *const qcom_smgr_sensor_type_platform_names[] = {
+> +	[SNS_SMGR_SENSOR_TYPE_ACCEL] = "qcom-smgr-accel",
+> +	[SNS_SMGR_SENSOR_TYPE_GYRO] = "qcom-smgr-gyro",
+> +	[SNS_SMGR_SENSOR_TYPE_MAG] = "qcom-smgr-mag",
+> +	[SNS_SMGR_SENSOR_TYPE_PROX_LIGHT] = "qcom-smgr-prox-light",
+> +	[SNS_SMGR_SENSOR_TYPE_PRESSURE] = "qcom-smgr-pressure",
+> +	[SNS_SMGR_SENSOR_TYPE_HALL_EFFECT] = "qcom-smgr-hall-effect"
+> +};
+> +
+> +static void qcom_smgr_unregister_sensor(void *data)
+> +{
+> +	struct platform_device *pdev = data;
+> +
+> +	platform_device_unregister(pdev);
+> +}
+> +
+> +static int qcom_smgr_register_sensor(struct qcom_smgr *smgr,
+> +				     struct qcom_smgr_sensor *sensor)
+> +{
+> +	struct platform_device *pdev;
+> +	const char *name = qcom_smgr_sensor_type_platform_names[sensor->type];
 
-I can send a version 3 of the patch changed accordingly, if
-you don't reply to this email I will assume yes, but if you
-are definitely against to this patch, please let me to know.
+On msm8226 lg-lenok I get NULL here leading to a crash with the next call.
 
-Kind regards,
--- 
-Franco Martelli
+I get sensor->type=0 for some heart rate sensor on that watch. I've 
+added this patch on top to fix that (excuse the formatting):
+
+<snip>
+
+> diff --git a/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h b/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h
+> new file mode 100644
+> index 000000000000..a741dfd87452
+> --- /dev/null
+> +++ b/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h
+> @@ -0,0 +1,163 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +
+> +#ifndef __SSC_SNS_SMGR_H__
+> +#define __SSC_SNS_SMGR_H__
+> +
+> +#include <linux/iio/common/qcom_smgr.h>
+> +#include <linux/soc/qcom/qmi.h>
+> +#include <linux/types.h>
+> +
+> +/*
+> + * The structures of QMI messages used by the service were determined
+> + * purely by watching transactions between proprietary Android userspace
+> + * components and SSC. along with comparing values reported by Android APIs
+> + * to values received in response messages. Due to that, the purpose or
+> + * meaning of many fields remains unknown. Such fields are named "val*",
+> + * "data*" or similar. Furthermore, the true maximum sizes of some messages
+> + * with unknown array fields may be different than defined here.
+> + */
+> +
+> +#define SNS_SMGR_QMI_SVC_ID			0x0100
+> +#define SNS_SMGR_QMI_SVC_V1			1
+> +#define SNS_SMGR_QMI_INS_ID			50
+This instance ID needs to be 0 on msm8974 and msm8226, so I assume we 
+don't want to make this a define but just add the 50 and the 0 as-is to 
+the match table?
+
+Regards
+Luca
 
