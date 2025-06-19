@@ -1,168 +1,127 @@
-Return-Path: <linux-kbuild+bounces-7562-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7563-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3520FADFD50
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 07:54:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB94EAE008C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 10:55:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B494188341A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 05:54:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 824FB4A0088
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 08:55:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AB3242D9A;
-	Thu, 19 Jun 2025 05:54:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0EF265611;
+	Thu, 19 Jun 2025 08:55:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aKIcXuCO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p2FgroRg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D400242D89
-	for <linux-kbuild@vger.kernel.org>; Thu, 19 Jun 2025 05:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75382580FB;
+	Thu, 19 Jun 2025 08:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750312457; cv=none; b=pqqAkw7VP33yEallI3Niknq775qRuvBo3AM6W2znmEo1qtUnNp2nVCNhp+OSwJvLZGS+w6DSctO2+xdlJJdy3ghhlfjfsePsWCZj0pfTW5bWr4FrDi1iDAAN8OF5gkMAZmL40SmK32P+ocb35Igb3TyaAoB2FjpuYgo6UB5JXRM=
+	t=1750323328; cv=none; b=rMiXixkd52jf0WjtiH0PGgedRh1G3m5ilIEJi4kZm0+YH4UkvKmznG69+CHP3He0HOG+svyfyclk6uYNIMZhAW+0VKjSfZBLg+6URNq7T4IDVqVzbUFIhEkIK4SBN2Taj/lHaGI8YaThWniiMVE2UBAQwDUzoAGNMfwDel1j6xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750312457; c=relaxed/simple;
-	bh=fkIz5c3VvVkstShK1H66lgQuGsJWH2TH8Np1JEM/A24=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VztQZpLGrc6kQzez82dnAuT81a3P2xqQHh4HOGaLykMsGEMTA5U20SBGLHMsxFBpgAsvowGC4wcV5rC55Uqva3QVqfXQtZpGgy+enGRIAjL8lgU0a7wj81zqNp34jvGQqGPZ0qDLTBLqjKDLAQvapDkLc2HknboPNXxBBPTbvDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aKIcXuCO; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-748764d8540so381212b3a.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Jun 2025 22:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750312455; x=1750917255; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mNX8x8v1rA4gsmPSGKn+LRzfhgT9AcyvzOiTf8D9D0s=;
-        b=aKIcXuCOlkRKptm+3jS28zkHggMih4vYtkCEOExinKKMeSclcQzdyROq65tyxsKaXS
-         Ax4oXlekiXh6RpFMB4rkhiv7t3KMeTrWrk+e6ewEFxc6ndT9sBxv8ZIoFOoqNabbItJJ
-         wTZcWpQE0n4sgHO0OBwU0a/HKGsDRgdMMlmbBlt8ttfAgJARjQFr1BBVQM5n0sKzdh7K
-         j7ZK6ROIvMiNl9uX1JDqqAZSU887fi6JUmuUsbuZKG0Ebv3LJDIz+pvdusK0betcuEz3
-         GfLk3CAN2m92AlnVg4QhdCGkCAQE87e55lLCegf9ygtvPH5Ezriq6DNNJtj+7zz5Vej2
-         L2Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750312455; x=1750917255;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mNX8x8v1rA4gsmPSGKn+LRzfhgT9AcyvzOiTf8D9D0s=;
-        b=aE7yVo2BiwFi3qStPGl09dLQR4NHTWk6tMJWK5IArgLenc8p9VbnencMvvf6oSdHN7
-         lkFtMn1YdtXM6VHYlpobd3dTQFJEHNJojyZ/+u9IrmvgfYERpaWnfOahnSj4S2jM657N
-         asUNjFCejVKRg588nMUBYeJrHEInC1A1g70itF+JYzCL+SwHC3GtEaNqcEfNzLFiiczW
-         IcUa6VwCfnSfqON8L9Xcebcpkglay1J4PBMFDfjCkE0sW5LERrPMW4cnhJ/Xrr+SPTaX
-         P6apED4GLey4e7ciFwsENP//la4tHB1Ct9rMcPFM3rIBTeKb+zcg1AuhMMgtHm7xG+mc
-         lY9w==
-X-Forwarded-Encrypted: i=1; AJvYcCXgyZHv3cMPyiuZyxDD1DM4i3BURUzDxgGkkFRJKFS+tG0RJkBfogt63GRz47x7485cYkd0pnFTb0wcpS4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl1/MyYTHkCcw7Kb0eba8+SCKe5FdQGh8csVEvHy35eCMYtwm4
-	5R9UH5uSwawCIPbO1ihBrkL0zFCem+vy8W6Kv0jg/XoH9dYJi0YcitfSQy74KG/tKtM=
-X-Gm-Gg: ASbGncu1IfS28Dh5kinj74sF5NTT9tOAqMgjFghj8Tx3puOO01TGLWCGsTn54QARjnn
-	nP6NkAX6cYCdNqQO11pCa8SRRTXL7LleLcUsCXyujk1yzNyJsyVxTxo4EQfYNZKQncFnaQLvT+3
-	1f/01o0rsF8J0Mq31tuIRLEIB4jXsnEkhYr394NcqxMhuFoq1GAB3kKfOUn+Q13y7K23fv/g4Pa
-	z56cYon7Xwixs1UQ5I8pKrxQUnPoYGBbSWvn/Vrc3Bi7W+JY6uyqQXOnI4UzLvMRel3M4x+Cvo2
-	yWZMLntEIQa8zJkLHMd0+lAvErYQwQfDgJYU30T0Yjp0mC4omLg114HG3z+1I9Y=
-X-Google-Smtp-Source: AGHT+IHpBy809k4j/mgtJ3pLZAei1vSVsYHbL1LodLYl1qhBrEB6gEr4Vdl8NOXI+5UF/UVojJEPMQ==
-X-Received: by 2002:a05:6a21:8dc3:b0:21a:ede2:2ea3 with SMTP id adf61e73a8af0-21fbd4d2985mr27026444637.17.1750312442235;
-        Wed, 18 Jun 2025 22:54:02 -0700 (PDT)
-Received: from localhost ([122.172.81.72])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900b04e4sm12287505b3a.121.2025.06.18.22.54.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 22:54:01 -0700 (PDT)
-Date: Thu, 19 Jun 2025 11:23:59 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Tamir Duberstein <tamird@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Lyude Paul <lyude@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Benno Lossin <lossin@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Breno Leitao <leitao@debian.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	linux-pm@vger.kernel.org, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v12 1/6] rust: enable `clippy::ptr_as_ptr` lint
-Message-ID: <20250619055359.tormmysgxxcper6q@vireshk-i7>
-References: <20250615-ptr-as-ptr-v12-0-f43b024581e8@gmail.com>
- <20250615-ptr-as-ptr-v12-1-f43b024581e8@gmail.com>
- <CANiq72mfjzXj0f4PKPKg7QgbOrhay4CF_+TBgScecKWO6acmyQ@mail.gmail.com>
+	s=arc-20240116; t=1750323328; c=relaxed/simple;
+	bh=eQADuGSiL41NAxGl9NK+UhkSlVn0yTQBhyaUTND5Uzc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jxrIHLlHwSCL1MSXs+zZ+V6xp2wSUNgOo6rC8sEVFU2vvtfD8wGzidr61eEwNRwEIamLqZet9ug/8YsCqa47t/+oaKRdoAvPukrwJoQ8Kpskk80KnB/EY4VpjoASPGzVRuc9bYtFFGevVM54JyPOW3Gg3UJY1UoM28gEp1wmT1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p2FgroRg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F51C4CEF3;
+	Thu, 19 Jun 2025 08:55:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750323327;
+	bh=eQADuGSiL41NAxGl9NK+UhkSlVn0yTQBhyaUTND5Uzc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=p2FgroRg8XpbJ/VSjtfLXHjJJRjKYpLj2XcaUHKG2xLQ7wfM+Z5n3rCjl6c8Zto5M
+	 RSqSwjDobL8Uw3UNbEgelKH8UpaKTaToYX2CC3EHc2vsE2pdmJDyKlBWw+TMDnneAR
+	 zMJQDoEg8twbtA3I11UyCenEImVZ9sO7oElSKq/lIdyVHdbSV7Rl1uy4I9OtVCIJ1L
+	 xY4b7NmVNhx3/G6psbDY7j5hAeSUhrVg2Gh8rwAs7zI7pjkVGSiXnOiYqIeGf09brb
+	 UZTFESwD6c+51mkUr6sZ7eCO2jWacLftMDJ3IO+VCTUTYL9SrpXOCd2q9ivlu3Pq39
+	 P3TSZ4nA1tZBA==
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-60789b450ceso962775a12.2;
+        Thu, 19 Jun 2025 01:55:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU/GY9u/H6VmWYLvDF+tqQ6wvs4cQ80fpYCXLxpaeI3/hKLjPWaslAawPzcZv8FhbhaTHXqy2CVGxgUmg==@vger.kernel.org, AJvYcCUC7SLy1By2jbdrPLjrpds1xYDCeo4uSWgeDuKoCGrFN88IBz0opkL7rgdyTjdu6qVaje0nxVN2pqqP@vger.kernel.org, AJvYcCUa7Efc35Q8WkGsD2U4bCGoecJW/ptZTk39ref5CTSfW++U6zvqcFPlHuJpjvbY/a8eD4oWh3rp/qY7y+OEJxeBctA/Dt2d@vger.kernel.org, AJvYcCVjDX2VwfRuG5SxxnGpf5KC7Th8S4ZkJMhGPKBQqTAOByeqmHLWZvVAEFKQt4ygXHiI8aQ9jG5oWXcrmmuH@vger.kernel.org, AJvYcCW+tx0F01bmFzPlRq1s//0vymuMtR05zWZopJxI/dVAq8QgCfpLxVIDL2fCwcAEz/s21z9kDMM7AodgJA==@vger.kernel.org, AJvYcCWqAx+nfZcjxDIAjro9EdY9VtDv9Vo9k8YxKWYkMQGhLnpFFTQM5aVyNYHvqOxsl0bAya0Smo4HJuA=@vger.kernel.org, AJvYcCX73FZOQpOzdf9Hp5i4AYdcM99rSDTfOkO87rkzetCbweNzxNf3eKMm79ycetHQF9cuKgIQfepr0NTAfQ==@vger.kernel.org, AJvYcCXUjuJgbxjol0jB6YrOeiJbQ/EtotBa3LL1C4QzpqdW1wi+ArpGdxkeNLrBTJtcSjV3blfY5lmHKm8B2CXdAu/j@vger.kernel.org, AJvYcCXwvFMpnHmADqS7bqjBEL0UKfL5f5WhEOrViDiJQ3UB6JKdkqVAiubUnHinNAnpqgbcGOJnQIuV5wnoimDC@vger.kernel.org, AJvYcCXx
+ 5NT+KRx0hNKE7eB4CPymUiA8EmK/2CrHXe+kQF+v5B+RVODIZVFTK73fUmYhLST2j6NM06Sg4s3i46U7DP/Q@vger.kernel.org
+X-Gm-Message-State: AOJu0YxntaGQ75cR2XT/KtiUEmUR6viMHpLHP+8ZBQ7dY8DNbCcsqVrI
+	CYr2glOimARwgCo6YYRC0tbgQ26zh/a93zRRAX4O4WnRQgWhdNq0pGl7dr3JC8orL2Cqe4djh5e
+	IdJf2tXvt2ESnC34dgslpqJ2En4YygkA=
+X-Google-Smtp-Source: AGHT+IFe63NPmdC9P72cDlyX2WP9si/cWhn+2uqDCCs1dQMO/+ouBJs4HCM0Kl1RCgdHuztVjrD3QGSEtvvPoh/cEAU=
+X-Received: by 2002:a05:6402:50d2:b0:607:6057:9006 with SMTP id
+ 4fb4d7f45d1cf-608d08f7a70mr18716524a12.8.1750323325929; Thu, 19 Jun 2025
+ 01:55:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72mfjzXj0f4PKPKg7QgbOrhay4CF_+TBgScecKWO6acmyQ@mail.gmail.com>
+References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-9-kees@kernel.org>
+In-Reply-To: <20250523043935.2009972-9-kees@kernel.org>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Thu, 19 Jun 2025 16:55:15 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4rFt3J6hD-eiNN5nihNR0cwMxPJQpq8LQWkx4km428og@mail.gmail.com>
+X-Gm-Features: AX0GCFtBM3K8OeK1JL3sld-cpEWi3kLQAET9w-cyksCMv2tJ5SCZdduevj4T0cU
+Message-ID: <CAAhV-H4rFt3J6hD-eiNN5nihNR0cwMxPJQpq8LQWkx4km428og@mail.gmail.com>
+Subject: Re: [PATCH v2 09/14] mips: Handle KCOV __init vs inline mismatches
+To: Kees Cook <kees@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 18-06-25, 18:48, Miguel Ojeda wrote:
-> On Sun, Jun 15, 2025 at 10:55 PM Tamir Duberstein <tamird@gmail.com> wrote:
-> >
-> > Apply these changes and enable the lint -- no functional change
-> > intended.
-> 
-> We need one more for `opp` [1] -- Viresh: I can do it on apply, unless
-> you disagree.
+Hi, Kees,
 
-Please do. Thanks.
+On Fri, May 23, 2025 at 12:41=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+> When KCOV is enabled all functions get instrumented, unless
+> the __no_sanitize_coverage attribute is used. To prepare for
+> __no_sanitize_coverage being applied to __init functions, we have to
+> handle differences in how GCC's inline optimizations get resolved. For
+> mips this requires forcing a function to be inline with __always_inline.
+>
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> Cc: <linux-mips@vger.kernel.org>
+> ---
+>  arch/mips/include/asm/time.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/mips/include/asm/time.h b/arch/mips/include/asm/time.h
+> index e855a3611d92..044cff0e0764 100644
+> --- a/arch/mips/include/asm/time.h
+> +++ b/arch/mips/include/asm/time.h
+> @@ -55,7 +55,7 @@ static inline int mips_clockevent_init(void)
+>   */
+>  extern int init_r4k_clocksource(void);
+>
+> -static inline int init_mips_clocksource(void)
+> +static __always_inline int init_mips_clocksource(void)
+Similar to x86 and arm, I prefer to mark it as __init rather than
+__always_inline.
 
-> diff --git a/rust/kernel/opp.rs b/rust/kernel/opp.rs
-> index a566fc3e7dcb..bc82a85ca883 100644
-> --- a/rust/kernel/opp.rs
-> +++ b/rust/kernel/opp.rs
-> @@ -92,7 +92,7 @@ fn to_c_str_array(names: &[CString]) ->
-> Result<KVec<*const u8>> {
->      let mut list = KVec::with_capacity(names.len() + 1, GFP_KERNEL)?;
-> 
->      for name in names.iter() {
-> -        list.push(name.as_ptr() as _, GFP_KERNEL)?;
-> +        list.push(name.as_ptr().cast(), GFP_KERNEL)?;
->      }
-> 
->      list.push(ptr::null(), GFP_KERNEL)?;
+Huacai
 
-For cpufreq/opp:
-
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-
--- 
-viresh
+>  {
+>  #ifdef CONFIG_CSRC_R4K
+>         return init_r4k_clocksource();
+> --
+> 2.34.1
+>
+>
 
