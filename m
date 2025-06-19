@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7571-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F27EAE064F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 14:55:25 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD67DAE06BA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 15:16:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F0A5188A672
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 12:55:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C5BB1BC5312
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 13:15:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D39241CB2;
-	Thu, 19 Jun 2025 12:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3E602472A4;
+	Thu, 19 Jun 2025 13:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dcuBAS4/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HN89VgSY"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0814A35963;
-	Thu, 19 Jun 2025 12:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42DD188CB1;
+	Thu, 19 Jun 2025 13:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750337711; cv=none; b=nZ7K31M8AVYDpwSh97irRFqryj6GY9IbW/pTKnmPUyLNiB2p+R8N4ZWhVJewATkGhM4iMgakdEvA92s9qLVR/OSsNH4z60aNswadcCde9rlYkYM15TslKNR9cuietgL9EnMGyYk/cgj0griOvq2yWTCdTxzY2Ak8exq6OVQiz2E=
+	t=1750338907; cv=none; b=kp28w68vaDr+pqQXmDhJz7toyOZEkMNnvJb4d963W7cfIy/u7430jbJ3TthtGteulM+t7XFSX7YOQmpiW8AjV5j+fo1OUFAPYpbOD84HZI4GDhSHEQJrLRmTpQ76TSvLxV8FOXWdlHpk6tjh2CZsWRRI9Tzex0nF+USFbpk11VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750337711; c=relaxed/simple;
-	bh=F68ARQM2DUOYRKZtWd98Kxrd8cYHG04AvGLTqWL26QE=;
+	s=arc-20240116; t=1750338907; c=relaxed/simple;
+	bh=XmA/rDaxVSJIKxYDrc79WLUOEQA0G2rxhfSxcF0bi0w=;
 	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=DtdVNYSJj+yHQkmlDjCS2QwzdPMsQhpfFG4QVfmRC4FsJoZfw0IHkK9/NByNBmrpNiYtfCUiEtcnctClML+pjHPVHIY2/twelp91eU6WQfUBCUQp+8wPkW9gVhGPyw0AAnHS72XAFmaZyY8wN+Gm4e89mCVDs8rxSJO0tdEcObk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dcuBAS4/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04E57C4CEEA;
-	Thu, 19 Jun 2025 12:55:05 +0000 (UTC)
+	 References:In-Reply-To; b=V6rhNcajfAv2HUPXWMCdTSUfKRHITB6xfz5cbUvBHkuAekpuWhlQx4732ogAWb79s1/nnykyvoy/1PKfeRL6Jb37TaU5UiK0fijgZV/b+OfGpv4U+IsR7a46AhZuCvM5lkHWoWA6VjVZDuGSKWCWisK0OzS/8P7dykwoB9AU+gE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HN89VgSY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6ABCC4CEEA;
+	Thu, 19 Jun 2025 13:15:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750337710;
-	bh=F68ARQM2DUOYRKZtWd98Kxrd8cYHG04AvGLTqWL26QE=;
+	s=k20201202; t=1750338907;
+	bh=XmA/rDaxVSJIKxYDrc79WLUOEQA0G2rxhfSxcF0bi0w=;
 	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
-	b=dcuBAS4/IXvI72zAi2C9wKO8TF8l3yfF6vihcv4oJNxIgPDFaE5J59Gi8cZxion0S
-	 vZ3gK0AWXc8KuQa29Vj97LIgYj+LWdMctHcK8oq80U7YJtkBen+vH2XGJCR7NnW64O
-	 4u91EJeR4rirFLc5w8oM6Beulu2iPq5g9IkbT5i1F1YF7wybZ/58q5CWbnR3oKiogd
-	 uOMVeamHSqojoIMNR9vgU4fm4hUMumMI1ek6RICnpFm4UqKtu98jz4jqmU2oU6Amv9
-	 6bYKAkDk76s6pHl3NgNOvRcOKJB97LD8UEcwwum38gpNDeQFPLXJKZ7/0BTTnalI6L
-	 3VPlNjrdlfiQQ==
+	b=HN89VgSYMF+Q0+qxAHhMd+/MiXoZSysZyeTDqWfJKVQJET4+UsnMZqbsxtRQf/+HH
+	 46G3I5+J9OVvl61r/Bg5Ii+6EPOuhHS4dQku/J+1hgG2X6ajxmpQZENAPTMoJ9BLtd
+	 RWybwEPXjtkwQVoMrAi43WExx8OcRbHqxGvbjZalxzjzGERH+FiminnpsTrEjEdjAg
+	 D/pQIRBJAtaARHnL9Nc379AsQWnXNMdhc9/BevFVJtlRGq5Xr0FHqmTGjED6Fyi4nQ
+	 MxdBlX9dNLFNtUCI5tckB4dLFmX+m5doQ5u9bEryuKaiuci8CIigmNvksH6cPWg9B0
+	 FyI5enUD1ezzQ==
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -49,145 +49,104 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Jun 2025 14:55:03 +0200
-Message-Id: <DAQIXKJ9VMS6.2044WT0FQQCVC@kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Alice Ryhl" <aliceryhl@google.com>, "Masahiro
- Yamada" <masahiroy@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
- "Luis Chamberlain" <mcgrof@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Nicolas Schier" <nicolas.schier@linux.dev>, "Trevor
- Gross" <tmgross@umich.edu>, "Adam Bratschi-Kaye" <ark.email@gmail.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Sami
- Tolvanen" <samitolvanen@google.com>, "Daniel Gomez" <da.gomez@samsung.com>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, "Greg KH"
- <gregkh@linuxfoundation.org>, "Fiona Behrens" <me@kloenk.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <linux-modules@vger.kernel.org>
+Date: Thu, 19 Jun 2025 15:15:00 +0200
+Message-Id: <DAQJCUE1C2JE.204A8IS7LBIVZ@kernel.org>
+To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Masahiro Yamada" <masahiroy@kernel.org>, "Nathan
+ Chancellor" <nathan@kernel.org>, "Luis Chamberlain" <mcgrof@kernel.org>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Nicolas Schier"
+ <nicolas.schier@linux.dev>
+Cc: "Trevor Gross" <tmgross@umich.edu>, "Adam Bratschi-Kaye"
+ <ark.email@gmail.com>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Petr
+ Pavlu" <petr.pavlu@suse.com>, "Sami Tolvanen" <samitolvanen@google.com>,
+ "Daniel Gomez" <da.gomez@samsung.com>, "Simona Vetter"
+ <simona.vetter@ffwll.ch>, "Greg KH" <gregkh@linuxfoundation.org>, "Fiona
+ Behrens" <me@kloenk.dev>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ <linux-modules@vger.kernel.org>
 Subject: Re: [PATCH v13 2/6] rust: introduce module_param module
 From: "Benno Lossin" <lossin@kernel.org>
 X-Mailer: aerc 0.20.1
 References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
  <20250612-module-params-v3-v13-2-bc219cd1a3f8@kernel.org>
- <aa9d7lhjQuDhyNw8zShbtfPFK19W5awx7cPJgC-2X4fGv2yUTnn0jqyIHfMN4wyuaYoS3fU6Fqe_wFteVUGtUg==@protonmail.internalid> <DAPYMAB44RUZ.7NIWDUWY1UYF@kernel.org> <87v7or7wiv.fsf@kernel.org>
-In-Reply-To: <87v7or7wiv.fsf@kernel.org>
+In-Reply-To: <20250612-module-params-v3-v13-2-bc219cd1a3f8@kernel.org>
 
-On Thu Jun 19, 2025 at 2:20 PM CEST, Andreas Hindborg wrote:
-> "Benno Lossin" <lossin@kernel.org> writes:
->> On Thu Jun 12, 2025 at 3:40 PM CEST, Andreas Hindborg wrote:
->>> +
->>> +// SAFETY: C kernel handles serializing access to this type. We never =
-access it
->>> +// from Rust module.
->>> +unsafe impl Sync for RacyKernelParam {}
->>> +
->>> +/// Types that can be used for module parameters.
->>> +pub trait ModuleParam: Sized + Copy {
->>
->> Why the `Copy` bound?
->
-> Because of potential unsoundness due to drop [1]. I should document
-> this. It is noted in the change log for the series under the obscure
-> entry "Assign through pointer rather than using `core::ptr::replace`."
->
-> [1] https://lore.kernel.org/all/878qnbxtyi.fsf@kernel.org
+On Thu Jun 12, 2025 at 3:40 PM CEST, Andreas Hindborg wrote:
+> +/// A wrapper for kernel parameters.
+> +///
+> +/// This type is instantiated by the [`module!`] macro when module param=
+eters are
+> +/// defined. You should never need to instantiate this type directly.
+> +///
+> +/// Note: This type is `pub` because it is used by module crates to acce=
+ss
+> +/// parameter values.
+> +#[repr(transparent)]
+> +pub struct ModuleParamAccess<T> {
+> +    data: core::cell::UnsafeCell<T>,
+> +}
+> +
+> +// SAFETY: We only create shared references to the contents of this cont=
+ainer,
+> +// so if `T` is `Sync`, so is `ModuleParamAccess`.
+> +unsafe impl<T: Sync> Sync for ModuleParamAccess<T> {}
+> +
+> +impl<T> ModuleParamAccess<T> {
+> +    #[doc(hidden)]
+> +    pub const fn new(value: T) -> Self {
+> +        Self {
+> +            data: core::cell::UnsafeCell::new(value),
+> +        }
+> +    }
+> +
+> +    /// Get a shared reference to the parameter value.
+> +    // Note: When sysfs access to parameters are enabled, we have to pas=
+s in a
+> +    // held lock guard here.
+> +    pub fn get(&self) -> &T {
+> +        // SAFETY: As we only support read only parameters with no sysfs
+> +        // exposure, the kernel will not touch the parameter data after =
+module
+> +        // initialization.
 
-Ah thanks for the pointer, yeah please mention this in a comment
-somewhere.
+This should be a type invariant. But I'm having difficulty defining one
+that's actually correct: after parsing the parameter, this is written
+to, but when is that actually? Would we eventually execute other Rust
+code during that time? (for example when we allow custom parameter
+parsing)
 
->>> +    ///
->>> +    /// Parameters passed at boot time will be set before [`kmalloc`] =
-is
->>> +    /// available (even if the module is loaded at a later time). Howe=
-ver, in
->>
->> I think we should make a section out of this like `# No allocations` (or
->> something better). Let's also mention it on the trait itself, since
->> that's where implementers will most likely look.
->
-> Since this series only support `Copy` types that are passed by value, I
-> think we can remove this comment for now. I will also restrict the
-> lifetime of the string to he duration of the call. Putting static here
-> would be lying.
->
->>
->>> +    /// this case, the argument buffer will be valid for the entire li=
-fetime of
->>> +    /// the kernel. So implementations of this method which need to al=
-locate
->>> +    /// should first check that the allocator is available (with
->>> +    /// [`crate::bindings::slab_is_available`]) and when it is not ava=
-ilable
->>
->> We probably shouldn't recommend directly using `bindings`.
->>
->>> +    /// provide an alternative implementation which doesn't allocate. =
-In cases
->>> +    /// where the allocator is not available it is safe to save refere=
-nces to
->>> +    /// `arg` in `Self`, but in other cases a copy should be made.
->>
->> I don't understand this convention, but it also doesn't seem to
->> relevant (so feel free to leave it as is, but it would be nice if you
->> could explain it).
->
-> It has become irrelevant as the series evolved. When we supported
-> `!Copy` types we would use the reference if we knew it would be valid
-> for the lifetime of the kernel, otherwise we would allocate [1].
->
-> However, when the reference is passed at module load time, it is still
-> guaranteed to be live for the lifetime of the module, and hence it can
-> still be considered `'static`. But, if the reference were to find it's
-> way across the module boundary, it can cause UAF issues as the reference
-> is not truely `'static`, it is actually `'module`. This ties into the
-> difficulty we have around safety of unloading modules. Module unload
-> should be marked unsafe.
+This function also must never be `const` because of the following:
 
-Ah so the argument should rather be an enum that is either
-`Static(&'static str)` or `WithAlloc(&'short str)` with the (non-safety)
-guarantee that `WithAlloc` is only passed when the allocator is
-available.
+    module! {
+        // ...
+        params: {
+            my_param: i64 {
+                default: 0,
+                description: "",
+            },
+        },
+    }
 
-> At any rate, I will remove the `'static` lifetime from the reference and
-> we are all good for now.
+    static BAD: &'static i64 =3D module_parameters::my_param.get();
 
-Sounds simplest for now.
+AFAIK, this static will be executed before loading module parameters and
+thus it makes writing to the parameter UB.
 
->>> +    crate::error::from_result(|| {
->>> +        let new_value =3D T::try_from_param_arg(arg)?;
->>> +
->>> +        // SAFETY: By function safety requirements `param` is be valid=
- for reads.
->>> +        let old_value =3D unsafe { (*param).__bindgen_anon_1.arg as *m=
-ut T };
->>> +
->>> +        // SAFETY: By function safety requirements, the target of `old=
-_value` is valid for writes
->>> +        // and is initialized.
->>> +        unsafe { *old_value =3D new_value };
->>
->> So if we keep the `ModuleParam: Copy` bound from above, then we don't
->> need to drop the type here (as `Copy` implies `!Drop`). So we could also
->> remove the requirement for initialized memory and use `ptr::write` here
->> instead. Thoughts?
->
-> Yes, that is the rationale for the `Copy` bound. What would be the
-> benefit of using `ptr::write`? They should be equivalent for `Copy`
-> types, right.
-
-They should be equivalent, but if we drop the requirement that the value
-is initialized to begin with, then removing `Copy` will result in UB
-here.
-
-> I was using `ptr::replace`, but Alice suggested the pace expression
-> assignment instead, since I was not using the old value.
-
-That makes sense, but if we also remove the initialized requirement,
-then I would prefer `ptr::write`.
+So maybe we should just use some sort of synchronization tool here...
 
 ---
 Cheers,
 Benno
+
+> +        unsafe { &*self.data.get() }
+> +    }
+> +
+> +    /// Get a mutable pointer to the parameter value.
+> +    pub const fn as_mut_ptr(&self) -> *mut T {
+> +        self.data.get()
+> +    }
+> +}
 
