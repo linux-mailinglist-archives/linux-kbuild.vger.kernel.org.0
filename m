@@ -1,112 +1,137 @@
-Return-Path: <linux-kbuild+bounces-7568-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7569-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D25DAE05C1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 14:29:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 532FAAE05EE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 14:33:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12DCA7A508A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 12:27:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 096413ABA96
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 12:31:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6FA922F77A;
-	Thu, 19 Jun 2025 12:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1568023D282;
+	Thu, 19 Jun 2025 12:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i50bJxBb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgxU7pzz"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED8422F38E;
-	Thu, 19 Jun 2025 12:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA97A22F767;
+	Thu, 19 Jun 2025 12:31:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750336113; cv=none; b=n+3mQkFxLzHSB4VD/KoUwxseA7Y/pgY4u9ZDRWGvUZHMFr0SWkjC8LhFsBLVCQZIEmZnLECi2YlP4vz4H0ghbzG669JR4bbTOysC0bYHguM/8+W6jvl7BtkAM4edf5F7Ixr5EUa4pKBB/IhrCOUkYyqUHsHgYrFBN2DYPygEuTw=
+	t=1750336288; cv=none; b=fezbrr0y5lnbCfY4WVjy8Nd38SihRHP3ZacDQGLYlSVEYL9BCb6+69JJR6EOSNMt8yt9uiLpwVGq2vR/Op/V5Gs6lNHd7TSMSqsq2pg5IDvSAkoY8OwBVLN1x99CNXy7/20RNKYIJJ4LrjPOYCWLgzKpn1ULmfkk99JimsPOiXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750336113; c=relaxed/simple;
-	bh=46GNTyt/nzDUI7W+MZywcocDplL/2kIr21WdO4Sv9f0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pZh57cuZJQAfbaVecOsc5URP4UzGg1UdUN/xqPawg8I2nizCe7BhngvE0QAkhIEkaJ4Bbi32LwJyMNFBtOEdjLyOcCaC4K4QlqvX9dDi5OJ92FmoxEwPNnED9Sv8pX+ouKxocU4bmP9lewY5zCCpndSV6SUm9V+RDp4IIneQk4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i50bJxBb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58566C4CEEA;
-	Thu, 19 Jun 2025 12:28:33 +0000 (UTC)
+	s=arc-20240116; t=1750336288; c=relaxed/simple;
+	bh=eOI3Qqo9VLysUZBeVHSaVKRloh7GQ7rxLZNcn2x5424=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=n4ssy4dlav8oqd2EAg+HTvRIrBWKPz0hMVR72lMBp28lEqBKv8Ghb8lXG8bOpCcQOKSHIeTUTG4sju9s9Qs3FSEmSVvf2iB6FFb53QC8DEC5A1g1Vd14T3lp+xazDCJU0htAXlewO0FkHk7mQi37UqPYOgB9EzlZcO2RMvjKakM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgxU7pzz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C4CCC4CEEA;
+	Thu, 19 Jun 2025 12:31:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750336113;
-	bh=46GNTyt/nzDUI7W+MZywcocDplL/2kIr21WdO4Sv9f0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=i50bJxBb3ciOFReU2hRo0Jm+1GasYM6SiUzjADPN//ef5khvo+Ge8snIjXAVbO4pB
-	 7lPo7e8MeatoIo6IktyGT2hSB/4Wg2zFmdUqopGWOB3t4Q6DCE9O4lSedOSKjVQr8d
-	 Y9UNVIQEldUq9OD26jRfhgW1wqVokR5FGzLB/GPZ6tTRIOMJuC0PuygmQoNBjR5gRV
-	 UgHkLAArUmpIiofiq1pRTuwEXUpwzTipUXn8P6R7r9Bv4KapZN1b3MUFSmGuPR9NDw
-	 zLRQ7qaA3z+j/XQHQgASuh5dNiH1WYczJYp5Ln5aBiWfYqbpEk0vhFGzxiotHVtuRF
-	 FYM39ksGCawkw==
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-60780d74c85so1037647a12.2;
-        Thu, 19 Jun 2025 05:28:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWDQzRXqIpYUMDCfM1ORDQcxVR/+aIu38frNN5QYalHtXulpx/8BjzMgTmG/eHUf2Zg9e/X80mhC2R0a/4=@vger.kernel.org, AJvYcCWeQ/DFCEGIviThTTOtaACHZkQgjsM8t96s4eEvglfIRy5kj3Q0uPbvbhEaZpsrttGCHBUrKpMefdl+SLUZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YygPYPiCGjvN/DjFvB9y4rcerkvnBQcGuxdHE7mkTmMJUsb0Zpm
-	6oIa0GFY9aiFPbqzTGlmwtnIWVKc8zLxqe7xlLpZIn+9lCxElzJP7tC8l4l+l4Fr3d7F0/qG4+s
-	flyLHD/WaWByMiaNOLgSF5IH1Xoortoc=
-X-Google-Smtp-Source: AGHT+IF85I8sP9z6G7vD5ObsF0vTNB/bVlYvJOso17+d+NgDAyNvURfjJO/e9qF6e8tKh/UFnQNS+dLD883osXpQs5Y=
-X-Received: by 2002:a05:6402:5186:b0:602:1216:fdde with SMTP id
- 4fb4d7f45d1cf-608d08b6bc1mr18737168a12.14.1750336111892; Thu, 19 Jun 2025
- 05:28:31 -0700 (PDT)
+	s=k20201202; t=1750336287;
+	bh=eOI3Qqo9VLysUZBeVHSaVKRloh7GQ7rxLZNcn2x5424=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=dgxU7pzzZ3WWd0ISj22p+9vX0cooSQh0p2gcP5ZLQ7bl5+CEOLjP8q12fSM0l2/ZZ
+	 xqJpwq2AaGlFMbadNxz6M4mU7G9e4crwZTYrAfGH0dN8n+YDV4AQrCgzKzxMKPSja6
+	 Qh7Sh3iKfufuI96p3Vk6w7AyshlVlEQwXls8OnJNHDqU4iWHwZdHgHroFHjrRmUVtH
+	 ZpixivlEs5sbITlxH9u1a+fywE9qbNshNkpMgTBYS3Dy59pK/bhcrBfzw+odtI29mk
+	 5O4d3E6SgPE339/OrXYejpfZ572gEcuqLaxfDbNvAp3M/sHW08PKZz3Pc82c44MkcH
+	 Po5jktPMoja6Q==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Benno Lossin" <lossin@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Alice
+ Ryhl" <aliceryhl@google.com>,  "Masahiro Yamada" <masahiroy@kernel.org>,
+  "Nathan Chancellor" <nathan@kernel.org>,  "Luis Chamberlain"
+ <mcgrof@kernel.org>,  "Danilo Krummrich" <dakr@kernel.org>,  "Nicolas
+ Schier" <nicolas.schier@linux.dev>,  "Trevor Gross" <tmgross@umich.edu>,
+  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
+  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
+  "Sami Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
+ <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
+ KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
+  "Daniel Almeida" <daniel.almeida@collabora.com>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v13 4/6] rust: module: update the module macro with
+ module parameter support
+In-Reply-To: <DAPYS2D9HNBT.1ZTN1VHCPN4XA@kernel.org> (Benno Lossin's message
+	of "Wed, 18 Jun 2025 23:07:30 +0200")
+References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
+	<20250612-module-params-v3-v13-4-bc219cd1a3f8@kernel.org>
+	<Dd6pq4fT11XQSyiDefuQSbzZC8iHduHjixmyRC0ipfDvg8FWCH8mGVE5kxwTv_AHUROX45Lo3OUR7FCm4gwjpg==@protonmail.internalid>
+	<DAPYS2D9HNBT.1ZTN1VHCPN4XA@kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 19 Jun 2025 14:31:15 +0200
+Message-ID: <87plez7w18.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250608141509.157300-1-chenhuacai@loongson.cn> <20250616185737.GA23807@google.com>
-In-Reply-To: <20250616185737.GA23807@google.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 19 Jun 2025 20:28:21 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6z_56D-mcfqyD4-_TCZVvmjVb3ab0B8j_QF_Yy2X6FBw@mail.gmail.com>
-X-Gm-Features: AX0GCFurjQs-cBGWxoCsgFhwNLZ8-8cvY9M4iIDvSP0-Mv6LkTl-cMO38sqU-Dg
-Message-ID: <CAAhV-H6z_56D-mcfqyD4-_TCZVvmjVb3ab0B8j_QF_Yy2X6FBw@mail.gmail.com>
-Subject: Re: [PATCH] LoongArch: Fix build warnings about export.h
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Huacai Chen <chenhuacai@loongson.cn>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild@vger.kernel.org, loongarch@lists.linux.dev, 
-	Guo Ren <guoren@kernel.org>, Xuerui Wang <kernel@xen0n.name>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi, Eric,
+"Benno Lossin" <lossin@kernel.org> writes:
 
-On Tue, Jun 17, 2025 at 2:57=E2=80=AFAM Eric Biggers <ebiggers@kernel.org> =
-wrote:
+> On Thu Jun 12, 2025 at 3:40 PM CEST, Andreas Hindborg wrote:
+>> +
+>> +    fn emit_params(&mut self, info: &ModuleInfo) {
+>> +        let Some(params) = &info.params else {
+>> +            return;
+>> +        };
+>> +
+>> +        for param in params {
+>> +            let ops = param_ops_path(&param.ptype);
+>> +
+>> +            // Note: The spelling of these fields is dictated by the user space
+>> +            // tool `modinfo`.
+>> +            self.emit_param("parmtype", &param.name, &param.ptype);
+>> +            self.emit_param("parm", &param.name, &param.description);
 >
-> On Sun, Jun 08, 2025 at 10:15:09PM +0800, Huacai Chen wrote:
-> > diff --git a/arch/loongarch/lib/crc32-loongarch.c b/arch/loongarch/lib/=
-crc32-loongarch.c
-> > index b37cd8537b45..db22c2ec55e2 100644
-> > --- a/arch/loongarch/lib/crc32-loongarch.c
-> > +++ b/arch/loongarch/lib/crc32-loongarch.c
-> > @@ -11,6 +11,7 @@
-> >
-> >  #include <asm/cpu-features.h>
-> >  #include <linux/crc32.h>
-> > +#include <linux/export.h>
-> >  #include <linux/module.h>
-> >  #include <linux/unaligned.h>
+> I just read this part again and I want to voice my dissatisfaction with
+> these key names. (not that you can do anything about that :)
 >
-> You can drop the change to crc32-loongarch.c, as it would conflict with
-> https://lore.kernel.org/r/20250601224441.778374-8-ebiggers@kernel.org/ an=
-d
-> https://lore.kernel.org/r/20250612183852.114878-1-ebiggers@kernel.org/ wh=
-ich are
-> in crc-next for 6.17 and already handle this issue.
-Thank you for your suggestion. But I plan to merge this patch for
-6.16, while your commits are for 6.17, I can only keep it as is.
-
-However, the conflicts can be easily solved when Linus merges your
-code, or there is an alternative solution (if you want): update your
-patches when this one gets upstream.
-
-Huacai
-
+>> +
+>> +            write!(
+>> +                self.param_buffer,
+>> +                "
+>> +                    pub(crate) static {param_name}:
 >
-> - Eric
+> Does this need to be accessed by anything else except the static below?
+> If no, then can we move it inside of that static? So
+>
+>     #[link_section = \"__param\"]
+>     #[used]
+>     static __{module_name}_{param_name}_struct: ::kernel::module_param::RacyKernelParam = {
+>         static {param_name}:
+>             ::kernel::module_param::ModuleParamAccess<{param_type}> =
+>                 ::kernel::module_param::ModuleParamAccess::new({param_default});
+>         // ...
+>     };
+
+It is used to access the value of the parameter from the module. If you
+reduce visibility you will get an error when trying to read the
+parameter value:
+
+    RUSTC     samples/rust/rust_minimal.o
+  error[E0425]: cannot find value `test_parameter` in module `module_parameters`
+    --> /home/aeh/src/linux-rust/module-params/samples/rust/rust_minimal.rs:31:33
+    |
+  31 |             *module_parameters::test_parameter.get()
+    |                                 ^^^^^^^^^^^^^^ not found in `module_parameters`
+
+  error: aborting due to 1 previous error
+
+
+Best regards,
+Andreas Hindborg
+
+
 
