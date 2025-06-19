@@ -1,173 +1,157 @@
-Return-Path: <linux-kbuild+bounces-7564-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7565-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065ADAE0097
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 10:56:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 168D0AE0322
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 13:12:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 639463A47F5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 08:55:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CFDD160DB2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 11:12:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7E42265631;
-	Thu, 19 Jun 2025 08:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 731D6225762;
+	Thu, 19 Jun 2025 11:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BiG8+DpI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f+JJHpce"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E2825D549;
-	Thu, 19 Jun 2025 08:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C5D221F30;
+	Thu, 19 Jun 2025 11:12:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750323361; cv=none; b=jpvVQa36m73X6ttdAygDSK9MyuABNQWLlGSw1A8SPGqq1S9i7iA72rC5CtNSX/QfnUhGYBm54BHKX+l/txjkch8d8ydKvBpVCV5hR5uudRJJ5UwLabG/xvQ6W+Dj9CIPORQdAiRrPwox3BdVZ9HowhOSImqcrpGlVMgwoAgR1s0=
+	t=1750331564; cv=none; b=aL0SHeNn5lHpNTaF8/Z0DkdBFLzNfW03vLurHGkjE5lWkbkne9vIALe3LYJcOuM2L5uF4xNnB0MrPAYJIO/crXSdqbpaAdj/lwGaFc+vgiN9uCrQFBz+nJOAn7TDA8s9biPVJ40Sm9plMOvVloh2OVBjBtRM04GaQga+fOqzcss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750323361; c=relaxed/simple;
-	bh=GY39qewCO8ZjeGeZxUohtkWS54SrNUfyybjbm7an5Kw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eqnBAczf8osqgsPn2gKeN69wArhh2/+PZ1oQQxjivitUnqx9BszsRQu8FD+z2DvRQn6WbuOT+1HmZgCWRQMUBbJ+s/reZkEAVEGKqi95s8wk94H3876qqo8tUayQQ4kNlvLP3j+lc0COe3Lm7IE2AeM41t2NiSn2rNgs9GHUUTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BiG8+DpI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A744C4CEEA;
-	Thu, 19 Jun 2025 08:56:01 +0000 (UTC)
+	s=arc-20240116; t=1750331564; c=relaxed/simple;
+	bh=0u88sDT/q65KVfR5hIDnrWSdvSt9Ru54yMvadeBOFqc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=q0d8DracoIYXQT4O47SvvmjnamiAvcizjffX3kLu0u0r69tcDjlMJ0qFX1XBZfGCIkVBt4XiXRrpNskZ7rQdi/vArBJdzG3j0eBuHcfZHLHBUC9cNRjQLFuTx5w6WDSlwSI8eFp+CZ9JpX16lCZIhJAn+HRafzmBxW8C5FPHl4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f+JJHpce; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0066FC4CEEA;
+	Thu, 19 Jun 2025 11:12:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750323361;
-	bh=GY39qewCO8ZjeGeZxUohtkWS54SrNUfyybjbm7an5Kw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=BiG8+DpI8qK/7ehh9mHlWcIBDcd2aW6L5zsdQwFfDHxAQzkw3wpYWGPQ6B8QAPH9D
-	 y3g3vBeuapW2jbg7F3C0+1XUsLnDTo/NVZBstotfSykAdmedcEkBtU7uK0/NAe+wSt
-	 Kc+Lun055qORQz7b1mmMomPpcYDq76KH/YewkrSM0s4AR/fntnE2c+ZQiv3ylk6uFy
-	 YMe89/7ZUy5WBvyLmptPtHixT5axCELqsF3d08SoPQsMs39mRobfTX8/5lFJkTd5Ag
-	 2mulMGlFaIN9bMOa0eo2qBME6/JU5n//r22rEhdAHA56YcfKfLRjdPIb6YPhoPnwm1
-	 xxs6mMfeLDs3A==
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6071ac9dc3eso846001a12.1;
-        Thu, 19 Jun 2025 01:56:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHCkYMNw1BRTfnipAKau+57hCg6VfNnm33RULilbHOelSimGu7C9uEGZUW2F0Eig/ZlLAQWRqoKCI=@vger.kernel.org, AJvYcCUYHQlwDv8Nw267gHoMyU7XzCZhrLMQzn2w/rbH8ds2fDjD5Pg0r8zhJVp+qANqGJKqtfuT0yrDhLyOW+Fz@vger.kernel.org, AJvYcCUhtcaV4+1E5jIngF99oZe9W29MGgHZoXmUhueWcLZ1ZJF75rni+ODJrcJ3KGZcSXJpmbmc9aQQFYLHtF6CEaRH@vger.kernel.org, AJvYcCV87h/6ovZXIboDRd1TZGf7nsv2rvalW35DkYiOnJX1ExUtp89Ks28GnBoVf5JRM/5ZG7Gs9VuNiqva@vger.kernel.org, AJvYcCVpqGrCnN/Ti5ysP1DaXikAUo0fh4ZDjMhj92i1QKnT/fbTrHo/3jIwg9dVyUuzGH9LHMRqcf9WY9udF09gjLsn@vger.kernel.org, AJvYcCVveexRyt7YB4FS4dPVQBYx+13Q7Y/NXwxofIhpfCWkK9zPdDCkSPyI+VSaa8wDeRlhAYiWpq4TvRnaKw==@vger.kernel.org, AJvYcCWIJtizXqVvcHCLgTkPfLGLYrNsCghzr8Bw9/P/WuMYoYLLdu1XbSUkFx1h7cirlFB4eZ5Q81j9NVpOHdfc3L1J+AeFsDCi@vger.kernel.org, AJvYcCXVK4NWJfsCLMaDacHwC5WyphIGb+/LH3IW+23ZmVzPhFaTneUrchaHKSPRG2OCSKuVQ7065Wfoodf71XJd@vger.kernel.org, AJvYcCXkwwwKsfiJaidb2cWHNVl4pV/FAyLTI+QymCdkzLzDJi2sG7WpbJUpFVPRVtOzU2ay6wr4KJGPq0+IXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvWPy9Wk0XYWzxt5k5naeASDm6On/ZbhdW+OkvGHt/iSB7Az9o
-	0xu+ZuaByB6Y65eZ4CiyNH15EcM3SmWkIjJyDxjlUwbN7lzcL7dqtoV078TkRBD0nuqPhUe815o
-	ksPFrkWRk4H5O7hUGvFw0iBi/nw7yfNA=
-X-Google-Smtp-Source: AGHT+IHshgFBjrE/bznWO4e6lyy0nq5bnj0JFcjbPNAIZZpdv6svyHpe5+Z0ZAFZ4cpQ+FvgAbwAckAC6VQE1xAS01s=
-X-Received: by 2002:a05:6402:26cc:b0:607:16b1:7489 with SMTP id
- 4fb4d7f45d1cf-608d094801bmr19223662a12.20.1750323359751; Thu, 19 Jun 2025
- 01:55:59 -0700 (PDT)
+	s=k20201202; t=1750331563;
+	bh=0u88sDT/q65KVfR5hIDnrWSdvSt9Ru54yMvadeBOFqc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=f+JJHpcebDoGLAiQoKVcSV4vvPEeM7EYIN5xxv6fEWkCF+mVHQMwzBhghOpZKCghQ
+	 7/Td7l838WQdl5744jAdc8yVM7VI4Jncb+XKdHTGVGaJzz0YyLV37Vz6rxmolow8Uu
+	 JRTK+6hqUG+5XmnL3kjsYAE4NO34MW/XGNu7uw4VKAGlq1scb2Pp9u1Osxry71PAss
+	 LJc2oRs8NUFbDeSm3zI7FQ9D3rReyBIXXszKJ0bTkSQKD//b1Uy8bjqWNOEkStyTCS
+	 x1syDEa9r2lrlCbKbjL3wBvHTinnPdRlnCGZbJDABkMYsoJbeMdLlw7GYx6i9qzCCK
+	 0Vxys58LqCw9w==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Benno Lossin" <lossin@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Alice
+ Ryhl" <aliceryhl@google.com>,  "Masahiro Yamada" <masahiroy@kernel.org>,
+  "Nathan Chancellor" <nathan@kernel.org>,  "Luis Chamberlain"
+ <mcgrof@kernel.org>,  "Danilo Krummrich" <dakr@kernel.org>,  "Nicolas
+ Schier" <nicolas.schier@linux.dev>,  "Trevor Gross" <tmgross@umich.edu>,
+  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
+  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
+  "Sami Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
+ <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
+ KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
+  "Daniel Almeida" <daniel.almeida@collabora.com>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v13 1/6] rust: str: add radix prefixed integer parsing
+ functions
+In-Reply-To: <DAPY5HF9HGXC.FCEKAMLPFY1H@kernel.org> (Benno Lossin's message of
+	"Wed, 18 Jun 2025 22:38:00 +0200")
+References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
+	<20250612-module-params-v3-v13-1-bc219cd1a3f8@kernel.org>
+	<bbRxeBHCiFQl9UTC1hFQYdzkdAIV5HcRTuFf9ucPUEZZ-uJmaHAZXfd8Tk-k9vzROgFsCyNhGBBCn5J_HnbUSA==@protonmail.internalid>
+	<DAPY5HF9HGXC.FCEKAMLPFY1H@kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 19 Jun 2025 13:12:30 +0200
+Message-ID: <871prg7zoh.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-10-kees@kernel.org>
-In-Reply-To: <20250523043935.2009972-10-kees@kernel.org>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 19 Jun 2025 16:55:48 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4WxAwXTYVFOnphgHN80-_6jt77YZ_rw-sOBoBjjiN-yQ@mail.gmail.com>
-X-Gm-Features: AX0GCFvInY5DbmRkbwxLo6Cb2clGLakUsQ51xQCaa7Coc4b_DkkyTMX5tkJkYVA
-Message-ID: <CAAhV-H4WxAwXTYVFOnphgHN80-_6jt77YZ_rw-sOBoBjjiN-yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/14] loongarch: Handle KCOV __init vs inline mismatches
-To: Kees Cook <kees@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Gleixner <tglx@linutronix.de>, Tianyang Zhang <zhangtianyang@loongson.cn>, 
-	Bibo Mao <maobibo@loongson.cn>, Jiaxun Yang <jiaxun.yang@flygoat.com>, loongarch@lists.linux.dev, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hi, Kees,
+"Benno Lossin" <lossin@kernel.org> writes:
 
-On Fri, May 23, 2025 at 12:39=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+> On Thu Jun 12, 2025 at 3:40 PM CEST, Andreas Hindborg wrote:
+>> +pub trait ParseInt: private::FromStrRadix + TryFrom<u64> {
+>> +    /// Parse a string according to the description in [`Self`].
+>> +    fn from_str(src: &BStr) -> Result<Self> {
+>> +        match src.deref() {
+>> +            [b'-', rest @ ..] => {
+>> +                let (radix, digits) = strip_radix(rest.as_ref());
+>> +                // 2's complement values range from -2^(b-1) to 2^(b-1)-1.
+>> +                // So if we want to parse negative numbers as positive and
+>> +                // later multiply by -1, we have to parse into a larger
+>> +                // integer. We choose `u64` as sufficiently large.
+>> +                //
+>> +                // NOTE: 128 bit integers are not available on all
+>> +                // platforms, hence the choice of 64 bits.
+>> +                let val =
+>> +                    u64::from_str_radix(core::str::from_utf8(digits).map_err(|_| EINVAL)?, radix)
+>> +                        .map_err(|_| EINVAL)?;
+>> +
+>> +                if val > Self::abs_min() {
+>> +                    return Err(EINVAL);
+>> +                }
+>> +
+>> +                if val == Self::abs_min() {
+>> +                    return Ok(Self::MIN);
+>> +                }
+>> +
+>> +                // SAFETY: We checked that `val` will fit in `Self` above.
 >
-> When KCOV is enabled all functions get instrumented, unless
-> the __no_sanitize_coverage attribute is used. To prepare for
-> __no_sanitize_coverage being applied to __init functions, we have to
-> handle differences in how GCC's inline optimizations get resolved. For
-> loongarch this exposed several places where __init annotations were
-> missing but ended up being "accidentally correct". Fix these cases and
-> force one function to be inline with __always_inline.
+> Sorry that it took me this long to realize, but this seems pretty weird.
+> I guess this is why the `FromStrRadix` is `unsafe`.
 >
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: WANG Xuerui <kernel@xen0n.name>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Tianyang Zhang <zhangtianyang@loongson.cn>
-> Cc: Bibo Mao <maobibo@loongson.cn>
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Cc: <loongarch@lists.linux.dev>
-> ---
->  arch/loongarch/include/asm/smp.h | 2 +-
->  arch/loongarch/kernel/time.c     | 2 +-
->  arch/loongarch/mm/ioremap.c      | 4 ++--
->  3 files changed, 4 insertions(+), 4 deletions(-)
+> Can we just move this part of the code to `FromStrRadix` and make that
+> trait safe?
 >
-> diff --git a/arch/loongarch/include/asm/smp.h b/arch/loongarch/include/as=
-m/smp.h
-> index ad0bd234a0f1..88e19d8a11f4 100644
-> --- a/arch/loongarch/include/asm/smp.h
-> +++ b/arch/loongarch/include/asm/smp.h
-> @@ -39,7 +39,7 @@ int loongson_cpu_disable(void);
->  void loongson_cpu_die(unsigned int cpu);
->  #endif
+> So essentially have:
 >
-> -static inline void plat_smp_setup(void)
-> +static __always_inline void plat_smp_setup(void)
-Similar to x86 and arm, I prefer to mark it as __init rather than
-__always_inline.
+>     fn from_u64(value: u64) -> Result<Self>;
+>
+> in `FromStrRadix` and remove `MIN`, `abs_min` and `complement`. Then
+> implement it like this in the macro below:
+>
+>     const ABS_MIN = /* existing abs_min impl */;
+>     if value > ABS_MIN {
+>         return Err(EINVAL);
+>     }
+>     if val == ABS_MIN {
+>         return Ok(<$ty>::MIN);
+>     }
+>     // SAFETY: We checked that `val` will fit in `Self` above.
+>     let val: $ty = unsafe { val.try_into().unwrap_unchecked() };
+>     (!val).wrapping_add(1)
+>
+> The reason that this is fine and the above is "weird" is the following:
+> The current version only has `Self: FromStrRadix` which gives it access
+> to the following guarantee from the `unsafe` trait:
+>
+>     /// The member functions of this trait must be implemented according to
+>     /// their documentation.
+>     ///
+>     /// [`&BStr`]: kernel::str::BStr
+>
+> This doesn't mention `TryFrom<u64>` and thus the comment "We checked
+> that `val` will fit in `Self` above" doesn't really apply: how does
+> checking with the bounds given in `FromStrRadix` make `TryFrom` return
+> `Ok`?
 
-Huacai
+I'm having a difficult time parsing. Are you suggesting that we guard
+against implementations of `TryInto<u64>` that misbehave?
 
->  {
->         loongson_smp_setup();
->  }
-> diff --git a/arch/loongarch/kernel/time.c b/arch/loongarch/kernel/time.c
-> index bc75a3a69fc8..367906b10f81 100644
-> --- a/arch/loongarch/kernel/time.c
-> +++ b/arch/loongarch/kernel/time.c
-> @@ -102,7 +102,7 @@ static int constant_timer_next_event(unsigned long de=
-lta, struct clock_event_dev
->         return 0;
->  }
->
-> -static unsigned long __init get_loops_per_jiffy(void)
-> +static unsigned long get_loops_per_jiffy(void)
->  {
->         unsigned long lpj =3D (unsigned long)const_clock_freq;
->
-> diff --git a/arch/loongarch/mm/ioremap.c b/arch/loongarch/mm/ioremap.c
-> index 70ca73019811..df949a3d0f34 100644
-> --- a/arch/loongarch/mm/ioremap.c
-> +++ b/arch/loongarch/mm/ioremap.c
-> @@ -16,12 +16,12 @@ void __init early_iounmap(void __iomem *addr, unsigne=
-d long size)
->
->  }
->
-> -void *early_memremap_ro(resource_size_t phys_addr, unsigned long size)
-> +void * __init early_memremap_ro(resource_size_t phys_addr, unsigned long=
- size)
->  {
->         return early_memremap(phys_addr, size);
->  }
->
-> -void *early_memremap_prot(resource_size_t phys_addr, unsigned long size,
-> +void * __init early_memremap_prot(resource_size_t phys_addr, unsigned lo=
-ng size,
->                     unsigned long prot_val)
->  {
->         return early_memremap(phys_addr, size);
-> --
-> 2.34.1
->
+
+Best regards,
+Andreas Hindborg
+
+
 
