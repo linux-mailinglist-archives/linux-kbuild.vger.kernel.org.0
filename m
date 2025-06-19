@@ -1,144 +1,168 @@
-Return-Path: <linux-kbuild+bounces-7561-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7562-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE41ADFCCD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 07:18:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3520FADFD50
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 07:54:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F8C017C86D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 05:18:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B494188341A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Jun 2025 05:54:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4903F23B60F;
-	Thu, 19 Jun 2025 05:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AB3242D9A;
+	Thu, 19 Jun 2025 05:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q3mfhmfG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aKIcXuCO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C2B23A564;
-	Thu, 19 Jun 2025 05:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D400242D89
+	for <linux-kbuild@vger.kernel.org>; Thu, 19 Jun 2025 05:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750310322; cv=none; b=sYvdW/2bYoLSBq62OWGNHCMs0FF3K2BZnK/Gyh+0gcDWmcHZkoA0SYU16L8UjjgmBzoKrW6mOSXzBH7ruNXkGAMsHVOQuWhCYl9GhdDD2LFFGs7MAkuQifFpdzwZSgOnEq8X60008EYEvDAfdkUeM1tcAJGt+0qov2YXjJXxFHo=
+	t=1750312457; cv=none; b=pqqAkw7VP33yEallI3Niknq775qRuvBo3AM6W2znmEo1qtUnNp2nVCNhp+OSwJvLZGS+w6DSctO2+xdlJJdy3ghhlfjfsePsWCZj0pfTW5bWr4FrDi1iDAAN8OF5gkMAZmL40SmK32P+ocb35Igb3TyaAoB2FjpuYgo6UB5JXRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750310322; c=relaxed/simple;
-	bh=/ASTVkIJ/zIGMOA+ht2vHucxDWTZ9iKbrXVkoSRNYqU=;
-	h=Date:Message-Id:To:Cc:Subject:From:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=YbBsqB5LVhGNRF9JSUmWchk6P5ojpcsSTgPMakg3kH8MBN/elWC4L2XA85f0sMa+f4+EYKN2mkpqVT4S3jkBLbcr60y9+WiMeh2SoAvrKmO2J8kwdcnfRRHi8Ptf7KiSCy+81ZOYDx4xD6R0kD5JUGvlQGbPnOPQBM0JFKnjZB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q3mfhmfG; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-23694cec0feso3945225ad.2;
-        Wed, 18 Jun 2025 22:18:40 -0700 (PDT)
+	s=arc-20240116; t=1750312457; c=relaxed/simple;
+	bh=fkIz5c3VvVkstShK1H66lgQuGsJWH2TH8Np1JEM/A24=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VztQZpLGrc6kQzez82dnAuT81a3P2xqQHh4HOGaLykMsGEMTA5U20SBGLHMsxFBpgAsvowGC4wcV5rC55Uqva3QVqfXQtZpGgy+enGRIAjL8lgU0a7wj81zqNp34jvGQqGPZ0qDLTBLqjKDLAQvapDkLc2HknboPNXxBBPTbvDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aKIcXuCO; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-748764d8540so381212b3a.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Jun 2025 22:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750310320; x=1750915120; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:from
-         :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/ASTVkIJ/zIGMOA+ht2vHucxDWTZ9iKbrXVkoSRNYqU=;
-        b=Q3mfhmfGtcHJNG8PYlfbn80QtE7Nyx1fKhkT9Fdzth/XXo2tGy5KEtjQsAhLbh90At
-         9RX3KRh3TutljznjEbZLxtfskD1dVLI8qMZmJf4pm5PlbstEJiutGFrFleCUnvOaPhUb
-         i50qipfvUNPTli8AUaNmJwulZdBDAx9zkmkU5p9LUU7Q8pXRxKtQULIu4IJguPGofy8a
-         8fBJ72ZoxApkTd/jfKGqapyA6y+4UTsdbe0uZtI160R1/fr2cz3DZJLpGmXZxhgAKSDz
-         1nhDbr/AbzU2+ENEmxdP4ZE37Mp6mLuZOy3eqXtTITQI9WxVPyMmEwYU06NCocRMGACq
-         ywIg==
+        d=linaro.org; s=google; t=1750312455; x=1750917255; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mNX8x8v1rA4gsmPSGKn+LRzfhgT9AcyvzOiTf8D9D0s=;
+        b=aKIcXuCOlkRKptm+3jS28zkHggMih4vYtkCEOExinKKMeSclcQzdyROq65tyxsKaXS
+         Ax4oXlekiXh6RpFMB4rkhiv7t3KMeTrWrk+e6ewEFxc6ndT9sBxv8ZIoFOoqNabbItJJ
+         wTZcWpQE0n4sgHO0OBwU0a/HKGsDRgdMMlmbBlt8ttfAgJARjQFr1BBVQM5n0sKzdh7K
+         j7ZK6ROIvMiNl9uX1JDqqAZSU887fi6JUmuUsbuZKG0Ebv3LJDIz+pvdusK0betcuEz3
+         GfLk3CAN2m92AlnVg4QhdCGkCAQE87e55lLCegf9ygtvPH5Ezriq6DNNJtj+7zz5Vej2
+         L2Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750310320; x=1750915120;
-        h=content-transfer-encoding:mime-version:references:in-reply-to:from
-         :subject:cc:to:message-id:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/ASTVkIJ/zIGMOA+ht2vHucxDWTZ9iKbrXVkoSRNYqU=;
-        b=wc1NgfClQ2wGdNqZVZxixnOHh5bPAju14TeimMU59CThksLo2pQ/ZGiUg4Mg/n7QUX
-         0rcIyFzZQh2+iR1v56lzs0mTGasi4kKBkw8IVFQ6ww08B0E6Z0bnGqPZZQUOQLC6LmCL
-         NBQcHpyvyjB3g6AvVI1UlMgV4VLpDiddEO6uHKSCfSkpH/tPqX+DFJct+VC+ov8qQjeA
-         fD0M3gj32RTvNxfuY3BKCbfmHFGt2Hl8N2exh8sMqjYXiF0SAMo7SeTJFLW9sC24nsEv
-         yGt2MQ37szVgdhv6Hbq0Hx2YF0ziyt2U6zuKXnbOME4iSUUBRQ3ZvRKbCESZPPMDuH6V
-         EZUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUw8bk2exhEDWUTJ0VZenYuWfMlKcN1MXiLEKa1SXayublEqPObzc/YmCZoOmGQvABEKSJ+a/701Gc=@vger.kernel.org, AJvYcCVaHBj0noBRPC/M4RHmV1+0J6IbG376FtQzXyMrJ3cUeqAvP/R6WPR9CA+wIkAB3o4GVEWJEuInn15Y5TG0hAg=@vger.kernel.org, AJvYcCW53POE1h296tI4l1dkKTEWXrBoUyuqwJ1A6Mra3z9XfHwSfcDkYHQUpEb60EfIbarpTYbXN8X5addkijPR@vger.kernel.org, AJvYcCWY1b1CB8ysrzVq0N6XQOqmrSRDghqt7ZO1vCixx3sX+63MADSC8bqYCXvi+G0A5yVmPJZO/XgDKQTAtjfG@vger.kernel.org, AJvYcCWoJC4jB6lRBC5+4KynCod9aqVbyN8NO1OVTgN1+a/pH/nU4xi5ZMmQQIOtuCRh6mmSim6ot9O4VlnI@vger.kernel.org, AJvYcCWvEL98zeFS/oKUdmqNriPkv4oisRO8Wx/he0BusbMCfXXbYcNhlRf6UcJ3k303B5K93saqqSKUIkepgs5dYNW7@vger.kernel.org, AJvYcCXeSvhWGA8RZp+73it3U5BJjJW1YpY7wjV5kLV4GPm0Y0IlG7pE1qSFIcBPpKyQICtWWoJv8hsqG2vn@vger.kernel.org, AJvYcCXhQ2Kw+/vQRArRKopXCSdE5E09yxZ5WJ/Hrq7IXpjBL+Y0vM9T1Kb/ZjmIHjlkqVz0XKuNnDsb@vger.kernel.org, AJvYcCXzBUjiatjDntdHoLQaGLEcLAwBvU4NGKoV1P+Z6rParO+zOpWxdTm2uCImL3FPuZCtiHuV/mHrvbw9aYs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIGsyaxEhZHU4+YNUuSB4g/vKoYbKrn1C8wzvP5KLAtUIby1BA
-	Qu1jDcfTvtc9QGpna6piPvnu+ji/p25dWbcz4IdIjVp0oGRJLZNq5k8t
-X-Gm-Gg: ASbGncuCyUdKZmqGkgiSRXoxt32Oaf+ZAF314CWHiTlxBb4WtVvHrRiyttOGUPK+Cio
-	n2IWZceqRYKKuOVkqQMxSZgAOeQzcJ5kv7lCsSiZ6qN7nLS9F7fr41WgonJu48sQzqzLsJUxAKf
-	gDAGlV3K6LNmEyB0joNh3hocnNMlBDzHu5Pug4qNZ80r+OUm9CrWe85mG9Q00N8bdO9Yyq7IlCe
-	z31cfhrgk4Ew9no/N22iNLOn3mQg8C791SdCE2gZqmgAgg19xhVd7BmkER5fauAFbd3pGn0eZVW
-	q8tD8FCzyJtqqVffavx2SE8gmQywG6RjeqyyOWw7gBRcydv5vhEPlxVNqYVlXU/89ebJFIjIQ2b
-	wC/enn0d586a3dRUqsaTytSdwTi2IfIieinR66XTv
-X-Google-Smtp-Source: AGHT+IEvcoWS+/mpCBS9HRGMoVVCn5GZ2BtlFZ10WJnLh4P0CWaOXTjNBc1tb/94RF8WfyU78YJazg==
-X-Received: by 2002:a17:903:4b4c:b0:235:6e1:3edf with SMTP id d9443c01a7336-2366b122194mr301022585ad.34.1750310319710;
-        Wed, 18 Jun 2025 22:18:39 -0700 (PDT)
-Received: from localhost (p5332007-ipxg23901hodogaya.kanagawa.ocn.ne.jp. [180.34.120.7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2365deca344sm110992075ad.203.2025.06.18.22.18.29
+        d=1e100.net; s=20230601; t=1750312455; x=1750917255;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mNX8x8v1rA4gsmPSGKn+LRzfhgT9AcyvzOiTf8D9D0s=;
+        b=aE7yVo2BiwFi3qStPGl09dLQR4NHTWk6tMJWK5IArgLenc8p9VbnencMvvf6oSdHN7
+         lkFtMn1YdtXM6VHYlpobd3dTQFJEHNJojyZ/+u9IrmvgfYERpaWnfOahnSj4S2jM657N
+         asUNjFCejVKRg588nMUBYeJrHEInC1A1g70itF+JYzCL+SwHC3GtEaNqcEfNzLFiiczW
+         IcUa6VwCfnSfqON8L9Xcebcpkglay1J4PBMFDfjCkE0sW5LERrPMW4cnhJ/Xrr+SPTaX
+         P6apED4GLey4e7ciFwsENP//la4tHB1Ct9rMcPFM3rIBTeKb+zcg1AuhMMgtHm7xG+mc
+         lY9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXgyZHv3cMPyiuZyxDD1DM4i3BURUzDxgGkkFRJKFS+tG0RJkBfogt63GRz47x7485cYkd0pnFTb0wcpS4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl1/MyYTHkCcw7Kb0eba8+SCKe5FdQGh8csVEvHy35eCMYtwm4
+	5R9UH5uSwawCIPbO1ihBrkL0zFCem+vy8W6Kv0jg/XoH9dYJi0YcitfSQy74KG/tKtM=
+X-Gm-Gg: ASbGncu1IfS28Dh5kinj74sF5NTT9tOAqMgjFghj8Tx3puOO01TGLWCGsTn54QARjnn
+	nP6NkAX6cYCdNqQO11pCa8SRRTXL7LleLcUsCXyujk1yzNyJsyVxTxo4EQfYNZKQncFnaQLvT+3
+	1f/01o0rsF8J0Mq31tuIRLEIB4jXsnEkhYr394NcqxMhuFoq1GAB3kKfOUn+Q13y7K23fv/g4Pa
+	z56cYon7Xwixs1UQ5I8pKrxQUnPoYGBbSWvn/Vrc3Bi7W+JY6uyqQXOnI4UzLvMRel3M4x+Cvo2
+	yWZMLntEIQa8zJkLHMd0+lAvErYQwQfDgJYU30T0Yjp0mC4omLg114HG3z+1I9Y=
+X-Google-Smtp-Source: AGHT+IHpBy809k4j/mgtJ3pLZAei1vSVsYHbL1LodLYl1qhBrEB6gEr4Vdl8NOXI+5UF/UVojJEPMQ==
+X-Received: by 2002:a05:6a21:8dc3:b0:21a:ede2:2ea3 with SMTP id adf61e73a8af0-21fbd4d2985mr27026444637.17.1750312442235;
+        Wed, 18 Jun 2025 22:54:02 -0700 (PDT)
+Received: from localhost ([122.172.81.72])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900b04e4sm12287505b3a.121.2025.06.18.22.54.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 22:18:39 -0700 (PDT)
-Date: Thu, 19 Jun 2025 14:18:17 +0900 (JST)
-Message-Id: <20250619.141817.2042938522863410452.fujita.tomonori@gmail.com>
-To: tamird@gmail.com
-Cc: masahiroy@kernel.org, nathan@kernel.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, dakr@kernel.org, gregkh@linuxfoundation.org,
- rafael@kernel.org, brendan.higgins@linux.dev, davidgow@google.com,
- rmoar@google.com, bhelgaas@google.com, mcgrof@kernel.org,
- russ.weight@linux.dev, robh@kernel.org, saravanak@google.com,
- abdiel.janulgue@gmail.com, daniel.almeida@collabora.com,
- robin.murphy@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, fujita.tomonori@gmail.com, nicolas.schier@linux.dev,
- frederic@kernel.org, lyude@redhat.com, tglx@linutronix.de,
- anna-maria@linutronix.de, lossin@kernel.org, kwilczynski@kernel.org,
- jstultz@google.com, sboyd@kernel.org, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, leitao@debian.org, viresh.kumar@linaro.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-pci@vger.kernel.org,
- linux-block@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
- linux-mm@kvack.org, linux-pm@vger.kernel.org, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v12 5/6] rust: enable `clippy::cast_lossless` lint
-From: FUJITA Tomonori <fujita.tomonori@gmail.com>
-In-Reply-To: <20250615-ptr-as-ptr-v12-5-f43b024581e8@gmail.com>
+        Wed, 18 Jun 2025 22:54:01 -0700 (PDT)
+Date: Thu, 19 Jun 2025 11:23:59 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Tamir Duberstein <tamird@gmail.com>, Viresh Kumar <vireshk@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Lyude Paul <lyude@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Benno Lossin <lossin@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Breno Leitao <leitao@debian.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	netdev@vger.kernel.org, linux-mm@kvack.org,
+	linux-pm@vger.kernel.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v12 1/6] rust: enable `clippy::ptr_as_ptr` lint
+Message-ID: <20250619055359.tormmysgxxcper6q@vireshk-i7>
 References: <20250615-ptr-as-ptr-v12-0-f43b024581e8@gmail.com>
-	<20250615-ptr-as-ptr-v12-5-f43b024581e8@gmail.com>
+ <20250615-ptr-as-ptr-v12-1-f43b024581e8@gmail.com>
+ <CANiq72mfjzXj0f4PKPKg7QgbOrhay4CF_+TBgScecKWO6acmyQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=iso-8859-7
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72mfjzXj0f4PKPKg7QgbOrhay4CF_+TBgScecKWO6acmyQ@mail.gmail.com>
 
-T24gU3VuLCAxNSBKdW4gMjAyNSAxNjo1NTowOSAtMDQwMA0KVGFtaXIgRHViZXJzdGVpbiA8dGFt
-aXJkQGdtYWlsLmNvbT4gd3JvdGU6DQoNCj4gQmVmb3JlIFJ1c3QgMS4yOS4wLCBDbGlwcHkgaW50
-cm9kdWNlZCB0aGUgYGNhc3RfbG9zc2xlc3NgIGxpbnQgWzFdOg0KPiANCj4+IFJ1c3SicyBgYXNg
-IGtleXdvcmQgd2lsbCBwZXJmb3JtIG1hbnkga2luZHMgb2YgY29udmVyc2lvbnMsIGluY2x1ZGlu
-Zw0KPj4gc2lsZW50bHkgbG9zc3kgY29udmVyc2lvbnMuIENvbnZlcnNpb24gZnVuY3Rpb25zIHN1
-Y2ggYXMgYGkzMjo6ZnJvbWANCj4+IHdpbGwgb25seSBwZXJmb3JtIGxvc3NsZXNzIGNvbnZlcnNp
-b25zLiBVc2luZyB0aGUgY29udmVyc2lvbiBmdW5jdGlvbnMNCj4+IHByZXZlbnRzIGNvbnZlcnNp
-b25zIGZyb20gYmVjb21pbmcgc2lsZW50bHkgbG9zc3kgaWYgdGhlIGlucHV0IHR5cGVzDQo+PiBl
-dmVyIGNoYW5nZSwgYW5kIG1ha2VzIGl0IGNsZWFyIGZvciBwZW9wbGUgcmVhZGluZyB0aGUgY29k
-ZSB0aGF0IHRoZQ0KPj4gY29udmVyc2lvbiBpcyBsb3NzbGVzcy4NCj4gDQo+IFdoaWxlIHRoaXMg
-ZG9lc24ndCBlbGltaW5hdGUgdW5jaGVja2VkIGBhc2AgY29udmVyc2lvbnMsIGl0IG1ha2VzIHN1
-Y2gNCj4gY29udmVyc2lvbnMgZWFzaWVyIHRvIHNjcnV0aW5pemUuICBJdCBhbHNvIGhhcyB0aGUg
-c2xpZ2h0IGJlbmVmaXQgb2YNCj4gcmVtb3ZpbmcgYSBkZWdyZWUgb2YgZnJlZWRvbSBvbiB3aGlj
-aCB0byBiaWtlc2hlZC4gVGh1cyBhcHBseSB0aGUNCj4gY2hhbmdlcyBhbmQgZW5hYmxlIHRoZSBs
-aW50IC0tIG5vIGZ1bmN0aW9uYWwgY2hhbmdlIGludGVuZGVkLg0KPiANCj4gTGluazogaHR0cHM6
-Ly9ydXN0LWxhbmcuZ2l0aHViLmlvL3J1c3QtY2xpcHB5L21hc3Rlci9pbmRleC5odG1sI2Nhc3Rf
-bG9zc2xlc3MgWzFdDQo+IFN1Z2dlc3RlZC1ieTogQmVubm8gTG9zc2luIDxiZW5uby5sb3NzaW5A
-cHJvdG9uLm1lPg0KPiBMaW5rOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvRDhPUlRYU1VU
-S0dMLjFLT0pBR0JNOEY4VE5AcHJvdG9uLm1lLw0KPiBSZXZpZXdlZC1ieTogQmVubm8gTG9zc2lu
-IDxiZW5uby5sb3NzaW5AcHJvdG9uLm1lPg0KPiBSZXZpZXdlZC1ieTogQm9xdW4gRmVuZyA8Ym9x
-dW4uZmVuZ0BnbWFpbC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IFRhbWlyIER1YmVyc3RlaW4gPHRh
-bWlyZEBnbWFpbC5jb20+DQo+IC0tLQ0KPiAgTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHwgMSArDQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmljX3FyLnJzICAgICAgfCA0
-ICsrLS0NCj4gIGRyaXZlcnMvZ3B1L25vdmEtY29yZS9yZWdzLnJzICAgICAgICB8IDIgKy0NCj4g
-IGRyaXZlcnMvZ3B1L25vdmEtY29yZS9yZWdzL21hY3Jvcy5ycyB8IDIgKy0NCj4gIHJ1c3QvYmlu
-ZGluZ3MvbGliLnJzICAgICAgICAgICAgICAgICB8IDEgKw0KPiAgcnVzdC9rZXJuZWwvbmV0L3Bo
-eS5ycyAgICAgICAgICAgICAgIHwgNCArKy0tDQo+ICBydXN0L3VhcGkvbGliLnJzICAgICAgICAg
-ICAgICAgICAgICAgfCAxICsNCj4gIDcgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA2
-IGRlbGV0aW9ucygtKQ0KDQpGb3IgUEhZIHBhcnQ6DQoNCkFja2VkLWJ5OiBGVUpJVEEgVG9tb25v
-cmkgPGZ1aml0YS50b21vbm9yaUBnbWFpbC5jb20+DQo=
+On 18-06-25, 18:48, Miguel Ojeda wrote:
+> On Sun, Jun 15, 2025 at 10:55 PM Tamir Duberstein <tamird@gmail.com> wrote:
+> >
+> > Apply these changes and enable the lint -- no functional change
+> > intended.
+> 
+> We need one more for `opp` [1] -- Viresh: I can do it on apply, unless
+> you disagree.
+
+Please do. Thanks.
+
+> diff --git a/rust/kernel/opp.rs b/rust/kernel/opp.rs
+> index a566fc3e7dcb..bc82a85ca883 100644
+> --- a/rust/kernel/opp.rs
+> +++ b/rust/kernel/opp.rs
+> @@ -92,7 +92,7 @@ fn to_c_str_array(names: &[CString]) ->
+> Result<KVec<*const u8>> {
+>      let mut list = KVec::with_capacity(names.len() + 1, GFP_KERNEL)?;
+> 
+>      for name in names.iter() {
+> -        list.push(name.as_ptr() as _, GFP_KERNEL)?;
+> +        list.push(name.as_ptr().cast(), GFP_KERNEL)?;
+>      }
+> 
+>      list.push(ptr::null(), GFP_KERNEL)?;
+
+For cpufreq/opp:
+
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+
+-- 
+viresh
 
