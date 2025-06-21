@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7600-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7601-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141CFAE2946
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 15:58:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41485AE2947
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 15:58:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77F41169552
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 13:57:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEFE2189DD32
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 13:58:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34601531E3;
-	Sat, 21 Jun 2025 13:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2AE7482F2;
+	Sat, 21 Jun 2025 13:57:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pe1Ttxxq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TqHKOrvb"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57A9DDC1;
-	Sat, 21 Jun 2025 13:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C494120B;
+	Sat, 21 Jun 2025 13:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750514258; cv=none; b=ZeYPJN/vXoA7EeICfH039kOqnRVSW1BdAx8EsW+JMsxOa/SSpj3AxuJZWgI5VTMtzMF6m0aXsbr01TMNaCVl0378niMNyHwjSjAsGWYUAvZ7B7/eVG7yhfuW9G+L7QRIWt/Ph8MY3xRW6bfBy8jgvcUYbAofHkh6ldiG3IP05o4=
+	t=1750514263; cv=none; b=rh+mX+2db6Ag3ia68Mu7eJtXGkZVLc8KMHCI8JH1PZNZhJjz2OleOCweuKF0S+CEYOd+PcU1E7fUEhCV3+VrC133HFchAq1sGgHml+8WbmDMb7AwzKiFu6t4VSBCDHBE3/j4XqdHVxRQ+SXWaXy/VE/WXxMOjWhV7sMONMY0ju0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750514258; c=relaxed/simple;
-	bh=SV2yBb7mPZ1Z1JgQ1i1j3we1Iejdg6pRIK1Z7mGfVw0=;
+	s=arc-20240116; t=1750514263; c=relaxed/simple;
+	bh=V0Ki0PP0IWixyV5REiz3OtpIGehZ28ZeA9xGhY+yj9g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hu2pCzA1KhrvD/Zu586yECLzvfXWVM2qGyb41a3wPA7wN9Ln5KO/iXPNvv85Lj9cGiiBEl46oGsmkZlyxXwxY6kcShahUfnhLv5pmlJw24ttDAyz3tbTLKXGdYCpv8YGcF2Jk/yuUGg3KiA+3obRUNCokN1UfVib5d7kfXWhvZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pe1Ttxxq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F009C4CEF1;
-	Sat, 21 Jun 2025 13:57:35 +0000 (UTC)
+	 MIME-Version; b=qKCOTGEP5SKmXZZbSkRy7UnFvwHDe8TNBFpEMjpDtgKEStKdPQBY6p8KGrJDtTHNthjk1O+4DGIGWPrz3aysZBiKVAwoV1/mkz35+kNblyveATjHoOnZwaxDieCH9etTwKW9HP7skyvwOcLu+ZjgNbj2OdRGYOiSxWRHiBVE6sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TqHKOrvb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B3CC4CEE7;
+	Sat, 21 Jun 2025 13:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750514258;
-	bh=SV2yBb7mPZ1Z1JgQ1i1j3we1Iejdg6pRIK1Z7mGfVw0=;
+	s=k20201202; t=1750514261;
+	bh=V0Ki0PP0IWixyV5REiz3OtpIGehZ28ZeA9xGhY+yj9g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Pe1TtxxqDXAXltnMjYAAJPHpXLJ5a/Ku568lPJeZzwqM85bzVh/k58miB6EUy1iSs
-	 xR1bpM4IptIBxrzU1ZA6n0VauDleF6bx2aaNSnpaijtTyFV7C5ewAHeMuLqJ/b+kLU
-	 FwRhQn9xWpvYUUGF7nVFZzbQ/CO1IWCe4ONDatUMyzmcRXz5xKDPl1JFIOEHV8A98i
-	 GWkQGvKs7tOAyoMe0nxczGsfZ8TeOHVJuB8CbEq/b55KgjnGBkuQsBA3q3RWb8lDMV
-	 rjyka1rol65130hFu9ONZ5qici2LPV5AqgnQfcPApyxTlK0ImHSbJW3AqjW4DlesMB
-	 XnCWnTZa8BrTg==
+	b=TqHKOrvb1SeLhY7Ku5BBEl4wunCBDIKYpJ+lBhp3EsfuXqPPpmZPh2y8/k/zp9jJR
+	 wHLNwve6vXHwT2NGY/QbMZkequLpSHH5Rx8GfLO+ezH1yEisj/wq78WH/CnHRv6TM+
+	 mjRRA1uoUAY8zj3s//vCFmnAvmk6ZvEyRSiFf5GZ06vd3sp7STUnakDa32hFhh6C0S
+	 wZiTYgOT0GGDWLIY7vL4z4+QSiwtXg/GCJCTK6mQ2vv0reGzNrFsWqaSxzJ0fgrc0q
+	 mVamolz3u0EB6QKGUwhrLMdlW58gvnZ7OPISl/ojHutpfgbFaSWkRs7jymChfZykW5
+	 dqO6IDu6nTZkw==
 From: Alexey Gladkov <legion@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>,
 	Petr Pavlu <petr.pavlu@suse.com>,
@@ -52,12 +52,10 @@ To: Masahiro Yamada <masahiroy@kernel.org>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>
-Subject: [PATCH v4 1/7] module: remove meaningless 'name' parameter from __MODULE_INFO()
-Date: Sat, 21 Jun 2025 15:57:13 +0200
-Message-ID: <b570ffc48f5cacee67b256ec51ef74f5433a7172.1750511018.git.legion@kernel.org>
+	linux-scsi@vger.kernel.org
+Subject: [PATCH v4 2/7] kbuild: always create intermediate vmlinux.unstripped
+Date: Sat, 21 Jun 2025 15:57:14 +0200
+Message-ID: <b67c1df6a6e4b7b527788f2c71f7dd4e23406391.1750511018.git.legion@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1750511018.git.legion@kernel.org>
 References: <cover.1750511018.git.legion@kernel.org>
@@ -71,128 +69,113 @@ Content-Transfer-Encoding: 8bit
 
 From: Masahiro Yamada <masahiroy@kernel.org>
 
-The symbol names in the .modinfo section are never used and already
-randomized by the __UNIQUE_ID() macro.
+Generate the intermediate vmlinux.unstripped regardless of
+CONFIG_ARCH_VMLINUX_NEEDS_RELOCS.
 
-Therefore, the second parameter of  __MODULE_INFO() is meaningless
-and can be removed to simplify the code.
+If CONFIG_ARCH_VMLINUX_NEEDS_RELOCS is unset, vmlinux.unstripped and
+vmlinux are identiacal.
 
-With this change, the symbol names in the .modinfo section will be
-prefixed with __UNIQUE_ID_modinfo, making it clearer that they
-originate from MODULE_INFO().
+This simplifies the build rule, and allows to strip more sections
+by adding them to remove-section-y.
 
-[Before]
-
-  $ objcopy  -j .modinfo vmlinux.o modinfo.o
-  $ nm -n modinfo.o | head -n10
-  0000000000000000 r __UNIQUE_ID_license560
-  0000000000000011 r __UNIQUE_ID_file559
-  0000000000000030 r __UNIQUE_ID_description558
-  0000000000000074 r __UNIQUE_ID_license580
-  000000000000008e r __UNIQUE_ID_file579
-  00000000000000bd r __UNIQUE_ID_description578
-  00000000000000e6 r __UNIQUE_ID_license581
-  00000000000000ff r __UNIQUE_ID_file580
-  0000000000000134 r __UNIQUE_ID_description579
-  0000000000000179 r __UNIQUE_ID_uncore_no_discover578
-
-[After]
-
-  $ objcopy  -j .modinfo vmlinux.o modinfo.o
-  $ nm -n modinfo.o | head -n10
-  0000000000000000 r __UNIQUE_ID_modinfo560
-  0000000000000011 r __UNIQUE_ID_modinfo559
-  0000000000000030 r __UNIQUE_ID_modinfo558
-  0000000000000074 r __UNIQUE_ID_modinfo580
-  000000000000008e r __UNIQUE_ID_modinfo579
-  00000000000000bd r __UNIQUE_ID_modinfo578
-  00000000000000e6 r __UNIQUE_ID_modinfo581
-  00000000000000ff r __UNIQUE_ID_modinfo580
-  0000000000000134 r __UNIQUE_ID_modinfo579
-  0000000000000179 r __UNIQUE_ID_modinfo578
-
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: "David S. Miller" <davem@davemloft.net>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- include/crypto/algapi.h     | 4 ++--
- include/linux/module.h      | 3 ---
- include/linux/moduleparam.h | 9 +++++----
- include/net/tcp.h           | 4 ++--
- 4 files changed, 9 insertions(+), 11 deletions(-)
+ scripts/Makefile.vmlinux | 45 ++++++++++++++++++++--------------------
+ 1 file changed, 22 insertions(+), 23 deletions(-)
 
-diff --git a/include/crypto/algapi.h b/include/crypto/algapi.h
-index 188eface0a11..fc4574940636 100644
---- a/include/crypto/algapi.h
-+++ b/include/crypto/algapi.h
-@@ -43,8 +43,8 @@
-  * alias.
-  */
- #define MODULE_ALIAS_CRYPTO(name)	\
--		__MODULE_INFO(alias, alias_userspace, name);	\
--		__MODULE_INFO(alias, alias_crypto, "crypto-" name)
-+		MODULE_INFO(alias, name);	\
-+		MODULE_INFO(alias, "crypto-" name)
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index b64862dc6f08..4f2d4c3fb737 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -9,20 +9,6 @@ include $(srctree)/scripts/Makefile.lib
  
- struct crypto_aead;
- struct crypto_instance;
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 8050f77c3b64..24fe6b865e9c 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -164,9 +164,6 @@ extern void cleanup_module(void);
+ targets :=
  
- struct module_kobject *lookup_or_create_module_kobject(const char *name);
- 
--/* Generic info of form tag = "info" */
--#define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+-ifdef CONFIG_ARCH_VMLINUX_NEEDS_RELOCS
+-vmlinux-final := vmlinux.unstripped
 -
- /* For userspace: you can also call me... */
- #define MODULE_ALIAS(_alias) MODULE_INFO(alias, _alias)
+-quiet_cmd_strip_relocs = RSTRIP  $@
+-      cmd_strip_relocs = $(OBJCOPY) --remove-section='.rel*' --remove-section=!'.rel*.dyn' $< $@
+-
+-vmlinux: $(vmlinux-final) FORCE
+-	$(call if_changed,strip_relocs)
+-
+-targets += vmlinux
+-else
+-vmlinux-final := vmlinux
+-endif
+-
+ %.o: %.c FORCE
+ 	$(call if_changed_rule,cc_o_c)
  
-diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
-index bfb85fd13e1f..00166f747e27 100644
---- a/include/linux/moduleparam.h
-+++ b/include/linux/moduleparam.h
-@@ -20,18 +20,19 @@
- /* Chosen so that structs with an unsigned long line up. */
- #define MAX_PARAM_PREFIX_LEN (64 - sizeof(unsigned long))
+@@ -61,19 +47,19 @@ targets += .builtin-dtbs-list
  
--#define __MODULE_INFO(tag, name, info)					  \
--	static const char __UNIQUE_ID(name)[]				  \
-+/* Generic info of form tag = "info" */
-+#define MODULE_INFO(tag, info)					  \
-+	static const char __UNIQUE_ID(modinfo)[]			  \
- 		__used __section(".modinfo") __aligned(1)		  \
- 		= __MODULE_INFO_PREFIX __stringify(tag) "=" info
+ ifdef CONFIG_GENERIC_BUILTIN_DTB
+ targets += .builtin-dtbs.S .builtin-dtbs.o
+-$(vmlinux-final): .builtin-dtbs.o
++vmlinux.unstripped: .builtin-dtbs.o
+ endif
  
- #define __MODULE_PARM_TYPE(name, _type)					  \
--	__MODULE_INFO(parmtype, name##type, #name ":" _type)
-+	MODULE_INFO(parmtype, #name ":" _type)
+-# vmlinux
++# vmlinux.unstripped
+ # ---------------------------------------------------------------------------
  
- /* One for each parameter, describing how to use it.  Some files do
-    multiple of these per line, so can't just use MODULE_INFO. */
- #define MODULE_PARM_DESC(_parm, desc) \
--	__MODULE_INFO(parm, _parm, #_parm ":" desc)
-+	MODULE_INFO(parm, #_parm ":" desc)
+ ifdef CONFIG_MODULES
+ targets += .vmlinux.export.o
+-$(vmlinux-final): .vmlinux.export.o
++vmlinux.unstripped: .vmlinux.export.o
+ endif
  
- struct kernel_param;
+ ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
+-$(vmlinux-final): arch/$(SRCARCH)/tools/vmlinux.arch.o
++vmlinux.unstripped: arch/$(SRCARCH)/tools/vmlinux.arch.o
  
-diff --git a/include/net/tcp.h b/include/net/tcp.h
-index 5078ad868fee..9b39ef630c92 100644
---- a/include/net/tcp.h
-+++ b/include/net/tcp.h
-@@ -2662,8 +2662,8 @@ void tcp_update_ulp(struct sock *sk, struct proto *p,
- 		    void (*write_space)(struct sock *sk));
+ arch/$(SRCARCH)/tools/vmlinux.arch.o: vmlinux.o FORCE
+ 	$(Q)$(MAKE) $(build)=arch/$(SRCARCH)/tools $@
+@@ -86,17 +72,30 @@ cmd_link_vmlinux =							\
+ 	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";	\
+ 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
  
- #define MODULE_ALIAS_TCP_ULP(name)				\
--	__MODULE_INFO(alias, alias_userspace, name);		\
--	__MODULE_INFO(alias, alias_tcp_ulp, "tcp-ulp-" name)
-+	MODULE_INFO(alias, name);		\
-+	MODULE_INFO(alias, "tcp-ulp-" name)
+-targets += $(vmlinux-final)
+-$(vmlinux-final): scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
++targets += vmlinux.unstripped
++vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
+ 	+$(call if_changed_dep,link_vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF
+-$(vmlinux-final): $(RESOLVE_BTFIDS)
++vmlinux.unstripped: $(RESOLVE_BTFIDS)
+ endif
  
- #ifdef CONFIG_NET_SOCK_MSG
- struct sk_msg;
+ ifdef CONFIG_BUILDTIME_TABLE_SORT
+-$(vmlinux-final): scripts/sorttable
++vmlinux.unstripped: scripts/sorttable
+ endif
+ 
++# vmlinux
++# ---------------------------------------------------------------------------
++
++remove-section-y                                   :=
++remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
++
++quiet_cmd_strip_relocs = OBJCOPY $@
++      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $< $@
++
++targets += vmlinux
++vmlinux: vmlinux.unstripped FORCE
++	$(call if_changed,strip_relocs)
++
+ # modules.builtin.ranges
+ # ---------------------------------------------------------------------------
+ ifdef CONFIG_BUILTIN_MODULE_RANGES
+@@ -110,7 +109,7 @@ modules.builtin.ranges: $(srctree)/scripts/generate_builtin_ranges.awk \
+ 			modules.builtin vmlinux.map vmlinux.o.map FORCE
+ 	$(call if_changed,modules_builtin_ranges)
+ 
+-vmlinux.map: $(vmlinux-final)
++vmlinux.map: vmlinux.unstripped
+ 	@:
+ 
+ endif
 -- 
 2.49.0
 
