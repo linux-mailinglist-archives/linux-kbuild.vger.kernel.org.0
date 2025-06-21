@@ -1,45 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7599-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7600-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E762AE293F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 15:57:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 141CFAE2946
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 15:58:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08C943B3B60
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 13:57:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77F41169552
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Jun 2025 13:57:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C6D4120B;
-	Sat, 21 Jun 2025 13:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34601531E3;
+	Sat, 21 Jun 2025 13:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dRaMfz+/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pe1Ttxxq"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70272DDC1;
-	Sat, 21 Jun 2025 13:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57A9DDC1;
+	Sat, 21 Jun 2025 13:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750514255; cv=none; b=ThQy7HTPS1elin/aY0/ZjDu88DSOpYdb80wUXzEHbsZIwoo+p2TcXejkSMM3lOy1AdycS6hEM22je1EV4EHZDMU64sG5O8g0V+pQCV8E5hZmfCyxupCJOc65+yJs8GEiI4Y9cZ1H3X/aJ9/smf66ISmpqVz+zPvRyiuXPptHClM=
+	t=1750514258; cv=none; b=ZeYPJN/vXoA7EeICfH039kOqnRVSW1BdAx8EsW+JMsxOa/SSpj3AxuJZWgI5VTMtzMF6m0aXsbr01TMNaCVl0378niMNyHwjSjAsGWYUAvZ7B7/eVG7yhfuW9G+L7QRIWt/Ph8MY3xRW6bfBy8jgvcUYbAofHkh6ldiG3IP05o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750514255; c=relaxed/simple;
-	bh=ID7rjaE4ykN+fwkjvNTq6vv6yfCyYfVW7wahp8XmlUE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P1JJL0gkfw9bRn6jdLvffBcLw4DquEdYlTms4RRSPQKx8QdvphHar3wwffZxcxh4UnCSCVMjqOLI0aivLDTb5VPK+rQKyD3QskcQPbZ1tGmvC7T8cN6geWDDBqJetQWaT84gBfhUVdYz5J0pb8B/pOO4HqTuSTqpcqZ420Ov36w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dRaMfz+/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B62C4CEE7;
-	Sat, 21 Jun 2025 13:57:32 +0000 (UTC)
+	s=arc-20240116; t=1750514258; c=relaxed/simple;
+	bh=SV2yBb7mPZ1Z1JgQ1i1j3we1Iejdg6pRIK1Z7mGfVw0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Hu2pCzA1KhrvD/Zu586yECLzvfXWVM2qGyb41a3wPA7wN9Ln5KO/iXPNvv85Lj9cGiiBEl46oGsmkZlyxXwxY6kcShahUfnhLv5pmlJw24ttDAyz3tbTLKXGdYCpv8YGcF2Jk/yuUGg3KiA+3obRUNCokN1UfVib5d7kfXWhvZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pe1Ttxxq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F009C4CEF1;
+	Sat, 21 Jun 2025 13:57:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750514255;
-	bh=ID7rjaE4ykN+fwkjvNTq6vv6yfCyYfVW7wahp8XmlUE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dRaMfz+/QwayoSc09I81w3rRWTBbhVPP3Gwcpl4sDv3QqhcqZODVA31iRbfq6SwCq
-	 YolgwDJd0LK9hKxPw/pIess9wEKNBx3KumKidug7lcoQiCfB6phSeEbe7PJyULpGOg
-	 ha9rj1aUtT1oo0PsVS+fvLVukPLl1wn+XpV6PgEHeBedx3ejc11lzn/T9hADd1bh2R
-	 sEnWlXiCkZ5R7zgMtMyWe9HS1RpG8dBvHPxRlNE0FxdDml5boVve+cfITQTC0M0/+1
-	 1fW9oYL9Y6G9foE+RF0fng+zIJ5BmU7swp/w/NduVldTQxf/lMEUscAK4/Z84pwuDP
-	 7R3iwdJXnTKKA==
+	s=k20201202; t=1750514258;
+	bh=SV2yBb7mPZ1Z1JgQ1i1j3we1Iejdg6pRIK1Z7mGfVw0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Pe1TtxxqDXAXltnMjYAAJPHpXLJ5a/Ku568lPJeZzwqM85bzVh/k58miB6EUy1iSs
+	 xR1bpM4IptIBxrzU1ZA6n0VauDleF6bx2aaNSnpaijtTyFV7C5ewAHeMuLqJ/b+kLU
+	 FwRhQn9xWpvYUUGF7nVFZzbQ/CO1IWCe4ONDatUMyzmcRXz5xKDPl1JFIOEHV8A98i
+	 GWkQGvKs7tOAyoMe0nxczGsfZ8TeOHVJuB8CbEq/b55KgjnGBkuQsBA3q3RWb8lDMV
+	 rjyka1rol65130hFu9ONZ5qici2LPV5AqgnQfcPApyxTlK0ImHSbJW3AqjW4DlesMB
+	 XnCWnTZa8BrTg==
 From: Alexey Gladkov <legion@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>,
 	Petr Pavlu <petr.pavlu@suse.com>,
@@ -52,11 +53,14 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
-	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v4 0/7] Add generated modalias to modules.builtin.modinfo
-Date: Sat, 21 Jun 2025 15:57:12 +0200
-Message-ID: <cover.1750511018.git.legion@kernel.org>
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>
+Subject: [PATCH v4 1/7] module: remove meaningless 'name' parameter from __MODULE_INFO()
+Date: Sat, 21 Jun 2025 15:57:13 +0200
+Message-ID: <b570ffc48f5cacee67b256ec51ef74f5433a7172.1750511018.git.legion@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1750511018.git.legion@kernel.org>
+References: <cover.1750511018.git.legion@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,92 +69,130 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The modules.builtin.modinfo file is used by userspace (kmod to be specific) to
-get information about builtin modules. Among other information about the module,
-information about module aliases is stored. This is very important to determine
-that a particular modalias will be handled by a module that is inside the
-kernel.
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-There are several mechanisms for creating modalias for modules:
+The symbol names in the .modinfo section are never used and already
+randomized by the __UNIQUE_ID() macro.
 
-The first is to explicitly specify the MODULE_ALIAS of the macro. In this case,
-the aliases go into the '.modinfo' section of the module if it is compiled
-separately or into vmlinux.o if it is builtin into the kernel.
+Therefore, the second parameter of  __MODULE_INFO() is meaningless
+and can be removed to simplify the code.
 
-The second is the use of MODULE_DEVICE_TABLE followed by the use of the
-modpost utility. In this case, vmlinux.o no longer has this information and
-does not get it into modules.builtin.modinfo.
+With this change, the symbol names in the .modinfo section will be
+prefixed with __UNIQUE_ID_modinfo, making it clearer that they
+originate from MODULE_INFO().
 
-For example:
+[Before]
 
-$ modinfo pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
-modinfo: ERROR: Module pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30 not found.
+  $ objcopy  -j .modinfo vmlinux.o modinfo.o
+  $ nm -n modinfo.o | head -n10
+  0000000000000000 r __UNIQUE_ID_license560
+  0000000000000011 r __UNIQUE_ID_file559
+  0000000000000030 r __UNIQUE_ID_description558
+  0000000000000074 r __UNIQUE_ID_license580
+  000000000000008e r __UNIQUE_ID_file579
+  00000000000000bd r __UNIQUE_ID_description578
+  00000000000000e6 r __UNIQUE_ID_license581
+  00000000000000ff r __UNIQUE_ID_file580
+  0000000000000134 r __UNIQUE_ID_description579
+  0000000000000179 r __UNIQUE_ID_uncore_no_discover578
 
-$ modinfo xhci_pci
-name:           xhci_pci
-filename:       (builtin)
-license:        GPL
-file:           drivers/usb/host/xhci-pci
-description:    xHCI PCI Host Controller Driver
+[After]
 
-The builtin module is missing alias "pci:v*d*sv*sd*bc0Csc03i30*" which will be
-generated by modpost if the module is built separately.
+  $ objcopy  -j .modinfo vmlinux.o modinfo.o
+  $ nm -n modinfo.o | head -n10
+  0000000000000000 r __UNIQUE_ID_modinfo560
+  0000000000000011 r __UNIQUE_ID_modinfo559
+  0000000000000030 r __UNIQUE_ID_modinfo558
+  0000000000000074 r __UNIQUE_ID_modinfo580
+  000000000000008e r __UNIQUE_ID_modinfo579
+  00000000000000bd r __UNIQUE_ID_modinfo578
+  00000000000000e6 r __UNIQUE_ID_modinfo581
+  00000000000000ff r __UNIQUE_ID_modinfo580
+  0000000000000134 r __UNIQUE_ID_modinfo579
+  0000000000000179 r __UNIQUE_ID_modinfo578
 
-To fix this it is necessary to add the generated by modpost modalias to
-modules.builtin.modinfo.
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+ include/crypto/algapi.h     | 4 ++--
+ include/linux/module.h      | 3 ---
+ include/linux/moduleparam.h | 9 +++++----
+ include/net/tcp.h           | 4 ++--
+ 4 files changed, 9 insertions(+), 11 deletions(-)
 
-Fortunately modpost already generates .vmlinux.export.c for exported symbols. It
-is possible to use this file to create a '.modinfo' section for builtin modules.
-The modules.builtin.modinfo file becomes a composite file. One part is extracted
-from vmlinux.o, the other part from .vmlinux.export.o.
-
-Notes:
-- v4:
-  * Rework the patchset based on top of Masahiro Yamada's patches.
-  * Add removal of unnecessary __mod_device_table__* symbols to avoid symbol
-    table growth in vmlinux.
-  * rust code takes into account changes in __mod_device_table__*.
-  * v3: https://lore.kernel.org/all/cover.1748335606.git.legion@kernel.org/
-
-- v3:
-  * Add `Reviewed-by` tag to patches from Petr Pavlu.
-  * Rebase to v6.15.
-  * v2: https://lore.kernel.org/all/20250509164237.2886508-1-legion@kernel.org/
-
-- v2:
-  * Drop patch for mfd because it was already applied and is in linux-next.
-  * The generation of aliases for builtin modules has been redone as
-    suggested by Masahiro Yamada.
-  * Rebase to v6.15-rc5-136-g9c69f8884904
-  * v1: https://lore.kernel.org/all/cover.1745591072.git.legion@kernel.org/
-
-
-Alexey Gladkov (3):
-  scsi: Always define blogic_pci_tbl structure
-  modpost: Add modname to mod_device_table alias
-  modpost: Create modalias for builtin modules
-
-Masahiro Yamada (4):
-  module: remove meaningless 'name' parameter from __MODULE_INFO()
-  kbuild: always create intermediate vmlinux.unstripped
-  kbuild: keep .modinfo section in vmlinux.unstripped
-  kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
-
- drivers/scsi/BusLogic.c           |  2 -
- include/asm-generic/vmlinux.lds.h |  2 +-
- include/crypto/algapi.h           |  4 +-
- include/linux/module.h            | 21 ++++-----
- include/linux/moduleparam.h       |  9 ++--
- include/net/tcp.h                 |  4 +-
- rust/kernel/device_id.rs          |  8 ++--
- scripts/Makefile.vmlinux          | 74 +++++++++++++++++++++----------
- scripts/Makefile.vmlinux_o        | 26 +----------
- scripts/mksysmap                  |  6 +++
- scripts/mod/file2alias.c          | 34 ++++++++++++--
- scripts/mod/modpost.c             | 17 ++++++-
- scripts/mod/modpost.h             |  2 +
- 13 files changed, 131 insertions(+), 78 deletions(-)
-
+diff --git a/include/crypto/algapi.h b/include/crypto/algapi.h
+index 188eface0a11..fc4574940636 100644
+--- a/include/crypto/algapi.h
++++ b/include/crypto/algapi.h
+@@ -43,8 +43,8 @@
+  * alias.
+  */
+ #define MODULE_ALIAS_CRYPTO(name)	\
+-		__MODULE_INFO(alias, alias_userspace, name);	\
+-		__MODULE_INFO(alias, alias_crypto, "crypto-" name)
++		MODULE_INFO(alias, name);	\
++		MODULE_INFO(alias, "crypto-" name)
+ 
+ struct crypto_aead;
+ struct crypto_instance;
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 8050f77c3b64..24fe6b865e9c 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -164,9 +164,6 @@ extern void cleanup_module(void);
+ 
+ struct module_kobject *lookup_or_create_module_kobject(const char *name);
+ 
+-/* Generic info of form tag = "info" */
+-#define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+-
+ /* For userspace: you can also call me... */
+ #define MODULE_ALIAS(_alias) MODULE_INFO(alias, _alias)
+ 
+diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
+index bfb85fd13e1f..00166f747e27 100644
+--- a/include/linux/moduleparam.h
++++ b/include/linux/moduleparam.h
+@@ -20,18 +20,19 @@
+ /* Chosen so that structs with an unsigned long line up. */
+ #define MAX_PARAM_PREFIX_LEN (64 - sizeof(unsigned long))
+ 
+-#define __MODULE_INFO(tag, name, info)					  \
+-	static const char __UNIQUE_ID(name)[]				  \
++/* Generic info of form tag = "info" */
++#define MODULE_INFO(tag, info)					  \
++	static const char __UNIQUE_ID(modinfo)[]			  \
+ 		__used __section(".modinfo") __aligned(1)		  \
+ 		= __MODULE_INFO_PREFIX __stringify(tag) "=" info
+ 
+ #define __MODULE_PARM_TYPE(name, _type)					  \
+-	__MODULE_INFO(parmtype, name##type, #name ":" _type)
++	MODULE_INFO(parmtype, #name ":" _type)
+ 
+ /* One for each parameter, describing how to use it.  Some files do
+    multiple of these per line, so can't just use MODULE_INFO. */
+ #define MODULE_PARM_DESC(_parm, desc) \
+-	__MODULE_INFO(parm, _parm, #_parm ":" desc)
++	MODULE_INFO(parm, #_parm ":" desc)
+ 
+ struct kernel_param;
+ 
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index 5078ad868fee..9b39ef630c92 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -2662,8 +2662,8 @@ void tcp_update_ulp(struct sock *sk, struct proto *p,
+ 		    void (*write_space)(struct sock *sk));
+ 
+ #define MODULE_ALIAS_TCP_ULP(name)				\
+-	__MODULE_INFO(alias, alias_userspace, name);		\
+-	__MODULE_INFO(alias, alias_tcp_ulp, "tcp-ulp-" name)
++	MODULE_INFO(alias, name);		\
++	MODULE_INFO(alias, "tcp-ulp-" name)
+ 
+ #ifdef CONFIG_NET_SOCK_MSG
+ struct sk_msg;
 -- 
 2.49.0
 
