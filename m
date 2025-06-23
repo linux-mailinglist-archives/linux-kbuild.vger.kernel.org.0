@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-7614-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7615-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0BFAE3AE6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 11:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7951BAE3AFF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 11:48:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0B8A16DA38
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 09:45:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03AA7162B7D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 09:48:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E860E231840;
-	Mon, 23 Jun 2025 09:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B25D023278D;
+	Mon, 23 Jun 2025 09:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qU6Hl5z0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kx05u67J"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99A81FBEBD;
-	Mon, 23 Jun 2025 09:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F292A1AA;
+	Mon, 23 Jun 2025 09:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750671899; cv=none; b=EYvXaHluaFqiTY4Tt324pWuyhuZ8+ABZoPTVeGj4Zs3nfj+qSHGoufYAwp4CXDNUudnzhF4RC4rC0HxcT8L0uXozLpJ5uPMvaCLvahr4JS2oRMc/ofPFJlYdvOGjH7ZrEOwyAIgMV6wMgQ6pQSuccUtR6KKxRKclpcOQnu8rGpA=
+	t=1750672074; cv=none; b=sQWHkl9v7IT+Y+dR+39Al8vtPlec3yRsgYQvAj3f6S+dRh2g+2v5DcVR0yJtkbUnSdTiCj75jBbS1AoPOQdD980HSZuQBd9nJ0nqTG8fjAsGTWEBLbjZKrKGT9sSWNL4vPKvRWJ5xMFvXPMpkFSNWWaV97gtZ+2BRRj4FskZ5N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750671899; c=relaxed/simple;
-	bh=dUHxe+8KpyB6sh0m0/GxIBcVysNPv+g+1nWdIB9lUCQ=;
+	s=arc-20240116; t=1750672074; c=relaxed/simple;
+	bh=M3wDsMVnMxBIbp4y9+JARPWxPf7DiKPaxlrwuAYYhwA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ttHkQyLxj9xjRQYUMSwq/EemkJPAjmC0qgMiN9axJBuMOHhdRIg3KAntTcsG0HeHm0YQwZxDcdgufJiyzzoLV+l527HUUt9vReMTPFeNAB5kOKChZbJkqX0lRnFeIVQ8kCHcnkzqXMCgf4jvQzYVFlLiEMH69d/8DDDUPPjI5t8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qU6Hl5z0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53493C4CEEA;
-	Mon, 23 Jun 2025 09:44:54 +0000 (UTC)
+	 MIME-Version:Content-Type; b=EYjdgj4AJG+GGmB/7c+zLfY0exBVfHp5++YP/b+sOiHOnqS5/Gf1eWDchuy6a/idlRneUWtVQgP+k7FPhSxiUlwBvPkffzPob6dTXKL9wFR2bpJWkVjiweB2/Htvc/edrnFXFuIRkSDxFtvsKAhum2FwV6MVHnC9J3qaavaM5xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kx05u67J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58121C4CEEA;
+	Mon, 23 Jun 2025 09:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750671899;
-	bh=dUHxe+8KpyB6sh0m0/GxIBcVysNPv+g+1nWdIB9lUCQ=;
+	s=k20201202; t=1750672074;
+	bh=M3wDsMVnMxBIbp4y9+JARPWxPf7DiKPaxlrwuAYYhwA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qU6Hl5z0f2nZ5iyQsuZZu4u+tlmBpaMknF2PQ6iDTeBJnt5zUIVj5aVNnktTV/CkN
-	 jxW++fbwQfl/c7tFh1aBUxGLr4J2OJN5JLToGP2+a7fgWyim/Jg6R1u3rKr05d2waF
-	 99kTfcylfTqk1EsHpRAGZw04j/PeFN1pr0/mmwwFHX9qs8lkb2MG4Kdi+gsmRlQC+V
-	 wr5EiEsNuCR3FmPl2nDGKu1AtzAf6h0CdnyLZ3tEsRkTgH9MRtDTGtXD4ohoQc60wS
-	 12VxYK+TW/g3QbmS9NnvyVDRAjorZ9sGkNbABsci3QTyxY/rD74UzOa3Xxl0Xw6Y9K
-	 AKg5hcgYGcNAw==
+	b=Kx05u67J4F1GId/vsrq7rWKFpNiVGyI1JPp1Ht+PYbIAwnv++MQHoHwUz08gtWw/1
+	 quwpo80CiM9ZJRLn3IsHrU1JLrkSAqziq23Ns3XbuswrR/daGQFAB1FZGwmrsdEtWa
+	 3pYMQ85laE6M65/1Z7f11+oAqOiAkyGjAoKh7qD+FdnMMLBJS6YNQvmXUi2ThN4eFJ
+	 jHJRLlb8NJ79v1ezaiU9teqmgTiN6o1/KzE8z3WW5RmhGd3rsXsM2ARWXQKLGciFXO
+	 H9zdPQBsbbUX/qNc+lNt+kXABf3ZUazVDOcat6nQFy/eU+wbwHnZ0xveKPAdcJHthj
+	 nYdVlZsef8uWA==
 From: Andreas Hindborg <a.hindborg@kernel.org>
 To: "Benno Lossin" <lossin@kernel.org>
 Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
@@ -69,8 +69,8 @@ References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
 	<smOfUo2mEmQu-lykKKMiNOUWq2ze6p_CoEEpgGE0dtAnoJDGEpvQMkP1q-n13MiUxLK1xAiM-4QLsivPrG57sg==@protonmail.internalid>
 	<DARCZYNPIJVZ.3JJSZ6PSAEMEC@kernel.org>
 User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Mon, 23 Jun 2025 11:44:49 +0200
-Message-ID: <877c126bce.fsf@kernel.org>
+Date: Mon, 23 Jun 2025 11:47:43 +0200
+Message-ID: <871pra6b7k.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -126,78 +126,15 @@ Content-Type: text/plain
 >
 > Gotcha and there never ever will be custom code that is executed
 > before/during parameter setting (so code aside from code in `kernel`)?
->
->>> Would we eventually execute other Rust
->>> code during that time? (for example when we allow custom parameter
->>> parsing)
->>
->> I don't think we will need to synchronize because of custom parameter
->> parsing. Parameters are initialized sequentially. It is not a problem if
->> the custom parameter parsing code name other parameters, because they
->> are all initialized to valid values (as they are statics).
->
-> If you have `&'static i64`, then the value at that reference is never
-> allowed to change.
->
->>> This function also must never be `const` because of the following:
->>>
->>>     module! {
->>>         // ...
->>>         params: {
->>>             my_param: i64 {
->>>                 default: 0,
->>>                 description: "",
->>>             },
->>>         },
->>>     }
->>>
->>>     static BAD: &'static i64 = module_parameters::my_param.get();
->>>
->>> AFAIK, this static will be executed before loading module parameters and
->>> thus it makes writing to the parameter UB.
->>
->> As I understand, the static will be initialized by a constant expression
->> evaluated at compile time. I am not sure what happens when this is
->> evaluated in const context:
->>
->>     pub fn get(&self) -> &T {
->>         // SAFETY: As we only support read only parameters with no sysfs
->>         // exposure, the kernel will not touch the parameter data after module
->>         // initialization.
->>         unsafe { &*self.data.get() }
->>     }
->>
->> Why would that not be OK? I would assume the compiler builds a dependency graph
->> when initializing statics?
->
-> Yes it builds a dependency graph, but that is irrelevant? The problem is
-> that I can create a `'static` reference to the inner value *before* the
-> parameter is written-to (as the static is initialized before the
-> parameters).
 
-I see, I did not consider this situation. Thanks for pointing this out.
-
-Could we get around this without a lock maybe? If we change
-`ModuleParamAccess::get` to take a closure instead:
-
-    /// Call `func` with a reference to the parameter value stored in `Self`.
-    pub fn read(&self, func: impl FnOnce(&T)) {
-        // SAFETY: As we only support read only parameters with no sysfs
-        // exposure, the kernel will not touch the parameter data after module
-        // initialization.
-        let data = unsafe { &*self.data.get() };
-
-        func(data)
-    }
-
-I think this would bound the lifetime of the reference passed to the
-closure to the duration of the call, right?
+Not with the parameter parsers we provide now. In the case of custom
+parsing code, I suppose there is nothing preventing the parsing code
+from spinning up a thread that could do stuff while more parameters are
+initialized by the kernel.
 
 
 Best regards,
 Andreas Hindborg
-
-
 
 
 
