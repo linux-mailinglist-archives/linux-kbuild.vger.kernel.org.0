@@ -1,236 +1,114 @@
-Return-Path: <linux-kbuild+bounces-7616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7617-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAFFAE3E82
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 13:49:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F299AE40BE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 14:42:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23E943A72E8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 11:48:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D13603AD7DF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Jun 2025 12:37:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 697902253FE;
-	Mon, 23 Jun 2025 11:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4E2F24A067;
+	Mon, 23 Jun 2025 12:37:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="siSqMjAe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMnUmRp7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A15E7261A;
-	Mon, 23 Jun 2025 11:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52790248F7C;
+	Mon, 23 Jun 2025 12:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750679329; cv=none; b=K0eD3+GPfBV/wnux0/oDYkSUw/EMZM6yGWuIzHPsPfhZ2aUe2vck3TUdjC7q/v/2TU5NzJerbyomqgS+8hUT4X1sYegkFdgkNkWVHwCxU3hRkmO5+tgqYXuuTfU2oS5CB7bBKezkXo/NlP+twv33hVUNv7PA82Tb5yhNmzEWLgU=
+	t=1750682239; cv=none; b=SHgR660rNVQx5kzf3RZS1OwQotaPk5dOt9RauRyM3xTFNh537gMFUEX3ZDBWMDC8LtM+zioYH5yZhraYx1XG2liDIvdYmIppjr/Qmx0on76oMaNOBzIGvqBsulwD5LNXZu6omsYyv+4q3PfqYYl9cwKNE/LMGVBIsEso8xh3wBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750679329; c=relaxed/simple;
-	bh=vsy/g6lZSUKQIrHZFH36IkR7zi66LrBDrZxAD0OWH60=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=qB2hIpIHfIyTYymT+NuAn6TVD1XfbecLUet4a9K+lIfss+N4sR074kEIkV+VZMDmQxgz2C4HaGZ9v1DTxYH/IxirGNzpl51y7k0Q4yGHSsZkTujrid3SDxJ9R2ISJRD9Je3X3r9O2jaB3am+8rilmLg3u0RsIncUZxTh0HMjYj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=siSqMjAe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AB1CC4CEEA;
-	Mon, 23 Jun 2025 11:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750679328;
-	bh=vsy/g6lZSUKQIrHZFH36IkR7zi66LrBDrZxAD0OWH60=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=siSqMjAej7SOmVq1Y/9SdrWI7S4Y/6M0zWTQq4wPOGv7YH1JXlAy3th4xnJ+Ja0zm
-	 Bqp2gI0zMWOsing/LVKBgewS4dU47l/7ZgbpsoiU2dO8cuROBTVONevaMORoQXJ3uN
-	 LD1ovgVVOPWKalzUjf6dsyMgD5an4A9MzQOazR5P8x9HCgBcS4iDIMm/xLON/alGxP
-	 6zVy7OlhUzTCCCQGoSE75VDr+pcHNZsXAErzQzyriPt+Q2gU3A2OLZRr+U6AtCfIum
-	 RYcQl9tMctgyzqdeORhPNkM1AwVDRztN3u+IP8hcJl5g6rV/fTKnlYZCST1vKJ5ryM
-	 +oyhjns4ppMkw==
+	s=arc-20240116; t=1750682239; c=relaxed/simple;
+	bh=6djygWjjisSGtthFe/KFX8iwdEpK803K6qgoaBiMTBQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WJDT10t1qMWvIisLgHzkTW2GCah4XZrVaRMOSP9XpyX9U9cK6flHCjDZ9vXaTsi5bwOZn49b3JiIqfgAOqcLsijASRutVaqMFynPp0LHGU7QjDdO4cnXPy5bP+Jfi4NV5ma/Rfkh0zewFe464bGOlNc95/vJNOH/8wfcaHx3sEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMnUmRp7; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b26fabda6d9so772669a12.1;
+        Mon, 23 Jun 2025 05:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750682237; x=1751287037; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6djygWjjisSGtthFe/KFX8iwdEpK803K6qgoaBiMTBQ=;
+        b=OMnUmRp7elb7qhH5crJ/bib2o0kS0gpIDjhWPl5ts8raFemRHG5ZBeTrVlNopX3Fd+
+         dRlR/j1BrPPwBUCRW6KdCuVJh7F3gLvJGQr0IJ4thBRK+k/KKtksmUw3r5Mg5LCuXJ56
+         f3Q21OJU6AHCBCQ5fZFxgg150WZSDdcx4LtPbOtMaw7TPiQvOycGC4MxFx42wIf7IBU3
+         Ji8kM9aJIlTwaXWyzFrNfzzKmwyCOfa7wbZqdPJxPCJeMzG5N7zeW7P14jWLpjMbZgB6
+         Rs6/c6osJkuJI0pdij1v3kmidBkE+e6hZDTOLgnGJEZjTIHrJsW8eyOSYghQVZlYd0ps
+         UWgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750682237; x=1751287037;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6djygWjjisSGtthFe/KFX8iwdEpK803K6qgoaBiMTBQ=;
+        b=vUORCchyEvskN92s0hWZi1aZWz2kiKiCnwTEAAEv7d/QujMyknAZkSaPOZXtH5rges
+         OinZtE8zZS36c6q05zYeBcgXM+j9/jyEy1RdcCdHWXfJ3c/ehoLSQatbJmZ25ls0Br1A
+         Vr7rE4CRQhPE3VRggAbxAmAyblOBw6hK5FTWbt4gDgVx60JwHgfLwVrPyKXlXQ471r3X
+         iUp1Xh9PdfGRSxulI6Lb2Bu0+3N7UTeIQGFviqafJoKP5dANJiLN8Za+RRcsZxRDvUsq
+         2U/ob5EemgvkVKeO3AMerinesCQvwP95hZEH6TXGoVOQc01fv7a5AKOr3JWhxzLe3pvr
+         6IPg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+eD5iqIjMT0lmIVEOFQmQIb+1qB6dbyBCmcWA43UxgGay/RzunzRKZwNlCPks621zbYd6UN1SNudBVRvqFT4=@vger.kernel.org, AJvYcCUe/F1TpmOe4Z3nEcpMICoBMUSYU8jeVLlsfZSLwyMP08d9/OA+/yj5SxSBLR+lFwQ6IJ35g6oCLj2ftA/x@vger.kernel.org, AJvYcCVLDy87ucDC6G7y2yKyQ3C9AhmcDgnPtGPlQVb0ePl3i8IUc5S9rCfc+sCJxnR+qqTFk+y+DI3r68bOzR4=@vger.kernel.org, AJvYcCX3OZsphVQbJmLf5XXO902AhdpbIOMvHq0dE+jQMomWFGw/cbG2sM/S/LH+u93J7yfSMUVbPRv9UjL+PP72Uw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzav3xluMr4TkUMDwf+E5SXBqD1Ot1qD01CHtgSw5YxenGWGs/T
+	BJbOqiy2qgzl7PmLY10Dmmu0X4tyepg3ppAgPPArEV1maNh+zO0136g5NmQWiFioEDRi1saM9jW
+	sSleQGb4MFVVHFzepDdX5cZHMKmz35f4erriFLZlHxQ==
+X-Gm-Gg: ASbGnctfNiKrXzm5gd2ROXBV/wMq17qheARdwaVDGj2B94wDQwSPZ/sSnt687jQzgG3
+	3N4XA1V4E2dTt5fKamXl7mf1ZM0EbfsRWRX/94yikT4LcdFVqOYxa3Ehb5Q4za9pBQ8RU+Nozcr
+	vWWga2h5Z5xXRVHIJWBIS8+NinF4pDQPLJXW7ejQXgn6yLPueguTEr3g==
+X-Google-Smtp-Source: AGHT+IHj4Vc3q5Tm73gXKkrqpOdUoFXibUWEB+aaKFTc2msTk+p2ncYTBtc78U549+h3Sla50NrSjaTYFBnaq75wZA8=
+X-Received: by 2002:a17:90b:5828:b0:311:488:f506 with SMTP id
+ 98e67ed59e1d1-3159d8dfcfemr6489570a91.6.1750682237514; Mon, 23 Jun 2025
+ 05:37:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Jun 2025 13:48:42 +0200
-Message-Id: <DATW0XWNN45X.1L2WMZ41JJ5O8@kernel.org>
-Subject: Re: [PATCH v13 2/6] rust: introduce module_param module
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Alice Ryhl" <aliceryhl@google.com>, "Masahiro
- Yamada" <masahiroy@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
- "Luis Chamberlain" <mcgrof@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Nicolas Schier" <nicolas.schier@linux.dev>, "Trevor
- Gross" <tmgross@umich.edu>, "Adam Bratschi-Kaye" <ark.email@gmail.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Sami
- Tolvanen" <samitolvanen@google.com>, "Daniel Gomez" <da.gomez@samsung.com>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, "Greg KH"
- <gregkh@linuxfoundation.org>, "Fiona Behrens" <me@kloenk.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <linux-modules@vger.kernel.org>
-X-Mailer: aerc 0.20.1
+MIME-Version: 1.0
 References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
- <20250612-module-params-v3-v13-2-bc219cd1a3f8@kernel.org>
- <COU2bqJOzCHRf6g4rwFpu2NY3wLY0G0AmNjRaU9aGEqu1HaPZ5X4KzfDT_CEB3Okh5BV50sJS10sKhmtHut8ew==@protonmail.internalid> <DAQJCUE1C2JE.204A8IS7LBIVZ@kernel.org> <87ikkq648o.fsf@kernel.org> <smOfUo2mEmQu-lykKKMiNOUWq2ze6p_CoEEpgGE0dtAnoJDGEpvQMkP1q-n13MiUxLK1xAiM-4QLsivPrG57sg==@protonmail.internalid> <DARCZYNPIJVZ.3JJSZ6PSAEMEC@kernel.org> <877c126bce.fsf@kernel.org>
-In-Reply-To: <877c126bce.fsf@kernel.org>
+ <20250612-module-params-v3-v13-2-bc219cd1a3f8@kernel.org> <COU2bqJOzCHRf6g4rwFpu2NY3wLY0G0AmNjRaU9aGEqu1HaPZ5X4KzfDT_CEB3Okh5BV50sJS10sKhmtHut8ew==@protonmail.internalid>
+ <DAQJCUE1C2JE.204A8IS7LBIVZ@kernel.org> <87ikkq648o.fsf@kernel.org>
+ <smOfUo2mEmQu-lykKKMiNOUWq2ze6p_CoEEpgGE0dtAnoJDGEpvQMkP1q-n13MiUxLK1xAiM-4QLsivPrG57sg==@protonmail.internalid>
+ <DARCZYNPIJVZ.3JJSZ6PSAEMEC@kernel.org> <877c126bce.fsf@kernel.org> <DATW0XWNN45X.1L2WMZ41JJ5O8@kernel.org>
+In-Reply-To: <DATW0XWNN45X.1L2WMZ41JJ5O8@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 23 Jun 2025 14:37:05 +0200
+X-Gm-Features: Ac12FXzd4fB_ylukQug0_-S4aWsl7Va8G7w5RrcYN_9qD3AkvAN8eEjNhJmevGI
+Message-ID: <CANiq72nV3QzpRZTyDTv7Qx-c83jeayUY3nnvhpbtOYXf47EgJA@mail.gmail.com>
+Subject: Re: [PATCH v13 2/6] rust: introduce module_param module
+To: Benno Lossin <lossin@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Trevor Gross <tmgross@umich.edu>, Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon Jun 23, 2025 at 11:44 AM CEST, Andreas Hindborg wrote:
-> "Benno Lossin" <lossin@kernel.org> writes:
+On Mon, Jun 23, 2025 at 1:48=E2=80=AFPM Benno Lossin <lossin@kernel.org> wr=
+ote:
 >
->> On Fri Jun 20, 2025 at 1:29 PM CEST, Andreas Hindborg wrote:
->>> "Benno Lossin" <lossin@kernel.org> writes:
->>>> On Thu Jun 12, 2025 at 3:40 PM CEST, Andreas Hindborg wrote:
->>>>> +/// A wrapper for kernel parameters.
->>>>> +///
->>>>> +/// This type is instantiated by the [`module!`] macro when module p=
-arameters are
->>>>> +/// defined. You should never need to instantiate this type directly=
-.
->>>>> +///
->>>>> +/// Note: This type is `pub` because it is used by module crates to =
-access
->>>>> +/// parameter values.
->>>>> +#[repr(transparent)]
->>>>> +pub struct ModuleParamAccess<T> {
->>>>> +    data: core::cell::UnsafeCell<T>,
->>>>> +}
->>>>> +
->>>>> +// SAFETY: We only create shared references to the contents of this =
-container,
->>>>> +// so if `T` is `Sync`, so is `ModuleParamAccess`.
->>>>> +unsafe impl<T: Sync> Sync for ModuleParamAccess<T> {}
->>>>> +
->>>>> +impl<T> ModuleParamAccess<T> {
->>>>> +    #[doc(hidden)]
->>>>> +    pub const fn new(value: T) -> Self {
->>>>> +        Self {
->>>>> +            data: core::cell::UnsafeCell::new(value),
->>>>> +        }
->>>>> +    }
->>>>> +
->>>>> +    /// Get a shared reference to the parameter value.
->>>>> +    // Note: When sysfs access to parameters are enabled, we have to=
- pass in a
->>>>> +    // held lock guard here.
->>>>> +    pub fn get(&self) -> &T {
->>>>> +        // SAFETY: As we only support read only parameters with no s=
-ysfs
->>>>> +        // exposure, the kernel will not touch the parameter data af=
-ter module
->>>>> +        // initialization.
->>>>
->>>> This should be a type invariant. But I'm having difficulty defining on=
-e
->>>> that's actually correct: after parsing the parameter, this is written
->>>> to, but when is that actually?
->>>
->>> For built-in modules it is during kernel initialization. For loadable
->>> modules, it during module load. No code from the module will execute
->>> before parameters are set.
->>
->> Gotcha and there never ever will be custom code that is executed
->> before/during parameter setting (so code aside from code in `kernel`)?
->>
->>>> Would we eventually execute other Rust
->>>> code during that time? (for example when we allow custom parameter
->>>> parsing)
->>>
->>> I don't think we will need to synchronize because of custom parameter
->>> parsing. Parameters are initialized sequentially. It is not a problem i=
-f
->>> the custom parameter parsing code name other parameters, because they
->>> are all initialized to valid values (as they are statics).
->>
->> If you have `&'static i64`, then the value at that reference is never
->> allowed to change.
->>
->>>> This function also must never be `const` because of the following:
->>>>
->>>>     module! {
->>>>         // ...
->>>>         params: {
->>>>             my_param: i64 {
->>>>                 default: 0,
->>>>                 description: "",
->>>>             },
->>>>         },
->>>>     }
->>>>
->>>>     static BAD: &'static i64 =3D module_parameters::my_param.get();
->>>>
->>>> AFAIK, this static will be executed before loading module parameters a=
-nd
->>>> thus it makes writing to the parameter UB.
->>>
->>> As I understand, the static will be initialized by a constant expressio=
-n
->>> evaluated at compile time. I am not sure what happens when this is
->>> evaluated in const context:
->>>
->>>     pub fn get(&self) -> &T {
->>>         // SAFETY: As we only support read only parameters with no sysf=
-s
->>>         // exposure, the kernel will not touch the parameter data after=
- module
->>>         // initialization.
->>>         unsafe { &*self.data.get() }
->>>     }
->>>
->>> Why would that not be OK? I would assume the compiler builds a dependen=
-cy graph
->>> when initializing statics?
->>
->> Yes it builds a dependency graph, but that is irrelevant? The problem is
->> that I can create a `'static` reference to the inner value *before* the
->> parameter is written-to (as the static is initialized before the
->> parameters).
->
-> I see, I did not consider this situation. Thanks for pointing this out.
->
-> Could we get around this without a lock maybe? If we change
-> `ModuleParamAccess::get` to take a closure instead:
->
->     /// Call `func` with a reference to the parameter value stored in `Se=
-lf`.
->     pub fn read(&self, func: impl FnOnce(&T)) {
->         // SAFETY: As we only support read only parameters with no sysfs
->         // exposure, the kernel will not touch the parameter data after m=
-odule
->         // initialization.
->         let data =3D unsafe { &*self.data.get() };
->
->         func(data)
->     }
->
-> I think this would bound the lifetime of the reference passed to the
-> closure to the duration of the call, right?
+> Another way would be to use a `Once`-like type (does that exist on the C
+> side?) so a type that can be initialized once and then never changes.
 
-Yes that is correct. Now you can't assign the reference to a static.
-However, this API is probably very clunky to use, since you always have
-to create a closure etc.
+There are `DO_ONCE{,_SLEEPABLE,_LITE}`.
 
-Since you mentioned in the other reply that one could spin up a thread
-and do something simultaneously, I don't think this is enough. You could
-have a loop spin over the new `read` function and read the value and
-then the write happens.
-
-One way to fix this issue would be to use atomics to read the value and
-to not create a reference to it. So essentially have
-
-    pub fn read(&self) -> T {
-        unsafe { atomic_read_unsafe_cell(&self.data) }
-    }
-
-Another way would be to use a `Once`-like type (does that exist on the C
-side?) so a type that can be initialized once and then never changes.
-While it doesn't have a value set, we return some default value for the
-param and print a warning, when it's set, we just return the value. But
-this probably also requires atomics...
-
-Is parameter accessing used that often in hot paths? Can't you just copy
-the value into your `Module` struct?
-
----
 Cheers,
-Benno
+Miguel
 
