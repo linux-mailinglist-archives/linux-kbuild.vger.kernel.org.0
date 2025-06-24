@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-7636-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7637-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD726AE6A33
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 17:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3C3AE6A36
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 17:10:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D2543BCCCC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 15:08:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C867E3B6E32
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 15:09:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C25472DCBFD;
-	Tue, 24 Jun 2025 15:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F0CC2DCC1C;
+	Tue, 24 Jun 2025 15:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tq2kJHWr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a24brRf3"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9773B2D4B7C;
-	Tue, 24 Jun 2025 15:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382BE2DCC1A;
+	Tue, 24 Jun 2025 15:07:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750777653; cv=none; b=K9ARuEx1fUuWmdWwSkUr4O+M5EEKtwrL/lTSnX7KEh6IiKrA6KB7x7Up2n88M2P4qBkVWNrEObPOHp6gQWhcobnl8ZucWs+cidtI/WWr12KxbTYR0z/CTN9sKP8+gnbpURtIJu6al8bvESmuKmKKAVzotueUOEJ1CYvWUX2ssBs=
+	t=1750777656; cv=none; b=EBQ7iooVZou6+717n4CX8LlQrwS+akQREqsww9YJD8beBX4KwnYT122hbwvjJEvmDkl15kWq/6Ru/Rj/bSFibX8Vy743EpYxHNj1z0yEQFmp04ACybL+rAVf4pPL6b9Og2jpByEjRuHEV4bP2tYJQ0aZK7j0FGkt2saf7HmqU/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750777653; c=relaxed/simple;
-	bh=G1AT3VHKys4zTokOD43hca/wyFnW3MdYRZ+D26s86tE=;
+	s=arc-20240116; t=1750777656; c=relaxed/simple;
+	bh=2ipZ4yhNez1WY8mSHhL9J1q+eZ09WrwfNcT0C5SaaRU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qoYoD8tcSorM7bsN/zRotwJtMENs2NtuTQV/Qxo6IzSBZwbQlIm1DuqrPqwzYzRKcIEN9D3fyjoOmC3vrFwUt5DfHeFHKj5fV/zkTFsTOSHzoOzSoke+X8/FAFp1QPXpKftkZUwN/UfVHaaKxEhkFWKD+bv+jfgma274K9EvjPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tq2kJHWr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36A82C4CEE3;
-	Tue, 24 Jun 2025 15:07:31 +0000 (UTC)
+	 MIME-Version; b=Pna/LURD/HPFgIf63ZGc8OjXbWe05DVf9V2Lw10/gxZ5LBJBum+Pwya/FCnzvlFc40GE1n6AMiFLjfHDLBUDsLjvRGX4jzCcsCi9Ti/rnPl80Y3QpphS5IlTSWK6GGlr07jC6OrSXIZZGJxbyh/WYBoI5CKC+wVWyVY40/ydOPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a24brRf3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B75AC4CEEE;
+	Tue, 24 Jun 2025 15:07:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750777653;
-	bh=G1AT3VHKys4zTokOD43hca/wyFnW3MdYRZ+D26s86tE=;
+	s=k20201202; t=1750777655;
+	bh=2ipZ4yhNez1WY8mSHhL9J1q+eZ09WrwfNcT0C5SaaRU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Tq2kJHWrQvhRdMtCuSqM3NbpSclmrn5uTtAL/Sdb2l4gcsamxoKNlGEWlw0anbgkY
-	 gUbkJTWePLPOepRlnluy5FF2EizGztxt3kGPrEgyCX3f8H+IGg2TbmCjdqQ21lhFOK
-	 P5+KYzLgvIyngAAERzTsQkIND4mhP+hJp1i5Vb/GXbm97OgFX1iXLj1M+lfuncnA/w
-	 zKHU+cchCmK3Y47SVxeUnybk9yXucMxc655SYXO6eoCstUk//KYSAUh4ZHxVIOa4kU
-	 kiERDqGQgq6IXxhAFz31YiWMZE87Gxlpfrn4NBXL71bB757kxdPBT3l+rgYgwKTnyo
-	 XjGBje4G7V1NA==
+	b=a24brRf3CUbiTU2eQzkCKZgFizfE2dNL6P+6v+Pwqjy9+hqswGQcNdE2al8D8m+az
+	 wSNXOSFZz7oWtoQP8fRVSX8TTksYa/ZcTjQX2TyLmta6lNe/ev5NbPI/PDCfIE8/OS
+	 bfJ2YSpQrGx2L3Z2OuSicfwi+2jvpoja5dPAZTBhh2hGM58df2MkYDbj81f8GFUSJA
+	 A1XVRf57CYpsZVzAms7AbKc7LCcUrHOnwnQe3y24RbkKtc3FT2778jS5eokJpUjPI5
+	 XVqPNsjuM7BwTSlcDg4jTAfB/b3aZWlDQOQJSzNwlUTvdQLQG6JwGuQLYdE//ODbVV
+	 bxzsfcWlsGBUw==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/66] kconfig: gconf: remove old #ifdef GTK_CHECK_VERSION
-Date: Wed, 25 Jun 2025 00:04:57 +0900
-Message-ID: <20250624150645.1107002-10-masahiroy@kernel.org>
+Subject: [PATCH 10/66] kconfig: gconf: remove empty if-block
+Date: Wed, 25 Jun 2025 00:04:58 +0900
+Message-ID: <20250624150645.1107002-11-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250624150645.1107002-1-masahiroy@kernel.org>
 References: <20250624150645.1107002-1-masahiroy@kernel.org>
@@ -59,33 +59,25 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove old code.
+This if-block is empty.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/gconf.c | 4 ----
- 1 file changed, 4 deletions(-)
+ scripts/kconfig/gconf.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index 52d439a5119b..b2a0208b0a5f 100644
+index b2a0208b0a5f..7960c456e3b9 100644
 --- a/scripts/kconfig/gconf.c
 +++ b/scripts/kconfig/gconf.c
-@@ -849,16 +849,12 @@ on_treeview2_button_press_event(GtkWidget * widget,
- 	struct menu *menu;
- 	gint col;
- 
--#if GTK_CHECK_VERSION(2,1,4) // bug in ctree with earlier version of GTK
- 	gint tx = (gint) event->x;
- 	gint ty = (gint) event->y;
- 	gint cx, cy;
- 
- 	gtk_tree_view_get_path_at_pos(view, tx, ty, &path, &column, &cx,
- 				      &cy);
--#else
--	gtk_tree_view_get_cursor(view, &path, &column);
--#endif
- 	if (path == NULL)
+@@ -913,8 +913,6 @@ on_treeview2_key_press_event(GtkWidget * widget,
+ 			gtk_tree_view_expand_row(view, path, FALSE);
+ 		return TRUE;
+ 	}
+-	if (event->keyval == GDK_KP_Enter) {
+-	}
+ 	if (widget == tree1_w)
  		return FALSE;
  
 -- 
