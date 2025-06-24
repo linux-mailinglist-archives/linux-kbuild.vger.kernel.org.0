@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-7669-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7670-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5C6AE6A99
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 17:21:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A537AE6A6D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 17:16:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 116854E13EA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 15:16:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20A257B866D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 15:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A94042EE292;
-	Tue, 24 Jun 2025 15:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31B22EE98D;
+	Tue, 24 Jun 2025 15:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gesKfYTt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8SlOiFI"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3B22EE28F;
-	Tue, 24 Jun 2025 15:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888842EE980;
+	Tue, 24 Jun 2025 15:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750777723; cv=none; b=oEddkyDrFgSNdW4I146NPAO8JWrf3CTrI/GzGJloco9CtJV7wAK1dhe008HSrhEappVrwKWnmnGVt6MVJ+IDtHuH+C68YN7y8JagSIX7QSXCKwDqM97Udhl1UpvtU6ZHhj1hqca6Vb7Y4SI65EsYLmMEat354JE1xrX336tI7bs=
+	t=1750777725; cv=none; b=qqawr3U0OkUzf+lLjJHhtspGD3n3NCo18HXOk1VnRzGcG8z0QTzKwWzmEl9sUimhuhQTE7kOvJHmzOMprrWUXLyx8uW5DvY298isDNRZpWUGno8rX+K0Jd45wY4fBMil+CLmpDztsgDlbG/yKpaEDAra5eulGGhOupgbmMQ3Pkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750777723; c=relaxed/simple;
-	bh=nGspiZsKab9eVwp41zZc7FKxzc+4sRANyVju35ULvhE=;
+	s=arc-20240116; t=1750777725; c=relaxed/simple;
+	bh=xp6446iJXQaQj/u0PWhIbBfp6TSCs3uvRB+uvz0SEZ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZFpecfrmoJA3hUN6ZZCY/tdd7+zrWbf2LPtcc8WQ9z9SgqdMw6dXMMIN5Il3AhyYqPwMaJmpaV++LC3yukPtaDEjthQYQC8Dej+5XFUdYqOVbaVHSQj33DzTSwup4iLtz7UF+KZsG8M7dvoopwijIY+B19Ga+zRCWbQYWxkhKzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gesKfYTt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ED55C4CEF0;
-	Tue, 24 Jun 2025 15:08:41 +0000 (UTC)
+	 MIME-Version; b=tsEaSpP8c/c66dGUDLAu3OafNztMw7qvBwF97SUsqsFA1kiATFxs/aZqm+rCAX2sOwbX2jkkLI8stwEzCYwqDfU+P62mnAzobrDrkUiwb/PTCXl8F0KnGyYNt5D8/KuIROGxsj2+De1ZsFmlxAqM2TDc52+jARJjkZD2FyJKYRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8SlOiFI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 347ADC4CEE3;
+	Tue, 24 Jun 2025 15:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750777723;
-	bh=nGspiZsKab9eVwp41zZc7FKxzc+4sRANyVju35ULvhE=;
+	s=k20201202; t=1750777725;
+	bh=xp6446iJXQaQj/u0PWhIbBfp6TSCs3uvRB+uvz0SEZ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gesKfYTtu8J27H/TY9Nf853gj/1pqxbjGzO85uJJCl1K3MUoz5dRn4C+X6m1jn0qt
-	 FjfAbi5iBNEVShwAGNLYAn62hi57NojaDgkNQU2b14JpY2sm/OTM5enNpd0GpAMnIJ
-	 FP1db/dNby2rC0X8xa7XH6fGY361dF2d/u8i1nk7ie/iSDdrw2vrdn6L2RUh2HXujv
-	 CCtbIehS69r056eGe2ycmmLVa6WAk+fBBJpQ8nFT7dD3mfnmIHtDAY8HMp335MGd6W
-	 JSA6sJi6lqn+GIm/X57hlSpTulx4hrDaBVNL+NGpOY1FWEGMFRJwownCoMV5XbE4CP
-	 W68Fgg92pQlKA==
+	b=S8SlOiFIYJpF1C+2PRMsC7cLXAHMLdbJeXqkmTc7rC8Su0ahvTQXdfZlngIobBEOw
+	 Z1sayoA4YjjVQtZeRm6axJ2kK4aySJifS+aMxuVzU/PVNDLAiYeiWadvw7b5feeA8v
+	 fZbb6z009Z5GUYqVyQiBnOou/QtuJImOR83hbKL+xpJHGIqFIH0DukJhPpEAB3XUlW
+	 417nH0WiWbO4J50SYx36FmSjXkANDtsN0X8foAQZwtNaF0jPpWXHhowSw/CDQT24jW
+	 ZWMwdXwxX5HF69bTq84JNbfXd+mCSyx4aOfrZWss5wjt44Vg1v9gogKF55gHFpHr5L
+	 9MHf+oKJkpeIQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 42/66] kconfig: gconf: merge 'current' and 'browsed' global variables
-Date: Wed, 25 Jun 2025 00:05:30 +0900
-Message-ID: <20250624150645.1107002-43-masahiroy@kernel.org>
+Subject: [PATCH 43/66] kconfig: gconf: preserve menu selection when switching view mode
+Date: Wed, 25 Jun 2025 00:05:31 +0900
+Message-ID: <20250624150645.1107002-44-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250624150645.1107002-1-masahiroy@kernel.org>
 References: <20250624150645.1107002-1-masahiroy@kernel.org>
@@ -59,104 +59,163 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The 'current' (SINGLE view) and 'browsed' (SPLIT_VIEW) variables serve
-similar purposes and are not needed at the same time. Merge them.
+Preserve the current menu selection when switching to a different view
+mode, as it improves usability.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/gconf.c | 32 +++++++++++++-------------------
- 1 file changed, 13 insertions(+), 19 deletions(-)
+ scripts/kconfig/gconf.c | 86 +++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 78 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index cfe65baa4f18..cf9345ba23ce 100644
+index cf9345ba23ce..184678dd4fa6 100644
 --- a/scripts/kconfig/gconf.c
 +++ b/scripts/kconfig/gconf.c
-@@ -46,8 +46,7 @@ static GtkTextTag *tag1, *tag2;
- static GtkTreeStore *tree1, *tree2;
+@@ -47,6 +47,7 @@ static GtkTreeStore *tree1, *tree2;
  static GtkTreeModel *model1, *model2;
  
--static struct menu *current; // current node for SINGLE view
--static struct menu *browsed; // browsed node for SPLIT view
-+static struct menu *browsed; // browsed menu for SINGLE/SPLIT view
+ static struct menu *browsed; // browsed menu for SINGLE/SPLIT view
++static struct menu *selected; // selected entry
  
  enum {
  	COL_OPTION, COL_NAME, COL_NO, COL_MOD, COL_YES, COL_VALUE,
-@@ -90,7 +89,7 @@ static void set_view_mode(enum view_mode mode)
+@@ -68,6 +69,47 @@ static void conf_changed(bool dirty)
+ 
+ /* Utility Functions */
+ 
++static void _select_menu(GtkTreeView *view, GtkTreeModel *model,
++			 GtkTreeIter *parent, struct menu *match)
++{
++	GtkTreeIter iter;
++	gboolean valid;
++
++	valid = gtk_tree_model_iter_children(model, &iter, parent);
++	while (valid) {
++		struct menu *menu;
++
++		gtk_tree_model_get(model, &iter, COL_MENU, &menu, -1);
++
++		if (menu == match) {
++			GtkTreeSelection *selection;
++			GtkTreePath *path;
++
++			/*
++			 * Expand parents to reflect the selection, and
++			 * scroll down to it.
++			 */
++			path = gtk_tree_model_get_path(model, &iter);
++			gtk_tree_view_expand_to_path(view, path);
++			gtk_tree_view_scroll_to_cell(view, path, NULL, TRUE,
++						     0.5, 0.0);
++			gtk_tree_path_free(path);
++
++			selection = gtk_tree_view_get_selection(view);
++			gtk_tree_selection_select_iter(selection, &iter);
++		}
++
++		_select_menu(view, model, &iter, match);
++
++		valid = gtk_tree_model_iter_next(model, &iter);
++	}
++}
++
++static void select_menu(GtkTreeView *view, struct menu *match)
++{
++	_select_menu(view, gtk_tree_view_get_model(view), NULL, match);
++}
++
+ static void set_view_mode(enum view_mode mode)
+ {
+ 	view_mode = mode;
+@@ -89,24 +131,40 @@ static void set_view_mode(enum view_mode mode)
  
  	switch (mode) {
  	case SINGLE_VIEW:
--		current = &rootmenu;
-+		browsed = &rootmenu;
+-		browsed = &rootmenu;
++		if (selected)
++			browsed = menu_get_parent_menu(selected) ?: &rootmenu;
++		else
++			browsed = &rootmenu;
  		display_tree_part();
++		select_menu(GTK_TREE_VIEW(tree2_w), selected);
  		gtk_widget_set_sensitive(single_btn, FALSE);
  		break;
-@@ -352,13 +351,13 @@ static void on_back_clicked(GtkButton *button, gpointer user_data)
- {
- 	enum prop_type ptype;
+ 	case SPLIT_VIEW:
++		browsed = NULL;
++		if (selected) {
++			if (selected->type == M_MENU)
++				browsed = selected;
++			else
++				browsed = menu_get_parent_menu(selected);
++		}
+ 		gtk_tree_store_clear(tree2);
+ 		display_list();
++		if (browsed)
++			display_tree(tree2, browsed);
++		select_menu(GTK_TREE_VIEW(tree1_w), browsed);
++		select_menu(GTK_TREE_VIEW(tree2_w), selected);
+ 		gtk_widget_set_sensitive(split_btn, FALSE);
+ 		break;
+ 	case FULL_VIEW:
+ 		gtk_tree_store_clear(tree2);
+ 		display_tree(tree2, &rootmenu);
++		select_menu(GTK_TREE_VIEW(tree2_w), selected);
+ 		gtk_widget_set_sensitive(full_btn, FALSE);
+ 		break;
+ 	}
  
--	current = current->parent;
--	ptype = current->prompt ? current->prompt->type : P_UNKNOWN;
-+	browsed = browsed->parent;
-+	ptype = browsed->prompt ? browsed->prompt->type : P_UNKNOWN;
- 	if (ptype != P_MENU)
--		current = current->parent;
-+		browsed = browsed->parent;
- 	display_tree_part();
- 
--	if (current == &rootmenu)
-+	if (browsed == &rootmenu)
- 		gtk_widget_set_sensitive(back_btn, FALSE);
+-	if (mode != SINGLE_VIEW)
+-		gtk_widget_set_sensitive(back_btn, FALSE);
++	gtk_widget_set_sensitive(back_btn,
++				 mode == SINGLE_VIEW && browsed != &rootmenu);
  }
  
-@@ -611,7 +610,7 @@ static gboolean on_treeview2_button_press_event(GtkWidget *widget,
- 
- 		if (ptype == P_MENU && view_mode != FULL_VIEW && col == COL_OPTION) {
- 			// goes down into menu
--			current = menu;
-+			browsed = menu;
- 			display_tree_part();
- 			gtk_widget_set_sensitive(back_btn, TRUE);
- 		} else if (col == COL_OPTION) {
-@@ -710,14 +709,11 @@ static gboolean on_treeview1_button_press_event(GtkWidget *widget,
- 	gtk_tree_model_get_iter(model, &iter, path);
+ static void text_insert_help(struct menu *menu)
+@@ -603,6 +661,8 @@ static gboolean on_treeview2_button_press_event(GtkWidget *widget,
+ 		return FALSE;
  	gtk_tree_model_get(model, &iter, COL_MENU, &menu, -1);
  
--	if (event->type == GDK_2BUTTON_PRESS) {
-+	if (event->type == GDK_2BUTTON_PRESS)
- 		toggle_sym_value(menu);
--		current = menu;
--		display_tree_part();
--	} else {
--		browsed = menu;
--		display_tree_part();
--	}
++	selected = menu;
 +
-+	browsed = menu;
-+	display_tree_part();
+ 	col = column2index(column);
+ 	if (event->type == GDK_2BUTTON_PRESS) {
+ 		enum prop_type ptype;
+@@ -712,8 +772,12 @@ static gboolean on_treeview1_button_press_event(GtkWidget *widget,
+ 	if (event->type == GDK_2BUTTON_PRESS)
+ 		toggle_sym_value(menu);
+ 
+-	browsed = menu;
+-	display_tree_part();
++	selected = menu;
++
++	if (menu->type == M_MENU) {
++		browsed = menu;
++		display_tree_part();
++	}
  
  	gtk_tree_view_set_cursor(view, path, NULL, FALSE);
  	gtk_widget_grab_focus(tree2_w);
-@@ -1011,7 +1007,7 @@ static void _display_tree(GtkTreeStore *tree, struct menu *menu,
+@@ -1006,10 +1070,16 @@ static void _display_tree(GtkTreeStore *tree, struct menu *menu,
+ 	enum prop_type ptype;
  	GtkTreeIter iter;
  
- 	if (menu == &rootmenu)
--		current = &rootmenu;
-+		browsed = &rootmenu;
- 
+-	if (menu == &rootmenu)
+-		browsed = &rootmenu;
+-
  	for (child = menu->list; child; child = child->next) {
++		/*
++		 * REVISIT:
++		 * menu_finalize() creates empty "if" entries.
++		 * Do not confuse gtk_tree_model_get(), which would otherwise
++		 * return "if" menu entry.
++		 */
++		if (child->type == M_IF)
++			continue;
++
  		prop = child->prompt;
-@@ -1058,9 +1054,7 @@ static void display_tree(GtkTreeStore *store, struct menu *menu)
- static void display_tree_part(void)
- {
- 	gtk_tree_store_clear(tree2);
--	if (view_mode == SINGLE_VIEW)
--		display_tree(tree2, current);
--	else if (view_mode == SPLIT_VIEW)
-+	if (view_mode == SINGLE_VIEW || view_mode == SPLIT_VIEW)
- 		display_tree(tree2, browsed);
- 	else if (view_mode == FULL_VIEW)
- 		display_tree(tree2, &rootmenu);
+ 		ptype = prop ? prop->type : P_UNKNOWN;
+ 
 -- 
 2.43.0
 
