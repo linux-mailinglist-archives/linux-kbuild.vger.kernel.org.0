@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-7680-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7681-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DBBAE6ABC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 17:23:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A32AE6AE0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 17:27:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F3DC6A4428
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 15:21:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5E891C41C36
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 15:21:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 891122FCE13;
-	Tue, 24 Jun 2025 15:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF212FCE2F;
+	Tue, 24 Jun 2025 15:09:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vPQ3uqQ4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQKtuMZX"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AF42DA769;
-	Tue, 24 Jun 2025 15:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80802FCE2D;
+	Tue, 24 Jun 2025 15:09:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750777746; cv=none; b=p77S/CitLADmX0sINBWY6bXMZFEuGeAa4fI/Qcirgxz8+ObbUkIlYWxlN3nrmImcG27eLYn3zLu6zzcIDzXxSnCnJtx5mZNyEYcYgYbqjcj7pOeHzEMUUP8pf1ME3Bv7WxWdZ2cZ81kgQ7b2Z7udQJgKNfc24vGEuaYhPT8xnFw=
+	t=1750777748; cv=none; b=lbeQwFzuZj9p+o4SYm2KLJldRh9ZD/DKB1jvUNxQ/rdwSWtyrT7vINs2CypyyZ4K/MqicQ9Zp7TN68roqvQ1Dd8DiT09VDwzs6r9Qzqg/CedWHPtGzqNq+fDbOWYsBS+SbOPTziodyAIVcoADRecOvmQEv1FTh3EiQZVd+y32x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750777746; c=relaxed/simple;
-	bh=GOqKXHTBfnBKMo9irpdgKN4z3s14Jq1iPyT5J8xtIFw=;
+	s=arc-20240116; t=1750777748; c=relaxed/simple;
+	bh=jxtJy1t5UpEtyEe7TLfdiMn0AMq+Xpnuqn/FzxcOWkU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JlBTOvPwtWJnQTCLYg6q4zPTB/YlwKuYFrWpkha/mmVDsQmjpZk6LswHoI1sh+YoYfgmZ0XPkDjy1dkiDHPnMrKs3H0QgWnQMPZSxZMunH2X6l+96zO7x87Zw7g4nPjpyLvHOnsfVWvvALv6tOArsNWkHQaNuAbZOnIm/vq9OQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vPQ3uqQ4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F14E1C4CEE3;
-	Tue, 24 Jun 2025 15:09:04 +0000 (UTC)
+	 MIME-Version; b=DhYVo2Agsc4mx+FALmzbk3eiyHRlyfcxhbXZxjXrt2v0JAXJ49DMZA0pEX8PK1O3kMjUJ1DvAX4fixrMQ3KAJo91/Nt/IIkNQRjKWIk7vwJq0BDFtBYjRQbnM/+Ki1tvVtaVASv4VZCaIFez7IVF08U79755aYIC3lYYOUX3AaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQKtuMZX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12899C4CEE3;
+	Tue, 24 Jun 2025 15:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750777746;
-	bh=GOqKXHTBfnBKMo9irpdgKN4z3s14Jq1iPyT5J8xtIFw=;
+	s=k20201202; t=1750777748;
+	bh=jxtJy1t5UpEtyEe7TLfdiMn0AMq+Xpnuqn/FzxcOWkU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vPQ3uqQ4s15fk/FULvJkLsguQHaMBVWIA8zLT0VqyKKR1wi9tT7zqkxf0C2JZJ0xe
-	 X6SKQuLnu4odqlmDsYhDQsqSKz2HkW3AXD4Jqfzdi8kSt9+bRQVGopg5Sx9j3XkZyW
-	 v84yh2PnaK8raE4YQoK/StJzFrBUbBeKh6JMvBBoSDNpNkw8zyQdICWIfkEznQonLS
-	 KpO4q0t7sALDt4M59XhYerZHGQ3IIRfgxFFDhv0ipgcs2eFKKDYMLgZq/h0BssOJiH
-	 PW4uG/9jdaRnuP/MjEbDEBUHTKPjKPm2l10IoZ1fiuDMv8+wSV778YL0/Z27Ij1aqi
-	 YkrPLpTGr9V6Q==
+	b=bQKtuMZXA7Y8tlRE04E2hHTxAiMF/Lg+UMUcdiWQUbm8tnzd3ZRO1RT4QIBVPhymj
+	 1ST2GZxTG6Yb1egPm7F5KgBEBEmGkXyVY2Bwenn5gRyMP7RczQtMe++bL3H09o8HLR
+	 hvg2HdUhjRQmERSyPGBhVazdbmteW19WEY/+oC5DZ8dXUwiPCQetiWubov7hSRIHRo
+	 936CUs/Mxm90m4typwBYSG5yKHmeAaBxLiaxMGwNAnNkf2mnYg1szWMZPiRLua+wPr
+	 tnYvwYiY1eWk4jOTeLpAPACIy3+0Stjp2XryYZmJlRCd2BOw9WCIJJ0dhv0YSo2t7n
+	 1xqNz+bf/y//Q==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 53/66] kconfig: gconf: use size_allocate event handler
-Date: Wed, 25 Jun 2025 00:05:41 +0900
-Message-ID: <20250624150645.1107002-54-masahiroy@kernel.org>
+Subject: [PATCH 54/66] kconfig: gconf: replace GDK_space with GDK_KEY_space
+Date: Wed, 25 Jun 2025 00:05:42 +0900
+Message-ID: <20250624150645.1107002-55-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250624150645.1107002-1-masahiroy@kernel.org>
 References: <20250624150645.1107002-1-masahiroy@kernel.org>
@@ -59,56 +59,29 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The size_request event is not available in GTK 3. Use the size_allocate
-event handler instead.
+In GTK3, keysyms changed to have a KEY_ prefix.
+
+[1]: https://gitlab.gnome.org/GNOME/gtk/-/blob/2.24.33/gdk/gdkkeysyms-compat.h#L24
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/gconf.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ scripts/kconfig/gconf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index b86d54c222e3..6487d6a0dd9d 100644
+index 6487d6a0dd9d..28953449a1ed 100644
 --- a/scripts/kconfig/gconf.c
 +++ b/scripts/kconfig/gconf.c
-@@ -660,21 +660,13 @@ static void on_window1_destroy(GtkObject *object, gpointer user_data)
- 	gtk_main_quit();
- }
+@@ -887,7 +887,7 @@ static gboolean on_treeview2_key_press_event(GtkWidget *widget,
+ 	if (path == NULL)
+ 		return FALSE;
  
--static void on_window1_size_request(GtkWidget *widget,
--				    GtkRequisition *requisition,
-+static void on_window_size_allocate(GtkWidget *widget,
-+				    GtkAllocation *allocation,
- 				    gpointer user_data)
- {
--	static gint old_h;
--	gint w, h;
-+	gint h;
- 
--	if (widget->window == NULL)
--		gtk_window_get_default_size(GTK_WINDOW(main_wnd), &w, &h);
--	else
--		gdk_window_get_size(widget->window, &w, &h);
--
--	if (h == old_h)
--		return;
--	old_h = h;
-+	h = allocation->height;
- 
- 	gtk_paned_set_position(GTK_PANED(vpaned), 2 * h / 3);
- }
-@@ -1000,8 +992,8 @@ static void init_main_window(const gchar *glade_file)
- 	main_wnd = glade_xml_get_widget(xml, "window1");
- 	g_signal_connect(main_wnd, "destroy",
- 			 G_CALLBACK(on_window1_destroy), NULL);
--	g_signal_connect(main_wnd, "size_request",
--			 G_CALLBACK(on_window1_size_request), NULL);
-+	g_signal_connect(main_wnd, "size_allocate",
-+			 G_CALLBACK(on_window_size_allocate), NULL);
- 	g_signal_connect(main_wnd, "delete_event",
- 			 G_CALLBACK(on_window1_delete_event), NULL);
- 
+-	if (event->keyval == GDK_space) {
++	if (event->keyval == GDK_KEY_space) {
+ 		if (gtk_tree_view_row_expanded(view, path))
+ 			gtk_tree_view_collapse_row(view, path);
+ 		else
 -- 
 2.43.0
 
