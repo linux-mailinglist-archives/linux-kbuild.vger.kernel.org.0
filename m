@@ -1,279 +1,188 @@
-Return-Path: <linux-kbuild+bounces-7625-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7626-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18118AE63F9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 13:57:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E610AE6517
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 14:34:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C418519205D2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 11:58:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3459E3BC16D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 12:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3198F28DEE3;
-	Tue, 24 Jun 2025 11:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7898291C29;
+	Tue, 24 Jun 2025 12:31:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyrzK493"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eu9htEvB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF7E25394B;
-	Tue, 24 Jun 2025 11:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD9F289E1B;
+	Tue, 24 Jun 2025 12:31:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750766270; cv=none; b=jU2xgGeRwmFV/aUgijwfOU7/RGXK/PMZd5J6F2Zli/+IotYDE5lZ8XGqvYayNttb0Hh5AAQJpfKQVF63rHIVnTZFLuEJsqFWsUpmVyeyYUzLYy4i0U6k1Gyim12BFt/GnUTGfjGAAE8hifwtvhFayglpzusVera0MSISEItRO5M=
+	t=1750768286; cv=none; b=CF91aJM9eoAtj7S5DwK8poP9aWiO2G0Jm2Eo1n2OGwAZKgtCaggTejQ5IVRhQRQVrC0CI/bRs/uPlwM45xhdre195LNxAyHYJ1r4zuZcSpPrT8H++5Xg6B0eaNVpt2yFUbz9JJwwM3XLSgtEuo215tDsMwKoYHqKSpRzYGhR990=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750766270; c=relaxed/simple;
-	bh=ZntWROll9IDsu+PpU/YJYV3w7b4b5XXzu58P/QSOBFk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hweFgN4/Qto4Uhnoxu7QcPj86ABs/eQL8XNfilIjbcfXt+tqJcnSKax1ZvUmd5DsKlPAGJ57Bupor+LpWw+92SjbeiG+wLR3LToXTEdJVWmMl/lxyq044V1wxIu42ERikfaZ164nKuHq7/ybiruKP4ZIxbx738JKWf5tCo8zPzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyrzK493; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E16EDC4CEEE;
-	Tue, 24 Jun 2025 11:57:44 +0000 (UTC)
+	s=arc-20240116; t=1750768286; c=relaxed/simple;
+	bh=A1vlO/L1VKH8WOeSv/ouj3ncracjwzpEiurRYiS/ALg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EHpbbJp1/bWy7Kw08U3o1KmEOGioMOByrf7E1WLg1Mnk327tQ2rRBfuuW2Qn7vTzcdO2oFn7NUucwjZdiAtkbsGKy3JgE0OO8lS5l7wLL6zbirQaV3HUYtHxH+MooueTQBBst0HzFOIxujZiYMqvOz8s5zsZXTXx+3e6vEBCCNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eu9htEvB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B39C4CEF3;
+	Tue, 24 Jun 2025 12:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750766269;
-	bh=ZntWROll9IDsu+PpU/YJYV3w7b4b5XXzu58P/QSOBFk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=JyrzK493oQ6QBMVd0h5MuFrOeEbIKA1fl5HQNcOw4RtJQCpo5Jwl5Xz2Sp3n9510K
-	 uJhuZNWebmV3Z0KyeTc3Zj1GnXsW4xsgWsdcwywcT0W7b17AFufKbWyNLAnlF/4JY8
-	 5lqj5zY7eQcNAU6Wbs7cMcohuDGpH2kv0IeUrrX+htDIkNLg3cXcLIsmLZ5VrZn/MV
-	 1CwqVB+Upcb7CYctCHpsEfonrqWJdbnxYDCjmrnIU/xDiMY5OukzuptjJ3g/HWLVzx
-	 ug+sZK+0TnmhPldCkvwfMmdnSmiqL6vX3nIAKPuCW+gciIocXWoBwy94kFAS7TBgAP
-	 chkgDf8AAK4rg==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: "Benno Lossin" <lossin@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
- <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
- <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  "Alice
- Ryhl" <aliceryhl@google.com>,  "Masahiro Yamada" <masahiroy@kernel.org>,
-  "Nathan Chancellor" <nathan@kernel.org>,  "Luis Chamberlain"
- <mcgrof@kernel.org>,  "Danilo Krummrich" <dakr@kernel.org>,  "Nicolas
- Schier" <nicolas.schier@linux.dev>,  "Trevor Gross" <tmgross@umich.edu>,
-  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
-  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
-  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
-  "Sami Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
- <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
- KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
-  "Daniel Almeida" <daniel.almeida@collabora.com>,
-  <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH v13 2/6] rust: introduce module_param module
-In-Reply-To: <DAU0J3T0IEVM.2K7ZRQOVOHF8H@kernel.org> (Benno Lossin's message
-	of "Mon, 23 Jun 2025 17:20:30 +0200")
-References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
-	<20250612-module-params-v3-v13-2-bc219cd1a3f8@kernel.org>
-	<COU2bqJOzCHRf6g4rwFpu2NY3wLY0G0AmNjRaU9aGEqu1HaPZ5X4KzfDT_CEB3Okh5BV50sJS10sKhmtHut8ew==@protonmail.internalid>
-	<DAQJCUE1C2JE.204A8IS7LBIVZ@kernel.org> <87ikkq648o.fsf@kernel.org>
-	<smOfUo2mEmQu-lykKKMiNOUWq2ze6p_CoEEpgGE0dtAnoJDGEpvQMkP1q-n13MiUxLK1xAiM-4QLsivPrG57sg==@protonmail.internalid>
-	<DARCZYNPIJVZ.3JJSZ6PSAEMEC@kernel.org> <877c126bce.fsf@kernel.org>
-	<Mg1_h6lRpg9tdi0VjiyDfIEy2juzgDWxOhYX61qSUfyEpeMMksWW1e-blTka_G1dXUvpZVktdD-zL3X1a6T6Cg==@protonmail.internalid>
-	<DATW0XWNN45X.1L2WMZ41JJ5O8@kernel.org> <87v7om4jhq.fsf@kernel.org>
-	<RPPvXQKnjK77Kp9mKaiFxbNj1fTHKb_I7_nbY81fZop-Wz8n5TTi4_lpXP9U9AwjocvZKqJPI8PGKufJn9cIzQ==@protonmail.internalid>
-	<DAU0J3T0IEVM.2K7ZRQOVOHF8H@kernel.org>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Tue, 24 Jun 2025 13:57:38 +0200
-Message-ID: <878qlh4aj1.fsf@kernel.org>
+	s=k20201202; t=1750768286;
+	bh=A1vlO/L1VKH8WOeSv/ouj3ncracjwzpEiurRYiS/ALg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=eu9htEvBiVbL44j/hDA/XL5IHMVRkTjREoK+yoJofVs3i2H7zYeWM4nuOEa8lvA1q
+	 draOJBWRmasaODlA4846qtfnrHoWcfrlpN7SdkOAt9CRDuKgz+Jijdfb0hME3v4zjT
+	 vySbdesGJCidQHCf0M229vamBtjKXpnwatmAh49jUKp+nVNq+/QlhEUFGI/3hC6dpM
+	 MBpiZpEieyvMUEHttV5HVCNFcwOz97BYbHpUnESxPT0XUV2ac4VY/kC4HNi3iT2U1C
+	 nndDqpkUc6Rj2nldXF12iLWnmS6e5StbWpsEaS9jarXC/+el4cuLLpnkbs9yytEYsC
+	 jjsFUJ19nZmUg==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-607ec30df2bso769442a12.1;
+        Tue, 24 Jun 2025 05:31:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUIcBidubsUjr6GvP7f8421F8eC99nNi6qungSKTQM8pINmHk0ZFQw9RZuYj1FBx0HXJrFF3WY3Rotkx7e7@vger.kernel.org, AJvYcCUQZWnOTjCK2ItJvAeXFGpEn1wxgj+j7S3FaXb6FQWYwU4dhdbpvxOzHlLl1i2fpKNkBz0CHKkYXuM=@vger.kernel.org, AJvYcCVSnuJEYLz/GTL/Zt2wX6i8PbgDhcFQMKVvxqYQ9uKexcFTe4i2J5X9OE+QgjnqUXcCZ4Kr6BRLz/+w@vger.kernel.org, AJvYcCWfiTkex+f0MQn2Z3APHWJVp4HQPyHwHt4AGxv8/eCTD/Wh1tFfHarKKtWaIToUdgxBNH2xPZeVU+3DSQ==@vger.kernel.org, AJvYcCWioFj6dnpN+JivFYoas3pOlccQAJKDOtuz5crs2yTlM1t+seJTOz1ZTStM7uqQuJe3SwUJfStDO/trpVnwdOVG@vger.kernel.org, AJvYcCWjTrlomDwlBvZDpD+VWRgwmHhauJOez08kLDWR4/qlguDkO5nrNIV/nfXepGNh0ToK7Hez1v1ORB4YQQ==@vger.kernel.org, AJvYcCWkytK29gf2ZbYEOocH8bXuAPQ/UqBhE3WfKgyHkJCw6Bx1pmxGYIRJmSGiOfFXKWjatwVCMqjN1iruvkoSA2qz@vger.kernel.org, AJvYcCWwjMBDeub9j3awBbNGpJtyGIYzMVCfPwbN2Qb/7+cx5Pr16kamrB+C4ldq33XDCUihDqLrQVsWyCfqWvHQ@vger.kernel.org, AJvYcCXeEP3m9siA10DxTLOpTz8vc5wuJKop878SjR+iKM+WruZTu8Go8JcteBM33w5C6Oj8RMYc8u0iVfd4p07d+JQLfF/WEmsR@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpG8YkBHYF8id6pnhc+2Rp05WERXknvveD5uYetID7V6bxhC+N
+	Ua0WPE2J9qre0HTAgZiSjYgdnmdP8M5x1lTQ9Vh5Rd6razi/cuq/AcCKQfndyTcPCVm7Il4K96q
+	gutnGDt0/tyS+RYnSVUVTaKVcGSIANGE=
+X-Google-Smtp-Source: AGHT+IG78TOJtNBgPo6KUbppTtQyUVPXosqjkC+mjKzFM6GuMzZpIE/4mn6DMDsxVG8gc/mo29CZZDSg4K3moyGLako=
+X-Received: by 2002:a50:9e07:0:b0:607:5987:5ba1 with SMTP id
+ 4fb4d7f45d1cf-60a1d1676eamr10402408a12.20.1750768284578; Tue, 24 Jun 2025
+ 05:31:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-10-kees@kernel.org>
+ <CAAhV-H4WxAwXTYVFOnphgHN80-_6jt77YZ_rw-sOBoBjjiN-yQ@mail.gmail.com>
+In-Reply-To: <CAAhV-H4WxAwXTYVFOnphgHN80-_6jt77YZ_rw-sOBoBjjiN-yQ@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Tue, 24 Jun 2025 20:31:12 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5oHPG+etNawAmVwyDtg80iKUrAM_m3Vj57bBO0scHqvQ@mail.gmail.com>
+X-Gm-Features: AX0GCFsgXJm0uAqj4ZcBCmgCp5XFBS8cfA5fjKZVFWrLP2ySZYpAIUKeGDxIJgs
+Message-ID: <CAAhV-H5oHPG+etNawAmVwyDtg80iKUrAM_m3Vj57bBO0scHqvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 10/14] loongarch: Handle KCOV __init vs inline mismatches
+To: Kees Cook <kees@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, WANG Xuerui <kernel@xen0n.name>, 
+	Thomas Gleixner <tglx@linutronix.de>, Tianyang Zhang <zhangtianyang@loongson.cn>, 
+	Bibo Mao <maobibo@loongson.cn>, Jiaxun Yang <jiaxun.yang@flygoat.com>, loongarch@lists.linux.dev, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-"Benno Lossin" <lossin@kernel.org> writes:
+Hi, Kees,
 
-> On Mon Jun 23, 2025 at 4:31 PM CEST, Andreas Hindborg wrote:
->> "Benno Lossin" <lossin@kernel.org> writes:
->>
->>> On Mon Jun 23, 2025 at 11:44 AM CEST, Andreas Hindborg wrote:
->>>> "Benno Lossin" <lossin@kernel.org> writes:
->>>>
->>>>> On Fri Jun 20, 2025 at 1:29 PM CEST, Andreas Hindborg wrote:
->>>>>> "Benno Lossin" <lossin@kernel.org> writes:
->>>>>>> On Thu Jun 12, 2025 at 3:40 PM CEST, Andreas Hindborg wrote:
->>>>>>>> +/// A wrapper for kernel parameters.
->>>>>>>> +///
->>>>>>>> +/// This type is instantiated by the [`module!`] macro when module parameters are
->>>>>>>> +/// defined. You should never need to instantiate this type directly.
->>>>>>>> +///
->>>>>>>> +/// Note: This type is `pub` because it is used by module crates to access
->>>>>>>> +/// parameter values.
->>>>>>>> +#[repr(transparent)]
->>>>>>>> +pub struct ModuleParamAccess<T> {
->>>>>>>> +    data: core::cell::UnsafeCell<T>,
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +// SAFETY: We only create shared references to the contents of this container,
->>>>>>>> +// so if `T` is `Sync`, so is `ModuleParamAccess`.
->>>>>>>> +unsafe impl<T: Sync> Sync for ModuleParamAccess<T> {}
->>>>>>>> +
->>>>>>>> +impl<T> ModuleParamAccess<T> {
->>>>>>>> +    #[doc(hidden)]
->>>>>>>> +    pub const fn new(value: T) -> Self {
->>>>>>>> +        Self {
->>>>>>>> +            data: core::cell::UnsafeCell::new(value),
->>>>>>>> +        }
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    /// Get a shared reference to the parameter value.
->>>>>>>> +    // Note: When sysfs access to parameters are enabled, we have to pass in a
->>>>>>>> +    // held lock guard here.
->>>>>>>> +    pub fn get(&self) -> &T {
->>>>>>>> +        // SAFETY: As we only support read only parameters with no sysfs
->>>>>>>> +        // exposure, the kernel will not touch the parameter data after module
->>>>>>>> +        // initialization.
->>>>>>>
->>>>>>> This should be a type invariant. But I'm having difficulty defining one
->>>>>>> that's actually correct: after parsing the parameter, this is written
->>>>>>> to, but when is that actually?
->>>>>>
->>>>>> For built-in modules it is during kernel initialization. For loadable
->>>>>> modules, it during module load. No code from the module will execute
->>>>>> before parameters are set.
->>>>>
->>>>> Gotcha and there never ever will be custom code that is executed
->>>>> before/during parameter setting (so code aside from code in `kernel`)?
->>>>>
->>>>>>> Would we eventually execute other Rust
->>>>>>> code during that time? (for example when we allow custom parameter
->>>>>>> parsing)
->>>>>>
->>>>>> I don't think we will need to synchronize because of custom parameter
->>>>>> parsing. Parameters are initialized sequentially. It is not a problem if
->>>>>> the custom parameter parsing code name other parameters, because they
->>>>>> are all initialized to valid values (as they are statics).
->>>>>
->>>>> If you have `&'static i64`, then the value at that reference is never
->>>>> allowed to change.
->>>>>
->>>>>>> This function also must never be `const` because of the following:
->>>>>>>
->>>>>>>     module! {
->>>>>>>         // ...
->>>>>>>         params: {
->>>>>>>             my_param: i64 {
->>>>>>>                 default: 0,
->>>>>>>                 description: "",
->>>>>>>             },
->>>>>>>         },
->>>>>>>     }
->>>>>>>
->>>>>>>     static BAD: &'static i64 = module_parameters::my_param.get();
->>>>>>>
->>>>>>> AFAIK, this static will be executed before loading module parameters and
->>>>>>> thus it makes writing to the parameter UB.
->>>>>>
->>>>>> As I understand, the static will be initialized by a constant expression
->>>>>> evaluated at compile time. I am not sure what happens when this is
->>>>>> evaluated in const context:
->>>>>>
->>>>>>     pub fn get(&self) -> &T {
->>>>>>         // SAFETY: As we only support read only parameters with no sysfs
->>>>>>         // exposure, the kernel will not touch the parameter data after module
->>>>>>         // initialization.
->>>>>>         unsafe { &*self.data.get() }
->>>>>>     }
->>>>>>
->>>>>> Why would that not be OK? I would assume the compiler builds a dependency graph
->>>>>> when initializing statics?
->>>>>
->>>>> Yes it builds a dependency graph, but that is irrelevant? The problem is
->>>>> that I can create a `'static` reference to the inner value *before* the
->>>>> parameter is written-to (as the static is initialized before the
->>>>> parameters).
->>>>
->>>> I see, I did not consider this situation. Thanks for pointing this out.
->>>>
->>>> Could we get around this without a lock maybe? If we change
->>>> `ModuleParamAccess::get` to take a closure instead:
->>>>
->>>>     /// Call `func` with a reference to the parameter value stored in `Self`.
->>>>     pub fn read(&self, func: impl FnOnce(&T)) {
->>>>         // SAFETY: As we only support read only parameters with no sysfs
->>>>         // exposure, the kernel will not touch the parameter data after module
->>>>         // initialization.
->>>>         let data = unsafe { &*self.data.get() };
->>>>
->>>>         func(data)
->>>>     }
->>>>
->>>> I think this would bound the lifetime of the reference passed to the
->>>> closure to the duration of the call, right?
->>>
->>> Yes that is correct. Now you can't assign the reference to a static.
->>> However, this API is probably very clunky to use, since you always have
->>> to create a closure etc.
->>>
->>> Since you mentioned in the other reply that one could spin up a thread
->>> and do something simultaneously, I don't think this is enough. You could
->>> have a loop spin over the new `read` function and read the value and
->>> then the write happens.
->>
->> Yes you are right, we have to treat it as if it could be written at any
->> point in time.
->>
->>> One way to fix this issue would be to use atomics to read the value and
->>> to not create a reference to it. So essentially have
->>>
->>>     pub fn read(&self) -> T {
->>>         unsafe { atomic_read_unsafe_cell(&self.data) }
->>>     }
->>
->> That could work.
->>
->>> Another way would be to use a `Once`-like type (does that exist on the C
->>> side?) so a type that can be initialized once and then never changes.
->>> While it doesn't have a value set, we return some default value for the
->>> param and print a warning, when it's set, we just return the value. But
->>> this probably also requires atomics...
->>
->> I think atomic bool is not that far away. Either that, or we can lock.
->>
->>> Is parameter accessing used that often in hot paths? Can't you just copy
->>> the value into your `Module` struct?
->>
->> I don't imagine this being read in a hot path. If so, the user could
->> make a copy.
+On Thu, Jun 19, 2025 at 4:55=E2=80=AFPM Huacai Chen <chenhuacai@kernel.org>=
+ wrote:
 >
-> That's good to know, then let's try to go for something simple.
+> Hi, Kees,
 >
-> I don't think that we can just use a `Mutex<T>`, because we don't have a
-> way to create it at const time... I guess we could have
->
->     impl<T> Mutex<T>
->         /// # Safety
->         ///
->         /// The returned value needs to be pinned and then `init` needs
->         /// to be called before any other methods are called on this.
->         pub unsafe const fn const_new() -> Self;
->
->         pub unsafe fn init(&self);
->     }
->
-> But that seems like a bad idea, because where would we call the `init`
-> function? That also needs to be synchronized...
+> On Fri, May 23, 2025 at 12:39=E2=80=AFPM Kees Cook <kees@kernel.org> wrot=
+e:
+> >
+> > When KCOV is enabled all functions get instrumented, unless
+> > the __no_sanitize_coverage attribute is used. To prepare for
+> > __no_sanitize_coverage being applied to __init functions, we have to
+> > handle differences in how GCC's inline optimizations get resolved. For
+> > loongarch this exposed several places where __init annotations were
+> > missing but ended up being "accidentally correct". Fix these cases and
+> > force one function to be inline with __always_inline.
+> >
+> > Signed-off-by: Kees Cook <kees@kernel.org>
+> > ---
+> > Cc: Huacai Chen <chenhuacai@kernel.org>
+> > Cc: WANG Xuerui <kernel@xen0n.name>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: Tianyang Zhang <zhangtianyang@loongson.cn>
+> > Cc: Bibo Mao <maobibo@loongson.cn>
+> > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > Cc: <loongarch@lists.linux.dev>
+> > ---
+> >  arch/loongarch/include/asm/smp.h | 2 +-
+> >  arch/loongarch/kernel/time.c     | 2 +-
+> >  arch/loongarch/mm/ioremap.c      | 4 ++--
+> >  3 files changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/arch/loongarch/include/asm/smp.h b/arch/loongarch/include/=
+asm/smp.h
+> > index ad0bd234a0f1..88e19d8a11f4 100644
+> > --- a/arch/loongarch/include/asm/smp.h
+> > +++ b/arch/loongarch/include/asm/smp.h
+> > @@ -39,7 +39,7 @@ int loongson_cpu_disable(void);
+> >  void loongson_cpu_die(unsigned int cpu);
+> >  #endif
+> >
+> > -static inline void plat_smp_setup(void)
+> > +static __always_inline void plat_smp_setup(void)
+> Similar to x86 and arm, I prefer to mark it as __init rather than
+> __always_inline.
+If you have no objections, I will apply this patch with the above modificat=
+ion.
 
-Ah, that is unfortunate. The init function will not run before this, so
-we would need a `Once` or an atomic anyway to initialize the lock.
 
-I am not sure if we are allowed to sleep during this, I would have to
-check. But then we could use a spin lock.
-
-We will need the locking anyway, when we want to enable sysfs write
-access to the parameters.
+Huacai
 
 >
-> Maybe we can just like you said use an atomic bool?
-
-Sigh, I will have to check how far that series has come.
-
-
-Best regards,
-Andreas Hindborg
-
-
-
+> Huacai
+>
+> >  {
+> >         loongson_smp_setup();
+> >  }
+> > diff --git a/arch/loongarch/kernel/time.c b/arch/loongarch/kernel/time.=
+c
+> > index bc75a3a69fc8..367906b10f81 100644
+> > --- a/arch/loongarch/kernel/time.c
+> > +++ b/arch/loongarch/kernel/time.c
+> > @@ -102,7 +102,7 @@ static int constant_timer_next_event(unsigned long =
+delta, struct clock_event_dev
+> >         return 0;
+> >  }
+> >
+> > -static unsigned long __init get_loops_per_jiffy(void)
+> > +static unsigned long get_loops_per_jiffy(void)
+> >  {
+> >         unsigned long lpj =3D (unsigned long)const_clock_freq;
+> >
+> > diff --git a/arch/loongarch/mm/ioremap.c b/arch/loongarch/mm/ioremap.c
+> > index 70ca73019811..df949a3d0f34 100644
+> > --- a/arch/loongarch/mm/ioremap.c
+> > +++ b/arch/loongarch/mm/ioremap.c
+> > @@ -16,12 +16,12 @@ void __init early_iounmap(void __iomem *addr, unsig=
+ned long size)
+> >
+> >  }
+> >
+> > -void *early_memremap_ro(resource_size_t phys_addr, unsigned long size)
+> > +void * __init early_memremap_ro(resource_size_t phys_addr, unsigned lo=
+ng size)
+> >  {
+> >         return early_memremap(phys_addr, size);
+> >  }
+> >
+> > -void *early_memremap_prot(resource_size_t phys_addr, unsigned long siz=
+e,
+> > +void * __init early_memremap_prot(resource_size_t phys_addr, unsigned =
+long size,
+> >                     unsigned long prot_val)
+> >  {
+> >         return early_memremap(phys_addr, size);
+> > --
+> > 2.34.1
+> >
 
