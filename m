@@ -1,129 +1,159 @@
-Return-Path: <linux-kbuild+bounces-7623-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7624-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72091AE628A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 12:34:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1435AE634C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 13:09:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65BFC189DD38
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 10:34:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 090FC3A819C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 11:08:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A2D52868AF;
-	Tue, 24 Jun 2025 10:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 227D6221F17;
+	Tue, 24 Jun 2025 11:09:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLKqoZDu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1uN4qgW"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2802B284B2E
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 10:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F195C283FC2
+	for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 11:09:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750761231; cv=none; b=BcR7dnPs6X2NfdbDgSrkU6oe0aKh0H9vMrDE86XI6lbHT8xFE/ZPbQ0r1F22cYs6NNau/EEyY2HyYeJiiU7guT0BiB3289PS3xc6Sqg+CALzV4UxnS16btVAOeWJpy9BpU4PXOjVRy+d9YvqjBhKjjOWc1T0jbaJiALrH2hCkcQ=
+	t=1750763343; cv=none; b=OL3NkmIHYyzmlfGGlnAZUuDYg5S153zRKDcLX9/fx07O2H3TkZdlxvpvVAKW6/+iFM+v1xIRWgl03ILN/6hZiddVqQkaBOp2TlIUICSm+cG9bDBANCxocGPXr1j92tzmd6RWWhbbjEiexocXBw5q25c1sMhPX1v112WqlYZEtXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750761231; c=relaxed/simple;
-	bh=5rKAldb8yDdjesRBjmIB1D1oa6CsxdGfweE+SPmulRI=;
+	s=arc-20240116; t=1750763343; c=relaxed/simple;
+	bh=Ubv857HjmQvjkavC0JgEk1Z8MKMsNts15p3Af34V+Oo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ey/6Ofo4AUZvffdHBdhpByElax7YN8M76Q3Aii61StcmP41YOWCcOX5KqBouH9FhmwOfa4zuZR639bRmHWIUXStsV4sEdL+8S+q6GlV4RfJU7vBjBCHB4dbUurmFRPhWRn75PpxFT9DSKjTjPonVFl2+JZXwMnU7Y6xLXZm273I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLKqoZDu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9259CC4CEEE
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 10:33:50 +0000 (UTC)
+	 To:Cc:Content-Type; b=t0q5PH9u/4JOixsUot160yM0UbPPJMvTliaquD2UIYUC7NNA6oMNiEHrLnhbGjPYlOeJj8RsaRn9l6r0y3T6guOCNSqH+NAH0Hre8sTry7GNJNZ12Mo+8npufxwn1BjXej5fosNGc/vxjl9M0kF/qtg0ZqS6oXB9YxMgh5pZhzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1uN4qgW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71000C4CEEE
+	for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 11:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750761230;
-	bh=5rKAldb8yDdjesRBjmIB1D1oa6CsxdGfweE+SPmulRI=;
+	s=k20201202; t=1750763342;
+	bh=Ubv857HjmQvjkavC0JgEk1Z8MKMsNts15p3Af34V+Oo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YLKqoZDuk/CPeZZL3/vtthkUjB7jYhecSnnoWqUPUU5uL2C84UVh7wKSm3rSSHrC4
-	 AXxArS/bSqqsOwSOhBHjz49I7K43Va+HWy+G2h42DELQojrJymwDqSNAWBCwL3lY2z
-	 7FvH0YCKZaAC+VIsGjxeuYd97K/j81anfZ3jgSLLxHsSE30iBLAJVBysT0cyl6AzGy
-	 +USZhuxFyjWcKQfY7gWbk9+7PQH/E/w5JfQ2TZJxDPILwzyYJcrQX8T3IrJ4rDCSSu
-	 PyWlarLlngkkyuKmzC01CGNjyfRDKIQ6blEjr1vt7eWT5yg0+TY+Dpz23YJX2HlNaN
-	 rXxg/bAXyAN4w==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54998f865b8so217611e87.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 03:33:50 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzlRRXRnaKIymVSQfQOje2e2lWuThGlQ2+1msWS0DoOCl9KhsRF
-	iGLGO9ijZuNSVlDmDd0WVj7JJvg6yZKvvgRoPJvsytaNQa43YIY+P+WUlvuD+oW700x3nt7/QG2
-	BTT3RCOgobjGlUaH5kZGGEsUQIuW11Ac=
-X-Google-Smtp-Source: AGHT+IH2TXpTTnro0upQkWeZRD4Bcv7Aa14O4W++v/Tiu79EfS1Wq8eEUZ7ikHng/09jkS78+D1Zh5qI47crUQL1Py0=
-X-Received: by 2002:a05:6512:b84:b0:553:ac4e:c41 with SMTP id
- 2adb3069b0e04-553e3be918bmr5058457e87.28.1750761229219; Tue, 24 Jun 2025
- 03:33:49 -0700 (PDT)
+	b=Y1uN4qgWrm58E4TtWUh/kblBW03SRwCtbWqBPYnTjj1QmO64kKHHnRYH0+ZKaDz/h
+	 HZoUYiAIU3WElVFg6Es8rS4ZItlHj+CNoyFFfQuWwlJeCLfl+AA0QUuFeoWEgu+2Q5
+	 JNw77Zt3LiM4u0/E/JoYeASk2o0SfP8Ov5D3uD4mnTpdECB8tMsPjJO/Wfn2qYMLZC
+	 pU87yUqcaiCEbffmNGrKCS0pkovBRdC98NZRPwYwztpAhNpgXDsztLCL1QfrLr9lhs
+	 lT3JEc8OWKpEzNQP+sYFUUpebJPpkZ1cxG3RAAIaOejsVsU9OFQxEptvm/TZvwHQeD
+	 odW+Ql1QWff+g==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55350d0eedeso315942e87.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 04:09:02 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxAnc8HW0FbW8srx06tTugFOjGDJxvoHRLHthjzOE7Fw5SuhERA
+	6t9QWTCS0GB5L8yywp+abvuHqTD+iyutkwGCt36G72TZVVk2z33CtNTa4grov1VOYhlG14rUK0i
+	4Z0L9WO6lYphfmykc1rlo7cOja5yt8BU=
+X-Google-Smtp-Source: AGHT+IFVh2Otz6YKFRtEtOSBHD5pqK4iEBHWFP1shz0rWsw/4ItGBIr/UeG3XJ4nGwEOdTLxSqmh6SkBz6FNYhxRUoQ=
+X-Received: by 2002:a05:6512:3e18:b0:553:2e92:2c98 with SMTP id
+ 2adb3069b0e04-553e3d0b6a7mr4724853e87.42.1750763341127; Tue, 24 Jun 2025
+ 04:09:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250604183539.425053-1-martellif67@gmail.com>
- <CAK7LNAROMO2686KPbt+ZquymcZC-RLr0aX5x477uF1DaesUkCQ@mail.gmail.com>
- <9aaea19f-cd15-44fe-8d61-984f7ff316b7@gmail.com> <64d93af1-b602-4dba-ad4b-a2b9a493c800@gmail.com>
-In-Reply-To: <64d93af1-b602-4dba-ad4b-a2b9a493c800@gmail.com>
+References: <20250612074802.900256-1-shankari.ak0208@gmail.com> <20250612074802.900256-2-shankari.ak0208@gmail.com>
+In-Reply-To: <20250612074802.900256-2-shankari.ak0208@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 24 Jun 2025 19:33:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQTuk9S5+oUARefryz3cz2HF3q6_bvW8PmJi1dhWa26DA@mail.gmail.com>
-X-Gm-Features: AX0GCFvuEsE5D1VAbgXG4AHFp99vgEwM10gEo4pJPLYafFlDH8C1eyP759N61Vs
-Message-ID: <CAK7LNAQTuk9S5+oUARefryz3cz2HF3q6_bvW8PmJi1dhWa26DA@mail.gmail.com>
-Subject: Re: [PATCH v2] Kconfig: Added compare capabilities for mconf Ver. 2
-To: Franco Martelli <martellif67@gmail.com>
+Date: Tue, 24 Jun 2025 20:08:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASH7HyQZtPjerws7K8Smn1OXeDAXODdB9VaULXiYOitQg@mail.gmail.com>
+X-Gm-Features: AX0GCFvy2fV_GjX7m1hqtGQlaLJXd4mzH1_0yOp3IQCpgKl2ySwUZsrzTP-BIQI
+Message-ID: <CAK7LNASH7HyQZtPjerws7K8Smn1OXeDAXODdB9VaULXiYOitQg@mail.gmail.com>
+Subject: Re: [PATCH v2] kconfig/nconf: Replace strncpy() with snprintf()
+To: Shankari Anand <shankari.ak0208@gmail.com>
 Cc: linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 19, 2025 at 3:55=E2=80=AFAM Franco Martelli <martellif67@gmail.=
-com> wrote:
+On Thu, Jun 12, 2025 at 4:48=E2=80=AFPM Shankari Anand
+<shankari.ak0208@gmail.com> wrote:
 >
-> On 16/06/25 at 15:44, Franco Martelli wrote:
-> > On 16/06/25 at 15:04, Masahiro Yamada wrote:
-> >> On Thu, Jun 5, 2025 at 3:36=E2=80=AFAM Franco Martelli <martellif67@gm=
-ail.com>
-> >> wrote:
-> >>>
-> >>> Signed-off-by: Franco Martelli <martellif67@gmail.com>
-> >>> ---
-> >>>
-> >>> Dear Linux hacker,
-> >>>
-> >>> I've written a patch that allows to compare the tristate value of two
-> >>> .config files inline, symbol by symbol, in mconf (make menuconfig) on=
-ly.
-> >>
-> >>
-> >> I do not understand why this needs to be implemented in
-> >> menuconfig.
-> >> scripts/diffconfig is already available.
->
-> > When a new stable release of a distribution is available, in the Linux
-> > kernel many things has changed, this patch comes in help in this
-> > situations, it allows to easily compare the customized .config file
-> > built for the previous version of the distribution, with the one
-> > provided by the new software distribution, used as reference.
-> > Generally it can be helpful when the differences between .config files
-> > are huge, because you can navigate across them in the menu window.
->
-> >>
-> >> I think the comparison mode is rather distracting.
-> >>
->
-> A solution to improve readability of the comparison mode could
-> be to skip symbols without differences, so leaving those menu
-> entries untouched. This will shrink the amounts of characters
-> displayed significantly.
->
-> I can send a version 3 of the patch changed accordingly, if
-> you don't reply to this email I will assume yes, but if you
-> are definitely against to this patch, please let me to know.
+> Replace strncpy() calls with snprintf() in nconf.c and nconf.gui.c,
+> which are part of the userspace Kconfig frontend.
+> The affected functions are - item_add_str() in nconf.c,
+> fill_window() and dialog_inputbox() in nconf.gui.c
 
-I do not think menuconfig (or nconfig) is the right place,
-the user appearance does not assume an extra column.
+This is completely unnecessary information.
 
-If you really want to implement this, xconfig or gconfig
-is better, as they have a 'value' column. It is easier to
-add another column.
 
-But, have you used scripts/diffconfig?
-Didn't it suffice your needs?
+> As strscpy is not supported in userspace, snprintf can be used.
+
+This one is not necessary either.
+
+
+What you really need to explain in the commit description is:
+
+strncpy() does not null-terminate the destination buffer if it is not
+large enough to hold the entire source string. Make sure to explicitly
+terminate the buffer.
+
+
+And, I do not think you need to use snprintf() - just terminate
+the buffer.
+
+> Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
+> ---
+> v1 -> v2 : Changed strscpy to snprintf as strscpy is not supported in use=
+r-space
+> ---
+>  scripts/kconfig/nconf.c     | 6 +++---
+>  scripts/kconfig/nconf.gui.c | 5 ++---
+>  2 files changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+> index 67ee33fe16ef..42a78f0baf16 100644
+> --- a/scripts/kconfig/nconf.c
+> +++ b/scripts/kconfig/nconf.c
+> @@ -589,9 +589,9 @@ static void item_add_str(const char *fmt, ...)
+>         va_end(ap);
+>         snprintf(tmp_str, sizeof(tmp_str), "%s%s",
+>                         k_menu_items[index].str, new_str);
+> -       strncpy(k_menu_items[index].str,
+> -               tmp_str,
+> -               sizeof(k_menu_items[index].str));
+> +       snprintf(k_menu_items[index].str,
+> +               sizeof(k_menu_items[index].str),
+> +               "%s", tmp_str);
+>
+>         free_item(curses_menu_items[index]);
+>         curses_menu_items[index] =3D new_item(
+> diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
+> index a1306fafd07f..d55518268f45 100644
+> --- a/scripts/kconfig/nconf.gui.c
+> +++ b/scripts/kconfig/nconf.gui.c
+> @@ -176,8 +176,7 @@ void fill_window(WINDOW *win, const char *text)
+>                 char tmp[x+10];
+>                 const char *line =3D get_line(text, i);
+>                 int len =3D get_line_length(line);
+> -               strncpy(tmp, line, min(len, x));
+> -               tmp[len] =3D '\0';
+
+This one can be fixed to
+
+     tmp[sizeof(tmp) - 1] =3D '\0'
+
+
+
+> +               snprintf(tmp, sizeof(tmp), "%.*s", min(len, x), line);
+>                 mvwprintw(win, i, 0, "%s", tmp);
+>         }
+>  }
+> @@ -358,7 +357,7 @@ int dialog_inputbox(WINDOW *main_window,
+>         y =3D (lines-win_lines)/2;
+>         x =3D (columns-win_cols)/2;
+>
+> -       strncpy(result, init, *result_len);
+> +       snprintf(result, *result_len, "%s", init);
+>
+>         /* create the windows */
+>         win =3D newwin(win_lines, win_cols, y, x);
+> --
+> 2.34.1
+>
 
 
 --=20
