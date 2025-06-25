@@ -1,164 +1,159 @@
-Return-Path: <linux-kbuild+bounces-7698-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7699-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15259AE7E2C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 11:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1AAAE837A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 14:58:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04AC41896A06
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 09:53:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 976B218848B5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 12:58:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE234315A;
-	Wed, 25 Jun 2025 09:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 681BF262FF5;
+	Wed, 25 Jun 2025 12:56:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WyKyMbmw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWE2qnaB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A3A1F4612
-	for <linux-kbuild@vger.kernel.org>; Wed, 25 Jun 2025 09:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C862620C4;
+	Wed, 25 Jun 2025 12:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750845159; cv=none; b=J2Aeh0J7VvG/CqqNcBVPw/hwj5tEt0dv5+m8kJoQbu053d8w2j4/zQUTBBj664bje8isUFV3uFN7/hcMzMs2ahSs/kYO0HKlxr/Mkcc/ytvCgPY4VbFk/5uZI0byYjWjvKa4NsHZ2EiZjYO03oh6jo73ujcNSTDzTNGm3cVAcE8=
+	t=1750856181; cv=none; b=k2QxGzC0g07i/PSZBonIZmMZtBqrfB4TaaoZrh7++0fztkQc1eGB+V45BXpA6LS2SqxS9nCXJERwlN+ETA70AXjfC0mYj85QtDNoCGdE0WRjHY9gVSvKIVBSgdhgS3bH2IN5AsmJID6axdMk2W+Y1ApMm8PeAqiCPZ8xYaacFTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750845159; c=relaxed/simple;
-	bh=1Y8QJ+oRfOtSdRhQbvBmTw9lQq+2E+h8tGLHlYsZDv4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KBOiuBJxed2XNXq+edDj+imDiN/rTpu9l6R25EzKJD7hFol/Fz0O/SeZ/ka5wJ2chckAduZ4QgTXygd3FA2jKSZRMRsrKmJ5uVPSF87fnJIyQlcUnnD2iitZcCCLXoXzKSLZKOUd2rfhda5Ublw4W1UcXtPwGPMpS9vRO8Tw6HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WyKyMbmw; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-451dda846a0so48564065e9.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Jun 2025 02:52:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750845156; x=1751449956; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FPaFg8skY6SjMOJvVYfiFB9uK0FraGFCMhdVa+qk2JA=;
-        b=WyKyMbmwIXF3ash5OeLSACPYQ/WJ89qeH0r52vZ3uL+xxHhEXTkN4y6nwa0o3EX5k+
-         G/2/bV0pUNQOxnc459Qr10gtGzFTNO8i68e3OEABtUkt3i8mcX1wEUEu6TOWrPpkXynm
-         1jBAvcuIjdvWPK2AoCEtSy9oK3FMdiVY6SnW1FtsaY9EsHidjJHhMit4qcDsGhURHLgG
-         w+myr3NeThC45QWvXJa4jX4k3NMbDezXN0a1NO/6SQPZHIRCr6wXaNKCIW61+l+FfCqc
-         QQ6fH8gIrC7TDhnuuDZeOC1DNE+5uMbKY/N21ePMnOQJ1AIN3Vya2akPm15TEKXQRn37
-         MT7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750845156; x=1751449956;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FPaFg8skY6SjMOJvVYfiFB9uK0FraGFCMhdVa+qk2JA=;
-        b=JTqLw6L9b1uGph3/bvUrTXhTMoHR+ZGHBrXuVl0T+XEvngcR9/6Wi+EsujfCkrkUZA
-         IWspNj/axRAXHWUaxx4eweZgQwM/VUP5OT3AO9Sl5Rb9g447NZi4t88uOmJkgEJlDBOJ
-         INytr96oAi86mi0KbdLu1UJuqhfoO7SOSdNG0t2OzBOIESf0EN0cWjBK27aPG8MHoy+4
-         Rud5N7oo+I8Vh7Bxi2t4aQc7bAmelK1JpbIcbeNqAvNL/h5uF8VGKWgVXloingdYfXEb
-         iKvDUxokm3BErPFhiMgs2lZtNyWF8WsZRiouTiCexTfghfk+XgiiaTJ6fEbsBLwpT0PR
-         8Rog==
-X-Forwarded-Encrypted: i=1; AJvYcCWItZH6RZrTLanqxMu8po4KXDsmhINI/DJUKZcTPnaEM2qTda7G4N66zOiB4/NwnUzjB/V0Za8XwtemmU8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9TZ91yG71MNZzj7GnBRGmFaGtLKUo1hK4eA4Z/XMQbt9sRHcd
-	r6on6RpeC43dKlP7GA79yhDLMXs2c3Sg/M5jsfVPNJME4KJIny0wl8FatsOdsO8w229QN2K66jQ
-	GfzeKl/t6kQTUZw==
-X-Google-Smtp-Source: AGHT+IH9NSYt2O7TMUJiMIjZArM9uvyETHRaUeq8opq8u7NG97Qu9jaiO6QvaVXjIAI5VY4zW+Mj5w0AJLfVFw==
-X-Received: from wmbfa15.prod.google.com ([2002:a05:600c:518f:b0:43d:5828:13ee])
- (user=gprocida job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3e11:b0:450:d61f:dd45 with SMTP id 5b1f17b1804b1-45381aa54ecmr21075505e9.4.1750845156283;
- Wed, 25 Jun 2025 02:52:36 -0700 (PDT)
-Date: Wed, 25 Jun 2025 10:52:08 +0100
-In-Reply-To: <20250623092350.3261118-2-gprocida@google.com>
+	s=arc-20240116; t=1750856181; c=relaxed/simple;
+	bh=Dz5Oh6ZQApBF4VZkqH2TbMEO+1URjB0qZPeXpOaSAyM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Aikb9tHP83WdksYBr2eDwkO2Xol7pd15HmbL+ug4mFn9g6ibP/DSWLJDl0IoYX6+jEnquejersneXslOHu3NkFOhFrrcnfhUIEvUTRatBUH3zJhnKbtGeBVFliLwpMILNFyvVlZk1bekRRMcNSVGAnFFi+faTuP4P0fgMuGD0Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWE2qnaB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55A8EC4CEEA;
+	Wed, 25 Jun 2025 12:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750856180;
+	bh=Dz5Oh6ZQApBF4VZkqH2TbMEO+1URjB0qZPeXpOaSAyM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qWE2qnaB6AEFnYieEk5vJ+/s0gLddEoVYyPp9W6NmjrIKr/i1PiqNv/EhEdoyy/kq
+	 8GHpQsDUspx3bxFYvs5Hk3AlqEFmRV6g7FqmBpGHqA1oYVdn66vnxrDWDFD9H8ER+O
+	 HmndyumTt2kdePikwRvQOBbItSTHZzDLvSENDTgy3n5qL0J4X+V3wCfJV8OSx9iB3a
+	 ZT+zlhoIWBfCUOzV7MdCVR+vhAxxVO+ppng7Od5zaIIUlB/IrdXLHAO25qok0mgZBN
+	 UspZvgH1d67IYcnY1RxxXEBHknoQvebrYG3CgG9nKvSx9vBlL3OhO7dH00GpZ5zJeg
+	 zAH+oRAaoFtBw==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: fix unnecessary rebuilding when CONFIG_DEBUG_EFI=y
+Date: Wed, 25 Jun 2025 21:55:20 +0900
+Message-ID: <20250625125555.2504734-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250623092350.3261118-2-gprocida@google.com>
-X-Mailer: git-send-email 2.50.0.714.g196bf9f422-goog
-Message-ID: <20250625095215.4027938-1-gprocida@google.com>
-Subject: [PATCH] gendwarfksyms: order -T symtypes output by name
-From: Giuliano Procida <gprocida@google.com>
-To: Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Giuliano Procida <gprocida@google.com>, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-When writing symtypes information, we iterate through the entire hash
-table containing type expansions. The key order varies unpredictably
-as new entries are added, making it harder to compare symtypes between
-builds.
+When CONFIG_DEBUG_EFI is enabled, some objects are needlessly rebuilt.
 
-Resolve this by sorting the type expansions by name before output.
+[Steps to reproduce]
 
-Signed-off-by: Giuliano Procida <gprocida@google.com>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+  Enable CONFIG_DEBUG_EFI and run 'make' twice in a clean source tree.
+  On the second run, arch/arm64/kernel/head.o is rebuilt even though
+  no files have changed.
+
+  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- clean
+  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+     [ snip ]
+  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+    CALL    scripts/checksyscalls.sh
+    AS      arch/arm64/kernel/head.o
+    AR      arch/arm64/kernel/built-in.a
+    AR      arch/arm64/built-in.a
+    AR      built-in.a
+     [ snip ]
+
+The issue is caused by the use of the $(realpath ...) function.
+
+At the time arch/arm64/kernel/Makefile is parsed on the first run,
+$(objtree)/vmlinux does not exist. As a result,
+$(realpath $(objtree)/vmlinux) expands to an empty string.
+
+On the second run of Make, $(objtree)/vmlinux already exists, so
+$(realpath $(objtree)/vmlinux) expands to the absolute path of vmlinux.
+However, this change in the command line causes arch/arm64/kernel/head.o
+to be rebuilt.
+
+To address this issue, use $(abspath ...) instead, which does not require
+the file to exist. While $(abspath ...) does not resolve symlinks, this
+should be fine from a debugging perspective.
+
+The GNU Make manual [1] clearly explains the difference between the two:
+
+  $(realpath names...)
+    For each file name in names return the canonical absolute name.
+    A canonical name does not contain any . or .. components, nor any
+    repeated path separators (/) or symlinks. In case of a failure the
+    empty string is returned. Consult the realpath(3) documentation for
+    a list of possible failure causes.
+
+  $(abspath namees...)
+    For each file name in names return an absolute name that does not
+    contain any . or .. components, nor any repeated path separators (/).
+    Note that, in contrast to realpath function, abspath does not resolve
+    symlinks and does not require the file names to refer to an existing
+    file or directory. Use the wildcard function to test for existence.
+
+The same problem exists in drivers/firmware/efi/libstub/Makefile.zboot.
+On the first run of Make, $(obj)/vmlinuz.efi.elf does not exist when the
+Makefile is parsed, so -DZBOOT_EFI_PATH is set to an empty string.
+Replace $(realpath ...) with $(abspath ...) there as well.
+
+[1]: https://www.gnu.org/software/make/manual/make.html#File-Name-Functions
+
+Fixes: 757b435aaabe ("efi: arm64: Add vmlinux debug link to the Image binary")
+Fixes: a050910972bb ("efi/libstub: implement generic EFI zboot")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- scripts/gendwarfksyms/types.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
 
-[Adjusted the first line of the description. Added reviewer tags.
- Added missing CC to linux-modules.]
+ arch/arm64/kernel/Makefile                  | 2 +-
+ drivers/firmware/efi/libstub/Makefile.zboot | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
-index 7bd459ea6c59..51c1471e8684 100644
---- a/scripts/gendwarfksyms/types.c
-+++ b/scripts/gendwarfksyms/types.c
-@@ -6,6 +6,8 @@
- #define _GNU_SOURCE
- #include <inttypes.h>
- #include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
- #include <zlib.h>
+diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
+index 2920b0a51403..a2604c33f35c 100644
+--- a/arch/arm64/kernel/Makefile
++++ b/arch/arm64/kernel/Makefile
+@@ -81,7 +81,7 @@ obj-y					+= head.o
+ always-$(KBUILD_BUILTIN)		+= vmlinux.lds
  
- #include "gendwarfksyms.h"
-@@ -179,20 +181,41 @@ static int type_map_get(const char *name, struct type_expansion **res)
- 	return -1;
- }
+ ifeq ($(CONFIG_DEBUG_EFI),y)
+-AFLAGS_head.o += -DVMLINUX_PATH="\"$(realpath $(objtree)/vmlinux)\""
++AFLAGS_head.o += -DVMLINUX_PATH="\"$(abspath vmlinux)\""
+ endif
  
-+static int cmp_expansion_name(const void *p1, const void *p2)
-+{
-+	struct type_expansion *const *e1 = p1;
-+	struct type_expansion *const *e2 = p2;
-+
-+	return strcmp((*e1)->name, (*e2)->name);
-+}
-+
- static void type_map_write(FILE *file)
- {
- 	struct type_expansion *e;
- 	struct hlist_node *tmp;
-+	struct type_expansion **es;
-+	size_t count = 0;
-+	size_t i = 0;
+ # for cleaning
+diff --git a/drivers/firmware/efi/libstub/Makefile.zboot b/drivers/firmware/efi/libstub/Makefile.zboot
+index 92e3c73502ba..832deee36e48 100644
+--- a/drivers/firmware/efi/libstub/Makefile.zboot
++++ b/drivers/firmware/efi/libstub/Makefile.zboot
+@@ -36,7 +36,7 @@ aflags-zboot-header-$(EFI_ZBOOT_FORWARD_CFI) := \
+ 		-DPE_DLL_CHAR_EX=IMAGE_DLLCHARACTERISTICS_EX_FORWARD_CFI_COMPAT
  
- 	if (!file)
- 		return;
- 
--	hash_for_each_safe(type_map, e, tmp, hash) {
--		checkp(fputs(e->name, file));
-+	hash_for_each_safe(type_map, e, tmp, hash)
-+		++count;
-+	es = xmalloc(count * sizeof(struct type_expansion *));
-+	hash_for_each_safe(type_map, e, tmp, hash)
-+		es[i++] = e;
-+
-+	qsort(es, count, sizeof(struct type_expansion *), cmp_expansion_name);
-+
-+	for (i = 0; i < count; ++i) {
-+		checkp(fputs(es[i]->name, file));
- 		checkp(fputs(" ", file));
--		type_list_write(&e->expanded, file);
-+		type_list_write(&es[i]->expanded, file);
- 		checkp(fputs("\n", file));
- 	}
-+
-+	free(es);
- }
- 
- static void type_map_free(void)
+ AFLAGS_zboot-header.o += -DMACHINE_TYPE=IMAGE_FILE_MACHINE_$(EFI_ZBOOT_MACH_TYPE) \
+-			 -DZBOOT_EFI_PATH="\"$(realpath $(obj)/vmlinuz.efi.elf)\"" \
++			 -DZBOOT_EFI_PATH="\"$(abspath $(obj)/vmlinuz.efi.elf)\"" \
+ 			 -DZBOOT_SIZE_LEN=$(zboot-size-len-y) \
+ 			 -DCOMP_TYPE="\"$(comp-type-y)\"" \
+ 			 $(aflags-zboot-header-y)
 -- 
-2.50.0.714.g196bf9f422-goog
+2.43.0
 
 
