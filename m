@@ -1,57 +1,58 @@
-Return-Path: <linux-kbuild+bounces-7699-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7700-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1AAAE837A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 14:58:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC86CAE8385
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 15:01:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 976B218848B5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 12:58:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0AC2B3AA3A9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 12:58:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 681BF262FF5;
-	Wed, 25 Jun 2025 12:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C6FD261595;
+	Wed, 25 Jun 2025 12:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWE2qnaB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hn5MkkLQ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C862620C4;
-	Wed, 25 Jun 2025 12:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5BD261593;
+	Wed, 25 Jun 2025 12:58:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750856181; cv=none; b=k2QxGzC0g07i/PSZBonIZmMZtBqrfB4TaaoZrh7++0fztkQc1eGB+V45BXpA6LS2SqxS9nCXJERwlN+ETA70AXjfC0mYj85QtDNoCGdE0WRjHY9gVSvKIVBSgdhgS3bH2IN5AsmJID6axdMk2W+Y1ApMm8PeAqiCPZ8xYaacFTc=
+	t=1750856320; cv=none; b=uhBjoNFOU1o60xnzgK5j7bhZ31hV6sFac5utc9lV6YBvaL4S4R3y1R6K7syhThbNrs0NAQR2nd3gmYPrrChvJqECnM3nrkt2bZZH8WpZIR2olRBXiPPd3rol3awazSR3rU1PfQOrVKK1xT22yghOuLGZrCgB5HQg7Tjmp29LWTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750856181; c=relaxed/simple;
-	bh=Dz5Oh6ZQApBF4VZkqH2TbMEO+1URjB0qZPeXpOaSAyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Aikb9tHP83WdksYBr2eDwkO2Xol7pd15HmbL+ug4mFn9g6ibP/DSWLJDl0IoYX6+jEnquejersneXslOHu3NkFOhFrrcnfhUIEvUTRatBUH3zJhnKbtGeBVFliLwpMILNFyvVlZk1bekRRMcNSVGAnFFi+faTuP4P0fgMuGD0Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWE2qnaB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55A8EC4CEEA;
-	Wed, 25 Jun 2025 12:56:18 +0000 (UTC)
+	s=arc-20240116; t=1750856320; c=relaxed/simple;
+	bh=/6MNs104AgtGDaHLg8LouTRM0HNdmAkvMqIT1gJdYpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yd+OMzo1ZNd59o1t2Isurif8YWFe6jsl8/V0EXEB2e/qpM2DqPzaowuWwGI7INzTKIah/kpTMSVDu6kU+8kzVcGifUh+30CxrFIZSzjv1OlED5xBL7zztUwT3MJtxvfpgJ59ZC3W7Zg/uIv1txEpqFfBOIBGOqlAEkDS90X8ee8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hn5MkkLQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B8AC4CEEE;
+	Wed, 25 Jun 2025 12:58:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750856180;
-	bh=Dz5Oh6ZQApBF4VZkqH2TbMEO+1URjB0qZPeXpOaSAyM=;
+	s=k20201202; t=1750856318;
+	bh=/6MNs104AgtGDaHLg8LouTRM0HNdmAkvMqIT1gJdYpg=;
 	h=From:To:Cc:Subject:Date:From;
-	b=qWE2qnaB6AEFnYieEk5vJ+/s0gLddEoVYyPp9W6NmjrIKr/i1PiqNv/EhEdoyy/kq
-	 8GHpQsDUspx3bxFYvs5Hk3AlqEFmRV6g7FqmBpGHqA1oYVdn66vnxrDWDFD9H8ER+O
-	 HmndyumTt2kdePikwRvQOBbItSTHZzDLvSENDTgy3n5qL0J4X+V3wCfJV8OSx9iB3a
-	 ZT+zlhoIWBfCUOzV7MdCVR+vhAxxVO+ppng7Od5zaIIUlB/IrdXLHAO25qok0mgZBN
-	 UspZvgH1d67IYcnY1RxxXEBHknoQvebrYG3CgG9nKvSx9vBlL3OhO7dH00GpZ5zJeg
-	 zAH+oRAaoFtBw==
+	b=Hn5MkkLQ7YdwotYFW50AFPaDkbXC/h4AXX84vqEktN/Uku61SANGNFj4Wi2qF+SSV
+	 igW8Un7qsng0jWK2l/GTvATboMbUKlAMELY16vTuf87FkDgcR4KUjHup57sqwo6WjE
+	 ZjDio91HmH4pnPXXhyUiEOQ0M3QcxOiLeaOjg2mbnHXfFfXRI2CRdQGYCcBDSMMm7B
+	 GtEdWCf6veHSAygxmUzRc4bYRXP2b01+NTlfUiFCrpxdvOSJ7PelbZXV8xOGH8p6vy
+	 QVYZ6PFCrHYzeD8uxLgjBrTZoPiszB0So6zdSRpdg/lBs57ZzF2yeqRcgzMgTSRQOb
+	 iGo/RsyQS0IIA==
 From: Masahiro Yamada <masahiroy@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: linux-kbuild@vger.kernel.org,
+To: linux-kbuild@vger.kernel.org
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Ben Hutchings <ben@decadent.org.uk>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-efi@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: fix unnecessary rebuilding when CONFIG_DEBUG_EFI=y
-Date: Wed, 25 Jun 2025 21:55:20 +0900
-Message-ID: <20250625125555.2504734-1-masahiroy@kernel.org>
+Subject: [PATCH] Documentation: kbuild: note CONFIG_DEBUG_EFI in reproducible builds
+Date: Wed, 25 Jun 2025 21:57:40 +0900
+Message-ID: <20250625125809.2504963-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -61,98 +62,31 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When CONFIG_DEBUG_EFI is enabled, some objects are needlessly rebuilt.
+CONFIG_EFI_DEBUG embeds absolute file paths into object files, which
+makes the resulting vmlinux specific to the build environment.
 
-[Steps to reproduce]
+Add a note about this in reproducible-builds.rst
 
-  Enable CONFIG_DEBUG_EFI and run 'make' twice in a clean source tree.
-  On the second run, arch/arm64/kernel/head.o is rebuilt even though
-  no files have changed.
-
-  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- clean
-  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
-     [ snip ]
-  $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
-    CALL    scripts/checksyscalls.sh
-    AS      arch/arm64/kernel/head.o
-    AR      arch/arm64/kernel/built-in.a
-    AR      arch/arm64/built-in.a
-    AR      built-in.a
-     [ snip ]
-
-The issue is caused by the use of the $(realpath ...) function.
-
-At the time arch/arm64/kernel/Makefile is parsed on the first run,
-$(objtree)/vmlinux does not exist. As a result,
-$(realpath $(objtree)/vmlinux) expands to an empty string.
-
-On the second run of Make, $(objtree)/vmlinux already exists, so
-$(realpath $(objtree)/vmlinux) expands to the absolute path of vmlinux.
-However, this change in the command line causes arch/arm64/kernel/head.o
-to be rebuilt.
-
-To address this issue, use $(abspath ...) instead, which does not require
-the file to exist. While $(abspath ...) does not resolve symlinks, this
-should be fine from a debugging perspective.
-
-The GNU Make manual [1] clearly explains the difference between the two:
-
-  $(realpath names...)
-    For each file name in names return the canonical absolute name.
-    A canonical name does not contain any . or .. components, nor any
-    repeated path separators (/) or symlinks. In case of a failure the
-    empty string is returned. Consult the realpath(3) documentation for
-    a list of possible failure causes.
-
-  $(abspath namees...)
-    For each file name in names return an absolute name that does not
-    contain any . or .. components, nor any repeated path separators (/).
-    Note that, in contrast to realpath function, abspath does not resolve
-    symlinks and does not require the file names to refer to an existing
-    file or directory. Use the wildcard function to test for existence.
-
-The same problem exists in drivers/firmware/efi/libstub/Makefile.zboot.
-On the first run of Make, $(obj)/vmlinuz.efi.elf does not exist when the
-Makefile is parsed, so -DZBOOT_EFI_PATH is set to an empty string.
-Replace $(realpath ...) with $(abspath ...) there as well.
-
-[1]: https://www.gnu.org/software/make/manual/make.html#File-Name-Functions
-
-Fixes: 757b435aaabe ("efi: arm64: Add vmlinux debug link to the Image binary")
-Fixes: a050910972bb ("efi/libstub: implement generic EFI zboot")
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- arch/arm64/kernel/Makefile                  | 2 +-
- drivers/firmware/efi/libstub/Makefile.zboot | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/kbuild/reproducible-builds.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
-index 2920b0a51403..a2604c33f35c 100644
---- a/arch/arm64/kernel/Makefile
-+++ b/arch/arm64/kernel/Makefile
-@@ -81,7 +81,7 @@ obj-y					+= head.o
- always-$(KBUILD_BUILTIN)		+= vmlinux.lds
+diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+index f2dcc39044e6..7a16dbc275ca 100644
+--- a/Documentation/kbuild/reproducible-builds.rst
++++ b/Documentation/kbuild/reproducible-builds.rst
+@@ -61,6 +61,9 @@ supported.
+ The Reproducible Builds web site has more information about these
+ `prefix-map options`_.
  
- ifeq ($(CONFIG_DEBUG_EFI),y)
--AFLAGS_head.o += -DVMLINUX_PATH="\"$(realpath $(objtree)/vmlinux)\""
-+AFLAGS_head.o += -DVMLINUX_PATH="\"$(abspath vmlinux)\""
- endif
++Some CONFIG options such as `CONFIG_DEBUG_EFI` embeds absolute paths in
++object files. Such options should be disabled.
++
+ Generated files in source packages
+ ----------------------------------
  
- # for cleaning
-diff --git a/drivers/firmware/efi/libstub/Makefile.zboot b/drivers/firmware/efi/libstub/Makefile.zboot
-index 92e3c73502ba..832deee36e48 100644
---- a/drivers/firmware/efi/libstub/Makefile.zboot
-+++ b/drivers/firmware/efi/libstub/Makefile.zboot
-@@ -36,7 +36,7 @@ aflags-zboot-header-$(EFI_ZBOOT_FORWARD_CFI) := \
- 		-DPE_DLL_CHAR_EX=IMAGE_DLLCHARACTERISTICS_EX_FORWARD_CFI_COMPAT
- 
- AFLAGS_zboot-header.o += -DMACHINE_TYPE=IMAGE_FILE_MACHINE_$(EFI_ZBOOT_MACH_TYPE) \
--			 -DZBOOT_EFI_PATH="\"$(realpath $(obj)/vmlinuz.efi.elf)\"" \
-+			 -DZBOOT_EFI_PATH="\"$(abspath $(obj)/vmlinuz.efi.elf)\"" \
- 			 -DZBOOT_SIZE_LEN=$(zboot-size-len-y) \
- 			 -DCOMP_TYPE="\"$(comp-type-y)\"" \
- 			 $(aflags-zboot-header-y)
 -- 
 2.43.0
 
