@@ -1,106 +1,166 @@
-Return-Path: <linux-kbuild+bounces-7702-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7703-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470B3AE8B53
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 19:13:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3816AE8B43
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 19:11:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D17771C27CD2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 17:09:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 289F94A5833
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 17:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19AC03074AC;
-	Wed, 25 Jun 2025 17:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 687852580C7;
+	Wed, 25 Jun 2025 17:09:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bHq12Igw"
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="QYYsoD6D"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mail-24427.protonmail.ch (mail-24427.protonmail.ch [109.224.244.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3861D63F8;
-	Wed, 25 Jun 2025 17:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8801C8610;
+	Wed, 25 Jun 2025 17:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750871253; cv=none; b=b8Xisqfmct336G9qirH33L/lKHaLgFvOPoC09Pq0AOakYpA+gvneqwg2OeqKvbwKaeGOv/PGl25vRZojIlJDiIxHYWOmr+NdNQ9EIdVXdr9b0xG60yyYQC5tP1+fPoHi7Gr139xwGGrGdBugUwdGdO5LqvbxQT0xd/lPenMNHgQ=
+	t=1750871366; cv=none; b=crb/2DVXvMH2F4VuFSQGrGrsAjgHfEqftUfhWXpeLLNj1O8V8hxeV8NrhKLSBlOMxdWZ0L9zxcln9FYOlmzf9oOpo2yriRnMJqLW9NkliiqwzfPe+28+G6p8X4e5t0ETDp7jysKbk3hW4HqmLGa2lnNEqH27cIszD888QPC3dic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750871253; c=relaxed/simple;
-	bh=Mxqg4kXqnNQg5s9JUM/6GtYVGscoPomDaISw/HKfdbs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fvomcxe4XFs970A3LE6aaP2d5J2le/1MnZ+rWsEdcQBAwOgxwEt786JmomZQ6Jyz7c3nA3wqUPJLq7zwj9QDLEbZyGDuGVR8QTlktolDpzlLd1tOyXCzvgcVwtJiwTETr63nLSOGL+LMN0enisn+ud5MxnMsZk60G2G5hwY+/eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bHq12Igw; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=Fcpks4qnS1BCFQD1OcDIlxe5MsQGaGaghviwmhLptrQ=; b=bHq12Igw2xKD8hmdjH0DyAYFAv
-	V+JnrldyXqgZGfX+irZdncWxda2NLLuw9UtXvrmlZr+p4f2DkTaoKUocBQYj0wEp5za4XEz2uX0RZ
-	k4tXgKa77Ale41osjmFSPRgnyV7P0Z3gTvBL9n2rffzoZX6m100wAIVbbIar4J5KYJwD1zTNP9yMP
-	5MgcVzoh35KGAtIOR4JTPLVyAX1f12gu7oz/GgByJYKSTdkBRHFPKDW8a+58/+hbo9sfIJdejLPzJ
-	mS76GmzvgTtQkRFTlbK4+Iak1TOQzuxRcaIgXCmAfUxnU+IiwO+g6xdoXYjndk0OLWx6oqLV/NtQO
-	deaSy4Bw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uUTao-00000005tmx-0MXP;
-	Wed, 25 Jun 2025 17:07:26 +0000
-Message-ID: <0f006fbf-c930-40aa-b08a-8e1b7275ea43@infradead.org>
-Date: Wed, 25 Jun 2025 10:07:21 -0700
+	s=arc-20240116; t=1750871366; c=relaxed/simple;
+	bh=mOUyii4I9lrSkNP9KAS0/Fo4HRjD6JuuBO3Yq3cQtu8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K/7/Su2iRgARXt2MjmBtRTYpaRh4DIvpYhc0qRp8QHm6/VXavo+ecdWhU0kUN2UAk2graW3M3uP0n12WMrXdNiMpHtp3rWTj96/eptxR8nOX70PnASFbs0Cjo+iOx+cDvc1CWOe7DHap7Z9KXOzih1p8pJCtLNcq9UxVzd70WXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=QYYsoD6D; arc=none smtp.client-ip=109.224.244.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1750871355; x=1751130555;
+	bh=mOUyii4I9lrSkNP9KAS0/Fo4HRjD6JuuBO3Yq3cQtu8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=QYYsoD6DiOvasJLEoZJLo8VlnWESYPZJgj9k3hVfyposf/xMKpJfcb0ay/kZ0cb9c
+	 /IlFc0LNesFMKQIe49DUMpPKI5wy/V09d17stzZd5m9hM8prjjrA4L+Fyw3evbeQP6
+	 +Hh3CrjT9XChSZ3FcEtAinYGvkJSRqViXwhmPYVBDBOILf8UgHdYcXCDTmgkoHsiGm
+	 i9pyB7ouQVvydkUSFOd0/LLDElZCKpePsQUBJpHLVFDK69ghryjV63RlnAuOGCJ9uC
+	 HtEafLuWbbSK0ww1Dr3yuIX7LD0rhhpnlGt0zYsOuXyz2LOsP50ezgic0UzhxOapfQ
+	 Otx7AgUMsc5sw==
+Date: Wed, 25 Jun 2025 17:09:10 +0000
+To: Luca Weiss <luca@lucaweiss.eu>
+From: Yassine Oudjana <y.oudjana@protonmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, Ramona Gradinariu <ramona.gradinariu@analog.com>, "Yo-Jung (Leo) Lin" <0xff07@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, =?utf-8?Q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
+	<barnabas.czeman@mainlining.org>, Danila Tikhonov <danila@jiaxyga.com>, Antoni Pokusinski <apokusinski01@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>, Petar Stoykov <pd.pstoykov@gmail.com>, shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Ingo Molnar <mingo@kernel.org>, Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 3/3] iio: Add Qualcomm Sensor Manager drivers
+Message-ID: <WHAT3OVKsj4znTv7P1Y3TGotHKfpY-MGDDVHuZyL-vp5iU7mU353Nf9expuvrTv5uaQ772ybJuTKEiy0WR3lcM4xRRSummPjrVcrPfq-JkQ=@protonmail.com>
+In-Reply-To: <ea183f5a-b4c8-4dc0-960f-dba0db5a5abb@lucaweiss.eu>
+References: <20250406140706.812425-1-y.oudjana@protonmail.com> <20250406140706.812425-4-y.oudjana@protonmail.com> <ea183f5a-b4c8-4dc0-960f-dba0db5a5abb@lucaweiss.eu>
+Feedback-ID: 6882736:user:proton
+X-Pm-Message-ID: 5603c40deb6696a70588c6d5989d7521b94b5071
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: kbuild: note CONFIG_DEBUG_EFI in
- reproducible builds
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>, Ben Hutchings <ben@decadent.org.uk>,
- Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250625125809.2504963-1-masahiroy@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250625125809.2504963-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
 
-On 6/25/25 5:57 AM, Masahiro Yamada wrote:
-> CONFIG_EFI_DEBUG embeds absolute file paths into object files, which
-> makes the resulting vmlinux specific to the build environment.
-> 
-> Add a note about this in reproducible-builds.rst
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  Documentation/kbuild/reproducible-builds.rst | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> index f2dcc39044e6..7a16dbc275ca 100644
-> --- a/Documentation/kbuild/reproducible-builds.rst
-> +++ b/Documentation/kbuild/reproducible-builds.rst
-> @@ -61,6 +61,9 @@ supported.
->  The Reproducible Builds web site has more information about these
->  `prefix-map options`_.
->  
-> +Some CONFIG options such as `CONFIG_DEBUG_EFI` embeds absolute paths in
 
-               options                            embed
 
-> +object files. Such options should be disabled.
-> +
->  Generated files in source packages
->  ----------------------------------
->  
 
--- 
-~Randy
+On Wednesday, June 18th, 2025 at 8:19 PM, Luca Weiss <luca@lucaweiss.eu> wr=
+ote:
+
+> Hi Yassine!
+>=20
+> On 06-04-2025 4:08 p.m., Yassine Oudjana wrote:
+>=20
+> > Add drivers for sensors exposed by the Qualcomm Sensor Manager service,
+> > which is provided by SLPI or ADSP on Qualcomm SoCs. Supported sensors
+> > include accelerometers, gyroscopes, pressure sensors, proximity sensors
+> > and magnetometers.
+> >=20
+> > Signed-off-by: Yassine Oudjana y.oudjana@protonmail.com
+>=20
+>=20
+> <snip>
+>=20
+> > +static const char *const qcom_smgr_sensor_type_platform_names[] =3D {
+> > + [SNS_SMGR_SENSOR_TYPE_ACCEL] =3D "qcom-smgr-accel",
+> > + [SNS_SMGR_SENSOR_TYPE_GYRO] =3D "qcom-smgr-gyro",
+> > + [SNS_SMGR_SENSOR_TYPE_MAG] =3D "qcom-smgr-mag",
+> > + [SNS_SMGR_SENSOR_TYPE_PROX_LIGHT] =3D "qcom-smgr-prox-light",
+> > + [SNS_SMGR_SENSOR_TYPE_PRESSURE] =3D "qcom-smgr-pressure",
+> > + [SNS_SMGR_SENSOR_TYPE_HALL_EFFECT] =3D "qcom-smgr-hall-effect"
+> > +};
+> > +
+> > +static void qcom_smgr_unregister_sensor(void *data)
+> > +{
+> > + struct platform_device *pdev =3D data;
+> > +
+> > + platform_device_unregister(pdev);
+> > +}
+> > +
+> > +static int qcom_smgr_register_sensor(struct qcom_smgr *smgr,
+> > + struct qcom_smgr_sensor *sensor)
+> > +{
+> > + struct platform_device *pdev;
+> > + const char *name =3D qcom_smgr_sensor_type_platform_names[sensor->typ=
+e];
+>=20
+>=20
+> On msm8226 lg-lenok I get NULL here leading to a crash with the next call=
+.
+>=20
+> I get sensor->type=3D0 for some heart rate sensor on that watch. I've
+>=20
+> added this patch on top to fix that (excuse the formatting):
+
+I don't see your patch, but I already have a fix and will include it in the=
+ next
+iteration.
+
+>=20
+> <snip>
+>=20
+> > diff --git a/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h b/drivers/iio/=
+common/qcom_smgr/qmi/sns_smgr.h
+> > new file mode 100644
+> > index 000000000000..a741dfd87452
+> > --- /dev/null
+> > +++ b/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h
+> > @@ -0,0 +1,163 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only /
+> > +
+> > +#ifndef SSC_SNS_SMGR_H
+> > +#define SSC_SNS_SMGR_H
+> > +
+> > +#include <linux/iio/common/qcom_smgr.h>
+> > +#include <linux/soc/qcom/qmi.h>
+> > +#include <linux/types.h>
+> > +
+> > +/
+> > + * The structures of QMI messages used by the service were determined
+> > + * purely by watching transactions between proprietary Android userspa=
+ce
+> > + * components and SSC. along with comparing values reported by Android=
+ APIs
+> > + * to values received in response messages. Due to that, the purpose o=
+r
+> > + * meaning of many fields remains unknown. Such fields are named "val*=
+",
+> > + * "data*" or similar. Furthermore, the true maximum sizes of some mes=
+sages
+> > + * with unknown array fields may be different than defined here.
+> > + */
+> > +
+> > +#define SNS_SMGR_QMI_SVC_ID 0x0100
+> > +#define SNS_SMGR_QMI_SVC_V1 1
+> > +#define SNS_SMGR_QMI_INS_ID 50
+>=20
+> This instance ID needs to be 0 on msm8974 and msm8226, so I assume we
+> don't want to make this a define but just add the 50 and the 0 as-is to
+> the match table?
+
+Yes that is a better idea.
 
 
