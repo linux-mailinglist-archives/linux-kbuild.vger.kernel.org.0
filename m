@@ -1,166 +1,141 @@
-Return-Path: <linux-kbuild+bounces-7703-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7704-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3816AE8B43
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 19:11:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35145AE8E0A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 21:10:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 289F94A5833
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 17:09:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79B53164B89
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 19:10:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 687852580C7;
-	Wed, 25 Jun 2025 17:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C002D8DA9;
+	Wed, 25 Jun 2025 19:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="QYYsoD6D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UpRcc1nv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-24427.protonmail.ch (mail-24427.protonmail.ch [109.224.244.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8801C8610;
-	Wed, 25 Jun 2025 17:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B732E0B56
+	for <linux-kbuild@vger.kernel.org>; Wed, 25 Jun 2025 19:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750871366; cv=none; b=crb/2DVXvMH2F4VuFSQGrGrsAjgHfEqftUfhWXpeLLNj1O8V8hxeV8NrhKLSBlOMxdWZ0L9zxcln9FYOlmzf9oOpo2yriRnMJqLW9NkliiqwzfPe+28+G6p8X4e5t0ETDp7jysKbk3hW4HqmLGa2lnNEqH27cIszD888QPC3dic=
+	t=1750878427; cv=none; b=KdXGdySNaT4eBWNN4xkjppcmTViXfmu4WbUbwDWG05AcfiiWSJw/NkWbRuzamDwxW5VIMj0ek3EOl5yfH7ojadnoTH7VL8iputoJsGnjgWwrXjmLoTXvXdRiWtczL7N5Vcg3Yqbt5wYo2cJgmib0v4KxkRss+ieaa79qxCS2E2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750871366; c=relaxed/simple;
-	bh=mOUyii4I9lrSkNP9KAS0/Fo4HRjD6JuuBO3Yq3cQtu8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K/7/Su2iRgARXt2MjmBtRTYpaRh4DIvpYhc0qRp8QHm6/VXavo+ecdWhU0kUN2UAk2graW3M3uP0n12WMrXdNiMpHtp3rWTj96/eptxR8nOX70PnASFbs0Cjo+iOx+cDvc1CWOe7DHap7Z9KXOzih1p8pJCtLNcq9UxVzd70WXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=QYYsoD6D; arc=none smtp.client-ip=109.224.244.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1750871355; x=1751130555;
-	bh=mOUyii4I9lrSkNP9KAS0/Fo4HRjD6JuuBO3Yq3cQtu8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=QYYsoD6DiOvasJLEoZJLo8VlnWESYPZJgj9k3hVfyposf/xMKpJfcb0ay/kZ0cb9c
-	 /IlFc0LNesFMKQIe49DUMpPKI5wy/V09d17stzZd5m9hM8prjjrA4L+Fyw3evbeQP6
-	 +Hh3CrjT9XChSZ3FcEtAinYGvkJSRqViXwhmPYVBDBOILf8UgHdYcXCDTmgkoHsiGm
-	 i9pyB7ouQVvydkUSFOd0/LLDElZCKpePsQUBJpHLVFDK69ghryjV63RlnAuOGCJ9uC
-	 HtEafLuWbbSK0ww1Dr3yuIX7LD0rhhpnlGt0zYsOuXyz2LOsP50ezgic0UzhxOapfQ
-	 Otx7AgUMsc5sw==
-Date: Wed, 25 Jun 2025 17:09:10 +0000
-To: Luca Weiss <luca@lucaweiss.eu>
-From: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, Ramona Gradinariu <ramona.gradinariu@analog.com>, "Yo-Jung (Leo) Lin" <0xff07@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, =?utf-8?Q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
-	<barnabas.czeman@mainlining.org>, Danila Tikhonov <danila@jiaxyga.com>, Antoni Pokusinski <apokusinski01@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>, Petar Stoykov <pd.pstoykov@gmail.com>, shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Ingo Molnar <mingo@kernel.org>, Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 3/3] iio: Add Qualcomm Sensor Manager drivers
-Message-ID: <WHAT3OVKsj4znTv7P1Y3TGotHKfpY-MGDDVHuZyL-vp5iU7mU353Nf9expuvrTv5uaQ772ybJuTKEiy0WR3lcM4xRRSummPjrVcrPfq-JkQ=@protonmail.com>
-In-Reply-To: <ea183f5a-b4c8-4dc0-960f-dba0db5a5abb@lucaweiss.eu>
-References: <20250406140706.812425-1-y.oudjana@protonmail.com> <20250406140706.812425-4-y.oudjana@protonmail.com> <ea183f5a-b4c8-4dc0-960f-dba0db5a5abb@lucaweiss.eu>
-Feedback-ID: 6882736:user:proton
-X-Pm-Message-ID: 5603c40deb6696a70588c6d5989d7521b94b5071
+	s=arc-20240116; t=1750878427; c=relaxed/simple;
+	bh=V4KsQqm4Paylzc18K0gUxzeW7gSvPKSRVxIFGGs/J/4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AaQ5J011jYjI9uU6t78+Ca4bqBGjzYb/mcyf/DtvQZJ42See+IYxtJ7zB+O0lHU3t2ywgBZxhRzQXOAif2piKlk1hzXXW+XgqygoU2hP06mw4/F+gzJflavFvyCH84s7yntbKbWyB26mGF92AmYMmQTuaiR6ITad9md/fU4F0DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UpRcc1nv; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-234bfe37cccso3755795ad.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Jun 2025 12:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750878425; x=1751483225; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xo3HE1vteRqKIFP2QNNj/X721w2rJV8qf1lUOrQkH5Q=;
+        b=UpRcc1nv6MqiKDyeMj2+9CyVzUYu7lLii6YyHaFfe+nYFrpyDG954T1PoKF+HkRLXO
+         tfR4y06wVR9FS9pgtR3ZrF4vOoxdZbXQTY3TV+mDEyS/DPOsJLoWOyk5zyi4dDE3seQb
+         GzINbAu/HbmZNcVRnZR7CyaT+QIxkvlx5fBBTzApBckUscI0doIPB5Hf93XOYk8OIXEi
+         +CJyP1v03RHEPjC/2QRSZI+3wzzPCMSdd18Lloapwn2tdkNA8UDB+ITxLyC3dfl1G9P5
+         siZNo3CdXAotqPqOXK0oj9KWou73cv/toDFbFQem57gDIOA6RjPjDG1lZqKhugWnGVXX
+         BrNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750878425; x=1751483225;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xo3HE1vteRqKIFP2QNNj/X721w2rJV8qf1lUOrQkH5Q=;
+        b=vykuSq0FYtNxRRH0OvC97rchXnNS2xfjzYNIiQLugy6ggDhWzrlD6n7eyKOnbxna0o
+         94pOWoP3DDqXHRcEjBasrV/h+DG0MN5At/a0eh+qAVE2UvPgCiqfsEimuHfPfvbZ6wIe
+         n4HSWEFvQEnFS7ywhLR0yUP97+fs9KRquEKtRLKmPuXGVFRT00129Vwc+kMFwV6Awbon
+         p7jTVdw8PmVbvhSfj5JBi5F5ZZzc/AN+MCIyDNMGkeRIRZEkIip8NZ2Vfxr4PEgW7cHi
+         iT7vy97DYeOIIf4fy/3Ngo0SRAQrcdmBwYjGwkUNZlJYsyjOo5n6lCPVsoUlknGXUNEe
+         uI5w==
+X-Gm-Message-State: AOJu0YwRt/RzVYE1HXm3yV7zZzDzhZUy/W2Y8YUJt4H0YGfgWa1Z5OPh
+	5bZ0PxNjrBKTRs1T2PqChCFThU3beVMC2M6toyuRvQGiCGWLZDui1bz0Z8gJb2wg
+X-Gm-Gg: ASbGncsjL/br82mcf69JpA41YhUnSEUiSvP061k1vuRG+cgYBir96WY6cfgOmdP0SRv
+	qQ7QTcUpXQjobCoXRRgo+Lt/1RB5WOOLnkacrxlJ4g6BodriIyBiflkLgztdG1hyo21J8oQjizS
+	o8BR6fQOSTefZWcueNkq9+vqpAzxTUhbrCuhrIyU9ZFYdQbz4VYqCf6Gnr6sY8ad/oue/ZdaBmq
+	6aIWp1b7koezxNKA5kp7hbivngMUtVyrGOWRQotikC+I5nR3NuQ9SFg2AaSXNCkY4OXMc8Rjxxk
+	Emp3WDujKnH2UhHy5Q1XjQtYeTRhqrwGS6NLfaKutAPcAw4IfvIGD0uqFzYxbglXKEsTI1rIMbQ
+	Qzu8=
+X-Google-Smtp-Source: AGHT+IHyhBSWg2KIahSEL9KtAfUipapDrwG9wvafOMJmpU1YT6XgWqO2ENcpb38kV2oSR/DnjpqsFw==
+X-Received: by 2002:a17:902:c403:b0:235:2403:779f with SMTP id d9443c01a7336-2382424be14mr76918935ad.29.1750878424828;
+        Wed, 25 Jun 2025 12:07:04 -0700 (PDT)
+Received: from shankari-IdeaPad.. ([49.128.169.113])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d866b000sm139058615ad.162.2025.06.25.12.07.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jun 2025 12:07:04 -0700 (PDT)
+From: Shankari Anand <shankari.ak0208@gmail.com>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Shankari Anand <shankari.ak0208@gmail.com>
+Subject: [PATCH v3] kconfig/nconf: Ensure null termination where strncpy is used
+Date: Thu, 26 Jun 2025 00:36:54 +0530
+Message-Id: <20250625190654.313652-1-shankari.ak0208@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+strncpy() does not guarantee null-termination
+if the source string is longer than the destination buffer.
+Ensure the buffer is explicitly null-terminated to prevent
+potential string overflows or undefined behavior.
 
+Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
+---
+v2 -> v3: Remove the replacement to snprint and instead terminate the buffer explicitly.
+---
+ scripts/kconfig/nconf.c     | 2 ++
+ scripts/kconfig/nconf.gui.c | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+index c0b2dabf6c89..cfa4d395dcd4 100644
+--- a/scripts/kconfig/nconf.c
++++ b/scripts/kconfig/nconf.c
+@@ -592,6 +592,8 @@ static void item_add_str(const char *fmt, ...)
+ 	strncpy(k_menu_items[index].str,
+ 		tmp_str,
+ 		sizeof(k_menu_items[index].str));
++
++	k_menu_items[index].str[sizeof(k_menu_items[index].str) - 1] = '\0';
+ 
+ 	free_item(curses_menu_items[index]);
+ 	curses_menu_items[index] = new_item(
+diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
+index 4bfdf8ac2a9a..475a403ab8ba 100644
+--- a/scripts/kconfig/nconf.gui.c
++++ b/scripts/kconfig/nconf.gui.c
+@@ -177,7 +177,7 @@ void fill_window(WINDOW *win, const char *text)
+ 		const char *line = get_line(text, i);
+ 		int len = get_line_length(line);
+ 		strncpy(tmp, line, min(len, x));
+-		tmp[len] = '\0';
++		tmp[sizeof(tmp) - 1] = '\0';
+ 		mvwprintw(win, i, 0, "%s", tmp);
+ 	}
+ }
+@@ -359,6 +359,7 @@ int dialog_inputbox(WINDOW *main_window,
+ 	x = (columns-win_cols)/2;
+ 
+ 	strncpy(result, init, *result_len);
++	result[*result_len - 1] = '\0';
+ 
+ 	/* create the windows */
+ 	win = newwin(win_lines, win_cols, y, x);
 
-
-On Wednesday, June 18th, 2025 at 8:19 PM, Luca Weiss <luca@lucaweiss.eu> wr=
-ote:
-
-> Hi Yassine!
->=20
-> On 06-04-2025 4:08 p.m., Yassine Oudjana wrote:
->=20
-> > Add drivers for sensors exposed by the Qualcomm Sensor Manager service,
-> > which is provided by SLPI or ADSP on Qualcomm SoCs. Supported sensors
-> > include accelerometers, gyroscopes, pressure sensors, proximity sensors
-> > and magnetometers.
-> >=20
-> > Signed-off-by: Yassine Oudjana y.oudjana@protonmail.com
->=20
->=20
-> <snip>
->=20
-> > +static const char *const qcom_smgr_sensor_type_platform_names[] =3D {
-> > + [SNS_SMGR_SENSOR_TYPE_ACCEL] =3D "qcom-smgr-accel",
-> > + [SNS_SMGR_SENSOR_TYPE_GYRO] =3D "qcom-smgr-gyro",
-> > + [SNS_SMGR_SENSOR_TYPE_MAG] =3D "qcom-smgr-mag",
-> > + [SNS_SMGR_SENSOR_TYPE_PROX_LIGHT] =3D "qcom-smgr-prox-light",
-> > + [SNS_SMGR_SENSOR_TYPE_PRESSURE] =3D "qcom-smgr-pressure",
-> > + [SNS_SMGR_SENSOR_TYPE_HALL_EFFECT] =3D "qcom-smgr-hall-effect"
-> > +};
-> > +
-> > +static void qcom_smgr_unregister_sensor(void *data)
-> > +{
-> > + struct platform_device *pdev =3D data;
-> > +
-> > + platform_device_unregister(pdev);
-> > +}
-> > +
-> > +static int qcom_smgr_register_sensor(struct qcom_smgr *smgr,
-> > + struct qcom_smgr_sensor *sensor)
-> > +{
-> > + struct platform_device *pdev;
-> > + const char *name =3D qcom_smgr_sensor_type_platform_names[sensor->typ=
-e];
->=20
->=20
-> On msm8226 lg-lenok I get NULL here leading to a crash with the next call=
-.
->=20
-> I get sensor->type=3D0 for some heart rate sensor on that watch. I've
->=20
-> added this patch on top to fix that (excuse the formatting):
-
-I don't see your patch, but I already have a fix and will include it in the=
- next
-iteration.
-
->=20
-> <snip>
->=20
-> > diff --git a/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h b/drivers/iio/=
-common/qcom_smgr/qmi/sns_smgr.h
-> > new file mode 100644
-> > index 000000000000..a741dfd87452
-> > --- /dev/null
-> > +++ b/drivers/iio/common/qcom_smgr/qmi/sns_smgr.h
-> > @@ -0,0 +1,163 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only /
-> > +
-> > +#ifndef SSC_SNS_SMGR_H
-> > +#define SSC_SNS_SMGR_H
-> > +
-> > +#include <linux/iio/common/qcom_smgr.h>
-> > +#include <linux/soc/qcom/qmi.h>
-> > +#include <linux/types.h>
-> > +
-> > +/
-> > + * The structures of QMI messages used by the service were determined
-> > + * purely by watching transactions between proprietary Android userspa=
-ce
-> > + * components and SSC. along with comparing values reported by Android=
- APIs
-> > + * to values received in response messages. Due to that, the purpose o=
-r
-> > + * meaning of many fields remains unknown. Such fields are named "val*=
-",
-> > + * "data*" or similar. Furthermore, the true maximum sizes of some mes=
-sages
-> > + * with unknown array fields may be different than defined here.
-> > + */
-> > +
-> > +#define SNS_SMGR_QMI_SVC_ID 0x0100
-> > +#define SNS_SMGR_QMI_SVC_V1 1
-> > +#define SNS_SMGR_QMI_INS_ID 50
->=20
-> This instance ID needs to be 0 on msm8974 and msm8226, so I assume we
-> don't want to make this a define but just add the 50 and the 0 as-is to
-> the match table?
-
-Yes that is a better idea.
+base-commit: c4dce0c094a89b1bc8fde1163342bd6fe29c0370
+-- 
+2.34.1
 
 
