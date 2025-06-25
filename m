@@ -1,187 +1,200 @@
-Return-Path: <linux-kbuild+bounces-7696-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7697-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F31AE6F55
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 21:15:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E27BEAE7410
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 03:09:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 374FA17FCCC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Jun 2025 19:15:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C3EBF5A4F05
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Jun 2025 01:09:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D59C926CE11;
-	Tue, 24 Jun 2025 19:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5902D13EFF3;
+	Wed, 25 Jun 2025 01:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l0dpacoD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="si3Mv9bY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF3E170826
-	for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 19:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2472AD58;
+	Wed, 25 Jun 2025 01:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750792499; cv=none; b=AErVaDJNyGUYyqUt0RTwQzZk1sdIAsCn81uWV0FBD/6yr1HNCQ+w02N6JBOrHN/M5MrDtWYwxthKwUzfVABvYCTNxWKQHDQ+4hBDNLY2GzU4DOKsxAQjSHwoajPK+zowDFgzNbqSjXtVVES5JqFiIoxlwzqzc7bqKNCFMqdNqH8=
+	t=1750813757; cv=none; b=YfbjfnCbhUHL5kQrj8xgS5x0DIyWhhVbGI2r48aDF1QWXvRfaBJLE0qhdJIHzpY1Ica2isWjyiCNOUxbTdtAAdFoXfyg8LqaCiQdSc/pwwiJQ2W/L19BiKYTUQYfqH3hOo0TL2nci6Wwv+KMH2xdNSelMezmrMaAo7jMYJNd1Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750792499; c=relaxed/simple;
-	bh=F+ufHKUfSEAi3JOXRzYHAZK4lUckD9bhj1Ag7cvRBmA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SDNC4waX4Y2q6xbvR2eTAkRuzuvEY6ih5GYCLKXjLMjdPxZQkt1l5g6BbffLfMqaqEiggVOR/eHbkqarVv25ZPfY+Bv5gh4vdiqoBuuD4V3hpByWle7osZuLs8pue244+GSp4HyPBg0uhv/Q0gjK7yd/y782AAMcsvq06nd2XW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l0dpacoD; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-60702d77c60so1576624a12.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Jun 2025 12:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750792496; x=1751397296; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=c7dgBsRhmaQNAp7P7kNjFJVFZs1CDUPcQ7bvbESMeaY=;
-        b=l0dpacoDerOuRxHNce3RqreVjCXDBlXIFQviQv/fEmJECIpTpTiyis6NMZdmYohHq9
-         7Q5b28RZFNB5YQeUki7/d07iIsuRKc3I00IvYSjJ4Be6lfF/0QY6mn3LgtyEenQyomZq
-         VdoC2baSKSaw2vxMsfkjXl3jwff5Y1HI7NTaTYmz79IhwjKROmNGgEZHgGVAXXrZ1Bro
-         CfwpD2Y9DjOHXXV+1RDlfqoNJ4zh1QrRSc+UsOT85YEQVXGyQp//mZc5baZ5zYjkNSPb
-         bKadJG20q+n6Yk7SEpa+FYwhdIe1E59B1OtOMHkau9W8X5fwSHLz5RA5F35vJMaHAnXm
-         y5ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750792496; x=1751397296;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c7dgBsRhmaQNAp7P7kNjFJVFZs1CDUPcQ7bvbESMeaY=;
-        b=bZSCo3ZwfluV/PyQdG5TcPVMBzDzu+evNv/FV0ezEbZY2AH4VTx9SglNaDYBsF4ogJ
-         MPdC8KrLpaU63ETOwM1IkNaRqrzx3gPnKeV7nq4++Pq0usQzcpMkhfI3miJJe8GkjC5Q
-         W9dxPdtAwT+DSH22JDCBQBHwos0whxoDdyu4IsQwLG+yTZ4RkglVsWZIb3BCqHggyqtk
-         IT4exAehKJLPpv7bg4Uja7suGlaVvnOAywAOxMoQ4tKOtFlmcSf3QXecHxT29ewsFqhs
-         YS/Ug7AjIMZC9NrrFv0DoP1tnp2IFs9BOfkctmZsakln/yUk4Nx1hpHnVYM1uIhHXBpT
-         TrYw==
-X-Gm-Message-State: AOJu0YzQgVtA0ArsOoDf9K37OdK3/Li0D8hOv1yAL/pOz5+TAq+P6eZi
-	8ZRF99OW1TzjGIwa8mx5RV3m+K6pp+hNRFIQQvywhThq2i+XsWRknDyz
-X-Gm-Gg: ASbGncs1tZZG6D1wi+qVFwx7Hj971ur6bqBubsgsIyKsXT0zHFHC2UZJpoKx02ksL6R
-	hZlZNjcFo5fql6Ov/CFFRJ38GlM26plpyVK5mwutlCKuWy3qrnFHNbd53Rl/tZ0YRENAHZxhF33
-	ghNxw8XYVZwJ9M83qEeXEm9z28Sywv6E037prLEhCvOQTkHC2pRUTziohMoI4KfEj7C/wabr5iL
-	gFNlpjbWIRLfNvbCS6Tz5rJ8NRQdh9l7Qb+nTF9HizIfeao8V1g+bdVCyiMseD5pBXs0CDUGz4H
-	+ZoVOfMzW5SNJxmpwMy+Whc0xr+btHFpldSl+v4x/A+Jf627uUMSi+GHUfo2Jweu
-X-Google-Smtp-Source: AGHT+IEmQKtXc3SpP964xUsxm9sPNcw2f0yqf5NqmvNAcv7qzpkFCmOwfFHqAncKpZpgxX+e5uZvJg==
-X-Received: by 2002:a17:907:aa5:b0:ae0:660f:2b15 with SMTP id a640c23a62f3a-ae0bf226eb7mr23361266b.60.1750792496061;
-        Tue, 24 Jun 2025 12:14:56 -0700 (PDT)
-Received: from [192.168.0.3] ([91.80.31.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae053ecbe72sm909251066b.43.2025.06.24.12.14.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jun 2025 12:14:55 -0700 (PDT)
-Message-ID: <51e72181-6293-4db6-8e57-cbbf6e9133f3@gmail.com>
-Date: Tue, 24 Jun 2025 21:14:54 +0200
+	s=arc-20240116; t=1750813757; c=relaxed/simple;
+	bh=ar+M7uOS6NGMBXnGsSfhmdY2/NIrFzzFwB2vQ2UdzzU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Lqkw544z7nEnHYzbIOoMDtLajewAAV6RVrA7tDGQIOxWtcHK+kuLIn2j5w49sDUwlY2fCCaAkXRrufDWM5+1fUlgrmkCoJAkav6C/qgM142QAEVwLSQ9P9He8RAMJBXXqkUtLot5U/m+ZfFjCq/TFqEb325RvAZrTecsNXhdw7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=si3Mv9bY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F5E3C4CEE3;
+	Wed, 25 Jun 2025 01:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750813756;
+	bh=ar+M7uOS6NGMBXnGsSfhmdY2/NIrFzzFwB2vQ2UdzzU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=si3Mv9bYY/8kBwTkVAcQqZoJK6oPCfQbERzoeHQNnnjouaaju9cDPj5M/XH+LGCGf
+	 sutZ2TLPTDRMtEiUcTLAfcucjlB1tBOK027s1ZYe+qpQm8YtBXVVCggwf2H8yIixe+
+	 IDVtaRLnE7OYk8omFmO1wVvMArdpG+qU6ghcCXqwDH3eSeR/zt8PJr47crwpodU4K/
+	 +SdYth5GpIqN7Rkz05vHh/vtCMrcnD2wmTD+63kR8qXgeUEYggdfeNmyLdKPgxxZY0
+	 Z7hF7LuReE6Xw0PlrdhJ4M022p1QhH6fci9WuRh8Uql2D6xK1hPUmyC7uoJ+Q8UvXd
+	 gbu4rtou3gcJw==
+Date: Tue, 24 Jun 2025 18:09:18 -0700
+From: Kees Cook <kees@kernel.org>
+To: Huacai Chen <chenhuacai@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>, WANG Xuerui <kernel@xen0n.name>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Tianyang Zhang <zhangtianyang@loongson.cn>, Bibo Mao <maobibo@loongson.cn>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, loongarch@lists.linux.dev,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Marco Elver <elver@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ linux-kernel@vger.kernel.org, x86@kernel.org, kasan-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ sparclinux@vger.kernel.org, llvm@lists.linux.dev
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_10/14=5D_loongarch=3A_Han?=
+ =?US-ASCII?Q?dle_KCOV_=5F=5Finit_vs_inline_mismatches?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAAhV-H5oHPG+etNawAmVwyDtg80iKUrAM_m3Vj57bBO0scHqvQ@mail.gmail.com>
+References: <20250523043251.it.550-kees@kernel.org> <20250523043935.2009972-10-kees@kernel.org> <CAAhV-H4WxAwXTYVFOnphgHN80-_6jt77YZ_rw-sOBoBjjiN-yQ@mail.gmail.com> <CAAhV-H5oHPG+etNawAmVwyDtg80iKUrAM_m3Vj57bBO0scHqvQ@mail.gmail.com>
+Message-ID: <B5A11282-CB0E-46E0-A5D7-EF4D8BFC23B4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Kconfig: Added compare capabilities for mconf Ver. 2
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Franco Martelli <martellif67@gmail.com>
-References: <20250604183539.425053-1-martellif67@gmail.com>
- <CAK7LNAROMO2686KPbt+ZquymcZC-RLr0aX5x477uF1DaesUkCQ@mail.gmail.com>
- <9aaea19f-cd15-44fe-8d61-984f7ff316b7@gmail.com>
- <64d93af1-b602-4dba-ad4b-a2b9a493c800@gmail.com>
- <CAK7LNAQTuk9S5+oUARefryz3cz2HF3q6_bvW8PmJi1dhWa26DA@mail.gmail.com>
-Content-Language: en-US
-From: Franco Martelli <martellif67@gmail.com>
-Autocrypt: addr=martellif67@gmail.com; keydata=
- xjMEXwx9ehYJKwYBBAHaRw8BAQdA8CkGKYFI/MK9U3RPhzE5H/ul7B6bHu/4BIhTf6LLO47N
- J0ZyYW5jbyBNYXJ0ZWxsaSA8bWFydGVsbGlmNjdAZ21haWwuY29tPsKWBBMWCAA+FiEET9sW
- 9yyU4uM6QbloXEn0O0LcklAFAl8MfXoCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
- F4AACgkQXEn0O0LcklBgAwEAhdX5TbxGOmMhlJUi9AkDACN2ZemI8Tz2jSZPDlOQoE0A/3Tq
- SPaEkb6kvK4xw626+AUDrfIzwzBscgpkDo4zCW0DzjgEXwx9ehIKKwYBBAGXVQEFAQEHQNP5
- V2q0H0oiJu89h1SSPgQDtkixXvUvRf1rNLLIcNpPAwEIB8J+BBgWCAAmFiEET9sW9yyU4uM6
- QbloXEn0O0LcklAFAl8MfXoCGwwFCQlmAYAACgkQXEn0O0LcklCMtgEAuCcSolf8LBIB4WTI
- 4YGKiN7qBXfW0QTbPO+bPXQLxfEBAJuoVm3BlyMHoNG6UEZ2TcqfV8k6oRqwr/c0IXwJqEkK
-In-Reply-To: <CAK7LNAQTuk9S5+oUARefryz3cz2HF3q6_bvW8PmJi1dhWa26DA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 24/06/25 at 12:33, Masahiro Yamada wrote:
-> On Thu, Jun 19, 2025 at 3:55 AM Franco Martelli <martellif67@gmail.com> wrote:
+
+
+On June 24, 2025 5:31:12 AM PDT, Huacai Chen <chenhuacai@kernel=2Eorg> wro=
+te:
+>Hi, Kees,
+>
+>On Thu, Jun 19, 2025 at 4:55=E2=80=AFPM Huacai Chen <chenhuacai@kernel=2E=
+org> wrote:
 >>
->> On 16/06/25 at 15:44, Franco Martelli wrote:
->>> On 16/06/25 at 15:04, Masahiro Yamada wrote:
->>>> On Thu, Jun 5, 2025 at 3:36 AM Franco Martelli <martellif67@gmail.com>
->>>> wrote:
->>>>>
->>>>> Signed-off-by: Franco Martelli <martellif67@gmail.com>
->>>>> ---
->>>>>
->>>>> Dear Linux hacker,
->>>>>
->>>>> I've written a patch that allows to compare the tristate value of two
->>>>> .config files inline, symbol by symbol, in mconf (make menuconfig) only.
->>>>
->>>>
->>>> I do not understand why this needs to be implemented in
->>>> menuconfig.
->>>> scripts/diffconfig is already available.
+>> Hi, Kees,
 >>
->>> When a new stable release of a distribution is available, in the Linux
->>> kernel many things has changed, this patch comes in help in this
->>> situations, it allows to easily compare the customized .config file
->>> built for the previous version of the distribution, with the one
->>> provided by the new software distribution, used as reference.
->>> Generally it can be helpful when the differences between .config files
->>> are huge, because you can navigate across them in the menu window.
+>> On Fri, May 23, 2025 at 12:39=E2=80=AFPM Kees Cook <kees@kernel=2Eorg> =
+wrote:
+>> >
+>> > When KCOV is enabled all functions get instrumented, unless
+>> > the __no_sanitize_coverage attribute is used=2E To prepare for
+>> > __no_sanitize_coverage being applied to __init functions, we have to
+>> > handle differences in how GCC's inline optimizations get resolved=2E =
+For
+>> > loongarch this exposed several places where __init annotations were
+>> > missing but ended up being "accidentally correct"=2E Fix these cases =
+and
+>> > force one function to be inline with __always_inline=2E
+>> >
+>> > Signed-off-by: Kees Cook <kees@kernel=2Eorg>
+>> > ---
+>> > Cc: Huacai Chen <chenhuacai@kernel=2Eorg>
+>> > Cc: WANG Xuerui <kernel@xen0n=2Ename>
+>> > Cc: Thomas Gleixner <tglx@linutronix=2Ede>
+>> > Cc: Tianyang Zhang <zhangtianyang@loongson=2Ecn>
+>> > Cc: Bibo Mao <maobibo@loongson=2Ecn>
+>> > Cc: Jiaxun Yang <jiaxun=2Eyang@flygoat=2Ecom>
+>> > Cc: <loongarch@lists=2Elinux=2Edev>
+>> > ---
+>> >  arch/loongarch/include/asm/smp=2Eh | 2 +-
+>> >  arch/loongarch/kernel/time=2Ec     | 2 +-
+>> >  arch/loongarch/mm/ioremap=2Ec      | 4 ++--
+>> >  3 files changed, 4 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/arch/loongarch/include/asm/smp=2Eh b/arch/loongarch/incl=
+ude/asm/smp=2Eh
+>> > index ad0bd234a0f1=2E=2E88e19d8a11f4 100644
+>> > --- a/arch/loongarch/include/asm/smp=2Eh
+>> > +++ b/arch/loongarch/include/asm/smp=2Eh
+>> > @@ -39,7 +39,7 @@ int loongson_cpu_disable(void);
+>> >  void loongson_cpu_die(unsigned int cpu);
+>> >  #endif
+>> >
+>> > -static inline void plat_smp_setup(void)
+>> > +static __always_inline void plat_smp_setup(void)
+>> Similar to x86 and arm, I prefer to mark it as __init rather than
+>> __always_inline=2E
+>If you have no objections, I will apply this patch with the above modific=
+ation=2E
+
+That's fine by me; thank you! I didn't have a chance yet to verify that it=
+ actually fixes the mismatches I saw, but if it looks good to you, yes plea=
+se=2E :)
+
+-Kees
+
+>
+>
+>Huacai
+>
 >>
->>>>
->>>> I think the comparison mode is rather distracting.
->>>>
+>> Huacai
 >>
->> A solution to improve readability of the comparison mode could
->> be to skip symbols without differences, so leaving those menu
->> entries untouched. This will shrink the amounts of characters
->> displayed significantly.
->>
->> I can send a version 3 of the patch changed accordingly, if
->> you don't reply to this email I will assume yes, but if you
->> are definitely against to this patch, please let me to know.
-> 
-> I do not think menuconfig (or nconfig) is the right place,
-> the user appearance does not assume an extra column.
-> 
-> If you really want to implement this, xconfig or gconfig
-> is better, as they have a 'value' column. It is easier to
-> add another column.
+>> >  {
+>> >         loongson_smp_setup();
+>> >  }
+>> > diff --git a/arch/loongarch/kernel/time=2Ec b/arch/loongarch/kernel/t=
+ime=2Ec
+>> > index bc75a3a69fc8=2E=2E367906b10f81 100644
+>> > --- a/arch/loongarch/kernel/time=2Ec
+>> > +++ b/arch/loongarch/kernel/time=2Ec
+>> > @@ -102,7 +102,7 @@ static int constant_timer_next_event(unsigned lon=
+g delta, struct clock_event_dev
+>> >         return 0;
+>> >  }
+>> >
+>> > -static unsigned long __init get_loops_per_jiffy(void)
+>> > +static unsigned long get_loops_per_jiffy(void)
+>> >  {
+>> >         unsigned long lpj =3D (unsigned long)const_clock_freq;
+>> >
+>> > diff --git a/arch/loongarch/mm/ioremap=2Ec b/arch/loongarch/mm/iorema=
+p=2Ec
+>> > index 70ca73019811=2E=2Edf949a3d0f34 100644
+>> > --- a/arch/loongarch/mm/ioremap=2Ec
+>> > +++ b/arch/loongarch/mm/ioremap=2Ec
+>> > @@ -16,12 +16,12 @@ void __init early_iounmap(void __iomem *addr, uns=
+igned long size)
+>> >
+>> >  }
+>> >
+>> > -void *early_memremap_ro(resource_size_t phys_addr, unsigned long siz=
+e)
+>> > +void * __init early_memremap_ro(resource_size_t phys_addr, unsigned =
+long size)
+>> >  {
+>> >         return early_memremap(phys_addr, size);
+>> >  }
+>> >
+>> > -void *early_memremap_prot(resource_size_t phys_addr, unsigned long s=
+ize,
+>> > +void * __init early_memremap_prot(resource_size_t phys_addr, unsigne=
+d long size,
+>> >                     unsigned long prot_val)
+>> >  {
+>> >         return early_memremap(phys_addr, size);
+>> > --
+>> > 2=2E34=2E1
+>> >
 
-I know nothing about QT or GTK, and I don't like to interact
-with the mouse when I customize the .config file.
-
-There is no need to reserve a column for the compared value
-IMHO. With the third version of the patch when toggling a
-tristate value the menu item is restored and no difference
-are no longer reported, giving a cool experience for kernel
-newbies or end users.
-
-Please try the third version of the patch, load an old file
-.config file to compare and tries to toggle the tristate
-value of a menu item, it's amazing!
-
-> But, have you used scripts/diffconfig?
-> Didn't it suffice your needs?
-
-Sadly diffconfig is not a viable solution for me because of
-this:
-
-$ ./scripts/diffconfig config-6.12.32-amd64 config-6.1.137 | wc -l
-7373
-
-config-6.12.32-amd64 is the new kernel LTS .config file
-provided by the software distribution, that I have to use
-as reference for the new customization, config-6.1.137 is
-my old kernel LTS .config file with the old customization.
-Too many symbol changes reported by diffconfig.
-
-Kind regards,
--- 
-Franco Martelli
+--=20
+Kees Cook
 
