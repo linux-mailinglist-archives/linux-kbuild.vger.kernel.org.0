@@ -1,158 +1,126 @@
-Return-Path: <linux-kbuild+bounces-7722-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7723-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F4EAEA4F2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Jun 2025 20:11:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF99EAEABD3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 02:43:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25291561A42
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Jun 2025 18:11:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88F277AD78D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 00:41:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08DEA2ED14D;
-	Thu, 26 Jun 2025 18:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ABEED2FB;
+	Fri, 27 Jun 2025 00:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="BaKoARYI"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JKShoHE6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C052EBDFF;
-	Thu, 26 Jun 2025 18:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955972F4A
+	for <linux-kbuild@vger.kernel.org>; Fri, 27 Jun 2025 00:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750961505; cv=none; b=H3uaQp4ATu/hFPbsE4gPVLLKEPcL0T3KcBJ1PI0nxNxpncwouSTQ7mAvFKSWfXG/JfhEL9SD5yW3LH1satWkXJzzeZyETD/3eCRCwJE/ivCzp+WDmW6Gh2DK0GoRi9andvTsdHLpHccFIXqkDvSM1vz9Wxk4IwNWIOJ84H+99q0=
+	t=1750984969; cv=none; b=LuHYemwV7Bju6nLJ4L6446WJqRz6uzjWm6JBMk8c/a9Uo8srU0wvD7Ro5hQ9te7BxFDEH/boSAWcQtFsGiW3mFjcZWG7iDPZSdUdgmlxkuoxMvwDUhZKz1YMoBgi/W+HKVJ9PvoPhFi3uK+/46O6SL2yxAyDzkY902hpIPudRwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750961505; c=relaxed/simple;
-	bh=/vTqsWsQnnD6PxS8RqEp3lyYDah0D1sXXjxJyrumqZI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ec7J+ni/qAGXvVECmbHv2sjzZ21ThBMVMkw9GPUdFi5KhtQUz1Y1PJjr/GCZUeSx9cmLU911P1HFc64/b104/I7UCTQlTlQ1KmQwrHK+j/60AdKnT/gWW8i7SPU7LmgNlQPOdL4mnP0Ax1AQaaHp30L1HGTUxMKp9Xy29CVizec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=BaKoARYI; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=LjE007gYCBpNBo6Eo9JKv1OoWp0a2hHAJM79jEQpxYM=;
-	t=1750961504; x=1752171104; b=BaKoARYIsnp2GemovybvRVesCARYXGR+IxR4WQ23I33x54b
-	txL/HgjWJCb3Az/E66dzyqMvF4y9R6jKAAPdeV1Ypbak2jy6qvR7GvQg2Rvyud1Luibd6zYnSGxye
-	O7METzP8/y88iCv3cTTPbsl9Eoc91/YH/SsypUVgrs+PKO+MKE7H94pfsilIvVoZVm7fqxkFrlebf
-	N6R77B69gqwzJIkyB73bLIp4gEy1i9rc6LAtSxa5w6yrRRIIXkITwwrvu9fNPq1FBQgIxp+KeSLA+
-	gnqr0/mJIb3mANZ4wEKRJ4w4YSUekfqQEfDfKgnBepTutTtaQ5JsiEN+rAJWWyTg==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.2)
-	(envelope-from <benjamin@sipsolutions.net>)
-	id 1uUr4B-0000000BuZ7-2DCz;
-	Thu, 26 Jun 2025 20:11:19 +0200
-Message-ID: <66deaafe1974c989e949975bafe3ab0b2ae3f5ff.camel@sipsolutions.net>
-Subject: Re: [PATCH v4 12/15] kunit: Introduce UAPI testing framework
-From: Benjamin Berg <benjamin@sipsolutions.net>
-To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>, 
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Andrew Morton	 <akpm@linux-foundation.org>, Willy
- Tarreau <w@1wt.eu>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=	
- <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, David
- Gow	 <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan
- <shuah@kernel.org>,  Jonathan Corbet	 <corbet@lwn.net>, Nicolas Schier
- <nicolas.schier@linux.dev>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org, Kees Cook
- <kees@kernel.org>,  Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 	linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org
-Date: Thu, 26 Jun 2025 20:11:17 +0200
-In-Reply-To: <20250626-kunit-kselftests-v4-12-48760534fef5@linutronix.de> (sfid-20250626_081057_904093_DFB49A53)
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
-	 <20250626-kunit-kselftests-v4-12-48760534fef5@linutronix.de>
-	 (sfid-20250626_081057_904093_DFB49A53)
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1750984969; c=relaxed/simple;
+	bh=6xPPIM3NSdh1m0TrrrmsfHxmc3zIoWW2iunm4M56/3E=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KfUo4+JwsIxdBZ8PIEMnLahKy7DwWqTWSltuwxQ+Cdx2iEp/JzP7I4vx81I02akKj54ZJLb8J3a3tNqGi3z2XRDz2G1YartihwtAA32/XUtymG+GlqIsZonQTXKah+WKUrTQODvJnV9m6XVMvTT7a4Qzm0PQN3VLKRtbKcQDKQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JKShoHE6; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-74880a02689so1285572b3a.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Jun 2025 17:42:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1750984967; x=1751589767; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DqTnG1aDDjwMRPo2TP7Xao/+Fe8Uk4CL284uAHomG2o=;
+        b=JKShoHE6NJkr2faS/vt848z/J/cclLZU377qT34A6HNxV33Vamk3UE1RILMgOM8gf9
+         LVD6+PFvmT41L6gzMU+/J0csbsgi0aGZLacmxt6l42qPfgMUsO28fvB7xfM823Pr3KIn
+         2H+WFnGZQ5IHOHOGi6Q9HHnw3TgeSlJcFoBU/GBt+murODLHa67zV7GyKpZvydu1X1AN
+         BnZXZlLOGxyyuLnkKXSlG6pyjXomi8qk0Q082xVY39Ap20bPCqI2Wbsz6gbpk7cWyOwB
+         yYXbeIra3Y71eCXLHMWvLe280/i2VhXBpLyHHp4YzUKtK5zWlofAE42gOC5uZFSfDsGl
+         2x0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750984967; x=1751589767;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DqTnG1aDDjwMRPo2TP7Xao/+Fe8Uk4CL284uAHomG2o=;
+        b=q80twJ86iRdW+jPWXgW0Y9y7p5TT/kzsceY42YlcPn3hg1lWrOyStwsXkrn6NYDHzy
+         W5klvPBO4icpgD0P0lPpwtfPrCViAfHic0PACUdzqDC9xkrqsJXQ7hITD7k5neRtkhaQ
+         01CO/HL07Ksm6Qqocl59BD7pLnu8PkC9q03AWhaxoGrNrc2PLt/+w/IkxVZYt+j4Wgve
+         zn+EqsfavIu8wSKAl9pf4Z8h65fEJaH7KK7kyYk9JKePQ0Q24zVjq+pU97cLpBB5WKPK
+         Hcc5+W1mubRyqmHXO0EQkF+DQw3DNVzadP0ktPTNH1qrvZSQd001P0plNlcQCvAzXWsw
+         qCqg==
+X-Forwarded-Encrypted: i=1; AJvYcCVqH2vSA5cfBNZk87GJC5F54mToXBgduJLEsUAiBgprKv7zL8nFAEC6MrCM8YpGx+iN25t0b0ziVFl7rKg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKootAQnwRrnQLBuuWpdckQcErTuadvi1TpF+0l1/zdDn/bPWU
+	e9L0NiBj419djcgfqxWP4lq6ZLsUquWMc+9AUxYJh6bzShtV1j38dbLJzwE0ut3hPb40Oj83FNo
+	1
+X-Google-Smtp-Source: AGHT+IFesGng+KgIMxUtWrrJzsPBE/Sg/QLnVskl9GoZ67iH4ln8YIl1w39Y28RU5GrZTx948Vj6oKT28g==
+X-Received: from pfbna2.prod.google.com ([2002:a05:6a00:3e02:b0:748:d81f:a79e])
+ (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:14c8:b0:746:298e:4ed0
+ with SMTP id d2e1a72fcca58-74af6f57172mr1469555b3a.13.1750984966917; Thu, 26
+ Jun 2025 17:42:46 -0700 (PDT)
+Date: Fri, 27 Jun 2025 00:42:43 +0000
+In-Reply-To: <CAEzuVAdu3bDXUGgi4U-XY4dRmBxKaCA_OjKrvK-2ftOWWwVEYA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Mime-Version: 1.0
+References: <CAEzuVAdu3bDXUGgi4U-XY4dRmBxKaCA_OjKrvK-2ftOWWwVEYA@mail.gmail.com>
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+Message-ID: <20250627004243.19514-1-morbo@google.com>
+Subject: [PATCH v4] kconfig: check for a NULL pointer before access
+From: Bill Wendling <morbo@google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: masahiroy@kernel.org, linux-kbuild@vger.kernel.org, rdunlap@infradead.org, 
+	Bill Wendling <morbo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Thomas,
+The call to 'prop_get_symbol' may return NULL in some cases. The if-then
+statement accesses the returned value without cheecking if it's
+non-NULL. After inlining, the compiler may treat the conditional as
+'undefined behavior', which the compiler may take the opportunity to do
+whatever it wants with the UB path. This patch simply adds a check to
+ensure that 'def_sym' is non-NULL to avoid this behavior.
 
-I ran into two minor issues trying out the patches, see inline.
+Signed-off-by: Bill Wendling <morbo@google.com>
+---
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+v4:
+  - Fix issue with patch formatting.
+  - Patch is sent from original email account.
+v3:
+  - Fix whitespace for real now.
+  - Patch from another email account so that the whitespace is retained.
+v2:
+  - Fix whitespace
+---
+ scripts/kconfig/symbol.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, 2025-06-26 at 08:10 +0200, Thomas Wei=C3=9Fschuh wrote:
-> Enable running UAPI tests as part of kunit.
-> The selftests are embedded into the kernel image and their output is
-> forwarded to kunit for unified reporting.
->=20
-> The implementation reuses parts of usermode drivers and usermode
-> helpers. However these frameworks are not used directly as they make it
-> impossible to retrieve a thread's exit code.
->=20
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
->=20
-> [SNIP]
-> +/**
-> + * KUNIT_UAPI_EMBED_BLOB() - Embed another build artifact into the kerne=
-l
-> + * @_name: The name of symbol under which the artifact is embedded.
-> + * @_path: Path to the artifact on disk.
-> + *
-> + * Embeds a build artifact like a userspace executable into the kernel o=
-r current module.
-> + * The build artifact is read from disk and needs to be already built.
-> + */
-> +#define KUNIT_UAPI_EMBED_BLOB(_name, _path)					\
-> +	asm (									\
-> +	"	.pushsection .rodata, \"a\"				\n"	\
-> +	"	.global " __stringify(CONCATENATE(_name, _data)) "	\n"	\
-> +	__stringify(CONCATENATE(_name, _data)) ":			\n"	\
-> +	"	.incbin " __stringify(_path) "				\n"	\
-> +	"	.size " __stringify(CONCATENATE(_name, _data)) ", "		\
-> +			". - " __stringify(CONCATENATE(_name, _data)) "	\n"	\
-> +	"	.global " __stringify(CONCATENATE(_name, _end)) "	\n"	\
-> +	__stringify(CONCATENATE(_name, _end)) ":			\n"	\
-> +	"	.popsection						\n"	\
-> +	);									\
-> +										\
-> +	extern const char CONCATENATE(_name, _data)[];				\
-> +	extern const char CONCATENATE(_name, _end)[];				\
-> +										\
-> +	static const struct kunit_uapi_blob _name =3D {				\
-> +		.path	=3D _path,						\
-> +		.data	=3D CONCATENATE(_name, _data),				\
-> +		.end	=3D CONCATENATE(_name, _end),				\
-> +	}									\
-
-For me, the compiler could not find the files for the ".incbin" unless
-I added an include path. i.e. adding
-  ccflags-y :=3D -I$(obj)
-to lib/kunit/Makefile fixed the problem for me.
-
-> [SNIP]
-> +static int kunit_uapi_run_executable_in_mount(struct kunit *test, const =
-char *executable,
-> +						=C2=A0=C2=A0 struct vfsmount *mnt)
-> +{
-> +	struct kunit_uapi_user_mode_thread_ctx ctx =3D {
-> +		.setup_done	=3D COMPLETION_INITIALIZER_ONSTACK(ctx.setup_done),
-> +		.executable	=3D executable,
-> +		.pwd		=3D {
-> +			.mnt	=3D mnt,
-> +			.dentry	=3D mnt->mnt_root,
-> +		},
-> +	};
-> +	int forward_err, wait_err, ret;
-
-ret needs to be initialized to zero here as the kernel_wait function
-will only set "ret" if wo.wo_stat is non-zero.
-
-Benjamin
-
-> [SNIP]
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index d57f8cbba291..9c5068225328 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -272,7 +272,7 @@ struct symbol *sym_choice_default(struct menu *choice)
+ 		if (prop->visible.tri == no)
+ 			continue;
+ 		def_sym = prop_get_symbol(prop);
+-		if (def_sym->visible != no)
++		if (def_sym && def_sym->visible != no)
+ 			return def_sym;
+ 	}
+ 
+-- 
+2.50.0.727.gbf7dc18ff4-goog
 
 
