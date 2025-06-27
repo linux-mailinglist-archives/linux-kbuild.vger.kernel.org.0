@@ -1,126 +1,106 @@
-Return-Path: <linux-kbuild+bounces-7731-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7732-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9296EAEB1FA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 11:05:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7F6AEB808
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 14:47:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D0D33B707D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 09:04:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC3B63A8841
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 12:47:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDE75293B4F;
-	Fri, 27 Jun 2025 09:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD87B29993D;
+	Fri, 27 Jun 2025 12:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cluPxEQ2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtHMOKQO"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C62F293B44;
-	Fri, 27 Jun 2025 09:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85631292B5F;
+	Fri, 27 Jun 2025 12:47:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751015097; cv=none; b=hgW9IZfEPQy+jzZ5Jd1F+jF1BrNfg8gyvizwuQvm7LEEjFgt091IujVo9cU20N86LJQAXE9Ts1koipaAcdyJ7ufrMino7CD/mO/yJLdCe1AghdWh3LyDsTLTJx6p6fWLv4AHJ9d0q2V8+HGzeBuhpEiBGNYhD/dokWq2UrPGPGc=
+	t=1751028453; cv=none; b=lUNctrzUqdcjCL3QL/83ZQnJdcl34FbKtRnag3qW+MdtahZDmdh70d2ZYwlzhwAKK014onuqLyBLa+KJHL2pa9OFaWww01XRibzdeenTSkNgdKDFF5ba50MI9LtH36mhoFAbRpkMT7ESeHAQOeKhsCZ2u2LqDxf5UbK+NPaHHHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751015097; c=relaxed/simple;
-	bh=yURdhbEwnnJumfHvPTjAkd6H7BvKAAun9yVi+i2aN8U=;
+	s=arc-20240116; t=1751028453; c=relaxed/simple;
+	bh=RHnpDW03IRZcP7aLxiSEWRuZFYtq/tavx2Yg8FmvHnw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JFB3xJERPSjJZbiRkKbn0O3PVNjXcX7mErsJuHq6nzoBSN42ieYWF/joh7PD7jUPu+HCJGAtJiD3YZ6LtEbf3FIhiaMBi7Sx3Ip6iGTdmGHW3ZhQnFaFQywtV8whLisGc/+XU4DheHmeaG8B9Bqcr6BrsoMny/eBDb9Fzryx1YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cluPxEQ2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DC81C4CEEB;
-	Fri, 27 Jun 2025 09:04:57 +0000 (UTC)
+	 To:Cc:Content-Type; b=D7gWG403FTXt+stoCgDcKXW+bI/bK/UGsOt/1YezTvRsMVHZfju2XQ+W11MiU6Qf//OWb4QaUTAwAan38/n3qa8IakLoAxWqF5J8e0L6sGhU5sBqV06KzlyFoKHY2X8ZJ5NhzR8KPQZNrx7ifQdhaoimVR5qWVidDv9iKg+edPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EtHMOKQO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09330C4CEE3;
+	Fri, 27 Jun 2025 12:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751015097;
-	bh=yURdhbEwnnJumfHvPTjAkd6H7BvKAAun9yVi+i2aN8U=;
+	s=k20201202; t=1751028453;
+	bh=RHnpDW03IRZcP7aLxiSEWRuZFYtq/tavx2Yg8FmvHnw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cluPxEQ2/Yw+lsaExWQSqim8gpaPow1MuzmH6AJPjA6FYxLuqysrYot+32JDncobl
-	 oRO+xLlxLqHtZfrpee0p2DEjeZOAEtTLveW4sMHVn9km8Veeu8h1JBo7WTsJizO8O5
-	 XtaR8ANNpH18kayVwYm4qKjXo0l++K34oakdNEZJNRVffeCuditeRs2YUFlut+QRUg
-	 feNsquTpuXRv82ePwbI6/KPObvz7O09jtagsltOnaY2G47TgUPjATvnx10rfXMMLP0
-	 nqWQJxiYTDr2WzLm74YsyXLf59wtGxrK4K6fYkkSKcQ6QRibNY37kgjtOgcC6iAuve
-	 6AEmdfBqvv7Ww==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5535652f42cso2203101e87.2;
-        Fri, 27 Jun 2025 02:04:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0H/e4FyrdoYc+MIRxtTrBwKWWzKUdP2x3mfpRe7Z+w39boLXkzddgpvTAowEs81evSroi43Z1iNp3k61K@vger.kernel.org, AJvYcCVg1PlV7bdUVCcKLmLqcdW5w5PBqrxiuzQwFkmy8VKXLLw8VWOXnxMoLmrXXM8C4Poaop/O0/LQxGQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIcVuow9H8v1GFQyuSRk7zhNIBEyztQziE4348ok0BTO/EN7TI
-	UJfz13CfUXXBmIp5DZXi+jQ0WMLXKM2/3UdbCSMFtCev/YJ2QLaMKURTsDQninI/yzxoIwd/WyV
-	1JWwWlN8Pt0t64VQ0i+jthEwOuTehyX8=
-X-Google-Smtp-Source: AGHT+IGWLtzS7qhakWBsIJmXdocEsS4KtnbetBMcTYRSWbAXF/NDfP4A6g/gxgSSz3n8B6djS8GoEVU9YUJHB1nVLJw=
-X-Received: by 2002:a05:6512:ea5:b0:553:a469:3fed with SMTP id
- 2adb3069b0e04-5550b7e7b6fmr802342e87.11.1751015095791; Fri, 27 Jun 2025
- 02:04:55 -0700 (PDT)
+	b=EtHMOKQOEEE9sdrFLi8zzcoHc7jDfG/Ycz+zjAJJm309Yy+2KwFdvFq5y/blqrg7O
+	 as5E7tu/PIUX25uTMs98AyXjancLlPNx+KTWVbVgjyDs3DGpG4mgSJPHnt+7THBH+G
+	 L7kx/sn8rXsBjlmMqFI58cNRUQpK+vg0LNslb5aqbRcWdoqCNcCJWTCEDvNrDfCJPx
+	 Tm36hBoPy0SIuqDDfvs2/b7Xe3tarZp/hwHlpA3psbn6QdGyJT32zhRcemRwuHdjfU
+	 lxYlrXdKhG8M6SDbF4jw4hd6TM1mz7tRbHwH4es5r7Tcx4ZMQ9YEKbd0wGPRSoixyM
+	 VVyngKV1urIzw==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5533303070cso2121774e87.2;
+        Fri, 27 Jun 2025 05:47:32 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyBC4AA9uPhfv/aIPvA9UPCftHzcOE5TbQQ3JbbYee1Sm90ZWqn
+	vDdbeEm7tGo2iK4fiBPcNtus9fHrTUvPShXM0fa7dE7OrD2Ae4wXSiW64Kc4f2vLT7B+FNcYM+A
+	GDN51cpOa3FU+hF7drv+F1IN/lzqYf5Y=
+X-Google-Smtp-Source: AGHT+IG5s02G/yMFYdWcxSuuJD4qBNXZiUTvsLww3XZ0JjmOSJ3cbV4A0mZ/bCWei1aD8n4sykChE3eRY3/pHaei7sg=
+X-Received: by 2002:a05:6512:b03:b0:553:2a6a:884b with SMTP id
+ 2adb3069b0e04-5550b81fb5amr1077155e87.23.1751028451713; Fri, 27 Jun 2025
+ 05:47:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250627030612.3887582-1-rdunlap@infradead.org>
-In-Reply-To: <20250627030612.3887582-1-rdunlap@infradead.org>
+References: <20250624150645.1107002-1-masahiroy@kernel.org> <20250624150645.1107002-53-masahiroy@kernel.org>
+In-Reply-To: <20250624150645.1107002-53-masahiroy@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 27 Jun 2025 18:04:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARmi687t4YhCTaVXKr6EKCrNo_zNxzzfVEvDPUs0EGMew@mail.gmail.com>
-X-Gm-Features: Ac12FXxO8KMj-DIflB5rQ2UimD06Fs03oI0CCUSQcPokBTFrC6-Lh3hwhtt6SKQ
-Message-ID: <CAK7LNARmi687t4YhCTaVXKr6EKCrNo_zNxzzfVEvDPUs0EGMew@mail.gmail.com>
-Subject: Re: [PATCH] docs: kbuild/kconfig: add alldefconfig to the all*configs
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	linux-kbuild@vger.kernel.org
+Date: Fri, 27 Jun 2025 21:46:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARWU8JF_8ZkkhfwwhDsvoKw9tx4RWihLYDK1szE8Qmi5A@mail.gmail.com>
+X-Gm-Features: Ac12FXzDUh_-jyGGprpUwjCLFpZ72lLqCU8BTzSeVOyyUGtuPnB0yLjvTwgATQw
+Message-ID: <CAK7LNARWU8JF_8ZkkhfwwhDsvoKw9tx4RWihLYDK1szE8Qmi5A@mail.gmail.com>
+Subject: Re: [PATCH 52/66] kconfig: gconf: remove fixup_rootmenu()
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 27, 2025 at 12:06=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
+On Wed, Jun 25, 2025 at 12:09=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
 >
-> Add "alldefconfig" to the explanation of the KCONFIG_ALLCONFIG
-> environment variable usage so that all targets that use KCONFIG_ALLCONFIG
-> are listed.
+> The MENU_ROOT flag is a hack used for SPLIT_VIEW mode. Top-level symbols
+> have no parent menu, so they are displayed directly in the left pane.
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nicolas.schier@linux.dev>
-> Cc: linux-kbuild@vger.kernel.org
+> Show the rootmenu, allowing top-level symbols to have a proper parent
+> menu and be displayed consistently in the right pane.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 
-Applied to linux-kbuild.
-Thanks.
+I will drop this.
 
+This does not work when a menu is created under a non-menu entry.
 
->  Documentation/kbuild/kconfig.rst |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> --- lnx-616-rc3.orig/Documentation/kbuild/kconfig.rst
-> +++ lnx-616-rc3/Documentation/kbuild/kconfig.rst
-> @@ -67,12 +67,12 @@ Environment variables for ``*config``:
->      with its value when saving the configuration, instead of using the
->      default, ``CONFIG_``.
->
-> -Environment variables for ``{allyes/allmod/allno/rand}config``:
-> +Environment variables for ``{allyes/allmod/allno/alldef/rand}config``:
->
->  ``KCONFIG_ALLCONFIG``
-> -    The allyesconfig/allmodconfig/allnoconfig/randconfig variants can al=
-so
-> -    use the environment variable KCONFIG_ALLCONFIG as a flag or a filena=
-me
-> -    that contains config symbols that the user requires to be set to a
-> +    The allyesconfig/allmodconfig/alldefconfig/allnoconfig/randconfig va=
-riants
-> +    can also use the environment variable KCONFIG_ALLCONFIG as a flag or=
- a
-> +    filename that contains config symbols that the user requires to be s=
-et to a
->      specific value.  If KCONFIG_ALLCONFIG is used without a filename whe=
-re
->      KCONFIG_ALLCONFIG =3D=3D "" or KCONFIG_ALLCONFIG =3D=3D "1", ``make =
-*config``
->      checks for a file named "all{yes/mod/no/def/random}.config"
+e.g.)
+
+config A
+        bool "A"
+
+if A
+
+menu "menu"
+
+config B
+        bool "B"
+
+endmenu
+
+endif
+
 
 
 
