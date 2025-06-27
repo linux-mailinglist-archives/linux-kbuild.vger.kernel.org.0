@@ -1,179 +1,180 @@
-Return-Path: <linux-kbuild+bounces-7728-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7729-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84969AEB131
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 10:23:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4985AEB150
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 10:27:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62A5D3B09DB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 08:23:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E007F640A07
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 08:27:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5615423771E;
-	Fri, 27 Jun 2025 08:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 205EE246781;
+	Fri, 27 Jun 2025 08:27:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XgDlZYlR"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2aC/CWCX";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CmuK24lM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E6F234994;
-	Fri, 27 Jun 2025 08:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD3023BD1B;
+	Fri, 27 Jun 2025 08:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751012603; cv=none; b=kI9jVb8KJN5Ls3brucPMnT0I0If+LUdGsMqeH5qjS2SZdgWeHruYNMuNCeWDipHGeLlej8PvV/0jiTdvK2VIywrvFUQ1owS16aQVYjzchqI405n7Sl0vpZdXB8RZJpy5kC5nF5Ys8wmuOovb1YISPR4kMdM4P01Ysslkg6QFTcM=
+	t=1751012864; cv=none; b=eUr2MHVUCP/fSmN6Luv1jgQwdv8eBR5E0jnl5bhOkuZAiwdGPHx0YF+tOgcCmRAAeERNYPYx6y3yRDqITHpb7En5PdNbTQrRvsYAqo/0siQAalP9wzeVLx+E3Attb9/4QfeemdVw409EYsbBymBpEgvo5CGn6MI2SXjE9YATbJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751012603; c=relaxed/simple;
-	bh=uN/D8dqiB5VYUFly92uE7+enUWgNCKOFbWJkaVmg9qA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=pB5fCV0SBhNpvMOlOuyXHiSQuIxbJV0vs/ZMudiB1xNybjJV5kP+NHoPAgN8eCVZiZF1gAYoWPry09+VqyB8lXQjHCj5kk0edUwBddxUhKlwMb6ETWMVr/IngYQiN/i94T6Y7EtuUvXxCtwBn7fj9aJcfQqZzczwfdxfLlJHwfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XgDlZYlR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F4B1C4CEF0;
-	Fri, 27 Jun 2025 08:23:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751012602;
-	bh=uN/D8dqiB5VYUFly92uE7+enUWgNCKOFbWJkaVmg9qA=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=XgDlZYlRR03OoCIqDOBeRU4oLrgs71elLSS/qGk/G2DlO88AvkkDIqF6F/Ns5XYFr
-	 bBTvujelzy6neisx4LvhnKPgCQxrq/M5odUoba+UGq0x+dLDMZVqprpeaOw4D6xqhA
-	 fTeYWukLLqRHBwnnKzQbq8tlPX0H/4PYfiTaDCfkSjG97GFpCMXEq/kFQ3Cx7ghiia
-	 bsQrXnY+3aCP0fd5tlZ4lZCkncR+PcebFVPzEqTuXcm7Csp5ivhgDTJARZ4hKwbsmi
-	 B8I9D83riALQ8iY+dptih3ew7XOw+0G8YGoW3pgRWb9TI6ZbCH0qd5bJ39OsGqIKhP
-	 SaSLksICej/iQ==
+	s=arc-20240116; t=1751012864; c=relaxed/simple;
+	bh=YRUIoOzu1tATu4wgHlO+GjAHs+OYHRlReZgqQTEBN04=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dz9AipkcLEhrhuOikdTng06uNM8mTfLhmXusnf669EsN3BJmx5CWfscywyaSPgjuHAws4hn2Zs/gj9Mx7r+i5QQyqt2HQqDQasoo8BAdR9MNjpGkkO80yHsqcjeK1weUejRFS7iaIymZBqNE+iaR7HjLTQXtLyA29g2F19S/5x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2aC/CWCX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CmuK24lM; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Fri, 27 Jun 2025 10:27:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1751012859;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kwOcZZs1ZIVtoa5esxxBWO/UwD8QHSKhv8lKZGDgSx0=;
+	b=2aC/CWCXE3jx9ogAHfeVvi5askDWzS4IIKA+1ZfA5SSTxSLYBQ90m6Dy2nICwxv8qzRoGL
+	rY6faDt9BJM+h83DTYHmU2Hh5lgLpbyej4lAKL3nKPN6lPO4+y6zJDpRWeq6XmAJNwvkhs
+	lGslEcJtbzrxI1LQsXqONZI9p7AOL1ZwoFSh6tfVaanUB1UnrcbnUPincQuvsHUo9RBv01
+	dwTADTWtGWwrTj2m21XatcwxDmi1F8SIRGrHmBmYpJLoGXdpFTy2m8yJ9XpPikUfOshPNg
+	VZ3uW2mSn2xV8eSUmW9NhS/5YVQmsUXxwrqWyDgJIxA3l6WEGRs3rpHnniX1jQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1751012859;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kwOcZZs1ZIVtoa5esxxBWO/UwD8QHSKhv8lKZGDgSx0=;
+	b=CmuK24lMiNHqVe9jMdhvIIcCp3aCMFD6MbSCB8x5brTssfB2wvfSQdz+md2aVmzdnSIPBf
+	zKnT8k9vrlWiU0Ag==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Benjamin Berg <benjamin@sipsolutions.net>, 
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 12/15] kunit: Introduce UAPI testing framework
+Message-ID: <20250627100608-9eff2270-8f5b-49d4-9fe3-54a12a14dd25@linutronix.de>
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+ <20250626-kunit-kselftests-v4-12-48760534fef5@linutronix.de>
+ <66deaafe1974c989e949975bafe3ab0b2ae3f5ff.camel@sipsolutions.net>
+ <20250627060129-4fe09191-4714-4856-9de5-c8e5cf5ed0d6@linutronix.de>
+ <8cfa715301c7c357c5d6c82fabd9b53d2fa01182.camel@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Jun 2025 10:23:16 +0200
-Message-Id: <DAX65TRN0TGP.25VZ9DYV86XWY@kernel.org>
-Subject: Re: [PATCH v13 2/6] rust: introduce module_param module
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Alice Ryhl" <aliceryhl@google.com>, "Masahiro
- Yamada" <masahiroy@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
- "Luis Chamberlain" <mcgrof@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Nicolas Schier" <nicolas.schier@linux.dev>, "Trevor
- Gross" <tmgross@umich.edu>, "Adam Bratschi-Kaye" <ark.email@gmail.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Sami
- Tolvanen" <samitolvanen@google.com>, "Daniel Gomez" <da.gomez@samsung.com>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, "Greg KH"
- <gregkh@linuxfoundation.org>, "Fiona Behrens" <me@kloenk.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <linux-modules@vger.kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
- <20250612-module-params-v3-v13-2-bc219cd1a3f8@kernel.org>
- <COU2bqJOzCHRf6g4rwFpu2NY3wLY0G0AmNjRaU9aGEqu1HaPZ5X4KzfDT_CEB3Okh5BV50sJS10sKhmtHut8ew==@protonmail.internalid> <DAQJCUE1C2JE.204A8IS7LBIVZ@kernel.org> <87ikkq648o.fsf@kernel.org> <smOfUo2mEmQu-lykKKMiNOUWq2ze6p_CoEEpgGE0dtAnoJDGEpvQMkP1q-n13MiUxLK1xAiM-4QLsivPrG57sg==@protonmail.internalid> <DARCZYNPIJVZ.3JJSZ6PSAEMEC@kernel.org> <877c126bce.fsf@kernel.org> <Mg1_h6lRpg9tdi0VjiyDfIEy2juzgDWxOhYX61qSUfyEpeMMksWW1e-blTka_G1dXUvpZVktdD-zL3X1a6T6Cg==@protonmail.internalid> <DATW0XWNN45X.1L2WMZ41JJ5O8@kernel.org> <87v7om4jhq.fsf@kernel.org> <RPPvXQKnjK77Kp9mKaiFxbNj1fTHKb_I7_nbY81fZop-Wz8n5TTi4_lpXP9U9AwjocvZKqJPI8PGKufJn9cIzQ==@protonmail.internalid> <DAU0J3T0IEVM.2K7ZRQOVOHF8H@kernel.org> <878qlh4aj1.fsf@kernel.org> <87plepzke5.fsf@kernel.org>
-In-Reply-To: <87plepzke5.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8cfa715301c7c357c5d6c82fabd9b53d2fa01182.camel@sipsolutions.net>
 
-On Fri Jun 27, 2025 at 9:57 AM CEST, Andreas Hindborg wrote:
-> Andreas Hindborg <a.hindborg@kernel.org> writes:
->> "Benno Lossin" <lossin@kernel.org> writes:
->>> That's good to know, then let's try to go for something simple.
->>>
->>> I don't think that we can just use a `Mutex<T>`, because we don't have =
-a
->>> way to create it at const time... I guess we could have
->>>
->>>     impl<T> Mutex<T>
->>>         /// # Safety
->>>         ///
->>>         /// The returned value needs to be pinned and then `init` needs
->>>         /// to be called before any other methods are called on this.
->>>         pub unsafe const fn const_new() -> Self;
->>>
->>>         pub unsafe fn init(&self);
->>>     }
->>>
->>> But that seems like a bad idea, because where would we call the `init`
->>> function? That also needs to be synchronized...
->>
->> Ah, that is unfortunate. The init function will not run before this, so
->> we would need a `Once` or an atomic anyway to initialize the lock.
->>
->> I am not sure if we are allowed to sleep during this, I would have to
->> check. But then we could use a spin lock.
->>
->> We will need the locking anyway, when we want to enable sysfs write
->> access to the parameters.
->>
->>>
->>> Maybe we can just like you said use an atomic bool?
->>
->> Sigh, I will have to check how far that series has come.
->>
->
-> I think I am going to build some kind of `Once` feature on top of
-> Boqun's atomic series [1], so that we can initialize a lock in these
-> statics. We can't use `global_lock!`, because that depends on module
-> init to initialize the lock before first use.
+On Fri, Jun 27, 2025 at 08:58:11AM +0200, Benjamin Berg wrote:
+> On Fri, 2025-06-27 at 06:20 +0200, Thomas Weiﬂschuh wrote:
+> > On Thu, Jun 26, 2025 at 08:11:17PM +0200, Benjamin Berg wrote:
+> > > I ran into two minor issues trying out the patches, see inline.
+> > 
+> > Thanks for testing the series.
+> > 
+> > > On Thu, 2025-06-26 at 08:10 +0200, Thomas Weiﬂschuh wrote:
+> > > > Enable running UAPI tests as part of kunit.
+> > > > The selftests are embedded into the kernel image and their output is
+> > > > forwarded to kunit for unified reporting.
+> > > > 
+> > > > The implementation reuses parts of usermode drivers and usermode
+> > > > helpers. However these frameworks are not used directly as they make it
+> > > > impossible to retrieve a thread's exit code.
+> > > > 
+> > > > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> > > > 
+> > > > [SNIP]
+> > > > +/**
+> > > > + * KUNIT_UAPI_EMBED_BLOB() - Embed another build artifact into the kernel
+> > > > + * @_name: The name of symbol under which the artifact is embedded.
+> > > > + * @_path: Path to the artifact on disk.
+> > > > + *
+> > > > + * Embeds a build artifact like a userspace executable into the kernel or current module.
+> > > > + * The build artifact is read from disk and needs to be already built.
+> > > > + */
+> > > > +#define KUNIT_UAPI_EMBED_BLOB(_name, _path)					\
+> > > > +	asm (									\
+> > > > +	"	.pushsection .rodata, \"a\"				\n"	\
+> > > > +	"	.global " __stringify(CONCATENATE(_name, _data)) "	\n"	\
+> > > > +	__stringify(CONCATENATE(_name, _data)) ":			\n"	\
+> > > > +	"	.incbin " __stringify(_path) "				\n"	\
+> > > > +	"	.size " __stringify(CONCATENATE(_name, _data)) ", "		\
+> > > > +			". - " __stringify(CONCATENATE(_name, _data)) "	\n"	\
+> > > > +	"	.global " __stringify(CONCATENATE(_name, _end)) "	\n"	\
+> > > > +	__stringify(CONCATENATE(_name, _end)) ":			\n"	\
+> > > > +	"	.popsection						\n"	\
+> > > > +	);									\
+> > > > +										\
+> > > > +	extern const char CONCATENATE(_name, _data)[];				\
+> > > > +	extern const char CONCATENATE(_name, _end)[];				\
+> > > > +										\
+> > > > +	static const struct kunit_uapi_blob _name = {				\
+> > > > +		.path	= _path,						\
+> > > > +		.data	= CONCATENATE(_name, _data),				\
+> > > > +		.end	= CONCATENATE(_name, _end),				\
+> > > > +	}									\
+> > > 
+> > > For me, the compiler could not find the files for the ".incbin" unless
+> > > I added an include path. i.e. adding
+> > > † ccflags-y := -I$(obj)
+> > > to lib/kunit/Makefile fixed the problem for me.
+> > 
+> > Can you share some more details on your build setup?
+> > This worked for me as-is and also passed 0day build testing.
+> 
+> Funny, I ran this on a Fedora 41 with gcc --version saying
+> gcc (GCC) 14.3.1 20250523 (Red Hat 14.3.1-1)
+> 
+> I tried both 32 and 64 bit builds for ARCH=um.
+> 
+> Attaching my current kernel configuration and the last few lines of a
+> V=1 build.
+> 
+> The kernel I used is a bit newer than what you had. Applied on top of
+> ee88bddf7f2f5d1f1da87dd7bedc734048b70e88 (bpf-fixes merge).
 
-Sounds good, though we probably don't want to name it `Once`. Since it
-is something that will be populated in the future, but not by some
-random accessor, but rather a specific populator.
+So this happens because you are building inside the source tree.
+scripts/Makefile.lib has this block:
 
-So maybe:
+# $(src) for including checkin headers from generated source files
+# $(obj) for including generated headers from checkin source files
+ifdef building_out_of_srctree
+_c_flags   += $(addprefix -I, $(src) $(obj))
+_a_flags   += $(addprefix -I, $(src) $(obj))
+_cpp_flags += $(addprefix -I, $(src) $(obj))
+endif
 
-    pub struct Delayed<T> {
-        dummy: T,
-        real: Opaque<T>,
-        populated: Atomic<bool>, // or Atomic<Flag>
-        writing: Atomic<bool>, // or Atomic<Flag>
-    }
+Apparently GNU/clang assemblers don't look for .incbin/.include files next to
+the including files [0].
+In contrast, the ARM compiler does (at least according to its docs) [1].
 
-    impl<T> Delayed<T> {
-        pub fn new(dummy: T) -> Self {
-            Self {
-                dummy,
-                real: Opaque::uninit(),
-                populated: Atomic::new(false),
-                writing: Atomic::new(false),
-            }
-        }
+Maybe we can work around this in the macro, but I assume this will become even
+uglier. So for the next revision I'll use your proposal of explicit cflags.
+Or if Masahiro prefers to have a more global and generic solution, we can do that.
 
-        pub fn get(&self) -> &T {
-            if self.populated.load(Acquire) {
-                unsafe { &*self.real.get() }
-            } else {
-                // maybe print a warning here?
-                // or maybe let the user configure this in `new()`?
-                &self.dummy
-            }
-        }
+[0] https://sourceware.org/binutils/docs/as/I.html
+[1] https://developer.arm.com/documentation/dui0801/l/Directives-Reference/INCBIN
 
-        pub fn populate(&self, value: T) {
-            if self.writing.cmpxchg(false, true, Release) {
-                unsafe { *self.real.get() =3D value };
-                self.populated.store(true, Release);
-            } else {
-                pr_warn!("`Delayed<{}>` written to twice!\n", core::any::ty=
-pe_name::<T>());
-            }
-        }
-    }
 
-(no idea if the orderings are correct, I always have to think way to
-much about that... especially since our atomics seem to only take one
-ordering in compare_exchange?)
-
-> As far as I can tell, atomics may not land in v6.17, so this series
-> will probably not be ready for merge until v6.18 at the earliest.
-
-Yeah, sorry about that :(
-
-> Thanks for the input, Benno!
-
-My pleasure!
-
----
-Cheers,
-Benno
+Thomas
 
