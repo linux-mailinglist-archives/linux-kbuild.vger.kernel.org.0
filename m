@@ -1,126 +1,102 @@
-Return-Path: <linux-kbuild+bounces-7723-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7724-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF99EAEABD3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 02:43:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B572AEAD2D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 05:06:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88F277AD78D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 00:41:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A342E4E0DC9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Jun 2025 03:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ABEED2FB;
-	Fri, 27 Jun 2025 00:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C0D13AC1;
+	Fri, 27 Jun 2025 03:06:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JKShoHE6"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rwt4erbc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955972F4A
-	for <linux-kbuild@vger.kernel.org>; Fri, 27 Jun 2025 00:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDD823DE;
+	Fri, 27 Jun 2025 03:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750984969; cv=none; b=LuHYemwV7Bju6nLJ4L6446WJqRz6uzjWm6JBMk8c/a9Uo8srU0wvD7Ro5hQ9te7BxFDEH/boSAWcQtFsGiW3mFjcZWG7iDPZSdUdgmlxkuoxMvwDUhZKz1YMoBgi/W+HKVJ9PvoPhFi3uK+/46O6SL2yxAyDzkY902hpIPudRwE=
+	t=1750993577; cv=none; b=Jn9llMh3LtbVst3ioOHZh9Ke05ajVAAl/XiuahpRqhzzCUsCMoSSEOq+Wjw0ztWQVoBVgA3jcKammSi9WhZnNDntkoKhKX21LLazoqcXN4z6Pxx2UyRtWRpOW70je0h28nB0nRyxPexiPMGvbD0zd4iOycMeEimE84n00LSs9pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750984969; c=relaxed/simple;
-	bh=6xPPIM3NSdh1m0TrrrmsfHxmc3zIoWW2iunm4M56/3E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KfUo4+JwsIxdBZ8PIEMnLahKy7DwWqTWSltuwxQ+Cdx2iEp/JzP7I4vx81I02akKj54ZJLb8J3a3tNqGi3z2XRDz2G1YartihwtAA32/XUtymG+GlqIsZonQTXKah+WKUrTQODvJnV9m6XVMvTT7a4Qzm0PQN3VLKRtbKcQDKQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JKShoHE6; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-74880a02689so1285572b3a.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Jun 2025 17:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750984967; x=1751589767; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DqTnG1aDDjwMRPo2TP7Xao/+Fe8Uk4CL284uAHomG2o=;
-        b=JKShoHE6NJkr2faS/vt848z/J/cclLZU377qT34A6HNxV33Vamk3UE1RILMgOM8gf9
-         LVD6+PFvmT41L6gzMU+/J0csbsgi0aGZLacmxt6l42qPfgMUsO28fvB7xfM823Pr3KIn
-         2H+WFnGZQ5IHOHOGi6Q9HHnw3TgeSlJcFoBU/GBt+murODLHa67zV7GyKpZvydu1X1AN
-         BnZXZlLOGxyyuLnkKXSlG6pyjXomi8qk0Q082xVY39Ap20bPCqI2Wbsz6gbpk7cWyOwB
-         yYXbeIra3Y71eCXLHMWvLe280/i2VhXBpLyHHp4YzUKtK5zWlofAE42gOC5uZFSfDsGl
-         2x0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750984967; x=1751589767;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DqTnG1aDDjwMRPo2TP7Xao/+Fe8Uk4CL284uAHomG2o=;
-        b=q80twJ86iRdW+jPWXgW0Y9y7p5TT/kzsceY42YlcPn3hg1lWrOyStwsXkrn6NYDHzy
-         W5klvPBO4icpgD0P0lPpwtfPrCViAfHic0PACUdzqDC9xkrqsJXQ7hITD7k5neRtkhaQ
-         01CO/HL07Ksm6Qqocl59BD7pLnu8PkC9q03AWhaxoGrNrc2PLt/+w/IkxVZYt+j4Wgve
-         zn+EqsfavIu8wSKAl9pf4Z8h65fEJaH7KK7kyYk9JKePQ0Q24zVjq+pU97cLpBB5WKPK
-         Hcc5+W1mubRyqmHXO0EQkF+DQw3DNVzadP0ktPTNH1qrvZSQd001P0plNlcQCvAzXWsw
-         qCqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqH2vSA5cfBNZk87GJC5F54mToXBgduJLEsUAiBgprKv7zL8nFAEC6MrCM8YpGx+iN25t0b0ziVFl7rKg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKootAQnwRrnQLBuuWpdckQcErTuadvi1TpF+0l1/zdDn/bPWU
-	e9L0NiBj419djcgfqxWP4lq6ZLsUquWMc+9AUxYJh6bzShtV1j38dbLJzwE0ut3hPb40Oj83FNo
-	1
-X-Google-Smtp-Source: AGHT+IFesGng+KgIMxUtWrrJzsPBE/Sg/QLnVskl9GoZ67iH4ln8YIl1w39Y28RU5GrZTx948Vj6oKT28g==
-X-Received: from pfbna2.prod.google.com ([2002:a05:6a00:3e02:b0:748:d81f:a79e])
- (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:14c8:b0:746:298e:4ed0
- with SMTP id d2e1a72fcca58-74af6f57172mr1469555b3a.13.1750984966917; Thu, 26
- Jun 2025 17:42:46 -0700 (PDT)
-Date: Fri, 27 Jun 2025 00:42:43 +0000
-In-Reply-To: <CAEzuVAdu3bDXUGgi4U-XY4dRmBxKaCA_OjKrvK-2ftOWWwVEYA@mail.gmail.com>
+	s=arc-20240116; t=1750993577; c=relaxed/simple;
+	bh=OdfNMvO6C+AwcE+wkC4lSx53URFhypOSDQd/uI8BzXM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZKxx7/Udl+UCKBZu/ptLZJChV8mTdprfXINtEJ44m0dKRrBbVAUV9UKB62Va/tpR4Ey9xcQ720FTOWci8826YZGdgqMXun7AJSGA7TWNWHodWFNReWfzCOi9PpLVGbzeVrbn1ERTJMY71NTmddQw5Nnj23jUF96EyP8ivy2cUKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rwt4erbc; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=wvFn8h03pISlbzQyEmEgqxWepal/xwwSPh6Ju9nB3/k=; b=rwt4erbcPRwmESXgI82I1GuA0y
+	uT9PViKmVwFJ9y1OVZV7VbAS0ArqGyIvuq2kJDQdJEgT6ShdvooQKw1i1Qf8RlG/ZdtZUPRMsHyM8
+	pq5gz5IdRmz5jeCnfkGnTvxRkXAgrK2QojndqF0ktswr2QY26QeXy4Cg0OjUUx+GX5yBqxwia+/D8
+	p83Dl2BxiH0Vs/dTejf80ly+DM10rEdx6xd1SQ3rq5bQe3cgWeDWFEQlEQmK19Bih3keKChMpEcb2
+	VKQUBgBlq73tlqzd68GGhvAq3j/v9imXtXxv5S5HqzZSU/C/xebPy1b09SeBtCjv3ohq9i+L/7JTd
+	YgvmVf4g==;
+Received: from [50.53.25.54] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uUzPo-0000000DPhl-3FVT;
+	Fri, 27 Jun 2025 03:06:12 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] docs: kbuild/kconfig: add alldefconfig to the all*configs
+Date: Thu, 26 Jun 2025 20:06:12 -0700
+Message-ID: <20250627030612.3887582-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <CAEzuVAdu3bDXUGgi4U-XY4dRmBxKaCA_OjKrvK-2ftOWWwVEYA@mail.gmail.com>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-Message-ID: <20250627004243.19514-1-morbo@google.com>
-Subject: [PATCH v4] kconfig: check for a NULL pointer before access
-From: Bill Wendling <morbo@google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: masahiroy@kernel.org, linux-kbuild@vger.kernel.org, rdunlap@infradead.org, 
-	Bill Wendling <morbo@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The call to 'prop_get_symbol' may return NULL in some cases. The if-then
-statement accesses the returned value without cheecking if it's
-non-NULL. After inlining, the compiler may treat the conditional as
-'undefined behavior', which the compiler may take the opportunity to do
-whatever it wants with the UB path. This patch simply adds a check to
-ensure that 'def_sym' is non-NULL to avoid this behavior.
+Add "alldefconfig" to the explanation of the KCONFIG_ALLCONFIG
+environment variable usage so that all targets that use KCONFIG_ALLCONFIG
+are listed.
 
-Signed-off-by: Bill Wendling <morbo@google.com>
----
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>
 Cc: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-v4:
-  - Fix issue with patch formatting.
-  - Patch is sent from original email account.
-v3:
-  - Fix whitespace for real now.
-  - Patch from another email account so that the whitespace is retained.
-v2:
-  - Fix whitespace
 ---
- scripts/kconfig/symbol.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/kbuild/kconfig.rst |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index d57f8cbba291..9c5068225328 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -272,7 +272,7 @@ struct symbol *sym_choice_default(struct menu *choice)
- 		if (prop->visible.tri == no)
- 			continue;
- 		def_sym = prop_get_symbol(prop);
--		if (def_sym->visible != no)
-+		if (def_sym && def_sym->visible != no)
- 			return def_sym;
- 	}
+--- lnx-616-rc3.orig/Documentation/kbuild/kconfig.rst
++++ lnx-616-rc3/Documentation/kbuild/kconfig.rst
+@@ -67,12 +67,12 @@ Environment variables for ``*config``:
+     with its value when saving the configuration, instead of using the
+     default, ``CONFIG_``.
  
--- 
-2.50.0.727.gbf7dc18ff4-goog
-
+-Environment variables for ``{allyes/allmod/allno/rand}config``:
++Environment variables for ``{allyes/allmod/allno/alldef/rand}config``:
+ 
+ ``KCONFIG_ALLCONFIG``
+-    The allyesconfig/allmodconfig/allnoconfig/randconfig variants can also
+-    use the environment variable KCONFIG_ALLCONFIG as a flag or a filename
+-    that contains config symbols that the user requires to be set to a
++    The allyesconfig/allmodconfig/alldefconfig/allnoconfig/randconfig variants
++    can also use the environment variable KCONFIG_ALLCONFIG as a flag or a
++    filename that contains config symbols that the user requires to be set to a
+     specific value.  If KCONFIG_ALLCONFIG is used without a filename where
+     KCONFIG_ALLCONFIG == "" or KCONFIG_ALLCONFIG == "1", ``make *config``
+     checks for a file named "all{yes/mod/no/def/random}.config"
 
