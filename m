@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-7736-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7737-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9CDAECFA1
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 20:46:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F205DAECFA3
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 20:46:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAFE8174050
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 18:46:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0876F1893187
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 18:46:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD032397B0;
-	Sun, 29 Jun 2025 18:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA3E523AB8F;
+	Sun, 29 Jun 2025 18:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojAeSwWZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMheCPcj"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F66238D56;
-	Sun, 29 Jun 2025 18:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C360C23AB87;
+	Sun, 29 Jun 2025 18:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751222760; cv=none; b=KDkPT/KB3w23zJCXpHbJfCMuudroAeO0NYRzXvC+nJ41qxEks7YUXysuh44QyQthn1u9eT2u1QL6GCniNM95osl9vmzT2clhTRAIWkRteiU6OOGaZNzDMMdyawEZIT1LNc9ZtowRrY7eTvOhpfD6g3yIuhrJOj6AENPIHEn3v5Q=
+	t=1751222761; cv=none; b=LeE+DYnvQb0UvL7dvJtZUc55A6F3laskigdo/EiIZUxqs3hdw9SnzKU6edDn8blKfrv0/d26p4ia2KpkEt+ODgF0GnVdOsnI6OnXgZJVYuW2SUjhm5Yfb3na6hX6IctE8Laipbhanvl0hVMs+P3qDXxHvdNgKHBak78sBsMofHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751222760; c=relaxed/simple;
-	bh=7DyXO+EX3WfxelWY4pMDsRbHT+kgdvu4B85zzjnLvjI=;
+	s=arc-20240116; t=1751222761; c=relaxed/simple;
+	bh=Jg24bE5ko6KBIoUhz455cbr/+I0a8Ft1cMfIhIylQdU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m4Wo4LyQFx7DXqqnGGTU5BfJN8UcpGqq3v7tMiIXRZzkxisFTuJcTsty/nLPSh+NhKV6XG9PBSrt6QGH7fK2DkYnJj3ZkMmEncbVF8Aicz7m7JE0iPjz0UoeJhK0Zmu6HnuU0wB1fct4TrW3TbKai9681RVTXXAk4bdLIt39SuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojAeSwWZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD86C4CEEB;
-	Sun, 29 Jun 2025 18:45:58 +0000 (UTC)
+	 MIME-Version; b=iWDe2WZEw/c1XUENsk6qYgwU7QTe/+kE3rQ+cwH0d8cyqotiuRj87ajssX6NHbPetzZebVrCv9sl5/xfWBbeXk1sshGtBUgjeV+bcS5UmiVQVLAv7SEi35L3iN7AyCqYsg6NtF9I9njUo2HewiD8Llg8tNH9kIyNkj1F3sdMFBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMheCPcj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89708C4CEF1;
+	Sun, 29 Jun 2025 18:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751222760;
-	bh=7DyXO+EX3WfxelWY4pMDsRbHT+kgdvu4B85zzjnLvjI=;
+	s=k20201202; t=1751222761;
+	bh=Jg24bE5ko6KBIoUhz455cbr/+I0a8Ft1cMfIhIylQdU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ojAeSwWZ6jWGW1wc12yhd8wJ9KsUJweqL+v/ykTSeS8/np8lmSoykw1a2afXW9usR
-	 wGWX791AyCn/FQj5fgQrdb1vVXB6Q+vLspBdi9SkCfzzuycKg45Vc48TTuWxNc+mh6
-	 ki0lTAgw8l38iLVPMlJ1WTuArG6rASJRsxiAPmJ6FdzdgIHBk1C6YMk9CgZOkrhKq8
-	 HivK/5jtxlsTwb7iM+GJ9naqsw1FeP/cG6aV+p+dGR3SqTgfog0mg27x5uPA4rCxHx
-	 HcHMwH20TwQFc3SJUVgqCI63deZ+whDuIT9mLav0lYNv5Kroj6rB9FyQwsZXjx/9bp
-	 Q8erXTJ26BAJQ==
+	b=YMheCPcj2a39tFCrBC1nIgjM11OOC+dAOZt95AS6hFJ5DNMT6x6wPxSd1ECLs6pDH
+	 BUK7fLDsBxi4Vf/WJo2iGeUcm+iXV6VRcs2b6vy8RT6jiUATHinijb2W5IwFc4lLGd
+	 oYQYmaIeJJEYuO4twch3Rj6ncov311Ew5SJfKGXZgr4kgcuDr7+cR7tX1oKYVOal8D
+	 MPqjDPsZDepV/DkzVtR9jd52/FXNmX4174nqHC0XPHcjqFgNVukftmIKId/TjVTx7W
+	 0TI+PKrxEDRoZxvRdT7LGqqkZzjQKbD2nEvm9q4VnLSyIEuq1FB/ef9c/UzokW7XHq
+	 3Li5YVwfcW9Vw==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/9] kconfig: gconf: fix behavior of a menu under a symbol in split view
-Date: Mon, 30 Jun 2025 03:43:27 +0900
-Message-ID: <20250629184554.407497-2-masahiroy@kernel.org>
+Subject: [PATCH v2 2/9] kconfig: gconf: use configure-event handler to adjust pane separator
+Date: Mon, 30 Jun 2025 03:43:28 +0900
+Message-ID: <20250629184554.407497-3-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250629184554.407497-1-masahiroy@kernel.org>
 References: <20250629184554.407497-1-masahiroy@kernel.org>
@@ -59,68 +59,67 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A menu can be created under a symbol.
+The size_request event handler is currently used to adjust the position
+of the horizontal separator in the right pane.
 
-[Example]
-
-  menu "outer menu"
-
-  config A
-          bool "A"
-
-  menu "inner menu"
-          depends on A
-
-  config B
-          bool "B"
-
-  endmenu
-
-  endmenu
-
-After being re-parented by menu_finalize(), the menu tree is structured
-like follows:
-
-  menu "outer menu"
-  \-- A
-      \-- menu "inner menu"
-          \-- B
-
-In split view, the symbol A is shown in the right pane, so all of its
-descendants must also be shown there. This has never worked correctly.
+However, the size_request signal is not available in GTK 3. Use the
+configure-event signal instead.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 Changes in v2:
-  - A new patch
+  - Use the "configure-event" instead of "size-allocate" signal.
+    This fixes the problem where we cannot move the horizontal
+    separator in the right pane.
 
- scripts/kconfig/gconf.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ scripts/kconfig/gconf.c | 25 +++++++------------------
+ 1 file changed, 7 insertions(+), 18 deletions(-)
 
 diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index 529a836ed5da..22badd2f710e 100644
+index 22badd2f710e..8b19298eef61 100644
 --- a/scripts/kconfig/gconf.c
 +++ b/scripts/kconfig/gconf.c
-@@ -801,7 +801,7 @@ static gboolean on_treeview2_button_press_event(GtkWidget *widget,
- 		enum prop_type ptype;
- 		ptype = menu->prompt ? menu->prompt->type : P_UNKNOWN;
+@@ -604,23 +604,12 @@ static void on_window1_destroy(GtkObject *object, gpointer user_data)
+ 	gtk_main_quit();
+ }
  
--		if (ptype == P_MENU && view_mode != FULL_VIEW && col == COL_OPTION) {
-+		if (ptype == P_MENU && view_mode == SINGLE_VIEW && col == COL_OPTION) {
- 			// goes down into menu
- 			browsed = menu;
- 			display_tree_part();
-@@ -951,8 +951,7 @@ static void _display_tree(GtkTreeStore *tree, struct menu *menu,
- 		gtk_tree_store_append(tree, &iter, parent);
- 		set_node(tree, &iter, child);
+-static void on_window1_size_request(GtkWidget *widget,
+-				    GtkRequisition *requisition,
+-				    gpointer user_data)
++static gboolean on_window1_configure(GtkWidget *self,
++				     GdkEventConfigure *event,
++				     gpointer user_data)
+ {
+-	static gint old_h;
+-	gint w, h;
+-
+-	if (widget->window == NULL)
+-		gtk_window_get_default_size(GTK_WINDOW(main_wnd), &w, &h);
+-	else
+-		gdk_window_get_size(widget->window, &w, &h);
+-
+-	if (h == old_h)
+-		return;
+-	old_h = h;
+-
+-	gtk_paned_set_position(GTK_PANED(vpaned), 2 * h / 3);
++	gtk_paned_set_position(GTK_PANED(vpaned), 2 * event->height / 3);
++	return FALSE;
+ }
  
--		if ((view_mode != FULL_VIEW) && (ptype == P_MENU)
--		    && (tree == tree2))
-+		if ((view_mode == SINGLE_VIEW) && (ptype == P_MENU))
- 			continue;
- /*
- 		if (((menu != &rootmenu) && !(menu->flags & MENU_ROOT))
+ static gboolean on_window1_delete_event(GtkWidget *widget, GdkEvent *event,
+@@ -1021,8 +1010,8 @@ static void init_main_window(const gchar *glade_file)
+ 	main_wnd = glade_xml_get_widget(xml, "window1");
+ 	g_signal_connect(main_wnd, "destroy",
+ 			 G_CALLBACK(on_window1_destroy), NULL);
+-	g_signal_connect(main_wnd, "size_request",
+-			 G_CALLBACK(on_window1_size_request), NULL);
++	g_signal_connect(main_wnd, "configure-event",
++			 G_CALLBACK(on_window1_configure), NULL);
+ 	g_signal_connect(main_wnd, "delete_event",
+ 			 G_CALLBACK(on_window1_delete_event), NULL);
+ 
 -- 
 2.43.0
 
