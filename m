@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-7742-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7743-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F13AECFAE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 20:47:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385B1AECFB1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 20:47:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D8B47A9946
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 18:45:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 499253B3BF1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Jun 2025 18:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4695423D2AB;
-	Sun, 29 Jun 2025 18:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA26923E35F;
+	Sun, 29 Jun 2025 18:46:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQjwXlSM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JdZ+xAfj"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE9423D28E;
-	Sun, 29 Jun 2025 18:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A168223C513;
+	Sun, 29 Jun 2025 18:46:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751222769; cv=none; b=cQNamQpc7EJsJ3hzqp58wAeJuouRMPBB9Xvccct1Bkl4iqYiQAg13kYIgSGbIlmwNkG3dRHAbeXULmBUhWo//ULlMVTZrwUwBrALECl30lIoMCFvnpTF7asLVnsR/Www+DAcWlwoOddQHxMJL8Qh+XRxjvN2NSoTwbih8iDhJt4=
+	t=1751222770; cv=none; b=C+zKkEnvI5IfatqfZHKomt5lZwvRaZS6jZvsl9xWG/nKCZJlIuBtTuB6DTx8R6AtcpyjL1jgQGbbfNs5qc6/WlyqeUM6qqyJwwmfORHK8wrM3JM47+Xaoasn53aKq439o+FKgQqWCvWnNFZrK50DPfCkvXociKri3OqX7KKFjMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751222769; c=relaxed/simple;
-	bh=7qVJT7FJI6PQRv2Xm5iu7ZR0RM8RF5vD5PyKw0Y0lx8=;
+	s=arc-20240116; t=1751222770; c=relaxed/simple;
+	bh=lYu52VM5uS+Ph+Ha2DQtFx4Adw8Wdn2qoTB8CKvd3gM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cEI2Mi77hwVFspY/AyoUdw8pVYtEWGjWTI5wgx8h/bL+Cxl7avhDmn8CuxuyP69ZoXVB7z4gGQX2Kw+Xw1kAGo9lePCN5t9hEW6fKjH9bCfApsoMnFWxFAPRvyFbmwzTaX52/86S3LmMY2OrHN/F6zWzhlHQAYU8aYqZJlqb9z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQjwXlSM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C87E5C4CEF0;
-	Sun, 29 Jun 2025 18:46:07 +0000 (UTC)
+	 MIME-Version; b=LMv5bG8jw7+Bw47ynLMQpPCL6X6F6I9YtbRrCkb7DRE+aHXjeR3JDoGNIedZnfOYlXg9f6nPN2He2QRu6YUpE9qHTyNusRa1RBfClJYKbgE/naBRJQCaQqTLIUqdFgIHGQLnN3iQYQTbcb+lVCukhefwH1nrNQnf0MuPe5Yyr4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JdZ+xAfj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5787DC4CEF1;
+	Sun, 29 Jun 2025 18:46:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751222768;
-	bh=7qVJT7FJI6PQRv2Xm5iu7ZR0RM8RF5vD5PyKw0Y0lx8=;
+	s=k20201202; t=1751222770;
+	bh=lYu52VM5uS+Ph+Ha2DQtFx4Adw8Wdn2qoTB8CKvd3gM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MQjwXlSMDf+DMuCsFH2gJ520V/dWrUIZIFzzlO0iUT+aZZdwshOsw8s/aUB7Q/94G
-	 xziCMbjRiR6z3cGSypA6bCzQ+a9gohJTTSk0CJqj3VpSzFyhsZ7skST6oGKUMvXCPh
-	 sskZ094Gl0GVuSWteWEVHy1AQo6uXaDgEGLG8FDOHkXz3QCa92F3JRnhhtnnzDqd2g
-	 Cpp+gizZmxoCvzquN4vDq984xnvp8zkeDqbmzH/UXzJbbsINYRy1ht3sWIY3XCuH0j
-	 +oP//OwRJRiCKREJxPo7M2JimuTNv+ePTcq0Yj4TXsqUsFs2tNwTta2gu/pneTpbCu
-	 BhJFKDcswNDvA==
+	b=JdZ+xAfj5BSk8AFfldhQftBLEKnw6nbJkQY0TSWy5SuyuxfvwrIjOATSNjPB4KUcY
+	 qEKTBqezJFLylMNiKB7M3o/iDJ/lvHnojwOvI20X3KxJJaC9cGfJaIuiCe1ASjZR60
+	 F721KPhehYXQ/l9yKne9aCdjEDIwHlAT3slCm9/BKNOagkjQT0q1NuiQQXLFFrGLmF
+	 vzhtnPMfENMrNzq0IzYYr/0zY6OiPydYAEAjrGBNuUxjCWUficVVfzy3zVCRmEwLX4
+	 uO6k21QVoOdQOmQ7eRXM+iitsSmGLazWIuKNMeEDswe8NqYOl8o28zxhuJbLjW2IFn
+	 kYuL9wAXEl88A==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/9] kconfig: gconf: replace GdkColor with GdkRGBA
-Date: Mon, 30 Jun 2025 03:43:33 +0900
-Message-ID: <20250629184554.407497-8-masahiroy@kernel.org>
+Subject: [PATCH v2 8/9] kconfig: gconf: replace GtkHPaned and GtkVPaned with GtkPaned
+Date: Mon, 30 Jun 2025 03:43:34 +0900
+Message-ID: <20250629184554.407497-9-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250629184554.407497-1-masahiroy@kernel.org>
 References: <20250629184554.407497-1-masahiroy@kernel.org>
@@ -57,126 +57,47 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-GdkColor is deprecated with GTK 3.14. [1]
+GtkHPaned and GtkVPaned are deprecated with GTK 3.2. [1] [2]
 
-Use GdkRGBA instead.
+Use GtkPaned instead.
 
-This fixes warnings such as:
-
-scripts/kconfig/gconf.c: In function ‘set_node’:
-scripts/kconfig/gconf.c:138:9: warning: ‘gdk_color_parse’ is deprecated: Use 'gdk_rgba_parse' instead [-Wdeprecated-declarations]
-  138 |         gdk_color_parse(menu_is_visible(menu) ? "Black" : "DarkGray", &color);
-      |         ^~~~~~~~~~~~~~~
-
-[1]: https://gitlab.gnome.org/GNOME/gtk/-/blob/3.14.0/gdk/deprecated/gdkcolor.h#L52
+[1]: https://gitlab.gnome.org/GNOME/gtk/-/blob/3.2.0/gtk/gtkhpaned.c#L44
+[2]: https://gitlab.gnome.org/GNOME/gtk/-/blob/3.2.0/gtk/gtkvpaned.c#L44
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-(no changes since v1)
+Changes in v2:
+  - A new patch
 
- scripts/kconfig/gconf.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ scripts/kconfig/gconf.ui | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index a751ab6a98f0..2a4481b4b523 100644
---- a/scripts/kconfig/gconf.c
-+++ b/scripts/kconfig/gconf.c
-@@ -128,7 +128,7 @@ static void set_node(GtkTreeStore *tree, GtkTreeIter *node, struct menu *menu)
- 	const gchar *_mod = "";
- 	const gchar *_yes = "";
- 	const gchar *value = "";
--	GdkColor color;
-+	GdkRGBA color;
- 	gboolean editable = FALSE;
- 	gboolean btnvis = FALSE;
+diff --git a/scripts/kconfig/gconf.ui b/scripts/kconfig/gconf.ui
+index 378a3eadf9f8..f2c8342f1103 100644
+--- a/scripts/kconfig/gconf.ui
++++ b/scripts/kconfig/gconf.ui
+@@ -422,7 +422,7 @@
+       </child>
  
-@@ -138,7 +138,7 @@ static void set_node(GtkTreeStore *tree, GtkTreeIter *node, struct menu *menu)
- 				 menu->type == M_COMMENT ? "***" : "",
- 				 sym && !sym_has_value(sym) ? "(NEW)" : "");
+       <child>
+-	<object class="GtkHPaned" id="hpaned1">
++	<object class="GtkPaned" id="hpaned1">
+ 	  <property name="width_request">1</property>
+ 	  <property name="visible">True</property>
+ 	  <property name="can_focus">True</property>
+@@ -453,7 +453,8 @@
+ 	  </child>
  
--	gdk_color_parse(menu_is_visible(menu) ? "Black" : "DarkGray", &color);
-+	gdk_rgba_parse(&color, menu_is_visible(menu) ? "Black" : "DarkGray");
+ 	  <child>
+-	    <object class="GtkVPaned" id="vpaned1">
++	    <object class="GtkPaned" id="vpaned1">
++	      <property name="orientation">vertical</property>
+ 	      <property name="visible">True</property>
+ 	      <property name="can_focus">True</property>
  
- 	if (!sym)
- 		goto set;
-@@ -1172,7 +1172,7 @@ static void init_left_tree(void)
- 				   G_TYPE_STRING, G_TYPE_STRING,
- 				   G_TYPE_STRING, G_TYPE_STRING,
- 				   G_TYPE_STRING, G_TYPE_STRING,
--				   G_TYPE_POINTER, GDK_TYPE_COLOR,
-+				   G_TYPE_POINTER, GDK_TYPE_RGBA,
- 				   G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF,
- 				   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
- 				   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
-@@ -1203,7 +1203,7 @@ static void init_left_tree(void)
- 	gtk_tree_view_column_set_attributes(GTK_TREE_VIEW_COLUMN(column),
- 					    renderer,
- 					    "text", COL_OPTION,
--					    "foreground-gdk",
-+					    "foreground-rgba",
- 					    COL_COLOR, NULL);
- 
- 	sel = gtk_tree_view_get_selection(view);
-@@ -1223,7 +1223,7 @@ static void init_right_tree(void)
- 				   G_TYPE_STRING, G_TYPE_STRING,
- 				   G_TYPE_STRING, G_TYPE_STRING,
- 				   G_TYPE_STRING, G_TYPE_STRING,
--				   G_TYPE_POINTER, GDK_TYPE_COLOR,
-+				   G_TYPE_POINTER, GDK_TYPE_RGBA,
- 				   G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF,
- 				   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
- 				   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
-@@ -1261,32 +1261,32 @@ static void init_right_tree(void)
- 	gtk_tree_view_column_set_attributes(GTK_TREE_VIEW_COLUMN(column),
- 					    renderer,
- 					    "text", COL_OPTION,
--					    "foreground-gdk",
-+					    "foreground-rgba",
- 					    COL_COLOR, NULL);
- 
- 	renderer = gtk_cell_renderer_text_new();
- 	gtk_tree_view_insert_column_with_attributes(view, -1,
- 						    "Name", renderer,
- 						    "text", COL_NAME,
--						    "foreground-gdk",
-+						    "foreground-rgba",
- 						    COL_COLOR, NULL);
- 	renderer = gtk_cell_renderer_text_new();
- 	gtk_tree_view_insert_column_with_attributes(view, -1,
- 						    "N", renderer,
- 						    "text", COL_NO,
--						    "foreground-gdk",
-+						    "foreground-rgba",
- 						    COL_COLOR, NULL);
- 	renderer = gtk_cell_renderer_text_new();
- 	gtk_tree_view_insert_column_with_attributes(view, -1,
- 						    "M", renderer,
- 						    "text", COL_MOD,
--						    "foreground-gdk",
-+						    "foreground-rgba",
- 						    COL_COLOR, NULL);
- 	renderer = gtk_cell_renderer_text_new();
- 	gtk_tree_view_insert_column_with_attributes(view, -1,
- 						    "Y", renderer,
- 						    "text", COL_YES,
--						    "foreground-gdk",
-+						    "foreground-rgba",
- 						    COL_COLOR, NULL);
- 	renderer = gtk_cell_renderer_text_new();
- 	gtk_tree_view_insert_column_with_attributes(view, -1,
-@@ -1294,7 +1294,7 @@ static void init_right_tree(void)
- 						    "text", COL_VALUE,
- 						    "editable",
- 						    COL_EDIT,
--						    "foreground-gdk",
-+						    "foreground-rgba",
- 						    COL_COLOR, NULL);
- 	g_signal_connect(G_OBJECT(renderer), "edited",
- 			 G_CALLBACK(renderer_edited), tree2_w);
 -- 
 2.43.0
 
