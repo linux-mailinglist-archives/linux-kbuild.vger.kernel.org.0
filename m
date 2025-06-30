@@ -1,163 +1,153 @@
-Return-Path: <linux-kbuild+bounces-7766-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7767-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA231AED2DF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 05:21:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DDBAED2F3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 05:37:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C31F53B34F4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 03:20:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 065533B2087
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 03:36:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BD81DA55;
-	Mon, 30 Jun 2025 03:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEE5D22F01;
+	Mon, 30 Jun 2025 03:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b2o8DoPl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWlEoxIu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C7E4C6C;
-	Mon, 30 Jun 2025 03:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872C53D6F;
+	Mon, 30 Jun 2025 03:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751253667; cv=none; b=p9dJFPqAcGB+XpLVEs+IcsLRdeNAVBYZtCQIPpGEkHLgO0pyCy0hdqhv1QW109dDirD/08fNvyPYVVk+OBWMTZvwv6SKTqfGFLqWHLysSlOQAg8av1YY4DQeZfhoSKBLO5dDC8FGvGH19vnSkM8vH/JhjHXsrKEgt96dSv2hP2I=
+	t=1751254634; cv=none; b=gS87/6k1NZh27Unwgwho2YeXDGuAzrxpMGDu8D+IYkzVBvtembniVxQSmOxZc7t5Mnipg5Q8ZNf/pGA+pPrBFjwNt+wkGp3U4xkqCfzigx/YMLz4Broun8OldngWBQEnmGbBBGNfUJe5iwywmDCgLeM80JWXTj1uUCPvpa2eApI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751253667; c=relaxed/simple;
-	bh=V6mII1O5U1NOnOu3wx07q4tyfusravzO5rb8bdyvvMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F0INgaCeWsvDo0Sm9CmbKsZkwiWCNhlNG7pfQdjns27XTN1OPSXTLPvoablEDoNRykzyj45OdSCcF2UKk05fpp335r2LjhhID7LwUJiPzw/Y7Ndx3GVvQ46gbN5wpT1YjvPPh2lYRtjwT7jqnzTzH+w9onzXSwZ/6xzY8tQFNDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b2o8DoPl; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=h9VCl1vFa5kMUPqcOo628ZE9FCQuczciRfdsxio9sAo=; b=b2o8DoPlKqE8hOlSOdBuZgM9jp
-	o+8kKUxzkzFnKwwNp0n3jzKgE0LJAA9EAZGaQwpsZmRegE83ADmCo3mXVu8D3BQ+7J5jj8jXCmEmv
-	agHlz+yo4XA+42Xu7lWmWRaXqyOejFFSGpguMOZrZ6hEeetU0ywbO2CfcSj0I8Fa9mkStX3nBEW+7
-	2LV2HCPFvNtn0rX+jr0jAb07mV0wpO0o/RJ2jHPRxJ8xZWFFbFhvEHs3rB+3dk4O1La2PKM/wCcWa
-	mBXsGM0ap+3dGwf6AdD67mfPNX96DP+imRdZ/q25u+0zmfYw6bwkC00WCMDPlUCec17BIAp0kaxlc
-	ZAyovQSA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uW54l-00000006iZ0-1bvi;
-	Mon, 30 Jun 2025 03:21:03 +0000
-Message-ID: <524e8ee4-52cd-47aa-80ea-7d09ebca05ea@infradead.org>
-Date: Sun, 29 Jun 2025 20:20:57 -0700
+	s=arc-20240116; t=1751254634; c=relaxed/simple;
+	bh=tBBO/xetKW3+8xdOXZEHVQmU70bwKwSu2UKBd7Fxjm0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tzHqq13r2vu4i1hoqYdZgJidwgjkNO3lmbI18egUoRUYUAhpITkbgnyqpt7RPKyBBX5Ap1rHvlAOZ+Tjx13bHvwt9GK+B/hVyDOSjyuNytfN1IJymCw7XHZeqVQr+UiqDSmABKRNZ949eGz18nLasvo0s6i4AObabg43v3NKb4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWlEoxIu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18BFFC4CEE3;
+	Mon, 30 Jun 2025 03:37:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751254634;
+	bh=tBBO/xetKW3+8xdOXZEHVQmU70bwKwSu2UKBd7Fxjm0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RWlEoxIulUkJQcCLFCQFOBENG9ri2l8jriXC2ope8+7he1ZsycDyeK13oP/D6TmGm
+	 qC0TvQPffXkAdv8f3DCHM8XZpjTn42OmcjFW90WTUTRuuxpApWeI1VjLmazXUn1aox
+	 ncaX6CtfX1CS4NtjNpFPWJX1/uZorwU9boZmOjNsIIhYpE5AXIf7J5WKlFnPK4tK/q
+	 FCF5Pc2BRNdwBT2d1nyFWkeYA/p1Byq8/doORdo6Vky0+aDisbzudUEAF8s5DgYA32
+	 dfMJxmCCO2pKbl8llUAxQlpjeEbYO6S50GX9zx17TUYu0dy+8/DGYtY8FCIreMq1HT
+	 xQXOI8Euje0/g==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-553be4d2fbfso1850670e87.0;
+        Sun, 29 Jun 2025 20:37:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWPfo6FHmLK5X2OFZpuSSRIISPpVkejfuLllqFD98L2ZEyjsSLauYreQXOefxDLwIl6w2wyJZGbf9IHp94=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwriX29eHRcTzqyfupabtMSQdSX70uGq56N5lOdBU24V8EkTGhQ
+	j8ZEgGBqFt+83etIdUww12nPI0ejJ1LuyW+KQkCJ99tGU/IzPihmSlZZuhrP+ObQIp/x51b8bvI
+	ifB4GRHkpkVS0TJk5LSdudD/PmrdhQEo=
+X-Google-Smtp-Source: AGHT+IGAIwtzmHNa7XNzytGab0LyD1KTbFoV0ASGIxgboBguZf4k0T5z7vCGX4VvY00rLDP+knL/2+4nT1AXCFI9FCc=
+X-Received: by 2002:a05:6512:4021:b0:553:aed7:9807 with SMTP id
+ 2adb3069b0e04-5550b81135cmr3311832e87.9.1751254632730; Sun, 29 Jun 2025
+ 20:37:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 37/66] kconfig: gconf: use GtkFileChooser in
- on_save_as1_activate()
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
 References: <20250624150645.1107002-1-masahiroy@kernel.org>
- <20250624150645.1107002-38-masahiroy@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250624150645.1107002-38-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20250624150645.1107002-3-masahiroy@kernel.org> <85eadc3b-391a-4fd1-a4b7-2e99de1ee6da@infradead.org>
+In-Reply-To: <85eadc3b-391a-4fd1-a4b7-2e99de1ee6da@infradead.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 30 Jun 2025 12:36:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQo5DKLdrn53yW3A0WnKxfyxJxyrxt8bDTVJvTM8kMyRw@mail.gmail.com>
+X-Gm-Features: Ac12FXwgsAv7vq418VjJjyocyqI2rEvOR9x782fQBvcsd_ST-4eji0qWgz9lW_Y
+Message-ID: <CAK7LNAQo5DKLdrn53yW3A0WnKxfyxJxyrxt8bDTVJvTM8kMyRw@mail.gmail.com>
+Subject: Re: [PATCH 02/66] kconfig: qconf: do not show checkbox icon for choice
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 30, 2025 at 5:15=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
+> wrote:
+>
+>
+>
+> On 6/24/25 8:04 AM, Masahiro Yamada wrote:
+> > When you select "Show All Options" or "Show Prompt Options", choice
+> > entries display a check box icon, but this has no point because
+> > choice is always y since commit
+>
+>                      since commit _____________________.
+
+
+since commit fde192511bdb ("kconfig: remove tristate choice support").
+
+
+I will fix it.
+Thanks.
 
 
 
-On 6/24/25 8:05 AM, Masahiro Yamada wrote:
-> gtk_file_selection_new() is deprecated, and gtk_file_chooser_dialog_new()
-> should be used instead. [1]
-> 
-> [1]: https://gitlab.gnome.org/GNOME/gtk/-/blob/2.24.33/docs/reference/gtk/tmpl/gtkfilesel.sgml?ref_type=tags#L156
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/kconfig/qconf.cc | 11 ++++++-----
+> >  1 file changed, 6 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
+> > index eaa465b0ccf9..546738a5c3b1 100644
+> > --- a/scripts/kconfig/qconf.cc
+> > +++ b/scripts/kconfig/qconf.cc
+> > @@ -92,7 +92,6 @@ void ConfigItem::updateMenu(void)
+> >  {
+> >       ConfigList* list;
+> >       struct symbol* sym;
+> > -     struct property *prop;
+> >       QString prompt;
+> >       int type;
+> >       tristate expr;
+> > @@ -105,11 +104,10 @@ void ConfigItem::updateMenu(void)
+> >       }
+> >
+> >       sym =3D menu->sym;
+> > -     prop =3D menu->prompt;
+> >       prompt =3D menu_get_prompt(menu);
+> >
+> > -     if (prop) switch (prop->type) {
+> > -     case P_MENU:
+> > +     switch (menu->type) {
+> > +     case M_MENU:
+> >               if (list->mode =3D=3D singleMode) {
+> >                       /* a menuconfig entry is displayed differently
+> >                        * depending whether it's at the view root or a c=
+hild.
+> > @@ -123,10 +121,13 @@ void ConfigItem::updateMenu(void)
+> >                       setIcon(promptColIdx, QIcon());
+> >               }
+> >               goto set_prompt;
+> > -     case P_COMMENT:
+> > +     case M_COMMENT:
+> >               setIcon(promptColIdx, QIcon());
+> >               prompt =3D "*** " + prompt + " ***";
+> >               goto set_prompt;
+> > +     case M_CHOICE:
+> > +             setIcon(promptColIdx, QIcon());
+> > +             goto set_prompt;
+> >       default:
+> >               ;
+> >       }
+>
+> --
+> ~Randy
+>
 
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-
-> ---
-> 
->  scripts/kconfig/gconf.c | 56 ++++++++++++++++++++---------------------
->  1 file changed, 27 insertions(+), 29 deletions(-)
-> 
-> diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-> index f33f39d50f3d..b019711142c3 100644
-> --- a/scripts/kconfig/gconf.c
-> +++ b/scripts/kconfig/gconf.c
-> @@ -198,38 +198,36 @@ static void on_save_activate(GtkMenuItem *menuitem, gpointer user_data)
->  	conf_write_autoconf(0);
->  }
->  
-> -
-> -static void
-> -store_filename(GtkFileSelection * file_selector, gpointer user_data)
-> -{
-> -	const gchar *fn;
-> -
-> -	fn = gtk_file_selection_get_filename(GTK_FILE_SELECTION
-> -					     (user_data));
-> -
-> -	if (conf_write(fn))
-> -		text_insert_msg("Error", "Unable to save configuration !");
-> -
-> -	gtk_widget_destroy(GTK_WIDGET(user_data));
-> -}
-> -
->  static void on_save_as1_activate(GtkMenuItem *menuitem, gpointer user_data)
->  {
-> -	GtkWidget *fs;
-> +	GtkWidget *dialog;
-> +	GtkFileChooser *chooser;
-> +	gint res;
->  
-> -	fs = gtk_file_selection_new("Save file as...");
-> -	g_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(fs)->ok_button),
-> -			 "clicked",
-> -			 G_CALLBACK(store_filename), (gpointer) fs);
-> -	g_signal_connect_swapped(GTK_OBJECT
-> -				 (GTK_FILE_SELECTION(fs)->ok_button),
-> -				 "clicked", G_CALLBACK(gtk_widget_destroy),
-> -				 (gpointer) fs);
-> -	g_signal_connect_swapped(GTK_OBJECT
-> -				 (GTK_FILE_SELECTION(fs)->cancel_button),
-> -				 "clicked", G_CALLBACK(gtk_widget_destroy),
-> -				 (gpointer) fs);
-> -	gtk_widget_show(fs);
-> +	dialog = gtk_file_chooser_dialog_new("Save file as...",
-> +					     GTK_WINDOW(user_data),
-> +					     GTK_FILE_CHOOSER_ACTION_SAVE,
-> +					     "_Cancel", GTK_RESPONSE_CANCEL,
-> +					     "_Save", GTK_RESPONSE_ACCEPT,
-> +					     NULL);
-> +
-> +	chooser = GTK_FILE_CHOOSER(dialog);
-> +	gtk_file_chooser_set_filename(chooser, conf_get_configname());
-> +
-> +	res = gtk_dialog_run(GTK_DIALOG(dialog));
-> +	if (res == GTK_RESPONSE_ACCEPT) {
-> +		char *filename;
-> +
-> +		filename = gtk_file_chooser_get_filename(chooser);
-> +
-> +		if (conf_write(filename))
-> +			text_insert_msg("Error",
-> +					"Unable to save configuration !");
-> +
-> +		g_free(filename);
-> +	}
-> +
-> +	gtk_widget_destroy(dialog);
->  }
->  
->  static void on_show_name1_activate(GtkMenuItem *menuitem, gpointer user_data)
-
--- 
-~Randy
+--=20
+Best Regards
+Masahiro Yamada
 
