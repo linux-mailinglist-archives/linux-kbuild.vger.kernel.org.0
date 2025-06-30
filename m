@@ -1,197 +1,141 @@
-Return-Path: <linux-kbuild+bounces-7797-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7798-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D74EAEE7AB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 21:40:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4937CAEEACE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 01:11:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5062A3A3C2B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 19:40:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60E9C3E144E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 23:11:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AE53292B4D;
-	Mon, 30 Jun 2025 19:40:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB7682E54AC;
+	Mon, 30 Jun 2025 23:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="NIHefduY"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TmZ+rdjL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C49928C2CB
-	for <linux-kbuild@vger.kernel.org>; Mon, 30 Jun 2025 19:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782F5202976;
+	Mon, 30 Jun 2025 23:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751312435; cv=none; b=taV1QSzDbItSy0OA6VXdK7wGNzokPhDMt40Czq1IZ4NCDjfGSw7fDRCkf+eum9PW+Q7roEw5rFotdLEeNm2cMPCP0DpdwwyyepNLMPYu7fSUbGgPQclE1Ka6tFJKVnc4jd7bI0x240j/4EqQDn4l6299k5Uu37a59fBpdJhRvMM=
+	t=1751325081; cv=none; b=fILnNp8f74QAUAiKjDMiv5D880JsKllttp3V5CfH5IPw6MF4X2BBjf5SneXRz5rASKSepb+RLJZsD14XMOZEy7pccbigqijlbISEpDIgZvTTnJzp76w+hMIrtPVrYcQxR+K8091FdhqdbDr46pFknRrfBIssEWtfW8ZUpudlPL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751312435; c=relaxed/simple;
-	bh=pHWbAsMkiissQol33kasQB9R5YP+XhPouHV1dv5aHmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GuT8iyh7/DH5d2F04qmI3Gj4PVWVvUjc2Y1vh8xUP2dWnC1OqtWqKRN3lZZKzmAfzfxn6eHNTBQP0nYHQx7HlaPfqPvHljMhV45XEheVC9hEYGiVYhankSeI/+V0xS1fv3Xp8p6VDRR0esnsOsriwGJ5j5y6t+dphwU/X2OJs54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=NIHefduY; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-60c5b7cae8bso4248456a12.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Jun 2025 12:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751312431; x=1751917231; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dR+iJ3QhujZDf9uIL5BF8Crqd+xW0xxgvhgkDwkmlVM=;
-        b=NIHefduYguH+MmVZH0xIOU3Z6hxL54g3KXR1qGLeg29QWT0UMxDEiw3s5lnEgwyiwd
-         SLpm/5EiH4OV5T1Eu7+3AKIeyqE5VsfuFBJkUKaAZMD+ZlJtNTafqRVCMpFDgdQs4Ck1
-         LOy12QgMF6G0x3QOdANGVuOXmrzIvXnXMxkv4zy8VFaz2zUnU6ZNs/bAaW1hCq+FLd2S
-         zX2bAc8RtFkgRqojyPpA5sjcdxVl+5htvCfB72951v53Kq4PFePtnQpqxbAx/Xcs3LZP
-         3MvKRjIGLxbk4nRhs88V5x9mMS2Xv/jarGcR7/DVFKmz+A/X+8Ei4aSJYC5scmj39v67
-         /M3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751312431; x=1751917231;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dR+iJ3QhujZDf9uIL5BF8Crqd+xW0xxgvhgkDwkmlVM=;
-        b=G/7I1oA+FkBCKO1iO0H1gcwVO9pl3ofnHU4Sr0PlwyLCftSFnXAESsjfQ6uytlvE+z
-         NE2p1KtO7t9EqHI4xemjLDbtIBiQt9UwI6H68GdxdbDLOzwI/39niMX4i4Myxw/RuaUd
-         0zDpKCQBYUJQBZIez5IfTG0uen7nTLAXMRuU39Ugu7h2lm2sCDWIB1xUFUbwgy50lWPr
-         qCevF6K9c4dqwlJYjMtXfSFstYxQhU4P4AD9vdYwQVst0qYB5TdLB4K8gGdAKvZ7trjA
-         dbmgkcQR4cMqoOdGMYqTCegXDFUC3yeWVH2PL9G7u9RAbxfLMmRYegQtDH6bSWvqiVEp
-         4kMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXXrl6u1wUaF9YS+9qNQB8W/pBnHxtdDar3v9br1Q8lt7TGEEtMsWVMaYnm61HfWAH/YTBMzkGTtAhGTj0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+qxln3R3e130/j9IAn4/M1PPxWW3+VJ3LndfGQnc+5taHXnaK
-	MXSbVxN4HGb5kXcVY4ccf6vy3nDKzVOOZLWH/zkpLlL5g1pHUO6U4VtjVAYWeaSS70U=
-X-Gm-Gg: ASbGncuaAQumTABMF8IuP8FfQyW1JXGbAd88u9h1brQFiWoghS4fcZqln0mgENOqGNB
-	vJ/uQzOICmWL2XFF50xiq+tBuuozMKXRTNxxztwIVZI+TrI0nVuj53oGxtNdijy1UoI0AiOm9W8
-	MAoOKWtJe9ZK9c1bb1q2dxPNl5qfZoeJ4otgl7+QL0IAQowRwatRJLYy+6V4uQP/alWEuQV7LWe
-	qrI7hmxYci7aTrNaf5c/4XOxNfRr0cLkVV5m8KU/CGvjy3ETdB/e+dMIShCRg05m8e2qn/QCvcU
-	Kt/6G2nMf+s3mPW/bHAx2EBPKna0dLZpN5WgJrlcld+BOceqsASNRL+do68Pe3Xd7Tw=
-X-Google-Smtp-Source: AGHT+IFIK2J9cXl/IPVjclluGd+dCHIOY4XSHNTiiXWjiYenvLUpWycOI0CzQur+qLe9BeZY0Ev9Xw==
-X-Received: by 2002:a05:6402:34c6:b0:5ff:ef06:1c52 with SMTP id 4fb4d7f45d1cf-60c88d65540mr13395717a12.3.1751312431328;
-        Mon, 30 Jun 2025 12:40:31 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-60c8f794b62sm5566982a12.68.2025.06.30.12.40.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 12:40:30 -0700 (PDT)
-Date: Mon, 30 Jun 2025 21:40:28 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Agustin Vega-Frias <agustinv@codeaurora.org>, 
-	Marc Zyngier <maz@kernel.org>, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Markus Schneider-Pargmann <msp@baylibre.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] irqchip/qcom-irq-combiner: Rename driver struct to end
- in _driver
-Message-ID: <gbjim7wxszmwfvm523bgyfxf5mk5773pafdxnf2wf4mgaebsmz@qfeejv4ilwxv>
-References: <20250630172333.73614-2-u.kleine-koenig@baylibre.com>
- <87ldp9m7la.ffs@tglx>
+	s=arc-20240116; t=1751325081; c=relaxed/simple;
+	bh=K08Yf0sDcZOdeL8lYAqH/TBx6fvIpr3WtRtGDZf4r60=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EQ1Qxcn2nhgRFQh+3jtCIjFuwOMS3Lz2/Ek34G641szl/an6kU1M63N6tGjU13AZAJRAjZ9mEiy5LFWnIspWrTEuc+4fDl+pIRV6fx/A6kAKoMyhFIf6kLA6aRzkK3ReNbVsSMVB/OKctpCzyvHP8WFxQEDM3s7ygQAIT+LV1Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TmZ+rdjL; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=vAnN64UD7AxYlLWs2q79E0ixMg7+o6oDouJEXnd54gw=; b=TmZ+rdjLPgfGqZTD9O7KZgLRJm
+	L61uhyYaRC56PLAIcmdXxvZbkaxgd82o8dO3nz+tYpLqBXu+a3ht53+JiHmnomYc7+GADhRTJ8DD0
+	pHfwHchmfFSO54BVMPhUVYU1T3zZJq243h4mOjxbolb3Lf+NcKTy26LBpBzkctkyNacEsSv2J+SyC
+	tNwSprzZy+T+wBgC/rL4OsSrPq/krK/rCW9VDdFm5WgXxq4UyO/vPrlTL2lkqkMDKDQEolYLx00kq
+	4PcUpc1d9q9sAV9n6nWBk2tsLvuuaLG6tEQT8TYfSa6Do7FqhiaYZ3jTQ5GQcHnS5N+RCJ68uIEoL
+	2qt5G98g==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uWNef-00000006u3M-08s5;
+	Mon, 30 Jun 2025 23:11:17 +0000
+Message-ID: <eddc5de9-5007-45eb-9d61-668d1225e211@infradead.org>
+Date: Mon, 30 Jun 2025 16:11:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wb3haxxcye6hb47p"
-Content-Disposition: inline
-In-Reply-To: <87ldp9m7la.ffs@tglx>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/9] kconfig: gconf: use configure-event handler to
+ adjust pane separator
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20250629184554.407497-1-masahiroy@kernel.org>
+ <20250629184554.407497-3-masahiroy@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250629184554.407497-3-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---wb3haxxcye6hb47p
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] irqchip/qcom-irq-combiner: Rename driver struct to end
- in _driver
-MIME-Version: 1.0
 
-Hello,
+On 6/29/25 11:43 AM, Masahiro Yamada wrote:
+> The size_request event handler is currently used to adjust the position
+> of the horizontal separator in the right pane.
+> 
+> However, the size_request signal is not available in GTK 3. Use the
+> configure-event signal instead.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-[adding the people involved with scripts/mod to Cc:]
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-On Mon, Jun 30, 2025 at 08:01:53PM +0200, Thomas Gleixner wrote:
-> On Mon, Jun 30 2025 at 19:23, Uwe Kleine-K=F6nig wrote:
-> > The modpost section mismatch checks are more lax for objects that have a
-> > name that ends in "_probe". This is not justified here though, so rename
->=20
-> That's a truly bad design or lack of such.
->=20
-> Why can't this muck use foo_driver(name) foo_probe(name) annotations to
-> make it entirely clear what is tested for instead of oracling it out of
-> the name itself. That would make it too easy to understand and analyse.
+Thanks.
 
-I don't understand what you're suggesting here. Either I got it wrong or
-it is insufficient because every object is checked, not only the driver
-structs. That would result in more exceptions/special cases than we have
-now.
+> ---
+> 
+> Changes in v2:
+>   - Use the "configure-event" instead of "size-allocate" signal.
+>     This fixes the problem where we cannot move the horizontal
+>     separator in the right pane.
+> 
+>  scripts/kconfig/gconf.c | 25 +++++++------------------
+>  1 file changed, 7 insertions(+), 18 deletions(-)
+> 
+> diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
+> index 22badd2f710e..8b19298eef61 100644
+> --- a/scripts/kconfig/gconf.c
+> +++ b/scripts/kconfig/gconf.c
+> @@ -604,23 +604,12 @@ static void on_window1_destroy(GtkObject *object, gpointer user_data)
+>  	gtk_main_quit();
+>  }
+>  
+> -static void on_window1_size_request(GtkWidget *widget,
+> -				    GtkRequisition *requisition,
+> -				    gpointer user_data)
+> +static gboolean on_window1_configure(GtkWidget *self,
+> +				     GdkEventConfigure *event,
+> +				     gpointer user_data)
+>  {
+> -	static gint old_h;
+> -	gint w, h;
+> -
+> -	if (widget->window == NULL)
+> -		gtk_window_get_default_size(GTK_WINDOW(main_wnd), &w, &h);
+> -	else
+> -		gdk_window_get_size(widget->window, &w, &h);
+> -
+> -	if (h == old_h)
+> -		return;
+> -	old_h = h;
+> -
+> -	gtk_paned_set_position(GTK_PANED(vpaned), 2 * h / 3);
+> +	gtk_paned_set_position(GTK_PANED(vpaned), 2 * event->height / 3);
+> +	return FALSE;
+>  }
+>  
+>  static gboolean on_window1_delete_event(GtkWidget *widget, GdkEvent *event,
+> @@ -1021,8 +1010,8 @@ static void init_main_window(const gchar *glade_file)
+>  	main_wnd = glade_xml_get_widget(xml, "window1");
+>  	g_signal_connect(main_wnd, "destroy",
+>  			 G_CALLBACK(on_window1_destroy), NULL);
+> -	g_signal_connect(main_wnd, "size_request",
+> -			 G_CALLBACK(on_window1_size_request), NULL);
+> +	g_signal_connect(main_wnd, "configure-event",
+> +			 G_CALLBACK(on_window1_configure), NULL);
+>  	g_signal_connect(main_wnd, "delete_event",
+>  			 G_CALLBACK(on_window1_delete_event), NULL);
+>  
 
-Anyhow, I agree that depending on the name is unfortunate, maybe we can
-come up with something more clever?
-
-There are a few more candidates:
-
-$ git grep -E '_driver\>\s*[a-z_0-9]*_(ops|probe|console)\>' next/master
-next/master:Documentation/driver-api/usb/typec_bus.rst:   :functions: typec=
-_altmode_driver typec_altmode_ops
-next/master:drivers/char/virtio_console.c:static struct virtio_driver virti=
-o_console =3D {
-next/master:drivers/clocksource/timer-nxp-stm.c:static struct platform_driv=
-er nxp_stm_probe =3D {
-next/master:drivers/irqchip/qcom-irq-combiner.c:static struct platform_driv=
-er qcom_irq_combiner_probe =3D {
-next/master:drivers/net/ethernet/aquantia/atlantic/aq_pci_func.c:static str=
-uct pci_driver aq_pci_ops =3D {
-next/master:drivers/net/ethernet/dec/tulip/xircom_cb.c:static struct pci_dr=
-iver xircom_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-dpi.c:static st=
-ruct omap_dss_driver panel_dpi_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c:static=
- struct omap_dss_driver dsicm_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035=
-q02.c:static struct omap_dss_driver lb035q02_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-nec-nl8048hl11.=
-c:static struct omap_dss_driver nec_8048_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-sharp-ls037v7dw=
-01.c:static struct omap_dss_driver sharp_ls_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-sony-acx565akm.=
-c:static struct omap_dss_driver acx565akm_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td028ttec1.=
-c:static struct omap_dss_driver td028ttec1_ops =3D {
-next/master:drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td043mtea1.=
-c:static struct omap_dss_driver tpo_td043_ops =3D {
-
-I already sent patches for the two networking drivers, we're discussing
-the irqchip driver here and the omap2 framebuffer drivers are IMHO false
-positives. I didn't look into the virtio_console driver, but I guess
-that one is ok, too.
-
-The clocksource driver is a bit more difficult, .probe() must be in
-__init because it calls sched_clock_register() but using
-platform_driver_probe() might not be easy. Markus currently fights with
-a similar clocksource driver where the clocksource depends on an mbox
-driver that is only probed later. In his case probing the schedclock
-returns -EPROBE_DEFER but when the mbox driver is ready the device
-cannot be reprobed again as the schedclock driver is already gone. Of
-course the error message for -EPROBE_DEFER is suppressed, because that's
-what you do for this type of message. So the machine dies with no
-explaining output. We seem to have a yak to shave.
-
-Best regards
-Uwe
-
---wb3haxxcye6hb47p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmhi6B8ACgkQj4D7WH0S
-/k5JQQf+MvfGRxE8gLl5eR7R5qNYN5sF9MHnr+wSGkuroR1rSMVihuU155D+orSd
-t4Ud10nk+nB4UFQYc5i2e85IC/OyC/m/R1CMpki7bPc2FKvqNPI4bm6mGgJVr3IF
-vj/DAarV6NWnRMEP6ABxG+RoXSCf5Uyja+YTn3n1UBq6MhBtSyVcPrEOaFGgUACN
-OkrR85nn5RBFh2iFaD588BGegm7dfYB0R60KSrHi0+IBki/eWEAA8DNBIunTFA4/
-OfL1UJBsF6XY+KE1CBBkI/cJsq5TImh4Mz4tJX0/j1FzgA18xYnFGgXqjKhTVS/a
-TmzUAtvre8NBZm6HJPFUQRJk6ZHbZA==
-=tUHI
------END PGP SIGNATURE-----
-
---wb3haxxcye6hb47p--
+-- 
+~Randy
 
