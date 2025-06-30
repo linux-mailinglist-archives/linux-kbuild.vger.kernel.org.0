@@ -1,106 +1,96 @@
-Return-Path: <linux-kbuild+bounces-7771-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7772-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517D0AED36F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 06:23:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 524DAAED37A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 06:34:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41F5E1898566
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 04:23:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 72B0B7A60C2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 04:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACCD9137750;
-	Mon, 30 Jun 2025 04:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCAA3190072;
+	Mon, 30 Jun 2025 04:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gg/RMdvt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TY5sXtUo"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831312905;
-	Mon, 30 Jun 2025 04:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FD84A23;
+	Mon, 30 Jun 2025 04:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751257376; cv=none; b=eFfO+uKEjtoopd4roqPAGKakPp2AfxOfbrQpO1WI9jmsg28suHa7yNQyGXYw9qaWF8qN1S89k7HZ+KFAByKhQgtzw2H/jwGI6WvhIWN4I9usgAMgER+tFhp9bLqsqOmDiZ1hiL98znfexE8ox+MWkJY9SHRi1hoSx2IyoFu9Cnw=
+	t=1751258079; cv=none; b=RsoZRnE9yNQI+FbUqh3yGTTdFtFJiEe1dh3I72wOqPTZn5PwIMvXZRRV5tnT1vSnI9/eguUorh0v2++vdrvtvLagDWShro8wJJ40MeRzI8KsXJJHOa4hZbZjVPGP8rfr8fxeImoQhecvhh2b90a/tfF/mSwQITWY6WzDNXE8l3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751257376; c=relaxed/simple;
-	bh=pBbjL2ivpNmks85bmCMXD3MucnB/Nep2MGJ8Ex1SyQw=;
+	s=arc-20240116; t=1751258079; c=relaxed/simple;
+	bh=U/Z5Sd07oISMnb9GgjVS1CsZITDPkRHw3GfjdOp7/10=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pfcT7k9EC6HFsj7PzFb8A5bYcn9wSpaMb3x8zpt+Wcyo+gcAfR/MWJLdhQfh+60AgwY+gbromY/89sbbCRLTvsYTwR5TjGtzaF191zuAmf7HdUUvfBqJ2y2UP8deGpOr0gxzxqWqibRpgqWODg2tkvgNQX3CGr7xWzp+701FfQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gg/RMdvt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 025B0C4CEE3;
-	Mon, 30 Jun 2025 04:22:55 +0000 (UTC)
+	 To:Cc:Content-Type; b=qv3pSU2WXA6LjBwhhBNX2CnLaXXN5ahbZjy4Gbr71r1pYEBiEGtOxbpqkCAk7eYZ1oQI97IkYgKUk4S311lenAcqSLEx3P5GHLbVyuyJJLiWPtRgNXCVdlndF5becRuO+9xbbVbmRP50JMOXJR18bEisxcyhZK+ASj4K+9kS9jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TY5sXtUo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57126C4CEE3;
+	Mon, 30 Jun 2025 04:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751257376;
-	bh=pBbjL2ivpNmks85bmCMXD3MucnB/Nep2MGJ8Ex1SyQw=;
+	s=k20201202; t=1751258079;
+	bh=U/Z5Sd07oISMnb9GgjVS1CsZITDPkRHw3GfjdOp7/10=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Gg/RMdvt5DtGzY3oDQCv36+uyRwfhT+hiLyVgJkt4eM4ouZt37FCkZy0r7ayBL2fE
-	 PEjCqG+7e7VmutYm4aUINUlRBXBs/SiIy/bw8IOuBSB3CtUUW7BJddddLViNZWpNQl
-	 kiUSzDvXihmvPR1ldMB5YuH6SKaPHtozMmtd9nmY0GRcvQiXY4DD2NxExtH/akwefC
-	 SY/24/duk/6DqP4EdWMSrXwNYzvkMx07VvrMUS9JwOd+ThSrHYN91RfCdMdlQ73pDd
-	 pPWZc2yHAt/uYfqEJ4hYmTEQGDZTWr8MInQmmthO+MAEEligjkxfJvy9qVKb3PXo6c
-	 Xf6qWK4ZnM7sQ==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-553bcf41440so4024490e87.3;
-        Sun, 29 Jun 2025 21:22:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVt7GjUugR58eETllJCZMyNmPxhEKcM/+oTo5YYTJgQkoFLTLMBoQmHSraZGf5r/QexWx+BKBwAIbKEYm8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgvHpqqm5DhwuUz0Z0jSVriK7bT4sbql7k81Z9tXBmQghFOHEq
-	cPlwLyhMdqyLGnx8Fg6Z7M9tJNwEMKQ897ta+0yPpK+YHxPyW/bGAXIc9mRC38vHRao2/2yXJAR
-	nbwdlEc+GK+yza0RqoqXU9BDl7m0V4fI=
-X-Google-Smtp-Source: AGHT+IGykNiyqvrrIohADJ21s9mi33itGcWG1t6lA1z3PGVzV0fG6Y3UwHHPnhWOAHkMXPtujhB3qRsVnZIB+hBVTs8=
-X-Received: by 2002:a05:6512:e95:b0:553:2dce:3ab2 with SMTP id
- 2adb3069b0e04-5550b85b2fdmr3824809e87.6.1751257374679; Sun, 29 Jun 2025
- 21:22:54 -0700 (PDT)
+	b=TY5sXtUoEQpRJJbt2weHVvFd2K0QoWQ1J+MpZ88nxnMcUexOsjjhSWUHo4kDKC/ol
+	 jQ1pH1eiEtL+PcCJRKh1rlwjF4q5HDieDPjbAGGv+wLNzVkK7mE+gbePBc7u1Ox+ns
+	 HNTceTFDj6YnRqclt6uEoGExybJZxs2VraDA4fSWFdqfPHg4+RslB4ECdZwbsl6Tfr
+	 E+ONWazPitmiT6NLKGMC2CyV07Yt6gL1Lsu6o1XyxostDorK6B38i2vQvti5FZuIbz
+	 7Z35UM+1AyAeQYUCXALB7ne3KdbOBTIZ8fiMOC/gxMjTTo0yr4lopyG4R721YXKzF9
+	 Kepz0rjtwPq5A==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-553b5165cf5so5289951e87.0;
+        Sun, 29 Jun 2025 21:34:39 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxHJphMBX0rwjFYKXyozRRQsUv/TkR82a7aXviUsUdFQmrsrskg
+	QlpZKffy4GdIOJWEQ/x7x/1MsiD6BaONXm18VKYOxzmP6tipDXnMBqnyNz5sRkCO7RtwnwM7Vth
+	J0DjJAkrL9SxBSI4/EDp3hkRaf2747oo=
+X-Google-Smtp-Source: AGHT+IH0FBlqkBQKwXjr7mZ9yAYLRUa98XOYFPIIcs6sleAHfNF8tgiUpV5Vr0TyeOzQEybWPIJ6hecJDBk4xuvVGUE=
+X-Received: by 2002:a05:6512:6d6:b0:54b:117b:b54e with SMTP id
+ 2adb3069b0e04-5550ba6c08dmr3304549e87.57.1751258078026; Sun, 29 Jun 2025
+ 21:34:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250624150645.1107002-1-masahiroy@kernel.org>
- <20250624150645.1107002-22-masahiroy@kernel.org> <85b71c14-485e-4c85-9801-c61f7419abe3@infradead.org>
-In-Reply-To: <85b71c14-485e-4c85-9801-c61f7419abe3@infradead.org>
+References: <20250629184554.407497-1-masahiroy@kernel.org> <20250629184554.407497-6-masahiroy@kernel.org>
+In-Reply-To: <20250629184554.407497-6-masahiroy@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 30 Jun 2025 13:22:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARNFgiLvNpWEywDBBHwi1bq-PZL8O5MdVn7V7NjM_WYJQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwOMR8vOwhs270mH7UCkrZ0M_SOrJ8QsUcUfhBJ8EAzORNyJufFc-3Z3zE
-Message-ID: <CAK7LNARNFgiLvNpWEywDBBHwi1bq-PZL8O5MdVn7V7NjM_WYJQ@mail.gmail.com>
-Subject: Re: [PATCH 21/66] kconfig: gconf: remove unneeded variables in on_treeview*_button_press_event()
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 30 Jun 2025 13:34:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATDc8QECUWCiCsMaj7X=YqT4P_mVsEA051+aHYzFwWxvQ@mail.gmail.com>
+X-Gm-Features: Ac12FXygIKD-EEt_Y_ZyBXIO0mwd0pJKk_cmUK_q5_vOBFb6AcL9gkoVIT6_xEk
+Message-ID: <CAK7LNATDc8QECUWCiCsMaj7X=YqT4P_mVsEA051+aHYzFwWxvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] kconfig: gconf: migrate to GTK 3
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 30, 2025 at 11:40=E2=80=AFAM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
+On Mon, Jun 30, 2025 at 3:46=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
+> This commit switches from GTK 2.x to GTK 3, applying the following
+> necessary changes:
 >
->
-> On 6/24/25 8:05 AM, Masahiro Yamada wrote:
-> > No all position parameters are used here. Passing NULL to
->
->   Not all
->
-> > gtk_tree_view_get_cursor() or gtk_tree_view_get_path_at_pos() is
-> > allowed. [1] [2]
-> >
-> > [1]: https://gitlab.gnome.org/GNOME/gtk/-/blob/2.24.33/gtk/gtktreeview.=
-c#L12638
-> > [1]: https://gitlab.gnome.org/GNOME/gtk/-/blob/2.24.33/gtk/gtktreeview.=
-c#L12795
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>  - Do not include invidual headers
 
-Thanks. I will locally fix it.
+This is a typo.
+
+I will fix it to "individual".
 
 
-> >
-> >  scripts/kconfig/gconf.c | 14 +++-----------
-> >  1 file changed, 3 insertions(+), 11 deletions(-)
+
+>  - GtkObject is gone
+>  - Convert glade to GtkBuilder
 >
-> --
-> ~Randy
-
-
+> [1]: https://docs.gtk.org/gtk3/migrating-2to3.html
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
 
 --=20
 Best Regards
