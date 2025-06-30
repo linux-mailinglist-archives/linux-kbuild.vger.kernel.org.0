@@ -1,209 +1,214 @@
-Return-Path: <linux-kbuild+bounces-7792-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7793-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E6DAEDF77
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 15:46:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC92AEE0AA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 16:28:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CDCC1894C15
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 13:46:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BFB17A225C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 14:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31DD9156678;
-	Mon, 30 Jun 2025 13:46:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B660130A54;
+	Mon, 30 Jun 2025 14:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U4s/41yj"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IfLPrwPR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329EE13A3F2
-	for <linux-kbuild@vger.kernel.org>; Mon, 30 Jun 2025 13:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E04428C5D5
+	for <linux-kbuild@vger.kernel.org>; Mon, 30 Jun 2025 14:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751291162; cv=none; b=UNbLSCednw14grgMNVQTcwRXvxG2Se1kMlyvS+wEjKqWwfOlH/3qdk8EjRh76nr2Q+FphFqtVlxc4Mf4YcoYztRCOCrbJsQskdUlbNANiIdq7nPY9L87muCuechzrIuGIN/r6Gm9ajHH1eqkq9VPr5eAbPRksHO191p+DI7d9YE=
+	t=1751293653; cv=none; b=NHlehKC2DPYMnnINvxshBE8cinfhfJ68MvLdXuVYDxab9SBfISLjA0wEg2rj1uBbfAqGLmoE47/uLhf+FZvhYE4ZarRJ3VPXwTX+JzD0BGpONdRtef9puS6euANgEdWFe8Rd4nj2y/XxliUaC0K8A0Dgq/mhXVdXrl5QYb0Ubrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751291162; c=relaxed/simple;
-	bh=Hm2MbwnXKGaJY2SHxo57MJJ3f6qfhV7R4lhuAtejQEo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VF3/YtE9vxY6bIVTc7fWRLBgNo2wU1Zh4LKluOuRh1kF+Att3nvyc9rj74sZYZJv9ypvJIBrj1eXq1a1e5ifMtGTIYVLwAupLwA4eV2kJyamIEwe1HkxBGBOWQE/ov4XZcWJ4bkortY6qI2xgOxIWxWkQKikdSATwB0M7cQnbT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U4s/41yj; arc=none smtp.client-ip=209.85.167.53
+	s=arc-20240116; t=1751293653; c=relaxed/simple;
+	bh=9db6x0EMOe6E9j32qrzyr5EJwVkIl5FELxN4JFxD+Vo=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=KJnpjWHDQW4pRzY1BVmmMTuWf+P4aThsCf8Nv9+qyBwZHoNzs4Jgd2seumxZfs22WYFI1FSAVUrm/nRzq2SVHA4OakLJetZ59d8pAOE8HFzKx/q6+S/VBxxhAsFsi3/A11uj5vwWDr5dGB5wIRzpznZ1J/dPYX801glWzfaN2l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IfLPrwPR; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-553a5f2d321so11399e87.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Jun 2025 06:45:59 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-452ff9e054eso21158925e9.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 30 Jun 2025 07:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751291158; x=1751895958; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mWmIrVh084A9jSFONPMpFqcwNwUZcNanqciTXj5s4zw=;
-        b=U4s/41yjZbvcqUJ8z9Dgo4L4piFHwwV+7mVljl87BsuCPpZsYrV7R+dzgNnuAIqhXx
-         jruH7+/JoQC5tO2iQ01lKTMrJDI6vhTml0ctGJqJGrwFRUJXlPb8iLlL4375IsjjYuUK
-         0+fpdQyVyfXCGzT2hEq43wEAF2ZL3j4xPPo+MhsE7HYDPFeHBk6pzwAXPaPgcs03A4qv
-         eHIgIOPfrJI8cPsvkwhHM6+hVvTbIFu2/FvS/PoOs7tggcEW2jAdwbRtiL5vntIDDjG4
-         DH/4HuJ57HJjYoSJ3Rr/VxJp8Mlz2nkExR6NZxyDXUEul4UBxLzQjQWMsrTc7nxgYJP3
-         t5+g==
+        d=google.com; s=20230601; t=1751293649; x=1751898449; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jA1+PqXVtq5JGGyS5bMqoIcyAvEWva/WB/dyQOqqHmU=;
+        b=IfLPrwPRiBhes0PPyY2Z+uhQ9sKwhWI+TXfxpkv5rwO7JCpwn6QypgH6sTl0omM1fY
+         gIUnGkvMaOegAnpBn9JoVXLKeF7MB1GvHXrlUFpzodjYRJaSiWjm3kgIS5E+qaIT12e9
+         D5AkvFWARNa+5I4Z/FNhnibreqd0OC4u8dq7264Da7kD7ohT4h+vMm8TyVAvYYIn8Mcg
+         99EMvWKgG9tiaeqcswUaocwqOBypDeM9WL3M0wcYyo9X+ffDNwe1IvtpCxviT8sUZc2S
+         aJ3p68ROTlJbSnuM7Lw8eKtRj3FdBBcZ/HwkenMJZWH48trBjucz0SEvctHiLoy87v8w
+         V90A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751291158; x=1751895958;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mWmIrVh084A9jSFONPMpFqcwNwUZcNanqciTXj5s4zw=;
-        b=HN5LoVvagKpS8ou/n8CZM4hcAuJF/dP+4O8QgGLBPdAHtoUV67r1NgKdztraqJ+ZGo
-         P37qZ2en8qwBgPxCZXULGk00noSwPgFxv853AB2hMo4eOmnIRMeB8a7AGt/8tPb6k+It
-         0oMcMBsI/i6cjBz9R58cMVGjcB6oOF+iniPthWFZPRfWMYaj5QT2tjPXmfL21p2uemg9
-         tofI9QmebbgWJGL2gRPRd6cnqcpXQ1a8AZwAJLwHAThG1jh7ULcqvFIRXRWIpFu3W1tK
-         HKIwwF5IP8+LbvX/zK2IpTzTFPgEQWrgXyxTbOEtBvTa4YMUo+ExOEj5MjV9A9MKp1xz
-         rU1g==
-X-Forwarded-Encrypted: i=1; AJvYcCVWvVE7tYvlKqc+dT1ej4CZROUxicinvHO8kq+/qxln+CSSAr23TdwlS5OdU4iDrwSdPPh4y3ElxPQWvQI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+xKvREMLcd+5gfg/N6n+wejokkpFQ8fjV4ZUmnBJNkNbu3zn9
-	TfCBdqRupcYc/npo5CCeBdOeAwX0T+7xmUxi6T0xYrJnV66YV/BgUEBVMBkR2XvLw6ddbuMhwiV
-	s64GH0q5IqIHv16WbTxOafyIMCWV0EaHvjD8g8gwa
-X-Gm-Gg: ASbGnctPL0GCbT6xNDLbIwgOIBQ35dYONApST1on6lkeItgqj3/nO2xSQ4fiA5d2RxE
-	hifT8j+QusLD4LPd9KtOpST1TgRrFG0zsYe51unQoyB0NtZg9NfuOlKrpJyYBErGeDv+WTbQTCU
-	zTVteGOqTLYIKM7u66V3VXu09KyT3hSxJlacWS2AjVCY41Q5Ne+9iW0ZDSwwXW6rjxvC0Gmqy5
-X-Google-Smtp-Source: AGHT+IH05ue31sjxr2KdVgJP17Yc3pASLUVWnVUjo0re10D86rxcIxDQG9NNQHSZ1qpfo2acDCIsZpKWq8UAcdAUe3c=
-X-Received: by 2002:a05:6512:2445:b0:553:24cf:79c with SMTP id
- 2adb3069b0e04-5551404736bmr276292e87.7.1751291158014; Mon, 30 Jun 2025
- 06:45:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751293649; x=1751898449;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jA1+PqXVtq5JGGyS5bMqoIcyAvEWva/WB/dyQOqqHmU=;
+        b=KrBQZRONIrKl8+Bz63OvUdb5IjNB9PAe0yYSjkb7Tc2UdWgaNt/bpkdr+RDKuwrrbF
+         yQ7IfHZL/+AKJUxWZs5BGrR7GPqfsbB9e6LMJcwppE6Cs5qwAhiB04DNf9s8TxRa03+e
+         tPCqp4lklWPX7truccns15iAsJ36FdlMcwoDBzU0PPXcGxnJIsStkwnNFoEdsD7C9kIi
+         S/EFykn+OU7yjvDKQ7qKLVlN91NbyBX6lIvM3gaDRA8eKHXuP8Ct7szaR9yOTNvVnVzq
+         lAHv3T5TEdppSYfG+smjIJNNTfxHHeVv6ztbeJ2LwC7qPJGSbGUN3dlkeu63Y2/rpQ9V
+         dGpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2hVVSNrsUSZj10LpoTSwn1IDdzWyrRE0DDvWMrD8gghIYxj3XQFV3H57/CHEcH+9loq6f/MtQH/yH/Dk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhJQzhVRlqtoPzZAj18UMAJhCnXU7LvtegO1ArOfBCAPNpwxV9
+	q1tSJm2NODSUitreScjXaCb2uNw54/0DddiG4ia00fjAV0VtA5J7IzRj7Dvm+p0HhXJAeD0Zqwq
+	RISZT5IvwYQhMkg==
+X-Google-Smtp-Source: AGHT+IGBSz5ftj1hVRQWPOaVGaFLmn6ZsnaOVoP8vhVwAtD0CuhsE+mmDdNHq577mQqHbTmGbmGPqxLU19jd1Q==
+X-Received: from wmbay32.prod.google.com ([2002:a05:600c:1e20:b0:453:910:1a18])
+ (user=gprocida job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:c10c:b0:43c:fe90:1282 with SMTP id 5b1f17b1804b1-4538ef7f8d3mr97825305e9.7.1751293649607;
+ Mon, 30 Jun 2025 07:27:29 -0700 (PDT)
+Date: Mon, 30 Jun 2025 15:27:02 +0100
+In-Reply-To: <CAGvU0HkKacQKB1q9NWcqChLGoMB+1vu9UdqYc+tBRbTTc3++GQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250623092350.3261118-2-gprocida@google.com> <20250625095215.4027938-1-gprocida@google.com>
- <CAK7LNASNVh8fDErjSbcR1TiCfy=LM-j3iYSNpqAvp8OhGmsKjQ@mail.gmail.com>
- <CAGvU0HnzfLxGhLT3Se4wNvyzEkpTKmd8ATFFgBRBVNrOKDXcgA@mail.gmail.com> <CAK7LNATp1n2c9RqNoe0oztRtLoMy8JqHF1KqSRsj5avp3vjHCQ@mail.gmail.com>
-In-Reply-To: <CAK7LNATp1n2c9RqNoe0oztRtLoMy8JqHF1KqSRsj5avp3vjHCQ@mail.gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+Message-ID: <20250630142713.1816049-1-gprocida@google.com>
+Subject: [PATCH] gendwarfksyms: use preferred form of sizeof for allocation
 From: Giuliano Procida <gprocida@google.com>
-Date: Mon, 30 Jun 2025 14:45:21 +0100
-X-Gm-Features: Ac12FXyRhPKA7k9LFq_9lXtXeBu0I63z-ojiqb2OMdNduBkpVKUo_WdgJg-YSnA
-Message-ID: <CAGvU0HkKacQKB1q9NWcqChLGoMB+1vu9UdqYc+tBRbTTc3++GQ@mail.gmail.com>
-Subject: Re: [PATCH] gendwarfksyms: order -T symtypes output by name
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, 
+Cc: Giuliano Procida <gprocida@google.com>, Sami Tolvanen <samitolvanen@google.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-modules@vger.kernel.org, 
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 30 Jun 2025 at 14:24, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Mon, Jun 30, 2025 at 7:05=E2=80=AFPM Giuliano Procida <gprocida@google=
-.com> wrote:
-> >
-> > Hi.
-> >
-> > On Sun, 29 Jun 2025 at 18:51, Masahiro Yamada <masahiroy@kernel.org> wr=
-ote:
-> > >
-> > > On Wed, Jun 25, 2025 at 6:52=E2=80=AFPM Giuliano Procida <gprocida@go=
-ogle.com> wrote:
-> > > >
-> > > > When writing symtypes information, we iterate through the entire ha=
-sh
-> > > > table containing type expansions. The key order varies unpredictabl=
-y
-> > > > as new entries are added, making it harder to compare symtypes betw=
-een
-> > > > builds.
-> > > >
-> > > > Resolve this by sorting the type expansions by name before output.
-> > > >
-> > > > Signed-off-by: Giuliano Procida <gprocida@google.com>
-> > > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
-> > > > ---
-> > > >  scripts/gendwarfksyms/types.c | 29 ++++++++++++++++++++++++++---
-> > > >  1 file changed, 26 insertions(+), 3 deletions(-)
-> > > >
-> > > > [Adjusted the first line of the description. Added reviewer tags.
-> > > >  Added missing CC to linux-modules.]
-> > > >
-> > > > diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/=
-types.c
-> > > > index 7bd459ea6c59..51c1471e8684 100644
-> > > > --- a/scripts/gendwarfksyms/types.c
-> > > > +++ b/scripts/gendwarfksyms/types.c
-> > > > @@ -6,6 +6,8 @@
-> > > >  #define _GNU_SOURCE
-> > > >  #include <inttypes.h>
-> > > >  #include <stdio.h>
-> > > > +#include <stdlib.h>
-> > > > +#include <string.h>
-> > > >  #include <zlib.h>
-> > > >
-> > > >  #include "gendwarfksyms.h"
-> > > > @@ -179,20 +181,41 @@ static int type_map_get(const char *name, str=
-uct type_expansion **res)
-> > > >         return -1;
-> > > >  }
-> > > >
-> > > > +static int cmp_expansion_name(const void *p1, const void *p2)
-> > > > +{
-> > > > +       struct type_expansion *const *e1 =3D p1;
-> > > > +       struct type_expansion *const *e2 =3D p2;
-> > > > +
-> > > > +       return strcmp((*e1)->name, (*e2)->name);
-> > > > +}
-> > > > +
-> > > >  static void type_map_write(FILE *file)
-> > > >  {
-> > > >         struct type_expansion *e;
-> > > >         struct hlist_node *tmp;
-> > > > +       struct type_expansion **es;
-> > > > +       size_t count =3D 0;
-> > > > +       size_t i =3D 0;
-> > > >
-> > > >         if (!file)
-> > > >                 return;
-> > > >
-> > > > -       hash_for_each_safe(type_map, e, tmp, hash) {
-> > > > -               checkp(fputs(e->name, file));
-> > > > +       hash_for_each_safe(type_map, e, tmp, hash)
-> > > > +               ++count;
-> > > > +       es =3D xmalloc(count * sizeof(struct type_expansion *));
-> > >
-> > > Just a nit:
-> > >
-> > >            es =3D xmalloc(count * sizeof(*es));
-> > >
-> > > is better?
-> > >
-> > > > +       hash_for_each_safe(type_map, e, tmp, hash)
-> > > > +               es[i++] =3D e;
-> > > > +
-> > > > +       qsort(es, count, sizeof(struct type_expansion *), cmp_expan=
-sion_name);
-> > >
-> > > qsort(es, count, sizeof(*es), cmp_expansion_name);
-> > >
-> >
-> > That's a fair point.
-> >
-> > However, in the gendwarfksyms code, all but one of the sizeofs uses an
-> > explicit type name. The exception is sizeof(stats) where stats is an ar=
-ray.
-> >
-> > I'll leave Sami's code as it is.
->
->
-> This rule is clearly documented with rationale.
->
-> See this:
-> https://github.com/torvalds/linux/blob/v6.15/Documentation/process/coding=
--style.rst?plain=3D1#L941
->
->
+The preferred form is to supply the variable being allocated to rather
+than an explicit type name which might become stale.
 
-I can follow up with a change that adjusts all occurrences. That
-shouldn't take long at all.
+Also do this for memset and qsort arguments.
 
->
-> --
-> Best Regards
-> Masahiro Yamada
+Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Giuliano Procida <gprocida@google.com>
+---
+ scripts/gendwarfksyms/cache.c   | 2 +-
+ scripts/gendwarfksyms/die.c     | 4 ++--
+ scripts/gendwarfksyms/dwarf.c   | 2 +-
+ scripts/gendwarfksyms/kabi.c    | 2 +-
+ scripts/gendwarfksyms/symbols.c | 2 +-
+ scripts/gendwarfksyms/types.c   | 8 ++++----
+ 6 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/scripts/gendwarfksyms/cache.c b/scripts/gendwarfksyms/cache.c
+index c9c19b86a686..1c640db93db3 100644
+--- a/scripts/gendwarfksyms/cache.c
++++ b/scripts/gendwarfksyms/cache.c
+@@ -15,7 +15,7 @@ void cache_set(struct cache *cache, unsigned long key, int value)
+ {
+ 	struct cache_item *ci;
+ 
+-	ci = xmalloc(sizeof(struct cache_item));
++	ci = xmalloc(sizeof(*ci));
+ 	ci->key = key;
+ 	ci->value = value;
+ 	hash_add(cache->cache, &ci->hash, hash_32(key));
+diff --git a/scripts/gendwarfksyms/die.c b/scripts/gendwarfksyms/die.c
+index 6183bbbe7b54..052f7a3f975a 100644
+--- a/scripts/gendwarfksyms/die.c
++++ b/scripts/gendwarfksyms/die.c
+@@ -33,7 +33,7 @@ static struct die *create_die(Dwarf_Die *die, enum die_state state)
+ {
+ 	struct die *cd;
+ 
+-	cd = xmalloc(sizeof(struct die));
++	cd = xmalloc(sizeof(*cd));
+ 	init_die(cd);
+ 	cd->addr = (uintptr_t)die->addr;
+ 
+@@ -123,7 +123,7 @@ static struct die_fragment *append_item(struct die *cd)
+ {
+ 	struct die_fragment *df;
+ 
+-	df = xmalloc(sizeof(struct die_fragment));
++	df = xmalloc(sizeof(*df));
+ 	df->type = FRAGMENT_EMPTY;
+ 	list_add_tail(&df->list, &cd->fragments);
+ 	return df;
+diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
+index 13ea7bf1ae7d..3538a7d9cb07 100644
+--- a/scripts/gendwarfksyms/dwarf.c
++++ b/scripts/gendwarfksyms/dwarf.c
+@@ -634,7 +634,7 @@ static int get_union_kabi_status(Dwarf_Die *die, Dwarf_Die *placeholder,
+ 	 * Note that the user of this feature is responsible for ensuring
+ 	 * that the structure actually remains ABI compatible.
+ 	 */
+-	memset(&state.kabi, 0, sizeof(struct kabi_state));
++	memset(&state.kabi, 0, sizeof(state.kabi));
+ 
+ 	res = checkp(process_die_container(&state, NULL, die,
+ 					   check_union_member_kabi_status,
+diff --git a/scripts/gendwarfksyms/kabi.c b/scripts/gendwarfksyms/kabi.c
+index b3ade713778f..e3c2a3ccf51a 100644
+--- a/scripts/gendwarfksyms/kabi.c
++++ b/scripts/gendwarfksyms/kabi.c
+@@ -228,7 +228,7 @@ void kabi_read_rules(int fd)
+ 		if (type == KABI_RULE_TYPE_UNKNOWN)
+ 			error("unsupported kABI rule type: '%s'", field);
+ 
+-		rule = xmalloc(sizeof(struct rule));
++		rule = xmalloc(sizeof(*rule));
+ 
+ 		rule->type = type;
+ 		rule->target = xstrdup(get_rule_field(&rule_str, &left));
+diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symbols.c
+index 327f87389c34..35ed594f0749 100644
+--- a/scripts/gendwarfksyms/symbols.c
++++ b/scripts/gendwarfksyms/symbols.c
+@@ -146,7 +146,7 @@ void symbol_read_exports(FILE *file)
+ 			continue;
+ 		}
+ 
+-		sym = xcalloc(1, sizeof(struct symbol));
++		sym = xcalloc(1, sizeof(*sym));
+ 		sym->name = name;
+ 		sym->addr.section = SHN_UNDEF;
+ 		sym->state = SYMBOL_UNPROCESSED;
+diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
+index 51c1471e8684..9c3b053bf061 100644
+--- a/scripts/gendwarfksyms/types.c
++++ b/scripts/gendwarfksyms/types.c
+@@ -45,7 +45,7 @@ static int type_list_append(struct list_head *list, const char *s, void *owned)
+ 	if (!s)
+ 		return 0;
+ 
+-	entry = xmalloc(sizeof(struct type_list_entry));
++	entry = xmalloc(sizeof(*entry));
+ 	entry->str = s;
+ 	entry->owned = owned;
+ 	list_add_tail(&entry->list, list);
+@@ -122,7 +122,7 @@ static struct type_expansion *type_map_add(const char *name,
+ 	struct type_expansion *e;
+ 
+ 	if (__type_map_get(name, &e)) {
+-		e = xmalloc(sizeof(struct type_expansion));
++		e = xmalloc(sizeof(*e));
+ 		type_expansion_init(e);
+ 		e->name = xstrdup(name);
+ 
+@@ -202,11 +202,11 @@ static void type_map_write(FILE *file)
+ 
+ 	hash_for_each_safe(type_map, e, tmp, hash)
+ 		++count;
+-	es = xmalloc(count * sizeof(struct type_expansion *));
++	es = xmalloc(count * sizeof(*es));
+ 	hash_for_each_safe(type_map, e, tmp, hash)
+ 		es[i++] = e;
+ 
+-	qsort(es, count, sizeof(struct type_expansion *), cmp_expansion_name);
++	qsort(es, count, sizeof(*es), cmp_expansion_name);
+ 
+ 	for (i = 0; i < count; ++i) {
+ 		checkp(fputs(es[i]->name, file));
+-- 
+2.50.0.727.gbf7dc18ff4-goog
+
 
