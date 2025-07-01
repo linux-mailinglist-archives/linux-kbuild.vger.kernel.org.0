@@ -1,128 +1,160 @@
-Return-Path: <linux-kbuild+bounces-7803-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7804-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B96AEEB02
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 01:43:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 923D8AEF194
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 10:45:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3750F440691
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Jun 2025 23:43:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 447E217F716
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 08:44:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A732586EB;
-	Mon, 30 Jun 2025 23:43:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 545C126B09D;
+	Tue,  1 Jul 2025 08:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TJtqDsDT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5FB23ln"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25D64A23;
-	Mon, 30 Jun 2025 23:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1031D7989;
+	Tue,  1 Jul 2025 08:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751327019; cv=none; b=lykX7CmYps0kciTtJKm/sCYaj3B2EqVjahCBl2mlL0lj0ezqCjuokE5+qaBHu134JeYMAriB4LajgKpE9sS3SCMZlwK2uNjskXvspJdDMZoJk43Qn97/prXiznTBa1ykOuGGuYTbTMEfKetz2LVA4xM0SGvDkY+RVD6Yq5A/070=
+	t=1751359448; cv=none; b=lJ4oMhOUIrdjTOIK4tiyzU/s+zPUbWdbcgSSva4oYKYzvxJjEuk5dRZPwp0dNILoZj9Tsx4jFJOq8CARI+U8vwrFAFVpOIJYq6G5A2mIt2VBVmI5EM4EzIk9RmLNGPCUIbq64i8Z36M1XXV7f/dlIBKmCXPbpCegWllEaSHkMdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751327019; c=relaxed/simple;
-	bh=aco2DdN75H51T0MMThpwMbD8vBYv7H1OQdM3HV4fHBk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kLeD4kvtbmp+xj5R9OQwchlu/Haf/uKWoWmcH58vxJnh+nUWOgUpq50arcNmqP+8Xn6vT6E/wXuC73AP0PH5qvVxuAZRmecooMLN/bQ62hw2IATAHoanW+bj8jsHeQVQcR67OZctlEsz4ZarPvFbXYRhTU5pok4DfqfdeFCnQ8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TJtqDsDT; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=u10gs0DubzdW/5hXp3hBwVPoHLZPvTUQwaeUKc7D4sA=; b=TJtqDsDTRLpuqtCZVqr/vfiYab
-	NA1zi2pD9/cL3K0SEezkz4hlYRj5FQVGujdaR8xP2jl8JR7EqpWju6Mj8Hq7YCaInXSLlB1rzRrUB
-	Z2GfJYEl7M6r7CSyZIO18fz/NKlWG1DzAJwkE2owz/RZsaFUxJtlqssXCVV67o3mVTVCJkqyCkhqk
-	Rk8whJ1GmFZ3a8BlQuONonviC0ujJehTV0E1dqu4x1KH2JjIsTpuLxLDYRE6MulTpC3L7oi+uWj12
-	zWdah7aWyfsI++hhE4NkGm+kshQyvkdhP7QdrTQh0bf/xObKF83VNGtLq4P+hGPfBLHRssctht7Dm
-	rG+ADK+w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uWO9t-00000006uCf-0J7F;
-	Mon, 30 Jun 2025 23:43:33 +0000
-Message-ID: <52563c74-9644-4616-ab95-f899f1c881f5@infradead.org>
-Date: Mon, 30 Jun 2025 16:43:31 -0700
+	s=arc-20240116; t=1751359448; c=relaxed/simple;
+	bh=JQnJ50WwtWPmuUmhqUal++GEN46ier5irpKnyb6pzhk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AIt+ApAqQKorU/heenE2hWNmo7aa1sOElvDgiS2sYL5gMNUXW2NdH+7LmNssW3RvTLsOp8dmhjb1z7WeFtuUpiattq3jES8s1K0Ks1bcrdP1xxta6lDIZW+EEPQ4WQ10l11eJ8PRQB+gF4zvagTgscsR9N4Az4zXBlPG/Rj+1Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5FB23ln; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF3AC4CEEB;
+	Tue,  1 Jul 2025 08:44:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751359447;
+	bh=JQnJ50WwtWPmuUmhqUal++GEN46ier5irpKnyb6pzhk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=W5FB23lnRmqMblxQRYfHg3U8Cb96WoRZP9N91S7HABOR21skwzV5IaYGRpc3SMCED
+	 0jmWPuRHRM9Of1mZsV142+GoRxobrpP+f2JUis8pCQX8jsHc2hToAqMlDSA4cEQc6W
+	 7zmUtc+x8mJc0qKbiE5E/u17/kIbXirUJOaHd88F33v/Qv43qtn6ngBW8W5yiZw2qc
+	 +zBd1BXmKL1Fr/5+eieLu+o+5OhUZ8nVt1L6qP3xR+StIRlCaLYZ75R6+sguURrD8a
+	 VJpWu8tLOa/LXp4BPDOKn97dd/kfB7eDKmTmFb5/nEKuMmcejKsXNuueOLc3ZdR+GD
+	 KAXHLMCtD9EHw==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Benno Lossin" <lossin@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Alice
+ Ryhl" <aliceryhl@google.com>,  "Masahiro Yamada" <masahiroy@kernel.org>,
+  "Nathan Chancellor" <nathan@kernel.org>,  "Luis Chamberlain"
+ <mcgrof@kernel.org>,  "Danilo Krummrich" <dakr@kernel.org>,  "Nicolas
+ Schier" <nicolas.schier@linux.dev>,  "Trevor Gross" <tmgross@umich.edu>,
+  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
+  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
+  "Sami Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
+ <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
+ KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
+  "Daniel Almeida" <daniel.almeida@collabora.com>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v13 2/6] rust: introduce module_param module
+In-Reply-To: <DB03MZI2FCOW.2JBFL3TY38FK@kernel.org> (Benno Lossin's message of
+	"Mon, 30 Jun 2025 21:02:37 +0200")
+References: <20250612-module-params-v3-v13-0-bc219cd1a3f8@kernel.org>
+	<DAQJCUE1C2JE.204A8IS7LBIVZ@kernel.org> <87ikkq648o.fsf@kernel.org>
+	<smOfUo2mEmQu-lykKKMiNOUWq2ze6p_CoEEpgGE0dtAnoJDGEpvQMkP1q-n13MiUxLK1xAiM-4QLsivPrG57sg==@protonmail.internalid>
+	<DARCZYNPIJVZ.3JJSZ6PSAEMEC@kernel.org> <877c126bce.fsf@kernel.org>
+	<Mg1_h6lRpg9tdi0VjiyDfIEy2juzgDWxOhYX61qSUfyEpeMMksWW1e-blTka_G1dXUvpZVktdD-zL3X1a6T6Cg==@protonmail.internalid>
+	<DATW0XWNN45X.1L2WMZ41JJ5O8@kernel.org> <87v7om4jhq.fsf@kernel.org>
+	<RPPvXQKnjK77Kp9mKaiFxbNj1fTHKb_I7_nbY81fZop-Wz8n5TTi4_lpXP9U9AwjocvZKqJPI8PGKufJn9cIzQ==@protonmail.internalid>
+	<DAU0J3T0IEVM.2K7ZRQOVOHF8H@kernel.org> <878qlh4aj1.fsf@kernel.org>
+	<87plepzke5.fsf@kernel.org>
+	<xFouVLxX1_t1mH69FDYwlIhBlI72M0IzQEKn0ntG_wT9z7V5DtbxiwVP_frH_yiS-Gf0q_AhqetbLmuvJ_yP5Q==@protonmail.internalid>
+	<DAX65TRN0TGP.25VZ9DYV86XWY@kernel.org> <87wm8txysl.fsf@kernel.org>
+	<9G3W1seaM7elcwWXaeoaa2nfpFYCf-AmBdvZhACGP13KGUtTPVMwGNYdTQsdtp8ru7GIP3-UYTzXscC1MRUKrg==@protonmail.internalid>
+	<DAZV8OGL8BMH.11SLXBXQ17ZJ9@kernel.org> <87h5zxxtdw.fsf@kernel.org>
+	<H78pT7YnQEhAXdxzl_hhnGVUiQuFpibB21_bjH658fMz_5JYbwsPLYYVh8u1gYnzK3N3ilTEAvqOpkuptVx3rg==@protonmail.internalid>
+	<DB03MZI2FCOW.2JBFL3TY38FK@kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Tue, 01 Jul 2025 10:43:56 +0200
+Message-ID: <87bjq4xpv7.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/66] kconfig: improve xconfig and gconfig
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250624150645.1107002-1-masahiroy@kernel.org>
- <cb9bd1e4-9424-4ed2-bdfa-49c883c60a66@infradead.org>
- <CAK7LNARnYi7-aL1NYj3s5udeBMjNEurHx0cDwbU14Uks6FXa9Q@mail.gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAK7LNARnYi7-aL1NYj3s5udeBMjNEurHx0cDwbU14Uks6FXa9Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+"Benno Lossin" <lossin@kernel.org> writes:
 
-
-On 6/30/25 8:48 AM, Masahiro Yamada wrote:
-> On Mon, Jun 30, 2025 at 3:55 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->>
->>
->> On 6/24/25 8:04 AM, Masahiro Yamada wrote:
->>> [xconfig]
+> On Mon Jun 30, 2025 at 3:15 PM CEST, Andreas Hindborg wrote:
+>> "Benno Lossin" <lossin@kernel.org> writes:
+>>> On Mon Jun 30, 2025 at 1:18 PM CEST, Andreas Hindborg wrote:
+>>>> "Benno Lossin" <lossin@kernel.org> writes:
+>>>>> (no idea if the orderings are correct, I always have to think way to
+>>>>> much about that... especially since our atomics seem to only take one
+>>>>> ordering in compare_exchange?)
+>>>>>
+>>>>>> As far as I can tell, atomics may not land in v6.17, so this series
+>>>>>> will probably not be ready for merge until v6.18 at the earliest.
+>>>>>
+>>>>> Yeah, sorry about that :(
+>>>>
+>>>> Actually, perhaps we could aim at merging this code without this
+>>>> synchronization?
 >>>
->>>  - small improvement for choice
+>>> I won't remember this issue in a few weeks and I fear that it will just
+>>> get buried. In fact, I already had to re-read now what the actual issue
+>>> was...
 >>>
->>> [gconfig]
+>>>> The lack of synchronization is only a problem if we
+>>>> support custom parsing. This patch set does not allow custom parsing
+>>>> code, so it does not suffer this issue.
 >>>
->>>  - Fix memory leak
->>>  - Lots of refactoring
->>>  - Migrate GTK 2 to GTK 3
->>>  - Fix all compile warnings
->>>  - Improve usability (grey out buttons, keep the item selection, etc.)
+>>> ... In doing that, I saw my original example of UB:
 >>>
+>>>     module! {
+>>>         // ...
+>>>         params: {
+>>>             my_param: i64 {
+>>>                 default: 0,
+>>>                 description: "",
+>>>             },
+>>>         },
+>>>     }
 >>>
+>>>     static BAD: &'static i64 = module_parameters::my_param.get();
+>>>
+>>> That can happen without custom parsing, so it's still a problem...
 >>
->> Hi,
->> I have tested all 65 patches here (omitting 52).
->> They worked well. Good job.
->> I will test your git tree/branch Monday/Tuesday.
->>
->> I did notice one visual difference. The GTK+2 version of
->> gconfig (before the patches) uses an alternating white/light gray
->> background for the menu items while the GTK+3 version (after the
->> patches) uses an all white background.
->>
->> I prefer the alternating but it may be just some collateral damage
->> in the name of progress.  Or could be something else entirely!
-> 
-> 
-> I think
-> [PATCH 15/66] kconfig: gconf: remove gtk_tree_view_set_rules_hint() calls
-> affected this.
-> 
+>> Ah, got it. Thanks.
+>
+> On second thought, we *could* just make the accessor function `unsafe`.
+> Of course with a pinky promise to make the implementation safe once
+> atomics land. But I think if it helps you get your driver faster along,
+> then we should do it.
 
-Yes, that likely did it.
+No, I am OK for now with configfs.
 
-> gtk_tree_view_set_rules_hint() is deprecated.
-> 
-> 
-> The comment says "just do it in a theme"
->  https://gitlab.gnome.org/GNOME/gtk/-/blob/3.14.0/gtk/gtktreeview.c#L11875
-> 
-> But, I do not know which theme should be applied.
+But, progress is still great. How about if we add a copy accessor
+instead for now, I think you proposed that a few million emails ago:
 
-Agreed. I didn't find any help on that subject either.
+    pub fn get(&self) -> T;
 
-Thanks.
+or maybe rename:
+
+    pub fn copy(&self) -> T;
+
+Then we are fine safety wise for now, right? It is even sensible for
+these `T: Copy` types.
 
 
--- 
-~Randy
+Best regards,
+Andreas Hindborg
+
+
 
 
