@@ -1,162 +1,144 @@
-Return-Path: <linux-kbuild+bounces-7814-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7815-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D898AEFDEF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 17:20:54 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21367AEFE82
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 17:40:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F6C9178C90
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 15:20:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E475D3ADEC2
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 15:39:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56F4427A115;
-	Tue,  1 Jul 2025 15:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A443270548;
+	Tue,  1 Jul 2025 15:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aPwe4tPY"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="1VbE696O"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0332798F0
-	for <linux-kbuild@vger.kernel.org>; Tue,  1 Jul 2025 15:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555DA1DDC15
+	for <linux-kbuild@vger.kernel.org>; Tue,  1 Jul 2025 15:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751383231; cv=none; b=PvtwBPfSNpo6vlpmbRgTZQ9tFSf1ZQ/hC/cH7EhXi4JZsldWU3XiKVLlhEZZ2zYY2u5mrlj8vPbzt1nLCwp2ORyPWQFrbBkGd4FRwn7c44s+GcKdr+trzoMhWxh3xge29/GFKA/INwaIJ7Evt7EtZndbtqcAdAbqXyPYbAEw6mk=
+	t=1751384407; cv=none; b=Pp0IMX0jCimFuGk34rKQxsu000Msyj+eSLd/L9dq+jDju9tRdNBuIP/FoJY8DjqIcIFby8rgVT0DeOpSqTzv04dF3WgKaYtIzIfAqaFiZVa14q+h/OaskUb8DsUVWI7L8nHMsC+j2z7NM8rmla+AGPj7PeU7yMO5s4D5oCReJHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751383231; c=relaxed/simple;
-	bh=0LZPlTOzhDgN4M2JFCpvyuUvtX08QaSuKLicDKE1N5E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=F9LyN7L5fTwvaoABYqGW5vKVscurDGidrOeoqX19JO7eEToUDPCQ4oUIN1mABMzrXDQZ20zSa9Jx5t6vJQ8qImg8YCNNeydAxFYlSk8KPCeOc1U+vjxpfbq4J8dfwXgSkaGzbzfFlLI0zSWlXLDzc/h5bS+pTSyLNyCr/c2XuJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aPwe4tPY; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gprocida.bounces.google.com
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-451ecc3be97so26232175e9.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Jul 2025 08:20:29 -0700 (PDT)
+	s=arc-20240116; t=1751384407; c=relaxed/simple;
+	bh=xIDuTWlVNtbxYRGDgUiY1kjsuLGle4dbWyJlIAE+380=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Fub2GR0oAsxuJT1h+u04+tkMB4S8u3th8yigCJl+Jtv/2i1Dkbg4r5IAeg5uY6SxqUZ03mbGwtBLA/Ts0dSSP08CqvU/rNT+eDX0/RtNX69JqAlM/38USju6NIF7+sf9bDaA7DvL3rCGgnoWGi8pDLJb7ir82Cvo8P5YNfcr8Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=1VbE696O; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6088d856c6eso10877411a12.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Jul 2025 08:40:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751383228; x=1751988028; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQj2YyKGGYHlLV8Kxk75PVsyeBZE5VokyKievIbbY3k=;
-        b=aPwe4tPYb+sNoUnlRggdhJTYu+HaWZ+bC4Pfe9ufJbdjneviNvrQ/gJYWRJsGoiYUN
-         velH5B2s2JcmE/5aiP/e3m3DhoCNnuEgqqM6P0Ctywz65b3QRuEWSf+GeWf0zDF3vRCv
-         khvJez74+gRM4E/cD3rPwyxuyWYD7epxT+ZStHaZDENMMsFvX3Tz2wdUmTwGq34wloCp
-         PxMvaN5MhMrXe+nFwEkF38jHx96jKUAJoyBqdQxhvxDlwvQjq54jBHXUDoqgodHSx+QN
-         8ZAYnfz3XfCTthXvLxVEJFfFFdE+FFv/vfgp4rj1Cx7e77g2bDHgdk/0hiDyMJX/aWDO
-         Csyw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751384403; x=1751989203; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zu/aUYBf0PlNS00AS61bNHCusGOm1IQrumCJLXD9I7E=;
+        b=1VbE696OYiaiox+YaJXNomL05Y6DDUeNjKWfqZ2iJpfoaLkieOxAUYxXXIt4L7xJ/U
+         6xxfh/YlBk2XaEDMzN3Dbu/uqFL/f0JPQOukXc4fU20PttFoSC8LhRJ8F/diwbnQsQpm
+         WIJBGJFa2SHkdYADd/jRfSvrBr9LHzNnrXFxzXpmMHzvS2QiKLzJhc3ukkSE/p4x/sp1
+         W2CTVWxEBO4VXcNX2rpCtRpKLuwZsaKzubSZlhlRkTydGD91r1vAeDpctiwLybCYtfMd
+         gnmoyqarvsu713fh+/FCtqx4IRnA/UyPx+z8Gqd7UxgvQDJwUrzED/PCZyIWEWsQylZ6
+         ex2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751383228; x=1751988028;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQj2YyKGGYHlLV8Kxk75PVsyeBZE5VokyKievIbbY3k=;
-        b=wNw3fnzbeqmWIHa2VxxM/dijxMuHonHTq0no3D16+RaOBUzpXyIu3psgdsuXQz18sh
-         lW0VWJIxYMrca3B2WziRW0aAkH3Orl/m4IwLD+Rm4fa3t7E6Iz2DmDTFHeDRITtDDfou
-         hz5r+8ty16ry4qJoAraYWK+NO3c9XmeaW7oO7rKFmZBdOm9iPnlgNoaYXmh/SfY0YKgd
-         1qwKZL3pMP0C9EEUWa4p/3DL7mXwrwRVXf2BV5HTzsp9K5BM4w1SkJKONLO8fBX/+xQ6
-         zJw3BkHht2ZtwaoD38Py+cE+10BN2gbEEm1dD7uCOB4+VGx2i5CaYkWpm5OKDLQNq0Pv
-         xD9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUpwXBkoTfiswcfkbw/HODCdY4uUYHVovFTdI0JRVxjSvsVCxPLthr1RMVntscMnckrfpkSAgho2QGnx40=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuidW6F+jWO1OUOJjLFuCT1lMvnMT6Ql9EiTnKUOuI6DVzXr8z
-	kJbI/blYuWXJQs3rfcfqNY1InJ/qHFDLXZo7rTQqgHlklbHKTNPIdgKC7AYM8X+X+OGjfPF294V
-	1HDqpyEx2fp8WEw==
-X-Google-Smtp-Source: AGHT+IElh3PYpbuoTAc35/xRfrNx9S2QQcNvE6QJPF2din6i4y4W48x8gXxZ/sqDfxdlN+vEmIzdSckX/yxw2w==
-X-Received: from wmte15.prod.google.com ([2002:a05:600c:8b2f:b0:44f:f406:f4f2])
- (user=gprocida job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3ba6:b0:442:d5dd:5b4b with SMTP id 5b1f17b1804b1-4538eeac21fmr192770235e9.31.1751383227988;
- Tue, 01 Jul 2025 08:20:27 -0700 (PDT)
-Date: Tue,  1 Jul 2025 16:19:11 +0100
-In-Reply-To: <20250701152000.2477659-1-gprocida@google.com>
+        d=1e100.net; s=20230601; t=1751384403; x=1751989203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zu/aUYBf0PlNS00AS61bNHCusGOm1IQrumCJLXD9I7E=;
+        b=v6M91WR6drS8dFKEqhxlh3ROkL+nNDMUn5GcEYsDCY/dFvuKfEMQMGpfp22LqBWJfG
+         5rXl5Pl2s7O9X4riNR8HLAdtNKZUHzH020Ruv6GqklGGhvqI4w7xDf8hRyjI2cJvr5Hj
+         CS0C9qZhzMmM91k1O/OctY/HtYmXST0pqPU2I1PFgfD8aYhhqaPTcyg6HA1u9rT+1JIt
+         we8JpDb36n3rDyn6n6YmK/F2lXKjztZTtoQVJKjnniUlWRL12uPBeunzmtEo3IkHUHVX
+         tvkql2SeGHkbZReVzvI1X/ZFN+l+MljD8W1OggdxE1Itchc1Bxm39zYoLVPKKdFA6f/C
+         bZpA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9HMhPmEJ4r37fj4G24azGvtdi9Sz8oguIVVDqei4exMhpJVA63aoX85sCaxK/isL6XmGE8+CqC2RsMLc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yys32uXFOqqmhWBE8kBSyHK+s2ECIxL4FiMiXbmRpk+4SUDUDdG
+	rJhd/wDFfXEkOSethC5noDZ/FjvcS6ViOhZsrh6rRQ7k1iJVodxZA/T1oCX9DvOKnnY=
+X-Gm-Gg: ASbGncszJ2zpW/Ynpt5xmXzwpYoMpUkf2M1mdunonky8yUArtHK/eMukwSik30DqaLr
+	rV2aotEu8a+5e1Pj38JBQg2nOoY22jlR8mlfDqAvy1/T4KbTlQ7ObUNBkWVWHHoL/gcKoS570UN
+	j0OrMBsQMFAHzxqC6iK8KVH3qsmV5rx3aDv/2xV/HOuKi40CEhjA9Cqo8kWl2dMg6E+wFb1CNRe
+	knM67d2FHyo4RQorxVe+tngplnUSE5j6iWMq4BSa8m/+HLpeFyrQt6oeLQHsgsvypzlGFcHXNGf
+	Vpt/4pUV6AUu45n3nv/pf71f5FumNWI90x+0U5zmJDeGKHIOqmoMpQnotTbJLz6IXivBpDZ3+6F
+	jrAZZT8LenfM81G3Ozz/2G7mAk+wS
+X-Google-Smtp-Source: AGHT+IFbVlpj3QgOb1lb2mwjuHq/uY0ogPM6n+DDSiv55WQWMetHGs7+SzXxABdKNyldpmd3rH0BFg==
+X-Received: by 2002:a17:907:3c89:b0:adb:2e9d:bc27 with SMTP id a640c23a62f3a-ae3501a3fdfmr1843016566b.54.1751384402511;
+        Tue, 01 Jul 2025 08:40:02 -0700 (PDT)
+Received: from localhost (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f06:ab04::1b9])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ae35365a149sm902911966b.64.2025.07.01.08.40.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Jul 2025 08:40:01 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Markus Schneider-Pargmann <msp@baylibre.com>,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH] clocksource/drivers/nxp-timer: Don't call platform driver struct nxp_stm_probe
+Date: Tue,  1 Jul 2025 17:39:56 +0200
+Message-ID: <20250701153956.151075-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <CAK7LNASzE1CtRo9T4byPXJtB-HtuWsGe=OLba+8JU9fB28Chow@mail.gmail.com>
- <20250701152000.2477659-1-gprocida@google.com>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-Message-ID: <20250701152000.2477659-3-gprocida@google.com>
-Subject: [PATCH v2 2/2] gendwarfksyms: order -T symtypes output by name
-From: Giuliano Procida <gprocida@google.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Giuliano Procida <gprocida@google.com>, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1766; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=xIDuTWlVNtbxYRGDgUiY1kjsuLGle4dbWyJlIAE+380=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBoZAFMd9hfYvSDdH6NlNBCtd+mWzxIpcu7SzyJL Vv4ihk8tK+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaGQBTAAKCRCPgPtYfRL+ TqoQB/4rMtlq6IeeAFEak8bwAIxskqFVJckOHDLYXcaqI/AQtZonNEwemRE5kIU49xfq0xBknb8 WhbD/au1vD8NX+pejwkunkUi5xvElERYZRYVKvWQFVAEw1BMBdrlv6kvnn9TWJxTv87WAynCtIr SWR2UwkRj10qxtpywXotdOkYjDCLCgCiKaFSTrrIk++QUOF9RPF0U3BaPi73Klw9UXo4ULu9ezt BnyyX4XQ5OcLWlmOo/xIXUBxTEGqeZe62jhHXhB1ulxXU/EVYUhc5JrgqSiEIHGhO7DLzxbILD3 MET4Jx+ac2dRs2Nzp2FOUYMXZilVx0hHfkvu/t9LewvM9oqj
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-When writing symtypes information, we iterate through the entire hash
-table containing type expansions. The key order varies unpredictably
-as new entries are added, making it harder to compare symtypes between
-builds.
+There are a few rules in the modpost step checking for section
+mismatches that depend on an object's name. The checks for objects with
+a name ending in (e.g.) _probe are more lax than they should be for
+platform drivers.
 
-Resolve this by sorting the type expansions by name before output.
+So rename the driver struct to end in "_driver" which is the common
+thing to do.
 
-Signed-off-by: Giuliano Procida <gprocida@google.com>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+Note that this results indeed in a section mismatch, i.e.:
+
+	WARNING: modpost: vmlinux: section mismatch in reference: nxp_stm_driver+0x0 (section: .data) -> nxp_stm_timer_probe (section: .init.text)
+
+that should be fixed. If the relevant device is already available with
+all dependencies probed when the driver is registered, the right
+approach to do that is using module_platform_driver_probe() instead of
+module_platform_driver(). Otherwise it's more complicated.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- scripts/gendwarfksyms/types.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+ drivers/clocksource/timer-nxp-stm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
-index 5344c7b9a9ce..9c3b053bf061 100644
---- a/scripts/gendwarfksyms/types.c
-+++ b/scripts/gendwarfksyms/types.c
-@@ -6,6 +6,8 @@
- #define _GNU_SOURCE
- #include <inttypes.h>
- #include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
- #include <zlib.h>
+diff --git a/drivers/clocksource/timer-nxp-stm.c b/drivers/clocksource/timer-nxp-stm.c
+index d7ccf9001729..1a70c9013921 100644
+--- a/drivers/clocksource/timer-nxp-stm.c
++++ b/drivers/clocksource/timer-nxp-stm.c
+@@ -482,14 +482,14 @@ static const struct of_device_id nxp_stm_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, nxp_stm_of_match);
  
- #include "gendwarfksyms.h"
-@@ -179,20 +181,41 @@ static int type_map_get(const char *name, struct type_expansion **res)
- 	return -1;
- }
+-static struct platform_driver nxp_stm_probe = {
++static struct platform_driver nxp_stm_driver = {
+ 	.probe	= nxp_stm_timer_probe,
+ 	.driver	= {
+ 		.name		= "nxp-stm",
+ 		.of_match_table	= nxp_stm_of_match,
+ 	},
+ };
+-module_platform_driver(nxp_stm_probe);
++module_platform_driver(nxp_stm_driver);
  
-+static int cmp_expansion_name(const void *p1, const void *p2)
-+{
-+	struct type_expansion *const *e1 = p1;
-+	struct type_expansion *const *e2 = p2;
-+
-+	return strcmp((*e1)->name, (*e2)->name);
-+}
-+
- static void type_map_write(FILE *file)
- {
- 	struct type_expansion *e;
- 	struct hlist_node *tmp;
-+	struct type_expansion **es;
-+	size_t count = 0;
-+	size_t i = 0;
- 
- 	if (!file)
- 		return;
- 
--	hash_for_each_safe(type_map, e, tmp, hash) {
--		checkp(fputs(e->name, file));
-+	hash_for_each_safe(type_map, e, tmp, hash)
-+		++count;
-+	es = xmalloc(count * sizeof(*es));
-+	hash_for_each_safe(type_map, e, tmp, hash)
-+		es[i++] = e;
-+
-+	qsort(es, count, sizeof(*es), cmp_expansion_name);
-+
-+	for (i = 0; i < count; ++i) {
-+		checkp(fputs(es[i]->name, file));
- 		checkp(fputs(" ", file));
--		type_list_write(&e->expanded, file);
-+		type_list_write(&es[i]->expanded, file);
- 		checkp(fputs("\n", file));
- 	}
-+
-+	free(es);
- }
- 
- static void type_map_free(void)
+ MODULE_DESCRIPTION("NXP System Timer Module driver");
+ MODULE_LICENSE("GPL");
+
+base-commit: 1343433ed38923a21425c602e92120a1f1db5f7a
 -- 
-2.50.0.727.gbf7dc18ff4-goog
+2.49.0
 
 
