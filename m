@@ -1,110 +1,142 @@
-Return-Path: <linux-kbuild+bounces-7819-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7820-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E24AF014C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 19:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF5AAF025E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 19:58:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03DB65270D0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 17:07:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1C0D4A819E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Jul 2025 17:58:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C303C27D77D;
-	Tue,  1 Jul 2025 17:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698CA27E05F;
+	Tue,  1 Jul 2025 17:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QlzYJrh+"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MIAwO+2E"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440281C3306
-	for <linux-kbuild@vger.kernel.org>; Tue,  1 Jul 2025 17:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE19D246BC5
+	for <linux-kbuild@vger.kernel.org>; Tue,  1 Jul 2025 17:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751389615; cv=none; b=Jb55sKvAE04xDPu+XVpb15kryCkgEnOh8aJ78dE2fmiyuDOx2Hp/Znq0F+ZugOVMtyo14qn5BItIwvz3J/+5BePaJip3xuu5fJl1FAMTF5cauxk+/5lAEg7+UBWViI1vMaJTny41OtZPgKnOat2+X6LS6DmerQjle6EC8E8fxk4=
+	t=1751392733; cv=none; b=tH5oog2k4wNk4OpR8qFm6FMTCywBYc6RPzSynK/0fSYRWFjL/NOnvZSj+qX7AvKCsPSzOPd5Uy30jGwwV3jJnZj7gD91LEqXlgAFdETsu/skgOIW7RgnvsrtBa0tbpdwAEryJ+P3c/2TPnIhNu0Gok1kznEcKKe0sTseMTU4a9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751389615; c=relaxed/simple;
-	bh=WpjLH/E4cjfGcA5aVL0NX4+IgiTYP+bFhGzng+IGIMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DUjhi2ne8lvcnMBF4YpDAwCrWTjUfTx1Nhq+i/aC+j9YLu6KP/D9SH5As/hnZENh1scaI9FS4UdpJ0Z90TXirTQ77+Mn7Qy9+TOZx+CeQeTpIpkk/CWmVu1addjsIedGFGTqyaQ13vkcdNUvOJtW58vNJ9gT5DTS5pW6k3pPoNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QlzYJrh+; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-237f18108d2so235725ad.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Jul 2025 10:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751389613; x=1751994413; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RuV+zYZlBXFCb4jtObBSN/YWaKNaSZemTX8LVanYMvQ=;
-        b=QlzYJrh+fZUfghsUEeLpz/OaWHx8XzqL6Uzlv4+voMGqBx6tst4zId8luAvNhP/XVO
-         RIf/2an7ZxyqFyCIwpArc/BzS/6m6wm6+BKO7kv/vID3OXcIJGAG1q7I3KLtTvfLrsXA
-         +YKH+a1IrqdHHzPbfNwYBKJ9DgMeis+o+3621tQi+fjl/b26iAQVvlpYg5DVsBXOtLqL
-         rkezz0drkUKU4Yd/pyp5T0b35TU4qS/BSdWdHFOknb5YdwyVddvb0Ffl82i5QULqXbE5
-         HWn1TM4i77zZiQnCDOecj/z+yM7BuPoWxefI5++3Zn3ZCejWCtU1fAMp7LM8l5teAoJv
-         7YfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751389613; x=1751994413;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RuV+zYZlBXFCb4jtObBSN/YWaKNaSZemTX8LVanYMvQ=;
-        b=u01S8WJ6q5Zl+h12BIkk/Xzxe7ZX146GzZemiTE2cQTp/k3vq+Ts2xPLE3iIxJ7ldn
-         bvckO0Lx/E8eBjQZSBT3ke0GDQratLdNNs5v3ENveeX0gqEoPtlHCyfNaogESBTBAg7P
-         tIkiqmcBrivStwVODgaLlnYbNBEHMN6701g7AHNSab7oYwZb8Ht0/a3+jpMp2kUKsQot
-         L1PveI8yvfId//iLpfu+APrbgubKCS6lcn28Jq2WxqFDBiAJeSdHMKW5OPrpYOO+5GLX
-         n8DQyaU8QDWLQVIY9+bnaxGHQTnvda5N/1hAnmV6xcvSjCvQPTfakgv8+RnzcfRc0YMt
-         obKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU53RV2+XlX/vPXYOq/HulV3XW5WW4DxCBoRUhBvabU3xWMs+TSvSgr4JAAFm9U2DV623g4CsnhpgLQCRc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzREgn80Ttj/eqmW0424OPknsbh6/RO4C0r/kB+z0RwcRmAzmUX
-	76bI2N3jM0H9S/TeiHoG56yGiIiELLkU2oNMPnNM9OOibJzHSQQA/I8j+Ihou1PPXw==
-X-Gm-Gg: ASbGncs3Cog9Nbrjdnpub3DkHS01afROmHC6KB2EiiyOkEm99x0xj6ELS1+zyXhP6HI
-	3bMY02LfrHrqrRQK08P2BrpT4wM1zMq1ueFhMIcTVidgIrp/mK8ZvZAmnTOMOPW2FCT4vatssJr
-	Pr7KzOEUVSAAmrm8i1m3dkHn7l93YOzBbRXfVJxRyCtv+1MNawOWCfuwaOgjZ9VG/kPAIr6RxAk
-	0gFkNGqfer1uris8SF4YZuRaENRPiLdQ6AKuI3F3tFVxRZ0PVe07O23+T6zcWSYcBn7T2lFNAlF
-	74dHqsES3Eerrqx1n8L64MYutGJ0S1iI8SDAr+GImaBMuo2UZf74On7G9xSNpUISRo5y3wErFF3
-	SSMRSDIJXl4RBEIe/FD9E+9Pawzf34g==
-X-Google-Smtp-Source: AGHT+IH3gvTNWjgUOSwEDk0Lnl1+DmC8Fu1pmwaP64IY32Oe1R+ZFxuAFpTFlieVchNMl10+qUaQLA==
-X-Received: by 2002:a17:902:c407:b0:215:42a3:e844 with SMTP id d9443c01a7336-23c5ffbdd35mr3174365ad.17.1751389612305;
-        Tue, 01 Jul 2025 10:06:52 -0700 (PDT)
-Received: from google.com (106.81.125.34.bc.googleusercontent.com. [34.125.81.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb2e2423sm109764245ad.37.2025.07.01.10.06.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jul 2025 10:06:51 -0700 (PDT)
-Date: Tue, 1 Jul 2025 17:06:47 +0000
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Giuliano Procida <gprocida@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] gendwarfksyms: use preferred form of sizeof for
- allocation
-Message-ID: <20250701170647.GA2234472@google.com>
-References: <CAK7LNASzE1CtRo9T4byPXJtB-HtuWsGe=OLba+8JU9fB28Chow@mail.gmail.com>
- <20250701152000.2477659-1-gprocida@google.com>
- <20250701152000.2477659-2-gprocida@google.com>
+	s=arc-20240116; t=1751392733; c=relaxed/simple;
+	bh=REYYdk/kMwA0Vt5QHVqgbNGgyaTnuzozQoqAElyJ4uw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=T/+QtuekyURNUx+UHQctjyd86CJZdWyZ9s1D3rAP3oMxfUkEoeg8ZedU3U5Mdjxpups7rgOsQL5p52embiZFCakgOhO2uAsCKKNFB//kzOGX1hZffZX7tenCQgkQEcSJ17/Y1Ch7313Rcz6F2Qlufq7kmXbTVwN2RSgadSrmDcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MIAwO+2E; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+	Reply-To:Cc:Content-ID:Content-Description;
+	bh=EtQpMKvBlOO8BjUyitLESL9Bo2jMhR0FWHXG/iO8SLA=; b=MIAwO+2E0IPoXVHThIfZMmqtvb
+	lcptITvwSC2nLpsxWYXs3G0Vn+c4qH15gsZFk9owdO6YQ4wiVm2b5zZvhUFPKL7RWsXKhTAE+DjxT
+	7aBuDokt5tJgVQCIZTXMhv6cGBlRBO1iwisoeaSxT8iuaiF157e+uZ580B9mNUjyrCBAXZw/0MBZ4
+	cSIHMXxIxIl7v4GeuxoL0Qv1DS2degAVdgzH/Cmzaf5pa5fMTEj7TxmdbVzmbBxonxavZZhvL90CX
+	sDVxAsRdXXHd2pEZgK4ARVp2TMTUXh6qGG4WQzEAum+hN8h3N8lqnbhjBdzf7HIz0KZ9XdNP/96WL
+	q5AzEP1g==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uWfFp-000000078KX-2Ees;
+	Tue, 01 Jul 2025 17:58:50 +0000
+Message-ID: <a40c36ff-7f1b-4873-9aa2-b6864710c262@infradead.org>
+Date: Tue, 1 Jul 2025 10:58:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250701152000.2477659-2-gprocida@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3 PATCH 0/1] kconfig: improve gconfig
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+References: <20250701121444.950640-1-masahiroy@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250701121444.950640-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 01, 2025 at 04:19:10PM +0100, Giuliano Procida wrote:
-> The preferred form is to use the variable being allocated to, rather
-> than explicitly supplying a type name which might become stale.
+Hi,
+
+On 7/1/25 5:14 AM, Masahiro Yamada wrote:
+> This replaces just one patch in the previous submission.
 > 
-> Also do this for memset.
+>  "kconfig: gconf: preserve menu selection when switching view mode"
 > 
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Giuliano Procida <gprocida@google.com>
+> There was a corner case where the menu selection was not preserved
+> when switching to Split view.
+> 
+> [Test Case]
+> 
+> [1] Choose Full view  (default)
+> [2] Select "64-bit kernel"
+> [3] Choose Split view
+> 
+> In v2, the selection of "64-bit kernel" was not preserved.
+> 
+> This has been fixed in v3. The remaining parts are the same.
+> 
+> In case you are interested, I pushed the entire patchset to:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git gconfig-v3
+> 
+> The code diff between v2 and v3 is very small, just as follows:
+> 
 
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+I applied this patch to the gconfig-v2 patches.
+It works for me.
 
-Sami
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+But I do have one question/annoyance: why does the help/message panel
+always switch back to:
+  Kernel hacking
+
+  There is no help available for this option.
+
+Is Kernel hacking the last entry in some (menu) list?
+
+
+> 
+> diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
+> index e43d83dcdfb8..6edead20c3c9 100644
+> --- a/scripts/kconfig/gconf.c
+> +++ b/scripts/kconfig/gconf.c
+> @@ -281,13 +281,9 @@ static void set_view_mode(enum view_mode mode)
+>                 gtk_widget_set_sensitive(single_btn, FALSE);
+>                 break;
+>         case SPLIT_VIEW:
+> -               browsed = NULL;
+> -               if (selected) {
+> -                       if (selected->type == M_MENU)
+> -                               browsed = selected;
+> -                       else
+> -                               browsed = menu_get_parent_menu(selected);
+> -               }
+> +               browsed = selected;
+> +               while (browsed && !(browsed->flags & MENU_ROOT))
+> +                       browsed = browsed->parent;
+>                 gtk_tree_store_clear(tree1);
+>                 display_tree(tree1, &rootmenu);
+>                 gtk_tree_view_expand_all(GTK_TREE_VIEW(tree1_w));
+> 
+> 
+> 
+> Masahiro Yamada (1):
+>   kconfig: gconf: preserve menu selection when switching view mode
+> 
+>  scripts/kconfig/gconf.c | 82 +++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 74 insertions(+), 8 deletions(-)
+> 
+
+-- 
+~Randy
 
