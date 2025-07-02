@@ -1,174 +1,272 @@
-Return-Path: <linux-kbuild+bounces-7840-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7841-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB48AF597A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 15:38:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A87B0AF596B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 15:38:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BC7F7B5A40
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 13:31:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72C4F18920DF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 13:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 345872D3A77;
-	Wed,  2 Jul 2025 13:24:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B61277CAE;
+	Wed,  2 Jul 2025 13:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P/hgumhc"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tsgDG4ar"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1532D3A72;
-	Wed,  2 Jul 2025 13:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A4927A46E
+	for <linux-kbuild@vger.kernel.org>; Wed,  2 Jul 2025 13:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751462642; cv=none; b=Ap38AswWC4twPBdmIL6z+L/OOMQKUZl7AxC1RkOibAs2sro3P1pJ4ypi6b5fchi+hyzjSec4NZuaGN2qDppc6w6fDiL+rW+3bdpTAXqa6KN337kzzt0pv7n5SxIslL9hY6ZwC+ZjNLZUhUotVNyCQHXsVDFMQGOcaz1zk5cSVcg=
+	t=1751463143; cv=none; b=l6UoPe3vJHgcEaArh6mhzfZteFSPe2HjsxaW74AWlW3WgHFYFKyZ8MCN/qw0wnN3BhBqQ2hQx2+tqkA0idN1cGttDYWhBORriJZy+xKfTETzlKpAiBVtiCbo7xpWcAJ0bS08mmWyKBIO4r/vJTGcPoDjCM4VM0AMTD1rkP5Kvf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751462642; c=relaxed/simple;
-	bh=uBfXUdrW1hpLXfIR0aGIbcnqYvtXDq4jqr7rWsFf3uU=;
+	s=arc-20240116; t=1751463143; c=relaxed/simple;
+	bh=z7Gd2ZV19XvvqLtgd16QId8F4kQS/oThQ6mvOseMOeA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iRWYfly+G3anljJw5RmdljPpIQE2NnmrKIXq6uaAUrLAHhdmEmClClPIDA4h3bYV4Erbh3SezLEsJY+3MHXpfbL0r89npI5E/haHZJKT4lllyksLouc0bG/8t2tty1wN6WgS1PviNUDiR/f3UHZy+yxbzz7+/Kaq432VKfAnMdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P/hgumhc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91718C4CEEF;
-	Wed,  2 Jul 2025 13:24:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751462641;
-	bh=uBfXUdrW1hpLXfIR0aGIbcnqYvtXDq4jqr7rWsFf3uU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=P/hgumhczY8JSRsinu/UpSDiGLSetO4Dh1X7AjAFnDrh3bMPOdmG1XhUKF/klP2BV
-	 XLDIB2giBjsWtWftprXQv3W+6y48t/5SpXAE/v8o9/9Vn3/tNE4TeV6aolSXkMXUVr
-	 /e5C9qpFGxRq8+JIAG9t0m1b0lF8meEOeqwH3Rsy+M8j6gPgm0rx3tPAzDv+2xlBp/
-	 n0Hwj8lZupl2HlVdt6yQ9sEnVjjqlfSJkO6M8fJD1p0noV4tMzmRqih8ZIrbrfq00D
-	 sDBg0TpXpsiz0ZJrOQM8b291iVzVwG7a1yjztWkPiD5avlqUAaDUj386R2SgMzsD2S
-	 +4ZBLQfLqK9wg==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-553b165c80cso6965070e87.2;
-        Wed, 02 Jul 2025 06:24:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0i5mkKzyR3kCTNzmV3Fa+ir07xOy/CrElKPPcdw+V/bm8o6oKeCwBotlHsYl5OpF8QjErK0zgotBcO+0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkiBwp6xWSBt5K49ajEP1w8Oly4Mbpas7urlnQPhlo1AgoC6/V
-	lMNoGTKU5OTbSPgRdBGnIzsvxGGQv72Ld6Mr1S/c3n3i6o94mZSO2blDxk0eVxwM/DXEiVpSwX4
-	6CKlfbhFO7AWXl4BUtuiVJZhXAGZI5xs=
-X-Google-Smtp-Source: AGHT+IFIX0rmQ5HWhDN0BrvcL+9eGDrmWk2w0n/Dk9eX8N0TAUG2zzcj1oGi74PmAdl+FneDvoXFX/9Zcp3PGzPoQHY=
-X-Received: by 2002:a05:6512:3ba7:b0:553:5135:69fb with SMTP id
- 2adb3069b0e04-5562829dd0dmr1116168e87.10.1751462640111; Wed, 02 Jul 2025
- 06:24:00 -0700 (PDT)
+	 To:Cc:Content-Type; b=gxjv5aQOtpPWgW1H9xv3tsTjhI8FZMoQIaHFI/VhMuHXuqCZpiKFX82tnXBG6aZdabJSbMCJQyaQ43Q9PJv4ODt2n1IY5Yp9KWOxBcobuQkNRnBz54i+Ml9807/rMiT2ZrBUFfEctc+UJXCHRLGzar2UVBZEettqxQY+IjUwunY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tsgDG4ar; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7fd581c2bf4so3889639a12.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 02 Jul 2025 06:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751463140; x=1752067940; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rLb/hiHcDswU0D4uNpcn2drPp3SCOUyv9DR9ui8PXlc=;
+        b=tsgDG4arB5k0MWH3m6IqSA4JrJ1cE46VRb7JreDK4X/naTp6liVD07yMDgbAi9z+qo
+         +9JBqnVawGjIc0Vcx6D0HNxn+uaJmRt4tpyk/gENgCZAkTuyolgL9na3PCiZHqndE+98
+         NfJie5wja6L3wRPI0vrOgFCQAswDXyey8Ps1V616s70s9XOkFCMj5uI1wxnXCrO4NL7T
+         HBI5Z1tZA+cYUBJKb4dNp8v/OxUx8UfPtcXvUUc7SA1q0p1Ywg9+PX2GEADWNpe//x3r
+         DFqsKzCbsLWmCJjG54jhf6f6SD7BlIAvM5BzkND8XepL6/zFGWTn567/tA8TvsIyZiRM
+         +/CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751463140; x=1752067940;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rLb/hiHcDswU0D4uNpcn2drPp3SCOUyv9DR9ui8PXlc=;
+        b=X5SGpTWGoMiV1Z4VDpBVAWMHopb/ifyHpK2WddawukoZ/1voSRajlmMCMMmaLCOdAt
+         eYuTfPa/SgNqeXKeVoAbxboAJY72O15tU6VzluKD5rcV4GE96uuljhhlf/Q8FEKFVmQn
+         nxzFryPaugJA4Z2YE+uYVxR01pksVrZreNDpzvUHe798tSSHCw7mlXDx+AH0IjbI4mOP
+         7qzT/YMsbY7dL/f41AsSGdhyA4WAHMzTrjUqAoDxBJ2TWOUOrg6erzAtZSGpSJ+cdohF
+         ny+9m4GjqSmkl9vIYQ0WmUvTchxhrfCaU5mD36bZZtK4UfiYYBlGGWBXkUPldcYm87B4
+         c7KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU2MxT+7b4iN6dRDUx2noYUfwWCBU046f8d9JEsqnNEVkIZGkBw797iYINGKG+7/V+aOpdTVWdH8mIwnh8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFpFDA3Rbxm/VZUkWZ7VOrIu6gDWA3BJ/vgSi/O1VqtGcf/RmC
+	t+t0IQ5j9eC+0lS0U7FUfVuPx3TdiHJ94D11YdqNTJmdVAjpOUKV30rfscvnQWdRMTs7yhvdH3y
+	vNXWZR9EXDLMDT1Zc4yngOuxj0mLfd7WtCngzWia8
+X-Gm-Gg: ASbGncumuyFlEVF9JYsGkWlj/ic0F63N5z5Q5o2IqITUl/dxjH+D1MelW1tHGFGl45d
+	g3e1utz1NWiYAxtddEKKiHpeFFTyEzGvscOyxc1RUvTJhcHK7+pF/RElz0g4QaqBtKkRa+T1iEJ
+	961oco6ar/EK9guoIDxWwtser2mhFc5U/ydFsdMs+s+1LHpeGCMfus2OcrV+bVc2YmMoJlUQ63f
+	1iPdbbvEQ==
+X-Google-Smtp-Source: AGHT+IGl/TSKdQK7b9WQhHkHUkAL99tfbfmIwoIuqDS1wkyiy3yWj1kqtAXrBjAXrNOeDXSrDfXhNvdyiTqbiD64MZ4=
+X-Received: by 2002:a17:90b:5788:b0:312:e91c:e340 with SMTP id
+ 98e67ed59e1d1-31a90c2f8f3mr4423923a91.35.1751463139949; Wed, 02 Jul 2025
+ 06:32:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250624150645.1107002-1-masahiroy@kernel.org>
- <20250624150645.1107002-2-masahiroy@kernel.org> <85d530f3-0c27-48e0-b09b-470c16e08004@infradead.org>
-In-Reply-To: <85d530f3-0c27-48e0-b09b-470c16e08004@infradead.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 2 Jul 2025 22:23:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASsM-1Gsw85=G3KU7x6hBAmBSn4vSHcMdoEVaaFymVeyw@mail.gmail.com>
-X-Gm-Features: Ac12FXzrKh4zkjLBrJ0X7vhr05oe2kWgBXv3rKEbcuBp8YR-b8kGZJwbrI3_qVw
-Message-ID: <CAK7LNASsM-1Gsw85=G3KU7x6hBAmBSn4vSHcMdoEVaaFymVeyw@mail.gmail.com>
-Subject: Re: [PATCH 01/66] kconfig: set MENU_CHANGED to choice when the
- selected member is changed
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250702-module-params-v3-v14-0-5b1cc32311af@kernel.org> <20250702-module-params-v3-v14-1-5b1cc32311af@kernel.org>
+In-Reply-To: <20250702-module-params-v3-v14-1-5b1cc32311af@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Wed, 2 Jul 2025 15:32:05 +0200
+X-Gm-Features: Ac12FXyWI8bK1guggG5Rvhs0301hdIxUpCmaYFQClmsVD87QxHCiS9wDlqMCJQk
+Message-ID: <CAH5fLghw5TDrzmFZB=tORR5Lxx4WoG4wer6y5NuFdod2_tb6zg@mail.gmail.com>
+Subject: Re: [PATCH v14 1/7] rust: sync: add `OnceLock`
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Benno Lossin <lossin@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Trevor Gross <tmgross@umich.edu>, 
+	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 30, 2025 at 3:34=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
+On Wed, Jul 2, 2025 at 3:19=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
+org> wrote:
 >
+> Introduce the `OnceLock` type, a container that can only be written once.
+> The container uses an internal atomic to synchronize writes to the intern=
+al
+> value.
 >
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+
+This type provides no way to wait for initialization to finish if it's
+ongoing. Do you not need that?
+
+> ---
+>  rust/kernel/sync.rs           |   1 +
+>  rust/kernel/sync/once_lock.rs | 104 ++++++++++++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 105 insertions(+)
 >
-> On 6/24/25 8:04 AM, Masahiro Yamada wrote:
-> > In gconf, choice entries display the selected symbol in the 'Value'
-> > column, but it is not updated when the selected symbol is changed.
-> >
-> > Set the MENU_CHANGED flag, so it is updated.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> diff --git a/rust/kernel/sync.rs b/rust/kernel/sync.rs
+> index c7c0e552bafe..f2ee07315091 100644
+> --- a/rust/kernel/sync.rs
+> +++ b/rust/kernel/sync.rs
+> @@ -15,6 +15,7 @@
+>  mod condvar;
+>  pub mod lock;
+>  mod locked_by;
+> +pub mod once_lock;
+
+I would add a re-export so that users can import this as kernel::sync::Once=
+Lock.
+
+>  pub mod poll;
+>  pub mod rcu;
 >
-> Probably not related to this change (AFAICT), but I was trying to
-> reproduce this problem and I cannot do it.
+> diff --git a/rust/kernel/sync/once_lock.rs b/rust/kernel/sync/once_lock.r=
+s
+> new file mode 100644
+> index 000000000000..cd311bea3919
+> --- /dev/null
+> +++ b/rust/kernel/sync/once_lock.rs
+> @@ -0,0 +1,104 @@
+> +//! A container that can be initialized at most once.
+> +
+> +use super::atomic::ordering::Acquire;
+> +use super::atomic::ordering::Release;
+> +use super::atomic::Atomic;
+> +use kernel::types::Opaque;
+> +
+> +/// A container that can be populated at most once. Thread safe.
+> +///
+> +/// Once the a [`OnceLock`] is populated, it remains populated by the sa=
+me object for the
+> +/// lifetime `Self`.
+> +///
+> +/// # Invariants
+> +///
+> +/// `init` tracks the state of the container:
+> +///
+> +/// - If the container is empty, `init` is `0`.
+> +/// - If the container is mutably accessed, `init` is `1`.
 
-You can try this simple test code.
+I would phrase this as "being initialized" instead of "mutably
+accessed". I initially thought this was talking about someone calling
+a &mut self method.
 
-choice
-        prompt "choose"
+> +/// - If the container is populated and ready for shared access, `init` =
+is `2`.
+> +///
+> +/// # Example
+> +///
+> +/// ```
+> +/// # use kernel::sync::once_lock::OnceLock;
+> +/// let value =3D OnceLock::new();
+> +/// assert_eq!(None, value.as_ref());
+> +///
+> +/// let status =3D value.populate(42u8);
+> +/// assert_eq!(true, status);
+> +/// assert_eq!(Some(&42u8), value.as_ref());
+> +/// assert_eq!(Some(42u8), value.copy());
+> +///
+> +/// let status =3D value.populate(101u8);
+> +/// assert_eq!(false, status);
+> +/// assert_eq!(Some(&42u8), value.as_ref());
+> +/// assert_eq!(Some(42u8), value.copy());
+> +/// ```
+> +pub struct OnceLock<T> {
+> +    init: Atomic<u32>,
+> +    value: Opaque<T>,
 
-config A
-        bool "A"
+Opaque does not destroy the inner value. You are missing a destructor.
 
-config B
-        bool "B"
+> +}
+> +
+> +impl<T> Default for OnceLock<T> {
+> +    fn default() -> Self {
+> +        Self::new()
+> +    }
+> +}
+> +
+> +impl<T> OnceLock<T> {
+> +    /// Create a new [`OnceLock`].
+> +    ///
+> +    /// The returned instance will be empty.
+> +    pub const fn new() -> Self {
+> +        // INVARIANT: The container is empty and we set `init` to `0`.
+> +        Self {
+> +            value: Opaque::uninit(),
+> +            init: Atomic::new(0),
+> +        }
+> +    }
+> +
+> +    /// Get a reference to the contained object.
+> +    ///
+> +    /// Returns [`None`] if this [`OnceLock`] is empty.
+> +    pub fn as_ref(&self) -> Option<&T> {
+> +        if self.init.load(Acquire) =3D=3D 2 {
+> +            // SAFETY: As determined by the load above, the object is re=
+ady for shared access.
+> +            Some(unsafe { &*self.value.get() })
+> +        } else {
+> +            None
+> +        }
+> +    }
+> +
+> +    /// Populate the [`OnceLock`].
+> +    ///
+> +    /// Returns `true` if the [`OnceLock`] was successfully populated.
+> +    pub fn populate(&self, value: T) -> bool {
+> +        // INVARIANT: We obtain exclusive access to the contained alloca=
+tion and write 1 to
+> +        // `init`.
+> +        if let Ok(0) =3D self.init.cmpxchg(0, 1, Acquire) {
 
-endchoice
+This acquire can be Relaxed. All other accesses to self.value
+synchronize with the release store below, so you do not need acquire
+here to obtain exclusive access.
 
-In Full mode, open the tree and double-clock the two
-radio buttons alternatively. (select A or B back-and-forth)
-In the main line code, the Value column of "choose" remains "B".
-
-After this commit, it starts to react to the change, but the fix is not per=
-fect.
-
-In the gconfig-v3 branch, this should work perfectly.
-
-
-
-
-> To enable an option (any options, choice or not), I have to double-click
-> on it or (sometimes, not for choice) I can use Y / N / M on the keyboard.
-> When I do either of those, the value (including a choice value) is change=
-d.
->
-> I mention double-click only because the Help text (Information) says that
-> clicking will cycle thru Y/M/N.
-
-Presumably, this should be double-click in gconfig.
-(So, the help message should be fixed.)
-
-A single click in the "option" column is used for other functionality.
-(open/close the tree item in Split and Full views).
-
-
-
->
-> The Information also says that "dot indicates that it is to be compiled a=
-s a module".
-> I see more of a Dash or Hyphen or just a horizontal bar.
-
-Right. The help message should be fixed.
-
-
-
->
-> Thanks for reading...
->
-> > ---
-> >
-> >  scripts/kconfig/symbol.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> > index d57f8cbba291..26ab10c0fd76 100644
-> > --- a/scripts/kconfig/symbol.c
-> > +++ b/scripts/kconfig/symbol.c
-> > @@ -195,6 +195,10 @@ static void sym_set_changed(struct symbol *sym)
-> >
-> >       list_for_each_entry(menu, &sym->menus, link)
-> >               menu->flags |=3D MENU_CHANGED;
-> > +
-> > +     menu =3D sym_get_choice_menu(sym);
-> > +     if (menu)
-> > +             menu->flags |=3D MENU_CHANGED;
-> >  }
-> >
-> >  static void sym_set_all_changed(void)
+> +            // SAFETY: We obtained exclusive access to the contained obj=
+ect.
+> +            unsafe { core::ptr::write(self.value.get(), value) };
+> +            // INVARIANT: We release our exclusive access and transition=
+ the object to shared
+> +            // access.
+> +            self.init.store(2, Release);
+> +            true
+> +        } else {
+> +            false
+> +        }
+> +    }
+> +}
+> +
+> +impl<T: Copy> OnceLock<T> {
+> +    /// Get a copy of the contained object.
+> +    ///
+> +    /// Returns [`None`] if the [`OnceLock`] is empty.
+> +    pub fn copy(&self) -> Option<T> {
+> +        if self.init.load(Acquire) =3D=3D 2 {
+> +            // SAFETY: As determined by the load above, the object is re=
+ady for shared access.
+> +            Some(unsafe { *self.value.get() })
+> +        } else {
+> +            None
+> +        }
+> +    }
+> +}
 >
 > --
-> ~Randy
+> 2.47.2
 >
-
-
---
-Best Regards
-
-Masahiro Yamada
+>
 
