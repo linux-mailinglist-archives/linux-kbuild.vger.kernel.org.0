@@ -1,155 +1,105 @@
-Return-Path: <linux-kbuild+bounces-7824-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7825-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22B3AF085B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 04:14:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83616AF0879
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 04:30:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F945188C3DA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 02:14:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF12A4A74A3
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 02:30:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C8E217A2E6;
-	Wed,  2 Jul 2025 02:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FF670814;
+	Wed,  2 Jul 2025 02:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ohn2GpW9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjzbSl/T"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2D13B590
-	for <linux-kbuild@vger.kernel.org>; Wed,  2 Jul 2025 02:14:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB238F77;
+	Wed,  2 Jul 2025 02:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751422457; cv=none; b=SM4/DsGTD6w+6PpTdL+F/PGhZWt46BH5RdCB1Vpat+W+ZZumyRAkcBHYsG59dMfwNe3/lq7vvuJxvysLeQX2CY4BxZrN9VLdY98icNIM88S0Kap2nrkbiU0Lw8zRYvDsG5OX0amM95Ap+6uGkxTgSYmJKspTY/iNbfAUy1WWZQo=
+	t=1751423443; cv=none; b=aOmhdwz+Y7If3OewIqAkLU4GeJTbI8rsLJI6UeHzWlYCHUXdfK6kgJ6Z/LRIWD9vZtqJUJH5jhBbvd1Iebu3GqcLz6sriyJF48fi4SmpTS4YWEpmh1nv164UfzOKP5HiAmuGkhXZWJlT7ObnRtCkcmCVCDTfL0nLmwCP487tFI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751422457; c=relaxed/simple;
-	bh=DVPn8HWWJUj0asn1/KXcJIY9xl8w65/qe64YXMTTYow=;
+	s=arc-20240116; t=1751423443; c=relaxed/simple;
+	bh=nOJFQfwOfss2NyHRh7Sf9V00Sdr8q6zas3oVjvzNpvg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hQAxWvrX9kV7edwS9Ah2o5FHXrMduRRmrc7CAGP+t+JGOCQClzJCqMyAVGQi/JDoczjsMY8j4J09YGsf4hWVl5O6haRWVeR1K6qRLYpVs1UINO2r8i0dna0fNO1eqZap/9x2HR/zjg5MZX3L5aF8nKSlAC4/hA3vcOz5d6zAbmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ohn2GpW9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CBD3C4CEEF
-	for <linux-kbuild@vger.kernel.org>; Wed,  2 Jul 2025 02:14:16 +0000 (UTC)
+	 To:Cc:Content-Type; b=lMpRQR9oQ/UQSoguOj7W8Et2YY5jgYQKZWaeeqvBYUqCnnww6XIyz9DKLPBt926l/XQc3acyMfZbFim7M+5HPDBELX82N+1sM6EoKoQIJey96/cTWqBh9fXa9ftk7kGaKf4jTKdUTLrPcgW0AcTVePUsbBoq3AEVGF6+Op/JJbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjzbSl/T; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7213C4CEEB;
+	Wed,  2 Jul 2025 02:30:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751422456;
-	bh=DVPn8HWWJUj0asn1/KXcJIY9xl8w65/qe64YXMTTYow=;
+	s=k20201202; t=1751423442;
+	bh=nOJFQfwOfss2NyHRh7Sf9V00Sdr8q6zas3oVjvzNpvg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ohn2GpW9nrOzwu1+zmFu9KzRwA6uyizj6udVvVSfr/1xlHJ5YU6gep40VIxax91ND
-	 lFyqkiRHk0y/Tc5CVt3LQ+XA2sZzoad812yYq8w2OU1b8Ju6Q7opzS9DP9O1yPUkeF
-	 hSlOcVo80QNSI2etiDrR4apTjG3Fh1L+u50nJxUdI1/l2AHenB1jVxBTYiCrOvvn56
-	 HTbZbHygFHIBNdSRLLAUPYVEr3JglULrbMdBmub4hDx9ytB1wzgkh2/Iy2i/ngFiKo
-	 5vBjJOA5np/vLeq0fYDq1mmvA7aJO7W7lAK4pAbaZ0mTntS6KmUwweIlBF9x5kqNKy
-	 nIAzqfYV4VM9A==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-553b16a0e38so6945789e87.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Jul 2025 19:14:16 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw8dK9kNcI1UjSk5ZLsWZ6J8BpmknCcjKyl+w0wCvJAOwMkPIrE
-	FEddKE1mMAHh6bsJVy5+xBj214AA+g5+acU+VB9M6iUGALJDlUlhjJ/EbTma2vQy34/+VbUWhpV
-	jOvlKDrUQcl3mg8bSOnA7SOuVfH9q8JU=
-X-Google-Smtp-Source: AGHT+IG2QiTuxwwKMQFmlZB8xbfNMJFuNSfRJqKehMXGR2L7kj3D2aso+jmK9/3m9JXG7invcAN5bT9UuSvWH5WEpNM=
-X-Received: by 2002:a05:6512:6c5:b0:553:d211:eb7e with SMTP id
- 2adb3069b0e04-5562828243amr337558e87.41.1751422455228; Tue, 01 Jul 2025
- 19:14:15 -0700 (PDT)
+	b=SjzbSl/TPrFOocvezBId2X3qbDulB9UGKGJ8Rq1YTyF6X8mpB2ndzkBI38ylvFn7X
+	 IXZuejIZ/mOinCifATVRwL/DwR7Yb4XGE6gZzpP8b3lVkmMf9Zhohq4LoAGnkUe17x
+	 1vWQfIFbytT6ed2HKWvMu8i37ArON0Qpgw2+Bc+XQA9lXt0OPzS+eg4+Q+fSB68wXD
+	 E8h7fsMQ2vEjoA3L9V7P9sBG0vR9jFMYhNOKOynYGCFfIVd4U9T2u1A27QdJ2qIVa2
+	 UrMgKaRhjNfYRTeU8vf+M8CQ2L8ALQ39wiv42BU9GFdpbOMdRP9E7ZVC00OPopZftU
+	 Q1Kp7nA9qijzA==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-32b78b5aa39so38323351fa.1;
+        Tue, 01 Jul 2025 19:30:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV7tq0bj/OvjjMr1UDqgO66grEarzoxPxs5uCWSpUpOm7X2ODoCF27hxPW7JMxsfn/aYM2kixquluIOT6I=@vger.kernel.org, AJvYcCWyR1OovcaW78xUcO4grg1lpyEfch8oowiA1JXM0/HY1rP3sz4vmSMJPQMjBtsDQCYpHqgzUF2Fw5VhQeajDw==@vger.kernel.org, AJvYcCXtL7Sh3y+LPsGVI6wwNnsyGKxGTPx44XSuynweaKzfvAErQI/2ImJr0LSwZAHezpAXA7RUO7JEm0iHbdXz@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTOTBFC5prqWonaa7uX8iRgsKJIpoc3LermA4VV6Fu1g6kp1mq
+	fLcACPKYyLpQGR1BTzs9bF/Bdii+Nftr9pP2k2dYVj6kl21eg7TLw1Q4hSAjFv1S+gOwAgHKrdq
+	4d8DB9m1Hnh6al3qZBWknrwGqV5kO+u0=
+X-Google-Smtp-Source: AGHT+IG8qma5BlB/p8uudhBhIOVBWqyt28tuit7Uo1ecmsNa3uMEIakYE9tjYUTQZClYvDp0LFbPMinm6Fs0RucwRAo=
+X-Received: by 2002:a05:651c:31c2:b0:32a:8ac3:93f7 with SMTP id
+ 38308e7fff4ca-32dfff87430mr3318591fa.14.1751423441403; Tue, 01 Jul 2025
+ 19:30:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250701121444.950640-1-masahiroy@kernel.org> <a40c36ff-7f1b-4873-9aa2-b6864710c262@infradead.org>
-In-Reply-To: <a40c36ff-7f1b-4873-9aa2-b6864710c262@infradead.org>
+References: <CAK7LNASzE1CtRo9T4byPXJtB-HtuWsGe=OLba+8JU9fB28Chow@mail.gmail.com>
+ <20250701152000.2477659-1-gprocida@google.com>
+In-Reply-To: <20250701152000.2477659-1-gprocida@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 2 Jul 2025 11:13:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ3gJ9+=7iGeM=k2TT2+VGxQ6hEni=+t-rD_6G_dbyBRg@mail.gmail.com>
-X-Gm-Features: Ac12FXx1U6QqYFRNbw0J19E-U4_cMZYXyhQvxgVjbwGyj07xpgATkazkfnokE58
-Message-ID: <CAK7LNAQ3gJ9+=7iGeM=k2TT2+VGxQ6hEni=+t-rD_6G_dbyBRg@mail.gmail.com>
-Subject: Re: [v3 PATCH 0/1] kconfig: improve gconfig
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kbuild@vger.kernel.org
+Date: Wed, 2 Jul 2025 11:30:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR3YqsQc_kVfLba8Ti8HtrRWGr=KKB+MRdcKE5j8HOtHQ@mail.gmail.com>
+X-Gm-Features: Ac12FXymuWYHvG3lICt1yLtE4SzCSkfOmdBQFCOI03uSMYviSsyoQoon5NM3XSM
+Message-ID: <CAK7LNAR3YqsQc_kVfLba8Ti8HtrRWGr=KKB+MRdcKE5j8HOtHQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] gendwarfksyms - improve symtypes output
+To: Giuliano Procida <gprocida@google.com>
+Cc: Sami Tolvanen <samitolvanen@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 2, 2025 at 2:58=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
+On Wed, Jul 2, 2025 at 12:20=E2=80=AFAM Giuliano Procida <gprocida@google.c=
+om> wrote:
 >
-> Hi,
+> When investigating MODVERSIONS CRC changes from one build to the next,
+> we need to diff corresponding symtypes files. However, gendwarfksyms
+> did not order these files.
 >
-> On 7/1/25 5:14 AM, Masahiro Yamada wrote:
-> > This replaces just one patch in the previous submission.
-> >
-> >  "kconfig: gconf: preserve menu selection when switching view mode"
-> >
-> > There was a corner case where the menu selection was not preserved
-> > when switching to Split view.
-> >
-> > [Test Case]
-> >
-> > [1] Choose Full view  (default)
-> > [2] Select "64-bit kernel"
-> > [3] Choose Split view
-> >
-> > In v2, the selection of "64-bit kernel" was not preserved.
-> >
-> > This has been fixed in v3. The remaining parts are the same.
-> >
-> > In case you are interested, I pushed the entire patchset to:
-> >
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.=
-git gconfig-v3
-> >
-> > The code diff between v2 and v3 is very small, just as follows:
-> >
+> The first change in this series makes gendwarfksyms code conform to
+> the preferred style for the size parameter passed to allocation
+> functions.
 >
-> I applied this patch to the gconfig-v2 patches.
-> It works for me.
+> https://github.com/torvalds/linux/blob/v6.15/Documentation/process/coding=
+-style.rst?plain=3D1#L941
 >
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> The second change in this series ensures symtypes are output in key
+> order.
 >
-> But I do have one question/annoyance: why does the help/message panel
-> always switch back to:
->   Kernel hacking
+> The series is marked as v2 to distinguish it from earlier versions
+> where the changes were posted individually.
 >
->   There is no help available for this option.
->
-> Is Kernel hacking the last entry in some (menu) list?
 
-Good catch.
-I do not know why "Kernel hacking" is displayed, but this is a bug.
-
-The following small diff on top of gconfig-v3 will fix the issue.
+Both applied to linux-kbuild.
+Thanks!
 
 
 
-diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index 775f9b5e10f0..520c0542426f 100644
---- a/scripts/kconfig/gconf.c
-+++ b/scripts/kconfig/gconf.c
-@@ -53,6 +53,7 @@ enum {
-        COL_NUMBER
- };
-
-+static void text_insert_help(struct menu *menu);
- static void display_tree(GtkTreeStore *store, struct menu *menu);
- static void recreate_tree(void);
-
-@@ -92,6 +93,8 @@ static void _select_menu(GtkTreeView *view,
-GtkTreeModel *model,
-
-                        selection =3D gtk_tree_view_get_selection(view);
-                        gtk_tree_selection_select_iter(selection, &iter);
-+
-+                       text_insert_help(menu);
-                }
-
-                _select_menu(view, model, &iter, match);
-
-
-
-I will fix up the code locally.
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
 
