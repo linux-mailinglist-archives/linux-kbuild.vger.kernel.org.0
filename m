@@ -1,249 +1,128 @@
-Return-Path: <linux-kbuild+bounces-7845-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7846-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD63DAF5CB3
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 17:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0995EAF5D38
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 17:35:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5779B7B0028
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 15:20:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B7D0B7B606C
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Jul 2025 15:32:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F20162DBF48;
-	Wed,  2 Jul 2025 15:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8665B315539;
+	Wed,  2 Jul 2025 15:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dqth9hbF"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fSRIFJpu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C001E30B9B0;
-	Wed,  2 Jul 2025 15:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042E531550A
+	for <linux-kbuild@vger.kernel.org>; Wed,  2 Jul 2025 15:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751469675; cv=none; b=V5Ch0TIX3Z00OPWOYgRRtLUCO7tTAJzzd3YN0O0T5k53JF5RdCxwh2cqXTqt2czGsmzapsrSQBX7j8rFqNuKFJacp3FSX5LQOg8b7DI5yPfGGJzlwud7zpycShoNomVu1InCHuRzT9hj1mDSltl4w39ajovwO3BWDfPeYfGO9xo=
+	t=1751470078; cv=none; b=cm4nAuWh7EeRzwjhSv/nBt33HmflBdJrEFcVvUnoWf5tqBRUf+jjnN4hOl8WNwbwU7UgFFbXVquIypdYWI8xNeAxvewWmbOzW9R9u2WlOYC0rcpNbYoLtg+LbIMgWCYNR+9n2Ez55DIdecus6nWEWH3EUT1bDP66I2DSFCF5EVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751469675; c=relaxed/simple;
-	bh=S7xdFAGp0J9apbDWJuzNBuwq3V6FZebfE02WK0aJuzY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=CqQaHQvdJA1SRtrWez1/jiPa75GQJA3RfHMccQgtS/uUNoefO6PByMUMvwLihjFvHOZUL2zQeDdZNNzJbmnoiBjNkEbr8Q/bwurpKXanhoZqw8jdGzCFAu//LO3eqgRqdQBsNYPx/TpAEBYCLWTM7JqxDuIiAsAkham9NwTmwro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dqth9hbF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19F5C4CEF3;
-	Wed,  2 Jul 2025 15:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751469675;
-	bh=S7xdFAGp0J9apbDWJuzNBuwq3V6FZebfE02WK0aJuzY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dqth9hbF6T6TmzpRi0fBbFz8VPuVp/hkJxsIuEQVKV0A0AAwFQRN3/7XkBSOoUxCl
-	 fD2qjJXXOm57KBbESkL56fAb3enoR0YMGJMEqbvkTV5SPJymeuKO+bZA7MbWmjXLSo
-	 beko5NOVo1060Mqwe1+79SFdBaZHK+/d8FX0JPFLhNkQ2Wn01+AqRDcHrlq/241Z62
-	 mT4W0jOxr8sdyN4ysfrSAOSaoVh/Y70wqgq8jvpJy6ykatFkFYw+xD3YYwrIZRtJXk
-	 Gw1+3oLNvXTyuZw117sXJGnP6rTE5C4kGbjUv2xSu7CVq4qK5Wqy+aHpTNnW5C0GMh
-	 evfBsSXQGTxlg==
+	s=arc-20240116; t=1751470078; c=relaxed/simple;
+	bh=R3w2XCZ+9hC/UQRD0VOIOyl0Fwy/AYwdVSqZytDRbyE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QdmCASlenfHc6EH8ot50UB/N7+0Zu+maaqNkMXUo3f7RJ/q+TMLGsUAMh0AJmcTlY+P8GTeZXV1wBeMwa5sEPLVq9s0dajYvXkZsw8uzUj0niRrUy1Zjl5XOBNtSJeHtRIkpf2fis9dgx4uBbJQjc5fbMOcZb/7PhPkzZPobtXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fSRIFJpu; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-453749af004so39074705e9.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 02 Jul 2025 08:27:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1751470073; x=1752074873; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ugfvMw37FYCbNgp16hJSt7OdezX3ZWc2zEhd8WWY3I4=;
+        b=fSRIFJpuj7EbDCIioeymFx4JpGmeIBGUU8TNs2Sms+ZzpNxPexJaygwc5h8jJjC2kh
+         h3GjtjDlVwuNtZAizzbxzdybHmIO5zRDx3J9V9c+jX8C+h648/XqhIWcA1jfPfeZR9O0
+         keB+6i+zgTBlWaET3Y3/oPjvY9QcU1WUObl0VHr2uLw2rcSxNCKhF4w909PmbLbf8ysC
+         66TrsnLYfhmQBMsy9rErWxotOedb5jOOI/j5kH0a+bOayASKLHwWyC5Dpf+E3gchb51M
+         BHdprCwvo3QGnXASC1fryotJTfXSeMS4GadXHyyLduDGbkBw+7t2Td1WtIIsYIxaPDw2
+         4KaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751470073; x=1752074873;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ugfvMw37FYCbNgp16hJSt7OdezX3ZWc2zEhd8WWY3I4=;
+        b=Ot56gpFV+8J9QiV+dT/oodvUMZOujc4hRwr9Xvoa5l+xDVpFCWzQcljunjunqvgAkr
+         nYWX3Jv8NR/cFO7T7Xc+XHBj40eWM2epn3A0Q4SAV76Q21s4qkxBbpx3b6y1FJrd6Jb1
+         iZ0QOgSGzI0rx3wVYJimuOGbikNkkXe8hELMBHK5fhuqTfGR+Y3X6Wd/DwHt0xN/zmPi
+         W+yym/Wy/yVpprZA5IjUmoFbh2YyB4QkNeuOlpp2jKwQthLlhqb6r9haggsbE4WK33Ms
+         qGF3NvjCTDvNyitV9Z77CrzRA5kJyuURPmTURZGXM/aMn5OKTV6jfw0CS7OFajYhzHB6
+         eHEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXb4nmFO+wmWHJrG8pqBmZd/pJDwSPNPHOa0AjoVA3F9jEOWdbrnnQy19NZ5Rc0fa+lqv6j9/ZOseH5/ZA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4XsRRkzRRp9ewkOjgOgLB0n9QpuZG5AkHrTC7ZZveg01eZM2U
+	VCYu3FJbWmh45AOKqlU8ahoXsAUy4KIY/OeiCiP6d3IY7n7zCWgYrMeznzMlXDWmHNo0JPlKW0B
+	0o4sB3JzY/4BYfTuChSEscsJYxh7kAs3Y9CZiXP0a
+X-Gm-Gg: ASbGnctk+s2KPvpxhkiSqWy6htslEFnTuF0bqoTaWZs9TQTJFa/VNT5/SwEGfzx5BGC
+	DU9w1jK2hElhKRZatalnBNj6fE1dklBoxrC79xCp/4pWUDrGxlcbE3j49O9ybYF4sDD4BtJAwGq
+	bMllJ/nFR15eU3Iq2t1+scNtqPhhLyp+XsrtSutvFMM66K
+X-Google-Smtp-Source: AGHT+IEXxgvMAbbclIedX4dgfJFsqC/LVdMO+VKlBTNEwybEIPdTuBzGSh5PvnP88V7tuXnmlGMxd5H2vPZ17Yd18gg=
+X-Received: by 2002:a05:6000:2891:b0:3a5:527b:64c6 with SMTP id
+ ffacd0b85a97d-3b1fd74c9bbmr3330783f8f.1.1751470073141; Wed, 02 Jul 2025
+ 08:27:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Jul 2025 17:21:08 +0200
-Message-Id: <DB1O6I32IYI4.OFHKKMD9JV40@kernel.org>
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Masahiro Yamada" <masahiroy@kernel.org>, "Nathan
- Chancellor" <nathan@kernel.org>, "Luis Chamberlain" <mcgrof@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Nicolas Schier"
- <nicolas.schier@linux.dev>
-Cc: "Trevor Gross" <tmgross@umich.edu>, "Adam Bratschi-Kaye"
- <ark.email@gmail.com>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Sami Tolvanen" <samitolvanen@google.com>,
- "Daniel Gomez" <da.gomez@samsung.com>, "Simona Vetter"
- <simona.vetter@ffwll.ch>, "Greg KH" <gregkh@linuxfoundation.org>, "Fiona
- Behrens" <me@kloenk.dev>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH v14 3/7] rust: introduce module_param module
-X-Mailer: aerc 0.20.1
+MIME-Version: 1.0
 References: <20250702-module-params-v3-v14-0-5b1cc32311af@kernel.org>
- <20250702-module-params-v3-v14-3-5b1cc32311af@kernel.org>
-In-Reply-To: <20250702-module-params-v3-v14-3-5b1cc32311af@kernel.org>
+ <20250702-module-params-v3-v14-1-5b1cc32311af@kernel.org> <DB1NVTWHU7BN.2WGPMAY9LQYNW@kernel.org>
+In-Reply-To: <DB1NVTWHU7BN.2WGPMAY9LQYNW@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Wed, 2 Jul 2025 17:27:41 +0200
+X-Gm-Features: Ac12FXw61cMF6EsKoC5KmH0MvT9whf775volIzyT9NHNJ14IR5rW7yw5x1K4H9c
+Message-ID: <CAH5fLgiOK-zA0qT1dis-BsrEAk96R+E8e_F_361w7kCq_uxn7g@mail.gmail.com>
+Subject: Re: [PATCH v14 1/7] rust: sync: add `OnceLock`
+To: Benno Lossin <lossin@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Trevor Gross <tmgross@umich.edu>, 
+	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed Jul 2, 2025 at 3:18 PM CEST, Andreas Hindborg wrote:
-> Add types and traits for interfacing the C moduleparam API.
+On Wed, Jul 2, 2025 at 5:07=E2=80=AFPM Benno Lossin <lossin@kernel.org> wro=
+te:
 >
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-
-I have some nits below, but overall
-
-Reviewed-by: Benno Lossin <lossin@kernel.org>
-
-> ---
->  rust/kernel/lib.rs          |   1 +
->  rust/kernel/module_param.rs | 191 ++++++++++++++++++++++++++++++++++++++=
-++++++
->  2 files changed, 192 insertions(+)
-
-I really like how the `OnceLock` usage turned out here! Thanks for the
-quick impl!
-
+> On Wed Jul 2, 2025 at 3:18 PM CEST, Andreas Hindborg wrote:
+> > +impl<T: Copy> OnceLock<T> {
+> > +    /// Get a copy of the contained object.
+> > +    ///
+> > +    /// Returns [`None`] if the [`OnceLock`] is empty.
+> > +    pub fn copy(&self) -> Option<T> {
+> > +        if self.init.load(Acquire) =3D=3D 2 {
+> > +            // SAFETY: As determined by the load above, the object is =
+ready for shared access.
+> > +            Some(unsafe { *self.value.get() })
+> > +        } else {
+> > +            None
+> > +        }
 >
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index 6b4774b2b1c3..2b439ea06185 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -87,6 +87,7 @@
->  pub mod list;
->  pub mod miscdevice;
->  pub mod mm;
-> +pub mod module_param;
->  #[cfg(CONFIG_NET)]
->  pub mod net;
->  pub mod of;
-> diff --git a/rust/kernel/module_param.rs b/rust/kernel/module_param.rs
-> new file mode 100644
-> index 000000000000..ca4be7e45ff7
-> --- /dev/null
-> +++ b/rust/kernel/module_param.rs
-> @@ -0,0 +1,191 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! Support for module parameters.
-> +//!
-> +//! C header: [`include/linux/moduleparam.h`](srctree/include/linux/modu=
-leparam.h)
-> +
-> +use crate::prelude::*;
-> +use crate::str::BStr;
-> +use bindings;
-> +use kernel::sync::once_lock::OnceLock;
-> +
-> +/// Newtype to make `bindings::kernel_param` [`Sync`].
-> +#[repr(transparent)]
-> +#[doc(hidden)]
-> +pub struct RacyKernelParam(bindings::kernel_param);
+> The impl can just be:
+>
+>     self.as_ref().copied()
+>
+> Would it make sense for this function to take `self` instead & we make
+> the `OnceLock` also `Copy` if `T: Copy`? Maybe not...
 
-Can you remind me why this is called `Racy`? Maybe add the explainer in
-a comment? (and if it's named racy, why is it okay?)
+Atomics are not Copy.
 
-If it doesn't have a real reason, maybe it should be called
-`KernelParam`?
-
-> +
-> +impl RacyKernelParam {
-> +    #[doc(hidden)]
-> +    pub const fn new(val: bindings::kernel_param) -> Self {
-> +        Self(val)
-> +    }
-> +}
-> +
-> +// SAFETY: C kernel handles serializing access to this type. We never ac=
-cess it
-> +// from Rust module.
-> +unsafe impl Sync for RacyKernelParam {}
-> +
-> +/// Types that can be used for module parameters.
-> +// NOTE: This trait is `Copy` because drop could produce unsoundness dur=
-ing teardown.
-> +pub trait ModuleParam: Sized + Copy {
-> +    /// The [`ModuleParam`] will be used by the kernel module through th=
-is type.
-> +    ///
-> +    /// This may differ from `Self` if, for example, `Self` needs to tra=
-ck
-> +    /// ownership without exposing it or allocate extra space for other =
-possible
-> +    /// parameter values.
-> +    // This is required to support string parameters in the future.
-> +    type Value: ?Sized;
-
-This isn't used anywhere in the patchset and AFAIK the kernel is moving
-away from module params, so I'm not so sure if we're going to have
-strings as params.
-
-Or do you already have those patches ready/plan to use strings? If not,
-then I think we should just remove this type and when we actually need
-them add it.
-
-> +
-> +    /// Parse a parameter argument into the parameter value.
-> +    fn try_from_param_arg(arg: &BStr) -> Result<Self>;
-> +}
-> +
-
-> +impl<T> ModuleParamAccess<T> {
-> +    #[doc(hidden)]
-> +    pub const fn new(default: T) -> Self {
-> +        Self {
-> +            value: OnceLock::new(),
-> +            default,
-> +        }
-> +    }
-> +
-> +    /// Get a shared reference to the parameter value.
-> +    // Note: When sysfs access to parameters are enabled, we have to pas=
-s in a
-> +    // held lock guard here.
-> +    pub fn get(&self) -> &T {
-> +        self.value.as_ref().unwrap_or(&self.default)
-> +    }
-> +
-> +    /// Get a mutable pointer to `self`.
-> +    ///
-> +    /// NOTE: In most cases it is not safe deref the returned pointer.
-> +    pub const fn as_void_ptr(&self) -> *mut c_void {
-> +        (self as *const Self).cast_mut().cast()
-
-There is `core::ptr::from_ref` that we should use instead of the `as`
-cast.
-
----
-Cheers,
-Benno
-
-> +    }
-> +}
-> +
-> +#[doc(hidden)]
-> +/// Generate a static [`kernel_param_ops`](srctree/include/linux/modulep=
-aram.h) struct.
-> +///
-> +/// # Examples
-> +///
-> +/// ```ignore
-> +/// make_param_ops!(
-> +///     /// Documentation for new param ops.
-> +///     PARAM_OPS_MYTYPE, // Name for the static.
-> +///     MyType // A type which implements [`ModuleParam`].
-> +/// );
-> +/// ```
-> +macro_rules! make_param_ops {
-> +    ($ops:ident, $ty:ty) =3D> {
-> +        #[doc(hidden)]
-> +        pub static $ops: $crate::bindings::kernel_param_ops =3D $crate::=
-bindings::kernel_param_ops {
-> +            flags: 0,
-> +            set: Some(set_param::<$ty>),
-> +            get: None,
-> +            free: None,
-> +        };
-> +    };
-> +}
-> +
-> +make_param_ops!(PARAM_OPS_I8, i8);
-> +make_param_ops!(PARAM_OPS_U8, u8);
-> +make_param_ops!(PARAM_OPS_I16, i16);
-> +make_param_ops!(PARAM_OPS_U16, u16);
-> +make_param_ops!(PARAM_OPS_I32, i32);
-> +make_param_ops!(PARAM_OPS_U32, u32);
-> +make_param_ops!(PARAM_OPS_I64, i64);
-> +make_param_ops!(PARAM_OPS_U64, u64);
-> +make_param_ops!(PARAM_OPS_ISIZE, isize);
-> +make_param_ops!(PARAM_OPS_USIZE, usize);
-
+Alice
 
