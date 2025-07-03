@@ -1,55 +1,59 @@
-Return-Path: <linux-kbuild+bounces-7854-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7855-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913FEAF70FD
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 12:54:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEE3AF7600
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 15:45:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D52C91C4824E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 10:54:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D49984A37D4
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 13:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C712929B789;
-	Thu,  3 Jul 2025 10:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="o+m9Buwr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618A92E3398;
+	Thu,  3 Jul 2025 13:45:06 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FDC22D78F
-	for <linux-kbuild@vger.kernel.org>; Thu,  3 Jul 2025 10:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D502E7172;
+	Thu,  3 Jul 2025 13:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751540047; cv=none; b=POuflvgy0/prh2hzHluUGWPHQEXCDaM0ODJh8MIMJ/GpEElEe9gd/KOybRZgeen8CChzIyZlPvYlHlDc7Tty8nXZbn/cQ1xqtIcn2BjRrJhHa3bjPwxN1asI9h45RZysg+do4R1+z4WGp+YfpzNjcxnplCDpgrtmF2MRdYWf/sA=
+	t=1751550306; cv=none; b=oPG0/UCAZ52PJBjbO8OLnfnLwQUvZYLo8YG1L8aqkpuPa/7gqCcQG6Dc/J8wXidjVKUIORJKZ2kJy+nRBE6CqrcVxmrWK/C9+0gtIZ3+lJaQT33x7bo44jL6NuuwzQEmydn1lFAfi24JKyO1rs5XKJsMBQ8jJI8VsGZjk7u4dcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751540047; c=relaxed/simple;
-	bh=yhqf778x7evxWkPy2PResuLXFNoLXkJKA+P6kr0dXgo=;
+	s=arc-20240116; t=1751550306; c=relaxed/simple;
+	bh=jgRBUcYjsxcR6/WPVCigDDX1NPx00cIMSX/HK0xE4Q0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tdZQf57XvvJy+0XbC3zUFz2zLZwF14if4Zs4frdAQ5QjoQgDwlx9PeXIvOdiBtRUjURHP720UnVw2Ac6u+d90MKsFB4h+o0mwy/K5ItrAPoATyvju5nlzzc33KjqMFPC7oeZTr5rCNOLsJiBN5X92BicTp5ZyHSWDrF0IfDvIwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=o+m9Buwr; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Thu, 3 Jul 2025 12:53:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1751540042;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zn3SDbZKLdlpO1kUg+yPtTSXi0UwiOsun42rGES+Wtw=;
-	b=o+m9BuwrLFxFAS7r3WLX4Q07bsmcGsRgcsEsLz+64Wj7hS7vGCq1MdqeiKNz1XZNeB1yAX
-	fwxWp7NYC1PSemezw14FG4snkIUHxgdRSyYA4db1syYyV2qDFeTztuQT/md0TGYvxvl2QU
-	V7aRbczXsRrW14zILaa6sr8NPCl8uwk=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+	 Content-Type:Content-Disposition:In-Reply-To; b=KeGWWIHwTdRdHZbfSddLFrw/ZFGJsOcjwz+CMAk3DgW5wHvTJgaANLOPmEMd3glgSatlKJdi7Sh9IbLugHrsVo+m/ScCyNC4ZrHyQ0Ctf6RT4JMzhqR7pPzAkKD00dtbBMigW3SS8KIl6bLnv3W89oJq4ZtMgvIAHH8+GpoImEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from [212.42.244.71] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.53.4)
+	(envelope-from <n.schier@avm.de>)
+	id 686687ab-037b-7f0000032729-7f0000018290-1
+	for <multiple-recipients>; Thu, 03 Jul 2025 15:37:47 +0200
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Thu,  3 Jul 2025 15:37:47 +0200 (CEST)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 0B39D80725;
+	Thu,  3 Jul 2025 15:37:48 +0200 (CEST)
+Received: from l-nschier-aarch64.ads.avm.de (unknown [IPv6:fde4:4c1b:acd5:6472::1])
+	by buildd.core.avm.de (Postfix) with ESMTPS id 943FC189EB3;
+	Thu,  3 Jul 2025 15:37:47 +0200 (CEST)
+Date: Thu, 3 Jul 2025 15:37:38 +0200
 From: Nicolas Schier <nicolas.schier@linux.dev>
 To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 Cc: masahiroy@kernel.org, nathan@kernel.org, linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: Building Debian from source spit out some warnings...please shed
  some light
-Message-ID: <20250703-offbeat-hound-of-tenacity-ceb047@l-nschier-aarch64>
+Message-ID: <20250703-quick-celadon-horse-afb4de@l-nschier-aarch64>
 References: <aF8f_3xbnXy4Vibi@debian>
+ <20250703-offbeat-hound-of-tenacity-ceb047@l-nschier-aarch64>
+ <aGZ3QH3hbpQVjUup@debian>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -57,95 +61,83 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="HzGfVSfzp6TgoaAt"
+	protocol="application/pgp-signature"; boundary="5UCpY6LUHqxL5aTa"
 Content-Disposition: inline
-In-Reply-To: <aF8f_3xbnXy4Vibi@debian>
+In-Reply-To: <aGZ3QH3hbpQVjUup@debian>
 Organization: AVM GmbH
-X-Migadu-Flow: FLOW_OUT
+X-purgate-ID: 149429::1751549867-88FA7EE7-E28F7686/0/0
+X-purgate-type: clean
+X-purgate-size: 2538
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
 
 
---HzGfVSfzp6TgoaAt
+--5UCpY6LUHqxL5aTa
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 28, 2025 at 04:19:35AM +0530, Bhaskar Chowdhury wrote:
->=20
-> Alright, I was doing customary kernel building via upstream source and co=
-me
-> across these warnings .....
->=20
-> dpkg-genbuildinfo --build=3Dfull -O../linux-upstream_6.15.4-00002-g484450=
-2d6635-1_amd64.buildinfo
->  dpkg-genchanges --build=3Dfull -O../linux-upstream_6.15.4-00002-g4844502=
-d6635-1_amd64.changes
-> using Dpkg::Control::Fields::field_transfer_single() with an an implicit =
-field argument is deprecated at /usr/bin/dpkg-genchanges line 245.
-> using Dpkg::Control::Fields::field_transfer_single() with an an implicit =
-field argument is deprecated at /usr/bin/dpkg-genchanges line 245.
+On Thu, Jul 03, 2025 at 05:57:44PM +0530, Bhaskar Chowdhury wrote:
+> On 12:53 Thu 03 Jul 2025, Nicolas Schier wrote:
+> > On Sat, Jun 28, 2025 at 04:19:35AM +0530, Bhaskar Chowdhury wrote:
+> > >=20
+> > > Alright, I was doing customary kernel building via upstream source an=
+d come
+> > > across these warnings .....
+> > >=20
+> > > dpkg-genbuildinfo --build=3Dfull -O../linux-upstream_6.15.4-00002-g48=
+44502d6635-1_amd64.buildinfo
+> > >  dpkg-genchanges --build=3Dfull -O../linux-upstream_6.15.4-00002-g484=
+4502d6635-1_amd64.changes
+> > > using Dpkg::Control::Fields::field_transfer_single() with an an impli=
+cit field argument is deprecated at /usr/bin/dpkg-genchanges line 245.
+> > > using Dpkg::Control::Fields::field_transfer_single() with an an impli=
+cit field argument is deprecated at /usr/bin/dpkg-genchanges line 245.
+> > [...]
 [...]
 
-I cannot reproduce the output you forwarded.  I tried it with this:
+> > Which version of dpkg-dev do you have installed on your system?
+>=20
+> FYI
+>=20
+> bhaskar_17:55:19_Thu Jul 03: :~>dpkg-query --status dpkg-dev
+> Package: dpkg-dev
+> Status: install ok installed
+> Priority: optional
+> Section: utils
+> Installed-Size: 1728
+> Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+> Architecture: all
+> Multi-Arch: foreign
+> Source: dpkg
+> Version: 1.21.22
 
-     sudo apt install build-essential git flex bison lsb-release debhelper =
-bc \
-        cpio kmod libdw-dev libelf-dev libssl-dev python3 rsync &&
-     make defconfig deb-pkg -j28 -l28
-
-and I am getting this:
-
-    [...]
-      HOSTCC  debian/linux-headers-6.15.4/usr/src/linux-headers-6.15.4/scri=
-pts/mod/symsearch.o
-      HOSTCC  debian/linux-headers-6.15.4/usr/src/linux-headers-6.15.4/scri=
-pts/basic/fixdep
-      HOSTCC  debian/linux-headers-6.15.4/usr/src/linux-headers-6.15.4/scri=
-pts/selinux/mdp/mdp
-      HOSTLD  debian/linux-headers-6.15.4/usr/src/linux-headers-6.15.4/scri=
-pts/mod/modpost
-    dpkg-deb: building package 'linux-headers-6.15.4' in '../linux-headers-=
-6.15.4_6.15.4-2_amd64.deb'.
-     dpkg-genbuildinfo --build=3Dfull -O../linux-upstream_6.15.4-2_amd64.bu=
-ildinfo
-     dpkg-genchanges --build=3Dfull -O../linux-upstream_6.15.4-2_amd64.chan=
-ges
-    dpkg-genchanges: info: including full source code in upload
-     dpkg-source --compression=3Dgzip --after-build .
-    dpkg-source: info: using options from src.bookworm/debian/source/local-=
-options: --diff-ignore --extend-dif
-    f-ignore=3D.*
-    dpkg-buildpackage: info: full upload (original source is included)
-
-Thus, for me, everything works as expected.
-
-Tested with v6.13+, v6.15.4 and v6.16-rc4 on an up-to-date and minimal Debi=
-an
-bookworm and Debian unstable.
-
-Which version of dpkg-dev do you have installed on your system?
+hm.  My bookworm chroot has dpkg-dev=3D1.22.5~bpo12+1, but even if I=20
+downgrade to 1.21.22 I cannot see the messages you reported.
 
 Kind regards,
 Nicolas
 
---HzGfVSfzp6TgoaAt
+--5UCpY6LUHqxL5aTa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmhmYT4ACgkQiMa8nIia
-bbhCew/+KUZpXJT930so4kTMrz8/j9W2XdxBcLYPcFH1Q4DU4gMIK2myfTYylORX
-AJ7i8Vmz99EFltbNnCQ+IMNE2qOozlkdiWb1GJYcmgU90wMb8LSRTdE9lw5IIZW8
-Isrxg9NwVrXJgZaUJm1/JD/DfuBtC5m/eUsDxRiVGACjGJxZb5wDmBcOMK4sA33T
-RW0EDFluvwe5EqoAGAkmsPAchMU9iSqMKv7ycD3K+1hsLu4GMA4OSHqLPv8028er
-HShEjvFQ/OlIebTbsXp6EYfydGwx/eStMiHX4WxF9KpcfvV/bl9SSUqV5o3Nd6Ti
-aecKP0/3Zc8BiYSTxerQF7VzviF4cUUyZwbl6g7AjzVv6eixHllGkbiWaUiSATS6
-KzwKv0e//HYngabdvS5ISwxHKSy1BUrLnc2HLy43QT3XFx1Ht9tH7RWbevCAESy2
-nbi3htpW4cb1zQj6nQROhTin1GCqDAmYtS5B+stws7V+p+GYD5PA3hHrt4A0tpzS
-f7Btr+hAqG2KIF8C3LbNrAQQyf0nn2wHxCvgTwLcfbWe26sjHIPTB+hGVv6nMbn7
-D+JErfRisdEGgjRFYvJJLFqODpzzBfPf/jTFZjzK9SM9p2T1zCOZG/OnSoud5PX7
-Ruvqy7KKnnkk8Kwati1LfkRfyHyOLpsyxpYkpub2DJflvIpIEEA=
-=62kA
+iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmhmh5sACgkQiMa8nIia
+bbhvaQ/9E00GM/KWqG5fYBWYQF2AhOzebuLH8qJok8ORFmk8RjEZGsUuk+0FLSdP
+O6AstdZaUw05WCGStxOjPAuOuiYSf2qAGMeMK+vDFTMMh7KjH+GWbXJvDoCV3QV1
+DwnE4U/ZfPEaycT8AH5HltHTEcwMt/Ac8qluXQ4XpqysPhtCEEuds+xSgbNlqbg3
+MCB9dnJF/IFZDaKLnx62pE/3nmWqP/R1w+ydW7BVVYOrULdKGWB66RCQZ++8qYMR
+5fxkWU3nACyQOJDqX2pDPHnG+T4v/owUpBpvchFUHs+J/10XmtHH4vtT50iDn2Ps
+MKvUvUx9zGJGTpaPZh2nVjrTr9bAID4XHM+xTo6MiPBqUG9vd9oV2+921StWTOz2
+8zFZx1yTbSb0DiLQn5tp/mHdm6x3ywBmJnffJlYsrgxHRHAYx12sW156wV8HMSEn
+gxIsVeZFovsNZmqKByGqbByx7dJfMxu/JoT7oQDK6Wdid5dxqB2xHiwe8nUAkdSz
+aK4prYEMsK03AMCtMfhuklG5ma4X4QIogN44mGXy0UVkVKlve49Sm9QpK0HUa1Wh
+IIuVlEgvYGov44mzHdb7eRFPaYwTU8mAnVEG03h9Ef83IDkD9hzQn6IYsa6xguEG
+hOFZgCOc6vm+x6rVsrDp4min8KMhYRSQn2VhN0LypAmWqtj94i4=
+=OqTi
 -----END PGP SIGNATURE-----
 
---HzGfVSfzp6TgoaAt--
+--5UCpY6LUHqxL5aTa--
 
