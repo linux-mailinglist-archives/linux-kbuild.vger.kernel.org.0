@@ -1,43 +1,43 @@
-Return-Path: <linux-kbuild+bounces-7861-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7863-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433FAAF780A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 16:46:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1A4AF7AAD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 17:16:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A92681C8421F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 14:46:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96A1517E992
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 15:12:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8DA62EF671;
-	Thu,  3 Jul 2025 14:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00F0B2F0C45;
+	Thu,  3 Jul 2025 15:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Xz7IcvzO"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ippGlISI"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF652EF66B;
-	Thu,  3 Jul 2025 14:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E682EF671;
+	Thu,  3 Jul 2025 15:11:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751553950; cv=none; b=bGnlswDqs0e/xQL3AmbwzZ1IIuPvgmLGKxGBYIJVjil1dPOE4Fl/9HPiUnQ9YxDosreV0+onwy4KKJMFegbNHQbc+d9oCMkATfRkRRKa+FFFgBmPCFUNCW2/kTuhhbCJ7sbDwqwyA3BH51MWb4haTnuMuzH2bYLSBzG6TnFYfKE=
+	t=1751555482; cv=none; b=Bv69r+8a9LgEA3QK9W5S2dXoXMy+yfWyY0cAof0iN7Kzx3pxa1nLAzNh8oCA8efcpLD43/fisd9eQVAnJPNArHYLBEZPiwiYWBF85FIv6OieFNM8lJMCg3TP8iAwp6XXHhzvgETPnhZoABCMl/mqj5EXPISpk6kUI21qtgGBw1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751553950; c=relaxed/simple;
-	bh=MRtf3uDGOGdLpYcXSP9b2yY4wR9OeEDvByg1KGugFNo=;
+	s=arc-20240116; t=1751555482; c=relaxed/simple;
+	bh=kVjEumwB6XR/We/UQAy3pAsgR/e+urKCbvrHMcVZwV4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pu2O6a5Pbl95gLk0l1UNtdgrXFHDWKm2yYVfUTQ9o/17jnjKXNlMvgvOmkRBt9HC4M8CXiRf1D6nXPBiq5q9xDmdNkbQExISsWOlNOGfliR8QgvDPXF619wKWQwWUvBHQdlw9AVe3y9oKeOdXKQ+o/3rfYvikXm6KUMJaYGaV78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Xz7IcvzO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECDCC4CEE3;
-	Thu,  3 Jul 2025 14:45:49 +0000 (UTC)
+	 MIME-Version; b=GZkdPI38/7LWq7of7brQU4Uvl3LhTpirbxu2b6vQS/+hGHUF7Pb6B7qMqOb0fUuc0aaAt7bywPhAcn8vG90YATa/BOxToksbkmgNKwhKckrhNYplvI3GdODJI7XLq0TZnqA1/RoobR7JpkO1wNi/Va5Qy6Ei0omTLHByFlyAZn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ippGlISI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35973C4CEE3;
+	Thu,  3 Jul 2025 15:11:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1751553950;
-	bh=MRtf3uDGOGdLpYcXSP9b2yY4wR9OeEDvByg1KGugFNo=;
+	s=korg; t=1751555482;
+	bh=kVjEumwB6XR/We/UQAy3pAsgR/e+urKCbvrHMcVZwV4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xz7IcvzOg5jd6yFmKMr/0dNDszlEYjxNHOVIkMPvFJ+djPt8URSC4JnV6L2MGQp7Q
-	 hyf7pgOCsQAzU0KQeTkoJDTt4p03rrvrsJE+i3WoG4423OgH/i62tpNCVssBCoPimg
-	 pDazetxZ4dTW5nIHMvcCGtBY97yo6HxZWA5Dc1PI=
+	b=ippGlISIe5HojZ03C2dwFt7evpgWZZeXvcbjO1X3BB2bWlzc47lKD+xju8BrDup16
+	 tSTwRlYnpXc966tqyY2rumygmp9yEeLU4QNohkJiZnVjc5YN928LiVVfBEFdVz2Hhj
+	 cKvr2w+yOwWPkIMDMGnlEIPTQET6iQL61grqJHyI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,12 +48,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sami Tolvanen <samitolvanen@google.com>,
 	Johannes Berg <johannes.berg@intel.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12 034/218] um: Add cmpxchg8b_emu and checksum functions to asm-prototypes.h
-Date: Thu,  3 Jul 2025 16:39:42 +0200
-Message-ID: <20250703143957.315818719@linuxfoundation.org>
+Subject: [PATCH 6.6 027/139] um: Add cmpxchg8b_emu and checksum functions to asm-prototypes.h
+Date: Thu,  3 Jul 2025 16:41:30 +0200
+Message-ID: <20250703143942.245196831@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250703143955.956569535@linuxfoundation.org>
-References: <20250703143955.956569535@linuxfoundation.org>
+In-Reply-To: <20250703143941.182414597@linuxfoundation.org>
+References: <20250703143941.182414597@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
