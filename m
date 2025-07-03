@@ -1,129 +1,124 @@
-Return-Path: <linux-kbuild+bounces-7858-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7862-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C84AF7695
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 16:05:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C181AAF7959
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 17:00:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 938FF1C8714F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 14:03:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5D1A3B60AF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Jul 2025 14:57:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5D22E7F39;
-	Thu,  3 Jul 2025 14:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C97A2ED85E;
+	Thu,  3 Jul 2025 14:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nu1iHIml"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D081AF0B4;
-	Thu,  3 Jul 2025 14:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65D82E62CD;
+	Thu,  3 Jul 2025 14:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751551275; cv=none; b=L0LWjlcZWo7E9s4KxYpupDWLlal/A0Pwi9WHPHqfnNWdnZKOJXeCO6QBkjizebMNGwRE6dQ2JnjosSjQSnf1o7qC1JFNoECijG52X7hVv6sSEqSZ+biDWuqhAHbRcYVCXGRfrNG9GrxGL0qYfxsyIDTxHt10lnoxMAAkqERQeNM=
+	t=1751554679; cv=none; b=d8D5r1EggTxEo01k0YE3ozM3wDJhbcxp9JaMv79hcuPDFKYgey7MtqkMZNpq5VcdsjiqpW38HRZ4Hf8f48wxGspCs0tH3iljfGXYtM2gd11AzMg8cKt7iiPyBuYpQHEqppXS4bKZMMXZE0KBoq2JM4vpnbRZP+XQ4NKOjQWoNiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751551275; c=relaxed/simple;
-	bh=8brsHwtSTaNLq6fMC0iUgwrP4mTJYfb9zKLAKdrhOnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F/fLAtXti517oORE0fQKgy1CyXKhVEQaaWwYJ0LiILkovy3zgfB1i0IAhDqirTOMPr6m5m59ZhUQ/Fmro3bnMeWKeleXVL2VQrNoKmKm6o5nD1+L48w3rn+zpLZgwEkv63ldHnaQlDjNAnjpH6g5MZPMn1tmGfPSqOoBanBU7Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from [212.42.244.71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.53.4)
-	(envelope-from <n.schier@avm.de>)
-	id 68668d27-962e-7f0000032729-7f000001b922-1
-	for <multiple-recipients>; Thu, 03 Jul 2025 16:01:11 +0200
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Thu,  3 Jul 2025 16:01:11 +0200 (CEST)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id C10D3806C8;
-	Thu,  3 Jul 2025 16:01:11 +0200 (CEST)
-Received: from l-nschier-aarch64.ads.avm.de (unknown [IPv6:fde4:4c1b:acd5:6472::1])
-	by buildd.core.avm.de (Postfix) with ESMTPS id 6D933180C1B;
-	Thu,  3 Jul 2025 16:01:11 +0200 (CEST)
-Date: Thu, 3 Jul 2025 16:01:10 +0200
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org
-Subject: Re: [PATCH v4 05/15] init: add nolibc build support
-Message-ID: <20250703-able-benevolent-gharial-ecbfd2@l-nschier-aarch64>
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
- <20250626-kunit-kselftests-v4-5-48760534fef5@linutronix.de>
+	s=arc-20240116; t=1751554679; c=relaxed/simple;
+	bh=rYG2BAu0/6hUfdGxdFRAcLk3Y3GO26PLJkqGLlzS+zU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ttvoXLF5ErbOnanCI8pL1bO0Et8kyNWqtDEOsKcnJorZqEGfSWo4Q4ymbENKs7/8rp7VI7FMgonvu2gA6XWBOlAnnpYJXpIe895lNJW+75Kxu8grBqHvarPtXeYRJkZe1erhJ5V/7RQeXmvraMKqMGbktC/ukEyZnstUXPg5iVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Nu1iHIml; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E94C4CEEE;
+	Thu,  3 Jul 2025 14:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1751554679;
+	bh=rYG2BAu0/6hUfdGxdFRAcLk3Y3GO26PLJkqGLlzS+zU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Nu1iHImlBOLUzPXzbdCg2Iy9FHF7LKnuIkhHrPoXjb/pWqCPG5zucqQrSVppXxood
+	 O/r2P9BQPZKuBngJ1C1kQnjf4AYH+4TGCoOXIkOC4mZ/7WZKeYca6Tiy+zeSy7KiAX
+	 OAuMuft3vtKL4V91ZUchth6tCoOV7hMcdXBAMgmU=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.15 046/263] um: Add cmpxchg8b_emu and checksum functions to asm-prototypes.h
+Date: Thu,  3 Jul 2025 16:39:26 +0200
+Message-ID: <20250703144006.151114211@linuxfoundation.org>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250703144004.276210867@linuxfoundation.org>
+References: <20250703144004.276210867@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="uRa5i4kMRLweURev"
-Content-Disposition: inline
-In-Reply-To: <20250626-kunit-kselftests-v4-5-48760534fef5@linutronix.de>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1751551271-39CA0861-C9667BA0/0/0
-X-purgate-type: clean
-X-purgate-size: 1915
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+Content-Transfer-Encoding: 8bit
+
+6.15-stable review patch.  If anyone has any objections, please let me know.
+
+------------------
+
+From: Sami Tolvanen <samitolvanen@google.com>
+
+[ Upstream commit 674d03f6bd6b0f8327f1a4920ff5893557facfbd ]
+
+With CONFIG_GENDWARFKSYMS, um builds fail due to missing prototypes
+in asm/asm-prototypes.h. Add declarations for cmpxchg8b_emu and the
+exported checksum functions, including csum_partial_copy_generic as
+it's also exported.
+
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202503251216.lE4t9Ikj-lkp@intel.com/
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+Link: https://patch.msgid.link/20250326190500.847236-2-samitolvanen@google.com
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/um/include/asm/asm-prototypes.h | 5 +++++
+ arch/x86/um/asm/checksum.h           | 3 +++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/arch/um/include/asm/asm-prototypes.h b/arch/um/include/asm/asm-prototypes.h
+index 5898a26daa0dd..408b31d591279 100644
+--- a/arch/um/include/asm/asm-prototypes.h
++++ b/arch/um/include/asm/asm-prototypes.h
+@@ -1 +1,6 @@
+ #include <asm-generic/asm-prototypes.h>
++#include <asm/checksum.h>
++
++#ifdef CONFIG_UML_X86
++extern void cmpxchg8b_emu(void);
++#endif
+diff --git a/arch/x86/um/asm/checksum.h b/arch/x86/um/asm/checksum.h
+index b07824500363f..ddc144657efad 100644
+--- a/arch/x86/um/asm/checksum.h
++++ b/arch/x86/um/asm/checksum.h
+@@ -20,6 +20,9 @@
+  */
+ extern __wsum csum_partial(const void *buff, int len, __wsum sum);
+ 
++/* Do not call this directly. Declared for export type visibility. */
++extern __visible __wsum csum_partial_copy_generic(const void *src, void *dst, int len);
++
+ /**
+  * csum_fold - Fold and invert a 32bit checksum.
+  * sum: 32bit unfolded sum
+-- 
+2.39.5
 
 
---uRa5i4kMRLweURev
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 26, 2025 at 08:10:13AM +0200, Thomas Wei=C3=9Fschuh wrote:
-> Building userspace applications through the kbuild "userprogs" framework
-> requires a libc. Kernel toolchains often do not contain a libc.
-> In this case it is useful to use the nolibc library from the kernel tree.
-> Nolibc does not support all architectures and requires compiler flags.
->=20
-> Add a kconfig option, so users can know where it is available and provide=
- a
-> variable for common options.
->=20
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
-> ---
->  MAINTAINERS          |  2 ++
->  init/Kconfig         |  2 ++
->  init/Kconfig.nolibc  | 15 +++++++++++++++
->  init/Makefile.nolibc | 13 +++++++++++++
->  4 files changed, 32 insertions(+)
-
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
-
---uRa5i4kMRLweURev
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmhmjSIACgkQiMa8nIia
-bbgQvBAAhbd3BYyTpH1jAbERpaLT8y1+JRuWEpMgVrzf4Djuoe+7wlP8bRrB7LJ/
-OqN5olbRO0+fdEueDlqKynurfMr5jgreGIKHuBw7PSsiEJNiG4VFIZ837ui96W8Y
-pXZ6dtM7PveKEajuLyClQaSWlB3NudHYuYgTNt5iFdpUSdJEhvZ+OJ2dTsws7alz
-59/O6jThF2OaL0xsIkyGZba5Ly+TBnIQ11oXZh+6fi1ITplaWz3syGinTLNScTG+
-S8zaX53+qKaAf+taHUq99Xfy68LH3sXUFIu0IivsRFUmRYvYyc52Hxc/ZzAXlnSI
-4vpj6Ha1utStwKqTyd7+3azqF1NmBtMsxF0CiKnO4ptWMW3qJBf3qTqmBPF6BmTX
-d4QuKiLekGdFlxxu8o6O8TtCDyjxNnitZgfD4r8he1zoID4TcLGW6Wx8k9RRX+AS
-eFc2Dxklb79R1RvKDduUV9Y2Np7BuAIKfc2xEjMHsvjXlN6DDda9Zbx7dV2clvSd
-dVBbOG1arsyCHVprloS89n2oWdZsEow3ZIGUfNvhGGEYivdhD5qluB94X4zssOhA
-j9BcEVnlpEaVxe7C7S5WjaJMTMhrpK69jW4mSn2PqilR5ulcwrDknrYSKlqAzU6j
-O/snNwQjPpeyc44xgMra7eKUkCq4qALaPxCZSifhj9N28pJ6cdY=
-=TLb6
------END PGP SIGNATURE-----
-
---uRa5i4kMRLweURev--
 
