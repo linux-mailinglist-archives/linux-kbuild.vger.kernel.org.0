@@ -1,55 +1,59 @@
-Return-Path: <linux-kbuild+bounces-7887-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7888-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25645AF9CCF
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Jul 2025 01:49:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64447AFA12E
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Jul 2025 20:30:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8BE141C26504
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Jul 2025 23:50:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BA4F1BC6348
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Jul 2025 18:30:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9321721ADB5;
-	Fri,  4 Jul 2025 23:49:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC96B7081E;
+	Sat,  5 Jul 2025 18:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="F4Ue/HjN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A12954723;
-	Fri,  4 Jul 2025 23:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6842143159;
+	Sat,  5 Jul 2025 18:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.51.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751672979; cv=none; b=UjAFzUrU/7v9IiOIYTXYkjlzkjg2A1sUytre4TP08xt2bTYe/magCis4ijD5111NEBh+A5yrHrFYod4LVzmBRx7Mw7J/0eRoEt9RBwuqA+z3biQJjn+S/t9hPCnBiA7hDVGb51bB7Yh/0Gwsf9AjDzvF+kSnxdlbZgxRm1Gqm0o=
+	t=1751740205; cv=none; b=tnkJYAgZMwEvQf1UnbtRfEo1s2QatkD7a/Se7fx9pub3Qojr2+Vw1O9y5k1hs1c4v6QBAdwoTvz7Z3XI2pXSAhD8gf1JK9Rkowln+RDD+way42p3WXiqenzwcETquXXzTqBB6yOVs0J1+uLMI8DIgKBOcL8R74xGdEmKntV7D5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751672979; c=relaxed/simple;
-	bh=KsnRsT5Zp6SxXom0RgloRgybMVnMUbjcLP3imWbabD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J43XlxS97ku0WPWrNUI5KK5Y3PuTM1JUozzA+Ts9PN7PdmEKcNEfJ4225L5J2uoQY7KANw4rECQpPWKCD+L59rKviVezDvi2x4jdx36NK7OKScqd/HFec9+FrawmwTZ/F/ZEijVDUKnkrE1s1RgKuHGd6Qeug/HCzk+GlO8ECVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 28B8372C8CC;
-	Sat,  5 Jul 2025 02:49:29 +0300 (MSK)
-Received: from pony.office.basealt.ru (unknown [193.43.10.9])
-	by imap.altlinux.org (Postfix) with ESMTPSA id 15D0E36D0184;
-	Sat,  5 Jul 2025 02:49:29 +0300 (MSK)
-Received: by pony.office.basealt.ru (Postfix, from userid 500)
-	id EBF48360D4F8; Sat,  5 Jul 2025 02:49:28 +0300 (MSK)
-Date: Sat, 5 Jul 2025 02:49:28 +0300
-From: Vitaly Chikunov <vt@altlinux.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Andreas Schwab <schwab@linux-m68k.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: stable@vger.kernel.org, Michal Marek <mmarek@suse.cz>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Yong Zhi <yong.zhi@intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Ingo Molnar <mingo@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] mod_devicetable: Enlarge the maximum platform_device_id
- name length
-Message-ID: <aukyxucdlmthz3v5a6xoh42vmz@altlinux.org>
-References: <20250415231420.work.066-kees@kernel.org>
- <Z_9SIBPsf4_cQ77Y@smile.fi.intel.com>
+	s=arc-20240116; t=1751740205; c=relaxed/simple;
+	bh=43ZIh2ngVODPHlb6rX3nplfNz3TrbIrDcbzYwUfHGbg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iXHkxL9GMlAU06SwRv5zYnAvrBTls4weOJujjg8HKl2QeXkofc9GDUzSWmDpK2jVBA/rB0Ie5DKIl46E032ChGEJhJxkuqxh3gottJ4gm6Ot6MsyGVtW+8NOgbdGAIxlAY4gGEiP7pDyZiwVXcnL07ZM7z6cpkUrzSggDL9vh5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=F4Ue/HjN; arc=none smtp.client-ip=188.165.51.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1751740187; x=1751999387;
+	bh=bM2teI22G3f2cdn97WzyTkn2kGIbnba3JaKLY/RW470=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=F4Ue/HjNcwpmOo8yEjoywETP8BQBZIi35mgHXIWeFwWo/GLWk2iqnfJk/VUPkOwV8
+	 mlS7iwfOIxP7CrWYCy3oULdFyzpVYyO/nyfYZ0IQ8an99SZPDrBU2VAyuTdtOWf77X
+	 in1NIsr1t/ncOmG1BRiVgPsLswSS+QheNZYekGIYfYk8PWKMJviHBNo9OTpbktKlkz
+	 vnr7RDClHaZwuXpjANTEvnFU3GXIX40dkcpPKdyBOZNZsTzNcwXIKUayMgeda5FyFc
+	 iSaQdIUGJ5a7lh7dcmWIxKWbtial5GiscwSOLYay2U+KCH6q2+nqcKUY6at5ZDElUg
+	 8thH9WlCcteTw==
+Date: Sat, 05 Jul 2025 18:29:39 +0000
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+From: Yassine Oudjana <y.oudjana@protonmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, Ramona Gradinariu <ramona.gradinariu@analog.com>, "Yo-Jung (Leo) Lin" <0xff07@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, =?utf-8?Q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
+	<barnabas.czeman@mainlining.org>, Danila Tikhonov <danila@jiaxyga.com>, Antoni Pokusinski <apokusinski01@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>, Petar Stoykov <pd.pstoykov@gmail.com>, shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Ingo Molnar <mingo@kernel.org>, Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and instance to QRTR instance
+Message-ID: <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com>
+In-Reply-To: <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
+References: <20250406140706.812425-1-y.oudjana@protonmail.com> <20250406140706.812425-3-y.oudjana@protonmail.com> <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
+Feedback-ID: 6882736:user:proton
+X-Pm-Message-ID: 7492d43dc5683a87898c4defdf35e51e2e20b2a5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -57,122 +61,120 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z_9SIBPsf4_cQ77Y@smile.fi.intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-Andy, Kees,
+On Wednesday, April 9th, 2025 at 3:54 PM, Konrad Dybcio <konrad.dybcio@oss.=
+qualcomm.com> wrote:
 
-On Wed, Apr 16, 2025 at 09:45:52AM +0300, Andy Shevchenko wrote:
-> On Tue, Apr 15, 2025 at 04:14:24PM -0700, Kees Cook wrote:
-> > The 20 byte length of struct platform_device_id::name is not long enough
-> > for many devices (especially regulators), where the string initialization
-> > is getting truncated and missing the trailing NUL byte. This is seen
-> > with GCC 15's -Wunterminated-string-initialization option:
-> > 
-> > drivers/regulator/hi6421v530-regulator.c:189:19: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (21 chars into 20 available) [-Wunterminated-string-initialization]
-> >   189 |         { .name = "hi6421v530-regulator" },
-> >       |                   ^~~~~~~~~~~~~~~~~~~~~~
-> > drivers/regulator/hi6421v600-regulator.c:278:19: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (21 chars into 20 available) [-Wunterminated-string-initialization]
-> >   278 |         { .name = "hi6421v600-regulator" },
-> >       |                   ^~~~~~~~~~~~~~~~~~~~~~
-> > drivers/regulator/lp87565-regulator.c:233:11: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (21 chars into 20 available) [-Wunterminated-string-initialization]
-> >   233 |         { "lp87565-q1-regulator", },
-> >       |           ^~~~~~~~~~~~~~~~~~~~~~
-> > sound/soc/fsl/imx-pcm-rpmsg.c:818:19: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (21 chars into 20 available) [-Wunterminated-string-initialization]
-> >   818 |         { .name = "rpmsg-micfil-channel" },
-> >       |                   ^~~~~~~~~~~~~~~~~~~~~~
-> > drivers/iio/light/hid-sensor-als.c:457:25: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (21 chars into 20 available) [-Wunterminated-string-initialization]
-> >   457 |                 .name = "HID-SENSOR-LISS-0041",
-> >       |                         ^~~~~~~~~~~~~~~~~~~~~~
-> > drivers/iio/light/hid-sensor-prox.c:366:25: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (21 chars into 20 available) [-Wunterminated-string-initialization]
-> >   366 |                 .name = "HID-SENSOR-LISS-0226",
-> >       |                         ^~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > Increase the length to 24, slightly more than is currently being used by
-> > the affected drivers. The string is used in '%s' format strings and via
-> > the module code, which appears to do its own length encoding. This size
-> > was chosen because there was already a 4 byte hole in the structure:
-> > 
-> > struct platform_device_id {
-> >         char                       name[20];             /*     0    20 */
-> > 
-> >         /* XXX 4 bytes hole, try to pack */
-> > 
-> >         kernel_ulong_t             driver_data;          /*    24     8 */
-> > 
-> >         /* size: 32, cachelines: 1, members: 2 */
-> >         /* sum members: 28, holes: 1, sum holes: 4 */
-> >         /* last cacheline: 32 bytes */
-> > };
-> 
-> Since there is no even potential ABI breakage, I'm fine with the change.
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> On 4/6/25 4:07 PM, Yassine Oudjana wrote:
+>=20
+> > Move QRTR instance conversion from qmi_interface into a new macro in or=
+der
+> > to reuse it in QRTR device ID tables.
+> >=20
+> > Signed-off-by: Yassine Oudjana y.oudjana@protonmail.com
+> > ---
+> > drivers/soc/qcom/qmi_interface.c | 5 +++--
+> > include/linux/soc/qcom/qrtr.h | 2 ++
+> > 2 files changed, 5 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/soc/qcom/qmi_interface.c b/drivers/soc/qcom/qmi_in=
+terface.c
+> > index bc6d6379d8b1..cb57b7e1f252 100644
+> > --- a/drivers/soc/qcom/qmi_interface.c
+> > +++ b/drivers/soc/qcom/qmi_interface.c
+> > @@ -14,6 +14,7 @@
+> > #include <linux/workqueue.h>
+> > #include <trace/events/sock.h>
+> > #include <linux/soc/qcom/qmi.h>
+> > +#include <linux/soc/qcom/qrtr.h>
+> >=20
+> > static struct socket *qmi_sock_create(struct qmi_handle *qmi,
+> > struct sockaddr_qrtr *sq);
+> > @@ -173,7 +174,7 @@ static void qmi_send_new_lookup(struct qmi_handle *=
+qmi, struct qmi_service *svc)
+> > memset(&pkt, 0, sizeof(pkt));
+> > pkt.cmd =3D cpu_to_le32(QRTR_TYPE_NEW_LOOKUP);
+> > pkt.server.service =3D cpu_to_le32(svc->service);
+> > - pkt.server.instance =3D cpu_to_le32(svc->version | svc->instance << 8=
+);
+> > + pkt.server.instance =3D cpu_to_le32(QRTR_INSTANCE(svc->version, svc->=
+instance));
+> >=20
+> > sq.sq_family =3D qmi->sq.sq_family;
+> > sq.sq_node =3D qmi->sq.sq_node;
+> > @@ -236,7 +237,7 @@ static void qmi_send_new_server(struct qmi_handle *=
+qmi, struct qmi_service *svc)
+> > memset(&pkt, 0, sizeof(pkt));
+> > pkt.cmd =3D cpu_to_le32(QRTR_TYPE_NEW_SERVER);
+> > pkt.server.service =3D cpu_to_le32(svc->service);
+> > - pkt.server.instance =3D cpu_to_le32(svc->version | svc->instance << 8=
+);
+> > + pkt.server.instance =3D cpu_to_le32(QRTR_INSTANCE(svc->version, svc->=
+instance));
+> > pkt.server.node =3D cpu_to_le32(qmi->sq.sq_node);
+> > pkt.server.port =3D cpu_to_le32(qmi->sq.sq_port);
+> >=20
+> > diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom/qrt=
+r.h
+> > index 4d7f25c64c56..10c89a35cbb9 100644
+> > --- a/include/linux/soc/qcom/qrtr.h
+> > +++ b/include/linux/soc/qcom/qrtr.h
+> > @@ -13,6 +13,8 @@ struct qrtr_device {
+> >=20
+> > #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
+> >=20
+> > +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qmi_in=
+stance << 8)
+>=20
+>=20
+> Please use FIELD_PREP + GENMASK to avoid potential overflows
+>=20
+> Konrad
 
-This definitely breaks ABI on 32-bit architectures such as i586, because there
-is no gap from alignment. Perhaps, this also make the commit not suitable for
-backporting to stable branches?
+Since I'm using this macro in initializing QRTR match tables I am unable to=
+ use
+FIELD_PREP. When I do, I get such errors:
 
-I recently stumbled on build failure on v5.10.239 for i586:
-
-  make: Entering directory '/usr/src/kernel-source-5.10'
-    DEPMOD  5.10.239
-  depmod: FATAL: Module index: bad character '�'=0x80 - only 7-bit ASCII is supported:
-  platform:jsl_rt5682_max98360ax�
-  make: *** [Makefile:1786: modules_install] Error 1
-  make: Leaving directory '/usr/src/kernel-source-5.10'
-
-With this patch not applied "jsl_rt5682_max98360a" have terminating '\0'
-truncated due to PLATFORM_NAME_SIZE being same as the string length and
-concatenated with the following binary data:
-
-        {
-                .name = "jsl_rt5682_max98360a",
-                .driver_data = (kernel_ulong_t)(SOF_RT5682_MCLK_EN |
-                                        SOF_RT5682_MCLK_24MHZ |
-                                        SOF_RT5682_SSP_CODEC(0) |
-                                        SOF_SPEAKER_AMP_PRESENT |
-                                        SOF_MAX98360A_SPEAKER_AMP_PRESENT |
-                                        SOF_RT5682_SSP_AMP(1)),
-        },
-
-modpost then interprets it as an asciiz string concatenating with `driver_data`
-resulting in bad characters.
-
-  static int do_platform_entry(const char *filename,
-			       void *symval, char *alias)
-  {
-	  DEF_FIELD_ADDR(symval, platform_device_id, name);
-	  sprintf(alias, PLATFORM_MODULE_PREFIX "%s", *name);
-	  return 1;
-  }
-
-creating in an incorrect alias, and this somehow breaks depmod in kmod 34.2
-(maybe earlier).
-
-Old kmod 30 successfully adds incorrect alias:
-
-  $ modinfo snd-soc-sof_rt5682.ko | grep jsl_rt5682_max98360a
-  alias:          platform:jsl_rt5682_max98360a
-  alias:          platform:jsl_rt5682_max98360ax�
-
-and 
-
-  modules.alias:alias platform:jsl_rt5682_max98360ax� snd_soc_sof_rt5682
-
-Perhaps, scripts/mod/file2alias.c should be updated with:
-
--	  sprintf(alias, PLATFORM_MODULE_PREFIX "%s", *name);
-+	  sprintf(alias, PLATFORM_MODULE_PREFIX "%.*s", PLATFORM_NAME_SIZE, *name);
-
-(Or even producing an error if more serious truncation occurs.)
-
-Thanks,
-
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+In file included from ../arch/arm64/include/asm/sysreg.h:1108,
+                 from ../arch/arm64/include/asm/memory.h:223,
+                 from ../arch/arm64/include/asm/pgtable-prot.h:8,
+                 from ../arch/arm64/include/asm/sparsemem.h:8,
+                 from ../include/linux/numa.h:23,
+                 from ../include/linux/cpumask.h:17,
+                 from ../include/linux/smp.h:13,
+                 from ../include/linux/lockdep.h:14,
+                 from ../include/linux/mutex.h:17,
+                 from ../include/linux/kernfs.h:11,
+                 from ../include/linux/sysfs.h:16,
+                 from ../include/linux/iio/buffer.h:9,
+                 from ../drivers/iio/common/qcom_smgr/qcom_smgr.c:8:
+../include/linux/bitfield.h:114:9: error: braced-group within expression al=
+lowed only inside a function
+  114 |         ({                                                         =
+     \
+      |         ^
+../include/linux/soc/qcom/qrtr.h:21:10: note: in expansion of macro 'FIELD_=
+PREP'
+   21 |         (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMAS=
+K(15, 8), qmi_instance))
+      |          ^~~~~~~~~~
+../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion of m=
+acro 'QRTR_INSTANCE'
+  825 |                 .instance =3D QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
+      |                             ^~~~~~~~~~~~~
+../include/linux/bitfield.h:114:9: error: braced-group within expression al=
+lowed only inside a function
+  114 |         ({                                                         =
+     \
+      |         ^
+../include/linux/soc/qcom/qrtr.h:21:51: note: in expansion of macro 'FIELD_=
+PREP'
+   21 |         (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMAS=
+K(15, 8), qmi_instance))
+      |                                                   ^~~~~~~~~~
+../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion of m=
+acro 'QRTR_INSTANCE'
+  825 |                 .instance =3D QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
+      |                             ^~~~~~~~~~~~~
 
