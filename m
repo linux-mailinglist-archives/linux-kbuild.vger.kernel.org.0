@@ -1,116 +1,157 @@
-Return-Path: <linux-kbuild+bounces-7889-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7890-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29A7AFA79B
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Jul 2025 22:03:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9EEAFA7A6
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Jul 2025 22:19:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23237189D111
-	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Jul 2025 20:03:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A65231746FE
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Jul 2025 20:19:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 014B12BD5BC;
-	Sun,  6 Jul 2025 20:01:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBF071CAA92;
+	Sun,  6 Jul 2025 20:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BHObELFw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lcSpOKEi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789A42BCF70;
-	Sun,  6 Jul 2025 20:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFD27081C;
+	Sun,  6 Jul 2025 20:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751832065; cv=none; b=fqE+woIXD39KAijy/7dwrBWE676vUBwXgoEYgAhoeECLdVcbfBNYbkaVwTcS0ytHipCwmhIwCKK4yAoHTR4Rp8muzDOxgT91zaKu7Kb4Si2lzxBF3GE8sQXiRmxmG5/6A4jrdudrNcvZwhTLlZ8wq9lUAaIFhmr1JbQeR6X9bJc=
+	t=1751833154; cv=none; b=ETI8o2PQnX13lpfxC/Kv8NeWRrZWTJ2yly0+OsCQXlssCKkxv71usY2LCH6sI1z7uYdHYG5NT3EsMvGA9YK3GGf9NCdso+yWs6EayE59dJ61SLImYrWjKlNsSSebD6FoY+HJ0oWhdTu8nWsYp4mfFAyblazASVii8rEYKWaAZwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751832065; c=relaxed/simple;
-	bh=XKbWsh6+0c/j+3Ee8yYRQNiq+fXjdF4zPjnJ/9wrZLE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KVyRClupkSIWELMTqfrl2wa0ko+9lojalgG7slLczSGxnttgBFlojozbj5ON9JrjBOOFoXJTg/h2tdUkOqeGyp/RrZ243knORa43jiVPHAndTg7mDAUEzRc5I7N1Z+gbDVa2AFA3nRi6F2zFH1Iv3d2wik/Xio2oR/Bg8tgG9KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BHObELFw; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1751833154; c=relaxed/simple;
+	bh=7CmSw2auQCB10/mhzVBpiCG+kBblK5JiB07agEKo0gw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=sDPyKWatjzR4vOosy0frzlE0F3IajHr7xY7UOJS9OoD7rNxsfNb+hHNUdyOiXrDXfedWyJgXSsSv7HdZLwKNY2CNYPrpq7z0nOfS+WWUa0//2AYEZtPa7GuDIaIHSU052uimlBezwGo7600+MfUvoWMUmu+y2it6lM2LRd9HCfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lcSpOKEi; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-312a806f002so484209a91.3;
-        Sun, 06 Jul 2025 13:01:04 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a6d1369d4eso1303313f8f.2;
+        Sun, 06 Jul 2025 13:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751832064; x=1752436864; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XKbWsh6+0c/j+3Ee8yYRQNiq+fXjdF4zPjnJ/9wrZLE=;
-        b=BHObELFwIkQBwAg+UeeziFS3MWOcTyYn8gGhxbqJLKlfgjAbVk6yHFgiUKSdyqy5tS
-         kGRqblfRXxfOzm7s02cmfndNwJGEtyiC66vlRL9UgjAEtCXkfCA3Xl54lzZk9op9fzr0
-         TMUV+a+4YdZSS1BOFcHsT6Mu4AtYWiW82y3BoaxAePi4zBrKWlcJjkOySGVy13hj2j0z
-         cjzLOyeQJ81UBBBghY8bi3c6YnABiyukx1vvtQ6XHuZhv11sPNc2GvnTvFNzWiO/2x5r
-         VIPYpn2U6/6jO+amxrRnEvTqbhp9zxZYFXYexq6Ws9u2mbDs/kcj1ectGtox11rBbFTL
-         sZ5w==
+        d=gmail.com; s=20230601; t=1751833150; x=1752437950; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vb5fqW52Sf50dad6R6Edoqvi+sp46QqlVYM4k2DPVNI=;
+        b=lcSpOKEiD17ajIWpzTg5OiZHg6VTT5zTg17F/IUXtSq6byuRqZ07/JMDC6UK5QEBcq
+         9LnalCz6dCl88xNPzeOBsW+uxeFOUGI8hm0ytsfaF7UrvWPuoq+12tiHmm4MGqbTVskM
+         jCBp4qoiMTbZ1GM8TdnO5EtxG7uck+Mp63LhFiKPEcdJopWLUal6CTat0ud+oTiHLvhw
+         nYZ3mWEnikZXNssbLYrtudiqcuI0Oyh0hmaqKli+IynkPniiFS+HsqFmbxO9BzBsivBa
+         neiyGMS6a0itxXLcNlNcjWme/Hf+aUAaBYgT3GhC8iVD7xHfiqA9cTuvXF7adMfdO+5L
+         QT0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751832064; x=1752436864;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XKbWsh6+0c/j+3Ee8yYRQNiq+fXjdF4zPjnJ/9wrZLE=;
-        b=M3ZBv851RciDYRNO7XJj7mEt5xAQpeEkEZo8gqMrOlbK1zZdvksWaUsbpuxMveGkJp
-         +a5O3jw7XZ4vn8MUvGOVxFl5YGrAZa2iykCJJIQA0oh226cwAGyGoy6DCJ55EMGuDHxf
-         ktfz5EERFpAky6ys5YgKWhfu2h1a/tx0fE1rEpH12RNxJOqTJwi0hM2Ioag/sr1podcL
-         Yathz9WNDJvfINrXXCRLV1PBzXjIxaSpZMukp/PhQRrpGFEEX3r5WzCDQQMxexkSy2YJ
-         SacQL+rX4STm38g4+XX83afLkSq/Itay0J9ConisL2GAYVA+TissnANgxf/I8R+rlUFs
-         Mu7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU9l6qGmECBaFyEUTDZBKwTGqKmm5/GVhiN5NGJM+Hd67K7LqPP8+12AStH5qwQpCPE4zE7JIfl1ESKSnHwpos=@vger.kernel.org, AJvYcCVi7zFGvgWctsQslBpOUowP0TVsVt/wJPIiG+01b5jFSJGHmTcBHxis9zBwfT0iSm+R2V0ceYeewCcVhTL6cQ==@vger.kernel.org, AJvYcCWalPmCVPpZeoZanp9IUMRJsvfEgiJ81/W4oR1o0SQqWmK+CZ3+yuQ8kq35o225rzRbFQWPzw8EK4WQaHUe@vger.kernel.org, AJvYcCXluGAGXCpQBFNRm33+f4cdLsPECtc1mOIawK3pzWde0KThsNi2lpsMXBmUfr6GoeI1Izdmt5LJoKqlCOY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7XUTShWmbexyzZVhXYCGLe8qy2yFy5clh2or5Uf1wlKtNTLQi
-	Fbu20tRPdQLqZoGe5L+FCPIzcWSbC0r9AiyPuMevzb37zmUPPbc23BaVQu/ei1rAnfF220w6DCS
-	wfwsORrZyFkcNPn+go5YPcCLZLPkMiz8=
-X-Gm-Gg: ASbGncuXi63Bf4oWpWbj2xDjR3kF6CCXwp8wyt5lGeT5+LZV+L+sh/Dg9j0EzoVt98z
-	/Il07875iA+zGY8Xf5f5OM/p4cEt1jT2gCd3+MaBidywk3H3C37TzrvZlQMb+5mm1O1cseR07Je
-	7WJGgW0CEURf2nCpZaLsQOghvZA2nOwelh+nBeaZoP+78R
-X-Google-Smtp-Source: AGHT+IEx+FxLj3+Jq0qZjgdDOleKi4gj1nVhQ/EsMEOeW2WW/Y1EUb9umr2TPWyV6moDYtw6xdPtuSS9czsfPDQPv3U=
-X-Received: by 2002:a17:90a:c105:b0:312:e9d:4001 with SMTP id
- 98e67ed59e1d1-31aaccdb82dmr5740695a91.8.1751832063576; Sun, 06 Jul 2025
- 13:01:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751833150; x=1752437950;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vb5fqW52Sf50dad6R6Edoqvi+sp46QqlVYM4k2DPVNI=;
+        b=XA5FrkUxkgqeKKgjqG81PzekK7h/Wz/qXWA2mDNd3GjMAzK49pI7AU2CCAuQm4XrsF
+         UX8+vn3MaOKU7yeEKtoIVFV1ayKepLi1JnOLU39tPYOdqYK/igvQ+5NYk2BrWzoNuYFA
+         kg6PVyrWeIODLYi57fffAxK4MQogg7NwpmNRarO4rikRA4x+9eP9Oz4GsdqH4iaT6Goe
+         8s1nlyNgy8H2Cm2yMMdrzLCXocUF1wFCkJJPwjX+OiVu/DgKRvrmZepsr4lakfAbub/b
+         FxfGzwec3l7m8AzIS+olL7hDsSdgHYzRfmhfSEzzTvHv9pP1xxb3RzgPDIl5hMb8LLLN
+         4cow==
+X-Forwarded-Encrypted: i=1; AJvYcCU0G0jephDOkCKUfgTC2Q1cur33ZDua1yHJ8+ql+sJKqH/acY49M2xniN+/MIERuxkjL02pqqZH/EYpxLg=@vger.kernel.org, AJvYcCUKWWcEjrTTgUoRQh7ROqBYl81GLPlS/mX5gxH0Zl2CghFUE41E3AfO5dq9zbEG4a3vc6U/fs7W6hpj3RE3PndE@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSjbF78zrOkHfs3BhRL8iR2G9i+aMwG3Ca0vxxnt+sSMktiHV7
+	7jLAZrbpGkRW1n4ygkEfHMTB23CWtpplMKdiAUNm4NTKvcnw1FZJa/Tk
+X-Gm-Gg: ASbGnctOhDKL6wgbvYSC+LT1kUarowBnGLaP1AP/s+pg2tlHelfV+BCuWO3n+DmLNmq
+	IXdTvtl2FUhWd4B3yfDupPY3ig6KfJkuHynm4o7Wh3JHPZQsJS7CF/yfvwYFvG/AuN9YHO4EZjm
+	55tCtEtx2nQPOl+8bWx5BU0y/YpZ4ITQirdIRbfk2JfQLm7o0rrlKHC/2b/faaDqpLmBW8m9+O5
+	FX/vSso0twNKp8HJoqMdMoFu9LfuiPUL2RrFUS5adHpx8QphRb4b3HWtqRYmSTmqK2mNoi90rpl
+	LPcld2fkVAboCXnY3ijQp2D/PR+3jnhvxHTBtwLCgFjg5sYvGbqnTj/5Dch7HF/j+w/uVghh51x
+	gnLBEngXsqw4imHUum/vAczNw3w==
+X-Google-Smtp-Source: AGHT+IF9tRcHbsiXHX1mXnkP5vOa5cQNCDmYicadBI7LcIlNp1bkMinCpjotSPqiqqP4iKR4uU5glw==
+X-Received: by 2002:a5d:5f49:0:b0:3a4:cfbf:51a0 with SMTP id ffacd0b85a97d-3b49aa1ff91mr4653344f8f.21.1751833150204;
+        Sun, 06 Jul 2025 13:19:10 -0700 (PDT)
+Received: from laptop.home (178.75.217.87.dynamic.jazztel.es. [87.217.75.178])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b4708d0ed9sm8412728f8f.38.2025.07.06.13.19.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jul 2025 13:19:09 -0700 (PDT)
+From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+To: David Gow <davidgow@google.com>,
+	Rae Moar <rmoar@google.com>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: rust-for-linux@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+	x86@kernel.org,
+	linux-kbuild@vger.kernel.org,
+	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+Subject: [PATCH v3 RESEND] kunit: fix longest symbol length test
+Date: Sun,  6 Jul 2025 22:18:55 +0200
+Message-Id: <20250706201855.232451-1-sergio.collado@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250702-module-params-v3-v14-0-5b1cc32311af@kernel.org>
- <20250702-module-params-v3-v14-3-5b1cc32311af@kernel.org> <dR1azql_mfbkqYH2GgSR3NoChU-VhgRMnWzZg_hWmpVx6P3-fLsrU8M06AwCzQPdrTSyCw0gzxG1bbGr7Wc_Dg==@protonmail.internalid>
- <DB1O6I32IYI4.OFHKKMD9JV40@kernel.org> <87jz4orxh9.fsf@kernel.org>
-In-Reply-To: <87jz4orxh9.fsf@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 6 Jul 2025 22:00:51 +0200
-X-Gm-Features: Ac12FXzLCHMIAhvH08Ro5_kqwe96eI9obFV_WsRVejA5HvmzDAV3HeSyhZ8Y0iE
-Message-ID: <CANiq72=p4ciaaGQeB90qgykuLhv5BO-MKT3rfvZ5ni64jsrKBQ@mail.gmail.com>
-Subject: Re: [PATCH v14 3/7] rust: introduce module_param module
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Benno Lossin <lossin@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Trevor Gross <tmgross@umich.edu>, Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 4, 2025 at 1:45=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
-org> wrote:
->
-> It is an inherited name from way back.
+The kunit test that checks the longests symbol length [1], has triggered
+warnings in some pilelines when symbol prefixes are used [2][3]. The test
+will to depend on !PREFIX_SYMBOLS and !CFI_CLANG as sujested in [4] and
+on !GCOV_KERNEL.
 
-Yeah, that name comes from one of the very first PRs. I think we may
-have discussed its name in one of the early calls or maybe I just came
-up with the name.
+[1] https://lore.kernel.org/rust-for-linux/CABVgOSm=5Q0fM6neBhxSbOUHBgNzmwf2V22vsYC10YRBT=kN1g@mail.gmail.com/T/#t
+[2] https://lore.kernel.org/all/20250328112156.2614513-1-arnd@kernel.org/T/#u
+[3] https://lore.kernel.org/rust-for-linux/bbd03b37-c4d9-4a92-9be2-75aaf8c19815@infradead.org/T/#t
+[4] https://lore.kernel.org/linux-kselftest/20250427200916.GA1661412@ax162/T/#t
 
-Either way, it is almost 5 years old so I would suggest taking a look
-at naming etc. with fresh eyes.
+Reviewed-by: Rae Moar <rmoar@google.com>
+Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+---
+ lib/Kconfig.debug                | 1 +
+ lib/tests/longest_symbol_kunit.c | 3 +--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
-Miguel
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index ebe33181b6e6..4a75a52803b6 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2885,6 +2885,7 @@ config FORTIFY_KUNIT_TEST
+ config LONGEST_SYM_KUNIT_TEST
+ 	tristate "Test the longest symbol possible" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT && KPROBES
++	depends on !PREFIX_SYMBOLS && !CFI_CLANG && !GCOV_KERNEL
+ 	default KUNIT_ALL_TESTS
+ 	help
+ 	  Tests the longest symbol possible
+diff --git a/lib/tests/longest_symbol_kunit.c b/lib/tests/longest_symbol_kunit.c
+index e3c28ff1807f..9b4de3050ba7 100644
+--- a/lib/tests/longest_symbol_kunit.c
++++ b/lib/tests/longest_symbol_kunit.c
+@@ -3,8 +3,7 @@
+  * Test the longest symbol length. Execute with:
+  *  ./tools/testing/kunit/kunit.py run longest-symbol
+  *  --arch=x86_64 --kconfig_add CONFIG_KPROBES=y --kconfig_add CONFIG_MODULES=y
+- *  --kconfig_add CONFIG_RETPOLINE=n --kconfig_add CONFIG_CFI_CLANG=n
+- *  --kconfig_add CONFIG_MITIGATION_RETPOLINE=n
++ *  --kconfig_add CONFIG_CPU_MITIGATIONS=n --kconfig_add CONFIG_GCOV_KERNEL=n
+  */
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+
+base-commit: 772b78c2abd85586bb90b23adff89f7303c704c7
+-- 
+2.39.2
+
 
