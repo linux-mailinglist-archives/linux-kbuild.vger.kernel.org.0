@@ -1,180 +1,116 @@
-Return-Path: <linux-kbuild+bounces-7888-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7889-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64447AFA12E
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Jul 2025 20:30:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D29A7AFA79B
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Jul 2025 22:03:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BA4F1BC6348
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Jul 2025 18:30:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23237189D111
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Jul 2025 20:03:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC96B7081E;
-	Sat,  5 Jul 2025 18:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 014B12BD5BC;
+	Sun,  6 Jul 2025 20:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="F4Ue/HjN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BHObELFw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6842143159;
-	Sat,  5 Jul 2025 18:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.51.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789A42BCF70;
+	Sun,  6 Jul 2025 20:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751740205; cv=none; b=tnkJYAgZMwEvQf1UnbtRfEo1s2QatkD7a/Se7fx9pub3Qojr2+Vw1O9y5k1hs1c4v6QBAdwoTvz7Z3XI2pXSAhD8gf1JK9Rkowln+RDD+way42p3WXiqenzwcETquXXzTqBB6yOVs0J1+uLMI8DIgKBOcL8R74xGdEmKntV7D5M=
+	t=1751832065; cv=none; b=fqE+woIXD39KAijy/7dwrBWE676vUBwXgoEYgAhoeECLdVcbfBNYbkaVwTcS0ytHipCwmhIwCKK4yAoHTR4Rp8muzDOxgT91zaKu7Kb4Si2lzxBF3GE8sQXiRmxmG5/6A4jrdudrNcvZwhTLlZ8wq9lUAaIFhmr1JbQeR6X9bJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751740205; c=relaxed/simple;
-	bh=43ZIh2ngVODPHlb6rX3nplfNz3TrbIrDcbzYwUfHGbg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iXHkxL9GMlAU06SwRv5zYnAvrBTls4weOJujjg8HKl2QeXkofc9GDUzSWmDpK2jVBA/rB0Ie5DKIl46E032ChGEJhJxkuqxh3gottJ4gm6Ot6MsyGVtW+8NOgbdGAIxlAY4gGEiP7pDyZiwVXcnL07ZM7z6cpkUrzSggDL9vh5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=F4Ue/HjN; arc=none smtp.client-ip=188.165.51.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1751740187; x=1751999387;
-	bh=bM2teI22G3f2cdn97WzyTkn2kGIbnba3JaKLY/RW470=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=F4Ue/HjNcwpmOo8yEjoywETP8BQBZIi35mgHXIWeFwWo/GLWk2iqnfJk/VUPkOwV8
-	 mlS7iwfOIxP7CrWYCy3oULdFyzpVYyO/nyfYZ0IQ8an99SZPDrBU2VAyuTdtOWf77X
-	 in1NIsr1t/ncOmG1BRiVgPsLswSS+QheNZYekGIYfYk8PWKMJviHBNo9OTpbktKlkz
-	 vnr7RDClHaZwuXpjANTEvnFU3GXIX40dkcpPKdyBOZNZsTzNcwXIKUayMgeda5FyFc
-	 iSaQdIUGJ5a7lh7dcmWIxKWbtial5GiscwSOLYay2U+KCH6q2+nqcKUY6at5ZDElUg
-	 8thH9WlCcteTw==
-Date: Sat, 05 Jul 2025 18:29:39 +0000
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-From: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, Ramona Gradinariu <ramona.gradinariu@analog.com>, "Yo-Jung (Leo) Lin" <0xff07@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, =?utf-8?Q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
-	<barnabas.czeman@mainlining.org>, Danila Tikhonov <danila@jiaxyga.com>, Antoni Pokusinski <apokusinski01@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>, Petar Stoykov <pd.pstoykov@gmail.com>, shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Ingo Molnar <mingo@kernel.org>, Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and instance to QRTR instance
-Message-ID: <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com>
-In-Reply-To: <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
-References: <20250406140706.812425-1-y.oudjana@protonmail.com> <20250406140706.812425-3-y.oudjana@protonmail.com> <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
-Feedback-ID: 6882736:user:proton
-X-Pm-Message-ID: 7492d43dc5683a87898c4defdf35e51e2e20b2a5
+	s=arc-20240116; t=1751832065; c=relaxed/simple;
+	bh=XKbWsh6+0c/j+3Ee8yYRQNiq+fXjdF4zPjnJ/9wrZLE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KVyRClupkSIWELMTqfrl2wa0ko+9lojalgG7slLczSGxnttgBFlojozbj5ON9JrjBOOFoXJTg/h2tdUkOqeGyp/RrZ243knORa43jiVPHAndTg7mDAUEzRc5I7N1Z+gbDVa2AFA3nRi6F2zFH1Iv3d2wik/Xio2oR/Bg8tgG9KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BHObELFw; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-312a806f002so484209a91.3;
+        Sun, 06 Jul 2025 13:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751832064; x=1752436864; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XKbWsh6+0c/j+3Ee8yYRQNiq+fXjdF4zPjnJ/9wrZLE=;
+        b=BHObELFwIkQBwAg+UeeziFS3MWOcTyYn8gGhxbqJLKlfgjAbVk6yHFgiUKSdyqy5tS
+         kGRqblfRXxfOzm7s02cmfndNwJGEtyiC66vlRL9UgjAEtCXkfCA3Xl54lzZk9op9fzr0
+         TMUV+a+4YdZSS1BOFcHsT6Mu4AtYWiW82y3BoaxAePi4zBrKWlcJjkOySGVy13hj2j0z
+         cjzLOyeQJ81UBBBghY8bi3c6YnABiyukx1vvtQ6XHuZhv11sPNc2GvnTvFNzWiO/2x5r
+         VIPYpn2U6/6jO+amxrRnEvTqbhp9zxZYFXYexq6Ws9u2mbDs/kcj1ectGtox11rBbFTL
+         sZ5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751832064; x=1752436864;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XKbWsh6+0c/j+3Ee8yYRQNiq+fXjdF4zPjnJ/9wrZLE=;
+        b=M3ZBv851RciDYRNO7XJj7mEt5xAQpeEkEZo8gqMrOlbK1zZdvksWaUsbpuxMveGkJp
+         +a5O3jw7XZ4vn8MUvGOVxFl5YGrAZa2iykCJJIQA0oh226cwAGyGoy6DCJ55EMGuDHxf
+         ktfz5EERFpAky6ys5YgKWhfu2h1a/tx0fE1rEpH12RNxJOqTJwi0hM2Ioag/sr1podcL
+         Yathz9WNDJvfINrXXCRLV1PBzXjIxaSpZMukp/PhQRrpGFEEX3r5WzCDQQMxexkSy2YJ
+         SacQL+rX4STm38g4+XX83afLkSq/Itay0J9ConisL2GAYVA+TissnANgxf/I8R+rlUFs
+         Mu7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU9l6qGmECBaFyEUTDZBKwTGqKmm5/GVhiN5NGJM+Hd67K7LqPP8+12AStH5qwQpCPE4zE7JIfl1ESKSnHwpos=@vger.kernel.org, AJvYcCVi7zFGvgWctsQslBpOUowP0TVsVt/wJPIiG+01b5jFSJGHmTcBHxis9zBwfT0iSm+R2V0ceYeewCcVhTL6cQ==@vger.kernel.org, AJvYcCWalPmCVPpZeoZanp9IUMRJsvfEgiJ81/W4oR1o0SQqWmK+CZ3+yuQ8kq35o225rzRbFQWPzw8EK4WQaHUe@vger.kernel.org, AJvYcCXluGAGXCpQBFNRm33+f4cdLsPECtc1mOIawK3pzWde0KThsNi2lpsMXBmUfr6GoeI1Izdmt5LJoKqlCOY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7XUTShWmbexyzZVhXYCGLe8qy2yFy5clh2or5Uf1wlKtNTLQi
+	Fbu20tRPdQLqZoGe5L+FCPIzcWSbC0r9AiyPuMevzb37zmUPPbc23BaVQu/ei1rAnfF220w6DCS
+	wfwsORrZyFkcNPn+go5YPcCLZLPkMiz8=
+X-Gm-Gg: ASbGncuXi63Bf4oWpWbj2xDjR3kF6CCXwp8wyt5lGeT5+LZV+L+sh/Dg9j0EzoVt98z
+	/Il07875iA+zGY8Xf5f5OM/p4cEt1jT2gCd3+MaBidywk3H3C37TzrvZlQMb+5mm1O1cseR07Je
+	7WJGgW0CEURf2nCpZaLsQOghvZA2nOwelh+nBeaZoP+78R
+X-Google-Smtp-Source: AGHT+IEx+FxLj3+Jq0qZjgdDOleKi4gj1nVhQ/EsMEOeW2WW/Y1EUb9umr2TPWyV6moDYtw6xdPtuSS9czsfPDQPv3U=
+X-Received: by 2002:a17:90a:c105:b0:312:e9d:4001 with SMTP id
+ 98e67ed59e1d1-31aaccdb82dmr5740695a91.8.1751832063576; Sun, 06 Jul 2025
+ 13:01:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20250702-module-params-v3-v14-0-5b1cc32311af@kernel.org>
+ <20250702-module-params-v3-v14-3-5b1cc32311af@kernel.org> <dR1azql_mfbkqYH2GgSR3NoChU-VhgRMnWzZg_hWmpVx6P3-fLsrU8M06AwCzQPdrTSyCw0gzxG1bbGr7Wc_Dg==@protonmail.internalid>
+ <DB1O6I32IYI4.OFHKKMD9JV40@kernel.org> <87jz4orxh9.fsf@kernel.org>
+In-Reply-To: <87jz4orxh9.fsf@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 6 Jul 2025 22:00:51 +0200
+X-Gm-Features: Ac12FXzLCHMIAhvH08Ro5_kqwe96eI9obFV_WsRVejA5HvmzDAV3HeSyhZ8Y0iE
+Message-ID: <CANiq72=p4ciaaGQeB90qgykuLhv5BO-MKT3rfvZ5ni64jsrKBQ@mail.gmail.com>
+Subject: Re: [PATCH v14 3/7] rust: introduce module_param module
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Benno Lossin <lossin@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Trevor Gross <tmgross@umich.edu>, Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, linux-modules@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, April 9th, 2025 at 3:54 PM, Konrad Dybcio <konrad.dybcio@oss.=
-qualcomm.com> wrote:
+On Fri, Jul 4, 2025 at 1:45=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
+org> wrote:
+>
+> It is an inherited name from way back.
 
-> On 4/6/25 4:07 PM, Yassine Oudjana wrote:
->=20
-> > Move QRTR instance conversion from qmi_interface into a new macro in or=
-der
-> > to reuse it in QRTR device ID tables.
-> >=20
-> > Signed-off-by: Yassine Oudjana y.oudjana@protonmail.com
-> > ---
-> > drivers/soc/qcom/qmi_interface.c | 5 +++--
-> > include/linux/soc/qcom/qrtr.h | 2 ++
-> > 2 files changed, 5 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/soc/qcom/qmi_interface.c b/drivers/soc/qcom/qmi_in=
-terface.c
-> > index bc6d6379d8b1..cb57b7e1f252 100644
-> > --- a/drivers/soc/qcom/qmi_interface.c
-> > +++ b/drivers/soc/qcom/qmi_interface.c
-> > @@ -14,6 +14,7 @@
-> > #include <linux/workqueue.h>
-> > #include <trace/events/sock.h>
-> > #include <linux/soc/qcom/qmi.h>
-> > +#include <linux/soc/qcom/qrtr.h>
-> >=20
-> > static struct socket *qmi_sock_create(struct qmi_handle *qmi,
-> > struct sockaddr_qrtr *sq);
-> > @@ -173,7 +174,7 @@ static void qmi_send_new_lookup(struct qmi_handle *=
-qmi, struct qmi_service *svc)
-> > memset(&pkt, 0, sizeof(pkt));
-> > pkt.cmd =3D cpu_to_le32(QRTR_TYPE_NEW_LOOKUP);
-> > pkt.server.service =3D cpu_to_le32(svc->service);
-> > - pkt.server.instance =3D cpu_to_le32(svc->version | svc->instance << 8=
-);
-> > + pkt.server.instance =3D cpu_to_le32(QRTR_INSTANCE(svc->version, svc->=
-instance));
-> >=20
-> > sq.sq_family =3D qmi->sq.sq_family;
-> > sq.sq_node =3D qmi->sq.sq_node;
-> > @@ -236,7 +237,7 @@ static void qmi_send_new_server(struct qmi_handle *=
-qmi, struct qmi_service *svc)
-> > memset(&pkt, 0, sizeof(pkt));
-> > pkt.cmd =3D cpu_to_le32(QRTR_TYPE_NEW_SERVER);
-> > pkt.server.service =3D cpu_to_le32(svc->service);
-> > - pkt.server.instance =3D cpu_to_le32(svc->version | svc->instance << 8=
-);
-> > + pkt.server.instance =3D cpu_to_le32(QRTR_INSTANCE(svc->version, svc->=
-instance));
-> > pkt.server.node =3D cpu_to_le32(qmi->sq.sq_node);
-> > pkt.server.port =3D cpu_to_le32(qmi->sq.sq_port);
-> >=20
-> > diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom/qrt=
-r.h
-> > index 4d7f25c64c56..10c89a35cbb9 100644
-> > --- a/include/linux/soc/qcom/qrtr.h
-> > +++ b/include/linux/soc/qcom/qrtr.h
-> > @@ -13,6 +13,8 @@ struct qrtr_device {
-> >=20
-> > #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
-> >=20
-> > +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qmi_in=
-stance << 8)
->=20
->=20
-> Please use FIELD_PREP + GENMASK to avoid potential overflows
->=20
-> Konrad
+Yeah, that name comes from one of the very first PRs. I think we may
+have discussed its name in one of the early calls or maybe I just came
+up with the name.
 
-Since I'm using this macro in initializing QRTR match tables I am unable to=
- use
-FIELD_PREP. When I do, I get such errors:
+Either way, it is almost 5 years old so I would suggest taking a look
+at naming etc. with fresh eyes.
 
-In file included from ../arch/arm64/include/asm/sysreg.h:1108,
-                 from ../arch/arm64/include/asm/memory.h:223,
-                 from ../arch/arm64/include/asm/pgtable-prot.h:8,
-                 from ../arch/arm64/include/asm/sparsemem.h:8,
-                 from ../include/linux/numa.h:23,
-                 from ../include/linux/cpumask.h:17,
-                 from ../include/linux/smp.h:13,
-                 from ../include/linux/lockdep.h:14,
-                 from ../include/linux/mutex.h:17,
-                 from ../include/linux/kernfs.h:11,
-                 from ../include/linux/sysfs.h:16,
-                 from ../include/linux/iio/buffer.h:9,
-                 from ../drivers/iio/common/qcom_smgr/qcom_smgr.c:8:
-../include/linux/bitfield.h:114:9: error: braced-group within expression al=
-lowed only inside a function
-  114 |         ({                                                         =
-     \
-      |         ^
-../include/linux/soc/qcom/qrtr.h:21:10: note: in expansion of macro 'FIELD_=
-PREP'
-   21 |         (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMAS=
-K(15, 8), qmi_instance))
-      |          ^~~~~~~~~~
-../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion of m=
-acro 'QRTR_INSTANCE'
-  825 |                 .instance =3D QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
-      |                             ^~~~~~~~~~~~~
-../include/linux/bitfield.h:114:9: error: braced-group within expression al=
-lowed only inside a function
-  114 |         ({                                                         =
-     \
-      |         ^
-../include/linux/soc/qcom/qrtr.h:21:51: note: in expansion of macro 'FIELD_=
-PREP'
-   21 |         (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMAS=
-K(15, 8), qmi_instance))
-      |                                                   ^~~~~~~~~~
-../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion of m=
-acro 'QRTR_INSTANCE'
-  825 |                 .instance =3D QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
-      |                             ^~~~~~~~~~~~~
+Cheers,
+Miguel
 
