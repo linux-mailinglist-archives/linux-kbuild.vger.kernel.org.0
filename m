@@ -1,93 +1,94 @@
-Return-Path: <linux-kbuild+bounces-7906-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7907-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CEFAFB4C5
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 15:39:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 059BBAFB58B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 16:06:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE08618922B2
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 13:39:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42EBB3A6547
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 14:05:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D761F29B77A;
-	Mon,  7 Jul 2025 13:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A19F32BDC2D;
+	Mon,  7 Jul 2025 14:06:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cgeruFAl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kru11H6h"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D350288CAE
-	for <linux-kbuild@vger.kernel.org>; Mon,  7 Jul 2025 13:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBE017A31B;
+	Mon,  7 Jul 2025 14:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751895554; cv=none; b=YQvhKXUylh6lLUDobo18SO3QmhHIcHym1On0IO50T/M3keKqbP58cJe884kZevHIdYnABCaXRR8+MWEPVluBjP9zzmIpj1Pdga7cN3Jsnxw+xSwLYe2m+5ORgKnmxUccb2zPbkdaJVNdBvgMHTPWejdv0TS/K9cf5pDhFJh3pS0=
+	t=1751897172; cv=none; b=CCGn9LGR9B4nc4O5L9T8s5Hjo6bbxZ1l4PUeiaAoViKyKJAKQ5I8sM015zbHCnTZUPt/gPsCOhjiFYh+K1Z+/wiBvy4iV9HKFaO8GLB01ZKsnZlf2muA186Ae++f8ynRsxiDQNJJEi64022fyHO2YSzT+jiZZd7L25om4yKl0hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751895554; c=relaxed/simple;
-	bh=rSVN+37OZ1nxxk0c4XpB4pzH8Koab5xLneDmAWjx9j0=;
+	s=arc-20240116; t=1751897172; c=relaxed/simple;
+	bh=WjLJQ8DJG9dk9LY4/WcdTGq2agiZKN8nJ1UypqgJtcU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AQejLkX0DgyPjSEvbIxUGbuDh75EsTYY4VOI3MiKIiM3N/nlxQuj84LCS72PsjMQSB1eRiDsvwZ4bro/UIzqg1/QXnrXjJm8lskIfoxgJ1JgER9Q1RSlBQLL7vkgYazA3GwKGdpDEGbdBSfh7Uih/J2kxH4f+mvPTbDshAq4/J8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cgeruFAl; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-45348bff79fso34417565e9.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 07 Jul 2025 06:39:12 -0700 (PDT)
+	 To:Cc:Content-Type; b=XIaJQ3u4u+rNDwt4hNzqTIRzbdNL/5Ulg80vCHHIAEW9tIkT4VXsLIxDdkI2+/cIScBK7rg849UJknjZugBgRc1mCEIQNlhDG+DE+X/lzdEyAb0YnSqXvB54iNJUPFprqYgmY1LsA3lyTNjiVrgwws2DXNCXEB2T6XhZ82zUJrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kru11H6h; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-31306794b30so710729a91.2;
+        Mon, 07 Jul 2025 07:06:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751895551; x=1752500351; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1751897170; x=1752501970; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4FB3akW2uROgcxiqH7umM6G5loDI0rtj9L6/XnUx0ZE=;
-        b=cgeruFAlQMbMVDkMS24jz1ZYefPwkPp5X4CLsNx8OB+O1XKw7vxVEQCTLd6RuJZIaf
-         BE1oe2FpKlXvodaQy+g9BzGFuTs/qyAhkWBggTZmttg6ivTqHUvDiCWTIvlIcYz8KDAz
-         R9qi7kSQOYF79VdbWE1Bhdi05FfOOoLbwrOmZO9BI7SmHUqTeRBdxdvBE1Fje2YIP5KT
-         phFvVHEtPA9Zn4V7DeRbzVXCnSQQqttYgewIM/9EvsY7Xu2ZPB5kEFw0Bb2rW47ZwPkF
-         SJogtXtIBVw7dr+kQUIXPahibcKERSrLKz5CqUmYQzREzf3Q/8CscVPcTx/vbjjh+kHl
-         7FZg==
+        bh=z5eHXbB0tLWoYkJp+N7tByAI0f211iSmpcNJkEa+CDI=;
+        b=kru11H6h65fP6wlHsnsE0kR+r+VHP4n16TjURr6Vf6VtgFplwNVRH760k4/eZk9VYe
+         TXQDrvNh/xVo5OFrO1BaCviV9zvmNpogJTJi3J/wN/oi7NR9jXbZPLtbOZ5XXGqtzrT+
+         7VQTrX+xF9gfzswtG4fXnmREzgD6AIuvlmVtUYJJb9SZtNLZcZh8jbL91jvwjYgdEb1K
+         5TBmoY+VX6Ir4rnrFbU164lCPH+CLF/1U7ddQAosuWEW5WYUiv40lZ/oXv9nA2CljDua
+         xna0K8q+86zU8dV6Mg9Y6xLtgHG2sE4r3srXCjHOPfYhWSR1DxLChYysxSmp3n2t56/w
+         Rw3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751895551; x=1752500351;
+        d=1e100.net; s=20230601; t=1751897170; x=1752501970;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4FB3akW2uROgcxiqH7umM6G5loDI0rtj9L6/XnUx0ZE=;
-        b=irpRRvNXmoxjEtoZxzhLo9Nz7v1wNfeRMG9nF2LqJZ+xEfYtdC/XOkU3HP+YiYltwW
-         4UwMacaM0t4TLCw7YvbweBYNwI0wQ7LMJx7Xq4wbYtRmDJASOUJO1935sjNy+5qVbLur
-         hONOnh0xEn8OBRmCqbmT9BR9QwZApn46hm3ClbyppDjoRLTno9czrL9zbXv7WGRi/z7D
-         NFDNbi/3C2sIddPo5t96zb2mGDvXwPDQFUL+VL3kG5snXulEIZr/KPXZGqXHGNUsvl9Q
-         +wIVrSbFsCAlSJTZFAiugMXibD8uDeFkYRDgSbcMLca+S3HzcgeaAdifWKn55fVDNOlF
-         0PhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVg92fGXeLmzHXxo5wHtDYl+jHbrVx2ph8zRFvbAw5X0F4imtmNVTLm1GEMB/WMTxa+H1pLGeGGW+HGRvk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzX90d8jdpKXJwfcQpGOwygVy2jNsF7MPEaxLTwck1lMBBccFTU
-	zfoTqYKQKqmGyCHdGs/YWk786h4qtqol3I7pBEfh6+wucmG5vYKsKSn3g9JwuVznQxw4Qns6dWZ
-	REPc3Oy4fMGyLSGxIlnGqNURgB2brGCErNU8t6h22
-X-Gm-Gg: ASbGnctlWOiyZ10Jj46dQDQy+rNs00SDA7zSCuKKJAuVcl8TQUYjFpCu8wkPcTDLyti
-	Bis0jk8z1rWZQw9dcYL86u8N/0DQ5rb8ofgMiSH1wH6EpPz7VrtUUjOL6HycKZfipRvBLaS1o3X
-	f07UkG22jrM6NhLCxGEV4gC9/SpDyROxk8ABQa18O21KlQMltBsTbTSeF/8wf6atLVX2s6OFTP6
-	R24MCSY+w==
-X-Google-Smtp-Source: AGHT+IEaUZnenYQLKgYyVo3pyfBJMB9pXTg1TRSCW3BPSEm7LC8Pa9g2F7WOtEqZWQqlTsZ6zPdnN8WIllT+obQvkzc=
-X-Received: by 2002:a05:600c:8594:b0:450:cf42:7565 with SMTP id
- 5b1f17b1804b1-454b51126afmr73979285e9.23.1751895550535; Mon, 07 Jul 2025
- 06:39:10 -0700 (PDT)
+        bh=z5eHXbB0tLWoYkJp+N7tByAI0f211iSmpcNJkEa+CDI=;
+        b=BXhBSMQOoFcFLEAwt18h5RZa23l4weZyz3x/EZcmCa+HdKLZjLeQzR190QsNVWgg/7
+         PnNEUEMr7+0pChfUW456bROklETSgRTB7+QryE0V7qQgHYOCnhl1x6Q++Js0itBgRmBb
+         52QZ8YilPbdhkdZiWf0DXbV0Oe8j36GWWzQA9dpt1oSLvUn1iuOJucDDaEJ4he+IGQ2h
+         0d3khZw4uMtIPLJsoHPx+fdtbMY4ViDdgch+LNCvoUG0KkYBmKT6y7hpzPd5mRBNLQmo
+         nBapW2jB5s2mWd8pt0iD5Qp8pHzonZJFRW00f3mAxS+OcefulP78W1qkYBjJlPuQH31O
+         Syow==
+X-Forwarded-Encrypted: i=1; AJvYcCUA+zJx1pvuzcwigIhLrQ2DOTwN7tYAWqyXZy3WsEuKZeAmrnWoHYfP7kBEa4RsMr3d762Uzrnnn2byCnwvb5I=@vger.kernel.org, AJvYcCWAfRtwQf7i6xa8QPrGFO68iw5fP1FT6lLNoKJbydKD4iV6g+dWVN+20wNUaaUNXvTXnC/Y7ewqdxOuT9DZTw==@vger.kernel.org, AJvYcCWb7xr7ok02SkUnfJ6sMAF9Awvw8ipLypxYnMuQTul5OreU3egBzDWZvB+HEC6EK9y9E0Ra/l1Ewv0m3sk=@vger.kernel.org, AJvYcCWhW73cbkYSU1ij/FtZaI5NOUIRmCtVhXx64N0X9a/1BcbbUSG3BInPrA8vxHMNOivQO2ludn6aHRuFiL3I@vger.kernel.org
+X-Gm-Message-State: AOJu0YxElf4xE0sWYAGQSS19qlj4kY7FppN1ZE+A8uEP+fe0M6paWxgk
+	7pzIshnRliYWA9lbHo+6FfZZR/N4bzqkiP8X8tuiSJN5qWOJpc4k7FFNFkDKSmVZ+Cg65lc+d8R
+	9pnJpvYGIircw6gWOKX+Bd0pBoS+3eWE=
+X-Gm-Gg: ASbGncuUcyiNDCHWhYQar0IHhWFOP0pEU1QTIzUJ0z7lQSo6l2zNVJ0QpfanG3im5G/
+	NL70T5xKNIAwvUqhZ+k6LlE4iLZrkSGKo2B874P7IS2oKd06tbziVtYVw6AeX+vQ2O8kdksKqQp
+	RvkGvT0Lyr5k95/qwer3zfBnWsahAZ7lC6pCA3OoWgyrL57tXvg+zy4U8=
+X-Google-Smtp-Source: AGHT+IHYDP2ItVDS65gAYycZ9ux53Zh85xSymAbd42Tqj326gWzFunD0tX8YRk4m/jajtZi6K8fatKyug2zlraKKOWU=
+X-Received: by 2002:a17:90b:5408:b0:2ff:7970:d2b6 with SMTP id
+ 98e67ed59e1d1-31aac545128mr7024651a91.5.1751897170250; Mon, 07 Jul 2025
+ 07:06:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org> <20250707-module-params-v3-v15-1-c1f4269a57b9@kernel.org>
-In-Reply-To: <20250707-module-params-v3-v15-1-c1f4269a57b9@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 7 Jul 2025 15:38:58 +0200
-X-Gm-Features: Ac12FXx_fVjA2nF_nJiYWwsUf6PmudMDj0J-14ydNb016WmDb53IS0-a5p2ihe4
-Message-ID: <CAH5fLgiKo=jN_V5cAe_AJqxxp7mQWqhKx7knkEj6js3yiU9sqA@mail.gmail.com>
-Subject: Re: [PATCH v15 1/7] rust: sync: add `SetOnce`
+References: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org>
+In-Reply-To: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 7 Jul 2025 16:05:56 +0200
+X-Gm-Features: Ac12FXx9s4CqlK2pHGTaw_tDQW6E2_Qdww9gpUjj8n34vHnupqPLYoqsVo1mv7E
+Message-ID: <CANiq72k5mU7cACFh8TZC1+NfUQpdrZBToZ-jd75DfCNTfMU1fA@mail.gmail.com>
+Subject: Re: [PATCH v15 0/7] rust: extend `module!` macro with integer
+ parameter support
 To: Andreas Hindborg <a.hindborg@kernel.org>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
 	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Benno Lossin <lossin@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Benno Lossin <lossin@kernel.org>, 
 	Nicolas Schier <nicolas.schier@linux.dev>, Trevor Gross <tmgross@umich.edu>, 
 	Adam Bratschi-Kaye <ark.email@gmail.com>, rust-for-linux@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
@@ -98,31 +99,39 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 7, 2025 at 3:32=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
+On Mon, Jul 7, 2025 at 3:31=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel.=
 org> wrote:
 >
-> Introduce the `SetOnce` type, a container that can only be written once.
-> The container uses an internal atomic to synchronize writes to the intern=
-al
-> value.
->
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Based on code by Adam Bratschi-Kaye lifted from the original `rust` branc=
+h [1].
 
-LGTM:
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+I would suggest adding this sort of note to the commit messages,
+especially since the commits have no Co-developed-by/Link tags
+otherwise.
 
-> +impl<T> Drop for SetOnce<T> {
-> +    fn drop(&mut self) {
-> +        if self.init.load(Acquire) =3D=3D 2 {
-> +            // SAFETY: By the type invariants of `Self`, `self.init =3D=
-=3D 2` means that `self.value`
-> +            // contains a valid value. We have exclusive access, as we h=
-old a `mut` reference to
-> +            // `self`.
-> +            unsafe { drop_in_place(self.value.get()) };
+From our discussion in Zulip: the code itself is older than that the
+merge above. I think you wanted an example sentence for this --
+something simple could be e.g.
 
-This load does not need to be Acquire. It can be a Relaxed load or
-even an unsynchronized one since the access is exclusive.
+    Based on the original module parameter support by Miguel [1],
+later extended and generalized by Adam for more types [2][3].
+Originally tracked at [4].
 
-Alice
+    Link: https://github.com/Rust-for-Linux/linux/pull/7 [1]
+    Link: https://github.com/Rust-for-Linux/linux/pull/82 [2]
+    Link: https://github.com/Rust-for-Linux/linux/pull/87 [3]
+    Link: https://github.com/Rust-for-Linux/linux/issues/11 [4]
+
+By the way, I guess you should inherit that issue in the last link :)
+It had some details about things we may or may not want to support
+etc. that I looked up back then. If you prefer that we close it or
+that we create sub-issues, that is fine -- up to you!
+
+Finally, if you end up adding strings, please link to Adam's
+https://github.com/Rust-for-Linux/linux/pull/110.
+
+Thanks!
+
+Cheers,
+Miguel
 
