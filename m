@@ -1,96 +1,199 @@
-Return-Path: <linux-kbuild+bounces-7911-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7912-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF8AAFBA7D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 20:18:17 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF0FAFBD7E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 23:29:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 524654259FB
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 18:17:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B3A17A6E21
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 21:28:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CF992620FC;
-	Mon,  7 Jul 2025 18:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hJYAdNUA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE820287274;
+	Mon,  7 Jul 2025 21:29:28 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9DC1A23B5;
-	Mon,  7 Jul 2025 18:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8646A194C96;
+	Mon,  7 Jul 2025 21:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751912290; cv=none; b=pWd0wWvo4DcVL0DuvVxrB9f0oqWk3PFojVeW0jqtbnt4Ldvt2tODWS+5upCdu5C5qJ9IWASM8KT5yjOSZaaampzWHbDOTZMWfz8UcH6NvVAau97T4OJq3lLEVxIDcZDRTmTBvzOXOGVjjxvg2VgexAKnXzURuSvlOSHF9em+QIE=
+	t=1751923768; cv=none; b=Ybqp5eoPCVJyrrwUF+d3i6x2IDV9KXD6r0e/ijwJp6vLMzCci8F1InVD1Rsn+zJ8/FOgLbd9xnBKcxPGa2MNo1OKSIizgoROzfWxdRIxJ3A5x/yAuCO4M1QGjiN+xXL/+ua6jfuHISX8u9YxedmtaIVWGl/Ijy8N19PY8CeUiY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751912290; c=relaxed/simple;
-	bh=pDI+5V6KgP/ER5J++RWkkIYIk4xybHsObqeJLJdlzjU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Yt9j3d5sqn/nkT4e52PjsjpANYuZ6AxBLUM/QtQDzbEovIilVsLUnvM2dO8d6g7cj2iClSsPGygacFbDhKLU61wU/zl8pMr8AsEyd6CRBu+6edNp5WdhLC+h4FQsXUCcnWdD9c/WyTinP6XPEIYtGy5icJLICh9rPWDWxywygOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hJYAdNUA; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3373C40AA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1751912282; bh=pDI+5V6KgP/ER5J++RWkkIYIk4xybHsObqeJLJdlzjU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hJYAdNUA3WXbfI4RZNUgS9ytEoN0KkPOarsSKgEl7K7RrcVHNlo4FLXpOIs5PDSTE
-	 HTjtL0r8U8v/TZgFjVXTzVZD55+R75D5TD88SLbcLQjjZUFUYOMOwSUa5jw2SI86cw
-	 RzbTcBTqTBKoq9GIDmg3GJAlu86SGS6dCIdCzPM7Sd/YfEW2jbH1KEXbnu4DtlOT60
-	 G76ahmENyj0VZQQ+UZ0NhyGMKuRsHl7YtbudnGn8MK3JfmyS9SwtBgQ5YPT4QXVFrZ
-	 U+d//OQTI+KvSPIaFvnlIKBSFmBIJs2nLBzb2YZYQmYtrVmsrUMirWDA7jMiH+ExBe
-	 SFwU5I7pC+Tlw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3373C40AA9;
-	Mon,  7 Jul 2025 18:18:02 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, Thomas
- =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Brendan Higgins
- <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar
- <rmoar@google.com>, Shuah Khan <shuah@kernel.org>, Nicolas Schier
- <nicolas.schier@linux.dev>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org, Thomas =?utf-8?Q?We?=
- =?utf-8?Q?i=C3=9Fschuh?=
- <thomas.weissschuh@linutronix.de>, Kees Cook <kees@kernel.org>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v4 00/15] kunit: Introduce UAPI testing framework
-In-Reply-To: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
-References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
-Date: Mon, 07 Jul 2025 12:18:01 -0600
-Message-ID: <87qzyr7tly.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1751923768; c=relaxed/simple;
+	bh=knn5ptmuTBEl1zFysuErVCW6CyCCiL4U4AygZpHszko=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ahyTBk6W2BxpTP68LdaFTPrOfddO52zyTtlNEkK1aI3UBKi/eoEYatVTjbTqm1o5/fZQrnAPRKMUBdVhp89ExvwZIJJfD5U51eRKMFGuWCJK+EJrHYHTDqE6HydRwS03nIAUg9yV579AU9lE+bVt6WSO/G8/miS6S2cVzwPzU38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 640C11515;
+	Mon,  7 Jul 2025 14:29:13 -0700 (PDT)
+Received: from [172.27.42.165] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EA5713F66E;
+	Mon,  7 Jul 2025 14:29:24 -0700 (PDT)
+Message-ID: <4edecc95-0b6e-4365-bc97-d072bb06d79d@arm.com>
+Date: Mon, 7 Jul 2025 16:29:21 -0500
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] scripts: add zboot support to extract-vmlinux
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org,
+ nicolas.schier@linux.dev, linux-kernel@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>
+References: <20250522172941.1669424-1-jeremy.linton@arm.com>
+ <CAK7LNAQzkh+DO7ZBVEgLu63k0H5qB-etV_jpo67k+itLWGAosA@mail.gmail.com>
+ <14f2329f-e110-4f3f-976b-acb38d255798@arm.com>
+ <CAK7LNARG3wO_1R6_n1djbAQVx8=t0aMqAR4aaMUsRDBysSkkfA@mail.gmail.com>
+Content-Language: en-US
+From: Jeremy Linton <jeremy.linton@arm.com>
+In-Reply-To: <CAK7LNARG3wO_1R6_n1djbAQVx8=t0aMqAR4aaMUsRDBysSkkfA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de> writes:
+Hi,
 
-> This series aims to combine kselftests and kunit, avoiding both their
-> limitations. It works by compiling the userspace kselftests as part of
-> the regular kernel build, embedding them into the kunit kernel or module
-> and executing them from there.
+Thanks for looking at this.
 
-Please forgive the possibly dumb question but ... this series sets up
-the framework, but doesn't actually integrate the kselftests, right?
-Will it be necessary to write a little KUnit glue function for each
-kselftest, or is there some other scheme in mind here?
+On 6/24/25 12:56 PM, Masahiro Yamada wrote:
+> On Tue, Jun 17, 2025 at 1:09 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
+>>
+>> Hi,
+>>
+>> Thanks for looking at this.
+>>
+>> On 6/7/25 11:04 AM, Masahiro Yamada wrote:
+>>> On Fri, May 23, 2025 at 2:29 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
+>>>>
+>>>> Zboot compressed kernel images are used for arm kernels on various
+>>>> distros.
+>>>
+>>> Are you talking about arm 32 bit here?
+>>> (arch/arm/boot/zImage)
+>>
+>> No, it should be arm64.
+>>
+>>>
+>>>> extract-vmlinux fails with those kernels because the wrapped image is
+>>>> another PE. While this could be a bit confusing, the tools primary
+>>>> purpose of unwrapping and decompressing the contained vmlinux image
+>>>> makes it the obvious place for this functionality.
+>>>>
+>>>> Add a 'file' check in check_vmlinux() that detects a contained PE
+>>>> image before trying readelf. Recent file implementations output
+>>>> something like:
+>>>>
+>>>> "Linux kernel ARM64 boot executable Image, little-endian, 4K pages"
+>>>
+>>> Are you talking about arm64 here?
+>>>
+>>> I am confused, as arm64 adopts a simple-compressed image.
+>>
+>> No, there is a CONFIG_EFI_ZBOOT, which is a EFI/PE image which self
+>> decompresses a contained kernel similar to x86, but is for !x86 EFI
+>> architectures. This patch extends this utility to work for those images
+>> as well.
+> 
+> The commit description does not explain why this is useful.
+> 
+> Extracing vmlinux ELF is useful for debugging purposes.
 
-Thanks,
+Right,
 
-jon
+> 
+> In this case, the extracted file is
+> arch/arm64/boot/vmlinux.bin, which is just a (zero-padded) binary.
+
+$ file vmlinux.bin
+vmlinux.bin: Linux kernel ARM64 boot executable Image, little-endian, 4K 
+pages
+$ readpe -S vmlinux.bin
+Sections
+     Section
+         Name:                            .text
+         Virtual Size:                    0x2860000 (42336256 bytes)
+         Virtual Address:                 0x10000
+         Size Of Raw Data:                0x2860000 (42336256 bytes)
+         Pointer To Raw Data:             0x10000
+         Number Of Relocations:           0
+         Characteristics:                 0x60000020
+         Characteristic Names
+                                              IMAGE_SCN_CNT_CODE
+                                              IMAGE_SCN_MEM_EXECUTE
+...(trimming remainder of output)
+
+Its another complete PE boot image which can be used by UEFI/grub/etc as 
+well as any PE debugging and analysis utilities.
+
+So, this change effectively removes the zboot wrapper. The resulting 
+image is still useful for a certain amount of debugging (ex string 
+extraction, manually matching crash points, version checking, etc) in a 
+distro based environment where the user doesn't have a kernel build tree 
+handy. As well as any boot debugging, which could be caused by the ZBOOT 
+wrapper itself, and I'm sure a long list of other things.
+
+
+Thanks
+
+>>>
+>>> Apparently, this patch did not work for me.
+>>>
+>>> $ ./scripts/extract-vmlinux  arch/arm/boot/zImage
+>>> extract-vmlinux: Cannot find vmlinux.
+>>>
+>>> The 'file' command says, it is "data".
+>>> Is my 'file' command too old?
+>>>
+>>> $ file arch/arm/boot/Image
+>>> arch/arm/boot/Image: data
+>>>
+>>>
+>>>> Which is also a stronger statement than readelf provides so drop that
+>>>> part of the comment. At the same time this means that kernel images
+>>>> which don't appear to contain a compressed image will be returned
+>>>> rather than reporting an error. Which matches the behavior for
+>>>> existing ELF files.
+>>>>
+>>>> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+>>>> Cc: Ard Biesheuvel <ardb@kernel.org>
+>>>> ---
+>>>>    scripts/extract-vmlinux | 9 +++++----
+>>>>    1 file changed, 5 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/scripts/extract-vmlinux b/scripts/extract-vmlinux
+>>>> index 8995cd304e6e..edda1abe226c 100755
+>>>> --- a/scripts/extract-vmlinux
+>>>> +++ b/scripts/extract-vmlinux
+>>>> @@ -12,10 +12,11 @@
+>>>>
+>>>>    check_vmlinux()
+>>>>    {
+>>>> -       # Use readelf to check if it's a valid ELF
+>>>> -       # TODO: find a better to way to check that it's really vmlinux
+>>>> -       #       and not just an elf
+>>>> -       readelf -h $1 > /dev/null 2>&1 || return 1
+>>>> +       file $1 |grep 'Linux kernel.*boot executable Image' > /dev/null
+>>>> +       if [ "$?" -ne "0" ]; then
+>>>> +               # Use readelf to check if it's a valid ELF, if 'file' fails
+>>>> +               readelf -h $1 > /dev/null 2>&1 || return 1
+>>>> +       fi
+>>>>
+>>>>           cat $1
+>>>>           exit 0
+>>>> --
+>>>> 2.49.0
+>>>>
+>>>
+>>>
+>>
+>>
+> 
+> 
+
 
