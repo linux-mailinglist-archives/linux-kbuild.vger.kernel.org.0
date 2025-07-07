@@ -1,191 +1,153 @@
-Return-Path: <linux-kbuild+bounces-7908-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7909-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF495AFB6F6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 17:13:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9866AFB99E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 19:07:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11724173F9E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 15:13:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BC18178DE3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 17:07:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C87824B26;
-	Mon,  7 Jul 2025 15:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B3672E8894;
+	Mon,  7 Jul 2025 17:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FgizBTYf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hWCEone0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5D4EEDE;
-	Mon,  7 Jul 2025 15:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549512264A0;
+	Mon,  7 Jul 2025 17:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751901211; cv=none; b=I6IsROqe8nYVQ1Rofsmy3/0Pv515y08tJcOIOTAMCZ41qTj/WIY5aACJQOIQ8qdMuDNjz8cBoWrrRW3zhljJYtRbAE4ah0kbIfX3Ho6EVNOoV+7fNDhhY56BTLvKa2+IflZOaOCXOkDAusiI6jOhEcz5RrZwy+qHR1wYP3Uucxw=
+	t=1751908006; cv=none; b=R4J6g4OSSUqDWSh+BqKgXCWzobuiA2fVbOoEzHG8dK7GOZZmhoP7UgJ1FTOmoGF8MWq0jsoG/O8vhwTm9XNr+Ol446sWe+Eb2MZSAQbTWZczUYS8fubPcQzh78ba2ScNuzfMqQck1h7k3D7X1tWXfXxrsrjA5LEnwUYJkJk6m8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751901211; c=relaxed/simple;
-	bh=b46nuMBVjMg856O0Da2secAsr7015J7i+bLyu8whlw8=;
+	s=arc-20240116; t=1751908006; c=relaxed/simple;
+	bh=RmgBMi2VW8e/N4LvJnOaj4Wgc8weyyjOi7wU4geY8+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XD+dhMd2KZxeaC7hrwRrxC2lBlp9M3k6tu1GWL8v9CZ9xaUvxdecnyfRicbBHM5Z/p+nSuhasnnLHLwHXAupRmVgsOigWCEtqoAHEO5Fos0kJGeC1lEMp9s9bZHv4Qv94KC3sLV07LjB67Pff7UtQp0LUxi308dslCNE0yQ8DKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FgizBTYf; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4a58d95ea53so38613341cf.0;
-        Mon, 07 Jul 2025 08:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751901208; x=1752506008; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=wU+Kc9hr+FKFqyASghrwTWi231haZcWPg0AEYXltRjc=;
-        b=FgizBTYfDSpoQpwQtwfmHEf8mx+XfdCh15TSX89IRsrReCJcCccTLQ9F0IBdI0MTG8
-         ADoOjnPxaTZQPezSz8TOCROfOysvEJmNR2Fu0L5fYDq38WIFyArnIp9AlKdd8YDBRhMh
-         gC6NE6M67dmsjLXXlNkRg+ur7fYo1FEPy1qg0gM3r7KMqnOuNd5mOknp/YW0PuFgfZYV
-         dm4xMgF9XJEJGAXl8ubx/BOspWVMnEpLpwZynf73Wj11lngo6knb4ttkzp90pbtwBtYL
-         nyAwSSPspEOmdBlRHDQry7vitDio/L66qLIMWRXXo+A7o2Ahf9f2WNskYOmqh166JA0H
-         nSiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751901208; x=1752506008;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wU+Kc9hr+FKFqyASghrwTWi231haZcWPg0AEYXltRjc=;
-        b=UKgYetxyJYWfmOcRLNYDZNn+Ui3PRcn6X01NSz/4Rrr/XqcBpTxtEfw9sF5813XiMU
-         2k2pTV2EjXba6fooHXCKgwpwiY48tOkjil+sBB2wHBv4mfPbggI+qTYari68P5GblE2L
-         VV3lKhfFcVv1dpzZEyij3cmh197zg4CPcxiSXDSRUGgO4E4UB6zMe7nuNLjOznprr06v
-         MXzVbh1hK34Fmr7d37bPoQwGhuDaBZPotCL6c+ZluBX1CxGeJgut+aBdTj3wBe/4IaG0
-         /dAcuomijIhEP3+mFV7zXgqtTm+0ixkF36/tOfKt1EsuhSruq73lNHMIhyIhFskE21UJ
-         27Qg==
-X-Forwarded-Encrypted: i=1; AJvYcCUeuFuefQJj3h8lmB51fzH0f3QNlZGrvoqsVV2eOjJ0qnHb+9gsVMOs6wmX4ilYUMkYNaoDg2rPaSQP5DuW@vger.kernel.org, AJvYcCWi+gDS22NBnzYBlVfcqUfM0iUmMXpjhMYKbMGaW9CWdNNlddKNKh70lF8JlR/dSzsBO25cGZ/qHIUPWvLXAKs=@vger.kernel.org, AJvYcCWjdj7O8Hjex992hX1PZujymnmNioV+MlGUlqGiUnzAwFV5QzP7IGch8SjhxOtPZjoI6jXX7P//FGS3XW1EDA==@vger.kernel.org, AJvYcCXiCev2SeJn9AnLDNj5jZNKIxmOn1P+SisyBAH675x7lMqzO6dwNNGxkpQOtlw6nxppUEQiG64ob4bS/F8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYkZ6iaJ1+JjfSde6ojD5WlapRzhjbrE7udi7VXYUw9zmqTx7u
-	P1vKzRsnu+Ei/utnr0OQG4wgf1PyYQR2CX1HfjFFkwaQ2oPmV44N52/G
-X-Gm-Gg: ASbGncu/w+dzxGBSXiZnP3q74XHuQJ1e7mCsOWk1jX+4lX9vPlx5yMjghBij1A0vjWb
-	hgaI8478OWO4Hsxd3Oi/Ovej2Ckj14Q1un8QGF6EANjcujFdytedaZmMMv1SBGsKeZiWRLZvRF9
-	uUfVxb2DedTfsFti4PLMSNgtUwJH3/BBQfVRVV12IFuTMChrpH2xcOS5TmL0tf4uGYPIJqRVpHp
-	4Hw7HmgQ75dmKMNzktchJekYyfHnu7JYmEPor4b9w0SfikFb88qCB3FNxO2esmVwtSbOKuTk84l
-	Bzlpr+Te46f6wf65KvmvGCVO7BbeK6Qnwjv2jPxeOA6s7GujCoEDUug2EjuyuPUn8pMXvu1rdr/
-	eG8FHXR24+hFDmE40n5o0uUtJxE5cKx9e7ZFPfcvgzLqlXs2/8cxg
-X-Google-Smtp-Source: AGHT+IGF2mjIxrMUA3JwHk7twUryOi05Kk5XH3umZe4PU/R/nsBf37n3nn88DGx6tmBt62ZevxTFdw==
-X-Received: by 2002:a05:622a:4d8f:b0:4a9:935b:abf3 with SMTP id d75a77b69052e-4a994ef3374mr195180161cf.10.1751901208345;
-        Mon, 07 Jul 2025 08:13:28 -0700 (PDT)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a9949fb04asm65446731cf.20.2025.07.07.08.13.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 08:13:27 -0700 (PDT)
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 8712BF40068;
-	Mon,  7 Jul 2025 11:13:26 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Mon, 07 Jul 2025 11:13:26 -0400
-X-ME-Sender: <xms:FuRraGc65SqNf1yxj1nWPGmBNfKEDueW8rdTJNmK2MMz_HpcAUlhVQ>
-    <xme:FuRraBQft0bqrWRsr4A3w4bw3vg_h5hcRuBo9TJ6dvVyBkfUcVTlv35KKImMZr8tx
-    70b89PZBX5p4phVIg>
-X-ME-Received: <xmr:FuRraKcI3NbnAZF9s84kQoHchiPbRqqPHUxjUAJ1iz_urVOdyuov6YQQGg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefvddufecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
-    gvrhhnpeejhfeikeekffejgeegueevffdtgeefudetleegjeelvdffteeihfelfeehvdeg
-    keenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
-    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
-    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthho
-    pedviedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghlihgtvghrhihhlhesgh
-    hoohhglhgvrdgtohhmpdhrtghpthhtoheprgdrhhhinhgusghorhhgsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehojhgvuggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    grlhgvgidrghgrhihnohhrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghgrrhihsehg
-    rghrhihguhhordhnvghtpdhrtghpthhtohepsghjohhrnhefpghghhesphhrohhtohhnmh
-    grihhlrdgtohhmpdhrtghpthhtohepmhgrshgrhhhirhhohieskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtg
-    hgrhhofheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:FuRraBr_Q0pWsF_49dFtj3Jqikk9epPdxrkBThs2ECzRQTkj95TbWg>
-    <xmx:FuRraLe1bYyMCKiMh5qqyQ0VL7CwfFno_Y9i-sYbLYkO180aukfFMA>
-    <xmx:FuRraJlh8fxsIqXKGXvUc0uZYo1jKlQFUA-cYxQVk5EXoBkmgJJeVQ>
-    <xmx:FuRraGtcRmLZB2NeqR1_eHz3L7xyBR63FfLZIwNGgkDgigDmxBlxsQ>
-    <xmx:FuRraEyt__xhrwD8YO8MmRtAVm76MNgU6tXoTju3gaI4SUBQBY-pFU1F>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Jul 2025 11:13:25 -0400 (EDT)
-Date: Mon, 7 Jul 2025 08:13:25 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=prZ9M2ZfbnSRseMdGd1bNg5cas9vzMtGfq45DhHHlnCYu09X9UxL9ZV+TlcREOi/vkKH2rMrmlwlCCzhqbisTmoTenppv65OHNJdJfdmPDxbwVjob4/QDkP7rdj/3Xh1Mz8bZqoM0dUcIiRGK9nrt3gquxrC394tDsTgt3igTE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hWCEone0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959F7C4CEFA;
+	Mon,  7 Jul 2025 17:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751908005;
+	bh=RmgBMi2VW8e/N4LvJnOaj4Wgc8weyyjOi7wU4geY8+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hWCEone0nNbiHJxkCKz0vnh51AVh/vJy0rWCQrBt2WkMeze4hEgcDH97m75KDycrK
+	 mxoRh7QXG/32b7PiDrQ+kaBICHKPE5MUKDkCHh4JYxvS+vBEVAc/m2+EHg2udAjV7Q
+	 FWxxqpNYsQO+oiuFWcfesOWnOUqyhtNmM4Io5/B88l0pCaYuALyRF430bgAAKh4BXn
+	 CVZALtGxrQiNikRInRzoneEcekpnNalAZHlTvavpGdCPXjR/GM15DRfQSWfBhaqcNJ
+	 fLPvspMAoBH1fvPweStN9HzAdvp7eCj2qoxI2yKsLp06pGRxL54Y8LRH5QPhEgvMg1
+	 t0PFw9aHTc0WQ==
+Date: Mon, 7 Jul 2025 18:06:36 +0100
+From: Simon Horman <horms@kernel.org>
+To: Yassine Oudjana <y.oudjana@protonmail.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Benno Lossin <lossin@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	Trevor Gross <tmgross@umich.edu>,
-	Adam Bratschi-Kaye <ark.email@gmail.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Greg KH <gregkh@linuxfoundation.org>, Fiona Behrens <me@kloenk.dev>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	linux-modules@vger.kernel.org
-Subject: Re: [PATCH v15 1/7] rust: sync: add `SetOnce`
-Message-ID: <aGvkFbs5caxLSQxa@Mac.home>
-References: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org>
- <20250707-module-params-v3-v15-1-c1f4269a57b9@kernel.org>
- <CAH5fLgiKo=jN_V5cAe_AJqxxp7mQWqhKx7knkEj6js3yiU9sqA@mail.gmail.com>
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Sean Nyekjaer <sean@geanix.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>,
+	"Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	=?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+	Danila Tikhonov <danila@jiaxyga.com>,
+	Antoni Pokusinski <apokusinski01@gmail.com>,
+	Vasileios Amoiridis <vassilisamir@gmail.com>,
+	Petar Stoykov <pd.pstoykov@gmail.com>,
+	shuaijie wang <wangshuaijie@awinic.com>,
+	Yasin Lee <yasin.lee.x@gmail.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Yassine Oudjana <yassine.oudjana@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and
+ instance to QRTR instance
+Message-ID: <20250707170636.GR89747@horms.kernel.org>
+References: <20250406140706.812425-1-y.oudjana@protonmail.com>
+ <20250406140706.812425-3-y.oudjana@protonmail.com>
+ <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
+ <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH5fLgiKo=jN_V5cAe_AJqxxp7mQWqhKx7knkEj6js3yiU9sqA@mail.gmail.com>
+In-Reply-To: <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com>
 
-On Mon, Jul 07, 2025 at 03:38:58PM +0200, Alice Ryhl wrote:
-> On Mon, Jul 7, 2025 at 3:32 PM Andreas Hindborg <a.hindborg@kernel.org> wrote:
-> >
-> > Introduce the `SetOnce` type, a container that can only be written once.
-> > The container uses an internal atomic to synchronize writes to the internal
-> > value.
-> >
-> > Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+On Sat, Jul 05, 2025 at 06:29:39PM +0000, Yassine Oudjana wrote:
+> On Wednesday, April 9th, 2025 at 3:54 PM, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com> wrote:
 > 
-> LGTM:
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> > On 4/6/25 4:07 PM, Yassine Oudjana wrote:
+
+...
+
+> > > diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom/qrtr.h
+> > > index 4d7f25c64c56..10c89a35cbb9 100644
+> > > --- a/include/linux/soc/qcom/qrtr.h
+> > > +++ b/include/linux/soc/qcom/qrtr.h
+> > > @@ -13,6 +13,8 @@ struct qrtr_device {
+> > > 
+> > > #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
+> > > 
+> > > +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qmi_instance << 8)
+> > 
+> > 
+> > Please use FIELD_PREP + GENMASK to avoid potential overflows
+> > 
+> > Konrad
 > 
-> > +impl<T> Drop for SetOnce<T> {
-> > +    fn drop(&mut self) {
-> > +        if self.init.load(Acquire) == 2 {
-> > +            // SAFETY: By the type invariants of `Self`, `self.init == 2` means that `self.value`
-> > +            // contains a valid value. We have exclusive access, as we hold a `mut` reference to
-> > +            // `self`.
-> > +            unsafe { drop_in_place(self.value.get()) };
-> 
-> This load does not need to be Acquire. It can be a Relaxed load or
-> even an unsynchronized one since the access is exclusive.
+> Since I'm using this macro in initializing QRTR match tables I am unable to use
+> FIELD_PREP. When I do, I get such errors:
 
-Right, I think we can do the similar as Revocable here:
-
-        if *self.init.get_mut() == 2 { }
-
-Further, with my following Benno's suggestion and making `Atomic<T>` an
-`UnsafeCell<T>:
-
-	https://lore.kernel.org/rust-for-linux/aGhh-TvNOWhkt0JG@Mac.home/
-
-compiler can generate a noalias reference here, which allows further
-optimization.
-
-Regards,
-Boqun
+Does using FIELD_PREP_CONST, say in a QRTR_INSTANCE_CONST variant, help?
 
 > 
-> Alice
+> In file included from ../arch/arm64/include/asm/sysreg.h:1108,
+>                  from ../arch/arm64/include/asm/memory.h:223,
+>                  from ../arch/arm64/include/asm/pgtable-prot.h:8,
+>                  from ../arch/arm64/include/asm/sparsemem.h:8,
+>                  from ../include/linux/numa.h:23,
+>                  from ../include/linux/cpumask.h:17,
+>                  from ../include/linux/smp.h:13,
+>                  from ../include/linux/lockdep.h:14,
+>                  from ../include/linux/mutex.h:17,
+>                  from ../include/linux/kernfs.h:11,
+>                  from ../include/linux/sysfs.h:16,
+>                  from ../include/linux/iio/buffer.h:9,
+>                  from ../drivers/iio/common/qcom_smgr/qcom_smgr.c:8:
+> ../include/linux/bitfield.h:114:9: error: braced-group within expression allowed only inside a function
+>   114 |         ({                                                              \
+>       |         ^
+> ../include/linux/soc/qcom/qrtr.h:21:10: note: in expansion of macro 'FIELD_PREP'
+>    21 |         (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMASK(15, 8), qmi_instance))
+>       |          ^~~~~~~~~~
+> ../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion of macro 'QRTR_INSTANCE'
+>   825 |                 .instance = QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
+>       |                             ^~~~~~~~~~~~~
+
+...
 
