@@ -1,132 +1,138 @@
-Return-Path: <linux-kbuild+bounces-7893-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7894-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796F9AFAFE9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 11:38:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43537AFB126
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 12:25:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C20523B16B9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 09:38:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D1983AE40A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 10:25:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9BB328CF6F;
-	Mon,  7 Jul 2025 09:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBE842882DF;
+	Mon,  7 Jul 2025 10:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VOKYxamp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQVsUl7e"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB7428A3F7;
-	Mon,  7 Jul 2025 09:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A8121C18C;
+	Mon,  7 Jul 2025 10:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751881125; cv=none; b=nMXfzyPYMHrJDVg2E/MySyk3JhPmaX2gfeFXzrpWX0JrN5NY2cDDUF48XNtnmAd+sDcOzfG7DSj3qkRllw159FGnOtfqpNiDy+gHi3w7XrLFeqmH5PiJL2WV1tvL0nE81Ww0nUJp71GGZNjoJoq3xrg24TxalKZyxEAZqOSQHS0=
+	t=1751883922; cv=none; b=jL0b7DZE8gbN0uX+nSt5FUYXHsVDismapCTBa1sv5keN/Xs/6FGtGAHxyPiAutDCdt/csmz2LqaEdl4183BtWtUIntFLtxQsWYRncIscHaKkiA7cpMKopxxUwhv9i4qlFzzgu/rtLkPDXm6VCcfVry5LMr4Hx4r27Nw8MPvk4H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751881125; c=relaxed/simple;
-	bh=eGMGtY8ZcvE6kdxR6zf4DXyrCWsxcR1zoU1mF8oQHX4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DjFEgNXx7dnngEVE+PIIW+YSWWzo9BNselKW/PDoba4XBh+k1bDVtt9aBJ3Tt17ozU4IPF4OoJpeXXDbgSL82p2HtpM7BGlOaI+ixvGwhRyUhe+8b4G0M3kxLl5jzkqc9FSbrUeo2MWwSytk+GWJaDB+NtD6ipJi88KJ8ZloJtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VOKYxamp; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=bnHKyhC36yAuLX6uSscvM/f8yvBTgryKRaB9hZf72J0=; b=VOKYxampysmmx2FpOmvFeZFZXE
-	XcNrfBP8l94SJG34Dudptd7RmDgg37N4vlfUEQib8MprbM9hkVELnKTysNyRPiBPOjvM+DTEH/N6T
-	nfvaueNhTRCbMKthYwv7UlRPJcwmGOPr6x8eGOTCI8cUTr8E1t/l5dmnSg54clW0O+Ly8jO4wHNet
-	lXxAXneCdBKL6B5tbqTGgbK2dKchFD8x5NsIXnDTawEj9SD2J0zJjIK5C3v4kYQg5q1dRzrBbEzme
-	C2LYaSPsFWP3CPkbFdC3jiw0lHFsHzq1UL/4s85SZju3E0a5iErt128zyI5yEFDZeFOXVadcqDM1e
-	IF0X/RtQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uYiJ2-00000008Rd3-3z0o;
-	Mon, 07 Jul 2025 09:38:37 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 689DD300399; Mon, 07 Jul 2025 11:38:36 +0200 (CEST)
-Date: Mon, 7 Jul 2025 11:38:36 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sergio =?iso-8859-1?Q?Gonz=E1lez?= Collado <sergio.collado@gmail.com>
-Cc: David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
-	rust-for-linux@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, x86@kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 RESEND] kunit: fix longest symbol length test
-Message-ID: <20250707093836.GC1099709@noisy.programming.kicks-ass.net>
-References: <20250706201855.232451-1-sergio.collado@gmail.com>
+	s=arc-20240116; t=1751883922; c=relaxed/simple;
+	bh=Htuse16fRp/5gHNzzTrJ4ZjG647kLmCCaapTD76Pa68=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DyRwhhHAztSg9UVxXQ+oO1mWaOv5bavmj5ZbqzlUyR140KfeUomr49YCkY418jw/dgqtGAWwNpSkJo2P8pAVT+k6sZWvSTtUk4UGyzqUW1WWb86rMW5/s9cXYx372Pw923YZjWfR9Fe/N2iTefaOpZ8rmoIL4ecw22KnHzVtITA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQVsUl7e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E53C4CEE3;
+	Mon,  7 Jul 2025 10:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751883922;
+	bh=Htuse16fRp/5gHNzzTrJ4ZjG647kLmCCaapTD76Pa68=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=VQVsUl7ePrqrsR9BS1nDfhZ5pyLBE6y5F87UjJPZFWsuxwGOXhHqaTJ9gGFXeqKzr
+	 o3RoRcriR/5pOWH1E13hbEWub0GgHE12U0DyNtMrrEdgQXEgzl2aospw1L0RhnMY+H
+	 tohF/NpEcph1BdlXqmRVWWFhG25ja0zKjsShSJcKhqA/V8/3u20nYCkc7jyL/Oh4W3
+	 jmyCHPS8ve4RyCqmUrmzA5W1hERxEnWwf5ppS7jrOjwXTr5Vw38cTIKhb5IvNv97mA
+	 4bwacyqIUMsnw/ydxEP2m9KJCsvdYI2AbgOiPtXOpbutXl0PnipJg+Uf9x2Hb+i/Sk
+	 ZzYHTDcGdQD+A==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553b584ac96so2797291e87.1;
+        Mon, 07 Jul 2025 03:25:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXpb++4WV9wDkue1ed8uzDOq+jYkAzD9DB5ZPUMfqjLeC5PGYIwYV53RX5rODx8gYCjVnlQTQrG9lDxUUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN075i8xyJ4Ui857HDekG8HkvWmosC/V47ZMxa3uoZD7Yr8JT7
+	EZSDDKcI3ZTSaknLoN8corCjtwMJH3QdJSxouIYMQ1hz9/cEhmFp+HaZnxrIkPDc9x4uUJ7Mgw/
+	8YBDEOSOJ/UiL9r5ZRdttusJNotmxrqE=
+X-Google-Smtp-Source: AGHT+IGc/YbpQI/A+qXqQ7t5lQDqHzLyDqOnYUiAfyKiuxFRRxRAWDMyVUdzoOvGBkt/R0gSt0IwJ2sptZVFw10DEm8=
+X-Received: by 2002:a05:6512:6d2:b0:553:543d:d96b with SMTP id
+ 2adb3069b0e04-557e553a205mr2106467e87.11.1751883920825; Mon, 07 Jul 2025
+ 03:25:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250706201855.232451-1-sergio.collado@gmail.com>
+References: <20250706210940.1720720-1-sidnayyar@google.com>
+In-Reply-To: <20250706210940.1720720-1-sidnayyar@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 7 Jul 2025 19:24:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATbinPVLDqxzPQn9QNQGyacB5rDFsjQwwygy2KEjbhRFA@mail.gmail.com>
+X-Gm-Features: Ac12FXzWkAb_nRjQlFj-0jKZwwPeaHkDbGYK5VbPHxxHwn-SSMAQ1DEbZSN-P14
+Message-ID: <CAK7LNATbinPVLDqxzPQn9QNQGyacB5rDFsjQwwygy2KEjbhRFA@mail.gmail.com>
+Subject: Re: [PATCH] modpost: check for NULL filename pointer in find_module()
+To: Siddharth Nayyar <sidnayyar@google.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 06, 2025 at 10:18:55PM +0200, Sergio González Collado wrote:
-> The kunit test that checks the longests symbol length [1], has triggered
-> warnings in some pilelines when symbol prefixes are used [2][3]. The test
-> will to depend on !PREFIX_SYMBOLS and !CFI_CLANG as sujested in [4] and
-> on !GCOV_KERNEL.
-> 
-> [1] https://lore.kernel.org/rust-for-linux/CABVgOSm=5Q0fM6neBhxSbOUHBgNzmwf2V22vsYC10YRBT=kN1g@mail.gmail.com/T/#t
-> [2] https://lore.kernel.org/all/20250328112156.2614513-1-arnd@kernel.org/T/#u
-> [3] https://lore.kernel.org/rust-for-linux/bbd03b37-c4d9-4a92-9be2-75aaf8c19815@infradead.org/T/#t
-> [4] https://lore.kernel.org/linux-kselftest/20250427200916.GA1661412@ax162/T/#t
-> 
-> Reviewed-by: Rae Moar <rmoar@google.com>
-> Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+On Mon, Jul 7, 2025 at 6:09=E2=80=AFAM Siddharth Nayyar <sidnayyar@google.c=
+om> wrote:
+>
+> Pointer for dump filename can be NULL when a module is not created from
+> a dump file in modpost. The find_module() function should therefore
+> check whether the dump filename pointers are NULL before comparing them
+> using strcmp().
+
+I do not understand.
+I do not think that scenario would happen.
+
+There are two call-sites for new_module():
+[1] https://github.com/torvalds/linux/blob/v6.15/scripts/mod/modpost.c#L157=
+6
+[2] https://github.com/torvalds/linux/blob/v6.15/scripts/mod/modpost.c#L211=
+7
+
+
+For [2], mod->dump_file is set in the next line.
+
+[1] is always called after read_dump(), where
+is the only user of find_module(). [3]
+
+[3]: https://github.com/torvalds/linux/blob/v6.15/scripts/mod/modpost.c#L21=
+15
+
+
+
+
+
+
+> Signed-off-by: Siddharth Nayyar <sidnayyar@google.com>
 > ---
->  lib/Kconfig.debug                | 1 +
->  lib/tests/longest_symbol_kunit.c | 3 +--
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index ebe33181b6e6..4a75a52803b6 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -2885,6 +2885,7 @@ config FORTIFY_KUNIT_TEST
->  config LONGEST_SYM_KUNIT_TEST
->  	tristate "Test the longest symbol possible" if !KUNIT_ALL_TESTS
->  	depends on KUNIT && KPROBES
-> +	depends on !PREFIX_SYMBOLS && !CFI_CLANG && !GCOV_KERNEL
->  	default KUNIT_ALL_TESTS
->  	help
->  	  Tests the longest symbol possible
-> diff --git a/lib/tests/longest_symbol_kunit.c b/lib/tests/longest_symbol_kunit.c
-> index e3c28ff1807f..9b4de3050ba7 100644
-> --- a/lib/tests/longest_symbol_kunit.c
-> +++ b/lib/tests/longest_symbol_kunit.c
-> @@ -3,8 +3,7 @@
->   * Test the longest symbol length. Execute with:
->   *  ./tools/testing/kunit/kunit.py run longest-symbol
->   *  --arch=x86_64 --kconfig_add CONFIG_KPROBES=y --kconfig_add CONFIG_MODULES=y
-> - *  --kconfig_add CONFIG_RETPOLINE=n --kconfig_add CONFIG_CFI_CLANG=n
-> - *  --kconfig_add CONFIG_MITIGATION_RETPOLINE=n
-> + *  --kconfig_add CONFIG_CPU_MITIGATIONS=n --kconfig_add CONFIG_GCOV_KERNEL=n
->   */
->  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> 
-> base-commit: 772b78c2abd85586bb90b23adff89f7303c704c7
+>  scripts/mod/modpost.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 5ca7c268294e..9a64d0a55f89 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -178,8 +178,12 @@ static struct module *find_module(const char *filena=
+me, const char *modname)
+>         struct module *mod;
+>
+>         list_for_each_entry(mod, &modules, list) {
+> -               if (!strcmp(mod->dump_file, filename) &&
+> -                   !strcmp(mod->name, modname))
+> +               if (strcmp(mod->name, modname) !=3D 0)
+> +                       continue;
+> +               if (!mod->dump_file && !filename)
+> +                       return mod;
+> +               if (mod->dump_file && filename &&
+> +                   !strcmp(mod->dump_file, filename))
+>                         return mod;
+>         }
+>         return NULL;
+> --
+> 2.50.0.727.gbf7dc18ff4-goog
+>
 
-So this will obviously 'work'. But what I don't understand is the
-purpose of this test. Why can't we amend the test itself to use
-KSYM_NAME_LEN-8 (or whatever the actual magic value is) and recognise
-that we don't have full control over the symbol names; despite using C.
+
+--=20
+Best Regards
+Masahiro Yamada
 
