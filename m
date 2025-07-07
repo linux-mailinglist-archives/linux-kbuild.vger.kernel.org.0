@@ -1,49 +1,50 @@
-Return-Path: <linux-kbuild+bounces-7904-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7903-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE3FAFB4A6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 15:33:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E88AFB4AA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 15:34:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2B581AA5391
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 13:34:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4AC8172F91
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 13:33:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC0E2BE040;
-	Mon,  7 Jul 2025 13:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C160E2BE043;
+	Mon,  7 Jul 2025 13:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VCRc6Qi5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l1M1QsEl"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABA92BCF65;
-	Mon,  7 Jul 2025 13:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D212BE040;
+	Mon,  7 Jul 2025 13:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751895153; cv=none; b=Iu7DfOOjjWXQZiVLguu02kjcTwuB/4jaXpgPma2ufKEn8MEPIZYj95Qv+IKd3Q+TAQsRP9kmviR2xUgyMbx0sK/9RYpU5UALO9b+sQIbZdSDzI+2X0247X62EqM9ommZni86vXQc+UDBSdXryiup9KVA5eypCyoGzBqCNmqvPmA=
+	t=1751895144; cv=none; b=JSfSXuoOGoMBvA1lcrxbNMZNrKpaP1lwrefnyU4aC+o7CwTuQIhHofXYK2rDK9WLvHsmYaD6NKVv0soX/PSEruhYw1s7UuQWUBXfWa1BfCe//eOj+Fb0KiPJ9+9o8tqktp1BRTE4Gt9svuIxkDmQRrYTe+NnLGA9JFGKt/KPIV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751895153; c=relaxed/simple;
-	bh=IaejDxR65nfkpFtQKTy5h1EB3F8o0R9aHHtFm2+Kn0U=;
+	s=arc-20240116; t=1751895144; c=relaxed/simple;
+	bh=K4Z3grvB4L1O4ywtrXjL9L/tEi3YiQY6qMjemNcyFag=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PkrgYo1H9tLSIeAczf6dzTozdoB6TX66VjPzrkNUC7sNfd6KZQJkqjG0/OmyK9byA8PEI2iCNp9O5Z762NYMCkbDaY4dup9hiWxy3qzZK6/kFivb0O1V7Z7T08SDtVFMpPJHMD/Lk9I+jDWaQXqmWEgxkwvajKldcwqT2uXsAAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VCRc6Qi5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 255FCC4CEE3;
-	Mon,  7 Jul 2025 13:32:24 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=ZXacgac4hMnPLjFnKfT7VVYMuy30HgOm+sFHPopXwZ9Sh6fJUPvqFZeQIt3Hx+xSCQB2bGEFffvqI8XVnoGad6LCCcV2jDbaAsHhLHMcZF8PU/t3ntdkNzP1ALkSLiSvsqLyCN05JnsDkI3j4aWYTI05jzP56t1/eZVDEHudE1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l1M1QsEl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5628EC4CEF4;
+	Mon,  7 Jul 2025 13:32:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751895152;
-	bh=IaejDxR65nfkpFtQKTy5h1EB3F8o0R9aHHtFm2+Kn0U=;
+	s=k20201202; t=1751895144;
+	bh=K4Z3grvB4L1O4ywtrXjL9L/tEi3YiQY6qMjemNcyFag=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VCRc6Qi5mCEQW/TK0And5ymZ9U35Mqo/TTcU9pqcRNn2kXfS5v9Wspi6Naz1uVpOz
-	 XrakJKJceH2DPwuDi60vb6xhXSfAb2hYrdnWfH8nZ0MRmwp0aMER3FkKnaTuGAUqxA
-	 o61ynVPrLl9+Ui27gGVxtb3OWy+QJXF9iz6jMvr2F9KYT9gRTNBL8Y8SSNuoJa5FWf
-	 MtfpTk3V2NAC6UltOAUjcXAHIk2MMRo2FnRXPMZIdXX6XEqBhRIG1k0UKio7k0vUGe
-	 8b85XRc1F05MoaY6gRDg2A5jhaq2AUghkbT82dSz8ajyYvfgzZjK+cmjcEKewsYXh4
-	 0fUHJEY4paYGw==
+	b=l1M1QsElj1rPW6jMlIh3sGwhN5SxBfnnyGzuewvpLIjivXNpOL4QRl2XRlhP8jBF5
+	 cwCRONh7u7fTN4cwVDejoJBSvLVJpxPUOfcGnFpWHd6Gl406Kf6Oyg3m2JulXRsvvU
+	 Rftohr/HsZ4KKDk2Rc9QtgPTvUOmBehAcTPUR6zJ3sFTilp9amSr20/FcaPF+F/3o0
+	 eIjQjGvaVbhB3T/nwd1Tdiupt4w11CVXKbpbwZuC+ImhFObCua1GASo3yj9osksBdN
+	 AFDvP1w7eowJf4iXGvXtY9WZyCo6p8SUpDPeVqZDwAPZWlrKMqC0oEUnbanQA7L6RB
+	 /HGdvCyfSDtJQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-Date: Mon, 07 Jul 2025 15:29:07 +0200
-Subject: [PATCH v15 3/7] rust: introduce module_param module
+Date: Mon, 07 Jul 2025 15:29:08 +0200
+Subject: [PATCH v15 4/7] rust: module: use a reference in
+ macros::module::module
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250707-module-params-v3-v15-3-c1f4269a57b9@kernel.org>
+Message-Id: <20250707-module-params-v3-v15-4-c1f4269a57b9@kernel.org>
 References: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org>
 In-Reply-To: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -71,231 +72,75 @@ Cc: Trevor Gross <tmgross@umich.edu>,
  Daniel Almeida <daniel.almeida@collabora.com>, 
  linux-modules@vger.kernel.org, Andreas Hindborg <a.hindborg@kernel.org>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6945; i=a.hindborg@kernel.org;
- h=from:subject:message-id; bh=IaejDxR65nfkpFtQKTy5h1EB3F8o0R9aHHtFm2+Kn0U=;
- b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBoa8u1qxbI1VdAOIpBynkexLMcecjIBLkc92Qi2
- fvYhuIlXLmJAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaGvLtQAKCRDhuBo+eShj
- d6tmEACXL7nxGIxDceWvCjdEzYAxsBso+yiA51ayCAmihXfYTJX7FKPeMU1qJuoUZFSXNESyXrp
- C7sEpG1cA3e034MzuhKizyuUOWeeXjDU2/51/Ba/InZVXXh2tJgJTPAm7jMDceoH4WiB0L4emXo
- FmveXG9VI4aHWtjxwTjfpkP8u+DSLjIaf+ZTwWdic8nu03O3Fra3miAQTzmg6yPKVJC2CRmvO9S
- o23ZWapPb0jwYRGQcfupXDWKVkge7HmloOhQyYEaGEDKoe2aXtCZOLUH+1Ycu5V38tXO+BXsBN9
- qeZqR4OHIlJIme/sBy1SIOPjciXoCAQMKvMaRdMqDZaHISRLbTypLaFtOhGTuyZ8QBFtjU7SKyn
- iYUtxGELB6LTtPeXydRhVyGHEo0MdJSuspJGwbgFegMMgdPtJmNcvA74rH2qk2fjF3WilypE9zH
- 19+O+2S76QjZjREQg4tWdNJ4xBFAn3B1iAD+METAkjUAAFIVkKuO0oUGM9oJfgfpBLLBc3wq9vU
- XB8UMSEzuh473vVnfFp4IXbCwEEwRVBN0443WoxK6ZYepj8qvm6h3uYSqrq9sOwjrGCsS5kxoxM
- Ty441xv3l6ytFCIwHTUn+X7ydD3WOSv0Gd5FCvMhq0WLFjgJw/xJ93kpGZwzMQV8PeRZIz1FaWn
- DD75LkmDSwN7xcQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2065; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=K4Z3grvB4L1O4ywtrXjL9L/tEi3YiQY6qMjemNcyFag=;
+ b=owEBbQKS/ZANAwAIAeG4Gj55KGN3AcsmYgBoa8u26QT6k4TYweeunaG0ffSARQJFEd+K26YXc
+ DtehNvVllyJAjMEAAEIAB0WIQQSwflHVr98KhXWwBLhuBo+eShjdwUCaGvLtgAKCRDhuBo+eShj
+ d2ZZD/9MjlHI0Kidi/nqGDLQpApOrjM30pa9+dUCYMTpbNmdJgjxYrOJMeALAdh7+QMD76V+OrS
+ eDjQ3BvavJBBgLTa30pM/P1hgM2dzJFhNa2Li92mRLoaB1HMJ5rbyFnf7IJSqMs1lfZmGcDpURk
+ zJHhW3Y7mxPmvRM8M50Ohffz9jR721uAZnJYRQjeDomaUw9FlwFuG2BKfHPRmfTaxi7Dq7StvUv
+ 3y46oGGsyoc5/WnkoJFSfGpNppSRYekN8GQZK+0rh6pPyC8A5KbT0LGdtmtvOMraSgJvw5BGKPf
+ +Rj1zxlZj13NWBF9dPALjgcJfn04tfyPqEkmQSOJEtqrK/AcjyGakfTuWStV1vF+ZJxnTGP8NKi
+ LrB/y63JluNKtksIKJgQQ0Wt/D1FcgEr+yMOXJn8C8lV4rfjO9k0YdTuQSsHZ1RSFT9XU6kK8H4
+ V0NtDqX1DeIxhpw1GH2Ok1uEqENqTxZVLuIq4ijXs7KkMGoI1ehfMWoALvYU+vbI1d2kbmT/eT0
+ 2GZy27QxpxKZjI70mPlLATpDeJzKO6WV8sOFbTQxhumAEAJTH/e4Elw8ri0q/v4MhiPpQQUd+6M
+ fdUKrCT60mMXK6OS8XoV5/Dn4ibxNaffpO7kB9NlzwtqtQza21UTG9FnkqliPITW68ShvxEb0gD
+ WkXFsdWSxJjrO5A==
 X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
  fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-Add types and traits for interfacing the C moduleparam API.
+When we add parameter support to the module macro, we want to be able to
+pass a reference to `ModuleInfo` to a helper function. That is not possible
+when we move out of the local `modinfo`. So change the function to access
+the local via reference rather than value.
 
 Reviewed-by: Benno Lossin <lossin@kernel.org>
 Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- rust/kernel/lib.rs          |   1 +
- rust/kernel/module_param.rs | 181 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 182 insertions(+)
+ rust/macros/module.rs | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 6b4774b2b1c37..2b439ea061850 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -87,6 +87,7 @@
- pub mod list;
- pub mod miscdevice;
- pub mod mm;
-+pub mod module_param;
- #[cfg(CONFIG_NET)]
- pub mod net;
- pub mod of;
-diff --git a/rust/kernel/module_param.rs b/rust/kernel/module_param.rs
-new file mode 100644
-index 0000000000000..9b187ed1d3513
---- /dev/null
-+++ b/rust/kernel/module_param.rs
-@@ -0,0 +1,181 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Support for module parameters.
-+//!
-+//! C header: [`include/linux/moduleparam.h`](srctree/include/linux/moduleparam.h)
-+
-+use crate::prelude::*;
-+use crate::str::BStr;
-+use bindings;
-+use kernel::sync::SetOnce;
-+
-+/// Newtype to make `bindings::kernel_param` [`Sync`].
-+#[repr(transparent)]
-+#[doc(hidden)]
-+pub struct KernelParam(bindings::kernel_param);
-+
-+impl KernelParam {
-+    #[doc(hidden)]
-+    pub const fn new(val: bindings::kernel_param) -> Self {
-+        Self(val)
-+    }
-+}
-+
-+// SAFETY: C kernel handles serializing access to this type. We never access it
-+// from Rust module.
-+unsafe impl Sync for KernelParam {}
-+
-+/// Types that can be used for module parameters.
-+// NOTE: This trait is `Copy` because drop could produce unsoundness during teardown.
-+pub trait ModuleParam: Sized + Copy {
-+    /// Parse a parameter argument into the parameter value.
-+    fn try_from_param_arg(arg: &BStr) -> Result<Self>;
-+}
-+
-+/// Set the module parameter from a string.
-+///
-+/// Used to set the parameter value at kernel initialization, when loading
-+/// the module or when set through `sysfs`.
-+///
-+/// See `struct kernel_param_ops.set`.
-+///
-+/// # Safety
-+///
-+/// - If `val` is non-null then it must point to a valid null-terminated string that must be valid
-+///   for reads for the duration of the call.
-+/// - `param` must be a pointer to a `bindings::kernel_param` initialized by the rust module macro.
-+///   The pointee must be valid for reads for the duration of the call.
-+///
-+/// # Note
-+///
-+/// - The safety requirements are satisfied by C API contract when this function is invoked by the
-+///   module subsystem C code.
-+/// - Currently, we only support read-only parameters that are not readable from `sysfs`. Thus, this
-+///   function is only called at kernel initialization time, or at module load time, and we have
-+///   exclusive access to the parameter for the duration of the function.
-+///
-+/// [`module!`]: macros::module
-+unsafe extern "C" fn set_param<T>(val: *const c_char, param: *const bindings::kernel_param) -> c_int
-+where
-+    T: ModuleParam,
-+{
-+    // NOTE: If we start supporting arguments without values, val _is_ allowed
-+    // to be null here.
-+    if val.is_null() {
-+        // TODO: Use pr_warn_once available.
-+        crate::pr_warn!("Null pointer passed to `module_param::set_param`");
-+        return EINVAL.to_errno();
-+    }
-+
-+    // SAFETY: By function safety requirement, val is non-null, null-terminated
-+    // and valid for reads for the duration of this function.
-+    let arg = unsafe { CStr::from_char_ptr(val) };
-+
-+    crate::error::from_result(|| {
-+        let new_value = T::try_from_param_arg(arg)?;
-+
-+        // SAFETY: By function safety requirements, this access is safe.
-+        let container = unsafe { &*((*param).__bindgen_anon_1.arg as *mut SetOnce<T>) };
-+
-+        container
-+            .populate(new_value)
-+            .then_some(0)
-+            .ok_or(kernel::error::code::EEXIST)
-+    })
-+}
-+
-+macro_rules! impl_int_module_param {
-+    ($ty:ident) => {
-+        impl ModuleParam for $ty {
-+            fn try_from_param_arg(arg: &BStr) -> Result<Self> {
-+                <$ty as crate::str::parse_int::ParseInt>::from_str(arg)
-+            }
-+        }
-+    };
-+}
-+
-+impl_int_module_param!(i8);
-+impl_int_module_param!(u8);
-+impl_int_module_param!(i16);
-+impl_int_module_param!(u16);
-+impl_int_module_param!(i32);
-+impl_int_module_param!(u32);
-+impl_int_module_param!(i64);
-+impl_int_module_param!(u64);
-+impl_int_module_param!(isize);
-+impl_int_module_param!(usize);
-+
-+/// A wrapper for kernel parameters.
-+///
-+/// This type is instantiated by the [`module!`] macro when module parameters are
-+/// defined. You should never need to instantiate this type directly.
-+///
-+/// Note: This type is `pub` because it is used by module crates to access
-+/// parameter values.
-+pub struct ModuleParamAccess<T> {
-+    value: SetOnce<T>,
-+    default: T,
-+}
-+
-+// SAFETY: We only create shared references to the contents of this container,
-+// so if `T` is `Sync`, so is `ModuleParamAccess`.
-+unsafe impl<T: Sync> Sync for ModuleParamAccess<T> {}
-+
-+impl<T> ModuleParamAccess<T> {
-+    #[doc(hidden)]
-+    pub const fn new(default: T) -> Self {
-+        Self {
-+            value: SetOnce::new(),
-+            default,
-+        }
-+    }
-+
-+    /// Get a shared reference to the parameter value.
-+    // Note: When sysfs access to parameters are enabled, we have to pass in a
-+    // held lock guard here.
-+    pub fn value(&self) -> &T {
-+        self.value.as_ref().unwrap_or(&self.default)
-+    }
-+
-+    /// Get a mutable pointer to `self`.
-+    ///
-+    /// NOTE: In most cases it is not safe deref the returned pointer.
-+    pub const fn as_void_ptr(&self) -> *mut c_void {
-+        core::ptr::from_ref(self).cast_mut().cast()
-+    }
-+}
-+
-+#[doc(hidden)]
-+/// Generate a static [`kernel_param_ops`](srctree/include/linux/moduleparam.h) struct.
-+///
-+/// # Examples
-+///
-+/// ```ignore
-+/// make_param_ops!(
-+///     /// Documentation for new param ops.
-+///     PARAM_OPS_MYTYPE, // Name for the static.
-+///     MyType // A type which implements [`ModuleParam`].
-+/// );
-+/// ```
-+macro_rules! make_param_ops {
-+    ($ops:ident, $ty:ty) => {
-+        #[doc(hidden)]
-+        pub static $ops: $crate::bindings::kernel_param_ops = $crate::bindings::kernel_param_ops {
-+            flags: 0,
-+            set: Some(set_param::<$ty>),
-+            get: None,
-+            free: None,
-+        };
-+    };
-+}
-+
-+make_param_ops!(PARAM_OPS_I8, i8);
-+make_param_ops!(PARAM_OPS_U8, u8);
-+make_param_ops!(PARAM_OPS_I16, i16);
-+make_param_ops!(PARAM_OPS_U16, u16);
-+make_param_ops!(PARAM_OPS_I32, i32);
-+make_param_ops!(PARAM_OPS_U32, u32);
-+make_param_ops!(PARAM_OPS_I64, i64);
-+make_param_ops!(PARAM_OPS_U64, u64);
-+make_param_ops!(PARAM_OPS_ISIZE, isize);
-+make_param_ops!(PARAM_OPS_USIZE, usize);
+diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+index 2ddd2eeb28521..1a867a1e787ed 100644
+--- a/rust/macros/module.rs
++++ b/rust/macros/module.rs
+@@ -179,26 +179,26 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
+     // Rust does not allow hyphens in identifiers, use underscore instead.
+     let ident = info.name.replace('-', "_");
+     let mut modinfo = ModInfoBuilder::new(ident.as_ref());
+-    if let Some(author) = info.author {
+-        modinfo.emit("author", &author);
++    if let Some(author) = &info.author {
++        modinfo.emit("author", author);
+     }
+-    if let Some(authors) = info.authors {
++    if let Some(authors) = &info.authors {
+         for author in authors {
+-            modinfo.emit("author", &author);
++            modinfo.emit("author", author);
+         }
+     }
+-    if let Some(description) = info.description {
+-        modinfo.emit("description", &description);
++    if let Some(description) = &info.description {
++        modinfo.emit("description", description);
+     }
+     modinfo.emit("license", &info.license);
+-    if let Some(aliases) = info.alias {
++    if let Some(aliases) = &info.alias {
+         for alias in aliases {
+-            modinfo.emit("alias", &alias);
++            modinfo.emit("alias", alias);
+         }
+     }
+-    if let Some(firmware) = info.firmware {
++    if let Some(firmware) = &info.firmware {
+         for fw in firmware {
+-            modinfo.emit("firmware", &fw);
++            modinfo.emit("firmware", fw);
+         }
+     }
+ 
 
 -- 
 2.47.2
