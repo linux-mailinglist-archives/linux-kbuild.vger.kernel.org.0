@@ -1,153 +1,119 @@
-Return-Path: <linux-kbuild+bounces-7909-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7910-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9866AFB99E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 19:07:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2DAAFB9AC
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 19:09:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BC18178DE3
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 17:07:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 367943A58C9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 17:09:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B3672E8894;
-	Mon,  7 Jul 2025 17:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28370286D7F;
+	Mon,  7 Jul 2025 17:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hWCEone0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMwSnvLg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549512264A0;
-	Mon,  7 Jul 2025 17:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793212417C2;
+	Mon,  7 Jul 2025 17:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751908006; cv=none; b=R4J6g4OSSUqDWSh+BqKgXCWzobuiA2fVbOoEzHG8dK7GOZZmhoP7UgJ1FTOmoGF8MWq0jsoG/O8vhwTm9XNr+Ol446sWe+Eb2MZSAQbTWZczUYS8fubPcQzh78ba2ScNuzfMqQck1h7k3D7X1tWXfXxrsrjA5LEnwUYJkJk6m8Q=
+	t=1751908197; cv=none; b=cFyGOwtuvnRTxJm0GBuT5Z2STZ6WQV1vOQ3wfV5EzPUWP2KZ1kFkKOLACZJjTsi91JKhCksHlBZEoK4SEElxBSw3GxQFnlDUBdbGtOOf3skjlohFb20WfZxijuApIttsp4OL85Br7bpQIgJmMLl7zRfdwGXsKYYIi4VOU1xIWzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751908006; c=relaxed/simple;
-	bh=RmgBMi2VW8e/N4LvJnOaj4Wgc8weyyjOi7wU4geY8+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=prZ9M2ZfbnSRseMdGd1bNg5cas9vzMtGfq45DhHHlnCYu09X9UxL9ZV+TlcREOi/vkKH2rMrmlwlCCzhqbisTmoTenppv65OHNJdJfdmPDxbwVjob4/QDkP7rdj/3Xh1Mz8bZqoM0dUcIiRGK9nrt3gquxrC394tDsTgt3igTE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hWCEone0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959F7C4CEFA;
-	Mon,  7 Jul 2025 17:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751908005;
-	bh=RmgBMi2VW8e/N4LvJnOaj4Wgc8weyyjOi7wU4geY8+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hWCEone0nNbiHJxkCKz0vnh51AVh/vJy0rWCQrBt2WkMeze4hEgcDH97m75KDycrK
-	 mxoRh7QXG/32b7PiDrQ+kaBICHKPE5MUKDkCHh4JYxvS+vBEVAc/m2+EHg2udAjV7Q
-	 FWxxqpNYsQO+oiuFWcfesOWnOUqyhtNmM4Io5/B88l0pCaYuALyRF430bgAAKh4BXn
-	 CVZALtGxrQiNikRInRzoneEcekpnNalAZHlTvavpGdCPXjR/GM15DRfQSWfBhaqcNJ
-	 fLPvspMAoBH1fvPweStN9HzAdvp7eCj2qoxI2yKsLp06pGRxL54Y8LRH5QPhEgvMg1
-	 t0PFw9aHTc0WQ==
-Date: Mon, 7 Jul 2025 18:06:36 +0100
-From: Simon Horman <horms@kernel.org>
-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Sean Nyekjaer <sean@geanix.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Ramona Gradinariu <ramona.gradinariu@analog.com>,
-	"Yo-Jung (Leo) Lin" <0xff07@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	=?utf-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
-	Danila Tikhonov <danila@jiaxyga.com>,
-	Antoni Pokusinski <apokusinski01@gmail.com>,
-	Vasileios Amoiridis <vassilisamir@gmail.com>,
-	Petar Stoykov <pd.pstoykov@gmail.com>,
-	shuaijie wang <wangshuaijie@awinic.com>,
-	Yasin Lee <yasin.lee.x@gmail.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Yassine Oudjana <yassine.oudjana@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and
- instance to QRTR instance
-Message-ID: <20250707170636.GR89747@horms.kernel.org>
-References: <20250406140706.812425-1-y.oudjana@protonmail.com>
- <20250406140706.812425-3-y.oudjana@protonmail.com>
- <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com>
- <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com>
+	s=arc-20240116; t=1751908197; c=relaxed/simple;
+	bh=0HdMLmITIOrRNDoFBZd+CMGUd8SVnkRZvs65pQNjUpI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cjO1Eyh8pMwX2sqE5Q1FZUXxWQi2tQDCps3INfJv+pfdqWOKUcsu+wr4dLSZqsvaunJyQJLEzFVlqeAqtc11FfpP5vzI5ii026bLTYduNPDc6cqLjplgcKH8zIjaYdjtkXkIJilPnDL2gcM8L/XL1biSQqp3hjknzJ4ausijIbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMwSnvLg; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553dceb342aso3016538e87.1;
+        Mon, 07 Jul 2025 10:09:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751908194; x=1752512994; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RFm8eveawNsx96R40m6TGSfuSzG4In7syDIMdfZZEOQ=;
+        b=aMwSnvLgq9oxfeOquJwXBOZUHe3/+ArSRGBy/6S/N8WuWletHjqmMWOce5qJnvATFJ
+         S7Q5utq9Hx9HdR00io95BIMkQdG9ixsLdj2vE+lfoLQn1SBHD8ReQZCFUnwJMTMunBUI
+         7Lxf4HN/qgty091UyayMPJ9nqU0LlSjHJJgEZAB4a2SuKlpp0kX73dceVUAqwcxx+ihc
+         jScHZyTHfpzmpXINSdPwvNW72mlYn/jyJ7XVULScex8c+BBeJa4LufA3ndnbW4yeCS/s
+         T5edDnpcFmLqxk6nMds3HQLGPEIGjBCFmnwx4j4T/bx6VxjYqWe/YmcxhTqnXPzI7an7
+         5GGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751908194; x=1752512994;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RFm8eveawNsx96R40m6TGSfuSzG4In7syDIMdfZZEOQ=;
+        b=OHU+TYZgk6H/s3ABEscXLv71f0ME5UwCGi1QuT6ThNlZCJ6gho4MAQC3tGLHpi9L14
+         pt89+xiE8GOzXerLymw/1h+c9eiUgRY9dbwRT3e/FMgcXnjgxBUiuZ30bMIO4K9xPww0
+         1nE81PMnhdtV6SDxNfNqrtAmJFUdYRjDcFEecRtQCeaExea0uL1s8CIB64gO71Qc9FMe
+         QXCZyRMZEAZWN18jtStiMYZu16EhJ3RvC3fn/yFYds8fwBdKDFhaCLdoLSbBrFqEuZRt
+         eE36m8l6OOo69ESD53q5Yf5fnyP4NIsbHtpdiYqbkA9TJAosuFpEqxxtPJaAi4c1dwLr
+         km4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU9MoR8ts8J96n/u2UAnUaOHVkLwenfsbfXjgMzvcvgtCRA0YbURQBiM2fG7tkT305fJz+PCttpxBaN5Jc=@vger.kernel.org, AJvYcCVPqww+yT7JfXgZdumqJisW7HPwq5xnGb5rNOOhi2IY74038+N4S792w6H4yQ05q7D5EmeSGuVNbGANaQCwzEtr@vger.kernel.org, AJvYcCXCZxwsWzazGTaTfNujMw6l3+5d1LLjiXbHhf77N75KFz2MfN7cF/0BAqYvqL+tPPRNBYaw3Li7lOEd541i0xc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQAziC3Ozp7rkT/kWM05jG+NQRaW4SREGs9M7mUBFGnFpf2OX8
+	OHhNXW8m1NVZAc22k9Dm29r1FfDubieBapKUyFCMkbl+1J6R9us5d61vfKvXK24KsmrlWLQ6rL5
+	gP6lvnnA2C0kCKHNtjEUZ83tyc8YGVtk=
+X-Gm-Gg: ASbGnctOMvOqpCNCn0Cff5tQaQJqiXHs/fyI6P8NlLilBqX05dsuM25NOurEf0I+ZjA
+	FzKgn0U5dMhSvcI8Qru+uxwpsjx1R+9PXdcd9Dnq0FW9ooSJHbKxeJ97vShQ4jAYU0NosT+KSDK
+	3S5G2iTrU0+XlAU/ZiW9dWv9lHT0Qg3IJpgXDpN2gWzTo=
+X-Google-Smtp-Source: AGHT+IFgUI0RcckL84spjIXz0YFyQCOKX7+Yy/++IUVFouwWTkBCSMU9koQPZosfgDdQ2IOKdM0uG4yxdPGJIswyGLU=
+X-Received: by 2002:a05:6512:2c90:b0:553:2c65:f1ca with SMTP id
+ 2adb3069b0e04-556e701d248mr5128771e87.19.1751908193283; Mon, 07 Jul 2025
+ 10:09:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com>
+References: <20250706201855.232451-1-sergio.collado@gmail.com> <20250707093836.GC1099709@noisy.programming.kicks-ass.net>
+In-Reply-To: <20250707093836.GC1099709@noisy.programming.kicks-ass.net>
+From: =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>
+Date: Mon, 7 Jul 2025 19:09:16 +0200
+X-Gm-Features: Ac12FXzmFrOduSMY2DKFPoPKqRTHecH9BEHt1cRsHjmGbm2JBEI1B1DVL3fyEQI
+Message-ID: <CAA76j90WCAm0Zm5vcv5S3mBkZVzSUCC4S5N2F9G20G5WUsFirg@mail.gmail.com>
+Subject: Re: [PATCH v3 RESEND] kunit: fix longest symbol length test
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Randy Dunlap <rdunlap@infradead.org>, rust-for-linux@vger.kernel.org, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Nathan Chancellor <nathan@kernel.org>, David Laight <david.laight.linux@gmail.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>, x86@kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jul 05, 2025 at 06:29:39PM +0000, Yassine Oudjana wrote:
-> On Wednesday, April 9th, 2025 at 3:54 PM, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com> wrote:
-> 
-> > On 4/6/25 4:07 PM, Yassine Oudjana wrote:
+Hello,
 
-...
+  The initial goal was to verify that a KSYM_NAME_LEN of 512 was
+working as expected. It also fixed an issue in
+/x86/tools/insn_decoder_test.c.
 
-> > > diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom/qrtr.h
-> > > index 4d7f25c64c56..10c89a35cbb9 100644
-> > > --- a/include/linux/soc/qcom/qrtr.h
-> > > +++ b/include/linux/soc/qcom/qrtr.h
-> > > @@ -13,6 +13,8 @@ struct qrtr_device {
-> > > 
-> > > #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
-> > > 
-> > > +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qmi_instance << 8)
-> > 
-> > 
-> > Please use FIELD_PREP + GENMASK to avoid potential overflows
-> > 
-> > Konrad
-> 
-> Since I'm using this macro in initializing QRTR match tables I am unable to use
-> FIELD_PREP. When I do, I get such errors:
+  This fix is indeed quite trivial, I just implemented the suggested
+ideas. Amend the test using KSYM_NAME_LEN-8 doesn't really seem to me
+to fix the underlying problem (I also don't know if there is any magic
+value).
 
-Does using FIELD_PREP_CONST, say in a QRTR_INSTANCE_CONST variant, help?
+  Take into account that he actual warnings that have been reported in
+the CI ("Please increase KSYM_NAME_LEN both in kernel and kallsyms.c")
+ are not from this test, but from
+https://elixir.bootlin.com/linux/v6.15/source/scripts/kallsyms.c#L146,
+the test has just make that warning evident. Would removing that
+comment be a better solution?
 
-> 
-> In file included from ../arch/arm64/include/asm/sysreg.h:1108,
->                  from ../arch/arm64/include/asm/memory.h:223,
->                  from ../arch/arm64/include/asm/pgtable-prot.h:8,
->                  from ../arch/arm64/include/asm/sparsemem.h:8,
->                  from ../include/linux/numa.h:23,
->                  from ../include/linux/cpumask.h:17,
->                  from ../include/linux/smp.h:13,
->                  from ../include/linux/lockdep.h:14,
->                  from ../include/linux/mutex.h:17,
->                  from ../include/linux/kernfs.h:11,
->                  from ../include/linux/sysfs.h:16,
->                  from ../include/linux/iio/buffer.h:9,
->                  from ../drivers/iio/common/qcom_smgr/qcom_smgr.c:8:
-> ../include/linux/bitfield.h:114:9: error: braced-group within expression allowed only inside a function
->   114 |         ({                                                              \
->       |         ^
-> ../include/linux/soc/qcom/qrtr.h:21:10: note: in expansion of macro 'FIELD_PREP'
->    21 |         (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMASK(15, 8), qmi_instance))
->       |          ^~~~~~~~~~
-> ../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion of macro 'QRTR_INSTANCE'
->   825 |                 .instance = QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
->       |                             ^~~~~~~~~~~~~
+  Nevertheless, acknowledging that we don't have full control over the
+symbols' names, is also an interesting insight.
 
-...
+  I will be happy to address the issue in one way or another, no problem there.
+
+Regards,
+ Sergio
 
