@@ -1,133 +1,124 @@
-Return-Path: <linux-kbuild+bounces-7939-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7940-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD19CAFCF59
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 17:36:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5B4AFD3CA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 19:00:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 624767AEDEA
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 15:34:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6A0B16A97C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 16:58:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87449295DBF;
-	Tue,  8 Jul 2025 15:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8A1F2E5412;
+	Tue,  8 Jul 2025 16:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1MB8nSP"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="reVtx0Kq"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53985283FCD;
-	Tue,  8 Jul 2025 15:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01212E091E;
+	Tue,  8 Jul 2025 16:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751988963; cv=none; b=PjBXd8VEerGU7EpNfBUEwd4dJZH/jbFGNyJx7AK2TUwuce8f6IDHHS1GOp64jAmxQ6LYM6UKdTJhH13QFuPLU9oszliX8XSOZD0vTc3h95xis8q5LJGwDD6FQR4NYOnm/8biMyEZ2Cmey8NzgJi0z5FQf84jHYENsObOBjEe3fM=
+	t=1751993855; cv=none; b=BoBDW0P4dIuQUv78LuXoX7bIyYRa/OLZXVpsD2EpB48v6QYm2RNArfD9ZUN4nDCrBniUQI7fjXg3s2pl3A0Vbt0pTSTn172bzJCze1gc1ZYWnjrNYfsrOYyRS/MIh65UAilKTawicdUEZ9N5EPhma6oBsj4GarWdbfuMUPJzA3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751988963; c=relaxed/simple;
-	bh=I7QL9rgNS99bH4s1/92a15NX0cgi1YBaLnyOoeaECcI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oY8lUkqaPkS6Fx/2Y6tnd08LoSlrfy0KQX3CNpcNnTffIC7TAlJK0Y/PQUd9EcwDIikb84rKieKFwVv9ZFXyS2BVqowRJ+YWDZ9UVpNgLRkGhM1EXvctVDEfY7HQ1V5ZB1z58eUot/HFlhx1tdz1eUR3U1Z9BK+RyKli9zF+jMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W1MB8nSP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C0EC4CEED;
-	Tue,  8 Jul 2025 15:36:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751988962;
-	bh=I7QL9rgNS99bH4s1/92a15NX0cgi1YBaLnyOoeaECcI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=W1MB8nSPYEUZl5bcX47DF6gUX86qgHNuQ+y9I6vRsODULep4AXPYrW0y5fjp7oUdF
-	 xxeFXEtCkwX22xdekjuuR+Ut+KUsHTFa3pzOBB+H+wx0nTA/YeiVCN7DMGR0rbG1vg
-	 g8qj5HSYBzP/iK5vpLn1eFW7byDP1D9H/hckUMhb9CEYA6XSJSejQ8Gx63L+9Ea+mH
-	 HUeBVNRSPOevp4Va8d2THy5fY7BckYZ55BFztXh0765XLOjpD4UWZPtWHco+EKsmKB
-	 5+Q2+Ham1Ayu8N/7bOr13l+B1FifyyqRvtHa3ZKT084LyXr4tO6kPh6WfwRG9GmDpZ
-	 EGfngc11eBIUw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553d771435fso3755720e87.3;
-        Tue, 08 Jul 2025 08:36:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHCTQ6JHU9nxZ7Qku4892NrtZ45P+nQvutuzpqIePGAPJUSeWo6dQlpkh37nsnDubVcWy6E7AXGncE52ty@vger.kernel.org, AJvYcCUS8cWUEQVzSRdu7IsVeUACpobdrETcjPQZJBSzQy6/Vs+uFTJOwdIkbIXITILxhJ30wX9Dat83JMAy3Ffe7w==@vger.kernel.org, AJvYcCX0VBQh7hTnNLTDplcTvF0GLV/Yzvrg/jglHF5PZSC1pP08CCc4d/B6S9m4+vy7ZAjCkmsMd8ic99eSOYKwFg==@vger.kernel.org, AJvYcCXK0wt784YCl8Ij5ayUTcr/+XqHaBQY7SNhYxDruYfxiswx0ec4bErb0fos/A5OUBnDqNgHD4WnvXM=@vger.kernel.org, AJvYcCXfWyV0We4RKRQ47IZ2PU2QAROlmew2yR0hewIten0Zv8hnXJJOv+qL5Nb/v3amoXSOHIIHe+Q9dOO3gTXM@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTTUNxcIB3a7FxVcue9n9GVSJrg6XBMhQ6k8CCcwRYflzZ1YJn
-	tOci3Vl0LzeELz4YUPFP7ZpTi5d/ybeyt1Hryd3Bpu1ofUXG6faTmKU3lJ/aq91xMdQDa8Rt+gB
-	7WDtVZkt4jxrcC3ojz3S+RmWSX0uc+g8=
-X-Google-Smtp-Source: AGHT+IFRtLjaJasKpwEwyQ5+WW04Mv6p+1ysxEiZNM3+T5xfDfVpapMUU0ZvsSkmP7MRTMvglMUJAp47OpXNlDRGL1w=
-X-Received: by 2002:a05:6512:238e:b0:553:2e4a:bb58 with SMTP id
- 2adb3069b0e04-557f82f578amr1243072e87.9.1751988961465; Tue, 08 Jul 2025
- 08:36:01 -0700 (PDT)
+	s=arc-20240116; t=1751993855; c=relaxed/simple;
+	bh=HsnKFW6q1v1hMPMw0hec1bXsIiUjh9nnsxmWxvF6Lzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RpcL3BxBrVXha0Zu6tD3RDtuOHL2LatvAgGiU3szaVNSYyLOqubylWrNbzzuO0rB2ddSC+hayfejFFg0sJyY2tPvJXSrWdMv1IKLg/CUZv2UD3ZcmWP1KChrJ+/lohpI4o/HWEllNJVzHCBNC4vczLHCsDIS8Kqh6DuRdfk/IZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=reVtx0Kq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E856FC4CEED;
+	Tue,  8 Jul 2025 16:57:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1751993855;
+	bh=HsnKFW6q1v1hMPMw0hec1bXsIiUjh9nnsxmWxvF6Lzk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=reVtx0Kq24v8p8NMxv3iHurltW58ocANu8jKfXoVl5jP7uBO4vw9cQXb73AtczZKt
+	 qtmXnc7NRtwj5GGa9QGod3Bi0IrbnSO6/BEJp5ljUf7d28jsuMB5NyJcPnxhjQr/4x
+	 aAlSAxfSF940b8iCdLIpjZ41nMCLbaEK8EnU/4O4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 013/160] um: Add cmpxchg8b_emu and checksum functions to asm-prototypes.h
+Date: Tue,  8 Jul 2025 18:20:50 +0200
+Message-ID: <20250708162231.876855851@linuxfoundation.org>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250708162231.503362020@linuxfoundation.org>
+References: <20250708162231.503362020@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
- <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz> <CAK7LNATpQrHX_8x4WvhDN7cODCCLr8kihydtfM-6wxhY17xtQw@mail.gmail.com>
- <39bed180-e21c-4801-8ac4-ba40b57f6df2@suse.cz>
-In-Reply-To: <39bed180-e21c-4801-8ac4-ba40b57f6df2@suse.cz>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 9 Jul 2025 00:35:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATRkZHwJGpojCnvdiaoDnP+aeUXgdey5sb_8muzdWTMkA@mail.gmail.com>
-X-Gm-Features: Ac12FXx_7nF2f-9gneX_4uOIrJSstDjyWshpyZ4rVtF2jAmgOIH61VW1BIqcAYY
-Message-ID: <CAK7LNATRkZHwJGpojCnvdiaoDnP+aeUXgdey5sb_8muzdWTMkA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree modules
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Christoph Hellwig <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
-	David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, 
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 9, 2025 at 12:08=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> On 7/8/25 14:41, Masahiro Yamada wrote:
-> > On Tue, Jul 8, 2025 at 4:29=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz>=
- wrote:
-> >>
-> >> The module namespace support has been introduced to allow restricting
-> >> exports to specific modules only, and intended for in-tree modules suc=
-h
-> >> as kvm. Make this intention explicit by disallowing out of tree module=
-s
-> >> both for the module loader and modpost.
-> >>
-> >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> >
-> >
-> >
-> > In my understanding, an external module with the same name
-> > can override the internal one.
-> >
-> > This change disallows such a use-case.
->
-> Hmm I'm not familiar with this, but for such cases to be legitimate we ca=
-n
-> assume the external module has to be derived from the internal one and no=
-t
-> something completely unrelated impersonating the internal one? So in that
-> case just patch 2 alone would be sufficient and not break any legitimate =
-use
-> cases?
->
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
-IIRC, nvdimm uses this feature for testing.
+------------------
 
+From: Sami Tolvanen <samitolvanen@google.com>
 
-In-tree drivers:
-  drivers/nvdimm/Makefile
+[ Upstream commit 674d03f6bd6b0f8327f1a4920ff5893557facfbd ]
 
-Out-of-tree drivers:
-  tools/testing/nvdimm/Makefile
-  tools/testing/nvdimm/Kbuild
+With CONFIG_GENDWARFKSYMS, um builds fail due to missing prototypes
+in asm/asm-prototypes.h. Add declarations for cmpxchg8b_emu and the
+exported checksum functions, including csum_partial_copy_generic as
+it's also exported.
+
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202503251216.lE4t9Ikj-lkp@intel.com/
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+Link: https://patch.msgid.link/20250326190500.847236-2-samitolvanen@google.com
+Signed-off-by: Johannes Berg <johannes.berg@intel.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/um/include/asm/asm-prototypes.h | 5 +++++
+ arch/x86/um/asm/checksum.h           | 3 +++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/arch/um/include/asm/asm-prototypes.h b/arch/um/include/asm/asm-prototypes.h
+index 5898a26daa0dd..408b31d591279 100644
+--- a/arch/um/include/asm/asm-prototypes.h
++++ b/arch/um/include/asm/asm-prototypes.h
+@@ -1 +1,6 @@
+ #include <asm-generic/asm-prototypes.h>
++#include <asm/checksum.h>
++
++#ifdef CONFIG_UML_X86
++extern void cmpxchg8b_emu(void);
++#endif
+diff --git a/arch/x86/um/asm/checksum.h b/arch/x86/um/asm/checksum.h
+index b07824500363f..ddc144657efad 100644
+--- a/arch/x86/um/asm/checksum.h
++++ b/arch/x86/um/asm/checksum.h
+@@ -20,6 +20,9 @@
+  */
+ extern __wsum csum_partial(const void *buff, int len, __wsum sum);
+ 
++/* Do not call this directly. Declared for export type visibility. */
++extern __visible __wsum csum_partial_copy_generic(const void *src, void *dst, int len);
++
+ /**
+  * csum_fold - Fold and invert a 32bit checksum.
+  * sum: 32bit unfolded sum
+-- 
+2.39.5
 
 
 
-
---=20
-Best Regards
-Masahiro Yamada
 
