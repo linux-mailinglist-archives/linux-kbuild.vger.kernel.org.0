@@ -1,229 +1,97 @@
-Return-Path: <linux-kbuild+bounces-7917-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7919-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA82EAFC3FD
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 09:29:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FEEAFC457
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 09:40:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C31C424D4A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 07:29:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C3E4426F58
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 07:40:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6272222D7;
-	Tue,  8 Jul 2025 07:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D13299948;
+	Tue,  8 Jul 2025 07:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bx1qnh5C";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iVUaXGVB";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bx1qnh5C";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="iVUaXGVB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tESejgv/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9ECC29898B
-	for <linux-kbuild@vger.kernel.org>; Tue,  8 Jul 2025 07:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3517298CA7;
+	Tue,  8 Jul 2025 07:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751959764; cv=none; b=Q5vse+m3UunShBQG3ulwP5buk97L/g/cJOCRosLr8cdFBYwxW+9FfCBAkR6G3j3xXOp89/01RS9NsKisYM/ONWR7bTFxEw2kTC97r93bdRCGOs7r91XWZxFlCInMB+dTv+RBppNdLq1ousH4Os8lGoxUZGH+xYLIqhCXdawQfM4=
+	t=1751960446; cv=none; b=S6AnL1oon0fjGSzcZ5kXKt30zb/RVAbM2ClkYDxikGI0/TpYNJpAqBOTUkJZ/14sP3ugCV36fFkuc9ZtbgVrwBM8yF53lDp/EZoEqbOsceDAWFDrbmvPN4FsDHiVVoAQf+RQs96alj0Lzg+i+tbeNSgfTTCChEQi3ss9dGpZMIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751959764; c=relaxed/simple;
-	bh=Yy5s3tOFMC/rTCLld/EgSCsz8DvydWujL2hwXFKTktU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HlbZAjv8ZlI42HSlNbWTrwiK+7ZoQFFjDwznczCBr9zH8zf+D8kgvePWmhPrYOGp/mOm3cFgF9pBNNYT5cybeZaUPtQvGVdt8sD5eBY0fxh0iP2Z1U1RkU4jIA6dXe6J/izBQ4OzzX9z8nevxK1YGD8N2Ub62loEBGP8ozJragI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bx1qnh5C; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iVUaXGVB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bx1qnh5C; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=iVUaXGVB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C98F1F395;
-	Tue,  8 Jul 2025 07:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1751959761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oEPibuz/UmeneAYugM2MEEKg37oU+6TRLDHisiab2fw=;
-	b=bx1qnh5CUl5nUrjwr7MFOuFpXrUR1UFemEt6r/AnHAnBqHT8ZNjbRfaTW+4E4oPh1wFT5g
-	LGFIr1GkXeMU4xG0tiq8HGQt/BnNbH7g9EZogaJVAq/oW5DRXmwFnlOP8uhigZA0UaWUGV
-	Sy5LO/8NTGosx0yQl3acENkhpkqn62E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1751959761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oEPibuz/UmeneAYugM2MEEKg37oU+6TRLDHisiab2fw=;
-	b=iVUaXGVBWmLqcyHQlS7AnDQTecIiydAxk6aig3YXtqA42SGZxZRIWWBdsUnpXo+PdiNb2S
-	LQyiepNmcZF8rvDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=bx1qnh5C;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=iVUaXGVB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1751959761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oEPibuz/UmeneAYugM2MEEKg37oU+6TRLDHisiab2fw=;
-	b=bx1qnh5CUl5nUrjwr7MFOuFpXrUR1UFemEt6r/AnHAnBqHT8ZNjbRfaTW+4E4oPh1wFT5g
-	LGFIr1GkXeMU4xG0tiq8HGQt/BnNbH7g9EZogaJVAq/oW5DRXmwFnlOP8uhigZA0UaWUGV
-	Sy5LO/8NTGosx0yQl3acENkhpkqn62E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1751959761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oEPibuz/UmeneAYugM2MEEKg37oU+6TRLDHisiab2fw=;
-	b=iVUaXGVBWmLqcyHQlS7AnDQTecIiydAxk6aig3YXtqA42SGZxZRIWWBdsUnpXo+PdiNb2S
-	LQyiepNmcZF8rvDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A976A13A8E;
-	Tue,  8 Jul 2025 07:29:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6AgYKdDIbGhMRAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 08 Jul 2025 07:29:20 +0000
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Tue, 08 Jul 2025 09:28:58 +0200
-Subject: [PATCH 2/2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
+	s=arc-20240116; t=1751960446; c=relaxed/simple;
+	bh=rUqpGKNpxIkdFXiunXQ2FeKSD8DPlAjO+yZ3JAxkNuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fn/xe3zoM1WctVeSQitYyt5fOv2IcZgyZXDxwMXxRAQ4qYMaSY6b6mnFuoj0Vvwaptifukj3BuIitaD+Ah6oX4xLVWZ1Mob7fh/s/xm/5kIPu7MAOQ+Lj+Ghd/k0qvULtUQgnQsQeg4kzCWMz5BybGlymPENArUpUq+4gDYyAR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tESejgv/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F22DC4CEED;
+	Tue,  8 Jul 2025 07:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751960445;
+	bh=rUqpGKNpxIkdFXiunXQ2FeKSD8DPlAjO+yZ3JAxkNuI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tESejgv/MmDWFWBcXknnPCM1K7gBEJtSANDv+H+XH0veTXGmPzkv6/ZGQOcnThJ0+
+	 6iXZDgLeESsSgXYmlLNzlSuQ7j39FxQXYvoxHagiQUHUbxZvYtFG0e4sc0P9RIOoiG
+	 xxHqO9VVxqeq50c+pExIBBGIe8CO+rv8b5WSdijcy7BQ5O/5xN8C9S52GJ3ec0dkoW
+	 wV2WvRN7qZk+Kobli9gql+GDFcqiZNSuloTGspcdREeUwcLFsgoCJbq0ty40upapYJ
+	 xhOBPzy5rOpapgy5wk6p+sxcDDHJyrBRUsoTEtN8wu6KD3SkxXmv7cpk5gGKgJyJHx
+	 h/HYHMO+V4xPA==
+Date: Tue, 8 Jul 2025 09:40:37 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Matthias Maennich <maennich@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>, 
+	Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>, 
+	Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Restrict module namespace to in-tree modules and
+ rename macro
+Message-ID: <20250708-merkmal-erhitzen-23e7e9daa150@brauner>
+References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-export_modules-v1-2-fbf7a282d23f@suse.cz>
-References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
-To: Matthias Maennich <maennich@google.com>, 
- Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
- Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>, 
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>, 
- Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Vlastimil Babka <vbabka@suse.cz>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2759; i=vbabka@suse.cz;
- h=from:subject:message-id; bh=Yy5s3tOFMC/rTCLld/EgSCsz8DvydWujL2hwXFKTktU=;
- b=owEBbQGS/pANAwAIAbvgsHXSRYiaAcsmYgBobMjGRVhqSav0/nkuPb3JRt274Je0nu6HWMSZJ
- zHxfngk2jWJATMEAAEIAB0WIQR7u8hBFZkjSJZITfG74LB10kWImgUCaGzIxgAKCRC74LB10kWI
- mopRB/9sjmWSAjMZpnsWt1S+YnTErm/WorHGKp6h7blRs2pSRHzEQDfNodA44cnIgPuQWu0bOIp
- ydNSlgcMYURSrQa6CnqtIHMNybz55YaZLLXMXRm+2VqKCB1nrfdkf/AFv8Pxp9M6kPA5OhzPKgC
- EEsJ/BAhH0ZFPqpqIP+QGjDO/vZ9KA+H/rg1bMYfSqIDOI6jrokkAkkiF0oWfAY3YGAWa871CqT
- RtL4651dKlMxxAoT/kCPP++3ad9LD/2w55BkFguNxbSekaCvIOy/QH+Tn08h0A5GEo8o2WaZDqN
- MWdErQDrTIeK/Q5FJRr9wrah0kCGkFygmy0nsfGO5a9fFT4d
-X-Developer-Key: i=vbabka@suse.cz; a=openpgp;
- fpr=A940D434992C2E8E99103D50224FA7E7CC82A664
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLizo86y7np4cjncz9mwtfc8qs)];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim,suse.cz:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 0C98F1F395
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
 
-With module namespace access restricted to in-tree modules, the GPL
-requirement becomes implied. Drop it from the name of the export helper.
+On Tue, Jul 08, 2025 at 09:28:56AM +0200, Vlastimil Babka wrote:
+> Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
+> part to avoid controversy converting selected existing EXPORT_SYMBOL().
+> Christoph argued [2] that the _FOR_MODULES() export is intended for
+> in-tree modules and thus GPL is implied anyway and can be simply dropped
+> from the export macro name. Peter agreed [3] about the intention for
+> in-tree modules only, although nothing currently enforces it.
+> 
+> It seems straightforward to add this enforcement, so patch 1 does that.
+> Patch 2 then drops the _GPL_ from the name and so we're left with
+> EXPORT_SYMBOL_FOR_MODULES() restricted to in-tree modules only.
+> 
+> Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
+> in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
+> 8250: export RSA functions"). Hopefully it's resolvable by a merge
+> commit fixup and we don't need to provide a temporary alias.
+> 
+> [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
+> [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
+> [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
----
- Documentation/core-api/symbol-namespaces.rst | 6 +++---
- fs/anon_inodes.c                             | 2 +-
- include/linux/export.h                       | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-index dc228ac738a5cdc49cc736c29170ca96df6a28dc..aafbc0469cd6a4b76225e0e96a86025de512008e 100644
---- a/Documentation/core-api/symbol-namespaces.rst
-+++ b/Documentation/core-api/symbol-namespaces.rst
-@@ -76,8 +76,8 @@ A second option to define the default namespace is directly in the compilation
- within the corresponding compilation unit before the #include for
- <linux/export.h>. Typically it's placed before the first #include statement.
- 
--Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
-------------------------------------------------
-+Using the EXPORT_SYMBOL_FOR_MODULES() macro
-+-------------------------------------------
- 
- Symbols exported using this macro are put into a module namespace. This
- namespace cannot be imported.
-@@ -88,7 +88,7 @@ Simple tail-globs are supported.
- 
- For example::
- 
--  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
-+  EXPORT_SYMBOL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
- 
- will limit usage of this symbol to in-tree modules whoes name matches the given
- patterns.
-diff --git a/fs/anon_inodes.c b/fs/anon_inodes.c
-index 1d847a939f29a41356af3f12e5f61372ec2fb550..180a458fc4f74249d674ec3c6e01277df1d9e743 100644
---- a/fs/anon_inodes.c
-+++ b/fs/anon_inodes.c
-@@ -129,7 +129,7 @@ struct inode *anon_inode_make_secure_inode(struct super_block *sb, const char *n
- 	}
- 	return inode;
- }
--EXPORT_SYMBOL_GPL_FOR_MODULES(anon_inode_make_secure_inode, "kvm");
-+EXPORT_SYMBOL_FOR_MODULES(anon_inode_make_secure_inode, "kvm");
- 
- static struct file *__anon_inode_getfile(const char *name,
- 					 const struct file_operations *fops,
-diff --git a/include/linux/export.h b/include/linux/export.h
-index f35d03b4113b19798036d2993d67eb932ad8ce6f..a686fd0ba406509da5f397e3a415d05c5a051c0d 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -91,6 +91,6 @@
- #define EXPORT_SYMBOL_NS(sym, ns)	__EXPORT_SYMBOL(sym, "", ns)
- #define EXPORT_SYMBOL_NS_GPL(sym, ns)	__EXPORT_SYMBOL(sym, "GPL", ns)
- 
--#define EXPORT_SYMBOL_GPL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
-+#define EXPORT_SYMBOL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
- 
- #endif /* _LINUX_EXPORT_H */
-
--- 
-2.50.0
-
+Love this. It'd be great to get this in as a bugfix,
+Acked-by: Christian Brauner <brauner@kernel.org>
 
