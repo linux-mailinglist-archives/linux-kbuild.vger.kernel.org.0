@@ -1,66 +1,66 @@
-Return-Path: <linux-kbuild+bounces-7922-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7923-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C089CAFC4BD
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 09:55:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF69AFC4C7
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 09:56:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1640E3B54BF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 07:54:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DEDD170F57
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 07:56:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49CAA29ACEE;
-	Tue,  8 Jul 2025 07:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60AD9298CCD;
+	Tue,  8 Jul 2025 07:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pfWRhbny"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fy1ezfnY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2073.outbound.protection.outlook.com [40.107.94.73])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2065.outbound.protection.outlook.com [40.107.95.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD76F221282;
-	Tue,  8 Jul 2025 07:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FE838385;
+	Tue,  8 Jul 2025 07:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751961312; cv=fail; b=KJT3PPlPnPgTyTgyZtuIdexypj8fGIvG2kq6dgR0fPupV+wix+K9pOQnJUew+cZwdDd315iygLZ+BpSQUGObo/EHFMzLPMpqPD+9GHrYx6CspR4ISKDIOeoXRpQgHQwP8uKyZQpeTbr3tNFSAYF5wxPpwRMu7huWxDBTzc1rFCI=
+	t=1751961361; cv=fail; b=IVuVfHx8XnDKyLMLkGirAt6NX43xbX61VNWAPkEMqoZMZ/DXRyJIl1tFikLT5pxjGCUdbnBR3+4FEsOBh6aVi3kyaw5lz+zdh7uIRCNc2p0EBUKxvj/g1UV9Cst7eMrc2mvB9qqvl6U2WofvYnmh2FeUZcE7NnIYyD97qrZgbh4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751961312; c=relaxed/simple;
-	bh=tKZJW5GHNFa7t+9aVBgysLIzducnYO6kZ09X+e3JKk4=;
+	s=arc-20240116; t=1751961361; c=relaxed/simple;
+	bh=Zu0x4XMFJrCOIBGR9v6FmQyFkshPx8E+jmhazg0C1Gs=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=bz3llBYeesoM4jqQ+7h+u+lM9IA2qjqrEKSS80WaGp2GNUQhudSztPX6ZreoU1w8n2LWTtHXEMehlADiFPfGCX9Lu0LjmZ/S5i1CSRdX6W/bSFnKeKBgH0hKEEGW3fQ1Q8DxGeGt1pVLkHfp5dqFN3YiF7RlU+CAsIcnWQxL478=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pfWRhbny; arc=fail smtp.client-ip=40.107.94.73
+	 Content-Type:MIME-Version; b=TJUN4wpuNrH9G05oaVzntXGNcD3MzQ0orwkD4Y3FHq6dwTqoSYPgAlK6KRfX+YLcCeG9vDKf/NIlQEDe/7b8WLLfadBOPOw84H6ubuZuqrs+FLrsDaVzSJNOrJFyYhNmUrfEN1GrmtGnv96GHJ90rRje6+gLA7V54n41RlIruGY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fy1ezfnY; arc=fail smtp.client-ip=40.107.95.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dbILc29QP87V6uGlidCe7lnfzAk8xeH5Rrc3JgPxp4j2spqvLd+Auyast9bcu2HYYYuZZ7CqP62iHSbsAM3AvOlBdXp7SFLP/zLhecLVKKQIeO/1kZGLHNvbA2lRqTem9TFWr4y5EVs12U0gR3wtiuCGhi5lSCqiEjAGyRqdcR1tmodope/pNr4dIQC8fnmooIKSWZQDT3OFZek5Bx168EU9g8Lky5LrVfMEJDeCxtN8bl8A8d+wNRG+Kpcln/XFettOtNNYP51qVKQwKe9UrGFx3IU2fHaphIyC50e/WEUpDKTv4blzwNpAWVyQm3Yf51KGBEpDrUcEPq+jsNWYYw==
+ b=JggFBgDb8Q38/qUDzt7CYGW2MfnmvIgqohdZqKATtEfWpgN0I4B9qUfXB9ZLH4Gmcj+lCILRpG/WupvPXEunhyyBcH1IzJ4c3SunLyenT4MwreAy+RniNaVXd+Zs93icdDvi7u1zHMLEtgS+xIlbe5Z9oR7SwwJlnJxqthbsEU3EB5Du1p3gqsxUu3EYRQZ+69krdwjjQx2G28KppeJXHg2q9f2rmmfgzllH0q5G4sW4Nvh3kCrVtlai0+Hf5KZbWM21iHnHy1IhHQy9UacfDlUCC7I9+6z5sHnPLsccvgzEfPM/JG28R21hThwEF9U1UXR6sORMW39cfl5A8jl1jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QcOzfSIjjR52/L5D7hjCLCbJbNVpkhYR6KW5/6VTu3g=;
- b=mIkcKhW2Xh2TPipiHPbb5uANshf2PXl7rlwFzf72uIbXjpy/sKY9JWUMmGCi2o7fX7+rmAXn8qaIeQ1GbeFdleZzUj5e1smwSzLrU/aTav30agloRbFLG3OLlXWjmrGIocBfE9BUn5xtYSg6tPRcQmxLrwhkqwbA4iTv6dGD2rON4rTRbmmLKnMs0DQc7Czg5SNQIm4sfluiIh4PidUG4qwU/YU6N2UgctiGS2DgvZFPlBBE3VCK+Kup3ePrDoakYS1MURSlX2y3Yirn6dGc10E9RfwmBw1VSccrNE2Mz92FTkM7woaePnxC1FYJsCJAAz8GxysWOU7W9g/hceuZ2g==
+ bh=St7Jrf2bI6I1B+jLP26dsT8M20yF6Fcn8ZegrVetC8s=;
+ b=FPUh5zGefZWyZ7LFbjt35wUb0TFOE9JdzY8nZX209gZfM8CIe//YFDqa/rrX7o3YIw/AtRcTjjWU2GsiBKMJjU1HgdCyuDjfyqYS9kX7B6821rTgoWwAKgKM6hsQnl7STVpiyt3oKLiHdD717oe5xOCgNUxX7SWnwfk4oFysHYO5BEu7hGffIg7H9CyxsY51aufDsmEGYFXAMate4T9qgWKnkprRg/R+0r7ahmkcBvHR1hgbrmPx6VEPGMjaDkmxjldIFwvu8bhrGXaXJPCJnQM6cLnDZDI/l7neFiBa+f2KBPXHF7mipoRUFqKhPcBpTRJfr0oVs0A3IEnbHLQG4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QcOzfSIjjR52/L5D7hjCLCbJbNVpkhYR6KW5/6VTu3g=;
- b=pfWRhbnyZGDYVSdHn6iDAviSuACOqogtTRCqGWATW55P43ieLKE3lFMmMAnb+sNdlfxNdSvusb6My8jOsZV4p+ejlWuQDM5jSazpOydzr3yn/tgoWRCn8rns6IfgvplzmQLmpHDbzonU2fpVJnd99F0z71lb16n9dOs3NnLZYvQ=
+ bh=St7Jrf2bI6I1B+jLP26dsT8M20yF6Fcn8ZegrVetC8s=;
+ b=fy1ezfnYz6pHP6tGI8E5aCZPsWoQbSjHqUsnglojpdRYLLGImH6aOC7bGl57fY8hfkERmB65fYAjCxj/9BuE3f5udNL1ku9+Q6J4WF4xEfe6Zd3wbDtRf9cTNPodd840fKWgDtyo9Oblookc2cE794CKjCfZTAGjZuaZXjdffEw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from SJ5PPFF6E64BC2C.namprd12.prod.outlook.com
  (2603:10b6:a0f:fc02::9aa) by CYXPR12MB9279.namprd12.prod.outlook.com
  (2603:10b6:930:d5::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
- 2025 07:55:07 +0000
+ 2025 07:55:57 +0000
 Received: from SJ5PPFF6E64BC2C.namprd12.prod.outlook.com
  ([fe80::40bb:ae48:4c30:c3bf]) by SJ5PPFF6E64BC2C.namprd12.prod.outlook.com
  ([fe80::40bb:ae48:4c30:c3bf%8]) with mapi id 15.20.8722.031; Tue, 8 Jul 2025
- 07:55:07 +0000
-Message-ID: <d18973b8-3b52-4786-b5ab-94208495c8b0@amd.com>
-Date: Tue, 8 Jul 2025 13:24:58 +0530
+ 07:55:57 +0000
+Message-ID: <7e59a27d-8393-48b4-9c44-800499498afb@amd.com>
+Date: Tue, 8 Jul 2025 13:25:47 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree
- modules
+Subject: Re: [PATCH 2/2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
+ EXPORT_SYMBOL_FOR_MODULES
 To: Vlastimil Babka <vbabka@suse.cz>, Matthias Maennich
  <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
  Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
@@ -77,14 +77,14 @@ Cc: Christoph Hellwig <hch@infradead.org>,
  linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
  linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
 References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
- <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
+ <20250708-export_modules-v1-2-fbf7a282d23f@suse.cz>
 Content-Language: en-US
 From: Shivank Garg <shivankg@amd.com>
-In-Reply-To: <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
+In-Reply-To: <20250708-export_modules-v1-2-fbf7a282d23f@suse.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0144.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::29) To SJ5PPFF6E64BC2C.namprd12.prod.outlook.com
+X-ClientProxiedBy: PN2PR01CA0148.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:6::33) To SJ5PPFF6E64BC2C.namprd12.prod.outlook.com
  (2603:10b6:a0f:fc02::9aa)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -94,173 +94,163 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ5PPFF6E64BC2C:EE_|CYXPR12MB9279:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ff0de01-b0f6-4bca-8836-08ddbdf4c179
+X-MS-Office365-Filtering-Correlation-Id: 37ef2444-480f-40d5-6376-08ddbdf4df1f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NWlxK1ZZWHdoRTViNFljRytTQlZjU1A3RDVwREQ2Wk1wNUxyYm5mY1BLYjZI?=
- =?utf-8?B?UXFzVGZBMXBPMWJJVlVEOU01YWxpbzNTRkllb0ptWVZHckVjVy91SG9EeTVS?=
- =?utf-8?B?cDVaTlM3S2hHWUVQbktqRjJvMHVUK3dJNUFSZUs2RWRlUlRkVzVtOTVhV3VS?=
- =?utf-8?B?dEZPdzZGU0xJZzR4d2l6a3BuOFdpMEtpMEQ1clhiekJtRC9KWGwwL3V5VTVS?=
- =?utf-8?B?WGdrQ2piaEl3TUkrajk3VS9WR29QZFlVemlWdndXVy9xM0o4SXRhY1J1ZGIx?=
- =?utf-8?B?VE9rTXVBZVJIakQva0xyUTRHdFRlNFNlSGRoRDZ5SEcxL2tKai9JK3ZiQnpY?=
- =?utf-8?B?OHZZMmIvMm10TG1zaWYzTFBoMUZDMndtRWNnUm43a3R3Z29WVVhDVFhSeDNu?=
- =?utf-8?B?YmNaaTBQMVhkZGtDcEpRL1ZMQUdSdytTTDdlWFVHVElzODZBdWNGSnAwZkxB?=
- =?utf-8?B?cldzVDhGSmRLS3JYVzVjRmszNm5STnU4UmFoVENtQTBQOUJYc3ZEQk4zbkJm?=
- =?utf-8?B?OHFYKzFhamhBMzY0RGkvK1haZGsrN0E4dTdKdVlldkpGazlEdi9DeDVxaWJV?=
- =?utf-8?B?TlIrMGttZ1R0TVFMZWdwMHFTNSswYnEvTExKNnJqR1QwK0dsSUt2dzkzVEtE?=
- =?utf-8?B?Nlo1clR3Qi9VMUpzaDRPOWpEdE9haGRVTm8vWDA1a3JxVnl2T1FOeFVBTnpU?=
- =?utf-8?B?bnkvZ1pyVVByWlRFVTg5eFZXQmJJTEc0VGxYQnNHQlFOeU1ldFZpYUtXV1Y1?=
- =?utf-8?B?Y3FlaFRpbWlaSFV4d2dCMk5CLzRXbCtsRDVWQjRpMEFrRnNEajhTbTRhYVo4?=
- =?utf-8?B?VmQwb3JIdWo5Q0dyU3RkK1pqQk1HeDdoNGdiZDZqQzd3YmJ2b2NQZHM3cEZv?=
- =?utf-8?B?QWkxcFMwRVB2YzNvZWRYZ095b3JHU2ZjdVRCL2xNeW4vSTgxbWhyU255eXVw?=
- =?utf-8?B?V2Joc2JmaUZQOXVlQitoT2dkNFVkcXZ1SXRCZU1HemFjaW5PZUJYLzlXR3hq?=
- =?utf-8?B?ZDJSbmhmanhPc2M4WXJqdGRNeGw2Q3V6dXRiNTFMeEZBb0RGcmNsVmZqSUZG?=
- =?utf-8?B?U0RSczYyQjJaTUo3Q252QmIrcGkrOVlNcWg5ZjBOM0hzUTJQdW1xN2tXbDJX?=
- =?utf-8?B?ZHIvMWRDeUdLTFpSQ1R5Y3dzeVZVaHVRRkdqTEFiTDUxUWN4Y1FhS2NZVEw5?=
- =?utf-8?B?Vm1JdExUZTJHWStBWjF0c2I3Z0xsWkVyeDRMVTdvNkJrWW1tSDZGdGxOdWR4?=
- =?utf-8?B?ejZHKzdkRUFTUWQxS3VqcW1XZVlOZk1OVFd1bDkwdkpTbUpVaktmUG1lNnBa?=
- =?utf-8?B?R3pneFhROWt3Y2Y1dmNacTVFYUtqL3BMc1lYTGQ2S0RCK3UwaGpKOHltTXdT?=
- =?utf-8?B?T1RTOCtNL2JwSGMrckVpaThqdWdFU001d3l5U0lZbnlIYW1kaWJUc0ZmTGtG?=
- =?utf-8?B?bm45bVVoam5HWWJzWWpkVlROWitTbkZ6OXI5VzRMYjdQRmpnN0RQVWVTcEky?=
- =?utf-8?B?S2o0MStTUzZUbXBUeWJRdGdKcXF3U0NUSis1MkRqampmYzJ4YXNFM0NYeUxq?=
- =?utf-8?B?K0lhdEdOdHpRNWo0MlZSMXBXY3d1NGV4aFdCbTVpdWhpcFNnT2dqYjMvM09o?=
- =?utf-8?B?ZUFnT2FVa1JWeWdVSGwwNFJ3Y2hocjN3Q0ZrcUpzcXVjU0lXa1BneWQxY0pM?=
- =?utf-8?B?VnNrNEtUKzJKQzlHZEx5V2xyRzZtdEJKKy9WU3pjZ1lqWFo5cmtLbTN5RFcz?=
- =?utf-8?B?VUdacFZ3Z3o0dUtZcVVtcStTTmNJRlRON09NUnNseVRYWmNWdHBlejNjRTZ2?=
- =?utf-8?B?MWo0SktqKzRnSVRQbjdTRVlrcXdIbjRuMUd5WmJMNGg0RktINXJnTm4yMFF3?=
- =?utf-8?B?VXBJdUl6Z0Z3eUZGL295Y1J2SGFkWkl2QUFMQ3NNYnlGY1NmYVcySW42MGxy?=
- =?utf-8?B?WTFKakt2byt3ZUJ6dldQMjExN1BUQm1hcm9JQXNNaWpsaU1RcnBETHRJbVVE?=
- =?utf-8?B?ek1RQW1vZnFBPT0=?=
+	=?utf-8?B?ejJXUmg3QjVCeFZwc3MrdmhUL1JRNzB2VW1pUFg2anpvRnliQ3NIR1dkdWhu?=
+ =?utf-8?B?WFloSlBVZjBIOVZlelB4SC9JY2tXMGk1cXQwbnRpOU05N0hRNHZydkdueksw?=
+ =?utf-8?B?NGwvUnNsQldZQ2NPTnpsZWlVZ2gvS1liMVRoSnBhSDJLR2NLR01WbE5rQzJY?=
+ =?utf-8?B?VlVaSEREVlIrbjRGWHZVTFVpMzdwWXdpaXJodkxVVXVyaHptcFc4OFJ4K1pI?=
+ =?utf-8?B?aEFMUDRGaitnTlRYVkV6bFVwdmU4QlRRb1l0ajhtUlc4elVQU3cvU0xtUkgx?=
+ =?utf-8?B?WStrQTNNMVZXUnlQeXIyWlM0eVdtWnFjTFpFbmN4Vk9MNnprUlUyRVZNOVFR?=
+ =?utf-8?B?cFprL0FGV2FNTnorc0dJVGZiMnZaTDFjRm80L1lTdEpqL0hNRWZ2cnE4UEhp?=
+ =?utf-8?B?bWE3S1BXUlNUbXpKOGVOUzRUdE1YaTljNk90aVhLd2d2SUo1SnRiOXIxM2NB?=
+ =?utf-8?B?V3U5TVQ0ZnV0TnJDSjA1TklEcDFtVmQ4NFEyODRlaXRHVmdQQTkrclloWjM4?=
+ =?utf-8?B?THZ1d2UzdWhKS1hkZGJjdXdaOU1rUzRMLzdJT2NUZDlQeGx5enRPQzY1dnlx?=
+ =?utf-8?B?VndHVU54Z3B3YUI3TStibTdkZzZiTXVpRjFiQTFzUGR5QU1CbU0wY0RQTXd2?=
+ =?utf-8?B?dkRxa3cwT2hxOWZ6MjVkTm8zZ2o3Y05hT05vall5TGRMd1h6SS9zTWRPL0g1?=
+ =?utf-8?B?VDQrOGx5ZUFrR1ZYRUZSMHo2Yml0RlRYMnZScHVkT2krMkVDTkFzUkY3Z0RV?=
+ =?utf-8?B?cVdpYll1V01kc2ZHWE9wUExKdUoybXAwZDZBVjZVT3NsRTlFNFJ0b3BXL09m?=
+ =?utf-8?B?SFByTFhROW5CZlRweVUzMS9TOGJBOHlhRVhOTFBqeTZxSjM4TXZQWTMzUy96?=
+ =?utf-8?B?QUw3UXFpYXNFYkk1Vk9qSmZSNmJmaEx5b1Y5MnJjYUJyVjRTZTA0bjdBUW9z?=
+ =?utf-8?B?a2VyLzhIc3lVK0dPK3hiUVFsalFZa3ZxSC9ZcmUyMzhsbW4rSVV6VTgrMG80?=
+ =?utf-8?B?enBHZFA4QWpIUUxXWG5ZcGxpdWpCSWRudGJveFZ1cnlWOHFFSEhzNEtGeVU5?=
+ =?utf-8?B?OGkxL213UkRLVndkZS92Wk44cnpiWEo2YUJzZWlCMWlSR082a2Z4Nkd0MWFj?=
+ =?utf-8?B?MFZUY0Z5anRSVGVSVFZ1cEFJK2p2Y2VhTlJtUS9GNFRQZGV4OXpvTThBNzFN?=
+ =?utf-8?B?MzYwNlpweWtsekpBeGhNRFQwK2hudVZ5b29CZi9aN1dPbDB6UWU1czdtWm5t?=
+ =?utf-8?B?ZzlLT0UwSmExandZOFNPQk52MlBFb25qY2hVMTJ5VjFMNGY1NkJOK05OQVJx?=
+ =?utf-8?B?WjMwZ1pQUjFuMjc3cHY3MmE5YVFaU09RZS9NVUNFdkN6OFpVNXNTcHFBK1FT?=
+ =?utf-8?B?M3pndndwbUk2K3V1NFZkdTBRb1VYTE84cEppZTcrbFVNMXFDSHZGQ1N2ZExD?=
+ =?utf-8?B?bTVhalFTY283emZmSXY2N3M1eVduZmplaXpIS1Q1ZHNzR0haT2pHRGhMM2xl?=
+ =?utf-8?B?UHgvWE1PYzBEZ09kSG5BUjFpU3RCUitFMVE5U2FieXQ4SVA4WlUxS0xmUWNj?=
+ =?utf-8?B?YVlYenNJVUVucXMxZ1c1RzNFK01iWXE1Ym9QSFZUMGxwNWJqZzE3MjNVR1lp?=
+ =?utf-8?B?cmtiZ3JPWHZwRDN2T3Bxc0YwS0ZEMklUYUJOYWRUMUlDc3RLekR5TVB4OFE3?=
+ =?utf-8?B?MU5tZW5TSU1YYWRPT04wcGhOcStSdkFldll1NUlydkNiZXJWWG82MVJuWnVS?=
+ =?utf-8?B?aWRJeEhodTFsb3JweEkyeWVlN1lsemwxcEJxQVNPWm5BSytoYXRUclQweGor?=
+ =?utf-8?B?WTZvMDZpZ1NONkhSV0ViMjMzcXd3eERDRTZkMEgxRmlETFR4Y1NDVmdSaW55?=
+ =?utf-8?B?TVBpNFlBYnhJU0RhK1JTVC9yWDlGWFpxVmEyVXdBTmpKY0Z3dmhBU0FOK1BX?=
+ =?utf-8?B?ZERJSWZtNkRUajVvRDkyQ3pGQXVLSThnTWJtdTBaR2xtazEyVGJTZFBGRVNI?=
+ =?utf-8?B?bUJtdGtkR2F3PT0=?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ5PPFF6E64BC2C.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Y0hzUVZsRUxKYnRoVzhNSmVITWwvQ1p4U2JlV05ESkdqVThrYlRsSFk3a0Q1?=
- =?utf-8?B?T0hJVGVMTWR5Yk84aTVXamxiMGk4Qlhmd2txVFVUblAvdEN2VGkzeng2Z2Z6?=
- =?utf-8?B?c3VqWmtuYVkzQjZZMzMza1NWWm1qNUc2T25QTmtGaEsyUnJGNktlSWNzY2tn?=
- =?utf-8?B?Nk81amdlL1UwR3ZUQzF3N1pJQTFYZ1d4eXdCbHkxcVdDV3VDblRTekNRTXhX?=
- =?utf-8?B?WDBDa2Rmc3dqa0xnZVRRd296R0dGTVQxOTlCYk9pcUNXMHJ3VDFIUXBPM0Qr?=
- =?utf-8?B?blF1TlpmY0E0TjNUZFU2NVRJS2hNYXUrYTRuZkZLYXIyVHZzODNvZ2laQS9Z?=
- =?utf-8?B?RERPRDk0YmZoYjdmeHlRS1EyaUZwdE5SUzY1WkVNblpYSHVCN2NiTEprLzBC?=
- =?utf-8?B?M3U2VytnSUJRVXl3VDB5Wi8vSmRPR1NTYnZsaUZacVhuNVhEWlJ0Q1lmOTlX?=
- =?utf-8?B?SnJaMU53b0VZQk1pNHBwckU0RUZsWFhhZWw0SGVraWJzcHB2WGp6V2FqTFRs?=
- =?utf-8?B?bHN0NG5yNHBxZzVuTHdNOHVwSlRoSVFCVWpxRSt3YVo1T1RSWTUzSzY4VTFZ?=
- =?utf-8?B?TUdjWlBHL2hKdjNDMW5vWVhWZ0dBdUU0YTZaN2JRY1BVcnZtNEVZR1I4ZVNS?=
- =?utf-8?B?QzdpQ3lXTXdjdXlBTlFGWUJsK3JpWTZGQ1lqSUpVenVqZ0lubTAyeisvNWcy?=
- =?utf-8?B?eklaRUNsN3lnODVYQW5sSmxVYjRmVFUycEk3NHdhTURvQlhLMVBwcEZtWGpZ?=
- =?utf-8?B?RFlXNVROM3h0VEYwYmp6eXZFQ3QyaEJnbFJCQWp3cU1xWkxvWGI3SHZNbnFy?=
- =?utf-8?B?czhQc3NIYklDbytZcnJuWVM1RjB5WExaVlFwYkp2OWpEbjJMQXZRb0VtMFY1?=
- =?utf-8?B?ZEROWXlWN1dzRlk1L0c1M29VNVlkY1l0MmVVOHpFQTdCK3Evb1hrR3I4dWRm?=
- =?utf-8?B?R3NIY0pVd0pkNGhHWlRORXV2YzV3LzNaMDI4M2s1SkhDRDZrcTNKNjd0STJZ?=
- =?utf-8?B?SGlOUEVHM1lkN0pKQXdtMnVyZG5Ma2JDcXRzNE1hb08rNC9HTGo4dmlHOElG?=
- =?utf-8?B?N2tDUkhZSTRHalNYVXNaTy94Y1lGUVd4R1d3Rk80YjFvVWVMS2pjaHBGNk84?=
- =?utf-8?B?YXVtUnI5WWVBZDBJTEdBbmNPZDJ1c0RzNXkzQWdRK0RHQmpZYTV0VThrMkxW?=
- =?utf-8?B?UU4ySjVTUzFhbUExVlVrRjh1MkxDQ0Z6UDIzVlhFbFE1UmhUM1VOZDMrckhD?=
- =?utf-8?B?Sy95TkVKU2tlbFZrcUlZNEtwellMUjZSTVJ2Z2dHaEhpRUNJSnJDWXVpY3I0?=
- =?utf-8?B?MWVuMHBaSXEweXY1ek01RlNUZ3cyNnJUeExmR3VDR0RLdmxTd1hlN25MZXZN?=
- =?utf-8?B?alIrbFVsOEZyc3dMTEh3TkdZSGdUUVZQclNNMXVzV1JlNzN0RnExUUFrYTlq?=
- =?utf-8?B?VWoxMGxQRkNuT2dTT0o3TlF6Mndub1pJckZGblJ2VU9vSnlFa3dqa0JnOXNZ?=
- =?utf-8?B?RjRBalBGc0FnRklYdDR4QkxKYVZ4bElia2pmbHM4bkFzc0Q3dVM0VzRRV3Zl?=
- =?utf-8?B?ODJ2V0g3OEJuVGpnSVZmYlJZVnYwWi9mbDRqQUlGeEJJK05MNHU3Nmw5OEFu?=
- =?utf-8?B?K3lGWmlaTWlVb3FlblJjN1JTQVgvOTNyMGQ5MUhOVjRjKzZ2UUFWMStTcWJP?=
- =?utf-8?B?SUhRMHU1OXNJQkc0UjRnTVk5TGVubkxqNFJNcDVQR2hYeUVYMW90OG1iemIw?=
- =?utf-8?B?dHl3bU5xY3pjN0tIbDA5ejdvbVlldHl6cHoyVDVrSnNxTjdLL01tYk16eWNY?=
- =?utf-8?B?cVdWRjlLeTdDNlBJeWc2VUx1MG5BU20vVzNsTFFuRTlGSVJ1bWFnYVdRcGth?=
- =?utf-8?B?WTZPN2Y5dzlieXRMa2g5a0pITjBpTmhLWUxaeVNFdmUwSjlncVlpNEF6U05j?=
- =?utf-8?B?UGtOc0tBTkJXUlJTQ2NlOWNHQ2pCbEd6cWRERm5BcFcyOHh6Ty9vUDFUdUg5?=
- =?utf-8?B?UlZBcVZNdmxJWXB5SjlJK1BYVWt0K0I5RFJlZ3crMFhPeWtvQXFxMzExWE44?=
- =?utf-8?B?L0c3KzZUTS9TaEtWakgzMXB0RjFwOFZyZ3dFa1V6V3FoV1RodHg1cVIvMU5Z?=
- =?utf-8?Q?Xy6ibP2kNv6L3zOFHAQO5FVdM?=
+	=?utf-8?B?bHVTUU5haDg5K01pQ1RuWTlNMytpalVqY3ZHNmdpZit0MXZUVTJHSXBMcVFV?=
+ =?utf-8?B?cm53S3VtK3ozZzYyTmE2TUVxWExLeWF5WkpLM2FpTkhOVDVTVkVFNFNYakZE?=
+ =?utf-8?B?Q3A3TXlTVUdGaDhZc0U1MzErUXlkbXI0OFpReHV4Ykx2WUJDUHFkWTBhNkZB?=
+ =?utf-8?B?S0w1NUl4WWFIdGR5RkFGQitLcEp3Mm8wMSs1MTVxNldpYjFyRk56SXJaVjNG?=
+ =?utf-8?B?eVVnajZLMXg2SG9vYmhmUUJSblRHTHBaR2ROS21IL0RnL3QzQWxFY1dvR3Jm?=
+ =?utf-8?B?R1gvUHQ4OUdGTFpCRGsyWDlWdzhHdUJoUFViU1RVTUxROHMzQzkvNDgza3FI?=
+ =?utf-8?B?dWdnZkd4dHhOdHlSQVd5TUVzNlltZWNWdG9HZmpBUUpmMHQvaU0rNEVPYWNC?=
+ =?utf-8?B?T2R4Y0NHWUpKQ1hKUWRBRno2NEgwckhadkhja1ozNkx1OFRhaGtha1N6bnVn?=
+ =?utf-8?B?dk1XbWhZQUpuYTZEUXNVRVA1eE9sWEJndEFZd0g4SlNQYm9WMUVJMjJITlJS?=
+ =?utf-8?B?c3cvdEdlTzFYQlRmMnpLS09uNk5mbXoxeEhXOGhOMXFsY0M3Y0ZYNGpDWUQ5?=
+ =?utf-8?B?WTdYQzBlNFYwMVBYMEE3MmU4bzVYNTRNOWxDWmlHbUpOcTBDRGRlSjd6QXlN?=
+ =?utf-8?B?MlQ1SXovOExBTmpUbUFyblZtZm5qTW5Mb3R3Q3hKSzFVSWp4RDlIeUhwVDNO?=
+ =?utf-8?B?YnE0TWp4QU45bUdsYTEyWlNYNzk1TlMvRjZJTHAwb3lGaWY4d3o0WWpCWGRS?=
+ =?utf-8?B?Q2lPQk41V2FDZVV2YTBmUkVlYUoycFdVVE8wOTNIMnhwNEhxNmRJVGc5MzZn?=
+ =?utf-8?B?d21VUGlVbGdTQTNBUW43QUhWZWZNeTVSRGRtRUhqOWRiUXkvdmVYNjRudWJY?=
+ =?utf-8?B?OEdtRjE3SGROUFhaejQ1aWt4ZUJyZTM2cnVLQlM3VEEvRDdQR0tFeXZFc0Fq?=
+ =?utf-8?B?T0wxMEtuQkVrMWd1S3NLai9VSkdBS2lOckh0aVRVVVc5OUN5ZjkvMjFua3dT?=
+ =?utf-8?B?NEtSREZ2cnB1ZkJ5elo5UnRjeGdKSUZRUlpCUUtQdDUxVFRJaFB1ekVmQkxo?=
+ =?utf-8?B?SkVNUFBjaTF0N0RCak1KRTQxSjFvNDVOalRNenpsZ0JlVTlaellCYm9yMld2?=
+ =?utf-8?B?RXozSVprZGZTVHp3OFJkWG1qZXZTV3hwS2xxQVpRYklKTi9adU9RY1VnekpV?=
+ =?utf-8?B?Z290dDZUQi9jQ0VtRmozYVh6dzl1OEdYelE3WVBuMEhmam9Ha0pPYjZjbmhx?=
+ =?utf-8?B?c0N1R3Y5cEtSLzY4Qkp1WVhiclA1NHIycDhNbXNHUGJGc2V6OThUbFZOMm1R?=
+ =?utf-8?B?eDJIZ0lhY0p4VmEzcm9YSjNQYUJCVnk3azE4aCtkVjh3NHUwWXhieEdabEY0?=
+ =?utf-8?B?bHk1SXBJOW5BazBhSGVJSEhBVjgvQWVyZ3VtcDV6WUZyOEhDMzZiMUdDSlJI?=
+ =?utf-8?B?SndiZXl6TW5pTzRyN3RsT2wrMVRQdTBVeWxDQVlvYjk2dW85UDZTUXYzUGh6?=
+ =?utf-8?B?bmt1RnpqSFF1NW04MWJnV1RwYlI3RCt6SDFIREFTSVkxWVZndFE3VzBIRFBo?=
+ =?utf-8?B?M3l3R2FnUzhMVkNOVUZWM3djQmNFVXVPd1h6V0d6Y1RJU1BRUFJjZDFJQUZw?=
+ =?utf-8?B?WG5WSU1PYytja3ByanZXK3ZrcE14NXFuZ0RRNVp3eDZadUcxMWlHZUJtWllJ?=
+ =?utf-8?B?ZE5lV2pjT2Y5UmR6YzVYMVZvYUt4MnVHN0o5ajN1cS8rRlY1M1hWNWJNYVpt?=
+ =?utf-8?B?YUd6ZE1kaVhEUnQvVkI0c0RQYVQrTWd2VFFQYWdVNHZqdnB1Ujc0c0VkQUUw?=
+ =?utf-8?B?WEJibUUzNy9CRmZRTTJjWjFYbXFBSUNjSnFoS2NxUCtoQkF5VUlORFlCL045?=
+ =?utf-8?B?T3BqQlhVZmVNa1JMVmljb2NFL3dZcUZiUUk1bk5jQmkrdDZTQzZ2RmJtN2t3?=
+ =?utf-8?B?eW9kTVBnNUhpOXcyc2hCNDdUS0hjeFlUaURNS0dFZnV3Ti8xdnlJcWVJTTR3?=
+ =?utf-8?B?ZTVJOXpnZTJ5WllNcDNVQi9td2VvZlgwUEdFYzZ5VzJzQ1hRMXpMUjA1WE1Z?=
+ =?utf-8?B?SFJFTWkvUk45c3RzUFpjcE53dzY3K2t4RDlyNzBNMkUyNTlpamNPN2NGM3N3?=
+ =?utf-8?Q?8jRM8QoylVEWderfVHpLVaaOx?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ff0de01-b0f6-4bca-8836-08ddbdf4c179
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37ef2444-480f-40d5-6376-08ddbdf4df1f
 X-MS-Exchange-CrossTenant-AuthSource: SJ5PPFF6E64BC2C.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 07:55:07.5197
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 07:55:57.2929
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3ZXxozacwi8L4cbcj77x90OftT7jZgrij2dDNCKKJuq3F1tKpKsGPrsJvzp69b9kMPNMTxNWvTNr2moWALElJg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: +LD/GN60/CB0kDWSMvOKqy1Q8qkK01Cuutrz7X0Y92ZTl5UeNKoSIWpEwRZiwaAU9e/DMQRrUkEPxr+nAlciNw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9279
 
 
 
 On 7/8/2025 12:58 PM, Vlastimil Babka wrote:
-> The module namespace support has been introduced to allow restricting
-> exports to specific modules only, and intended for in-tree modules such
-> as kvm. Make this intention explicit by disallowing out of tree modules
-> both for the module loader and modpost.
+> With module namespace access restricted to in-tree modules, the GPL
+> requirement becomes implied. Drop it from the name of the export helper.
 > 
 > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > ---
->  Documentation/core-api/symbol-namespaces.rst | 5 +++--
->  kernel/module/main.c                         | 3 ++-
->  scripts/mod/modpost.c                        | 6 +++++-
->  3 files changed, 10 insertions(+), 4 deletions(-)
+>  Documentation/core-api/symbol-namespaces.rst | 6 +++---
+>  fs/anon_inodes.c                             | 2 +-
+>  include/linux/export.h                       | 2 +-
+>  3 files changed, 5 insertions(+), 5 deletions(-)
 > 
 > diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-> index 32fc73dc5529e8844c2ce2580987155bcd13cd09..dc228ac738a5cdc49cc736c29170ca96df6a28dc 100644
+> index dc228ac738a5cdc49cc736c29170ca96df6a28dc..aafbc0469cd6a4b76225e0e96a86025de512008e 100644
 > --- a/Documentation/core-api/symbol-namespaces.rst
 > +++ b/Documentation/core-api/symbol-namespaces.rst
-> @@ -83,13 +83,14 @@ Symbols exported using this macro are put into a module namespace. This
->  namespace cannot be imported.
+> @@ -76,8 +76,8 @@ A second option to define the default namespace is directly in the compilation
+>  within the corresponding compilation unit before the #include for
+>  <linux/export.h>. Typically it's placed before the first #include statement.
 >  
->  The macro takes a comma separated list of module names, allowing only those
-> -modules to access this symbol. Simple tail-globs are supported.
-> +modules to access this symbol. The access is restricted to in-tree modules.
-> +Simple tail-globs are supported.
+> -Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
+> ------------------------------------------------
+> +Using the EXPORT_SYMBOL_FOR_MODULES() macro
+> +-------------------------------------------
+>  
+>  Symbols exported using this macro are put into a module namespace. This
+>  namespace cannot be imported.
+> @@ -88,7 +88,7 @@ Simple tail-globs are supported.
 >  
 >  For example::
 >  
->    EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
+> -  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
+> +  EXPORT_SYMBOL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
 >  
-> -will limit usage of this symbol to modules whoes name matches the given
-> +will limit usage of this symbol to in-tree modules whoes name matches the given
+>  will limit usage of this symbol to in-tree modules whoes name matches the given
 >  patterns.
+> diff --git a/fs/anon_inodes.c b/fs/anon_inodes.c
+> index 1d847a939f29a41356af3f12e5f61372ec2fb550..180a458fc4f74249d674ec3c6e01277df1d9e743 100644
+> --- a/fs/anon_inodes.c
+> +++ b/fs/anon_inodes.c
+> @@ -129,7 +129,7 @@ struct inode *anon_inode_make_secure_inode(struct super_block *sb, const char *n
+>  	}
+>  	return inode;
+>  }
+> -EXPORT_SYMBOL_GPL_FOR_MODULES(anon_inode_make_secure_inode, "kvm");
+> +EXPORT_SYMBOL_FOR_MODULES(anon_inode_make_secure_inode, "kvm");
 >  
->  How to use Symbols exported in Namespaces
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index 413ac6ea37021bc8ae260f624ca2745ed85333fc..ec7d8daa0347e3b65713396d6b6d14c2cb0270d3 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -1157,7 +1157,8 @@ static int verify_namespace_is_imported(const struct load_info *info,
->  	namespace = kernel_symbol_namespace(sym);
->  	if (namespace && namespace[0]) {
+>  static struct file *__anon_inode_getfile(const char *name,
+>  					 const struct file_operations *fops,
+> diff --git a/include/linux/export.h b/include/linux/export.h
+> index f35d03b4113b19798036d2993d67eb932ad8ce6f..a686fd0ba406509da5f397e3a415d05c5a051c0d 100644
+> --- a/include/linux/export.h
+> +++ b/include/linux/export.h
+> @@ -91,6 +91,6 @@
+>  #define EXPORT_SYMBOL_NS(sym, ns)	__EXPORT_SYMBOL(sym, "", ns)
+>  #define EXPORT_SYMBOL_NS_GPL(sym, ns)	__EXPORT_SYMBOL(sym, "GPL", ns)
 >  
-> -		if (verify_module_namespace(namespace, mod->name))
-> +		if (get_modinfo(info, "intree") &&
-> +		    verify_module_namespace(namespace, mod->name))
->  			return 0;
+> -#define EXPORT_SYMBOL_GPL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
+> +#define EXPORT_SYMBOL_FOR_MODULES(sym, mods) __EXPORT_SYMBOL(sym, "GPL", "module:" mods)
 >  
->  		for_each_modinfo_entry(imported_namespace, info, "import_ns") {
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 5ca7c268294ebb65acb0ba52a671eddca9279c61..d78be9834ed75f4b6ddb9af02a300a9bcc9234cc 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1695,7 +1695,8 @@ void buf_write(struct buffer *buf, const char *s, int len)
->   * @modname: module name
->   *
->   * If @namespace is prefixed with "module:" to indicate it is a module namespace
-> - * then test if @modname matches any of the comma separated patterns.
-> + * then test if @modname matches any of the comma separated patterns. Access to
-> + * module namespaces is restricted to in-tree modules only.
->   *
->   * The patterns only support tail-glob.
->   */
-> @@ -1706,6 +1707,9 @@ static bool verify_module_namespace(const char *namespace, const char *modname)
->  	const char *sep;
->  	bool glob;
->  
-> +	if (external_module)
-> +		return false;
-> +
->  	if (!strstarts(namespace, prefix))
->  		return false;
->  
+>  #endif /* _LINUX_EXPORT_H */
 > 
+
+LGTM!
 
 Reviewed-by: Shivank Garg <shivankg@amd.com>
 
