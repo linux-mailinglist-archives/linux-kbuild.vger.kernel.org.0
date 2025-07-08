@@ -1,102 +1,92 @@
-Return-Path: <linux-kbuild+bounces-7936-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7937-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA29AFCD42
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 16:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B21AFCE0B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 16:44:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E6A03BC63B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 14:18:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7EF883B024B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 14:44:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 453962DFA28;
-	Tue,  8 Jul 2025 14:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D987F2E092F;
+	Tue,  8 Jul 2025 14:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJdG0bwe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EmjvtRUW"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FC12DF3F2;
-	Tue,  8 Jul 2025 14:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1792E0926;
+	Tue,  8 Jul 2025 14:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751984351; cv=none; b=krbmhkARTA8mFq6aQSgPOMj/uDcA86lISZRrHr134EJVuWi2Vstgtiqz2ovAJ6ceqvsadwaqK2h6Xg572aPYmxp+MKf+d9nro0XUr9QKwPKe3XjTheVLUgn01xl14CPUj4T+yrY++CWCId6wSpP+M3q7PoOsq8VHrw5vjkW1O98=
+	t=1751985874; cv=none; b=baFfGzvhUzrTjoyMGUO2ERaQeOwzOcVr9lNqSsZrwKEk8ZXGsQ/uErCzl5XsFLY2Rtu7v6lWaACAaBtXAzRl+jeO3Ze3MoVMcnmublE+Jdj1LmLdS7GqZP5DUWFxdEYAGYrzShlzlyKUGItCxBW0vme4QnvIBdG1SKBUTZFDJWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751984351; c=relaxed/simple;
-	bh=Iq0j90w5GB1UMwIBCu5T3PMb/N7aK9m/YbQtD24djNI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=EiGFdUnL8kSq7U6lrJJlktpKj99u1tNdGvSvq8mt5r35Hu5LUA+2JS1EzaKztUFxbmFYDw8huF3tPBr4BitT//LIDYhl+WBU+JZd4RdOI8BjzHkCa3729Hz7NpJ/a2laxJnWbXeN94Qrvau2/9YhmREVkN6qucuik4G8fYMpXrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJdG0bwe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 423C3C4CEED;
-	Tue,  8 Jul 2025 14:19:06 +0000 (UTC)
+	s=arc-20240116; t=1751985874; c=relaxed/simple;
+	bh=QridMkOK0YqX6hbQPzkAyoXJEIuvYn2g0pFiuRfJKVI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S29vVqfnzqTT5GR7iP2L0CLMUz4bhqO9q9wzhYiLXUgO+J45K8Nmj545FK+c5s/LogeJQDw+GDsNMKHoxlr6uAIa7/1yNEZ+30KszN29D5yyXNu5/e+UXaAglPyNrKhdsnuM/AyYJmLM/gNTvTEaF9v04nbA3Px9cSA5dUUxfiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EmjvtRUW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B93EC4CEEF;
+	Tue,  8 Jul 2025 14:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751984350;
-	bh=Iq0j90w5GB1UMwIBCu5T3PMb/N7aK9m/YbQtD24djNI=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=mJdG0bwexKPHDEAqDwqRF+Htv4NmJ/nfvmsx9gOvX+HSlsF4nm1vAmj+qfaPO35ej
-	 jRNUi+VHLoaWeDIEmZ8q+iRKi1LC8mfbuIon3R95/CJf1+7V+6pde9EfkqCX3wBsq3
-	 OJbBBBDnpWwpIEYw4986afQ2+J3v21rGxjV6XbLDD/ZWupktHImThisdm4c9UHKl88
-	 aJSdYeNtaGKImxqNPY3HMvnK/ITr7tMid6bO/erPrAMxdOACWEJt/ZOUu2K2RyQrZ9
-	 e88djzdFXGQA/sciXWLMPAeoTKEULYpueW1Aw0KjQGb+CYfy4p52F6SbbiIRA4xsyz
-	 Fg7O7fV3g046g==
+	s=k20201202; t=1751985874;
+	bh=QridMkOK0YqX6hbQPzkAyoXJEIuvYn2g0pFiuRfJKVI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EmjvtRUWWWf3iWW3ILgSBf2/s4y1eAK92Dya5s0xzZhUyBO7SI9+S72UjV2o4lLsN
+	 LtB8AKyx70rrPyKShARWj0sMRhHeSL4/C5g96uAc97flRWmlhlI+BhR0T1oAwRkSP4
+	 6/50eLOZetfzfck250nSp65pr+TAfSgtaU8d/xwnD7JIcr4WsD81gFi7V25pcFxnI+
+	 pmSrMzm2bVyL0WJSQQZCqFon5qPDiW+UEnmrHtXinILcROfTEi7Lv0Wto/+vRvNk3f
+	 vm0hgqpcXJ83wlLffPb7bGnRiFJDSM43oJtKwUAA/X+Gb+8UTS0gzUgD9hm+7qLyxV
+	 B02ZJ1vjbLpAQ==
+From: Will Deacon <will@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: fix unnecessary rebuilding when CONFIG_DEBUG_EFI=y
+Date: Tue,  8 Jul 2025 15:44:22 +0100
+Message-Id: <175197993018.4066442.18264778907908818556.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250625125555.2504734-1-masahiroy@kernel.org>
+References: <20250625125555.2504734-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Jul 2025 16:19:04 +0200
-Message-Id: <DB6QM8WOX9FS.2W36R3YF2VS0F@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Alice Ryhl" <aliceryhl@google.com>, "Masahiro
- Yamada" <masahiroy@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
- "Luis Chamberlain" <mcgrof@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Nicolas Schier" <nicolas.schier@linux.dev>, "Trevor
- Gross" <tmgross@umich.edu>, "Adam Bratschi-Kaye" <ark.email@gmail.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Sami
- Tolvanen" <samitolvanen@google.com>, "Daniel Gomez" <da.gomez@samsung.com>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, "Greg KH"
- <gregkh@linuxfoundation.org>, "Fiona Behrens" <me@kloenk.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH v15 1/7] rust: sync: add `SetOnce`
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org>
- <20250707-module-params-v3-v15-1-c1f4269a57b9@kernel.org>
- <MsrRzRcWQU4DLY5mlpwajZZaSx_kPRSJTuMGxtI4igY_8NpNBSAbb9v5BcFv2WKZoRkr8QDlcfjlGlH4NwpB8w==@protonmail.internalid> <DB6JVOZLCMBL.3EZQJP50UUB86@kernel.org> <87v7o2omqf.fsf@kernel.org>
-In-Reply-To: <87v7o2omqf.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue Jul 8, 2025 at 3:06 PM CEST, Andreas Hindborg wrote:
-> "Benno Lossin" <lossin@kernel.org> writes:
->> On Mon Jul 7, 2025 at 3:29 PM CEST, Andreas Hindborg wrote:
->>> diff --git a/rust/kernel/sync.rs b/rust/kernel/sync.rs
->>> index 81e3a806e57e2..13e6bc7fa87ac 100644
->>> --- a/rust/kernel/sync.rs
->>> +++ b/rust/kernel/sync.rs
->>> @@ -18,6 +18,7 @@
->>>  mod locked_by;
->>>  pub mod poll;
->>>  pub mod rcu;
->>> +mod set_once;
->>
->> I would have named this `once`.
->
-> So module `once` and struct `SetOnce`? Struct name `Once` would lead
-> thoughts to `std::sync::Once`, which is a different thing.
+On Wed, 25 Jun 2025 21:55:20 +0900, Masahiro Yamada wrote:
+> When CONFIG_DEBUG_EFI is enabled, some objects are needlessly rebuilt.
+> 
+> [Steps to reproduce]
+> 
+>   Enable CONFIG_DEBUG_EFI and run 'make' twice in a clean source tree.
+>   On the second run, arch/arm64/kernel/head.o is rebuilt even though
+>   no files have changed.
+> 
+> [...]
 
-Hmm I thought that `Once` and `SetOnce` would live in the same module,
-but if they don't then I think it's better to keep the `set_once`
-module as-is.
+Applied to arm64 (for-next/misc), thanks!
 
----
+[1/1] arm64: fix unnecessary rebuilding when CONFIG_DEBUG_EFI=y
+      https://git.kernel.org/arm64/c/344b65804724
+
 Cheers,
-Benno
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
 
