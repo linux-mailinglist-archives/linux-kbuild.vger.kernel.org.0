@@ -1,148 +1,180 @@
-Return-Path: <linux-kbuild+bounces-7941-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7942-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBC7AFD71B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 21:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1473EAFD9F0
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 23:30:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B90F74E115C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 19:29:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23FE03A66DA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 21:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F1872E5B08;
-	Tue,  8 Jul 2025 19:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="wI/aoWuV";
-	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="HqLUUEu5";
-	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="AUnVZ3PL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF991E2614;
+	Tue,  8 Jul 2025 21:30:52 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from e2i340.smtp2go.com (e2i340.smtp2go.com [103.2.141.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8C72E5B02
-	for <linux-kbuild@vger.kernel.org>; Tue,  8 Jul 2025 19:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.141.84
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CCB21799F;
+	Tue,  8 Jul 2025 21:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752002986; cv=none; b=QNFZRsQo+6lRNLA5QHt0alfm4vcZyIduU68hojg5S4WLKKiXvs+nHOT3q/KGL+NAMuWEYiGySpoDwXb5VRTFOQoC/yPODpPLwUskV2buehuWA3ghU5kYBOZz70euzWmHZFk5Ycvu0yeCorH1rXjr8wfa9zTsL9pJHk2OtxpoJUU=
+	t=1752010252; cv=none; b=CzQ29M7/lVh2hv3MSgbNtvmogg0yTrVdiBf00rUu0dYMAdtsfZGY34BJ8dGd/SpTKNgr81uLeDrrxQ6nqVm09PNxbgAUNiPJANPaHC3P5jVMYX3jJm37CYcpghrO6Mu0ImFse4LVqhfZILj73dAtfdA5QzhL3QSIKLnXIHBs/lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752002986; c=relaxed/simple;
-	bh=RwK6tgIFPH8HSYPA5RLI9kPCl0+y/45IOf5J0y/qaE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c9yxB8P0+/Mvn/KaGnkui5j5pjIUvzu0aifECN98X5SG3ktuiCB3jNwa2pGdG3Af3DpEExoN6uSyR2ZLKQpSWyuNZnnrttKKJTdCvB1/IcVuP0oHZ4LS6V5hYUYaURKh7AyaAqyohbPLa51XwmeskQP/behwqhXDQqZbPrrX638=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=wI/aoWuV reason="unknown key version"; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=HqLUUEu5; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=AUnVZ3PL; arc=none smtp.client-ip=103.2.141.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1752003877; h=Feedback-ID:
-	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
-	List-Unsubscribe:List-Unsubscribe-Post;
-	bh=vow2LS2yIOmbNmmVTiqKXSu2tQNynqPkCNf2Wz6HwfU=; b=wI/aoWuVEkMNDUwDqG3fsEgrBx
-	vC8Zat6BUFnM/28koEmOmy+yDgnE6KiWnYfS82m+kN7vjlaz4QSxA66/0OAc+x/m4CCAQ1sqtvMEW
-	vjp+UQD6kaRQyCrO92kPdNi5ssm4WkVzCQ1dtOwhWnWqyibQOWxJL6pfHaG4u2vC5i1gbSwX+j/HG
-	Muip/4tQZJ8tBnAYjPgipDuSncGl/TUzMWakXj1kwB7Z7ImBD1rPG4epvVzmtUfBmhE+gVXHfYbor
-	F90wB1sH263i5F864kLK1G1hkpx9HWZYLNSntkuTx2oWqC3KPGl3lm9FobafwZJxMCAIYotOdX5r9
-	9ESafDiA==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
- i=@fjasle.eu; q=dns/txt; s=s1174286; t=1752002977; h=from : subject :
- to : message-id : date;
- bh=vow2LS2yIOmbNmmVTiqKXSu2tQNynqPkCNf2Wz6HwfU=;
- b=HqLUUEu5kQjRBFHxK92kOyjIbcSUYODjeBYqeZk05pgGD/1xIvaiY8RqyGdiTF0fS5OxU
- 3hR/RvdbSlpFj9p/Egsr25Utg+Cut7F+MtQfDB9t5ACk9JiIKak410iMqfuPfMcvkVHkH9/
- v+UzMqH0XN3x28aNdBpXntObTeqAkVjljAMypZKF02qOiXGTfB5jz79wk4IfA3O3FIRGfGB
- DcHTbyGV4732EsW+SuXhnkn9TA6prG0AUOSifuu0fVZ+cnbrB2rHamJxFmg+U2Vbd6CXY6X
- oORJEk5t72sQ5IzQdmawsfamqm5R8suxtP61PKkXKdeEvZzrxjhsmhKz7cXg==
-Received: from [10.172.233.45] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1uZDtV-TRk4fw-Oj; Tue, 08 Jul 2025 19:22:21 +0000
-Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
- by smtpcorp.com with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.98.1-S2G) (envelope-from <nicolas@fjasle.eu>)
- id 1uZDtV-AIkwcC8pbj3-HrOb; Tue, 08 Jul 2025 19:22:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
- t=1752002535; bh=RwK6tgIFPH8HSYPA5RLI9kPCl0+y/45IOf5J0y/qaE0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AUnVZ3PLysOpgJ+O8nXLpyp7L2FFmrtLXoWI62GfnvwC/PalgKc1I43LPpH/vnDe/
- ifG0VOUDSoZqhBoPTcumAdCLwj4RYYkDN3WxQ7dYFghaQrRspuLXd2tLysOIQt2EJ3
- 6YMoxi8AKL8SaSVWfGfNYALjBRiGuWcEGJFZ0juM=
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
- id BE4773E698; Tue,  8 Jul 2025 21:22:14 +0200 (CEST)
-Date: Tue, 8 Jul 2025 21:22:14 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Daniel Gomez <da.gomez@samsung.com>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>,
- David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] module: Restrict module namespace access to in-tree
- modules
-Message-ID: <aG1v5v0cIy5X70UD@fjasle.eu>
-References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
- <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
+	s=arc-20240116; t=1752010252; c=relaxed/simple;
+	bh=4JainiTku1WVgFyGDaWtDRUd4uIgB1cSt4VwdoTLW7g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kx1lvL4CZJKgk5K50hqCX2Q4gX/sTFE0uWKsqwUFh8/Tdg1+lRD+SR0tTaFeLAH9VrLJPdX/XfvWKo6KIkS9eeKUkx41SOFGfr4PF8m21XPsD5i4I13RJbw05P04Ia8pbKvxDbxeabLQsGUfRqtHs53bMV1I+J+utdURgajCSR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D1CE1BC0;
+	Tue,  8 Jul 2025 14:30:37 -0700 (PDT)
+Received: from [172.27.42.165] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 23AB03F66E;
+	Tue,  8 Jul 2025 14:30:49 -0700 (PDT)
+Message-ID: <9ddd8122-a2d7-43f3-a0ec-d4d7a0450d2e@arm.com>
+Date: Tue, 8 Jul 2025 16:30:44 -0500
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250708-export_modules-v1-1-fbf7a282d23f@suse.cz>
-X-Smtpcorp-Track: r-CIECi7kIGz.2UbP9lnHjKlA.y_0x9gFMao5
-Feedback-ID: 1174286m:1174286a9YXZ7r:1174286sW3z-ZDckN
-X-Report-Abuse: Please forward a copy of this message, including all headers,
- to <abuse-report@smtp2go.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] scripts: add zboot support to extract-vmlinux
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org,
+ nicolas.schier@linux.dev, linux-kernel@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>
+References: <20250522172941.1669424-1-jeremy.linton@arm.com>
+ <CAK7LNAQzkh+DO7ZBVEgLu63k0H5qB-etV_jpo67k+itLWGAosA@mail.gmail.com>
+ <14f2329f-e110-4f3f-976b-acb38d255798@arm.com>
+ <CAK7LNARG3wO_1R6_n1djbAQVx8=t0aMqAR4aaMUsRDBysSkkfA@mail.gmail.com>
+ <4edecc95-0b6e-4365-bc97-d072bb06d79d@arm.com>
+ <CAK7LNAR=LaMQLqqhG86T9Vk6tZYOYzMsvfm_FtK8sBdL5CGY+A@mail.gmail.com>
+Content-Language: en-US
+From: Jeremy Linton <jeremy.linton@arm.com>
+In-Reply-To: <CAK7LNAR=LaMQLqqhG86T9Vk6tZYOYzMsvfm_FtK8sBdL5CGY+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 08, 2025 at 09:28:57AM +0200 Vlastimil Babka wrote:
-> The module namespace support has been introduced to allow restricting
-> exports to specific modules only, and intended for in-tree modules such
-> as kvm. Make this intention explicit by disallowing out of tree modules
-> both for the module loader and modpost.
+Hi,
+
+On 7/7/25 6:35 PM, Masahiro Yamada wrote:
+> On Tue, Jul 8, 2025 at 6:29 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
+>>
+>> Hi,
+>>
+>> Thanks for looking at this.
+>>
+>> On 6/24/25 12:56 PM, Masahiro Yamada wrote:
+>>> On Tue, Jun 17, 2025 at 1:09 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> Thanks for looking at this.
+>>>>
+>>>> On 6/7/25 11:04 AM, Masahiro Yamada wrote:
+>>>>> On Fri, May 23, 2025 at 2:29 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
+>>>>>>
+>>>>>> Zboot compressed kernel images are used for arm kernels on various
+>>>>>> distros.
+>>>>>
+>>>>> Are you talking about arm 32 bit here?
+>>>>> (arch/arm/boot/zImage)
+>>>>
+>>>> No, it should be arm64.
+>>>>
+>>>>>
+>>>>>> extract-vmlinux fails with those kernels because the wrapped image is
+>>>>>> another PE. While this could be a bit confusing, the tools primary
+>>>>>> purpose of unwrapping and decompressing the contained vmlinux image
+>>>>>> makes it the obvious place for this functionality.
+>>>>>>
+>>>>>> Add a 'file' check in check_vmlinux() that detects a contained PE
+>>>>>> image before trying readelf. Recent file implementations output
+>>>>>> something like:
+>>>>>>
+>>>>>> "Linux kernel ARM64 boot executable Image, little-endian, 4K pages"
+>>>>>
+>>>>> Are you talking about arm64 here?
+>>>>>
+>>>>> I am confused, as arm64 adopts a simple-compressed image.
+>>>>
+>>>> No, there is a CONFIG_EFI_ZBOOT, which is a EFI/PE image which self
+>>>> decompresses a contained kernel similar to x86, but is for !x86 EFI
+>>>> architectures. This patch extends this utility to work for those images
+>>>> as well.
+>>>
+>>> The commit description does not explain why this is useful.
+>>>
+>>> Extracing vmlinux ELF is useful for debugging purposes.
+>>
+>> Right,
+>>
+>>>
+>>> In this case, the extracted file is
+>>> arch/arm64/boot/vmlinux.bin, which is just a (zero-padded) binary.
+>>
+>> $ file vmlinux.bin
+>> vmlinux.bin: Linux kernel ARM64 boot executable Image, little-endian, 4K
+>> pages
+>> $ readpe -S vmlinux.bin
+>> Sections
+>>       Section
+>>           Name:                            .text
+>>           Virtual Size:                    0x2860000 (42336256 bytes)
+>>           Virtual Address:                 0x10000
+>>           Size Of Raw Data:                0x2860000 (42336256 bytes)
+>>           Pointer To Raw Data:             0x10000
+>>           Number Of Relocations:           0
+>>           Characteristics:                 0x60000020
+>>           Characteristic Names
+>>                                                IMAGE_SCN_CNT_CODE
+>>                                                IMAGE_SCN_MEM_EXECUTE
+>> ...(trimming remainder of output)
+>>
+>> Its another complete PE boot image which can be used by UEFI/grub/etc as
+>> well as any PE debugging and analysis utilities.
+>>
+>> So, this change effectively removes the zboot wrapper. The resulting
+>> image is still useful for a certain amount of debugging (ex string
+>> extraction, manually matching crash points, version checking, etc) in a
+>> distro based environment where the user doesn't have a kernel build tree
+>> handy. As well as any boot debugging, which could be caused by the ZBOOT
+>> wrapper itself, and I'm sure a long list of other things.
 > 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  Documentation/core-api/symbol-namespaces.rst | 5 +++--
->  kernel/module/main.c                         | 3 ++-
->  scripts/mod/modpost.c                        | 6 +++++-
->  3 files changed, 10 insertions(+), 4 deletions(-)
+> OK. Then, please add a little more context regarding
+> how this is useful in the commit description of v2.
+
+Sure,
+
 > 
-> diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-> index 32fc73dc5529e8844c2ce2580987155bcd13cd09..dc228ac738a5cdc49cc736c29170ca96df6a28dc 100644
-> --- a/Documentation/core-api/symbol-namespaces.rst
-> +++ b/Documentation/core-api/symbol-namespaces.rst
-> @@ -83,13 +83,14 @@ Symbols exported using this macro are put into a module namespace. This
->  namespace cannot be imported.
->  
->  The macro takes a comma separated list of module names, allowing only those
-> -modules to access this symbol. Simple tail-globs are supported.
-> +modules to access this symbol. The access is restricted to in-tree modules.
-> +Simple tail-globs are supported.
->  
->  For example::
->  
->    EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
->  
-> -will limit usage of this symbol to modules whoes name matches the given
-> +will limit usage of this symbol to in-tree modules whoes name matches the given
+> Please fix the first line of the description:
+> 
+> used for arm kernels -> used for arm64 kernels
+Right,
 
-If you keep touching this line, might you fix the typo?
+> 
+> 
+> Lastly, how about this implementation?
+> 
+> check_vmlinux()
+> {
+>          if file $1 | grep -q 'Linux kernel.*boot executable Image' ||
+>                              readelf -h $1 > /dev/null 2>&1; then
+>                  cat $1
+>                  exit 0
+>          fi
+> }
 
-s/whoes/whose/
+That works too.
 
-Kind regards,
-Nicolas
+> 
+> 
+> I used the -q option for grep instead of the redirection.
+> 
+> 
+> Masahiro
 
