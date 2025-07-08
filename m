@@ -1,195 +1,112 @@
-Return-Path: <linux-kbuild+bounces-7914-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7915-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410F1AFBEA6
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 01:35:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F02AFC240
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 07:51:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 86FFF1701EC
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Jul 2025 23:35:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CB481AA6690
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 05:51:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDE7F235362;
-	Mon,  7 Jul 2025 23:35:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 973EB217F36;
+	Tue,  8 Jul 2025 05:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H7imcRVp"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n8n0lnY/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="INR+2vDk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DDD23505E;
-	Mon,  7 Jul 2025 23:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0952A645;
+	Tue,  8 Jul 2025 05:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751931351; cv=none; b=cnGq9bISL3JRBL4tOGMJ7PMOvKGEKFd39HqsLbgIdkaqq6gESLA3A41xaa/5qzz1/K8jfysCngX6BPr8kpLe1lD3gFNo0jBFCj6lM122OVsnWJ7NoFmA5XEd1+yXEB+p4XQavEkzHvS0NQAdDfgM5BLrFOPYTcWNdYOqun0yn3I=
+	t=1751953870; cv=none; b=q/KWeTWTbMXB8Y/SI6N4Jm8AWcduWy3l2nrgiL4hfrpa+fAbUJz0sf0Oqh4JXCgQ2WgapygpvSpHp2/c6uQfmWx4IKWnOUZhTmXFFkcavfVkGbQYY32N8ynLU+xImO0/soPOfXX+a144SlnffKBdyQz9q5r2aYshBrnQJ4qwpJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751931351; c=relaxed/simple;
-	bh=WDGFw9Gctb4tU/P17uJxRAYYxyAcGafc7AOmFAX1LXU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jy+7t6TQLuD8EMzHE6ieIfagxd0ZZN7cTodfwyXzh0RAVPWMEsR/fzgFxzAHSjX5t4ED2MA2+I/BW1HqHbU8Me3uhpa3ojuw4fnlinUdbaNk/ZEIcmJJNWSTEYs5NurLv/Xi00ZGALIZooedbdhZ124C1ZL7MDWxDI+q1R6VACA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H7imcRVp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30605C4CEE3;
-	Mon,  7 Jul 2025 23:35:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751931351;
-	bh=WDGFw9Gctb4tU/P17uJxRAYYxyAcGafc7AOmFAX1LXU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=H7imcRVpRrnO8+bEZzq3acHi6ps5xbWAa+/ehalg1ra4dGAikGHivjkw0n2olj/NY
-	 5XpEqZfee2c+rhgSGUxGdUnszqIzurqWBwSzsJMuBtxwfLL6IQVh/Lb80Af7aVPMPJ
-	 fiWPt9FfTi6w1tvom6SQHOnMFT96okLCZ2ZG9YasE/ON4a7IJ+QA+uXG6f9EFR2iKJ
-	 PueGnRPjhWakU6HkLgC+DhC20oI6OrSM/06pKQpaFFKlwATdm/Us+g06ZkKBF4h3ha
-	 OOfIGtsAyfFr/DHVVT5IyjKLGw+RrmekNhTt7Wmzxc6VQARxBA/MaPsxI2GuooBHSH
-	 SG+XJ22CFjnwQ==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-553b165c80cso3693741e87.2;
-        Mon, 07 Jul 2025 16:35:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWAW9KfYIN25/Cyvkv/CWOpY7cetaQU3gUkRDcXoCn5i4VlOo5MPQJPmU9G+QpAcVWE5Nlo4+T/TX7pIO8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmvkH9UDzJKZxBY1mlFb5wXSqJ2F9nMi7R6PEI9aobHhwOEUUx
-	hs2SZ+raO4FFUopypYe9RQgz2FqbCFX/GX9LBoEBiOW+c2jHeHAh1Ga38gzLav0B9OuAsJ+tekx
-	ZIf8wEY5QAt8tFvjckhkcKDNqrEZpk+Y=
-X-Google-Smtp-Source: AGHT+IHc/wTNsKnt79q8uG+HfpnKMiqpLCdYgtrDe99Kzuo0GGqBH3qbyQfycPR/m9zrF7evFjEQt3Vv82yOr/3CQ9Q=
-X-Received: by 2002:a05:6512:3084:b0:553:2ce8:a000 with SMTP id
- 2adb3069b0e04-557f836c64emr203640e87.41.1751931349836; Mon, 07 Jul 2025
- 16:35:49 -0700 (PDT)
+	s=arc-20240116; t=1751953870; c=relaxed/simple;
+	bh=JNXE1M1GfAKMAx2fUOYQYN/tMN4M5F8WF2dNBw1efi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SXq9ic/8B6chehkwdabvQKrRMPUbCX+mnG/NRwLa2dXXN8XNtJrHp4t7wRqJNmp9y//5oteC/U5+h1Om2CNC89QJ17uOZHMiNgTXmMaUhmy6m2toJPqzJSs8pPpXWjpVnmClFU9WO5b2m3sdzfx9g08ZMLB/MABVaXfeRvua9lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n8n0lnY/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=INR+2vDk; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Tue, 8 Jul 2025 07:51:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1751953867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
+	b=n8n0lnY/41yNWuVFmE+/ybyOP7pjLAwdANsDu25x71x2iLUxcY2j98kP0F8IoS9FeO7nIB
+	IuiHyWSc18jAP1if6ai8eCvUJoqp6CvshYC8CvvYwGDJa/9Lus7SuGLTN3VaxQED5YS/Ex
+	VH0w/KUQm1QaF+ubfS0VOA/r/kxzFMCpcKkme3lLmILlBhEaFfgQEMrJgudahurUvcDd32
+	plT7rsth56Fi+OXvHRJqFLgcpYBS+JVcRwVJHZfrnPsmrZCaQJ+LHIAfbXV0D72IsEmGQC
+	c2dZgSOa1FTNz121Sb7dtf1zTY16SqPNYIvjpINbMX6TtDWuODLeHDozG8UaZA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1751953867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1yXuyD2y1tDDXkXTAWSlgEy9p6IqbbB6Wt8X6nTw+yw=;
+	b=INR+2vDkhbgRjXvWu5PX2SOpL4900BafsvNCjtbJR9vEisIi3Sh4QioImKSLts6+T+8tX3
+	bWVpeAke5ucjk+Dg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	Shuah Khan <shuah@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v4 00/15] kunit: Introduce UAPI testing framework
+Message-ID: <20250708073940-c2e9ee11-549b-4ef0-a480-942d86821f41@linutronix.de>
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+ <87qzyr7tly.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250522172941.1669424-1-jeremy.linton@arm.com>
- <CAK7LNAQzkh+DO7ZBVEgLu63k0H5qB-etV_jpo67k+itLWGAosA@mail.gmail.com>
- <14f2329f-e110-4f3f-976b-acb38d255798@arm.com> <CAK7LNARG3wO_1R6_n1djbAQVx8=t0aMqAR4aaMUsRDBysSkkfA@mail.gmail.com>
- <4edecc95-0b6e-4365-bc97-d072bb06d79d@arm.com>
-In-Reply-To: <4edecc95-0b6e-4365-bc97-d072bb06d79d@arm.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 8 Jul 2025 08:35:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=LaMQLqqhG86T9Vk6tZYOYzMsvfm_FtK8sBdL5CGY+A@mail.gmail.com>
-X-Gm-Features: Ac12FXx7w0TacWEJ-k1sJSb6LJq1WsxnNhWpbImmkZaLkyp28QcnvRxHusK9wtg
-Message-ID: <CAK7LNAR=LaMQLqqhG86T9Vk6tZYOYzMsvfm_FtK8sBdL5CGY+A@mail.gmail.com>
-Subject: Re: [PATCH] scripts: add zboot support to extract-vmlinux
-To: Jeremy Linton <jeremy.linton@arm.com>
-Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org, nicolas.schier@linux.dev, 
-	linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87qzyr7tly.fsf@trenco.lwn.net>
 
-On Tue, Jul 8, 2025 at 6:29=E2=80=AFAM Jeremy Linton <jeremy.linton@arm.com=
-> wrote:
->
-> Hi,
->
-> Thanks for looking at this.
->
-> On 6/24/25 12:56 PM, Masahiro Yamada wrote:
-> > On Tue, Jun 17, 2025 at 1:09=E2=80=AFAM Jeremy Linton <jeremy.linton@ar=
-m.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> Thanks for looking at this.
-> >>
-> >> On 6/7/25 11:04 AM, Masahiro Yamada wrote:
-> >>> On Fri, May 23, 2025 at 2:29=E2=80=AFAM Jeremy Linton <jeremy.linton@=
-arm.com> wrote:
-> >>>>
-> >>>> Zboot compressed kernel images are used for arm kernels on various
-> >>>> distros.
-> >>>
-> >>> Are you talking about arm 32 bit here?
-> >>> (arch/arm/boot/zImage)
-> >>
-> >> No, it should be arm64.
-> >>
-> >>>
-> >>>> extract-vmlinux fails with those kernels because the wrapped image i=
-s
-> >>>> another PE. While this could be a bit confusing, the tools primary
-> >>>> purpose of unwrapping and decompressing the contained vmlinux image
-> >>>> makes it the obvious place for this functionality.
-> >>>>
-> >>>> Add a 'file' check in check_vmlinux() that detects a contained PE
-> >>>> image before trying readelf. Recent file implementations output
-> >>>> something like:
-> >>>>
-> >>>> "Linux kernel ARM64 boot executable Image, little-endian, 4K pages"
-> >>>
-> >>> Are you talking about arm64 here?
-> >>>
-> >>> I am confused, as arm64 adopts a simple-compressed image.
-> >>
-> >> No, there is a CONFIG_EFI_ZBOOT, which is a EFI/PE image which self
-> >> decompresses a contained kernel similar to x86, but is for !x86 EFI
-> >> architectures. This patch extends this utility to work for those image=
-s
-> >> as well.
-> >
-> > The commit description does not explain why this is useful.
-> >
-> > Extracing vmlinux ELF is useful for debugging purposes.
->
-> Right,
->
-> >
-> > In this case, the extracted file is
-> > arch/arm64/boot/vmlinux.bin, which is just a (zero-padded) binary.
->
-> $ file vmlinux.bin
-> vmlinux.bin: Linux kernel ARM64 boot executable Image, little-endian, 4K
-> pages
-> $ readpe -S vmlinux.bin
-> Sections
->      Section
->          Name:                            .text
->          Virtual Size:                    0x2860000 (42336256 bytes)
->          Virtual Address:                 0x10000
->          Size Of Raw Data:                0x2860000 (42336256 bytes)
->          Pointer To Raw Data:             0x10000
->          Number Of Relocations:           0
->          Characteristics:                 0x60000020
->          Characteristic Names
->                                               IMAGE_SCN_CNT_CODE
->                                               IMAGE_SCN_MEM_EXECUTE
-> ...(trimming remainder of output)
->
-> Its another complete PE boot image which can be used by UEFI/grub/etc as
-> well as any PE debugging and analysis utilities.
->
-> So, this change effectively removes the zboot wrapper. The resulting
-> image is still useful for a certain amount of debugging (ex string
-> extraction, manually matching crash points, version checking, etc) in a
-> distro based environment where the user doesn't have a kernel build tree
-> handy. As well as any boot debugging, which could be caused by the ZBOOT
-> wrapper itself, and I'm sure a long list of other things.
+On Mon, Jul 07, 2025 at 12:18:01PM -0600, Jonathan Corbet wrote:
+> Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de> writes:
+> 
+> > This series aims to combine kselftests and kunit, avoiding both their
+> > limitations. It works by compiling the userspace kselftests as part of
+> > the regular kernel build, embedding them into the kunit kernel or module
+> > and executing them from there.
+> 
+> Please forgive the possibly dumb question but ... this series sets up
+> the framework, but doesn't actually integrate the kselftests, right?
 
-OK. Then, please add a little more context regarding
-how this is useful in the commit description of v2.
+Correct.
 
-Please fix the first line of the description:
+> Will it be necessary to write a little KUnit glue function for each
+> kselftest, or is there some other scheme in mind here?
 
-used for arm kernels -> used for arm64 kernels
+With the current framework it is necessary to write some glue code:
+* A stub .c file which #includes the existing kselftest source
+* A kbuild userprog Makefile
+* A custom KUnit function which calls kunit_uapi_run_kselftest()
+
+A more high-level scheme may come later, but so far I have not worked on that.
+It would be nice for example to build and run the tests for all ABIs supported
+by a kernel without a lot of manual code duplication.
+And maybe have some higher level helpers around declaring the tests.
 
 
-Lastly, how about this implementation?
-
-check_vmlinux()
-{
-        if file $1 | grep -q 'Linux kernel.*boot executable Image' ||
-                            readelf -h $1 > /dev/null 2>&1; then
-                cat $1
-                exit 0
-        fi
-}
-
-
-I used the -q option for grep instead of the redirection.
-
-
-Masahiro
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Thomas
 
