@@ -1,143 +1,118 @@
-Return-Path: <linux-kbuild+bounces-7943-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7944-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7D9AFE191
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Jul 2025 09:45:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C3AAFE355
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Jul 2025 10:57:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EDA4561751
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Jul 2025 07:45:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6813C3B8AA6
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Jul 2025 08:56:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43BCA270571;
-	Wed,  9 Jul 2025 07:45:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 195E4280CC8;
+	Wed,  9 Jul 2025 08:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="U+l7Vgco"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qS7iiP+j"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3951714B7;
-	Wed,  9 Jul 2025 07:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DDC28031C;
+	Wed,  9 Jul 2025 08:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752047108; cv=none; b=eA+nBrMTwTD5SaTI9Y/fQDSRMIRSbe9JL0VrwU7hr64mVi39Woq5f+d4AahBe/1YrFgMx5NPieM59cs5KRm/g+cOsxEMNMYBubXEQJxL3VyVO4s4UUMx2TpDzZnCbpntog15ekv6MZTJPNL12K5BgUq5C8q+Qcw6GSTdP5bR8y8=
+	t=1752051427; cv=none; b=h/188yXssiUYjQpX7DClTK4Z5Ag/dX4SeHPdKza2LnzFNBS27Z6kEh3spwVEXlWKI48lr5MuftYrmjWkFtgKUoQoxT1TAbLpk48jssks3yyPOZehLIilcqBwzD9NnZq3ueqdImUzY0Os/6RjS1LhhD0prPLX7g17MX/Vs9Z6nIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752047108; c=relaxed/simple;
-	bh=f8alaJu9QGnxkHKJvU+EAqsIi5uNm0RpUbioG++EzEo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=laRC/z8cVsQ8mmWc19rvwmjzVJo1xbdMs7cUC99MRNpHnssQQqK8uZAhbNtyb0BjLmpPyKSdz4fExQw/QSqlmtbuA2BOTJ1eloKNQgKFDrwarso7iAvd7FQJ6ixHT0CyYs5Wm7E2gSAIMG8qKzxUZuBEYjQrbAIAHje+RvGGDOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=U+l7Vgco; arc=none smtp.client-ip=185.70.43.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1752047098; x=1752306298;
-	bh=f8alaJu9QGnxkHKJvU+EAqsIi5uNm0RpUbioG++EzEo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=U+l7VgcozOyYLykbS3qLvCc9HMc0Vi3UZsII0/jmMc/Zi+ap0gI1EonO0CiHymocP
-	 UXxP29lSmf9pq6A4EEkiCvUkUADDj3RTEZUGGOSWgizh7PPvqlqyWVcjQzQwgsGQNk
-	 PPwFx6W0dsQkFixQjE0AUAM11TgZVLKku2guLBx+DiHTpw5UMlx656MmCew3W92SlQ
-	 geWc2sclYkS8i2pU7VWMojmRaYnLIcYHfkEPFkfxY/Y4nxDMPXCiRZyJA4MXypxmU8
-	 KIXRu1J7hZ2yF7ZiZpMr1di7GIkDrN2GwrzEXVSUBPoAvlMRI1JSnsfvzfCi+BRfQi
-	 6e8EbSIJULohw==
-Date: Wed, 09 Jul 2025 07:44:49 +0000
-To: Simon Horman <horms@kernel.org>
-From: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, Ramona Gradinariu <ramona.gradinariu@analog.com>, "Yo-Jung (Leo) Lin" <0xff07@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, =?utf-8?Q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
-	<barnabas.czeman@mainlining.org>, Danila Tikhonov <danila@jiaxyga.com>, Antoni Pokusinski <apokusinski01@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>, Petar Stoykov <pd.pstoykov@gmail.com>, shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Ingo Molnar <mingo@kernel.org>, Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and instance to QRTR instance
-Message-ID: <X2KJB3xtnC-pWM7o5TBw6ln3ItpMwn7tdn5Z8gpZY3oW31isE8PLTX5GUbJ6HcZk_9s72jb6ImwGL-anIoto4dK1MINTxzdRKfbejp_nXcA=@protonmail.com>
-In-Reply-To: <20250707170636.GR89747@horms.kernel.org>
-References: <20250406140706.812425-1-y.oudjana@protonmail.com> <20250406140706.812425-3-y.oudjana@protonmail.com> <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com> <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com> <20250707170636.GR89747@horms.kernel.org>
-Feedback-ID: 6882736:user:proton
-X-Pm-Message-ID: 8f8894673857ba0bbc9a24fcb09c28e5f1c802d5
+	s=arc-20240116; t=1752051427; c=relaxed/simple;
+	bh=2BSarhHtE6GcWhGBbHI94MeCDx8b0rV3Swg56q7qjeA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fLV62UT8jKnQIXx9YpSshbXU7UKPkFY75Qm0Wz4ASEoJ+mePzFEI08MOTC64LWO3AdyywX6iP5zCKsFJVnI9Qt09p0b4e3E6LCxKhPcQQyrk2Q5BLZHpw5Y75qQfGTg1w2qkm3JnwZAMmqU2bRFPMT7ObmfimaZti0i9KgjvqPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qS7iiP+j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8C0C4CEF0;
+	Wed,  9 Jul 2025 08:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752051426;
+	bh=2BSarhHtE6GcWhGBbHI94MeCDx8b0rV3Swg56q7qjeA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qS7iiP+jT9vkogTOeAPZNKTAholTL15z65delebDh/e9P9GBQyhD5x2snK947D410
+	 vQHZOW71HBjwoQhrJ7X7ClT7Po/2ceeobJcWeWfpPxy2GU/UdGgnWziSB+tbRHd8OH
+	 XGDqmip+QceUX/GmOgeU+BpBv0xXGJPhRzxnzxs64UXvVUKS0AJlYShJUCkqnjCn7D
+	 eybh7KJTT14unqLbSEYUCNMfBKYXhRNaiT8yYYTqeXHpVQ3qQoZK+GEUyzX1aT+YZl
+	 vrwQqNw6sdJVq8biaFjyTaW/DeE7rK8HjsRId07CbMj9Vz1UE03NOLY5j5Nj0/4iVl
+	 6KDsqAvv5H4uQ==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: "Benno Lossin" <lossin@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>,  "Alex Gaynor"
+ <alex.gaynor@gmail.com>,  "Boqun Feng" <boqun.feng@gmail.com>,  "Gary Guo"
+ <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  "Alice
+ Ryhl" <aliceryhl@google.com>,  "Masahiro Yamada" <masahiroy@kernel.org>,
+  "Nathan Chancellor" <nathan@kernel.org>,  "Luis Chamberlain"
+ <mcgrof@kernel.org>,  "Danilo Krummrich" <dakr@kernel.org>,  "Nicolas
+ Schier" <nicolas.schier@linux.dev>,  "Trevor Gross" <tmgross@umich.edu>,
+  "Adam Bratschi-Kaye" <ark.email@gmail.com>,
+  <rust-for-linux@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-kbuild@vger.kernel.org>,  "Petr Pavlu" <petr.pavlu@suse.com>,
+  "Sami Tolvanen" <samitolvanen@google.com>,  "Daniel Gomez"
+ <da.gomez@samsung.com>,  "Simona Vetter" <simona.vetter@ffwll.ch>,  "Greg
+ KH" <gregkh@linuxfoundation.org>,  "Fiona Behrens" <me@kloenk.dev>,
+  "Daniel Almeida" <daniel.almeida@collabora.com>,
+  <linux-modules@vger.kernel.org>
+Subject: Re: [PATCH v15 1/7] rust: sync: add `SetOnce`
+In-Reply-To: <DB6QM8WOX9FS.2W36R3YF2VS0F@kernel.org> (Benno Lossin's message
+	of "Tue, 08 Jul 2025 16:19:04 +0200")
+References: <20250707-module-params-v3-v15-0-c1f4269a57b9@kernel.org>
+	<20250707-module-params-v3-v15-1-c1f4269a57b9@kernel.org>
+	<MsrRzRcWQU4DLY5mlpwajZZaSx_kPRSJTuMGxtI4igY_8NpNBSAbb9v5BcFv2WKZoRkr8QDlcfjlGlH4NwpB8w==@protonmail.internalid>
+	<DB6JVOZLCMBL.3EZQJP50UUB86@kernel.org> <87v7o2omqf.fsf@kernel.org>
+	<lD3JbMPS7zWoGdRTDujIdJVoSh88nL71zGM_GrDDtARQ72mKzElYG1tZjZpi3bv_AchFrQMg0kFpAEBdB6Hl9w==@protonmail.internalid>
+	<DB6QM8WOX9FS.2W36R3YF2VS0F@kernel.org>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Wed, 09 Jul 2025 10:56:55 +0200
+Message-ID: <87v7o1lp2g.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+
+"Benno Lossin" <lossin@kernel.org> writes:
+
+> On Tue Jul 8, 2025 at 3:06 PM CEST, Andreas Hindborg wrote:
+>> "Benno Lossin" <lossin@kernel.org> writes:
+>>> On Mon Jul 7, 2025 at 3:29 PM CEST, Andreas Hindborg wrote:
+>>>> diff --git a/rust/kernel/sync.rs b/rust/kernel/sync.rs
+>>>> index 81e3a806e57e2..13e6bc7fa87ac 100644
+>>>> --- a/rust/kernel/sync.rs
+>>>> +++ b/rust/kernel/sync.rs
+>>>> @@ -18,6 +18,7 @@
+>>>>  mod locked_by;
+>>>>  pub mod poll;
+>>>>  pub mod rcu;
+>>>> +mod set_once;
+>>>
+>>> I would have named this `once`.
+>>
+>> So module `once` and struct `SetOnce`? Struct name `Once` would lead
+>> thoughts to `std::sync::Once`, which is a different thing.
+>
+> Hmm I thought that `Once` and `SetOnce` would live in the same module,
+> but if they don't then I think it's better to keep the `set_once`
+> module as-is.
+
+I guess they could live together. I was thinking a module for each. We
+can always move it, the module name is not part of a public API.
+
+Let's go with `set_once` for now and we can change it later, if we
+decide it is for the better?
+
+
+Best regards,
+Andreas Hindborg
 
 
 
-
-
-
-Sent with Proton Mail secure email.
-
-On Monday, July 7th, 2025 at 6:06 PM, Simon Horman <horms@kernel.org> wrote=
-:
-
-> On Sat, Jul 05, 2025 at 06:29:39PM +0000, Yassine Oudjana wrote:
->=20
-> > On Wednesday, April 9th, 2025 at 3:54 PM, Konrad Dybcio konrad.dybcio@o=
-ss.qualcomm.com wrote:
-> >=20
-> > > On 4/6/25 4:07 PM, Yassine Oudjana wrote:
->=20
->=20
-> ...
->=20
-> > > > diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom=
-/qrtr.h
-> > > > index 4d7f25c64c56..10c89a35cbb9 100644
-> > > > --- a/include/linux/soc/qcom/qrtr.h
-> > > > +++ b/include/linux/soc/qcom/qrtr.h
-> > > > @@ -13,6 +13,8 @@ struct qrtr_device {
-> > > >=20
-> > > > #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
-> > > >=20
-> > > > +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qm=
-i_instance << 8)
-> > >=20
-> > > Please use FIELD_PREP + GENMASK to avoid potential overflows
-> > >=20
-> > > Konrad
-> >=20
-> > Since I'm using this macro in initializing QRTR match tables I am unabl=
-e to use
-> > FIELD_PREP. When I do, I get such errors:
->=20
->=20
-> Does using FIELD_PREP_CONST, say in a QRTR_INSTANCE_CONST variant, help?
-
-That works, but do we want to have two variants? Or in this case maybe
-I should leave qmi_interface.c untouched and define the macro only for use
-in match tables?
-
->=20
-> > In file included from ../arch/arm64/include/asm/sysreg.h:1108,
-> > from ../arch/arm64/include/asm/memory.h:223,
-> > from ../arch/arm64/include/asm/pgtable-prot.h:8,
-> > from ../arch/arm64/include/asm/sparsemem.h:8,
-> > from ../include/linux/numa.h:23,
-> > from ../include/linux/cpumask.h:17,
-> > from ../include/linux/smp.h:13,
-> > from ../include/linux/lockdep.h:14,
-> > from ../include/linux/mutex.h:17,
-> > from ../include/linux/kernfs.h:11,
-> > from ../include/linux/sysfs.h:16,
-> > from ../include/linux/iio/buffer.h:9,
-> > from ../drivers/iio/common/qcom_smgr/qcom_smgr.c:8:
-> > ../include/linux/bitfield.h:114:9: error: braced-group within expressio=
-n allowed only inside a function
-> > 114 | ({ \
-> > | ^
-> > ../include/linux/soc/qcom/qrtr.h:21:10: note: in expansion of macro 'FI=
-ELD_PREP'
-> > 21 | (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMASK(15, 8=
-), qmi_instance))
-> > | ^~~~~~~~~~
-> > ../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion =
-of macro 'QRTR_INSTANCE'
-> > 825 | .instance =3D QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
-> > | ^~~~~~~~~~~~~
->=20
->=20
-> ...
 
