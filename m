@@ -1,180 +1,143 @@
-Return-Path: <linux-kbuild+bounces-7942-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7943-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1473EAFD9F0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 23:30:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7D9AFE191
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Jul 2025 09:45:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23FE03A66DA
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Jul 2025 21:30:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EDA4561751
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Jul 2025 07:45:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF991E2614;
-	Tue,  8 Jul 2025 21:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43BCA270571;
+	Wed,  9 Jul 2025 07:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="U+l7Vgco"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CCB21799F;
-	Tue,  8 Jul 2025 21:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3951714B7;
+	Wed,  9 Jul 2025 07:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752010252; cv=none; b=CzQ29M7/lVh2hv3MSgbNtvmogg0yTrVdiBf00rUu0dYMAdtsfZGY34BJ8dGd/SpTKNgr81uLeDrrxQ6nqVm09PNxbgAUNiPJANPaHC3P5jVMYX3jJm37CYcpghrO6Mu0ImFse4LVqhfZILj73dAtfdA5QzhL3QSIKLnXIHBs/lE=
+	t=1752047108; cv=none; b=eA+nBrMTwTD5SaTI9Y/fQDSRMIRSbe9JL0VrwU7hr64mVi39Woq5f+d4AahBe/1YrFgMx5NPieM59cs5KRm/g+cOsxEMNMYBubXEQJxL3VyVO4s4UUMx2TpDzZnCbpntog15ekv6MZTJPNL12K5BgUq5C8q+Qcw6GSTdP5bR8y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752010252; c=relaxed/simple;
-	bh=4JainiTku1WVgFyGDaWtDRUd4uIgB1cSt4VwdoTLW7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kx1lvL4CZJKgk5K50hqCX2Q4gX/sTFE0uWKsqwUFh8/Tdg1+lRD+SR0tTaFeLAH9VrLJPdX/XfvWKo6KIkS9eeKUkx41SOFGfr4PF8m21XPsD5i4I13RJbw05P04Ia8pbKvxDbxeabLQsGUfRqtHs53bMV1I+J+utdURgajCSR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D1CE1BC0;
-	Tue,  8 Jul 2025 14:30:37 -0700 (PDT)
-Received: from [172.27.42.165] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 23AB03F66E;
-	Tue,  8 Jul 2025 14:30:49 -0700 (PDT)
-Message-ID: <9ddd8122-a2d7-43f3-a0ec-d4d7a0450d2e@arm.com>
-Date: Tue, 8 Jul 2025 16:30:44 -0500
+	s=arc-20240116; t=1752047108; c=relaxed/simple;
+	bh=f8alaJu9QGnxkHKJvU+EAqsIi5uNm0RpUbioG++EzEo=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=laRC/z8cVsQ8mmWc19rvwmjzVJo1xbdMs7cUC99MRNpHnssQQqK8uZAhbNtyb0BjLmpPyKSdz4fExQw/QSqlmtbuA2BOTJ1eloKNQgKFDrwarso7iAvd7FQJ6ixHT0CyYs5Wm7E2gSAIMG8qKzxUZuBEYjQrbAIAHje+RvGGDOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=U+l7Vgco; arc=none smtp.client-ip=185.70.43.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1752047098; x=1752306298;
+	bh=f8alaJu9QGnxkHKJvU+EAqsIi5uNm0RpUbioG++EzEo=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=U+l7VgcozOyYLykbS3qLvCc9HMc0Vi3UZsII0/jmMc/Zi+ap0gI1EonO0CiHymocP
+	 UXxP29lSmf9pq6A4EEkiCvUkUADDj3RTEZUGGOSWgizh7PPvqlqyWVcjQzQwgsGQNk
+	 PPwFx6W0dsQkFixQjE0AUAM11TgZVLKku2guLBx+DiHTpw5UMlx656MmCew3W92SlQ
+	 geWc2sclYkS8i2pU7VWMojmRaYnLIcYHfkEPFkfxY/Y4nxDMPXCiRZyJA4MXypxmU8
+	 KIXRu1J7hZ2yF7ZiZpMr1di7GIkDrN2GwrzEXVSUBPoAvlMRI1JSnsfvzfCi+BRfQi
+	 6e8EbSIJULohw==
+Date: Wed, 09 Jul 2025 07:44:49 +0000
+To: Simon Horman <horms@kernel.org>
+From: Yassine Oudjana <y.oudjana@protonmail.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, Sean Nyekjaer <sean@geanix.com>, Javier Carrasco <javier.carrasco.cruz@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, Ramona Gradinariu <ramona.gradinariu@analog.com>, "Yo-Jung (Leo) Lin" <0xff07@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, =?utf-8?Q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
+	<barnabas.czeman@mainlining.org>, Danila Tikhonov <danila@jiaxyga.com>, Antoni Pokusinski <apokusinski01@gmail.com>, Vasileios Amoiridis <vassilisamir@gmail.com>, Petar Stoykov <pd.pstoykov@gmail.com>, shuaijie wang <wangshuaijie@awinic.com>, Yasin Lee <yasin.lee.x@gmail.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Tony Luck <tony.luck@intel.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Ingo Molnar <mingo@kernel.org>, Yassine Oudjana <yassine.oudjana@gmail.com>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 2/3] net: qrtr: Define macro to convert QMI version and instance to QRTR instance
+Message-ID: <X2KJB3xtnC-pWM7o5TBw6ln3ItpMwn7tdn5Z8gpZY3oW31isE8PLTX5GUbJ6HcZk_9s72jb6ImwGL-anIoto4dK1MINTxzdRKfbejp_nXcA=@protonmail.com>
+In-Reply-To: <20250707170636.GR89747@horms.kernel.org>
+References: <20250406140706.812425-1-y.oudjana@protonmail.com> <20250406140706.812425-3-y.oudjana@protonmail.com> <fb61323b-aabd-4661-a202-02da7da557ea@oss.qualcomm.com> <aMbAZigHiAN2xupOYs9DodY2mOdNtw_oVjOaweflgA8IoXRQ5ctoZ8GYJ8PNAKDgL4f9N_UD7tFmkePUy9BCE8v20Mae2x-eL1ZpyJEdLZY=@protonmail.com> <20250707170636.GR89747@horms.kernel.org>
+Feedback-ID: 6882736:user:proton
+X-Pm-Message-ID: 8f8894673857ba0bbc9a24fcb09c28e5f1c802d5
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts: add zboot support to extract-vmlinux
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org,
- nicolas.schier@linux.dev, linux-kernel@vger.kernel.org,
- Ard Biesheuvel <ardb@kernel.org>
-References: <20250522172941.1669424-1-jeremy.linton@arm.com>
- <CAK7LNAQzkh+DO7ZBVEgLu63k0H5qB-etV_jpo67k+itLWGAosA@mail.gmail.com>
- <14f2329f-e110-4f3f-976b-acb38d255798@arm.com>
- <CAK7LNARG3wO_1R6_n1djbAQVx8=t0aMqAR4aaMUsRDBysSkkfA@mail.gmail.com>
- <4edecc95-0b6e-4365-bc97-d072bb06d79d@arm.com>
- <CAK7LNAR=LaMQLqqhG86T9Vk6tZYOYzMsvfm_FtK8sBdL5CGY+A@mail.gmail.com>
-Content-Language: en-US
-From: Jeremy Linton <jeremy.linton@arm.com>
-In-Reply-To: <CAK7LNAR=LaMQLqqhG86T9Vk6tZYOYzMsvfm_FtK8sBdL5CGY+A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
 
-On 7/7/25 6:35 PM, Masahiro Yamada wrote:
-> On Tue, Jul 8, 2025 at 6:29 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
->>
->> Hi,
->>
->> Thanks for looking at this.
->>
->> On 6/24/25 12:56 PM, Masahiro Yamada wrote:
->>> On Tue, Jun 17, 2025 at 1:09 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
->>>>
->>>> Hi,
->>>>
->>>> Thanks for looking at this.
->>>>
->>>> On 6/7/25 11:04 AM, Masahiro Yamada wrote:
->>>>> On Fri, May 23, 2025 at 2:29 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
->>>>>>
->>>>>> Zboot compressed kernel images are used for arm kernels on various
->>>>>> distros.
->>>>>
->>>>> Are you talking about arm 32 bit here?
->>>>> (arch/arm/boot/zImage)
->>>>
->>>> No, it should be arm64.
->>>>
->>>>>
->>>>>> extract-vmlinux fails with those kernels because the wrapped image is
->>>>>> another PE. While this could be a bit confusing, the tools primary
->>>>>> purpose of unwrapping and decompressing the contained vmlinux image
->>>>>> makes it the obvious place for this functionality.
->>>>>>
->>>>>> Add a 'file' check in check_vmlinux() that detects a contained PE
->>>>>> image before trying readelf. Recent file implementations output
->>>>>> something like:
->>>>>>
->>>>>> "Linux kernel ARM64 boot executable Image, little-endian, 4K pages"
->>>>>
->>>>> Are you talking about arm64 here?
->>>>>
->>>>> I am confused, as arm64 adopts a simple-compressed image.
->>>>
->>>> No, there is a CONFIG_EFI_ZBOOT, which is a EFI/PE image which self
->>>> decompresses a contained kernel similar to x86, but is for !x86 EFI
->>>> architectures. This patch extends this utility to work for those images
->>>> as well.
->>>
->>> The commit description does not explain why this is useful.
->>>
->>> Extracing vmlinux ELF is useful for debugging purposes.
->>
->> Right,
->>
->>>
->>> In this case, the extracted file is
->>> arch/arm64/boot/vmlinux.bin, which is just a (zero-padded) binary.
->>
->> $ file vmlinux.bin
->> vmlinux.bin: Linux kernel ARM64 boot executable Image, little-endian, 4K
->> pages
->> $ readpe -S vmlinux.bin
->> Sections
->>       Section
->>           Name:                            .text
->>           Virtual Size:                    0x2860000 (42336256 bytes)
->>           Virtual Address:                 0x10000
->>           Size Of Raw Data:                0x2860000 (42336256 bytes)
->>           Pointer To Raw Data:             0x10000
->>           Number Of Relocations:           0
->>           Characteristics:                 0x60000020
->>           Characteristic Names
->>                                                IMAGE_SCN_CNT_CODE
->>                                                IMAGE_SCN_MEM_EXECUTE
->> ...(trimming remainder of output)
->>
->> Its another complete PE boot image which can be used by UEFI/grub/etc as
->> well as any PE debugging and analysis utilities.
->>
->> So, this change effectively removes the zboot wrapper. The resulting
->> image is still useful for a certain amount of debugging (ex string
->> extraction, manually matching crash points, version checking, etc) in a
->> distro based environment where the user doesn't have a kernel build tree
->> handy. As well as any boot debugging, which could be caused by the ZBOOT
->> wrapper itself, and I'm sure a long list of other things.
-> 
-> OK. Then, please add a little more context regarding
-> how this is useful in the commit description of v2.
 
-Sure,
 
-> 
-> Please fix the first line of the description:
-> 
-> used for arm kernels -> used for arm64 kernels
-Right,
 
-> 
-> 
-> Lastly, how about this implementation?
-> 
-> check_vmlinux()
-> {
->          if file $1 | grep -q 'Linux kernel.*boot executable Image' ||
->                              readelf -h $1 > /dev/null 2>&1; then
->                  cat $1
->                  exit 0
->          fi
-> }
 
-That works too.
+Sent with Proton Mail secure email.
 
-> 
-> 
-> I used the -q option for grep instead of the redirection.
-> 
-> 
-> Masahiro
+On Monday, July 7th, 2025 at 6:06 PM, Simon Horman <horms@kernel.org> wrote=
+:
+
+> On Sat, Jul 05, 2025 at 06:29:39PM +0000, Yassine Oudjana wrote:
+>=20
+> > On Wednesday, April 9th, 2025 at 3:54 PM, Konrad Dybcio konrad.dybcio@o=
+ss.qualcomm.com wrote:
+> >=20
+> > > On 4/6/25 4:07 PM, Yassine Oudjana wrote:
+>=20
+>=20
+> ...
+>=20
+> > > > diff --git a/include/linux/soc/qcom/qrtr.h b/include/linux/soc/qcom=
+/qrtr.h
+> > > > index 4d7f25c64c56..10c89a35cbb9 100644
+> > > > --- a/include/linux/soc/qcom/qrtr.h
+> > > > +++ b/include/linux/soc/qcom/qrtr.h
+> > > > @@ -13,6 +13,8 @@ struct qrtr_device {
+> > > >=20
+> > > > #define to_qrtr_device(d) container_of(d, struct qrtr_device, dev)
+> > > >=20
+> > > > +#define QRTR_INSTANCE(qmi_version, qmi_instance) (qmi_version | qm=
+i_instance << 8)
+> > >=20
+> > > Please use FIELD_PREP + GENMASK to avoid potential overflows
+> > >=20
+> > > Konrad
+> >=20
+> > Since I'm using this macro in initializing QRTR match tables I am unabl=
+e to use
+> > FIELD_PREP. When I do, I get such errors:
+>=20
+>=20
+> Does using FIELD_PREP_CONST, say in a QRTR_INSTANCE_CONST variant, help?
+
+That works, but do we want to have two variants? Or in this case maybe
+I should leave qmi_interface.c untouched and define the macro only for use
+in match tables?
+
+>=20
+> > In file included from ../arch/arm64/include/asm/sysreg.h:1108,
+> > from ../arch/arm64/include/asm/memory.h:223,
+> > from ../arch/arm64/include/asm/pgtable-prot.h:8,
+> > from ../arch/arm64/include/asm/sparsemem.h:8,
+> > from ../include/linux/numa.h:23,
+> > from ../include/linux/cpumask.h:17,
+> > from ../include/linux/smp.h:13,
+> > from ../include/linux/lockdep.h:14,
+> > from ../include/linux/mutex.h:17,
+> > from ../include/linux/kernfs.h:11,
+> > from ../include/linux/sysfs.h:16,
+> > from ../include/linux/iio/buffer.h:9,
+> > from ../drivers/iio/common/qcom_smgr/qcom_smgr.c:8:
+> > ../include/linux/bitfield.h:114:9: error: braced-group within expressio=
+n allowed only inside a function
+> > 114 | ({ \
+> > | ^
+> > ../include/linux/soc/qcom/qrtr.h:21:10: note: in expansion of macro 'FI=
+ELD_PREP'
+> > 21 | (FIELD_PREP(GENMASK(7, 0), qmi_version) | FIELD_PREP(GENMASK(15, 8=
+), qmi_instance))
+> > | ^~~~~~~~~~
+> > ../drivers/iio/common/qcom_smgr/qcom_smgr.c:825:29: note: in expansion =
+of macro 'QRTR_INSTANCE'
+> > 825 | .instance =3D QRTR_INSTANCE(SNS_SMGR_QMI_SVC_V1,
+> > | ^~~~~~~~~~~~~
+>=20
+>=20
+> ...
 
