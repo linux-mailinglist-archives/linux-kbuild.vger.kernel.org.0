@@ -1,144 +1,139 @@
-Return-Path: <linux-kbuild+bounces-7964-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7965-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB1FAFF7AD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 05:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4DFAFF9E4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 08:35:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2BAC3A272A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 03:44:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49A423B9B88
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 06:34:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE0CBA45;
-	Thu, 10 Jul 2025 03:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EEEC21D3E8;
+	Thu, 10 Jul 2025 06:35:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="ZpitKHQU"
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="X+0uBzm3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2B91A285
-	for <linux-kbuild@vger.kernel.org>; Thu, 10 Jul 2025 03:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9D02253FD
+	for <linux-kbuild@vger.kernel.org>; Thu, 10 Jul 2025 06:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752119121; cv=none; b=ukoHTh2JhId7sIQSWCq7NsSXX/9ciQMjymOQdcM8SuQGgdBbLo7HdwDV0Zwovn62qS4daEcFmFPEH+tQKGeMUPDkkD/S1NPkdmuM1gs3B6HoyJzCo23fy4+EP8CqrJR59nbGoCoVYhnM7Zt4H1SVgmJ/hbO1c9R5g8KMSRe2evA=
+	t=1752129320; cv=none; b=NtMXSDs03caAIKy9XB3WDUSNRSyyADb4HrIfrKnHgWTRIs36AmEDm7/oQcerOXLtAC78t5O6r2we+uWgEovKL0BOUmPs/Y7X882HYwYSNmXsboKP7mR8Fl7W0nJf39l6lsfxxOe/dOcbu2Ecdz0p1xcXOrOy8/U/XYwnUJSn6R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752119121; c=relaxed/simple;
-	bh=XUU2EwDs3wTQud0Cl+WmDya5o1Vo+KLmUY1j/ihV8Ks=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vw3gqmafy7guiDiAgEomN8aBPAwXbsQeDKfy1mn3fbHfAWF9FtACQh4cT8hD50pReeydmSLdB1+VxqJ14V8dIeLagSAm1Gax2Zc5nsLhR0VD2divI1VW0Z764pkRoN2wv4/MyJSlwdN2dcf8kyW1A/xDy9MOmYuTrIPALLLfQk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=ZpitKHQU; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-73a5c3e1b7aso268056a34.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 09 Jul 2025 20:45:18 -0700 (PDT)
+	s=arc-20240116; t=1752129320; c=relaxed/simple;
+	bh=ElqAfZh2BVgxfhGm74ckQk9GyfGSk4GuN3P5xEeR6vI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=Q8stPDNsdgCyeZDSa8pVQp/bIpdmpbVvV3CaKcMU4yyGUk58JueFjs+wR0wn8eY5KLb5nqMso5GIqgz+9Ofjf8LRu79i1YtN/+kPduC6bxb3wMIk721NE2FzsAxc/l3RWtcdnOUEuBvmC0apgi5fNlubrp4l3acisjgbwPfYgQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=X+0uBzm3; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a4eed70f24so88144f8f.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 09 Jul 2025 23:35:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1752119118; x=1752723918; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=ventanamicro.com; s=google; t=1752129317; x=1752734117; darn=vger.kernel.org;
+        h=in-reply-to:references:to:cc:subject:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6MoQm87c8Z8k5cIMa6HiSZvjUkFd8qA4WK0ftEEUX+Q=;
-        b=ZpitKHQUWsKs3YhVfCK/I9In3AihAWxsw49Ioxq8oZHiSvrTiCS+6aDAjMRpOV0jaY
-         E2pQbO5tCOzY4e63Iz8sF/7Bv4iuczGoOiBpiz0CBKE+IZkC7ZeNn7xRwqSmuZeBjTLE
-         hSX7G20aCU556h3reefpVOFC3ttD1XeonqmOo9FWR73SrrkuPjv2h58/0bFE8GofFtab
-         lDaf3OrT7WHc8LdGYECw3Qk9MxybrZN0wpQc4F6jWC5u03qLw1ByPPFJvbNgCDeyVGYm
-         J9607o2gj9NdXoR1ViEzYnffXv24CqFaCVN7NKNYONKPNE7Qiau0MzYqeLsULaDTnIqr
-         ty/A==
+        bh=kyhfcIGHykgvkrP2e/H7VmjAsjt0CsIijqEuhYmyjZA=;
+        b=X+0uBzm3bi+AK1j8teGJm62HTgg3xswH/ObRCwbigjCBub6q31LIs/ErO+9bVytq0L
+         V9UCRLl79uiw7COf3DiGJBbUvfGByyNGZPUGiaicMVFsFQ5eXV1EyTpfXUwH9WmKbSeM
+         nh703dBsvxKH3lTYadSAcWn0ASS+7t3ObCUB71PlKHVTsaDw+49Syah/59cHUfUfcl2D
+         uR40EpftrwRos70HsLyOA+iTOdWsNfoDmnLPzSbYLRSrNVr5j9RzeoW3OUbMVFK0u4t8
+         oRq/mzhJtHedOdhZYlWanarZid56shttN2rcHTjcmfu62l9w1JzPl1B2aV4KgNRznX2m
+         HUAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752119118; x=1752723918;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6MoQm87c8Z8k5cIMa6HiSZvjUkFd8qA4WK0ftEEUX+Q=;
-        b=WeKBpKOTMHbTpEhSUDJx9LK2CCg2Oyvn3NzUKNZL4wVJmr3a++jUokRDEeyxVr3FEY
-         1+AbE2C/b2ybSsLk6maKuxpYr8qOV7+dWUbyt6LwZpSQsBM6R9K/ffZ2x861AM1oxksI
-         1u96TSxkbTlnF/t4GzyNbcnRDtJWZ64sAdGvFQnGVQ/PvHJLbvW7lYnJ94H9wDnliuec
-         C4ki/UlSGpz29ocRVn+VMgF4ezkOOOeHCj6KlJXokro+xD7p2CEZYXVxs3hnch8vuQ7g
-         A6rDifnQC5AiQZDLfSLKf7kLeyNuD935eehoAXUUjVviaLbCIGv1H9s6DOi/rpUZQbAS
-         x/dg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpMkpZmfVGOorO2Sz45h7ovqVr/ejIINVSS/yTyq12QqTNdK3ZIvARXJuQf1FR8hwSpADr41ULreP/5p0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoFRBTwgNrZDJZemvF2LIggfoO+z+oMJ2Hv0cCTci1KfxL2YEc
-	XoK4O5Y4nXhgCl2utDVw56kBolhNtgpPUDeBS3hgBUE7ZIiuj7YlmEMqIQhL/nio9jarmomDO4L
-	8psCMYh7F0LSVnWN/yCAeVFFBLMzOMGH0TUd5q0iwyw==
-X-Gm-Gg: ASbGncucGbEnafrgZIlIzgztW0pDHjMdhmsvR5esNQOSqdv0jauAAWJMGlHXIIxp/MC
-	jM16j9VPvPMffN3zpxGnt+IAjImHMXjsZ+SJwy/D8rNQIYQ0wP2+d1Zd5Yy7o42e5JRQC3qKtsM
-	Z6gXxt3ozPxUBAfaiDx9NtL7OYGx2QJ4cWkQ2zUZ+lY6h8cA==
-X-Google-Smtp-Source: AGHT+IHRyVkZ57nzhyTKCltTrLPpMwsHIDQ7uc0ufm1hakxjYl3N48OH2yPl7P6OWGuq8y5vu9wPIRf0jtP4zFgzCA0=
-X-Received: by 2002:a05:6830:730d:b0:739:f13a:6f41 with SMTP id
- 46e09a7af769-73cf06820a7mr1087123a34.25.1752119117879; Wed, 09 Jul 2025
- 20:45:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752129317; x=1752734117;
+        h=in-reply-to:references:to:cc:subject:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kyhfcIGHykgvkrP2e/H7VmjAsjt0CsIijqEuhYmyjZA=;
+        b=QGQR2ja/xz1Hn07fty2GFVOu+Rcgscy6axon+AeV+1LsD+AMxkQKFB7HVzrVZsAhdw
+         qnbgCIkjus89aJWMukidoGwu9Cqyyr7WXamVGHW9fM5QHFsaxoS9TA+1PBhnia2RndIH
+         5tCW72ex01WQr0x5ZHyGwl7cq/kk9KN6xAht/1EJW5JZbmowPmUUTd4uy6YTx8mAdCpz
+         fWOPN+efNrWQUNqCo3C0SFLrOlY05cAtv7n945ywn354BKKE7rgcOMgKfz28Eq1zr2lV
+         ILwkL4tnYFAOuhW/4cTvq5+MZT4vwxkSyZcw6dvVx03a2jbDqRdJ3L0ARSmiZBuKL954
+         ZcZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQmmO1XCOMFS8LG+iZSRArbKl4/KeD+jpDLGahO1aCued5zyft3RZNjBMOiOW7K49efPVDb+FswQ7M3Ww=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwwWKcVCVa5IuEMGNOZlm8WpQZe//WP5b1LT8JcjvCZdtuCnew
+	9U959UkfyLodAQJ7rGt0H9J0JlXl+vECxUnpzYkdJKRMv9fRdO3i+biIUhwCvvHSaAw=
+X-Gm-Gg: ASbGncuX4W0r7uEt/0A/OPpnKQclVQ+4/KOfXEWYYdajm3hYNhRKNN3eVFODFSZ6Zzh
+	u4/EfmmK8f0eOjM6zCG9yaNi1CbC32CFZRF3/9shj5xFfevFBDTICUnPtaYrNwlkkLPRD5U3SGA
+	Gm+2agmDO+iU6t15BmYhqfNclAWoDJaaBFfXcJxbtl6lxj3kwh/LgCPWKAEAx9pE21Aj7eJXvQj
+	w++18SpOwomCHgnGXQcfXYe9BseSiuHgU6hqbpYMbiYNgIywA+fWZNzwEMElCwEJHqhZVMVTAaX
+	MV/3nDoDj3+HoaFTw4h+AuAYp6d8d6CSq+3FxJBasGjFM3XI7l02r/MWpm/NHnI9uWqD0Epdr22
+	5G8mtNYu/hNZ2iU2E6vcWIg==
+X-Google-Smtp-Source: AGHT+IEqEitaMgB8tObGyqBHxc/XW6tkIZ1LssQgO+WUWZXRaXyhTeRPn6KcRlFtzKo7i/2kYbIvaw==
+X-Received: by 2002:a05:600c:3584:b0:453:76e2:5b16 with SMTP id 5b1f17b1804b1-454db9090c3mr7110435e9.0.1752129316466;
+        Wed, 09 Jul 2025 23:35:16 -0700 (PDT)
+Received: from localhost (ip-89-103-73-235.bb.vodafone.cz. [89.103.73.235])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cdb381a6sm57354855e9.1.2025.07.09.23.35.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jul 2025 23:35:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250704084500.62688-1-cuiyunhui@bytedance.com>
- <DB5U402ARSEO.4H4PE19LGCR7@ventanamicro.com> <CAEEQ3w=V6-d+YSWP=0WMt6UAZexrazq0UQjdyUmS3AnMtkdoKQ@mail.gmail.com>
- <DB6MLPA3BJ75.2U5FP5JSJD2LO@ventanamicro.com> <CAEEQ3wkoy3Jr0vZk=X4U56KYPq3=5t7Wr4RE6uNby3MS5qzh-g@mail.gmail.com>
- <DB7L9ZHZI3AI.36SXWX2SO9OS7@ventanamicro.com>
-In-Reply-To: <DB7L9ZHZI3AI.36SXWX2SO9OS7@ventanamicro.com>
-From: yunhui cui <cuiyunhui@bytedance.com>
-Date: Thu, 10 Jul 2025 11:45:06 +0800
-X-Gm-Features: Ac12FXyE0pTXhJgf-CmJFYzzVTnilQd8t8nNTo1YCw7wwl6W4gnmmliWfCBZFlE
-Message-ID: <CAEEQ3wnaL5X_jXEmbbWFp3jx1Aq=02Gf7kDNBS=wcPyfEq7yBw@mail.gmail.com>
-Subject: Re: [External] [PATCH] RISC-V: store percpu offset in CSR_SCRATCH
-To: =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
-Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev, 
-	dennis@kernel.org, tj@kernel.org, cl@gentwo.org, paul.walmsley@sifive.com, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, andybnac@gmail.com, 
-	bjorn@rivosinc.com, cyrilbur@tenstorrent.com, rostedt@goodmis.org, 
-	puranjay@kernel.org, ben.dooks@codethink.co.uk, zhangchunyan@iscas.ac.cn, 
-	ruanjinjie@huawei.com, jszhang@kernel.org, charlie@rivosinc.com, 
-	cleger@rivosinc.com, antonb@tenstorrent.com, ajones@ventanamicro.com, 
-	debug@rivosinc.com, haibo1.xu@intel.com, samuel.holland@sifive.com, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org, 
-	linux-riscv <linux-riscv-bounces@lists.infradead.org>, wangziang.ok@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 10 Jul 2025 08:35:15 +0200
+Message-Id: <DB8607ITP9UR.2LOW61O3OVJ2F@ventanamicro.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+Subject: Re: [External] [PATCH] RISC-V: store percpu offset in CSR_SCRATCH
+Cc: <masahiroy@kernel.org>, <nathan@kernel.org>, <nicolas.schier@linux.dev>,
+ <dennis@kernel.org>, <tj@kernel.org>, <cl@gentwo.org>,
+ <paul.walmsley@sifive.com>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
+ <alex@ghiti.fr>, <andybnac@gmail.com>, <bjorn@rivosinc.com>,
+ <cyrilbur@tenstorrent.com>, <rostedt@goodmis.org>, <puranjay@kernel.org>,
+ <ben.dooks@codethink.co.uk>, <zhangchunyan@iscas.ac.cn>,
+ <ruanjinjie@huawei.com>, <jszhang@kernel.org>, <charlie@rivosinc.com>,
+ <cleger@rivosinc.com>, <antonb@tenstorrent.com>, <ajones@ventanamicro.com>,
+ <debug@rivosinc.com>, <haibo1.xu@intel.com>, <samuel.holland@sifive.com>,
+ <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>, <wangziang.ok@bytedance.com>
+To: "yunhui cui" <cuiyunhui@bytedance.com>
+References: <20250704084500.62688-1-cuiyunhui@bytedance.com>
+ <DB5U402ARSEO.4H4PE19LGCR7@ventanamicro.com>
+ <CAEEQ3w=V6-d+YSWP=0WMt6UAZexrazq0UQjdyUmS3AnMtkdoKQ@mail.gmail.com>
+ <DB6MLPA3BJ75.2U5FP5JSJD2LO@ventanamicro.com>
+ <CAEEQ3wkoy3Jr0vZk=X4U56KYPq3=5t7Wr4RE6uNby3MS5qzh-g@mail.gmail.com>
+ <DB7L9ZHZI3AI.36SXWX2SO9OS7@ventanamicro.com>
+ <CAEEQ3wnaL5X_jXEmbbWFp3jx1Aq=02Gf7kDNBS=wcPyfEq7yBw@mail.gmail.com>
+In-Reply-To: <CAEEQ3wnaL5X_jXEmbbWFp3jx1Aq=02Gf7kDNBS=wcPyfEq7yBw@mail.gmail.com>
 
-Hi Radim,
+2025-07-10T11:45:06+08:00, yunhui cui <cuiyunhui@bytedance.com>:
+> On Wed, Jul 9, 2025 at 10:20=E2=80=AFPM Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrc=
+mar@ventanamicro.com> wrote:
+>> Is the overhead above with this patch?  And when we then use the
+>> CSR_SCRATCH for percpu, does it degrade even further?
+>
+> We can see that the percpu optimization is around 2.5% through the
+> method of fixing registers, and we can consider that the percpu
+> optimization can bring a 2.5% gain. Is there no need to add the percpu
+> optimization logic on the basis of the scratch patch for testing?
+>
+> Reference: https://lists.riscv.org/g/tech-privileged/message/2485
 
-On Wed, Jul 9, 2025 at 10:20=E2=80=AFPM Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrcma=
-r@ventanamicro.com> wrote:
->
-> 2025-07-09T19:42:26+08:00, yunhui cui <cuiyunhui@bytedance.com>:
-> > Bench platform: Spacemit(R) X60
-> > No changes:
-> > 6.77, 6.791, 6.792, 6.826, 6.784, 6.839, 6.776, 6.733, 6.795, 6.763
-> > Geometric mean: 6.786839305
-> > Reusing the current scratch:
-> > 7.085, 7.09, 7.021, 7.089, 7.068, 7.034, 7.06, 7.062, 7.065, 7.051
-> > Geometric mean: 7.062466876
->
-> Great results.
->
-> > A degradation of approximately 4.06% is observed. The possible cause
-> > of the degradation is that the CSR_TVEC register is set every time a
-> > kernel/user exception occurs.
->
-> I assume the same.
->
-> > The following is the patch without percpu optimization, which only
-> > tests the overhead of separating exceptions into kernel and user
-> > modes.
->
-> Is the overhead above with this patch?  And when we then use the
-> CSR_SCRATCH for percpu, does it degrade even further?
->
-> Thanks.
+That is when the value is in a GPR, though, and we don't know the
+performance of a CSR_SCRATCH access.
+We can hope that it's not much worse than a GPR, but an implementation
+might choose to be very slow with CSR_SCRATCH.
 
+I have in mind another method where we can use the current CSR_SCRATCH
+without changing CSR_TVAL, but I don't really want to spend time on it
+if reading the CSR doesn't give any benefit.
 
-We can see that the percpu optimization is around 2.5% through the
-method of fixing registers, and we can consider that the percpu
-optimization can bring a 2.5% gain. Is there no need to add the percpu
-optimization logic on the basis of the scratch patch for testing?
+It would be to store the percpu offset in CSR_SCRATCH permanently, do
+the early exception register shuffling with a percpu area storage, and
+load the thread pointer from there as well.
+That method would also eliminate writing CSR_SCRATCH on every exception
+entry+exit, so maybe it makes sense to try it even if CSRs are slow...
 
-Reference: https://lists.riscv.org/g/tech-privileged/message/2485
-
-
-Thanks,
-Yunhui
+Thanks.
 
