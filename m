@@ -1,257 +1,167 @@
-Return-Path: <linux-kbuild+bounces-7976-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7977-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472C8B00906
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 18:41:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C30A9B00C20
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 21:30:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5798A3AC7BD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 16:39:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0FFA05C4F54
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Jul 2025 19:30:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FE732F002F;
-	Thu, 10 Jul 2025 16:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D831A21B9F4;
+	Thu, 10 Jul 2025 19:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="CEBLDZTe"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D99Dt27d"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652D82EF9DF
-	for <linux-kbuild@vger.kernel.org>; Thu, 10 Jul 2025 16:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0DF21D3C6
+	for <linux-kbuild@vger.kernel.org>; Thu, 10 Jul 2025 19:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752165607; cv=none; b=vAGMI4K2xk+8SjiEYlYwPUZA4G8crs5lp4A2w98IynvqXBIQFOItM2a4owc59d6jm36DvKe8GE3R616g7nuO1D2/2Vxe6mzgx9sua4bKV4Ig6RTTpYW68yOLH+nS0BzQ31LIIoyZzeLCq7sOdmLb1Pkmt18/9PbpRwhMNM5Z0So=
+	t=1752175821; cv=none; b=cDcc0YLWYGI5MJ5GiKIA5tXU/GWzpiS2C+Jf0qA4a14BjOa91loAVkVQWA9TLYPHcuVpFDZd2jewyaiLL3tNWQJzZPlTC3IWkmlJU1ZrrTPswjTxgOSruOzb9EMSapSvIV6QI81Bgm9kXSl44JF3ugePgGYj9WDlgxd+cdfNG2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752165607; c=relaxed/simple;
-	bh=2mVD105ELfyiZ3Icw9b4TIbfswMnLBIA2fWIJ6fXAOk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=CqX6gg0WM0/QFdvQsLIM56068Caa4D6XIJWcMktJ/G0KU8kR36LdL4/hsyqNskMxirhTMjrInH6aqFxkJN1TVQZN+9vag1avW4x8V8hgoMva9c1uNq2FpLtCKLE1dfdAY6wnYpaAifSb4w/C9xbMXPqPJEkJlM0UkWnr+Z4jSfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=CEBLDZTe; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4e62619afso82156f8f.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Jul 2025 09:40:05 -0700 (PDT)
+	s=arc-20240116; t=1752175821; c=relaxed/simple;
+	bh=EJ6s4tjHUT6RtbgUP+qOWodtQci0cx0J74QsTYz4VVo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pluqdFhTgezk5EbX+cbTaFHhyBQvnV61uNF2gtebemwYCK45hVT9FBV/iWuXUTacZNoHX+SnKonG121bfONAs7QpfyR/7ECqQhX/ww1ZyydwSuIkHhJw00ly0pryNgunRTBddAlpe3dRGIgwLdXDet8v/CmaOasus3nExscU3JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D99Dt27d; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6face367320so12795866d6.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Jul 2025 12:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1752165603; x=1752770403; darn=vger.kernel.org;
-        h=in-reply-to:references:to:cc:subject:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1752175817; x=1752780617; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Nrn4nfiPG+tAqCMVAZ7jqIn9oEnuj7dwUbTTAq45dGg=;
-        b=CEBLDZTefSIlRkHYo3bdsW6wdcMdx619Afz7sRIf4y2ZCXnsbYH6I1NarAFx0+zeqS
-         8esCPDIIIsy50VTfHEUXIS++tKMxf1xr6J11iugYAStpyBQGqky7FS0H/dF0Es/KHAqr
-         6fw9MZaaEWHlALqZWz+yJjPU2B+UGOiarQGLz6tv13/dhUZTS2zRHc8rAkN8h2r53RWm
-         qU10FfZVpGuHsilPTW+fzSDXUwtxKkeuHiJT2DX77syBRoKutkuqcF+XT1JIIfTXQvF4
-         t33d9C5p2lQc1ADF/likb7iZhuTwZrLf5Px2XLy/J4dtm0Dg7S4JOpo66yINDrluYKDa
-         lWAw==
+        bh=USEIpL4apCBHIBMoQ7JPvYpW1LrAcOYziqZdXP5+KWM=;
+        b=D99Dt27d141/r5XQ/AIfIN8sEKybEgVy7KPWWfLB2K8kxh9YeXPGm4liw6icOra0Az
+         RIrzbkR6FkuMImrnm5UBZj3oYgGJ5pDuTkqnjW85R6LZUEeIrG6lTLLCHkbmakuFi/nt
+         5St2wwFFjszvFIhC6rB5PcvHyjNm/+Cta8yC9FYvUus+k8SeQGVSzjmOVyc+8rZtyR19
+         0r+ztu1MFTnXkSE0DKGmZ6QO9K4RusOtR2F1lUDdceRC9W3fpkopsgMkFLPl1lBw80cY
+         L4WmSlDwQf9WrLvhmx6w13iLs2Qc9KMuFcdTVCr5xEfsNwYrXm5d6SMgRN1EhMo0T06C
+         Yp/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752165603; x=1752770403;
-        h=in-reply-to:references:to:cc:subject:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Nrn4nfiPG+tAqCMVAZ7jqIn9oEnuj7dwUbTTAq45dGg=;
-        b=L/ZH9vHugbf2GqjpRlFe8jGTx8LCFrpBo5WN/BscMw7wXQuue9LJBed7H/GouHpnMG
-         9L3rvOW1yzwjRe7iYP/AS36JGbJUzNIa4i51DZZlxjGEloJjPCYw0cmA0kz5DuDSH4vD
-         qJ4h4sP+yol06xGrZZF7Z7Z6NV5YaUzwvtkH55K7qVbO/jdhhcnjcwhRXEvR5GRAwMtl
-         MsLzHI7zqoC8toiAE4U+A77mn2v8Va8A6Jmc3E/dwPyBZaKUPpcR2D6TYaAsK2c3bt47
-         vPlogwvlxgUCCbzaSi/f/u7MXlBiRxqsFeP4vIrXHlWBjiVwjDGs4AASILLmQNlloRn8
-         80PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUpK2LEUfc5atP6EzPv7zsRQ7NFZh7mxTHyNEpdhJo4xwHoyx9LUPWLUfMRLYCxNq5VU+MgFQeRaowQvkA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywgq9uRaw7mTfKby+OWjhwNzp3CZM7afb0in6a8m0r+JB5b8e7w
-	Zf78ZG3UFbC338ZKTvTV3ii/BVC76GsGRxBhzmW/xAI5K5SCwMlC/d34gqtk/VrvlL8=
-X-Gm-Gg: ASbGnctPk5u9PPtoD6X2bwITY81x4fXW4MMRCpj+TYjngcpyyRwwnToMg9X5vK0uWFb
-	pi7xshCzS8+MPQMMj0BfWgbpW1PUJxnV06SDYxPeXnRN0D7kqIaCR+RNDqiO8wbLYvlFe8yd97d
-	i4OAVDzpSgykwYN032xusaUWYcTAP6uCIEVfWh0cSi9UnSSCzgnkdwVhhT2CqCpFl7bGlH3MNMz
-	UKcfnYFO+5bIQBq7/vbcH32q9KHKxNsmBLS7EMhAB21FF/186KPb3ppMtyEuYqrDDc4ErUBBmDt
-	9OCcltwR735Xi2xuXHhtblK/9H6uSpTsqdpEtZgz49V/vz3Fkb+gEl/HLB71xk3T79REZA==
-X-Google-Smtp-Source: AGHT+IFz1D8/12XwlMH9nD/1jWSY5+ZD+bTmwmjROaWHbn7m2/jSD8nUPromTyulLxho5aGATXbK1g==
-X-Received: by 2002:a05:6000:18a3:b0:3a3:584b:f5d7 with SMTP id ffacd0b85a97d-3b5f186afb6mr95564f8f.5.1752165603110;
-        Thu, 10 Jul 2025 09:40:03 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200:bf57:83e8:7a62:80b7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d511b43csm60588395e9.37.2025.07.10.09.40.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 09:40:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752175817; x=1752780617;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=USEIpL4apCBHIBMoQ7JPvYpW1LrAcOYziqZdXP5+KWM=;
+        b=EMQX8gSniIviD7WYXdpfYYB7ptPBtHqMNkJnJl32MEA944aLJ3Het0DZ2dHlCK2Lsy
+         blwKaRnaN4KTArZzw4ne7aFjTrv7nG2BNecbyHEfYQtEPXRgdMo6AxUH+4pPtmhi8RnJ
+         6XEb5FH3gnO+sdTEVbhlAxT3Jpgu2m9wtjsZK1zsMPHk2GRiXGYj9YC66jsmBtk2+kg8
+         yXxbE2JXmXFhHbHFnqNGWJybIWQpHW55wpSEcn2EuBEtm+kM5AEck+As9m5M9xwEmzny
+         4k4vwgkRvWJU0q1RJ2jzl8LGEjGLKa7fFD8pCrY7GKLW4Zy020XzziEJjL/upq4evEx8
+         hx1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUexqrlW/lu1ebdmU/fXvoooQVkw9iLMNIQM4pPjwhdQfv2IaTdNTuO5nd7++UIEHOJ0XrgM/mtTHUCGlw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIh+D1W/RuesHcfHHzbV5tACSa4H+DANMB91RajHl/xzlU3vEc
+	1gKkIDmjp2R41RG54XLo7as/sEaimAkRGwimCdOTQKK2hfU3w1zbK0Wm6McmIZFFh2Fe2w0y6p0
+	weIlBUqxlbEAw4gCNbHrwNOex0KZn8lpVhIP+zdGz
+X-Gm-Gg: ASbGnctuXZcWM7Niyo7EGYyf3wvyjOfuocdRsYZLmq60xlGfxb4kMlIZZ+DA28xAXyx
+	QBy4SOpihVipyJFC3Z8p9jOEQrbpJD8KZXy3ymCVWXKXDhOLLKDlp9R83l6V48fgV4PGuS9i49x
+	bCYzrjsPot0sX9W6KpFVyykkl4zMYOsYu1LsZvbOPYD1x5f4c3NcYu7v9upU/3x5wtWPfXRyv7
+X-Google-Smtp-Source: AGHT+IGZ42wCwYI6/mUsKs5W1wwGLVBaIdQX9pYAG5+GOjYCAt5QsHm7XxQOSQrB76f5N4QqzG2xfswRS2/KVu8ypPA=
+X-Received: by 2002:a05:6214:1d2b:b0:704:778c:3b9d with SMTP id
+ 6a1803df08f44-704a3976eb8mr7470116d6.30.1752175816350; Thu, 10 Jul 2025
+ 12:30:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250706201855.232451-1-sergio.collado@gmail.com>
+In-Reply-To: <20250706201855.232451-1-sergio.collado@gmail.com>
+From: Rae Moar <rmoar@google.com>
+Date: Thu, 10 Jul 2025 15:30:05 -0400
+X-Gm-Features: Ac12FXx5GXs_yCw2SDS55fJaE3Sbr8VfcBVMKoEwWHmO2efRO1bMOT4Nye6j_po
+Message-ID: <CA+GJov5eXsoKG2eYch8h5HgLCwnE8+9RA0v-+9DW9TpP5SordA@mail.gmail.com>
+Subject: Re: [PATCH v3 RESEND] kunit: fix longest symbol length test
+To: =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>
+Cc: David Gow <davidgow@google.com>, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Randy Dunlap <rdunlap@infradead.org>, rust-for-linux@vger.kernel.org, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Nathan Chancellor <nathan@kernel.org>, 
+	David Laight <david.laight.linux@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, x86@kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 10 Jul 2025 18:40:02 +0200
-Message-Id: <DB8IV9GMLI6X.25TJF0WMVHZEM@ventanamicro.com>
-From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
-Subject: [PATCH] RISC-V: store precomputed percpu_offset in the task struct
-Cc: <masahiroy@kernel.org>, <nathan@kernel.org>, <nicolas.schier@linux.dev>,
- <dennis@kernel.org>, <tj@kernel.org>, <cl@gentwo.org>,
- <paul.walmsley@sifive.com>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
- <alex@ghiti.fr>, <andybnac@gmail.com>, <bjorn@rivosinc.com>,
- <cyrilbur@tenstorrent.com>, <rostedt@goodmis.org>, <puranjay@kernel.org>,
- <ben.dooks@codethink.co.uk>, <zhangchunyan@iscas.ac.cn>,
- <ruanjinjie@huawei.com>, <jszhang@kernel.org>, <charlie@rivosinc.com>,
- <cleger@rivosinc.com>, <antonb@tenstorrent.com>, <ajones@ventanamicro.com>,
- <debug@rivosinc.com>, <haibo1.xu@intel.com>, <samuel.holland@sifive.com>,
- <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>, "linux-riscv"
- <linux-riscv-bounces@lists.infradead.org>, <wangziang.ok@bytedance.com>
-To: "yunhui cui" <cuiyunhui@bytedance.com>
-References: <20250704084500.62688-1-cuiyunhui@bytedance.com>
- <DB5U402ARSEO.4H4PE19LGCR7@ventanamicro.com>
- <CAEEQ3w=V6-d+YSWP=0WMt6UAZexrazq0UQjdyUmS3AnMtkdoKQ@mail.gmail.com>
- <DB6MLPA3BJ75.2U5FP5JSJD2LO@ventanamicro.com>
- <CAEEQ3wkoy3Jr0vZk=X4U56KYPq3=5t7Wr4RE6uNby3MS5qzh-g@mail.gmail.com>
- <DB7L9ZHZI3AI.36SXWX2SO9OS7@ventanamicro.com>
- <CAEEQ3wnaL5X_jXEmbbWFp3jx1Aq=02Gf7kDNBS=wcPyfEq7yBw@mail.gmail.com>
- <DB8607ITP9UR.2LOW61O3OVJ2F@ventanamicro.com>
- <CAEEQ3wmxJ50PZHVpdexeyy1ELqKw+5mrb+8gRCA4KNj9zsrykA@mail.gmail.com>
-In-Reply-To: <CAEEQ3wmxJ50PZHVpdexeyy1ELqKw+5mrb+8gRCA4KNj9zsrykA@mail.gmail.com>
 
-2025-07-10T19:47:27+08:00, yunhui cui <cuiyunhui@bytedance.com>:
-> On Thu, Jul 10, 2025 at 2:35=E2=80=AFPM Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrc=
-mar@ventanamicro.com> wrote:
->> It would be to store the percpu offset in CSR_SCRATCH permanently, do
->> the early exception register shuffling with a percpu area storage, and
->> load the thread pointer from there as well.
->> That method would also eliminate writing CSR_SCRATCH on every exception
->> entry+exit, so maybe it makes sense to try it even if CSRs are slow...
+On Sun, Jul 6, 2025 at 4:19=E2=80=AFPM Sergio Gonz=C3=A1lez Collado
+<sergio.collado@gmail.com> wrote:
 >
-> Based on the patch, optimizations for percpu offset have been added,
-> with the following data:
-> 6.989 7.046 6.976 6.986 7.001 7.017 7.007 7.064 7.008 7.039
-> Geometric mean: 7.013248303
-> Compared to reusing the scratch register, the performance has improved
-> by approximately 0.7%.
+> The kunit test that checks the longests symbol length [1], has triggered
+> warnings in some pilelines when symbol prefixes are used [2][3]. The test
+> will to depend on !PREFIX_SYMBOLS and !CFI_CLANG as sujested in [4] and
+> on !GCOV_KERNEL.
+>
+> [1] https://lore.kernel.org/rust-for-linux/CABVgOSm=3D5Q0fM6neBhxSbOUHBgN=
+zmwf2V22vsYC10YRBT=3DkN1g@mail.gmail.com/T/#t
+> [2] https://lore.kernel.org/all/20250328112156.2614513-1-arnd@kernel.org/=
+T/#u
+> [3] https://lore.kernel.org/rust-for-linux/bbd03b37-c4d9-4a92-9be2-75aaf8=
+c19815@infradead.org/T/#t
+> [4] https://lore.kernel.org/linux-kselftest/20250427200916.GA1661412@ax16=
+2/T/#t
+>
+> Reviewed-by: Rae Moar <rmoar@google.com>
+> Signed-off-by: Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Nice, thanks.  The CSR_SCRATCH accesses seem much slower than GPRs, and
-possibly even slower than L1 hit -- we might gain more by storing the
-precomputed offset in the task struct.
+Hello!
 
-Can you check this patch as well?
+Thanks for resending! I don't believe this has been accepted yet.  So
+I've added it to the list of patches to get accepted for the
+kselftest/kunit branch.
 
-(It should be compared against a variant of CSR_SCRATCH that uses the
- TASK_TI_PERCPU_OFFSET optimizations, but we can try to interpolate. :])
+Thanks!
+-Rae
 
----8<---
-RISC-V: store precomputed percpu_offset in the task struct
-
-Exploring the memoization trade-off... hoping that __set_task_cpu covers
-everything. :)
-
-I didn't put any though into where the percpu_offset should live, and
-the naive approach is to put it next to cpu.
-This needs more work to not break build on other arches, because I
-directly added RISC-V specific code to __set_task_cpu, to save time
-figuring out where else it could be.
----
- arch/riscv/include/asm/asm.h         | 6 +-----
- arch/riscv/include/asm/percpu.h      | 8 ++++++++
- arch/riscv/include/asm/thread_info.h | 3 ++-
- arch/riscv/kernel/asm-offsets.c      | 1 +
- arch/riscv/kernel/smpboot.c          | 6 ++++++
- kernel/sched/sched.h                 | 1 +
- 6 files changed, 19 insertions(+), 6 deletions(-)
- create mode 100644 arch/riscv/include/asm/percpu.h
-
-diff --git a/arch/riscv/include/asm/asm.h b/arch/riscv/include/asm/asm.h
-index a8a2af6dfe9d..2a6b831d9cdf 100644
---- a/arch/riscv/include/asm/asm.h
-+++ b/arch/riscv/include/asm/asm.h
-@@ -91,11 +91,7 @@
- #endif
-=20
- .macro asm_per_cpu dst sym tmp
--	REG_L \tmp, TASK_TI_CPU_NUM(tp)
--	slli  \tmp, \tmp, PER_CPU_OFFSET_SHIFT
--	la    \dst, __per_cpu_offset
--	add   \dst, \dst, \tmp
--	REG_L \tmp, 0(\dst)
-+	REG_L \tmp, TASK_TI_PERCPU_OFFSET(tp)
- 	la    \dst, \sym
- 	add   \dst, \dst, \tmp
- .endm
-diff --git a/arch/riscv/include/asm/percpu.h b/arch/riscv/include/asm/percp=
-u.h
-new file mode 100644
-index 000000000000..c37a0fce6ebc
---- /dev/null
-+++ b/arch/riscv/include/asm/percpu.h
-@@ -0,0 +1,8 @@
-+#ifndef __ASM_PERCPU_H
-+#define __ASM_PERCPU_H
-+
-+#define __my_cpu_offset (current_thread_info()->percpu_offset)
-+
-+#include <asm-generic/percpu.h>
-+
-+#endif
-diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/=
-thread_info.h
-index f5916a70879a..da776b7a1d02 100644
---- a/arch/riscv/include/asm/thread_info.h
-+++ b/arch/riscv/include/asm/thread_info.h
-@@ -60,8 +60,9 @@ struct thread_info {
- 	 */
- 	long			kernel_sp;	/* Kernel stack pointer */
- 	long			user_sp;	/* User stack pointer */
--	int			cpu;
-+	int			cpu;		// TODO: could be packed better
- 	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
-+	unsigned long		percpu_offset;	// XXX: randomly placed here
- #ifdef CONFIG_SHADOW_CALL_STACK
- 	void			*scs_base;
- 	void			*scs_sp;
-diff --git a/arch/riscv/kernel/asm-offsets.c b/arch/riscv/kernel/asm-offset=
-s.c
-index 6e8c0d6feae9..9c7bb4d7e3b3 100644
---- a/arch/riscv/kernel/asm-offsets.c
-+++ b/arch/riscv/kernel/asm-offsets.c
-@@ -50,6 +50,7 @@ void asm_offsets(void)
- #endif
-=20
- 	OFFSET(TASK_TI_CPU_NUM, task_struct, thread_info.cpu);
-+	OFFSET(TASK_TI_PERCPU_OFFSET, task_struct, thread_info.percpu_offset);
- 	OFFSET(TASK_THREAD_F0,  task_struct, thread.fstate.f[0]);
- 	OFFSET(TASK_THREAD_F1,  task_struct, thread.fstate.f[1]);
- 	OFFSET(TASK_THREAD_F2,  task_struct, thread.fstate.f[2]);
-diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
-index 601a321e0f17..3c09c8f3e30c 100644
---- a/arch/riscv/kernel/smpboot.c
-+++ b/arch/riscv/kernel/smpboot.c
-@@ -41,6 +41,11 @@
-=20
- static DECLARE_COMPLETION(cpu_running);
-=20
-+void __init smp_prepare_boot_cpu(void)
-+{
-+	current_thread_info()->percpu_offset =3D per_cpu_offset(smp_processor_id(=
-));
-+}
-+
- void __init smp_prepare_cpus(unsigned int max_cpus)
- {
- 	int cpuid;
-@@ -183,6 +188,7 @@ int __cpu_up(unsigned int cpu, struct task_struct *tidl=
-e)
- {
- 	int ret =3D 0;
- 	tidle->thread_info.cpu =3D cpu;
-+	tidle->thread_info.percpu_offset =3D per_cpu_offset(cpu);
-=20
- 	ret =3D start_secondary_cpu(cpu, tidle);
- 	if (!ret) {
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 475bb5998295..2180a85b1403 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -2199,6 +2199,7 @@ static inline void __set_task_cpu(struct task_struct =
-*p, unsigned int cpu)
- 	 */
- 	smp_wmb();
- 	WRITE_ONCE(task_thread_info(p)->cpu, cpu);
-+	WRITE_ONCE(task_thread_info(p)->percpu_offset, per_cpu_offset(cpu));
- 	p->wake_cpu =3D cpu;
- #endif
- }
+> ---
+>  lib/Kconfig.debug                | 1 +
+>  lib/tests/longest_symbol_kunit.c | 3 +--
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index ebe33181b6e6..4a75a52803b6 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -2885,6 +2885,7 @@ config FORTIFY_KUNIT_TEST
+>  config LONGEST_SYM_KUNIT_TEST
+>         tristate "Test the longest symbol possible" if !KUNIT_ALL_TESTS
+>         depends on KUNIT && KPROBES
+> +       depends on !PREFIX_SYMBOLS && !CFI_CLANG && !GCOV_KERNEL
+>         default KUNIT_ALL_TESTS
+>         help
+>           Tests the longest symbol possible
+> diff --git a/lib/tests/longest_symbol_kunit.c b/lib/tests/longest_symbol_=
+kunit.c
+> index e3c28ff1807f..9b4de3050ba7 100644
+> --- a/lib/tests/longest_symbol_kunit.c
+> +++ b/lib/tests/longest_symbol_kunit.c
+> @@ -3,8 +3,7 @@
+>   * Test the longest symbol length. Execute with:
+>   *  ./tools/testing/kunit/kunit.py run longest-symbol
+>   *  --arch=3Dx86_64 --kconfig_add CONFIG_KPROBES=3Dy --kconfig_add CONFI=
+G_MODULES=3Dy
+> - *  --kconfig_add CONFIG_RETPOLINE=3Dn --kconfig_add CONFIG_CFI_CLANG=3D=
+n
+> - *  --kconfig_add CONFIG_MITIGATION_RETPOLINE=3Dn
+> + *  --kconfig_add CONFIG_CPU_MITIGATIONS=3Dn --kconfig_add CONFIG_GCOV_K=
+ERNEL=3Dn
+>   */
+>
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>
+> base-commit: 772b78c2abd85586bb90b23adff89f7303c704c7
+> --
+> 2.39.2
+>
 
