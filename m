@@ -1,37 +1,38 @@
-Return-Path: <linux-kbuild+bounces-7988-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7989-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20711B021A9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Jul 2025 18:26:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFE3B021AA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Jul 2025 18:26:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 728227A1DFE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Jul 2025 16:24:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09E8D1C439C5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Jul 2025 16:26:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE002EF2B8;
-	Fri, 11 Jul 2025 16:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9952EF676;
+	Fri, 11 Jul 2025 16:26:12 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B0CE2EF2B6;
-	Fri, 11 Jul 2025 16:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4BB82EF641;
+	Fri, 11 Jul 2025 16:26:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752251170; cv=none; b=F4CgkXg2oyfezLlfBLPR6oK8KC0lWBlTTDy5JMSGCNVbjerv5PTbrUR3nwv62bam+jAY1fxAkIwxq4PzUhn5K9tEL0fIuyxIM7F6iDA5sNvDQymKIHcPzwiaaAXJVYBlCZvANf5cFf5z9McYhItQtIMyjqUSJrg3Qih+etlPYrY=
+	t=1752251172; cv=none; b=WvNfCH/EM2xrq0IUcvuBCXf9Wry0QIMkKMeltcH4Xooo6GU4nPF3xOV8WDIdi2LyowZpQEzk3iHRagP18ixRRCEgYo6wdsNddLJGg9E56eNEPpuP2jRkopVfj+jRbOw42QcroA1GdPG+ggRn15kjmlrYCQDFjz+j1g3dkm5aiv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752251170; c=relaxed/simple;
-	bh=lFtsIy/1m3SroYU84jPKnFUy4QrvbrN6+GIIQtM1Jgw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TOvIhoUHC5HHP/E/5iJs1Ibz1fOPf1VA8kOShNUXUv5fBV9VZcCSQqX4pSZXJCaJ0X7u06rSrmyNPmnIRJv/QTscocm/7/jeGTeYex91laxJrPiThRI7MKi++MslHtoSeVkVbjWKGOWyfMDVT8jxZPiMvDiORwI8nHWoEWlI9Uc=
+	s=arc-20240116; t=1752251172; c=relaxed/simple;
+	bh=Dov6w9WQx8vyMD5aEf04cyyBjjDtz5SLoks3mppqLIw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=n9dMDb2hPGV+H5eCVNojUzeOPp50Q/TOtzaI+lDYgLFpxz89y6gx1h6Srj9vgThZf01WEh5uVM1RBao4b6zl5Fh6ypprUnyOn7Sqq9QCz+uyGLWSp1bjoAaT0lNJ559v+U65Mj8N0YIj6xAvlPucNfRoScckwJO4nTYg7whgYCE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A581F16F8;
-	Fri, 11 Jul 2025 09:25:56 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D1192247;
+	Fri, 11 Jul 2025 09:25:59 -0700 (PDT)
 Received: from u200865.usa.arm.com (unknown [10.119.38.50])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD4633F6A8;
-	Fri, 11 Jul 2025 09:26:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EBB83F6A8;
+	Fri, 11 Jul 2025 09:26:09 -0700 (PDT)
 From: Jeremy Linton <jeremy.linton@arm.com>
 To: linux-kbuild@vger.kernel.org
 Cc: masahiroy@kernel.org,
@@ -39,10 +40,12 @@ Cc: masahiroy@kernel.org,
 	nicolas.schier@linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jeremy Linton <jeremy.linton@arm.com>
-Subject: [PATCH v2 0/1] scripts: add zboot support to extract-vmlinux
-Date: Fri, 11 Jul 2025 11:26:04 -0500
-Message-ID: <20250711162605.545514-1-jeremy.linton@arm.com>
+Subject: [PATCH v2 1/1] scripts: add zboot support to extract-vmlinux
+Date: Fri, 11 Jul 2025 11:26:05 -0500
+Message-ID: <20250711162605.545514-2-jeremy.linton@arm.com>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250711162605.545514-1-jeremy.linton@arm.com>
+References: <20250711162605.545514-1-jeremy.linton@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -51,21 +54,58 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Enhance the extract-vmlinux script for use with EFI_ZBOOT
-compressed images.
+Zboot compressed kernel images are used for arm64 kernels on various
+distros.
 
-v1->v2:
-	Merge 'file' check with its 'if' condition.
-	Invert the resulting condition and move copy block inside. 
-	Tweak the commit message to clarify arm/arm64
-	as well as how recent of a 'file' command is needed.
+extract-vmlinux fails with those kernels because the wrapped image is
+another PE. While this could be a bit confusing, the tools primary
+purpose of unwrapping and decompressing the contained kernel image
+makes it the obvious place for this functionality.
 
-Jeremy Linton (1):
-  scripts: add zboot support to extract-vmlinux
+Add a 'file' check in check_vmlinux() that detects a contained PE
+image before trying readelf. Recent (FILES_39, Jun/2020) file
+implementations output something like:
 
+"Linux kernel ARM64 boot executable Image, little-endian, 4K pages"
+
+Which is also a stronger statement than readelf provides so drop that
+part of the comment. At the same time this means that kernel images
+which don't appear to contain a compressed image will be returned
+rather than reporting an error. Which matches the behavior for
+existing ELF files.
+
+The extracted PE image can then be inspected, or used as would any
+other kernel PE.
+
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+---
  scripts/extract-vmlinux | 13 ++++++-------
  1 file changed, 6 insertions(+), 7 deletions(-)
 
+diff --git a/scripts/extract-vmlinux b/scripts/extract-vmlinux
+index 8995cd304e6e..049bab337f0e 100755
+--- a/scripts/extract-vmlinux
++++ b/scripts/extract-vmlinux
+@@ -12,13 +12,12 @@
+ 
+ check_vmlinux()
+ {
+-	# Use readelf to check if it's a valid ELF
+-	# TODO: find a better to way to check that it's really vmlinux
+-	#       and not just an elf
+-	readelf -h $1 > /dev/null 2>&1 || return 1
+-
+-	cat $1
+-	exit 0
++	if file "$1" | grep -q 'Linux kernel.*boot executable' \
++		|| readelf -h "$1" > /dev/null 2>&1
++	then
++		cat "$1"
++		exit 0
++	fi
+ }
+ 
+ try_decompress()
 -- 
 2.50.1
 
