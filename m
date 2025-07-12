@@ -1,146 +1,252 @@
-Return-Path: <linux-kbuild+bounces-7990-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7991-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41302B0226B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Jul 2025 19:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52694B02A4F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 11:50:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F04016B582
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Jul 2025 17:16:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 745D11672E9
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 09:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0320415687D;
-	Fri, 11 Jul 2025 17:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71819270554;
+	Sat, 12 Jul 2025 09:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gkBlRWob"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="k0o92uC5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440411547CC;
-	Fri, 11 Jul 2025 17:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752254165; cv=none; b=h9T9UN1uJ6VLqboqne0sRxtgvCYKTIFRlSdfD1qFXKxff52rDOcCdidduwAqy9VwZAlXoTDiRgsWb2Pg2mBUrxV9L3dOB80De8UUXcuBEXDpT7CPreA+Wwi24es9GjbgjcTU0zeSi/W7YJ+eXG4lJasYe7z5QHaYpxWP1+e45DQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752254165; c=relaxed/simple;
-	bh=punT/qboQi6RwL4rhScmANJJEIkXEYqHxfa0D+uO4Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W15EhCpr2T1VsyJPEgANnVDZ6xNnILVV9r5kycK0sBCRW03KgU8GwieYgeLNugBhzwT9/9rudbTgbtK8m4t+1pyTR2RDou3So5WQKeMEmAzZyz5bSDvomfytF3r7kACyrxoRRqqmayPsjNhy57CPksnIrTY9BwZ4xcxJ7vn8HxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gkBlRWob; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4537fdec33bso13775145e9.1;
-        Fri, 11 Jul 2025 10:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752254163; x=1752858963; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XgDIVlF1DvYfUM2yQqqKFY/jQV517y2whN5qoc38Vxc=;
-        b=gkBlRWob7+1RCeHVZLecQ9Lde3df+2x301kewbb8FRdDZ6DLzkqUjj09TYlYKonWGT
-         ayjwe5RWc2wJzf75IsEKzTZKNyXH0JTzyJo7DZKco7nLvWlJY6uY8hA0q9n7FSYbUTvh
-         bOOnMn0qj5PrxgwXWu3NDGJdC1HHqAHx9FqgGHzknRyp53XTDCONdSJzHSbs6aE3xG2g
-         i4J8AcHWlbpWZaHqpJ8rt6Jgdz1HVUAoulrtpbhYncf299TYqYKeFbRpJ0DCjhDNmMgc
-         luTe14btUuwn4+j0j9C4XyhsakaKp3qQGNs39FC0Z2wVzKZHq3AU+MC/b9W7CVQuEAc2
-         hY/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752254163; x=1752858963;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XgDIVlF1DvYfUM2yQqqKFY/jQV517y2whN5qoc38Vxc=;
-        b=EvmF7hpGxumDSLGr9mBv8OLJuW7Qsf/mypertDr5VoNb9k+9iMGkFbDp6XmUEwNMMn
-         Na8kw0MxNXZ4jYpMu+sumsOfd/GEND198XT92R2Fv64k5B0iN64sv7rYmzNexLSprntR
-         RIjVIrOB6Trg1VBWZ4nVx5ox4tf/tzbQ33c2eo1Imae09UuYm3yNc9HxyMPdw6RA0nvT
-         rUhEn9UZv4pHu76nYjOw9AS+rWIvmaqDDFSgDPwyq2ruIsvSgHCLAylUmd0NpWWROzBE
-         NtW1MhUWBVFTiOVt2O+d+Q1uTGIfsnWJSmAPjzerH5WMKyZjDXHBlAShHGV2gXIp63NN
-         ExwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3IzkWd0iE0qFHGfSBWZ3bzrYV5b8c/MrINNauGmZMt7AfzFPvXsGtyVszX19v5oN56nxSDpdNPMRcIMKU3w==@vger.kernel.org, AJvYcCW7PbMVUusxk088m0LygdZkHOvxIhAvq49ih6epvz7RDb9TB5R6OObQBaQcWU6UGVJmyaOhpp0KvVWer6TtIg==@vger.kernel.org, AJvYcCWP4tMlHiXKNPi+Yx7p84vJjgxi2xLJcKqNn0L4pKLdlGk19M9WawdRNM4X7TOXmpD0KIstW6JFfd0=@vger.kernel.org, AJvYcCXZhE8vH4SvRrGn9MvgQT3ATBqLpNMsehTjsnFpJ/qyaFezCZFZrPW4+Ku4/nEt0ootdHZx2pBMYQI1T1BH@vger.kernel.org, AJvYcCXj6Epwpp3aQiZlFyZt+nUZqicfmicXRIU4n88gNL4YTvWUa1xfwVU4HvilARd2UA6jP2fQYKj3nITRO4P0@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqwyhAg7M8MXxLvwRri7gdZC/4N3MZ0G3zKXNE1ERsGksgBEj1
-	PFbKtJn2jf/cJKgVEduScde4wLrptU9itRD31IvsextjKvc2FhsCp/EJ
-X-Gm-Gg: ASbGnctw+wbHFPL5/Ei6g4WeH3RiUNAwAH3uYjfexNP/VJmlLJ44I1kCLhFlV2maJcZ
-	OuatrvbsqnVDzpP/2ByWHLJXlhyqcd9vOasr+NWYXzRqG2APSosTL/eqfndQjHwco5S222wOku3
-	vmNCEulL7QpNtSy1LGePuvw6WB5DHQKOqRwZKYHIkYVIzTjpH2J9EnqflgM9ffoObamv8UTMMdm
-	eEOUE6HUIodm/WP2n39TpIPFyRjGaD99PXbL1VlZ6MIG+0GhZyABeSskswBee6p4Tk8U98Gu0YY
-	cW1m9YRirRWo76G0fsD59zwuN7AukC7qwsTZGfM9yox1xwvGxFygcE0zbWpktLRb+2+RPWJpWjv
-	2QX/YoRUsLRB0cmfNHT/e7Ddnd/ChmD/sjSQQ1xgwGuFI6mrfTRirIg==
-X-Google-Smtp-Source: AGHT+IELepidXrimYt+aX1iyNVRfD3WkoM6qJxSS6lwzOVMRvsBDCdDvOitxBrAgoPpT5TSjelS97g==
-X-Received: by 2002:a05:600c:540f:b0:453:9bf:6f7c with SMTP id 5b1f17b1804b1-454ec1274demr41997825e9.9.1752254162453;
-        Fri, 11 Jul 2025 10:16:02 -0700 (PDT)
-Received: from pumpkin (host-92-21-58-28.as13285.net. [92.21.58.28])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e14e82sm5003521f8f.71.2025.07.11.10.16.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jul 2025 10:16:02 -0700 (PDT)
-Date: Fri, 11 Jul 2025 18:16:00 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Matthias Maennich
- <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen
- <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, Masahiro
- Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig
- <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, David
- Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, "Jiri
- Slaby (SUSE)" <jirislaby@kernel.org>, Stephen Rothwell
- <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Restrict module namespace to in-tree modules and
- rename macro
-Message-ID: <20250711181600.36fac178@pumpkin>
-In-Reply-To: <20250708-merkmal-erhitzen-23e7e9daa150@brauner>
-References: <20250708-export_modules-v1-0-fbf7a282d23f@suse.cz>
-	<20250708-merkmal-erhitzen-23e7e9daa150@brauner>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51622320F;
+	Sat, 12 Jul 2025 09:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752313850; cv=pass; b=J2gatGl6XEWbb79u/eNUugy5dOBzXr5OnSyk5TxXhBH4NcK9noTR64FeFEodD3EQ0sRIynppphO/fcQwl0lcb+AKl9A304N755+sod8Hm9ssWiK/0hpbIJnhdb4qm9AnLUrYxH4gmH8UV+nXJ/v8jKVsHxc/Gd2SlmTExRtlP1E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752313850; c=relaxed/simple;
+	bh=+Ynhpu2KXz4O7b5acgi7VjUcunB8pQv17pYrwm4Afjg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FoyYykbbGZ0VnUL7ctqKI3bcgOPLbHj6PEN92HsQ9CrFmSrKdL8lCCambQrFLvMMob6TKD6zrfTHf6Ime6sufD0TFhwq2flfTdnp1ijsIAVBfFm3VdMN6mcosFhv9J4Act5YAx2FSk/vTxVOKRmk3bHtFwtUFePutuq72cQkbsQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=k0o92uC5; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1752313784; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=IjAmJz1z0yMDYPwA+CnT1jRLlqgTk/jkDlnHnyeruSF+/L1kNge9i2ROXqRGw7GRPV6CPG1s5U/TfTwHC8pr0SNVZM7/TeOTJeMKqDkeQ83lK2hv9upcfgjguCFqikzu3ruJmRI1GkeDRv/E7wZnf1CDg4+ef94B1oMjRpj508s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1752313784; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=go+Gwy9F2gBG7zGq4Wsnv/lQe3FIC9LBHLEwSkLnE/4=; 
+	b=QniJ2o/9OhA6zU7q3+vrmzUxo2uRtAEoki4TFqKGnZD2kKg/qd5P3ZdRk/9ZBnTsds+Jj1AnZ0CLKfZ3iyiRRqXzA0M+B3v1B5E/ZXy4vvFTL4BD1spW/Hcmp+xfSQ1v1MbYhmA4MtCwL3q7lohk23+jOLtWdK9GmiAiHjRpCVs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752313784;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=go+Gwy9F2gBG7zGq4Wsnv/lQe3FIC9LBHLEwSkLnE/4=;
+	b=k0o92uC5oivuRhDSgbLhC3qJe2CJLNbx82gnZG1YVp7UKEfjeY4yDBCyEuGA3fF6
+	1OOiQEKwg43h60IR+jslzvtzqNfgNclpeAkFtm4F23lpvf1YUlAX/jySFJZoi5LkiZ+
+	5M538ea/ql9V4qntmV/cQxntjBzWejageV/6OA+I=
+Received: by mx.zohomail.com with SMTPS id 1752313782493219.79404897299253;
+	Sat, 12 Jul 2025 02:49:42 -0700 (PDT)
+Message-ID: <dc205138-3f68-4073-aeb3-3e2e67c15da4@collabora.com>
+Date: Sat, 12 Jul 2025 14:49:38 +0500
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 14/15] kunit: uapi: Introduce preinit executable
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Willy Tarreau <w@1wt.eu>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org
+References: <20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de>
+ <20250626-kunit-kselftests-v4-14-48760534fef5@linutronix.de>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20250626-kunit-kselftests-v4-14-48760534fef5@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Tue, 8 Jul 2025 09:40:37 +0200
-Christian Brauner <brauner@kernel.org> wrote:
-
-> On Tue, Jul 08, 2025 at 09:28:56AM +0200, Vlastimil Babka wrote:
-> > Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
-> > part to avoid controversy converting selected existing EXPORT_SYMBOL().
-> > Christoph argued [2] that the _FOR_MODULES() export is intended for
-> > in-tree modules and thus GPL is implied anyway and can be simply dropped
-> > from the export macro name. Peter agreed [3] about the intention for
-> > in-tree modules only, although nothing currently enforces it.
-> > 
-> > It seems straightforward to add this enforcement, so patch 1 does that.
-> > Patch 2 then drops the _GPL_ from the name and so we're left with
-> > EXPORT_SYMBOL_FOR_MODULES() restricted to in-tree modules only.
-
-Bikeshedding somewhat, isn't that a silly name.
-All EXPORT_SYMBOL are 'for modules'.
-Wouldn't something like EXPORT_SYMBOL_IN_TREE be more descriptive.
-
-	David
-
-> > 
-> > Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
-> > in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
-> > 8250: export RSA functions"). Hopefully it's resolvable by a merge
-> > commit fixup and we don't need to provide a temporary alias.
-> > 
-> > [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
-> > [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
-> > [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
-> > 
-> > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> > ---  
+On 6/26/25 11:10 AM, Thomas WeiÃschuh wrote:
+> UAPI selftests may expect a "normal" userspace environment.
+> For example the normal kernel API pseudo-filesystems should be mounted.
+> This could be done from kernel code but it is non-idiomatic.
 > 
-> Love this. It'd be great to get this in as a bugfix,
-> Acked-by: Christian Brauner <brauner@kernel.org>
+> Add a preinit userspace executable which performs these setup steps
+> before running the final test executable.
+> This preinit executable is only ever run from the kernel.
+> Give it access to autoconf.h and kconfig.h to adapt itself to the
+> tested kernel.
+From perspective of kselftests, I've liked the approach. Once we have an
+automated way to run all the tests by some simple stubs, it would solve
+the inherent problem of kselftests that it require different config options
+enabled before tests can run. Hopefully, they would be auto enabled / disabled as
+kernel config changes.
+
+Acked-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+
+> 
+> Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> Reviewed-by: David Gow <davidgow@google.com>
+> ---
+>  MAINTAINERS              |  1 +
+>  lib/kunit/Makefile       |  6 +++++
+>  lib/kunit/kunit-uapi.c   |  9 +++++--
+>  lib/kunit/uapi-preinit.c | 63 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 77 insertions(+), 2 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b1405f0a0e638d1654d9dc9e51d784ddc838cf5b..e81dfa180ab374ef91c7a45e546e6e9a8f454fa7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13546,6 +13546,7 @@ S:	Maintained
+>  F:	include/kunit/uapi.h
+>  F:	lib/kunit/kunit-example-uapi.c
+>  F:	lib/kunit/kunit-uapi.c
+> +F:	lib/kunit/uapi-preinit.c
+>  
+>  KVM PARAVIRT (KVM/paravirt)
+>  M:	Paolo Bonzini <pbonzini@redhat.com>
+> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> index 1bba7965613e36e26939d6b31e1d65acf5bad0dc..b50f3bc8bc7f3ade03be4900d9163d7a0d96863c 100644
+> --- a/lib/kunit/Makefile
+> +++ b/lib/kunit/Makefile
+> @@ -14,8 +14,14 @@ kunit-objs +=				test.o \
+>  					device.o \
+>  					platform.o
+>  
+> +userprogs +=				uapi-preinit
+> +uapi-preinit-userccflags +=		-static $(NOLIBC_USERCFLAGS) \
+> +					-include include/generated/autoconf.h \
+> +					-include $(srctree)/tools/include/linux/kconfig.h
+>  obj-$(CONFIG_KUNIT_UAPI) +=		kunit-uapi.o
+>  
+> +$(obj)/kunit-uapi.o: $(obj)/uapi-preinit
+> +
+>  ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
+>  kunit-objs +=				debugfs.o
+>  endif
+> diff --git a/lib/kunit/kunit-uapi.c b/lib/kunit/kunit-uapi.c
+> index cfe8440e16fde942a5f0fa7ac9d8ab90a737215b..7c87605b9ded9dbeb3968af8a8f4650ab5938887 100644
+> --- a/lib/kunit/kunit-uapi.c
+> +++ b/lib/kunit/kunit-uapi.c
+> @@ -25,6 +25,8 @@
+>  #define KSFT_XPASS	3
+>  #define KSFT_SKIP	4
+>  
+> +KUNIT_UAPI_EMBED_BLOB(kunit_uapi_preinit, "uapi-preinit");
+> +
+>  static struct vfsmount *kunit_uapi_mount_ramfs(void)
+>  {
+>  	struct file_system_type *type;
+> @@ -146,7 +148,7 @@ static int kunit_uapi_user_mode_thread_init(void *data)
+>  	kernel_sigaction(SIGABRT, SIG_DFL);
+>  
+>  	complete(&ctx->setup_done);
+> -	ctx->exec_err = kernel_execve(ctx->executable, argv, NULL);
+> +	ctx->exec_err = kernel_execve(kbasename(kunit_uapi_preinit.path), argv, NULL);
+>  	if (!ctx->exec_err)
+>  		return 0;
+>  	do_exit(0);
+> @@ -255,7 +257,10 @@ static int kunit_uapi_run_executable(struct kunit *test,
+>  	if (IS_ERR(mnt))
+>  		return PTR_ERR(mnt);
+>  
+> -	err = kunit_uapi_write_executable(mnt, executable);
+> +	err = kunit_uapi_write_executable(mnt, &kunit_uapi_preinit);
+> +
+> +	if (!err)
+> +		err = kunit_uapi_write_executable(mnt, executable);
+>  
+>  	if (!err)
+>  		err = kunit_uapi_run_executable_in_mount(test, exe_name, mnt);
+> diff --git a/lib/kunit/uapi-preinit.c b/lib/kunit/uapi-preinit.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..81182039965a8c93aebb2d5d76f4113bfef277a6
+> --- /dev/null
+> +++ b/lib/kunit/uapi-preinit.c
+> @@ -0,0 +1,63 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * KUnit Userspace environment setup.
+> + *
+> + * Copyright (C) 2025, Linutronix GmbH.
+> + * Author: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> + *
+> + * This is *userspace* code.
+> + */
+> +
+> +#include <sys/mount.h>
+> +#include <sys/stat.h>
+> +
+> +#include "../../tools/testing/selftests/kselftest.h"
+> +
+> +static int setup_api_mount(const char *target, const char *fstype)
+> +{
+> +	int ret;
+> +
+> +	ret = mkdir(target, 0755);
+> +	if (ret && errno != EEXIST)
+> +		return -errno;
+> +
+> +	ret = mount("none", target, fstype, 0, NULL);
+> +	if (ret && errno != EBUSY)
+> +		return -errno;
+> +
+> +	return 0;
+> +}
+> +
+> +static void exit_failure(const char *stage, int err)
+> +{
+> +	/* If preinit fails synthesize a failed test report. */
+> +	ksft_print_header();
+> +	ksft_set_plan(1);
+> +	ksft_test_result_fail("Failed during test setup: %s: %s\n", stage, strerror(-err));
+Positive error values are passed to strerror() without the - sign in userspace.
+Probably - needs to be removed from strerror() here.
+
+> +	ksft_finished();
+> +}
+> +
+> +int main(int argc, char **argv, char **envp)
+> +{
+> +	int ret;
+> +
+> +	ret = setup_api_mount("/proc", "proc");
+> +	if (ret)
+> +		exit_failure("mount /proc", ret);
+> +
+> +	ret = setup_api_mount("/sys", "sysfs");
+> +	if (ret)
+> +		exit_failure("mount /sys", ret);
+> +
+> +	if (IS_ENABLED(CONFIG_DEVTMPFS)) {
+> +		ret = setup_api_mount("/dev", "devtmpfs");
+> +		if (ret)
+> +			exit_failure("mount /dev", ret);
+> +	}
+> +
+> +	ret = execve(argv[0], argv, envp);
+> +	if (ret)
+> +		exit_failure("execve", ret);
+> +
+> +	return 0;
+> +}
 > 
 
 
