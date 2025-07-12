@@ -1,48 +1,40 @@
-Return-Path: <linux-kbuild+bounces-7996-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7997-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108BFB02C6C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 20:26:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F57B02C7B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 20:50:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C187189D629
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 18:26:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 266A91C2250D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 18:50:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0BF2192F8;
-	Sat, 12 Jul 2025 18:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTKGZei/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE574220686;
+	Sat, 12 Jul 2025 18:50:27 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3611442E8;
-	Sat, 12 Jul 2025 18:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FCFFB672;
+	Sat, 12 Jul 2025 18:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752344784; cv=none; b=WX93NWdoXdQdiCBYsUXaBX3bRcu/DMsWKc7x/7fEoOMyS5J8WSqDEF9NrBXqmQIvlOoxZVtDKaVD5vGBrf+DzcTT0oQ2CQgR0zxtz4fE+XuYkcRy0gMsWh3GThW+cvfmNyDNfSOrKB4o8FLfQlgMSrjV6fdin0ZNUS9SV6uK9zg=
+	t=1752346227; cv=none; b=SfUDccH9ShbBNYNqiqKONkb8PrCJxj628qodyEDp7DfVI8tomt2AFqABXvdEz5h+OQ2+Zxwfcj5QTHX15ZamOnnWtBOuaG60BUXOQTY8cNnYPtcDXOLMBc8lPSclHAt3J4tWe72vMKWplThBaem3/IOB121TLomO2DnQ6Wjuwdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752344784; c=relaxed/simple;
-	bh=dVHOVLobbxpJBiobMxxxyDbFXWxu0ncpCUVo+d4Jgys=;
+	s=arc-20240116; t=1752346227; c=relaxed/simple;
+	bh=wX6BK2CyDpMPWioTbpzKfrkSxmuGErecAaERxhdAYyU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XxXyI6SyaaVqUJlZVLksn1r/Bs56OL2cJIWVF2/7gzmZj1lfgql8/SgJh0dV4iDX8xr3KbkZPvqTNQwZxTt/TsGMo2aRSxRlTwsDAYdZDyC4WwB7vGpQc9u+o7+M09gF2++xwgsQSUJIOm37mLXrpqAdVqpq9JANBfiT1IxXSyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTKGZei/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2A94C4CEEF;
-	Sat, 12 Jul 2025 18:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752344784;
-	bh=dVHOVLobbxpJBiobMxxxyDbFXWxu0ncpCUVo+d4Jgys=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rTKGZei/AFGwW6fNmpxPvM258M3yFq21CpyDLqheql+XbVzOeLNG3dUY2UrKpG8HF
-	 /DlXSPFhX7LJPacLyh3hVyfhPEIvKUKVe1IQenvpLq6mU3lJh0dz+/bv+My9j/gjyt
-	 3FBUzenfutXM7ZiRnBa4c9IvN7fuoS79vu5J5mshiJY3qOQ4cDxtFaPrKiyrYbVYi9
-	 pDIaMZ+1YmO9EdeSxcdgWdiyyVyEY8JtqnI+bjSbuyi4KEvh3zSc4sGti05RMLGHlw
-	 ZuGXoBZgKVXPZ8Fp6wva6A+rSGvo6Bxgoft7ZR1wkiuChkdzJ4Mkwos5uV4tO6PnQh
-	 5jAWr7qY4oipg==
-Message-ID: <b9b74600-4467-4c76-aa41-0a36b1cce1f4@kernel.org>
-Date: Sat, 12 Jul 2025 20:26:17 +0200
+	 In-Reply-To:Content-Type; b=AW17/fzB+VglCgWxjnNx1ws3O15Eug7GkdJW1BzoGS/MBNQkCthGmwxe7C7dDbqJHOfMNO0cw1FwkZypZSzFV4jDjO4wAZ+s3wtKk6Yr8C2Dqoe6grr9foNzUtVvmoIhpxZf/Hndsury0+GUvPsC4qfnJVg08IAgYVfzPCohkQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27AC41424;
+	Sat, 12 Jul 2025 11:50:08 -0700 (PDT)
+Received: from [192.168.20.57] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A265F3F6A8;
+	Sat, 12 Jul 2025 11:50:16 -0700 (PDT)
+Message-ID: <bef8875c-a7c1-4ae2-abc4-ce279e9d4778@arm.com>
+Date: Sat, 12 Jul 2025 13:49:59 -0500
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -50,118 +42,108 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-To: Vlastimil Babka <vbabka@suse.cz>, Matthias Maennich
- <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
- <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
+Subject: Re: [PATCH v2 1/1] scripts: add zboot support to extract-vmlinux
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org,
+ nicolas.schier@linux.dev, linux-kernel@vger.kernel.org
+References: <20250711162605.545514-1-jeremy.linton@arm.com>
+ <20250711162605.545514-2-jeremy.linton@arm.com>
+ <CAK7LNAQM02RBd4M5QgNTNKNaAYKGaPUSgJRXwq=Pq3OA5dYMRQ@mail.gmail.com>
 Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Jeremy Linton <jeremy.linton@arm.com>
+In-Reply-To: <CAK7LNAQM02RBd4M5QgNTNKNaAYKGaPUSgJRXwq=Pq3OA5dYMRQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 11/07/2025 16.05, Vlastimil Babka wrote:
-> Christoph suggested that the explicit _GPL_ can be dropped from the
-> module namespace export macro, as it's intended for in-tree modules
-> only. It would be possible to resrict it technically, but it was pointed
-> out [2] that some cases of using an out-of-tree build of an in-tree
-> module with the same name are legitimate. But in that case those also
-> have to be GPL anyway so it's unnecessary to spell it out.
+Hi,
+
+On 7/12/25 10:47 AM, Masahiro Yamada wrote:
+> On Sat, Jul 12, 2025 at 1:26 AM Jeremy Linton <jeremy.linton@arm.com> wrote:
+>>
+>> Zboot compressed kernel images are used for arm64 kernels on various
+>> distros.
+>>
+>> extract-vmlinux fails with those kernels because the wrapped image is
+>> another PE. While this could be a bit confusing, the tools primary
+>> purpose of unwrapping and decompressing the contained kernel image
+>> makes it the obvious place for this functionality.
+>>
+>> Add a 'file' check in check_vmlinux() that detects a contained PE
+>> image before trying readelf. Recent (FILES_39, Jun/2020) file
+>> implementations output something like:
+>>
+>> "Linux kernel ARM64 boot executable Image, little-endian, 4K pages"
+>>
+>> Which is also a stronger statement than readelf provides so drop that
+>> part of the comment. At the same time this means that kernel images
+>> which don't appear to contain a compressed image will be returned
+>> rather than reporting an error. Which matches the behavior for
+>> existing ELF files.
+>>
+>> The extracted PE image can then be inspected, or used as would any
+>> other kernel PE.
+>>
+>> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+>> ---
+>>   scripts/extract-vmlinux | 13 ++++++-------
+>>   1 file changed, 6 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/scripts/extract-vmlinux b/scripts/extract-vmlinux
+>> index 8995cd304e6e..049bab337f0e 100755
+>> --- a/scripts/extract-vmlinux
+>> +++ b/scripts/extract-vmlinux
+>> @@ -12,13 +12,12 @@
+>>
+>>   check_vmlinux()
+>>   {
+>> -       # Use readelf to check if it's a valid ELF
+>> -       # TODO: find a better to way to check that it's really vmlinux
+>> -       #       and not just an elf
+>> -       readelf -h $1 > /dev/null 2>&1 || return 1
+>> -
+>> -       cat $1
+>> -       exit 0
+>> +       if file "$1" | grep -q 'Linux kernel.*boot executable' \
 > 
-> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
-> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> Reviewed-by: Shivank Garg <shivankg@amd.com>
-> Acked-by: Christian Brauner <brauner@kernel.org>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
-> Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
-> part to avoid controversy converting selected existing EXPORT_SYMBOL().
-> Christoph argued [2] that the _FOR_MODULES() export is intended for
-> in-tree modules and thus GPL is implied anyway and can be simply dropped
-> from the export macro name. Peter agreed [3] about the intention for
-> in-tree modules only, although nothing currently enforces it.
+> Sorry for my nit-picking, but I'd like to get rid of this back-slash
+> by breaking the line _after_ the OR operator, not before.
 > 
-> It seemed straightforward to add this enforcement, so v1 did that. But
-> there were concerns of breaking the (apparently legitimate) usecases of
-> loading an updated/development out of tree built version of an in-tree
-> module.
+> That is,
 > 
-> So leave out the enforcement part and just drop the _GPL_ from the
-> export macro name and so we're left with EXPORT_SYMBOL_FOR_MODULES()
-> only. Any in-tree module used in an out-of-tree way will have to be GPL
-> anyway by definition.
 > 
-> Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
-> in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
-> 8250: export RSA functions"). Hopefully it's resolvable by a merge
-> commit fixup and we don't need to provide a temporary alias.
+>      if command1 ||
+>             command2
+>      then
+>           ...
+>      fi
 > 
-> [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
-> [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
-> [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
-> ---
-> Changes in v2:
-> - drop the patch to restrict module namespace export for in-tree modules
-> - fix a pre-existing documentation typo (Nicolas Schier)
-> - Link to v1: https://patch.msgid.link/20250708-export_modules-v1-0-fbf7a282d23f@suse.cz
-> ---
->  Documentation/core-api/symbol-namespaces.rst | 8 ++++----
->  fs/anon_inodes.c                             | 2 +-
->  include/linux/export.h                       | 2 +-
->  3 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-> index 32fc73dc5529e8844c2ce2580987155bcd13cd09..6f7f4f47d43cdeb3b5008c795d254ca2661d39a6 100644
-> --- a/Documentation/core-api/symbol-namespaces.rst
-> +++ b/Documentation/core-api/symbol-namespaces.rst
-> @@ -76,8 +76,8 @@ A second option to define the default namespace is directly in the compilation
->  within the corresponding compilation unit before the #include for
->  <linux/export.h>. Typically it's placed before the first #include statement.
->  
-> -Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
-> ------------------------------------------------
-> +Using the EXPORT_SYMBOL_FOR_MODULES() macro
-> +-------------------------------------------
->  
->  Symbols exported using this macro are put into a module namespace. This
->  namespace cannot be imported.
+> rather than
+> 
+>      if command1 \
+>            || command2
+>      then
+>            ...
+>      fi
 
-The new naming makes sense, but it breaks the pattern with _GPL suffix:
+Moving the || is no problem, but I am/was under the impression that 
+implicit line continuation is a posix shell gray area? Particularly when 
+its outside of an explicit compound statement. This AFAIK was one of the 
+things bash clarifed.
 
-* EXPORT_SYMBOL(sym)
-* EXPORT_SYMBOL_GPL(sym)
-* EXPORT_SYMBOL_NS(sym, ns)
-* EXPORT_SYMBOL_NS_GPL(sym, ns)
-* EXPORT_SYMBOL_FOR_MODULES(sym, mods)
+> 
+>> +               || readelf -h "$1" > /dev/null 2>&1
+>> +       then
+>> +               cat "$1"
+>> +               exit 0
+>> +       fi
+>>   }
+>>
+>>   try_decompress()
+>> --
+>> 2.50.1
+>>
+> 
+> 
 
-So I think when reading this one may forget about the _obvious_ reason. That's
-why I think clarifying that in the documentation would be great. Something like:
-
-Symbols exported using this macro are put into a module namespace. This
-namespace cannot be imported. And it's implicitly GPL-only as it's only intended
-for in-tree modules.
-
-Other than that, it looks good.
-
-Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
 
