@@ -1,253 +1,167 @@
-Return-Path: <linux-kbuild+bounces-7995-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-7996-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D288B02BCB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 18:01:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 108BFB02C6C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 20:26:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 138824A823D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 16:01:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C187189D629
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Jul 2025 18:26:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FA4028A1C9;
-	Sat, 12 Jul 2025 16:01:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0BF2192F8;
+	Sat, 12 Jul 2025 18:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tK7cRlTp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTKGZei/"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A31E1EA7CE;
-	Sat, 12 Jul 2025 16:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3611442E8;
+	Sat, 12 Jul 2025 18:26:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752336091; cv=none; b=k4VEdItjDxO1EI78lk8p+zIbRH5M64nA6wB2Q0+Z61jrkvZMT+LXUb6zfm3fJpt2BUCkK9pRUV9mwuoIK8Sodx0ueFq1gCmDwqC67CnCqwexkA2nWUA5ryZUtHUJ9BLpnt3b5iGDhi4HbZL76Isw952JI+UrH3wqOrWXjmf2rUw=
+	t=1752344784; cv=none; b=WX93NWdoXdQdiCBYsUXaBX3bRcu/DMsWKc7x/7fEoOMyS5J8WSqDEF9NrBXqmQIvlOoxZVtDKaVD5vGBrf+DzcTT0oQ2CQgR0zxtz4fE+XuYkcRy0gMsWh3GThW+cvfmNyDNfSOrKB4o8FLfQlgMSrjV6fdin0ZNUS9SV6uK9zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752336091; c=relaxed/simple;
-	bh=PMTOVbr1r7rTX0XGvBrv0Qgp90NaoreRhPBMkP7o4+0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IVfbSCxSKzpY4gNGmCSKZ9GpFudXx1Awv6Z0zCXUGuhT3NgJ+9O1TARhX5NaLqcuLh1qmZklG9NG8CbFzTD13vvVm4NZjPCHqONkl2NlQhAEeWuc6aGuJOymjrHgsSw+5Y5Q4/dh+u0o0h3jQtdNEUM7q39YyVCd1N/yXEEnKp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tK7cRlTp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD18DC4CEF4;
-	Sat, 12 Jul 2025 16:01:25 +0000 (UTC)
+	s=arc-20240116; t=1752344784; c=relaxed/simple;
+	bh=dVHOVLobbxpJBiobMxxxyDbFXWxu0ncpCUVo+d4Jgys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XxXyI6SyaaVqUJlZVLksn1r/Bs56OL2cJIWVF2/7gzmZj1lfgql8/SgJh0dV4iDX8xr3KbkZPvqTNQwZxTt/TsGMo2aRSxRlTwsDAYdZDyC4WwB7vGpQc9u+o7+M09gF2++xwgsQSUJIOm37mLXrpqAdVqpq9JANBfiT1IxXSyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTKGZei/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2A94C4CEEF;
+	Sat, 12 Jul 2025 18:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752336090;
-	bh=PMTOVbr1r7rTX0XGvBrv0Qgp90NaoreRhPBMkP7o4+0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tK7cRlTpc7X4Y9hYblmchRviWE1ReSfSoMBm/bOS6ZkXn7vbOOYu0Baf6IEXplKmj
-	 cesrJdybF2NgoX5HPQAuOFM1gi5d86FqU3VTzMoeYRiaILfezlA4AffXPFbfAZjbQN
-	 y95Ma5XsyYgD8bwBmuxyBi0HyFK8uhTbDqIfpeXan523+ma2N++YFMhh3YImJSKAWl
-	 7/O/WTzFbpIGLtj+wYIFWeszMM6cmkXt12oanXkRbEkhjGjeWUR1grch5bkgzoGJYj
-	 qLN1coj3Bjfef6HaZt4LZ9NvGH+QbazZSC38FT6fS1w35aT+AuXVl9bSGHeLIt0Vfw
-	 v5ror+h94+HoQ==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	rust-for-linux@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	David Wood <david@davidtw.co>,
-	Wesley Wiser <wwiser@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] rust: use `#[used(compiler)]` to fix build and `modpost` with Rust >= 1.89.0
-Date: Sat, 12 Jul 2025 18:01:03 +0200
-Message-ID: <20250712160103.1244945-3-ojeda@kernel.org>
-In-Reply-To: <20250712160103.1244945-1-ojeda@kernel.org>
-References: <20250712160103.1244945-1-ojeda@kernel.org>
+	s=k20201202; t=1752344784;
+	bh=dVHOVLobbxpJBiobMxxxyDbFXWxu0ncpCUVo+d4Jgys=;
+	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rTKGZei/AFGwW6fNmpxPvM258M3yFq21CpyDLqheql+XbVzOeLNG3dUY2UrKpG8HF
+	 /DlXSPFhX7LJPacLyh3hVyfhPEIvKUKVe1IQenvpLq6mU3lJh0dz+/bv+My9j/gjyt
+	 3FBUzenfutXM7ZiRnBa4c9IvN7fuoS79vu5J5mshiJY3qOQ4cDxtFaPrKiyrYbVYi9
+	 pDIaMZ+1YmO9EdeSxcdgWdiyyVyEY8JtqnI+bjSbuyi4KEvh3zSc4sGti05RMLGHlw
+	 ZuGXoBZgKVXPZ8Fp6wva6A+rSGvo6Bxgoft7ZR1wkiuChkdzJ4Mkwos5uV4tO6PnQh
+	 5jAWr7qY4oipg==
+Message-ID: <b9b74600-4467-4c76-aa41-0a36b1cce1f4@kernel.org>
+Date: Sat, 12 Jul 2025 20:26:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Reply-To: Daniel Gomez <da.gomez@kernel.org>
+Subject: Re: [PATCH v2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
+ EXPORT_SYMBOL_FOR_MODULES
+To: Vlastimil Babka <vbabka@suse.cz>, Matthias Maennich
+ <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez
+ <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@infradead.org>,
+ Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
+ Shivank Garg <shivankg@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
+Content-Language: en-US
+From: Daniel Gomez <da.gomez@kernel.org>
+Organization: kernel.org
+In-Reply-To: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Starting with Rust 1.89.0 (expected 2025-08-07), the Rust compiler fails
-to build the `rusttest` target due to undefined references such as:
+On 11/07/2025 16.05, Vlastimil Babka wrote:
+> Christoph suggested that the explicit _GPL_ can be dropped from the
+> module namespace export macro, as it's intended for in-tree modules
+> only. It would be possible to resrict it technically, but it was pointed
+> out [2] that some cases of using an out-of-tree build of an in-tree
+> module with the same name are legitimate. But in that case those also
+> have to be GPL anyway so it's unnecessary to spell it out.
+> 
+> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
+> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
+> Suggested-by: Christoph Hellwig <hch@infradead.org>
+> Reviewed-by: Shivank Garg <shivankg@amd.com>
+> Acked-by: Christian Brauner <brauner@kernel.org>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
+> part to avoid controversy converting selected existing EXPORT_SYMBOL().
+> Christoph argued [2] that the _FOR_MODULES() export is intended for
+> in-tree modules and thus GPL is implied anyway and can be simply dropped
+> from the export macro name. Peter agreed [3] about the intention for
+> in-tree modules only, although nothing currently enforces it.
+> 
+> It seemed straightforward to add this enforcement, so v1 did that. But
+> there were concerns of breaking the (apparently legitimate) usecases of
+> loading an updated/development out of tree built version of an in-tree
+> module.
+> 
+> So leave out the enforcement part and just drop the _GPL_ from the
+> export macro name and so we're left with EXPORT_SYMBOL_FOR_MODULES()
+> only. Any in-tree module used in an out-of-tree way will have to be GPL
+> anyway by definition.
+> 
+> Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
+> in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
+> 8250: export RSA functions"). Hopefully it's resolvable by a merge
+> commit fixup and we don't need to provide a temporary alias.
+> 
+> [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
+> [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
+> [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
+> ---
+> Changes in v2:
+> - drop the patch to restrict module namespace export for in-tree modules
+> - fix a pre-existing documentation typo (Nicolas Schier)
+> - Link to v1: https://patch.msgid.link/20250708-export_modules-v1-0-fbf7a282d23f@suse.cz
+> ---
+>  Documentation/core-api/symbol-namespaces.rst | 8 ++++----
+>  fs/anon_inodes.c                             | 2 +-
+>  include/linux/export.h                       | 2 +-
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+> index 32fc73dc5529e8844c2ce2580987155bcd13cd09..6f7f4f47d43cdeb3b5008c795d254ca2661d39a6 100644
+> --- a/Documentation/core-api/symbol-namespaces.rst
+> +++ b/Documentation/core-api/symbol-namespaces.rst
+> @@ -76,8 +76,8 @@ A second option to define the default namespace is directly in the compilation
+>  within the corresponding compilation unit before the #include for
+>  <linux/export.h>. Typically it's placed before the first #include statement.
+>  
+> -Using the EXPORT_SYMBOL_GPL_FOR_MODULES() macro
+> ------------------------------------------------
+> +Using the EXPORT_SYMBOL_FOR_MODULES() macro
+> +-------------------------------------------
+>  
+>  Symbols exported using this macro are put into a module namespace. This
+>  namespace cannot be imported.
 
-    kernel...-cgu.0:(.text....+0x116): undefined reference to
-    `rust_helper_kunit_get_current_test'
+The new naming makes sense, but it breaks the pattern with _GPL suffix:
 
-Moreover, tooling like `modpost` gets confused:
+* EXPORT_SYMBOL(sym)
+* EXPORT_SYMBOL_GPL(sym)
+* EXPORT_SYMBOL_NS(sym, ns)
+* EXPORT_SYMBOL_NS_GPL(sym, ns)
+* EXPORT_SYMBOL_FOR_MODULES(sym, mods)
 
-    WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/nova/nova.o
-    ERROR: modpost: missing MODULE_LICENSE() in drivers/gpu/nova-core/nova_core.o
+So I think when reading this one may forget about the _obvious_ reason. That's
+why I think clarifying that in the documentation would be great. Something like:
 
-The reason behind both issues is that the Rust compiler will now [1]
-treat `#[used]` as `#[used(linker)]` instead of `#[used(compiler)]`
-for our targets. This means that the retain section flag (`R`,
-`SHF_GNU_RETAIN`) will be used and that they will be marked as `unique`
-too, with different IDs. In turn, that means we end up with undefined
-references that did not get discarded in `rusttest` and that multiple
-`.modinfo` sections are generated, which confuse tooling like `modpost`
-because they only expect one.
+Symbols exported using this macro are put into a module namespace. This
+namespace cannot be imported. And it's implicitly GPL-only as it's only intended
+for in-tree modules.
 
-Thus start using `#[used(compiler)]` to keep the previous behavior
-and to be explicit about what we want. Sadly, it is an unstable feature
-(`used_with_arg`) [2] -- we will talk to upstream Rust about it. The good
-news is that it has been available for a long time (Rust >= 1.60) [3].
+Other than that, it looks good.
 
-The changes should also be fine for previous Rust versions, since they
-behave the same way as before [4].
-
-Alternatively, we could use `#[no_mangle]` or `#[export_name = ...]`
-since those still behave like `#[used(compiler)]`, but of course it is
-not really what we want to express, and it requires other changes to
-avoid symbol conflicts.
-
-Cc: Björn Roy Baron <bjorn3_gh@protonmail.com>
-Cc: David Wood <david@davidtw.co>
-Cc: Wesley Wiser <wwiser@gmail.com>
-Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned in older LTSs).
-Link: https://github.com/rust-lang/rust/pull/140872 [1]
-Link: https://github.com/rust-lang/rust/issues/93798 [2]
-Link: https://github.com/rust-lang/rust/pull/91504 [3]
-Link: https://godbolt.org/z/sxzWTMfzW [4]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- rust/Makefile           |  1 +
- rust/kernel/firmware.rs |  2 +-
- rust/kernel/kunit.rs    |  2 +-
- rust/kernel/lib.rs      |  3 +++
- rust/macros/module.rs   | 10 +++++-----
- scripts/Makefile.build  |  3 ++-
- 6 files changed, 13 insertions(+), 8 deletions(-)
-
-diff --git a/rust/Makefile b/rust/Makefile
-index 27dec7904c3a..115b63b7d1e3 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -194,6 +194,7 @@ quiet_cmd_rustdoc_test = RUSTDOC T $<
- 	RUST_MODFILE=test.rs \
- 	OBJTREE=$(abspath $(objtree)) \
- 	$(RUSTDOC) --test $(rust_common_flags) \
-+		-Zcrate-attr='feature(used_with_arg)' \
- 		@$(objtree)/include/generated/rustc_cfg \
- 		$(rustc_target_flags) $(rustdoc_test_target_flags) \
- 		$(rustdoc_test_quiet) \
-diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-index 2494c96e105f..4fe621f35716 100644
---- a/rust/kernel/firmware.rs
-+++ b/rust/kernel/firmware.rs
-@@ -202,7 +202,7 @@ macro_rules! module_firmware {
-             };
- 
-             #[link_section = ".modinfo"]
--            #[used]
-+            #[used(compiler)]
-             static __MODULE_FIRMWARE: [u8; $($builder)*::create(__MODULE_FIRMWARE_PREFIX)
-                 .build_length()] = $($builder)*::create(__MODULE_FIRMWARE_PREFIX).build();
-         };
-diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs
-index 4b8cdcb21e77..b9e65905e121 100644
---- a/rust/kernel/kunit.rs
-+++ b/rust/kernel/kunit.rs
-@@ -302,7 +302,7 @@ macro_rules! kunit_unsafe_test_suite {
-                     is_init: false,
-                 };
- 
--            #[used]
-+            #[used(compiler)]
-             #[allow(unused_unsafe)]
-             #[cfg_attr(not(target_os = "macos"), link_section = ".kunit_test_suites")]
-             static mut KUNIT_TEST_SUITE_ENTRY: *const ::kernel::bindings::kunit_suite =
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 6b4774b2b1c3..e13d6ed88fa6 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -34,6 +34,9 @@
- // Expected to become stable.
- #![feature(arbitrary_self_types)]
- //
-+// To be determined.
-+#![feature(used_with_arg)]
-+//
- // `feature(derive_coerce_pointee)` is expected to become stable. Before Rust
- // 1.84.0, it did not exist, so enable the predecessor features.
- #![cfg_attr(CONFIG_RUSTC_HAS_COERCE_POINTEE, feature(derive_coerce_pointee))]
-diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-index 2ddd2eeb2852..75efc6eeeafc 100644
---- a/rust/macros/module.rs
-+++ b/rust/macros/module.rs
-@@ -57,7 +57,7 @@ fn emit_base(&mut self, field: &str, content: &str, builtin: bool) {
-                 {cfg}
-                 #[doc(hidden)]
-                 #[cfg_attr(not(target_os = \"macos\"), link_section = \".modinfo\")]
--                #[used]
-+                #[used(compiler)]
-                 pub static __{module}_{counter}: [u8; {length}] = *{string};
-             ",
-             cfg = if builtin {
-@@ -249,7 +249,7 @@ mod __module_init {{
-                     // key or a new section. For the moment, keep it simple.
-                     #[cfg(MODULE)]
-                     #[doc(hidden)]
--                    #[used]
-+                    #[used(compiler)]
-                     static __IS_RUST_MODULE: () = ();
- 
-                     static mut __MOD: ::core::mem::MaybeUninit<{type_}> =
-@@ -273,7 +273,7 @@ mod __module_init {{
- 
-                     #[cfg(MODULE)]
-                     #[doc(hidden)]
--                    #[used]
-+                    #[used(compiler)]
-                     #[link_section = \".init.data\"]
-                     static __UNIQUE_ID___addressable_init_module: unsafe extern \"C\" fn() -> i32 = init_module;
- 
-@@ -293,7 +293,7 @@ mod __module_init {{
- 
-                     #[cfg(MODULE)]
-                     #[doc(hidden)]
--                    #[used]
-+                    #[used(compiler)]
-                     #[link_section = \".exit.data\"]
-                     static __UNIQUE_ID___addressable_cleanup_module: extern \"C\" fn() = cleanup_module;
- 
-@@ -303,7 +303,7 @@ mod __module_init {{
-                     #[cfg(not(CONFIG_HAVE_ARCH_PREL32_RELOCATIONS))]
-                     #[doc(hidden)]
-                     #[link_section = \"{initcall_section}\"]
--                    #[used]
-+                    #[used(compiler)]
-                     pub static __{ident}_initcall: extern \"C\" fn() ->
-                         ::kernel::ffi::c_int = __{ident}_init;
- 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index a6461ea411f7..ba71b27aa363 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -312,10 +312,11 @@ $(obj)/%.lst: $(obj)/%.c FORCE
- #   - Stable since Rust 1.82.0: `feature(asm_const)`, `feature(raw_ref_op)`.
- #   - Stable since Rust 1.87.0: `feature(asm_goto)`.
- #   - Expected to become stable: `feature(arbitrary_self_types)`.
-+#   - To be determined: `feature(used_with_arg)`.
- #
- # Please see https://github.com/Rust-for-Linux/linux/issues/2 for details on
- # the unstable features in use.
--rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,raw_ref_op
-+rust_allowed_features := asm_const,asm_goto,arbitrary_self_types,lint_reasons,raw_ref_op,used_with_arg
- 
- # `--out-dir` is required to avoid temporaries being created by `rustc` in the
- # current working directory, which may be not accessible in the out-of-tree
--- 
-2.50.1
-
+Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
 
