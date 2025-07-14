@@ -1,120 +1,124 @@
-Return-Path: <linux-kbuild+bounces-8002-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8003-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313C8B038BA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jul 2025 10:08:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FA3B039C5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jul 2025 10:46:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC89E189D218
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jul 2025 08:08:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE5A4176A68
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Jul 2025 08:46:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B04323957D;
-	Mon, 14 Jul 2025 08:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5EB6221268;
+	Mon, 14 Jul 2025 08:46:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bg6NTz1I"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K7jUc9ez"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A19C2356C3;
-	Mon, 14 Jul 2025 08:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2238118D;
+	Mon, 14 Jul 2025 08:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752480504; cv=none; b=IOxciB8iwtiO2lOcvjxRD1QpbRtmzJIWKofqdxVfAyb2MAn7gbafgOPJjM77M+bMMGD9nEXPaiGWBJacmLLW+nbT+c5KPZGrdVjGf8b+3mfqPchsvek6b8RMBVGIxLJBo4Rjmgj8A6Ua2pjVCesjvfcEcKV7g35+PUfGj93UfPU=
+	t=1752482804; cv=none; b=bbvwZgHMoqxbdDfSeQnwlfg06U0wN07JZnT+zbcabGLFrf0HXVnqTHREtb2jjq01lEVXsJMjI33J2/rl5V9gHOij8NIb8zmgqegaF4PF+oWrYLWG7s3OWZ5OsDRiClO7wJhs2vILgYX6zgYf9s3C/jMotaQxkJNWnTHcH5H+usk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752480504; c=relaxed/simple;
-	bh=9sbqkkiER8bcGZotV9lm24ZrEWQa8/vL3mB6ZS0+W5k=;
+	s=arc-20240116; t=1752482804; c=relaxed/simple;
+	bh=BFy8MleXcXtgklpMCeGYGOJYu9f9q7epntNXpb7QDto=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fz+oCvzFpnhfRrh6n7lbtLO6AMuO/IdGmD1JY8a4QntWkasgCuPcMywBL4XaSQHEqzH/Pk/I7eZ34X3V5bU+2FSp2JuuyHEVxvP1rEFro38dJEJLnmWuKQ7f8dsfN43VNpKJyRWOZqCcsqSx2BIvgD2D1CCjwP+HHlp9djVUlrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bg6NTz1I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C0CEC4CEED;
-	Mon, 14 Jul 2025 08:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752480503;
-	bh=9sbqkkiER8bcGZotV9lm24ZrEWQa8/vL3mB6ZS0+W5k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bg6NTz1IAIUQlwt8otqkfZX5bKk1zqzqOeMw0V8wECduUQ6U0vPAE4vUp9pq2L3DX
-	 V3l9R2dxRk0bxJqs9jlwwUQex9J714ilSl/WolY2G37P4Qz48FNMFBoDiK/cWZ4OPY
-	 aIpEK5shOCT80WnUAQDV58RyLNGEZ4BD8zYq7Gib1sNK40k2vjnLATbqMPLE+BEMrZ
-	 IvZumceGju7cF4+bN057oKRZthDlPQCroL0gP0A7c0BXJUG11MpNR9PfFZQEiKAnmx
-	 2JS4yhqWjF5f1BIaBhLimsnQnDNB4lF6U9gfNZYG6XHv/sky3RHlvo2FNEjDwUDu2V
-	 Gaqdtw1sd2tBQ==
-Date: Mon, 14 Jul 2025 10:08:15 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Matthias Maennich <maennich@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>, 
-	Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>, 
-	Shivank Garg <shivankg@amd.com>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-Message-ID: <20250714-geliebt-neupositionierung-f69ca29c5e40@brauner>
-References: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YesFEQbXKiqt65arDoBtiIWQ+gXtwvhQGfjWAnO+KpMA+VBNKEJF8omEgD3rix8l5ZGHwx1i7ukeTkCLsTIfFLxpA86zQjdFump6i60jyKE5Sa9T+6wkhGb/znQnTO2TXYRGUXio+Vh9RuzRXfHA96o64CyWlpuPpp/2A3dz7F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=K7jUc9ez; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=RsVjotjGFwn4gIDgrJ+E8OefcgZwcT0N+CJTunCyL8Q=; b=K7jUc9ez58nrxekhKWTDy3aWp4
+	iDC4IIF/G05u3M7NlfaatOz9FE+wZRp8sonmYHGNl7oecBk8slqvLTCAEOnlffc4Uh7N+nAOpk4pz
+	SX0XsH0yFKPnTPeiLFNW0okicua/2mvtRMvm3PjjtFdapR6/IQOC/Ah1hBaw5KD1QnhkDxlfIPPB5
+	qkFyG2c8vwTbTDwymDVBXJvT9/RLlnQpC1VEtOf3OXeV1aH81Wr9Egk+jGOmjYlxotL3rEOH0uG+z
+	8Pu6KYcdwJV89B/vi7ipBBcmkKmY55gGvsMRV8CxQCc+g3zop2Vqr9kk0CwvGjGpoVNxyXULc6olE
+	XPAoy1Pg==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ubEpa-00000009il9-39sR;
+	Mon, 14 Jul 2025 08:46:39 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4DB90300186; Mon, 14 Jul 2025 10:46:38 +0200 (CEST)
+Date: Mon, 14 Jul 2025 10:46:38 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] objtool/rust: add one more `noreturn` Rust function
+ for Rust 1.89.0
+Message-ID: <20250714084638.GL905792@noisy.programming.kicks-ass.net>
+References: <20250712160103.1244945-1-ojeda@kernel.org>
+ <20250712160103.1244945-2-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711-export_modules-v2-1-b59b6fad413a@suse.cz>
+In-Reply-To: <20250712160103.1244945-2-ojeda@kernel.org>
 
-On Fri, Jul 11, 2025 at 04:05:16PM +0200, Vlastimil Babka wrote:
-> Christoph suggested that the explicit _GPL_ can be dropped from the
-> module namespace export macro, as it's intended for in-tree modules
-> only. It would be possible to resrict it technically, but it was pointed
-> out [2] that some cases of using an out-of-tree build of an in-tree
-> module with the same name are legitimate. But in that case those also
-> have to be GPL anyway so it's unnecessary to spell it out.
+On Sat, Jul 12, 2025 at 06:01:02PM +0200, Miguel Ojeda wrote:
+> Starting with Rust 1.89.0 (expected 2025-08-07), under
+> `CONFIG_RUST_DEBUG_ASSERTIONS=y`, `objtool` may report:
 > 
-> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
-> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> Reviewed-by: Shivank Garg <shivankg@amd.com>
-> Acked-by: Christian Brauner <brauner@kernel.org>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+>     rust/kernel.o: warning: objtool: _R..._6kernel4pageNtB5_4Page8read_raw()
+>     falls through to next function _R..._6kernel4pageNtB5_4Page9write_raw()
+> 
+> (and many others) due to calls to the `noreturn` symbol:
+> 
+>     core::panicking::panic_nounwind_fmt
+> 
+> Thus add the mangled one to the list so that `objtool` knows it is
+> actually `noreturn`.
+> 
+> See commit 56d680dd23c3 ("objtool/rust: list `noreturn` Rust functions")
+> for more details.
+> 
+> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned in older LTSs).
+> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
 > ---
-> Christian asked [1] for EXPORT_SYMBOL_FOR_MODULES() without the _GPL_
-> part to avoid controversy converting selected existing EXPORT_SYMBOL().
+>  tools/objtool/check.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+> index f23bdda737aa..3257eefc41ed 100644
+> --- a/tools/objtool/check.c
+> +++ b/tools/objtool/check.c
+> @@ -224,6 +224,7 @@ static bool is_rust_noreturn(const struct symbol *func)
+>  	       str_ends_with(func->name, "_4core9panicking14panic_explicit")				||
+>  	       str_ends_with(func->name, "_4core9panicking14panic_nounwind")				||
+>  	       str_ends_with(func->name, "_4core9panicking18panic_bounds_check")			||
+> +	       str_ends_with(func->name, "_4core9panicking18panic_nounwind_fmt")			||
+>  	       str_ends_with(func->name, "_4core9panicking19assert_failed_inner")			||
+>  	       str_ends_with(func->name, "_4core9panicking30panic_null_pointer_dereference")		||
+>  	       str_ends_with(func->name, "_4core9panicking36panic_misaligned_pointer_dereference")	||
 
-Thank you!
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+Just having "_4core9panicking" substring is not sufficient?
 
-Am I supposed to take this or how's that going to work?
-
-> Christoph argued [2] that the _FOR_MODULES() export is intended for
-> in-tree modules and thus GPL is implied anyway and can be simply dropped
-> from the export macro name. Peter agreed [3] about the intention for
-> in-tree modules only, although nothing currently enforces it.
-> 
-> It seemed straightforward to add this enforcement, so v1 did that. But
-> there were concerns of breaking the (apparently legitimate) usecases of
-> loading an updated/development out of tree built version of an in-tree
-> module.
-> 
-> So leave out the enforcement part and just drop the _GPL_ from the
-> export macro name and so we're left with EXPORT_SYMBOL_FOR_MODULES()
-> only. Any in-tree module used in an out-of-tree way will have to be GPL
-> anyway by definition.
-> 
-> Current -next has some new instances of EXPORT_SYMBOL_GPL_FOR_MODULES()
-> in drivers/tty/serial/8250/8250_rsa.c by commit b20d6576cdb3 ("serial:
-> 8250: export RSA functions"). Hopefully it's resolvable by a merge
-> commit fixup and we don't need to provide a temporary alias.
-> 
-> [1] https://lore.kernel.org/all/20250623-warmwasser-giftig-ff656fce89ad@brauner/
-> [2] https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/
-> [3] https://lore.kernel.org/all/20250623142836.GT1613200@noisy.programming.kicks-ass.net/
-> ---
 
