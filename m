@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-8019-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8020-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07ECEB080FC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jul 2025 01:26:21 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDCBB080FE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jul 2025 01:26:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A89464E40CB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Jul 2025 23:25:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB6147AFA89
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Jul 2025 23:25:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA002EF9C2;
-	Wed, 16 Jul 2025 23:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70CEB2F2346;
+	Wed, 16 Jul 2025 23:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="op9eM30G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmR7DXoc"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A7D2EF9B4;
-	Wed, 16 Jul 2025 23:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410782F0032;
+	Wed, 16 Jul 2025 23:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752708350; cv=none; b=gfyRfPk4Q0oM5vwGYb6nTbzil+jm21k2ZSKkAqGFqlhTDPIivLi62+x09ARCfqjno+GbuczM8RKjEIsvbpDJKihHZoUnA1lIjONg5L2hVMlW/DahDzSV3ifkyO5kxeWwJXk70nBaIcNF8dMUbkhy2p+Y1KQAqudzWfxmkuDTJjg=
+	t=1752708351; cv=none; b=lMMTfg74dDjkLRawnHjhnlBQyn9kMEa4j/ntD+Lc6UvNWTLXtsUS3X1bM/vBt82gdxbQXXkFWLUWKP/rsILY7T4JyEs7tWyKaa0kfzk/EM/+bSGpQSLvi5coOGZdrSZdakTv7Vx2XjzJ75OwrdIA8rWXyWbjBkk399TO2IWD234=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752708350; c=relaxed/simple;
-	bh=PRD69IubuS+YNJtEC0NEviliKBWdcEJiUbDlYw7l21o=;
+	s=arc-20240116; t=1752708351; c=relaxed/simple;
+	bh=JjRUucMTKccJjykzPaVJ2fRdMkCeasEZKi4WwB0xIYM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QQx3LHuZhak5Wb/FKh8QTmc3/uXuGSLWmMsMCYLXWxXiMeu1hj7jUsL1ETtFcdMP6TsUb1wBaNPc70yXfeGn3Il3EFx7qw734ZDWfQjCwkHK0Pc5rCdXxD8aIhxh/4879RL67vuAywcCkR6WPKky5eFA4QTD3cslfSvKj0j462g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=op9eM30G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D84D8C4CEE7;
-	Wed, 16 Jul 2025 23:25:48 +0000 (UTC)
+	 MIME-Version; b=Fh8Rv/woNb+M8BS0qNYN7vEfQVAtM4hdiBI0nCFIqm67Io+13nLZ7toM/tzxiu0ndgsCWj7AttMeBkchLrBItIVLkeT1ijx35bP+OAjn0cqce+FWWOnVmstEChvfFU8YCHkSZ86/MIqTc1OpbRHDKobsUrEZspHnndMYqjmza68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmR7DXoc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC08C4CEEB;
+	Wed, 16 Jul 2025 23:25:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752708349;
-	bh=PRD69IubuS+YNJtEC0NEviliKBWdcEJiUbDlYw7l21o=;
+	s=k20201202; t=1752708350;
+	bh=JjRUucMTKccJjykzPaVJ2fRdMkCeasEZKi4WwB0xIYM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=op9eM30GwKmxtizZW7/YIYpt6vAkaoCaf4NNR0SGAkumVWLXXNtghDuAEeSV6CRIQ
-	 deVjFlJjbF/mbll+qjUCRKlY359fH1OgDk5rTQ8IutoVLyK6MZihO8ktvGU6QZwr1l
-	 pSSypkQXDiOuXiD6WBTSDbkaDlL7ne0gw3HCp5toJBWjTxwXHt3s7Auq8Vdpi5fJyl
-	 V+x6V6beYTlyR5bYhjuOLu7b0LJ5CaahHWhVsZuLeHNBmcLqvUAVDdW8SC2niqL9rB
-	 7imVHT4+t35sucuPn01NoYtO6C2U494TWKn1rpKkepJKEwlZOz3nmVduS0bDnz47PW
-	 5ktd7AvfN7ILw==
+	b=FmR7DXocPVmGf7E41bGnm5R7okiAeqXQ3Y6uC0CRU5iEKEh0Vg62ido6aWfsriS8j
+	 ZFM8HvFPeRMZOHTHS3LRUq/JiRtFFS9Xp3agqWuu53rsHskXDDgAVuvUnTOeQEAf8V
+	 fAMxYjAkhADK99QJSYgpOJ3Vt50BxevjX3alNjRrZ8woaeDthn2UQ+Fu0kHzWdZNz9
+	 vXjyzQeF1pH4CPc9nXolrMEh5oC7DKGjkdCG/ZUnCTZbogs6G4wgSYDvC+HY8lPFVz
+	 LoD7gRXDDGpvJD/ifl1SNGTGxkkClvlHEyjHPYWC7rB53R9mWxJl5bpSGHNJdExl2J
+	 NV/XKsuMgBH6Q==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/6] kconfig: gconf: replace GtkImageMenuItem with GtkMenuItem
-Date: Thu, 17 Jul 2025 08:24:10 +0900
-Message-ID: <20250716232542.873747-3-masahiroy@kernel.org>
+Subject: [PATCH 4/6] kconfig: gconf: use hyphens in signals
+Date: Thu, 17 Jul 2025 08:24:11 +0900
+Message-ID: <20250716232542.873747-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250716232542.873747-1-masahiroy@kernel.org>
 References: <20250716232542.873747-1-masahiroy@kernel.org>
@@ -59,85 +59,52 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-GtkImageMenuItem is deprecated with GTK 3.10. [1]
-
-Use GtkMenuItem instead.
-
-[1]: https://gitlab.gnome.org/GNOME/gtk/-/blob/3.10.0/gtk/deprecated/gtkimagemenuitem.c#L797
+Using hyphens in signal names is the official convention, even though
+underscores also work.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/gconf.ui | 14 +++++++-------
+ scripts/kconfig/gconf.c | 14 +++++++-------
  1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/kconfig/gconf.ui b/scripts/kconfig/gconf.ui
-index c37807e8b782..ab4431255fa7 100644
---- a/scripts/kconfig/gconf.ui
-+++ b/scripts/kconfig/gconf.ui
-@@ -39,7 +39,7 @@
- 		<object class="GtkMenu" id="file1_menu">
+diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
+index d9ea71664412..e4f89270d19f 100644
+--- a/scripts/kconfig/gconf.c
++++ b/scripts/kconfig/gconf.c
+@@ -997,25 +997,25 @@ static void init_main_window(const gchar *glade_file)
+ 			 G_CALLBACK(on_window1_destroy), NULL);
+ 	g_signal_connect(main_wnd, "configure-event",
+ 			 G_CALLBACK(on_window1_configure), NULL);
+-	g_signal_connect(main_wnd, "delete_event",
++	g_signal_connect(main_wnd, "delete-event",
+ 			 G_CALLBACK(on_window1_delete_event), NULL);
  
- 		  <child>
--		    <object class="GtkImageMenuItem" id="load1">
-+		    <object class="GtkMenuItem" id="load1">
- 		      <property name="visible">True</property>
- 		      <property name="tooltip-text" translatable="yes">Load a config file</property>
- 		      <property name="label" translatable="yes">_Load</property>
-@@ -49,7 +49,7 @@
- 		  </child>
+ 	hpaned = GTK_WIDGET(gtk_builder_get_object(builder, "hpaned1"));
+ 	vpaned = GTK_WIDGET(gtk_builder_get_object(builder, "vpaned1"));
+ 	tree1_w = GTK_WIDGET(gtk_builder_get_object(builder, "treeview1"));
+-	g_signal_connect(tree1_w, "cursor_changed",
++	g_signal_connect(tree1_w, "cursor-changed",
+ 			 G_CALLBACK(on_treeview2_cursor_changed), NULL);
+-	g_signal_connect(tree1_w, "button_press_event",
++	g_signal_connect(tree1_w, "button-press-event",
+ 			 G_CALLBACK(on_treeview1_button_press_event), NULL);
+-	g_signal_connect(tree1_w, "key_press_event",
++	g_signal_connect(tree1_w, "key-press-event",
+ 			 G_CALLBACK(on_treeview2_key_press_event), NULL);
  
- 		  <child>
--		    <object class="GtkImageMenuItem" id="save1">
-+		    <object class="GtkMenuItem" id="save1">
- 		      <property name="visible">True</property>
- 		      <property name="tooltip-text" translatable="yes">Save the config in .config</property>
- 		      <property name="label" translatable="yes">_Save</property>
-@@ -59,7 +59,7 @@
- 		  </child>
+ 	tree2_w = GTK_WIDGET(gtk_builder_get_object(builder, "treeview2"));
+-	g_signal_connect(tree2_w, "cursor_changed",
++	g_signal_connect(tree2_w, "cursor-changed",
+ 			 G_CALLBACK(on_treeview2_cursor_changed), NULL);
+-	g_signal_connect(tree2_w, "button_press_event",
++	g_signal_connect(tree2_w, "button-press-event",
+ 			 G_CALLBACK(on_treeview2_button_press_event), NULL);
+-	g_signal_connect(tree2_w, "key_press_event",
++	g_signal_connect(tree2_w, "key-press-event",
+ 			 G_CALLBACK(on_treeview2_key_press_event), NULL);
  
- 		  <child>
--		    <object class="GtkImageMenuItem" id="save_as1">
-+		    <object class="GtkMenuItem" id="save_as1">
- 		      <property name="visible">True</property>
- 		      <property name="tooltip-text" translatable="yes">Save the config in a file</property>
- 		      <property name="label" translatable="yes">Save _as</property>
-@@ -74,7 +74,7 @@
- 		  </child>
- 
- 		  <child>
--		    <object class="GtkImageMenuItem" id="quit1">
-+		    <object class="GtkMenuItem" id="quit1">
- 		      <property name="visible">True</property>
- 		      <property name="label" translatable="yes">_Quit</property>
- 		      <property name="use_underline">True</property>
-@@ -178,7 +178,7 @@
- 		<object class="GtkMenu" id="help1_menu">
- 
- 		  <child>
--		    <object class="GtkImageMenuItem" id="introduction1">
-+		    <object class="GtkMenuItem" id="introduction1">
- 		      <property name="visible">True</property>
- 		      <property name="label" translatable="yes">_Introduction</property>
- 		      <property name="use_underline">True</property>
-@@ -187,7 +187,7 @@
- 		  </child>
- 
- 		  <child>
--		    <object class="GtkImageMenuItem" id="about1">
-+		    <object class="GtkMenuItem" id="about1">
- 		      <property name="visible">True</property>
- 		      <property name="label" translatable="yes">_About</property>
- 		      <property name="use_underline">True</property>
-@@ -196,7 +196,7 @@
- 		  </child>
- 
- 		  <child>
--		    <object class="GtkImageMenuItem" id="license1">
-+		    <object class="GtkMenuItem" id="license1">
- 		      <property name="visible">True</property>
- 		      <property name="label" translatable="yes">_License</property>
- 		      <property name="use_underline">True</property>
+ 	text_w = GTK_WIDGET(gtk_builder_get_object(builder, "textview3"));
 -- 
 2.43.0
 
