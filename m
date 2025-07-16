@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-8020-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8021-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDCBB080FE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jul 2025 01:26:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAED7B08102
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Jul 2025 01:26:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB6147AFA89
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Jul 2025 23:25:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C0563A3EBD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Jul 2025 23:26:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70CEB2F2346;
-	Wed, 16 Jul 2025 23:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3C322F272D;
+	Wed, 16 Jul 2025 23:25:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmR7DXoc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PGaVG7zy"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410782F0032;
-	Wed, 16 Jul 2025 23:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE262F271B;
+	Wed, 16 Jul 2025 23:25:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752708351; cv=none; b=lMMTfg74dDjkLRawnHjhnlBQyn9kMEa4j/ntD+Lc6UvNWTLXtsUS3X1bM/vBt82gdxbQXXkFWLUWKP/rsILY7T4JyEs7tWyKaa0kfzk/EM/+bSGpQSLvi5coOGZdrSZdakTv7Vx2XjzJ75OwrdIA8rWXyWbjBkk399TO2IWD234=
+	t=1752708352; cv=none; b=H2d1n+fSjB4UKmAKg36T/XEjLOHMqUxIbLPpDSNZdDN5AON0wQ7HkR2WTdPKcTOipaWX0w24sPoUQgCpG6qRIvx37tQl66/Ofk8YhBHX+yLmKULX54hhDXsaFcAw9HB1JlbV9RH+/YV7xIu2gKR6ejnDH9M3aXAsJ0cy+34SYow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752708351; c=relaxed/simple;
-	bh=JjRUucMTKccJjykzPaVJ2fRdMkCeasEZKi4WwB0xIYM=;
+	s=arc-20240116; t=1752708352; c=relaxed/simple;
+	bh=76+fbHSb07ElZJwZbLYzyjct4PpROjloUudmxGs59hc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fh8Rv/woNb+M8BS0qNYN7vEfQVAtM4hdiBI0nCFIqm67Io+13nLZ7toM/tzxiu0ndgsCWj7AttMeBkchLrBItIVLkeT1ijx35bP+OAjn0cqce+FWWOnVmstEChvfFU8YCHkSZ86/MIqTc1OpbRHDKobsUrEZspHnndMYqjmza68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmR7DXoc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC08C4CEEB;
-	Wed, 16 Jul 2025 23:25:50 +0000 (UTC)
+	 MIME-Version; b=JYr0T9MIOHq8x0WyGgfLVa0zGS/nC5XdYQoHR+JFaX2SV4iOepMMAOo8q8i4Qkxnx7Af+zXxCQH/Kdu4QnP/+CfrbSYInOf5z6T4y/Wdtg6MReS7Opczg9qmt7h+f8dIpA9Je7Te7lzEYbclFHfFjfMl6WrItb9moW3fbyErQtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PGaVG7zy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E3DC4CEF5;
+	Wed, 16 Jul 2025 23:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752708350;
-	bh=JjRUucMTKccJjykzPaVJ2fRdMkCeasEZKi4WwB0xIYM=;
+	s=k20201202; t=1752708352;
+	bh=76+fbHSb07ElZJwZbLYzyjct4PpROjloUudmxGs59hc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FmR7DXocPVmGf7E41bGnm5R7okiAeqXQ3Y6uC0CRU5iEKEh0Vg62ido6aWfsriS8j
-	 ZFM8HvFPeRMZOHTHS3LRUq/JiRtFFS9Xp3agqWuu53rsHskXDDgAVuvUnTOeQEAf8V
-	 fAMxYjAkhADK99QJSYgpOJ3Vt50BxevjX3alNjRrZ8woaeDthn2UQ+Fu0kHzWdZNz9
-	 vXjyzQeF1pH4CPc9nXolrMEh5oC7DKGjkdCG/ZUnCTZbogs6G4wgSYDvC+HY8lPFVz
-	 LoD7gRXDDGpvJD/ifl1SNGTGxkkClvlHEyjHPYWC7rB53R9mWxJl5bpSGHNJdExl2J
-	 NV/XKsuMgBH6Q==
+	b=PGaVG7zyEi04+Ri/fW0q9G+KtZdTZ8T+h1M8909yKNwlG8rrGeUBwfQle8QxOONzi
+	 LcfAujCvmTBANyCMFKkdaoXBYYS/bHZlj9UuZAo36mkfHkRSfICRM7iipQa4kfO7kV
+	 E2dHVpWu6IDB1qDH0ArNMFxUr2fk3eGnBzu1oHFJS6Ru7LFm3ByO9nmi/+EhoOtBXp
+	 VDy/aIwnXLGO4olYTDzP8mD8soTjcfUoYc8/yRLqXmn/mBZkncfqBvkdjTWCMxKXa7
+	 siqlXnkUsvqwvTQDAptwmT1t+UIEbtPF3FCR0BUjUuACKMyhkqZrLWefh/HD8H99hc
+	 jqgcpXZ0i/rdQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] kconfig: gconf: use hyphens in signals
-Date: Thu, 17 Jul 2025 08:24:11 +0900
-Message-ID: <20250716232542.873747-4-masahiroy@kernel.org>
+Subject: [PATCH 5/6] kconfig: gconf: remove unneeded variable in text_insert_msg
+Date: Thu, 17 Jul 2025 08:24:12 +0900
+Message-ID: <20250716232542.873747-5-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250716232542.873747-1-masahiroy@kernel.org>
 References: <20250716232542.873747-1-masahiroy@kernel.org>
@@ -59,52 +59,31 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Using hyphens in signal names is the official convention, even though
-underscores also work.
+The 'msg' and 'message' refer to the same pointer.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/gconf.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ scripts/kconfig/gconf.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index d9ea71664412..e4f89270d19f 100644
+index e4f89270d19f..651140af7d13 100644
 --- a/scripts/kconfig/gconf.c
 +++ b/scripts/kconfig/gconf.c
-@@ -997,25 +997,25 @@ static void init_main_window(const gchar *glade_file)
- 			 G_CALLBACK(on_window1_destroy), NULL);
- 	g_signal_connect(main_wnd, "configure-event",
- 			 G_CALLBACK(on_window1_configure), NULL);
--	g_signal_connect(main_wnd, "delete_event",
-+	g_signal_connect(main_wnd, "delete-event",
- 			 G_CALLBACK(on_window1_delete_event), NULL);
+@@ -90,11 +90,10 @@ static void text_insert_help(struct menu *menu)
+ }
  
- 	hpaned = GTK_WIDGET(gtk_builder_get_object(builder, "hpaned1"));
- 	vpaned = GTK_WIDGET(gtk_builder_get_object(builder, "vpaned1"));
- 	tree1_w = GTK_WIDGET(gtk_builder_get_object(builder, "treeview1"));
--	g_signal_connect(tree1_w, "cursor_changed",
-+	g_signal_connect(tree1_w, "cursor-changed",
- 			 G_CALLBACK(on_treeview2_cursor_changed), NULL);
--	g_signal_connect(tree1_w, "button_press_event",
-+	g_signal_connect(tree1_w, "button-press-event",
- 			 G_CALLBACK(on_treeview1_button_press_event), NULL);
--	g_signal_connect(tree1_w, "key_press_event",
-+	g_signal_connect(tree1_w, "key-press-event",
- 			 G_CALLBACK(on_treeview2_key_press_event), NULL);
  
- 	tree2_w = GTK_WIDGET(gtk_builder_get_object(builder, "treeview2"));
--	g_signal_connect(tree2_w, "cursor_changed",
-+	g_signal_connect(tree2_w, "cursor-changed",
- 			 G_CALLBACK(on_treeview2_cursor_changed), NULL);
--	g_signal_connect(tree2_w, "button_press_event",
-+	g_signal_connect(tree2_w, "button-press-event",
- 			 G_CALLBACK(on_treeview2_button_press_event), NULL);
--	g_signal_connect(tree2_w, "key_press_event",
-+	g_signal_connect(tree2_w, "key-press-event",
- 			 G_CALLBACK(on_treeview2_key_press_event), NULL);
+-static void text_insert_msg(const char *title, const char *message)
++static void text_insert_msg(const char *title, const char *msg)
+ {
+ 	GtkTextBuffer *buffer;
+ 	GtkTextIter start, end;
+-	const char *msg = message;
  
- 	text_w = GTK_WIDGET(gtk_builder_get_object(builder, "textview3"));
+ 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_w));
+ 	gtk_text_buffer_get_bounds(buffer, &start, &end);
 -- 
 2.43.0
 
