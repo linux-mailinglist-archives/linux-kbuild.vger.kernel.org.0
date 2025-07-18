@@ -1,138 +1,136 @@
-Return-Path: <linux-kbuild+bounces-8059-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8060-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712ADB09B45
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 08:22:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF53B09E23
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 10:37:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DCEFC189655B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 06:22:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2DAA168D06
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 08:37:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49C471F1537;
-	Fri, 18 Jul 2025 06:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A04B9293B7F;
+	Fri, 18 Jul 2025 08:36:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pgW4XT1V";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="26bpvT2r"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmH8kuFD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5041C861E;
-	Fri, 18 Jul 2025 06:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D450EEDE;
+	Fri, 18 Jul 2025 08:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752819755; cv=none; b=TEYlTWNw/MSndhzyqyFLx3OspW4DaW0wZI7b6NIbOPx9n9U85GnUvg800nZuNSSNeG+s9bJ8KFXCbVC4yR59cafXe4+2aMCp5JuJT6eYqXIj12GsyiIPnFW+oRTTdKzjb5gGxVkkFQmAql7omjP2+5fjaRY8XkHMKiQ9gUBsx9g=
+	t=1752827814; cv=none; b=eyntYJaOy4gIbuISg5O630Y3+5gvaeJoIPU5cSsM1zFktkufsRKTpjqpx2pgpt+IPwN7XBU8WWtLt0tmjLElX0aObU4eKT+vhvg5ZmeV+wp+xWFYOduL2bGAPGrdT5VPR/k8Tp5GEKT31wuC57UESjfPK1YoN/M9qoGuEDP9WlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752819755; c=relaxed/simple;
-	bh=ICoPDyL2R75Iu7QQ1/kG+OuXPgtdLyK2qH53nhmr100=;
+	s=arc-20240116; t=1752827814; c=relaxed/simple;
+	bh=HL/2nr+vhFKcEcF58riyFRNQttwiCB/9fGbm+q71Dgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c+aLMJSEDfoE0g66/IkrwI7h2EJ3jBkoH4BfbwKVlv/CqejLAGtsVKsL4kQKYUJmkOihXg6CH655E2e1Paao+8a9b2Qs7dqvQD4/vFxraalyLoPPPE4q68+wF32NK7PAJgJNunkG6U3FFy+JnKscYrDlBXYSeZzX62evraFC8Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pgW4XT1V; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=26bpvT2r; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Fri, 18 Jul 2025 08:22:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1752819750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r15MXxvdvuJjkg2dcxT5OmMbq5ijcwE+26Y6C9Smhh8=;
-	b=pgW4XT1VmFV5nWy0E58ydruyYpt1gnI1VRPiYxoBNM5pJxEII+vO0ZJSLj31AAOU1a0V4X
-	hC2kuGioG9WquczLzyVQ34xvvyXs3bZX4pyvei4WuKKFlqjb6F5MhZiAQrBxJ3iEm+rjzR
-	E2dpnPABOqx7JndQXnwJPDbRJxDedZD7dUjeEJh3/ipMh/jjvHA/xsg8PWyBEmgntKsrQH
-	LIwRN1hsH27w4Qyz5OkkWzPxepT0Df3WbRpAVMNLvzJWeGyiEaGCdKfUvctio5K2p/w1lF
-	5Lv7lQTkeYARXuEWZ7ytGwdxzHbG8nYF/X73l3B1wu2SljbX7Dwt8WFmW0m8Nw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1752819750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r15MXxvdvuJjkg2dcxT5OmMbq5ijcwE+26Y6C9Smhh8=;
-	b=26bpvT2r5Gg6wqblcqwvNsj8QyQRBJSt2YcdRWznzsotPK6Oh5ANbFa38/u4eDdO80CSXT
-	9372IrTxpC1ydzAg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, Kees Cook <kees@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
-Message-ID: <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de>
-References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
- <20250717132259.GA25835@lst.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=S+ghDL96vtdztCGorIA7DWIOOdf3DXo+Wqg5kLolqXr6ayiQzjOmRia/r8q4X1I14CjPThK4ekcYbFzW8537oqCW9rsqJ8wtvZcqT91ucl1IZaajfkMJtQqhTCr7hJw42ia2cDlSM1WIbLcEyX3ka6/I+xVulGxVk8ujaDDQRhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmH8kuFD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E585C4CEEB;
+	Fri, 18 Jul 2025 08:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752827813;
+	bh=HL/2nr+vhFKcEcF58riyFRNQttwiCB/9fGbm+q71Dgg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GmH8kuFDP69wLkOjDvdpYL8g4oErm+tCxzSYFjNficaE3yVU2VDi2CVybyh3k2vzL
+	 ktrs4o3SmHh9+Ti01m0+zENfWaUVs3rPEOFccIDJ8JzUuMBm7vzDhfYqgJjGzyUfX2
+	 tzprzSBZDHn6R6ZCy1S+ooHnVTZn0aRQWwJVACdL/lb02WuONW5CmJoAQ+l6IEgvXV
+	 YUoaFOXIVofvTGsxJhTxgxblsj38dHI42GL2cErPbWSgZ0WyDVaDQIEbTqk0zRmB/4
+	 6UGfFtVoeLA7gIVsJdymOjI/f87nJMUh+D/2j397DUryS3KRRsJ57CDJHeSOO9dNdu
+	 VnRo0rjVmoxGg==
+Date: Fri, 18 Jul 2025 11:36:32 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
+Message-ID: <aHoHkDvvp4AHIzU1@kernel.org>
+References: <20250717231756.make.423-kees@kernel.org>
+ <20250717232519.2984886-4-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250717132259.GA25835@lst.de>
+In-Reply-To: <20250717232519.2984886-4-kees@kernel.org>
 
-On Thu, Jul 17, 2025 at 03:23:00PM +0200, Christoph Hellwig wrote:
-> On Thu, Jul 17, 2025 at 10:48:02AM +0200, Thomas Weißschuh wrote:
+Hi Kees,
 
-(...)
-
-> > This series aims to combine kselftests and kunit, avoiding both their
-> > limitations. It works by compiling the userspace kselftests as part of
-> > the regular kernel build, embedding them into the kunit kernel or module
-> > and executing them from there.
-
-(...)
-
-> I had my own fair share of problems with kselftests,
-> mostly because of the lack of structure and automated way to run them,
-
-How did you overcome these issues? Why does everbody need to reinvent the
-wheel here? KUnit already exists and provides a lot of structure and tooling.
-
-> but adding them to the kernel (or a module) is overshooting the target
-> by far.
-
-That's a subjective statement without any reasoning I can engange with.
-I would be happy to do so, but for now I can only say that I disagree.
-The patches have been on the testing-related lists for
-some time and so far nobody had an issue with this aspect.
-
-> > If the kernel toolchain is not fit to
-> > produce userspace because of a missing libc, the kernel's own nolibc can
-> > be used instead.
+On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
+> When KCOV is enabled all functions get instrumented, unless the
+> __no_sanitize_coverage attribute is used. To prepare for
+> __no_sanitize_coverage being applied to __init functions, we have to
+> handle differences in how GCC's inline optimizations get resolved. For
+> x86 this means forcing several functions to be inline with
+> __always_inline.
 > 
-> Is nolibc enough to run all the selftests?
+> Signed-off-by: Kees Cook <kees@kernel.org>
 
-It is not and most probably won't ever be. The maintainers of each testcase
-will decide which libc to use. Like it is in tools/testing/selftests/ today.
-Some use glibc, some nolibc and some can do both.
+...
 
-> If so we should just do it unconditionally, but linking to different
-> libraries by availability seems a bit problematic.
+> diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+> index bb19a2534224..b96746376e17 100644
+> --- a/include/linux/memblock.h
+> +++ b/include/linux/memblock.h
+> @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
+>  					  NUMA_NO_NODE);
+>  }
+>  
+> -static inline void *memblock_alloc_from(phys_addr_t size,
+> +static __always_inline void *memblock_alloc_from(phys_addr_t size,
+>  						phys_addr_t align,
+>  						phys_addr_t min_addr)
 
-Agreed. But as mentioned above it will be the maintainers decision.
+I'm curious why from all memblock_alloc* wrappers this is the only one that
+needs to be __always_inline?
 
-Only the preinit executable will need to support all configurations so needs
-the availability check. For the framework selftest it also makes sense to
-support as many configurations as possible. For the example test, any
-configuration is fine. 
-
-(...)
-
-While having this discussion, can we also work on dealing with the symbol
-exports, as discussed before?
-
-
-Thomas
+-- 
+Sincerely yours,
+Mike.
 
