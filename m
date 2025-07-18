@@ -1,193 +1,93 @@
-Return-Path: <linux-kbuild+bounces-8064-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8065-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67030B0A4BF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 15:04:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6111B0A8E0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 18:49:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E89E7BAC08
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 13:02:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3241BA88362
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Jul 2025 16:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C5BB2DBF73;
-	Fri, 18 Jul 2025 13:04:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 650642EA17A;
+	Fri, 18 Jul 2025 16:44:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSHIa+Mr"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="rBc4oqcI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147282C08BB;
-	Fri, 18 Jul 2025 13:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D07E2E8E12;
+	Fri, 18 Jul 2025 16:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752843850; cv=none; b=otpCtaWkDSXuwpQGtfETqHzzMCHn7vpo30KQF9Um8eYWyqrj1hYJaMv5H8cfq306GrkZZ65aBgQG4PNLQt/27GTruAu0TacM87LNAjRW0JNP2AK8DoJ8cNqopGVUYLIBJ+3F4jOW7SoSh62ijBDHaZcBrptQpiEGxuwUDzLORYk=
+	t=1752857086; cv=none; b=OXy6ckaNX2B/6csYjxXX0rKAvwIRPS1WqnnSq1NK4T+bt46MJbaUAtVuJzTxXwlCbQqjCmMjPRo5MhVfDDspNYnBrttJq00l7LHMZR1mgX6+8itvY+TEUT16c6Saw8RuUL/8kPECzywSx4B9E4oWnfucitthY66f+pRTc3pJWOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752843850; c=relaxed/simple;
-	bh=e9JV0Z0iQk3JJlBwUijpHfs6OkBiHHnta1gSH+W9zOQ=;
+	s=arc-20240116; t=1752857086; c=relaxed/simple;
+	bh=j2UJ9FOO66mq/xih2emKqjIh6oJ0U5eMySQykubT36I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4cNNy1iQbLnNATt4KxTKtj9IG2Zhl9rd7ci+oBA/SHW2T5SW4fUF4xQ8oImpC2R/jJY/aSudbc54c9gc/yZdvp/csqTaOBlRpxYLsJaHvtvBjWKZzexpC9hYBaOhIbZb/0NYFzgdmhdifAWo/C+Rcvk2rkl+0gR8vdX5/+Akbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSHIa+Mr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E41C4CEEB;
-	Fri, 18 Jul 2025 13:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752843849;
-	bh=e9JV0Z0iQk3JJlBwUijpHfs6OkBiHHnta1gSH+W9zOQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dSHIa+MrlwXDsebHQMAOBrcdcgNNRuFu1OTjumS8fxdFBEiWA23QLsWePa1HP1jXa
-	 DP7rD2arOXkIYe04ayLXrk6t48TKPhah+qrfUQk4ky4F4LbYRccQTgZL/kXp3nQJYB
-	 nrJLucASNeNNY+00+8mINN6UNjKqm5BId8c4coJWxb2glH/Jf36YSDoPuBM+WSroOr
-	 n4i8t1jm9SduQegLb6spa4A1/MFx1Gu+g8rrZJhbtALp3VA5PnisWIVkS3OfF1re3r
-	 AMqmvtywhenvyRLdeSc0OM7qWEwqaMFUvF5JgNdpEgu+srMur2jwIhNPEyXJW5TR2q
-	 5vV09+6vxMu3A==
-Date: Fri, 18 Jul 2025 14:04:00 +0100
-From: Lee Jones <lee@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Nishanth Menon <nm@ti.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Santosh Shilimkar <ssantosh@kernel.org>,
-	Allison Randal <allison@lohutok.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Ingo Molnar <mingo@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=YqC1Evh4WYDeSK5tagsGznK40VeHmWu9oq5T49xzgyOKByVx80khRcQk8/hsufbwkhl6GMPGDNhEheE0+M+sMlT2IycipLhRemOOZ3AwRmAhfZgWVot3Yd90RVa54KPDXxJE2EJwuevd7V9Dyiru9g9UBE2ZMp5suTu+MKn8ULQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=rBc4oqcI; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+	bh=+0KHRWq6i37ZM7MezYdHPmtRz/2NspRTQD/ZZBbyTv0=; b=rBc4oqcIYo5r0vfEnlB/XqXlky
+	M5UHceSwD77kirjCboTRNk2dVrD7IF8NF7+QQfNFgzIn2Twsc97+JsVC0ORwNG18ssxg8d19OzjUE
+	ARligVVJNckW8nH/IQRvSwmhuIP+H02qICEJzIIIx5tLpLFvupfRA1/tIq1Z58HfavsxSe23bqkaP
+	9BwDhmBxba/wJsS7ZJKvwRFahWhorfM65kduv+yaTCMOWmAkKDCH1CojtBfk4tXMuidgo2sdPfmDj
+	pBCxg/jBoDJwbRtBH8f6SVeSnkV/4n8eo5x5jsJgnVr7I79QlszalVck1qgUqv5560DI8nMnkoECu
+	M0Wer/bg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ucoBw-0000000CMH5-3Ggd;
+	Fri, 18 Jul 2025 16:44:12 +0000
+Date: Fri, 18 Jul 2025 17:44:12 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 05/13] arm: Handle KCOV __init vs inline mismatches
-Message-ID: <20250718130400.GB11056@google.com>
-References: <20250717231756.make.423-kees@kernel.org>
- <20250717232519.2984886-5-kees@kernel.org>
+	Kees Cook <kees@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 06/15] fs,fork,exit: export symbols necessary for
+ KUnit UAPI support
+Message-ID: <20250718164412.GD2580412@ZenIV>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+ <20250717-kunit-kselftests-v5-6-442b711cde2e@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250717232519.2984886-5-kees@kernel.org>
+In-Reply-To: <20250717-kunit-kselftests-v5-6-442b711cde2e@linutronix.de>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Thu, 17 Jul 2025, Kees Cook wrote:
-
-> When KCOV is enabled all functions get instrumented, unless
-> the __no_sanitize_coverage attribute is used. To prepare for
-> __no_sanitize_coverage being applied to __init functions, we have to
-> handle differences in how GCC's inline optimizations get resolved. For
-> arm this exposed several places where __init annotations were missing
-> but ended up being "accidentally correct". Fix these cases and force
-> several functions to be inline with __always_inline.
+On Thu, Jul 17, 2025 at 10:48:08AM +0200, Thomas Weiﬂschuh wrote:
+> The KUnit UAPI infrastructure starts userspace processes.
+> As it should be able to be built as a module, export the necessary symbols.
 > 
-> Acked-by: Nishanth Menon <nm@ti.com>
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Nishanth Menon <nm@ti.com>
-> Cc: Santosh Shilimkar <ssantosh@kernel.org>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Allison Randal <allison@lohutok.net>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: <linux-arm-kernel@lists.infradead.org>
-> ---
->  include/linux/mfd/dbx500-prcmu.h  | 2 +-
+> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
 
-Acked-by: Lee Jones <lee@kernel.org>
-
->  arch/arm/mm/cache-feroceon-l2.c   | 2 +-
->  arch/arm/mm/cache-tauros2.c       | 2 +-
->  drivers/clocksource/timer-orion.c | 2 +-
->  drivers/soc/ti/pm33xx.c           | 2 +-
->  5 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/mfd/dbx500-prcmu.h b/include/linux/mfd/dbx500-prcmu.h
-> index 98567623c9df..828362b7860c 100644
-> --- a/include/linux/mfd/dbx500-prcmu.h
-> +++ b/include/linux/mfd/dbx500-prcmu.h
-> @@ -213,7 +213,7 @@ struct prcmu_fw_version {
->  
->  #if defined(CONFIG_UX500_SOC_DB8500)
->  
-> -static inline void prcmu_early_init(void)
-> +static inline void __init prcmu_early_init(void)
->  {
->  	db8500_prcmu_early_init();
->  }
-> diff --git a/arch/arm/mm/cache-feroceon-l2.c b/arch/arm/mm/cache-feroceon-l2.c
-> index 25dbd84a1aaf..2bfefb252ffd 100644
-> --- a/arch/arm/mm/cache-feroceon-l2.c
-> +++ b/arch/arm/mm/cache-feroceon-l2.c
-> @@ -295,7 +295,7 @@ static inline u32 read_extra_features(void)
->  	return u;
->  }
->  
-> -static inline void write_extra_features(u32 u)
-> +static inline void __init write_extra_features(u32 u)
->  {
->  	__asm__("mcr p15, 1, %0, c15, c1, 0" : : "r" (u));
->  }
-> diff --git a/arch/arm/mm/cache-tauros2.c b/arch/arm/mm/cache-tauros2.c
-> index b1e1aba602f7..bfe166ccace0 100644
-> --- a/arch/arm/mm/cache-tauros2.c
-> +++ b/arch/arm/mm/cache-tauros2.c
-> @@ -177,7 +177,7 @@ static inline void __init write_actlr(u32 actlr)
->  	__asm__("mcr p15, 0, %0, c1, c0, 1\n" : : "r" (actlr));
->  }
->  
-> -static void enable_extra_feature(unsigned int features)
-> +static void __init enable_extra_feature(unsigned int features)
->  {
->  	u32 u;
->  
-> diff --git a/drivers/clocksource/timer-orion.c b/drivers/clocksource/timer-orion.c
-> index 49e86cb70a7a..61f1e27fc41e 100644
-> --- a/drivers/clocksource/timer-orion.c
-> +++ b/drivers/clocksource/timer-orion.c
-> @@ -43,7 +43,7 @@ static struct delay_timer orion_delay_timer = {
->  	.read_current_timer = orion_read_timer,
->  };
->  
-> -static void orion_delay_timer_init(unsigned long rate)
-> +static void __init orion_delay_timer_init(unsigned long rate)
->  {
->  	orion_delay_timer.freq = rate;
->  	register_current_timer_delay(&orion_delay_timer);
-> diff --git a/drivers/soc/ti/pm33xx.c b/drivers/soc/ti/pm33xx.c
-> index dfdff186c805..dc52a2197d24 100644
-> --- a/drivers/soc/ti/pm33xx.c
-> +++ b/drivers/soc/ti/pm33xx.c
-> @@ -145,7 +145,7 @@ static int am33xx_do_sram_idle(u32 wfi_flags)
->  	return pm_ops->cpu_suspend(am33xx_do_wfi_sram, wfi_flags);
->  }
->  
-> -static int __init am43xx_map_gic(void)
-> +static int am43xx_map_gic(void)
->  {
->  	gic_dist_base = ioremap(AM43XX_GIC_DIST_BASE, SZ_4K);
->  
-> -- 
-> 2.34.1
-> 
-
--- 
-Lee Jones [ÊùéÁêºÊñØ]
+No.  This is just plain wrong.  This is way too low-level; teach kernel/umh.c
+to provide what you need, but do *not* add more kernel_execve() callers.
+And the situation with ramfs needs cleaning up, but "export put_filesystem()"
+is not a solution.
 
