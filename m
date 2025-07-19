@@ -1,179 +1,122 @@
-Return-Path: <linux-kbuild+bounces-8071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8072-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504CDB0B10C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jul 2025 19:19:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E462B0B149
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jul 2025 20:20:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 643DC56439D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jul 2025 17:19:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 05383AA1E46
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Jul 2025 18:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A76ED1FFC74;
-	Sat, 19 Jul 2025 17:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D3DE2236F2;
+	Sat, 19 Jul 2025 18:20:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsy82JPl"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BZhzHpW7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A4D42AA4;
-	Sat, 19 Jul 2025 17:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C522AE7F;
+	Sat, 19 Jul 2025 18:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752945568; cv=none; b=LJxzw/Z2Fv3ARDtbm5nBye3EWJHCtFFSrm5r1yu4U5RpTAZuJfHY7RUzOvq4nzL+FI7Wmq2QfTYvAjGWc2PPUbTXMuHsWy3/OTG9+b3uUAswZ4lNPnMqQ9nLmD5kNDfO4Vjl6Z3DemDnxLFrBA0gZjG2Hlsf0ySjIf3vkxAHUCo=
+	t=1752949217; cv=none; b=bVa1lzmMGzyNUkOE06lOcySdDRqDBEBR/HJBGfjfEBe/BmkPkYXm7kx9YzrGYdm1Q++YUtGAFgxsLdWQD1M2E0smvuD4OIuXwWCqMpu3KThwyKpsI3IX7Q8XQm59LmSkZEFXP9+ckW29RDc+gR0safLAcQGWqrPKxbyy48UIXJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752945568; c=relaxed/simple;
-	bh=e5rgUdJo2dK/e+OmbOI/EEyI0Fxk0Q4aGrlatS6p2ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dUq94xyyaTOjkCdTvI6lfUxw7cnrA1ZPPUHrV8F77r1C+6/gh2jm15fK66ptwrqXa4FeMu9Ied3+SJIF+c+6fTOQ8Oqapb8ECW9qbvnwWoD5DRAxVvimUcD9doOZC7pF7yD+M9m6NkwR/TOEQeoN9s7gZeZKlpK7IiLtAXUytoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsy82JPl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37CD5C4CEE3;
-	Sat, 19 Jul 2025 17:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752945567;
-	bh=e5rgUdJo2dK/e+OmbOI/EEyI0Fxk0Q4aGrlatS6p2ok=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lsy82JPlf8Wai9HWzJKO1NQn6YwlCKng9fQBt6r64/v8Qng6dDOKMM8omkS9D1cdr
-	 Py0yF3kh5CrW3WVJgfnUSyhqsWJCoGJdQT3hJNuHDkdPigYPhkyMESUQEjwiJ0IX8i
-	 U0pRV5dVS27OunE/EaSL/0fsviyeKdudIulg/C+CWeFmkg0gfO0TKH72VEoUcgNzzc
-	 UD/XM2u9HtVQ4mCBrw54k1zW390nZAX0zRjUaqqRNs0vAtnNOzKtKFT2tpscjre1q7
-	 vTGGVzkQeYpi1cfjS0Vz3wg6HqkdbchW2BDuP4pX5Vm8eA+Xm7TaduV+GFiEu32x8J
-	 Chxuw66Q8E03Q==
-Date: Sat, 19 Jul 2025 18:19:15 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: Yassine Oudjana via B4 Relay
- <devnull+y.oudjana.protonmail.com@kernel.org>, Manivannan Sadhasivam
- <mani@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Masahiro
- Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Luca Weiss <luca@lucaweiss.eu>,
- linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-iio@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] iio: Add Qualcomm Sensor Manager driver
-Message-ID: <20250719181915.499d5c4d@jic23-huawei>
-In-Reply-To: <nSoiRmruHeLNNxpRCxJ5M5aQ-Vx7lE3U9wtVwYh6MVZHr0pkk9Cwl5ggSN3xAZ09zA8bk_RJS6mRAgxWkCIrNGogaElh4x8VKaQPO_Rzrqs=@protonmail.com>
-References: <20250710-qcom-smgr-v2-0-f6e198b7aa8e@protonmail.com>
-	<20250710-qcom-smgr-v2-4-f6e198b7aa8e@protonmail.com>
-	<20250713164033.3488db3c@jic23-huawei>
-	<nSoiRmruHeLNNxpRCxJ5M5aQ-Vx7lE3U9wtVwYh6MVZHr0pkk9Cwl5ggSN3xAZ09zA8bk_RJS6mRAgxWkCIrNGogaElh4x8VKaQPO_Rzrqs=@protonmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1752949217; c=relaxed/simple;
+	bh=2qrd4AuZfF++YH28VWBzdRrV4Phbpu4n5FCAD3qFClw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sJwdSzgWzdMmXHuWcXJcwJGvdNiB/5zh4qovlJADbcr6k01iCorAoZj07h5lK6SfX+mPFesyzv9/ukLoJ6wwBJLlVe28xIvjlAQun79Qdp0miRrWZl1uiR7HXuNxa6xaduAyIQeydDO83NVXcJ6R6M61s5tsL5JHBaE2m1e9mhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BZhzHpW7; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=29J/BJfUT9hSC305mOHIitGfVwe88AdD1WZ/e5elfSg=; b=BZhzHpW7b7pdJ2bfSqHA9PGLek
+	31f/gPRYeIlM1chyTp+PpfdnRPlawohv1EJVJJNBg7q3FGNdNgO0gAE/a5q1j0Olb8W2cJh7jXBZw
+	ESIajIVDd1570Ypgk1phSXyzqhiRN7NJPQQETIfbYcrHnlaUexWlVqESoDApkuqx01iV63A9c/WEw
+	6Nf4UKKMyXwG7QghMtaFalZjmezNPW0cdbK4Tkyvt5aTavGiQyKzDmXypVnlN0FqYjAQdy0hyrhuk
+	87HeP96PYwqAZKPfHNc9WM9Vn3ikoCFrw94xtUG73nDv8nZ9P/xZ3pdpBW9oMqNt1pcGlqCDdaJBR
+	qfG4K79g==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1udCAO-0000000EVxF-3cgc;
+	Sat, 19 Jul 2025 18:20:12 +0000
+Message-ID: <934992e6-9a2d-426d-8bd7-895062966214@infradead.org>
+Date: Sat, 19 Jul 2025 11:20:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kconfig: nconf: Fix uncleared lines on help screens
+To: Shankari Anand <shankari.ak0208@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+References: <20250719143207.215020-1-shankari.ak0208@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250719143207.215020-1-shankari.ak0208@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-> > > +static int qcom_smgr_iio_read_raw(struct iio_dev *iio_dev,
-> > > + struct iio_chan_spec const *chan, int *val,
-> > > + int *val2, long mask)
-> > > +{
-> > > + struct qcom_smgr_iio_priv *priv = iio_priv(iio_dev);
-> > > +
-> > > + switch (mask) {  
-> > 
-> > 
-> > No sysfs access at all to data is unusual but not completely unheard of.  
+
+
+On 7/19/25 7:32 AM, Shankari Anand wrote:
+> commit 1b92b18ec419 ("kconfig: nconf: Ensure null termination where
+> strncpy is used")
+> introduced a regression where help screens (F1, F2, F3) no longer properly 
+> clear short lines of text,
+> resulting in duplicated or trailing content when lines are overwritten.
 > 
-> There is no (known) method to request a single reading from the QMI
-> service. The only known way to get sensor data is to send a buffering
-> request to initiate sending data, then the remoteproc sends QMI
-> indications at a regular interval carrying sensor data which I am
-> pushing to the IIO buffers. The only way to implement direct sysfs
-> access would be to store the last received value somewhere then pass
-> it to sysfs when requested. This will also require enabling buffering
-> if disabled at the time of reading, then waiting until new data is
-> received. I didn't like this solution so I skipped direct sysfs access
-> altogether. Buffer access is enough for the current use case with
-> iio-sensor-proxy in userspace.
-
-This is absolutely fine.   I have mulled in the past implementing core
-code to deal with cases where we are in buffered mode but want to still
-provide sysfs access.  That applies for cases like ADCs where a couple
-of channels are used for a touchscreen but where there is a hardware
-restriction on accessing other channels on a oneshot basis whilst streaming
-data on the others.  Maybe one day we'll have that support and it will
-also help here, but it's not a high priority thing.
-
-> > > +static const struct iio_chan_spec qcom_smgr_pressure_iio_channels[] = {
-> > > + {
-> > > + .type = IIO_PRESSURE,
-> > > + .scan_index = 0,
-> > > + .scan_type = {
-> > > + .sign = 'u',
-> > > + .realbits = 32,
-> > > + .storagebits = 32,
-> > > + .endianness = IIO_LE,
-> > > + },
-> > > + .info_mask_separate = BIT(IIO_CHAN_INFO_SCALE) |
-> > > + BIT(IIO_CHAN_INFO_SAMP_FREQ)
-> > > + },
-> > > + {
-> > > + .type = IIO_TIMESTAMP,
-> > > + .channel = -1,
-> > > + .scan_index = 3,  
-> > 
-> > 
-> > Why 3?  
+> Revert the null-termination change to match
+> the actual length of the copied string.
 > 
-> Because the same struct is used for this and 3-axis sensors, so we should
-> skip the unused values.
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Fixes: 1b92b18ec419 ("kconfig: nconf: Ensure null termination where strncpy is used")
+> Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
 
-I'm not sure how that is related to this value.  These are effectively monotonic
-but shouldn't be used to index anything driver side.  So there is nothing
-wrong with the value 3, it's just a bit odd.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
+Thanks.
+
+
+> ---
+> I apologise for the overlook from my side. This should set it right.
+> Link of the report : 
+> https://lore.kernel.org/lkml/CAK7LNAT54nvwYmTy20Ep8U2kr4thn68yYWXi9R-d3Yx3iXs=Bg@mail.gmail.com/T/#
+
+This link should be used after Reported-by: like so:
+
+Closes: https://lore.kernel.org/lkml/CAK7LNAT54nvwYmTy20Ep8U2kr4thn68yYWXi9R-d3Yx3iXs=Bg@mail.gmail.com/T/#
+
+
+> ---
+>  scripts/kconfig/nconf.gui.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> >   
-> > > + .scan_type = {
-> > > + .sign = 'u',
-> > > + .realbits = 32,  
-> > 
-> > 
-> > If it's realbits 32 and no shift, why not store it in a 32 bit value?
-> > I assume this is a hardware provided timestamp rather than typical software
-> > filled in one? Anyhow, I'm not immediately spotting it being used yet
-> > so for now perhaps best to drop the channel descriptions.  
+> diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
+> index 475a403ab8ba..7206437e784a 100644
+> --- a/scripts/kconfig/nconf.gui.c
+> +++ b/scripts/kconfig/nconf.gui.c
+> @@ -177,7 +177,7 @@ void fill_window(WINDOW *win, const char *text)
+>  		const char *line = get_line(text, i);
+>  		int len = get_line_length(line);
+>  		strncpy(tmp, line, min(len, x));
+> -		tmp[sizeof(tmp) - 1] = '\0';
+> +		tmp[len] = '\0';
+>  		mvwprintw(win, i, 0, "%s", tmp);
+>  	}
+>  }
 > 
-> The hardware (or firmware rather) passes an unsigned 32-bit timestamp
-> value in a 64-bit QMI field. I was previously passing it as-is to IIO
-> but now since I introduced a new struct I can make it 32-bit storagebits.
-> 
-> But below you said s64 for timestamp so which is it going to be?
+> base-commit: d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
 
-I wasn't sure if it was a software or hardware timestamp. Given it's coming
-from the QMI thing it's 'hardware' so 32 bit is correct here.
-
-> 
-> > > + {
-> > > + .service = SNS_SMGR_QMI_SVC_ID,
-> > > + / Found on MSM8996 and SDM660 */
-> > > + .instance = QRTR_INSTANCE_CONST(1, 50)
-> > > + },
-> > > + { },  
-> > 
-> > 
-> > No comma on a terminating entry like this.  
-> 
-> Ok. Gotta keep track of all the conventions used in different subsystems.
-I'm curious - have you ever had anyone request the comma?
-
-I know some don't care, but it seems like an odd thing to insist on.
-
-> 
-> >   
-> > > +};
-> > > +MODULE_DEVICE_TABLE(qrtr, qcom_smgr_qrtr_match);  
-
-Jonathan
+-- 
+~Randy
 
