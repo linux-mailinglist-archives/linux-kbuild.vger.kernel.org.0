@@ -1,153 +1,126 @@
-Return-Path: <linux-kbuild+bounces-8074-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2A5B0B3B8
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 08:10:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 364E3B0B7E2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 21:08:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E1F427A886D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 06:09:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A543B3AE6F2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 19:08:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7732B1B423D;
-	Sun, 20 Jul 2025 06:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HcocEkaA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC3A1DF990;
+	Sun, 20 Jul 2025 19:08:28 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AC9182B4;
-	Sun, 20 Jul 2025 06:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A44B1C700C;
+	Sun, 20 Jul 2025 19:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752991820; cv=none; b=hBg14WIWsHUwYzEBvDy6ZfacHxXSkegdexfZYQLuL/U8dHbCaqSj+1JMtHhTs4iTMAU3fRhjvZcOtl9jYhRPRRHWVcutH/t6JlXtPagErXpq4heNZKF5XsbbQ4Lv0rCBcOxrFXBG4gCMF0FLUyWKQ4+iGrVNrDn5bH7Y1IfnCSQ=
+	t=1753038507; cv=none; b=a7SavvCBOVvY+f7hoIEUV9A/RorNxfPAV6UJ1hYFT2NIkGsSURUQd2Y6Jxs/YsWo3oj1+p7HbFwjSIOea9c3UQdqM0ZoJ68/eAM4x4CjGuVejdXY5L1Kfb+0khhmGWGhppXxCIvdDYIm9Vkxz8koKN31pC5LLLQNvE+Di0Spciw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752991820; c=relaxed/simple;
-	bh=ombXy5J9mN5+Ko6iFhW8NndKJFf3Fpi4o6CQRaezi3g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c9eCXqwwDh9roo9isXlqCDWW9w1gibgSa9w8uQrPosnaH/t2ssC/UAwLyPBFIiokTXLlgVfK9eBwl2GxuQi5MJOlL8pqrITNFuImlqFWNOKoed6ves6KfG0Gf4UksAUZzJ5VGtD93NBZ6wf/vbC5psPpmSAp7Yuka/nNbEdWAhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HcocEkaA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D626EC19421;
-	Sun, 20 Jul 2025 06:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752991819;
-	bh=ombXy5J9mN5+Ko6iFhW8NndKJFf3Fpi4o6CQRaezi3g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HcocEkaAHqoiHoBCIs5ZO1zgy5A6mlv32UCcJW8LJrNOH9xTJsjCjR+0l+k+rDugt
-	 FfJRK0wuMhP1+l40qQ4Zsqb2kNgofBEYfXVrDcz5S49YWRrNZuwLyidR4kwpzmO+j+
-	 2Ti22ok5s651Cl0DKENNJulslvkPPeDYInLV6/E1rLq+3JS2kHByx10FDPlWtaaYoO
-	 zbBEeae5MrdFJ4uyBR+eocuvKJFVtcaQkoastPWeZ1nTyt+lAAqN/K7z9f9MgU77QF
-	 ns3N6LeIPgbEVfylgBuIAeVsTpY9WQPioWqB+bD85jLB/SdJceatFgmEgi7I3n/vBJ
-	 jDFV6fT3ykiRg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55622414cf4so2928807e87.3;
-        Sat, 19 Jul 2025 23:10:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUKELGM/ashHPFgoKCL9nctb4y0d4y+qbD4P53Q+1tSd7LRfn9MV78LpsXGidu3HrJeLdmsoOJOhWGw@vger.kernel.org, AJvYcCUMiohBnJmrFxFxFe9PYL17Q7ShcYP2VeZeeYLZsnH9E+hr5lOvu21HFVubc80PBWY2fWPy3R4NjfkOvjzpLBVI@vger.kernel.org, AJvYcCUlNBIJSfM8sgAbeaxc85+pdeBUcZyk8iMSNYW6U1rSffrvBjVByJXOft6TzypgTUWIgQZ3Cfjf7CjVvA==@vger.kernel.org, AJvYcCV2NXQwjeR4DYr6Ind0bCxoOzQTh9XOa9N++vn6rP6EcHI2j4nUprBFHpNnU3enXwfg/maKhfx/X/9cx0gy6UOO@vger.kernel.org, AJvYcCVGne03iuMAcCztfyBqjN3EINlYyOHUIRcdhlM5muxd3DJQJkdAkyWmqKKoNh0NPZs0Hc/M7VIksDVqVXjjHnW+8sZz@vger.kernel.org, AJvYcCVnw3A0foCIkyfH2UIPAS6ZgSqrtA5SkB/FKqtvWeKjyObQOxciuHpphgUoKjxe52YuHCiF5up8AFaq1Q==@vger.kernel.org, AJvYcCVr/3B8F1Vjvnjzldjpwg/hnAzOlh/NVZdAxDi4X7FELWh82PyulBQrI8ssQHDSUKmhNrTqVDnzCxQANaTQ@vger.kernel.org, AJvYcCW4D6JFTgCvOiopuKLxIpG0vcqq0RHn4BRSLOdmBA3EOU//G9v6cVg9ZitGdwohFExrCnI=@vger.kernel.org, AJvYcCWqraamdjbvXObGalFIXiBcb62yFGO4wxDPUyxoaIJvOyVBm1Kr/4M/APrySHKNOj9yU6SeWFzSxXD+@vger.kernel.org, AJvYcCWsMvJ6sfvfskTZ
- rJxe33y1RORyQLmqEZfnkbylM9FU7OrC1Nu8TWxq6GnYCwY1AKgc3g/WBjdEFtuZBtZVtQH26ZLN1ZyG@vger.kernel.org, AJvYcCX8hi+duU26oTYVSKJIRMloRGdwGZrS3Hpd74gmpVo3BEqB/YlzqOu9Fu6OCRv+WBmdP9nbdAt6QHvFwpvSVDvVnZkUYQ==@vger.kernel.org, AJvYcCXXnwZn7kkbncLKby6XxH86oz9GvSxSTLUmMVXlaRlzm1jVRyZD+fpg46VZW2rRjKCuCvvHIeWpug1rRA==@vger.kernel.org, AJvYcCXjk8tNlYGrU1DrrV3YTxAh2tHKeSaod8NnL9nuf+efZM0hB/Xr3BUcCBF4BFmfzc3CKesjqurhYNcY+iOm@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGSOgQY3WWLFbolB0FzpUU+BEwg/oGmgLXO6Jkb5qFFhTxfUMF
-	7SAW79ISsthUVrkoDDIH1v94w97nlSEVld5QUKbTlUHj7p2s6FkuWr6VfsisnuyIrtGmAouy6gR
-	UpAbV+UN5yvInMfSnHYh1eS0M9F1vjTY=
-X-Google-Smtp-Source: AGHT+IGzW7z8MZyh/6NVryj0xIRWvZtmGLwUiyHXGC4Qk/FYdRSLZqwcI4BFS0lrRzeksvOsF0eTUUFywEq3kCkPty0=
-X-Received: by 2002:a05:6512:2301:b0:553:5176:48a with SMTP id
- 2adb3069b0e04-55a31843110mr2007807e87.21.1752991817889; Sat, 19 Jul 2025
- 23:10:17 -0700 (PDT)
+	s=arc-20240116; t=1753038507; c=relaxed/simple;
+	bh=o098JcNwqE9EQXxJ9VBHFsqHFPQ0jjzfsmYIL2+lOaw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=im2eZ58PzUBRRFyGleu7HgQKU9Grk/crQhJdxteEgGKE6dh8taAnb6poBCNENRIstuiTmk6QuuQk75u2GrB3nam6Sx7EzM2VVBrELpXsBeJfN1YHm5arenZ97TjIP0Mr8pyMvcW6smb4HDLmCxvbda0/PbVfcm/udYNC6I3Z6u0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from [192.168.0.1] (c144-156.icpnet.pl [85.221.144.156])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mgorny)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 22675340C53;
+	Sun, 20 Jul 2025 19:08:23 +0000 (UTC)
+Message-ID: <5cd7b14179531cec3cdc8fe3c40a639ccf0be5c1.camel@gentoo.org>
+Subject: Re: [PATCH v3] kheaders: make it possible to override TAR
+From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
+To: Nathan Chancellor <nathan@kernel.org>, Sam James <sam@gentoo.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier
+	 <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Sun, 20 Jul 2025 21:08:20 +0200
+In-Reply-To: <20250719201002.GA3285766@ax162>
+References: <20230412082743.350699-1-mgorny@gentoo.org>
+	 <277557da458c5fa07eba7d785b4f527cc37a023f.1752938644.git.sam@gentoo.org>
+	 <20250719201002.GA3285766@ax162>
+Organization: Gentoo
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-BLMLXisr0T9GZG1v6FDQ"
+User-Agent: Evolution 3.56.2 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250717231756.make.423-kees@kernel.org> <20250717232519.2984886-4-kees@kernel.org>
- <aHoHkDvvp4AHIzU1@kernel.org> <202507181541.B8CFAC7E@keescook>
-In-Reply-To: <202507181541.B8CFAC7E@keescook>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Sun, 20 Jul 2025 16:10:01 +1000
-X-Gmail-Original-Message-ID: <CAMj1kXGAwjChyFvjQcTbL8dFXkFWnn9n47bkN7FP=+EsLNsJdg@mail.gmail.com>
-X-Gm-Features: Ac12FXxx6bD_QGQsGFgOANxpcIEdVmgITnXc8yZmdE0EdDE9cBbQCb787bRnEwA
-Message-ID: <CAMj1kXGAwjChyFvjQcTbL8dFXkFWnn9n47bkN7FP=+EsLNsJdg@mail.gmail.com>
-Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
-To: Kees Cook <kees@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Vitaly Kuznetsov <vkuznets@redhat.com>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
-	Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Michal Wilczynski <michal.wilczynski@intel.com>, 
-	Juergen Gross <jgross@suse.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Roger Pau Monne <roger.pau@citrix.com>, 
-	David Woodhouse <dwmw@amazon.co.uk>, Usama Arif <usama.arif@bytedance.com>, 
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>, Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>, 
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	sparclinux@vger.kernel.org, llvm@lists.linux.dev
+
+
+--=-BLMLXisr0T9GZG1v6FDQ
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 19 Jul 2025 at 08:51, Kees Cook <kees@kernel.org> wrote:
->
-> On Fri, Jul 18, 2025 at 11:36:32AM +0300, Mike Rapoport wrote:
-> > Hi Kees,
-> >
-> > On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
-> > > When KCOV is enabled all functions get instrumented, unless the
-> > > __no_sanitize_coverage attribute is used. To prepare for
-> > > __no_sanitize_coverage being applied to __init functions, we have to
-> > > handle differences in how GCC's inline optimizations get resolved. For
-> > > x86 this means forcing several functions to be inline with
-> > > __always_inline.
-> > >
-> > > Signed-off-by: Kees Cook <kees@kernel.org>
-> >
-> > ...
-> >
-> > > diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> > > index bb19a2534224..b96746376e17 100644
-> > > --- a/include/linux/memblock.h
-> > > +++ b/include/linux/memblock.h
-> > > @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
-> > >                                       NUMA_NO_NODE);
-> > >  }
-> > >
-> > > -static inline void *memblock_alloc_from(phys_addr_t size,
-> > > +static __always_inline void *memblock_alloc_from(phys_addr_t size,
-> > >                                             phys_addr_t align,
-> > >                                             phys_addr_t min_addr)
-> >
-> > I'm curious why from all memblock_alloc* wrappers this is the only one that
-> > needs to be __always_inline?
->
-> Thread-merge[1], adding Will Deacon, who was kind of asking the same
-> question.
->
-> Based on what I can tell, GCC has kind of fragile inlining logic, in the
-> sense that it can change whether or not it inlines something based on
-> optimizations. It looks like the kcov instrumentation being added (or in
-> this case, removed) from a function changes the optimization results,
-> and some functions marked "inline" are _not_ inlined. In that case, we end up
-> with __init code calling a function not marked __init, and we get the
-> build warnings I'm trying to eliminate.
->
-> So, to Will's comment, yes, the problem is somewhat fragile (though
-> using either __always_inline or __init will deterministically solve it).
-> We've tripped over this before with GCC and the solution has usually
-> been to just use __always_inline and move on.
->
+On Sat, 2025-07-19 at 16:10 -0400, Nathan Chancellor wrote:
+> On Sat, Jul 19, 2025 at 04:24:05PM +0100, Sam James wrote:
+> > From: Micha=C5=82 G=C3=B3rny <mgorny@gentoo.org>
+> >=20
+> > Commit 86cdd2fdc4e39c388d39c7ba2396d1a9dfd66226 ("kheaders: make header=
+s
+> > archive reproducible") introduced a number of options specific to GNU
+> > tar to the `tar` invocation in `gen_kheaders.sh` script.  This causes
+> > the script to fail to work on systems where `tar` is not GNU tar.  This
+> > can occur e.g. on recent Gentoo Linux installations that support using
+> > bsdtar from libarchive instead.
+> >=20
+> > Add a `TAR` make variable to make it possible to override the tar
+> > executable used, e.g. by specifying:
+> >=20
+> >   make TAR=3Dgtar
+> >=20
+> > Link: https://bugs.gentoo.org/884061
+> > Reported-by: Sam James <sam@gentoo.org>
+> > Tested-by: Sam James <sam@gentoo.org>
+> > Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
+> > Signed-off-by: Micha=C5=82 G=C3=B3rny <mgorny@gentoo.org>
+> > Signed-off-by: Sam James <sam@gentoo.org>
+> > ---
+>=20
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>=20
+> I assume that other places that call tar within the build process are
+> not problematic because they do not use GNU specific options, such as
+> scripts/Makefile.package and scripts/package/install-extmod-build, or
+> maybe that people just have not tried building those packages with
+> bsdtar?
 
-Given that 'inline' is already a macro in the kernel, could we just
-add __attribute__((__always_inline__)) to it when KCOV is enabled?
+Precisely.  We focused on the one place which actually breaks our build,
+to avoid touching too many subsystems simultaneously.  If this is
+desirable, I can look into replacing the other instances.
+
+
+--=20
+Best regards,
+Micha=C5=82 G=C3=B3rny
+
+--=-BLMLXisr0T9GZG1v6FDQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFGBAABCgAwFiEEx2qEUJQJjSjMiybFY5ra4jKeJA4FAmh9PqQSHG1nb3JueUBn
+ZW50b28ub3JnAAoJEGOa2uIyniQO+RUH/jqKvDvlMnVbO4eD/1oms2I1Y8MhQYMG
+O8Oj3vgS7EGCyO+oTnP98p8XXye9BgBZRm5uRVSLY/dU7dY520A8em58JPQ5B6RT
+cy9pwIi4x2qCFG3+XpVhW3+Um8lYWr+CWNP3IEHIbM6ECiukyDOLeOgJwXkRpLph
+QbBbZ8ojl1DeDNoG4E8mzKekMYe0O9XCk99Q6Lvr9GCFIVCVtIOu4IYiFd5tfCsv
+/ZDUlD9EDXstpAuzhDzMbTE52tQKNr3W7PHkYVuxe6GwWtEj2XCPQOIsLvlRoeAz
+qyrwDndTDhp9nYt39rNlrzUBGn4wIyYuB7V8tw9KkAGFSrIokF+mpD4=
+=axnc
+-----END PGP SIGNATURE-----
+
+--=-BLMLXisr0T9GZG1v6FDQ--
 
