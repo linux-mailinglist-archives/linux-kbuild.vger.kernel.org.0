@@ -1,126 +1,115 @@
-Return-Path: <linux-kbuild+bounces-8075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8076-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364E3B0B7E2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 21:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A70DB0B818
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 21:59:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A543B3AE6F2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 19:08:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF3403AA865
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Jul 2025 19:59:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC3A1DF990;
-	Sun, 20 Jul 2025 19:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD3820D51A;
+	Sun, 20 Jul 2025 19:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="s3GcqEp8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A44B1C700C;
-	Sun, 20 Jul 2025 19:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BA91EA73
+	for <linux-kbuild@vger.kernel.org>; Sun, 20 Jul 2025 19:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753038507; cv=none; b=a7SavvCBOVvY+f7hoIEUV9A/RorNxfPAV6UJ1hYFT2NIkGsSURUQd2Y6Jxs/YsWo3oj1+p7HbFwjSIOea9c3UQdqM0ZoJ68/eAM4x4CjGuVejdXY5L1Kfb+0khhmGWGhppXxCIvdDYIm9Vkxz8koKN31pC5LLLQNvE+Di0Spciw=
+	t=1753041590; cv=none; b=ZjJGO15sq2wutRvPYHPwREaSywomJxbIrMFToBm1d8unlncT5rfIt1tvPUqFF1ZyvmbRaSaRjAAvu2cHpi7tFqaB4N8s+jvTWcHMqGpdDdIXLusaU5YVdY4qMgO8R+m75nyVnth+OQEsJO90HGth9sOC7dhzQ5eGPshyi6GyH3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753038507; c=relaxed/simple;
-	bh=o098JcNwqE9EQXxJ9VBHFsqHFPQ0jjzfsmYIL2+lOaw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=im2eZ58PzUBRRFyGleu7HgQKU9Grk/crQhJdxteEgGKE6dh8taAnb6poBCNENRIstuiTmk6QuuQk75u2GrB3nam6Sx7EzM2VVBrELpXsBeJfN1YHm5arenZ97TjIP0Mr8pyMvcW6smb4HDLmCxvbda0/PbVfcm/udYNC6I3Z6u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from [192.168.0.1] (c144-156.icpnet.pl [85.221.144.156])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mgorny)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 22675340C53;
-	Sun, 20 Jul 2025 19:08:23 +0000 (UTC)
-Message-ID: <5cd7b14179531cec3cdc8fe3c40a639ccf0be5c1.camel@gentoo.org>
+	s=arc-20240116; t=1753041590; c=relaxed/simple;
+	bh=Rr7gWtce0jtuqnCuffbrCSk5hpX8haog7UdUMZtr/XU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hQO7Uh1loMOU3/8q4+eZeSUbY5uLJAzvB6yvWaj9FcbnT0SQNZDj18g6W5XVzCkrXGjDvtn6NKM6PFmqN5QG1nApWkpiVnB341GlrLJZRDfb1/tyCC63iRBFCWejgAxN7GicJgS2m29wWjyiyHAZ1/Qhj57EqFAdOuH+mZyS70c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=s3GcqEp8; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Sun, 20 Jul 2025 21:59:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753041576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uTf7XST6BPozeS8E/BgyA7kC1BPVHLRfFuzJKUVb9Dc=;
+	b=s3GcqEp8QlJ6ba4MD2podCyvja2NH6/Sy78vPxRc/CCbikqHotzN0JlR0MRKaPMSl022Yk
+	EIb4WzMO4UU+WnIwnxdTLfWTk5lDw3x37dOGLhh6SuFXhesPWcnZWLYLUz7ZJ++1ZLkEuS
+	4NvTaEGfkq7QmXHFWe0LEIyNM+52sV0=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: =?utf-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Sam James <sam@gentoo.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3] kheaders: make it possible to override TAR
-From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
-To: Nathan Chancellor <nathan@kernel.org>, Sam James <sam@gentoo.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier
-	 <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Sun, 20 Jul 2025 21:08:20 +0200
-In-Reply-To: <20250719201002.GA3285766@ax162>
+Message-ID: <aH1KhpnXl0aRt8HB@fjasle.eu>
 References: <20230412082743.350699-1-mgorny@gentoo.org>
-	 <277557da458c5fa07eba7d785b4f527cc37a023f.1752938644.git.sam@gentoo.org>
-	 <20250719201002.GA3285766@ax162>
-Organization: Gentoo
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-BLMLXisr0T9GZG1v6FDQ"
-User-Agent: Evolution 3.56.2 
+ <277557da458c5fa07eba7d785b4f527cc37a023f.1752938644.git.sam@gentoo.org>
+ <20250719201002.GA3285766@ax162>
+ <5cd7b14179531cec3cdc8fe3c40a639ccf0be5c1.camel@gentoo.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ylsw9MWxpNHiJNYm"
+Content-Disposition: inline
+In-Reply-To: <5cd7b14179531cec3cdc8fe3c40a639ccf0be5c1.camel@gentoo.org>
+X-Migadu-Flow: FLOW_OUT
 
 
---=-BLMLXisr0T9GZG1v6FDQ
-Content-Type: text/plain; charset="UTF-8"
+--ylsw9MWxpNHiJNYm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2025-07-19 at 16:10 -0400, Nathan Chancellor wrote:
-> On Sat, Jul 19, 2025 at 04:24:05PM +0100, Sam James wrote:
-> > From: Micha=C5=82 G=C3=B3rny <mgorny@gentoo.org>
-> >=20
-> > Commit 86cdd2fdc4e39c388d39c7ba2396d1a9dfd66226 ("kheaders: make header=
-s
-> > archive reproducible") introduced a number of options specific to GNU
-> > tar to the `tar` invocation in `gen_kheaders.sh` script.  This causes
-> > the script to fail to work on systems where `tar` is not GNU tar.  This
-> > can occur e.g. on recent Gentoo Linux installations that support using
-> > bsdtar from libarchive instead.
-> >=20
-> > Add a `TAR` make variable to make it possible to override the tar
-> > executable used, e.g. by specifying:
-> >=20
-> >   make TAR=3Dgtar
-> >=20
-> > Link: https://bugs.gentoo.org/884061
-> > Reported-by: Sam James <sam@gentoo.org>
-> > Tested-by: Sam James <sam@gentoo.org>
-> > Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Signed-off-by: Micha=C5=82 G=C3=B3rny <mgorny@gentoo.org>
-> > Signed-off-by: Sam James <sam@gentoo.org>
-> > ---
+On Sun, Jul 20, 2025 at 09:08:20PM +0200 Micha=C5=82 G=C3=B3rny wrote:
+> On Sat, 2025-07-19 at 16:10 -0400, Nathan Chancellor wrote:
+[...]
+> > I assume that other places that call tar within the build process are
+> > not problematic because they do not use GNU specific options, such as
+> > scripts/Makefile.package and scripts/package/install-extmod-build, or
+> > maybe that people just have not tried building those packages with
+> > bsdtar?
 >=20
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->=20
-> I assume that other places that call tar within the build process are
-> not problematic because they do not use GNU specific options, such as
-> scripts/Makefile.package and scripts/package/install-extmod-build, or
-> maybe that people just have not tried building those packages with
-> bsdtar?
+> Precisely.  We focused on the one place which actually breaks our build,
+> to avoid touching too many subsystems simultaneously.  If this is
+> desirable, I can look into replacing the other instances.
 
-Precisely.  We focused on the one place which actually breaks our build,
-to avoid touching too many subsystems simultaneously.  If this is
-desirable, I can look into replacing the other instances.
+Without further investigation, I think it makes sense to use the same
+tar-instance for all tar calls.  Thus, I'd appreciate if you could replace
+those as well.
 
+Kind regards,
+Nicolas
 
---=20
-Best regards,
-Micha=C5=82 G=C3=B3rny
-
---=-BLMLXisr0T9GZG1v6FDQ
+--ylsw9MWxpNHiJNYm
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFGBAABCgAwFiEEx2qEUJQJjSjMiybFY5ra4jKeJA4FAmh9PqQSHG1nb3JueUBn
-ZW50b28ub3JnAAoJEGOa2uIyniQO+RUH/jqKvDvlMnVbO4eD/1oms2I1Y8MhQYMG
-O8Oj3vgS7EGCyO+oTnP98p8XXye9BgBZRm5uRVSLY/dU7dY520A8em58JPQ5B6RT
-cy9pwIi4x2qCFG3+XpVhW3+Um8lYWr+CWNP3IEHIbM6ECiukyDOLeOgJwXkRpLph
-QbBbZ8ojl1DeDNoG4E8mzKekMYe0O9XCk99Q6Lvr9GCFIVCVtIOu4IYiFd5tfCsv
-/ZDUlD9EDXstpAuzhDzMbTE52tQKNr3W7PHkYVuxe6GwWtEj2XCPQOIsLvlRoeAz
-qyrwDndTDhp9nYt39rNlrzUBGn4wIyYuB7V8tw9KkAGFSrIokF+mpD4=
-=axnc
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmh9SoUACgkQB1IKcBYm
+EmlXOQ//dKzInhTyJq5gXFuLkVNDcn3DhkY+vwZj94k0Mr1t3chfuWPeYWHBRBQq
+Ctdkip6eSCgKuaVd6t53uDPP0HrhcFpCIqRpIvI1ZGynsqRV8fRLh+sHUJ6k0ywc
+CIOCJLyNaMzXZTiskQDsKL1HszO36xjln8JIR7yPm3AcT5eeDFf08LaXmpFzlmA1
+/zlmAbk/DraavjF0yIArd2HKLGDqW0vHOKuig7KV+1zAmEGMhEVbM93ygHgas9r3
+bybypnQrZNUPt1o/faBZn1b7vRgQcBKtjSSaLOiUXNAWR+qKNbiyo+khDJA78gUD
+hEpL/hEvM/SlukrKW5E+cPzCw8uzKaxDqGKJBFnKBp6vfCR65T8Z5KowN1g+a2rd
+h552zIXdzuHcUHFSk12IocILwBHQE3k6DcnZq8qQzi0E0Mb8BbHAQHPYcuBQq0pB
+fQf1yA+81BdIMaLYNIK22RzFXUWbSkPQ4Bc/n7PRBAIAAKYcx/QmlwcsHCdmr7K8
+D6rXGmNI+3v1WrQOFzoUdiKojTbWfPDPfum6+TssVpKJmvHWLYFrzejQYzw/vc0M
+Qu37ylfRK5CZ/OtyIbihAc4YVLEKakXhzfLDfjPw/8uVSvoQy+C3XW6cOUB4SOQH
+MRBT5Gnm8YDk5IHKoQ/yR0hN622N5EYkBEqgz3+xB16gZIoNLgE=
+=Dx5P
 -----END PGP SIGNATURE-----
 
---=-BLMLXisr0T9GZG1v6FDQ--
+--ylsw9MWxpNHiJNYm--
 
