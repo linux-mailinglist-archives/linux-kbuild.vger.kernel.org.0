@@ -1,95 +1,80 @@
-Return-Path: <linux-kbuild+bounces-8080-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8081-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C951B0C17E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jul 2025 12:43:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 596CCB0C242
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jul 2025 13:10:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F16B7AC134
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jul 2025 10:42:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2469E18C33D6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Jul 2025 11:10:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5DE429347C;
-	Mon, 21 Jul 2025 10:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C56299A80;
+	Mon, 21 Jul 2025 11:09:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kxMXG9kq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ICSfBX58";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kxMXG9kq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ICSfBX58"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WjIwYztp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47754292B49
-	for <linux-kbuild@vger.kernel.org>; Mon, 21 Jul 2025 10:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BA62951D3
+	for <linux-kbuild@vger.kernel.org>; Mon, 21 Jul 2025 11:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753094438; cv=none; b=HBWRyXaP6R30CcY/8TuZ1WlupvnjoDTojiIg5OhmLyEliYjzjtiBwfu8alf3N0GjtbfrFPj2UxD0czAtKRNAPupXZfwBVzi11HCK9okbolI7z0XqlLl0/6QILV8sjB7kG/+oyEBtEWvBzu7H66stY8aIt+JTIN9ofA/ux4qf1BU=
+	t=1753096146; cv=none; b=W3Uf4TATtem/JKVXjEY959og7jmR5/zwx8j0h9FpojbNUlDvuKeaPEQosWDPdyGUiIyD8CFIBtym6tchSxzIKrOEcU3+RNbNxUE+vEShEpssITNlUTqbI+Mnu58SshjF99pArwDURseJWbNKMDED5Y76nhvoI4kPQbaYZ4zW/7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753094438; c=relaxed/simple;
-	bh=HwJPqklxIi4TxHGwi2RXoqe6O4MmTclYjH3w0n8qsZ4=;
+	s=arc-20240116; t=1753096146; c=relaxed/simple;
+	bh=SsD61A8hR5q9MQ8QKFckZ6cN9hCMs+AKO11xNPKYjkA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aooczFFd3LyJOnpLCGM9ZSEaNuQXKB/A/2Tqk4LbVRMELC7lZ6BfwtISU0agBnDsSp8UT64B7aIsChDP+gwNMcWPmS8jX8Vs4HLaQpueRsnMvxbWTMhdaP/sxERE4hLqajZfbP67aDpL9NfWRaHsxZCRE8PnlNZQLuBOSFNJnfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kxMXG9kq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ICSfBX58; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kxMXG9kq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ICSfBX58; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BB362198A;
-	Mon, 21 Jul 2025 10:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1753094434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=kxMXG9kqvqWuM9I/9r/hsVpe6woZ/TQRgAd+XXywmh+ERAds1E1aVPE3z71ebOTZe14d+u
-	OYXNgAAzKhqzqzNlr1dVvAZjqp3fMl7uHHDk0CPvRO2Vcpo10nD0U6S4l+1inYr0brmUpS
-	G3PquTDhBvTJfKgpk1t0jw2uZiBmJEA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1753094434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=ICSfBX58lcEx17GB6hJdMgeICEtXc+3j0Tw2OOzMR5Ma3B1jtprylWsf0J4yWQRmocS5HU
-	JqJUpGLo6x/nQKDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1753094434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=kxMXG9kqvqWuM9I/9r/hsVpe6woZ/TQRgAd+XXywmh+ERAds1E1aVPE3z71ebOTZe14d+u
-	OYXNgAAzKhqzqzNlr1dVvAZjqp3fMl7uHHDk0CPvRO2Vcpo10nD0U6S4l+1inYr0brmUpS
-	G3PquTDhBvTJfKgpk1t0jw2uZiBmJEA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1753094434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=DGT86XjEs8yUfWXy1Dj1eOgiciVU8QCPotf/nQIicGA=;
-	b=ICSfBX58lcEx17GB6hJdMgeICEtXc+3j0Tw2OOzMR5Ma3B1jtprylWsf0J4yWQRmocS5HU
-	JqJUpGLo6x/nQKDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41897136A8;
-	Mon, 21 Jul 2025 10:40:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tKaeDyIZfmhLHwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 21 Jul 2025 10:40:34 +0000
-Message-ID: <24f995fe-df76-4495-b9c6-9339b6afa6be@suse.cz>
-Date: Mon, 21 Jul 2025 12:40:34 +0200
+	 In-Reply-To:Content-Type; b=q/ZyOd+RCodER9+VQmSEKIiLFPvJETxl1nzB2N3k0oJv1rh+5p2daobXRS65j9SG/Ux7DjtXrHXzpHZf24kzufq8Mb7IFrSIFt/X6PQk5rFX1juHIHldMV40Qz189C/kosBo9z619PKkOvy5CN9DRR+hd7cdRyxgX7lXLO+4G90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WjIwYztp; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45619d70c72so39483195e9.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Jul 2025 04:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1753096141; x=1753700941; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KmtXN5LOpsy9wnbFF88f1TFJAOYpmO6pOglF7c6OjGE=;
+        b=WjIwYztphIyNa3/uYZOZTtxJcn7ek7HtPzVIWEzMj0zXwnLZfy5p3X72oOCPdJzP2V
+         uiIa2taSc2Gb3PIvaNbDVedfyUPhT1IdGGFnl11ayRDQlOcyw5pLovDkCrV33b+TynG+
+         fJuSXgYxR5xGpyqN2YGXNYqV0buURma4ZGlDStiMkOZjTTLUUtXP8fp8S2vK582ZufQT
+         YybMsb6p/+q3+jTw+8xI67H2uGWWnYQUixh9zsBE1zwABUwgLLOPW7LLck8f9E89T0pm
+         6tLCcTHk4KaLmgZaLVOGOw7M7g2oBiFtZTpQOCSa10CCfNxnhEI+Mi8pTG1U6uREzA4p
+         ffEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753096141; x=1753700941;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KmtXN5LOpsy9wnbFF88f1TFJAOYpmO6pOglF7c6OjGE=;
+        b=cya5jCi/xBhx5sCwh/m69ra5iX8G+Vcd/qICQy35wVkzMq/hCmo0ydJ+xdM1kNvdBi
+         cvEQrtuScfa4d7f5QaS+c+Buh9U//lEiHXq70b/WIolrv5U0hcQB918As4Af5Fqm41Pk
+         lOJT78blrSuM/CzHMPHXvkbnzF1P4U4xEbyHqQkntjmbya98ELCKzRnQ9TGL/Swx5mYH
+         usDfeA4gftpgAPjLgl90xQH9PyQeTmtc004g9hnMqp+9Tz3S9dcmv/JtHOXUz5XiN12v
+         cTAOt49UWFS/wtKi1aReEGCX+sNvcT/OyBk1feT2Emn8A10FV5viJ5iOpBrDHsZJAMSn
+         hcxg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/9STlOEf4A3Los945q/hNaMgf7SnGuGsXvhQq0k+DWw9yntJxBsieX8LpViatwFehuJa/4RJ2HX7EYyo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUUByYuZR+QwtGw+vPOz8fq3gEitxzYoutciuPQewVgKV8rvYy
+	CED7hbiVkEyuKd1sPkJFNEPOk/x1kfSv0SxvdAEtxVfqr0DbN/TcadoV/mCFJ3dJPOw=
+X-Gm-Gg: ASbGncuy1JRAnUJIdvS/cltUNhPfST1pI+/g0kusDt6nWQM3d5zzi1OFF0NGO8dtUK7
+	unt5fwYBj7s/7vDZk1GTgtv+OvC4/HDbROdrosuRH07y5GFmbW5SzVcFCWOciVuQk9Cy3LIfxlK
+	1Y7OiY9qoW5uTqq7usbXFEBRfO0dtuKbApE69B/cPvPpAs82mnN2hNmXhMZzgY/PXRmPiVAuh1M
+	GHtR99cJSOQD6oUGXKLqFPGvBgEnXnolLO12zFU83m5zjlkyd4opYc4bazXJxCN882K8tvnwhZ2
+	EjcZdRgYk6lmd4QN19UWnc6yWkgYE7QMkBfA8OGVjRKTjyBA4KNDUuN44lspXq9iDMddBgOxeY+
+	OIPz8vH7+VND6sOLEC4NYfEYI7muqQhxHL++BnbXJ0e44wRe+2melsLid6j+Z0yE=
+X-Google-Smtp-Source: AGHT+IF/p9/8BzW3lB8bZPpYYHRczY58A+Ne9dELqgeiVrztj+TKGERiYVH004vi+cnHyij4U7BDBg==
+X-Received: by 2002:a05:600c:c4a6:b0:455:f7b8:235c with SMTP id 5b1f17b1804b1-456348c644emr159193895e9.14.1753096141413;
+        Mon, 21 Jul 2025 04:09:01 -0700 (PDT)
+Received: from [192.168.1.36] (p549d4bd0.dip0.t-ipconnect.de. [84.157.75.208])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca5c813sm10201962f8f.84.2025.07.21.04.08.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Jul 2025 04:09:00 -0700 (PDT)
+Message-ID: <68251793-d1d2-4f7d-be00-a47a4fd5f80e@linaro.org>
+Date: Mon, 21 Jul 2025 13:08:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -97,124 +82,169 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
+Subject: Re: [PATCH v2 0/4] QRTR bus and Qualcomm Sensor Manager IIO drivers
 Content-Language: en-US
-To: Daniel Gomez <da.gomez@kernel.org>, Daniel Gomez <da.gomez@samsung.com>,
- Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>,
+To: y.oudjana@protonmail.com, Manivannan Sadhasivam <mani@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
  <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20250715-export_modules-v3-1-11fffc67dff7@suse.cz>
- <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Luca Weiss <luca@lucaweiss.eu>
+Cc: linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-iio@vger.kernel.org
+References: <20250710-qcom-smgr-v2-0-f6e198b7aa8e@protonmail.com>
+From: Casey Connolly <casey.connolly@linaro.org>
+In-Reply-To: <20250710-qcom-smgr-v2-0-f6e198b7aa8e@protonmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
 
-On 7/15/25 20:58, Daniel Gomez wrote:
-> On 15/07/2025 10.43, Vlastimil Babka wrote:
->> Christoph suggested that the explicit _GPL_ can be dropped from the
->> module namespace export macro, as it's intended for in-tree modules
->> only. It would be possible to restrict it technically, but it was
->> pointed out [2] that some cases of using an out-of-tree build of an
->> in-tree module with the same name are legitimate. But in that case those
->> also have to be GPL anyway so it's unnecessary to spell it out in the
->> macro name.
->> 
->> Link: https://lore.kernel.org/all/aFleJN_fE-RbSoFD@infradead.org/ [1]
->> Link: https://lore.kernel.org/all/CAK7LNATRkZHwJGpojCnvdiaoDnP%2BaeUXgdey5sb_8muzdWTMkA@mail.gmail.com/ [2]
->> Suggested-by: Christoph Hellwig <hch@infradead.org>
->> Reviewed-by: Shivank Garg <shivankg@amd.com>
->> Acked-by: David Hildenbrand <david@redhat.com>
->> Acked-by: Nicolas Schier <n.schier@avm.de>
->> Reviewed-by: Daniel Gomez <da.gomez@samsung.com>
->> Reviewed-by: Christian Brauner <brauner@kernel.org>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
->> Daniel, please clarify if you'll take this via module tree or Christian
->> can take it via vfs tree?
+Hi Yassine,
+
+On 10/07/2025 10:06, Yassine Oudjana via B4 Relay wrote:
+> Sensor Manager is a QMI service available on several Qualcomm SoCs which
+> exposes available sensors and allows for getting data from them. This
+> service is provided by either:
 > 
-> Patch 707f853d7fa3 ("module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper")
-> from Peter was merged through Masahiro in v6.16-rc1. Since this is a related
-> fix/rename/cleanup, it'd make sense for it to go through his kbuild tree as
-> well. Masahiro, please let me know if you'd prefer otherwise. If not, I'll queue
-> it up in the modules tree.
+> - SSC (Snapdragon Sensor Core): Also known as SLPI (Sensor Low Power
+>   Island). Has its own set of pins and peripherals to which sensors are
+>   connected. These peripherals are generally inaccessible from the AP,
+>   meaning sensors need to be operated exclusively through SSC. The only
+>   known SoCs in this category are MSM8996 and MSM8998 (and their
+>   derivatives).
+> - ADSP (Audio DSP): Shares pins and peripherals with the AP. At least on
+>   some devices, these pins could be configured as GPIOs which allows the AP
+>   to access sensors by bit-banging their interfaces. Some SoCs in this
+>   category are SDM630/660, MSM8953, MSM8974 and MSM8226.
+> 
+> Before Sensor Manager becomes accessible, another service known as Sensor
+> Registry needs to be provided by the AP. The remote processor that provides
+> Sensor Manager will then request data from it, and once that process is
+> done, will expose several services including Sensor Manager.
 
-Maybe with no reply, you can queue it then?
+arguably a bit of a nit pick, but it might be worth clarifying that
+newer SoCs starting with sdm845 also work in much the same way, except
+the actual data is packed into protobuf messages which are sent over
+QMI, rather than using QMI itself for the sensor data (and hence aren't
+supported by this series).
 
-Thanks,
-Vlastimil
+That said, this is really awesome :D
+
+Kind regards,>
+> This series adds a kernel driver for the Sensor Manager service, exposing
+> sensors accessible through it as IIO devices. To facilitate probing of this
+>  driver, QRTR is turned into a bus, with services being exposed as devices.
+> Once the Sensor Manager service becomes available, the kernel attaches its
+> device to the driver added in this series. This allows for dynamic probing
+> of Sensor Manager without the need for static DT bindings, which would also
+> not be ideal because they would be describing software rather than
+> hardware. Sensor Manager is given as a working example of the QRTR bus.
+> Kernel drivers for other services may also be able to benefit from this
+> change.
+> 
+> As previously mentioned, a Sensor Registry server must run on the AP to
+> provide the remote processor (either SLPI or ADSP) with necessary data.
+> A userspace implementation of this server is made[1]. The server can be
+> supplied with the necessary data in the form of a plain-text configuration
+> file that can be pulled from the Android vendor partition (sample[2]), or
+> generated from a binary file that can be pulled from the persist partition.
+> A more recently developed kernel implementation of the Sensor Registry
+> server[3] can also be used. This last implementation only supports reading
+> data from the binary file pulled from persist. Sensor Registry remains out
+> of the scope of this patch series, as the Sensor Registry server and Sensor
+> Manager client (this series) are fully independent components.
+> 
+> Due to the total lack of documentation on Sensor Manager, this driver was
+> almost entirely the result of a process of capturing transactions between
+> SSC and the proprietary Android daemons with several methods and manually
+> decoding and interpreting them, sometimes by comparing with values acquired
+> from Android APIs. A blog post[4] describes part of this process more
+> detail. A little piece of downstream Android open-source code[5] was also
+> used as reference during later stages of development. All of this, as well
+> as a lack of time on my side for the last couple of years, meant that this
+> driver had to go through a slow and intermittent development process for
+> more than 3 years before reaching its current state.
+> 
+> Currently supported sensor types include accelerometers, gyroscopes,
+> magentometers, proximity and pressure sensors. Other types (namely
+> light and temperature sensors) are close to being implemented.
+> 
+> Some testing instructions may also be found here[6].
+> 
+> [1] https://gitlab.com/msm8996-mainline/sns-reg
+> [2] https://github.com/nian0114/android_vendor_xiaomi_scorpio/blob/mkn-mr1/proprietary/etc/sensors/sensor_def_qcomdev.conf
+> [3] https://github.com/sdm660-mainline/linux/pull/57
+> [4] https://emainline.gitlab.io/2022/04/08/Unlocking_SSC_P2.html
+> [5] https://android.googlesource.com/platform/system/chre/+/android-8.0.0_r2/platform/slpi
+> [6] https://gitlab.postmarketos.org/postmarketOS/pmaports/-/merge_requests/4118
+> 
+> Changes since v1:
+> - Split qdev renaming into separate patch
+> - Export new QRTR symbols with namespace
+> - Change struct initialization style
+> - Remove redundant NULL initialization of qdev->dev.driver
+> - Remove redundant devm_kfree
+> - Use variable in sizeof rather than type
+> - Change error return style in qcom_smd_qrtr_init
+> - Change order of operations in qcom_smd_qrtr_exit
+> - Use FIELD_PREP and GENMASK in QRTR_INSTANCE macro and add a CONST variant
+> - Remove per-sensor subdrivers and eliminate use of platform devices
+> - Put year range in copyright statements
+> - Use dev_err_probe for error messages in probe
+> - Remove unused include of linux/of.h
+> - Avoid casting away const in qcom_smgr_buffering_report_handler
+> - Use iio_push_to_buffers instead of iio_push_to_buffers_with_timestamp
+> - Preprocess proximity sensor data before pushing to buffer
+> - Add warning message for report with unknown ID received
+> - Change sentinel value style in array of struct initialization
+> - Refuse to set sampling frequency when buffer enabled
+> - Return -EINVAL inside default case in all applicable switch statements
+> - Move samp_freq_vals in qcom_smgr_iio_read_avail to priv and fix maximum
+> - Add devm_add_action_or_reset for releasing QMI handle and get rid of
+>   qcom_smgr_remove
+> - Add service versions and instance IDs found on some platforms to QRTR
+>   match table
+> - Fix null pointer dereference on registering unsupported sensor
+> 
+> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> ---
+> Yassine Oudjana (4):
+>       net: qrtr: smd: Rename qdev to qsdev
+>       net: qrtr: Turn QRTR into a bus
+>       net: qrtr: Define macro to convert QMI version and instance to QRTR instance
+>       iio: Add Qualcomm Sensor Manager driver
+> 
+>  MAINTAINERS                                     |  13 +
+>  drivers/iio/accel/qcom_smgr_accel.c             | 138 ++++
+>  drivers/iio/common/Kconfig                      |   1 +
+>  drivers/iio/common/Makefile                     |   1 +
+>  drivers/iio/common/qcom_smgr/Kconfig            |  16 +
+>  drivers/iio/common/qcom_smgr/Makefile           |   8 +
+>  drivers/iio/common/qcom_smgr/qcom_smgr.c        | 840 ++++++++++++++++++++++++
+>  drivers/iio/common/qcom_smgr/qmi/Makefile       |   3 +
+>  drivers/iio/common/qcom_smgr/qmi/qmi_sns_smgr.c | 713 ++++++++++++++++++++
+>  drivers/iio/common/qcom_smgr/qmi/qmi_sns_smgr.h | 161 +++++
+>  drivers/soc/qcom/qmi_interface.c                |   5 +-
+>  include/linux/iio/common/qcom_smgr.h            |  80 +++
+>  include/linux/mod_devicetable.h                 |   9 +
+>  include/linux/soc/qcom/qrtr.h                   |  46 ++
+>  net/qrtr/af_qrtr.c                              |  23 +-
+>  net/qrtr/qrtr.h                                 |   3 +
+>  net/qrtr/smd.c                                  | 252 ++++++-
+>  scripts/mod/devicetable-offsets.c               |   4 +
+>  scripts/mod/file2alias.c                        |  10 +
+>  19 files changed, 2302 insertions(+), 24 deletions(-)
+> ---
+> base-commit: 835244aba90de290b4b0b1fa92b6734f3ee7b3d9
+> change-id: 20250710-qcom-smgr-8db96d370b10
+> 
+> Best regards,
+
+-- 
+// Casey (she/her)
+
 
