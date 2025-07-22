@@ -1,193 +1,145 @@
-Return-Path: <linux-kbuild+bounces-8096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78388B0DAD3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 15:30:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DA0B0E04A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 17:21:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50D2D564368
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 13:29:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A0BB547CCB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 15:21:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3E182EA15E;
-	Tue, 22 Jul 2025 13:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC8B82638BF;
+	Tue, 22 Jul 2025 15:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="icCzbYE3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="utueuAUP"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC5C2D3EFB;
-	Tue, 22 Jul 2025 13:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B60E25B1C4;
+	Tue, 22 Jul 2025 15:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753190973; cv=none; b=jUbfq6LzYuDe8e2xZhmDFylAk82T8N+MMEYIKpBxojGEidYm6Vylg0yaPAmkkshn63vdVSCUD90HSWt9MO0R3nd1J32RRgIX4mb0D6rlNoWgRNSg1PxGtO5l89YlRRw1xld2RfKsd6w/+ImvwDJYoACPN0XaAhdiTKSZlVwGOhI=
+	t=1753197685; cv=none; b=sY0wdhFe7JVhDemzSFX96mploN3f3tEduNoF/7DKOyEbJqNJq8SFEhriochaQFvGLIgQqyJB0zL6N2zXBdwYNAwtipMmC5ZJqtHG4OMi+xfWC0fJd9oRvj6S2swLpjFHTrl1c21i3KkdFswIpUGaVlHLAf/j3v/VP8GWDqcPB4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753190973; c=relaxed/simple;
-	bh=v5BLSIwd7srHi/OWA5ndIBkdalmEzmLEQmrp+RewTTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGItBp7f0LJtFN0uHXVdSHBZ7Iu7ohLohoEN0sVtiLa0UUj8G20bvsqoZjSP4BErfMdtD4RlWkyaRGSWt6bsjq7zMwMV4jXbODJdDpGEMpH1y8lqKrHlolk0AgMXEnqGIcwunW3BYJWaZpefdQsci7y5deQ/aHn4RQNvfZPCnrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=icCzbYE3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B00BC4CEEB;
-	Tue, 22 Jul 2025 13:29:23 +0000 (UTC)
+	s=arc-20240116; t=1753197685; c=relaxed/simple;
+	bh=gOCuZvkmjwwVrNCSUeQSPcF994zEyy2TkJIMewgYLQc=;
+	h=Message-ID:Date:From:To:Cc:Subject; b=Hvjn5RS1iDI6m4ZZRX5KIUHV7HGPhDWIzRC8LYtMRhRD/aXUzI6AwhQnkCQypeD1MvJakYwgagdcXK3Bv/nvlnoYvrzUIO+9YduJG5fIuYgbt+O6l/t8InBKVqV+Dv+FwtLNYnkcqSB64CwcxmNRIGT1ic7PDLyvdaUJjzvsS7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=utueuAUP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D160C4CEF1;
+	Tue, 22 Jul 2025 15:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753190972;
-	bh=v5BLSIwd7srHi/OWA5ndIBkdalmEzmLEQmrp+RewTTQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=icCzbYE3Gw4FMkjzZQGdd5PRl3DLgwJi4XEJMOcR2bhXW2g1yFhd+T0X/aqMi3/BP
-	 CibFuID4nbj6OAYkc1NMOYpqf8N3QkVei13FupO8PIGWwd7LMLFew2Gjxu4KdVUg1O
-	 DkTKaYgXxxbbsiX0+w7BLz0w/qJZtmL94y+JVE7CzC9ZZx6kQNyfp3ET4nPZ9scvga
-	 Dn2CpPG5UqY1IGli6LRySAYz4YmMRdxPp1TJllyeOcCWdL2WRYt94l/h9D04DE4+Uc
-	 MGgZG1jWvtMVVXZVVriPuhmhhcn2IesGNkPl/Ho6XBcy/wvha6uvWcQ0AKEDdQ4Ukm
-	 HjjZtlQLlu8FQ==
-Date: Tue, 22 Jul 2025 14:29:19 +0100
-From: Will Deacon <will@kernel.org>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Michal Wilczynski <michal.wilczynski@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Usama Arif <usama.arif@bytedance.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org, Ingo Molnar <mingo@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sparclinux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v3 04/13] x86: Handle KCOV __init vs inline mismatches
-Message-ID: <aH-SL2V2bSPkJ18o@willie-the-truck>
-References: <20250717231756.make.423-kees@kernel.org>
- <20250717232519.2984886-4-kees@kernel.org>
- <aHoHkDvvp4AHIzU1@kernel.org>
- <202507181541.B8CFAC7E@keescook>
- <CAMj1kXGAwjChyFvjQcTbL8dFXkFWnn9n47bkN7FP=+EsLNsJdg@mail.gmail.com>
- <aH42--h-ARsvX5Wk@willie-the-truck>
- <202507211311.8DAC4C7@keescook>
- <202507211349.D93679FB25@keescook>
- <CAMj1kXGoy7D+_hKyQrT_uXdjuFMYGUEMDYdRf6mx69PLeuBQQg@mail.gmail.com>
+	s=k20201202; t=1753197685;
+	bh=gOCuZvkmjwwVrNCSUeQSPcF994zEyy2TkJIMewgYLQc=;
+	h=Date:From:To:Cc:Subject:From;
+	b=utueuAUPwZ9GZM3TGpEKRZKwfGCnI/a4v4upmUdDWVN+v8/xb7O9JQAvnKwjRi5TX
+	 C2gqV00L3ZchlLoMJJTUvTf+EPLz9V7IHnw4E2OSiZl+HHnD8TkKodNcVUUGHP+baJ
+	 6j5EmA/GwiFilD7qFoZKrVIaRxqgEUkLaHy4CLYNBnCZUNwzJh3DtGS3Nmo9s5BPP3
+	 wvSE5qj64sIJyiyOgg3xeIW/FCqKi1r8db050Nhd2bbI0I2e6QGB0fwvV5oNODdBV7
+	 6qjXJWAt7Kv+3MIkLArKud/gHw3eWY/FkRpkpwZULN0tU4iahzhYtdZvHX8lFAJTcJ
+	 lpGMurVhBKhWw==
+Received: from rostedt by gandalf with local (Exim 4.98.2)
+	(envelope-from <rostedt@kernel.org>)
+	id 1ueEoX-0000000AYxs-2fFC;
+	Tue, 22 Jul 2025 11:21:57 -0400
+Message-ID: <20250722152053.343028095@kernel.org>
+User-Agent: quilt/0.68
+Date: Tue, 22 Jul 2025 11:20:53 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PATCH v3 0/5] tracepoints: Add warnings for unused tracepoints and trace events
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXGoy7D+_hKyQrT_uXdjuFMYGUEMDYdRf6mx69PLeuBQQg@mail.gmail.com>
 
-On Tue, Jul 22, 2025 at 04:55:47PM +1000, Ard Biesheuvel wrote:
-> On Tue, 22 Jul 2025 at 06:49, Kees Cook <kees@kernel.org> wrote:
-> >
-> > On Mon, Jul 21, 2025 at 01:14:36PM -0700, Kees Cook wrote:
-> > > On Mon, Jul 21, 2025 at 01:47:55PM +0100, Will Deacon wrote:
-> > > > On Sun, Jul 20, 2025 at 04:10:01PM +1000, Ard Biesheuvel wrote:
-> > > > > On Sat, 19 Jul 2025 at 08:51, Kees Cook <kees@kernel.org> wrote:
-> > > > > > On Fri, Jul 18, 2025 at 11:36:32AM +0300, Mike Rapoport wrote:
-> > > > > > > On Thu, Jul 17, 2025 at 04:25:09PM -0700, Kees Cook wrote:
-> > > > > > > > When KCOV is enabled all functions get instrumented, unless the
-> > > > > > > > __no_sanitize_coverage attribute is used. To prepare for
-> > > > > > > > __no_sanitize_coverage being applied to __init functions, we have to
-> > > > > > > > handle differences in how GCC's inline optimizations get resolved. For
-> > > > > > > > x86 this means forcing several functions to be inline with
-> > > > > > > > __always_inline.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Kees Cook <kees@kernel.org>
-> > > > > > >
-> > > > > > > ...
-> > > > > > >
-> > > > > > > > diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> > > > > > > > index bb19a2534224..b96746376e17 100644
-> > > > > > > > --- a/include/linux/memblock.h
-> > > > > > > > +++ b/include/linux/memblock.h
-> > > > > > > > @@ -463,7 +463,7 @@ static inline void *memblock_alloc_raw(phys_addr_t size,
-> > > > > > > >                                       NUMA_NO_NODE);
-> > > > > > > >  }
-> > > > > > > >
-> > > > > > > > -static inline void *memblock_alloc_from(phys_addr_t size,
-> > > > > > > > +static __always_inline void *memblock_alloc_from(phys_addr_t size,
-> > > > > > > >                                             phys_addr_t align,
-> > > > > > > >                                             phys_addr_t min_addr)
-> > > > > > >
-> > > > > > > I'm curious why from all memblock_alloc* wrappers this is the only one that
-> > > > > > > needs to be __always_inline?
-> > > > > >
-> > > > > > Thread-merge[1], adding Will Deacon, who was kind of asking the same
-> > > > > > question.
-> > > > > >
-> > > > > > Based on what I can tell, GCC has kind of fragile inlining logic, in the
-> > > > > > sense that it can change whether or not it inlines something based on
-> > > > > > optimizations. It looks like the kcov instrumentation being added (or in
-> > > > > > this case, removed) from a function changes the optimization results,
-> > > > > > and some functions marked "inline" are _not_ inlined. In that case, we end up
-> > > > > > with __init code calling a function not marked __init, and we get the
-> > > > > > build warnings I'm trying to eliminate.
-> > > >
-> > > > Got it, thanks for the explanation!
-> > > >
-> > > > > > So, to Will's comment, yes, the problem is somewhat fragile (though
-> > > > > > using either __always_inline or __init will deterministically solve it).
-> > > > > > We've tripped over this before with GCC and the solution has usually
-> > > > > > been to just use __always_inline and move on.
-> > > > > >
-> > > > >
-> > > > > Given that 'inline' is already a macro in the kernel, could we just
-> > > > > add __attribute__((__always_inline__)) to it when KCOV is enabled?
-> > > >
-> > > > That sounds like a more robust approach and, by the sounds of it, we
-> > > > could predicate it on GCC too. That would also provide a neat place for
-> > > > a comment describing the problem.
-> > > >
-> > > > Kees, would that work for you?
-> > >
-> > > That seems like an extremely large hammer for this problem, IMO. It
-> > > feels like it could cause new strange corner cases. I'd much prefer the
-> > > small fixes I've currently got since it keeps it focused. KCOV is
-> > > already enabled for "allmodconfig", so any new instances would be found
-> > > very quickly, etc. (And GCC's fragility in this regard has already been
-> > > exposed to these cases -- it's just that I changed one of the
-> > > combinations of __init vs inline vs instrumentation.
-> > >
-> > > I could give it a try, if you really prefer the big hammer approach...
-> >
-> > I gave it a try -- it fails spectacularly. ;) Let's stick to my small
-> > fixes instead?
-> >
-> 
-> Fair enough :-)
+Every trace event can take up to 5K of memory in text and metadata regardless
+if they are used or not. Trace events should not be created if they are not
+used.  Currently there's over a hundred events in the kernel that are defined
+but unused, either because their callers were removed without removing the
+trace event with it, or a config hides the trace event caller but not the
+trace event itself. And in some cases, trace events were simply added but were
+never called for whatever reason. The number of unused trace events continues
+to grow.
 
-(but please add the helpful explanation you provided to the commit message!)
+This patch series aims to fix this.
 
-Will
+The first patch creates a new section called __tracepoint_check, where all
+callers of a tracepoint creates a variable that is placed in this section with
+a pointer to the tracepoint they use. Then on boot up, it iterates this
+section and will modify the tracepoint's "func" field to a value of 1 (all
+tracepoints "func" fields are initialized to NULL and is only set when they
+are registered). This takes place before any tracepoint can be registered.
+
+Then each tracepoint is iterated on and if any tracepoint does not have its
+"func" field set to 1 a warning is triggered and every tracepoint that doesn't
+have that field set is printed. The "func" field is then reset back to NULL.
+
+The second patch modifies scripts/sorttable.c to read the __tracepoint_check
+section. It sorts it, and then reads the __tracepoint_ptr section that has all
+compiled in tracepoints. It makes sure that every tracepoint is found in the
+check section and if not, it prints a warning message about it. This lists the
+missing tracepoints at build time.
+
+The third patch updates sorttable to work for arm64 when compiled with gcc. As
+gcc's arm64 build doesn't put addresses in their section but saves them off in
+the RELA sections. This mostly takes the work done that was needed to do the
+mcount sorting at boot up on arm64.
+
+The fourth patch adds EXPORT_TRACEPOINT() to the __tracepoint_check section as
+well. There was several locations that adds tracepoints in the kernel proper
+that are only used in modules. It was getting quite complex trying to move
+things around that I just decided to make any tracepoint in a
+EXPORT_TRACEPOINT "used". I'm using the analogy of static and global
+functions. An unused static function gets a warning but an unused global one
+does not.
+
+The last patch updates the trace_ftrace_test_filter boot up self test. That
+selftest creates a trace event to run a bunch of filter tests on it without
+actually calling the tracepoint. To quiet the warning, the selftest tracepoint
+is called within a if (!trace_<event>_enabled()) section, where it will not be
+optimized out, nor will it be called.
+
+Changes since v2: https://lore.kernel.org/all/20250612235827.011358765@goodmis.org/
+
+- Fixed some typos in the above change log, and in comments within patches.
+
+- Have the build warning on unused events be default off. There is still too
+  many events that are unused to make a warning a default. But after all
+  current offenders are fixed, I plan on making it default enabled to prevent
+  new trace events from being added when they are unused.
+
+Steven Rostedt (5):
+      tracepoints: Add verifier that makes sure all defined tracepoints are used
+      tracing: sorttable: Add a tracepoint verification check at build time
+      tracing: sorttable: Find unused tracepoints for arm64 that uses reloc for address
+      tracepoint: Do not warn for unused event that is exported
+      tracing: Call trace_ftrace_test_filter() for the event
+
+----
+ include/asm-generic/vmlinux.lds.h  |   1 +
+ include/linux/tracepoint.h         |  13 ++
+ kernel/trace/Kconfig               |  30 +++
+ kernel/trace/trace_events_filter.c |   4 +
+ kernel/tracepoint.c                |  26 +++
+ scripts/Makefile                   |   4 +
+ scripts/sorttable.c                | 444 ++++++++++++++++++++++++++++++-------
+ 7 files changed, 436 insertions(+), 86 deletions(-)
 
