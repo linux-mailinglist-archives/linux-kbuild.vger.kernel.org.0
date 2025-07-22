@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-8099-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8101-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA847B0E04C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 17:21:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2198B0E04F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 17:21:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A2DB2188A053
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 15:21:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FC067B22F8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 15:20:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F03A4264A74;
-	Tue, 22 Jul 2025 15:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058D5264A86;
+	Tue, 22 Jul 2025 15:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCJtdXfS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5xGa3rw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A69263F54;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B65263F5D;
 	Tue, 22 Jul 2025 15:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753197685; cv=none; b=sgxS/PoBsnef1FhMg/sZVPE6pp4XzXjkb1fBaMt3huYuTuBWzQIsBzXrfE45qZ2S/1plV9KZj6GGm2R5N0H4v5b6iEz/O0UvSr7XdLVZ3YzBLjchDrmWk8MC1ql72Blyj3Gm/ULB1DVCaIBjhnwTg3o5asqYhVGjgf/AJtqOoFU=
+	t=1753197685; cv=none; b=b/jWUfw0GmO3Tf0HR3e+5fQkHrKEfWObNnEfYIphoD3wiByV1Tzhirgb616lft6rdEycfwyjR2OM4/rR0QfQ1OCVIS/Qi9QwMWyzS6LR9WJo9KNYOFpgMkDTuaPBS/9M+i3wT3OvkSgzvm+tpRlx2gWKnfoX9qfTiu0QdZUweqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1753197685; c=relaxed/simple;
-	bh=lMArP3/0P1egQIWQhDgZmdaOZFB+rB/I87vjb1AhjnQ=;
+	bh=4GTdnC8JJoqpNwB/W+g1szxDcReQDCIveoymk3DB28I=;
 	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type; b=lL+33GwfKrvoBF4ceN6c4AoLejo5CBn9xrcNmLYl/PP1s6jjJHtz9aWU1kP9W9FYvwVtP6PHpzzv5HnIkSF2rfWQZEPNfIawxSNmjSFGIci/bt0LmwJ6YICcfgLoSYHf/I2y7zk/A3m7zfI4n9RRnq4f1i0g1uXEoZr5r7KV+lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCJtdXfS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 472ACC4CEF8;
+	 Content-Type; b=RzSORi4UNcOHsA2GwZxhlSxIwxhjjSGNa8hJ6dE0MgmkpD6qqlIUi4p1wkUKYfxPyeYf8q1LO/0S/l/zPEraVVzzokBJxWrP2CiU81P1m9Rwgu4SYmdxCdvjQ/W8g2gbHREZl3ImGwCo2lmOt0TOLBzInYDk+iDhSRRQhFA9+v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5xGa3rw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71773C4AF0D;
 	Tue, 22 Jul 2025 15:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1753197685;
-	bh=lMArP3/0P1egQIWQhDgZmdaOZFB+rB/I87vjb1AhjnQ=;
+	bh=4GTdnC8JJoqpNwB/W+g1szxDcReQDCIveoymk3DB28I=;
 	h=Date:From:To:Cc:Subject:References:From;
-	b=SCJtdXfS54tMYuHhCZzxYIzxEUAiKeeTQYCjiVvVNUcQez2TwKrGeCxTh3SPMaorO
-	 WEIIjBRNBVUTffvKGql0BIqoiYNIclgoR24JwrSXy1gq8aG6/xtbGHJ99I/FNkrIMa
-	 aBiVwLdZBje6t/EiopYXFP3Hhm9Y5Y90aic0dkAwgtuyXiO1crcZuj9Fs8bzolvwET
-	 WrZW5PGFyGcNnzlh6P45JNtIZMSq5zBNe+I4MUf2Aglk3fBGTCw0Lp8kao8SbE4Zet
-	 ORJv8AyOjX8Olwh2PlSRq6oSzsuIwq0yqM22WdIAwIveV5K2UocIW4rlM/o178q2BS
-	 ft+SXNFbokAzQ==
+	b=H5xGa3rw2V8OfnlNBd6llex8zcHBsV7+jH4G7lrhTbBjvUm2Co0KTwdsdo2Vy0u5E
+	 +5gleYJff1MnwXul8zr1RtOeN4s94810s7m35WoG+Ducbl4w9H5OBiZI4ZNTnCI+wJ
+	 yaq7C4wdkpO7zatofuw0vuSi1uS/b3NRuG71d0PKjn2ryFkdEGMPgeCwUTzpHIuvFS
+	 CC5Fm69fCUwnwjfBfDbBVb55NGIhh71oBcc6AZLIqlKSJ56IBhGGSumUaNd6i6RiPy
+	 uqTjX0s6e9kn5CHiWSZzGWDIXL0/DnkqICG5YQMl+XzbpW6MAILk0UHGJ/2GePIELT
+	 nNY6Y5FywlJXA==
 Received: from rostedt by gandalf with local (Exim 4.98.2)
 	(envelope-from <rostedt@kernel.org>)
-	id 1ueEoX-0000000AYyt-482c;
-	Tue, 22 Jul 2025 11:21:57 -0400
-Message-ID: <20250722152157.839415861@kernel.org>
+	id 1ueEoY-0000000AYzN-0c49;
+	Tue, 22 Jul 2025 11:21:58 -0400
+Message-ID: <20250722152158.003968940@kernel.org>
 User-Agent: quilt/0.68
-Date: Tue, 22 Jul 2025 11:20:55 -0400
+Date: Tue, 22 Jul 2025 11:20:56 -0400
 From: Steven Rostedt <rostedt@kernel.org>
 To: linux-kernel@vger.kernel.org,
  linux-trace-kernel@vger.kernel.org,
@@ -64,7 +64,8 @@ Cc: Masami Hiramatsu <mhiramat@kernel.org>,
  Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
  Catalin Marinas <catalin.marinas@arm.com>,
  Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH v3 2/5] tracing: sorttable: Add a tracepoint verification check at build time
+Subject: [PATCH v3 3/5] tracing: sorttable: Find unused tracepoints for arm64 that uses reloc
+ for address
 References: <20250722152053.343028095@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -76,422 +77,251 @@ Content-Type: text/plain; charset=UTF-8
 
 From: Steven Rostedt <rostedt@goodmis.org>
 
-Update the sorttable code to check the tracepoint_check and tracepoint_ptr
-sections to see what trace events have been created but not used. Trace
-events can take up approximately 5K of memory each regardless if they are
-called or not.
-
-List the tracepoints that are not used at build time. Note, this currently
-only handles tracepoints that are builtin and not in modules.
+The addresses in the ARM64 ELF file is stored in the RELA sections similar
+to the mcount location table. Add support to find the addresses from the
+RELA section to use to get the actual addresses for checking the
+tracepoints and the checking variables to show if all tracepoints are
+used.
 
 Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 ---
-Changes since v2: https://lore.kernel.org/20250613000328.791312828@goodmis.org
+ scripts/sorttable.c | 186 ++++++++++++++++++++++++++++----------------
+ 1 file changed, 118 insertions(+), 68 deletions(-)
 
-- Make default n for now. As there are still tracepoints in the kernel
-  that can be defined but not used, its best to not warn about them until
-  they are fixed.
-
- kernel/trace/Kconfig |  11 ++
- scripts/Makefile     |   4 +
- scripts/sorttable.c  | 268 +++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 260 insertions(+), 23 deletions(-)
-
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index e676b802b721..bf964983d9e2 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -1063,6 +1063,17 @@ config TRACEPOINT_WARN_ON_UNUSED
- 	  A warning will be triggered if a tracepoint is found and
- 	  not used at bootup.
- 
-+config TRACEPOINT_WARN_ON_UNUSED_BUILD
-+	bool "Warn on build if a tracepoint is defined but not used"
-+	depends on TRACEPOINTS
-+	select TRACEPOINT_VERIFY_USED
-+	help
-+	  This option checks if every builtin defined tracepoint is
-+	  used in the code. If a tracepoint is defined but not used,
-+	  it will waste memory as its metadata is still created.
-+	  This will cause a warning at build time if the architecture
-+	  supports it.
-+
- config FTRACE_SELFTEST
- 	bool
- 
-diff --git a/scripts/Makefile b/scripts/Makefile
-index 46f860529df5..f81947ec9486 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -42,6 +42,10 @@ HOSTCFLAGS_sorttable.o += -I$(srctree)/tools/arch/$(SRCARCH)/include
- HOSTCFLAGS_sorttable.o += -DUNWINDER_ORC_ENABLED
- endif
- 
-+ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
-+HOSTCFLAGS_sorttable.o += -DPREL32_RELOCATIONS
-+endif
-+
- ifdef CONFIG_BUILDTIME_MCOUNT_SORT
- HOSTCFLAGS_sorttable.o += -DMCOUNT_SORT_ENABLED
- endif
 diff --git a/scripts/sorttable.c b/scripts/sorttable.c
-index deed676bfe38..ddcbec22ca96 100644
+index ddcbec22ca96..edca5b06d8ce 100644
 --- a/scripts/sorttable.c
 +++ b/scripts/sorttable.c
-@@ -92,6 +92,12 @@ static void (*w)(uint32_t, uint32_t *);
- static void (*w8)(uint64_t, uint64_t *);
- typedef void (*table_sort_t)(char *, int);
- 
-+static Elf_Shdr *init_data_sec;
-+static Elf_Shdr *ro_data_sec;
-+static Elf_Shdr *data_data_sec;
-+
-+static void *file_map_end;
-+
- static struct elf_funcs {
- 	int (*compare_extable)(const void *a, const void *b);
- 	uint64_t (*ehdr_shoff)(Elf_Ehdr *ehdr);
-@@ -550,8 +556,6 @@ static void *sort_orctable(void *arg)
- }
- #endif
- 
--#ifdef MCOUNT_SORT_ENABLED
--
- static int compare_values_64(const void *a, const void *b)
- {
- 	uint64_t av = *(uint64_t *)a;
-@@ -574,6 +578,22 @@ static int compare_values_32(const void *a, const void *b)
+@@ -578,6 +578,106 @@ static int compare_values_32(const void *a, const void *b)
  
  static int (*compare_values)(const void *a, const void *b);
  
-+static int fill_addrs(void *ptr, uint64_t size, void *addrs)
-+{
-+	void *end = ptr + size;
-+	int count = 0;
++static char m_err[ERRSTR_MAXSZ];
++static long rela_type;
++static bool sort_reloc;
++static int reloc_shnum;
 +
-+	for (; ptr < end; ptr += long_size, addrs += long_size, count++) {
-+		if (long_size == 4)
-+			*(uint32_t *)ptr = r(addrs);
-+		else
-+			*(uint64_t *)ptr = r8(addrs);
++/* Fill the array with the content of the relocs */
++static int fill_relocs(void *ptr, uint64_t size, Elf_Ehdr *ehdr, uint64_t start_loc)
++{
++	Elf_Shdr *shdr_start;
++	Elf_Rela *rel;
++	unsigned int shnum;
++	unsigned int count = 0;
++	int shentsize;
++	void *array_end = ptr + size;
++
++	shdr_start = (Elf_Shdr *)((char *)ehdr + ehdr_shoff(ehdr));
++	shentsize = ehdr_shentsize(ehdr);
++
++	shnum = ehdr_shnum(ehdr);
++	if (shnum == SHN_UNDEF)
++		shnum = shdr_size(shdr_start);
++
++	for (int i = 0; i < shnum; i++) {
++		Elf_Shdr *shdr = get_index(shdr_start, shentsize, i);
++		void *end;
++
++		if (shdr_type(shdr) != SHT_RELA)
++			continue;
++
++		reloc_shnum = i;
++
++		rel = (void *)ehdr + shdr_offset(shdr);
++		end = (void *)rel + shdr_size(shdr);
++
++		for (; (void *)rel < end; rel = (void *)rel + shdr_entsize(shdr)) {
++			uint64_t offset = rela_offset(rel);
++
++			if (offset >= start_loc && offset < start_loc + size) {
++				if (ptr + long_size > array_end) {
++					snprintf(m_err, ERRSTR_MAXSZ,
++						 "Too many relocations");
++					return -1;
++				}
++
++				/* Make sure this has the correct type */
++				if (rela_info(rel) != rela_type) {
++					snprintf(m_err, ERRSTR_MAXSZ,
++						"rela has type %lx but expected %lx\n",
++						(long)rela_info(rel), rela_type);
++					return -1;
++				}
++
++				if (long_size == 4)
++					*(uint32_t *)ptr = rela_addend(rel);
++				else
++					*(uint64_t *)ptr = rela_addend(rel);
++				ptr += long_size;
++				count++;
++			}
++		}
 +	}
 +	return count;
 +}
 +
-+#ifdef MCOUNT_SORT_ENABLED
++static uint64_t get_addr_reloc(Elf_Ehdr *ehdr, uint64_t addr)
++{
++	Elf_Shdr *shdr_start;
++	Elf_Shdr *shdr;
++	Elf_Rela *rel;
++	unsigned int shnum;
++	int shentsize;
++	void *end;
 +
- /* Only used for sorting mcount table */
- static void rela_write_addend(Elf_Rela *rela, uint64_t val)
++	shdr_start = (Elf_Shdr *)((char *)ehdr + ehdr_shoff(ehdr));
++	shentsize = ehdr_shentsize(ehdr);
++
++	shnum = ehdr_shnum(ehdr);
++	if (shnum == SHN_UNDEF)
++		shnum = shdr_size(shdr_start);
++
++	shdr = get_index(shdr_start, shentsize, reloc_shnum);
++	if (shdr_type(shdr) != SHT_RELA)
++		return 0;
++
++	rel = (void *)ehdr + shdr_offset(shdr);
++	end = (void *)rel + shdr_size(shdr);
++
++	for (; (void *)rel < end; rel = (void *)rel + shdr_entsize(shdr)) {
++		uint64_t offset = rela_offset(rel);
++
++		if (offset == addr) {
++			if (long_size == 4)
++				return rela_addend(rel);
++			else
++				return rela_addend(rel);
++		}
++	}
++	return 0;
++}
++
+ static int fill_addrs(void *ptr, uint64_t size, void *addrs)
  {
-@@ -684,7 +704,6 @@ static char m_err[ERRSTR_MAXSZ];
+ 	void *end = ptr + size;
+@@ -696,11 +796,6 @@ static int parse_symbols(const char *fname)
+ }
+ 
+ static pthread_t mcount_sort_thread;
+-static bool sort_reloc;
+-
+-static long rela_type;
+-
+-static char m_err[ERRSTR_MAXSZ];
  
  struct elf_mcount_loc {
  	Elf_Ehdr *ehdr;
--	Elf_Shdr *init_data_sec;
- 	uint64_t start_mcount_loc;
+@@ -708,63 +803,6 @@ struct elf_mcount_loc {
  	uint64_t stop_mcount_loc;
  };
-@@ -785,20 +804,6 @@ static void replace_relocs(void *ptr, uint64_t size, Elf_Ehdr *ehdr, uint64_t st
- 	}
- }
  
--static int fill_addrs(void *ptr, uint64_t size, void *addrs)
+-/* Fill the array with the content of the relocs */
+-static int fill_relocs(void *ptr, uint64_t size, Elf_Ehdr *ehdr, uint64_t start_loc)
 -{
--	void *end = ptr + size;
--	int count = 0;
+-	Elf_Shdr *shdr_start;
+-	Elf_Rela *rel;
+-	unsigned int shnum;
+-	unsigned int count = 0;
+-	int shentsize;
+-	void *array_end = ptr + size;
 -
--	for (; ptr < end; ptr += long_size, addrs += long_size, count++) {
--		if (long_size == 4)
--			*(uint32_t *)ptr = r(addrs);
--		else
--			*(uint64_t *)ptr = r8(addrs);
+-	shdr_start = (Elf_Shdr *)((char *)ehdr + ehdr_shoff(ehdr));
+-	shentsize = ehdr_shentsize(ehdr);
+-
+-	shnum = ehdr_shnum(ehdr);
+-	if (shnum == SHN_UNDEF)
+-		shnum = shdr_size(shdr_start);
+-
+-	for (int i = 0; i < shnum; i++) {
+-		Elf_Shdr *shdr = get_index(shdr_start, shentsize, i);
+-		void *end;
+-
+-		if (shdr_type(shdr) != SHT_RELA)
+-			continue;
+-
+-		rel = (void *)ehdr + shdr_offset(shdr);
+-		end = (void *)rel + shdr_size(shdr);
+-
+-		for (; (void *)rel < end; rel = (void *)rel + shdr_entsize(shdr)) {
+-			uint64_t offset = rela_offset(rel);
+-
+-			if (offset >= start_loc && offset < start_loc + size) {
+-				if (ptr + long_size > array_end) {
+-					snprintf(m_err, ERRSTR_MAXSZ,
+-						 "Too many relocations");
+-					return -1;
+-				}
+-
+-				/* Make sure this has the correct type */
+-				if (rela_info(rel) != rela_type) {
+-					snprintf(m_err, ERRSTR_MAXSZ,
+-						"rela has type %lx but expected %lx\n",
+-						(long)rela_info(rel), rela_type);
+-					return -1;
+-				}
+-
+-				if (long_size == 4)
+-					*(uint32_t *)ptr = rela_addend(rel);
+-				else
+-					*(uint64_t *)ptr = rela_addend(rel);
+-				ptr += long_size;
+-				count++;
+-			}
+-		}
 -	}
 -	return count;
 -}
 -
- static void replace_addrs(void *ptr, uint64_t size, void *addrs)
+ /* Put the sorted vals back into the relocation elements */
+ static void replace_relocs(void *ptr, uint64_t size, Elf_Ehdr *ehdr, uint64_t start_loc)
  {
- 	void *end = ptr + size;
-@@ -815,8 +820,8 @@ static void replace_addrs(void *ptr, uint64_t size, void *addrs)
- static void *sort_mcount_loc(void *arg)
- {
- 	struct elf_mcount_loc *emloc = (struct elf_mcount_loc *)arg;
--	uint64_t offset = emloc->start_mcount_loc - shdr_addr(emloc->init_data_sec)
--					+ shdr_offset(emloc->init_data_sec);
-+	uint64_t offset = emloc->start_mcount_loc - shdr_addr(init_data_sec)
-+					+ shdr_offset(init_data_sec);
- 	uint64_t size = emloc->stop_mcount_loc - emloc->start_mcount_loc;
- 	unsigned char *start_loc = (void *)emloc->ehdr + offset;
- 	Elf_Ehdr *ehdr = emloc->ehdr;
-@@ -920,6 +925,211 @@ static void get_mcount_loc(struct elf_mcount_loc *emloc, Elf_Shdr *symtab_sec,
- static inline int parse_symbols(const char *fname) { return 0; }
- #endif
- 
-+struct elf_tracepoint {
-+	Elf_Ehdr *ehdr;
-+	uint64_t start_tracepoint_check;
-+	uint64_t stop_tracepoint_check;
-+	uint64_t start_tracepoint;
-+	uint64_t stop_tracepoint;
-+	uint64_t *array;
-+	int count;
-+};
-+
-+static void make_trace_array(struct elf_tracepoint *etrace)
-+{
-+	uint64_t offset = etrace->start_tracepoint_check - shdr_addr(init_data_sec)
-+					+ shdr_offset(init_data_sec);
-+	uint64_t size = etrace->stop_tracepoint_check - etrace->start_tracepoint_check;
-+	Elf_Ehdr *ehdr = etrace->ehdr;
-+	void *start = (void *)ehdr + offset;
-+	int count = 0;
-+	void *vals;
-+
-+	etrace->array = NULL;
-+
-+	/* If CONFIG_TRACEPOINT_VERIFY_USED is not set, there's nothing to do */
-+	if (!size)
-+		return;
-+
-+	vals = malloc(long_size * size);
-+	if (!vals) {
-+		fprintf(stderr, "Failed to allocate tracepoint check array");
-+		return;
-+	}
-+
-+	count = fill_addrs(vals, size, start);
-+
-+	compare_values = long_size == 4 ? compare_values_32 : compare_values_64;
-+	qsort(vals, count, long_size, compare_values);
-+
-+	etrace->array = vals;
-+	etrace->count = count;
-+}
-+
-+static int cmp_addr_64(const void *K, const void *A)
-+{
-+	uint64_t key = *(const uint64_t *)K;
-+	const uint64_t *a = A;
-+
-+	if (key < *a)
-+		return -1;
-+	return key > *a;
-+}
-+
-+static int cmp_addr_32(const void *K, const void *A)
-+{
-+	uint32_t key = *(const uint32_t *)K;
-+	const uint32_t *a = A;
-+
-+	if (key < *a)
-+		return -1;
-+	return key > *a;
-+}
-+
-+static int find_event(void *array, size_t size, uint64_t key)
-+{
-+	uint32_t val_32;
-+	uint64_t val_64;
-+	void *val;
-+	int (*cmp_func)(const void *A, const void *B);
-+
-+	if (long_size == 4) {
-+		val_32 = key;
-+		val = &val_32;
-+		cmp_func = cmp_addr_32;
-+	} else {
-+		val_64 = key;
-+		val = &val_64;
-+		cmp_func = cmp_addr_64;
-+	}
-+	return bsearch(val, array, size, long_size, cmp_func) != NULL;
-+}
-+
-+static int failed_event(struct elf_tracepoint *etrace, uint64_t addr)
-+{
-+	uint64_t sec_addr = shdr_addr(data_data_sec);
-+	uint64_t sec_offset = shdr_offset(data_data_sec);
-+	uint64_t offset = addr - sec_addr + sec_offset;
-+	Elf_Ehdr *ehdr = etrace->ehdr;
-+	void *name_ptr = (void *)ehdr + offset;
-+	char *name;
-+
-+	if (name_ptr > file_map_end)
-+		goto bad_addr;
-+
-+	if (long_size == 4)
-+		addr = r(name_ptr);
-+	else
-+		addr = r8(name_ptr);
-+
-+	sec_addr = shdr_addr(ro_data_sec);
-+	sec_offset = shdr_offset(ro_data_sec);
-+	offset = addr - sec_addr + sec_offset;
-+	name = (char *)ehdr + offset;
-+	if ((void *)name > file_map_end)
-+		goto bad_addr;
-+
-+	fprintf(stderr, "warning: tracepoint '%s' is unused.\n", name);
-+	return 0;
-+bad_addr:
-+	fprintf(stderr, "warning: Failed to verify unused trace events.\n");
-+	return -1;
-+}
-+
-+static void check_tracepoints(struct elf_tracepoint *etrace)
-+{
-+	uint64_t sec_addr = shdr_addr(ro_data_sec);
-+	uint64_t sec_offset = shdr_offset(ro_data_sec);
-+	uint64_t offset = etrace->start_tracepoint - sec_addr + sec_offset;
-+	uint64_t size = etrace->stop_tracepoint - etrace->start_tracepoint;
-+	Elf_Ehdr *ehdr = etrace->ehdr;
-+	void *start = (void *)ehdr + offset;
-+	void *end = start + size;
-+	void *addrs;
-+	int inc = long_size;
-+
-+	if (!etrace->array)
-+		return;
-+
-+	if (!size)
-+		return;
-+
-+#ifdef PREL32_RELOCATIONS
-+	inc = 4;
-+#endif
-+
-+	sec_offset = sec_offset + (uint64_t)ehdr;
-+	for (addrs = start; addrs < end; addrs += inc) {
-+		uint64_t val;
-+
-+#ifdef PREL32_RELOCATIONS
-+		val = r(addrs);
-+		val += sec_addr + ((uint64_t)addrs - sec_offset);
-+#else
-+		val = long_size == 4 ? r(addrs) : r8(addrs);
-+#endif
-+		if (!find_event(etrace->array, etrace->count, val)) {
-+			if (failed_event(etrace, val))
-+				return;
-+		}
-+	}
-+	free(etrace->array);
-+}
-+
-+static void *tracepoint_check(struct elf_tracepoint *etrace, Elf_Shdr *symtab_sec,
-+			      const char *strtab)
-+{
-+	Elf_Sym *sym, *end_sym;
-+	int symentsize = shdr_entsize(symtab_sec);
-+	int found = 0;
-+
-+	sym = (void *)etrace->ehdr + shdr_offset(symtab_sec);
-+	end_sym = (void *)sym + shdr_size(symtab_sec);
-+
-+	while (sym < end_sym) {
-+		if (!strcmp(strtab + sym_name(sym), "__start___tracepoint_check")) {
-+			etrace->start_tracepoint_check = sym_value(sym);
-+			if (++found == 4)
-+				break;
-+		} else if (!strcmp(strtab + sym_name(sym), "__stop___tracepoint_check")) {
-+			etrace->stop_tracepoint_check = sym_value(sym);
-+			if (++found == 4)
-+				break;
-+		} else if (!strcmp(strtab + sym_name(sym), "__start___tracepoints_ptrs")) {
-+			etrace->start_tracepoint = sym_value(sym);
-+			if (++found == 4)
-+				break;
-+		} else if (!strcmp(strtab + sym_name(sym), "__stop___tracepoints_ptrs")) {
-+			etrace->stop_tracepoint = sym_value(sym);
-+			if (++found == 4)
-+				break;
-+		}
-+		sym = (void *)sym + symentsize;
-+	}
-+
-+	if (!etrace->start_tracepoint_check) {
-+		fprintf(stderr, "warning: get start_tracepoint_check error!\n");
-+		return NULL;
-+	}
-+	if (!etrace->stop_tracepoint_check) {
-+		fprintf(stderr, "warning: get stop_tracepoint_check error!\n");
-+		return NULL;
-+	}
-+	if (!etrace->start_tracepoint) {
-+		fprintf(stderr, "warning: get start_tracepoint error!\n");
-+		return NULL;
-+	}
-+	if (!etrace->stop_tracepoint) {
-+		fprintf(stderr, "warning: get start_tracepoint error!\n");
-+		return NULL;
-+	}
-+
-+	make_trace_array(etrace);
-+	check_tracepoints(etrace);
-+
-+	return NULL;
-+}
-+
- static int do_sort(Elf_Ehdr *ehdr,
- 		   char const *const fname,
- 		   table_sort_t custom_sort)
-@@ -948,6 +1158,7 @@ static int do_sort(Elf_Ehdr *ehdr,
- 	int i;
- 	unsigned int shnum;
- 	unsigned int shstrndx;
-+	struct elf_tracepoint tstruct = {0};
- #ifdef MCOUNT_SORT_ENABLED
- 	struct elf_mcount_loc mstruct = {0};
- #endif
-@@ -985,11 +1196,17 @@ static int do_sort(Elf_Ehdr *ehdr,
- 			symtab_shndx = (Elf32_Word *)((const char *)ehdr +
- 						      shdr_offset(shdr));
- 
--#ifdef MCOUNT_SORT_ENABLED
- 		/* locate the .init.data section in vmlinux */
- 		if (!strcmp(secstrings + idx, ".init.data"))
--			mstruct.init_data_sec = shdr;
--#endif
-+			init_data_sec = shdr;
-+
-+		/* locate the .ro.data section in vmlinux */
-+		if (!strcmp(secstrings + idx, ".rodata"))
-+			ro_data_sec = shdr;
-+
-+		/* locate the .data section in vmlinux */
-+		if (!strcmp(secstrings + idx, ".data"))
-+			data_data_sec = shdr;
- 
- #ifdef UNWINDER_ORC_ENABLED
- 		/* locate the ORC unwind tables */
-@@ -1055,7 +1272,7 @@ static int do_sort(Elf_Ehdr *ehdr,
- 	mstruct.ehdr = ehdr;
- 	get_mcount_loc(&mstruct, symtab_sec, strtab);
- 
--	if (!mstruct.init_data_sec || !mstruct.start_mcount_loc || !mstruct.stop_mcount_loc) {
-+	if (!init_data_sec || !mstruct.start_mcount_loc || !mstruct.stop_mcount_loc) {
- 		fprintf(stderr,
- 			"incomplete mcount's sort in file: %s\n",
- 			fname);
-@@ -1071,6 +1288,9 @@ static int do_sort(Elf_Ehdr *ehdr,
+@@ -957,7 +995,15 @@ static void make_trace_array(struct elf_tracepoint *etrace)
+ 		return;
  	}
+ 
+-	count = fill_addrs(vals, size, start);
++	if (sort_reloc) {
++		count = fill_relocs(vals, size, ehdr, etrace->start_tracepoint_check);
++		/* gcc may use relocs to save the addresses, but clang does not. */
++		if (!count) {
++			count = fill_addrs(vals, size, start);
++			sort_reloc = 0;
++		}
++	} else
++		count = fill_addrs(vals, size, start);
+ 
+ 	compare_values = long_size == 4 ? compare_values_32 : compare_values_64;
+ 	qsort(vals, count, long_size, compare_values);
+@@ -1017,10 +1063,14 @@ static int failed_event(struct elf_tracepoint *etrace, uint64_t addr)
+ 	if (name_ptr > file_map_end)
+ 		goto bad_addr;
+ 
+-	if (long_size == 4)
+-		addr = r(name_ptr);
+-	else
+-		addr = r8(name_ptr);
++	if (sort_reloc) {
++		addr = get_addr_reloc(ehdr, addr);
++	} else {
++		if (long_size == 4)
++			addr = r(name_ptr);
++		else
++			addr = r8(name_ptr);
++	}
+ 
+ 	sec_addr = shdr_addr(ro_data_sec);
+ 	sec_offset = shdr_offset(ro_data_sec);
+@@ -1473,9 +1523,9 @@ static int do_file(char const *const fname, void *addr)
+ 
+ 	switch (r2(&ehdr->e32.e_machine)) {
+ 	case EM_AARCH64:
+-#ifdef MCOUNT_SORT_ENABLED
+ 		sort_reloc = true;
+ 		rela_type = 0x403;
++#ifdef MCOUNT_SORT_ENABLED
+ 		/* arm64 uses patchable function entry placing before function */
+ 		before_func = 8;
  #endif
- 
-+	tstruct.ehdr = ehdr;
-+	tracepoint_check(&tstruct, symtab_sec, strtab);
-+
- 	if (custom_sort) {
- 		custom_sort(extab_image, shdr_size(extab_sec));
- 	} else {
-@@ -1404,6 +1624,8 @@ int main(int argc, char *argv[])
- 			continue;
- 		}
- 
-+		file_map_end = addr + size;
-+
- 		if (do_file(argv[i], addr))
- 			++n_error;
- 
 -- 
 2.47.2
 
