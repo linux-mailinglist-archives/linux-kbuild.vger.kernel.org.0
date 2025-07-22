@@ -1,137 +1,193 @@
-Return-Path: <linux-kbuild+bounces-8094-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8095-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137ECB0D54F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 11:08:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF04B0D6E1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 12:07:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2CBD1892325
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 09:09:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D16A3A5AD8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Jul 2025 10:06:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 407352D9ED6;
-	Tue, 22 Jul 2025 09:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF9F52E2F06;
+	Tue, 22 Jul 2025 10:05:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTbuEeH4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="btDw2eRE"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8C9189F5C;
-	Tue, 22 Jul 2025 09:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9C92E06ED;
+	Tue, 22 Jul 2025 10:05:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753175318; cv=none; b=YE2UQ+T9OzyRJ+XaAeWJCDNfocQWXwRCmSmMjDGVHhwkxFcnMCuA0b09MpaQ1T29BXrgEUvynTxlplC28Dp0A5AKk+XFYXIuLx2HqlmQu/pgPo1nF0FE7HXYDDZXxrBMSxGe07JTpv3KZnsBxh93PlnMHHAGoApuIVmL6TeineE=
+	t=1753178744; cv=none; b=mmjA7Nkee0IL3YhxShY6OfmtUWaRsXdgd+Svcgkq5BgSGJAfuWkqw94tS7T5qIed8cpEWBc3G0SBU9XfQIhEpF79DyTbvgMe5faoLUeNaQZFIxwCKfqyji+9vsJmDtxq60AO8JHX7qOj22aEctmc6W30u+6/quuSyKJV1F8zMyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753175318; c=relaxed/simple;
-	bh=bpDft6oO+lFmar4gUVFA5oPCPI7YERjD3nM/ltmpdLg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pjdhlhy3g5pPMwdQjmW5fDGjp7D0umWxYnAZxPx0X/EfcAgdF9fQA/62GZWHV1dKZuC9syKVfupG4j93b/8tZK4cSB2jK4aNgB/bqG3/O47m9Axubr/8vMWrHQithdgqHPXx58TvM9q80EHl5lTsmE93I0/tQhmUaaVOCIZ9bpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTbuEeH4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B046C4CEEB;
-	Tue, 22 Jul 2025 09:08:33 +0000 (UTC)
+	s=arc-20240116; t=1753178744; c=relaxed/simple;
+	bh=IlLy1p8cz2ISRMPbvg4/n/abtc9H+c/qnZ5bEjePPwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LHaWn0mR8Y9TfIB+XHz/+LKy5yziIFvq7psEuSmIqQdPqfxJvqlsHQhfMulVE4rSmKrBFch2aglhfzy1MfHligZZ8Y+5QiYyVcy6e3RWAA07sXF+I7aus7jX7Nw09JUMwvoHSbFrJH8CfNjtFDGgUkLl9WFeuB0s5veaPceeB+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=btDw2eRE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7899C4CEEB;
+	Tue, 22 Jul 2025 10:05:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753175317;
-	bh=bpDft6oO+lFmar4gUVFA5oPCPI7YERjD3nM/ltmpdLg=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fTbuEeH43Z/f3Fxffb7Z/yQ4rg69ui3KXpFD/Wf9NFdU8u0noTtyC5R6HIZD3cft5
-	 rad884nOOJrLawmfJB0M11oQ9L8zlp8VTJSQUKNOfZU66uPEicDqIZcXkBICKZHCez
-	 vPxAjcVPQwHExWCD0e6SG7vYSFltb6jWdVlqC/QZvVZnFZtzm+GEAF8zupIanlvTgx
-	 1/bH7RomwwB/y5RZTbJlDFY+eiNvW+oSyt6zHd01S0L4ArAFWY2X23CZIWV8wY7L5y
-	 42/WKnssfOlr/MJlCk2PNfAN8HfFWZhwnDCuhaWnyP1ju54GRLENyyuHJTUtnPTBXF
-	 fHsGSr/ggPm7A==
-Message-ID: <946c55cb-4810-4c1f-8f87-4456b6ceb37f@kernel.org>
-Date: Tue, 22 Jul 2025 11:08:31 +0200
+	s=k20201202; t=1753178744;
+	bh=IlLy1p8cz2ISRMPbvg4/n/abtc9H+c/qnZ5bEjePPwU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=btDw2eRExWr9siGIr/Xozyp7idZEf4Glqg6nrxtHxAJGV6UxAVFbid784++CxNqLR
+	 AiIwI6+8gI0Z03hvOVKnLiCRL8lLR44oXK7tlSZicaXaLiiHbHHZ6xQX10HdbkKnfO
+	 Q2x2B5D5QNf+V/mR8OICiAHO78w9/jlS/FWJPZAekIPjGDhQIPahef967LaSgn9KRF
+	 ADNf7PsvEGxF4jOPtegyLIexbq41U7Oo4dPkkIK6K+X6qMt6ag5YUQDOtkizjHn5sm
+	 7+4gIB53fqepnLwx9qSkLOISWjQMyk/wzjxf73F4NOU81fmHLi5I6Qob/bIVyxgVRt
+	 YgoeOjhLG18Uw==
+Date: Tue, 22 Jul 2025 12:05:38 +0200
+From: Alexey Gladkov <legion@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v4 0/7] Add generated modalias to modules.builtin.modinfo
+Message-ID: <aH9icpCpoHqBBzEm@example.org>
+References: <cover.1750511018.git.legion@kernel.org>
+ <aHUI8KqD0_dtTY3D@example.org>
+ <CAK7LNARjC_FCam14RXfTVTQ4_jtXuBKfDsdyG84_k9L1x5zJyg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v3] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vlastimil Babka <vbabka@suse.cz>, Christian Brauner <brauner@kernel.org>
-Cc: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Gomez
- <da.gomez@samsung.com>, Matthias Maennich <maennich@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Christoph Hellwig <hch@infradead.org>, Peter Zijlstra
- <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20250715-export_modules-v3-1-11fffc67dff7@suse.cz>
- <b340eb9f-a336-461c-befe-6b09c68b731e@kernel.org>
- <24f995fe-df76-4495-b9c6-9339b6afa6be@suse.cz>
- <49eeff09-993f-42a0-8e3b-b3f95b41dbcf@kernel.org>
- <2025072219-dollhouse-margarita-de67@gregkh>
- <9d61a747-2655-4f4c-a8fe-5db51ff33ff7@suse.cz>
- <2025072246-unexpired-deletion-a0f8@gregkh>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <2025072246-unexpired-deletion-a0f8@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARjC_FCam14RXfTVTQ4_jtXuBKfDsdyG84_k9L1x5zJyg@mail.gmail.com>
 
-
-
-On 22/07/2025 10.53, Greg Kroah-Hartman wrote:
-> On Tue, Jul 22, 2025 at 10:49:48AM +0200, Vlastimil Babka wrote:
->> On 7/22/25 10:46, Greg Kroah-Hartman wrote:
->>> On Tue, Jul 22, 2025 at 10:26:43AM +0200, Daniel Gomez wrote:
->>>>>
->>>>> Maybe with no reply, you can queue it then?
->>>>
->>>> + Jiri, Stephen and Greg, added to the To: list.
->>>>
->>>> EXPORT_SYMBOL_GPL_FOR_MODULES macro was merged [1] through Masahiro's
->>>> pull request in v6.16-rc1. This patch from Vlastimil renames the macro to
->>>> EXPORT_SYMBOL_FOR_MODULES. This means Jiri's patch b20d6576cdb3 "serial: 8250:
->>>> export RSA functions" will need to be updated accordingly. I'd like like to
->>>> know how you prefer to proceed, since it was requested to have this merged as a
->>>> fix before Linus releases a new kernel with the former name.
->>>
->>> So you want this in 6.16-final?  Ok, do so and then someone needs to fix
->>> up the build breakage in linux-next and in all of the pull requests to
->>> Linus for 6.17-rc1 :)
->>>
-
-I see... that doesn't sound like it was the right approach. I didn't expect
-follow-up fixes to be needed for the next merge window. Thanks for the heads-up.
-I'll hold off on merging this for now.
-
->>>> Link: https://lore.kernel.org/all/CAK7LNAQunzxOHR+vMZLf8kqxyRtLx-Z2G2VZquJmndrT9TZjiQ@mail.gmail.com/ [1]
->>>>
->>>>
->>>> Masahiro, just a heads-up that I plan to merge this through the linux-modules
->>>> tree unless you advise otherwise.
->>>
->>> Why not just do the rename after 6.17-rc1 is out?  That way all new
->>> users will be able to be caught at that point in time.  There's no issue
->>
->> Hm there might be people basing their new exports for 6.18 on 6.17-rc1. They
->> would have to be told to use rc2 then.
+On Wed, Jul 16, 2025 at 01:23:26AM +0900, Masahiro Yamada wrote:
+> Hi, sorry for the delay.
 > 
-> Yes, that's normal, nothing wrong with that at all, we make api name
-> changes across the tree quite often (i.e. almost every-other release.)
+> On Mon, Jul 14, 2025 at 10:41 PM Alexey Gladkov <legion@kernel.org> wrote:
+> >
+> > On Sat, Jun 21, 2025 at 03:57:12PM +0200, Alexey Gladkov wrote:
+> > > The modules.builtin.modinfo file is used by userspace (kmod to be specific) to
+> > > get information about builtin modules. Among other information about the module,
+> > > information about module aliases is stored. This is very important to determine
+> > > that a particular modalias will be handled by a module that is inside the
+> > > kernel.
+> > >
+> > > There are several mechanisms for creating modalias for modules:
+> > >
+> > > The first is to explicitly specify the MODULE_ALIAS of the macro. In this case,
+> > > the aliases go into the '.modinfo' section of the module if it is compiled
+> > > separately or into vmlinux.o if it is builtin into the kernel.
+> > >
+> > > The second is the use of MODULE_DEVICE_TABLE followed by the use of the
+> > > modpost utility. In this case, vmlinux.o no longer has this information and
+> > > does not get it into modules.builtin.modinfo.
+> > >
+> > > For example:
+> > >
+> > > $ modinfo pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+> > > modinfo: ERROR: Module pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30 not found.
+> > >
+> > > $ modinfo xhci_pci
+> > > name:           xhci_pci
+> > > filename:       (builtin)
+> > > license:        GPL
+> > > file:           drivers/usb/host/xhci-pci
+> > > description:    xHCI PCI Host Controller Driver
+> > >
+> > > The builtin module is missing alias "pci:v*d*sv*sd*bc0Csc03i30*" which will be
+> > > generated by modpost if the module is built separately.
+> > >
+> > > To fix this it is necessary to add the generated by modpost modalias to
+> > > modules.builtin.modinfo.
+> > >
+> > > Fortunately modpost already generates .vmlinux.export.c for exported symbols. It
+> > > is possible to use this file to create a '.modinfo' section for builtin modules.
+> > > The modules.builtin.modinfo file becomes a composite file. One part is extracted
+> > > from vmlinux.o, the other part from .vmlinux.export.o.
+> >
+> > Masahiro Yamada, does this version of the patchset look better to you ?
 > 
->> Maybe the best way would be if Linus
->> did this just before tagging rc1, while fixing up all users merged during
->> the merge window?
 > 
-> Again, what's wrong with -rc2?  Anyone caught using this on only -rc1
-> will get a quick "this broke the build" report in linux-next so it's not
-> like this is going to be unnoticed at all.
+> Looks better, but this may break s390 build:
+> 
+> https://lore.kernel.org/linux-kbuild/202506062053.zbkFBEnJ-lkp@intel.com/
+> 
+> I have not taken a close look at it.
+> If we do not find how to fix the warning, we would
+> end up with the original solution.
 
-I think Christian had some renaming candidates. Christian, does this work for
-you?
+I think I found a problem. I just pushed fix to my branch. I'll make a new
+version of the patchset in a few days. I want to test it a bit longer.
+
+> > > Notes:
+> > > - v4:
+> > >   * Rework the patchset based on top of Masahiro Yamada's patches.
+> > >   * Add removal of unnecessary __mod_device_table__* symbols to avoid symbol
+> > >     table growth in vmlinux.
+> > >   * rust code takes into account changes in __mod_device_table__*.
+> > >   * v3: https://lore.kernel.org/all/cover.1748335606.git.legion@kernel.org/
+> > >
+> > > - v3:
+> > >   * Add `Reviewed-by` tag to patches from Petr Pavlu.
+> > >   * Rebase to v6.15.
+> > >   * v2: https://lore.kernel.org/all/20250509164237.2886508-1-legion@kernel.org/
+> > >
+> > > - v2:
+> > >   * Drop patch for mfd because it was already applied and is in linux-next.
+> > >   * The generation of aliases for builtin modules has been redone as
+> > >     suggested by Masahiro Yamada.
+> > >   * Rebase to v6.15-rc5-136-g9c69f8884904
+> > >   * v1: https://lore.kernel.org/all/cover.1745591072.git.legion@kernel.org/
+> > >
+> > >
+> > > Alexey Gladkov (3):
+> > >   scsi: Always define blogic_pci_tbl structure
+> > >   modpost: Add modname to mod_device_table alias
+> > >   modpost: Create modalias for builtin modules
+> > >
+> > > Masahiro Yamada (4):
+> > >   module: remove meaningless 'name' parameter from __MODULE_INFO()
+> > >   kbuild: always create intermediate vmlinux.unstripped
+> > >   kbuild: keep .modinfo section in vmlinux.unstripped
+> > >   kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
+> > >
+> > >  drivers/scsi/BusLogic.c           |  2 -
+> > >  include/asm-generic/vmlinux.lds.h |  2 +-
+> > >  include/crypto/algapi.h           |  4 +-
+> > >  include/linux/module.h            | 21 ++++-----
+> > >  include/linux/moduleparam.h       |  9 ++--
+> > >  include/net/tcp.h                 |  4 +-
+> > >  rust/kernel/device_id.rs          |  8 ++--
+> > >  scripts/Makefile.vmlinux          | 74 +++++++++++++++++++++----------
+> > >  scripts/Makefile.vmlinux_o        | 26 +----------
+> > >  scripts/mksysmap                  |  6 +++
+> > >  scripts/mod/file2alias.c          | 34 ++++++++++++--
+> > >  scripts/mod/modpost.c             | 17 ++++++-
+> > >  scripts/mod/modpost.h             |  2 +
+> > >  13 files changed, 131 insertions(+), 78 deletions(-)
+> > >
+> > > --
+> > > 2.49.0
+> > >
+> >
+> > --
+> > Rgrds, legion
+> >
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
+> 
+
+-- 
+Rgrds, legion
+
 
