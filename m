@@ -1,122 +1,138 @@
-Return-Path: <linux-kbuild+bounces-8107-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8108-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B831B0EA9E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jul 2025 08:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74ECEB0FB0A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jul 2025 21:42:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41C7A1637C5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jul 2025 06:28:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A51F6582A83
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Jul 2025 19:42:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9900A264A65;
-	Wed, 23 Jul 2025 06:28:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A12E22F772;
+	Wed, 23 Jul 2025 19:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PEl9jvoY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48F417BA6;
-	Wed, 23 Jul 2025 06:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D657F1EEA5F;
+	Wed, 23 Jul 2025 19:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753252110; cv=none; b=bASlvL0RxiR/15Iu6Uo4y2HdftXZ03aVc0Cdun7Xt0Jmg9Lh+2Wtw9oXRlGWZ7N3aff3Xqjn+L22SRNLzyaUjSqF/2XmNKWZnHj1Ev7LhpidWXJFfr+khxfoXOqVUst8MZH5HLrkqHyrqve6Cn/AMvvwvHx1llWZ2GdLn4r3DoM=
+	t=1753299731; cv=none; b=eJHrnJjHKMJE1Unj7/6yUXJgOJHHu2o3JpKM7Atie/wFCb0zT+n7YLS2vYWWJj3+p90TLOe0Cepu4iQEeAFCBsXAi9kNN8hXqsDdcEtDBi0E5qJb5la5w5zJcQfFcDgCzzF+wDH13aakjVXmjEt8gvTDeu59gPFt9NecjrM223Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753252110; c=relaxed/simple;
-	bh=gXGQcekBerAG79WCEWyjCM2dnXbcfuYoLMEPkmOyLAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s89uaZUga3zU1eQkiicw0vtmDrwsBMIiygce4zxPHyn8DuBELcbu35bB5pp+t0YHZjNWwh9xF/SaCvaJkKGNsZRZuUWktawdF8A9/fmVP0WSH++cYoNplrHNB7k4AEffiTwDiMhdH1t3O1KSy0AmUM6d8n6FHJTbpidFyKfJo+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from [212.42.244.71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.53.4)
-	(envelope-from <n.schier@avm.de>)
-	id 68807f53-f4f0-7f0000032729-7f000001a584-1
-	for <multiple-recipients>; Wed, 23 Jul 2025 08:21:07 +0200
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Wed, 23 Jul 2025 08:21:07 +0200 (CEST)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 830C9808B9;
-	Wed, 23 Jul 2025 08:21:07 +0200 (CEST)
-Received: from l-nschier-aarch64.ads.avm.de (unknown [IPv6:fde4:4c1b:acd5:6472::1])
-	by buildd.core.avm.de (Postfix) with ESMTPS id 12EF718F071;
-	Wed, 23 Jul 2025 08:21:07 +0200 (CEST)
-Date: Wed, 23 Jul 2025 08:21:05 +0200
-From: Nicolas Schier <n.schier@avm.de>
-To: Shankari Anand <shankari.ak0208@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] kconfig: nconf: Fix uncleared lines on help screens
-Message-ID: <20250723-tentacled-quaint-honeybee-daeadc@l-nschier-aarch64>
-References: <20250722172837.140328-1-shankari.ak0208@gmail.com>
+	s=arc-20240116; t=1753299731; c=relaxed/simple;
+	bh=uiFhIkZy0tlTk32coNdQPuQQNKT9RuBXTy7Nj/6sDZQ=;
+	h=Message-ID:Date:From:To:Cc:Subject; b=JMH6F4V9LnNdgiXSOwV5zLhRgShYaYcDqeqKHxPFIxqLee2X1t2yjaTVV+7uE7l25+6xlbZ35MYGnG+LTqE7mkgsscmKVcHJg3CyTvEccLW2nLOwH9eJFOlJh3MMbS/U7cpx0ASkhFUYHxOM2nxHmuwtf58iqQEh28LEWEympx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PEl9jvoY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B144C4CEE7;
+	Wed, 23 Jul 2025 19:42:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753299730;
+	bh=uiFhIkZy0tlTk32coNdQPuQQNKT9RuBXTy7Nj/6sDZQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=PEl9jvoYbDaLyuq5A9oQyHsWhWw69WG/NTb/khbEug2R0r7qegOZ9ZRffpBeir7Ch
+	 9zJPtGEUsug3lEMNjzPgouRfKTeWdMZlHqvTH6OPBHm6LiQnk6TPLH9VScGaKH/L7P
+	 7d++U55SWYDPn5mgVz/F37PsNG7xmYtYkJ9AflLZQtyXeVJJPB3nbWoEPe51X83ul1
+	 uqxsen+wnUe7PMPCEyQRJDBxNT6jq3wjx/ri+ePM4xxcuGP8yL7FxZ5YbwULVPF5Wu
+	 a+xsWt385AynYcHjcEElf/iSE34Osqx7VlF4RoXPn2fCGMmOI66mXYs0xv173aDELV
+	 sgkUhzds+IoKA==
+Received: from rostedt by gandalf with local (Exim 4.98.2)
+	(envelope-from <rostedt@kernel.org>)
+	id 1uefLv-00000000QY2-36MI;
+	Wed, 23 Jul 2025 15:42:11 -0400
+Message-ID: <20250723194141.617125835@kernel.org>
+User-Agent: quilt/0.68
+Date: Wed, 23 Jul 2025 15:41:41 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PATCH v4 0/4] tracepoints: Add warnings for unused tracepoints and trace events
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+cZPhhw0P+MpjApe"
-Content-Disposition: inline
-In-Reply-To: <20250722172837.140328-1-shankari.ak0208@gmail.com>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1753251667-2D59F952-B0ED1819/0/0
-X-purgate-type: clean
-X-purgate-size: 2059
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+
+Every trace event can take up to 5K of memory in text and metadata regardless
+if they are used or not. Trace events should not be created if they are not
+used.  Currently there's over a hundred events in the kernel that are defined
+but unused, either because their callers were removed without removing the
+trace event with it, or a config hides the trace event caller but not the
+trace event itself. And in some cases, trace events were simply added but were
+never called for whatever reason. The number of unused trace events continues
+to grow.
+
+This patch series aims to fix this.
+
+The first patch creates a new section called __tracepoint_check, where all
+callers of a tracepoint creates a variable that is placed in this section with
+a pointer to the tracepoint they use.  The scripts/sorttable.c is modified to
+read the __tracepoint_check section. It sorts it, and then reads the
+__tracepoint_ptr section that has all compiled in tracepoints. It makes sure
+that every tracepoint is found in the check section and if not, it prints a
+warning message about it. This lists the missing tracepoints at build time.
+
+The secord patch updates sorttable to work for arm64 when compiled with gcc. As
+gcc's arm64 build doesn't put addresses in their section but saves them off in
+the RELA sections. This mostly takes the work done that was needed to do the
+mcount sorting at boot up on arm64.
+
+The third patch adds EXPORT_TRACEPOINT() to the __tracepoint_check section as
+well. There was several locations that adds tracepoints in the kernel proper
+that are only used in modules. It was getting quite complex trying to move
+things around that I just decided to make any tracepoint in a
+EXPORT_TRACEPOINT "used". I'm using the analogy of static and global
+functions. An unused static function gets a warning but an unused global one
+does not.
+
+The last patch updates the trace_ftrace_test_filter boot up self test. That
+selftest creates a trace event to run a bunch of filter tests on it without
+actually calling the tracepoint. To quiet the warning, the selftest tracepoint
+is called within a if (!trace_<event>_enabled()) section, where it will not be
+optimized out, nor will it be called.
+
+Changes since v3: https://lore.kernel.org/linux-trace-kernel/20250722152053.343028095@kernel.org/
+
+- Folded this patch with patch 2: https://lore.kernel.org/20250722152157.839415861@kernel.org
+
+- Removed the runtime boot check and only have the build time check (Linus Torvalds).
 
 
---+cZPhhw0P+MpjApe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git
+unused-tracepoints/core
 
-On Tue, Jul 22, 2025 at 10:58:37PM +0530, Shankari Anand wrote:
-> Commit 1b92b18ec419 ("kconfig: nconf: Ensure null termination where
-> strncpy is used") introduced a regression where
-> help screens (F1, F2, F3) no longer properly clear short lines of text,
-> resulting in duplicated or trailing content when lines are overwritten.
->=20
-> Revert the null-termination change to match
-> the actual length of the copied string.
->=20
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/lkml/CAK7LNAT54nvwYmTy20Ep8U2kr4thn68yYWX=
-i9R-d3Yx3iXs=3DBg@mail.gmail.com/T/#
-> Fixes: 1b92b18ec419 ("kconfig: nconf: Ensure null termination where strnc=
-py is used")
-> Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
+Head SHA1: 474058274955ba3bfec3053171cfa468e4849b5e
 
-Tested-by: Nicolas Schier <n.schier@avm.de>
-Acked-by: Nicolas Schier <n.schier@avm.de>
 
---+cZPhhw0P+MpjApe
-Content-Type: application/pgp-signature; name="signature.asc"
+Steven Rostedt (4):
+      tracing: sorttable: Add a tracepoint verification check at build time
+      tracing: sorttable: Find unused tracepoints for arm64 that uses reloc for address
+      tracepoint: Do not warn for unused event that is exported
+      tracing: Call trace_ftrace_test_filter() for the event
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmiAf00ACgkQiMa8nIia
-bbgaAQ//WXc3j3gkQJHVKPg46w2qWgsybzw3j/pvOnX9GH8mTyfLrMYZDLBzBheM
-5cslXSzXn/V+d0HSy8YQGfI3ifp8RqMNbCIPkA5c/TLsZaoxDZSfPJw2vilgekPT
-jjCu+t+HXPICq+fOwyvGfmSty5JT7zbv5RI24rNjl6nyUkOrtldynhygxyBy0djU
-/AuzilkOrR+Yomga6hoSGfQu2r2HTje5QeIGHJrcpZRog6uAn6227dw1ui2Z2Rs/
-T07w0xw+UIKU/vtlgNYNjQCMAS1iCbed5ILFk7EKGcMsZ4PCwsF2C35bg1zx6JvR
-zWdaDpke2yjglVvBRoSFtTFYx0hmUBhrXlH5ZiwoXxWhjbMXYbkgbLC+AHqckpis
-3RA4y1FGC3F8kzlnMD696VGZejWncINDL7ph+FnbGNol2/TkrN3ilf7lWVG8Al1B
-Ux+r/xryepaNEjjUBmfKNmJjvoc+Mj2R8sRVUuP1TaGcpjSCx3HhqbVTZd4YceMf
-XLcuXSKVW1Tg8h0TfJgmfFXWAQ9NMWe0BSUc3WRn2Vanblp/zNNVdprKT1clF/GR
-qHvP5l5brvWmWlj+y10EQpOTjEOf8UUfZQD14mMDBRt87qjJ3FBicg5Q/+r0rRVr
-o3jEwLyBKi8BPd6lvZExmtsOuqMnztFgBAMn2LNC9tB4/7Kc+eE=
-=pODO
------END PGP SIGNATURE-----
-
---+cZPhhw0P+MpjApe--
+----
+ include/asm-generic/vmlinux.lds.h  |   1 +
+ include/linux/tracepoint.h         |  13 ++
+ kernel/trace/Kconfig               |  19 ++
+ kernel/trace/trace_events_filter.c |   4 +
+ scripts/Makefile                   |   4 +
+ scripts/sorttable.c                | 444 ++++++++++++++++++++++++++++++-------
+ 6 files changed, 399 insertions(+), 86 deletions(-)
 
