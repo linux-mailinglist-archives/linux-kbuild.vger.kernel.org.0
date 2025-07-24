@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-8134-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8135-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D972B10C15
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 15:52:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BCBB10C1E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 15:52:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF70E7B9151
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 13:50:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E4CB5A572B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 13:52:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 838BA2E4275;
-	Thu, 24 Jul 2025 13:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 857BD2DEA8A;
+	Thu, 24 Jul 2025 13:50:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uRAMFOVb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqpCqpa8"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABE52DE71F;
-	Thu, 24 Jul 2025 13:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B5E2DEA89;
+	Thu, 24 Jul 2025 13:50:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753365035; cv=none; b=H3WyfoyDsn8z5RrPu9UKrtCzi2pF1YVkQz34t7Ojl1Tvvs9sk81amn7WUZPjE55yxQaRSfb933FcWCq9v4m9WBDS4qA49VNdPEtFiHc1VNPkjlYqK/SYLNrJCsMknIceWXzR4cHb3L+gaNfoGMnfyqdJkfyFgOTMJNkn13BPA58=
+	t=1753365039; cv=none; b=afM94P7crHD3lVZBV73J5ZEbs+sbkAhAFkBzrEtn/P1D8NPqWSDhBDfnU7EQR0r8FJzJrEW+H8DLnfAzB8SPsgcA4V1MfrfOc8mFAkPAdMGUkaMDBVJuZnG5SkgC9056oXr35Bshc9rc+koj3hxqzdlJZ/RwDSWr8OunA/rrG4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753365035; c=relaxed/simple;
-	bh=BZNqAkUNOK9Nr6DHLj1baz+QKcwHjdeg9vOowOhVhiY=;
+	s=arc-20240116; t=1753365039; c=relaxed/simple;
+	bh=iJjLNDfFc1+GOOk7iXnO04IQxxZdux2GznFTgHowxBk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cjbcW7lc6KfnnaFaIFh0if66OTDD18HTjwwmlnnSGq57koNNYL/jOR+kVVj/cFv5OjG32QEE0wfvC+Msjgs4GpDLqzC7owJfTeVM8/YSQLMCBUxBM+xjgw2f6/JwJ4R1mwceCGZfqDAgaWTaSFnXrssmEvvknsWVU3LF4cHD5Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uRAMFOVb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD49C4CEF6;
-	Thu, 24 Jul 2025 13:50:32 +0000 (UTC)
+	 MIME-Version; b=pitqFfH4EIzopM3wlDs0FW2tlGGSOg3F5rPhcpybmdcSTbTyGTXS1efaQynBEyfIRWEwZSTcAmvr6cDxv6UnQBKSkLH9u6P2JraDr61m4icMK0qvUkwqwrBHtbsMP2bCjz6JG/bohmXrcn89ICiOx1wvcQXF2Yj+dTeJA5o9jhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqpCqpa8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A40C4CEED;
+	Thu, 24 Jul 2025 13:50:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753365035;
-	bh=BZNqAkUNOK9Nr6DHLj1baz+QKcwHjdeg9vOowOhVhiY=;
+	s=k20201202; t=1753365038;
+	bh=iJjLNDfFc1+GOOk7iXnO04IQxxZdux2GznFTgHowxBk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uRAMFOVbhKpKMPxMRHqHc1oP2659cwFd1ukcgP9s/LBLq9vPnDOzvUT5CRDEUzwz2
-	 aK3/2kdc/zgp+tyzQ5A0v3fOsliOWIw451BNfOCiI/nmmIznanYRucAMPKrep8COYx
-	 b2t7j+M4PDuQRD51kyJmW1q3yeFZp7Hxwq1Elmgs3z6rIG9/cBZuvcxoT0RXoReB8A
-	 EYc/Y5X/w2eV1AeOt2piI1ZePHF+dpj0kK8NwUpHJExETZBqDalvo7EtTbZ98mS6Xf
-	 XCZks7efxFLBaXpa4RaRAg2LDrZ9EZNfmQ41T0ThHkvBF6kkRjauuujRtv2w8bfBna
-	 DTjpPeAn+ga6A==
+	b=OqpCqpa8IWuCzkJ3Alf+tjYsASPgZIrtdsqjDLkugG365FO7HHKm/9A1Y3rAKIf1I
+	 mrELj6E07kyVhr5+roursPmMQeUhe0cb4TIqEEgZ7c/DT2htlkoshQ8dNKz1JleFtd
+	 G4WYnENA2jclojwypGF2Wwyk4vvZbqRNVWcF3+mGd4+qvSGWlwemCBAmwTkjYJMpTH
+	 krghYq51KSAHWhiu/HjnxfqxQtpog6JnwBKweo6q2kvnhJpfVoqKjuDyv2YH2bY0Fh
+	 k8+HxjJ2sOVGL4X/2YWO6K8emN/kxlCPAygYV5awwPLs9zVuYUyttdJacAF2bj8+g0
+	 3bJNbckxIlSoQ==
 From: Alexey Gladkov <legion@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>,
 	Petr Pavlu <petr.pavlu@suse.com>,
@@ -52,10 +52,15 @@ To: Masahiro Yamada <masahiroy@kernel.org>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
-	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v5 09/10] kbuild: vmlinux.unstripped should always depend on .vmlinux.export.o
-Date: Thu, 24 Jul 2025 15:49:46 +0200
-Message-ID: <2be01f4db6d5b4dc009af0b8ed058e6dc6a3bf7c.1753354215.git.legion@kernel.org>
+	Alexey Gladkov <legion@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	linux-s390@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v5 10/10] s390: vmlinux.lds.S: Reorder sections
+Date: Thu, 24 Jul 2025 15:49:47 +0200
+Message-ID: <2860d5a5e7c6279b3836537e20b0fa0c40d2ba0f.1753354215.git.legion@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1753354215.git.legion@kernel.org>
 References: <cover.1753354215.git.legion@kernel.org>
@@ -67,60 +72,53 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since .vmlinux.export.c is used to add generated by modpost modaliases
-for builtin modules the .vmlinux.export.o is no longer optional and
-should always be created. The generation of this file is not dependent
-on CONFIG_MODULES.
+Reorder the sections to be placed in the default segment. The
+.vmlinux.info use :NONE to override the default segment and tell the
+linker to not put the section in any segment at all.
 
+>> s390x-linux-ld: .tmp_vmlinux1: warning: allocated section `.modinfo' not in segment
+>> s390x-linux-ld: .tmp_vmlinux2: warning: allocated section `.modinfo' not in segment
+>> s390x-linux-ld: vmlinux.unstripped: warning: allocated section `.modinfo' not in segment
+
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: linux-s390@vger.kernel.org
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202506062053.zbkFBEnJ-lkp@intel.com/
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 ---
- scripts/Makefile.vmlinux | 9 ++-------
- scripts/link-vmlinux.sh  | 5 +----
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ arch/s390/kernel/vmlinux.lds.S | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index fcc188d26ead..dbbe3bf0cf23 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -53,11 +53,6 @@ endif
- # vmlinux.unstripped
- # ---------------------------------------------------------------------------
+diff --git a/arch/s390/kernel/vmlinux.lds.S b/arch/s390/kernel/vmlinux.lds.S
+index ff1ddba96352..3f2f90e38808 100644
+--- a/arch/s390/kernel/vmlinux.lds.S
++++ b/arch/s390/kernel/vmlinux.lds.S
+@@ -202,6 +202,11 @@ SECTIONS
+ 	. = ALIGN(PAGE_SIZE);
+ 	_end = . ;
  
--ifdef CONFIG_MODULES
--targets += .vmlinux.export.o
--vmlinux.unstripped: .vmlinux.export.o
--endif
++	/* Debugging sections.	*/
++	STABS_DEBUG
++	DWARF_DEBUG
++	ELF_DETAILS
++
+ 	/*
+ 	 * uncompressed image info used by the decompressor
+ 	 * it should match struct vmlinux_info
+@@ -232,11 +237,6 @@ SECTIONS
+ #endif
+ 	} :NONE
+ 
+-	/* Debugging sections.	*/
+-	STABS_DEBUG
+-	DWARF_DEBUG
+-	ELF_DETAILS
 -
- ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
- vmlinux.unstripped: arch/$(SRCARCH)/tools/vmlinux.arch.o
- 
-@@ -72,8 +67,8 @@ cmd_link_vmlinux =							\
- 	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";	\
- 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
- 
--targets += vmlinux.unstripped
--vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
-+targets += vmlinux.unstripped .vmlinux.export.o
-+vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o .vmlinux.export.o $(KBUILD_LDS) FORCE
- 	+$(call if_changed_dep,link_vmlinux)
- ifdef CONFIG_DEBUG_INFO_BTF
- vmlinux.unstripped: $(RESOLVE_BTFIDS)
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 51367c2bfc21..433849ff7529 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -73,10 +73,7 @@ vmlinux_link()
- 		objs="${objs} .builtin-dtbs.o"
- 	fi
- 
--	if is_enabled CONFIG_MODULES; then
--		objs="${objs} .vmlinux.export.o"
--	fi
--
-+	objs="${objs} .vmlinux.export.o"
- 	objs="${objs} init/version-timestamp.o"
- 
- 	if [ "${SRCARCH}" = "um" ]; then
+ 	/*
+ 	 * Make sure that the .got.plt is either completely empty or it
+ 	 * contains only the three reserved double words.
 -- 
 2.50.1
 
