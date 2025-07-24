@@ -1,81 +1,81 @@
-Return-Path: <linux-kbuild+bounces-8147-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8148-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A91FB114BF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 01:38:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C93BB114BE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 01:38:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3FD5AC606D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 23:38:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E7D8171806
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 23:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2B03248F68;
-	Thu, 24 Jul 2025 23:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52FD82441B4;
+	Thu, 24 Jul 2025 23:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="1ESIE0d8"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="eO/rBZtL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A545247DEA
-	for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 23:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9530524A044
+	for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 23:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753400245; cv=none; b=EOU2HyUu7fCzvPRF7Njp77t7EVmEkcPdhNHBTCivGe74SW8qc3PY8dyULiTDHC/3OO4PFbzfWiltrfslBovVwCMJmCWlGICeZqwbs0hxVDVs+FqSGl8jVj15wvMuvdX4IS7yVNBPh+2HBzlciAjsOvb5u0hMpzPCxcBbH1+JRRc=
+	t=1753400248; cv=none; b=cUEy3vVR5v3KreJynKRDHpRJDLY6Z6Cf/9jvYhkMWSLYdyhYHk12D+JSj3gUjUcX00zlt0XBhEFw1UMJ7PzzySpT1vHEV6iUK53pBifelIzgPEyQHtFNM4gKldq25gVg1hV79kaC4j6OvMJOU+50PxqsIhlUx/Od3PwgzPjZbEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753400245; c=relaxed/simple;
-	bh=EW2PkKQb8PALH7VHtcvoMjflrjhMoi4wOo8ufNW8w7o=;
+	s=arc-20240116; t=1753400248; c=relaxed/simple;
+	bh=g8myJdAMdYL2MhaKnL63Vuez4fkKjNIq12NTzG9z8qA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CBJ1LTgA4OsT6nPZ+mxRZ1wuWT8P/CEVXq023zZB397v7LsJvO6gAA+LJjnWUpuYjPiMUgijrrnB8bMliSAO5S5/EiptE3XuwM8uz/6o/O++XIsRTN2eHM1ZWjvJMbWPAj1I+kwW9W3gACN2mP5E3PEhgmI0bZs400UZgcMNML8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=1ESIE0d8; arc=none smtp.client-ip=209.85.214.182
+	 In-Reply-To:To:Cc; b=HtSeRSgNe0AjJbLv3Ke9DEC8vm4eWjnMsAfA4/U8DiZFGmneE6CL5fiu9CB8L6/RABXKXChW87ihEyjiyGCTmIZyw1JJ0NWxMsvXmrPNcjdNMB2Af7h0QBq2aFdVMjLczuh4kQyrG7wUaPNSbWNeMCbnl8eheld9W2I7AiwN3cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=eO/rBZtL; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-234fcadde3eso20912545ad.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 16:37:24 -0700 (PDT)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-23649faf69fso12758735ad.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 16:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753400243; x=1754005043; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753400246; x=1754005046; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pn/2JSdO71rXzNO2stWjtKSzEMWnL5mCAakTnDwVXrM=;
-        b=1ESIE0d8zjjkmP0gmA/Sb0x8jTV1sAoTbFKu2nmt+9l+bo158xRmYU3CoxivWZLCHb
-         PgIUsW2Mq0wfNkUDNHN++FVUD70CfjmTniqRPHhMNtxBfZo+W8CGoroMJHLZVkFC76D0
-         0ODr1M69kerovbB4KaBlmJzYXIuRIYn3AaCyjdWU7JRymcIViesE4aYiwAjJZoMDcEzp
-         JM5DSS0HhniKmUg8JKhr1+M8xwIGFTn3OrU3eP6HGqMNZX900rhLLmA5o9huXB3NRK7c
-         6WY5bkrfuxYUKmWrRxTMPCs4BSEDqSlBYbKQlC+5P7FYcfIOYbslQaYFvBzuSMQ4mhOC
-         SKnA==
+        bh=cR/QY88sdxyw3B/3rrgSlLa8+7hhea91nQDWrYR/AlU=;
+        b=eO/rBZtLJx0jFIyPeMhldXls+i7NMnkM4iHFtBbY9MdKNEHTCuUNKCZL/H6SxFVx1E
+         HycbVsWfZ0lYGPwbbsU99pTpmA0KNQsLyZ9oc0XLMz+JKCkKjs+q95U9GySOizNGh4A1
+         VZVCGzM75h9kuNcGHNZclUZe/dsvDp+NhrmuIoEcOWVLZhK+/f9MhujzrajWwUcH1S66
+         bW70pHU7mlaZ1xlplem6jmG9V5OqWlsRH1dgf657mlvQvMBPYC7mFu2MtVKKsQAqwp5B
+         EmqUsO0/2oEBhobae95VDuy3qkI9XWBdGo8Mpmpb04CUrPxFNc1Aj2Z35XqGscCNmZac
+         s2hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753400243; x=1754005043;
+        d=1e100.net; s=20230601; t=1753400246; x=1754005046;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pn/2JSdO71rXzNO2stWjtKSzEMWnL5mCAakTnDwVXrM=;
-        b=cQ7hy8vKv3afOgS/cqKMuG9A3xSjd78w5F6YQjZAEs0QO5EikscaFiS8BVGM9XGkp2
-         x5GShKUBOd5wZXqehG48bhmwBHGgPAPDlVLMl0VlNsA3Ne4dCXyQwx2xkLio98jJNyWC
-         +YtYH2KnwXi4XBm3gJ5/NkhPQy9ndexcNM2nKz+O5N+g6RYL4vtwQUcOfBNnPBzsjnv9
-         /tXVJMvaMUj8ZdMLvk+CpBo4eE2oiFPCWIEhHpQeos+o4e9R7NevtshNmPyXF/a2gOAq
-         aILMuqxsfdJnHpuJ3UIFGeXPSTbWWgDGw7ESa60x7b0X53nd0sX0zpS8r9l+2JjZ1aKW
-         420w==
-X-Forwarded-Encrypted: i=1; AJvYcCXG8GVTcXmG8/ERVjyArKL4TzaDeNtnPsejV0l4eYXayIC0yYliD+dCE0cemGbQckgiow/6SC+Am83tWLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrGDmMjgm+bVVvXNaJorQ1SKTsOAru+Gq7n+msADp2u5boeamn
-	3D8WMr8M6N4kZG9xbD1IT0J1zbx1iLqTleBT0fVxaUXQEEJmud9G+l/tZi8ibBIcrkI=
-X-Gm-Gg: ASbGnct19ceEMZ3gE+aI1TU55pU2eZqHG69YDD2zMY6m7STlAc1Og/SoMQjwmoAbk8A
-	1AgDZW9Boncdd8n4zlRDW25i7QQUeoeUoJacVwWRExe1UjGiyMzZIT8KLxkTRKWN2AZRDkpDfQa
-	6rLfgzoBdEmKbiJUoDGU+Lx3dggwt+pjiPJGXixSikTgTFQrCqFOwXXWcapDOr6RKXV3xj3nm7+
-	CKm4ZcI8P61J2KOSWFtPa4aQEJEL19uTWJtgugY0w2p1xL/8JxKqNC40kcodmuOOaW8/Pby9IMw
-	s1vhwwxiat9bVa2RZl5L/TpyRAjTDm6WNHIOnY5gXDO4GLjOqWdG+/VCjCzH8xuCjMQYuuxRb8p
-	oTbeKpPB1/0ZaaVXUWrr+ZiybpqUtsm4/
-X-Google-Smtp-Source: AGHT+IG/G30hZbdmg+vYLTFJ4nOwJXxTBe4ZWwYMeNmIug6yYy0RZhNu1ZgYT+kQPlkJisfs0XgYFA==
-X-Received: by 2002:a17:902:e54e:b0:235:ea29:28e9 with SMTP id d9443c01a7336-23f981b0a15mr141134525ad.38.1753400243473;
-        Thu, 24 Jul 2025 16:37:23 -0700 (PDT)
+        bh=cR/QY88sdxyw3B/3rrgSlLa8+7hhea91nQDWrYR/AlU=;
+        b=foWxCb+GqNgl4CkB0eEXqH9R5eF348RZJpZBaZXVtnouKGhWp3aBAg6bFzsqumQTGq
+         SVtJ530rKIRUMJhUZobwtXRPqpcJpTP6A7aZbSzRfaCPf1kVlgozKIFwh9Ablo1vleCE
+         jE7GmYFHUks2CRKLMliAte+PrdCHDg8SrkQxmpXTctOV0Kb3DKnjz6DdmTRwCiwVPHOQ
+         gwGvQS55LjUtJgLDwDR+Knx15EtU/2VHcAIvLjDMcIMiHy4QBof3BdGOakhljnOp1BVr
+         uYaoJB7a6xLI1JxoGJFXEiuyTAHyNO+7Lt4et/HvgvqO7WU+KmQfOIPtp8bqjiEDd0P2
+         xEEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUoug4UyKfrEzFOkHfM9kcMCoeJ4jF0S511AT4ZEY8EBW9pd6l21f/Cz8PMUT6IlUi0G/BT67+954Tts1Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyE+dP/gQfijJf9Vo6HilpfEsszn2eRtZtm063DcFT6YNuHcEnL
+	Km/K1I1KxmJvf421w+27kzV6tS9e9z/SqIUVaslwvJabo3e3pdLkG4V6MjitT/9b2No=
+X-Gm-Gg: ASbGncsXkBDs7oQXo9xN+4ptF94SiH5goloxEjoi93FxBylVN3/ofpgVhJbdP6unz0k
+	79sepuWiQa9IeZFENeHhAa5p/OJJ+W8raMKo/8je4vRFtcjeclNOy7H/E5L/c8h5JCb2O5RBkCH
+	Vqlbp7pgmYKYQ1jTaP0RxpGpopKexhVtaMSFX7K8v68afLhWCvhBv5kjAAhjMj/kU39Vf52W9+s
+	a1ucjLNB/mhWz21YKFS7CBX36+EXffD2G/yAN+A6DlXPwMV+QjF5J076UHxuRedMjH8G6IWdaf/
+	Du76rMqroxxNN1+urxQOOK0EJmzcQc5lWJdHJrQBl9tNegDYlUKJbGnbWO3auf6ycobny9ogYW0
+	WePxZTh2iXo58u6w8BVZNtN9RrrctaQyd
+X-Google-Smtp-Source: AGHT+IFpPmZfsrgw5MGLmfyvQ9TeyCoMqEZ9ePbdOyQJB+JX01/i58SgR22VLSNFSyWsuZBztHnwLA==
+X-Received: by 2002:a17:902:ce01:b0:235:1706:2002 with SMTP id d9443c01a7336-23f98083375mr117426355ad.0.1753400245784;
+        Thu, 24 Jul 2025 16:37:25 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc706sm23598685ad.106.2025.07.24.16.37.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc706sm23598685ad.106.2025.07.24.16.37.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 16:37:23 -0700 (PDT)
+        Thu, 24 Jul 2025 16:37:25 -0700 (PDT)
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Thu, 24 Jul 2025 16:37:01 -0700
-Subject: [PATCH 08/11] riscv/mm: prepare shadow stack for init task
+Date: Thu, 24 Jul 2025 16:37:02 -0700
+Subject: [PATCH 09/11] riscv: scs: add hardware shadow stack support to scs
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -84,7 +84,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250724-riscv_kcfi-v1-8-04b8fa44c98c@rivosinc.com>
+Message-Id: <20250724-riscv_kcfi-v1-9-04b8fa44c98c@rivosinc.com>
 References: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
 In-Reply-To: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>, 
@@ -111,183 +111,210 @@ Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  Deepak Gupta <debug@rivosinc.com>
 X-Mailer: b4 0.13.0
 
-With CONFIG_SHADOW_CALL_STACK, shadow call stack goes into data section.
-CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK indicates hardware assisted shadow
-stack are used. Hardware assisted shadow stack on riscv uses PTE.R=0, PTE.W=1
-& PTE.X=0 encodings. Without CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK, shadow stack
-for init is placed in data section and thus regular read/write encodings are
-applied to it. Although with CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK, they need to
-go into different section. This change places it into `.shadowstack` section.
-As part of this change early boot code (`setup_vm`), applies appropriate
-PTE encodings to shadow call stack for init placed in `.shadowstack`
-section.
+Adding support for hardware support for shadow call stack on riscv. This
+patch enables scs_* macros to use zicfiss shadow stack pointer (CSR_SSP)
+instead of relying on `gp`.
+
+Since zicfiss based shadow stack needs to have correct encoding set in PTE
+init shadow stack can't be established too early. It has to be setup after
+`setup_vm` is called. Thus `scs_load_init_stack` is noped out if
+CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK is not selected.
+
+Adds `arch_scs_store` that can be used in generic scs magic store routine.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 ---
- arch/riscv/include/asm/pgtable.h     |  4 ++++
- arch/riscv/include/asm/sections.h    | 22 ++++++++++++++++++++++
- arch/riscv/include/asm/thread_info.h | 10 ++++++++--
- arch/riscv/kernel/vmlinux.lds.S      | 12 ++++++++++++
- arch/riscv/mm/init.c                 | 29 ++++++++++++++++++++++-------
- 5 files changed, 68 insertions(+), 9 deletions(-)
+ arch/riscv/include/asm/asm.h |  2 +-
+ arch/riscv/include/asm/scs.h | 48 +++++++++++++++++++++++++++++++++++---------
+ arch/riscv/kernel/entry.S    | 14 ++++++-------
+ arch/riscv/kernel/head.S     |  4 ++--
+ 4 files changed, 49 insertions(+), 19 deletions(-)
 
-diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index f04f3da881c9..bb80667d3c13 100644
---- a/arch/riscv/include/asm/pgtable.h
-+++ b/arch/riscv/include/asm/pgtable.h
-@@ -202,6 +202,10 @@ extern struct pt_alloc_ops pt_ops __meminitdata;
- #define PAGE_KERNEL_READ_EXEC	__pgprot((_PAGE_KERNEL & ~_PAGE_WRITE) \
- 					 | _PAGE_EXEC)
+diff --git a/arch/riscv/include/asm/asm.h b/arch/riscv/include/asm/asm.h
+index a8a2af6dfe9d..256aff523dd4 100644
+--- a/arch/riscv/include/asm/asm.h
++++ b/arch/riscv/include/asm/asm.h
+@@ -110,7 +110,7 @@
+ 	REG_L \dst, 0(\dst)
+ .endm
  
-+#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
-+#define PAGE_KERNEL_SHADOWSTACK __pgprot(_PAGE_KERNEL & ~(_PAGE_READ | _PAGE_EXEC))
+-#ifdef CONFIG_SHADOW_CALL_STACK
++#if defined(CONFIG_SHADOW_CALL_STACK) && !defined(CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK)
+ /* gp is used as the shadow call stack pointer instead */
+ .macro load_global_pointer
+ .endm
+diff --git a/arch/riscv/include/asm/scs.h b/arch/riscv/include/asm/scs.h
+index 0e45db78b24b..e70e6ef14bc5 100644
+--- a/arch/riscv/include/asm/scs.h
++++ b/arch/riscv/include/asm/scs.h
+@@ -9,46 +9,76 @@
+ 
+ /* Load init_shadow_call_stack to gp. */
+ .macro scs_load_init_stack
++#ifndef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
+ 	la	gp, init_shadow_call_stack
+ 	XIP_FIXUP_OFFSET gp
 +#endif
-+
- #define PAGE_TABLE		__pgprot(_PAGE_TABLE)
+ .endm
  
- #define _PAGE_IOREMAP	((_PAGE_KERNEL & ~_PAGE_MTMASK) | _PAGE_IO)
-diff --git a/arch/riscv/include/asm/sections.h b/arch/riscv/include/asm/sections.h
-index a393d5035c54..ae7c6fcbaaeb 100644
---- a/arch/riscv/include/asm/sections.h
-+++ b/arch/riscv/include/asm/sections.h
-@@ -14,6 +14,10 @@ extern char __init_data_begin[], __init_data_end[];
- extern char __init_text_begin[], __init_text_end[];
- extern char __alt_start[], __alt_end[];
- extern char __exittext_begin[], __exittext_end[];
+ /* Load the per-CPU IRQ shadow call stack to gp. */
+-.macro scs_load_irq_stack tmp
++.macro scs_load_irq_stack tmp tmp1
 +#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
-+extern char __init_shstk_start[], __init_shstk_end[];
-+#endif
-+extern char __end_srodata[];
- 
- static inline bool is_va_kernel_text(uintptr_t va)
- {
-@@ -31,4 +35,22 @@ static inline bool is_va_kernel_lm_alias_text(uintptr_t va)
- 	return va >= start && va < end;
- }
- 
-+#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
-+static inline bool is_va_init_shadow_stack_early(uintptr_t va)
-+{
-+	uintptr_t start = (uintptr_t)(kernel_mapping_pa_to_va(__init_shstk_start));
-+	uintptr_t end = (uintptr_t)(kernel_mapping_pa_to_va(__init_shstk_end));
-+
-+	return va >= start && va < end;
-+}
-+
-+static inline bool is_va_init_shadow_stack(uintptr_t va)
-+{
-+	uintptr_t start = (uintptr_t)(__init_shstk_start);
-+	uintptr_t end = (uintptr_t)(__init_shstk_end);
-+
-+	return va >= start && va < end;
-+}
-+#endif
-+
- #endif /* __ASM_SECTIONS_H */
-diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/thread_info.h
-index e066f41176ca..5bcc62cf5a0a 100644
---- a/arch/riscv/include/asm/thread_info.h
-+++ b/arch/riscv/include/asm/thread_info.h
-@@ -79,12 +79,18 @@ struct thread_info {
- };
- 
- #ifdef CONFIG_SHADOW_CALL_STACK
-+#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
- #define INIT_SCS							\
--	.scs_base	= init_shadow_call_stack,			\
-+	.scs_base	= init_shadow_call_stack,	\
-+	.scs_sp		= &init_shadow_call_stack[SCS_SIZE / sizeof(long)],
++	load_per_cpu \tmp1, irq_shadow_call_stack_ptr, \tmp
++	li \tmp, 4096
++	add \tmp, \tmp, \tmp1
++	csrw CSR_SSP, \tmp
 +#else
-+#define INIT_SCS							\
-+	.scs_base	= init_shadow_call_stack,	\
- 	.scs_sp		= init_shadow_call_stack,
-+#endif /* CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK */
- #else
- #define INIT_SCS
--#endif
-+#endif /* CONFIG_SHADOW_CALL_STACK */
+ 	load_per_cpu gp, irq_shadow_call_stack_ptr, \tmp
++#endif
+ .endm
  
- /*
-  * macros/functions for gaining access to the thread information structure
-diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
-index 61bd5ba6680a..e65c0c099ed0 100644
---- a/arch/riscv/kernel/vmlinux.lds.S
-+++ b/arch/riscv/kernel/vmlinux.lds.S
-@@ -129,6 +129,18 @@ SECTIONS
- 		*(.srodata*)
- 	}
- 
-+	. = ALIGN(SECTION_ALIGN);
-+	__end_srodata = .;
-+
+ /* Load task_scs_sp(current) to gp. */
+-.macro scs_load_current
++.macro scs_load_current tmp
 +#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
-+	.shadowstack : AT(ADDR(.shadowstack) - LOAD_OFFSET){
-+		__init_shstk_start = .;
-+		KEEP(*(.shadowstack..init))
-+		. = __init_shstk_start + PAGE_SIZE;
-+		__init_shstk_end = .;
-+	}
++	REG_L	\tmp, TASK_TI_SCS_SP(tp)
++	csrw CSR_SSP, \tmp
++#else
+ 	REG_L	gp, TASK_TI_SCS_SP(tp)
++#endif
+ .endm
+ 
+ /* Load task_scs_sp(current) to gp, but only if tp has changed. */
+-.macro scs_load_current_if_task_changed prev
++.macro scs_load_current_if_task_changed prev tmp
+ 	beq	\prev, tp, _skip_scs
+-	scs_load_current
++	scs_load_current \tmp
+ _skip_scs:
+ .endm
+ 
+ /* Save gp to task_scs_sp(current). */
+-.macro scs_save_current
++.macro scs_save_current tmp
++#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
++	csrr \tmp, CSR_SSP
++	REG_S	\tmp, TASK_TI_SCS_SP(tp)
++#else
+ 	REG_S	gp, TASK_TI_SCS_SP(tp)
++#endif
+ .endm
+ 
+ #else /* CONFIG_SHADOW_CALL_STACK */
+ 
+ .macro scs_load_init_stack
+ .endm
+-.macro scs_load_irq_stack tmp
++.macro scs_load_irq_stack tmp tmp1
+ .endm
+-.macro scs_load_current
++.macro scs_load_current tmp
+ .endm
+-.macro scs_load_current_if_task_changed prev
++.macro scs_load_current_if_task_changed prev tmp
+ .endm
+-.macro scs_save_current
++.macro scs_save_current tmp
+ .endm
+ 
+ #endif /* CONFIG_SHADOW_CALL_STACK */
+ #endif /* __ASSEMBLY__ */
+ 
++#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
++#define arch_scs_store(ss_addr, magic_val)	do {				\
++	asm volatile ("ssamoswap.d %0, %2, %1"					\
++					: "=r" (magic_val), "+A" (*ss_addr)	\
++					: "r" (magic_val)			\
++					: "memory");				\
++	} while (0)
++#else
++#define arch_scs_store(ss_addr, magic_val) do {} while (0)
 +#endif
 +
- 	. = ALIGN(SECTION_ALIGN);
- 	_data = .;
+ #endif /* _ASM_SCS_H */
+diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+index 3f0890b9c0b9..800a5ab763af 100644
+--- a/arch/riscv/kernel/entry.S
++++ b/arch/riscv/kernel/entry.S
+@@ -199,7 +199,7 @@ SYM_CODE_START(handle_exception)
+ 	load_global_pointer
  
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 1af3c0bc6abe..dba1cf3f8dfc 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -794,14 +794,22 @@ static __meminit pgprot_t pgprot_from_va(uintptr_t va)
- 	if (IS_ENABLED(CONFIG_64BIT) && is_va_kernel_lm_alias_text(va))
- 		return PAGE_KERNEL_READ;
+ 	/* Load the kernel shadow call stack pointer if coming from userspace */
+-	scs_load_current_if_task_changed s5
++	scs_load_current_if_task_changed s5 t0
  
-+#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
-+	/* If init task's shadow stack va, return write only page protections */
-+	if (IS_ENABLED(CONFIG_64BIT) && is_va_init_shadow_stack(va)) {
-+		pr_info("Shadow stack protections are being applied to for init\n");
-+		return PAGE_KERNEL_SHADOWSTACK;
-+	}
-+#endif
-+
- 	return PAGE_KERNEL;
- }
+ #ifdef CONFIG_RISCV_ISA_V_PREEMPTIVE
+ 	move a0, sp
+@@ -260,7 +260,7 @@ SYM_CODE_START_NOALIGN(ret_from_exception)
+ 	REG_S s0, TASK_TI_KERNEL_SP(tp)
  
- void mark_rodata_ro(void)
- {
--	set_kernel_memory(__start_rodata, _data, set_memory_ro);
-+	set_kernel_memory(__start_rodata, __end_srodata, set_memory_ro);
- 	if (IS_ENABLED(CONFIG_64BIT))
--		set_kernel_memory(lm_alias(__start_rodata), lm_alias(_data),
-+		set_kernel_memory(lm_alias(__start_rodata), lm_alias(__end_srodata),
- 				  set_memory_ro);
- }
- #else
-@@ -959,14 +967,21 @@ static void __init create_kernel_page_table(pgd_t *pgdir,
- static void __init create_kernel_page_table(pgd_t *pgdir, bool early)
- {
- 	uintptr_t va, end_va;
-+	pgprot_t prot;
+ 	/* Save the kernel shadow call stack pointer */
+-	scs_save_current
++	scs_save_current t0
  
- 	end_va = kernel_map.virt_addr + kernel_map.size;
--	for (va = kernel_map.virt_addr; va < end_va; va += PMD_SIZE)
-+	for (va = kernel_map.virt_addr; va < end_va; va += PMD_SIZE) {
-+		prot = PAGE_KERNEL_EXEC;
-+#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
-+		if (early && is_va_init_shadow_stack_early(va))
-+			prot = PAGE_KERNEL_SHADOWSTACK;
-+#endif
- 		create_pgd_mapping(pgdir, va,
--				   kernel_map.phys_addr + (va - kernel_map.virt_addr),
--				   PMD_SIZE,
--				   early ?
--					PAGE_KERNEL_EXEC : pgprot_from_va(va));
-+					kernel_map.phys_addr + (va - kernel_map.virt_addr),
-+					PMD_SIZE,
-+					early ?
-+					prot : pgprot_from_va(va));
-+	}
- }
+ 	/*
+ 	 * Save TP into the scratch register , so we can find the kernel data
+@@ -382,8 +382,8 @@ SYM_FUNC_START(call_on_irq_stack)
+ 	addi	s0, sp, STACKFRAME_SIZE_ON_STACK
+ 
+ 	/* Switch to the per-CPU shadow call stack */
+-	scs_save_current
+-	scs_load_irq_stack t0
++	scs_save_current t0
++	scs_load_irq_stack t0 t1
+ 
+ 	/* Switch to the per-CPU IRQ stack and call the handler */
+ 	load_per_cpu t0, irq_stack_ptr, t1
+@@ -393,7 +393,7 @@ SYM_FUNC_START(call_on_irq_stack)
+ 	jalr	a1
+ 
+ 	/* Switch back to the thread shadow call stack */
+-	scs_load_current
++	scs_load_current t0
+ 
+ 	/* Switch back to the thread stack and restore ra and s0 */
+ 	addi	sp, s0, -STACKFRAME_SIZE_ON_STACK
+@@ -440,7 +440,7 @@ SYM_FUNC_START(__switch_to)
+ 	REG_S s0, TASK_THREAD_SUM_RA(a3)
+ 
+ 	/* Save the kernel shadow call stack pointer */
+-	scs_save_current
++	scs_save_current t0
+ 	/* Restore context from next->thread */
+ 	REG_L s0,  TASK_THREAD_SUM_RA(a4)
+ 	li    s1,  SR_SUM
+@@ -463,7 +463,7 @@ SYM_FUNC_START(__switch_to)
+ 	/* The offset of thread_info in task_struct is zero. */
+ 	move tp, a1
+ 	/* Switch to the next shadow call stack */
+-	scs_load_current
++	scs_load_current t0
+ 	ret
+ SYM_FUNC_END(__switch_to)
+ 
+diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+index 59af044bf85c..366e15a9280a 100644
+--- a/arch/riscv/kernel/head.S
++++ b/arch/riscv/kernel/head.S
+@@ -184,7 +184,7 @@ secondary_start_sbi:
+ 	REG_S a0, (a1)
+ 1:
  #endif
+-	scs_load_current
++	scs_load_current t0
  
+ #if defined(CONFIG_RISCV_SBI) && defined(CONFIG_RISCV_KERNEL_CFI)
+ 	li a7, SBI_EXT_FWFT
+@@ -367,7 +367,7 @@ SYM_CODE_START(_start_kernel)
+ 	REG_S a0, (a1)
+ 1:
+ #endif
+-	scs_load_current
++	scs_load_current t0
+ 
+ #if defined(CONFIG_RISCV_SBI) && defined(CONFIG_RISCV_KERNEL_CFI)
+ 	li a7, SBI_EXT_FWFT
 
 -- 
 2.43.0
