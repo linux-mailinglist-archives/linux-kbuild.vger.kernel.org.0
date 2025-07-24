@@ -1,82 +1,81 @@
-Return-Path: <linux-kbuild+bounces-8143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8144-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41554B114B5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 01:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C05B114B7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 01:38:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5216B1CE3EC7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 23:38:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDFDB1CE3F0C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 23:38:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FDE724676A;
-	Thu, 24 Jul 2025 23:37:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1E49246BA4;
+	Thu, 24 Jul 2025 23:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="lgsFnP7Z"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="LKj36f9m"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1902451F0
-	for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 23:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436D6246781
+	for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 23:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753400236; cv=none; b=SBAwxBXhkahDnlM4hInsWrSF6O8elpCTJyHegR06wl0GaMRGu99P572+6rj68w3wTqHVOnG2zLuHWPYp0ybVzZMFyYgPwf5yLmcW6jRoLuO1wi78PDIGWEzbkE8DrraHTlLfO/Sw1j0XSENMxebssfQJl1jJngPjR2Skno179Wk=
+	t=1753400238; cv=none; b=g9OumShhaFzZUNO83pC1r5zUPMUFplZvVUfAJh6kCPEz7JvTlEs/RJ423jpoSoPIj0eRkbFBn+2vziRRkGwb1TwsSyMd47WtGDtq60FEX1EPYv0kmGEn9A+IX0GhFog3NhRiFyCSzqWgMcNYwZ37My5ajv6E7wY5wWr57cMm6TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753400236; c=relaxed/simple;
-	bh=Znz4HWUKeUDrvSYkQdDugVKK7rHsODYScSSfQiOAlsE=;
+	s=arc-20240116; t=1753400238; c=relaxed/simple;
+	bh=DtTsCEflgrt1r4FC6hlq3qopTxtenPFkOWKMBZTbVcc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FpXlaKWwEXl5nFrKiY7A1C5mg6ZRbXa7C8wep1qXbduii43mOL/L0vK5QN/2u3ShKPL/nvFo947AMJ8N6MpYShC9x9ZB8K7aF8IYC1upFr9acL3imB+riSI/mLjgGWd/K4V8meUnraRmii2rdkEG827feRAsvdmQhSMmpnk9bG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=lgsFnP7Z; arc=none smtp.client-ip=209.85.214.169
+	 In-Reply-To:To:Cc; b=sllCRRg2MdDIBDjVfz1EdCUYl69x/uRU0L7NolW90FF2l1TS4iRlg1pYlUhVsdu7bl0TEAD7zgeCpcCL1r9dRvm0Pp5gxDivjQzqLs/44uEHPeFWk7XwE1Y1lTP7AOcEQfXh+Jxqv9NcJCgzo8bvXXqLkPrNk3HEMKkbwq/u0AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=LKj36f9m; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23649faf69fso12757865ad.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 16:37:14 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-234fcadde3eso20911555ad.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 16:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753400234; x=1754005034; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753400236; x=1754005036; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YAeHR6jMoeNreT1rLi4tkifNH7GwHO7F0FWeni164mI=;
-        b=lgsFnP7ZIEeysxH1adfOmwPF9uqTzuw/RibcbSZs27i/5zDzhcuHX5w0/alwXJt1Zi
-         oQN0HjQqg4XHIQF+3nQ1j1JVCtEL27hgI+7BmOdAiHfkCWqsldvWA3/48jQE/2xT9GJk
-         4VW1iYPUaXF41lZMR2ayCWK1qPE70PBWEKN4GmZwBSBjnazn65XLD0pBMyQfCelbn8OG
-         uB+UJN/E9i4sgcuGXiKWtsQHkc0VgEDTIIWskYsNpV+BJDGVBq0lfX4c82g94F+oZjka
-         ulN7RVLZPVxHi7blBgT/DLWSgMSobXWBfZ9HrZIjl4QDEPdeQ9zRD6JOYx4r5KxMfah9
-         ptLg==
+        bh=Gkm+U+Z8JovOoe8ArAZBSUqCVEx3YFZYKLxHXbXYTzk=;
+        b=LKj36f9mG5x4uG8H7VTSIGn2l5DqYTIyLWTNBgN5K2qZimuUo6yeujUlNneqT3xwED
+         +hcW74ILu6rGOzfT3VYAmG/0oH/CBjGZoeR9Eu5HKo4aJbCtHzI1pGDlD0JVlkE9/uDT
+         TzRdyc+3Wbw62gMeAR4AXRXUrlUPflE4IBlR4WPljxv2PgG8EQ2XKaESLfz9kAroW7Sq
+         IP4g+WANALugGLmCAwouFOZPQPyqmhoC3V4cNmJVzTmyYOKtf/MliWhHWxTeFFS955ZP
+         74ZEfcGS5rTDssuSw9wjzZOZMWxMetRF98OOxfxEcyIc4cFLrnb25ApW5zflwQyymq3u
+         /9AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753400234; x=1754005034;
+        d=1e100.net; s=20230601; t=1753400236; x=1754005036;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YAeHR6jMoeNreT1rLi4tkifNH7GwHO7F0FWeni164mI=;
-        b=OhBBOT3xkRytfQPCmmW/olo6GiVwuw7dSgwEj+9Z425XnPjlKs05yHgV4+XGKv1aLC
-         TeVRHxNZp2+enccuI0SvWPcZmP08LN7MK4+XMlKa8qmi9srBi2ngQzp3gcLlzYFqSIk3
-         7bAERlrAgwHxVqbudFVpy4fDjfObnCcz/XtG86ruz6MontkVKBs/OZQNSEk7suthA/u4
-         YnmLMYUlt7CJ5/qigMbqZbcs5gQtmMn1c0kmbRVDQUEcrzs5U5ooh3yDlZONlBQ7hpzF
-         Mni+w8+CawEeMcuycpyP3YO0PMRqxR6lQFi2HNgqwVGHvoVBDsaCxv++wtDyrttRIVUZ
-         561g==
-X-Forwarded-Encrypted: i=1; AJvYcCW+9xj/Vsy5S5RyLWPa+XK9+KppM8QZytIuCbyZ2Sc3kukiKZnR9V0hPxAOjpKogpA7bviHitxDCh3xO1c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmDS3BjUUcfGoOhO+39i1DFvjgsMtP2609JnxllH289sIG95Wq
-	His77I2MavjNV3XIe9Cx3CsL8ywcEjwzpOz/rOsfIFg57KCORLyA2FFVKg78Thf9zAY=
-X-Gm-Gg: ASbGncvYhYgqeTZJ7zMZW8w1U+786DYMyUI6K5MrWWPW9HAOprMATQGHXhR8ugbfYsQ
-	kdfKEMoDeRFAb+vsZNIvjoE992wzBkND4fq7gwOHG74LMnY5N6YZVh5v1LFG/V7Dpi2LmgU0prl
-	4odeGes0X811nY79n+eA4UtcxUmDUT+TE8R/duoInecZnqhX+6787T3DHFlVqlqr1ycWCOuLvVb
-	oeeLYVZyQNCzr3yv3j+GoTXswjyCLHI0CVYboW6m1S+EqPQ0wDpkZsp67mTeSdoWk9C5fXZTphG
-	y9evlZrf/QbYohLhIB56orXAwyLZdqaAx2rj1PVkvs3mdWPl5i9NoX5eCKt6EHXQ2wZgKUf1Biw
-	jcfxjLblnO3jcIUOZ7h0Tso29CdvVzo/82lGucAaX5cs=
-X-Google-Smtp-Source: AGHT+IEC6umj6Lj/bljHcGk8ktP/FZKxktXm+XIJAAVaqHXn4oZH20sfm15h9uxx49Sr7WC6JzXzDg==
-X-Received: by 2002:a17:903:3c2b:b0:234:adce:3ece with SMTP id d9443c01a7336-23f9813ab07mr115991405ad.11.1753400234285;
-        Thu, 24 Jul 2025 16:37:14 -0700 (PDT)
+        bh=Gkm+U+Z8JovOoe8ArAZBSUqCVEx3YFZYKLxHXbXYTzk=;
+        b=hYoHcWi5mOCu2VBaoq/SQ6jY+i4BhW1EvCII4kDJ6oCLkchLBVGerSx68kW4S1JBXZ
+         aWHk15mR7lYYkBRHyVFnPYLihCf02PigEKwz6bTHa93PF8Ld8TQGZMxobHCF7cPqDfx9
+         pSd2QfoGdUGZmyAJv8OJ5ZyNhVwKS+HVghkFu9WC7tW1oWzNm7wPJIreajT3G/pQIAnw
+         aC4QYMn8Kp/W58u1LM5Y7pVkfe7uCt/96eXn1zNvIP2fwm8Qx0/hp5KqZr65HULQilh7
+         ARg5iObIaksR3ODSodGDbmCuRDfsxyJScjC4jpOYY4cC6EqmagTquHa6Udk4xY5mHIi9
+         cNzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnqZRK6jHKP6mzopoCSgpDYG+h9vR7gqvpzgdfjUg4C/QEZJ2Dd62vYJ4YD/4YBK0ZC7AwRk0MUAn2kkE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyaiw4z8gpxjGTxABqBpM/zLu3S4b2uFEuv4Tq2JqXH6Bolup2L
+	pe4ZSuBCK/rnRjBDef08tUybj3s6YRDjIFEHPyVZQWIca0rf+L2+xCzQYndl5Su1CL4=
+X-Gm-Gg: ASbGnctM6koRcPt3DzM96Gfutm8nnWE38D7rdJNZ7Zlfn8rNH/SM+6Pt7GIdOJ0t5iX
+	qtKeWFi+pPeBviRPWgEqexkBDnyxmONpvZDWyApiDt8DCpozjvtjaATzR10NPUETuCDcwfJbHAA
+	btsrxD3QgDuxTL30GxU0ahJDhDO8F2A3ZLjyyTFnm1MQO/t6h8ClMXeCzNJPOVurrE4ZQJV34/U
+	mjq+PpquYhFNh2p2rOLkROot3UKa/VCTWSQZSChK5HjkLHUcPN1yzM+ooeL9xmEof731OtUg6Xk
+	wz1QJXPgz+5skmJDxgUbQ7zPX5wjAOa3ZnR2EkCZ4j5F8b5laQiU/WWR2p3zPkNOfJWfph9vvJu
+	pjhInODN5SjLHJNwod9AHeKD2dY57pnnK
+X-Google-Smtp-Source: AGHT+IH5SBpkVu16UrwUXGB277v+OXuJbFLj21IH8FU8jVfnMFq+cBM3PPB90wB16oPa9iIZanRWnA==
+X-Received: by 2002:a17:903:24c:b0:234:9094:3fb1 with SMTP id d9443c01a7336-23f981afcb2mr126281075ad.35.1753400236613;
+        Thu, 24 Jul 2025 16:37:16 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc706sm23598685ad.106.2025.07.24.16.37.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc706sm23598685ad.106.2025.07.24.16.37.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 16:37:13 -0700 (PDT)
+        Thu, 24 Jul 2025 16:37:16 -0700 (PDT)
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Thu, 24 Jul 2025 16:36:57 -0700
-Subject: [PATCH 04/11] riscv: exception handlers can be software guarded
- transfers
+Date: Thu, 24 Jul 2025 16:36:58 -0700
+Subject: [PATCH 05/11] riscv: enable landing pad enforcement
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -85,7 +84,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250724-riscv_kcfi-v1-4-04b8fa44c98c@rivosinc.com>
+Message-Id: <20250724-riscv_kcfi-v1-5-04b8fa44c98c@rivosinc.com>
 References: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
 In-Reply-To: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>, 
@@ -112,34 +111,63 @@ Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  Deepak Gupta <debug@rivosinc.com>
 X-Mailer: b4 0.13.0
 
-Exception handlers are static and loaded from readonly memory. Control
-transfers can be software guarded and not requiring lpad on target.
+Enables landing pad enforcement by invoking a SBI FWFT call.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 ---
- arch/riscv/kernel/entry.S | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/riscv/kernel/asm-offsets.c |  1 +
+ arch/riscv/kernel/head.S        | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
-index 598e17e800ae..3f0890b9c0b9 100644
---- a/arch/riscv/kernel/entry.S
-+++ b/arch/riscv/kernel/entry.S
-@@ -224,12 +224,12 @@ SYM_CODE_START(handle_exception)
- 	add t0, t1, t0
- 	/* Check if exception code lies within bounds */
- 	bgeu t0, t2, 3f
--	REG_L t1, 0(t0)
--2:	jalr t1
-+	REG_L t2, 0(t0)
-+2:	jalr t2
- 	j ret_from_exception
- 3:
+diff --git a/arch/riscv/kernel/asm-offsets.c b/arch/riscv/kernel/asm-offsets.c
+index e4d55126dc3e..e6a9fad86fae 100644
+--- a/arch/riscv/kernel/asm-offsets.c
++++ b/arch/riscv/kernel/asm-offsets.c
+@@ -536,6 +536,7 @@ void asm_offsets(void)
+ 	DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
+ 	DEFINE(SBI_EXT_FWFT_SET, SBI_EXT_FWFT_SET);
+ 	DEFINE(SBI_FWFT_SHADOW_STACK, SBI_FWFT_SHADOW_STACK);
++	DEFINE(SBI_FWFT_LANDING_PAD, SBI_FWFT_LANDING_PAD);
+ 	DEFINE(SBI_FWFT_SET_FLAG_LOCK, SBI_FWFT_SET_FLAG_LOCK);
+ #endif
+ }
+diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+index 9c99c5ad6fe8..59af044bf85c 100644
+--- a/arch/riscv/kernel/head.S
++++ b/arch/riscv/kernel/head.S
+@@ -185,6 +185,16 @@ secondary_start_sbi:
+ 1:
+ #endif
+ 	scs_load_current
++
++#if defined(CONFIG_RISCV_SBI) && defined(CONFIG_RISCV_KERNEL_CFI)
++	li a7, SBI_EXT_FWFT
++	li a6, SBI_EXT_FWFT_SET
++	li a0, SBI_FWFT_LANDING_PAD
++	li a1, 1 /* enable landing pad for supervisor */
++	li a2, SBI_FWFT_SET_FLAG_LOCK
++	ecall	/* check for error condition and take appropriate action */
++#endif
++
+ 	call smp_callin
+ #endif /* CONFIG_SMP */
  
--	la t1, do_trap_unknown
-+	la t2, do_trap_unknown
- 	j 2b
- SYM_CODE_END(handle_exception)
- ASM_NOKPROBE(handle_exception)
+@@ -359,6 +369,15 @@ SYM_CODE_START(_start_kernel)
+ #endif
+ 	scs_load_current
+ 
++#if defined(CONFIG_RISCV_SBI) && defined(CONFIG_RISCV_KERNEL_CFI)
++	li a7, SBI_EXT_FWFT
++	li a6, SBI_EXT_FWFT_SET
++	li a0, SBI_FWFT_LANDING_PAD
++	li a1, 1 /* enable landing pad for supervisor */
++	li a2, SBI_FWFT_SET_FLAG_LOCK
++	ecall	/* check for error condition and take appropriate action */
++#endif
++
+ #ifdef CONFIG_KASAN
+ 	call kasan_early_init
+ #endif
 
 -- 
 2.43.0
