@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-8133-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8134-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4370B10C10
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 15:52:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D972B10C15
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 15:52:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C4C87B8903
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 13:50:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF70E7B9151
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 13:50:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E59D2E3B18;
-	Thu, 24 Jul 2025 13:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 838BA2E4275;
+	Thu, 24 Jul 2025 13:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B52Y7B97"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uRAMFOVb"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F8D2DE70D;
-	Thu, 24 Jul 2025 13:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABE52DE71F;
+	Thu, 24 Jul 2025 13:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753365032; cv=none; b=M0bPnJpGCy1/CVRnLYI9e3WQajXDwmfqiWqDXonWMuCdYg99vsjSc0EPH7w89DXjVMKtW7blqFJafLUZBM1rhkUzLbzr5mnkDUrj+bW+P8sP/wc8+fowGuUd34Pxzy6RNA/B75g3igOTk8DACsR7GP161sy/thSTXGLP4EuYcdY=
+	t=1753365035; cv=none; b=H3WyfoyDsn8z5RrPu9UKrtCzi2pF1YVkQz34t7Ojl1Tvvs9sk81amn7WUZPjE55yxQaRSfb933FcWCq9v4m9WBDS4qA49VNdPEtFiHc1VNPkjlYqK/SYLNrJCsMknIceWXzR4cHb3L+gaNfoGMnfyqdJkfyFgOTMJNkn13BPA58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753365032; c=relaxed/simple;
-	bh=8ralIn/kOiibGrJEyrFSjT72lEek+j4rm3Cb4XRp87s=;
+	s=arc-20240116; t=1753365035; c=relaxed/simple;
+	bh=BZNqAkUNOK9Nr6DHLj1baz+QKcwHjdeg9vOowOhVhiY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DvbIDLZc2Ct+odsopGGCVq5hPrDMnGWqDQkgaSe/45I41NyBPlpywVFwN8MRHRaem9PMBCEG5s2KW5jDmVbuEuKPv0zPG5wz8r12Q6RsAI8zWU6G4UBHlFTm27PZSwh8yW8mZot8Fujdg57x8NSVrvkBcMT5gXI79EjOX4dkoro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B52Y7B97; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20FCBC4CEEF;
-	Thu, 24 Jul 2025 13:50:29 +0000 (UTC)
+	 MIME-Version; b=cjbcW7lc6KfnnaFaIFh0if66OTDD18HTjwwmlnnSGq57koNNYL/jOR+kVVj/cFv5OjG32QEE0wfvC+Msjgs4GpDLqzC7owJfTeVM8/YSQLMCBUxBM+xjgw2f6/JwJ4R1mwceCGZfqDAgaWTaSFnXrssmEvvknsWVU3LF4cHD5Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uRAMFOVb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD49C4CEF6;
+	Thu, 24 Jul 2025 13:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753365032;
-	bh=8ralIn/kOiibGrJEyrFSjT72lEek+j4rm3Cb4XRp87s=;
+	s=k20201202; t=1753365035;
+	bh=BZNqAkUNOK9Nr6DHLj1baz+QKcwHjdeg9vOowOhVhiY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B52Y7B97HYZuDyRyLzK7nnvF/B7kj2uCZRePU/1Eq8kjD9eI3cu6OIXwVdNITkH5u
-	 hnr2r6qVQgzw38Umtnh5hBw/Vzj2yJV8uZSpUv+EhpLlWShXO0zHQEsP9In81yowiP
-	 Jh0mAucbjRykIUXlOM/tpC4VavCa5FxdsmoJuzh6nnTfAq/AFHItnrfYcNXUxuONh6
-	 82LKWC1ep9TvfLx4gYTDgLwWjYFSyqBL10/3O0uINMqWGlTGzt5jU3Hi3x/6EUhZhq
-	 O0AVo+GPzPvpa6xnwFpExppDoiikde6voObVYmCjOPNHXhQsekWw+oHY8sMaaqQ64D
-	 ScJJZgG/8uiVw==
+	b=uRAMFOVbhKpKMPxMRHqHc1oP2659cwFd1ukcgP9s/LBLq9vPnDOzvUT5CRDEUzwz2
+	 aK3/2kdc/zgp+tyzQ5A0v3fOsliOWIw451BNfOCiI/nmmIznanYRucAMPKrep8COYx
+	 b2t7j+M4PDuQRD51kyJmW1q3yeFZp7Hxwq1Elmgs3z6rIG9/cBZuvcxoT0RXoReB8A
+	 EYc/Y5X/w2eV1AeOt2piI1ZePHF+dpj0kK8NwUpHJExETZBqDalvo7EtTbZ98mS6Xf
+	 XCZks7efxFLBaXpa4RaRAg2LDrZ9EZNfmQ41T0ThHkvBF6kkRjauuujRtv2w8bfBna
+	 DTjpPeAn+ga6A==
 From: Alexey Gladkov <legion@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>,
 	Petr Pavlu <petr.pavlu@suse.com>,
@@ -53,9 +53,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v5 08/10] modpost: Create modalias for builtin modules
-Date: Thu, 24 Jul 2025 15:49:45 +0200
-Message-ID: <742ea2fdd32336df499da7662e88fb26333c9890.1753354215.git.legion@kernel.org>
+Subject: [PATCH v5 09/10] kbuild: vmlinux.unstripped should always depend on .vmlinux.export.o
+Date: Thu, 24 Jul 2025 15:49:46 +0200
+Message-ID: <2be01f4db6d5b4dc009af0b8ed058e6dc6a3bf7c.1753354215.git.legion@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1753354215.git.legion@kernel.org>
 References: <cover.1753354215.git.legion@kernel.org>
@@ -67,169 +67,60 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For some modules, modalias is generated using the modpost utility and
-the section is added to the module file.
+Since .vmlinux.export.c is used to add generated by modpost modaliases
+for builtin modules the .vmlinux.export.o is no longer optional and
+should always be created. The generation of this file is not dependent
+on CONFIG_MODULES.
 
-When a module is added inside vmlinux, modpost does not generate
-modalias for such modules and the information is lost.
-
-As a result kmod (which uses modules.builtin.modinfo in userspace)
-cannot determine that modalias is handled by a builtin kernel module.
-
-$ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
-pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
-
-$ modinfo xhci_pci
-name:           xhci_pci
-filename:       (builtin)
-license:        GPL
-file:           drivers/usb/host/xhci-pci
-description:    xHCI PCI Host Controller Driver
-
-Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
-modpost if the module is built separately.
-
-To fix this it is necessary to generate the same modalias for vmlinux as
-for the individual modules. Fortunately '.vmlinux.export.o' is already
-generated from which '.modinfo' can be extracted in the same way as for
-vmlinux.o.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
 ---
- include/linux/module.h   |  4 ----
- scripts/Makefile.vmlinux |  5 ++++-
- scripts/mksysmap         |  3 +++
- scripts/mod/file2alias.c | 16 ++++++++++++++++
- scripts/mod/modpost.c    | 17 ++++++++++++++++-
- scripts/mod/modpost.h    |  2 ++
- 6 files changed, 41 insertions(+), 6 deletions(-)
+ scripts/Makefile.vmlinux | 9 ++-------
+ scripts/link-vmlinux.sh  | 5 +----
+ 2 files changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 32e98200b2f4..9a8b359a1016 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -255,14 +255,10 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
- 	__PASTE(type,			\
- 	__PASTE(__, name)))))
- 
--#ifdef MODULE
- /* Creates an alias so file2alias.c can find device table. */
- #define MODULE_DEVICE_TABLE(type, name)					\
- static typeof(name) __mod_device_table(type, name)			\
-   __attribute__ ((used, alias(__stringify(name))))
--#else  /* !MODULE */
--#define MODULE_DEVICE_TABLE(type, name)
--#endif
- 
- /* Version of form [<epoch>:]<version>[-<extra-version>].
-  * Or for CVS/RCS ID version, everything but the number is stripped.
 diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index fdab5aa90215..fcc188d26ead 100644
+index fcc188d26ead..dbbe3bf0cf23 100644
 --- a/scripts/Makefile.vmlinux
 +++ b/scripts/Makefile.vmlinux
-@@ -89,8 +89,11 @@ endif
- remove-section-y                                   := .modinfo
- remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
- 
-+remove-symbols := -w --strip-symbol='__mod_device_table__*'
-+
- quiet_cmd_strip_relocs = OBJCOPY $@
--      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $< $@
-+      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
-+                         $(remove-symbols) $< $@
- 
- targets += vmlinux
- vmlinux: vmlinux.unstripped FORCE
-diff --git a/scripts/mksysmap b/scripts/mksysmap
-index a607a0059d11..c4531eacde20 100755
---- a/scripts/mksysmap
-+++ b/scripts/mksysmap
-@@ -59,6 +59,9 @@
- # EXPORT_SYMBOL (namespace)
- / __kstrtabns_/d
- 
-+# MODULE_DEVICE_TABLE (symbol name)
-+/ __mod_device_table__/d
-+
+@@ -53,11 +53,6 @@ endif
+ # vmlinux.unstripped
  # ---------------------------------------------------------------------------
- # Ignored suffixes
- #  (do not forget '$' after each pattern)
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 13021266a18f..7da9735e7ab3 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -1527,5 +1527,21 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
- 		}
- 	}
  
-+	if (mod->is_vmlinux) {
-+		struct module_alias *alias;
-+
-+		/*
-+		 * If this is vmlinux, record the name of the builtin module.
-+		 * Traverse the linked list in the reverse order, and set the
-+		 * builtin_modname unless it has already been set in the
-+		 * previous call.
-+		 */
-+		list_for_each_entry_reverse(alias, &mod->aliases, node) {
-+			if (alias->builtin_modname)
-+				break;
-+			alias->builtin_modname = xstrndup(modname, modnamelen);
-+		}
-+	}
-+
- 	free(zeros);
- }
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 5ca7c268294e..67f9cd76bdd2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2067,11 +2067,26 @@ static void write_if_changed(struct buffer *b, const char *fname)
- static void write_vmlinux_export_c_file(struct module *mod)
- {
- 	struct buffer buf = { };
-+	struct module_alias *alias, *next;
+-ifdef CONFIG_MODULES
+-targets += .vmlinux.export.o
+-vmlinux.unstripped: .vmlinux.export.o
+-endif
+-
+ ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
+ vmlinux.unstripped: arch/$(SRCARCH)/tools/vmlinux.arch.o
  
- 	buf_printf(&buf,
--		   "#include <linux/export-internal.h>\n");
-+		   "#include <linux/export-internal.h>\n"
-+		   "#include <linux/module.h>\n");
+@@ -72,8 +67,8 @@ cmd_link_vmlinux =							\
+ 	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";	\
+ 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
  
- 	add_exported_symbols(&buf, mod);
-+
-+	buf_printf(&buf,
-+		   "#undef __MODULE_INFO_PREFIX\n"
-+		   "#define __MODULE_INFO_PREFIX\n");
-+
-+	list_for_each_entry_safe(alias, next, &mod->aliases, node) {
-+		buf_printf(&buf, "MODULE_INFO(%s.alias, \"%s\");\n",
-+			   alias->builtin_modname, alias->str);
-+		list_del(&alias->node);
-+		free(alias->builtin_modname);
-+		free(alias);
-+	}
-+
- 	write_if_changed(&buf, ".vmlinux.export.c");
- 	free(buf.p);
- }
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index 9133e4c3803f..2aecb8f25c87 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -99,10 +99,12 @@ buf_write(struct buffer *buf, const char *s, int len);
-  * struct module_alias - auto-generated MODULE_ALIAS()
-  *
-  * @node: linked to module::aliases
-+ * @modname: name of the builtin module (only for vmlinux)
-  * @str: a string for MODULE_ALIAS()
-  */
- struct module_alias {
- 	struct list_head node;
-+	char *builtin_modname;
- 	char str[];
- };
+-targets += vmlinux.unstripped
+-vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
++targets += vmlinux.unstripped .vmlinux.export.o
++vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o .vmlinux.export.o $(KBUILD_LDS) FORCE
+ 	+$(call if_changed_dep,link_vmlinux)
+ ifdef CONFIG_DEBUG_INFO_BTF
+ vmlinux.unstripped: $(RESOLVE_BTFIDS)
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 51367c2bfc21..433849ff7529 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -73,10 +73,7 @@ vmlinux_link()
+ 		objs="${objs} .builtin-dtbs.o"
+ 	fi
  
+-	if is_enabled CONFIG_MODULES; then
+-		objs="${objs} .vmlinux.export.o"
+-	fi
+-
++	objs="${objs} .vmlinux.export.o"
+ 	objs="${objs} init/version-timestamp.o"
+ 
+ 	if [ "${SRCARCH}" = "um" ]; then
 -- 
 2.50.1
 
