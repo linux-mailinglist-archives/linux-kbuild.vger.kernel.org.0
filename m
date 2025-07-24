@@ -1,155 +1,169 @@
-Return-Path: <linux-kbuild+bounces-8124-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8125-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2964B10B26
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 15:15:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F69AB10BE0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 15:50:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A874816F4F1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 13:15:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73FE73B4985
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 13:49:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 883DC2D5C8A;
-	Thu, 24 Jul 2025 13:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C89632DA772;
+	Thu, 24 Jul 2025 13:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/s4LKzR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B023F2D6405;
-	Thu, 24 Jul 2025 13:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADD92D8DBA;
+	Thu, 24 Jul 2025 13:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753362905; cv=none; b=m+YonTJQF6SKGC2g2mPgI99apzgt7GFTiJvPhKwCmReqcTtl0z3384umuhtup3aa8w/2qgT9ZYEjd9D/+3MIyDaGQpEGe9O+2Nb0bUUIxSwy40z7EjkcGtc44yA0m8/5s1gjKOoOoAxSTDVIiAgS04vcJk1nrZ7ReJMf2uZ8tOo=
+	t=1753365008; cv=none; b=YbtOgEQC4Jle7/e+zjxLjCww8GexBroh1M0sFxJPCYo3pw22clMZ0Ce5p12qrMCKB7Lk8Prlwyli3HFgrigOQARS/42/jK7LM4JCPn23t4Pqo9RmcNbDi5+7pnnBHTUv/AMLrNLHzvKEH+67dabWNBITj2NFq6SBMHa1Rh39Sf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753362905; c=relaxed/simple;
-	bh=ne/XcgrgO/KJ5Vpn5Kmd1KTfFMh8OZxebN5iFuDYEM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RP9xDJCNfzdKSa+xNXYbL10zkz9slWLyA2dey0l9rXBb/aqlE6ZEYH5om7t7Nv/7iGGu8qEt/ByUAPKDTsNABCACWOgtuiSuiDHAl/8k6r4BrYS34zejdW1xkUpWBdsHM+dmDP2NtGku1lMTe7XMUL/ldH56HDj2YpS9c3wquCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from [212.42.244.71] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.53.4)
-	(envelope-from <n.schier@avm.de>)
-	id 6882306d-0380-7f0000032729-7f000001eb7c-1
-	for <multiple-recipients>; Thu, 24 Jul 2025 15:09:01 +0200
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Thu, 24 Jul 2025 15:09:01 +0200 (CEST)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 09A4980AA3;
-	Thu, 24 Jul 2025 15:09:02 +0200 (CEST)
-Received: from l-nschier-aarch64.ads.avm.de (unknown [IPv6:fde4:4c1b:acd5:6472::1])
-	by buildd.core.avm.de (Postfix) with ESMTPS id 6DAEF184464;
-	Thu, 24 Jul 2025 15:09:00 +0200 (CEST)
-Date: Thu, 24 Jul 2025 15:08:58 +0200
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: Kees Cook <kees@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org, Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Gavin Shan <gshan@redhat.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	James Morse <james.morse@arm.com>,
-	Oza Pawandeep <quic_poza@quicinc.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Michal Wilczynski <michal.wilczynski@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Kirill A. Shutemov" <kas@kernel.org>,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Usama Arif <usama.arif@bytedance.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
-	Hou Wenlong <houwenlong.hwl@antgroup.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	s=arc-20240116; t=1753365008; c=relaxed/simple;
+	bh=1iB/21lIXlfe4SY5fNdDnPing9qvMeRFAwRzkQfNa4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kH2avxxPNNm873AfU/DlYiQVWDW14tGSozogolhZV8vo4Xhr8FUWkAS55zGoOtzlu9eIHgSkUMWvgHqYbAyb/00KbhpTTebyrkEHFR73VybZEWce+ayGOxHvyZHE0yPnzLCp/xqgsAu0ifHBr2T5SQD74OCFZgLGBj0+rQ+1XXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/s4LKzR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE00C4CEED;
+	Thu, 24 Jul 2025 13:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753365008;
+	bh=1iB/21lIXlfe4SY5fNdDnPing9qvMeRFAwRzkQfNa4U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=W/s4LKzRml/38b0kJ1ZmfX3qNI6rMlNYyRX8kEIjdxxgZHWi13lPTPSFEp8zc7mRg
+	 Drwup1+yQlq0FFqIN4KrhO92pfbnbPSCOkPUNilcBJ5Fmh2P47jc4/x1Dl0l++Kqa4
+	 aZrNyNQoVSb4LIQXwC8xzPa4s2NQEvjlq/P35yjq1/jPerIPHXerDK0aKs8NbA4A89
+	 QQWNSReaA9fDiwng0ZBbeM78VNd+1KcrTJtlhassMRO25aNyXwLnjX00otQSRxnD6l
+	 hacEjYCQ3Uc6+JkvYjtlcRLTKmwQlXHhEfacDNM44yHwvSwhXaeYlv2FN8pyj/EzTW
+	 PDHNYozceXprQ==
+From: Alexey Gladkov <legion@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
 	Luis Chamberlain <mcgrof@kernel.org>,
 	Sami Tolvanen <samitolvanen@google.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Andy Lutomirski <luto@kernel.org>, Baoquan He <bhe@redhat.com>,
-	Alexander Graf <graf@amazon.com>,
-	Changyuan Lyu <changyuanl@google.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Jan Beulich <jbeulich@suse.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Bibo Mao <maobibo@loongson.cn>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org, kexec@lists.infradead.org,
-	linux-security-module@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v4 4/4] kstack_erase: Support Clang stack depth tracking
-Message-ID: <20250724-optimistic-armadillo-of-joviality-e59222@l-nschier-aarch64>
-References: <20250724054419.it.405-kees@kernel.org>
- <20250724055029.3623499-4-kees@kernel.org>
+	Daniel Gomez <da.gomez@samsung.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+Cc: linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Alexey Gladkov <legion@kernel.org>
+Subject: [PATCH v5 00/10] Add generated modalias to modules.builtin.modinfo
+Date: Thu, 24 Jul 2025 15:49:37 +0200
+Message-ID: <cover.1753354215.git.legion@kernel.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250724055029.3623499-4-kees@kernel.org>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1753362541-3C575E1C-2FB622E2/0/0
-X-purgate-type: clean
-X-purgate-size: 870
-X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 23, 2025 at 10:50:28PM -0700, Kees Cook wrote:
-> Wire up CONFIG_KSTACK_ERASE to Clang 21's new stack depth tracking
-> callback[1] option.
->=20
-> Link: https://clang.llvm.org/docs/SanitizerCoverage.html#tracing-stack-de=
-pth [1]
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nicolas.schier@linux.dev>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Cc: <linux-kbuild@vger.kernel.org>
-> Cc: <kasan-dev@googlegroups.com>
-> Cc: <linux-hardening@vger.kernel.org>
-> ---
+The modules.builtin.modinfo file is used by userspace (kmod to be specific) to
+get information about builtin modules. Among other information about the module,
+information about module aliases is stored. This is very important to determine
+that a particular modalias will be handled by a module that is inside the
+kernel.
 
-Acked-by: Nicolas Schier <n.schier@avm.de>
+There are several mechanisms for creating modalias for modules:
+
+The first is to explicitly specify the MODULE_ALIAS of the macro. In this case,
+the aliases go into the '.modinfo' section of the module if it is compiled
+separately or into vmlinux.o if it is builtin into the kernel.
+
+The second is the use of MODULE_DEVICE_TABLE followed by the use of the
+modpost utility. In this case, vmlinux.o no longer has this information and
+does not get it into modules.builtin.modinfo.
+
+For example:
+
+$ modinfo pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+modinfo: ERROR: Module pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30 not found.
+
+$ modinfo xhci_pci
+name:           xhci_pci
+filename:       (builtin)
+license:        GPL
+file:           drivers/usb/host/xhci-pci
+description:    xHCI PCI Host Controller Driver
+
+The builtin module is missing alias "pci:v*d*sv*sd*bc0Csc03i30*" which will be
+generated by modpost if the module is built separately.
+
+To fix this it is necessary to add the generated by modpost modalias to
+modules.builtin.modinfo. Fortunately modpost already generates .vmlinux.export.c
+for exported symbols. It is possible to add `.modinfo` for builtin modules and
+modify the build system so that `.modinfo` section is extracted from the
+intermediate vmlinux after modpost is executed.
+
+---
+Notes:
+- v5:
+  * Rebase to v6.16-rc6-281-gf4a40a4282f4 to pick up the fixes made by Masahiro Yamada.
+  * Attempt to fix linker warning on s390.
+  * Fix typo in pinctrl/meson found by the kernel test robot.
+  * v4: https://lore.kernel.org/all/cover.1750511018.git.legion@kernel.org/
+
+- v4:
+  * Rework the patchset based on top of Masahiro Yamada's patches.
+  * Add removal of unnecessary __mod_device_table__* symbols to avoid symbol
+    table growth in vmlinux.
+  * rust code takes into account changes in __mod_device_table__*.
+  * v3: https://lore.kernel.org/all/cover.1748335606.git.legion@kernel.org/
+
+- v3:
+  * Add `Reviewed-by` tag to patches from Petr Pavlu.
+  * Rebase to v6.15.
+  * v2: https://lore.kernel.org/all/20250509164237.2886508-1-legion@kernel.org/
+
+- v2:
+  * Drop patch for mfd because it was already applied and is in linux-next.
+  * The generation of aliases for builtin modules has been redone as
+    suggested by Masahiro Yamada.
+  * Rebase to v6.15-rc5-136-g9c69f8884904
+  * v1: https://lore.kernel.org/all/cover.1745591072.git.legion@kernel.org/
+
+
+Alexey Gladkov (6):
+  scsi: Always define blogic_pci_tbl structure
+  pinctrl: meson: Fix typo in device table macro
+  modpost: Add modname to mod_device_table alias
+  modpost: Create modalias for builtin modules
+  kbuild: vmlinux.unstripped should always depend on .vmlinux.export.o
+  s390: vmlinux.lds.S: Reorder sections
+
+Masahiro Yamada (4):
+  module: remove meaningless 'name' parameter from __MODULE_INFO()
+  kbuild: always create intermediate vmlinux.unstripped
+  kbuild: keep .modinfo section in vmlinux.unstripped
+  kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
+
+ arch/s390/kernel/vmlinux.lds.S             | 10 +--
+ drivers/pinctrl/meson/pinctrl-amlogic-a4.c |  2 +-
+ drivers/scsi/BusLogic.c                    |  2 -
+ include/asm-generic/vmlinux.lds.h          |  2 +-
+ include/crypto/algapi.h                    |  4 +-
+ include/linux/module.h                     | 21 +++---
+ include/linux/moduleparam.h                |  9 +--
+ include/net/tcp.h                          |  4 +-
+ rust/kernel/device_id.rs                   |  8 +--
+ scripts/Makefile.vmlinux                   | 77 ++++++++++++++--------
+ scripts/Makefile.vmlinux_o                 | 26 +-------
+ scripts/link-vmlinux.sh                    |  5 +-
+ scripts/mksysmap                           |  6 ++
+ scripts/mod/file2alias.c                   | 34 ++++++++--
+ scripts/mod/modpost.c                      | 17 ++++-
+ scripts/mod/modpost.h                      |  2 +
+ 16 files changed, 139 insertions(+), 90 deletions(-)
+
+
+base-commit: f4a40a4282f467ec99745c6ba62cb84346e42139
+-- 
+2.50.1
+
 
