@@ -1,82 +1,82 @@
-Return-Path: <linux-kbuild+bounces-8142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78462B114B4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 01:37:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41554B114B5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 01:37:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9762FAC7DA2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 23:37:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5216B1CE3EC7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Jul 2025 23:38:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DFE423FC66;
-	Thu, 24 Jul 2025 23:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FDE724676A;
+	Thu, 24 Jul 2025 23:37:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="V8nwCQMx"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="lgsFnP7Z"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9855B24468A
-	for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 23:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1902451F0
+	for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 23:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753400234; cv=none; b=r4Ef5eOsOcEvRWMDN7P8PmiE5aC2SrGNUNTVg3a6wu1SQlq3pdwlAf7mgA7p78zCetyfSuggcx4gX5pmEH4XLkR0vYnkuA6VoONdgaCAl9BgBJyWkUgdh1pIW/5+ExJ7inja34jzpyf4PVk9020mphwxKnaJaqLZOuJWQpP7ahM=
+	t=1753400236; cv=none; b=SBAwxBXhkahDnlM4hInsWrSF6O8elpCTJyHegR06wl0GaMRGu99P572+6rj68w3wTqHVOnG2zLuHWPYp0ybVzZMFyYgPwf5yLmcW6jRoLuO1wi78PDIGWEzbkE8DrraHTlLfO/Sw1j0XSENMxebssfQJl1jJngPjR2Skno179Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753400234; c=relaxed/simple;
-	bh=TX7QOESfiwCfuH+ZcQKgbvec7xRD+j3+tnkSFJsy5gU=;
+	s=arc-20240116; t=1753400236; c=relaxed/simple;
+	bh=Znz4HWUKeUDrvSYkQdDugVKK7rHsODYScSSfQiOAlsE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gonGLoycTQBNf7Nd1uMWwsNZue0KAosmKdiAOws51fVV38MHTpkC/v0cnNMZVvCUSycUaxDQbMZ5XR73I1pEhHPX/I7gGGjZ0Zf3NaVCUrtPbBvRVfmTutJDdhHQl8MadvK3xrhhUV6W2EGm5da6SSTSFqXhPpxY6GxVc1LRDCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=V8nwCQMx; arc=none smtp.client-ip=209.85.214.169
+	 In-Reply-To:To:Cc; b=FpXlaKWwEXl5nFrKiY7A1C5mg6ZRbXa7C8wep1qXbduii43mOL/L0vK5QN/2u3ShKPL/nvFo947AMJ8N6MpYShC9x9ZB8K7aF8IYC1upFr9acL3imB+riSI/mLjgGWd/K4V8meUnraRmii2rdkEG827feRAsvdmQhSMmpnk9bG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=lgsFnP7Z; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23c703c471dso27067075ad.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 16:37:12 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23649faf69fso12757865ad.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Jul 2025 16:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753400232; x=1754005032; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753400234; x=1754005034; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OvHRga/2x06e/3IXRCXpOvSv81ZyfpTLSHYXhuUCgAU=;
-        b=V8nwCQMxaJRaZSkE8Q9XfpchnwOAf7K/akQyDpW56n89+N2k9ODBSN94MDijgvBOFu
-         Ul8Z8xWijZVSsxSdLy5i6EOBaUgbcZe++36xg+HxnpPeZMWmwHFA/442N0aPD5vcJRvF
-         j5wbSly+rBBlS5RowU7VhxN6PWie+cQGkVkQtqlXjQGiOXU1n7F/KjFARXNCynoLcDLs
-         1fXz68Cj/Br+ycRQEMy0ca4Vp4RyK9iwg0kyBBfURBdBtyAPyMoGqQoiNEHy2WmOiVry
-         IWfyrtBOiOWgagzJWqyjZ7BMsOmbpjPi2R77TF+PU+UUx+s1YnhA147CfLBxK3oxeE0J
-         LCtw==
+        bh=YAeHR6jMoeNreT1rLi4tkifNH7GwHO7F0FWeni164mI=;
+        b=lgsFnP7ZIEeysxH1adfOmwPF9uqTzuw/RibcbSZs27i/5zDzhcuHX5w0/alwXJt1Zi
+         oQN0HjQqg4XHIQF+3nQ1j1JVCtEL27hgI+7BmOdAiHfkCWqsldvWA3/48jQE/2xT9GJk
+         4VW1iYPUaXF41lZMR2ayCWK1qPE70PBWEKN4GmZwBSBjnazn65XLD0pBMyQfCelbn8OG
+         uB+UJN/E9i4sgcuGXiKWtsQHkc0VgEDTIIWskYsNpV+BJDGVBq0lfX4c82g94F+oZjka
+         ulN7RVLZPVxHi7blBgT/DLWSgMSobXWBfZ9HrZIjl4QDEPdeQ9zRD6JOYx4r5KxMfah9
+         ptLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753400232; x=1754005032;
+        d=1e100.net; s=20230601; t=1753400234; x=1754005034;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OvHRga/2x06e/3IXRCXpOvSv81ZyfpTLSHYXhuUCgAU=;
-        b=k80PYLcm/TKn5J9o8bjsYuj1vD1Tt3DLEIPDsPWp4yycAvD/ZNRji7qq03eO6z9m07
-         NPr3SerEeAjBfKyPRhTTRuHxBYQuXnOWWW8tyjvPYmBcLxfHtVdAt7ag3Fj7L/GZ17Di
-         TVpb/ncdEAfbbkOsGc2i9i6lcB/EZhe+k+k1wFE/oowvTStjTikfNC5x+kBHztQUi1R1
-         C9YSbhK0jgdKzRzdbVmAUoDL/uYTg1vamteM0WvvfMEhPogLTbAKt1hERpafJisUmqZX
-         08TOoAXO3f6tTiYYAmp/L+v8tsOKV8XPx1l7CLGEqi3UqxaAUGVutnhfZkMiadK3PHfh
-         cwig==
-X-Forwarded-Encrypted: i=1; AJvYcCVNcXliiCiemdSQC0nayU4H3qWS/r2L6M+cPhSOZCZdwksDrMhICtbCkmDIVKgaHzBHqRzujBOLZZfluDU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+oPdUbh1+ngiMcIgk6TloWdA9zs0yT5jptcyiA4Tpc/P3Vd75
-	yLb73afnicYdSHQMTX/xob3ObaRUIpkbBlbwlWh6UVfxMutkIdJd/qEshrgd0GDZr+s=
-X-Gm-Gg: ASbGncsZGLuZvigoNpl1aoIwow0XD0J/ppuMSmP6ia4ip/TgpNTc38AmHMvRpE0/tUq
-	+Poo7jAa1IuP/finJWu4d39jKUubyrj1B+cZi2PQZsOe9FNtBZ/e5e5xOk3dj5DP4qkZCIQoppg
-	fEpuhKBT/6gfV29+tewqFR9WBMP5ul+Bh+H9p8Kg8+m6qWDn0AyAG/ktyXoQZhgxK5iXEbKJp+k
-	mnFBuwI6OJYlyKkkl3t4cfd+gd425aZBUuwhk6yUyvQRDu4Pp91OhFrUQaFf6jlXVclXxgSHu7g
-	K+eivyqGumo3tZGhSLeL/1MCnxaKIFjkYZ1b29DHMlFM/p7a4aLTTQmamU4kykPkmmUAVaGAqvd
-	GTX0SwVDUIb/WZ+mDdvok8zIOqPWoBn9R
-X-Google-Smtp-Source: AGHT+IHlehaeba0g7zvJWooWl20RVESgD35SdGjk7uZPTtlJW4lACDouf6PruSCC8hJSgeGX0h9FOQ==
-X-Received: by 2002:a17:903:28d:b0:236:15b7:62e3 with SMTP id d9443c01a7336-23fa5d12ce3mr54400555ad.9.1753400231958;
-        Thu, 24 Jul 2025 16:37:11 -0700 (PDT)
+        bh=YAeHR6jMoeNreT1rLi4tkifNH7GwHO7F0FWeni164mI=;
+        b=OhBBOT3xkRytfQPCmmW/olo6GiVwuw7dSgwEj+9Z425XnPjlKs05yHgV4+XGKv1aLC
+         TeVRHxNZp2+enccuI0SvWPcZmP08LN7MK4+XMlKa8qmi9srBi2ngQzp3gcLlzYFqSIk3
+         7bAERlrAgwHxVqbudFVpy4fDjfObnCcz/XtG86ruz6MontkVKBs/OZQNSEk7suthA/u4
+         YnmLMYUlt7CJ5/qigMbqZbcs5gQtmMn1c0kmbRVDQUEcrzs5U5ooh3yDlZONlBQ7hpzF
+         Mni+w8+CawEeMcuycpyP3YO0PMRqxR6lQFi2HNgqwVGHvoVBDsaCxv++wtDyrttRIVUZ
+         561g==
+X-Forwarded-Encrypted: i=1; AJvYcCW+9xj/Vsy5S5RyLWPa+XK9+KppM8QZytIuCbyZ2Sc3kukiKZnR9V0hPxAOjpKogpA7bviHitxDCh3xO1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmDS3BjUUcfGoOhO+39i1DFvjgsMtP2609JnxllH289sIG95Wq
+	His77I2MavjNV3XIe9Cx3CsL8ywcEjwzpOz/rOsfIFg57KCORLyA2FFVKg78Thf9zAY=
+X-Gm-Gg: ASbGncvYhYgqeTZJ7zMZW8w1U+786DYMyUI6K5MrWWPW9HAOprMATQGHXhR8ugbfYsQ
+	kdfKEMoDeRFAb+vsZNIvjoE992wzBkND4fq7gwOHG74LMnY5N6YZVh5v1LFG/V7Dpi2LmgU0prl
+	4odeGes0X811nY79n+eA4UtcxUmDUT+TE8R/duoInecZnqhX+6787T3DHFlVqlqr1ycWCOuLvVb
+	oeeLYVZyQNCzr3yv3j+GoTXswjyCLHI0CVYboW6m1S+EqPQ0wDpkZsp67mTeSdoWk9C5fXZTphG
+	y9evlZrf/QbYohLhIB56orXAwyLZdqaAx2rj1PVkvs3mdWPl5i9NoX5eCKt6EHXQ2wZgKUf1Biw
+	jcfxjLblnO3jcIUOZ7h0Tso29CdvVzo/82lGucAaX5cs=
+X-Google-Smtp-Source: AGHT+IEC6umj6Lj/bljHcGk8ktP/FZKxktXm+XIJAAVaqHXn4oZH20sfm15h9uxx49Sr7WC6JzXzDg==
+X-Received: by 2002:a17:903:3c2b:b0:234:adce:3ece with SMTP id d9443c01a7336-23f9813ab07mr115991405ad.11.1753400234285;
+        Thu, 24 Jul 2025 16:37:14 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc706sm23598685ad.106.2025.07.24.16.37.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fa48bc706sm23598685ad.106.2025.07.24.16.37.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jul 2025 16:37:11 -0700 (PDT)
+        Thu, 24 Jul 2025 16:37:13 -0700 (PDT)
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Thu, 24 Jul 2025 16:36:56 -0700
-Subject: [PATCH 03/11] riscv: indirect jmp in asm that's static in nature
- to use sw guarded jump
+Date: Thu, 24 Jul 2025 16:36:57 -0700
+Subject: [PATCH 04/11] riscv: exception handlers can be software guarded
+ transfers
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -85,7 +85,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250724-riscv_kcfi-v1-3-04b8fa44c98c@rivosinc.com>
+Message-Id: <20250724-riscv_kcfi-v1-4-04b8fa44c98c@rivosinc.com>
 References: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
 In-Reply-To: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>, 
@@ -112,36 +112,34 @@ Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  Deepak Gupta <debug@rivosinc.com>
 X-Mailer: b4 0.13.0
 
-Handwritten `__memset` asm routine perform static jumps within
-function and uses `a5` to do that. This would require a landing pad
-instruction at the target. Since its static jump and no memory load is
-involved, use `t2` instead which is exempt from requiring a landing pad.
+Exception handlers are static and loaded from readonly memory. Control
+transfers can be software guarded and not requiring lpad on target.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 ---
- arch/riscv/lib/memset.S | 6 +++---
+ arch/riscv/kernel/entry.S | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/riscv/lib/memset.S b/arch/riscv/lib/memset.S
-index da23b8347e2d..c4a318d8eef3 100644
---- a/arch/riscv/lib/memset.S
-+++ b/arch/riscv/lib/memset.S
-@@ -56,12 +56,12 @@ SYM_FUNC_START(__memset)
- 
- 	/* Jump into loop body */
- 	/* Assumes 32-bit instruction lengths */
--	la a5, 3f
-+	la t2, 3f
- #ifdef CONFIG_64BIT
- 	srli a4, a4, 1
- #endif
--	add a5, a5, a4
--	jr a5
-+	add t2, t2, a4
-+	jr t2
+diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+index 598e17e800ae..3f0890b9c0b9 100644
+--- a/arch/riscv/kernel/entry.S
++++ b/arch/riscv/kernel/entry.S
+@@ -224,12 +224,12 @@ SYM_CODE_START(handle_exception)
+ 	add t0, t1, t0
+ 	/* Check if exception code lies within bounds */
+ 	bgeu t0, t2, 3f
+-	REG_L t1, 0(t0)
+-2:	jalr t1
++	REG_L t2, 0(t0)
++2:	jalr t2
+ 	j ret_from_exception
  3:
- 	REG_S a1,        0(t0)
- 	REG_S a1,    SZREG(t0)
+ 
+-	la t1, do_trap_unknown
++	la t2, do_trap_unknown
+ 	j 2b
+ SYM_CODE_END(handle_exception)
+ ASM_NOKPROBE(handle_exception)
 
 -- 
 2.43.0
