@@ -1,143 +1,158 @@
-Return-Path: <linux-kbuild+bounces-8163-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8164-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0581FB11C04
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 12:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1963B11C98
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 12:37:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 540585A5B16
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 10:16:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D775116C46C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Jul 2025 10:37:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2052D1F44;
-	Fri, 25 Jul 2025 10:12:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32FFF2E0400;
+	Fri, 25 Jul 2025 10:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PKtQTykI"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nhwhZOAc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Azssg3zo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0502E62B2;
-	Fri, 25 Jul 2025 10:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854202DE71E;
+	Fri, 25 Jul 2025 10:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753438331; cv=none; b=cG44P1Uc2xCoxS96qVY3sf7qJuLJvIP2G5lJcftYbCmVpYn1QZu1N2NJlPOVdCzg8GdazsUm91X/H6geJ36RycMBn00qi5G3yl7x7ZKnijGAIex6VzraNlu9fjt7L7ErfTKtwVv51MfeuC5QSSr70Xfp7MhssKwavq22QZOC8Cc=
+	t=1753439800; cv=none; b=IRsajDV3xCX32x8g53M07L5jTsUNDYD+02U8/Crx7VsHvGHfxRCIH/50WvFM2s0FYqNRlymrrt2ygbdqypdjt6cumc2gnP9fl77JRPkSPu8eHW6h5AewnFfIk7IDAtuCToPUEv5aGfgjLwKXkHajQD6jSuMieJpg/KXU8AtmH8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753438331; c=relaxed/simple;
-	bh=XCCZTAuVv6rM5KqAiymcvEOfSpnqAYJ05ZeeCfAeMD4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=szK/vHsWKuUiu/KWL1TPoKeRsm0AA4jIfc9Pi7JR/xdFPxbxVRZ7yP2Y+2jqu/U13YDa28R+aICH9WK5Ny9NEdItmH9qasSX5n01myKs9bV2Od3gV+mNBxlfP1WQPHOdG7BN+bn3cNW/nBJb1ydQkmn5sFCrfcty4bLpMC1Iybw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PKtQTykI; arc=none smtp.client-ip=209.85.167.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-41eaf97416eso1299120b6e.0;
-        Fri, 25 Jul 2025 03:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753438329; x=1754043129; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Li8Q1/8bXeawqWYN0f/7F76ImwBBFl72CHl1v4y+PLY=;
-        b=PKtQTykI7MJLn2f39R7k6tcldK+iyPClqQUcFdzt70ZafVvgY5cdAx2K6WeXabLVTQ
-         uWwRpOYFxA4lNZu/Dm65KnWzZlxiamZjpTyJ0oMN+NWFqFiCGO9eWfv3NVViHzdLPIlV
-         SEQfJOXwKQCnSUwLsXB1JwZaoDzc4lxlb7s0mYsvgTgQj0Qsjk5l732J3iDQ/nNnClWU
-         NW2WRyVDeReq5jrGIQz5jv3RPLnjltw9BUSv6dX067o9OpuY61T+hkHgRa9zd3B76QEG
-         WeoJigRWnOK9yedXlOWzNq0+p/Vp2wguFNukgZKtMI93T1Y0R74okmKSb8Nftk9oX34Z
-         8kNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753438329; x=1754043129;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Li8Q1/8bXeawqWYN0f/7F76ImwBBFl72CHl1v4y+PLY=;
-        b=ADcVt/apsSSj55yGfjz+90cruWqCVlLPyTl4cHDoaevMU9A16GTGRsl3cpPNXsxTfm
-         x4hcTZCE4VKZT0IuPrcwhf8WfLBkx8pHBVCm9ix+44nYN7tKHULI7UZ7L9mLEhxhR0G1
-         9n3tL0gHeqCEB0jwCUDQv1UF69fsFpWIm+uIaITkIeF7zBAJVhRxWGKkWQ3HwKGTfVZf
-         zu/tIbcK4twO61RXGTsdhCrUkGqGX6rQA5PJYmgc0TU1YOacr70I1H5kdTDlA+LENzsd
-         A9Y0RAFyBsuYrGjjiOEvne6DMQJayUBAV6VXKmCp1G5ziAZ/zD/avlQ7osgAUUTLS9Cw
-         9sIg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJk4YCgM/ppveUg3+CKIg8DCVu2fkHnQJnDr06hlGvUKC6xIUVrnC3unJ1kh/dkx9lCCsARDSs2LTXjjk=@vger.kernel.org, AJvYcCXrf6icup83Wpy6Yy9DgHWpbZc1fjQkUBKvWMSQMg0gN4m7K08fO+xihgci0Z5LuB7gQDk5zslPYKX9Sozk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEZTHcV0WM2vEOyfFc/O87/PteiB424zTJw/fwdaYXyqKbzXn/
-	JWa6/gxO3TYxIY388e/M44p5ZRpp1JqQM4bhSKnYAp77IYPqx8fRjER5nRo7BOgAt3QFgXFnnQe
-	8GkARNMBeU5boZawEcsXepZf40IxQvLU=
-X-Gm-Gg: ASbGncu7ckNdZBynQPPIP3LqdC3hoyZ8MSEjX/Jus8CGkG9WhrOEFeLzsCs6KW7my7n
-	GfTKFX7BaeMXsgaSAOsDr0sJO5Gg6MBQ7Tm6nLPgEfEg+pcGOvJzc3/xQQcDoPMgTOxvGgebP2b
-	7iTr/vxOeLISdNChMvTvcVgW6xD65RxklU8IjMnvq+Dwjn/jTd43TZ591EiM8kOo0SRG6Tv/uTQ
-	NSynfug2vvYdH5b2vY=
-X-Google-Smtp-Source: AGHT+IGHB83pYzy5pyfm99vaRBBCdZk4KX+KT5ViJGvx8qXjZCmgLd679d9uosj/HkweSM/0GXEa6THJnnUWuwPv08o=
-X-Received: by 2002:a05:6808:170c:b0:40b:711:377d with SMTP id
- 5614622812f47-42bba0ed70amr483979b6e.18.1753438328742; Fri, 25 Jul 2025
- 03:12:08 -0700 (PDT)
+	s=arc-20240116; t=1753439800; c=relaxed/simple;
+	bh=/Jd08J9EVwiLu3246KvZ8LuOKEUNrkCntG+atu5i7Kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tJLGQ+sMoDGbIwwa7jwxu51WrcH8PmaxBEIDL0uTF2WaDaYlUTf2yf5XXObrl1SB0n3AHCzQdvHwDY4vCfSSUinAIxwHh4veojFxqObvaetbfMvmIkn92T2yqSQQF5YD15JIM9xZVaPTc1wUMH3n7R3ZxPyaQldEqiQ5O2wJH78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nhwhZOAc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Azssg3zo; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Fri, 25 Jul 2025 12:36:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1753439796;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GWa6XDwZlrI75pGJEl2FOxaQVgtHaB/1blTqyZ0nVRI=;
+	b=nhwhZOAcJ+ZDcPLBedCjJyyS3BB4JP1IdK5mFlQWiOV46SuSAF7yeSKh9ldvnw46kIQ8ND
+	CTlKX2Xoq/VGfLdq07OAPvWIc9j649yJ8VSSkt2x9R/AO/rCOPo3MYi/AYw3b4duYU91RU
+	rzmhuJdlbvJyAGuvzCs/X6fqVCf6e5qcM2247hQj+sukc7Sj36pCt1bMA6UbXlqrHLsOti
+	FbpuO6GkJS6QmzGQV+9ZeV4CmgYclTY2Wd59eTg846NSgdR+n6P3mE7b24w+doctP6PmG5
+	yicel8XdJVnCbYsAukxuQKOVdyiO0+5GxW3J01a7SmjqLdgp/lesZAP0UrdXGA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1753439796;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GWa6XDwZlrI75pGJEl2FOxaQVgtHaB/1blTqyZ0nVRI=;
+	b=Azssg3zoBERw+p0wPFhhTIjUk5B3/RwZjzSp3dyxeJSednSA8IzlQG3PZRk3OGazInQ4wH
+	b0F3v6qFcQm4UyDw==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH] kbuild: userprogs: use correct linker when mixing clang
+ and GNU ld
+Message-ID: <20250725122604-44874f95-859c-4c0a-b3b0-14b30e00b796@linutronix.de>
+References: <20250724-userprogs-clang-gnu-ld-v1-1-3d3d071e53a7@linutronix.de>
+ <20250724231025.GA3620641@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250725055928.37658-1-suchitkarunakaran@gmail.com> <f020e62b-5186-4461-8fe9-de64d35de488@gmail.com>
-In-Reply-To: <f020e62b-5186-4461-8fe9-de64d35de488@gmail.com>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Fri, 25 Jul 2025 15:41:56 +0530
-X-Gm-Features: Ac12FXyGeL9MCePha8mADnZZ3s0Yd1cw-jApyUYA_m3RLyXBbVTSAsTj9dYMESA
-Message-ID: <CAO9wTFi9xEB_G-CwMxDxWbNcNCRHp9ps5sGj2U9w7YZgBzV1rg@mail.gmail.com>
-Subject: Re: [PATCH] kconfig/lxdialog: replace strcpy() with strscpy() in inputbox.c
-To: Franco Martelli <martellif67@gmail.com>
-Cc: masahiroy@kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250724231025.GA3620641@ax162>
 
-On Fri, 25 Jul 2025 at 15:23, Franco Martelli <martellif67@gmail.com> wrote=
-:
->
-> On 25/07/25 at 07:59, Suchit Karunakaran wrote:
-> > strcpy() performs no bounds checking and can lead to buffer overflows i=
-f
-> > the input string exceeds the destination buffer size. Replace it with
-> > strscpy(), which ensures the input is always NULL-terminated and
-> > prevents overflows.
-> >
-> > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+On Thu, Jul 24, 2025 at 04:10:25PM -0700, Nathan Chancellor wrote:
+> On Thu, Jul 24, 2025 at 10:32:45AM +0200, Thomas Weiﬂschuh wrote:
+> > The userprogs infrastructure does not expect clang being used with GNU ld
+> > and in that case uses /usr/bin/ld for linking, not the configured $(LD).
+> > This fallback is problematic as it will break when cross-compiling.
+> > Mixing clang and GNU ld is used for example when building for SPARC64,
+> > as ld.lld is not sufficient; see Documentation/kbuild/llvm.rst.
+> > 
+> > Relax the check around --ld-path so it gets used for all linkers.
+> > 
+> > Fixes: dfc1b168a8c4 ("kbuild: userprogs: use correct lld when linking through clang")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
 > > ---
-> >   scripts/kconfig/lxdialog/inputbox.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/kconfig/lxdialog/inputbox.c b/scripts/kconfig/lxdi=
-alog/inputbox.c
-> > index 3c6e24b20f5b..8880ccaffa0b 100644
-> > --- a/scripts/kconfig/lxdialog/inputbox.c
-> > +++ b/scripts/kconfig/lxdialog/inputbox.c
-> > @@ -40,7 +40,7 @@ int dialog_inputbox(const char *title, const char *pr=
-ompt, int height, int width
-> >       if (!init)
-> >               instr[0] =3D '\0';
-> >       else
-> > -             strcpy(instr, init);
-> > +             strscpy(instr, init, MAX_LEN + 1);
-> >
-> >   do_resize:
-> >       if (getmaxy(stdscr) <=3D (height - INPUTBOX_HEIGHT_MIN))
->
-> perhaps it's better to sanitize the whole code in
-> script/kconfig not only in lxdialog/inputbox.c
->
-> $ grep -Rn strcpy scripts/kconfig/*
-> scripts/kconfig/confdata.c:143: strcpy(depfile_path +
-> depfile_prefix_len, name);
-> scripts/kconfig/lxdialog/util.c:348:    strcpy(tempstr, prompt);
-> scripts/kconfig/lxdialog/inputbox.c:43:         strcpy(instr, init);
-> scripts/kconfig/symbol.c:764:   strcpy(val, newval);
-> scripts/kconfig/util.c:55:      strcpy(gs.s, "\0");
->
-> because the script "checkpatch.pl" emits a warning
-> whether strcpy() function is used:
->
-> WARNING: Prefer strscpy over strcpy - see:
-> https://github.com/KSPP/linux/issues/88
->
+> > Nathan, you originally proposed the check for $(CONFIG_LD_IS_LLD) [0],
+> > could you take a look at this?
+> 
+> I would expect this to be okay but I have not explicitly tested it. I
+> had not considered the case of GNU ld being used since aside from
+> sparc64, there is not another architecture that supports clang but not
+> ld.lld.
 
-Hi Franco, I wanted to get feedback on this first before proceeding
-further. If the code change looks good to you, I=E2=80=99ll go ahead and
-submit patches for the other places as well. Thanks!
+FWIW some architectures use GNU ld implicitly with clang because they also link
+through $(CC) but do not use --ld-path. One example is UML, where the vDSO and
+vmlinux are linked this way. But linking vmlinux of UML with ld.lld will
+require changes to at least the linker script. Something for the ClangBuiltLinux
+TODO? There were more examples, but I don't remember them right now.
+
+Longterm --ld-path should probably be added to the global KBUILD_CFLAGS, too.
+
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+
+Thanks!
+
+> > ---
+> >  Makefile | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Makefile b/Makefile
+> > index c09766beb7eff4780574682b8ea44475fc0a5188..e300c6546c845c300edb5f0033719963c7da8f9b 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1134,7 +1134,7 @@ KBUILD_USERCFLAGS  += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD
+> >  KBUILD_USERLDFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS))
+> 
+> Does KBUILD_USERCFLAGS respect LLVM_IAS? sparc64 does not use the
+> integrated assembler yet (as far as I am aware) so I think we probably
+> need to filter '--prefix=' and '-fno-integrated-as' to avoid further
+> issues with assembling?
+
+No, it isn't respected. On the other hand I didn't yet run into any issues.
+Do we want to fix it proactively?
+
+> >  # userspace programs are linked via the compiler, use the correct linker
+> > -ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_LD_IS_LLD),yy)
+> > +ifneq ($(CONFIG_CC_IS_CLANG),)
+> 
+> At this point, I think this can just become
+> 
+>   ifdef CONFIG_CC_IS_CLANG
+
+Absolutetly. The existing conditional above this hunk uses the ifneq
+pattern, so I tried to keep it consistent.
+But the one above uses plain ifdef again...
+Personally I don't care one way or another.
+
+> >  KBUILD_USERLDFLAGS += --ld-path=$(LD)
+> >  endif
+> >  
+> > 
+> > ---
+> > base-commit: 6832a9317eee280117cd695fa885b2b7a7a38daf
+> > change-id: 20250723-userprogs-clang-gnu-ld-7a1c16fc852d
+> > 
+> > Best regards,
+> > -- 
+> > Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> > 
 
