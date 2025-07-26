@@ -1,134 +1,96 @@
-Return-Path: <linux-kbuild+bounces-8200-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8201-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3EEBB12B7E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 18:43:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E3AB12B8B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 19:00:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A4F84E5D42
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 16:42:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8BA9F1C20825
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 17:01:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 416CC1D5AD4;
-	Sat, 26 Jul 2025 16:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1A81A8F84;
+	Sat, 26 Jul 2025 17:00:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MZo2JCrn"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GVwjk8Ic"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D329460
-	for <linux-kbuild@vger.kernel.org>; Sat, 26 Jul 2025 16:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD2D288A8
+	for <linux-kbuild@vger.kernel.org>; Sat, 26 Jul 2025 17:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753548204; cv=none; b=UATGGIqkqxQOpl+ZsJxG/MKrqajlOoH8ql1Agmk2CQSk484LwiJTNG95QTZKdQK7Pep/53mq+4MLe0ruRMcez6OXmaA9flYPqoU3aRw69/iWQdAugcEHCRlE7HV51L3X03sGzxm0rRIae/w5sdDYpn6uEk3s82h5Dv4xHSqw7kQ=
+	t=1753549242; cv=none; b=GwJtcSsO1NhvEhmeSgshT16IonktPdcuqgD+xtL1vhJMiYAHUytcGVE26kv6IllZur+urRp2MOPjPrRN2qPufSSysLvsdvgGH7OHNUOhXxKYKYaR9AXoZtsoaFM4ZdNxfhzzrIgIaVWVLMj0SGKHb8Qb3XE9+6oj+Wywd9ZEa3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753548204; c=relaxed/simple;
-	bh=erw/HtwA9bLZMX4CmhB5LAZkYxiXK5yPjOx3cxb54o8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=OJjxEpnoZXCq/fO59Ruv4h1ZYYtePwO5rCToX6dUVi011O6gMntaP9QZyMKmPJ3yHXbS27Qf05seH2enjuMvMcceJ9K4VgGJsmGuuJTrFsWgG0PbdBJA1uY5iFHGpvegEQ7tRTIPdd36x7es41OWeAJd1nBf0bURpjr0/j0ck9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MZo2JCrn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=q/EXhuLjFxqtl/Ms32bSa0T0RDcXHRXeIrb9kZcR8jc=; b=MZo2JCrnyn7oivpxI+ufpmd6M6
-	a/968iWYw/eXVItLpHxwsrXC1JxvxVqzBvl658AHBBifglhmdQpNEppTHl98BSiJBmfKOSzwlgrKV
-	d86WQdDtB3KaNvDIEjC+26L34udwZPDD8dIB1BodrnIIz0drDnW/VetDGrII7CflvDyEZuImDjp+8
-	HJd4wX3dtCD1017W+B4yLneUuckcxP/NUIMLNsv2Q5Nc7Vi50Zo3WJcXwvA44BUDrL3NClvgdtFGj
-	Dw0gVzfy7fO0vB25aQ7Xx1RG46m0lLUVHDJsXqulI2jQvUFG+gwExmetRBu2/JgXlFPH/IXVLMzty
-	AVVt5X9g==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ufhzW-0000000Bf8C-0X7N;
-	Sat, 26 Jul 2025 16:43:22 +0000
-Message-ID: <90b3dbc2-3a68-400f-a779-539f888ed4c2@infradead.org>
-Date: Sat, 26 Jul 2025 09:43:21 -0700
+	s=arc-20240116; t=1753549242; c=relaxed/simple;
+	bh=R07J6bkjhjT6i/0jxtUp3hBAq9wNaqh+KyJKh5jtddU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HqN7UD6DuClloqPLubDA4hVLBB6gD+EmpS00K4zNyC7qGCWIm3fXy/a5KbEK5p1AhjMvyjUYubt2cHAvpOCjzPAD48/cOZcv+I8oo8U/bc2siNFbjyWyYaUjh8Geg6R3SQmeMvOkKo9c3l1ovN4PqZoepr8OWn55+sRzMdw8zmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GVwjk8Ic; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Sat, 26 Jul 2025 18:59:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753549224;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UnjjPvDjOsBciAEbE2Ojfe57Z/ziM2G9SS6lDwcFEaQ=;
+	b=GVwjk8Icb6Ou2dMLcC7KX9TK3p0rw9e5KAG1jwSQ1YB2Aou8Ks8++Ek4tadVY5/KrZLtEI
+	+7qUbSa11ahc0sdmFWKpszo7/NyIYAl8Ol06LcPLf7J6VhzVWlRkon4urUNCYj90Vr49Tf
+	hR0+pY7DAOojBQgNsVFOTZM7FIfs+FM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: Suchit K <suchitkarunakaran@gmail.com>
+Cc: masahiroy@kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH] kconfig/lxdialog: replace strcpy() with strscpy() in
+ inputbox.c
+Message-ID: <aIUJTK4JOxo0lDv0@fjasle.eu>
+References: <20250725055928.37658-1-suchitkarunakaran@gmail.com>
+ <20250725-violet-mayfly-from-heaven-bd66d2@l-nschier-aarch64>
+ <CAO9wTFiYRb8RDB9cTRsC3yqa6Zja5+QWuew1AZyZs5gPxbdVGw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: xconfig problem with 'comment'
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <211effdc-774b-4c59-9643-c43b058350cc@infradead.org>
- <CAK7LNAQOejmh+mrfV7eMEZVjdZu-qWyB_jy9btTzPu2=mTeTfA@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAK7LNAQOejmh+mrfV7eMEZVjdZu-qWyB_jy9btTzPu2=mTeTfA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO9wTFiYRb8RDB9cTRsC3yqa6Zja5+QWuew1AZyZs5gPxbdVGw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
-
-On 7/26/25 2:56 AM, Masahiro Yamada wrote:
-> On Fri, Jul 25, 2025 at 9:59 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> Hi,
->>
->> to recreate:
->>
->>         make O=bld alldefconfig
->>         # enable CONFIG_NET, CONFIG_WIRELESS, CONFIG_RFKILL, CONFIG_CFG80211
->>         # with any kconfig tool or $EDITOR
->>         make O=bld xconfig &
->>
->>
->> I get both the prompt for MAC80211 (depends on CFG80211)
->> and the comment: "CFG80211 needs to be enabled for MAC80211"
->>         depends on CFG80211=n
->>
->> Other config tools (menu/n/gconfig) don't have this problem.
+On Fri, Jul 25, 2025 at 08:06:35PM +0530 Suchit K wrote:
+> > Did you compile-test this?  strscpy() is not available for user-space.
+> >
 > 
-> Perhaps, did you choose
->    "Option" -> "Show All Options"
-> ?
-> 
-> This option shows all options and comments,
-> including hidden ones.
-> 
-> 
-> 
-> Please try
->   "Option" -> "Show Normal Options"
-> 
-> This will show only active options.
+> Hi,
+> Apologies. I didn't compile the change earlier since it was just a
+> replacement of strcpy with strscpy, and I completely forgot that I was
+> working with userspace tools. After seeing your comment, I tried
+> compiling it and I encountered an error. Would it be more appropriate
+> to use memcpy or strlcpy instead in this case? I'd really appreciate
+> your guidance on the correct approach here. Thank you!
 
-Yes, "Show Normal Options" removes the comment.
+For the concrete code I'd use strlcpy, for some other uses of strcpy in
+scripts/kconfig/ I'd probably choose differently.
 
-I guess it bothers me that (a) xconfig seems to remember the
-"Show ___ Options" settings from a previous invocation (where I had
-indeed used "Show Prompt Options")
-but (b) the "Option" menu does not indicate any of those
-"Show ___ Options" as being set. ISTM that if it is going to use
-an option setting from a previous invocation that it should also
-let the user know about that Show/Options setting.
+As Franko already wrote: it would be nice if you could also send patches
+for the other strcpy calls below scripts/kconfig/.
 
+But please always compile and test your changes.
 
-Ah, I see. In ~/.config/kernel.org/qconf.conf:
-Show Normal Options is
-qconf\config\optionMode=0
+Thanks and kind regards
+Nicolas
 
-Show All Options is
-qconf\config\optionMode=1
-
-Show Prompt Options is
-qconf\config\optionMode=2
-
-
->>
->> I'm testing on linux-next 20250724 but I don't think this is a
->> recent change.
-
-Thanks for looking. Sorry for the noise.
 
 -- 
-~Randy
-
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
 
