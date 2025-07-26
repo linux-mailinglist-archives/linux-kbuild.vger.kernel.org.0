@@ -1,125 +1,175 @@
-Return-Path: <linux-kbuild+bounces-8198-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8199-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A76B12B14
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 17:11:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 196D2B12B54
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 18:05:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A8583B92B7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 15:10:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42FBC16B7F9
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 16:05:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97C41223DF6;
-	Sat, 26 Jul 2025 15:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C57523C512;
+	Sat, 26 Jul 2025 16:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nswe3jsq"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA6A1DBB2E;
-	Sat, 26 Jul 2025 15:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28236229B28;
+	Sat, 26 Jul 2025 16:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753542658; cv=none; b=D0ov1uO/nyn7Ee1fzF95WDztXvH7vUKGo+Xr+lEJnfY0xylQQCxxO/XC85fnpYy9hAPUg2QE1MPLuz6lTs2ffUpBHho1eQtn1W+HIlRMixb7/7GkzRKZyW/tyuHki6VVwVWUIev3jz3W0jTC86zSdnCl1qnIs3BezO4Qo/huhIs=
+	t=1753545929; cv=none; b=L0m7x7kDzlVMJ6DYjsKrAQAz+83Ii+cm3LdwmGFd5wbdVjre6crBzoaBXvHGIfGdx5l8EUmjhukbcovU8cwIXkJri20f5cZlWL5RSZpcpHfDJmtRZog/rHCGKP7HycotOJcbSKEMw5oc8ofFHzY/TnNgqpH1YZSAd4uMfPDgtdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753542658; c=relaxed/simple;
-	bh=VuF3iwFNCJc1dhUDx5eheQI14CKmMz0Sb7ok2diS9xM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W9hdG4jCVUupEMHe6lZf/1chZ7uh6qsIEv/+CgHIJlNeUfoJM1nXyuWSgwl+kLYG1Gkzwye213pIWeVBPol0SltzLzCI/EJUlGHAKVKe2ahv5YMmO+y8w0URVvOSHvFAc37jH3SadwE3XCpN0b6l2i2GsY/9HPxRQIkn+1hujos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from pomiot (c144-156.icpnet.pl [85.221.144.156])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mgorny)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 032A5340CEA;
-	Sat, 26 Jul 2025 15:10:54 +0000 (UTC)
-From: =?UTF-8?q?Micha=C5=82=20G=C3=B3rny?= <mgorny@gentoo.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Sam James <sam@gentoo.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Micha=C5=82=20G=C3=B3rny?= <mgorny@gentoo.org>
-Subject: [PATCH v3 kbuild-rebased] kheaders: make it possible to override TAR
-Date: Sat, 26 Jul 2025 17:10:30 +0200
-Message-ID: <20250726151030.142548-1-mgorny@gentoo.org>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1753545929; c=relaxed/simple;
+	bh=6MpzxbPX27NadrsGk0zw216Oyyfxgmiy2Y1q0a0nRAg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fNc4MSWjcjLZKx14+alle/hEB/fpdsS26S2Ug1NcPdKU28JH0PicelUlAKY3bZS5WYrwX+mceII8JOfqjyOvar77F9Sb6Ju//ow6Zq88nHWkXSTc2+u6xARV/h9yb+xQeGuUPUMdWbKFGnOkK4cT/mKdGCGdAb0YwaFK7WvMfmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nswe3jsq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30E6C4CEFB;
+	Sat, 26 Jul 2025 16:05:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753545928;
+	bh=6MpzxbPX27NadrsGk0zw216Oyyfxgmiy2Y1q0a0nRAg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Nswe3jsqp6uE7J1q7VAwlweFK/2EEUj7/yxpjrJQyvWTj4EeJEZBv0JpsuCBwmk9j
+	 KQGbwwXZkDzP3Cv/CmuBqW5czzXH4Amoedtr7f+H5hLT3PHXN7KteirmjuUQiZOAQl
+	 klNA3B27wfo4lQDjcAPDelN6tRNDHFIX5fF86m2sx5GTcFLgwLLiXX/d6P7PkMYoCj
+	 8kmhXu/aREl7k1k6ju8PWjjtBJetXCVS6rBAYEiiFnlB0QmrzDwj6nZ6ZsREF+y7qo
+	 u/Kn73NsPR4Njr7h9iAxCY18/TebJ9DGgoU2vR+YIAqUCF0naKkBNT6CMpQ2EJRehI
+	 jsQfyRqmURChQ==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32f2947ab0cso26092041fa.2;
+        Sat, 26 Jul 2025 09:05:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUm4wZU5Kjo9lk8+VOpDhKzgcRUhbghpshkKkeTR8aUr9pV6U0GTxnihuCgQ80c+qjuAYbN7OxP@vger.kernel.org, AJvYcCW9Pokhay7emdGiqHt7+BJ/vNl5y5V6r+W40XyCeLLDK8bbFakxcS/UJtbTcvs7LNXm5c1SnPIjMf8vhZth@vger.kernel.org, AJvYcCWF91BvpCTpnv5kZOC3Y5dPL5/yb2isbZZvB0iLccT+TCeM0bmCwQi9PagtnGmd66DsrYlfTWv9T2JjD8s=@vger.kernel.org, AJvYcCWbf7DbCWiWXoB8jmrimMnSPXUFJRQDH1whVbEsbSe4mWAtQyzOKvfJUiJvGkD4bklxoH7xLmavrjKUGj2Y4Po=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxk8Mj2Kx5qEffcXyyzK8fzSpczPBUvKo+MAv5wzxYPvon4TN1V
+	vSLU75P9yLkFpPa4hUpKtM+JN5bZSVKy3Z5fBpmK1tHGnBYWBq0svO9yfgv/WuwJACrcTCY8jod
+	z9CEp0VI8oodwxBeVzXY6CS5nHbk1Zqs=
+X-Google-Smtp-Source: AGHT+IG3EDvduZsc53+xFnV4ZnOEuNccFoxXRBW2DEcupA+kF+Dd/tDVGJKqs9SWSByGCvtmwfD4iZl2Wi/hY9T3Dvo=
+X-Received: by 2002:a05:651c:154b:b0:32a:8916:55af with SMTP id
+ 38308e7fff4ca-331ee622688mr19317841fa.2.1753545927125; Sat, 26 Jul 2025
+ 09:05:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250726133435.2460085-1-ojeda@kernel.org>
+In-Reply-To: <20250726133435.2460085-1-ojeda@kernel.org>
+From: Tamir Duberstein <tamird@kernel.org>
+Date: Sat, 26 Jul 2025 12:04:50 -0400
+X-Gmail-Original-Message-ID: <CAJ-ks9kneAWVxMNYcmQzks6NaprRPJZPyFkRBtLmtseemyJgbg@mail.gmail.com>
+X-Gm-Features: Ac12FXxAFNw0PPG_mgb-afX1RFMqeDfPaH7GOci4UnEY3JifxOIfnYstVIjNq5A
+Message-ID: <CAJ-ks9kneAWVxMNYcmQzks6NaprRPJZPyFkRBtLmtseemyJgbg@mail.gmail.com>
+Subject: Re: [PATCH] rust: kbuild: clean output before running `rustdoc`
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, stable@vger.kernel.org, 
+	Daniel Almeida <daniel.almeida@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 86cdd2fdc4e39c388d39c7ba2396d1a9dfd66226 ("kheaders: make headers
-archive reproducible") introduced a number of options specific to GNU
-tar to the `tar` invocation in `gen_kheaders.sh` script.  This causes
-the script to fail to work on systems where `tar` is not GNU tar.  This
-can occur e.g. on recent Gentoo Linux installations that support using
-bsdtar from libarchive instead.
+On Sat, Jul 26, 2025 at 9:35=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> `rustdoc` can get confused when generating documentation into a folder
+> that contains generated files from other `rustdoc` versions.
+>
+> For instance, running something like:
+>
+>     rustup default 1.78.0
+>     make LLVM=3D1 rustdoc
+>     rustup default 1.88.0
+>     make LLVM=3D1 rustdoc
+>
+> may generate errors like:
+>
+>     error: couldn't generate documentation: invalid template: last line e=
+xpected to start with a comment
+>       |
+>       =3D note: failed to create or modify "./Documentation/output/rust/r=
+ustdoc/src-files.js"
+>
+> Thus just always clean the output folder before generating the
+> documentation -- we are anyway regenerating it every time the `rustdoc`
+> target gets called, at least for the time being.
+>
+> Cc: stable@vger.kernel.org # Needed in 6.12.y and later (Rust is pinned i=
+n older LTSs).
+> Reported-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/288089/topic=
+/x/near/527201113
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Add a `TAR` make variable to make it possible to override the tar
-executable used, e.g. by specifying:
+I've seen this as well.
 
-  make TAR=gtar
+Reviewed-by: Tamir Duberstein <tamird@kernel.org>
 
-Link: https://bugs.gentoo.org/884061
-Reported-by: Sam James <sam@gentoo.org>
-Tested-by: Sam James <sam@gentoo.org>
-Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Michał Górny <mgorny@gentoo.org>
-Signed-off-by: Sam James <sam@gentoo.org>
----
- Makefile               | 3 ++-
- kernel/gen_kheaders.sh | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index ba0827a1fccd..081d494d037a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -543,6 +543,7 @@ LZMA		= lzma
- LZ4		= lz4
- XZ		= xz
- ZSTD		= zstd
-+TAR		= tar
- 
- CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
- 		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
-@@ -622,7 +623,7 @@ export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN
- export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
- export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
- export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
--export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
-+export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD TAR
- export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS KBUILD_PROCMACROLDFLAGS LDFLAGS_MODULE
- export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
- 
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index c64e5a00a3d9..59ec52f62c52 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -31,7 +31,7 @@ mkdir "${tmpdir}"
- 
- # shellcheck disable=SC2154 # srctree is passed as an env variable
- sed "s:^${srctree}/::" "${srclist}" | tar -c -f - -C "${srctree}" -T - | tar -xf - -C "${tmpdir}"
--tar -c -f - -T "${objlist}" | tar -xf - -C "${tmpdir}"
-+${TAR:-tar} -c -f - -T "${objlist}" | tar -xf - -C "${tmpdir}"
- 
- # Remove comments except SDPX lines
- # Use a temporary file to store directory contents to prevent find/xargs from
-@@ -43,7 +43,7 @@ xargs -0 -P8 -n1 \
- rm -f "${tmpdir}.contents.txt"
- 
- # Create archive and try to normalize metadata for reproducibility.
--tar "${timestamp:+--mtime=$timestamp}" \
-+${TAR:-tar} "${timestamp:+--mtime=$timestamp}" \
-     --owner=0 --group=0 --sort=name --numeric-owner --mode=u=rw,go=r,a+X \
-     -I "${XZ}" -cf "${tarfile}" -C "${tmpdir}/" . > /dev/null
- 
+> ---
+>  rust/Makefile | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 115b63b7d1e3..771246bc7ae6 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -103,14 +103,14 @@ rustdoc: rustdoc-core rustdoc-macros rustdoc-compil=
+er_builtins \
+>  rustdoc-macros: private rustdoc_host =3D yes
+>  rustdoc-macros: private rustc_target_flags =3D --crate-type proc-macro \
+>      --extern proc_macro
+> -rustdoc-macros: $(src)/macros/lib.rs FORCE
+> +rustdoc-macros: $(src)/macros/lib.rs rustdoc-clean FORCE
+>         +$(call if_changed,rustdoc)
+>
+>  # Starting with Rust 1.82.0, skipping `-Wrustdoc::unescaped_backticks` s=
+hould
+>  # not be needed -- see https://github.com/rust-lang/rust/pull/128307.
+>  rustdoc-core: private skip_flags =3D --edition=3D2021 -Wrustdoc::unescap=
+ed_backticks
+>  rustdoc-core: private rustc_target_flags =3D --edition=3D$(core-edition)=
+ $(core-cfgs)
+> -rustdoc-core: $(RUST_LIB_SRC)/core/src/lib.rs FORCE
+> +rustdoc-core: $(RUST_LIB_SRC)/core/src/lib.rs rustdoc-clean FORCE
+>         +$(call if_changed,rustdoc)
+>
+>  rustdoc-compiler_builtins: $(src)/compiler_builtins.rs rustdoc-core FORC=
+E
+> @@ -122,7 +122,8 @@ rustdoc-ffi: $(src)/ffi.rs rustdoc-core FORCE
+>  rustdoc-pin_init_internal: private rustdoc_host =3D yes
+>  rustdoc-pin_init_internal: private rustc_target_flags =3D --cfg kernel \
+>      --extern proc_macro --crate-type proc-macro
+> -rustdoc-pin_init_internal: $(src)/pin-init/internal/src/lib.rs FORCE
+> +rustdoc-pin_init_internal: $(src)/pin-init/internal/src/lib.rs \
+> +    rustdoc-clean FORCE
+>         +$(call if_changed,rustdoc)
+>
+>  rustdoc-pin_init: private rustdoc_host =3D yes
+> @@ -140,6 +141,9 @@ rustdoc-kernel: $(src)/kernel/lib.rs rustdoc-core rus=
+tdoc-ffi rustdoc-macros \
+>      $(obj)/bindings.o FORCE
+>         +$(call if_changed,rustdoc)
+>
+> +rustdoc-clean: FORCE
+> +       $(Q)rm -rf $(rustdoc_output)
+> +
+>  quiet_cmd_rustc_test_library =3D $(RUSTC_OR_CLIPPY_QUIET) TL $<
+>        cmd_rustc_test_library =3D \
+>         OBJTREE=3D$(abspath $(objtree)) \
+>
+> base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
+> --
+> 2.50.1
+>
+>
 
