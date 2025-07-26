@@ -1,71 +1,88 @@
-Return-Path: <linux-kbuild+bounces-8204-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8205-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39983B12BCF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 20:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F2FB12C08
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 21:15:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3938F4E80E6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 18:07:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22EB94E6D86
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 19:15:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06A7B286416;
-	Sat, 26 Jul 2025 18:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E25E0288525;
+	Sat, 26 Jul 2025 19:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hf2zXa9S"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E6ax7tKn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C0E1DA62E;
-	Sat, 26 Jul 2025 18:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8171A2868B5;
+	Sat, 26 Jul 2025 19:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753553284; cv=none; b=V6zpTgwVamaHwJP5VMzuQp9Sj1ixwl3YUpZRL7CCYKcUkYv/HDcE8gC5X25uzD3nXOuSBGW9NWzMwL/XX9I4PMIDRESBu2K7k2mSarORTMxGgxGKnQgAKDzfPWSYSztM3tOybRF8DBcTuXxsDp4pbk4Ge+jBfKGpZrbNn+VsQrw=
+	t=1753557324; cv=none; b=gQ9hq2eLI6eC38Hp3eHlbI9k9IIL0F1lV3mmZMYTGRhyQKKTCXBoOUHFjHPLAJNyhotOV9ccCZYEkRLTEUwdnRrJlHjT9kWIqk/qWucyIg0+9YOMgvXWG2JL+TlRxKVrKGsR5szGZo22OXXA/pfCLnvdLSlXweZnWqh0cfYWiyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753553284; c=relaxed/simple;
-	bh=2HQCDh8l8G5D1AwzrgCWpThQCBs2spd9mekjd1oxUcc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mYkPV/Qj0DJh90WlITAeq5ujzyEMvgzsyDXrm9j3HzG0zgc42ExNhVPOdJJHO5WkI8UG4Yu6ZoinZ0UTuNWNrDuN7mIPfy247xOnkgUV7oS9ABkggmasup24Jn+g8L0C/m6NQP95TP7FrSb2RXiPyslwTEUEKkKSwIFwdM2fIBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hf2zXa9S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDB8C4CEED;
-	Sat, 26 Jul 2025 18:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753553284;
-	bh=2HQCDh8l8G5D1AwzrgCWpThQCBs2spd9mekjd1oxUcc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Hf2zXa9S3SH9inWMxDx4H3qZy0WvG3uqmv0dqCyyGo+haVZVW9GzdoMYdA+82lnAJ
-	 /57x3MVjOIC4M1ueTFSZgKeC34elPyOT9T4O/nXgS0A8ykYMiJLxV2Mzg9t6UdqfFM
-	 ZRc8BSRdrmUpM601yLAwKqnHCP8VzobEO+dBo3KweuSsfBhwJDA4y1BPpdanzAg2pj
-	 e+7FExJLhAlox3MDjANDpseJ8bphDlypHprk3zneUYsoyxxjGfTPd4RVjhoMLQFExR
-	 ykdzapaeTLALvKVVDvelaX+gF2ZiOFNV0Jvr8RfVQBCyPNC2FlV/ZnaTTHVydKC9Gf
-	 ucxsGccE+Wv9w==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	rust-for-linux@vger.kernel.org,
-	Rae Moar <rmoar@google.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
+	s=arc-20240116; t=1753557324; c=relaxed/simple;
+	bh=rbPylg62vbOjdHXx4PRqrOONXmlsrvEE8LVr3InFSKA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j1624PEqlBvxmRG7KeS4e//XwVDMaLXHAQgxxCYZfgtaN4Kax5iaRwNpdPV4IcQ/zm3MZNnxPInMYfr3p00SW8auLTJp5ttCIUKAVJmmpGoA0M8HXLlWbQmcCX7HPHLIKm/IzHqg58759++TIYl4bJu85UnY4NcXnT28Qh853SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E6ax7tKn; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74ce477af25so2164282b3a.3;
+        Sat, 26 Jul 2025 12:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753557323; x=1754162123; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lpcPUVrSqgoVbWvUEYVCKv6jr6R7p+WrNPGPv/zX2xc=;
+        b=E6ax7tKnV2jTUI2bkk+l63ti1UAI+c6lHrmKe1N2JdPV6Qn5yi+IFL+mbErUakui/u
+         Lleqc1qiei/waRlrav7EMVg+v5qqOBtM270v1j/GGmZEf6/fHTLzK1EpNjxXO6eV7/+L
+         NGVGgH/ut5Xhsn2tDMRlWmBAUvkNaQGFkhQKc2VR1xX47X0t4ye08H+pmBixVwdgW2cK
+         kbx3Cm7iO2v0oJa7FpnYqSf3MSOcp5tilvxPjrrgXvG6eK6fKFFpl1tkeMJmZ/bJ0cEL
+         lOvvGrMX5qLpE6chrgvq/nj/IszrqcZ406pvSRxfCkO0IZJkMrVYNcTYfJIN6Vtn59tZ
+         T49g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753557323; x=1754162123;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lpcPUVrSqgoVbWvUEYVCKv6jr6R7p+WrNPGPv/zX2xc=;
+        b=lAYV5oWO+9TlzufGwYQLim1b/Q7pun+BZAisLXxgTEKMj+fUybTqRYFcQkboEEdSbA
+         OXglrzIEeGpaNVL2VoJXrOWUMx+6TzGL/7p40cerekPqO0dNbZq3NE9NthqgeMe1dHqB
+         t023iSYiZBBNUlWJLl1MNs7U2NsyLWQoHl9FdbOeGmy7uC+wZjpSTjmTcRYBVqlhhN+M
+         lXhKhf+zLiI1xEu9laxJBMbtX/2FJPsrZ9F9avjPDJTgcSuNXuiCQk5ATjSauxBlK0l+
+         O+nBndJZSJKk+vUzaaLRBFbjUjTR6RLGIL6v52txgEGXCPbMNXiqKs/schwiJuM9gtWi
+         xHmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVoTSmcGtP9NsDpjzLFVgKdaQsRTO7f4EGu6biCDJ1ZXHuMKA+9w0k6sWEYX08zTejAO9iixIIlNrQ32d0=@vger.kernel.org, AJvYcCXbIcgUmEKa0zCT/Zkhl0b0w0cnlbjUwghf7Y+64eGpaKY6LgxrrzQa1XqNjyuy3zGp+hinPmlGNVYf6Mkf@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy08h6n9zp9+s0LeHQKMwiRJBaQPRuWlShwX8Z60xxxOXcYOC2o
+	MYg07Ygtffn9Vr78Q5FeflsXWOjQGl380ZT1tC6yx+8VE0kvoOfwyDqw
+X-Gm-Gg: ASbGncvoOlyQ4mKJL+Yxz29L2kGJE8Jvn5NcLs+5/knH+rL/Lqj397j2a+fjb3JTk3s
+	GW2bh77w1mmoVjnJ0S5PaBhHHv7ZEkCboP/mwkij4Dl0fZJ+QpzjcJztDN41c6TtglKHAr7pI9o
+	011O5yaK0yKe4mgstLxeVjX+AcTpXBYb0UODbze+lN84ErpNuFRgBvWAwlkvsLKWl/W9mM+tm15
+	De7WE9M9GiDAhD99ofw0h8p7tGNopY4rTWC2ZdW8NP7z4DRiAE+HA3svqJf0T3gG29HIDIz3aDF
+	tCKimN64ccrVmhjvhSE023NiKebyd/AJq7/W5jHBwb3zepqF+xQ67oDJXkFDaG7qN6F6dSEBZet
+	AM+RvkvmG5qU2zBVnqZZyL1iZxpLlrg==
+X-Google-Smtp-Source: AGHT+IHGi72nheJIolzGFekC7V4ue+UFJk6zZYD+HfImkmP0eeJAEQyRuUOJUTy5Olyzc4lrcAy1xg==
+X-Received: by 2002:a05:6a00:4614:b0:74e:c917:3b1a with SMTP id d2e1a72fcca58-763385c9e1fmr9669640b3a.24.1753557322618;
+        Sat, 26 Jul 2025 12:15:22 -0700 (PDT)
+Received: from archlinux ([205.254.163.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76408c02706sm2202726b3a.39.2025.07.26.12.15.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Jul 2025 12:15:22 -0700 (PDT)
+From: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+To: masahiroy@kernel.org,
+	nicolas.schier@linux.dev,
+	linux-kbuild@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: [PATCH] rust: kernel: remove support for unused host `#[test]`s
-Date: Sat, 26 Jul 2025 20:07:50 +0200
-Message-ID: <20250726180750.2735836-1-ojeda@kernel.org>
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: [PATCH] kconfig: replace strcpy() with strlcpy() in symbol.c
+Date: Sun, 27 Jul 2025 00:45:15 +0530
+Message-ID: <20250726191515.171012-1-suchitkarunakaran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -74,118 +91,29 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since commit 028df914e546 ("rust: str: convert `rusttest` tests into
-KUnit"), we do not have anymore host `#[test]`s that run in the host.
+strcpy() performs no bounds checking and can lead to buffer overflows if
+the input string exceeds the destination buffer size. This patch replaces
+it with strlcpy(), which ensures the input is always NULL-terminated and
+prevents overflows, following kernel coding guidelines.
 
-Moreover, we do not plan to add any new ones -- tests should generally
-run within KUnit, since there they are built the same way the kernel
-does. While we may want to have some way to define tests that can also
-be run outside the kernel, we still want to test within the kernel too
-[1], and thus would likely use a custom syntax anyway to define them.
-
-Thus simplify the `rusttest` target by removing support for host
-`#[test]`s for the `kernel` crate.
-
-This still maintains the support for the `macros` crate, even though we
-do not have any such tests there.
-
-Link: https://lore.kernel.org/rust-for-linux/CABVgOS=AKHSfifp0S68K3jgNZAkALBr=7iFb=niryG5WDxjSrg@mail.gmail.com/ [1]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
 ---
- rust/Makefile        | 9 +--------
- rust/kernel/alloc.rs | 6 +++---
- rust/kernel/error.rs | 4 ++--
- rust/kernel/lib.rs   | 2 +-
- 4 files changed, 7 insertions(+), 14 deletions(-)
+ scripts/kconfig/symbol.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rust/Makefile b/rust/Makefile
-index 115b63b7d1e3..5290b37868dd 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -235,7 +235,7 @@ quiet_cmd_rustc_test = $(RUSTC_OR_CLIPPY_QUIET) T  $<
- 	$(objtree)/$(obj)/test/$(subst rusttest-,,$@) $(rust_test_quiet) \
- 		$(rustc_test_run_flags)
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 26ab10c0fd76..c44e8ac3e9fe 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -777,7 +777,7 @@ bool sym_set_string_value(struct symbol *sym, const char *newval)
+ 	else
+ 		return true;
  
--rusttest: rusttest-macros rusttest-kernel
-+rusttest: rusttest-macros
+-	strcpy(val, newval);
++	strlcpy(val, newval, size);
+ 	free((void *)oldval);
+ 	sym_clear_all_valid();
  
- rusttest-macros: private rustc_target_flags = --extern proc_macro \
- 	--extern macros --extern kernel --extern pin_init
-@@ -245,13 +245,6 @@ rusttest-macros: $(src)/macros/lib.rs \
- 	+$(call if_changed,rustc_test)
- 	+$(call if_changed,rustdoc_test)
- 
--rusttest-kernel: private rustc_target_flags = --extern ffi --extern pin_init \
--    --extern build_error --extern macros --extern bindings --extern uapi
--rusttest-kernel: $(src)/kernel/lib.rs rusttestlib-ffi rusttestlib-kernel \
--    rusttestlib-build_error rusttestlib-macros rusttestlib-bindings \
--    rusttestlib-uapi rusttestlib-pin_init FORCE
--	+$(call if_changed,rustc_test)
--
- ifdef CONFIG_CC_IS_CLANG
- bindgen_c_flags = $(c_flags)
- else
-diff --git a/rust/kernel/alloc.rs b/rust/kernel/alloc.rs
-index a2c49e5494d3..335ae3271fa8 100644
---- a/rust/kernel/alloc.rs
-+++ b/rust/kernel/alloc.rs
-@@ -2,16 +2,16 @@
- 
- //! Implementation of the kernel's memory allocation infrastructure.
- 
--#[cfg(not(any(test, testlib)))]
-+#[cfg(not(testlib))]
- pub mod allocator;
- pub mod kbox;
- pub mod kvec;
- pub mod layout;
- 
--#[cfg(any(test, testlib))]
-+#[cfg(testlib)]
- pub mod allocator_test;
- 
--#[cfg(any(test, testlib))]
-+#[cfg(testlib)]
- pub use self::allocator_test as allocator;
- 
- pub use self::kbox::Box;
-diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-index 3dee3139fcd4..7812aca1b6ef 100644
---- a/rust/kernel/error.rs
-+++ b/rust/kernel/error.rs
-@@ -157,7 +157,7 @@ pub fn to_ptr<T>(self) -> *mut T {
-     }
- 
-     /// Returns a string representing the error, if one exists.
--    #[cfg(not(any(test, testlib)))]
-+    #[cfg(not(testlib))]
-     pub fn name(&self) -> Option<&'static CStr> {
-         // SAFETY: Just an FFI call, there are no extra safety requirements.
-         let ptr = unsafe { bindings::errname(-self.0.get()) };
-@@ -174,7 +174,7 @@ pub fn name(&self) -> Option<&'static CStr> {
-     /// When `testlib` is configured, this always returns `None` to avoid the dependency on a
-     /// kernel function so that tests that use this (e.g., by calling [`Result::unwrap`]) can still
-     /// run in userspace.
--    #[cfg(any(test, testlib))]
-+    #[cfg(testlib)]
-     pub fn name(&self) -> Option<&'static CStr> {
-         None
-     }
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index e13d6ed88fa6..8a0153f61732 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -197,7 +197,7 @@ pub const fn as_ptr(&self) -> *mut bindings::module {
-     }
- }
- 
--#[cfg(not(any(testlib, test)))]
-+#[cfg(not(testlib))]
- #[panic_handler]
- fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
-     pr_emerg!("{}\n", info);
-
-base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
 -- 
 2.50.1
 
