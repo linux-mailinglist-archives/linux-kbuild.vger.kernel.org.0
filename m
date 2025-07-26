@@ -1,77 +1,115 @@
-Return-Path: <linux-kbuild+bounces-8207-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8208-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF196B12C3C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 22:39:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A14B12CBB
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 23:48:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2000A177776
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 20:39:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 916BB189FE61
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 21:48:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95852143C61;
-	Sat, 26 Jul 2025 20:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8D821A424;
+	Sat, 26 Jul 2025 21:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBTimyJT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLV+aIK/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7E01E5701;
-	Sat, 26 Jul 2025 20:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4F24A11;
+	Sat, 26 Jul 2025 21:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753562366; cv=none; b=OWNx/WcgkQEDSy4fOjX7Sr5ed81QeG2DQRgZUlEncixFrIrJHMie4QPPcm7nEkYSooKDkz9jVAqT965okZKCSs1AbEKQ9JzoMQVmEei+4bHD+5/1XobZzDO4qY1h0wd5g0dNET3vYL5D6n0r9pa+CEGTibrXdwF8GUY3sjaiTpU=
+	t=1753566480; cv=none; b=axwMFKDiA8JzQuB3ODmPAVaNSzfU2YiZBrNt1Pm+LodcXw8rCAATeeYxs5NSVYiyBBaFHFpx/TC5gFOPsivk6wvJ41I+7Mb/LLvYqOiZjMVARVxlOnCm2AfYNkqkIxX5jL4cJqGk5QX5B3Dkgd5GvuC/zZqeOeWg0I4kkP/T7DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753562366; c=relaxed/simple;
-	bh=ACa4Q4L93Qc5PpnKOItLTHQAxADoXnbi55ttk8gIe8Y=;
+	s=arc-20240116; t=1753566480; c=relaxed/simple;
+	bh=/eYVX8SoAB6x3E1/nt7tNV75VsKCSwlna2pvOjAdRkY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JDWGqZC3Yu3PAqupjAhoXzV6n1W6VnEyy1yms+4Hz8w7zUXFWgpg9i0zDKRpEBNr9m/WLfPDRvKbVc2JfdyVYDGsqjzIzNZt0KVrkcbeogUWapTKmN+v/FjH1WLhZEXYRWB0v1xyyWyAnfFBy3CWS6O3ypexA+6JrwnV/C9hviY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBTimyJT; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753562364; x=1785098364;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ACa4Q4L93Qc5PpnKOItLTHQAxADoXnbi55ttk8gIe8Y=;
-  b=dBTimyJToOyOgQ5uNN75keI+aZsA+2oTUtvZVa3XR6u+1cG+1OM7Vp0M
-   0zAfX27AIFD5UFJNx2Egm5Khph6o2p67IBwqd45bqwHltaWGaNKiKlKGG
-   ztzVBdcrGhC/JwPkjeVqJsJ4ObdOfIyFzKNhR+tHe9B8LD361F+qTfOIS
-   LglN4pdPRN+i5wQeIHsEuYrF96WZMtOygOW51j16wRcWjD4COhwbmImMZ
-   jevJ5U8hpAlTfHiti8VRAXW2kW2YC/KMQzOM8Qu4i0Z72Jn2F90u3ObqR
-   h1mCWFYBwMGdGZAKfXJUGL7pqZvTxA2YVg3PihSHBpyYM76SVHC5WD7JY
-   Q==;
-X-CSE-ConnectionGUID: 1sn03VsFRaKRgRZnT3BVRA==
-X-CSE-MsgGUID: raRSXYnNQLOoXjENF5pN5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="56013148"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="56013148"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 13:39:24 -0700
-X-CSE-ConnectionGUID: f9sQQltCSz+dYs/H/yTXaw==
-X-CSE-MsgGUID: TmrF0ZqsTzm2R1eWpDK5sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="165869149"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Jul 2025 13:39:23 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uflfr-000MGR-2h;
-	Sat, 26 Jul 2025 20:39:19 +0000
-Date: Sun, 27 Jul 2025 04:38:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, masahiroy@kernel.org,
-	nicolas.schier@linux.dev, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Subject: Re: [PATCH] kconfig: replace strcpy() with strlcpy() in symbol.c
-Message-ID: <202507270411.j9vfofzH-lkp@intel.com>
-References: <20250726191515.171012-1-suchitkarunakaran@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BDFcYlHgG0bHE0u+Bbu8i8KkCwBz81yZtZNmgTYafCMqO79+QCwmasg6TRgTkrbfq9bGNGQgUIWPmHdDMJgvyjXHBDSK5coPJMuW1zkKHhKpm5p8lnTWR8tWiTz7bPWK+0fUzAINB/eB43D2PbDPHtUIBpbo1EC0duLveibShIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLV+aIK/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FF06C4CEF4;
+	Sat, 26 Jul 2025 21:47:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753566479;
+	bh=/eYVX8SoAB6x3E1/nt7tNV75VsKCSwlna2pvOjAdRkY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fLV+aIK/Vze5Yi37yRjGGquqtluZaj6oEyf8QVw+wrbGGLvpPqO/3VWgN6Q1uJ3EQ
+	 QH0nRrCHz1m2MVaid0DwO/ZAreS3vZit+HvBLazabv8sPBvyPMeFsxbcwMrKLtctLL
+	 j3NuYhUDBuP296I9Gm2LbU3o4w0jf03jgW1XCsrOoQO/rnS2XvncxSS5g/BxbXsPUY
+	 cZFoUBccYezObyf23E1vFbZZhbN05/QUjpb9Nu6YNxWPCEvwX+Xct1jvhL6BlIkWyO
+	 EQM6085jWFo3sxIkJ4QMkSe5eI9/li5cIvDNYY225Ouro0eBfYuV1C42m7ggGqabpt
+	 /L2PyqAmEpzaQ==
+Date: Sat, 26 Jul 2025 14:47:59 -0700
+From: Kees Cook <kees@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Gavin Shan <gshan@redhat.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	James Morse <james.morse@arm.com>,
+	Oza Pawandeep <quic_poza@quicinc.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Michal Wilczynski <michal.wilczynski@intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Kirill A. Shutemov" <kas@kernel.org>,
+	Roger Pau Monne <roger.pau@citrix.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Usama Arif <usama.arif@bytedance.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Hou Wenlong <houwenlong.hwl@antgroup.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>, Baoquan He <bhe@redhat.com>,
+	Alexander Graf <graf@amazon.com>,
+	Changyuan Lyu <changyuanl@google.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Jan Beulich <jbeulich@suse.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Bibo Mao <maobibo@loongson.cn>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
+	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-mm@kvack.org, kasan-dev@googlegroups.com,
+	linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
+	kexec@lists.infradead.org, linux-security-module@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v4 0/4] stackleak: Support Clang stack depth tracking
+Message-ID: <202507261446.8BDE8B8@keescook>
+References: <20250724054419.it.405-kees@kernel.org>
+ <20250726004313.GA3650901@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -80,61 +118,35 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250726191515.171012-1-suchitkarunakaran@gmail.com>
+In-Reply-To: <20250726004313.GA3650901@ax162>
 
-Hi Suchit,
+On Fri, Jul 25, 2025 at 05:43:13PM -0700, Nathan Chancellor wrote:
+>   ld.lld: error: undefined symbol: __sanitizer_cov_stack_depth
+>   >>> referenced by atags_to_fdt.c
 
-kernel test robot noticed the following build errors:
+Proposed fix:
+https://lore.kernel.org/lkml/20250726212945.work.975-kees@kernel.org/
 
-[auto build test ERROR on masahiroy-kbuild/kbuild]
-[also build test ERROR on linus/master v6.16-rc7 next-20250725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>   kernel/kstack_erase.c:168:2: warning: function with attribute 'no_caller_saved_registers' should only call a function with attribute 'no_caller_saved_registers' or be compiled with '-mgeneral-regs-only' [-Wexcessive-regsave]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suchit-Karunakaran/kconfig-replace-strcpy-with-strlcpy-in-symbol-c/20250727-031729
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-patch link:    https://lore.kernel.org/r/20250726191515.171012-1-suchitkarunakaran%40gmail.com
-patch subject: [PATCH] kconfig: replace strcpy() with strlcpy() in symbol.c
-config: arc-randconfig-002-20250727 (attached as .config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270411.j9vfofzH-lkp@intel.com/reproduce)
+Proposed fix:
+https://lore.kernel.org/lkml/20250726212615.work.800-kees@kernel.org/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507270411.j9vfofzH-lkp@intel.com/
+>   In file included from kernel/fork.c:96:
+>   include/linux/kstack_erase.h:29:37: error: passing 'const struct task_struct *' to parameter of type 'struct task_struct *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+>      29 |         return (unsigned long)end_of_stack(tsk) + sizeof(unsigned long);
+>         |                                            ^~~
+>   include/linux/sched/task_stack.h:56:63: note: passing argument to parameter 'p' here
+>      56 | static inline unsigned long *end_of_stack(struct task_struct *p)
+>         |                                                               ^
 
-All error/warnings (new ones prefixed by >>):
+Proposed fix:
+https://lore.kernel.org/lkml/20250726210641.work.114-kees@kernel.org/
 
-   /usr/bin/ld: scripts/kconfig/symbol.o: in function `sym_set_string_value':
->> symbol.c:(.text+0x14cb): undefined reference to `strlcpy'
-   collect2: error: ld returned 1 exit status
-   make[3]: *** [scripts/Makefile.host:123: scripts/kconfig/conf] Error 1 shuffle=618416945
-   make[3]: Target 'oldconfig' not remade because of errors.
-   make[2]: *** [Makefile:735: oldconfig] Error 2 shuffle=618416945
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
-   make: Target 'oldconfig' not remade because of errors.
---
-   scripts/kconfig/symbol.c: In function 'sym_set_string_value':
->> scripts/kconfig/symbol.c:780:9: warning: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Wimplicit-function-declaration]
-     780 |         strlcpy(val, newval, size);
-         |         ^~~~~~~
-         |         strncpy
-   /usr/bin/ld: scripts/kconfig/symbol.o: in function `sym_set_string_value':
->> symbol.c:(.text+0x14cb): undefined reference to `strlcpy'
-   collect2: error: ld returned 1 exit status
-   make[3]: *** [scripts/Makefile.host:123: scripts/kconfig/conf] Error 1 shuffle=618416945
-   make[3]: Target 'olddefconfig' not remade because of errors.
-   make[2]: *** [Makefile:735: olddefconfig] Error 2 shuffle=618416945
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
-   make: Target 'olddefconfig' not remade because of errors.
+Thanks for the reports! :)
+
+-Kees
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
 
