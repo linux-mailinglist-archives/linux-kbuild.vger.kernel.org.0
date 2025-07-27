@@ -1,152 +1,143 @@
-Return-Path: <linux-kbuild+bounces-8208-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8209-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A14B12CBB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 23:48:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5077B12ECD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Jul 2025 11:23:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 916BB189FE61
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Jul 2025 21:48:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53BCF3B4A01
+	for <lists+linux-kbuild@lfdr.de>; Sun, 27 Jul 2025 09:23:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8D821A424;
-	Sat, 26 Jul 2025 21:48:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACF4F1FBCAA;
+	Sun, 27 Jul 2025 09:23:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLV+aIK/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkr5kBJd"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4F24A11;
-	Sat, 26 Jul 2025 21:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787C85BAF0;
+	Sun, 27 Jul 2025 09:23:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753566480; cv=none; b=axwMFKDiA8JzQuB3ODmPAVaNSzfU2YiZBrNt1Pm+LodcXw8rCAATeeYxs5NSVYiyBBaFHFpx/TC5gFOPsivk6wvJ41I+7Mb/LLvYqOiZjMVARVxlOnCm2AfYNkqkIxX5jL4cJqGk5QX5B3Dkgd5GvuC/zZqeOeWg0I4kkP/T7DY=
+	t=1753608211; cv=none; b=JZbA8BQHfbSiMtQjzXRBlxVe5BzUvb9JKagk1k8tkz/toDTrDuiOvnu37Ay+Y8xDe7nrWw4NUcyQyTDao8AImVW5zhpIyuRMd/e2RLKga1ogVSuvOzn9m+w2y3myV42ovF6VNP3ctxkcWgMx94O0va4NXqccIAT43arVn2G92ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753566480; c=relaxed/simple;
-	bh=/eYVX8SoAB6x3E1/nt7tNV75VsKCSwlna2pvOjAdRkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BDFcYlHgG0bHE0u+Bbu8i8KkCwBz81yZtZNmgTYafCMqO79+QCwmasg6TRgTkrbfq9bGNGQgUIWPmHdDMJgvyjXHBDSK5coPJMuW1zkKHhKpm5p8lnTWR8tWiTz7bPWK+0fUzAINB/eB43D2PbDPHtUIBpbo1EC0duLveibShIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLV+aIK/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FF06C4CEF4;
-	Sat, 26 Jul 2025 21:47:59 +0000 (UTC)
+	s=arc-20240116; t=1753608211; c=relaxed/simple;
+	bh=n6hN9T/Z+2neDj8Lv66Tiym0tHWZpRrvvyIE6tdVN/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SSQ3pkOOkeNbwnyr3TeT+5NW4e2FB83d46/u52a+4OneWgPluH1K7mUpUcdWSFXTHC7kGSye6haGy0alsde9j98gcgo8ITp331HJUOUjQd/SIxHxrQ4x/U3k2ZQKAjB14u+54UTwCSETpCyqOb5+OKCr3FY3Acl27gFLRYuitsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkr5kBJd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 173C9C4CEEB;
+	Sun, 27 Jul 2025 09:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753566479;
-	bh=/eYVX8SoAB6x3E1/nt7tNV75VsKCSwlna2pvOjAdRkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fLV+aIK/Vze5Yi37yRjGGquqtluZaj6oEyf8QVw+wrbGGLvpPqO/3VWgN6Q1uJ3EQ
-	 QH0nRrCHz1m2MVaid0DwO/ZAreS3vZit+HvBLazabv8sPBvyPMeFsxbcwMrKLtctLL
-	 j3NuYhUDBuP296I9Gm2LbU3o4w0jf03jgW1XCsrOoQO/rnS2XvncxSS5g/BxbXsPUY
-	 cZFoUBccYezObyf23E1vFbZZhbN05/QUjpb9Nu6YNxWPCEvwX+Xct1jvhL6BlIkWyO
-	 EQM6085jWFo3sxIkJ4QMkSe5eI9/li5cIvDNYY225Ouro0eBfYuV1C42m7ggGqabpt
-	 /L2PyqAmEpzaQ==
-Date: Sat, 26 Jul 2025 14:47:59 -0700
-From: Kees Cook <kees@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Gavin Shan <gshan@redhat.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	James Morse <james.morse@arm.com>,
-	Oza Pawandeep <quic_poza@quicinc.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Michal Wilczynski <michal.wilczynski@intel.com>,
-	Juergen Gross <jgross@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Kirill A. Shutemov" <kas@kernel.org>,
-	Roger Pau Monne <roger.pau@citrix.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Usama Arif <usama.arif@bytedance.com>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Thomas Huth <thuth@redhat.com>, Brian Gerst <brgerst@gmail.com>,
-	Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Hou Wenlong <houwenlong.hwl@antgroup.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Andy Lutomirski <luto@kernel.org>, Baoquan He <bhe@redhat.com>,
-	Alexander Graf <graf@amazon.com>,
-	Changyuan Lyu <changyuanl@google.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Jan Beulich <jbeulich@suse.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Bibo Mao <maobibo@loongson.cn>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-	kvm@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org, kasan-dev@googlegroups.com,
-	linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org,
-	kexec@lists.infradead.org, linux-security-module@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v4 0/4] stackleak: Support Clang stack depth tracking
-Message-ID: <202507261446.8BDE8B8@keescook>
-References: <20250724054419.it.405-kees@kernel.org>
- <20250726004313.GA3650901@ax162>
+	s=k20201202; t=1753608211;
+	bh=n6hN9T/Z+2neDj8Lv66Tiym0tHWZpRrvvyIE6tdVN/o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bkr5kBJdg04KbxaI83qsRlhou3E59OyVHUGKPyTVb4roQyvx0VNmf1Op/0vL2rOY6
+	 NGJeCL/HgbIOsbg9pi2ViRSU668Z7WBN8Yx5Zamprfoe4FatJsh8/9cvVLeCdoj8tS
+	 Pnf/stasPgO9NGt2J+nZVUSegHe8/kcvqNcur336OlSCCHsrxwKqMXytijK8h986pC
+	 osjF1nvqKA1GOdFS97S06Quk+sZWxjQxpyXKyf1JA3vWdpVhMG3UnmWHAPdbfi1gPm
+	 KTfoiEqCiUVFR1irnALIHGiCr5/9zfnCx8HpLoyHLyeeSg6AtwubIUSZlb8WngmoLa
+	 GKXkQ4MLjuf+w==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	rust-for-linux@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [PATCH] rust: workaround `rustdoc` target modifiers bug
+Date: Sun, 27 Jul 2025 11:23:17 +0200
+Message-ID: <20250727092317.2930617-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250726004313.GA3650901@ax162>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 25, 2025 at 05:43:13PM -0700, Nathan Chancellor wrote:
->   ld.lld: error: undefined symbol: __sanitizer_cov_stack_depth
->   >>> referenced by atags_to_fdt.c
+Starting with Rust 1.88.0 (released 2025-06-26), `rustdoc` complains
+about a target modifier mismatch in configurations where `-Zfixed-x18`
+is passed:
 
-Proposed fix:
-https://lore.kernel.org/lkml/20250726212945.work.975-kees@kernel.org/
+    error: mixing `-Zfixed-x18` will cause an ABI mismatch in crate `rust_out`
+      |
+      = help: the `-Zfixed-x18` flag modifies the ABI so Rust crates compiled with different values of this flag cannot be used together safely
+      = note: unset `-Zfixed-x18` in this crate is incompatible with `-Zfixed-x18=` in dependency `core`
+      = help: set `-Zfixed-x18=` in this crate or unset `-Zfixed-x18` in `core`
+      = help: if you are sure this will not cause problems, you may use `-Cunsafe-allow-abi-mismatch=fixed-x18` to silence this error
 
->   kernel/kstack_erase.c:168:2: warning: function with attribute 'no_caller_saved_registers' should only call a function with attribute 'no_caller_saved_registers' or be compiled with '-mgeneral-regs-only' [-Wexcessive-regsave]
+The reason is that `rustdoc` was not passing the target modifiers when
+configuring the session options, and thus it would report a mismatch
+that did not exist as soon as a target modifier is used in a dependency.
 
-Proposed fix:
-https://lore.kernel.org/lkml/20250726212615.work.800-kees@kernel.org/
+We did not notice it in the kernel until now because `-Zfixed-x18` has
+been a target modifier only since 1.88.0 (and it is the only one we use
+so far).
 
->   In file included from kernel/fork.c:96:
->   include/linux/kstack_erase.h:29:37: error: passing 'const struct task_struct *' to parameter of type 'struct task_struct *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
->      29 |         return (unsigned long)end_of_stack(tsk) + sizeof(unsigned long);
->         |                                            ^~~
->   include/linux/sched/task_stack.h:56:63: note: passing argument to parameter 'p' here
->      56 | static inline unsigned long *end_of_stack(struct task_struct *p)
->         |                                                               ^
+The issue has been reported upstream [1] and a fix has been submitted
+[2], including a test similar to the kernel case.
 
-Proposed fix:
-https://lore.kernel.org/lkml/20250726210641.work.114-kees@kernel.org/
+Meanwhile, conditionally pass `-Cunsafe-allow-abi-mismatch=fixed-x18`
+to workaround the issue on our side.
 
-Thanks for the reports! :)
+Reported-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Closes: https://lore.kernel.org/rust-for-linux/36cdc798-524f-4910-8b77-d7b9fac08d77@oss.qualcomm.com/
+Link: https://github.com/rust-lang/rust/issues/144521 [1]
+Link: https://github.com/rust-lang/rust/pull/144523 [2]
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ rust/Makefile | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
--Kees
+diff --git a/rust/Makefile b/rust/Makefile
+index 115b63b7d1e3..f5883152fd5d 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -62,6 +62,10 @@ core-cfgs = \
+ 
+ core-edition := $(if $(call rustc-min-version,108700),2024,2021)
+ 
++# `rustdoc` did not save the target modifiers, thus workaround for
++# the time being (https://github.com/rust-lang/rust/issues/144521).
++rustdoc_modifiers_workaround := $(if $(call rustc-min-version,108800),-Cunsafe-allow-abi-mismatch=fixed-x18)
++
+ # `rustc` recognizes `--remap-path-prefix` since 1.26.0, but `rustdoc` only
+ # since Rust 1.81.0. Moreover, `rustdoc` ICEs on out-of-tree builds since Rust
+ # 1.82.0 (https://github.com/rust-lang/rust/issues/138520). Thus workaround both
+@@ -74,6 +78,7 @@ quiet_cmd_rustdoc = RUSTDOC $(if $(rustdoc_host),H, ) $<
+ 		-Zunstable-options --generate-link-to-definition \
+ 		--output $(rustdoc_output) \
+ 		--crate-name $(subst rustdoc-,,$@) \
++		$(rustdoc_modifiers_workaround) \
+ 		$(if $(rustdoc_host),,--sysroot=/dev/null) \
+ 		@$(objtree)/include/generated/rustc_cfg $<
+ 
+@@ -212,6 +217,7 @@ quiet_cmd_rustdoc_test_kernel = RUSTDOC TK $<
+ 		--extern bindings --extern uapi \
+ 		--no-run --crate-name kernel -Zunstable-options \
+ 		--sysroot=/dev/null \
++		$(rustdoc_modifiers_workaround) \
+ 		--test-builder $(objtree)/scripts/rustdoc_test_builder \
+ 		$< $(rustdoc_test_kernel_quiet); \
+ 	$(objtree)/scripts/rustdoc_test_gen
 
+base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
 -- 
-Kees Cook
+2.50.1
+
 
