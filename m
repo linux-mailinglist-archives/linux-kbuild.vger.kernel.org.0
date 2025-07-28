@@ -1,127 +1,199 @@
-Return-Path: <linux-kbuild+bounces-8311-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8229-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7BFB1D3CB
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Aug 2025 09:57:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5DDB1406B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 18:37:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 88E364E2F1C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Aug 2025 07:57:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A6074189DC40
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 16:38:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3099F244684;
-	Thu,  7 Aug 2025 07:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 168FA2741CF;
+	Mon, 28 Jul 2025 16:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="PJbnv4sm"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vVFi66ti"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BA524728E;
-	Thu,  7 Aug 2025 07:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627A1218ABD
+	for <linux-kbuild@vger.kernel.org>; Mon, 28 Jul 2025 16:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754553467; cv=none; b=D3rSekwLnqSFCNQdrIGqWGXx/VzC+hImZCEk0mrepwOAqnyaFi+769/cGL6Mkkw6nRPiSTAw37e5dqoaOGOf4WNdCkHWVrSKuQQJLCN0aNYI9WLhTUwd+Vu/FCaPUC4d5GqK2MKMW14GP5So5+zpBNGaZUnZGZUfvghh1zpPb+Y=
+	t=1753720661; cv=none; b=lwt5exddoMXWCNi4ukgXKm8Z4bl2Y7djwdFPU6PoGITSxOfYIS2BAo5XZq9py+LLMipkZCdpo7SJsdLb5adJmfvenN1lyUnCTKALxiM9oqs+SkxjeQ+0A+yC6F7AomC9yiN2eLqCLZBZVnYqdtwRtEvraTwaVJy6AVKccyLnKHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754553467; c=relaxed/simple;
-	bh=hSSHrpk6OlaUFAzYkoIXhJXy/1FzAkvk94awYHEFuy0=;
-	h=Message-ID:Date:From:To:Cc:Subject:MIME-Version:Content-Type:
-	 Content-Disposition; b=ScE5/OmZRFdRhp1x4XZEICkmBk2L3DLytk4H9FMcCCb+mGRJKoIMMwLAsAyUN3qHNItCAUQfTHLTr1Zh251pErpAo7URq1SBjlnAi6OZznKjJct++wlq8wuEcMR2YML4UU5fNNqZmwfV240zsnwZGHrHBBKJm6oF4QqZt93EGlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=PJbnv4sm; arc=none smtp.client-ip=203.205.221.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1754553153; bh=0D6buf/C7rlkREImPG3vkrDyYeGbb3A1RxVj/fZ5R80=;
-	h=Date:From:To:Cc:Subject;
-	b=PJbnv4smMpjFW81BLpWA7hdkkVe9G4MoRxzetSJ+wN4eOIU2HS5FwdrDSiMGSBXOj
-	 WUoF/CSXhHKlsdimuqO9v3/CW7Uh7cIZdE9DvivEbELM+qO2vBEIWADWpqk7zEEV3P
-	 ekRgCJ91GRglIJJC3lXYsxDrRbTsk4EBPxtxk+IU=
-Received: from localhost.localdomain ([120.197.14.100])
-	by newxmesmtplogicsvrszc13-1.qq.com (NewEsmtp) with SMTP
-	id B8C2B4A2; Thu, 07 Aug 2025 15:46:12 +0800
-X-QQ-mid: xmsmtpt1754552772twppzovpz
-Message-ID: <tencent_6FE857803A1AAB21B71853A2E89626ABA407@qq.com>
-X-QQ-XMAILINFO: MZ7OTbK+3aE5Y5nw5+P7moRJeD9fdBDZEJXXeCBc2GAQeLEvxyCilYozMWLa4E
-	 k2wR+sMawdwNyNa0Rtn1Jz1u1p8MQoHW0MEUo2/u62KMotoIr5tYZ27m91Giyt1+j0X9sLWpcAU7
-	 kCTQtPx4NDQXusU4gNNOTJRBViAr2DjnwZ8V7xxrUj+BJg4NWSFkQ+oFM554dDGc+YaxjWuFfOaO
-	 lckQ5M2AV/PHa/5oHZeb2s7nEGbnZsrhBjLBA3XVn9Qq47xAH1jdTlhehQASx5TLSB/K5diVqN+a
-	 QsATAWLPLbbRHyRMjG4zFu8oCTfRG3t3sdozZ3L3huC3dBCowiiMnwM+tgBPpQXB8pXP6ZujCaeX
-	 gZvPuKiHC1E63AA6Z4SI2lj5TRnMFSmbC0Okh7cLbZPvJkHAD3InjFLoYkor2cNBaTO0MFAj2D+K
-	 msmo5bA0hld965hV6Y5rAPhLyDMZBtKulLQYDlGl9bLj9WY921MLkYQAQkfwjEpkkCLOYRQ/De5n
-	 x9VtITZlPTd6iBk/VuonIYMPp7VIZCw4HULK2h6WmLNX34Rf54dHs/HrKlSMIfwG2j7bbCQBQZa6
-	 sn1lJwRrxPI3hfOInSeD9ZdQM3Zg6IMFolSXgIqzzbSFI5esc2PSJwFRRPuIoCGvWUMuCCRj8c2K
-	 F74yZ5YH6PGVe3zz1IU0eZo4TSSXLg5H2h8OK0w66qxy64f+EEf5iGajYUHZ7+qDldkzccWakrFW
-	 V+7YZkyutetNViXrT+mevMUIsXjQZMyDzE6S3eqK1/Ql0TMQWbP98J1K4G3S718FW50QB5a5dSZC
-	 F2ZAf2TfwyFNG3Ywq/3wqBa2iGy+GOhXblLhb3ac4vUIdT9Ss1McDJOyJKDo9unT0ygRw/fCjV99
-	 7Pw02hElUWoK86IXhJMbH5Ks9dv1zSxSzB0UPh17Y92zY9A7aVDYgBGYG+tuTqE9cKxdh4GM98fk
-	 V7rUdQ3CN2qqDyz2eIZT3f1oMdMvcw7Wh1Ky/rbEzQ3bQAG2YMVvCtWzNqsHGWQrkSBHj7hn2QXZ
-	 tL9Kky+w==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-Date: Tue, 29 Jul 2025 00:19:46 +0800
-From: Haoran lee <470658536@qq.com>
-To: masahiroy@kernel.org
-Cc: nathan@kernel.org, nicolas.schier@linux.dev,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] scripts/mod/modpost: For CentOS 7/old binutils compatibility
-X-OQ-MSGID: <aIejIpoTV5xUFEOr@localhost.localdomain>
+	s=arc-20240116; t=1753720661; c=relaxed/simple;
+	bh=2SCBpxMSnr0Udt96N/nYsntgpWGEdtVpMjRq+5bF/Io=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hcFFUtgm5tO1JgoekyZavvP3oQdglvSVQEMdJTO4V22GUmm5xIsSNeD8F/v9d+uhQ+ktUzbEsA40n5khnA/tcQgY8Wya+gRPx4h6086VY0jmOPO5XPHZ9hG2b9LhQtyY+GPiSHCjyngKQ1iEDXCAth0dI28OiHe3gQg2z+yriQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=vVFi66ti; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2403df11a2aso8049855ad.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jul 2025 09:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753720658; x=1754325458; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5q5M+CpT+5kwmRPJ46tyAoXGVagM73LO6ZWHv96bYmU=;
+        b=vVFi66tiWkkBaX51T0jP0+PE1SzQWHC6EG7d1SVIMWrkF2yBdpIlKC3y3RISdPsAXx
+         flcnb8zEyYmHB4neYpKWddQK7ecUX2I94Ug+w6kTsJq0ghJsZYgBozyi/vHTVvx1Q2y8
+         KA0NBn3KpFhFBm9hMWKM47COZ/YgXeE2Uftzc/WwMVYiPjQu5ASRUGzCzwwesTr+3Pne
+         vZoMIyMF0epLbh2hyNVUhhiwyayfrbp+L348YyW4gOEKEKw9s8M8pkZmNFQnPoqO5CW5
+         NkY7BdvWrxnU9lsmY5jAI3cFu/MX5mKL1XYaw7JCOMF+nT7Sr6Yh/NBCv4sli2t495oG
+         YRgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753720658; x=1754325458;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5q5M+CpT+5kwmRPJ46tyAoXGVagM73LO6ZWHv96bYmU=;
+        b=A9pl9z3ZSW/5OXPwVMpdwb/6kyEjMKIRv/6X+CVrUB86f/SuL/6Oo35i6jWP0dH60J
+         fOmUIMnk/x4Pt+LUAdoZt14P0FY25Ea9qKYF9Dl5cVmMFeLpWbn8xHHMMjJtp7Fmh9Ps
+         BWWwiwj3u8U8SQMgtZ3HzS+ynTbi/1OvGjRpNXxSvZ4D+FKcEc0CBqBQ4bzfQzT6f5SK
+         yOayEszC+KrXDRygbZFefEDGKZnqo3Dca8pLIwjPAlHTxarxCa5pGda5eDJeg/o/xyTJ
+         OAbTb1kG0v45C8Kvx2961xlgWzxZqaatyrGpw5wGE4znNOLPi9McFRadKezF5YegvUbJ
+         qiXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWS89O4HIT9PD67bzNvQFGRBWedobjOce2IM3j4/Et1qX3Q5viNJBKgNXYZ6RhPVU6pNrJ05z5uYVnjBi0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOTVa04llUPPVP+6RidPzApJgk0HfBfsSITS5OBqRy0eX/qMON
+	jg2wFwB7rJ6h1raj55vlqDrPmXk1H1DQ56SUiEvyyartEumUvUibYGUcXMIwmmoOgGk=
+X-Gm-Gg: ASbGncsZLrAgfwywbvAlK5rAmPq0ualjxZ+dyw4Y4OkB8crpKPSgoZdUmDcRLDXdClD
+	+P0mHPed5ZzZxuh8pMDMkj5fj9phnusQVhOcmXGilDMf9RqKwCqfeyzFRyBOHYKsjWqZOeYMVH5
+	YkeT7fQwUCK5QAHVAYB9sSfI5wp57b84NQmuqBCf9gbwWUXmA2t8sMljdY4JMrxuSEjg/7lHzzb
+	92aotMIhl/JDQBq0+Y1c0V4zb4zPD087U93qYTj0FZ/VoXwRia1NYlz4oFdXJwGLUjMRIi8hSbl
+	2zUq1+0OqB0w+QikJGOAop3LcReW4Psaqfbc6pFCwe4pbARgMMU636wxTWeDYYvICwspiwvLG6j
+	gjRmVhtObgmJzffT5pw5Xk+3m+SNkECXX
+X-Google-Smtp-Source: AGHT+IG8PkXREALt2B41+CkCZk4vD0+tX/pzcMfIzczJ6dwSMXqtKdHnRzA6w8eQHSP6Yq5Aix/U2Q==
+X-Received: by 2002:a17:903:1111:b0:23d:dd04:28e2 with SMTP id d9443c01a7336-23fb30cd1f9mr182480625ad.35.1753720658505;
+        Mon, 28 Jul 2025 09:37:38 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23ff3ea7547sm40412335ad.149.2025.07.28.09.37.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jul 2025 09:37:37 -0700 (PDT)
+Date: Mon, 28 Jul 2025 09:37:34 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Will Deacon <will@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Monk Chiang <monk.chiang@sifive.com>,
+	Kito Cheng <kito.cheng@sifive.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+	llvm@lists.linux.dev, rick.p.edgecombe@intel.com,
+	broonie@kernel.org, cleger@rivosinc.com, apatel@ventanamicro.com,
+	ajones@ventanamicro.com, conor.dooley@microchip.com,
+	charlie@rivosinc.com, samuel.holland@sifive.com, bjorn@rivosinc.com,
+	fweimer@redhat.com, jeffreyalaw@gmail.com,
+	heinrich.schuchardt@canonical.com, andrew@sifive.com,
+	ved@rivosinc.com
+Subject: Re: [PATCH 10/11] scs: generic scs code updated to leverage hw
+ assisted shadow stack
+Message-ID: <aIenTs_D4l414isp@debug.ba.rivosinc.com>
+References: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
+ <20250724-riscv_kcfi-v1-10-04b8fa44c98c@rivosinc.com>
+ <20250725161327.GC1724026@google.com>
+ <aIdxUpSc-Co8wLYE@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
+In-Reply-To: <aIdxUpSc-Co8wLYE@willie-the-truck>
 
-From fcf92a8a85884b383872fb435fef008fc794c3bb Mon Sep 17 00:00:00 2001
-From: houranled <leegit@163.com>
-Date: Mon, 28 Jul 2025 23:54:57 +0800
-Subject: [PATCH] CentOS 7 / old binutils compatibility
+On Mon, Jul 28, 2025 at 01:47:14PM +0100, Will Deacon wrote:
+>On Fri, Jul 25, 2025 at 04:13:27PM +0000, Sami Tolvanen wrote:
+>> On Thu, Jul 24, 2025 at 04:37:03PM -0700, Deepak Gupta wrote:
+>> > diff --git a/include/linux/scs.h b/include/linux/scs.h
+>> > index 4ab5bdc898cf..6ceee07c2d1a 100644
+>> > --- a/include/linux/scs.h
+>> > +++ b/include/linux/scs.h
+>> > @@ -12,6 +12,7 @@
+>> >  #include <linux/poison.h>
+>> >  #include <linux/sched.h>
+>> >  #include <linux/sizes.h>
+>> > +#include <asm/scs.h>
+>> >
+>> >  #ifdef CONFIG_SHADOW_CALL_STACK
+>> >
+>> > @@ -37,22 +38,45 @@ static inline void scs_task_reset(struct task_struct *tsk)
+>> >  	 * Reset the shadow stack to the base address in case the task
+>> >  	 * is reused.
+>> >  	 */
+>> > +#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
+>> > +	task_scs_sp(tsk) = task_scs(tsk) + SCS_SIZE;
+>> > +#else
+>> >  	task_scs_sp(tsk) = task_scs(tsk);
+>> > +#endif
+>> >  }
+>> >
+>> >  static inline unsigned long *__scs_magic(void *s)
+>> >  {
+>> > +#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
+>> > +	return (unsigned long *)(s);
+>> > +#else
+>> >  	return (unsigned long *)(s + SCS_SIZE) - 1;
+>> > +#endif
+>> >  }
+>> >
+>> >  static inline bool task_scs_end_corrupted(struct task_struct *tsk)
+>> >  {
+>> >  	unsigned long *magic = __scs_magic(task_scs(tsk));
+>> > -	unsigned long sz = task_scs_sp(tsk) - task_scs(tsk);
+>> > +	unsigned long sz;
+>> > +
+>> > +#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
+>> > +	sz = (task_scs(tsk) + SCS_SIZE) - task_scs_sp(tsk);
+>> > +#else
+>> > +	sz = task_scs_sp(tsk) - task_scs(tsk);
+>> > +#endif
+>> >
+>> >  	return sz >= SCS_SIZE - 1 || READ_ONCE_NOCHECK(*magic) != SCS_END_MAGIC;
+>> >  }
+>> >
+>> > +static inline void __scs_store_magic(unsigned long *s, unsigned long magic_val)
+>> > +{
+>> > +#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
+>> > +	arch_scs_store(s, magic_val);
+>> > +#else
+>> > +	*__scs_magic(s) = magic_val;
+>> > +#endif
+>> > +}
+>> > +
+>>
+>> I'm not a huge fan of all the ifdefs. We could clean this up by
+>> allowing architectures to simply override some these functions, or at
+>> least use if (IS_ENABLED(CONFIG...)) instead. Will, any thoughts about
+>> this?
+>
+>Yeah, I agree that allowing architectures to provide overrides makes
+>sense, however I also suspect that some of this needs to be a runtime
+>decision because not all CPUs will support the hardware-accelerated
+>feature and will presumably want to fall back on the software
+>implementation.
 
-Signed-off-by: Haoran Lee <470658536@qq.com>
----
- scripts/mod/modpost.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Hmm runtime fallback is an important point. Thanks. I'll munch on it a
+bit.
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 5ca7c268294e..216647e2f301 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -30,6 +30,32 @@
- 
- #define MODULE_NS_PREFIX "module:"
- 
-+/* CentOS 7 / old binutils compatibility */
-+#ifndef R_ARM_MOVW_ABS_NC
-+#define R_ARM_MOVW_ABS_NC       43
-+#endif
-+#ifndef R_ARM_MOVT_ABS
-+#define R_ARM_MOVT_ABS          44
-+#endif
-+#ifndef R_ARM_THM_MOVW_ABS_NC
-+#define R_ARM_THM_MOVW_ABS_NC   47
-+#endif
-+#ifndef R_ARM_THM_MOVT_ABS
-+#define R_ARM_THM_MOVT_ABS      48
-+#endif
-+#ifndef R_ARM_CALL
-+#define R_ARM_CALL              28
-+#endif
-+#ifndef R_ARM_JUMP24
-+#define R_ARM_JUMP24            29
-+#endif
-+#ifndef R_ARM_THM_JUMP19
-+#define R_ARM_THM_JUMP19        51
-+#endif
-+#ifndef R_ARM_THM_JUMP24
-+#define R_ARM_THM_JUMP24        30
-+#endif
-+
- static bool module_enabled;
- /* Are we using CONFIG_MODVERSIONS? */
- static bool modversions;
--- 
-2.43.0
-
+>
+>Will
 
