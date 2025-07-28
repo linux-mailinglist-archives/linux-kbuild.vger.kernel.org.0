@@ -1,113 +1,110 @@
-Return-Path: <linux-kbuild+bounces-8221-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8222-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47882B1343C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 07:39:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E338B134A5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 08:06:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 662B5176D4C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 05:39:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A84501898699
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 06:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E309220F33;
-	Mon, 28 Jul 2025 05:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 871BC21FF5F;
+	Mon, 28 Jul 2025 06:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U9uS2TTt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DdWF3yP+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B108A220F3E;
-	Mon, 28 Jul 2025 05:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2624C21CC44;
+	Mon, 28 Jul 2025 06:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753681184; cv=none; b=JuT6F84rPIvWlEvw2mz9SG/pl8rGjZwgkWRkYMr9NWBkQ7sjT8PoB4XWqD4+mPAXxm4F8j6LcZrHYUhoVHRFupWokotI5FTtuzO6pOQixVu+1FXH4HFx6ba/leZfND4Mtpx/4rFJkhUd5rVQVZlSO/sZPskVZ/HLCba6hLe8/is=
+	t=1753682813; cv=none; b=DbnxLhduQwmnAz1Lcq5jeqBt0w7jNJ4HPULTsAYc1bGlX4rvW7E6bJdHZ8a5UnP4tG1Y+MXTrQ9ixvj2iyrgA1iHpJDIrvanu/dqd7uMWiuII+C09fKWAuQjqM8kmi8s+mQ7lOmrdsT//Trra52hvXM4Lcacvb/DV4ae9mUcSwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753681184; c=relaxed/simple;
-	bh=X2bxsZlx5MDp5rTn5Ctwe1YI0HsO/qA41QXsv818O5g=;
+	s=arc-20240116; t=1753682813; c=relaxed/simple;
+	bh=6BuxxmxrMXuD+syryXFAu4e7ozMwiP9HtTVrGgSqrTA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qMtlq9TSvJXVHbKahuV2KboPXOD9kuZnbohW3HXeBHJ1ebRyLws4FCecDk2VMp/iKGjut7XC7hAdamGOgukW01baTE9uK4IlXm3Isa1wg6Iwqk/p2uyNKxyMBEiftPu7ZtcjzDDLhSBpoUzxO9XEIvDPBtUkwn9WvsZ+2jZWuko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U9uS2TTt; arc=none smtp.client-ip=209.85.161.50
+	 To:Cc:Content-Type; b=ILKqKQBSmSwsLXLSB0pfNWjjyDgjR0K/nOPT3r0q09l3s5KVABWBRtXmxsg8RQnWN6y671gs2r9kLl3Dm9CJKj3uZUpJECIwyK2LYZrU3N4P3Ik218KttfbIrlbf2/Q0hXB4hNeGUd1jgp3x1o3p0YULtw+1/mxwvdqm5MOTOGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DdWF3yP+; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-61591e51092so2061432eaf.0;
-        Sun, 27 Jul 2025 22:39:42 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-23ffd0ec2afso302355ad.2;
+        Sun, 27 Jul 2025 23:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753681181; x=1754285981; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gaFBcY6PhjoQyS7AKQsTykSazBAoA4FN2Ql58j0Zd1k=;
-        b=U9uS2TTtPGCdxkcS8YrQRW2IVg8y/Ehw6lONJJSuVVTyTVqEHH7sdF8IWm4RBRjhdG
-         zUpNjDEzteiQ+dqJPm/AeAwwuSEqKYE7GypW0K9GkM6XzgTE4G4ZkvXnsnk//yuR3YKn
-         oBWyz0kg9R0lg8oPQY0AH3AGSXOkPeU86tTlEgjXA167EfB7K5cmkEPUwRbzFAu8YxJM
-         q0u8KXQ8lGCfjKwGAZ0C8e5atQ4NDGz65xnvPP6StRkcy7IyrkRRIhsfVXAEfKju+Mwu
-         /WiFnaE6NGc7t3E8xHK9pcNOXyWVvbcob0z9O/DKxIyr99gs/TY/U3PQO1eBm/E2FTnj
-         jLtg==
+        d=gmail.com; s=20230601; t=1753682811; x=1754287611; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6BuxxmxrMXuD+syryXFAu4e7ozMwiP9HtTVrGgSqrTA=;
+        b=DdWF3yP+AfyehxYZXxodrNtHs8JIwt9LlwqVzjP7rbQ9wikiC7pGY+MQNHCaDIv6Ny
+         RlDIQBRPJO6f3Fsd6ho4Jk7AXEogJdypZIJEW8ATncoKqFtg88NDBeJQC6kC+k1/TS6J
+         6ynUwVbr2rkC/QWhNQfQ50XEC0ps/z+qSABCK4wi1e6taOzv+MIgbQuz55IsZwm7O1nd
+         m7CHU913jmKhitDch0djhoQ2daY3TAI3l36LAieCD44Uca7MC9cz3aowJRJTEErbvq70
+         mSMU4QYjnxQ3pcLnoQTxSnxh25bJWHT04Pb415uq28fRsapRrqfNJX6IEsJUu/KTFXlC
+         lbqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753681181; x=1754285981;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gaFBcY6PhjoQyS7AKQsTykSazBAoA4FN2Ql58j0Zd1k=;
-        b=HUn/bxO+kEWii8kOzwsFzvir/QD8mm+xLpaBOPixYY2si22hgOuHiI+3iyRG+cjJ+s
-         hUY1LdZzaQ9YuzpcDDWoUaHZwNqIuwaX4DwQcSsk3KLnW11uNw+adBtFvK3Oxzv5cZl+
-         1dYtHKWh+pxju7VW2ASgLUrfOY8uuSXjLttRw7douQb8LLJ7yyx2rCqJSw5ZyVKtAug7
-         BaZPKHZScokLig+GnlOBU5KfWgIkvI3F0X2dIKi6q2ViGj2GIR8/JebESrmR0CTXfwIA
-         55nHYvjTe7bJrjE/UZymyLkNARCFI+0Zb9GgtzfgIsBdhDFNPRKxoelhqGFt19mo9Zai
-         B+HA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8Fyw+lNPJU2NsV/OoDPahQZ3C/MZrvUGMFRaHcRjwg/AXt4LeFaneCJzIRuFfMycXnrblwzNlsYJb6xo=@vger.kernel.org, AJvYcCXn3hjj6gbBfamJgvz2FiXNNDe0WFsgSJ6LQ5RuvsUmckt7pejp0r4iS0k7jso/bQfYmRS2JL9d267z1fb9@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxpjhdjxd6Z85iDeYA4xwQa+AhPSjCwJ9t1fhO2yMB5MEl4PhOt
-	mbXS3WT6zyzpGzStVXMs06QlRHqQE8T7iZrmrryHGRjt9lHkfKlOFAw1jpXOb1sLx2jiKYe5KJY
-	Fh5vOGl1VEJ/U2XgeZQILziEwJZrLdjKTKVQ3IS+fG4Ds
-X-Gm-Gg: ASbGnctZK4jvcg51A+Jv9DdshjRYtEUxFk3YEcx8aV8IhAhAEiAJZddc7mo9bVNW100
-	qALOIeexylOXRxgkRbqdL491JlPhvnMsASJ4YCwDwK16F874cGnh4/yW69Fn9hgdyV+l5jXUMas
-	ePUh3FgsdJtHuNa28yAPCTK6t0CKxOXHxBneJ5O6L/UrMYRTGYzWPGu+1t0ESrlgNsqKbP7IcA4
-	c7G3+Yk
-X-Google-Smtp-Source: AGHT+IEOQZX1TnyqFEysH5JWrVs+NdZCp4hQ6hPN27tb8Q3DoxM2fDOyldoc2nyIYWXXmhSrzBUlcKuXUODEcA/HxX8=
-X-Received: by 2002:a05:6870:f21f:b0:2ff:a399:c0fc with SMTP id
- 586e51a60fabf-30701f50aa2mr7883563fac.5.1753681181671; Sun, 27 Jul 2025
- 22:39:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753682811; x=1754287611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6BuxxmxrMXuD+syryXFAu4e7ozMwiP9HtTVrGgSqrTA=;
+        b=C5h2UmGg3E1c0y6oIfpkS73R979LoxPwbI5zeB2OpwYhs3pbTYQhIyocLBKPuSVpS+
+         HRqIkgjfzrTkFAVniDNLBnYVKt0NpBFnOPviPNZihS6h6YN7k4Rd7XBw/mG1YWhj5wWU
+         /B4vnW2RyQiH0BrdyjaPzQm+i7Sn1328ZL40sFv55oep3CZzwIyQO8mJGez13+iAc6ww
+         TnaDERcvC7marpEXt/jo2zQ1+/qftw3q9+8BcNB5WJi9ZCVEEg1E0N33Kdw0bhKaDT+Y
+         fFi8rSoZuZoXCiXYQYQcIUlDdvPDk04iyglr+wpg00/NhuHNTFg+v6cxQx3mGe9iMehG
+         eTdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdwNrwKNYjYd0A3LKXkPfNzUUaA6lfPWJ9/BhYIFnbgfQVlCvJQ0TXQExRrNAXHaTVMc2IEzwS99nw/D5j@vger.kernel.org, AJvYcCXWGNpZkezQf5FCtPOnyLblBKxHCFd4qKz+zWdXRmBdTw+fTLHSHHvQZwsDA+EMnqrBjoJKEI8CjglokNM=@vger.kernel.org, AJvYcCXeq3inagD6l2wozqjU+Td6YRWs0lO6ir1cbuPQlIx/n249yNS4qiUYTr3vmzPvU973FCF3c1X60xJ3J79NfJ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi7K1ZqhjMtRFT1whRjp9hrfRYRy84HiGIKkyRq1ap2YSBue7m
+	Wbs5gjTXtbzMNCWPsW3JcMUinjejGLAEalrN/wK0i1nb2NOZeEDQE1sTNNIXNr4m2JXB0joLFI4
+	ATppxPJgs3tfj6fda+uDGEXE+if/LqDE=
+X-Gm-Gg: ASbGncvkIu8z8CVAVKQzeNHjQAUlTAASO1mZG8TifAkQtxNiEaUnDUlazuqJEJ9Tie3
+	w5kIYvmusNwZDLOIrT3m47qi2gTFX4Dm6Z48vd8h1mA2JBOSRyczrgWTZ5RHIc4EGoxdM0QlvR6
+	Lqo1ab/UmyyYBzFOygmDmay041VvucL+dvORoMSpXvmptzGWsrhTfB+l0otAV37u4RS4K6Sye6A
+	FS3x8b8
+X-Google-Smtp-Source: AGHT+IHdhVmKZwChbSTO0ZEh7G/lQCCa1ZWLqXuMsDUl5T7xo9Vns0QP4cG8ipR9HWfcbqvofCO6RnASD0hnrFNm+xE=
+X-Received: by 2002:a17:902:e751:b0:240:cb:97bd with SMTP id
+ d9443c01a7336-24000cb9c7amr23866415ad.7.1753682811331; Sun, 27 Jul 2025
+ 23:06:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250727164433.203775-1-suchitkarunakaran@gmail.com>
- <2025072842-require-smokeless-f98f@gregkh> <CAO9wTFjuSch0Cc0yXV=PR9vkk+66i_4PSanrPqKYyXXhWjO-QA@mail.gmail.com>
- <2025072809-pursuit-hardwired-d894@gregkh> <CAO9wTFi+atf1vwMrDJBa-X4W5UcQ8K80spgiGhMyhZj4aRJ3Zw@mail.gmail.com>
-In-Reply-To: <CAO9wTFi+atf1vwMrDJBa-X4W5UcQ8K80spgiGhMyhZj4aRJ3Zw@mail.gmail.com>
-From: Suchit K <suchitkarunakaran@gmail.com>
-Date: Mon, 28 Jul 2025 11:09:30 +0530
-X-Gm-Features: Ac12FXwH01iH8tBLme1s9rlFzUYcbaVyzXI2-YL89UVDP9me8f7MB2yZF_f_AKE
-Message-ID: <CAO9wTFi7ejkMbtT80EB2AAOQp7fi+GEf1eJWwfj4j6xU0iEhaQ@mail.gmail.com>
-Subject: Re: [PATCH v3] kconfig/lxdialog: replace strcpy() with strncpy() in inputbox.c
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: masahiroy@kernel.org, nicolas.schier@linux.dev, 
-	linux-kbuild@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250727092317.2930617-1-ojeda@kernel.org>
+In-Reply-To: <20250727092317.2930617-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 28 Jul 2025 08:06:38 +0200
+X-Gm-Features: Ac12FXx2eH1NIUNOlaMWd3xqdYk4d5QjO6acLe_IbBpmXiVXK0DqqgtW8QrHL5k
+Message-ID: <CANiq72kYpHzp8ydtkfdb7FN+YjfFNjpSqtgC0Hm1tSy05p4n4A@mail.gmail.com>
+Subject: Re: [PATCH] rust: workaround `rustdoc` target modifiers bug
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+	Guillaume Gomez <guillaume1.gomez@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Resending because I unknowingly disabled plain text mode. Sorry about that.
-
+On Sun, Jul 27, 2025 at 11:23=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wr=
+ote:
 >
-> Is strcpy() being deprecated in userspace?  I think it's a core part of
-> the C language specification :)
->
+> The issue has been reported upstream [1] and a fix has been submitted
+> [2], including a test similar to the kernel case.
 
-My apologies. I was under the assumption that all folders within the
-kernel repository adhered to the kernel coding guidelines, only to
-realize that these guidelines primarily apply to kernel space code.
-You're right, strcpy() isn't deprecated in userspace but as far as I
-know some compilers emit warnings to replace it with other functions
-since it's unsafe.
+This is now fixed upstream (thanks Guillaume for the quick review), so
+it will be fixed in Rust 1.90.0 (expected 2025-09-18).
 
-> Again, how can that buffer be "too large"?
->
-
-Tbh I'm not sure. I was glancing through the code in mconf.c and there
-were some calls to dialog_inputbox() with file names and a variable
-length string being passed for the init argument. So, I thought there
-might be some chance of overflowing.
+Cheers,
+Miguel
 
