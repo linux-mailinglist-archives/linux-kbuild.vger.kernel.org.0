@@ -1,190 +1,331 @@
-Return-Path: <linux-kbuild+bounces-8232-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8233-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D809B14562
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 02:36:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D48B14832
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 08:28:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D98D17F22D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 00:36:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B76041AA0CDF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 06:28:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27AD41684AC;
-	Tue, 29 Jul 2025 00:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D1C2256C9C;
+	Tue, 29 Jul 2025 06:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="JGENw+0t"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="r7JnkAjA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42C158DA3
-	for <linux-kbuild@vger.kernel.org>; Tue, 29 Jul 2025 00:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E11262BE
+	for <linux-kbuild@vger.kernel.org>; Tue, 29 Jul 2025 06:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753749376; cv=none; b=HTZ09dvtzTbItWIchYM2IdlvC/BTkJ96AEAgIsDqp30VOqZlAozAZ+b1JsOcSd90V2cmDMD95Y2bVSWQTDtlTnOvq9dNp7dpcYSOUE34PMZ3Xmu5zFlxU21HDMKHKCJftAvrcevG2NxfvxZEZsAoxWUBdTz6Oc0lSF7Gnys/Efw=
+	t=1753770488; cv=none; b=d+y0zpLZqKqPJsxKlMlY92gKlbJFSKbQCLEHU9uYhcWXqLbEwrb3pzO2/ZsuMCtULPv1Gd7irdAYYM/Gy+3DJyZAPAMzafouFjEzV8wHXjUafmIvX5FmZg4NdsIC4PzEDTvhByeeiZUwHjqLERHUeJ0q0hxRUUO4zjvA7kfkQdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753749376; c=relaxed/simple;
-	bh=1Gh39IFfwy1kYqEDRMn11elvC4t891W5yj/F7WcLcE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oHiPLO0XCjpt4qSSTuFFARhXo1ZQZ7Rt7ixQKLmzLu6gK6s5b9bEQNukAEJsC7XD3n5yJJuc4eHZoXT/QiktZZfk9JFyiW1gfPU7nLrEGvUMRdk4XwSAYlvvNqHc/507W54//kgrVn6E0jSMoveGfEFF7inOIHd/zFBG5M7OgO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=JGENw+0t; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3137c2021a0so4212044a91.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jul 2025 17:36:14 -0700 (PDT)
+	s=arc-20240116; t=1753770488; c=relaxed/simple;
+	bh=8jcHCemRtix8cLmGsWQJ/rw/ua0Q4ueSZzkyR2k491w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jaN2ivYXyPO83YpRfyivC8FIVJeQuCQr9rl7W/6p4NtjVZjuGBPFp8IRDTXoJJRq1lXYh/5hwn2iRuht4byInZYh5arV63IMuqRTCpvYxoaQq6OZLvWWlLBFojXbrFlA2dYaqmgu8ZR5j4w0HyE2NkgFda46sOTBxIYlz5R1mXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=r7JnkAjA; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-70749eac23dso13250026d6.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jul 2025 23:28:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753749373; x=1754354173; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ETbDJbyMnJcJth9NSQ1EqJE54cIcDMP4wIxlGlnYcw=;
-        b=JGENw+0t8A4Jk2QiIOw3Q+GaoCn4twyoAsJqkQlZ4b/iVaoC9Ndo5raodg9sK2qS4S
-         dH0YReyEKSJyoUgDE+ZOaFD9hBJxQ78BQeeu7j+1z/x2jMP4fdh/QzNWXzIn9RrTuuXG
-         CMdjrR2toGRqV/FqFDTvM786chShiihMr3+EdTm7FfhJifQMkxpnOI1HtWjX6+tLkBGI
-         1r0jixCbSJNyTdLB7r7O0UZ9VjDBxB0egqyj9Wa5MVQGGAIOGbLl9CyEBRqGukNdjwKW
-         XRF+LG0DOqalG5jlV5DgAdTf08i8SDI6J+6mfQF2RldP91P6u4vw5QDaoAW+8QMs/YAh
-         vANA==
+        d=google.com; s=20230601; t=1753770486; x=1754375286; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=COhvvHifSzWzrAz0KSD0REapHrG/2a5i+hRxZVADpko=;
+        b=r7JnkAjArzSQm1jYNhPlAgNasiXQqaoTTq8H8pDm1SQS/PTDQndLUEMdnFQOS70bR4
+         cRVpNuw/Ylx4W7ROECgVZsZkL9pgQR/vRgdH1X1UjUYAwE0lFTk6aFekJyjN5wZZvG4D
+         bjp/dwrTmUveL66osgTt1R65fiK5lLsDi2Pl/hMfGURTgthQut+LgSSjL0DjAJcagMBm
+         qlPcYq51vhpejWOs5wf3pbXjckJucSnJ3AxozEqnri5psxYEbuUHAn3351SDvAmEimjH
+         AV4B6fcNDtxpy4/bOVW4d4Yn0XW3bZF/KU6Vnkck3QkT0Hs5GsRXNXoRFypaSC22rptJ
+         RKsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753749373; x=1754354173;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/ETbDJbyMnJcJth9NSQ1EqJE54cIcDMP4wIxlGlnYcw=;
-        b=WRZwUe0R6BRpcE2HRjxfLfw9Uz1c6uMfK/+hUoBhsy1KNGgwaMvwBeqNdFaRCN8B4I
-         bDhsykwsxIMjGF8xGorsN/w0n88XWPiSjzqgpobMdPdDylTB8bDXS/YT2WGQp5tRTIgU
-         N4MZQPtmRKZqylWJ0jAGjghiAGfP9bUWsAYnX8x4bVe4CtK/KfIlOUlVGVIcIcv5pm6K
-         lwdXfr7RW2wwOd1zPXaxXmO1aA9NM/X+yBQxAAjk+7IsoFyS0oNVUqwKuCQqa1707u1j
-         O8UybeUtnjTSV007yX3TP6/M+fh6e8kKnjsAsVv0asSVZ6WrKNvNi/VQvpo9DnOp22oL
-         NrKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWV9UPkuXIRB0BNsCoTay/58Ahm+qQY47RU0t9tU8ETEyHWzROh/+QkMjKk3aVCD0oGtuivZbw6jqTwB8Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySonJEe+UA5ZN695YnC1LHbaay4NGT6xoJtMm66a2vG2fP/8by
-	5YUigkQkitKuLFJPtdftLu3nKSA7DDRVmG5HjoiR4qOTIdBt9mPs4Q2EgagPNvJhQ6Q=
-X-Gm-Gg: ASbGnctC05TvJxU6C49EBk542xeZzdQCdNeNM+5OrC5RYK0DrjXI65M9kXlpgiatKlE
-	e0o1XBJSq+vYSvCiH4j/rb6/lHw7xlWnDBiQnkGbcZKAzDdXwsypTwoxVtrlIFTCGY7lXPwuPor
-	LnPISX2T3DyQAWVdzxzdZVdPr2Sa8HVZ+Se0acZm0VRUC9kCd1qw1eg/zZReQHTOwjNLHVnS5PB
-	Si80iwFt0T1uXs+zmFMbpVgj+9TQ+h/kYAd5SWzcGpcYOIF6gMhUpqzRmd1MkSdf0INjg3m9VIA
-	mgIZeYkCvS0rI5SW/qU6TCWuUPK6mjypI7BTF3hRuWD+a9fz6YeDkjVd1nPh7A7dR83jvXhKrKG
-	yCpT2xFJAjoYfQDB0oYhKlSJReVGZL8V9
-X-Google-Smtp-Source: AGHT+IEDJXqhf7DRrajAJZBJ8vJ6pYcfACWj1AXTIy+3dQeFkQYCW4S8o7ad1lMROev+GL8TvcTWBw==
-X-Received: by 2002:a17:90b:1b45:b0:311:f30b:c18 with SMTP id 98e67ed59e1d1-31e7785ee72mr17793124a91.4.1753749373373;
-        Mon, 28 Jul 2025 17:36:13 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31ecd1f0e80sm4264442a91.18.2025.07.28.17.36.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 17:36:12 -0700 (PDT)
-Date: Mon, 28 Jul 2025 17:36:09 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Monk Chiang <monk.chiang@sifive.com>,
-	Kito Cheng <kito.cheng@sifive.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
-	llvm@lists.linux.dev, rick.p.edgecombe@intel.com,
-	broonie@kernel.org, cleger@rivosinc.com, samitolvanen@google.com,
-	apatel@ventanamicro.com, ajones@ventanamicro.com,
-	conor.dooley@microchip.com, charlie@rivosinc.com,
-	samuel.holland@sifive.com, bjorn@rivosinc.com, fweimer@redhat.com,
-	jeffreyalaw@gmail.com, heinrich.schuchardt@canonical.com,
-	andrew@sifive.com, ved@rivosinc.com
-Subject: Re: [PATCH 06/11] mm: Introduce ARCH_HAS_KERNEL_SHADOW_STACK
-Message-ID: <aIgXeRDXNmOozRWp@debug.ba.rivosinc.com>
-References: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
- <20250724-riscv_kcfi-v1-6-04b8fa44c98c@rivosinc.com>
- <aISGypOAaDGaUZgd@kernel.org>
+        d=1e100.net; s=20230601; t=1753770486; x=1754375286;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=COhvvHifSzWzrAz0KSD0REapHrG/2a5i+hRxZVADpko=;
+        b=P3HEAy7y5bp1sHf0OihW+wJuZXkRuqbM1di7FVsxaZEHI8US+Bm22XBYmdUJBfkoGl
+         uXlPdcNrj9YDFwiPJS1FWKZwtz5zbQzvjJ2VkFbZjmNID6griIodA61JSEasmcw54qfM
+         oCcvDCzZaBM5SLwi2tUudrTHWncjtvT5BMSqYpsbyKMFAHeL380pDjX2zh/pS/TYYEyY
+         XtQaw2IgtvV8g3oz2LloWAeR2nmazQz1/vkEpCiydpz1UPTDrrjvmG7gQYeHtQzGT9KL
+         1B8rY+ymPR320xIiM+mHEZriKRPq/LqiZI7nX1arGAxB0cPpSwi7mVO+4Urjmd5mPL7S
+         CFEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXuGsrvBlkwPuSBI7VAeqoBWye/35fH9vXVwzMyS+wi/xfbBjhBJBECn2Q5wjP/HulIc+hXIHOiWA8tqf4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvnrJQRSY1b9plbLW5oKEG1L1H62sCEJ3ROMPk20H/QT+yDU+F
+	MKzUgutK9FQl8KgYvCLoqrFhLSflGTljh6kuP6J8JE272myg/YH+zH324eQzXDECqd6c5oPs2Kb
+	wPM2FV+65OA4HVhTizetuCjEU6zvEX+eB09pMGnBm
+X-Gm-Gg: ASbGncthpqodgo+N2wXVSjOl0E9hKmzitbBSBISydiAbc/Df3EdIPQ4DwZ4zuMRNGPp
+	54Lzwx71hLf4heF/z8EqD01AdIb1fq0dbRFpWeMizNM3v67A09wk8epcl+7kbRVIaMNJMf9OkHP
+	7k2fT+JhWLO2Ukxqf75510wHur2dZ5KcofHATizhemcsfTAQS6R8rkOhfGelN2xgHlvC7cU6asV
+	OhLDjUu
+X-Google-Smtp-Source: AGHT+IHkDhVjlDXkKoJPb/zHwvWemtrgFQf/cvbjZ0Qeqopxn8IxnwgPvo9tYHg/4/LMrdSDc8NIhSduX3ei955YgTQ=
+X-Received: by 2002:a05:6214:3901:b0:707:23ea:2991 with SMTP id
+ 6a1803df08f44-70723ea2b8bmr212058476d6.35.1753770485569; Mon, 28 Jul 2025
+ 23:28:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <aISGypOAaDGaUZgd@kernel.org>
+References: <20250726180750.2735836-1-ojeda@kernel.org>
+In-Reply-To: <20250726180750.2735836-1-ojeda@kernel.org>
+From: David Gow <davidgow@google.com>
+Date: Tue, 29 Jul 2025 14:27:53 +0800
+X-Gm-Features: Ac12FXyeK1EodX0LEMaLg05WtgxULgHDYJkotq5O5IK4MGpaLU1MSLHZ5XzohVI
+Message-ID: <CABVgOS=BPZYrJ8NLbVHj4S5CBpPd3xovBFCn8rhZmSuYq0rWSQ@mail.gmail.com>
+Subject: Re: [PATCH] rust: kernel: remove support for unused host `#[test]`s
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	Rae Moar <rmoar@google.com>, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000dc47ae063b0b8287"
 
-On Sat, Jul 26, 2025 at 10:42:02AM +0300, Mike Rapoport wrote:
->On Thu, Jul 24, 2025 at 04:36:59PM -0700, Deepak Gupta wrote:
->> commit bcc9d04e74 ("mm: Introduce ARCH_HAS_USER_SHADOW_STACK") introduced
->> `ARCH_HAS_USER_SHADOW_STACK`. Introducing `ARCH_HAS_KERNEL_SHADOW_STACK`
->> so that arches can enable hardware assistance for kernel shadow stack.
->>
->> If `CONFIG_DYNAMIC_SCS` or `CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK` are
->> selected, skip compiler flag `-fsanitizer=shadow-call-stack`.
->>
->> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> ---
->>  Makefile   | 2 +-
->>  mm/Kconfig | 6 ++++++
->>  2 files changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/Makefile b/Makefile
->> index 35e6e5240c61..7e3ecca9353d 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -987,7 +987,7 @@ LDFLAGS_vmlinux += --gc-sections
->>  endif
->>
->>  ifdef CONFIG_SHADOW_CALL_STACK
->> -ifndef CONFIG_DYNAMIC_SCS
->> +ifeq ($(or $(CONFIG_DYNAMIC_SCS),$(CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK)),false)
->>  CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
->>  KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
->>  KBUILD_RUSTFLAGS += -Zsanitizer=shadow-call-stack
->> diff --git a/mm/Kconfig b/mm/Kconfig
->> index 781be3240e21..f295ea611cdb 100644
->> --- a/mm/Kconfig
->> +++ b/mm/Kconfig
->> @@ -1367,6 +1367,12 @@ config ARCH_HAS_USER_SHADOW_STACK
->>  	  The architecture has hardware support for userspace shadow call
->>            stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
->>
->> +config ARCH_HAS_KERNEL_SHADOW_STACK
->> +	bool
->> +	help
->> +	  The architecture has hardware support for kernel shadow call
->> +          stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
+--000000000000dc47ae063b0b8287
+Content-Type: text/plain; charset="UTF-8"
+
+On Sun, 27 Jul 2025 at 02:08, Miguel Ojeda <ojeda@kernel.org> wrote:
 >
->nit: tab and two space for indentation of the help text
-
-Will fix it.
-
+> Since commit 028df914e546 ("rust: str: convert `rusttest` tests into
+> KUnit"), we do not have anymore host `#[test]`s that run in the host.
 >
->> +
+> Moreover, we do not plan to add any new ones -- tests should generally
+> run within KUnit, since there they are built the same way the kernel
+> does. While we may want to have some way to define tests that can also
+> be run outside the kernel, we still want to test within the kernel too
+> [1], and thus would likely use a custom syntax anyway to define them.
 >
->I think both ARCH_HAS_USER_SHADOW_STACK and ARCH_HAS_KERNEL_SHADOW_STACK
->belong to arch/Kconfig rather than mm/Kconfig
-
-Do you want me to move it?
-This basically means that hardware shadow stack is supported or not.
-It needs mm support. I think thats why user one landed here. I followed.
-
-If it impacts mm, it should be here, right?
-
+> Thus simplify the `rusttest` target by removing support for host
+> `#[test]`s for the `kernel` crate.
 >
->>  config ARCH_SUPPORTS_PT_RECLAIM
->>  	def_bool n
->>
->>
->> --
->> 2.43.0
->>
+> This still maintains the support for the `macros` crate, even though we
+> do not have any such tests there.
 >
->-- 
->Sincerely yours,
->Mike.
+> Link: https://lore.kernel.org/rust-for-linux/CABVgOS=AKHSfifp0S68K3jgNZAkALBr=7iFb=niryG5WDxjSrg@mail.gmail.com/ [1]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+
+With my (biased) KUnit hat on, this looks good to me.
+
+_Maybe_ it's worth updating Documentation/rust/testing.rst, though it
+already says these are "mostly used for testing the macros crate's
+examples".
+
+Reviewed-by: David Gow <davidgow@google.com>
+
+Cheers,
+-- David
+
+>  rust/Makefile        | 9 +--------
+>  rust/kernel/alloc.rs | 6 +++---
+>  rust/kernel/error.rs | 4 ++--
+>  rust/kernel/lib.rs   | 2 +-
+>  4 files changed, 7 insertions(+), 14 deletions(-)
+>
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 115b63b7d1e3..5290b37868dd 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -235,7 +235,7 @@ quiet_cmd_rustc_test = $(RUSTC_OR_CLIPPY_QUIET) T  $<
+>         $(objtree)/$(obj)/test/$(subst rusttest-,,$@) $(rust_test_quiet) \
+>                 $(rustc_test_run_flags)
+>
+> -rusttest: rusttest-macros rusttest-kernel
+> +rusttest: rusttest-macros
+>
+>  rusttest-macros: private rustc_target_flags = --extern proc_macro \
+>         --extern macros --extern kernel --extern pin_init
+> @@ -245,13 +245,6 @@ rusttest-macros: $(src)/macros/lib.rs \
+>         +$(call if_changed,rustc_test)
+>         +$(call if_changed,rustdoc_test)
+>
+> -rusttest-kernel: private rustc_target_flags = --extern ffi --extern pin_init \
+> -    --extern build_error --extern macros --extern bindings --extern uapi
+> -rusttest-kernel: $(src)/kernel/lib.rs rusttestlib-ffi rusttestlib-kernel \
+> -    rusttestlib-build_error rusttestlib-macros rusttestlib-bindings \
+> -    rusttestlib-uapi rusttestlib-pin_init FORCE
+> -       +$(call if_changed,rustc_test)
+> -
+>  ifdef CONFIG_CC_IS_CLANG
+>  bindgen_c_flags = $(c_flags)
+>  else
+> diff --git a/rust/kernel/alloc.rs b/rust/kernel/alloc.rs
+> index a2c49e5494d3..335ae3271fa8 100644
+> --- a/rust/kernel/alloc.rs
+> +++ b/rust/kernel/alloc.rs
+> @@ -2,16 +2,16 @@
+>
+>  //! Implementation of the kernel's memory allocation infrastructure.
+>
+> -#[cfg(not(any(test, testlib)))]
+> +#[cfg(not(testlib))]
+>  pub mod allocator;
+>  pub mod kbox;
+>  pub mod kvec;
+>  pub mod layout;
+>
+> -#[cfg(any(test, testlib))]
+> +#[cfg(testlib)]
+>  pub mod allocator_test;
+>
+> -#[cfg(any(test, testlib))]
+> +#[cfg(testlib)]
+>  pub use self::allocator_test as allocator;
+>
+>  pub use self::kbox::Box;
+> diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
+> index 3dee3139fcd4..7812aca1b6ef 100644
+> --- a/rust/kernel/error.rs
+> +++ b/rust/kernel/error.rs
+> @@ -157,7 +157,7 @@ pub fn to_ptr<T>(self) -> *mut T {
+>      }
+>
+>      /// Returns a string representing the error, if one exists.
+> -    #[cfg(not(any(test, testlib)))]
+> +    #[cfg(not(testlib))]
+>      pub fn name(&self) -> Option<&'static CStr> {
+>          // SAFETY: Just an FFI call, there are no extra safety requirements.
+>          let ptr = unsafe { bindings::errname(-self.0.get()) };
+> @@ -174,7 +174,7 @@ pub fn name(&self) -> Option<&'static CStr> {
+>      /// When `testlib` is configured, this always returns `None` to avoid the dependency on a
+>      /// kernel function so that tests that use this (e.g., by calling [`Result::unwrap`]) can still
+>      /// run in userspace.
+> -    #[cfg(any(test, testlib))]
+> +    #[cfg(testlib)]
+>      pub fn name(&self) -> Option<&'static CStr> {
+>          None
+>      }
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index e13d6ed88fa6..8a0153f61732 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -197,7 +197,7 @@ pub const fn as_ptr(&self) -> *mut bindings::module {
+>      }
+>  }
+>
+> -#[cfg(not(any(testlib, test)))]
+> +#[cfg(not(testlib))]
+>  #[panic_handler]
+>  fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
+>      pr_emerg!("{}\n", info);
+>
+> base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
+> --
+> 2.50.1
+>
+
+--000000000000dc47ae063b0b8287
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIUnQYJKoZIhvcNAQcCoIIUjjCCFIoCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
+4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
+mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
+KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
+VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
+ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
+vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
+BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
+OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
+1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
+ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
+BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
+18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
+bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
+AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
+BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
+A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
+MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
+jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
+0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
+jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
+jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
+C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
+NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
+zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
+A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
+hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
+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
+jmkLAgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
+/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFBp5bTxrTm/d
+WMmRETO8lNkA4c7fMFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
+BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
+MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
+LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
+bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
+FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
+c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBF
+tO3/N2l9hTaij/K0xCpLwIlrqpNo0nMAvvG5LPQQjSeHnTh06tWTgsPCOJ65GX+bqWRDwGTu8WTq
+c5ihCNOikBs25j82yeLkfdbeN/tzRGUb2RD+8n9I3CnyMSG49U2s0ZdncsrIVFh47KW2TpHTF7R8
+N1dri01wPg8hw4u0+XoczR2TiBrBOISKmAlkAi+P9ivT31gSHdbopoL4x0V2Ow9IOp0chrQQUZtP
+KBytLhzUzd9wIsE0QMNDbw6jeG8+a4sd17zpXSbBywIGw7sEvPtnBjMaf5ib3kznlOne6tuDVx4y
+QFExTCSrP3OTMUkNbpIdgzg2CHQ2aB8i8YsTZ8Q8Q8ztPJ+xDNsqBUeYxILLjTjxQQovToqipB3f
+6IMyk+lWCdDS+iCLYZULV1BTHSdwp1NM3t4jZ8TMlV+JzAyRqz4lzSl8ptkFhKBJ7w2tDrZ3BEXB
+8ASUByRxeh+pC1Z5/HhqfiWMVPjaWmlRRJVlRk+ObKIv2CblwxMYlo2Mn8rrbEDyfum1RTMW55Z6
+Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
+MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
+Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
+BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg3qTPfxcg0yB9ntH92dWAvRNT4uHM
+wLSwI1soKRthdIMwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+NzI5MDYyODA2WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
+AQEBBQAEggEAf38aLZVLVJFVzEME1SrJpA+ZsfC3zUZzd9ws/CHRcW+4584m1wP3XUwAtnWqqRKJ
+M1R0yXhN2NuK8aGLc39shI/Ljh3PAo6eGo7cw6WqzJMCAfhZf76xGKHYELrZvj6qYU+pXS19nH4V
+7MEFP3btpW2++W6I1jn63IIKCexYtaFc6ijpnAse+8ZbRurTkFXMnfVUnd+oGLsdV02seI/gNEt6
+vaToxywysGsnVbhmfrMc4BWxFmocOsdwsTNu53j52U4etsmBIp1npO3V7Oy7YiadiulLXrUM/eYa
+hOVOPvwEumWSrxECB0zLJPptFhtQGuWE23jwyGxwf0LzCZtQ/w==
+--000000000000dc47ae063b0b8287--
 
