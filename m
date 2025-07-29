@@ -1,109 +1,104 @@
-Return-Path: <linux-kbuild+bounces-8242-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8243-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6434FB14E8F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 15:41:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E39B14E9C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 15:44:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BBC0545F88
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 13:41:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF8683B4967
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 13:43:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAF9A199934;
-	Tue, 29 Jul 2025 13:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7907D14D2B7;
+	Tue, 29 Jul 2025 13:44:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ABu6Na5/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7ccMgkR"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBB615383A;
-	Tue, 29 Jul 2025 13:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5137213D2B2;
+	Tue, 29 Jul 2025 13:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753796503; cv=none; b=CGGF2Rxvn/tOPHEBAA9iPv8hgnyQOvpjqsqE9W6rnD3kuC7DrBwiufI9a/VFkp0NtkdpEyx66nyVlaIp/jHlHEzAY6qTpE+MAm57X8I4KQ3aPPBGYy7qk2NbrOzW2ks+WdxMiwFzyGFrLBJYPXG2yLwVlcSyoo/ChsESVD3nLKs=
+	t=1753796655; cv=none; b=MF2qrV5xYib33ayNNAyLAoGf8YGOwWfLbJJbli7QE/JFD9eLWVW3iTtVX8nXoUNgFW8YvYelp04rS2LrNNdz1uJZjYZDxK4Xp5UQoNsO9eGXGCTT3fOjIMnVa3yWfGYJjKV+MJSDmccrYe6cKc0pqgnVcBIjN15Fv82KLAAay+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753796503; c=relaxed/simple;
-	bh=mAmes/zYyoBatBwuEfLsqP7Lrt5HONR4RHITd4MMcjQ=;
+	s=arc-20240116; t=1753796655; c=relaxed/simple;
+	bh=C34Av56n3VffzkC5BscMtX8Fcy4HtIfup26BVXc9LaQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DY+IbEUisWvWKbdj0KukHUCQRao6iiwRI+qF/WBIfZP77SHuA/sKkDV8ODrNDVRl8TyDssJwO7PekmJAgrWstORArwWt042Rftxcdot5CTe7pvcVLJqNLeIxglohi5gn3meffICtF/3tZzRgldZWq/AP5XensaZMhEQVWQ5eIdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ABu6Na5/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D66AC4AF0B;
-	Tue, 29 Jul 2025 13:41:43 +0000 (UTC)
+	 To:Cc:Content-Type; b=rHq+QzoRJNGw4DHBZub7rtj5BHGmFFB+pnX7/QR1Gd2nYi/8LV7BSwMmLvf0HE2cbpoy+d4uOTLFQPCz5ZLPN19l7YZjZnoca2Waa3ZIuaLSslgHRgfoWQhiQig2Nl0ZMSXPBQtbXRsYq/Z+QmBezwaPX7WVYcW+3F2rTmFYZZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7ccMgkR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA33C4CEF4;
+	Tue, 29 Jul 2025 13:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753796503;
-	bh=mAmes/zYyoBatBwuEfLsqP7Lrt5HONR4RHITd4MMcjQ=;
+	s=k20201202; t=1753796654;
+	bh=C34Av56n3VffzkC5BscMtX8Fcy4HtIfup26BVXc9LaQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ABu6Na5/eI3ieZ8dnqTkLjgP4Un8Pmz+6NJ1LPPl0dyBksTr9OCP/vD8hBA5aCDE9
-	 KXpLd+c1FNCxiA7Awx53/CAZxCOzwOBgVdT80+JD/SqOKeqKKry9xRWI1gHmZQZrLb
-	 gx5c1IjvhqxM3DSk5X33hnCaacyCsct0Dprn4OI9OAR3AGZKcFI1vU1mA2Kkem039f
-	 J4/inhxCoAVDs6bu+1X3jsuFRNA6Iko32717R72ANjkf3EWQmRDQ9iEj/lYy508INX
-	 bNsUxr5qH5rqMy51BZG8tG/CCdm1H03RiIZbP9AMslKFfPqiISSa22VyWmaeS0Y/eo
-	 iMlfr6keMmGjA==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-55a33eecc35so5899717e87.2;
-        Tue, 29 Jul 2025 06:41:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVXD6VnPXCZpXNZsj2RqboY96+xF3nLCHYAQ3E2BDgc2uWfvoG9zJt9Gbi6wN+7RGI8JdA88r/5F9Ebh4VP@vger.kernel.org, AJvYcCW03/834xb97I5OSROo6oCKtQNk9QIlTnShNycxHrrkEuT6AeXZjTdn+/ryDBdNlHXFl7pQC/4PKBVTeQs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+HFxf04p9SuWL/EsT4HJ5WBHUu5oS8lxZcWL22xz8H+sqrb80
-	qQ4acRMnCk1dPeSb2Fk4pbqrB63TrgdPo7jMLEhKdJMMFv5dxk21RQMuEVA3c+T6JYcgi+0StbO
-	T73jRB09fi44BA8cs8TcbZ8a0nIWtuHY=
-X-Google-Smtp-Source: AGHT+IEwSunG1YMGday32yllpM1VGfMg+K9R6KuPv4lYOqip2dD0AuzRB11gez/iBHLrz79Iy/jkmeXYwT3x4TnoidI=
-X-Received: by 2002:a05:6512:2393:b0:55a:3358:a7c1 with SMTP id
- 2adb3069b0e04-55b5f4c8ad6mr3891519e87.53.1753796502230; Tue, 29 Jul 2025
- 06:41:42 -0700 (PDT)
+	b=p7ccMgkRAfs2oBEA/kDHQpv2chpYJgS5Yo4pRhVC2hL1Se+AoWLXlxerK3cw7fe3a
+	 BsRWYxm2eJAy1idq8rzh9V2Ex3CxeanJrGZP/71FFNi/fujyvCZQYXxd+hmC1KmhLf
+	 naLlg9VQReA4V3E41dKuLysQ7D7o8cBqzsxxHaJ4swttGPUkWUMH9Y5EggB4CwJHhT
+	 fVklBfcl3HSCz+hSuqFBmmS8I2BWakS/gkkTDVab9Kq7PYQvmTNL4oSITDyF8ObCl/
+	 xm0STDixCTQsAQxnrPwqmrthfevpNxJOT2tXYZS6v1xTOhUMMXSfWx5AknW4DT3dKw
+	 RSjLJtuzVMczA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-55a33eecc35so5902766e87.2;
+        Tue, 29 Jul 2025 06:44:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX9dppAI1xVFjbgzKgkMAJnWblQA6UZ2+Wt2eVHQry6kumtdhdrUFEVAA9coaciEEnQ7URrPSw/eA5d+09I@vger.kernel.org, AJvYcCXURh3eJi+vXbwivqL1HB+stDLxSzGoJz5MeEm/GbJhoA9KOu438AHL/p2ppnaWiD/d5vZeVroK2KkzXG8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNzWZohPH7BaRWxu4BMa/EGRqEeNX5USQKLJMgkA6V1cRXiHoE
+	/ymQSgnyh+Prxyn3N1nWZmabBRWjgBsOCdvrStdLAzWJ1JP4V5OIxKLbrHIWWvSKwz+sm4GhEy0
+	I1M4+6IMIOcKY9LSsL97l82E/AWX7vKg=
+X-Google-Smtp-Source: AGHT+IFOu4L44SLH1czBt9sl9QBrTvCFLPl3Paqd80DA7MtUH02gka6T6cHLnh3GYm5/lkhopC+8Jv7aZXVAb3+zT0M=
+X-Received: by 2002:a05:6512:3ba5:b0:553:35e6:393b with SMTP id
+ 2adb3069b0e04-55b5f4af96amr3814166e87.45.1753796653501; Tue, 29 Jul 2025
+ 06:44:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250727164433.203775-1-suchitkarunakaran@gmail.com>
-In-Reply-To: <20250727164433.203775-1-suchitkarunakaran@gmail.com>
+References: <CAK7LNATotYMHVgNHkQcT33qQK+fdZAjoQpdJqtKKWT18uJcPXg@mail.gmail.com>
+ <20250729132500.343778-1-mgorny@gentoo.org>
+In-Reply-To: <20250729132500.343778-1-mgorny@gentoo.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 29 Jul 2025 22:41:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATPeS-cHtNGj_cfNypMkpgMYLa_Tc88Ce_3gUTEKqNkBQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyjXDzDCvc5P_pSBpHIy9btM9FBBrF_uzyQJ4XI2bBRPEXffRsTgXyT7n0
-Message-ID: <CAK7LNATPeS-cHtNGj_cfNypMkpgMYLa_Tc88Ce_3gUTEKqNkBQ@mail.gmail.com>
-Subject: Re: [PATCH v3] kconfig/lxdialog: replace strcpy() with strncpy() in inputbox.c
-To: Suchit Karunakaran <suchitkarunakaran@gmail.com>
-Cc: nicolas.schier@linux.dev, linux-kbuild@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+Date: Tue, 29 Jul 2025 22:43:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASYnfW8hyTYY1vySeUgg2tCJc17Rkz4C=sVCNhpiNO2GA@mail.gmail.com>
+X-Gm-Features: Ac12FXyFg7eXzSiJ6HOIhgP1HAoQbkyle0SYF1Zf3hYxVqfehAsSSuSnL0fnaOY
+Message-ID: <CAK7LNASYnfW8hyTYY1vySeUgg2tCJc17Rkz4C=sVCNhpiNO2GA@mail.gmail.com>
+Subject: Re: [PATCH v4] kheaders: make it possible to override TAR
+To: =?UTF-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Sam James <sam@gentoo.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 28, 2025 at 1:44=E2=80=AFAM Suchit Karunakaran
-<suchitkarunakaran@gmail.com> wrote:
+On Tue, Jul 29, 2025 at 10:25=E2=80=AFPM Micha=C5=82 G=C3=B3rny <mgorny@gen=
+too.org> wrote:
 >
-> strcpy() performs no bounds checking and can lead to buffer overflows if
-> the input string exceeds the destination buffer size. This patch replaces
-> it with strncpy(), and null terminates the input string.
+> Commit 86cdd2fdc4e39c388d39c7ba2396d1a9dfd66226 ("kheaders: make headers
+> archive reproducible") introduced a number of options specific to GNU
+> tar to the `tar` invocation in `gen_kheaders.sh` script.  This causes
+> the script to fail to work on systems where `tar` is not GNU tar.  This
+> can occur e.g. on recent Gentoo Linux installations that support using
+> bsdtar from libarchive instead.
 >
-> Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> Add a `TAR` make variable to make it possible to override the tar
+> executable used, e.g. by specifying:
+>
+>   make TAR=3Dgtar
+>
+> Link: https://bugs.gentoo.org/884061
+> Reported-by: Sam James <sam@gentoo.org>
+> Tested-by: Sam James <sam@gentoo.org>
+> Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Micha=C5=82 G=C3=B3rny <mgorny@gentoo.org>
+> Signed-off-by: Sam James <sam@gentoo.org>
 > ---
->  scripts/kconfig/lxdialog/inputbox.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/kconfig/lxdialog/inputbox.c b/scripts/kconfig/lxdial=
-og/inputbox.c
-> index 3c6e24b20f5b..5e4a131724f2 100644
-> --- a/scripts/kconfig/lxdialog/inputbox.c
-> +++ b/scripts/kconfig/lxdialog/inputbox.c
-> @@ -39,8 +39,10 @@ int dialog_inputbox(const char *title, const char *pro=
-mpt, int height, int width
->
->         if (!init)
->                 instr[0] =3D '\0';
-> -       else
-> -               strcpy(instr, init);
-> +       else {
-> +               strncpy(instr, init, sizeof(dialog_input_result) - 1);
-> +               instr[sizeof(dialog_input_result) - 1] =3D '\0';
-> +       }
 
 
-Applied to linux-kbuild. Thanks.
-
+Applied to linux-kbuild.
+Thanks.
 
 
 --=20
