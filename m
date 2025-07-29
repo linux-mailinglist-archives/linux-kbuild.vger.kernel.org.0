@@ -1,256 +1,190 @@
-Return-Path: <linux-kbuild+bounces-8231-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8232-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CECB143C2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 23:19:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D809B14562
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 02:36:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5A5B189C274
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Jul 2025 21:20:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D98D17F22D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 00:36:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 919EE230D35;
-	Mon, 28 Jul 2025 21:19:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27AD41684AC;
+	Tue, 29 Jul 2025 00:36:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="3WSnZiTv"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="JGENw+0t"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E6B223DF5
-	for <linux-kbuild@vger.kernel.org>; Mon, 28 Jul 2025 21:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42C158DA3
+	for <linux-kbuild@vger.kernel.org>; Tue, 29 Jul 2025 00:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753737591; cv=none; b=K09nCxFbbi7cjj7QmCe5lJWO+fpqHvrH1IcISGPdcg1jgaQbuMNhVUCgazCjHSM4/eP9bIIZKgJTEEND36VVVcB9gy+spzQvwVXqIvXhFyAdNooEiK2YnrhEhJew3eNgsJMKVjzZ9UZuFDqx/YxlySaT71IP08APmoNF5zmW9es=
+	t=1753749376; cv=none; b=HTZ09dvtzTbItWIchYM2IdlvC/BTkJ96AEAgIsDqp30VOqZlAozAZ+b1JsOcSd90V2cmDMD95Y2bVSWQTDtlTnOvq9dNp7dpcYSOUE34PMZ3Xmu5zFlxU21HDMKHKCJftAvrcevG2NxfvxZEZsAoxWUBdTz6Oc0lSF7Gnys/Efw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753737591; c=relaxed/simple;
-	bh=dy758V6JISbk0OyvLkOFxA2WH0nPLorgxe+HKMTULx0=;
+	s=arc-20240116; t=1753749376; c=relaxed/simple;
+	bh=1Gh39IFfwy1kYqEDRMn11elvC4t891W5yj/F7WcLcE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TQHH/T36AEVqA4A1amh5F5ZEhVR2CR1Tqpe9dZxkZMeH62A+cKydnjuhqr+7W1hXULCdrXA8NG41oAhHyqPAWr7dq+NMv3OHIZzYEiY8HbqfiFzMeRl3C5hk1GQ2SQzI3sVwpxNioTvTJUF1Gv7w6Yxpi8+/sLWfrYagDmcBiF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=3WSnZiTv; arc=none smtp.client-ip=209.85.210.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=oHiPLO0XCjpt4qSSTuFFARhXo1ZQZ7Rt7ixQKLmzLu6gK6s5b9bEQNukAEJsC7XD3n5yJJuc4eHZoXT/QiktZZfk9JFyiW1gfPU7nLrEGvUMRdk4XwSAYlvvNqHc/507W54//kgrVn6E0jSMoveGfEFF7inOIHd/zFBG5M7OgO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=JGENw+0t; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-76858e9e48aso1167976b3a.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jul 2025 14:19:49 -0700 (PDT)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3137c2021a0so4212044a91.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 28 Jul 2025 17:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753737589; x=1754342389; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fk12aZ1hILTEk1VujnCvLZyceUntOHKQSLYJRpJHq1U=;
-        b=3WSnZiTvUI4vlJTqkiilEy9vBKPBPNhrge7RdKeIIR7sP0Y194Qh0nV9489dtOcv/W
-         QmRLEzuhLfS4hD8BAMxBJDTw821z0e5sYm+4y2xVCO1JgoWT9TyxkWFdF3qswTq5g8lI
-         CMIrOiczX1167UauFJIGwdkkrCSUrUHtSNB/VrfL93ohnTtD2n2j1huMCW6VUnn7Bb0q
-         bk0MOd60/NGnkMfbjSI+Y7bqY+74muHUgAZCCfKPjGzxmHANgmKYAtFljNd/5lGYWKM4
-         v1TA6kVL0JVYy/8XUXukOs1E9dxubaWsZP8Uxim2dhd9TAPflTNzhixgXJ/Z1E1Ykcg/
-         jalw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1753749373; x=1754354173; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/ETbDJbyMnJcJth9NSQ1EqJE54cIcDMP4wIxlGlnYcw=;
+        b=JGENw+0t8A4Jk2QiIOw3Q+GaoCn4twyoAsJqkQlZ4b/iVaoC9Ndo5raodg9sK2qS4S
+         dH0YReyEKSJyoUgDE+ZOaFD9hBJxQ78BQeeu7j+1z/x2jMP4fdh/QzNWXzIn9RrTuuXG
+         CMdjrR2toGRqV/FqFDTvM786chShiihMr3+EdTm7FfhJifQMkxpnOI1HtWjX6+tLkBGI
+         1r0jixCbSJNyTdLB7r7O0UZ9VjDBxB0egqyj9Wa5MVQGGAIOGbLl9CyEBRqGukNdjwKW
+         XRF+LG0DOqalG5jlV5DgAdTf08i8SDI6J+6mfQF2RldP91P6u4vw5QDaoAW+8QMs/YAh
+         vANA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753737589; x=1754342389;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fk12aZ1hILTEk1VujnCvLZyceUntOHKQSLYJRpJHq1U=;
-        b=U1aNOPwkjdHgkgz48RY+hvNvA83+j2Vjjidwpok2j/g2pxsQ74ODiWXRyYWieLXYXg
-         T1X4LYDRb4dDBRorCdR4+ZgRd0RS0oZWOj64Xgy1An4/aV5IcXpj6e97KZWoRDOL9M7T
-         y3qVzR+WuDX6kORE+3yQlOQZzsUEk03FlzFNdA4Hj2UEThs1BDBnTuAZbDzpRothHOqZ
-         2by+vL4BzKP3X4srg0DqNXrVBumiIU/dQuTnD1y9afyhVAYplgTsq83Ct9sCcvc7oadG
-         0vYaYx0hgBeAs006phlhpQ6ruBmKV6UaqZ/w5wRyZe+uD+CUiQQzK666oRDh83HSs6z/
-         V2rw==
-X-Forwarded-Encrypted: i=1; AJvYcCU695BVnrQnKmJBtoaP0nJ1PXj9hjByZdaT1l44IsfZWB6O8Qc0CAMzfjzquqXn74knovQVm5vyu6Ic4WY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4J+gdlaBgkBFdBdCo2w9i77xPY5p4Q6K0JG1F4fi+VYW2pEb8
-	uVC1TfZG6EprtEahDoSAAvvE2h/jNjG9gxgY2Wv1p6DcHtqIS8UGBVDRWd2PNkVMGO0=
-X-Gm-Gg: ASbGnct9W/ncmlFB3DS+Gf3cS+UEd8XmppN1GPPjlpoCVEtuDqS4u+nXBCzBF/u2Cqh
-	BKdMAuBDky4yBZ2j4FR4TgmLLHx5ITNAYPamDtJTES65GJljoVD6heDD4jk/mq0BqYkkimApWVs
-	S3u+TeXdt2oamfhSlpdt1jlMfKTv/4YraqwS85sf90TOUODSytvtFAF/JbzLxdu0Lhs+og4Owe/
-	L22QWuzEi60uav+IzfUoW3xh0ZYNK5L0ZARsMtg++CPYYeZTlcx8YeS8vp2YpY66FB5Qjrt95Hz
-	daIJsG7JVMm2PQaRc0JSGkumLIi86UExZqVsKcgwBCJxELBwEiUPD43IdZBfSBDJDTA8KyDEthe
-	Y0k36IFYP50kSvHNQ4bR4ZuS1T/tOReKh
-X-Google-Smtp-Source: AGHT+IEnErxkfYjX+YJp8zR8qc4hw1otEJKlPu8QNYCPVpJ95RsieRy81jtW+UwHk4fD0hbvpRX7Lg==
-X-Received: by 2002:a05:6a00:c89:b0:748:fcfa:8bd5 with SMTP id d2e1a72fcca58-7633636aefemr19113589b3a.3.1753737588883;
-        Mon, 28 Jul 2025 14:19:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753749373; x=1754354173;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/ETbDJbyMnJcJth9NSQ1EqJE54cIcDMP4wIxlGlnYcw=;
+        b=WRZwUe0R6BRpcE2HRjxfLfw9Uz1c6uMfK/+hUoBhsy1KNGgwaMvwBeqNdFaRCN8B4I
+         bDhsykwsxIMjGF8xGorsN/w0n88XWPiSjzqgpobMdPdDylTB8bDXS/YT2WGQp5tRTIgU
+         N4MZQPtmRKZqylWJ0jAGjghiAGfP9bUWsAYnX8x4bVe4CtK/KfIlOUlVGVIcIcv5pm6K
+         lwdXfr7RW2wwOd1zPXaxXmO1aA9NM/X+yBQxAAjk+7IsoFyS0oNVUqwKuCQqa1707u1j
+         O8UybeUtnjTSV007yX3TP6/M+fh6e8kKnjsAsVv0asSVZ6WrKNvNi/VQvpo9DnOp22oL
+         NrKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWV9UPkuXIRB0BNsCoTay/58Ahm+qQY47RU0t9tU8ETEyHWzROh/+QkMjKk3aVCD0oGtuivZbw6jqTwB8Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySonJEe+UA5ZN695YnC1LHbaay4NGT6xoJtMm66a2vG2fP/8by
+	5YUigkQkitKuLFJPtdftLu3nKSA7DDRVmG5HjoiR4qOTIdBt9mPs4Q2EgagPNvJhQ6Q=
+X-Gm-Gg: ASbGnctC05TvJxU6C49EBk542xeZzdQCdNeNM+5OrC5RYK0DrjXI65M9kXlpgiatKlE
+	e0o1XBJSq+vYSvCiH4j/rb6/lHw7xlWnDBiQnkGbcZKAzDdXwsypTwoxVtrlIFTCGY7lXPwuPor
+	LnPISX2T3DyQAWVdzxzdZVdPr2Sa8HVZ+Se0acZm0VRUC9kCd1qw1eg/zZReQHTOwjNLHVnS5PB
+	Si80iwFt0T1uXs+zmFMbpVgj+9TQ+h/kYAd5SWzcGpcYOIF6gMhUpqzRmd1MkSdf0INjg3m9VIA
+	mgIZeYkCvS0rI5SW/qU6TCWuUPK6mjypI7BTF3hRuWD+a9fz6YeDkjVd1nPh7A7dR83jvXhKrKG
+	yCpT2xFJAjoYfQDB0oYhKlSJReVGZL8V9
+X-Google-Smtp-Source: AGHT+IEDJXqhf7DRrajAJZBJ8vJ6pYcfACWj1AXTIy+3dQeFkQYCW4S8o7ad1lMROev+GL8TvcTWBw==
+X-Received: by 2002:a17:90b:1b45:b0:311:f30b:c18 with SMTP id 98e67ed59e1d1-31e7785ee72mr17793124a91.4.1753749373373;
+        Mon, 28 Jul 2025 17:36:13 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76408cf7759sm6272300b3a.31.2025.07.28.14.19.46
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31ecd1f0e80sm4264442a91.18.2025.07.28.17.36.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 14:19:48 -0700 (PDT)
-Date: Mon, 28 Jul 2025 14:19:45 -0700
+        Mon, 28 Jul 2025 17:36:12 -0700 (PDT)
+Date: Mon, 28 Jul 2025 17:36:09 -0700
 From: Deepak Gupta <debug@rivosinc.com>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "nathan@kernel.org" <nathan@kernel.org>,
-	"kito.cheng@sifive.com" <kito.cheng@sifive.com>,
-	"jeffreyalaw@gmail.com" <jeffreyalaw@gmail.com>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"mhocko@suse.com" <mhocko@suse.com>,
-	"charlie@rivosinc.com" <charlie@rivosinc.com>,
-	"david@redhat.com" <david@redhat.com>,
-	"masahiroy@kernel.org" <masahiroy@kernel.org>,
-	"samitolvanen@google.com" <samitolvanen@google.com>,
-	"conor.dooley@microchip.com" <conor.dooley@microchip.com>,
-	"bjorn@rivosinc.com" <bjorn@rivosinc.com>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"nicolas.schier@linux.dev" <nicolas.schier@linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"andrew@sifive.com" <andrew@sifive.com>,
-	"monk.chiang@sifive.com" <monk.chiang@sifive.com>,
-	"justinstitt@google.com" <justinstitt@google.com>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"morbo@google.com" <morbo@google.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"nick.desaulniers+lkml@gmail.com" <nick.desaulniers+lkml@gmail.com>,
-	"rppt@kernel.org" <rppt@kernel.org>,
-	"broonie@kernel.org" <broonie@kernel.org>,
-	"ved@rivosinc.com" <ved@rivosinc.com>,
-	"heinrich.schuchardt@canonical.com" <heinrich.schuchardt@canonical.com>,
-	"vbabka@suse.cz" <vbabka@suse.cz>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
-	"alex@ghiti.fr" <alex@ghiti.fr>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"surenb@google.com" <surenb@google.com>,
-	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-	"cleger@rivosinc.com" <cleger@rivosinc.com>,
-	"samuel.holland@sifive.com" <samuel.holland@sifive.com>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-	"ajones@ventanamicro.com" <ajones@ventanamicro.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"apatel@ventanamicro.com" <apatel@ventanamicro.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: Re: [PATCH 10/11] scs: generic scs code updated to leverage hw
- assisted shadow stack
-Message-ID: <aIfpcUmNtLFPd2cO@debug.ba.rivosinc.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Monk Chiang <monk.chiang@sifive.com>,
+	Kito Cheng <kito.cheng@sifive.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+	llvm@lists.linux.dev, rick.p.edgecombe@intel.com,
+	broonie@kernel.org, cleger@rivosinc.com, samitolvanen@google.com,
+	apatel@ventanamicro.com, ajones@ventanamicro.com,
+	conor.dooley@microchip.com, charlie@rivosinc.com,
+	samuel.holland@sifive.com, bjorn@rivosinc.com, fweimer@redhat.com,
+	jeffreyalaw@gmail.com, heinrich.schuchardt@canonical.com,
+	andrew@sifive.com, ved@rivosinc.com
+Subject: Re: [PATCH 06/11] mm: Introduce ARCH_HAS_KERNEL_SHADOW_STACK
+Message-ID: <aIgXeRDXNmOozRWp@debug.ba.rivosinc.com>
 References: <20250724-riscv_kcfi-v1-0-04b8fa44c98c@rivosinc.com>
- <20250724-riscv_kcfi-v1-10-04b8fa44c98c@rivosinc.com>
- <3d579a8c2558391ff6e33e7b45527a83aa67c7f5.camel@intel.com>
- <aIO8uSqiplnyyNOd@debug.ba.rivosinc.com>
- <a19c1338f2fa4cb19a4f8b7552ff54ded20b403a.camel@intel.com>
- <aIfOTC6CfyCsaEpv@debug.ba.rivosinc.com>
+ <20250724-riscv_kcfi-v1-6-04b8fa44c98c@rivosinc.com>
+ <aISGypOAaDGaUZgd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aIfOTC6CfyCsaEpv@debug.ba.rivosinc.com>
+In-Reply-To: <aISGypOAaDGaUZgd@kernel.org>
 
-On Mon, Jul 28, 2025 at 12:23:56PM -0700, Deepak Gupta wrote:
->On Fri, Jul 25, 2025 at 06:05:22PM +0000, Edgecombe, Rick P wrote:
->>On Fri, 2025-07-25 at 10:19 -0700, Deepak Gupta wrote:
->>>> This doesn't update the direct map alias I think. Do you want to protect it?
->>>
->>>Yes any alternate address mapping which is writeable is a problem and dilutes
->>>the mechanism. How do I go about updating direct map ? (I pretty new to linux
->>>kernel and have limited understanding on which kernel api's to use here to
->>>unmap
->>>direct map)
+On Sat, Jul 26, 2025 at 10:42:02AM +0300, Mike Rapoport wrote:
+>On Thu, Jul 24, 2025 at 04:36:59PM -0700, Deepak Gupta wrote:
+>> commit bcc9d04e74 ("mm: Introduce ARCH_HAS_USER_SHADOW_STACK") introduced
+>> `ARCH_HAS_USER_SHADOW_STACK`. Introducing `ARCH_HAS_KERNEL_SHADOW_STACK`
+>> so that arches can enable hardware assistance for kernel shadow stack.
 >>
->>Here is some info on how it works:
+>> If `CONFIG_DYNAMIC_SCS` or `CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK` are
+>> selected, skip compiler flag `-fsanitizer=shadow-call-stack`.
 >>
->>set_memory_foo() variants should (I didn't check riscv implementation, but on
->>x86) update the target addresses passed in *and* the direct map alias. And flush
->>the TLB.
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> ---
+>>  Makefile   | 2 +-
+>>  mm/Kconfig | 6 ++++++
+>>  2 files changed, 7 insertions(+), 1 deletion(-)
 >>
->>vmalloc_node_range() will just set the permission on the vmalloc alias and not
->>touch the direct map alias.
+>> diff --git a/Makefile b/Makefile
+>> index 35e6e5240c61..7e3ecca9353d 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -987,7 +987,7 @@ LDFLAGS_vmlinux += --gc-sections
+>>  endif
 >>
->>vfree() works by trying to batch the flushing for unmap operations to avoid
->>flushing the TLB too much. When memory is unmapped in userspace, it will only
->>flush on the CPU's with that MM (process address space). But for kernel memory
->>the mappings are shared between all CPUs. So, like on a big server or something,
->>it requires way more work and distance IPIs, etc. So vmalloc will try to be
->>efficient and keep zapped mappings unflushed until it has enough to clean them
->>up in bulk. In the meantime it won't reuse that vmalloc address space.
+>>  ifdef CONFIG_SHADOW_CALL_STACK
+>> -ifndef CONFIG_DYNAMIC_SCS
+>> +ifeq ($(or $(CONFIG_DYNAMIC_SCS),$(CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK)),false)
+>>  CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+>>  KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+>>  KBUILD_RUSTFLAGS += -Zsanitizer=shadow-call-stack
+>> diff --git a/mm/Kconfig b/mm/Kconfig
+>> index 781be3240e21..f295ea611cdb 100644
+>> --- a/mm/Kconfig
+>> +++ b/mm/Kconfig
+>> @@ -1367,6 +1367,12 @@ config ARCH_HAS_USER_SHADOW_STACK
+>>  	  The architecture has hardware support for userspace shadow call
+>>            stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
 >>
->>But this means there can also be other vmalloc aliases still in the TLB for any
->>page that gets allocated from the page allocator. If you want to be fully sure
->>there are no writable aliases, you need to call vm_unmap_aliases() each time you
->>change kernel permissions, which will do the vmalloc TLB flush immediately. Many
->>set_memory() implementations call this automatically, but it looks like not
->>riscv.
->>
->>
->>So doing something like vmalloc(), set_memory_shadow_stack() on alloc and
->>set_memory_rw(), vfree() on free is doing the expensive flush (depends on the
->>device how expensive) in a previously fast path. Ignoring the direct map alias
->>is faster. A middle ground would be to do the allocation/conversion and freeing
->>of a bunch of stacks at once, and recycle them.
->>
->>
->>You could make it tidy first and then optimize it later, or make it faster first
->>and maximally secure later. Or try to do it all at once. But there have long
->>been discussions on batching type kernel memory permission solutions. So it
->>would could be a whole project itself.
+>> +config ARCH_HAS_KERNEL_SHADOW_STACK
+>> +	bool
+>> +	help
+>> +	  The architecture has hardware support for kernel shadow call
+>> +          stacks (eg, x86 CET, arm64 GCS or RISC-V Zicfiss).
 >
->Thanks Rick. Another approach I am thinking could be making vmalloc
->intrinsically aware of certain range to be security sensitive. Meaning during
->vmalloc initialization itself, it could reserve a range which is ensured to be
->not direct mapped. Whenever `PAGE_SHADOWSTACK` is requested, it always comes
->from this range (which is guaranteed to be never direct mapped).
->
->I do not expect hardware assisted shadow stack to be more than 4K in size
->(should support should 512 call-depth). A system with 30,000 active threads
->(taking a swag number here), will need 30,000 * 2 (one for guard) = 60000 pages.
->That's like ~245 MB address range. We can be conservative and have 1GB range in
->vmalloc larger range reserved for shadow stack. vmalloc ensures that this
->range's direct mappping always have read-only encoding in ptes. Sure this number
->(shadow stack range in larget vmalloc range) could be configured so that user
->can do their own trade off.
->
->Does this approach look okay?
+>nit: tab and two space for indentation of the help text
 
-Never mind, maintaining free/allocated list by vmalloc would be problematic
-In that case this has to be something like a consumer of vmalloc, reserve a
-range and do free/alloc out of that. And then it starts looking like a cache
-of shadow stacks without direct mapping (as you suggested)
-
+Will fix it.
 
 >
+>> +
+>
+>I think both ARCH_HAS_USER_SHADOW_STACK and ARCH_HAS_KERNEL_SHADOW_STACK
+>belong to arch/Kconfig rather than mm/Kconfig
+
+Do you want me to move it?
+This basically means that hardware shadow stack is supported or not.
+It needs mm support. I think thats why user one landed here. I followed.
+
+If it impacts mm, it should be here, right?
+
+>
+>>  config ARCH_SUPPORTS_PT_RECLAIM
+>>  	def_bool n
 >>
->>>
->>>>
->>>> >
->>>> >   out:
->>>> > @@ -59,7 +72,7 @@ void *scs_alloc(int node)
->>>> >   	if (!s)
->>>> >   		return NULL;
->>>> >
->>>> > -	*__scs_magic(s) = SCS_END_MAGIC;
->>>> > +	__scs_store_magic(__scs_magic(s), SCS_END_MAGIC);
->>>> >
->>>> >   	/*
->>>> >   	 * Poison the allocation to catch unintentional accesses to
->>>> > @@ -87,6 +100,16 @@ void scs_free(void *s)
->>>> >   			return;
->>>> >
->>>> >   	kasan_unpoison_vmalloc(s, SCS_SIZE, KASAN_VMALLOC_PROT_NORMAL);
->>>> > +	/*
->>>> > +	 * Hardware protected shadow stack is not writeable by regular
->>>> > stores
->>>> > +	 * Thus adding this back to free list will raise faults by
->>>> > vmalloc
->>>> > +	 * It needs to be writeable again. It's good sanity as well
->>>> > because
->>>> > +	 * then it can't be inadvertently accesses and if done, it will
->>>> > fault.
->>>> > +	 */
->>>> > +#ifdef CONFIG_ARCH_HAS_KERNEL_SHADOW_STACK
->>>> > +	set_memory_rw((unsigned long)s, (SCS_SIZE/PAGE_SIZE));
->>>>
->>>> Above you don't update the direct map permissions. So I don't think you need
->>>> this. vmalloc should flush the permissioned mapping before re-using it with
->>>> the
->>>> lazy cleanup scheme.
->>>
->>>If I didn't do this, I was getting a page fault on this vmalloc address. It
->>>directly
->>>uses first 8 bytes to add it into some list and that was the location of
->>>fault.
 >>
->>Ah right! Because it is using the vfree atomic variant.
+>> --
+>> 2.43.0
 >>
->>You could create your own WQ in SCS and call vfree() in non-atomic context. If
->>you want to avoid thr set_memory_rw() on free, in the ignoring the direct map
->>case.
+>
+>-- 
+>Sincerely yours,
+>Mike.
 
