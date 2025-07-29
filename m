@@ -1,130 +1,120 @@
-Return-Path: <linux-kbuild+bounces-8240-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8241-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B4FB14E51
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 15:25:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDE1B14E8C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 15:41:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EED30189EFFA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 13:25:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D278A4E5606
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Jul 2025 13:40:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B77A51ACEDD;
-	Tue, 29 Jul 2025 13:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 571F6199934;
+	Tue, 29 Jul 2025 13:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mhZWEm11"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAD215573A;
-	Tue, 29 Jul 2025 13:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA1B288CC;
+	Tue, 29 Jul 2025 13:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753795517; cv=none; b=EZjhZdHiKebLvaeUepIKrbk79Tj/Rz5QnOHLzOesfytmGiBKD/szoA9YSrMCvrh2KOWYOcSnefvPbrotPFQ4z1lBrgvfnKtnOLEKDU06JemBmuwI2eM2Pa+u5c8UpFI3B/XbklbSEKNtDQ+pMuT8FmBAHjuBp2UM0jvBei7Ao9Q=
+	t=1753796461; cv=none; b=o66SfdLb+KoPhD6imS/Y7W8cBf1OCgN0cn7Is29k3IrYetP3POa0NE16resAcYNyxNmZMonvszuDHleKPJ+VZbXFia2SajRXxYCMmZ44cNeviYtNzkvvPYSJ3Py8udX4b6euBfCzb3kdyR/dojLNYIhrLph/ClvhLWGIhKjoZVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753795517; c=relaxed/simple;
-	bh=p9RaGBMR8u66X2tUCyNn2rT4pC2/rbWDHQ6ujxVhM94=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lVpmVnQSsnUqfcsZkhTRWIThiCew4JNPlBnNCvtk8WulIA16ElmRKBs8s+bll3MbjNwKM7J8kIX+716iz5KI8nADJjmQ38Yl2iOy6Lg2uN//XXqdYoHdMS+hBIS+DjmPurjulFDAJ9GiGK6WZ3878nLl7UNoeiS7aapuqhk4o2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from pomiot (c144-141.icpnet.pl [85.221.144.141])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mgorny)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id F247D340D58;
-	Tue, 29 Jul 2025 13:25:12 +0000 (UTC)
-From: =?UTF-8?q?Micha=C5=82=20G=C3=B3rny?= <mgorny@gentoo.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Sam James <sam@gentoo.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Micha=C5=82=20G=C3=B3rny?= <mgorny@gentoo.org>
-Subject: [PATCH v4] kheaders: make it possible to override TAR
-Date: Tue, 29 Jul 2025 15:24:55 +0200
-Message-ID: <20250729132500.343778-1-mgorny@gentoo.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <CAK7LNATotYMHVgNHkQcT33qQK+fdZAjoQpdJqtKKWT18uJcPXg@mail.gmail.com>
-References: <CAK7LNATotYMHVgNHkQcT33qQK+fdZAjoQpdJqtKKWT18uJcPXg@mail.gmail.com>
+	s=arc-20240116; t=1753796461; c=relaxed/simple;
+	bh=ob0LmPTH3U6CFRPsZtkAASoRcO08ztzyJp1n8QEpOjk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XPS4+SJEZqRdsOf9tbwTftvIaVmKMxfh9E+yBQd37I+e/7xRR9sg1NI0v78HzV5wMPpl7CNtuWuUkG1gEOXk8Zi2uUN3l63Tmc4dvygGiIuLEoqjVQeRvkKPcqhaK1BFshYVFhzVWSDkTVyx0wRSAfDhhhMZhBUVT2dzbcJsuyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mhZWEm11; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2D7EC4CEF9;
+	Tue, 29 Jul 2025 13:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753796460;
+	bh=ob0LmPTH3U6CFRPsZtkAASoRcO08ztzyJp1n8QEpOjk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=mhZWEm11M9RhF3CJeSoMngXgk1GjxEfDV+bei91e2ua8vIpzGHDGmXXg1J9DkIKvv
+	 YITVIjrysmd1UmWOsJ6HfZk13Iw8Q5CGmln9P5q782H/UTMLt3BCIQPkmgCBtNhd06
+	 aNmFDIiFfqSW9p/SQBsz/d+0Sq9+8+g+2yrRtkdiALr37BfvXtHbsus4GnbLCoX3TS
+	 HyOhb/AvxCrnoa5WvU9pHIhzS8hEqoOLwpUy30MkRbUk8fT1iXsG7nkxXi7qCCacqU
+	 kn8VOUulH2wbYRYyDIg7g08e0Raj3IR6v5L7Lfa0C1HiqtgENYSSwLPMQI/wJV4e8i
+	 PjF0WX1d0qu8g==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-555163cd09aso4767697e87.3;
+        Tue, 29 Jul 2025 06:41:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWwn9TNTp99WsZTxRB+VV1eEErPMignlx1+D+pvGy1EUzPPVWsrUPFa4knKsDz1x7W46E2itkxPDitGThw=@vger.kernel.org, AJvYcCX8UMSqOyCaWZJQTudslhmQj1g3p7GGFia50rtNeIB81ymCSNLTPGzSiNjpSmVyAETPi9OS2dcK/OEh6Rpx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6ZnlhlZIXX+sLQO5nYWJ+LlohSvtbNJCe3MQcyY14rCpASmRZ
+	lLx+QUmFmdDRuKr5YpL4xYT/vT7n9DKdVzDRnT+jqSSMPpbRgEpexHmRF35wcLU15uU0AAYJ88U
+	js/uxEpMu75uwq/3lRmp4BvD6T0EGJ48=
+X-Google-Smtp-Source: AGHT+IGXvDD6+HE+n6KcA5hrIEq9JCrAGhFeonVHxDMZsACrl6lzsMudWBV6SZoqc4ZPDFUI8EegsOK5pSV2AF56Pqs=
+X-Received: by 2002:a05:6512:1392:b0:54e:81ec:2c83 with SMTP id
+ 2adb3069b0e04-55b5f3ec63fmr3713126e87.18.1753796459386; Tue, 29 Jul 2025
+ 06:40:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250727164433.203775-1-suchitkarunakaran@gmail.com> <2025072842-require-smokeless-f98f@gregkh>
+In-Reply-To: <2025072842-require-smokeless-f98f@gregkh>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 29 Jul 2025 22:40:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ_e0xXb2Uyupo4U5PUtbVBf9_dZO6qkSG0HNxWVEBeFw@mail.gmail.com>
+X-Gm-Features: Ac12FXzaTJhx6-ERGwf60fRPnl9YGsOcabamn8mnBHm8jXreHlRlmuEP3bIGe1E
+Message-ID: <CAK7LNAQ_e0xXb2Uyupo4U5PUtbVBf9_dZO6qkSG0HNxWVEBeFw@mail.gmail.com>
+Subject: Re: [PATCH v3] kconfig/lxdialog: replace strcpy() with strncpy() in inputbox.c
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Suchit Karunakaran <suchitkarunakaran@gmail.com>, nicolas.schier@linux.dev, 
+	linux-kbuild@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 86cdd2fdc4e39c388d39c7ba2396d1a9dfd66226 ("kheaders: make headers
-archive reproducible") introduced a number of options specific to GNU
-tar to the `tar` invocation in `gen_kheaders.sh` script.  This causes
-the script to fail to work on systems where `tar` is not GNU tar.  This
-can occur e.g. on recent Gentoo Linux installations that support using
-bsdtar from libarchive instead.
+On Mon, Jul 28, 2025 at 1:29=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Sun, Jul 27, 2025 at 10:14:33PM +0530, Suchit Karunakaran wrote:
+> > strcpy() performs no bounds checking and can lead to buffer overflows i=
+f
+> > the input string exceeds the destination buffer size. This patch replac=
+es
+> > it with strncpy(), and null terminates the input string.
+> >
+> > Signed-off-by: Suchit Karunakaran <suchitkarunakaran@gmail.com>
+> > ---
+> >  scripts/kconfig/lxdialog/inputbox.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/scripts/kconfig/lxdialog/inputbox.c b/scripts/kconfig/lxdi=
+alog/inputbox.c
+> > index 3c6e24b20f5b..5e4a131724f2 100644
+> > --- a/scripts/kconfig/lxdialog/inputbox.c
+> > +++ b/scripts/kconfig/lxdialog/inputbox.c
+> > @@ -39,8 +39,10 @@ int dialog_inputbox(const char *title, const char *p=
+rompt, int height, int width
+> >
+> >       if (!init)
+> >               instr[0] =3D '\0';
+> > -     else
+> > -             strcpy(instr, init);
+> > +     else {
+> > +             strncpy(instr, init, sizeof(dialog_input_result) - 1);
+> > +             instr[sizeof(dialog_input_result) - 1] =3D '\0';
+>
+> As this is a userspace tool, why is this change needed at all?  How can
+> this overflow and if it does, what happens?
 
-Add a `TAR` make variable to make it possible to override the tar
-executable used, e.g. by specifying:
+The buffer size (2049 byte) is large enough, and
+buffer overflow is unlikely to happen in practical use cases.
+If it does, I think the program will crash.
 
-  make TAR=gtar
 
-Link: https://bugs.gentoo.org/884061
-Reported-by: Sam James <sam@gentoo.org>
-Tested-by: Sam James <sam@gentoo.org>
-Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Michał Górny <mgorny@gentoo.org>
-Signed-off-by: Sam James <sam@gentoo.org>
----
- Makefile               | 3 ++-
- kernel/gen_kheaders.sh | 6 +++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index ba0827a1fccd..081d494d037a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -543,6 +543,7 @@ LZMA		= lzma
- LZ4		= lz4
- XZ		= xz
- ZSTD		= zstd
-+TAR		= tar
- 
- CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
- 		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
-@@ -622,7 +623,7 @@ export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN
- export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
- export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
- export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
--export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
-+export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD TAR
- export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS KBUILD_PROCMACROLDFLAGS LDFLAGS_MODULE
- export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
- 
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index c64e5a00a3d9..896a503dfb29 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -30,8 +30,8 @@ rm -rf "${tmpdir}"
- mkdir "${tmpdir}"
- 
- # shellcheck disable=SC2154 # srctree is passed as an env variable
--sed "s:^${srctree}/::" "${srclist}" | tar -c -f - -C "${srctree}" -T - | tar -xf - -C "${tmpdir}"
--tar -c -f - -T "${objlist}" | tar -xf - -C "${tmpdir}"
-+sed "s:^${srctree}/::" "${srclist}" | ${TAR} -c -f - -C "${srctree}" -T - | ${TAR} -xf - -C "${tmpdir}"
-+${TAR} -c -f - -T "${objlist}" | ${TAR} -xf - -C "${tmpdir}"
- 
- # Remove comments except SDPX lines
- # Use a temporary file to store directory contents to prevent find/xargs from
-@@ -43,7 +43,7 @@ xargs -0 -P8 -n1 \
- rm -f "${tmpdir}.contents.txt"
- 
- # Create archive and try to normalize metadata for reproducibility.
--tar "${timestamp:+--mtime=$timestamp}" \
-+${TAR} "${timestamp:+--mtime=$timestamp}" \
-     --owner=0 --group=0 --sort=name --numeric-owner --mode=u=rw,go=r,a+X \
-     -I "${XZ}" -cf "${tarfile}" -C "${tmpdir}/" . > /dev/null
- 
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
