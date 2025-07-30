@@ -1,97 +1,100 @@
-Return-Path: <linux-kbuild+bounces-8254-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8255-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D39B1636D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Jul 2025 17:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BDBB167CA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Jul 2025 22:51:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EA681AA3CDD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Jul 2025 15:13:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37BDA1AA32D6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Jul 2025 20:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32552DC35C;
-	Wed, 30 Jul 2025 15:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 953002222A3;
+	Wed, 30 Jul 2025 20:51:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Qu78tWsO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZXah3LQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60664481A3;
-	Wed, 30 Jul 2025 15:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9D5221F09
+	for <linux-kbuild@vger.kernel.org>; Wed, 30 Jul 2025 20:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753888373; cv=none; b=MnKklIt7QU5ai0R+xmcLmeaIzME8OuJl9pmoMDZLBYbXScFc12vzuVRezGzfLwkK4Nhnol4ArjURlDORoiDbNSA1TZzbM92skP7pFb4dGn1U5xTEDRDBn18NZmzSScGxX8L0N+Pf6kpIlPO87/MeEjgaOEuki1x7F/Xm+IFQfvY=
+	t=1753908696; cv=none; b=jt/qbHkN1E0RusssNuTvZyb7SJZS4hzEKduifHBUBGpn9El7WHT3tPo43EdslLdjmfi8Hr5GQVSRMgIMqrrxQKT80s9MHAvh567+y4FndwBCJAnAe6wQ/ZOpmbvtfZK7qr4fALTxjmBJzBQU2VmNgJdEQTa0sUhfY7Ii1eHbFFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753888373; c=relaxed/simple;
-	bh=g9n5riVDlfs5BXhg/BeND7TCXaVTFd6RKJnzovJDGF4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hM0en1a/wvDDUglnCXAShthDO3jXAg4r1zYM/tEIAP+gl6lrRROX1STGzbTx9Ihd1nK/Qn0kmYPVlMzlCpd6rxz8LIgBWKxDspPxXo7ro8WWLzSKzAC2dNYummfSARXACKYMKfD7Nj/HnJw6QJEbhoKStoC693BY7n3rZKOggpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Qu78tWsO; arc=none smtp.client-ip=115.124.30.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1753888367; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=6sT7aVW3MQBG7miFtEu5bR6UM9le1ET/SznYRdA7Jy0=;
-	b=Qu78tWsOHQbez33e9srM7z5RDJiXV9q/GIG+F25B6GA/ugIFmueBOoMLwWwK2SmiZWgQlrpODCGrvcFhXiqoAj/zPrJwjlNv3a9Th6OpoinKsF2uEHjCttD1exSXKpoejikjnEkUs7A9US0ceN4IidX513h2cJbfwuMo8U6Obfs=
-Received: from 30.170.233.0(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0WkV9HNb_1753888365 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 30 Jul 2025 23:12:46 +0800
-Message-ID: <d744137b-11b4-4ce9-a4c1-ba10e24adb9a@linux.alibaba.com>
-Date: Wed, 30 Jul 2025 23:12:45 +0800
+	s=arc-20240116; t=1753908696; c=relaxed/simple;
+	bh=wK8T++Ju3Scbupy6EOaAOyMIS1JFl/etdc4qKtpjSk8=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=S7BKjo79IDwvTaTzuh37G6qL8J3mLkbeM5CNF1j7OmdAidrErzui54IXZwkvBiUmuKr2eD93RiVS4Fz3kIlsdjxOW/1+UzL8fwk21bH9Dr+EpnhsEpimvG/sliqXA86Msq0/eBezRoirvjAuMkJnsMHLp553iIBVjdEeN0xsfbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VZXah3LQ; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-401c43671ecso112527b6e.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Jul 2025 13:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753908694; x=1754513494; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wK8T++Ju3Scbupy6EOaAOyMIS1JFl/etdc4qKtpjSk8=;
+        b=VZXah3LQXTGlLiQw+aq0EylPMybBGyg39cAE3f6mHZvwHUwrCrG7jhume5v/f08GO2
+         WuBHXl23LORtAac/ckHJ94AfVxr4Y3E9i83jP+J8ihkvHcYSfQBKgNyBGGVqGpXOjij+
+         v0aMbS9pwswwWHC5XSwa03efGnOm+VWLtHV7lCs9SGUjdNEawqR5ertRRhdn1e9HEVG0
+         eN+WWydUZd08SoO7lUnLuMQP6PDzKuuowiPRe6GCTC21Y4ducp71EMLk1uJaSD9KTWqk
+         OGxHKNwbIFOyhaiVopk10blSVgej+7iOUMmIpjIWuKVMp4Vtgk5QOp+LwqxUhffNpFkU
+         /t2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753908694; x=1754513494;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wK8T++Ju3Scbupy6EOaAOyMIS1JFl/etdc4qKtpjSk8=;
+        b=mC+mkNBQz/j3ax/zMdg32lz3DwUlVPKLjwlvc7UaNuI0TgfIAKmqo+CWolqjzFKXiP
+         r+RWGdHv0fpJ+mrTW3UwIgif2pUkzmCSMvvlDheNS3wLcArF/5vZ52ewBG0/ogZpardR
+         pQbyT1nAtSnflkV2P6VjCcGfTzNsQZO0mXhB14IoCrVvlbz1FMxW8X3H0O9jnb/fD7jy
+         nGSW3vQ3GAYs/CkfFIo3zDU8kt5VzYyX/2KH89LqVwi5wwbO+IMPEJFjv+R6wap7dxJj
+         ufdNpoGUlmw9gYMS3Vp9elJG8KFbxnfEs9ed7HD0DoiMq0XqceW7Rkoa7QFO0mFRyZwf
+         0LwQ==
+X-Gm-Message-State: AOJu0YyEmG+d10fuVNoEyd2dTQi1l5VZBUZQf660jPSUlKS+ftVU7N5h
+	6PVeatLRIVZS8xqYZHNkpSfeQWiSmTmhH+n23g29ZVRHG+4CykefMy8chLrpwdIz/SwNN0FrYRX
+	F9biMVLlxNklAZ+fUzp9oeWloH9KbCPJ89uRE
+X-Gm-Gg: ASbGncs8jazIHaY6Gyx+B+xXVL0+txhu777TREv17WzbKj20hxH8Lnnupm7cqAfVvu8
+	VpBoeZtlhElVQwtF4sy90S4znePXJVHQO5iHGltlUOFGjId9Q99ItCGYcgK/I1+YhGqcWDLh5jI
+	6+bFSWzG/RtXYdve8BgHF+B/u1Fq1agaPnYIW3BeVX2tIOw6PknGOXJbVVCgkTP0nx5mXJUnFTn
+	KWO2q4=
+X-Google-Smtp-Source: AGHT+IEMdb6T2aSmcTuq4rZE3slhXA0AUH5CLpplqUwLapx/u4+k1GjAC9Pmot7LnyfMXqaKV7fW4lja5Dz+9rAzP8M=
+X-Received: by 2002:a05:6808:2112:b0:414:31e6:f6f1 with SMTP id
+ 5614622812f47-431a5c4461cmr2714339b6e.17.1753908693795; Wed, 30 Jul 2025
+ 13:51:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] erofs: Do not select tristate symbols from bool symbols
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Gao Xiang
- <xiang@kernel.org>, Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
- Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale
- <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>,
- Bo Liu <liubo03@inspur.com>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <da1b899e511145dd43fd2d398f64b2e03c6a39e7.1753879351.git.geert+renesas@glider.be>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <da1b899e511145dd43fd2d398f64b2e03c6a39e7.1753879351.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: "David F." <df7729@gmail.com>
+Date: Wed, 30 Jul 2025 13:51:21 -0700
+X-Gm-Features: Ac12FXwYD4GxhDyNjMv22oJMmQr-ZmAAJ_e-Z-wF15XRQ_gMQwFH0_sx-H3876I
+Message-ID: <CAGRSmLtTCUoV66PAJ2VCBz70VNVKxhJHGbBFt9GXQdOP6z5KLg@mail.gmail.com>
+Subject: 6.12 and 6.15 building fixdep / modpost for amd64 instead of 686.
+To: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Greet,
+Hello,
 
-On 2025/7/30 20:44, Geert Uytterhoeven wrote:
-> The EROFS filesystem has many configurable options, controlled through
-> boolean Kconfig symbols.  When enabled, these options may need to enable
-> additional library functionality elsewhere.  Currently this is done by
-> selecting the symbol for the additional functionality.  However, if
-> EROFS_FS itself is modular, and the target symbol is a tristate symbol,
-> the additional functionality is always forced built-in.
-> 
-> Selecting tristate symbols from a tristate symbol does keep modular
-> transitivity.  Hence fix this by moving selects of tristate symbols to
-> the main EROFS_FS symbol.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Triggered by noticing that commit 5e0bf36fd156b8d9 ("erofs: fix build
-> error with CONFIG_EROFS_FS_ZIP_ACCEL=y") caused CONFIG_CRYPTO_DEFLATE
-> and CONFIG_ZLIB_DEFLATE to change from m to y in m68k/allmodconfig.
-> 
-> Unfortunately Kconfig cannot be changed easily to detect this
-> automatically, as it cannot distinguish between a "bool" symbol
-> representing a configurable option in a module, and a driver that cannot
-> be a module.
-> ---
+I build the amd64 kernel on a debian based linux 686 version.
+Building the 6.6.x kernel, everything was fine (fixdep/modpost were
+ELF32), however I jumped to 6.12.x / 6.15.x versions and now the
+system is building them as ELF64 which means I can't build my custom
+kernel module.
 
-Thanks, it looks good to me, will upstream in this cycle:
+To make the kernel(s) I use: make bindeb-pkg
 
-Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+The build for the 686 kernel worked fine, creating the ELF32 binaries,
+and allowed me to build my kernel module for it.
 
-Thanks,
-Gao Xiang
+What do I need to change for the build to properly create the ELF32
+version of the various scripts created with the headers for the amd64
+kernel?
+
+TIA!!
 
