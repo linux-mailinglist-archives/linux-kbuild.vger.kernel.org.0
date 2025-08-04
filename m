@@ -1,145 +1,105 @@
-Return-Path: <linux-kbuild+bounces-8283-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8284-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3915CB1A479
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 16:20:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B67B1A52C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 16:44:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B6C517E3FF
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 14:20:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D0A17A50B5
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 14:42:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E88026FA57;
-	Mon,  4 Aug 2025 14:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81E99272E60;
+	Mon,  4 Aug 2025 14:43:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oP+nNv0M"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JwAAIPP5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A66026B77D
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Aug 2025 14:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DE3273803
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Aug 2025 14:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754317228; cv=none; b=KzEGYCZ5aVBgXgOMTGpI1RP6YVZtD5BMdQOm5SK7glpii9X0VNhr6EHg/VGiihh9VUYeDWtUAMW62+zYmmdfW/hY2qpaUg8E967m64t6eL8qsGrPWBqbP9XWPA53Q2J+5wpXPZvrxzN5ZiGSIUHJ8d4FWGEczyf9tUx6S+ACRZo=
+	t=1754318635; cv=none; b=PQQLzYzkQgLoVkrF9SGcgUTH/ImDQ8I6XmNOEysZ42IihMfcalrUqb6o/kJyEI/gVGyQ05qqDbWFwXTaZi+cSDFXTJeE01PdklysaT79mNc5GDqAmfnKw/2xS5Zn+xRnsvZGBUCZnMv2WgR31QN+LTqXEHW7k2yM5G2XMNdEK9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754317228; c=relaxed/simple;
-	bh=LYnlNYESOsCzrryaITLezUf8Iw6CcuykLnbpYkC0+pE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SyjeIBksXBz12MK6/w9m2q9BwVQVjAxhNcPo0AcdWI3BWJyjqXHtnsNdWofg6/JZf6r86Xt/y2cr/RRYC7ehfjZch/OWjM5wFXSJNx8yER7tVmSYFhKDXcsv2W359SSZlaIIOqMxCkKDEyMJnwZZha9Xpb6FU2LyHv+El/I7skE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oP+nNv0M; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C4E4C4CEE7;
-	Mon,  4 Aug 2025 14:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754317227;
-	bh=LYnlNYESOsCzrryaITLezUf8Iw6CcuykLnbpYkC0+pE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oP+nNv0MXWXFDkVlPb9t7L0HhsKf3i9LjBjjWCyKMUWf7PBztoVQm0EwebbNhKuzN
-	 neHmAY9XThKjLVcOLwt9k+mcSDG2wXOQRGft1AvB7bFhxr2cCBj+/EfvC5TwhKFhWm
-	 cdoBnSQDAQtHYLd2if7Xio5aE8fEpfcTiuHqgmd/JKhWJRpPzHeTwVj5Gh8w/UtwPF
-	 mhLqvRgUk/dULCxlPVf2q5YMx8tIJ6Izqk2hLsxp1hVJNZbSCe90QeYL5OBcY8WYwR
-	 TZGJHWj8gIb/uwxLmZsRbwuj1mmEew8uqnZuWYsuMBwJS60sgmgv8r1ADHyOzGXsOd
-	 AmE2FoDwP1k5A==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] MAINTAINERS: hand over Kbuild maintenance
-Date: Mon,  4 Aug 2025 23:20:07 +0900
-Message-ID: <20250804142007.776418-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1754318635; c=relaxed/simple;
+	bh=pi4wcByzxhgpQyYWhmQe234j4397jdZNy/GiV//pq84=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ELowt1LlwZ8TI+Vnoo7YLkAUMd1mXsZlLMzpbLnh9GkAdBWQVvMc3msqjSgHJ6i4uYATCR3QY17eJo+smEY3S3YzCOLcc0ARzGdWBThkYt8+xuo3zME5uf3+3mXaE95rmO+ltIdHfCx4RrBXrkodrd/9yaO0trdY8eZxuEouZdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JwAAIPP5; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-31ec2ac984eso785369a91.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 04 Aug 2025 07:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754318632; x=1754923432; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pi4wcByzxhgpQyYWhmQe234j4397jdZNy/GiV//pq84=;
+        b=JwAAIPP5yB3SIIRPEkUGK5w8+goqrrMvCQiJOoZnsD+B4KPvxqtct71NQ+xggieWnz
+         /PK5ld3dmZNYW/feiL6uMy/jCogJjIYKs30tWDtvaJBOLs4rxd29cKLM1Dldm+EolhPP
+         iZx9puxuwE6n7W3vGW4SEdiNTsPSKeKos9BDPM9ObqoTZnc9YFLRPCr9xaSoHPvxjC9p
+         woUn0tGdu+5D8n080qp9ROVFlJZI6MOXFmeENAtJVTJQdEltMgXDIK0i4vB7ximEPUiK
+         kvQnZ6/ZowrbCFWY9ONapydOtqd+rpWGzkGKZyJ97KcXKGdAZXdnr5Vz+TkBYOeJmghA
+         B/wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754318632; x=1754923432;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pi4wcByzxhgpQyYWhmQe234j4397jdZNy/GiV//pq84=;
+        b=bXjFhWV22sRiOUuhpfI4ORsGJuZ/Tl8No/9autRjByrrAjr2JITPun1MvYjwmCeRin
+         QpYJfSStyiW4FfNBjkHcm3a2Ef36lQ9t6LZ4knpBhfurT60PssC/qP4xQgkw1WzoEhVa
+         fxB5Z6M+cQg9OR3VDjQfSkSObX7TL1jbuVM/LXVmwi511W91X3r4Vf8hA9MyC5ie+nCX
+         2eoa8PSMAirnr9b34210sZRazmZIkJbid+4UkLB/h0SWGm+Uww9CXHtnPsK3Jm+IfGLH
+         sHi+2emgNMtfvm13XU7pzm1pgc4KTsC6rVDI5PRDDO9zXG6LrdiZJMEtSYv0sU3YqiZ5
+         60uw==
+X-Gm-Message-State: AOJu0YysCSSBaSp322LiVkgE5UjOEQ9MFegsuYwn4F/l47ERD8fTQkcy
+	z6R/ZsGMVeNxF+WADTEXryazSiAic8EbfRgsSbqcVddjj3T0xDdxVuaLykIo/egOJK3vegdoQds
+	W1fWfZUb54mefeMBFgtJkZ1/dFile6Gkxen8U
+X-Gm-Gg: ASbGnct/BX/ikDOa5J1qACA0ppCWTVIgG3T7BbBlwnOGU7g4pARASFcwV0vZFDccHLg
+	hTHdZ2lx8Pbs7Knhidpj7sPBoD4e5Vm41CBltJ12NO5td+9OGGlccdVQsW6LQV0zFwZ38UeCWaG
+	8Jdr/Uauy3LfTUFPRRAnMX0Wa3LtK6IKDMvR3h+NiBOWeYMjG2YB8xooJaf0W/htf86WH84b0gH
+	Jg4HuUO
+X-Google-Smtp-Source: AGHT+IGhwfjEOMbgknjJUqFisBnCJ+XJoNewcGpoN2ZHfRtdxvY8uu5HKCkI4yCLSllK/LPfqPDPxTuHTw7HBukc57U=
+X-Received: by 2002:a17:90b:38cf:b0:31f:3f2d:25ad with SMTP id
+ 98e67ed59e1d1-321162b5699mr5003524a91.3.1754318632283; Mon, 04 Aug 2025
+ 07:43:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250804142007.776418-1-masahiroy@kernel.org>
+In-Reply-To: <20250804142007.776418-1-masahiroy@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 4 Aug 2025 16:43:40 +0200
+X-Gm-Features: Ac12FXwfXWby8VeatZCmqry5g1tCqANWmUPhz3OaTb8C7iza_vZO1wy_3pqcQS4
+Message-ID: <CANiq72=5DzDYjtnc=5s3WuszD4q5Pq2FOq_56D1+=o+obGY7vQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: hand over Kbuild maintenance
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm stepping down as the maintainer of Kbuild/Kconfig.
-It was enjoyable to refactor and improve the kernel build system,
-but due to personal reasons, I believe it's difficult for me to
-continue in this role any further.
+On Mon, Aug 4, 2025 at 4:35=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+>
+> I am having a health issue. I've been pushing myself, telling myself
+> 'just a little more,' but feel that it's no longer sustainable for me
+> to carry this responsibility long-term. I decided to dump the maintenance
+> burden and have more restful time with my family.
 
-I discussed this off-list with Nathan and Nicolas, and they have
-kindly agreed to take over the maintenance of Kbuild with Odd Fixes.
-I'm grateful to them for stepping in.
+Thank you for all you have done (and, personally, for all the help
+with the Rust integration).
 
-As for Kconfig, there are currently no designated reviewers, so the
-maintainer position will remain vacant for now. I hope someone will
-step up to take on the role.
+Please take care.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Nathan Chancellor <nathan@kernel.org>
-Acked-by: Nicolas Schier <nicolas@fjasle.eu>
----
-
-More context.
-
-I am having a health issue. I've been pushing myself, telling myself
-'just a little more,' but feel that it's no longer sustainable for me
-to carry this responsibility long-term. I decided to dump the maintenance
-burden and have more restful time with my family.
-
-
- CREDITS     |  6 ++++++
- MAINTAINERS | 13 +++++--------
- 2 files changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/CREDITS b/CREDITS
-index 45446ae322ec..d134a8a63fa4 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -4369,6 +4369,12 @@ S: 542 West 112th Street, 5N
- S: New York, New York 10025
- S: USA
- 
-+N: Masahiro Yamada
-+E: masahiroy@kernel.org
-+D: Kbuild Maintainer 2017-2025
-+D: Kconfig Maintainer 2018-2025
-+S: Japan
-+
- N: Li Yang
- E: leoli@freescale.com
- D: Freescale Highspeed USB device driver
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0c1d245bf7b8..af3c328bf33a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12987,11 +12987,9 @@ F:	mm/kasan/
- F:	scripts/Makefile.kasan
- 
- KCONFIG
--M:	Masahiro Yamada <masahiroy@kernel.org>
- L:	linux-kbuild@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- Q:	https://patchwork.kernel.org/project/linux-kbuild/list/
--T:	git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
- F:	Documentation/kbuild/kconfig*
- F:	scripts/Kconfig.include
- F:	scripts/kconfig/
-@@ -13056,13 +13054,12 @@ S:	Maintained
- F:	fs/autofs/
- 
- KERNEL BUILD + files below scripts/ (unless maintained elsewhere)
--M:	Masahiro Yamada <masahiroy@kernel.org>
--R:	Nathan Chancellor <nathan@kernel.org>
--R:	Nicolas Schier <nicolas@fjasle.eu>
-+M:	Nathan Chancellor <nathan@kernel.org>
-+M:	Nicolas Schier <nicolas@fjasle.eu>
- L:	linux-kbuild@vger.kernel.org
--S:	Maintained
-+S:	Odd Fixes
- Q:	https://patchwork.kernel.org/project/linux-kbuild/list/
--T:	git git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git
- F:	Documentation/kbuild/
- F:	Makefile
- F:	scripts/*vmlinux*
--- 
-2.43.0
-
+Cheers,
+Miguel
 
