@@ -1,105 +1,236 @@
-Return-Path: <linux-kbuild+bounces-8284-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8285-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B67B1A52C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 16:44:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7152B1A56B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 17:01:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D0A17A50B5
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 14:42:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D9BF18A0B34
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Aug 2025 15:02:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81E99272E60;
-	Mon,  4 Aug 2025 14:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE73320A5EB;
+	Mon,  4 Aug 2025 15:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JwAAIPP5"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xgvZoSlj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UEgz/aYI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DE3273803
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Aug 2025 14:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92342C190;
+	Mon,  4 Aug 2025 15:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754318635; cv=none; b=PQQLzYzkQgLoVkrF9SGcgUTH/ImDQ8I6XmNOEysZ42IihMfcalrUqb6o/kJyEI/gVGyQ05qqDbWFwXTaZi+cSDFXTJeE01PdklysaT79mNc5GDqAmfnKw/2xS5Zn+xRnsvZGBUCZnMv2WgR31QN+LTqXEHW7k2yM5G2XMNdEK9w=
+	t=1754319699; cv=none; b=g1Epdk8Tb/bxRPAuip+00QGNtL98n9ULl8pKu5c6k5F8PyzxOjedkYVlCykPomsWzIhxkNBNqZ4qGhAMbT7D3aHaFd9CSk4QRiScOl+lnOCU6DcyQT2TsKT/9G9k9hBmmc4Xyu/kVp2CQ2JzDgBh47UC29Q6bzABj+YnRrjbz/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754318635; c=relaxed/simple;
-	bh=pi4wcByzxhgpQyYWhmQe234j4397jdZNy/GiV//pq84=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ELowt1LlwZ8TI+Vnoo7YLkAUMd1mXsZlLMzpbLnh9GkAdBWQVvMc3msqjSgHJ6i4uYATCR3QY17eJo+smEY3S3YzCOLcc0ARzGdWBThkYt8+xuo3zME5uf3+3mXaE95rmO+ltIdHfCx4RrBXrkodrd/9yaO0trdY8eZxuEouZdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JwAAIPP5; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-31ec2ac984eso785369a91.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 04 Aug 2025 07:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754318632; x=1754923432; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pi4wcByzxhgpQyYWhmQe234j4397jdZNy/GiV//pq84=;
-        b=JwAAIPP5yB3SIIRPEkUGK5w8+goqrrMvCQiJOoZnsD+B4KPvxqtct71NQ+xggieWnz
-         /PK5ld3dmZNYW/feiL6uMy/jCogJjIYKs30tWDtvaJBOLs4rxd29cKLM1Dldm+EolhPP
-         iZx9puxuwE6n7W3vGW4SEdiNTsPSKeKos9BDPM9ObqoTZnc9YFLRPCr9xaSoHPvxjC9p
-         woUn0tGdu+5D8n080qp9ROVFlJZI6MOXFmeENAtJVTJQdEltMgXDIK0i4vB7ximEPUiK
-         kvQnZ6/ZowrbCFWY9ONapydOtqd+rpWGzkGKZyJ97KcXKGdAZXdnr5Vz+TkBYOeJmghA
-         B/wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754318632; x=1754923432;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pi4wcByzxhgpQyYWhmQe234j4397jdZNy/GiV//pq84=;
-        b=bXjFhWV22sRiOUuhpfI4ORsGJuZ/Tl8No/9autRjByrrAjr2JITPun1MvYjwmCeRin
-         QpYJfSStyiW4FfNBjkHcm3a2Ef36lQ9t6LZ4knpBhfurT60PssC/qP4xQgkw1WzoEhVa
-         fxB5Z6M+cQg9OR3VDjQfSkSObX7TL1jbuVM/LXVmwi511W91X3r4Vf8hA9MyC5ie+nCX
-         2eoa8PSMAirnr9b34210sZRazmZIkJbid+4UkLB/h0SWGm+Uww9CXHtnPsK3Jm+IfGLH
-         sHi+2emgNMtfvm13XU7pzm1pgc4KTsC6rVDI5PRDDO9zXG6LrdiZJMEtSYv0sU3YqiZ5
-         60uw==
-X-Gm-Message-State: AOJu0YysCSSBaSp322LiVkgE5UjOEQ9MFegsuYwn4F/l47ERD8fTQkcy
-	z6R/ZsGMVeNxF+WADTEXryazSiAic8EbfRgsSbqcVddjj3T0xDdxVuaLykIo/egOJK3vegdoQds
-	W1fWfZUb54mefeMBFgtJkZ1/dFile6Gkxen8U
-X-Gm-Gg: ASbGnct/BX/ikDOa5J1qACA0ppCWTVIgG3T7BbBlwnOGU7g4pARASFcwV0vZFDccHLg
-	hTHdZ2lx8Pbs7Knhidpj7sPBoD4e5Vm41CBltJ12NO5td+9OGGlccdVQsW6LQV0zFwZ38UeCWaG
-	8Jdr/Uauy3LfTUFPRRAnMX0Wa3LtK6IKDMvR3h+NiBOWeYMjG2YB8xooJaf0W/htf86WH84b0gH
-	Jg4HuUO
-X-Google-Smtp-Source: AGHT+IGhwfjEOMbgknjJUqFisBnCJ+XJoNewcGpoN2ZHfRtdxvY8uu5HKCkI4yCLSllK/LPfqPDPxTuHTw7HBukc57U=
-X-Received: by 2002:a17:90b:38cf:b0:31f:3f2d:25ad with SMTP id
- 98e67ed59e1d1-321162b5699mr5003524a91.3.1754318632283; Mon, 04 Aug 2025
- 07:43:52 -0700 (PDT)
+	s=arc-20240116; t=1754319699; c=relaxed/simple;
+	bh=FwobIH4OyPCkUNduXkRWqzeDMqJVa1hQQJWmjZl8DeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LjfGcBE5YVZGQchjG9CmWVajhfYvsRN+VLv4GKwUEGK4tIGgZw957XXPBtl9qkViM4VdwetAhAoDWha5eC+aCeB9OJCWU2MkjvPISmUgq53ZgTxJcBJhVna3XJsCOwObSgpaXjPSE/z+wp0rGcgLj4wB3UjzzoO7sozdPlqOAIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xgvZoSlj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UEgz/aYI; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Mon, 4 Aug 2025 17:01:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1754319695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42vIk650U5Nu4ZZGP8OXuh4SGlMpsh3LVOR0xRo5c+A=;
+	b=xgvZoSljK55eUZl49pOIFNnrdHdyhB+EguZ3VtXjLlw1qYheHhyjn1dh+JM/CN0bP0mFZ/
+	tdTck748/5t0loLo7k3SOaQZq70ELh0QkFrVKXS9c26CQJCq0hx5AfknyV1PuI/aMXoxnK
+	3M2q9amGHrJB88UYc6FayJkazQiw7Zg9Jsn1BPY6MaCeTAdHxlzHh7KaQuZXxSCQnovSbx
+	+lwggG/J8XUl+sXnLhFX95K+3jDt6ym8zMY5Jz/qtkY2igFNCJ6jHt5rTEEjIphF0an7WZ
+	RHHxF8hSznbmiJep7jI2q5bXttGLltUikhYX0OKrqmgEV9SyNyEMZ58PEMorsQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1754319695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=42vIk650U5Nu4ZZGP8OXuh4SGlMpsh3LVOR0xRo5c+A=;
+	b=UEgz/aYIXbU4AIWY7sRvA+X1Ixnt/rZ/UgnAHLyq1fS1UakxkmQZwtnfaPZS/Pv/yaQIJ3
+	sOxqBD62VUPvTODg==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Willy Tarreau <w@1wt.eu>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
+Message-ID: <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de>
+ <20250717132259.GA25835@lst.de>
+ <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de>
+ <20250721070958.GA29367@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250804142007.776418-1-masahiroy@kernel.org>
-In-Reply-To: <20250804142007.776418-1-masahiroy@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 4 Aug 2025 16:43:40 +0200
-X-Gm-Features: Ac12FXwfXWby8VeatZCmqry5g1tCqANWmUPhz3OaTb8C7iza_vZO1wy_3pqcQS4
-Message-ID: <CANiq72=5DzDYjtnc=5s3WuszD4q5Pq2FOq_56D1+=o+obGY7vQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: hand over Kbuild maintenance
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250721070958.GA29367@lst.de>
 
-On Mon, Aug 4, 2025 at 4:35=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> I am having a health issue. I've been pushing myself, telling myself
-> 'just a little more,' but feel that it's no longer sustainable for me
-> to carry this responsibility long-term. I decided to dump the maintenance
-> burden and have more restful time with my family.
+Hi Christoph,
 
-Thank you for all you have done (and, personally, for all the help
-with the Rust integration).
+On Mon, Jul 21, 2025 at 09:09:58AM +0200, Christoph Hellwig wrote:
+> On Fri, Jul 18, 2025 at 08:22:26AM +0200, Thomas Weißschuh wrote:
+> > > I had my own fair share of problems with kselftests,
+> > > mostly because of the lack of structure and automated way to run them,
+> > 
+> > How did you overcome these issues? Why does everbody need to reinvent the
+> > wheel here?
+> 
+> Told people to use everything remotely file system related to use
+> xfstests instead, and either ignore or suffer from the rest.
 
-Please take care.
+Suffering from the rest is what I am trying to avoid.
+(More on that below)
 
-Cheers,
-Miguel
+> > KUnit already exists and provides a lot of structure and tooling.
+> 
+> That's great.  Let's reuse it without having to drive running userspace
+> programs from kernel code.
+
+Running in the kernel is the point behind KUnit. It could be done by putting
+all the userspace test into a initramfs and run them on boot from there.
+But that has other drawbacks:
+* The tests can't be run on an existing system.
+* All tests need to be loaded into memory together, and not on demand.
+* The tests can not be rerun.
+
+> > > but adding them to the kernel (or a module) is overshooting the target
+> > > by far.
+> > 
+> > That's a subjective statement without any reasoning I can engange with.
+> 
+> Well, then we're done here if you can't engage.
+
+This was a response to one specific statement. Could you be a bit more specific
+in your critique? I am not sure what exactly you mean in some cases, making it
+hard to respond properly. For example "bloat", it is bloaty
+* source code,
+* object code for users enabling the new kconfig options,
+* object code for other users *not* enabling the new kconfig options?
+ 
+> > I would be happy to do so, but for now I can only say that I disagree.
+> > The patches have been on the testing-related lists for
+> > some time and so far nobody had an issue with this aspect.
+> 
+> Has anyone actually chimed in and said "it's great that we bloat the
+> kernel to run userspace tests", or have people just mostly ignored it
+> like most things?
+
+That specific wording wasn't used. Obviously...
+So far nobody had any issues with the overall goal of the series.
+There was criticism around implementation details and I have been and will be
+working on resolving those.
+
+Some feedback I got:
+
+David [0]: "I've taken quite a liking to it: it'd definitely have made my
+life easier more than once."
+Benjamin is already playing with it, having built his own testcase [1].
+I asked Shuah about it before starting development and she gave a go-ahead.
+A collegue of mine is also using it to validate the PREEMPT_RT safety of
+various UAPIs by combining KUnit UAPI with a runtime validator [2].
+
+> > > > If the kernel toolchain is not fit to
+> > > > produce userspace because of a missing libc, the kernel's own nolibc can
+> > > > be used instead.
+> > > 
+> > > Is nolibc enough to run all the selftests?
+> > 
+> > It is not and most probably won't ever be. The maintainers of each testcase
+> > will decide which libc to use. Like it is in tools/testing/selftests/ today.
+> > Some use glibc, some nolibc and some can do both.
+> 
+> So why do you want to use it here?  And how is is related to the rest
+> of the series?
+
+To make it easier to test a wide range of architectures by not requiring a
+libc from the toolchain. It also avoids relying on a bunch of out-of-tree
+code (glibc) as part of the test. And there are existing kselftests which
+use it over glibc for their own reasons.
+
+But using nolibc in test code is not necessary and nobody is forced to do so.
+
+(Maybe a disclaimer that I'm one of the nolibc maintainers is in order)
+
+(...)
+
+> You present running pure userspace tests as the solution to a problem
+> you don't even explain, or rather just state very highlevel.
+
+To run kselftests we need the following things:
+a) A toolchain which can build userspace executables.
+b) Quite a bit of supporting userland, at least glibc, coreutils and bash.
+c) A rootfs assembled out of these.
+d) An efficient way to incrementally rebuild the test executables and rootfs.
+e) A way to put that rootfs into the system under test.
+f) A way to configure a kernel which
+   * is as small as possible and as fast as possible to build,
+   * can run on QEMU or a real machine,
+   * can run the functionality under test.
+g) A way to select the tests to run in the system under test.
+h) A way to communicate back the results.
+i) Something to interpret the results.
+j) Hook up everything into a CI system.
+
+And for all of this there should be good in-tree tooling.
+
+For a) and b) I am not aware of any toolchain provider or distribution which
+provides this for all necessary architectures. And the existing userspace test
+frameworks don't even try to address the points a) to e)/f) and let the user
+figure it out. This is the case for xfstests and LTP. virtme(-ng) provide most
+of it but don't support cross-architecture setups. On the other hand the tree
+already contains solutions for most of those points. a) and d) are solved by
+kbuild userprogs, e) to j) by KUnit and my new framework plugs b) and c).
+Moving to a pure userspace solution would preclude the usage of KUnit as far as
+I can see.
+
+This all started when I worked on the generic vDSO data storage patches [3].
+I needed to run the existing vDSO selftests against a bunch of architectures,
+including some esoteric ones [4]. With my framework, running the vDSO selftests
+for any architecture is now trivial and blazingly fast.
+
+Does this make more sense?
+
+> Yes, kselftests suck as most people will agree. But the answer is not
+> to add a lot of kernel bloat to treat userspace integration tests
+> like kernel units tests.
+
+I fail to understand how this test code is worse than the existing KUnit test
+code. This is not meant to test complex scenarios, but single system calls or
+specific UAPIs, which may depend on architecture features. For example timers,
+signals, vDSO, mm etc.
+
+> How about you just fix kselftests, preferably
+> by reusing well known and teststed userland code?
+
+Is "well known and tested userland code" referring to glibc or testing
+frameworks? As mentioned above, glibc can be used just fine and the frameworks
+I know about are lacking.
+
+
+Thomas
+
+
+[0] https://lore.kernel.org/all/CABVgOSn+530YJ3OPNJQncLDQNbd9JEDtZ04Amyyxk57jOVYUyQ@mail.gmail.com/
+[1] https://lore.kernel.org/all/20250626195714.2123694-3-benjamin@sipsolutions.net/
+[2] https://lore.kernel.org/lkml/cover.1752088709.git.namcao@linutronix.de/
+[3] https://lore.kernel.org/lkml/20250204-vdso-store-rng-v3-0-13a4669dfc8c@linutronix.de/
+[4] https://lore.kernel.org/lkml/20250724-vdso-sparc64-generic-2-v1-0-e376a3bd24d1@linutronix.de/
 
