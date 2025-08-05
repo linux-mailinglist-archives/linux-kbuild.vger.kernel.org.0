@@ -1,110 +1,333 @@
-Return-Path: <linux-kbuild+bounces-8297-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8298-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A01B1B8E9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Aug 2025 19:04:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4862B1BBDB
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Aug 2025 23:48:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EAB418A131E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Aug 2025 17:05:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EE34622774
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Aug 2025 21:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B038520FAB6;
-	Tue,  5 Aug 2025 17:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A544323BCFF;
+	Tue,  5 Aug 2025 21:48:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="VFbgCYjm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqSTVwqD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CD42AD14;
-	Tue,  5 Aug 2025 17:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729831FDD;
+	Tue,  5 Aug 2025 21:48:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754413484; cv=none; b=dDQsj4DTLjkg1XHI0A2JJCUuJGR0LSVbU5XwDcavie3MTEd2dd7euaR4O+KZP9tikSSbUvrjTz02FYxsy/KyT/GRduO1NDn2TwuNSKxl+udldXt6QIQd2YuO9cgKnF0HBNoblIM3D5JR1yb4d48YG46ERr+QSwhIOmjZL9EKFOU=
+	t=1754430509; cv=none; b=B+eeZaHaVuukN4HAjtROXjS+4BjizgSRVyGzivX9uHWHRDIUnvVInAf1T6/AJMEW3RyD2xaQSSNHvejDKOBOLd0wnohiOXzeS3h6BTI1OiY3QsrRtDJrqMQP267llciD+HAHh5a51N5PxB9AwM/l07D9MiE+MLRega0Fg4vyGGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754413484; c=relaxed/simple;
-	bh=Ab3Qv+mozGqtdtSWHmeNbL0iBe2pPQ6BF4NZ57OFjiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gsJmyokBJ1c73Wi816ESUhfYuq3z3D2JT2HIzsJ7TMcca+yZ3oBrvRR7ZhlmKTJ8hzREjwj9B5SV1xXINV0bTsLYA8LZJZCoXoYAkNLI3bucJVL7+61FCIAi4SAjrztFXTuSWN83T43tQn9d2Gk+Dz10jIIswBb7sDHwldy1WqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=VFbgCYjm; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=202503; t=1754413478;
-	bh=GIVg5rF8VOyNngYSI34wBxodNdqe8OxlGs2MxACqFvo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VFbgCYjmF0/yISVzF54I6fWTPwMHnBKVchQH0ctHvr7O2z1YGktGCkawz7dnF0akn
-	 ilgWJ9r/HnkAWqVfufyeSMqMB7AjoBBfbQ55BRH+OdOXeaQcLYGLDMX6kpI8nBdnWy
-	 3PJ3+iC4AzQLJoMv8nhqkIl5KawJ3TgsOpqcftTcDgF+rHuP9YARkVfEOLcD40vmet
-	 D2Vcc9zHc91TzCdUv0RXtcx35w9yfFUbYFQN7zGuQbe2I6Cg/LyxWGOTR1WnYbL96U
-	 Cs3mXMf+uHwTsPpV811fOhMqjvAYpPLZM80YWmhRn2IVktrmuugZLCkB4Wd2WGCZnl
-	 YNqBnBq+dyvfg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4bxKXj5Qghz4w2R;
-	Wed,  6 Aug 2025 03:04:37 +1000 (AEST)
-Date: Wed, 6 Aug 2025 03:04:34 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing
- List <linux-kernel@vger.kernel.org>, Linux Kbuild mailing list
- <linux-kbuild@vger.kernel.org>
-Subject: Re: [GIT PULL] Kbuild updates for v6.17-rc1
-Message-ID: <20250806030434.10663c09@canb.auug.org.au>
-In-Reply-To: <CAK7LNAQW8b_HEQhWBzaQSPy=qDmKkqz6URtpJ+BYG8eq-sWRwA@mail.gmail.com>
-References: <CAK7LNAQW8b_HEQhWBzaQSPy=qDmKkqz6URtpJ+BYG8eq-sWRwA@mail.gmail.com>
+	s=arc-20240116; t=1754430509; c=relaxed/simple;
+	bh=r0+4GeV4tZNDliUsJBvzpYIDNR8eo3viWiJWjIHPbus=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Znculr6kfnkL0Rh6wak6U/+9TaQK3ZXRIhOvuvonNm0jk6k5WoKdUeJ0aPoWkYpj1EsAeGsKKdV9bnuv16ZCVhaEcLDrJU8nPOcyKbn4BcrfzRX7SYyx4fCjFn9IdOcs64M+7f8D/Mp7RjZ7WqPo9nLwW5FOKMoX9N/ad4FCgUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqSTVwqD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC17C4CEF0;
+	Tue,  5 Aug 2025 21:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754430508;
+	bh=r0+4GeV4tZNDliUsJBvzpYIDNR8eo3viWiJWjIHPbus=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aqSTVwqD7yOuPpApeNE4VLtVGaARP9F3w0YbozmADV7KCh0CDsyOPMlRs0tDMv6HT
+	 6FfB24HmRExiKu5ay/pYduFO/Q510J09T6y8grRuC6HOfnJFj/9IY5+gOJHwgMPcfr
+	 5u4y6/AYgAmlaXuTvc+GZqhbxxrW964oYa6YzzfayXcfxvaIHpAxOerulyhFFfiprr
+	 R9GduqfdeqnbzWZ3JWTR2Wy9+nASp2IaspVL3VZjrc0Gg6bLv/D3fY+WyoRtHUn4Ky
+	 5zYKjIIGDJmZ5/8Nd+UfdMSlRkDb35a3H8ob1AaIvNwNLeN8/pFNacwN8KbZIaj3iO
+	 P0sLzkJWm7v3w==
+Date: Tue, 5 Aug 2025 14:48:23 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: Kees Cook <kees@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	linux-kbuild@vger.kernel.org,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: Re-enable -Wunterminated-string-initialization
+Message-ID: <20250805214823.GB200407@ax162>
+References: <20250802184328.it.438-kees@kernel.org>
+ <20250803173235.GA716998@ax162>
+ <e4d801e3-3004-484b-897d-ed43c25e1576@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/YZmDheFdPL9__=4_Xb=WN75";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e4d801e3-3004-484b-897d-ed43c25e1576@intel.com>
 
---Sig_/YZmDheFdPL9__=4_Xb=WN75
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 05, 2025 at 04:50:28PM +0200, Alexander Lobakin wrote:
+> From: Nathan Chancellor <nathan@kernel.org>
+> Date: Sun, 3 Aug 2025 10:32:35 -0700
+> 
+> > On Sat, Aug 02, 2025 at 11:43:32AM -0700, Kees Cook wrote:
+> >> With the few remaining fixes now landed, we can re-enable the option
+> >> -Wunterminated-string-initialization (via -Wextra). Both GCC and Clang
+> >> have the required multi-dimensional nonstring attribute support.
+> 
+> [...]
+> 
+> > diff --git a/drivers/net/ethernet/ti/netcp_ethss.c b/drivers/net/ethernet/ti/netcp_ethss.c
+> > index 55a1a96cd834..05d4323c6a13 100644
+> > --- a/drivers/net/ethernet/ti/netcp_ethss.c
+> > +++ b/drivers/net/ethernet/ti/netcp_ethss.c
+> > @@ -771,7 +771,7 @@ static struct netcp_module xgbe_module;
+> >  
+> >  /* Statistic management */
+> >  struct netcp_ethtool_stat {
+> > -	char desc[ETH_GSTRING_LEN];
+> > +	char desc[ETH_GSTRING_LEN] __nonstring;
+> 
+> 
+> Hmmm, ETH_GSTRING_LEN is the maximum length of the driver's statistics
+> name to be reported to Ethtool and this *includes* \0 at the end.
+> If this compilation flag triggers a warning here, the driver devs need
+> to fix their code. There should always be \0 at the end, `desc` is a
+> "proper" C 0-terminated string.
 
-Hi Masahiro,
+Ack, I had misunderstood a previous fix that Kees did for a similar but
+different instance of the warning in another Ethernet driver and I
+did not look much further than the driver copying these values around
+with memcpy(). This does trigger a warning, from the original message:
 
-On Wed, 6 Aug 2025 01:27:35 +0900 Masahiro Yamada <masahiroy@kernel.org> wr=
-ote:
->
-> ----------------------------------------------------------------
-> Alexey Gladkov (6):
->       s390: vmlinux.lds.S: Reorder sections
->       scsi: Always define blogic_pci_tbl structure
->       pinctrl: meson: Fix typo in device table macro
->       modpost: Add modname to mod_device_table alias
->       modpost: Create modalias for builtin modules
+  drivers/net/ethernet/ti/netcp_ethss.c:1049:2: error: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Werror,-Wunterminated-string-initialization]
+   1049 |         GBENU_STATS_HOST(ale_unknown_ucast_bytes),
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  drivers/net/ethernet/ti/netcp_ethss.c:956:2: note: expanded from macro 'GBENU_STATS_HOST'
+    956 |         "GBE_HOST:"#field, GBENU_STATS0_MODULE,                 \
+        |         ^~~~~~~~~~~~~~~~~
+  drivers/net/ethernet/ti/netcp_ethss.c:1051:2: error: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Werror,-Wunterminated-string-initialization]
+   1051 |         GBENU_STATS_HOST(ale_unknown_mcast_bytes),
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  drivers/net/ethernet/ti/netcp_ethss.c:956:2: note: expanded from macro 'GBENU_STATS_HOST'
+    956 |         "GBE_HOST:"#field, GBENU_STATS0_MODULE,                 \
+        |         ^~~~~~~~~~~~~~~~~
+  drivers/net/ethernet/ti/netcp_ethss.c:1053:2: error: initializer-string for character array is too long, array size is 32 but initializer has size 33 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Werror,-Wunterminated-string-initialization]
+   1053 |         GBENU_STATS_HOST(ale_unknown_bcast_bytes),
+        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  drivers/net/ethernet/ti/netcp_ethss.c:956:2: note: expanded from macro 'GBENU_STATS_HOST'
+    956 |         "GBE_HOST:"#field, GBENU_STATS0_MODULE,                 \
+        |         ^~~~~~~~~~~~~~~~~
 
-Did you miss this: https://lore.kernel.org/linux-next/20250730161223.637834=
-58@canb.auug.org.au/
+So it seems to me like this is a legitimate problem? Are these
+descriptions expected to be stable once they are released or are we able
+to adjust them? We could maybe shave an 'o' from 'unknown' to easily
+resolve this without losing much in the way of quick visual processing.
 
---=20
 Cheers,
-Stephen Rothwell
+Nathan
 
---Sig_/YZmDheFdPL9__=4_Xb=WN75
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmiSOaIACgkQAVBC80lX
-0GxRlgf+OS/A49zGYd5zmBnP301wNyhlPLiIC41ajEohEZYjbtqIHN9E6oorGI/D
-xo3melpoeS3i1eT4G9aAWkiUq0BbbZcMRpcxPZCWu6NrHe6lh4pMyuks9mf2vapZ
-0CfPJXjSD9XlUWPeYhPUkjtthYWzFB52JUqWwKEG3oFXkAQJmD7VGO1OXtP9aO+y
-UtZ3GkjZFsSYgq+3/Ej7zofzNHCUjaIknbsqRUinL+PAa2jANtJVf1uQnBd6TDVa
-v9XcyqyaYEb1J2pWL22FTzBw3QtDMAVOgxYN+ut+E9ycMqMilzIWWHSVGWQjjip+
-x8wRfJVfrdgF62ZdsA/Mtpf2retPiQ==
-=JjtR
------END PGP SIGNATURE-----
-
---Sig_/YZmDheFdPL9__=4_Xb=WN75--
+diff --git a/drivers/net/ethernet/ti/netcp_ethss.c b/drivers/net/ethernet/ti/netcp_ethss.c
+index 55a1a96cd834..70590a04b6fd 100644
+--- a/drivers/net/ethernet/ti/netcp_ethss.c
++++ b/drivers/net/ethernet/ti/netcp_ethss.c
+@@ -493,12 +493,12 @@ struct gbenu_hw_stats {
+ 	u32	ale_vid_ingress_drop;
+ 	u32	ale_da_eq_sa_drop;
+ 	u32	__rsvd_0[3];
+-	u32	ale_unknown_ucast;
+-	u32	ale_unknown_ucast_bytes;
+-	u32	ale_unknown_mcast;
+-	u32	ale_unknown_mcast_bytes;
+-	u32	ale_unknown_bcast;
+-	u32	ale_unknown_bcast_bytes;
++	u32	ale_unknwn_ucast;
++	u32	ale_unknwn_ucast_bytes;
++	u32	ale_unknwn_mcast;
++	u32	ale_unknwn_mcast_bytes;
++	u32	ale_unknwn_bcast;
++	u32	ale_unknwn_bcast_bytes;
+ 	u32	ale_pol_match;
+ 	u32	ale_pol_match_red;		/* NU */
+ 	u32	ale_pol_match_yellow;		/* NU */
+@@ -953,7 +953,7 @@ static const struct netcp_ethtool_stat gbe13_et_stats[] = {
+ 
+ #define GBENU_STATS_HOST(field)					\
+ {								\
+-	"GBE_HOST:"#field, GBENU_STATS0_MODULE,			\
++	"GBE_HST:"#field, GBENU_STATS0_MODULE,			\
+ 	sizeof_field(struct gbenu_hw_stats, field),		\
+ 	offsetof(struct gbenu_hw_stats, field)			\
+ }
+@@ -1045,12 +1045,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_HOST(ale_rate_limit_drop),
+ 	GBENU_STATS_HOST(ale_vid_ingress_drop),
+ 	GBENU_STATS_HOST(ale_da_eq_sa_drop),
+-	GBENU_STATS_HOST(ale_unknown_ucast),
+-	GBENU_STATS_HOST(ale_unknown_ucast_bytes),
+-	GBENU_STATS_HOST(ale_unknown_mcast),
+-	GBENU_STATS_HOST(ale_unknown_mcast_bytes),
+-	GBENU_STATS_HOST(ale_unknown_bcast),
+-	GBENU_STATS_HOST(ale_unknown_bcast_bytes),
++	GBENU_STATS_HOST(ale_unknwn_ucast),
++	GBENU_STATS_HOST(ale_unknwn_ucast_bytes),
++	GBENU_STATS_HOST(ale_unknwn_mcast),
++	GBENU_STATS_HOST(ale_unknwn_mcast_bytes),
++	GBENU_STATS_HOST(ale_unknwn_bcast),
++	GBENU_STATS_HOST(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_HOST(ale_pol_match),
+ 	GBENU_STATS_HOST(ale_pol_match_red),
+ 	GBENU_STATS_HOST(ale_pol_match_yellow),
+@@ -1111,12 +1111,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P1(ale_rate_limit_drop),
+ 	GBENU_STATS_P1(ale_vid_ingress_drop),
+ 	GBENU_STATS_P1(ale_da_eq_sa_drop),
+-	GBENU_STATS_P1(ale_unknown_ucast),
+-	GBENU_STATS_P1(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P1(ale_unknown_mcast),
+-	GBENU_STATS_P1(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P1(ale_unknown_bcast),
+-	GBENU_STATS_P1(ale_unknown_bcast_bytes),
++	GBENU_STATS_P1(ale_unknwn_ucast),
++	GBENU_STATS_P1(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P1(ale_unknwn_mcast),
++	GBENU_STATS_P1(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P1(ale_unknwn_bcast),
++	GBENU_STATS_P1(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P1(ale_pol_match),
+ 	GBENU_STATS_P1(ale_pol_match_red),
+ 	GBENU_STATS_P1(ale_pol_match_yellow),
+@@ -1177,12 +1177,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P2(ale_rate_limit_drop),
+ 	GBENU_STATS_P2(ale_vid_ingress_drop),
+ 	GBENU_STATS_P2(ale_da_eq_sa_drop),
+-	GBENU_STATS_P2(ale_unknown_ucast),
+-	GBENU_STATS_P2(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P2(ale_unknown_mcast),
+-	GBENU_STATS_P2(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P2(ale_unknown_bcast),
+-	GBENU_STATS_P2(ale_unknown_bcast_bytes),
++	GBENU_STATS_P2(ale_unknwn_ucast),
++	GBENU_STATS_P2(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P2(ale_unknwn_mcast),
++	GBENU_STATS_P2(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P2(ale_unknwn_bcast),
++	GBENU_STATS_P2(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P2(ale_pol_match),
+ 	GBENU_STATS_P2(ale_pol_match_red),
+ 	GBENU_STATS_P2(ale_pol_match_yellow),
+@@ -1243,12 +1243,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P3(ale_rate_limit_drop),
+ 	GBENU_STATS_P3(ale_vid_ingress_drop),
+ 	GBENU_STATS_P3(ale_da_eq_sa_drop),
+-	GBENU_STATS_P3(ale_unknown_ucast),
+-	GBENU_STATS_P3(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P3(ale_unknown_mcast),
+-	GBENU_STATS_P3(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P3(ale_unknown_bcast),
+-	GBENU_STATS_P3(ale_unknown_bcast_bytes),
++	GBENU_STATS_P3(ale_unknwn_ucast),
++	GBENU_STATS_P3(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P3(ale_unknwn_mcast),
++	GBENU_STATS_P3(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P3(ale_unknwn_bcast),
++	GBENU_STATS_P3(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P3(ale_pol_match),
+ 	GBENU_STATS_P3(ale_pol_match_red),
+ 	GBENU_STATS_P3(ale_pol_match_yellow),
+@@ -1309,12 +1309,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P4(ale_rate_limit_drop),
+ 	GBENU_STATS_P4(ale_vid_ingress_drop),
+ 	GBENU_STATS_P4(ale_da_eq_sa_drop),
+-	GBENU_STATS_P4(ale_unknown_ucast),
+-	GBENU_STATS_P4(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P4(ale_unknown_mcast),
+-	GBENU_STATS_P4(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P4(ale_unknown_bcast),
+-	GBENU_STATS_P4(ale_unknown_bcast_bytes),
++	GBENU_STATS_P4(ale_unknwn_ucast),
++	GBENU_STATS_P4(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P4(ale_unknwn_mcast),
++	GBENU_STATS_P4(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P4(ale_unknwn_bcast),
++	GBENU_STATS_P4(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P4(ale_pol_match),
+ 	GBENU_STATS_P4(ale_pol_match_red),
+ 	GBENU_STATS_P4(ale_pol_match_yellow),
+@@ -1375,12 +1375,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P5(ale_rate_limit_drop),
+ 	GBENU_STATS_P5(ale_vid_ingress_drop),
+ 	GBENU_STATS_P5(ale_da_eq_sa_drop),
+-	GBENU_STATS_P5(ale_unknown_ucast),
+-	GBENU_STATS_P5(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P5(ale_unknown_mcast),
+-	GBENU_STATS_P5(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P5(ale_unknown_bcast),
+-	GBENU_STATS_P5(ale_unknown_bcast_bytes),
++	GBENU_STATS_P5(ale_unknwn_ucast),
++	GBENU_STATS_P5(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P5(ale_unknwn_mcast),
++	GBENU_STATS_P5(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P5(ale_unknwn_bcast),
++	GBENU_STATS_P5(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P5(ale_pol_match),
+ 	GBENU_STATS_P5(ale_pol_match_red),
+ 	GBENU_STATS_P5(ale_pol_match_yellow),
+@@ -1441,12 +1441,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P6(ale_rate_limit_drop),
+ 	GBENU_STATS_P6(ale_vid_ingress_drop),
+ 	GBENU_STATS_P6(ale_da_eq_sa_drop),
+-	GBENU_STATS_P6(ale_unknown_ucast),
+-	GBENU_STATS_P6(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P6(ale_unknown_mcast),
+-	GBENU_STATS_P6(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P6(ale_unknown_bcast),
+-	GBENU_STATS_P6(ale_unknown_bcast_bytes),
++	GBENU_STATS_P6(ale_unknwn_ucast),
++	GBENU_STATS_P6(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P6(ale_unknwn_mcast),
++	GBENU_STATS_P6(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P6(ale_unknwn_bcast),
++	GBENU_STATS_P6(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P6(ale_pol_match),
+ 	GBENU_STATS_P6(ale_pol_match_red),
+ 	GBENU_STATS_P6(ale_pol_match_yellow),
+@@ -1507,12 +1507,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P7(ale_rate_limit_drop),
+ 	GBENU_STATS_P7(ale_vid_ingress_drop),
+ 	GBENU_STATS_P7(ale_da_eq_sa_drop),
+-	GBENU_STATS_P7(ale_unknown_ucast),
+-	GBENU_STATS_P7(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P7(ale_unknown_mcast),
+-	GBENU_STATS_P7(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P7(ale_unknown_bcast),
+-	GBENU_STATS_P7(ale_unknown_bcast_bytes),
++	GBENU_STATS_P7(ale_unknwn_ucast),
++	GBENU_STATS_P7(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P7(ale_unknwn_mcast),
++	GBENU_STATS_P7(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P7(ale_unknwn_bcast),
++	GBENU_STATS_P7(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P7(ale_pol_match),
+ 	GBENU_STATS_P7(ale_pol_match_red),
+ 	GBENU_STATS_P7(ale_pol_match_yellow),
+@@ -1573,12 +1573,12 @@ static const struct netcp_ethtool_stat gbenu_et_stats[] = {
+ 	GBENU_STATS_P8(ale_rate_limit_drop),
+ 	GBENU_STATS_P8(ale_vid_ingress_drop),
+ 	GBENU_STATS_P8(ale_da_eq_sa_drop),
+-	GBENU_STATS_P8(ale_unknown_ucast),
+-	GBENU_STATS_P8(ale_unknown_ucast_bytes),
+-	GBENU_STATS_P8(ale_unknown_mcast),
+-	GBENU_STATS_P8(ale_unknown_mcast_bytes),
+-	GBENU_STATS_P8(ale_unknown_bcast),
+-	GBENU_STATS_P8(ale_unknown_bcast_bytes),
++	GBENU_STATS_P8(ale_unknwn_ucast),
++	GBENU_STATS_P8(ale_unknwn_ucast_bytes),
++	GBENU_STATS_P8(ale_unknwn_mcast),
++	GBENU_STATS_P8(ale_unknwn_mcast_bytes),
++	GBENU_STATS_P8(ale_unknwn_bcast),
++	GBENU_STATS_P8(ale_unknwn_bcast_bytes),
+ 	GBENU_STATS_P8(ale_pol_match),
+ 	GBENU_STATS_P8(ale_pol_match_red),
+ 	GBENU_STATS_P8(ale_pol_match_yellow),
 
