@@ -1,123 +1,104 @@
-Return-Path: <linux-kbuild+bounces-8310-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8312-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293C1B1D233
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Aug 2025 07:54:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75111B1D4A1
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Aug 2025 11:17:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE2A93B9A0B
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Aug 2025 05:54:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 563477B30F7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Aug 2025 09:16:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40101E520C;
-	Thu,  7 Aug 2025 05:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40EC280BEC;
+	Thu,  7 Aug 2025 09:17:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O0/KP3xX"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nrC4afab"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B05214A6A
-	for <linux-kbuild@vger.kernel.org>; Thu,  7 Aug 2025 05:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F84824B29
+	for <linux-kbuild@vger.kernel.org>; Thu,  7 Aug 2025 09:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754546049; cv=none; b=NwBb7C6oMOh47AOX9T5p+R4yOk+Ze+Cz7LgoQxrgQq1+6rtztX52JIKfIJeMymu5ztmapXu5jhktS01cGpE8h/1dSvdp1RuBQJfStZSMmt0Ey3KLHcHuuKvBselxhVoUSR//iEQyaaXcthOe+D/mqZ9PITD5u0gea15Is8YduME=
+	t=1754558265; cv=none; b=IM4/Cuqn985r30v1HWHqA2zxU4ADqanUtwVWspVP0fZle6bQcnMlrJ1EeQIqFvfR1uhS3Nin6GgtAd/s+V4uZKP+CBJosVGUu6oLjALykQRnhXD4KAjDgsKr5f8UuaBJCWrp3MtRb2PTH1sMKJzlWNX6pzyvczOItWXziK2UreI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754546049; c=relaxed/simple;
-	bh=aQs2zbmWB5MUeJPv8qdQEJeH+BA9lh3OyPsZZ3eKE/M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ac5KXbD85YBinKiFRk/B0Hg0omjz8MJp161o58EmZZcbFA2VJjBqjhMgJnlZlex5DR3IXjd+cpIUw9QYeKkMZSFzNgKqCQKwsfACr0yehTQg9qH+XNXwhGqPBjaJorwM4pKRVeFNUCwBwtMMckKgrsnDxneOOX+pvzNUKc/suLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=O0/KP3xX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=rpZyKtbo3DFRupdqKlktbUcTrHk4QsGIQrj4xC5nPXQ=; b=O0/KP3xXKUQOJgIQoyIyNbxuL4
-	ANjjYhvZyukW+YpMhhEdk2SUaZUCIHhPUK4PYmUjhYDmpn37DVpg3AynLOSc+gMg16qkejkAhWWA3
-	HGVRp2EIWQdi1xfhKE+sJYpkvN/2Uy9gFt8CJEf27CCh9EwUN58jYiPhk0FSYjxRMafE8gi8AGqPh
-	iz3wWJTSfFFCNrbt+2Og903PqTgevi6Zc58CUeoDwzSuUAmJYVb2mf0zaUfT8jpJ8Bxc3VWsh0LM0
-	UbjVwUFByaUL1gNRkSFqhEkThK1E4N8hn611rJCKqzXVdNJDxjvc5sFwOIU3phuvLtuucTE7Z4Xob
-	QV55rXcg==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ujtZl-0000000HKgr-38Yd;
-	Thu, 07 Aug 2025 05:54:05 +0000
-Message-ID: <bf26afd4-7c4d-47ce-b294-093c15e31ec0@infradead.org>
-Date: Wed, 6 Aug 2025 22:54:05 -0700
+	s=arc-20240116; t=1754558265; c=relaxed/simple;
+	bh=0zUxW8m/mOPoNNP6vroWtbgSbFrqqnjFkA4aVh0zoO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kuH8JSeaPx/8E6xR1cPiMbuQFNXYIdxolI6gMUQz8yPIGcmQySNAC20qFhNtii4B61MIzq7sMVWEmRAKeauMGKVb6gX2QBq6dOxoURmorOHOyO9goLLFl4GX9gM7PMs/3DM+ccBgX/xQUxlWKK339NrgNnhf46tdNVHpNLX4iL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nrC4afab; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Thu, 7 Aug 2025 11:17:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1754558260;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mwbW4f0KXuVWV5s+001Rqv82hgjpPTxoUsBswshTMUc=;
+	b=nrC4afabMCyaCN0ckW3AG837KGnwOf0PhsefEhDpxVDQfx0ReJbaQrbpA1vcpfvnOumPir
+	MLEekOTFSMX3q/vfilRKmOY78HX5bevh3SB0sPIssp+xXDubP9GRB41sD8caVWByHavWiE
+	rD8bFK/iVFwtYaQSjmg6/BB/tZ7EGt4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Nicolas Schier <nicolas.schier@linux.dev>
+To: "David F." <df7729@gmail.com>
+Cc: linux-kbuild@vger.kernel.org
+Subject: Re: 6.12 and 6.15 building fixdep / modpost for amd64 instead of 686.
+Message-ID: <aJRvL2UwDBVJ967k@fjasle.eu>
+References: <CAGRSmLtTCUoV66PAJ2VCBz70VNVKxhJHGbBFt9GXQdOP6z5KLg@mail.gmail.com>
+ <aItVnueRx5QW2Zds@fjasle.eu>
+ <CAGRSmLuAKjg=0P=67_M2d1bfDNwWpyHQAuZZCmY=ZNNC62BW5Q@mail.gmail.com>
+ <20250731-attractive-lionfish-of-love-a01cd7@lindesnes>
+ <CAGRSmLs6O+yvxQusQVRWCRiavZu_5qhTTLNqLkFHV6SEjKx_6g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Unable to build custom amd64 module.
-To: "David F." <df7729@gmail.com>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <CAGRSmLvRaFfLG-ksN=WHe3FrH4DOrcJud5BZynGhsrYc8c28ww@mail.gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAGRSmLvRaFfLG-ksN=WHe3FrH4DOrcJud5BZynGhsrYc8c28ww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGRSmLs6O+yvxQusQVRWCRiavZu_5qhTTLNqLkFHV6SEjKx_6g@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+(please reply below relevant quotations, cp. "Use trimmed interleaved replies
+in email discussions" at Documentation/process/submitting-patches.rst)
 
-On 8/6/25 9:37 PM, David F. wrote:
-> Hello,
+On Wed, Aug 06, 2025 at 08:46:24PM -0700 David F. wrote:
+> Sorry for the delay, had to work on some other stuff..
 > 
-> The last modules I built was from 6.6.x.  I'm trying to build for
-> 6.15.x but it's failing for the amd64 version.    I'm building both a
-> 686 and amd64 version of the module (driver) using the scripts I've
-> used a long time.   The system is Devuan Chimaera 686 version.   The
-> 686 module builds fine, but the amd64 get to the point shown below and
-> fails.   Does it have to do with that warning?  What would cause that
-> in the amd64 version but not the 686 version (everything is compiled
-> from the same source).
+> The output is below, it build it as ELF32 as it should.   I do note
+> that your build command was like:
+> x86_64_defconfig CROSS_COMPILE=x86_64-linux-gnu- bindeb-pkg
 > 
-> Any ideas how to work around this or find the problem.   The error
-> code doesn't give me a clue of what it is:
-
-It does a little bit. Also read tools/objtool/Documentation/objtool.txt
-in the kernel source tree: search for "unannotated".
-
+> I don't have that, is it something new that is required, I just have:
 > 
->   LD [M]  mydriver.o
-> mydriver.o: warning: objtool: .text+0x23f4: unannotated intra-function call
-
-(1) prevent "Deleting file 'mydriver.o'" below (I don't know what is doing that.)
-
-(2) run
-    $ objdump -CDlSxp -m i386:x86-64 mydriver.o >mydriver.od
-(I have never used "-m i386:x86-64"; that's just what I found on the web.)
-
-(3) Edit/search mydriver.od:
-    find the code that is at .text+0x23f4. That should give you a big clue.
-
-I can't tell any more without knowing the command line & Makefile that you
-are using to build the driver.
-
-
-> make[5]: *** [/usr/src/linux-headers-6.15.6-amd64-mine/scripts/Makefile.build:408:
-> mydriver.o] Error 255
-> make[5]: *** Deleting file 'mydriver.o'
-> make[4]: *** [/usr/src/linux-headers-6.15.6-amd64-mine/Makefile:2003: .] Error 2
-> make[3]: *** [/usr/src/linux-headers-6.15.6-amd64-mine/Makefile:248:
-> __sub-make] Error 2
-> make[3]: Leaving directory
-> '/media/sf_Source/mydriver/linux/driver/6.15.6-amd64-mine'
-> make[2]: *** [Makefile:248: __sub-make] Error 2
-> make[2]: Leaving directory '/usr/src/linux-headers-6.15.6-amd64-mine'
-> make[1]: *** [Makefile:53: domake] Error 2
-> make[1]: Leaving directory '/media/sf_Source/mydriver/linux/driver'
-> make: *** [Makefile:44: all] Error 2
-> error: Build failed.
+> extraversion="EXTRAVERSION=-amd64"
+> make -j$(nproc) ${extraversion} bindeb-pkg
 > 
+> Here's that output that worked:
+> 
+> 
+> # make V=1 scripts/basic/fixdep
+> make --no-print-directory -C /usr/src/mydisk/kernel/linux-6.15.6-64 \
+> -f /usr/src/mydisk/kernel/linux-6.15.6-64/Makefile scripts/basic/fixdep
+> : "  SYNC    include/config/auto.conf.cmd"
+> make -f ./Makefile syncconfig
+> make -f ./scripts/Makefile.build obj=scripts/basic
+> # HOSTCC  scripts/basic/fixdep
+>   gcc -Wp,-MMD,scripts/basic/.fixdep.d -Wall -Wmissing-prototypes
+> -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11
+> -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64  -I ./scripts/include
+> -o scripts/basic/fixdep scripts/basic/fixdep.c
 
--- 
-~Randy
+I am afraid, I lost track of what your actual problem is.
 
+It looks like fixdep is built the way it should, so the next step would be
+running bindeb-pkg with V=1 and finding its gcc call for building fixdep and to
+verify both calls.  They should be (at least almost) the same.
+
+Kind regards,
+Nicolas
 
