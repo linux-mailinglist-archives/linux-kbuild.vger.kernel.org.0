@@ -1,56 +1,59 @@
-Return-Path: <linux-kbuild+bounces-8330-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8331-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FCDB1F756
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Aug 2025 02:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9A6B1F760
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Aug 2025 02:21:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4144169F7D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Aug 2025 00:21:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5355E172FDF
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Aug 2025 00:21:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37CFC4A21;
-	Sun, 10 Aug 2025 00:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1EEF4C92;
+	Sun, 10 Aug 2025 00:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="alUlh5xP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tcn01sUR"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AFD4690;
-	Sun, 10 Aug 2025 00:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A596FD531;
+	Sun, 10 Aug 2025 00:21:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754785268; cv=none; b=STyXaTtrZ7NCYoNiZnRSj8v4m2A89wwNEaWNSgxFUE/XPcR5D8V3k7tSLZJKkC8XGYaG3/aJJlB6ARmad7jEGJ7ESRuCFfCR+2yPpezsw1WVmVYwkEow7w+Io+P/w03xqASGTAqsqOPfM8+9ijnXu+Sw+gd2epxY5BAKXI+AfgU=
+	t=1754785280; cv=none; b=Wqtw8pYuqZD/Fs5hnG+3bcVadA1SRimxBnvH7ADW3/E7JtGar0d0xgYJDYknnVfYxFYjUZK+NLaO2LsFx7ZM6iYH0dooOQ/UcUkIjpSCYDNZbGY6jMa4nXJAlA1YHXiH0FULss8q5YyHBNAnaODmLhNha5gpXUx4ChNLLLkkEww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754785268; c=relaxed/simple;
-	bh=+y7S4kQHCrHEcfSakjTKw/7b3LQ0Lq/Sh4/yBj+1Hjw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cxabXSFj5B/pIsIdHx2XHciuuuWbr//R0z5u6XB1jLYK7Rf9zKEv+nT2EWlFhA8wUgRxbFBMCVXmFtvzLFhtKewdBpvd974Upuq3gCeInnCADJ0vqj7Q7CqNww3bpdMLItBE6jDLws07g+88x7Pb23TXCt1sIVS6uIwIkBj4MF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=alUlh5xP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CAAC4CEE7;
-	Sun, 10 Aug 2025 00:21:06 +0000 (UTC)
+	s=arc-20240116; t=1754785280; c=relaxed/simple;
+	bh=kvw9MIoi08amuc4ML79U48/Eg8y2wvOuuFGYohZdYP0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ihyE8TfvHgHUvLMwi8dZPrg1IU0Ts3fdcktKHGHbMz/Ai7SCFulKMg7oDiYVZCKr1qGo1wDz9SuLgauGspKCQBhOqwXhh1yF7CS1pUHZ0PKlmCJijCIdA1ODlnnpJRPMQa9I6luVTwW8fhnUsdiRdU45OF/xUozwpoKGyorQE+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tcn01sUR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39D82C4CEF4;
+	Sun, 10 Aug 2025 00:21:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754785267;
-	bh=+y7S4kQHCrHEcfSakjTKw/7b3LQ0Lq/Sh4/yBj+1Hjw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=alUlh5xPFt2yMiOjg1asmCPTQ7knbzQKRq4R7xacO0CVldZub6lE0O/4Xp3ojOFn8
-	 zyVGKIV7lbGGuKnTZ/4Zv4tVtGpYVWOb6UlPEt5q7WyAx2kDMaiisLU5YMmk30FjgD
-	 H7v1P4Dm3Em1grQ7Lz4WS7MEIRz0g0kTeujHYOCBaM34ZdZ0axH0tAQD/ker3nY7Zi
-	 gQdQ2hUvwRXWpozfuk+pSqbN58yWHfC8Oxf633JHELkV92RLRlmL1qgRlOzOeKCrnV
-	 JQ/z47PRiLB/nWzQMWh0KYOQ+LTEk7lLqhjWk8iyKJK9STD1srzu2ua5T0xfcE5x4W
-	 pBFkbPXD8G32Q==
+	s=k20201202; t=1754785279;
+	bh=kvw9MIoi08amuc4ML79U48/Eg8y2wvOuuFGYohZdYP0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Tcn01sURMl5Uzy20EP+AYqWEVAnObr2DViwmIm4nbtY5Xvb51J6nkbdcftbv0T1mT
+	 ScVAVtyzkWDrG5v1StdwIaaESoBSLEFzOsiBlATNmeSED5v21n1Q70QqqGfHO5cqJy
+	 ww+53bhT9xZbGjrTCptkXnwIqWqLUkc7CFonlY4t+8FxD+rsAoqUW3rJccut0KK+Iz
+	 jP+X0Mukn2TfEf4sKw4Z4EI8lTFmmkwZg19sQyO8tJRhwFAXn5RMIyHeHes3eV2WY3
+	 Qi5EQC5WYA6wFOxLw3tUNdDf57si0h7OlUuadHpxvggPqtdzKTo21u43NXG3VthcdZ
+	 FeXc8GEmrlmgw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
 	Sasha Levin <sashal@kernel.org>,
-	rdunlap@infradead.org,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-5.4] kconfig: gconf: avoid hardcoding model2 in on_treeview2_cursor_changed()
-Date: Sat,  9 Aug 2025 20:20:50 -0400
-Message-Id: <20250810002104.1545396-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.16-5.4] kconfig: gconf: fix potential memory leak in renderer_edited()
+Date: Sat,  9 Aug 2025 20:20:54 -0400
+Message-Id: <20250810002104.1545396-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250810002104.1545396-1-sashal@kernel.org>
+References: <20250810002104.1545396-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,126 +63,115 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit cae9cdbcd9af044810bcceeb43a87accca47c71d ]
+[ Upstream commit f72ed4c6a375e52a3f4b75615e4a89d29d8acea7 ]
 
-The on_treeview2_cursor_changed() handler is connected to both the left
-and right tree views, but it hardcodes model2 (the GtkTreeModel of the
-right tree view). This is incorrect. Get the associated model from the
-view.
+If gtk_tree_model_get_iter() fails, gtk_tree_path_free() is not called.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Let me check the commit you provided more carefully. Looking at the
-diff:
-
-The commit changes line 851-852 in the `on_treeview2_cursor_changed`
-function from:
-```c
-if (gtk_tree_selection_get_selected(selection, &model2, &iter)) {
-    gtk_tree_model_get(model2, &iter, COL_MENU, &menu, -1);
-```
-
-To:
-```c
-if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-    gtk_tree_model_get(model, &iter, COL_MENU, &menu, -1);
-```
-
-Where `model` is obtained from: `GtkTreeModel *model =
-gtk_tree_view_get_model(treeview);`
-
-This is indeed a bug fix. The function `on_treeview2_cursor_changed()`
-is connected as a signal handler to BOTH tree views (tree1_w and
-tree2_w), as shown in the connection code around lines 989 and 997.
-However, the old code hardcoded `model2` which is specifically the model
-for the right tree view. This would cause incorrect behavior when the
-handler is triggered from the left tree view (tree1_w).
+Based on my analysis of the commit and examination of the code, here is
+my assessment:
 
 **Backport Status: YES**
 
 ## Extensive Analysis:
 
-### Bug Description:
-The commit fixes a clear bug in the gconf GUI tool for kernel
-configuration. The `on_treeview2_cursor_changed()` function is used as a
-signal handler for cursor changes in both the left and right tree views
-of the configuration interface. However, the function incorrectly
-hardcoded `model2` (the GtkTreeModel for the right tree view) instead of
-dynamically getting the model from whichever view triggered the event.
+### 1. **Nature of the Bug**
+The commit fixes a clear memory leak in the `renderer_edited()` function
+in scripts/kconfig/gconf.c. The function allocates a GtkTreePath object
+using `gtk_tree_path_new_from_string()` at line 782, but if
+`gtk_tree_model_get_iter()` fails on line 788, the function returns
+early without calling `gtk_tree_path_free()`, causing a memory leak.
 
-### Code Analysis:
-1. **Signal Connection** (lines 988-997 in the repository):
-   - The same handler is connected to both tree views:
-   ```c
-   g_signal_connect(tree1_w, "cursor-changed",
-                    G_CALLBACK(on_treeview2_cursor_changed), NULL);
-   g_signal_connect(tree2_w, "cursor-changed",
-                    G_CALLBACK(on_treeview2_cursor_changed), NULL);
-   ```
+### 2. **Bug Impact**
+- **Resource leak**: Every time a user attempts to edit a value in the
+  GTK-based kernel configuration tool (gconfig) and the operation fails
+  to get the iterator, memory is leaked.
+- **User-facing impact**: While gconfig is not used by all kernel users,
+  those who do use it for configuring the kernel could experience memory
+  leaks during interactive configuration sessions.
+- **Accumulation potential**: In a long configuration session with
+  multiple failed edits, these leaks could accumulate.
 
-2. **The Bug**: When the cursor changes in tree1_w (left tree), the
-   handler would incorrectly use model2 (right tree's model) to get the
-   selected item, potentially causing:
-   - Incorrect help text display
-   - Crashes if the models have different structures
-   - Undefined behavior when accessing invalid iterators
+### 3. **Fix Analysis**
+The fix is minimal and straightforward:
+- Changes the early `return` to a `goto free` statement
+- Adds a `free:` label before the existing `gtk_tree_path_free(path)`
+  call
+- This ensures the allocated path is always freed, whether the function
+  succeeds or fails
 
-3. **The Fix**: The commit correctly obtains the model from the treeview
-   parameter that triggered the event:
-  ```c
-  GtkTreeModel *model = gtk_tree_view_get_model(treeview);
-  ```
-  This ensures the correct model is used regardless of which tree view
-  triggered the event.
+### 4. **Risk Assessment**
+- **Minimal risk**: The change only affects the error path and ensures
+  proper cleanup
+- **No functional changes**: The fix doesn't alter any program logic, it
+  only adds proper resource cleanup
+- **Well-contained**: The change is limited to a single function in the
+  gconfig tool
+- **Standard pattern**: Using goto for cleanup is a common and accepted
+  pattern in kernel code
 
-### Backport Justification:
-1. **Clear Bug Fix**: This fixes an obvious programming error that
-   affects functionality
-2. **Small and Contained**: The change is minimal (2 lines modified) and
-   localized to a single function
-3. **Low Risk**: The fix is straightforward and correct - getting the
-   model from the actual tree view instead of hardcoding
-4. **User Impact**: This bug could affect users of the gconf
-   configuration tool, potentially causing crashes or incorrect behavior
-5. **No Architectural Changes**: This is a simple bug fix with no design
-   changes
-6. **No New Features**: Pure bug fix, no functionality additions
+### 5. **Stable Tree Criteria Compliance**
+The commit meets stable tree requirements:
+- ✓ Fixes a real bug (memory leak)
+- ✓ Small and contained (2 lines changed)
+- ✓ No new features or architectural changes
+- ✓ Clear and obvious correctness
+- ✓ Minimal regression risk
 
-This is an ideal candidate for stable backporting as it's a clear,
-minimal bug fix that improves reliability without introducing risk.
+### 6. **Historical Context**
+Looking at the git history, there have been multiple memory leak fixes
+in the kconfig subsystem (e.g., commits a409fc1463d6, ae1eff0349f2,
+fbac5977d81c), indicating this is an area where such fixes are
+considered important and regularly backported.
 
- scripts/kconfig/gconf.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+### 7. **Code Pattern Analysis**
+Examining other uses of `gtk_tree_model_get_iter()` in the same file
+shows that other call sites don't have this issue because they either:
+- Don't allocate resources before the call (lines 902, 962, 1015)
+- Or are in different contexts where the path is managed differently
+
+This makes the fix in `renderer_edited()` particularly important as it's
+the only place with this specific leak pattern.
+
+The commit should be backported to stable kernels to ensure users of the
+gconfig tool don't experience memory leaks during kernel configuration
+sessions.
+
+ scripts/kconfig/gconf.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index c0f46f189060..abe4cfe66b14 100644
+index abe4cfe66b14..0caf0ced13df 100644
 --- a/scripts/kconfig/gconf.c
 +++ b/scripts/kconfig/gconf.c
-@@ -942,13 +942,14 @@ on_treeview2_key_press_event(GtkWidget * widget,
- void
- on_treeview2_cursor_changed(GtkTreeView * treeview, gpointer user_data)
- {
-+	GtkTreeModel *model = gtk_tree_view_get_model(treeview);
- 	GtkTreeSelection *selection;
- 	GtkTreeIter iter;
- 	struct menu *menu;
+@@ -748,7 +748,7 @@ static void renderer_edited(GtkCellRendererText * cell,
+ 	struct symbol *sym;
  
- 	selection = gtk_tree_view_get_selection(treeview);
--	if (gtk_tree_selection_get_selected(selection, &model2, &iter)) {
--		gtk_tree_model_get(model2, &iter, COL_MENU, &menu, -1);
-+	if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
-+		gtk_tree_model_get(model, &iter, COL_MENU, &menu, -1);
- 		text_insert_help(menu);
- 	}
+ 	if (!gtk_tree_model_get_iter(model2, &iter, path))
+-		return;
++		goto free;
+ 
+ 	gtk_tree_model_get(model2, &iter, COL_MENU, &menu, -1);
+ 	sym = menu->sym;
+@@ -760,6 +760,7 @@ static void renderer_edited(GtkCellRendererText * cell,
+ 
+ 	update_tree(&rootmenu, NULL);
+ 
++free:
+ 	gtk_tree_path_free(path);
  }
+ 
 -- 
 2.39.5
 
