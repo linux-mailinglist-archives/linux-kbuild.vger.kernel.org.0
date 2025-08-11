@@ -1,55 +1,58 @@
-Return-Path: <linux-kbuild+bounces-8345-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8346-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289CAB214D5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Aug 2025 20:48:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBF8B21533
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Aug 2025 21:14:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BD1846072D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Aug 2025 18:48:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 462AA19033B4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Aug 2025 19:14:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A63D32D4819;
-	Mon, 11 Aug 2025 18:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B75AF2D8789;
+	Mon, 11 Aug 2025 19:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jrMnhbxE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFvedfDN"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787651E2858;
-	Mon, 11 Aug 2025 18:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB062D47F6;
+	Mon, 11 Aug 2025 19:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754938134; cv=none; b=nhg/SRI1RsLk94oE49JbFxB/U9HOAVn/0xMxNyIBvmzWMc7h0p4LaN4qRRyoqZyxNHiTlqIOE4DmqADXWqm76DihdZxHMK8tYxqiclFQL6ZLkidza80V+4HgQHOXEkxR/HEiqsjZ5F/6y2Fwlew0pIiRNkDqyD6zhzPi5mroLkg=
+	t=1754939653; cv=none; b=gWM7lTeiSdff4mOM2OyI5pLzT80sTlJpTcTbYezgJuX3BQKBVdaEnr1ZM+UM6yUwPw+ldSRoc7eppS2K7tYWTADcf/3DQ6iw+6a/lGC5dNnFLxOCVcjNTT17rbVneJoJb/lo4U8Kv3sSvxEtCWEbqah2zjbWUlg/4gqo00Giqg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754938134; c=relaxed/simple;
-	bh=V2ebLN2lCYMtobAQmErA32Kl4k0qm9O7vsyLPUmzKgc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UQNDsZgHApGStCDtTE2CmPSV4lAGVazvWwG4a1hFgcvAbMm1zSH5lhYwlyYqdb0p25JpJUTPq6MOGwIvkr1Z7000WvlRsnFAZPFNufBvmH/GQprvN3eZS+Z3pWIdxSERMKNmzvuSpq8viVkJ+SAQd5IqjL1n9KZSeIEbsAL3aCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jrMnhbxE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C888C4CEED;
-	Mon, 11 Aug 2025 18:48:52 +0000 (UTC)
+	s=arc-20240116; t=1754939653; c=relaxed/simple;
+	bh=cbaqCKPXEXPTfgN6IxyGi0nDJS2U4EFH4E50ryMtCQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NG810SUDh+Obqhw1iGbIUR10Fj95QCakSwqdhPO4SGcKZhgbMnY/MCoU2+jLhNaAdT6Nio0dw24z3D38GS68PkLCpMKdxNZlJwcTWE0oQr+kSOFFWLg4I9sY5Q+x6mDRu8rNlwxbN5VJX1rt2Gi22+W10AwEzdW7dCrgSCRS1I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFvedfDN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7859FC4CEED;
+	Mon, 11 Aug 2025 19:14:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754938134;
-	bh=V2ebLN2lCYMtobAQmErA32Kl4k0qm9O7vsyLPUmzKgc=;
-	h=Date:From:To:Cc:Subject:From;
-	b=jrMnhbxEl1/OzFCGhER5TseSfWS4/UePhPbdRD8JAmzZl5ut3BrdvCtKiaIl+Wy2X
-	 L0QLfM88N30w6SLdQu0B36vPukmAenxX5HpXzOsCcv9sW2op2fZ1l/JO1eGosOP2Lz
-	 biq/omrLCTekvQWwA616EI0hrcUZlAE4IbxAQImfGl4Ip/ZCgUjvIRFs0VFCDUOqAZ
-	 snzIOV13mQ4SwH79k21gAT9of8/82Awf6f5i9qLT2vfc0lB4hmVAJW1UYJTOjBJBHG
-	 fT1gDyq/6srNcD+WNFpbSyq+K/QLdHO06zkiJtnluiHApn+c7cov1Ex2TXxF/E9Wz+
-	 GdXy42W0GB6pw==
-Date: Mon, 11 Aug 2025 11:48:49 -0700
+	s=k20201202; t=1754939653;
+	bh=cbaqCKPXEXPTfgN6IxyGi0nDJS2U4EFH4E50ryMtCQ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PFvedfDNl1Zg4/N8XuP6Mh9vPP5LeLyoZK+H9T8G+pniYPzO5kFWvqk8YDUGcYDru
+	 yaGn03vcWftCBY67/MrlsEfWAz8eEsE6mFpRBNdMQ1vlikxykHhCUkOtlLB2jja8Ig
+	 gx6ZnGYbQ5HpNG5h+8TAdVTZBj8kJkFekAMrYH/SyTDH3gbmtQrYPqA4nW7Jv/iWGR
+	 k0SEaCxW7IJp61HdNzHKNiBU3XKy3AYMa+JpjXT0fiey+n0HHbQYxRm6kHdeMS/rRG
+	 nDg0+T6QqrGfj+kpxsTTZaiPkK+0mCpBQelZVrKOEg4wpZvTmVvDeYWw8EmNyGHufB
+	 erowVb8NmIX2w==
+Date: Mon, 11 Aug 2025 12:14:08 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nsc@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: Updating Kbuild tree and contacts
-Message-ID: <20250811184849.GA1266@ax162>
+To: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: "longguang.yue" <bigclouds@163.com>, linux-kbuild@vger.kernel.org,
+	masahiroy@kernel.org, David Howells <dhowells@redhat.com>,
+	David Woodhouse <dwmw2@infradead.org>, keyrings@vger.kernel.org
+Subject: Re: [PATCH] Makefile: mrproper deletes signing_key.x509
+Message-ID: <20250811191408.GA169691@ax162>
+References: <20250809120405.22957-1-bigclouds@163.com>
+ <aJerjQGmXXcpTtBB@fjasle.eu>
+ <1ac1d3e3.58ad.19897d159ff.Coremail.bigclouds@163.com>
+ <20250811-diligent-rigorous-ara-e7a9d2@l-nschier-aarch64>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -58,19 +61,59 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250811-diligent-rigorous-ara-e7a9d2@l-nschier-aarch64>
 
-Hi Stephen,
+On Mon, Aug 11, 2025 at 03:59:23PM +0200, Nicolas Schier wrote:
+> Cc: certs/ people
+> 
+> [re-ordered quote]
+> On Mon, Aug 11, 2025 at 02:28:56PM +0800, longguang.yue wrote:
+> > At 2025-08-10 04:11:57, "Nicolas Schier" <nicolas.schier@linux.dev> wrote:
+> > > On Sat, Aug 09, 2025 at 08:04:05PM +0800 longguang.yue wrote:
+> > > > deletes temporary signing_key.x509 and reserves user-defined x509.genkey
+> > > 
+> > > can you elaborate the actual problem with some more details?
+> > > 
+> > > certs/signing_key.x509 is removed during 'make clean' which is a dependency
+> > > of 'mrproper'.
+> > > 
+> > > 'mrproper' is meant to remove everything that might influence a subsequent
+> > > call of kbuild for the sane architecture.
+> > > 
+> > > Without further details I cannot see any problem here.
+> > > 
+> > > Kind regards,
+> > > Nicolas
+> [...]
+> > 
+> >   It should not delete x509.genkey because of its exsitence in gitignore.
+> > Normally, users want to keep  a self-defined x509.genkey,  but mrproper deletes it, only default_x509.genkey is effective. 
+> > After applying this patch, users just need to copy self-defined x509.genkey into certs directory once.
+> 
+> 'make mrproper' is meant to prepare the source tree to be as pristine as 
+> possible for the given architecture.  This includes removal of any 
+> configuration file(s) that influence subsequent builds.  From kbuild 
+> point of view, certs/x509.genkey is also a kind of a configuration file, 
+> as leaving it in tree after mrproper creates different build results 
+> compared to a build from a really pristine source tree.
 
-Nicolas and I have taken over Kbuild maintenace from Masahiro as of
-commit 8d6841d5cb20 ("MAINTAINERS: hand over Kbuild maintenance"). Could
-you please update your contacts for the Kbuild tree to both of us and
-the Kbuild tree to
+Agreed, I think it is intentional that this is in mrproper and not
+clean, so I don't think we can accept this change as is, but I am happy
+to be told otherwise from the certs maintainers.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git
+> Iff the certs/ maintainers think that retaining a user x509.genkey file 
+> over a mrproper makes sense, then we should probably adjust the rule for 
+> generating $(objtree)/certs/x509.genkey, e.g. by allowing to provide one 
+> by environment variable.
+> 
+> David or David, do you have an opinion on this?
 
-and start pulling kbuild-fixes and kbuild-next in at their respective
-places within the -next update cycle? Please let me know if there are
-any issues or questions.
+Furthermore, if the user wanted to use a predefined x509 configuration,
+why can't they generate their own signing key and provide it via
+CONFIG_MODULE_SIG_KEY, instead of hijacking the default logic of
+certs/signing_key.pem? Based on my reading of certs/Makefile, it sounds
+like the default logic is mostly there just for allyesconfig or
+randconfig.
 
 Cheers,
 Nathan
