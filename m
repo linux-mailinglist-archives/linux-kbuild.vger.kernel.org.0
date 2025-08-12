@@ -1,170 +1,121 @@
-Return-Path: <linux-kbuild+bounces-8390-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8391-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3E4B22388
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 11:43:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF232B22485
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 12:25:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A66593B52B2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 09:42:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1F9E188AC9B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 10:25:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B46402EAB68;
-	Tue, 12 Aug 2025 09:41:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36BC12E7BD3;
+	Tue, 12 Aug 2025 10:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PE/h0CXL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d08ZUSUn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9422EA74B;
-	Tue, 12 Aug 2025 09:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823191A9F84;
+	Tue, 12 Aug 2025 10:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754991676; cv=none; b=oJlYrZESlelcWQ0jKBhIWq9hrA1OmTm/Z/ntc3D3kSlbUsPLc62kbWj94liLrdKfxdcx7fwXfebY1s/NGyYKaRM1llNDK9TjxMX8b30B5QYzouWBCn/iqjsBvh1AVxQstWszFA7eOLmDwfDWtiwcK8oVqlkokMiG352prPOkZoI=
+	t=1754994310; cv=none; b=e4lh04TXQNyYJMMk0lVK/dbRyMmhP8oDS9sAKjQzMrJCDiYHJfQl1T0F1LOdGLfhZGWrI8u13sOiePvTtAVVVtFbMDtPi+MLhlmbGQH3R0v/VWO7KUu4wsB7yIeY3piDlqsHmCcq7/EBLMsVsH953kOw/zFyq6Web+GHHmfpTOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754991676; c=relaxed/simple;
-	bh=nZrtRwq7jI63cTMZsCTitO8VDthmYTcuRU7KOnqfPnY=;
+	s=arc-20240116; t=1754994310; c=relaxed/simple;
+	bh=3h1jtYlTahoZiW9S6ipVCny34gqJSUikkQKszPkOZjo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WdEosusUf2XTejDse0nbY7j1bWKIl004FCyPyScgRj7JqBx2QaRtkIMsa3FwMMLmuWEYwTCga93hUzbAFgpMpgaKueZm5QAj9LfC9bi3fmRb6PHLFawOFbDhVBumQajfMkjgZydBvMc49DLki4BXvcrxZ2emQCEBR+QqK7WHU+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B8E6B68AA6; Tue, 12 Aug 2025 11:41:07 +0200 (CEST)
-Date: Tue, 12 Aug 2025 11:41:07 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Kees Cook <kees@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
-Message-ID: <20250812094107.GA27450@lst.de>
-References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de> <20250717132259.GA25835@lst.de> <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de> <20250721070958.GA29367@lst.de> <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KKX4DKjfpk3EMCMv3r8z16GGN84cqunhuGGOPO91E3RfUb524DUfw4JWuDbCPidi9K7UQCnXli4vrk9uy4MD09nIWTzO8LhQZo2ySrUsnKYd+e5yFdxhO1+IC3t9Pjg+ZwCG9MleU/mLGs6NujChcroPn7/RK6jWT6Rgkemais8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PE/h0CXL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d08ZUSUn; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Tue, 12 Aug 2025 12:25:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1754994306;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=25qTZ0NaTrHWGb9HaUnJeL7nrC5oZiUKeYs+yDJzlIA=;
+	b=PE/h0CXLoDspX2fANx7Ncb8CVFtBKWb74CPFkn5FvbRq5vUh8xJ/D9+xoDDjw2LUetVzT8
+	RpFfYmHz4E3F9ll02QH9VKxCKR619bMfkmV6WqHcFIAmPp5GF/3MfWHVzfN9XpuouMWbcy
+	LTYQX4o1mqFChjqhce6mHGd2c1LHT3OdxDkTdY41Iqtmjd9USkMe+0lHqvTsXImXcOa5J2
+	N5axkDEs5Gaslbs/leHd3B/sgbcPP4va94B8IEL4B5jnyAnhNawEqeF2G8BSBY+QypvUME
+	ptD88qDUehbBo8JJI++jfkIwGJZvN5vT70WyWMU//iNP31eXpWJEGeP/t6yRnw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1754994306;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=25qTZ0NaTrHWGb9HaUnJeL7nrC5oZiUKeYs+yDJzlIA=;
+	b=d08ZUSUnbOIPQl4p4/pa0+MKiK4FeI6AtekH+SuEc2o0On3Cdy1lEtjvQZ135kYlujG4F/
+	FFsCjgogRVvqU1Aw==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 0/2] kbuild: enable CONFIG_WERROR for more build steps
+Message-ID: <20250812121545-f00f588b-2239-4d96-baeb-55cbf4914556@linutronix.de>
+References: <20250812-kbuild-werror-v1-0-36c9ff653700@linutronix.de>
+ <CANiq72k-PdSH2BNgbq=X+FhpyEErifSCKfO5ObXz6bu9_J8+fA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <CANiq72k-PdSH2BNgbq=X+FhpyEErifSCKfO5ObXz6bu9_J8+fA@mail.gmail.com>
 
-On Mon, Aug 04, 2025 at 05:01:35PM +0200, Thomas Wei�schuh wrote:
-> > That's great.  Let's reuse it without having to drive running userspace
-> > programs from kernel code.
+Hi Miguel,
+
+On Tue, Aug 12, 2025 at 11:21:24AM +0200, Miguel Ojeda wrote:
+> On Tue, Aug 12, 2025 at 7:31 AM Thomas Weißschuh
+> <thomas.weissschuh@linutronix.de> wrote:
+> >
+> > CONFIG_WERROR is useful for all build steps, not only compilation of C and
+> > Rust sources linked into the kernel.
+> >
+> > Also enable it for assembler and linker invocations, userprogs, as well as
+> > C and Rust hostprogs.
+> >
+> > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 > 
-> Running in the kernel is the point behind KUnit.
-
-When using kunit as is to unit test kernel functionality - obviously.
-
-When running it to integration test the syscall boundary - not at all.
-
-> It could be done by putting
-> all the userspace test into a initramfs and run them on boot from there.
-> But that has other drawbacks:
-> * The tests can't be run on an existing system.
-> * All tests need to be loaded into memory together, and not on demand.
-> * The tests can not be rerun.
-
-None of that is true.  While running syscall level tests from an
-initramfs could be a nice feature for an automatd kernel CI system,
-nothin in this tests should require running from an initramfs.
-
-> This was a response to one specific statement. Could you be a bit more specific
-> in your critique? I am not sure what exactly you mean in some cases, making it
-> hard to respond properly. For example "bloat", it is bloaty
-> * source code,
-> * object code for users enabling the new kconfig options,
-> * object code for other users *not* enabling the new kconfig options?
-
-You are adding kernel code both at the source and object level to run
-userspace tests.  That is very clearly bloat.  Even more so as it adds
-functionality and exports that don't fit in with what the kernel already
-does for actual kernel functionality.
-
-> > > It is not and most probably won't ever be. The maintainers of each testcase
-> > > will decide which libc to use. Like it is in tools/testing/selftests/ today.
-> > > Some use glibc, some nolibc and some can do both.
-> > 
-> > So why do you want to use it here?  And how is is related to the rest
-> > of the series?
+> The Rust part is:
 > 
-> To make it easier to test a wide range of architectures by not requiring a
-> libc from the toolchain. It also avoids relying on a bunch of out-of-tree
-> code (glibc) as part of the test. And there are existing kselftests which
-> use it over glibc for their own reasons.
+>     https://lore.kernel.org/rust-for-linux/20240519211235.589325-1-ojeda@kernel.org/
+
+Thanks for the pointer. We can keep the logic in Makefile.extrawarn.
+But adding FLAGS-y machinery for all of the flags will be a bit noisy.
+Having one ifdef CONFIG_WERROR around everything is much easier to read.
+
+> However, Masahiro back then mentioned that we shouldn't make the C
+> host flags depend on `WERROR` since `HOSTCC` builds Kconfig and, for
+> consistency, not for Rust host progs either:
 > 
-> But using nolibc in test code is not necessary and nobody is forced to do so.
-> 
-> (Maybe a disclaimer that I'm one of the nolibc maintainers is in order)
+>     https://lore.kernel.org/rust-for-linux/CAK7LNATPx2wTEM=KDmGtcH8vVTB4suOhh-CUQKP54F8wtPWDiw@mail.gmail.com/
 
-Well, why do you even mix it up with this unrelated series then?
+That does make sense.
 
-> To run kselftests we need the following things:
-> a) A toolchain which can build userspace executables.
+> Perhaps it could make sense to explicitly exclude certain bits, like
+> Kconfig, from `WERROR`, and apply it for everything else instead.
 
-You'll need that for any userspace program, no matter what test
-harness.
+The users will still pass -Werror explicitly, we can't filter that out.
 
-> b) Quite a bit of supporting userland, at least glibc, coreutils and bash.
+Let's skip hostprogs for now. Another possibility would be to use -Werror
+for hostprogs unconditionally. Various tools/ are doing that for example.
 
-Well, a libc you will need anyway.  Maybe nolibc is good enough for
-some tests, but as you already stated not for very many.  The others
-are just an artifcat of how you run tests.
 
-> c) A rootfs assembled out of these.
-> d) An efficient way to incrementally rebuild the test executables and rootfs.
-> e) A way to put that rootfs into the system under test.
-
-You don't need a rootfs.
-
-> And for all of this there should be good in-tree tooling.
-
-Absolutely.
-
-> Moving to a pure userspace solution would preclude the usage of KUnit as far as
-> I can see.
-
-You've still failed why using kunit is the goal and not just something
-that made your life easier archieving your goal.
-
-> > Yes, kselftests suck as most people will agree. But the answer is not
-> > to add a lot of kernel bloat to treat userspace integration tests
-> > like kernel units tests.
-> 
-> I fail to understand how this test code is worse than the existing KUnit test
-> code. This is not meant to test complex scenarios, but single system calls or
-> specific UAPIs, which may depend on architecture features. For example timers,
-> signals, vDSO, mm etc.
-
-So now having another half-assed test framework is a good thing?
-
-> > How about you just fix kselftests, preferably
-> > by reusing well known and teststed userland code?
-> 
-> Is "well known and tested userland code" referring to glibc or testing
-> frameworks? As mentioned above, glibc can be used just fine and the frameworks
-> I know about are lacking.
-
-Basically any kind of testing framework that has broad use.  It's not
-like there aren't userland unit test frameworks if you really want to
-use that.
+Thomas
 
