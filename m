@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-8409-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8410-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4598DB22890
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 15:32:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0E5B22891
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 15:33:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB5E27B76B8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 13:31:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 758A77B792C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 13:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4441280A2C;
-	Tue, 12 Aug 2025 13:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206E8280CC8;
+	Tue, 12 Aug 2025 13:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bb5zXZft"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K5w7pXMm"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A23227F003;
-	Tue, 12 Aug 2025 13:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84364280CC9;
+	Tue, 12 Aug 2025 13:31:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755005454; cv=none; b=E/7H+mDH0w2OiUGtsRHoNEcOCPfk8RcQJhkTQwlYlcJsfqQyz3kVERLmfOx8ENe3jdNZVDBanxr1TaWQrn5DYlGBrJ2L0bYMRSojDh75p58Ddb10wtHtTgB4xSVxdJnH2+gYRMab3v2gx7QNfDKx+b2RiHlpEmPjo3sX5wCsLoE=
+	t=1755005471; cv=none; b=Y0X8mAKxLgIqcHBZF7qraRwNidmC8Im2RY7GAQwlk7447gYI6COq0OSaQ4caZS9m8JOetHsFUG2t0fQ+zKCY3Dy6MypKxqSBDL3SKH2QzpIftYAQT5q2Jj7XAPNkod4+ixCkAnwhMgyTYnZfJKnik41Dg276K4Eg0Bhaa37Ew2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755005454; c=relaxed/simple;
-	bh=bLAP3Uvsa+ddGeiTQivKwBmzgkLDslUubgZ6G8l99Io=;
+	s=arc-20240116; t=1755005471; c=relaxed/simple;
+	bh=HiW8X4qWeN2pPHljIwWnxU5OYoff7Zyp0Lg8pvxu5HY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=csEAbywegd3rIvU6wmE3h/4VhBiAHb9GMQcxTriedZ9VRnGbPOxZJtJgoyAVyTmOLEROpQF5OODGi6GxLUtUflCuf9sNKEbLG0k1/5PJJ8k6PISqP6BEM+FECu2ECOlfcxW/evWMrTELk4/IluATvYmlUyoG9svZrn8idXfvxZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bb5zXZft; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=f7cEDKrB63gLpUXA3kr6iKAE54TYwG36T1r4z5OHOzTL/GmmCzFs0ytnooXZkB7v2J/rWuLTjiViW5BiFpyHaMbKtL/wTIGnsdnWh6y2ZaVj8liJ29cOmm4atjxI0XJz2S2wgzFr35shtz6HR8zfXwNt8dxR/RK2bg+EzSTfH7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K5w7pXMm; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755005454; x=1786541454;
+  t=1755005470; x=1786541470;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bLAP3Uvsa+ddGeiTQivKwBmzgkLDslUubgZ6G8l99Io=;
-  b=Bb5zXZftTPnFwAw9jCXpAHiVzVOin2kbVi3y6n9AJKRaU55oR2GStiUD
-   lHo/cVFTrd7s1Eq846GnJG1r+bJRBzipcZzHIHZYvHE8OQNS4IdRyiUb4
-   Sgi83rR/j3svoFBVckjBJVfOF9O1R+iP7P0lr1dupF4qb3ZmIuq+23Ztx
-   9iS62FKjivRbQAhXxBFfxnXqdI5fUmSSFXSh4W0YReCD6snnRqn/7uNmX
-   InK8NkZgq5NqfnPqs7J02i9Cl4Ox1AHPDmOLtIhAZJqZGelApYekSzkv7
-   OL0Oafz91fll0WeH9RtPq64XnE68fRzEhhK0wFJsROcivXBhB/Xokg1P/
-   w==;
-X-CSE-ConnectionGUID: d/cVEAm5Sa+VweNn2IJz3g==
-X-CSE-MsgGUID: DPPWhDX5QP2J/4WFIcqt6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60903992"
+  bh=HiW8X4qWeN2pPHljIwWnxU5OYoff7Zyp0Lg8pvxu5HY=;
+  b=K5w7pXMm8m1/9sx95JwMhSoppwNScXnA+H8t9O1P55sGUKxhtkuCfhWg
+   b1ATX2/kzcQueqq63fFBHqjjfLKNM3fucRu2/rdaglhAGSNTunaPlupZx
+   RA13SbA/ysaA6yBKw/kJm2koHLglhjGdX+CWsOdyrpH7BNc1kIoIvauLF
+   mPxtqEPksJZAhJdCWoUXblEuSxcItHdgJOvxwEdeby5ooAIkQ06oy5zwq
+   2qTSVAsyrVJ886LDxGLFvF0SCjUxGh5UpERua+QT/63EgQA9VIAkidkCu
+   Qbcod+rVNYsrPBiqlsv3hoqvL8qGOZCNYhpXuj1SAHopSim+P3LqbM4AS
+   Q==;
+X-CSE-ConnectionGUID: CevhBVW/Tqaqm0g1T2S42A==
+X-CSE-MsgGUID: ZC1hLSxmS7+p+HjJXD/MMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60904064"
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="60903992"
+   d="scan'208";a="60904064"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:30:53 -0700
-X-CSE-ConnectionGUID: Qs0HalWXTxanbhip8kE5PA==
-X-CSE-MsgGUID: lUt/yXQuTg+taKHifBrAyQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:31:09 -0700
+X-CSE-ConnectionGUID: 310Nw93RRXy9OmSdy8cVzA==
+X-CSE-MsgGUID: xzKkOVDzSASmChbZfONGbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="165832023"
+   d="scan'208";a="165832087"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.54])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:30:21 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:30:43 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: nathan@kernel.org,
 	arnd@arndb.de,
@@ -146,9 +146,9 @@ Cc: linux-mm@kvack.org,
 	kasan-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 15/18] kasan: x86: Logical bit shift for kasan_mem_to_shadow
-Date: Tue, 12 Aug 2025 15:23:51 +0200
-Message-ID: <a1a7d761bad9ead5596edb2dbe62cab26c24602a.1755004923.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v4 16/18] mm: Unpoison pcpu chunks with base address tag
+Date: Tue, 12 Aug 2025 15:23:52 +0200
+Message-ID: <f3519195a98428998160d272997a3d2ed6c53c6a.1755004923.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
 References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
@@ -160,74 +160,125 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While generally tag-based KASAN adopts an arithemitc bit shift to
-convert a memory address to a shadow memory address, it doesn't work for
-all cases on x86. Testing different shadow memory offsets proved that
-either 4 or 5 level paging didn't work correctly or inline mode ran into
-issues. Thus the best working scheme is the logical bit shift and
-non-canonical shadow offset that x86 uses for generic KASAN, of course
-adjusted for the increased granularity from 8 to 16 bytes.
+The problem presented here is related to NUMA systems and tag-based
+KASAN mode. It can be explained in the following points:
 
-Add an arch specific implementation of kasan_mem_to_shadow() that uses
-the logical bit shift.
+	1. There can be more than one virtual memory chunk.
+	2. Chunk's base address has a tag.
+	3. The base address points at the first chunk and thus inherits
+	   the tag of the first chunk.
+	4. The subsequent chunks will be accessed with the tag from the
+	   first chunk.
+	5. Thus, the subsequent chunks need to have their tag set to
+	   match that of the first chunk.
 
-The non-canonical hook tries to calculate whether an address came from
-kasan_mem_to_shadow(). First it checks whether this address fits into
-the legal set of values possible to output from the mem to shadow
-function.
-
-Tie both generic and tag-based x86 KASAN modes to the address range
-check associated with generic KASAN.
+Refactor code by moving it into a helper in preparation for the actual
+fix.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
 Changelog v4:
-- Add this patch to the series.
+- Redo the patch message numbered list.
+- Do the refactoring in this patch and move additions to the next new
+  one.
 
- arch/x86/include/asm/kasan.h | 8 ++++++++
- mm/kasan/report.c            | 5 +++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+Changelog v3:
+- Remove last version of this patch that just resets the tag on
+  base_addr and add this patch that unpoisons all areas with the same
+  tag instead.
 
-diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-index 5bf38bb836e1..f3e34a9754d2 100644
---- a/arch/x86/include/asm/kasan.h
-+++ b/arch/x86/include/asm/kasan.h
-@@ -53,6 +53,14 @@
+ include/linux/kasan.h | 10 ++++++++++
+ mm/kasan/hw_tags.c    | 11 +++++++++++
+ mm/kasan/shadow.c     | 10 ++++++++++
+ mm/vmalloc.c          |  4 +---
+ 4 files changed, 32 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 7a2527794549..3ec432d7df9a 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -613,6 +613,13 @@ static __always_inline void kasan_poison_vmalloc(const void *start,
+ 		__kasan_poison_vmalloc(start, size);
+ }
  
- #ifdef CONFIG_KASAN_SW_TAGS
- 
-+static inline void *__kasan_mem_to_shadow(const void *addr)
++void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms);
++static __always_inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
 +{
-+	return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
-+		+ KASAN_SHADOW_OFFSET;
++	if (kasan_enabled())
++		__kasan_unpoison_vmap_areas(vms, nr_vms);
 +}
 +
-+#define kasan_mem_to_shadow(addr)	__kasan_mem_to_shadow(addr)
-+
- #define __tag_shifted(tag)		FIELD_PREP(GENMASK_ULL(60, 57), tag)
- #define __tag_reset(addr)		(sign_extend64((u64)(addr), 56))
- #define __tag_get(addr)			((u8)FIELD_GET(GENMASK_ULL(60, 57), (u64)addr))
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index cfa2da0e2985..11c8b3ddb4cc 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -648,13 +648,14 @@ void kasan_non_canonical_hook(unsigned long addr)
- 	const char *bug_type;
+ #else /* CONFIG_KASAN_VMALLOC */
  
- 	/*
--	 * For Generic KASAN, kasan_mem_to_shadow() uses the logical right shift
-+	 * For Generic KASAN and Software Tag-Based mode on the x86
-+	 * architecture, kasan_mem_to_shadow() uses the logical right shift
- 	 * and never overflows with the chosen KASAN_SHADOW_OFFSET values (on
- 	 * both x86 and arm64). Thus, the possible shadow addresses (even for
- 	 * bogus pointers) belong to a single contiguous region that is the
- 	 * result of kasan_mem_to_shadow() applied to the whole address space.
+ static inline void kasan_populate_early_vm_area_shadow(void *start,
+@@ -637,6 +644,9 @@ static inline void *kasan_unpoison_vmalloc(const void *start,
+ static inline void kasan_poison_vmalloc(const void *start, unsigned long size)
+ { }
+ 
++static inline void kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
++{ }
++
+ #endif /* CONFIG_KASAN_VMALLOC */
+ 
+ #if (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)) && \
+diff --git a/mm/kasan/hw_tags.c b/mm/kasan/hw_tags.c
+index 9a6927394b54..1f569df313c3 100644
+--- a/mm/kasan/hw_tags.c
++++ b/mm/kasan/hw_tags.c
+@@ -382,6 +382,17 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
  	 */
--	if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
-+	if (IS_ENABLED(CONFIG_KASAN_GENERIC) || IS_ENABLED(CONFIG_X86_64)) {
- 		if (addr < (u64)kasan_mem_to_shadow((void *)(0UL)) ||
- 		    addr > (u64)kasan_mem_to_shadow((void *)(~0UL)))
- 			return;
+ }
+ 
++void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
++{
++	int area;
++
++	for (area = 0 ; area < nr_vms ; area++) {
++		vms[area]->addr = __kasan_unpoison_vmalloc(
++			vms[area]->addr, vms[area]->size,
++			KASAN_VMALLOC_PROT_NORMAL);
++	}
++}
++
+ #endif
+ 
+ void kasan_enable_hw_tags(void)
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index d2c70cd2afb1..b41f74d68916 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -646,6 +646,16 @@ void __kasan_poison_vmalloc(const void *start, unsigned long size)
+ 	kasan_poison(start, size, KASAN_VMALLOC_INVALID, false);
+ }
+ 
++void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
++{
++	int area;
++
++	for (area = 0 ; area < nr_vms ; area++) {
++		kasan_poison(vms[area]->addr, vms[area]->size,
++			     arch_kasan_get_tag(vms[area]->addr), false);
++	}
++}
++
+ #else /* CONFIG_KASAN_VMALLOC */
+ 
+ int kasan_alloc_module_shadow(void *addr, size_t size, gfp_t gfp_mask)
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 83d666e4837a..72eecc8b087a 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -4847,9 +4847,7 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+ 	 * With hardware tag-based KASAN, marking is skipped for
+ 	 * non-VM_ALLOC mappings, see __kasan_unpoison_vmalloc().
+ 	 */
+-	for (area = 0; area < nr_vms; area++)
+-		vms[area]->addr = kasan_unpoison_vmalloc(vms[area]->addr,
+-				vms[area]->size, KASAN_VMALLOC_PROT_NORMAL);
++	kasan_unpoison_vmap_areas(vms, nr_vms);
+ 
+ 	kfree(vas);
+ 	return vms;
 -- 
 2.50.1
 
