@@ -1,112 +1,170 @@
-Return-Path: <linux-kbuild+bounces-8389-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8390-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13F7B2235A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 11:38:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3E4B22388
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 11:43:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C9A91881C5C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 09:38:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A66593B52B2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 09:42:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86272E88B7;
-	Tue, 12 Aug 2025 09:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fWuAaAd/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B46402EAB68;
+	Tue, 12 Aug 2025 09:41:16 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991402E8897
-	for <linux-kbuild@vger.kernel.org>; Tue, 12 Aug 2025 09:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9422EA74B;
+	Tue, 12 Aug 2025 09:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754991489; cv=none; b=PU5/kFcMFxgpmu7eLb2boaR6rAV9lciWSuOvTsre79R+cgo2buAGeomRbP9zZ7vnvQ15AnZkl+bg0l1C89e/PtF+R75M6sEe2FMnKpMNMifTubehY/FL+G1IDxPRVIgJDI8rpGvoViuQGCPNX0XZvLbPKIXUVzhynsyKXNO63nw=
+	t=1754991676; cv=none; b=oJlYrZESlelcWQ0jKBhIWq9hrA1OmTm/Z/ntc3D3kSlbUsPLc62kbWj94liLrdKfxdcx7fwXfebY1s/NGyYKaRM1llNDK9TjxMX8b30B5QYzouWBCn/iqjsBvh1AVxQstWszFA7eOLmDwfDWtiwcK8oVqlkokMiG352prPOkZoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754991489; c=relaxed/simple;
-	bh=Jtp2Mg1cguvYiGrVtvKTRauz0brp+m7pNJYTlViXvB8=;
+	s=arc-20240116; t=1754991676; c=relaxed/simple;
+	bh=nZrtRwq7jI63cTMZsCTitO8VDthmYTcuRU7KOnqfPnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S+ly8dt0h1np6gyVXEtLkoDRZxUtyyqmr9VvgLlCHWI9Va7SMW8gyqElaO/0Eb9E8aKNANrpSbX6jCYqt+sxk8o1eR+/DktxygeARC/sB9h5jlvI+mJk+cHbG5XMCYkTBAKxic1KYwtLRv7iDiX6d2ZytlhyX41DklV3/CpWbq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fWuAaAd/; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Tue, 12 Aug 2025 11:37:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1754991483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gsysw6+E7A1YO35Mzb5ehM4c5NgQXumblCmXhLIAB6M=;
-	b=fWuAaAd/xp7y/lGL5aWwMcU6Yz0duSRxey8jr9Is3nSU5h1ruLz0X7ahXwMMnxkno+5wJf
-	FVgUN3sLUYXSPDM78FViNZ2RdNLa5nDwmdvzix8amROInqarZqOGGh9NRShzJz0LFS/RYR
-	3o8WVf9r0IHH733IvhDABVyRDwHYwCg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Nicolas Schier <nicolas.schier@linux.dev>
-To: "longguang.yue" <bigclouds@163.com>
-Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org, masahiroy@kernel.org
-Subject: Re: [PATCH] Makefile: mrproper deletes signing_key.x509
-Message-ID: <20250812-calm-agile-junglefowl-dbffba@l-nschier-aarch64>
-References: <20250812022429.52674-1-bigclouds@163.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdEosusUf2XTejDse0nbY7j1bWKIl004FCyPyScgRj7JqBx2QaRtkIMsa3FwMMLmuWEYwTCga93hUzbAFgpMpgaKueZm5QAj9LfC9bi3fmRb6PHLFawOFbDhVBumQajfMkjgZydBvMc49DLki4BXvcrxZ2emQCEBR+QqK7WHU+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B8E6B68AA6; Tue, 12 Aug 2025 11:41:07 +0200 (CEST)
+Date: Tue, 12 Aug 2025 11:41:07 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, workflows@vger.kernel.org,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v5 00/15] kunit: Introduce UAPI testing framework
+Message-ID: <20250812094107.GA27450@lst.de>
+References: <20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de> <20250717132259.GA25835@lst.de> <20250718073743-d4a1f713-f81b-4e89-b3f8-7eed838798e6@linutronix.de> <20250721070958.GA29367@lst.de> <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250812022429.52674-1-bigclouds@163.com>
-Organization: AVM GmbH
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250721100913-0c6d93d8-79d6-482b-9db4-7b0c06b604fa@linutronix.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Aug 12, 2025 at 10:24:29AM +0800, longguang.yue wrote:
-> delete temporary signing_key.x509
+On Mon, Aug 04, 2025 at 05:01:35PM +0200, Thomas Weißschuh wrote:
+> > That's great.  Let's reuse it without having to drive running userspace
+> > programs from kernel code.
 > 
-> Signed-off-by: longguang.yue <bigclouds@163.com>
-> ---
->  Makefile | 1 +
->  1 file changed, 1 insertion(+)
+> Running in the kernel is the point behind KUnit.
+
+When using kunit as is to unit test kernel functionality - obviously.
+
+When running it to integration test the syscall boundary - not at all.
+
+> It could be done by putting
+> all the userspace test into a initramfs and run them on boot from there.
+> But that has other drawbacks:
+> * The tests can't be run on an existing system.
+> * All tests need to be loaded into memory together, and not on demand.
+> * The tests can not be rerun.
+
+None of that is true.  While running syscall level tests from an
+initramfs could be a nice feature for an automatd kernel CI system,
+nothin in this tests should require running from an initramfs.
+
+> This was a response to one specific statement. Could you be a bit more specific
+> in your critique? I am not sure what exactly you mean in some cases, making it
+> hard to respond properly. For example "bloat", it is bloaty
+> * source code,
+> * object code for users enabling the new kconfig options,
+> * object code for other users *not* enabling the new kconfig options?
+
+You are adding kernel code both at the source and object level to run
+userspace tests.  That is very clearly bloat.  Even more so as it adds
+functionality and exports that don't fit in with what the kernel already
+does for actual kernel functionality.
+
+> > > It is not and most probably won't ever be. The maintainers of each testcase
+> > > will decide which libc to use. Like it is in tools/testing/selftests/ today.
+> > > Some use glibc, some nolibc and some can do both.
+> > 
+> > So why do you want to use it here?  And how is is related to the rest
+> > of the series?
 > 
-> diff --git a/Makefile b/Makefile
-> index 6bfe776bf3c5..7c45fa8e44ef 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1589,6 +1589,7 @@ MRPROPER_FILES += include/config include/generated          \
->  		  .config .config.old .version \
->  		  Module.symvers \
->  		  certs/signing_key.pem \
-> +		  certs/signing_key.x509 \
->  		  certs/x509.genkey \
->  		  vmlinux-gdb.py \
->  		  rpmbuild \
-> -- 
-> 2.34.1
+> To make it easier to test a wide range of architectures by not requiring a
+> libc from the toolchain. It also avoids relying on a bunch of out-of-tree
+> code (glibc) as part of the test. And there are existing kselftests which
+> use it over glibc for their own reasons.
+> 
+> But using nolibc in test code is not necessary and nobody is forced to do so.
+> 
+> (Maybe a disclaimer that I'm one of the nolibc maintainers is in order)
 
-signing_key.x509 is part of 'targets' make variable in certs/Makefile 
-and thus removed during 'make clean'.  As 'clean' is a dependency of 
-'mrproper', it always runs before.  Cp. [1].
+Well, why do you even mix it up with this unrelated series then?
 
-Can you please re-check, if you can reproduce this on your site:
+> To run kselftests we need the following things:
+> a) A toolchain which can build userspace executables.
 
-    $ touch certs/signing_key.x509
-    $ ls certs/signing_key.x509
-    certs/signing_key.x509
-    $ make clean
-      CLEAN   certs
-    $ ls certs/signing_key.x509
-    ls: cannot access 'certs/signing_key.x509': No such file or directory
-    $ touch certs/signing_key.x509
-    $ ls certs/signing_key.x509
-    certs/signing_key.x509
-    $ make mrproper
-      CLEAN   certs
-    $ ls certs/signing_key.x509
-    ls: cannot access 'certs/signing_key.x509': No such file or directory
+You'll need that for any userspace program, no matter what test
+harness.
 
-Kind regards,
-Nicolas
+> b) Quite a bit of supporting userland, at least glibc, coreutils and bash.
 
+Well, a libc you will need anyway.  Maybe nolibc is good enough for
+some tests, but as you already stated not for very many.  The others
+are just an artifcat of how you run tests.
 
-[1]: https://git.kernel.org/stable/c/5cca36069d4c2942a46f98f47b9e7160fd547e03
+> c) A rootfs assembled out of these.
+> d) An efficient way to incrementally rebuild the test executables and rootfs.
+> e) A way to put that rootfs into the system under test.
+
+You don't need a rootfs.
+
+> And for all of this there should be good in-tree tooling.
+
+Absolutely.
+
+> Moving to a pure userspace solution would preclude the usage of KUnit as far as
+> I can see.
+
+You've still failed why using kunit is the goal and not just something
+that made your life easier archieving your goal.
+
+> > Yes, kselftests suck as most people will agree. But the answer is not
+> > to add a lot of kernel bloat to treat userspace integration tests
+> > like kernel units tests.
+> 
+> I fail to understand how this test code is worse than the existing KUnit test
+> code. This is not meant to test complex scenarios, but single system calls or
+> specific UAPIs, which may depend on architecture features. For example timers,
+> signals, vDSO, mm etc.
+
+So now having another half-assed test framework is a good thing?
+
+> > How about you just fix kselftests, preferably
+> > by reusing well known and teststed userland code?
+> 
+> Is "well known and tested userland code" referring to glibc or testing
+> frameworks? As mentioned above, glibc can be used just fine and the frameworks
+> I know about are lacking.
+
+Basically any kind of testing framework that has broad use.  It's not
+like there aren't userland unit test frameworks if you really want to
+use that.
 
