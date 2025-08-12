@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-8408-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8409-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A045B228BF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 15:38:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4598DB22890
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 15:32:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 384CB6247E2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 13:32:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB5E27B76B8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 13:31:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F8B1283CA7;
-	Tue, 12 Aug 2025 13:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4441280A2C;
+	Tue, 12 Aug 2025 13:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8BjC18w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bb5zXZft"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB40D283C9E;
-	Tue, 12 Aug 2025 13:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A23227F003;
+	Tue, 12 Aug 2025 13:30:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755005425; cv=none; b=SSAlmkooWizOUHcTpY1Uczewrl95jOY3LcaY5f+Ix+xixapVgDbtnu5EYfVqY04G2hQ+gEx9GJT8siD+R/9Qm8Tn7DzdAHu4p0lzr8P2qLWaI6Mv5Hi1fyv40GH/1k0jxk8/5OEe1zWyxE5+sQml73oDSaDyEpmxxMOeQ+JgIfA=
+	t=1755005454; cv=none; b=E/7H+mDH0w2OiUGtsRHoNEcOCPfk8RcQJhkTQwlYlcJsfqQyz3kVERLmfOx8ENe3jdNZVDBanxr1TaWQrn5DYlGBrJ2L0bYMRSojDh75p58Ddb10wtHtTgB4xSVxdJnH2+gYRMab3v2gx7QNfDKx+b2RiHlpEmPjo3sX5wCsLoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755005425; c=relaxed/simple;
-	bh=Z/kDn3NFABCWRH7hqk/aYpfugnY8BGjn3l5jxoLYjts=;
+	s=arc-20240116; t=1755005454; c=relaxed/simple;
+	bh=bLAP3Uvsa+ddGeiTQivKwBmzgkLDslUubgZ6G8l99Io=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YaAMNnrgOhTAc7nS6C5Mis3kg7eSTazI8SUrhbsq+uNodu7m8mi3GT2SGh64gXSTnaomRkmIl77hbYpw1yyJlmTqLNMqhiOfpacI4H8d7aDcs+qB+fr91McpPlCe7ffXVh467JXZXNFgdm1BWdvZokGXs7bk6TEeC+AKv8y/XPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8BjC18w; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=csEAbywegd3rIvU6wmE3h/4VhBiAHb9GMQcxTriedZ9VRnGbPOxZJtJgoyAVyTmOLEROpQF5OODGi6GxLUtUflCuf9sNKEbLG0k1/5PJJ8k6PISqP6BEM+FECu2ECOlfcxW/evWMrTELk4/IluATvYmlUyoG9svZrn8idXfvxZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bb5zXZft; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755005424; x=1786541424;
+  t=1755005454; x=1786541454;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Z/kDn3NFABCWRH7hqk/aYpfugnY8BGjn3l5jxoLYjts=;
-  b=T8BjC18wBYWexyUPECVg0o56O98qxKgdIHfcXcTCX9QJVEt6SXddG+eG
-   +XBQo7bgXyZ70ZOtWFRfpF3kj42fYCOdVs2YwZnEhmLfzhXm+VHh4ypyK
-   VnyXuyd6VARecvJmzxUewg8W/WDcaZSKBczUfix6WoxrjZXaQ/kmImKXz
-   U4gTlpMR/SLzjZ9zKGdSrxW4RFFymDfjwYFuzpKipmi6WcJtETZM1CrDu
-   2PazCBLxg7ZNdRYltqgN40l+TSVBd6uTpppO8KjGyHXPoFfMb59q9vH87
-   6S0jqHmuBe8zu2cVmed0zuaQs9NiAAaD5JgYrzYyJT+a1mq4M/6gK91Ss
-   A==;
-X-CSE-ConnectionGUID: xwnm88smQEmhn+HIZ/MVZg==
-X-CSE-MsgGUID: 85EmKvBZS++yfZQfnlO1+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60903934"
+  bh=bLAP3Uvsa+ddGeiTQivKwBmzgkLDslUubgZ6G8l99Io=;
+  b=Bb5zXZftTPnFwAw9jCXpAHiVzVOin2kbVi3y6n9AJKRaU55oR2GStiUD
+   lHo/cVFTrd7s1Eq846GnJG1r+bJRBzipcZzHIHZYvHE8OQNS4IdRyiUb4
+   Sgi83rR/j3svoFBVckjBJVfOF9O1R+iP7P0lr1dupF4qb3ZmIuq+23Ztx
+   9iS62FKjivRbQAhXxBFfxnXqdI5fUmSSFXSh4W0YReCD6snnRqn/7uNmX
+   InK8NkZgq5NqfnPqs7J02i9Cl4Ox1AHPDmOLtIhAZJqZGelApYekSzkv7
+   OL0Oafz91fll0WeH9RtPq64XnE68fRzEhhK0wFJsROcivXBhB/Xokg1P/
+   w==;
+X-CSE-ConnectionGUID: d/cVEAm5Sa+VweNn2IJz3g==
+X-CSE-MsgGUID: DPPWhDX5QP2J/4WFIcqt6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60903992"
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="60903934"
+   d="scan'208";a="60903992"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:30:24 -0700
-X-CSE-ConnectionGUID: O4o3sBLXTKmQMTR9muYdMA==
-X-CSE-MsgGUID: lT/GoXCxT2av3FFB71gMVw==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:30:53 -0700
+X-CSE-ConnectionGUID: Qs0HalWXTxanbhip8kE5PA==
+X-CSE-MsgGUID: lUt/yXQuTg+taKHifBrAyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="165831775"
+   d="scan'208";a="165832023"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.54])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:29:58 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:30:21 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: nathan@kernel.org,
 	arnd@arndb.de,
@@ -146,9 +146,9 @@ Cc: linux-mm@kvack.org,
 	kasan-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 14/18] kasan: x86: Apply multishot to the inline report handler
-Date: Tue, 12 Aug 2025 15:23:50 +0200
-Message-ID: <8ace14464d88b51f309b289874760b5d6265e438.1755004923.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v4 15/18] kasan: x86: Logical bit shift for kasan_mem_to_shadow
+Date: Tue, 12 Aug 2025 15:23:51 +0200
+Message-ID: <a1a7d761bad9ead5596edb2dbe62cab26c24602a.1755004923.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
 References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
@@ -160,85 +160,74 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-KASAN by default reports only one tag mismatch and based on other
-command line parameters either keeps going or panics. The multishot
-mechanism - enabled either through a command line parameter or by inline
-enable/disable function calls - lifts that restriction and allows an
-infinite number of tag mismatch reports to be shown.
+While generally tag-based KASAN adopts an arithemitc bit shift to
+convert a memory address to a shadow memory address, it doesn't work for
+all cases on x86. Testing different shadow memory offsets proved that
+either 4 or 5 level paging didn't work correctly or inline mode ran into
+issues. Thus the best working scheme is the logical bit shift and
+non-canonical shadow offset that x86 uses for generic KASAN, of course
+adjusted for the increased granularity from 8 to 16 bytes.
 
-Inline KASAN uses the INT3 instruction to pass metadata to the report
-handling function. Currently the "recover" field in that metadata is
-broken in the compiler layer and causes every inline tag mismatch to
-panic the kernel.
+Add an arch specific implementation of kasan_mem_to_shadow() that uses
+the logical bit shift.
 
-Check the multishot state in the KASAN hook called inside the INT3
-handling function.
+The non-canonical hook tries to calculate whether an address came from
+kasan_mem_to_shadow(). First it checks whether this address fits into
+the legal set of values possible to output from the mem to shadow
+function.
+
+Tie both generic and tag-based x86 KASAN modes to the address range
+check associated with generic KASAN.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
 Changelog v4:
 - Add this patch to the series.
 
- arch/x86/mm/kasan_inline.c | 3 +++
- include/linux/kasan.h      | 3 +++
- mm/kasan/report.c          | 8 +++++++-
- 3 files changed, 13 insertions(+), 1 deletion(-)
+ arch/x86/include/asm/kasan.h | 8 ++++++++
+ mm/kasan/report.c            | 5 +++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/mm/kasan_inline.c b/arch/x86/mm/kasan_inline.c
-index 9f85dfd1c38b..f837caf32e6c 100644
---- a/arch/x86/mm/kasan_inline.c
-+++ b/arch/x86/mm/kasan_inline.c
-@@ -17,6 +17,9 @@ bool kasan_inline_handler(struct pt_regs *regs)
- 	if (!kasan_report((void *)addr, size, write, pc))
- 		return false;
+diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
+index 5bf38bb836e1..f3e34a9754d2 100644
+--- a/arch/x86/include/asm/kasan.h
++++ b/arch/x86/include/asm/kasan.h
+@@ -53,6 +53,14 @@
  
-+	if (kasan_multi_shot_enabled())
-+		return true;
-+
- 	kasan_inline_recover(recover, "Oops - KASAN", regs, metadata, die);
- 
- 	return true;
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 8691ad870f3b..7a2527794549 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -663,7 +663,10 @@ void kasan_non_canonical_hook(unsigned long addr);
- static inline void kasan_non_canonical_hook(unsigned long addr) { }
- #endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
- 
-+bool kasan_multi_shot_enabled(void);
-+
  #ifdef CONFIG_KASAN_SW_TAGS
+ 
++static inline void *__kasan_mem_to_shadow(const void *addr)
++{
++	return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
++		+ KASAN_SHADOW_OFFSET;
++}
 +
- /*
-  * The instrumentation allows to control whether we can proceed after
-  * a crash was detected. This is done by passing the -recover flag to
++#define kasan_mem_to_shadow(addr)	__kasan_mem_to_shadow(addr)
++
+ #define __tag_shifted(tag)		FIELD_PREP(GENMASK_ULL(60, 57), tag)
+ #define __tag_reset(addr)		(sign_extend64((u64)(addr), 56))
+ #define __tag_get(addr)			((u8)FIELD_GET(GENMASK_ULL(60, 57), (u64)addr))
 diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 93c6cadb0765..cfa2da0e2985 100644
+index cfa2da0e2985..11c8b3ddb4cc 100644
 --- a/mm/kasan/report.c
 +++ b/mm/kasan/report.c
-@@ -121,6 +121,12 @@ static void report_suppress_stop(void)
- #endif
- }
+@@ -648,13 +648,14 @@ void kasan_non_canonical_hook(unsigned long addr)
+ 	const char *bug_type;
  
-+bool kasan_multi_shot_enabled(void)
-+{
-+	return test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags);
-+}
-+EXPORT_SYMBOL(kasan_multi_shot_enabled);
-+
- /*
-  * Used to avoid reporting more than one KASAN bug unless kasan_multi_shot
-  * is enabled. Note that KASAN tests effectively enable kasan_multi_shot
-@@ -128,7 +134,7 @@ static void report_suppress_stop(void)
-  */
- static bool report_enabled(void)
- {
--	if (test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
-+	if (kasan_multi_shot_enabled())
- 		return true;
- 	return !test_and_set_bit(KASAN_BIT_REPORTED, &kasan_flags);
- }
+ 	/*
+-	 * For Generic KASAN, kasan_mem_to_shadow() uses the logical right shift
++	 * For Generic KASAN and Software Tag-Based mode on the x86
++	 * architecture, kasan_mem_to_shadow() uses the logical right shift
+ 	 * and never overflows with the chosen KASAN_SHADOW_OFFSET values (on
+ 	 * both x86 and arm64). Thus, the possible shadow addresses (even for
+ 	 * bogus pointers) belong to a single contiguous region that is the
+ 	 * result of kasan_mem_to_shadow() applied to the whole address space.
+ 	 */
+-	if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
++	if (IS_ENABLED(CONFIG_KASAN_GENERIC) || IS_ENABLED(CONFIG_X86_64)) {
+ 		if (addr < (u64)kasan_mem_to_shadow((void *)(0UL)) ||
+ 		    addr > (u64)kasan_mem_to_shadow((void *)(~0UL)))
+ 			return;
 -- 
 2.50.1
 
