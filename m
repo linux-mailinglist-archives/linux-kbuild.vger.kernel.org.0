@@ -1,84 +1,112 @@
-Return-Path: <linux-kbuild+bounces-8350-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8352-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D1CB21AB8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 04:24:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8CAB21CDA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 07:32:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 716E04E070F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 02:24:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C65C7467608
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 05:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2612A2DECCB;
-	Tue, 12 Aug 2025 02:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8007320409A;
+	Tue, 12 Aug 2025 05:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="PwUJQl5W"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fULi33JI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mQU4KmAL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5083520C478
-	for <linux-kbuild@vger.kernel.org>; Tue, 12 Aug 2025 02:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9C91B87E9;
+	Tue, 12 Aug 2025 05:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754965490; cv=none; b=nIE/8GJDwqYePz4wXVz4LJxvLzybuB24rvhH8gT3odDknpKuRfvk7rHJU360fShuDpU0QUsd0Cf90rssNi7rfDOshCKY+i0Y0iKCrx8h2b0WGhhkZMt82tfga6oXE+cVC6otzfTgL5dCWMtSZheDYLGaTA6qp8v7hTU2ccBKeAQ=
+	t=1754976715; cv=none; b=h2mW4K++I+sw1cAuhEQUVXPOc5hv1VeNmQcTc0MO4q0NXyNhXZMpeSuKPjMaGYR6HzC4gpeMxOVZQXMYwPYDx3CVKXnABwwbALvYCypC93DPD43QaKCKRhz29s+uLIIepTWiGr73ZwR+kMLkFL6efT7ZWecXEqbifqihhRMulb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754965490; c=relaxed/simple;
-	bh=LohMC8L02xEkula2AUYpNoVunc7EP4wwSnkuLUppFqo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NCqWRbr6dblZ4cqAY8jTk8LC2tPuRGpy4xKyfkBHVRhB4TqOCjgJ/KG6sEb8tfLfzZJf21p7haOSwQnh3oTnkAPgpTsvG2SHVb3esuyVl5hmWuZdbnQdEARbBzS66D326mTh9gIYz9ftRZeqS1YNJl0WsPwH5z+o7ys8vbwl4Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=PwUJQl5W; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Sg
-	nVgy+6ldbq15M/rjJipP5qX3IUixcwlIcbykJW6yY=; b=PwUJQl5WkHmjlmNvgb
-	WHTxks+3Wbx/toGAOvXbM9V44xrodRKUUj2rtddPpBpfVhkiyYVTlA97VNSDkwhm
-	SJwPfh6U/PQ1/rgIVxmYGaSnPUk1G3i6LwjzKu9XEMm0XgbLPYugsLPhx/8f4A9i
-	7kZmqEM86E/TGVRCvxq9L0WEQ=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgC3D37gpZpo8NBmAA--.4775S2;
-	Tue, 12 Aug 2025 10:24:33 +0800 (CST)
-From: "longguang.yue" <bigclouds@163.com>
-To: linux-kbuild@vger.kernel.org
-Cc: nathan@kernel.org,
-	nicolas.schier@linux.dev,
-	masahiroy@kernel.org,
-	"longguang.yue" <bigclouds@163.com>
-Subject: [PATCH] Makefile: mrproper deletes signing_key.x509
-Date: Tue, 12 Aug 2025 10:24:29 +0800
-Message-Id: <20250812022429.52674-1-bigclouds@163.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1754976715; c=relaxed/simple;
+	bh=hGlRGUQPOxYdXO63IY//FAbcfpSGiOPeueyUZO+4+qs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kv1VNw76Dc/RhKr7YBZZ/w83fappZDFN2HXjwv6Qi9vclW2suKN5BNm65HujRrWnWwQecxNon62YlyEUiZhMMvOsznjdGpMZpowtQjQS2OECSrisaeY84trqacMiI3rjuhGknhniUx1SyJywJ9x3lSisTYCDizCokdn2WU7hAd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fULi33JI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mQU4KmAL; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1754976711;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=olWvykyxI1rrVqeY2oJHymcMd1aXrfVsmUw1sQfuxtw=;
+	b=fULi33JIi2PPC5Wrhj5sq5utItOVseJMOWxH+jjjVHhufDM4X2IJg9qJKT5spPlftGwBcs
+	fi+RsNfaGBfgofwNIZhCnA6trYuTWoZFd9l0cSpAovZ+9qkdB8CmWXYDasH++fDR43JX1d
+	prjOhVF9krOWedkFN2i8J8xVG1GIQVj5iBvyRRWu5KE7kmHaq8OIWf/OXhOQU80M1FYJ5a
+	kmY11u+LX6C+xUhxh3hi8mohVk0WhOHR2sQVSAqz4MVLUTPvPGkEQ5O/W5CxBzNGpDxxGh
+	K9ey0bmnxaP81VCXNv/L7FyW72xVrnWNtTECKaXKoE8AVv7ZbUw4ObMi6cm+AA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1754976711;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=olWvykyxI1rrVqeY2oJHymcMd1aXrfVsmUw1sQfuxtw=;
+	b=mQU4KmAL7z9bNVoYygJ7EmcpJYAx7eDf6ygC9tTVjkjq2d9K8GyW1UDD13k0C3ueScEb62
+	j55gUjD8y86+toDQ==
+Subject: [PATCH 0/2] kbuild: enable CONFIG_WERROR for more build steps
+Date: Tue, 12 Aug 2025 07:31:38 +0200
+Message-Id: <20250812-kbuild-werror-v1-0-36c9ff653700@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgC3D37gpZpo8NBmAA--.4775S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjTRuoGmUUUUU
-X-CM-SenderInfo: peljuzprxg2qqrwthudrp/1tbiNg+mQ2iaULJhMQAJsV
+X-B4-Tracking: v=1; b=H4sIALrRmmgC/x3MSwqAIBRG4a3EHSeoEElbiQaVv3UpLK70gGjvS
+ cNvcM5DCcJI1BQPCU5OvMUMUxY0zn2coNhnk9W20k4btQwHr15dENlEaWdCbQNgPCg3uyDw/f/
+ a7n0/ABlcyF8AAAA=
+X-Change-ID: 20250801-kbuild-werror-081f72fee1de
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754976708; l=810;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=hGlRGUQPOxYdXO63IY//FAbcfpSGiOPeueyUZO+4+qs=;
+ b=dBM7DmTCkJrN4VCYN+tAjRS+QAvBtS+uOysxlNLGBUSv0XGrFRema4cNncOuIndbwp1Sa5U2n
+ DEa3pKIq5xYCxZD2E5+3jG4HtKmzcuB5QhtB1GSjgGI88IAjczrZbeD
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-delete temporary signing_key.x509
+CONFIG_WERROR is useful for all build steps, not only compilation of C and
+Rust sources linked into the kernel.
 
-Signed-off-by: longguang.yue <bigclouds@163.com>
+Also enable it for assembler and linker invocations, userprogs, as well as
+C and Rust hostprogs.
+
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
+Thomas Weißschuh (2):
+      kbuild: move existing CONFIG_WERROR flags into dedicated Makefile
+      kbuild: enable CONFIG_WERROR for more build steps
 
-diff --git a/Makefile b/Makefile
-index 6bfe776bf3c5..7c45fa8e44ef 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1589,6 +1589,7 @@ MRPROPER_FILES += include/config include/generated          \
- 		  .config .config.old .version \
- 		  Module.symvers \
- 		  certs/signing_key.pem \
-+		  certs/signing_key.x509 \
- 		  certs/x509.genkey \
- 		  vmlinux-gdb.py \
- 		  rpmbuild \
+ Makefile                   |  4 +---
+ scripts/Makefile.extrawarn |  2 --
+ scripts/Makefile.werror    | 18 ++++++++++++++++++
+ 3 files changed, 19 insertions(+), 5 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250801-kbuild-werror-081f72fee1de
+
+Best regards,
 -- 
-2.34.1
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
 
