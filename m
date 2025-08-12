@@ -1,107 +1,127 @@
-Return-Path: <linux-kbuild+bounces-8386-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8387-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687F0B21FFF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 09:55:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B0FB22308
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 11:25:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFE43684541
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 07:54:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F861177477
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 09:22:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB3F2DFA27;
-	Tue, 12 Aug 2025 07:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43A6E2E8DE7;
+	Tue, 12 Aug 2025 09:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sttdIgbX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZW0ayuv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697D42DECD8;
-	Tue, 12 Aug 2025 07:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA442E2DFD;
+	Tue, 12 Aug 2025 09:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754985290; cv=none; b=q4yPMCL6E/GvA9RH2h24GAN80HofkFlZNMOaqcrSOmhx7eXVqVsxo0PPcqDsREprZsrRVkeJIpM2h5z6syF/J38vR7hFGVIGVeCQe42fHmeK/ckoP3X29J5e8GTjZJlLZ7QEBTwu/ldq3o7G7wI/QE7uqMp/mvYOGtdnujUQxKI=
+	t=1754990498; cv=none; b=doO6NL+WEUr3EEFlXBps/sy50GCLmiYbt1BJRuWcaRTnnxcJMrtotqxV6V8SORQ7rpnHERjKw5o45FDivZ5gb1P8I7dQe+rhblAA2VOwjffpfERKex28IsjSk5O507HjNirRPJer6C1jIXOsP0Ah9tmAQya7mmkgz7M0xENKLOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754985290; c=relaxed/simple;
-	bh=BHJ5xoJPn+2ti329G2SFM29twFzww1ODA9PMzU7W59c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fUOtMMqwny8zIPt1P+xARONvwJPkDrwdlC6nZ8DbSqTtgUBbZ6ZNcuJj9uDbaM4PSXoKfSKMuSM7gw3VSdXK7BBglduZXztdvE+rqZ5l2EL55tCYib5XtHnlXBXEsOhzTD6jV44WiKm+2bWWfYPtSzRjeoKGQmwIF4Sp87CISiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sttdIgbX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 898A8C4CEF0;
-	Tue, 12 Aug 2025 07:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754985290;
-	bh=BHJ5xoJPn+2ti329G2SFM29twFzww1ODA9PMzU7W59c=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sttdIgbXR/zMpPwtYWo9tEDHWkvxHIdzXx4mCkeZC+beUlUKcpCZHJHLA8UKGtUse
-	 yb61P5jo64FxKOsWma+2ENRYP7aOwn8dcUSn1EaHfRaFvY+CZDfAhBMmUwD9Q5/NDA
-	 mc4tJ2CZKRlm+O0uN6BAwWKU/EO6xaJ9LDzdN8a2qIcWUe4wYiLIhTHeGFkrmWGZ0j
-	 Tntx4Wm5aFLBOAdaAFK/dtBOppsl0dVHBU4rFIGEE/KhS94frwCgrXD71bU+LtCWzc
-	 AJrNZ2UeB+z+55FmgDLu8XmYLXt9yb4i2dcnFthLY6Q6S8ybAiL+zqRxMjgEy+5auA
-	 RCM7cnbm584vQ==
-Message-ID: <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
-Date: Tue, 12 Aug 2025 09:54:43 +0200
+	s=arc-20240116; t=1754990498; c=relaxed/simple;
+	bh=WQiyorV77zyaTQ7AF1IMpiv7Z306Tvbk0U/iXRpbHnk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kel6zdjgAMcvz2EFBfzxT6MW4SE4HOc/9TPq3XjvbPmCygBCBbvruOi16xF6sWiaDISBJ6FckBNwIqefJNF/SGMfOkmVaFPhFP1drZqP6zLprBNZ+uvDxFL3ylIcKMpoD/m/LpDBesn69bBXSXojCaME1tjTtGRrB6OGtPI3F34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZW0ayuv; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76624ecc7efso587504b3a.0;
+        Tue, 12 Aug 2025 02:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754990496; x=1755595296; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hYvCo0iEJq+ZxS2rhikncTd5AQY0cs0mvYn/ZYwYUdM=;
+        b=JZW0ayuvO8n0KSMxpEzedi0/H9GwnZH7VLnE130JcwKxHWPlhybUsw7vzABJhoN16x
+         lDGVeJo1k6kCWmv15zDYnvNkH7B2PEnaYJ9C9/F3ah4GJaX7UbQlf2tLbfXGLyfwJjFw
+         23QVSiTV4XC3YIyL55u770CUb5AMPPUFAmat6irz3AIgbGNBoil85Y8yCavn0vnZ9CME
+         goG84+TqzTqXnU41r6DTNLT2wgSfJ+bj2ufTmn1uSUd3D4+qcv3aZGKXmdcSxdDUGzTv
+         8RuklAp1M2d81e1Ab2do2iMW1Ko5SsDmoMzGw3AKNoB7UL2Ep7ySu38KBPWpEZLRcj37
+         asNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754990496; x=1755595296;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hYvCo0iEJq+ZxS2rhikncTd5AQY0cs0mvYn/ZYwYUdM=;
+        b=w0h2Gm+m3JaFvxM/kYoJGzGCbneFaEK/5ItGy93ezxC1nkYLs/GBaxoQ5z96CNhNVn
+         k0bOCOEsst8RgI8X4Vrk21YIuWixmGwACinI71CSDGSjB6pkNs8ptWNCp10jK3QghCmw
+         oT1wylscCwRORTlxzcAmDSSp/atNLOThq2dTEdZZUrCFjs3FchymX70Q+gyCsk2TMDaA
+         uJvTvFZvd4/UDjHw/tmNEtWQYazvUUlaquuLnsrbD6IPs/oxCNkp3ldDKCrKr3vxo6N1
+         4Hizh0aU1UEIQhpM//afJcFaHSDVRjucEeRJJxZ5XLik+gVPy0hze2YIjASLthD8C4Sh
+         kPDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsD0Y7Em/vWV1617DMGt8db5GDA6BXMVh5+X7869Ixcuw+oRIDr7tfwYvOzTp+EdUdPVUzPIx3SJTE2YZvB/A=@vger.kernel.org, AJvYcCXMwS/31Q08WfaVdb7vZx5a8rEvQ9ETXqvj7oARPd9RxPKC311YTJ1SiFNqa8mQ9rQ46n7oQLr7PrrotlJg@vger.kernel.org, AJvYcCXPG07N3oNr+DCZZ/fCMxYUieqe5J/mX4VozWNnr5dC1jgFF36hhCbiY7m7aWIyFnQZPflJg5tdTSjp7yA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo2ZTlI6H/zKHs+XbO+q5IgLgdfNmj9BO2mXi3Z+N+tM0JfZVW
+	2uAhj7+MW8Ds3L3+AuCkSLi4dppvEcFRjum7AUE6AxTZp6YS7xFOZTSIQgG3MJ5mGXv2ovPSiP7
+	PxGrPoKQR4yZOoIhinUu5sm8l7J1s//o=
+X-Gm-Gg: ASbGncvTPv25audxpwuy4hsFK4Kb8pQLf1O0gltSlJcWLE6aVUf4macT7DO9VsWKOc1
+	6ht94xQ2zPYW132eqBZvIJsAUQwgzqtWtk6tQTj/LNVu7zgILVsVZEc0Q9ZrYyvVspb6UR22D6h
+	8Z4sywMrVBW8yXBWuM21dl+OtEbtryStsCn+4cn4tEktSSXjHKp1fiRokGsQ5gL/1BRLhReBoQJ
+	Rb+VPBu0d+V3pKCfOs=
+X-Google-Smtp-Source: AGHT+IESYKcihEDu0NOwPQjnLbNGzr/vMkV0bVQOv7S3LdRIIZarF+53jISTF5/kFZPUqcmWXoC+txIkwTl2k1Thny0=
+X-Received: by 2002:a17:90b:4acc:b0:313:2f9a:13c0 with SMTP id
+ 98e67ed59e1d1-321c87397f5mr416660a91.1.1754990495995; Tue, 12 Aug 2025
+ 02:21:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v4] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-To: Christian Brauner <brauner@kernel.org>, Vlastimil Babka <vbabka@suse.cz>
-Cc: Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Daniel Gomez <da.gomez@samsung.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-References: <20250808-export_modules-v4-1-426945bcc5e1@suse.cz>
- <20250811-wachen-formel-29492e81ee59@brauner>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <20250811-wachen-formel-29492e81ee59@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250812-kbuild-werror-v1-0-36c9ff653700@linutronix.de>
+In-Reply-To: <20250812-kbuild-werror-v1-0-36c9ff653700@linutronix.de>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 12 Aug 2025 11:21:24 +0200
+X-Gm-Features: Ac12FXw0jpURTsZx35iCN2Jrw_NmdxAdgGldjx7cwS7E5VDyFiyvWmS_xdA2Pto
+Message-ID: <CANiq72k-PdSH2BNgbq=X+FhpyEErifSCKfO5ObXz6bu9_J8+fA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] kbuild: enable CONFIG_WERROR for more build steps
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/08/2025 07.18, Christian Brauner wrote:
-> On Fri, 08 Aug 2025 15:28:47 +0200, Vlastimil Babka wrote:
->> Christoph suggested that the explicit _GPL_ can be dropped from the
->> module namespace export macro, as it's intended for in-tree modules
->> only. It would be possible to restrict it technically, but it was
->> pointed out [2] that some cases of using an out-of-tree build of an
->> in-tree module with the same name are legitimate. But in that case those
->> also have to be GPL anyway so it's unnecessary to spell it out in the
->> macro name.
->>
->> [...]
-> 
-> Ok, so last I remember we said that this is going upstream rather sooner
-> than later before we keep piling on users. If that's still the case I'll
-> take it via vfs.fixes unless I hear objections.
+On Tue, Aug 12, 2025 at 7:31=E2=80=AFAM Thomas Wei=C3=9Fschuh
+<thomas.weissschuh@linutronix.de> wrote:
+>
+> CONFIG_WERROR is useful for all build steps, not only compilation of C an=
+d
+> Rust sources linked into the kernel.
+>
+> Also enable it for assembler and linker invocations, userprogs, as well a=
+s
+> C and Rust hostprogs.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
 
-This used to go through Masahiro's kbuild tree. However, since he is not
-available anymore [1] I think it makes sense that this goes through the modules
-tree. The only reason we waited until rc1 was released was because of Greg's
-advise [2]. Let me know if that makes sense to you and if so, I'll merge this
-ASAP.
+The Rust part is:
 
-Link: https://lore.kernel.org/all/CAK7LNAQW8b_HEQhWBzaQSPy=qDmKkqz6URtpJ+BYG8eq-sWRwA@mail.gmail.com/ [1]
-Link: https://lore.kernel.org/all/2025072219-dollhouse-margarita-de67@gregkh/ [2]
+    https://lore.kernel.org/rust-for-linux/20240519211235.589325-1-ojeda@ke=
+rnel.org/
 
+However, Masahiro back then mentioned that we shouldn't make the C
+host flags depend on `WERROR` since `HOSTCC` builds Kconfig and, for
+consistency, not for Rust host progs either:
+
+    https://lore.kernel.org/rust-for-linux/CAK7LNATPx2wTEM=3DKDmGtcH8vVTB4s=
+uOhh-CUQKP54F8wtPWDiw@mail.gmail.com/
+
+Perhaps it could make sense to explicitly exclude certain bits, like
+Kconfig, from `WERROR`, and apply it for everything else instead.
+
+Cheers,
+Miguel
 
