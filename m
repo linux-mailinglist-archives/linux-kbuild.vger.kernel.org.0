@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-8396-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8397-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47440B228A6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 15:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212B2B228AA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 15:36:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 642F9563C11
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 13:27:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7777E5643D4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 13:27:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AFC8280A5C;
-	Tue, 12 Aug 2025 13:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB1E328151C;
+	Tue, 12 Aug 2025 13:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEnMVdw1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZdmiskg"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D402727FB1E;
-	Tue, 12 Aug 2025 13:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C224280CF6;
+	Tue, 12 Aug 2025 13:26:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755005217; cv=none; b=Da1uc4jb8LlH+xTiUBN6LtkN2sKsVC31M3U0KTlU+Vq/NCRrpI+Z+c3iLBy9495A2dzY6UWWDq8fuZGbFhgUBE65dXOWtieDSwX0Mf6gwTHFJGr7YgsL2XG5wvtGSZXIcqZTh0aftQ1nRKRs2GdnvgNlYosgPtrciY997jwZGxc=
+	t=1755005219; cv=none; b=CDkefsZIe9TfNma2+OAxDT8HdlUw/SXFx5t4b1ccB3NNnmfVmcXNxxV3LoZD+n002ebwIgOzKfTF+pfpcS9QKmxXA1Yh2j8NmMDrPCFVjBv2syr9n0xACpPPvfe3Avv4yjYbMo4yxvsiSg4tuPLpJxvD1dmE0juZydEMPspOaGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755005217; c=relaxed/simple;
-	bh=9/RZLCMjXQxGvwHsrxYm6WSdmas+FAtxJYkFWNEbaFU=;
+	s=arc-20240116; t=1755005219; c=relaxed/simple;
+	bh=svwcdRMIJEw5xAT6fmvSyI7M9DNKZMAHSataOorEZqU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nI3dXYd3phC0XqRDhLkxLEtfmZAkm2ynvzlMX8+8/e+lWXdV+wtLElUZYP5m4yk/mbr1Fns8tylUBag222iHJBrip5g7JJGZtuqPf7d96akrNSxENFVyyRvvGj3bkjyKkkjIFLiFvZyL8/vN1r8FVV47nBqJUWGR9ZelnMN/onU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEnMVdw1; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=ZGsnRbLvW6642ReOrtSHyRh108HP8tGqp6bD74EAitvIEe5KOeq2heHj49FVjAzPWKr9v0FH2bmDhGQ8QysLzUK7e9E3pfVgnGWRDXn6S8tliDJyfUBPGEYzUp61QPgSfxps93S/VYMP92uy6aGWQZp2edO3mtHduJFdCCd2S7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZdmiskg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755005216; x=1786541216;
+  t=1755005219; x=1786541219;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9/RZLCMjXQxGvwHsrxYm6WSdmas+FAtxJYkFWNEbaFU=;
-  b=IEnMVdw1sUKPcMnz7Fo2YZ/gjMRLShxTvtQk/Bx8pVeA1kmj9P6B+OZT
-   kleKFVhDqQGdlFGKXFSikZurV00VN4Rrt3Izbasm+IedCeQMPbp3uwm3/
-   SiAVOXguLKKg6eaU5TpoB1I94lBV2Jh5VgDf+g+RfOJCANrQSWrcdfkWr
-   Anno6asytPxEz8OYzRgYnBiYlXzWHpjlPb4bVigOYpwFNSc1Eqpy4VQ+H
-   dIps7SY/LbYcokaJyBNJPbxoLr493K3Q9VsAIds7krDafDz2d1b+d45gg
-   VI+ug0Xp4DaG3IfrT/sUV3iR3VYTgT3jndaIGHDWzEhRMjbtOFRo0BWqW
-   g==;
-X-CSE-ConnectionGUID: PvUtcdLjSXy+RDYJkW8HWw==
-X-CSE-MsgGUID: fbfd+KFhQzSyiOwSjtdNGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60903230"
+  bh=svwcdRMIJEw5xAT6fmvSyI7M9DNKZMAHSataOorEZqU=;
+  b=IZdmiskgb5rDGcCNmk4lW22n1/SBDCq86PwNht72yAv51OWcu8vK5VVB
+   UCKld6lmNKqwVf+mYYp6vF2+dnWcOhXDN2hk161wRtuzo3lEIC/V7C4rG
+   3bfAmbQ2Zq4iYl42SVQ1Hh+MO1OAOc5jOZR1pOIL4HR0ngyFQoI8sUAQ0
+   N+l9rczPfaAJpWlENvqWy8ovpikSkrEJfR7pdTjAQyCP7md6YsT4c0hl9
+   ahHVMhRuIlnAoi2isrXh28IpEtxlcjSAib19noAWxKaZyXqpamoy5wEXZ
+   BLScwgzs3eMTxVIp/MUvlNrsVeSi135P1xZ4APwwHfF7HL+ReBLP5X0zJ
+   w==;
+X-CSE-ConnectionGUID: fdgl1WClTLueQSpdMteGkg==
+X-CSE-MsgGUID: o9Gd2+xjTlOV9vqeNY02AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="60903292"
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="60903230"
+   d="scan'208";a="60903292"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:25:44 -0700
-X-CSE-ConnectionGUID: G0cKUUX3QdeIuuUQDf731Q==
-X-CSE-MsgGUID: HyifQRzJTUaZ4oYqgT0L6w==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:26:10 -0700
+X-CSE-ConnectionGUID: fEBGC8HBRSeUSf2GiP4qhQ==
+X-CSE-MsgGUID: dKdrPa1TQk6ZCZHGur3yuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; 
-   d="scan'208";a="165831317"
+   d="scan'208";a="165831361"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.245.54])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:25:22 -0700
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2025 06:25:43 -0700
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: nathan@kernel.org,
 	arnd@arndb.de,
@@ -146,9 +146,9 @@ Cc: linux-mm@kvack.org,
 	kasan-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 02/18] kasan: sw_tags: Support tag widths less than 8 bits
-Date: Tue, 12 Aug 2025 15:23:38 +0200
-Message-ID: <780347f3897ea97e90968de028c9dd02f466204e.1755004923.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH v4 03/18] kasan: Fix inline mode for x86 tag-based mode
+Date: Tue, 12 Aug 2025 15:23:39 +0200
+Message-ID: <0ee6ca89ff7617fe7a4eda63ef5cf376d609ccdd.1755004923.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
 References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
@@ -160,79 +160,46 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Samuel Holland <samuel.holland@sifive.com>
+The LLVM compiler uses hwasan-instrument-with-calls parameter to setup
+inline or outline mode in tag-based KASAN. If zeroed, it means the
+instrumentation implementation will be pasted into each relevant
+location along with KASAN related constants during compilation. If set
+to one all function instrumentation will be done with function calls
+instead.
 
-Allow architectures to override KASAN_TAG_KERNEL in asm/kasan.h. This
-is needed on RISC-V, which supports 57-bit virtual addresses and 7-bit
-pointer tags. For consistency, move the arm64 MTE definition of
-KASAN_TAG_MIN to asm/kasan.h, since it is also architecture-dependent;
-RISC-V's equivalent extension is expected to support 7-bit hardware
-memory tags.
+The default hwasan-instrument-with-calls value for the x86 architecture
+in the compiler is "1", which is not true for other architectures.
+Because of this, enabling inline mode in software tag-based KASAN
+doesn't work on x86 as the kernel script doesn't zero out the parameter
+and always sets up the outline mode.
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
+Explicitly zero out hwasan-instrument-with-calls when enabling inline
+mode in tag-based KASAN.
+
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
- arch/arm64/include/asm/kasan.h   |  6 ++++--
- arch/arm64/include/asm/uaccess.h |  1 +
- include/linux/kasan-tags.h       | 13 ++++++++-----
- 3 files changed, 13 insertions(+), 7 deletions(-)
+Changelog v3:
+- Add this patch to the series.
 
-diff --git a/arch/arm64/include/asm/kasan.h b/arch/arm64/include/asm/kasan.h
-index e1b57c13f8a4..4ab419df8b93 100644
---- a/arch/arm64/include/asm/kasan.h
-+++ b/arch/arm64/include/asm/kasan.h
-@@ -6,8 +6,10 @@
+ scripts/Makefile.kasan | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+index 693dbbebebba..2c7be96727ac 100644
+--- a/scripts/Makefile.kasan
++++ b/scripts/Makefile.kasan
+@@ -76,8 +76,11 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress
+ RUSTFLAGS_KASAN := -Zsanitizer=kernel-hwaddress \
+ 		   -Zsanitizer-recover=kernel-hwaddress
  
- #include <linux/linkage.h>
- #include <asm/memory.h>
--#include <asm/mte-kasan.h>
--#include <asm/pgtable-types.h>
-+
-+#ifdef CONFIG_KASAN_HW_TAGS
-+#define KASAN_TAG_MIN			0xF0 /* minimum value for random tags */
-+#endif
- 
- #define arch_kasan_set_tag(addr, tag)	__tag_set(addr, tag)
- #define arch_kasan_reset_tag(addr)	__tag_reset(addr)
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index 5b91803201ef..f890dadc7b4e 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -22,6 +22,7 @@
- #include <asm/cpufeature.h>
- #include <asm/mmu.h>
- #include <asm/mte.h>
-+#include <asm/mte-kasan.h>
- #include <asm/ptrace.h>
- #include <asm/memory.h>
- #include <asm/extable.h>
-diff --git a/include/linux/kasan-tags.h b/include/linux/kasan-tags.h
-index 4f85f562512c..e07c896f95d3 100644
---- a/include/linux/kasan-tags.h
-+++ b/include/linux/kasan-tags.h
-@@ -2,13 +2,16 @@
- #ifndef _LINUX_KASAN_TAGS_H
- #define _LINUX_KASAN_TAGS_H
- 
-+#include <asm/kasan.h>
-+
-+#ifndef KASAN_TAG_KERNEL
- #define KASAN_TAG_KERNEL	0xFF /* native kernel pointers tag */
--#define KASAN_TAG_INVALID	0xFE /* inaccessible memory tag */
--#define KASAN_TAG_MAX		0xFD /* maximum value for random tags */
-+#endif
-+
-+#define KASAN_TAG_INVALID	(KASAN_TAG_KERNEL - 1) /* inaccessible memory tag */
-+#define KASAN_TAG_MAX		(KASAN_TAG_KERNEL - 2) /* maximum value for random tags */
- 
--#ifdef CONFIG_KASAN_HW_TAGS
--#define KASAN_TAG_MIN		0xF0 /* minimum value for random tags */
--#else
-+#ifndef KASAN_TAG_MIN
- #define KASAN_TAG_MIN		0x00 /* minimum value for random tags */
- #endif
- 
++# LLVM sets hwasan-instrument-with-calls to 1 on x86 by default. Set it to 0
++# when inline mode is enabled.
+ ifdef CONFIG_KASAN_INLINE
+ 	kasan_params += hwasan-mapping-offset=$(KASAN_SHADOW_OFFSET)
++	kasan_params += hwasan-instrument-with-calls=0
+ else
+ 	kasan_params += hwasan-instrument-with-calls=1
+ endif
 -- 
 2.50.1
 
