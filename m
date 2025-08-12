@@ -1,113 +1,118 @@
-Return-Path: <linux-kbuild+bounces-8415-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8416-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC0AB23A41
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 22:56:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06DFFB23BF1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Aug 2025 00:35:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B3613188AD1F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 20:56:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D18F626FBC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 22:35:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D84B22D0624;
-	Tue, 12 Aug 2025 20:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 983C7202C5D;
+	Tue, 12 Aug 2025 22:35:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aci32url"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wY/nEQYL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94342F0666;
-	Tue, 12 Aug 2025 20:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8672A1B2;
+	Tue, 12 Aug 2025 22:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755032171; cv=none; b=ZtmmmSdRCbJwSGpSDPmxwp9NyZM8qErk5Ljnq0XAfG/fekDQFt8SGOfRbJQJCBWFwj+Ws/IH391cA3FY25SkVofPx2RahL/q3Zt4TLQ/yTO5MxtXGGxdhu75Ol967bEdSkKU4uiJPGRZ4yElD4Uv3L1nVe37L7WcRPb2QoKgIuE=
+	t=1755038107; cv=none; b=CFzwGNwU31tr/y25Okfdy171qNHcssrbTmNC84brpKxwAqybfjKk1b3HsnWdg0YRWEotRKAkYbuMQNctgsLTDnIhcIaV3LlwqhSOWTHUAmLR49pApvAFNgWL1ApmvsSXCpMRFAvW5UjHc2PLs6w8ueokFlWlnuCE8yLC6g999iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755032171; c=relaxed/simple;
-	bh=oDx/4yjF6fOIMLyafK6z36XCnn2dAEJD56/3U6byJhU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q911vhZOE+YV3W5WGxKQEP02MQ7ZajyBsScy3hIZy+C0qgKwXDAJmCygefgr+9K8FVHt4QpJ0sloPZB2IM+yHi8fj9aD9zyX+ADXyp6Atc9ihi8YPPT+eQSNZC1B0vgUn6EsdKD7XxP9EVMekwNkT1CHWkxbbYCsGAs2poU5g04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aci32url; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B44CC4CEF0;
-	Tue, 12 Aug 2025 20:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755032170;
-	bh=oDx/4yjF6fOIMLyafK6z36XCnn2dAEJD56/3U6byJhU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aci32urlrI9CgDWLLZVE10UPVqDe2MuCNb7FoPCabmVIHnD2dNYTBYIDd9rymhZOn
-	 +a3CykFh184IeqAog5f/VAmRx++PklO1nWODv/on3WAGwhyitMTujNyt6XqdZhHFEz
-	 xWZQ962qlvMX6GwCKbv0yVR0F/fxvmMti10W0YMtTmGMTfAtGJMprjLU7r2dywA0oA
-	 8L+A0S6Wx5/380Esa0eS02O6q9H8l2zEvaeFIcN/w0GUSaLde/wZxNI3IoKam0WtCx
-	 fCy9mEAvvYLx92Sskkk0eQIEFQ84T1taZJKNbQ/oKzSdlWrKQDPyMTTK+Ng1i7CARu
-	 +r7orZEZFPFWw==
-Date: Tue, 12 Aug 2025 13:56:04 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 0/2] kbuild: enable CONFIG_WERROR for more build steps
-Message-ID: <20250812205604.GA532342@ax162>
-References: <20250812-kbuild-werror-v1-0-36c9ff653700@linutronix.de>
- <CANiq72k-PdSH2BNgbq=X+FhpyEErifSCKfO5ObXz6bu9_J8+fA@mail.gmail.com>
- <20250812121545-f00f588b-2239-4d96-baeb-55cbf4914556@linutronix.de>
- <CANiq72=rhY_k1RRJoTzsY8PnEW5D=m2Org9m0v3erJsWxW4HkQ@mail.gmail.com>
+	s=arc-20240116; t=1755038107; c=relaxed/simple;
+	bh=JOvOvagIe67ABYGy6BhEc1L3UU4ePTBysXYTRPqBA/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l4KFjWOQekidH1iNyjQSELFRVHdJrk7svpKnptf8PCxrMOMoV6rrH/ADi+YpBBV+MUgmO7+fQt5CaZTeNw+HCX24qWN9rLpzCUYkeVnf+hhfA2UC2KPAsvuxCBsHqZUP89V04wn8lUteUxjRxy8PSzHmqQNnGe9e093dbPeF0Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wY/nEQYL; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=+EEI7yK6XojmomNRzKfQjOSdi05xxiTDf/TrM9DIwLg=; b=wY/nEQYLWfmZV65rZDU0tvPxe/
+	mtuEEHdD6Bp90o2B9+c9C0SBEMR4WHyzY9Y2FsFdfD9AQaqAw0Gzr01AAX60YVBZIKyDtF+CpjhHA
+	nvlGj0QcDO3D7Vvn4eV6csaZHYt0q4F6miG69KN5Nd3dZpUlvkik75KyqmXQ9UTl4KplVAH7A8O/7
+	058/0DZbn0tSdsRxfpfkorQtJ91NHf2+vhUs6cOW65Y08RAHBqjw+pOkyUUudxLtV3EDZcfSP5zSG
+	X5DLFXC+9Bfa6hl+RvzOP0ofSdJWfhcg0s5Ozl3cSFt8G6k5zD7MCifl87lnNK+OFyAo3xc67eCGc
+	WU9Rl3gQ==;
+Received: from [50.53.25.54] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1ulxaB-0000000CA2Y-1DcU;
+	Tue, 12 Aug 2025 22:35:03 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] kconfig: qconf/xconfig: show the OptionsMode radio button setting at startup
+Date: Tue, 12 Aug 2025 15:35:02 -0700
+Message-ID: <20250812223502.1356426-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=rhY_k1RRJoTzsY8PnEW5D=m2Org9m0v3erJsWxW4HkQ@mail.gmail.com>
 
-On Tue, Aug 12, 2025 at 12:50:44PM +0200, Miguel Ojeda wrote:
-> On Tue, Aug 12, 2025 at 12:25 PM Thomas Weißschuh
-> > Another possibility would be to use -Werror
-> > for hostprogs unconditionally. Various tools/ are doing that for example.
-> 
-> Not sure what Kbuild thinks about that -- we have a small risk of
-> breaking things with newer compilers, but that may be not too bad for
-> just hostprogs (unlike when it was attempted to make it default `y`).
-...
-> appear -- so that should be fine, but it does make it way more urgent
-> if they are errors every time, though, since it blocks other testing
-> too).
+When qconf (xconfig) exits, it saves the current Option settings
+for Show Name, Show Debug Info, and Show {Normal|All|Prompt} Options.
+When it is next run, it loads these Option settings from its
+config file. It correctly shows the flag settings for Show Name
+and Show Debug Info, but it does not show which of the 3 Show...Options
+is set. This can lead to confusing output, e.g., if the user thinks
+that xconfig is in Show All Options mode but kconfig options which
+have an unmet dependency are still being listed.
 
-Yeah I am conflicted. On the one hand, KBUILD_HOSTCFLAGS only has -Wall
-and a couple of extra warnings so the risk of new warnings breaking the
-build is pretty low. You can see the rate at which warnings get added or
-removed from -Wall in clang in the warning-wall.c test:
+Add code to show the radio button for the current Show...Options
+mode during startup so that it will reflect the current config
+setting.
 
-  https://github.com/llvm/llvm-project/commits/main/clang/test/Misc/warning-wall.c
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Nathan, Nicolas: do you want me to ask someone else to merge this?
+  I don't mind doing that;
+  or throw it into your tree and see what breaks.
 
-I'm obviously on top of testing upstream LLVM against hostprogs because
-LLVM= makes it easy to set HOSTCC. I suspect that GCC trunk sees less
-testing against the hostprogs unless the user has it in their PATH
-somehow.
+I know next to nothing about the Qt toolkit, so any comments or
+testing are appreciated. There could easily be a better fix for this.
+Thanks.
 
-On the other hand, the recent changes to -Wuninitialized and the
-addition of -Wuninitialized-const-pointer were extremely disruptive only
-because of -Werror... I would have no problems with fast tracking fixes
-for hostprogs -Werror usage but I am not sure all maintainers will. This
-would also impact vendored host programs like dtc, which may be harder
-to update.
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-We could try it for a development cycle in -next to see if anything gets
-noticed. Always easy to back out retrospectively as well. Alternatively,
-we could just recommend people use HOSTCFLAGS=-Werror if they desire it.
+ scripts/kconfig/qconf.cc |   13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Cheers,
-Nathan
+--- linux-next-20250807.orig/scripts/kconfig/qconf.cc
++++ linux-next-20250807/scripts/kconfig/qconf.cc
+@@ -1377,6 +1377,19 @@ ConfigMainWindow::ConfigMainWindow(void)
+ 	ConfigList::showPromptAction = new QAction("Show Prompt Options", optGroup);
+ 	ConfigList::showPromptAction->setCheckable(true);
+ 
++	switch (configList->optMode) {
++	case allOpt:
++		ConfigList::showAllAction->setChecked(true);
++		break;
++	case promptOpt:
++		ConfigList::showPromptAction->setChecked(true);
++		break;
++	case normalOpt:
++	default:
++		ConfigList::showNormalAction->setChecked(true);
++		break;
++	}
++
+ 	QAction *showDebugAction = new QAction("Show Debug Info", this);
+ 	  showDebugAction->setCheckable(true);
+ 	connect(showDebugAction, &QAction::toggled,
 
