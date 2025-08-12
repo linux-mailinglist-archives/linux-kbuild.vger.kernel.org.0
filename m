@@ -1,127 +1,106 @@
-Return-Path: <linux-kbuild+bounces-8387-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8388-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B0FB22308
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 11:25:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DD8B22344
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 11:34:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F861177477
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 09:22:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C8D6189CBFA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Aug 2025 09:31:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43A6E2E8DE7;
-	Tue, 12 Aug 2025 09:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 981902E7F2A;
+	Tue, 12 Aug 2025 09:31:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZW0ayuv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SGdgvqQs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA442E2DFD;
-	Tue, 12 Aug 2025 09:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145942E62A0
+	for <linux-kbuild@vger.kernel.org>; Tue, 12 Aug 2025 09:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754990498; cv=none; b=doO6NL+WEUr3EEFlXBps/sy50GCLmiYbt1BJRuWcaRTnnxcJMrtotqxV6V8SORQ7rpnHERjKw5o45FDivZ5gb1P8I7dQe+rhblAA2VOwjffpfERKex28IsjSk5O507HjNirRPJer6C1jIXOsP0Ah9tmAQya7mmkgz7M0xENKLOU=
+	t=1754991089; cv=none; b=BQypR7UW87ZJYbeIFoj3XTu6Vhje4uwxSDVSBQAcZS6H/c8jRSrHuQilJbIY+OcRqaWIGmNZMNPjKrBZ7HyKOSdMlxu9Iy/Hpa6dH/nv+PBva6k5AbLC/8v4WsZUiLXph1VnpGzqIYyqxFj1nevm+MxRz+BojzUK1VWlBchk6Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754990498; c=relaxed/simple;
-	bh=WQiyorV77zyaTQ7AF1IMpiv7Z306Tvbk0U/iXRpbHnk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kel6zdjgAMcvz2EFBfzxT6MW4SE4HOc/9TPq3XjvbPmCygBCBbvruOi16xF6sWiaDISBJ6FckBNwIqefJNF/SGMfOkmVaFPhFP1drZqP6zLprBNZ+uvDxFL3ylIcKMpoD/m/LpDBesn69bBXSXojCaME1tjTtGRrB6OGtPI3F34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZW0ayuv; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76624ecc7efso587504b3a.0;
-        Tue, 12 Aug 2025 02:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754990496; x=1755595296; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hYvCo0iEJq+ZxS2rhikncTd5AQY0cs0mvYn/ZYwYUdM=;
-        b=JZW0ayuvO8n0KSMxpEzedi0/H9GwnZH7VLnE130JcwKxHWPlhybUsw7vzABJhoN16x
-         lDGVeJo1k6kCWmv15zDYnvNkH7B2PEnaYJ9C9/F3ah4GJaX7UbQlf2tLbfXGLyfwJjFw
-         23QVSiTV4XC3YIyL55u770CUb5AMPPUFAmat6irz3AIgbGNBoil85Y8yCavn0vnZ9CME
-         goG84+TqzTqXnU41r6DTNLT2wgSfJ+bj2ufTmn1uSUd3D4+qcv3aZGKXmdcSxdDUGzTv
-         8RuklAp1M2d81e1Ab2do2iMW1Ko5SsDmoMzGw3AKNoB7UL2Ep7ySu38KBPWpEZLRcj37
-         asNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754990496; x=1755595296;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hYvCo0iEJq+ZxS2rhikncTd5AQY0cs0mvYn/ZYwYUdM=;
-        b=w0h2Gm+m3JaFvxM/kYoJGzGCbneFaEK/5ItGy93ezxC1nkYLs/GBaxoQ5z96CNhNVn
-         k0bOCOEsst8RgI8X4Vrk21YIuWixmGwACinI71CSDGSjB6pkNs8ptWNCp10jK3QghCmw
-         oT1wylscCwRORTlxzcAmDSSp/atNLOThq2dTEdZZUrCFjs3FchymX70Q+gyCsk2TMDaA
-         uJvTvFZvd4/UDjHw/tmNEtWQYazvUUlaquuLnsrbD6IPs/oxCNkp3ldDKCrKr3vxo6N1
-         4Hizh0aU1UEIQhpM//afJcFaHSDVRjucEeRJJxZ5XLik+gVPy0hze2YIjASLthD8C4Sh
-         kPDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWsD0Y7Em/vWV1617DMGt8db5GDA6BXMVh5+X7869Ixcuw+oRIDr7tfwYvOzTp+EdUdPVUzPIx3SJTE2YZvB/A=@vger.kernel.org, AJvYcCXMwS/31Q08WfaVdb7vZx5a8rEvQ9ETXqvj7oARPd9RxPKC311YTJ1SiFNqa8mQ9rQ46n7oQLr7PrrotlJg@vger.kernel.org, AJvYcCXPG07N3oNr+DCZZ/fCMxYUieqe5J/mX4VozWNnr5dC1jgFF36hhCbiY7m7aWIyFnQZPflJg5tdTSjp7yA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxo2ZTlI6H/zKHs+XbO+q5IgLgdfNmj9BO2mXi3Z+N+tM0JfZVW
-	2uAhj7+MW8Ds3L3+AuCkSLi4dppvEcFRjum7AUE6AxTZp6YS7xFOZTSIQgG3MJ5mGXv2ovPSiP7
-	PxGrPoKQR4yZOoIhinUu5sm8l7J1s//o=
-X-Gm-Gg: ASbGncvTPv25audxpwuy4hsFK4Kb8pQLf1O0gltSlJcWLE6aVUf4macT7DO9VsWKOc1
-	6ht94xQ2zPYW132eqBZvIJsAUQwgzqtWtk6tQTj/LNVu7zgILVsVZEc0Q9ZrYyvVspb6UR22D6h
-	8Z4sywMrVBW8yXBWuM21dl+OtEbtryStsCn+4cn4tEktSSXjHKp1fiRokGsQ5gL/1BRLhReBoQJ
-	Rb+VPBu0d+V3pKCfOs=
-X-Google-Smtp-Source: AGHT+IESYKcihEDu0NOwPQjnLbNGzr/vMkV0bVQOv7S3LdRIIZarF+53jISTF5/kFZPUqcmWXoC+txIkwTl2k1Thny0=
-X-Received: by 2002:a17:90b:4acc:b0:313:2f9a:13c0 with SMTP id
- 98e67ed59e1d1-321c87397f5mr416660a91.1.1754990495995; Tue, 12 Aug 2025
- 02:21:35 -0700 (PDT)
+	s=arc-20240116; t=1754991089; c=relaxed/simple;
+	bh=9LIDl5TmDZoCFehCeXVzEwk4riwJ6NxuZhgAir7SIYY=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=uq1ucUmomGjdTleEi93dCNFtf+vqFrF/C7UA9F0pN67Wel1+XOYIcjLhYir2W8AkKv46cuO+MHOwPWMb+k98YRLTR3pwBB80fydTd7K3avteb6/uqHb/ZTfw71mLcPD9DRTV3+pfhoITGSSofBxRoTWCG9aAoZo8oz/HMde3rRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SGdgvqQs; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1754991087;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mzheIFnMO+JPZQtntC4jG7sL4Q6RgRAnfy5HtXTetY4=;
+	b=SGdgvqQsuGX4WmaklIi5/J3mCiTDE/FTQuUwz2siofm1amIWqmTqTfJbh+Vawb4shwKVkX
+	/Sop+Bp06B02PUP8GI55PlcFTXZJappQ1gMiWI6JoQlRJI0yp29GBAjEQjZesGA8ol4zu6
+	jSYXMm9wEmXr/juvdTfEGHMc0I16n38=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-41-DWm7SZ0KN5WL82D4oUuGag-1; Tue,
+ 12 Aug 2025 05:31:20 -0400
+X-MC-Unique: DWm7SZ0KN5WL82D4oUuGag-1
+X-Mimecast-MFC-AGG-ID: DWm7SZ0KN5WL82D4oUuGag_1754991079
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6A7881800378;
+	Tue, 12 Aug 2025 09:31:19 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.21])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0A3CE19560B6;
+	Tue, 12 Aug 2025 09:31:16 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20250811-diligent-rigorous-ara-e7a9d2@l-nschier-aarch64>
+References: <20250811-diligent-rigorous-ara-e7a9d2@l-nschier-aarch64> <20250809120405.22957-1-bigclouds@163.com> <aJerjQGmXXcpTtBB@fjasle.eu> <1ac1d3e3.58ad.19897d159ff.Coremail.bigclouds@163.com>
+To: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: dhowells@redhat.com, "longguang.yue" <bigclouds@163.com>,
+    linux-kbuild@vger.kernel.org, nathan@kernel.org,
+    masahiroy@kernel.org, David Woodhouse <dwmw2@infradead.org>,
+    keyrings@vger.kernel.org
+Subject: Re: [PATCH] Makefile: mrproper deletes signing_key.x509
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250812-kbuild-werror-v1-0-36c9ff653700@linutronix.de>
-In-Reply-To: <20250812-kbuild-werror-v1-0-36c9ff653700@linutronix.de>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 12 Aug 2025 11:21:24 +0200
-X-Gm-Features: Ac12FXw0jpURTsZx35iCN2Jrw_NmdxAdgGldjx7cwS7E5VDyFiyvWmS_xdA2Pto
-Message-ID: <CANiq72k-PdSH2BNgbq=X+FhpyEErifSCKfO5ObXz6bu9_J8+fA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] kbuild: enable CONFIG_WERROR for more build steps
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <650212.1754991075.1@warthog.procyon.org.uk>
+Date: Tue, 12 Aug 2025 10:31:15 +0100
+Message-ID: <650213.1754991075@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue, Aug 12, 2025 at 7:31=E2=80=AFAM Thomas Wei=C3=9Fschuh
-<thomas.weissschuh@linutronix.de> wrote:
->
-> CONFIG_WERROR is useful for all build steps, not only compilation of C an=
-d
-> Rust sources linked into the kernel.
->
-> Also enable it for assembler and linker invocations, userprogs, as well a=
-s
-> C and Rust hostprogs.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+Nicolas Schier <nicolas.schier@linux.dev> wrote:
 
-The Rust part is:
+> 'make mrproper' is meant to prepare the source tree to be as pristine as 
+> possible for the given architecture.  This includes removal of any 
+> configuration file(s) that influence subsequent builds.  From kbuild 
+> point of view, certs/x509.genkey is also a kind of a configuration file, 
+> as leaving it in tree after mrproper creates different build results 
+> compared to a build from a really pristine source tree.
+> 
+> Iff the certs/ maintainers think that retaining a user x509.genkey file 
+> over a mrproper makes sense, then we should probably adjust the rule for 
+> generating $(objtree)/certs/x509.genkey, e.g. by allowing to provide one 
+> by environment variable.
+> 
+> David or David, do you have an opinion on this?
 
-    https://lore.kernel.org/rust-for-linux/20240519211235.589325-1-ojeda@ke=
-rnel.org/
+make distclean or make mrproper should delete the key.  As you say, it's
+thoroughly cleaning out the source tree - it used to be so that you could more
+easily diff it for prepping a patch, I guess.  make clean, OTOH, should not.
 
-However, Masahiro back then mentioned that we shouldn't make the C
-host flags depend on `WERROR` since `HOSTCC` builds Kconfig and, for
-consistency, not for Rust host progs either:
+David
 
-    https://lore.kernel.org/rust-for-linux/CAK7LNATPx2wTEM=3DKDmGtcH8vVTB4s=
-uOhh-CUQKP54F8wtPWDiw@mail.gmail.com/
-
-Perhaps it could make sense to explicitly exclude certain bits, like
-Kconfig, from `WERROR`, and apply it for everything else instead.
-
-Cheers,
-Miguel
 
