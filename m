@@ -1,114 +1,168 @@
-Return-Path: <linux-kbuild+bounces-8457-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8458-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E35CB26587
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 14:39:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43253B2664F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 15:09:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5AFECA21E67
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 12:39:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 198E41CC6A52
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 13:09:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64CDE2FC89B;
-	Thu, 14 Aug 2025 12:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 626262FE05B;
+	Thu, 14 Aug 2025 13:07:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="akItc4ij"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kp932hix"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386DF25C706;
-	Thu, 14 Aug 2025 12:39:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9A02FD7B1;
+	Thu, 14 Aug 2025 13:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755175145; cv=none; b=InuDgcACN0tzWpZtQa60p2Ei/ItVtSx2TuFmjd3BVNwyupgD8tqDoAyDSugyowDF281cBIVvqCrzuFxAazRbehMdbAgllDFppG2RbxnHFRODXtUEY7SpM6FTlTyeH9J4owrq8/y36SByxPQPtRkC4U5UzPo1Rbs1/uJrni24zH4=
+	t=1755176876; cv=none; b=u8Lg/phRH7F4/d6WGWyF666EkhwoACrplsolSTln5eNe3H++RmpJbx0Cou62ZDjR5dtDtDDFjzggu3HZgPgOmGT2M1rvBkUqVaDGIE8wqUM5rBcr3mWqpdkk3tHKzYvqg9kbF/1vTVe9VEXl/HY6VJJ+m4y/djpEe+MVjVVSvC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755175145; c=relaxed/simple;
-	bh=ySXXtCWInS8Dd3/1b6Y0gmPDaMaREnzvgVBoXZIcJWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7Jll0wCVd1d1siJOWGDOWGBvIQ3ZZDTxpxxCGduuwO9clUhfaT1+X1DrxBJvx2CBiDMjve9xn0hYLzq30klYhXMczRqMuLVrUU4iFlOPyg9Z7sqLmqO/OUQNo+66cphLJ+WsszwVoZAoKF1Jf7VbiMXINn/O+zs3mHbXBsxZY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=akItc4ij; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52747C4CEED;
-	Thu, 14 Aug 2025 12:39:03 +0000 (UTC)
+	s=arc-20240116; t=1755176876; c=relaxed/simple;
+	bh=i/ET7s7Tj1J84FEGP9UbodHwBPcPrdFt5gh6RmuE2DU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hpBQYsxo7kYm4L1jPONsaCjxk2pnWfPKOtCIjyMKAWYrtyZ5yIZgF/u4WHkxJaw+65CqO5pyXxlwHy8olN+y5ecqrXlftffXj9h1bAx2nrCWkiiR/0W+nPb6rU2iKPbl+N2gTcVff4sEGyThKoIeElfbGR3UbHnD4k9D8uLhi3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kp932hix; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 694D1C4CEED;
+	Thu, 14 Aug 2025 13:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755175144;
-	bh=ySXXtCWInS8Dd3/1b6Y0gmPDaMaREnzvgVBoXZIcJWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=akItc4ijtv7KbvHP7dipeKN2FgLp05rwNWt1rXWKAFydgSzO7hW1J8nrFuZDREgId
-	 704i5w0FfP2rUOtUHRI6CaAdXZF77FtLgVA3gOELEv2z+T6+q3u/q9MfRzo6ERStq4
-	 RqLtFsGBChRZwSGqPM9r+GZ/Ti71KG63W3C6o/cVjO81pu4CV1wI8ftQTfBdOOMNPo
-	 eqf150V7ELf8Qvq+UudbpXy71JNKcsT4vDBbAninETTOo5GzblNmp7rDszN0HmBEwg
-	 3G5gdF5rRAqH2JMEkSk2S06Z/35XNtNe6k9LXvWT7U7KKLMfvRhPgvcovYfr3M3A4h
-	 xsoZum7n9VV5Q==
-Date: Thu, 14 Aug 2025 14:10:13 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] kbuild: enable -Werror for hostprogs
-Message-ID: <aJ3SJWu8-o2S-KU5@levanger>
-References: <20250814-kbuild-werror-v2-0-c01e596309d2@linutronix.de>
- <20250814-kbuild-werror-v2-6-c01e596309d2@linutronix.de>
+	s=k20201202; t=1755176875;
+	bh=i/ET7s7Tj1J84FEGP9UbodHwBPcPrdFt5gh6RmuE2DU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kp932hixuF3y2+woIsJTmdXBF1aSyCxYiRTq6XZA4/d+56vvUBb56i1B4b/jfcHEJ
+	 PiDtciLfO1Xi96U8SbYP8GNR2z34JsKDano7vJXqtGVtuM0BWZAu0UG/y5kJKWVw8W
+	 LZ9LoL49F8lD4wTGo98ZcsnXMQGbdq0Vi143jWMjKSV55kfeMWp3PD7fSLSVGs/4rp
+	 dENEiaoQkP51fIIKRFMnjTvjRkrtyPGAMHFYdhNZKoz7njX4QNH1gwsBA6S6UtS5Ya
+	 b8SQXnWIDdeWT4w6o5MVzlJyo6dfuC70t16wjoJaiJrd2yqEfpP9Iwq2RYV3FAWvCt
+	 xsVJ9wvUH9Tag==
+From: Alexey Gladkov <legion@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Alexey Gladkov <legion@kernel.org>
+Subject: [PATCH v6 0/9] Add generated modalias to modules.builtin.modinfo
+Date: Thu, 14 Aug 2025 15:07:08 +0200
+Message-ID: <cover.1755170493.git.legion@kernel.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250814-kbuild-werror-v2-6-c01e596309d2@linutronix.de>
 
-On Thu, Aug 14, 2025 at 12:14:46PM +0200, Thomas Weiﬂschuh wrote:
-> The hostprog compilers and linkers do not share the regular compiler flags,
-> so they are not affected by CONFIG_WERROR or W=e. As hostprogs are used
-> during the bootstrap of the build, they can't depend on kconfig options.
-> 
-> Enable -Werror unconditionally.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> 
-> ---
-> For testing in -next, as discussed in
-> https://lore.kernel.org/lkml/20250812-kbuild-werror-v1-2-36c9ff653700@linutronix.de/
+The modules.builtin.modinfo file is used by userspace (kmod to be specific) to
+get information about builtin modules. Among other information about the module,
+information about module aliases is stored. This is very important to determine
+that a particular modalias will be handled by a module that is inside the
+kernel.
 
-yeah, I am not sure if this is a good change, but I am ok with testing
-it in next, as Nathan suggested.
+There are several mechanisms for creating modalias for modules:
 
-For the rest of the series:
+The first is to explicitly specify the MODULE_ALIAS of the macro. In this case,
+the aliases go into the '.modinfo' section of the module if it is compiled
+separately or into vmlinux.o if it is builtin into the kernel.
 
-Reviewed-by: Nicolas Schier <nsc@kernel.org>
+The second is the use of MODULE_DEVICE_TABLE followed by the use of the
+modpost utility. In this case, vmlinux.o no longer has this information and
+does not get it into modules.builtin.modinfo.
 
-Thanks.
+For example:
 
-> ---
->  scripts/Makefile.extrawarn | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 96ff3f5582d651f0016c8ccd49d46022cc6fe070..1434cb6208cb82f20aeb29cc8c059220d1a1f6d2 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -224,3 +224,8 @@ KBUILD_USERLDFLAGS	+= -Wl,--fatal-warnings
->  KBUILD_RUSTFLAGS	+= -Dwarnings
->  
->  endif
-> +
-> +# Hostprog flags are used during build bootstrapping and can not rely on CONFIG_ symbols.
-> +KBUILD_HOSTCFLAGS	+= -Werror
-> +KBUILD_HOSTLDFLAGS	+= -Wl,--fatal-warnings
-> +KBUILD_HOSTRUSTFLAGS	+= -Dwarnings
-> 
-> -- 
-> 2.50.1
-> 
+$ modinfo pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+modinfo: ERROR: Module pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30 not found.
+
+$ modinfo xhci_pci
+name:           xhci_pci
+filename:       (builtin)
+license:        GPL
+file:           drivers/usb/host/xhci-pci
+description:    xHCI PCI Host Controller Driver
+
+The builtin module is missing alias "pci:v*d*sv*sd*bc0Csc03i30*" which will be
+generated by modpost if the module is built separately.
+
+To fix this it is necessary to add the generated by modpost modalias to
+modules.builtin.modinfo. Fortunately modpost already generates .vmlinux.export.c
+for exported symbols. It is possible to add `.modinfo` for builtin modules and
+modify the build system so that `.modinfo` section is extracted from the
+intermediate vmlinux after modpost is executed.
+
+---
+Notes:
+- v6:
+  * Rebase to v6.17-rc1-16-g8742b2d8935f to pick up the fixes made by Masahiro Yamada.
+  * Fix an issue on i386 configs caused by the use of string_32.h.
+  * v5: https://lore.kernel.org/all/cover.1753354215.git.legion@kernel.org/
+
+- v5:
+  * Rebase to v6.16-rc6-281-gf4a40a4282f4 to pick up the fixes made by Masahiro Yamada.
+  * Attempt to fix linker warning on s390.
+  * Fix typo in pinctrl/meson found by the kernel test robot.
+  * v4: https://lore.kernel.org/all/cover.1750511018.git.legion@kernel.org/
+
+- v4:
+  * Rework the patchset based on top of Masahiro Yamada's patches.
+  * Add removal of unnecessary __mod_device_table__* symbols to avoid symbol
+    table growth in vmlinux.
+  * rust code takes into account changes in __mod_device_table__*.
+  * v3: https://lore.kernel.org/all/cover.1748335606.git.legion@kernel.org/
+
+- v3:
+  * Add `Reviewed-by` tag to patches from Petr Pavlu.
+  * Rebase to v6.15.
+  * v2: https://lore.kernel.org/all/20250509164237.2886508-1-legion@kernel.org/
+
+- v2:
+  * Drop patch for mfd because it was already applied and is in linux-next.
+  * The generation of aliases for builtin modules has been redone as
+    suggested by Masahiro Yamada.
+  * Rebase to v6.15-rc5-136-g9c69f8884904
+  * v1: https://lore.kernel.org/all/cover.1745591072.git.legion@kernel.org/
+
+
+Alexey Gladkov (6):
+  scsi: Always define blogic_pci_tbl structure
+  pinctrl: meson: Fix typo in device table macro
+  modpost: Add modname to mod_device_table alias
+  modpost: Create modalias for builtin modules
+  kbuild: vmlinux.unstripped should always depend on .vmlinux.export.o
+  s390: vmlinux.lds.S: Reorder sections
+
+Masahiro Yamada (3):
+  kbuild: always create intermediate vmlinux.unstripped
+  kbuild: keep .modinfo section in vmlinux.unstripped
+  kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
+
+ arch/s390/kernel/vmlinux.lds.S             | 10 +--
+ drivers/pinctrl/meson/pinctrl-amlogic-a4.c |  2 +-
+ drivers/scsi/BusLogic.c                    |  4 +-
+ include/asm-generic/vmlinux.lds.h          |  2 +-
+ include/linux/module.h                     | 18 +++--
+ rust/kernel/device_id.rs                   |  8 +--
+ scripts/Makefile.vmlinux                   | 77 ++++++++++++++--------
+ scripts/Makefile.vmlinux_o                 | 26 +-------
+ scripts/link-vmlinux.sh                    |  5 +-
+ scripts/mksysmap                           |  6 ++
+ scripts/mod/file2alias.c                   | 34 ++++++++--
+ scripts/mod/modpost.c                      | 15 +++++
+ scripts/mod/modpost.h                      |  2 +
+ 13 files changed, 130 insertions(+), 79 deletions(-)
+
+-- 
+2.50.1
+
 
