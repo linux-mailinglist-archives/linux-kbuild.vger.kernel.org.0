@@ -1,308 +1,196 @@
-Return-Path: <linux-kbuild+bounces-8445-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8447-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646C2B25B4E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 07:52:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43ADB25CDA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 09:16:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 015D91BC49B2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 05:49:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C6483A81F0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 07:15:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C581C224220;
-	Thu, 14 Aug 2025 05:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C42712494FF;
+	Thu, 14 Aug 2025 07:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1IKT2zw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC21231839
-	for <linux-kbuild@vger.kernel.org>; Thu, 14 Aug 2025 05:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9382C24468A;
+	Thu, 14 Aug 2025 07:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755150546; cv=none; b=AyNIxnqOIbZJ8yuxeSkLFHEsmA12VgPQVlFXopZtBcx64H84Z6HYMWMUbGXr5P2gyMce+1gMv4wDkri4TTAFszmWEQATr/IvKC7GD3aDk9NV6gZQRSN+A24gQMbKmrKSCUjEVFsyXpqV8i1y48wUYTzYHuO0mbUuHV+FH30khNQ=
+	t=1755155740; cv=none; b=avRkJlLsM/1S3HCTomVXqEfA9nREKFWdPJGqtsY82rN5BTAoWG0v/W5SwNw9iVnySc65QEx3khJbq4dGGIgWoLhK5X5+T3i0mv72l5HseXtu0nlbmLDQakIlGnT7acR7tay0K2ojuvgxDhJscKAbXQ2q6A5iS4yQIYOjFJ0UFo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755150546; c=relaxed/simple;
-	bh=5c4tsAbrUCPzNd0BA/l/beypy1l+JGENmNIxWBabzkw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f5M2xLgE4EfFyYqMpOJF1eZkaxmYTs8xdZzVvmvDlh7fsc9+P6Kckd5dsTRjK7QUppC/ev0mzSWfspMrXhqAkoD/VOaSZ9cKGBciAbjrOquro4Mn95OziRSs2JerwAgvGERCD/wIa7DoqDVVTLFIwbnI8E5PChE2MzogOI+rY5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8793621B2B;
-	Thu, 14 Aug 2025 05:48:55 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB07F13479;
-	Thu, 14 Aug 2025 05:48:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mP7AIMV4nWiEYQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Thu, 14 Aug 2025 05:48:53 +0000
-From: David Disseldorp <ddiss@suse.de>
-To: linux-kbuild@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: linux-next@vger.kernel.org,
-	David Disseldorp <ddiss@suse.de>
-Subject: [PATCH v2 7/7] gen_init_cpio: add -a <data_align> as reflink optimization
-Date: Thu, 14 Aug 2025 15:18:05 +1000
-Message-ID: <20250814054818.7266-8-ddiss@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250814054818.7266-1-ddiss@suse.de>
-References: <20250814054818.7266-1-ddiss@suse.de>
+	s=arc-20240116; t=1755155740; c=relaxed/simple;
+	bh=SaB56iFHq9R1lIIJgY1jOBN/SbTeOE8emRCvNnsEoq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E3RQy2Pmj9Fl8lc55CB5FJPsWZJj1lygVl9wXLl0XaGug4U3ii0ZnFgCMQhgsRb3/ufadoafhX/U9I8HrNiXeZJ9OLCifUwialYdnyT4r481mjIDvAuTn+kYhb65vRvbSLMAR21+Z/+oPsol+Uc4+EMjc/TJLMPeSdOD6JNibcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1IKT2zw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0A94C4CEEF;
+	Thu, 14 Aug 2025 07:15:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755155740;
+	bh=SaB56iFHq9R1lIIJgY1jOBN/SbTeOE8emRCvNnsEoq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i1IKT2zwhssHQnjqKIWtvjwXerI6qQ1PNJ4VSL+eAdBxYbqVIjTYRDr4HQdDI2lyQ
+	 u6nsFBnRLyaqgFWWbzOeyOQEECfpnB7HFRoM6E3hO6sGlgss41eOmCgTCj8UDbGGiV
+	 kcOFxGN3h7q6PRJ0LFnpAK1twBP/I25c5bcY/wvp+piLO9bOEem5o1u/IyOlnGVqs5
+	 L90FI8Llj1gEjlrSGyhD/ENLft+kX+3j3yL1mUP3JUHnDXG1H78KF3wqJLtE+umkB6
+	 9qj4v3Wff5u7Gq6G5C3vOrkknrJVOKySTv9AXEbB2AQ2VTkv5un2lOKqSHyQjbbKCj
+	 5qil2ya53k7Hw==
+Date: Thu, 14 Aug 2025 10:15:09 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: nathan@kernel.org, arnd@arndb.de, broonie@kernel.org,
+	Liam.Howlett@oracle.com, urezki@gmail.com, will@kernel.org,
+	kaleshsingh@google.com, leitao@debian.org, coxu@redhat.com,
+	surenb@google.com, akpm@linux-foundation.org, luto@kernel.org,
+	jpoimboe@kernel.org, changyuanl@google.com, hpa@zytor.com,
+	dvyukov@google.com, kas@kernel.org, corbet@lwn.net,
+	vincenzo.frascino@arm.com, smostafa@google.com,
+	nick.desaulniers+lkml@gmail.com, morbo@google.com,
+	andreyknvl@gmail.com, alexander.shishkin@linux.intel.com,
+	thiago.bauermann@linaro.org, catalin.marinas@arm.com,
+	ryabinin.a.a@gmail.com, jan.kiszka@siemens.com, jbohac@suse.cz,
+	dan.j.williams@intel.com, joel.granados@kernel.org,
+	baohua@kernel.org, kevin.brodsky@arm.com, nicolas.schier@linux.dev,
+	pcc@google.com, andriy.shevchenko@linux.intel.com,
+	wei.liu@kernel.org, bp@alien8.de, ada.coupriediaz@arm.com,
+	xin@zytor.com, pankaj.gupta@amd.com, vbabka@suse.cz,
+	glider@google.com, jgross@suse.com, kees@kernel.org,
+	jhubbard@nvidia.com, joey.gouly@arm.com, ardb@kernel.org,
+	thuth@redhat.com, pasha.tatashin@soleen.com,
+	kristina.martsenko@arm.com, bigeasy@linutronix.de,
+	lorenzo.stoakes@oracle.com, jason.andryuk@amd.com, david@redhat.com,
+	graf@amazon.com, wangkefeng.wang@huawei.com, ziy@nvidia.com,
+	mark.rutland@arm.com, dave.hansen@linux.intel.com,
+	samuel.holland@sifive.com, kbingham@kernel.org,
+	trintaeoitogc@gmail.com, scott@os.amperecomputing.com,
+	justinstitt@google.com, kuan-ying.lee@canonical.com, maz@kernel.org,
+	tglx@linutronix.de, samitolvanen@google.com, mhocko@suse.com,
+	nunodasneves@linux.microsoft.com, brgerst@gmail.com,
+	willy@infradead.org, ubizjak@gmail.com, peterz@infradead.org,
+	mingo@redhat.com, sohil.mehta@intel.com, linux-mm@kvack.org,
+	linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org, llvm@lists.linux.dev, kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 06/18] x86: Reset tag for virtual to physical address
+ conversions
+Message-ID: <aJ2M_eKPvBluyLKJ@kernel.org>
+References: <cover.1755004923.git.maciej.wieczor-retman@intel.com>
+ <01e62233dcc39aeb8d640eb3ee794f5da533f2a3.1755004923.git.maciej.wieczor-retman@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 8793621B2B
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01e62233dcc39aeb8d640eb3ee794f5da533f2a3.1755004923.git.maciej.wieczor-retman@intel.com>
 
-As described in buffer-format.rst, the existing initramfs.c extraction
-logic works fine if the cpio filename field is padded out with trailing
-zeros, with a caveat that the padded namesize can't exceed PATH_MAX.
+On Tue, Aug 12, 2025 at 03:23:42PM +0200, Maciej Wieczor-Retman wrote:
+> Any place where pointer arithmetic is used to convert a virtual address
+> into a physical one can raise errors if the virtual address is tagged.
+> 
+> Reset the pointer's tag by sign extending the tag bits in macros that do
+> pointer arithmetic in address conversions. There will be no change in
+> compiled code with KASAN disabled since the compiler will optimize the
+> __tag_reset() out.
+> 
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> ---
+> Changelog v4:
+> - Simplify page_to_virt() by removing pointless casts.
+> - Remove change in __is_canonical_address() because it's taken care of
+>   in a later patch due to a LAM compatible definition of canonical.
+> 
+>  arch/x86/include/asm/page.h    | 14 +++++++++++---
+>  arch/x86/include/asm/page_64.h |  2 +-
+>  arch/x86/mm/physaddr.c         |  1 +
+>  3 files changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/page.h b/arch/x86/include/asm/page.h
+> index 9265f2fca99a..15c95e96fd15 100644
+> --- a/arch/x86/include/asm/page.h
+> +++ b/arch/x86/include/asm/page.h
+> @@ -7,6 +7,7 @@
+>  #ifdef __KERNEL__
+>  
+>  #include <asm/page_types.h>
+> +#include <asm/kasan.h>
+>  
+>  #ifdef CONFIG_X86_64
+>  #include <asm/page_64.h>
+> @@ -41,7 +42,7 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
+>  #define __pa(x)		__phys_addr((unsigned long)(x))
+>  #endif
+>  
+> -#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(x))
+> +#define __pa_nodebug(x)	__phys_addr_nodebug((unsigned long)(__tag_reset(x)))
 
-Add filename zero-padding logic to gen_init_cpio, which can be triggered
-via the new -a <data_align> parameter. Performance and storage
-utilization is improved for Btrfs and XFS workloads, as copy_file_range
-can reflink the entire source file into a filesystem block-size aligned
-destination offset within the cpio archive.
+Why not reset the tag inside __phys_addr_nodebug() and __phys_addr()?
 
-Btrfs benchmarks run on 6.15.8-1-default (Tumbleweed) x86_64 host:
-  > truncate --size=2G /tmp/backing.img
-  > /sbin/mkfs.btrfs /tmp/backing.img
-  ...
-  Sector size:        4096        (CPU page size: 4096)
-  ...
-  > sudo mount /tmp/backing.img mnt
-  > sudo chown $USER mnt
-  > cd mnt
-  mnt> dd if=/dev/urandom of=foo bs=1M count=20 && cat foo >/dev/null
-  ...
-  mnt> echo "file /foo foo 0755 0 0" > list
-  mnt> perf stat -r 10 gen_init_cpio -o unaligned_btrfs list
-  ...
-            0.023496 +- 0.000472 seconds time elapsed  ( +-  2.01% )
+>  /* __pa_symbol should be used for C visible symbols.
+>     This seems to be the official gcc blessed way to do such arithmetic. */
+>  /*
+> @@ -65,9 +66,16 @@ static inline void copy_user_page(void *to, void *from, unsigned long vaddr,
+>   * virt_to_page(kaddr) returns a valid pointer if and only if
+>   * virt_addr_valid(kaddr) returns true.
+>   */
+> -#define virt_to_page(kaddr)	pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+> +
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +#define page_to_virt(x) ({							\
+> +	void *__addr = __va(page_to_pfn((struct page *)x) << PAGE_SHIFT);	\
+> +	__tag_set(__addr, page_kasan_tag(x));					\
+> +})
+> +#endif
+> +#define virt_to_page(kaddr)	pfn_to_page(__pa((void *)__tag_reset(kaddr)) >> PAGE_SHIFT)
 
-  mnt> perf stat -r 10 gen_init_cpio -o aligned_btrfs -a 4096 list
-  ...
-           0.0010010 +- 0.0000565 seconds time elapsed  ( +-  5.65% )
+then virt_to_page() will remain the same, no?
 
-  mnt> /sbin/xfs_io -c "fiemap -v" unaligned_btrfs
-  unaligned_btrfs:
-   EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
-     0: [0..40967]:      695040..736007   40968   0x1
-  mnt> /sbin/xfs_io -c "fiemap -v" aligned_btrfs
-  aligned_btrfs:
-   EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
-     0: [0..7]:          26768..26775         8   0x0
-     1: [8..40967]:      269056..310015   40960 0x2000
-     2: [40968..40975]:  26776..26783         8   0x1
-  mnt> /sbin/btrfs fi du unaligned_btrfs aligned_btrfs
-       Total   Exclusive  Set shared  Filename
-    20.00MiB    20.00MiB       0.00B  unaligned_btrfs
-    20.01MiB     8.00KiB    20.00MiB  aligned_btrfs
+>  extern bool __virt_addr_valid(unsigned long kaddr);
+> -#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long) (kaddr))
+> +#define virt_addr_valid(kaddr)	__virt_addr_valid((unsigned long)(__tag_reset(kaddr)))
 
-XFS benchmarks run on same host:
-  > sudo umount mnt && rm /tmp/backing.img
-  > truncate --size=2G /tmp/backing.img
-  > /sbin/mkfs.xfs /tmp/backing.img
-  ...
-           =                       reflink=1    ...
-  data     =                       bsize=4096   blocks=524288, imaxpct=25
-  ...
-  > sudo mount /tmp/backing.img mnt
-  > sudo chown $USER mnt
-  > cd mnt
-  mnt> dd if=/dev/urandom of=foo bs=1M count=20 && cat foo >/dev/null
-  ...
-  mnt> echo "file /foo foo 0755 0 0" > list
-  mnt> perf stat -r 10 gen_init_cpio -o unaligned_xfs list
-  ...
-            0.011069 +- 0.000469 seconds time elapsed  ( +-  4.24% )
+The same here, I think tag_reset() should be inside __virt_addr_valid()
+  
+>  static __always_inline void *pfn_to_kaddr(unsigned long pfn)
+>  {
+> diff --git a/arch/x86/include/asm/page_64.h b/arch/x86/include/asm/page_64.h
+> index 015d23f3e01f..de68ac40dba2 100644
+> --- a/arch/x86/include/asm/page_64.h
+> +++ b/arch/x86/include/asm/page_64.h
+> @@ -33,7 +33,7 @@ static __always_inline unsigned long __phys_addr_nodebug(unsigned long x)
+>  extern unsigned long __phys_addr(unsigned long);
+>  extern unsigned long __phys_addr_symbol(unsigned long);
+>  #else
+> -#define __phys_addr(x)		__phys_addr_nodebug(x)
+> +#define __phys_addr(x)		__phys_addr_nodebug(__tag_reset(x))
+>  #define __phys_addr_symbol(x) \
+>  	((unsigned long)(x) - __START_KERNEL_map + phys_base)
+>  #endif
+> diff --git a/arch/x86/mm/physaddr.c b/arch/x86/mm/physaddr.c
+> index fc3f3d3e2ef2..7f2b11308245 100644
+> --- a/arch/x86/mm/physaddr.c
+> +++ b/arch/x86/mm/physaddr.c
+> @@ -14,6 +14,7 @@
+>  #ifdef CONFIG_DEBUG_VIRTUAL
+>  unsigned long __phys_addr(unsigned long x)
+>  {
+> +	x = __tag_reset(x);
+>  	unsigned long y = x - __START_KERNEL_map;
+>  
+>  	/* use the carry flag to determine if x was < __START_KERNEL_map */
+> -- 
+> 2.50.1
+> 
 
-  mnt> perf stat -r 10 gen_init_cpio -o aligned_xfs -a 4096 list
-  ...
-            0.001273 +- 0.000288 seconds time elapsed  ( +- 22.60% )
-
-  mnt> /sbin/xfs_io -c "fiemap -v" unaligned_xfs
-   unaligned_xfs:
-   EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
-     0: [0..40967]:      106176..147143   40968   0x0
-     1: [40968..65023]:  147144..171199   24056 0x801
-  mnt> /sbin/xfs_io -c "fiemap -v" aligned_xfs
-   aligned_xfs:
-   EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
-     0: [0..7]:          120..127             8   0x0
-     1: [8..40967]:      192..41151       40960 0x2000
-     2: [40968..40975]:  236728..236735       8   0x0
-     3: [40976..106495]: 236736..302255   65520 0x801
-
-The alignment is best-effort; a stderr message is printed if alignment
-can't be achieved due to PATH_MAX overrun, with fallback to non-padded
-filename. This allows it to still be useful for opportunistic alignment,
-e.g. on aarch64 Btrfs with 64K block-size. Alignment failure messages
-provide an indicator that reordering of the cpio-manifest may be
-beneficial.
-
-Archive read performance for reflinked initramfs images may suffer due
-to the effects of fragmentation, particularly on spinning disks. To
-mitigate excessive fragmentation, files with lengths less than
-data_align aren't padded.
-
-Signed-off-by: David Disseldorp <ddiss@suse.de>
----
- usr/gen_init_cpio.c | 50 ++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 38 insertions(+), 12 deletions(-)
-
-diff --git a/usr/gen_init_cpio.c b/usr/gen_init_cpio.c
-index 40f4cbd95844e..75bf95d327171 100644
---- a/usr/gen_init_cpio.c
-+++ b/usr/gen_init_cpio.c
-@@ -28,13 +28,15 @@
- #define CPIO_TRAILER "TRAILER!!!"
- #define padlen(_off, _align) (((_align) - ((_off) & ((_align) - 1))) % (_align))
- 
--static char padding[512];
-+/* zero-padding the filename field for data alignment is limited by PATH_MAX */
-+static char padding[PATH_MAX];
- static unsigned int offset;
- static unsigned int ino = 721;
- static time_t default_mtime;
- static bool do_file_mtime;
- static bool do_csum = false;
- static int outfd = STDOUT_FILENO;
-+static unsigned int dalign;
- 
- struct file_handler {
- 	const char *type;
-@@ -359,7 +361,7 @@ static int cpio_mkfile(const char *name, const char *location,
- 	int file, retval, len;
- 	int rc = -1;
- 	time_t mtime;
--	int namesize;
-+	int namesize, namepadlen;
- 	unsigned int i;
- 	uint32_t csum = 0;
- 	ssize_t this_read;
-@@ -407,14 +409,27 @@ static int cpio_mkfile(const char *name, const char *location,
- 	}
- 
- 	size = 0;
-+	namepadlen = 0;
- 	for (i = 1; i <= nlinks; i++) {
--		/* data goes on last link */
--		if (i == nlinks)
--			size = buf.st_size;
--
- 		if (name[0] == '/')
- 			name++;
- 		namesize = strlen(name) + 1;
-+
-+		/* data goes on last link, after any alignment padding */
-+		if (i == nlinks)
-+			size = buf.st_size;
-+
-+		if (dalign && size > dalign) {
-+			namepadlen = padlen(offset + CPIO_HDR_LEN + namesize,
-+					    dalign);
-+			if (namesize + namepadlen > PATH_MAX) {
-+				fprintf(stderr,
-+					"%s: best-effort alignment %u missed\n",
-+					name, dalign);
-+				namepadlen = 0;
-+			}
-+		}
-+
- 		len = dprintf(outfd, "%s%08X%08X%08lX%08lX%08X%08lX"
- 		       "%08lX%08X%08X%08X%08X%08X%08X",
- 			do_csum ? "070702" : "070701", /* magic */
-@@ -429,13 +444,13 @@ static int cpio_mkfile(const char *name, const char *location,
- 			1,			/* minor */
- 			0,			/* rmajor */
- 			0,			/* rminor */
--			namesize,		/* namesize */
-+			namesize + namepadlen,	/* namesize */
- 			size ? csum : 0);	/* chksum */
- 		offset += len;
- 
- 		if (len != CPIO_HDR_LEN
- 		 || push_buf(name, namesize) < 0
--		 || push_pad(padlen(offset, 4)) < 0)
-+		 || push_pad(namepadlen ? namepadlen : padlen(offset, 4)) < 0)
- 			goto error;
- 
- 		if (size) {
-@@ -552,8 +567,7 @@ static int cpio_mkfile_line(const char *line)
- static void usage(const char *prog)
- {
- 	fprintf(stderr, "Usage:\n"
--		"\t%s [-t <timestamp>] [-c] [-o <output_path>] <cpio_list>\n"
--		"\n"
-+		"\t%s [-t <timestamp>] [-c] [-o <output_path>] [-a <data_align>] <cpio_list>\n\n"
- 		"<cpio_list> is a file containing newline separated entries that\n"
- 		"describe the files to be included in the initramfs archive:\n"
- 		"\n"
-@@ -590,7 +604,10 @@ static void usage(const char *prog)
- 		"The default is to use the current time for all files, but\n"
- 		"preserve modification time for regular files.\n"
- 		"-c: calculate and store 32-bit checksums for file data.\n"
--		"<output_path>: write cpio to this file instead of stdout\n",
-+		"<output_path>: write cpio to this file instead of stdout\n"
-+		"<data_align>: attempt to align file data by zero-padding the\n"
-+		"filename field up to data_align. Must be a multiple of 4.\n"
-+		"Alignment is best-effort; PATH_MAX limits filename padding.\n",
- 		prog);
- }
- 
-@@ -632,7 +649,7 @@ int main (int argc, char *argv[])
- 
- 	default_mtime = time(NULL);
- 	while (1) {
--		int opt = getopt(argc, argv, "t:cho:");
-+		int opt = getopt(argc, argv, "t:cho:a:");
- 		char *invalid;
- 
- 		if (opt == -1)
-@@ -661,6 +678,15 @@ int main (int argc, char *argv[])
- 				exit(1);
- 			}
- 			break;
-+		case 'a':
-+			dalign = strtoul(optarg, &invalid, 10);
-+			if (!*optarg || *invalid || (dalign & 3)) {
-+				fprintf(stderr, "Invalid data_align: %s\n",
-+						optarg);
-+				usage(argv[0]);
-+				exit(1);
-+			}
-+			break;
- 		case 'h':
- 		case '?':
- 			usage(argv[0]);
 -- 
-2.43.0
-
+Sincerely yours,
+Mike.
 
