@@ -1,80 +1,107 @@
-Return-Path: <linux-kbuild+bounces-8479-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8480-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687E0B27182
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Aug 2025 00:18:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E66A5B278AF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Aug 2025 07:57:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 611393AF95E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Aug 2025 22:17:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AADC1C86F9E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Aug 2025 05:58:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C39FF25DD0C;
-	Thu, 14 Aug 2025 22:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6F0A221FDC;
+	Fri, 15 Aug 2025 05:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CfgEIOog"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gnx2hwby";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lR+ki2Ag"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910C1319873;
-	Thu, 14 Aug 2025 22:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D94D221282;
+	Fri, 15 Aug 2025 05:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755209832; cv=none; b=gFQz1WSE858kktAPOj54IMT4LWpAQp71dgXpdpRwRKm43h/j+wEtG/O2yP1CmWQ2epEzOJYBJPLO+pN9PbQ/gOB/yPhA86x4eZUhX07a/fY8vlGXxPmE6/vlv0DTCpotEIeE5q63w7UWewd9I6EXXXRqTPRQfrjrGh8ZLeSz+Qo=
+	t=1755237461; cv=none; b=YRldUaM7Yl2gqMCayCE+EZNosXd+nfM2rw6VRGUAZJx8yYRsa9NvcSfVIOxN5aMSarX3aPL121VorwmtyzaPWnkwmrcAJiuqoALvSBqvo5/EXpfbNOeIjMAfKjKnHBKl+2XgOKQrvpBpTmKZt1omx4uH7HqOOaJYVUAF6FUYAmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755209832; c=relaxed/simple;
-	bh=aSc5vIIoQsAueHjH5bF58EokT80rr3IpA5ugwyr7Ook=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=DSkTNz7oaj+6r7A7he+hjvQiyVvP/5+wPCfI5O4BWqIgJz7If8HntOhy6X4ey8/3gtWG7dZSen0v9c5ER+B0sOHnAULzKCBTTT5a3Vdj9VPiBECLGTwRI0xjz6DxI8CeDedD7ClSrzjka0iUVTuEzh1BYFcVIOci2FzkN6sTNc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CfgEIOog; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22BEDC4CEED;
-	Thu, 14 Aug 2025 22:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755209832;
-	bh=aSc5vIIoQsAueHjH5bF58EokT80rr3IpA5ugwyr7Ook=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=CfgEIOogNaOu87OFC/4Mk2HfCKtM8fM+jPZzBhiMLDjvzVURv9r5jvYoxJHb/phyY
-	 gHjSxhFA3fRyOP3H90sxxV9+yxKD22kgQwvgpe6r3LKVU7OR8ufYbUYS7BU72Udm/i
-	 pKMovl0pwxk1fHiNL5nDh0XmyV6XWXMYfCBPSL6M5mg3yXahuGrM2zqjqDJ94xq9jH
-	 jWy6hD7BiyqD/tKsdhoXUMeIYIeP/9U0E+sBfEUzZrKFzd9UGVmXHaShunwB2qGJsR
-	 D4zdJxOJtCaaKPrvfmqWw8zS2enQAT0l0i5G9fo/xMDbcZmQQ+61Hbh6x7uYD3SIMz
-	 ttSgMQTm4r4AA==
+	s=arc-20240116; t=1755237461; c=relaxed/simple;
+	bh=l44K6EU3NXEPW6Rv9x+dtp6Tv4IlAF6CW6XOLMarcfQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwOH/MF3FlGx43vlOa42WsDmyWo0xl950kYBEQN3u25Q/32NMQU6QFq/ApurG+hMs5CexfpySAlXTVPIPaK9v3Kie6Q2JHvxDYxN6IUUYto6iBDzcneuMR44hCGvYnr9T2RFp2w1XqkRFi9/oziB8oTy8jhWIvHbC3LfvmOQy3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gnx2hwby; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lR+ki2Ag; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Fri, 15 Aug 2025 07:57:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755237456;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pQ6MIkb8TH9cRez5JksAJktPFrLt2N/0sPo/EUUigpo=;
+	b=gnx2hwby2zpCUoBr1yu1qSDR4/4jWa9JIRzrUqtB35/Ohv0LAIqQfpOb2aF3SOfOaZ1hAK
+	T0MQ3DG4aMauthybT3ifXyiuwvpkXBwiTvHcYon2rsAC69MRnAyFprREKQbJ449K2ZCQfu
+	hbr2PGkZuI/iUd4jJ4OKw/kiVQd4i2bdASylcyvySCrDPJ/7YUkEc7wMlNW8F+eZUZHos0
+	i/lXQ6SD+BrQFFSDJd17bEZLM9KihNhMzKvx4MnyswjDfXztj0ovX6qiEM52yvyAjWOUn1
+	LeDr2TqwdDaI2KvhIfjkPleg5Yh1VCz/B5AIfJAJ+3uFFV4sDeqA/XSwPz4I3A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755237456;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pQ6MIkb8TH9cRez5JksAJktPFrLt2N/0sPo/EUUigpo=;
+	b=lR+ki2AgD+haXMRY3weRgBBpoEh/CPLLgkvYU5QtlVs5oL+GasrGKTRLH5b8IHnn8DJH1d
+	EuZmhJhUAW2HpkAw==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas.schier@linux.dev>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 0/2] kbuild: userprogs: also inherit byte order and ABI
+ from kernel
+Message-ID: <20250815075527-ada0921a-d2ab-40b6-8882-3c84339f0582@linutronix.de>
+References: <20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de>
+ <20250814184646.GA1764877@ax162>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 15 Aug 2025 00:17:07 +0200
-Message-Id: <DC2HYF56GPWI.2EIEHWAGVK9AI@kernel.org>
-Subject: Re: [PATCH v6 6/9] modpost: Add modname to mod_device_table alias
-Cc: "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier"
- <nicolas.schier@linux.dev>, "Masahiro Yamada" <masahiroy@kernel.org>, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Luis Chamberlain" <mcgrof@kernel.org>, "Sami
- Tolvanen" <samitolvanen@google.com>, "Daniel Gomez" <da.gomez@samsung.com>,
- <linux-kernel@vger.kernel.org>, <linux-modules@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- <rust-for-linux@vger.kernel.org>
-To: "Alexey Gladkov" <legion@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <cover.1755170493.git.legion@kernel.org>
- <15724fb8669dae64e3c8d31ab620f977984b2177.1755170493.git.legion@kernel.org>
- <DC26OG2L7OMH.31RE7460D4DHU@kernel.org> <aJ3qsonmvUUErQx9@example.org>
- <DC27G409IQGT.H9G83QDQ9V7R@kernel.org> <aJ5ZMJC4eCpDb5D8@example.org>
-In-Reply-To: <aJ5ZMJC4eCpDb5D8@example.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250814184646.GA1764877@ax162>
 
-On Thu Aug 14, 2025 at 11:46 PM CEST, Alexey Gladkov wrote:
-> Again, no. We need the entire symbol to be unique so that the linker
-> doesn't complain. In fact, this symbol will later be removed from the elf=
-.
-> It is only needed for the modpost utility.
+On Thu, Aug 14, 2025 at 11:46:46AM -0700, Nathan Chancellor wrote:
+> On Wed, Aug 13, 2025 at 07:43:39AM +0200, Thomas Weißschuh wrote:
+> > Make sure the byte order and ABI of the userprogs matches the one of the
+> > kernel, similar to how the bit size is handled.
+> > Otherwise the userprogs may not be executable.
+> > This happens for example on powerpc little endian, or riscv32.
+> > 
+> > These patches where originally part of my series "kunit: Introduce UAPI
+> > testing framework" [0], but that isn't going anywhere right now and the
+> > patches are useful on their own.
+> > 
+> > [0] kunit: Introduce UAPI testing framework
 
-Gotcha -- I think I got confused; for the device ID parts:
+[0] https://lore.kernel.org/lkml/20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de/
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+> > ---
+> > Thomas Weißschuh (2):
+> >       kbuild: userprogs: avoid duplication of flags inherited from kernel
+> >       kbuild: userprogs: also inherit byte order and ABI from kernel
+> 
+> Seems reasonable to me. Should I fast track this via kbuild-fixes or
+> should I just apply it to kbuild-next? I am guessing you only noticed
+> this in the context of developing [0] so it might not be a big issue in
+> the wild?
+
+kbuild-next should be fine.
+
+
+Thomas
 
