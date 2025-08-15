@@ -1,119 +1,91 @@
-Return-Path: <linux-kbuild+bounces-8486-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8487-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1E0B28314
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Aug 2025 17:40:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19305B28793
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Aug 2025 23:16:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D47F7B9D76
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Aug 2025 15:38:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC2E2AE41C0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Aug 2025 21:16:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81CEB306D2D;
-	Fri, 15 Aug 2025 15:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDAE539FF3;
+	Fri, 15 Aug 2025 21:16:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLtvEjpC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwmVXJqW"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F45305E3D;
-	Fri, 15 Aug 2025 15:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64A24A00;
+	Fri, 15 Aug 2025 21:16:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755272405; cv=none; b=uVpLI+6hE854U/SHrXmUcIW7RcPrqV9JPPYkIspD1GSFxerRW9h6NNsI1RkSQgICW22YGlDtktcIWGgefD4955d7lfYivRvF9oW5zCKppUEOUfuq9C5VwR1ivfn7pSnyLhc85xuIvlv3bJP/NZ55En37NCWoGnk4qwGOkYEb78w=
+	t=1755292576; cv=none; b=lQkVpMOgYavcbfwvpwHIdUw7bOeqc43WRTerqzrZ+Mc2yHUi+qjdMipBoOaUsLHDzt1FI2nJ/SCE3vTBmu/jcM1OsmtmeSQOpgV3A9XWn0mBBfoKhGZx6TYcoW8bZYUmvfoMttvqt/3SOspY/5QI3BJfxCosN1ps2TLKZidVa5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755272405; c=relaxed/simple;
-	bh=qFFD29Z0bBGyOJ/r8urMn6MWEW61foW7aAMeULHu5cQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a2xy/QlxIynPNEzZxOQX4+wvlIkD8h3pHLlQz8JCcxDfcp+0BVP5J0Rf83ffi00oRbdW28xdg6NHp8OyRUetzUBLVowhmfq/0yjDdE9TGK37uL69uHFbYiUAkOv4cqqZqQsa07xtCq5/od4yAfbSybuY28chSH+hQ8/mO8+S65Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLtvEjpC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E9CC4CEEB;
-	Fri, 15 Aug 2025 15:39:57 +0000 (UTC)
+	s=arc-20240116; t=1755292576; c=relaxed/simple;
+	bh=noc6S2jH5KMwAXQAGBgXw4htFU+04vvObhFpEMTkBo8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=raFslaoXMz2N7OlsFSnUCMk0QNGpdUIaZ62Fxn0wfLeIP5evc94PDQ2j8+EFUemj01rlCynKxLZAP0P0Jh4u0JoAzFB2+lsbtcI43hXN0pXOoi1aIcHPwR0pCFglL4OKV00dRJ7Vz4qJPh4B2F0vZ/WK2oXyuvNz4EUFDb4+OvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwmVXJqW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34524C4CEEB;
+	Fri, 15 Aug 2025 21:16:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755272405;
-	bh=qFFD29Z0bBGyOJ/r8urMn6MWEW61foW7aAMeULHu5cQ=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fLtvEjpCpJcL4Br3dGCA310R4Y2FqThotOiDwP4/RNMBJ98DOeQ6jMFavPuxM7u3Z
-	 YBee3GcniPTXE8VnxbNAntO0WnrVAlBSPN/Rg+auulmBzReVjKLE2wtJk5WGr9p/bA
-	 v+UNwcB1/HCJcruh4liLcSUzkIFGzj0D5zYEE1AXG6Bk3xOVDgSxCTVgfi20L/peGh
-	 W5FxJvKHnD4Ces7ML+U4Xa6U1VyeXnxnHxpgLwSOkuc9mVH4pqvhiFujcu52R4pqai
-	 z7w2V5CQDgdwyu3IrZ3mvsiUf3zYUspnccKIKH2BgfWuZt+l2P3OJX4xy8OsKJ0J7E
-	 gbYclLaeRfxNw==
-Message-ID: <6cce2564-04f2-44ab-96d3-2f47fc221591@kernel.org>
-Date: Fri, 15 Aug 2025 17:39:54 +0200
+	s=k20201202; t=1755292576;
+	bh=noc6S2jH5KMwAXQAGBgXw4htFU+04vvObhFpEMTkBo8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=IwmVXJqWa3B45EZ0LDKyKEcd27agrxQXPQdCoI376OjQ96VabM8/4eKeQXAGDETWz
+	 5abKb7JJ0divOMK+81ty6K+/1JBfJmbVdXtODUf7H5EKhUrWwvn8Z5fDJ06ClmYCtp
+	 HsdTdrARGYcanzdPm3jUMInyGX7guB4NIjHQQau72RanY0iRcWRuMAhzcT+CcNG9c+
+	 uRY7SioKusYvKdTRNSGnTKRLQuH5KfuyihH97qzOZYwkxPHcfVyAFN7nEd/NhuuSL7
+	 9N9J1UOU3z1XTcDphE0JmbDDwSLjolYCVu+sjh6eDCNBPlcjKxukHTsBYkW9pnk60+
+	 GT0XoySFCr9QA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>
+In-Reply-To: <20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de>
+References: <20250813-kbuild-userprogs-bits-v1-0-2d9f7f411083@linutronix.de>
+Subject: Re: [PATCH 0/2] kbuild: userprogs: also inherit byte order and ABI
+ from kernel
+Message-Id: <175529257494.1745051.12925907473487620695.b4-ty@kernel.org>
+Date: Fri, 15 Aug 2025 14:16:14 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v4] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
- EXPORT_SYMBOL_FOR_MODULES
-To: Christian Brauner <brauner@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Hellwig <hch@infradead.org>,
- Peter Zijlstra <peterz@infradead.org>, David Hildenbrand <david@redhat.com>,
- Shivank Garg <shivankg@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Daniel Gomez <da.gomez@samsung.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Matthias Maennich <maennich@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
-References: <20250808-export_modules-v4-1-426945bcc5e1@suse.cz>
- <20250811-wachen-formel-29492e81ee59@brauner>
- <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
- <20250815-darstellen-pappen-90a9edb193e5@brauner>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <20250815-darstellen-pappen-90a9edb193e5@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev
 
 
-
-On 15/08/2025 07.25, Christian Brauner wrote:
-> On Tue, Aug 12, 2025 at 09:54:43AM +0200, Daniel Gomez wrote:
->> On 11/08/2025 07.18, Christian Brauner wrote:j
->>> On Fri, 08 Aug 2025 15:28:47 +0200, Vlastimil Babka wrote:
->>>> Christoph suggested that the explicit _GPL_ can be dropped from the
->>>> module namespace export macro, as it's intended for in-tree modules
->>>> only. It would be possible to restrict it technically, but it was
->>>> pointed out [2] that some cases of using an out-of-tree build of an
->>>> in-tree module with the same name are legitimate. But in that case those
->>>> also have to be GPL anyway so it's unnecessary to spell it out in the
->>>> macro name.
->>>>
->>>> [...]
->>>
->>> Ok, so last I remember we said that this is going upstream rather sooner
->>> than later before we keep piling on users. If that's still the case I'll
->>> take it via vfs.fixes unless I hear objections.
->>
->> This used to go through Masahiro's kbuild tree. However, since he is not
->> available anymore [1] I think it makes sense that this goes through the modules
->> tree. The only reason we waited until rc1 was released was because of Greg's
->> advise [2]. Let me know if that makes sense to you and if so, I'll merge this
->> ASAP.
+On Wed, 13 Aug 2025 07:43:39 +0200, Thomas Weißschuh wrote:
+> Make sure the byte order and ABI of the userprogs matches the one of the
+> kernel, similar to how the bit size is handled.
+> Otherwise the userprogs may not be executable.
+> This happens for example on powerpc little endian, or riscv32.
 > 
-> At this point it would mean messing up all of vfs.fixes to drop it from
-> there. So I'd just leave it in there and send it to Linus.
+> These patches where originally part of my series "kunit: Introduce UAPI
+> testing framework" [0], but that isn't going anywhere right now and the
+> patches are useful on their own.
+> 
+> [...]
 
-Got it. I was waiting for confirmation before taking it into the modules tree,
-and I agree that at this point it makes sense to keep it in vfs.fixes.
+Applied, thanks!
 
-> Next time I know where it'll end up.
+[1/2] kbuild: userprogs: avoid duplication of flags inherited from kernel
+      https://git.kernel.org/kbuild/c/c5afee88548e4
+[2/2] kbuild: userprogs: also inherit byte order and ABI from kernel
+      https://git.kernel.org/kbuild/c/478494044bb42
 
-Can you clarify what you mean by this?
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
+
 
