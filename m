@@ -1,128 +1,123 @@
-Return-Path: <linux-kbuild+bounces-8488-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8489-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC13B29024
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Aug 2025 20:51:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E385B290A5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Aug 2025 23:22:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 496671BC45C6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Aug 2025 18:51:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59E7F3A2770
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Aug 2025 21:22:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 987551FCFEF;
-	Sat, 16 Aug 2025 18:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 183DE22FF35;
+	Sat, 16 Aug 2025 21:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvdQkNMY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYmP9b7G"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703476FC5;
-	Sat, 16 Aug 2025 18:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22FD2185AA;
+	Sat, 16 Aug 2025 21:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755370288; cv=none; b=Xob1v63WvH27e5U8+W75/hUK4i74WJIFkibepG394bO+fFcYY6Pc5105aEINwyffbcDgJPKG6iCDeDrdymRC87Luu+f1xxBnmmn1BTxnRPNjcn1L//mfAjrtRH0++A7MsUQUhD/fyIbQq7Qp/YPke0UgdA+ERf1+UhLHiL/SRP8=
+	t=1755379321; cv=none; b=ZScXltDLpRbu5ZOsUIgxU6fxYSGWhe5kMYKGQFfysLYmu5S/caAlVV8iiSrnZ93cUOiOTpTV4MGUzLtBHynbo5fhMT1BLiWVGR45s/sKxxDhxmjDIcXYAfdsJuwMF9xsMav93AWy/4YaO6jV6r+wI0qACcbGuSsccJ7aI+Z1qrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755370288; c=relaxed/simple;
-	bh=ho+NIdCoi3HQIUYaUfYnsaGAjFkbEHYJmojE1QWnQK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nnT3xEEUsdGLIDK1BmAmalILtPSXZQorM/NqQ2zbcF2SA7Usl+HW4GPgtrj9V6RNL/wfhtBkv3le8AfAme+rqS4rSfXL8vO1G3Ygd5JgmVBVSoAa0jPYfqGBkAnDzYk0Xp+mxa5jqlGMtgeh22XhXAu2OPpxukGA0WMc21AtRbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvdQkNMY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7036CC4CEEF;
-	Sat, 16 Aug 2025 18:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755370287;
-	bh=ho+NIdCoi3HQIUYaUfYnsaGAjFkbEHYJmojE1QWnQK0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FvdQkNMYMqxEnGcv7bSpu4m3S3aFljA3RtAoONluLGOOY7l5DEMuomW4yaPagswdh
-	 IM3N6yDIcQK2IR12v7VfFzZol9XFkVWjNntbmROTa9i3tVRBeP8LN7RSxfqGzrZvXb
-	 LjQxMjD9B2/ub0vvIVOoMKuuYtcmWclaw0nb9Nn++Pk0zhBePj8NsJA5pfYtgUFaLh
-	 ZLNYhFDDCn7M5JQf91xRWCkm1vUDMpyIJkUjLYPXD6ww7qvIUfti1HaGbWmh+LcmMs
-	 HGgMoqnIFsvCGUXX8g8UBm3r5XU8AwDhkkEnCT27H9Tj/4iU+mhRsQwnlWeWk/9Ycp
-	 7fPb8oCYyNCpQ==
-Date: Sat, 16 Aug 2025 20:49:59 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] kconfig: qconf/xconfig: show the OptionsMode radio
- button setting at startup
-Message-ID: <aKDS1w_2yHd3Om26@levanger>
-References: <20250812223502.1356426-1-rdunlap@infradead.org>
+	s=arc-20240116; t=1755379321; c=relaxed/simple;
+	bh=jvHsXepbd85mILs5MOLtSpqmRNq7lhyRSHBkFQ6Srjs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iNmZOIEDBUp8q5a3BbGpfwK1nVak0XEF+zNAGipAurq0PB9SJ1dV8/n0B4wg7cYjpv4sGEGG8BYxOHUj39xwi79uRTl+ftIP+IWsS51Foyxz73vvExnR15Q00vp58aC5uHpY+8/9H13XlPk4sYdcVLRwAhedzfdIJ6oFHFXW/Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYmP9b7G; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-24458051ac6so4461015ad.1;
+        Sat, 16 Aug 2025 14:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755379319; x=1755984119; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ds8Je7KfY4GjwHXKsWk5Giau9uIeYrla8x9MggnAb0U=;
+        b=YYmP9b7Glk5PXXIpgnP4QPyQyyOR76CNqNHrRkgSh/IobLtN6Zc3y4JSU21ABlyvhl
+         NtgmllyW7SJj0LzyaSz8XspjRp8YrZSus3CP3DqVUWF/qD2wC4D/Eh8NFcrfg3wO7GAg
+         VQ9Y25TTm46wAPsMRM3uYlqBPc3flJcSPri+oRA0Ln8xpd4pMx+q8yUTDx0tHNgoJAx2
+         DmK36S+pLIDd4pq/giQwpLygs5OtHdmkepTDn4kkMGxqDGEREA4KwcPuLlsTXQYzHEDk
+         LKvsnzVZY6abNDJdsbsiYS3+wnfEfcAWOMP/vw6S+ODfdeKKfaQHRWqxLT6bAx2p0cfo
+         evXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755379319; x=1755984119;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ds8Je7KfY4GjwHXKsWk5Giau9uIeYrla8x9MggnAb0U=;
+        b=pHw1ejC3sBuD9iAr/aWG31gJPHOEcDV1okYqsAaepJYyzx9CR5R34aDlVGkin/i63L
+         2igPXqkBzRXoXmuDmmBUOQD+P90vBziNeHKsomqmjfL2L1tcyieHYH7obRJCBjY00qy9
+         u69hZYHyqcZ5rqh6jN9Bvbx0IH7lYMaFXbP3CfqQMiR+dJlnnixwI5rCjyBURTxkmei7
+         0tT48hyHqQEZYv40k2DOJX+hFnDOhFX5Fu3DQj6E93FkNGsXg5ZIhMiQn1nBi0/MMaoe
+         LQyLtJaqbLLRp0DIOpMpPb36GdG+gAcS0hh3kcfBYr1rl1IevGb/4BTxTpNCZZc1SZ9+
+         CmBw==
+X-Forwarded-Encrypted: i=1; AJvYcCX1C6F0N2Zez7WFAg/QNjq4WbZNkxv1Cj0pgoWmjqly0s+LYlTfwbR5TOa8iyIZXjAYrMk8y7WH5aMeTGHlU7c=@vger.kernel.org, AJvYcCX7f/rmQj3bNGEsr1Yx/TTbWZaDPo4LjgObg2PLwpI+tnpbZExLiUAtTNAMSgE1zqGc7lmu/V3HCCIDo48P@vger.kernel.org, AJvYcCX9AJfBrEb9+e0/2bYkvzLWz84ocJ2eus5Eslz/yzWRl6SV5xj7nzgKRSeSzR1M7aoHLElEIo+iKemihLk=@vger.kernel.org, AJvYcCXtNtKmnUwcp8y2WM2iSoG1+4wBmdrNDUMUYc2mht80lf28x4eobGsEG2nu3lMPpHglH5iThwocM+nmwqgO0x1/@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFg6kLamVpeq9/gcvHcJJgodGw3g0OhrJdOQxLh9KKA3NCyrvZ
+	fo0oddJlx07c5xsLn0Y2McIhuZKEeSKpLL0ZOuthfNW14Be5rxTR9fJg4ImXaQYJmhyRae59OOE
+	UfXMzHKAvcUk8uGm2usRK34QTkEvZ6b0fYvAokPo=
+X-Gm-Gg: ASbGncu4FcxsybC1GOZq8NwCnsufqlkYa4IcghsiufV2aSBV0ZdHWbbSXJ+ddAcZOiH
+	DFaFnkX57/LfZ4AARp4nE4Avhgz8DfpfKaldCBjShDK1UpoPtfOqpvvKn7FQ/HaTrbkUKuaj6tE
+	nx28mnbMIJ8tM2zgQIRW+2MOOQu7/pBWjmtvDd+2NClbr+R5lEjGk5ePO8WhvSXUBYEfHDTNEXk
+	E945n9vwnO1Mm4xyos=
+X-Google-Smtp-Source: AGHT+IEWjOp4P2fU8wk6DK2g7nuduw++M/0lhwl96NpMeoXDbRf1rYmaSGIzIjyIjkEruBxPEP1OhxK64EdgQTvEFwc=
+X-Received: by 2002:a17:903:1a70:b0:240:725d:dd66 with SMTP id
+ d9443c01a7336-2446d9c6212mr49127785ad.11.1755379318942; Sat, 16 Aug 2025
+ 14:21:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BYhwT2aeQ4UXjlIv"
-Content-Disposition: inline
-In-Reply-To: <20250812223502.1356426-1-rdunlap@infradead.org>
-
-
---BYhwT2aeQ4UXjlIv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250726180750.2735836-1-ojeda@kernel.org> <DBOEANDMX1OU.2B47D7G6EQ38O@kernel.org>
+In-Reply-To: <DBOEANDMX1OU.2B47D7G6EQ38O@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 16 Aug 2025 23:21:47 +0200
+X-Gm-Features: Ac12FXzLXRqQ8BoWN6f3ka4dcgtWt6sEkaNyDNPtyslcoLw_3oMH2C2O3pfwMyc
+Message-ID: <CANiq72nVJpptasJM5+Xe3MGYfP4CZ6=acPV82X=EgVf=3C25MQ@mail.gmail.com>
+Subject: Re: [PATCH] rust: kernel: remove support for unused host `#[test]`s
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	Rae Moar <rmoar@google.com>, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 12, 2025 at 03:35:02PM -0700, Randy Dunlap wrote:
-> When qconf (xconfig) exits, it saves the current Option settings
-> for Show Name, Show Debug Info, and Show {Normal|All|Prompt} Options.
-> When it is next run, it loads these Option settings from its
-> config file. It correctly shows the flag settings for Show Name
-> and Show Debug Info, but it does not show which of the 3 Show...Options
-> is set. This can lead to confusing output, e.g., if the user thinks
-> that xconfig is in Show All Options mode but kconfig options which
-> have an unmet dependency are still being listed.
->=20
-> Add code to show the radio button for the current Show...Options
-> mode during startup so that it will reflect the current config
-> setting.
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Nathan, Nicolas: do you want me to ask someone else to merge this?
->   I don't mind doing that;
->   or throw it into your tree and see what breaks.
->=20
-> I know next to nothing about the Qt toolkit, so any comments or
-> testing are appreciated. There could easily be a better fix for this.
-> Thanks.
+On Tue, Jul 29, 2025 at 10:27=E2=80=AFAM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+>
+> Nice! This should also allow us to remove the Cmalloc allocator subsequen=
+tly.
 
-Thanks for the fix!  I cannot review this properly but reasoning is
-straightforward and testing reveals that its really useful.
+Yeah, unless we want to use it in the `macros` crate for an example or
+similar -- I didn't include the removal directly here mainly to split
+that decision into another step, but given this other issue in
+`rusttest` I just sent:
 
-Tested-by: Nicolas Schier <nsc@kernel.org>
-Acked-by: Nicolas Schier <nsc@kernel.org>
+    https://lore.kernel.org/rust-for-linux/20250816204215.2719559-1-ojeda@k=
+ernel.org/
 
+I think it is easiest to just get rid of it (and anyway eventually I
+want to run the tests from the macros crate within the kernel too).
 
-Nathan,  can you take this into kbuild-next?
+I have sent a patch for that here:
 
-Kind regards,
-Nicolas
+    https://lore.kernel.org/rust-for-linux/20250816211900.2731720-1-ojeda@k=
+ernel.org/
 
---BYhwT2aeQ4UXjlIv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmig0tIACgkQB1IKcBYm
-EmnncQ//Xt9SsOW2Q015oq5Z1MuwxS9v8IDa61j71qrKxECNECRs52hYFHWFV+WV
-jHEsQWLgRcIhde10Kny1nWrCJjLhwnu9s1J4aKBz7kNeF6HSOBbRxe87FDNaxTCt
-C+LfDeUxSueGdIiBnnYt9eK0gJdbJXvFDsGFpO5gd4W2AEDjB9qwyniCXj7BbdDY
-exD4UnTYkcq5vH3QReUKq1il1/pe5Ua/gvQ4PXSEJzGTChOAjCfDLLlI2O/m1U3v
-3M8nRJjDE49EpGXMmp++AzGnDFrSmIz+PyZHugjNG6qXu0qyxOxjKH3igveIK674
-xg+54hbHwVcdtIKLsjXvTpi6t/ZWryeilXqMItgJx/ZGhxMo7sL8WlWDfDiChJ8U
-TD8RFGB6510u+JqphnnZO71ZMyPwNJpoQG5urK9feb9uQs1gKmsJEU6D+bCE0vfF
-DAjfntCgwCrE35IGrrGAXDB6fBjErf0N9mkv7Zhk2a2MCaNNmKDQ9uyPjnCDppM5
-+dyJpViAML1lqXQOJirfemdtb33kLbHkok3KXEW77yzCZ9xjdVQoZsWH4qx58QGz
-6DSLt2tsCdxhKszPt+anCeO8cq97K/8JeGUF8nIOHXnbTnMuhXfEaVOuF451EXOb
-e/dvnGvuu740H4jtu3Hm+kp5ANO4RF0fZ1Ki6pmUNzzcdC82R2M=
-=kDze
------END PGP SIGNATURE-----
-
---BYhwT2aeQ4UXjlIv--
+Cheers,
+Miguel
 
