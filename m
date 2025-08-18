@@ -1,139 +1,174 @@
-Return-Path: <linux-kbuild+bounces-8520-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8536-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B027B2B104
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 20:59:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EACB2C843
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 17:19:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 852C4564375
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 18:58:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B48BD3A5D2E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 15:17:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB95B2741B0;
-	Mon, 18 Aug 2025 18:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 521B528466F;
+	Tue, 19 Aug 2025 15:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L4aYaJy9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bD6Nm8hx"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF65273D8C;
-	Mon, 18 Aug 2025 18:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A2021FF48;
+	Tue, 19 Aug 2025 15:17:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755543469; cv=none; b=dUUUCxSh47FNmNl4PsF+3dHSP8NMooyYgSUOpSH0bZZxFK49zP0tMO4N7NQlFW1v5W4kQovsNKZduuT3U5JuJBD1stgaqXXa2nziw+mvbd30OAu4b7S8omYHAgQCmTUTW8CKFMHtBvqiN6P8MqKx75CBH7GDpB3HONSMYiFwRz0=
+	t=1755616666; cv=none; b=GOikiTw25HMIaWcxIhl9HgAJen0wEpHEMq0GAz4xzKwJgD0UPyrNYLb5xS7lsv6S9PTf4Bo3ZFPQmyMVa0ql6aYmlsgtauObkqDHg8YXFTx4optN8j7ZWfD+bmr0A0jAOgh13S1rezzx4mXg8c2UCqmCWVugWwqDjnaIwZd0mRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755543469; c=relaxed/simple;
-	bh=IDG166K1atPKY7m9tz5d771kcEokrOl3YOwP4VHZB2Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NGg/jwgJ9QsU8S0etfYwUFv7hlDOC4xZ5nQiJQ8gltuFltNYgAh1TyeAoHWgprh5TXfXNkd8uoClX1pwBHYs4zdCFcb+48d/ZHGOX0885+UnUgBG2wJ27hTw2SlSQqGrSUGRuKNuPNnJuxU+3RJj0EyynKvlmXXfZtYO59wQJcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L4aYaJy9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C9E7C116D0;
-	Mon, 18 Aug 2025 18:57:46 +0000 (UTC)
+	s=arc-20240116; t=1755616666; c=relaxed/simple;
+	bh=YC3YqkY+ubMJ+BckfgV8x/v8nTzqCv3hnNV1WNYIJqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9OticoUjFR81/LZ1mxWK71qyoI2JzSVXhtV1xC9CqUaSw6R2JeWygbtwADJb9lrJAijWXNrhMHNa3lqxWltRp4r9ANxiYY697EV4e5tNBmxB9qgD4vjh1k7Bg/RpRyNFs9hJW/1V4jJLvlKZZLkD+IW2mP+PxPrWrIyFjGW/p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bD6Nm8hx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A38DC4CEF1;
+	Tue, 19 Aug 2025 15:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755543468;
-	bh=IDG166K1atPKY7m9tz5d771kcEokrOl3YOwP4VHZB2Y=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=L4aYaJy9cDV+/UnJTWcR0iNDVk6FjVvwluccsEI6E/0AJYmgjDFwRfgMc+VbRcpvm
-	 WOvciQIoqrceYsxzy9CmszhbH5UHp6owiaQcwu2Yuy3mkeDrqEWFMmPNHnSL4E9PHl
-	 zt1b2U7Wl8g5XDdwsMRXfW+jIFwUQPPcFPbk8AacQCgtZMOrraZKddy2ZfO4wPKfh5
-	 M7WHTMdW+8z3IsN4Iab7PMjPdSo745auY8G1j0icvM5R9JsjnsWN7ZEzHqIb4sTwuZ
-	 sECxWz8frYn829tcn8zD2B/MJk3S00OYO/qyMN/lpYjSDtQF/R1vOiNXa9g4KmFDf3
-	 sVN3ftsVlcAEw==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Mon, 18 Aug 2025 11:57:17 -0700
-Subject: [PATCH 01/10] kbuild: Bump minimum version of LLVM for building
- the kernel to 15.0.0
+	s=k20201202; t=1755616665;
+	bh=YC3YqkY+ubMJ+BckfgV8x/v8nTzqCv3hnNV1WNYIJqA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bD6Nm8hxsVqxV6iX0p8kZ95x/tUAVmv+VI7eQPr5Jd0OewxBu+WwuPok1kZiL9MfK
+	 zXcheZ5nVB3l7NQCxUqXAvrveLMeeXaFRE6VwBqtNbdmzldBlAJgPSGuCszNZwYd4A
+	 jDDH/hPB2yyjRFvoggiNU2TAv4GygI/iwznAIaQR/V10I+sqrwmZshlvnzMvH+vQDk
+	 4x0O/cN3oq4keY0xgornwcUx/U1F2hjRgoTA4hvqyhk1hRsDwPpoCUF/qB0bvv4NRp
+	 hiu+rL5hRGT91qdCmifo37zUFRDQNFPKhAz5dftSbKacOVTm/Oc7r5yDeJJ2oLdk1N
+	 mZ/xLrIak4efA==
+Date: Mon, 18 Aug 2025 21:23:36 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: David Disseldorp <ddiss@suse.de>
+Cc: linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-next@vger.kernel.org
+Subject: Re: [PATCH v2 7/7] gen_init_cpio: add -a <data_align> as reflink
+ optimization
+Message-ID: <aKN9uMf0HeD1Fgqk@levanger>
+References: <20250814054818.7266-1-ddiss@suse.de>
+ <20250814054818.7266-8-ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250818-bump-min-llvm-ver-15-v1-1-c8b1d0f955e0@kernel.org>
-References: <20250818-bump-min-llvm-ver-15-v1-0-c8b1d0f955e0@kernel.org>
-In-Reply-To: <20250818-bump-min-llvm-ver-15-v1-0-c8b1d0f955e0@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Kees Cook <kees@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
- Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2339; i=nathan@kernel.org;
- h=from:subject:message-id; bh=IDG166K1atPKY7m9tz5d771kcEokrOl3YOwP4VHZB2Y=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDBmLyxcWvmb41ZlXxD75o5cc03Rmb/uzvLxTL3InZB3s2
- bLQIJK7o5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAExk0hyG/6XBnWXhyc2NuaZP
- fhRXJGUuPLR1xUyL6PMajTsdZ6dPdmZkuCZmz+GdFS8xw8HAyUnp36vil8HRVyrqK0QucOtvsOv
- kAQA=
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814054818.7266-8-ddiss@suse.de>
 
-s390 and x86 have required LLVM 15 since
+On Thu, Aug 14, 2025 at 03:18:05PM +1000, David Disseldorp wrote:
+> As described in buffer-format.rst, the existing initramfs.c extraction
+> logic works fine if the cpio filename field is padded out with trailing
+> zeros, with a caveat that the padded namesize can't exceed PATH_MAX.
+> 
+> Add filename zero-padding logic to gen_init_cpio, which can be triggered
+> via the new -a <data_align> parameter. Performance and storage
+> utilization is improved for Btrfs and XFS workloads, as copy_file_range
+> can reflink the entire source file into a filesystem block-size aligned
+> destination offset within the cpio archive.
+> 
+> Btrfs benchmarks run on 6.15.8-1-default (Tumbleweed) x86_64 host:
+>   > truncate --size=2G /tmp/backing.img
+>   > /sbin/mkfs.btrfs /tmp/backing.img
+>   ...
+>   Sector size:        4096        (CPU page size: 4096)
+>   ...
+>   > sudo mount /tmp/backing.img mnt
+>   > sudo chown $USER mnt
+>   > cd mnt
+>   mnt> dd if=/dev/urandom of=foo bs=1M count=20 && cat foo >/dev/null
+>   ...
+>   mnt> echo "file /foo foo 0755 0 0" > list
+>   mnt> perf stat -r 10 gen_init_cpio -o unaligned_btrfs list
+>   ...
+>             0.023496 +- 0.000472 seconds time elapsed  ( +-  2.01% )
+> 
+>   mnt> perf stat -r 10 gen_init_cpio -o aligned_btrfs -a 4096 list
+>   ...
+>            0.0010010 +- 0.0000565 seconds time elapsed  ( +-  5.65% )
+> 
+>   mnt> /sbin/xfs_io -c "fiemap -v" unaligned_btrfs
+>   unaligned_btrfs:
+>    EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
+>      0: [0..40967]:      695040..736007   40968   0x1
+>   mnt> /sbin/xfs_io -c "fiemap -v" aligned_btrfs
+>   aligned_btrfs:
+>    EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
+>      0: [0..7]:          26768..26775         8   0x0
+>      1: [8..40967]:      269056..310015   40960 0x2000
+>      2: [40968..40975]:  26776..26783         8   0x1
+>   mnt> /sbin/btrfs fi du unaligned_btrfs aligned_btrfs
+>        Total   Exclusive  Set shared  Filename
+>     20.00MiB    20.00MiB       0.00B  unaligned_btrfs
+>     20.01MiB     8.00KiB    20.00MiB  aligned_btrfs
+> 
+> XFS benchmarks run on same host:
+>   > sudo umount mnt && rm /tmp/backing.img
+>   > truncate --size=2G /tmp/backing.img
+>   > /sbin/mkfs.xfs /tmp/backing.img
+>   ...
+>            =                       reflink=1    ...
+>   data     =                       bsize=4096   blocks=524288, imaxpct=25
+>   ...
+>   > sudo mount /tmp/backing.img mnt
+>   > sudo chown $USER mnt
+>   > cd mnt
+>   mnt> dd if=/dev/urandom of=foo bs=1M count=20 && cat foo >/dev/null
+>   ...
+>   mnt> echo "file /foo foo 0755 0 0" > list
+>   mnt> perf stat -r 10 gen_init_cpio -o unaligned_xfs list
+>   ...
+>             0.011069 +- 0.000469 seconds time elapsed  ( +-  4.24% )
+> 
+>   mnt> perf stat -r 10 gen_init_cpio -o aligned_xfs -a 4096 list
+>   ...
+>             0.001273 +- 0.000288 seconds time elapsed  ( +- 22.60% )
+> 
+>   mnt> /sbin/xfs_io -c "fiemap -v" unaligned_xfs
+>    unaligned_xfs:
+>    EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
+>      0: [0..40967]:      106176..147143   40968   0x0
+>      1: [40968..65023]:  147144..171199   24056 0x801
+>   mnt> /sbin/xfs_io -c "fiemap -v" aligned_xfs
+>    aligned_xfs:
+>    EXT: FILE-OFFSET      BLOCK-RANGE      TOTAL FLAGS
+>      0: [0..7]:          120..127             8   0x0
+>      1: [8..40967]:      192..41151       40960 0x2000
+>      2: [40968..40975]:  236728..236735       8   0x0
+>      3: [40976..106495]: 236736..302255   65520 0x801
+> 
+> The alignment is best-effort; a stderr message is printed if alignment
+> can't be achieved due to PATH_MAX overrun, with fallback to non-padded
+> filename. This allows it to still be useful for opportunistic alignment,
+> e.g. on aarch64 Btrfs with 64K block-size. Alignment failure messages
+> provide an indicator that reordering of the cpio-manifest may be
+> beneficial.
+> 
+> Archive read performance for reflinked initramfs images may suffer due
+> to the effects of fragmentation, particularly on spinning disks. To
+> mitigate excessive fragmentation, files with lengths less than
+> data_align aren't padded.
+> 
+> Signed-off-by: David Disseldorp <ddiss@suse.de>
+> ---
+>  usr/gen_init_cpio.c | 50 ++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 38 insertions(+), 12 deletions(-)
 
-  30d17fac6aae ("scripts/min-tool-version.sh: raise minimum clang version to 15.0.0 for s390")
-  7861640aac52 ("x86/build: Raise the minimum LLVM version to 15.0.0")
+Thanks!  Testing with a massively oversized initramfs (600MB) was fun:
+from 2:44 down to 38s.
 
-respectively but most other architectures allow LLVM 13.0.1 or newer. In
-accordance with the recent minimum supported version of GCC bump that
-happened in
 
-  118c40b7b503 ("kbuild: require gcc-8 and binutils-2.30")
+Questions that pop up in my mind:
+Now, how can we make other benefit from this?  Might it make sense to
+introduce a kconfig variable for initramfs alignment -- even though this
+is just a build-time optimisation of few seconds?
 
-do the same for LLVM to 15.0.0.
 
-Of the supported releases of Arch Linux, Debian, Fedora, and OpenSUSE
-surveyed in evaluating this bump, this only leaves behind Debian
-Bookworm (14.0.6) and Ubuntu Jammy (14.0.0). Debian Trixie has 19.1.7
-and Ubuntu Noble has 18.1.3 (so there are viable upgrade paths) or users
-can use apt.llvm.org, which provides even newer packages for those
-distributions.
-
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-Cc: linux-kbuild@vger.kernel.org
----
- Documentation/process/changes.rst | 2 +-
- scripts/min-tool-version.sh       | 6 ++----
- 2 files changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index bccfa19b45df..b38622b0d525 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -30,7 +30,7 @@ you probably needn't concern yourself with pcmciautils.
-         Program        Minimal version       Command to check the version
- ====================== ===============  ========================================
- GNU C                  8.1              gcc --version
--Clang/LLVM (optional)  13.0.1           clang --version
-+Clang/LLVM (optional)  15.0.0           clang --version
- Rust (optional)        1.78.0           rustc --version
- bindgen (optional)     0.65.1           bindgen --version
- GNU make               4.0              make --version
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index 0d223b4a9445..99b5575c1ef7 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -24,12 +24,10 @@ gcc)
- 	fi
- 	;;
- llvm)
--	if [ "$SRCARCH" = s390 -o "$SRCARCH" = x86 ]; then
--		echo 15.0.0
--	elif [ "$SRCARCH" = loongarch ]; then
-+	if [ "$SRCARCH" = loongarch ]; then
- 		echo 18.0.0
- 	else
--		echo 13.0.1
-+		echo 15.0.0
- 	fi
- 	;;
- rustc)
-
--- 
-2.50.1
-
+Kind regards,
+Nicolas
 
