@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-8508-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8509-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D9CB2AEB0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 18:59:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E84ACB2AEB4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 18:59:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0100F1B66DEB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 16:59:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 564BF1B674A3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 16:59:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A44F2346A17;
-	Mon, 18 Aug 2025 16:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF0EC34AAE5;
+	Mon, 18 Aug 2025 16:58:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLe5ivNV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="srWsjS24"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4533469EF;
-	Mon, 18 Aug 2025 16:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94250343D90;
+	Mon, 18 Aug 2025 16:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755536295; cv=none; b=q8w0k+InnZ5W5gsD7P82Q1trH0Ilz0MScNBRjBszoxgpEmDQkOMFDjPjlfstLWraqfeKXnrNbOayqQCURcG2HQ7lkqh2vTBbcJZKosiybNP6Ow2hKpwiNtEYQdZO+vMt9YrbLBcw+ijrpSfXtWlRpBP0KaDfqR+pQmcyQ/o2pF4=
+	t=1755536300; cv=none; b=GRgIsQahvGq741QS+EducDtt7fzlOP6+8Es/Wx+RlO+Rl23fdmbf5fjTarChR5Tuw4BweJ4daxrg5EeJfmXqqo8dBLPrbFUt8upjJmihJ2Hecz61GzS7s5b58+bITljtHcljZ3NisohuUq1C9XrU0D5Hsk74rnQBwkh7j08jzXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755536295; c=relaxed/simple;
-	bh=pWuSm8OMULuPDaXWOoarB+IRlnekDjxa7jgyfttfV58=;
+	s=arc-20240116; t=1755536300; c=relaxed/simple;
+	bh=PE+tDizpy7tS0M4U8JNozXHLXaVckZiGpDt+unPp3jk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rxtdM/+NDOiH0BepA6AJ1jG/aoymrzcJF9H/jd4WFsDib3Wpzmhdw1VrWwoPEeSO+csHP0MQScve9WCEOIH7KriBvXYmrzJNOtGeYEVRje2GOx/sXOga341/6SE62S6QK5D+3zTmojDrM4DoBhQrNg31xoiOQ3uX40dleVTL2/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLe5ivNV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FBBC4CEEB;
-	Mon, 18 Aug 2025 16:58:11 +0000 (UTC)
+	 MIME-Version; b=DX1hUQ7RNsx1gtoAMdreP1QnQemai5rHPNCWSTZqnPNCMZFugbik93xGxDasfT3c+bTypi0hf8vrE9PdqYkyn3HCOUJHVqchOW4+TFh0HWisnW7eiTjPGCvG2NYDTEhCVdeV//bnBr+7oN1MAVbTfxjr3Srq3a7Gnhbpsnb3dgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=srWsjS24; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1B05C4CEEB;
+	Mon, 18 Aug 2025 16:58:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755536295;
-	bh=pWuSm8OMULuPDaXWOoarB+IRlnekDjxa7jgyfttfV58=;
+	s=k20201202; t=1755536298;
+	bh=PE+tDizpy7tS0M4U8JNozXHLXaVckZiGpDt+unPp3jk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MLe5ivNV87Y7Sb5KhyYweHoF8xwm+lNFj9MTSmwC/CQKvLgzbFgc77mqcU5l0rlmH
-	 ZnjjXJa/45adVf4Vfpd9re8nLFmrxNj8ymSApNnnW5QqLikFI1QumrzSygT8sCRn3Y
-	 6b/NWS9N3v10VepyCNJtAwrbVcqVvBCaTS5XIW0p5HXCWSpHIjmQi4OdGOYfx03muY
-	 jL1H8tDK99Ojp9mEib0mLPLK6u9MUPUWzV58KAnIpPHvRlQcLh5aiVhwLp5EI8rRY4
-	 mt9MNqQ+D4XnShrx/TANmnhB28gXTljAGkdFR0k6oQnEf4/QV9SZvZTnul+cNEciVE
-	 m3nImo51rg0Vg==
+	b=srWsjS24jcvE+n21GkQomIWUd4e67bPRfno11Eh8JxbI0f5aKSBtV57MALE6yyJ9b
+	 RtINhCLGsj5+TbtgO61L5qNDbkpGRDJFEzQ/PhCzKaH3rCAZv7a/hbHM48GY6h0gve
+	 AXFXAZL/7MzL8U3X33E6Hc+6mVp86vcbgLzoTB9Xp3xTyjmJM6/JXxCGJjGnA5CF2q
+	 IVvdotP1SK5xLwwBrP3004qY3moNQUV7+r0lv1lz0sArfz3mRDkdV4FpzZXNJup1do
+	 vuJQPov4YnbfngKWdeuYKHUAuPS4YQ3KikfvbidizlC51XmL9jd2lmu3L31e0RP1iK
+	 natpFcvaYVFuQ==
 From: Alexey Gladkov <legion@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
@@ -52,14 +52,11 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Alexey Gladkov <legion@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v7 6/8] modpost: Add modname to mod_device_table alias
-Date: Mon, 18 Aug 2025 18:55:00 +0200
-Message-ID: <66785b63b47878446a15bcb14a9ef42dc3bda092.1755535876.git.legion@kernel.org>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH v7 7/8] modpost: Create modalias for builtin modules
+Date: Mon, 18 Aug 2025 18:55:01 +0200
+Message-ID: <83847de79ef7c9e1af10788480f9f4b7497d3b2c.1755535876.git.legion@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755535876.git.legion@kernel.org>
 References: <cover.1755535876.git.legion@kernel.org>
@@ -71,110 +68,169 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At this point, if a symbol is compiled as part of the kernel,
-information about which module the symbol belongs to is lost.
+For some modules, modalias is generated using the modpost utility and
+the section is added to the module file.
 
-To save this it is possible to add the module name to the alias name.
-It's not very pretty, but it's possible for now.
+When a module is added inside vmlinux, modpost does not generate
+modalias for such modules and the information is lost.
 
-Cc: Miguel Ojeda <ojeda@kernel.org>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>
-Cc: rust-for-linux@vger.kernel.org
+As a result kmod (which uses modules.builtin.modinfo in userspace)
+cannot determine that modalias is handled by a builtin kernel module.
+
+$ cat /sys/devices/pci0000:00/0000:00:14.0/modalias
+pci:v00008086d0000A36Dsv00001043sd00008694bc0Csc03i30
+
+$ modinfo xhci_pci
+name:           xhci_pci
+filename:       (builtin)
+license:        GPL
+file:           drivers/usb/host/xhci-pci
+description:    xHCI PCI Host Controller Driver
+
+Missing modalias "pci:v*d*sv*sd*bc0Csc03i30*" which will be generated by
+modpost if the module is built separately.
+
+To fix this it is necessary to generate the same modalias for vmlinux as
+for the individual modules. Fortunately '.vmlinux.export.o' is already
+generated from which '.modinfo' can be extracted in the same way as for
+vmlinux.o.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Tested-by: Stephen Rothwell <sfr@canb.auug.org.au>
 ---
- include/linux/module.h   | 14 +++++++++++++-
- rust/kernel/device_id.rs |  8 ++++----
- scripts/mod/file2alias.c | 18 ++++++++++++++----
- 3 files changed, 31 insertions(+), 9 deletions(-)
+ include/linux/module.h   |  4 ----
+ scripts/Makefile.vmlinux |  5 ++++-
+ scripts/mksysmap         |  3 +++
+ scripts/mod/file2alias.c | 16 ++++++++++++++++
+ scripts/mod/modpost.c    | 15 +++++++++++++++
+ scripts/mod/modpost.h    |  2 ++
+ 6 files changed, 40 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/module.h b/include/linux/module.h
-index 3319a5269d286..e31ee29fac6b7 100644
+index e31ee29fac6b7..e135cc79aceea 100644
 --- a/include/linux/module.h
 +++ b/include/linux/module.h
-@@ -244,10 +244,22 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
- /* What your module does. */
- #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _description)
+@@ -256,14 +256,10 @@ struct module_kobject *lookup_or_create_module_kobject(const char *name);
+ 	__PASTE(type,			\
+ 	__PASTE(__, name)))))
  
-+/*
-+ * Format: __mod_device_table__kmod_<modname>__<type>__<name>
-+ * Parts of the string `__kmod_` and `__` are used as delimiters when parsing
-+ * a symbol in file2alias.c
-+ */
-+#define __mod_device_table(type, name)	\
-+	__PASTE(__mod_device_table__,	\
-+	__PASTE(__KBUILD_MODNAME,	\
-+	__PASTE(__,			\
-+	__PASTE(type,			\
-+	__PASTE(__, name)))))
-+
- #ifdef MODULE
+-#ifdef MODULE
  /* Creates an alias so file2alias.c can find device table. */
  #define MODULE_DEVICE_TABLE(type, name)					\
--static typeof(name) __mod_device_table__##type##__##name		\
-+static typeof(name) __mod_device_table(type, name)			\
+ static typeof(name) __mod_device_table(type, name)			\
    __attribute__ ((used, alias(__stringify(name))))
- #else  /* !MODULE */
- #define MODULE_DEVICE_TABLE(type, name)
-diff --git a/rust/kernel/device_id.rs b/rust/kernel/device_id.rs
-index 70d57814ff79b..62c42da12e9de 100644
---- a/rust/kernel/device_id.rs
-+++ b/rust/kernel/device_id.rs
-@@ -195,10 +195,10 @@ macro_rules! module_device_table {
-     ($table_type: literal, $module_table_name:ident, $table_name:ident) => {
-         #[rustfmt::skip]
-         #[export_name =
--            concat!("__mod_device_table__", $table_type,
--                    "__", module_path!(),
--                    "_", line!(),
--                    "_", stringify!($table_name))
-+            concat!("__mod_device_table__", line!(),
-+                    "__kmod_", module_path!(),
-+                    "__", $table_type,
-+                    "__", stringify!($table_name))
-         ]
-         static $module_table_name: [::core::mem::MaybeUninit<u8>; $table_name.raw_ids().size()] =
-             unsafe { ::core::mem::transmute_copy($table_name.raw_ids()) };
+-#else  /* !MODULE */
+-#define MODULE_DEVICE_TABLE(type, name)
+-#endif
+ 
+ /* Version of form [<epoch>:]<version>[-<extra-version>].
+  * Or for CVS/RCS ID version, everything but the number is stripped.
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index fdab5aa90215b..fcc188d26ead1 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -89,8 +89,11 @@ endif
+ remove-section-y                                   := .modinfo
+ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*'
+ 
++remove-symbols := -w --strip-symbol='__mod_device_table__*'
++
+ quiet_cmd_strip_relocs = OBJCOPY $@
+-      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $< $@
++      cmd_strip_relocs = $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
++                         $(remove-symbols) $< $@
+ 
+ targets += vmlinux
+ vmlinux: vmlinux.unstripped FORCE
+diff --git a/scripts/mksysmap b/scripts/mksysmap
+index a607a0059d119..c4531eacde202 100755
+--- a/scripts/mksysmap
++++ b/scripts/mksysmap
+@@ -59,6 +59,9 @@
+ # EXPORT_SYMBOL (namespace)
+ / __kstrtabns_/d
+ 
++# MODULE_DEVICE_TABLE (symbol name)
++/ __mod_device_table__/d
++
+ # ---------------------------------------------------------------------------
+ # Ignored suffixes
+ #  (do not forget '$' after each pattern)
 diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 00586119a25b7..13021266a18f8 100644
+index 13021266a18f8..7da9735e7ab3e 100644
 --- a/scripts/mod/file2alias.c
 +++ b/scripts/mod/file2alias.c
-@@ -1476,8 +1476,8 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+@@ -1527,5 +1527,21 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 		}
+ 	}
+ 
++	if (mod->is_vmlinux) {
++		struct module_alias *alias;
++
++		/*
++		 * If this is vmlinux, record the name of the builtin module.
++		 * Traverse the linked list in the reverse order, and set the
++		 * builtin_modname unless it has already been set in the
++		 * previous call.
++		 */
++		list_for_each_entry_reverse(alias, &mod->aliases, node) {
++			if (alias->builtin_modname)
++				break;
++			alias->builtin_modname = xstrndup(modname, modnamelen);
++		}
++	}
++
+ 	free(zeros);
+ }
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 5ca7c268294eb..47c8aa2a69392 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2067,11 +2067,26 @@ static void write_if_changed(struct buffer *b, const char *fname)
+ static void write_vmlinux_export_c_file(struct module *mod)
  {
- 	void *symval;
- 	char *zeros = NULL;
--	const char *type, *name;
--	size_t typelen;
-+	const char *type, *name, *modname;
-+	size_t typelen, modnamelen;
- 	static const char *prefix = "__mod_device_table__";
+ 	struct buffer buf = { };
++	struct module_alias *alias, *next;
  
- 	/* We're looking for a section relative symbol */
-@@ -1488,10 +1488,20 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
- 	if (ELF_ST_TYPE(sym->st_info) != STT_OBJECT)
- 		return;
+ 	buf_printf(&buf,
+ 		   "#include <linux/export-internal.h>\n");
  
--	/* All our symbols are of form __mod_device_table__<type>__<name>. */
-+	/* All our symbols are of form __mod_device_table__kmod_<modname>__<type>__<name>. */
- 	if (!strstarts(symname, prefix))
- 		return;
--	type = symname + strlen(prefix);
+ 	add_exported_symbols(&buf, mod);
 +
-+	modname = strstr(symname, "__kmod_");
-+	if (!modname)
-+		return;
-+	modname += strlen("__kmod_");
++	buf_printf(&buf,
++		   "#include <linux/module.h>\n"
++		   "#undef __MODULE_INFO_PREFIX\n"
++		   "#define __MODULE_INFO_PREFIX\n");
 +
-+	type = strstr(modname, "__");
-+	if (!type)
-+		return;
-+	modnamelen = type - modname;
-+	type += strlen("__");
++	list_for_each_entry_safe(alias, next, &mod->aliases, node) {
++		buf_printf(&buf, "MODULE_INFO(%s.alias, \"%s\");\n",
++			   alias->builtin_modname, alias->str);
++		list_del(&alias->node);
++		free(alias->builtin_modname);
++		free(alias);
++	}
++
+ 	write_if_changed(&buf, ".vmlinux.export.c");
+ 	free(buf.p);
+ }
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 9133e4c3803f0..2aecb8f25c87e 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -99,10 +99,12 @@ buf_write(struct buffer *buf, const char *s, int len);
+  * struct module_alias - auto-generated MODULE_ALIAS()
+  *
+  * @node: linked to module::aliases
++ * @modname: name of the builtin module (only for vmlinux)
+  * @str: a string for MODULE_ALIAS()
+  */
+ struct module_alias {
+ 	struct list_head node;
++	char *builtin_modname;
+ 	char str[];
+ };
  
- 	name = strstr(type, "__");
- 	if (!name)
 -- 
 2.50.1
 
