@@ -1,88 +1,130 @@
-Return-Path: <linux-kbuild+bounces-8513-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8514-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14387B2B00C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 20:14:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37869B2B0AE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 20:42:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 014A01882C54
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 18:15:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B0DCB1644A5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 18:41:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D87C32BF5E;
-	Mon, 18 Aug 2025 18:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC1B263F43;
+	Mon, 18 Aug 2025 18:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zr748SJy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hjjs97Rw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031C732BF59;
-	Mon, 18 Aug 2025 18:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924FE2594BE;
+	Mon, 18 Aug 2025 18:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755540881; cv=none; b=h34CuDiG7ig2N3ZXKoWsyEsFBJNIunEzvY5tnM2vZQ+JxJjz+zYWxorHLrY/mQtcirPYWQ6GPAN0pFtznfIAZz7hPCEmiGtXZqXmQmHjXOQkhOMU9AuvMJH2zzBugxdo8N9GDVtSRQU8Un8/9p0Rs25djh42Ha6BCSKe+1WgOEk=
+	t=1755542471; cv=none; b=CYBSE7fkclgS1QVhxA141SY3fLd5YoCJ4cdUPWBWaDdgv8kYsU8kfjKzKOC3tW5NCSZlvvwh2mee5kbyo8CVd63XdIv3OzS8mHOzzuu+qomfu/K4lb8/QDZCd8GPsL3i0mzONMRECpgbzCXeVp6wkp5vK42m4+4wQ86SMVxd0Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755540881; c=relaxed/simple;
-	bh=C0/0i4+z9cHC28VL1NQWS0dOpOlZo/koEbN/FC4+Wlg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=q06PMEkOYChYUTd2jvVouFzi3JvUly9XqsY+9HQwjN+QnGYX+Pmq4Fw4ln8Lr1uFvFulCyTONlmQntCE+adyIgXi301j9eZXFu84l3VBJxiFfTxqx2SwP/Gd0NJt2mPNsEAdA7IHCLdYX12cj3WMUKpJO0QOcKpwrl1Fl6xOSuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zr748SJy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92814C4CEF1;
-	Mon, 18 Aug 2025 18:14:39 +0000 (UTC)
+	s=arc-20240116; t=1755542471; c=relaxed/simple;
+	bh=00jJjtQgwxgQYc0vYn1fSx5RCac3GGXo8k5yfg3ZyBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hDZ9+jf1hUoRSz0JEugKnXd26kWQii6T+apm1OI+CSWPpwK8aI8AiNymSQOc+M5J51CwxF/eH42Vp4LRQWh4J9qycvp8yt31h0pweRneQPBUQQeFn6IfJ16l+OMIRtCUY2IKkM0avL+TIb0owWOCrDBsyAMcFhYiyxNVWoC2U1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hjjs97Rw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06ABC4CEEB;
+	Mon, 18 Aug 2025 18:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755540880;
-	bh=C0/0i4+z9cHC28VL1NQWS0dOpOlZo/koEbN/FC4+Wlg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Zr748SJyMT1WYnF2iZTFnSuSEoi6b66JfIdZj43lPt6FZFZylGaldMHhea33eNNmE
-	 7LlZ+4+aswigA5Xw4IDmTmi4G9mAoVX0PCNWw6UbThDeLuxoqOG827Hr1PfnCHP3ix
-	 clZjC36VYZ/KmJnMbgzMTPE+l2vDfd0eA5KEpdsUJHnDUksF70OFO87q3SBhZHSgRa
-	 gutYDElmg7jm9i9DPIk/xu3pIwUoWHyCIbBvznWUe+cRznH/JPzAN0lz15bstgpiep
-	 1BfnzKuLbmS9ZowTG6yJGm5iNOYsNRa6Jir6auUJ0hnezeF1blRLefMKaMBa1pKKBZ
-	 1C5HEx2/fhPAQ==
-From: Nathan Chancellor <nathan@kernel.org>
-To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>
-In-Reply-To: <20250812223502.1356426-1-rdunlap@infradead.org>
-References: <20250812223502.1356426-1-rdunlap@infradead.org>
-Subject: Re: [PATCH] kconfig: qconf/xconfig: show the OptionsMode radio
- button setting at startup
-Message-Id: <175554087932.3761802.7665709422071619681.b4-ty@kernel.org>
-Date: Mon, 18 Aug 2025 11:14:39 -0700
+	s=k20201202; t=1755542471;
+	bh=00jJjtQgwxgQYc0vYn1fSx5RCac3GGXo8k5yfg3ZyBQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Hjjs97RwCoyJS+jrSYYKqzhr9A7RRgWdp/k+4jWP/XOxoFEP/WfaWosrhWoq04ehg
+	 ZkQoqhsEoe7/Zo14YTwsl0dinWCA7X/+Fg8nNg8Zk2cqQ6ojjgrxdSgOof/CofVHIX
+	 YQqwHTN1ZzQv9S2LtNFSJ/Hev21qmEqk4t38MuJKaVoLnLTtw06AceUQf8zjDNuaF+
+	 rReoKt0Tidw0p9LbzDYmEK1YagAW44gkvFEBZpSdrIbVQE9g0h0EXlaJ1Zd0+ulkG2
+	 9PU48rS0zr5dq0gKsOyb+T9J2wsAD/Yr4dxFhVNRZePlRuOQahx+yIpLJ83lkVja7o
+	 OzkeqoU0desVQ==
+Date: Mon, 18 Aug 2025 20:40:23 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: David Disseldorp <ddiss@suse.de>
+Cc: linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-next@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] gen_init_cpio: add copy_file_range / reflink
+ support
+Message-ID: <aKNzl1Oo2zzPYGQP@levanger>
+References: <20250814054818.7266-1-ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TvJB5GczmYFhf6cP"
+Content-Disposition: inline
+In-Reply-To: <20250814054818.7266-1-ddiss@suse.de>
 
 
-On Tue, 12 Aug 2025 15:35:02 -0700, Randy Dunlap wrote:
-> When qconf (xconfig) exits, it saves the current Option settings
-> for Show Name, Show Debug Info, and Show {Normal|All|Prompt} Options.
-> When it is next run, it loads these Option settings from its
-> config file. It correctly shows the flag settings for Show Name
-> and Show Debug Info, but it does not show which of the 3 Show...Options
-> is set. This can lead to confusing output, e.g., if the user thinks
-> that xconfig is in Show All Options mode but kconfig options which
-> have an unmet dependency are still being listed.
-> 
-> [...]
+--TvJB5GczmYFhf6cP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+On Thu, Aug 14, 2025 at 03:17:58PM +1000, David Disseldorp wrote:
+> This patchset adds copy_file_range() support to gen_init_cpio. When
+> combined with data segment alignment, large-file archiving performance
+> is improved on Btrfs and XFS due to reflinks (see 7/7 benchmarks).
+>=20
+> cpio data segment alignment is provided by "bending" the newc spec
+> to zero-pad the filename field. GNU cpio and Linux initramfs extractors
+> handle this fine as long as PATH_MAX isn't exceeded.
+>=20
+> Changes since v1 RFC
+> - add alignment patches 6-7
+> - slightly rework commit and error messages
+> - rename l->len to avoid 1/i confusion
+>=20
+> David Disseldorp (7):
+>       gen_init_cpio: write to fd instead of stdout stream
+>       gen_init_cpio: support -o <output_path> parameter
+>       gen_init_cpio: attempt copy_file_range for file data
+>       gen_init_cpio: avoid duplicate strlen calls
+>       gen_initramfs.sh: use gen_init_cpio -o parameter
+>       docs: initramfs: file data alignment via name padding
+>       gen_init_cpio: add -a <data_align> as reflink optimization
+>=20
+>  .../driver-api/early-userspace/buffer-format.rst   |   5 +
+>  usr/gen_init_cpio.c                                | 234 ++++++++++++++-=
+------
+>  usr/gen_initramfs.sh                               |   7 +-
+>  3 files changed, 166 insertions(+), 80 deletions(-)
+>=20
+>=20
 
-[1/1] kconfig: qconf/xconfig: show the OptionsMode radio button setting at startup
-      https://git.kernel.org/kbuild/c/75a6b4595daa5
+Thanks for the series!  I have found only a minor nick pick and some few
+bike-shedding things.
 
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Nicolas Schier <nsc@kernel.org>
 
+Kind regards,
+Nicolas
+
+--TvJB5GczmYFhf6cP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmijc5IACgkQB1IKcBYm
+Emnfpw/+LnSnZraMATj6DEcbSZSNQls5OfXXPLBEy+MTIbHCKirNdUuF9Ql8Ee3Z
+g5XzyjvYvoocN4fhJrbs1kkwHyN8erwtPdD29pLsAVobHdVROBPH9QibE2bsnf79
+HoOoMucHvi7CnvdNOwm5Hyk/n1nKuAc6+ZLRsFOv7Ki/2cDJog5duwpmIXaYnSo9
+9HCegIlW8WEBcfyTpmO0RNf2GzBIiSzn7WTOOLkf/9tkj6I+EeByeY56awyEI0t+
+QhgR0DhF2aJ8DYZpriWH6ZsQG3Sg3WSPIcKCgIlD0PrjCYhYQyyH2lMZZts5f2nl
+d0JwK+pjNJtUBjeQz65gmjzHsaXBpAzPAeMOlbxZZsQmLyD3NpTgNkhENLDh4C+q
+yARM3blndryvDRt1201C2TgE+HzKqRi/PPctn2BErlBqBt0lKcvk+mZVMgpiGhYx
+ix6XAxZPzGCtST7Xd5K3fiIHkg/r6LAyHd6oTvWXokID4RUVUJX0nA8xhg5Gwqxs
+KvpR1CU1tzBMjxfh7vhpy6BbKPz68ryI26gQGl2sCkiOjiujthq95GNVd06pmMYc
+oJmd0HGNakPpxpbeiuIB8oRwQ+Q8I92fbOkK80nibWAwee9iKBkZv5jHtpccCJZk
+9uEJw17fkET7z4GXRvwYvNrbKHdEV2FdNS/CkNAfjSNsCVrjfj0=
+=saYz
+-----END PGP SIGNATURE-----
+
+--TvJB5GczmYFhf6cP--
 
