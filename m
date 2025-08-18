@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-8506-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC8BB2AEAA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 18:59:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA391B2AEAD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 18:59:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E47D17851C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 16:58:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57411564EE1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Aug 2025 16:59:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84763345756;
-	Mon, 18 Aug 2025 16:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62ECE3469F7;
+	Mon, 18 Aug 2025 16:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EM8KZyJj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XB0Bvjmw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB07343D6E;
-	Mon, 18 Aug 2025 16:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365333469EF;
+	Mon, 18 Aug 2025 16:58:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755536288; cv=none; b=N7s87RGPFil6mT3w2CgJg+UTE7K+qNP27Gy2opYHKppqdZ+yogRjxyf8386Rdsy/vlduFcr1MTzZNyBI/pxJM7vGOArzZYOgz0ThlLIq4O4nisrXZxYvVL2laWZr5yobYynQW4/CY9/YyweIsmXPEyKEVb26iWMCDAQf8Q5lYYY=
+	t=1755536292; cv=none; b=hjsblqr/NEVEQX/qajf9uOJFMRck2CBawO3fl9eRokZZbLuLYeealCwQ9R/gbkrrBRyPk1U9b8EshCpPqRQtR8/90D/DXexdaozJmsIEThmiQfN3M1rrlvRDWTs+iGn+NXmV7824lpQsPlb4ht0BavNPi25r7ANzmxaRLnw1Eqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755536288; c=relaxed/simple;
-	bh=UjWtbrcIavPHeFTO5jFn7uKuoq3b3PgyDHwbBVSZxCU=;
+	s=arc-20240116; t=1755536292; c=relaxed/simple;
+	bh=N3he803lkE5a/WNpLfB7Z/3AuPDutheUOCNc37uUFKU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X3cvUkEjUqSxUn+PrAXjEhom3Ty9RrUbp5+p414Uv8JhfX6jdCciVvNSXS80eNcEDDmtGs47Sn6xvasAKV7hFIGjZxRUSy3u7K8Ddhha4HoIq9TvnXiAjJbdjs9ORneFVTD/u5DIuW626Dt9hU1sjOfrtm7VZf86OeKv3fMNwEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EM8KZyJj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93120C4CEEB;
-	Mon, 18 Aug 2025 16:58:05 +0000 (UTC)
+	 MIME-Version; b=SG4kmQjUaMiVJl5NYFngg2gbOXFOJq1RFreDfffQu1d0TZxD5eVT86x1ze8KMNjN8kOw4dqiK9JuHsNNDwmrMeKz3W4x0yf4CBBtaYHVxpI3z5P6Ve0kXQ8+JBZWlI0WY8ZoR4cLNfe0qgBL9T/OERBEnPqFnf8khSylBNfO+Ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XB0Bvjmw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D6FC113D0;
+	Mon, 18 Aug 2025 16:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755536288;
-	bh=UjWtbrcIavPHeFTO5jFn7uKuoq3b3PgyDHwbBVSZxCU=;
+	s=k20201202; t=1755536291;
+	bh=N3he803lkE5a/WNpLfB7Z/3AuPDutheUOCNc37uUFKU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EM8KZyJjpzI4I5ec2z4IZo7p/r2GcaqWInhkzyeEazA9o4eociC7KLLjEBP39bWVZ
-	 sShChl2WFQgnDYvF6Y6H2jcjOGOTLeMm1Eg3gD74HPzQG/u4HubOkGrNF1HMVXckLn
-	 1bNKmu+EQKm0jspMqaOpiZqB2fZhusxV1PhW0THEHRNqmw9oo/EmNM65uGKNvFxPjq
-	 dUa0bV3mRl3qyUHpO82w25YSUeMF1OtO2j11cMM3rvXI+LhSh2dlwMoyfFIDcWBNEv
-	 +G+nqZ2eFexMz1xTYCR/DpxLMH5g61HDOw2wVUR+iluBRUx2fNuY83/b7PrcObmzLi
-	 zkdGQmsNTFvaQ==
+	b=XB0BvjmwYwuuNBOFvJcH222wgkemudU3ZawpDhJgD4nLk6yihDQcBtaCQTM6Fhl1p
+	 RY9mrsBS5PmLK8wX955St5/Y1JPDJGPlWf1anIUDBOYJblUix1BmC6etzM3kJsFeVm
+	 LYmalkM26zAkGgEWCQiIs41b0SE1+3lLtdaVMRnzaxbXrTUR7PHY5IudCTr/Y5m/JG
+	 zfwE5uGBCOLiNYMjL1XPbpsSe+Heb+BToSpAztLugyk7zxWf547OZNxUSfSfUpoaCj
+	 ADZYeqi6Z9NpUVJ5PTKWJxhmV/1sh3dc4rgvi9d58AvBwu7+4A2A5SOPiKzvuckLSn
+	 R1Txez/o8kXBw==
 From: Alexey Gladkov <legion@kernel.org>
 To: Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas.schier@linux.dev>,
@@ -51,11 +51,16 @@ To: Nathan Chancellor <nathan@kernel.org>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>
-Subject: [PATCH v7 4/8] kbuild: extract modules.builtin.modinfo from vmlinux.unstripped
-Date: Mon, 18 Aug 2025 18:54:58 +0200
-Message-ID: <ed2530db3903b1332ce4bc2aaf95a0397e1581e8.1755535876.git.legion@kernel.org>
+	Alexey Gladkov <legion@kernel.org>,
+	Khalid Aziz <khalid@gonehiking.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-scsi@vger.kernel.org,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Damien Le Moal <dlemoal@kernel.org>
+Subject: [PATCH v7 5/8] scsi: Always define blogic_pci_tbl structure
+Date: Mon, 18 Aug 2025 18:54:59 +0200
+Message-ID: <fd9fcffb2f099bc4358ba6f1b25cb4f649fc7d34.1755535876.git.legion@kernel.org>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <cover.1755535876.git.legion@kernel.org>
 References: <cover.1755535876.git.legion@kernel.org>
@@ -67,104 +72,51 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+The blogic_pci_tbl structure is used by the MODULE_DEVICE_TABLE macro.
+There is no longer a need to protect it with the MODULE condition, since
+this no longer causes the compiler to warn about an unused variable.
 
-Currently, we assume all the data for modules.builtin.modinfo are
-available in vmlinux.o.
+To avoid warnings when -Wunused-const-variable option is used, mark it
+as __maybe_unused for such configuration.
 
-This makes it impossible for modpost, which is invoked after vmlinux.o,
-to add additional module info.
-
-This commit moves the modules.builtin.modinfo rule after modpost.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Khalid Aziz <khalid@gonehiking.org>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-scsi@vger.kernel.org
+Suggested-by: James Bottomley <James.Bottomley@HansenPartnership.com>
 Signed-off-by: Alexey Gladkov <legion@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 ---
- scripts/Makefile.vmlinux   | 26 ++++++++++++++++++++++++++
- scripts/Makefile.vmlinux_o | 26 +-------------------------
- 2 files changed, 27 insertions(+), 25 deletions(-)
+ drivers/scsi/BusLogic.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index e2ceeb9e168d4..fdab5aa90215b 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -96,6 +96,32 @@ targets += vmlinux
- vmlinux: vmlinux.unstripped FORCE
- 	$(call if_changed,strip_relocs)
+diff --git a/drivers/scsi/BusLogic.c b/drivers/scsi/BusLogic.c
+index 1f100270cd385..82597bd96525b 100644
+--- a/drivers/scsi/BusLogic.c
++++ b/drivers/scsi/BusLogic.c
+@@ -3715,7 +3715,6 @@ static void __exit blogic_exit(void)
  
-+# modules.builtin.modinfo
-+# ---------------------------------------------------------------------------
-+
-+OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
-+
-+targets += modules.builtin.modinfo
-+modules.builtin.modinfo: vmlinux.unstripped FORCE
-+	$(call if_changed,objcopy)
-+
-+# modules.builtin
-+# ---------------------------------------------------------------------------
-+
-+__default: modules.builtin
-+
-+# The second line aids cases where multiple modules share the same object.
-+
-+quiet_cmd_modules_builtin = GEN     $@
-+      cmd_modules_builtin = \
-+	tr '\0' '\n' < $< | \
-+	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
-+	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
-+
-+targets += modules.builtin
-+modules.builtin: modules.builtin.modinfo FORCE
-+	$(call if_changed,modules_builtin)
-+
- # modules.builtin.ranges
- # ---------------------------------------------------------------------------
- ifdef CONFIG_BUILTIN_MODULE_RANGES
-diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
-index b024ffb3e2018..23c8751285d79 100644
---- a/scripts/Makefile.vmlinux_o
-+++ b/scripts/Makefile.vmlinux_o
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
+ __setup("BusLogic=", blogic_setup);
  
- PHONY := __default
--__default: vmlinux.o modules.builtin.modinfo modules.builtin
-+__default: vmlinux.o
+-#ifdef MODULE
+ /*static const struct pci_device_id blogic_pci_tbl[] = {
+ 	{ PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_MULTIMASTER,
+ 	  PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+@@ -3725,13 +3724,12 @@ __setup("BusLogic=", blogic_setup);
+ 	  PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0},
+ 	{ }
+ };*/
+-static const struct pci_device_id blogic_pci_tbl[] = {
++static const struct pci_device_id blogic_pci_tbl[] __maybe_unused = {
+ 	{PCI_DEVICE(PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_MULTIMASTER)},
+ 	{PCI_DEVICE(PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_MULTIMASTER_NC)},
+ 	{PCI_DEVICE(PCI_VENDOR_ID_BUSLOGIC, PCI_DEVICE_ID_BUSLOGIC_FLASHPOINT)},
+ 	{0, },
+ };
+-#endif
+ MODULE_DEVICE_TABLE(pci, blogic_pci_tbl);
  
- include include/config/auto.conf
- include $(srctree)/scripts/Kbuild.include
-@@ -73,30 +73,6 @@ vmlinux.o: $(initcalls-lds) vmlinux.a $(KBUILD_VMLINUX_LIBS) FORCE
- 
- targets += vmlinux.o
- 
--# modules.builtin.modinfo
--# ---------------------------------------------------------------------------
--
--OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
--
--targets += modules.builtin.modinfo
--modules.builtin.modinfo: vmlinux.o FORCE
--	$(call if_changed,objcopy)
--
--# modules.builtin
--# ---------------------------------------------------------------------------
--
--# The second line aids cases where multiple modules share the same object.
--
--quiet_cmd_modules_builtin = GEN     $@
--      cmd_modules_builtin = \
--	tr '\0' '\n' < $< | \
--	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
--	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
--
--targets += modules.builtin
--modules.builtin: modules.builtin.modinfo FORCE
--	$(call if_changed,modules_builtin)
--
- # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
- # ---------------------------------------------------------------------------
- 
+ module_init(blogic_init);
 -- 
 2.50.1
 
