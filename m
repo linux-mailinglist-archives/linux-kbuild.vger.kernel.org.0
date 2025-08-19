@@ -1,102 +1,115 @@
-Return-Path: <linux-kbuild+bounces-8534-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8535-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9BAB2BA91
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 09:23:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29EC5B2BDC9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 11:45:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5CCDF3A9C0D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 07:23:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE00B1964489
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 09:45:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C2730FF3F;
-	Tue, 19 Aug 2025 07:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4D71311977;
+	Tue, 19 Aug 2025 09:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cAF4eQTG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n0tVvonW"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0212737E1;
-	Tue, 19 Aug 2025 07:18:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E69274666;
+	Tue, 19 Aug 2025 09:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755587904; cv=none; b=DOg+/MHzn4THHVk7vbc+9JOBi/Mudgvud26rgYsPtHR4Q0FWont0/gfiyRUbEwnUG2x1sFXl76kaNJ6K9959BFso9ikCC2kON4Naz05NsSDZE5gj1m1a/QV7yNwiMZfTTXQSBra/mmDsmztOlFDPGuh82bTvjDHxvp7JvOn6oo8=
+	t=1755596697; cv=none; b=f1VhxVYgb8GJ5tRkzPcZJTxoI7gIe6q3m6vnAVeXMIRhoeDpdbfJkqYygeHyjBG8NMOIMZD4UciHKsB2PT+vt6YVYVTQTpxb9/bCOWhG+tRPylX3Pw8FX0AEOJFhxepSiqEzKsEPDOir6+GrjrtsbEoXXoLQFTPLlHoMb1sgwwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755587904; c=relaxed/simple;
-	bh=hcpxj2oWXllUB4ryEjpJ5p99A6U/Qzck//bdY10qOSQ=;
+	s=arc-20240116; t=1755596697; c=relaxed/simple;
+	bh=qkoSavUo25iuaFyv6MbaWJ1hYMagYZR2yJl9AnwGilk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oXiHpH6+wyPTnjsbH0B2HZH6ZLB0GQXP2sVh9t3Iet5s9l/H9LyE2GehvjYSqBnItSkxfsqjpJJZvvFOJXYMT6qH5bNXJEiGdHcYJSeimc9RZNB1Rging+f573H7rg02KOvRySP/+rnFNAAkMxwtUGlyi9N/P6vqfg8yFY9oYls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cAF4eQTG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A37AFC4CEF1;
-	Tue, 19 Aug 2025 07:18:20 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=BxDkymUe4eJmOU67++/b1t+Z+efaNpqmwDp55ZFMMrJeQNtFHmK/zbPvjv2S1ivmc1dwC2Q9aCYZxXxlRH1TYj85h7vw3s4T++CeDLILdn85Ma8LHplcuY/Tk6mFpFDM+goycoAAZjwjal2cXuDUkTCUHOpkKwl4CoR2aKqOdo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n0tVvonW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A37EC4CEF1;
+	Tue, 19 Aug 2025 09:44:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755587903;
-	bh=hcpxj2oWXllUB4ryEjpJ5p99A6U/Qzck//bdY10qOSQ=;
+	s=k20201202; t=1755596697;
+	bh=qkoSavUo25iuaFyv6MbaWJ1hYMagYZR2yJl9AnwGilk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cAF4eQTGaLbVpBfcZ+ubR6STAZBSl958r+2HAZhwTabG9XPHP2LH8zYd4maWNEPld
-	 JYNcs9o5sNAyV1wkg8r8OFoEY1Q+565/PL6xC1x5AAwD5YEZI83biOw6U8RK+A9Phj
-	 B/V8jerDlz5LoSy4iQPyeQLnEo5zcFUjTiUGruXLpYw8SxlsX3FwuL7WRlGDu1KYH8
-	 mXc3FIQT/rU/33ipowNy9uz0Fld+YDdlDBLmzKEQUbt6raA6VBURC+2M1sBQVvC2sF
-	 CaQ9nOZdZ06tgiQMQRvlMVumMB2zfKxMIY1N1oL/lxFkYi5etRUH+BhotqJg2tPPrW
-	 jyYQE5Zavvvdw==
-Date: Tue, 19 Aug 2025 00:18:17 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Alexey Gladkov <legion@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Khalid Aziz <khalid@gonehiking.org>, linux-scsi@vger.kernel.org,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Arnd Bergmann <arnd@arndb.de>, Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v6 4/9] scsi: Always define blogic_pci_tbl structure
-Message-ID: <20250819071817.GA1540193@ax162>
-References: <cover.1755170493.git.legion@kernel.org>
- <93ca6c988e2d8a294ae0941747a6e654e6e8e8b8.1755170493.git.legion@kernel.org>
- <yq1v7mkxe2h.fsf@ca-mkp.ca.oracle.com>
+	b=n0tVvonWE1oEyrGMBnKN7BtdvUYyXYUQ+yYnW91g4LS7S3b+Wic8ckZOkm2c0LQgR
+	 W3HpDgxJO3Izhz3SyUlED62hj5dA4ADph7+TZn1CfpcnL1QG2Bfj11Tt4C1oyxNtNS
+	 /H+5TlR76OOTKY6AI8bjUTwfmcr4T6EEcBiPOOAKLNWGu5eKrY4LT2T29dcoyt7OJN
+	 +CXdYIgO/f1SDXr1D5sF+9nefcAflvmgiFFWSy9N73q7Rqk5Y/nVk/HdKlZpnYmlqU
+	 Z+nm9okydm70LTdECMr3tBB+Vn2TrfHNwSC8FvOfv3kbPl/POtg1n8TBtQ9q2QJ2rD
+	 XQ2BbTozJRPLA==
+Date: Tue, 19 Aug 2025 11:44:48 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Daniel Gomez <da.gomez@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, 
+	Christoph Hellwig <hch@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	David Hildenbrand <david@redhat.com>, Shivank Garg <shivankg@amd.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez <da.gomez@samsung.com>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Matthias Maennich <maennich@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v4] module: Rename EXPORT_SYMBOL_GPL_FOR_MODULES to
+ EXPORT_SYMBOL_FOR_MODULES
+Message-ID: <20250819-vorgibt-bewalden-d16b7673cc72@brauner>
+References: <20250808-export_modules-v4-1-426945bcc5e1@suse.cz>
+ <20250811-wachen-formel-29492e81ee59@brauner>
+ <2472a139-064c-4381-bc6e-a69245be01df@kernel.org>
+ <20250815-darstellen-pappen-90a9edb193e5@brauner>
+ <6cce2564-04f2-44ab-96d3-2f47fc221591@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <yq1v7mkxe2h.fsf@ca-mkp.ca.oracle.com>
+In-Reply-To: <6cce2564-04f2-44ab-96d3-2f47fc221591@kernel.org>
 
-Hi Martin,
-
-On Mon, Aug 18, 2025 at 10:04:02PM -0400, Martin K. Petersen wrote:
+On Fri, Aug 15, 2025 at 05:39:54PM +0200, Daniel Gomez wrote:
 > 
-> Alexey,
 > 
-> > The blogic_pci_tbl structure is used by the MODULE_DEVICE_TABLE macro.
-> > There is no longer a need to protect it with the MODULE condition,
-> > since this no longer causes the compiler to warn about an unused
-> > variable.
-> >
-> > To avoid warnings when -Wunused-const-variable option is used, mark it
-> > as __maybe_unused for such configuration.
+> On 15/08/2025 07.25, Christian Brauner wrote:
+> > On Tue, Aug 12, 2025 at 09:54:43AM +0200, Daniel Gomez wrote:
+> >> On 11/08/2025 07.18, Christian Brauner wrote:j
+> >>> On Fri, 08 Aug 2025 15:28:47 +0200, Vlastimil Babka wrote:
+> >>>> Christoph suggested that the explicit _GPL_ can be dropped from the
+> >>>> module namespace export macro, as it's intended for in-tree modules
+> >>>> only. It would be possible to restrict it technically, but it was
+> >>>> pointed out [2] that some cases of using an out-of-tree build of an
+> >>>> in-tree module with the same name are legitimate. But in that case those
+> >>>> also have to be GPL anyway so it's unnecessary to spell it out in the
+> >>>> macro name.
+> >>>>
+> >>>> [...]
+> >>>
+> >>> Ok, so last I remember we said that this is going upstream rather sooner
+> >>> than later before we keep piling on users. If that's still the case I'll
+> >>> take it via vfs.fixes unless I hear objections.
+> >>
+> >> This used to go through Masahiro's kbuild tree. However, since he is not
+> >> available anymore [1] I think it makes sense that this goes through the modules
+> >> tree. The only reason we waited until rc1 was released was because of Greg's
+> >> advise [2]. Let me know if that makes sense to you and if so, I'll merge this
+> >> ASAP.
+> > 
+> > At this point it would mean messing up all of vfs.fixes to drop it from
+> > there. So I'd just leave it in there and send it to Linus.
 > 
-> Applied to 6.18/scsi-staging, thanks!
+> Got it. I was waiting for confirmation before taking it into the modules tree,
+> and I agree that at this point it makes sense to keep it in vfs.fixes.
+> 
+> > Next time I know where it'll end up.
+> 
+> Can you clarify what you mean by this?
 
-I think I will need this change to apply patch 7 [1] to kbuild-next
-without any issues [2]. If there is little risk of conflict, could I
-take it with your Ack? Another option would be getting it into 6.17 as a
-fix so that I could back merge Linus's tree and apply the series on top.
-I am already going to have to do that for the pinctrl change that Linus
-W took [3].
-
-[1]: https://lore.kernel.org/22b36a5807d943a84431298c18b41d093e01c371.1755170493.git.legion@kernel.org/
-[2]: https://lore.kernel.org/aDWoCU2YrxaCBi42@example.org/
-[3]: https://lore.kernel.org/CACRpkdZ9oyJ4aJ5Dcp_Dtv5qoiSo+g5cO7Uf4PmHgv_Z423onQ@mail.gmail.com/
-
-Cheers,
-Nathan
+Next time I know that you are responsible for taking such patches. :)
 
