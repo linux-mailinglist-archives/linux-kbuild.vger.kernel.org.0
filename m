@@ -1,175 +1,180 @@
-Return-Path: <linux-kbuild+bounces-8537-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8538-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86C5B2CCC8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 21:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DA9B2CDB8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 22:20:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 620071BC6860
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 19:12:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98DCC1886FC0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Aug 2025 20:20:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0768326E70B;
-	Tue, 19 Aug 2025 19:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBD53112B3;
+	Tue, 19 Aug 2025 20:19:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ft1WgwdJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqrZjmh3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C1E26D4DA;
-	Tue, 19 Aug 2025 19:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2491E20B81B;
+	Tue, 19 Aug 2025 20:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755630697; cv=none; b=AE2KjfphPkK/dAphPl2R27aD92j67VCXhLd8RpspZKoa5PYEOQLndElV8UohBcnMnSh/n8ypuO01kQa4ZUt3+Dcolv68hIRSw7CDy8VVTyZupdSWTRocxLbdlua5mTEd+gVx5B0PlHCljk2I3fvUSV3659jF7vxbkR/7tmWOyoc=
+	t=1755634776; cv=none; b=FSDTE/xK5ybC37+OhwjGtKdzxs62SUEHgG9g6LKdJeWBZXNzmpIkIxtlpUIa8x1UyxbGJ5qGihBwq/BALAGgeTquXRQ07mco0JNWXTwTThh7bFx/076bL98H83eY98gdP8W0e7Fcd0GRpUnOaWyt+24onD85BgnA3YmnN48nUhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755630697; c=relaxed/simple;
-	bh=hHgmX2IlKh+H/jKJLuAW+0yjJbJ/Z7ekhE2zkEc2FNY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lmK8dLWvL3zw7eKa5TdWRAVnowi7TH8KyhR6sNYVopXDpnzplCpWuTddobfdNjUkY/CLl5jRsO08YFbrMnFUz/UlqNKKK8r3/+TNBKRF/fjCoEs1SKals/AuMSpgM6c3DWsDH1ovdpbTqbp7FDgP5M/UTn9fCWlmIvUIs6vHe5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ft1WgwdJ; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-76e2ea79219so6520338b3a.2;
-        Tue, 19 Aug 2025 12:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755630695; x=1756235495; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0EiOHPkXHOWRCoxSY55xxvCqttDk+IXhPL7KL7WKckI=;
-        b=Ft1WgwdJ0WhSf3689bJ4lDM+HZzNGhhV4ZLeYkK+6hQsVe8tgAuEXLDNtqjbiy0ZFi
-         QuPQ+Xk76HH67ozdG9sA4EL2f52jrimFdVzqSeJ+u9MfIvij8pKEdzl0ARgQGtEZeEuB
-         /lHXpbU0g9ibZbOOhs+nzTLn7UAc9y5MxXSHZT81eBTpR8frgyBfYHprDntihUCk1cPu
-         byinM+yQYMe6IFiBy407AGsGjr6KjuQL2W0vyGzuX333onHWgqLM7lvu3+YoSfJjwvq3
-         ia274Dwo74TXXKywOtaQzn0IwhfKTJ2trWwgLHCZaclYeGxLLNBmaPxAi5f3Vb5OracT
-         Iqjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755630695; x=1756235495;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0EiOHPkXHOWRCoxSY55xxvCqttDk+IXhPL7KL7WKckI=;
-        b=ivEZ4MeOENiQAf+e/9N9pVEm1hoVb50E8IdpZE2EhK88zPWvN3+OkjQapj79AP/MwU
-         /nFep3gwx65/LI2xx8DrvAKYeMcmtRIMByhp2Fo5v7im9fVZ//oazZxJpRKww/vt4scI
-         I3Q3BhbtAr0B6TJExDP7kno3bGWPmJ2e6HAydLowd9wpijpcpR5WDQ9w6NnBb0afkd3q
-         q1JIhl4W6d9y3Pl9WRM/qYYMQgW6t8gahcBX8b5sQECiPdLl5pcVdu/M9bY3PMRsAS+f
-         yqZ2XWQq33zBI930Lx24n7kBzP75OsN8tdFLfUx1WphuVqi450jTriBTcWav8bbyZVHW
-         32bw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYegeozO8/vSJONjbsbg1JgXsLuWZyVAemPCaZFe2YtC2gDLuFB/6fVKII69APYKwHLXl5mMsIT/sH8UNrkAA=@vger.kernel.org, AJvYcCWu21LYadUyjH4sz0IXGfc9JUzhd45+yBH0Vk7ka4mxtGZ8gth9p5Kav/DcIs6tgmZWWsoyiLNPEsNqMpxt@vger.kernel.org, AJvYcCXU6QQcFKKkaxIiKmSq5nJHVnP3rNYy1EUuO5v7wJlnJSnlkDpeZTwYdb9Wh4EYZLgmFWZeCxQjckUwR9c=@vger.kernel.org, AJvYcCXh7VqfI890i0YNCBc8rHqPk3I5zAqUWOPPJ0IcRMFh2MbwaUa0x3MJD61Fe3NIonTYaGE9GsajwVWmhjXGIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGJivMXwEzj2H0JiFfaNeoZ7PDdStrgDTX4/3G9+BoW4K4ehef
-	C+5AH0aU0sB9NQtUVEWGLxNIPeSsB1cZKgjF1NWzFh0Pjq6Bt+oagVEu
-X-Gm-Gg: ASbGncvVsdAkFd9p3ZZAZbCEWPO2CiUe7FUwIYNmcm/glRimA6/BfBXbbt8QyAky4JL
-	bmrDcevwaiO6ETB5+RqnnoHZbDb6tVoeLPD1uHHtKr+fsprQlzVzqQXN5lunTgmF/GZRqW98Wz7
-	s0QgJSbyWiOC4ptVzU5Ti/qresNooHXwtI+P083vT+NkW2/zTSygX532RBTjjSlbztVEa49gpAm
-	Tq7VGLCk+wl4DHFJYAnaVVc+Ol+tPfdrmjATTvZ1h0c7+l8Dab2ZU+wqnSokws+9o7xHhTnFQ2H
-	jt82UggiAsZbQYwjQmSgLOrQgW59z6p5xc6INU7flakB5QxIK0rA7Q2WifyLxUXrIQkkoUVIJua
-	m4UHjD0jOF1hXE1QsscBSkcwUPE0jd1LRNA1UKfLFsaECUZe5nN9Z6PJWv6n4OQ==
-X-Google-Smtp-Source: AGHT+IHE6gXoA6t88wZi7ZU7eCEJVWZQezy7yRl0UNN5MWMdprmoF2meOuqADXbXDYLksEeDxMWHeg==
-X-Received: by 2002:a05:6a21:32a0:b0:1f5:72eb:8b62 with SMTP id adf61e73a8af0-2431b7bb318mr630218637.20.1755630694387;
-        Tue, 19 Aug 2025 12:11:34 -0700 (PDT)
-Received: from localhost (75-174-53-95.boid.qwest.net. [75.174.53.95])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b47640b6554sm359877a12.48.2025.08.19.12.11.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 12:11:33 -0700 (PDT)
-From: Darin Morrison <darinmorrison@gmail.com>
-To: a.hindborg@kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Benno Lossin <lossin@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Trevor Gross <tmgross@umich.edu>,
-	Adam Bratschi-Kaye <ark.email@gmail.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Fiona Behrens <me@kloenk.dev>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	linux-modules@vger.kernel.org
-Subject: Re: [v17,6/7] rust: samples: add a module parameter to the rust_minimal sample
-Date: Tue, 19 Aug 2025 13:11:33 -0600
-Message-ID: <20250819191133.39413-1-darinmorrison@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250711-module-params-v3-v17-6-cf9b10d4923d@kernel.org>
-References: 
+	s=arc-20240116; t=1755634776; c=relaxed/simple;
+	bh=lk8OxgimYrAlq8IpJR6TNtSAapP2lwMnm8oZxDFjXeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AIl4gM4l+3NLmYqF9PF//5H37as1/XCLPNrgKeW0BxpgQWJ6nwWaT3Jp4OFwG9mOz78eWvU9PZR/qdWciE/BuooBzXLNYF94KksYbfP7ZkTHYJsgLJYMQIi4Ls0kivRSOnJ0+bgOPzSj6NfbTj3zoeCifCsVdsTc7PHBAQq9hwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqrZjmh3; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755634774; x=1787170774;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lk8OxgimYrAlq8IpJR6TNtSAapP2lwMnm8oZxDFjXeA=;
+  b=JqrZjmh392sq5/HywBJHQaStIrnuIGDYXYNY+LMlam15spq+0C9sy7Vj
+   M2bopGInLHZyiSxIQRgOEG2vigmT2iqS9BjH/blN5a4klKQrquMGe1KMc
+   UtYnHlGdUz2zEeW+LSEI6aEfDGzN4xNVchiQhvt3qRCjDTjhGhGUGK8XJ
+   5XvbhXC8yTzxnvswgTfNnJv8EVkwoq117R/YbWHX53tgs9pCxNai4oNDz
+   +Mu836+BhP7Bq5HSp+I+owr+ewrdMw36P8jQu9gyrnSo0lpFAvK/KJFoc
+   emsi0a54AldR+CH1gqLL51me+TnsW9WXI6Axg4JgOnSnESEr38lx41jTi
+   Q==;
+X-CSE-ConnectionGUID: 7yrFEJRoRfiP1KqEv809gA==
+X-CSE-MsgGUID: 9UXq5iHXTI+66SClRHZ1QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="69272484"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="69272484"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2025 13:19:33 -0700
+X-CSE-ConnectionGUID: GmxLShhgTGmsm1z6tueXOQ==
+X-CSE-MsgGUID: vTc0bphQQb6aDFc1SqHbYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; 
+   d="scan'208";a="167854855"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 19 Aug 2025 13:19:32 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uoSmv-000HPv-1w;
+	Tue, 19 Aug 2025 20:18:52 +0000
+Date: Wed, 20 Aug 2025 04:16:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Disseldorp <ddiss@suse.de>, linux-kbuild@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-next@vger.kernel.org,
+	ddiss@suse.de, nsc@kernel.org
+Subject: Re: [PATCH v3 8/8] initramfs_test: add filename padding test case
+Message-ID: <202508200304.wF1u78il-lkp@intel.com>
+References: <20250819032607.28727-9-ddiss@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819032607.28727-9-ddiss@suse.de>
 
-> Showcase the rust module parameter support by adding a module parameter to
-> the `rust_minimal` sample.
-> 
-> Reviewed-by: Benno Lossin <lossin@kernel.org>
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-> ---
->  samples/rust/rust_minimal.rs | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> diff --git a/samples/rust/rust_minimal.rs b/samples/rust/rust_minimal.rs
-> index 1fc7a1be6b6d..8eb9583571d7 100644
-> --- a/samples/rust/rust_minimal.rs
-> +++ b/samples/rust/rust_minimal.rs
-> @@ -10,6 +10,12 @@
->      authors: ["Rust for Linux Contributors"],
->      description: "Rust minimal sample",
->      license: "GPL",
-> +    params: {
-> +        test_parameter: i64 {
-> +            default: 1,
-> +            description: "This parameter has a default of 1",
-> +        },
-> +    },
+Hi David,
 
-Thanks for the patches.
+kernel test robot noticed the following build warnings:
 
-I've been using these in a new PCI device driver module and noticed
-that the inclusion of `params:` in the rustdoc test here causes the
-`rusttest` target to fail with a linker error (below) complaining about
-undefined references for `rust_helper_atomic_try_cmpxchg_relaxed` and
-`rust_helper_atomic_set_release`.
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.17-rc2 next-20250819]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Building a real module and using the `params:` field seems to work
-fine though so it must be something specific to the test configuration.
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Disseldorp/gen_init_cpio-write-to-fd-instead-of-stdout-stream/20250819-115406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250819032607.28727-9-ddiss%40suse.de
+patch subject: [PATCH v3 8/8] initramfs_test: add filename padding test case
+config: sparc64-randconfig-r121-20250819 (https://download.01.org/0day-ci/archive/20250820/202508200304.wF1u78il-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d24b6b7b148c47a2fa228a4ef31524fa1d9f3f)
+reproduce: (https://download.01.org/0day-ci/archive/20250820/202508200304.wF1u78il-lkp@intel.com/reproduce)
 
-Any ideas how to fix this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508200304.wF1u78il-lkp@intel.com/
 
----
+sparse warnings: (new ones prefixed by >>)
+>> init/initramfs_test.c:415:18: sparse: sparse: Initializer entry defined twice
+   init/initramfs_test.c:425:18: sparse:   also defined here
 
-  RUSTDOC T rust/macros/lib.rs
+vim +415 init/initramfs_test.c
 
-running 10 tests
-ii....... 9/10
-rust/macros/lib.rs - module (line 61) --- FAILED
+   388	
+   389	/*
+   390	 * An initramfs filename is namesize in length, including the zero-terminator.
+   391	 * A filename can be zero-terminated prior to namesize, with the remainder used
+   392	 * as padding. This can be useful for e.g. alignment of file data segments with
+   393	 * a 4KB filesystem block, allowing for extent sharing (reflinks) between cpio
+   394	 * source and destination. This hack works with both GNU cpio and initramfs, as
+   395	 * long as PATH_MAX isn't exceeded.
+   396	 */
+   397	static void __init initramfs_test_fname_pad(struct kunit *test)
+   398	{
+   399		char *err;
+   400		size_t len;
+   401		struct file *file;
+   402		char fdata[] = "this file data is aligned at 4K in the archive";
+   403		struct test_fname_pad {
+   404			char padded_fname[4096 - CPIO_HDRLEN];
+   405			char cpio_srcbuf[CPIO_HDRLEN + PATH_MAX + 3 + sizeof(fdata)];
+   406		} *tbufs = kzalloc(sizeof(struct test_fname_pad), GFP_KERNEL);
+   407		struct initramfs_test_cpio c[] = { {
+   408			.magic = "070701",
+   409			.ino = 1,
+   410			.mode = S_IFREG | 0777,
+   411			.uid = 0,
+   412			.gid = 0,
+   413			.nlink = 1,
+   414			.mtime = 1,
+ > 415			.filesize = 0,
+   416			.devmajor = 0,
+   417			.devminor = 1,
+   418			.rdevmajor = 0,
+   419			.rdevminor = 0,
+   420			/* align file data at 4K archive offset via padded fname */
+   421			.namesize = 4096 - CPIO_HDRLEN,
+   422			.csum = 0,
+   423			.fname = tbufs->padded_fname,
+   424			.data = fdata,
+   425			.filesize = sizeof(fdata),
+   426		} };
+   427	
+   428		memcpy(tbufs->padded_fname, "padded_fname", sizeof("padded_fname"));
+   429		len = fill_cpio(c, ARRAY_SIZE(c), tbufs->cpio_srcbuf);
+   430	
+   431		err = unpack_to_rootfs(tbufs->cpio_srcbuf, len);
+   432		KUNIT_EXPECT_NULL(test, err);
+   433	
+   434		file = filp_open(c[0].fname, O_RDONLY, 0);
+   435		if (IS_ERR(file)) {
+   436			KUNIT_FAIL(test, "open failed");
+   437			goto out;
+   438		}
+   439	
+   440		/* read back file contents into @cpio_srcbuf and confirm match */
+   441		len = kernel_read(file, tbufs->cpio_srcbuf, c[0].filesize, NULL);
+   442		KUNIT_EXPECT_EQ(test, len, c[0].filesize);
+   443		KUNIT_EXPECT_MEMEQ(test, tbufs->cpio_srcbuf, c[0].data, len);
+   444	
+   445		fput(file);
+   446		KUNIT_EXPECT_EQ(test, init_unlink(c[0].fname), 0);
+   447	out:
+   448		kfree(tbufs);
+   449	}
+   450	
 
-failures:
-
----- rust/macros/lib.rs - module (line 61) stdout ----
-error: linking with `cc` failed: exit status: 1
-  |
-  = note:  "cc" "-m64" "/tmp/rustcVbJoqH/symbols.o" "<2 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "./rust/test/{libkernel.rlib,libuapi.rlib,libbindings.rlib,libbuild_error.rlib,libpin_init.rlib,libffi.rlib}.rlib" "<sysroot>/lib/rustlib/x86_64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,libcfg_if-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/tmp/rustcVbJoqH/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "./rust/test" "-L" "<sysroot>/lib/rustlib/x86_64-unknown-linux-gnu/lib" "-o" "/tmp/rustdoctestTFYhZ1/rust_out" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
-  = note: some arguments are omitted. use `--verbose` to show all linker arguments
-  = note: /usr/bin/ld: ./rust/test/libkernel.rlib(kernel.kernel.a8a3768e1a8b2c2e-cgu.3.rcgu.o): in function `kernel::sync::set_once::SetOnce<T>::populate':
-          kernel.a8a3768e1a8b2c2e-cgu.3:(.text._ZN6kernel4sync8set_once16SetOnce$LT$T$GT$8populate17hab8d57b99b7ebbcbE+0xd3): undefined reference to `rust_helper_atomic_try_cmpxchg_relaxed'
-          /usr/bin/ld: kernel.a8a3768e1a8b2c2e-cgu.3:(.text._ZN6kernel4sync8set_once16SetOnce$LT$T$GT$8populate17hab8d57b99b7ebbcbE+0x2a8): undefined reference to `rust_helper_atomic_set_release'
-          collect2: error: ld returned 1 exit status
-          
-  = note: some `extern` functions couldn't be found; some native libraries may need to be installed or have their path specified
-  = note: use the `-l` flag to specify native libraries to link
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
