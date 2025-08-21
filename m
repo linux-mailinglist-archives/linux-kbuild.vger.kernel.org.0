@@ -1,155 +1,124 @@
-Return-Path: <linux-kbuild+bounces-8554-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8555-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35056B2F0BC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 10:14:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22045B2F78B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 14:08:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD30E1BA3B7E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 08:11:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D49021CC606C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 12:08:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FAB2EA46E;
-	Thu, 21 Aug 2025 08:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="COCR3Rf3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kz5Z3uik";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="COCR3Rf3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kz5Z3uik"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2A9823E32B;
+	Thu, 21 Aug 2025 12:08:35 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC7F2EA16D
-	for <linux-kbuild@vger.kernel.org>; Thu, 21 Aug 2025 08:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DC481FBEA6;
+	Thu, 21 Aug 2025 12:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755763868; cv=none; b=roB7MC7mfZCOB3cTiQN+nUbbpoqu8eP+dvNPg2wZ6FKUCjBz2hIuE2+agxeoUWq4U4WNlZ544ci6rGovvrlYAPpdQRv9zxgl4H2cANaT6dUnou7swnaNhPzhuWU6KiorbyyJBj6mNLXxv5EEKRaLtaCSZpPYpGzXEgNccAi5cG8=
+	t=1755778115; cv=none; b=JvEWyUMWArszwV0SUg8x5tGvaB9t/yFTGScbktvnj7VXEGLWKfBuOCmB+UfNReJRGgghYqDgxatZrG0CGD8WnEuImB5Bbcl/YJRZgCoPRfje4g4Jdmzfa7rSltTysVCYV+a2v72aTpp1+9wE5EUPEGt6JRPi20b7zk/5uWtVZxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755763868; c=relaxed/simple;
-	bh=iyyroPi1q1lOUNuwRWedu6plJhaf/ofd9hNt72FTZe8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pXeEpPwNRH3ebiNJ0+3btKlWCBwRF70aL1qfKXw4DX2T2AbsOk+9Iu3MloQDu/nnN71FvXjIOL97+GUgf7N9Df8ziKzDnqjaiZn4f0ZoHpk4wrRk8elIQLNLNyF0F8Sa9moWhatzdiuGeCa97gOOIr4LsZTq7e67JQsSYxSB0eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=COCR3Rf3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Kz5Z3uik; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=COCR3Rf3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Kz5Z3uik; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E3C6521A41;
-	Thu, 21 Aug 2025 08:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755763864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JPFPYZrwWSG3VhwEjcnRYPOLWKGyi0j4E5eB7R1fseo=;
-	b=COCR3Rf3SLm+SJ3BVyPgGKYtGyLJeeb6cqOSDq7LY7O9Y4aXaZRZJw55nRjHfQumzr3Ug1
-	CCU5ZbkZVZFIUgj4Dw+BDme/KeBIMIW8yrTkDjY5WjRvWcIdNg80EumdVees5AHVz/Ll5o
-	YRQU23gl7J8h66sj/geV1RM9Xrkw26o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755763864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JPFPYZrwWSG3VhwEjcnRYPOLWKGyi0j4E5eB7R1fseo=;
-	b=Kz5Z3uikjqKKGGJbVLyMXF9CKnpMpK99fF8/PUN0hUdwc93G8p3Xq8AMmXj1LxfjfK3It2
-	GSiuG+AOmaV13eDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755763864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JPFPYZrwWSG3VhwEjcnRYPOLWKGyi0j4E5eB7R1fseo=;
-	b=COCR3Rf3SLm+SJ3BVyPgGKYtGyLJeeb6cqOSDq7LY7O9Y4aXaZRZJw55nRjHfQumzr3Ug1
-	CCU5ZbkZVZFIUgj4Dw+BDme/KeBIMIW8yrTkDjY5WjRvWcIdNg80EumdVees5AHVz/Ll5o
-	YRQU23gl7J8h66sj/geV1RM9Xrkw26o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755763864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JPFPYZrwWSG3VhwEjcnRYPOLWKGyi0j4E5eB7R1fseo=;
-	b=Kz5Z3uikjqKKGGJbVLyMXF9CKnpMpK99fF8/PUN0hUdwc93G8p3Xq8AMmXj1LxfjfK3It2
-	GSiuG+AOmaV13eDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1FD6013867;
-	Thu, 21 Aug 2025 08:11:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PuOVMpbUpmgsEAAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Thu, 21 Aug 2025 08:11:02 +0000
-Date: Thu, 21 Aug 2025 18:10:56 +1000
-From: David Disseldorp <ddiss@suse.de>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-next@vger.kernel.org
-Subject: Re: [PATCH v2 7/7] gen_init_cpio: add -a <data_align> as reflink
- optimization
-Message-ID: <20250821181056.79cb38b6.ddiss@suse.de>
-In-Reply-To: <aKN9uMf0HeD1Fgqk@levanger>
-References: <20250814054818.7266-1-ddiss@suse.de>
-	<20250814054818.7266-8-ddiss@suse.de>
-	<aKN9uMf0HeD1Fgqk@levanger>
+	s=arc-20240116; t=1755778115; c=relaxed/simple;
+	bh=GzHl16/x6W5NkDZWC69L8YWJBfzX5OeUne9pKPmNcvk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pP6GUJBaECuc3VsRiKClNmt7vrqD66trSjE1At6/yAIlaTH8+GrC7idqvjOTAjnd4bxtacqwp3UVuZmaYGcGMSMFyQNwWKt1WWjtKfU8WMmJL/DIggDFW8npp74K11b0XYMR8KM6U0KKP58XxdNWbJFQ8eSFdY2Lomym+g3qpGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27EE7152B;
+	Thu, 21 Aug 2025 05:08:25 -0700 (PDT)
+Received: from e137867.arm.com (unknown [10.57.1.220])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 23BC33F63F;
+	Thu, 21 Aug 2025 05:08:30 -0700 (PDT)
+From: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+To: kasan-dev@googlegroups.com
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Yeoreum Yun <yeoreum.yun@arm.com>,
+	Ada Couprie Diaz <ada.coupriediaz@arm.com>
+Subject: [PATCH] kasan: fix GCC mem-intrinsic prefix with sw tags
+Date: Thu, 21 Aug 2025 13:07:35 +0100
+Message-ID: <20250821120735.156244-1-ada.coupriediaz@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+Content-Transfer-Encoding: 8bit
 
-Oops, I somehow missed this comment...
+GCC doesn't support "hwasan-kernel-mem-intrinsic-prefix", only
+"asan-kernel-mem-intrinsic-prefix"[0], while LLVM supports both.
+This is already taken into account when checking
+"CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX", but not in the KASAN Makefile
+adding those parameters when "CONFIG_KASAN_SW_TAGS" is enabled.
 
-On Mon, 18 Aug 2025 21:23:36 +0200, Nicolas Schier wrote:
-...
-> Thanks!  Testing with a massively oversized initramfs (600MB) was fun:
-> from 2:44 down to 38s.
+Replace the version check with "CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX",
+which already validates that mem-intrinsic prefix parameter can be used,
+and choose the correct name depending on compiler.
 
-Thanks for the benchmarking :)
+GCC 13 and above trigger "CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX" which
+prevents `mem{cpy,move,set}()` being redefined in "mm/kasan/shadow.c"
+since commit 36be5cba99f6 ("kasan: treat meminstrinsic as builtins
+in uninstrumented files"), as we expect the compiler to prefix
+those calls with `__(hw)asan_` instead.
+But as the option passed to GCC has been incorrect, the compiler has
+not been emitting those prefixes, effectively never calling
+the instrumented versions of `mem{cpy,move,set}()`
+with "CONFIG_KASAN_SW_TAGS" enabled.
 
-> Questions that pop up in my mind:
-> Now, how can we make other benefit from this?  Might it make sense to
-> introduce a kconfig variable for initramfs alignment -- even though this
-> is just a build-time optimisation of few seconds?
+If "CONFIG_FORTIFY_SOURCES" is enabled, this issue would be mitigated
+as it redefines `mem{cpy,move,set}()` and properly aliases the
+`__underlying_mem*()` that will be called to the instrumented versions.
 
-A kconfig option with non-aligned as default isn't a bad idea, but at
-this stage I don't think it's worth adding. Mostly because reflinks are
-very FS / arch / environment specific and the extra fragmentation may
-have unintended consequences.
+[0]: https://gcc.gnu.org/onlinedocs/gcc-13.4.0/gcc/Optimize-Options.html
 
-Thanks, David
+Signed-off-by: Ada Couprie Diaz <ada.coupriediaz@arm.com>
+Fixes: 36be5cba99f6 ("kasan: treat meminstrinsic as builtins in uninstrumented files")
+---
+ scripts/Makefile.kasan | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+index 693dbbebebba..0ba2aac3b8dc 100644
+--- a/scripts/Makefile.kasan
++++ b/scripts/Makefile.kasan
+@@ -86,10 +86,14 @@ kasan_params += hwasan-instrument-stack=$(stack_enable) \
+ 		hwasan-use-short-granules=0 \
+ 		hwasan-inline-all-checks=0
+ 
+-# Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
+-ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y)
+-	kasan_params += hwasan-kernel-mem-intrinsic-prefix=1
+-endif
++# Instrument memcpy/memset/memmove calls by using instrumented __(hw)asan_mem*().
++ifdef CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX
++	ifdef CONFIG_CC_IS_GCC
++		kasan_params += asan-kernel-mem-intrinsic-prefix=1
++	else
++		kasan_params += hwasan-kernel-mem-intrinsic-prefix=1
++	endif
++endif # CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX
+ 
+ endif # CONFIG_KASAN_SW_TAGS
+ 
+
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+-- 
+2.43.0
+
 
