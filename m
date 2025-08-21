@@ -1,94 +1,156 @@
-Return-Path: <linux-kbuild+bounces-8551-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8552-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DF7B2E720
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Aug 2025 23:04:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D16B2ED68
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 07:04:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 011691CC13B5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Aug 2025 21:04:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50A6268259C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 05:04:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B062D6E55;
-	Wed, 20 Aug 2025 21:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0A9A22A4F1;
+	Thu, 21 Aug 2025 05:04:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muvPG7aV"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IZhEjeAs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vPN3FU6d";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IZhEjeAs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vPN3FU6d"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D6C1E7C05;
-	Wed, 20 Aug 2025 21:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADB84AEE2
+	for <linux-kbuild@vger.kernel.org>; Thu, 21 Aug 2025 05:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755723841; cv=none; b=nLKeD6jRqEQshjP3A5Pj/MZ7MOOQpAtOJORVCbDXl5bVYjz0TX67b2TQC8Zto+DspL5iLxfsU67OBFaNKdXjXDiRTALhvxxTf+SKb+YkGdBztg6SUjvfCDqY1vlrCsXeQm8pYojo8W2op8TzkiON69NhsyDTYEKb+8LLjSg/38g=
+	t=1755752691; cv=none; b=K0zGTwkXXTrdmmPoIQw+9+piJUzwDR+CEPZAq5QpTkv1gB7zp8wqWmoMw1sG7HJyNGhdbZjOUKa1sdW0s9Fw7Xt0JLOP8Y0dm65jJCy1jilIfVzOqcdPfJAWEuTHMzpS3Hiwrn614Q9XkoafZMEWV2feYo8RIv+FAtUq/2jk/vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755723841; c=relaxed/simple;
-	bh=RPKPmzf+C+b50/0CKUd/keQZ/bZJA+dnbto9tcMq0NE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KGmqkUx+ntiApbXnHQTnTOxUplEt3sTYNRVkrnODns3xJUoeI/c1vNTXJDe9jRmkp4kvHcvjJKL+Vh5LQLQzQAtNchGQ0RJAznUKsDOAj4fq/J9rOl4nb6hB1em+wXogH3hBj0eIyxxZXfbL3kDAR5zP2T9hGppy95izjbq2WsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muvPG7aV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9DAAC4CEE7;
-	Wed, 20 Aug 2025 21:04:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755723841;
-	bh=RPKPmzf+C+b50/0CKUd/keQZ/bZJA+dnbto9tcMq0NE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=muvPG7aV4Fn8WnL362DUP1IHygT3kO0fwEJ/FP3sHKR1jEARFMAYxxY+yK9CNsRsJ
-	 u8dTLY4Elf8R0pEbgXd5NbstaUwn+lMEiH//qqHFxDaTt9puz05XNCx7CNfkCPIjIj
-	 T3inlJ5sGrMVvRL/6X+bBDQ2g8tGVQQhQiS/2k956v6BLi90Nv+iZhezHZW26j7u+8
-	 NNg/yFPYGolkarrU/JetCoY2TRixw/6DZcwiKUcp836HAYLv3VCMY5WHheYKliLZd6
-	 cvKGv5gXBsodFpZeY4cFA2UDBYM5GTlV3U2qyBsR2L3HP3vhUNZI92aemFCMfQNx3C
-	 OmpOWDWnzZiog==
-Date: Wed, 20 Aug 2025 23:02:33 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, David Disseldorp <ddiss@suse.de>
-Cc: kernel test robot <lkp@intel.com>, linux-kbuild@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	linux-next@vger.kernel.org
+	s=arc-20240116; t=1755752691; c=relaxed/simple;
+	bh=34x1qdQH8P+r9MyBaDu1WiwJ13BCxG5ek5aWuksirF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pgY6otfFH9nXa7sPr/avFLiG+KpvuiK7Fqoh4RTlseSoRwAbV7Y2BL5uJQE7rVeaSqu0gdGyQc5e7YaDVnArINmPZKCPQA80WM/jVngPGZ8YcSXwZzgVJqesGuk8Nj0pbzjrd2l3y6NECS080MeTP5xV3sDgJurOFOjyDPeLW00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IZhEjeAs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vPN3FU6d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IZhEjeAs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vPN3FU6d; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5F42021288;
+	Thu, 21 Aug 2025 05:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755752687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsGVJCXEBAq5aBbSQuh3KsHAn4nHmOhKYCwUt+Knp7E=;
+	b=IZhEjeAscpTbz/3zFvOGadUQnugsv6qpstfvnOxLMxXJLk+odQOk2DvVJWrkQKoOW72KaJ
+	OL8EpRRPRhyrfGADMm8lx4nnXyxvRB47fEJsdVO95zJMfYfLJUzr0SQhp45cb5oesWnvzG
+	2g0BiT8ZqhVSllRG0/2jRNov+ATM6oM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755752687;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsGVJCXEBAq5aBbSQuh3KsHAn4nHmOhKYCwUt+Knp7E=;
+	b=vPN3FU6dChOOEBcTk7gXZIDxbNP+YfckMyKaOXl/gIbVYmIv1aUCY/q9XP+Uoxr8lWjC88
+	un/V6D82pM2EVCBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755752687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsGVJCXEBAq5aBbSQuh3KsHAn4nHmOhKYCwUt+Knp7E=;
+	b=IZhEjeAscpTbz/3zFvOGadUQnugsv6qpstfvnOxLMxXJLk+odQOk2DvVJWrkQKoOW72KaJ
+	OL8EpRRPRhyrfGADMm8lx4nnXyxvRB47fEJsdVO95zJMfYfLJUzr0SQhp45cb5oesWnvzG
+	2g0BiT8ZqhVSllRG0/2jRNov+ATM6oM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755752687;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsGVJCXEBAq5aBbSQuh3KsHAn4nHmOhKYCwUt+Knp7E=;
+	b=vPN3FU6dChOOEBcTk7gXZIDxbNP+YfckMyKaOXl/gIbVYmIv1aUCY/q9XP+Uoxr8lWjC88
+	un/V6D82pM2EVCBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0DFDF13867;
+	Thu, 21 Aug 2025 05:04:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IdgdLuyopmiuXgAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Thu, 21 Aug 2025 05:04:44 +0000
+Date: Thu, 21 Aug 2025 15:04:26 +1000
+From: David Disseldorp <ddiss@suse.de>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ linux-next@vger.kernel.org
 Subject: Re: [PATCH v3 8/8] initramfs_test: add filename padding test case
-Message-ID: <aKY36YpNQTnd1d7Y@levanger>
+Message-ID: <20250821150426.40f14b7f.ddiss@suse.de>
+In-Reply-To: <aKY36YpNQTnd1d7Y@levanger>
 References: <20250819032607.28727-9-ddiss@suse.de>
- <202508200304.wF1u78il-lkp@intel.com>
- <20250820111334.51e91938.ddiss@suse.de>
+	<202508200304.wF1u78il-lkp@intel.com>
+	<20250820111334.51e91938.ddiss@suse.de>
+	<aKY36YpNQTnd1d7Y@levanger>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820111334.51e91938.ddiss@suse.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-On Wed, Aug 20, 2025 at 11:13:34AM +1000, David Disseldorp wrote:
-> On Wed, 20 Aug 2025 04:16:48 +0800, kernel test robot wrote:
+On Wed, 20 Aug 2025 23:02:33 +0200, Nicolas Schier wrote:
+
+> > >  > 415			.filesize = 0,    
+> > ...  
+> > >    425			.filesize = sizeof(fdata),
+> > >    426		} };  
+> > 
+> > Thanks. I can send a v4 patchset to address this, or otherwise happy to
+> > have line 415 removed by a maintainer when merged.  
 > 
-> > sparse warnings: (new ones prefixed by >>)
-> > >> init/initramfs_test.c:415:18: sparse: sparse: Initializer entry defined twice  
-> >    init/initramfs_test.c:425:18: sparse:   also defined here
-> ...
-> >    407		struct initramfs_test_cpio c[] = { {
-> >    408			.magic = "070701",
-> >    409			.ino = 1,
-> >    410			.mode = S_IFREG | 0777,
-> >    411			.uid = 0,
-> >    412			.gid = 0,
-> >    413			.nlink = 1,
-> >    414			.mtime = 1,
-> >  > 415			.filesize = 0,  
-> ...
-> >    425			.filesize = sizeof(fdata),
-> >    426		} };
+> With that change:
 > 
-> Thanks. I can send a v4 patchset to address this, or otherwise happy to
-> have line 415 removed by a maintainer when merged.
+> Acked-by: Nicolas Schier <nsc@kernel.org>
 
-With that change:
+Thanks Nicolas!
+Do you have any suggestions regarding how this patchset should proceed -
+would git://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git
+kbuild-next be suitable as a pre-merge-window staging area?
 
-Acked-by: Nicolas Schier <nsc@kernel.org>
-
-Thanks and kind regards
-Nicolas
+Cheers, David
 
