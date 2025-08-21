@@ -1,144 +1,100 @@
-Return-Path: <linux-kbuild+bounces-8561-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8562-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170FCB30118
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 19:30:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A91B302A7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 21:11:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CD0D1BC214B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 17:29:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D88BAE12B5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Aug 2025 19:10:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F1DE30EF9B;
-	Thu, 21 Aug 2025 17:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F867345741;
+	Thu, 21 Aug 2025 19:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="nRbPuoNb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AcZBrPfX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a9C4qLEK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F7C3101DA;
-	Thu, 21 Aug 2025 17:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F78F3451DB;
+	Thu, 21 Aug 2025 19:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755797280; cv=none; b=F3/EFXgncp+gtMcVkbxbe2XgpgFbpBYLOy6zKVsqOrTGkmvm5/+JXqYQQYdl0//BJLbskWyiFGwlX8SisdXTTe5/h3X/FDFtMKZ/7/K3hXeWBuPtbzrEYpbknNECEoeyIay0g9c57ntGo4dDaJsjhNtW/dGJu60mP08o80nXRWc=
+	t=1755803399; cv=none; b=ZuePimokJOR37EKw1NVLeZ4PhyMbvsilreY9VjJpdfWEIjXLvVoR6740ZTIMIqxcJ39NiyI0KGSQDHdl1D5P1qqsOGpdiUR3YBuykEtl+BKiaRcEVxw7kldOQQ/f1KDarIOk3YSDmgq/f320ca1ZkxeocOfg7xBsXpEFaKjVWnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755797280; c=relaxed/simple;
-	bh=k+fZbR7vi6SORcMtxToI0Uh++OGm5fQDcRIHv/PMwK8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=soa1/N+zZcljR21CeQbmo/WfE+GCOaOcik6XYsCGwkeE6FMTfnmdA8ubOKdIJSpZbw5J2j5tTER6+o6I7D1pq285bwIv6INLMHkY435vhl9snhyXvTt9/q7jgP/WUo1ZGRhVFVTwm/gdSdrMAmFB8rM8AjDM312Ua93KLGsbK68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=nRbPuoNb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AcZBrPfX; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id D17EB1D0008A;
-	Thu, 21 Aug 2025 13:27:55 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Thu, 21 Aug 2025 13:27:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1755797275;
-	 x=1755883675; bh=taXIpcBs8hxawlZihrYCKJolW66e8A/5PxtQ/jtVgvk=; b=
-	nRbPuoNbpuBpfLzumrXdg4mdt6j/C/Ctf2+zU1j9ixixcPXAAe8yz51gdwsCEViG
-	WR+OlTX+08Hstl4bwhgn2i1GSo9Cd3mfkK90mDG9Ki8AVSM2PxbaDoyFSDKIc13F
-	S9LkdDgF5qWSsgq8SUnmmSrKaMxbjpNcF6ZykJTDp0Gx8GWHozhVTabxUbxZ32zy
-	VPBrw8SOogl3sLNDPjF/dk5yUQs+CQgkovBqh1TYlaB3SsynaqQODDcgx0eJXnKn
-	uRBrAwKKn7/o1omStONZbRhDQpWV94PKhzZ/BxsK6nq8BCq1mkWptCa7AIaNux1T
-	is41sFXg8m7ElGb+7t/Cgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1755797275; x=
-	1755883675; bh=taXIpcBs8hxawlZihrYCKJolW66e8A/5PxtQ/jtVgvk=; b=A
-	cZBrPfXHzxdUp/qlAZIN6btM/oSLrh7ZJg1eBo0NH8ZY6321izoDQs7uQqLKyx2i
-	lArOyVNFjYArInARLb0lyw2Mlwg4XpFOiqO+fmkvucdFoSvEL67QSzncQgB/4jRF
-	pQ0Lsv0Z6EWaWvpBNI3OQkiUyI3/wX1I16/GoJAnUna71aTORMg+5KAg2CqhPK4W
-	mjwkEzVpZbgq59fU9zTXp5uENvINNfYGqXfTucRNw6k4WGv+o6YtXTUp98omVpZY
-	SQRJQdoExMSiLjIAHdnuSQBS87mpzjvGMp3imh1aZkdp1kQGDHdwbMayRAXuRSpt
-	3/DQjIPPH/DzOJ/Xw3l4g==
-X-ME-Sender: <xms:G1enaFfxmiLSpr9ATX7LrlWwfUbX2hCEHEZYu6DoMs3gYTpcsJp9Bw>
-    <xme:G1enaDMI9yaJQbhzIfl7mZ0B6nyvLC5atrk1bgBbAOy4907Bc8bk13grUvEcuP277
-    Plh51RbevSUfJ5lf_I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduiedukeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnheptddvffetkeettdefkeffhfdtffeuvdeludeitdegleehhffgjeefveejledvheeg
-    necuffhomhgrihhnpehllhhvmhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphht
-    thhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhitghkrdguvghsrg
-    hulhhnihgvrhhsodhlkhhmlhesghhmrghilhdrtghomhdprhgtphhtthhopehjuhhsthhi
-    nhhsthhithhtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehmohhrsghosehgohhogh
-    hlvgdrtghomhdprhgtphhtthhopehkvggvsheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    ohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinh
-    hugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhlvhhmsehlihhsthhs
-    rdhlihhnuhigrdguvghvpdhrtghpthhtohepphgrthgthhgvsheslhhishhtshdrlhhinh
-    hugidruggvvhdprhgtphhtthhopehlihhnuhigqdhksghuihhlugesvhhgvghrrdhkvghr
-    nhgvlhdrohhrgh
-X-ME-Proxy: <xmx:G1enaNX064uVU-iH7XnV2MlWkLM2oaTjtExwfIwuD5WmgqXVSAopnQ>
-    <xmx:G1enaGPgGPPb5QKBqQmq_c9taLjX7RjDSBAiFFuwmp2AoTAAmSphzQ>
-    <xmx:G1enaA1PWYdzNW0ebO3LszW1CY83VJCY9q7STFKBttBF018HbP7_qg>
-    <xmx:G1enaKRx09Ppik-VZnkKsxdLEBui5gW1ZA8c1IDLEEAiB_ZpSjCobg>
-    <xmx:G1enaIgfF_A_rMkUDCQZPvx6BxaQXdQzYJEMDnslao78bv_PnmJaZ_eU>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 36230700065; Thu, 21 Aug 2025 13:27:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1755803399; c=relaxed/simple;
+	bh=YIdL6akO0KLrTYwBK6SwuRLLUSW2a562UXW3vk87x3A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gJ9ggQb+hXmT/mHLURNCuKJT5qj0zeFH+racWjPhSg9yUbr6nenGroAG0OlFLPwmwuV98CEk794SoUahCvC8FAgwRCoCoIfB/xgjXeU0xnKU9SupZ9VK77+JmddgBCqqjLjE0XOpcSBrfR7tcuxkeO1RIRWKHOmRqjNCQOJg710=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a9C4qLEK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E289C4CEEB;
+	Thu, 21 Aug 2025 19:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755803398;
+	bh=YIdL6akO0KLrTYwBK6SwuRLLUSW2a562UXW3vk87x3A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=a9C4qLEKD+YNd2/a5UY87jx5f7O+tkE1oVCnCvAmvf9giIfUEYo83N8WfNXBkw6aC
+	 eyEINQh0Umv7fm1oR7+v3m9EyhA+eW57ldudDGSOxdrWsSw+RAzy57K1Dj6xYvNNM0
+	 wyBPHGLRGkBerUNzm7iy0UBLk2vB26Wv3s4ccD3Urt2cRniuOeES3vJN1p92WTHvu9
+	 FSeXbwx2K1RISArfzvDkdi1BnKhoP5EMmRjj145Y9Nii6u/oo0fkpMn53glMGE5JTE
+	 rARhtizT77RrRfK4aVZtikH31dK8Y2hw/Niu7O49VDo9d76KCgBcmduc3ToGSlrY9W
+	 /TNqKMyM4lDHw==
+From: Nathan Chancellor <nathan@kernel.org>
+To: linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ David Disseldorp <ddiss@suse.de>
+Cc: linux-next@vger.kernel.org, nsc@kernel.org
+In-Reply-To: <20250819032607.28727-1-ddiss@suse.de>
+References: <20250819032607.28727-1-ddiss@suse.de>
+Subject: Re: [PATCH v3 0/8] gen_init_cpio: add copy_file_range / reflink
+ support
+Message-Id: <175580339739.1482542.13736702939659184221.b4-ty@kernel.org>
+Date: Thu, 21 Aug 2025 12:09:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AH1nf54z5bBN
-Date: Thu, 21 Aug 2025 19:27:11 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nathan Chancellor" <nathan@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>
-Cc: "Kees Cook" <kees@kernel.org>,
- "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev,
- linux-kbuild@vger.kernel.org
-Message-Id: <6c23f58c-23ef-4f15-9fb3-b0f29c4e4880@app.fastmail.com>
-In-Reply-To: <20250818-bump-min-llvm-ver-15-v1-1-c8b1d0f955e0@kernel.org>
-References: <20250818-bump-min-llvm-ver-15-v1-0-c8b1d0f955e0@kernel.org>
- <20250818-bump-min-llvm-ver-15-v1-1-c8b1d0f955e0@kernel.org>
-Subject: Re: [PATCH 01/10] kbuild: Bump minimum version of LLVM for building the kernel
- to 15.0.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev
 
-On Mon, Aug 18, 2025, at 20:57, Nathan Chancellor wrote:
-> s390 and x86 have required LLVM 15 since
->
->   30d17fac6aae ("scripts/min-tool-version.sh: raise minimum clang 
-> version to 15.0.0 for s390")
->   7861640aac52 ("x86/build: Raise the minimum LLVM version to 15.0.0")
->
-> respectively but most other architectures allow LLVM 13.0.1 or newer. In
-> accordance with the recent minimum supported version of GCC bump that
-> happened in
->
->   118c40b7b503 ("kbuild: require gcc-8 and binutils-2.30")
->
-> do the same for LLVM to 15.0.0.
->
-> Of the supported releases of Arch Linux, Debian, Fedora, and OpenSUSE
-> surveyed in evaluating this bump, this only leaves behind Debian
-> Bookworm (14.0.6) and Ubuntu Jammy (14.0.0). Debian Trixie has 19.1.7
-> and Ubuntu Noble has 18.1.3 (so there are viable upgrade paths) or users
-> can use apt.llvm.org, which provides even newer packages for those
-> distributions.
->
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+On Tue, 19 Aug 2025 13:05:43 +1000, David Disseldorp wrote:
+> This patchset adds copy_file_range() support to gen_init_cpio. When
+> combined with data segment alignment, large-file archiving performance
+> is improved on Btrfs and XFS due to reflinks (see patch 7 benchmarks).
+> 
+> cpio data segment alignment is provided by "bending" the newc spec
+> to zero-pad the filename field. GNU cpio and Linux initramfs
+> extractors handle this fine as long as PATH_MAX isn't exceeded. A
+> kernel initramfs extraction unit test for this is provided.
+> 
+> [...]
+
+Applied, thanks!
+
+[1/8] gen_init_cpio: write to fd instead of stdout stream
+      https://git.kernel.org/kbuild/c/1400227773201
+[2/8] gen_init_cpio: support -o <output_file> parameter
+      https://git.kernel.org/kbuild/c/ae18b94099b04
+[3/8] gen_init_cpio: attempt copy_file_range for file data
+      https://git.kernel.org/kbuild/c/97169cd6d95b3
+[4/8] gen_init_cpio: avoid duplicate strlen calls
+      https://git.kernel.org/kbuild/c/348ff9e3c1cf1
+[5/8] gen_initramfs.sh: use gen_init_cpio -o parameter
+      https://git.kernel.org/kbuild/c/9135564db4904
+[6/8] docs: initramfs: file data alignment via name padding
+      https://git.kernel.org/kbuild/c/7c1f14f6e8e7f
+[7/8] gen_init_cpio: add -a <data_align> as reflink optimization
+      https://git.kernel.org/kbuild/c/5467e85508fd1
+[8/8] initramfs_test: add filename padding test case
+      https://git.kernel.org/kbuild/c/6da752f55bc48
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
+
 
